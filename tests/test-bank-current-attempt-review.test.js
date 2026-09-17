@@ -15,6 +15,7 @@ async function harness() {
     return '<script>' + read(src.slice(1)).replace(/<\/script/gi, '<\\/script') + '</script>';
   });
   const errors = [];
+  let closeFrames = () => {};
   const virtualConsole = new VirtualConsole();
   virtualConsole.on('jsdomError', e => errors.push(e.message));
   const dom = new JSDOM(html, {url: 'https://upskillsprint.com/test-bank', runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole,
@@ -22,12 +23,31 @@ async function harness() {
       w.HTMLElement.prototype.scrollIntoView = () => {};
       w.scrollTo = w.alert = () => {};
       w.confirm = () => true;
+      // A JSDOM window can queue another frame while close() removes its DOM.
+      // Track real frame handles and cancel them rather than suppressing errors.
+      const request = w.requestAnimationFrame.bind(w);
+      const cancel = w.cancelAnimationFrame.bind(w);
+      const frames = new Set();
+      let closing = false;
+      w.requestAnimationFrame = callback => {
+        if (closing) return 0;
+        const id = request(time => { frames.delete(id); if (!closing) callback(time); });
+        frames.add(id);
+        return id;
+      };
+      w.cancelAnimationFrame = id => { frames.delete(id); cancel(id); };
+      closeFrames = () => { closing = true; frames.forEach(cancel); frames.clear(); };
     }
   });
   const w = dom.window;
   if (w.document.readyState !== 'complete') await new Promise(resolve => w.addEventListener('load', resolve, {once: true}));
   await tick(w);
-  return {w, errors, close: async () => { await tick(w); w.close(); }};
+  return {w, errors, close: async () => {
+    w.__TBCurrentAttemptReview?.destroy?.();
+    closeFrames();
+    w.close();
+    await Promise.resolve();
+  }};
 }
 function start(w, exam, mode) {
   w.document.querySelector(`.tb-tile[data-exam="${exam}"]`).click();
@@ -50,7 +70,6 @@ function select(w, index, option) {
   w.document.querySelector(`[data-opt="${option}"]`).click();
 }
 function submit(w) {
-  // The native player offers See results on its last question.
   const last = w.__TB.getFeedbackSnapshot().records.length - 1;
   w.document.querySelector(`[data-goto="${last}"]`).click();
   w.document.querySelector('[data-submit]').click();
@@ -66,13 +85,21 @@ function click(w, selector) {
   el.click();
 }
 function score(w) { return w.document.querySelector('[data-score-result], .tb-reshead').textContent; }
-test('all delivered certifications support review and correction in every mode', async parent => {
+test('all active certifications support review and correction in every mode', async parent => {
   const catalog = await harness();
   const certifications = [...catalog.w.document.querySelectorAll('.tb-tile[data-exam]')].map(el => ({id: el.dataset.exam, name: el.textContent.trim().replace(/\s+/g, ' ')}));
   console.log('Delivered certification catalog:', JSON.stringify(certifications));
-  assert.ok(certifications.length > 0);
+  const active = certifications.filter(c => !/coming soon/i.test(c.name));
+  assert.ok(active.length >= 5, 'the full current catalog must be present');
+  for (const placeholder of certifications.filter(c => /coming soon/i.test(c.name))) {
+    catalog.w.document.querySelector(`.tb-tile[data-exam="${placeholder.id}"]`).click();
+    await tick(catalog.w);
+    assert.equal(catalog.w.document.querySelector('.tb-quiz'), null, `${placeholder.id} remains a catalog placeholder`);
+    assert.equal(catalog.w.document.querySelector('#tb-feedback-loop'), null);
+  }
+  assert.deepEqual(catalog.errors, []);
   await catalog.close();
-  for (const {id: exam} of certifications) for (const mode of ['full','quick','focused']) {
+  for (const {id: exam} of active) for (const mode of ['full','quick','focused']) {
     await parent.test(`${exam}/${mode}`, async () => {
       const h = await harness(), {w} = h;
       try {
