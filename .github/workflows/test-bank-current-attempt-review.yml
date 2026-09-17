@@ -1,0 +1,47 @@
+name: Post-exam review regression
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, feature/session-only-post-exam-review]
+    paths:
+      - 'test-bank*.js'
+      - 'test-bank.html'
+      - 'netlify/edge-functions/test-bank-mobile-picker.js'
+      - 'tests/test-bank*.test.js'
+      - '.github/workflows/test-bank-current-attempt-review.yml'
+  pull_request:
+    paths:
+      - 'test-bank*.js'
+      - 'test-bank.html'
+      - 'netlify/edge-functions/test-bank-mobile-picker.js'
+      - 'tests/test-bank*.test.js'
+      - '.github/workflows/test-bank-current-attempt-review.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  review-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Validate syntax
+        run: node --check test-bank-current-attempt-review.js
+      - name: Test current-attempt review and existing results
+        run: |
+          set -o pipefail
+          node --test --test-concurrency=1 --test-reporter=tap tests/test-bank-stateless-results.test.js tests/test-bank-current-attempt-review.test.js 2>&1 | tee post-exam-review-results.txt
+      - name: Upload regression evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-exam-review-results
+          path: post-exam-review-results.txt
+          if-no-files-found: ignore
