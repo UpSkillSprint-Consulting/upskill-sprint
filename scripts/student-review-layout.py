@@ -38,7 +38,6 @@ with sync_playwright() as pw:
               overflow:[...document.querySelectorAll('#tb-feedback-loop,.tb-review-card')].filter(e=>e.scrollWidth>e.clientWidth+2)
               .map(e=>({id:e.dataset.questionId||e.id,client:e.clientWidth,scroll:e.scrollWidth}))})""")
             report['measurements'].append(measurement)
-            assert measurement['document']<=width+2 and not measurement['overflow'],measurement
             for number,batch in [('071',3),('097',4)]:
                 card=page.locator('.tb-review-card[data-question-id="mbb:set-2:original-'+number+'"]')
                 select=card.locator('[data-mbb'+str(batch)+'-observation]')
@@ -48,10 +47,12 @@ with sync_playwright() as pw:
                 expect(output).to_have_text(expected)
                 expect(output).to_be_visible()
                 select.focus();expect(select).to_be_focused()
-                report['observations'].append({'question':number,'width':width,'selected_text':expected,'full_readout':output.text_content(),'result':'PASS'})
-                if width==390:
-                    card.scroll_into_view_if_needed()
-                    page.screenshot(path=str(out/'layout-observation-'+number+'.png'))
+                geometry=select.evaluate("e=>{const r=e.getBoundingClientRect(),s=getComputedStyle(e);return {width:r.width,right:r.right,client:e.clientWidth,scroll:e.scrollWidth,appearance:s.appearance,overflow:s.overflowX,whiteSpace:s.whiteSpace};}")
+                report['observations'].append({'question':number,'width':width,'selected_text':expected,'full_readout':output.text_content(),'geometry':geometry,'result':'PASS'})
+                select.scroll_into_view_if_needed()
+                page.screenshot(path=str(out/('layout-observation-'+number+'-'+str(width)+'.png')))
+        for measurement in report['measurements']:
+            assert measurement['document']<=measurement['viewport']+2 and not measurement['overflow'],measurement
         assert not report['errors'],report['errors']
         report['result']='PASS'
     except Exception as error:
