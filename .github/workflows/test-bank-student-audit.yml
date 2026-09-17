@@ -19,23 +19,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  source-provenance:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - name: Archive tracked source only
-        run: |
-          mkdir -p source-evidence
-          git rev-parse HEAD > source-evidence/source-sha.txt
-          git archive --format=tar.gz HEAD > source-evidence/source.tar.gz
-      - uses: actions/upload-artifact@v4
-        with:
-          name: selector-source-provenance
-          path: source-evidence
-          retention-days: 3
   student-browser:
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -53,6 +36,10 @@ jobs:
         with:
           python-version: '3.12'
       - run: npm ci
+      - name: Check updated retake test syntax
+        run: |
+          node --check tests/test-bank-retake-configuration.test.js
+          node --check tests/test-bank-retake-dummy-user-stress.test.js
       - name: Test corrective actions
         run: node --test tests/test-bank-student-*.test.js
       - name: Install browser test dependencies
