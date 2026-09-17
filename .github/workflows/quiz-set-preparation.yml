@@ -1,4 +1,4 @@
-name: Apply verified quiz-set changes
+name: Apply verified quiz-set validation
 on:
   push:
     branches: [feature/independent-quiz-set-selectors]
@@ -12,15 +12,14 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Apply exact, locally tested page changes
-        run: |
-          test "$(git hash-object test-bank.html)" = 5381ffb5b248fab041181f6fcc212e229ab3347a
-          python3 scripts/apply-quiz-set-selectors.py
-          test "$(git hash-object test-bank.html)" = 42452c4e7d952c6c9b2b1a07e04700d2075f83b3
+      - run: |
+          test "$(git hash-object scripts/student-review-browser.py)" = b941748a9d2d155be16c4362213d3c8e210abe75
+          python3 scripts/apply-quiz-set-validation.py
+          test "$(git hash-object scripts/student-review-browser.py)" = 98863f54fdf31793653f74cbd711f1050cdcc868
           git diff --check
-          git add test-bank.html
-          git rm scripts/apply-quiz-set-selectors.py
+          git add scripts/student-review-browser.py
+          git rm scripts/apply-quiz-set-validation.py
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'Add independent Quick and Focused test-set controls and pin session source'
+          git commit -m 'Validate the actual mode-specific bank in every student journey'
           git push origin HEAD:feature/independent-quiz-set-selectors
