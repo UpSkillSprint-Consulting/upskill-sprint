@@ -105,6 +105,11 @@
   .tb-seg button:focus-visible{outline:2px solid var(--teal);outline-offset:-3px;position:relative;z-index:1}
   .tb-seg button.on{background:var(--teal);color:#fff;box-shadow:inset 0 0 0 1px color-mix(in srgb,#fff 38%,transparent)}
   .tb-counts{display:inline-flex;gap:6px}
+  .tb-mode-controls.stacked .tb-fieldrow{width:100%;min-width:0}
+  .tb-quiz-set-choices{display:flex;flex-wrap:wrap;gap:6px;min-width:0;max-width:100%}
+  .tb-quiz-set-choices .tb-count{min-height:44px;min-width:56px;white-space:normal;transform:none}
+  .tb-quiz-set-choices .tb-count:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  @media(max-width:420px){.tb-mode-controls.stacked .tb-fieldrow{gap:8px}.tb-mode-controls.stacked .tb-fieldrow-label{width:68px}.tb-mode-controls.stacked .tb-counts{flex-wrap:wrap}.tb-mode-controls.stacked .tb-select{min-width:0;max-width:100%}}
   .tb-count{border:1px solid var(--line);background:var(--card);border-radius:7px;min-width:42px;padding:7px 10px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;transition:.12s}
   .tb-count.on{border-color:var(--teal);background:var(--teal);color:#fff}
   .tb-count[disabled]{opacity:.45;cursor:not-allowed}
@@ -2506,7 +2511,7 @@
   };
   var GROUPS=[['Six Sigma',['cssbb','mbb','cssgb']],['Quality',['cqe','cqa','cmq']],['Reliability',['cre']]];
   var current='cssbb', view='browse', session=null;
-  var selectedSet='1'; /* '1' | '2' | 'mix' — only exams with e.sets[2] expose the choice */
+  var selectedSet='1'; /* Full Exam selection; Quick and Focused keep their own mode choices. */
   var diagTimed=true, timerId=null, calcExpr='';
   var perfAnalyticsOpen=false; /* true once the user opens Performance Analytics; used to
     restore it across renderMain() re-renders, since browse-view rendering replaces
@@ -3503,13 +3508,17 @@
     var seen=new Set();
     return rows.filter(function(q){var id=q&&(q.qid||q.questionId||q.id||q.question_id);if(!id)return true;if(seen.has(id))return false;seen.add(id);return true;});
   }
-  function activeBank(e){
-    if(!hasTwoSets(e))return e.bank||[];
-    var s=e.sets;
-    if(selectedSet==='2')return s[2];
-    if(selectedSet==='3'&&s[3])return s[3];
-    if(selectedSet==='mix')return uniqueQuestionPool(s[3]?s[1].concat(s[2],s[3]):s[1].concat(s[2]));
-    return s[1];
+  function availableSetIds(e){
+    var ids=Object.keys(e&&e.sets||{}).filter(function(id){return /^\d+$/.test(id)&&Array.isArray(e.sets[id])&&e.sets[id].length;}).sort(function(a,b){return Number(a)-Number(b);});
+    return ids.length?ids:(hasBank(e)?['1']:[]);
+  }
+  function activeBank(e,setId){
+    var ids=availableSetIds(e);
+    if(!ids.length)return [];
+    setId=setId==null?selectedSet:String(setId);
+    if(setId==='mix')return uniqueQuestionPool(ids.reduce(function(rows,id){return rows.concat(e.sets&&e.sets[id]||e.bank||[]);},[]));
+    if(ids.indexOf(setId)<0)setId=ids[0];
+    return e.sets&&e.sets[setId]||e.bank||[];
   }
   /* the pooled bank across every set, independent of the Set 1/2/3/Mixed picker \u2014
      used by the "New questions only" toggle so it always draws against the full bank */
@@ -3570,10 +3579,10 @@
     }
     return [];
   }
-  function setLabel(){return selectedSet==='2'?'Set 2':selectedSet==='3'?'Set 3':selectedSet==='mix'?'Mixed (all sets)':'Set 1';}
+  function setLabel(setId){setId=setId==null?selectedSet:String(setId);return setId==='mix'?'Mixed (all sets)':'Set '+setId;}
   function setCount(e){return (e&&e.sets&&e.sets[1])?(e.sets[3]?3:(e.sets[2]?2:1)):0;}
   function setsAvailLabel(e){var n=setCount(e);return n>=2?(n+' exam sets'):(e.setName||'Live');}
-  function activeSetLabel(e){return hasTwoSets(e)?setLabel():(e.setName||'Live');}
+  function activeSetLabel(e,setId){return hasTwoSets(e)?setLabel(setId):(e.setName||'Set 1');}
   function examNoun(e){return hasTwoSets(e)?setLabel():(e.setName||'the exam');}
   function setPlan(e,setId){return e&&e.setPlans&&e.setPlans[setId]||null;}
   function fullExamTarget(e){return e&&e.fullExamQuestionsBySet&&e.fullExamQuestionsBySet[selectedSet]||e.questions;}
@@ -3595,13 +3604,13 @@
     var n1=e.sets[1].length,n2=e.sets[2].length,n3=e.sets[3]?e.sets[3].length:0;
     function sub(setId,count){var plan=setPlan(e,setId);return plan?(count+' of '+plan.target+' · '+plan.label):(count+' questions');}
     function b(v,l,sub){return '<button type="button" class="tb-setbtn'+(selectedSet===v?' on':'')+'" data-set="'+v+'" aria-pressed="'+(selectedSet===v)+'"><span class="tb-setl">'+l+'</span><span class="tb-sets">'+sub+'</span></button>';}
-    var note=selectedSet==='mix'?'Questions are drawn at random from all sets, regardless of which set they came from.':selectedSet==='3'?'Practice draws only from Set 3 questions.':selectedSet==='2'?'Practice draws only from Set 2 questions.':'Practice draws only from Set 1 questions.';
+    var note=selectedSet==='mix'?'The Full Exam draws questions from all available sets.':'The Full Exam draws only from '+setLabel()+' questions.';
     var plan=setPlan(e,selectedSet),available=activeBank(e).length,currentFullCount=fullExamCount(e);
     if(plan)note+=' This validated release contains '+available+' of '+plan.target+' planned questions.';
-    return '<div class="tb-setpick"><div class="tb-setpick-lab">Question set</div>'+
-      '<div class="tb-setseg" role="group" aria-label="Choose question set">'+
+    return '<div class="tb-setpick"><div class="tb-setpick-lab">Full Exam test set</div>'+
+      '<div class="tb-setseg" role="group" aria-label="Choose Full Exam question set">'+
         b('1','Set 1',sub('1',n1))+b('2','Set 2',sub('2',n2))+(n3?b('3','Set 3',sub('3',n3)):'')+b('mix','Mixed',(n1+n2+n3)+' pooled')+
-      '</div><p class="tb-setnote">'+note+' A Full Exam currently serves '+currentFullCount+' question'+(currentFullCount===1?'':'s')+'.</p></div>';
+      '</div><p class="tb-setnote">'+note+' A Full Exam currently serves '+currentFullCount+' question'+(currentFullCount===1?'':'s')+'. Quick and Focused quizzes have their own test-set buttons below.</p></div>';
   }
 
   /* ---------- adaptive engine (pure) ---------- */
@@ -3806,8 +3815,8 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
 
   /* ---------- practice modes (overview) ---------- */
   var NUMS=[10,20,30,50];
-  var mode={timed:true,quickTimed:false,focusTimed:false,quickN:20,focusDom:null,focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};
-  function resetMode(){cancelNewOnlyReservationGate();mode={timed:true,quickTimed:false,focusTimed:false,quickN:20,focusDom:EXAMS[current].bok[0].domain,focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};selectedSet='1';}
+  var mode={timed:true,quickTimed:false,focusTimed:false,quickSet:'1',focusSet:'1',quickN:20,focusDom:null,focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};
+  function resetMode(){cancelNewOnlyReservationGate();mode={timed:true,quickTimed:false,focusTimed:false,quickSet:'1',focusSet:'1',quickN:20,focusDom:EXAMS[current].bok[0].domain,focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};selectedSet='1';}
   function fmtDur(min){var h=Math.floor(min/60),m=min%60;return (h?h+'h':'')+(h&&m?' ':'')+(m?m+'m':'');}
   /* The exam definition is the single timing authority for every timed session. A future
      timing-policy change therefore updates all quiz paths from one calculation. */
@@ -3844,6 +3853,30 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       requestAnimationFrame(function(){var replacement=document.querySelector('[data-timing-group="'+kind+'"] [data-timed="'+value+'"]');if(replacement)replacement.focus();});
     });
   }
+  function quizSetControlHTML(e,kind){
+    var ids=availableSetIds(e);
+    if(!ids.length)return '';
+    var selected=kind==='quick'?mode.quickSet:mode.focusSet;
+    var choices=ids.length>1?ids.concat('mix'):ids;
+    if(choices.indexOf(selected)<0)selected=ids[0];
+    if(kind==='quick')mode.quickSet=selected;else mode.focusSet=selected;
+    var label=kind==='quick'?'Quick Quiz':'Focused Quiz';
+    return '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Test set</span><div class="tb-fieldrow-value">'+
+      '<div class="tb-quiz-set-choices" role="group" aria-label="'+label+' test set" data-quiz-set-group="'+kind+'">'+
+      choices.map(function(id){return '<button type="button" class="tb-count'+(selected===id?' on':'')+'" data-quiz-set-kind="'+kind+'" data-quiz-set="'+id+'" aria-pressed="'+(selected===id)+'" title="'+activeBank(e,id).length+' available questions">'+(id==='mix'?'Mixed':'Set '+id)+'</button>';}).join('')+
+      '</div></div></div>';
+  }
+  function wireQuizSetKeyboard(group){
+    group.addEventListener('keydown',function(event){
+      if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].indexOf(event.key)<0)return;
+      var buttons=Array.prototype.slice.call(group.querySelectorAll('[data-quiz-set]'));
+      var index=buttons.indexOf(event.target);if(index<0)return;
+      event.preventDefault();
+      var next=event.key==='Home'?0:event.key==='End'?buttons.length-1:
+        (index+((event.key==='ArrowLeft'||event.key==='ArrowUp')?-1:1)+buttons.length)%buttons.length;
+      buttons[next].click();
+    });
+  }
   function counts(kind,val){return '<span class="tb-counts" role="group" aria-label="Number of questions">'+NUMS.map(function(n){
     return '<button type="button" class="tb-count'+(n===val?' on':'')+'" data-count="'+kind+'" data-n="'+n+'" aria-pressed="'+(n===val)+'">'+n+'</button>';}).join('')+'</span>';}
   function startBtn(){return '<span class="tb-start"><span class="dot"></span>Start &middot; Coming soon</span>';}
@@ -3869,7 +3902,8 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
         (mode.timed?'Strict <b>'+fullDuration+'</b> limit &mdash; '+fullTimingContext(e):'<b>No time limit</b> &mdash; work at your own pace.')+
         '</span>'+(live?liveStart('full','Start '+examNoun(e)):startBtn())+'</div></div>';
 
-    var quickPoolTotal=live?activeBank(e).length:mode.quickN;
+    var quickSetControls=quizSetControlHTML(e,'quick');
+    var quickPoolTotal=live?activeBank(e,mode.quickSet).length:mode.quickN;
     var quickAvail=live&&mode.quickUnseen&&newOnlyReady?unseenOnly(mixedBank(e)).length:null;
     var quickMissedTotal=live?missedOnly(mixedBank(e)).length:0;
     var quickMissedAvail=live&&mode.quickMissed?quickMissedTotal:null;
@@ -3886,12 +3920,12 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
         ? (quickMissedAvail
             ? 'Random <b>'+quickEffN+'</b> previously missed question'+(quickEffN===1?'':'s')+' from <b>Mixed (all sets)</b> across the whole Body of Knowledge, ignoring the Set selection above.'+(quickMissedAvail<mode.quickN?' Only <b>'+quickMissedAvail+'</b> missed question'+(quickMissedAvail===1?'':'s')+' remain.':'')
             : 'No previously missed questions remain in Mixed (all sets).')
-        : 'Random <b>'+quickEffN+'</b> question'+(quickEffN===1?'':'s')+' from <b>'+esc(activeSetLabel(e))+'</b> across the whole Body of Knowledge.'+(quickPoolTotal<mode.quickN?' Only <b>'+quickPoolTotal+'</b> question'+(quickPoolTotal===1?' is':'s are')+' currently available in '+esc(activeSetLabel(e))+'.':'');
+        : 'Random <b>'+quickEffN+'</b> question'+(quickEffN===1?'':'s')+' from <b>'+esc(activeSetLabel(e,mode.quickSet))+'</b> across the whole Body of Knowledge.'+(quickPoolTotal<mode.quickN?' Only <b>'+quickPoolTotal+'</b> question'+(quickPoolTotal===1?' is':'s are')+' currently available in '+esc(activeSetLabel(e,mode.quickSet))+'.':'');
     if(mode.quickUnseen&&newOnlyReservationGate.error)quickSum+=' <span class="tb-newonly-error" role="status">'+esc(newOnlyReservationGate.error)+'</span>';
     quickSum+=timingSummary(e,quickEffN,mode.quickTimed);
     var quick='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u26A1</span>'+
       '<div><h4>Quick Quiz</h4><p>A randomized set drawn from the entire Body of Knowledge &mdash; a fast check.</p></div></div>'+
-      '<div class="tb-mode-controls stacked" data-unseen-active="'+(!!mode.quickUnseen)+'" data-missed-active="'+(!!mode.quickMissed)+'">'+
+      '<div class="tb-mode-controls stacked" data-unseen-active="'+(!!mode.quickUnseen)+'" data-missed-active="'+(!!mode.quickMissed)+'">'+quickSetControls+
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Questions</span><div class="tb-fieldrow-value">'+counts('quick',mode.quickN)+'</div></div>'+
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Timing</span><div class="tb-fieldrow-value">'+timingControlHTML('quick',mode.quickTimed,false)+'</div></div>'+
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Filters</span><div class="tb-fieldrow-value">'+unseenToggleHTML('quick',mode.quickUnseen,!newOnlyAvailable&&!mode.quickUnseen)+missedToggleHTML('quick',mode.quickMissed,quickMissedTotal===0&&!mode.quickMissed)+'</div></div>'+
@@ -3900,7 +3934,8 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
 
     var opts=e.bok.map(function(x){return '<option value="'+x.domain+'"'+(x.domain===mode.focusDom?' selected':'')+'>'+esc(DM[x.domain].name)+'</option>';}).join('');
     var focusName=DM[mode.focusDom]?DM[mode.focusDom].name:'';
-    var focusPoolTotal=live?activeBank(e).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;}).length:mode.focusN;
+    var focusSetControls=quizSetControlHTML(e,'focus');
+    var focusPoolTotal=live?activeBank(e,mode.focusSet).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;}).length:mode.focusN;
     var focusAvail=live&&mode.focusUnseen&&newOnlyReady?unseenOnly(mixedBank(e)).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;}).length:null;
     var focusMissedTotal=live?missedOnly(mixedBank(e)).filter(function(q){return domainOf(e,q.sub)===mode.focusDom;}).length:0;
     var focusMissedAvail=live&&mode.focusMissed?focusMissedTotal:null;
@@ -3917,18 +3952,19 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
         ? (focusMissedAvail
             ? 'Random <b>'+focusEffN+'</b> previously missed question'+(focusEffN===1?'':'s')+' from <b>'+esc(focusName)+'</b> in <b>Mixed (all sets)</b>, ignoring the Set selection above.'+(focusMissedAvail<mode.focusN?' Only <b>'+focusMissedAvail+'</b> missed question'+(focusMissedAvail===1?'':'s')+' remain in this area.':'')
             : 'No previously missed questions remain in <b>'+esc(focusName)+'</b>.')
-        : 'Random '+(focusPoolTotal<mode.focusN?'up to <b>'+mode.focusN+'</b> questions':'<b>'+focusEffN+'</b> question'+(focusEffN===1?'':'s'))+' from <b>'+esc(focusName)+'</b> in <b>'+esc(activeSetLabel(e))+'</b>.'+(focusPoolTotal<mode.focusN?' Only <b>'+focusPoolTotal+'</b> question'+(focusPoolTotal===1?' is':'s are')+' available in this area for '+esc(activeSetLabel(e))+'.':'');
+        : 'Random '+(focusPoolTotal<mode.focusN?'up to <b>'+mode.focusN+'</b> questions':'<b>'+focusEffN+'</b> question'+(focusEffN===1?'':'s'))+' from <b>'+esc(focusName)+'</b> in <b>'+esc(activeSetLabel(e,mode.focusSet))+'</b>.'+(focusPoolTotal<mode.focusN?' Only <b>'+focusPoolTotal+'</b> question'+(focusPoolTotal===1?' is':'s are')+' available in this area for '+esc(activeSetLabel(e,mode.focusSet))+'.':'');
+    if(live&&!mode.focusUnseen&&!mode.focusMissed&&focusPoolTotal===0)focusSum='No questions are available in <b>'+esc(focusName)+'</b> for <b>'+esc(activeSetLabel(e,mode.focusSet))+'</b>. Choose another area or test set.';
     if(mode.focusUnseen&&newOnlyReservationGate.error)focusSum+=' <span class="tb-newonly-error" role="status">'+esc(newOnlyReservationGate.error)+'</span>';
     focusSum+=timingSummary(e,focusEffN,mode.focusTimed);
     var focus='<div class="tb-mode"><div class="tb-mode-head"><span class="tb-mode-ic">\u25CE</span>'+
       '<div><h4>Focused Quiz</h4><p>Drill a single area of the Body of Knowledge you want to strengthen.</p></div></div>'+
-      '<div class="tb-mode-controls stacked" data-unseen-active="'+(!!mode.focusUnseen)+'" data-missed-active="'+(!!mode.focusMissed)+'">'+
+      '<div class="tb-mode-controls stacked" data-unseen-active="'+(!!mode.focusUnseen)+'" data-missed-active="'+(!!mode.focusMissed)+'">'+focusSetControls+
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Area</span><div class="tb-fieldrow-value"><select class="tb-select" data-focusdom aria-label="Body of Knowledge area">'+opts+'</select></div></div>'+
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Questions</span><div class="tb-fieldrow-value">'+counts('focus',mode.focusN)+'</div></div>'+
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Timing</span><div class="tb-fieldrow-value">'+timingControlHTML('focus',mode.focusTimed,false)+'</div></div>'+
         '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Filters</span><div class="tb-fieldrow-value">'+unseenToggleHTML('focus',mode.focusUnseen,!newOnlyAvailable&&!mode.focusUnseen)+missedToggleHTML('focus',mode.focusMissed,focusMissedTotal===0&&!mode.focusMissed)+'</div></div>'+
       '</div>'+
-      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+focusSum+'</span>'+(live?liveStart('focus',newOnlyReservationGate.active?'Reserving…':'Start quiz',(mode.focusUnseen&&(!newOnlyAvailable||newOnlyReservationGate.active||(newOnlyReady&&focusAvail===0)))||(mode.focusMissed&&focusMissedAvail===0)):startBtn())+'</div></div>';
+      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+focusSum+'</span>'+(live?liveStart('focus',newOnlyReservationGate.active?'Reserving…':'Start quiz',(!mode.focusUnseen&&!mode.focusMissed&&focusPoolTotal===0)||(mode.focusUnseen&&(!newOnlyAvailable||newOnlyReservationGate.active||(newOnlyReady&&focusAvail===0)))||(mode.focusMissed&&focusMissedAvail===0)):startBtn())+'</div></div>';
     var catalog=window.__TBVersionCatalog&&window.__TBVersionCatalog.exams[current];
     var disclosure=catalog?'<details class="tb-catalog-disclosure"><summary>Practice preset and official exam format</summary><p>'+esc(catalog.provenance.disclosure)+'</p><p>'+esc(catalog.provenance.scoring.siteTargetMeaning)+'. Official format checked '+esc(catalog.provenance.verifiedAt)+'.</p></details>':'';
     return disclosure+full+quick+focus;
@@ -3956,6 +3992,14 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
 
   function wirePracticeModes(host){
     if(!host)return;
+    Array.prototype.forEach.call(host.querySelectorAll('[data-quiz-set-kind]'),function(button){button.addEventListener('click',function(){
+      var kind=button.dataset.quizSetKind,id=button.dataset.quizSet;
+      if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();
+      if(kind==='quick')mode.quickSet=id;else mode.focusSet=id;
+      // Repaint controls, not the whole page, and keep keyboard focus on the choice.
+      refreshPracticeModes('[data-quiz-set-kind="'+kind+'"][data-quiz-set="'+id+'"]');
+    });});
+    Array.prototype.forEach.call(host.querySelectorAll('[data-quiz-set-group]'),wireQuizSetKeyboard);
     Array.prototype.forEach.call(host.querySelectorAll('[data-timing-kind]'),function(b){b.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();setTiming(b.dataset.timingKind,b.dataset.timed==='1');renderMain();});});
     Array.prototype.forEach.call(host.querySelectorAll('[data-timing-group]'),wireTimingKeyboard);
     Array.prototype.forEach.call(host.querySelectorAll('[data-count]'),function(b){b.addEventListener('click',function(){if(newOnlyReservationGate.active)cancelNewOnlyReservationGate();var n=+b.dataset.n;if(b.dataset.count==='quick')mode.quickN=n;else mode.focusN=n;renderMain();});});
@@ -4028,7 +4072,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       '<div class="tb-sec">Body of Knowledge coverage</div>'+
       '<div class="tb-weightbar">'+bar+'</div><div class="tb-legend">'+legend+'</div>'+
       '<div class="tb-sec">'+(live?'Practice modes':'Choose your practice mode')+'</div>'+
-      (live?'<p class="tb-modenote">All three modes run live on '+esc(examNoun(e))+' \u2014 the current '+fullExamCount(e)+'-question Full Exam, quick quizzes, and focused single-area drills.</p>':'')+
+      (live?'<p class="tb-modenote">Full Exam uses '+esc(examNoun(e))+' ('+fullExamCount(e)+' questions). Choose a test set separately inside Quick Quiz and Focused Quiz.</p>':'')+
       '<div class="tb-modes">'+modesHTML(e)+'</div>'+
       '<a class="tb-requestlink" href="request-topic.html">Request this exam &rarr;</a>';
   }
@@ -4064,14 +4108,16 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     return shuffle(out.slice(0,count));
   }
   function diagCount(e){var b=activeBank(e);return Math.min(b.length,pickStratified(b,2).length);}
-  function beginSession(e,items,kind,timed,limitSeconds,filter){
+  function beginSession(e,items,kind,timed,limitSeconds,filter,setId){
+    if(!items||!items.length)return false;
+    setId=filter?'mix':String(setId==null?(kind==='quick'?mode.quickSet:kind==='focus'?mode.focusSet:selectedSet):setId);
     buildTools();
     var durationSeconds=timed?(limitSeconds==null?quizDurationSeconds(e,items.length):limitSeconds):null;
     var learning=learningWriter();if(!learning)return false;
-    var start=learning.startSession({examId:current,questions:items,mode:kind,timed:!!timed,setId:filter?'mix':String(selectedSet),filter:filter||null,limitSeconds:durationSeconds,returnResult:true});
+    var start=learning.startSession({examId:current,questions:items,mode:kind,timed:!!timed,setId:setId,filter:filter||null,limitSeconds:durationSeconds,returnResult:true});
     var learningSessionId=start&&start.sessionId;
     if(!learningSessionId||start.saved===false||!writeAheadConfirmed(learning))return false;
-    session={id:learningSessionId,kind:kind,filter:filter||null,versionPin:start.versionPin||null,items:(start.pinnedQuestions||items).map(function(q){return {q:q};}),answers:{},flags:{},i:0,timed:!!timed,limitSeconds:durationSeconds,endsAt:timed?(start.versionPin?Date.parse(start.versionPin.deadlineAt):Date.now()+durationSeconds*1000):null,completed:false};
+    session={id:learningSessionId,kind:kind,setId:setId,filter:filter||null,versionPin:start.versionPin||null,items:(start.pinnedQuestions||items).map(function(q){return {q:q};}),answers:{},flags:{},i:0,timed:!!timed,limitSeconds:durationSeconds,endsAt:timed?(start.versionPin?Date.parse(start.versionPin.deadlineAt):Date.now()+durationSeconds*1000):null,completed:false};
     view='quiz';renderMain();startTimer();
     return true;
   }
@@ -4167,7 +4213,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
   }
   function startQuickAfterFresh(){
     var e=EXAMS[current];
-    var qs=mode.quickUnseen?(newOnlyBaseHydrated()?unseenOnly(mixedBank(e)):mixedBank(e).slice()):mode.quickMissed?missedOnly(mixedBank(e)):activeBank(e).slice();
+    var qs=mode.quickUnseen?(newOnlyBaseHydrated()?unseenOnly(mixedBank(e)):mixedBank(e).slice()):mode.quickMissed?missedOnly(mixedBank(e)):activeBank(e,mode.quickSet).slice();
     if((mode.quickUnseen||mode.quickMissed)&&!qs.length)return;
     if(mode.quickUnseen){reserveNewOnlyQuestions(e,'quick',qs,mode.quickN,mode.quickTimed);return;}
     shuffle(qs);
@@ -4177,9 +4223,9 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
   function startQuick(){startQuickAfterFresh();}
   function startFocusedAfterFresh(){
     var e=EXAMS[current];
-    var base=mode.focusUnseen?(newOnlyBaseHydrated()?unseenOnly(mixedBank(e)):mixedBank(e)):mode.focusMissed?missedOnly(mixedBank(e)):activeBank(e);
+    var base=mode.focusUnseen?(newOnlyBaseHydrated()?unseenOnly(mixedBank(e)):mixedBank(e)):mode.focusMissed?missedOnly(mixedBank(e)):activeBank(e,mode.focusSet);
     var qs=base.filter(function(q){return domainOf(e,q.sub)===mode.focusDom;});
-    if((mode.focusUnseen||mode.focusMissed)&&!qs.length)return;
+    if(!qs.length)return;
     if(mode.focusUnseen){reserveNewOnlyQuestions(e,'focus',qs,mode.focusN,mode.focusTimed);return;}
     shuffle(qs);
     qs=qs.slice(0,Math.min(mode.focusN,qs.length));
@@ -4187,7 +4233,8 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
   }
   function startFocused(){startFocusedAfterFresh();}
   function startPractice(){
-    var e=EXAMS[current],b=activeBank(e),limit=Math.min(10,b.length),picks=[];
+    var practiceSet=view==='results'&&session?session.setId:selectedSet;
+    var e=EXAMS[current],b=activeBank(e,practiceSet),limit=Math.min(10,b.length),picks=[];
     /* Prefer the canonical adaptive selector, which balances due retrieval,
        weak areas, and controlled new coverage using the same stable-ID data
        that powers readiness and the radar. Keep the chosen set as a hard
@@ -4203,7 +4250,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       var agg=st&&st.subState?masteryAgg(st.subState):{};
       weightedPick(b.filter(function(question){return !used.has(question);}),agg,limit-picks.length,dueSet).forEach(function(question){picks.push(question);});
     }
-    beginSession(e,picks,'practice',false,null);
+    beginSession(e,picks,'practice',false,null,null,practiceSet);
   }
   function masteryAgg(subState){var agg={};for(var id in subState){var m=subState[id].mastery;agg[id]={c:m,t:1};}return agg;}
   /* Opens the Phase 3 mastery + Full analytics view directly from the diagnostic card,
@@ -4422,7 +4469,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       '<button type="button" class="tb-tbtn" data-calc>\u00f7 Calc</button>'+
       '<button type="button" class="tb-ghost" data-quit>Exit</button></div>';
     var sessionTitle=session.kind==='diagnostic'?'Sample diagnostic':session.kind==='exam'?'Full Exam':session.kind==='quick'?'Quick Quiz':session.kind==='focus'?'Focused Quiz':'Weak-area practice';
-    return '<div class="tb-quiz'+(window.__TBMbbBatch1Review&&window.__TBMbbBatch1Review.applies(q)?' tb-mbb-batch1':'')+'" data-question-id="'+esc(questionId)+'"><div class="tb-quiztop"><div><div class="tb-diag-kick">'+sessionTitle+(session.kind==='practice'?'':session.timed?' \u00b7 timed':' \u00b7 untimed')+'</div>'+
+    return '<div class="tb-quiz'+(window.__TBMbbBatch1Review&&window.__TBMbbBatch1Review.applies(q)?' tb-mbb-batch1':'')+'" data-question-id="'+esc(questionId)+'"><div class="tb-quiztop"><div><div class="tb-diag-kick">'+sessionTitle+' &middot; '+esc(activeSetLabel(EXAMS[current],session.setId))+(session.kind==='practice'?'':session.timed?' \u00b7 timed':' \u00b7 untimed')+'</div>'+
       '<div class="tb-quizprog">Question '+(session.i+1)+' of '+n+' &middot; '+answered+' answered'+(flagged?' &middot; '+flagged+' flagged':'')+'</div></div>'+toolbar+'</div>'+
       '<div class="tb-progress"><span style="width:'+(answered/n*100)+'%"></span></div>'+
       '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(subName)+'</div>'+
@@ -4493,7 +4540,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
   // Copy the answer/flag records so feedback cannot mutate scoring or persistence.
   function getFeedbackSnapshot(){
     if(!session||!Array.isArray(session.items))return null;
-    return {sessionId:session.id,examId:current,completed:!!session.completed,
+    return {sessionId:session.id,examId:current,setId:session.setId,completed:!!session.completed,
       grading:session.originalGrade||null,versionPin:session.versionPin?window.__TBVersions.reference(session.versionPin):null,records:session.items.map(function(it,index){return {index:index,question:it.q,
         selected:session.answers[index]==null?null:session.answers[index],flagged:!!session.flags[index]};})};
   }
@@ -4534,7 +4581,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     var score=r.score,scored=score.correct,tot=score.total;
     var targetText=score.siteTargetMet===null?'Site practice target unavailable':(score.siteTargetMet?'Site practice target met':'Below site practice target')+' ('+window.__TBVersions.formatScore(score.siteTargetBps/100)+')';
     var resultStorageText=window.__TB_MEMORY_ONLY?'This result is available only in this tab until you leave or refresh.':'Saved locally; cloud acceptance is tracked separately in sync status.';
-    var gradeNotice='<div class="tb-score-result" data-score-result data-score-percent="'+score.scorePercent+'" data-target-met="'+score.siteTargetMet+'"><strong>Session score: '+window.__TBVersions.formatScore(score.scorePercent)+' ('+score.correct+'/'+score.total+')</strong><p>'+targetText+'. This is a site practice target, not an official certification pass/fail result.</p><p>'+(session.originalGrade?session.originalGrade.incorrect+' incorrect · '+session.originalGrade.unanswered+' unanswered. ':'')+(r.completedReason==='timed-out'?'Time expired. ':'')+resultStorageText+'</p></div>';
+    var gradeNotice='<div class="tb-score-result" data-score-result data-session-set="'+esc(session.setId)+'" data-score-percent="'+score.scorePercent+'" data-target-met="'+score.siteTargetMet+'"><strong>Session score: '+window.__TBVersions.formatScore(score.scorePercent)+' ('+score.correct+'/'+score.total+')</strong><p class="tb-result-set">Test set: '+esc(activeSetLabel(EXAMS[current],session.setId))+'</p><p>'+targetText+'. This is a site practice target, not an official certification pass/fail result.</p><p>'+(session.originalGrade?session.originalGrade.incorrect+' incorrect · '+session.originalGrade.unanswered+' unanswered. ':'')+(r.completedReason==='timed-out'?'Time expired. ':'')+resultStorageText+'</p></div>';
     // per-domain -> sub breakdown
     var byDom={};r.units.forEach(function(u){var a=agg[u.id];if(!a||!a.t)return;byDom[u.domain]=byDom[u.domain]||{c:0,t:0,subs:[]};byDom[u.domain].c+=a.c;byDom[u.domain].t+=a.t;byDom[u.domain].subs.push({u:u,a:a});});
     var breakdown=e.bok.filter(function(bd){return byDom[bd.domain];}).map(function(bd){var g=byDom[bd.domain],p=g.c/g.t,col=(DM[bd.domain]||{}).color||'#6656b5';

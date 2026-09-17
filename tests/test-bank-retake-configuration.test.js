@@ -99,11 +99,13 @@ async function selectExam(window, examId) {
   await settle(window, 4);
 }
 
-async function selectSet(window, setId) {
-  const target = overview(window).querySelector('.tb-setpick [data-set="' + setId + '"]');
+async function selectSet(window, setId, kind = 'full') {
+  const selector = kind === 'full' ? '.tb-setpick [data-set="' + setId + '"]' :
+    '[data-quiz-set-kind="' + kind + '"][data-quiz-set="' + setId + '"]';
+  const target = overview(window).querySelector(selector);
   click(window, target);
   await settle(window, 4);
-  assert.ok(overview(window).querySelector('.tb-setpick [data-set="' + setId + '"].on'));
+  assert.ok(overview(window).querySelector(selector + '.on'));
 }
 
 async function selectCount(window, kind, count) {
@@ -185,7 +187,7 @@ function domainWithAtLeast(exam, bank, minimum) {
 test('Retake Quick Quiz recreates exam, set, count, timing, and a fresh session', async () => {
   const { window, errors } = await loadPage();
   await selectExam(window, 'cssbb');
-  await selectSet(window, '2');
+  await selectSet(window, '2', 'quick');
   await selectCount(window, 'quick', 30);
   await selectTiming(window, 'quick', true);
 
@@ -206,7 +208,7 @@ test('Retake Quick Quiz recreates exam, set, count, timing, and a fresh session'
     filter: null
   });
   assert.equal(overview(window).querySelectorAll('.tb-navcell').length, 30);
-  assert.match(overview(window).textContent, /Quick Quiz · timed/i);
+  assert.match(overview(window).textContent, /Quick Quiz · Set 2 · timed/i);
   const allowed = questionIdsFor(window, 'cssbb', window.__TB.EXAMS.cssbb.sets[2]);
   assert.ok(sessionState(window, first.sessionId).questionIds.every(id => allowed.has(id)), 'the first attempt uses Set 2');
 
@@ -222,7 +224,7 @@ test('Retake Quick Quiz recreates exam, set, count, timing, and a fresh session'
   assert.equal(second.timed, true);
   assert.equal(second.filter, null);
   assert.equal(overview(window).querySelectorAll('.tb-navcell').length, 30);
-  assert.match(overview(window).textContent, /Quick Quiz · timed/i);
+  assert.match(overview(window).textContent, /Quick Quiz · Set 2 · timed/i);
   assert.ok(sessionState(window, second.sessionId).questionIds.every(id => allowed.has(id)), 'retake still uses Set 2');
   assert.deepEqual(errors, []);
 });
@@ -230,7 +232,7 @@ test('Retake Quick Quiz recreates exam, set, count, timing, and a fresh session'
 test('Retake Focused Quiz preserves set, Body of Knowledge area, count, and untimed mode', async () => {
   const { window, errors } = await loadPage();
   await selectExam(window, 'cssbb');
-  await selectSet(window, '3');
+  await selectSet(window, '3', 'focus');
   const exam = window.__TB.EXAMS.cssbb;
   const focus = domainWithAtLeast(exam, exam.sets[3], 10);
   assert.ok(focus, 'fixture has a Set 3 domain with at least ten questions');
@@ -256,7 +258,7 @@ test('Retake Focused Quiz preserves set, Body of Knowledge area, count, and unti
   assert.equal(second.focusDomain, focus.id);
   assert.equal(second.questionCount, 10);
   assert.equal(second.timed, false);
-  assert.match(overview(window).textContent, /Focused Quiz · untimed/i);
+  assert.match(overview(window).textContent, /Focused Quiz · Set 3 · untimed/i);
   assert.ok(sessionState(window, second.sessionId).questionIds.every(id => byId.has(id) && domainForQuestion(exam, byId.get(id)) === focus.id));
   assert.deepEqual(errors, []);
 });
@@ -264,7 +266,7 @@ test('Retake Focused Quiz preserves set, Body of Knowledge area, count, and unti
 test('Retake Quick Quiz preserves New-only and draws a fresh disjoint set', async () => {
   const { window, errors } = await loadPage();
   await selectExam(window, 'cssbb');
-  await selectSet(window, '2');
+  await selectSet(window, '2', 'quick');
   await selectCount(window, 'quick', 10);
   await selectTiming(window, 'quick', true);
   await toggleFilter(window, 'quick', 'new-only');
@@ -342,7 +344,7 @@ test('Retake fails closed when the saved filtered pool is no longer available', 
 test('Retake never starts a shorter New-only quiz when the remaining pool shrinks', async () => {
   const { window, errors } = await loadPage();
   await selectExam(window, 'cssbb');
-  await selectSet(window, '1');
+  await selectSet(window, '1', 'quick');
   await selectCount(window, 'quick', 10);
   await toggleFilter(window, 'quick', 'new-only');
 

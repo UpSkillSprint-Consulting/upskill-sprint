@@ -135,12 +135,14 @@ async function selectExam(window, examId) {
   assert.ok(window.document.querySelector('.tb-tile.active[data-exam="' + examId + '"]'), examId + ' is active');
 }
 
-async function selectSet(window, setId) {
-  const target = overview(window).querySelector('.tb-setpick [data-set="' + setId + '"]');
+async function selectSet(window, setId, kind = 'full') {
+  const selector = kind === 'full' ? '.tb-setpick [data-set="' + setId + '"]' :
+    '[data-quiz-set-kind="' + kind + '"][data-quiz-set="' + setId + '"]';
+  const target = overview(window).querySelector(selector);
   assert.ok(target, 'Set ' + setId + ' exists');
   click(window, target);
   await settle(window, 4);
-  assert.ok(overview(window).querySelector('.tb-setpick [data-set="' + setId + '"].on'));
+  assert.ok(overview(window).querySelector(selector + '.on'));
 }
 
 async function selectCount(window, kind, count) {
@@ -249,7 +251,7 @@ function assertCleanActiveSession(window, recipe) {
 test('dummy-account stress: 12 consecutive Quick retakes preserve the recipe and create clean attempts', async () => {
   const { window, errors } = await loadPage();
   await selectExam(window, 'cssbb');
-  await selectSet(window, '2');
+  await selectSet(window, '2', 'quick');
   await selectCount(window, 'quick', 10);
   await selectTiming(window, 'quick', true);
 
@@ -274,7 +276,7 @@ test('dummy-account stress: 12 consecutive Quick retakes preserve the recipe and
     assert.equal(sessions.has(recipe.sessionId), false, 'every retake receives a unique session ID');
     sessions.add(recipe.sessionId);
     assert.equal(overview(window).querySelectorAll('.tb-navcell').length, 10);
-    assert.match(overview(window).textContent, /Quick Quiz · timed/i);
+    assert.match(overview(window).textContent, /Quick Quiz · Set 2 · timed/i);
     assertCleanActiveSession(window, recipe);
   }
 

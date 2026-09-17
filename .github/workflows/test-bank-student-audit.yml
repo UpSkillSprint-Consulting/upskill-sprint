@@ -36,6 +36,10 @@ jobs:
         with:
           python-version: '3.12'
       - run: npm ci
+      - name: Check updated retake test syntax
+        run: |
+          node --check tests/test-bank-retake-configuration.test.js
+          node --check tests/test-bank-retake-dummy-user-stress.test.js
       - name: Test corrective actions
         run: node --test tests/test-bank-student-*.test.js
       - name: Install browser test dependencies
@@ -70,6 +74,7 @@ jobs:
           set -o pipefail
           python -u scripts/student-review-storage.py --browser ${{ matrix.browser }} 2>&1 | tee student-audit-evidence/storage.log
           python -u scripts/student-review-browser.py --browser ${{ matrix.browser }} 2>&1 | tee student-audit-evidence/browser.log
+          python -u scripts/student-review-sets.py --browser ${{ matrix.browser }} 2>&1 | tee student-audit-evidence/sets.log
       - name: Upload student assessment evidence
         if: always()
         uses: actions/upload-artifact@v4

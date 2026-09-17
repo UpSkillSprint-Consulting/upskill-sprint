@@ -86,7 +86,7 @@ def main():
             if back.count():back.click()
             elif page.locator('[data-backsim]').count():page.locator('[data-backsim]').click()
             select_exam(exam)
-            sets=page.locator(f'[data-set="{bank}"]')
+            sets=page.locator(f'[data-set="{bank}"]' if mode=='full' else f'[data-quiz-set-kind="{mode}"][data-quiz-set="{bank}"]')
             if sets.count():sets.click()
             if mode!='full':page.locator(f'[data-count="{mode}"][data-n="10"]').click()
             page.locator(f'[data-timing-kind="{mode}"][data-timed="{int(timed)}"]').click()
@@ -107,6 +107,9 @@ def main():
             page.set_viewport_size({'width':390 if timed else 1440,'height':900 if timed else 1000})
             page.evaluate('(theme)=>document.documentElement.dataset.theme=theme','dark' if timed else 'light')
             start(exam,bank,mode,timed);before=page.evaluate(PREPARE);total=len(before['records']);finish()
+            assert before['setId']==bank, (exam,mode,bank,before['setId'])
+            valid=page.evaluate("""({exam,bank,mode})=>{const e=__TB.EXAMS[exam],s=__TB.getFeedbackSnapshot();const rows=bank==='mix'?Object.values(e.sets||{1:e.bank}).flat():(e.sets?.[bank]||e.bank);const signature=q=>JSON.stringify([q.qid||q.id||null,q.stem,q.options]);const allowed=new Set(rows.map(signature));return s.records.every(r=>allowed.has(signature(r.question)));}""",{'exam':exam,'bank':bank,'mode':mode})
+            assert valid, 'A delivered question is outside the selected test set'
             original=page.evaluate('()=>JSON.stringify(__TB.getFeedbackSnapshot())')
             score=page.locator('[data-score-result]').inner_text()
             assert f'({total-3}/{total})' in score,score
