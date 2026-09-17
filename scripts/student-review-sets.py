@@ -6,6 +6,7 @@ import argparse
 import json
 import os
 import runpy
+import traceback
 from pathlib import Path
 from urllib.parse import urlparse
 from playwright.sync_api import sync_playwright, expect
@@ -40,8 +41,8 @@ def main():
                 fn();assert not report['errors'],report['errors'];assert not report['network_writes'],report['network_writes']
                 result={'name':name,'result':'PASS'}
             except Exception as error:
-                result={'name':name,'result':'FAIL','error':str(error)}
-                page.screenshot(path=str(out/('sets-'+name.replace('/','-')+'-failure.png')))
+                result={'name':name,'result':'FAIL','error':str(error),'traceback':traceback.format_exc()}
+                page.screenshot(path=str(out/('sets-'+name.replace('/','-')+'-failure.png')),full_page=True)
             report['cases'].append(result)
             (out/'quiz-set-assessment.json').write_text(json.dumps(report,indent=2))
             print(json.dumps(result),flush=True)
@@ -59,6 +60,15 @@ def main():
                 distinct:new Set(s.records.map(r=>signature(r.question))).size};
             }""",{'bank':bank,'kind':kind})
             assert actual['set']==bank and actual['allowed'] and actual['total']==actual['distinct'] and actual['total']>0,actual
+        def full_state():
+            # Compare stable learner settings, not transient decorative arrow cleanup.
+            return page.locator('.tb-mode').nth(0).evaluate("""card=>({
+              title:card.querySelector('h4').textContent,
+              description:card.querySelector('.tb-mode-head p').textContent,
+              timing:card.querySelector('[data-timing-kind="full"].on').dataset.timed,
+              summary:card.querySelector('.tb-mode-sum').textContent,
+              set:document.querySelector('[data-set].on')?.dataset.set||'1'
+            })""")
         def independence(exam):
             reset(exam)
             choices=page.locator('[data-quiz-set-kind="quick"]').evaluate_all('(buttons)=>buttons.map(b=>b.dataset.quizSet)')
@@ -69,7 +79,7 @@ def main():
             page.locator('[data-count="focus"][data-n="10"]').click()
             page.locator('[data-timing-kind="quick"][data-timed="1"]').click()
             if len(choices)>1:page.locator('[data-set="mix"]').click()
-            full=page.locator('.tb-mode').nth(0).inner_text()
+            full=full_state()
             assert selected('quick')==quick and selected('focus')==focus
             for kind,bank in [('quick',quick),('focus',focus)]:
                 page.locator(f'[data-mode="{kind}"]').click();verify_attempt(bank,kind)
@@ -86,7 +96,7 @@ def main():
                 page.locator('[data-retake]').click();verify_attempt(bank,kind)
                 page.locator('[data-backsim]').click()
                 assert selected('quick')==quick and selected('focus')==focus
-                assert page.locator('.tb-mode').nth(0).inner_text()==full
+                assert full_state()==full, {'before':full,'after':full_state()}
             page.locator('[data-mode="full"]').click();verify_attempt('mix' if len(choices)>1 else '1','full')
             page.locator('[data-backsim]').click()
         for exam in ['cssbb','cssgb','mbb','cqe','cmq']:record(exam+'/independent-start-review-retake',lambda e=exam:independence(e))
@@ -112,7 +122,11 @@ def main():
                         for bank in ['1','2','3','mix']:
                             choose(kind,bank)
                             geometry=page.evaluate("""()=>({width:innerWidth,document:document.documentElement.scrollWidth,
-                              overflow:[...document.querySelectorAll('.tb-modes,.tb-mode,.tb-quiz-set-choices')].filter(e=>e.scrollWidth>e.clientWidth+2).map(e=>e.className)})""")
+                              overflow:[...document.querySelectorAll('.tb-modes,.tb-mode,.tb-quiz-set-choices')].filter(e=>e.scrollWidth>e.clientWidth+2).map(e=>{
+                                const rect=e.getBoundingClientRect();return {cls:e.className,client:e.clientWidth,scroll:e.scrollWidth,rect:{x:rect.x,width:rect.width,right:rect.right},children:[...e.children].map(child=>{
+                                  const r=child.getBoundingClientRect(),s=getComputedStyle(child);return {cls:child.className,client:child.clientWidth,scroll:child.scrollWidth,x:r.x,width:r.width,right:r.right,transform:s.transform,boxSizing:s.boxSizing};
+                                })};
+                              })})""")
                             assert geometry['document']<=width+2 and not geometry['overflow'],geometry
                     choose('quick','2');choose('focus','3')
                     page.locator('.tb-modes').screenshot(path=str(out/f'set-controls-{width}-{theme}.png'))
