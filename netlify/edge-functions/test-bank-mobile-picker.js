@@ -1,6 +1,9 @@
 const SIMPLE_MODE_MARKUP = `
 <style id="tb-simple-mode-styles">
   [data-unseen],[data-missed],#tb-analytics,.tb-analytics,.tb-history,.tb-history-tab,[data-history],[data-analytics]{display:none!important}
+  /* Native WebKit menu text must not extend the review card's scroll area.
+     Complete observations remain available in the adjacent live readout. */
+  #tb-feedback-loop [class$="-inspector"] select{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 </style>
 <script id="tb-simple-mode-script">
 (function(){
