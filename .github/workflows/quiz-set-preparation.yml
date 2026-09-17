@@ -1,24 +1,26 @@
-name: Prepare quiz-set source
+name: Apply verified quiz-set changes
 on:
   push:
     branches: [feature/independent-quiz-set-selectors]
     paths: [.github/workflows/quiz-set-preparation.yml]
 permissions:
-  contents: read
+  contents: write
 jobs:
-  source:
+  apply:
+    if: github.ref == 'refs/heads/feature/independent-quiz-set-selectors'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - run: |
-          mkdir -p source-evidence
-          git rev-parse HEAD > source-evidence/source-sha.txt
-          git archive --format=tar.gz HEAD > source-evidence/source.tar.gz
-      - uses: actions/upload-artifact@v4
-        with:
-          name: quiz-set-source
-          path: source-evidence
-          retention-days: 3
+      - name: Apply exact, locally tested page changes
+        run: |
+          test "$(git hash-object test-bank.html)" = 5381ffb5b248fab041181f6fcc212e229ab3347a
+          python3 scripts/apply-quiz-set-selectors.py
+          test "$(git hash-object test-bank.html)" = 42452c4e7d952c6c9b2b1a07e04700d2075f83b3
+          git diff --check
+          git add test-bank.html
+          git rm scripts/apply-quiz-set-selectors.py
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Add independent Quick and Focused test-set controls and pin session source'
+          git push origin HEAD:feature/independent-quiz-set-selectors
