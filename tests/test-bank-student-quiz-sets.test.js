@@ -152,3 +152,48 @@ test('an empty focused area cannot launch an empty exam or silently use another 
     assert.deepEqual(h.errors,[]);
   } finally {await h.close();}
 });
+for (const [kind,setId,count,timed] of [['quick','2',30,true],['focus','3',10,false]]) {
+  test(`12 consecutive ${kind} retakes preserve the independent set, count, timing and clean answers`,async()=>{
+    const h=await harness(),{w}=h;
+    try {
+      const e=w.__TB.EXAMS.cssbb;
+      click(w,'[data-set="mix"]');
+      choose(w,'quick','2');choose(w,'focus','3');
+      click(w,`[data-count="${kind}"][data-n="${count}"]`);
+      click(w,`[data-timing-kind="${kind}"][data-timed="${timed?'1':'0'}"]`);
+      const domain=e.bok.find(d=>e.sets[3].filter(q=>d.subs.some(s=>s.id===q.sub)).length>=10).domain;
+      change(w,'[data-focusdom]',domain);
+      click(w,`[data-mode="${kind}"]`);
+      const ids=new Set();
+      let previous=null;
+      for(let cycle=0;cycle<=12;cycle++) {
+        const s=w.__TB.getFeedbackSnapshot();
+        assert.equal(ids.has(s.sessionId),false,'each retake has a new session ID');ids.add(s.sessionId);
+        assertPool(s,e,setId,kind==='focus'?domain:null);
+        assert.equal(s.records.length,count);
+        assert.equal(s.completed,false);
+        assert.ok(s.records.every(r=>r.selected===null&&!r.flagged),'no prior answers or flags leak');
+        assert.match(w.document.querySelector('.tb-quiztop .tb-diag-kick').textContent,
+          new RegExp(`${kind==='quick'?'Quick':'Focused'} Quiz · Set ${setId} · ${timed?'timed':'untimed'}`));
+        assert.equal(Boolean(w.document.querySelector('#tb-timer')),timed);
+        if(previous)assert.equal(JSON.stringify(previous.snapshot),previous.serialized,'the prior result stays immutable');
+        if(cycle===12)break;
+        click(w,`[data-opt="${s.records[0].question.answer}"]`);click(w,'[data-flag]');
+        submit(w);await tick(w);
+        assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet,setId);
+        const finished=w.__TB.getFeedbackSnapshot();
+        assert.equal(finished.completed,true);assert.equal(finished.grading.correct,1);
+        previous={snapshot:finished,serialized:JSON.stringify(finished)};
+        click(w,'[data-retake]');await tick(w);
+        assert.equal(w.document.querySelector('#tb-feedback-loop'),null);
+      }
+      assert.equal(ids.size,13);
+      click(w,'[data-backsim]');await tick(w);
+      assert.equal(chosen(w,'quick'),'2');assert.equal(chosen(w,'focus'),'3');
+      assert.equal(w.document.querySelector('[data-set].on').dataset.set,'mix');
+      assert.equal(w.document.querySelector('[data-focusdom]').value,domain);
+      assert.deepEqual([...Object.keys(w.localStorage),...Object.keys(w.sessionStorage)].filter(k=>/^(tb-|test-bank|upskill-test-bank)/i.test(k)),[]);
+      assert.deepEqual(h.errors,[]);
+    } finally {await h.close();}
+  });
+}
