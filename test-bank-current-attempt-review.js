@@ -18,8 +18,8 @@
   const activeExam = () => document.querySelector('.tb-tile.active[data-exam]')?.dataset.exam || '';
   const validKey = q => q && Array.isArray(q.options) && Number.isInteger(q.answer) && q.answer >= 0 && q.answer < q.options.length;
   function status(record) {
-    if (record.selected == null) return 'unanswered';
     if (!validKey(record.question)) return 'unavailable';
+    if (record.selected == null) return 'unanswered';
     return record.selected === record.question.answer ? 'correct' : 'incorrect';
   }
   function snapshot(value) {
@@ -97,8 +97,13 @@
         try { if (helper?.isQuestion?.(question) && helper.rationales) return safeHtml(helper.rationales(question)); } catch (_) { /* Use authored fields below. */ }
       }
     }
-    if (!question.distractors || typeof question.distractors !== 'object') return '';
-    const entries = Object.entries(question.distractors).filter(([i, text]) => Number.isInteger(Number(i)) && Number(i) >= 0 && Number(i) < question.options.length && Number(i) !== question.answer && typeof text === 'string' && text.trim());
+    // Both authored schema names are in the current banks. Resolve per option so
+    // a sparse modern field does not hide a valid legacy rationale.
+    const entries = question.options.map((_, i) => {
+      const text = [question.optionRationales?.[i], question.distractors?.[i]]
+        .find(value => typeof value === 'string' && value.trim());
+      return [i, text];
+    }).filter(([i, text]) => i !== question.answer && text);
     return entries.length ? '<details class="tb-review-rationales"><summary>Why the other options are incorrect</summary>' +
       entries.map(([i, text]) => `<p><strong>${String.fromCharCode(65 + Number(i))}.</strong> ${safeHtml(text)}</p>`).join('') + '</details>' : '';
   }
@@ -119,7 +124,10 @@
     if (!element) return;
     element.setAttribute('tabindex', '-1');
     element.focus({preventScroll: true});
-    if (scroll && element.scrollIntoView) element.scrollIntoView({block: 'start', behavior: 'auto'});
+    // Do not race a smooth scroll against the learner's next review action.
+    const header = document.querySelector('header.site');
+    element.style.scrollMarginTop = ((header?.getBoundingClientRect().height || 0) + 20) + 'px';
+    if (scroll && element.scrollIntoView) element.scrollIntoView({block: 'start', behavior: 'instant'});
   }
   function notify(root) { document.dispatchEvent(new CustomEvent('tb:review-rendered', {detail: {root}})); }
   function renderGrid(index) {
@@ -152,6 +160,44 @@
     retry = {items, index: 0, answers: [], checked: [], complete: false};
     renderRetry();
   }
+  function retryFeedback(question, selected) {
+    const correct = selected === question.answer;
+    return `<div class="tb-retry-feedback ${correct ? 'correct' : 'wrong'}" role="status"><strong>${correct ? 'Correct. You have corrected this question.' : 'Not quite. The correct answer is ' + esc(answer(question, question.answer)) + '.'}</strong></div>${explanation(question)}${reference(question)}`;
+  }
+  function retryActions(checked) {
+    return `${checked ? `<button type="button" class="btn btn-teal" data-retry-next>${retry.index === retry.items.length - 1 ? 'See correction results' : 'Next question'}</button>` : `<button type="button" class="btn btn-teal" data-retry-check${retry.answers[retry.index] == null ? ' disabled' : ''}>Check answer</button>`}<button type="button" class="tb-ghost" data-retry-return>Return to answer review</button>`;
+  }
+  function selectRetryOption(index) {
+    const question = retry.items[retry.index].question;
+    if (!Number.isInteger(index) || index < 0 || index >= question.options.length) return;
+    retry.answers[retry.index] = index;
+    const panel = document.getElementById('tb-retry-panel');
+    // Preserve the visual DOM: selecting an answer must not reset sliders,
+    // entered calculations, expanded data tables, or keyboard focus.
+    panel.querySelectorAll('[data-retry-opt]').forEach(button => {
+      const selected = Number(button.dataset.retryOpt) === index;
+      button.classList.toggle('selected', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+    panel.querySelector('[data-retry-check]').disabled = false;
+  }
+  function checkRetryAnswer() {
+    retry.checked[retry.index] = true;
+    const question = retry.items[retry.index].question;
+    const selected = retry.answers[retry.index];
+    const panel = document.getElementById('tb-retry-panel');
+    panel.querySelectorAll('[data-retry-opt]').forEach(button => {
+      const index = Number(button.dataset.retryOpt);
+      button.disabled = true;
+      button.classList.toggle('correct', index === question.answer);
+      button.classList.toggle('wrong', index === selected && index !== question.answer);
+    });
+    const feedback = panel.querySelector('.tb-retry-feedback-area');
+    feedback.innerHTML = retryFeedback(question, selected);
+    panel.querySelector('.tb-retry-actions').innerHTML = retryActions(true);
+    notify(feedback);
+    focus(feedback.querySelector('.tb-retry-feedback'));
+  }
   function renderRetry(focusSelector) {
     const panel = document.getElementById('tb-retry-panel');
     document.getElementById('tb-answer-review').hidden = true;
@@ -164,7 +210,7 @@
       const r = retry.items[retry.index], q = r.question, meta = topic(q);
       const selected = retry.answers[retry.index], checked = !!retry.checked[retry.index];
       const correct = selected === q.answer;
-      panel.innerHTML = `<div class="tb-retry-head"><div><div class="tb-diag-kick">Correction quiz</div><h3>Retry missed questions</h3></div><span>${retry.index + 1} of ${retry.items.length}</span></div><p class="tb-review-topic">Original question ${r.index + 1} &middot; ${esc(meta.domainName)} &rsaquo; ${esc(meta.subName)}</p>${content(q)}<div class="tb-retry-options">${q.options.map((opt, i) => `<button type="button" class="tb-retry-option${selected === i ? ' selected' : ''}${checked && i === q.answer ? ' correct' : ''}${checked && selected === i && !correct ? ' wrong' : ''}" data-retry-opt="${i}" aria-pressed="${selected === i}"${checked ? ' disabled' : ''}><span class="tb-answer-letter">${String.fromCharCode(65 + i)}</span><span>${esc(opt)}</span></button>`).join('')}</div>${checked ? `<div class="tb-retry-feedback ${correct ? 'correct' : 'wrong'}" role="status"><strong>${correct ? 'Correct. You have corrected this question.' : 'Not quite. The correct answer is ' + esc(answer(q, q.answer)) + '.'}</strong></div>${explanation(q)}${reference(q, meta)}` : ''}<div class="tb-retry-actions">${checked ? `<button type="button" class="btn btn-teal" data-retry-next>${retry.index === retry.items.length - 1 ? 'See correction results' : 'Next question'}</button>` : `<button type="button" class="btn btn-teal" data-retry-check${selected == null ? ' disabled' : ''}>Check answer</button>`}<button type="button" class="tb-ghost" data-retry-return>Return to answer review</button></div>`;
+      panel.innerHTML = `<div class="tb-retry-head"><div><div class="tb-diag-kick">Correction quiz</div><h3>Retry missed questions</h3></div><span>${retry.index + 1} of ${retry.items.length}</span></div><p class="tb-review-topic">Original question ${r.index + 1} &middot; ${esc(meta.domainName)} &rsaquo; ${esc(meta.subName)}</p>${content(q)}<div class="tb-retry-options">${q.options.map((opt, i) => `<button type="button" class="tb-retry-option${selected === i ? ' selected' : ''}${checked && i === q.answer ? ' correct' : ''}${checked && selected === i && !correct ? ' wrong' : ''}" data-retry-opt="${i}" aria-pressed="${selected === i}"${checked ? ' disabled' : ''}><span class="tb-answer-letter">${String.fromCharCode(65 + i)}</span><span>${esc(opt)}</span></button>`).join('')}</div><div class="tb-retry-feedback-area">${checked ? retryFeedback(q, selected) : ''}</div><div class="tb-retry-actions">${retryActions(checked)}</div>`;
     }
     notify(panel);
     const target = panel.querySelector(focusSelector || 'h3');
@@ -220,9 +266,9 @@
     else if (button.hasAttribute('data-retry-remaining')) startRetry(true);
     else if (retry && !retry.complete) {
       if (button.dataset.retryOpt != null && !retry.checked[retry.index]) {
-        retry.answers[retry.index] = Number(button.dataset.retryOpt); renderRetry(`[data-retry-opt="${button.dataset.retryOpt}"]`);
+        selectRetryOption(Number(button.dataset.retryOpt));
       } else if (button.hasAttribute('data-retry-check') && retry.answers[retry.index] != null && !retry.checked[retry.index]) {
-        retry.checked[retry.index] = true; renderRetry('[data-retry-next]');
+        checkRetryAnswer();
       } else if (button.hasAttribute('data-retry-next') && retry.checked[retry.index]) {
         retry.index++; retry.complete = retry.index >= retry.items.length; renderRetry();
       }
