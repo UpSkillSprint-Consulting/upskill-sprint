@@ -9,6 +9,9 @@
   let retry = null;
   let wasQuiz = false;
   let scheduled = false;
+  let frame = null;
+  let observer = null;
+  let disposed = false;
   const labels = {correct: 'Correct', incorrect: 'Incorrect', unanswered: 'Unanswered', unavailable: 'Review required'};
   const glyphs = {correct: '\u2713', incorrect: '\u2717', unanswered: '\u2013', unavailable: '?'};
   const esc = value => String(value == null ? '' : value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -45,6 +48,7 @@
   }
   function reset() { candidate = completed = retry = null; }
   function safeHref(value) {
+    if (typeof value !== 'string' || !value.trim()) return '';
     try {
       const url = new URL(value, window.location.href);
       return ['http:', 'https:'].includes(url.protocol) && !url.username && !url.password ? url.href : '';
@@ -176,14 +180,15 @@
   }
   function synchronize() {
     scheduled = false;
+    frame = null;
+    if (disposed) return;
     const overview = document.getElementById('tb-overview');
     const quiz = overview?.querySelector('.tb-quiz');
     const head = overview?.querySelector('.tb-reshead') || overview?.querySelector('[data-score-result]');
-    const engineSnapshot = readSnapshot();
-    if (quiz && !(head && engineSnapshot?.completed)) {
+    // Capture only on submission/completion, not on timer ticks or review rendering.
+    if (quiz && !head) {
       if (!wasQuiz) reset();
       wasQuiz = true;
-      if (engineSnapshot) candidate = engineSnapshot;
       return;
     }
     wasQuiz = false;
@@ -196,7 +201,7 @@
     if (!overview.querySelector('#' + ID)) mount(head);
   }
   function schedule() {
-    if (!scheduled) { scheduled = true; window.requestAnimationFrame(synchronize); }
+    if (!disposed && !scheduled) { scheduled = true; frame = window.requestAnimationFrame(synchronize); }
   }
   function onClick(event) {
     const button = event.target.closest?.('button, a, [data-exam]');
@@ -241,17 +246,30 @@ html[data-theme="dark"] #tb-feedback-loop{--review-good:#6ee7b7;--review-bad:#fc
 `;
     document.head.appendChild(style);
   }
-  window.__TBCurrentAttemptReview = Object.freeze({version: 1});
+  function onCompleted(event) {
+    const current = snapshot(event.detail);
+    if (!disposed && current && (!activeExam() || current.examId === activeExam())) { candidate = current; schedule(); }
+  }
+  function destroy() {
+    disposed = true;
+    observer?.disconnect();
+    if (frame != null) window.cancelAnimationFrame(frame);
+    frame = null;
+    scheduled = false;
+    document.removeEventListener('DOMContentLoaded', initialize);
+    document.removeEventListener('click', onClick, true);
+    document.removeEventListener('tb:attempt-completed', onCompleted);
+    reset();
+  }
+  window.__TBCurrentAttemptReview = Object.freeze({version: 1, destroy});
   // Content-only question renderers use these presentation helpers; no legacy services are restored.
   window.__TBFeedbackPresentation = Object.freeze({referenceHtml: reference, scrollTo: focus});
   function initialize() {
+    if (disposed) return;
     installStyles();
     document.addEventListener('click', onClick, true);
-    document.addEventListener('tb:attempt-completed', event => {
-      const current = snapshot(event.detail);
-      if (current && (!activeExam() || current.examId === activeExam())) { candidate = current; schedule(); }
-    });
-    const observer = new MutationObserver(schedule);
+    document.addEventListener('tb:attempt-completed', onCompleted);
+    observer = new MutationObserver(schedule);
     observer.observe(document.getElementById('test-bank-app') || document.body, {childList: true, subtree: true});
     synchronize();
   }
