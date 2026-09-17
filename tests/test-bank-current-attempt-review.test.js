@@ -11,7 +11,6 @@ async function harness() {
     next: async () => new Response(read('test-bank.html'), {headers: {'content-type': 'text/html'}})
   });
   let html = await response.text();
-  // Exercise delivered question-content scripts, not a mock bank or engine.
   html = html.replace(/<script\b[^>]*src=["'](\/test-bank-[^"'?]+\.js)(?:\?[^"']*)?["'][^>]*>\s*<\/script>/gi, (tag, src) => {
     return '<script>' + read(src.slice(1)).replace(/<\/script/gi, '<\\/script') + '</script>';
   });
@@ -28,7 +27,7 @@ async function harness() {
   const w = dom.window;
   if (w.document.readyState !== 'complete') await new Promise(resolve => w.addEventListener('load', resolve, {once: true}));
   await tick(w);
-  return {w, errors, close: () => w.close()};
+  return {w, errors, close: async () => { await tick(w); w.close(); }};
 }
 function start(w, exam, mode) {
   w.document.querySelector(`.tb-tile[data-exam="${exam}"]`).click();
@@ -50,9 +49,14 @@ function select(w, index, option) {
   w.document.querySelector(`[data-goto="${index}"]`).click();
   w.document.querySelector(`[data-opt="${option}"]`).click();
 }
-async function finish(w) {
+function submit(w) {
+  // The native player offers See results on its last question.
+  const last = w.__TB.getFeedbackSnapshot().records.length - 1;
+  w.document.querySelector(`[data-goto="${last}"]`).click();
   w.document.querySelector('[data-submit]').click();
-  await tick(w);
+}
+async function finish(w) {
+  submit(w); await tick(w);
   assert.ok(w.document.querySelector('[data-score-result], .tb-reshead'));
   assert.equal(w.document.querySelectorAll('#tb-feedback-loop').length, 1, 'exactly one review panel');
 }
@@ -62,62 +66,67 @@ function click(w, selector) {
   el.click();
 }
 function score(w) { return w.document.querySelector('[data-score-result], .tb-reshead').textContent; }
-const certifications = ['cssbb','cssgb','cssyb','mbb','cmqoe','cqe'];
-for (const exam of certifications) for (const mode of ['full','quick','focused']) {
-  test(`post-exam review and correction: ${exam}/${mode}`, async () => {
-    const h = await harness(), {w} = h;
-    try {
-      const before = start(w, exam, mode);
-      const total = before.records.length;
-      // Leave two incorrect and one unanswered, regardless of the native exam size.
-      for (let i = 0; i < total - 1; i++) {
-        const q = before.records[i].question;
-        select(w, i, i < total - 3 ? q.answer : (q.answer + 1) % q.options.length);
-      }
-      await finish(w);
-      const originalScore = score(w);
-      click(w, '[data-open-review="all"]');
-      assert.equal(w.document.querySelectorAll('.tb-review-card').length, total);
-      assert.equal(w.document.querySelectorAll('.tb-review-navcell').length, total);
-      assert.equal(w.document.querySelectorAll('.tb-review-card[data-review-status="correct"]').length, total - 3);
-      assert.equal(w.document.querySelectorAll('.tb-review-card[data-review-status="incorrect"]').length, 2);
-      assert.equal(w.document.querySelectorAll('.tb-review-card[data-review-status="unanswered"]').length, 1);
-      for (const [filter, count] of [['missed',3],['incorrect',2],['unanswered',1],['correct',total - 3],['flagged',0]]) {
-        click(w, `[data-review-tab="${filter}"]`);
-        assert.equal(w.document.querySelectorAll('.tb-review-card').length, count);
-      }
-      click(w, `[data-review-goto="${total - 1}"]`);
-      assert.equal(w.document.querySelectorAll('.tb-review-card').length, 1);
-      assert.match(w.document.querySelector('.tb-answer-compare').textContent, /Not answered/);
-      assert.equal(w.document.querySelector(`[data-review-goto="${total - 1}"]`).getAttribute('aria-current'), 'true');
-      click(w, '[data-retry-missed]');
-      assert.equal(w.document.querySelector('[data-retry-check]').disabled, true);
-      assert.equal(w.document.querySelector('.tb-retry-feedback'), null, 'answers hidden until checked');
-      const missed = before.records.slice(-3);
-      for (let i = 0; i < missed.length; i++) {
-        const q = missed[i].question;
-        click(w, `[data-retry-opt="${i === 0 ? (q.answer + 1) % q.options.length : q.answer}"]`);
-        click(w, '[data-retry-check]');
-        assert.ok(w.document.querySelector('.tb-retry-feedback'));
-        assert.ok([...w.document.querySelectorAll('[data-retry-opt]')].every(b => b.disabled));
-        click(w, '[data-retry-next]');
-      }
-      assert.match(w.document.querySelector('.tb-correction-count').textContent, /2 of 3/);
-      click(w, '[data-retry-remaining]');
-      assert.match(w.document.querySelector('.tb-retry-head').textContent, /1 of 1/);
-      click(w, `[data-retry-opt="${missed[0].question.answer}"]`);
-      click(w, '[data-retry-check]'); click(w, '[data-retry-next]');
-      assert.match(w.document.querySelector('#tb-retry-panel h3').textContent, /All missed questions corrected/);
-      assert.equal(w.document.querySelector('[data-retry-remaining]'), null);
-      assert.equal(score(w), originalScore, 'corrections never change the original exam result');
-      click(w, '[data-retry-return]');
-      assert.equal(w.document.querySelectorAll('.tb-review-card').length, 3, 'review retains original answers');
-      click(w, '[data-back]'); await tick(w);
-      assert.equal(w.document.querySelector('#tb-feedback-loop'), null);
-      assert.deepEqual(h.errors, []);
-    } finally { h.close(); }
-  });
-}
+test('all delivered certifications support review and correction in every mode', async parent => {
+  const catalog = await harness();
+  const certifications = [...catalog.w.document.querySelectorAll('.tb-tile[data-exam]')].map(el => ({id: el.dataset.exam, name: el.textContent.trim().replace(/\s+/g, ' ')}));
+  console.log('Delivered certification catalog:', JSON.stringify(certifications));
+  assert.ok(certifications.length > 0);
+  await catalog.close();
+  for (const {id: exam} of certifications) for (const mode of ['full','quick','focused']) {
+    await parent.test(`${exam}/${mode}`, async () => {
+      const h = await harness(), {w} = h;
+      try {
+        const before = start(w, exam, mode);
+        const total = before.records.length;
+        for (let i = 0; i < total - 1; i++) {
+          const q = before.records[i].question;
+          select(w, i, i < total - 3 ? q.answer : (q.answer + 1) % q.options.length);
+        }
+        await finish(w);
+        const originalScore = score(w);
+        click(w, '[data-open-review="all"]');
+        assert.equal(w.document.querySelectorAll('.tb-review-card').length, total);
+        assert.equal(w.document.querySelectorAll('.tb-review-navcell').length, total);
+        assert.equal(w.document.querySelectorAll('.tb-review-card[data-review-status="correct"]').length, total - 3);
+        assert.equal(w.document.querySelectorAll('.tb-review-card[data-review-status="incorrect"]').length, 2);
+        assert.equal(w.document.querySelectorAll('.tb-review-card[data-review-status="unanswered"]').length, 1);
+        for (const [filter, count] of [['missed',3],['incorrect',2],['unanswered',1],['correct',total - 3],['flagged',0]]) {
+          click(w, `[data-review-tab="${filter}"]`);
+          assert.equal(w.document.querySelectorAll('.tb-review-card').length, count);
+        }
+        click(w, `[data-review-goto="${total - 1}"]`);
+        assert.equal(w.document.querySelectorAll('.tb-review-card').length, 1);
+        assert.match(w.document.querySelector('.tb-answer-compare').textContent, /Not answered/);
+        assert.equal(w.document.querySelector(`[data-review-goto="${total - 1}"]`).getAttribute('aria-current'), 'true');
+        click(w, '[data-retry-missed]');
+        assert.equal(w.document.querySelector('[data-retry-check]').disabled, true);
+        assert.equal(w.document.querySelector('.tb-retry-feedback'), null);
+        const missed = before.records.slice(-3);
+        for (let i = 0; i < missed.length; i++) {
+          const q = missed[i].question;
+          click(w, `[data-retry-opt="${i === 0 ? (q.answer + 1) % q.options.length : q.answer}"]`);
+          click(w, '[data-retry-check]');
+          assert.ok(w.document.querySelector('.tb-retry-feedback'));
+          assert.ok([...w.document.querySelectorAll('[data-retry-opt]')].every(b => b.disabled));
+          click(w, '[data-retry-next]');
+        }
+        assert.match(w.document.querySelector('.tb-correction-count').textContent, /2 of 3/);
+        click(w, '[data-retry-remaining]');
+        assert.match(w.document.querySelector('.tb-retry-head').textContent, /1 of 1/);
+        click(w, `[data-retry-opt="${missed[0].question.answer}"]`);
+        click(w, '[data-retry-check]'); click(w, '[data-retry-next]');
+        assert.match(w.document.querySelector('#tb-retry-panel h3').textContent, /All missed questions corrected/);
+        assert.equal(w.document.querySelector('[data-retry-remaining]'), null);
+        assert.equal(score(w), originalScore, 'correction must not change the original result');
+        click(w, '[data-retry-return]');
+        assert.equal(w.document.querySelectorAll('.tb-review-card').length, 3);
+        click(w, '[data-back]'); await tick(w);
+        assert.equal(w.document.querySelector('#tb-feedback-loop'), null);
+        assert.deepEqual(h.errors, []);
+      } finally { await h.close(); }
+    });
+  }
+});
 test('perfect, unanswered, retake and certification changes cannot reuse a previous review', async () => {
   const h = await harness(), {w} = h;
   try {
@@ -136,9 +145,9 @@ test('perfect, unanswered, retake and certification changes cannot reuse a previ
     assert.equal(w.document.querySelectorAll('.tb-review-card').length, data.records.length);
     assert.ok(w.document.querySelector('.tb-review-card').textContent.includes(data.records[0].question.options[data.records[0].question.answer]));
     assert.deepEqual(h.errors, []);
-  } finally { h.close(); }
+  } finally { await h.close(); }
 });
-test('snapshot completion supports flags, visual renderers, safe explanations and independent copies', async () => {
+test('completion snapshots support flags, visuals, safe explanations and independent copies', async () => {
   const h = await harness(), {w} = h;
   try {
     const data = start(w, 'mbb', 'quick');
@@ -147,7 +156,7 @@ test('snapshot completion supports flags, visual renderers, safe explanations an
     data.records[0].question.why = '<b>Authored explanation</b><img src="javascript:bad" onerror="bad()"><script>bad()</script>';
     const originalRenderer = w.__TB.renderQuestionContent;
     w.__TB.renderQuestionContent = q => '<figure data-test-visual><svg role="img"></svg></figure><div class="tb-review-stem">' + q.stem + '</div>';
-    w.document.querySelector('[data-submit]').click();
+    submit(w);
     w.document.dispatchEvent(new w.CustomEvent('tb:attempt-completed', {detail: data}));
     data.records[0].flagged = false;
     await tick(w);
@@ -157,19 +166,16 @@ test('snapshot completion supports flags, visual renderers, safe explanations an
     assert.ok(w.document.querySelector('.tb-explanation b'));
     assert.equal(w.document.querySelector('.tb-explanation script, .tb-explanation [onerror], .tb-explanation [src^="javascript:"]'), null);
     const link = w.document.querySelector('.tb-review-lesson');
-    assert.equal(link.target, '_blank');
-    assert.match(link.rel, /noopener/);
+    assert.equal(link.target, '_blank'); assert.match(link.rel, /noopener/);
     w.__TB.renderQuestionContent = originalRenderer;
     w.eval(read('test-bank-current-attempt-review.js')); await tick(w);
-    assert.equal(w.document.querySelectorAll('#tb-feedback-loop').length, 1, 'initialization is idempotent');
+    assert.equal(w.document.querySelectorAll('#tb-feedback-loop').length, 1);
     assert.deepEqual(h.errors, []);
-  } finally { h.close(); }
+  } finally { await h.close(); }
 });
 test('review is memory-only and the deployed edge injects it exactly once', async () => {
-  const source = read('test-bank-current-attempt-review.js');
-  assert.doesNotMatch(source, /localStorage|sessionStorage|indexedDB|sendBeacon|\bfetch\s*\(|\.rpc\s*\(|__TBVersions/);
-  const edgeSource = read('netlify/edge-functions/test-bank-mobile-picker.js');
-  const edge = await import('data:text/javascript;base64,' + Buffer.from(edgeSource).toString('base64'));
+  assert.doesNotMatch(read('test-bank-current-attempt-review.js'), /localStorage|sessionStorage|indexedDB|sendBeacon|\bfetch\s*\(|\.rpc\s*\(|__TBVersions/);
+  const edge = await import('data:text/javascript;base64,' + Buffer.from(read('netlify/edge-functions/test-bank-mobile-picker.js')).toString('base64'));
   const input = '<html><head></head><body><script src="/test-bank-account-sync.js"></script><script src="/test-bank-cssgb-set-1.js"></script></body></html>';
   const run = html => edge.default(new Request('https://upskillsprint.com/test-bank'), {next: async () => new Response(html, {headers: {'content-type':'text/html'}})});
   const first = await (await run(input)).text();
