@@ -80,6 +80,11 @@ def main():
             if page.viewport_size['width']<=860:page.locator('#tb-mobile-cert-select').select_option(exam)
             else:page.locator(f'.tb-tile[data-exam="{exam}"]').click()
         def start(exam,bank,mode,timed):
+            # The real results layout hides the certification rail. Return through
+            # its native Back control before choosing the next independent case.
+            back=page.locator('[data-back]')
+            if back.count():back.click()
+            elif page.locator('[data-backsim]').count():page.locator('[data-backsim]').click()
             select_exam(exam)
             sets=page.locator(f'[data-set="{bank}"]')
             if sets.count():sets.click()
@@ -163,7 +168,8 @@ def main():
             expect(page.locator('.tb-review-rationales')).to_have_count(1)
             page.locator('.tb-review-rationales summary').focus();page.keyboard.press('Enter')
             expect(page.locator('.tb-review-rationales')).to_have_attribute('open','')
-            for i,text in q['optionRationales'].items():
+            authored=q['optionRationales']
+            for i,text in (enumerate(authored) if isinstance(authored,list) else authored.items()):
                 if int(i)!=q['answer']:assert text in page.locator('.tb-review-rationales').text_content()
             no_overflow();page.screenshot(path=str(out/'interactive-mobile.png'))
         record('interactive-slider-and-authored-rationales',interactive)
