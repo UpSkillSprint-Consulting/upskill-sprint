@@ -1,0 +1,37 @@
+name: Student browser assessment
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'test-bank*.js'
+      - 'test-bank.html'
+      - 'netlify/edge-functions/test-bank-mobile-picker.js'
+      - 'scripts/student-review-*'
+      - '.github/workflows/test-bank-student-audit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  student-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Package exact source for isolated browser assessment
+        run: |
+          mkdir -p student-audit-evidence
+          git rev-parse HEAD > student-audit-evidence/source-sha.txt
+          git archive --format=tar.gz HEAD > student-audit-evidence/source.tar.gz
+          tar -czf student-audit-evidence/test-dependencies.tar.gz node_modules
+      - uses: actions/upload-artifact@v4
+        with:
+          name: student-audit-source
+          path: student-audit-evidence
+          retention-days: 3
