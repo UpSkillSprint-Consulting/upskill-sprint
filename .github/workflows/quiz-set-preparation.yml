@@ -1,0 +1,24 @@
+name: Prepare quiz-set source
+on:
+  push:
+    branches: [feature/independent-quiz-set-selectors]
+    paths: [.github/workflows/quiz-set-preparation.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - run: |
+          mkdir -p source-evidence
+          git rev-parse HEAD > source-evidence/source-sha.txt
+          git archive --format=tar.gz HEAD > source-evidence/source.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: quiz-set-source
+          path: source-evidence
+          retention-days: 3
