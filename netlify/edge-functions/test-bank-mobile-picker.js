@@ -1,9 +1,14 @@
 const SIMPLE_MODE_MARKUP = `
 <style id="tb-simple-mode-styles">
   [data-unseen],[data-missed],#tb-analytics,.tb-analytics,.tb-history,.tb-history-tab,[data-history],[data-analytics]{display:none!important}
-  /* Native WebKit menu text must not extend the review card's scroll area.
-     Complete observations remain available in the adjacent live readout. */
-  #tb-feedback-loop [class$="-inspector"] select{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  /* Normalize the collapsed native menu; full observations remain in the live
+     readout below. Plot and data-table scrolling are deliberately unchanged. */
+  #tb-feedback-loop [class$="-inspector"] select{
+    appearance:none;-webkit-appearance:none;display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:32px;
+    background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);
+    background-position:calc(100% - 16px) 50%,calc(100% - 11px) 50%;background-size:5px 5px,5px 5px;background-repeat:no-repeat;
+  }
 </style>
 <script id="tb-simple-mode-script">
 (function(){
