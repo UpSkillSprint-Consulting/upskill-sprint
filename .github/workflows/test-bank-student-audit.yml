@@ -8,7 +8,7 @@ on:
       - 'test-bank.html'
       - 'netlify/edge-functions/test-bank-mobile-picker.js'
       - 'scripts/student-review-*'
-      - 'tests/test-bank-student-corrections.test.js'
+      - 'tests/test-bank-student-*.test.js'
       - '.github/workflows/test-bank-student-audit.yml'
 
 permissions:
@@ -37,7 +37,7 @@ jobs:
           python-version: '3.12'
       - run: npm ci
       - name: Test corrective actions
-        run: node --test tests/test-bank-student-corrections.test.js
+        run: node --test tests/test-bank-student-*.test.js
       - name: Install browser test dependencies
         run: |
           python -m pip install playwright==1.57.0
@@ -52,6 +52,7 @@ jobs:
           trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
           for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8765/test-bank -o /dev/null && break || sleep 1; done
           set -o pipefail
+          python -u scripts/student-review-storage.py --browser ${{ matrix.browser }} 2>&1 | tee student-audit-evidence/storage.log
           python -u scripts/student-review-browser.py --browser ${{ matrix.browser }} 2>&1 | tee student-audit-evidence/browser.log
       - name: Upload student assessment evidence
         if: always()
