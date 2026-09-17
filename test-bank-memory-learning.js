@@ -22,30 +22,36 @@
     } catch (_) {}
   }
 
-  function blockExamStorage(storage) {
-    if (!storage) return;
-    try {
-      const originalGet = storage.getItem.bind(storage);
-      const originalSet = storage.setItem.bind(storage);
-      const originalRemove = storage.removeItem.bind(storage);
-      storage.getItem = function (key) {
-        return isExamStorageKey(key) ? null : originalGet(key);
-      };
-      storage.setItem = function (key, value) {
-        if (isExamStorageKey(key)) return;
-        return originalSet(key, value);
-      };
-      storage.removeItem = function (key) {
-        if (isExamStorageKey(key)) return;
-        return originalRemove(key);
-      };
-    } catch (_) {}
+  function accessibleStorage(name) {
+    try { return window[name]; } catch (_) { return null; }
   }
 
-  clearOldExamStorage(window.localStorage);
-  clearOldExamStorage(window.sessionStorage);
-  blockExamStorage(window.localStorage);
-  blockExamStorage(window.sessionStorage);
+  function blockExamStorage() {
+    // Storage objects use named-property setters. Assigning storage.setItem can
+    // create a stored string instead of overriding the method in WebKit.
+    // Intercept the methods on the shared prototype, and preserve their native
+    // receiver and behaviour for every non-exam key (including account/theme).
+    const prototype = window.Storage && window.Storage.prototype;
+    if (!prototype) return;
+    const get = prototype.getItem;
+    const set = prototype.setItem;
+    const remove = prototype.removeItem;
+    Object.defineProperties(prototype, {
+      getItem: {configurable: true, writable: true, value: function (key) {
+        return isExamStorageKey(key) ? null : get.call(this, key);
+      }},
+      setItem: {configurable: true, writable: true, value: function (key, value) {
+        if (!isExamStorageKey(key)) return set.call(this, key, value);
+      }},
+      removeItem: {configurable: true, writable: true, value: function (key) {
+        return remove.call(this, key);
+      }}
+    });
+  }
+
+  clearOldExamStorage(accessibleStorage('localStorage'));
+  clearOldExamStorage(accessibleStorage('sessionStorage'));
+  blockExamStorage();
 
   function clone(value) {
     if (value == null) return value;

@@ -1,6 +1,14 @@
 const SIMPLE_MODE_MARKUP = `
 <style id="tb-simple-mode-styles">
   [data-unseen],[data-missed],#tb-analytics,.tb-analytics,.tb-history,.tb-history-tab,[data-history],[data-analytics]{display:none!important}
+  /* Normalize the collapsed native menu; full observations remain in the live
+     readout below. Plot and data-table scrolling are deliberately unchanged. */
+  #tb-feedback-loop [class$="-inspector"] select{
+    appearance:none;-webkit-appearance:none;display:block;width:100%;min-width:0;max-width:100%;box-sizing:border-box;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:32px;
+    background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);
+    background-position:calc(100% - 16px) 50%,calc(100% - 11px) 50%;background-size:5px 5px,5px 5px;background-repeat:no-repeat;
+  }
 </style>
 <script id="tb-simple-mode-script">
 (function(){
@@ -66,6 +74,7 @@ function normalizedPath(source) {
 
 function keepTestBankScript(source) {
   const path = normalizedPath(source);
+  if (path === '/test-bank-current-attempt-review.js') return true;
   if (path === '/test-bank-memory-learning.js' || path === '/test-bank-formulas.js' || path === '/test-bank-tables.js') return true;
   return /^\/test-bank-(?:cmq|cssgb|cssbb|cqe|mbb)(?:-|\.).*\.js$/i.test(path);
 }
@@ -93,6 +102,10 @@ export default async function handler(_request, context) {
   html = injectMemoryRuntime(html);
   if (!html.includes('tb-simple-mode-script')) html = html.replace('</body>', `${SIMPLE_MODE_MARKUP}\n</body>`);
   if (!html.includes('tb-mobile-certification-picker-script')) html = html.replace('</body>', `${MOBILE_PICKER_MARKUP}\n</body>`);
+  // Current-attempt feedback is independent of the removed persistence/analytics stack.
+  if (!/<script\b[^>]*src=["']\/test-bank-current-attempt-review\.js(?:\?[^"']*)?["']/i.test(html)) {
+    html = html.replace('</body>', '<script src="/test-bank-current-attempt-review.js" defer></script>\n</body>');
+  }
 
   const headers = new Headers(response.headers);
   headers.delete('content-length');
