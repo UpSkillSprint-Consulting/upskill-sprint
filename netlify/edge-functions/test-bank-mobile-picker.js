@@ -66,6 +66,7 @@ function normalizedPath(source) {
 
 function keepTestBankScript(source) {
   const path = normalizedPath(source);
+  if (path === '/test-bank-current-attempt-review.js') return true;
   if (path === '/test-bank-memory-learning.js' || path === '/test-bank-formulas.js' || path === '/test-bank-tables.js') return true;
   return /^\/test-bank-(?:cmq|cssgb|cssbb|cqe|mbb)(?:-|\.).*\.js$/i.test(path);
 }
@@ -93,6 +94,10 @@ export default async function handler(_request, context) {
   html = injectMemoryRuntime(html);
   if (!html.includes('tb-simple-mode-script')) html = html.replace('</body>', `${SIMPLE_MODE_MARKUP}\n</body>`);
   if (!html.includes('tb-mobile-certification-picker-script')) html = html.replace('</body>', `${MOBILE_PICKER_MARKUP}\n</body>`);
+  // Current-attempt feedback is independent of the removed persistence/analytics stack.
+  if (!/<script\b[^>]*src=["']\/test-bank-current-attempt-review\.js(?:\?[^"']*)?["']/i.test(html)) {
+    html = html.replace('</body>', '<script src="/test-bank-current-attempt-review.js" defer></script>\n</body>');
+  }
 
   const headers = new Headers(response.headers);
   headers.delete('content-length');
