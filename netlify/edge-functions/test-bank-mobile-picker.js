@@ -33,6 +33,12 @@ const MOBILE_PICKER_MARKUP = `
 <style id="tb-mobile-certification-picker-styles">
   .tb-mobile-cert-picker{display:none}
   @media (max-width:860px){
+    /* Constrain intrinsic grid/flex widths; do not hide overflowing controls. */
+    .tb-modes{grid-template-columns:minmax(0,1fr)}
+    .tb-mode{min-width:0;max-width:100%}
+    .tb-mode-head>div{min-width:0;overflow-wrap:anywhere}
+    .tb-fieldrow-value{max-width:100%}
+    .tb-timing-choice{flex-wrap:wrap}
     .tb-shell,.tb-main,.tb-rail,.tb-pane{min-width:0;max-width:100%}
     .tb-rail{width:100%;overflow:visible}
     .tb-groups{display:none!important}
