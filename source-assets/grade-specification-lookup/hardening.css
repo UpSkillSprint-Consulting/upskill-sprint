@@ -1,0 +1,12 @@
+.data-integrity-banner,.edition-alert{border:1px solid #d6a744;border-left:5px solid var(--amber,#d97706);border-radius:12px;background:rgba(217,119,6,.1);padding:14px 16px;color:var(--text);line-height:1.5}
+.data-integrity-banner{margin:0 0 16px}.edition-alert{margin:0 0 16px}.data-integrity-banner strong,.edition-alert strong{color:var(--amber,#d97706)}
+.data-integrity-banner a,.edition-alert a{color:var(--teal,#11b8bd);font-weight:700}
+.coverage-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:14px 0}.coverage-summary div{border:1px solid var(--line);border-radius:10px;background:var(--panel2);padding:10px}.coverage-summary span{display:block;color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}.coverage-summary strong{display:block;margin-top:3px;font-size:1.15rem}
+.missing-inputs,.input-errors{margin:12px 0;border:1px solid var(--line);border-radius:10px;padding:12px 14px}.missing-inputs{background:rgba(217,119,6,.08);border-color:#d6a744}.input-errors{background:rgba(220,38,38,.08);border-color:#dc2626}.missing-inputs h4,.input-errors h4{margin:0 0 8px}.missing-inputs ul,.input-errors ul{margin:0;padding-left:20px}
+.verdict.incomplete,.status-pill.incomplete,.status.incomplete{background:#8a5a00;color:#fff}.verdict.invalid-input,.status-pill.invalid-input,.status.invalid{background:#9f1239;color:#fff}
+.status-pill.incomplete,.status-pill.invalid-input{display:inline-block;border-radius:999px;padding:3px 8px;font-weight:800;font-size:.75rem}.verdict.incomplete small,.verdict.invalid-input small{display:block}
+.data-status-cell{min-width:120px}.form-filter-note{margin:10px 0 0;color:var(--muted);font-size:.9rem}.estimate-only{color:var(--amber,#d97706);font-weight:700}
+.p2-card .field-note{margin:8px 0 0;color:var(--muted);font-size:.88rem}
+.grade-data-status{margin-bottom:16px}
+html[data-theme="light"] .data-integrity-banner,html[data-theme="light"] .edition-alert{background:#fff8e7;color:#5b4200}
+@media(max-width:680px){.coverage-summary{grid-template-columns:1fr}.data-integrity-banner,.edition-alert{padding:12px}}

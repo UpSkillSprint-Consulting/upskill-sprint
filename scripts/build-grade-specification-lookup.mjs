@@ -1,13 +1,18 @@
 import { createHash } from 'node:crypto';
+import { tmpdir } from 'node:os';
 import { brotliDecompressSync, gunzipSync } from 'node:zlib';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = resolve(scriptDirectory, '..');
 const sourceDirectory = join(repositoryRoot, 'source-assets', 'grade-specification-lookup');
-const outputDirectory = join(repositoryRoot, 'engineering-tools', 'grade-specification-lookup');
+const temporaryOutput = process.env.GRADE_SPEC_OUTPUT_DIRECTORY && resolve(process.env.GRADE_SPEC_OUTPUT_DIRECTORY);
+if (temporaryOutput && !temporaryOutput.startsWith(`${resolve(tmpdir())}${sep}`)) {
+  throw new Error('GRADE_SPEC_OUTPUT_DIRECTORY is restricted to a child of the system temporary directory.');
+}
+const outputDirectory = temporaryOutput || join(repositoryRoot, 'engineering-tools', 'grade-specification-lookup');
 const guideDirectory = join(outputDirectory, 'how-to-use');
 
 const sources = {
@@ -43,6 +48,7 @@ const integrationHead = `
 .uss-skip-link{position:absolute;left:-9999px;top:0;z-index:1000;padding:10px 14px;border-radius:0 0 8px 0;background:#0b2545;color:#fff;font-family:'Work Sans',Arial,sans-serif;font-weight:700;text-decoration:none}.uss-skip-link:focus{left:0}
 header.site.grade-sitebar{position:sticky;top:0;z-index:120;padding:12px 22px;font-family:'Work Sans',Arial,sans-serif}.grade-sitebar .brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none}.grade-sitebar .brand img{width:36px;height:36px;object-fit:contain}.grade-sitebar .brand span{font-family:'Source Serif 4',Georgia,serif;font-size:17px;font-weight:700;letter-spacing:0;text-transform:none}.grade-sitebar .desktop-nav a,.mobile-nav a{font-family:'Work Sans',Arial,sans-serif}.grade-sitebar .header-actions{display:flex;align-items:center;gap:10px}.grade-spec-tool-page .top-shell{top:68px;z-index:110}.grade-spec-guide-page .topbar{top:68px;z-index:110}
 .uss-tool-back{max-width:1500px;margin:12px auto 0;padding:0 22px 34px}.uss-tool-back a{display:inline-flex;align-items:center;min-height:42px;padding:10px 15px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--text);font-family:'Work Sans',Arial,sans-serif;font-weight:700;text-decoration:none}.uss-tool-back a:hover{border-color:var(--teal);color:var(--teal)}
+.grade-spec-guide-page .status.incomplete{background:#8a5a00;color:#fff}.grade-spec-guide-page .status.invalid{background:#9f1239;color:#fff}
 .grade-spec-tool-page .brand-row>.brand{display:block}.grade-spec-tool-page .top-actions{align-items:center}.grade-spec-tool-page .top-actions .site-companion{border-color:#5c7898}.grade-spec-tool-page .top-actions .site-companion:hover{border-color:var(--teal)}
 html[data-theme="light"]{--bg:#f3f7fb;--panel:#fff;--panel2:#eef4fa;--line:#cbd8e6;--text:#172033;--muted:#5e6b7f;--white:#172033;--shadow:0 14px 34px rgba(15,42,67,.12)}
 html[data-theme="light"] body.grade-spec-tool-page,html[data-theme="light"] body.grade-spec-guide-page{background:radial-gradient(circle at 20% 0,#dcecf8 0,transparent 34%),var(--bg);color:var(--text)}html[data-theme="light"] .top-shell,html[data-theme="light"] .topbar{background:rgba(255,255,255,.96);border-color:var(--line);box-shadow:0 8px 24px rgba(15,42,67,.10)}
@@ -90,8 +96,28 @@ const authHead = `
 <script src="/auth.js"></script>
 <script src="/access-control.js"></script>\n<script src="/require-auth.js"></script>`;
 
-function prepareApplication(originalHtml) {
-  return renameTool(originalHtml)
+function replaceRequired(value, search, replacement, label) {
+  if (!value.includes(search)) {
+    throw new Error(`Material Specification Lookup build failed: ${label} insertion point was not found.`);
+  }
+  return value.replace(search, replacement);
+}
+
+function prepareApplication(originalHtml, hardeningScript, hardeningStyles) {
+  let withHardening = replaceRequired(
+    originalHtml,
+    'boot();\n</script>',
+    `${hardeningScript}\nboot();\n</script>`,
+    'application hardening script'
+  );
+  withHardening = replaceRequired(
+    withHardening,
+    '</head>',
+    `<style id="grade-specification-safety-hardening">\n${hardeningStyles}\n</style>\n</head>`,
+    'application hardening styles'
+  );
+
+  return renameTool(withHardening)
     .replace('<title>Material Specification Lookup — Compliance & Calculators</title>', '<title>Material Specification Lookup | UpSkill Sprint Consulting</title>')
     .replaceAll('href="grade_spec_lookup_user_guide.html"', 'href="./how-to-use/"')
     .replace('<div class="top-actions">', '<div class="top-actions"><a class="btn site-companion" href="/tools/material-specification-compliance-checker">Compliance Checker</a>')
@@ -100,8 +126,8 @@ function prepareApplication(originalHtml) {
     .replace('</body>', backLink + '\n</body>');
 }
 
-function prepareGuide(originalHtml) {
-  return renameTool(originalHtml)
+function prepareGuide(originalHtml, guideNotice) {
+  let guide = renameTool(originalHtml)
     .replace('<title>How to Use — Material Specification Lookup</title>', '<title>How to Use the Material Specification Lookup | UpSkill Sprint Consulting</title>')
     .replaceAll('href="grade_spec_lookup.html#compliance"', 'href="../#compliance"')
     .replaceAll('href="grade_spec_lookup.html"', 'href="../"')
@@ -110,19 +136,57 @@ function prepareGuide(originalHtml) {
     .replace('</head>', '<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + '\n</head>')
     .replace('<body>', '<body class="grade-spec-guide-page">\n' + siteHeader)
     .replace('</body>', backLink + '\n</body>');
+
+  guide = replaceRequired(
+    guide,
+    '<div class="disclaimer"><strong>Reference only.</strong>',
+    `${guideNotice}<div class="disclaimer"><strong>Reference only.</strong>`,
+    'guide data-status notice'
+  );
+  guide = guide
+    .replaceAll('Enter wall thickness', 'Enter material thickness')
+    .replaceAll('wall thickness', 'material thickness')
+    .replace(
+      'Leave unavailable test results blank rather than entering zero.',
+      'Leave unavailable test results blank rather than entering zero; any missing applicable input keeps the assessment INCOMPLETE.'
+    )
+    .replace(
+      'Provide individual energies, specimen size, and actual test temperature. Average and individual minimums are checked separately.',
+      'Provide exactly three individual energies, a tabulated specimen size, and the actual test temperature. Average and individual minimums are checked separately; a custom width is estimate-only and cannot produce a compliance verdict.'
+    )
+    .replace(
+      '<strong>Blank versus zero:</strong> a blank field means “not evaluated.” Entering <span class="mono">0</span> means an actual measured value of zero and will be checked accordingly.',
+      '<strong>Blank versus zero:</strong> a blank applicable field means “not evaluated” and keeps the overall verdict <span class="status incomplete">INCOMPLETE</span>. Entering <span class="mono">0</span> means an actual measured value of zero and will be checked accordingly.'
+    )
+    .replace(
+      '<tr><td><span class="status pass">PASS</span></td><td>All evaluated results satisfy fully verified limits.</td><td>Confirm non-numeric applicability and controlled-document requirements.</td></tr>',
+      '<tr><td><span class="status pass">PASS</span></td><td>Every applicable input is present and satisfies fully verified limits.</td><td>Confirm non-numeric applicability and controlled-document requirements.</td></tr><tr><td><span class="status incomplete">INCOMPLETE</span></td><td>One or more applicable inputs, test specimens, or machine-readable requirements are missing.</td><td>Supply the listed items; do not treat this as a pass.</td></tr><tr><td><span class="status invalid">INVALID INPUT</span></td><td>One or more entered values are impossible or outside the accepted input domain.</td><td>Correct the identified inputs and rerun the assessment.</td></tr>'
+    )
+    .replace(
+      '<strong>Temperature discrepancy:</strong> a Charpy test temperature different from the stored required temperature is flagged for human review rather than automatically failed.',
+      '<strong>Charpy temperature:</strong> the stored temperature is treated as a maximum test temperature. Testing at that temperature or colder satisfies the temperature condition; testing warmer fails it.'
+    )
+    .replace(
+      'Reverse lookup searches all grade records using the entered thickness and minimum performance requirements.',
+      'Reverse lookup searches grade records using the entered material thickness, product-form filter, and minimum performance requirements. The temperature criterion is applied even when no CVN energy criterion is entered.'
+    );
+  return guide;
 }
 
 async function build() {
-  const [applicationSource, guideSource] = await Promise.all([
+  const [applicationSource, guideSource, hardeningScript, hardeningStyles, guideNotice] = await Promise.all([
     decodeSource(sources.application),
-    decodeSource(sources.guide)
+    decodeSource(sources.guide),
+    readFile(join(sourceDirectory, 'hardening.js'), 'utf8'),
+    readFile(join(sourceDirectory, 'hardening.css'), 'utf8'),
+    readFile(join(sourceDirectory, 'guide-notice.inc'), 'utf8')
   ]);
 
   await rm(outputDirectory, { recursive: true, force: true });
   await mkdir(guideDirectory, { recursive: true });
 
-  const application = prepareApplication(applicationSource);
-  const guide = prepareGuide(guideSource);
+  const application = prepareApplication(applicationSource, hardeningScript, hardeningStyles);
+  const guide = prepareGuide(guideSource, guideNotice.trim());
 
   await Promise.all([
     writeFile(join(outputDirectory, 'index.html'), application, 'utf8'),
