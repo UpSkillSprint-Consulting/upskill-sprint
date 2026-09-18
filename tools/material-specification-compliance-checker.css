@@ -5,3 +5,12 @@ html[data-theme=dark]{--mc-pass:#62d08b;--mc-pass-bg:#102a22;--mc-fail:#ff8b82;-
 @media(max-width:860px){.hero-grid,.decision-grid,.management{grid-template-columns:1fr}.s3,.s4,.s6{grid-column:span 6}.file-actions{justify-content:flex-start}footer.site .wrap{grid-template-columns:1fr}}
 @media(max-width:640px){.tool-wrap{width:min(100% - 22px,1160px)}.hero{padding:48px 0 40px}.card{padding:21px 16px}.notice{grid-template-columns:1fr}.grid,.selectors,.unit-note,.metrics{grid-template-columns:1fr}.s3,.s4,.s6,.s12{grid-column:1/-1}.req-row.quant,.req-row.charpy,.req-row.process{grid-template-columns:1fr}.req-row .row-field:first-child{grid-column:auto}.remove{width:100%}.panel-head{flex-direction:column}.hero-actions .btn,.inline-actions .btn,.file-actions .btn,.file-label,.run{width:100%}.heading{grid-template-columns:32px 1fr;gap:11px}.step{width:30px;height:30px}}
 @media print{header.site,nav.mobile-nav,footer.site,.hero-actions,.inline-actions,.tabs,.panel-head .btn,.remove,.run,.management-card,.back,.theme-control{display:none!important}body{background:#fff!important;color:#000!important;font-size:10pt}.hero{padding:18px 0;border:1px solid #777;background:#fff!important;color:#000!important}.hero h1,.hero p,.hero .eyebrow,.hero-summary strong,.hero-summary span{color:#000!important}.hero-grid{grid-template-columns:1fr 230px}.hero-summary,.card,.notice,.req-row,.summary,.metric{break-inside:avoid;box-shadow:none!important;background:#fff!important}.card{margin:12px 0;padding:16px}.panel[hidden]{display:block!important}.table-wrap{overflow:visible}.results{min-width:0;font-size:8pt}.results th{background:#eee!important;color:#000!important}}
+.req-row.charpy{grid-template-columns:repeat(4,minmax(0,1fr))}
+.req-row.charpy .row-field:first-child{grid-column:span 2}
+.summary[data-status=invalid-input]{border-color:var(--mc-fail);background:var(--mc-fail-bg)}
+.summary[data-status=invalid-input] strong{color:var(--mc-fail)}
+.summary[data-status=pass-with-warnings]{border-color:var(--mc-warn);background:var(--mc-warn-bg)}
+.summary[data-status=pass-with-warnings] strong{color:var(--mc-warn)}
+.badge.invalid,.badge.invalid-input{background:var(--mc-fail-bg);color:var(--mc-fail)}
+.badge.pass-with-warnings{background:var(--mc-warn-bg);color:var(--mc-warn)}
+@media(max-width:640px){.req-row.charpy{grid-template-columns:1fr}.req-row.charpy .row-field:first-child{grid-column:auto}}
