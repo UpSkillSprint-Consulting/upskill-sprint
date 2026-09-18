@@ -1,5 +1,4 @@
 import { getStore } from '@netlify/blobs';
-import { getUser } from '@netlify/identity';
 
 const JSON_HEADERS = {
   'Content-Type': 'application/json; charset=utf-8',
@@ -7,25 +6,21 @@ const JSON_HEADERS = {
   'X-Content-Type-Options': 'nosniff'
 };
 const MAX_BODY_BYTES = 4 * 1024 * 1024;
+const CHECKER_RESOURCE = 'tool:/tools/material-specification-compliance-checker';
+
+// Both fallback values are publishable browser configuration, not secrets.
+// Production may override them with environment variables.
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://prerurzpikodzbnezvgz.supabase.co';
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'sb_publishable_CagbT4_UPEi95EieYdq4nw_TdKQ4fqH';
 
 function json(status, body) {
   return new Response(JSON.stringify(body), {status, headers: JSON_HEADERS});
 }
 
-function normalizeRole(role) {
-  return String(role || '').toLowerCase().replace(/[^a-z0-9]+/g, '-');
-}
-
-function roleList(user) {
-  const direct = Array.isArray(user?.roles) ? user.roles : [];
-  const metadata = user?.appMetadata || user?.app_metadata || {};
-  const stored = Array.isArray(metadata.roles) ? metadata.roles : [];
-  return Array.from(new Set(direct.concat(stored).map(normalizeRole)));
-}
-
-function organizationId(user) {
-  const metadata = user?.appMetadata || user?.app_metadata || {};
-  return metadata.organizationId || metadata.organization_id || null;
+function bearerToken(request) {
+  const header = String(request.headers.get('authorization') || '');
+  const match = header.match(/^Bearer\s+([^\s]+)$/i);
+  return match ? match[1] : '';
 }
 
 function requestOriginIsValid(request) {
@@ -38,20 +33,43 @@ function requestOriginIsValid(request) {
   }
 }
 
+async function authenticatedUser(token) {
+  if (!token) return null;
+  const response = await fetch(SUPABASE_URL + '/auth/v1/user', {
+    headers: {apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + token}
+  });
+  if (!response.ok) return null;
+  const user = await response.json();
+  return user && user.id ? user : null;
+}
+
+async function canAccessChecker(token) {
+  const response = await fetch(SUPABASE_URL + '/rest/v1/rpc/can_access_content', {
+    method: 'POST',
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: 'Bearer ' + token,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({requested_resource_key: CHECKER_RESOURCE})
+  });
+  if (!response.ok) return false;
+  return (await response.json()) === true;
+}
+
+export { bearerToken, requestOriginIsValid };
+
 export default async function materialChecker(request) {
-  const user = await getUser();
-  if (!user) return json(401, {error: 'Authentication is required.'});
-
-  const userId = user.id || user.sub;
-  if (!userId) return json(401, {error: 'The authenticated user does not have a valid identifier.'});
-
-  const roles = roleList(user);
-  const orgId = organizationId(user);
-  const namespace = orgId ? `organization-${orgId}` : `user-${userId}`;
-  const key = `${namespace}/workspace.json`;
-  const store = getStore('material-checker-workspaces');
-
   try {
+    const token = bearerToken(request);
+    const user = await authenticatedUser(token);
+    if (!user) return json(401, {error: 'Authentication is required.'});
+    if (!(await canAccessChecker(token))) return json(403, {error: 'Administrator access to this tool is required.'});
+
+    const namespace = 'user-' + user.id;
+    const key = namespace + '/workspace.json';
+    const store = getStore('material-checker-workspaces');
+
     if (request.method === 'GET') {
       const record = await store.get(key, {type: 'json', consistency: 'strong'});
       return json(200, record || {workspace: null, updatedAt: null, scope: namespace});
@@ -66,7 +84,7 @@ export default async function materialChecker(request) {
       }
 
       const payload = JSON.parse(raw);
-      if (!payload?.workspace || typeof payload.workspace !== 'object') {
+      if (!payload?.workspace || typeof payload.workspace !== 'object' || Array.isArray(payload.workspace)) {
         return json(400, {error: 'Invalid workspace payload.'});
       }
 
@@ -74,21 +92,19 @@ export default async function materialChecker(request) {
       const record = {
         workspace: payload.workspace,
         updatedAt,
-        updatedBy: user.email || userId,
+        updatedBy: user.email || user.id,
         scope: namespace,
-        schemaVersion: 4
+        schemaVersion: 5
       };
 
       await store.setJSON(key, record, {
-        metadata: {updatedAt, updatedBy: user.email || userId, schemaVersion: 4}
+        metadata: {updatedAt, updatedBy: user.email || user.id, schemaVersion: 5}
       });
       return json(200, {ok: true, updatedAt, scope: namespace});
     }
 
     if (request.method === 'DELETE') {
       if (!requestOriginIsValid(request)) return json(403, {error: 'Request origin is not permitted.'});
-      const allowed = roles.includes('system-administrator') || roles.includes('standards-administrator');
-      if (!allowed) return json(403, {error: 'Administrator permission is required to delete an organization workspace.'});
       await store.delete(key);
       return json(200, {ok: true, deletedAt: new Date().toISOString(), scope: namespace});
     }
@@ -97,6 +113,6 @@ export default async function materialChecker(request) {
   } catch (error) {
     console.error('material-checker function error', error);
     if (error instanceof SyntaxError) return json(400, {error: 'The workspace payload is not valid JSON.'});
-    return json(500, {error: 'The organization workspace could not be processed.'});
+    return json(500, {error: 'The account workspace could not be processed.'});
   }
 }
