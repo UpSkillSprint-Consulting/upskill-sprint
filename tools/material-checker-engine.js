@@ -5,7 +5,7 @@
 }(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
-  const VERSION = '4.0.0';
+  const VERSION = '4.1.0';
   const EPSILON = 1e-9;
 
   function normalize(value) {
@@ -57,6 +57,42 @@
     return Number(value.toFixed(places)).toString();
   }
 
+  function numericDomainError(value, unit, propertyCode, options) {
+    const number = toNumber(value);
+    if (number == null) return 'A finite numeric value is required.';
+    const normalizedUnit = String(unit || '').trim();
+    const code = String(propertyCode || '');
+    const limit = Boolean(options && options.limit);
+
+    if (normalizedUnit === '%' || normalizedUnit === 'wt_pct' || normalizedUnit === 'pct') {
+      if (number < 0 || number > 100) return 'Percentage values must be between 0 and 100.';
+    } else if (normalizedUnit === 'ppm') {
+      if (number < 0 || number > 1000000) return 'Parts-per-million values must be between 0 and 1,000,000.';
+    } else if (normalizedUnit === '°C' || normalizedUnit === 'degC') {
+      if (number < -273.15) return 'Temperature cannot be below absolute zero (-273.15 °C).';
+    } else if (normalizedUnit === '°F' || normalizedUnit === 'degF') {
+      if (number < -459.67) return 'Temperature cannot be below absolute zero (-459.67 °F).';
+    } else if (['MPa', 'ksi', 'psi', 'J', 'ft-lb', 'ft_lbf', 'mm', 'in', 'kg/m', 'lb/ft', 'HV', 'HV10', 'HB', 'HRC', 'ratio', 'dimensionless'].includes(normalizedUnit)) {
+      if (number < 0) return 'This physical quantity cannot be negative.';
+      if (!limit && code.startsWith('dim_') && number <= 0) return 'A measured dimension must be greater than zero.';
+    }
+    return '';
+  }
+
+  function packageControlWarnings(rulePackage) {
+    if (!rulePackage || rulePackage.controlRequired !== true) return [];
+    const warnings = [];
+    if (rulePackage.status !== 'Approved') warnings.push('The rule package is not approved.');
+    if (!String(rulePackage.edition || '').trim()) warnings.push('The controlled edition or revision is missing.');
+    if (!String(rulePackage.lastVerified || '').trim()) warnings.push('The rule package verification date is missing.');
+    else {
+      const verifiedAt = new Date(rulePackage.lastVerified + 'T00:00:00Z');
+      if (Number.isNaN(verifiedAt.getTime())) warnings.push('The rule package verification date is invalid.');
+      else if (verifiedAt.getTime() > Date.now() + 86400000) warnings.push('The rule package verification date is in the future.');
+    }
+    return warnings;
+  }
+
   function propertyEntry(actuals, code) {
     if (!actuals) return null;
     if (actuals instanceof Map) return actuals.get(code) || null;
@@ -66,12 +102,18 @@
   function scopeApplies(rulePackage, scope) {
     const applicability = rulePackage && rulePackage.applicability ? rulePackage.applicability : {};
     const reasons = [];
-    let applicable = true;
+    let outOfScope = false;
+    let undetermined = false;
 
     const forms = Array.isArray(applicability.productForms) ? applicability.productForms.filter(Boolean) : [];
-    if (forms.length && scope && scope.productForm && !forms.includes(scope.productForm)) {
-      applicable = false;
-      reasons.push('Product form is outside the package applicability.');
+    if (forms.length) {
+      if (!scope || !String(scope.productForm || '').trim()) {
+        undetermined = true;
+        reasons.push('Product form is required to determine package applicability.');
+      } else if (!forms.some(form => normalize(form) === normalize(scope.productForm))) {
+        outOfScope = true;
+        reasons.push('Product form is outside the package applicability.');
+      }
     }
 
     const thickness = scope ? toNumber(scope.thickness) : null;
@@ -82,32 +124,49 @@
     const maxThickness = toNumber(applicability.thicknessMax);
 
     if ((minThickness != null || maxThickness != null) && convertedThickness == null) {
-      applicable = false;
+      undetermined = true;
       reasons.push('Thickness is required to determine package applicability.');
     } else if (convertedThickness != null) {
       if (minThickness != null && convertedThickness < minThickness - EPSILON) {
-        applicable = false;
+        outOfScope = true;
         reasons.push('Thickness is below the package range.');
       }
       if (maxThickness != null && convertedThickness > maxThickness + EPSILON) {
-        applicable = false;
+        outOfScope = true;
         reasons.push('Thickness is above the package range.');
       }
     }
 
     const routes = Array.isArray(applicability.manufacturingRoutes) ? applicability.manufacturingRoutes.filter(Boolean) : [];
-    if (routes.length && scope && scope.manufacturingRoute && !routes.includes(scope.manufacturingRoute)) {
-      applicable = false;
-      reasons.push('Manufacturing route is outside the package applicability.');
+    if (routes.length) {
+      if (!scope || !String(scope.manufacturingRoute || '').trim()) {
+        undetermined = true;
+        reasons.push('Manufacturing route is required to determine package applicability.');
+      } else if (!routes.some(route => normalize(route) === normalize(scope.manufacturingRoute))) {
+        outOfScope = true;
+        reasons.push('Manufacturing route is outside the package applicability.');
+      }
     }
 
     const psl = Array.isArray(applicability.psl) ? applicability.psl.filter(Boolean) : [];
-    if (psl.length && scope && scope.psl && !psl.includes(scope.psl)) {
-      applicable = false;
-      reasons.push('Selected PSL is outside the package applicability.');
+    if (psl.length) {
+      if (!scope || !String(scope.psl || '').trim()) {
+        undetermined = true;
+        reasons.push('PSL or category is required to determine package applicability.');
+      } else if (!psl.some(value => normalize(value) === normalize(scope.psl))) {
+        outOfScope = true;
+        reasons.push('Selected PSL or category is outside the package applicability.');
+      }
     }
 
-    return {applicable, reasons, convertedThickness, thicknessUnit: packageUnit};
+    return {
+      applicable: !outOfScope,
+      determined: !undetermined,
+      outOfScope,
+      reasons,
+      convertedThickness,
+      thicknessUnit: packageUnit
+    };
   }
 
   function evaluateRule(rule, actuals, evidence) {
@@ -125,8 +184,11 @@
       margin: null,
       relativeMarginPercent: null,
       nearLimit: false,
-      mandatory: rule.mandatory !== false
+      mandatory: rule.mandatory !== false,
+      warnings: [],
+      invalid: false
     };
+    const hasBasis = Boolean(String(rule.clause || rule.source || '').trim());
 
     if (rule.type === 'evidence') {
       const evidenceValue = evidence && (evidence[rule.propertyCode] || evidence[rule.id]);
@@ -137,6 +199,14 @@
       else result.status = result.mandatory ? 'missing' : 'review';
       result.detail = result.status === 'pass' ? 'Required evidence is present.' :
         result.status === 'fail' ? 'Required evidence is explicitly absent.' : 'Evidence has not been confirmed.';
+      if (!hasBasis) {
+        result.warnings.push('Controlled clause or evidence source is missing.');
+        if (result.status === 'pass') {
+          result.status = 'review';
+          result.detail = 'Evidence is present, but its controlled clause or source is missing.';
+        }
+      }
+      if (rule.verified === false) result.warnings.push('The requirement has not been independently verified.');
       return result;
     }
 
@@ -158,10 +228,49 @@
       return result;
     }
 
+    if (!targetUnit) {
+      result.status = 'invalid';
+      result.invalid = true;
+      result.detail = 'The numerical rule does not identify a requirement unit.';
+      return result;
+    }
+
+    if (min != null && max != null && min > max + EPSILON) {
+      result.status = 'invalid';
+      result.invalid = true;
+      result.detail = 'Rule configuration is invalid because the minimum exceeds the maximum.';
+      return result;
+    }
+
+    const invalidMinimum = min == null ? '' : numericDomainError(min, targetUnit, rule.propertyCode, {limit: true});
+    const invalidMaximum = max == null ? '' : numericDomainError(max, targetUnit, rule.propertyCode, {limit: true});
+    if (invalidMinimum || invalidMaximum) {
+      result.status = 'invalid';
+      result.invalid = true;
+      result.detail = 'Rule configuration is invalid. ' + (invalidMinimum || invalidMaximum);
+      return result;
+    }
+
     if (actualValue == null) {
       result.status = result.mandatory ? 'missing' : 'review';
       result.actual = 'Missing';
       result.detail = 'Actual evidence is not available.';
+      return result;
+    }
+
+    if (actualEntry && typeof actualEntry === 'object' && targetUnit && !String(actualEntry.unit || '').trim()) {
+      result.status = 'review';
+      result.actual = formatNumber(actualValue);
+      result.detail = 'The actual value unit is missing; no unit was assumed.';
+      return result;
+    }
+
+    const invalidActual = numericDomainError(actualValue, actualUnit, rule.propertyCode, {limit: false});
+    if (invalidActual) {
+      result.status = 'invalid';
+      result.invalid = true;
+      result.actual = formatNumber(actualValue) + (actualUnit ? ' ' + actualUnit : '');
+      result.detail = invalidActual;
       return result;
     }
 
@@ -189,52 +298,69 @@
       const nearest = margins[0];
       result.margin = nearest.value;
       result.relativeMarginPercent = Math.abs(nearest.boundary) > EPSILON ? nearest.value / Math.abs(nearest.boundary) * 100 : null;
-      result.nearLimit = result.status === 'pass' && result.relativeMarginPercent != null && result.relativeMarginPercent <= (toNumber(rule.nearLimitPercent) || 5);
+      const configuredThreshold = toNumber(rule.nearLimitPercent);
+      const nearLimitThreshold = configuredThreshold == null ? 5 : Math.max(0, configuredThreshold);
+      result.nearLimit = result.status === 'pass' && result.relativeMarginPercent != null && result.relativeMarginPercent <= nearLimitThreshold;
     }
 
     if (result.status === 'fail') result.detail = below ? 'Actual result is below the entered minimum.' : 'Actual result is above the entered maximum.';
     else if (result.nearLimit) result.detail = 'Requirement is satisfied, but the result is close to the nearest limit.';
     else result.detail = 'Actual result satisfies the entered limit.';
 
+    if (!hasBasis) {
+      result.warnings.push('Controlled clause or source is missing.');
+      if (result.status === 'pass') {
+        result.status = 'review';
+        result.detail = 'The entered value satisfies the numerical limit, but the controlled clause or source is missing.';
+      }
+    }
+    if (rule.verified === false) result.warnings.push('The requirement has not been independently verified.');
+
     return result;
   }
 
-  function summarizeResults(rows) {
-    const counts = {pass: 0, fail: 0, missing: 0, review: 0, 'not-applicable': 0};
+  function summarizeResults(rows, warnings) {
+    const counts = {pass: 0, fail: 0, missing: 0, review: 0, invalid: 0, 'pass-with-warnings': 0, 'not-applicable': 0};
     rows.forEach(row => {
       if (!Object.prototype.hasOwnProperty.call(counts, row.status)) counts.review += 1;
       else counts[row.status] += 1;
     });
 
     const applicable = rows.length - counts['not-applicable'];
-    const assessed = counts.pass + counts.fail;
+    const assessed = counts.pass + counts['pass-with-warnings'] + counts.fail;
     const coverage = applicable ? Math.round(assessed / applicable * 100) : 0;
     let status = 'not-assessed';
     let message = 'No applicable rules were evaluated.';
     if (applicable) {
-      if (counts.fail) {
+      if (counts.invalid) {
+        status = 'invalid-input';
+        message = 'One or more values or rule definitions are invalid; no compliance verdict can be issued.';
+      } else if (counts.fail) {
         status = 'fail';
         message = 'At least one requirement is not satisfied.';
       } else if (counts.missing || counts.review) {
         status = 'conditional';
         message = 'No failure was found, but required evidence or engineering review remains unresolved.';
+      } else if ((warnings && warnings.length) || counts['pass-with-warnings']) {
+        status = 'pass-with-warnings';
+        message = 'All evaluated requirements are satisfied, but verification warnings remain.';
       } else {
         status = 'pass';
         message = 'All applicable configured requirements are satisfied.';
       }
     }
-    return {counts, applicable, assessed, coverage, status, message};
+    return {counts, applicable, assessed, coverage, status, message, warnings: warnings || []};
   }
 
   function evaluatePackage(rulePackage, actuals, evidence, scope) {
     const applicability = scopeApplies(rulePackage || {}, scope || {});
-    if (!applicability.applicable) {
+    if (applicability.outOfScope) {
       return {
         packageId: rulePackage && rulePackage.id,
         packageName: rulePackage && rulePackage.name,
         applicability,
         rows: [],
-        counts: {pass: 0, fail: 0, missing: 0, review: 0, 'not-applicable': 1},
+        counts: {pass: 0, fail: 0, missing: 0, review: 0, invalid: 0, 'pass-with-warnings': 0, 'not-applicable': 1},
         applicable: 0,
         assessed: 0,
         coverage: 0,
@@ -243,13 +369,33 @@
       };
     }
     const rules = Array.isArray(rulePackage && rulePackage.rules) ? rulePackage.rules : [];
-    const rows = rules.map(rule => evaluateRule(rule, actuals || {}, evidence || {}));
+    const rows = [];
+    if (!applicability.determined) {
+      applicability.reasons.forEach((reason, index) => rows.push({
+        id: 'applicability-' + index,
+        category: 'applicability',
+        propertyCode: '',
+        label: 'Applicability evidence',
+        status: 'review',
+        actual: 'Missing',
+        acceptance: 'Required before the package can be applied',
+        basis: 'Rule-package applicability',
+        detail: reason,
+        mandatory: true,
+        warnings: []
+      }));
+    }
+    rows.push(...rules.map(rule => evaluateRule(rule, actuals || {}, evidence || {})));
+    const warnings = packageControlWarnings(rulePackage);
+    rows.forEach(row => {
+      if (Array.isArray(row.warnings)) warnings.push(...row.warnings);
+    });
     return Object.assign({
       packageId: rulePackage && rulePackage.id,
       packageName: rulePackage && rulePackage.name,
       applicability,
       rows
-    }, summarizeResults(rows));
+    }, summarizeResults(rows, Array.from(new Set(warnings))));
   }
 
   function getActual(actuals, code, targetUnit) {
@@ -257,6 +403,8 @@
     if (!entry) return null;
     const value = typeof entry === 'object' ? toNumber(entry.value) : toNumber(entry);
     const unit = typeof entry === 'object' ? entry.unit : targetUnit;
+    if (typeof entry === 'object' && targetUnit && !String(unit || '').trim()) return null;
+    if (numericDomainError(value, unit || targetUnit, code, {limit: false})) return null;
     return targetUnit ? convert(value, unit || targetUnit, targetUnit) : value;
   }
 
@@ -328,14 +476,27 @@
     const sd = sampleStandardDeviation(clean);
     const lower = toNumber(lsl);
     const upper = toNumber(usl);
+    const movingRanges = clean.slice(1).map((value, index) => Math.abs(value - clean[index]));
+    const movingRangeMean = movingRanges.length ? mean(movingRanges) : null;
+    const withinStandardDeviation = movingRangeMean != null ? movingRangeMean / 1.128 : null;
     let cpl = null;
     let cpu = null;
+    let cp = null;
     let cpk = null;
+    let ppl = null;
+    let ppu = null;
+    let ppk = null;
     let pp = null;
-    if (sd != null && sd > EPSILON) {
-      if (lower != null) cpl = (average - lower) / (3 * sd);
-      if (upper != null) cpu = (upper - average) / (3 * sd);
+    if (withinStandardDeviation != null && withinStandardDeviation > EPSILON) {
+      if (lower != null) cpl = (average - lower) / (3 * withinStandardDeviation);
+      if (upper != null) cpu = (upper - average) / (3 * withinStandardDeviation);
       cpk = cpl != null && cpu != null ? Math.min(cpl, cpu) : (cpl != null ? cpl : cpu);
+      if (lower != null && upper != null) cp = (upper - lower) / (6 * withinStandardDeviation);
+    }
+    if (sd != null && sd > EPSILON) {
+      if (lower != null) ppl = (average - lower) / (3 * sd);
+      if (upper != null) ppu = (upper - average) / (3 * sd);
+      ppk = ppl != null && ppu != null ? Math.min(ppl, ppu) : (ppl != null ? ppl : ppu);
       if (lower != null && upper != null) pp = (upper - lower) / (6 * sd);
     }
     return {
@@ -347,8 +508,15 @@
       median: quantile(clean, 0.5),
       p10: quantile(clean, 0.1),
       p90: quantile(clean, 0.9),
-      cpl, cpu, cpk, ppk: cpk, pp,
-      caution: clean.length < 30 ? 'Capability estimates are unstable with fewer than 30 independent observations.' : ''
+      movingRangeMean,
+      withinStandardDeviation,
+      cpl, cpu, cp, cpk, ppl, ppu, ppk, pp,
+      individualsLcl: withinStandardDeviation == null ? null : average - 3 * withinStandardDeviation,
+      individualsUcl: withinStandardDeviation == null ? null : average + 3 * withinStandardDeviation,
+      caution: [
+        clean.length < 30 ? 'Capability estimates are unstable with fewer than 30 independent observations.' : '',
+        'Cpk uses an I-MR moving-range estimate and is meaningful only when input order represents a stable process sequence; Ppk uses overall sample variation.'
+      ].filter(Boolean).join(' ')
     };
   }
 
@@ -410,27 +578,35 @@
 
     const catalogue = flattenPropertyCatalog(config);
     let best = null;
+    let tied = false;
     catalogue.forEach(item => {
       const candidates = [item.code, item.label].concat(item.aliases || []);
       candidates.forEach(candidate => {
         const normalizedCandidate = normalize(candidate);
         let score = 0;
         if (normalizedCandidate === key) score = 1;
-        else if (normalizedCandidate && (normalizedCandidate.includes(key) || key.includes(normalizedCandidate))) score = 0.8;
-        if (!best || score > best.confidence) best = {code: item.code, label: item.label, category: item.category, confidence: score, source: 'catalogue'};
+        else if (key.length >= 4 && normalizedCandidate && (normalizedCandidate.includes(key) || key.includes(normalizedCandidate))) score = 0.55;
+        if (!best || score > best.confidence) {
+          best = {code: item.code, label: item.label, category: item.category, confidence: score, source: score === 1 ? 'exact catalogue alias' : 'possible catalogue match'};
+          tied = false;
+        } else if (score > 0 && best && score === best.confidence && item.code !== best.code) tied = true;
       });
     });
-    return best && best.confidence >= 0.6 ? best : {code: '', confidence: 0, source: 'unmapped'};
+    return best && best.confidence === 1 && !tied ? best : {
+      code: '',
+      confidence: best ? best.confidence : 0,
+      source: tied ? 'ambiguous; confirm manually' : best && best.confidence ? 'possible match; confirm manually' : 'unmapped'
+    };
   }
 
   function summarizeBatch(results) {
-    const counts = {pass: 0, fail: 0, conditional: 0, 'not-applicable': 0, 'not-assessed': 0};
+    const counts = {pass: 0, 'pass-with-warnings': 0, fail: 0, conditional: 0, 'invalid-input': 0, 'not-applicable': 0, 'not-assessed': 0};
     const pareto = {};
     (results || []).forEach(record => {
       const status = record.result && record.result.status ? record.result.status : 'not-assessed';
       counts[status] = (counts[status] || 0) + 1;
       if (record.result && Array.isArray(record.result.rows)) {
-        record.result.rows.filter(row => row.status === 'fail' || row.status === 'missing' || row.status === 'review').forEach(row => {
+        record.result.rows.filter(row => row.status === 'fail' || row.status === 'missing' || row.status === 'review' || row.status === 'invalid').forEach(row => {
           pareto[row.label] = (pareto[row.label] || 0) + 1;
         });
       }
@@ -460,9 +636,12 @@
     }
     test('MPa to ksi conversion', () => Math.abs(convert(485, 'MPa', 'ksi') - 70.344) < 0.01);
     test('ksi to MPa conversion', () => Math.abs(convert(72, 'ksi', 'MPa') - 496.423) < 0.01);
-    test('Boundary value passes', () => evaluateRule({propertyCode: 'x', min: 10, max: 20, unit: 'MPa'}, {x: {value: 10, unit: 'MPa'}}).status === 'pass');
-    test('Out-of-range value fails', () => evaluateRule({propertyCode: 'x', min: 10, max: 20, unit: 'MPa'}, {x: {value: 21, unit: 'MPa'}}).status === 'fail');
-    test('Missing mandatory evidence is missing', () => evaluateRule({propertyCode: 'x', min: 10, unit: 'MPa', mandatory: true}, {}).status === 'missing');
+    test('Boundary value passes', () => evaluateRule({propertyCode: 'x', min: 10, max: 20, unit: 'MPa', clause: 'Table 1'}, {x: {value: 10, unit: 'MPa'}}).status === 'pass');
+    test('Out-of-range value fails', () => evaluateRule({propertyCode: 'x', min: 10, max: 20, unit: 'MPa', clause: 'Table 1'}, {x: {value: 21, unit: 'MPa'}}).status === 'fail');
+    test('Missing mandatory evidence is missing', () => evaluateRule({propertyCode: 'x', min: 10, unit: 'MPa', mandatory: true, clause: 'Table 1'}, {}).status === 'missing');
+    test('Negative chemistry is invalid', () => evaluateRule({propertyCode: 'chem_carbon', max: 0.2, unit: '%', clause: 'Table 1'}, {chem_carbon: {value: -0.1, unit: '%'}}).status === 'invalid');
+    test('Reversed rule bounds are invalid', () => evaluateRule({propertyCode: 'x', min: 20, max: 10, unit: 'MPa', clause: 'Table 1'}, {x: {value: 15, unit: 'MPa'}}).status === 'invalid');
+    test('Missing actual unit is unresolved', () => evaluateRule({propertyCode: 'x', max: 10, unit: 'MPa', clause: 'Table 1'}, {x: {value: 5, unit: ''}}).status === 'review');
     test('CEIIW calculation', () => {
       const derived = calculateDerived({
         chem_carbon: {value: 0.1, unit: '%'}, chem_manganese: {value: 1.2, unit: '%'},
@@ -483,6 +662,8 @@
     round,
     convert,
     formatNumber,
+    numericDomainError,
+    packageControlWarnings,
     scopeApplies,
     evaluateRule,
     evaluatePackage,
