@@ -6,6 +6,8 @@ on:
       - 'engineering-tools.html'
       - 'scripts/build-grade-specification-lookup.mjs'
       - 'source-assets/grade-specification-lookup/**'
+      - 'tests/grade-specification-lookup.test.js'
+      - 'package-lock.json'
       - 'sitemap.xml'
       - 'netlify.toml'
       - '.github/workflows/grade-specification-lookup-tests.yml'
@@ -15,6 +17,8 @@ on:
       - 'engineering-tools.html'
       - 'scripts/build-grade-specification-lookup.mjs'
       - 'source-assets/grade-specification-lookup/**'
+      - 'tests/grade-specification-lookup.test.js'
+      - 'package-lock.json'
       - 'sitemap.xml'
       - 'netlify.toml'
       - '.github/workflows/grade-specification-lookup-tests.yml'
@@ -30,6 +34,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+          cache: npm
+      - name: Install test dependencies
+        run: npm ci --ignore-scripts
       - name: Build verified source files
         id: build
         continue-on-error: true
@@ -87,3 +94,5 @@ jobs:
           for (const [condition, message] of checks) if (!condition) throw new Error(message);
           console.log('Material Specification Lookup integration checks passed.');
           NODE
+      - name: Run Material Specification Lookup regression tests
+        run: node --test tests/grade-specification-lookup.test.js
