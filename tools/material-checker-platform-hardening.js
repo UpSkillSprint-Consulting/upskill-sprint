@@ -87,7 +87,7 @@
     unit.disabled = !editable || evidence;
 
     if (evidence) {
-      unit.innerHTML = '<option>evidence</option>';
+      if (unit.options.length !== 1 || unit.options[0].value !== 'evidence') unit.innerHTML = '<option>evidence</option>';
       if (min) min.value = '';
       if (max) max.value = '';
       return;
@@ -96,7 +96,10 @@
     const definition = property(propertySelect.value);
     if (!definition || !Array.isArray(definition.units) || !definition.units.length) return;
     const current = unit.value;
-    unit.innerHTML = definition.units.map(value => '<option' + (value === current ? ' selected' : '') + '>' + value + '</option>').join('');
+    const existingUnits = Array.from(unit.options).map(option => option.value);
+    if (existingUnits.length !== definition.units.length || existingUnits.some((value, index) => value !== definition.units[index])) {
+      unit.innerHTML = definition.units.map(value => '<option' + (value === current ? ' selected' : '') + '>' + value + '</option>').join('');
+    }
     if (reset || !definition.units.includes(current)) unit.value = definition.defaultUnit || definition.units[0];
   }
 
@@ -147,8 +150,8 @@
     const text = applicabilityText(root);
     const overview = root.querySelector('#mcOverviewApplicabilitySummary');
     const detail = root.querySelector('#mcApplicabilitySummaryDetail');
-    if (overview) overview.textContent = text;
-    if (detail) detail.textContent = text;
+    if (overview && overview.textContent !== text) overview.textContent = text;
+    if (detail && detail.textContent !== text) detail.textContent = text;
   }
 
   function scan() {
