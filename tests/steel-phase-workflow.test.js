@@ -417,6 +417,97 @@ test('restored point ids stay unique', async t => {
   assert.equal(new Set(ids).size, ids.length, 'duplicate ids would break selection');
 });
 
+/* ---------- validation fixes ---------- */
+
+test('Andrews Ac3 does not substitute chromium for the tungsten term', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  const before = win.__SPX.chemMetrics();
+  const chromium = doc.getElementById('spx-chem-Cr');
+  chromium.value = '2.00';
+  chromium.dispatchEvent(new win.Event('input', { bubbles: true }));
+  const after = win.__SPX.chemMetrics();
+  assert.equal(after.ac3, before.ac3, 'Cr must not occupy Andrews\' +13.1W term');
+  assert.ok(after.ms < before.ms, 'the chemistry edit was applied to equations that contain Cr');
+});
+
+test('final temperature controls martensite and is unit invariant', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  const final = doc.getElementById('spx-kin-final');
+  final.value = '400';
+  final.dispatchEvent(new win.Event('input', { bubbles: true }));
+  const warm = win.__SPX.kineticsFractions();
+  final.value = '25';
+  final.dispatchEvent(new win.Event('input', { bubbles: true }));
+  const coolMetric = win.__SPX.kineticsFractions();
+  assert.ok(coolMetric.Martensite > warm.Martensite, 'cooling farther below Ms forms more martensite');
+  win.__SPX.setUnit('imperial');
+  assert.equal(final.value, '77', '25 °C is displayed as 77 °F');
+  const coolImperial = win.__SPX.kineticsFractions();
+  assert.ok(Math.abs(coolImperial.Martensite - coolMetric.Martensite) < 1e-12,
+    'display-unit change cannot change the prediction');
+});
+
+test('TTT exposes hold temperature and CCT disables isothermal controls', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  const hold = doc.getElementById('spx-kin-hold');
+  const holdTemp = doc.getElementById('spx-kin-hold-temp');
+  assert.equal(hold.disabled, false);
+  assert.equal(holdTemp.disabled, false);
+  doc.getElementById('spx-mode-cct').dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
+  assert.equal(hold.disabled, true);
+  assert.equal(holdTemp.disabled, true);
+  assert.match(doc.getElementById('spx-kin-cooling-label').textContent, /Continuous/);
+});
+
+test('kinetics settings survive an imperial save and restore round trip', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  win.__SPX.setUnit('imperial');
+  doc.getElementById('spx-mode-cct').dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
+  doc.getElementById('spx-kin-cooling').value = '35';
+  doc.getElementById('spx-kin-final').value = '122'; // 50 °C
+  const saved = win.serializable();
+  assert.equal(saved.kinetics.finalTempC, 50);
+  doc.getElementById('spx-kin-final').value = '500';
+  assert.equal(win.restore(saved), true);
+  assert.equal(doc.getElementById('spx-kin-final').value, '122');
+  assert.equal(doc.getElementById('spx-kin-cooling').value, '35');
+  assert.equal(doc.getElementById('spx-kin-hold').disabled, true, 'CCT mode restored');
+});
+
+test('shared scenarios repair invalid data and render cycle text safely', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  const payload = {
+    unit: 'metric', activeId: 999,
+    points: [{ id: 1, c: 999, t: -50 }, { id: 1, c: 'bad', t: 900 }, { id: 1, c: .4, t: 800 }],
+    chem: { C: '0.4', Mn: -99, Cr: '<img src=x onerror=alert(1)>' },
+    cycle: [{ t: 900, d: 10, m: '\"><img id="spx-injected" src=x onerror=alert(1)>' }]
+  };
+  assert.equal(win.restore(payload), true);
+  const points = win.__SPX.getPoints();
+  assert.equal(points.length, 2, 'non-numeric point removed');
+  assert.equal(new Set(points.map(p => p.id)).size, points.length, 'duplicate ids repaired');
+  assert.ok(points.every(p => p.c >= 0 && p.c <= 1.2 && p.t >= 25 && p.t <= 1250));
+  assert.equal(doc.getElementById('spx-injected'), null, 'cycle mode cannot inject markup');
+  assert.match(doc.querySelector('[data-cycle-m]').value, /<img/,
+    'untrusted text is preserved as an input value rather than interpreted as HTML');
+});
+
+test('dynamic thermal-cycle controls and core selectors have accessible names', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  ['spx-path-slider', 'spx-grade-preset'].forEach(id => {
+    assert.ok(doc.getElementById(id).getAttribute('aria-label'), `${id} has an accessible name`);
+  });
+  doc.querySelectorAll('#spx-cycle-rows input').forEach(input => {
+    assert.ok(input.getAttribute('aria-label'), 'cycle input has a row-specific name');
+  });
+});
+
 test('a restored highlight for the wrong diagram is dropped', async t => {
   const { win } = await tool();
   t.after(() => win.close());
