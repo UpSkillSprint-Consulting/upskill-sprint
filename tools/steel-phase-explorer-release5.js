@@ -16,6 +16,8 @@
   var NS = 'http://www.w3.org/2000/svg';
   var POSTER_SVG = '/assets/steel-phase/poster/poster.svg';
   var POSTER_PDF = '/assets/steel-phase/poster/FN00454-R4_Iron-CarbonPoster_FINAL_Web.pdf';
+  var MAX_POINTS = 20;
+  var MAX_POINT_ID = 1000000;
 
   var COLORS = {
     austenite: '#f2d98c',
@@ -38,29 +40,34 @@
     ferrite: '#a9d8bd',
     ferriteCementite: '#d5cbe8',
     cementite: '#b7a8d8',
+    notModelled: '#e5e7eb',
+    eutectoid: '#2563eb',
+    eutectoidInvariant: '#2563eb',
+    eutecticInvariant: '#2563eb',
+    peritecticInvariant: '#2563eb',
     outside: '#e8e6e1'
   };
 
   var COPY = {
     austenite: {
       b: 'Steel is fully austenitic here. It is soft, non-magnetic, and holds far more carbon in solution than ferrite can.',
-      e: 'Face-centred cubic. This is the field you austenitise into before any quench. Hold long enough to dissolve carbides but not so long that grain growth coarsens the prior austenite grain size.',
+      e: 'Face-centred cubic. Full austenitisation uses this field, but some cycles deliberately quench from an intercritical or austenite-plus-carbide field. Hold time controls dissolution and grain growth.',
       a: 'Carbon solubility peaks at 2.14 wt% at 1148 degC. Homogenisation is diffusion controlled, so time at temperature and section size govern how complete it actually is.'
     },
     austenitising: {
-      b: 'The temperature band you would heat into before quenching.',
-      e: 'Typically A3 or Acm plus 25 to 75 degC. Too low leaves undissolved carbide or free ferrite; too high coarsens grain and raises distortion and cracking risk.',
-      a: 'Shown as a fixed offset band for teaching. Real practice sets it from the grade, section size and furnace, and hypereutectoid steels are usually austenitised above A1 rather than above Acm to keep grain size down.'
+      b: 'An illustrative heating window used before quenching, not a universal recipe.',
+      e: 'Hypoeutectoid steel is commonly heated above A3. For hypereutectoid steel, the window starts above A1 and extends toward Acm; practice often stays below Acm so useful carbides remain. Grade, section size, furnace and hold time determine the actual cycle.',
+      a: 'The band is a process-teaching overlay, not a phase boundary. On the hypereutectoid side it represents a partial-to-full austenitising window; it must not be read as a recommendation to exceed Acm.'
     },
     ferritePearlite: {
       b: 'A mixture of soft ferrite and layered pearlite. This is what most plain carbon steel looks like after slow cooling.',
       e: 'Proeutectoid ferrite forms first, then the remaining austenite goes to pearlite at the eutectoid. Strength rises with pearlite fraction, ductility falls.',
-      a: 'Ferrite fraction follows the lever rule on the A3 and A1 lines. Interlamellar spacing sets strength through a Hall-Petch style relation and depends on transformation temperature.'
+      a: 'For the final ferrite-plus-pearlite mixture, the proeutectoid ferrite fraction is estimated with the eutectoid tie line between alpha and eutectoid austenite. Interlamellar spacing depends strongly on transformation temperature and influences strength.'
     },
     cementitePearlite: {
       b: 'Pearlite with a network of hard, brittle cementite around the grains.',
       e: 'Hypereutectoid. Proeutectoid cementite forms on prior austenite boundaries and embrittles the steel. Spheroidising breaks the network up.',
-      a: 'A continuous grain-boundary carbide film is the main toughness risk. Cementite fraction follows the lever rule between Acm and the eutectoid.'
+      a: 'A continuous grain-boundary carbide film is a major toughness risk. The final proeutectoid-cementite fraction is estimated from the eutectoid tie line between eutectoid austenite and Fe3C; Acm instead defines carbon solubility in austenite above A1.'
     },
     pearlite: {
       b: 'A fine layered mixture of ferrite and cementite. Strong, reasonably tough, easy to produce.',
@@ -75,7 +82,7 @@
     lowerBainite: {
       b: 'A fine, tough structure. Often the best balance of strength and toughness available without quench and temper.',
       e: 'Forms between roughly 350 degC and Ms. Carbides precipitate inside the ferrite plates rather than between them, which is why toughness is better than upper bainite.',
-      a: 'Below 0.42 wt% C, Ms sits above the bainite divide and this field does not exist. Austempering targets it directly and avoids the distortion of a martensitic quench.'
+      a: 'In this simplified map the lower-bainite field closes near 0.42 wt% C where the illustrative divider meets Ms. That is a drawing convention, not a physical prohibition: bainite can form from remaining austenite during holds below Ms. Austempering may target upper or lower bainite depending on grade and temperature.'
     },
     martensiteAustenite: {
       b: 'Very hard martensite with some austenite that did not transform. Hard but brittle until tempered.',
@@ -94,10 +101,15 @@
     austeniteLiquid: { b: 'Austenite crystals growing in remaining liquid.', e: 'Between liquidus and solidus. This is where dendrites form and segregation is set.', a: 'Lever rule between liquidus and solidus composition. Centreline segregation originates here.' },
     liquidCementite: { b: 'Liquid with primary cementite forming.', e: 'Hypereutectic cast iron territory, above 4.3 wt%.', a: 'Primary cementite forms above the eutectic; the metastable path competes with graphite.' },
     ferriteAustenite: { b: 'Ferrite starting to form out of austenite on cooling.', e: 'Between A3 and A1 for hypoeutectoid steel. Intercritical annealing works in this field.', a: 'Ferrite fraction by lever rule; residual austenite enriches in carbon towards the eutectoid.' },
-    austeniteCementite: { b: 'Austenite with cementite present.', e: 'Between Acm and A1 for hypereutectoid steel, and the field for cast irons below the eutectic.', a: 'Carbon in austenite follows Acm; excess precipitates as cementite.' },
+    austeniteCementite: { b: 'Austenite with cementite present.', e: 'The metastable Fe-Fe3C field above A1 and below Acm for hypereutectoid steel, extending into the cast-iron range above the eutectoid temperature.', a: 'Carbon in austenite follows Acm; excess carbon is represented by cementite. Below A1, the metastable equilibrium field is ferrite plus cementite instead.' },
     ferrite: { b: 'Nearly pure iron. Soft, ductile, magnetic below 770 degC.', e: 'Single-phase field. Carbon solubility is tiny, 0.022 wt% maximum at 727 degC.', a: 'Body-centred cubic. Solubility falls steeply on cooling, rejecting carbon as tertiary cementite.' },
-    ferriteCementite: { b: 'Ferrite plus cementite. The room-temperature state of ordinary carbon steel.', e: 'Below the eutectoid. Morphology depends on thermal history, from coarse pearlite to spheroidised carbide.', a: 'Equilibrium fractions by lever rule between 0.022 and 6.67 wt%. Morphology, not fraction, drives properties.' },
+    ferriteCementite: { b: 'Ferrite plus cementite. The room-temperature metastable state represented for ordinary carbon steel.', e: 'Below the eutectoid in the Fe-Fe3C system. Morphology depends on thermal history, from coarse pearlite to spheroidised carbide.', a: 'Metastable-equilibrium fractions follow the ferrite/Fe3C tie line. The licensed poster also shows stable graphite fields, which this interaction layer does not classify.' },
     cementite: { b: 'Iron carbide. Very hard, very brittle.', e: 'Fe3C at 6.67 wt% carbon.', a: 'Orthorhombic. Metastable relative to graphite but effectively permanent in steels.' },
+    eutectoid: { b: 'The eutectoid invariant boundary.', e: 'At about 727 degC, ferrite, austenite, and cementite can coexist along the applicable A1 composition interval.', a: 'This is an invariant-isotherm condition, not a unique adjacent field. At exact A1, phase amounts depend on reaction extent; on cooling, austenite decomposes to ferrite plus cementite, commonly as pearlite.' },
+    eutectoidInvariant: { b: 'The eutectoid invariant isotherm.', e: 'At about 727 degC, ferrite, austenite, and cementite can coexist from the ferrite-solubility endpoint to Fe3C.', a: 'At the exact isotherm, bulk composition alone does not uniquely fix all three phase amounts because transformation extent remains unspecified.' },
+    eutecticInvariant: { b: 'The metastable eutectic invariant isotherm.', e: 'At about 1148 degC, liquid, austenite, and cementite can coexist between the austenite and Fe3C endpoints.', a: 'This is the ledeburitic eutectic of the metastable cementite system. At the exact isotherm, reaction extent is needed to fix all phase amounts; the poster separately shows the stable graphite eutectic.' },
+    peritecticInvariant: { b: 'The peritectic invariant isotherm.', e: 'Near 1495 degC, delta ferrite, liquid, and austenite can coexist between the delta and liquid endpoints.', a: 'The three phases have different carbon compositions. At the exact isotherm, reaction extent is needed to fix all phase amounts; 0.17 wt% C is the austenite composition, not the full bulk-composition range.' },
+    notModelled: { b: 'This low-carbon interval is outside the illustrated product map.', e: 'The rapid-quench product fields are intentionally not assigned below 0.20 wt% C. Use grade-specific transformation data instead.', a: 'A response is withheld rather than extrapolating pearlite, bainite or martensite fields into a range not represented by this teaching reconstruction.' },
     outside: { b: 'Outside the range of this chart.', e: 'Move the point back inside the plotted field.', a: 'No data is defined here.' }
   };
 
@@ -174,12 +186,29 @@
   function resetPoints() {
     s5.points = defaults();
     s5.activeId = 1;
-    s5.nextId = s5.points.length + 1;
+    s5.nextId = s5.points.reduce(function (m, p) { return Math.max(m, p.id); }, 0) + 1;
+  }
+
+  function allocatePointId() {
+    var used = {};
+    s5.points.forEach(function (p) { used[p.id] = true; });
+    var start = Math.floor(Number(s5.nextId));
+    if (!isFinite(start) || start < 1 || start > MAX_POINT_ID) start = 1;
+    var id = start;
+    while (id <= MAX_POINT_ID && used[id]) id++;
+    if (id > MAX_POINT_ID) {
+      id = 1;
+      while (id < start && used[id]) id++;
+    }
+    if (id > MAX_POINT_ID || used[id]) return null;
+    s5.nextId = id < MAX_POINT_ID ? id + 1 : 1;
+    return id;
   }
 
   /* ---------- rapid diagram ---------- */
 
-  var RAPID_FIELDS = ['austenitising', 'ferritePearlite', 'cementitePearlite', 'pearlite',
+  var RAPID_FIELDS = ['ferriteAustenite', 'austeniteCementite',
+    'ferritePearlite', 'cementitePearlite', 'pearlite',
     'upperBainite', 'lowerBainite', 'martensiteAustenite', 'martensite'];
 
   function drawRapid(root) {
@@ -187,23 +216,41 @@
 
     el(root, 'rect', { x: 0, y: 0, width: V.w, height: V.h, fill: '#fbfaf7' });
     el(root, 'text', { x: V.w / 2, y: 46, 'text-anchor': 'middle', class: 'spx-r5-heading' },
-      'Microconstituents formed on rapid quenching of austenite');
+      'Illustrative products after rapid transfer from austenite');
     el(root, 'text', { x: V.w / 2, y: 72, 'text-anchor': 'middle', class: 'spx-r5-subheading' },
-      'into isothermal baths held at the temperature shown');
+      'Assumes sufficient isothermal holding; transformation time is not calculated');
 
     el(root, 'rect', {
       x: P.x0, y: P.yTop, width: P.x1 - P.x0, height: P.yBottom - P.yTop, fill: '#ffffff'
     });
 
-    /* Austenite fills everything above the austenitising band. */
-    var austTop = [], i, c;
+    /* The source topology begins at 0.20 wt% C. Paint and classify the
+       unsupported interval explicitly rather than returning a product over a
+       blank part of the chart. */
+    el(root, 'rect', {
+      x: RG.xOf(RG.RANGE.cMin), y: P.yTop,
+      width: RG.xOf(RG.FIELD_C_MIN) - RG.xOf(RG.RANGE.cMin),
+      height: P.yBottom - P.yTop, fill: COLORS.notModelled,
+      class: 'spx-r5-region', 'data-r5-region': 'notModelled',
+      tabindex: '0', role: 'button', 'aria-label': RG.LABELS.notModelled
+    });
+
+    /* Single-phase austenite begins only above A3 or Acm. The orange
+       austenitising band is drawn later as a process overlay and does not
+       replace the underlying equilibrium field classification. */
+    var austFloor = [], i, c;
     for (i = 0; i <= 64; i++) {
       c = RG.FIELD_C_MIN + (RG.RANGE.cMax - RG.FIELD_C_MIN) * i / 64;
-      austTop.push([RG.xOf(c), RG.yOf(RG.austenitisingHigh(c))]);
+      austFloor.push([RG.xOf(c), RG.yOf(RG.austeniteFloor(c))]);
     }
     var austPoly = [[RG.xOf(RG.FIELD_C_MIN), P.yTop], [RG.xOf(RG.RANGE.cMax), P.yTop]]
-      .concat(austTop.reverse());
-    el(root, 'path', { d: RG.polygonPath(austPoly), fill: COLORS.austenite, 'data-r5-region': 'austenite' });
+      .concat(austFloor.reverse());
+    el(root, 'path', {
+      d: RG.polygonPath(austPoly),
+      fill: COLORS.austenite, class: 'spx-r5-region',
+      'data-r5-region': 'austenite', tabindex: '0', role: 'button',
+      'aria-label': RG.LABELS.austenite
+    });
 
     RAPID_FIELDS.forEach(function (key) {
       var poly = RG.regionPolygon(key, 96);
@@ -216,10 +263,19 @@
       });
     });
 
+    var processBand = RG.regionPolygon('austenitising', 96);
+    if (processBand) el(root, 'path', {
+      d: RG.polygonPath(processBand), fill: COLORS.austenitising,
+      opacity: '.24', stroke: COLORS.austenitising, 'stroke-width': '3',
+      'stroke-dasharray': '10 7', 'pointer-events': 'none',
+      'aria-hidden': 'true'
+    });
+
     /* grid */
     var grid = el(root, 'g', { class: 'spx-r5-grid' });
-    for (c = 0; c <= RG.RANGE.cMax + 1e-9; c += 0.1) {
-      var major = Math.abs((c * 10) % 2) < 0.01;
+    for (var ci = 0; ci <= Math.round(RG.RANGE.cMax * 10); ci++) {
+      c = ci / 10;
+      var major = ci % 2 === 0;
       el(grid, 'line', {
         x1: RG.xOf(c), x2: RG.xOf(c), y1: P.yTop, y2: P.yBottom,
         class: major ? 'spx-r5-grid-major' : 'spx-r5-grid-minor'
@@ -265,21 +321,31 @@
     }
     place('ferritePearlite', 0.45, 690, 'Ferrite + pearlite');
     place('cementitePearlite', 1.0, 700, 'Cementite + pearlite');
+    place('ferriteAustenite', 0.42, 755, 'Ferrite + austenite');
+    place('austeniteCementite', 1.02, 790, 'Austenite + cementite');
     place('pearlite', 0.6, 620, 'Pearlite');
     place('upperBainite', 0.55, 470, 'Upper bainite');
     place('lowerBainite', 0.95, 250, 'Lower bainite');
     place('martensiteAustenite', 0.75, 60, 'Martensite + retained austenite');
+    place('martensite', 0.3, 80, 'Martensite');
+    el(g, 'text', {
+      x: (RG.xOf(0) + RG.xOf(RG.FIELD_C_MIN)) / 2,
+      y: RG.yOf(500), transform: 'rotate(-90 ' + ((RG.xOf(0) + RG.xOf(RG.FIELD_C_MIN)) / 2) + ' ' + RG.yOf(500) + ')',
+      'text-anchor': 'middle', class: 'spx-r5-fieldlabel'
+    }, 'Product map unavailable');
+    el(g, 'text', { x: RG.xOf(0.72), y: RG.yOf(930),
+      'text-anchor': 'middle', class: 'spx-r5-fieldlabel' }, 'Austenite');
     el(g, 'text', { x: RG.xOf(0.7), y: RG.yOf(RG.austenitisingHigh(0.7)) - 14,
-      'text-anchor': 'middle', class: 'spx-r5-fieldlabel' }, 'Austenitising range');
+      'text-anchor': 'middle', class: 'spx-r5-fieldlabel' }, 'Austenitising window');
   }
 
   function drawRapidCritical(g) {
     var lines = [
       { fn: function () { return RG.a1(); }, c0: 0, c1: 1.2, label: 'A1', cls: 'quant' },
-      { fn: RG.a3, c0: 0, c1: 0.77, label: 'A3', cls: 'quant' },
-      { fn: RG.acm, c0: 0.77, c1: 1.2, label: 'Acm', cls: 'quant' },
+      { fn: RG.a3, c0: 0, c1: 0.77, label: 'A3 approx.', cls: 'approx' },
+      { fn: RG.acm, c0: 0.77, c1: 1.2, label: 'Acm approx.', cls: 'approx' },
       { fn: RG.ms, c0: 0.2, c1: 1.2, label: 'Ms', cls: 'quant' },
-      { fn: RG.mf, c0: 0.2, c1: 1.2, label: 'Mf', cls: 'quant dashed' }
+      { fn: RG.mf, c0: 0.2, c1: 1.2, label: 'Mf approx.', cls: 'approx dashed' }
     ];
     lines.forEach(function (line) {
       var pts = RG.boundaryPolyline(line.fn, line.c0, line.c1, 64);
@@ -395,7 +461,9 @@
       if (!src || src.nodeName === 'parsererror' || src.querySelector('parsererror')) {
         throw new Error('the artwork could not be parsed');
       }
-      var host = el(root, 'g', { class: 'spx-r5-poster' });
+      var host = el(root, 'g', {
+        class: 'spx-r5-poster', 'aria-hidden': 'true', focusable: 'false'
+      });
       /* adoptNode moves rather than deep-clones; the parsed document is
          discarded immediately afterwards. */
       var frag = document.createDocumentFragment();
@@ -417,12 +485,13 @@
         x: PG.xOf(c1) + 10, y: PG.yOf(t) + 6, class: 'spx-r5-critlabel'
       }, label);
     }
-    hLine(P.eutectoidT, 0, 2.2, 'A1 / eutectoid');
-    hLine(P.eutecticT, 1.9, P.cementiteC, 'Eutectic');
-    hLine(P.peritecticT, 0, 0.6, 'Peritectic');
+    hLine(P.eutectoidT, P.alphaMaxC, P.cementiteC, 'A1 / eutectoid');
+    hLine(P.eutecticT, P.gammaMaxC, P.cementiteC, 'Eutectic');
+    hLine(P.peritecticT, P.peritecticDelta, P.peritecticL, 'Peritectic');
 
     [['a3', PG.a3, 0, P.eutectoidC], ['acm', PG.acm, P.eutectoidC, P.gammaMaxC],
-     ['liquidus', PG.liquidus, 0, P.cementiteC], ['solidus', PG.solidusGamma, 0, P.gammaMaxC]]
+     ['liquidus', PG.liquidus, 0, P.cementiteC],
+     ['solidus', PG.solidusGamma, P.peritecticGamma, P.gammaMaxC]]
       .forEach(function (item) {
         var pts = [], i, c, t;
         for (i = 0; i <= 80; i++) {
@@ -453,6 +522,21 @@
   function highlightShapes() {
     if (!s5.highlight) return null;
     if (highlightCache && highlightCache.key === s5.highlight && highlightCache.map === s5.map) {
+      return highlightCache;
+    }
+
+    /* Pure Fe3C is the zero-width 6.67 wt% end member. Give that legitimate
+       line field a visible selection stroke instead of widening the
+       scientific classifier merely to make scan sampling find it. */
+    if (s5.map === 'poster' && s5.highlight === 'cementite') {
+      var cxFe3C = PG.xOf(PG.POINTS.cementiteC);
+      var cyTop = PG.yOf(PG.liquidus(PG.POINTS.cementiteC));
+      var cyBottom = PG.yOf(0);
+      highlightCache = {
+        key: s5.highlight, map: s5.map,
+        shapes: [[cxFe3C - 3, cyTop, 6, cyBottom - cyTop]],
+        centroid: [cxFe3C - 70, (cyTop + cyBottom) / 2]
+      };
       return highlightCache;
     }
 
@@ -559,6 +643,11 @@
       var x = G.xOf(p.c), y = G.yOf(p.t), on = p.id === s5.activeId;
       var r = s5.map === 'rapid' ? (on ? 11 : 8) : (on ? 18 : 13);
       el(pl, 'circle', {
+        cx: x, cy: y, r: 1, fill: 'transparent', stroke: 'transparent',
+        'stroke-width': 44, 'vector-effect': 'non-scaling-stroke',
+        class: 'spx-r5-marker-hit', 'data-r5-point': p.id, 'aria-hidden': 'true'
+      });
+      el(pl, 'circle', {
         cx: x, cy: y, r: r, fill: palette[i % palette.length],
         class: 'spx-r5-marker' + (on ? ' active' : ''), 'data-r5-point': p.id
       });
@@ -577,7 +666,6 @@
     key = key || s5.highlight || (activePoint() ? G.regionAt(activePoint().c, activePoint().t) : null);
     if (!key) return;
     var copy = COPY[key] || COPY.outside;
-    var quant = s5.map === 'rapid' && RG.APPROXIMATE.indexOf(key) === -1;
     $('spx-r5-help').innerHTML =
       '<div class="spx-r5-help-head">' +
         '<span class="spx-r5-swatch" style="background:' + (COLORS[key] || '#ccc') + '"></span>' +
@@ -591,21 +679,39 @@
     var card = $('spx-r5-legend-card');
     card.hidden = !s5.showLegend;
     if (card.hidden) return;
+    var list = $('spx-r5-legend');
+    var focused = document.activeElement;
+    var focusedButton = focused && list.contains(focused) && focused.closest
+      ? focused.closest('[data-r5-legend]') : null;
+    var focusedKey = focusedButton ? focusedButton.dataset.r5Legend : null;
     var G = geo();
     var keys = s5.map === 'rapid'
-      ? ['austenite'].concat(RAPID_FIELDS)
-      : ['liquid', 'deltaFerrite', 'austenite', 'austeniteLiquid', 'liquidCementite',
-         'ferriteAustenite', 'austeniteCementite', 'ferrite', 'ferriteCementite'];
-    $('spx-r5-legend').innerHTML = keys.map(function (k) {
+      ? ['notModelled', 'austenite'].concat(RAPID_FIELDS)
+      : ['liquid', 'deltaFerrite', 'deltaLiquid', 'deltaAustenite', 'austenite',
+         'austeniteLiquid', 'liquidCementite', 'ferriteAustenite',
+         'austeniteCementite', 'ferrite', 'ferriteCementite', 'cementite'];
+    list.innerHTML = keys.map(function (k) {
       return '<button type="button" data-r5-legend="' + k + '" aria-pressed="' +
         (s5.highlight === k) + '"><i style="background:' + (COLORS[k] || '#ccc') + '"></i>' +
         '<span>' + G.LABELS[k] + '</span></button>';
     }).join('');
+    if (focusedKey) {
+      var replacement = list.querySelector('[data-r5-legend="' + focusedKey + '"]');
+      if (replacement) replacement.focus();
+    }
   }
 
   function renderPoints() {
+    var list = $('spx-r5-points-list');
+    var focused = document.activeElement, focusAttribute = null, focusValue = null;
+    if (focused && list.contains(focused)) {
+      if (focused.hasAttribute('data-r5-select')) focusAttribute = 'data-r5-select';
+      else if (focused.hasAttribute('data-r5-c')) focusAttribute = 'data-r5-c';
+      else if (focused.hasAttribute('data-r5-t')) focusAttribute = 'data-r5-t';
+      if (focusAttribute) focusValue = focused.getAttribute(focusAttribute);
+    }
     var G = geo(), b = bounds();
-    $('spx-r5-points-list').innerHTML = s5.points.map(function (p) {
+    list.innerHTML = s5.points.map(function (p) {
       var inside = p.c >= b.cMin && p.c <= b.cMax && p.t >= b.tMin && p.t <= b.tMax;
       var key = G.regionAt(clamp(p.c, b.cMin, b.cMax), clamp(p.t, b.tMin, b.tMax));
       return '<div class="spx-r5-point-row' + (p.id === s5.activeId ? ' active' : '') + '">' +
@@ -615,12 +721,17 @@
           '<input type="number" data-r5-c="' + p.id + '" min="' + b.cMin + '" max="' + b.cMax +
           '" step="0.01" value="' + p.c.toFixed(3) + '"></label>' +
         '<label>Temperature <span>(' + unitLabel() + ')</span>' +
-          '<input type="number" data-r5-t="' + p.id + '" step="1" value="' +
+          '<input type="number" data-r5-t="' + p.id + '" min="' + Math.round(toDisplay(b.tMin)) +
+          '" max="' + Math.round(toDisplay(b.tMax)) + '" step="1" value="' +
           Math.round(toDisplay(p.t)) + '"></label>' +
         '<div class="spx-r5-point-result"><strong>' + G.LABELS[key] + '</strong>' +
         '<span>' + (inside ? 'On this diagram' : 'Outside this diagram') + '</span></div>' +
         '</div>';
     }).join('');
+    if (focusAttribute && focusValue != null) {
+      var replacement = list.querySelector('[' + focusAttribute + '="' + focusValue + '"]');
+      if (replacement) replacement.focus();
+    }
   }
 
   function renderAnalysis() {
@@ -637,13 +748,13 @@
         '<div class="spx-metric"><b>' + fmtT(p.t) + '</b><span>Temperature</span></div>' +
       '</div>';
     $('spx-r5-model-note').textContent = s5.map === 'rapid'
-      ? 'A1, A3, Acm, Ms and Mf are quantitative. The pearlite, bainite and austenitising divisions are educational approximations and carry no implied precision.'
-      : 'Equilibrium Fe-Fe3C boundaries. Kinetic products such as bainite and martensite do not appear on an equilibrium diagram.';
+      ? 'A1 is a reference invariant and Ms is a carbon-only Andrews estimate. A3 and Acm are anchor-calibrated curves; Mf and the product divisions are illustrative approximations. The map assumes sufficient isothermal holding, does not calculate start or finish time, and carries no implied precision.'
+      : 'The interaction layer classifies the metastable Fe-Fe3C system. The licensed poster also shows stable graphite fields; those graphite fields are visible artwork but are not classified by the cursor response. Kinetic products such as bainite and martensite do not appear on an equilibrium diagram.';
   }
 
   function renderSource() {
     $('spx-r5-source-note').innerHTML = s5.map === 'rapid'
-      ? 'Original vector reconstruction. Region boundaries are generated from the published relationships listed in the module, not traced.'
+      ? 'Original teaching reconstruction. A1 and the carbon-only Andrews Ms estimate use published reference values; A3, Acm, Mf and the product divisions are anchor-calibrated or explicitly illustrative rather than traced grade-specific boundaries.'
       : 'Iron-Carbon/Cementite Phase Diagram, Buehler (an ITW company). Copyright &copy; 2006 ASM International. All rights reserved. Reproduced under permission held by UpSkill Sprint Consulting. ' +
         '<a href="' + POSTER_PDF + '" target="_blank" rel="noopener">Open the official poster PDF</a>.';
   }
@@ -652,6 +763,7 @@
 
   function applyCanvas() {
     var svg = $('spx-r5-svg');
+    var wrap = $('spx-r5-svg-wrap');
     if (s5.map === 'rapid') {
       svg.setAttribute('viewBox', '0 0 ' + RG.VIEW.w + ' ' + RG.VIEW.h);
       svg.setAttribute('aria-label', 'Interactive rapid-quench microconstituent map');
@@ -660,6 +772,7 @@
       svg.setAttribute('aria-label', 'Interactive iron-carbon cementite phase diagram poster');
     }
     svg.style.width = (s5.zoom * 100) + '%';
+    wrap.classList.toggle('is-fit', s5.zoom === 1);
     $('spx-r5-zoom-label').textContent = Math.round(s5.zoom * 100) + '%';
   }
 
@@ -688,8 +801,8 @@
       ? 'Rapid-quench microconstituent map'
       : 'Iron-carbon / cementite phase diagram';
     $('spx-r5-subtitle').textContent = s5.map === 'rapid'
-      ? 'Carbon versus isothermal bath temperature. This is not a TTT or CCT diagram; there is no time axis.'
-      : 'Equilibrium Fe-Fe3C diagram, reproduced from the Buehler poster with a calibrated interaction layer.';
+      ? 'Illustrative dominant product versus carbon and isothermal hold temperature. A sufficient hold is assumed; time is not calculated, so this is not a TTT or CCT prediction.'
+      : 'Buehler iron-carbon poster with a metastable Fe-Fe3C interaction layer. Stable graphite fields remain visible in the artwork but are not cursor-classified.';
 
     var ref = $('spx-r5-reference'), emph = $('spx-r5-emphasis');
     /* The reference layer is expensive to build and never depends on point
@@ -737,6 +850,33 @@
     s5.activeId = id;
   }
 
+  function announcePoint(id, action) {
+    var p = s5.points.filter(function (x) { return x.id === id; })[0];
+    if (!p) return;
+    var key = geo().regionAt(p.c, p.t);
+    $('spx-r5-status').textContent = 'P' + p.id + ' ' + action + ' to ' +
+      p.c.toFixed(s5.map === 'rapid' ? 2 : 3) + ' wt% C, ' + fmtT(p.t) +
+      ' — ' + geo().LABELS[key] + '.';
+  }
+
+  function coarsePointer(e) {
+    if (e.pointerType) return e.pointerType !== 'mouse';
+    return !!(window.matchMedia && window.matchMedia('(any-pointer: coarse)').matches);
+  }
+
+  function nearestMarker(e, svg) {
+    var best = null, bestDistance = Infinity;
+    Array.prototype.forEach.call(svg.querySelectorAll('.spx-r5-marker[data-r5-point]'), function (node) {
+      var box = node.getBoundingClientRect();
+      if (!box || (!box.width && !box.height)) return;
+      var dx = e.clientX - (box.left + box.width / 2);
+      var dy = e.clientY - (box.top + box.height / 2);
+      var distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance < bestDistance) { best = node; bestDistance = distance; }
+    });
+    return bestDistance <= 22 ? best : null;
+  }
+
   function bind() {
     $('spx-r5-subnav').addEventListener('click', function (e) {
       var b = e.target.closest('[data-r5-map]');
@@ -775,7 +915,15 @@
       });
 
     $('spx-r5-add').addEventListener('click', function () {
-      var a = activePoint(), id = ++s5.nextId;
+      if (s5.points.length >= MAX_POINTS) {
+        $('spx-r5-status').textContent = 'A maximum of ' + MAX_POINTS + ' comparison points can be shown and saved.';
+        return;
+      }
+      var a = activePoint(), id = allocatePointId();
+      if (id == null) {
+        $('spx-r5-status').textContent = 'No valid point identifier is available.';
+        return;
+      }
       s5.points.push({ id: id, c: a ? a.c : 0.4, t: a ? a.t : 500 });
       s5.activeId = id;
       render();
@@ -808,9 +956,22 @@
       if (!id) return;
       var p = s5.points.filter(function (x) { return x.id === id; })[0];
       if (!p) return;
-      if (idC) setPoint(id, Number(e.target.value), p.t);
-      else setPoint(id, p.c, fromDisplay(Number(e.target.value)));
+      var raw = e.target.value, entered = Number(raw), b = bounds();
+      var value = idT && isFinite(entered) ? fromDisplay(entered) : entered;
+      var valid = String(raw).trim() !== '' && isFinite(value) &&
+        (idC ? value >= b.cMin && value <= b.cMax : value >= b.tMin && value <= b.tMax);
+      e.target.setAttribute('aria-invalid', String(!valid));
+      if (!valid) {
+        $('spx-r5-status').textContent = idC
+          ? 'Carbon must be between ' + b.cMin + ' and ' + b.cMax + ' wt%. The point was not changed.'
+          : 'Temperature must be between ' + Math.round(toDisplay(b.tMin)) + ' and ' +
+            Math.round(toDisplay(b.tMax)) + ' ' + unitLabel() + '. The point was not changed.';
+        return;
+      }
+      if (idC) setPoint(id, value, p.t);
+      else setPoint(id, p.c, value);
       render();
+      announcePoint(id, 'updated');
     });
 
     $('spx-r5-legend').addEventListener('click', function (e) {
@@ -833,11 +994,27 @@
       $('spx-r5-svg-wrap').scrollTo({ top: 0, left: 0 });
     });
 
+    function syncFullscreenControl() {
+      var active = document.fullscreenElement === $('spx-r5-svg-wrap');
+      var button = $('spx-r5-fullscreen');
+      button.textContent = active ? 'Exit full screen' : 'Full screen';
+      button.setAttribute('aria-pressed', String(active));
+    }
     $('spx-r5-fullscreen').addEventListener('click', function () {
-      var w = $('spx-r5-svg-wrap');
-      if (!document.fullscreenElement && w.requestFullscreen) w.requestFullscreen();
-      else if (document.exitFullscreen) document.exitFullscreen();
+      var w = $('spx-r5-svg-wrap'), action;
+      if (!document.fullscreenElement && w.requestFullscreen) action = w.requestFullscreen();
+      else if (document.fullscreenElement && document.exitFullscreen) action = document.exitFullscreen();
+      else {
+        $('spx-r5-status').textContent = 'Full-screen mode is not available in this browser.';
+        return;
+      }
+      if (action && typeof action.catch === 'function') action.catch(function () {
+        $('spx-r5-status').textContent = 'The browser did not allow full-screen mode.';
+        syncFullscreenControl();
+      });
     });
+    document.addEventListener('fullscreenchange', syncFullscreenControl);
+    syncFullscreenControl();
 
     $('spx-r5-svg-wrap').addEventListener('wheel', function (e) {
       if (!e.ctrlKey) return;
@@ -850,6 +1027,7 @@
 
     svg.addEventListener('pointerdown', function (e) {
       var marker = e.target.closest('[data-r5-point]');
+      if (coarsePointer(e)) marker = nearestMarker(e, svg) || marker;
       var d = svgData(e);
       if (marker) {
         dragId = Number(marker.dataset.r5Point);
@@ -876,14 +1054,14 @@
       var key = geo().regionAt(d.c, d.t);
       drawOverlay();
       renderHelp(key);
-      $('spx-r5-status').textContent =
-        geo().LABELS[key] + ' at ' + d.c.toFixed(2) + ' wt% C, ' + fmtT(d.t) + '.';
     });
 
     svg.addEventListener('pointerup', function (e) {
+      var committedId = dragId;
       dragId = null;
       try { svg.releasePointerCapture(e.pointerId); } catch (err) { /* not captured */ }
       render();
+      if (committedId) announcePoint(committedId, 'moved');
     });
     svg.addEventListener('pointercancel', function () { dragId = null; render(); });
     svg.addEventListener('pointerleave', function () { hover = null; drawOverlay(); });
@@ -897,6 +1075,7 @@
         renderHelp(s5.highlight);
         renderLegend();
         drawOverlay();
+        $('spx-r5-status').textContent = geo().LABELS[s5.highlight] + ' highlighted on the diagram.';
       }
     });
 
@@ -927,19 +1106,26 @@
         img.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
       if (!href || href.indexOf('data:') === 0) return Promise.resolve();
       return fetch(href)
-        .then(function (r) { return r.blob(); })
+        .then(function (r) {
+          if (!r.ok) throw new Error('image request returned HTTP ' + r.status);
+          return r.blob();
+        })
         .then(function (blob) {
-          return new Promise(function (resolve) {
+          return new Promise(function (resolve, reject) {
             var reader = new FileReader();
             reader.onloadend = function () {
+              if (typeof reader.result !== 'string' || reader.result.indexOf('data:') !== 0) {
+                reject(new Error('image could not be encoded'));
+                return;
+              }
               img.setAttribute('href', reader.result);
               img.setAttributeNS('http://www.w3.org/1999/xlink', 'href', reader.result);
               resolve();
             };
+            reader.onerror = function () { reject(new Error('image could not be read')); };
             reader.readAsDataURL(blob);
           });
-        })
-        .catch(function () { /* leave the reference; export still succeeds */ });
+        });
     }));
   }
 
@@ -952,6 +1138,29 @@
     clone.setAttribute('xmlns', NS);
     clone.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
     clone.style.width = '';
+    var exportStyle = document.createElementNS(NS, 'style');
+    exportStyle.textContent = [
+      '.spx-r5-heading{font:800 26px system-ui;fill:#1d1b18}',
+      '.spx-r5-subheading{font:600 19px system-ui;fill:#3a3733}',
+      '.spx-r5-axis{font:700 19px system-ui;fill:#1d1b18}',
+      '.spx-r5-tick{font:600 16px system-ui;fill:#3a3733}',
+      '.spx-r5-fieldlabel{font:700 18px system-ui;fill:#16130f;paint-order:stroke;stroke:#fbfaf7;stroke-width:4px;stroke-linejoin:round}',
+      '.spx-r5-critlabel{font:800 17px system-ui;fill:#111;paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}',
+      '.spx-r5-grid-major{stroke:#b9b4ab;stroke-width:1}',
+      '.spx-r5-grid-minor{stroke:#dedad2;stroke-width:.6}',
+      '.spx-r5-frame{stroke:#1d1b18;stroke-width:2.4}',
+      '.spx-r5-critical{stroke:#14110d;stroke-width:2.6;fill:none}',
+      '.spx-r5-critical.dashed{stroke-dasharray:9 6}',
+      '.spx-r5-critical.approx{stroke-dasharray:5 4;opacity:.82}',
+      '.spx-r5-critical.approx.dashed{stroke-dasharray:10 5 2 5}',
+      '.spx-r5-crosshair{stroke:#0e7490;stroke-width:1.6;stroke-dasharray:6 5;opacity:.9}',
+      '.spx-r5-readout-bg{fill:#14110d;opacity:.92}',
+      '.spx-r5-readout{font:700 17px system-ui;fill:#fff}',
+      '.spx-r5-marker{stroke:#fff;stroke-width:2.5}',
+      '.spx-r5-marker.active{stroke-width:4}',
+      '.spx-r5-pointlabel{font:800 17px system-ui;fill:#14110d;paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}'
+    ].join('');
+    clone.insertBefore(exportStyle, clone.firstChild);
 
     var w = s5.map === 'rapid' ? RG.VIEW.w : PG.PAGE.w;
     var h = s5.map === 'rapid' ? RG.VIEW.h : PG.PAGE.h;
@@ -988,6 +1197,9 @@
         status.textContent = 'PNG export failed while rasterising the diagram.';
       };
       img.src = url;
+    }).catch(function (err) {
+      status.textContent = 'PNG export failed because all poster artwork could not be embedded' +
+        (err && err.message ? ': ' + err.message : '.') ;
     });
   }
 
@@ -1019,14 +1231,20 @@
     var b = bounds();
     s5.map = prev;
 
-    var seen = {};
+    var seen = {}, nextFree = 1;
+    function advanceNextFree() { while (nextFree <= MAX_POINT_ID && seen[nextFree]) nextFree++; }
     if (raw && Object.prototype.toString.call(raw.points) === '[object Array]') {
-      raw.points.forEach(function (p) {
+      raw.points.slice(0, MAX_POINTS).forEach(function (p) {
         if (!p) return;
         var c = Number(p.c), t = Number(p.t), id = Math.floor(Number(p.id));
         if (!isFinite(c) || !isFinite(t)) return;
-        if (!isFinite(id) || id < 1 || seen[id]) id = safe.points.length + 1;
+        if (!isFinite(id) || id < 1 || id > MAX_POINT_ID || seen[id]) {
+          advanceNextFree();
+          if (nextFree > MAX_POINT_ID) return;
+          id = nextFree;
+        }
         seen[id] = true;
+        advanceNextFree();
         safe.points.push({ id: id, c: clamp(c, b.cMin, b.cMax), t: clamp(t, b.tMin, b.tMax) });
       });
     }
@@ -1037,7 +1255,10 @@
       s5.map = prevMap;
     }
 
-    safe.nextId = safe.points.reduce(function (m, p) { return Math.max(m, p.id); }, 0);
+    nextFree = 1;
+    safe.points.forEach(function (p) { seen[p.id] = true; });
+    advanceNextFree();
+    safe.nextId = nextFree <= MAX_POINT_ID ? nextFree : 1;
     var wanted = Math.floor(Number(raw && raw.activeId));
     safe.activeId = safe.points.some(function (p) { return p.id === wanted; })
       ? wanted : safe.points[0].id;
@@ -1104,6 +1325,11 @@
     persist();
     wrapGlobal('setUnit');
     wrapGlobal('switchTab');
+    if (window.__spxPendingScenario) {
+      var pendingScenario = window.__spxPendingScenario;
+      window.__spxPendingScenario = null;
+      if (typeof window.restore === 'function') window.restore(pendingScenario);
+    }
     render();
 
     window.__SPX = window.__SPX || {};
@@ -1114,7 +1340,12 @@
       setLevel: function (l) { s5.level = l; render(); },
       regionAt: function (c, t) { return geo().regionAt(c, t); },
       addPoint: function (c, t) {
-        var b = bounds(), id = ++s5.nextId;
+        if (s5.points.length >= MAX_POINTS) {
+          $('spx-r5-status').textContent = 'A maximum of ' + MAX_POINTS + ' comparison points can be shown and saved.';
+          return null;
+        }
+        var b = bounds(), id = allocatePointId();
+        if (id == null) return null;
         s5.points.push({ id: id, c: clamp(Number(c) || 0, b.cMin, b.cMax),
                          t: clamp(Number(t) || 0, b.tMin, b.tMax) });
         s5.activeId = id;

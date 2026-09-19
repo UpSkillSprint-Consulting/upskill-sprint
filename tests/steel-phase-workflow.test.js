@@ -376,17 +376,21 @@ test('links between the tool and the guide point at real files', () => {
 test('a restore payload with no points falls back to the examples', async t => {
   const { win } = await tool();
   t.after(() => win.close());
-  assert.doesNotThrow(() => win.restore({ release5: { map: 'rapid', level: 'engineer' } }));
+  const payload = win.serializable();
+  payload.release5 = { map: 'rapid', level: 'engineer' };
+  assert.doesNotThrow(() => assert.equal(win.restore(payload), true));
   assert.ok(r5(win).state().points.length >= 1, 'seeded rather than left empty');
 });
 
 test('a restore payload with junk points is repaired, not trusted', async t => {
   const { win } = await tool();
   t.after(() => win.close());
-  win.restore({ release5: {
+  const payload = win.serializable();
+  payload.release5 = {
     map: 'rapid', level: 'engineer',
     points: [{ id: 1, c: 999, t: -9999 }, { id: 'x', c: 'abc', t: null }, null]
-  } });
+  };
+  assert.equal(win.restore(payload), true);
   const R = win.SPXRapidGeometry;
   const pts = r5(win).state().points;
   assert.ok(pts.length >= 1, 'something usable survived');
@@ -400,7 +404,9 @@ test('a restore payload with junk points is repaired, not trusted', async t => {
 test('a restore payload with an unknown diagram falls back to rapid', async t => {
   const { win } = await tool();
   t.after(() => win.close());
-  win.restore({ release5: { map: 'not-a-diagram', level: 'nonsense', zoom: 9999 } });
+  const payload = win.serializable();
+  payload.release5 = { map: 'not-a-diagram', level: 'nonsense', zoom: 9999 };
+  assert.equal(win.restore(payload), true);
   const st = r5(win).state();
   assert.equal(st.map, 'rapid');
   assert.equal(st.level, 'engineer');
@@ -410,11 +416,79 @@ test('a restore payload with an unknown diagram falls back to rapid', async t =>
 test('restored point ids stay unique', async t => {
   const { win } = await tool();
   t.after(() => win.close());
-  win.restore({ release5: { map: 'rapid', points: [
+  const payload = win.serializable();
+  payload.release5 = { map: 'rapid', points: [
     { id: 2, c: 0.3, t: 400 }, { id: 2, c: 0.5, t: 300 }, { id: 2, c: 0.7, t: 200 }
-  ] } });
+  ] };
+  assert.equal(win.restore(payload), true);
   const ids = r5(win).state().points.map(p => p.id);
   assert.equal(new Set(ids).size, ids.length, 'duplicate ids would break selection');
+});
+
+test('restored release 5 ids are unique and remain inside the documented cap', async t => {
+  const { win } = await tool();
+  t.after(() => win.close());
+  const payload = win.serializable();
+  payload.release5 = { map: 'rapid', points: [
+    { id: 1000000, c: 0.3, t: 400 },
+    { id: 1000000, c: 0.5, t: 300 },
+    { id: Number.MAX_SAFE_INTEGER, c: 0.7, t: 200 }
+  ] };
+  assert.equal(win.restore(payload), true);
+  const state = r5(win).state();
+  const ids = state.points.map(p => p.id);
+  assert.equal(new Set(ids).size, ids.length);
+  assert.ok(ids.every(id => Number.isInteger(id) && id >= 1 && id <= 1000000));
+  assert.ok(Number.isInteger(state.nextId) && state.nextId >= 1 && state.nextId <= 1000000);
+});
+
+test('sparse restored ids remain unique across later additions and the saved point cap is enforced', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  const payload = win.serializable();
+  payload.release5 = { map: 'rapid', points: [
+    { id: 2, c: .3, t: 400 },
+    { id: 4, c: .5, t: 300 }
+  ] };
+  assert.equal(win.restore(payload), true);
+
+  r5(win).addPoint(.6, 250);
+  r5(win).addPoint(.7, 200);
+  let state = r5(win).state();
+  assert.equal(new Set(state.points.map(p => p.id)).size, state.points.length,
+    'allocating through an already-used sparse id must skip it');
+
+  while (state.points.length < 20) {
+    assert.notEqual(r5(win).addPoint(.8, 180), null);
+    state = r5(win).state();
+  }
+  assert.equal(r5(win).addPoint(.9, 150), null);
+  doc.getElementById('spx-r5-add').click();
+  assert.equal(r5(win).state().points.length, 20);
+  assert.match(doc.getElementById('spx-r5-status').textContent, /maximum of 20/i);
+});
+
+test('release 5 state from the initial hash is replayed after its delayed loader starts', async t => {
+  const shared = {
+    unit: 'metric',
+    points: [{ id: 1, c: .2, t: 900 }],
+    activeId: 1,
+    release5: {
+      map: 'poster', level: 'advanced', activeId: 7,
+      points: [{ id: 7, c: 4.3, t: 1148 }]
+    }
+  };
+  const encoded = Buffer.from(JSON.stringify(shared), 'utf8').toString('base64');
+  const { win } = await tool({
+    url: 'https://upskillsprint.com/tools/steel-phase-explorer#spx=' + encoded
+  });
+  t.after(() => win.close());
+  const state = r5(win).state();
+  assert.equal(state.map, 'poster');
+  assert.equal(state.level, 'advanced');
+  assert.equal(state.activeId, 7);
+  assert.equal(JSON.stringify(state.points.map(p => [p.id, p.c, p.t])),
+    JSON.stringify([[7, 4.3, 1148]]));
 });
 
 /* ---------- validation fixes ---------- */
@@ -431,9 +505,27 @@ test('Andrews Ac3 does not substitute chromium for the tungsten term', async t =
   assert.ok(after.ms < before.ms, 'the chemistry edit was applied to equations that contain Cr');
 });
 
+test('Andrews Ac1 does not substitute boron for the arsenic term', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  const before = win.__SPX.chemMetrics();
+  const boron = doc.getElementById('spx-chem-B');
+  boron.value = '0.0100';
+  boron.dispatchEvent(new win.Event('input', { bubbles: true }));
+  const after = win.__SPX.chemMetrics();
+  assert.equal(after.ac1, before.ac1, 'B must not occupy Andrews\' +290As term');
+  assert.ok(after.pcm > before.pcm, 'the boron edit still applies to Pcm');
+});
+
 test('final temperature controls martensite and is unit invariant', async t => {
   const { win, doc } = await tool();
   t.after(() => win.close());
+  const cooling = doc.getElementById('spx-kin-cooling');
+  cooling.value = '1000';
+  cooling.dispatchEvent(new win.Event('input', { bubbles: true }));
+  const hold = doc.getElementById('spx-kin-hold');
+  hold.value = '0';
+  hold.dispatchEvent(new win.Event('input', { bubbles: true }));
   const final = doc.getElementById('spx-kin-final');
   final.value = '400';
   final.dispatchEvent(new win.Event('input', { bubbles: true }));
@@ -447,6 +539,117 @@ test('final temperature controls martensite and is unit invariant', async t => {
   const coolImperial = win.__SPX.kineticsFractions();
   assert.ok(Math.abs(coolImperial.Martensite - coolMetric.Martensite) < 1e-12,
     'display-unit change cannot change the prediction');
+});
+
+test('TTT hold consumes austenite before subsequent martensite can form', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  const cooling = doc.getElementById('spx-kin-cooling');
+  cooling.value = '1000';
+  cooling.dispatchEvent(new win.Event('input', { bubbles: true }));
+  const hold = doc.getElementById('spx-kin-hold');
+  const holdTemp = doc.getElementById('spx-kin-hold-temp');
+  const final = doc.getElementById('spx-kin-final');
+  holdTemp.value = '500';
+  final.value = '25';
+  hold.value = '0';
+  hold.dispatchEvent(new win.Event('input', { bubbles: true }));
+  const short = win.__SPX.kineticsFractions();
+  hold.value = '100000';
+  hold.dispatchEvent(new win.Event('input', { bubbles: true }));
+  const long = win.__SPX.kineticsFractions();
+  assert.ok(long.Martensite < short.Martensite, 'long bainitic hold reduces later martensite');
+  for (const result of [short, long]) {
+    const values = Object.values(result);
+    assert.ok(values.every(v => Number.isFinite(v) && v >= 0));
+    assert.ok(Math.abs(values.reduce((a, b) => a + b, 0) - 1) < 1e-9);
+  }
+});
+
+test('CCT products are limited to temperature bands the path reaches', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  doc.getElementById('spx-mode-cct').dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
+  doc.getElementById('spx-kin-cooling').value = '1000';
+  doc.getElementById('spx-kin-cooling').dispatchEvent(new win.Event('input', { bubbles: true }));
+  const final = doc.getElementById('spx-kin-final');
+  final.value = '800';
+  final.dispatchEvent(new win.Event('input', { bubbles: true }));
+  const high = win.__SPX.kineticsFractions();
+  assert.deepEqual(JSON.parse(JSON.stringify(high)), {},
+    'CCT output is quarantined when the selected endpoint does not cool below A1');
+  assert.match(doc.getElementById('spx-kin-results').textContent, /unavailable/i);
+  final.value = '600';
+  final.dispatchEvent(new win.Event('input', { bubbles: true }));
+  const mid = win.__SPX.kineticsFractions();
+  assert.equal(mid.Bainite, 0, 'path ending at 600 °C cannot enter the bainite band');
+  assert.equal(mid.Martensite, 0, 'path ending above Ms cannot form martensite');
+});
+
+test('invalid kinetics fields are rejected instead of silently clamped or defaulted', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  const cooling = doc.getElementById('spx-kin-cooling');
+  cooling.value = '10000';
+  cooling.dispatchEvent(new win.Event('input', { bubbles: true }));
+  assert.equal(cooling.getAttribute('aria-invalid'), 'true');
+  assert.deepEqual(JSON.parse(JSON.stringify(win.__SPX.kineticsFractions())), {});
+  assert.match(doc.getElementById('spx-kin-results').textContent, /unavailable.*0\.01–1000/is);
+  assert.equal(doc.querySelector('[data-kin="Thermal path"]'), null,
+    'an invalid displayed rate must not leave a path calculated from a hidden clamp');
+
+  cooling.value = '1000';
+  cooling.dispatchEvent(new win.Event('input', { bubbles: true }));
+  const final = doc.getElementById('spx-kin-final');
+  final.value = '';
+  final.dispatchEvent(new win.Event('input', { bubbles: true }));
+  assert.equal(final.getAttribute('aria-invalid'), 'true');
+  assert.deepEqual(JSON.parse(JSON.stringify(win.__SPX.kineticsFractions())), {});
+  assert.match(doc.getElementById('spx-kin-results').textContent, /Final temperature must be within/i);
+});
+
+test('TTT path responds to rate and hold and differs from CCT curves', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  const thermal = () => doc.querySelector('[data-kin="Thermal path"]').getAttribute('d');
+  const pearl = () => doc.querySelector('[data-kin="Pearlite start"]').getAttribute('d');
+  const tttCurve = pearl();
+  const first = thermal();
+  doc.getElementById('spx-kin-cooling').value = '100';
+  doc.getElementById('spx-kin-cooling').dispatchEvent(new win.Event('input', { bubbles: true }));
+  const rateChanged = thermal();
+  assert.notEqual(rateChanged, first);
+  doc.getElementById('spx-kin-hold').value = '600';
+  doc.getElementById('spx-kin-hold').dispatchEvent(new win.Event('input', { bubbles: true }));
+  assert.notEqual(thermal(), rateChanged);
+  doc.getElementById('spx-mode-cct').dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
+  assert.notEqual(pearl(), tttCurve, 'CCT curve is not a relabelled TTT curve');
+  assert.match(doc.querySelector('[data-kin-mode]').textContent, /CCT/);
+});
+
+test('thermal path is explicit about equilibrium-only responses and dynamic baths', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  win.switchTab('path');
+  assert.match(doc.getElementById('spx-path-live').textContent, /Equilibrium reference only/);
+  assert.match(doc.getElementById('spx-path-canvas').getAttribute('aria-label'), /equilibrium/i);
+  const preset = doc.getElementById('spx-path-preset');
+  for (const name of ['austemper', 'martemper']) {
+    preset.value = name;
+    preset.dispatchEvent(new win.Event('change', { bubbles: true }));
+    const rows = [...doc.querySelectorAll('#spx-cycle-rows [data-cycle-t]')].map(x => Number(x.value));
+    assert.equal(rows[1], rows[2], `${name} bath and hold match`);
+    assert.ok(rows[1] > 430, `${name} default bath remains above default path Ms`);
+  }
+});
+
+test('phase fraction labels use contrast-safe explicit text colours', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  win.switchTab('kinetics');
+  const spans = [...doc.querySelectorAll('#spx-kin-results .spx-fraction-bar span')];
+  assert.ok(spans.length >= 4);
+  spans.forEach(span => assert.ok(span.style.color));
 });
 
 test('TTT exposes hold temperature and CCT disables isothermal controls', async t => {
@@ -511,6 +714,8 @@ test('dynamic thermal-cycle controls and core selectors have accessible names', 
 test('a restored highlight for the wrong diagram is dropped', async t => {
   const { win } = await tool();
   t.after(() => win.close());
-  win.restore({ release5: { map: 'rapid', highlight: 'liquidCementite' } });
+  const payload = win.serializable();
+  payload.release5 = { map: 'rapid', highlight: 'liquidCementite' };
+  assert.equal(win.restore(payload), true);
   assert.equal(r5(win).highlight(), null, 'poster-only region not carried onto the rapid tab');
 });

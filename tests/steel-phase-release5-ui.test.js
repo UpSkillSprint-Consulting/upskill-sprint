@@ -84,6 +84,14 @@ test('loader requests its stylesheet once', () => {
   assert.equal(links.length, 1);
 });
 
+test('labels control accurately distinguishes overlays from poster artwork', () => {
+  const win = boot();
+  const control = win.document.getElementById('spx-r5-labels');
+  assert.match(control.parentElement.textContent, /Overlay labels/);
+  const guide = fs.readFileSync(path.join(TOOLS, 'steel-phase-explorer', 'how-to-use', 'index.html'), 'utf8');
+  assert.match(guide, /labels printed in the poster artwork remain visible/);
+});
+
 test('geometry modules load before the render module', () => {
   const win = boot();
   assert.ok(win.SPXRapidGeometry, 'rapid geometry defined');
@@ -175,6 +183,18 @@ test('selecting a legend entry updates the explanation panel', () => {
   assert.match(win.document.getElementById('spx-r5-help').textContent, /Pearlite/i);
 });
 
+test('legend selection retains focus on the replacement button', () => {
+  const win = boot();
+  const doc = win.document;
+  const original = doc.querySelector('#spx-r5-legend [data-r5-legend="pearlite"]');
+  original.focus();
+  original.click();
+  const replacement = doc.querySelector('#spx-r5-legend [data-r5-legend="pearlite"]');
+  assert.notEqual(replacement, original, 'the legend was rerendered');
+  assert.equal(doc.activeElement, replacement);
+  assert.equal(replacement.getAttribute('aria-pressed'), 'true');
+});
+
 test('points render one row each', () => {
   const win = boot();
   const rows = win.document.querySelectorAll('#spx-r5-points-list .spx-r5-point-row');
@@ -203,6 +223,96 @@ test('point identifiers stay unique as points are added', () => {
   api.addPoint(0.9, 300);
   const ids = api.state().points.map(p => p.id);
   assert.equal(new Set(ids).size, ids.length, 'no duplicate ids');
+});
+
+test('point selection and editing retain focus across list rerenders', () => {
+  const win = boot();
+  const doc = win.document;
+  const id = win.__SPX.release5.addPoint(0.3, 500);
+
+  let original = doc.querySelector(`[data-r5-select="${id}"]`);
+  original.focus();
+  original.click();
+  let replacement = doc.querySelector(`[data-r5-select="${id}"]`);
+  assert.notEqual(replacement, original, 'the point list was rerendered');
+  assert.equal(doc.activeElement, replacement);
+  assert.equal(replacement.getAttribute('aria-pressed'), 'true');
+
+  original = doc.querySelector(`[data-r5-c="${id}"]`);
+  original.focus();
+  original.value = '0.35';
+  original.dispatchEvent(new win.Event('change', { bubbles: true }));
+  replacement = doc.querySelector(`[data-r5-c="${id}"]`);
+  assert.notEqual(replacement, original, 'the edited point row was rerendered');
+  assert.equal(doc.activeElement, replacement);
+});
+
+test('coarse-pointer marker pickup exposes a 44px-equivalent hit target', () => {
+  const win = boot();
+  const hits = [...win.document.querySelectorAll('#spx-r5-point-layer .spx-r5-marker-hit')];
+  assert.equal(hits.length, win.__SPX.release5.state().points.length);
+  hits.forEach(hit => {
+    assert.equal(hit.getAttribute('stroke-width'), '44');
+    assert.equal(hit.getAttribute('vector-effect'), 'non-scaling-stroke');
+    assert.equal(hit.getAttribute('aria-hidden'), 'true');
+  });
+  const css = read('steel-phase-explorer-release5.css');
+  assert.match(css, /@media \(any-pointer:coarse\)\{[^}]*\.spx-r5-marker-hit\{[^}]*pointer-events:stroke/);
+});
+
+test('touch pickup selects the nearest marker within the enlarged target', () => {
+  const win = boot();
+  const svg = win.document.getElementById('spx-r5-svg');
+  const markers = [...svg.querySelectorAll('.spx-r5-marker[data-r5-point]')];
+  markers.forEach((marker, i) => {
+    marker.getBoundingClientRect = () => ({ left: i * 80 + 10, top: 10, width: 10, height: 10 });
+  });
+  svg.setPointerCapture = () => {};
+  const event = new win.MouseEvent('pointerdown', {
+    bubbles: true, cancelable: true, clientX: 96, clientY: 15
+  });
+  Object.defineProperties(event, {
+    pointerType: { value: 'touch' },
+    pointerId: { value: 7 }
+  });
+  svg.dispatchEvent(event);
+  assert.equal(win.__SPX.release5.state().activeId, Number(markers[1].dataset.r5Point));
+});
+
+test('pointer hover stays silent and a completed point move is announced once', () => {
+  const win = boot();
+  const doc = win.document;
+  const svg = doc.getElementById('spx-r5-svg');
+  const status = doc.getElementById('spx-r5-status');
+  svg.createSVGPoint = () => ({
+    x: 0, y: 0,
+    matrixTransform() { return { x: 500, y: 500 }; }
+  });
+  svg.setPointerCapture = () => {};
+  svg.releasePointerCapture = () => {};
+  status.textContent = 'No committed change.';
+
+  svg.dispatchEvent(new win.MouseEvent('pointermove', {
+    bubbles: true, clientX: 500, clientY: 500
+  }));
+  assert.equal(status.textContent, 'No committed change.', 'hover does not flood the live region');
+
+  const marker = svg.querySelector('.spx-r5-marker[data-r5-point="1"]');
+  const down = new win.MouseEvent('pointerdown', {
+    bubbles: true, cancelable: true, clientX: 500, clientY: 500
+  });
+  Object.defineProperty(down, 'pointerId', { value: 8 });
+  marker.dispatchEvent(down);
+  const move = new win.MouseEvent('pointermove', {
+    bubbles: true, clientX: 510, clientY: 510
+  });
+  Object.defineProperty(move, 'pointerId', { value: 8 });
+  svg.dispatchEvent(move);
+  assert.equal(status.textContent, 'No committed change.', 'drag updates remain silent');
+  const up = new win.MouseEvent('pointerup', { bubbles: true });
+  Object.defineProperty(up, 'pointerId', { value: 8 });
+  svg.dispatchEvent(up);
+  assert.match(status.textContent, /^P1 moved to /);
 });
 
 test('the readout region matches the geometry module', () => {
@@ -269,6 +379,37 @@ test('changing units does not move points', () => {
   assert.deepEqual(after, before, 'canonical values unchanged');
 });
 
+test('point temperature controls expose diagram and unit-specific bounds', () => {
+  const win = boot();
+  let input = win.document.querySelector('#spx-r5-points-list [data-r5-t]');
+  assert.equal(Number(input.min), win.SPXRapidGeometry.RANGE.tMin);
+  assert.equal(Number(input.max), win.SPXRapidGeometry.RANGE.tMax);
+
+  win.document.querySelector('#spx-r5-unit [data-r5-unit="imperial"]')
+    .dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
+  input = win.document.querySelector('#spx-r5-points-list [data-r5-t]');
+  assert.equal(Number(input.min), -148);
+  assert.equal(Number(input.max), 1832);
+
+  win.__SPX.release5.setMap('poster');
+  input = win.document.querySelector('#spx-r5-points-list [data-r5-t]');
+  assert.equal(Number(input.min), 32);
+  assert.equal(Number(input.max), 2912);
+});
+
+test('invalid point edits are rejected rather than silently clamped', () => {
+  const win = boot();
+  const api = win.__SPX.release5;
+  const before = api.state().points[0];
+  const input = win.document.querySelector('#spx-r5-points-list [data-r5-t]');
+  input.value = '5000';
+  input.dispatchEvent(new win.Event('change', { bubbles: true }));
+  assert.equal(input.getAttribute('aria-invalid'), 'true');
+  assert.equal(api.state().points[0].t, before.t);
+  assert.match(win.document.getElementById('spx-r5-status').textContent,
+    /must be between.*point was not changed/i);
+});
+
 test('experience level changes the explanation text', () => {
   const win = boot();
   const api = win.__SPX.release5;
@@ -289,12 +430,42 @@ test('advanced level surfaces the validation caution', () => {
 test('zoom controls update the readout and clamp at fit', () => {
   const win = boot();
   const label = () => win.document.getElementById('spx-r5-zoom-label').textContent;
+  const wrap = win.document.getElementById('spx-r5-svg-wrap');
+  assert.equal(wrap.classList.contains('is-fit'), true, 'fit view does not clip the diagram');
   win.document.getElementById('spx-r5-zoom-in').dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
   assert.equal(label(), '125%');
+  assert.equal(wrap.classList.contains('is-fit'), false, 'zoomed diagrams use the scrollable viewport');
   win.document.getElementById('spx-r5-zoom-reset').dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
   assert.equal(label(), '100%');
+  assert.equal(wrap.classList.contains('is-fit'), true);
   win.document.getElementById('spx-r5-zoom-out').dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
   assert.equal(label(), '100%', 'clamped at fit');
+});
+
+test('full-screen control tracks entry and exit state', async () => {
+  const win = boot();
+  const doc = win.document;
+  const wrap = doc.getElementById('spx-r5-svg-wrap');
+  const button = doc.getElementById('spx-r5-fullscreen');
+  let fullscreen = null;
+  Object.defineProperty(doc, 'fullscreenElement', { configurable: true, get: () => fullscreen });
+  wrap.requestFullscreen = () => {
+    fullscreen = wrap;
+    doc.dispatchEvent(new win.Event('fullscreenchange'));
+    return Promise.resolve();
+  };
+  doc.exitFullscreen = () => {
+    fullscreen = null;
+    doc.dispatchEvent(new win.Event('fullscreenchange'));
+    return Promise.resolve();
+  };
+
+  button.click();
+  assert.equal(button.textContent, 'Exit full screen');
+  assert.equal(button.getAttribute('aria-pressed'), 'true');
+  button.click();
+  assert.equal(button.textContent, 'Full screen');
+  assert.equal(button.getAttribute('aria-pressed'), 'false');
 });
 
 test('the source note credits Buehler and ASM on the poster tab', () => {
@@ -441,10 +612,31 @@ test('a successful poster load injects the artwork once', async () => {
   win.__SPX.release5.setMap('poster');
   await new Promise(r => setTimeout(r, 30));
   assert.equal(win.__SPX.release5.posterState(), 'ready');
-  assert.equal(win.document.querySelectorAll('#spx-r5-reference .spx-r5-poster').length, 1);
+  const poster = win.document.querySelector('#spx-r5-reference .spx-r5-poster');
+  assert.ok(poster);
+  assert.equal(poster.getAttribute('aria-hidden'), 'true');
+  assert.equal(poster.getAttribute('focusable'), 'false');
   win.__SPX.release5.render();
   assert.equal(win.document.querySelectorAll('#spx-r5-reference .spx-r5-poster').length, 1,
     'still one after a re-render');
+});
+
+test('poster PNG export reports a failed raster embed instead of false success', async () => {
+  const win = boot();
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 2736">' +
+    '<image href="/assets/steel-phase/poster/missing.png" width="10" height="10"/></svg>';
+  win.fetch = url => String(url).endsWith('poster.svg')
+    ? Promise.resolve({ ok: true, status: 200, text: () => Promise.resolve(svg) })
+    : Promise.resolve({ ok: false, status: 404, blob: () => Promise.resolve(new win.Blob()) });
+  win.__SPX.release5.setMap('poster');
+  await new Promise(r => setTimeout(r, 30));
+  assert.equal(win.__SPX.release5.posterState(), 'ready');
+  win.document.getElementById('spx-r5-export').click();
+  await new Promise(r => setTimeout(r, 20));
+  assert.match(win.document.getElementById('spx-r5-status').textContent,
+    /PNG export failed.*could not be embedded.*404/i);
+  assert.doesNotMatch(win.document.getElementById('spx-r5-status').textContent,
+    /^PNG exported\.$/i);
 });
 
 /* ---------- region highlighting ----------
@@ -584,4 +776,14 @@ test('changing the highlight recomputes the shapes', () => {
   const b = win.__SPX.release5.highlightShapeCount();
   assert.ok(a > 0 && b > 0, 'both produced shapes');
   assert.notEqual(a, b, 'different regions give different shape counts');
+});
+
+test('narrow point editors keep both numeric fields in the flexible column', () => {
+  const css = read('steel-phase-explorer-release5.css');
+  assert.match(css, /\.spx-r5-point-row input\{[^}]*width:100%;[^}]*min-width:0/,
+    'numeric inputs can shrink to the available card width');
+  assert.match(css, /@media \(max-width:720px\)\{[^}]*\.spx-r5-point-row\{grid-template-columns:auto minmax\(0,1fr\)\}[^}]*\.spx-r5-point-row>label\{grid-column:2\}/,
+    'both field labels stay out of the narrow point-selector column');
+  assert.match(css, /@media \(max-width:520px\)\{[^}]*\.spx-r5-stack\{grid-template-columns:minmax\(0,1fr\)\}/,
+    'the 300px card minimum does not overflow a 320px viewport');
 });

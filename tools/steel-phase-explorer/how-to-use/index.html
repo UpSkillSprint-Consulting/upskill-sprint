@@ -33,7 +33,7 @@
 
 <section class="guide-hero">
   <div class="guide-wrap">
-    <p class="guide-eyebrow">Engineering Tools · Complete User Guide · Releases 1–4</p>
+    <p class="guide-eyebrow">Engineering Tools · Complete User Guide · Releases 1–5</p>
     <h1>How to Use the Steel Phase &amp; Transformation Explorer</h1>
     <p class="guide-lead">Use the explorer to move from chemistry and processing conditions to predicted microstructure, properties, and performance. The tool now combines guided learning, equilibrium and kinetic transformation analysis, applied heat-treatment models, actual thermal-data analysis, measurement guidance, surface engineering, tempering, mechanical-property learning, metallography, solidification, and alloy-family modes.</p>
     <div class="guide-actions"><a class="guide-btn primary" href="/tools/steel-phase-explorer">Open the Explorer</a><a class="guide-btn" href="/engineering-tools">Browse Engineering Tools</a></div>
@@ -87,7 +87,7 @@
       <h3>Choose the question first</h3>
       <p>The <strong>Guided Start</strong> page routes you to the correct module. Select the question closest to your problem, such as:</p>
       <ul>
-        <li>What phases are present?</li><li>What happens during heating or cooling?</li><li>Will the centre of the section harden?</li><li>Is the austenitizing cycle adequate?</li><li>Which quench medium should be compared?</li><li>What does the uploaded thermal record show?</li><li>How should a thermocouple or pyrometer result be interpreted?</li><li>What case depth, tempering response, microstructure, or alloy-family behaviour should be expected?</li>
+        <li>What phases are present?</li><li>What happens during heating or cooling?</li><li>Will the centre of the section harden?</li><li>Is the austenitizing cycle adequate?</li><li>Which quench medium should be compared?</li><li>What does the uploaded thermal record show?</li><li>How should a thermocouple or pyrometer result be interpreted?</li><li>What surface-concentration or transformation-response trend, tempering response, microstructure, or alloy-family behaviour should be expected?</li>
       </ul>
       <h3>Experience level</h3>
       <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Mode</th><th>What it emphasizes</th><th>Use when</th></tr></thead><tbody>
@@ -124,8 +124,8 @@
       <p class="guide-kicker">Thermal-cycle builder</p>
       <h2>Heating and cooling paths</h2>
       <p>Select a preset—normalizing, annealing, spheroidizing, quench and temper, intercritical annealing, austempering, martempering—or build a custom cycle.</p>
-      <ol><li>Enter carbon.</li><li>Add or remove cycle steps.</li><li>Set target temperature, duration, and step type.</li><li>Use Play, Pause, or the time slider.</li><li>Review boundary crossings, the event timeline, and the live phase-state panel.</li></ol>
-      <div class="guide-callout"><p>Crossing an equilibrium boundary does not prove instantaneous transformation. Time, chemistry, grain size, prior condition, section thickness, and cooling rate determine what actually forms.</p></div>
+      <ol><li>Enter carbon.</li><li>Add or remove cycle steps.</li><li>Set target temperature, duration, and step type.</li><li>Use Play, Pause, or the time slider.</li><li>Review boundary crossings and the instantaneous equilibrium-reference panel.</li></ol>
+      <div class="guide-callout"><p>The live panel is recalculated from carbon and the temperature at the selected instant; it does not retain prior phase history. Crossing an equilibrium boundary does not prove instantaneous transformation. Time, chemistry, grain size, prior condition, section thickness, and cooling rate determine what actually forms. Use the TTT/CCT or Quenching modules for kinetic estimates.</p></div>
     </section>
 
     <section class="guide-card" id="kinetics">
@@ -141,7 +141,7 @@
       <p>Select an illustrative preset or enter verified heat chemistry. The module estimates CE IIW, Pcm, A<sub>c1</sub>, A<sub>c3</sub>, M<sub>s</sub>, hardenability, weldability, and directional property trends.</p>
       <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Output</th><th>Interpretation</th><th>Primary caution</th></tr></thead><tbody>
         <tr><td>CE IIW / Pcm</td><td>Weldability and hydrogen-cracking screening.</td><td>Applicability depends on product, thickness, procedure, heat input, and hydrogen control.</td></tr>
-        <tr><td>Ac1 / Ac3 / Ms</td><td>Andrews empirical critical-temperature estimates.</td><td>Exact chemistry range and heating history matter. The A<sub>c3</sub> equation contains a tungsten term; because this module does not collect W, W is treated as zero and Cr is not substituted.</td></tr>
+        <tr><td>Ac1 / Ac3 / Ms</td><td>Andrews empirical critical-temperature estimates.</td><td>Exact chemistry range and heating history matter. The A<sub>c1</sub> equation contains arsenic and tungsten terms and A<sub>c3</sub> contains a tungsten term. Because this module does not collect As or W, those terms are treated as zero; B is not substituted for As and Cr is not substituted for W.</td></tr>
         <tr><td>Hardenability index</td><td>Directional chemistry tendency.</td><td>Do not replace measured Jominy data.</td></tr>
         <tr><td>Property ranges</td><td>Directional hardness, strength, and elongation trends.</td><td>Grain size, morphology, inclusions, precipitation, section size, tempering, and testing remain decisive.</td></tr>
       </tbody></table></div>
@@ -181,7 +181,7 @@
       <p>The tool calculates the smoothed temperature history and:</p>
       <span class="guide-code">Cooling rate = −dT/dt</span>
       <h3>Read the results</h3>
-      <ul><li>Average cooling rates for 800–500 °C and 500–300 °C.</li><li>Candidate thermal or transformation arrests.</li><li>Candidate proximity to Ac1, Ac3, A1, and Ms.</li><li>Measured-versus-simulated cycle overlay.</li><li>Root-mean-square error between normalized measured and simulated paths.</li></ul>
+      <ul><li>Crossing-based average cooling rates for 800–500 °C and 500–300 °C, calculated as ΔT/Δt.</li><li>Candidate thermal or transformation arrests.</li><li>Candidate proximity to the A<sub>1</sub> equilibrium reference and estimated M<sub>s</sub>; cooling A<sub>r</sub> temperatures are not predicted.</li><li>Measured-versus-simulated cycle overlay on the physical elapsed-time basis.</li><li>Root-mean-square error over overlapping timestamps without duration normalization.</li></ul>
       <div class="guide-callout danger"><p>Candidate arrests are screening signals. Sensor lag, furnace control, section heat transfer, smoothing, recalescence, and process disturbances can produce similar signatures. Confirm transformations with metallography, dilatometry, hardness, or other validated evidence.</p></div>
     </section>
 
@@ -189,7 +189,7 @@
       <p class="guide-kicker">Release 3</p>
       <h2>Temperature-measurement assistant</h2>
       <h3>Thermocouple mode</h3>
-      <p>Select thermocouple type, wire/sheath diameter, attachment method, shielding, and thermal mass. Review estimated response time, stabilization time, and attachment-bias risk.</p>
+      <p>Select thermocouple type, wire/sheath diameter, attachment method, and shielding or thermal mass. Review the uncalibrated relative-lag tendency and attachment-bias risk. The tool does not calculate response time in seconds; that requires sensor construction, junction and sheath details, surrounding medium and velocity, mounting, and calibration or step-test data.</p>
       <h3>Infrared-pyrometer mode</h3>
       <p>Enter indicated temperature, instrument emissivity, estimated actual emissivity, reflected temperature, target width, spot diameter, and surface condition. Review the radiation-balance correction, target-to-spot ratio, and background contamination risk.</p>
       <div class="guide-callout"><p>A precise display is not proof of an accurate workpiece temperature. Calibration, emissivity, scale, reflected radiation, sensor location, response lag, and furnace-to-workpiece differences must be controlled.</p></div>
@@ -201,7 +201,7 @@
       <p>Select carburizing, carbonitriding, nitriding, ferritic nitrocarburizing, induction hardening, flame hardening, or laser hardening.</p>
       <p>Diffusion-controlled treatments use an Arrhenius diffusivity and complementary-error-function profile:</p>
       <span class="guide-code">C(x,t) = C₀ + (Cs − C₀) erfc[x / (2√Dt)]</span>
-      <p>Review solute concentration, hardness versus depth, effective case depth, total affected depth, surface hardness, core hardness, and process-specific risks. Transformation-hardening modes estimate heat-penetration depth rather than solute diffusion.</p>
+      <p>For diffusion modes, review the solute-concentration profile, concentration-threshold depth, and diffusion-distance indicator; these are not a universal hardness conversion. For induction, flame, and laser modes, review only the unitless exposure and penetration-response indices. The tool does not calculate physical hardened depth without validated energy or frequency, coupling or absorptivity, travel speed, geometry, thermal properties, and quench-boundary inputs.</p>
     </section>
 
     <section class="guide-card" id="tempering">
@@ -217,7 +217,7 @@
       <h2>Mechanical-property laboratory</h2>
       <p>Select microstructure, carbon, ASTM grain number, test temperature, notch severity, and residual stress. Switch among:</p>
       <ul><li>Engineering stress–strain curve</li><li>Charpy transition and DBTT curve</li><li>Fatigue S–N curve</li></ul>
-      <p>The module provides directional yield strength, tensile strength, elongation, hardness, Charpy energy, fatigue strength, and elastic modulus, plus approximate HV/HBW/HRC learning conversions.</p>
+      <p>The module provides directional yield strength, tensile strength, elongation, hardness, Charpy energy, fatigue strength, and elastic modulus. It does not invent universal HBW or HRC conversions; use the applicable ASTM E140 or ISO 18265 table for the material and range.</p>
       <div class="guide-callout danger"><p>These values are not acceptance predictions. Test method, specimen geometry, orientation, strain rate, temperature, notch preparation, microstructure, and sampling location must be controlled.</p></div>
     </section>
 
@@ -242,7 +242,7 @@
       <h2>Alloy-family modes</h2>
       <div class="guide-grid">
         <div class="guide-mini"><h3>Plain and low-alloy steel</h3><p>CE, Pcm, Ms, hardenability, weldability, and hydrogen-cracking trends.</p></div>
-        <div class="guide-mini"><h3>Stainless steel</h3><p>PREN, chromium and nickel equivalents, phase tendency, pitting trend, and sensitization screening.</p></div>
+        <div class="guide-mini"><h3>Stainless steel</h3><p>PREN composition index, weld-metal chromium and nickel equivalent screens, and sensitization screening. These are not phase percentages, Ferrite Number, or corrosion guarantees.</p></div>
         <div class="guide-mini"><h3>Tool steel</h3><p>Carbide, secondary-hardening, hot-hardness, wear, toughness, and cracking trends.</p></div>
         <div class="guide-mini"><h3>Cast iron / Fe–graphite</h3><p>Carbon equivalent, graphitization, chill/carbide risk, matrix tendency, and graphite morphology.</p></div>
       </div>
@@ -256,10 +256,10 @@
 
       <h3>Which chart is which</h3>
       <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Chart</th><th>What it shows</th><th>What it is not</th></tr></thead><tbody>
-        <tr><td>Rapid-quench microconstituent map</td><td>The constituent formed when austenite is quenched into an isothermal bath held at the temperature shown, from 0 to 1.2&nbsp;wt%&nbsp;C.</td><td>Not a TTT or CCT diagram. There is no time axis and nothing on it can be read as a cooling rate.</td></tr>
-        <tr><td>Iron-carbon / cementite phase diagram</td><td>The equilibrium Fe&ndash;Fe<sub>3</sub>C system to 6.68&nbsp;wt%&nbsp;C, including liquid, delta ferrite, austenite, ferrite, cementite and graphite fields.</td><td>Not a kinetic diagram. Bainite and martensite are not equilibrium phases and do not appear on it.</td></tr>
+        <tr><td>Rapid-quench microconstituent map</td><td>An illustrative dominant product after rapid transfer from austenite and an assumed sufficient isothermal hold, from 0.20 to 1.2&nbsp;wt%&nbsp;C.</td><td>Not a TTT or CCT diagram. It has no time axis, does not calculate transformation start or finish, and cannot guarantee a final microstructure.</td></tr>
+        <tr><td>Iron-carbon / cementite phase diagram</td><td>The poster shows both stable graphite and metastable cementite information. The interactive cursor classifies only the metastable Fe&ndash;Fe<sub>3</sub>C system to 6.67&nbsp;wt%&nbsp;C.</td><td>Not a kinetic diagram. Bainite and martensite are not equilibrium phases and do not appear on it. Visible graphite fields are not classified by the cursor response.</td></tr>
       </tbody></table></div>
-      <div class="guide-callout"><p>Keep the distinction in mind when reading results. The equilibrium diagram tells you what would form given unlimited time. The rapid-quench map tells you what actually forms when time is denied. Neither predicts a real quench on its own.</p></div>
+      <div class="guide-callout"><p>Keep the distinction in mind when reading results. The equilibrium diagram gives a thermodynamic reference. The rapid-quench map shows an illustrative product family only after assuming a sufficiently long hold at the selected temperature. Actual phase fractions require time-dependent, grade-specific transformation data; neither chart predicts a real quench on its own.</p></div>
 
       <h3>Plotting and moving points</h3>
       <ol>
@@ -273,7 +273,7 @@
 
       <h3>Reading a region</h3>
       <p>Move the pointer over the diagram. The crosshair reports carbon content, temperature in both Celsius and Fahrenheit at once, and the interpreted region. The <em>What does this region mean?</em> panel updates as you move, covering what is present, how it forms, typical morphology, and the property tendencies that follow.</p>
-      <p>The painted colour and the reported region are generated from the same boundary functions, so the readout always matches the field you are pointing at.</p>
+      <p>On the rapid map, the painted colour and reported product come from the same teaching classifier; the unsupported interval below 0.20&nbsp;wt%&nbsp;C is marked unavailable rather than extrapolated. On the poster, the interaction layer reports the metastable Fe&ndash;Fe<sub>3</sub>C interpretation even where the underlying artwork also displays a stable graphite field.</p>
 
       <h3>Experience levels</h3>
       <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Level</th><th>What you get</th></tr></thead><tbody>
@@ -283,13 +283,13 @@
       </tbody></table></div>
 
       <h3>Critical lines and legend</h3>
-      <p><strong>Critical lines</strong> draws A<sub>1</sub>, A<sub>3</sub>, A<sub>cm</sub>, M<sub>s</sub> and M<sub>f</sub> on the rapid-quench map, and the eutectoid, eutectic, peritectic, liquidus and solidus on the poster. <strong>Labels</strong> toggles field and line annotation. Selecting a legend entry loads that region into the explanation panel. Regions are also reachable by keyboard: tab to one and press Enter.</p>
+      <p><strong>Critical lines</strong> draws A<sub>1</sub>, approximate A<sub>3</sub>/A<sub>cm</sub>, M<sub>s</sub>, and approximate M<sub>f</sub> on the rapid-quench map, and the eutectoid, eutectic, peritectic, liquidus and solidus on the poster. <strong>Overlay labels</strong> toggles the Explorer-added field and critical-line annotations; labels printed in the poster artwork remain visible. Selecting a legend entry loads that region into the explanation panel. Rapid-map regions are directly keyboard reachable; poster regions are available through the keyboard-accessible HTML legend buttons.</p>
 
       <h3>Units</h3>
       <p>The &deg;C and &deg;F buttons change the display only. Internal values stay in Celsius, so a point does not move when you switch units. The poster's own printed scales remain in their original dual-unit form, since the artwork is reproduced unaltered.</p>
 
       <h3>Zoom, pan and full screen</h3>
-      <p>Use the zoom buttons, or hold <kbd>Ctrl</kbd> and scroll. Pan by scrolling or dragging the diagram frame while zoomed. <strong>Fit</strong> returns to the whole chart and <strong>Full screen</strong> gives the diagram the entire viewport. Page scrolling is suppressed while you are manipulating the chart.</p>
+      <p>Use the zoom buttons, or hold <kbd>Ctrl</kbd> and scroll. While zoomed, pan with the diagram container’s scrollbars or touch scrolling. Dragging inside the plotted field moves the active point; it does not pan. <strong>Fit</strong> returns to the whole chart and <strong>Full screen</strong> gives the diagram the entire viewport.</p>
 
       <h3>PNG export</h3>
       <p><strong>Export PNG</strong> writes the diagram as currently displayed, including plotted points, visible overlays, critical-line emphasis and labels. Raster elements are embedded at export time, so the file is complete and self-contained. Attribution and the copyright line are included in the exported image and must not be removed.</p>
@@ -299,16 +299,16 @@
 
       <h3>Engineering limitations</h3>
       <ul>
-        <li>On the rapid-quench map, A<sub>1</sub>, A<sub>3</sub>, A<sub>cm</sub>, M<sub>s</sub> and M<sub>f</sub> are quantitative. M<sub>s</sub> follows Andrews for plain carbon steel; alloying additions depress it and are not modelled.</li>
-        <li>M<sub>f</sub> is drawn as a fixed offset below M<sub>s</sub>. The real finish is asymptotic and retained austenite persists below the line, increasingly so at higher carbon.</li>
+        <li>A<sub>1</sub> is a reference invariant and M<sub>s</sub> is a carbon-only Andrews estimate. The A<sub>3</sub> and A<sub>cm</sub> curves are calibrated to standard anchor points rather than presented as exact equations. Alloying additions that move these boundaries are not represented on this map.</li>
+        <li>M<sub>f</sub> is an illustrative fixed offset below M<sub>s</sub>, not a quantitative finish prediction. The real transformation is asymptotic and retained austenite can persist below the line, increasingly so at higher carbon.</li>
         <li>The pearlite, bainite and austenitising divisions are educational approximations conveying field topology only. They carry no implied precision.</li>
-        <li>Below roughly 0.42&nbsp;wt%&nbsp;C there is no lower bainite field, because M<sub>s</sub> sits above the bainite divide and a quench past it forms martensite directly.</li>
+        <li>In this simplified drawing, the lower-bainite field closes near 0.42&nbsp;wt%&nbsp;C where its illustrative divider meets M<sub>s</sub>. This is not a physical prohibition: bainite can form from remaining austenite during below-M<sub>s</sub> holding, so use a grade-specific TTT diagram.</li>
         <li>Real boundaries depend on chemistry, grain size, section size, homogeneity and holding time. Validate against grade-specific data before any process decision.</li>
       </ul>
 
       <h3>Source and copyright</h3>
       <p>The iron-carbon chart is the Iron-Carbon/Cementite Phase Diagram published by Buehler, an ITW company. Copyright &copy; 2006 ASM International. All rights reserved. It is reproduced here under permission held by UpSkill Sprint Consulting and is served from this site rather than a third-party server. The artwork is reproduced unaltered; a link to the official PDF is provided beneath the diagram. Attribution and the copyright line must be preserved in any export or reuse.</p>
-      <p>The rapid-quench map is an original vector reconstruction. Its boundaries are generated from published relationships rather than traced from a source image.</p>
+      <p>The rapid-quench map is an original teaching reconstruction. A<sub>1</sub> and the carbon-only Andrews M<sub>s</sub> estimate use published reference values; A<sub>3</sub>, A<sub>cm</sub>, M<sub>f</sub>, and the product divisions are anchor-calibrated or illustrative and are not traced grade-specific transformation boundaries.</p>
     </section>
 
     <section class="guide-card" id="learn-export">
@@ -331,7 +331,7 @@
         <div class="guide-mini"><h3>Assess through-hardening</h3><p>Enter chemistry → Austenitization → Quenching → Hardenability. Validate with hardness traverses.</p></div>
         <div class="guide-mini"><h3>Review a thermal record</h3><p>Upload Process Data → map columns → calculate cooling rate → screen arrests → compare with the simulated path.</p></div>
         <div class="guide-mini"><h3>Investigate temperature discrepancy</h3><p>Use Process Data → Measurement Assistant. Check lag, attachment, emissivity, field of view, and reflected radiation.</p></div>
-        <div class="guide-mini"><h3>Evaluate surface treatment</h3><p>Use Metallurgy Lab → Surface Treatment → set chemistry/time/temperature → inspect case and hardness depth → plan verification.</p></div>
+        <div class="guide-mini"><h3>Evaluate surface treatment</h3><p>Use Metallurgy Lab → Surface Treatment → set chemistry/time/temperature → inspect the diffusion concentration profile or unitless transformation response → plan a chemistry or microhardness traverse and process-specific verification.</p></div>
         <div class="guide-mini"><h3>Explain property variation</h3><p>Use Solidification → Metallography → Mechanical Lab to connect segregation, morphology, orientation, and test response.</p></div>
       </div>
     </section>
@@ -361,7 +361,7 @@
         <tr><td>Poster does not appear</td><td>The artwork is fetched only when that chart is opened.</td><td>Wait for the loading notice to clear, then hard refresh if the status line reports an error.</td></tr>
         <tr><td>Points vanish after switching charts</td><td>The two charts use different carbon and temperature ranges.</td><td>Expected. Each chart seeds its own example points.</td></tr>
         <tr><td>Exported PNG is missing the micrographs</td><td>A raster failed to embed during export.</td><td>Re-run the export once the poster has fully loaded.</td></tr>
-        <tr><td>Crosshair region looks wrong near a boundary</td><td>Pointer precision at high zoom.</td><td>Zoom in further; the readout and the painted field are generated from the same functions and cannot disagree.</td></tr>
+        <tr><td>Crosshair region looks wrong near a rapid-map boundary</td><td>Pointer precision at high zoom.</td><td>Zoom in further; on the rapid map, the readout and generated field use the same classifier. The poster artwork is a separate licensed reference layer.</td></tr>
         <tr><td>Uploaded file has no chart</td><td>Wrong delimiter, column mapping, or nonnumeric fields.</td><td>Check delimiter, headers, time column, temperature column, and units.</td></tr>
         <tr><td>Too many candidate arrests</td><td>Noise, low sensitivity threshold, or insufficient smoothing.</td><td>Increase smoothing or reduce arrest sensitivity, then confirm against raw data.</td></tr>
         <tr><td>Thermal record differs from simulated path</td><td>Sensor location, lag, section heat transfer, transfer delay, or simplified path.</td><td>Review measurement setup and update the cycle assumptions.</td></tr>

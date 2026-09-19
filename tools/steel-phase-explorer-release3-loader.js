@@ -26,18 +26,18 @@ function start(){
             <div class="spx-field"><label for="spx-r3-smooth">Smoothing window <span class="spx-hint">(points)</span></label><input id="spx-r3-smooth" type="number" min="1" max="51" step="2" value="5"></div>
             <div class="spx-field"><label for="spx-r3-sensitivity">Arrest sensitivity</label><input id="spx-r3-sensitivity" type="range" min="20" max="80" value="48"><div class="spx-slider-row"><span>Low</span><span></span><strong id="spx-r3-sensitivity-label">48%</strong></div></div>
           </div>
-          <div id="spx-r3-file-status" class="spx-note" style="margin-top:9px">No thermal record loaded.</div>
+          <div id="spx-r3-file-status" class="spx-note" role="status" aria-live="polite" style="margin-top:9px">No thermal record loaded.</div>
         </div>
       </section>
       <section class="spx-card">
-        <div class="spx-card-pad"><div class="spx-card-title"><div><h2>2. Temperature history and simulated-path comparison</h2><p>The dashed path comes from the current Heating & Cooling Path module.</p></div><button class="spx-btn" id="spx-r3-refresh-cycle" type="button">Refresh simulated path</button></div></div>
-        <div class="spx-svg-wrap"><svg id="spx-r3-temp-svg" class="spx-r3-chart" viewBox="0 0 820 430" role="img" aria-label="Measured and simulated temperature versus time"></svg></div><div class="spx-r3-legend"><span><i></i>Measured temperature</span><span class="sim"><i></i>Simulated path</span><span class="arrest"><i></i>Candidate arrest</span></div>
+        <div class="spx-card-pad"><div class="spx-card-title"><div><h2>2. Temperature history and simulated-path comparison</h2><p>The dashed path uses the current Heating & Cooling Path cycle on its physical elapsed-time basis; durations are not normalized.</p></div><button class="spx-btn" id="spx-r3-refresh-cycle" type="button">Refresh simulated path</button></div></div>
+        <div class="spx-svg-wrap" role="region" aria-label="Scrollable temperature-history chart" tabindex="0"><svg id="spx-r3-temp-svg" class="spx-r3-chart" viewBox="0 0 820 430" role="img" aria-label="Smoothed measured and simulated temperature versus physical elapsed time"></svg></div><div class="spx-r3-legend"><span><i></i>Smoothed measured temperature</span><span class="sim"><i></i>Simulated path</span><span class="arrest"><i></i>Candidate arrest</span></div>
       </section>
-      <section class="spx-card"><div class="spx-card-pad"><div class="spx-card-title"><div><h2>3. Cooling-rate profile</h2><p>Calculated as −dT/dt after the selected smoothing window.</p></div></div></div><div class="spx-svg-wrap"><svg id="spx-r3-rate-svg" class="spx-r3-chart" viewBox="0 0 820 390" role="img" aria-label="Cooling rate versus time"></svg></div></section>
+      <section class="spx-card"><div class="spx-card-pad"><div class="spx-card-title"><div><h2>3. Cooling-rate profile</h2><p>Calculated as −dT/dt after the selected smoothing window.</p></div></div></div><div class="spx-svg-wrap" role="region" aria-label="Scrollable cooling-rate chart" tabindex="0"><svg id="spx-r3-rate-svg" class="spx-r3-chart" viewBox="0 0 820 390" role="img" aria-label="Cooling rate versus time"></svg></div></section>
     </div>
     <aside class="spx-r3-stack">
       <section class="spx-card spx-card-pad"><div class="spx-card-title"><div><h2>Record summary</h2><p id="spx-r3-record-name">No file</p></div></div><div id="spx-r3-metrics" class="spx-r3-kpis"></div><div id="spx-r3-comparison" class="spx-note" style="margin-top:9px"></div></section>
-      <section class="spx-card spx-card-pad"><div class="spx-card-title"><div><h2>Candidate transformation arrests</h2><p>Grouped low-cooling-rate regions and critical-temperature proximity.</p></div></div><div id="spx-r3-events"></div></section>
+      <section class="spx-card spx-card-pad"><div class="spx-card-title"><div><h2>Candidate transformation arrests</h2><p>Grouped low-cooling-rate regions screened against the A₁ equilibrium reference and estimated Ms. Cooling Ar temperatures are not predicted.</p></div></div><div id="spx-r3-events"></div></section>
       <section class="spx-card spx-card-pad" id="spx-r3-measure-card"><div class="spx-card-title"><div><h2>Temperature-measurement assistant</h2><p>Evaluate likely lag, emissivity, field-of-view, and installation effects.</p></div></div>
         <div class="spx-segmented spx-r3-method-switch" id="spx-r3-method" role="group"><button type="button" data-method="tc" aria-pressed="true">Thermocouple</button><button type="button" data-method="ir" aria-pressed="false">Infrared pyrometer</button></div>
         <div id="spx-r3-tc-panel" class="spx-r3-method-panel" style="margin-top:10px"><div class="spx-r3-measure-grid">
@@ -57,7 +57,7 @@ function start(){
         </div></div>
         <div id="spx-r3-measure-result" class="spx-note" style="margin-top:10px"></div>
       </section>
-      <section class="spx-card spx-card-pad"><div class="spx-card-title"><div><h2>Engineering report and exports</h2><p>Create a portable record of the current analysis.</p></div></div><div class="spx-r3-report-actions"><button class="spx-btn" id="spx-r3-export-data" type="button">Export derived CSV</button><button class="spx-btn primary" id="spx-r3-report" type="button">Download HTML report</button><button class="spx-btn" id="spx-r3-print-report" type="button">Print / PDF report</button></div><div id="spx-r3-report-status" class="spx-note" style="margin-top:9px">No report generated.</div></section>
+      <section class="spx-card spx-card-pad"><div class="spx-card-title"><div><h2>Engineering report and exports</h2><p>Create a portable record of the current analysis.</p></div></div><div class="spx-r3-report-actions"><button class="spx-btn" id="spx-r3-export-data" type="button">Export derived CSV</button><button class="spx-btn primary" id="spx-r3-report" type="button">Download HTML report</button><button class="spx-btn" id="spx-r3-print-report" type="button">Print / PDF report</button></div><div id="spx-r3-report-status" class="spx-note" role="status" aria-live="polite" style="margin-top:9px">No report generated.</div></section>
     </aside>
   </div>
 </section>`;
