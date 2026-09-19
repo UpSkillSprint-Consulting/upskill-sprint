@@ -30,7 +30,8 @@ function chemistryMetricsFor(x){
   var pcm=x.C+x.Si/30+(x.Mn+x.Cu+x.Cr)/20+x.Ni/60+x.Mo/15+x.V/10+5*x.B;
   var ms=539-423*x.C-30.4*x.Mn-17.7*x.Ni-12.1*x.Cr-7.5*x.Mo;
   var ac1=723-10.7*x.Mn-16.9*x.Ni+29.1*x.Si+16.9*x.Cr+290*x.B;
-  var ac3=910-203*Math.sqrt(Math.max(0,x.C))-15.2*x.Ni+44.7*x.Si+104*x.V+31.5*x.Mo+13.1*x.Cr;
+  /* Andrews' published term is +13.1W. W is not collected here, so it is zero. */
+  var ac3=910-203*Math.sqrt(Math.max(0,x.C))-15.2*x.Ni+44.7*x.Si+104*x.V+31.5*x.Mo;
   var hard=clamp(20+55*x.C+12*x.Mn+18*x.Cr+22*x.Mo+8*x.Ni+180*x.B,0,100);
   return{ce:ce,pcm:pcm,ms:ms,ac1:ac1,ac3:ac3,hardenability:hard};
 }
