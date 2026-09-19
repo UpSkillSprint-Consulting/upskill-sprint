@@ -43,7 +43,8 @@ The remediated version now follows fail-safe decision semantics:
 | Physical values | A negative carbon percentage could satisfy a maximum limit. | Physical-domain validation rejects negative strength, energy, length, hardness, ratio, and chemistry values; percentages are bounded to 0–100 and temperatures cannot be below absolute zero. |
 | Invalid rules | A minimum greater than a maximum was treated as a material failure. | Reversed bounds and malformed limits now return Invalid input, keeping material disposition separate from configuration error. |
 | Applicability | Missing product form, PSL, route, or thickness could silently exclude rules as not applicable. | Missing discriminators now create review rows. Only a proven mismatch is Not applicable. |
-| Units | A missing imported actual unit could be assumed to equal the rule unit. | Missing or incompatible units are unresolved review/invalid conditions; only defined conversions are performed. |
+| Units | A missing imported actual unit could be assumed to equal the rule unit, and a legacy unsupported unit could be visually relabelled without converting its number. | Missing, unsupported, or incompatible units remain visible and produce review/invalid conditions; values are never relabelled, and only defined conversions are performed. |
+| Calendar dates | A next-day assessment or package-verification date could pass during a rolling 24-hour allowance. | Strict `YYYY-MM-DD` calendar validation rejects nonexistent dates and any date later than the current local calendar day. |
 | Evidence freshness | Editing an input could leave old Pass rows visible. | Any relevant input/change event immediately clears the calculated verdict and result rows. |
 | Worked example | The example used named, dated standards and could return a clean Pass with stale context. | It is now clearly generic training data, uses a working/unverified rule set, does not auto-run, and cannot return a production Pass. |
 | Derived values | CE, Pcm, and yield/tensile ratio could be omitted or inconsistently transcribed. | The checker calculates them from complete canonical inputs, applies the entered rule, and identifies the calculation in the result basis. |
@@ -54,7 +55,7 @@ The remediated version now follows fail-safe decision semantics:
 | Approval | Any workflow status or an override could effectively imply approval, and reviewer/approver separation was weak. | “Approved” cannot be selected manually. Approval requires the Approver role, different named reviewer and approver, final disposition, exact Pass, and 100% coverage. Overrides never change the calculated verdict. |
 | Locking | Re-rendering the review panel could re-enable controls after approval. | Approved assessments disable core and lockable advanced inputs, including new overrides, while retaining report and authorized unlock controls. |
 | Certificate | A certificate/report path could be opened without a fully approved clean assessment. | Screening certificate generation requires current 100% Pass plus approved-and-locked workflow state; other reports are visibly DRAFT. |
-| Authentication/storage | Organization storage used a Netlify Identity path even though the site uses Supabase authentication. | Client and server now use the existing Supabase session. The function validates the bearer session, authorization entitlement, same-origin writes, payload size, and a per-user blob namespace. |
+| Authentication/storage | Organization storage used a Netlify Identity path even though the site uses Supabase authentication, and the advanced workspace could initialize before the lazily loaded auth controller. | Client and server now use the existing Supabase session; the workspace subscribes to the site auth-readiness event. The function validates the bearer session, authorization entitlement, same-origin writes, payload size, and a per-user blob namespace. |
 | Audit wording | Local browser history was described as immutable. | The interface now states that browser data can be cleared or altered and is not a regulated immutable record. |
 | UI stability | The hardening observer rewrote unchanged content and could create a continuous animation-frame/mutation loop. | DOM rewrites occur only when values actually differ; regression coverage exercises platform startup and validation. |
 
@@ -72,19 +73,19 @@ These links establish catalogue currency only. They do not provide or authorize 
 
 ## Verification evidence
 
-Automated targeted verification passes **27 of 27 tests**. Coverage includes:
+Automated targeted verification passes **31 of 31 tests**. Coverage includes:
 
 - engine boundaries and unit conversion;
 - proven versus unresolved applicability;
 - verified/draft package semantics;
 - missing import units and ambiguous mappings;
 - I-MR Cpk versus overall Ppk;
-- blank and traceable clean-pass journeys;
+- blank and traceable clean-pass journeys, strict calendar dates, and legacy-unit preservation;
 - missing clause, negative chemistry, reversed bounds, and stale results;
 - Charpy specimen count and automatic yield/tensile ratio;
 - generic unresolved worked example;
 - approval/certificate rejection, manual-status bypass prevention, and locked-control behavior;
-- Supabase identity integration, strict bearer-token parsing, and same-origin write enforcement;
+- immediate and lazily loaded Supabase identity integration, strict bearer-token parsing, and same-origin write enforcement;
 - built-in accessibility/label and load-order validation.
 
 Commands used for the release candidate:
