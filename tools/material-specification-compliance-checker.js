@@ -39,6 +39,17 @@
     return values.map(value => '<option value="' + esc(value) + '"' + (value === selected ? ' selected' : '') + '>' + esc(value) + '</option>').join('');
   }
 
+  function unitOptions(values, selected) {
+    const current = String(selected == null ? '' : selected);
+    const allowed = values.map(value => String(value));
+    const display = allowed.includes(current) ? allowed : [current].concat(allowed);
+    return Array.from(new Set(display)).map(value => {
+      const unsupported = !allowed.includes(value);
+      const label = value ? value + (unsupported ? ' (unsupported — select a valid unit)' : '') : 'Unit not supplied';
+      return '<option value="' + esc(value) + '"' + (value === current ? ' selected' : '') + '>' + esc(label) + '</option>';
+    }).join('');
+  }
+
   function newRow(section, unitSystem) {
     const metric = unitSystem !== 'imperial';
     if (section === 'charpy') {
@@ -63,7 +74,7 @@
         materialId: '', heatNumber: '', productForm: '',
         sourceOrg: 'CSA', sourceStandard: 'CSA G40.21', sourceGrade: 'Grade 350W', sourceCustom: '',
         sourceEdition: '', certificateRef: '', requirementStatus: 'unknown',
-        assessmentDate: new Date().toISOString().slice(0, 10), reviewer: '',
+        assessmentDate: Engine.localISODate(), reviewer: '',
         targetOrg: 'ASTM', targetStandard: 'ASTM A572/A572M', targetGrade: 'Grade 50', targetCustom: '',
         targetEdition: '', thickness: '', thicknessUnit: 'mm', width: '', widthUnit: 'mm', notes: ''
       },
@@ -154,34 +165,32 @@
       return '<div class="req-row charpy" data-sec="' + section + '" data-id="' + esc(row.id) + '">' +
         propertyField +
         '<label class="row-field">Test temperature<input type="number" step="any" data-f="testTemp" value="' + esc(row.testTemp) + '"></label>' +
-        '<label class="row-field">Actual temperature unit<select data-f="tempUnit">' + options(['°C', '°F'], row.tempUnit) + '</select></label>' +
+        '<label class="row-field">Actual temperature unit<select data-f="tempUnit">' + unitOptions(['°C', '°F'], row.tempUnit) + '</select></label>' +
         '<label class="row-field">Specimens tested<input type="number" min="1" step="1" data-f="specimenCount" value="' + esc(row.specimenCount) + '"></label>' +
         '<label class="row-field">Actual average<input type="number" min="0" step="any" data-f="avg" value="' + esc(row.avg) + '"></label>' +
         '<label class="row-field">Actual minimum<input type="number" min="0" step="any" data-f="individual" value="' + esc(row.individual) + '"></label>' +
-        '<label class="row-field">Actual energy unit<select data-f="eUnit">' + options(['J', 'ft-lb'], row.eUnit) + '</select></label>' +
+        '<label class="row-field">Actual energy unit<select data-f="eUnit">' + unitOptions(['J', 'ft-lb'], row.eUnit) + '</select></label>' +
         '<label class="row-field">Required maximum temperature<input type="number" step="any" data-f="reqTemp" value="' + esc(row.reqTemp) + '"></label>' +
-        '<label class="row-field">Requirement temperature unit<select data-f="reqTempUnit">' + options(['°C', '°F'], reqTempUnit) + '</select></label>' +
+        '<label class="row-field">Requirement temperature unit<select data-f="reqTempUnit">' + unitOptions(['°C', '°F'], reqTempUnit) + '</select></label>' +
         '<label class="row-field">Required specimen count<input type="number" min="1" step="1" data-f="reqSpecimenCount" value="' + esc(row.reqSpecimenCount == null ? '3' : row.reqSpecimenCount) + '"></label>' +
         '<label class="row-field">Required average<input type="number" min="0" step="any" data-f="reqAvg" value="' + esc(row.reqAvg) + '"></label>' +
         '<label class="row-field">Required individual<input type="number" min="0" step="any" data-f="reqIndividual" value="' + esc(row.reqIndividual) + '"></label>' +
-        '<label class="row-field">Requirement energy unit<select data-f="reqUnit">' + options(['J', 'ft-lb'], row.reqUnit) + '</select></label>' +
+        '<label class="row-field">Requirement energy unit<select data-f="reqUnit">' + unitOptions(['J', 'ft-lb'], row.reqUnit) + '</select></label>' +
         '<label class="row-field">Clause / source<input data-f="source" value="' + esc(row.source) + '"></label>' +
         '<label class="mandatory"><input type="checkbox" data-f="mandatory"' + (row.mandatory ? ' checked' : '') + '>Mandatory</label>' +
         '<button class="remove" data-remove type="button" aria-label="' + esc(removeLabel) + '">×</button></div>';
     }
 
     const units = rowUnits(section, row);
-    const actualUnit = units.includes(row.aUnit) ? row.aUnit : units[0];
-    const requirementUnit = units.includes(row.rUnit) ? row.rUnit : units[0];
-    row.aUnit = actualUnit;
-    row.rUnit = requirementUnit;
+    const actualUnit = String(row.aUnit == null ? '' : row.aUnit);
+    const requirementUnit = String(row.rUnit == null ? '' : row.rUnit);
     return '<div class="req-row quant" data-sec="' + section + '" data-id="' + esc(row.id) + '">' +
       propertyField +
       '<label class="row-field">Actual<input type="number" step="any" data-f="actual" value="' + esc(row.actual) + '"></label>' +
-      '<label class="row-field">Actual unit<select data-f="aUnit">' + options(units, actualUnit) + '</select></label>' +
+      '<label class="row-field">Actual unit<select data-f="aUnit">' + unitOptions(units, actualUnit) + '</select></label>' +
       '<label class="row-field">Minimum<input type="number" step="any" data-f="min" value="' + esc(row.min) + '"></label>' +
       '<label class="row-field">Maximum<input type="number" step="any" data-f="max" value="' + esc(row.max) + '"></label>' +
-      '<label class="row-field">Requirement unit<select data-f="rUnit">' + options(units, requirementUnit) + '</select></label>' +
+      '<label class="row-field">Requirement unit<select data-f="rUnit">' + unitOptions(units, requirementUnit) + '</select></label>' +
       '<label class="row-field">Clause / source<input data-f="source" value="' + esc(row.source) + '"></label>' +
       '<label class="mandatory"><input type="checkbox" data-f="mandatory"' + (row.mandatory ? ' checked' : '') + '>Mandatory</label>' +
       '<button class="remove" data-remove type="button" aria-label="' + esc(removeLabel) + '">×</button></div>';
@@ -228,8 +237,7 @@
     const targetNeedsCustom = ['Customer', 'Internal', 'Other'].includes(state.scope.targetOrg) || state.scope.targetStandard === 'Other / not listed' || ['Other / not listed', 'Custom designation'].includes(state.scope.targetGrade);
     if (sourceNeedsCustom && !String(state.scope.sourceCustom || '').trim()) rows.push(resultRow('process', 'Source custom designation', 'Missing', 'Exact controlled designation must be recorded', 'missing', 'Material and specification scope', 'Complete the custom source specification or material designation.'));
     if (targetNeedsCustom && !String(state.scope.targetCustom || '').trim()) rows.push(resultRow('process', 'Target custom designation', 'Missing', 'Exact controlled designation must be recorded', 'missing', 'Material and specification scope', 'Complete the custom target requirement designation.'));
-    const assessmentDate = new Date(String(state.scope.assessmentDate || '') + 'T00:00:00Z');
-    if (!state.scope.assessmentDate || Number.isNaN(assessmentDate.getTime()) || assessmentDate.getTime() > Date.now() + 86400000) {
+    if (!Engine.isValidDateNotFuture(state.scope.assessmentDate)) {
       rows.push(resultRow('process', 'Assessment date', state.scope.assessmentDate || 'Missing', 'A valid date no later than today', 'invalid', 'Material and specification scope', 'Enter a valid assessment date that is not in the future.'));
     }
     if (state.scope.requirementStatus !== 'controlled') {
@@ -270,9 +278,11 @@
       maximum != null ? '≤ ' + format(maximum) + ' ' + row.rUnit : ''
     ].filter(Boolean).join(' and ') || 'No limit entered';
     const basis = String(row.source || '').trim();
+    const allowedUnits = rowUnits(section, row);
 
     if (minimum == null && maximum == null) return resultRow(section, name, row.actual === '' ? '—' : format(toNumber(row.actual)) + ' ' + row.aUnit, ruleText, 'review', basis, 'Enter at least one acceptance limit.');
     if (minimum != null && maximum != null && minimum > maximum) return resultRow(section, name, row.actual === '' ? '—' : row.actual + ' ' + row.aUnit, ruleText, 'invalid', basis, 'Rule configuration is invalid because the minimum exceeds the maximum.');
+    if (!allowedUnits.includes(row.rUnit)) return resultRow(section, name, row.actual === '' ? '—' : row.actual + ' ' + row.aUnit, ruleText, 'invalid', basis, 'The requirement unit is missing or unsupported for this property. Select a valid unit before evaluating the rule.');
 
     const invalidLimit = minimum != null ? Engine.numericDomainError(minimum, row.rUnit, code, {limit: true}) : '';
     const invalidMaximum = maximum != null ? Engine.numericDomainError(maximum, row.rUnit, code, {limit: true}) : '';
@@ -289,6 +299,7 @@
       derivedNote = ' Automatically calculated using ' + derivedValue.formula + '.';
     }
     if (actual == null) return resultRow(section, name, 'Missing', ruleText, row.mandatory ? 'missing' : 'review', basis, 'Actual result is not available.');
+    if (!allowedUnits.includes(actualUnit)) return resultRow(section, name, format(actual) + (actualUnit ? ' ' + actualUnit : ''), ruleText, 'invalid', basis, 'The actual unit is missing or unsupported for this property. Select a valid unit; the value was not relabelled or converted automatically.');
 
     const invalidActual = Engine.numericDomainError(actual, actualUnit, code, {limit: false});
     if (invalidActual) return resultRow(section, name, format(actual) + ' ' + actualUnit, ruleText, 'invalid', basis, invalidActual);
@@ -643,8 +654,9 @@
       const property = (Config.PROPERTIES[section] || []).find(item => item.code === value);
       row.name = property ? property.label : '';
       if (property && property.units && property.units.length) {
-        if ('aUnit' in row && !property.units.includes(row.aUnit)) row.aUnit = property.defaultUnit || property.units[0];
-        if ('rUnit' in row && !property.units.includes(row.rUnit)) row.rUnit = property.defaultUnit || property.units[0];
+        const hasNumbers = ['actual', 'min', 'max'].some(key => key in row && String(row[key] == null ? '' : row[key]).trim() !== '');
+        if (!hasNumbers && 'aUnit' in row && !property.units.includes(row.aUnit)) row.aUnit = property.defaultUnit || property.units[0];
+        if (!hasNumbers && 'rUnit' in row && !property.units.includes(row.rUnit)) row.rUnit = property.defaultUnit || property.units[0];
       }
     }
     invalidate();
