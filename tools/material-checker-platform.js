@@ -32,6 +32,8 @@
   let state = loadState();
   let activeTab = 'overview';
   let inputAuditTimer = null;
+  let identityInitialized = false;
+  let identityReadyListenerInstalled = false;
 
   function uid(prefix) {
     return (prefix || 'id') + '-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
@@ -829,8 +831,7 @@
     if (invalidRule) return setStatus('Complete a valid limit, compatible unit, and controlled clause for ' + (invalidRule.label || invalidRule.propertyCode) + '.', 'error');
     if (pkg.status === 'Approved') {
       if (!pkg.lastVerified || !pkg.rules.length) return setStatus('Approved packages require a verification date and at least one valid rule.', 'error');
-      const verifiedDate = new Date(pkg.lastVerified + 'T00:00:00Z');
-      if (Number.isNaN(verifiedDate.getTime()) || verifiedDate.getTime() > Date.now() + 86400000) return setStatus('Enter a valid verification date that is not in the future.', 'error');
+      if (!Engine.isValidDateNotFuture(pkg.lastVerified)) return setStatus('Enter a valid verification date that is not in the future.', 'error');
     }
     pkg.controlRequired = true;
     persist(); logAudit('Rule package saved', pkg.name + ' (' + pkg.status + ')');
@@ -1344,7 +1345,15 @@
   }
 
   function initializeIdentity() {
-    if (!window.UpskillAuth || typeof window.UpskillAuth.onChange !== 'function') return;
+    if (identityInitialized) return;
+    if (!window.UpskillAuth || typeof window.UpskillAuth.onChange !== 'function') {
+      if (!identityReadyListenerInstalled) {
+        identityReadyListenerInstalled = true;
+        document.addEventListener('upskill-auth-ready', initializeIdentity, {once: true});
+      }
+      return;
+    }
+    identityInitialized = true;
     window.UpskillAuth.onChange(user => {
       logAudit(user ? 'Account session available' : 'Account session ended', user ? user.email || user.id : 'Signed out');
       renderAdmin();
