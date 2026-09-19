@@ -37,16 +37,18 @@ async function createChecker() {
   return dom;
 }
 
-async function createPlatform() {
+async function createPlatform(options = {}) {
   const dom = await createChecker();
   const {window} = dom;
   const user = {id: 'test-user', email: 'tester@example.test', user_metadata: {full_name: 'Test User'}};
-  window.UpskillAuth = {
-    getUser: () => user,
-    getClient: () => ({auth: {getSession: async () => ({data: {session: {access_token: 'test-token'}}})}}),
-    onChange: listener => listener(user),
-    signOut: async () => {}
-  };
+  if (options.auth !== false) {
+    window.UpskillAuth = {
+      getUser: () => user,
+      getClient: () => ({auth: {getSession: async () => ({data: {session: {access_token: 'test-token'}}})}}),
+      onChange: listener => listener(user),
+      signOut: async () => {}
+    };
+  }
   window.open = () => {
     window.__openCount = (window.__openCount || 0) + 1;
     return null;
@@ -184,6 +186,46 @@ test('changing an input clears stale result rows', async () => {
   assert.match(window.document.querySelector('#results').textContent, /No current assessment result/i);
 });
 
+test('an assessment dated tomorrow is invalid input', async () => {
+  const dom = await createChecker();
+  const {window} = dom;
+  selectOnly(window, 'chemistry');
+  completeScope(window);
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowText = [tomorrow.getFullYear(), String(tomorrow.getMonth() + 1).padStart(2, '0'), String(tomorrow.getDate()).padStart(2, '0')].join('-');
+  change(window, window.document.querySelector('[data-scope="assessmentDate"]'), tomorrowText);
+  setRow(window, 'chemistry', {
+    propertyCode: 'chem_carbon', actual: '0.10', max: '0.20', source: 'Controlled Table 1'
+  });
+  const result = run(window);
+  assert.equal(result.status, 'invalid-input');
+  assert.equal(result.rows.find(row => row.name === 'Assessment date').status, 'invalid');
+});
+
+test('legacy unsupported units remain visible and cannot be reinterpreted as a pass', async () => {
+  const dom = await createChecker();
+  const {window} = dom;
+  const imported = window.MaterialCheckerCore.getState();
+  Object.keys(imported.selected).forEach(section => { imported.selected[section] = section === 'mechanical'; });
+  Object.assign(imported.scope, {
+    materialId: 'LEGACY-001', productForm: 'Plate', sourceEdition: 'Legacy source',
+    targetEdition: 'Controlled target', requirementStatus: 'controlled'
+  });
+  imported.rows.mechanical = [{
+    id: 'legacy-unit-row', propertyCode: 'mech_yield_strength', name: 'Yield strength',
+    actual: '0.08', aUnit: '%', min: '0.05', max: '0.10', rUnit: '%',
+    source: 'Legacy controlled table', mandatory: true
+  }];
+  window.MaterialCheckerCore.load({version: 2, state: imported});
+  const row = window.document.querySelector('[data-sec="mechanical"]');
+  assert.equal(row.querySelector('[data-f="aUnit"]').value, '%');
+  assert.match(row.querySelector('[data-f="aUnit"] option:checked').textContent, /unsupported/i);
+  const result = run(window);
+  assert.equal(result.status, 'invalid-input');
+  assert.match(result.rows.find(item => item.name === 'Yield strength').detail, /unsupported/i);
+});
+
 test('Charpy energy check enforces the entered specimen count requirement', async () => {
   const dom = await createChecker();
   const {window} = dom;
@@ -317,4 +359,21 @@ test('advanced validation suite passes and uses the site Supabase identity path'
   assert.match(window.document.querySelector('[data-platform-panel="admin"]').textContent, /Supabase session/i);
   assert.doesNotMatch(source('tools/material-specification-compliance-checker.html'), /identity\.netlify\.com/i);
   assert.match(source('tools/material-checker-platform.js'), /window\.UpskillAuth/);
+});
+
+test('advanced storage subscribes when the lazy Supabase auth bundle becomes ready', async () => {
+  const dom = await createPlatform({auth: false});
+  const {window} = dom;
+  window.document.querySelector('[data-platform-tab="admin"]').click();
+  assert.match(window.document.querySelector('#mcStorageStatus').textContent, /Not signed in/i);
+  const user = {id: 'late-user', email: 'late@example.test', user_metadata: {full_name: 'Late User'}};
+  window.UpskillAuth = {
+    getUser: () => user,
+    getClient: () => ({auth: {getSession: async () => ({data: {session: {access_token: 'late-token'}}})}}),
+    onChange: listener => listener(user),
+    signOut: async () => {}
+  };
+  window.document.dispatchEvent(new window.CustomEvent('upskill-auth-ready'));
+  await new Promise(resolve => window.setTimeout(resolve, 10));
+  assert.match(window.document.querySelector('#mcStorageStatus').textContent, /Signed in as late@example\.test/i);
 });
