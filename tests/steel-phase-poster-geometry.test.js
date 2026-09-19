@@ -119,6 +119,13 @@ test('delta ferrite exists only in its temperature window', () => {
   near(G.deltaMaxC(1495), 0.09, 1e-6, 'peritectic delta composition');
 });
 
+test('the delta plus austenite wedge closes at pure iron near 1394 C', () => {
+  near(G.deltaGammaMaxC(1394), 0, 1e-9, 'gamma-side allotropic endpoint');
+  near(G.deltaGammaMaxC(1495), 0.17, 1e-9, 'gamma-side peritectic endpoint');
+  assert.equal(G.regionAt(0.15, 1400), 'austenite');
+  assert.equal(G.regionAt(0.15, 1490), 'deltaAustenite');
+});
+
 /* ---------- region classification ---------- */
 
 const at = (c, t) => G.regionAt(c, t);
@@ -152,6 +159,23 @@ test('below the eutectoid a plain carbon steel is ferrite plus cementite', () =>
 
 test('very low carbon below the eutectoid is single phase ferrite', () => {
   assert.equal(at(0.005, 600), 'ferrite');
+});
+
+test('exact invariant isotherms cover their three-phase composition spans', () => {
+  [0.20, 0.77, 3.0].forEach(c =>
+    assert.equal(at(c, 727), 'eutectoidInvariant', `A1 at ${c} wt% C`));
+  [3.0, 4.30, 5.5].forEach(c =>
+    assert.equal(at(c, 1148), 'eutecticInvariant', `eutectic at ${c} wt% C`));
+  [0.17, 0.40].forEach(c =>
+    assert.equal(at(c, 1495), 'peritecticInvariant', `peritectic at ${c} wt% C`));
+  assert.equal(at(0.01, 727), 'ferrite');
+  assert.equal(at(0.022, 727), 'ferrite');
+  assert.equal(at(6.67, 727), 'cementite');
+  assert.equal(at(2.14, 1148), 'austenite');
+  assert.equal(at(6.67, 1148), 'cementite');
+  assert.equal(at(0.09, 1495), 'deltaFerrite');
+  assert.equal(at(0.53, 1495), 'liquid');
+  assert.notEqual(at(0.20, 727.3), 'eutectoidInvariant');
 });
 
 test('hypereutectic between liquidus and eutectic is liquid plus cementite', () => {

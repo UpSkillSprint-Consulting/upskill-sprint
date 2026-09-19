@@ -4,18 +4,20 @@
  *
  * WHAT THIS DIAGRAM IS
  * --------------------
- * A carbon-versus-temperature map of the microconstituents formed when plain
- * carbon steel is austenitised and quenched into an isothermal bath held at
- * the temperature shown. It is NOT a TTT or CCT diagram: there is no time
- * axis, and nothing here can be read as a cooling rate.
+ * An illustrative carbon-versus-temperature map of the dominant product
+ * expected after rapid transfer from austenite and a sufficiently long
+ * isothermal hold at the temperature shown. It is NOT a TTT or CCT diagram:
+ * there is no time axis, it does not calculate transformation start/finish,
+ * and nothing here can be read as a cooling rate or guaranteed final result.
  *
  * CONFIDENCE OF EACH BOUNDARY
  * ---------------------------
- * Quantitative, from published relationships:
+ * Reference values / empirical estimates:
  *   A1   727 degC, the eutectoid.
+ *   Ms   carbon-only Andrews estimate: Ms(degC) = 539 - 423*C.
+ * Anchor-calibrated teaching curves rather than published equations:
  *   A3   912 degC at pure iron, falling to the eutectoid at 0.77 wt%.
- *   Acm  rising from the eutectoid.
- *   Ms   Andrews:  Ms(degC) = 539 - 423*C   (plain carbon, no alloying)
+ *   Acm  rising from the eutectoid to 2.14 wt% C at 1148 degC.
  *   Mf   approximated as Ms - 215 degC. Widely used, but the finish is
  *        asymptotic in practice and retained austenite persists below it.
  *
@@ -93,8 +95,17 @@
 
   /* ---- educational field divisions ---- */
 
-  function austenitisingLow(c) { return austeniteFloor(c) + 25; }
-  function austenitisingHigh(c) { return austeniteFloor(c) + 75; }
+  function austenitisingLow(c) {
+    return c <= EUTECTOID_C ? austeniteFloor(c) + 25 : EUTECTOID_T + 25;
+  }
+  function austenitisingHigh(c) {
+    if (c <= EUTECTOID_C) return austeniteFloor(c) + 75;
+    /* For hypereutectoid steel, show a practical partial-to-full
+       austenitising window: it begins above A1 and extends at least to Acm.
+       A production hardening cycle commonly stays below Acm to retain useful
+       carbides, so this is a window, not a recommendation to exceed Acm. */
+    return Math.max(EUTECTOID_T + 75, austeniteFloor(c));
+  }
 
   /* Meets the eutectoid point exactly from both sides. */
   function proeutectoidFloor(c) {
@@ -133,7 +144,9 @@
 
   var LABELS = {
     austenite: 'Austenite',
-    austenitising: 'Austenitising range',
+    austenitising: 'Austenitising window',
+    ferriteAustenite: 'Ferrite + austenite',
+    austeniteCementite: 'Austenite + cementite',
     ferritePearlite: 'Ferrite + pearlite',
     cementitePearlite: 'Cementite + pearlite',
     pearlite: 'Pearlite',
@@ -141,19 +154,23 @@
     lowerBainite: 'Lower bainite',
     martensiteAustenite: 'Martensite + retained austenite',
     martensite: 'Martensite',
+    eutectoid: 'Eutectoid invariant boundary',
+    notModelled: 'Product map unavailable below 0.20 wt% C',
     outside: 'Outside the chart'
   };
 
-  var QUANTITATIVE = ['a1', 'a3', 'acm', 'ms', 'mf'];
-  var APPROXIMATE = ['austenitising', 'proeutectoidFloor', 'pearliteFloor', 'bainiteDivide'];
+  var QUANTITATIVE = ['a1', 'ms'];
+  var APPROXIMATE = ['a3', 'acm', 'mf', 'austenitising', 'proeutectoidFloor', 'pearliteFloor', 'bainiteDivide'];
 
   function regionAt(c, t) {
     if (c < RANGE.cMin || c > RANGE.cMax || t < RANGE.tMin || t > RANGE.tMax) return 'outside';
+    if (c < FIELD_C_MIN) return 'notModelled';
+    if (Math.abs(t - EUTECTOID_T) <= 1e-9) return 'eutectoid';
 
-    if (t >= austenitisingHigh(c)) return 'austenite';
-    if (t >= austenitisingLow(c)) return 'austenitising';
     if (t >= austeniteFloor(c)) return 'austenite';
-    if (t >= EUTECTOID_T) return 'austenite';
+    if (t >= EUTECTOID_T) {
+      return c <= EUTECTOID_C ? 'ferriteAustenite' : 'austeniteCementite';
+    }
 
     if (t >= proeutectoidFloor(c)) {
       return c < EUTECTOID_C ? 'ferritePearlite' : 'cementitePearlite';
@@ -177,6 +194,12 @@
     var upper, lower;
     switch (key) {
       case 'austenitising': upper = austenitisingHigh; lower = austenitisingLow; break;
+      case 'ferriteAustenite':
+        cHi = EUTECTOID_C;
+        upper = austeniteFloor; lower = function () { return EUTECTOID_T; }; break;
+      case 'austeniteCementite':
+        cLo = EUTECTOID_C;
+        upper = austeniteFloor; lower = function () { return EUTECTOID_T; }; break;
       case 'ferritePearlite':
         cHi = EUTECTOID_C;
         upper = function () { return EUTECTOID_T; }; lower = proeutectoidFloor; break;

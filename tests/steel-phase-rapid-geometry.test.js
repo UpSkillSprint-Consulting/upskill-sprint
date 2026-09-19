@@ -111,9 +111,17 @@ test('the proeutectoid floor meets the eutectoid point from both sides', () => {
   assert.ok(R.proeutectoidFloor(0.9) < 727, 'below on the right');
 });
 
-test('the austenitising band sits above the austenite floor', () => {
+test('the austenitising window follows hypo- and hypereutectoid practice', () => {
   for (let c = 0.2; c <= 1.2; c += 0.1) {
-    assert.ok(R.austenitisingLow(c) > R.austeniteFloor(c), `band above floor at ${c.toFixed(1)}`);
+    if (c <= R.EUTECTOID_C) {
+      assert.ok(R.austenitisingLow(c) > R.austeniteFloor(c),
+        `hypoeutectoid window above A3 at ${c.toFixed(1)}`);
+    } else {
+      assert.ok(R.austenitisingLow(c) > R.EUTECTOID_T,
+        `hypereutectoid window above A1 at ${c.toFixed(1)}`);
+      assert.ok(R.austenitisingHigh(c) >= R.austeniteFloor(c),
+        `hypereutectoid window reaches Acm at ${c.toFixed(1)}`);
+    }
     assert.ok(R.austenitisingHigh(c) > R.austenitisingLow(c), `band has depth at ${c.toFixed(1)}`);
   }
 });
@@ -124,9 +132,21 @@ test('high temperature is austenite', () => {
   assert.equal(R.regionAt(0.5, 990), 'austenite');
 });
 
-test('the austenitising band classifies', () => {
-  const c = 0.4, t = (R.austenitisingLow(c) + R.austenitisingHigh(c)) / 2;
-  assert.equal(R.regionAt(c, t), 'austenitising');
+test('the exact A1 isotherm is an invariant boundary across the modelled range', () => {
+  [0.20, 0.50, R.EUTECTOID_C, 1.20].forEach(carbon => {
+    assert.equal(R.regionAt(carbon, R.EUTECTOID_T), 'eutectoid');
+  });
+  assert.equal(R.regionAt(0.10, R.EUTECTOID_T), 'notModelled');
+  assert.notEqual(R.regionAt(0.50, R.EUTECTOID_T + 1e-6), 'eutectoid');
+  assert.notEqual(R.regionAt(0.50, R.EUTECTOID_T - 1e-6), 'eutectoid');
+  assert.match(R.LABELS.eutectoid, /invariant boundary/i);
+});
+
+test('two-phase equilibrium fields remain distinct from the austenitising process overlay', () => {
+  assert.equal(R.regionAt(0.4, 740), 'ferriteAustenite');
+  assert.equal(R.regionAt(1.0, 790), 'austeniteCementite');
+  const overlay = R.regionPolygon('austenitising');
+  assert.ok(overlay && overlay.length > 3, 'austenitising guidance remains a drawable overlay');
 });
 
 test('hypoeutectoid just below A1 is ferrite plus pearlite', () => {
