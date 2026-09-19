@@ -57,6 +57,22 @@
     return Number(value.toFixed(places)).toString();
   }
 
+  function localISODate(date) {
+    const value = date instanceof Date ? date : new Date(date == null ? Date.now() : date);
+    if (Number.isNaN(value.getTime())) return '';
+    const pad = number => String(number).padStart(2, '0');
+    return value.getFullYear() + '-' + pad(value.getMonth() + 1) + '-' + pad(value.getDate());
+  }
+
+  function isValidDateNotFuture(value, today) {
+    const text = String(value || '').trim();
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(text)) return false;
+    const parsed = new Date(text + 'T00:00:00Z');
+    if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== text) return false;
+    const boundary = String(today || localISODate()).trim();
+    return /^\d{4}-\d{2}-\d{2}$/.test(boundary) && text <= boundary;
+  }
+
   function numericDomainError(value, unit, propertyCode, options) {
     const number = toNumber(value);
     if (number == null) return 'A finite numeric value is required.';
@@ -85,11 +101,7 @@
     if (rulePackage.status !== 'Approved') warnings.push('The rule package is not approved.');
     if (!String(rulePackage.edition || '').trim()) warnings.push('The controlled edition or revision is missing.');
     if (!String(rulePackage.lastVerified || '').trim()) warnings.push('The rule package verification date is missing.');
-    else {
-      const verifiedAt = new Date(rulePackage.lastVerified + 'T00:00:00Z');
-      if (Number.isNaN(verifiedAt.getTime())) warnings.push('The rule package verification date is invalid.');
-      else if (verifiedAt.getTime() > Date.now() + 86400000) warnings.push('The rule package verification date is in the future.');
-    }
+    else if (!isValidDateNotFuture(rulePackage.lastVerified)) warnings.push('The rule package verification date is invalid or in the future.');
     return warnings;
   }
 
@@ -662,6 +674,8 @@
     round,
     convert,
     formatNumber,
+    localISODate,
+    isValidDateNotFuture,
     numericDomainError,
     packageControlWarnings,
     scopeApplies,
