@@ -9,7 +9,8 @@ on:
       - 'tools/material-specification-compliance-checker*.js'
       - 'tools/material-specification-compliance-checker*.css'
       - 'tools/material-specification-compliance-checker.html'
-      - 'tests/material-checker-engine.test.js'
+      - 'tools/material-specification-compliance-checker/how-to-use/**'
+      - 'tests/material-checker*.test.js'
       - 'netlify/functions/material-checker.mjs'
       - 'package.json'
       - 'netlify.toml'
@@ -21,7 +22,11 @@ on:
       - 'tools/material-checker-engine.js'
       - 'tools/material-checker-platform*.js'
       - 'tools/material-checker-platform*.css'
-      - 'tests/material-checker-engine.test.js'
+      - 'tools/material-specification-compliance-checker*.js'
+      - 'tools/material-specification-compliance-checker*.css'
+      - 'tools/material-specification-compliance-checker.html'
+      - 'tools/material-specification-compliance-checker/how-to-use/**'
+      - 'tests/material-checker*.test.js'
       - 'netlify/functions/material-checker.mjs'
       - 'package.json'
       - 'netlify.toml'
@@ -41,7 +46,7 @@ jobs:
           node-version-file: '.node-version'
       - run: npm install
       - name: Run material checker tests
-        run: node --test tests/material-checker-engine.test.js
+        run: node --test tests/material-checker*.test.js
       - run: node --check tools/material-checker-engine.js
       - run: node --check tools/material-checker-platform.js
       - run: node --check tools/material-checker-platform-hardening.js

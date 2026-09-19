@@ -198,6 +198,7 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
         <li>Reviewer and approval authority</li>
       </ul>
       <div class="guide-callout"><p><strong>Best practice:</strong> record the exact edition or revision of the target requirement. A grade designation without its governing edition, product form, class, and supplementary conditions is not a complete acceptance basis.</p></div>
+      <div class="guide-callout"><p><strong>Check currency at the publisher:</strong> catalogue labels and saved packages can become outdated. Confirm the applicable edition, amendments, errata, contract date, and any customer-imposed edition directly with the issuing organization before relying on a result.</p></div>
     </section>
 
     <section class="guide-card" id="quick-start">
@@ -268,7 +269,7 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
       </table></div>
 
       <h3>Charpy / toughness rows</h3>
-      <p>Record the location and orientation, actual test temperature, actual average energy, actual minimum individual energy, required maximum test temperature, required average energy, required individual energy, units, and source. A temperature requirement is usually a maximum test temperature; energy criteria are usually minimums.</p>
+      <p>Record the location and orientation, actual test temperature, specimen count, actual average energy, actual minimum individual energy, required maximum test temperature, required specimen count, required average energy, required individual energy, units, and source. Temperature and energy units are selected independently. A temperature requirement is usually a maximum test temperature; energy criteria are usually minimums.</p>
 
       <h3>Process / certification rows</h3>
       <p>Select the required evidence item and set its status to <span class="guide-code">yes</span>, <span class="guide-code">no</span>, <span class="guide-code">unknown</span>, or <span class="guide-code">not-applicable</span>. Mandatory evidence marked unknown or unjustified as not applicable remains unresolved.</p>
@@ -295,10 +296,12 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
         <thead><tr><th>Status</th><th>Meaning</th><th>Required response</th></tr></thead>
         <tbody>
           <tr><td><span class="guide-chip pass">Pass</span></td><td>All configured and applicable requirements are satisfied, required evidence is present, and no blocking review condition remains.</td><td>Complete the technical review and release controls required by your organization.</td></tr>
+          <tr><td><span class="guide-chip conditional">Pass with warnings</span></td><td>All numerical checks pass, but a saved rule package or one of its requirements is not fully verified.</td><td>Verify the controlled package and every involved rule before release.</td></tr>
           <tr><td><span class="guide-chip fail">Fail</span></td><td>At least one actual result is outside an entered limit, or required process/certification evidence is explicitly absent.</td><td>Verify the entry and units, then document rejection, retest, regrade, concession, or another controlled disposition.</td></tr>
           <tr><td><span class="guide-chip conditional">Conditional</span></td><td>No failure was found, but required evidence, controlled-source verification, applicability, or engineering review remains unresolved.</td><td>Resolve every missing or review item before treating the material as acceptable.</td></tr>
           <tr><td><span class="guide-chip">Missing</span></td><td>A mandatory actual result or required evidence item was not supplied.</td><td>Obtain the evidence or document why it is not applicable.</td></tr>
           <tr><td><span class="guide-chip">Review</span></td><td>A rule is incomplete, a conversion is undefined, an applicability decision requires justification, or another technical check is needed.</td><td>Correct or formally review the condition.</td></tr>
+          <tr><td><span class="guide-chip fail">Invalid input</span></td><td>A physical value is impossible, a minimum exceeds a maximum, a required unit is absent, or another rule definition is internally invalid.</td><td>Correct the input or rule. No compliance verdict is issued from invalid data.</td></tr>
           <tr><td><span class="guide-chip">Not assessed</span></td><td>The checker has not been run or no meaningful decision scope exists.</td><td>Select sections, configure requirements, and rerun.</td></tr>
         </tbody>
       </table></div>
@@ -322,7 +325,7 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
           <tr><td><strong>Compare</strong></td><td>Screens the current material against multiple rule packages and displays a requirement-by-requirement matrix.</td><td>Compatibility screening is not automatic grade equivalency.</td></tr>
           <tr><td><strong>Statistics</strong></td><td>Calculates descriptive statistics, capability indices, a histogram, and an individuals chart from imported numeric records.</td><td>Confirm the unit of analysis and independence before interpreting capability.</td></tr>
           <tr><td><strong>Review & audit</strong></td><td>Records reviewer, approver, disposition, next actions, overrides, approval lock, reports, and audit history.</td><td>An override records a separate disposition and never changes the calculated result.</td></tr>
-          <tr><td><strong>Admin & storage</strong></td><td>Controls roles, aliases, local or organization storage, sign-in, synchronization, and automated validation.</td><td>Use organization mode only when Netlify Identity and secure storage are configured.</td></tr>
+          <tr><td><strong>Admin & storage</strong></td><td>Controls workflow roles, aliases, local or signed-in account storage, synchronization, and automated validation.</td><td>Remote storage uses the current UpSkill Sprint Supabase session and is isolated per signed-in user.</td></tr>
         </tbody>
       </table></div>
 
@@ -341,8 +344,8 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
         <li>Drop or select the source file.</li>
         <li>Confirm the number of detected records.</li>
         <li>Review each source field, sample value, canonical mapping, unit, and confidence score.</li>
-        <li>Correct all uncertain mappings. Low-confidence mappings are not intended to be accepted without manual verification.</li>
-        <li>Select the target rule package.</li>
+        <li>Correct uncertain mappings and explicitly confirm every mapping that will be used.</li>
+        <li>Select an approved target rule package with a recorded verification date.</li>
         <li>Run the batch assessment.</li>
         <li>Review record count, pass rate, failed and conditional counts, exception Pareto, and each record's key exception.</li>
       </ol>
@@ -353,7 +356,7 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
     <section class="guide-card" id="statistics">
       <p class="guide-kicker">Batch analysis</p>
       <h2>Use statistics and capability responsibly</h2>
-      <p>Select a mapped numeric property, enter the applicable LSL and/or USL, and calculate the summary. The tool reports N, mean, standard deviation, median, minimum, maximum, Cpk/Ppk, and Pp, with a histogram and individuals chart.</p>
+      <p>Select a confirmed numeric property, enter the applicable LSL and/or USL in the displayed import unit, and calculate the summary. The tool reports descriptive statistics, Cpk and Cp using an I-MR moving-range estimate, and Ppk and Pp using overall sample standard deviation, plus a histogram and individuals chart in import order.</p>
       <div class="guide-callout danger"><p><strong>Unit-of-analysis caution:</strong> determine whether each row represents a specimen, test, coil, plate, pipe, or heat. Repeated tests from one heat or coil can overweight that material and make the distribution and capability indices misleading.</p></div>
       <p>Capability indices also require a stable, meaningful process and an appropriate distributional interpretation. Use them for engineering analysis—not as a substitute for row-level specification compliance.</p>
     </section>
@@ -366,10 +369,10 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
       <h3>Engineering override or concession</h3>
       <p>Select the affected requirement, disposition, authorization reference, and reason. The original calculated status remains visible. An override documents an authorized disposition; it does not convert a calculated failure into a mathematical pass.</p>
       <h3>Approve and lock</h3>
-      <p>Approval requires the appropriate role plus reviewer and approver names. A failed calculated result requires a documented override or rejection disposition. Approval locks the assessment; unlocking requires permission and a recorded reason.</p>
+      <p>Approval requires the appropriate role, different reviewer and approver names, a final disposition, a calculated Pass, and 100% evidence coverage. An override records a disposition but never makes a failed, conditional, or invalid assessment approvable. Approval locks the assessment; unlocking requires permission and a recorded reason.</p>
       <h3>Audit history</h3>
-      <p>The audit records actions, timestamps, actors, and details. Local history is included in exports and reports. Organization mode can store the workspace through authenticated Netlify storage when configured.</p>
-      <div class="guide-callout"><p><strong>Role model:</strong> Viewer, Analyst, Engineer, Approver, Standards Administrator, and System Administrator permissions are cumulative. Local mode simulates roles in one browser; organization mode uses authenticated account roles.</p></div>
+      <p>The audit records actions, timestamps, actors, and details. Local history is included in exports and reports but remains ordinary browser data, not an immutable regulated record. Signed-in account mode can store a per-user workspace through the site's Supabase-authenticated server endpoint.</p>
+      <div class="guide-callout"><p><strong>Role model:</strong> Viewer, Analyst, Engineer, Approver, Standards Administrator, and System Administrator permissions are cumulative workflow roles in this browser. They support process control but do not replace organizational authorization or independent identity verification.</p></div>
     </section>
 
     <section class="guide-card" id="save-report">
@@ -383,8 +386,8 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
           <tr><td><strong>Export assessment</strong></td><td>Downloads a JSON record containing the scope, rows, and result.</td><td>Treat exported production data according to your organization's information-security rules.</td></tr>
           <tr><td><strong>Import assessment</strong></td><td>Restores a compatible exported JSON assessment.</td><td>Review imported scope, units, requirements, and evidence before relying on it.</td></tr>
           <tr><td><strong>Print / Save PDF</strong></td><td>Creates a printable record of the manual assessment.</td><td>A printed report is only as valid as the controlled sources and evidence entered.</td></tr>
-          <tr><td><strong>Engineering report</strong></td><td>Includes scope, decision, requirement results, derived calculations, review, and disposition.</td><td>Use for the technical job file, not as automatic certification.</td></tr>
-          <tr><td><strong>Screening certificate</strong></td><td>Creates a concise compatibility-screening summary.</td><td>The certificate explicitly does not certify the material to the target standard.</td></tr>
+          <tr><td><strong>Engineering report</strong></td><td>Includes scope, decision, requirement results, derived calculations, review, and disposition.</td><td>Unapproved reports are marked DRAFT; use them for review, not as automatic certification.</td></tr>
+          <tr><td><strong>Screening certificate</strong></td><td>Creates a concise compatibility-screening summary only after a 100%-coverage Pass is approved and locked.</td><td>The certificate explicitly does not certify the material to the target standard.</td></tr>
         </tbody>
       </table></div>
     </section>
@@ -402,7 +405,7 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
         <li>Open the Advanced Workspace Overview to inspect derived calculations and prioritized gaps.</li>
         <li>Select <strong>Clear assessment</strong> before entering production or customer data.</li>
       </ol>
-      <div class="guide-callout good"><p>The worked example is for learning the workflow. It is not an approved rule package and must not be reused as a production acceptance basis.</p></div>
+      <div class="guide-callout good"><p>The worked example uses generic illustrative limits, a working-copy status, and deliberately unresolved evidence. It is for learning the workflow, cannot produce a production Pass, and must not be reused as an acceptance basis.</p></div>
     </section>
 
     <section class="guide-card" id="troubleshooting">
@@ -411,7 +414,7 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
       <div class="guide-table-wrap"><table class="guide-table">
         <thead><tr><th>Issue</th><th>Likely cause</th><th>Action</th></tr></thead>
         <tbody>
-          <tr><td>Conditional result with no failures</td><td>Missing target edition, working/unverified requirement source, missing mandatory evidence, selected section with no rules, or a review item.</td><td>Inspect every Missing and Review row and resolve the controlling condition.</td></tr>
+          <tr><td>Conditional result with no failures</td><td>Missing traceability, product form, source or target edition, working/unverified requirement source, missing mandatory evidence, selected section with no rules, or a review item.</td><td>Inspect every Missing and Review row and resolve the controlling condition.</td></tr>
           <tr><td>Unexpected pass or fail</td><td>Actual and requirement units were selected incorrectly, or the wrong property/limit was used.</td><td>Verify property identity, units, bounds, orientation, and controlled clause.</td></tr>
           <tr><td>No result for a row</td><td>Property name, actual, limit, or evidence status is incomplete.</td><td>Complete the row or remove it from the applicable scope.</td></tr>
           <tr><td>Cannot edit a rule package</td><td>The effective role is below Standards Administrator, or the assessment is locked.</td><td>Use the correct role and authorized unlock process.</td></tr>
@@ -419,7 +422,7 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
           <tr><td>Batch results look wrong</td><td>Incorrect field mapping, unit, target package, or record granularity.</td><td>Review every mapping and sample value before rerunning.</td></tr>
           <tr><td>Statistics option has no property</td><td>No numeric imported field is mapped to a canonical property.</td><td>Correct the mapping and unit, then reopen Statistics.</td></tr>
           <tr><td>Saved data is missing on another computer</td><td>The assessment was stored in local browser mode.</td><td>Export/import the JSON or use configured organization storage.</td></tr>
-          <tr><td>Approval is blocked</td><td>Missing reviewer/approver, insufficient role, or a failed result lacks an authorized disposition.</td><td>Complete the review fields and document the required decision.</td></tr>
+          <tr><td>Approval is blocked</td><td>The result is not a 100%-coverage Pass, reviewer and approver are not different, a disposition is missing, or the workflow role is insufficient.</td><td>Resolve the assessment and complete all independent review fields; an override does not change the calculated result.</td></tr>
           <tr><td>Report window does not open</td><td>The browser blocked a popup.</td><td>Allow popups for the site and generate the report again.</td></tr>
         </tbody>
       </table></div>

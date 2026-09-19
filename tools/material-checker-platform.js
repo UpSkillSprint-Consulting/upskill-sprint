@@ -8,6 +8,7 @@
   const STORAGE_KEY = 'upskill-material-compliance-platform-v4';
   const MAX_AUDIT = 750;
   const STATUS_OPTIONS = ['Draft', 'Evidence incomplete', 'Ready for technical review', 'Approved', 'Rejected', 'Superseded'];
+  const EDITABLE_WORKFLOW_STATUSES = STATUS_OPTIONS.filter(status => status !== 'Approved');
   const DISPOSITION_ACTIONS = [
     'Verify data-entry error', 'Confirm units', 'Review specification edition', 'Request missing MTR evidence',
     'Retest', 'Test additional specimens', 'Engineering review', 'Customer concession',
@@ -31,6 +32,8 @@
   let state = loadState();
   let activeTab = 'overview';
   let inputAuditTimer = null;
+  let identityInitialized = false;
+  let identityReadyListenerInstalled = false;
 
   function uid(prefix) {
     return (prefix || 'id') + '-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
@@ -69,11 +72,22 @@
   function loadState() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-      return Object.assign(defaultState(), saved || {}, {
+      const loaded = Object.assign(defaultState(), saved || {}, {
         applicability: Object.assign(defaultState().applicability, saved && saved.applicability),
         batch: Object.assign(defaultState().batch, saved && saved.batch),
         workflow: Object.assign(defaultState().workflow, saved && saved.workflow)
       });
+      loaded.packages = Array.isArray(loaded.packages) ? loaded.packages.map(pkg => Object.assign({controlRequired: true}, pkg, {
+        rules: Array.isArray(pkg.rules) ? pkg.rules : []
+      })) : [];
+      loaded.templates = Array.isArray(loaded.templates) ? loaded.templates : [];
+      loaded.comparisonPackageIds = Array.isArray(loaded.comparisonPackageIds) ? loaded.comparisonPackageIds : [];
+      loaded.aliases = loaded.aliases && typeof loaded.aliases === 'object' ? loaded.aliases : {};
+      loaded.audit = Array.isArray(loaded.audit) ? loaded.audit : [];
+      loaded.batch.mapping = Array.isArray(loaded.batch.mapping) ? loaded.batch.mapping.map(mapping => Object.assign({confirmed: false}, mapping)) : [];
+      loaded.batch.records = Array.isArray(loaded.batch.records) ? loaded.batch.records : [];
+      loaded.batch.results = Array.isArray(loaded.batch.results) ? loaded.batch.results : [];
+      return loaded;
     } catch (error) {
       return defaultState();
     }
@@ -85,7 +99,7 @@
 
   function currentIdentityUser() {
     try {
-      return window.netlifyIdentity && window.netlifyIdentity.currentUser ? window.netlifyIdentity.currentUser() : null;
+      return window.UpskillAuth && typeof window.UpskillAuth.getUser === 'function' ? window.UpskillAuth.getUser() : null;
     } catch (error) {
       return null;
     }
@@ -99,12 +113,6 @@
   }
 
   function currentRole() {
-    const user = currentIdentityUser();
-    const roles = user && user.app_metadata && Array.isArray(user.app_metadata.roles) ? user.app_metadata.roles : [];
-    if (roles.length) {
-      const normalized = roles.map(role => Engine.slug(role));
-      return normalized.sort((left, right) => (ROLE_RANK[right] || 0) - (ROLE_RANK[left] || 0))[0];
-    }
     return Engine.slug(state.localRole || 'Engineer');
   }
 
@@ -141,7 +149,20 @@
   }
 
   function propertyByCode(code) {
-    return allProperties().find(item => item.code === code) || null;
+    const direct = allProperties().find(item => item.code === code);
+    if (direct) return direct;
+    const parts = String(code || '').split(':');
+    if (parts.length === 2) {
+      const location = (Config.PROPERTIES.charpy || []).find(item => item.code === parts[0]);
+      const metric = EXTRA_PROPERTIES.charpy.find(item => item.code === parts[1]);
+      if (location && metric) return Object.assign({}, metric, {
+        code,
+        label: location.label + ' — ' + metric.label,
+        locationCode: location.code,
+        metricCode: metric.code
+      });
+    }
+    return null;
   }
 
   function readScope() {
@@ -196,6 +217,10 @@
       const unit = row.querySelector('[data-f="aUnit"]');
       if (actual && actual.value !== '') actuals[propertyCode] = {value: actual.value, unit: unit ? unit.value : ''};
     });
+    const derived = Engine.calculateDerived(actuals, readScope());
+    if (!actuals.chem_ceiiw && derived.ceiiw.ready) actuals.chem_ceiiw = {value: derived.ceiiw.value, unit: derived.ceiiw.unit, derived: true};
+    if (!actuals.chem_pcm && derived.pcm.ready) actuals.chem_pcm = {value: derived.pcm.value, unit: derived.pcm.unit, derived: true};
+    if (!actuals.mech_yt_ratio && derived.ytRatio.ready) actuals.mech_yt_ratio = {value: derived.ytRatio.value, unit: derived.ytRatio.unit, derived: true};
     return {actuals, evidence};
   }
 
@@ -229,7 +254,7 @@
       } else if (section === 'charpy') {
         const label = propertyByCode(code)?.label || code;
         const requirementUnit = row.querySelector('[data-f="reqUnit"]')?.value || 'J';
-        const temperatureUnit = row.querySelector('[data-f="tempUnit"]')?.value || '°C';
+        const temperatureUnit = row.querySelector('[data-f="reqTempUnit"]')?.value || row.querySelector('[data-f="tempUnit"]')?.value || '°C';
         const definitions = [
           ['charpy_test_temperature', '', row.querySelector('[data-f="reqTemp"]')?.value, temperatureUnit, 'Maximum test temperature'],
           ['charpy_average_energy', row.querySelector('[data-f="reqAvg"]')?.value, '', requirementUnit, 'Average energy'],
@@ -255,11 +280,41 @@
     return {
       id: uid('package'), name: name || [scope.targetStandard, scope.targetGrade, scope.targetEdition].filter(Boolean).join(' | ') || 'Current manual requirements',
       organization: scope.targetOrg || '', standard: scope.targetStandard || '', grade: scope.targetGrade || '', edition: scope.targetEdition || '',
-      status: 'Draft', owner: currentActor(), lastVerified: '', applicability: {productForms: scope.productForm ? [scope.productForm] : [], thicknessUnit: scope.thicknessUnit || 'mm'}, rules
+      status: 'Draft', owner: currentActor(), lastVerified: '', controlRequired: true,
+      applicability: {productForms: scope.productForm ? [scope.productForm] : [], thicknessUnit: scope.thicknessUnit || 'mm'}, rules
     };
   }
 
   function coreEvaluation() {
+    if (window.MaterialCheckerCore && typeof window.MaterialCheckerCore.evaluate === 'function') {
+      const core = window.MaterialCheckerCore.evaluate();
+      return {
+        packageId: 'current-manual',
+        packageName: 'Current manual requirements',
+        applicability: {applicable: true, determined: true, reasons: []},
+        rows: core.rows.map(row => ({
+          id: row.sec + '-' + Engine.slug(row.name),
+          category: row.sec,
+          propertyCode: '',
+          label: row.name,
+          status: row.status,
+          actual: row.actual,
+          acceptance: row.rule,
+          basis: row.basis,
+          detail: row.detail,
+          nearLimit: false,
+          mandatory: true,
+          warnings: []
+        })),
+        counts: core.counts,
+        applicable: core.applicable,
+        assessed: core.assessed,
+        coverage: core.coverage,
+        status: core.status,
+        message: core.message,
+        warnings: []
+      };
+    }
     const current = readCurrentEvidence();
     return Engine.evaluatePackage(currentManualPackage('Current manual requirements'), current.actuals, current.evidence, readScope());
   }
@@ -390,6 +445,12 @@
     }
     if (event.target.id === 'mcTemplateSelect' || event.target.id === 'mcBatchPackageSelect' || event.target.id === 'mcStatsProperty') return;
     if (event.target.matches('[data-map-index]')) {
+      if (event.target.dataset.mapField !== 'confirmed') {
+        const index = Number(event.target.dataset.mapIndex);
+        const confirmation = document.querySelector('[data-map-index="' + index + '"][data-map-field="confirmed"]');
+        if (confirmation) confirmation.checked = false;
+        if (state.batch.mapping[index]) state.batch.mapping[index].confirmed = false;
+      }
       updateMappingFromUI();
       return;
     }
@@ -456,7 +517,7 @@
     const current = readCurrentEvidence();
     const derived = Engine.calculateDerived(current.actuals, readScope());
     const evaluation = coreEvaluation();
-    const gaps = evaluation.rows.filter(row => ['fail', 'missing', 'review'].includes(row.status) || row.nearLimit);
+    const gaps = evaluation.rows.filter(row => ['fail', 'missing', 'review', 'invalid'].includes(row.status) || row.nearLimit);
     panel.innerHTML = `
       <div class="mc-overview-grid">
         <section class="mc-subcard"><h3>Current evidence snapshot</h3><p>Refresh after changing the main checker inputs.</p><div class="mc-kpi-grid" id="mcOverviewKpis"></div><div class="mc-actions"><button class="btn outline" type="button" data-mc-action="refreshOverview">Refresh analysis</button><button class="btn outline" type="button" data-mc-action="capturePackage">Capture current rules</button><button class="btn outline" type="button" data-mc-action="printReport">Engineering report</button></div></section>
@@ -494,8 +555,8 @@
       target.innerHTML = '<li class="mc-gap-item"><strong>No unresolved gaps</strong><span>All configured current requirements are satisfied with no near-limit warning.</span></li>';
       return;
     }
-    const priority = {fail: 0, missing: 1, review: 2, pass: 3};
-    target.innerHTML = gaps.sort((left, right) => (priority[left.status] || 9) - (priority[right.status] || 9)).map(row => {
+    const priority = {invalid: 0, fail: 1, missing: 2, review: 3, pass: 4};
+    target.innerHTML = gaps.sort((left, right) => (priority[left.status] ?? 9) - (priority[right.status] ?? 9)).map(row => {
       const type = row.nearLimit && row.status === 'pass' ? 'near' : row.status;
       const margin = row.margin == null ? '' : ' Margin: ' + Engine.formatNumber(row.margin) + (row.relativeMarginPercent == null ? '' : ' (' + Engine.formatNumber(row.relativeMarginPercent, 1) + '%).');
       return `<li class="mc-gap-item is-${type}"><strong>${esc(row.label)} <span class="mc-badge ${esc(row.status)}">${esc(row.status)}</span></strong><span>${esc(row.detail + margin)}</span></li>`;
@@ -586,7 +647,7 @@
   function blankPackage() {
     return {
       id: uid('package'), name: 'New rule package', organization: '', standard: '', grade: '', edition: '',
-      status: 'Draft', owner: currentActor(), lastVerified: '', notes: '',
+      status: 'Draft', owner: currentActor(), lastVerified: '', notes: '', controlRequired: true,
       applicability: {productForms: [], manufacturingRoutes: [], psl: [], thicknessMin: '', thicknessMax: '', thicknessUnit: 'mm'},
       rules: []
     };
@@ -640,10 +701,11 @@
     const category = rule.category || 'chemistry';
     const properties = propertyCatalog(category);
     const property = properties.find(item => item.code === rule.propertyCode) || propertyByCode(rule.propertyCode);
+    const selectableProperties = property && !properties.some(item => item.code === property.code) ? [property].concat(properties) : properties;
     const units = property?.units || (rule.type === 'evidence' ? ['evidence'] : ['%', 'MPa', 'ksi', 'J', 'ft-lb', 'mm', 'in', 'ratio']);
     return `<tr data-rule-id="${esc(rule.id || uid('rule'))}">
       <td><select data-rule-field="category"${editable ? '' : ' disabled'}>${['chemistry','mechanical','charpy','dimensions','process'].map(value => `<option value="${value}"${value === category ? ' selected' : ''}>${esc(value)}</option>`).join('')}</select></td>
-      <td><select data-rule-field="propertyCode"${editable ? '' : ' disabled'}><option value="">Select property</option>${properties.map(item => `<option value="${item.code}"${item.code === rule.propertyCode ? ' selected' : ''}>${esc(item.label)}</option>`).join('')}</select></td>
+      <td><select data-rule-field="propertyCode"${editable ? '' : ' disabled'}><option value="">Select property</option>${selectableProperties.map(item => `<option value="${item.code}"${item.code === rule.propertyCode ? ' selected' : ''}>${esc(item.label)}</option>`).join('')}</select></td>
       <td><input type="number" step="any" data-rule-field="min" value="${esc(rule.min || '')}"${editable || rule.type !== 'evidence' ? '' : ' disabled'}${category === 'process' ? ' disabled' : ''}></td>
       <td><input type="number" step="any" data-rule-field="max" value="${esc(rule.max || '')}"${category === 'process' ? ' disabled' : ''}${editable ? '' : ' disabled'}></td>
       <td><select data-rule-field="unit"${category === 'process' ? ' disabled' : ''}${editable ? '' : ' disabled'}>${units.map(unit => `<option${unit === rule.unit ? ' selected' : ''}>${esc(unit)}</option>`).join('')}</select></td>
@@ -697,7 +759,9 @@
     if (!pkg) return;
     const copy = JSON.parse(JSON.stringify(pkg));
     copy.id = uid('package'); copy.name += ' — Copy'; copy.status = 'Draft';
-    copy.rules.forEach(rule => { rule.id = uid('rule'); });
+    copy.lastVerified = '';
+    copy.controlRequired = true;
+    copy.rules.forEach(rule => { rule.id = uid('rule'); rule.verified = false; });
     state.packages.push(copy); state.selectedPackageId = copy.id; persist();
     logAudit('Rule package duplicated', copy.name); renderPackages(); renderCompare(); renderImport();
   }
@@ -738,11 +802,38 @@
         id: row.dataset.ruleId, type: values.category === 'process' ? 'evidence' : 'quantitative', category: values.category,
         propertyCode: values.propertyCode, label: property?.label || values.propertyCode, min: values.min, max: values.max,
         unit: values.category === 'process' ? 'evidence' : values.unit, mandatory: values.mandatory,
-        clause: values.clause, table: values.table, footnote: values.footnote, nearLimitPercent: 5
+        clause: values.clause, table: values.table, footnote: values.footnote, nearLimitPercent: 5,
+        verified: pkg.status === 'Approved'
       };
     }).filter(rule => rule.propertyCode);
     if (!pkg.name.trim() || !pkg.standard.trim() || !pkg.edition.trim()) return setStatus('Package name, standard, and edition are required.', 'error');
-    if (pkg.status === 'Approved' && (!pkg.lastVerified || !pkg.rules.length)) return setStatus('Approved packages require a verification date and at least one rule.', 'error');
+    const minimumThickness = Engine.toNumber(pkg.applicability.thicknessMin);
+    const maximumThickness = Engine.toNumber(pkg.applicability.thicknessMax);
+    if (minimumThickness != null && maximumThickness != null && minimumThickness > maximumThickness) {
+      return setStatus('Package applicability is invalid: minimum thickness exceeds maximum thickness.', 'error');
+    }
+    const duplicate = pkg.rules.find((rule, index) => pkg.rules.findIndex(candidate => candidate.category === rule.category && candidate.propertyCode === rule.propertyCode) !== index);
+    if (duplicate) return setStatus('Duplicate rule: ' + duplicate.label + '. Keep one controlled rule per property in a package.', 'error');
+    const invalidRule = pkg.rules.find(rule => {
+      if (!String(rule.clause || '').trim()) return true;
+      if (rule.type === 'evidence') return false;
+      const minimum = Engine.toNumber(rule.min);
+      const maximum = Engine.toNumber(rule.max);
+      if (minimum == null && maximum == null) return true;
+      if (minimum != null && maximum != null && minimum > maximum) return true;
+      const property = propertyByCode(rule.propertyCode);
+      if (!property || !Array.isArray(property.units) || !property.units.includes(rule.unit)) return true;
+      return Boolean(
+        minimum != null && Engine.numericDomainError(minimum, rule.unit, rule.propertyCode, {limit: true}) ||
+        maximum != null && Engine.numericDomainError(maximum, rule.unit, rule.propertyCode, {limit: true})
+      );
+    });
+    if (invalidRule) return setStatus('Complete a valid limit, compatible unit, and controlled clause for ' + (invalidRule.label || invalidRule.propertyCode) + '.', 'error');
+    if (pkg.status === 'Approved') {
+      if (!pkg.lastVerified || !pkg.rules.length) return setStatus('Approved packages require a verification date and at least one valid rule.', 'error');
+      if (!Engine.isValidDateNotFuture(pkg.lastVerified)) return setStatus('Enter a valid verification date that is not in the future.', 'error');
+    }
+    pkg.controlRequired = true;
     persist(); logAudit('Rule package saved', pkg.name + ' (' + pkg.status + ')');
     setStatus('Rule package saved.', 'success'); renderPackages(); renderCompare(); renderImport();
   }
@@ -763,7 +854,8 @@
       try {
         const pkg = JSON.parse(await file.text());
         if (!pkg || !pkg.name || !Array.isArray(pkg.rules)) throw new Error('Invalid rule-package structure.');
-        pkg.id = uid('package'); pkg.status = 'Draft'; pkg.rules.forEach(rule => { rule.id = uid('rule'); });
+        pkg.id = uid('package'); pkg.status = 'Draft'; pkg.lastVerified = ''; pkg.controlRequired = true;
+        pkg.rules.forEach(rule => { rule.id = uid('rule'); rule.verified = false; });
         state.packages.push(pkg); state.selectedPackageId = pkg.id; persist();
         logAudit('Rule package imported', pkg.name); setStatus('Package imported as Draft.', 'success');
         renderPackages(); renderCompare(); renderImport();
@@ -843,7 +935,7 @@
         <div class="mc-dropzone" id="mcDropzone"><div><strong>Drop a file here or select one</strong><p class="mc-muted">CSV, XLSX, XLS, JSON, or PDF. OCR/image-only PDFs require manual verification.</p><input id="mcDataFile" type="file" accept=".csv,.xlsx,.xls,.json,.pdf,application/json,text/csv,application/pdf"></div></div>
         <p class="mc-status" id="mcImportStatus">${state.batch.sourceName ? 'Loaded: ' + esc(state.batch.sourceName) + ' — ' + state.batch.records.length + ' record(s).' : ''}</p>
       </section>
-      <section class="mc-subcard"><h3>Field-mapping confirmation</h3><p>Review every mapping and unit before running the batch. Low-confidence mappings are never silently accepted.</p><div class="mc-table-wrap"><table class="mc-table"><thead><tr><th>Source field</th><th>Sample</th><th>Canonical field</th><th>Unit</th><th>Confidence</th></tr></thead><tbody id="mcMappingRows"></tbody></table></div></section>
+      <section class="mc-subcard"><h3>Field-mapping confirmation</h3><p>Review every mapping and unit before running the batch. Every used mapping requires explicit confirmation.</p><div class="mc-table-wrap"><table class="mc-table"><thead><tr><th>Source field</th><th>Sample</th><th>Canonical field</th><th>Unit</th><th>Confidence</th><th>Confirmed</th></tr></thead><tbody id="mcMappingRows"></tbody></table></div></section>
       <section class="mc-subcard"><h3>Batch assessment</h3><div class="mc-rule-toolbar"><label class="mc-field">Target rule package<select id="mcBatchPackageSelect"><option value="">Select package</option>${state.packages.map(item => `<option value="${item.id}"${item.id === state.batch.selectedPackageId ? ' selected' : ''}>${esc(item.name)} — ${esc(item.status)}</option>`).join('')}</select></label><div class="mc-actions"><button class="btn primary" type="button" data-mc-action="runBatch">Run batch assessment</button></div></div><div id="mcBatchSummary"></div><div id="mcBatchResults"></div></section>`;
     bindDataImport(); renderMapping(); renderBatchResults();
   }
@@ -916,7 +1008,7 @@
     return headers.map(header => {
       const mapped = Engine.mapHeader(header, Config, state.aliases);
       const property = propertyByCode(mapped.code);
-      return {header, code: mapped.code, unit: property?.defaultUnit || property?.units?.[0] || '', confidence: mapped.confidence, source: mapped.source};
+      return {header, code: mapped.code, unit: property?.defaultUnit || property?.units?.[0] || '', confidence: mapped.confidence, source: mapped.source, confirmed: false};
     });
   }
 
@@ -929,20 +1021,23 @@
   function renderMapping() {
     const tbody = document.getElementById('mcMappingRows');
     if (!tbody) return;
-    if (!state.batch.mapping.length) { tbody.innerHTML = '<tr><td colspan="5" class="empty">Import a file to create the mapping review.</td></tr>'; return; }
+    if (!state.batch.mapping.length) { tbody.innerHTML = '<tr><td colspan="6" class="empty">Import a file to create the mapping review.</td></tr>'; return; }
     const sample = state.batch.records[0] || {};
     tbody.innerHTML = state.batch.mapping.map((mapping, index) => {
       const level = mapping.confidence >= .9 ? 'high' : mapping.confidence >= .6 ? 'medium' : 'low';
       const property = propertyByCode(mapping.code);
       const units = property?.units || ['', '%','ppm','MPa','ksi','J','ft-lb','mm','in','ratio'];
-      return `<tr><td>${esc(mapping.header)}</td><td>${esc(String(sample[mapping.header] ?? '').slice(0, 80))}</td><td><select data-map-index="${index}" data-map-field="code">${mappingOptions(mapping.code)}</select></td><td><select data-map-index="${index}" data-map-field="unit">${Array.from(new Set([''].concat(units))).map(unit => `<option${unit === mapping.unit ? ' selected' : ''}>${esc(unit || 'Not applicable')}</option>`).join('')}</select></td><td><span class="mc-confidence ${level}">${Math.round(mapping.confidence * 100)}%</span><br><small>${esc(mapping.source)}</small></td></tr>`;
+      return `<tr><td>${esc(mapping.header)}</td><td>${esc(String(sample[mapping.header] ?? '').slice(0, 80))}</td><td><select data-map-index="${index}" data-map-field="code">${mappingOptions(mapping.code)}</select></td><td><select data-map-index="${index}" data-map-field="unit">${Array.from(new Set([''].concat(units))).map(unit => `<option${unit === mapping.unit ? ' selected' : ''}>${esc(unit || 'Not applicable')}</option>`).join('')}</select></td><td><span class="mc-confidence ${level}">${Math.round(mapping.confidence * 100)}%</span><br><small>${esc(mapping.source)}</small></td><td><input type="checkbox" data-map-index="${index}" data-map-field="confirmed" aria-label="Confirm mapping for ${esc(mapping.header)}"${mapping.confirmed ? ' checked' : ''}></td></tr>`;
     }).join('');
   }
 
   function updateMappingFromUI() {
     document.querySelectorAll('[data-map-index]').forEach(field => {
       const mapping = state.batch.mapping[Number(field.dataset.mapIndex)];
-      if (mapping) mapping[field.dataset.mapField] = field.value === 'Not applicable' ? '' : field.value;
+      if (!mapping) return;
+      mapping[field.dataset.mapField] = field.type === 'checkbox'
+        ? field.checked
+        : field.value === 'Not applicable' ? '' : field.value;
     });
     persist();
   }
@@ -954,11 +1049,17 @@
     state.batch.mapping.forEach(mapping => {
       if (!mapping.code) return;
       const value = record[mapping.header];
-      if (['materialId','heatNumber','productForm','thickness','width'].includes(mapping.code)) scope[mapping.code] = value;
+      if (['materialId','heatNumber','productForm'].includes(mapping.code)) scope[mapping.code] = value;
+      else if (mapping.code === 'thickness') {
+        scope.thickness = value;
+        scope.thicknessUnit = mapping.unit;
+      } else if (mapping.code === 'width') {
+        scope.width = value;
+        scope.widthUnit = mapping.unit;
+      }
       else if (mapping.code.startsWith('proc_')) evidence[mapping.code] = String(value).toLowerCase() === 'yes' || value === true ? 'yes' : String(value).toLowerCase() === 'no' || value === false ? 'no' : 'unknown';
       else actuals[mapping.code] = {value, unit: mapping.unit};
     });
-    scope.thicknessUnit = 'mm'; scope.widthUnit = 'mm';
     return {id: scope.materialId || scope.heatNumber || uid('record'), scope, actuals, evidence, raw: record};
   }
 
@@ -968,8 +1069,14 @@
     const pkg = state.packages.find(item => item.id === packageId);
     if (!pkg) return setStatus('Select a target rule package.', 'error');
     if (!state.batch.records.length) return setStatus('Import at least one record.', 'error');
-    const lowConfidence = state.batch.mapping.filter(item => item.code && item.confidence < .6);
-    if (lowConfidence.length && !confirm(lowConfidence.length + ' low-confidence mapping(s) remain. Continue only after manual verification?')) return;
+    if (pkg.status !== 'Approved' || !pkg.lastVerified) return setStatus('Batch assessment requires an approved rule package with a verification date.', 'error');
+    const usedMappings = state.batch.mapping.filter(item => item.code);
+    const unconfirmed = usedMappings.filter(item => !item.confirmed);
+    if (unconfirmed.length) return setStatus('Confirm every used field mapping before running the batch.', 'error');
+    const duplicateCodes = usedMappings.map(item => item.code).filter((code, index, values) => values.indexOf(code) !== index);
+    if (duplicateCodes.length) return setStatus('Each canonical field may be mapped only once. Resolve duplicate mappings before running the batch.', 'error');
+    const unitless = usedMappings.filter(item => !['materialId', 'heatNumber', 'productForm'].includes(item.code) && !item.code.startsWith('proc_') && !item.unit);
+    if (unitless.length) return setStatus('Select and confirm a unit for every mapped numeric field.', 'error');
     state.batch.selectedPackageId = packageId;
     state.batch.results = state.batch.records.map(record => {
       const mapped = mapImportedRecord(record);
@@ -986,8 +1093,8 @@
     if (!summaryTarget || !resultTarget) return;
     if (!state.batch.results.length) { summaryTarget.innerHTML = ''; resultTarget.innerHTML = '<div class="empty">No batch results.</div>'; return; }
     const summary = Engine.summarizeBatch(state.batch.results);
-    summaryTarget.innerHTML = `<div class="mc-kpi-grid" style="margin:16px 0"><div class="mc-kpi"><span>Records</span><strong>${summary.total}</strong></div><div class="mc-kpi"><span>Pass rate</span><strong>${Engine.formatNumber(summary.passRate,1)}%</strong></div><div class="mc-kpi"><span>Failed</span><strong>${summary.counts.fail || 0}</strong></div><div class="mc-kpi"><span>Conditional</span><strong>${summary.counts.conditional || 0}</strong></div></div><h4>Exception Pareto</h4><div class="mc-pareto">${summary.pareto.slice(0, 10).map(item => `<div class="mc-pareto-row"><span>${esc(item.label)}</span><div class="mc-pareto-track"><span style="width:${summary.pareto[0] ? item.count / summary.pareto[0].count * 100 : 0}%"></span></div><strong>${item.count}</strong></div>`).join('') || '<p class="mc-muted">No exceptions.</p>'}</div>`;
-    resultTarget.innerHTML = `<div class="mc-table-wrap" style="margin-top:16px"><table class="mc-table"><thead><tr><th>Record</th><th>Result</th><th>Coverage</th><th>Failed</th><th>Missing/review</th><th>Key exception</th></tr></thead><tbody>${state.batch.results.map(record => `<tr><td>${esc(record.id)}</td><td><span class="mc-badge ${esc(record.result.status)}">${esc(record.result.status)}</span></td><td>${record.result.coverage}%</td><td>${record.result.counts.fail || 0}</td><td>${(record.result.counts.missing || 0) + (record.result.counts.review || 0)}</td><td>${esc(record.result.rows.find(row => row.status === 'fail' || row.status === 'missing' || row.status === 'review')?.label || 'None')}</td></tr>`).join('')}</tbody></table></div>`;
+    summaryTarget.innerHTML = `<div class="mc-kpi-grid" style="margin:16px 0"><div class="mc-kpi"><span>Records</span><strong>${summary.total}</strong></div><div class="mc-kpi"><span>Clean pass rate</span><strong>${Engine.formatNumber(summary.passRate,1)}%</strong></div><div class="mc-kpi"><span>Failed</span><strong>${summary.counts.fail || 0}</strong></div><div class="mc-kpi"><span>Unresolved / invalid</span><strong>${(summary.counts.conditional || 0) + (summary.counts['invalid-input'] || 0) + (summary.counts['pass-with-warnings'] || 0)}</strong></div></div><h4>Exception Pareto</h4><div class="mc-pareto">${summary.pareto.slice(0, 10).map(item => `<div class="mc-pareto-row"><span>${esc(item.label)}</span><div class="mc-pareto-track"><span style="width:${summary.pareto[0] ? item.count / summary.pareto[0].count * 100 : 0}%"></span></div><strong>${item.count}</strong></div>`).join('') || '<p class="mc-muted">No exceptions.</p>'}</div>`;
+    resultTarget.innerHTML = `<div class="mc-table-wrap" style="margin-top:16px"><table class="mc-table"><thead><tr><th>Record</th><th>Result</th><th>Coverage</th><th>Failed</th><th>Missing/review/invalid</th><th>Key exception</th></tr></thead><tbody>${state.batch.results.map(record => `<tr><td>${esc(record.id)}</td><td><span class="mc-badge ${esc(record.result.status)}">${esc(record.result.status)}</span></td><td>${record.result.coverage}%</td><td>${record.result.counts.fail || 0}</td><td>${(record.result.counts.missing || 0) + (record.result.counts.review || 0) + (record.result.counts.invalid || 0)}</td><td>${esc(record.result.rows.find(row => ['fail','missing','review','invalid'].includes(row.status))?.label || 'None')}</td></tr>`).join('')}</tbody></table></div>`;
   }
 
   function renderCompare() {
@@ -1018,21 +1125,27 @@
     const panel = document.querySelector('[data-platform-panel="statistics"]');
     if (!panel) return;
     const mappedCodes = Array.from(new Set(state.batch.mapping.map(item => item.code).filter(code => code && propertyByCode(code) && code !== 'materialId')));
-    panel.innerHTML = `<section class="mc-subcard"><h3>Batch statistics and capability</h3><p>Capability is calculated only from numeric imported records. Confirm that rows represent independent experimental or production units; repeated tests can overweight a heat or coil.</p><div class="mc-grid"><label class="mc-field mc-span-4">Property<select id="mcStatsProperty"><option value="">Select property</option>${mappedCodes.map(code => `<option value="${code}">${esc(propertyByCode(code)?.label || code)}</option>`).join('')}</select></label><label class="mc-field mc-span-2">LSL<input id="mcStatsLSL" type="number" step="any"></label><label class="mc-field mc-span-2">USL<input id="mcStatsUSL" type="number" step="any"></label><div class="mc-actions mc-span-4"><button class="btn primary" type="button" data-mc-action="computeStatistics">Calculate statistics</button></div></div><div id="mcStatsSummary"></div><div class="mc-chart-grid" style="margin-top:16px"><canvas class="mc-chart" id="mcHistogram" width="700" height="270" aria-label="Histogram of selected batch property"></canvas><canvas class="mc-chart" id="mcIndividuals" width="700" height="270" aria-label="Individuals chart of selected batch property"></canvas></div></section>`;
+    panel.innerHTML = `<section class="mc-subcard"><h3>Batch statistics and capability</h3><p>Capability is calculated only from confirmed numeric imports. Cpk uses an I-MR moving-range estimate; Ppk uses overall sample variation. Preserve process order and confirm a stable process before interpreting either index.</p><div class="mc-grid"><label class="mc-field mc-span-4">Property<select id="mcStatsProperty"><option value="">Select property</option>${mappedCodes.map(code => `<option value="${code}">${esc(propertyByCode(code)?.label || code)}</option>`).join('')}</select></label><label class="mc-field mc-span-2">LSL<input id="mcStatsLSL" type="number" step="any"></label><label class="mc-field mc-span-2">USL<input id="mcStatsUSL" type="number" step="any"></label><div class="mc-actions mc-span-4"><button class="btn primary" type="button" data-mc-action="computeStatistics">Calculate statistics</button></div></div><div id="mcStatsSummary"></div><div class="mc-chart-grid" style="margin-top:16px"><canvas class="mc-chart" id="mcHistogram" width="700" height="270" aria-label="Histogram of selected batch property"></canvas><canvas class="mc-chart" id="mcIndividuals" width="700" height="270" aria-label="Individuals chart of selected batch property in import order"></canvas></div></section>`;
   }
 
   function computeStatistics() {
     const code = document.getElementById('mcStatsProperty')?.value;
     if (!code) return setStatus('Select a numeric batch property.', 'error');
-    const values = state.batch.records.map(record => mapImportedRecord(record).actuals[code]?.value).map(Engine.toNumber).filter(value => value != null);
+    const mapping = state.batch.mapping.find(item => item.code === code);
+    if (!mapping?.confirmed || !mapping.unit) return setStatus('Confirm the selected property mapping and unit first.', 'error');
+    const rawValues = state.batch.records.map(record => mapImportedRecord(record).actuals[code]?.value);
+    const invalidValues = rawValues.filter(value => value !== '' && value != null && (Engine.toNumber(value) == null || Engine.numericDomainError(value, mapping.unit, code, {limit: false})));
+    if (invalidValues.length) return setStatus('The selected property contains ' + invalidValues.length + ' invalid numeric value(s). Correct the import before statistical analysis.', 'error');
+    const values = rawValues.map(Engine.toNumber).filter(value => value != null);
     if (!values.length) return setStatus('No numeric values were found for the selected property.', 'error');
     const result = Engine.capability(values, document.getElementById('mcStatsLSL').value, document.getElementById('mcStatsUSL').value);
-    document.getElementById('mcStatsSummary').innerHTML = `<div class="mc-kpi-grid" style="margin-top:16px">${[
-      ['N',result.n],['Mean',Engine.formatNumber(result.mean)],['Std. dev.',Engine.formatNumber(result.standardDeviation)],['Median',Engine.formatNumber(result.median)],
-      ['Minimum',Engine.formatNumber(result.min)],['Maximum',Engine.formatNumber(result.max)],['Cpk/Ppk',Engine.formatNumber(result.cpk)],['Pp',Engine.formatNumber(result.pp)]
+    document.getElementById('mcStatsSummary').innerHTML = `<p class="mc-muted" style="margin-top:14px">All values, LSL, and USL are interpreted in the confirmed import unit: <strong>${esc(mapping.unit)}</strong>.</p><div class="mc-kpi-grid" style="margin-top:16px">${[
+      ['N',result.n],['Mean',Engine.formatNumber(result.mean)],['Overall std. dev.',Engine.formatNumber(result.standardDeviation)],['I-MR sigma',Engine.formatNumber(result.withinStandardDeviation)],
+      ['Minimum',Engine.formatNumber(result.min)],['Maximum',Engine.formatNumber(result.max)],['Cpk (I-MR)',Engine.formatNumber(result.cpk)],['Ppk (overall)',Engine.formatNumber(result.ppk)],
+      ['Cp (I-MR)',Engine.formatNumber(result.cp)],['Pp (overall)',Engine.formatNumber(result.pp)]
     ].map(item => `<div class="mc-kpi"><span>${item[0]}</span><strong>${item[1]}</strong></div>`).join('')}</div>${result.caution ? `<p class="mc-package-warning" style="margin-top:12px">${esc(result.caution)} Also verify whether counts are at specimen, test, coil, or heat level.</p>` : ''}`;
     drawHistogram(document.getElementById('mcHistogram'), values);
-    drawIndividuals(document.getElementById('mcIndividuals'), values, result.mean, result.standardDeviation);
+    drawIndividuals(document.getElementById('mcIndividuals'), values, result.mean, result.withinStandardDeviation);
     logAudit('Statistical capability calculated', (propertyByCode(code)?.label || code) + ' — n=' + result.n);
   }
 
@@ -1068,41 +1181,53 @@
     [[average,teal,'Mean'],[ucl,fail,'UCL'],[lcl,fail,'LCL']].forEach(item=>{if(!Number.isFinite(item[0]))return;ctx.strokeStyle=item[1];ctx.setLineDash(item[2]==='Mean'?[]:[5,4]);ctx.beginPath();ctx.moveTo(left,y(item[0]));ctx.lineTo(width-right,y(item[0]));ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=item[1];ctx.fillText(item[2],width-right-28,y(item[0])-3);});
     ctx.strokeStyle=teal;ctx.beginPath();values.forEach((value,index)=>{if(index===0)ctx.moveTo(x(index),y(value));else ctx.lineTo(x(index),y(value));});ctx.stroke();
     values.forEach((value,index)=>{ctx.fillStyle=(Number.isFinite(ucl)&&value>ucl)||(Number.isFinite(lcl)&&value<lcl)?fail:teal;ctx.beginPath();ctx.arc(x(index),y(value),3,0,Math.PI*2);ctx.fill();});
-    ctx.fillStyle=ink;ctx.font='12px Work Sans, sans-serif';ctx.fillText('Individuals chart',left,16);ctx.fillText('1',left,height-15);ctx.fillText(String(values.length),width-right-18,height-15);
+    ctx.fillStyle=ink;ctx.font='12px Work Sans, sans-serif';ctx.fillText('I-MR individuals chart (input order)',left,16);ctx.fillText('1',left,height-15);ctx.fillText(String(values.length),width-right-18,height-15);
   }
 
   function renderReview() {
     const panel = document.querySelector('[data-platform-panel="review"]');
     if (!panel) return;
     const workflow = state.workflow;
+    const workflowStatuses = workflow.locked && workflow.status === 'Approved' ? ['Approved'] : EDITABLE_WORKFLOW_STATUSES;
     panel.innerHTML = `<div class="mc-workflow-grid">
       <section class="mc-subcard" data-lockable="true"><h3>Review, approval, and disposition</h3><div class="mc-grid">
-        <label class="mc-field mc-span-4">Workflow status<select data-workflow-field="status">${STATUS_OPTIONS.map(value => `<option${value === workflow.status ? ' selected' : ''}>${esc(value)}</option>`).join('')}</select></label>
+        <label class="mc-field mc-span-4">Workflow status<select data-workflow-field="status">${workflowStatuses.map(value => `<option${value === workflow.status ? ' selected' : ''}>${esc(value)}</option>`).join('')}</select></label>
         <label class="mc-field mc-span-4">Technical reviewer<input data-workflow-field="reviewer" value="${esc(workflow.reviewer)}"></label>
         <label class="mc-field mc-span-4">Approver<input data-workflow-field="approver" value="${esc(workflow.approver)}"></label>
         <label class="mc-field mc-span-12">Final disposition<input data-workflow-field="disposition" value="${esc(workflow.disposition)}" placeholder="Accepted, rejected, regraded, concession, retest"></label>
         <label class="mc-field mc-span-12">Review comments<textarea rows="4" data-workflow-field="comments">${esc(workflow.comments)}</textarea></label>
       </div><h4 style="margin-top:14px">Controlled next actions</h4><div class="mc-check-grid">${DISPOSITION_ACTIONS.map(action => `<label class="mc-check"><input type="checkbox" data-disposition-action value="${esc(action)}"${workflow.actions.includes(action) ? ' checked' : ''}><span>${esc(action)}</span></label>`).join('')}</div><div class="mc-actions" style="margin-top:14px"><button class="btn outline" type="button" data-mc-action="saveWorkflow">Save review</button><button class="btn primary" type="button" data-mc-action="approveAssessment">Approve and lock</button><button class="btn outline" type="button" data-mc-action="unlockAssessment">Unlock</button><button class="btn outline" type="button" data-mc-action="printReport">Full report</button><button class="btn outline" type="button" data-mc-action="printCertificate">Screening certificate</button></div></section>
-      <section class="mc-subcard"><h3>Engineering override / concession</h3><p>The calculated result remains visible. An override records a separate disposition and authorization.</p><div class="mc-grid"><label class="mc-field mc-span-6">Requirement<select id="mcOverrideRequirement">${coreEvaluation().rows.map(row => `<option value="${esc(row.label)}" data-original="${esc(row.status)}">${esc(row.label)} — ${esc(row.status)}</option>`).join('')}</select></label><label class="mc-field mc-span-6">Disposition<select id="mcOverrideDisposition"><option>Accepted by engineering concession</option><option>Retest authorized</option><option>Regraded</option><option>Rejected</option><option>Other</option></select></label><label class="mc-field mc-span-6">Authorization reference<input id="mcOverrideAuthorization" placeholder="ECN, NCR, concession, customer approval"></label><label class="mc-field mc-span-6">Reason<textarea id="mcOverrideReason" rows="3"></textarea></label></div><div class="mc-actions"><button class="btn outline" type="button" data-mc-action="addOverride">Record override</button></div><div id="mcOverrideList"></div></section>
-    </div><section class="mc-subcard"><h3>Immutable audit history</h3><p>Local audit events are append-only in the interface and included in exports and reports. Organization mode stores the same history in authenticated Netlify storage.</p><div class="mc-audit" id="mcAuditList"></div><div class="mc-actions" style="margin-top:12px"><button class="btn danger mc-admin-only" type="button" data-mc-action="clearAudit">Clear local audit history</button></div></section>`;
-    renderOverrides(); renderAudit();
+      <section class="mc-subcard" data-lockable="true"><h3>Engineering override / concession</h3><p>The calculated result remains visible. An override records a separate disposition and authorization.</p><div class="mc-grid"><label class="mc-field mc-span-6">Requirement<select id="mcOverrideRequirement">${coreEvaluation().rows.map(row => `<option value="${esc(row.label)}" data-original="${esc(row.status)}">${esc(row.label)} — ${esc(row.status)}</option>`).join('')}</select></label><label class="mc-field mc-span-6">Disposition<select id="mcOverrideDisposition"><option>Accepted by engineering concession</option><option>Retest authorized</option><option>Regraded</option><option>Rejected</option><option>Other</option></select></label><label class="mc-field mc-span-6">Authorization reference<input id="mcOverrideAuthorization" placeholder="ECN, NCR, concession, customer approval"></label><label class="mc-field mc-span-6">Reason<textarea id="mcOverrideReason" rows="3"></textarea></label></div><div class="mc-actions"><button class="btn outline" type="button" data-mc-action="addOverride">Record override</button></div><div id="mcOverrideList"></div></section>
+    </div><section class="mc-subcard"><h3>Local audit history</h3><p>Events are append-only in the ordinary interface and included in exports and reports. Browser storage can still be cleared or altered, so local history is not an immutable regulated record.</p><div class="mc-audit" id="mcAuditList"></div><div class="mc-actions" style="margin-top:12px"><button class="btn danger mc-admin-only" type="button" data-mc-action="clearAudit">Clear local audit history</button></div></section>`;
+    renderOverrides(); renderAudit(); applyLockState();
   }
 
   function saveWorkflow() {
     document.querySelectorAll('[data-workflow-field]').forEach(field => { state.workflow[field.dataset.workflowField] = field.value; });
+    if (state.workflow.status === 'Approved' && !state.workflow.locked) {
+      state.workflow.status = 'Ready for technical review';
+      persist(); renderReview();
+      setStatus('Approved status can only be assigned by the Approve and lock control after every gate passes.', 'error');
+      return false;
+    }
     state.workflow.actions = Array.from(document.querySelectorAll('[data-disposition-action]:checked')).map(input => input.value);
     persist(); logAudit('Review workflow saved', state.workflow.status + (state.workflow.disposition ? ' — ' + state.workflow.disposition : ''));
     setStatus('Review workflow saved.', 'success');
+    return true;
   }
 
   function approveAssessment() {
     if (!hasRole('Approver')) return setStatus('Approver permission is required.', 'error');
-    saveWorkflow();
+    if (!saveWorkflow()) return;
     const evaluation = coreEvaluation();
     if (!state.workflow.reviewer.trim() || !state.workflow.approver.trim()) return setStatus('Reviewer and approver names are required.', 'error');
-    if (evaluation.status === 'fail' && !state.workflow.overrides.length) return setStatus('A failed calculated result requires a documented override or rejection disposition.', 'error');
+    if (Engine.normalize(state.workflow.reviewer) === Engine.normalize(state.workflow.approver)) return setStatus('Technical reviewer and approver must be different people for an independent approval.', 'error');
+    if (!state.workflow.disposition.trim()) return setStatus('A final disposition is required before approval.', 'error');
+    if (evaluation.status !== 'pass' || evaluation.coverage !== 100) {
+      return setStatus('Only a 100% coverage Pass can be approved and locked. Resolve every failure, invalid input, missing item, and review condition first; overrides do not change the calculated verdict.', 'error');
+    }
     state.workflow.status = 'Approved'; state.workflow.locked = true; state.workflow.approvedAt = new Date().toISOString(); state.workflow.approvedBy = currentActor();
-    persist(); applyLockState(); logAudit('Assessment approved and locked', state.workflow.disposition || evaluation.status); renderReview();
+    persist(); logAudit('Assessment approved and locked', state.workflow.disposition || evaluation.status); renderReview();
     setStatus('Assessment approved and locked.', 'success');
   }
 
@@ -1111,15 +1236,18 @@
     if (!state.workflow.locked) return;
     const reason = prompt('Reason for unlocking the approved assessment:');
     if (!reason) return;
-    state.workflow.locked = false; state.workflow.status = 'Draft'; persist(); applyLockState(); logAudit('Approved assessment unlocked', reason); renderReview();
+    state.workflow.locked = false; state.workflow.status = 'Draft'; persist(); logAudit('Approved assessment unlocked', reason); renderReview();
   }
 
   function applyLockState() {
     const platform = document.getElementById('mcPlatform');
     if (platform) platform.classList.toggle('is-locked', Boolean(state.workflow.locked));
-    document.querySelectorAll('#tool .card:not(#mcPlatform) input, #tool .card:not(#mcPlatform) select, #tool .card:not(#mcPlatform) textarea, #tool .card:not(#mcPlatform) button').forEach(control => {
+    const controls = document.querySelectorAll('#tool .card:not(#mcPlatform) input, #tool .card:not(#mcPlatform) select, #tool .card:not(#mcPlatform) textarea, #tool .card:not(#mcPlatform) button, #mcPlatform [data-lockable="true"] input, #mcPlatform [data-lockable="true"] select, #mcPlatform [data-lockable="true"] textarea, #mcPlatform [data-lockable="true"] button');
+    const allowedWhileLocked = new Set(['unlockAssessment', 'printReport', 'printCertificate']);
+    controls.forEach(control => {
+      const allowed = allowedWhileLocked.has(control.dataset.mcAction);
       if (state.workflow.locked) {
-        if (!control.disabled) { control.dataset.mcLockedDisabled = 'true'; control.disabled = true; }
+        if (!allowed && !control.disabled) { control.dataset.mcLockedDisabled = 'true'; control.disabled = true; }
       } else if (control.dataset.mcLockedDisabled === 'true') { control.disabled = false; delete control.dataset.mcLockedDisabled; }
     });
   }
@@ -1156,14 +1284,20 @@
 
   function openReport(type) {
     const scope = readScope(); const evaluation = coreEvaluation(); const derived = Engine.calculateDerived(readCurrentEvidence().actuals, scope);
-    const title = type === 'certificate' ? 'Material Compatibility Screening Certificate' : 'Material Specification Compliance Assessment';
-    const popup = window.open('', '_blank', 'noopener,noreferrer');
+    const approvedRelease = state.workflow.status === 'Approved' && state.workflow.locked && evaluation.status === 'pass' && evaluation.coverage === 100;
+    if (type === 'certificate' && !approvedRelease) {
+      return setStatus('A screening certificate is available only after a 100% coverage Pass is independently approved and locked.', 'error');
+    }
+    const baseTitle = type === 'certificate' ? 'Material Compatibility Screening Certificate' : 'Material Specification Compliance Assessment';
+    const title = approvedRelease ? baseTitle : 'DRAFT — ' + baseTitle;
+    const popup = window.open('', '_blank');
     if (!popup) return setStatus('The report window was blocked by the browser.', 'error');
+    try { popup.opener = null; } catch (_error) { /* browser controls opener isolation */ }
     const resultRows = evaluation.rows.map(row => `<tr><td>${esc(row.category)}</td><td>${esc(row.label)}</td><td>${esc(row.actual)}</td><td>${esc(row.acceptance)}</td><td>${esc(row.status)}</td><td>${esc(row.basis)}</td></tr>`).join('');
     const body = type === 'certificate' ? `
       <section class="certificate"><h2>${esc(scope.materialId || scope.heatNumber || 'Material')}</h2><dl><dt>Produced / source specification</dt><dd>${esc([scope.sourceStandard,scope.sourceGrade,scope.sourceEdition].filter(Boolean).join(' | '))}</dd><dt>Screened against</dt><dd>${esc([scope.targetStandard,scope.targetGrade,scope.targetEdition].filter(Boolean).join(' | '))}</dd><dt>Calculated result</dt><dd class="result">${esc(evaluation.status.toUpperCase())}</dd><dt>Disposition</dt><dd>${esc(state.workflow.disposition || 'Not approved')}</dd><dt>Evidence coverage</dt><dd>${evaluation.coverage}%</dd></dl><p class="notice">This document records a compatibility screening and does not certify the material to the target standard.</p></section>` : `
       <section><h2>Scope</h2><table><tr><th>Material ID</th><td>${esc(scope.materialId)}</td><th>Heat</th><td>${esc(scope.heatNumber)}</td></tr><tr><th>Source</th><td>${esc([scope.sourceStandard,scope.sourceGrade,scope.sourceEdition].filter(Boolean).join(' | '))}</td><th>Target</th><td>${esc([scope.targetStandard,scope.targetGrade,scope.targetEdition].filter(Boolean).join(' | '))}</td></tr></table></section>
-      <section><h2>Decision</h2><p class="result">${esc(evaluation.status.toUpperCase())} — ${esc(evaluation.message)}</p><p>Coverage: ${evaluation.coverage}% (${evaluation.assessed} of ${evaluation.applicable})</p></section>
+      <section><h2>Decision</h2><p><strong>Document status:</strong> ${approvedRelease ? 'Approved and locked' : 'DRAFT — not approved for release'}</p><p class="result">${esc(evaluation.status.toUpperCase())} — ${esc(evaluation.message)}</p><p>Coverage: ${evaluation.coverage}% (${evaluation.assessed} of ${evaluation.applicable})</p></section>
       <section><h2>Requirement results</h2><table><thead><tr><th>Section</th><th>Requirement</th><th>Actual</th><th>Rule</th><th>Result</th><th>Basis</th></tr></thead><tbody>${resultRows}</tbody></table></section>
       <section><h2>Derived calculations</h2><ul><li>CEIIW: ${derived.ceiiw.ready ? Engine.formatNumber(derived.ceiiw.value) : 'Missing inputs'}</li><li>Pcm: ${derived.pcm.ready ? Engine.formatNumber(derived.pcm.value) : 'Missing inputs'}</li><li>Y/T: ${derived.ytRatio.ready ? Engine.formatNumber(derived.ytRatio.value) : 'Missing inputs'}</li><li>D/t: ${derived.diameterThicknessRatio.ready ? Engine.formatNumber(derived.diameterThicknessRatio.value) : 'Missing inputs'}</li></ul></section>
       <section><h2>Review and disposition</h2><p>Status: ${esc(state.workflow.status)}<br>Reviewer: ${esc(state.workflow.reviewer)}<br>Approver: ${esc(state.workflow.approver)}<br>Disposition: ${esc(state.workflow.disposition)}<br>Comments: ${esc(state.workflow.comments)}</p></section>`;
@@ -1178,10 +1312,10 @@
     const tests = Engine.runSelfTests();
     const catalogue = allProperties();
     panel.innerHTML = `<div class="mc-overview-grid">
-      <section class="mc-subcard"><h3>Roles and permissions</h3><p>Local mode simulates roles for a single browser. Organization mode uses Netlify Identity roles supplied by the authenticated account.</p><label class="mc-field">Local role<select id="mcLocalRole"${user ? ' disabled' : ''}>${ROLES.map(role => `<option${role === state.localRole ? ' selected' : ''}>${esc(role)}</option>`).join('')}</select></label><p class="mc-muted" style="margin-top:10px">Effective role: <strong>${esc(currentRole())}</strong>${user ? ' — ' + esc(user.email || user.id) : ''}</p></section>
+      <section class="mc-subcard"><h3>Roles and permissions</h3><p>The selected workflow role governs this browser workspace. Access to the checker itself remains enforced by the signed-in UpSkill Sprint account.</p><label class="mc-field">Workflow role<select id="mcLocalRole">${ROLES.map(role => `<option${role === state.localRole ? ' selected' : ''}>${esc(role)}</option>`).join('')}</select></label><p class="mc-muted" style="margin-top:10px">Effective workflow role: <strong>${esc(currentRole())}</strong>${user ? ' — signed in as ' + esc(user.email || user.id) : ''}</p></section>
       <section class="mc-subcard"><h3>Catalogue administration</h3><div class="mc-kpi-grid"><div class="mc-kpi"><span>Properties</span><strong>${catalogue.length}</strong></div><div class="mc-kpi"><span>Standards</span><strong>${Object.values(Config.LIB || {}).reduce((sum, org) => sum + Object.keys(org).length, 0)}</strong></div><div class="mc-kpi"><span>Rule packages</span><strong>${state.packages.length}</strong></div><div class="mc-kpi"><span>Aliases</span><strong>${Object.keys(state.aliases).length}</strong></div></div><div class="mc-grid" style="margin-top:14px"><label class="mc-field mc-span-4">Source alias<input id="mcAliasSource" placeholder="Example: YIELDSTRENGTHMPA"></label><label class="mc-field mc-span-4">Canonical property<select id="mcAliasTarget">${allProperties().map(item => `<option value="${item.code}">${esc(item.label)}</option>`).join('')}</select></label><div class="mc-actions mc-span-4"><button class="btn outline" type="button" data-mc-action="addAlias">Add alias</button></div></div><div id="mcAliasList" class="mc-muted" style="margin-top:10px">${Object.entries(state.aliases).map(entry => esc(entry[0] + ' → ' + entry[1])).join('<br>') || 'No custom aliases.'}</div></section>
     </div>
-    <section class="mc-subcard"><h3>Storage and authentication</h3><div class="mc-storage-mode"><label class="mc-storage-card"><input type="radio" name="mcStorageMode" value="local"${state.storageMode === 'local' ? ' checked' : ''}><h4>Local browser mode</h4><p>Works immediately and stores data only in this browser. Do not use for confidential production records on a shared device.</p></label><label class="mc-storage-card"><input type="radio" name="mcStorageMode" value="organization"${state.storageMode === 'organization' ? ' checked' : ''}><h4>Authenticated organization mode</h4><p>Uses Netlify Identity and server-side Netlify Blobs storage. Identity must be enabled for the site.</p></label></div><div class="mc-actions" style="margin-top:14px"><button class="btn outline" type="button" data-mc-action="identityLogin">Sign in</button><button class="btn outline" type="button" data-mc-action="identityLogout">Sign out</button><button class="btn primary" type="button" data-mc-action="saveRemote">Sync to organization storage</button><button class="btn outline" type="button" data-mc-action="loadRemote">Load organization workspace</button></div><p class="mc-status" id="mcStorageStatus">${user ? 'Signed in as ' + esc(user.email || user.id) : 'Not signed in.'}</p></section>
+    <section class="mc-subcard"><h3>Storage and authentication</h3><div class="mc-storage-mode"><label class="mc-storage-card"><input type="radio" name="mcStorageMode" value="local"${state.storageMode === 'local' ? ' checked' : ''}><h4>Local browser mode</h4><p>Works immediately and stores data only in this browser. Do not use for confidential production records on a shared device.</p></label><label class="mc-storage-card"><input type="radio" name="mcStorageMode" value="organization"${state.storageMode === 'organization' ? ' checked' : ''}><h4>Authenticated account storage</h4><p>Uses the current UpSkill Sprint Supabase session and a server-side, per-user Netlify Blobs record.</p></label></div><div class="mc-actions" style="margin-top:14px"><button class="btn outline" type="button" data-mc-action="identityLogin">Sign in</button><button class="btn outline" type="button" data-mc-action="identityLogout">Sign out</button><button class="btn primary" type="button" data-mc-action="saveRemote">Sync signed-in workspace</button><button class="btn outline" type="button" data-mc-action="loadRemote">Load signed-in workspace</button></div><p class="mc-status" id="mcStorageStatus">${user ? 'Signed in as ' + esc(user.email || user.id) : 'Not signed in.'}</p></section>
     <section class="mc-subcard"><h3>Automated validation suite</h3><p>Runs unit conversion, boundary, missing-evidence, derived-calculation, capability, DOM-ID, accessibility-label, and load-order checks.</p><div class="mc-actions"><button class="btn outline" type="button" data-mc-action="runTests">Run validation suite</button></div><ul class="mc-test-list" id="mcTestList">${tests.tests.map(test => `<li><span>${esc(test.name)}</span><strong class="${test.passed ? 'pass' : 'fail'}">${test.passed ? 'Pass' : 'Fail'}</strong></li>`).join('')}</ul></section>`;
   }
 
@@ -1211,25 +1345,39 @@
   }
 
   function initializeIdentity() {
-    if (!window.netlifyIdentity) return;
-    window.netlifyIdentity.on('login', user => { logAudit('Organization sign-in', user.email || user.id); window.netlifyIdentity.close(); renderAdmin(); });
-    window.netlifyIdentity.on('logout', () => { logAudit('Organization sign-out', 'Identity session ended'); renderAdmin(); });
-    window.netlifyIdentity.init();
+    if (identityInitialized) return;
+    if (!window.UpskillAuth || typeof window.UpskillAuth.onChange !== 'function') {
+      if (!identityReadyListenerInstalled) {
+        identityReadyListenerInstalled = true;
+        document.addEventListener('upskill-auth-ready', initializeIdentity, {once: true});
+      }
+      return;
+    }
+    identityInitialized = true;
+    window.UpskillAuth.onChange(user => {
+      logAudit(user ? 'Account session available' : 'Account session ended', user ? user.email || user.id : 'Signed out');
+      renderAdmin();
+    });
   }
 
   function identityLogin() {
-    if (!window.netlifyIdentity) return setStatus('Netlify Identity widget is unavailable.', 'error');
-    window.netlifyIdentity.open('login');
+    if (currentIdentityUser()) return setStatus('The UpSkill Sprint account is already signed in.', 'success');
+    const next = window.location.pathname + window.location.search;
+    window.location.assign('/sign-in.html?next=' + encodeURIComponent(next));
   }
 
   function identityLogout() {
-    if (window.netlifyIdentity && currentIdentityUser()) window.netlifyIdentity.logout();
+    if (window.UpskillAuth && currentIdentityUser()) window.UpskillAuth.signOut().catch(error => setStatus(error.message, 'error'));
   }
 
   async function identityToken() {
-    const user = currentIdentityUser();
-    if (!user) throw new Error('Sign in to organization mode first.');
-    return user.jwt();
+    if (!window.UpskillAuth || !currentIdentityUser()) throw new Error('Sign in to the UpSkill Sprint account first.');
+    const client = window.UpskillAuth.getClient && window.UpskillAuth.getClient();
+    if (!client) throw new Error('Account authentication is unavailable.');
+    const response = await client.auth.getSession();
+    const token = response && response.data && response.data.session && response.data.session.access_token;
+    if (!token) throw new Error('The account session has expired. Sign in again.');
+    return token;
   }
 
   async function saveRemote() {
@@ -1248,7 +1396,16 @@
       const response = await fetch('/.netlify/functions/material-checker', {headers: {Authorization: 'Bearer ' + token}});
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Unable to load organization workspace.');
-      if (data.workspace) state = Object.assign(defaultState(), data.workspace);
+      if (data.workspace) {
+        const remote = data.workspace;
+        state = Object.assign(defaultState(), remote, {
+          applicability: Object.assign(defaultState().applicability, remote.applicability || {}),
+          batch: Object.assign(defaultState().batch, remote.batch || {}),
+          workflow: Object.assign(defaultState().workflow, remote.workflow || {})
+        });
+        state.packages = Array.isArray(state.packages) ? state.packages.map(pkg => Object.assign({controlRequired: true}, pkg)) : [];
+        state.batch.mapping = Array.isArray(state.batch.mapping) ? state.batch.mapping.map(mapping => Object.assign({confirmed: false}, mapping)) : [];
+      }
       persist(); logAudit('Organization workspace loaded', data.updatedAt || 'Loaded'); renderAll(); applyLockState(); setStatus('Organization workspace loaded.', 'success');
     } catch (error) { setStatus(error.message, 'error'); }
   }
