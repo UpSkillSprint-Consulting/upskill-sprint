@@ -120,3 +120,9 @@ test('ambiguous partial field headers are not silently mapped', () => {
   assert.equal(result.code, '');
   assert.match(result.source, /ambiguous|confirm manually/i);
 });
+
+test('calendar dates reject invalid dates and the next day', () => {
+  assert.equal(Engine.isValidDateNotFuture('2026-09-18', '2026-09-18'), true);
+  assert.equal(Engine.isValidDateNotFuture('2026-09-19', '2026-09-18'), false);
+  assert.equal(Engine.isValidDateNotFuture('2026-02-30', '2026-09-18'), false);
+});
