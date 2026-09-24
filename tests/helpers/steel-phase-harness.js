@@ -45,7 +45,7 @@ function bootTool(options) {
     runScripts: 'dangerously',
     pretendToBeVisual: true,
     resources: { interceptors: [localFiles(record)] },
-    url: 'https://upskillsprint.com/tools/steel-phase-explorer'
+    url: opts.url || 'https://upskillsprint.com/tools/steel-phase-explorer'
   });
   const win = dom.window;
 

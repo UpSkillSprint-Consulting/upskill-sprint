@@ -106,10 +106,24 @@
     return PT.alphaMaxC * Math.pow(clamp(t / PT.eutectoidT, 0, 1), 2.6);
   }
 
+  function alphaMaxAboveA1(t) {
+    return PT.alphaMaxC * (PT.a3Zero - clamp(t, PT.eutectoidT, PT.a3Zero)) /
+      (PT.a3Zero - PT.eutectoidT);
+  }
+
   /* Delta ferrite field, narrow, between 1394 and 1538 degC. */
   function deltaMaxC(t) {
     if (t > PT.feMelt || t < 1394) return 0;
-    return PT.peritecticDelta * clamp((t - 1394) / (PT.peritecticT - 1394), 0, 1);
+    if (t <= PT.peritecticT) {
+      return PT.peritecticDelta * clamp((t - 1394) / (PT.peritecticT - 1394), 0, 1);
+    }
+    return PT.peritecticDelta * clamp((PT.feMelt - t) / (PT.feMelt - PT.peritecticT), 0, 1);
+  }
+
+  /* Gamma-side boundary of the delta + gamma wedge. Both sides of the
+     two-phase field converge to pure iron at the 1394 °C allotropic point. */
+  function deltaGammaMaxC(t) {
+    return PT.peritecticGamma * clamp((t - 1394) / (PT.peritecticT - 1394), 0, 1);
   }
 
   var LABELS = {
@@ -125,24 +139,57 @@
     ferrite: 'Ferrite',
     ferriteCementite: 'Ferrite + cementite',
     cementite: 'Cementite',
+    eutectoidInvariant: 'Eutectoid invariant (ferrite + austenite + cementite)',
+    eutecticInvariant: 'Eutectic invariant (liquid + austenite + cementite)',
+    peritecticInvariant: 'Peritectic invariant (delta ferrite + liquid + austenite)',
     outside: 'Outside the diagram'
   };
 
+  /* A point entered on an invariant isotherm should not be assigned
+     arbitrarily to one of its adjacent single- or two-phase fields.  Each
+     three-phase interval spans the outer equilibrium phase compositions at
+     that temperature.  The temperature tolerance only absorbs harmless
+     floating-point/conversion round-off around the published isotherm. */
+  function near(a, b, tol) { return Math.abs(a - b) <= tol; }
+
   /*
    * Classify an equilibrium point. Returns a key into LABELS.
-   * Order matters: liquid first, then the high-temperature delta region,
-   * then the austenite field, then the sub-eutectoid solid state.
+   * Order matters: exact invariant isotherms first, then liquid and the
+   * high-temperature delta region, followed by the austenite and
+   * low-temperature fields.
    */
   function regionAt(c, t) {
     if (c < 0 || c > PT.cementiteC || t < 0 || t > 1600) return 'outside';
 
+    if (c > PT.alphaMaxC && c < PT.cementiteC && near(t, PT.eutectoidT, 0.25)) {
+      return 'eutectoidInvariant';
+    }
+    if (c > PT.gammaMaxC && c < PT.cementiteC && near(t, PT.eutecticT, 0.25)) {
+      return 'eutecticInvariant';
+    }
+    if (c > PT.peritecticDelta && c < PT.peritecticL && near(t, PT.peritecticT, 0.25)) {
+      return 'peritecticInvariant';
+    }
+
+    /* At an outer tie-line endpoint, mass balance collapses to the endpoint
+       phase rather than an indeterminate three-phase mixture. */
+    if (near(c, PT.alphaMaxC, 0.0005) && near(t, PT.eutectoidT, 0.25)) {
+      return 'ferrite';
+    }
+    if (near(c, PT.gammaMaxC, 0.0005) && near(t, PT.eutecticT, 0.25)) {
+      return 'austenite';
+    }
+
     if (t >= liquidus(c)) return 'liquid';
+
+    /* 6.67 wt% C is the Fe3C end member, not a two-phase steel. */
+    if (near(c, PT.cementiteC, 0.0005)) return 'cementite';
 
     if (t >= 1394) {
       var dMax = deltaMaxC(t);
       if (c <= dMax) return 'deltaFerrite';
       if (t >= PT.peritecticT) return 'deltaLiquid';
-      if (c < PT.peritecticGamma) return 'deltaAustenite';
+      if (c < deltaGammaMaxC(t)) return 'deltaAustenite';
     }
 
     if (t >= PT.eutecticT) {
@@ -151,13 +198,17 @@
       return 'austenite';
     }
 
-    if (c > PT.gammaMaxC) return 'austeniteCementite';
-
     if (t >= PT.eutectoidT) {
-      if (c <= PT.eutectoidC) return t >= a3(c) ? 'austenite' : 'ferriteAustenite';
+      if (c > PT.gammaMaxC) return 'austeniteCementite';
+      if (c <= PT.eutectoidC) {
+        if (t >= a3(c)) return 'austenite';
+        return c <= alphaMaxAboveA1(t) ? 'ferrite' : 'ferriteAustenite';
+      }
       return t >= acm(c) ? 'austenite' : 'austeniteCementite';
     }
 
+    /* Below A1, austenite is not an equilibrium constituent in the
+       metastable Fe-Fe3C system, including throughout the cast-iron range. */
     if (c <= alphaSolvus(t)) return 'ferrite';
     return 'ferriteCementite';
   }
@@ -176,7 +227,9 @@
     a3: a3,
     acm: acm,
     alphaSolvus: alphaSolvus,
+    alphaMaxAboveA1: alphaMaxAboveA1,
     deltaMaxC: deltaMaxC,
+    deltaGammaMaxC: deltaGammaMaxC,
     regionAt: regionAt
   };
 });
