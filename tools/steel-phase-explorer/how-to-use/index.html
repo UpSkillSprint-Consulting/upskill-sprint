@@ -33,7 +33,7 @@
 
 <section class="guide-hero">
   <div class="guide-wrap">
-    <p class="guide-eyebrow">Engineering Tools · Complete User Guide · Version 1.4.0-plant-calibration</p>
+    <p class="guide-eyebrow">Engineering Tools · Complete User Guide · Version 1.5.0-reporting-audit</p>
     <h1>How to Use the Steel Phase &amp; Transformation Explorer</h1>
     <p class="guide-lead">Use the explorer to move from chemistry and processing conditions to predicted microstructure, properties, and performance. The tool combines guided learning and all existing metallurgy modules with an eight-stage professional workflow for applicability review, scenario comparison, sensitivity screening, plant evidence, governed calibration candidates, drift monitoring, and engineering reporting.</p>
     <div class="guide-actions"><a class="guide-btn primary" href="/tools/steel-phase-explorer">Open the Explorer</a><a class="guide-btn" href="/engineering-tools">Browse Engineering Tools</a></div>
@@ -46,6 +46,7 @@
     <a href="#purpose">1. Purpose and limits</a>
     <a href="#start">2. Guided start and professional workflow</a>
     <a href="#calibration">2A. Plant calibration and monitoring</a>
+    <a href="#reporting-audit">2B. Reporting and audit replay</a>
     <a href="#equilibrium">3. Equilibrium diagram</a>
     <a href="#paths">4. Heat-treatment paths</a>
     <a href="#kinetics">5. TTT and CCT</a>
@@ -111,7 +112,7 @@
         <li><strong>Inspect sensitivity/uncertainty:</strong> run a bounded low–baseline–high screen for carbon or property cooling rate against estimated hardness or martensite, then record known uncertainty sources. This one-factor view is non-mutating and is not a confidence interval.</li>
         <li><strong>Add plant evidence:</strong> record an evidence type, date, traceable reference, observation or result, and your assessment as Supports, Conflicts, Inconclusive, or Not assessed. The tool does not validate that classification.</li>
         <li><strong>Calibrate and monitor:</strong> optionally import a separate governed calibration package, fit an additive-bias candidate on development heats or batches, compare generic, calibrated, and actual values on untouched validation groups, and screen later monitoring residuals. A candidate never changes the generic model or approves itself.</li>
-        <li><strong>Generate report:</strong> create a separate engineering screening report containing scope, applicability, comparison, sensitivity, evidence classification, calibration audit summary, cautions, model/version traceability, and the same governed values and warnings shown on screen. Download the matching governance JSON when a machine-readable audit record is needed.</li>
+        <li><strong>Generate report:</strong> create a separate engineering screening report containing scope, applicability, comparison, sensitivity, evidence classification, calibration audit summary, cautions, model/version traceability, and the same governed values and warnings shown on screen. Download the compact governance JSON or a checksummed replay JSON when a machine-readable record is needed.</li>
       </ol>
       <h3>Model governance and output classes</h3>
       <p>Every result used by the professional workflow is linked to a model ID and version. Applicability is reported as <strong>In range</strong>, <strong>Near boundary</strong>, <strong>Out of domain</strong>, or <strong>Not evaluated</strong>. Out-of-domain values are withheld rather than carried forward as an unqualified engineering result.</p>
@@ -122,7 +123,7 @@
         <tr><td>Specification acceptance</td><td>Model authorized for a defined acceptance decision.</td><td>Locked until verified governing requirements and scoped qualified approval exist.</td></tr>
       </tbody></table></div>
       <div class="guide-callout"><p><strong>Current governance state:</strong> the registered base models remain classified as Teaching and pending qualified-metallurgist review. “In range” means only that inputs are inside conservative internal numeric guardrails; it does not establish correlation-specific applicability. A valid calibration analysis is labelled an <strong>Engineering screening calibration candidate</strong>; it does not reclassify or alter the generic model and is never represented as Plant calibrated or approved for Specification acceptance. Professional reports remain visibly DRAFT until required evidence and review are recorded. User-added evidence can support or challenge an interpretation, but it never upgrades a model classification or approval state. Governed values are withheld when case provenance is incomplete or user evidence is marked as conflicting. The bundled cooling trace and calibration demonstration remain explicitly synthetic and cannot be represented as actual plant evidence.</p></div>
-      <div class="guide-callout"><p><strong>Local professional record:</strong> professional notes, plant-evidence metadata, captured comparison snapshots, and a compact calibration audit stay in this browser and are excluded from saved scenarios and share links. Imported calibration rows and raw thermal rows remain session-only. Snapshot and sensitivity records pin their model and registry versions. The explicit professional HTML/print/PDF report and governance JSON contain the visible governed summaries, not raw imported rows or filenames. The original CSV, PNG, process-data report, share, and print tools remain unchanged.</p></div>
+      <div class="guide-callout"><p><strong>Local professional record:</strong> professional notes, plant-evidence metadata, captured comparison snapshots, compact calibration audits, and audit revisions explicitly saved by the user stay in this browser and are excluded from ordinary saved scenarios and share links. Imported calibration rows and raw thermal rows remain session-only. A replay JSON intentionally embeds derived thermal chart rows when a process record is loaded so the saved UI result can be reproduced; handle that file and any local replay revision under your process-data rules. The compact governance JSON and HTML/print/PDF report do not embed those rows. The original CSV, PNG, process-data report, share, and print tools remain unchanged.</p></div>
       <h3>Explanation detail</h3>
       <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Mode</th><th>What it emphasizes</th><th>Use when</th></tr></thead><tbody>
         <tr><td>Guided</td><td>Plain-language conclusions, key cautions, and fewer equations.</td><td>You are learning the concept or need a quick interpretation.</td></tr>
@@ -202,6 +203,26 @@
       <p>Here, <em>s</em> is the sample standard deviation of the equally weighted calibration-group residual means. The time-varying limit is &plusmn;0.6<em>s</em> at the first point and approaches &plusmn;<em>s</em>. The result is <strong>stable</strong>, <strong>review trigger</strong>, or <strong>insufficient</strong>. Unverified chronology, no monitoring groups, zero/unavailable reference variation, variation indistinguishable from floating-point precision, or fewer than 20 calibration groups produces an insufficient result. When numeric variation cannot support limits, inferential residual and EWMA triggers are withheld. When group timestamps tie, order-dependent EWMA values, limits, and triggers are withheld while order-independent residual diagnostics remain visible. Fixed group-mean limits also require one constant replicate count across the calibration baseline and the same count in every monitoring group. Unequal calibration groups, unequal monitoring groups, or a baseline-to-monitoring count mismatch therefore also force an insufficient result in this version.</p>
       <p>The fixed 3&sigma; screen assumes a stable Phase-I residual process, comparable independent subgroups, and no material serial correlation. Skew, heavy tails, autocorrelation, measurement drift, or changing product mix can invalidate nominal false-alarm behavior; a qualified practitioner must select a different chart or limit design when those assumptions are not defensible.</p>
       <div class="guide-callout danger"><p><strong>A drift signal is not a cause and is not a nonconformance verdict.</strong> Investigate measurement-system change, sampling, test basis, chemistry or cooling-rate range, product mix, equipment, process settings, data handling, and model applicability. Confirm the cause with controlled evidence before changing a process, model, or disposition.</p></div>
+    </section>
+
+    <section class="guide-card" id="reporting-audit">
+      <p class="guide-kicker">Step 6 capability · Professional workspace</p>
+      <h2>Revisioned reports, checksums, and deterministic replay</h2>
+      <p>The Report stage can now preserve a governed screening result as a named revision and prove whether the same tool build reproduces it. This does not approve the engineering conclusion; it makes the calculation record traceable.</p>
+      <ol>
+        <li><strong>Complete the record:</strong> enter a conclusion, interpretation, next action, action owner, prepared-by identity, optional reviewer, and target date.</li>
+        <li><strong>Name the revision:</strong> use a meaningful label such as “Baseline review” or “Cooling-rate alternative.”</li>
+        <li><strong>Save or download:</strong> a local revision is stored unencrypted in this browser; Download replay JSON creates a portable package. At most five local revisions are retained.</li>
+        <li><strong>Verify before replay:</strong> import accepts only the supported schema, matching tool version, matching model-registry version, and an unchanged package checksum.</li>
+        <li><strong>Replay:</strong> the tool restores the original scenario and decision controls, reconstructs embedded thermal chart data when present, reruns the shared calculation engine, and compares the scenario fingerprint, governed values/statuses, summary, and chart data with the saved signature.</li>
+      </ol>
+      <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Record</th><th>Contents</th><th>Use</th></tr></thead><tbody>
+        <tr><td>HTML / Print-PDF report</td><td>Conclusion, intended use, classification, inputs, results, uncertainty, comparison, assumptions, warnings, sources, calibration evidence, prepared/reviewed fields, revision ID, and audit checksum.</td><td>Human review and controlled filing.</td></tr>
+        <tr><td>Governance JSON</td><td>Compact governed values, model versions, validity, warnings, evidence metadata, and calibration audit summary; no embedded thermal rows.</td><td>Machine-readable compact audit.</td></tr>
+        <tr><td>Replay JSON</td><td>Original scenario, normalized SI inputs, professional workflow record, governed outputs, chart data, revision identity, expected replay signature, and checksum.</td><td>Deterministic reconstruction and verification with the same tool and registry versions.</td></tr>
+      </tbody></table></div>
+      <div class="guide-callout warn"><p><strong>Checksum is an integrity check, not a digital signature.</strong> It detects accidental or ordinary content changes but does not prove authorship, authorization, or custody. Use your organization’s approved document-control, access, retention, and signing system for controlled records.</p></div>
+      <div class="guide-callout danger"><p><strong>Replay verifies software reproducibility only.</strong> Matching the saved UI result does not establish metallurgical validity, measurement-system adequacy, model approval, process qualification, specification conformance, or product acceptance.</p></div>
     </section>
 
     <section class="guide-card" id="equilibrium">
@@ -421,10 +442,10 @@
       <h3>Save and share</h3>
       <ul><li><strong>Save scenario</strong> stores settings in the current browser.</li><li><strong>Load saved</strong> restores the local scenario.</li><li><strong>Copy share link</strong> embeds supported configuration data in the URL.</li></ul>
       <p>Uploaded raw process data remains local to the current browser session and is not embedded in the share link.</p>
-      <p>Professional notes, plant evidence, and captured comparison snapshots are also kept only in this browser and are not added to saved scenarios or share links. Comparison and sensitivity views do not modify the active scenario.</p>
+      <p>Professional notes, plant evidence, comparison snapshots, and explicitly saved audit revisions are kept only in this browser and are not added to ordinary saved scenarios or share links. Comparison and sensitivity views do not modify the active scenario.</p>
       <p>Calibration imports are even more restricted: raw rows stay only in page-session memory. The Professional record may keep a compact audit summary, but it does not persist or export those rows.</p>
       <h3>Export</h3>
-      <ul><li>Point and phase-analysis CSV</li><li>Equilibrium-diagram PNG</li><li>Derived process-data CSV</li><li>Downloadable process-analysis HTML report</li><li>Separate professional engineering-screening report</li><li>Browser print/PDF output</li></ul>
+      <ul><li>Point and phase-analysis CSV</li><li>Equilibrium-diagram PNG</li><li>Derived process-data CSV</li><li>Downloadable process-analysis HTML report</li><li>Separate professional engineering-screening report</li><li>Compact governance JSON</li><li>Checksummed deterministic-replay JSON</li><li>Browser print/PDF output</li></ul>
       <p>The professional report documents a screening review and its evidence status; it does not certify a grade, validate a model, qualify a process, or approve material. All pre-existing exports remain available and keep their original purpose.</p>
     </section>
 
