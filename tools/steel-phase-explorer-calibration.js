@@ -2220,6 +2220,60 @@
     return clone(session);
   }
 
+  /*
+   * Deliberately narrow bridge for the independent-validation engine. It
+   * evaluates the already-frozen candidate without refitting or mutating the
+   * calibration session. The result is diagnostic until the qualification
+   * module has applied its separate protocol, scope, and approval gates.
+   */
+  function evaluateFrozenCandidateForValidation(chemistry, coolingRateCPerS) {
+    if (!session.analysis || !session.package || session.status !== 'analyzed') {
+      return {
+        ok: false,
+        errors: [{
+          code: 'NO_FROZEN_CANDIDATE',
+          path: 'candidate',
+          message: 'Analyze a calibration candidate before independent validation.'
+        }],
+        warnings: []
+      };
+    }
+    var errors = [];
+    var warnings = [];
+    var target = session.analysis.target;
+    var generic = predictGeneric(
+      chemistry,
+      Number(coolingRateCPerS),
+      target,
+      'validationRow',
+      errors,
+      warnings
+    );
+    if (generic == null || errors.length) {
+      return boundedResult({ ok: false, errors: errors, warnings: warnings });
+    }
+    var definition = TARGETS[target];
+    var candidate = generic + session.analysis.correction.value;
+    return boundedResult({
+      ok: true,
+      target: target,
+      unit: session.analysis.actualUnit,
+      genericUnit: session.analysis.genericUnit,
+      genericValue: generic,
+      candidateValue: candidate,
+      physicalOutputRange: {
+        min: definition.actualMin,
+        max: definition.actualMax,
+        valid: candidate >= definition.actualMin && candidate <= definition.actualMax
+      },
+      candidateModelFingerprint: session.analysis.modelFingerprint,
+      trainingFingerprint: session.analysis.trainingFingerprint,
+      scopeFingerprint: session.analysis.scopeFingerprint,
+      errors: errors,
+      warnings: warnings
+    });
+  }
+
   function clear() {
     if (session.package && Array.isArray(session.package.rows)) {
       session.package.rows.length = 0;
@@ -2549,7 +2603,8 @@
     template: template,
     demo: demo,
     audit: auditSummary,
-    fingerprint: fingerprint
+    fingerprint: fingerprint,
+    evaluateFrozenCandidateForValidation: evaluateFrozenCandidateForValidation
   };
   api['import'] = importPackage;
   Object.freeze(api.targets);

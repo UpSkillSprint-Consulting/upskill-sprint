@@ -1755,7 +1755,7 @@ test('report JSON carries a compact candidate audit while acceptance use stays w
 
   const professional = win.__SPX.professional;
   const record = JSON.parse(professional.reportJson());
-  assert.equal(record.toolVersion, '1.5.0-reporting-audit');
+  assert.equal(record.toolVersion, '1.6.0-plant-qualification');
   assert.equal(record.intendedUse, 'acceptance-decision');
   assert.equal(record.applicability.status, 'Output withheld');
   assert.equal(record.calibration.status, 'Calibration candidate');
