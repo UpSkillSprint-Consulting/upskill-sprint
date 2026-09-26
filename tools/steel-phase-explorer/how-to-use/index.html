@@ -6,11 +6,11 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#ffffff">
 <title>How to Use the Steel Phase &amp; Transformation Explorer | UpSkill Sprint Consulting</title>
-<meta name="description" content="Complete user guide for the Steel Phase and Transformation Explorer, including guided metallurgy, equilibrium phases, heat-treatment paths, TTT/CCT, hardenability, austenitization, quenching, process-data analysis, measurement, diffusion, tempering, mechanical properties, metallography, solidification, and alloy-family modes.">
+<meta name="description" content="Complete user guide for the Steel Phase and Transformation Explorer, including student learning, a seven-stage professional decision workflow, equilibrium and kinetic models, heat treatment, process-data analysis, plant evidence, and engineering screening reports.">
 <link rel="canonical" href="https://upskillsprint.com/tools/steel-phase-explorer/how-to-use">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How to Use the Steel Phase &amp; Transformation Explorer | UpSkill Sprint Consulting">
-<meta property="og:description" content="A practical guide to all Steel Phase Explorer modules from equilibrium analysis through process-data interpretation and advanced metallurgy laboratories.">
+<meta property="og:description" content="A practical guide to every Steel Phase Explorer module and its seven-stage professional decision workflow, from defining a case through applicability, comparison, sensitivity, plant evidence, and reporting.">
 <meta property="og:url" content="https://upskillsprint.com/tools/steel-phase-explorer/how-to-use">
 <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,9 +33,9 @@
 
 <section class="guide-hero">
   <div class="guide-wrap">
-    <p class="guide-eyebrow">Engineering Tools · Complete User Guide · Releases 1–5</p>
+    <p class="guide-eyebrow">Engineering Tools · Complete User Guide · Version 1.2.0-professional-workspace</p>
     <h1>How to Use the Steel Phase &amp; Transformation Explorer</h1>
-    <p class="guide-lead">Use the explorer to move from chemistry and processing conditions to predicted microstructure, properties, and performance. The tool now combines guided learning, equilibrium and kinetic transformation analysis, applied heat-treatment models, actual thermal-data analysis, measurement guidance, surface engineering, tempering, mechanical-property learning, metallography, solidification, and alloy-family modes.</p>
+    <p class="guide-lead">Use the explorer to move from chemistry and processing conditions to predicted microstructure, properties, and performance. The tool combines guided learning and all existing metallurgy modules with a seven-stage professional workflow for applicability review, scenario comparison, sensitivity screening, plant evidence, and engineering reporting.</p>
     <div class="guide-actions"><a class="guide-btn primary" href="/tools/steel-phase-explorer">Open the Explorer</a><a class="guide-btn" href="/engineering-tools">Browse Engineering Tools</a></div>
   </div>
 </section>
@@ -44,7 +44,7 @@
   <aside class="guide-toc" aria-label="Guide contents">
     <strong>On this page</strong>
     <a href="#purpose">1. Purpose and limits</a>
-    <a href="#start">2. Guided start and display modes</a>
+    <a href="#start">2. Guided start and professional workflow</a>
     <a href="#equilibrium">3. Equilibrium diagram</a>
     <a href="#paths">4. Heat-treatment paths</a>
     <a href="#kinetics">5. TTT and CCT</a>
@@ -83,7 +83,7 @@
 
     <section class="guide-card" id="start">
       <p class="guide-kicker">Student and professional workspaces</p>
-      <h2>Guided start and display modes</h2>
+      <h2>Guided start and professional workflow</h2>
       <h3>Choose the goal first</h3>
       <p>The <strong>Guided Start</strong> page separates recommended starting points for <strong>Students</strong> and <strong>Steel professionals</strong>. The selected workspace now stays active throughout the tool. It changes navigation, guidance, and information priority; it never changes calculations, inputs, warnings, or the modules available to you.</p>
       <ul>
@@ -97,9 +97,21 @@
       <h3>Workspace mode</h3>
       <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Workspace</th><th>What it changes</th><th>What it preserves</th></tr></thead><tbody>
         <tr><td>Student</td><td>Organizes the tool into Learn, Explore, Practice, and My Progress. Three guided paths use Predict → Manipulate → Observe → Explain → Check → Apply.</td><td>Every lab, input, result, warning, and calculation remains available. Learning progress is saved only in this browser.</td></tr>
-        <tr><td>Professional</td><td>Prioritizes direct access to engineering inputs, model scope, comparisons, process data, metallography, and exports.</td><td>The same scenario and numerical engine are used. Switching workspace never resets the active module or inputs.</td></tr>
+        <tr><td>Professional</td><td>Organizes screening work into Define, Question, Applicability, Compare, Sensitivity, Plant Evidence, and Report while keeping direct access to every module.</td><td>The same scenario, numerical engine, 12 tabs, inputs, warnings, and original exports are used. Switching workspace never resets the active module or inputs.</td></tr>
       </tbody></table></div>
       <div class="guide-callout"><p><strong>Workspace and explanation detail are independent.</strong> A student can inspect full model detail, and a professional can choose a guided explanation without changing the calculation.</p></div>
+      <h3>Professional decision workflow</h3>
+      <p>The professional workspace adds a structured review layer around the existing tool. Move through the stages in order, revisit any stage as evidence changes, or open any of the 12 original tabs directly.</p>
+      <ol>
+        <li><strong>Define material/process:</strong> establish the chemistry, material family, section, thermal history, and other case inputs in the existing modules.</li>
+        <li><strong>Select engineering question:</strong> state the screening decision so the workspace can prioritize the most relevant modules and checks.</li>
+        <li><strong>Review applicability:</strong> inspect model scope, input-range checks, assumptions, unavailable results, and required verification before interpreting an estimate.</li>
+        <li><strong>Compare scenarios:</strong> capture read-only Baseline and Alternative snapshots, plus an optional third case, for side-by-side review. Capturing or viewing a comparison does not apply old values or change the active scenario.</li>
+        <li><strong>Inspect sensitivity/uncertainty:</strong> run a bounded low–baseline–high screen for carbon or property cooling rate against estimated hardness or martensite, then record known uncertainty sources. This one-factor view is non-mutating and is not a confidence interval.</li>
+        <li><strong>Add plant evidence:</strong> record an evidence type, date, traceable reference, observation or result, and your assessment as Supports, Conflicts, Inconclusive, or Not assessed. The tool does not validate that classification.</li>
+        <li><strong>Generate report:</strong> create a separate engineering screening report containing scope, applicability, comparison, sensitivity, evidence classification, cautions, and traceability.</li>
+      </ol>
+      <div class="guide-callout"><p><strong>Local professional record:</strong> professional notes, plant evidence, and captured comparison snapshots stay in this browser and are excluded from saved scenarios and share links. The professional report is a separate record; the original CSV, PNG, process-data report, share, and print tools remain unchanged.</p></div>
       <h3>Explanation detail</h3>
       <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Mode</th><th>What it emphasizes</th><th>Use when</th></tr></thead><tbody>
         <tr><td>Guided</td><td>Plain-language conclusions, key cautions, and fewer equations.</td><td>You are learning the concept or need a quick interpretation.</td></tr>
@@ -330,8 +342,10 @@
       <h3>Save and share</h3>
       <ul><li><strong>Save scenario</strong> stores settings in the current browser.</li><li><strong>Load saved</strong> restores the local scenario.</li><li><strong>Copy share link</strong> embeds supported configuration data in the URL.</li></ul>
       <p>Uploaded raw process data remains local to the current browser session and is not embedded in the share link.</p>
+      <p>Professional notes, plant evidence, and captured comparison snapshots are also kept only in this browser and are not added to saved scenarios or share links. Comparison and sensitivity views do not modify the active scenario.</p>
       <h3>Export</h3>
-      <ul><li>Point and phase-analysis CSV</li><li>Equilibrium-diagram PNG</li><li>Derived process-data CSV</li><li>Downloadable process-analysis HTML report</li><li>Browser print/PDF output</li></ul>
+      <ul><li>Point and phase-analysis CSV</li><li>Equilibrium-diagram PNG</li><li>Derived process-data CSV</li><li>Downloadable process-analysis HTML report</li><li>Separate professional engineering-screening report</li><li>Browser print/PDF output</li></ul>
+      <p>The professional report documents a screening review and its evidence status; it does not certify a grade, validate a model, qualify a process, or approve material. All pre-existing exports remain available and keep their original purpose.</p>
     </section>
 
     <section class="guide-card" id="workflows">

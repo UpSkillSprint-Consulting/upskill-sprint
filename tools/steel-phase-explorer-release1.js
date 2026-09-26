@@ -186,6 +186,7 @@ function setWorkspaceMode(mode,persist){
   if(description)description.textContent=mode==='professional'?'Start from a material, process, or investigation question. Results remain engineering-screening estimates.':'Build understanding with guided visuals, plain-language interpretation, and practice.';
   if(persist!==false){safeLocalSet('spx-workspace-mode-v1',mode);safeLocalSet('spx-start-audience-v1',mode)}
   renderStudentArea();renderLearningCoach();renderModeSummary();
+  document.dispatchEvent(new CustomEvent('spx:workspace-mode',{detail:{mode:mode}}));
 }
 function setStartAudience(audience,persist){setWorkspaceMode(audience,persist)}
 function setBasis(mode,persist){
@@ -596,7 +597,7 @@ function initRelease1(){
   state.studentProgress=loadStudentProgress();state.studentArea=state.studentProgress.studentArea;
   ['renderEquilibrium','renderKinetics','renderChemistry','renderProperties','renderCycle','renderCompare','setUnit','setPoint','addPoint','removePoint','switchTab'].forEach(wrapAfter);
   enhanceSerialization();bindReleaseEvents();watchWorkspaceTabs();loadReleaseStateFromHash();setExperience(state.experience,false);setBasis(state.thermalBasis,false);setStudentArea(state.studentArea,false);setWorkspaceMode(initialWorkspaceMode,false);safeLocalSet('spx-workspace-mode-v1',initialWorkspaceMode);safeLocalSet('spx-start-audience-v1',initialWorkspaceMode);switchTab('navigator');
-  if(window.__SPX){window.__SPX.release1={setExperience:setExperience,setBasis:setBasis,setStartAudience:setStartAudience,getStartAudience:function(){return state.workspaceMode},setWorkspaceMode:setWorkspaceMode,getWorkspaceMode:function(){return state.workspaceMode},setStudentArea:setStudentArea,startLearningPath:beginLearningPath,getStudentProgress:function(){return JSON.parse(JSON.stringify(state.studentProgress))},openGoal:openStartGoal,render:renderRelease1,route:guideRoute,tradeModel:tradeModel,propertyEstimate:propertyEstimateFor}}
+  if(window.__SPX){window.__SPX.release1={setExperience:setExperience,setBasis:setBasis,setStartAudience:setStartAudience,getStartAudience:function(){return state.workspaceMode},setWorkspaceMode:setWorkspaceMode,getWorkspaceMode:function(){return state.workspaceMode},setStudentArea:setStudentArea,startLearningPath:beginLearningPath,getStudentProgress:function(){return JSON.parse(JSON.stringify(state.studentProgress))},openGoal:openStartGoal,render:renderRelease1,route:guideRoute,tradeModel:tradeModel,chemistryMetrics:chemistryMetricsFor,propertyEstimate:propertyEstimateFor}}
 }
 initRelease1();
 })();

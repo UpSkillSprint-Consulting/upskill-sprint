@@ -1,10 +1,14 @@
 (function(){
 'use strict';
 var attempts=0;
+function loadProfessional(){
+  if(document.querySelector('script[src="/tools/steel-phase-explorer-professional-loader.js"]'))return;
+  var s=document.createElement('script');s.src='/tools/steel-phase-explorer-professional-loader.js';s.async=false;document.body.appendChild(s)
+}
 function start(){
   var tool=document.getElementById('spx-tool'),tabs=tool&&tool.querySelector('.spx-tabs');
   if(!tool||!tabs){if(attempts++<120)setTimeout(start,50);return}
-  if(document.getElementById('spx-tab-reference-diagrams'))return;
+  if(document.getElementById('spx-tab-reference-diagrams')){loadProfessional();return}
 
   if(!document.querySelector('link[href="/tools/steel-phase-explorer-release5.css"]')){
     var css=document.createElement('link');css.rel='stylesheet';
@@ -114,8 +118,9 @@ function start(){
   ['/tools/steel-phase-explorer-poster-geometry.js',
    '/tools/steel-phase-explorer-rapid-geometry.js',
    '/tools/steel-phase-explorer-release5.js'].forEach(function(src){
-    if(document.querySelector('script[src="'+src+'"]'))return;
-    var s=document.createElement('script');s.src=src;s.async=false;document.body.appendChild(s);
+    var existing=document.querySelector('script[src="'+src+'"]');
+    if(existing){if(src.indexOf('release5.js')>=0){if(window.__SPX&&window.__SPX.release5)loadProfessional();else existing.addEventListener('load',loadProfessional,{once:true})}return}
+    var s=document.createElement('script');s.src=src;s.async=false;if(src.indexOf('release5.js')>=0)s.onload=loadProfessional;document.body.appendChild(s);
   });
 }
 start();
