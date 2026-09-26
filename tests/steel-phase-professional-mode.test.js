@@ -9,7 +9,7 @@ const { bootTool, ready, waitFor, ROOT } = require('./helpers/steel-phase-harnes
 const STORAGE_KEY = 'spx-professional-workflow-v1';
 const STAGES = [
   'define', 'question', 'applicability', 'compare',
-  'sensitivity', 'evidence', 'report'
+  'sensitivity', 'evidence', 'calibration', 'report'
 ];
 const TABS = [
   'navigator', 'equilibrium', 'path', 'kinetics', 'chemistry',
@@ -57,7 +57,8 @@ async function tool(options) {
 function assertScenarioHasNoProfessionalState(scenario) {
   for (const key of [
     'professional', 'professionalWorkflow', 'activeStage', 'definition',
-    'question', 'applicability', 'snapshots', 'sensitivity', 'evidence', 'report'
+    'question', 'applicability', 'snapshots', 'sensitivity', 'evidence',
+    'calibration', 'report'
   ]) {
     assert.equal(Object.hasOwn(scenario, key), false,
       `${key} must remain local workflow state rather than shared scenario data`);
@@ -78,7 +79,7 @@ function stageControls(doc) {
   )];
 }
 
-test('professional mode exposes an accessible seven-stage shell without replacing any lab', async t => {
+test('professional mode exposes an accessible eight-stage shell without replacing any lab', async t => {
   const { win, doc, record } = await tool({
     storage: { 'spx-workspace-mode-v1': 'professional' }
   });
@@ -160,6 +161,7 @@ test('every professional stage has one current control and one visible panel wit
       compare: /compare/i,
       sensitivity: /sensitivity|uncertainty/i,
       evidence: /evidence/i,
+      calibration: /calibration|calibrate|monitor/i,
       report: /report/i
     }[stage]);
     assert.equal(doc.activeElement,
