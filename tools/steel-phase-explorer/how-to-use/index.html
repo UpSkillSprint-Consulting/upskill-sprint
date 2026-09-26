@@ -6,11 +6,11 @@
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#ffffff">
 <title>How to Use the Steel Phase &amp; Transformation Explorer | UpSkill Sprint Consulting</title>
-<meta name="description" content="Complete user guide for the Steel Phase and Transformation Explorer, including student learning, a seven-stage professional decision workflow, equilibrium and kinetic models, heat treatment, process-data analysis, plant evidence, and engineering screening reports.">
+<meta name="description" content="Complete user guide for the Steel Phase and Transformation Explorer, including student learning, an eight-stage professional decision workflow, governed plant-calibration candidates, drift monitoring, metallurgy models, plant evidence, and engineering screening reports.">
 <link rel="canonical" href="https://upskillsprint.com/tools/steel-phase-explorer/how-to-use">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How to Use the Steel Phase &amp; Transformation Explorer | UpSkill Sprint Consulting">
-<meta property="og:description" content="A practical guide to every Steel Phase Explorer module and its seven-stage professional decision workflow, from defining a case through applicability, comparison, sensitivity, plant evidence, and reporting.">
+<meta property="og:description" content="A practical guide to every Steel Phase Explorer module and its eight-stage professional workflow, including applicability, comparison, sensitivity, plant evidence, calibration candidates, validation, drift monitoring, and reporting.">
 <meta property="og:url" content="https://upskillsprint.com/tools/steel-phase-explorer/how-to-use">
 <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,9 +33,9 @@
 
 <section class="guide-hero">
   <div class="guide-wrap">
-    <p class="guide-eyebrow">Engineering Tools · Complete User Guide · Version 1.2.0-professional-workspace</p>
+    <p class="guide-eyebrow">Engineering Tools · Complete User Guide · Version 1.5.0-reporting-audit</p>
     <h1>How to Use the Steel Phase &amp; Transformation Explorer</h1>
-    <p class="guide-lead">Use the explorer to move from chemistry and processing conditions to predicted microstructure, properties, and performance. The tool combines guided learning and all existing metallurgy modules with a seven-stage professional workflow for applicability review, scenario comparison, sensitivity screening, plant evidence, and engineering reporting.</p>
+    <p class="guide-lead">Use the explorer to move from chemistry and processing conditions to predicted microstructure, properties, and performance. The tool combines guided learning and all existing metallurgy modules with an eight-stage professional workflow for applicability review, scenario comparison, sensitivity screening, plant evidence, governed calibration candidates, drift monitoring, and engineering reporting.</p>
     <div class="guide-actions"><a class="guide-btn primary" href="/tools/steel-phase-explorer">Open the Explorer</a><a class="guide-btn" href="/engineering-tools">Browse Engineering Tools</a></div>
   </div>
 </section>
@@ -45,6 +45,8 @@
     <strong>On this page</strong>
     <a href="#purpose">1. Purpose and limits</a>
     <a href="#start">2. Guided start and professional workflow</a>
+    <a href="#calibration">2A. Plant calibration and monitoring</a>
+    <a href="#reporting-audit">2B. Reporting and audit replay</a>
     <a href="#equilibrium">3. Equilibrium diagram</a>
     <a href="#paths">4. Heat-treatment paths</a>
     <a href="#kinetics">5. TTT and CCT</a>
@@ -96,8 +98,8 @@
       </ul>
       <h3>Workspace mode</h3>
       <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Workspace</th><th>What it changes</th><th>What it preserves</th></tr></thead><tbody>
-        <tr><td>Student</td><td>Organizes the tool into Learn, Explore, Practice, and My Progress. Three guided paths use Predict → Manipulate → Observe → Explain → Check → Apply.</td><td>Every lab, input, result, warning, and calculation remains available. Learning progress is saved only in this browser.</td></tr>
-        <tr><td>Professional</td><td>Organizes screening work into Define, Question, Applicability, Compare, Sensitivity, Plant Evidence, and Report while keeping direct access to every module.</td><td>The same scenario, numerical engine, 12 tabs, inputs, warnings, and original exports are used. Switching workspace never resets the active module or inputs.</td></tr>
+        <tr><td>Student</td><td>Organizes the tool into Learn, Explore, Practice, and My Progress. Four guided paths use Predict → Manipulate → Observe → Explain → Check → Apply.</td><td>Every lab, input, result, warning, and calculation remains available. Learning progress is saved only in this browser. The calibration lesson is synthetic and never imports plant data or changes a Professional calibration session.</td></tr>
+        <tr><td>Professional</td><td>Organizes screening work into Define, Question, Applicability, Compare, Sensitivity, Plant Evidence, Calibrate &amp; Monitor, and Report while keeping direct access to every module.</td><td>The same scenario, numerical engine, 12 tabs, inputs, warnings, and original exports are used. Switching workspace never resets the active module or inputs.</td></tr>
       </tbody></table></div>
       <div class="guide-callout"><p><strong>Workspace and explanation detail are independent.</strong> A student can inspect full model detail, and a professional can choose a guided explanation without changing the calculation.</p></div>
       <h3>Professional decision workflow</h3>
@@ -109,7 +111,8 @@
         <li><strong>Compare scenarios:</strong> capture read-only Baseline and Alternative snapshots, plus an optional third case, for side-by-side review. Capturing or viewing a comparison does not apply old values or change the active scenario.</li>
         <li><strong>Inspect sensitivity/uncertainty:</strong> run a bounded low–baseline–high screen for carbon or property cooling rate against estimated hardness or martensite, then record known uncertainty sources. This one-factor view is non-mutating and is not a confidence interval.</li>
         <li><strong>Add plant evidence:</strong> record an evidence type, date, traceable reference, observation or result, and your assessment as Supports, Conflicts, Inconclusive, or Not assessed. The tool does not validate that classification.</li>
-        <li><strong>Generate report:</strong> create a separate engineering screening report containing scope, applicability, comparison, sensitivity, evidence classification, cautions, model/version traceability, and the same governed values and warnings shown on screen. Download the matching governance JSON when a machine-readable audit record is needed.</li>
+        <li><strong>Calibrate and monitor:</strong> optionally import a separate governed calibration package, fit an additive-bias candidate on development heats or batches, compare generic, calibrated, and actual values on untouched validation groups, and screen later monitoring residuals. A candidate never changes the generic model or approves itself.</li>
+        <li><strong>Generate report:</strong> create a separate engineering screening report containing scope, applicability, comparison, sensitivity, evidence classification, calibration audit summary, cautions, model/version traceability, and the same governed values and warnings shown on screen. Download the compact governance JSON or a checksummed replay JSON when a machine-readable record is needed.</li>
       </ol>
       <h3>Model governance and output classes</h3>
       <p>Every result used by the professional workflow is linked to a model ID and version. Applicability is reported as <strong>In range</strong>, <strong>Near boundary</strong>, <strong>Out of domain</strong>, or <strong>Not evaluated</strong>. Out-of-domain values are withheld rather than carried forward as an unqualified engineering result.</p>
@@ -119,8 +122,8 @@
         <tr><td>Plant calibrated</td><td>Model calibrated to a controlled plant scope and evidence set.</td><td>Locked until verified sources, a calibration record, and scoped qualified-metallurgist approval exist.</td></tr>
         <tr><td>Specification acceptance</td><td>Model authorized for a defined acceptance decision.</td><td>Locked until verified governing requirements and scoped qualified approval exist.</td></tr>
       </tbody></table></div>
-      <div class="guide-callout"><p><strong>Current governance state:</strong> the present model records are classified as Teaching and remain pending qualified-metallurgist review. “In range” means only that inputs are inside conservative internal numeric guardrails; it does not establish correlation-specific applicability. No current model is represented as Engineering screening, Plant calibrated, or approved for Specification acceptance. Professional reports remain visibly DRAFT until model evidence is verified and qualified approval is recorded. User-added evidence can support or challenge an interpretation, but it never upgrades a model classification or approval state. Governed values are withheld when case provenance is incomplete or user evidence is marked as conflicting. The bundled cooling trace remains explicitly identified as synthetic and cannot be represented as an actual process record.</p></div>
-      <div class="guide-callout"><p><strong>Local professional record:</strong> professional notes, plant evidence, and captured comparison snapshots stay in this browser and are excluded from saved scenarios and share links. Snapshot and sensitivity records pin their model and registry versions. The explicit professional HTML/print/PDF report and governance JSON contain the visible governed record; raw thermal rows and filenames are not embedded. The original CSV, PNG, process-data report, share, and print tools remain unchanged.</p></div>
+      <div class="guide-callout"><p><strong>Current governance state:</strong> the registered base models remain classified as Teaching and pending qualified-metallurgist review. “In range” means only that inputs are inside conservative internal numeric guardrails; it does not establish correlation-specific applicability. A calibration analysis first creates an <strong>Engineering screening calibration candidate</strong> without altering the generic model. Step&nbsp;7 can promote that frozen candidate to <strong>Plant calibrated</strong> only for one pinned scope after a separate protocol-locked campaign on new heat/batch groups passes its predeclared criteria and a qualified authority records approval. Reviewer identity and authority are user-attested, not browser-verified. Specification acceptance and product release always remain separate and withheld. The bundled cooling trace and calibration demonstration remain explicitly synthetic and cannot be used as external validation or approval evidence.</p></div>
+      <div class="guide-callout"><p><strong>Local professional record:</strong> professional notes, plant-evidence metadata, captured comparison snapshots, compact calibration audits, and audit revisions explicitly saved by the user stay in this browser and are excluded from ordinary saved scenarios and share links. Imported calibration rows and raw thermal rows remain session-only. A replay JSON intentionally embeds derived thermal chart rows when a process record is loaded so the saved UI result can be reproduced; handle that file and any local replay revision under your process-data rules. The compact governance JSON and HTML/print/PDF report do not embed those rows. The original CSV, PNG, process-data report, share, and print tools remain unchanged.</p></div>
       <h3>Explanation detail</h3>
       <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Mode</th><th>What it emphasizes</th><th>Use when</th></tr></thead><tbody>
         <tr><td>Guided</td><td>Plain-language conclusions, key cautions, and fewer equations.</td><td>You are learning the concept or need a quick interpretation.</td></tr>
@@ -132,6 +135,100 @@
       <h3>Critical-temperature coach</h3>
       <ul><li><strong>Ae</strong> is the equilibrium critical temperature.</li><li><strong>Ac</strong> is the observed transformation temperature during heating.</li><li><strong>Ar</strong> is the observed transformation temperature during cooling.</li><li><strong>Ms</strong> and <strong>Mf</strong> refer to martensite start and finish.</li></ul>
       <p>The heating- and cooling-rate shifts in the coach are teaching approximations, not process setpoints.</p>
+    </section>
+
+    <section class="guide-card" id="calibration">
+      <p class="guide-kicker">Step 5 capability · Professional workspace</p>
+      <h2>Plant calibration, group-separated validation, and drift monitoring</h2>
+      <p>This optional workflow keeps the original generic property model intact and builds a separate local correction candidate around controlled plant or test data:</p>
+      <span class="guide-code">Generic model &rarr; Calibrate on development groups &rarr; Validate on untouched groups &rarr; Monitor later groups</span>
+      <ol>
+        <li><strong>Prepare and govern the source:</strong> use one quantitative target, one declared measurement method, a controlled source reference, and stable record and heat/batch identifiers.</li>
+        <li><strong>Import:</strong> load a version&nbsp;1 calibration-package JSON or CSV. Invalid imports are rejected without replacing the prior valid session.</li>
+        <li><strong>Calibrate:</strong> within each calibration heat or batch, average <em>actual − generic</em> residuals; then give each group equal weight when fitting the single additive correction. Validation and monitoring results do not influence it, and the generic model is not refitted or overwritten.</li>
+        <li><strong>Validate:</strong> compare generic, calibrated, and actual values on validation heats or batches that never appeared in calibration. Review group-equally-weighted bias, MAE, RMSE, and R<sup>2</sup>; a better fit on development groups is not validation.</li>
+        <li><strong>Monitor:</strong> aggregate corrected residuals at the later-in-time heat/batch level and screen their exponentially weighted moving average (EWMA). Treat any signal as a prompt for investigation.</li>
+        <li><strong>Record and review:</strong> retain the package fingerprint and audit summary, define the candidate’s local scope, and obtain qualified review outside the browser workflow. This version does not authorize applying the correction to new inputs.</li>
+      </ol>
+
+      <h3>Separate calibration-package contract</h3>
+      <p>A calibration package is not a saved Explorer scenario, thermal-process upload, evidence note, or specification dataset. JSON may place the following fields at the top level or under <code>metadata</code>; if a field appears in both places, the values must agree. CSV uses the same row fields plus consistent metadata columns or <code># key: value</code> comment lines.</p>
+      <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Part</th><th>Required content</th><th>Control</th></tr></thead><tbody>
+        <tr><td>Package identity</td><td><code>schemaVersion</code>, stable <code>id</code>, <code>revision</code>, <code>title</code>, and <code>sourceReference</code>.</td><td>Schema major version must be 1. Import is limited to 2&nbsp;MiB, 5,000 rows, and 64 CSV columns.</td></tr>
+        <tr><td>Local scope</td><td><code>site</code>, <code>line</code>, <code>processRoute</code>, <code>productFamily</code>, <code>thicknessMinMm</code>/<code>thicknessMaxMm</code>, <code>measurementLocation</code>, <code>measurementBasis</code>, <code>coolingRateDefinition</code>, and <code>coolingRateLocation</code>.</td><td>All are required. The scope fingerprint makes changes to the declared investigation scope detectable; it does not establish or enforce a candidate applicability envelope.</td></tr>
+        <tr><td>Common basis</td><td><code>measurementMethod</code>, <code>groupBy</code> (<code>heat</code> or <code>batch</code>), and one supported <code>target</code>.</td><td>The method and scope must identify the specimen/test basis and how <code>coolingRateCPerS</code> was determined. Target and column IDs define the canonical numeric units; the cooling-rate definition must also declare a compatible per-second unit, and contradictory unit text fails closed. Text presence is traceability—not proof that unlike tests are compatible.</td></tr>
+        <tr><td>Row identity</td><td>Unique <code>recordId</code>, <code>role</code> (<code>calibration</code>, <code>validation</code>, or <code>monitoring</code>), and the selected <code>heatId</code> or <code>batchId</code>.</td><td>Identifiers are compared without letter-case distinctions. One heat or batch cannot appear in more than one role.</td></tr>
+        <tr><td>Predictor inputs</td><td>C, Mn, Si, Ni, Cr, Mo, V, Cu, and B in wt%, plus <code>coolingRateCPerS</code>.</td><td>Every row must be accepted by the frozen generic <code>spx-property-v1</code> evaluator; cooling rate is limited to 0.1–1,000&nbsp;&deg;C/s. <code>coolingRateDefinition</code> must explicitly declare &deg;C/s (or C/s) or K/s; K/s is numerically compatible, while missing units, per-minute/per-hour rates, and Fahrenheit definitions are rejected and are not converted.</td></tr>
+        <tr><td>Observed result</td><td><code>actualValue</code> in the selected target’s canonical unit: an HV number on the declared Vickers load, MPa, or engineering elongation percentage points.</td><td>Rockwell/Brinell or pressure-unit hardness, psi/ksi/Pa/kPa/GPa strength, and fractional/unitless/true/logarithmic strain are rejected rather than converted. Do not mix specimen orientations, gauge lengths, sampling locations, temperatures, or measurement methods.</td></tr>
+        <tr><td>Time order</td><td>An unambiguous ISO-8601 <code>timestamp</code> is required on every row.</td><td>Every monitoring group must be provably later than all calibration and validation groups, and monitoring-group timestamps must be unique. Tied group times make chronology insufficient and suppress the EWMA sequence, limits, and triggers; heat/batch names are never treated as process sequence. Order-independent residual diagnostics remain visible.</td></tr>
+      </tbody></table></div>
+      <p>Contract&nbsp;1.0 does not collect Nb or Ti. Zero is supplied only to the existing governance-envelope check; it is not an inferred plant value, predictor input, or fitted variable. Do not use this candidate where omitted microalloying or another unmodelled variable makes the generic property screen inapplicable.</p>
+      <p>Minimum data separation is enforced: at least five calibration rows across three groups and at least three validation rows across two different groups. Replicating rows within one group does not give that group more influence: fitting and reported performance first aggregate by group, then weight groups equally. These are software minimums, not evidence that the sample is representative or statistically adequate.</p>
+
+      <h3>Supported first-release quantitative targets</h3>
+      <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Target ID</th><th>Value and unit</th><th>Input sanity range</th></tr></thead><tbody>
+        <tr><td><code>hardness-hv</code></td><td>Directional model-HV corrected against a declared Vickers scale/load</td><td>1–2,000</td></tr>
+        <tr><td><code>yield-strength-mpa</code></td><td>Yield strength, MPa</td><td>1–5,000</td></tr>
+        <tr><td><code>tensile-strength-mpa</code></td><td>Tensile strength, MPa</td><td>1–5,000</td></tr>
+        <tr><td><code>elongation-pct</code></td><td>Elongation, %</td><td>0–100</td></tr>
+      </tbody></table></div>
+      <div class="guide-callout warn"><p><strong>These are parser sanity ranges, not applicability limits, tolerances, or specification limits.</strong> Each package supports one target. Confirm test-method revision, specimen geometry, orientation, location, tensile test temperature, yield definition (such as 0.2% offset), hardness load/scale, elongation gauge basis, and cooling-rate definition before comparing records.</p></div>
+      <p>Actual inputs outside these sanity ranges are rejected. Corrected values are deliberately left unclamped so an invalid correction stays visible for diagnosis. The physical-output gate covers only the imported calibration, holdout, and monitoring comparisons: if any of those corrected values is outside its target range, evidence comparison is withheld. A range-safe imported dataset can make the <em>evidence audit</em> current; it never permits applying the correction to a new chemistry or cooling-rate input. This version has no candidate input envelope or prediction-time output gate, so new-input application remains withheld.</p>
+
+      <h3>Group separation and leakage</h3>
+      <p>All specimens or repeated tests from one heat or batch must stay in a single role. A row-level random split can place related specimens on both sides, making validation look better because the model has already seen that group. The importer rejects this heat/batch leakage. Freeze the split, cleaning rules, scope, and model choices before viewing holdout results; if holdout results influence any of those choices, reclassify those groups as development data and obtain fresh validation groups. Fingerprints make revisions detectable but cannot enforce that discipline. The browser result is an internal, group-separated holdout only; independent validation requires a separate controlled external campaign or artifact, and neither result by itself proves that future production is covered.</p>
+
+      <h3>SPEC_DATA is identity context only</h3>
+      <p>The optional <code>specContext</code> accepts only grade identity and traceability fields: schema version, specification body and grade key, display name, edition, PSL/category where applicable, material form, and limited verification metadata. The calibration engine does <strong>not</strong> read specification chemistry, mechanical limits, Charpy/DWTT requirements, footnote rules, overlays, or acceptance logic as observations, targets, labels, or approval evidence.</p>
+      <div class="guide-callout danger"><p><strong>Calibration and specification compliance are separate decisions.</strong> For standards work, use the <a href="/engineering-tools.html#material-specification-lookup">Material Specification Lookup</a> to inspect controlled grade requirements and the <a href="/tools/material-specification-compliance-checker">Material Specification Compliance Checker</a> to compare actual evidence with requirements. A calibrated prediction cannot replace a required test or acceptance record.</p></div>
+
+      <h3>Candidate and approval gate</h3>
+      <p>A successful candidate analysis is labelled <strong>Calibration candidate</strong> with an <strong>Engineering screening</strong> classification. The base model and version remain frozen and traceable. At this stage it records <strong>Plant calibrated: false</strong>, <strong>new-input application: withheld</strong>, <strong>pending qualified review</strong>, and <strong>acceptance withheld</strong>. Neither good training metrics, improved internal holdout metrics, a specification identity, nor a user acknowledgement can promote it.</p>
+
+      <h3>Step 7: independent validation and Plant calibrated promotion</h3>
+      <p>The separate JSON validation package pins the candidate-model fingerprint, training fingerprint, scope fingerprint, target, and heat/batch grouping basis. Its protocol ID, revision, independent organization, independence statement, lock timestamp, and numeric acceptance limits must be recorded before every validation result. At least five completely new heats or batches are required; any overlap with calibration, internal holdout, or monitoring groups fails closed. Five groups is a software floor, not a claim of statistical sufficiency.</p>
+      <p>The candidate is not refitted. External bias, MAE, RMSE, and optional R<sup>2</sup> are calculated across equal-weighted external group means and compared with the predeclared limits. Every external row must also remain within the candidate’s calibration-data chemistry/cooling-rate envelope and declared thickness scope, and every un-clamped prediction must pass the physical-output gate. A failed pin, chronology check, independence check, envelope check, output gate, or acceptance criterion blocks approval.</p>
+      <p>After all validation checks pass, a reviewer may record their name, role, organization, controlled authority reference, approval time, scope-limited statement, and explicit authority attestation. The browser records that attestation but cannot verify identity, credentials, organizational authority, laboratory chain of custody, or source-system integrity. Only then is the frozen candidate labelled <strong>Plant calibrated</strong> for its recorded envelope. Prediction-time use is fail-closed outside that envelope or if the active candidate changes. Specification acceptance, product release, and qualified-procedure status remain withheld.</p>
+      <div class="guide-callout danger"><p><strong>The validation template is not plant evidence.</strong> Do not approve synthetic, copied, development, internally selected, or post-hoc-thresholded results. Govern the campaign and approval in the organization’s controlled quality system.</p></div>
+
+      <h3>Raw-data privacy and report record</h3>
+      <p>Imported rows live only in the calibration engine’s current page session. They are not written to professional browser storage, saved scenarios, share links, the HTML report, or governance JSON. Clearing the calibration session or reloading the page removes them. The compact audit may be stored locally and exported; it contains:</p>
+      <ul>
+        <li>package ID/revision/title, source reference, measurement method, import/analyse timestamps, and package/model fingerprints;</li>
+        <li>the declared local site/line/process/product/thickness/test/cooling scope and its scope fingerprint;</li>
+        <li>target and unit, frozen generic model ID/version, equal-group additive correction, fitted row/group counts, and role/group totals;</li>
+        <li>grouping basis, disjoint-group result, later-than-reference check, full monitoring chronology status, and optional traceability-only specification identity;</li>
+        <li>group-equally-weighted generic-versus-calibrated calibration and validation bias, MAE, RMSE, and R<sup>2</sup>;</li>
+        <li>monitoring row/group counts, timestamp-ordering rule and chronology status, EWMA setting and time-varying limits, trigger count, governance state, reasons, and warnings.</li>
+      </ul>
+      <p>A fingerprint detects a changed package or scope; it is neither encryption, anonymization, nor proof against tampering. Browser memory and local storage are not encrypted records-management systems. Apply your organization’s data classification, authorization, retention, and device rules before loading controlled information.</p>
+
+      <h3>Interpret drift correctly</h3>
+      <p>Monitoring uses the mean calibrated residual (<em>actual − calibrated</em>) for each later heat or batch. A group’s latest row timestamp defines its position. An individual group-mean residual is screened against &plusmn;3<em>s</em>; with &lambda; = 0.2, the EWMA calculates:</p>
+      <span class="guide-code">z<sub>0</sub> = 0; z<sub>t</sub> = 0.2e&prime;<sub>t</sub> + 0.8z<sub>t−1</sub>; limits<sub>t</sub> = &plusmn;3s&radic;[(0.2 / 1.8)(1 − 0.8<sup>2t</sup>)]</span>
+      <p>Here, <em>s</em> is the sample standard deviation of the equally weighted calibration-group residual means. The time-varying limit is &plusmn;0.6<em>s</em> at the first point and approaches &plusmn;<em>s</em>. The result is <strong>stable</strong>, <strong>review trigger</strong>, or <strong>insufficient</strong>. Unverified chronology, no monitoring groups, zero/unavailable reference variation, variation indistinguishable from floating-point precision, or fewer than 20 calibration groups produces an insufficient result. When numeric variation cannot support limits, inferential residual and EWMA triggers are withheld. When group timestamps tie, order-dependent EWMA values, limits, and triggers are withheld while order-independent residual diagnostics remain visible. Fixed group-mean limits also require one constant replicate count across the calibration baseline and the same count in every monitoring group. Unequal calibration groups, unequal monitoring groups, or a baseline-to-monitoring count mismatch therefore also force an insufficient result in this version.</p>
+      <p>The fixed 3&sigma; screen assumes a stable Phase-I residual process, comparable independent subgroups, and no material serial correlation. Skew, heavy tails, autocorrelation, measurement drift, or changing product mix can invalidate nominal false-alarm behavior; a qualified practitioner must select a different chart or limit design when those assumptions are not defensible.</p>
+      <div class="guide-callout danger"><p><strong>A drift signal is not a cause and is not a nonconformance verdict.</strong> Investigate measurement-system change, sampling, test basis, chemistry or cooling-rate range, product mix, equipment, process settings, data handling, and model applicability. Confirm the cause with controlled evidence before changing a process, model, or disposition.</p></div>
+    </section>
+
+    <section class="guide-card" id="reporting-audit">
+      <p class="guide-kicker">Step 6 capability · Professional workspace</p>
+      <h2>Revisioned reports, checksums, and deterministic replay</h2>
+      <p>The Report stage can now preserve a governed screening result as a named revision and prove whether the same tool build reproduces it. This does not approve the engineering conclusion; it makes the calculation record traceable.</p>
+      <ol>
+        <li><strong>Complete the record:</strong> enter a conclusion, interpretation, next action, action owner, prepared-by identity, optional reviewer, and target date.</li>
+        <li><strong>Name the revision:</strong> use a meaningful label such as “Baseline review” or “Cooling-rate alternative.”</li>
+        <li><strong>Save or download:</strong> a local revision is stored unencrypted in this browser; Download replay JSON creates a portable package. At most five local revisions are retained.</li>
+        <li><strong>Verify before replay:</strong> import accepts only the supported schema, matching tool version, matching model-registry version, and an unchanged package checksum.</li>
+        <li><strong>Replay:</strong> the tool restores the original scenario and decision controls, reconstructs embedded thermal chart data when present, reruns the shared calculation engine, and compares the scenario fingerprint, governed values/statuses, summary, and chart data with the saved signature.</li>
+      </ol>
+      <div class="guide-table-wrap"><table class="guide-table"><thead><tr><th>Record</th><th>Contents</th><th>Use</th></tr></thead><tbody>
+        <tr><td>HTML / Print-PDF report</td><td>Conclusion, intended use, classification, inputs, results, uncertainty, comparison, assumptions, warnings, sources, calibration evidence, prepared/reviewed fields, revision ID, and audit checksum.</td><td>Human review and controlled filing.</td></tr>
+        <tr><td>Governance JSON</td><td>Compact governed values, model versions, validity, warnings, evidence metadata, and calibration audit summary; no embedded thermal rows.</td><td>Machine-readable compact audit.</td></tr>
+        <tr><td>Replay JSON</td><td>Original scenario, normalized SI inputs, professional workflow record, governed outputs, chart data, revision identity, expected replay signature, and checksum.</td><td>Deterministic reconstruction and verification with the same tool and registry versions.</td></tr>
+      </tbody></table></div>
+      <div class="guide-callout warn"><p><strong>Checksum is an integrity check, not a digital signature.</strong> It detects accidental or ordinary content changes but does not prove authorship, authorization, or custody. Use your organization’s approved document-control, access, retention, and signing system for controlled records.</p></div>
+      <div class="guide-callout danger"><p><strong>Replay verifies software reproducibility only.</strong> Matching the saved UI result does not establish metallurgical validity, measurement-system adequacy, model approval, process qualification, specification conformance, or product acceptance.</p></div>
     </section>
 
     <section class="guide-card" id="equilibrium">
@@ -347,13 +444,14 @@
       <p class="guide-kicker">Learning and records</p>
       <h2>Learn, save, share, and export</h2>
       <h3>Learning mode</h3>
-      <p>Generate phase-field challenges, use hints, inspect boundary explanations, and practise microstructure identification.</p>
+      <p>Follow four six-step paths, generate phase-field challenges, use hints, inspect boundary explanations, and practise microstructure identification. <strong>Model calibration and validation</strong> is a synthetic evidence-literacy lesson: it uses the existing chemistry/property screen to teach Generic → Calibrate → group-separated Validate → Monitor, but it never imports plant data, fits a real candidate, or changes Professional calibration state.</p>
       <h3>Save and share</h3>
       <ul><li><strong>Save scenario</strong> stores settings in the current browser.</li><li><strong>Load saved</strong> restores the local scenario.</li><li><strong>Copy share link</strong> embeds supported configuration data in the URL.</li></ul>
       <p>Uploaded raw process data remains local to the current browser session and is not embedded in the share link.</p>
-      <p>Professional notes, plant evidence, and captured comparison snapshots are also kept only in this browser and are not added to saved scenarios or share links. Comparison and sensitivity views do not modify the active scenario.</p>
+      <p>Professional notes, plant evidence, comparison snapshots, and explicitly saved audit revisions are kept only in this browser and are not added to ordinary saved scenarios or share links. Comparison and sensitivity views do not modify the active scenario.</p>
+      <p>Calibration imports are even more restricted: raw rows stay only in page-session memory. The Professional record may keep a compact audit summary, but it does not persist or export those rows.</p>
       <h3>Export</h3>
-      <ul><li>Point and phase-analysis CSV</li><li>Equilibrium-diagram PNG</li><li>Derived process-data CSV</li><li>Downloadable process-analysis HTML report</li><li>Separate professional engineering-screening report</li><li>Browser print/PDF output</li></ul>
+      <ul><li>Point and phase-analysis CSV</li><li>Equilibrium-diagram PNG</li><li>Derived process-data CSV</li><li>Downloadable process-analysis HTML report</li><li>Separate professional engineering-screening report</li><li>Compact governance JSON</li><li>Checksummed deterministic-replay JSON</li><li>Browser print/PDF output</li></ul>
       <p>The professional report documents a screening review and its evidence status; it does not certify a grade, validate a model, qualify a process, or approve material. All pre-existing exports remain available and keep their original purpose.</p>
     </section>
 
@@ -367,6 +465,7 @@
         <div class="guide-mini"><h3>Investigate temperature discrepancy</h3><p>Use Process Data → Measurement Assistant. Check lag, attachment, emissivity, field of view, and reflected radiation.</p></div>
         <div class="guide-mini"><h3>Evaluate surface treatment</h3><p>Use Metallurgy Lab → Surface Treatment → set chemistry/time/temperature → inspect the diffusion concentration profile or unitless transformation response → plan a chemistry or microhardness traverse and process-specific verification.</p></div>
         <div class="guide-mini"><h3>Explain property variation</h3><p>Use Solidification → Metallography → Mechanical Lab to connect segregation, morphology, orientation, and test response.</p></div>
+        <div class="guide-mini"><h3>Evaluate a local calibration candidate</h3><p>Define the case → add traceable evidence → import a separate calibration package → review group separation and generic/calibrated/actual validation metrics → interpret later drift signals → export the governed screening record.</p></div>
       </div>
     </section>
 
@@ -381,6 +480,10 @@
         <li><strong>Measurement:</strong> sensor lag, attachment, emissivity, reflected radiation, and calibration can dominate the result.</li>
         <li><strong>Morphology:</strong> identical phase fractions can produce different properties when grain size, shape, distribution, and banding differ.</li>
         <li><strong>Alloy families:</strong> plain-carbon models are incomplete for stainless, tool steel, and cast iron.</li>
+        <li><strong>Calibration leakage:</strong> keep every result from one heat or batch in one role; reused groups do not provide valid internal holdout evidence, and independent validation requires a separate controlled external campaign or artifact.</li>
+        <li><strong>Compatible test basis:</strong> calibration rows must share a controlled target, unit, specimen/test method, sampling basis, and cooling-rate definition.</li>
+        <li><strong>Calibration versus compliance:</strong> grade identity is traceability context only; use the dedicated specification tools for requirements and acceptance checks.</li>
+        <li><strong>Drift:</strong> a residual or EWMA signal identifies a change worth investigating, not its cause or a product verdict.</li>
         <li><strong>Safety:</strong> the tool does not provide safe operating instructions for hazardous heat-treatment, atmosphere, quench, flame, induction, laser, or molten-salt processes.</li>
       </ul>
     </section>
@@ -401,6 +504,8 @@
         <tr><td>Thermal record differs from simulated path</td><td>Sensor location, lag, section heat transfer, transfer delay, or simplified path.</td><td>Review measurement setup and update the cycle assumptions.</td></tr>
         <tr><td>Microstructure does not resemble a real micrograph</td><td>The field is schematic.</td><td>Use qualified reference images and actual metallography.</td></tr>
         <tr><td>Saved work is missing</td><td>Browser storage was cleared or another device was used.</td><td>Use exports and share links for portable records.</td></tr>
+        <tr><td>Calibration package is rejected</td><td>Missing metadata/chemistry, unsupported target, contradictory target or cooling-rate units, invalid group IDs, too few distinct groups, group leakage, range failure, or incompatible schema major version.</td><td>Use the downloaded template, review every reported field path, and keep each heat/batch in one role. Convert source values under a controlled procedure before import; the browser does not convert incompatible units. A failed import preserves the previous valid calibration session.</td></tr>
+        <tr><td>Drift status is “insufficient”</td><td>No monitoring rows, unverified or tied chronology, zero/unavailable or numerically degenerate calibration residual variation, fewer than 20 Phase-I calibration groups, or incompatible baseline/monitoring replicate counts.</td><td>Add representative, uniquely time-ordered later groups under the same controlled subgroup design; establish at least 20 stable Phase-I groups before interpreting no-trigger behavior. Do not invent variation or interpret “insufficient” as stable.</td></tr>
       </tbody></table></div>
     </section>
 
@@ -412,6 +517,9 @@
         <li>Separate equilibrium phases from kinetic products.</li><li>Document prior microstructure and grain condition.</li>
         <li>Record section size, geometry, and sampling location.</li><li>Document heating, holding, transfer, cooling, and tempering history.</li>
         <li>Check model and equation applicability.</li><li>Preserve raw process data and analysis settings.</li>
+        <li>Keep calibration and validation heat/batch groups disjoint.</li><li>Confirm a compatible measurement and cooling-rate basis.</li>
+        <li>Treat calibration as local to its documented scope.</li><li>Investigate drift signals before assigning cause.</li>
+        <li>Use the specification lookup/checker for standards work.</li><li>Keep calibration-candidate approval and acceptance withheld until qualified review.</li>
         <li>Verify predictions using appropriate testing.</li><li>Include uncertainty and cautions in reports.</li>
         <li>Use approved safety procedures.</li><li>Obtain technical approval where required.</li>
       </ul>

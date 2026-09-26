@@ -84,6 +84,20 @@ var learningPaths={
     checkSuccess:'Correct. Hardenability concerns the depth or distribution of hardening, not only the maximum local hardness.',
     checkRetry:'Try again. Think about why a thick section may be hard at the surface but softer at the centre.',
     apply:'Choose a section size and quench condition, then compare surface, quarter-depth, and centre response.'
+  },
+  calibration:{
+    title:'Model calibration and validation',tab:'chemistry',
+    objective:'Follow the evidence chain Generic → Calibrate → group-separated Validate → Monitor without treating fit, drift, or a specification as approval.',
+    predict:'A candidate matches every row used to fit it. What does that show?',
+    predictionOptions:['Local fit only; holdout and external validation are still required','Validation for future heats','Specification compliance'],
+    manipulate:'Open Chemistry & properties. Choose an illustrative preset and move only the property cooling-rate control to compare generic estimates. This synthetic lesson does not ask you to enter or import plant data.',
+    explain:'Start with the generic model. Average repeats within each development heat or batch, give groups equal weight to fit a local candidate, test it on untouched holdout groups with a compatible basis, then monitor later results. Fit is not validation, and an internal holdout is not independent external validation.',
+    misconception:'A calibration is not universal or specification approval. It is local to its plant, product, process, range, and test basis; a drift signal starts investigation but does not identify the cause.',
+    check:'Which result is the strongest internal holdout evidence?',
+    checkOptions:['Lower error on untouched heat or batch groups with a compatible test basis','Lower error after refitting the same heat records','Agreement with a specification midpoint'],checkAnswer:'Lower error on untouched heat or batch groups with a compatible test basis',
+    checkSuccess:'Correct. Disjoint groups and a compatible measurement basis test transfer beyond fitted records within the package. Independent validation still requires a separate controlled external campaign or artifact.',
+    checkRetry:'Try again. Keep every specimen from one heat or batch on only one side of the development/validation split.',
+    apply:'Using an illustrative chemistry, write four lines: generic baseline; local scope and development heats; different internal-holdout heat or batch IDs with the same test basis; and a later monitoring window. Add a separate external-validation campaign or artifact; drift remains a signal, not a cause or compliance decision.'
   }
 };
 var studentAreaCopy={
@@ -104,7 +118,7 @@ function learningPathFor(id){return own(learningPaths,id)?learningPaths[id]:null
 function validLearningStep(value,fallback){var n=Number(value);return Number.isInteger(n)?clamp(n,0,learningSteps.length-1):fallback}
 function firstIncompleteStep(completed){for(var i=0;i<learningSteps.length;i++)if(completed.indexOf(i)<0)return i;return learningSteps.length-1}
 function freshPathProgress(){return{completed:[],prediction:'',checkAnswer:'',activeStep:0}}
-function freshStudentProgress(){return{studentArea:'learn',activePath:'',activeStep:0,collapsed:false,paths:{phases:freshPathProgress(),transformations:freshPathProgress(),'heat-treatment':freshPathProgress()},visitedTabs:[]}}
+function freshStudentProgress(){return{studentArea:'learn',activePath:'',activeStep:0,collapsed:false,paths:{phases:freshPathProgress(),transformations:freshPathProgress(),'heat-treatment':freshPathProgress(),calibration:freshPathProgress()},visitedTabs:[]}}
 function sanitizeStudentProgress(value){
   var clean=freshStudentProgress(),source=value&&typeof value==='object'?value:{};
   if(['learn','explore','practice','progress'].indexOf(source.studentArea)>=0)clean.studentArea=source.studentArea;
@@ -270,8 +284,19 @@ function pathProgressText(id){
   var completed=pathState(id).completed.length;
   return completed===learningSteps.length?'Complete':completed?completed+' of '+learningSteps.length+' steps complete':'Not started';
 }
+function ensureCalibrationLearningPathCard(){
+  var list=$('spx-learning-paths');
+  if(!list||list.querySelector('[data-learning-path="calibration"]'))return;
+  var card=document.createElement('button');card.type='button';card.className='spx-learning-path-card';card.dataset.learningPath='calibration';
+  var level=document.createElement('span');level.textContent='Evidence literacy · 6 steps';
+  var title=document.createElement('strong');title.textContent='Model calibration and validation';
+  var description=document.createElement('p');description.textContent='Follow a generic estimate through local calibration, group-separated holdout validation, external-validation gating, and drift monitoring.';
+  var progress=document.createElement('small');progress.dataset.pathProgress='calibration';progress.textContent='Not started';
+  card.appendChild(level);card.appendChild(title);card.appendChild(description);card.appendChild(progress);list.appendChild(card);
+}
 function renderStudentArea(){
   if(!state.studentProgress)return;
+  ensureCalibrationLearningPathCard();
   var area=['learn','explore','practice','progress'].indexOf(state.studentProgress.studentArea)>=0?state.studentProgress.studentArea:'learn';
   state.studentArea=area;tool.dataset.studentArea=area;
   document.querySelectorAll('#spx-student-nav [data-student-area]').forEach(function(b){
@@ -332,6 +357,12 @@ function lessonObservation(id){
       if(!validity.valid)return (state.kinMode==='cct'?'CCT':'TTT')+' quantitative constituent result unavailable: '+validity.reason;
       var fractions=kineticsFractions();
       return (state.kinMode==='cct'?'CCT':'TTT')+' view currently estimates '+formatFractionObject(fractions)+'. Compare this kinetic result with the equilibrium reference.';
+    }
+    if(id==='calibration'){
+      var rateControl=$('spx-property-rate'),rate=rateControl?Math.pow(10,Number(rateControl.value)/40-1):NaN;
+      var estimate=isFinite(rate)?propertyEstimateFor(state.chem,rate):{valid:false,reason:'Select a valid property cooling rate.'};
+      if(!estimate.valid)return 'Generic baseline unavailable: '+estimate.reason+' No plant record was read, fitted, or validated.';
+      return 'Generic lesson baseline: the current on-screen chemistry at '+round(rate,2)+' °C/s estimates '+round(estimate.hv,0)+' model-HV. This Student lesson reads only the generic chemistry/property controls; it has not imported plant data, fitted a candidate, or changed professional calibration state.';
     }
     var metrics=chemMetrics(),scope=dependentModelValidity(metrics,state.chem.C),formulaLabel=scope.valid?'':'raw-formula ';
     if(!scope.valid)return 'Current chemistry gives '+formulaLabel+'CE IIW '+metrics.ce.toFixed(3)+' and '+formulaLabel+'Pcm '+metrics.pcm.toFixed(3)+'. Ms unavailable — '+scope.reason;
