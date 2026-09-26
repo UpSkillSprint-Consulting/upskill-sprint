@@ -4,6 +4,7 @@ var tool=document.getElementById('spx-tool');
 if(!tool||typeof state==='undefined')return;
 
 var selectedCriticalTerm='Ae';
+var startGoalRequestId=0;
 var criticalTerms={
   Ae:'Ae denotes an equilibrium critical temperature. Ae₁ is the equilibrium eutectoid boundary; Ae₃ and Aecm bound the single-phase austenite field. These are reference conditions approached only with very slow heating or cooling.',
   Ac:'Ac denotes a critical temperature observed during heating (chauffage). Ac₁ marks the start of austenite formation; Ac₃ is the hypoeutectoid completion term, while Acm is the corresponding hypereutectoid boundary notation. Faster heating generally shifts the observed transformation upward.',
@@ -19,9 +20,111 @@ var routeInfo={
   critical:{tab:'navigator',target:'spx-nomenclature-card',message:'Recommended workflow: compare Ae, Ac, and Ar at different heating and cooling rates, then distinguish those diffusional transformations from Ms and Mf.'},
   tradeoffs:{tab:'navigator',target:'spx-tradeoff-card',message:'Recommended workflow: move one slider at a time, identify the benefit and penalty, and apply the selected carbon and cooling rate only when you are ready to update the active scenario.'}
 };
+var startGoalInfo={
+  'student-phases':{tab:'equilibrium',learningPath:'phases',label:'Equilibrium diagram',message:'Start by placing a carbon-temperature point, identifying the phase field, and then reading the lever-rule result.'},
+  'student-cycle':{tab:'path',learningPath:'transformations',label:'Heating & cooling path',message:'Start with a preset thermal cycle, then edit one step at a time and compare each boundary crossing.'},
+  'student-kinetics':{tab:'kinetics',learningPath:'transformations',label:'TTT / CCT',message:'Start with the generalized transformation diagram. Change one timing or cooling input at a time and treat the output as a learning estimate.'},
+  'student-chemistry':{tab:'chemistry',learningPath:'heat-treatment',label:'Chemistry & properties',message:'Start with a grade preset, then change one alloying element at a time and observe the directional response.'},
+  'student-heat-treatment':{tab:'austenitization',requires:'release2',learningPath:'heat-treatment',label:'Austenitization',message:'Start with the austenitizing window, then continue through hardenability, quenching, and tempering without resetting the scenario.'},
+  'student-practice':{tab:'learn',label:'Learn & export',message:'Start with a phase-field challenge, use the boundary guide when needed, and save or export the scenario afterward.'},
+  'professional-chemistry':{tab:'chemistry',label:'Chemistry & properties',message:'Enter verified heat chemistry, review model-domain cautions, then screen CE, Pcm, critical temperatures, and property trends.'},
+  'professional-transformations':{tab:'kinetics',label:'TTT / CCT',message:'Review the current TTT or CCT setup and screen constituent trends without changing the selected inputs.'},
+  'professional-heat-treatment':{tab:'austenitization',requires:'release2',label:'Austenitization',message:'Begin with austenitizing adequacy, then carry the same scenario through quench response and tempering trade-offs.'},
+  'professional-hardenability':{tab:'hardenability',requires:'release2',label:'Hardenability',message:'Confirm chemistry, geometry, section size, prior-austenite grain number, and quench assumptions before interpreting the through-section estimate.'},
+  'professional-process-data':{tab:'process-data',requires:'release3',label:'Process Data',message:'Load a time-temperature record, verify columns and units, then review cooling rate, candidate arrests, and measurement uncertainty.'},
+  'professional-metallography':{tab:'metallurgy-lab',requires:'release4',subpanel:'metallography',label:'Metallography laboratory',message:'Set the relevant schematic microstructure and section orientation, then compare the visible features with verified microscopy.'}
+};
+var learningSteps=[
+  {id:'predict',label:'Predict',summary:'State what you expect before changing the model.'},
+  {id:'manipulate',label:'Manipulate',summary:'Change one input at a time.'},
+  {id:'observe',label:'Observe',summary:'Compare the chart, values, and visual response.'},
+  {id:'explain',label:'Explain',summary:'Connect the change to the underlying metallurgy.'},
+  {id:'check',label:'Check',summary:'Answer a short question and review the feedback.'},
+  {id:'apply',label:'Apply',summary:'Use the concept in a new steel or process scenario.'}
+];
+var learningPaths={
+  phases:{
+    title:'Phase Diagram Foundations',tab:'equilibrium',
+    objective:'Identify an equilibrium phase field and explain how carbon and temperature move a steel across its boundaries.',
+    predict:'At 0.20 wt% C and 750 °C, which equilibrium field do you expect?',
+    predictionOptions:['Ferrite only','Ferrite + austenite','Austenite only'],
+    manipulate:'Open the equilibrium diagram. Move one point across the A₃ boundary while keeping carbon constant.',
+    explain:'A₃ separates the ferrite-plus-austenite field from single-phase austenite for hypoeutectoid steel. Temperature can change the equilibrium field even when chemistry stays constant.',
+    misconception:'A phase field is an equilibrium reference; it does not by itself predict the room-temperature product after rapid cooling.',
+    check:'At 0.20 wt% C and 900 °C, which equilibrium field is expected?',
+    checkOptions:['Ferrite + cementite','Ferrite + austenite','Austenite'],checkAnswer:'Austenite',
+    checkSuccess:'Correct. At this composition and temperature, the point is above A₃ in the single-phase austenite field.',
+    checkRetry:'Not quite. Compare the temperature with A₃ for a 0.20 wt% C hypoeutectoid steel.',
+    apply:'Choose a second carbon level, predict its field at 750 °C, and verify it on the diagram.'
+  },
+  transformations:{
+    title:'Heating, Cooling & Transformation',tab:'kinetics',
+    objective:'Separate equilibrium boundary crossings from transformation timing and final transformation products.',
+    predict:'If the same austenitized steel cools faster, what product tendency usually increases?',
+    predictionOptions:['Ferrite and pearlite','Martensite','Equilibrium cementite only'],
+    manipulate:'Open TTT / CCT and change only the cooling rate. Compare the predicted constituents before changing another input.',
+    explain:'Faster cooling leaves less time for diffusional ferrite and pearlite reactions. Bainite or martensite can therefore become more likely, depending on hardenability and the actual cooling path.',
+    misconception:'Crossing an equilibrium line on a thermal-path plot is not proof that a kinetic transformation finished there.',
+    check:'Which diagram is intended to represent transformation during continuous cooling?',
+    checkOptions:['TTT','CCT','Fe–Fe₃C equilibrium diagram'],checkAnswer:'CCT',
+    checkSuccess:'Correct. CCT represents continuous cooling; TTT represents an idealized isothermal hold.',
+    checkRetry:'Try again. Look for the diagram whose name explicitly refers to continuous cooling.',
+    apply:'Compare a slow and rapid cooling case, then explain why the predicted product mix changes.'
+  },
+  'heat-treatment':{
+    title:'Chemistry & Heat Treatment',tab:'austenitization',requires:'release2',
+    objective:'Connect chemistry, austenitizing, hardenability, quenching, and properties without confusing potential with achieved response.',
+    predict:'If carbon increases while the process remains unchanged, which trade-off is most likely?',
+    predictionOptions:['Lower hardness potential with better hardenability','Higher hardness potential with a growing toughness and weldability penalty','No meaningful response'],
+    manipulate:'Review chemistry, then open austenitization or hardenability. Change one chemistry or process input and keep the others constant.',
+    explain:'Chemistry sets transformation and hardness potential, while austenitizing and quenching determine how much of that potential is realized through the section. Section size, prior austenite, and tempering remain decisive.',
+    misconception:'High surface hardness does not prove that the centre achieved the same structure or hardness.',
+    check:'Which statement best separates hardness from hardenability?',
+    checkOptions:['They are interchangeable','Hardness is local resistance; hardenability describes depth of hardening','Hardenability is only the surface hardness'],checkAnswer:'Hardness is local resistance; hardenability describes depth of hardening',
+    checkSuccess:'Correct. Hardenability concerns the depth or distribution of hardening, not only the maximum local hardness.',
+    checkRetry:'Try again. Think about why a thick section may be hard at the surface but softer at the centre.',
+    apply:'Choose a section size and quench condition, then compare surface, quarter-depth, and centre response.'
+  }
+};
+var studentAreaCopy={
+  learn:['Learn steel metallurgy step by step','Follow a guided path, explore each model, and practise with feedback.'],
+  explore:['Explore the metallurgy labs','Change inputs freely and inspect how the models respond.'],
+  practice:['Practise with feedback','Check phase-diagram and metallography concepts using the existing activities.'],
+  progress:['Continue your learning','Review completed lesson steps and labs explored on this browser.']
+};
+var studentPriority=['equilibrium','path','kinetics','chemistry','austenitization','learn'];
+var professionalPriority=['kinetics','chemistry','hardenability','austenitization','process-data','metallurgy-lab'];
+var workspaceTabs=['navigator','equilibrium','path','kinetics','chemistry','hardenability','austenitization','quenching','process-data','metallurgy-lab','reference-diagrams','learn'];
 
 function safeLocalGet(key){try{return localStorage.getItem(key)}catch(e){return null}}
 function safeLocalSet(key,value){try{localStorage.setItem(key,value)}catch(e){}}
+function validWorkspaceMode(value){return value==='student'||value==='professional'}
+function own(obj,key){return Object.prototype.hasOwnProperty.call(obj,key)}
+function learningPathFor(id){return own(learningPaths,id)?learningPaths[id]:null}
+function validLearningStep(value,fallback){var n=Number(value);return Number.isInteger(n)?clamp(n,0,learningSteps.length-1):fallback}
+function firstIncompleteStep(completed){for(var i=0;i<learningSteps.length;i++)if(completed.indexOf(i)<0)return i;return learningSteps.length-1}
+function freshPathProgress(){return{completed:[],prediction:'',checkAnswer:'',activeStep:0}}
+function freshStudentProgress(){return{studentArea:'learn',activePath:'',activeStep:0,collapsed:false,paths:{phases:freshPathProgress(),transformations:freshPathProgress(),'heat-treatment':freshPathProgress()},visitedTabs:[]}}
+function sanitizeStudentProgress(value){
+  var clean=freshStudentProgress(),source=value&&typeof value==='object'?value:{};
+  if(['learn','explore','practice','progress'].indexOf(source.studentArea)>=0)clean.studentArea=source.studentArea;
+  if(learningPathFor(source.activePath))clean.activePath=source.activePath;
+  clean.activeStep=validLearningStep(source.activeStep,0);
+  clean.collapsed=source.collapsed===true;
+  Object.keys(clean.paths).forEach(function(id){
+    var incoming=source.paths&&source.paths[id]&&typeof source.paths[id]==='object'?source.paths[id]:{};
+    clean.paths[id].completed=Array.isArray(incoming.completed)?incoming.completed.map(Number).filter(function(n,i,a){return Number.isInteger(n)&&n>=0&&n<learningSteps.length&&a.indexOf(n)===i}):[];
+    clean.paths[id].prediction=typeof incoming.prediction==='string'?incoming.prediction.slice(0,240):'';
+    clean.paths[id].checkAnswer=typeof incoming.checkAnswer==='string'?incoming.checkAnswer.slice(0,240):'';
+    var fallback=id===clean.activePath?clean.activeStep:firstIncompleteStep(clean.paths[id].completed);
+    clean.paths[id].activeStep=validLearningStep(incoming.activeStep,fallback);
+  });
+  if(clean.activePath)clean.activeStep=clean.paths[clean.activePath].activeStep;
+  clean.visitedTabs=Array.isArray(source.visitedTabs)?source.visitedTabs.filter(function(x,i,a){return workspaceTabs.indexOf(x)>=0&&a.indexOf(x)===i}).slice(0,workspaceTabs.length):[];
+  return clean;
+}
+function loadStudentProgress(){var raw=safeLocalGet('spx-student-progress-v1');if(!raw)return freshStudentProgress();try{return sanitizeStudentProgress(JSON.parse(raw))}catch(e){return freshStudentProgress()}}
+function saveStudentProgress(){if(state.studentProgress)safeLocalSet('spx-student-progress-v1',JSON.stringify(state.studentProgress))}
 function trend(value){return value<20?'Very low':value<40?'Low':value<60?'Moderate':value<80?'High':'Very high'}
 function formatFractionObject(obj){return Object.keys(obj).map(function(k){return k+' '+round(pct(obj[k]),0)+'%'}).join(' · ')}
 function chemistryWithCarbon(c){var x=Object.assign({},state.chem);x.C=c;return x}
@@ -59,6 +162,34 @@ function setExperience(mode,persist){
   if(persist!==false)safeLocalSet('spx-experience-v1',mode);
   renderModeSummary();renderCausalChain();renderNomenclature();renderTradeoffs();
 }
+function renderWorkspaceNavigation(){
+  var priorities=state.workspaceMode==='professional'?professionalPriority:studentPriority;
+  document.querySelectorAll('.spx-tabs [data-tab]').forEach(function(tab){
+    var priority=priorities.indexOf(tab.dataset.tab)>=0;
+    tab.dataset.workspacePriority=tab.dataset.tab==='navigator'?'shared':priority?'recommended':'available';
+    if(priority)tab.setAttribute('aria-description','Recommended in the '+(state.workspaceMode==='professional'?'Professional':'Student')+' workspace');
+    else tab.removeAttribute('aria-description');
+  });
+}
+function syncWorkspaceSelectors(mode){
+  document.querySelectorAll('#spx-workspace-mode-selector [data-workspace-mode]').forEach(function(b){
+    var active=b.dataset.workspaceMode===mode;b.setAttribute('aria-checked',String(active));b.tabIndex=active?0:-1;
+  });
+  document.querySelectorAll('#spx-start-audience-selector [data-start-audience]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.startAudience===mode))});
+}
+function setWorkspaceMode(mode,persist){
+  mode=mode==='professional'?'professional':'student';
+  state.workspaceMode=mode;state.startAudience=mode;
+  tool.dataset.workspaceMode=mode;tool.dataset.startAudience=mode;
+  syncWorkspaceSelectors(mode);renderWorkspaceNavigation();
+  var title=$('spx-start-view-title'),description=$('spx-start-view-description');
+  if(title)title.textContent=mode==='professional'?'Steel professional goals':'Student goals';
+  if(description)description.textContent=mode==='professional'?'Start from a material, process, or investigation question. Results remain engineering-screening estimates.':'Build understanding with guided visuals, plain-language interpretation, and practice.';
+  if(persist!==false){safeLocalSet('spx-workspace-mode-v1',mode);safeLocalSet('spx-start-audience-v1',mode)}
+  renderStudentArea();renderLearningCoach();renderModeSummary();
+  document.dispatchEvent(new CustomEvent('spx:workspace-mode',{detail:{mode:mode}}));
+}
+function setStartAudience(audience,persist){setWorkspaceMode(audience,persist)}
 function setBasis(mode,persist){
   mode=mode==='rapid'?'rapid':'equilibrium';
   state.thermalBasis=mode;
@@ -79,13 +210,16 @@ function renderModeSummary(){
   var experience=state.experience||'beginner';
   var levelText=experience==='beginner'?'plain-language conclusions, key cautions, and minimal formulas':experience==='engineer'?'phase fractions, estimated values, operating assumptions, and engineering cautions':'model details, equations, validity limitations, and all comparison controls';
   var basisText=state.thermalBasis==='rapid'?'Rapid-cooling basis is active. The equilibrium diagram remains a reference map; expected room-temperature products must be interpreted through the kinetic model and cooling path.':'Equilibrium basis is active. Phase fields and lever-rule fractions assume sufficient time for equilibrium and do not predict bainite or martensite.';
-  box.innerHTML='<strong>'+experience.charAt(0).toUpperCase()+experience.slice(1)+' view:</strong> '+levelText+'. <strong>Interpretation:</strong> '+basisText;
+  var workspace=state.workspaceMode==='professional'?'Professional workspace':'Student workspace';
+  var workspaceText=state.workspaceMode==='professional'?'direct access to inputs, model scope, comparisons, and exports':'guided learning, grouped labs, practice, and browser-saved progress';
+  box.innerHTML='<strong>'+workspace+':</strong> '+workspaceText+'. <strong>Explanation detail:</strong> '+levelText+'. <strong>Interpretation:</strong> '+basisText+' Switching workspace never changes the current scenario or calculations.';
 }
 
 function guideRoute(key){
   var info=routeInfo[key];if(!info)return;
   state.guideGoal=key;
   $('spx-guide-recommendation').innerHTML='<strong>'+info.message.split(':')[0]+':</strong>'+info.message.split(':').slice(1).join(':');
+  if(state.workspaceMode==='student'&&info.tab==='navigator'&&info.target)setStudentArea('explore',false);
   if(info.basis)setBasis(info.basis);
   if(key==='rapid'){
     state.kinMode='cct';
@@ -95,6 +229,163 @@ function guideRoute(key){
   }
   switchTab(info.tab);
   if(info.target){setTimeout(function(){var el=$(info.target);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},60)}
+}
+function startGoalReady(info){return document.querySelector('[data-panel="'+info.tab+'"]')&&(!info.requires||(window.__SPX&&window.__SPX[info.requires]))}
+function openStartGoal(key,attempt,requestId){
+  var info=startGoalInfo[key];if(!info)return;
+  if(typeof requestId!=='number')requestId=++startGoalRequestId;
+  if(requestId!==startGoalRequestId)return;
+  attempt=Number(attempt)||0;state.guideGoal=key;
+  var recommendation=$('spx-guide-recommendation');
+  if(!startGoalReady(info)){
+    if(recommendation)recommendation.innerHTML='<strong>Loading '+info.label+'&hellip;</strong> Your current scenario will be preserved.';
+    if(attempt<100)setTimeout(function(){openStartGoal(key,attempt+1,requestId)},50);
+    else if(recommendation)recommendation.innerHTML='<strong>Unable to open '+info.label+'.</strong> Use its module tab after the workspace finishes loading.';
+    return;
+  }
+  if(state.workspaceMode==='student'&&info.learningPath)beginLearningPath(info.learningPath,false);
+  if(recommendation)recommendation.innerHTML='<strong>Opened '+info.label+':</strong> '+(info.message||'Continue with the current scenario and use the module tabs whenever you want to change tasks.');
+  switchTab(info.tab);
+  if(info.subpanel){var selector=document.querySelector('#spx-r4-subnav [data-r4-panel="'+info.subpanel+'"]');if(selector)selector.click()}
+  if(info.target)setTimeout(function(){if(requestId!==startGoalRequestId)return;var target=$(info.target);if(target&&typeof target.scrollIntoView==='function')target.scrollIntoView({behavior:'smooth',block:'start'})},60);
+  if(info.focusTab)setTimeout(function(){if(requestId!==startGoalRequestId)return;var tab=document.querySelector('.spx-tabs [data-tab="'+info.tab+'"]');if(tab)tab.focus()},0);
+}
+function openStartShortcut(tab,label,requires,details){
+  details=details||{};
+  var key='shortcut-'+tab,info={tab:tab,label:label,requires:requires||'',subpanel:details.subpanel||'',target:details.target||'',focusTab:details.focusTab===true,message:'Continue with the current scenario; no inputs or results were reset.'};startGoalInfo[key]=info;openStartGoal(key,0);
+}
+
+function pathState(id){
+  if(!state.studentProgress)state.studentProgress=freshStudentProgress();
+  if(!state.studentProgress.paths[id])state.studentProgress.paths[id]=freshPathProgress();
+  return state.studentProgress.paths[id];
+}
+function setActiveLearningStep(index){
+  if(!state.studentProgress)return;
+  var step=validLearningStep(index,0),id=state.studentProgress.activePath;
+  state.studentProgress.activeStep=step;
+  if(learningPathFor(id))pathState(id).activeStep=step;
+}
+function pathProgressText(id){
+  var completed=pathState(id).completed.length;
+  return completed===learningSteps.length?'Complete':completed?completed+' of '+learningSteps.length+' steps complete':'Not started';
+}
+function renderStudentArea(){
+  if(!state.studentProgress)return;
+  var area=['learn','explore','practice','progress'].indexOf(state.studentProgress.studentArea)>=0?state.studentProgress.studentArea:'learn';
+  state.studentArea=area;tool.dataset.studentArea=area;
+  document.querySelectorAll('#spx-student-nav [data-student-area]').forEach(function(b){
+    if(b.dataset.studentArea===area)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');
+  });
+  document.querySelectorAll('[data-student-area-panel]').forEach(function(panel){panel.hidden=panel.dataset.studentAreaPanel!==area});
+  var copy=studentAreaCopy[area]||studentAreaCopy.learn;
+  if($('spx-student-shell-title'))$('spx-student-shell-title').textContent=copy[0];
+  if($('spx-student-shell-description'))$('spx-student-shell-description').textContent=copy[1];
+  Object.keys(learningPaths).forEach(function(id){
+    document.querySelectorAll('[data-path-progress="'+id+'"]').forEach(function(el){el.textContent=pathProgressText(id)});
+  });
+  var active=learningPathFor(state.studentProgress.activePath),current=$('spx-progress-current'),resume=$('spx-progress-continue');
+  if(current)current.textContent=active?'Continue '+active.title+' at '+learningSteps[state.studentProgress.activeStep].label+'. '+pathProgressText(state.studentProgress.activePath)+'.':'No learning activity yet. Choose a path to begin.';
+  if(resume){resume.disabled=!active;resume.textContent=state.studentProgress.collapsed?'Continue lesson':'Review current lesson'}
+  if($('spx-progress-paths'))$('spx-progress-paths').innerHTML=Object.keys(learningPaths).map(function(id){return'<div class="spx-progress-row"><span>'+learningPaths[id].title+'</span><strong>'+pathProgressText(id)+'</strong></div>'}).join('');
+  if($('spx-progress-visited')){
+    var visited=state.studentProgress.visitedTabs||[];
+    $('spx-progress-visited').textContent=visited.length?visited.length+' lab'+(visited.length===1?'':'s')+' explored: '+visited.map(function(id){var b=document.querySelector('.spx-tabs [data-tab="'+id+'"]');return b?b.textContent.trim():id}).join(', ')+'.':'No labs visited yet.';
+  }
+}
+function setStudentArea(area,moveFocus){
+  if(['learn','explore','practice','progress'].indexOf(area)<0)area='learn';
+  if(!state.studentProgress)state.studentProgress=freshStudentProgress();
+  state.studentProgress.studentArea=area;saveStudentProgress();renderStudentArea();
+  if(moveFocus!==false){
+    if(state.tab!=='navigator')switchTab('navigator');
+    setTimeout(function(){var panel=document.querySelector('[data-student-area-panel="'+area+'"]'),heading=panel&&panel.querySelector('h2');if(heading){heading.tabIndex=-1;heading.focus()}},0);
+  }
+}
+function recordStudentVisit(tab){
+  if(state.workspaceMode!=='student'||!tab||tab==='navigator'||!state.studentProgress)return;
+  var visited=state.studentProgress.visitedTabs||[];if(visited.indexOf(tab)>=0)return;
+  visited.push(tab);state.studentProgress.visitedTabs=visited.slice(-24);saveStudentProgress();
+}
+function openStudentRoute(button){
+  var tab=button.dataset.studentRoute;if(!tab)return;
+  var label=(button.querySelector('strong')||button).textContent.trim(),requires=button.dataset.requires||'';
+  if(tab==='navigator')setStudentArea('explore',false);
+  openStartShortcut(tab,label,requires,{subpanel:button.dataset.subpanel||'',target:button.dataset.studentTarget||''});
+}
+function beginLearningPath(id,openActivity){
+  var path=learningPathFor(id);if(!path)return;
+  if(!state.studentProgress)state.studentProgress=freshStudentProgress();
+  state.studentProgress.activePath=id;
+  setActiveLearningStep(pathState(id).activeStep);
+  state.studentProgress.collapsed=false;saveStudentProgress();renderStudentArea();renderLearningCoach();
+  if(openActivity)openStartShortcut(path.tab,path.title,path.requires||'');
+}
+function lessonObservation(id){
+  try{
+    if(id==='phases'){
+      var p=activePoint(),f=phaseFractions(p.c,p.t);
+      return 'Active point P'+p.id+' is '+fmt(p.c,3)+' wt% C at '+fmtT(p.t)+'. The equilibrium field is '+f.region.label+'.';
+    }
+    if(id==='transformations'){
+      var validity=typeof kineticsValidity==='function'?kineticsValidity():{valid:true,reason:''};
+      if(!validity.valid)return (state.kinMode==='cct'?'CCT':'TTT')+' quantitative constituent result unavailable: '+validity.reason;
+      var fractions=kineticsFractions();
+      return (state.kinMode==='cct'?'CCT':'TTT')+' view currently estimates '+formatFractionObject(fractions)+'. Compare this kinetic result with the equilibrium reference.';
+    }
+    var metrics=chemMetrics(),scope=dependentModelValidity(metrics,state.chem.C),formulaLabel=scope.valid?'':'raw-formula ';
+    if(!scope.valid)return 'Current chemistry gives '+formulaLabel+'CE IIW '+metrics.ce.toFixed(3)+' and '+formulaLabel+'Pcm '+metrics.pcm.toFixed(3)+'. Ms unavailable — '+scope.reason;
+    return 'Current chemistry gives CE IIW '+metrics.ce.toFixed(3)+', Pcm '+metrics.pcm.toFixed(3)+', and an estimated Ms of '+fmtT(metrics.ms)+'. These are screening calculations, not acceptance values.';
+  }catch(e){return 'Open the linked lab and change one input. Return here to compare the updated chart and calculated values.'}
+}
+function learningStageMarkup(id,index){
+  var path=learningPaths[id],saved=pathState(id),step=learningSteps[index];
+  if(step.id==='predict')return'<h3 tabindex="-1">Before you move anything</h3><p>'+path.predict+'</p><fieldset class="spx-learning-choices"><legend>Lock in a prediction</legend>'+path.predictionOptions.map(function(option,i){return'<label><input type="radio" name="spx-learning-prediction" value="'+i+'" '+(saved.prediction===option?'checked':'')+'> <span>'+option+'</span></label>'}).join('')+'</fieldset>';
+  if(step.id==='manipulate')return'<h3 tabindex="-1">Test your prediction</h3><p>'+path.manipulate+'</p><button class="spx-btn" type="button" data-learning-open>Open interactive lab</button>';
+  if(step.id==='observe')return'<h3 tabindex="-1">What changed?</h3><p>'+lessonObservation(id)+'</p><div class="spx-note"><strong>Observation rule:</strong> compare what changed with what remained constant before drawing a conclusion.</div>';
+  if(step.id==='explain')return'<h3 tabindex="-1">Why it changed</h3><p>'+path.explain+'</p><div class="spx-learning-misconception"><strong>Common misconception</strong><span>'+path.misconception+'</span></div>';
+  if(step.id==='check')return'<h3 tabindex="-1">Try one on your own</h3><p>'+path.check+'</p><fieldset class="spx-learning-choices"><legend>Choose the best answer</legend>'+path.checkOptions.map(function(option,i){return'<label><input type="radio" name="spx-learning-check" value="'+i+'" '+(saved.checkAnswer===option?'checked':'')+'> <span>'+option+'</span></label>'}).join('')+'</fieldset>';
+  return'<h3 tabindex="-1">Use it in an engineering situation</h3><p>'+path.apply+'</p><button class="spx-btn" type="button" data-learning-open>Open the lab with my current scenario</button>';
+}
+function renderLearningCoach(focusStage){
+  var coach=$('spx-learning-coach');if(!coach||!state.studentProgress)return;
+  var id=state.studentProgress.activePath,path=learningPathFor(id);
+  coach.hidden=state.workspaceMode!=='student'||!path||state.studentProgress.collapsed;
+  if(coach.hidden)return;
+  var stepIndex=clamp(Number(state.studentProgress.activeStep)||0,0,learningSteps.length-1),saved=pathState(id),completed=saved.completed.length;
+  setActiveLearningStep(stepIndex);
+  $('spx-learning-path-label').textContent='Learn / '+path.title;
+  $('spx-learning-title').textContent=learningSteps[stepIndex].label;
+  $('spx-learning-objective').textContent=path.objective;
+  $('spx-learning-progress-label').textContent='Step '+(stepIndex+1)+' of '+learningSteps.length;
+  $('spx-learning-progress-count').textContent=completed+' of '+learningSteps.length+' complete';
+  var track=coach.querySelector('[role="progressbar"]');track.setAttribute('aria-valuenow',String(completed));track.setAttribute('aria-valuetext',completed+' of '+learningSteps.length+' steps complete');
+  $('spx-learning-progress-bar').style.width=(completed/learningSteps.length*100)+'%';
+  $('spx-learning-steps').innerHTML=learningSteps.map(function(step,i){var done=saved.completed.indexOf(i)>=0,current=i===stepIndex;return'<li><button type="button" data-learning-step="'+i+'" class="'+(done?'is-complete ':'')+(current?'is-current':'')+'" '+(current?'aria-current="step"':'')+' aria-label="Step '+(i+1)+' of '+learningSteps.length+': '+step.label+', '+(done?'complete':current?'current':'not started')+'"><span>'+(i+1)+'</span><strong>'+step.label+'</strong><small>'+step.summary+'</small><em>'+(done?'Complete':current?'Current':'Not started')+'</em></button></li>'}).join('');
+  $('spx-learning-stage').innerHTML=learningStageMarkup(id,stepIndex);
+  $('spx-learning-previous').disabled=stepIndex===0;$('spx-learning-next').disabled=stepIndex===learningSteps.length-1;
+  $('spx-learning-primary').textContent=['Record prediction','I’ve explored this','Explain the change','Check my understanding','Continue to apply','Complete lesson'][stepIndex];
+  var status=$('spx-learning-status');
+  if(stepIndex===0)status.textContent=saved.prediction?'Prediction recorded: '+saved.prediction+'.':'Choose an answer to record your prediction.';
+  else if(stepIndex===4&&saved.checkAnswer)status.textContent=saved.checkAnswer===path.checkAnswer?path.checkSuccess:path.checkRetry;
+  else if(saved.completed.indexOf(stepIndex)>=0)status.textContent=learningSteps[stepIndex].label+' is complete. You can review it or continue.';
+  else status.textContent=learningSteps[stepIndex].summary;
+  if(focusStage){var heading=$('spx-learning-stage').querySelector('h3');if(heading)heading.focus()}
+}
+function moveLearningStep(delta){
+  if(!state.studentProgress||!learningPathFor(state.studentProgress.activePath))return;
+  setActiveLearningStep(clamp(state.studentProgress.activeStep+delta,0,learningSteps.length-1));saveStudentProgress();renderLearningCoach(true);renderStudentArea();
+}
+function completeLearningStep(){
+  var id=state.studentProgress&&state.studentProgress.activePath,path=learningPathFor(id);if(!path)return;
+  var index=state.studentProgress.activeStep,saved=pathState(id),status=$('spx-learning-status');
+  if(index===0&&!saved.prediction){status.textContent='Choose a prediction before continuing. Your answer will be kept for reflection.';return}
+  if(index===4&&!saved.checkAnswer){status.textContent='Choose an answer before continuing. You can retry after reviewing the feedback.';return}
+  if(saved.completed.indexOf(index)<0)saved.completed.push(index);
+  saved.completed.sort(function(a,b){return a-b});
+  if(index<learningSteps.length-1)setActiveLearningStep(index+1);else setActiveLearningStep(index);
+  saveStudentProgress();renderStudentArea();renderLearningCoach(index<learningSteps.length-1);
+  if(index===learningSteps.length-1)$('spx-learning-status').textContent='Lesson complete. Review any step, practise the topic, or explore the lab with your current scenario.';
 }
 
 function weldabilityText(ce){return ce<.4?'generally favourable':ce<.5?'moderate preheat sensitivity':'elevated hydrogen-cracking sensitivity'}
@@ -203,7 +494,7 @@ function applyTradeoff(){
   $('spx-trade-status').innerHTML='<strong>Applied:</strong> active point and chemistry carbon set to '+t.c.toFixed(2)+' wt%; kinetic cooling rate set to '+round(t.rate,2)+' °C/s and the Chemistry property control set to '+round(propertyRate,2)+' °C/s. Austenitizing superheat and tempering temperature remain teaching controls until the dedicated models are added.';
 }
 
-function renderRelease1(){renderModeSummary();renderCausalChain();renderNomenclature();renderTradeoffs()}
+function renderRelease1(){recordStudentVisit(state.tab);renderModeSummary();renderWorkspaceNavigation();renderStudentArea();renderLearningCoach();renderCausalChain();renderNomenclature();renderTradeoffs()}
 function wrapAfter(name){
   var original=window[name];if(typeof original!=='function'||original.__spxRelease1Wrapped)return;
   var wrapped=function(){var out=original.apply(this,arguments);renderRelease1();return out};
@@ -240,10 +531,52 @@ function loadReleaseStateFromHash(){
   try{applyReleaseState(JSON.parse(decodeURIComponent(escape(atob(match[1])))))}catch(e){}
 }
 function bindReleaseEvents(){
+  $('spx-workspace-mode-selector').addEventListener('click',function(e){var b=e.target.closest('[data-workspace-mode]');if(b)setWorkspaceMode(b.dataset.workspaceMode)});
+  $('spx-workspace-mode-selector').addEventListener('keydown',function(e){
+    if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].indexOf(e.key)<0)return;
+    var buttons=Array.prototype.slice.call(this.querySelectorAll('[data-workspace-mode]')),current=buttons.indexOf(document.activeElement),next;
+    if(e.key==='Home')next=0;else if(e.key==='End')next=buttons.length-1;else next=(current+((e.key==='ArrowRight'||e.key==='ArrowDown')?1:-1)+buttons.length)%buttons.length;
+    e.preventDefault();buttons[next].focus();setWorkspaceMode(buttons[next].dataset.workspaceMode);
+  });
   $('spx-experience-selector').addEventListener('click',function(e){if(e.target.dataset.experience)setExperience(e.target.dataset.experience)});
   $('spx-basis-selector').addEventListener('click',function(e){if(e.target.dataset.basis)setBasis(e.target.dataset.basis)});
+  $('spx-start-audience-selector').addEventListener('click',function(e){var b=e.target.closest('[data-start-audience]');if(b)setWorkspaceMode(b.dataset.startAudience)});
+  $('spx-student-nav').addEventListener('click',function(e){var b=e.target.closest('[data-student-area]');if(b)setStudentArea(b.dataset.studentArea,true)});
+  $('spx-student-hub').addEventListener('click',function(e){
+    var path=e.target.closest('[data-learning-path]');if(path){beginLearningPath(path.dataset.learningPath,true);return}
+    var area=e.target.closest('[data-student-area-link]');if(area){setStudentArea(area.dataset.studentAreaLink,true);return}
+    var route=e.target.closest('[data-student-route]');if(route)openStudentRoute(route);
+  });
+  $('spx-progress-continue').onclick=function(){if(!state.studentProgress.activePath)return;state.studentProgress.collapsed=false;saveStudentProgress();renderLearningCoach(true)};
+  $('spx-learning-close').onclick=function(){state.studentProgress.collapsed=true;saveStudentProgress();renderLearningCoach();renderStudentArea();var nav=document.querySelector('#spx-student-nav [data-student-area="'+state.studentProgress.studentArea+'"]');if(nav)nav.focus()};
+  $('spx-learning-previous').onclick=function(){moveLearningStep(-1)};
+  $('spx-learning-next').onclick=function(){moveLearningStep(1)};
+  $('spx-learning-primary').onclick=completeLearningStep;
+  $('spx-learning-steps').addEventListener('click',function(e){var b=e.target.closest('[data-learning-step]');if(!b)return;setActiveLearningStep(Number(b.dataset.learningStep));saveStudentProgress();renderLearningCoach(true)});
+  $('spx-learning-stage').addEventListener('click',function(e){
+    if(!e.target.closest('[data-learning-open]'))return;
+    var path=learningPathFor(state.studentProgress.activePath);if(!path)return;
+    openStartShortcut(path.tab,path.title,path.requires||'',{focusTab:true});
+  });
+  $('spx-learning-stage').addEventListener('change',function(e){
+    var id=state.studentProgress.activePath,path=learningPathFor(id);if(!path)return;
+    var saved=pathState(id),index=Number(e.target.value),status=$('spx-learning-status');
+    if(e.target.name==='spx-learning-prediction'){
+      saved.prediction=path.predictionOptions[index]||'';
+      if(status)status.textContent=saved.prediction?'Prediction recorded: '+saved.prediction+'.':'Choose an answer to record your prediction.';
+    }
+    if(e.target.name==='spx-learning-check'){
+      saved.checkAnswer=path.checkOptions[index]||'';
+      if(status)status.textContent=saved.checkAnswer===path.checkAnswer?path.checkSuccess:path.checkRetry;
+    }
+    saveStudentProgress();renderStudentArea();
+  });
+  $('spx-primary-goals').addEventListener('click',function(e){var b=e.target.closest('[data-start-goal]');if(b)openStartGoal(b.dataset.startGoal,0)});
   $('spx-question-grid').addEventListener('click',function(e){var b=e.target.closest('[data-guide-route]');if(b)guideRoute(b.dataset.guideRoute)});
-  $('spx-resume-work').onclick=function(){switchTab('equilibrium')};$('spx-refresh-causal').onclick=renderCausalChain;
+  $('spx-resume-work').onclick=function(){openStartShortcut('equilibrium','full workspace')};
+  $('spx-open-reference').onclick=function(){openStartShortcut('reference-diagrams','Reference diagrams','release5')};
+  $('spx-open-learn').onclick=function(){openStartShortcut('learn','Learn & export')};
+  $('spx-refresh-causal').onclick=renderCausalChain;
   ['spx-heating-rate','spx-cooling-rate-coach'].forEach(function(id){$(id).addEventListener('input',renderNomenclature)});
   $('spx-reset-critical').onclick=function(){$('spx-heating-rate').value=40;$('spx-cooling-rate-coach').value=120;renderNomenclature()};
   $('spx-nomenclature-grid').addEventListener('click',function(e){var b=e.target.closest('[data-critical-term]');if(!b)return;selectedCriticalTerm=b.dataset.criticalTerm;renderNomenclature()});
@@ -251,14 +584,23 @@ function bindReleaseEvents(){
   $('spx-apply-tradeoff').onclick=applyTradeoff;
   document.addEventListener('input',function(e){if(!e.target)return;if(e.target.id==='spx-kin-cooling'){var r=parseFloat(e.target.value);if(isFinite(r))state.rapidRate=clamp(r,.01,1000)}if(/spx-input-|spx-chem-|spx-kin-cooling|spx-property-rate/.test(e.target.id||''))renderRelease1()});
 }
+function watchWorkspaceTabs(){
+  var list=document.querySelector('.spx-tabs');if(!list||!window.MutationObserver)return;
+  new MutationObserver(renderWorkspaceNavigation).observe(list,{childList:true,subtree:true});
+}
 function initRelease1(){
   var propertyRate=$('spx-property-rate');if(propertyRate)propertyRate.max='160';
-  state.experience=state.experience||safeLocalGet('spx-experience-v1')||'beginner';
+  var storedExperience=safeLocalGet('spx-experience-v1');
+  state.experience=state.experience||storedExperience||'beginner';
+  if(['beginner','engineer','advanced'].indexOf(state.experience)<0)state.experience='beginner';
   state.thermalBasis=state.thermalBasis||safeLocalGet('spx-basis-v1')||'equilibrium';
   state.rapidRate=state.rapidRate||50;state.guideGoal=state.guideGoal||'';
+  var storedWorkspaceMode=safeLocalGet('spx-workspace-mode-v1'),legacyAudience=safeLocalGet('spx-start-audience-v1');
+  var initialWorkspaceMode=validWorkspaceMode(storedWorkspaceMode)?storedWorkspaceMode:validWorkspaceMode(legacyAudience)?legacyAudience:state.experience==='beginner'?'student':'professional';
+  state.studentProgress=loadStudentProgress();state.studentArea=state.studentProgress.studentArea;
   ['renderEquilibrium','renderKinetics','renderChemistry','renderProperties','renderCycle','renderCompare','setUnit','setPoint','addPoint','removePoint','switchTab'].forEach(wrapAfter);
-  enhanceSerialization();bindReleaseEvents();loadReleaseStateFromHash();setExperience(state.experience,false);setBasis(state.thermalBasis,false);switchTab('navigator');
-  if(window.__SPX){window.__SPX.release1={setExperience:setExperience,setBasis:setBasis,render:renderRelease1,route:guideRoute,tradeModel:tradeModel,propertyEstimate:propertyEstimateFor}}
+  enhanceSerialization();bindReleaseEvents();watchWorkspaceTabs();loadReleaseStateFromHash();setExperience(state.experience,false);setBasis(state.thermalBasis,false);setStudentArea(state.studentArea,false);setWorkspaceMode(initialWorkspaceMode,false);safeLocalSet('spx-workspace-mode-v1',initialWorkspaceMode);safeLocalSet('spx-start-audience-v1',initialWorkspaceMode);switchTab('navigator');
+  if(window.__SPX){window.__SPX.release1={setExperience:setExperience,setBasis:setBasis,setStartAudience:setStartAudience,getStartAudience:function(){return state.workspaceMode},setWorkspaceMode:setWorkspaceMode,getWorkspaceMode:function(){return state.workspaceMode},setStudentArea:setStudentArea,startLearningPath:beginLearningPath,getStudentProgress:function(){return JSON.parse(JSON.stringify(state.studentProgress))},openGoal:openStartGoal,render:renderRelease1,route:guideRoute,tradeModel:tradeModel,chemistryMetrics:chemistryMetricsFor,propertyEstimate:propertyEstimateFor}}
 }
 initRelease1();
 })();
