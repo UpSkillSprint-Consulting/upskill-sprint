@@ -45,7 +45,13 @@ function bootTool(options) {
     runScripts: 'dangerously',
     pretendToBeVisual: true,
     resources: { interceptors: [localFiles(record)] },
-    url: opts.url || 'https://upskillsprint.com/tools/steel-phase-explorer'
+    url: opts.url || 'https://upskillsprint.com/tools/steel-phase-explorer',
+    beforeParse(win) {
+      Object.entries(opts.storage || {}).forEach(([key, value]) => {
+        win.localStorage.setItem(key, String(value));
+      });
+      if (typeof opts.beforeParse === 'function') opts.beforeParse(win);
+    }
   });
   const win = dom.window;
 
