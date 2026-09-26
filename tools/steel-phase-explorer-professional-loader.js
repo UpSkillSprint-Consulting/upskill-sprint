@@ -6,12 +6,18 @@ function fail(){
   var tool=document.getElementById('spx-tool'),tabs=tool&&tool.querySelector('.spx-tabs');if(!tool||!tabs)return;
   var note=document.createElement('div');note.id='spx-professional-load-status';note.className='spx-scenario-warning';note.setAttribute('role','alert');note.textContent='The Professional decision workspace could not be loaded. All original metallurgy modules remain available; reload the page before recording professional notes.';tabs.parentNode.insertBefore(note,tabs)
 }
-function verify(){setTimeout(function(){if(!window.__SPX||!window.__SPX.governance||!window.__SPX.calibration||!window.__SPX.qualification||!window.__SPX.professional||!window.__SPX.expansion)fail()},1000)}
+function verify(){setTimeout(function(){if(!window.__SPX||!window.__SPX.governance||!window.__SPX.calibration||!window.__SPX.qualification||!window.__SPX.professional||!window.__SPX.expansion||!window.__SPX.releaseReadiness)fail()},1000)}
+function loadReleaseReadiness(){
+  if(!document.querySelector('link[href="/tools/steel-phase-explorer-release-readiness.css"]')){var css=document.createElement('link');css.rel='stylesheet';css.href='/tools/steel-phase-explorer-release-readiness.css';css.onerror=fail;document.head.appendChild(css)}
+  if(window.__SPX&&window.__SPX.releaseReadiness){verify();return}
+  var existing=document.querySelector('script[src="/tools/steel-phase-explorer-release-readiness.js"]');if(existing){existing.addEventListener('load',verify,{once:true});existing.addEventListener('error',fail,{once:true});return}
+  var js=document.createElement('script');js.src='/tools/steel-phase-explorer-release-readiness.js';js.async=false;js.onload=verify;js.onerror=fail;document.body.appendChild(js)
+}
 function loadExpansion(){
   if(!document.querySelector('link[href="/tools/steel-phase-explorer-expansion.css"]')){var css=document.createElement('link');css.rel='stylesheet';css.href='/tools/steel-phase-explorer-expansion.css';css.onerror=fail;document.head.appendChild(css)}
-  if(window.__SPX&&window.__SPX.expansion){verify();return}
-  var existing=document.querySelector('script[src="/tools/steel-phase-explorer-expansion.js"]');if(existing){existing.addEventListener('load',verify,{once:true});existing.addEventListener('error',fail,{once:true});return}
-  var js=document.createElement('script');js.src='/tools/steel-phase-explorer-expansion.js';js.async=false;js.onload=verify;js.onerror=fail;document.body.appendChild(js)
+  if(window.__SPX&&window.__SPX.expansion){loadReleaseReadiness();return}
+  var existing=document.querySelector('script[src="/tools/steel-phase-explorer-expansion.js"]');if(existing){existing.addEventListener('load',loadReleaseReadiness,{once:true});existing.addEventListener('error',fail,{once:true});return}
+  var js=document.createElement('script');js.src='/tools/steel-phase-explorer-expansion.js';js.async=false;js.onload=loadReleaseReadiness;js.onerror=fail;document.body.appendChild(js)
 }
 function loadProfessional(){
   if(!window.__SPX||!window.__SPX.governance||!window.__SPX.calibration||!window.__SPX.qualification){fail();return}

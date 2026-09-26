@@ -56,7 +56,7 @@ test('all expanded learning paths use the same six-stage learning contract and s
   }
 
   const progress = win.__SPX.release1.getStudentProgress();
-  assert.deepEqual(progress.paths.phases.completed, [0, 1]);
+  assert.deepEqual(JSON.parse(JSON.stringify(progress.paths.phases.completed)), [0, 1]);
   assert.equal(Object.keys(progress.paths).length, 12);
   assert.equal(doc.querySelectorAll('#spx-learning-paths [data-learning-path]').length, 12);
 });
@@ -71,7 +71,7 @@ test('activity builder produces bounded six-stage briefs for every original modu
     assert.equal(activity.schemaVersion, 1);
     assert.equal(activity.moduleId, module.id);
     assert.equal(activity.sequence.length, 6);
-    assert.deepEqual(activity.sequence.map(stage => stage.stage),
+    assert.deepEqual(JSON.parse(JSON.stringify(activity.sequence.map(stage => stage.stage))),
       ['Predict', 'Manipulate', 'Observe', 'Explain', 'Check', 'Apply']);
     assert.match(activity.guardrail, /does not authorize a process/i);
   }
@@ -121,5 +121,5 @@ test('expanded module routing changes only navigation and preserves the active e
   doc.getElementById('spx-activity-module')
     .dispatchEvent(new win.Event('change', { bubbles: true }));
   assert.match(doc.getElementById('spx-activity-preview').textContent,
-    /Thermal data and measurement[\s\S]*candidate arrest/i);
+    /Interpret a thermal record[\s\S]*candidate arrest/i);
 });

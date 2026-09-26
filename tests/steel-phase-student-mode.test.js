@@ -277,7 +277,9 @@ test('Learn, Explore, Practice, and My Progress expose their routes and open exi
   const progressPanel = doc.querySelector('[data-student-area-panel="progress"]');
   assert.deepEqual(
     [...learnPanel.querySelectorAll('[data-learning-path]')].map(x => x.dataset.learningPath),
-    ['phases', 'transformations', 'heat-treatment', 'calibration']
+    ['phases', 'transformations', 'heat-treatment', 'hardenability',
+      'austenitization', 'quench-temper', 'process-data', 'characterization',
+      'surface-diffusion', 'steelmaking-rolling', 'reference-literacy', 'calibration']
   );
   assert.deepEqual(
     [...explorePanel.querySelectorAll('[data-student-route]')].map(x => x.dataset.studentRoute),

@@ -1,0 +1,18 @@
+.spx-release-readiness{display:grid;gap:16px}
+.spx-release-status{display:grid;gap:4px;border:1px solid var(--spx-border);border-left:5px solid #b7791f;border-radius:10px;background:var(--spx-surface2);padding:14px}
+.spx-release-status[data-state="ready"]{border-left-color:#16856b}.spx-release-status[data-state="blocked"]{border-left-color:#b42318}
+.spx-release-status span,.spx-release-note{color:var(--spx-muted);font-size:.82rem;line-height:1.45}
+.spx-release-readiness details,.spx-release-readiness fieldset{border:1px solid var(--spx-border);border-radius:12px;background:var(--spx-surface2);padding:14px}
+.spx-release-readiness summary,.spx-release-readiness legend{color:var(--spx-text);font-weight:800;cursor:pointer}
+.spx-release-columns{display:grid;grid-template-columns:1fr 1fr;gap:12px}.spx-release-columns fieldset{min-width:0;margin:0}
+.spx-release-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:10px}.spx-release-grid label{display:grid;gap:5px;color:var(--spx-text);font-size:.75rem;font-weight:700}.spx-release-grid .wide{grid-column:1/-1}
+.spx-release-grid input{width:100%;min-height:42px;border:1px solid var(--spx-border);border-radius:8px;background:var(--spx-surface);color:var(--spx-text);padding:8px;font:inherit}
+.spx-release-checks{display:grid;gap:9px;margin-top:12px}.spx-release-checks label{display:flex;align-items:flex-start;gap:8px;line-height:1.4}
+.spx-release-gates{display:grid;gap:7px;margin:12px 0 0;padding:0;list-style:none}.spx-release-gates li{display:flex;align-items:flex-start;gap:8px;border-radius:8px;background:var(--spx-surface);padding:9px}.spx-release-gates li>span{color:#b7791f;font-weight:900}.spx-release-gates li[data-gate="pass"]>span{color:#16856b}.spx-release-gates div{display:grid;gap:2px}.spx-release-gates small{color:var(--spx-muted)}
+.spx-release-actions{display:flex;flex-wrap:wrap;gap:9px}
+@media(max-width:1024px){.spx-release-columns{grid-template-columns:1fr}}
+@media(max-width:768px){.spx-release-grid{grid-template-columns:1fr}.spx-release-grid .wide{grid-column:auto}}
+@media(max-width:390px){.spx-release-actions{flex-direction:column}.spx-release-actions .spx-btn{width:100%}.spx-release-readiness fieldset{padding:11px}}
+@media(max-width:360px){.spx-release-status,.spx-release-readiness details,.spx-release-readiness fieldset{border-radius:8px;padding:10px}}
+@media(min-width:1440px){.spx-release-readiness{max-width:1240px;margin-inline:auto}}
+@media print{.spx-release-actions{display:none!important}.spx-release-readiness details{break-inside:avoid}}
