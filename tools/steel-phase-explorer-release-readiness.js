@@ -23,7 +23,8 @@ function automatedGates(){
     {id:'fail-closed',label:'Governed out-of-domain handling installed',pass:!!(spx.governance&&typeof spx.governance.evaluate==='function')},
     {id:'replay',label:'Deterministic replay verification installed',pass:!!(spx.professional&&typeof spx.professional.verifyReplayPackage==='function')},
     {id:'qualification',label:'Independent qualification workflow installed',pass:!!(spx.qualification&&typeof spx.qualification.analyze==='function')},
-    {id:'dual-audience',label:'Student and professional coverage installed',pass:!!(spx.release1&&spx.professional&&spx.expansion&&spx.expansion.modules.length===12)}
+    {id:'dual-audience',label:'Student and professional coverage installed',pass:!!(spx.release1&&spx.professional&&spx.expansion&&spx.expansion.modules.length===12)},
+    {id:'specification-handoff',label:'Controlled specification handoff installed',pass:!!(spx.specificationHandoff&&typeof spx.specificationHandoff.buildContext==='function')}
   ]
 }
 function evaluatePilot(input,gates){
@@ -43,7 +44,7 @@ function evaluatePilot(input,gates){
   var automated=(gates||automatedGates()).map(function(g){return{id:g.id,label:g.label,pass:g.pass===true}}),automatedPass=automated.every(function(g){return g.pass});
   var evidencePresent=data.attested&&!!data.pilotReference;
   var ready=automatedPass&&evidencePresent&&studentPass&&professionalPass&&governancePass;
-  return{schemaVersion:1,kind:'steel-phase-release-readiness',toolVersion:'1.7.0',criteriaVersion:VERSION,generatedAt:new Date().toISOString(),status:ready?'Ready for controlled release':automatedPass?'Pilot evidence required':'Release blocked',ready:ready,targets:TARGETS,automated:{pass:automatedPass,gates:automated},student:{pass:studentPass,metrics:student},professional:{pass:professionalPass,metrics:professional},governance:{pass:governancePass,independentValidation:data.independentValidation,metallurgistApproval:data.metallurgistApproval,referencesPresent:!!data.validationReference&&!!data.approverName&&!!data.approvalScope},evidence:{attested:data.attested,pilotReference:data.pilotReference},notice:'Browser-local, user-attested pilot entries are a release checklist record, not independent proof. Controlled source records remain authoritative.'}
+  return{schemaVersion:1,kind:'steel-phase-release-readiness',toolVersion:'1.8.0',criteriaVersion:VERSION,generatedAt:new Date().toISOString(),status:ready?'Ready for controlled release':automatedPass?'Pilot evidence required':'Release blocked',ready:ready,targets:TARGETS,automated:{pass:automatedPass,gates:automated},student:{pass:studentPass,metrics:student},professional:{pass:professionalPass,metrics:professional},governance:{pass:governancePass,independentValidation:data.independentValidation,metallurgistApproval:data.metallurgistApproval,referencesPresent:!!data.validationReference&&!!data.approverName&&!!data.approvalScope},evidence:{attested:data.attested,pilotReference:data.pilotReference},notice:'Browser-local, user-attested pilot entries are a release checklist record, not independent proof. Controlled source records remain authoritative.'}
 }
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function formatMetric(m,kind){if(m.measured===null)return'Not recorded';if(kind==='rate')return Math.round(m.measured*1000)/10+'%';if(kind==='seconds')return m.measured+' s';return String(Math.round(m.measured*10)/10)}
