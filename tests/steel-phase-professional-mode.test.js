@@ -375,14 +375,23 @@ test('applicability has a fixed evidence vocabulary and fails closed for invalid
 });
 
 test('one-factor sensitivity returns traceable rows and never mutates the active scenario', async t => {
-  const { win } = await tool();
+  const { win } = await tool({
+    storage: {
+      [STORAGE_KEY]: JSON.stringify({
+        schemaVersion: 1,
+        definition: {
+          chemistrySource: 'heat-analysis', processBasis: 'hypothetical'
+        }
+      })
+    }
+  });
   t.after(() => win.close());
 
   const api = win.__SPX.professional;
   const beforeScenario = copy(win.serializable());
   const beforeFingerprint = api.fingerprint();
   const result = copy(api.runSensitivity({
-    input: 'carbon', output: 'estimated-hardness', low: 0.10, high: 0.60
+    input: 'carbon', output: 'estimated-hardness', low: 0.10, high: 0.50
   }));
 
   assert.equal(result.input, 'carbon');
@@ -723,7 +732,16 @@ test('switching model questions refreshes generated prompts but preserves author
 });
 
 test('comparison is blocked when the current question text or type changes', async t => {
-  const { win, doc } = await tool();
+  const { win, doc } = await tool({
+    storage: {
+      [STORAGE_KEY]: JSON.stringify({
+        schemaVersion: 1,
+        definition: {
+          chemistrySource: 'heat-analysis', processBasis: 'hypothetical'
+        }
+      })
+    }
+  });
   t.after(() => win.close());
 
   const api = win.__SPX.professional;

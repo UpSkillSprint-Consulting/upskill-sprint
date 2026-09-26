@@ -114,7 +114,7 @@ function waitFor(win, predicate, timeoutMs) {
 }
 
 const ready = win => waitFor(win, w =>
-  w.__SPX && w.__SPX.release5 && w.__SPX.professional &&
+  w.__SPX && w.__SPX.release5 && w.__SPX.governance && w.__SPX.professional &&
   w.document.getElementById('spx-r5-svg') &&
   w.document.getElementById('spx-professional-workspace'));
 
