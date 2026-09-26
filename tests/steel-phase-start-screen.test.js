@@ -110,6 +110,22 @@ test('all twelve primary goals route to the intended existing workspace', async 
   assert.equal(doc.querySelector('[data-r4-content="metallography"]').hidden, false);
 });
 
+test('a newer goal cancels retries from a module that is still loading', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+
+  const release2 = win.__SPX.release2;
+  delete win.__SPX.release2;
+  doc.querySelector('[data-start-goal="professional-hardenability"]').click();
+  doc.querySelector('[data-start-goal="student-phases"]').click();
+  win.__SPX.release2 = release2;
+
+  await new Promise(resolve => setTimeout(resolve, 120));
+  assert.equal(win.__SPX.getState().tab, 'equilibrium');
+  assert.equal(win.state.guideGoal, 'student-phases');
+  assertSingleVisiblePanel(doc, 'equilibrium');
+});
+
 test('the exact twelve-tab workspace remains available', async t => {
   const { win, doc } = await tool();
   t.after(() => win.close());

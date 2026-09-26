@@ -4,6 +4,7 @@ var tool=document.getElementById('spx-tool');
 if(!tool||typeof state==='undefined')return;
 
 var selectedCriticalTerm='Ae';
+var startGoalRequestId=0;
 var criticalTerms={
   Ae:'Ae denotes an equilibrium critical temperature. Ae₁ is the equilibrium eutectoid boundary; Ae₃ and Aecm bound the single-phase austenite field. These are reference conditions approached only with very slow heating or cooling.',
   Ac:'Ac denotes a critical temperature observed during heating (chauffage). Ac₁ marks the start of austenite formation; Ac₃ is the hypoeutectoid completion term, while Acm is the corresponding hypereutectoid boundary notation. Faster heating generally shifts the observed transformation upward.',
@@ -230,13 +231,15 @@ function guideRoute(key){
   if(info.target){setTimeout(function(){var el=$(info.target);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},60)}
 }
 function startGoalReady(info){return document.querySelector('[data-panel="'+info.tab+'"]')&&(!info.requires||(window.__SPX&&window.__SPX[info.requires]))}
-function openStartGoal(key,attempt){
+function openStartGoal(key,attempt,requestId){
   var info=startGoalInfo[key];if(!info)return;
+  if(typeof requestId!=='number')requestId=++startGoalRequestId;
+  if(requestId!==startGoalRequestId)return;
   attempt=Number(attempt)||0;state.guideGoal=key;
   var recommendation=$('spx-guide-recommendation');
   if(!startGoalReady(info)){
     if(recommendation)recommendation.innerHTML='<strong>Loading '+info.label+'&hellip;</strong> Your current scenario will be preserved.';
-    if(attempt<100)setTimeout(function(){openStartGoal(key,attempt+1)},50);
+    if(attempt<100)setTimeout(function(){openStartGoal(key,attempt+1,requestId)},50);
     else if(recommendation)recommendation.innerHTML='<strong>Unable to open '+info.label+'.</strong> Use its module tab after the workspace finishes loading.';
     return;
   }
@@ -244,8 +247,8 @@ function openStartGoal(key,attempt){
   if(recommendation)recommendation.innerHTML='<strong>Opened '+info.label+':</strong> '+(info.message||'Continue with the current scenario and use the module tabs whenever you want to change tasks.');
   switchTab(info.tab);
   if(info.subpanel){var selector=document.querySelector('#spx-r4-subnav [data-r4-panel="'+info.subpanel+'"]');if(selector)selector.click()}
-  if(info.target)setTimeout(function(){var target=$(info.target);if(target&&typeof target.scrollIntoView==='function')target.scrollIntoView({behavior:'smooth',block:'start'})},60);
-  if(info.focusTab)setTimeout(function(){var tab=document.querySelector('.spx-tabs [data-tab="'+info.tab+'"]');if(tab)tab.focus()},0);
+  if(info.target)setTimeout(function(){if(requestId!==startGoalRequestId)return;var target=$(info.target);if(target&&typeof target.scrollIntoView==='function')target.scrollIntoView({behavior:'smooth',block:'start'})},60);
+  if(info.focusTab)setTimeout(function(){if(requestId!==startGoalRequestId)return;var tab=document.querySelector('.spx-tabs [data-tab="'+info.tab+'"]');if(tab)tab.focus()},0);
 }
 function openStartShortcut(tab,label,requires,details){
   details=details||{};
