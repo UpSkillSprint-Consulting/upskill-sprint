@@ -1387,10 +1387,22 @@
     var chronologyVerified = monitoringRows.length === 0;
     if (monitoringRows.length) {
       var lastReference = Math.max.apply(null, referenceDates);
-      var notLater = !isFinite(lastReference) || monitoringRows.some(function (row) {
-        return !isFinite(timestampMillis(row.timestamp)) ||
-          timestampMillis(row.timestamp) <= lastReference;
+      var monitoringGroupDates = blankMap();
+      monitoringRows.forEach(function (row) {
+        var groupValue = metadata.groupBy === 'batch' ? row.batchId : row.heatId;
+        var groupKey = normalizedIdentity(groupValue);
+        var date = timestampMillis(row.timestamp);
+        if (!groupKey || !isFinite(date)) return;
+        if (!own(monitoringGroupDates, groupKey) || date > monitoringGroupDates[groupKey]) {
+          monitoringGroupDates[groupKey] = date;
+        }
       });
+      var monitoringDateKeys = Object.keys(monitoringGroupDates);
+      var notLater = !isFinite(lastReference) ||
+        monitoringDateKeys.length !== monitoringGroups ||
+        monitoringDateKeys.some(function (groupKey) {
+          return monitoringGroupDates[groupKey] <= lastReference;
+        });
       if (notLater) {
         pushIssue(errors, 'MONITORING_NOT_LATER', 'rows',
           'Every monitoring group timestamp must be provably later than all calibration and validation timestamps.');

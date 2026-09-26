@@ -1312,6 +1312,26 @@ test('EWMA uses group residuals, z0 = 0, and time-varying three-sigma limits', a
     'steady-state upper limit is +s');
 });
 
+test('monitoring chronology uses each group latest timestamp rather than every replicate timestamp', async t => {
+  const { win } = await tool();
+  t.after(() => win.close());
+  const api = win.__SPX.calibration;
+  const pkg = demoPackage(api);
+  const firstGroup = pkg.rows.filter(row =>
+    row.role === 'monitoring' && row.heatId === 'H-M01');
+  assert.equal(firstGroup.length, 2);
+  firstGroup[0].timestamp = '2026-02-01T12:00:00Z';
+  firstGroup[1].timestamp = '2026-03-02T12:00:00Z';
+
+  const result = api.analyze(pkg);
+  assert.equal(result.ok, true, JSON.stringify(result.errors));
+  assert.equal(result.monitoring.chronologyVerified, true);
+  assert.equal(result.monitoring.groupTimestampDefinition,
+    'latest row timestamp in each group');
+  assert.equal((result.errors || []).some(error =>
+    error.code === 'MONITORING_NOT_LATER'), false);
+});
+
 test('tied monitoring timestamps cannot acquire statistical order from private group IDs', async t => {
   const source = await tool();
   t.after(() => source.win.close());
