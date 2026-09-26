@@ -98,7 +98,130 @@ var learningPaths={
     checkSuccess:'Correct. Disjoint groups and a compatible measurement basis test transfer beyond fitted records within the package. Independent validation still requires a separate controlled external campaign or artifact.',
     checkRetry:'Try again. Keep every specimen from one heat or batch on only one side of the development/validation split.',
     apply:'Using an illustrative chemistry, write four lines: generic baseline; local scope and development heats; different internal-holdout heat or batch IDs with the same test basis; and a later monitoring window. Add a separate external-validation campaign or artifact; drift remains a signal, not a cause or compliance decision.'
+  },
+  hardenability:{
+    title:'Through-section hardenability',tab:'hardenability',requires:'release2',
+    objective:'Separate maximum hardness from the depth of hardening and judge why section size, chemistry, grain condition, and quench severity must be considered together.',
+    predict:'If diameter increases while chemistry and quench remain unchanged, what usually happens at the centre?',
+    predictionOptions:['Centre cooling slows and centre hardness may fall','Centre hardness must increase','Surface and centre always remain identical'],
+    manipulate:'Open Hardenability. Keep chemistry fixed, increase the section size, and compare the surface, quarter-depth, and centre response.',
+    explain:'A larger section removes heat more slowly at its centre. The same steel can therefore form more martensite near the surface than at the centre even though its local maximum hardness potential has not changed.',
+    misconception:'A high surface hardness does not demonstrate adequate through-section hardenability.',
+    check:'Which change most directly challenges centre hardening while leaving chemistry unchanged?',
+    checkOptions:['Increasing section size','Renaming the grade','Changing the chart colour'],checkAnswer:'Increasing section size',
+    checkSuccess:'Correct. Section size changes the thermal path through the thickness and can reduce centre transformation severity.',
+    checkRetry:'Try again. Choose the change that alters heat extraction through the section.',
+    apply:'Compare two section sizes under the same quench and state which location controls the engineering concern.'
+  },
+  austenitization:{
+    title:'Austenitization control',tab:'austenitization',requires:'release2',
+    objective:'Balance heat-through and carbide dissolution against grain growth, oxidation, decarburization, and retained-austenite risk.',
+    predict:'What is the main risk of adding excessive temperature or soak after adequate austenitization?',
+    predictionOptions:['Grain growth and surface damage risk increase','Hardenability becomes irrelevant','Every property improves without penalty'],
+    manipulate:'Open Austenitization. Change only temperature or soak time and compare the adequacy and risk indicators.',
+    explain:'Austenitization must establish the required austenite condition through the section. Excessive time or temperature can coarsen grains and increase oxidation or decarburization without creating proportional benefit.',
+    misconception:'Hotter and longer is not automatically safer or more complete.',
+    check:'What must be confirmed before selecting a quench response?',
+    checkOptions:['The section reached an adequate and controlled austenite condition','Only the furnace setpoint','Only the nominal grade name'],checkAnswer:'The section reached an adequate and controlled austenite condition',
+    checkSuccess:'Correct. The relevant condition is the steel through the section, not the furnace setpoint alone.',
+    checkRetry:'Try again. Distinguish the workpiece condition from the equipment setting.',
+    apply:'Define an austenitizing window and list the evidence needed to confirm heat-through and grain control.'
+  },
+  'quench-temper':{
+    title:'Quenching and tempering trade-offs',tab:'quenching',requires:'release2',
+    objective:'Compare hardening response with distortion, cracking, retained-austenite, toughness, and residual-stress consequences.',
+    predict:'What generally happens when quench severity increases?',
+    predictionOptions:['Hardening potential and thermal-stress risk can both increase','Cracking risk always disappears','Section size stops mattering'],
+    manipulate:'Open Quenching. Change one quench condition while holding chemistry and geometry constant, then inspect both benefits and risks.',
+    explain:'A more severe quench can suppress diffusional transformation and increase martensite, but steeper thermal gradients and transformation strain can also raise distortion and cracking risk. Tempering then trades some hardness for stress relief and toughness.',
+    misconception:'The strongest quench is not automatically the best process.',
+    check:'Why is tempering normally evaluated with the quench rather than alone?',
+    checkOptions:['It changes the as-quenched hardness, stress, and toughness balance','It changes the steel designation','It proves specification compliance'],checkAnswer:'It changes the as-quenched hardness, stress, and toughness balance',
+    checkSuccess:'Correct. Tempering is part of the property-and-risk trade-off created by quenching.',
+    checkRetry:'Try again. Focus on what tempering changes in the as-quenched structure.',
+    apply:'Compare two quench/temper routes and identify the evidence needed before choosing a plant recipe.'
+  },
+  'process-data':{
+    title:'Thermal data and measurement',tab:'process-data',requires:'release3',
+    objective:'Interpret a time-temperature record without confusing a sensor trace, a calculated derivative, and a confirmed metallurgical event.',
+    predict:'A cooling curve shows a slope change. What should you conclude first?',
+    predictionOptions:['It is a candidate event requiring measurement and process checks','It proves one named transformation','It proves product acceptance'],
+    manipulate:'Open Process Data. Load the synthetic example or an approved trace, verify units and time order, then inspect cooling-rate and candidate-arrest results.',
+    explain:'A thermal trace combines the workpiece response, sensor dynamics, location, contact or emissivity, sampling, and data handling. A slope change can support a hypothesis but needs compatible evidence before it is assigned to a transformation.',
+    misconception:'A visible arrest is not automatically a uniquely identified phase transformation.',
+    check:'Which item is essential before comparing two cooling records?',
+    checkOptions:['Comparable sensor location, basis, units, and time order','Matching file names only','The same chart colour'],checkAnswer:'Comparable sensor location, basis, units, and time order',
+    checkSuccess:'Correct. Measurement basis and chronology must be comparable before the traces support a process conclusion.',
+    checkRetry:'Try again. Choose the option that controls measurement comparability.',
+    apply:'Write a short thermal-record review covering provenance, sensor basis, rate window, candidate events, and verification needs.'
+  },
+  characterization:{
+    title:'Mechanical testing and metallography',tab:'metallurgy-lab',requires:'release4',subpanel:'mechanical',
+    objective:'Connect measured properties and observed microstructure to sampling location, orientation, preparation, test method, and process history.',
+    predict:'Two specimens from one heat give different properties. What is the best first response?',
+    predictionOptions:['Check location, orientation, preparation, method, and repeatability','Average them and ignore provenance','Assume the model is wrong'],
+    manipulate:'Open Metallurgy Lab. Compare mechanical-property and metallography panels while keeping the material scenario traceable.',
+    explain:'Test results and micrographs are conditional evidence. Sampling position, orientation, section preparation, etching, magnification, test temperature, geometry, and method can change what is observed.',
+    misconception:'A schematic microstructure or one coupon is not automatically representative of an entire heat or product.',
+    check:'What makes a micrograph useful for process comparison?',
+    checkOptions:['Traceable sampling, preparation, scale, location, and interpretation','A visually sharp image alone','A familiar phase name'],checkAnswer:'Traceable sampling, preparation, scale, location, and interpretation',
+    checkSuccess:'Correct. Traceability and a controlled basis make the observation interpretable.',
+    checkRetry:'Try again. Choose the option that preserves how and where the evidence was produced.',
+    apply:'Create a characterization plan linking coupon location, orientation, preparation, test method, and expected process mechanism.'
+  },
+  'surface-diffusion':{
+    title:'Surface treatment and diffusion',tab:'metallurgy-lab',requires:'release4',subpanel:'surface',
+    objective:'Relate time, temperature, surface potential, and diffusivity to a directional case-depth profile while keeping boundary assumptions visible.',
+    predict:'At the same surface condition, what usually increases diffusion depth?',
+    predictionOptions:['More time or higher temperature','A shorter treatment at lower temperature','Changing only the axis label'],
+    manipulate:'Open Metallurgy Lab and select the surface/diffusion panel. Change one time or temperature input and compare the concentration profile.',
+    explain:'Diffusion distance grows directionally with the square root of diffusivity times time. Temperature strongly changes diffusivity, while the selected solution still depends on its initial and boundary assumptions.',
+    misconception:'A calculated case-depth trend is not a qualified carburizing or nitriding recipe.',
+    check:'Why can doubling time fail to double diffusion depth?',
+    checkOptions:['Diffusion distance follows an approximate square-root time relationship','Time has no effect','The units cancel the process'],checkAnswer:'Diffusion distance follows an approximate square-root time relationship',
+    checkSuccess:'Correct. In the simplified diffusion solution, depth grows with the square root of time rather than linearly.',
+    checkRetry:'Try again. Recall the square-root dependence in diffusion-distance scaling.',
+    apply:'Compare two time-temperature combinations and state what laboratory profile is required to validate the prediction.'
+  },
+  'steelmaking-rolling':{
+    title:'Solidification, rolling, and alloy families',tab:'metallurgy-lab',requires:'release4',subpanel:'solidification',
+    objective:'Connect segregation, inclusions, solidification structure, deformation, recrystallization, texture, and alloy-family assumptions to downstream properties.',
+    predict:'Why can two locations in the same product show different behaviour?',
+    predictionOptions:['Solidification and rolling can create spatially different structure and chemistry','A heat must be perfectly uniform','Location never matters after rolling'],
+    manipulate:'Open Metallurgy Lab. Explore solidification/rolling and alloy-family panels and identify which assumptions change with product route.',
+    explain:'Casting establishes segregation, inclusions, and solidification structure. Rolling changes shape, grain structure, texture, and banding but does not automatically erase inherited heterogeneity.',
+    misconception:'Nominal heat chemistry does not guarantee identical local microstructure throughout the product.',
+    check:'Which evidence best evaluates a suspected rolling-direction effect?',
+    checkOptions:['Traceable longitudinal and transverse sampling with comparable tests','One unlocated specimen','Only the nominal grade'],checkAnswer:'Traceable longitudinal and transverse sampling with comparable tests',
+    checkSuccess:'Correct. Controlled orientation and location comparisons test the directional hypothesis.',
+    checkRetry:'Try again. Choose the evidence that isolates product direction.',
+    apply:'Map a casting-to-rolling causal chain and specify where chemistry, microscopy, and mechanical samples should be taken.'
+  },
+  'reference-literacy':{
+    title:'Reference-diagram literacy',tab:'reference-diagrams',requires:'release5',
+    objective:'Select the diagram that matches the question and distinguish a reference map from a material-specific prediction.',
+    predict:'Which source should be used to estimate continuous-cooling transformation timing for a specific steel?',
+    predictionOptions:['A validated grade-specific CCT diagram','Only the equilibrium Fe–Fe₃C diagram','A tempering chart for another grade'],
+    manipulate:'Open Reference Diagrams. Compare the equilibrium, CCT, quench, and tempering views and identify the input basis of each.',
+    explain:'Each diagram answers a different question. Equilibrium maps phase stability, CCT maps transformation during continuous cooling, quench charts map heat extraction, and tempering maps post-quench response under stated conditions.',
+    misconception:'A familiar-looking reference diagram is not automatically applicable to every grade, section, or process.',
+    check:'What is the first applicability question for a reference diagram?',
+    checkOptions:['Does its material, process, section, and measurement basis match the case?','Is the colour attractive?','Does it show the desired answer?'],checkAnswer:'Does its material, process, section, and measurement basis match the case?',
+    checkSuccess:'Correct. Applicability depends on the diagram basis and the case being evaluated.',
+    checkRetry:'Try again. Choose the question that tests whether the reference belongs to the case.',
+    apply:'Select one plant question, name the correct diagram family, and list the scope evidence required before using it.'
   }
+};
+var expansionPathCards={
+  hardenability:['Applied · 6 steps','Through-section hardenability','Separate hardness potential from depth of hardening across a section.'],
+  austenitization:['Applied · 6 steps','Austenitization control','Balance heat-through and dissolution against grain growth and surface risk.'],
+  'quench-temper':['Applied · 6 steps','Quenching and tempering trade-offs','Balance hardening with distortion, cracking, stress, and toughness.'],
+  'process-data':['Evidence · 6 steps','Thermal data and measurement','Interpret cooling records, calculated rates, arrests, and measurement limits.'],
+  characterization:['Evidence · 6 steps','Mechanical testing and metallography','Connect test and microscopy evidence to location, orientation, and method.'],
+  'surface-diffusion':['Advanced · 6 steps','Surface treatment and diffusion','Explore time-temperature effects without treating trends as qualified recipes.'],
+  'steelmaking-rolling':['Advanced · 6 steps','Solidification, rolling, and alloy families','Trace upstream structure and route effects into downstream evidence.'],
+  'reference-literacy':['Evidence · 6 steps','Reference-diagram literacy','Choose the correct diagram and test its applicability to the case.'],
+  calibration:['Evidence literacy · 6 steps','Model calibration and validation','Follow a generic estimate through local calibration, separated validation, qualification, and monitoring.']
 };
 var studentAreaCopy={
   learn:['Learn steel metallurgy step by step','Follow a guided path, explore each model, and practise with feedback.'],
@@ -118,7 +241,7 @@ function learningPathFor(id){return own(learningPaths,id)?learningPaths[id]:null
 function validLearningStep(value,fallback){var n=Number(value);return Number.isInteger(n)?clamp(n,0,learningSteps.length-1):fallback}
 function firstIncompleteStep(completed){for(var i=0;i<learningSteps.length;i++)if(completed.indexOf(i)<0)return i;return learningSteps.length-1}
 function freshPathProgress(){return{completed:[],prediction:'',checkAnswer:'',activeStep:0}}
-function freshStudentProgress(){return{studentArea:'learn',activePath:'',activeStep:0,collapsed:false,paths:{phases:freshPathProgress(),transformations:freshPathProgress(),'heat-treatment':freshPathProgress(),calibration:freshPathProgress()},visitedTabs:[]}}
+function freshStudentProgress(){var paths={};Object.keys(learningPaths).forEach(function(id){paths[id]=freshPathProgress()});return{studentArea:'learn',activePath:'',activeStep:0,collapsed:false,paths:paths,visitedTabs:[]}}
 function sanitizeStudentProgress(value){
   var clean=freshStudentProgress(),source=value&&typeof value==='object'?value:{};
   if(['learn','explore','practice','progress'].indexOf(source.studentArea)>=0)clean.studentArea=source.studentArea;
@@ -284,19 +407,21 @@ function pathProgressText(id){
   var completed=pathState(id).completed.length;
   return completed===learningSteps.length?'Complete':completed?completed+' of '+learningSteps.length+' steps complete':'Not started';
 }
-function ensureCalibrationLearningPathCard(){
-  var list=$('spx-learning-paths');
-  if(!list||list.querySelector('[data-learning-path="calibration"]'))return;
-  var card=document.createElement('button');card.type='button';card.className='spx-learning-path-card';card.dataset.learningPath='calibration';
-  var level=document.createElement('span');level.textContent='Evidence literacy · 6 steps';
-  var title=document.createElement('strong');title.textContent='Model calibration and validation';
-  var description=document.createElement('p');description.textContent='Follow a generic estimate through local calibration, group-separated holdout validation, external-validation gating, and drift monitoring.';
-  var progress=document.createElement('small');progress.dataset.pathProgress='calibration';progress.textContent='Not started';
-  card.appendChild(level);card.appendChild(title);card.appendChild(description);card.appendChild(progress);list.appendChild(card);
+function ensureExpansionLearningPathCards(){
+  var list=$('spx-learning-paths');if(!list)return;
+  Object.keys(expansionPathCards).forEach(function(id){
+    if(list.querySelector('[data-learning-path="'+id+'"]'))return;
+    var info=expansionPathCards[id],card=document.createElement('button');card.type='button';card.className='spx-learning-path-card';card.dataset.learningPath=id;
+    var level=document.createElement('span');level.textContent=info[0];
+    var title=document.createElement('strong');title.textContent=info[1];
+    var description=document.createElement('p');description.textContent=info[2];
+    var progress=document.createElement('small');progress.dataset.pathProgress=id;progress.textContent='Not started';
+    card.appendChild(level);card.appendChild(title);card.appendChild(description);card.appendChild(progress);list.appendChild(card)
+  })
 }
 function renderStudentArea(){
   if(!state.studentProgress)return;
-  ensureCalibrationLearningPathCard();
+  ensureExpansionLearningPathCards();
   var area=['learn','explore','practice','progress'].indexOf(state.studentProgress.studentArea)>=0?state.studentProgress.studentArea:'learn';
   state.studentArea=area;tool.dataset.studentArea=area;
   document.querySelectorAll('#spx-student-nav [data-student-area]').forEach(function(b){
@@ -344,7 +469,7 @@ function beginLearningPath(id,openActivity){
   state.studentProgress.activePath=id;
   setActiveLearningStep(pathState(id).activeStep);
   state.studentProgress.collapsed=false;saveStudentProgress();renderStudentArea();renderLearningCoach();
-  if(openActivity)openStartShortcut(path.tab,path.title,path.requires||'');
+  if(openActivity)openStartShortcut(path.tab,path.title,path.requires||'',{subpanel:path.subpanel||''});
 }
 function lessonObservation(id){
   try{
@@ -358,6 +483,14 @@ function lessonObservation(id){
       var fractions=kineticsFractions();
       return (state.kinMode==='cct'?'CCT':'TTT')+' view currently estimates '+formatFractionObject(fractions)+'. Compare this kinetic result with the equilibrium reference.';
     }
+    if(id==='hardenability')return 'The hardenability lab compares location-dependent response. Keep chemistry fixed and use section size and quench controls to see why surface and centre may not transform alike.';
+    if(id==='austenitization')return 'The austenitization lab separates furnace settings from the estimated condition through the workpiece and displays both adequacy and overheating risks.';
+    if(id==='quench-temper')return 'The quenching lab shows the selected hardening response together with distortion and cracking cautions; use tempering to review the subsequent hardness–toughness trade-off.';
+    if(id==='process-data')return 'The process-data lab treats slopes and arrests as measured or calculated evidence with sensor, unit, location, and chronology limitations.';
+    if(id==='characterization')return 'The metallurgy lab connects mechanical and microscopy evidence to specimen location, orientation, preparation, scale, and method.';
+    if(id==='surface-diffusion')return 'The surface-treatment panel shows a directional diffusion profile under stated initial and boundary assumptions; it is not a qualified process recipe.';
+    if(id==='steelmaking-rolling')return 'The solidification and rolling panels trace segregation, inclusion, grain, texture, banding, and orientation mechanisms across the production route.';
+    if(id==='reference-literacy')return 'The reference-diagram lab separates equilibrium, transformation, quench, and tempering maps so the diagram family and its applicability can be checked before use.';
     if(id==='calibration'){
       var rateControl=$('spx-property-rate'),rate=rateControl?Math.pow(10,Number(rateControl.value)/40-1):NaN;
       var estimate=isFinite(rate)?propertyEstimateFor(state.chem,rate):{valid:false,reason:'Select a valid property cooling rate.'};
@@ -587,7 +720,7 @@ function bindReleaseEvents(){
   $('spx-learning-stage').addEventListener('click',function(e){
     if(!e.target.closest('[data-learning-open]'))return;
     var path=learningPathFor(state.studentProgress.activePath);if(!path)return;
-    openStartShortcut(path.tab,path.title,path.requires||'',{focusTab:true});
+    openStartShortcut(path.tab,path.title,path.requires||'',{subpanel:path.subpanel||'',focusTab:true});
   });
   $('spx-learning-stage').addEventListener('change',function(e){
     var id=state.studentProgress.activePath,path=learningPathFor(id);if(!path)return;
@@ -631,7 +764,7 @@ function initRelease1(){
   state.studentProgress=loadStudentProgress();state.studentArea=state.studentProgress.studentArea;
   ['renderEquilibrium','renderKinetics','renderChemistry','renderProperties','renderCycle','renderCompare','setUnit','setPoint','addPoint','removePoint','switchTab'].forEach(wrapAfter);
   enhanceSerialization();bindReleaseEvents();watchWorkspaceTabs();loadReleaseStateFromHash();setExperience(state.experience,false);setBasis(state.thermalBasis,false);setStudentArea(state.studentArea,false);setWorkspaceMode(initialWorkspaceMode,false);safeLocalSet('spx-workspace-mode-v1',initialWorkspaceMode);safeLocalSet('spx-start-audience-v1',initialWorkspaceMode);switchTab('navigator');
-  if(window.__SPX){window.__SPX.release1={setExperience:setExperience,setBasis:setBasis,setStartAudience:setStartAudience,getStartAudience:function(){return state.workspaceMode},setWorkspaceMode:setWorkspaceMode,getWorkspaceMode:function(){return state.workspaceMode},setStudentArea:setStudentArea,startLearningPath:beginLearningPath,getStudentProgress:function(){return JSON.parse(JSON.stringify(state.studentProgress))},openGoal:openStartGoal,render:renderRelease1,route:guideRoute,tradeModel:tradeModel,chemistryMetrics:chemistryMetricsFor,propertyEstimate:propertyEstimateFor}}
+  if(window.__SPX){window.__SPX.release1={setExperience:setExperience,setBasis:setBasis,setStartAudience:setStartAudience,getStartAudience:function(){return state.workspaceMode},setWorkspaceMode:setWorkspaceMode,getWorkspaceMode:function(){return state.workspaceMode},setStudentArea:setStudentArea,startLearningPath:beginLearningPath,getStudentProgress:function(){return JSON.parse(JSON.stringify(state.studentProgress))},getLearningPaths:function(){return JSON.parse(JSON.stringify(learningPaths))},openGoal:openStartGoal,render:renderRelease1,route:guideRoute,tradeModel:tradeModel,chemistryMetrics:chemistryMetricsFor,propertyEstimate:propertyEstimateFor}}
 }
 initRelease1();
 })();
