@@ -19,6 +19,20 @@ var routeInfo={
   critical:{tab:'navigator',target:'spx-nomenclature-card',message:'Recommended workflow: compare Ae, Ac, and Ar at different heating and cooling rates, then distinguish those diffusional transformations from Ms and Mf.'},
   tradeoffs:{tab:'navigator',target:'spx-tradeoff-card',message:'Recommended workflow: move one slider at a time, identify the benefit and penalty, and apply the selected carbon and cooling rate only when you are ready to update the active scenario.'}
 };
+var startGoalInfo={
+  'student-phases':{tab:'equilibrium',label:'Equilibrium diagram',message:'Start by placing a carbon-temperature point, identifying the phase field, and then reading the lever-rule result.'},
+  'student-cycle':{tab:'path',label:'Heating & cooling path',message:'Start with a preset thermal cycle, then edit one step at a time and compare each boundary crossing.'},
+  'student-kinetics':{tab:'kinetics',label:'TTT / CCT',message:'Start with the generalized transformation diagram. Change one timing or cooling input at a time and treat the output as a learning estimate.'},
+  'student-chemistry':{tab:'chemistry',label:'Chemistry & properties',message:'Start with a grade preset, then change one alloying element at a time and observe the directional response.'},
+  'student-heat-treatment':{tab:'austenitization',requires:'release2',label:'Austenitization',message:'Start with the austenitizing window, then continue through hardenability, quenching, and tempering without resetting the scenario.'},
+  'student-practice':{tab:'learn',label:'Learn & export',message:'Start with a phase-field challenge, use the boundary guide when needed, and save or export the scenario afterward.'},
+  'professional-chemistry':{tab:'chemistry',label:'Chemistry & properties',message:'Enter verified heat chemistry, review model-domain cautions, then screen CE, Pcm, critical temperatures, and property trends.'},
+  'professional-transformations':{tab:'kinetics',label:'TTT / CCT',message:'Review the current TTT or CCT setup and screen constituent trends without changing the selected inputs.'},
+  'professional-heat-treatment':{tab:'austenitization',requires:'release2',label:'Austenitization',message:'Begin with austenitizing adequacy, then carry the same scenario through quench response and tempering trade-offs.'},
+  'professional-hardenability':{tab:'hardenability',requires:'release2',label:'Hardenability',message:'Confirm chemistry, geometry, section size, prior-austenite grain number, and quench assumptions before interpreting the through-section estimate.'},
+  'professional-process-data':{tab:'process-data',requires:'release3',label:'Process Data',message:'Load a time-temperature record, verify columns and units, then review cooling rate, candidate arrests, and measurement uncertainty.'},
+  'professional-metallography':{tab:'metallurgy-lab',requires:'release4',subpanel:'metallography',label:'Metallography laboratory',message:'Set the relevant schematic microstructure and section orientation, then compare the visible features with verified microscopy.'}
+};
 
 function safeLocalGet(key){try{return localStorage.getItem(key)}catch(e){return null}}
 function safeLocalSet(key,value){try{localStorage.setItem(key,value)}catch(e){}}
@@ -59,6 +73,15 @@ function setExperience(mode,persist){
   if(persist!==false)safeLocalSet('spx-experience-v1',mode);
   renderModeSummary();renderCausalChain();renderNomenclature();renderTradeoffs();
 }
+function setStartAudience(audience,persist){
+  audience=audience==='professional'?'professional':'student';
+  state.startAudience=audience;tool.dataset.startAudience=audience;
+  document.querySelectorAll('#spx-start-audience-selector [data-start-audience]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.startAudience===audience))});
+  var title=$('spx-start-view-title'),description=$('spx-start-view-description');
+  if(title)title.textContent=audience==='professional'?'Steel professional goals':'Student goals';
+  if(description)description.textContent=audience==='professional'?'Start from a material, process, or investigation question. Results remain engineering-screening estimates.':'Build understanding with guided visuals, plain-language interpretation, and practice.';
+  if(persist!==false)safeLocalSet('spx-start-audience-v1',audience);
+}
 function setBasis(mode,persist){
   mode=mode==='rapid'?'rapid':'equilibrium';
   state.thermalBasis=mode;
@@ -95,6 +118,24 @@ function guideRoute(key){
   }
   switchTab(info.tab);
   if(info.target){setTimeout(function(){var el=$(info.target);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},60)}
+}
+function startGoalReady(info){return document.querySelector('[data-panel="'+info.tab+'"]')&&(!info.requires||(window.__SPX&&window.__SPX[info.requires]))}
+function openStartGoal(key,attempt){
+  var info=startGoalInfo[key];if(!info)return;
+  attempt=Number(attempt)||0;state.guideGoal=key;
+  var recommendation=$('spx-guide-recommendation');
+  if(!startGoalReady(info)){
+    if(recommendation)recommendation.innerHTML='<strong>Loading '+info.label+'&hellip;</strong> Your current scenario will be preserved.';
+    if(attempt<100)setTimeout(function(){openStartGoal(key,attempt+1)},50);
+    else if(recommendation)recommendation.innerHTML='<strong>Unable to open '+info.label+'.</strong> Use its module tab after the workspace finishes loading.';
+    return;
+  }
+  if(recommendation)recommendation.innerHTML='<strong>Opened '+info.label+':</strong> '+(info.message||'Continue with the current scenario and use the module tabs whenever you want to change tasks.');
+  switchTab(info.tab);
+  if(info.subpanel){var selector=document.querySelector('#spx-r4-subnav [data-r4-panel="'+info.subpanel+'"]');if(selector)selector.click()}
+}
+function openStartShortcut(tab,label,requires){
+  var key='shortcut-'+tab,info={tab:tab,label:label,requires:requires||'',message:'Continue with the current scenario; no inputs or results were reset.'};startGoalInfo[key]=info;openStartGoal(key,0);
 }
 
 function weldabilityText(ce){return ce<.4?'generally favourable':ce<.5?'moderate preheat sensitivity':'elevated hydrogen-cracking sensitivity'}
@@ -242,8 +283,13 @@ function loadReleaseStateFromHash(){
 function bindReleaseEvents(){
   $('spx-experience-selector').addEventListener('click',function(e){if(e.target.dataset.experience)setExperience(e.target.dataset.experience)});
   $('spx-basis-selector').addEventListener('click',function(e){if(e.target.dataset.basis)setBasis(e.target.dataset.basis)});
+  $('spx-start-audience-selector').addEventListener('click',function(e){var b=e.target.closest('[data-start-audience]');if(b)setStartAudience(b.dataset.startAudience)});
+  $('spx-primary-goals').addEventListener('click',function(e){var b=e.target.closest('[data-start-goal]');if(b)openStartGoal(b.dataset.startGoal,0)});
   $('spx-question-grid').addEventListener('click',function(e){var b=e.target.closest('[data-guide-route]');if(b)guideRoute(b.dataset.guideRoute)});
-  $('spx-resume-work').onclick=function(){switchTab('equilibrium')};$('spx-refresh-causal').onclick=renderCausalChain;
+  $('spx-resume-work').onclick=function(){openStartShortcut('equilibrium','full workspace')};
+  $('spx-open-reference').onclick=function(){openStartShortcut('reference-diagrams','Reference diagrams','release5')};
+  $('spx-open-learn').onclick=function(){openStartShortcut('learn','Learn & export')};
+  $('spx-refresh-causal').onclick=renderCausalChain;
   ['spx-heating-rate','spx-cooling-rate-coach'].forEach(function(id){$(id).addEventListener('input',renderNomenclature)});
   $('spx-reset-critical').onclick=function(){$('spx-heating-rate').value=40;$('spx-cooling-rate-coach').value=120;renderNomenclature()};
   $('spx-nomenclature-grid').addEventListener('click',function(e){var b=e.target.closest('[data-critical-term]');if(!b)return;selectedCriticalTerm=b.dataset.criticalTerm;renderNomenclature()});
@@ -256,9 +302,10 @@ function initRelease1(){
   state.experience=state.experience||safeLocalGet('spx-experience-v1')||'beginner';
   state.thermalBasis=state.thermalBasis||safeLocalGet('spx-basis-v1')||'equilibrium';
   state.rapidRate=state.rapidRate||50;state.guideGoal=state.guideGoal||'';
+  var storedStartAudience=safeLocalGet('spx-start-audience-v1');state.startAudience=storedStartAudience;
   ['renderEquilibrium','renderKinetics','renderChemistry','renderProperties','renderCycle','renderCompare','setUnit','setPoint','addPoint','removePoint','switchTab'].forEach(wrapAfter);
-  enhanceSerialization();bindReleaseEvents();loadReleaseStateFromHash();setExperience(state.experience,false);setBasis(state.thermalBasis,false);switchTab('navigator');
-  if(window.__SPX){window.__SPX.release1={setExperience:setExperience,setBasis:setBasis,render:renderRelease1,route:guideRoute,tradeModel:tradeModel,propertyEstimate:propertyEstimateFor}}
+  enhanceSerialization();bindReleaseEvents();loadReleaseStateFromHash();setExperience(state.experience,false);setBasis(state.thermalBasis,false);if(storedStartAudience!=='student'&&storedStartAudience!=='professional')state.startAudience=state.experience==='beginner'?'student':'professional';setStartAudience(state.startAudience,false);switchTab('navigator');
+  if(window.__SPX){window.__SPX.release1={setExperience:setExperience,setBasis:setBasis,setStartAudience:setStartAudience,getStartAudience:function(){return state.startAudience},openGoal:openStartGoal,render:renderRelease1,route:guideRoute,tradeModel:tradeModel,propertyEstimate:propertyEstimateFor}}
 }
 initRelease1();
 })();
