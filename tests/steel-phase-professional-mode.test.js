@@ -9,7 +9,7 @@ const { bootTool, ready, waitFor, ROOT } = require('./helpers/steel-phase-harnes
 const STORAGE_KEY = 'spx-professional-workflow-v1';
 const STAGES = [
   'define', 'question', 'applicability', 'compare',
-  'sensitivity', 'evidence', 'report'
+  'sensitivity', 'evidence', 'calibration', 'report'
 ];
 const TABS = [
   'navigator', 'equilibrium', 'path', 'kinetics', 'chemistry',
@@ -57,7 +57,8 @@ async function tool(options) {
 function assertScenarioHasNoProfessionalState(scenario) {
   for (const key of [
     'professional', 'professionalWorkflow', 'activeStage', 'definition',
-    'question', 'applicability', 'snapshots', 'sensitivity', 'evidence', 'report'
+    'question', 'applicability', 'snapshots', 'sensitivity', 'evidence',
+    'calibration', 'report'
   ]) {
     assert.equal(Object.hasOwn(scenario, key), false,
       `${key} must remain local workflow state rather than shared scenario data`);
@@ -78,7 +79,7 @@ function stageControls(doc) {
   )];
 }
 
-test('professional mode exposes an accessible seven-stage shell without replacing any lab', async t => {
+test('professional mode exposes an accessible eight-stage shell without replacing any lab', async t => {
   const { win, doc, record } = await tool({
     storage: { 'spx-workspace-mode-v1': 'professional' }
   });
@@ -160,6 +161,7 @@ test('every professional stage has one current control and one visible panel wit
       compare: /compare/i,
       sensitivity: /sensitivity|uncertainty/i,
       evidence: /evidence/i,
+      calibration: /calibration|calibrate|monitor/i,
       report: /report/i
     }[stage]);
     assert.equal(doc.activeElement,
@@ -890,6 +892,60 @@ test('Print / PDF writes the report and invokes print when a popup is allowed', 
   assert.match(calls.writes[0], /screening report/i);
   assert.match(doc.getElementById('spx-professional-action-status').textContent,
     /print view opened/i);
+});
+
+test('calibration imports ignore stale reads and clearing invalidates an in-flight file', async t => {
+  const readers = [];
+  const { win, doc } = await tool({
+    storage: { 'spx-workspace-mode-v1': 'professional' },
+    beforeParse(browserWindow) {
+      browserWindow.confirm = () => true;
+      browserWindow.FileReader = class FakeFileReader {
+        readAsText(file) { this.file = file; readers.push(this); }
+      };
+    }
+  });
+  t.after(() => win.close());
+  const api = win.__SPX.calibration;
+  win.__SPX.professional.setStage('calibration', false);
+  const input = doc.getElementById('spx-pro-calibration-file');
+  const packageA = api.demo('json');
+  const packageB = api.demo('json');
+  packageA.id = 'race-package-a';
+  packageB.id = 'race-package-b';
+
+  Object.defineProperty(input, 'files', {
+    configurable: true, value: [{ name: 'a.json', size: 100 }]
+  });
+  input.dispatchEvent(new win.Event('change', { bubbles: true }));
+  Object.defineProperty(input, 'files', {
+    configurable: true, value: [{ name: 'b.json', size: 100 }]
+  });
+  input.dispatchEvent(new win.Event('change', { bubbles: true }));
+  assert.equal(readers.length, 2);
+
+  readers[1].result = JSON.stringify(packageB);
+  readers[1].onload();
+  await waitFor(win, () => api.getSession().package?.id === 'race-package-b');
+  readers[0].result = JSON.stringify(packageA);
+  readers[0].onload();
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal(api.getSession().package.id, 'race-package-b',
+    'the older file completion cannot replace the latest package');
+
+  const currentInput = doc.getElementById('spx-pro-calibration-file');
+  Object.defineProperty(currentInput, 'files', {
+    configurable: true, value: [{ name: 'late.json', size: 100 }]
+  });
+  currentInput.dispatchEvent(new win.Event('change', { bubbles: true }));
+  const lateReader = readers[2];
+  doc.querySelector('[data-pro-cal-clear]').click();
+  assert.equal(api.getSession().status, 'empty');
+  lateReader.result = JSON.stringify(packageA);
+  lateReader.onload();
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assert.equal(api.getSession().status, 'empty',
+    'a completion arriving after Clear cannot repopulate the session');
 });
 
 test('plant-data snapshots compare distinct records by compact non-reversible evidence', async t => {

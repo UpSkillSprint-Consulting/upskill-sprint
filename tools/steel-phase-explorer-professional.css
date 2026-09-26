@@ -12,6 +12,46 @@
   overflow-wrap:anywhere;
 }
 
+.spx-pro-audit-card {
+  margin-top:14px;
+  border-color:color-mix(in srgb,var(--spx-accent) 30%,var(--spx-border));
+  background:color-mix(in srgb,var(--spx-accent) 4%,var(--spx-bg));
+}
+
+.spx-pro-revision-list {
+  display:grid;
+  gap:8px;
+  margin-top:12px;
+}
+
+.spx-pro-revision {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:10px;
+  border:1px solid var(--spx-border);
+  border-radius:9px;
+  background:var(--spx-bg);
+}
+
+.spx-pro-revision strong,
+.spx-pro-revision small {
+  display:block;
+}
+
+.spx-pro-revision small {
+  margin-top:3px;
+  color:var(--spx-muted);
+  font-size:.7rem;
+  overflow-wrap:anywhere;
+}
+
+@media(max-width:700px) {
+  .spx-pro-revision { align-items:stretch; flex-direction:column; }
+  .spx-pro-revision .spx-pro-actions { display:grid; grid-template-columns:1fr; }
+}
+
 .spx-professional-shell {
   margin:0 0 14px;
   border:1px solid color-mix(in srgb,var(--spx-accent) 34%,var(--spx-border));
@@ -1131,6 +1171,190 @@ button.spx-pro-card:hover {
   padding-left:18px;
 }
 
+.spx-pro-cal-contract {
+  margin-bottom:12px;
+  border-left-width:5px;
+}
+
+.spx-pro-cal-file-field input[type="file"] {
+  padding:6px;
+  background:var(--spx-bg);
+}
+
+.spx-pro-cal-file-field input[type="file"]::file-selector-button {
+  min-height:34px;
+  margin-right:9px;
+  padding:6px 10px;
+  border:1px solid var(--spx-border);
+  border-radius:7px;
+  background:var(--spx-surface2);
+  color:var(--spx-text);
+  font:inherit;
+  font-weight:750;
+  cursor:pointer;
+}
+
+.spx-pro-cal-toolbar {
+  margin-top:10px;
+}
+
+.spx-pro-cal-diagnostics {
+  min-height:74px;
+  padding:10px 11px;
+  border:1px solid var(--spx-border);
+  border-left:4px solid var(--spx-accent);
+  border-radius:8px;
+  background:color-mix(in srgb,var(--spx-accent) 6%,var(--spx-bg));
+  font-size:.77rem;
+  line-height:1.45;
+}
+
+.spx-pro-cal-diagnostics[data-kind="danger"] {
+  border-left-color:var(--spx-danger);
+  background:color-mix(in srgb,var(--spx-danger) 7%,var(--spx-bg));
+}
+
+.spx-pro-cal-diagnostics[data-kind="good"] {
+  border-left-color:var(--spx-good);
+  background:color-mix(in srgb,var(--spx-good) 7%,var(--spx-bg));
+}
+
+.spx-pro-cal-diagnostics h4 {
+  margin:8px 0 2px;
+  font-size:.76rem;
+}
+
+.spx-pro-cal-diagnostics ul {
+  margin:3px 0 0;
+  padding-left:19px;
+}
+
+.spx-pro-cal-trace-grid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin-top:11px;
+}
+
+.spx-pro-cal-trace-grid.compact {
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.spx-pro-cal-trace-grid > div {
+  min-width:0;
+  padding:9px 10px;
+  border:1px solid var(--spx-border);
+  border-radius:8px;
+  background:var(--spx-surface2);
+}
+
+.spx-pro-cal-trace-grid span,
+.spx-pro-cal-trace-grid strong {
+  display:block;
+  overflow-wrap:anywhere;
+}
+
+.spx-pro-cal-trace-grid span {
+  color:var(--spx-muted);
+  font-size:.7rem;
+  font-weight:700;
+  letter-spacing:.025em;
+  text-transform:uppercase;
+}
+
+.spx-pro-cal-trace-grid strong {
+  margin-top:4px;
+  font-size:.78rem;
+  line-height:1.38;
+}
+
+.spx-pro-cal-metric-grid {
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:10px;
+  margin:10px 0;
+}
+
+.spx-pro-cal-drift {
+  margin-top:10px;
+}
+
+.spx-pro-cal-drift-reasons {
+  margin:10px 0;
+  padding:9px 11px;
+  border:1px solid var(--spx-border);
+  border-left:4px solid var(--spx-warn);
+  border-radius:8px;
+  background:color-mix(in srgb,var(--spx-warn) 7%,var(--spx-bg));
+  font-size:.76rem;
+  line-height:1.45;
+}
+
+.spx-pro-cal-drift-reasons strong {
+  display:block;
+}
+
+.spx-pro-cal-drift-reasons ul {
+  margin:4px 0 0;
+  padding-left:19px;
+}
+
+.spx-pro-cal-drift-svg {
+  display:block;
+  width:100%;
+  height:auto;
+  min-height:150px;
+  margin:10px 0;
+  border:1px solid var(--spx-border);
+  border-radius:8px;
+  background:linear-gradient(180deg,var(--spx-surface2),var(--spx-bg));
+}
+
+.spx-pro-cal-drift-svg polyline {
+  fill:none;
+  vector-effect:non-scaling-stroke;
+}
+
+.spx-pro-cal-zero {
+  stroke:var(--spx-border);
+  stroke-width:1;
+  vector-effect:non-scaling-stroke;
+}
+
+.spx-pro-cal-limit {
+  stroke:var(--spx-warn);
+  stroke-width:1.5;
+  stroke-dasharray:7 5;
+}
+
+.spx-pro-cal-ewma {
+  stroke:var(--spx-accent);
+  stroke-width:3;
+}
+
+.spx-pro-cal-drift-svg circle {
+  fill:var(--spx-accent);
+  stroke:var(--spx-bg);
+  stroke-width:2;
+  vector-effect:non-scaling-stroke;
+}
+
+.spx-pro-cal-drift-svg circle.is-signal {
+  fill:var(--spx-danger);
+  stroke:var(--spx-danger);
+}
+
+.spx-pro-cal-chart-empty {
+  margin:10px 0;
+  padding:26px 12px;
+  border:1px dashed var(--spx-border);
+  border-radius:8px;
+  background:var(--spx-surface2);
+  color:var(--spx-muted);
+  font-size:.76rem;
+  text-align:center;
+}
+
 .spx-pro-muted {
   color:var(--spx-muted);
 }
@@ -1167,8 +1391,16 @@ html[data-theme="dark"] .spx-pro-stage[aria-selected="true"],
 html[data-theme="dark"] .spx-pro-card,
 html[data-theme="dark"] .spx-pro-summary-item,
 html[data-theme="dark"] .spx-pro-evidence-item,
-html[data-theme="dark"] .spx-pro-report-preview {
+html[data-theme="dark"] .spx-pro-report-preview,
+html[data-theme="dark"] .spx-pro-cal-diagnostics,
+html[data-theme="dark"] .spx-pro-cal-trace-grid > div,
+html[data-theme="dark"] .spx-pro-cal-drift-svg,
+html[data-theme="dark"] .spx-pro-cal-chart-empty {
   box-shadow:none;
+}
+
+html[data-theme="dark"] .spx-pro-cal-drift-svg circle {
+  stroke:var(--spx-surface2);
 }
 
 @media(max-width:1050px) {
@@ -1292,8 +1524,13 @@ html[data-theme="dark"] .spx-pro-report-preview {
 
   .spx-pro-grid,
   .spx-pro-grid.two,
-  .spx-pro-governance-grid {
+  .spx-pro-governance-grid,
+  .spx-pro-cal-trace-grid {
     grid-template-columns:1fr;
+  }
+
+  .spx-pro-cal-trace-grid.compact {
+    grid-template-columns:repeat(2,minmax(0,1fr));
   }
 
   .spx-pro-governance-head {
@@ -1353,7 +1590,8 @@ html[data-theme="dark"] .spx-pro-report-preview {
   .spx-pro-form-grid,
   .spx-pro-report-meta,
   .spx-pro-classification-key,
-  .spx-pro-governance-detail-grid {
+  .spx-pro-governance-detail-grid,
+  .spx-pro-cal-trace-grid.compact {
     grid-template-columns:1fr;
   }
 
@@ -1404,6 +1642,31 @@ html[data-theme="dark"] .spx-pro-report-preview {
   .spx-pro-report-preview {
     padding:12px;
   }
+
+  .spx-pro-cal-drift-svg {
+    min-height:112px;
+  }
+}
+
+@media(forced-colors:active) {
+  .spx-pro-cal-diagnostics,
+  .spx-pro-cal-trace-grid > div,
+  .spx-pro-cal-drift-svg,
+  .spx-pro-cal-chart-empty {
+    border:1px solid CanvasText;
+  }
+
+  .spx-pro-cal-ewma,
+  .spx-pro-cal-limit,
+  .spx-pro-cal-zero {
+    stroke:CanvasText;
+  }
+
+  .spx-pro-cal-drift-svg circle,
+  .spx-pro-cal-drift-svg circle.is-signal {
+    fill:CanvasText;
+    stroke:Canvas;
+  }
 }
 
 @media(pointer:coarse) {
@@ -1428,6 +1691,22 @@ html[data-theme="dark"] .spx-pro-report-preview {
 }
 
 @media print {
+  .spx-professional-shell {
+    --spx-text:#101828;
+    --spx-muted:#475467;
+    --spx-accent:#175cd3;
+    --spx-good:#067647;
+    --spx-warn:#934f00;
+    --spx-danger:#b42318;
+    --spx-bg:#fff;
+    --spx-surface:#fff;
+    --spx-surface2:#f5f7fa;
+    --spx-border:#cfd7e3;
+    color:#101828;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
   .spx-professional-shell,
   .spx-professional-workspace {
     overflow:visible!important;
@@ -1451,7 +1730,9 @@ html[data-theme="dark"] .spx-pro-report-preview {
   .spx-pro-form-actions,
   .spx-pro-stage-actions,
   .spx-pro-controls,
-  .spx-pro-form {
+  .spx-pro-form,
+  .spx-pro-cal-file-field,
+  .spx-pro-cal-toolbar {
     display:none!important;
   }
 
@@ -1470,10 +1751,16 @@ html[data-theme="dark"] .spx-pro-report-preview {
   .spx-pro-report-preview,
   .spx-pro-callout,
   .spx-pro-governance-card,
-  .spx-pro-governance-section {
+  .spx-pro-governance-section,
+  .spx-pro-cal-drift {
     break-inside:avoid;
     background:#fff;
     box-shadow:none;
+  }
+
+  .spx-pro-cal-drift-svg {
+    border-color:#cfd7e3;
+    background:#fff;
   }
 
   .spx-pro-grid,
