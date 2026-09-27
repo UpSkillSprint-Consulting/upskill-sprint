@@ -16,7 +16,7 @@ async function tool(t) {
 
 test('interactive crystal viewer loads with accessible controls and local assets', async t => {
   const { win, doc, record } = await tool(t);
-  assert.equal(win.__SPX.crystal3d.version, '1.0.0');
+  assert.equal(win.__SPX.crystal3d.version, '1.1.0');
   assert.ok(record.loaded.includes('tools/steel-phase-explorer-3d.js'));
   assert.ok(record.loaded.includes('tools/steel-phase-explorer-3d.css'));
   assert.equal(doc.getElementById('spx-crystal-canvas').tabIndex, 0);
@@ -42,6 +42,16 @@ test('automatic mode follows single- and multi-phase equilibrium selections', as
   state = win.__SPX.crystal3d.getState();
   assert.deepEqual(Array.from(state.phases), ['Ferrite', 'Austenite', 'Cementite']);
   assert.match(state.region, /Eutectoid invariant/i);
+});
+
+test('carbon marker population increases with carbon content in single-phase austenite', async t => {
+  const { win, doc } = await tool(t);
+  win.__SPX.setPoint(0.20, 900);
+  const low = win.__SPX.crystal3d.getState().carbonMarkers.Austenite;
+  win.__SPX.setPoint(1.00, 900);
+  const high = win.__SPX.crystal3d.getState().carbonMarkers.Austenite;
+  assert.ok(high > low, `expected marker count to increase, received ${low} then ${high}`);
+  assert.match(doc.getElementById('spx-crystal-summary').textContent, /≈ 1 wt% C/i);
 });
 
 test('martensite is available only as an explicitly labelled manual reference', async t => {
