@@ -26,6 +26,7 @@ stage: controlled specification traceability handoff
 <script src="/theme.js"></script>
 <script src="/site-sections.js"></script>
 <link rel="stylesheet" href="/tools/steel-phase-explorer.css">
+<link rel="stylesheet" href="/tools/steel-phase-explorer-3d.css">
 <style>
 .spx-bottom-nav{display:flex;justify-content:flex-start;margin:24px 0 8px;padding-top:18px;border-top:1px solid var(--spx-border)}
 .spx-bottom-back{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 14px;border:1px solid var(--spx-accent);border-radius:9px;background:var(--spx-accent);color:var(--spx-on-accent)!important;font-size:.86rem;font-weight:800;text-decoration:none;box-shadow:0 4px 14px rgba(14,116,144,.18);transition:transform .15s ease,background-color .15s ease,box-shadow .15s ease}
@@ -73,6 +74,23 @@ stage: controlled specification traceability handoff
 <div class="spx-card spx-card-pad"><div class="spx-card-title"><div><h2>Microstructure viewer</h2><p>Schematic, not photomicrographic.</p></div></div><div class="spx-micro-wrap"><canvas id="spx-micro-canvas" width="480" height="280" role="img" aria-label="Schematic steel microstructure"></canvas><div class="spx-checks"><label><input id="spx-show-grains" type="checkbox" checked> Grain boundaries</label><label><input id="spx-show-carbon" type="checkbox"> Carbon distribution</label><label><input id="spx-show-labels" type="checkbox" checked> Labels</label></div><div class="spx-legend" id="spx-micro-legend"></div></div></div>
 <div class="spx-card spx-card-pad"><div class="spx-card-title"><div><h2>Slow-cooled room-temperature microconstituent estimate</h2><p>Ferrite, pearlite, and proeutectoid cementite estimate after conceptual slow cooling.</p></div></div><div id="spx-final-micro"></div></div>
 </div>
+<aside class="spx-card spx-crystal-card" id="spx-crystal-viewer" aria-labelledby="spx-crystal-title">
+<div class="spx-card-pad spx-crystal-header">
+<div><p class="spx-crystal-kicker">Interactive crystal structure</p><h2 id="spx-crystal-title">Active equilibrium phases</h2><p id="spx-crystal-subtitle">Drag to rotate. Scroll or use the controls to zoom.</p></div>
+<label class="spx-crystal-mode" for="spx-crystal-mode">Structure view<select id="spx-crystal-mode"><option value="auto">Follow active point</option><option value="Austenite">Austenite — FCC</option><option value="Ferrite">Ferrite — BCC</option><option value="Cementite">Cementite — Fe₃C</option><option value="Martensite">Martensite — BCT</option></select></label>
+</div>
+<div class="spx-crystal-stage">
+<canvas id="spx-crystal-canvas" width="760" height="620" tabindex="0" role="img" aria-label="Interactive three-dimensional crystal lattice"></canvas>
+<div class="spx-crystal-axis" aria-hidden="true"><span class="x">x</span><span class="y">y</span><span class="z">z</span></div>
+</div>
+<div class="spx-card-pad spx-crystal-controls">
+<div class="spx-crystal-buttons" role="group" aria-label="Crystal view controls"><button class="spx-btn" type="button" data-crystal-action="zoom-out" aria-label="Zoom out">−</button><button class="spx-btn" type="button" data-crystal-action="reset">Reset view</button><button class="spx-btn" type="button" data-crystal-action="zoom-in" aria-label="Zoom in">+</button><button class="spx-btn" type="button" data-crystal-action="fullscreen">Full screen</button></div>
+<div class="spx-checks spx-crystal-options"><label><input id="spx-crystal-carbon" type="checkbox" checked> Carbon sites</label><label><input id="spx-crystal-spin" type="checkbox"> Auto rotate</label></div>
+<div id="spx-crystal-summary" class="spx-crystal-summary" role="status" aria-live="polite"></div>
+<div id="spx-crystal-legend" class="spx-crystal-legend" aria-label="Atom legend"><span><i class="iron"></i>Iron atom (phase colour)</span><span><i class="carbon"></i>Carbon atom or site</span><span><i class="cell"></i>Unit-cell edge</span></div>
+<p class="spx-crystal-note">Crystal cells are educational schematics. Atom counts and cell sizes are not scaled to bulk phase fraction or carbon concentration. Cementite uses a simplified Fe₃C orthorhombic cell.</p>
+</div>
+</aside>
 </div>
 </section>
 
@@ -142,5 +160,6 @@ stage: controlled specification traceability handoff
 <script src="/tools/steel-phase-explorer-path.js"></script>
 <script src="/tools/steel-phase-explorer-analysis.js"></script>
 <script src="/tools/steel-phase-explorer-app.js"></script>
+<script src="/tools/steel-phase-explorer-3d.js"></script>
 </body>
 </html>
