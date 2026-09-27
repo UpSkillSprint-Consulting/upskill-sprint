@@ -17,3 +17,4 @@ html[data-theme="dark"] #spx-tool{--spx-on-accent:#07131d;--spx-martensite:#cbd5
 .spx-tabs,.spx-table-wrap{scrollbar-width:thin;scrollbar-color:var(--spx-accent) var(--spx-surface)}
 html[data-theme="dark"] #spx-tool .spx-btn.primary,
 html[data-theme="dark"] #spx-tool button[aria-pressed="true"]{color:var(--spx-on-accent)}
+#spx-kinetics-svg .spx-kin-label{font-size:12px;font-weight:650;fill:var(--lbl);fill:color-mix(in srgb,var(--lbl) 68%,var(--spx-text));paint-order:stroke;stroke:var(--spx-bg);stroke-width:4px;stroke-linejoin:round}#spx-kinetics-svg .spx-kin-halo{paint-order:stroke;stroke:var(--spx-bg);stroke-width:4px;stroke-linejoin:round}
