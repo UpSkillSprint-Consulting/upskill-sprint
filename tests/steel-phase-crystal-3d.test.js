@@ -16,7 +16,7 @@ async function tool(t) {
 
 test('interactive crystal viewer loads with accessible controls and local assets', async t => {
   const { win, doc, record } = await tool(t);
-  assert.equal(win.__SPX.crystal3d.version, '1.2.0');
+  assert.equal(win.__SPX.crystal3d.version, '1.3.0');
   assert.ok(record.loaded.includes('tools/steel-phase-explorer-3d.js'));
   assert.ok(record.loaded.includes('tools/steel-phase-explorer-3d.css'));
   assert.equal(doc.getElementById('spx-crystal-canvas').tabIndex, 0);
@@ -43,6 +43,7 @@ test('display styles rerender without losing phase, carbon, rotation or zoom sta
     style.dispatchEvent(new win.Event('change', { bubbles: true }));
     const state = win.__SPX.crystal3d.getState();
     assert.equal(state.style, value);
+    assert.equal(canvas.dataset.displayStyle, value);
     assert.deepEqual(Array.from(state.phases), Array.from(before.phases));
     assert.deepEqual(JSON.parse(JSON.stringify(state.carbonMarkers)), JSON.parse(JSON.stringify(before.carbonMarkers)));
     assert.equal(state.zoom, before.zoom);
