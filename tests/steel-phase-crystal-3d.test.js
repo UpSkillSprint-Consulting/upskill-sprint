@@ -23,6 +23,7 @@ test('interactive crystal viewer loads with accessible controls and local assets
   assert.equal(doc.getElementById('spx-crystal-canvas').getAttribute('role'), 'img');
   assert.equal(doc.querySelectorAll('#spx-crystal-mode option').length, 5);
   assert.equal(doc.querySelectorAll('[data-crystal-action]').length, 4);
+  assert.equal(doc.getElementById('spx-crystal-labels').checked, true);
   assert.equal(record.errors.length, 0, record.errors.join('\n'));
 });
 
