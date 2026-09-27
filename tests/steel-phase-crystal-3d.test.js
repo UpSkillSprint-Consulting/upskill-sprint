@@ -16,15 +16,40 @@ async function tool(t) {
 
 test('interactive crystal viewer loads with accessible controls and local assets', async t => {
   const { win, doc, record } = await tool(t);
-  assert.equal(win.__SPX.crystal3d.version, '1.1.0');
+  assert.equal(win.__SPX.crystal3d.version, '1.2.0');
   assert.ok(record.loaded.includes('tools/steel-phase-explorer-3d.js'));
   assert.ok(record.loaded.includes('tools/steel-phase-explorer-3d.css'));
   assert.equal(doc.getElementById('spx-crystal-canvas').tabIndex, 0);
   assert.equal(doc.getElementById('spx-crystal-canvas').getAttribute('role'), 'img');
   assert.equal(doc.querySelectorAll('#spx-crystal-mode option').length, 5);
+  assert.deepEqual([...doc.querySelectorAll('#spx-crystal-style option')].map(option => option.value), ['space', 'lattice', 'hybrid']);
+  assert.equal(doc.getElementById('spx-crystal-style').value, 'hybrid');
   assert.equal(doc.querySelectorAll('[data-crystal-action]').length, 4);
   assert.equal(doc.getElementById('spx-crystal-labels').checked, true);
   assert.equal(record.errors.length, 0, record.errors.join('\n'));
+});
+
+test('display styles rerender without losing phase, carbon, rotation or zoom state', async t => {
+  const { win, doc } = await tool(t);
+  win.__SPX.setPoint(1.00, 900);
+  const canvas = doc.getElementById('spx-crystal-canvas');
+  canvas.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+  doc.querySelector('[data-crystal-action="zoom-in"]').click();
+  const before = win.__SPX.crystal3d.getState();
+  const style = doc.getElementById('spx-crystal-style');
+
+  for (const value of ['space', 'lattice', 'hybrid']) {
+    style.value = value;
+    style.dispatchEvent(new win.Event('change', { bubbles: true }));
+    const state = win.__SPX.crystal3d.getState();
+    assert.equal(state.style, value);
+    assert.deepEqual(Array.from(state.phases), Array.from(before.phases));
+    assert.deepEqual(JSON.parse(JSON.stringify(state.carbonMarkers)), JSON.parse(JSON.stringify(before.carbonMarkers)));
+    assert.equal(state.zoom, before.zoom);
+    assert.equal(state.rotY, before.rotY);
+    assert.match(doc.getElementById('spx-crystal-summary').textContent, new RegExp(value === 'space' ? 'Space-filling view' : value[0].toUpperCase() + value.slice(1) + ' view'));
+    assert.match(canvas.getAttribute('aria-label'), new RegExp(value === 'space' ? 'Space-filling view' : value[0].toUpperCase() + value.slice(1) + ' view'));
+  }
 });
 
 test('automatic mode follows single- and multi-phase equilibrium selections', async t => {

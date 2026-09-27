@@ -1,5 +1,6 @@
 .spx-crystal-card{grid-column:1/-1;min-width:0;overflow:hidden}
 .spx-crystal-header{display:grid;grid-template-columns:minmax(0,1fr) minmax(210px,.56fr);gap:16px;align-items:end}
+.spx-crystal-selectors{display:grid;grid-template-columns:1fr;gap:9px}
 .spx-crystal-kicker{margin:0 0 3px!important;color:var(--spx-accent)!important;font-size:.72rem!important;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
 .spx-crystal-header h2{font-size:1.08rem}.spx-crystal-header p{margin:3px 0 0;color:var(--spx-muted);font-size:.82rem}
 .spx-crystal-mode{display:grid;gap:4px;color:var(--spx-muted);font-size:.76rem;font-weight:800}
