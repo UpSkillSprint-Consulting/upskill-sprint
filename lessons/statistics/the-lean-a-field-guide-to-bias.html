@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "The Lean: A Field Guide to Bias",
+  "slug": "the-lean-a-field-guide-to-bias",
+  "category": "Statistics",
+  "category_slug": "statistics",
+  "level": "Beginner",
+  "lesson_type": "General",
+  "estimated_minutes": 65,
+  "interactive": true,
+  "card_title": "The Lean: A Field Guide to Bias",
+  "card_description": "Explore systematic, cognitive and systemic bias through 83 examples, interactive simulations, a quiz and three printable posters.",
+  "search_keywords": [
+    "statistical bias",
+    "cognitive bias",
+    "systemic bias",
+    "survivorship bias",
+    "sampling bias",
+    "measurement bias",
+    "nonresponse",
+    "gauge linearity",
+    "model selection",
+    "excel",
+    "minitab",
+    "quality engineering"
+  ],
+  "suggested_github_path": "lessons/statistics/the-lean-a-field-guide-to-bias.html"
+}
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Lean: A Field Guide to Bias</title>
+<meta name="description" content="Explore systematic, cognitive and systemic bias through 83 examples, interactive simulations, a quiz and three printable posters.">
+<link rel="canonical" href="https://upskillsprint.com/lessons/statistics/the-lean-a-field-guide-to-bias">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/lessons-theme.css">
+<script src="/theme.js"></script>
+<script src="/site-sections.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>window.MathJax={tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]},options:{enableMenu:false}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style id="bias-lesson-style">
+.bias-lesson{
+  --lesson-bias-bg:#eaf1f6; --lesson-bias-panel:#ffffff; --lesson-bias-panel2:#dfe9f1; --lesson-bias-ink:#0b2238; --lesson-bias-muted:#4d6479; --lesson-bias-line:#c4d4e1;
+  --lesson-bias-cyan:#0e6d8b; --lesson-bias-coral:#b53e35; --lesson-bias-sea:#18734f; --lesson-bias-amber:#b86f0c; --lesson-bias-violet:#6a4fc0;
+  --lesson-bias-target1:#d6e4ee; --lesson-bias-target2:#c3d6e4;
+  --lesson-bias-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --lesson-bias-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --lesson-bias-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.bias-lesson *, .bias-lesson *::before, .bias-lesson *::after{box-sizing:inherit}
+.bias-lesson{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+@media (prefers-reduced-motion: reduce){.bias-lesson{scroll-behavior:auto}.bias-lesson *{transition:none!important;animation:none!important}}
+.bias-lesson{margin:0;background:var(--lesson-bias-bg);color:var(--lesson-bias-ink);font-family:var(--lesson-bias-body);font-size:17px;line-height:1.6}
+.bias-lesson a{color:var(--lesson-bias-cyan)}
+.bias-lesson :focus-visible{outline:2px solid var(--lesson-bias-cyan);outline-offset:3px;border-radius:3px}
+.bias-lesson .wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+.bias-lesson .prose{max-width:68ch}
+
+/* nav */
+.bias-lesson nav.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--lesson-bias-bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--lesson-bias-line)}
+.bias-lesson nav.top .wrap{display:flex;gap:18px;align-items:center;height:54px;overflow-x:auto;white-space:nowrap}
+.bias-lesson nav.top strong{font-family:var(--lesson-bias-display);font-size:22px;letter-spacing:.5px;margin-right:auto}
+.bias-lesson nav.top a{font-size:14px;text-decoration:none;color:var(--lesson-bias-muted)}
+.bias-lesson nav.top a:hover{color:var(--lesson-bias-ink)}
+
+/* hero */
+.bias-lesson .hero{padding:56px 0 40px}
+.bias-lesson .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+.bias-lesson h1{font-family:var(--lesson-bias-display);font-weight:800;font-size:clamp(46px,7.4vw,92px);line-height:.92;margin:0 0 20px;letter-spacing:-.5px}
+.bias-lesson h1 .tilt{display:inline-block;transform:rotate(-4deg) translateX(10px);transform-origin:left bottom}
+.bias-lesson .lede{font-size:19px;color:var(--lesson-bias-muted);max-width:44ch;margin:0 0 18px}
+.bias-lesson .lab{background:var(--lesson-bias-panel);border:1px solid var(--lesson-bias-line);border-radius:14px;padding:18px}
+.bias-lesson .lab svg{width:100%;height:auto;display:block}
+.bias-lesson .controls{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin-top:12px}
+.bias-lesson .controls label{font-size:13px;color:var(--lesson-bias-muted);display:flex;flex-direction:column;gap:4px}
+.bias-lesson .controls input[type=range]{accent-color:var(--lesson-bias-cyan);width:100%}
+.bias-lesson .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.bias-lesson button{font:inherit;cursor:pointer}
+.bias-lesson .btn{background:var(--lesson-bias-cyan);color:var(--lesson-bias-bg);border:0;border-radius:8px;padding:9px 16px;font-weight:600;font-size:15px}
+.bias-lesson .btn.ghost{background:transparent;color:var(--lesson-bias-ink);border:1px solid var(--lesson-bias-line)}
+.bias-lesson .readout{font-family:var(--lesson-bias-mono);font-size:13px;color:var(--lesson-bias-muted);margin-top:10px;min-height:40px}
+.bias-lesson .readout b{color:var(--lesson-bias-ink);font-weight:500}
+
+.bias-lesson section{padding:64px 0;border-top:1px solid var(--lesson-bias-line)}
+.bias-lesson h2{font-family:var(--lesson-bias-display);font-weight:700;font-size:clamp(34px,4.6vw,54px);line-height:1;margin:0 0 18px}
+.bias-lesson h3{font-family:var(--lesson-bias-display);font-weight:600;font-size:26px;margin:0 0 8px;line-height:1.1}
+
+/* definition */
+.bias-lesson .defgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:start}
+.bias-lesson .formula{background:var(--lesson-bias-panel);border-left:4px solid var(--lesson-bias-cyan);padding:20px 22px;border-radius:0 12px 12px 0;font-family:var(--lesson-bias-mono);font-size:15px;line-height:1.9}
+.bias-lesson .formula .big{font-size:21px;color:var(--lesson-bias-ink)}
+.bias-lesson .formula small{display:block;font-family:var(--lesson-bias-body);color:var(--lesson-bias-muted);font-size:14px;line-height:1.5;margin-top:8px}
+.bias-lesson .pull{font-family:var(--lesson-bias-display);font-size:30px;line-height:1.1;font-weight:600;margin:26px 0 0;max-width:30ch}
+
+/* story */
+.bias-lesson .story{display:grid;grid-template-columns:.9fr 1.1fr;gap:36px;align-items:center}
+.bias-lesson .plane svg{width:100%;height:auto}
+.bias-lesson .reveal-btn{margin-top:14px}
+.bias-lesson .hidden-truth{display:none;margin-top:14px;padding:14px 16px;background:var(--lesson-bias-panel2);border-radius:10px}
+.bias-lesson .hidden-truth.on{display:block}
+
+/* families */
+.bias-lesson .families{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--lesson-bias-line);border-radius:14px;overflow:hidden}
+.bias-lesson .fam{padding:22px;background:var(--lesson-bias-panel)}
+.bias-lesson .fam+.fam{border-left:1px solid var(--lesson-bias-line)}
+.bias-lesson .fam h3{display:flex;align-items:center;gap:10px}
+.bias-lesson .dot{width:12px;height:12px;border-radius:50%;display:inline-block;flex:none}
+.bias-lesson .fam p{margin:0 0 10px;color:var(--lesson-bias-muted);font-size:15px}
+.bias-lesson .fam .q{font-style:italic;color:var(--lesson-bias-ink);font-size:15px}
+
+/* field guide */
+.bias-lesson .tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:22px 0 10px}
+.bias-lesson .search{flex:1 1 240px;background:var(--lesson-bias-panel);border:1px solid var(--lesson-bias-line);color:var(--lesson-bias-ink);border-radius:8px;padding:10px 12px;font:inherit;font-size:15px}
+.bias-lesson .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.bias-lesson .chip{background:transparent;border:1px solid var(--lesson-bias-line);color:var(--lesson-bias-muted);padding:6px 12px;border-radius:999px;font-size:14px}
+.bias-lesson .chip[aria-pressed="true"]{background:var(--lesson-bias-ink);color:var(--lesson-bias-bg);border-color:var(--lesson-bias-ink)}
+.bias-lesson .count{font-family:var(--lesson-bias-mono);font-size:13px;color:var(--lesson-bias-muted);margin:6px 0 16px}
+.bias-lesson .catblock{margin-top:34px}
+.bias-lesson .catblock h3{font-size:24px;border-bottom:1px solid var(--lesson-bias-line);padding-bottom:6px;margin-bottom:14px;display:flex;align-items:baseline;gap:10px}
+.bias-lesson .catblock h3 span{font-family:var(--lesson-bias-mono);font-size:13px;color:var(--lesson-bias-muted);font-weight:400}
+.bias-lesson .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.bias-lesson .spec{background:var(--lesson-bias-panel);border:1px solid var(--lesson-bias-line);border-left:4px solid var(--lesson-bias-fam);border-radius:4px 10px 10px 4px;padding:14px 16px;display:flex;flex-direction:column}
+.bias-lesson .spec h4{font-family:var(--lesson-bias-display);font-size:22px;font-weight:600;margin:0 0 4px;line-height:1.1}
+.bias-lesson .spec p{margin:0;font-size:15px;line-height:1.5}
+.bias-lesson .spec .src{font-size:12px;color:var(--lesson-bias-muted);margin-top:8px}
+.bias-lesson .spec button.ex{margin-top:10px;align-self:flex-start;background:transparent;border:0;color:var(--lesson-bias-fam);padding:0;font-weight:600;font-size:14px}
+.bias-lesson .spec .exbox{display:none;margin-top:8px;padding:10px 12px;background:var(--lesson-bias-panel2);border-radius:8px;font-size:14.5px}
+.bias-lesson .spec.open .exbox{display:block}
+
+/* quiz */
+.bias-lesson .quiz{background:var(--lesson-bias-panel);border:1px solid var(--lesson-bias-line);border-radius:14px;padding:26px;max-width:760px}
+.bias-lesson .qmeta{font-family:var(--lesson-bias-mono);font-size:13px;color:var(--lesson-bias-muted);display:flex;justify-content:space-between}
+.bias-lesson .qtext{font-size:20px;line-height:1.45;margin:12px 0 18px}
+.bias-lesson .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bias-lesson .opt{background:var(--lesson-bias-panel2);border:1px solid var(--lesson-bias-line);color:var(--lesson-bias-ink);padding:12px 14px;border-radius:10px;text-align:left;font-size:16px}
+.bias-lesson .opt.right{border-color:var(--lesson-bias-sea);background:color-mix(in srgb,var(--lesson-bias-sea) 20%,var(--lesson-bias-panel2))}
+.bias-lesson .opt.wrong{border-color:var(--lesson-bias-coral);background:color-mix(in srgb,var(--lesson-bias-coral) 18%,var(--lesson-bias-panel2))}
+.bias-lesson .why{margin-top:14px;font-size:15.5px;min-height:24px}
+.bias-lesson .why b{font-family:var(--lesson-bias-display);font-size:20px;font-weight:600}
+
+/* toolkit */
+.bias-lesson .kit{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px 34px;margin-top:18px}
+.bias-lesson .kit div{border-top:2px solid var(--lesson-bias-cyan);padding-top:10px}
+.bias-lesson .kit h4{font-family:var(--lesson-bias-display);font-size:22px;font-weight:600;margin:0 0 4px}
+.bias-lesson .kit p{margin:0;font-size:15px;color:var(--lesson-bias-muted)}
+.bias-lesson .kit p em{color:var(--lesson-bias-ink);font-style:normal}
+.bias-lesson .source-note{padding:40px 0 60px;color:var(--lesson-bias-muted);font-size:14px;border-top:1px solid var(--lesson-bias-line)}
+
+
+/* charts and visuals */
+.bias-lesson .tk{font:12px var(--lesson-bias-mono);fill:var(--lesson-bias-muted)}
+.bias-lesson .ax{font:13px var(--lesson-bias-body);fill:var(--lesson-bias-muted)}
+.bias-lesson .lbl{font:600 13px var(--lesson-bias-body);fill:var(--lesson-bias-ink)}
+.bias-lesson .chart svg{width:100%;height:auto;display:block}
+.bias-lesson .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;color:var(--lesson-bias-muted);margin-top:6px}
+.bias-lesson .legend i{display:inline-block;width:14px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.bias-lesson .legend i.o{width:10px;height:10px;border-radius:50%}
+.bias-lesson .quad{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:34px}
+.bias-lesson .quad figure{margin:0;text-align:center}
+.bias-lesson .quad svg{width:100%;max-width:150px;height:auto}
+.bias-lesson .quad figcaption{font-size:14px;margin-top:4px}
+.bias-lesson .quad figcaption span{display:block;color:var(--lesson-bias-muted);font-size:13px}
+.bias-lesson .minichart{background:var(--lesson-bias-panel);border:1px solid var(--lesson-bias-line);border-radius:12px;padding:14px 16px;margin-top:18px}
+.bias-lesson .minichart h4{font-family:var(--lesson-bias-display);font-size:20px;font-weight:600;margin:0 0 4px}
+.bias-lesson .minichart p{margin:0 0 8px;font-size:14px;color:var(--lesson-bias-muted)}
+.bias-lesson .funnel{margin-top:34px;background:var(--lesson-bias-panel);border:1px solid var(--lesson-bias-line);border-radius:14px;padding:18px 20px}
+.bias-lesson .funnel h3{margin-bottom:2px}
+.bias-lesson .funnel p{margin:0 0 8px;color:var(--lesson-bias-muted);font-size:15px}
+.bias-lesson .fambar{display:flex;height:46px;border-radius:10px;overflow:hidden;margin:26px 0 8px}
+.bias-lesson .fambar div{min-width:112px;padding:0 8px;display:flex;align-items:center;justify-content:center;color:var(--lesson-bias-bg);font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden}
+.bias-lesson .pipe{list-style:none;padding:0;margin:30px 0 0;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:st}
+.bias-lesson .pipe li{counter-increment:st}
+.bias-lesson .pipe button, .bias-lesson .sysband{width:100%;height:100%;text-align:left;background:var(--lesson-bias-panel);border:1px solid var(--lesson-bias-line);border-top:4px solid var(--lesson-bias-cc);border-radius:6px 6px 12px 12px;padding:14px;color:var(--lesson-bias-ink);position:relative}
+.bias-lesson .pipe button{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start}
+.bias-lesson .pipe button:hover, .bias-lesson .sysband:hover{background:var(--lesson-bias-panel2)}
+.bias-lesson .pipe .ic{color:var(--lesson-bias-cc)}
+.bias-lesson .pipe b{display:block;font-family:var(--lesson-bias-display);font-size:21px;font-weight:600;margin:6px 0 2px}
+.bias-lesson .pipe b::before{content:counter(st) ". ";color:var(--lesson-bias-muted)}
+.bias-lesson .pipe small{display:block;font-size:13px;color:var(--lesson-bias-muted);line-height:1.4}
+.bias-lesson .pipe .n{font-family:var(--lesson-bias-mono);font-size:12px;color:var(--lesson-bias-cc);margin-top:6px;display:block}
+.bias-lesson .sysband{margin-top:12px;display:flex;align-items:center;gap:14px;border-top:0;border-left:4px solid var(--lesson-bias-cc);border-radius:6px 12px 12px 6px}
+.bias-lesson .sysband .ic{color:var(--lesson-bias-cc);flex:none}
+.bias-lesson .sysband b{font-family:var(--lesson-bias-display);font-size:21px;font-weight:600}
+.bias-lesson .demos{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:22px}
+.bias-lesson .demo{background:var(--lesson-bias-panel);border:1px solid var(--lesson-bias-line);border-radius:14px;padding:20px}
+.bias-lesson .demo.wide{grid-column:1/-1}
+.bias-lesson .demo h3{margin-bottom:4px}
+.bias-lesson .demo>p{margin:0 0 10px;color:var(--lesson-bias-muted);font-size:15px}
+.bias-lesson .demo input[type=range]{accent-color:var(--lesson-bias-cyan);width:100%}
+.bias-lesson .note{font-size:12px;color:var(--lesson-bias-muted);margin-top:6px}
+.bias-lesson .catblock h3 .ic{align-self:center;color:var(--lesson-bias-cyan)}
+.bias-lesson .spec h4{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.bias-lesson .spec h4 .ic{flex:none;color:var(--lesson-bias-fam);opacity:.8;margin-top:3px}
+.bias-lesson .catnote{margin:0 0 10px}
+.bias-lesson .catnote button{background:var(--lesson-bias-panel2);border:1px solid var(--lesson-bias-line);color:var(--lesson-bias-ink);border-radius:999px;padding:6px 12px;font-size:14px}
+.bias-lesson .qdots{display:flex;gap:6px;margin-top:10px}
+.bias-lesson .qdots span{width:22px;height:6px;border-radius:3px;background:var(--lesson-bias-line)}
+.bias-lesson .qdots span.c{background:var(--lesson-bias-cyan)}
+.bias-lesson .qdots span.r{background:var(--lesson-bias-sea)}
+.bias-lesson .qdots span.w{background:var(--lesson-bias-coral)}
+@media (max-width:860px){
+  .bias-lesson .quad{grid-template-columns:1fr 1fr}
+  .bias-lesson .pipe{grid-template-columns:1fr}
+  .bias-lesson .demos{grid-template-columns:1fr}
+}
+
+
+/* download posters */
+.bias-lesson .dlzone{position:relative;overflow:hidden;background:linear-gradient(135deg,color-mix(in srgb,var(--lesson-bias-amber) 22%,var(--lesson-bias-panel)) 0%,var(--lesson-bias-panel) 55%,color-mix(in srgb,var(--lesson-bias-cyan) 18%,var(--lesson-bias-panel)) 100%);border-bottom:1px solid var(--lesson-bias-line)}
+.bias-lesson .dlzone .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:36px;align-items:center;padding-top:40px;padding-bottom:40px}
+.bias-lesson .dlzone h2{font-size:clamp(38px,5.2vw,64px);margin:0 0 12px;line-height:.95}
+.bias-lesson .dlzone .badge{display:inline-flex;align-items:center;gap:8px;background:var(--lesson-bias-amber);color:#1b1206;font-weight:600;font-size:14px;padding:6px 14px;border-radius:999px;margin-bottom:16px}
+.bias-lesson .dlzone .badge .ping{width:9px;height:9px;border-radius:50%;background:#1b1206;animation:bias-ping 1.6s ease-out infinite}
+@keyframes bias-ping{0%{box-shadow:0 0 0 0 rgba(27,18,6,.6)}100%{box-shadow:0 0 0 12px rgba(27,18,6,0)}}
+.bias-lesson .dlzone .intro{color:var(--lesson-bias-muted);font-size:17px;max-width:40ch;margin:0}
+.bias-lesson .posters{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.bias-lesson .pcard{background:var(--lesson-bias-panel);border:2px solid var(--lesson-bias-line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px;transition:border-color .2s}
+.bias-lesson .pcard:hover{border-color:var(--lesson-bias-amber)}
+.bias-lesson .pthumb{height:230px;overflow:hidden;border-radius:10px;background:#f2f2f0;position:relative}
+.bias-lesson .pthumb img{width:100%;display:block;transform-origin:top center;transition:transform .5s ease}
+.bias-lesson .pcard:hover .pthumb img{transform:translateY(-40px)}
+.bias-lesson .pthumb::after{content:"";position:absolute;left:0;right:0;bottom:0;height:60px;background:linear-gradient(transparent,rgba(0,0,0,.28))}
+.bias-lesson .pcard .tag{position:absolute;top:10px;right:10px;z-index:1;background:var(--lesson-bias-ink);color:var(--lesson-bias-bg);font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px}
+.bias-lesson .pcard h3{font-size:24px;margin:0}
+.bias-lesson .pcard .meta{font-size:13px;color:var(--lesson-bias-muted);margin:-6px 0 0}
+.bias-lesson .dlbtn{margin-top:auto;display:flex;align-items:center;justify-content:center;gap:10px;background:var(--lesson-bias-amber);color:#1b1206;border:0;border-radius:12px;padding:14px 16px;font-weight:700;font-size:18px;box-shadow:0 6px 0 color-mix(in srgb,var(--lesson-bias-amber) 55%,#000);transition:transform .08s,box-shadow .08s}
+.bias-lesson .dlbtn:hover{filter:brightness(1.06)}
+.bias-lesson .dlbtn:active{transform:translateY(4px);box-shadow:0 2px 0 color-mix(in srgb,var(--lesson-bias-amber) 55%,#000)}
+.bias-lesson .dlbtn svg{flex:none}
+.bias-lesson .dlstatus{font-size:13px;color:var(--lesson-bias-muted);min-height:18px}
+.bias-lesson .dlzone.three .wrap{grid-template-columns:1fr;gap:26px}
+.bias-lesson .dlzone.three .intro{max-width:60ch}
+.bias-lesson .posters.three{grid-template-columns:repeat(3,1fr)}
+@media (max-width:980px){.bias-lesson .posters.three{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.bias-lesson .posters.three{grid-template-columns:1fr}}
+.bias-lesson nav.top a.navdl{background:var(--lesson-bias-amber);color:#1b1206;font-weight:600;padding:5px 12px;border-radius:999px}
+@media (max-width:860px){.bias-lesson .dlzone .wrap{grid-template-columns:1fr}.bias-lesson .posters{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.bias-lesson .dlzone .badge .ping{animation:none}}
+
+@media (max-width:860px){
+  .bias-lesson .hero-grid, .bias-lesson .defgrid, .bias-lesson .story{grid-template-columns:1fr}
+  .bias-lesson .families{grid-template-columns:1fr}
+  .bias-lesson .fam+.fam{border-left:0;border-top:1px solid var(--lesson-bias-line)}
+  .bias-lesson .opts{grid-template-columns:1fr}
+}
+/* Preserve the poster design while isolating it from the site chrome. */
+.bias-lesson{color-scheme:light dark;max-width:none;overflow-x:clip}
+.bias-lesson nav.top{top:70px}
+.bias-lesson .hero-statement{font-family:var(--lesson-bias-display);font-weight:800;font-size:clamp(46px,7.4vw,92px);line-height:.92;margin:0 0 20px;letter-spacing:-.5px}
+.bias-lesson .hero-statement .tilt{display:inline-block;transform:rotate(-4deg) translateX(10px);transform-origin:left bottom}
+.bias-lesson .hero h1{font-size:clamp(26px,3vw,38px);line-height:1.1;color:var(--lesson-bias-muted);margin-bottom:14px}
+.bias-lesson .dlbtn{text-decoration:none}
+.bias-lesson [hidden]{display:none!important}
+.bias-lesson [id]{scroll-margin-top:130px}
+.bias-lesson .spec details{margin-top:10px}
+.bias-lesson .spec summary{color:var(--lesson-bias-fam);font-weight:600;font-size:14px;cursor:pointer;list-style:none}
+.bias-lesson .spec summary::-webkit-details-marker{display:none}
+.bias-lesson .spec summary::after{content:' ▾'}
+.bias-lesson .spec details[open] summary::after{content:' ▴'}
+.bias-lesson .spec details[open] .exbox{display:block}
+.bias-lesson .statistics-implementation{background:var(--lesson-bias-bg);color:var(--lesson-bias-ink)}
+.bias-lesson .statistics-implementation .table-wrap{overflow-x:auto;margin:16px 0}
+.bias-lesson .statistics-implementation table{border-collapse:collapse;width:100%;min-width:680px;background:var(--lesson-bias-panel);color:var(--lesson-bias-ink)}
+.bias-lesson .statistics-implementation th,.bias-lesson .statistics-implementation td{border:1px solid var(--lesson-bias-line);padding:10px 12px;text-align:left;vertical-align:top}
+.bias-lesson .statistics-implementation th{background:var(--lesson-bias-panel2);color:var(--lesson-bias-ink)}
+.bias-lesson .statistics-implementation code{overflow-wrap:anywhere}
+.bias-lesson .statistics-implementation .impl-card{background:var(--lesson-bias-panel);color:var(--lesson-bias-ink);border:1px solid var(--lesson-bias-line);padding:18px;margin:18px 0;border-radius:12px}
+.bias-lesson .statistics-implementation .impl-card h3{margin:0 0 10px}
+.bias-lesson .statistics-implementation .impl-card p:last-child{margin-bottom:0}
+.bias-lesson .statistics-implementation .sources{font-size:14px;color:var(--lesson-bias-muted)}
+.bias-lesson .formula .math-display{overflow-x:auto;white-space:nowrap;font-size:18px}
+.bias-lesson .source-note{background:var(--lesson-bias-bg);color:var(--lesson-bias-muted)}
+@media(max-width:640px){.bias-lesson .fambar div{min-width:0;font-size:11px;line-height:1.1;text-align:center;white-space:normal}}
+
+</style>
+<style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+</head>
+<body data-lesson-page="true" data-category="statistics" data-level="beginner" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<main id="lesson-content" class="bias-lesson">
+<nav class="top"><div class="wrap">
+  <strong>The Lean</strong>
+  <a href="#downloads" class="navdl">Download posters</a>
+  <a href="#define">Definition</a>
+  <a href="#story">The bombers</a>
+  <a href="#families">Three families</a>
+  <a href="#demos">Experiments</a>
+  <a href="#guide">Field guide</a>
+  <a href="#name-that-bias">Name that bias</a>
+  <a href="#kit">Fight back</a>
+</div></nav>
+
+
+<section class="dlzone three" id="downloads" aria-labelledby="dlTitle"><div class="wrap">
+  <div>
+    <span class="badge"><span class="ping"></span>Free printable posters</span>
+    <h2 id="dlTitle">Take the posters with you</h2>
+    <p class="intro">Three one-page PDF posters to print for the office wall, share with your team, or keep beside you during your next analysis.</p>
+  </div>
+  <div class="posters three">
+    <div class="pcard">
+      <div class="pthumb"><span class="tag">New</span><img alt="Preview of the 50 Statistical Biases poster" src="/assets/lessons/the-lean-a-field-guide-to-bias/poster-preview-1.jpg"></div>
+      <h3>50 Statistical Biases</h3>
+      <p class="meta">PDF, 1 page, 237 KB. Sampling, measurement, modelling, testing, time and reporting.</p>
+      <a class="dlbtn" href="/assets/lessons/the-lean-a-field-guide-to-bias/50-statistical-biases-poster.pdf" download><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M6 10l6 6 6-6M4 20h16"/></svg>Download PDF</a>
+      <div class="dlstatus" aria-live="polite"></div>
+    </div>
+    <div class="pcard">
+      <div class="pthumb"><span class="tag">Edition 2</span><img alt="Preview of the 50 Statistical Biases poster, edition 2" src="/assets/lessons/the-lean-a-field-guide-to-bias/poster-preview-2.jpg"></div>
+      <h3>50 Statistical Biases, Edition 2</h3>
+      <p class="meta">PDF, 1 page, 177 KB. Numbered 1 to 50 from sampling to inference, with quality and mill examples.</p>
+      <a class="dlbtn" href="/assets/lessons/the-lean-a-field-guide-to-bias/50-statistical-biases-poster-edition-2.pdf" download><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M6 10l6 6 6-6M4 20h16"/></svg>Download PDF</a>
+      <div class="dlstatus" aria-live="polite"></div>
+    </div>
+    <div class="pcard">
+      <div class="pthumb"><span class="tag">Classic</span><img alt="Preview of the 50 Cognitive Biases poster" src="/assets/lessons/the-lean-a-field-guide-to-bias/poster-preview-3.jpg"></div>
+      <h3>50 Cognitive Biases</h3>
+      <p class="meta">PDF, 1 page, 332 KB. Poster by TitleMax.</p>
+      <a class="dlbtn" href="/assets/lessons/the-lean-a-field-guide-to-bias/50-cognitive-biases-poster.pdf" download><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M6 10l6 6 6-6M4 20h16"/></svg>Download PDF</a>
+      <div class="dlstatus" aria-live="polite"></div>
+    </div>
+  </div>
+</div></section>
+
+<div class="hero"><div class="wrap hero-grid">
+  <div>
+    <h1>The Lean: A Field Guide to Bias</h1>
+    <p class="hero-statement">Bias never averages <span class="tilt">out.</span></p>
+    <p class="lede">Bias is the lean that doesn't cancel out. Take more samples, run more tests, collect more data, and it stays right where it is. Try it on the gauge target.</p>
+    <p class="lede" style="font-size:16px">This lesson covers what bias is, the three families it comes in, 83 named biases with worked examples, a quiz, and a toolkit for pushing back.</p>
+  </div>
+  <div class="lab" aria-label="Interactive bias and noise target">
+    <svg id="target" viewBox="0 0 300 300" role="img" aria-label="Target showing measurement shots and their average">
+      <circle cx="150" cy="150" r="140" fill="var(--lesson-bias-target1)"/>
+      <circle cx="150" cy="150" r="100" fill="var(--lesson-bias-target2)"/>
+      <circle cx="150" cy="150" r="60" fill="var(--lesson-bias-target1)"/>
+      <circle cx="150" cy="150" r="22" fill="var(--lesson-bias-target2)"/>
+      <line x1="150" y1="6" x2="150" y2="294" stroke="var(--lesson-bias-line)"/>
+      <line x1="6" y1="150" x2="294" y2="150" stroke="var(--lesson-bias-line)"/>
+      <g id="shots"></g>
+      <g id="meanMark"></g>
+      <circle cx="150" cy="150" r="4" fill="var(--lesson-bias-sea)"/>
+    </svg>
+    <div class="controls">
+      <label>Bias (systematic offset)<input id="biasR" type="range" min="0" max="80" value="45"></label>
+      <label>Noise (random scatter)<input id="noiseR" type="range" min="4" max="50" value="16"></label>
+    </div>
+    <div class="btnrow">
+      <button class="btn" id="fire">Take 10 measurements</button>
+      <button class="btn ghost" id="clear">Clear</button>
+    </div>
+    <div class="readout" id="readout">Green dot is the true value. Take measurements and watch where their average lands.</div>
+  </div>
+</div></div>
+
+<section id="define"><div class="wrap">
+  <h2>So what is bias, exactly?</h2>
+  <div class="defgrid">
+    <div class="prose">
+      <p><strong>Bias is a systematic error: a consistent tendency for a result to be pushed away from the truth in one direction.</strong> It comes from how data is collected, how it's measured, how it's analyzed, or how the human in the loop thinks about it.</p>
+      <p>The key word is <em>systematic</em>. Random error scatters results around the truth, so averaging helps. Bias moves the whole scatter, so averaging just gives you a very precise wrong answer. In MSA terms, noise is a precision problem and bias is an accuracy problem.</p>
+      <p>The word shows up in two worlds that turn out to be the same world:</p>
+      <p><strong>In statistics,</strong> an estimator is biased when its average across repeated samples doesn't equal the value it's trying to estimate.</p>
+      <p><strong>In psychology,</strong> a cognitive bias is a predictable shortcut in human judgement that bends conclusions the same way every time.</p>
+      <p>Both are a thumb on the scale. One lives in the data pipeline, the other lives in our heads, and most real failures involve both.</p>
+    </div>
+    <div>
+      <div class="formula">
+        <div class="math-display">\[\operatorname{Bias}(\hat{\theta})=\mathbb{E}[\hat{\theta}]-\theta\]</div>
+        <small>The average of your estimates θ̂ minus the true value θ. Zero means unbiased.</small>
+        <br>
+        <div class="math-display">\[\operatorname{MSE}(\hat{\theta})=\operatorname{Bias}(\hat{\theta})^{2}+\operatorname{Var}(\hat{\theta})\]</div>
+        <small>Total error has two parts. A bigger sample shrinks the variance term toward zero. The bias term doesn't budge.</small>
+        <br>
+        <div class="math-display">\[s^{2}=\frac{\sum_{i=1}^{n}(x_i-\bar{x})^{2}}{n-1}\]</div>
+        <small>A classic case: dividing by n instead of n − 1 makes the sample variance biased low, by a factor of (n − 1)/n. Bessel's correction removes it.</small>
+      </div>
+      <div class="minichart">
+        <h4>Bessel's correction, simulated</h4>
+        <p>3,000 simulated samples at each size, drawn from a population with true variance 1.</p>
+        <div class="chart" id="besselChart"></div>
+        <div class="legend"><span><i style="background:var(--lesson-bias-sea)"></i>True variance</span><span><i class="o" style="background:var(--lesson-bias-coral)"></i>Divide by n (biased)</span><span><i class="o" style="background:var(--lesson-bias-cyan)"></i>Divide by n − 1 (unbiased)</span></div>
+      </div>
+      <p class="pull">More data fixes noise. Only better design fixes bias.</p>
+    </div>
+  </div>
+  <div class="quad" id="quad"></div>
+</div></section>
+
+<section id="story"><div class="wrap story">
+  <div class="plane">
+    <svg viewBox="0 0 320 240" role="img" aria-label="Bomber silhouette with bullet holes on wings and fuselage but none on engines or cockpit">
+      <g fill="var(--lesson-bias-panel2)" stroke="var(--lesson-bias-muted)" stroke-width="1.5">
+        <path d="M160 20 L172 60 L172 110 L300 140 L300 156 L172 150 L170 200 L200 214 L200 224 L160 218 L120 224 L120 214 L150 200 L148 150 L20 156 L20 140 L148 110 L148 60 Z"/>
+        <ellipse cx="105" cy="128" rx="9" ry="14"/><ellipse cx="215" cy="128" rx="9" ry="14"/>
+        <ellipse cx="60" cy="138" rx="8" ry="12"/><ellipse cx="260" cy="138" rx="8" ry="12"/>
+      </g>
+      <g id="holes" fill="var(--lesson-bias-coral)">
+        <circle cx="80" cy="140" r="2.6"/><circle cx="90" cy="146" r="2.6"/><circle cx="130" cy="132" r="2.6"/><circle cx="40" cy="146" r="2.6"/>
+        <circle cx="230" cy="140" r="2.6"/><circle cx="245" cy="146" r="2.6"/><circle cx="190" cy="134" r="2.6"/><circle cx="280" cy="147" r="2.6"/>
+        <circle cx="158" cy="170" r="2.6"/><circle cx="163" cy="182" r="2.6"/><circle cx="156" cy="190" r="2.6"/><circle cx="165" cy="160" r="2.6"/>
+        <circle cx="140" cy="218" r="2.6"/><circle cx="182" cy="218" r="2.6"/><circle cx="110" cy="138" r="2.6"/><circle cx="205" cy="144" r="2.6"/>
+      </g>
+      <g id="danger" fill="none" stroke="var(--lesson-bias-amber)" stroke-width="2" stroke-dasharray="4 3" opacity="0">
+        <circle cx="105" cy="128" r="18"/><circle cx="215" cy="128" r="18"/><circle cx="60" cy="138" r="16"/><circle cx="260" cy="138" r="16"/><circle cx="160" cy="44" r="18"/>
+      </g>
+    </svg>
+  </div>
+  <div class="prose">
+    <h2>Where would you add armor?</h2>
+    <p>World War II. Bombers come back from missions riddled with bullet holes, clustered on the wings, the tail and the middle of the fuselage. Armor is heavy, so you can only add it in a few places. The military's first instinct was to reinforce where the holes were.</p>
+    <p>Statistician Abraham Wald, working with the Statistical Research Group at Columbia, pointed out what everyone was missing. Take a guess before you reveal it.</p>
+    <button class="btn reveal-btn" id="revealWald" aria-expanded="false">Reveal Wald's answer</button>
+    <div class="hidden-truth" id="waldTruth">
+      <p style="margin:0">Armor the places <strong>without</strong> holes: the engines and cockpit. The sample only contained planes that made it home. Planes hit in those spots didn't come back to be counted. The missing data was the most important data.</p>
+      <p style="margin:10px 0 0">That's <strong>survivorship bias</strong>, and it's hiding in more plant data than you'd think. A model trained only on pipe that reached final inspection has never seen the pipe that was scrapped upstream.</p>
+    </div>
+  </div>
+</div>
+<div class="wrap"><div class="funnel">
+  <h3>The same trap, on the pipe line</h3>
+  <p>Every pipe that gets scrapped upstream disappears from the final inspection database. Build a model on that database and it has never seen a failure. Illustrative numbers.</p>
+  <div class="chart" id="funnelChart"></div>
+</div></div>
+</section>
+
+<section id="families"><div class="wrap">
+  <h2>Three families of bias</h2>
+  <p class="prose" style="color:var(--lesson-bias-muted)">A useful way to sort the whole zoo is by where the lean enters: the data and the math, the people making judgements, or the system everyone operates inside.</p>
+  <div class="families">
+    <div class="fam" style="--lesson-bias-fam:var(--lesson-bias-cyan)">
+      <h3><span class="dot" style="background:var(--lesson-bias-cyan)"></span>Statistical</h3>
+      <p>Built into how data is sampled, measured, modelled and monitored. It skews numbers even when every person involved is being careful and fair.</p>
+      <p class="q">"Is the data a fair picture of reality?"</p>
+    </div>
+    <div class="fam">
+      <h3><span class="dot" style="background:var(--lesson-bias-coral)"></span>Human</h3>
+      <p>Cognitive shortcuts in memory, social behaviour and belief. Fast and usually useful, but predictably wrong in specific situations.</p>
+      <p class="q">"Am I seeing what's there, or what I expect?"</p>
+    </div>
+    <div class="fam">
+      <h3><span class="dot" style="background:var(--lesson-bias-sea)"></span>Systemic</h3>
+      <p>Embedded in history, social norms and institutional rules. Nobody has to intend it; the structure produces it and the data records it faithfully.</p>
+      <p class="q">"What did the past bake into the data?"</p>
+    </div>
+  </div>
+  <h3 style="margin-top:34px">How the 83 split up</h3>
+  <div class="fambar" id="famBar"></div>
+  <h3 style="margin-top:34px">Where bias sneaks into a study</h3>
+  <p class="prose" style="color:var(--lesson-bias-muted);margin:0">Each stage of turning reality into a decision has its own biases. Select a stage to jump to its biases in the field guide.</p>
+  <ol class="pipe" id="pipe"></ol>
+  <div id="sysBand"></div>
+</div></section>
+
+<section id="demos"><div class="wrap">
+  <h2>Watch bias happen</h2>
+  <p class="prose" style="color:var(--lesson-bias-muted)">Five small experiments with simulated data. Press the buttons and watch the lean appear.</p>
+  <div class="demos">
+    <div class="demo wide">
+      <h3>Sampling bias: the easy coupon</h3>
+      <p>Toughness varies along this simulated coil: the slower-cooled middle is weaker. Cutting test coupons from the head is convenient. See what it does to the estimate.</p>
+      <div class="chart" id="coilChart"></div>
+      <div class="btnrow"><button class="btn" id="coilHead">Sample the head only</button><button class="btn ghost" id="coilRand">Sample 8 at random</button></div>
+      <div class="readout" id="coilOut">Pick a sampling plan.</div>
+    </div>
+    <div class="demo">
+      <h3>Nonresponse: the loud 12%</h3>
+      <p>400 customers surveyed, 48 replied. Each square is one customer.</p>
+      <div class="chart" id="waffle" style="max-width:360px"></div>
+      <div class="legend"><span><i class="o" style="background:var(--lesson-bias-coral)"></i>Unhappy</span><span><i class="o" style="background:var(--lesson-bias-sea)"></i>Satisfied</span><span><i class="o" style="background:var(--lesson-bias-line)"></i>Didn't reply</span></div>
+      <div class="btnrow"><button class="btn" id="waffleBtn">Reveal the silent majority</button></div>
+      <div class="readout" id="waffleOut"></div>
+      <div class="note">Illustrative numbers.</div>
+    </div>
+    <div class="demo">
+      <h3>Model selection: test enough, find something</h3>
+      <p>Chance of at least one false "significant" result when testing variables that truly have no effect, at α = 0.05.</p>
+      <div class="chart" id="mcChart"></div>
+      <label class="note" style="font-size:13px">Number of variables tested: <b id="kVal">40</b><input id="kR" type="range" min="1" max="60" value="40"></label>
+      <div class="readout" id="mcOut"></div>
+    </div>
+    <div class="demo">
+      <h3>Clustering illusion: random defects</h3>
+      <p>30 defects placed completely at random along a 12 m pipe. The shaded band is the densest metre.</p>
+      <div class="chart" id="clusterChart"></div>
+      <div class="btnrow"><button class="btn" id="clusterBtn">Make another random pipe</button></div>
+      <div class="readout" id="clusterOut"></div>
+    </div>
+    <div class="demo">
+      <h3>Gambler's fallacy: is it "due"?</h3>
+      <p>100 fair coin flips. The ringed run is the longest streak. Streaks are normal in random data.</p>
+      <div class="chart" id="coinChart"></div>
+      <div class="btnrow"><button class="btn" id="coinBtn">Flip 100 again</button></div>
+      <div class="readout" id="coinOut"></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="guide"><div class="wrap">
+  <h2>The field guide: 83 biases</h2>
+  <p class="prose" style="color:var(--lesson-bias-muted)">Every bias from your six reference graphics, merged where they overlap, each with a plain definition and a worked example. Tap "Show example" on any card. Graphic numbers refer to the order the images were shared.</p>
+  <div class="tools">
+    <input class="search" id="q" type="search" placeholder="Search biases, e.g. anchor, survey, model" aria-label="Search biases">
+  </div>
+  <div class="chips" id="famChips" role="group" aria-label="Filter by family"></div>
+  <div class="count" id="count"></div>
+  <div class="catnote" id="catNote"></div>
+  <div id="guideOut">
+<div class="catblock" data-bias-block="sel"><h3 id="bias-category-sel">Selection and sampling <span>Who or what ended up in the data</span></h3><div class="grid"><article class="spec" data-bias-index="0" data-family="s" data-bias-category="sel" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-selection-bias">Selection bias</h4><p>The group you study differs systematically from the group you want conclusions about.</p><details><summary>Show example</summary><div class="exbox">A new rolling lubricant is trialled only on day shift, where the most experienced crew runs. It looks brilliant, then disappoints when rolled out to all four crews.</div></details><div class="src">Statistical. Graphic 2, 3</div></article>
+<article class="spec" data-bias-index="1" data-family="s" data-bias-category="sel" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-sampling-bias">Sampling bias</h4><p>The collection method makes some units more likely to be picked than others, so the sample stops being random.</p><details><summary>Show example</summary><div class="exbox">Charpy coupons are always cut from the head of the coil because it is easiest to reach. The middle and tail, where cooling differs, are never tested.</div></details><div class="src">Statistical. Graphic 1, 2, 4, 6</div></article>
+<article class="spec" data-bias-index="2" data-family="s" data-bias-category="sel" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-attrition-bias">Attrition bias</h4><p>People or units drop out partway through a study, and the ones who leave differ from the ones who stay.</p><details><summary>Show example</summary><div class="exbox">A 12-week fitness program reports amazing results. The participants who were struggling quit by week four, so only the success stories finished.</div></details><div class="src">Statistical. Graphic 1</div></article>
+<article class="spec" data-bias-index="3" data-family="s" data-bias-category="sel" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-survivorship-bias">Survivorship bias</h4><p>Only the survivors are visible, so the failures that would change the story are missing.</p><details><summary>Show example</summary><div class="exbox">&quot;Dropouts like Gates and Zuckerberg became billionaires, so college is optional.&quot; Thousands of dropouts whose startups failed never get magazine covers.</div></details><div class="src">Statistical. Graphic 1, 3, 5, 6</div></article>
+<article class="spec" data-bias-index="4" data-family="s" data-bias-category="sel" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-self-selection-bias">Self-selection bias</h4><p>People choose whether to be included, and the people who opt in differ from those who don&#39;t.</p><details><summary>Show example</summary><div class="exbox">An optional SPC course shows excellent post-test scores. The operators who signed up were already the most motivated ones on the floor.</div></details><div class="src">Statistical. Graphic 1, 3, 6</div></article>
+<article class="spec" data-bias-index="5" data-family="s" data-bias-category="sel" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-nonresponse-bias">Nonresponse bias</h4><p>The people who don&#39;t answer differ in important ways from the people who do.</p><details><summary>Show example</summary><div class="exbox">A customer satisfaction survey gets a 12% response rate, mostly from customers with an open claim. Management concludes everyone is unhappy.</div></details><div class="src">Statistical. Graphic 1, 6</div></article>
+<article class="spec" data-bias-index="6" data-family="s" data-bias-category="sel" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-undercoverage-bias">Undercoverage bias</h4><p>Part of the population has little or no chance of being included in the sample at all.</p><details><summary>Show example</summary><div class="exbox">A community survey done only by landline barely reaches anyone under 40, then reports that residents strongly prefer the old way of doing things.</div></details><div class="src">Statistical. Graphic 1</div></article>
+<article class="spec" data-bias-index="7" data-family="s" data-bias-category="sel" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-exclusion-bias">Exclusion bias</h4><p>Data points or groups are removed, carelessly or deliberately, in a way that skews results.</p><details><summary>Show example</summary><div class="exbox">Soft hardness readings are deleted as &quot;outliers&quot; before a capability study. Cpk looks great, and the customer finds the real soft spots.</div></details><div class="src">Statistical. Graphic 2</div></article>
+<article class="spec" data-bias-index="8" data-family="s" data-bias-category="sel" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-representation-bias">Representation bias</h4><p>The data under-represents conditions or groups the conclusion or model will later face.</p><details><summary>Show example</summary><div class="exbox">A surface-defect vision model is trained mostly on summer production and struggles in winter, when scale patterns look different.</div></details><div class="src">Statistical. Graphic 4</div></article>
+<article class="spec" data-bias-index="9" data-family="s" data-bias-category="sel" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-temporal-bias">Temporal bias</h4><p>Data from one period is treated as if it describes a different period.</p><details><summary>Show example</summary><div class="exbox">Control limits are set from the quarter right after a furnace reline. Normal ageing later gets flagged as out of control week after week.</div></details><div class="src">Statistical. Graphic 4</div></article></div></div>
+<div class="catblock" data-bias-block="meas"><h3 id="bias-category-meas">Measurement and reporting <span>How the data got recorded</span></h3><div class="grid"><article class="spec" data-bias-index="10" data-family="s" data-bias-category="meas" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-measurement-bias">Measurement bias</h4><p>The measuring process reads consistently high or low, or measures some groups differently from others.</p><details><summary>Show example</summary><div class="exbox">One tensile frame&#39;s load cell reads 2% high. Every heat tested on it looks stronger than it is. This is exactly what the bias study in MSA is for.</div></details><div class="src">Statistical. Graphic 2, 4</div></article>
+<article class="spec" data-bias-index="11" data-family="s" data-bias-category="meas" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-recall-bias">Recall bias</h4><p>People remember past events inaccurately, coloured by what happened afterwards or how they feel now.</p><details><summary>Show example</summary><div class="exbox">After a pipe fails hydrotest, the crew recalls the mill &quot;running rough all week.&quot; Before the failure, nobody wrote anything down.</div></details><div class="src">Statistical. Graphic 1, 2, 3, 6</div></article>
+<article class="spec" data-bias-index="12" data-family="s" data-bias-category="meas" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-observer-bias">Observer bias</h4><p>The person recording results sees what they expect to see.</p><details><summary>Show example</summary><div class="exbox">An inspector told a heat is &quot;suspect&quot; logs more borderline surface marks on it than on an identical heat labelled good.</div></details><div class="src">Statistical. Graphic 3</div></article>
+<article class="spec" data-bias-index="13" data-family="s" data-bias-category="meas" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-human-reporting-bias">Human reporting bias</h4><p>What gets written down reflects what people find notable, not how often things actually happen.</p><details><summary>Show example</summary><div class="exbox">Shift logs record every breakdown and none of the uneventful hours. Read the logs alone and the machine looks far worse than its uptime says.</div></details><div class="src">Statistical. Graphic 4</div></article>
+<article class="spec" data-bias-index="14" data-family="s" data-bias-category="meas" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-funding-bias">Funding bias</h4><p>Results tend to tilt towards the interests of whoever paid for the study.</p><details><summary>Show example</summary><div class="exbox">A refractory supplier sponsors a comparison trial. Their brick wins. The independent trial next year is far less conclusive.</div></details><div class="src">Statistical. Graphic 3</div></article></div></div>
+<div class="catblock" data-bias-block="survey"><h3 id="bias-category-survey">Surveys and interviews <span>How the asking shapes the answer</span></h3><div class="grid"><article class="spec" data-bias-index="24" data-family="s" data-bias-category="survey" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-interview-bias">Interview bias</h4><p>The interviewer&#39;s wording, tone, body language or reactions nudge how people answer.</p><details><summary>Show example</summary><div class="exbox">An auditor asks, &quot;You always verify the torque before release, right?&quot; and nods encouragingly. Every operator says yes, including the ones who don&#39;t.</div></details><div class="src">Statistical. Graphic 6</div></article>
+<article class="spec" data-bias-index="25" data-family="s" data-bias-category="survey" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-demand-characteristics-bias">Demand characteristics bias</h4><p>Participants work out what the study is looking for and change their answers or behaviour to fit it.</p><details><summary>Show example</summary><div class="exbox">Operators learn the survey is part of a 5S push, so the question &quot;How organised is your work area?&quot; gets glowing scores in the messiest bays.</div></details><div class="src">Statistical. Graphic 6</div></article>
+<article class="spec" data-bias-index="26" data-family="s" data-bias-category="survey" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-extreme-response-bias">Extreme response bias</h4><p>Some respondents habitually pick the endpoints of a scale, regardless of how strongly they actually feel.</p><details><summary>Show example</summary><div class="exbox">One site rates every item on a supplier scorecard 1 or 5. Averaged with sites that use the whole scale, their ratings dominate the result.</div></details><div class="src">Statistical. Graphic 6</div></article>
+<article class="spec" data-bias-index="27" data-family="s" data-bias-category="survey" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-neutral-response-bias">Neutral response bias</h4><p>Respondents default to the middle option to avoid committing, which hides real opinions. Also called central tendency bias.</p><details><summary>Show example</summary><div class="exbox">A 40-question engagement survey sees answers drift to &quot;3 – neutral&quot; after question 15. Fatigue, not neutrality, is doing the answering.</div></details><div class="src">Statistical. Graphic 6</div></article>
+<article class="spec" data-bias-index="28" data-family="s" data-bias-category="survey" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-question-order-bias">Question order bias</h4><p>Earlier questions prime how people answer later ones.</p><details><summary>Show example</summary><div class="exbox">Ask about last month&#39;s recall first and &quot;How would you rate our overall quality?&quot; scores drop. Ask it first and the same customers rate it higher.</div></details><div class="src">Statistical. Graphic 6</div></article>
+<article class="spec" data-bias-index="29" data-family="h" data-bias-category="survey" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-conformity-bias">Conformity bias</h4><p>People give the answer they think the group or the majority holds, rather than their own view.</p><details><summary>Show example</summary><div class="exbox">In a show-of-hands vote on whether the new procedure is workable, hands go up once the supervisor&#39;s does. The anonymous version tells a different story.</div></details><div class="src">Human. Graphic 6</div></article></div></div>
+<div class="catblock" data-bias-block="model"><h3 id="bias-category-model">Analysis and models <span>How the data got interpreted or used by models</span></h3><div class="grid"><article class="spec" data-bias-index="15" data-family="s" data-bias-category="model" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-omitted-variable-bias">Omitted variable bias</h4><p>A factor that affects both the supposed cause and the outcome is left out, so its effect gets credited to something else.</p><details><summary>Show example</summary><div class="exbox">A new operator seems to produce more defects. He&#39;s only scheduled on the hardest grades. Grade, the missing variable, drives both.</div></details><div class="src">Statistical. Graphic 3</div></article>
+<article class="spec" data-bias-index="16" data-family="s" data-bias-category="model" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-cause-effect-bias">Cause-effect bias</h4><p>Treating correlation as causation, or getting the direction of cause wrong.</p><details><summary>Show example</summary><div class="exbox">Lines with more inspectors record more defects. Removing inspectors won&#39;t improve quality; they find defects, they don&#39;t cause them.</div></details><div class="src">Statistical. Graphic 3</div></article>
+<article class="spec" data-bias-index="17" data-family="s" data-bias-category="model" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-model-selection-bias">Model selection bias</h4><p>Trying many models or variables and reporting only the best fit, which overstates how well it will really perform.</p><details><summary>Show example</summary><div class="exbox">Forty process variables are each tested against Charpy energy. At α = 0.05, about two will look significant by pure chance.</div></details><div class="src">Statistical. Graphic 4</div></article>
+<article class="spec" data-bias-index="18" data-family="s" data-bias-category="model" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-concept-drift">Concept drift</h4><p>The relationship a model learned changes over time, so its predictions quietly degrade.</p><details><summary>Show example</summary><div class="exbox">A scrap-mix model was trained before a new scrap supplier arrived. Tramp-element chemistry shifted and the model never noticed.</div></details><div class="src">Statistical. Graphic 4</div></article>
+<article class="spec" data-bias-index="19" data-family="s" data-bias-category="model" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-feedback-loops">Feedback loops</h4><p>A model&#39;s outputs shape the data it later learns from, reinforcing its own assumptions.</p><details><summary>Show example</summary><div class="exbox">Inspection effort goes to heats the model flags as risky, so most defects get found there, which &quot;confirms&quot; the model and sharpens its focus further.</div></details><div class="src">Statistical. Graphic 4</div></article>
+<article class="spec" data-bias-index="20" data-family="s" data-bias-category="model" style="--lesson-bias-fam:var(--lesson-bias-cyan)"><h4 id="bias-error-propagation">Error propagation</h4><p>Small errors early in a pipeline compound through each later step.</p><details><summary>Show example</summary><div class="exbox">A thermocouple reads 15°C low. It feeds a temperature model, then a cooling-rate estimate, then a hardness prediction, each inheriting the error.</div></details><div class="src">Statistical. Graphic 4</div></article>
+<article class="spec" data-bias-index="21" data-family="h" data-bias-category="model" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-deployment-bias">Deployment bias</h4><p>A system is used in a way that differs from how it was designed and validated.</p><details><summary>Show example</summary><div class="exbox">A tool built to decide which coils to inspect first ends up being used to decide which coils to skip inspecting entirely.</div></details><div class="src">Human. Graphic 4</div></article>
+<article class="spec" data-bias-index="22" data-family="h" data-bias-category="model" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-selective-adherence">Selective adherence</h4><p>Following a model&#39;s recommendation only when it matches what we already believe.</p><details><summary>Show example</summary><div class="exbox">A supervisor accepts the model&#39;s &quot;hold this heat&quot; flags on grades he distrusts, and overrides the identical flag on his favourite grade.</div></details><div class="src">Human. Graphic 4</div></article>
+<article class="spec" data-bias-index="23" data-family="h" data-bias-category="model" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-automation-bias">Automation bias</h4><p>Trusting an automated system over our own correct judgement or contradictory evidence.</p><details><summary>Show example</summary><div class="exbox">The vision system says &quot;pass,&quot; so the inspector waves through a pipe with a lap he can plainly see on the end.</div></details><div class="src">Human. Graphic 5</div></article></div></div>
+<div class="catblock" data-bias-block="mind"><h3 id="bias-category-mind">Judgement and memory <span>How individual minds process information</span></h3><div class="grid"><article class="spec" data-bias-index="30" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-anchoring">Anchoring</h4><p>Leaning too heavily on the first number or piece of information we encounter.</p><details><summary>Show example</summary><div class="exbox">A contractor opens at $90k. The revised $70k feels like a bargain, even though comparable jobs run about $50k.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="31" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-availability-heuristic">Availability heuristic</h4><p>Judging how likely something is by how easily examples come to mind.</p><details><summary>Show example</summary><div class="exbox">After a plane crash dominates the news, people choose to drive instead of fly, which is statistically far riskier.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="32" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-framing-effect">Framing effect</h4><p>Reacting differently to the same information depending on how it&#39;s presented.</p><details><summary>Show example</summary><div class="exbox">&quot;95% first-pass yield&quot; gets applause. &quot;One pipe in twenty needs rework&quot; gets an action plan. Same number.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="33" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-sunk-cost-fallacy">Sunk cost fallacy</h4><p>Continuing because of what has already been spent rather than what lies ahead. Also called escalation of commitment.</p><details><summary>Show example</summary><div class="exbox">&quot;We&#39;ve put $400k into this upgrade, we can&#39;t stop now,&quot; said after trials show it doesn&#39;t fix the defect it was bought for.</div></details><div class="src">Human. Graphic 4, 5</div></article>
+<article class="spec" data-bias-index="34" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-status-quo-bias">Status quo bias</h4><p>Preferring things to stay the same, so any change feels like a loss.</p><details><summary>Show example</summary><div class="exbox">A paper check sheet survives for years &quot;because it works,&quot; even though a tablet would catch out-of-spec entries in real time.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="35" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-zero-risk-bias">Zero-risk bias</h4><p>Preferring to eliminate a small risk entirely over substantially reducing a larger one.</p><details><summary>Show example</summary><div class="exbox">The safety budget goes to eliminating a once-a-decade hazard completely, while the daily forklift risk gets a token fix.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="36" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-gambler-s-fallacy">Gambler&#39;s fallacy</h4><p>Believing past independent random events change the odds of future ones.</p><details><summary>Show example</summary><div class="exbox">&quot;Red came up six times, black is due.&quot; The roulette wheel has no memory.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="37" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-clustering-illusion">Clustering illusion</h4><p>Seeing meaningful patterns or streaks in random data.</p><details><summary>Show example</summary><div class="exbox">Three defects in the same pipe position looks like a trend. With enough pipe, random clusters are guaranteed. Test before you chase.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="38" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-law-of-triviality">Law of triviality</h4><p>Spending disproportionate time on trivial issues because they&#39;re easy to have opinions about. Also called bike-shedding.</p><details><summary>Show example</summary><div class="exbox">A 90-minute meeting: 60 minutes on the new report template&#39;s colours, five on the customer claim.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="39" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-dunning-kruger-effect">Dunning-Kruger effect</h4><p>People with limited skill in an area tend to overrate it, while experts see how much they don&#39;t know.</p><details><summary>Show example</summary><div class="exbox">After one online stats course, someone confidently declares a gauge R&amp;R study &quot;a waste of time.&quot;</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="40" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-curse-of-knowledge">Curse of knowledge</h4><p>Once we know something, it&#39;s hard to imagine not knowing it.</p><details><summary>Show example</summary><div class="exbox">A 25-year veteran writes a work instruction that skips every step he considers obvious. New hires are lost by step three.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="41" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-google-effect">Google effect</h4><p>Forgetting information we know we can easily look up. Also called digital amnesia.</p><details><summary>Show example</summary><div class="exbox">You know exactly where the spec table lives on the shared drive but can&#39;t recall a single value in it.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="42" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-zeigarnik-effect">Zeigarnik effect</h4><p>Unfinished tasks stick in memory more than completed ones.</p><details><summary>Show example</summary><div class="exbox">You can recite the three open corrective actions in detail but can&#39;t remember the twelve you closed last month.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="43" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-ikea-effect">IKEA effect</h4><p>Placing extra value on things we built or partly created ourselves.</p><details><summary>Show example</summary><div class="exbox">Defending your homemade spreadsheet tool long after a better, supported option became available.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="44" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-tachypsychia">Tachypsychia</h4><p>Our sense of time stretches or compresses under stress, fear or exertion.</p><details><summary>Show example</summary><div class="exbox">A near-miss with a crane load &quot;lasted forever,&quot; says the witness. The camera shows two seconds. It matters when taking incident statements.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="45" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-false-memory">False memory</h4><p>Remembering events that didn&#39;t happen, or that happened differently.</p><details><summary>Show example</summary><div class="exbox">Two operators give confident, contradictory accounts of which alarm sounded first. The alarm log agrees with neither.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="46" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-suggestibility">Suggestibility</h4><p>Taking on ideas suggested by others as our own memories or conclusions.</p><details><summary>Show example</summary><div class="exbox">&quot;Did you see sparks before it broke?&quot; The leading question plants sparks in the witness&#39;s memory.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="47" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-cryptomnesia">Cryptomnesia</h4><p>A forgotten memory resurfaces and is mistaken for a brand-new idea.</p><details><summary>Show example</summary><div class="exbox">You pitch a &quot;totally original&quot; improvement idea, then realise you heard it at a conference last spring.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="48" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-declinism">Declinism</h4><p>Romanticising the past and expecting the future to be worse.</p><details><summary>Show example</summary><div class="exbox">&quot;Quality was better in the old days.&quot; The old scrap records strongly disagree.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="49" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-pessimism-bias">Pessimism bias</h4><p>Overestimating the likelihood of bad outcomes.</p><details><summary>Show example</summary><div class="exbox">Refusing to trial a promising process change because &quot;it will definitely generate scrap.&quot;</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="50" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-optimism-bias">Optimism bias</h4><p>Overestimating the likelihood of good outcomes.</p><details><summary>Show example</summary><div class="exbox">A commissioning schedule assumes every step works first time. It never has, on any project, anywhere.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="51" data-family="h" data-bias-category="mind" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-placebo-effect">Placebo effect</h4><p>Believing a treatment will work can produce real improvement. Flagged in the source graphic as not strictly a cognitive bias.</p><details><summary>Show example</summary><div class="exbox">Patients given a sugar pill they believe is a painkiller report meaningfully less pain. That&#39;s why good trials use a placebo control group.</div></details><div class="src">Human. Graphic 5</div></article></div></div>
+<div class="catblock" data-bias-block="social"><h3 id="bias-category-social">Social and group <span>How people judge each other and move together</span></h3><div class="grid"><article class="spec" data-bias-index="52" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-fundamental-attribution-error">Fundamental attribution error</h4><p>Blaming other people&#39;s behaviour on their character and our own on circumstances.</p><details><summary>Show example</summary><div class="exbox">When night shift scraps a coil, &quot;they&#39;re careless.&quot; When we do, &quot;the mill was acting up.&quot;</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="53" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-self-serving-bias">Self-serving bias</h4><p>Crediting our successes to our own skill and our failures to outside factors.</p><details><summary>Show example</summary><div class="exbox">Yield up: &quot;our project worked.&quot; Yield down: &quot;bad raw material this month.&quot;</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="54" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-in-group-favouritism">In-group favouritism</h4><p>Giving more trust and leniency to people in our own group.</p><details><summary>Show example</summary><div class="exbox">The melt shop accepts its own explanation for a chemistry miss but demands hard proof from the rolling mill.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="55" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-outgroup-homogeneity">Outgroup homogeneity</h4><p>Seeing members of other groups as all alike while seeing our own group as diverse.</p><details><summary>Show example</summary><div class="exbox">&quot;IT people all think the same way,&quot; says a quality engineer who insists quality engineers are all very different.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="56" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-stereotyping">Stereotyping</h4><p>Assuming an individual has traits we associate with their group, without real information about them.</p><details><summary>Show example</summary><div class="exbox">&quot;She&#39;s from head office, she won&#39;t understand the shop floor.&quot; She ran a mill for eight years.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="57" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-implicit-bias">Implicit bias</h4><p>Unconscious associations that shape our judgements without our awareness.</p><details><summary>Show example</summary><div class="exbox">In field experiments, identical résumés received different callback rates depending only on the name at the top.</div></details><div class="src">Human. Graphic 4</div></article>
+<article class="spec" data-bias-index="58" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-groupthink">Groupthink</h4><p>The desire for harmony and agreement overrides critical thinking.</p><details><summary>Show example</summary><div class="exbox">In an RCA meeting, nobody challenges the plant manager&#39;s favoured root cause, so the fishbone fills up in agreement with it.</div></details><div class="src">Human. Graphic 4, 5</div></article>
+<article class="spec" data-bias-index="59" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-bandwagon-effect">Bandwagon effect</h4><p>Adopting an idea or behaviour because many others already have.</p><details><summary>Show example</summary><div class="exbox">Every department suddenly needs &quot;an AI dashboard&quot; because other sites have one, whether or not there&#39;s a question for it to answer.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="60" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-authority-bias">Authority bias</h4><p>Giving extra weight to an authority figure&#39;s opinion regardless of the evidence.</p><details><summary>Show example</summary><div class="exbox">The VP&#39;s gut feel about the root cause beats the data in the review meeting.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="61" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-halo-effect">Halo effect</h4><p>One positive trait colours our impression of everything else about a person or thing. It works for negative traits too.</p><details><summary>Show example</summary><div class="exbox">A supplier with a slick presentation and a glossy brochure is assumed to have tight process control as well.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="62" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-false-consensus-effect">False consensus effect</h4><p>Overestimating how many people share our opinions.</p><details><summary>Show example</summary><div class="exbox">&quot;Everyone hates the new system,&quot; according to the three people you had lunch with.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="63" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-spotlight-effect">Spotlight effect</h4><p>Believing others notice our appearance and mistakes far more than they do.</p><details><summary>Show example</summary><div class="exbox">You fumble one slide and assume the whole room is still thinking about it next week. Most forgot by coffee break.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="64" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-defensive-attribution">Defensive attribution</h4><p>Blaming a victim less when we can imagine being in their position, and more when we can&#39;t.</p><details><summary>Show example</summary><div class="exbox">Engineers go easy on a peer&#39;s spreadsheet error (&quot;could&#39;ve been me&quot;) but come down hard on an operator for a similar slip.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="65" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-bystander-effect">Bystander effect</h4><p>The more people present, the less likely any one of them is to act. Flagged in the source graphic as not strictly a cognitive bias.</p><details><summary>Show example</summary><div class="exbox">Twenty people walk past an oil leak on the walkway, each assuming someone else already reported it.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="66" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-ben-franklin-effect">Ben Franklin effect</h4><p>We tend to like people more after doing them a favour.</p><details><summary>Show example</summary><div class="exbox">Asking a sceptical colleague to review your analysis often turns them into its biggest supporter.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="67" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-availability-cascade">Availability cascade</h4><p>A belief becomes more credible simply by being repeated in public.</p><details><summary>Show example</summary><div class="exbox">&quot;Wet flux causes all our porosity&quot; gets said in enough meetings that it&#39;s treated as fact. Nobody has tested it.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="68" data-family="h" data-bias-category="social" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-third-person-effect">Third-person effect</h4><p>Believing other people are more influenced by media and advertising than we are.</p><details><summary>Show example</summary><div class="exbox">&quot;Those ads work on other people, not me,&quot; said while wearing the advertised boots.</div></details><div class="src">Human. Graphic 5</div></article></div></div>
+<div class="catblock" data-bias-block="belief"><h3 id="bias-category-belief">Belief and persuasion <span>How we decide what is true</span></h3><div class="grid"><article class="spec" data-bias-index="69" data-family="h" data-bias-category="belief" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-confirmation-bias">Confirmation bias</h4><p>Seeking out, noticing and remembering information that supports what we already believe.</p><details><summary>Show example</summary><div class="exbox">Convinced a sliver defect starts at the caster, a team pulls only caster data and never looks at the reheat furnace.</div></details><div class="src">Human. Graphic 2, 4, 5, 6</div></article>
+<article class="spec" data-bias-index="70" data-family="h" data-bias-category="belief" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-belief-bias">Belief bias</h4><p>Judging an argument&#39;s logic by whether we like its conclusion.</p><details><summary>Show example</summary><div class="exbox">A flawed analysis showing your process is capable sails through review. A sound one saying it isn&#39;t gets picked apart.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="71" data-family="h" data-bias-category="belief" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-backfire-effect">Backfire effect</h4><p>Evidence against a belief can make some people hold it more firmly.</p><details><summary>Show example</summary><div class="exbox">Showing a manager that his pet project didn&#39;t move the metric leads to a louder defence of the project.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="72" data-family="h" data-bias-category="belief" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-reactance">Reactance</h4><p>Doing the opposite of what we&#39;re told when we feel our freedom is being restricted.</p><details><summary>Show example</summary><div class="exbox">A heavy-handed memo on a new rule triggers more shortcuts than a five-minute conversation explaining why would have.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="73" data-family="h" data-bias-category="belief" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-naive-realism">Naive realism</h4><p>Believing we see the world objectively and that people who disagree must be uninformed or biased.</p><details><summary>Show example</summary><div class="exbox">&quot;The data is obvious. Anyone who reads it differently just doesn&#39;t get it.&quot;</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="74" data-family="h" data-bias-category="belief" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-naive-cynicism">Naive cynicism</h4><p>Expecting others to be more self-interested than they really are.</p><details><summary>Show example</summary><div class="exbox">&quot;She only joined the kaizen team to look good for promotion.&quot; She joined because the problem annoyed her.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="75" data-family="h" data-bias-category="belief" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-blind-spot-bias">Blind spot bias</h4><p>Recognising bias in other people while believing we&#39;re less affected ourselves.</p><details><summary>Show example</summary><div class="exbox">Reading this entire field guide and thinking mainly of your co-workers.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="76" data-family="h" data-bias-category="belief" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-just-world-hypothesis">Just-world hypothesis</h4><p>Assuming people generally get what they deserve.</p><details><summary>Show example</summary><div class="exbox">&quot;He got laid off? He must not have been pulling his weight.&quot; The whole department was cut.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="77" data-family="h" data-bias-category="belief" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-moral-luck">Moral luck</h4><p>Judging a decision by its outcome rather than by the quality of the decision itself.</p><details><summary>Show example</summary><div class="exbox">Two operators skip the same lockout step. One gets lucky, one causes an incident. Only one gets disciplined.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="78" data-family="h" data-bias-category="belief" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-forer-effect">Forer effect</h4><p>Accepting vague, general statements as uniquely accurate descriptions of ourselves. Also called the Barnum effect.</p><details><summary>Show example</summary><div class="exbox">&quot;You have a lot of unused potential and sometimes doubt your decisions.&quot; That describes nearly everyone who reads a horoscope.</div></details><div class="src">Human. Graphic 5</div></article>
+<article class="spec" data-bias-index="79" data-family="h" data-bias-category="belief" style="--lesson-bias-fam:var(--lesson-bias-coral)"><h4 id="bias-ranking-bias">Ranking bias</h4><p>Items placed higher in a list get chosen or trusted more, regardless of merit.</p><details><summary>Show example</summary><div class="exbox">Most clicks go to the top three search results. The supplier listed first in the purchasing dropdown gets picked the most.</div></details><div class="src">Human. Graphic 4</div></article></div></div>
+<div class="catblock" data-bias-block="sys"><h3 id="bias-category-sys">Systemic <span>What history and institutions bake in</span></h3><div class="grid"><article class="spec" data-bias-index="80" data-family="y" data-bias-category="sys" style="--lesson-bias-fam:var(--lesson-bias-sea)"><h4 id="bias-historical-bias">Historical bias</h4><p>The data accurately records a past that was itself unfair or unrepresentative.</p><details><summary>Show example</summary><div class="exbox">A hiring model trained on 20 years of engineering hires learns that successful engineers are mostly men, because mostly men were hired.</div></details><div class="src">Systemic. Graphic 4</div></article>
+<article class="spec" data-bias-index="81" data-family="y" data-bias-category="sys" style="--lesson-bias-fam:var(--lesson-bias-sea)"><h4 id="bias-social-bias">Social bias</h4><p>Shared norms and stereotypes in society seep into data and decisions.</p><details><summary>Show example</summary><div class="exbox">Image datasets label people in kitchens as women more often than the photos justify, and models trained on them repeat it.</div></details><div class="src">Systemic. Graphic 4</div></article>
+<article class="spec" data-bias-index="82" data-family="y" data-bias-category="sys" style="--lesson-bias-fam:var(--lesson-bias-sea)"><h4 id="bias-institutional-bias">Institutional bias</h4><p>An organisation&#39;s policies and practices produce skewed outcomes even when individuals mean well.</p><details><summary>Show example</summary><div class="exbox">A promotion rule that rewards weekend overtime quietly disadvantages employees with caregiving responsibilities.</div></details><div class="src">Systemic. Graphic 4</div></article></div></div>
+</div>
+  <p id="guideEmpty" hidden>No biases match that search. Try a broader word like "data" or "memory".</p>
+</div></section>
+
+<section id="name-that-bias"><div class="wrap">
+  <h2>Name that bias</h2>
+  <p class="prose" style="color:var(--lesson-bias-muted)">Nine scenarios. Pick the bias that's doing the damage.</p>
+  <div class="quiz" id="quizBox">
+    <div class="qmeta"><span id="qnum"></span><span id="qscore"></span></div>
+    <div class="qdots" id="qdots" aria-hidden="true"></div>
+    <div class="qtext" id="qtext"></div>
+    <div class="opts" id="qopts"></div>
+    <div class="why" id="qwhy" aria-live="polite"></div>
+    <div class="btnrow"><button class="btn" id="qnext" hidden>Next scenario</button></div>
+  </div>
+</div></section>
+
+<section id="kit"><div class="wrap">
+  <h2>How to fight back</h2>
+  <p class="prose" style="color:var(--lesson-bias-muted)">You can't switch bias off, in data or in people. You can design processes that catch it.</p>
+  <div class="kit">
+    <div><h4>Randomize and stratify</h4><p>Let chance pick the sample, and make sure every subgroup gets represented. <em>Beats:</em> sampling, selection, undercoverage, self-selection.</p></div>
+    <div><h4>Count what's missing</h4><p>Track dropouts, non-responders, scrapped units and excluded rows. Ask who never made it into the dataset. <em>Beats:</em> survivorship, attrition, nonresponse, exclusion.</p></div>
+    <div><h4>Design the questions carefully</h4><p>Use neutral wording, randomize question order, keep surveys short, and collect sensitive answers anonymously. <em>Beats:</em> interview, question order, conformity, demand characteristics, neutral and extreme response.</p></div>
+    <div><h4>Blind the observer</h4><p>Hide the group label, heat history or expected answer from whoever measures or judges. <em>Beats:</em> observer, confirmation, halo, implicit.</p></div>
+    <div><h4>Validate the measurement system</h4><p>Check bias, linearity, stability and repeatability before trusting the numbers. <em>Beats:</em> measurement, error propagation.</p></div>
+    <div><h4>Decide the test before the data</h4><p>Write down the hypothesis and analysis plan first, and correct for multiple comparisons. <em>Beats:</em> model selection, confirmation, clustering illusion.</p></div>
+    <div><h4>Hunt for confounders</h4><p>Use designed experiments where you can, and stratify or adjust where you can't. <em>Beats:</em> omitted variable, cause-effect.</p></div>
+    <div><h4>Monitor after launch</h4><p>Control-chart model inputs and errors, and audit how the tool is actually used on the floor. <em>Beats:</em> concept drift, feedback loops, deployment, temporal.</p></div>
+    <div><h4>Argue with yourself</h4><p>Run a pre-mortem, appoint a devil's advocate, and let the most junior person speak first. <em>Beats:</em> groupthink, authority, bandwagon, sunk cost.</p></div>
+    <div><h4>Judge the decision, not the outcome</h4><p>Ask whether the choice was sound given what was known at the time. <em>Beats:</em> moral luck, self-serving, hindsight-driven recall.</p></div>
+  </div>
+</div></section>
+
+<section class="statistics-implementation" id="statistics-implementation"><div class="wrap">
+  <h2>Statistics Implementation</h2>
+  <p class="prose">Use a reference standard to check measurement bias, and compare the sampling mix with the population you intend to describe. A spreadsheet can reveal a mismatch; it cannot repair an unrepresentative sampling plan by itself.</p>
+  <div class="impl-card" id="excel-functions"><h3>Excel Functions</h3>
+    <div class="table-wrap"><table><thead><tr><th>Function</th><th>Syntax</th><th>Purpose</th><th>When to use it</th></tr></thead><tbody>
+      <tr><td><code>AVERAGE</code></td><td><code>AVERAGE(number1, [number2], …)</code></td><td>Mean of measurements</td><td>Compare a gauge's mean reading with a known reference.</td></tr>
+      <tr><td><code>VAR.S</code></td><td><code>VAR.S(number1, [number2], …)</code></td><td>Sample variance with the <em>n − 1</em> correction</td><td>Estimate variance from a sample of repeated readings.</td></tr>
+      <tr><td><code>VAR.P</code></td><td><code>VAR.P(number1, [number2], …)</code></td><td>Variance of the entire supplied population, divided by <em>n</em></td><td>Use only when those readings really constitute the entire population of interest.</td></tr>
+      <tr><td><code>COUNTIF</code> / <code>COUNTIFS</code></td><td><code>COUNTIF(range, criteria)</code><br><code>COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2], …)</code></td><td>Count records in one or several groups</td><td>Compare tested and untested units across shifts, coil positions, or other strata.</td></tr>
+      <tr><td><code>AVERAGEIF</code> / <code>AVERAGEIFS</code></td><td><code>AVERAGEIF(range, criteria, [average_range])</code><br><code>AVERAGEIFS(average_range, criteria_range1, criteria1, [criteria_range2, criteria2], …)</code></td><td>Compare means within defined groups</td><td>Check whether day/night or head/middle/tail samples differ.</td></tr>
+    </tbody></table></div>
+  </div>
+  <div class="impl-card" id="excel-use-cases"><h3>Excel Use Cases</h3>
+    <p><strong>Gauge offset:</strong> Enter four readings of a 10.00 mm reference in <code>B2:B5</code>: 10.2, 10.3, 10.1, 10.4. <code>=AVERAGE(B2:B5)-10</code> gives <strong>+0.25 mm</strong>. <code>=VAR.S(B2:B5)</code> gives about <strong>0.0167 mm²</strong>, whereas <code>=VAR.P(B2:B5)</code> gives <strong>0.0125 mm²</strong>. The first is a sample variance estimate; the second treats these four readings as the full population.</p>
+    <p><strong>Coverage audit:</strong> If <code>C2:C101</code> contains shifts and <code>D2:D101</code> contains “Yes” for sampled units, <code>=COUNTIFS(C2:C101,"Night",D2:D101,"Yes")</code> counts night-shift samples. Divide by <code>COUNTIF(C2:C101,"Night")</code> to compare the night sampling rate with other shifts. Check that the denominator is nonzero.</p>
+    <p><strong>Stratified mean:</strong> If coil position is in <code>E2:E101</code> and toughness is in <code>F2:F101</code>, <code>=AVERAGEIF(E2:E101,"Middle",F2:F101)</code> gives the middle-coil mean. For a second condition, <code>=AVERAGEIFS(F2:F101,E2:E101,"Middle",C2:C101,"Night")</code> gives the night-shift middle-coil mean. Treat differences as a cue to investigate the sampling design, not proof of causation.</p>
+  </div>
+  <div class="impl-card" id="minitab-navigation"><h3>Minitab Navigation</h3>
+    <p>For repeated readings of a reference across the operating range, use <code>Stat → Quality Tools → Gage Study → Gage Linearity and Bias Study</code>. This is the direct choice for checking whether bias changes with the reference value. For repeated readings of <em>one</em> reference part, use <code>Stat → Quality Tools → Gage Study → Type 1 Gage Study</code> to assess bias and repeatability together.</p>
+    <p>To compare subgroup counts and means before drawing conclusions from a sample, use <code>Stat → Basic Statistics → Display Descriptive Statistics</code> and specify the response and grouping variable. A descriptive summary helps detect imbalance; it does not make a convenience sample representative.</p>
+  </div>
+  <div class="impl-card" id="exam-tips"><h3>Exam Tips</h3>
+    <p>For CSSBB and CQE practice, first locate where the bias entered: selection, measurement, analysis, or interpretation. In measurement questions, separate <strong>bias</strong> (average offset from a reference) from <strong>repeatability</strong> (scatter of repeated readings). In sampling questions, identify who or what is missing before calculating a more precise estimate. State the population and sampling frame explicitly in a real analysis.</p>
+  </div>
+  <p class="sources">Software references: <a href="https://support.microsoft.com/en-us/excel/statistical-functions-reference">Microsoft Excel statistical functions</a>; <a href="https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/how-to/gage-study/gage-linearity-and-bias-study/before-you-start/overview/">Minitab Gage Linearity and Bias Study</a>; <a href="https://support.minitab.com/en-us/minitab/help-and-how-to/quality-and-process-improvement/measurement-system-analysis/how-to/gage-study/type-1-gage-study/before-you-start/overview/">Minitab Type 1 Gage Study</a>; <a href="https://support.minitab.com/en-us/minitab/help-and-how-to/statistics/basic-statistics/how-to/display-descriptive-statistics/before-you-start/overview/">Minitab descriptive statistics</a>.</p>
+</div></section>
+
+<aside class="source-note"><div class="wrap">Built as a teaching page. Definitions and examples are written fresh for this lesson; the bias list is compiled from the six reference graphics supplied. Note: placebo and bystander effects are flagged in the source graphic as important biases that aren't strictly cognitive biases.</div></aside>
+</main>
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading"><p class="lesson-kicker">Knowledge check</p><h2 id="quiz-heading">Check your understanding</h2><div class="quiz"><div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div><form id="quiz-form"><fieldset class="quiz-question" data-answer="b" data-explanation="The average is 10.25 mm, so the gauge has a +0.25 mm average offset from the reference."><legend>1. A gauge reads 10.2, 10.3, 10.1 and 10.4 mm for a 10.00 mm reference. Which issue is most directly shown?</legend><label class="quiz-option"><input type="radio" name="q1" value="a"> Random scatter only</label><label class="quiz-option"><input type="radio" name="q1" value="b"> Measurement bias</label><label class="quiz-option"><input type="radio" name="q1" value="c"> Nonresponse bias</label><label class="quiz-option"><input type="radio" name="q1" value="d"> Gambler’s fallacy</label><div class="quiz-feedback"></div></fieldset>
+<fieldset class="quiz-question" data-answer="c" data-explanation="Upstream scrap never enters the final-inspection sample, creating survivorship bias."><legend>2. A model uses only pipe that reached final inspection. Which missing units should you check?</legend><label class="quiz-option"><input type="radio" name="q2" value="a"> Extra final-inspection records</label><label class="quiz-option"><input type="radio" name="q2" value="b"> Only the shipped units</label><label class="quiz-option"><input type="radio" name="q2" value="c"> Pipe scrapped earlier in production</label><label class="quiz-option"><input type="radio" name="q2" value="d"> A larger sample of final inspection</label><div class="quiz-feedback"></div></fieldset>
+<fieldset class="quiz-question" data-answer="a" data-explanation="VAR.S uses the n − 1 correction for a sample; VAR.P treats the supplied readings as the complete population."><legend>3. How should you estimate variance from a sample of repeated gauge readings in Excel?</legend><label class="quiz-option"><input type="radio" name="q3" value="a"> VAR.S</label><label class="quiz-option"><input type="radio" name="q3" value="b"> VAR.P</label><label class="quiz-option"><input type="radio" name="q3" value="c"> COUNTIF</label><label class="quiz-option"><input type="radio" name="q3" value="d"> AVERAGEIFS</label><div class="quiz-feedback"></div></fieldset>
+<fieldset class="quiz-question" data-answer="d" data-explanation="The responding customers may differ from the 352 nonrespondents; a larger count of similar responders does not fix that selection mechanism."><legend>4. A survey of 400 customers receives 48 answers, mostly from open-claim accounts. What should you assess first?</legend><label class="quiz-option"><input type="radio" name="q4" value="a"> Only the average score</label><label class="quiz-option"><input type="radio" name="q4" value="b"> Whether the sample mean has more decimal places</label><label class="quiz-option"><input type="radio" name="q4" value="c"> The number of chart colours</label><label class="quiz-option"><input type="radio" name="q4" value="d"> How respondents differ from nonrespondents</label><div class="quiz-feedback"></div></fieldset>
+<fieldset class="quiz-question" data-answer="b" data-explanation="A Gage Linearity and Bias Study tests bias across reference values; a Type 1 study focuses on one reference part."><legend>5. What Minitab study fits repeated reference measurements across the gauge’s operating range?</legend><label class="quiz-option"><input type="radio" name="q5" value="a"> Display Descriptive Statistics only</label><label class="quiz-option"><input type="radio" name="q5" value="b"> Gage Linearity and Bias Study</label><label class="quiz-option"><input type="radio" name="q5" value="c"> Type 1 Gage Study only</label><label class="quiz-option"><input type="radio" name="q5" value="d"> A histogram with a normal curve</label><div class="quiz-feedback"></div></fieldset><div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div><div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div></form></div></section>
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left"><a class="bias-back-link" href="/lessons#statistics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Statistics lessons</a></section>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<script>
+/* ---------- Target demo ---------- */
+(function(){
+  const shots=document.getElementById('shots'), meanMark=document.getElementById('meanMark');
+  const biasR=document.getElementById('biasR'), noiseR=document.getElementById('noiseR'), out=document.getElementById('readout');
+  let pts=[];
+  const ns='http://www.w3.org/2000/svg';
+  function gauss(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+  function draw(){
+    shots.innerHTML='';meanMark.innerHTML='';
+    pts.forEach(p=>{const c=document.createElementNS(ns,'circle');c.setAttribute('cx',p[0]);c.setAttribute('cy',p[1]);c.setAttribute('r',3.2);c.setAttribute('fill','var(--lesson-bias-cyan)');c.setAttribute('opacity','.75');shots.appendChild(c);});
+    if(!pts.length){out.innerHTML='Green dot is the true value. Take measurements and watch where their average lands.';return;}
+    const mx=pts.reduce((a,p)=>a+p[0],0)/pts.length, my=pts.reduce((a,p)=>a+p[1],0)/pts.length;
+    const g=document.createElementNS(ns,'g');
+    g.innerHTML=`<line x1="${mx-9}" y1="${my}" x2="${mx+9}" y2="${my}" stroke="var(--lesson-bias-coral)" stroke-width="3"/><line x1="${mx}" y1="${my-9}" x2="${mx}" y2="${my+9}" stroke="var(--lesson-bias-coral)" stroke-width="3"/>`;
+    meanMark.appendChild(g);
+    const off=Math.hypot(mx-150,my-150), se=(+noiseR.value)/Math.sqrt(pts.length);
+    out.innerHTML=`n = <b>${pts.length}</b>  average is <b>${off.toFixed(1)}</b> units from true  standard error ≈ <b>${se.toFixed(1)}</b><br>`+
+      (+biasR.value>8 ? (pts.length>=30?'The scatter tightened, but the red average is still parked off target. That gap is the bias.':'Keep sampling. Does the red cross ever reach the green dot?') : 'With bias near zero, more data really does pull the average onto the truth.');
+  }
+  document.getElementById('fire').onclick=()=>{
+    const b=+biasR.value, s=+noiseR.value;
+    for(let i=0;i<10;i++){pts.push([Math.max(8,Math.min(292,150+b*0.8+gauss()*s)),Math.max(8,Math.min(292,150-b*0.6+gauss()*s))]);}
+    draw();
+  };
+  document.getElementById('clear').onclick=()=>{pts=[];draw();};
+  biasR.oninput=noiseR.oninput=()=>{pts=[];draw();};
+})();
+
+/* ---------- Wald reveal ---------- */
+document.getElementById('revealWald').onclick=function(){
+  const on=document.getElementById('waldTruth').classList.toggle('on');
+  this.setAttribute('aria-expanded',on);
+  this.textContent=on?'Hide the answer':"Reveal Wald's answer";
+  document.getElementById('danger').setAttribute('opacity',on?1:0);
+};
+
+/* ---------- Field guide data ----------
+ f: s = statistical, h = human, y = systemic
+ c: category key
+ s: which supplied graphics list it */
+const CATS={
+  sel:['Selection and sampling','Who or what ended up in the data'],
+  meas:['Measurement and reporting','How the data got recorded'],
+  survey:['Surveys and interviews','How the asking shapes the answer'],
+  model:['Analysis and models','How the data got interpreted or used by models'],
+  mind:['Judgement and memory','How individual minds process information'],
+  social:['Social and group','How people judge each other and move together'],
+  belief:['Belief and persuasion','How we decide what is true'],
+  sys:['Systemic','What history and institutions bake in']
+};
+const B=[
+/* Selection and sampling */
+{n:'Selection bias',f:'s',c:'sel',s:'2, 3',d:'The group you study differs systematically from the group you want conclusions about.',e:'A new rolling lubricant is trialled only on day shift, where the most experienced crew runs. It looks brilliant, then disappoints when rolled out to all four crews.'},
+{n:'Sampling bias',f:'s',c:'sel',s:'1, 2, 4, 6',d:'The collection method makes some units more likely to be picked than others, so the sample stops being random.',e:'Charpy coupons are always cut from the head of the coil because it is easiest to reach. The middle and tail, where cooling differs, are never tested.'},
+{n:'Attrition bias',f:'s',c:'sel',s:'1',d:'People or units drop out partway through a study, and the ones who leave differ from the ones who stay.',e:'A 12-week fitness program reports amazing results. The participants who were struggling quit by week four, so only the success stories finished.'},
+{n:'Survivorship bias',f:'s',c:'sel',s:'1, 3, 5, 6',d:'Only the survivors are visible, so the failures that would change the story are missing.',e:'"Dropouts like Gates and Zuckerberg became billionaires, so college is optional." Thousands of dropouts whose startups failed never get magazine covers.'},
+{n:'Self-selection bias',f:'s',c:'sel',s:'1, 3, 6',d:'People choose whether to be included, and the people who opt in differ from those who don\'t.',e:'An optional SPC course shows excellent post-test scores. The operators who signed up were already the most motivated ones on the floor.'},
+{n:'Nonresponse bias',f:'s',c:'sel',s:'1, 6',d:'The people who don\'t answer differ in important ways from the people who do.',e:'A customer satisfaction survey gets a 12% response rate, mostly from customers with an open claim. Management concludes everyone is unhappy.'},
+{n:'Undercoverage bias',f:'s',c:'sel',s:'1',d:'Part of the population has little or no chance of being included in the sample at all.',e:'A community survey done only by landline barely reaches anyone under 40, then reports that residents strongly prefer the old way of doing things.'},
+{n:'Exclusion bias',f:'s',c:'sel',s:'2',d:'Data points or groups are removed, carelessly or deliberately, in a way that skews results.',e:'Soft hardness readings are deleted as "outliers" before a capability study. Cpk looks great, and the customer finds the real soft spots.'},
+{n:'Representation bias',f:'s',c:'sel',s:'4',d:'The data under-represents conditions or groups the conclusion or model will later face.',e:'A surface-defect vision model is trained mostly on summer production and struggles in winter, when scale patterns look different.'},
+{n:'Temporal bias',f:'s',c:'sel',s:'4',d:'Data from one period is treated as if it describes a different period.',e:'Control limits are set from the quarter right after a furnace reline. Normal ageing later gets flagged as out of control week after week.'},
+
+/* Measurement and reporting */
+{n:'Measurement bias',f:'s',c:'meas',s:'2, 4',d:'The measuring process reads consistently high or low, or measures some groups differently from others.',e:'One tensile frame\'s load cell reads 2% high. Every heat tested on it looks stronger than it is. This is exactly what the bias study in MSA is for.'},
+{n:'Recall bias',f:'s',c:'meas',s:'1, 2, 3, 6',d:'People remember past events inaccurately, coloured by what happened afterwards or how they feel now.',e:'After a pipe fails hydrotest, the crew recalls the mill "running rough all week." Before the failure, nobody wrote anything down.'},
+{n:'Observer bias',f:'s',c:'meas',s:'3',d:'The person recording results sees what they expect to see.',e:'An inspector told a heat is "suspect" logs more borderline surface marks on it than on an identical heat labelled good.'},
+{n:'Human reporting bias',f:'s',c:'meas',s:'4',d:'What gets written down reflects what people find notable, not how often things actually happen.',e:'Shift logs record every breakdown and none of the uneventful hours. Read the logs alone and the machine looks far worse than its uptime says.'},
+{n:'Funding bias',f:'s',c:'meas',s:'3',d:'Results tend to tilt towards the interests of whoever paid for the study.',e:'A refractory supplier sponsors a comparison trial. Their brick wins. The independent trial next year is far less conclusive.'},
+
+/* Analysis and models */
+{n:'Omitted variable bias',f:'s',c:'model',s:'3',d:'A factor that affects both the supposed cause and the outcome is left out, so its effect gets credited to something else.',e:'A new operator seems to produce more defects. He\'s only scheduled on the hardest grades. Grade, the missing variable, drives both.'},
+{n:'Cause-effect bias',f:'s',c:'model',s:'3',d:'Treating correlation as causation, or getting the direction of cause wrong.',e:'Lines with more inspectors record more defects. Removing inspectors won\'t improve quality; they find defects, they don\'t cause them.'},
+{n:'Model selection bias',f:'s',c:'model',s:'4',d:'Trying many models or variables and reporting only the best fit, which overstates how well it will really perform.',e:'Forty process variables are each tested against Charpy energy. At α = 0.05, about two will look significant by pure chance.'},
+{n:'Concept drift',f:'s',c:'model',s:'4',d:'The relationship a model learned changes over time, so its predictions quietly degrade.',e:'A scrap-mix model was trained before a new scrap supplier arrived. Tramp-element chemistry shifted and the model never noticed.'},
+{n:'Feedback loops',f:'s',c:'model',s:'4',d:'A model\'s outputs shape the data it later learns from, reinforcing its own assumptions.',e:'Inspection effort goes to heats the model flags as risky, so most defects get found there, which "confirms" the model and sharpens its focus further.'},
+{n:'Error propagation',f:'s',c:'model',s:'4',d:'Small errors early in a pipeline compound through each later step.',e:'A thermocouple reads 15°C low. It feeds a temperature model, then a cooling-rate estimate, then a hardness prediction, each inheriting the error.'},
+{n:'Deployment bias',f:'h',c:'model',s:'4',d:'A system is used in a way that differs from how it was designed and validated.',e:'A tool built to decide which coils to inspect first ends up being used to decide which coils to skip inspecting entirely.'},
+{n:'Selective adherence',f:'h',c:'model',s:'4',d:'Following a model\'s recommendation only when it matches what we already believe.',e:'A supervisor accepts the model\'s "hold this heat" flags on grades he distrusts, and overrides the identical flag on his favourite grade.'},
+{n:'Automation bias',f:'h',c:'model',s:'5',d:'Trusting an automated system over our own correct judgement or contradictory evidence.',e:'The vision system says "pass," so the inspector waves through a pipe with a lap he can plainly see on the end.'},
+
+/* Surveys and interviews */
+{n:'Interview bias',f:'s',c:'survey',s:'6',d:'The interviewer\'s wording, tone, body language or reactions nudge how people answer.',e:'An auditor asks, "You always verify the torque before release, right?" and nods encouragingly. Every operator says yes, including the ones who don\'t.'},
+{n:'Demand characteristics bias',f:'s',c:'survey',s:'6',d:'Participants work out what the study is looking for and change their answers or behaviour to fit it.',e:'Operators learn the survey is part of a 5S push, so the question "How organised is your work area?" gets glowing scores in the messiest bays.'},
+{n:'Extreme response bias',f:'s',c:'survey',s:'6',d:'Some respondents habitually pick the endpoints of a scale, regardless of how strongly they actually feel.',e:'One site rates every item on a supplier scorecard 1 or 5. Averaged with sites that use the whole scale, their ratings dominate the result.'},
+{n:'Neutral response bias',f:'s',c:'survey',s:'6',d:'Respondents default to the middle option to avoid committing, which hides real opinions. Also called central tendency bias.',e:'A 40-question engagement survey sees answers drift to "3 – neutral" after question 15. Fatigue, not neutrality, is doing the answering.'},
+{n:'Question order bias',f:'s',c:'survey',s:'6',d:'Earlier questions prime how people answer later ones.',e:'Ask about last month\'s recall first and "How would you rate our overall quality?" scores drop. Ask it first and the same customers rate it higher.'},
+{n:'Conformity bias',f:'h',c:'survey',s:'6',d:'People give the answer they think the group or the majority holds, rather than their own view.',e:'In a show-of-hands vote on whether the new procedure is workable, hands go up once the supervisor\'s does. The anonymous version tells a different story.'},
+
+/* Judgement and memory */
+{n:'Anchoring',f:'h',c:'mind',s:'5',d:'Leaning too heavily on the first number or piece of information we encounter.',e:'A contractor opens at $90k. The revised $70k feels like a bargain, even though comparable jobs run about $50k.'},
+{n:'Availability heuristic',f:'h',c:'mind',s:'5',d:'Judging how likely something is by how easily examples come to mind.',e:'After a plane crash dominates the news, people choose to drive instead of fly, which is statistically far riskier.'},
+{n:'Framing effect',f:'h',c:'mind',s:'5',d:'Reacting differently to the same information depending on how it\'s presented.',e:'"95% first-pass yield" gets applause. "One pipe in twenty needs rework" gets an action plan. Same number.'},
+{n:'Sunk cost fallacy',f:'h',c:'mind',s:'4, 5',d:'Continuing because of what has already been spent rather than what lies ahead. Also called escalation of commitment.',e:'"We\'ve put $400k into this upgrade, we can\'t stop now," said after trials show it doesn\'t fix the defect it was bought for.'},
+{n:'Status quo bias',f:'h',c:'mind',s:'5',d:'Preferring things to stay the same, so any change feels like a loss.',e:'A paper check sheet survives for years "because it works," even though a tablet would catch out-of-spec entries in real time.'},
+{n:'Zero-risk bias',f:'h',c:'mind',s:'5',d:'Preferring to eliminate a small risk entirely over substantially reducing a larger one.',e:'The safety budget goes to eliminating a once-a-decade hazard completely, while the daily forklift risk gets a token fix.'},
+{n:'Gambler\'s fallacy',f:'h',c:'mind',s:'5',d:'Believing past independent random events change the odds of future ones.',e:'"Red came up six times, black is due." The roulette wheel has no memory.'},
+{n:'Clustering illusion',f:'h',c:'mind',s:'5',d:'Seeing meaningful patterns or streaks in random data.',e:'Three defects in the same pipe position looks like a trend. With enough pipe, random clusters are guaranteed. Test before you chase.'},
+{n:'Law of triviality',f:'h',c:'mind',s:'5',d:'Spending disproportionate time on trivial issues because they\'re easy to have opinions about. Also called bike-shedding.',e:'A 90-minute meeting: 60 minutes on the new report template\'s colours, five on the customer claim.'},
+{n:'Dunning-Kruger effect',f:'h',c:'mind',s:'5',d:'People with limited skill in an area tend to overrate it, while experts see how much they don\'t know.',e:'After one online stats course, someone confidently declares a gauge R&R study "a waste of time."'},
+{n:'Curse of knowledge',f:'h',c:'mind',s:'5',d:'Once we know something, it\'s hard to imagine not knowing it.',e:'A 25-year veteran writes a work instruction that skips every step he considers obvious. New hires are lost by step three.'},
+{n:'Google effect',f:'h',c:'mind',s:'5',d:'Forgetting information we know we can easily look up. Also called digital amnesia.',e:'You know exactly where the spec table lives on the shared drive but can\'t recall a single value in it.'},
+{n:'Zeigarnik effect',f:'h',c:'mind',s:'5',d:'Unfinished tasks stick in memory more than completed ones.',e:'You can recite the three open corrective actions in detail but can\'t remember the twelve you closed last month.'},
+{n:'IKEA effect',f:'h',c:'mind',s:'5',d:'Placing extra value on things we built or partly created ourselves.',e:'Defending your homemade spreadsheet tool long after a better, supported option became available.'},
+{n:'Tachypsychia',f:'h',c:'mind',s:'5',d:'Our sense of time stretches or compresses under stress, fear or exertion.',e:'A near-miss with a crane load "lasted forever," says the witness. The camera shows two seconds. It matters when taking incident statements.'},
+{n:'False memory',f:'h',c:'mind',s:'5',d:'Remembering events that didn\'t happen, or that happened differently.',e:'Two operators give confident, contradictory accounts of which alarm sounded first. The alarm log agrees with neither.'},
+{n:'Suggestibility',f:'h',c:'mind',s:'5',d:'Taking on ideas suggested by others as our own memories or conclusions.',e:'"Did you see sparks before it broke?" The leading question plants sparks in the witness\'s memory.'},
+{n:'Cryptomnesia',f:'h',c:'mind',s:'5',d:'A forgotten memory resurfaces and is mistaken for a brand-new idea.',e:'You pitch a "totally original" improvement idea, then realise you heard it at a conference last spring.'},
+{n:'Declinism',f:'h',c:'mind',s:'5',d:'Romanticising the past and expecting the future to be worse.',e:'"Quality was better in the old days." The old scrap records strongly disagree.'},
+{n:'Pessimism bias',f:'h',c:'mind',s:'5',d:'Overestimating the likelihood of bad outcomes.',e:'Refusing to trial a promising process change because "it will definitely generate scrap."'},
+{n:'Optimism bias',f:'h',c:'mind',s:'5',d:'Overestimating the likelihood of good outcomes.',e:'A commissioning schedule assumes every step works first time. It never has, on any project, anywhere.'},
+{n:'Placebo effect',f:'h',c:'mind',s:'5',d:'Believing a treatment will work can produce real improvement. Flagged in the source graphic as not strictly a cognitive bias.',e:'Patients given a sugar pill they believe is a painkiller report meaningfully less pain. That\'s why good trials use a placebo control group.'},
+
+/* Social and group */
+{n:'Fundamental attribution error',f:'h',c:'social',s:'5',d:'Blaming other people\'s behaviour on their character and our own on circumstances.',e:'When night shift scraps a coil, "they\'re careless." When we do, "the mill was acting up."'},
+{n:'Self-serving bias',f:'h',c:'social',s:'5',d:'Crediting our successes to our own skill and our failures to outside factors.',e:'Yield up: "our project worked." Yield down: "bad raw material this month."'},
+{n:'In-group favouritism',f:'h',c:'social',s:'5',d:'Giving more trust and leniency to people in our own group.',e:'The melt shop accepts its own explanation for a chemistry miss but demands hard proof from the rolling mill.'},
+{n:'Outgroup homogeneity',f:'h',c:'social',s:'5',d:'Seeing members of other groups as all alike while seeing our own group as diverse.',e:'"IT people all think the same way," says a quality engineer who insists quality engineers are all very different.'},
+{n:'Stereotyping',f:'h',c:'social',s:'5',d:'Assuming an individual has traits we associate with their group, without real information about them.',e:'"She\'s from head office, she won\'t understand the shop floor." She ran a mill for eight years.'},
+{n:'Implicit bias',f:'h',c:'social',s:'4',d:'Unconscious associations that shape our judgements without our awareness.',e:'In field experiments, identical résumés received different callback rates depending only on the name at the top.'},
+{n:'Groupthink',f:'h',c:'social',s:'4, 5',d:'The desire for harmony and agreement overrides critical thinking.',e:'In an RCA meeting, nobody challenges the plant manager\'s favoured root cause, so the fishbone fills up in agreement with it.'},
+{n:'Bandwagon effect',f:'h',c:'social',s:'5',d:'Adopting an idea or behaviour because many others already have.',e:'Every department suddenly needs "an AI dashboard" because other sites have one, whether or not there\'s a question for it to answer.'},
+{n:'Authority bias',f:'h',c:'social',s:'5',d:'Giving extra weight to an authority figure\'s opinion regardless of the evidence.',e:'The VP\'s gut feel about the root cause beats the data in the review meeting.'},
+{n:'Halo effect',f:'h',c:'social',s:'5',d:'One positive trait colours our impression of everything else about a person or thing. It works for negative traits too.',e:'A supplier with a slick presentation and a glossy brochure is assumed to have tight process control as well.'},
+{n:'False consensus effect',f:'h',c:'social',s:'5',d:'Overestimating how many people share our opinions.',e:'"Everyone hates the new system," according to the three people you had lunch with.'},
+{n:'Spotlight effect',f:'h',c:'social',s:'5',d:'Believing others notice our appearance and mistakes far more than they do.',e:'You fumble one slide and assume the whole room is still thinking about it next week. Most forgot by coffee break.'},
+{n:'Defensive attribution',f:'h',c:'social',s:'5',d:'Blaming a victim less when we can imagine being in their position, and more when we can\'t.',e:'Engineers go easy on a peer\'s spreadsheet error ("could\'ve been me") but come down hard on an operator for a similar slip.'},
+{n:'Bystander effect',f:'h',c:'social',s:'5',d:'The more people present, the less likely any one of them is to act. Flagged in the source graphic as not strictly a cognitive bias.',e:'Twenty people walk past an oil leak on the walkway, each assuming someone else already reported it.'},
+{n:'Ben Franklin effect',f:'h',c:'social',s:'5',d:'We tend to like people more after doing them a favour.',e:'Asking a sceptical colleague to review your analysis often turns them into its biggest supporter.'},
+{n:'Availability cascade',f:'h',c:'social',s:'5',d:'A belief becomes more credible simply by being repeated in public.',e:'"Wet flux causes all our porosity" gets said in enough meetings that it\'s treated as fact. Nobody has tested it.'},
+{n:'Third-person effect',f:'h',c:'social',s:'5',d:'Believing other people are more influenced by media and advertising than we are.',e:'"Those ads work on other people, not me," said while wearing the advertised boots.'},
+
+/* Belief and persuasion */
+{n:'Confirmation bias',f:'h',c:'belief',s:'2, 4, 5, 6',d:'Seeking out, noticing and remembering information that supports what we already believe.',e:'Convinced a sliver defect starts at the caster, a team pulls only caster data and never looks at the reheat furnace.'},
+{n:'Belief bias',f:'h',c:'belief',s:'5',d:'Judging an argument\'s logic by whether we like its conclusion.',e:'A flawed analysis showing your process is capable sails through review. A sound one saying it isn\'t gets picked apart.'},
+{n:'Backfire effect',f:'h',c:'belief',s:'5',d:'Evidence against a belief can make some people hold it more firmly.',e:'Showing a manager that his pet project didn\'t move the metric leads to a louder defence of the project.'},
+{n:'Reactance',f:'h',c:'belief',s:'5',d:'Doing the opposite of what we\'re told when we feel our freedom is being restricted.',e:'A heavy-handed memo on a new rule triggers more shortcuts than a five-minute conversation explaining why would have.'},
+{n:'Naive realism',f:'h',c:'belief',s:'5',d:'Believing we see the world objectively and that people who disagree must be uninformed or biased.',e:'"The data is obvious. Anyone who reads it differently just doesn\'t get it."'},
+{n:'Naive cynicism',f:'h',c:'belief',s:'5',d:'Expecting others to be more self-interested than they really are.',e:'"She only joined the kaizen team to look good for promotion." She joined because the problem annoyed her.'},
+{n:'Blind spot bias',f:'h',c:'belief',s:'5',d:'Recognising bias in other people while believing we\'re less affected ourselves.',e:'Reading this entire field guide and thinking mainly of your co-workers.'},
+{n:'Just-world hypothesis',f:'h',c:'belief',s:'5',d:'Assuming people generally get what they deserve.',e:'"He got laid off? He must not have been pulling his weight." The whole department was cut.'},
+{n:'Moral luck',f:'h',c:'belief',s:'5',d:'Judging a decision by its outcome rather than by the quality of the decision itself.',e:'Two operators skip the same lockout step. One gets lucky, one causes an incident. Only one gets disciplined.'},
+{n:'Forer effect',f:'h',c:'belief',s:'5',d:'Accepting vague, general statements as uniquely accurate descriptions of ourselves. Also called the Barnum effect.',e:'"You have a lot of unused potential and sometimes doubt your decisions." That describes nearly everyone who reads a horoscope.'},
+{n:'Ranking bias',f:'h',c:'belief',s:'4',d:'Items placed higher in a list get chosen or trusted more, regardless of merit.',e:'Most clicks go to the top three search results. The supplier listed first in the purchasing dropdown gets picked the most.'},
+
+/* Systemic */
+{n:'Historical bias',f:'y',c:'sys',s:'4',d:'The data accurately records a past that was itself unfair or unrepresentative.',e:'A hiring model trained on 20 years of engineering hires learns that successful engineers are mostly men, because mostly men were hired.'},
+{n:'Social bias',f:'y',c:'sys',s:'4',d:'Shared norms and stereotypes in society seep into data and decisions.',e:'Image datasets label people in kitchens as women more often than the photos justify, and models trained on them repeat it.'},
+{n:'Institutional bias',f:'y',c:'sys',s:'4',d:'An organisation\'s policies and practices produce skewed outcomes even when individuals mean well.',e:'A promotion rule that rewards weekend overtime quietly disadvantages employees with caregiving responsibilities.'}
+];
+
+/* ---------- Shared helpers ---------- */
+const ICON={
+ sel:'M3 4h18l-7 8v6l-4 2v-8z',
+ survey:'M9 3h6v3H9z M7 4.5H5v16h14v-16h-2 M8.5 11h7 M8.5 15h4.5',
+ meas:'M4 17a8 8 0 0 1 16 0 M12 17l4-5 M12 17h.01',
+ model:'M4 20V4 M4 20h16 M7 15l4-4 3 3 5-6',
+ mind:'M9 18h6 M10 21h4 M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z',
+ social:'M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z M3 20a6 6 0 0 1 12 0 M16 5a3 3 0 0 1 0 6 M17.5 14a5 5 0 0 1 3.5 6',
+ belief:'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
+ sys:'M3 21h18 M5 21V9l7-5 7 5v12 M9 21v-6h6v6'
+};
+function icon(ck,sz){return `<svg class="ic" viewBox="0 0 24 24" width="${sz}" height="${sz}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ICON[ck]}"/></svg>`;}
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function gaussR(r){let u=0,v=0;while(!u)u=r();while(!v)v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+function chartSVG(o){
+  const W=o.w||520,H=o.h||260,m={l:52,r:16,t:16,b:46};
+  const sx=x=>m.l+(x-o.x0)/(o.x1-o.x0)*(W-m.l-m.r), sy=y=>H-m.b-(y-o.y0)/(o.y1-o.y0)*(H-m.t-m.b);
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.label}">`;
+  o.yt.forEach(v=>{s+=`<line x1="${m.l}" x2="${W-m.r}" y1="${sy(v)}" y2="${sy(v)}" stroke="var(--lesson-bias-line)"/><text x="${m.l-8}" y="${sy(v)+4}" text-anchor="end" class="tk">${o.yf?o.yf(v):v}</text>`});
+  o.xt.forEach(v=>{s+=`<text x="${sx(v)}" y="${H-m.b+18}" text-anchor="middle" class="tk">${v}</text>`});
+  s+=`<text x="${(W+m.l)/2}" y="${H-6}" text-anchor="middle" class="ax">${o.xl}</text><text transform="translate(14 ${(H-m.b+m.t)/2}) rotate(-90)" text-anchor="middle" class="ax">${o.yl}</text>`;
+  o.series.forEach(se=>{
+    if(se.line)s+=`<path d="${se.pts.map((p,i)=>(i?'L':'M')+sx(p[0]).toFixed(1)+' '+sy(p[1]).toFixed(1)).join('')}" fill="none" stroke="${se.color}" stroke-width="${se.w||2.5}" ${se.dash?'stroke-dasharray="6 4"':''}/>`;
+    if(se.dots)se.pts.forEach(p=>s+=`<circle cx="${sx(p[0]).toFixed(1)}" cy="${sy(p[1]).toFixed(1)}" r="${se.r||3.8}" fill="${se.color}"/>`);
+  });
+  (o.extra||[]).forEach(f=>s+=f(sx,sy));
+  return s+'</svg>';
+}
+
+/* ---------- Searchable, pre-rendered field guide ---------- */
+const famColor={s:'var(--lesson-bias-cyan)',h:'var(--lesson-bias-coral)',y:'var(--lesson-bias-sea)'};
+const famName={all:'All',s:'Statistical',h:'Human',y:'Systemic'};
+let gFam='all',gTerm='',gCat=null;
+const guideCards=[...document.querySelectorAll('#guideOut [data-bias-index]')];
+const guideBlocks=[...document.querySelectorAll('#guideOut [data-bias-block]')];
+function renderGuide(){
+  let shown=0;
+  guideCards.forEach(card=>{
+    const bias=B[Number(card.dataset.biasIndex)];
+    const match=(gFam==='all'||bias.f===gFam)&&(!gCat||gCat.includes(bias.c))&&(!gTerm||(bias.n+' '+bias.d+' '+bias.e).toLowerCase().includes(gTerm));
+    card.hidden=!match;if(match)shown++;
+  });
+  guideBlocks.forEach(block=>{block.hidden=![...block.querySelectorAll('[data-bias-index]')].some(card=>!card.hidden);});
+  document.getElementById('count').textContent='Showing '+shown+' of '+B.length;
+  document.getElementById('guideEmpty').hidden=shown>0;
+  const cn=document.getElementById('catNote');
+  cn.replaceChildren();
+  if(gCat){const b=document.createElement('button');b.type='button';b.textContent='Showing '+gCat.map(c=>CATS[c][0]).join(', ')+' only. Show all categories';b.onclick=()=>{gCat=null;renderGuide();};cn.appendChild(b);}
+}
+(function(){
+  const chipsEl=document.getElementById('famChips');
+  Object.keys(famName).forEach(k=>{
+    const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=famName[k];b.dataset.k=k;
+    b.setAttribute('aria-pressed',k==='all');
+    b.onclick=()=>{gFam=k;[...chipsEl.children].forEach(c=>c.setAttribute('aria-pressed',c.dataset.k===k));renderGuide();};
+    chipsEl.appendChild(b);
+  });
+  document.getElementById('q').addEventListener('input',e=>{gTerm=e.target.value.trim().toLowerCase();renderGuide();});
+  window.addEventListener('hashchange',()=>{
+    const target=document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if(target?.closest('#guideOut [hidden]')){gFam='all';gCat=null;gTerm='';document.getElementById('q').value='';[...chipsEl.children].forEach(c=>c.setAttribute('aria-pressed',c.dataset.k==='all'));renderGuide();target.scrollIntoView();}
+  });
+  renderGuide();
+})();
+function filterCat(cats){gCat=cats;gFam='all';gTerm='';document.getElementById('q').value='';
+  [...document.getElementById('famChips').children].forEach(c=>c.setAttribute('aria-pressed',c.dataset.k==='all'));
+  renderGuide();document.getElementById('guide').scrollIntoView();}
+
+/* ---------- Family bar and pipeline ---------- */
+(function(){
+  const cnt=k=>B.filter(b=>b.f===k).length;
+  document.getElementById('famBar').innerHTML=['s','h','y'].map(k=>`<div style="flex:${cnt(k)};background:${famColor[k]}" title="${famName[k]}: ${cnt(k)}">${famName[k]} ${cnt(k)}</div>`).join('');
+  const cc=cats=>B.filter(b=>cats.includes(b.c)).length;
+  const stages=[
+    [['sel'],'Who gets in','Selection and sampling','var(--lesson-bias-cyan)','sel'],
+    [['survey'],'How we ask','Surveys and interviews','var(--lesson-bias-violet)','survey'],
+    [['meas'],'How we measure','Measurement and reporting','var(--lesson-bias-amber)','meas'],
+    [['model'],'How we analyse','Analysis and models','var(--lesson-bias-cyan)','model'],
+    [['mind','social','belief'],'Who decides','Judgement, social and belief','var(--lesson-bias-coral)','mind']
+  ];
+  const pipe=document.getElementById('pipe');
+  stages.forEach(st=>{
+    const li=document.createElement('li');
+    li.innerHTML=`<button type="button" style="--lesson-bias-cc:${st[3]}">${icon(st[4],26)}<b>${st[1]}</b><small>${st[2]}</small><span class="n">${cc(st[0])} biases</span></button>`;
+    li.querySelector('button').onclick=()=>filterCat(st[0]);
+    pipe.appendChild(li);
+  });
+  const sb=document.getElementById('sysBand');
+  sb.innerHTML=`<button type="button" class="sysband" style="--lesson-bias-cc:var(--lesson-bias-sea)">${icon('sys',28)}<span><b>Underneath every stage: the system</b><small style="display:block;color:var(--lesson-bias-muted);font-size:13px">History, social norms and institutional rules shape all five stages. ${cc(['sys'])} biases.</small></span></button>`;
+  sb.querySelector('button').onclick=()=>filterCat(['sys']);
+})();
+
+/* ---------- Accuracy vs precision quad ---------- */
+(function(){
+  const cfg=[[0,4,'Accurate and precise','Low bias, low noise'],[26,4,'Precise but biased','Tight, wrong place'],[0,15,'Accurate but noisy','Right on average'],[26,15,'Biased and noisy','Worst of both']];
+  document.getElementById('quad').innerHTML=cfg.map((c,i)=>{
+    const r=mulberry(20+i);let sv=`<svg viewBox="0 0 120 120" role="img" aria-label="${c[2]}"><circle cx="60" cy="60" r="56" fill="var(--lesson-bias-target1)"/><circle cx="60" cy="60" r="38" fill="var(--lesson-bias-target2)"/><circle cx="60" cy="60" r="20" fill="var(--lesson-bias-target1)"/>`;
+    for(let k=0;k<12;k++)sv+=`<circle cx="${(60+c[0]*.8+gaussR(r)*c[1]).toFixed(1)}" cy="${(60-c[0]*.6+gaussR(r)*c[1]).toFixed(1)}" r="3.2" fill="var(--lesson-bias-cyan)" opacity=".85"/>`;
+    sv+=`<circle cx="60" cy="60" r="4" fill="var(--lesson-bias-sea)"/></svg>`;
+    return `<figure>${sv}<figcaption>${c[2]}<span>${c[3]}</span></figcaption></figure>`;
+  }).join('');
+})();
+
+/* ---------- Bessel simulation ---------- */
+(function(){
+  const r=mulberry(7),dn=[],dn1=[],th=[];
+  for(let n=2;n<=20;n++){let a=0,b=0;const R=3000;
+    for(let k=0;k<R;k++){const xs=[];for(let j=0;j<n;j++)xs.push(gaussR(r));const m=xs.reduce((p,q)=>p+q,0)/n;const ss=xs.reduce((p,q)=>p+(q-m)*(q-m),0);a+=ss/n;b+=ss/(n-1);}
+    dn.push([n,a/R]);dn1.push([n,b/R]);th.push([n,(n-1)/n]);}
+  document.getElementById('besselChart').innerHTML=chartSVG({label:'Average sample variance by sample size',x0:2,x1:20,y0:.4,y1:1.2,yt:[.4,.6,.8,1,1.2],xt:[2,5,10,15,20],xl:'Sample size n',yl:'Average s²',
+    series:[{pts:[[2,1],[20,1]],line:1,color:'var(--lesson-bias-sea)',dash:1},{pts:th,line:1,color:'var(--lesson-bias-coral)',w:1.5},{pts:dn,dots:1,color:'var(--lesson-bias-coral)'},{pts:dn1,dots:1,color:'var(--lesson-bias-cyan)'}]});
+})();
+
+/* ---------- Survivorship funnel ---------- */
+(function(){
+  const st=[['Pipe cast',1000],['Past the caster',940],['Past the rolling mill',895],['Past heat treat',880],['Final inspection data',870]];
+  const W=620,H=238,x0=190,sc=(W-x0-110)/1000;let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Funnel of pipe through the mill stages">`;
+  st.forEach((d,i)=>{const y=14+i*46,last=i===st.length-1;
+    s+=`<text x="${x0-10}" y="${y+21}" text-anchor="end" class="lbl">${d[0]}</text><rect x="${x0}" y="${y}" width="${d[1]*sc}" height="30" rx="4" fill="${last?'var(--lesson-bias-sea)':'var(--lesson-bias-cyan)'}" opacity="${last?1:.35+.12*i}"/><text x="${x0+d[1]*sc-8}" y="${y+20}" text-anchor="end" class="lbl" style="fill:${last?'var(--lesson-bias-bg)':'var(--lesson-bias-ink)'}">${d[1]}</text>`;
+    if(i)s+=`<rect x="${x0+d[1]*sc}" y="${y}" width="${(st[i-1][1]-d[1])*sc}" height="30" fill="var(--lesson-bias-coral)" opacity=".85"/><text x="${x0+st[i-1][1]*sc+8}" y="${y+20}" class="tk" style="fill:var(--lesson-bias-coral)">−${st[i-1][1]-d[1]} scrapped</text>`;
+  });
+  document.getElementById('funnelChart').innerHTML=s+'</svg><p class="note" style="font-size:14px">Only the green bar reaches the dataset. The 130 red pipes are the ones that explain failure.</p>';
+})();
+
+/* ---------- Demo: coil sampling ---------- */
+(function(){
+  const r=mulberry(11),N=60;const T=[...Array(N)].map((_,p)=>100-38*Math.sin(Math.PI*p/(N-1))+gaussR(r)*4);
+  const tm=T.reduce((a,b)=>a+b,0)/N;let sel=[];
+  function draw(){
+    const W=720,H=240,ml=52,mr=14,mt=14,mb=40,bw=(W-ml-mr)/N,sy=v=>H-mb-v/120*(H-mt-mb);
+    let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Toughness along a coil with sampled positions highlighted">`;
+    [0,40,80,120].forEach(v=>s+=`<line x1="${ml}" x2="${W-mr}" y1="${sy(v)}" y2="${sy(v)}" stroke="var(--lesson-bias-line)"/><text x="${ml-8}" y="${sy(v)+4}" text-anchor="end" class="tk">${v}</text>`);
+    T.forEach((v,i)=>{const on=sel.includes(i);s+=`<rect x="${(ml+i*bw+1).toFixed(1)}" y="${sy(v).toFixed(1)}" width="${(bw-2).toFixed(1)}" height="${(sy(0)-sy(v)).toFixed(1)}" rx="1.5" fill="${on?'var(--lesson-bias-cyan)':'var(--lesson-bias-panel2)'}" stroke="${on?'none':'var(--lesson-bias-line)'}"/>`;});
+    s+=`<line x1="${ml}" x2="${W-mr}" y1="${sy(tm)}" y2="${sy(tm)}" stroke="var(--lesson-bias-sea)" stroke-width="2.5" stroke-dasharray="7 4"/><text x="${W-mr}" y="${sy(tm)-6}" text-anchor="end" class="lbl" style="fill:var(--lesson-bias-sea)">True coil mean</text>`;
+    if(sel.length){const sm=sel.reduce((a,i)=>a+T[i],0)/sel.length;s+=`<line x1="${ml}" x2="${W-mr}" y1="${sy(sm)}" y2="${sy(sm)}" stroke="var(--lesson-bias-coral)" stroke-width="2.5"/><text x="${W-mr}" y="${sy(sm)-6}" text-anchor="end" class="lbl" style="fill:var(--lesson-bias-coral)">Sample mean</text>`;}
+    s+=`<text x="${ml}" y="${H-8}" class="ax">Head of coil</text><text x="${W-mr}" y="${H-8}" text-anchor="end" class="ax">Tail</text><text transform="translate(14 ${(H-mb+mt)/2}) rotate(-90)" text-anchor="middle" class="ax">Charpy energy (J)</text></svg>`;
+    document.getElementById('coilChart').innerHTML=s;
+  }
+  function report(kind){const sm=sel.reduce((a,i)=>a+T[i],0)/sel.length,d=sm-tm;
+    document.getElementById('coilOut').innerHTML=`Sample mean <b>${sm.toFixed(1)} J</b> vs true coil mean <b>${tm.toFixed(1)} J</b>. Error <b>${d>0?'+':''}${d.toFixed(1)} J</b><br>`+
+      (kind==='head'?'Every head sample overstates toughness, and it will every single time. That\'s bias, not bad luck.':'Random picks land above or below the truth, but they don\'t lean one way. Press again a few times to see it.');}
+  document.getElementById('coilHead').onclick=()=>{sel=[0,1,2,3,4,5,6,7];draw();report('head');};
+  document.getElementById('coilRand').onclick=()=>{const p=[...Array(N).keys()];for(let i=N-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[p[i],p[j]]=[p[j],p[i]];}sel=p.slice(0,8);draw();report('rand');};
+  draw();
+})();
+
+/* ---------- Demo: nonresponse waffle ---------- */
+(function(){
+  const r=mulberry(5),idx=[...Array(400).keys()];for(let i=399;i>0;i--){const j=Math.floor(r()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
+  let shown=false;
+  function draw(){const col=Array(400);
+    idx.forEach((cell,k)=>{col[cell]=k<36?'var(--lesson-bias-coral)':k<48?'var(--lesson-bias-sea)':(shown?(k<348?'var(--lesson-bias-sea)':'var(--lesson-bias-coral)'):'var(--lesson-bias-line)');});
+    let s='<svg viewBox="0 0 400 400" role="img" aria-label="Waffle chart of 400 surveyed customers">';
+    col.forEach((c,i)=>{const x=(i%20)*20,y=Math.floor(i/20)*20,resp=idx.indexOf(i)<48;s+=`<rect x="${x+1}" y="${y+1}" width="18" height="18" rx="3" fill="${c}" ${shown&&!resp?'opacity=".55"':''}/>`;});
+    document.getElementById('waffle').innerHTML=s+'</svg>';
+    document.getElementById('waffleOut').innerHTML=shown?'Among everyone: <b>78% satisfied</b>. The survey said 25%. The silent customers weren\'t unhappy, they just didn\'t bother replying.':'Among those who replied: <b>25% satisfied</b>. Sounds like a crisis.';
+    document.getElementById('waffleBtn').textContent=shown?'Hide the silent majority':'Reveal the silent majority';}
+  document.getElementById('waffleBtn').onclick=()=>{shown=!shown;draw();};draw();
+})();
+
+/* ---------- Demo: multiple comparisons ---------- */
+(function(){
+  const kR=document.getElementById('kR'),pts=[];for(let k=1;k<=60;k++)pts.push([k,1-Math.pow(.95,k)]);
+  function draw(){const k=+kR.value,p=1-Math.pow(.95,k);document.getElementById('kVal').textContent=k;
+    document.getElementById('mcChart').innerHTML=chartSVG({label:'Chance of a false positive vs number of tests',x0:1,x1:60,y0:0,y1:1,yt:[0,.25,.5,.75,1],yf:v=>Math.round(v*100)+'%',xt:[1,10,20,30,40,50,60],xl:'Variables tested',yl:'Chance of a false find',
+      series:[{pts,line:1,color:'var(--lesson-bias-violet)'}],extra:[(sx,sy)=>`<line x1="${sx(k)}" x2="${sx(k)}" y1="${sy(0)}" y2="${sy(p)}" stroke="var(--lesson-bias-amber)" stroke-dasharray="4 3"/><circle cx="${sx(k)}" cy="${sy(p)}" r="6" fill="var(--lesson-bias-amber)"/>`]});
+    document.getElementById('mcOut').innerHTML=`Test <b>${k}</b> useless variables and there's a <b>${Math.round(p*100)}%</b> chance at least one looks significant. Expected false finds: <b>${(k*.05).toFixed(1)}</b>.`;}
+  kR.oninput=draw;draw();
+})();
+
+/* ---------- Demo: clustering illusion ---------- */
+(function(){
+  function draw(){
+    const xs=[...Array(30)].map(()=>Math.random()*12).sort((a,b)=>a-b);let best=0,bs=0;
+    for(let i=0;i<xs.length;i++){let j=i;while(j<xs.length&&xs[j]-xs[i]<=1)j++;if(j-i>best){best=j-i;bs=xs[i];}}
+    const W=520,H=150,ml=16,mr=16,sx=x=>ml+x/12*(W-ml-mr);
+    let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Random defect positions along a pipe"><rect x="${ml}" y="34" width="${W-ml-mr}" height="60" rx="30" fill="var(--lesson-bias-panel2)" stroke="var(--lesson-bias-line)"/>`;
+    s+=`<rect x="${sx(bs)}" y="26" width="${sx(1)-sx(0)}" height="76" rx="6" fill="var(--lesson-bias-amber)" opacity=".25"/>`;
+    xs.forEach(x=>s+=`<circle cx="${sx(x).toFixed(1)}" cy="${(46+Math.random()*36).toFixed(1)}" r="4.5" fill="var(--lesson-bias-coral)"/>`);
+    for(let m=0;m<=12;m+=2)s+=`<text x="${sx(m)}" y="${H-24}" text-anchor="middle" class="tk">${m} m</text>`;
+    document.getElementById('clusterChart').innerHTML=s+'</svg>';
+    document.getElementById('clusterOut').innerHTML=`Densest metre: <b>${best} defects</b>. Average per metre: <b>2.5</b>. It looks like a hot spot worth investigating, yet every point was placed at random.`;}
+  document.getElementById('clusterBtn').onclick=draw;draw();
+})();
+
+/* ---------- Demo: gambler's fallacy ---------- */
+(function(){
+  let after=0,same=0,run=1,prev=Math.random()<.5;
+  for(let i=0;i<200000;i++){const c=Math.random()<.5;if(run>=5){after++;if(c===prev)same++;}run=c===prev?run+1:1;prev=c;}
+  const pSame=same/after;
+  function draw(){
+    const f=[...Array(100)].map(()=>Math.random()<.5);let best=1,bEnd=0,cur=1;
+    for(let i=1;i<100;i++){cur=f[i]===f[i-1]?cur+1:1;if(cur>best){best=cur;bEnd=i;}}
+    const bStart=bEnd-best+1;let s='<svg viewBox="0 0 520 140" role="img" aria-label="100 coin flips with the longest streak ringed">';
+    f.forEach((h,i)=>{const x=14+(i%20)*25.6,y=16+Math.floor(i/20)*26,inRun=i>=bStart&&i<=bEnd;
+      s+=`<circle cx="${x}" cy="${y}" r="9" fill="${h?'var(--lesson-bias-cyan)':'var(--lesson-bias-violet)'}" ${inRun?'stroke="var(--lesson-bias-amber)" stroke-width="3"':''}/><text x="${x}" y="${y+4}" text-anchor="middle" style="font:600 10px var(--lesson-bias-body);fill:var(--lesson-bias-bg)">${h?'H':'T'}</text>`;});
+    document.getElementById('coinChart').innerHTML=s+'</svg>';
+    document.getElementById('coinOut').innerHTML=`Longest streak: <b>${best} in a row</b>. In 200,000 simulated flips, after five identical results the next flip matched <b>${(pSame*100).toFixed(1)}%</b> of the time. Nothing is ever "due".`;}
+  document.getElementById('coinBtn').onclick=draw;draw();
+})();
+
+/* ---------- Quiz ---------- */
+(function(){
+  const Q=[
+    {t:'A customer survey goes to 400 accounts. 48 reply, and most of them have an open quality claim. The report concludes customer satisfaction has collapsed.',o:['Nonresponse bias','Anchoring','Halo effect','Concept drift'],a:0,w:'The 352 silent customers may be perfectly content. Those who answered differ systematically from those who didn\'t.'},
+    {t:'A team trains a defect-prediction model using only pipe records from final inspection. Pipe scrapped at the caster and rolling mill never reached that database.',o:['Recall bias','Survivorship bias','Bandwagon effect','Framing effect'],a:1,w:'The model only ever sees the survivors. The worst failures were removed upstream, exactly like Wald\'s missing bombers.'},
+    {t:'"We\'ve had five clean heats in a row on this grade. The next one is bound to have a problem."',o:['Clustering illusion','Optimism bias','Gambler\'s fallacy','Status quo bias'],a:2,w:'If heats are independent, a streak doesn\'t change the next heat\'s odds. The process has no memory of the streak.'},
+    {t:'Before running a capability study, an analyst removes every hardness reading below 200 HB "because they look like outliers." Cpk jumps from 0.9 to 1.6.',o:['Exclusion bias','Authority bias','Self-serving bias','Temporal bias'],a:0,w:'Removing inconvenient data without a documented, assignable cause skews the result. Those soft readings may be the real process.'},
+    {t:'An inspector is told a particular heat had a caster upset. She records twice as many borderline surface marks on it as on the next heat, which looks identical.',o:['Measurement bias','Observer bias','Spotlight effect','Undercoverage bias'],a:1,w:'Expectation changed what was recorded. Blind the inspector to the heat history and the difference often disappears.'},
+    {t:'"We\'ve already spent $400k on this furnace upgrade. We can\'t walk away now," says the project lead, after trials show no improvement.',o:['Sunk cost fallacy','IKEA effect','Zero-risk bias','Groupthink'],a:0,w:'The $400k is gone either way. The decision should rest on future costs and benefits only.'},
+    {t:'Data shows production lines with more inspectors record more defects per shift. Someone suggests cutting inspectors to improve quality.',o:['Omitted variable bias','Cause-effect bias','Ranking bias','Declinism'],a:1,w:'Inspectors detect defects, they don\'t create them. The causal arrow is pointing the wrong way.'},
+    {t:'A customer survey asks five questions about late deliveries and damaged shipments, then asks "Overall, how satisfied are you with us?" Satisfaction comes in 20 points lower than last year\'s survey, which asked it first.',o:['Question order bias','Recall bias','Neutral response bias','Framing effect'],a:0,w:'The earlier questions put late deliveries front of mind, so the overall rating reflects that priming. Ask the global question first.'},
+    {t:'The automated vision system passes a pipe. The inspector can see a lap on the end but releases it anyway, because the system said it was fine.',o:['Authority bias','Automation bias','Selective adherence','Deployment bias'],a:1,w:'Trusting the automated system over clear contradicting evidence is automation bias. The system is a second opinion, not the final word.'}
+  ];
+  let i=0,score=0,answered=false,res=[];
+  function dots(){$('qdots').innerHTML=Q.map((_,k)=>`<span class="${res[k]===true?'r':res[k]===false?'w':k===i?'c':''}"></span>`).join('');}
+  const $=id=>document.getElementById(id);
+  function show(){
+    answered=false;const q=Q[i];dots();
+    $('qnum').textContent=`Scenario ${i+1} of ${Q.length}`;$('qscore').textContent=`Score ${score}`;
+    $('qtext').textContent=q.t;$('qwhy').innerHTML='';$('qnext').hidden=true;
+    const o=$('qopts');o.innerHTML='';
+    q.o.forEach((opt,k)=>{const b=document.createElement('button');b.className='opt';b.textContent=opt;b.onclick=()=>pick(k,b);o.appendChild(b);});
+  }
+  function pick(k,b){
+    if(answered)return;answered=true;const q=Q[i];
+    const btns=[...$('qopts').children];btns[q.a].classList.add('right');
+    if(k===q.a){score++;$('qwhy').innerHTML='<b>Spot on.</b> '+q.w;}
+    else{b.classList.add('wrong');$('qwhy').innerHTML='<b>Close, but it\'s '+q.o[q.a]+'.</b> '+q.w;}
+    res[i]=k===q.a;dots();
+    $('qscore').textContent=`Score ${score}`;
+    $('qnext').hidden=false;$('qnext').textContent=i<Q.length-1?'Next scenario':'See my result';
+  }
+  $('qnext').onclick=()=>{
+    if(i>=Q.length){i=0;score=0;res=[];show();return;}
+    if(i<Q.length-1){i++;show();return;}
+    i=Q.length;
+    const msg=score===Q.length?'Perfect. You\'re a certified bias spotter.':score>=6?'Strong work. A couple slipped by, which is the whole point.':'Good start. Scroll back through the field guide and try again.';
+    $('qnum').textContent='Finished';$('qtext').textContent=`You scored ${score} of ${Q.length}. ${msg}`;
+    $('qopts').innerHTML='';$('qwhy').innerHTML='';$('qnext').textContent='Start over';
+  };
+  show();
+})();
+
+
+</script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+<style id="bias-lesson-dark">html[data-theme="dark"] .bias-lesson{--lesson-bias-bg:#071120;--lesson-bias-panel:#0d1b30;--lesson-bias-panel2:#12243d;--lesson-bias-ink:#e4eef6;--lesson-bias-muted:#8ea6bb;--lesson-bias-line:#1f3654;--lesson-bias-cyan:#3fb6d8;--lesson-bias-coral:#ef7a6f;--lesson-bias-sea:#5fd3a4;--lesson-bias-amber:#f2a33a;--lesson-bias-violet:#a98cf0;--lesson-bias-target1:#0f2138;--lesson-bias-target2:#15304f}
+html[data-theme="dark"] .bias-lesson .dlbtn{color:#1b1206}
+html[data-theme="dark"] .bias-lesson .dlzone .badge{color:#1b1206}
+html[data-theme="dark"] .bias-lesson .statistics-implementation th{background:var(--lesson-bias-panel2);color:var(--lesson-bias-ink)}
+html[data-theme="dark"] .bias-lesson .statistics-implementation .impl-card{background:var(--lesson-bias-panel);color:var(--lesson-bias-ink)}
+html[data-theme="dark"] .bias-back-link{color:#7dd3fc!important}
+</style>
+</body>
+</html>
