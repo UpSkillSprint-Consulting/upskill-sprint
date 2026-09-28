@@ -9844,9 +9844,23 @@
       "contentAvailable": true,
       "sections": [
         {
+          "id": "lesson-section-the-lean-a-field-guide-to-bias",
+          "heading": "The Lean: A Field Guide to Bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias"
+          ],
+          "text": "Bias never averages out. Bias is the lean that doesn't cancel out. Take more samples, run more tests, collect more data, and it stays right where it is. Try it on the gauge target. This lesson covers what bias is, the three families it comes in, 83 named biases with worked examples, a quiz, and a toolkit for pushing back. Bias (systematic offset) Noise (random scatter) Green dot is the true value. Take measurements and watch where their average lands. Free printable posters",
+          "excerpt": "Bias never averages out. Bias is the lean that doesn't cancel out. Take more samples, run more tests, collect more data, and it stays right where it is. Try it on the gauge target. This lesson covers what bias is, the three families it comes in, 83 named…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
           "id": "dlTitle",
           "heading": "Take the posters with you",
           "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
             "Take the posters with you"
           ],
           "text": "Three one-page PDF posters to print for the office wall, share with your team, or keep beside you during your next analysis. New",
@@ -9859,6 +9873,7 @@
           "id": "lesson-section-50-statistical-biases",
           "heading": "50 Statistical Biases",
           "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
             "Take the posters with you",
             "50 Statistical Biases"
           ],
@@ -9872,6 +9887,7 @@
           "id": "lesson-section-50-statistical-biases-edition-2",
           "heading": "50 Statistical Biases, Edition 2",
           "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
             "Take the posters with you",
             "50 Statistical Biases, Edition 2"
           ],
@@ -9885,6 +9901,7 @@
           "id": "lesson-section-50-cognitive-biases",
           "heading": "50 Cognitive Biases",
           "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
             "Take the posters with you",
             "50 Cognitive Biases"
           ],
@@ -9892,19 +9909,6 @@
           "excerpt": "PDF, 1 page, 332 KB. Poster by TitleMax. Download PDF",
           "kinds": [
             "section"
-          ]
-        },
-        {
-          "id": "lesson-section-the-lean-a-field-guide-to-bias",
-          "heading": "The Lean: A Field Guide to Bias",
-          "breadcrumb": [
-            "The Lean: A Field Guide to Bias"
-          ],
-          "text": "Bias never averages out. Bias is the lean that doesn't cancel out. Take more samples, run more tests, collect more data, and it stays right where it is. Try it on the gauge target. This lesson covers what bias is, the three families it comes in, 83 named biases with worked examples, a quiz, and a toolkit for pushing back. Bias (systematic offset) Noise (random scatter) Green dot is the true value. Take measurements and watch where their average lands.",
-          "excerpt": "Bias never averages out. Bias is the lean that doesn't cancel out. Take more samples, run more tests, collect more data, and it stays right where it is. Try it on the gauge target. This lesson covers what bias is, the three families it comes in, 83 named…",
-          "kinds": [
-            "section",
-            "example"
           ]
         },
         {

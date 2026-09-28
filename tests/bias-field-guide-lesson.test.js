@@ -14,6 +14,8 @@ const assets = path.join(root, 'assets/lessons', slug);
 const docs = new JSDOM(html).window.document;
 
 test('all 83 bias definitions and examples remain in searchable page content', () => {
+  assert.ok(html.indexOf('<div class="hero">') < html.indexOf('<section class="dlzone three"'),
+    'the lesson title and interactive introduction come before the posters');
   const cards = [...docs.querySelectorAll('#lesson-content [data-bias-index]')];
   assert.equal(cards.length, 83);
   assert.equal(new Set(cards.map(card => card.querySelector('h4').id)).size, 83);

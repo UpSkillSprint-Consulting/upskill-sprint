@@ -336,6 +336,37 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 </div></nav>
 
 
+<div class="hero"><div class="wrap hero-grid">
+  <div>
+    <h1>The Lean: A Field Guide to Bias</h1>
+    <p class="hero-statement">Bias never averages <span class="tilt">out.</span></p>
+    <p class="lede">Bias is the lean that doesn't cancel out. Take more samples, run more tests, collect more data, and it stays right where it is. Try it on the gauge target.</p>
+    <p class="lede" style="font-size:16px">This lesson covers what bias is, the three families it comes in, 83 named biases with worked examples, a quiz, and a toolkit for pushing back.</p>
+  </div>
+  <div class="lab" aria-label="Interactive bias and noise target">
+    <svg id="target" viewBox="0 0 300 300" role="img" aria-label="Target showing measurement shots and their average">
+      <circle cx="150" cy="150" r="140" fill="var(--lesson-bias-target1)"/>
+      <circle cx="150" cy="150" r="100" fill="var(--lesson-bias-target2)"/>
+      <circle cx="150" cy="150" r="60" fill="var(--lesson-bias-target1)"/>
+      <circle cx="150" cy="150" r="22" fill="var(--lesson-bias-target2)"/>
+      <line x1="150" y1="6" x2="150" y2="294" stroke="var(--lesson-bias-line)"/>
+      <line x1="6" y1="150" x2="294" y2="150" stroke="var(--lesson-bias-line)"/>
+      <g id="shots"></g>
+      <g id="meanMark"></g>
+      <circle cx="150" cy="150" r="4" fill="var(--lesson-bias-sea)"/>
+    </svg>
+    <div class="controls">
+      <label>Bias (systematic offset)<input id="biasR" type="range" min="0" max="80" value="45"></label>
+      <label>Noise (random scatter)<input id="noiseR" type="range" min="4" max="50" value="16"></label>
+    </div>
+    <div class="btnrow">
+      <button class="btn" id="fire">Take 10 measurements</button>
+      <button class="btn ghost" id="clear">Clear</button>
+    </div>
+    <div class="readout" id="readout">Green dot is the true value. Take measurements and watch where their average lands.</div>
+  </div>
+</div></div>
+
 <section class="dlzone three" id="downloads" aria-labelledby="dlTitle"><div class="wrap">
   <div>
     <span class="badge"><span class="ping"></span>Free printable posters</span>
@@ -367,36 +398,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   </div>
 </div></section>
 
-<div class="hero"><div class="wrap hero-grid">
-  <div>
-    <h1>The Lean: A Field Guide to Bias</h1>
-    <p class="hero-statement">Bias never averages <span class="tilt">out.</span></p>
-    <p class="lede">Bias is the lean that doesn't cancel out. Take more samples, run more tests, collect more data, and it stays right where it is. Try it on the gauge target.</p>
-    <p class="lede" style="font-size:16px">This lesson covers what bias is, the three families it comes in, 83 named biases with worked examples, a quiz, and a toolkit for pushing back.</p>
-  </div>
-  <div class="lab" aria-label="Interactive bias and noise target">
-    <svg id="target" viewBox="0 0 300 300" role="img" aria-label="Target showing measurement shots and their average">
-      <circle cx="150" cy="150" r="140" fill="var(--lesson-bias-target1)"/>
-      <circle cx="150" cy="150" r="100" fill="var(--lesson-bias-target2)"/>
-      <circle cx="150" cy="150" r="60" fill="var(--lesson-bias-target1)"/>
-      <circle cx="150" cy="150" r="22" fill="var(--lesson-bias-target2)"/>
-      <line x1="150" y1="6" x2="150" y2="294" stroke="var(--lesson-bias-line)"/>
-      <line x1="6" y1="150" x2="294" y2="150" stroke="var(--lesson-bias-line)"/>
-      <g id="shots"></g>
-      <g id="meanMark"></g>
-      <circle cx="150" cy="150" r="4" fill="var(--lesson-bias-sea)"/>
-    </svg>
-    <div class="controls">
-      <label>Bias (systematic offset)<input id="biasR" type="range" min="0" max="80" value="45"></label>
-      <label>Noise (random scatter)<input id="noiseR" type="range" min="4" max="50" value="16"></label>
-    </div>
-    <div class="btnrow">
-      <button class="btn" id="fire">Take 10 measurements</button>
-      <button class="btn ghost" id="clear">Clear</button>
-    </div>
-    <div class="readout" id="readout">Green dot is the true value. Take measurements and watch where their average lands.</div>
-  </div>
-</div></div>
+
 
 <section id="define"><div class="wrap">
   <h2>So what is bias, exactly?</h2>
