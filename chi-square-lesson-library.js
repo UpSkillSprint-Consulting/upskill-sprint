@@ -34,7 +34,7 @@
       level: 'beginner',
       interactive: 'true',
       search: 'statistical transformations log logarithm square root reciprocal scaling centering z-score min-max logarithmic axis arithmetic geometric harmonic mean excel minitab data analytics beginner interactive',
-      meta: '<span>Beginner</span><span>Interactive</span><span>45 min</span><span>Excel + Minitab</span>',
+      meta: '<span>Beginner</span><span>Interactive</span><span>60 min</span><span>Excel + Minitab</span>',
       title: 'Statistical Transformations',
       description: 'Explore log, square-root, reciprocal, and scaling transformations with interactive real-world charts and practical decision guidance.'
     },

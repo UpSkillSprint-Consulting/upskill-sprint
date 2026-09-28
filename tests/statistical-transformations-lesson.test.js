@@ -71,7 +71,7 @@ test('metadata, route, and Public access match the requested lesson contract', (
       category_slug: 'data-analytics',
       level: 'Beginner',
       lesson_type: 'General',
-      estimated_minutes: 45,
+      estimated_minutes: 60,
       interactive: true,
       card_title: 'Statistical Transformations',
       suggested_github_path: RELATIVE_FILE
@@ -323,6 +323,172 @@ test('linear, semi-log, and log-log SVGs preserve points and draw both minor-gri
   }
 });
 
+test('the expanded means lesson has the intended learning sequence and professional math notation', () => {
+  const section = doc.getElementById('means-lab');
+  const blocks = [...section.querySelector('.mean-deep-stack').children];
+  assert.deepEqual(blocks.map(block => block.id), [
+    'meanChallenge',
+    'mean-method-explorer',
+    'mean-preservation',
+    'mean-comparison-playground',
+    'mean-compounding-lab',
+    'mean-rate-lab',
+    'mean-choice-guide',
+    'mean-practice-check',
+    'mean-takeaway'
+  ]);
+  assert.ok(blocks.every(block => block.matches('article.mean-block')));
+
+  const ids = [...doc.querySelectorAll('[id]')].map(element => element.id);
+  assert.equal(new Set(ids).size, ids.length, 'all static IDs remain unique');
+  assert.equal(section.querySelectorAll('[role="tab"]').length, 3);
+  assert.equal(section.querySelectorAll('.mean-table-wrap th[scope="col"]').length, 7);
+  assert.equal(section.querySelectorAll('.mean-table-wrap th[scope="row"]').length, 6);
+  assert.match(section.textContent, /\\\(G=\\left\(\\prod_\{i=1\}\^\{n\}x_i\\right\)\^\{\\frac\{1\}\{n\}\}\\\)/);
+  assert.match(section.textContent, /\\\(H=\\frac\{n\}\{\\sum_\{i=1\}\^\{n\}\\frac\{1\}\{x_i\}\}\\\)/);
+  assert.match(section.textContent, /\\\(H\\le G\\le\\bar\{x\}\\\)/);
+  assert.doesNotMatch(section.textContent, /√|÷|x̄/);
+  assert.equal(section.querySelector('.mean-presets').getAttribute('role'), 'group');
+  assert.ok(section.querySelector('.mean-python pre[tabindex="0"]'));
+});
+
+test('mean challenge and method tabs explain the choice and support keyboard navigation', () => {
+  const dom = runtimeDom();
+  const { document: runtimeDoc, KeyboardEvent } = dom.window;
+  try {
+    assert.equal(runtimeDoc.getElementById('meanChallengeSolution').hidden, true);
+    assert.equal(runtimeDoc.getElementById('meanChallengePlaceholder').hidden, false);
+    const wrong = runtimeDoc.querySelector('[data-mean-challenge="arithmetic"]');
+    wrong.click();
+    assert.match(runtimeDoc.getElementById('meanChallengeFeedback').textContent, /Not quite/);
+    assert.equal(wrong.getAttribute('aria-pressed'), 'true');
+    assert.ok(wrong.classList.contains('is-wrong'));
+    assert.equal(runtimeDoc.getElementById('meanChallengeSolution').hidden, false);
+    assert.equal(runtimeDoc.getElementById('meanChallengePlaceholder').hidden, true);
+    const correct = runtimeDoc.querySelector('[data-mean-challenge="harmonic"]');
+    correct.click();
+    assert.match(runtimeDoc.getElementById('meanChallengeFeedback').textContent, /Correct/);
+    assert.equal(correct.getAttribute('aria-pressed'), 'true');
+    assert.equal(wrong.getAttribute('aria-pressed'), 'false');
+
+    const arithmeticTab = runtimeDoc.getElementById('meanMethodArithmeticTab');
+    arithmeticTab.focus();
+    arithmeticTab.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    const geometricTab = runtimeDoc.getElementById('meanMethodGeometricTab');
+    assert.equal(runtimeDoc.activeElement, geometricTab);
+    assert.equal(geometricTab.getAttribute('aria-selected'), 'true');
+    assert.equal(geometricTab.tabIndex, 0);
+    assert.equal(arithmeticTab.tabIndex, -1);
+    assert.equal(runtimeDoc.getElementById('meanMethodPanel').getAttribute('aria-labelledby'), geometricTab.id);
+    assert.match(runtimeDoc.getElementById('meanMethodPanel').textContent, /same endpoint/i);
+    geometricTab.dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }));
+    assert.equal(runtimeDoc.activeElement, runtimeDoc.getElementById('meanMethodHarmonicTab'));
+    assert.match(runtimeDoc.getElementById('meanMethodPanel').textContent, /time per unit/i);
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('mean calculator selects by mechanism, handles domains, and stays finite at numeric extremes', () => {
+  const dom = runtimeDom();
+  const { document: runtimeDoc, Event } = dom.window;
+  const changeInput = value => {
+    const input = runtimeDoc.getElementById('meansInput');
+    input.value = value;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+  try {
+    changeInput('2, 8');
+    assert.equal(runtimeDoc.getElementById('arithmeticResult').textContent, '\\(5\\)');
+    assert.equal(runtimeDoc.getElementById('geometricResult').textContent, '\\(4\\)');
+    assert.equal(runtimeDoc.getElementById('harmonicResult').textContent, '\\(3.2\\)');
+    assert.ok(runtimeDoc.querySelector('#meanNumberLine svg title'));
+    assert.ok(runtimeDoc.querySelector('#meanNumberLine svg desc'));
+
+    const logScale = runtimeDoc.getElementById('meanLogScale');
+    logScale.checked = true;
+    logScale.dispatchEvent(new Event('change', { bubbles: true }));
+    assert.match(runtimeDoc.querySelector('#meanNumberLine desc').textContent, /logarithmic spacing/);
+
+    changeInput('0, 4');
+    assert.equal(runtimeDoc.getElementById('geometricResult').textContent, 'Unavailable');
+    assert.equal(runtimeDoc.getElementById('harmonicResult').textContent, 'Unavailable');
+    assert.equal(logScale.disabled, true);
+    assert.equal(logScale.checked, false);
+    assert.equal(runtimeDoc.querySelectorAll('#meanOrderLine .mean-marker').length, 1);
+    assert.match(runtimeDoc.querySelector('#meanNumberLine title').textContent, /arithmetic mean/);
+    assert.match(runtimeDoc.getElementById('meanCalculationChecks').textContent, /Domain check/);
+
+    changeInput('1, nope');
+    assert.equal(runtimeDoc.getElementById('meansInput').getAttribute('aria-invalid'), 'true');
+    assert.equal(runtimeDoc.getElementById('meanNumberLine').hidden, true);
+    assert.equal(runtimeDoc.querySelectorAll('#meanOrderLine .mean-marker').length, 0);
+    assert.equal(runtimeDoc.getElementById('meanCalculationChecks').textContent, '');
+
+    changeInput('1e308, 1e308');
+    assert.equal(runtimeDoc.getElementById('meansInput').hasAttribute('aria-invalid'), false);
+    assert.equal(runtimeDoc.getElementById('meanNumberLine').hidden, false);
+    assert.doesNotMatch(runtimeDoc.getElementById('meanNumberLine').innerHTML, /NaN|Infinity/);
+    assert.doesNotMatch(runtimeDoc.getElementById('meanOrderLine').innerHTML, /NaN|Infinity/);
+
+    runtimeDoc.querySelector('[data-mean-values="5, 5, 5"]').click();
+    assert.equal(runtimeDoc.querySelectorAll('#meanOrderLine .mean-marker').length, 1);
+    assert.match(runtimeDoc.getElementById('meanOrderLine').textContent, /A=G=H/);
+
+    runtimeDoc.querySelector('[data-scenario="growth"]').click();
+    assert.ok(runtimeDoc.querySelector('[data-mean="geometric"]').classList.contains('is-recommended'));
+    assert.equal(runtimeDoc.getElementById('geometricResult').textContent, '\\(1.029\\times\\)');
+    runtimeDoc.querySelector('[data-scenario="speed"]').click();
+    assert.ok(runtimeDoc.querySelector('[data-mean="harmonic"]').classList.contains('is-recommended'));
+    assert.equal(runtimeDoc.getElementById('harmonicResult').textContent, '\\(40\\,\\mathrm{km\\,h}^{-1}\\)');
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('compounding, rate, decision, and practice interactions preserve the intended real-world quantities', () => {
+  const dom = runtimeDom();
+  const runtimeDoc = dom.window.document;
+  try {
+    const compoundSvg = runtimeDoc.querySelector('#meanCompoundChart svg[role="img"]');
+    assert.ok(compoundSvg);
+    assert.equal(compoundSvg.querySelectorAll('polyline').length, 3);
+    assert.equal(compoundSvg.querySelectorAll('circle').length, 9);
+    assert.match(compoundSvg.querySelector('desc').textContent, /84\.93/);
+    assert.ok(runtimeDoc.getElementById('meanCompoundNote').textContent.includes('actual index is \\(84.93\\)'));
+    assert.ok(runtimeDoc.getElementById('meanCompoundNote').textContent.includes('geometric projection is \\(84.93\\)'));
+
+    assert.match(runtimeDoc.getElementById('meanRateTruth').textContent, /\\approx66\.67/);
+    assert.ok(runtimeDoc.querySelector('[data-rate-mean="harmonic"]').classList.contains('is-match'));
+    runtimeDoc.querySelector('[data-mean-rate-mode="time"]').click();
+    assert.match(runtimeDoc.getElementById('meanRateTruth').textContent, /=75/);
+    assert.ok(runtimeDoc.querySelector('[data-rate-mean="arithmetic"]').classList.contains('is-match'));
+    runtimeDoc.querySelector('[data-mean-rate-mode="amount"]').click();
+    assert.match(runtimeDoc.getElementById('meanRateNote').textContent, /\\sum_\{i=1\}\^\{n\}/);
+
+    runtimeDoc.querySelector('#meanGuide [data-mean-guide-next="rate"]').click();
+    runtimeDoc.querySelector('#meanGuide [data-mean-guide-next="H"]').click();
+    assert.equal(runtimeDoc.querySelector('#meanGuide .mean-guide-result').textContent, 'Harmonic mean');
+    assert.equal(runtimeDoc.activeElement, runtimeDoc.querySelector('#meanGuide .mean-guide-result'));
+    runtimeDoc.querySelector('#meanGuide .mean-guide-reset').click();
+    assert.match(runtimeDoc.querySelector('#meanGuide .mean-guide-question').textContent, /Are the values rates/);
+
+    assert.match(runtimeDoc.querySelector('#meanPractice .mean-practice-meta').textContent, /Question 1 of 8/);
+    assert.equal(runtimeDoc.querySelectorAll('#meanPractice [data-mean-practice]').length, 3);
+    runtimeDoc.querySelector('#meanPractice [data-mean-practice="arithmetic"]').click();
+    const feedback = runtimeDoc.querySelector('#meanPractice .mean-practice-feedback');
+    assert.match(feedback.textContent, /Correct/);
+    assert.equal(runtimeDoc.activeElement, feedback);
+    assert.ok(runtimeDoc.querySelector('#meanPractice [data-mean-practice="arithmetic"]').classList.contains('is-correct'));
+    feedback.querySelector('.mean-practice-next').click();
+    assert.match(runtimeDoc.querySelector('#meanPractice .mean-practice-meta').textContent, /Question 2 of 8 · Score 1/);
+    assert.equal(runtimeDoc.activeElement, runtimeDoc.getElementById('meanPracticePrompt'));
+    assert.ok(runtimeDoc.getElementById('quiz'), 'the canonical quiz remains separate');
+  } finally {
+    dom.window.close();
+  }
+});
+
 test('Statistics Implementation contains the four required parts and usable software guidance', () => {
   const section = doc.getElementById('statistics-implementation');
   assert.ok(section);
@@ -404,7 +570,7 @@ test('catalog registration is unique, literal, and preserves the build insertion
   assert.match(entry, /topic: 'data-analytics'/);
   assert.match(entry, /level: 'beginner'/);
   assert.match(entry, /interactive: 'true'/);
-  assert.match(entry, /<span>45 min<\/span>/);
+  assert.match(entry, /<span>60 min<\/span>/);
   assert.match(entry, /title: 'Statistical Transformations'/);
   assert.ok(catalog.includes("marker: 'data-beyond-the-bell',"));
   assert.doesNotMatch(catalog, /(?:DecompressionStream|atob|eval)\s*\(/);
