@@ -224,6 +224,7 @@ test('learner-facing equations use the repository MathJax and LaTeX convention',
   assert.match(html, /setMathHtml\(\$\('#storyMethod'\),story\.storyMethod\)/);
   assert.match(html, /setMathHtml\(\$\('#mappingExamples'\)/);
   assert.match(html, /setMathHtml\(\$\('#meansStory'\)/);
+  assert.match(html, /#lesson-content mjx-container\[jax="SVG"\]>svg\{display:inline-block;max-width:none\}/);
 });
 
 test('transformation playground executes each rule and enforces zero-value constraints', () => {
