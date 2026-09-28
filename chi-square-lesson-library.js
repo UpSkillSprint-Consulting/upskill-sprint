@@ -27,6 +27,18 @@
       description: 'See how analytics turns raw data into decisions through visual models, an editable factory example, four downloadable wall posters, and an interactive pattern explorer.'
     },
     {
+      marker: 'data-statistical-transformations',
+      sectionId: 'data-analytics',
+      path: '/lessons/data-analytics/statistical-transformations',
+      topic: 'data-analytics',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'statistical transformations log logarithm square root reciprocal scaling centering z-score min-max logarithmic axis arithmetic geometric harmonic mean excel minitab data analytics beginner interactive',
+      meta: '<span>Beginner</span><span>Interactive</span><span>60 min</span><span>Excel + Minitab</span>',
+      title: 'Statistical Transformations',
+      description: 'Explore log, square-root, reciprocal, and scaling transformations with interactive real-world charts and practical decision guidance.'
+    },
+    {
       marker: 'data-hierarchical-data-analysis-steel-charpy',
       sectionId: 'data-analytics',
       path: '/lessons/data-analytics/hierarchical-data-analysis-steel-charpy',
