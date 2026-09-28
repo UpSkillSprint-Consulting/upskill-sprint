@@ -1,0 +1,76 @@
+'use strict';
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const { bootTool, ready } = require('./helpers/steel-phase-harness');
+
+async function tool() { const ctx = bootTool(); await ready(ctx.win); return ctx; }
+function setInputs(win, doc, v) {
+  for (const [id, value] of Object.entries(v)) {
+    const el = doc.getElementById(id);
+    el.value = String(value);
+    el.dispatchEvent(new win.Event('input', { bubbles: true }));
+  }
+}
+const ttt = (rate, holdT, hold, fin) => ({
+  'spx-kin-cooling': rate, 'spx-kin-hold-temp': holdT, 'spx-kin-hold': hold, 'spx-kin-final': fin
+});
+
+test('TTT hold time is continuous and monotonic: no clock reset after the hold', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  let prev = null;
+  for (const hold of [0, 0.5, 2, 10, 60, 600]) {
+    setInputs(win, doc, ttt(30, 650, hold, 25));
+    const fr = win.__SPX.kineticsFractions();
+    if (prev) assert.ok(fr.Martensite <= prev.Martensite + 1e-9, `hold ${hold} s must not raise martensite`);
+    prev = fr;
+  }
+  setInputs(win, doc, ttt(30, 650, 0, 25));
+  const zero = win.__SPX.kineticsFractions();
+  setInputs(win, doc, ttt(30, 650, 0.01, 25));
+  const tiny = win.__SPX.kineticsFractions();
+  for (const k of Object.keys(zero)) assert.ok(Math.abs(zero[k] - (tiny[k] || 0)) < 0.01, `${k} continuous as hold → 0`);
+});
+
+test('TTT with no hold matches CCT for the same cooling rate and end temperature', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  setInputs(win, doc, ttt(30, 550, 0, 25));
+  const tttFr = win.__SPX.kineticsFractions();
+  doc.getElementById('spx-mode-cct').dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
+  setInputs(win, doc, { 'spx-kin-cooling': 30, 'spx-kin-final': 25 });
+  const cctFr = win.__SPX.kineticsFractions();
+  for (const k of Object.keys(cctFr)) assert.ok(Math.abs(cctFr[k] - (tttFr[k] || 0)) < 0.005, `${k}: ${cctFr[k]} vs ${tttFr[k]}`);
+});
+
+test('competing reactions: the earlier, faster reaction takes the larger share', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  setInputs(win, doc, ttt(120, 500, 60, 25));
+  const fr = win.__SPX.kineticsFractions();
+  assert.ok(fr.Bainite > fr.Pearlite, `bainite ${fr.Bainite} should exceed pearlite ${fr.Pearlite} at 500 °C`);
+  assert.ok(Math.abs(fr.Bainite - 0.5) > 0.05, 'no artificial 50/50 split');
+});
+
+test('Hultgren cap: no proeutectoid ferrite far below the nose, full equilibrium ferrite on slow cooling', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  setInputs(win, doc, ttt(120, 500, 60, 25));
+  assert.ok(win.__SPX.kineticsFractions().Ferrite < 0.01, 'fast quench to 500 °C forms essentially no ferrite');
+  assert.ok(win.proeutectoidCapAt(700, 0.18) > win.proeutectoidCapAt(600, 0.18), 'cap tapers with undercooling');
+  assert.equal(win.proeutectoidCapAt(500, 0.18), 0);
+  doc.getElementById('spx-mode-cct').dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
+  setInputs(win, doc, { 'spx-kin-cooling': 0.3, 'spx-kin-final': 25 });
+  const slow = win.__SPX.kineticsFractions();
+  assert.ok(Math.abs(slow.Ferrite - win.finalMicro(0.18).Ferrite) < 0.01, 'slow cooling reaches the lever-rule ferrite fraction');
+  assert.ok(slow.Martensite < 1e-9, 'slow cooling leaves no martensite');
+});
+
+test('crossing caveat also covers ferrite crossed during the quench', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  setInputs(win, doc, ttt(10, 500, 60, 25));
+  const text = doc.querySelector('.spx-kin-crossings').textContent;
+  assert.match(text, /Ferrite start crossed/);
+  assert.match(text, /read early/);
+});
