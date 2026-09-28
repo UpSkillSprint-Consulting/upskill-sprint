@@ -7,6 +7,8 @@ const { JSDOM, VirtualConsole } = require('jsdom');
 
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'lessons.html'), 'utf8');
+const SEARCH_CORE_JS = fs.readFileSync(path.join(ROOT, 'lesson-search-core.js'), 'utf8');
+const SEARCH_UI_JS = fs.readFileSync(path.join(ROOT, 'lesson-search.js'), 'utf8');
 
 function loadPage() {
   const errors = [];
@@ -16,11 +18,19 @@ function loadPage() {
     url: 'https://upskillsprint.com/lessons.html',
     runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole: vc
   });
-  return new Promise(res => dom.window.addEventListener('load', () => res({ window: dom.window, errors })));
+  return new Promise(res => dom.window.addEventListener('load', () => {
+    dom.window.HTMLElement.prototype.scrollIntoView = function () {};
+    dom.window.eval(SEARCH_CORE_JS);
+    dom.window.eval(SEARCH_UI_JS);
+    dom.window.UpskillLessonSearch.init();
+    dom.window.setTimeout(() => res({ window: dom.window, errors }), 15);
+  }));
 }
 
 test('lessons.html keeps the exact shared controller tag and balanced scripts', () => {
   assert.equal(html.split('<script src="/site-sections.js"></script>').length - 1, 1);
+  assert.equal(html.split('<script src="/lesson-search-core.js"></script>').length - 1, 1);
+  assert.equal(html.split('<script src="/lesson-search.js"></script>').length - 1, 1);
   assert.equal(html.split('<script').length - 1, html.split('</script>').length - 1);
 });
 
@@ -42,7 +52,7 @@ test('the section has the expected heading, a certification count, and all seven
   assert.ok(sec.hasAttribute('data-empty-category'), 'uses the empty-category pattern');
   const certs = Array.from(sec.querySelectorAll('.chip')).map(c => c.textContent.trim());
   assert.deepEqual(certs, ['CSSBB', 'MBB', 'CQE', 'CRE', 'CQA', 'CMQ/OE', 'CSSGB']);
-  assert.equal(badge, `${certs.length} certifications`, 'the certification count matches the visible previews');
+  assert.match(badge, new RegExp(`^${certs.length} certifications\\b`), 'the certification count matches the visible previews');
 });
 
 test('the section is enter-able — it links into the Test Bank', async () => {

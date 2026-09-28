@@ -579,8 +579,13 @@ appear within its category. Copy this shape exactly:
 Notes:
 - `path` uses the pretty URL (no `.html`).
 - `level` here is **lowercase**; the metadata block (§3) uses Title-case — both must agree.
-- `interactive` is the **string** `'true'`, not a boolean.
-- `marker` is a unique `data-…` key; keep it distinct from every existing marker.
+- `interactive` is the string `'true'` or `'false'` (a real boolean is also accepted by the
+  index validator, but keep the existing registry style consistent).
+- `sectionId` and `topic` MUST be the same valid category slug, and that ID MUST exist on the
+  matching category section in `lessons.html`.
+- `marker` MUST be a lowercase `data-…` attribute and unique within its category section.
+  The search build rejects a missing section, mismatched topic, invalid level/boolean, or
+  duplicate marker so a lesson cannot be searchable while absent from the visible catalog.
 
 ### 12.2 Do not disturb the build insertion point
 
@@ -588,6 +593,59 @@ The file contains an entry with `marker: 'data-beyond-the-bell'`. The build scri
 generated lesson immediately before it. Leave that entry and the surrounding literal
 structure intact. After editing, the file MUST still parse as JavaScript (no syntax errors)
 and MUST still contain the literal `marker: 'data-beyond-the-bell',`.
+
+### 12.3 Search indexing is automatic and build-gated
+
+The lesson-content search index is generated from the public catalog and each lesson's
+metadata/content. Do **not** hand-edit `assets/search/lesson-search-index.json`.
+
+For a standard lesson, registration in the catalog plus the metadata block is sufficient:
+
+- the build indexes the title, card description, metadata keywords, headings, examples,
+  formulas, and explanatory body text;
+- quiz controls, answers, scripts, navigation, and site chrome are excluded;
+- headings without an author-supplied ID receive the same deterministic deep-link ID in
+  both the build and the browser; and
+- duplicate paths, unresolved lesson files, inconsistent metadata, title-only shells, and
+  real lessons with no substantive body text fail the build instead of silently disappearing
+  from search.
+
+Section text is never silently shortened. A single section above the generous build safety
+limit fails with an instruction to split it, while excerpts shown on the results page remain
+short. This guarantees that remembered phrases near the end of a long section stay searchable.
+
+Every published lesson must load `/site-sections.js`. The index build enforces this because
+that shared runtime assigns the same generated heading IDs in the browser and makes exact
+section links, search highlighting, and the “Back to search results” path work. Real catalog
+paths must also be unique across both the static catalog markup and the `LESSONS` registry.
+
+Search links can open headings inside a closed `<details>` element automatically. For tabs,
+use the standard `role="tab"` + `aria-controls="panel-id"` relationship. A custom hidden
+widget MUST either put `data-search-reveal-control="#control-id"` on the hidden ancestor or
+listen for the bubbling `upskill:lesson-search-reveal` event and reveal `event.detail.target`.
+Do not put a searchable heading in a state that cannot be revealed. Mark non-teaching or
+output-only content with `data-search-exclude` instead.
+
+Prefer stable, descriptive IDs on important `<h2>`/`<h3>` headings. A lesson whose teaching
+content is injected by JavaScript must use a checked-in, same-origin HTML/payload source that
+the build can assemble. If a new loader format is introduced, add and test its resolver in
+`scripts/build-lesson-search-index.mjs` in the same pull request and add
+`"search_content": "runtime"` to the lesson metadata block. That declaration fails the build
+until a matching resolver exists. Standard lessons may omit the field and default to
+`"document"`. Fetch-to-HTML loader shells are also detected and rejected when they have no
+resolver; adding introductory shell copy does not make a runtime-only lesson indexable.
+
+Before submitting any new lesson, run:
+
+```bash
+npm run build:lesson-search-index
+npm run test:lesson-search
+```
+
+The search-validation workflow runs on every pull request and every push to `main`, including
+changes to generator inputs outside the usual lesson folders. It first checks the reproducible
+index for committed sources, then runs the exact production build and explicitly verifies that
+generated lessons are present with searchable sections.
 
 ---
 
@@ -701,7 +759,7 @@ Run all of these from the repo root and confirm each passes:
    build-parseable.
 2. **Netlify build command** — must exit 0 (this is what deploy runs):
    ```
-   node scripts/validate-simple-test-bank.mjs && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs
+   npm run build:site
    ```
    The build **mutates** `chi-square-lesson-library.js` and generates files under
    `engineering-tools/` and some `lessons/…` outputs. **Do not commit build-generated
@@ -769,11 +827,13 @@ Run all of these from the repo root and confirm each passes:
 [ ] All tables wrapped in overflow-x:auto; viewport meta present; verified on mobile.
 [ ] Statistics lesson? "Statistics Implementation" section present with all 4 parts.
 [ ] Lesson registered in chi-square-lesson-library.js as a plain literal entry;
-    file still parses; data-beyond-the-bell insertion point intact.
+    file still parses; sectionId=topic; marker unique; data-beyond-the-bell insertion point intact.
+[ ] Hidden searchable sections use details, aria-controls, data-search-reveal-control, or the
+    upskill:lesson-search-reveal event so an exact result link can expose and focus them.
 [ ] Any referenced dataset/asset actually exists under assets/lessons/<slug>/ and downloads.
 [ ] Update task? No existing content removed/shortened; headings + body-text preserved.
 [ ] node --test tests/*.test.js is fully green.
-[ ] Netlify build command exits 0; no build-generated output committed.
+[ ] npm run build:site exits 0; only the deterministic search index is committed when changed.
 [ ] Deploy preview verified in light + dark mode and at a narrow viewport.
 ```
 

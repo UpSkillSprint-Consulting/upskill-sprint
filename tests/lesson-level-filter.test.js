@@ -8,6 +8,8 @@ const { JSDOM } = require('jsdom');
 const ROOT = path.join(__dirname, '..');
 const LESSONS_HTML = fs.readFileSync(path.join(ROOT, 'lessons.html'), 'utf8');
 const LIBRARY_JS = fs.readFileSync(path.join(ROOT, 'chi-square-lesson-library.js'), 'utf8');
+const SEARCH_CORE_JS = fs.readFileSync(path.join(ROOT, 'lesson-search-core.js'), 'utf8');
+const SEARCH_UI_JS = fs.readFileSync(path.join(ROOT, 'lesson-search.js'), 'utf8');
 
 const LEVELS = ['beginner', 'intermediate', 'advanced'];
 
@@ -38,6 +40,8 @@ test('every option value except All levels is a supported level slug', () => {
 test('lessons.html carries the exact shared controller tags', () => {
   assert.equal(LESSONS_HTML.split('<script src="/theme.js"></script>').length - 1, 1);
   assert.equal(LESSONS_HTML.split('<script src="/site-sections.js"></script>').length - 1, 1);
+  assert.equal(LESSONS_HTML.split('<script src="/lesson-search-core.js"></script>').length - 1, 1);
+  assert.equal(LESSONS_HTML.split('<script src="/lesson-search.js"></script>').length - 1, 1);
 });
 
 /* ---------- data-level integrity ---------- */
@@ -123,7 +127,13 @@ function lessonsPage() {
     pretendToBeVisual: true
   });
   return new Promise(resolve => {
-    dom.window.addEventListener('load', () => resolve(dom.window));
+    dom.window.addEventListener('load', () => {
+      dom.window.HTMLElement.prototype.scrollIntoView = function () {};
+      dom.window.eval(SEARCH_CORE_JS);
+      dom.window.eval(SEARCH_UI_JS);
+      dom.window.UpskillLessonSearch.init();
+      dom.window.setTimeout(() => resolve(dom.window), 15);
+    });
   });
 }
 
