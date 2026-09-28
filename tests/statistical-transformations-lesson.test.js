@@ -171,7 +171,10 @@ test('the four transformations retain explanation, real use, rule, and interacti
     'Scaling & centering'
   ]);
   assert.deepEqual(methods.map(method => normalizedText(method.querySelector('.method-formula'))), [
-    'log₁₀(x)', '√x', '1 ÷ x', '(x − x̄) ÷ s'
+    '\\(y=\\log_{10}(x)\\)',
+    '\\(y=\\sqrt{x}\\)',
+    '\\(y=\\frac{1}{x}\\)',
+    '\\(z=\\frac{x-\\bar{x}}{s}\\)'
   ]);
   for (const method of methods) {
     assert.ok(method.querySelector('.method-explanation h3'));
@@ -189,15 +192,49 @@ test('the four transformations retain explanation, real use, rule, and interacti
   assert.match(section.textContent, /Machine learning/);
 });
 
+test('learner-facing equations use the repository MathJax and LaTeX convention', () => {
+  const mathJax = doc.querySelector('script[src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"]');
+  assert.ok(mathJax);
+  assert.equal(mathJax.hasAttribute('defer'), true);
+  assert.match(html, /inlineMath:\s*\[\['\\\\\(', '\\\\\)'\]\]/);
+  assert.match(html, /displayMath:\s*\[\['\\\\\[', '\\\\\]'\]\]/);
+  assert.match(html, /processEscapes:\s*true/);
+  assert.match(html, /svg:\s*\{\s*fontCache:\s*'global'\s*\}/);
+
+  const transformEquations = [...doc.querySelectorAll('.transform-chip small')].map(normalizedText);
+  assert.deepEqual(transformEquations, [
+    '\\(y=x\\)',
+    '\\(y=\\log_{10}(x)\\)',
+    '\\(y=\\sqrt{x}\\)',
+    '\\(y=\\frac{1}{x}\\)',
+    '\\(z=\\frac{x-\\bar{x}}{s}\\)'
+  ]);
+
+  const quizText = normalizedText(doc.getElementById('quiz'));
+  for (const equation of [
+    '\\(\\log_{10}(\\text{salary})\\)',
+    '\\(\\sqrt{x}\\)',
+    '\\(\\frac{1}{x}\\)',
+    '\\(z_i=\\frac{x_i-\\bar{x}}{s}\\)',
+    '\\(0.2\\,\\text{item}\\,\\mathrm{min}^{-1}=12\\,\\text{items}\\,\\mathrm{h}^{-1}\\)'
+  ]) {
+    assert.ok(quizText.includes(equation), equation + ' appears as LaTeX');
+  }
+  assert.doesNotMatch(quizText, /log₁₀|√x|1 ÷ x|x̄/);
+  assert.match(html, /setMathHtml\(\$\('#storyMethod'\),story\.storyMethod\)/);
+  assert.match(html, /setMathHtml\(\$\('#mappingExamples'\)/);
+  assert.match(html, /setMathHtml\(\$\('#meansStory'\)/);
+});
+
 test('transformation playground executes each rule and enforces zero-value constraints', () => {
   const dom = runtimeDom();
   const { document: runtimeDoc, Event } = dom.window;
   try {
     const expectedTitles = {
-      log: 'After log₁₀',
-      sqrt: 'After square root',
-      reciprocal: 'After reciprocal',
-      zscore: 'After z-score'
+      log: 'After \\(\\log_{10}\\)',
+      sqrt: 'After \\(\\sqrt{x}\\)',
+      reciprocal: 'After \\(1/x\\)',
+      zscore: 'After \\(z\\)-score'
     };
     for (const [key, title] of Object.entries(expectedTitles)) {
       runtimeDoc.querySelector('[data-dataset="salary"]').click();
@@ -213,21 +250,21 @@ test('transformation playground executes each rule and enforces zero-value const
     assert.equal(runtimeDoc.querySelector('[data-transform="sqrt"]').getAttribute('aria-pressed'), 'true');
     assert.equal(runtimeDoc.querySelector('[data-transform="log"]').getAttribute('aria-disabled'), 'true');
     assert.equal(runtimeDoc.querySelector('[data-transform="reciprocal"]').getAttribute('aria-disabled'), 'true');
-    assert.equal(runtimeDoc.getElementById('afterTitle').textContent, 'After square root');
+    assert.equal(runtimeDoc.getElementById('afterTitle').textContent, 'After \\(\\sqrt{x}\\)');
 
     runtimeDoc.querySelector('[data-dataset="cycle"]').click();
     assert.equal(runtimeDoc.querySelector('[data-transform="reciprocal"]').getAttribute('aria-pressed'), 'true');
-    assert.equal(runtimeDoc.getElementById('transformedUnit').textContent, 'products per minute');
+    assert.equal(runtimeDoc.getElementById('transformedUnit').textContent, '\\(\\text{items}\\,\\mathrm{min}^{-1}\\)');
 
     runtimeDoc.querySelector('[data-dataset="salary"]').click();
     runtimeDoc.querySelector('[data-transform="zscore"]').click();
-    assert.equal(runtimeDoc.getElementById('transformedUnit').textContent, 'standard deviations from mean');
+    assert.equal(runtimeDoc.getElementById('transformedUnit').textContent, '\\(z=\\frac{x-\\bar{x}}{s}\\)');
     const slider = runtimeDoc.getElementById('outlierSlider');
     slider.value = '2.5';
     slider.dispatchEvent(new Event('input', { bubbles: true }));
     assert.equal(runtimeDoc.getElementById('outlierOutput').textContent, '2.5×');
     assert.equal(
-      runtimeDoc.querySelector('#mappingExamples span:last-child b').textContent.replace(/,/g, ''),
+      runtimeDoc.querySelector('#mappingExamples span:last-child b').textContent.replace(/[,\s\\()]/g, ''),
       '1025'
     );
     assert.ok(runtimeDoc.querySelector('#originalHistogram svg[role="img"]'));
