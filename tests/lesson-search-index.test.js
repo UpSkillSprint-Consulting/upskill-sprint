@@ -57,7 +57,7 @@ function writeFixtureFile(root, relativePath, contents) {
 function makeFixture() {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'lesson-search-index-'));
   writeFixtureFile(root, 'lessons.html', `<!doctype html><main>
-    <section id="statistics" data-category-section data-topic="statistics"><div class="lesson-list">
+    <section class="lesson-category" id="statistics" data-category-section data-topic="statistics"><div class="lesson-list">
       <a data-lesson-item href="/lessons/statistics/static-future" data-topic="statistics"
         data-level="beginner" data-interactive="false" data-search="static remembered phrase">
         <div><div class="lesson-meta"><span>Beginner</span><span>12 min</span></div>
@@ -305,7 +305,7 @@ test('dynamic catalog entries must map uniquely to a real catalog section', () =
   expectCatalogFailure(
     source => source.replace("sectionId: 'statistics'", "sectionId: 'missing-category'")
       .replace("topic: 'statistics'", "topic: 'missing-category'"),
-    /sectionId does not exist/i
+    /topic does not match a lesson category section|sectionId does not exist/i
   );
   expectCatalogFailure(
     source => source.replace("interactive: 'true'", "interactive: 'sometimes'"),
@@ -341,6 +341,119 @@ test('dynamic catalog entries must map uniquely to a real catalog section', () =
     assert.throws(() => builder.discoverCatalog(duplicateRoot), /Duplicate dynamic marker/i);
   } finally {
     fs.rmSync(duplicateRoot, { recursive: true, force: true });
+  }
+
+  const existingEmptyTopicRoot = makeFixture();
+  try {
+    const catalogFile = path.join(existingEmptyTopicRoot, 'lessons.html');
+    fs.writeFileSync(catalogFile, fs.readFileSync(catalogFile, 'utf8').replace(
+      '</main>',
+      '<section class="lesson-category" id="exam-practice" data-empty-category data-topic="exam-practice"></section></main>'
+    ));
+    const libraryFile = path.join(existingEmptyTopicRoot, 'chi-square-lesson-library.js');
+    fs.writeFileSync(libraryFile, fs.readFileSync(libraryFile, 'utf8')
+      .replace("sectionId: 'statistics'", "sectionId: 'exam-practice'")
+      .replace("topic: 'statistics'", "topic: 'exam-practice'"));
+    const catalog = builder.discoverCatalog(existingEmptyTopicRoot);
+    assert.equal(catalog.find(entry => entry.catalogKind === 'dynamic').topic, 'exam-practice');
+  } finally {
+    fs.rmSync(existingEmptyTopicRoot, { recursive: true, force: true });
+  }
+});
+
+test('static catalog entries must use a supported topic and sit in its matching category section', () => {
+  function expectStaticCatalogFailure(transform, pattern) {
+    const root = makeFixture();
+    try {
+      const file = path.join(root, 'lessons.html');
+      fs.writeFileSync(file, transform(fs.readFileSync(file, 'utf8')));
+      assert.throws(() => builder.discoverCatalog(root), pattern);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
+  }
+
+  expectStaticCatalogFailure(
+    source => source.replace('data-topic="statistics"\n        data-level',
+      'data-topic="quality-engineering"\n        data-level'),
+    /data-topic must match its category section/i
+  );
+  expectStaticCatalogFailure(
+    source => source.replace('data-topic="statistics"\n        data-level',
+      'data-topic="invented-topic"\n        data-level'),
+    /data-topic must match its category section|topic does not match a lesson category section/i
+  );
+  expectStaticCatalogFailure(
+    source => source.replace('id="statistics" data-category-section',
+      'id="statistics"'),
+    /must be inside a data-category-section lesson category/i
+  );
+  expectStaticCatalogFailure(
+    source => source.replace('id="statistics" data-category-section data-topic="statistics"',
+      'id="wrong-section" data-category-section data-topic="statistics"'),
+    /category section.*matching id and data-topic|category section id must match its data-topic/i
+  );
+});
+
+test('every production lesson HTML file is cataloged unless it is a verified redirect or fragment', () => {
+  const unregisteredRoot = makeFixture();
+  try {
+    writeFixtureFile(unregisteredRoot, 'lessons/statistics/forgotten-future.html', `<!doctype html>
+      <!-- UPSKILLSPRINT_LESSON_META ${fixtureMetadata('lessons/statistics/forgotten-future.html')} -->
+      <main id="lesson-content"><h1>Forgotten future lesson</h1>
+      <p>This otherwise valid lesson was accidentally omitted from the public catalog.</p></main>
+      <script src="/site-sections.js"></script>`);
+    assert.throws(() => builder.buildLessonSearchIndex(unregisteredRoot),
+      /Lesson HTML file is not registered.*forgotten-future\.html/i);
+  } finally {
+    fs.rmSync(unregisteredRoot, { recursive: true, force: true });
+  }
+
+  const exemptRoot = makeFixture();
+  try {
+    writeFixtureFile(exemptRoot, 'lessons/statistics/legacy-future.html', `<!doctype html><html><head>
+      <meta name="robots" content="noindex, nofollow">
+      <meta http-equiv="refresh" content="0; url=/lessons/statistics/static-future">
+      </head><body>Moved permanently.</body></html>`);
+    writeFixtureFile(exemptRoot, 'lessons/assets/future-parts/part-01.html',
+      '<section><h2>Runtime fragment</h2><p>Assembled only by a registered resolver.</p></section>');
+    const futureIndex = builder.buildLessonSearchIndex(exemptRoot);
+    assert.equal(futureIndex.lessonCount, 2);
+
+    writeFixtureFile(exemptRoot, 'lessons/statistics/noindex-but-not-a-redirect.html', `<!doctype html>
+      <meta name="robots" content="noindex"><main><h1>Hidden lesson</h1>
+      <p>Noindex alone must not make a production lesson invisible to catalog coverage.</p></main>`);
+    assert.throws(() => builder.buildLessonSearchIndex(exemptRoot),
+      /Lesson HTML file is not registered.*noindex-but-not-a-redirect\.html/i);
+  } finally {
+    fs.rmSync(exemptRoot, { recursive: true, force: true });
+  }
+
+  const externalRedirectRoot = makeFixture();
+  try {
+    writeFixtureFile(externalRedirectRoot, 'lessons/statistics/external-redirect.html', `<!doctype html>
+      <meta name="robots" content="noindex">
+      <meta http-equiv="refresh" content="0; url=https://example.com/lessons/statistics/static-future">`);
+    assert.throws(() => builder.buildLessonSearchIndex(externalRedirectRoot),
+      /must point to a same-origin registered lesson/i);
+  } finally {
+    fs.rmSync(externalRedirectRoot, { recursive: true, force: true });
+  }
+
+  const badFragmentRoot = makeFixture();
+  try {
+    writeFixtureFile(badFragmentRoot, 'lessons/assets/future-parts/not-really-a-fragment.html', `<!doctype html>
+      <!-- UPSKILLSPRINT_LESSON_META ${fixtureMetadata('lessons/assets/future-parts/not-really-a-fragment.html')} -->
+      <main><h1>Misplaced lesson</h1><p>A real lesson cannot hide in the fragment directory.</p></main>`);
+    assert.throws(() => builder.buildLessonSearchIndex(badFragmentRoot),
+      /Only metadata-free partial HTML is allowed in fragment-only/i);
+
+    writeFixtureFile(badFragmentRoot, 'lessons/assets/future-parts/not-really-a-fragment.html',
+      '<!doctype html><html><head><title>Full document</title></head><body><main>Not a fragment.</main></body></html>');
+    assert.throws(() => builder.buildLessonSearchIndex(badFragmentRoot),
+      /Only metadata-free partial HTML is allowed in fragment-only/i);
+  } finally {
+    fs.rmSync(badFragmentRoot, { recursive: true, force: true });
   }
 });
 
@@ -402,6 +515,54 @@ test('title-only shells and unregistered fetch-to-DOM loaders fail instead of ap
     assert.throws(() => builder.buildLessonSearchIndex(loaderRoot), /Unsupported content loader/i);
   } finally {
     fs.rmSync(loaderRoot, { recursive: true, force: true });
+  }
+});
+
+test('unknown runtime loader variants fail conservatively until a resolver is registered', () => {
+  const loaders = [
+    {
+      name: 'fetch plus replaceChildren',
+      code: `async function loadLesson() {
+        const response = await fetch('/future-fragment.html');
+        const markup = await response.text();
+        const parsed = new DOMParser().parseFromString(markup, 'text/html');
+        document.getElementById('future-host').replaceChildren(...parsed.body.childNodes);
+      } loadLesson();`
+    },
+    {
+      name: 'DOMParser injection through a helper',
+      code: `const parsed = new DOMParser().parseFromString(window.futureMarkup, 'text/html');
+        mountParsedLesson(document.getElementById('future-host'), parsed.body);`
+    },
+    {
+      name: 'dynamic module mount',
+      code: `import('/assets/future-lesson-content.js').then(module => {
+        module.mount(document.getElementById('future-host'));
+      });`
+    },
+    {
+      name: 'externally loaded fragment script',
+      external: '<script src="/assets/future-content-loader.js"></script>'
+    }
+  ];
+
+  for (const loader of loaders) {
+    const root = makeFixture();
+    try {
+      writeFixtureFile(root, 'lessons/statistics/static-future.html', `<!doctype html>
+        <!-- UPSKILLSPRINT_LESSON_META ${fixtureMetadata('lessons/statistics/static-future.html', {
+          title: 'Static future lesson', card_title: 'Static future lesson'
+        })} -->
+        <main id="lesson-content"><h1>Static future lesson</h1>
+          <p>This introductory shell has enough prose to appear substantive, but the real lesson is loaded later.</p>
+          <div id="future-host"></div></main>
+        ${loader.code ? `<script>${loader.code}</script>` : loader.external}
+        <script src="/site-sections.js"></script>`);
+      assert.throws(() => builder.buildLessonSearchIndex(root), /Unsupported content loader/i,
+        `${loader.name} must require a build-time resolver`);
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true });
+    }
   }
 });
 

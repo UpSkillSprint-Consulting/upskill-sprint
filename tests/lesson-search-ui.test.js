@@ -208,6 +208,36 @@ test('mode chips narrow matches to formulas without changing the query', async (
   dom.window.close();
 });
 
+test('open suggestions reserve space and do not intercept mode or filter controls', async () => {
+  const dom = await setup();
+  const document = dom.window.document;
+  const input = await enterQuery(dom, 'mean');
+  const form = document.getElementById('lesson-filters');
+  const suggestions = document.getElementById('lesson-search-suggestions');
+  const formulaButton = document.querySelector('[data-search-mode="formulas"]');
+
+  assert.equal(input.getAttribute('aria-expanded'), 'true');
+  assert.equal(suggestions.hidden, false);
+  assert.equal(form.classList.contains('lesson-search-suggestions-open'), true);
+  assert.match(form.style.getPropertyValue('--lesson-search-suggestion-space'), /^\d+px$/);
+
+  formulaButton.click();
+  assert.equal(formulaButton.getAttribute('aria-pressed'), 'true');
+  assert.equal(suggestions.hidden, true);
+  assert.equal(input.getAttribute('aria-expanded'), 'false');
+  assert.equal(form.classList.contains('lesson-search-suggestions-open'), false);
+
+  input.focus();
+  assert.equal(suggestions.hidden, false);
+  const topic = document.getElementById('topic-filter');
+  topic.value = 'statistics';
+  topic.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+  assert.equal(topic.value, 'statistics');
+  assert.equal(suggestions.hidden, true);
+  assert.equal(form.classList.contains('lesson-search-suggestions-open'), false);
+  dom.window.close();
+});
+
 test('catalog-ready events make a newly added lesson searchable without controller changes', async () => {
   const dom = await setup();
   const document = dom.window.document;

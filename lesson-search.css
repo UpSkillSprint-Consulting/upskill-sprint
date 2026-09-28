@@ -61,6 +61,15 @@
   align-items: flex-start;
 }
 
+/* Keep the anchored autocomplete from covering the scope controls beneath it.
+   JavaScript sets this custom property from the rendered popup height. */
+@media (min-width: 981px) {
+  .library-tools.lesson-search-suggestions-open + .lesson-search-options,
+  .library-tools.lesson-search-suggestions-open + .lesson-search-modes {
+    margin-top: var(--lesson-search-suggestion-space, 0);
+  }
+}
+
 .lesson-search-options > .lesson-search-privacy {
   max-width: 430px;
   margin-top: 17px;
@@ -486,6 +495,10 @@ html[data-theme="dark"] #lesson-search[role="combobox"] {
 @media (max-width: 980px) {
   .library-tools > .lesson-search-shell {
     grid-column: 1 / -1;
+  }
+
+  .library-tools.lesson-search-suggestions-open > .lesson-search-shell {
+    margin-bottom: var(--lesson-search-suggestion-space, 0);
   }
 
   .lesson-search-suggestions {

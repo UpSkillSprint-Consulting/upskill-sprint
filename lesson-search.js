@@ -360,6 +360,7 @@
       mode: 'all',
       activeSuggestion: -1,
       suggestions: [],
+      suppressSuggestions: false,
       currentResponse: null,
       renderTimer: 0,
       analyticsTimer: 0,
@@ -771,7 +772,7 @@
     }
 
     function renderSuggestions(response, query) {
-      if (documentObject.activeElement !== input || query.length < 2) {
+      if (state.suppressSuggestions || documentObject.activeElement !== input || query.length < 2) {
         closeSuggestions();
         return;
       }
@@ -844,14 +845,27 @@
         ui.suggestions.appendChild(option);
       });
       ui.suggestions.hidden = false;
+      reserveSuggestionSpace();
       input.setAttribute('aria-expanded', 'true');
       ui.suggestionStatus.textContent = suggestions.length + (suggestions.length === 1 ? ' suggestion available.' : ' suggestions available.') + ' Use the up and down arrow keys to review them.';
+    }
+
+    function reserveSuggestionSpace() {
+      // The list is an anchored popup, but the filters and scope controls that
+      // follow it must remain visible and directly clickable. Reserve the
+      // popup's real height instead of letting it cover those controls.
+      const measuredHeight = Math.ceil(ui.suggestions.getBoundingClientRect().height || ui.suggestions.scrollHeight || 0);
+      const estimatedHeight = Math.min(390, 12 + (state.suggestions.length * 59));
+      filterForm.style.setProperty('--lesson-search-suggestion-space', Math.max(measuredHeight, estimatedHeight) + 10 + 'px');
+      filterForm.classList.add('lesson-search-suggestions-open');
     }
 
     function closeSuggestions() {
       state.activeSuggestion = -1;
       state.suggestions = [];
       ui.suggestions.hidden = true;
+      filterForm.classList.remove('lesson-search-suggestions-open');
+      filterForm.style.removeProperty('--lesson-search-suggestion-space');
       input.setAttribute('aria-expanded', 'false');
       input.removeAttribute('aria-activedescendant');
       ui.suggestionStatus.textContent = '';
@@ -942,10 +956,13 @@
     }
 
     function onInput() {
+      state.suppressSuggestions = false;
       scheduleRender();
     }
 
     function onFilterChange() {
+      state.suppressSuggestions = true;
+      closeSuggestions();
       root.clearTimeout(state.renderTimer);
       render();
     }
@@ -983,6 +1000,7 @@
     }
 
     function onInputFocus() {
+      state.suppressSuggestions = false;
       if (safeString(input.value) && state.currentResponse) renderSuggestions(state.currentResponse, safeString(input.value));
     }
 
@@ -991,6 +1009,13 @@
     }
 
     function onModeClick(event) {
+      state.suppressSuggestions = true;
+      closeSuggestions();
+      try {
+        event.currentTarget.focus({ preventScroll: true });
+      } catch (_error) {
+        event.currentTarget.focus();
+      }
       setMode(event.currentTarget.dataset.searchMode);
     }
 

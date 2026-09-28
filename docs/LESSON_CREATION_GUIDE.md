@@ -57,6 +57,7 @@ card. Chrome may be changed to match this guide; content may not be altered on u
 
 ```
 data-analytics
+exam-practice
 quality-engineering
 lean-six-sigma
 statistics
@@ -67,8 +68,8 @@ ai-for-work
 ```
 
 Display names (for the `category` metadata field), in the same order: `Data Analytics`,
-`Quality Engineering`, `Lean Six Sigma`, `Statistics`, `Power BI, Excel & SQL`,
-`Project Management`, `Business Decision-Making`, `AI for Work`.
+`Simulated Exam Practice & Quizzes`, `Quality Engineering`, `Lean Six Sigma`, `Statistics`,
+`Power BI, Excel & SQL`, `Project Management`, `Business Decision-Making`, `AI for Work`.
 
 ---
 
@@ -583,6 +584,9 @@ Notes:
   index validator, but keep the existing registry style consistent).
 - `sectionId` and `topic` MUST be the same valid category slug, and that ID MUST exist on the
   matching category section in `lessons.html`.
+- A static `[data-lesson-item]` card follows the same rule: its `data-topic` MUST be a valid
+  category slug and MUST match both the `id` and `data-topic` of its enclosing
+  `section.lesson-category[data-category-section]`.
 - `marker` MUST be a lowercase `data-…` attribute and unique within its category section.
   The search build rejects a missing section, mismatched topic, invalid level/boolean, or
   duplicate marker so a lesson cannot be searchable while absent from the visible catalog.
@@ -610,6 +614,15 @@ For a standard lesson, registration in the catalog plus the metadata block is su
   real lessons with no substantive body text fail the build instead of silently disappearing
   from search.
 
+The validator also scans in the opposite direction: every production `lessons/**/*.html`
+file must resolve to a real catalog entry. This catches a future lesson whose file was added
+but whose card/registry entry was forgotten. The only production exemptions are deliberately
+narrow: partial HTML fragments under `lessons/assets/` (which must not contain lesson metadata
+or a complete HTML document) and a legacy redirect that is both `noindex` and a real
+meta-refresh to another same-origin registered lesson.
+`noindex` by itself is not an exemption. Test fixtures belong outside the production
+`lessons/` tree and therefore need no bypass.
+
 Section text is never silently shortened. A single section above the generous build safety
 limit fails with an instruction to split it, while excerpts shown on the results page remain
 short. This guarantees that remembered phrases near the end of a long section stay searchable.
@@ -634,6 +647,10 @@ the build can assemble. If a new loader format is introduced, add and test its r
 until a matching resolver exists. Standard lessons may omit the field and default to
 `"document"`. Fetch-to-HTML loader shells are also detected and rejected when they have no
 resolver; adding introductory shell copy does not make a runtime-only lesson indexable.
+The guard recognizes fetch/response-text loaders, `replaceChildren`, `DOMParser`, dynamic
+`import()`, compressed/base64 payloads, XHR response text, document writes, and loader/payload/
+fragment/content script assets. Treat a detection failure as a request to add a tested
+build-time resolver, not as a reason to weaken or bypass the guard.
 
 Before submitting any new lesson, run:
 
@@ -828,6 +845,8 @@ Run all of these from the repo root and confirm each passes:
 [ ] Statistics lesson? "Statistics Implementation" section present with all 4 parts.
 [ ] Lesson registered in chi-square-lesson-library.js as a plain literal entry;
     file still parses; sectionId=topic; marker unique; data-beyond-the-bell insertion point intact.
+[ ] Every production `lessons/**/*.html` file is catalog-registered, or is a verified noindex
+    redirect to a registered lesson / metadata-free fragment under `lessons/assets/`.
 [ ] Hidden searchable sections use details, aria-controls, data-search-reveal-control, or the
     upskill:lesson-search-reveal event so an exact result link can expose and focus them.
 [ ] Any referenced dataset/asset actually exists under assets/lessons/<slug>/ and downloads.

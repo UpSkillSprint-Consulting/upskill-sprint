@@ -19,6 +19,7 @@
     title: 64,
     heading: 40,
     keywords: 24,
+    breadcrumb: 18,
     description: 12,
     body: 6
   });
@@ -268,6 +269,7 @@
       tokens,
       expandedTokens: unique(terms.filter(term => !tokens.includes(term) && !STOP_WORDS.has(term))),
       expandedPhrases: unique(phrases.filter(phrase => phrase !== normalized)),
+      intentPhrases: unique(intents.flatMap(intent => intent.terms.filter(term => term.includes(' ')))),
       matchedGroups: unique(matchedGroups),
       intents
     };
@@ -342,6 +344,7 @@
     const matchedExplicit = [];
     let score = 0;
     let semanticHit = false;
+    let intentPhraseHit = false;
 
     if (model.normalized.length >= 2 && includesPhrase(normalized, model.normalized)) {
       score += weight * 2.6;
@@ -361,8 +364,18 @@
     for (const phrase of model.expandedPhrases) {
       if (!includesPhrase(normalized, phrase)) continue;
       score += weight * 0.88;
+      const phrasePosition = normalized.indexOf(phrase);
+      // Lead sentences and headings normally state a section's subject; a
+      // glossary/table mention hundreds of characters later is supporting
+      // material. This small positional bonus resolves otherwise identical
+      // body scores without making document length a ranking signal.
+      if (fieldName === 'body' && phrasePosition >= 0 && phrasePosition < 240) {
+        score += weight * 0.3 * (1 - (phrasePosition / 240));
+      }
+      const isIntentPhrase = model.intentPhrases.includes(phrase);
+      if (isIntentPhrase) intentPhraseHit = true;
       semanticHit = true;
-      reasons.push({ field: fieldName, kind: 'semantic', value: phrase });
+      reasons.push({ field: fieldName, kind: 'semantic', value: phrase, intent: isIntentPhrase });
     }
 
     // Single-word aliases (SPC, MSA, DOE, sqrt, etc.) still need to match
@@ -389,23 +402,30 @@
       score,
       matchedExplicit: unique(matchedExplicit),
       reasons,
-      semanticHit
+      semanticHit,
+      intentPhraseHit
     };
   }
 
   function combineFieldScores(fields, model, settings) {
     let score = 0;
     let semanticHit = false;
+    let intentPhraseHit = false;
     const matchedExplicit = [];
     const reasons = [];
     for (const [fieldName, value] of Object.entries(fields)) {
       const result = scoreField(value, model, fieldName, settings);
       score += result.score;
       semanticHit = semanticHit || result.semanticHit;
+      intentPhraseHit = intentPhraseHit || result.intentPhraseHit;
       matchedExplicit.push(...result.matchedExplicit);
       reasons.push(...result.reasons);
     }
-    return { score, semanticHit, matchedExplicit: unique(matchedExplicit), reasons };
+    // Natural-language questions contain generic surface words (for example,
+    // "process"). Apply one concept bonus per lesson/section record—not once
+    // per field—so a concept repeated in metadata cannot inflate the score.
+    if (intentPhraseHit) score += 36;
+    return { score, semanticHit, intentPhraseHit, matchedExplicit: unique(matchedExplicit), reasons };
   }
 
   function coverageThreshold(tokenCount) {
@@ -574,14 +594,23 @@
     return 'semantic';
   }
 
-  function sectionSearchFields(_lesson, section) {
-    const heading = [section.heading, section.breadcrumb].filter(Boolean).join(' ');
+  function sectionSearchFields(lesson, section) {
+    const heading = section.heading;
+    const breadcrumbParts = Array.isArray(section.breadcrumb)
+      ? section.breadcrumb
+      : String(section.breadcrumb || '').split(/\s*[›>]\s*/);
+    const breadcrumb = breadcrumbParts.filter(part => {
+      const normalizedPart = normalizeText(part);
+      return normalizedPart && normalizedPart !== normalizeText(lesson.title) &&
+        normalizedPart !== normalizeText(section.heading);
+    }).join(' ');
     const keywords = (Array.isArray(section.keywords) ? section.keywords : [section.keywords])
       .filter(Boolean)
       .join(' ');
     const common = {
       heading,
       keywords,
+      breadcrumb,
       body: [section.text, section.excerpt].filter(Boolean).join(' ')
     };
     return common;
@@ -619,6 +648,7 @@
         }),
         sections: (Array.isArray(lesson.sections) ? lesson.sections : []).map(section => ({
           section,
+          isLessonHeading: normalizeText(section.heading) === normalizeText(lesson.title),
           fields: prepareFields(sectionSearchFields(lesson, section))
         }))
       }))
@@ -681,20 +711,27 @@
           reasons: sectionResult.reasons,
           excerpt: excerpt.text,
           highlightRanges: excerpt.ranges,
+          isLessonHeading: sectionRecord.isLessonHeading,
           section
         });
       }
       sectionMatches.sort(compareSections);
-      const sectionRelevanceFloor = sectionMatches.length > maxSections && sectionMatches[0]
-        ? Math.max(3, sectionMatches[0].score * 0.12)
+      // The index includes the page H1 as a section. It remains a useful
+      // lesson-ranking signal, but the lesson card already links to that
+      // destination, so do not let it displace a useful subsection deep link.
+      const deepSectionMatches = sectionMatches.filter(match => !match.isLessonHeading);
+      const sectionRelevanceFloor = deepSectionMatches.length > maxSections && deepSectionMatches[0]
+        ? Math.max(3, deepSectionMatches[0].score * 0.12)
         : 0;
       const relevantSectionMatches = sectionRelevanceFloor
-        ? sectionMatches.filter(match => match.score >= sectionRelevanceFloor)
-        : sectionMatches;
+        ? deepSectionMatches.filter(match => match.score >= sectionRelevanceFloor)
+        : deepSectionMatches;
 
       const titleQualifies = qualifies(titleResult, model);
       if (!titleQualifies && !relevantSectionMatches.length) continue;
-      const bestSectionScore = relevantSectionMatches.length ? relevantSectionMatches[0].score : 0;
+      const bestSectionScore = mode === 'all' && sectionMatches.length
+        ? sectionMatches[0].score
+        : (relevantSectionMatches.length ? relevantSectionMatches[0].score : 0);
       // The best section drives discovery, while a direct title hit remains the
       // strongest signal. A small second-section bonus rewards broad coverage
       // without allowing long lessons to win merely because they are long.

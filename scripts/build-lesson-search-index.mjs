@@ -28,6 +28,7 @@ export const MAX_SECTION_TEXT = 100_000;
 
 const PLACEHOLDER_PATH = '/lesson-template';
 const VALID_LEVELS = new Set(['beginner', 'intermediate', 'advanced']);
+const LESSON_FRAGMENT_DIRECTORY = 'lessons/assets/';
 const RESERVED_DYNAMIC_MARKERS = new Set([
   'data-lesson-item', 'data-topic', 'data-level', 'data-interactive', 'data-search'
 ]);
@@ -201,13 +202,17 @@ function staticCatalogEntries(html) {
     const source = `lessons.html row ${position + 1}`;
     const title = normalizeSpace(row.querySelector('h3')?.textContent);
     const href = row.getAttribute('href');
+    const categorySection = row.closest('section.lesson-category');
     if (!title || !href) fail(`Static catalog row ${position + 1} is missing a title or href`);
     return {
       source,
       catalogKind: 'static',
+      sectionId: normalizeSpace(categorySection?.id),
+      sectionTopic: normalizeSpace(categorySection?.dataset.topic),
+      categorySection: Boolean(categorySection?.hasAttribute('data-category-section')),
       path: normalizeCatalogPath(href),
       href,
-      topic: normalizeSpace(row.dataset.topic || row.closest('[data-topic]')?.dataset.topic),
+      topic: normalizeSpace(row.dataset.topic),
       level: normalizeSpace(row.dataset.level).toLowerCase(),
       interactive: catalogBoolean(row.dataset.interactive, source),
       title,
@@ -244,12 +249,27 @@ function dynamicCatalogEntries(source, sourceLabel) {
 
 function assertCatalogEntry(entry) {
   if (!entry.topic) fail(`${entry.source} is missing data-topic/topic`);
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(entry.topic)) {
+    fail(`${entry.source} topic must be a lowercase hyphenated category slug: ${entry.topic}`);
+  }
   if (!entry.level) fail(`${entry.source} is missing data-level/level`);
   if (!VALID_LEVELS.has(entry.level)) {
     fail(`${entry.source} level must be beginner, intermediate, or advanced`);
   }
   if (!entry.title) fail(`${entry.source} is missing a title`);
-  if (entry.catalogKind === 'dynamic') {
+  if (entry.catalogKind === 'static') {
+    if (!entry.sectionId || !entry.sectionTopic || !entry.categorySection) {
+      fail(`${entry.source} must be inside a data-category-section lesson category`);
+    }
+    if (entry.sectionId !== entry.sectionTopic) {
+      fail(`${entry.source} category section id must match its data-topic ` +
+        `(${entry.sectionId} !== ${entry.sectionTopic})`);
+    }
+    if (entry.topic !== entry.sectionTopic) {
+      fail(`${entry.source} data-topic must match its category section ` +
+        `(${entry.topic} !== ${entry.sectionTopic})`);
+    }
+  } else if (entry.catalogKind === 'dynamic') {
     if (!entry.sectionId) fail(`${entry.source} is missing sectionId`);
     if (entry.topic !== entry.sectionId) {
       fail(`${entry.source} topic must exactly match sectionId (${entry.topic} !== ${entry.sectionId})`);
@@ -263,12 +283,32 @@ function assertCatalogEntry(entry) {
   }
 }
 
-function validateDynamicCatalogPlacement(catalogHtml, entries) {
+function validateCatalogPlacement(catalogHtml, entries) {
   const document = new JSDOM(catalogHtml).window.document;
+  const topicSections = new Map();
+  for (const section of document.querySelectorAll(
+    'section.lesson-category[data-category-section], section.lesson-category[data-empty-category]'
+  )) {
+    const topic = normalizeSpace(section.dataset.topic);
+    if (!topic || section.id !== topic) {
+      fail(`Catalog category section ${section.id || '(missing id)'} must have matching id and data-topic`);
+    }
+    if (topicSections.has(topic)) fail(`Duplicate catalog category section for topic: ${topic}`);
+    topicSections.set(topic, section);
+  }
+  if (!topicSections.size) fail('lessons.html contains no valid lesson category sections');
+
   const markers = new Map();
-  for (const entry of entries.filter((item) => item.catalogKind === 'dynamic')) {
+  for (const entry of entries) {
+    if (!topicSections.has(entry.topic)) {
+      fail(`${entry.source} topic does not match a lesson category section: ${entry.topic}`);
+    }
+    if (entry.catalogKind !== 'dynamic') continue;
     const section = document.getElementById(entry.sectionId);
     if (!section) fail(`${entry.source} sectionId does not exist in lessons.html: ${entry.sectionId}`);
+    if (!section.matches('section.lesson-category[data-category-section], section.lesson-category[data-empty-category]')) {
+      fail(`${entry.source} sectionId must identify a lesson category section: ${entry.sectionId}`);
+    }
     const sectionTopic = normalizeSpace(section.dataset.topic);
     if (sectionTopic !== entry.sectionId) {
       fail(`${entry.source} section ${entry.sectionId} must declare data-topic="${entry.sectionId}"`);
@@ -317,8 +357,87 @@ export function discoverCatalog(rootDir = DEFAULT_ROOT) {
     ...dynamicCatalogEntries(fs.readFileSync(dynamicFile, 'utf8'), path.basename(dynamicFile))
   ];
   const merged = mergeCatalogEntries(entries);
-  validateDynamicCatalogPlacement(catalogHtml, merged);
+  validateCatalogPlacement(catalogHtml, merged);
   return merged;
+}
+
+function walkHtmlFiles(directory) {
+  if (!fs.existsSync(directory)) return [];
+  const files = [];
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const filePath = path.join(directory, entry.name);
+    if (entry.isDirectory()) files.push(...walkHtmlFiles(filePath));
+    else if (entry.isFile() && entry.name.toLowerCase().endsWith('.html')) files.push(filePath);
+  }
+  return files;
+}
+
+function relativePosix(rootDir, filePath) {
+  return path.relative(rootDir, filePath).split(path.sep).join('/');
+}
+
+function noindexRedirectTarget(html) {
+  const document = new JSDOM(html).window.document;
+  const isNoindex = Array.from(document.querySelectorAll('meta[name]')).some((meta) =>
+    meta.getAttribute('name')?.toLowerCase() === 'robots' &&
+    /(?:^|[\s,])noindex(?:$|[\s,])/i.test(meta.getAttribute('content') || '')
+  );
+  if (!isNoindex) return '';
+  const refresh = Array.from(document.querySelectorAll('meta[http-equiv]')).find((meta) =>
+    meta.getAttribute('http-equiv')?.toLowerCase() === 'refresh'
+  );
+  const match = refresh?.getAttribute('content')?.match(/(?:^|;)\s*url\s*=\s*["']?([^;"']+)/i);
+  return normalizeSpace(match?.[1]);
+}
+
+/**
+ * Enforce the reverse side of catalog discovery: a production lesson file may
+ * not exist silently outside the public catalog/search index.
+ *
+ * Deliberately narrow exemptions:
+ * - lessons/assets/** contains partial HTML assembled by a registered resolver;
+ * - a legacy redirect must be both noindex and an actual meta-refresh whose
+ *   destination is itself a same-origin registered lesson.
+ * Test fixtures live outside the production lessons/ tree and need no bypass.
+ */
+export function validateFilesystemCatalogCoverage(rootDir, catalog) {
+  const catalogPaths = new Set(catalog.filter((entry) => !entry.placeholder).map((entry) => entry.path));
+  const lessonRoot = path.join(rootDir, 'lessons');
+  for (const filePath of walkHtmlFiles(lessonRoot)) {
+    const relativePath = relativePosix(rootDir, filePath);
+    const html = fs.readFileSync(filePath, 'utf8');
+
+    if (relativePath.startsWith(LESSON_FRAGMENT_DIRECTORY)) {
+      if (/UPSKILLSPRINT_LESSON_META|<!doctype\s+html|<html\b|<head\b|<body\b/i.test(html)) {
+        fail(`Only metadata-free partial HTML is allowed in fragment-only ` +
+          `${LESSON_FRAGMENT_DIRECTORY}: ${relativePath}`);
+      }
+      continue;
+    }
+
+    const lessonPath = normalizeCatalogPath(`/${relativePath}`);
+    if (catalogPaths.has(lessonPath)) continue;
+
+    const redirectTarget = noindexRedirectTarget(html);
+    if (redirectTarget) {
+      let redirectUrl;
+      try {
+        redirectUrl = new URL(redirectTarget, 'https://upskillsprint.com/');
+      } catch {
+        fail(`Noindex redirect ${relativePath} has an invalid destination: ${redirectTarget}`);
+      }
+      if (redirectUrl.origin !== 'https://upskillsprint.com') {
+        fail(`Noindex redirect ${relativePath} must point to a same-origin registered lesson`);
+      }
+      const normalizedTarget = normalizeCatalogPath(redirectUrl.pathname);
+      if (!catalogPaths.has(normalizedTarget)) {
+        fail(`Noindex redirect ${relativePath} points to an unregistered lesson: ${normalizedTarget}`);
+      }
+      continue;
+    }
+
+    fail(`Lesson HTML file is not registered in the catalog/search index: ${relativePath} (${lessonPath})`);
+  }
 }
 
 export function parseLessonMetadata(html, filePath, rootDir = DEFAULT_ROOT) {
@@ -475,14 +594,44 @@ function validateSearchContentContract(metadata, entry) {
 }
 
 function looksLikeUnresolvedLoader(html) {
-  const knownLoaderPattern = /document\.(?:open|write)\s*\(|new\s+DecompressionStream|\.gunzipSync\s*\(|\.innerHTML\s*=\s*parts\.join|readParts\s*\(|<script[^>]+src=["'][^"']*loader[^"']*["']/i;
-  const chainedFetchMarkup = /\bfetch\s*\([^;]{0,1000}?\)\s*\.then\s*\([^;]{0,500}?\.text\s*\(\s*\)[^;]{0,500}?\)\s*\.then\s*\(\s*([A-Za-z_$][\w$]*)\s*=>[\s\S]{0,1000}?(?:\.innerHTML\s*=\s*\1\b|\.outerHTML\s*=\s*\1\b|insertAdjacentHTML\s*\([^,]+,\s*\1\b)/i;
-  const awaitedFetchMarkup = /(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*await\s+fetch\s*\([\s\S]{0,1000}?(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*await\s+\1\.text\s*\(\s*\)[\s\S]{0,1000}?(?:\.innerHTML\s*=\s*\2\b|\.outerHTML\s*=\s*\2\b|insertAdjacentHTML\s*\([^,]+,\s*\2\b)/i;
-  const injectsXhrMarkup = /\bXMLHttpRequest\b/i.test(html) &&
-    /\.responseText\b/i.test(html) &&
-    /(?:\.innerHTML\s*=|insertAdjacentHTML\s*\()/i.test(html);
-  return knownLoaderPattern.test(html) || chainedFetchMarkup.test(html) ||
-    awaitedFetchMarkup.test(html) || injectsXhrMarkup;
+  const dom = new JSDOM(html);
+  const scripts = Array.from(dom.window.document.querySelectorAll('script'));
+  const inlineSource = scripts.filter((script) => !script.src)
+    .map((script) => script.textContent || '')
+    .join('\n');
+  const externalSources = scripts.map((script) => script.getAttribute('src') || '').filter(Boolean);
+
+  // These are deliberately based on capabilities instead of variable names or
+  // a particular promise shape. A future loader can use await, chained
+  // promises, helpers, replaceChildren, DOMParser, or a module mount function
+  // and still cannot silently bypass the build-time resolver contract.
+  const fetches = /\bfetch\s*\(/i.test(inlineSource);
+  const awaitedFetchText = /(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*=\s*await\s+fetch\s*\([\s\S]{0,3000}?\)[\s\S]{0,5000}?\b\1\s*\.\s*text\s*\(/i
+    .test(inlineSource);
+  const chainedFetchText = /fetch\s*\([\s\S]{0,3000}?\)\s*\.then\s*\(\s*\(?\s*([A-Za-z_$][\w$]*)\s*\)?\s*=>[\s\S]{0,1000}?\b\1\s*\.\s*text\s*\(/i
+    .test(inlineSource);
+  const inlineFetchText = /(?:await\s+)?fetch\s*\([\s\S]{0,3000}?\)\s*\)?\s*\.\s*text\s*\(/i
+    .test(inlineSource);
+  const fetchesMarkup = awaitedFetchText || chainedFetchText || inlineFetchText;
+  const parsesMarkup = /\bDOMParser\b|\.parseFromString\s*\(|createContextualFragment\s*\(/i
+    .test(inlineSource);
+  const replacesChildren = /replaceChildren\s*\(/i.test(inlineSource);
+  const writesDocument = /document\.(?:open|write)\s*\(/i
+    .test(inlineSource);
+  const assemblesParts = /\.innerHTML\s*=\s*parts\.join|\breadParts\s*\(/i
+    .test(inlineSource);
+  const importsAtRuntime = /\bimport\s*\(/i.test(inlineSource);
+  const transformsPayload = /\bDecompressionStream\b|\.gunzipSync\s*\(|\batob\s*\(/i
+    .test(inlineSource);
+  const requestsMarkup = /\bXMLHttpRequest\b/i.test(inlineSource) &&
+    /\bresponseText\b/i.test(inlineSource);
+  const explicitLoaderAsset = externalSources.some((source) =>
+    /(?:^|[\/_-])(?:loader|payload|fragment|content)(?:[._-]|$)/i.test(source)
+  );
+
+  return explicitLoaderAsset || importsAtRuntime || parsesMarkup || transformsPayload ||
+    writesDocument || assemblesParts || requestsMarkup || fetchesMarkup ||
+    (fetches && replacesChildren);
 }
 
 export function resolveLessonContent(rootDir, catalogEntry, wrapperHtml) {
@@ -734,6 +883,7 @@ function buildLessonRecord(rootDir, entry) {
 
 export function buildLessonSearchIndex(rootDir = DEFAULT_ROOT) {
   const catalog = discoverCatalog(rootDir);
+  validateFilesystemCatalogCoverage(rootDir, catalog);
   const lessons = catalog.map((entry) => buildLessonRecord(rootDir, entry));
   const paths = new Set();
   const ids = new Set();

@@ -189,6 +189,32 @@ test('a two-letter omission in square root outranks an unrelated root-cause titl
   assert.equal(result.results.some(item => item.id === 'root-cause'), false);
 });
 
+test('a misspelled square-root query leads with the teaching section, not a later software table', () => {
+  const realistic = lesson({
+    id: 'transformations-realistic',
+    title: 'Statistical Transformations',
+    keywords: ['square root transformation'],
+    sections: [
+      {
+        id: 'square-root-concept',
+        heading: 'Zero stays zero; high counts shrink.',
+        breadcrumb: ['Statistical Transformations', 'Choose by the job', 'Zero stays zero; high counts shrink.'],
+        text: 'The square-root transformation is useful when data are counts and zero is meaningful.',
+        kinds: ['section', 'formula']
+      },
+      {
+        id: 'excel-functions',
+        heading: 'Excel Functions',
+        breadcrumb: ['Statistical Transformations', 'Move from the idea to the software', 'Excel Functions'],
+        text: `${'Reference table content. '.repeat(30)} SQRT applies the square-root transformation in a spreadsheet.`,
+        kinds: ['section']
+      }
+    ]
+  });
+  const result = core.searchIndex({ lessons: [realistic] }, 'sqre root', { sectionsPerLesson: 5 });
+  assert.equal(result.results[0].sections[0].id, 'square-root-concept');
+});
+
 test('requires both terms of a two-word query unless semantic phrase evidence is present', () => {
   const result = core.searchIndex(fixture, 'harmonic mean', { sectionsPerLesson: 10 });
   assert.equal(result.results[0].sections[0].id, 'harmonic-mean');
@@ -221,6 +247,40 @@ test('question wording about process stability resolves to control-chart content
   const result = core.searchIndex(fixture, 'How can I tell whether my process is stable?');
   assert.equal(result.results[0].id, 'control-charts');
   assert.ok(result.intents.includes('control-chart-monitoring'));
+});
+
+test('a process-stability question leads with a stability section rather than a generic process heading', () => {
+  const shortRun = lesson({
+    id: 'short-run-spc',
+    title: 'Short-Run SPC: Control Charts for High-Mix, Low-Volume Processes',
+    topic: 'Lean Six Sigma',
+    keywords: ['SPC', 'control chart'],
+    sections: [
+      {
+        id: 'lesson-heading',
+        heading: 'Short-Run SPC: Control Charts for High-Mix, Low-Volume Processes',
+        breadcrumb: ['Short-Run SPC: Control Charts for High-Mix, Low-Volume Processes'],
+        text: 'Learn whether a process is stable with short-run control charts.',
+        kinds: ['section']
+      },
+      {
+        id: 'smys-mean',
+        heading: '3. Using SMYS as a tensile process mean',
+        breadcrumb: ['Short-Run SPC: Control Charts for High-Mix, Low-Volume Processes', 'Common mistakes', '3. Using SMYS as a tensile process mean'],
+        text: 'A minimum requirement is not the expected stable mean.',
+        kinds: ['section']
+      },
+      {
+        id: 'process-stability',
+        heading: 'Interactive: control limits are not specification limits',
+        breadcrumb: ['Short-Run SPC: Control Charts for High-Mix, Low-Volume Processes', 'Interactive: control limits are not specification limits'],
+        text: 'Use these scenarios to separate process stability from conformance. The process is stable when only common-cause variation remains.',
+        kinds: ['section', 'example']
+      }
+    ]
+  });
+  const result = core.searchIndex({ lessons: [shortRun] }, 'How can I tell whether my process is stable?', { sectionsPerLesson: 5 });
+  assert.equal(result.results[0].sections[0].id, 'process-stability');
 });
 
 test('excerpts are bounded and highlighting returns inert text segments, never markup', () => {
