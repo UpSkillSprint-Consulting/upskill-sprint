@@ -171,7 +171,7 @@ test('the four transformations retain explanation, real use, rule, and interacti
     'Scaling & centering'
   ]);
   assert.deepEqual(methods.map(method => normalizedText(method.querySelector('.method-formula'))), [
-    'log₁₀(x)', '√x', '1 ÷ x', '(x − mean) ÷ SD'
+    'log₁₀(x)', '√x', '1 ÷ x', '(x − x̄) ÷ s'
   ]);
   for (const method of methods) {
     assert.ok(method.querySelector('.method-explanation h3'));
