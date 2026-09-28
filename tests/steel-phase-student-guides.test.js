@@ -40,25 +40,45 @@ test('every tab gets exactly one student guide bar with its own guide', async t 
   assert.equal(purposes.size, TABS.length, 'each guide is specific to its tool');
 });
 
-test('the guide opens as a labelled modal, traps focus, closes on Escape, and restores focus', async t => {
+test('the guide opens in a non-modal panel docked on the right, and closes with × or Escape', async t => {
   const { win, doc } = await tool();
   t.after(() => win.close());
   const btn = doc.querySelector('#spx-tab-kinetics [data-student-guide="kinetics"]');
-  assert.equal(btn.getAttribute('aria-haspopup'), 'dialog');
+  assert.equal(btn.getAttribute('aria-controls'), 'spx-student-guide-panel');
+  assert.equal(btn.getAttribute('aria-expanded'), 'false');
   btn.focus();
   btn.click();
-  const dialog = doc.getElementById('spx-student-guide-dialog');
-  const card = dialog.querySelector('[role="dialog"]');
-  assert.equal(dialog.hidden, false);
-  assert.equal(card.getAttribute('aria-modal'), 'true');
-  assert.match(doc.getElementById(card.getAttribute('aria-labelledby')).textContent, /^TTT \/ CCT/);
-  assert.match(card.textContent, /How to use it[\s\S]*How to read the results[\s\S]*Try this[\s\S]*Watch out/);
-  assert.equal(doc.activeElement.id, 'spx-student-guide-close');
-  dialog.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
-  assert.equal(doc.activeElement.id, 'spx-student-guide-close', 'focus stays inside the dialog');
-  dialog.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
-  assert.equal(dialog.hidden, true);
+  const panel = doc.getElementById('spx-student-guide-panel');
+  assert.equal(panel.hidden, false);
+  assert.equal(panel.tagName, 'ASIDE');
+  assert.equal(panel.getAttribute('aria-modal'), null, 'not modal: the tool stays usable');
+  assert.ok(doc.body.classList.contains('spx-guide-docked'), 'page is narrowed so the panel does not cover the tool');
+  assert.equal(btn.getAttribute('aria-expanded'), 'true');
+  assert.match(doc.getElementById(panel.getAttribute('aria-labelledby')).textContent, /^TTT \/ CCT/);
+  assert.match(panel.textContent, /How to use it[\s\S]*How to read the results[\s\S]*Try this[\s\S]*Watch out/);
+  assert.equal(doc.activeElement.id, 'spx-student-guide-title');
+  panel.dispatchEvent(new win.KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+  assert.equal(panel.hidden, true);
+  assert.ok(!doc.body.classList.contains('spx-guide-docked'));
   assert.equal(doc.activeElement, btn, 'focus returns to the opener');
+  btn.click();
+  doc.getElementById('spx-student-guide-close').click();
+  assert.equal(panel.hidden, true, 'the × button closes it');
+  btn.click();
+  btn.click();
+  assert.equal(panel.hidden, true, 'the tab button toggles the panel');
+});
+
+test('the open panel follows the active tab', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  doc.querySelector('[data-student-guide="equilibrium"]').click();
+  win.switchTab('quenching');
+  await new Promise(r => setTimeout(r, 0));
+  const panel = doc.getElementById('spx-student-guide-panel');
+  assert.equal(panel.dataset.guide, 'quenching');
+  assert.match(doc.getElementById('spx-student-guide-title').textContent, /^Quenching/);
+  assert.equal(doc.querySelector('[data-student-guide="quenching"]').getAttribute('aria-expanded'), 'true');
 });
 
 test('different tabs open different guides', async t => {
@@ -75,28 +95,30 @@ test('different tabs open different guides', async t => {
   assert.match(b, /Load sample cooling data/);
 });
 
-test('guides are a Student-mode feature: hidden by CSS in Professional mode, dialog closes on switch', async t => {
+test('guides are a Student-mode feature: hidden by CSS in Professional mode, panel closes on switch', async t => {
   const { win, doc } = await tool();
   t.after(() => win.close());
   const css = fs.readFileSync(path.join(ROOT, 'tools', 'steel-phase-explorer-student-guides.css'), 'utf8');
-  assert.match(css, /#spx-tool:not\(\[data-workspace-mode="student"\]\) \.spx-student-guide-bar\{display:none\}/);
-  assert.match(css, /\.spx-student-guide-dialog\[hidden\]\{display:none\}/);
+  assert.match(css, /#spx-tool:not\(\[data-workspace-mode="student"\]\) \.spx-student-guide-bar,#spx-tool:not\(\[data-workspace-mode="student"\]\) \.spx-student-guide-panel\{display:none\}/);
+  assert.match(css, /\.spx-student-guide-panel\[hidden\]\{display:none\}/);
+  assert.match(css, /body\.spx-guide-docked\{padding-right:var\(--spx-guide-w\)\}/);
   assert.equal(doc.getElementById('spx-tool').dataset.workspaceMode, 'student');
   doc.querySelector('[data-student-guide="equilibrium"]').click();
   doc.dispatchEvent(new win.CustomEvent('spx:workspace-mode', { detail: { mode: 'professional' } }));
-  assert.equal(doc.getElementById('spx-student-guide-dialog').hidden, true);
+  assert.equal(doc.getElementById('spx-student-guide-panel').hidden, true);
+  assert.ok(!doc.body.classList.contains('spx-guide-docked'));
 });
 
-test('help dialogs live inside #spx-tool so they inherit its theme variables and button styles', async t => {
+test('guide panel and help dialogs live inside #spx-tool so they inherit its theme variables and button styles', async t => {
   const { win, doc } = await tool();
   t.after(() => win.close());
   doc.querySelector('[data-student-guide="equilibrium"]').click();
-  const guide = doc.getElementById('spx-student-guide-dialog');
-  assert.ok(doc.getElementById('spx-tool').contains(guide), 'student guide dialog is inside #spx-tool');
+  const guide = doc.getElementById('spx-student-guide-panel');
+  assert.ok(doc.getElementById('spx-tool').contains(guide), 'student guide panel is inside #spx-tool');
   win.__SPX.studentGuides.close();
   doc.querySelector('[data-r2-help="austenitization"]').click();
   const r2 = doc.getElementById('spx-r2-help-dialog');
   assert.ok(r2 && doc.getElementById('spx-tool').contains(r2), 'Release 2 help dialog is inside #spx-tool');
   const css = fs.readFileSync(path.join(ROOT, 'tools', 'steel-phase-explorer-student-guides.css'), 'utf8');
-  assert.match(css, /background:var\(--spx-bg,var\(--paper,#fff\)\)/, 'card has an opaque background fallback');
+  assert.match(css, /background:var\(--spx-bg,var\(--paper,#fff\)\)/, 'panel has an opaque background fallback');
 });

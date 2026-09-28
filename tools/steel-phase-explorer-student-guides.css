@@ -1,22 +1,35 @@
-/* Student guides: one bar per tab, visible only in Student mode, plus a modal guide dialog. */
+/* Student guides: one bar per tab (Student mode only) and a guide panel docked on the right.
+   While the panel is open, body.spx-guide-docked narrows the page so the panel sits beside the
+   tool instead of covering it. Below 900px the panel becomes a bottom sheet. */
+:root{--spx-guide-w:min(420px,36vw)}
 .spx-student-guide-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 14px;padding:10px 14px;border:1px solid var(--spx-border);border-left:4px solid var(--spx-accent);border-radius:10px;background:var(--spx-surface)}
 .spx-student-guide-bar p{margin:0;color:var(--spx-muted);font-size:.9rem}
-#spx-tool:not([data-workspace-mode="student"]) .spx-student-guide-bar{display:none}
+.spx-student-guide-bar .spx-btn[aria-expanded="true"]{border-color:var(--spx-accent);background:var(--spx-accent);color:var(--spx-on-accent)}
+#spx-tool:not([data-workspace-mode="student"]) .spx-student-guide-bar,#spx-tool:not([data-workspace-mode="student"]) .spx-student-guide-panel{display:none}
 .spx-student-guide-bar[hidden]{display:none}
-.spx-student-guide-dialog{position:fixed;z-index:2000;inset:0;display:grid;place-items:center;padding:18px;background:rgba(16,24,40,.55)}
-.spx-student-guide-dialog[hidden]{display:none}
-.spx-student-guide-card{width:min(720px,100%);max-height:min(86vh,820px);overflow:auto;padding:20px 22px;border:1px solid var(--spx-border);border-radius:14px;background:var(--spx-bg,var(--paper,#fff));color:var(--spx-text,var(--ink,#101828));box-shadow:0 24px 80px rgba(16,24,40,.28)}
-.spx-student-guide-card:focus{outline:none}
-.spx-student-guide-card h2{margin:0 0 6px;font-size:1.2rem;line-height:1.3}
-.spx-student-guide-card h3{margin:18px 0 6px;font-size:1rem}
-.spx-student-guide-purpose{margin:0;color:var(--spx-text);font-size:.95rem;line-height:1.5}
-.spx-student-guide-card p,.spx-student-guide-card li,.spx-student-guide-card dd{color:var(--spx-muted);font-size:.9rem;line-height:1.55}
-.spx-student-guide-card ol{margin:0;padding-left:1.3em}
-.spx-student-guide-card li{margin:0 0 5px}
+
+body.spx-guide-docked{padding-right:var(--spx-guide-w)}
+.spx-student-guide-panel{position:fixed;z-index:30;top:0;right:0;bottom:0;width:var(--spx-guide-w);display:flex;flex-direction:column;border-left:1px solid var(--spx-border);background:var(--spx-bg,var(--paper,#fff));color:var(--spx-text,var(--ink,#101828));box-shadow:-12px 0 32px rgba(16,24,40,.18)}
+.spx-student-guide-panel[hidden]{display:none}
+.spx-student-guide-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px 18px 12px;border-bottom:1px solid var(--spx-border)}
+.spx-student-guide-kicker{margin:0 0 3px;color:var(--spx-accent);font-size:.78rem;font-weight:600}
+.spx-student-guide-head h2{margin:0;font-size:1.08rem;line-height:1.3}
+.spx-student-guide-head h2:focus{outline:none}
+.spx-student-guide-close{flex:none;min-width:38px;font-size:1.25rem;line-height:1}
+.spx-student-guide-scroll{flex:1;overflow:auto;padding:14px 18px 24px;overscroll-behavior:contain}
+.spx-student-guide-scroll h3{margin:18px 0 6px;font-size:.98rem}
+.spx-student-guide-purpose{margin:0;color:var(--spx-text,var(--ink,#101828));font-size:.93rem;line-height:1.5}
+.spx-student-guide-scroll p,.spx-student-guide-scroll li,.spx-student-guide-scroll dd{color:var(--spx-muted);font-size:.89rem;line-height:1.55}
+.spx-student-guide-scroll ol{margin:0;padding-left:1.3em}
+.spx-student-guide-scroll li{margin:0 0 5px}
 .spx-student-guide-read{margin:0}
-.spx-student-guide-read dt{margin:10px 0 2px;font-weight:600;font-size:.9rem;color:var(--spx-text)}
+.spx-student-guide-read dt{margin:10px 0 2px;font-weight:600;font-size:.89rem;color:var(--spx-text,var(--ink,#101828))}
 .spx-student-guide-read dd{margin:0}
-.spx-student-guide-actions{display:flex;justify-content:flex-end;margin-top:18px}
-.spx-student-guide-bar .spx-btn:focus-visible,.spx-student-guide-actions .spx-btn:focus-visible{outline:3px solid var(--spx-accent);outline-offset:2px}
-@media (max-width:640px){.spx-student-guide-card{padding:16px}.spx-student-guide-bar{padding:10px 12px}.spx-student-guide-bar .spx-btn{width:100%}}
-@media print{.spx-student-guide-bar,.spx-student-guide-dialog{display:none!important}}
+.spx-student-guide-bar .spx-btn:focus-visible,.spx-student-guide-close:focus-visible{outline:3px solid var(--spx-accent);outline-offset:2px}
+@media (prefers-reduced-motion:no-preference){.spx-student-guide-panel{animation:spx-guide-in .18s ease-out}@keyframes spx-guide-in{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}}
+@media (max-width:900px){
+  body.spx-guide-docked{padding-right:0;padding-bottom:58vh}
+  .spx-student-guide-panel{top:auto;left:0;width:auto;height:58vh;border-left:0;border-top:1px solid var(--spx-border);border-radius:14px 14px 0 0;box-shadow:0 -12px 32px rgba(16,24,40,.2)}
+  .spx-student-guide-bar .spx-btn{width:100%}
+}
+@media print{.spx-student-guide-bar,.spx-student-guide-panel{display:none!important}body.spx-guide-docked{padding:0!important}}

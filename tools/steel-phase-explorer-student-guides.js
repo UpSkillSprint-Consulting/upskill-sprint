@@ -1,7 +1,7 @@
 /* Steel Phase Explorer — Student guides.
    Adds a "How to use & read this tool" button to every tab. The bar is visible only in Student mode
-   (CSS keys off #spx-tool[data-workspace-mode]); the dialog is a labelled modal with a focus trap,
-   Escape to close, and focus restored to the opener. Each tab has its own guide. */
+   (CSS keys off #spx-tool[data-workspace-mode]). The guide opens in a panel docked on the right that
+   narrows the page instead of covering the tool; it follows tab changes and closes with × or Escape. */
 (function () {
   'use strict';
 
@@ -243,7 +243,7 @@
     }
   };
 
-  var returnFocus = null;
+  var returnFocus = null, openerBtn = null, currentKey = null;
 
   function el(tag, cls, text) {
     var n = document.createElement(tag);
@@ -252,39 +252,32 @@
     return n;
   }
 
-  function ensureDialog() {
-    var d = document.getElementById('spx-student-guide-dialog');
+  /* The guide is a non-modal panel docked on the right. While it is open the page is narrowed
+     (body.spx-guide-docked adds right padding), so the panel sits beside the tool instead of on top
+     of it and the tool stays fully usable. On narrow screens it becomes a bottom sheet. */
+  function ensurePanel() {
+    var d = document.getElementById('spx-student-guide-panel');
     if (d) return d;
-    d = el('div', 'spx-student-guide-dialog');
-    d.id = 'spx-student-guide-dialog';
+    d = el('aside', 'spx-student-guide-panel');
+    d.id = 'spx-student-guide-panel';
     d.hidden = true;
-    var card = el('div', 'spx-student-guide-card');
-    card.setAttribute('role', 'dialog');
-    card.setAttribute('aria-modal', 'true');
-    card.setAttribute('aria-labelledby', 'spx-student-guide-title');
-    card.tabIndex = -1;
-    var h = el('h2'); h.id = 'spx-student-guide-title';
-    var body = el('div'); body.id = 'spx-student-guide-body';
-    var actions = el('div', 'spx-student-guide-actions');
-    var close = el('button', 'spx-btn primary', 'Close');
+    d.setAttribute('aria-labelledby', 'spx-student-guide-title');
+    var head = el('div', 'spx-student-guide-head');
+    var kicker = el('p', 'spx-student-guide-kicker', 'Student guide');
+    var h = el('h2'); h.id = 'spx-student-guide-title'; h.tabIndex = -1;
+    var close = el('button', 'spx-btn spx-student-guide-close', '×');
     close.type = 'button';
     close.id = 'spx-student-guide-close';
+    close.setAttribute('aria-label', 'Close guide');
+    close.title = 'Close guide';
     close.addEventListener('click', closeGuide);
-    actions.appendChild(close);
-    card.appendChild(h); card.appendChild(body); card.appendChild(actions);
-    d.appendChild(card);
-    d.addEventListener('click', function (e) { if (e.target === d) closeGuide(); });
-    d.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') { e.preventDefault(); closeGuide(); return; }
-      if (e.key !== 'Tab') return;
-      var f = Array.prototype.slice.call(card.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])'));
-      if (!f.length) return;
-      var first = f[0], last = f[f.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    });
-    /* Inside #spx-tool so the dialog inherits the tool's theme variables and button styles. */
-    (document.getElementById('spx-tool')||document.body).appendChild(d);
+    var titles = el('div'); titles.appendChild(kicker); titles.appendChild(h);
+    head.appendChild(titles); head.appendChild(close);
+    var body = el('div', 'spx-student-guide-scroll'); body.id = 'spx-student-guide-body';
+    d.appendChild(head); d.appendChild(body);
+    d.addEventListener('keydown', function (e) { if (e.key === 'Escape') { e.preventDefault(); closeGuide(); } });
+    /* Inside #spx-tool so the panel inherits the tool's theme variables and button styles. */
+    (document.getElementById('spx-tool') || document.body).appendChild(d);
     return d;
   }
 
@@ -294,37 +287,58 @@
     return s;
   }
 
-  function openGuide(key, opener) {
-    var g = GUIDES[key];
-    if (!g) return;
-    var d = ensureDialog(), body = document.getElementById('spx-student-guide-body');
+  function render(key) {
+    var g = GUIDES[key], body = document.getElementById('spx-student-guide-body');
     document.getElementById('spx-student-guide-title').textContent = g.title + ': how to use it and read the results';
     body.textContent = '';
     body.appendChild(el('p', 'spx-student-guide-purpose', g.purpose));
-
     var use = section('How to use it'), ol = el('ol');
     g.use.forEach(function (step) { ol.appendChild(el('li', null, step)); });
     use.appendChild(ol); body.appendChild(use);
-
     var read = section('How to read the results'), dl = el('dl', 'spx-student-guide-read');
     g.read.forEach(function (pair) { dl.appendChild(el('dt', null, pair[0])); dl.appendChild(el('dd', null, pair[1])); });
     read.appendChild(dl); body.appendChild(read);
-
     var tryIt = section('Try this'); tryIt.appendChild(el('p', null, g.tryThis)); body.appendChild(tryIt);
     var watch = section('Watch out'); watch.appendChild(el('p', null, g.caution)); body.appendChild(watch);
+    body.scrollTop = 0;
+    document.getElementById('spx-student-guide-panel').dataset.guide = key;
+    currentKey = key;
+  }
 
-    d.dataset.guide = key;
+  function setExpanded(btn) {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-student-guide]'), function (b) { b.setAttribute('aria-expanded', String(b === btn)); });
+    openerBtn = btn || null;
+  }
+
+  function openGuide(key, opener) {
+    if (!GUIDES[key]) return;
+    var d = ensurePanel();
+    render(key);
     returnFocus = opener || document.activeElement;
+    setExpanded(opener && opener.matches && opener.matches('[data-student-guide]') ? opener : document.querySelector('[data-student-guide="' + key + '"]'));
     d.hidden = false;
-    document.getElementById('spx-student-guide-close').focus();
+    document.body.classList.add('spx-guide-docked');
+    document.getElementById('spx-student-guide-title').focus();
   }
 
   function closeGuide() {
-    var d = document.getElementById('spx-student-guide-dialog');
+    var d = document.getElementById('spx-student-guide-panel');
     if (!d || d.hidden) return;
+    var focusWasInside = d.contains(document.activeElement);
     d.hidden = true;
+    document.body.classList.remove('spx-guide-docked');
+    setExpanded(null);
+    currentKey = null;
     var t = returnFocus; returnFocus = null;
-    if (t && document.documentElement.contains(t) && typeof t.focus === 'function') t.focus();
+    if (focusWasInside && t && document.documentElement.contains(t) && typeof t.focus === 'function') t.focus();
+  }
+
+  /* If the panel is open and the student switches tabs, show that tab's guide. */
+  function followTab(name) {
+    var d = document.getElementById('spx-student-guide-panel');
+    if (!d || d.hidden || !GUIDES[name] || name === currentKey) return;
+    render(name);
+    setExpanded(document.querySelector('[data-student-guide="' + name + '"]'));
   }
 
   function ensureBars() {
@@ -337,8 +351,12 @@
       var btn = el('button', 'spx-btn', 'How to use & read this tool');
       btn.type = 'button';
       btn.setAttribute('data-student-guide', key);
-      btn.setAttribute('aria-haspopup', 'dialog');
-      btn.addEventListener('click', function () { openGuide(key, btn); });
+      btn.setAttribute('aria-controls', 'spx-student-guide-panel');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.addEventListener('click', function () {
+        var d = document.getElementById('spx-student-guide-panel');
+        if (d && !d.hidden && currentKey === key) closeGuide(); else openGuide(key, btn);
+      });
       bar.appendChild(text); bar.appendChild(btn);
       panel.insertBefore(bar, panel.firstChild);
     });
@@ -351,6 +369,7 @@
       /* Later releases add their tabs asynchronously; add the bar as soon as each panel appears.
          ensureBars is idempotent, so the observer settles after one extra pass. */
       new MutationObserver(ensureBars).observe(tool, { childList: true, subtree: true });
+      new MutationObserver(function () { followTab(tool.dataset.activeTab); }).observe(tool, { attributes: true, attributeFilter: ['data-active-tab'] });
     }
     document.addEventListener('spx:workspace-mode', function (e) {
       if (e.detail && e.detail.mode !== 'student') closeGuide();
