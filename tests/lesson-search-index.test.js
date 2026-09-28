@@ -152,6 +152,20 @@ test('compressed and fragment-loaded lessons contribute their real content', () 
   assert.equal(formulaSections.length, 111);
   assert.ok(formulaSections.every(section => /^formula-title-[A-Z]\d{2}$/.test(section.id)));
   assert.match(formulaSections.map(section => section.text).join(' '), /Revenue Growth/i);
+
+  // Search and runtime must share the same formula anchors. The compressed
+  // source intentionally omits IDs because the accessible replacement
+  // renderer creates the live cards after load.
+  const dmaicWrapper = fs.readFileSync(path.join(ROOT,
+    'lessons/lean-six-sigma/dmaic-formula-encyclopedia.html'), 'utf8');
+  const dmaicRuntime = fs.readFileSync(path.join(ROOT, 'dmaic-encyclopedia-fixes.js'), 'utf8');
+  assert.match(dmaicWrapper, /controller\.src\s*=\s*['"]\/dmaic-encyclopedia-fixes\.js/);
+  assert.match(dmaicRuntime,
+    /title\.id\s*=\s*['"]formula-title-['"]\s*\+\s*f\.id/,
+    'the live formula renderer exposes every indexed formula-title-* anchor');
+  assert.match(dmaicRuntime,
+    /card\.setAttribute\(\s*['"]aria-labelledby['"]\s*,\s*title\.id\s*\)/,
+    'formula cards name themselves with the same deep-link target');
 });
 
 test('long lesson sections preserve real tail content instead of truncating silently', () => {
