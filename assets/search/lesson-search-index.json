@@ -1,9 +1,9 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 51,
-  "contentLessonCount": 46,
-  "sectionCount": 1895,
+  "lessonCount": 52,
+  "contentLessonCount": 47,
+  "sectionCount": 2025,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -9812,6 +9812,2017 @@
           "excerpt": "NIST/SEMATECH, Grubbs' test for outliers , e-Handbook of Statistical Methods. NIST/SEMATECH, Detection of outliers , e-Handbook of Statistical Methods. Iglewicz, B. and Hoaglin, D., How to Detect and Handle Outliers , ASQC Quality Press. Microsoft Support,…",
           "kinds": [
             "section"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "statistics--the-lean-a-field-guide-to-bias",
+      "path": "/lessons/statistics/the-lean-a-field-guide-to-bias",
+      "title": "The Lean: A Field Guide to Bias",
+      "description": "Explore systematic, cognitive and systemic bias through 83 examples, interactive simulations, a quiz and three printable posters.",
+      "topic": "statistics",
+      "level": "beginner",
+      "minutes": 65,
+      "interactive": true,
+      "keywords": [
+        "statistical bias",
+        "cognitive bias",
+        "systemic bias",
+        "survivorship bias",
+        "sampling bias",
+        "measurement bias",
+        "nonresponse",
+        "gauge linearity",
+        "model selection",
+        "excel",
+        "minitab",
+        "quality engineering",
+        "statistical bias cognitive bias systemic bias survivorship selection sampling measurement nonresponse attrition model selection confirmation clustering illusion gambler fallacy gauge linearity bessel correction excel minitab quality engineering"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "lesson-section-the-lean-a-field-guide-to-bias",
+          "heading": "The Lean: A Field Guide to Bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias"
+          ],
+          "text": "Bias never averages out. Bias is the lean that doesn't cancel out. Take more samples, run more tests, collect more data, and it stays right where it is. Try it on the gauge target. This lesson covers what bias is, the three families it comes in, 83 named biases with worked examples, a quiz, and a toolkit for pushing back. Bias (systematic offset) Noise (random scatter) Green dot is the true value. Take measurements and watch where their average lands. Free printable posters",
+          "excerpt": "Bias never averages out. Bias is the lean that doesn't cancel out. Take more samples, run more tests, collect more data, and it stays right where it is. Try it on the gauge target. This lesson covers what bias is, the three families it comes in, 83 named…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "dlTitle",
+          "heading": "Take the posters with you",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Take the posters with you"
+          ],
+          "text": "Three one-page PDF posters to print for the office wall, share with your team, or keep beside you during your next analysis. New",
+          "excerpt": "Three one-page PDF posters to print for the office wall, share with your team, or keep beside you during your next analysis. New",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-50-statistical-biases",
+          "heading": "50 Statistical Biases",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Take the posters with you",
+            "50 Statistical Biases"
+          ],
+          "text": "PDF, 1 page, 237 KB. Sampling, measurement, modelling, testing, time and reporting. Download PDF Edition 2",
+          "excerpt": "PDF, 1 page, 237 KB. Sampling, measurement, modelling, testing, time and reporting. Download PDF Edition 2",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-50-statistical-biases-edition-2",
+          "heading": "50 Statistical Biases, Edition 2",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Take the posters with you",
+            "50 Statistical Biases, Edition 2"
+          ],
+          "text": "PDF, 1 page, 177 KB. Numbered 1 to 50 from sampling to inference, with quality and mill examples. Download PDF Classic",
+          "excerpt": "PDF, 1 page, 177 KB. Numbered 1 to 50 from sampling to inference, with quality and mill examples. Download PDF Classic",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-50-cognitive-biases",
+          "heading": "50 Cognitive Biases",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Take the posters with you",
+            "50 Cognitive Biases"
+          ],
+          "text": "PDF, 1 page, 332 KB. Poster by TitleMax. Download PDF",
+          "excerpt": "PDF, 1 page, 332 KB. Poster by TitleMax. Download PDF",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-so-what-is-bias-exactly",
+          "heading": "So what is bias, exactly?",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "So what is bias, exactly?"
+          ],
+          "text": "Bias is a systematic error: a consistent tendency for a result to be pushed away from the truth in one direction. It comes from how data is collected, how it's measured, how it's analyzed, or how the human in the loop thinks about it. The key word is systematic . Random error scatters results around the truth, so averaging helps. Bias moves the whole scatter, so averaging just gives you a very precise wrong answer. In MSA terms, noise is a precision problem and bias is an accuracy problem. The word shows up in two worlds that turn out to be the same world: In statistics, an estimator is biased when its average across repeated samples doesn't equal the value it's trying to estimate. In psychology, a cognitive bias is a predictable shortcut in human judgement that bends conclusions the same way every time. Both are a thumb on the scale. One lives in the data pipeline, the other lives in our heads, and most real failures involve both. \\[\\operatorname{Bias}(\\hat{\\theta})=\\mathbb{E}[\\hat{\\theta}]-\\theta\\] The average of your estimates θ̂ minus the true value θ. Zero means unbiased. \\[\\operatorname{MSE}(\\hat{\\theta})=\\operatorname{Bias}(\\hat{\\theta})^{2}+\\operatorname{Var}(\\hat{\\theta})\\] Total error has two parts. A bigger sample shrinks the variance term toward zero. The bias term doesn't budge. \\[s^{2}=\\frac{\\sum_{i=1}^{n}(x_i-\\bar{x})^{2}}{n-1}\\] A classic case: dividing by n instead of n − 1 makes the sample variance biased low, by a factor of (n − 1)/n. Bessel's correction removes it.",
+          "excerpt": "Bias is a systematic error: a consistent tendency for a result to be pushed away from the truth in one direction. It comes from how data is collected, how it's measured, how it's analyzed, or how the human in the loop thinks about it. The key word is…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-bessel-s-correction-simulated",
+          "heading": "Bessel's correction, simulated",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "So what is bias, exactly?",
+            "Bessel's correction, simulated"
+          ],
+          "text": "3,000 simulated samples at each size, drawn from a population with true variance 1. True variance Divide by n (biased) Divide by n − 1 (unbiased) More data fixes noise. Only better design fixes bias.",
+          "excerpt": "3,000 simulated samples at each size, drawn from a population with true variance 1. True variance Divide by n (biased) Divide by n − 1 (unbiased) More data fixes noise. Only better design fixes bias.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-where-would-you-add-armor",
+          "heading": "Where would you add armor?",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Where would you add armor?"
+          ],
+          "text": "World War II. Bombers come back from missions riddled with bullet holes, clustered on the wings, the tail and the middle of the fuselage. Armor is heavy, so you can only add it in a few places. The military's first instinct was to reinforce where the holes were. Statistician Abraham Wald, working with the Statistical Research Group at Columbia, pointed out what everyone was missing. Take a guess before you reveal it. Armor the places without holes: the engines and cockpit. The sample only contained planes that made it home. Planes hit in those spots didn't come back to be counted. The missing data was the most important data. That's survivorship bias , and it's hiding in more plant data than you'd think. A model trained only on pipe that reached final inspection has never seen the pipe that was scrapped upstream.",
+          "excerpt": "World War II. Bombers come back from missions riddled with bullet holes, clustered on the wings, the tail and the middle of the fuselage. Armor is heavy, so you can only add it in a few places. The military's first instinct was to reinforce where the holes…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-the-same-trap-on-the-pipe-line",
+          "heading": "The same trap, on the pipe line",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Where would you add armor?",
+            "The same trap, on the pipe line"
+          ],
+          "text": "Every pipe that gets scrapped upstream disappears from the final inspection database. Build a model on that database and it has never seen a failure. Illustrative numbers.",
+          "excerpt": "Every pipe that gets scrapped upstream disappears from the final inspection database. Build a model on that database and it has never seen a failure. Illustrative numbers.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-three-families-of-bias",
+          "heading": "Three families of bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Three families of bias"
+          ],
+          "text": "A useful way to sort the whole zoo is by where the lean enters: the data and the math, the people making judgements, or the system everyone operates inside.",
+          "excerpt": "A useful way to sort the whole zoo is by where the lean enters: the data and the math, the people making judgements, or the system everyone operates inside.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-statistical",
+          "heading": "Statistical",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Three families of bias",
+            "Statistical"
+          ],
+          "text": "Built into how data is sampled, measured, modelled and monitored. It skews numbers even when every person involved is being careful and fair. \"Is the data a fair picture of reality?\"",
+          "excerpt": "Built into how data is sampled, measured, modelled and monitored. It skews numbers even when every person involved is being careful and fair. \"Is the data a fair picture of reality?\"",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-human",
+          "heading": "Human",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Three families of bias",
+            "Human"
+          ],
+          "text": "Cognitive shortcuts in memory, social behaviour and belief. Fast and usually useful, but predictably wrong in specific situations. \"Am I seeing what's there, or what I expect?\"",
+          "excerpt": "Cognitive shortcuts in memory, social behaviour and belief. Fast and usually useful, but predictably wrong in specific situations. \"Am I seeing what's there, or what I expect?\"",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-systemic",
+          "heading": "Systemic",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Three families of bias",
+            "Systemic"
+          ],
+          "text": "Embedded in history, social norms and institutional rules. Nobody has to intend it; the structure produces it and the data records it faithfully. \"What did the past bake into the data?\"",
+          "excerpt": "Embedded in history, social norms and institutional rules. Nobody has to intend it; the structure produces it and the data records it faithfully. \"What did the past bake into the data?\"",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-how-the-83-split-up",
+          "heading": "How the 83 split up",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Three families of bias",
+            "How the 83 split up"
+          ],
+          "text": "",
+          "excerpt": "How the 83 split up",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-where-bias-sneaks-into-a-study",
+          "heading": "Where bias sneaks into a study",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Three families of bias",
+            "Where bias sneaks into a study"
+          ],
+          "text": "Each stage of turning reality into a decision has its own biases. Select a stage to jump to its biases in the field guide.",
+          "excerpt": "Each stage of turning reality into a decision has its own biases. Select a stage to jump to its biases in the field guide.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-watch-bias-happen",
+          "heading": "Watch bias happen",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Watch bias happen"
+          ],
+          "text": "Five small experiments with simulated data. Press the buttons and watch the lean appear.",
+          "excerpt": "Five small experiments with simulated data. Press the buttons and watch the lean appear.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-sampling-bias-the-easy-coupon",
+          "heading": "Sampling bias: the easy coupon",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Watch bias happen",
+            "Sampling bias: the easy coupon"
+          ],
+          "text": "Toughness varies along this simulated coil: the slower-cooled middle is weaker. Cutting test coupons from the head is convenient. See what it does to the estimate. Pick a sampling plan.",
+          "excerpt": "Toughness varies along this simulated coil: the slower-cooled middle is weaker. Cutting test coupons from the head is convenient. See what it does to the estimate. Pick a sampling plan.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-nonresponse-the-loud-12",
+          "heading": "Nonresponse: the loud 12%",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Watch bias happen",
+            "Nonresponse: the loud 12%"
+          ],
+          "text": "400 customers surveyed, 48 replied. Each square is one customer. Unhappy Satisfied Didn't reply Illustrative numbers.",
+          "excerpt": "400 customers surveyed, 48 replied. Each square is one customer. Unhappy Satisfied Didn't reply Illustrative numbers.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-model-selection-test-enough-find-something",
+          "heading": "Model selection: test enough, find something",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Watch bias happen",
+            "Model selection: test enough, find something"
+          ],
+          "text": "Chance of at least one false \"significant\" result when testing variables that truly have no effect, at α = 0.05. Number of variables tested: 40",
+          "excerpt": "Chance of at least one false \"significant\" result when testing variables that truly have no effect, at α = 0.05. Number of variables tested: 40",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-clustering-illusion-random-defects",
+          "heading": "Clustering illusion: random defects",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Watch bias happen",
+            "Clustering illusion: random defects"
+          ],
+          "text": "30 defects placed completely at random along a 12 m pipe. The shaded band is the densest metre.",
+          "excerpt": "30 defects placed completely at random along a 12 m pipe. The shaded band is the densest metre.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-gambler-s-fallacy-is-it-due",
+          "heading": "Gambler's fallacy: is it \"due\"?",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Watch bias happen",
+            "Gambler's fallacy: is it \"due\"?"
+          ],
+          "text": "100 fair coin flips. The ringed run is the longest streak. Streaks are normal in random data.",
+          "excerpt": "100 fair coin flips. The ringed run is the longest streak. Streaks are normal in random data.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-the-field-guide-83-biases",
+          "heading": "The field guide: 83 biases",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases"
+          ],
+          "text": "Every bias from your six reference graphics, merged where they overlap, each with a plain definition and a worked example. Tap \"Show example\" on any card. Graphic numbers refer to the order the images were shared.",
+          "excerpt": "Every bias from your six reference graphics, merged where they overlap, each with a plain definition and a worked example. Tap \"Show example\" on any card. Graphic numbers refer to the order the images were shared.",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-category-sel",
+          "heading": "Selection and sampling Who or what ended up in the data",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Selection and sampling Who or what ended up in the data"
+          ],
+          "text": "",
+          "excerpt": "Selection and sampling Who or what ended up in the data",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "bias-selection-bias",
+          "heading": "Selection bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Selection and sampling Who or what ended up in the data",
+            "Selection bias"
+          ],
+          "text": "The group you study differs systematically from the group you want conclusions about. Show example A new rolling lubricant is trialled only on day shift, where the most experienced crew runs. It looks brilliant, then disappoints when rolled out to all four crews. Statistical. Graphic 2, 3",
+          "excerpt": "The group you study differs systematically from the group you want conclusions about. Show example A new rolling lubricant is trialled only on day shift, where the most experienced crew runs. It looks brilliant, then disappoints when rolled out to all four…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-sampling-bias",
+          "heading": "Sampling bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Selection and sampling Who or what ended up in the data",
+            "Sampling bias"
+          ],
+          "text": "The collection method makes some units more likely to be picked than others, so the sample stops being random. Show example Charpy coupons are always cut from the head of the coil because it is easiest to reach. The middle and tail, where cooling differs, are never tested. Statistical. Graphic 1, 2, 4, 6",
+          "excerpt": "The collection method makes some units more likely to be picked than others, so the sample stops being random. Show example Charpy coupons are always cut from the head of the coil because it is easiest to reach. The middle and tail, where cooling differs, are…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-attrition-bias",
+          "heading": "Attrition bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Selection and sampling Who or what ended up in the data",
+            "Attrition bias"
+          ],
+          "text": "People or units drop out partway through a study, and the ones who leave differ from the ones who stay. Show example A 12-week fitness program reports amazing results. The participants who were struggling quit by week four, so only the success stories finished. Statistical. Graphic 1",
+          "excerpt": "People or units drop out partway through a study, and the ones who leave differ from the ones who stay. Show example A 12-week fitness program reports amazing results. The participants who were struggling quit by week four, so only the success stories…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-survivorship-bias",
+          "heading": "Survivorship bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Selection and sampling Who or what ended up in the data",
+            "Survivorship bias"
+          ],
+          "text": "Only the survivors are visible, so the failures that would change the story are missing. Show example \"Dropouts like Gates and Zuckerberg became billionaires, so college is optional.\" Thousands of dropouts whose startups failed never get magazine covers. Statistical. Graphic 1, 3, 5, 6",
+          "excerpt": "Only the survivors are visible, so the failures that would change the story are missing. Show example \"Dropouts like Gates and Zuckerberg became billionaires, so college is optional.\" Thousands of dropouts whose startups failed never get magazine covers.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-self-selection-bias",
+          "heading": "Self-selection bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Selection and sampling Who or what ended up in the data",
+            "Self-selection bias"
+          ],
+          "text": "People choose whether to be included, and the people who opt in differ from those who don't. Show example An optional SPC course shows excellent post-test scores. The operators who signed up were already the most motivated ones on the floor. Statistical. Graphic 1, 3, 6",
+          "excerpt": "People choose whether to be included, and the people who opt in differ from those who don't. Show example An optional SPC course shows excellent post-test scores. The operators who signed up were already the most motivated ones on the floor. Statistical.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-nonresponse-bias",
+          "heading": "Nonresponse bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Selection and sampling Who or what ended up in the data",
+            "Nonresponse bias"
+          ],
+          "text": "The people who don't answer differ in important ways from the people who do. Show example A customer satisfaction survey gets a 12% response rate, mostly from customers with an open claim. Management concludes everyone is unhappy. Statistical. Graphic 1, 6",
+          "excerpt": "The people who don't answer differ in important ways from the people who do. Show example A customer satisfaction survey gets a 12% response rate, mostly from customers with an open claim. Management concludes everyone is unhappy. Statistical. Graphic 1, 6",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-undercoverage-bias",
+          "heading": "Undercoverage bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Selection and sampling Who or what ended up in the data",
+            "Undercoverage bias"
+          ],
+          "text": "Part of the population has little or no chance of being included in the sample at all. Show example A community survey done only by landline barely reaches anyone under 40, then reports that residents strongly prefer the old way of doing things. Statistical. Graphic 1",
+          "excerpt": "Part of the population has little or no chance of being included in the sample at all. Show example A community survey done only by landline barely reaches anyone under 40, then reports that residents strongly prefer the old way of doing things. Statistical.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-exclusion-bias",
+          "heading": "Exclusion bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Selection and sampling Who or what ended up in the data",
+            "Exclusion bias"
+          ],
+          "text": "Data points or groups are removed, carelessly or deliberately, in a way that skews results. Show example Soft hardness readings are deleted as \"outliers\" before a capability study. Cpk looks great, and the customer finds the real soft spots. Statistical. Graphic 2",
+          "excerpt": "Data points or groups are removed, carelessly or deliberately, in a way that skews results. Show example Soft hardness readings are deleted as \"outliers\" before a capability study. Cpk looks great, and the customer finds the real soft spots. Statistical.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-representation-bias",
+          "heading": "Representation bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Selection and sampling Who or what ended up in the data",
+            "Representation bias"
+          ],
+          "text": "The data under-represents conditions or groups the conclusion or model will later face. Show example A surface-defect vision model is trained mostly on summer production and struggles in winter, when scale patterns look different. Statistical. Graphic 4",
+          "excerpt": "The data under-represents conditions or groups the conclusion or model will later face. Show example A surface-defect vision model is trained mostly on summer production and struggles in winter, when scale patterns look different. Statistical. Graphic 4",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-temporal-bias",
+          "heading": "Temporal bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Selection and sampling Who or what ended up in the data",
+            "Temporal bias"
+          ],
+          "text": "Data from one period is treated as if it describes a different period. Show example Control limits are set from the quarter right after a furnace reline. Normal ageing later gets flagged as out of control week after week. Statistical. Graphic 4",
+          "excerpt": "Data from one period is treated as if it describes a different period. Show example Control limits are set from the quarter right after a furnace reline. Normal ageing later gets flagged as out of control week after week. Statistical. Graphic 4",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-category-meas",
+          "heading": "Measurement and reporting How the data got recorded",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Measurement and reporting How the data got recorded"
+          ],
+          "text": "",
+          "excerpt": "Measurement and reporting How the data got recorded",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "bias-measurement-bias",
+          "heading": "Measurement bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Measurement and reporting How the data got recorded",
+            "Measurement bias"
+          ],
+          "text": "The measuring process reads consistently high or low, or measures some groups differently from others. Show example One tensile frame's load cell reads 2% high. Every heat tested on it looks stronger than it is. This is exactly what the bias study in MSA is for. Statistical. Graphic 2, 4",
+          "excerpt": "The measuring process reads consistently high or low, or measures some groups differently from others. Show example One tensile frame's load cell reads 2% high. Every heat tested on it looks stronger than it is. This is exactly what the bias study in MSA is…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-recall-bias",
+          "heading": "Recall bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Measurement and reporting How the data got recorded",
+            "Recall bias"
+          ],
+          "text": "People remember past events inaccurately, coloured by what happened afterwards or how they feel now. Show example After a pipe fails hydrotest, the crew recalls the mill \"running rough all week.\" Before the failure, nobody wrote anything down. Statistical. Graphic 1, 2, 3, 6",
+          "excerpt": "People remember past events inaccurately, coloured by what happened afterwards or how they feel now. Show example After a pipe fails hydrotest, the crew recalls the mill \"running rough all week.\" Before the failure, nobody wrote anything down. Statistical.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-observer-bias",
+          "heading": "Observer bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Measurement and reporting How the data got recorded",
+            "Observer bias"
+          ],
+          "text": "The person recording results sees what they expect to see. Show example An inspector told a heat is \"suspect\" logs more borderline surface marks on it than on an identical heat labelled good. Statistical. Graphic 3",
+          "excerpt": "The person recording results sees what they expect to see. Show example An inspector told a heat is \"suspect\" logs more borderline surface marks on it than on an identical heat labelled good. Statistical. Graphic 3",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-human-reporting-bias",
+          "heading": "Human reporting bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Measurement and reporting How the data got recorded",
+            "Human reporting bias"
+          ],
+          "text": "What gets written down reflects what people find notable, not how often things actually happen. Show example Shift logs record every breakdown and none of the uneventful hours. Read the logs alone and the machine looks far worse than its uptime says. Statistical. Graphic 4",
+          "excerpt": "What gets written down reflects what people find notable, not how often things actually happen. Show example Shift logs record every breakdown and none of the uneventful hours. Read the logs alone and the machine looks far worse than its uptime says.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-funding-bias",
+          "heading": "Funding bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Measurement and reporting How the data got recorded",
+            "Funding bias"
+          ],
+          "text": "Results tend to tilt towards the interests of whoever paid for the study. Show example A refractory supplier sponsors a comparison trial. Their brick wins. The independent trial next year is far less conclusive. Statistical. Graphic 3",
+          "excerpt": "Results tend to tilt towards the interests of whoever paid for the study. Show example A refractory supplier sponsors a comparison trial. Their brick wins. The independent trial next year is far less conclusive. Statistical. Graphic 3",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-category-survey",
+          "heading": "Surveys and interviews How the asking shapes the answer",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Surveys and interviews How the asking shapes the answer"
+          ],
+          "text": "",
+          "excerpt": "Surveys and interviews How the asking shapes the answer",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "bias-interview-bias",
+          "heading": "Interview bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Surveys and interviews How the asking shapes the answer",
+            "Interview bias"
+          ],
+          "text": "The interviewer's wording, tone, body language or reactions nudge how people answer. Show example An auditor asks, \"You always verify the torque before release, right?\" and nods encouragingly. Every operator says yes, including the ones who don't. Statistical. Graphic 6",
+          "excerpt": "The interviewer's wording, tone, body language or reactions nudge how people answer. Show example An auditor asks, \"You always verify the torque before release, right?\" and nods encouragingly. Every operator says yes, including the ones who don't.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-demand-characteristics-bias",
+          "heading": "Demand characteristics bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Surveys and interviews How the asking shapes the answer",
+            "Demand characteristics bias"
+          ],
+          "text": "Participants work out what the study is looking for and change their answers or behaviour to fit it. Show example Operators learn the survey is part of a 5S push, so the question \"How organised is your work area?\" gets glowing scores in the messiest bays. Statistical. Graphic 6",
+          "excerpt": "Participants work out what the study is looking for and change their answers or behaviour to fit it. Show example Operators learn the survey is part of a 5S push, so the question \"How organised is your work area?\" gets glowing scores in the messiest bays.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-extreme-response-bias",
+          "heading": "Extreme response bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Surveys and interviews How the asking shapes the answer",
+            "Extreme response bias"
+          ],
+          "text": "Some respondents habitually pick the endpoints of a scale, regardless of how strongly they actually feel. Show example One site rates every item on a supplier scorecard 1 or 5. Averaged with sites that use the whole scale, their ratings dominate the result. Statistical. Graphic 6",
+          "excerpt": "Some respondents habitually pick the endpoints of a scale, regardless of how strongly they actually feel. Show example One site rates every item on a supplier scorecard 1 or 5. Averaged with sites that use the whole scale, their ratings dominate the result.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-neutral-response-bias",
+          "heading": "Neutral response bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Surveys and interviews How the asking shapes the answer",
+            "Neutral response bias"
+          ],
+          "text": "Respondents default to the middle option to avoid committing, which hides real opinions. Also called central tendency bias. Show example A 40-question engagement survey sees answers drift to \"3 – neutral\" after question 15. Fatigue, not neutrality, is doing the answering. Statistical. Graphic 6",
+          "excerpt": "Respondents default to the middle option to avoid committing, which hides real opinions. Also called central tendency bias. Show example A 40-question engagement survey sees answers drift to \"3 – neutral\" after question 15. Fatigue, not neutrality, is doing…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-question-order-bias",
+          "heading": "Question order bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Surveys and interviews How the asking shapes the answer",
+            "Question order bias"
+          ],
+          "text": "Earlier questions prime how people answer later ones. Show example Ask about last month's recall first and \"How would you rate our overall quality?\" scores drop. Ask it first and the same customers rate it higher. Statistical. Graphic 6",
+          "excerpt": "Earlier questions prime how people answer later ones. Show example Ask about last month's recall first and \"How would you rate our overall quality?\" scores drop. Ask it first and the same customers rate it higher. Statistical. Graphic 6",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-conformity-bias",
+          "heading": "Conformity bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Surveys and interviews How the asking shapes the answer",
+            "Conformity bias"
+          ],
+          "text": "People give the answer they think the group or the majority holds, rather than their own view. Show example In a show-of-hands vote on whether the new procedure is workable, hands go up once the supervisor's does. The anonymous version tells a different story. Human. Graphic 6",
+          "excerpt": "People give the answer they think the group or the majority holds, rather than their own view. Show example In a show-of-hands vote on whether the new procedure is workable, hands go up once the supervisor's does. The anonymous version tells a different…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-category-model",
+          "heading": "Analysis and models How the data got interpreted or used by models",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Analysis and models How the data got interpreted or used by models"
+          ],
+          "text": "",
+          "excerpt": "Analysis and models How the data got interpreted or used by models",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "bias-omitted-variable-bias",
+          "heading": "Omitted variable bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Analysis and models How the data got interpreted or used by models",
+            "Omitted variable bias"
+          ],
+          "text": "A factor that affects both the supposed cause and the outcome is left out, so its effect gets credited to something else. Show example A new operator seems to produce more defects. He's only scheduled on the hardest grades. Grade, the missing variable, drives both. Statistical. Graphic 3",
+          "excerpt": "A factor that affects both the supposed cause and the outcome is left out, so its effect gets credited to something else. Show example A new operator seems to produce more defects. He's only scheduled on the hardest grades. Grade, the missing variable, drives…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-cause-effect-bias",
+          "heading": "Cause-effect bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Analysis and models How the data got interpreted or used by models",
+            "Cause-effect bias"
+          ],
+          "text": "Treating correlation as causation, or getting the direction of cause wrong. Show example Lines with more inspectors record more defects. Removing inspectors won't improve quality; they find defects, they don't cause them. Statistical. Graphic 3",
+          "excerpt": "Treating correlation as causation, or getting the direction of cause wrong. Show example Lines with more inspectors record more defects. Removing inspectors won't improve quality; they find defects, they don't cause them. Statistical. Graphic 3",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-model-selection-bias",
+          "heading": "Model selection bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Analysis and models How the data got interpreted or used by models",
+            "Model selection bias"
+          ],
+          "text": "Trying many models or variables and reporting only the best fit, which overstates how well it will really perform. Show example Forty process variables are each tested against Charpy energy. At α = 0.05, about two will look significant by pure chance. Statistical. Graphic 4",
+          "excerpt": "Trying many models or variables and reporting only the best fit, which overstates how well it will really perform. Show example Forty process variables are each tested against Charpy energy. At α = 0.05, about two will look significant by pure chance.…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "bias-concept-drift",
+          "heading": "Concept drift",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Analysis and models How the data got interpreted or used by models",
+            "Concept drift"
+          ],
+          "text": "The relationship a model learned changes over time, so its predictions quietly degrade. Show example A scrap-mix model was trained before a new scrap supplier arrived. Tramp-element chemistry shifted and the model never noticed. Statistical. Graphic 4",
+          "excerpt": "The relationship a model learned changes over time, so its predictions quietly degrade. Show example A scrap-mix model was trained before a new scrap supplier arrived. Tramp-element chemistry shifted and the model never noticed. Statistical. Graphic 4",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-feedback-loops",
+          "heading": "Feedback loops",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Analysis and models How the data got interpreted or used by models",
+            "Feedback loops"
+          ],
+          "text": "A model's outputs shape the data it later learns from, reinforcing its own assumptions. Show example Inspection effort goes to heats the model flags as risky, so most defects get found there, which \"confirms\" the model and sharpens its focus further. Statistical. Graphic 4",
+          "excerpt": "A model's outputs shape the data it later learns from, reinforcing its own assumptions. Show example Inspection effort goes to heats the model flags as risky, so most defects get found there, which \"confirms\" the model and sharpens its focus further.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-error-propagation",
+          "heading": "Error propagation",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Analysis and models How the data got interpreted or used by models",
+            "Error propagation"
+          ],
+          "text": "Small errors early in a pipeline compound through each later step. Show example A thermocouple reads 15°C low. It feeds a temperature model, then a cooling-rate estimate, then a hardness prediction, each inheriting the error. Statistical. Graphic 4",
+          "excerpt": "Small errors early in a pipeline compound through each later step. Show example A thermocouple reads 15°C low. It feeds a temperature model, then a cooling-rate estimate, then a hardness prediction, each inheriting the error. Statistical. Graphic 4",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-deployment-bias",
+          "heading": "Deployment bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Analysis and models How the data got interpreted or used by models",
+            "Deployment bias"
+          ],
+          "text": "A system is used in a way that differs from how it was designed and validated. Show example A tool built to decide which coils to inspect first ends up being used to decide which coils to skip inspecting entirely. Human. Graphic 4",
+          "excerpt": "A system is used in a way that differs from how it was designed and validated. Show example A tool built to decide which coils to inspect first ends up being used to decide which coils to skip inspecting entirely. Human. Graphic 4",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-selective-adherence",
+          "heading": "Selective adherence",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Analysis and models How the data got interpreted or used by models",
+            "Selective adherence"
+          ],
+          "text": "Following a model's recommendation only when it matches what we already believe. Show example A supervisor accepts the model's \"hold this heat\" flags on grades he distrusts, and overrides the identical flag on his favourite grade. Human. Graphic 4",
+          "excerpt": "Following a model's recommendation only when it matches what we already believe. Show example A supervisor accepts the model's \"hold this heat\" flags on grades he distrusts, and overrides the identical flag on his favourite grade. Human. Graphic 4",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-automation-bias",
+          "heading": "Automation bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Analysis and models How the data got interpreted or used by models",
+            "Automation bias"
+          ],
+          "text": "Trusting an automated system over our own correct judgement or contradictory evidence. Show example The vision system says \"pass,\" so the inspector waves through a pipe with a lap he can plainly see on the end. Human. Graphic 5",
+          "excerpt": "Trusting an automated system over our own correct judgement or contradictory evidence. Show example The vision system says \"pass,\" so the inspector waves through a pipe with a lap he can plainly see on the end. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-category-mind",
+          "heading": "Judgement and memory How individual minds process information",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information"
+          ],
+          "text": "",
+          "excerpt": "Judgement and memory How individual minds process information",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "bias-anchoring",
+          "heading": "Anchoring",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Anchoring"
+          ],
+          "text": "Leaning too heavily on the first number or piece of information we encounter. Show example A contractor opens at $90k. The revised $70k feels like a bargain, even though comparable jobs run about $50k. Human. Graphic 5",
+          "excerpt": "Leaning too heavily on the first number or piece of information we encounter. Show example A contractor opens at $90k. The revised $70k feels like a bargain, even though comparable jobs run about $50k. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-availability-heuristic",
+          "heading": "Availability heuristic",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Availability heuristic"
+          ],
+          "text": "Judging how likely something is by how easily examples come to mind. Show example After a plane crash dominates the news, people choose to drive instead of fly, which is statistically far riskier. Human. Graphic 5",
+          "excerpt": "Judging how likely something is by how easily examples come to mind. Show example After a plane crash dominates the news, people choose to drive instead of fly, which is statistically far riskier. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-framing-effect",
+          "heading": "Framing effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Framing effect"
+          ],
+          "text": "Reacting differently to the same information depending on how it's presented. Show example \"95% first-pass yield\" gets applause. \"One pipe in twenty needs rework\" gets an action plan. Same number. Human. Graphic 5",
+          "excerpt": "Reacting differently to the same information depending on how it's presented. Show example \"95% first-pass yield\" gets applause. \"One pipe in twenty needs rework\" gets an action plan. Same number. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-sunk-cost-fallacy",
+          "heading": "Sunk cost fallacy",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Sunk cost fallacy"
+          ],
+          "text": "Continuing because of what has already been spent rather than what lies ahead. Also called escalation of commitment. Show example \"We've put $400k into this upgrade, we can't stop now,\" said after trials show it doesn't fix the defect it was bought for. Human. Graphic 4, 5",
+          "excerpt": "Continuing because of what has already been spent rather than what lies ahead. Also called escalation of commitment. Show example \"We've put $400k into this upgrade, we can't stop now,\" said after trials show it doesn't fix the defect it was bought for.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-status-quo-bias",
+          "heading": "Status quo bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Status quo bias"
+          ],
+          "text": "Preferring things to stay the same, so any change feels like a loss. Show example A paper check sheet survives for years \"because it works,\" even though a tablet would catch out-of-spec entries in real time. Human. Graphic 5",
+          "excerpt": "Preferring things to stay the same, so any change feels like a loss. Show example A paper check sheet survives for years \"because it works,\" even though a tablet would catch out-of-spec entries in real time. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-zero-risk-bias",
+          "heading": "Zero-risk bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Zero-risk bias"
+          ],
+          "text": "Preferring to eliminate a small risk entirely over substantially reducing a larger one. Show example The safety budget goes to eliminating a once-a-decade hazard completely, while the daily forklift risk gets a token fix. Human. Graphic 5",
+          "excerpt": "Preferring to eliminate a small risk entirely over substantially reducing a larger one. Show example The safety budget goes to eliminating a once-a-decade hazard completely, while the daily forklift risk gets a token fix. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-gambler-s-fallacy",
+          "heading": "Gambler's fallacy",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Gambler's fallacy"
+          ],
+          "text": "Believing past independent random events change the odds of future ones. Show example \"Red came up six times, black is due.\" The roulette wheel has no memory. Human. Graphic 5",
+          "excerpt": "Believing past independent random events change the odds of future ones. Show example \"Red came up six times, black is due.\" The roulette wheel has no memory. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-clustering-illusion",
+          "heading": "Clustering illusion",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Clustering illusion"
+          ],
+          "text": "Seeing meaningful patterns or streaks in random data. Show example Three defects in the same pipe position looks like a trend. With enough pipe, random clusters are guaranteed. Test before you chase. Human. Graphic 5",
+          "excerpt": "Seeing meaningful patterns or streaks in random data. Show example Three defects in the same pipe position looks like a trend. With enough pipe, random clusters are guaranteed. Test before you chase. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-law-of-triviality",
+          "heading": "Law of triviality",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Law of triviality"
+          ],
+          "text": "Spending disproportionate time on trivial issues because they're easy to have opinions about. Also called bike-shedding. Show example A 90-minute meeting: 60 minutes on the new report template's colours, five on the customer claim. Human. Graphic 5",
+          "excerpt": "Spending disproportionate time on trivial issues because they're easy to have opinions about. Also called bike-shedding. Show example A 90-minute meeting: 60 minutes on the new report template's colours, five on the customer claim. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-dunning-kruger-effect",
+          "heading": "Dunning-Kruger effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Dunning-Kruger effect"
+          ],
+          "text": "People with limited skill in an area tend to overrate it, while experts see how much they don't know. Show example After one online stats course, someone confidently declares a gauge R&R study \"a waste of time.\" Human. Graphic 5",
+          "excerpt": "People with limited skill in an area tend to overrate it, while experts see how much they don't know. Show example After one online stats course, someone confidently declares a gauge R&R study \"a waste of time.\" Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-curse-of-knowledge",
+          "heading": "Curse of knowledge",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Curse of knowledge"
+          ],
+          "text": "Once we know something, it's hard to imagine not knowing it. Show example A 25-year veteran writes a work instruction that skips every step he considers obvious. New hires are lost by step three. Human. Graphic 5",
+          "excerpt": "Once we know something, it's hard to imagine not knowing it. Show example A 25-year veteran writes a work instruction that skips every step he considers obvious. New hires are lost by step three. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-google-effect",
+          "heading": "Google effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Google effect"
+          ],
+          "text": "Forgetting information we know we can easily look up. Also called digital amnesia. Show example You know exactly where the spec table lives on the shared drive but can't recall a single value in it. Human. Graphic 5",
+          "excerpt": "Forgetting information we know we can easily look up. Also called digital amnesia. Show example You know exactly where the spec table lives on the shared drive but can't recall a single value in it. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-zeigarnik-effect",
+          "heading": "Zeigarnik effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Zeigarnik effect"
+          ],
+          "text": "Unfinished tasks stick in memory more than completed ones. Show example You can recite the three open corrective actions in detail but can't remember the twelve you closed last month. Human. Graphic 5",
+          "excerpt": "Unfinished tasks stick in memory more than completed ones. Show example You can recite the three open corrective actions in detail but can't remember the twelve you closed last month. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-ikea-effect",
+          "heading": "IKEA effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "IKEA effect"
+          ],
+          "text": "Placing extra value on things we built or partly created ourselves. Show example Defending your homemade spreadsheet tool long after a better, supported option became available. Human. Graphic 5",
+          "excerpt": "Placing extra value on things we built or partly created ourselves. Show example Defending your homemade spreadsheet tool long after a better, supported option became available. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-tachypsychia",
+          "heading": "Tachypsychia",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Tachypsychia"
+          ],
+          "text": "Our sense of time stretches or compresses under stress, fear or exertion. Show example A near-miss with a crane load \"lasted forever,\" says the witness. The camera shows two seconds. It matters when taking incident statements. Human. Graphic 5",
+          "excerpt": "Our sense of time stretches or compresses under stress, fear or exertion. Show example A near-miss with a crane load \"lasted forever,\" says the witness. The camera shows two seconds. It matters when taking incident statements. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-false-memory",
+          "heading": "False memory",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "False memory"
+          ],
+          "text": "Remembering events that didn't happen, or that happened differently. Show example Two operators give confident, contradictory accounts of which alarm sounded first. The alarm log agrees with neither. Human. Graphic 5",
+          "excerpt": "Remembering events that didn't happen, or that happened differently. Show example Two operators give confident, contradictory accounts of which alarm sounded first. The alarm log agrees with neither. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-suggestibility",
+          "heading": "Suggestibility",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Suggestibility"
+          ],
+          "text": "Taking on ideas suggested by others as our own memories or conclusions. Show example \"Did you see sparks before it broke?\" The leading question plants sparks in the witness's memory. Human. Graphic 5",
+          "excerpt": "Taking on ideas suggested by others as our own memories or conclusions. Show example \"Did you see sparks before it broke?\" The leading question plants sparks in the witness's memory. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-cryptomnesia",
+          "heading": "Cryptomnesia",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Cryptomnesia"
+          ],
+          "text": "A forgotten memory resurfaces and is mistaken for a brand-new idea. Show example You pitch a \"totally original\" improvement idea, then realise you heard it at a conference last spring. Human. Graphic 5",
+          "excerpt": "A forgotten memory resurfaces and is mistaken for a brand-new idea. Show example You pitch a \"totally original\" improvement idea, then realise you heard it at a conference last spring. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-declinism",
+          "heading": "Declinism",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Declinism"
+          ],
+          "text": "Romanticising the past and expecting the future to be worse. Show example \"Quality was better in the old days.\" The old scrap records strongly disagree. Human. Graphic 5",
+          "excerpt": "Romanticising the past and expecting the future to be worse. Show example \"Quality was better in the old days.\" The old scrap records strongly disagree. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-pessimism-bias",
+          "heading": "Pessimism bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Pessimism bias"
+          ],
+          "text": "Overestimating the likelihood of bad outcomes. Show example Refusing to trial a promising process change because \"it will definitely generate scrap.\" Human. Graphic 5",
+          "excerpt": "Overestimating the likelihood of bad outcomes. Show example Refusing to trial a promising process change because \"it will definitely generate scrap.\" Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-optimism-bias",
+          "heading": "Optimism bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Optimism bias"
+          ],
+          "text": "Overestimating the likelihood of good outcomes. Show example A commissioning schedule assumes every step works first time. It never has, on any project, anywhere. Human. Graphic 5",
+          "excerpt": "Overestimating the likelihood of good outcomes. Show example A commissioning schedule assumes every step works first time. It never has, on any project, anywhere. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-placebo-effect",
+          "heading": "Placebo effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Judgement and memory How individual minds process information",
+            "Placebo effect"
+          ],
+          "text": "Believing a treatment will work can produce real improvement. Flagged in the source graphic as not strictly a cognitive bias. Show example Patients given a sugar pill they believe is a painkiller report meaningfully less pain. That's why good trials use a placebo control group. Human. Graphic 5",
+          "excerpt": "Believing a treatment will work can produce real improvement. Flagged in the source graphic as not strictly a cognitive bias. Show example Patients given a sugar pill they believe is a painkiller report meaningfully less pain. That's why good trials use a…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-category-social",
+          "heading": "Social and group How people judge each other and move together",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together"
+          ],
+          "text": "",
+          "excerpt": "Social and group How people judge each other and move together",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "bias-fundamental-attribution-error",
+          "heading": "Fundamental attribution error",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Fundamental attribution error"
+          ],
+          "text": "Blaming other people's behaviour on their character and our own on circumstances. Show example When night shift scraps a coil, \"they're careless.\" When we do, \"the mill was acting up.\" Human. Graphic 5",
+          "excerpt": "Blaming other people's behaviour on their character and our own on circumstances. Show example When night shift scraps a coil, \"they're careless.\" When we do, \"the mill was acting up.\" Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-self-serving-bias",
+          "heading": "Self-serving bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Self-serving bias"
+          ],
+          "text": "Crediting our successes to our own skill and our failures to outside factors. Show example Yield up: \"our project worked.\" Yield down: \"bad raw material this month.\" Human. Graphic 5",
+          "excerpt": "Crediting our successes to our own skill and our failures to outside factors. Show example Yield up: \"our project worked.\" Yield down: \"bad raw material this month.\" Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-in-group-favouritism",
+          "heading": "In-group favouritism",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "In-group favouritism"
+          ],
+          "text": "Giving more trust and leniency to people in our own group. Show example The melt shop accepts its own explanation for a chemistry miss but demands hard proof from the rolling mill. Human. Graphic 5",
+          "excerpt": "Giving more trust and leniency to people in our own group. Show example The melt shop accepts its own explanation for a chemistry miss but demands hard proof from the rolling mill. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-outgroup-homogeneity",
+          "heading": "Outgroup homogeneity",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Outgroup homogeneity"
+          ],
+          "text": "Seeing members of other groups as all alike while seeing our own group as diverse. Show example \"IT people all think the same way,\" says a quality engineer who insists quality engineers are all very different. Human. Graphic 5",
+          "excerpt": "Seeing members of other groups as all alike while seeing our own group as diverse. Show example \"IT people all think the same way,\" says a quality engineer who insists quality engineers are all very different. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-stereotyping",
+          "heading": "Stereotyping",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Stereotyping"
+          ],
+          "text": "Assuming an individual has traits we associate with their group, without real information about them. Show example \"She's from head office, she won't understand the shop floor.\" She ran a mill for eight years. Human. Graphic 5",
+          "excerpt": "Assuming an individual has traits we associate with their group, without real information about them. Show example \"She's from head office, she won't understand the shop floor.\" She ran a mill for eight years. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-implicit-bias",
+          "heading": "Implicit bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Implicit bias"
+          ],
+          "text": "Unconscious associations that shape our judgements without our awareness. Show example In field experiments, identical résumés received different callback rates depending only on the name at the top. Human. Graphic 4",
+          "excerpt": "Unconscious associations that shape our judgements without our awareness. Show example In field experiments, identical résumés received different callback rates depending only on the name at the top. Human. Graphic 4",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-groupthink",
+          "heading": "Groupthink",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Groupthink"
+          ],
+          "text": "The desire for harmony and agreement overrides critical thinking. Show example In an RCA meeting, nobody challenges the plant manager's favoured root cause, so the fishbone fills up in agreement with it. Human. Graphic 4, 5",
+          "excerpt": "The desire for harmony and agreement overrides critical thinking. Show example In an RCA meeting, nobody challenges the plant manager's favoured root cause, so the fishbone fills up in agreement with it. Human. Graphic 4, 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-bandwagon-effect",
+          "heading": "Bandwagon effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Bandwagon effect"
+          ],
+          "text": "Adopting an idea or behaviour because many others already have. Show example Every department suddenly needs \"an AI dashboard\" because other sites have one, whether or not there's a question for it to answer. Human. Graphic 5",
+          "excerpt": "Adopting an idea or behaviour because many others already have. Show example Every department suddenly needs \"an AI dashboard\" because other sites have one, whether or not there's a question for it to answer. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-authority-bias",
+          "heading": "Authority bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Authority bias"
+          ],
+          "text": "Giving extra weight to an authority figure's opinion regardless of the evidence. Show example The VP's gut feel about the root cause beats the data in the review meeting. Human. Graphic 5",
+          "excerpt": "Giving extra weight to an authority figure's opinion regardless of the evidence. Show example The VP's gut feel about the root cause beats the data in the review meeting. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-halo-effect",
+          "heading": "Halo effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Halo effect"
+          ],
+          "text": "One positive trait colours our impression of everything else about a person or thing. It works for negative traits too. Show example A supplier with a slick presentation and a glossy brochure is assumed to have tight process control as well. Human. Graphic 5",
+          "excerpt": "One positive trait colours our impression of everything else about a person or thing. It works for negative traits too. Show example A supplier with a slick presentation and a glossy brochure is assumed to have tight process control as well. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-false-consensus-effect",
+          "heading": "False consensus effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "False consensus effect"
+          ],
+          "text": "Overestimating how many people share our opinions. Show example \"Everyone hates the new system,\" according to the three people you had lunch with. Human. Graphic 5",
+          "excerpt": "Overestimating how many people share our opinions. Show example \"Everyone hates the new system,\" according to the three people you had lunch with. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-spotlight-effect",
+          "heading": "Spotlight effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Spotlight effect"
+          ],
+          "text": "Believing others notice our appearance and mistakes far more than they do. Show example You fumble one slide and assume the whole room is still thinking about it next week. Most forgot by coffee break. Human. Graphic 5",
+          "excerpt": "Believing others notice our appearance and mistakes far more than they do. Show example You fumble one slide and assume the whole room is still thinking about it next week. Most forgot by coffee break. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-defensive-attribution",
+          "heading": "Defensive attribution",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Defensive attribution"
+          ],
+          "text": "Blaming a victim less when we can imagine being in their position, and more when we can't. Show example Engineers go easy on a peer's spreadsheet error (\"could've been me\") but come down hard on an operator for a similar slip. Human. Graphic 5",
+          "excerpt": "Blaming a victim less when we can imagine being in their position, and more when we can't. Show example Engineers go easy on a peer's spreadsheet error (\"could've been me\") but come down hard on an operator for a similar slip. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-bystander-effect",
+          "heading": "Bystander effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Bystander effect"
+          ],
+          "text": "The more people present, the less likely any one of them is to act. Flagged in the source graphic as not strictly a cognitive bias. Show example Twenty people walk past an oil leak on the walkway, each assuming someone else already reported it. Human. Graphic 5",
+          "excerpt": "The more people present, the less likely any one of them is to act. Flagged in the source graphic as not strictly a cognitive bias. Show example Twenty people walk past an oil leak on the walkway, each assuming someone else already reported it. Human. Graphic…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-ben-franklin-effect",
+          "heading": "Ben Franklin effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Ben Franklin effect"
+          ],
+          "text": "We tend to like people more after doing them a favour. Show example Asking a sceptical colleague to review your analysis often turns them into its biggest supporter. Human. Graphic 5",
+          "excerpt": "We tend to like people more after doing them a favour. Show example Asking a sceptical colleague to review your analysis often turns them into its biggest supporter. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-availability-cascade",
+          "heading": "Availability cascade",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Availability cascade"
+          ],
+          "text": "A belief becomes more credible simply by being repeated in public. Show example \"Wet flux causes all our porosity\" gets said in enough meetings that it's treated as fact. Nobody has tested it. Human. Graphic 5",
+          "excerpt": "A belief becomes more credible simply by being repeated in public. Show example \"Wet flux causes all our porosity\" gets said in enough meetings that it's treated as fact. Nobody has tested it. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-third-person-effect",
+          "heading": "Third-person effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Social and group How people judge each other and move together",
+            "Third-person effect"
+          ],
+          "text": "Believing other people are more influenced by media and advertising than we are. Show example \"Those ads work on other people, not me,\" said while wearing the advertised boots. Human. Graphic 5",
+          "excerpt": "Believing other people are more influenced by media and advertising than we are. Show example \"Those ads work on other people, not me,\" said while wearing the advertised boots. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-category-belief",
+          "heading": "Belief and persuasion How we decide what is true",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Belief and persuasion How we decide what is true"
+          ],
+          "text": "",
+          "excerpt": "Belief and persuasion How we decide what is true",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "bias-confirmation-bias",
+          "heading": "Confirmation bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Belief and persuasion How we decide what is true",
+            "Confirmation bias"
+          ],
+          "text": "Seeking out, noticing and remembering information that supports what we already believe. Show example Convinced a sliver defect starts at the caster, a team pulls only caster data and never looks at the reheat furnace. Human. Graphic 2, 4, 5, 6",
+          "excerpt": "Seeking out, noticing and remembering information that supports what we already believe. Show example Convinced a sliver defect starts at the caster, a team pulls only caster data and never looks at the reheat furnace. Human. Graphic 2, 4, 5, 6",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-belief-bias",
+          "heading": "Belief bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Belief and persuasion How we decide what is true",
+            "Belief bias"
+          ],
+          "text": "Judging an argument's logic by whether we like its conclusion. Show example A flawed analysis showing your process is capable sails through review. A sound one saying it isn't gets picked apart. Human. Graphic 5",
+          "excerpt": "Judging an argument's logic by whether we like its conclusion. Show example A flawed analysis showing your process is capable sails through review. A sound one saying it isn't gets picked apart. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-backfire-effect",
+          "heading": "Backfire effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Belief and persuasion How we decide what is true",
+            "Backfire effect"
+          ],
+          "text": "Evidence against a belief can make some people hold it more firmly. Show example Showing a manager that his pet project didn't move the metric leads to a louder defence of the project. Human. Graphic 5",
+          "excerpt": "Evidence against a belief can make some people hold it more firmly. Show example Showing a manager that his pet project didn't move the metric leads to a louder defence of the project. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-reactance",
+          "heading": "Reactance",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Belief and persuasion How we decide what is true",
+            "Reactance"
+          ],
+          "text": "Doing the opposite of what we're told when we feel our freedom is being restricted. Show example A heavy-handed memo on a new rule triggers more shortcuts than a five-minute conversation explaining why would have. Human. Graphic 5",
+          "excerpt": "Doing the opposite of what we're told when we feel our freedom is being restricted. Show example A heavy-handed memo on a new rule triggers more shortcuts than a five-minute conversation explaining why would have. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-naive-realism",
+          "heading": "Naive realism",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Belief and persuasion How we decide what is true",
+            "Naive realism"
+          ],
+          "text": "Believing we see the world objectively and that people who disagree must be uninformed or biased. Show example \"The data is obvious. Anyone who reads it differently just doesn't get it.\" Human. Graphic 5",
+          "excerpt": "Believing we see the world objectively and that people who disagree must be uninformed or biased. Show example \"The data is obvious. Anyone who reads it differently just doesn't get it.\" Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-naive-cynicism",
+          "heading": "Naive cynicism",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Belief and persuasion How we decide what is true",
+            "Naive cynicism"
+          ],
+          "text": "Expecting others to be more self-interested than they really are. Show example \"She only joined the kaizen team to look good for promotion.\" She joined because the problem annoyed her. Human. Graphic 5",
+          "excerpt": "Expecting others to be more self-interested than they really are. Show example \"She only joined the kaizen team to look good for promotion.\" She joined because the problem annoyed her. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-blind-spot-bias",
+          "heading": "Blind spot bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Belief and persuasion How we decide what is true",
+            "Blind spot bias"
+          ],
+          "text": "Recognising bias in other people while believing we're less affected ourselves. Show example Reading this entire field guide and thinking mainly of your co-workers. Human. Graphic 5",
+          "excerpt": "Recognising bias in other people while believing we're less affected ourselves. Show example Reading this entire field guide and thinking mainly of your co-workers. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-just-world-hypothesis",
+          "heading": "Just-world hypothesis",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Belief and persuasion How we decide what is true",
+            "Just-world hypothesis"
+          ],
+          "text": "Assuming people generally get what they deserve. Show example \"He got laid off? He must not have been pulling his weight.\" The whole department was cut. Human. Graphic 5",
+          "excerpt": "Assuming people generally get what they deserve. Show example \"He got laid off? He must not have been pulling his weight.\" The whole department was cut. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-moral-luck",
+          "heading": "Moral luck",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Belief and persuasion How we decide what is true",
+            "Moral luck"
+          ],
+          "text": "Judging a decision by its outcome rather than by the quality of the decision itself. Show example Two operators skip the same lockout step. One gets lucky, one causes an incident. Only one gets disciplined. Human. Graphic 5",
+          "excerpt": "Judging a decision by its outcome rather than by the quality of the decision itself. Show example Two operators skip the same lockout step. One gets lucky, one causes an incident. Only one gets disciplined. Human. Graphic 5",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-forer-effect",
+          "heading": "Forer effect",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Belief and persuasion How we decide what is true",
+            "Forer effect"
+          ],
+          "text": "Accepting vague, general statements as uniquely accurate descriptions of ourselves. Also called the Barnum effect. Show example \"You have a lot of unused potential and sometimes doubt your decisions.\" That describes nearly everyone who reads a horoscope. Human. Graphic 5",
+          "excerpt": "Accepting vague, general statements as uniquely accurate descriptions of ourselves. Also called the Barnum effect. Show example \"You have a lot of unused potential and sometimes doubt your decisions.\" That describes nearly everyone who reads a horoscope.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-ranking-bias",
+          "heading": "Ranking bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Belief and persuasion How we decide what is true",
+            "Ranking bias"
+          ],
+          "text": "Items placed higher in a list get chosen or trusted more, regardless of merit. Show example Most clicks go to the top three search results. The supplier listed first in the purchasing dropdown gets picked the most. Human. Graphic 4",
+          "excerpt": "Items placed higher in a list get chosen or trusted more, regardless of merit. Show example Most clicks go to the top three search results. The supplier listed first in the purchasing dropdown gets picked the most. Human. Graphic 4",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-category-sys",
+          "heading": "Systemic What history and institutions bake in",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Systemic What history and institutions bake in"
+          ],
+          "text": "",
+          "excerpt": "Systemic What history and institutions bake in",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "bias-historical-bias",
+          "heading": "Historical bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Systemic What history and institutions bake in",
+            "Historical bias"
+          ],
+          "text": "The data accurately records a past that was itself unfair or unrepresentative. Show example A hiring model trained on 20 years of engineering hires learns that successful engineers are mostly men, because mostly men were hired. Systemic. Graphic 4",
+          "excerpt": "The data accurately records a past that was itself unfair or unrepresentative. Show example A hiring model trained on 20 years of engineering hires learns that successful engineers are mostly men, because mostly men were hired. Systemic. Graphic 4",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-social-bias",
+          "heading": "Social bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Systemic What history and institutions bake in",
+            "Social bias"
+          ],
+          "text": "Shared norms and stereotypes in society seep into data and decisions. Show example Image datasets label people in kitchens as women more often than the photos justify, and models trained on them repeat it. Systemic. Graphic 4",
+          "excerpt": "Shared norms and stereotypes in society seep into data and decisions. Show example Image datasets label people in kitchens as women more often than the photos justify, and models trained on them repeat it. Systemic. Graphic 4",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "bias-institutional-bias",
+          "heading": "Institutional bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "The field guide: 83 biases",
+            "Systemic What history and institutions bake in",
+            "Institutional bias"
+          ],
+          "text": "An organisation's policies and practices produce skewed outcomes even when individuals mean well. Show example A promotion rule that rewards weekend overtime quietly disadvantages employees with caregiving responsibilities. Systemic. Graphic 4 No biases match that search. Try a broader word like \"data\" or \"memory\".",
+          "excerpt": "An organisation's policies and practices produce skewed outcomes even when individuals mean well. Show example A promotion rule that rewards weekend overtime quietly disadvantages employees with caregiving responsibilities. Systemic. Graphic 4 No biases match…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-name-that-bias",
+          "heading": "Name that bias",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Name that bias"
+          ],
+          "text": "Nine scenarios. Pick the bias that's doing the damage.",
+          "excerpt": "Nine scenarios. Pick the bias that's doing the damage.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-how-to-fight-back",
+          "heading": "How to fight back",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "How to fight back"
+          ],
+          "text": "You can't switch bias off, in data or in people. You can design processes that catch it.",
+          "excerpt": "You can't switch bias off, in data or in people. You can design processes that catch it.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-randomize-and-stratify",
+          "heading": "Randomize and stratify",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "How to fight back",
+            "Randomize and stratify"
+          ],
+          "text": "Let chance pick the sample, and make sure every subgroup gets represented. Beats: sampling, selection, undercoverage, self-selection.",
+          "excerpt": "Let chance pick the sample, and make sure every subgroup gets represented. Beats: sampling, selection, undercoverage, self-selection.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-count-what-s-missing",
+          "heading": "Count what's missing",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "How to fight back",
+            "Count what's missing"
+          ],
+          "text": "Track dropouts, non-responders, scrapped units and excluded rows. Ask who never made it into the dataset. Beats: survivorship, attrition, nonresponse, exclusion.",
+          "excerpt": "Track dropouts, non-responders, scrapped units and excluded rows. Ask who never made it into the dataset. Beats: survivorship, attrition, nonresponse, exclusion.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-design-the-questions-carefully",
+          "heading": "Design the questions carefully",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "How to fight back",
+            "Design the questions carefully"
+          ],
+          "text": "Use neutral wording, randomize question order, keep surveys short, and collect sensitive answers anonymously. Beats: interview, question order, conformity, demand characteristics, neutral and extreme response.",
+          "excerpt": "Use neutral wording, randomize question order, keep surveys short, and collect sensitive answers anonymously. Beats: interview, question order, conformity, demand characteristics, neutral and extreme response.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-blind-the-observer",
+          "heading": "Blind the observer",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "How to fight back",
+            "Blind the observer"
+          ],
+          "text": "Hide the group label, heat history or expected answer from whoever measures or judges. Beats: observer, confirmation, halo, implicit.",
+          "excerpt": "Hide the group label, heat history or expected answer from whoever measures or judges. Beats: observer, confirmation, halo, implicit.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-validate-the-measurement-system",
+          "heading": "Validate the measurement system",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "How to fight back",
+            "Validate the measurement system"
+          ],
+          "text": "Check bias, linearity, stability and repeatability before trusting the numbers. Beats: measurement, error propagation.",
+          "excerpt": "Check bias, linearity, stability and repeatability before trusting the numbers. Beats: measurement, error propagation.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-decide-the-test-before-the-data",
+          "heading": "Decide the test before the data",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "How to fight back",
+            "Decide the test before the data"
+          ],
+          "text": "Write down the hypothesis and analysis plan first, and correct for multiple comparisons. Beats: model selection, confirmation, clustering illusion.",
+          "excerpt": "Write down the hypothesis and analysis plan first, and correct for multiple comparisons. Beats: model selection, confirmation, clustering illusion.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-hunt-for-confounders",
+          "heading": "Hunt for confounders",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "How to fight back",
+            "Hunt for confounders"
+          ],
+          "text": "Use designed experiments where you can, and stratify or adjust where you can't. Beats: omitted variable, cause-effect.",
+          "excerpt": "Use designed experiments where you can, and stratify or adjust where you can't. Beats: omitted variable, cause-effect.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-monitor-after-launch",
+          "heading": "Monitor after launch",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "How to fight back",
+            "Monitor after launch"
+          ],
+          "text": "Control-chart model inputs and errors, and audit how the tool is actually used on the floor. Beats: concept drift, feedback loops, deployment, temporal.",
+          "excerpt": "Control-chart model inputs and errors, and audit how the tool is actually used on the floor. Beats: concept drift, feedback loops, deployment, temporal.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-argue-with-yourself",
+          "heading": "Argue with yourself",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "How to fight back",
+            "Argue with yourself"
+          ],
+          "text": "Run a pre-mortem, appoint a devil's advocate, and let the most junior person speak first. Beats: groupthink, authority, bandwagon, sunk cost.",
+          "excerpt": "Run a pre-mortem, appoint a devil's advocate, and let the most junior person speak first. Beats: groupthink, authority, bandwagon, sunk cost.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-judge-the-decision-not-the-outcome",
+          "heading": "Judge the decision, not the outcome",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "How to fight back",
+            "Judge the decision, not the outcome"
+          ],
+          "text": "Ask whether the choice was sound given what was known at the time. Beats: moral luck, self-serving, hindsight-driven recall.",
+          "excerpt": "Ask whether the choice was sound given what was known at the time. Beats: moral luck, self-serving, hindsight-driven recall.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-statistics-implementation",
+          "heading": "Statistics Implementation",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Statistics Implementation"
+          ],
+          "text": "Use a reference standard to check measurement bias, and compare the sampling mix with the population you intend to describe. A spreadsheet can reveal a mismatch; it cannot repair an unrepresentative sampling plan by itself.",
+          "excerpt": "Use a reference standard to check measurement bias, and compare the sampling mix with the population you intend to describe. A spreadsheet can reveal a mismatch; it cannot repair an unrepresentative sampling plan by itself.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-excel-functions",
+          "heading": "Excel Functions",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Statistics Implementation",
+            "Excel Functions"
+          ],
+          "text": "Function Syntax Purpose When to use it AVERAGE AVERAGE(number1, [number2], …) Mean of measurements Compare a gauge's mean reading with a known reference. VAR.S VAR.S(number1, [number2], …) Sample variance with the n − 1 correction Estimate variance from a sample of repeated readings. VAR.P VAR.P(number1, [number2], …) Variance of the entire supplied population, divided by n Use only when those readings really constitute the entire population of interest. COUNTIF / COUNTIFS COUNTIF(range, criteria) COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2], …) Count records in one or several groups Compare tested and untested units across shifts, coil positions, or other strata. AVERAGEIF / AVERAGEIFS AVERAGEIF(range, criteria, [average_range]) AVERAGEIFS(average_range, criteria_range1, criteria1, [criteria_range2, criteria2], …) Compare means within defined groups Check whether day/night or head/middle/tail samples differ.",
+          "excerpt": "Function Syntax Purpose When to use it AVERAGE AVERAGE(number1, [number2], …) Mean of measurements Compare a gauge's mean reading with a known reference. VAR.S VAR.S(number1, [number2], …) Sample variance with the n − 1 correction Estimate variance from a…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-excel-use-cases",
+          "heading": "Excel Use Cases",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Statistics Implementation",
+            "Excel Use Cases"
+          ],
+          "text": "Gauge offset: Enter four readings of a 10.00 mm reference in B2:B5 : 10.2, 10.3, 10.1, 10.4. =AVERAGE(B2:B5)-10 gives +0.25 mm . =VAR.S(B2:B5) gives about 0.0167 mm² , whereas =VAR.P(B2:B5) gives 0.0125 mm² . The first is a sample variance estimate; the second treats these four readings as the full population. Coverage audit: If C2:C101 contains shifts and D2:D101 contains “Yes” for sampled units, =COUNTIFS(C2:C101,\"Night\",D2:D101,\"Yes\") counts night-shift samples. Divide by COUNTIF(C2:C101,\"Night\") to compare the night sampling rate with other shifts. Check that the denominator is nonzero. Stratified mean: If coil position is in E2:E101 and toughness is in F2:F101 , =AVERAGEIF(E2:E101,\"Middle\",F2:F101) gives the middle-coil mean. For a second condition, =AVERAGEIFS(F2:F101,E2:E101,\"Middle\",C2:C101,\"Night\") gives the night-shift middle-coil mean. Treat differences as a cue to investigate the sampling design, not proof of causation.",
+          "excerpt": "Gauge offset: Enter four readings of a 10.00 mm reference in B2:B5 : 10.2, 10.3, 10.1, 10.4. =AVERAGE(B2:B5)-10 gives +0.25 mm . =VAR.S(B2:B5) gives about 0.0167 mm² , whereas =VAR.P(B2:B5) gives 0.0125 mm² . The first is a sample variance estimate; the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-minitab-navigation",
+          "heading": "Minitab Navigation",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Statistics Implementation",
+            "Minitab Navigation"
+          ],
+          "text": "For repeated readings of a reference across the operating range, use Stat → Quality Tools → Gage Study → Gage Linearity and Bias Study . This is the direct choice for checking whether bias changes with the reference value. For repeated readings of one reference part, use Stat → Quality Tools → Gage Study → Type 1 Gage Study to assess bias and repeatability together. To compare subgroup counts and means before drawing conclusions from a sample, use Stat → Basic Statistics → Display Descriptive Statistics and specify the response and grouping variable. A descriptive summary helps detect imbalance; it does not make a convenience sample representative.",
+          "excerpt": "For repeated readings of a reference across the operating range, use Stat → Quality Tools → Gage Study → Gage Linearity and Bias Study . This is the direct choice for checking whether bias changes with the reference value. For repeated readings of one…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-exam-tips",
+          "heading": "Exam Tips",
+          "breadcrumb": [
+            "The Lean: A Field Guide to Bias",
+            "Statistics Implementation",
+            "Exam Tips"
+          ],
+          "text": "For CSSBB and CQE practice, first locate where the bias entered: selection, measurement, analysis, or interpretation. In measurement questions, separate bias (average offset from a reference) from repeatability (scatter of repeated readings). In sampling questions, identify who or what is missing before calculating a more precise estimate. State the population and sampling frame explicitly in a real analysis. Software references: Microsoft Excel statistical functions ; Minitab Gage Linearity and Bias Study ; Minitab Type 1 Gage Study ; Minitab descriptive statistics . Built as a teaching page. Definitions and examples are written fresh for this lesson; the bias list is compiled from the six reference graphics supplied. Note: placebo and bystander effects are flagged in the source graphic as important biases that aren't strictly cognitive biases.",
+          "excerpt": "For CSSBB and CQE practice, first locate where the bias entered: selection, measurement, analysis, or interpretation. In measurement questions, separate bias (average offset from a reference) from repeatability (scatter of repeated readings). In sampling…",
+          "kinds": [
+            "section",
+            "example"
           ]
         }
       ]

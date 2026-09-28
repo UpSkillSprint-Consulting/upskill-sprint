@@ -87,6 +87,18 @@
       description: 'Hunt down rogue data points with Z-scores, Modified Z-scores, Tukey fences, and Grubbs\u2019 test using a live steel-mill and mine-site investigation lab with switchable chart views.'
     },
     {
+      marker: 'data-the-lean-a-field-guide-to-bias',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/the-lean-a-field-guide-to-bias',
+      topic: 'statistics',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'statistical bias cognitive bias systemic bias survivorship selection sampling measurement nonresponse attrition model selection confirmation clustering illusion gambler fallacy gauge linearity bessel correction excel minitab quality engineering',
+      meta: '<span>Beginner</span><span>Interactive</span><span>65 min</span><span>3 printable posters</span>',
+      title: 'The Lean: A Field Guide to Bias',
+      description: 'Explore systematic, cognitive and systemic bias through 83 examples, interactive simulations, a quiz and three printable posters.'
+    },
+    {
       marker: 'data-probability-basics-the-language-of-chance',
       sectionId: 'statistics',
       path: '/lessons/statistics/probability-basics-the-language-of-chance',
