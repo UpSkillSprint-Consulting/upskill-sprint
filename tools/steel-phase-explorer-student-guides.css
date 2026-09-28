@@ -1,0 +1,22 @@
+/* Student guides: one bar per tab, visible only in Student mode, plus a modal guide dialog. */
+.spx-student-guide-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 14px;padding:10px 14px;border:1px solid var(--spx-border);border-left:4px solid var(--spx-accent);border-radius:10px;background:var(--spx-surface)}
+.spx-student-guide-bar p{margin:0;color:var(--spx-muted);font-size:.9rem}
+#spx-tool:not([data-workspace-mode="student"]) .spx-student-guide-bar{display:none}
+.spx-student-guide-bar[hidden]{display:none}
+.spx-student-guide-dialog{position:fixed;z-index:2000;inset:0;display:grid;place-items:center;padding:18px;background:rgba(16,24,40,.55)}
+.spx-student-guide-dialog[hidden]{display:none}
+.spx-student-guide-card{width:min(720px,100%);max-height:min(86vh,820px);overflow:auto;padding:20px 22px;border:1px solid var(--spx-border);border-radius:14px;background:var(--spx-bg);color:var(--spx-text);box-shadow:0 24px 80px rgba(16,24,40,.28)}
+.spx-student-guide-card:focus{outline:none}
+.spx-student-guide-card h2{margin:0 0 6px;font-size:1.2rem;line-height:1.3}
+.spx-student-guide-card h3{margin:18px 0 6px;font-size:1rem}
+.spx-student-guide-purpose{margin:0;color:var(--spx-text);font-size:.95rem;line-height:1.5}
+.spx-student-guide-card p,.spx-student-guide-card li,.spx-student-guide-card dd{color:var(--spx-muted);font-size:.9rem;line-height:1.55}
+.spx-student-guide-card ol{margin:0;padding-left:1.3em}
+.spx-student-guide-card li{margin:0 0 5px}
+.spx-student-guide-read{margin:0}
+.spx-student-guide-read dt{margin:10px 0 2px;font-weight:600;font-size:.9rem;color:var(--spx-text)}
+.spx-student-guide-read dd{margin:0}
+.spx-student-guide-actions{display:flex;justify-content:flex-end;margin-top:18px}
+.spx-student-guide-bar .spx-btn:focus-visible,.spx-student-guide-actions .spx-btn:focus-visible{outline:3px solid var(--spx-accent);outline-offset:2px}
+@media (max-width:640px){.spx-student-guide-card{padding:16px}.spx-student-guide-bar{padding:10px 12px}.spx-student-guide-bar .spx-btn{width:100%}}
+@media print{.spx-student-guide-bar,.spx-student-guide-dialog{display:none!important}}
