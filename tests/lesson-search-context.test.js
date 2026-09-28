@@ -23,9 +23,9 @@ async function waitFor(window, predicate, timeout = 2000) {
   assert.fail('timed out waiting for lesson search context');
 }
 
-function browserFixture(hash) {
+function browserFixture(hash, initialContent = '') {
   const dom = new JSDOM(
-    '<!doctype html><html><head></head><body data-lesson-page="true"><main id="lesson-content"></main></body></html>',
+    '<!doctype html><html><head></head><body data-lesson-page="true"><main id="lesson-content">' + initialContent + '</main></body></html>',
     {
       url: 'https://upskillsprint.com/lessons/example' + hash,
       runScripts: 'dangerously',
@@ -143,6 +143,37 @@ test('a standard raw anchor is focused after its target is injected', async () =
   assert.equal(heading.getAttribute('data-test-scrolled'), 'true');
   assert.equal(document.activeElement, heading);
   assert.equal(document.getElementById('lesson-search-context'), null);
+  dom.window.LessonSearchContext.destroy();
+  dom.window.close();
+});
+
+test('a standard raw anchor already in the document relies on native scrolling', async () => {
+  const dom = browserFixture(
+    '#worked-example',
+    '<h2 id="worked-example">Worked example</h2>'
+  );
+  const { document } = dom.window;
+  const heading = document.getElementById('worked-example');
+  await waitFor(dom.window, () => document.activeElement === heading);
+
+  assert.equal(heading.getAttribute('data-test-scrolled'), null);
+  assert.equal(document.activeElement, heading);
+  assert.equal(document.getElementById('lesson-search-context'), null);
+  dom.window.LessonSearchContext.destroy();
+  dom.window.close();
+});
+
+test('hash changes to an existing raw anchor do not start a second scroll', async () => {
+  const dom = browserFixture('', '<h2 id="variance">Variance</h2>');
+  const { document } = dom.window;
+  const heading = document.getElementById('variance');
+  await settle(dom.window, 30);
+
+  dom.window.location.hash = '#variance';
+  await waitFor(dom.window, () => document.activeElement === heading);
+
+  assert.equal(heading.getAttribute('data-test-scrolled'), null);
+  assert.equal(document.activeElement, heading);
   dom.window.LessonSearchContext.destroy();
   dom.window.close();
 });

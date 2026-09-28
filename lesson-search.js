@@ -845,18 +845,14 @@
         ui.suggestions.appendChild(option);
       });
       ui.suggestions.hidden = false;
-      reserveSuggestionSpace();
+      markSuggestionsOpen();
       input.setAttribute('aria-expanded', 'true');
       ui.suggestionStatus.textContent = suggestions.length + (suggestions.length === 1 ? ' suggestion available.' : ' suggestions available.') + ' Use the up and down arrow keys to review them.';
     }
 
-    function reserveSuggestionSpace() {
-      // The list is an anchored popup, but the filters and scope controls that
-      // follow it must remain visible and directly clickable. Reserve the
-      // popup's real height instead of letting it cover those controls.
-      const measuredHeight = Math.ceil(ui.suggestions.getBoundingClientRect().height || ui.suggestions.scrollHeight || 0);
-      const estimatedHeight = Math.min(390, 12 + (state.suggestions.length * 59));
-      filterForm.style.setProperty('--lesson-search-suggestion-space', Math.max(measuredHeight, estimatedHeight) + 10 + 'px');
+    function markSuggestionsOpen() {
+      // CSS keeps the list in normal layout flow. This avoids brittle measured
+      // offsets and custom-property scope across sibling containers.
       filterForm.classList.add('lesson-search-suggestions-open');
     }
 
@@ -865,7 +861,6 @@
       state.suggestions = [];
       ui.suggestions.hidden = true;
       filterForm.classList.remove('lesson-search-suggestions-open');
-      filterForm.style.removeProperty('--lesson-search-suggestion-space');
       input.setAttribute('aria-expanded', 'false');
       input.removeAttribute('aria-activedescendant');
       ui.suggestionStatus.textContent = '';

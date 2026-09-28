@@ -448,7 +448,7 @@
     });
   }
 
-  function focusAndScroll(target) {
+  function focusAndScroll(target, shouldScroll) {
     if (!target) return;
 
     target.setAttribute(TARGET_ATTRIBUTE, 'true');
@@ -460,7 +460,7 @@
     var reduceMotion = root && typeof root.matchMedia === 'function' &&
       root.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (typeof target.scrollIntoView === 'function') {
+    if (shouldScroll && typeof target.scrollIntoView === 'function') {
       try {
         target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
       } catch (error) {
@@ -493,14 +493,23 @@
     var doc = root.document;
     var state = root.__upskillLessonSearchContextState || {
       handledSignature: '',
+      nativeRawSignature: '',
       scheduled: false,
       observer: null,
       observing: false
     };
     root.__upskillLessonSearchContextState = state;
+    if (typeof state.nativeRawSignature !== 'string') state.nativeRawSignature = '';
 
     function signature(context) {
       return [context.section, context.search, context.from, context.parameterized ? 'params' : 'raw'].join('|');
+    }
+
+    function rememberNativeRawTarget() {
+      var context = parseHash(root.location.hash);
+      state.nativeRawSignature = !context.parameterized && context.section && doc.getElementById(context.section)
+        ? signature(context)
+        : '';
     }
 
     function stopObserving() {
@@ -559,7 +568,13 @@
         ? root.requestAnimationFrame.bind(root)
         : function (callback) { return root.setTimeout(callback, 0); };
       scheduleFrame(function () {
-        scheduleFrame(function () { focusAndScroll(target); });
+        scheduleFrame(function () {
+          // A normal #anchor present when navigation occurred is positioned by
+          // the browser. Do not start a second smooth scroll that can race the
+          // lesson's next interaction. Late raw targets and parameterized
+          // search hashes still require programmatic positioning.
+          focusAndScroll(target, context.parameterized || state.nativeRawSignature !== currentSignature);
+        });
       });
 
       return true;
@@ -579,6 +594,7 @@
       root.addEventListener('hashchange', function () {
         stopObserving();
         state.handledSignature = '';
+        rememberNativeRawTarget();
         clearPreviousTarget(doc);
         clearHighlights(doc);
         var banner = doc.getElementById(BANNER_ID);
@@ -591,6 +607,7 @@
     if (doc.readyState === 'loading') {
       doc.addEventListener('DOMContentLoaded', schedule, { once: true });
     }
+    rememberNativeRawTarget();
     schedule();
     return state;
   }

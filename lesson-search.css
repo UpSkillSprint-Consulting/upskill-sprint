@@ -61,15 +61,6 @@
   align-items: flex-start;
 }
 
-/* Keep the anchored autocomplete from covering the scope controls beneath it.
-   JavaScript sets this custom property from the rendered popup height. */
-@media (min-width: 981px) {
-  .library-tools.lesson-search-suggestions-open + .lesson-search-options,
-  .library-tools.lesson-search-suggestions-open + .lesson-search-modes {
-    margin-top: var(--lesson-search-suggestion-space, 0);
-  }
-}
-
 .lesson-search-options > .lesson-search-privacy {
   max-width: 430px;
   margin-top: 17px;
@@ -77,17 +68,25 @@
 }
 
 .lesson-search-suggestions {
-  position: absolute;
-  z-index: 35;
-  top: calc(100% + 7px);
-  right: 0;
-  left: 0;
+  position: static;
+  width: 100%;
   overflow: hidden auto;
   max-height: min(390px, 56vh);
   border: 1px solid var(--line);
   border-radius: 10px;
   background: var(--card);
   box-shadow: 0 18px 46px rgba(15, 42, 67, .18);
+}
+
+.library-tools.lesson-search-suggestions-open {
+  align-items: start;
+}
+
+@media (min-width: 981px) {
+  .library-tools.lesson-search-suggestions-open > .filter-toggle,
+  .library-tools.lesson-search-suggestions-open > .clear-filters {
+    margin-top: 25px;
+  }
 }
 
 .lesson-search-suggestion-heading {
@@ -497,13 +496,6 @@ html[data-theme="dark"] #lesson-search[role="combobox"] {
     grid-column: 1 / -1;
   }
 
-  .library-tools.lesson-search-suggestions-open > .lesson-search-shell {
-    margin-bottom: var(--lesson-search-suggestion-space, 0);
-  }
-
-  .lesson-search-suggestions {
-    top: calc(100% + 7px);
-  }
 }
 
 @media (max-width: 700px) {

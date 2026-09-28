@@ -7,6 +7,7 @@ const { JSDOM } = require('jsdom');
 const root = path.resolve(__dirname, '..');
 const coreSource = fs.readFileSync(path.join(root, 'lesson-search-core.js'), 'utf8');
 const uiSource = fs.readFileSync(path.join(root, 'lesson-search.js'), 'utf8');
+const cssSource = fs.readFileSync(path.join(root, 'lesson-search.css'), 'utf8');
 
 const index = {
   version: 1,
@@ -208,7 +209,7 @@ test('mode chips narrow matches to formulas without changing the query', async (
   dom.window.close();
 });
 
-test('open suggestions reserve space and do not intercept mode or filter controls', async () => {
+test('open suggestions stay in layout flow and do not intercept mode or filter controls', async () => {
   const dom = await setup();
   const document = dom.window.document;
   const input = await enterQuery(dom, 'mean');
@@ -219,7 +220,10 @@ test('open suggestions reserve space and do not intercept mode or filter control
   assert.equal(input.getAttribute('aria-expanded'), 'true');
   assert.equal(suggestions.hidden, false);
   assert.equal(form.classList.contains('lesson-search-suggestions-open'), true);
-  assert.match(form.style.getPropertyValue('--lesson-search-suggestion-space'), /^\d+px$/);
+  assert.equal(form.style.getPropertyValue('--lesson-search-suggestion-space'), '');
+  assert.match(cssSource, /\.lesson-search-suggestions\s*\{[^}]*position:\s*static;/s);
+  assert.doesNotMatch(cssSource, /--lesson-search-suggestion-space/);
+  assert.doesNotMatch(uiSource, /--lesson-search-suggestion-space/);
 
   formulaButton.click();
   assert.equal(formulaButton.getAttribute('aria-pressed'), 'true');
