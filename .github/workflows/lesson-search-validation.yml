@@ -1,0 +1,68 @@
+name: Smart lesson search validation
+
+on:
+  # Run for every pull request. Lesson generators consume sources outside the
+  # obvious lesson folders, so a path filter can silently miss future inputs.
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lesson-search-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - name: Build the complete lesson search index
+        run: npm run build:lesson-search-index
+      - name: Prove the generated index is deterministic
+        shell: bash
+        run: |
+          cp assets/search/lesson-search-index.json /tmp/lesson-search-index.json
+          npm run build:lesson-search-index
+          cmp /tmp/lesson-search-index.json assets/search/lesson-search-index.json
+      - name: Require the committed index to match checked-in lesson sources
+        run: git diff --exit-code -- assets/search/lesson-search-index.json
+      - name: Validate search runtime syntax
+        run: |
+          node --check lesson-search-core.js
+          node --check lesson-search.js
+          node --check lesson-search-context.js
+          node --check netlify/functions/lesson-search-analytics.mjs
+          node --check netlify/functions/lesson-search-analytics-cleanup.mjs
+          node --check scripts/build-lesson-search-index.mjs
+      - name: Run search, index, privacy, and catalog regressions
+        run: |
+          node --test --test-concurrency=1 \
+            tests/lesson-search*.test.js \
+            tests/lesson-level-filter.test.js \
+            tests/exam-practice-section.test.js \
+            tests/lesson-library-build-parseable.test.js \
+            tests/lesson-meta-coverage.test.js
+      - name: Build the exact production site and generated lessons
+        run: npm run build:site
+      - name: Require generated SQL lesson content in the production index
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          const index = JSON.parse(fs.readFileSync('assets/search/lesson-search-index.json', 'utf8'));
+          const sql = index.lessons.find((lesson) => lesson.path === '/lessons/writing-your-first-sql-query');
+          if (!sql?.contentAvailable || sql.placeholder || sql.sections.length < 2) {
+            throw new Error('Generated SQL lesson is missing searchable production sections.');
+          }
+          NODE
+      - name: Revalidate the production catalog and search index
+        run: node --test --test-concurrency=1 tests/lesson-search-index.test.js

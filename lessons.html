@@ -15,6 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/lesson-search.css">
   <style>
     .lessons-hero {
       padding: 72px 0 36px;
@@ -62,6 +63,7 @@
       gap: 7px;
     }
     .filter-field > span,
+    .filter-field > label,
     .filter-toggle > span:first-child {
       color: var(--ink-soft);
       font-size: 12px;
@@ -434,10 +436,11 @@
     <section class="lesson-library" id="lesson-library">
       <div class="wrap">
         <form class="library-tools" id="lesson-filters" role="search" onsubmit="return false;">
-          <label class="filter-field">
-            <span>Search lessons</span>
-            <input id="lesson-search" type="search" placeholder="Try ANOVA, control charts, Excel..." autocomplete="off">
-          </label>
+          <div class="filter-field lesson-search-shell">
+            <label for="lesson-search">Search lessons and lesson content</label>
+            <input id="lesson-search" type="search" placeholder="Try “harmonic mean,” SPC, a formula, or a question…" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="lesson-search-suggestions">
+            <div id="lesson-search-suggestions" role="listbox" aria-label="Search suggestions" hidden></div>
+          </div>
 
           <label class="filter-field">
             <span>Topic</span>
@@ -473,10 +476,20 @@
           <button class="clear-filters" id="clear-filters" type="button">Clear</button>
         </form>
 
-        <div class="library-status">
-          <span id="results-count" aria-live="polite">14 lessons</span>
-          <span>Open a lesson to start learning.</span>
+        <div class="lesson-search-options">
+          <div id="lesson-search-modes" class="lesson-search-modes" role="group" aria-label="Search within"></div>
+          <p id="lesson-search-privacy" class="lesson-search-privacy">Search terms may be used in privacy-preserving aggregate analytics. Do not enter personal information.</p>
         </div>
+
+        <div class="library-status">
+          <span id="results-count" aria-live="polite">Loading lessons…</span>
+          <span id="lesson-search-status-hint">Open a lesson to start learning.</span>
+        </div>
+
+        <section id="lesson-search-results" class="lesson-search-results" aria-labelledby="lesson-search-results-heading" hidden>
+          <h2 id="lesson-search-results-heading" class="sr-only">Search results</h2>
+          <div id="lesson-search-result-list"></div>
+        </section>
 
         <section class="featured-section" id="featured-section" aria-labelledby="featured-heading">
           <article class="featured-lesson">
@@ -589,25 +602,25 @@
             <span class="category-count">4 lessons</span>
           </div>
           <div class="lesson-list">
-            <a class="lesson-row" href="lessons/one-way-anova.html" data-lesson-item data-topic="statistics" data-level="beginner" data-interactive="true" data-search="one way anova comparing group means f test calculator distribution graph quiz statistics">
+            <a class="lesson-row" href="lessons/one-way-anova.html" data-lesson-item data-topic="statistics" data-level="intermediate" data-interactive="true" data-search="one way anova comparing group means f test calculator distribution graph quiz statistics">
               <div>
-                <div class="lesson-meta"><span>Beginner</span><span>Interactive</span></div>
+                <div class="lesson-meta"><span>Intermediate</span><span>Interactive</span></div>
                 <h3>One-Way ANOVA: Comparing Group Means Using the F-Test</h3>
                 <p>Learn ANOVA with a live calculator, an F-distribution graph, worked examples, and a quiz.</p>
               </div>
               <span class="lesson-action">Start lesson <span class="lesson-arrow" aria-hidden="true">&rarr;</span></span>
             </a>
-            <a class="lesson-row" href="lessons/two-way-anova.html" data-lesson-item data-topic="statistics" data-level="intermediate" data-interactive="true" data-search="two way anova main effects interaction treatment combinations plot explorer statistics">
+            <a class="lesson-row" href="lessons/two-way-anova.html" data-lesson-item data-topic="statistics" data-level="advanced" data-interactive="true" data-search="two way anova main effects interaction treatment combinations plot explorer statistics">
               <div>
-                <div class="lesson-meta"><span>Intermediate</span><span>Interactive</span></div>
+                <div class="lesson-meta"><span>Advanced</span><span>Interactive</span></div>
                 <h3>Two-Way ANOVA: Main Effects, Interaction, and Treatment Combinations</h3>
                 <p>Add a second factor, explore interactions, and compare treatment combinations.</p>
               </div>
               <span class="lesson-action">Start lesson <span class="lesson-arrow" aria-hidden="true">&rarr;</span></span>
             </a>
-            <a class="lesson-row" href="lessons/hypothesis-testing-for-beginners.html" data-lesson-item data-topic="statistics" data-level="intermediate" data-interactive="false" data-search="hypothesis testing beginners minitab difference real noise p value statistics">
+            <a class="lesson-row" href="lessons/hypothesis-testing-for-beginners.html" data-lesson-item data-topic="statistics" data-level="intermediate" data-interactive="true" data-search="hypothesis testing beginners minitab difference real noise p value statistics interactive">
               <div>
-                <div class="lesson-meta"><span>Intermediate</span><span>15 min read</span><span>Minitab</span></div>
+                <div class="lesson-meta"><span>Intermediate</span><span>Interactive</span><span>15 min read</span><span>Minitab</span></div>
                 <h3>Hypothesis Testing for Beginners</h3>
                 <p>Decide whether a difference in your data is meaningful or could be random noise.</p>
               </div>
@@ -638,9 +651,9 @@
               </div>
               <span class="lesson-action">Start lesson <span class="lesson-arrow" aria-hidden="true">&rarr;</span></span>
             </a>
-            <a class="lesson-row" href="lessons/power-bi-dashboard-basics.html" data-lesson-item data-topic="power-bi-excel-sql" data-level="beginner" data-interactive="false" data-search="power bi dashboard basics data table visual analytics">
+            <a class="lesson-row" href="lessons/power-bi-dashboard-basics.html" data-lesson-item data-topic="power-bi-excel-sql" data-level="beginner" data-interactive="true" data-search="power bi dashboard basics data table visual analytics interactive">
               <div>
-                <div class="lesson-meta"><span>Beginner</span><span>12 min read</span><span>Power BI</span></div>
+                <div class="lesson-meta"><span>Beginner</span><span>Interactive</span><span>12 min read</span><span>Power BI</span></div>
                 <h3>Power BI Dashboard Basics</h3>
                 <p>Turn a data table into a dashboard that helps your team see and act on results.</p>
               </div>
@@ -902,81 +915,8 @@
     </div>
   </footer>
 
-  <script>
-    (function () {
-      const searchInput = document.getElementById('lesson-search');
-      const topicFilter = document.getElementById('topic-filter');
-      const levelFilter = document.getElementById('level-filter');
-      const interactiveFilter = document.getElementById('interactive-filter');
-      const clearButton = document.getElementById('clear-filters');
-      const lessonRows = Array.from(document.querySelectorAll('[data-lesson-item]'));
-      const lessonSections = Array.from(document.querySelectorAll('[data-category-section]'));
-      const emptySections = Array.from(document.querySelectorAll('[data-empty-category]'));
-      const featuredSection = document.getElementById('featured-section');
-      const resultsCount = document.getElementById('results-count');
-      const noResults = document.getElementById('no-results');
-
-      function normalise(value) {
-        return String(value || '').toLowerCase().trim();
-      }
-
-      function updateLibrary() {
-        const query = normalise(searchInput.value);
-        const topic = topicFilter.value;
-        const level = levelFilter.value;
-        const interactiveOnly = interactiveFilter.checked;
-        const hasDetailedFilter = Boolean(query || level || interactiveOnly);
-        const hasAnyFilter = Boolean(hasDetailedFilter || topic);
-        let visibleCount = 0;
-
-        lessonRows.forEach(function (row) {
-          const matchesQuery = !query || normalise(row.dataset.search).includes(query);
-          const matchesTopic = !topic || row.dataset.topic === topic;
-          const matchesLevel = !level || row.dataset.level === level;
-          const matchesInteractive = !interactiveOnly || row.dataset.interactive === 'true';
-          const matches = matchesQuery && matchesTopic && matchesLevel && matchesInteractive;
-
-          row.hidden = !matches;
-          if (matches) visibleCount += 1;
-        });
-
-        lessonSections.forEach(function (section) {
-          const hasVisibleLesson = Array.from(section.querySelectorAll('[data-lesson-item]')).some(function (row) {
-            return !row.hidden;
-          });
-          section.hidden = !hasVisibleLesson;
-        });
-
-        emptySections.forEach(function (section) {
-          const matchesTopic = !topic || section.dataset.topic === topic;
-          section.hidden = hasDetailedFilter || !matchesTopic;
-        });
-
-        const visibleEmptySection = emptySections.some(function (section) {
-          return !section.hidden;
-        });
-
-        featuredSection.hidden = hasAnyFilter;
-        noResults.hidden = visibleCount > 0 || visibleEmptySection;
-        resultsCount.textContent = visibleCount + (visibleCount === 1 ? ' lesson' : ' lessons');
-      }
-
-      [searchInput, topicFilter, levelFilter, interactiveFilter].forEach(function (control) {
-        control.addEventListener(control.type === 'search' ? 'input' : 'change', updateLibrary);
-      });
-
-      clearButton.addEventListener('click', function () {
-        searchInput.value = '';
-        topicFilter.value = '';
-        levelFilter.value = '';
-        interactiveFilter.checked = false;
-        updateLibrary();
-        searchInput.focus();
-      });
-
-      updateLibrary();
-    }());
-  </script>
 <script src="/contrast-fix.js"></script>
+<script src="/lesson-search-core.js"></script>
+<script src="/lesson-search.js"></script>
 </body>
 </html>

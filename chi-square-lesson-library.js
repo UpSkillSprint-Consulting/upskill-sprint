@@ -255,6 +255,18 @@
       description: 'Learn Cp and Cpk with a live capability explorer: specs, spread, centering, the 1.33 benchmark, and Excel & Minitab how-tos.'
     },
     {
+      marker: 'data-dmaic-formula-encyclopedia',
+      sectionId: 'lean-six-sigma',
+      path: '/lessons/lean-six-sigma/dmaic-formula-encyclopedia',
+      topic: 'lean-six-sigma',
+      level: 'advanced',
+      interactive: 'false',
+      search: 'dmaic formula encyclopedia equations calculations lean six sigma pre-dmaic define measure analyze improve control process capability sigma level dpmo dpu dpo yield control limits hypothesis tests descriptive statistics probability reliability msa gage r&r spc doe regression asq cssbb cqe cmbb advanced reference',
+      meta: '<span>Advanced</span><span>Reference</span><span>30 min</span><span>ASQ CSSBB + CQE</span>',
+      title: 'DMAIC Formula Encyclopedia',
+      description: 'Find essential formulas across Define, Measure, Analyze, Improve, and Control, with definitions and practical guidance on when to use each.'
+    },
+    {
       marker: 'data-littles-law-interactive-flow-lab',
       sectionId: 'lean-six-sigma',
       path: '/lessons/lean-six-sigma/littles-law-interactive-flow-lab',
@@ -448,10 +460,6 @@
     return { lessons: Array.from(lessons.values()).filter(Boolean).length, subjects: subjects.size };
   };
 
-  function normalise(value) {
-    return String(value || '').toLowerCase().trim();
-  }
-
   function ensureLessonList(section) {
     let list = section && section.querySelector('.lesson-list');
     if (list) return list;
@@ -480,6 +488,19 @@
     }).length;
     const resultsCount = document.getElementById('results-count');
     if (resultsCount) resultsCount.textContent = visibleCount + (visibleCount === 1 ? ' lesson' : ' lessons');
+  }
+
+  function announceCatalogReady(managedLessonCount) {
+    updateCounts();
+
+    const totalLessonCount = document.querySelectorAll('[data-lesson-item]').length;
+    document.documentElement.setAttribute('data-lesson-catalog-ready', 'true');
+    document.dispatchEvent(new CustomEvent('upskill:lesson-catalog-ready', {
+      detail: {
+        managedLessonCount: managedLessonCount,
+        totalLessonCount: totalLessonCount
+      }
+    }));
   }
 
   function createLessonRow(definition) {
@@ -558,14 +579,12 @@
     featureRandomLesson();
 
     const managedRows = [];
-    const affectedSections = new Set();
 
     LESSONS.forEach(function (definition) {
       const section = document.getElementById(definition.sectionId);
       const list = ensureLessonList(section);
       if (!section || !list) return;
 
-      affectedSections.add(section);
       let row = list.querySelector('[' + definition.marker + ']');
       if (!row) {
         row = createLessonRow(definition);
@@ -576,68 +595,13 @@
 
     if (!managedRows.length) return;
 
-    const searchInput = document.getElementById('lesson-search');
-    const topicFilter = document.getElementById('topic-filter');
-    const levelFilter = document.getElementById('level-filter');
-    const interactiveFilter = document.getElementById('interactive-filter');
-    const clearButton = document.getElementById('clear-filters');
-    const noResults = document.getElementById('no-results');
-
-    function syncLessons() {
-      const query = normalise(searchInput && searchInput.value);
-      const topic = topicFilter ? topicFilter.value : '';
-      const level = levelFilter ? levelFilter.value : '';
-      const interactiveOnly = Boolean(interactiveFilter && interactiveFilter.checked);
-
-      managedRows.forEach(function (row) {
-        const matches = (
-          (!query || normalise(row.dataset.search).includes(query)) &&
-          (!topic || row.dataset.topic === topic) &&
-          (!level || row.dataset.level === level) &&
-          (!interactiveOnly || row.dataset.interactive === 'true')
-        );
-        row.hidden = !matches;
-      });
-
-      affectedSections.forEach(function (section) {
-        const hasVisibleLesson = Array.from(section.querySelectorAll('[data-lesson-item]')).some(function (lesson) {
-          return !lesson.hidden;
-        });
-        section.hidden = !hasVisibleLesson;
-      });
-
-      updateCounts();
-
-      if (noResults) {
-        const visibleLessons = Array.from(document.querySelectorAll('[data-lesson-item]')).some(function (lesson) {
-          return !lesson.hidden;
-        });
-        const visibleEmptySection = Array.from(document.querySelectorAll('[data-empty-category]')).some(function (emptySection) {
-          return !emptySection.hidden;
-        });
-        noResults.hidden = visibleLessons || visibleEmptySection;
-      }
-    }
-
-    [searchInput, topicFilter, levelFilter, interactiveFilter].forEach(function (control) {
-      if (!control || control.dataset.dynamicLessonListener === 'true') return;
-      control.dataset.dynamicLessonListener = 'true';
-      control.addEventListener(control.type === 'search' ? 'input' : 'change', syncLessons);
-    });
-
-    if (clearButton && clearButton.dataset.dynamicLessonListener !== 'true') {
-      clearButton.dataset.dynamicLessonListener = 'true';
-      clearButton.addEventListener('click', function () {
-        window.setTimeout(syncLessons, 0);
-      });
-    }
-
-    syncLessons();
+    announceCatalogReady(managedRows.length);
     window.setTimeout(function () {
-      syncLessons();
       updateCounts();
     }, 0);
-    window.requestAnimationFrame(updateCounts);
+    if (typeof window.requestAnimationFrame === 'function') {
+      window.requestAnimationFrame(updateCounts);
+    }
   }
 
   if (document.readyState === 'loading') {

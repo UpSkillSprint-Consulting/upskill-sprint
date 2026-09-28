@@ -7,6 +7,7 @@
   const UNIT_CONVERTER_PATH = '/tools/unit-converter.html';
   const ARROW_CLEANUP_PATH = '/arrow-cleanup.js';
   const CHI_SQUARE_LIBRARY_PATH = '/chi-square-lesson-library.js';
+  const LESSON_SEARCH_CONTEXT_PATH = '/lesson-search-context.js';
 
   function loadArrowCleanup() {
     if (document.querySelector('script[src="' + ARROW_CLEANUP_PATH + '"]')) return;
@@ -20,6 +21,14 @@
     if (!isLessonsPage() || document.querySelector('script[src="' + CHI_SQUARE_LIBRARY_PATH + '"]')) return;
     const script = document.createElement('script');
     script.src = CHI_SQUARE_LIBRARY_PATH;
+    document.head.appendChild(script);
+  }
+
+  function loadLessonSearchContext() {
+    if (!isLessonDetailPage() || document.querySelector('script[src="' + LESSON_SEARCH_CONTEXT_PATH + '"]')) return;
+    const script = document.createElement('script');
+    script.src = LESSON_SEARCH_CONTEXT_PATH;
+    script.defer = true;
     document.head.appendChild(script);
   }
 
@@ -69,6 +78,11 @@
 
   function isLessonsPage() {
     return pathEndsWith('/lessons.html') || pathEndsWith('/lessons');
+  }
+
+  function isLessonDetailPage() {
+    const path = window.location.pathname.replace(/\.html$/i, '').replace(/\/+$/, '');
+    return path.startsWith('/lessons/') && path !== '/lessons';
   }
 
   function isHomePage() {
@@ -495,6 +509,7 @@
     ensureHomeContent();
     ensureLessonsLibraryLink();
     loadChiSquareLessonLibrary();
+    loadLessonSearchContext();
     enhanceLessonsHierarchy();
     activateAvailableTools();
     enhanceLeadMagnetCapture();
