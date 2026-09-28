@@ -74,3 +74,36 @@ test('crossing caveat also covers ferrite crossed during the quench', async t =>
   assert.match(text, /Ferrite start crossed/);
   assert.match(text, /read early/);
 });
+
+test('TTT cooling-segment crossings are hollow and graphical; hold and CCT crossings are solid', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  setInputs(win, doc, ttt(120, 500, 60, 25));
+  const marks = [...doc.querySelectorAll('#spx-kinetics-svg circle[data-crossing]')];
+  const graphical = marks.filter(m => m.dataset.crossing === 'graphical');
+  const hold = marks.filter(m => m.dataset.crossing === 'hold');
+  assert.ok(graphical.length > 0 && hold.length > 0, 'both kinds present');
+  graphical.forEach(m => {
+    assert.equal(m.getAttribute('fill'), 'var(--spx-bg)', 'graphical markers are hollow');
+    assert.match(m.querySelector('title').textContent, /Graphical only, not a real crossing/);
+  });
+  hold.forEach(m => {
+    assert.notEqual(m.getAttribute('fill'), 'var(--spx-bg)');
+    assert.equal(Math.round(Number(m.getAttribute('cy'))), Math.round(Number(hold[0].getAttribute('cy'))), 'hold markers sit on the hold line');
+  });
+  assert.match(doc.querySelector('.spx-kin-crossings').textContent, /On the hold:.*While cooling \(hollow markers, graphical only\)/s);
+  doc.getElementById('spx-mode-cct').dispatchEvent(new win.MouseEvent('click', { bubbles: true }));
+  setInputs(win, doc, { 'spx-kin-cooling': 10, 'spx-kin-final': 25 });
+  const cct = [...doc.querySelectorAll('#spx-kinetics-svg circle[data-crossing]')];
+  assert.ok(cct.length > 0 && cct.every(m => m.dataset.crossing === 'cct'), 'CCT crossings are read directly');
+  assert.doesNotMatch(doc.querySelector('.spx-kin-crossings').textContent, /graphical only/);
+});
+
+test('Ms is drawn as a solid start line, not in the dashed finish style', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  const ms = doc.querySelector('#spx-kinetics-svg [data-kin="Martensite start"]');
+  assert.ok(ms);
+  assert.equal(ms.getAttribute('stroke-dasharray'), null);
+  assert.match(doc.getElementById('spx-kinetics-svg').textContent, /martensite start/);
+});
