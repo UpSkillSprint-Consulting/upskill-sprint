@@ -86,3 +86,17 @@ test('guides are a Student-mode feature: hidden by CSS in Professional mode, dia
   doc.dispatchEvent(new win.CustomEvent('spx:workspace-mode', { detail: { mode: 'professional' } }));
   assert.equal(doc.getElementById('spx-student-guide-dialog').hidden, true);
 });
+
+test('help dialogs live inside #spx-tool so they inherit its theme variables and button styles', async t => {
+  const { win, doc } = await tool();
+  t.after(() => win.close());
+  doc.querySelector('[data-student-guide="equilibrium"]').click();
+  const guide = doc.getElementById('spx-student-guide-dialog');
+  assert.ok(doc.getElementById('spx-tool').contains(guide), 'student guide dialog is inside #spx-tool');
+  win.__SPX.studentGuides.close();
+  doc.querySelector('[data-r2-help="austenitization"]').click();
+  const r2 = doc.getElementById('spx-r2-help-dialog');
+  assert.ok(r2 && doc.getElementById('spx-tool').contains(r2), 'Release 2 help dialog is inside #spx-tool');
+  const css = fs.readFileSync(path.join(ROOT, 'tools', 'steel-phase-explorer-student-guides.css'), 'utf8');
+  assert.match(css, /background:var\(--spx-bg,var\(--paper,#fff\)\)/, 'card has an opaque background fallback');
+});

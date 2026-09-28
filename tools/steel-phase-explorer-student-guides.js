@@ -283,7 +283,8 @@
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
-    document.body.appendChild(d);
+    /* Inside #spx-tool so the dialog inherits the tool's theme variables and button styles. */
+    (document.getElementById('spx-tool')||document.body).appendChild(d);
     return d;
   }
 
