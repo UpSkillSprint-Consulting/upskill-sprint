@@ -207,3 +207,19 @@ test('user guide documents incomplete, invalid, form-filter, and temperature beh
   assert.match(guide, /CSA Z245\.1:26/);
   assert.match(guide, /apiwebstore\.org\/standards\/5L/);
 });
+
+test('lookup keeps numeric limits readable and source references available on demand', () => {
+  const document = dom.window.document;
+  const references = [...document.querySelectorAll('.card .requirement-reference')];
+  assert.ok(references.length > 0);
+  assert.ok(references.every((reference) => !reference.open));
+  assert.ok(references.every((reference) => reference.querySelector('.reference-content .clause')));
+  assert.equal(document.querySelector('.requirement-reference .requirement-reference'), null);
+  const symbols = [...document.querySelectorAll('.card .bound-symbol')];
+  assert.ok(symbols.length > 0);
+  assert.ok(symbols.every((symbol) => ['≥', '≤', '='].includes(symbol.textContent)));
+  assert.ok(symbols.every((symbol) => symbol.hasAttribute('aria-label')));
+  assert.equal(document.querySelector('.data-integrity-banner .audit-details').open, false);
+  references[0].open = true;
+  assert.ok(references[0].querySelector('.clause').textContent.length > 0);
+});
