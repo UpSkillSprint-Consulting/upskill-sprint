@@ -32,3 +32,44 @@ html[data-theme="light"] .data-integrity-banner,html[data-theme="light"] .editio
 .grade-spec-tool-page .audit-details{font-size:.8rem;margin-top:4px}
 .grade-spec-tool-page .audit-details p{margin:8px 0 0;max-width:90ch}
 @media print{.grade-spec-tool-page .requirement-reference .reference-content,.grade-spec-tool-page .audit-details p{display:block!important}.grade-spec-tool-page .requirement-reference summary{display:none}.grade-spec-tool-page .requirement-reference{break-inside:avoid}}
+/* Reading layout: aligned limits and one source disclosure per section. */
+.grade-spec-tool-page .card-body{font-family:'Work Sans',Arial,sans-serif;font-size:15px;line-height:1.55;padding:20px 24px}
+.grade-spec-tool-page .card-head{padding:18px 24px;background:transparent}
+.grade-spec-tool-page .card-head h3{font-family:'Work Sans',Arial,sans-serif;font-size:20px;line-height:1.3;font-weight:650}
+.grade-spec-tool-page .card{margin-bottom:20px;background:var(--panel);border-radius:14px}
+.grade-spec-tool-page .requirements-table{font-size:15px;table-layout:fixed}
+.grade-spec-tool-page .requirements-table caption{text-align:left;color:var(--muted);padding:0 0 14px;font-size:13px}
+.grade-spec-tool-page .requirements-table th,.grade-spec-tool-page .requirements-table td{padding:13px 16px;text-align:left;vertical-align:middle;line-height:1.5;border-bottom:1px solid var(--line)}
+.grade-spec-tool-page .requirements-table thead th{background:var(--panel2);color:var(--muted);font-family:inherit;font-size:12px;text-transform:none;letter-spacing:0;font-weight:600}
+.grade-spec-tool-page .requirements-table tbody th{background:transparent;color:var(--text);font-family:inherit;font-weight:500;letter-spacing:0;text-transform:none}
+.grade-spec-tool-page .requirements-table thead th:first-child{width:40%}
+.grade-spec-tool-page .requirements-table .num{font-family:inherit;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:0}
+.grade-spec-tool-page .requirements-table .bound-symbol{display:none}
+.grade-spec-tool-page .unspecified-value{color:var(--muted);font-weight:400!important}
+.grade-spec-tool-page .element-name{display:inline;margin-left:10px;font-size:13px;color:var(--muted)}
+.grade-spec-tool-page .requirements-table .limit{padding:0;gap:4px}
+.grade-spec-tool-page .limit.overlay,.grade-spec-tool-page .limit.diff{padding:4px 6px}
+.grade-spec-tool-page .requirement-legend{color:var(--muted);font-size:12px;margin:14px 0 0}
+.grade-spec-tool-page .thickness-context{display:flex;flex-wrap:wrap;gap:6px 20px;padding:0 0 16px;color:var(--muted);font-size:13px}
+.grade-spec-tool-page .thickness-context>span:first-child{color:var(--text);font-weight:600}
+.grade-spec-tool-page .section-references{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:13px}
+.grade-spec-tool-page .section-references>summary,.grade-spec-tool-page .formula-details>summary{cursor:pointer;color:var(--muted);font-weight:500;width:fit-content}
+.grade-spec-tool-page .section-references>summary>span{font-size:11px;margin-left:6px}
+.grade-spec-tool-page .section-references ul{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:12px}
+.grade-spec-tool-page .section-references li{padding:10px 12px;border-left:2px solid var(--line);background:var(--panel2);overflow-wrap:anywhere}
+.grade-spec-tool-page .section-references li>strong{display:block;margin-bottom:4px;font-weight:600;font-size:12px}
+.grade-spec-tool-page .section-references .clause{font-family:inherit;font-size:13px;line-height:1.5;padding:0;border:0;background:transparent;color:var(--muted)}
+.grade-spec-tool-page .section-references .verify{display:block;color:var(--muted);font-size:12px;white-space:normal}
+.grade-spec-tool-page .formula-box{padding:16px;background:transparent;border-color:var(--line);margin:20px 0 0}
+.grade-spec-tool-page .formula-box>.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin:8px 0 12px}
+.grade-spec-tool-page .formula-box .metric{border:0;padding:0;background:transparent}
+.grade-spec-tool-page .formula-details{margin-top:12px;font-size:13px}
+.grade-spec-tool-page .formula-rule{margin:14px 0;overflow-wrap:anywhere}
+.grade-spec-tool-page .formula-rule>.formula{margin-top:5px;color:var(--muted)}
+.grade-spec-tool-page .footnotes{font-size:13px;color:var(--muted);margin-top:16px}
+@media(max-width:680px){.grade-spec-tool-page .card-body,.grade-spec-tool-page .card-head{padding:16px}.grade-spec-tool-page .requirements-table th,.grade-spec-tool-page .requirements-table td{padding:11px 7px}.grade-spec-tool-page .requirements-table{font-size:14px}.grade-spec-tool-page .element-name{display:block;margin:2px 0 0;font-size:12px}.grade-spec-tool-page .requirements-table .num{font-size:14px}.grade-spec-tool-page .requirements-table thead th:first-child{width:38%}.grade-spec-tool-page .mechanical-table{min-width:340px}.grade-spec-tool-page .results-grid.comparison{grid-template-columns:1fr}}
+@media print{.grade-spec-tool-page .section-references>ul,.grade-spec-tool-page .formula-details>.formula-rule,.grade-spec-tool-page .formula-details>.subcard{display:block!important}.grade-spec-tool-page .section-references li{break-inside:avoid}}
+.grade-spec-tool-page .form-context{margin:0 0 14px;color:var(--muted);font-size:14px}.grade-spec-tool-page .form-context strong{color:var(--text)}
+.grade-spec-tool-page .selected-form-label{margin-left:7px;font-size:11px;color:var(--teal)}
+.grade-spec-tool-page .excluded-forms{margin-top:12px}.grade-spec-tool-page .excluded-forms .form-chip.inactive{opacity:1;color:var(--muted)}
+@media print{.grade-spec-tool-page .formula-details>.excluded-forms{display:flex!important}}
