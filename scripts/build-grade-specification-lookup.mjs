@@ -82,7 +82,9 @@ async function decodeSource(source) {
 function renameTool(originalHtml) {
   return originalHtml
     .replaceAll('Steel Grade Specification Lookup', 'Material Specification Lookup')
-    .replaceAll('Grade Specification Lookup', 'Material Specification Lookup');
+    .replaceAll('Grade Specification Lookup', 'Material Specification Lookup')
+    .replace(/\s*\/\s*QADW\b/gi, '')
+    .replace(/\bQADW\s*/gi, '');
 }
 
 /* The standalone app page does not load site-sections.js, so it must load the
