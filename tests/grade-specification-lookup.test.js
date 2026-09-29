@@ -208,18 +208,53 @@ test('user guide documents incomplete, invalid, form-filter, and temperature beh
   assert.match(guide, /apiwebstore\.org\/standards\/5L/);
 });
 
-test('lookup keeps numeric limits readable and source references available on demand', () => {
+test('lookup uses aligned tables with one collapsed source disclosure per section', () => {
   const document = dom.window.document;
-  const references = [...document.querySelectorAll('.card .requirement-reference')];
-  assert.ok(references.length > 0);
-  assert.ok(references.every((reference) => !reference.open));
-  assert.ok(references.every((reference) => reference.querySelector('.reference-content .clause')));
-  assert.equal(document.querySelector('.requirement-reference .requirement-reference'), null);
-  const symbols = [...document.querySelectorAll('.card .bound-symbol')];
-  assert.ok(symbols.length > 0);
-  assert.ok(symbols.every((symbol) => ['≥', '≤', '='].includes(symbol.textContent)));
-  assert.ok(symbols.every((symbol) => symbol.hasAttribute('aria-label')));
+  const chemistry = document.querySelector('#chemistry');
+  const mechanical = document.querySelector('#mechanical');
+  assert.ok(chemistry.querySelector('.chemistry-table caption'));
+  assert.ok(mechanical.querySelector('.mechanical-table'));
+  for (const card of [chemistry, mechanical]) {
+    assert.equal(card.querySelectorAll('.section-references').length, 1);
+    assert.equal(card.querySelector('.section-references').open, false);
+    assert.equal(card.querySelector('.requirement-reference'), null);
+    assert.ok(card.querySelector('.section-references .clause'));
+  }
+  assert.match(mechanical.querySelector('thead').textContent, /PropertyMinimumMaximum/);
+  assert.match(mechanical.querySelector('.requirement-legend').textContent, /Not specified in stored reference data/);
   assert.equal(document.querySelector('.data-integrity-banner .audit-details').open, false);
-  references[0].open = true;
-  assert.ok(references[0].querySelector('.clause').textContent.length > 0);
+  chemistry.querySelector('.section-references').open = true;
+  assert.ok(chemistry.querySelector('.section-references li').textContent.length > 0);
+});
+
+test('chemistry sources retain analysis basis and CE limits stay visible beside collapsed formulas', () => {
+  const document = dom.window.document;
+  const chemistry = document.querySelector('#chemistry');
+  assert.match(chemistry.querySelector('.section-references').textContent, /HEAT.*Minimum|HEAT.*Maximum/);
+  assert.equal(chemistry.querySelector('.formula-details').open, false);
+  assert.ok(chemistry.querySelector('.formula-box > .metric-grid .num'));
+  assert.equal(chemistry.querySelector('.formula-details .metric .num'), null);
+});
+
+test('mechanical interval shows exclusive lower boundary and converts to imperial only once', () => {
+  const data = qa.data();
+  let entry;
+  for (const [bodyKey, body] of Object.entries(data.specBodies)) {
+    for (const [gradeKey, grade] of Object.entries(body.grades)) {
+      if (grade.displayName.includes('230G')) entry = { bodyKey, gradeKey };
+    }
+  }
+  assert.ok(entry);
+  dom.window.eval(`selectEntry(findEntry(${JSON.stringify(entry)}))`);
+  const document = dom.window.document;
+  assert.match(document.querySelector('#mechanical .thickness-context').textContent, /0 < t ≤ 40 mm/);
+  assert.match(document.querySelector('#mechanical .mechanical-table tbody').textContent, /Yield strength.*230 MPa/);
+  assert.equal(document.querySelectorAll('#chemistry .analysis-cell').length, 0);
+  assert.match(document.querySelector('#chemistry caption').textContent, /Heat analysis/);
+  document.querySelector('#impBtn').click();
+  const interval = document.querySelector('#mechanical .thickness-context').textContent;
+  assert.match(interval, /0 < t ≤ 1\.57 in/);
+  assert.doesNotMatch(interval, /0\.06 in/);
+  assert.match(document.querySelector('#mechanical .mechanical-table tbody').textContent, /33\.4 ksi/);
+  document.querySelector('#siBtn').click();
 });
