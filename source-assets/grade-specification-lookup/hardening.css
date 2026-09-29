@@ -73,3 +73,5 @@ html[data-theme="light"] .data-integrity-banner,html[data-theme="light"] .editio
 .grade-spec-tool-page .selected-form-label{margin-left:7px;font-size:11px;color:var(--teal)}
 .grade-spec-tool-page .excluded-forms{margin-top:12px}.grade-spec-tool-page .excluded-forms .form-chip.inactive{opacity:1;color:var(--muted)}
 @media print{.grade-spec-tool-page .formula-details>.excluded-forms{display:flex!important}}
+.grade-spec-tool-page .field label,.grade-spec-tool-page .anchor-bar a{font-family:'Work Sans',Arial,sans-serif;letter-spacing:0;text-transform:none;font-size:13px}
+.grade-spec-tool-page .brand-row .brand h1{font-family:'Work Sans',Arial,sans-serif;letter-spacing:-.02em;text-transform:none;font-size:clamp(1.3rem,2vw,1.8rem);font-weight:650}
