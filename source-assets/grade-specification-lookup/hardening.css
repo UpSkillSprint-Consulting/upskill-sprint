@@ -10,3 +10,25 @@
 .grade-data-status{margin-bottom:16px}
 html[data-theme="light"] .data-integrity-banner,html[data-theme="light"] .edition-alert{background:#fff8e7;color:#5b4200}
 @media(max-width:680px){.coverage-summary{grid-template-columns:1fr}.data-integrity-banner,.edition-alert{padding:12px}}
+/* Quiet numeric hierarchy with keyboard-accessible source disclosures. */
+.grade-spec-tool-page .limit{gap:5px;padding:4px 0;align-items:baseline;max-width:100%}
+.grade-spec-tool-page .bound-symbol{background:transparent!important;border:0!important;color:var(--muted)!important;padding:0;font-size:.9rem;border-radius:0}
+.grade-spec-tool-page .num{color:var(--text);font-variant-numeric:tabular-nums}
+.grade-spec-tool-page .requirement-reference{display:block;flex-basis:100%;font-family:inherit;font-size:.76rem;font-weight:400;max-width:100%}
+.grade-spec-tool-page .requirement-reference summary,.grade-spec-tool-page .audit-details summary{cursor:pointer;color:var(--muted);width:fit-content;padding:3px 0}
+.grade-spec-tool-page summary:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:3px}
+.grade-spec-tool-page .reference-content{padding:8px 10px;margin:5px 0;border-left:2px solid var(--line);background:var(--panel2);overflow-wrap:anywhere}
+.grade-spec-tool-page .reference-content .clause{border:0;background:transparent;color:var(--muted);font-family:inherit;font-size:.78rem;white-space:normal;padding:0}
+.grade-spec-tool-page .reference-content .verify{display:block;margin-top:4px;white-space:normal}
+.grade-spec-tool-page .value-cell{min-width:125px}
+.grade-spec-tool-page .spec-table td{padding:12px;line-height:1.5}
+.grade-spec-tool-page .card{box-shadow:none;border-radius:12px}
+.grade-spec-tool-page .card-head h3{font-family:inherit;font-size:1.12rem;letter-spacing:0;text-transform:none;font-weight:600}
+.grade-spec-tool-page .metric-label{font-family:inherit;text-transform:none;letter-spacing:0;font-size:.85rem;color:var(--muted)}
+.grade-spec-tool-page .metric{background:var(--panel);border-color:var(--line);padding:16px}
+.grade-spec-tool-page .data-integrity-banner{border-left-width:3px;padding:12px 16px;background:var(--panel)}
+.grade-spec-tool-page .data-status-heading{display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline;font-size:.88rem}
+.grade-spec-tool-page .data-status-heading>span{color:var(--muted)}
+.grade-spec-tool-page .audit-details{font-size:.8rem;margin-top:4px}
+.grade-spec-tool-page .audit-details p{margin:8px 0 0;max-width:90ch}
+@media print{.grade-spec-tool-page .requirement-reference .reference-content,.grade-spec-tool-page .audit-details p{display:block!important}.grade-spec-tool-page .requirement-reference summary{display:none}.grade-spec-tool-page .requirement-reference{break-inside:avoid}}
