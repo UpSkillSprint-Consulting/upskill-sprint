@@ -681,7 +681,7 @@
     const banner = document.createElement('section');
     banner.className = 'data-integrity-banner';
     banner.setAttribute('role', 'note');
-    banner.innerHTML = `<strong>Screening data — independent audit incomplete.</strong> ${audit.verifiedGrades}/${audit.grades} grade records and ${audit.verifiedRequirementRecords}/${audit.requirementRecords} requirement records carry independent verification. A complete numerical assessment therefore returns PASS WITH WARNINGS at best. Always check the current controlled standard.`;
+    banner.innerHTML = `<div class="data-status-heading"><strong>Reference data · audit incomplete</strong><span>Verify against the controlled standard before use.</span></div><details class="audit-details"><summary>Data verification details</summary><p>${audit.verifiedGrades}/${audit.grades} grade records and ${audit.verifiedRequirementRecords}/${audit.requirementRecords} requirement records carry independent verification. A complete numerical assessment therefore returns PASS WITH WARNINGS at best. Always check the current controlled standard.</p></details>`;
     app.prepend(banner);
     const edition = editionStatus(entry);
     if (edition) {
@@ -691,6 +691,53 @@
       banner.insertAdjacentElement('afterend', alert);
     }
   }
+
+  // Keep the numeric requirement prominent; disclose provenance on demand.
+  function polishRequirementMarkup(markup) {
+    const template = document.createElement('template');
+    template.innerHTML = markup;
+    template.content.querySelectorAll('.limit').forEach((limit) => {
+      const badge = limit.querySelector(':scope > .badge');
+      const number = limit.querySelector(':scope > .num');
+      if (badge) {
+        if (number && number.textContent.trim() === '—') {
+          number.textContent = 'Not specified';
+          badge.remove();
+        } else {
+          badge.textContent = badge.classList.contains('min') ? '≥' : badge.classList.contains('max') ? '≤' : '=';
+          badge.classList.add('bound-symbol');
+          badge.setAttribute('aria-label', badge.classList.contains('min') ? 'Minimum' : badge.classList.contains('max') ? 'Maximum' : 'Specified value');
+        }
+      }
+    });
+    template.content.querySelectorAll('.clause').forEach((clause) => {
+      if (clause.closest('.requirement-reference')) return;
+      if (clause.textContent.trim() === 'Not specified') { clause.remove(); return; }
+      const details = document.createElement('details');
+      details.className = 'requirement-reference';
+      const summary = document.createElement('summary');
+      summary.textContent = 'Reference';
+      const content = document.createElement('div');
+      content.className = 'reference-content';
+      clause.replaceWith(details);
+      details.append(summary, content);
+      content.append(clause);
+      const sibling = details.nextElementSibling;
+      if (sibling?.classList.contains('verify')) content.append(sibling);
+      // Supplemental source notes remain available alongside their reference.
+      const note = details.nextElementSibling;
+      if (note?.classList.contains('import-note')) content.append(note);
+    });
+    return template.innerHTML;
+  }
+  const originalRenderLimit = renderLimit;
+  renderLimit = (...args) => polishRequirementMarkup(originalRenderLimit(...args));
+  const originalRenderScalar = renderScalar;
+  renderScalar = (...args) => polishRequirementMarkup(originalRenderScalar(...args));
+  const originalRenderPseudoNumber = renderPseudoNumber;
+  renderPseudoNumber = (...args) => polishRequirementMarkup(originalRenderPseudoNumber(...args));
+  const originalSectionCard = sectionCard;
+  sectionCard = (id, title, body) => originalSectionCard(id, title, polishRequirementMarkup(body));
 
   const baseRender = render;
   render = function renderHardened() {
