@@ -783,6 +783,7 @@
       row.children[0].innerHTML = `<strong>${esc(symbol)}</strong>${names[symbol] ? `<span class="element-name">${names[symbol]}</span>` : ''}`;
       row.children[0].classList.remove('mono');
       row.querySelectorAll('.bound-symbol').forEach((badge) => badge.remove());
+      row.querySelectorAll('.num').forEach((number) => number.textContent = number.textContent.replace(/\s+wt\s*%$/, ''));
     });
     if (analyses.length === 1) {
       table.querySelector('thead tr').children[1].remove();
