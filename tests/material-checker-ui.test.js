@@ -12,9 +12,9 @@ function source(relativePath) {
   return fs.readFileSync(path.join(ROOT, relativePath), 'utf8');
 }
 
-async function createChecker() {
+async function createChecker(route = '/tools/material-specification-compliance-checker') {
   const dom = new JSDOM(source('tools/material-specification-compliance-checker.html'), {
-    url: 'https://upskillsprint.test/tools/material-specification-compliance-checker',
+    url: 'https://upskillsprint.test' + route,
     runScripts: 'outside-only',
     pretendToBeVisual: true
   });
@@ -181,6 +181,76 @@ test('shared header styling shields navigation from standalone tool typography',
   assert.equal(header.querySelector('nav.desktop-nav [aria-current="page"]').textContent,'Engineering Tools');
   const links=Array.from(window.document.querySelectorAll('link[rel="stylesheet"]'));
   assert.ok(links.findIndex(l=>l.getAttribute('href')==='/assets/tool-site-header.css') > links.findIndex(l=>l.getAttribute('href')==='/tools/material-specification-compliance-checker.css'));
+});
+
+for (const route of ['/tools/material-specification-compliance-checker', '/tools/material-specification-compliance-checker.html']) {
+  test('arrow cleanup preserves the shared checker header on ' + route, async () => {
+    const dom=await createChecker(route); const {window}=dom;
+    try {
+      // Apply the actual page styles in their original order, including tool overrides.
+      for (const link of window.document.querySelectorAll('link[rel="stylesheet"][href^="/"]')) {
+        const style=window.document.createElement('style');
+        style.textContent=source(link.getAttribute('href').slice(1));
+        window.document.head.appendChild(style);
+      }
+      const computedStyle=window.getComputedStyle.bind(window);
+      window.getComputedStyle=(element,pseudo)=>pseudo ? {content:'none'} : computedStyle(element);
+      const header=window.document.querySelector('header.site.tool-site-header');
+      const brand=header.querySelector('.brand');
+      const assertSharedHeader=()=>{
+        assert.equal(window.getComputedStyle(header).justifyContent,'space-between');
+        assert.equal(window.getComputedStyle(header).minHeight,'74px');
+        assert.equal(window.getComputedStyle(header).paddingLeft,'20px');
+        assert.equal(window.getComputedStyle(header).paddingRight,'20px');
+        assert.equal(window.getComputedStyle(brand.querySelector('span')).fontSize,'17px');
+        assert.equal(window.getComputedStyle(header.querySelector('nav.desktop-nav')).fontSize,'13.5px');
+        assert.equal(header.classList.contains('upskill-checker-header'),false);
+        assert.equal(header.classList.contains('upskill-checker-brand-row'),false);
+        assert.equal(brand.classList.contains('upskill-checker-brand-link'),false);
+        assert.equal(brand.style.textDecoration,'');
+      };
+      assertSharedHeader();
+      window.eval(source('arrow-cleanup.js'));
+      await new Promise(resolve=>window.setTimeout(resolve,20));
+      assertSharedHeader();
+      assert.equal(window.location.pathname,'/tools/material-specification-compliance-checker');
+
+      // Auth inserts Account after startup; that mutation must not reapply legacy layout.
+      const account=window.document.createElement('div');
+      account.className='account-menu';
+      account.innerHTML='<button class="account-menu-btn" type="button">Account</button>';
+      header.querySelector('.header-actions').prepend(account);
+      const action=window.document.createElement('button');
+      action.textContent='Review results →';
+      window.document.body.appendChild(action);
+      await new Promise(resolve=>window.setTimeout(resolve,20));
+      assert.equal(action.textContent,'Review results','observer-driven action cleanup still runs');
+      assertSharedHeader();
+    } finally {
+      window.close();
+    }
+  });
+}
+
+test('arrow cleanup retains the logo repair for a legacy standalone checker header', async () => {
+  const dom=new JSDOM('<!doctype html><header><div><span>US</span><a href="/index.html">UpSkill Sprint Consulting</a></div></header>',{
+    url:'https://upskillsprint.test/tools/material-specification-compliance-checker',
+    runScripts:'outside-only',pretendToBeVisual:true
+  });
+  const {window}=dom;
+  try {
+    const computedStyle=window.getComputedStyle.bind(window);
+    window.getComputedStyle=(element,pseudo)=>pseudo ? {content:'none'} : computedStyle(element);
+    window.eval(source('arrow-cleanup.js'));
+    await new Promise(resolve=>window.setTimeout(resolve,30));
+    const header=window.document.querySelector('header');
+    assert.equal(header.classList.contains('upskill-checker-header'),true);
+    assert.equal(header.querySelector('div').classList.contains('upskill-checker-brand-row'),true);
+    assert.equal(header.querySelector('a').getAttribute('href'),'/');
+    assert.equal(header.querySelector('.upskill-checker-logo-slot img').getAttribute('src'),'/assets/logo-icon.png');
+  } finally {
+    window.close();
+  }
 });
 
 test('malformed imported manual bounds remain invalid in the interactive path', async () => {
