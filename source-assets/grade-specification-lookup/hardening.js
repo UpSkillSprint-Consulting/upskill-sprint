@@ -245,6 +245,12 @@
     return limit && Number.isFinite(limit.value);
   }
 
+  function applicableCESymbols(section) {
+    if (['ALWAYS_IIW', 'CSA_Z245_26'].includes(section.selectionRule.type)) return numericElementsFromFormula(section.ceIiw.formula);
+    if (section.selectionRule.type === 'NONE') return [];
+    return [...new Set([...numericElementsFromFormula(section.ceIiw.formula), ...numericElementsFromFormula(section.cePcm.formula)])];
+  }
+
   function collectRequiredInputs(input, ctx) {
     const required = new Map();
     const need = (label, present) => required.set(label, Boolean(present));
@@ -262,7 +268,7 @@
 
     const ce = grade.chemistry.carbonEquivalent;
     if (hasLimit(ce.ceIiw.limit) || hasLimit(ce.cePcm.limit)) {
-      for (const element of new Set([...numericElementsFromFormula(ce.ceIiw.formula), ...numericElementsFromFormula(ce.cePcm.formula)])) {
+      for (const element of applicableCESymbols(ce)) {
         need(`${element} for carbon-equivalent calculation`, isPresent(input.chemistry?.[element]));
       }
     }
@@ -286,7 +292,7 @@
     if (row) {
       if (hasLimit(row.yieldStrength?.min) || hasLimit(row.yieldStrength?.max) || hasLimit(row.ytRatio?.max)) need('Yield strength', isPresent(input.ys));
       if (hasLimit(row.tensileStrength?.min) || hasLimit(row.tensileStrength?.max) || hasLimit(row.ytRatio?.max) || row.elongation?.type === 'FORMULA') need('Tensile strength', isPresent(input.uts));
-      if (row.elongation) {
+      if (row.elongation && (row.elongation.type === 'FORMULA' || hasLimit(row.elongation.fixedMin))) {
         need('Measured elongation', isPresent(input.elongation));
         if (row.elongation.type === 'FORMULA') {
           if (input.specimenType === 'ROUND') need('Round tensile specimen diameter', isPresent(input.roundDiameter));
@@ -366,7 +372,7 @@
   function removeIncompleteCarbonEquivalentRows(input, grade, results) {
     if (!Object.keys(input.chemistry || {}).length) return results;
     const ce = grade.chemistry.carbonEquivalent;
-    const symbols = [...new Set([...numericElementsFromFormula(ce.ceIiw.formula), ...numericElementsFromFormula(ce.cePcm.formula)])];
+    const symbols = applicableCESymbols(ce);
     const missing = symbols.filter((element) => !isPresent(input.chemistry?.[element]));
     if (!missing.length) return results;
     const retained = results.filter((row) => !['CE_IIW', 'Pcm', 'Carbon equivalent'].includes(row.name));
@@ -681,7 +687,7 @@
     const banner = document.createElement('section');
     banner.className = 'data-integrity-banner';
     banner.setAttribute('role', 'note');
-    banner.innerHTML = `<strong>Screening data — independent audit incomplete.</strong> ${audit.verifiedGrades}/${audit.grades} grade records and ${audit.verifiedRequirementRecords}/${audit.requirementRecords} requirement records carry independent verification. A complete numerical assessment therefore returns PASS WITH WARNINGS at best. Always check the current controlled standard.`;
+    banner.innerHTML = `<div class="data-status-heading"><strong>Reference data · audit incomplete</strong><span>Verify against the controlled standard before use.</span></div><details class="audit-details"><summary>Data verification details</summary><p>${audit.verifiedGrades}/${audit.grades} grade records and ${audit.verifiedRequirementRecords}/${audit.requirementRecords} requirement records carry independent verification. A complete numerical assessment therefore returns PASS WITH WARNINGS at best. Always check the current controlled standard.</p></details>`;
     app.prepend(banner);
     const edition = editionStatus(entry);
     if (edition) {
@@ -691,6 +697,157 @@
       banner.insertAdjacentElement('afterend', alert);
     }
   }
+
+  // Keep the numeric requirement prominent; disclose provenance on demand.
+  function polishRequirementMarkup(markup) {
+    const template = document.createElement('template');
+    template.innerHTML = markup;
+    template.content.querySelectorAll('.limit').forEach((limit) => {
+      const badge = limit.querySelector(':scope > .badge');
+      const number = limit.querySelector(':scope > .num');
+      if (badge) {
+        if (number && number.textContent.trim() === '—') {
+          number.textContent = '—';
+          number.classList.add('unspecified-value');
+          number.setAttribute('aria-label', 'Not specified in stored reference data');
+          badge.remove();
+        } else {
+          badge.textContent = badge.classList.contains('min') ? '≥' : badge.classList.contains('max') ? '≤' : '=';
+          badge.classList.add('bound-symbol');
+          badge.setAttribute('aria-label', badge.classList.contains('min') ? 'Minimum' : badge.classList.contains('max') ? 'Maximum' : 'Specified value');
+        }
+      }
+    });
+    template.content.querySelectorAll('.clause').forEach((clause) => {
+      if (clause.closest('.requirement-reference')) return;
+      if (clause.textContent.trim() === 'Not specified') { clause.remove(); return; }
+      const details = document.createElement('details');
+      details.className = 'requirement-reference';
+      const summary = document.createElement('summary');
+      summary.textContent = 'Reference';
+      const content = document.createElement('div');
+      content.className = 'reference-content';
+      clause.replaceWith(details);
+      details.append(summary, content);
+      content.append(clause);
+      const sibling = details.nextElementSibling;
+      if (sibling?.classList.contains('verify')) content.append(sibling);
+      // Supplemental source notes remain available alongside their reference.
+      const note = details.nextElementSibling;
+      if (note?.classList.contains('import-note')) content.append(note);
+    });
+    return template.innerHTML;
+  }
+  const originalRenderLimit = renderLimit;
+  renderLimit = (...args) => {
+    const markup = polishRequirementMarkup(originalRenderLimit(...args));
+    return args[0] === null && args[1]?.compare != null ? markup.replace('class="limit"', 'class="limit diff"') : markup;
+  };
+  const originalRenderScalar = renderScalar;
+  renderScalar = (...args) => polishRequirementMarkup(originalRenderScalar(...args));
+  const originalRenderPseudoNumber = renderPseudoNumber;
+  renderPseudoNumber = (...args) => polishRequirementMarkup(originalRenderPseudoNumber(...args));
+  const originalSectionCard = sectionCard;
+  sectionCard = (id, title, body) => {
+    const template = document.createElement('template');
+    template.innerHTML = polishRequirementMarkup(body);
+    const references = [];
+    template.content.querySelectorAll('.requirement-reference').forEach((details) => {
+      const row = details.closest('tr');
+      const cell = details.closest('td');
+      const table = details.closest('table');
+      const heading = cell && table?.querySelector('thead tr')?.children[cell.cellIndex]?.textContent;
+      const hasAnalysis = table?.querySelector('thead tr')?.children[1]?.textContent.trim() === 'Analysis';
+      const context = row ? `${row.children[0].textContent.trim()}${hasAnalysis ? ` · ${row.children[1].textContent.trim()}` : ''}${heading ? ` · ${heading}` : ''}` :
+        details.closest('[data-reference-label]')?.dataset.referenceLabel || details.closest('.metric, .subcard, .formula-box, .note')?.querySelector('.metric-label, .note-topic')?.textContent || title;
+      references.push(`<li><strong>${esc(context)}</strong><div>${details.querySelector('.reference-content').innerHTML}</div></li>`);
+      details.remove();
+    });
+    const legend = template.content.querySelector('.unspecified-value') ? '<p class="requirement-legend">— Not specified in stored reference data.</p>' : '';
+    const sources = references.length ? `<details class="section-references"><summary>Sources & verification notes <span>${references.length}</span></summary><ul>${references.join('')}</ul></details>` : '';
+    return originalSectionCard(id, title, template.innerHTML + legend + sources);
+  };
+
+  // Chemistry: analysis basis appears once per table, not once per element.
+  const baseRenderChemistry = renderChemistry;
+  renderChemistry = (eff, compareEff) => {
+    const template = document.createElement('template');
+    template.innerHTML = baseRenderChemistry(eff, compareEff);
+    const table = template.content.querySelector('.spec-table');
+    if (!table) return template.innerHTML;
+    table.classList.add('requirements-table', 'chemistry-table');
+    const rows = [...table.querySelectorAll('tbody tr')];
+    const analyses = [...new Set(rows.map((row) => row.children[1].textContent.trim()))];
+    rows.forEach((row) => row.children[1].classList.add('analysis-cell'));
+    const caption = document.createElement('caption');
+    caption.textContent = analyses.length === 1 ? `${analyses[0].toLowerCase().replace(/^./, (c) => c.toUpperCase())} analysis · weight percent` : 'Heat and product analysis · weight percent';
+    table.prepend(caption);
+    table.querySelectorAll('thead th').forEach((th) => th.setAttribute('scope', 'col'));
+    rows.forEach((row) => {
+      const symbol = row.children[0].textContent;
+      const names = {C:'Carbon',Mn:'Manganese',Si:'Silicon',P:'Phosphorus',S:'Sulfur',Cr:'Chromium',Ni:'Nickel',Mo:'Molybdenum',Cu:'Copper',V:'Vanadium',Nb:'Niobium',Ti:'Titanium',Al:'Aluminium',N:'Nitrogen',B:'Boron'};
+      row.children[0].innerHTML = `<strong>${esc(symbol)}</strong>${names[symbol] ? `<span class="element-name">${names[symbol]}</span>` : ''}`;
+      row.children[0].classList.remove('mono');
+      row.querySelectorAll('.bound-symbol').forEach((badge) => badge.remove());
+      row.querySelectorAll('.num').forEach((number) => number.textContent = number.textContent.replace(/\s+wt\s*%$/, ''));
+    });
+    if (analyses.length === 1) {
+      table.querySelector('thead tr').children[1].remove();
+      rows.forEach((row) => row.children[1].remove());
+    } else rows.forEach((row) => row.children[1].textContent = row.children[1].textContent.toLowerCase().replace(/^./, (c) => c.toUpperCase()));
+    // Keep formula content accessible, but give it its own secondary disclosure.
+    const ceBox = template.content.querySelector('.formula-box');
+    if (ceBox) {
+      const details = document.createElement('details');
+      details.className = 'formula-details';
+      details.innerHTML = '<summary>Calculation formulas & selection rule</summary>';
+      ceBox.querySelectorAll('.formula').forEach((formula) => {
+        const label = formula.closest('.metric')?.querySelector('.metric-label')?.textContent || '';
+        const item = document.createElement('div');
+        item.className = 'formula-rule';
+        item.innerHTML = `<strong>${esc(label)}</strong>`;
+        item.append(formula);
+        details.append(item);
+      });
+      const selection = ceBox.querySelector(':scope > .subcard');
+      if (selection) details.append(selection);
+      ceBox.append(details);
+    }
+    return template.innerHTML;
+  };
+
+  renderMechanical = (eff, compareEff) => {
+    const grade = eff.grade;
+    const row = resolveThicknessRow(grade, state.thicknessMM);
+    if (!row) return sectionCard('mechanical', 'Mechanical properties', '<div class="empty-state">No mechanical requirements cover this thickness. Check the entered thickness and audit range.</div>');
+    const other = compareEff ? resolveThicknessRow(compareEff.grade, state.thicknessMM) : null;
+    const index = grade.mechanical.thicknessBreakpoints.indexOf(row);
+    const fm = footMap(grade);
+    const limit = (value, path, comparison) => renderLimit(value, {overlay: overlayForPath(eff.overlayPaths, `mechanical.thicknessBreakpoints[${index}].${path}`), compare: comparison ?? null, footMap: fm});
+    const empty = () => renderLimit(null);
+    const elongation = row.elongation.type === 'FIXED' ? limit(row.elongation.fixedMin, 'elongation.fixedMin', other?.elongation.fixedMin) :
+      `<span class="limit ${other && JSON.stringify(row.elongation) !== JSON.stringify(other.elongation) ? 'diff' : ''}"><span class="formula">e = C · (A<sub>xc</sub><sup>${row.elongation.params.exponentArea}</sup> / U<sup>${row.elongation.params.exponentUts}</sup>), C = ${row.elongation.params.C}</span><span class="clause">${esc(row.elongation.clauseRef)}</span>${!row.elongation.verified ? '<span class="verify">⚠ verify</span>' : ''}</span>`;
+    const values = [
+      ['Yield strength', limit(row.yieldStrength.min, 'yieldStrength.min', other?.yieldStrength.min), limit(row.yieldStrength.max, 'yieldStrength.max', other?.yieldStrength.max)],
+      ['Tensile strength', limit(row.tensileStrength.min, 'tensileStrength.min', other?.tensileStrength.min), limit(row.tensileStrength.max, 'tensileStrength.max', other?.tensileStrength.max)],
+      ['Yield / tensile ratio', empty(), limit(row.ytRatio.max, 'ytRatio.max', other?.ytRatio.max)],
+      ['Elongation', elongation, empty()],
+      ['Hardness', empty(), limit(row.hardness.max, 'hardness.max', other?.hardness.max)]
+    ];
+    const lower = convertValue(row.tMin_mm, 'mm');
+    const upper = convertValue(row.tMax_mm, 'mm');
+    const selected = convertValue(state.thicknessMM, 'mm');
+    const interval = `<div class="thickness-context" data-reference-label="Applicable thickness interval"><span>At ${fmtNumber(selected.value, selected.unit)} ${esc(selected.unit)}</span><span>Applicable range: <strong>${fmtNumber(lower.value, lower.unit)} &lt; t ≤ ${fmtNumber(upper.value, upper.unit)} ${esc(upper.unit)}</strong></span><span class="clause">${esc(row.clauseRef)}</span></div>`;
+    return sectionCard('mechanical', 'Mechanical properties', `${interval}<div class="table-wrap"><table class="spec-table requirements-table mechanical-table"><thead><tr><th scope="col">Property</th><th scope="col">Minimum</th><th scope="col">Maximum</th></tr></thead><tbody>${values.map(([label, min, max]) => `<tr><th scope="row">${label}</th><td class="value-cell">${min}</td><td class="value-cell">${max}</td></tr>`).join('')}</tbody></table></div>`);
+  };
+
+  renderForms = (eff, compareEff) => {
+    const forms = eff.grade.applicableForms;
+    const compared = compareEff?.grade.applicableForms;
+    const chip = (form, applicable) => `<span class="form-chip ${applicable ? '' : 'inactive'} ${compared && applicable !== compared.includes(form) ? 'limit diff' : ''}">${esc(formatForm(form))}${form === state.form ? '<span class="selected-form-label">Selected</span>' : ''}</span>`;
+    const excluded = [...ENUMS.forms].filter((form) => !forms.includes(form));
+    return sectionCard('forms', 'Product forms', `<p class="form-context">Selected form: <strong>${esc(formatForm(state.form))}</strong>${forms.includes(state.form) ? '' : ' · Not applicable to this grade'}</p><div class="form-chips">${forms.map((form) => chip(form, true)).join('')}</div>${excluded.length ? `<details class="formula-details"><summary>Other forms outside this record</summary><div class="form-chips excluded-forms">${excluded.map((form) => chip(form, false)).join('')}</div></details>` : ''}`);
+  };
 
   const baseRender = render;
   render = function renderHardened() {
