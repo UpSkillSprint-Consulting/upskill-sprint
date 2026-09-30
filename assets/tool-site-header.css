@@ -3,19 +3,20 @@ header.site.tool-site-header {
   position: sticky;
   top: 0;
   z-index: 120;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2.8fr) minmax(0, 1fr);
+  display: flex;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   max-width: none;
-  min-height: 69px;
+  min-height: 74px;
   margin: 0;
   padding: 18px 20px;
-  column-gap: 24px;
+  gap: 10px;
   border-bottom: 1px solid var(--line);
   background: rgba(255,255,255,.94);
   color: var(--ink);
   font-family: 'Work Sans', Arial, sans-serif;
+  font-size: 16px;
   line-height: 1.5;
   letter-spacing: normal;
   text-transform: none;
@@ -23,8 +24,6 @@ header.site.tool-site-header {
 }
 html[data-theme="dark"] header.site.tool-site-header { background: rgba(11,18,32,.94); }
 .tool-site-header > .brand {
-  grid-column: 1;
-  justify-self: start;
   display: flex;
   align-items: center;
   flex: 0 1 auto;
@@ -45,13 +44,9 @@ html[data-theme="dark"] header.site.tool-site-header { background: rgba(11,18,32
   text-overflow: ellipsis;
 }
 .tool-site-header nav.desktop-nav {
-  grid-column: 2;
-  justify-self: stretch;
-  width: 100%;
-  min-width: 0;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 18px;
   font-family: 'Work Sans', Arial, sans-serif;
   font-size: 13.5px;
@@ -69,8 +64,6 @@ html[data-theme="dark"] header.site.tool-site-header { background: rgba(11,18,32
 .tool-site-header nav.desktop-nav a:hover,
 .tool-site-header nav.desktop-nav a[aria-current="page"] { color: var(--teal-dark); border-bottom-color: var(--teal); }
 .tool-site-header > .header-actions {
-  grid-column: 3;
-  justify-self: end;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -78,6 +71,26 @@ html[data-theme="dark"] header.site.tool-site-header { background: rgba(11,18,32
   flex-shrink: 0;
   gap: 10px;
 }
+header.tool-site-header .header-cta {
+  display: inline-block;
+  flex-shrink: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 9px 15px;
+  border: none;
+  border-radius: 6px;
+  background: var(--teal);
+  color: #fff;
+  font-family: 'Work Sans', Arial, sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+}
+header.tool-site-header .header-cta:hover { background: var(--teal-dark); color: #fff; }
 .tool-site-header label.mobile-menu-btn { display: none; }
 .tool-site-header + nav.mobile-nav {
   font-family: 'Work Sans', Arial, sans-serif;
@@ -86,19 +99,18 @@ html[data-theme="dark"] header.site.tool-site-header { background: rgba(11,18,32
   text-transform: none;
 }
 .grade-spec-tool-page .top-shell,
-.grade-spec-guide-page .topbar { top: 69px; }
-/* Eight navigation links, the brand and Account control need this width. */
+.grade-spec-guide-page .topbar { top: 74px; }
+/* Keep the compact site navigation clear of the right-hand controls. */
 @media (max-width: 1279px) {
-  header.site.tool-site-header { grid-template-columns: minmax(0, 1fr) auto; }
   .tool-site-header nav.desktop-nav { display: none; }
-  .tool-site-header > .header-actions { grid-column: 2; }
   .tool-site-header label.mobile-menu-btn { display: flex; }
   .mnav-check:checked ~ header.tool-site-header + nav.mobile-nav { display: flex; }
 }
 @media (max-width: 760px) {
-  header.site.tool-site-header { min-height: 61px; padding: 14px 16px; }
+  header.site.tool-site-header { min-height: 65px; padding: 14px 16px; }
+  header.tool-site-header .header-cta { display: none; }
   .grade-spec-tool-page .top-shell,
-  .grade-spec-guide-page .topbar { top: 61px; }
+  .grade-spec-guide-page .topbar { top: 65px; }
 }
 @media (max-width: 640px) { .tool-site-header > .brand span { font-size: 15px; } }
 @media (max-width: 560px) { .tool-site-header > .brand span { display: none; } }
