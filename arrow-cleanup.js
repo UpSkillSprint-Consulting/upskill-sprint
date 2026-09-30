@@ -245,11 +245,15 @@
     const brandLink = findCheckerBrandLink();
     if (!brandLink) return;
 
+    const header = brandLink.closest('header') || brandLink.closest('[class*="header"]');
+    // The shared site header already owns its logo and navigation layout.
+    // The legacy repair below would force its controls back to the left.
+    if (header && header.matches('header.site.tool-site-header')) return;
+
     brandLink.classList.add('upskill-checker-brand-link');
     brandLink.setAttribute('href', '/');
     brandLink.style.textDecoration = 'none';
 
-    const header = brandLink.closest('header') || brandLink.closest('[class*="header"]');
     if (header) header.classList.add('upskill-checker-header');
 
     const brandRow = brandLink.parentElement;
