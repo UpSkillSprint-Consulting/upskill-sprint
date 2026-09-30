@@ -3,15 +3,15 @@ header.site.tool-site-header {
   position: sticky;
   top: 0;
   z-index: 120;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.8fr) minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
   width: 100%;
   max-width: none;
   min-height: 69px;
   margin: 0;
   padding: 18px 20px;
-  gap: 10px;
+  column-gap: 24px;
   border-bottom: 1px solid var(--line);
   background: rgba(255,255,255,.94);
   color: var(--ink);
@@ -23,6 +23,8 @@ header.site.tool-site-header {
 }
 html[data-theme="dark"] header.site.tool-site-header { background: rgba(11,18,32,.94); }
 .tool-site-header > .brand {
+  grid-column: 1;
+  justify-self: start;
   display: flex;
   align-items: center;
   flex: 0 1 auto;
@@ -43,9 +45,13 @@ html[data-theme="dark"] header.site.tool-site-header { background: rgba(11,18,32
   text-overflow: ellipsis;
 }
 .tool-site-header nav.desktop-nav {
+  grid-column: 2;
+  justify-self: stretch;
+  width: 100%;
+  min-width: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 18px;
   font-family: 'Work Sans', Arial, sans-serif;
   font-size: 13.5px;
@@ -62,7 +68,16 @@ html[data-theme="dark"] header.site.tool-site-header { background: rgba(11,18,32
 }
 .tool-site-header nav.desktop-nav a:hover,
 .tool-site-header nav.desktop-nav a[aria-current="page"] { color: var(--teal-dark); border-bottom-color: var(--teal); }
-.tool-site-header .header-actions { display: flex; align-items: center; justify-content: flex-end; flex-shrink: 0; gap: 10px; }
+.tool-site-header > .header-actions {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  gap: 10px;
+}
 .tool-site-header label.mobile-menu-btn { display: none; }
 .tool-site-header + nav.mobile-nav {
   font-family: 'Work Sans', Arial, sans-serif;
@@ -72,9 +87,13 @@ html[data-theme="dark"] header.site.tool-site-header { background: rgba(11,18,32
 }
 .grade-spec-tool-page .top-shell,
 .grade-spec-guide-page .topbar { top: 69px; }
-@media (max-width: 1080px) {
+/* Eight navigation links, the brand and Account control need this width. */
+@media (max-width: 1279px) {
+  header.site.tool-site-header { grid-template-columns: minmax(0, 1fr) auto; }
   .tool-site-header nav.desktop-nav { display: none; }
+  .tool-site-header > .header-actions { grid-column: 2; }
   .tool-site-header label.mobile-menu-btn { display: flex; }
+  .mnav-check:checked ~ header.tool-site-header + nav.mobile-nav { display: flex; }
 }
 @media (max-width: 760px) {
   header.site.tool-site-header { min-height: 61px; padding: 14px 16px; }
