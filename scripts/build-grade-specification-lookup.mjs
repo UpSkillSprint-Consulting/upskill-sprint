@@ -31,7 +31,7 @@ const sources = {
 const siteHeader = `
 <a class="uss-skip-link" href="#app">Skip to Material Specification Lookup</a>
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
-<header class="site grade-sitebar">
+<header class="site grade-sitebar tool-site-header">
   <a class="brand" href="/" aria-label="UpSkill Sprint Consulting home"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
   <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools" aria-current="page">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
   <div class="header-actions">
@@ -58,7 +58,8 @@ html[data-theme="light"] .search-item:hover,html[data-theme="light"] .toc a:hove
 html[data-theme="light"] .brand small,html[data-theme="light"] .field label,html[data-theme="light"] .hero p,html[data-theme="light"] .section-body p,html[data-theme="light"] .section-body li,html[data-theme="light"] .mini-card p,html[data-theme="light"] td{color:var(--muted)}html[data-theme="light"] .spec-table th,html[data-theme="light"] table th{background:#17324d;color:#fff}html[data-theme="light"] .spec-table td,html[data-theme="light"] table td{border-color:var(--line)}
 html[data-theme="light"] .hero-main,html[data-theme="light"] .hero-side{background:linear-gradient(135deg,#fff,#edf5fb)}html[data-theme="light"] .mark{background:linear-gradient(145deg,rgba(14,116,144,.12),rgba(217,119,6,.08));color:#0e6675}html[data-theme="light"] .badge,html[data-theme="light"] .badge-demo,html[data-theme="light"] .status,html[data-theme="light"] .clause{background:#f3f7fb;color:#30465f;border-color:var(--line)}
 @media(max-width:1080px){.grade-spec-tool-page .top-shell,.grade-spec-guide-page .topbar{top:64px}}@media(max-width:760px){header.site.grade-sitebar{padding:12px 16px}.grade-spec-tool-page .top-shell,.grade-spec-guide-page .topbar{top:60px}.uss-tool-back{padding-left:12px;padding-right:12px}.grade-sitebar .brand span{font-size:15px}}@media(max-width:430px){.grade-sitebar .brand span{display:none}}@media print{header.site.grade-sitebar,nav.mobile-nav,.mnav-check,.uss-skip-link,.uss-tool-back,.theme-control{display:none!important}.grade-spec-tool-page .top-shell,.grade-spec-guide-page .topbar{top:0}}
-</style>`;
+</style>
+<link rel="stylesheet" href="/assets/tool-site-header.css">`;
 
 const backLink = '<div class="uss-tool-back"><a href="/engineering-tools">Back to Engineering Tools</a></div>';
 

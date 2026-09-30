@@ -132,4 +132,12 @@
       'Use Other / not listed for valid edition-specific designations that are not in this catalogue.'
     ]
   };
+  // The attached-source adapter owns edition-specific grade and category choices.
+  if (window.MaterialCheckerStandards?.catalogue) {
+    const targets = {A36: ['ASTM', 'ASTM A36/A36M'], G40: ['CSA', 'CSA G40.21'], Z245: ['CSA', 'CSA Z245.1']};
+    window.MaterialCheckerStandards.catalogue().forEach(source => {
+      const target = targets[source.family];
+      if (target && source.grades?.length) window.MaterialCheckerConfig.LIB[target[0]][target[1]] = withOther(Array.from(new Set(source.grades.map(grade => grade.value || grade.label))));
+    });
+  }
 }());

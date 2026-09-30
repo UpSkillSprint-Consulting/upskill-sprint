@@ -39,6 +39,12 @@
     return values.map(value => '<option value="' + esc(value) + '"' + (value === selected ? ' selected' : '') + '>' + esc(value) + '</option>').join('');
   }
 
+  function catalogueOptions(values, selected, recognizedAlias) {
+    if (values.includes(selected)) return options(values, selected);
+    const label = String(selected || 'Not supplied') + (recognizedAlias ? ' (recognized alias)' : ' (imported / not listed)');
+    return '<option value="' + esc(selected) + '" selected>' + esc(label) + '</option>' + options(values, null);
+  }
+
   function unitOptions(values, selected) {
     const current = String(selected == null ? '' : selected);
     const allowed = values.map(value => String(value));
@@ -65,7 +71,7 @@
       return {id: uid(), propertyCode: '', name: '', evidence: 'unknown', source: '', mandatory: true};
     }
     const unit = section === 'chemistry' ? '%' : section === 'mechanical' ? (metric ? 'MPa' : 'ksi') : (metric ? 'mm' : 'in');
-    return {id: uid(), propertyCode: '', name: '', actual: '', aUnit: unit, min: '', max: '', rUnit: unit, source: '', mandatory: true};
+    return {id: uid(), propertyCode: '', name: '', actual: '', aUnit: unit, min: '', max: '', rUnit: unit, source: '', mandatory: true, standardInput: false};
   }
 
   function defaultState() {
@@ -76,7 +82,8 @@
         sourceEdition: '', certificateRef: '', requirementStatus: 'unknown',
         assessmentDate: Engine.localISODate(), reviewer: '',
         targetOrg: 'ASTM', targetStandard: 'ASTM A572/A572M', targetGrade: 'Grade 50', targetCustom: '',
-        targetEdition: '', thickness: '', thicknessUnit: 'mm', width: '', widthUnit: 'mm', notes: ''
+        targetEdition: '', thickness: '', thicknessUnit: 'mm', width: '', widthUnit: 'mm', notes: '',
+        standardContext: {}, standardTests: {}, standardEvidence: {}
       },
       unitSystem: 'metric',
       selected: Object.fromEntries(SECTION_KEYS.map(section => [section, true])),
@@ -88,26 +95,74 @@
     return SECTION_KEYS.filter(section => state.selected[section]);
   }
 
+  function standardMetadata(side) {
+    const adapter = window.MaterialCheckerStandards;
+    if (!adapter || typeof adapter.inspect !== 'function') return {supported: false};
+    const scope = side === 'source' ? Object.assign({}, state.scope, {
+      targetOrg: state.scope.sourceOrg, targetStandard: state.scope.sourceStandard,
+      targetGrade: state.scope.sourceGrade, targetEdition: state.scope.sourceEdition
+    }) : state.scope;
+    try { return adapter.inspect({scope}) || {supported: false}; }
+    catch (_error) { return {supported: false}; }
+  }
+
+  function renderStandardInputs() {
+    if (window.MaterialCheckerStandardInputs) window.MaterialCheckerStandardInputs.render({
+      scope: state.scope, metadata: standardMetadata(),
+      onChange: function (group, key, value) {
+        state.scope[group] = Object.assign({}, state.scope[group] || {}, {[key]: value});
+        invalidate();
+      },
+      onEdition: function (edition) { state.scope.targetEdition = edition; fillScope(); invalidate(); },
+      onLoad: loadStandardInputs
+    });
+  }
+
+  function loadStandardInputs() {
+    const metadata = standardMetadata();
+    if (!metadata.supported) return;
+    let added = 0;
+    (metadata.requiredProperties || []).forEach(requirement => {
+      if (['chem_cecsa', 'chem_ceiiw', 'mech_yt_ratio'].includes(requirement.code)) return;
+      const section = requirement.category || (String(requirement.code).startsWith('chem_') ? 'chemistry' : String(requirement.code).startsWith('dim_') ? 'dimensions' : 'mechanical');
+      if (!['chemistry', 'mechanical', 'dimensions'].includes(section)) return;
+      const existing = state.rows[section].find(row => (findProperty(section, row)?.code || row.propertyCode) === requirement.code);
+      if (existing && !String(existing.min ?? '').trim() && !String(existing.max ?? '').trim()) { existing.standardInput = true; existing.name = requirement.label || existing.name; }
+      if (!existing) {
+        const row = newRow(section, state.unitSystem);
+        Object.assign(row, {propertyCode: requirement.code, name: requirement.label, aUnit: requirement.unit || row.aUnit, rUnit: requirement.unit || row.rUnit, standardInput: true});
+        state.rows[section].push(row);
+        added++;
+      }
+      state.rows[section] = state.rows[section].filter(row => row.propertyCode || row.name || row.actual || row.min || row.max);
+      state.selected[section] = true;
+    });
+    fillScope(); renderRows(); invalidate('Standard input rows loaded. Enter actual certificate results; audited requirements are resolved again for every check.');
+    setStatus(added + ' actual-result input rows added. Existing actuals and additional requirements were retained.');
+  }
+
   function specificationOptions(side) {
     const organization = state.scope[side + 'Org'];
-    const standards = LIB[organization] || LIB.Other;
+    const standards = LIB[organization] || {};
     const standardNames = Object.keys(standards);
-    if (!standardNames.includes(state.scope[side + 'Standard'])) state.scope[side + 'Standard'] = standardNames[0];
-    const grades = standards[state.scope[side + 'Standard']] || ['Custom designation'];
-    if (!grades.includes(state.scope[side + 'Grade'])) state.scope[side + 'Grade'] = grades[0];
+    const metadata = standardMetadata(side);
+    const grades = metadata.supported && metadata.grades?.length ? metadata.grades.map(grade => grade.value || grade.label) : standards[state.scope[side + 'Standard']] || [];
 
     const organizationSelect = one('[data-spec="' + side + '-org"]');
     const standardSelect = one('[data-spec="' + side + '-standard"]');
     const gradeSelect = one('[data-spec="' + side + '-grade"]');
     const customField = one('[data-custom="' + side + '"]');
     if (!organizationSelect || !standardSelect || !gradeSelect || !customField) return;
-    organizationSelect.innerHTML = options(Object.keys(LIB), organization);
-    standardSelect.innerHTML = options(standardNames, state.scope[side + 'Standard']);
-    gradeSelect.innerHTML = options(grades, state.scope[side + 'Grade']);
+    organizationSelect.innerHTML = catalogueOptions(Object.keys(LIB), organization);
+    standardSelect.innerHTML = catalogueOptions(standardNames, state.scope[side + 'Standard']);
+    gradeSelect.innerHTML = catalogueOptions(grades, state.scope[side + 'Grade'], metadata.gradeMatches);
     customField.hidden = !(
       ['Customer', 'Internal', 'Other'].includes(organization) ||
       state.scope[side + 'Standard'] === 'Other / not listed' ||
       ['Other / not listed', 'Custom designation'].includes(state.scope[side + 'Grade']) ||
+      !Object.prototype.hasOwnProperty.call(LIB, organization) ||
+      !standardNames.includes(state.scope[side + 'Standard']) ||
+      (!grades.includes(state.scope[side + 'Grade']) && !metadata.gradeMatches) ||
       String(state.scope[side + 'Custom'] || '').trim()
     );
   }
@@ -120,6 +175,7 @@
     });
     one('#unitSystem').value = state.unitSystem;
     all('#selectors input').forEach(input => { input.checked = Boolean(state.selected[input.value]); });
+    renderStandardInputs();
   }
 
   function findProperty(section, row) {
@@ -184,6 +240,12 @@
     const units = rowUnits(section, row);
     const actualUnit = String(row.aUnit == null ? '' : row.aUnit);
     const requirementUnit = String(row.rUnit == null ? '' : row.rUnit);
+    if (row.standardInput) return '<div class="req-row quant standard-actual-row" data-sec="' + section + '" data-id="' + esc(row.id) + '">' +
+      '<div class="row-field"><strong>' + esc(row.name || row.propertyCode) + '</strong><small>Actual result for audited standard screening</small></div>' +
+      '<label class="row-field">Actual<input type="number" step="any" data-f="actual" value="' + esc(row.actual) + '"></label>' +
+      '<label class="row-field">Unit<select data-f="aUnit">' + unitOptions(units, actualUnit) + '</select></label>' +
+      '<p class="standard-actual-note">Acceptance is resolved from the selected edition and product context.</p>' +
+      '<button class="remove" data-remove type="button" aria-label="' + esc(removeLabel) + '">×</button></div>';
     return '<div class="req-row quant" data-sec="' + section + '" data-id="' + esc(row.id) + '">' +
       propertyField +
       '<label class="row-field">Actual<input type="number" step="any" data-f="actual" value="' + esc(row.actual) + '"></label>' +
@@ -215,7 +277,7 @@
 
   function resultRow(section, name, actual, rule, status, basis, detail) {
     return {
-      section: DEF[section] ? DEF[section].title : section,
+      section: DEF[section] ? DEF[section].title : section === 'applicability' ? 'Product and order scope' : section,
       sec: section,
       name: name || 'Unnamed requirement',
       actual: actual || '—',
@@ -237,6 +299,16 @@
     const targetNeedsCustom = ['Customer', 'Internal', 'Other'].includes(state.scope.targetOrg) || state.scope.targetStandard === 'Other / not listed' || ['Other / not listed', 'Custom designation'].includes(state.scope.targetGrade);
     if (sourceNeedsCustom && !String(state.scope.sourceCustom || '').trim()) rows.push(resultRow('process', 'Source custom designation', 'Missing', 'Exact controlled designation must be recorded', 'missing', 'Material and specification scope', 'Complete the custom source specification or material designation.'));
     if (targetNeedsCustom && !String(state.scope.targetCustom || '').trim()) rows.push(resultRow('process', 'Target custom designation', 'Missing', 'Exact controlled designation must be recorded', 'missing', 'Material and specification scope', 'Complete the custom target requirement designation.'));
+    ['source', 'target'].forEach(side => {
+      const organization = state.scope[side + 'Org'], standard = state.scope[side + 'Standard'], grade = state.scope[side + 'Grade'];
+      const standards = LIB[organization], grades = standards?.[standard];
+      const metadata = standardMetadata(side);
+      const listed = !!standards && Array.isArray(grades) && (grades.includes(grade) || metadata.gradeMatches === true);
+      if (!listed && !String(state.scope[side + 'Custom'] || '').trim()) rows.push(resultRow('process',
+        (side === 'source' ? 'Source' : 'Target') + ' designation outside the catalogue', [organization, standard, grade].filter(Boolean).join(' / '),
+        'Record the exact controlled custom designation', 'review', 'Material and specification scope',
+        'The imported organization, standard or grade was preserved. Its controlling designation must be recorded or verified before release; it was not substituted with a catalogue entry.'));
+    });
     if (!Engine.isValidDateNotFuture(state.scope.assessmentDate)) {
       rows.push(resultRow('process', 'Assessment date', state.scope.assessmentDate || 'Missing', 'A valid date no later than today', 'invalid', 'Material and specification scope', 'Enter a valid assessment date that is not in the future.'));
     }
@@ -260,10 +332,81 @@
     ['chemistry', 'mechanical', 'dimensions'].forEach(section => {
       (state.rows[section] || []).forEach(row => {
         const property = findProperty(section, row);
-        if (property && toNumber(row.actual) != null) actuals[property.code] = {value: row.actual, unit: row.aUnit};
+        if (property && String(row.actual == null ? '' : row.actual).trim()) actuals[property.code] = {value: row.actual, unit: row.aUnit};
       });
     });
     return actuals;
+  }
+
+  function currentEvidence() {
+    const evidence = JSON.parse(JSON.stringify(state.scope.standardEvidence || {}));
+    (state.rows.process || []).forEach(row => {
+      const code = findProperty('process', row)?.code || row.propertyCode;
+      if (code) evidence[code] = {value: row.evidence, reference: row.source || ''};
+    });
+    return evidence;
+  }
+
+  function canonicalConflictRows() {
+    const conflicts = [];
+    const actualGroups = new Map();
+    ['chemistry', 'mechanical', 'dimensions'].forEach(section => {
+      (state.rows[section] || []).forEach(row => {
+        const property = findProperty(section, row);
+        if (!property || !Engine.hasNumericInput(row.actual)) return;
+        const group = actualGroups.get(property.code) || [];
+        group.push({row, property, section});
+        actualGroups.set(property.code, group);
+      });
+    });
+    actualGroups.forEach(group => {
+      if (group.length < 2) return;
+      const property = group[0].property;
+      const unit = property.defaultUnit || property.units[0];
+      const values = group.map(({row}) => {
+        const value = toNumber(row.actual);
+        if (value == null || !property.units.includes(row.aUnit) || Engine.numericDomainError(value, row.aUnit, property.code, {limit: false})) return null;
+        return Engine.convert(value, row.aUnit, unit);
+      });
+      const invalid = values.some(value => value == null || !Number.isFinite(value));
+      const different = !invalid && values.some(value => Math.abs(value - values[0]) > 1e-9);
+      if (invalid || different) conflicts.push(resultRow(group[0].section, property.label + ' — conflicting actual records',
+        group.map(({row}) => String(row.actual) + ' ' + row.aUnit).join('; '),
+        'Repeated actuals must be valid and agree after unit conversion', 'invalid', 'Canonical material evidence',
+        invalid ? 'At least one repeated actual is malformed, outside its physical domain, or in an unsupported unit. A later valid row cannot replace that evidence.' :
+          'Different actual results were entered for the same material property. Correct or separate the material records before evaluating standard and additional requirements.'));
+    });
+
+    const evidenceGroups = new Map();
+    const collectEvidence = (code, entry, name) => {
+      if (!code) return;
+      const raw = typeof entry === 'object' && entry !== null ? entry.value ?? entry.status : entry;
+      const value = raw === true ? 'yes' : raw === false ? 'no' : raw;
+      const group = evidenceGroups.get(code) || [];
+      group.push({value, name});
+      evidenceGroups.set(code, group);
+    };
+    Object.entries(state.scope.standardEvidence || {}).forEach(([code, entry]) => collectEvidence(code, entry, code));
+    (state.rows.process || []).forEach(row => {
+      const property = findProperty('process', row);
+      collectEvidence(property?.code || row.propertyCode, row.evidence, property?.label || row.name || row.propertyCode);
+    });
+    evidenceGroups.forEach(group => {
+      if (group.length < 2) return;
+      const values = group.map(entry => entry.value);
+      const malformed = values.some(value => !['yes', 'no', 'unknown', 'not-applicable', '', undefined, null].includes(value));
+      if (malformed || (values.includes('yes') && values.includes('no'))) conflicts.push(resultRow('process', group[0].name + ' — conflicting evidence records',
+        values.map(value => String(value ?? 'Unknown')).join('; '), 'Repeated evidence must use valid, consistent statuses', 'invalid', 'Canonical material evidence',
+        malformed ? 'A repeated evidence record has an unsupported status. Correct it before assessment.' : 'The same required evidence was entered as both present and absent. A later row cannot replace the contradictory record.'));
+    });
+    return conflicts;
+  }
+
+  function standardResultRow(row) {
+    const section = row.category || row.sec || 'process';
+    return Object.assign({}, row, resultRow(section, row.label || row.name || row.id,
+      row.actual, row.acceptance || row.rule, row.status, row.basis || row.source,
+      row.detail || row.reason), {standardRequirement: true});
   }
 
   function evaluateQuantitative(section, row, derived) {
@@ -280,6 +423,10 @@
     const basis = String(row.source || '').trim();
     const allowedUnits = rowUnits(section, row);
 
+    if (['min', 'max', 'actual'].some(key => Engine.hasNumericInput(row[key]) && toNumber(row[key]) == null)) {
+      return resultRow(section, name, row.actual || '—', ruleText, 'invalid', basis, 'Each entered result and acceptance limit must be a finite numeric value.');
+    }
+
     if (minimum == null && maximum == null) return resultRow(section, name, row.actual === '' ? '—' : format(toNumber(row.actual)) + ' ' + row.aUnit, ruleText, 'review', basis, 'Enter at least one acceptance limit.');
     if (minimum != null && maximum != null && minimum > maximum) return resultRow(section, name, row.actual === '' ? '—' : row.actual + ' ' + row.aUnit, ruleText, 'invalid', basis, 'Rule configuration is invalid because the minimum exceeds the maximum.');
     if (!allowedUnits.includes(row.rUnit)) return resultRow(section, name, row.actual === '' ? '—' : row.actual + ' ' + row.aUnit, ruleText, 'invalid', basis, 'The requirement unit is missing or unsupported for this property. Select a valid unit before evaluating the rule.');
@@ -291,7 +438,7 @@
     let actual = toNumber(row.actual);
     let actualUnit = row.aUnit;
     let derivedNote = '';
-    const derivedMap = {chem_ceiiw: 'ceiiw', chem_pcm: 'pcm', mech_yt_ratio: 'ytRatio'};
+    const derivedMap = {chem_ceiiw: 'ceiiw', chem_cecsa: 'cecsa', chem_pcm: 'pcm', mech_yt_ratio: 'ytRatio'};
     const derivedValue = derivedMap[code] && derived[derivedMap[code]];
     if (actual == null && derivedValue && derivedValue.ready) {
       actual = derivedValue.value;
@@ -318,6 +465,9 @@
     const property = findProperty('charpy', row);
     const name = property ? property.label : String(row.name || '').trim();
     if (!name) return null;
+    if (['testTemp', 'specimenCount', 'avg', 'individual', 'reqTemp', 'reqSpecimenCount', 'reqAvg', 'reqIndividual'].some(key => Engine.hasNumericInput(row[key]) && toNumber(row[key]) == null)) {
+      return resultRow('charpy', name, 'Invalid entered value', 'Finite numerical test evidence and criteria', 'invalid', row.source, 'Each supplied test result and requirement must be a finite numeric value.');
+    }
     const testTemperature = toNumber(row.testTemp);
     const specimenCount = toNumber(row.specimenCount);
     const average = toNumber(row.avg);
@@ -405,6 +555,7 @@
     const name = property ? property.label : String(row.name || '').trim();
     if (!name) return null;
     const basis = String(row.source || '').trim();
+    if (!['yes', 'no', 'unknown', 'not-applicable'].includes(row.evidence)) return resultRow('process', name, row.evidence, 'Recognized evidence status', 'invalid', basis, 'Select a valid evidence status.');
     const actual = row.evidence === 'yes' ? 'Yes' : row.evidence === 'no' ? 'No' : row.evidence === 'not-applicable' ? 'Not applicable' : 'Unknown';
     if (row.evidence === 'no') return resultRow('process', name, actual, 'Evidence must be present', 'fail', basis, basis ? 'Required evidence is explicitly absent.' : 'Required evidence is explicitly absent; the controlled clause or source is also missing.');
     if (row.evidence === 'unknown') return resultRow('process', name, actual, 'Evidence must be present', row.mandatory ? 'missing' : 'review', basis, 'Evidence has not been confirmed.');
@@ -415,7 +566,16 @@
 
   function evaluateState() {
     const selected = selectedSections();
-    if (!selected.length) {
+    const conflicts = canonicalConflictRows();
+    const metadata = standardMetadata();
+    let standardEvaluation = {supported: false, rows: []};
+    if (window.MaterialCheckerStandards) {
+      try { standardEvaluation = window.MaterialCheckerStandards.evaluate({scope: state.scope, actuals: currentActuals(), evidence: currentEvidence(), engine: Engine}) || standardEvaluation; }
+      catch (error) { const supported = metadata.supported || /A36|G40\.(?:20|21)|Z245\.1/i.test(state.scope.targetStandard); standardEvaluation = {supported, rows: supported ? [{category: 'process', label: 'Attached standard evaluation', status: 'invalid', detail: 'The standard evaluator could not complete: ' + error.message, acceptance: 'Complete audited evaluation is required', basis: metadata.edition}] : []}; }
+    } else if (metadata.supported || /A36|G40\.(?:20|21)|Z245\.1/i.test(state.scope.targetStandard)) {
+      standardEvaluation = {supported: true, rows: [{category: 'process', label: 'Attached standard evaluator', status: 'missing', acceptance: 'Audited evaluator must be available', detail: 'Reload the tool before assessing this standard.'}]};
+    }
+    if (!selected.length && !standardEvaluation.supported && !conflicts.length) {
       return {
         rows: [], counts: {pass: 0, fail: 0, missing: 0, review: 0, invalid: 0},
         applicable: 0, assessed: 0, coverage: 0, status: 'not-assessed',
@@ -423,21 +583,23 @@
         evaluatedAt: new Date().toISOString()
       };
     }
-    const rows = scopeRows();
+    const rows = scopeRows().concat(conflicts, (standardEvaluation.rows || []).map(standardResultRow));
     const derived = Engine.calculateDerived(currentActuals(), state.scope);
     selected.forEach(section => {
       const evaluated = (state.rows[section] || []).map(row => {
+        if (row.standardInput) return null;
+        if (standardEvaluation.supported && DEF[section].type === 'q' && !String(row.min ?? '').trim() && !String(row.max ?? '').trim()) return null;
         if (DEF[section].type === 'q') return evaluateQuantitative(section, row, derived);
         if (DEF[section].type === 'c') return evaluateCharpy(row);
         return evaluateProcess(row);
       }).filter(Boolean);
       if (evaluated.length) rows.push(...evaluated);
-      else rows.push(resultRow(section, 'Section configuration', 'No requirements entered', 'At least one requirement is needed', 'missing', 'Selected evidence section', 'Configure a requirement or remove this section from the applicable scope.'));
+      else if (!standardEvaluation.supported) rows.push(resultRow(section, 'Section configuration', 'No requirements entered', 'At least one requirement is needed', 'missing', 'Selected evidence section', 'Configure a requirement or remove this section from the applicable scope.'));
     });
 
     const counts = {pass: 0, fail: 0, missing: 0, review: 0, invalid: 0};
     rows.forEach(row => { counts[row.status] = (counts[row.status] || 0) + 1; });
-    const applicable = rows.length;
+    const applicable = rows.filter(row => row.status !== 'not-applicable').length;
     const assessed = counts.pass + counts.fail;
     const coverage = applicable ? Math.round(assessed / applicable * 100) : 0;
     let status = 'not-assessed';
@@ -448,16 +610,16 @@
         message = 'Invalid values or rule definitions must be corrected before a compliance verdict can be issued.';
       } else if (counts.fail) {
         status = 'fail';
-        message = 'At least one controlled entered requirement is not satisfied.';
+        message = 'At least one applicable standard or additional requirement is not satisfied.';
       } else if (counts.missing || counts.review) {
         status = 'conditional';
         message = 'No controlled failure was found, but mandatory evidence, traceability, or engineering review remains unresolved.';
       } else {
         status = 'pass';
-        message = 'All configured requirements and release-gating scope checks are satisfied.';
+        message = 'All applicable screened requirements and release-gating scope checks are satisfied.';
       }
     }
-    return {rows, counts, applicable, assessed, coverage, status, message, evaluatedAt: new Date().toISOString()};
+    return {rows, counts, applicable, assessed, coverage, status, message, standard: standardEvaluation.supported ? {family: standardEvaluation.family, edition: standardEvaluation.edition, sourceHash: standardEvaluation.sourceHash} : null, evaluatedAt: new Date().toISOString()};
   }
 
   function statusLabel(status) {
@@ -533,6 +695,11 @@
     if (!candidate || typeof candidate !== 'object' || !candidate.scope || !candidate.rows) throw new Error('The file is not a valid checker assessment.');
     const normalized = defaultState();
     Object.keys(normalized.scope).forEach(key => {
+      if (['standardContext', 'standardTests', 'standardEvidence'].includes(key)) {
+        const value = candidate.scope[key];
+        if (value && typeof value === 'object' && !Array.isArray(value)) normalized.scope[key] = JSON.parse(JSON.stringify(value));
+        return;
+      }
       if (Object.prototype.hasOwnProperty.call(candidate.scope, key)) normalized.scope[key] = String(candidate.scope[key] == null ? '' : candidate.scope[key]).slice(0, 4000);
     });
     normalized.unitSystem = candidate.unitSystem === 'imperial' ? 'imperial' : 'metric';
@@ -543,7 +710,7 @@
         const clean = newRow(section, normalized.unitSystem);
         Object.keys(clean).forEach(key => {
           if (!Object.prototype.hasOwnProperty.call(source || {}, key)) return;
-          clean[key] = key === 'mandatory' ? Boolean(source[key]) : String(source[key] == null ? '' : source[key]).slice(0, 2000);
+          clean[key] = ['mandatory', 'standardInput'].includes(key) ? Boolean(source[key]) : String(source[key] == null ? '' : source[key]).slice(0, 2000);
         });
         clean.id = /^[a-z0-9-]{3,80}$/i.test(String(source.id || '')) ? String(source.id) : uid();
         return clean;
@@ -638,6 +805,7 @@
         if (field.dataset.scope.startsWith(side)) field.value = state.scope[field.dataset.scope] == null ? '' : state.scope[field.dataset.scope];
       });
     } else if (side && key.endsWith('Grade')) specificationOptions(side);
+    if (side || ['productForm', 'thickness', 'thicknessUnit', 'width', 'widthUnit'].includes(key)) renderStandardInputs();
     invalidate();
   }
 
@@ -825,6 +993,9 @@
     evaluate: evaluateState,
     getState: () => JSON.parse(JSON.stringify(state)),
     getResult: () => result ? JSON.parse(JSON.stringify(result)) : null,
+    readActuals: currentActuals,
+    getEvidence: currentEvidence,
+    loadStandardInputs,
     load: loadPayload
   };
 }());

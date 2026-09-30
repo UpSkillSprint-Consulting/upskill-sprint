@@ -1,0 +1,29 @@
+#standardInputs .standard-heading {display:flex;align-items:flex-start;justify-content:space-between;gap:1.25rem;margin-bottom:.75rem}
+#standardInputs .standard-heading h2 {margin:.2rem 0 .5rem;font-size:1.35rem}
+#standardInputs .standard-heading p {margin:0}
+#standardInputs .standard-muted,.standard-actual-note {color:var(--muted);font-size:.9rem;line-height:1.6}
+#standardInputs details {border-top:1px solid var(--line);padding:1rem 0}
+#standardInputs summary {cursor:pointer;font-weight:600;line-height:1.5}
+#standardInputs details[open] summary {margin-bottom:1rem}
+#standardInputs .standard-fields {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+#standardInputs .standard-field {display:flex;flex-direction:column;gap:.4rem;font-size:.85rem;font-weight:600;min-width:0}
+#standardInputs .standard-field input,#standardInputs .standard-field select,#standardInputs .standard-specimens input {width:100%;min-width:0;box-sizing:border-box;min-height:44px;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:var(--paper);color:var(--ink)}
+#standardInputs input:focus,#standardInputs select:focus {outline:3px solid rgba(14,116,144,.18);border-color:var(--teal)}
+#standardInputs .standard-field small,#standardInputs small {font-size:.78rem;font-weight:400;line-height:1.5;color:var(--muted)}
+#standardInputs .standard-evidence {display:grid;grid-template-columns:minmax(0,2fr) minmax(8rem,1fr) minmax(0,1.5fr);gap:1rem;padding:1rem 0;border-top:1px solid var(--line)}
+#standardInputs .standard-evidence p,#standardInputs .standard-catalogue-entry p {font-size:.85rem;line-height:1.6;margin:.4rem 0}
+#standardInputs .standard-catalogue-entry {padding:.9rem 0;border-bottom:1px solid var(--line)}
+#standardInputs code {overflow-wrap:anywhere;font-size:.75rem}
+#standardInputs .standard-edition-alert {padding:.8rem 1rem;background:var(--bg);border:1px solid var(--line);border-radius:.5rem;font-size:.9rem;line-height:1.6}
+#standardInputs .standard-edition-alert button {margin-left:.5rem}
+#standardInputs .standard-specimens {margin:1rem 0}
+#standardInputs .standard-specimens>span {display:block;font-weight:600;font-size:.85rem;margin-bottom:.6rem}
+#standardInputs .standard-specimens>div {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+#standardInputs .standard-specimens label {font-size:.8rem;color:var(--muted)}
+#standardInputs .standard-specimens input {display:block;margin-top:.4rem}
+#panels .standard-actual-row {grid-template-columns:minmax(10rem,1.5fr) minmax(6rem,1fr) minmax(6rem,1fr) minmax(8rem,2fr) auto;align-items:center}
+#panels .standard-actual-row small {display:block;color:var(--muted);font-size:.76rem;margin-top:.3rem}
+#panels .standard-actual-note {margin:0;font-size:.8rem}
+@media(max-width:800px){#standardInputs .standard-fields{grid-template-columns:repeat(2,minmax(0,1fr))}#standardInputs .standard-evidence{grid-template-columns:1fr 1fr}#standardInputs .standard-evidence>div{grid-column:1/-1}#panels .standard-actual-row{grid-template-columns:1fr 1fr}#panels .standard-actual-row>.row-field:first-child,#panels .standard-actual-note{grid-column:1/-1}}
+@media(max-width:520px){#standardInputs .standard-heading{display:block}#standardInputs .standard-heading button{margin-top:1rem}#standardInputs .standard-fields,#standardInputs .standard-evidence{grid-template-columns:1fr}#standardInputs .standard-specimens>div{gap:.5rem}}
+@media print{#standardInputs details{display:block}#standardInputs details>*{display:block}#standardInputs button{display:none}}

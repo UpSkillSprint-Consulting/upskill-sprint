@@ -125,14 +125,15 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
   .guide-table-wrap{overflow:visible}.guide-table{min-width:0}
 }
 </style>
+<link rel="stylesheet" href="/assets/tool-site-header.css">
 </head>
 <body class="guide-page">
 <a class="skip" href="#guide-content">Skip to guide</a>
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
-<header class="site checker-sitebar">
-<a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+<header class="site checker-sitebar tool-site-header">
+<a class="brand" href="/" aria-label="UpSkill Sprint Consulting home"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
 <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools" aria-current="page">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
-<div class="header-actions"><div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div><label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></label></div>
+<div class="header-actions"><label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></label><div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div></div>
 </header>
 <nav class="mobile-nav" aria-label="Mobile navigation"><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools" aria-current="page">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
 
@@ -173,7 +174,7 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
     <section class="guide-card" id="purpose">
       <p class="guide-kicker">Engineering boundary</p>
       <h2>What the checker does—and does not do</h2>
-      <p>The checker compares entered material evidence with acceptance rules taken from a controlled source. It records the scope, performs defined unit conversions, evaluates each requirement, reports evidence coverage, and preserves the basis used for the decision.</p>
+      <p>The checker compares material evidence with controlled requirements. It includes audited rules from the supplied ASTM A36/A36M-19, CSA G40.20-13/G40.21-13 (R2023) with May 2014 Update No. 1, and CSA Z245.1:26 documents. Other specifications continue to use user-entered controlled rules. Each result preserves the applicable edition, source reference, context and evidence basis.</p>
       <div class="guide-callout danger"><p><strong>It is a screening and documentation tool, not an authoritative standards database or certification authority.</strong> It does not replace the purchased standard, customer purchase specification, contract, engineering judgment, or approval by the responsible technical authority.</p></div>
       <div class="guide-grid">
         <article class="guide-mini"><h3>Use it for</h3><p>Cross-specification screening, MTR review, evidence-gap identification, batch triage, rule-package management, comparison, and traceable reporting.</p></article>
@@ -254,6 +255,13 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
       <p class="guide-kicker">Step 3</p>
       <h2>Enter actual results and controlled target requirements</h2>
       <p>Use <strong>Add requirement</strong> within each selected tab. The property list is category-specific so chemistry rows cannot be assigned to mechanical or dimensional properties.</p>
+      <div class="guide-callout"><p><strong>Attached standards:</strong> select the exact target edition, complete the standard-specific product, order and specimen fields, then load its evidence inputs. Enter actual results without copying standard limits into manual rows. The audited requirements run even when manual evidence tabs are deselected. Manual limits remain additional customer requirements.</p></div>
+      <div class="guide-grid">
+        <article class="guide-mini"><h3>ASTM A36/A36M-19</h3><p>Select the independently standardized SI or inch-pound basis. Plate width, thickness, shape flange thickness, gauge length, copper ordering and bearing-plate route change the applicable requirements. Referenced A6/A6M requirements remain explicit review items.</p></article>
+        <article class="guide-mini"><h3>CSA structural steel</h3><p>Use the R2023 document with the May 2014 amendment. Select product subtype, orientation, gauge, supply condition and impact category. Strength is assessed with the source rounding rule; impact subsize limits use the source tables.</p></article>
+        <article class="guide-mini"><h3>CSA Z245.1:26 pipe</h3><p>Record nominal OD and wall, grade/category, manufacturing method, supply condition, service and order temperature. Enter nominal specimen area for elongation, all ten chemistry terms for CSA CE, three individual CVN results and, when applicable, two DWTT results. Hydro pressure and hold time are calculated from the selected source context.</p></article>
+      </div>
+      <p>Unknown order conditions, missing specimen results and unresolved documentary checks remain Conditional. Values outside an applicable audited limit cause Fail. A manually entered passing limit cannot remove an audited failure. The original supplied edition is the acceptance basis; a different revision is flagged for review.</p>
       <h3>Quantitative rows: chemistry, mechanical, and dimensions</h3>
       <div class="guide-table-wrap"><table class="guide-table">
         <thead><tr><th>Column</th><th>How to use it</th></tr></thead>
@@ -269,7 +277,7 @@ html:not([data-theme="dark"]) .guide-flow article::before{color:#fff}
       </table></div>
 
       <h3>Charpy / toughness rows</h3>
-      <p>Record the location and orientation, actual test temperature, specimen count, actual average energy, actual minimum individual energy, required maximum test temperature, required specimen count, required average energy, required individual energy, units, and source. Temperature and energy units are selected independently. A temperature requirement is usually a maximum test temperature; energy criteria are usually minimums.</p>
+      <p>For manual requirements, record the location and orientation, actual test temperature, specimen count, reported average and minimum individual energy, required temperature/count/energies, units, and source. For attached CSA standards, use the standard-specific individual specimen fields; a reported average and minimum cannot substitute for the complete specimen set. Temperature and energy units are selected independently. A temperature requirement is usually a maximum test temperature; energy criteria are usually minimums.</p>
 
       <h3>Process / certification rows</h3>
       <p>Select the required evidence item and set its status to <span class="guide-code">yes</span>, <span class="guide-code">no</span>, <span class="guide-code">unknown</span>, or <span class="guide-code">not-applicable</span>. Mandatory evidence marked unknown or unjustified as not applicable remains unresolved.</p>

@@ -5,6 +5,7 @@
   const PRODUCT_FORMS = ['Coil', 'Plate', 'Line pipe', 'Tube', 'Casing', 'Tubing', 'Structural shape', 'Bar', 'Forging', 'Other'];
   const EXTRA = {
     charpy_test_temperature: {units: ['°C', '°F'], defaultUnit: '°C'},
+    charpy_specimen_count: {units: ['count'], defaultUnit: 'count'},
     charpy_average_energy: {units: ['J', 'ft-lb'], defaultUnit: 'J'},
     charpy_minimum_individual_energy: {units: ['J', 'ft-lb'], defaultUnit: 'J'},
     charpy_shear_area: {units: ['%'], defaultUnit: '%'},
@@ -128,8 +129,11 @@
       if (codeSelect && !codeSelect.value && Array.from(codeSelect.options).some(option => option.value === match[0])) {
         codeSelect.value = match[0];
         codeSelect.dispatchEvent(new Event('change', {bubbles: true}));
+        if (unitSelect && !unitSelect.value && Array.from(unitSelect.options).some(option => option.value === match[1])) {
+          unitSelect.value = match[1];
+          unitSelect.dispatchEvent(new Event('change', {bubbles: true}));
+        }
       }
-      if (unitSelect && Array.from(unitSelect.options).some(option => option.value === match[1])) unitSelect.value = match[1];
     });
   }
 

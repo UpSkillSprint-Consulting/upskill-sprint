@@ -3,6 +3,25 @@ const assert = require('node:assert/strict');
 const test = require('node:test');
 const Engine = require('../tools/material-checker-engine.js');
 
+test('malformed acceptance bounds cannot be discarded into a pass', () => {
+  for (const bounds of [{min: 'not a number', max: .2}, {min: .1, max: 'Infinity'}]) {
+    const row = Engine.evaluateRule({propertyCode: 'chem_carbon', unit: '%', clause: 'Controlled requirement', ...bounds}, {chem_carbon: {value: .15, unit: '%'}});
+    assert.equal(row.status, 'invalid');
+  }
+});
+
+test('whitespace actuals are missing rather than a measured zero', () => {
+  const row = Engine.evaluateRule({propertyCode: 'chem_carbon', max: .2, unit: '%', clause: 'Controlled requirement'}, {chem_carbon: {value: '  ', unit: '%'}});
+  assert.equal(row.status, 'missing');
+});
+
+test('documentary rules preserve false and compare the configured expectation', () => {
+  const rule = {type: 'evidence', propertyCode: 'process_test', clause: 'Controlled requirement'};
+  assert.equal(Engine.evaluateRule(rule, {}, {process_test: false}).status, 'fail');
+  assert.equal(Engine.evaluateRule({...rule, expected: 'no'}, {}, {process_test: 'yes'}).status, 'fail');
+  assert.equal(Engine.evaluateRule({...rule, expected: 'no'}, {}, {process_test: false}).status, 'pass');
+});
+
 test('engine self-tests pass', () => {
   const result = Engine.runSelfTests();
   assert.equal(result.passed, true, JSON.stringify(result.tests.filter(item => !item.passed)));

@@ -5,7 +5,7 @@
   "description": "Static UpSkill Sprint site and Netlify functions",
   "scripts": {
     "dev": "vite",
-    "build:site": "node scripts/validate-simple-test-bank.mjs && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs && node scripts/build-lesson-search-index.mjs",
+    "build:site": "node scripts/validate-simple-test-bank.mjs && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-material-checker-standards.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs && node scripts/build-lesson-search-index.mjs",
     "build:mbb160-assets": "node scripts/build-mbb160-assets.mjs",
     "build:lesson-search-index": "node scripts/build-lesson-search-index.mjs",
     "test:lesson-search": "node --test tests/lesson-search*.test.js",
