@@ -55,4 +55,6 @@ rounding boundaries, unit conversions, specimen rules, conservative missing
 evidence, interactive state, packages, batch input, server storage and mobile
 headers. All 152 regression tests passed. The full site build passed. The live tool redirects to the site's
 sign-in gate, so browser review of authenticated production content was limited;
-DOM, computed header styles and state transitions were verified locally.
+DOM, computed header styles and state transitions were verified locally. The
+deployed public checker guide was also reviewed in the browser to confirm the
+shared header's spacing, typography, navigation and theme control.

@@ -56,6 +56,8 @@ html[data-theme="dark"]{
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:96px}
 body.guide-page{margin:0;background:var(--guide-page);color:var(--guide-ink);font-family:"Work Sans",Arial,sans-serif;line-height:1.65}
+.guide-page .skip{position:absolute;left:-9999px;top:0;z-index:1000;padding:10px 14px;background:var(--guide-navy);color:var(--guide-card);font-weight:700;text-decoration:none}
+.guide-page .skip:focus{left:0}
 .guide-page h1,.guide-page h2,.guide-page h3,.guide-page h4{color:var(--guide-ink);font-family:"Source Serif 4",Georgia,serif}
 .guide-page p,.guide-page li,.guide-page td,.guide-page dd{color:var(--guide-muted)}
 .guide-page strong{color:var(--guide-ink)}
