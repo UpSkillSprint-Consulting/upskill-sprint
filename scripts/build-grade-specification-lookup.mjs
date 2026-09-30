@@ -105,11 +105,11 @@ function replaceRequired(value, search, replacement, label) {
   return value.replace(search, replacement);
 }
 
-function prepareApplication(originalHtml, hardeningScript, hardeningStyles) {
+function prepareApplication(originalHtml, hardeningScript, hardeningStyles, auditedSources, auditedContext) {
   let withHardening = replaceRequired(
     originalHtml,
     'boot();\n</script>',
-    `${hardeningScript}\nboot();\n</script>`,
+    `${auditedSources}\napplyAuditedA36(SPEC_DATA);\napplyAuditedG40(SPEC_DATA);\napplyAuditedZ245(SPEC_DATA);\n${hardeningScript}\n${auditedContext}\nboot();\n</script>`,
     'application hardening script'
   );
   withHardening = replaceRequired(
@@ -176,18 +176,20 @@ function prepareGuide(originalHtml, guideNotice) {
 }
 
 async function build() {
-  const [applicationSource, guideSource, hardeningScript, hardeningStyles, guideNotice] = await Promise.all([
+  const [applicationSource, guideSource, hardeningScript, hardeningStyles, guideNotice, auditedModules, auditedContext] = await Promise.all([
     decodeSource(sources.application),
     decodeSource(sources.guide),
     readFile(join(sourceDirectory, 'hardening.js'), 'utf8'),
     readFile(join(sourceDirectory, 'hardening.css'), 'utf8'),
-    readFile(join(sourceDirectory, 'guide-notice.inc'), 'utf8')
+    readFile(join(sourceDirectory, 'guide-notice.inc'), 'utf8'),
+    Promise.all(['audited-a36.js', 'audited-g40.js', 'audited-z245.js'].map((file) => readFile(join(sourceDirectory, file), 'utf8'))),
+    readFile(join(sourceDirectory, 'audited-context.js'), 'utf8')
   ]);
 
   await rm(outputDirectory, { recursive: true, force: true });
   await mkdir(guideDirectory, { recursive: true });
 
-  const application = prepareApplication(applicationSource, hardeningScript, hardeningStyles);
+  const application = prepareApplication(applicationSource, hardeningScript, hardeningStyles, auditedModules.join('\n'), auditedContext);
   const guide = prepareGuide(guideSource, guideNotice.trim());
 
   await Promise.all([

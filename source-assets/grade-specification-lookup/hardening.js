@@ -245,6 +245,12 @@
     return limit && Number.isFinite(limit.value);
   }
 
+  function applicableCESymbols(section) {
+    if (['ALWAYS_IIW', 'CSA_Z245_26'].includes(section.selectionRule.type)) return numericElementsFromFormula(section.ceIiw.formula);
+    if (section.selectionRule.type === 'NONE') return [];
+    return [...new Set([...numericElementsFromFormula(section.ceIiw.formula), ...numericElementsFromFormula(section.cePcm.formula)])];
+  }
+
   function collectRequiredInputs(input, ctx) {
     const required = new Map();
     const need = (label, present) => required.set(label, Boolean(present));
@@ -262,7 +268,7 @@
 
     const ce = grade.chemistry.carbonEquivalent;
     if (hasLimit(ce.ceIiw.limit) || hasLimit(ce.cePcm.limit)) {
-      for (const element of new Set([...numericElementsFromFormula(ce.ceIiw.formula), ...numericElementsFromFormula(ce.cePcm.formula)])) {
+      for (const element of applicableCESymbols(ce)) {
         need(`${element} for carbon-equivalent calculation`, isPresent(input.chemistry?.[element]));
       }
     }
@@ -286,7 +292,7 @@
     if (row) {
       if (hasLimit(row.yieldStrength?.min) || hasLimit(row.yieldStrength?.max) || hasLimit(row.ytRatio?.max)) need('Yield strength', isPresent(input.ys));
       if (hasLimit(row.tensileStrength?.min) || hasLimit(row.tensileStrength?.max) || hasLimit(row.ytRatio?.max) || row.elongation?.type === 'FORMULA') need('Tensile strength', isPresent(input.uts));
-      if (row.elongation) {
+      if (row.elongation && (row.elongation.type === 'FORMULA' || hasLimit(row.elongation.fixedMin))) {
         need('Measured elongation', isPresent(input.elongation));
         if (row.elongation.type === 'FORMULA') {
           if (input.specimenType === 'ROUND') need('Round tensile specimen diameter', isPresent(input.roundDiameter));
@@ -366,7 +372,7 @@
   function removeIncompleteCarbonEquivalentRows(input, grade, results) {
     if (!Object.keys(input.chemistry || {}).length) return results;
     const ce = grade.chemistry.carbonEquivalent;
-    const symbols = [...new Set([...numericElementsFromFormula(ce.ceIiw.formula), ...numericElementsFromFormula(ce.cePcm.formula)])];
+    const symbols = applicableCESymbols(ce);
     const missing = symbols.filter((element) => !isPresent(input.chemistry?.[element]));
     if (!missing.length) return results;
     const retained = results.filter((row) => !['CE_IIW', 'Pcm', 'Carbon equivalent'].includes(row.name));

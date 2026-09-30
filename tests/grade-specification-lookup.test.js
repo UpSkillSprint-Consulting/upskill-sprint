@@ -49,15 +49,14 @@ after(() => {
 
 test('application boots without runtime errors and discloses dataset status', () => {
   assert.ok(qa);
-  assert.deepEqual({ ...qa.audit() }, {
-    grades: 257,
-    verifiedGrades: 0,
-    requirementRecords: 12659,
-    verifiedRequirementRecords: 0
-  });
+  const audit = qa.audit();
+  assert.equal(audit.grades, 268);
+  assert.equal(audit.verifiedGrades, 66);
+  assert.ok(audit.verifiedRequirementRecords > 3500);
+  assert.equal(qa.validateData(qa.data()).filter((item) => item.severity === 'error').length, 0);
   assert.deepEqual(runtimeErrors, []);
-  assert.match(dom.window.document.querySelector('.data-integrity-banner')?.textContent || '', /0\/257 grade records/);
-  assert.match(dom.window.document.querySelector('#diagCounts')?.textContent || '', /0 errors3 warnings/);
+  assert.match(dom.window.document.querySelector('.data-integrity-banner')?.textContent || '', /Supplied edition checked/);
+  assert.match(dom.window.document.querySelector('#diagCounts')?.textContent || '', /0 errors2 warnings/);
 });
 
 test('blank compliance run is INCOMPLETE rather than a false PASS', () => {
@@ -67,7 +66,8 @@ test('blank compliance run is INCOMPLETE rather than a false PASS', () => {
   assert.match(report.querySelector('.verdict')?.textContent || '', /INCOMPLETE/);
   assert.equal(report.querySelector('.verdict.pass'), null);
   assert.match(report.querySelector('.missing-inputs')?.textContent || '', /Yield strength/);
-  assert.match(report.textContent, /No result values were evaluated/);
+  assert.match(report.textContent, /Standard context/);
+  assert.equal(report.querySelectorAll('.status-pass').length, 0);
 });
 
 test('Charpy requires exactly three specimens and applies maximum-temperature semantics', () => {
@@ -106,12 +106,12 @@ test('the CE calculator does not silently substitute zero for missing chemistry'
   carbon.value = '0.1';
   carbon.dispatchEvent(new dom.window.Event('input', { bubbles: true }));
   const output = dom.window.document.querySelector('#ceOutput')?.textContent || '';
-  assert.match(output, /Enter all formula inputs before calculating/);
+  assert.match(output, /Enter all CSA equation inputs/);
   assert.doesNotMatch(output, /CE_IIW\s*0/);
 });
 
 test('invalid physical inputs are rejected explicitly', () => {
-  const entry = qa.findEntry({ bodyKey: 'CSA_G40_21', gradeKey: 'G40_230G' });
+  const entry = qa.findEntry({ bodyKey: 'CSA_G40_21', gradeKey: 'G40_260W' });
   const input = qa.defaultCheckInput(entry);
   Object.assign(input, { ys: 600, uts: 500 });
   const result = qa.runCompliance(input, entry);
@@ -119,16 +119,16 @@ test('invalid physical inputs are rejected explicitly', () => {
   assert.ok(result.inputErrors.includes('Yield strength cannot exceed tensile strength.'));
 });
 
-test('a complete conforming assessment cannot clean-pass unaudited limits', () => {
-  const entry = qa.findEntry({ bodyKey: 'CSA_G40_21', gradeKey: 'G40_230G' });
+test('a complete audited numerical assessment retains documented acceptance checks', () => {
+  const entry = qa.findEntry({ bodyKey: 'CSA_G40_21', gradeKey: 'G40_260W' });
   const input = qa.defaultCheckInput(entry);
   input.chemistry = { C: 0.1, Mn: 0.5, Si: 0.2, Cr: 0, Mo: 0, V: 0, Ni: 0, Cu: 0, Nb: 0, Ti: 0, B: 0, P: 0.01, S: 0.01, N: 0, Al: 0, Ca: 0 };
-  Object.assign(input, { ys: 250, uts: 400, elongation: 25 });
+  Object.assign(input, { ys: 300, uts: 450, elongation: 25, standardContext: { form: 'PLATE', tensileOrientation: 'LONGITUDINAL', gaugeLengthMM: 50, supplyCondition: 'AS_ROLLED' } });
   const result = qa.runCompliance(input, entry);
   assert.equal(result.coverage.missing.length, 0);
   assert.equal(result.failures, 0);
   assert.equal(result.verdict, 'PASS_WITH_WARNINGS');
-  assert.ok(result.unverified.length > 0);
+  assert.ok(result.standardAssessment.manualChecks.length > 0);
 });
 
 test('DWTT applicability and results are included in the assessment', () => {
@@ -179,7 +179,7 @@ test('known API M-grade designations are displayed correctly', () => {
 
 test('extended validator detects bound and verified-type defects', () => {
   const copy = JSON.parse(JSON.stringify(qa.data()));
-  const grade = copy.specBodies.CSA_G40_21.grades.G40_230G;
+  const grade = copy.specBodies.CSA_G40_21.grades.G40_260W;
   grade.mechanical.thicknessBreakpoints[0].yieldStrength.min.bound = 'MAX';
   grade.charpy.testTemp.verified = 'yes';
   const issues = qa.validateData(copy);
@@ -222,7 +222,8 @@ test('lookup uses aligned tables with one collapsed source disclosure per sectio
   }
   assert.match(mechanical.querySelector('thead').textContent, /PropertyMinimumMaximum/);
   assert.match(mechanical.querySelector('.requirement-legend').textContent, /Not specified in stored reference data/);
-  assert.equal(document.querySelector('.data-integrity-banner .audit-details').open, false);
+  assert.equal(document.querySelector('.standard-reference .standard-context-controls').open, false);
+  assert.equal(document.querySelector('.standard-reference .standard-catalog').open, false);
   chemistry.querySelector('.section-references').open = true;
   assert.ok(chemistry.querySelector('.section-references li').textContent.length > 0);
 });
@@ -241,20 +242,181 @@ test('mechanical interval shows exclusive lower boundary and converts to imperia
   let entry;
   for (const [bodyKey, body] of Object.entries(data.specBodies)) {
     for (const [gradeKey, grade] of Object.entries(body.grades)) {
-      if (grade.displayName.includes('230G')) entry = { bodyKey, gradeKey };
+      if (grade.displayName.includes('260W /')) entry = { bodyKey, gradeKey };
     }
   }
   assert.ok(entry);
   dom.window.eval(`selectEntry(findEntry(${JSON.stringify(entry)}))`);
   const document = dom.window.document;
-  assert.match(document.querySelector('#mechanical .thickness-context').textContent, /0 < t ≤ 40 mm/);
-  assert.match(document.querySelector('#mechanical .mechanical-table tbody').textContent, /Yield strength.*230 MPa/);
+  assert.match(document.querySelector('#mechanical .thickness-context').textContent, /0 < t ≤ 65 mm/);
+  assert.match(document.querySelector('#mechanical .mechanical-table tbody').textContent, /Yield strength.*260 MPa/);
   assert.equal(document.querySelectorAll('#chemistry .analysis-cell').length, 0);
   assert.match(document.querySelector('#chemistry caption').textContent, /Heat analysis/);
   document.querySelector('#impBtn').click();
   const interval = document.querySelector('#mechanical .thickness-context').textContent;
-  assert.match(interval, /0 < t ≤ 1\.57 in/);
+  assert.match(interval, /0 < t ≤ 2\.56 in/);
   assert.doesNotMatch(interval, /0\.06 in/);
-  assert.match(document.querySelector('#mechanical .mechanical-table tbody').textContent, /33\.4 ksi/);
+  assert.match(document.querySelector('#mechanical .mechanical-table tbody').textContent, /37\.7 ksi/);
   document.querySelector('#siBtn').click();
+});
+
+const z245Ref = { bodyKey: 'CSA_Z245_1', gradeKey: 'GR_359_CAT_II' };
+const z245Chemistry = { C: 0.1, Mn: 1, Si: 0.2, P: 0.01, S: 0.01, Nb: 0, Ti: 0, V: 0, B: 0, Cu: 0, Ni: 0, Cr: 0, Mo: 0 };
+function pipeInput(od = 457) {
+  const input = qa.defaultCheckInput(qa.findEntry(z245Ref));
+  return Object.assign(input, { tMM: 12.7, od, chemistry: { ...z245Chemistry }, ys: 370, uts: 500, elongation: 35, hardness: 20, cvn1: 39.6, cvn2: 40, cvn3: 40, cvnTemp: -20, cvnSize: '10x10', shear1: 85, shear2: 85, shear3: 85, orderHeatCount: 4, standardContext: { form: 'SAWL', nominalAreaMM2: 500, gaugeLengthMM: 50, supplyCondition: 'AS_MANUFACTURED', orderTemperatureC: -20, tensileSpecimen: 'FLATTENED_STRIP', toughnessTarget: 'BODY' } });
+}
+
+test('attached CSA CE reaches the actual compliance engine and respects missing inputs', () => {
+  const entry = qa.findEntry(z245Ref), input = pipeInput();
+  const report = qa.runCompliance(input, entry);
+  const expectedF = 0.75 + 0.25 * Math.tanh(20 * (0.1 - 0.12));
+  const expected = 0.1 + expectedF * (1 / 6 + 0.2 / 24);
+  const row = report.results.find((item) => item.name === 'CSA carbon equivalent');
+  assert.ok(Math.abs(row.entered - expected) < 1e-12);
+  assert.equal(row.status, 'PASS');
+  assert.equal(report.results.some((item) => item.name === 'Pcm'), false);
+  assert.equal(report.coverage.missing.length, 0);
+  assert.equal(report.verdict, 'PASS_WITH_WARNINGS');
+  delete input.chemistry.Nb;
+  const missing = qa.runCompliance(input, entry);
+  assert.equal(missing.verdict, 'INCOMPLETE');
+  assert.ok(missing.coverage.missing.some((item) => item.startsWith('Nb')));
+  assert.equal(missing.results.some((item) => item.name === 'CSA carbon equivalent' && item.status === 'PASS'), false);
+});
+
+test('CSA CVN rounding and specimen-count rules replace generic unrounded checks', () => {
+  const entry = qa.findEntry(z245Ref), input = pipeInput();
+  let report = qa.runCompliance(input, entry);
+  assert.equal(report.results.find((item) => item.name === 'CVN average (rounded whole J)').status, 'PASS');
+  assert.equal(report.results.some((item) => item.name === 'CVN average (3 specimens)'), false);
+  Object.assign(input, { cvn1: 39.4, cvn2: 39.4, cvn3: 42 });
+  report = qa.runCompliance(input, entry);
+  assert.equal(report.results.find((item) => item.name === 'CVN average (rounded whole J)').status, 'PASS');
+  assert.equal(report.results.find((item) => item.name === 'CVN count below required minimum').status, 'FAIL');
+  assert.equal(report.verdict, 'FAIL');
+});
+
+test('CSA DWTT applies strictly above 457 mm and requires both individual results', () => {
+  const entry = qa.findEntry(z245Ref), input = pipeInput();
+  let report = qa.runCompliance(input, entry);
+  assert.equal(report.results.some((item) => item.category === 'DWTT'), false);
+  input.od = 457.1;
+  input.dwttShear = 90;
+  input.dwttTemp = -20;
+  report = qa.runCompliance(input, entry);
+  assert.equal(report.verdict, 'INCOMPLETE');
+  assert.ok(report.coverage.missing.some((item) => item.includes('Two individual DWTT')));
+  Object.assign(input, { dwtt1: 60, dwtt2: 60 });
+  report = qa.runCompliance(input, entry);
+  assert.equal(report.coverage.missing.length, 0);
+  assert.equal(report.results.find((item) => item.name === 'DWTT minimum individual shear area').status, 'PASS');
+  input.dwtt1 = 49;
+  input.dwtt2 = 80;
+  report = qa.runCompliance(input, entry);
+  assert.equal(report.results.find((item) => item.name === 'DWTT average shear area').status, 'PASS');
+  assert.equal(report.results.find((item) => item.name === 'DWTT minimum individual shear area').status, 'FAIL');
+  assert.equal(report.verdict, 'FAIL');
+});
+
+test('CSA strength is rounded to the nearest MPa without concealing impossible raw input', () => {
+  const entry = qa.findEntry(z245Ref), input = pipeInput();
+  input.ys = 358.6;
+  assert.equal(qa.runCompliance(input, entry).results.find((item) => item.name === 'Yield strength' && item.limit.bound === 'MIN').status, 'PASS');
+  input.ys = 358.4;
+  assert.equal(qa.runCompliance(input, entry).verdict, 'FAIL');
+  input.ys = 500.1;
+  input.uts = 500;
+  assert.equal(qa.runCompliance(input, entry).verdict, 'INVALID_INPUT');
+});
+
+test('G40 always uses its IIW acceptance slot, including zero carbon', () => {
+  const context = qa.resolveAttached({ bodyKey: 'CSA_G40_21', gradeKey: 'G40_345WM' }, { form: 'STRUCTURAL_SHAPE', thicknessMM: 20, tensileOrientation: 'LONGITUDINAL', gaugeLengthMM: 50, supplyCondition: 'AS_ROLLED' });
+  const section = context.grade.chemistry.carbonEquivalent;
+  const calculated = dom.window.eval(`ENGINE.computeCE(${JSON.stringify({ C: 0, Mn: 1, Cr: 0, Mo: 0, V: 0, Ni: 0, Cu: 0 })}, ${JSON.stringify(section)})`);
+  assert.equal(calculated.governing, 'CE_IIW');
+  assert.equal(calculated.limit.value, 0.45);
+});
+
+test('reverse lookup resolves the requested form and marks unresolved context', () => {
+  const previous = qa.state.form;
+  try {
+    qa.state.form = 'BAR';
+    const plates = qa.searchReverse({ form: 'PLATE', thickness: 201, ys: 250 });
+    assert.equal(plates.some((hit) => hit.entry.gradeKey === 'ASTM_A36_A36M_GRADE_A36'), false);
+    qa.state.form = 'PLATE';
+    const bars = qa.searchReverse({ form: 'BAR', thickness: 201, ys: 250 });
+    const a36 = bars.find((hit) => hit.entry.gradeKey === 'ASTM_A36_A36M_GRADE_A36');
+    assert.ok(a36);
+    assert.equal(a36.ys, 250);
+    assert.equal(a36.contextIncomplete, true);
+    assert.equal(a36.unverified, true);
+  } finally { qa.state.form = previous; }
+});
+
+test('audited source badge requires the matching supplied edition after data import', () => {
+  const entry = qa.findEntry({ bodyKey: 'ASTM', gradeKey: 'ASTM_A36_A36M_GRADE_A36' });
+  const original = entry.grade.specEdition;
+  try {
+    entry.grade.specEdition = 'ASTM A36/A36M-14';
+    assert.equal(qa.resolveAttached(entry), null);
+  } finally { entry.grade.specEdition = original; }
+});
+
+test('pipe UI applies source context, exposes individual DWTT and uses CSA hydro rules', () => {
+  const document = dom.window.document;
+  dom.window.eval(`storageSet('gradeSpecAttachedEditionContext:v1:CSA_Z245_1', ${JSON.stringify({ odMM: 508, gaugeLengthMM: 50, nominalAreaMM2: 500, orderTemperatureC: -20, supplyCondition: 'AS_MANUFACTURED' })}); selectEntry(findEntry(${JSON.stringify(z245Ref)})); state.form='SAWL'; render();`);
+  assert.ok(document.querySelector('#checkDWTT1'));
+  assert.ok(document.querySelector('#checkDWTT2'));
+  assert.equal(document.querySelector('#checkDWTTShear'), null);
+  assert.match(document.querySelector('#hydroOutput').textContent, /90% of SMYS/);
+  assert.match(document.querySelector('#hydroOutput').textContent, /at least 10 seconds/);
+  assert.equal(document.querySelector('#hydroFiber'), null);
+  assert.equal(document.querySelector('#elongUTS'), null);
+  assert.match(document.querySelector('#elongOutput').textContent, /specified minimum TS = 455 MPa/);
+  assert.match(document.querySelector('#chemistry .formula-box').textContent, /CSA carbon equivalent/);
+  assert.equal(document.querySelectorAll('#chemistry .formula-rule').length, 1);
+  document.querySelector('#runReverseBtn').click();
+  assert.deepEqual(runtimeErrors, []);
+  dom.window.eval("state.form='PLATE'; selectEntry(findEntry({bodyKey:'ASTM',gradeKey:'ASTM_A36_A36M_GRADE_A36'}));");
+  assert.match(document.querySelector('#ceOutput').textContent, /does not specify a base carbon-equivalent/);
+  assert.equal(document.querySelector('#charpyCalcSize'), null);
+  assert.equal(/QADW/i.test(document.querySelector('#app').textContent), false);
+});
+
+test('G40 rounds strength to 5 MPa and final CVN results to whole joules', () => {
+  const entry = qa.findEntry({ bodyKey: 'CSA_G40_21', gradeKey: 'G40_350WT' });
+  const input = qa.defaultCheckInput(entry);
+  Object.assign(input, { ys: 348.1, uts: 451, cvn1: 26.6, cvn2: 26.6, cvn3: 26.6, cvnTemp: -20, cvnSize: '10x10', standardContext: { form: 'PLATE', tensileOrientation: 'LONGITUDINAL', gaugeLengthMM: 50, supplyCondition: 'AS_ROLLED', impactCategory: '2' } });
+  let report = qa.runCompliance(input, entry);
+  assert.equal(report.results.find((row) => row.name === 'Yield strength' && row.limit.bound === 'MIN').status, 'PASS');
+  assert.equal(report.results.find((row) => row.name === 'CVN average (3 specimens)').status, 'PASS');
+  input.ys = 347.5;
+  report = qa.runCompliance(input, entry);
+  assert.equal(report.results.find((row) => row.name === 'Yield strength' && row.limit.bound === 'MIN').entered, 350);
+  input.ys = 346;
+  assert.equal(qa.runCompliance(input, entry).verdict, 'FAIL');
+});
+
+test('CSA toughness assessment preserves stricter customer overlay limits', () => {
+  const entry = qa.findEntry(z245Ref), previous = entry.grade.overlays.CUSTOMER_SUPPLEMENT;
+  const limit = { value: 60, bound: 'MIN', unit: 'J', clauseRef: 'Customer order test fixture', verified: true, footnoteIds: [], displayNote: '' };
+  try {
+    entry.grade.overlays.CUSTOMER_SUPPLEMENT = { displayName: 'Raised order energy', available: true, patches: [{ path: 'charpy.energyFullSize.average.min', newValue: limit }], addedRequirements: [] };
+    const report = qa.runCompliance(pipeInput(), entry, ['CUSTOMER_SUPPLEMENT']);
+    const average = report.results.find((row) => row.name === 'CVN average (rounded whole J)');
+    assert.equal(average.limit.value, 60);
+    assert.equal(average.status, 'FAIL');
+    assert.equal(report.verdict, 'FAIL');
+  } finally { entry.grade.overlays.CUSTOMER_SUPPLEMENT = previous; }
+});
+
+test('G40 IIW assessment does not demand inputs belonging only to Pcm', () => {
+  const entry = qa.findEntry({ bodyKey: 'CSA_G40_21', gradeKey: 'G40_345WM' });
+  const input = qa.defaultCheckInput(entry);
+  Object.assign(input, { chemistry: { C: 0.1, Mn: 1, P: 0.01, S: 0.01, Si: 0.2, N: 0.01, Nb: 0, V: 0, Cr: 0, Cu: 0, Ni: 0, Mo: 0 }, ys: 350, uts: 500, elongation: 30, standardContext: { form: 'STRUCTURAL_SHAPE', flangeThicknessMM: 20, shapeTestLocation: 'FLANGE', shapeGroup: 1, tensileOrientation: 'LONGITUDINAL', gaugeLengthMM: 50, supplyCondition: 'AS_ROLLED' } });
+  const report = qa.runCompliance(input, entry);
+  assert.deepEqual([...report.coverage.missing], []);
+  assert.equal(report.verdict, 'PASS_WITH_WARNINGS');
+  assert.equal(report.results.some((row) => row.name === 'Pcm'), false);
 });
