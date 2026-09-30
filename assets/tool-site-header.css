@@ -71,6 +71,7 @@ html[data-theme="dark"] header.site.tool-site-header { background: rgba(11,18,32
   flex-shrink: 0;
   gap: 10px;
 }
+.tool-site-header .account-menu-btn { line-height: normal; }
 header.tool-site-header .header-cta {
   display: inline-block;
   flex-shrink: 0;
