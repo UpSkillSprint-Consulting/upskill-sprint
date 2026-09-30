@@ -37,6 +37,7 @@ const siteHeader = `
   <div class="header-actions">
     <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
     <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></label>
+    <a href="/lessons" class="btn btn-teal header-cta">Start a 15-min lesson</a>
   </div>
 </header>
 <nav class="mobile-nav" aria-label="Mobile navigation"><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools" aria-current="page">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>`;
@@ -90,15 +91,13 @@ function renameTool(originalHtml) {
     .replace(/\bQADW\s*/gi, '');
 }
 
-/* The standalone app page does not load site-sections.js, so it must load the
-   auth stack itself for the sign-in gate (require-auth.js) to run. Without
-   this, the page carries data-require-auth (and the overlay CSS from
-   style.css) but nothing ever resolves it — trapping every visitor on
-   "Checking your account…". Only the gated app page gets this, not the guide. */
-const authHead = `
+/* Both pages show the shared Account control. Only the application loads
+   the access gate; the user guide remains public. */
+const accountHead = `
 <script src="/supabase-config.js"></script>
 <script src="/vendor/supabase.js"></script>
-<script src="/auth.js"></script>
+<script src="/auth.js"></script>`;
+const authHead = accountHead + `
 <script src="/access-control.js"></script>\n<script src="/require-auth.js"></script>`;
 
 function replaceRequired(value, search, replacement, label) {
@@ -138,7 +137,7 @@ function prepareGuide(originalHtml, guideNotice) {
     .replaceAll('href="grade_spec_lookup.html"', 'href="../"')
     .replace('>← Back to Tool<', '>Back to Tool<')
     .replace('>↑</button>', '>Top</button>')
-    .replace('</head>', '<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + '\n</head>')
+    .replace('</head>', '<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + accountHead + '\n</head>')
     .replace('<body>', '<body class="grade-spec-guide-page">\n' + siteHeader)
     .replace('</body>', backLink + '\n</body>');
 
