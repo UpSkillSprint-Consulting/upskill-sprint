@@ -5,7 +5,7 @@ window.MaterialCheckerConfig = {
       desc: 'Compare elemental composition and calculated chemistry values.',
       type: 'q',
       units: ['%', 'ppm'],
-      names: ['C', 'Mn', 'P', 'S', 'Si', 'Al', 'Nb', 'V', 'Ti', 'Cr', 'Ni', 'Mo', 'Cu', 'B', 'N', 'CEIIW', 'Pcm']
+      names: ['C', 'Mn', 'P', 'S', 'Si', 'Al', 'Nb', 'V', 'Ti', 'Cr', 'Ni', 'Mo', 'Cu', 'B', 'N', 'CEIIW', 'CECSA', 'Pcm']
     },
     mechanical: {
       title: 'Mechanical properties',
@@ -82,6 +82,7 @@ window.MaterialCheckerConfig = {
       {code: 'chem_antimony', label: 'Antimony (Sb)', aliases: ['Sb', 'Antimony'], units: ['%', 'ppm'], defaultUnit: '%'},
       {code: 'chem_lead', label: 'Lead (Pb)', aliases: ['Pb', 'Lead'], units: ['%', 'ppm'], defaultUnit: '%'},
       {code: 'chem_ceiiw', label: 'Carbon equivalent (CEIIW)', aliases: ['CEIIW', 'CE IIW', 'Carbon equivalent IIW'], units: ['%'], defaultUnit: '%'},
+      {code: 'chem_cecsa', label: 'Carbon equivalent (CSA Z245.1)', aliases: ['CECSA', 'CE CSA', 'CSA carbon equivalent', 'Carbon equivalent CSA'], units: ['%'], defaultUnit: '%'},
       {code: 'chem_pcm', label: 'Carbon equivalent (Pcm)', aliases: ['Pcm', 'PCM', 'Carbon equivalent Pcm'], units: ['%'], defaultUnit: '%'}
     ],
     mechanical: [

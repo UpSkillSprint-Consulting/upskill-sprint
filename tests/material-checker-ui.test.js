@@ -29,8 +29,10 @@ async function createChecker() {
   window.cancelAnimationFrame = () => {};
   window.HTMLElement.prototype.scrollIntoView = () => {};
   window.eval(source('tools/material-specification-compliance-checker-config.js'));
+  window.eval(source('tools/material-checker-standards.js'));
   window.eval(source('tools/material-specification-grade-library.js'));
   window.eval(source('tools/material-checker-engine.js'));
+  window.eval(source('tools/material-checker-standard-inputs.js'));
   window.eval(source('tools/material-specification-compliance-checker.js'));
   window.document.dispatchEvent(new window.Event('DOMContentLoaded', {bubbles: true}));
   await new Promise(resolve => window.setTimeout(resolve, 20));
@@ -100,6 +102,123 @@ function run(window) {
   window.document.querySelector('#run').click();
   return window.MaterialCheckerCore.getResult();
 }
+
+function loadAudited(window, family = 'A36', extra = {}) {
+  const state = window.MaterialCheckerCore.getState();
+  Object.assign(state.scope, {materialId:'AUDIT-UI',productForm:family === 'Z245' ? 'Line pipe' : 'Plate',sourceEdition:'MTR revision 1',requirementStatus:'controlled',
+    targetOrg:family === 'A36' ? 'ASTM' : 'CSA',targetStandard:family === 'A36' ? 'ASTM A36/A36M' : family === 'Z245' ? 'CSA Z245.1' : 'CSA G40.21',
+    targetGrade:family === 'A36' ? 'Grade A36' : family === 'Z245' ? 'Grade 483 Category II' : 'Grade 350WT / Grade 50WT',
+    targetEdition:family === 'A36' ? 'ASTM A36/A36M-19' : family === 'Z245' ? 'CSA Z245.1:26' : 'CSA G40.20-13/G40.21-13 (R2023), Update No. 1 (May 2014)',
+    thickness:'30',thicknessUnit:'mm',width:'601',widthUnit:'mm',
+    standardContext:family === 'Z245' ? {form:'ERW_HFW',analysisType:'HEAT',category:'II',supplyCondition:'AS_MANUFACTURED',odMM:457,nominalAreaMM2:400,gaugeLengthMM:50,orderTemperatureC:-20,toughnessTarget:'BODY',serviceCondition:'BASE'} :
+      {form:'PLATE',analysisType:'HEAT',unitBasis:'SI',gaugeLengthMM:50,bearingUse:'NONE',floorPlate:false,copperSpecified:false,impactSupplement:false,productSubtype:'ROLLED',tensileOrientation:'LONGITUDINAL',tensileSpecimenType:'RECTANGULAR',supplyCondition:'AS_ROLLED',impactCategory:2},
+    standardTests:family === 'Z245' ? {cvnEnergies:[30,30,60],cvnUnit:'J',cvnSize:'10x10',testTemperatureC:-20,cvnShears:[85,85,85],orderHeatCount:4} : {}, ...extra});
+  state.selected = Object.fromEntries(Object.keys(state.selected).map(k=>[k,false]));
+  state.rows.chemistry = [{id:'audit-carbon',propertyCode:'chem_carbon',name:'Carbon (C)',actual:'.26',aUnit:'%',min:'',max:'.26',rUnit:'%',source:'Additional manual limit',mandatory:true}];
+  window.MaterialCheckerCore.load({version:3,state});
+  return state;
+}
+
+test('attached rules run in the UI even when every manual section is deselected', async () => {
+  const dom=await createChecker();
+  loadAudited(dom.window);
+  const result=run(dom.window);
+  assert.equal(result.status,'fail');
+  assert.ok(result.rows.some(r=>/C \(heat analysis\)/.test(r.name)&&r.status==='fail'&&/0\.25/.test(r.rule)));
+  assert.equal(result.standard.family,'A36');
+  assert.match(result.standard.sourceHash,/^[a-f0-9]{64}$/);
+});
+
+test('standard input loading produces actual-only rows and survives assessment round trips', async () => {
+  const dom=await createChecker(); const {window}=dom;
+  loadAudited(window,'Z245');
+  window.document.querySelector('[data-standard-load]').click();
+  const state=window.MaterialCheckerCore.getState();
+  assert.ok(state.rows.chemistry.some(r=>r.propertyCode==='chem_niobium'&&r.standardInput));
+  assert.ok(state.rows.chemistry.some(r=>r.propertyCode==='chem_copper'&&r.standardInput));
+  const standardRow=state.rows.mechanical.find(r=>r.standardInput);
+  assert.ok(standardRow);
+  standardRow.actual='520';
+  window.MaterialCheckerCore.load({version:3,state});
+  const restored=window.MaterialCheckerCore.getState();
+  assert.equal(restored.rows.mechanical.find(r=>r.id===standardRow.id).standardInput,true);
+  assert.equal(restored.rows.mechanical.find(r=>r.id===standardRow.id).actual,'520');
+  assert.deepEqual(JSON.parse(JSON.stringify(restored.scope.standardTests.cvnEnergies)),[30,30,60]);
+  assert.ok(run(window).rows.some(r=>/CVN count below/.test(r.name)&&r.status==='fail'));
+});
+
+test('unknown ASTM order choices remain unknown until the user records them', async () => {
+  const dom=await createChecker(); const {window}=dom;
+  loadAudited(window,'A36',{standardContext:{form:'PLATE',analysisType:'HEAT',unitBasis:'SI',gaugeLengthMM:50}});
+  const copper=window.document.querySelector('[data-standard-key="copperSpecified"]');
+  assert.equal(copper.value,'');
+  change(window,copper,'false');
+  assert.equal(window.MaterialCheckerCore.getState().scope.standardContext.copperSpecified,false);
+  assert.equal(window.MaterialCheckerCore.getResult(),null);
+});
+
+test('source context edits invalidate the displayed decision', async () => {
+  const dom=await createChecker(); const {window}=dom;
+  loadAudited(window,'Z245'); run(window);
+  const energy=window.document.querySelector('[data-standard-key="cvnEnergies"][data-standard-index="0"]');
+  change(window,energy,'40');
+  assert.equal(window.MaterialCheckerCore.getResult(),null);
+  assert.equal(window.document.querySelector('#overall').textContent,'Not assessed');
+  assert.equal(window.MaterialCheckerCore.getState().scope.standardTests.cvnEnergies[0],'40');
+});
+
+test('shared header styling shields navigation from standalone tool typography', async () => {
+  const dom=await createChecker(); const {window}=dom;
+  const header=window.document.querySelector('header.site');
+  assert.ok(header.classList.contains('tool-site-header'));
+  const styles=window.document.createElement('style');
+  styles.textContent=source('style.css')+'\n.brand span{font-size:11px;text-transform:uppercase}nav.desktop-nav{font-size:10px}'+source('assets/tool-site-header.css');
+  window.document.head.appendChild(styles);
+  assert.equal(window.getComputedStyle(header.querySelector('.brand span')).fontSize,'17px');
+  assert.equal(window.getComputedStyle(header.querySelector('.brand span')).textTransform,'none');
+  assert.equal(window.getComputedStyle(header.querySelector('nav.desktop-nav')).fontSize,'13.5px');
+  assert.equal(header.querySelectorAll('nav.desktop-nav a').length,8);
+  assert.equal(header.querySelector('nav.desktop-nav [aria-current="page"]').textContent,'Engineering Tools');
+  const links=Array.from(window.document.querySelectorAll('link[rel="stylesheet"]'));
+  assert.ok(links.findIndex(l=>l.getAttribute('href')==='/assets/tool-site-header.css') > links.findIndex(l=>l.getAttribute('href')==='/tools/material-specification-compliance-checker.css'));
+});
+
+test('malformed imported manual bounds remain invalid in the interactive path', async () => {
+  const dom=await createChecker(); const {window}=dom;
+  const state=window.MaterialCheckerCore.getState();
+  Object.assign(state.scope,{materialId:'MANUAL-TEST',productForm:'Plate',sourceEdition:'1',targetEdition:'1',requirementStatus:'controlled'});
+  state.selected=Object.fromEntries(Object.keys(state.selected).map(k=>[k,k==='chemistry']));
+  state.rows.chemistry=[{id:'bad-bound',propertyCode:'chem_carbon',name:'Carbon (C)',actual:'.15',aUnit:'%',min:'not a number',max:'.2',rUnit:'%',source:'Controlled rule',mandatory:true}];
+  window.MaterialCheckerCore.load({version:3,state});
+  assert.equal(run(window).status,'invalid-input');
+});
+
+test('a repeated passing actual cannot conceal a failing standard input', async () => {
+  const dom=await createChecker(); const {window}=dom;
+  const state=loadAudited(window);
+  state.rows.chemistry=[
+    {id:'source-carbon',propertyCode:'chem_carbon',name:'Carbon (C)',actual:'.30',aUnit:'%',min:'',max:'',rUnit:'%',source:'',mandatory:true,standardInput:true},
+    {id:'extra-carbon',propertyCode:'chem_carbon',name:'Carbon (C)',actual:'.20',aUnit:'%',min:'',max:'.25',rUnit:'%',source:'Additional customer rule',mandatory:true}
+  ];
+  window.MaterialCheckerCore.load({version:3,state});
+  const result=run(window);
+  assert.equal(result.status,'invalid-input');
+  assert.ok(result.rows.some(r=>r.status==='invalid'&&/Carbon|conflict|repeated/i.test(r.name)));
+});
+
+test('an unknown imported standard is preserved and requires designation review', async () => {
+  const dom=await createChecker(); const {window}=dom;
+  const state=loadAudited(window,'A36',{targetStandard:'ASTM A999/A999M',targetGrade:'Imported grade',targetCustom:''});
+  state.selected.chemistry=true;
+  window.MaterialCheckerCore.load({version:3,state});
+  const restored=window.MaterialCheckerCore.getState();
+  assert.equal(restored.scope.targetStandard,'ASTM A999/A999M');
+  assert.equal(restored.scope.targetGrade,'Imported grade');
+  const result=run(window);
+  assert.notEqual(result.status,'pass');
+  assert.ok(result.rows.some(r=>/Target designation outside the catalogue/.test(r.name)&&r.status==='review'));
+  assert.ok(!result.standard || result.standard.family !== 'A36');
+});
 
 test('blank assessment is conditional and never passes', async () => {
   const dom = await createChecker();
@@ -376,4 +495,61 @@ test('advanced storage subscribes when the lazy Supabase auth bundle becomes rea
   window.document.dispatchEvent(new window.CustomEvent('upskill-auth-ready'));
   await new Promise(resolve => window.setTimeout(resolve, 10));
   assert.match(window.document.querySelector('#mcStorageStatus').textContent, /Signed in as late@example\.test/i);
+});
+
+test('captured attached packages preserve source identity and exclude reusable test evidence', async () => {
+  const dom=await createPlatform(); const {window}=dom;
+  loadAudited(window,'Z245',{standardContext:{...window.MaterialCheckerCore.getState().scope.standardContext,form:'ERW_HFW',analysisType:'HEAT',category:'II',odMM:457,ewFusionLineAtBodyTemperaturePassed:true,elongationConvertedTo50MM:true}});
+  window.document.querySelector('[data-standard-load]').click();
+  window.document.querySelector('[data-platform-tab="admin"]').click();
+  change(window,window.document.querySelector('#mcLocalRole'),'Standards administrator');
+  window.document.querySelector('[data-platform-tab="packages"]').click();
+  window.prompt=()=> 'Audited pipe package';
+  window.document.querySelector('[data-platform-panel="packages"] [data-mc-action="capturePackage"]').click();
+  const stored=JSON.parse(window.localStorage.getItem('upskill-material-compliance-platform-v4'));
+  const pkg=stored.packages.at(-1);
+  assert.equal(pkg.attachedStandard.family,'Z245');
+  assert.equal(pkg.attachedStandard.gradeKey,'GR_483_CAT_II');
+  assert.equal(pkg.standardTests.cvnEnergies,undefined);
+  assert.equal(pkg.standardContext.ewFusionLineAtBodyTemperaturePassed,undefined);
+  assert.equal(pkg.standardContext.elongationConvertedTo50MM,undefined);
+  assert.ok(!pkg.rules.some(r=>r.propertyCode==='mech_yield_strength'));
+});
+
+test('saved templates clear measured results, documentary confirmations and specimen waivers', async () => {
+  const dom=await createPlatform(); const {window}=dom;
+  loadAudited(window,'Z245',{standardContext:{form:'ERW_HFW',category:'II',odMM:457,ewFusionLineAtBodyTemperaturePassed:true,elongationConvertedTo50MM:true},standardEvidence:{'std-z245-catalog-review':{value:'yes',reference:'Old material report'}}});
+  window.document.querySelector('[data-platform-tab="packages"]').click();
+  window.prompt=()=> 'Pipe template';
+  window.document.querySelector('[data-mc-action="captureTemplate"]').click();
+  const stored=JSON.parse(window.localStorage.getItem('upskill-material-compliance-platform-v4'));
+  const template=stored.templates.at(-1);
+  assert.equal(template.scope.materialId,'');
+  assert.deepEqual(template.scope.standardTests,{});
+  assert.deepEqual(template.scope.standardEvidence,{});
+  assert.equal(template.scope.standardContext.ewFusionLineAtBodyTemperaturePassed,undefined);
+  assert.equal(template.scope.standardContext.elongationConvertedTo50MM,undefined);
+  assert.ok(Object.values(template.rows).flat().every(r=>!r.actual));
+});
+
+test('multi-package comparison preserves conflicting actual evidence as invalid', async () => {
+  const dom=await createPlatform(); const {window}=dom;
+  selectOnly(window,'chemistry'); completeScope(window);
+  setRow(window,'chemistry',{propertyCode:'chem_carbon',actual:'.10',max:'.20',source:'Controlled Table 1'});
+  window.document.querySelector('[data-platform-tab="admin"]').click();
+  change(window,window.document.querySelector('#mcLocalRole'),'Standards administrator');
+  window.document.querySelector('[data-platform-tab="packages"]').click();
+  window.prompt=()=> 'Carbon package';
+  window.document.querySelector('[data-platform-panel="packages"] [data-mc-action="capturePackage"]').click();
+  const state=window.MaterialCheckerCore.getState();
+  state.rows.chemistry.unshift({...state.rows.chemistry[0],id:'contradictory-carbon',actual:'.30'});
+  window.MaterialCheckerCore.load({version:3,state});
+  window.document.querySelector('[data-platform-tab="compare"]').click();
+  const choices=window.document.querySelectorAll('[data-compare-package]');
+  assert.ok(choices.length);
+  change(window,choices[choices.length-1],true);
+  window.document.querySelector('[data-mc-action="runComparison"]').click();
+  const matrix=window.document.querySelector('#mcComparisonResults');
+  assert.ok(matrix.querySelector('.mc-badge.invalid-input'));
+  assert.match(matrix.textContent,/conflicting actual records/i);
 });

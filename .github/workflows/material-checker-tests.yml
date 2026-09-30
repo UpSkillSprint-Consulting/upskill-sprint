@@ -4,6 +4,13 @@ on:
   pull_request:
     paths:
       - 'tools/material-checker-engine.js'
+      - 'tools/material-checker-standards.js'
+      - 'tools/material-checker-standard-inputs.*'
+      - 'tools/material-specification-grade-library.js'
+      - 'scripts/build-material-checker-standards.mjs'
+      - 'source-assets/material-checker/**'
+      - 'source-assets/grade-specification-lookup/**'
+      - 'assets/tool-site-header.css'
       - 'tools/material-checker-platform*.js'
       - 'tools/material-checker-platform*.css'
       - 'tools/material-specification-compliance-checker*.js'
@@ -20,6 +27,13 @@ on:
     branches: [main, test]
     paths:
       - 'tools/material-checker-engine.js'
+      - 'tools/material-checker-standards.js'
+      - 'tools/material-checker-standard-inputs.*'
+      - 'tools/material-specification-grade-library.js'
+      - 'scripts/build-material-checker-standards.mjs'
+      - 'source-assets/material-checker/**'
+      - 'source-assets/grade-specification-lookup/**'
+      - 'assets/tool-site-header.css'
       - 'tools/material-checker-platform*.js'
       - 'tools/material-checker-platform*.css'
       - 'tools/material-specification-compliance-checker*.js'
@@ -45,8 +59,14 @@ jobs:
         with:
           node-version-file: '.node-version'
       - run: npm install
+      - name: Verify shared attached-standard bundle
+        run: |
+          node scripts/build-material-checker-standards.mjs
+          git diff --exit-code -- tools/material-checker-standards.js
       - name: Run material checker tests
-        run: node --test tests/material-checker*.test.js
+        run: node --test tests/material-checker*.test.js tests/standards-*.test.js tests/mobile-header-overflow.test.js
+      - run: node --check tools/material-checker-standards.js
+      - run: node --check tools/material-checker-standard-inputs.js
       - run: node --check tools/material-checker-engine.js
       - run: node --check tools/material-checker-platform.js
       - run: node --check tools/material-checker-platform-hardening.js

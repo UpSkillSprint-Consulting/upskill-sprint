@@ -18,6 +18,7 @@
   const ROLE_RANK = {'viewer': 0, 'analyst': 1, 'engineer': 2, 'approver': 3, 'standards-administrator': 4, 'system-administrator': 5};
   const EXTRA_PROPERTIES = {
     charpy: [
+      {code: 'charpy_specimen_count', label: 'Charpy specimen count', units: ['count'], defaultUnit: 'count'},
       {code: 'charpy_test_temperature', label: 'Charpy test temperature', units: ['°C', '°F'], defaultUnit: '°C'},
       {code: 'charpy_average_energy', label: 'Average Charpy energy', units: ['J', 'ft-lb'], defaultUnit: 'J'},
       {code: 'charpy_minimum_individual_energy', label: 'Minimum individual Charpy energy', units: ['J', 'ft-lb'], defaultUnit: 'J'},
@@ -28,6 +29,26 @@
       {code: 'dim_weight_per_length', label: 'Weight per unit length', units: ['kg/m', 'lb/ft'], defaultUnit: 'kg/m'}
     ]
   };
+  const IMPORT_FIELDS = [
+    ...['certificateRef','sourceOrg','sourceStandard','sourceGrade','sourceEdition','sourceCustom','assessmentDate','requirementStatus'].map(code => ({code, label: ({certificateRef:'Certificate reference',assessmentDate:'Assessment date',requirementStatus:'Controlled requirement status'})[code] || code.replace(/([A-Z])/g,' $1'), units: []})),
+    ...['form','unitBasis','productSubtype','analysisType','tensileOrientation','tensileSpecimenType','impactCategory','supplyCondition','shapeGroup','shapeTestLocation','manufacturingRoute','psl','charpyOrientation','category','shapeDesignation','tensileSpecimen','toughnessTarget','serviceCondition','annexSelections'].map(key => ({code:'context:' + key, label:key.replace(/([A-Z])/g,' $1'), units: []})),
+    ...['bearingUse','floorPlate','copperSpecified','manufacturerTestRequired','impactSupplement','elongationConvertedTo50MM','sawWeldToughnessOrdered','ewFusionLineAtBodyTemperaturePassed'].map(key => ({code:'context:' + key,label:key.replace(/([A-Z])/g,' $1'),units:[],boolean:true})),
+    ...['gaugeLengthMM','flangeThicknessMM','shapeFlangeThicknessMM','thicknessMM','widthMM','odMM'].map(key => ({code:'context:' + key, label:key.replace(/MM$/,'').replace(/([A-Z])/g,' $1'), units:['mm','in'], targetUnit:'mm'})),
+    {code:'context:nominalAreaMM2',label:'Nominal tensile specimen area',units:['mm²'],targetUnit:'mm²'},
+    ...['orderTemperatureC','fusionLineOrderTemperatureC'].map(key => ({code:'context:' + key,label:key.replace(/C$/,'').replace(/([A-Z])/g,' $1'),units:['°C','°F'],targetUnit:'°C'})),
+    {code:'context:orderedCvnEnergyJ',label:'Ordered CVN minimum energy',units:['J','ft-lb'],targetUnit:'J'},
+    ...[0,1,2].map(index => ({code:'test:cvnEnergies:' + index,label:'CVN specimen ' + (index+1) + ' energy',units:['J','ft-lb'],targetUnit:'J'})),
+    ...[0,1,2].map(index => ({code:'test:cvnShears:' + index,label:'CVN specimen ' + (index+1) + ' shear area',units:['%'],targetUnit:'%'})),
+    ...[0,1].map(index => ({code:'test:dwttShears:' + index,label:'DWTT specimen ' + (index+1) + ' shear area',units:['%'],targetUnit:'%'})),
+    {code:'test:cvnSize',label:'CVN specimen size',units:[]},
+    ...['testTemperatureC','dwttTemperatureC'].map(key => ({code:'test:' + key,label:key === 'testTemperatureC' ? 'Actual CVN temperature' : 'Actual DWTT temperature',units:['°C','°F'],targetUnit:'°C'})),
+    {code:'test:orderHeatCount',label:'Order heat count',units:['count'],targetUnit:'count'},
+    {code:'test:orderAverageShear',label:'Order average shear area',units:['%'],targetUnit:'%'},
+    {code:'test:hydroPressureMPa',label:'Measured hydrostatic pressure',units:['MPa','ksi'],targetUnit:'MPa'},
+    {code:'test:hydroHoldSeconds',label:'Hydrostatic hold time',units:['s'],targetUnit:'s'},
+    ...[['hardnessHRC','HRC'],['hardnessHV10','HV10'],['microhardnessHV05','HV0.5']].map(([key,unit]) => ({code:'test:' + key,label:key,units:[unit],targetUnit:unit}))
+  ];
+  const importField = code => IMPORT_FIELDS.find(item => item.code === code);
 
   let state = loadState();
   let activeTab = 'overview';
@@ -166,11 +187,12 @@
   }
 
   function readScope() {
-    const scope = {};
+    const core = window.MaterialCheckerCore;
+    const scope = core && typeof core.getState === 'function' ? JSON.parse(JSON.stringify(core.getState().scope || {})) : {};
     document.querySelectorAll('[data-scope]').forEach(input => { scope[input.dataset.scope] = input.value; });
     return Object.assign(scope, {
-      manufacturingRoute: state.applicability.manufacturingRoute,
-      psl: state.applicability.psl,
+      manufacturingRoute: scope.standardContext?.manufacturingRoute || state.applicability.manufacturingRoute,
+      psl: scope.standardContext?.psl || state.applicability.psl,
       sourService: state.applicability.sourService,
       heatTreatment: state.applicability.heatTreatment
     });
@@ -188,26 +210,28 @@
   }
 
   function readCurrentEvidence() {
-    const actuals = {};
-    const evidence = {};
+    const core = window.MaterialCheckerCore;
+    const actuals = core && typeof core.readActuals === 'function' ? core.readActuals() : {};
+    const evidence = core && typeof core.getEvidence === 'function' ? core.getEvidence() : {};
     document.querySelectorAll('#panels [data-id]').forEach(row => {
       const section = row.dataset.sec;
       const propertyCode = getRowPropertyCode(row);
       if (!propertyCode) return;
       if (section === 'process') {
         const field = row.querySelector('[data-f="evidence"]');
-        evidence[propertyCode] = field ? field.value : 'unknown';
+        if (!Object.prototype.hasOwnProperty.call(evidence,propertyCode)) evidence[propertyCode] = field ? field.value : 'unknown';
         return;
       }
       if (section === 'charpy') {
         const values = {
+          charpy_specimen_count: [row.querySelector('[data-f="specimenCount"]'), null],
           charpy_test_temperature: [row.querySelector('[data-f="testTemp"]'), row.querySelector('[data-f="tempUnit"]')],
           charpy_average_energy: [row.querySelector('[data-f="avg"]'), row.querySelector('[data-f="eUnit"]')],
           charpy_minimum_individual_energy: [row.querySelector('[data-f="individual"]'), row.querySelector('[data-f="eUnit"]')]
         };
         Object.entries(values).forEach(([code, fields]) => {
           if (fields[0] && fields[0].value !== '') {
-            actuals[code] = {value: fields[0].value, unit: fields[1] ? fields[1].value : ''};
+            actuals[code] = {value: fields[0].value, unit: fields[1] ? fields[1].value : code === 'charpy_specimen_count' ? 'count' : ''};
             actuals[propertyCode + ':' + code] = actuals[code];
           }
         });
@@ -215,13 +239,46 @@
       }
       const actual = row.querySelector('[data-f="actual"]');
       const unit = row.querySelector('[data-f="aUnit"]');
-      if (actual && actual.value !== '') actuals[propertyCode] = {value: actual.value, unit: unit ? unit.value : ''};
+      if (!Object.prototype.hasOwnProperty.call(actuals,propertyCode) && actual && actual.value !== '') actuals[propertyCode] = {value: actual.value, unit: unit ? unit.value : ''};
     });
     const derived = Engine.calculateDerived(actuals, readScope());
     if (!actuals.chem_ceiiw && derived.ceiiw.ready) actuals.chem_ceiiw = {value: derived.ceiiw.value, unit: derived.ceiiw.unit, derived: true};
     if (!actuals.chem_pcm && derived.pcm.ready) actuals.chem_pcm = {value: derived.pcm.value, unit: derived.pcm.unit, derived: true};
+    if (!actuals.chem_cecsa && derived.cecsa?.ready) actuals.chem_cecsa = {value: derived.cecsa.value, unit: derived.cecsa.unit, derived: true};
     if (!actuals.mech_yt_ratio && derived.ytRatio.ready) actuals.mech_yt_ratio = {value: derived.ytRatio.value, unit: derived.ytRatio.unit, derived: true};
-    return {actuals, evidence};
+    return {actuals, evidence, validationRows: canonicalInputValidationRows()};
+  }
+
+  function canonicalInputValidationRows() {
+    const core = window.MaterialCheckerCore;
+    if (!core || typeof core.evaluate !== 'function') return [];
+    const rows = (core.evaluate().rows || []).filter(row => row.basis === 'Canonical material evidence').map(row => ({
+      id: 'canonical-input-' + Engine.slug(row.name), category: row.sec || 'applicability', propertyCode: '',
+      label: row.name, status: row.status, actual: row.actual, acceptance: row.rule, basis: row.basis,
+      detail: row.detail, mandatory: true, warnings: []
+    }));
+    const inputs = typeof core.getState === 'function' ? core.getState().rows || {} : {};
+    for (const category of ['chemistry','mechanical','dimensions']) {
+      for (const input of inputs[category] || []) {
+        if (!Engine.hasNumericInput(input.actual)) continue;
+        const property = propertyByCode(input.propertyCode);
+        if (!property) continue;
+        const numeric = Engine.toNumber(input.actual);
+        const problem = numeric == null ? 'A finite numeric actual result is required.' :
+          !property.units?.includes(input.aUnit) ? 'The actual result uses a missing or unsupported unit.' :
+          Engine.numericDomainError(numeric,input.aUnit,property.code,{limit:false});
+        if (problem) rows.push({id:'canonical-actual-invalid-' + Engine.slug(input.id || property.code),category,propertyCode:property.code,
+          label:property.label + ' — invalid actual evidence',status:'invalid',actual:String(input.actual) + ' ' + String(input.aUnit || ''),
+          acceptance:'Valid material evidence in a supported unit',basis:'Canonical material evidence',detail:problem,mandatory:true,warnings:[]});
+      }
+    }
+    return rows;
+  }
+
+  function withInputValidation(result, validationRows) {
+    if (!validationRows?.length || result.status === 'not-applicable') return result;
+    const rows = validationRows.concat(result.rows || []);
+    return Object.assign({}, result, {rows}, Engine.summarizeResults(rows, result.warnings || []));
   }
 
   function captureCoreRows() {
@@ -233,6 +290,7 @@
           fields[field.dataset.f] = field.type === 'checkbox' ? field.checked : field.value;
         });
         fields.propertyCode = getRowPropertyCode(row);
+        fields.standardInput = row.classList.contains('standard-actual-row');
         return fields;
       });
     });
@@ -241,9 +299,11 @@
 
   function currentManualPackage(name) {
     const scope = readScope();
+    const auditedFamily = Engine.attachedFamily(scope);
     const rules = [];
     document.querySelectorAll('#panels [data-id]').forEach(row => {
       const section = row.dataset.sec;
+      if (row.classList.contains('standard-actual-row')) return;
       const code = getRowPropertyCode(row);
       if (!code) return;
       const source = row.querySelector('[data-f="source"]');
@@ -260,6 +320,7 @@
           ['charpy_average_energy', row.querySelector('[data-f="reqAvg"]')?.value, '', requirementUnit, 'Average energy'],
           ['charpy_minimum_individual_energy', row.querySelector('[data-f="reqIndividual"]')?.value, '', requirementUnit, 'Minimum individual energy']
         ];
+        if (definitions.slice(1).some(definition => definition[1] !== '')) definitions.push(['charpy_specimen_count', row.querySelector('[data-f="reqSpecimenCount"]')?.value || '3', '', 'count', 'Specimen count']);
         definitions.forEach(definition => {
           if (definition[1] !== '' || definition[2] !== '') rules.push({
             id: uid('rule'), category: section, propertyCode: code + ':' + definition[0], label: label + ' — ' + definition[4],
@@ -268,6 +329,7 @@
           });
         });
       } else {
+        if (auditedFamily && !String(row.querySelector('[data-f="min"]')?.value || '').trim() && !String(row.querySelector('[data-f="max"]')?.value || '').trim()) return;
         const prop = propertyByCode(code);
         rules.push({
           id: uid('rule'), category: section, propertyCode: code, label: prop?.label || code,
@@ -277,11 +339,23 @@
         });
       }
     });
+    const selectedSections = Array.from(document.querySelectorAll('#selectors input:checked')).map(input => input.value);
+    selectedSections.forEach(category => {
+      const hasStandardInputs = document.querySelector('#panels [data-sec="' + category + '"].standard-actual-row');
+      if (!auditedFamily && !rules.some(rule => rule.category === category) && !hasStandardInputs) rules.push({id: uid('rule'), category, propertyCode: category + '_configuration', label: category + ' requirement configuration', mandatory: true, clause: 'Selected evidence section'});
+    });
+    let attachedStandard = null;
+    if (window.MaterialCheckerStandards?.identify) {
+      const resolved = window.MaterialCheckerStandards.identify(scope);
+      if (resolved.supported) attachedStandard = {family: resolved.family, edition: resolved.edition, sourceHash: resolved.sourceHash, gradeKey: resolved.gradeKey || ''};
+    }
     return {
       id: uid('package'), name: name || [scope.targetStandard, scope.targetGrade, scope.targetEdition].filter(Boolean).join(' | ') || 'Current manual requirements',
       organization: scope.targetOrg || '', standard: scope.targetStandard || '', grade: scope.targetGrade || '', edition: scope.targetEdition || '',
       status: 'Draft', owner: currentActor(), lastVerified: '', controlRequired: true,
-      applicability: {productForms: scope.productForm ? [scope.productForm] : [], thicknessUnit: scope.thicknessUnit || 'mm'}, rules
+      applicability: {productForms: scope.productForm ? [scope.productForm] : [], thicknessUnit: scope.thicknessUnit || 'mm'}, rules,
+      selectedSections, attachedStandard, scopeControlRequired: true, standardContext: reusableStandardContext(scope.standardContext),
+      standardTests: {cvnSize: scope.standardTests?.cvnSize || '', cvnUnit: scope.standardTests?.cvnUnit || 'J'}
     };
   }
 
@@ -312,6 +386,7 @@
         coverage: core.coverage,
         status: core.status,
         message: core.message,
+        standardAssessment: core.standard,
         warnings: []
       };
     }
@@ -452,6 +527,11 @@
         if (state.batch.mapping[index]) state.batch.mapping[index].confirmed = false;
       }
       updateMappingFromUI();
+      if (event.target.dataset.mapField === 'code') {
+        const mapping = state.batch.mapping[Number(event.target.dataset.mapIndex)];
+        if (mapping) mapping.unit = '';
+        renderMapping();
+      }
       return;
     }
     if (event.target.matches('[data-compare-package]')) {
@@ -703,9 +783,11 @@
     const property = properties.find(item => item.code === rule.propertyCode) || propertyByCode(rule.propertyCode);
     const selectableProperties = property && !properties.some(item => item.code === property.code) ? [property].concat(properties) : properties;
     const units = property?.units || (rule.type === 'evidence' ? ['evidence'] : ['%', 'MPa', 'ksi', 'J', 'ft-lb', 'mm', 'in', 'ratio']);
+    const expected = rule.expected === false ? 'no' : rule.expected === true || rule.expected == null ? 'yes' : String(rule.expected);
+    const expectation = category === 'process' ? `<select data-rule-field="expected" aria-label="Expected evidence"${editable ? '' : ' disabled'}>${(expected !== 'yes' && expected !== 'no' ? [expected] : []).concat(['yes','no']).map(value => `<option value="${esc(value)}"${value === expected ? ' selected' : ''}>${value === 'yes' ? 'Evidence present' : value === 'no' ? 'Evidence absent' : esc(value)}</option>`).join('')}</select>` : '';
     return `<tr data-rule-id="${esc(rule.id || uid('rule'))}">
       <td><select data-rule-field="category"${editable ? '' : ' disabled'}>${['chemistry','mechanical','charpy','dimensions','process'].map(value => `<option value="${value}"${value === category ? ' selected' : ''}>${esc(value)}</option>`).join('')}</select></td>
-      <td><select data-rule-field="propertyCode"${editable ? '' : ' disabled'}><option value="">Select property</option>${selectableProperties.map(item => `<option value="${item.code}"${item.code === rule.propertyCode ? ' selected' : ''}>${esc(item.label)}</option>`).join('')}</select></td>
+      <td><select data-rule-field="propertyCode"${editable ? '' : ' disabled'}><option value="">Select property</option>${selectableProperties.map(item => `<option value="${item.code}"${item.code === rule.propertyCode ? ' selected' : ''}>${esc(item.label)}</option>`).join('')}</select>${expectation}</td>
       <td><input type="number" step="any" data-rule-field="min" value="${esc(rule.min || '')}"${editable || rule.type !== 'evidence' ? '' : ' disabled'}${category === 'process' ? ' disabled' : ''}></td>
       <td><input type="number" step="any" data-rule-field="max" value="${esc(rule.max || '')}"${category === 'process' ? ' disabled' : ''}${editable ? '' : ' disabled'}></td>
       <td><select data-rule-field="unit"${category === 'process' ? ' disabled' : ''}${editable ? '' : ' disabled'}>${units.map(unit => `<option${unit === rule.unit ? ' selected' : ''}>${esc(unit)}</option>`).join('')}</select></td>
@@ -728,6 +810,9 @@
     const isEvidence = category === 'process';
     min.disabled = max.disabled = unit.disabled = isEvidence;
     if (isEvidence) { min.value = ''; max.value = ''; unit.innerHTML = '<option>evidence</option>'; }
+    const expectation = row.querySelector('[data-rule-field="expected"]');
+    if (isEvidence && !expectation) select.insertAdjacentHTML('afterend','<select data-rule-field="expected" aria-label="Expected evidence"><option value="yes">Evidence present</option><option value="no">Evidence absent</option></select>');
+    if (!isEvidence && expectation) expectation.remove();
   }
 
   function newPackage() {
@@ -742,6 +827,7 @@
 
   function captureCurrentAsPackage() {
     if (!hasRole('Standards administrator')) return setStatus('Standards administrator permission is required to create packages.', 'error');
+    if (canonicalInputValidationRows().length) return setStatus('Resolve conflicting material actuals or evidence before capturing a package.', 'error');
     const name = prompt('Name the captured package:', currentManualPackage().name);
     if (!name) return;
     const pkg = currentManualPackage(name.trim());
@@ -785,8 +871,9 @@
 
   function savePackageEditor() {
     if (!hasRole('Standards administrator')) return setStatus('Standards administrator permission is required.', 'error');
-    const pkg = selectedPackage();
-    if (!pkg) return;
+    const selected = selectedPackage();
+    if (!selected) return;
+    const pkg = JSON.parse(JSON.stringify(selected));
     document.querySelectorAll('[data-package-field]').forEach(field => {
       const key = field.dataset.packageField;
       if (['productForms','manufacturingRoutes','psl','thicknessMin','thicknessMax','thicknessUnit'].includes(key)) {
@@ -803,12 +890,15 @@
         propertyCode: values.propertyCode, label: property?.label || values.propertyCode, min: values.min, max: values.max,
         unit: values.category === 'process' ? 'evidence' : values.unit, mandatory: values.mandatory,
         clause: values.clause, table: values.table, footnote: values.footnote, nearLimitPercent: 5,
-        verified: pkg.status === 'Approved'
+        verified: pkg.status === 'Approved', expected: values.category === 'process' ? values.expected || 'yes' : undefined
       };
     }).filter(rule => rule.propertyCode);
     if (!pkg.name.trim() || !pkg.standard.trim() || !pkg.edition.trim()) return setStatus('Package name, standard, and edition are required.', 'error');
     const minimumThickness = Engine.toNumber(pkg.applicability.thicknessMin);
     const maximumThickness = Engine.toNumber(pkg.applicability.thicknessMax);
+    if ((Engine.hasNumericInput(pkg.applicability.thicknessMin) && minimumThickness == null) || (Engine.hasNumericInput(pkg.applicability.thicknessMax) && maximumThickness == null)) {
+      return setStatus('Package applicability thickness limits must be finite numbers.', 'error');
+    }
     if (minimumThickness != null && maximumThickness != null && minimumThickness > maximumThickness) {
       return setStatus('Package applicability is invalid: minimum thickness exceeds maximum thickness.', 'error');
     }
@@ -816,9 +906,10 @@
     if (duplicate) return setStatus('Duplicate rule: ' + duplicate.label + '. Keep one controlled rule per property in a package.', 'error');
     const invalidRule = pkg.rules.find(rule => {
       if (!String(rule.clause || '').trim()) return true;
-      if (rule.type === 'evidence') return false;
+      if (rule.type === 'evidence') return !['yes','no'].includes(rule.expected);
       const minimum = Engine.toNumber(rule.min);
       const maximum = Engine.toNumber(rule.max);
+      if ((Engine.hasNumericInput(rule.min) && minimum == null) || (Engine.hasNumericInput(rule.max) && maximum == null)) return true;
       if (minimum == null && maximum == null) return true;
       if (minimum != null && maximum != null && minimum > maximum) return true;
       const property = propertyByCode(rule.propertyCode);
@@ -830,10 +921,11 @@
     });
     if (invalidRule) return setStatus('Complete a valid limit, compatible unit, and controlled clause for ' + (invalidRule.label || invalidRule.propertyCode) + '.', 'error');
     if (pkg.status === 'Approved') {
-      if (!pkg.lastVerified || !pkg.rules.length) return setStatus('Approved packages require a verification date and at least one valid rule.', 'error');
+      if (!pkg.lastVerified || (!pkg.rules.length && !pkg.attachedStandard)) return setStatus('Approved packages require a verification date and at least one valid rule or attached source.', 'error');
       if (!Engine.isValidDateNotFuture(pkg.lastVerified)) return setStatus('Enter a valid verification date that is not in the future.', 'error');
     }
     pkg.controlRequired = true;
+    state.packages[state.packages.findIndex(item => item.id === selected.id)] = pkg;
     persist(); logAudit('Rule package saved', pkg.name + ' (' + pkg.status + ')');
     setStatus('Rule package saved.', 'success'); renderPackages(); renderCompare(); renderImport();
   }
@@ -853,7 +945,8 @@
       if (!file) return;
       try {
         const pkg = JSON.parse(await file.text());
-        if (!pkg || !pkg.name || !Array.isArray(pkg.rules)) throw new Error('Invalid rule-package structure.');
+        if (!pkg || !pkg.name || !Array.isArray(pkg.rules) || pkg.rules.some(rule => !rule || typeof rule !== 'object') ||
+          (pkg.applicability && ['productForms','manufacturingRoutes','psl'].some(key => pkg.applicability[key] != null && !Array.isArray(pkg.applicability[key])))) throw new Error('Invalid rule-package structure.');
         pkg.id = uid('package'); pkg.status = 'Draft'; pkg.lastVerified = ''; pkg.controlRequired = true;
         pkg.rules.forEach(rule => { rule.id = uid('rule'); rule.verified = false; });
         state.packages.push(pkg); state.selectedPackageId = pkg.id; persist();
@@ -869,7 +962,7 @@
     if (!name) return;
     const template = {
       id: uid('template'), name: name.trim(), createdAt: new Date().toISOString(),
-      scope: readScope(), selectedSections: Array.from(document.querySelectorAll('#selectors input:checked')).map(input => input.value), rows: captureCoreRows()
+      scope: templateScope(readScope()), selectedSections: Array.from(document.querySelectorAll('#selectors input:checked')).map(input => input.value), rows: templateRows(captureCoreRows())
     };
     state.templates.push(template); persist(); logAudit('Assessment template saved', template.name); renderPackages();
     setStatus('Template saved without actual results.', 'success');
@@ -880,7 +973,19 @@
     const template = state.templates.find(item => item.id === id);
     if (!template) return setStatus('Select a template first.', 'error');
     if (state.workflow.locked) return setStatus('Unlock the approved assessment before applying a template.', 'error');
-    Object.entries(template.scope || {}).forEach(([key, value]) => {
+    const core = window.MaterialCheckerCore;
+    if (core?.getState && core?.load) {
+      const next = core.getState();
+      next.scope = Object.assign({}, next.scope, templateScope(template.scope || {}));
+      next.scope.standardTests = {}; next.scope.standardEvidence = {};
+      next.rows = templateRows(template.rows || {});
+      next.selected = Object.fromEntries(['chemistry','mechanical','charpy','dimensions','process'].map(section => [section, (template.selectedSections || []).includes(section)]));
+      core.load({version: 3, state: next});
+      logAudit('Assessment template applied', template.name); setStatus('Template applied. Enter this material\'s actual results and evidence.', 'success');
+      renderOverview();
+      return;
+    }
+    Object.entries(templateScope(template.scope || {})).forEach(([key, value]) => {
       const input = document.querySelector('[data-scope="' + key + '"]');
       if (input) { input.value = value == null ? '' : value; input.dispatchEvent(new Event('change', {bubbles: true})); }
     });
@@ -889,9 +994,34 @@
       if (input.checked !== checked) { input.checked = checked; input.dispatchEvent(new Event('change', {bubbles: true})); }
     });
     await nextFrame(120);
-    for (const section of ['chemistry','mechanical','charpy','dimensions','process']) await applyTemplateSection(section, template.rows[section] || []);
+    const cleanRows = templateRows(template.rows || {});
+    for (const section of ['chemistry','mechanical','charpy','dimensions','process']) await applyTemplateSection(section, cleanRows[section] || []);
     logAudit('Assessment template applied', template.name); setStatus('Template applied. Actual results were not populated.', 'success');
     renderOverview();
+  }
+
+  function templateScope(scope) {
+    const clean = JSON.parse(JSON.stringify(scope || {}));
+    ['materialId','heatNumber','certificateRef','reviewer'].forEach(key => { clean[key] = ''; });
+    clean.assessmentDate = Engine.localISODate();
+    clean.standardTests = {}; clean.standardEvidence = {};
+    clean.standardContext = reusableStandardContext(clean.standardContext);
+    return clean;
+  }
+
+  function reusableStandardContext(context) {
+    const clean = JSON.parse(JSON.stringify(context || {}));
+    ['ewFusionLineAtBodyTemperaturePassed','elongationConvertedTo50MM'].forEach(key => { delete clean[key]; });
+    return clean;
+  }
+
+  function templateRows(rows) {
+    const clean = JSON.parse(JSON.stringify(rows || {}));
+    Object.values(clean).forEach(items => (Array.isArray(items) ? items : []).forEach(row => {
+      ['actual','testTemp','specimenCount','avg','individual'].forEach(key => { if (Object.prototype.hasOwnProperty.call(row,key)) row[key] = ''; });
+      if (Object.prototype.hasOwnProperty.call(row,'evidence')) row.evidence = 'unknown';
+    }));
+    return clean;
   }
 
   async function applyTemplateSection(section, rows) {
@@ -1007,15 +1137,17 @@
     const headers = Array.from(new Set(records.flatMap(record => Object.keys(record))));
     return headers.map(header => {
       const mapped = Engine.mapHeader(header, Config, state.aliases);
-      const property = propertyByCode(mapped.code);
+      const direct = IMPORT_FIELDS.find(item => Engine.normalize(item.code.replace(/^context:|^test:/,'')) === Engine.normalize(header) || Engine.normalize(item.label) === Engine.normalize(header));
+      if (direct) Object.assign(mapped,{code:direct.code,confidence:1,source:'Attached standard field'});
+      const property = importField(mapped.code) || propertyByCode(mapped.code);
       return {header, code: mapped.code, unit: property?.defaultUnit || property?.units?.[0] || '', confidence: mapped.confidence, source: mapped.source, confirmed: false};
     });
   }
 
   function mappingOptions(selected) {
-    const fixed = [['','Ignore'],['materialId','Material ID'],['heatNumber','Heat number'],['productForm','Product form'],['thickness','Nominal thickness'],['width','Width / OD']];
+    const fixed = [['','Ignore'],['materialId','Material ID'],['heatNumber','Heat number'],['productForm','Product form'],['thickness','Nominal thickness'],['width','Nominal width']];
     const groups = fixed.map(item => `<option value="${item[0]}"${item[0] === selected ? ' selected' : ''}>${item[1]}</option>`).join('');
-    return groups + ['chemistry','mechanical','charpy','dimensions','process'].map(category => `<optgroup label="${esc(category)}">${propertyCatalog(category).map(item => `<option value="${item.code}"${item.code === selected ? ' selected' : ''}>${esc(item.label)}</option>`).join('')}</optgroup>`).join('');
+    return groups + `<optgroup label="Standard context and raw tests">${IMPORT_FIELDS.map(item => `<option value="${item.code}"${item.code === selected ? ' selected' : ''}>${esc(item.label)}</option>`).join('')}</optgroup>` + ['chemistry','mechanical','charpy','dimensions','process'].map(category => `<optgroup label="${esc(category)}">${propertyCatalog(category).map(item => `<option value="${item.code}"${item.code === selected ? ' selected' : ''}>${esc(item.label)}</option>`).join('')}</optgroup>`).join('');
   }
 
   function renderMapping() {
@@ -1025,7 +1157,7 @@
     const sample = state.batch.records[0] || {};
     tbody.innerHTML = state.batch.mapping.map((mapping, index) => {
       const level = mapping.confidence >= .9 ? 'high' : mapping.confidence >= .6 ? 'medium' : 'low';
-      const property = propertyByCode(mapping.code);
+      const property = importField(mapping.code) || propertyByCode(mapping.code);
       const units = property?.units || ['', '%','ppm','MPa','ksi','J','ft-lb','mm','in','ratio'];
       return `<tr><td>${esc(mapping.header)}</td><td>${esc(String(sample[mapping.header] ?? '').slice(0, 80))}</td><td><select data-map-index="${index}" data-map-field="code">${mappingOptions(mapping.code)}</select></td><td><select data-map-index="${index}" data-map-field="unit">${Array.from(new Set([''].concat(units))).map(unit => `<option${unit === mapping.unit ? ' selected' : ''}>${esc(unit || 'Not applicable')}</option>`).join('')}</select></td><td><span class="mc-confidence ${level}">${Math.round(mapping.confidence * 100)}%</span><br><small>${esc(mapping.source)}</small></td><td><input type="checkbox" data-map-index="${index}" data-map-field="confirmed" aria-label="Confirm mapping for ${esc(mapping.header)}"${mapping.confirmed ? ' checked' : ''}></td></tr>`;
     }).join('');
@@ -1049,7 +1181,28 @@
     state.batch.mapping.forEach(mapping => {
       if (!mapping.code) return;
       const value = record[mapping.header];
-      if (['materialId','heatNumber','productForm'].includes(mapping.code)) scope[mapping.code] = value;
+      const field = importField(mapping.code);
+      if (field && !mapping.code.includes(':')) scope[mapping.code] = value;
+      else if (mapping.code.startsWith('context:') || mapping.code.startsWith('test:')) {
+        const [group,key,index] = mapping.code.split(':');
+        const target = group === 'context' ? 'standardContext' : 'standardTests';
+        scope[target] = scope[target] || {};
+        let parsed = value;
+        if (field?.targetUnit) {
+          const converted = field.units.includes(mapping.unit) && String(mapping.unit || '').trim() ? Engine.convert(value,mapping.unit,field.targetUnit) : null;
+          parsed = converted == null ? '__INVALID_NUMERIC_INPUT__: ' + String(value) + ' ' + String(mapping.unit || '(unit missing)') : converted;
+        } else if (field?.boolean) {
+          const token = String(value).trim().toLowerCase();
+          parsed = value === true || token === 'true' || token === 'yes' ? true : value === false || token === 'false' || token === 'no' ? false : '__INVALID_BOOLEAN_INPUT__: ' + String(value);
+        }
+        if (index !== undefined) {
+          scope[target][key] = scope[target][key] || [];
+          scope[target][key][Number(index)] = parsed;
+          if (key === 'cvnEnergies') scope[target].cvnUnit = 'J';
+        } else scope[target][key] = parsed;
+        if (key === 'manufacturingRoute' || key === 'psl') scope[key] = parsed;
+      }
+      else if (['materialId','heatNumber','productForm'].includes(mapping.code)) scope[mapping.code] = value;
       else if (mapping.code === 'thickness') {
         scope.thickness = value;
         scope.thicknessUnit = mapping.unit;
@@ -1075,8 +1228,9 @@
     if (unconfirmed.length) return setStatus('Confirm every used field mapping before running the batch.', 'error');
     const duplicateCodes = usedMappings.map(item => item.code).filter((code, index, values) => values.indexOf(code) !== index);
     if (duplicateCodes.length) return setStatus('Each canonical field may be mapped only once. Resolve duplicate mappings before running the batch.', 'error');
-    const unitless = usedMappings.filter(item => !['materialId', 'heatNumber', 'productForm'].includes(item.code) && !item.code.startsWith('proc_') && !item.unit);
+    const unitless = usedMappings.filter(item => !['materialId', 'heatNumber', 'productForm'].includes(item.code) && !item.code.startsWith('proc_') && !(importField(item.code)?.units.length === 0) && !item.unit);
     if (unitless.length) return setStatus('Select and confirm a unit for every mapped numeric field.', 'error');
+    if (usedMappings.some(item => importField(item.code)?.units.length && !importField(item.code).units.includes(item.unit))) return setStatus('Select a compatible unit for every mapped standard context or test field.', 'error');
     state.batch.selectedPackageId = packageId;
     state.batch.results = state.batch.records.map(record => {
       const mapped = mapImportedRecord(record);
@@ -1111,7 +1265,7 @@
     const scope = readScope();
     const comparisons = ids.map(id => {
       const pkg = state.packages.find(item => item.id === id);
-      return {pkg, result: Engine.evaluatePackage(pkg, current.actuals, current.evidence, scope)};
+      return {pkg, result: withInputValidation(Engine.evaluatePackage(pkg, current.actuals, current.evidence, scope), current.validationRows)};
     }).filter(item => item.pkg);
     const union = [];
     comparisons.forEach(item => item.result.rows.forEach(row => { if (!union.includes(row.label)) union.push(row.label); }));
@@ -1294,12 +1448,16 @@
     if (!popup) return setStatus('The report window was blocked by the browser.', 'error');
     try { popup.opener = null; } catch (_error) { /* browser controls opener isolation */ }
     const resultRows = evaluation.rows.map(row => `<tr><td>${esc(row.category)}</td><td>${esc(row.label)}</td><td>${esc(row.actual)}</td><td>${esc(row.acceptance)}</td><td>${esc(row.status)}</td><td>${esc(row.basis)}</td></tr>`).join('');
+    const standard = evaluation.standardAssessment;
+    const sourceSummary = standard?.edition ? `<p><strong>Audited source:</strong> ${esc(standard.edition)}<br><strong>Source SHA-256:</strong> ${esc(standard.sourceHash || '')}</p>` : '';
+    const standardDetails = [scope.standardContext || {},scope.standardTests || {}].flatMap(group => Object.entries(group)).filter(([,value]) => value !== '' && value != null);
+    const testSummary = standardDetails.length ? `<section><h2>Standard context and raw test evidence</h2><table><tbody>${standardDetails.map(([key,value]) => `<tr><th>${esc(key.replace(/([A-Z])/g,' $1'))}</th><td>${esc(Array.isArray(value) ? value.join(', ') : value)}</td></tr>`).join('')}</tbody></table></section>` : '';
     const body = type === 'certificate' ? `
-      <section class="certificate"><h2>${esc(scope.materialId || scope.heatNumber || 'Material')}</h2><dl><dt>Produced / source specification</dt><dd>${esc([scope.sourceStandard,scope.sourceGrade,scope.sourceEdition].filter(Boolean).join(' | '))}</dd><dt>Screened against</dt><dd>${esc([scope.targetStandard,scope.targetGrade,scope.targetEdition].filter(Boolean).join(' | '))}</dd><dt>Calculated result</dt><dd class="result">${esc(evaluation.status.toUpperCase())}</dd><dt>Disposition</dt><dd>${esc(state.workflow.disposition || 'Not approved')}</dd><dt>Evidence coverage</dt><dd>${evaluation.coverage}%</dd></dl><p class="notice">This document records a compatibility screening and does not certify the material to the target standard.</p></section>` : `
+      <section class="certificate"><h2>${esc(scope.materialId || scope.heatNumber || 'Material')}</h2><dl><dt>Produced / source specification</dt><dd>${esc([scope.sourceStandard,scope.sourceGrade,scope.sourceEdition].filter(Boolean).join(' | '))}</dd><dt>Screened against</dt><dd>${esc([scope.targetStandard,scope.targetGrade,scope.targetEdition].filter(Boolean).join(' | '))}</dd><dt>Calculated result</dt><dd class="result">${esc(evaluation.status.toUpperCase())}</dd><dt>Disposition</dt><dd>${esc(state.workflow.disposition || 'Not approved')}</dd><dt>Evidence coverage</dt><dd>${evaluation.coverage}%</dd></dl>${sourceSummary}<p class="notice">This document records a compatibility screening and does not certify the material to the target standard.</p></section>` : `
       <section><h2>Scope</h2><table><tr><th>Material ID</th><td>${esc(scope.materialId)}</td><th>Heat</th><td>${esc(scope.heatNumber)}</td></tr><tr><th>Source</th><td>${esc([scope.sourceStandard,scope.sourceGrade,scope.sourceEdition].filter(Boolean).join(' | '))}</td><th>Target</th><td>${esc([scope.targetStandard,scope.targetGrade,scope.targetEdition].filter(Boolean).join(' | '))}</td></tr></table></section>
-      <section><h2>Decision</h2><p><strong>Document status:</strong> ${approvedRelease ? 'Approved and locked' : 'DRAFT — not approved for release'}</p><p class="result">${esc(evaluation.status.toUpperCase())} — ${esc(evaluation.message)}</p><p>Coverage: ${evaluation.coverage}% (${evaluation.assessed} of ${evaluation.applicable})</p></section>
+      <section><h2>Decision</h2><p><strong>Document status:</strong> ${approvedRelease ? 'Approved and locked' : 'DRAFT — not approved for release'}</p><p class="result">${esc(evaluation.status.toUpperCase())} — ${esc(evaluation.message)}</p><p>Coverage: ${evaluation.coverage}% (${evaluation.assessed} of ${evaluation.applicable})</p>${sourceSummary}</section>${testSummary}
       <section><h2>Requirement results</h2><table><thead><tr><th>Section</th><th>Requirement</th><th>Actual</th><th>Rule</th><th>Result</th><th>Basis</th></tr></thead><tbody>${resultRows}</tbody></table></section>
-      <section><h2>Derived calculations</h2><ul><li>CEIIW: ${derived.ceiiw.ready ? Engine.formatNumber(derived.ceiiw.value) : 'Missing inputs'}</li><li>Pcm: ${derived.pcm.ready ? Engine.formatNumber(derived.pcm.value) : 'Missing inputs'}</li><li>Y/T: ${derived.ytRatio.ready ? Engine.formatNumber(derived.ytRatio.value) : 'Missing inputs'}</li><li>D/t: ${derived.diameterThicknessRatio.ready ? Engine.formatNumber(derived.diameterThicknessRatio.value) : 'Missing inputs'}</li></ul></section>
+      <section><h2>Derived calculations</h2><ul><li>CEIIW: ${derived.ceiiw.ready ? Engine.formatNumber(derived.ceiiw.value) : 'Missing inputs'}</li><li>CSA carbon equivalent: ${derived.cecsa?.ready ? Engine.formatNumber(derived.cecsa.value) : 'Missing inputs or source'}</li><li>Pcm: ${derived.pcm.ready ? Engine.formatNumber(derived.pcm.value) : 'Missing inputs'}</li><li>Y/T: ${derived.ytRatio.ready ? Engine.formatNumber(derived.ytRatio.value) : 'Missing inputs'}</li><li>D/t: ${derived.diameterThicknessRatio.ready ? Engine.formatNumber(derived.diameterThicknessRatio.value) : 'Missing inputs'}</li></ul></section>
       <section><h2>Review and disposition</h2><p>Status: ${esc(state.workflow.status)}<br>Reviewer: ${esc(state.workflow.reviewer)}<br>Approver: ${esc(state.workflow.approver)}<br>Disposition: ${esc(state.workflow.disposition)}<br>Comments: ${esc(state.workflow.comments)}</p></section>`;
     popup.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${esc(title)}</title><style>body{font-family:Arial,sans-serif;color:#172033;margin:32px;line-height:1.45}header{display:flex;align-items:center;gap:14px;border-bottom:3px solid #0e7490;padding-bottom:16px}header img{width:54px}h1,h2{font-family:Georgia,serif;color:#0f2a43}h1{margin:0}section{margin:24px 0}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccd5df;padding:8px;text-align:left;vertical-align:top}th{background:#edf4f8}.result{font-size:1.4rem;font-weight:bold}.notice{padding:14px;border:1px solid #c88a00;background:#fff8e7}.certificate{max-width:760px;margin:50px auto;border:2px solid #0f2a43;padding:36px}.certificate dl{display:grid;grid-template-columns:220px 1fr;gap:10px}.certificate dt{font-weight:bold}@media print{button{display:none}body{margin:12mm}}</style></head><body><header><img src="${location.origin}/assets/logo-icon.png" alt=""><div><h1>${esc(title)}</h1><p>UpSkill Sprint Consulting</p></div></header>${body}<footer><p><strong>Engineering-use caution:</strong> Verify the controlled standard edition, product form, thickness range, purchase requirements, supplementary requirements, and responsible technical approval.</p><p>Generated ${new Date().toLocaleString()}</p></footer><button onclick="print()">Print / Save PDF</button></body></html>`);
     popup.document.close(); logAudit(type === 'certificate' ? 'Screening certificate generated' : 'Engineering report generated', scope.materialId || scope.heatNumber || 'Current assessment');

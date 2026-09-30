@@ -5,7 +5,7 @@
 }(typeof globalThis !== 'undefined' ? globalThis : this, function () {
   'use strict';
 
-  const VERSION = '4.1.0';
+  const VERSION = '4.2.0';
   const EPSILON = 1e-9;
 
   function normalize(value) {
@@ -13,9 +13,14 @@
   }
 
   function toNumber(value) {
-    if (value === '' || value == null) return null;
+    if (value == null || (typeof value !== 'number' && typeof value !== 'string')) return null;
+    if (typeof value === 'string' && !/^[+-]?(?:\d+\.?\d*|\.\d+)(?:e[+-]?\d+)?$/i.test(value.trim())) return null;
     const number = Number(value);
     return Number.isFinite(number) ? number : null;
+  }
+
+  function hasNumericInput(value) {
+    return value != null && !(typeof value === 'string' && value.trim() === '');
   }
 
   function round(value, digits) {
@@ -80,6 +85,8 @@
     const code = String(propertyCode || '');
     const limit = Boolean(options && options.limit);
 
+    if (code.includes('specimen_count') && (!Number.isInteger(number) || number < 1)) return 'Specimen count must be a positive whole number.';
+
     if (normalizedUnit === '%' || normalizedUnit === 'wt_pct' || normalizedUnit === 'pct') {
       if (number < 0 || number > 100) return 'Percentage values must be between 0 and 100.';
     } else if (normalizedUnit === 'ppm') {
@@ -107,15 +114,19 @@
 
   function propertyEntry(actuals, code) {
     if (!actuals) return null;
-    if (actuals instanceof Map) return actuals.get(code) || null;
-    return actuals[code] || null;
+    if (actuals instanceof Map) return actuals.has(code) ? actuals.get(code) : null;
+    return Object.prototype.hasOwnProperty.call(actuals, code) ? actuals[code] : null;
   }
 
   function scopeApplies(rulePackage, scope) {
     const applicability = rulePackage && rulePackage.applicability ? rulePackage.applicability : {};
     const reasons = [];
+    const invalidConfiguration = [];
     let outOfScope = false;
     let undetermined = false;
+    for (const key of ['productForms','manufacturingRoutes','psl']) {
+      if (applicability[key] != null && !Array.isArray(applicability[key])) invalidConfiguration.push('Package ' + key + ' must be an array of scope selections.');
+    }
 
     const forms = Array.isArray(applicability.productForms) ? applicability.productForms.filter(Boolean) : [];
     if (forms.length) {
@@ -134,6 +145,8 @@
     const convertedThickness = thickness == null ? null : convert(thickness, scopeUnit, packageUnit);
     const minThickness = toNumber(applicability.thicknessMin);
     const maxThickness = toNumber(applicability.thicknessMax);
+    if ((hasNumericInput(applicability.thicknessMin) && minThickness == null) || (hasNumericInput(applicability.thicknessMax) && maxThickness == null)) invalidConfiguration.push('Package thickness limits must be finite numbers.');
+    if (minThickness != null && maxThickness != null && minThickness > maxThickness) invalidConfiguration.push('Package minimum thickness exceeds its maximum.');
 
     if ((minThickness != null || maxThickness != null) && convertedThickness == null) {
       undetermined = true;
@@ -177,8 +190,53 @@
       outOfScope,
       reasons,
       convertedThickness,
-      thicknessUnit: packageUnit
+      thicknessUnit: packageUnit,
+      invalidConfiguration
     };
+  }
+
+  function attachedFamily(rulePackage) {
+    if (rulePackage && rulePackage.attachedStandard?.family) return rulePackage.attachedStandard.family;
+    const name = normalize(rulePackage && (rulePackage.standard || rulePackage.targetStandard));
+    if (/g4021|g4020/.test(name)) return 'G40';
+    if (/z2451/.test(name)) return 'Z245';
+    if (/a36(?:a36m)?$/.test(name)) return 'A36';
+    return '';
+  }
+
+  function standardsAdapter() {
+    const shared = typeof globalThis !== 'undefined' && globalThis.MaterialCheckerStandards;
+    if (shared) return shared;
+    if (typeof require === 'function') {
+      try { return require('./material-checker-standards.js'); } catch (error) { /* Manual-only installation. */ }
+    }
+    return null;
+  }
+
+  function packageScopeRows(rulePackage, scope) {
+    if (!attachedFamily(rulePackage) && rulePackage?.scopeControlRequired !== true) return [];
+    const rows = [];
+    const add = (id, label, status, actual, detail) => rows.push({id, category: 'applicability', propertyCode: '', label, status,
+      actual, acceptance: 'Release scope must be complete and controlled', basis: 'Material and specification scope', detail, mandatory: true, warnings: []});
+    if (![scope.materialId,scope.heatNumber,scope.certificateRef].some(value => String(value || '').trim())) add('scope-traceability','Material traceability','missing','Missing','Record a material ID, heat number or certificate reference for this record.');
+    if (!String(scope.productForm || '').trim()) add('scope-product-form','Product form','missing','Missing','Identify the actual product form.');
+    if (!String(scope.sourceEdition || '').trim()) add('scope-source-edition','Source specification edition','missing','Missing','Record the edition on the material source specification or certificate.');
+    if (!String(rulePackage.edition || '').trim()) add('scope-target-edition','Target specification edition','missing','Missing','Record the exact selected package edition or revision.');
+    const sourceCustom = ['Customer','Internal','Other'].includes(scope.sourceOrg) || scope.sourceStandard === 'Other / not listed' || ['Other / not listed','Custom designation'].includes(scope.sourceGrade);
+    if (sourceCustom && !String(scope.sourceCustom || '').trim()) add('scope-source-custom','Source custom designation','missing','Missing','Record the exact controlled source designation.');
+    const targetCustom = ['Customer','Internal','Other'].includes(rulePackage.organization) || rulePackage.standard === 'Other / not listed' || ['Other / not listed','Custom designation'].includes(rulePackage.grade);
+    if (targetCustom && !String(rulePackage.customDesignation || rulePackage.name || '').trim()) add('scope-target-custom','Target custom designation','missing','Missing','Record the exact selected target designation.');
+    if (!isValidDateNotFuture(scope.assessmentDate)) add('scope-assessment-date','Assessment date','invalid',scope.assessmentDate || 'Missing','Enter a valid assessment date no later than today.');
+    if (scope.requirementStatus !== 'controlled') add('scope-controlled-source','Controlled target requirement',scope.requirementStatus === 'working' ? 'review' : 'missing',scope.requirementStatus || 'Not verified','Confirm the controlled target requirement source for this assessment.');
+    for (const key of ['thickness','width']) {
+      if (hasNumericInput(scope[key]) && (toNumber(scope[key]) == null || toNumber(scope[key]) <= 0)) add('scope-' + key,'Nominal ' + key,'invalid',String(scope[key]),'A nominal dimension must be a finite number greater than zero.');
+    }
+    for (const [group, fields] of Object.entries({standardContext:scope.standardContext,standardTests:scope.standardTests})) {
+      for (const [key,value] of Object.entries(fields || {})) {
+        if ((Array.isArray(value) ? value : [value]).some(item => typeof item === 'string' && item.startsWith('__INVALID_'))) add('scope-' + group + '-' + key,key,'invalid',Array.isArray(value) ? value.join(', ') : value,'A mapped context or test value has an invalid value or unsupported/missing explicit unit.');
+      }
+    }
+    return rows;
   }
 
   function evaluateRule(rule, actuals, evidence) {
@@ -203,14 +261,22 @@
     const hasBasis = Boolean(String(rule.clause || rule.source || '').trim());
 
     if (rule.type === 'evidence') {
-      const evidenceValue = evidence && (evidence[rule.propertyCode] || evidence[rule.id]);
-      result.actual = evidenceValue || 'Unknown';
-      result.acceptance = rule.expected || 'yes';
-      if (evidenceValue === 'yes' || evidenceValue === true) result.status = 'pass';
-      else if (evidenceValue === 'no' || evidenceValue === false) result.status = 'fail';
+      const evidenceValue = evidence && (Object.prototype.hasOwnProperty.call(evidence, rule.propertyCode) ? evidence[rule.propertyCode] : evidence[rule.id]);
+      const booleanEvidence = value => value === true || String(value).trim().toLowerCase() === 'yes' || String(value).trim().toLowerCase() === 'true' ? true :
+        value === false || String(value).trim().toLowerCase() === 'no' || String(value).trim().toLowerCase() === 'false' ? false : null;
+      const observed = booleanEvidence(evidenceValue && typeof evidenceValue === 'object' ? evidenceValue.value ?? evidenceValue.status : evidenceValue);
+      const expected = booleanEvidence(rule.expected == null || rule.expected === '' ? 'yes' : rule.expected);
+      result.actual = observed === null ? String(evidenceValue || 'Unknown') : observed ? 'yes' : 'no';
+      result.acceptance = expected === null ? String(rule.expected) : expected ? 'yes' : 'no';
+      if (expected === null) {
+        result.status = 'invalid'; result.invalid = true;
+        result.detail = 'Evidence rules must specify a yes or no expectation.';
+        return result;
+      }
+      if (observed !== null) result.status = observed === expected ? 'pass' : 'fail';
       else result.status = result.mandatory ? 'missing' : 'review';
-      result.detail = result.status === 'pass' ? 'Required evidence is present.' :
-        result.status === 'fail' ? 'Required evidence is explicitly absent.' : 'Evidence has not been confirmed.';
+      result.detail = result.status === 'pass' ? 'Evidence satisfies the configured expectation.' :
+        result.status === 'fail' ? 'Evidence contradicts the configured expectation.' : 'Evidence has not been confirmed.';
       if (!hasBasis) {
         result.warnings.push('Controlled clause or evidence source is missing.');
         if (result.status === 'pass') {
@@ -233,6 +299,12 @@
       min != null ? '≥ ' + formatNumber(min) + (targetUnit ? ' ' + targetUnit : '') : '',
       max != null ? '≤ ' + formatNumber(max) + (targetUnit ? ' ' + targetUnit : '') : ''
     ].filter(Boolean).join(' and ') || 'No numerical limit configured';
+
+    if ((hasNumericInput(rule.min) && min == null) || (hasNumericInput(rule.max) && max == null)) {
+      result.status = 'invalid'; result.invalid = true;
+      result.detail = 'Every configured numerical limit must be a finite number.';
+      return result;
+    }
 
     if (min == null && max == null) {
       result.status = 'review';
@@ -264,6 +336,13 @@
     }
 
     if (actualValue == null) {
+      const rawActual = actualEntry && typeof actualEntry === 'object' ? actualEntry.value : actualEntry;
+      if (hasNumericInput(rawActual)) {
+        result.status = 'invalid'; result.invalid = true;
+        result.actual = String(rawActual);
+        result.detail = 'The actual result must be a finite number.';
+        return result;
+      }
       result.status = result.mandatory ? 'missing' : 'review';
       result.actual = 'Missing';
       result.detail = 'Actual evidence is not available.';
@@ -366,7 +445,7 @@
 
   function evaluatePackage(rulePackage, actuals, evidence, scope) {
     const applicability = scopeApplies(rulePackage || {}, scope || {});
-    if (applicability.outOfScope) {
+    if (applicability.outOfScope && !applicability.invalidConfiguration.length) {
       return {
         packageId: rulePackage && rulePackage.id,
         packageName: rulePackage && rulePackage.name,
@@ -381,7 +460,8 @@
       };
     }
     const rules = Array.isArray(rulePackage && rulePackage.rules) ? rulePackage.rules : [];
-    const rows = [];
+    const rows = packageScopeRows(rulePackage, scope || {});
+    applicability.invalidConfiguration.forEach((detail,index) => rows.push({id:'package-configuration-' + index,category:'applicability',label:'Package applicability configuration',status:'invalid',actual:'Invalid package',acceptance:'A valid scope configuration',basis:'Rule-package applicability',detail,mandatory:true,warnings:[]}));
     if (!applicability.determined) {
       applicability.reasons.forEach((reason, index) => rows.push({
         id: 'applicability-' + index,
@@ -397,7 +477,36 @@
         warnings: []
       }));
     }
-    rows.push(...rules.map(rule => evaluateRule(rule, actuals || {}, evidence || {})));
+    // Source tables are resolved for this material on every evaluation. Customer
+    // rules supplement that result; a saved snapshot cannot replace the source.
+    const adapter = standardsAdapter();
+    let standardAssessment = null;
+    if (adapter && typeof adapter.evaluate === 'function') {
+      try {
+        standardAssessment = adapter.evaluate({scope: scope || {}, actuals: actuals || {}, evidence: evidence || {}, rulePackage, engine: API});
+      } catch (error) {
+        standardAssessment = {supported: Boolean(attachedFamily(rulePackage)), family: attachedFamily(rulePackage), rows: [{
+          id: 'attached-standard-error', category: 'applicability', label: 'Attached standard evaluation', status: 'review',
+          actual: 'Unresolved', acceptance: 'Attached requirements must be resolved', basis: 'Attached standard source',
+          detail: 'Attached requirements could not be evaluated. ' + error.message, mandatory: true, warnings: []
+        }]};
+      }
+    } else if (attachedFamily(rulePackage)) {
+      standardAssessment = {supported: true, family: attachedFamily(rulePackage), rows: [{
+        id: 'attached-standard-unavailable', category: 'applicability', label: 'Attached standard evaluation', status: 'review',
+        actual: 'Unavailable', acceptance: 'Attached requirements must be resolved', basis: 'Attached standard source',
+        detail: 'The attached standard resolver is unavailable; captured limits cannot establish source conformance.', mandatory: true, warnings: []
+      }]};
+    }
+    if (attachedFamily(rulePackage) && !standardAssessment?.supported) standardAssessment = {
+      supported: true, family: attachedFamily(rulePackage), rows: [{id: 'attached-standard-unresolved', category: 'applicability',
+        label: 'Attached standard identity', status: 'review', actual: 'Unresolved', acceptance: 'Audited source identity must be resolved',
+        basis: 'Attached standard source', detail: 'The selected source family was not resolved; verify its grade and exact edition.', mandatory: true, warnings: []}]
+    };
+    if (standardAssessment && standardAssessment.supported) rows.push(...(standardAssessment.rows || []));
+    const supplemental = rules.filter(rule => !(standardAssessment && standardAssessment.supported &&
+      (rule.auditedStandard === true || (rule.sourceAuditFamily && rule.sourceAuditFamily === standardAssessment.family))));
+    rows.push(...supplemental.map(rule => evaluateRule(rule, actuals || {}, evidence || {})));
     const warnings = packageControlWarnings(rulePackage);
     rows.forEach(row => {
       if (Array.isArray(row.warnings)) warnings.push(...row.warnings);
@@ -406,7 +515,8 @@
       packageId: rulePackage && rulePackage.id,
       packageName: rulePackage && rulePackage.name,
       applicability,
-      rows
+      rows,
+      standardAssessment
     }, summarizeResults(rows, Array.from(new Set(warnings))));
   }
 
@@ -428,6 +538,7 @@
       Cr: getActual(actuals, 'chem_chromium', '%'),
       Mo: getActual(actuals, 'chem_molybdenum', '%'),
       V: getActual(actuals, 'chem_vanadium', '%'),
+      Nb: getActual(actuals, 'chem_niobium', '%'),
       Ni: getActual(actuals, 'chem_nickel', '%'),
       Cu: getActual(actuals, 'chem_copper', '%'),
       B: getActual(actuals, 'chem_boron', '%'),
@@ -442,19 +553,24 @@
     const ce = ceReady ? values.C + values.Mn / 6 + (values.Cr + values.Mo + values.V) / 5 + (values.Ni + values.Cu) / 15 : null;
     const pcm = pcmReady ? values.C + values.Si / 30 + (values.Mn + values.Cu + values.Cr) / 20 + values.Ni / 60 + values.Mo / 15 + values.V / 10 + 5 * values.B : null;
     const yt = values.YS != null && values.UTS != null && Math.abs(values.UTS) > EPSILON ? values.YS / values.UTS : null;
+    const adapter = standardsAdapter();
+    const cecsa = adapter && typeof adapter.computeCSAEquivalent === 'function' ? adapter.computeCSAEquivalent(values) :
+      {value: null, unit: '%', ready: false, missing: ['Attached CSA formula source'], formula: 'CSA equivalent formula requires its attached source'};
 
     const thickness = scope ? toNumber(scope.thickness) : null;
-    const width = scope ? toNumber(scope.width) : null;
+    const explicitOD = scope ? toNumber(scope.standardContext?.odMM) : null;
+    const width = explicitOD != null ? explicitOD : scope ? toNumber(scope.width) : null;
     const tUnit = scope && scope.thicknessUnit ? scope.thicknessUnit : 'mm';
-    const wUnit = scope && scope.widthUnit ? scope.widthUnit : tUnit;
+    const wUnit = explicitOD != null ? 'mm' : scope && scope.widthUnit ? scope.widthUnit : tUnit;
     const widthInThicknessUnits = width == null ? null : convert(width, wUnit, tUnit);
     const dt = thickness != null && widthInThicknessUnits != null && Math.abs(thickness) > EPSILON ? widthInThicknessUnits / thickness : null;
 
     return {
       ceiiw: {value: ce, unit: '%', ready: ceReady, missing: ceInputs.filter(key => values[key] == null), formula: 'C + Mn/6 + (Cr + Mo + V)/5 + (Ni + Cu)/15'},
+      cecsa,
       pcm: {value: pcm, unit: '%', ready: pcmReady, missing: pcmInputs.filter(key => values[key] == null), formula: 'C + Si/30 + (Mn + Cu + Cr)/20 + Ni/60 + Mo/15 + V/10 + 5B'},
       ytRatio: {value: yt, unit: 'ratio', ready: yt != null, missing: [values.YS == null ? 'Yield strength' : '', values.UTS == null ? 'Tensile strength' : ''].filter(Boolean), formula: 'Yield strength / tensile strength'},
-      diameterThicknessRatio: {value: dt, unit: 'ratio', ready: dt != null, missing: [width == null ? 'Width or OD' : '', thickness == null ? 'Thickness' : ''].filter(Boolean), formula: 'Width or OD / thickness'}
+      diameterThicknessRatio: {value: dt, unit: 'ratio', ready: dt != null, missing: [width == null ? 'Width or OD' : '', thickness == null ? 'Thickness' : ''].filter(Boolean), formula: explicitOD != null ? 'Outside diameter / thickness' : 'Width / thickness'}
     };
   }
 
@@ -667,10 +783,11 @@
     return {version: VERSION, passed: tests.every(item => item.passed), tests};
   }
 
-  return {
+  const API = {
     VERSION,
     normalize,
     toNumber,
+    hasNumericInput,
     round,
     convert,
     formatNumber,
@@ -679,6 +796,7 @@
     numericDomainError,
     packageControlWarnings,
     scopeApplies,
+    attachedFamily,
     evaluateRule,
     evaluatePackage,
     summarizeResults,
@@ -694,4 +812,5 @@
     slug,
     runSelfTests
   };
+  return API;
 }));
