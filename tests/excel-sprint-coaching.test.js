@@ -19,7 +19,7 @@ test('coaching requires a signed attempted task and predecessor; rejects score o
  assert.equal(calls,0);assert.equal(config.rateLimit.windowLimit,6);
 });
 test('provider receives no private answer key or model and AI verdict cannot override scoring',async()=>{
- env();const p=payload();let outbound;globalThis.fetch=async(url,init)=>{assert.equal(url,'https://api.anthropic.com/v1/messages');outbound=JSON.parse(init.body);return aiResponse();};
+ env();const p=payload();let outbound;globalThis.fetch=async(url,init)=>{assert.equal(url,'https://api.anthropic.com/v1/messages');outbound=JSON.parse(init.body);return aiResponse({...feedback,references:'`'+feedback.references+'`',nextStep:'Test one boundary\ncase in Excel.'});};
  const result=await call(p);assert.equal(result.status,200);assert.equal(result.body.submissionCorrect,true);assert.deepEqual(result.body.feedback,feedback);
  const content=JSON.parse(outbound.messages[0].content);assert.ok(!/"(?:answer|model|hints|alternatives)":/.test(JSON.stringify(content)));assert.equal(content.submittedFormula,p.formula);assert.equal(outbound.model,C.COACH_MODEL);
  assert.equal(result.body.completionToken,undefined);assert.equal(G.readToken(p.receipt,SECRET,'receipt').taskStates.t1.attempts,1);

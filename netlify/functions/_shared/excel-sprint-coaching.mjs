@@ -33,9 +33,10 @@ function cleanFeedback(data) {
  const feedback={};
  for(const field of FIELDS){
   const value=data[field];
+  const prose=typeof value==='string'?value.replace(/`/g,'').replace(/[\r\n\t]+/g,' ').trim():'';
   // Coaching is prose, never executable solutions, HTML, or function-call snippets.
-  if(typeof value!=='string'||!value.trim()||value.length>500||/[=<>`\u0000-\u001f]/.test(value)||/\b[A-Z][A-Z0-9._]*\s*\(/.test(value))fail(503,'The coach could not produce feedback for this request. Try again later.');
-  feedback[field]=value.trim();
+  if(typeof value!=='string'||!prose||value.length>500||/[=<>\u0000-\u001f]/.test(prose)||/\b[A-Z][A-Z0-9._]*\s*\(/.test(prose))fail(503,'The coach could not produce feedback for this request. Try again later.');
+  feedback[field]=prose;
  }
  return feedback;
 }
