@@ -28,6 +28,12 @@ export function authorizeCoaching(payload,secret) {
  if(!lesson||!publicTask)fail(503,'Formula coaching is temporarily unavailable. Result checks remain available.');
  return {lesson,task:publicTask,submissionCorrect:resultsMatch(result,task)};
 }
+function containsFormulaCall(value) {
+ // A2 (relative) and A2:A25 (data rows) are reference explanations.
+ // LOG10 is also a real Excel function despite resembling an A1 reference.
+ return [...value.matchAll(/\b([A-Z][A-Z0-9._]*)\s*\(/g)].some(match=>
+  match[1]==='LOG10'||!/^[A-Z]{1,3}[1-9]\d{0,6}$/.test(match[1]));
+}
 function cleanFeedback(data) {
  if(!data||Array.isArray(data)||typeof data!=='object'||Object.keys(data).length!==FIELDS.length)fail(503,'Formula coaching is temporarily unavailable. Result checks remain available.');
  const feedback={};
@@ -35,7 +41,9 @@ function cleanFeedback(data) {
   const value=data[field];
   const prose=typeof value==='string'?value.replace(/`/g,'').replace(/[\r\n\t]+/g,' ').trim():'';
   // Coaching is prose, never executable solutions, HTML, or function-call snippets.
-  if(typeof value!=='string'||!prose||value.length>500||/[=<>\u0000-\u001f]/.test(prose)||/\b[A-Z][A-Z0-9._]*\s*\(/.test(prose))fail(503,'The coach could not produce feedback for this request. Try again later.');
+  if(typeof value!=='string'||!prose)fail(503,'The coach returned an incomplete review. Try again.');
+  if(value.length>500)fail(503,'The coach’s review was too long. Try again.');
+  if(/[=<>\u0000-\u001f]/.test(prose)||containsFormulaCall(prose))fail(503,'The coach included formula syntax or markup instead of prose. Try again.');
   feedback[field]=prose;
  }
  return feedback;

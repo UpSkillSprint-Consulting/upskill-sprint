@@ -5,7 +5,7 @@ const SECRET='sprint-coaching-test-secret-at-least-32-bytes';
 const originalNetlify=globalThis.Netlify,originalFetch=globalThis.fetch;
 const keys=JSON.parse(fs.readFileSync('netlify/functions/_shared/excel-sprint-answers.json'));
 let G,C,handler,status,config;
-const feedback={logic:'Your approach uses the requested inputs.',robustness:'Check missing inputs separately from valid zero.',references:'Keep the full data range aligned.',readability:'Use a clear intermediate calculation.',efficiency:'Avoid repeated full-range calculations.'};
+const feedback={logic:'Your approach uses the requested inputs.',robustness:'Check missing inputs separately from valid zero.',references:'Data!D2:D25 (relative cells) is the full data range.',readability:'Use a clear intermediate calculation.',efficiency:'Avoid repeated full-range calculations.'};
 before(async()=>{G=await import('../netlify/functions/_shared/excel-sprint-grading.mjs');C=await import('../netlify/functions/_shared/excel-sprint-coaching.mjs');const m=await import('../netlify/functions/excel-sprint-coach.mjs');handler=m.default;config=m.config;status=(await import('../netlify/functions/excel-sprint-coaching-status.mjs')).default;});
 after(()=>{globalThis.Netlify=originalNetlify;globalThis.fetch=originalFetch;});
 function env(key='test-anthropic-key',base){globalThis.Netlify={env:{get:name=>({EXCEL_SPRINT_SIGNING_SECRET:SECRET,ANTHROPIC_API_KEY:key,ANTHROPIC_BASE_URL:base})[name]}};}
@@ -41,5 +41,5 @@ test('missing AI configuration, timeouts and provider failures preserve result g
  const task=keys['L1-A1'].tasks[0];assert.equal(G.gradeSubmission({packageId:'L1-A1',submissions:[{taskId:task.id,formula:task.model,result:task.answer}]},SECRET).tasks[0].correct,true);
 });
 test('provider solution snippets, extra verdicts, HTML and incomplete structured feedback are rejected',async()=>{
- env();for(const invalid of [{...feedback,nextStep:'=SUM(Data!D2:D25)'},{...feedback,logic:'Use SUM(Data!D2:D25)'},{...feedback,logic:'<img src=x>'},{...feedback,correct:true},{logic:'Only one field'}]){globalThis.fetch=async()=>aiResponse(invalid);const result=await call(payload());assert.equal(result.status,503);assert.equal(result.body.feedback,undefined);}
+ env();for(const invalid of [{...feedback,nextStep:'=SUM(Data!D2:D25)'},{...feedback,logic:'Use SUM(Data!D2:D25)'},{...feedback,logic:'Use LOG10(Data!D2)'},{...feedback,logic:'<img src=x>'},{...feedback,correct:true},{logic:'Only one field'}]){globalThis.fetch=async()=>aiResponse(invalid);const result=await call(payload());assert.equal(result.status,503);assert.equal(result.body.feedback,undefined);}
 });
