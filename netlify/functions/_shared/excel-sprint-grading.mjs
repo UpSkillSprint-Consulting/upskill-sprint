@@ -23,7 +23,8 @@ const has = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
 const validInteger = value => Number.isSafeInteger(value) && value >= 0 && value <= 10000;
 
 export function signingSecret() {
-  const secret = globalThis.Netlify?.env?.get('EXCEL_SPRINT_SIGNING_SECRET');
+  // Use the direct platform identifier so Netlify's bundler injects the env API.
+  const secret = typeof Netlify === 'undefined' ? undefined : Netlify.env.get('EXCEL_SPRINT_SIGNING_SECRET');
   if (typeof secret !== 'string' || Buffer.byteLength(secret) < 32) {
     fail(503, 'Grading is temporarily unavailable. Please try again later.');
   }
