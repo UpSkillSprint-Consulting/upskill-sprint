@@ -1,0 +1,44 @@
+# Excel Formula Sprint — Expert Track and certificates
+
+Expert Track v1 is a separate mastery route after the thirty released Levels 1–6 assignments. It adds three seeded capstones with four required tasks and an optional bonus each. Levels 7–10, placement and adaptive reinforcement remain future releases. Completing Expert Track does not complete the planned fifty-assignment core path.
+
+## Capstones
+
+| ID | Challenge | Required behavior |
+| --- | --- | --- |
+| EX-A1 | Manufacturing release queue | Normalize imported grades, guard missing strength and unknown specifications, classify every pipe, sort a rework queue and reconcile rounded costs. Limits are fictitious training assumptions. |
+| EX-A2 | Duplicate Charpy measurements | Group by both sample and heat, normalize LPA/TWA, average numeric replicates, retain measured zero and expose missing orientations. Sample identifiers remain text with leading zeros. |
+| EX-A3 | Inventory dashboard | Reconcile opening stock with receipts, dispatch and scrap, preserve negative stock, prioritize shortages and independently audit the movement total. |
+
+The lessons introduce LET and SUMPRODUCT where useful and reinforce conditional aggregation and dynamic reports. Microsoft 365 Excel remains the target engine. Formula signatures and blank handling were checked against Microsoft's [LET](https://support.microsoft.com/en-us/excel/functions/let-function), [SUMPRODUCT](https://support.microsoft.com/en-us/excel/functions/sumproduct-function) and [AVERAGEIFS](https://support.microsoft.com/en-au/excel/functions/averageifs-function) documentation.
+
+## Signed progress and compatibility
+
+Core tokens remain in `tokens`; capstone tokens are saved separately in `expertTokens`. Backups without the new field default to an empty Expert Track. Schema, core curriculum version, original keys and signing secret remain unchanged. EX-A1 requires the L6-A5 completion; later capstones require their immediate predecessor on the same learning path. Full backup verification checks both chains together. Expert Track v1's thirty-package prerequisite is fixed, so future core releases must preserve this branch's predecessor and certificate scope.
+
+Capstones use the same private result grader, signed attempt receipts, gated model solutions and optional formula coaching. All required outputs must pass; bonuses and first-attempt scores do not prevent completion. Progress and work remain in browser storage. No accounts or learner database are added.
+
+## Certificates
+
+`POST /api/excel-sprint/certificate` verifies the complete submitted progress chain before issuing either award:
+
+- `levels-1-6`: all thirty core assignments.
+- `expert-track-v1`: those thirty core assignments plus all three capstones.
+
+The fifty-assignment certificate is unavailable until the remaining core curriculum is implemented. Its award is not accepted by the issuance endpoint. The UI shows this explicitly.
+
+Certificates include the self-reported learner name, exact package scope, completion and issuance dates, an ID and hashes of the terminal proofs. They are signed with a separate certificate HMAC domain using the existing stable `EXCEL_SPRINT_SIGNING_SECRET`. No new configuration or secret rotation is required. Signed proof JSON can be downloaded, shared and verified at `/excel-sprint-certificate`. `POST /api/excel-sprint/certificate/verify` accepts only a certificate token. Edited names or claims fail signature verification. The page displays and enables printing only after verification, clearing a previously displayed certificate when its input changes or verification fails.
+
+The certificate page provides landscape printing / Save as PDF, and a verification link containing the signed token in its URL fragment. The token includes the displayed learner name; the UI explains this before sharing. JSON proof is independent of browser progress backups and is required to verify a saved PDF later. Proofs attest to matching submitted outputs and a continuous signed learning path. They do not attest to identity, independent work or Excel formula execution. The existing stateless receipt replay limitation remains.
+
+## Workbook authoring and build
+
+Three source XLSX files are authored with `scripts/author-excel-sprint-expert-workbooks.mjs` using the primary runtime's artifact-tool in a temporary directory. Use the spreadsheet creation marker once before authoring. The script renders all fourteen sheets and appends curriculum fingerprints and SHA-256 hashes to the existing manifest. The portable generator verifies the committed sources before copying public XLSX downloads. Answer areas are empty and contain no model formulas. Separate supporting CSVs are provided for Specs and Stock.
+
+Run `npm run build:excel-sprint` for deterministic public packages and private keys. Netlify continues to publish only `public-site`; the source curriculum, workbook manifest, private answers and server code stay outside that directory. The certificate page lives at the site root as a utility page and is noindex, preserving the lesson catalog's complete coverage rules.
+
+## Validation
+
+45 focused Sprint tests cover existing assignments and coaching, Expert Track sequencing and backup restoration, signed certificate eligibility, name/scope tampering, cross-domain proof rejection, markup validation, stale verification responses and learner controls. All three XLSX files were rendered and read back: data and supporting tables match their seeds, text identifiers retain leading zeros, and answer areas have no formulas or values. All ninety original core package/CSV/XLSX files remain byte-identical. Search regressions and the complete public-site build pass.
+
+Live preview and visual verification are recorded after deployment. Evidence uses fictitious QA progress, never a learner's real completion record.

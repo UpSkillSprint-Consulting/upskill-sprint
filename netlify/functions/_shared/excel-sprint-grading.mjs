@@ -4,6 +4,10 @@ import answers from './excel-sprint-answers.json' with { type: 'json' };
 // This module and the answer JSON are function inputs, never public site assets.
 export const CURRICULUM_VERSION = 1;
 export const PACKAGE_IDS = Object.freeze(Array.from({ length: 30 }, (_, i) => `L${Math.floor(i / 5) + 1}-A${i % 5 + 1}`));
+// Expert Track v1 has a fixed Levels 1–6 prerequisite. Future core releases do not change its proofs.
+export const EXPERT_IDS = Object.freeze(['EX-A1', 'EX-A2', 'EX-A3']);
+export const EXPERT_CORE_IDS = Object.freeze(PACKAGE_IDS.slice(0, 30));
+export const ALL_PACKAGE_IDS = Object.freeze([...PACKAGE_IDS, ...EXPERT_IDS]);
 const MAX_BODY_BYTES = 64 * 1024;
 const MAX_TOKEN_LENGTH = 12000;
 const HEADERS = {
@@ -73,7 +77,7 @@ export async function handleRequest(request, fields, action) {
 }
 
 export function packageKey(packageId) {
-  if (typeof packageId !== 'string' || !PACKAGE_IDS.includes(packageId) || !has(answers, packageId)) fail(400, 'Unknown or unavailable assignment.');
+  if (typeof packageId !== 'string' || !ALL_PACKAGE_IDS.includes(packageId) || !has(answers, packageId)) fail(400, 'Unknown or unavailable assignment.');
   return answers[packageId];
 }
 
@@ -94,7 +98,7 @@ export function readToken(token, secret, type) {
   try { proof = JSON.parse(Buffer.from(encoded, 'base64url').toString('utf8')); }
   catch { fail(403, 'The progress proof is invalid.'); }
   if (!isRecord(proof) || proof.type !== type || proof.schema !== 1 || proof.curriculumVersion !== CURRICULUM_VERSION ||
-      !PACKAGE_IDS.includes(proof.packageId) || proof.packageVersion !== packageKey(proof.packageId).version ||
+      !ALL_PACKAGE_IDS.includes(proof.packageId) || proof.packageVersion !== packageKey(proof.packageId).version ||
       typeof proof.chainId !== 'string' || !/^[0-9a-f-]{36}$/.test(proof.chainId) ||
       !(proof.predecessorHash === null || typeof proof.predecessorHash === 'string' && /^[A-Za-z0-9_-]{43}$/.test(proof.predecessorHash))) {
     fail(403, 'The progress proof is invalid.');
@@ -128,13 +132,15 @@ function validateCompletion(proof) {
 }
 
 export function predecessorFor(packageId, predecessorToken, secret) {
-  const index = PACKAGE_IDS.indexOf(packageId);
+  const path = EXPERT_IDS.includes(packageId) ? [...EXPERT_CORE_IDS, ...EXPERT_IDS] : PACKAGE_IDS;
+  const index = path.indexOf(packageId);
+  if (index < 0) fail(400, 'Unknown or unavailable assignment.');
   if (index === 0) {
     if (predecessorToken !== undefined && predecessorToken !== null && predecessorToken !== '') fail(403, 'This assignment starts a new learning path.');
     return null;
   }
   const previous = readToken(predecessorToken, secret, 'completion');
-  if (previous.packageId !== PACKAGE_IDS[index - 1]) fail(403, 'Complete the preceding assignment first.');
+  if (previous.packageId !== path[index - 1]) fail(403, 'Complete the preceding assignment first.');
   return { chainId: previous.chainId, hash: tokenHash(predecessorToken) };
 }
 
@@ -280,7 +286,19 @@ export function verifyProgress(payload, secret) {
     chainId = proof.chainId; previousToken = token;
     completions.push({ packageId: proof.packageId, score: proof.score, firstAttemptScore: proof.firstAttemptScore, timestamp: proof.timestamp, attempts: proof.attempts, firstAttemptCorrect: proof.firstAttemptCorrect, chainId: proof.chainId, curriculumVersion: proof.curriculumVersion, completionToken: token });
   }
-  return { verified: true, curriculumVersion: CURRICULUM_VERSION, completions, nextPackageId: PACKAGE_IDS[completions.length] || null };
+  const expertTokens = payload.expertTokens === undefined ? [] : payload.expertTokens;
+  if (!Array.isArray(expertTokens) || expertTokens.length > EXPERT_IDS.length) fail(400, 'Provide the ordered Expert Track completion proofs.');
+  if (expertTokens.length && completions.length < EXPERT_CORE_IDS.length) fail(403, 'Complete Levels 1–6 before starting Expert Track.');
+  const expertCompletions = [];
+  previousToken = payload.tokens[EXPERT_CORE_IDS.length - 1];
+  for (let index = 0; index < expertTokens.length; index++) {
+    const token = expertTokens[index], proof = readToken(token, secret, 'completion');
+    if (proof.packageId !== EXPERT_IDS[index] || proof.chainId !== chainId || proof.predecessorHash !== tokenHash(previousToken)) fail(403, 'Expert proofs must continue the same learning path in order.');
+    expertCompletions.push({ packageId: proof.packageId, score: proof.score, firstAttemptScore: proof.firstAttemptScore, timestamp: proof.timestamp, attempts: proof.attempts, firstAttemptCorrect: proof.firstAttemptCorrect, chainId: proof.chainId, curriculumVersion: proof.curriculumVersion, completionToken: token });
+    previousToken = token;
+  }
+  return { verified: true, curriculumVersion: CURRICULUM_VERSION, completions, nextPackageId: PACKAGE_IDS[completions.length] || null,
+    expertCompletions, nextExpertPackageId: completions.length >= EXPERT_CORE_IDS.length ? EXPERT_IDS[expertCompletions.length] || null : null };
 }
 
 export function packageSolutions(payload, secret) {

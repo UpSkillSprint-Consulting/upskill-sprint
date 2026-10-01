@@ -38,4 +38,4 @@ Preview evidence uses fictitious QA progress. The Level 3 task remains at one at
 
 ![Level 3 formula coaching with fictitious QA progress](excel-sprint-phase2-preview-20261001.jpg)
 
-Levels 7–10, reinforcement, placement, Expert Track and certificates remain future releases. Phase 1's stateless receipt replay limitation remains: learners can restart/replay personal attempt records without a database.
+Levels 7–10, reinforcement and placement remain future releases. The subsequent [Expert Track and certificates release](excel-sprint-expert.md) adds three capstones and awards with explicitly limited scope. Phase 1's stateless receipt replay limitation remains: learners can restart/replay personal attempt records without a database.

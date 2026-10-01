@@ -1,0 +1,668 @@
+{
+  "id": "EX-A2",
+  "track": "expert",
+  "assignment": 2,
+  "title": "Reshape duplicate Charpy measurements",
+  "formulas": [
+    "AVERAGEIFS",
+    "COUNTIFS"
+  ],
+  "minutes": 75,
+  "scenario": "Chelloran Test Lab has 80 fictitious observations: twenty sample/heat pairs, two orientations and two replicate slots per orientation. Sample_no alone is not unique. Group by BOTH Sample_no and Heat_no. Normalize Orientation using TRIM/UPPER. Average numeric replicate energies (J), include measured zero, ignore blanks, round to two decimals and return Missing when no numeric observation exists. Do not select the first duplicate measurement.",
+  "lesson": {
+    "intro": "A replicated test needs an explicit aggregation rule. Use separate sample and heat criteria, and confirm observations exist before averaging. Clean orientation labels once and reuse them.",
+    "functions": [
+      {
+        "name": "AVERAGEIFS",
+        "purpose": "Average numeric observations meeting all criteria.",
+        "syntax": "=AVERAGEIFS(average_range, criteria_range1, criteria1, [criteria_range2, criteria2], …)",
+        "arguments": "All ranges must align. Example: A2:A4 contains A, B, A; B2:B4 contains 10, 20, 30.",
+        "example": "=AVERAGEIFS(B2:B4,A2:A4,\"A\")",
+        "result": 20,
+        "useCase": "Build and audit the capstone report.",
+        "mistake": "No matching numeric observations produces an error. A measured zero counts; missing data must remain missing."
+      },
+      {
+        "name": "COUNTIFS",
+        "purpose": "Count observations meeting all criteria.",
+        "syntax": "=COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2], …)",
+        "arguments": "Pair aligned ranges and criteria. Example: A2:A4 contains A, A, B; B2:B4 contains 1, 2, 3.",
+        "example": "=COUNTIFS(A2:A4,\"A\",B2:B4,\">1\")",
+        "result": 1,
+        "useCase": "Build and audit the capstone report.",
+        "mistake": "Counting a key alone does not prove that its measurement exists."
+      }
+    ],
+    "combine": "UNIQUE on a two-column array preserves joint identity. Reuse COUNTIFS and AVERAGEIFS across orientations, then HSTACK keys and energies. Keep the sorted order fixed."
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "prompt": "Normalize all 80 Orientation labels using ordinary-space trimming and uppercase. Preserve Data order.",
+      "output": "Answers!B2:B81",
+      "type": "array"
+    },
+    {
+      "id": "t2",
+      "prompt": "Return the twenty distinct Sample_no and Heat_no pairs, sorted Sample_no ascending, then Heat_no ascending. Preserve the three-character sample identifiers.",
+      "output": "Answers!B85:C104",
+      "type": "array"
+    },
+    {
+      "id": "t3",
+      "prompt": "For the sorted pairs, return two columns: mean LPA energy and mean TWA energy (J). Apply the numeric-replicate and Missing rules. Keep the key order from Task 2.",
+      "output": "Answers!B108:C127",
+      "type": "array"
+    },
+    {
+      "id": "t4",
+      "prompt": "Return the final twenty-row report: Sample_no, Heat_no, mean LPA_J, mean TWA_J. Preserve the Task 2 sort order and Missing labels.",
+      "output": "Answers!B131:E150",
+      "type": "array"
+    }
+  ],
+  "bonus": {
+    "id": "bonus",
+    "prompt": "Count sample/heat pairs missing at least one orientation mean. Count each pair once.",
+    "output": "Answers!B154",
+    "type": "number"
+  },
+  "dataset": {
+    "headers": [
+      "Sample_no",
+      "Heat_no",
+      "Orientation",
+      "Energy_J",
+      "Replicate"
+    ],
+    "rows": [
+      [
+        "001",
+        "CH-H3",
+        "LPA",
+        73,
+        2
+      ],
+      [
+        "003",
+        "CH-H1",
+        " lpa ",
+        54,
+        1
+      ],
+      [
+        "005",
+        "CH-H4",
+        "LPA",
+        51,
+        2
+      ],
+      [
+        "003",
+        "CH-H3",
+        " twa ",
+        57,
+        1
+      ],
+      [
+        "003",
+        "CH-H2",
+        " lpa ",
+        36,
+        1
+      ],
+      [
+        "005",
+        "CH-H3",
+        "TWA",
+        94,
+        2
+      ],
+      [
+        "003",
+        "CH-H3",
+        "LPA",
+        62,
+        2
+      ],
+      [
+        "004",
+        "CH-H4",
+        " twa ",
+        70,
+        1
+      ],
+      [
+        "002",
+        "CH-H1",
+        "TWA",
+        33,
+        2
+      ],
+      [
+        "005",
+        "CH-H1",
+        " lpa ",
+        69,
+        1
+      ],
+      [
+        "003",
+        "CH-H1",
+        "TWA",
+        66,
+        2
+      ],
+      [
+        "002",
+        "CH-H3",
+        " twa ",
+        53,
+        1
+      ],
+      [
+        "002",
+        "CH-H4",
+        " lpa ",
+        50,
+        1
+      ],
+      [
+        "004",
+        "CH-H4",
+        " lpa ",
+        75,
+        1
+      ],
+      [
+        "002",
+        "CH-H3",
+        "TWA",
+        75,
+        2
+      ],
+      [
+        "001",
+        "CH-H4",
+        "TWA",
+        80,
+        2
+      ],
+      [
+        "005",
+        "CH-H4",
+        " twa ",
+        65,
+        1
+      ],
+      [
+        "002",
+        "CH-H4",
+        " twa ",
+        77,
+        1
+      ],
+      [
+        "002",
+        "CH-H3",
+        " lpa ",
+        71,
+        1
+      ],
+      [
+        "001",
+        "CH-H3",
+        " twa ",
+        63,
+        1
+      ],
+      [
+        "001",
+        "CH-H4",
+        "LPA",
+        24,
+        2
+      ],
+      [
+        "005",
+        "CH-H3",
+        " lpa ",
+        40,
+        1
+      ],
+      [
+        "004",
+        "CH-H3",
+        " lpa ",
+        29,
+        1
+      ],
+      [
+        "002",
+        "CH-H4",
+        "LPA",
+        65,
+        2
+      ],
+      [
+        "005",
+        "CH-H2",
+        "TWA",
+        44,
+        2
+      ],
+      [
+        "002",
+        "CH-H2",
+        "LPA",
+        35,
+        2
+      ],
+      [
+        "005",
+        "CH-H4",
+        "TWA",
+        65,
+        2
+      ],
+      [
+        "004",
+        "CH-H1",
+        "LPA",
+        33,
+        2
+      ],
+      [
+        "004",
+        "CH-H1",
+        " twa ",
+        69,
+        1
+      ],
+      [
+        "005",
+        "CH-H1",
+        " twa ",
+        31,
+        1
+      ],
+      [
+        "004",
+        "CH-H2",
+        " lpa ",
+        73,
+        1
+      ],
+      [
+        "003",
+        "CH-H4",
+        "TWA",
+        85,
+        2
+      ],
+      [
+        "004",
+        "CH-H3",
+        " twa ",
+        23,
+        1
+      ],
+      [
+        "004",
+        "CH-H2",
+        "LPA",
+        22,
+        2
+      ],
+      [
+        "001",
+        "CH-H4",
+        " lpa ",
+        33,
+        1
+      ],
+      [
+        "003",
+        "CH-H1",
+        " twa ",
+        29,
+        1
+      ],
+      [
+        "001",
+        "CH-H1",
+        " lpa ",
+        87,
+        1
+      ],
+      [
+        "004",
+        "CH-H3",
+        "LPA",
+        68,
+        2
+      ],
+      [
+        "003",
+        "CH-H1",
+        "LPA",
+        60,
+        2
+      ],
+      [
+        "005",
+        "CH-H4",
+        " lpa ",
+        72,
+        1
+      ],
+      [
+        "002",
+        "CH-H2",
+        "TWA",
+        27,
+        2
+      ],
+      [
+        "003",
+        "CH-H3",
+        " lpa ",
+        81,
+        1
+      ],
+      [
+        "005",
+        "CH-H2",
+        " twa ",
+        95,
+        1
+      ],
+      [
+        "001",
+        "CH-H2",
+        "LPA",
+        81,
+        2
+      ],
+      [
+        "003",
+        "CH-H2",
+        "TWA",
+        41,
+        2
+      ],
+      [
+        "003",
+        "CH-H2",
+        " twa ",
+        69,
+        1
+      ],
+      [
+        "001",
+        "CH-H3",
+        " lpa ",
+        0,
+        1
+      ],
+      [
+        "005",
+        "CH-H3",
+        " twa ",
+        79,
+        1
+      ],
+      [
+        "002",
+        "CH-H1",
+        " lpa ",
+        32,
+        1
+      ],
+      [
+        "003",
+        "CH-H4",
+        " lpa ",
+        69,
+        1
+      ],
+      [
+        "002",
+        "CH-H1",
+        " twa ",
+        50,
+        1
+      ],
+      [
+        "004",
+        "CH-H1",
+        " lpa ",
+        77,
+        1
+      ],
+      [
+        "003",
+        "CH-H4",
+        "LPA",
+        78,
+        2
+      ],
+      [
+        "004",
+        "CH-H4",
+        "TWA",
+        35,
+        2
+      ],
+      [
+        "001",
+        "CH-H1",
+        " twa ",
+        "",
+        1
+      ],
+      [
+        "001",
+        "CH-H3",
+        "TWA",
+        94,
+        2
+      ],
+      [
+        "001",
+        "CH-H4",
+        " twa ",
+        79,
+        1
+      ],
+      [
+        "005",
+        "CH-H1",
+        "TWA",
+        60,
+        2
+      ],
+      [
+        "001",
+        "CH-H1",
+        "LPA",
+        30,
+        2
+      ],
+      [
+        "004",
+        "CH-H4",
+        "LPA",
+        63,
+        2
+      ],
+      [
+        "004",
+        "CH-H1",
+        "TWA",
+        29,
+        2
+      ],
+      [
+        "001",
+        "CH-H2",
+        " lpa ",
+        53,
+        1
+      ],
+      [
+        "005",
+        "CH-H1",
+        "LPA",
+        61,
+        2
+      ],
+      [
+        "003",
+        "CH-H2",
+        "LPA",
+        65,
+        2
+      ],
+      [
+        "002",
+        "CH-H1",
+        "LPA",
+        69,
+        2
+      ],
+      [
+        "002",
+        "CH-H2",
+        " twa ",
+        85,
+        1
+      ],
+      [
+        "005",
+        "CH-H2",
+        " lpa ",
+        88,
+        1
+      ],
+      [
+        "004",
+        "CH-H3",
+        "TWA",
+        76,
+        2
+      ],
+      [
+        "004",
+        "CH-H2",
+        "TWA",
+        52,
+        2
+      ],
+      [
+        "002",
+        "CH-H2",
+        " lpa ",
+        33,
+        1
+      ],
+      [
+        "003",
+        "CH-H3",
+        "TWA",
+        48,
+        2
+      ],
+      [
+        "005",
+        "CH-H2",
+        "LPA",
+        57,
+        2
+      ],
+      [
+        "003",
+        "CH-H4",
+        " twa ",
+        75,
+        1
+      ],
+      [
+        "001",
+        "CH-H2",
+        " twa ",
+        "",
+        1
+      ],
+      [
+        "004",
+        "CH-H2",
+        " twa ",
+        46,
+        1
+      ],
+      [
+        "002",
+        "CH-H4",
+        "TWA",
+        86,
+        2
+      ],
+      [
+        "001",
+        "CH-H2",
+        "TWA",
+        72,
+        2
+      ],
+      [
+        "005",
+        "CH-H3",
+        "LPA",
+        77,
+        2
+      ],
+      [
+        "001",
+        "CH-H1",
+        "TWA",
+        "",
+        2
+      ],
+      [
+        "002",
+        "CH-H3",
+        "LPA",
+        34,
+        2
+      ]
+    ],
+    "rowCount": 80,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Sample_no",
+        "description": "Three-character text identifier, including leading zeros. Repeats across heats."
+      },
+      {
+        "name": "Heat_no",
+        "description": "Heat identifier. A sample is identified by both sample and heat."
+      },
+      {
+        "name": "Orientation",
+        "description": "Imported LPA or TWA label. Normalize with TRIM and UPPER."
+      },
+      {
+        "name": "Energy_J",
+        "description": "Replicate energy in joules. A measured zero counts; a blank is missing."
+      },
+      {
+        "name": "Replicate",
+        "description": "Replicate slot 1 or 2. Average numeric replicates within both keys and orientation."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/EX-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/EX-A2.csv"
+  }
+}

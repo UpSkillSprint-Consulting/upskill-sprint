@@ -78,5 +78,17 @@
   "L6-A5": {
     "fingerprint": "ecc48ee6d6c7c120b8b37dc982517a57e36644782d74134206e0efc3e7d6a2de",
     "sha256": "5b930c4f109fee28c38b5e8710b9989ac409ef0a30df2811376b7964903d79df"
+  },
+  "EX-A1": {
+    "fingerprint": "5bc1b0440994318a3dcddac494318cb9d16072666c4da9fbb979f5147b97467c",
+    "sha256": "56d84db15b074b5a0d09eebec7f3fdd35a40af08d1fa9be5b0547af9da33bf53"
+  },
+  "EX-A2": {
+    "fingerprint": "39eca075bc1b13e22b5de583bdc72bef50a93a68b75c23a86ceb8f843f42c1dd",
+    "sha256": "23d803c2a3b30f4e3ce238c9b55e4bee16bcb09fb0967320000d838c8d7687f7"
+  },
+  "EX-A3": {
+    "fingerprint": "1415422708cc67c52e0eddc9297a133b705d29e452933919fa46255c4b8d2d28",
+    "sha256": "2afc9a617eac3c6a8dee07f9513af98033f88b43aebf2ed8ac88b67ffa9927b9"
   }
 }

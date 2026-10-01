@@ -746,5 +746,67 @@
         }
       ]
     }
-  ]
+  ],
+  "expert": {
+    "version": 1,
+    "title": "Expert Track",
+    "requiredCoreIds": [
+      "L1-A1",
+      "L1-A2",
+      "L1-A3",
+      "L1-A4",
+      "L1-A5",
+      "L2-A1",
+      "L2-A2",
+      "L2-A3",
+      "L2-A4",
+      "L2-A5",
+      "L3-A1",
+      "L3-A2",
+      "L3-A3",
+      "L3-A4",
+      "L3-A5",
+      "L4-A1",
+      "L4-A2",
+      "L4-A3",
+      "L4-A4",
+      "L4-A5",
+      "L5-A1",
+      "L5-A2",
+      "L5-A3",
+      "L5-A4",
+      "L5-A5",
+      "L6-A1",
+      "L6-A2",
+      "L6-A3",
+      "L6-A4",
+      "L6-A5"
+    ],
+    "packages": [
+      {
+        "id": "EX-A1",
+        "title": "Reconcile a manufacturing release queue",
+        "formulas": [
+          "LET",
+          "SUMPRODUCT"
+        ]
+      },
+      {
+        "id": "EX-A2",
+        "title": "Reshape duplicate Charpy measurements",
+        "formulas": [
+          "AVERAGEIFS",
+          "COUNTIFS"
+        ]
+      },
+      {
+        "id": "EX-A3",
+        "title": "Build a reconciled inventory dashboard",
+        "formulas": [
+          "SUMIFS",
+          "SORTBY"
+        ]
+      }
+    ]
+  }
 }

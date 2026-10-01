@@ -10,6 +10,9 @@
   var state = P.emptyState();
   var catalog;
   var completions = [];
+  var expertCompletions = [];
+  var learnerName = '';
+  var latestCertificate = null;
   var currentPackage;
   var verified = false;
   var busy = false;
@@ -64,6 +67,10 @@
     return state.packages[id];
   }
   function findPackage(id) {
+    if (isExpert(id)) {
+      var expert = catalog.expert && catalog.expert.packages.find(function (pkg) { return pkg.id === id; });
+      return expert ? {level:{available:true},pkg:expert} : null;
+    }
     for (var index = 0; index < catalog.levels.length; index++) {
       var level = catalog.levels[index];
       var item = level.packages.find(function (pkg) { return pkg.id === id; });
@@ -73,13 +80,17 @@
   }
   function canOpen(id) {
     var item = findPackage(id);
+    if (isExpert(id)) return !!item && verified && catalog.expert.requiredCoreIds.every(function (key) { return completed(key); }) && catalog.expert.packages.slice(0, +id.slice(-1) - 1).every(function (pkg) { return completed(pkg.id); });
     return !!item && P.unlocked(id, completions, item.level.available);
   }
   function canRead(id) {
     var item = findPackage(id);
     return canOpen(id) || !verified && !!item && item.level.available && !!state.packages[id];
   }
-  function completed(id) { return completions.find(function (entry) { return entry.packageId === id; }); }
+  function isExpert(id) { return /^EX-A[1-3]$/.test(id); }
+  function completed(id) { return completions.concat(expertCompletions).find(function (entry) { return entry.packageId === id; }); }
+  function previousId(id) { return isExpert(id) ? id === 'EX-A1' ? 'L6-A5' : 'EX-A' + (+id.slice(-1) - 1) : P.packageId(P.packageNumber(id) - 1); }
+  function nextId(id) { return isExpert(id) ? 'EX-A' + (+id.slice(-1) + 1) : P.packageNumber(id) === releasedCount() ? 'EX-A1' : P.packageId(P.packageNumber(id) + 1); }
   function dayStamp() {
     var now = new Date();
     return now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
@@ -163,7 +174,7 @@
       mount.querySelectorAll('[data-sprint-check], [data-sprint-coach], [data-sprint-action="grade-all"], [data-sprint-open]').forEach(function (button) { button.disabled = true; });
       panel.textContent = 'Reviewing your formula…';
       await persist();
-      var previous = completed(P.packageId(P.packageNumber(pkg.id) - 1));
+      var previous = completed(previousId(pkg.id));
       var response = await request('/api/excel-sprint/coach', { packageId: pkg.id, taskId: taskId, formula: snapshot.formula, result: result, receipt: saved.receipt, predecessorToken: previous && previous.completionToken });
       if (response.packageId !== pkg.id || response.taskId !== taskId || !response.feedback) throw new Error('The coaching response was incomplete. Try again later.');
       collectDrafts();
@@ -187,14 +198,16 @@
     mount.innerHTML = '<div class="sprint-hero"><div><p class="sprint-eyebrow">Excel Formula Sprint · Microsoft 365</p><h2 id="sprint-heading">Learn it. Build it.<br><span>Prove it in Excel.</span></h2><p>Build formula fluency through short lessons and realistic, fictitious datasets. Each assignment unlocks when every required task is correct.</p></div><div class="sprint-hero-stats"><strong>10<span>levels</span></strong><strong>50<span>assignment packages</span></strong><p>Levels 1–6 are ready now.<br>30 assignments, from foundations to dynamic arrays.</p></div></div>' +
       '<div id="sprint-first-notice" class="sprint-notice"' + (state.noticeDismissed ? ' hidden' : '') + '><p>' + NOTICE + '</p><button type="button" data-sprint-action="dismiss-notice">Got it</button></div>' +
       '<div id="sprint-storage-warning" class="sprint-message sprint-message-error" role="alert" hidden></div>' +
-      '<div class="sprint-toolbar"><a href="#sprint-assignment" class="sprint-button sprint-primary">Start / continue assignment</a><a href="#sprint-dashboard" class="sprint-button sprint-secondary">Your dashboard</a><button type="button" class="sprint-button sprint-secondary" data-sprint-action="export">Export backup</button><label class="sprint-button sprint-secondary" for="sprint-import">Import backup<input type="file" id="sprint-import" accept=".json,application/json" class="sprint-sr-only"></label><button type="button" class="sprint-link-button" data-sprint-action="reset">Reset progress</button></div>' +
+      '<div class="sprint-toolbar"><a href="#sprint-assignment" class="sprint-button sprint-primary">Start / continue assignment</a><a href="#sprint-expert" class="sprint-button sprint-secondary">Expert Track</a><a href="#sprint-certificates" class="sprint-button sprint-secondary">Certificates</a><a href="#sprint-dashboard" class="sprint-button sprint-secondary">Your dashboard</a><button type="button" class="sprint-button sprint-secondary" data-sprint-action="export">Export backup</button><label class="sprint-button sprint-secondary" for="sprint-import">Import backup<input type="file" id="sprint-import" accept=".json,application/json" class="sprint-sr-only"></label><button type="button" class="sprint-link-button" data-sprint-action="reset">Reset progress</button></div>' +
       '<div id="sprint-reset-confirm" class="sprint-notice" hidden><p>Reset all Excel Formula Sprint progress saved in this browser? Export a backup first if you want to keep it.</p><div class="sprint-inline-actions"><button type="button" class="sprint-button sprint-danger" data-sprint-action="confirm-reset">Yes, reset Sprint progress</button><button type="button" class="sprint-button sprint-secondary" data-sprint-action="cancel-reset">Keep my progress</button></div></div>' +
       '<div id="sprint-backup-reminder" class="sprint-notice" hidden></div>' +
       '<div id="sprint-message" class="sprint-message" role="status" aria-live="polite" hidden></div>' +
       '<div class="sprint-path-heading"><div><p class="sprint-eyebrow">The full path</p><h3>Choose your next assignment</h3></div><div><p id="sprint-verification" class="sprint-muted">Checking saved completions…</p><button type="button" class="sprint-link-button" data-sprint-action="verify" id="sprint-verify-button" hidden>Verify saved progress</button></div></div><div id="sprint-map" class="sprint-map"></div>' +
+      '<section id="sprint-expert" class="sprint-expert" aria-label="Expert Track capstones"></section>' +
       '<div id="sprint-assignment" class="sprint-assignment" tabindex="-1" aria-live="polite"></div>' +
       '<section id="sprint-dashboard" class="sprint-dashboard" aria-label="Excel Sprint progress dashboard"></section>' +
-      '<p class="sprint-release-note">Coming in future releases: Levels 7–10, reinforcement drills, placement tests, Expert Track and a verified completion certificate. Existing Formula Fluency learning material remains below as a reference.</p>';
+      '<section id="sprint-certificates" class="sprint-certificates" aria-label="Completion certificates"></section>' +
+      '<p class="sprint-release-note">Coming in future releases: Levels 7–10, reinforcement drills, placement tests and the full 50-assignment certificate. Expert Track v1 is a separate three-capstone route after Levels 1–6. Existing Formula Fluency learning material remains below as a reference.</p>';
     renderSummary();
     storageNotice();
   }
@@ -210,13 +223,48 @@
         return '<button type="button" class="sprint-package' + (solved ? ' is-solved' : started && open ? ' is-started' : '') + (currentPackage && currentPackage.id === pkg.id ? ' is-selected' : '') + '" data-sprint-open="' + esc(pkg.id) + '" aria-label="' + esc(pkg.id + ': ' + pkg.title + '. ' + status) + '" title="' + esc(pkg.title + ' · ' + status) + '"' + (!readable ? ' disabled' : '') + (currentPackage && currentPackage.id === pkg.id ? ' aria-current="step"' : '') + '><span>A' + (index + 1) + '</span><small>' + (solved ? '✓' : !open ? '&#128274;' : '→') + '</small></button>';
       }).join('') + '</div><span class="sprint-map-legend">' + (level.available ? 'Sequential mastery gate' : 'Content in development') + '</span></div>';
     }).join('');
-    mount.querySelector('#sprint-dashboard').innerHTML = D.render(state, completions, catalog);
+    mount.querySelector('#sprint-dashboard').innerHTML = D.render(state, completions.concat(expertCompletions), catalog);
+    renderExpert();
+    renderCertificates();
     var verificationText = mount.querySelector('#sprint-verification');
     verificationText.textContent = verified ? 'Saved completions verified' : state.tokens.length ? 'Reconnect to verify saved completions' : 'Begin with L1-A1';
     mount.querySelector('#sprint-verify-button').hidden = verified || !state.tokens.length;
     var reminder = mount.querySelector('#sprint-backup-reminder');
     reminder.hidden = !state.backupReminder;
     if (state.backupReminder) reminder.innerHTML = '<p><strong>Level ' + state.backupReminder + ' complete.</strong> Export a backup so you can restore this milestone on another browser.</p><div class="sprint-inline-actions"><button type="button" class="sprint-button sprint-primary" data-sprint-action="export">Export progress backup</button><button type="button" class="sprint-link-button" data-sprint-action="dismiss-backup">Remind me next level</button></div>';
+  }
+  function renderExpert() {
+    var expert = catalog.expert;
+    if (!expert) return;
+    mount.querySelector('#sprint-expert').innerHTML = '<p class="sprint-eyebrow">Apply your skills</p><h3>Expert Track</h3><p>Three integrated capstones: reconcile a release queue, aggregate duplicate Charpy measurements and audit an inventory dashboard. Unlock after all 30 core assignments in Levels 1–6 are verified.</p><p class="sprint-muted">' + completions.length + ' / 30 prerequisite assignments · ' + expertCompletions.length + ' / 3 capstones verified. Each capstone has four required tasks and an optional bonus.</p><div class="sprint-expert-grid">' + expert.packages.map(function (pkg) {
+      var open = canOpen(pkg.id), solved = !!completed(pkg.id), readable = canRead(pkg.id);
+      return '<article><p class="sprint-eyebrow">' + esc(pkg.id) + '</p><h4>' + esc(pkg.title) + '</h4><p>' + esc(pkg.formulas.join(' + ')) + '</p><span class="sprint-status' + (solved ? ' sprint-status-good' : '') + '">' + (solved ? 'Solved · verified' : open ? 'Ready' : 'Locked') + '</span><p><button type="button" class="sprint-button sprint-secondary" data-sprint-open="' + esc(pkg.id) + '"' + (!readable || busy ? ' disabled' : '') + '>' + (solved ? 'Review capstone' : 'Open capstone') + '</button></p></article>';
+    }).join('') + '</div>';
+  }
+  function renderCertificates() {
+    var coreReady = verified && completions.length >= 30;
+    mount.querySelector('#sprint-certificates').innerHTML = '<p class="sprint-eyebrow">Your completion record</p><h3>Certificates</h3><p>Earn a Levels 1–6 certificate after 30 core assignments, or an Expert Track certificate after those assignments and all three capstones. Every required task must pass. Bonuses and first-attempt scores do not block an award.</p><label for="sprint-certificate-name">Learner name to display</label><input id="sprint-certificate-name" type="text" maxlength="80" autocomplete="name" value="' + esc(learnerName) + '"' + (busy ? ' disabled' : '') + '><p class="sprint-muted">This name is self-reported and will appear in the shareable proof. Certificates verify submitted results and signed progress; they do not verify identity or Excel formula execution.</p><div class="sprint-inline-actions"><button type="button" class="sprint-button sprint-secondary" data-sprint-action="certificate-levels-1-6"' + (!coreReady || busy ? ' disabled' : '') + '>Create Levels 1–6 certificate</button><button type="button" class="sprint-button sprint-primary" data-sprint-action="certificate-expert-track-v1"' + (!coreReady || expertCompletions.length !== 3 || busy ? ' disabled' : '') + '>Create Expert Track certificate</button><a class="sprint-button sprint-secondary" href="/excel-sprint-certificate">Verify a certificate</a></div><p class="sprint-muted">Full 50-assignment completion: future release. Levels 7–10 are required for that award.</p><div id="sprint-certificate-result">' + (latestCertificate ? '<div class="sprint-completion"><h4>' + esc(latestCertificate.certificate.title) + '</h4><p>' + esc(latestCertificate.certificate.learnerName) + ' · ' + esc(latestCertificate.certificate.scope) + '</p><div class="sprint-inline-actions"><a class="sprint-button sprint-primary" href="/excel-sprint-certificate#proof=' + encodeURIComponent(latestCertificate.certificateToken) + '" target="_blank" rel="noopener">Open certificate / save as PDF</a><button type="button" class="sprint-button sprint-secondary" data-sprint-action="certificate-download">Download signed proof</button></div><p class="sprint-muted">Keep the proof to verify or reprint the certificate later. Export a progress backup separately to restore assignments.</p></div>' : '') + '</div>';
+  }
+  async function createCertificate(award) {
+    collectDrafts();
+    busy = true;
+    latestCertificate = null;
+    renderCertificates();
+    message('Verifying every required completion for your certificate…');
+    try {
+      var response = await request('/api/excel-sprint/certificate', {award:award,learnerName:learnerName,tokens:state.tokens,expertTokens:state.expertTokens});
+      if (!response.certificate || response.certificate.award !== award || typeof response.certificateToken !== 'string') throw new Error('The certificate response was incomplete. Try again.');
+      latestCertificate = response;
+      message('Certificate created. Open it to print or save as PDF, and keep the signed proof.');
+    } catch (error) { message(error.message, true); }
+    finally { busy = false; renderCertificates(); }
+  }
+  function downloadCertificate() {
+    if (!latestCertificate) return;
+    var blob = new Blob([JSON.stringify({type:'excel-sprint-certificate',version:1,certificateToken:latestCertificate.certificateToken},null,2)], {type:'application/json'});
+    var url = URL.createObjectURL(blob), link = document.createElement('a');
+    link.href = url; link.download = 'Excel-Sprint-certificate-' + latestCertificate.certificate.certificateId + '.json'; document.body.appendChild(link); link.click(); link.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
   }
   function taskMarkup(task, number, optional) {
     var saved = record(currentPackage.id);
@@ -233,30 +281,34 @@
     var isSolved = !!completed(pkg.id);
     var lesson = pkg.lesson;
     var dataset = pkg.dataset;
-    target.innerHTML = '<div class="sprint-assignment-heading"><div><p class="sprint-eyebrow">' + esc(pkg.id) + ' · Level ' + pkg.level + ' · Assignment ' + pkg.assignment + '</p><h3>' + esc(pkg.title) + '</h3><p class="sprint-muted">' + pkg.minutes + ' min · ' + esc(pkg.formulas.join(' + ')) + '</p></div><span class="sprint-status' + (isSolved ? ' sprint-status-good' : '') + '">' + (isSolved ? 'Solved · verified' : 'In progress') + '</span></div><p class="sprint-scenario">' + esc(pkg.scenario) + '</p>' +
+    target.innerHTML = '<div class="sprint-assignment-heading"><div><p class="sprint-eyebrow">' + esc(pkg.id) + (isExpert(pkg.id) ? ' · Expert Track · Capstone ' : ' · Level ' + pkg.level + ' · Assignment ') + pkg.assignment + '</p><h3>' + esc(pkg.title) + '</h3><p class="sprint-muted">' + pkg.minutes + ' min · ' + esc(pkg.formulas.join(' + ')) + '</p></div><span class="sprint-status' + (isSolved ? ' sprint-status-good' : '') + '">' + (isSolved ? 'Solved · verified' : 'In progress') + '</span></div><p class="sprint-scenario">' + esc(pkg.scenario) + '</p>' +
       '<div class="sprint-lesson"><h4>Learn the formulas</h4><p>' + esc(lesson.intro) + '</p><div class="sprint-lesson-functions">' + lesson.functions.map(function (item) { return '<article class="sprint-function"><h5>' + esc(item.name) + '</h5><p>' + esc(item.purpose) + '</p><div class="sprint-formula-block"><code>' + esc(item.syntax) + '</code></div><p class="sprint-muted">' + esc(item.arguments) + '</p><div class="sprint-worked-example"><span class="sprint-eyebrow">Worked example</span><div class="sprint-formula-block"><code>' + esc(item.example) + '</code></div><p>Result: <strong>' + esc(item.result) + '</strong></p></div><p><strong>Use it for:</strong> ' + esc(item.useCase) + '</p><p><strong>Watch for:</strong> ' + esc(item.mistake) + '</p></article>'; }).join('') + '</div><p class="sprint-combine"><strong>Combine what you know.</strong> ' + esc(lesson.combine) + '</p></div>' +
       '<div class="sprint-dataset"><div class="sprint-dataset-heading"><div><h4>Your assignment dataset</h4><p>' + dataset.rowCount + ' fictitious records · Excel table <code>' + esc(dataset.tableName) + '</code></p></div><div class="sprint-inline-actions"><a class="sprint-button sprint-primary" href="' + esc(dataset.xlsx) + '" download>Download .xlsx</a><a class="sprint-button sprint-secondary" href="' + esc(dataset.csv) + '" download>Download .csv</a><button type="button" class="sprint-button sprint-secondary" data-sprint-action="copy">Copy for Excel</button></div></div><p class="sprint-muted">Open the workbook in Microsoft 365 Excel and solve the tasks there. The workbook has a data dictionary and an Answers sheet. For CSV or copied data, name the data sheet <code>Data</code>, create the table named above from the headings and records only, and add an <code>Answers</code> sheet. Keep the training footer outside the table.</p><div class="sprint-table-scroll" tabindex="0" role="region" aria-label="Assignment dataset, scroll horizontally for all columns"><table><caption>' + esc(pkg.id) + ' practice data</caption><thead><tr>' + dataset.headers.map(function (header) { return '<th scope="col">' + esc(header) + '</th>'; }).join('') + '</tr></thead><tbody>' + dataset.rows.map(function (row) { return '<tr>' + row.map(function (cell) { return '<td>' + esc(cell) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div><p class="sprint-data-footer">Fictitious data for training purposes.</p>' +
       (dataset.parameters && dataset.parameters.length ? '<div class="sprint-parameters"><h5>Parameters sheet</h5><p>For CSV or copied data, create a sheet named <code>Parameters</code> with these exact values and cells.</p><div class="sprint-table-scroll"><table><thead><tr><th scope="col">Cell</th><th scope="col">Parameter</th><th scope="col">Value</th></tr></thead><tbody>' + dataset.parameters.map(function (parameter) { return '<tr><td>' + esc(parameter.cell) + '</td><td>' + esc(parameter.name) + '</td><td>' + esc(parameter.value) + '</td></tr>'; }).join('') + '</tbody></table></div></div>' : '') + supportingSheets(dataset) + '<details><summary>Column dictionary</summary><dl class="sprint-dictionary">' + dataset.columns.map(function (column) { return '<div><dt>' + esc(column.name) + '</dt><dd>' + esc(column.description) + '</dd></div>'; }).join('') + '</dl></details></div>' +
       '<div class="sprint-task-section"><h4>Prove your mastery</h4><p>Submit both your formula and its Excel result. Results determine your score; a formula must be present and well formed. Full solution reviews unlock after all required tasks pass.</p><p class="sprint-coaching-notice">' + (coachingAvailable ? 'After checking a task, choose Review my formula for AI feedback on logic, references, readability and efficiency. Your formula and result are sent for this review. AI suggestions can be mistaken; verify them in Excel.' : 'Formula coaching is temporarily unavailable. You can still check results and continue learning. <button type="button" class="sprint-link-button" data-sprint-action="retry-coaching">Retry formula coaching</button>') + '</p><div class="sprint-required-tasks">' + pkg.tasks.map(function (task, index) { return taskMarkup(task, index + 1, false); }).join('') + '</div><div class="sprint-grade-actions"><button type="button" class="sprint-button sprint-primary" data-sprint-action="grade-all"' + (busy || isSolved ? ' disabled' : '') + '>' + (busy ? 'Checking…' : isSolved ? 'All required tasks passed' : 'Check all unfinished tasks') + '</button><span class="sprint-muted">' + pkg.tasks.filter(function (task) { return record(pkg.id).tasks[task.id] && record(pkg.id).tasks[task.id].correct; }).length + ' / ' + pkg.tasks.length + ' required tasks passed</span></div></div>' +
       (pkg.bonus ? '<details class="sprint-bonus"><summary>Optional stretch challenge</summary><p class="sprint-muted">The bonus does not block progress.</p>' + taskMarkup(pkg.bonus, 0, true) + '</details>' : '') +
-      '<div class="sprint-solutions">' + (isSolved ? '<div class="sprint-completion"><h4>Assignment complete</h4><p>Every required task passed. Your first-attempt score: <strong>' + record(pkg.id).firstAttemptScore + '%</strong>.</p><div class="sprint-inline-actions"><button type="button" class="sprint-button sprint-secondary" data-sprint-action="solutions">Review model solutions</button>' + (canOpen(P.packageId(P.packageNumber(pkg.id) + 1)) ? '<button type="button" class="sprint-button sprint-primary" data-sprint-open="' + P.packageId(P.packageNumber(pkg.id) + 1) + '">Continue to next assignment →</button>' : '<span class="sprint-muted">You have completed all currently released assignments.</span>') + '</div></div><div id="sprint-models"></div>' : '<p class="sprint-muted">Model solutions become available after this assignment is solved.</p>') + '</div>';
+      '<div class="sprint-solutions">' + (isSolved ? '<div class="sprint-completion"><h4>Assignment complete</h4><p>Every required task passed. Your first-attempt score: <strong>' + record(pkg.id).firstAttemptScore + '%</strong>.</p><div class="sprint-inline-actions"><button type="button" class="sprint-button sprint-secondary" data-sprint-action="solutions">Review model solutions</button>' + (canOpen(nextId(pkg.id)) ? '<button type="button" class="sprint-button sprint-primary" data-sprint-open="' + nextId(pkg.id) + '">Continue to next assignment →</button>' : '<a class="sprint-button sprint-primary" href="#sprint-certificates">View certificate eligibility</a>') + '</div></div><div id="sprint-models"></div>' : '<p class="sprint-muted">Model solutions become available after this assignment is solved.</p>') + '</div>';
     renderSummary();
   }
-  async function verifyTokens(tokens) {
-    if (!tokens.length) return { verified: true, completions: [] };
-    var response = await request('/api/excel-sprint/verify', { tokens: tokens });
+  async function verifyTokens(tokens, expertTokens) {
+    expertTokens = expertTokens || [];
+    if (!tokens.length && !expertTokens.length) return {verified:true,completions:[],expertCompletions:[]};
+    var response = await request('/api/excel-sprint/verify', {tokens:tokens,expertTokens:expertTokens});
     if (response.verified !== true || !Array.isArray(response.completions) || response.completions.length !== tokens.length) throw new Error('The saved completion record could not be verified. Import a valid backup or begin again.');
+    if (!Array.isArray(response.expertCompletions) || response.expertCompletions.length !== expertTokens.length) throw new Error('The saved Expert Track record could not be verified.');
     return response;
   }
   async function verifySaved() {
     try {
-      var response = await verifyTokens(state.tokens);
+      var response = await verifyTokens(state.tokens, state.expertTokens);
       completions = response.completions;
+      expertCompletions = response.expertCompletions;
       verified = true;
-      state = P.applyVerified(state, completions, catalog);
+      state = P.applyVerified(state, completions, catalog, expertCompletions);
       await persist();
     } catch (error) {
       completions = [];
+      expertCompletions = [];
       verified = false;
       message(error.message + ' Saved answers and time remain available in your backup.', true);
     }
@@ -317,7 +369,7 @@
     message('Checking your submitted results…');
     try {
       var saved = record(pkg.id);
-      var predecessor = completed(P.packageId(P.packageNumber(pkg.id) - 1));
+      var predecessor = completed(previousId(pkg.id));
       var response = await request('/api/excel-sprint/grade', { packageId: pkg.id, submissions: submissions, predecessorToken: predecessor && predecessor.completionToken, receipt: saved.receipt });
       if (response.packageId !== pkg.id || !Array.isArray(response.tasks) || typeof response.receipt !== 'string') throw new Error('The grading response was incomplete. Your previous progress has been kept.');
       saved.receipt = response.receipt;
@@ -327,16 +379,18 @@
       studyDay();
       if (response.completed && response.completionToken) {
         var oldCount = completions.length;
-        var pendingTokens = state.tokens.slice();
+        var pendingTokens = (isExpert(pkg.id) ? state.expertTokens : state.tokens).slice();
         if (!completed(pkg.id)) pendingTokens.push(response.completionToken);
-        state.tokens = pendingTokens;
+        if (isExpert(pkg.id)) state.expertTokens = pendingTokens;
+        else state.tokens = pendingTokens;
         verified = false;
-        var verification = await verifyTokens(pendingTokens);
+        var verification = await verifyTokens(state.tokens, state.expertTokens);
         completions = verification.completions;
+        expertCompletions = verification.expertCompletions;
         verified = true;
-        state = P.applyVerified(state, completions, catalog);
-        if (completions.length > oldCount && completions.length % 5 === 0) state.backupReminder = completions.length / 5;
-        message(completions.length === releasedCount() ? 'Assignment complete. You have solved all ' + releasedCount() + ' currently released assignments.' : 'Assignment complete. All required tasks are correct and your next assignment is unlocked.');
+        state = P.applyVerified(state, completions, catalog, expertCompletions);
+        if (!isExpert(pkg.id) && completions.length > oldCount && completions.length % 5 === 0) state.backupReminder = completions.length / 5;
+        message(isExpert(pkg.id) && expertCompletions.length === 3 ? 'Expert Track complete. Your Expert Track certificate is available below.' : completions.length === releasedCount() && !isExpert(pkg.id) ? 'Levels 1–6 complete. Expert Track and your milestone certificate are unlocked.' : 'Assignment complete. All required tasks are correct and your next assignment is unlocked.');
       } else message('Results checked. Review the feedback beside each submitted task.');
       await persist();
     } catch (error) { message(error.message, true); await persist(); }
@@ -376,18 +430,20 @@
     try {
       if (file.size > P.MAX_BACKUP_BYTES) throw new Error('Choose a progress JSON file smaller than 2 MB.');
       var candidate = P.parseBackup(await file.text());
-      var response = await verifyTokens(candidate.tokens);
+      var response = await verifyTokens(candidate.tokens, candidate.expertTokens);
       // The current record is replaced only after the whole imported chain verifies.
       collectDrafts();
       flushTime();
       activeSince = null;
       completions = response.completions;
+      expertCompletions = response.expertCompletions;
       verified = true;
-      state = P.applyVerified(candidate, completions, catalog);
+      state = P.applyVerified(candidate, completions, catalog, expertCompletions);
       state.noticeDismissed = true;
       if (!canOpen(state.selectedPackageId)) state.selectedPackageId = P.packageId(Math.min(completions.length + 1, releasedCount()));
       solutionCache.clear();
       coachCache.clear();
+      latestCertificate = null;
       currentPackage = null;
       await persist();
       shell();
@@ -436,6 +492,9 @@
     if (action === 'grade-all') await grade(currentPackage.tasks.filter(function (task) { return !(record(currentPackage.id).tasks[task.id] && record(currentPackage.id).tasks[task.id].correct); }).map(function (task) { return task.id; }));
     if (action === 'solutions') await solutions();
     if (action === 'retry-coaching') await retryCoaching();
+    if (action === 'certificate-levels-1-6') await createCertificate('levels-1-6');
+    if (action === 'certificate-expert-track-v1') await createCertificate('expert-track-v1');
+    if (action === 'certificate-download') downloadCertificate();
     if (action === 'verify') { await verifySaved(); if (currentPackage) renderAssignment(); }
     if (action === 'copy') await copyDataset(button.dataset.sprintSheet);
     if (action === 'dismiss-notice') { state.noticeDismissed = true; mount.querySelector('#sprint-first-notice').hidden = true; await persist(); }
@@ -445,6 +504,8 @@
     if (action === 'confirm-reset') {
       state = P.emptyState();
       completions = [];
+      expertCompletions = [];
+      latestCertificate = null;
       verified = true;
       currentPackage = null;
       activeSince = null;
@@ -458,6 +519,7 @@
   });
   mount.addEventListener('change', function (event) { if (event.target.id === 'sprint-import') importBackup(event.target.files[0]); });
   mount.addEventListener('input', function (event) {
+    if (event.target.id === 'sprint-certificate-name') { learnerName = event.target.value; return; }
     if (event.target.id === 'sprint-formula-search') {
       var query = event.target.value.trim().toLowerCase();
       var found = 0;

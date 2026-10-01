@@ -4504,5 +4504,1492 @@
       "prompt": "For sample 1 in heat TH-7401, return Review if its TWA energy is missing, otherwise Measured.",
       "output": "Answers!B132"
     }
+  },
+  "EX-A1": {
+    "version": 1,
+    "tasks": [
+      {
+        "id": "t1",
+        "prompt": "Normalize every Grade_code with ordinary-space trimming and uppercase. Keep Data order.",
+        "output": "Answers!B2:B61",
+        "answer": [
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-9"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ],
+          [
+            "GX-1"
+          ],
+          [
+            "GX-2"
+          ],
+          [
+            "GX-3"
+          ]
+        ],
+        "model": "=UPPER(TRIM(Data!C2))",
+        "alternatives": [
+          "=TRIM(UPPER(Data!C2))"
+        ],
+        "note": "Enter at B2 and fill down to B61.",
+        "tolerance": 0.000001,
+        "hints": [
+          "Preserve all 60 grades and trim ordinary spaces.",
+          "Combine TRIM and UPPER before matching a specification.",
+          "=UPPER(____)"
+        ]
+      },
+      {
+        "id": "t2",
+        "prompt": "For every pipe, return Released, Rework or Review under the scenario rules. Keep Data order. Do not treat a blank strength as zero.",
+        "output": "Answers!B65:B124",
+        "answer": [
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Rework"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Rework"
+          ]
+        ],
+        "model": "=LET(limit,XLOOKUP(B2,Specs!$A$2:$A$4,Specs!$B$2:$B$4,\"Missing\"),IF(OR(Data!D2=\"\",limit=\"Missing\"),\"Review\",IF(Data!D2>=limit,\"Released\",\"Rework\")))",
+        "alternatives": [],
+        "note": "Enter at B65 and fill down to B124. B2 moves through the normalized grades.",
+        "tolerance": 0.000001,
+        "hints": [
+          "Blank strength and unknown grade require Review. Equality meets the minimum.",
+          "Reuse XLOOKUP with LET, then guard missing inputs before comparing strength.",
+          "=IF(OR(____),\"Review\",IF(____,\"Released\",\"Rework\"))"
+        ]
+      },
+      {
+        "id": "t3",
+        "prompt": "Return only Rework pipes in two columns: Pipe_no and rounded rework cost (CAD). Sort cost descending, then Pipe_no ascending. Paste all 27 rows, without headers.",
+        "output": "Answers!B128:C154",
+        "answer": [
+          [
+            "RV-P023",
+            762.16
+          ],
+          [
+            "RV-P011",
+            668.49
+          ],
+          [
+            "RV-P015",
+            642.21
+          ],
+          [
+            "RV-P035",
+            587.26
+          ],
+          [
+            "RV-P012",
+            581.25
+          ],
+          [
+            "RV-P041",
+            566.59
+          ],
+          [
+            "RV-P051",
+            559.5
+          ],
+          [
+            "RV-P039",
+            552.31
+          ],
+          [
+            "RV-P030",
+            502.51
+          ],
+          [
+            "RV-P040",
+            486.62
+          ],
+          [
+            "RV-P018",
+            484.82
+          ],
+          [
+            "RV-P036",
+            473.1
+          ],
+          [
+            "RV-P037",
+            465.24
+          ],
+          [
+            "RV-P032",
+            433.33
+          ],
+          [
+            "RV-P033",
+            432.01
+          ],
+          [
+            "RV-P024",
+            378.22
+          ],
+          [
+            "RV-P025",
+            374.77
+          ],
+          [
+            "RV-P056",
+            371.39
+          ],
+          [
+            "RV-P004",
+            365.96
+          ],
+          [
+            "RV-P055",
+            356.36
+          ],
+          [
+            "RV-P031",
+            312.42
+          ],
+          [
+            "RV-P044",
+            294.96
+          ],
+          [
+            "RV-P050",
+            279.23
+          ],
+          [
+            "RV-P042",
+            251.84
+          ],
+          [
+            "RV-P057",
+            238.7
+          ],
+          [
+            "RV-P060",
+            203.24
+          ],
+          [
+            "RV-P029",
+            197.19
+          ]
+        ],
+        "model": "=LET(mask,B65:B124=\"Rework\",pipes,FILTER(Data!A2:A61,mask),costs,FILTER(ROUND(Data!E2:E61*Data!F2:F61,2),mask),SORTBY(HSTACK(pipes,costs),costs,-1,pipes,1))",
+        "alternatives": [],
+        "tolerance": 0.000001,
+        "hints": [
+          "Include only Rework pipes. Round each pipe cost and break cost ties by pipe ID.",
+          "Use FILTER, ROUND, HSTACK and SORTBY with aligned keys.",
+          "=SORTBY(HSTACK(____,____),____,-1,____,1)"
+        ]
+      },
+      {
+        "id": "t4",
+        "prompt": "Return one row: Released count, Rework count, Review count, total rounded rework cost (CAD). Use all 60 records and round the final cost to two decimals.",
+        "output": "Answers!B191:E191",
+        "answer": [
+          [
+            31,
+            27,
+            2,
+            11821.68
+          ]
+        ],
+        "model": "=HSTACK(COUNTIF(B65:B124,\"Released\"),COUNTIF(B65:B124,\"Rework\"),COUNTIF(B65:B124,\"Review\"),ROUND(SUMPRODUCT(--(B65:B124=\"Rework\"),ROUND(Data!E2:E61*Data!F2:F61,2)),2))",
+        "alternatives": [],
+        "tolerance": 0.000001,
+        "hints": [
+          "The counts must cover all 60 records. Sum costs rounded at pipe level.",
+          "Use COUNTIF for status counts and SUMPRODUCT for the cost mask.",
+          "=HSTACK(____,____,____,ROUND(SUMPRODUCT(____,____),2))"
+        ]
+      }
+    ],
+    "bonus": {
+      "id": "bonus",
+      "prompt": "Return the average measured Yield_MPa for Released pipes, rounded to two decimals.",
+      "output": "Answers!B195",
+      "answer": 451.68,
+      "model": "=ROUND(AVERAGEIFS(Data!D2:D61,B65:B124,\"Released\"),2)",
+      "alternatives": [],
+      "tolerance": 0.000001,
+      "hints": [
+        "Average measured strengths for Released pipes only.",
+        "Use AVERAGEIFS on strength with the aligned status range.",
+        "=ROUND(AVERAGEIFS(____,____,\"Released\"),2)"
+      ]
+    }
+  },
+  "EX-A2": {
+    "version": 1,
+    "tasks": [
+      {
+        "id": "t1",
+        "prompt": "Normalize all 80 Orientation labels using ordinary-space trimming and uppercase. Preserve Data order.",
+        "output": "Answers!B2:B81",
+        "answer": [
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ]
+        ],
+        "model": "=UPPER(TRIM(Data!C2))",
+        "alternatives": [
+          "=TRIM(UPPER(Data!C2))"
+        ],
+        "note": "Enter at B2 and fill down to B81.",
+        "tolerance": 0.000001,
+        "hints": [
+          "Clean every orientation while preserving Data order.",
+          "Combine TRIM and UPPER.",
+          "=UPPER(____)"
+        ]
+      },
+      {
+        "id": "t2",
+        "prompt": "Return the twenty distinct Sample_no and Heat_no pairs, sorted Sample_no ascending, then Heat_no ascending. Preserve the three-character sample identifiers.",
+        "output": "Answers!B85:C104",
+        "answer": [
+          [
+            "001",
+            "CH-H1"
+          ],
+          [
+            "001",
+            "CH-H2"
+          ],
+          [
+            "001",
+            "CH-H3"
+          ],
+          [
+            "001",
+            "CH-H4"
+          ],
+          [
+            "002",
+            "CH-H1"
+          ],
+          [
+            "002",
+            "CH-H2"
+          ],
+          [
+            "002",
+            "CH-H3"
+          ],
+          [
+            "002",
+            "CH-H4"
+          ],
+          [
+            "003",
+            "CH-H1"
+          ],
+          [
+            "003",
+            "CH-H2"
+          ],
+          [
+            "003",
+            "CH-H3"
+          ],
+          [
+            "003",
+            "CH-H4"
+          ],
+          [
+            "004",
+            "CH-H1"
+          ],
+          [
+            "004",
+            "CH-H2"
+          ],
+          [
+            "004",
+            "CH-H3"
+          ],
+          [
+            "004",
+            "CH-H4"
+          ],
+          [
+            "005",
+            "CH-H1"
+          ],
+          [
+            "005",
+            "CH-H2"
+          ],
+          [
+            "005",
+            "CH-H3"
+          ],
+          [
+            "005",
+            "CH-H4"
+          ]
+        ],
+        "model": "=LET(keys,UNIQUE(Data!A2:B81),SORTBY(keys,CHOOSECOLS(keys,1),1,CHOOSECOLS(keys,2),1))",
+        "alternatives": [],
+        "tolerance": 0.000001,
+        "hints": [
+          "Sample alone is not unique. Preserve text identifiers and both sort keys.",
+          "Apply UNIQUE to the two-column key array, then SORTBY both columns.",
+          "=SORTBY(UNIQUE(____),____,1,____,1)"
+        ]
+      },
+      {
+        "id": "t3",
+        "prompt": "For the sorted pairs, return two columns: mean LPA energy and mean TWA energy (J). Apply the numeric-replicate and Missing rules. Keep the key order from Task 2.",
+        "output": "Answers!B108:C127",
+        "answer": [
+          [
+            58.5,
+            "Missing"
+          ],
+          [
+            67,
+            72
+          ],
+          [
+            36.5,
+            78.5
+          ],
+          [
+            28.5,
+            79.5
+          ],
+          [
+            50.5,
+            41.5
+          ],
+          [
+            34,
+            56
+          ],
+          [
+            52.5,
+            64
+          ],
+          [
+            57.5,
+            81.5
+          ],
+          [
+            57,
+            47.5
+          ],
+          [
+            50.5,
+            55
+          ],
+          [
+            71.5,
+            52.5
+          ],
+          [
+            73.5,
+            80
+          ],
+          [
+            55,
+            49
+          ],
+          [
+            47.5,
+            49
+          ],
+          [
+            48.5,
+            49.5
+          ],
+          [
+            69,
+            52.5
+          ],
+          [
+            65,
+            45.5
+          ],
+          [
+            72.5,
+            69.5
+          ],
+          [
+            58.5,
+            86.5
+          ],
+          [
+            61.5,
+            65
+          ]
+        ],
+        "model": "=IF(COUNTIFS(Data!$A$2:$A$81,$B85,Data!$B$2:$B$81,$C85,$B$2:$B$81,\"LPA\",Data!$D$2:$D$81,\"<>\")=0,\"Missing\",ROUND(AVERAGEIFS(Data!$D$2:$D$81,Data!$A$2:$A$81,$B85,Data!$B$2:$B$81,$C85,$B$2:$B$81,\"LPA\",Data!$D$2:$D$81,\"<>\"),2))",
+        "alternatives": [],
+        "note": "Enter at B108 and fill down to B127. Enter the same formula with \"TWA\" at C108 and fill down to C127. The key row starts at 85 in each column.",
+        "tolerance": 0.000001,
+        "hints": [
+          "Average numeric replicates within sample, heat and orientation. A measured zero counts.",
+          "Guard missing observations with COUNTIFS, then use AVERAGEIFS with all criteria.",
+          "=IF(____=0,\"Missing\",ROUND(AVERAGEIFS(____),2))"
+        ]
+      },
+      {
+        "id": "t4",
+        "prompt": "Return the final twenty-row report: Sample_no, Heat_no, mean LPA_J, mean TWA_J. Preserve the Task 2 sort order and Missing labels.",
+        "output": "Answers!B131:E150",
+        "answer": [
+          [
+            "001",
+            "CH-H1",
+            58.5,
+            "Missing"
+          ],
+          [
+            "001",
+            "CH-H2",
+            67,
+            72
+          ],
+          [
+            "001",
+            "CH-H3",
+            36.5,
+            78.5
+          ],
+          [
+            "001",
+            "CH-H4",
+            28.5,
+            79.5
+          ],
+          [
+            "002",
+            "CH-H1",
+            50.5,
+            41.5
+          ],
+          [
+            "002",
+            "CH-H2",
+            34,
+            56
+          ],
+          [
+            "002",
+            "CH-H3",
+            52.5,
+            64
+          ],
+          [
+            "002",
+            "CH-H4",
+            57.5,
+            81.5
+          ],
+          [
+            "003",
+            "CH-H1",
+            57,
+            47.5
+          ],
+          [
+            "003",
+            "CH-H2",
+            50.5,
+            55
+          ],
+          [
+            "003",
+            "CH-H3",
+            71.5,
+            52.5
+          ],
+          [
+            "003",
+            "CH-H4",
+            73.5,
+            80
+          ],
+          [
+            "004",
+            "CH-H1",
+            55,
+            49
+          ],
+          [
+            "004",
+            "CH-H2",
+            47.5,
+            49
+          ],
+          [
+            "004",
+            "CH-H3",
+            48.5,
+            49.5
+          ],
+          [
+            "004",
+            "CH-H4",
+            69,
+            52.5
+          ],
+          [
+            "005",
+            "CH-H1",
+            65,
+            45.5
+          ],
+          [
+            "005",
+            "CH-H2",
+            72.5,
+            69.5
+          ],
+          [
+            "005",
+            "CH-H3",
+            58.5,
+            86.5
+          ],
+          [
+            "005",
+            "CH-H4",
+            61.5,
+            65
+          ]
+        ],
+        "model": "=HSTACK(B85:C104,B108:C127)",
+        "alternatives": [],
+        "tolerance": 0.000001,
+        "hints": [
+          "Keep twenty rows and four columns in the Task 2 key order.",
+          "HSTACK the joint keys and aligned orientation means.",
+          "=HSTACK(____,____)"
+        ]
+      }
+    ],
+    "bonus": {
+      "id": "bonus",
+      "prompt": "Count sample/heat pairs missing at least one orientation mean. Count each pair once.",
+      "output": "Answers!B154",
+      "answer": 1,
+      "model": "=SUMPRODUCT(--(((B108:B127=\"Missing\")+(C108:C127=\"Missing\"))>0))",
+      "alternatives": [],
+      "tolerance": 0.000001,
+      "hints": [
+        "A pair missing both orientations still counts once.",
+        "Create an OR mask with Boolean addition, then count positive row masks.",
+        "=SUMPRODUCT(--((____+____)>0))"
+      ]
+    }
+  },
+  "EX-A3": {
+    "version": 1,
+    "tasks": [
+      {
+        "id": "t1",
+        "prompt": "Return signed units for every movement. Receipt is positive; Dispatch and Scrap are negative. Keep Data order.",
+        "output": "Answers!B2:B61",
+        "answer": [
+          [
+            -24
+          ],
+          [
+            -9
+          ],
+          [
+            -21
+          ],
+          [
+            -13
+          ],
+          [
+            -8
+          ],
+          [
+            -21
+          ],
+          [
+            -13
+          ],
+          [
+            -24
+          ],
+          [
+            -14
+          ],
+          [
+            -15
+          ],
+          [
+            -10
+          ],
+          [
+            -12
+          ],
+          [
+            14
+          ],
+          [
+            -20
+          ],
+          [
+            -12
+          ],
+          [
+            25
+          ],
+          [
+            -16
+          ],
+          [
+            -22
+          ],
+          [
+            19
+          ],
+          [
+            -13
+          ],
+          [
+            -15
+          ],
+          [
+            22
+          ],
+          [
+            -17
+          ],
+          [
+            -16
+          ],
+          [
+            21
+          ],
+          [
+            -18
+          ],
+          [
+            -15
+          ],
+          [
+            24
+          ],
+          [
+            -15
+          ],
+          [
+            -11
+          ],
+          [
+            12
+          ],
+          [
+            -14
+          ],
+          [
+            -11
+          ],
+          [
+            13
+          ],
+          [
+            -9
+          ],
+          [
+            -25
+          ],
+          [
+            24
+          ],
+          [
+            -8
+          ],
+          [
+            -18
+          ],
+          [
+            24
+          ],
+          [
+            -15
+          ],
+          [
+            -8
+          ],
+          [
+            21
+          ],
+          [
+            -24
+          ],
+          [
+            -16
+          ],
+          [
+            8
+          ],
+          [
+            -23
+          ],
+          [
+            -21
+          ],
+          [
+            12
+          ],
+          [
+            -20
+          ],
+          [
+            -21
+          ],
+          [
+            13
+          ],
+          [
+            -23
+          ],
+          [
+            -17
+          ],
+          [
+            12
+          ],
+          [
+            -17
+          ],
+          [
+            -19
+          ],
+          [
+            15
+          ],
+          [
+            -16
+          ],
+          [
+            -17
+          ]
+        ],
+        "model": "=IF(UPPER(TRIM(Data!C2))=\"RECEIPT\",Data!D2,-Data!D2)",
+        "alternatives": [
+          "=Data!D2*IF(UPPER(TRIM(Data!C2))=\"RECEIPT\",1,-1)"
+        ],
+        "note": "Enter at B2 and fill down to B61.",
+        "tolerance": 0.000001,
+        "hints": [
+          "Receipt adds units; Dispatch and Scrap subtract units.",
+          "Normalize Movement with TRIM/UPPER before IF selects the sign.",
+          "=IF(____,Data!D2,-Data!D2)"
+        ]
+      },
+      {
+        "id": "t2",
+        "prompt": "For all six SKUs in Stock order, return six columns: SKU, opening units, receipt units, dispatch units, scrap units, closing units. Movement totals are positive; closing = opening + receipts - dispatch - scrap.",
+        "output": "Answers!B65:G70",
+        "answer": [
+          [
+            "IN-001",
+            20,
+            135,
+            37,
+            0,
+            118
+          ],
+          [
+            "IN-002",
+            20,
+            0,
+            167,
+            0,
+            -147
+          ],
+          [
+            "IN-003",
+            180,
+            0,
+            35,
+            127,
+            18
+          ],
+          [
+            "IN-004",
+            195,
+            144,
+            28,
+            0,
+            311
+          ],
+          [
+            "IN-005",
+            210,
+            0,
+            152,
+            0,
+            58
+          ],
+          [
+            "IN-006",
+            225,
+            0,
+            33,
+            137,
+            55
+          ]
+        ],
+        "model": "=HSTACK(Stock!A2:B7,SUMIFS(Data!D2:D61,Data!B2:B61,Stock!A2:A7,Data!C2:C61,\"*receipt*\"),SUMIFS(Data!D2:D61,Data!B2:B61,Stock!A2:A7,Data!C2:C61,\"*dispatch*\"),SUMIFS(Data!D2:D61,Data!B2:B61,Stock!A2:A7,Data!C2:C61,\"*scrap*\"),Stock!B2:B7+SUMIFS(B2:B61,Data!B2:B61,Stock!A2:A7))",
+        "alternatives": [],
+        "note": "The supplied movement values contain only the three stated words with optional outer spaces. Excel criteria are case-insensitive; wildcard criteria are valid for this fixed dataset.",
+        "tolerance": 0.000001,
+        "hints": [
+          "Include each Stock SKU once. Closing is opening plus receipts minus dispatch and scrap.",
+          "Use SUMIFS for movement totals and combine the six columns with HSTACK.",
+          "=HSTACK(Stock!A2:B7,____,____,____,____)"
+        ]
+      },
+      {
+        "id": "t3",
+        "prompt": "Return the 2 SKUs needing reorder in three columns: SKU, closing units, shortage to minimum. Sort closing ascending, then SKU ascending. Preserve negative closing values.",
+        "output": "Answers!B74:D75",
+        "answer": [
+          [
+            "IN-002",
+            -147,
+            197
+          ],
+          [
+            "IN-003",
+            18,
+            32
+          ]
+        ],
+        "model": "=LET(mask,G65:G70<Stock!C2:C7,skus,FILTER(B65:B70,mask),closing,FILTER(G65:G70,mask),shortage,FILTER(Stock!C2:C7-G65:G70,mask),SORTBY(HSTACK(skus,closing,shortage),closing,1,skus,1))",
+        "alternatives": [],
+        "tolerance": 0.000001,
+        "hints": [
+          "Use strictly below minimum. Preserve negative stock and sort ties by SKU.",
+          "FILTER all report columns with one mask, then SORTBY closing and SKU.",
+          "=SORTBY(HSTACK(____,____,____),____,1,____,1)"
+        ]
+      },
+      {
+        "id": "t4",
+        "prompt": "Return one row: source net movement units, source opening units, dashboard closing units, reconciliation difference (dashboard closing - source opening - source net movement). Recompute source net directly from Data rather than summing the Task 1 helper.",
+        "output": "Answers!B84:E84",
+        "answer": [
+          [
+            -437,
+            850,
+            413,
+            0
+          ]
+        ],
+        "model": "=HSTACK(SUMPRODUCT(IF(UPPER(TRIM(Data!C2:C61))=\"RECEIPT\",1,-1),Data!D2:D61),SUM(Stock!B2:B7),SUM(G65:G70),SUM(G65:G70)-SUM(Stock!B2:B7)-SUMPRODUCT(IF(UPPER(TRIM(Data!C2:C61))=\"RECEIPT\",1,-1),Data!D2:D61))",
+        "alternatives": [],
+        "tolerance": 0.000001,
+        "hints": [
+          "Recompute net movement from Data, then compare opening plus net with dashboard closing.",
+          "Use a normalized sign mask in SUMPRODUCT and retain the reconciliation difference.",
+          "=HSTACK(____,____,____,____)"
+        ]
+      }
+    ],
+    "bonus": {
+      "id": "bonus",
+      "prompt": "Calculate the quantity-weighted Unit_cost_CAD for Dispatch movements only, rounded to four decimals. Use dispatched units as the denominator.",
+      "output": "Answers!B88",
+      "answer": 12.6496,
+      "model": "=ROUND(SUMPRODUCT(--(UPPER(TRIM(Data!C2:C61))=\"DISPATCH\"),Data!D2:D61,Data!E2:E61)/SUMPRODUCT(--(UPPER(TRIM(Data!C2:C61))=\"DISPATCH\"),Data!D2:D61),4)",
+      "alternatives": [],
+      "tolerance": 0.000001,
+      "hints": [
+        "Use Dispatch quantities in both numerator and denominator.",
+        "SUMPRODUCT weights each cost by quantity; divide by total dispatched quantity.",
+        "=ROUND(SUMPRODUCT(____,____,____)/SUMPRODUCT(____,____),4)"
+      ]
+    }
   }
 }

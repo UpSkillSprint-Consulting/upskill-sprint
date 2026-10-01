@@ -2,11 +2,13 @@ import {mkdir,writeFile,readFile,copyFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {levels,createPackages} from '../content/excel-sprint/curriculum.mjs';
 import {phase2Packages} from '../content/excel-sprint/phase2.mjs';
+import {expertPackages,EXPERT_CORE_IDS} from '../content/excel-sprint/expert.mjs';
 import {randomFor,workbookFingerprint} from '../content/excel-sprint/seed.mjs';
 import {workbook} from './lib/excel-sprint-xlsx.mjs';
 const base='assets/lessons/excel-formula-fluency/sprint',url='/'+base;
 await mkdir(base+'/packages',{recursive:true});await mkdir(base+'/datasets',{recursive:true});
-const packages=[...createPackages(randomFor),...phase2Packages(randomFor)],keys={},context={};
+const expert=expertPackages(randomFor);
+const packages=[...createPackages(randomFor),...phase2Packages(randomFor),...expert],keys={},context={};
 const workbookDir='content/excel-sprint/workbooks';
 const manifest=JSON.parse(await readFile(`${workbookDir}/manifest.json`,'utf8'));
 const csv=rows=>rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n')+'\n';
@@ -30,5 +32,5 @@ for(const p of packages){
 }
 await writeFile('netlify/functions/_shared/excel-sprint-answers.json',JSON.stringify(keys,null,2)+'\n');
 await writeFile('netlify/functions/_shared/excel-sprint-coaching-context.json',JSON.stringify(context)+'\n');
-await writeFile(base+'/catalog.json',JSON.stringify({version:1,levels:levels.map(l=>({...l,available:l.level<=6,packages:l.titles.map((title,i)=>{const id=`L${l.level}-A${i+1}`,p=packages.find(p=>p.id===id);return{id,title:p?.title||title,formulas:p?.formulas||l.formulas};})}))},null,2)+'\n');
-console.log('Generated thirty fixed-seed assignment packages and downloads.');
+await writeFile(base+'/catalog.json',JSON.stringify({version:1,levels:levels.map(l=>({...l,available:l.level<=6,packages:l.titles.map((title,i)=>{const id=`L${l.level}-A${i+1}`,p=packages.find(p=>p.id===id);return{id,title:p?.title||title,formulas:p?.formulas||l.formulas};})})),expert:{version:1,title:'Expert Track',requiredCoreIds:EXPERT_CORE_IDS,packages:expert.map(p=>({id:p.id,title:p.title,formulas:p.formulas}))}},null,2)+'\n');
+console.log('Generated thirty core assignments and three Expert Track capstones with fixed-seed downloads.');

@@ -7,9 +7,9 @@
   'use strict';
   var KEY = 'upskillsprint.excel-sprint.v1';
   var MAX_BACKUP_BYTES = 2 * 1024 * 1024;
-  var PACKAGE = /^L(?:[1-9]|10)-A[1-5]$/;
+  var PACKAGE = /^(?:L(?:[1-9]|10)-A[1-5]|EX-A[1-3])$/;
   function emptyState() {
-    return { version: 1, updatedAt: new Date().toISOString(), selectedPackageId: 'L1-A1', tokens: [], packages: {}, formulas: {}, activityDays: [], badges: [], noticeDismissed: false, backupReminder: null };
+    return { version: 1, updatedAt: new Date().toISOString(), selectedPackageId: 'L1-A1', tokens: [], expertTokens: [], packages: {}, formulas: {}, activityDays: [], badges: [], noticeDismissed: false, backupReminder: null };
   }
   function isObject(value) { return !!value && typeof value === 'object' && !Array.isArray(value); }
   function string(value, max) { return typeof value === 'string' && value.length <= max; }
@@ -26,10 +26,13 @@
     var state = emptyState();
     if (input.tokens.some(function (token) { return !string(token, 20000) || !token; })) throw new Error('The backup contains an invalid completion token.');
     state.tokens = input.tokens.slice();
+    if (input.expertTokens !== undefined && (!Array.isArray(input.expertTokens) || input.expertTokens.length > 3 || input.expertTokens.some(function (token) { return !string(token, 20000) || !token; }))) throw new Error('The backup contains invalid Expert Track proofs.');
+    state.expertTokens = (input.expertTokens || []).slice();
+    if (new Set(state.expertTokens).size !== state.expertTokens.length) throw new Error('The backup contains duplicate Expert Track proofs.');
     if (new Set(state.tokens).size !== state.tokens.length) throw new Error('The backup contains duplicate completion tokens.');
     if (input.selectedPackageId && !PACKAGE.test(input.selectedPackageId)) throw new Error('The backup has an invalid assignment selection.');
     state.selectedPackageId = input.selectedPackageId || 'L1-A1';
-    if (Object.keys(input.packages).length > 50) throw new Error('The backup contains too many assignments.');
+    if (Object.keys(input.packages).length > 53) throw new Error('The backup contains too many assignments.');
     Object.keys(input.packages).forEach(function (id) {
       var item = input.packages[id];
       if (!PACKAGE.test(id) || !isObject(item)) throw new Error('The backup contains an invalid assignment.');
@@ -87,18 +90,19 @@
   function packageNumber(id) { var match = /^L(\d+)-A(\d+)$/.exec(id); return match ? (+match[1] - 1) * 5 + +match[2] : 0; }
   function packageId(number) { return 'L' + (Math.floor((number - 1) / 5) + 1) + '-A' + ((number - 1) % 5 + 1); }
   function unlocked(id, completions, available) {
-    if (!available || !PACKAGE.test(id)) return false;
+    if (!available || !/^L(?:[1-9]|10)-A[1-5]$/.test(id)) return false;
     var count = packageNumber(id);
     var verified = new Set(completions.map(function (item) { return item.packageId; }));
     for (var index = 1; index < count; index++) if (!verified.has(packageId(index))) return false;
     return true;
   }
-  function applyVerified(state, completions, catalog) {
+  function applyVerified(state, completions, catalog, expertCompletions) {
     var next = validateState(state);
     next.tokens = completions.map(function (item) { return item.completionToken; });
+    next.expertTokens = (expertCompletions || []).map(function (item) { return item.completionToken; });
     next.formulas = {};
     next.badges = [];
-    completions.forEach(function (item) {
+    completions.concat(expertCompletions || []).forEach(function (item) {
       if (!PACKAGE.test(item.packageId)) return;
       var record = next.packages[item.packageId] || { tasks: {}, submissions: {}, timeMs: 0 };
       record.tasks = Object.fromEntries(Object.keys(item.attempts).map(function (id) { return [id, { correct: true, attempts: item.attempts[id], firstAttemptCorrect: item.firstAttemptCorrect[id], hint: "Correct. This task is complete." }]; }));
@@ -111,8 +115,9 @@
         record.tasks[taskId] = { correct: true, attempts: item.attempts[taskId], firstAttemptCorrect: !!(item.firstAttemptCorrect && item.firstAttemptCorrect[taskId]), hint: previous.hint || 'Correct result verified.' };
       });
       next.packages[item.packageId] = record;
-      var level = catalog.levels.find(function (entry) { return entry.level === +item.packageId.match(/^L(\d+)/)[1]; });
-      var pkg = level && level.packages.find(function (entry) { return entry.id === item.packageId; });
+      var match = item.packageId.match(/^L(\d+)/);
+      var level = match && catalog.levels.find(function (entry) { return entry.level === +match[1]; });
+      var pkg = match ? level && level.packages.find(function (entry) { return entry.id === item.packageId; }) : catalog.expert && catalog.expert.packages.find(function (entry) { return entry.id === item.packageId; });
       (pkg && pkg.formulas || []).forEach(function (name) {
         if (!next.formulas[name]) next.formulas[name] = { packageId: item.packageId, learnedAt: record.solvedAt };
       });
@@ -120,6 +125,7 @@
     for (var levelNumber = 1; levelNumber <= 10; levelNumber++) {
       if ([1, 2, 3, 4, 5].every(function (assignment) { return completions.some(function (item) { return item.packageId === 'L' + levelNumber + '-A' + assignment; }); })) next.badges.push('Level ' + levelNumber + ' complete');
     }
+    if (expertCompletions && expertCompletions.length === 3) next.badges.push('Expert Track complete');
     return next;
   }
   function createStore(environment) {

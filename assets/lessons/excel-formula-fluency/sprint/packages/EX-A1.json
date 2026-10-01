@@ -1,0 +1,617 @@
+{
+  "id": "EX-A1",
+  "track": "expert",
+  "assignment": 1,
+  "title": "Reconcile a manufacturing release queue",
+  "formulas": [
+    "LET",
+    "SUMPRODUCT"
+  ],
+  "minutes": 75,
+  "scenario": "Ravellen Tube Works has 60 fictitious pipe inspections. Normalize Grade_code, match a unique Specs key and apply the invented minimum yield strength. Blank strength or an unknown grade means Review. Equality meets the training rule. Rework cost is Length_m × Unit_cost_CAD rounded per pipe to two decimals. These limits are training assumptions, not a published standard or production acceptance decision.",
+  "lesson": {
+    "intro": "Reuse a lookup and its missing-data guard with LET. Use aligned arrays to reconcile costs. Work through cleaning, status, queue and summary in separate answer areas.",
+    "functions": [
+      {
+        "name": "LET",
+        "purpose": "Name intermediate calculations inside a formula.",
+        "syntax": "=LET(name1, name_value1, [name2, name_value2], …, calculation)",
+        "arguments": "Supply name/value pairs, then a final calculation. Names must be valid Excel names.",
+        "example": "=LET(units,3,rate,12,units*rate)",
+        "result": 36,
+        "useCase": "Build and audit the capstone report.",
+        "mistake": "Names are local to the formula. A name cannot conflict with a cell or range reference."
+      },
+      {
+        "name": "SUMPRODUCT",
+        "purpose": "Sum products of aligned numeric arrays.",
+        "syntax": "=SUMPRODUCT(array1, [array2], …)",
+        "arguments": "Supply equally sized arrays. Convert Boolean masks to numbers when using separate arguments.",
+        "example": "=SUMPRODUCT({2;3},{10;4})",
+        "result": 32,
+        "useCase": "Build and audit the capstone report.",
+        "mistake": "Unequal shapes error. Text is treated as zero in ordinary array arguments; validate required inputs."
+      }
+    ],
+    "combine": "Combine TRIM, UPPER, XLOOKUP and IF before FILTER/SORTBY. Compare the summary with an independent source calculation. Equivalent formulas and explicit helper cells are accepted."
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "prompt": "Normalize every Grade_code with ordinary-space trimming and uppercase. Keep Data order.",
+      "output": "Answers!B2:B61",
+      "type": "array"
+    },
+    {
+      "id": "t2",
+      "prompt": "For every pipe, return Released, Rework or Review under the scenario rules. Keep Data order. Do not treat a blank strength as zero.",
+      "output": "Answers!B65:B124",
+      "type": "array"
+    },
+    {
+      "id": "t3",
+      "prompt": "Return only Rework pipes in two columns: Pipe_no and rounded rework cost (CAD). Sort cost descending, then Pipe_no ascending. Paste all 27 rows, without headers.",
+      "output": "Answers!B128:C154",
+      "type": "array"
+    },
+    {
+      "id": "t4",
+      "prompt": "Return one row: Released count, Rework count, Review count, total rounded rework cost (CAD). Use all 60 records and round the final cost to two decimals.",
+      "output": "Answers!B191:E191",
+      "type": "array"
+    }
+  ],
+  "bonus": {
+    "id": "bonus",
+    "prompt": "Return the average measured Yield_MPa for Released pipes, rounded to two decimals.",
+    "output": "Answers!B195",
+    "type": "number"
+  },
+  "dataset": {
+    "headers": [
+      "Pipe_no",
+      "Heat_no",
+      "Grade_code",
+      "Yield_MPa",
+      "Length_m",
+      "Unit_cost_CAD"
+    ],
+    "rows": [
+      [
+        "RV-P001",
+        "RV-H1",
+        "GX-1",
+        385,
+        11.06,
+        46.28
+      ],
+      [
+        "RV-P002",
+        "RV-H2",
+        " gx-2 ",
+        420,
+        11.36,
+        63.11
+      ],
+      [
+        "RV-P003",
+        "RV-H3",
+        "GX-3",
+        461,
+        11.23,
+        41.18
+      ],
+      [
+        "RV-P004",
+        "RV-H4",
+        " gx-1 ",
+        368,
+        11.57,
+        31.63
+      ],
+      [
+        "RV-P005",
+        "RV-H5",
+        "GX-2",
+        "",
+        8.75,
+        49.11
+      ],
+      [
+        "RV-P006",
+        "RV-H6",
+        "GX-9",
+        429,
+        9.36,
+        38.13
+      ],
+      [
+        "RV-P007",
+        "RV-H7",
+        "GX-1",
+        453,
+        9.7,
+        47.85
+      ],
+      [
+        "RV-P008",
+        "RV-H8",
+        " gx-2 ",
+        436,
+        10.58,
+        62.43
+      ],
+      [
+        "RV-P009",
+        "RV-H1",
+        "GX-3",
+        484,
+        8.83,
+        59.63
+      ],
+      [
+        "RV-P010",
+        "RV-H2",
+        " gx-1 ",
+        430,
+        8.63,
+        59.33
+      ],
+      [
+        "RV-P011",
+        "RV-H3",
+        "GX-2",
+        413,
+        10.66,
+        62.71
+      ],
+      [
+        "RV-P012",
+        "RV-H4",
+        " gx-3 ",
+        435,
+        9.86,
+        58.95
+      ],
+      [
+        "RV-P013",
+        "RV-H5",
+        "GX-1",
+        486,
+        7.64,
+        58.68
+      ],
+      [
+        "RV-P014",
+        "RV-H6",
+        " gx-2 ",
+        442,
+        10.71,
+        29.11
+      ],
+      [
+        "RV-P015",
+        "RV-H7",
+        "GX-3",
+        440,
+        12.27,
+        52.34
+      ],
+      [
+        "RV-P016",
+        "RV-H8",
+        " gx-1 ",
+        404,
+        9.07,
+        54.66
+      ],
+      [
+        "RV-P017",
+        "RV-H1",
+        "GX-2",
+        435,
+        8.61,
+        48.93
+      ],
+      [
+        "RV-P018",
+        "RV-H2",
+        " gx-3 ",
+        437,
+        9.03,
+        53.69
+      ],
+      [
+        "RV-P019",
+        "RV-H3",
+        "GX-1",
+        440,
+        9.43,
+        43.98
+      ],
+      [
+        "RV-P020",
+        "RV-H4",
+        " gx-2 ",
+        441,
+        8.71,
+        37.29
+      ],
+      [
+        "RV-P021",
+        "RV-H5",
+        "GX-3",
+        469,
+        9.48,
+        55.31
+      ],
+      [
+        "RV-P022",
+        "RV-H6",
+        " gx-1 ",
+        428,
+        6.56,
+        49.83
+      ],
+      [
+        "RV-P023",
+        "RV-H7",
+        "GX-2",
+        384,
+        12.22,
+        62.37
+      ],
+      [
+        "RV-P024",
+        "RV-H8",
+        " gx-3 ",
+        416,
+        6.53,
+        57.92
+      ],
+      [
+        "RV-P025",
+        "RV-H1",
+        "GX-1",
+        379,
+        7.94,
+        47.2
+      ],
+      [
+        "RV-P026",
+        "RV-H2",
+        " gx-2 ",
+        451,
+        7.39,
+        48.8
+      ],
+      [
+        "RV-P027",
+        "RV-H3",
+        "GX-3",
+        457,
+        8.03,
+        45.73
+      ],
+      [
+        "RV-P028",
+        "RV-H4",
+        " gx-1 ",
+        485,
+        9.87,
+        56.51
+      ],
+      [
+        "RV-P029",
+        "RV-H5",
+        "GX-2",
+        366,
+        6.17,
+        31.96
+      ],
+      [
+        "RV-P030",
+        "RV-H6",
+        " gx-3 ",
+        432,
+        8.52,
+        58.98
+      ],
+      [
+        "RV-P031",
+        "RV-H7",
+        "GX-1",
+        370,
+        7.53,
+        41.49
+      ],
+      [
+        "RV-P032",
+        "RV-H8",
+        " gx-2 ",
+        374,
+        9.98,
+        43.42
+      ],
+      [
+        "RV-P033",
+        "RV-H1",
+        "GX-3",
+        407,
+        8.86,
+        48.76
+      ],
+      [
+        "RV-P034",
+        "RV-H2",
+        " gx-1 ",
+        490,
+        8.94,
+        44.23
+      ],
+      [
+        "RV-P035",
+        "RV-H3",
+        "GX-2",
+        385,
+        10.53,
+        55.77
+      ],
+      [
+        "RV-P036",
+        "RV-H4",
+        " gx-3 ",
+        378,
+        8.05,
+        58.77
+      ],
+      [
+        "RV-P037",
+        "RV-H5",
+        "GX-1",
+        373,
+        10.97,
+        42.41
+      ],
+      [
+        "RV-P038",
+        "RV-H6",
+        " gx-2 ",
+        464,
+        8.9,
+        64.75
+      ],
+      [
+        "RV-P039",
+        "RV-H7",
+        "GX-3",
+        402,
+        9.01,
+        61.3
+      ],
+      [
+        "RV-P040",
+        "RV-H8",
+        " gx-1 ",
+        365,
+        7.91,
+        61.52
+      ],
+      [
+        "RV-P041",
+        "RV-H1",
+        "GX-2",
+        376,
+        12.19,
+        46.48
+      ],
+      [
+        "RV-P042",
+        "RV-H2",
+        " gx-3 ",
+        431,
+        6.75,
+        37.31
+      ],
+      [
+        "RV-P043",
+        "RV-H3",
+        "GX-1",
+        441,
+        9.92,
+        38.02
+      ],
+      [
+        "RV-P044",
+        "RV-H4",
+        " gx-2 ",
+        351,
+        9.78,
+        30.16
+      ],
+      [
+        "RV-P045",
+        "RV-H5",
+        "GX-3",
+        457,
+        11.88,
+        34.89
+      ],
+      [
+        "RV-P046",
+        "RV-H6",
+        " gx-1 ",
+        484,
+        8.53,
+        61.91
+      ],
+      [
+        "RV-P047",
+        "RV-H7",
+        "GX-2",
+        483,
+        9.59,
+        50.71
+      ],
+      [
+        "RV-P048",
+        "RV-H8",
+        " gx-3 ",
+        455,
+        7.91,
+        46.94
+      ],
+      [
+        "RV-P049",
+        "RV-H1",
+        "GX-1",
+        426,
+        11.84,
+        51.74
+      ],
+      [
+        "RV-P050",
+        "RV-H2",
+        " gx-2 ",
+        359,
+        8.89,
+        31.41
+      ],
+      [
+        "RV-P051",
+        "RV-H3",
+        "GX-3",
+        395,
+        9.63,
+        58.1
+      ],
+      [
+        "RV-P052",
+        "RV-H4",
+        " gx-1 ",
+        456,
+        10.23,
+        27.25
+      ],
+      [
+        "RV-P053",
+        "RV-H5",
+        "GX-2",
+        443,
+        9.98,
+        38.27
+      ],
+      [
+        "RV-P054",
+        "RV-H6",
+        " gx-3 ",
+        479,
+        7.42,
+        51.42
+      ],
+      [
+        "RV-P055",
+        "RV-H7",
+        "GX-1",
+        381,
+        9.43,
+        37.79
+      ],
+      [
+        "RV-P056",
+        "RV-H8",
+        " gx-2 ",
+        352,
+        7.98,
+        46.54
+      ],
+      [
+        "RV-P057",
+        "RV-H1",
+        "GX-3",
+        419,
+        8.9,
+        26.82
+      ],
+      [
+        "RV-P058",
+        "RV-H2",
+        " gx-1 ",
+        432,
+        9,
+        46.87
+      ],
+      [
+        "RV-P059",
+        "RV-H3",
+        "GX-2",
+        485,
+        9.83,
+        61.35
+      ],
+      [
+        "RV-P060",
+        "RV-H4",
+        " gx-3 ",
+        413,
+        7.82,
+        25.99
+      ]
+    ],
+    "rowCount": 60,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Pipe_no",
+        "description": "Unique pipe identifier; retain each pipe as a separate record."
+      },
+      {
+        "name": "Heat_no",
+        "description": "Heat identifier. A sample is identified by both sample and heat."
+      },
+      {
+        "name": "Grade_code",
+        "description": "Imported training grade. Trim ordinary spaces and convert to uppercase before matching Specs."
+      },
+      {
+        "name": "Yield_MPa",
+        "description": "Measured yield strength in MPa. A blank requires Review; equality meets the invented limit."
+      },
+      {
+        "name": "Length_m",
+        "description": "Pipe length in metres."
+      },
+      {
+        "name": "Unit_cost_CAD",
+        "description": "Training rework cost in CAD per metre."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/EX-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/EX-A1.csv",
+    "sheets": [
+      {
+        "name": "Specs",
+        "headers": [
+          "Grade_code",
+          "Yield_min_MPa"
+        ],
+        "rows": [
+          [
+            "GX-1",
+            385
+          ],
+          [
+            "GX-2",
+            420
+          ],
+          [
+            "GX-3",
+            450
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/EX-A1-Specs.csv"
+      }
+    ]
+  }
+}
