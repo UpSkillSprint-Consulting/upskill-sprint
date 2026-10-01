@@ -35,8 +35,30 @@ The twenty new sources were authored with the primary artifact runtime, and all 
 
 `scripts/author-excel-sprint-phase3-workbooks.mjs` is the authoring entry point. Follow the existing temporary-runtime workflow, then review the rendered sheets. `npm run build:excel-sprint` checks source fingerprints and SHA-256 values and copies the committed XLSX bytes; portable Netlify builds do not require the authoring runtime. Public staging excludes curriculum, private keys and function source.
 
-Local validation passes 57 Sprint tests, the full site build and 21 production-index tests. Search/catalog and live preview results are recorded below after validation. No native Excel execution or saved PDF is claimed.
+Local validation passes 57 Sprint tests, 122 search/catalog regressions, the full site build and 21 production-index tests. No native Excel execution or saved PDF is claimed.
 
 ## Preview evidence
 
-Pending the draft preview deployment and independent public-dataset checks. All validation records use a fictitious QA learner.
+The [draft PR #234](https://github.com/UpSkillSprint-Consulting/upskill-sprint/pull/234) preview is deployed at the [existing Formula Fluency lesson](https://deploy-preview-234--upskillsprint.netlify.app/lessons/power-bi-excel-sql/excel-formula-fluency#excel-sprint). Netlify deploy `6abedc1364f0c900082102aa` is ready for code revision `14a17dd53e2d07056aad6565d0a87d139f748c62`. All seven GitHub workflows pass, including Excel Formula Sprint and Smart lesson search. Main has not been merged.
+
+All records below use the self-reported name **Fictitious QA Learner**. Independent preview calculations read only public datasets and task contracts; private answer keys and model solutions were not submitted to the service.
+
+| Check | Result |
+| --- | --- |
+| Twenty deployed public packages | Match the committed package JSON exactly |
+| Twenty new assignments / eighty required outputs | All pass live grading at 100%, using independent calculations |
+| Restored 30-core backup | L7-A1 unlocks; later core assignments remain gated |
+| Final browser submissions | All eight required outputs in L10-A4/A5 pass; continuation unlocks the final assignment |
+| Full award eligibility | Disabled after 49 completions, enabled after 50 |
+| Expert compatibility | Still shows 30/30 prerequisites and 3/3 verified capstones alongside 50 core completions |
+| Full certificate | Issued with 50 core / 0 Expert claims; signature verified on the certificate page |
+| Proof file | Actual 1,688-byte signed JSON download re-uploaded and verified successfully |
+| Changed certificate payload | Rejected; the card clears and printing is disabled |
+| Existing Levels 1–6 / Expert proofs | Both original signed JSON proofs still verify |
+| Reissued older awards after 50 core completions | Original certificate identities and completion dates remain unchanged; scopes stay 30 and 30+3 |
+| Selected preview workbook downloads | L7-A1 and L7-A2 download through the learner controls and match the published bytes |
+| Independent final content review | All 54 array outputs match their published dimensions; no blocking defect found |
+
+All twenty workbook sources and copies pass the local OOXML/fingerprint/hash checks described above. An exhaustive preview-download byte comparison was limited by workspace egress and browser download controls; it is not claimed. Formula coaching availability briefly reported unavailable and recovered on retry. Provider-generated coaching content and native Excel formula execution were not part of these completion checks.
+
+![Verified full-course certificate for a fictitious QA learner](excel-sprint-levels7-10-verified-qa.jpg)
