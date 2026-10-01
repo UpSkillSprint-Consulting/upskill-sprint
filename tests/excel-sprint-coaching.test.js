@@ -5,7 +5,7 @@ const SECRET='sprint-coaching-test-secret-at-least-32-bytes';
 const originalNetlify=globalThis.Netlify,originalFetch=globalThis.fetch;
 const keys=JSON.parse(fs.readFileSync('netlify/functions/_shared/excel-sprint-answers.json'));
 let G,C,handler,status,config;
-const feedback={logic:'Your approach uses the requested inputs.',robustness:'Check missing inputs separately from valid zero.',references:'Keep the full data range aligned.',readability:'Use a clear intermediate calculation.',efficiency:'Avoid repeated full-range calculations.',nextStep:'Test one boundary case in Excel.'};
+const feedback={logic:'Your approach uses the requested inputs.',robustness:'Check missing inputs separately from valid zero.',references:'Keep the full data range aligned.',readability:'Use a clear intermediate calculation.',efficiency:'Avoid repeated full-range calculations.'};
 before(async()=>{G=await import('../netlify/functions/_shared/excel-sprint-grading.mjs');C=await import('../netlify/functions/_shared/excel-sprint-coaching.mjs');const m=await import('../netlify/functions/excel-sprint-coach.mjs');handler=m.default;config=m.config;status=(await import('../netlify/functions/excel-sprint-coaching-status.mjs')).default;});
 after(()=>{globalThis.Netlify=originalNetlify;globalThis.fetch=originalFetch;});
 function env(key='test-anthropic-key',base){globalThis.Netlify={env:{get:name=>({EXCEL_SPRINT_SIGNING_SECRET:SECRET,ANTHROPIC_API_KEY:key,ANTHROPIC_BASE_URL:base})[name]}};}
@@ -19,9 +19,9 @@ test('coaching requires a signed attempted task and predecessor; rejects score o
  assert.equal(calls,0);assert.equal(config.rateLimit.windowLimit,6);
 });
 test('provider receives no private answer key or model and AI verdict cannot override scoring',async()=>{
- env();const p=payload(),output=JSON.parse(fs.readFileSync('assets/lessons/excel-formula-fluency/sprint/packages/L1-A1.json')).tasks[0].output;let outbound;globalThis.fetch=async(url,init)=>{assert.equal(url,'https://api.anthropic.com/v1/messages');outbound=JSON.parse(init.body);return aiResponse({...feedback,references:'`'+feedback.references+'`',nextStep:'Copy the formula down\nall Answers rows.'});};
+ env();const p=payload(),output=JSON.parse(fs.readFileSync('assets/lessons/excel-formula-fluency/sprint/packages/L1-A1.json')).tasks[0].output;let outbound;globalThis.fetch=async(url,init)=>{assert.equal(url,'https://api.anthropic.com/v1/messages');outbound=JSON.parse(init.body);return aiResponse({...feedback,references:'`'+feedback.references+'`'});};
  const result=await call(p);assert.equal(result.status,200);assert.equal(result.body.submissionCorrect,true);
- const {nextStep,...review}=result.body.feedback,{nextStep:unused,...expected}=feedback;assert.deepEqual(review,expected);assert.ok(nextStep.includes(output));assert.match(nextStep,/Keep other answer cells unchanged/);assert.doesNotMatch(nextStep,/copy|all Answers rows/i);
+ const {nextStep,...review}=result.body.feedback;assert.deepEqual(review,feedback);assert.ok(nextStep.includes(output));assert.match(nextStep,/Keep other answer cells unchanged/);assert.doesNotMatch(nextStep,/copy|all Answers rows/i);
  const content=JSON.parse(outbound.messages[0].content);assert.ok(!/"(?:answer|model|hints|alternatives)":/.test(JSON.stringify(content)));assert.equal(content.submittedFormula,p.formula);assert.equal(outbound.model,C.COACH_MODEL);
  assert.equal(result.body.completionToken,undefined);assert.equal(G.readToken(p.receipt,SECRET,'receipt').taskStates.t1.attempts,1);
  const revised=await call({...p,result:'wrong'});assert.equal(revised.body.submissionCorrect,false);assert.equal(revised.body.score,undefined);assert.ok(revised.body.feedback.nextStep.includes(output));assert.notEqual(revised.body.feedback.nextStep,nextStep);
