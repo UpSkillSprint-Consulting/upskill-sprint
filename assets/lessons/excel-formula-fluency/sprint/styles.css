@@ -10,3 +10,4 @@
 .sprint-supporting-sheet{margin:1rem 0;padding:1rem;border:1px solid #315c70;border-radius:8px}
 .sprint-supporting-sheet summary{cursor:pointer;font-weight:700}
 @media(max-width:600px){.sprint-coaching dl>div{grid-template-columns:1fr;gap:.2rem}}
+#excel-sprint-app :is(h2,h3,h4,h5){font-family:'Barlow Condensed',Arial,sans-serif}
