@@ -64,5 +64,9 @@ test('array paste retains trailing blank cells and unavailable coaching leaves c
   h.find('[data-sprint-result-input="t1"]').value='A\tB\t\n';h.find('[data-sprint-check="t1"]').click();
   await ready(()=>h.calls.some(c=>c.url.endsWith('/grade')));
   assert.deepEqual(h.calls.find(c=>c.url.endsWith('/grade')).body.submissions[0].result,[['A','B','']]);
+  await ready(()=>!h.find('[data-sprint-check="t1"]').disabled);
+  const fetch=h.w.fetch;h.w.fetch=(url,init)=>url.endsWith('/coaching-status')?Promise.resolve(new Response(JSON.stringify({available:true}),{status:200})):fetch(url,init);
+  h.find('[data-sprint-action="retry-coaching"]').click();await ready(()=>h.find('[data-sprint-coach="t1"]'));
+  assert.equal(h.find('[data-sprint-coach="t1"]').disabled,false);assert.equal(h.calls.filter(c=>c.url.endsWith('/grade')).length,1);
  }finally{h.dom.window.close();}
 });
