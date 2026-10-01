@@ -34,4 +34,8 @@ The draft PR 234 preview passed live grading for all thirty packages and verific
 
 The deployed metadata accepts the configured rate-limit rules. A seven-request unsigned preview probe returned seven authorization denials, without observing 429. Netlify's [rate-limit enforcement](https://docs.netlify.com/manage/security/secure-access-to-sites/rate-limiting/) allows counting delays, so this configuration is not an exact request-budget guarantee. No provider calls were made by that probe.
 
+Preview evidence uses fictitious QA progress. The Level 3 task remains at one attempt after requesting formula coaching.
+
+![Level 3 formula coaching with fictitious QA progress](excel-sprint-phase2-preview-20261001.jpg)
+
 Levels 7–10, reinforcement, placement, Expert Track and certificates remain future releases. Phase 1's stateless receipt replay limitation remains: learners can restart/replay personal attempt records without a database.
