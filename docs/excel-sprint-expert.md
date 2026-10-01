@@ -39,6 +39,16 @@ Run `npm run build:excel-sprint` for deterministic public packages and private k
 
 ## Validation
 
-45 focused Sprint tests cover existing assignments and coaching, Expert Track sequencing and backup restoration, signed certificate eligibility, name/scope tampering, cross-domain proof rejection, markup validation, stale verification responses and learner controls. All three XLSX files were rendered and read back: data and supporting tables match their seeds, text identifiers retain leading zeros, and answer areas have no formulas or values. All ninety original core package/CSV/XLSX files remain byte-identical. Search regressions and the complete public-site build pass.
+47 focused Sprint tests cover existing assignments and coaching, Expert Track sequencing and backup restoration, signed certificate eligibility, name/scope tampering, cross-domain proof rejection, markup validation, stale verification responses and learner controls. The import regression checks enabled controls after restoring both core-only and completed Expert progress, and preserves drafts when an import fails. All three XLSX files were rendered and read back: data and supporting tables match their seeds, text identifiers retain leading zeros, and answer areas have no formulas or values. All ninety original core package/CSV/XLSX files remain byte-identical. 122 search/catalog regressions, 21 production-index tests and the complete public-site build pass.
 
-Live preview and visual verification are recorded after deployment. Evidence uses fictitious QA progress, never a learner's real completion record.
+### Live preview — October 1, 2026
+
+The [draft preview](https://deploy-preview-234--upskillsprint.netlify.app/lessons/power-bi-excel-sql/excel-formula-fluency#sprint-expert) passed 24 HTTP checks. The existing thirty-core proof chain still verifies; all twelve required capstone outputs pass; both released awards issue and verify with their exact scope. Skipped capstones, incomplete core/Expert paths, a requested full-path award, an edited certificate name and a completion token used as a certificate are rejected. All three workbook downloads match committed bytes, the noindex certificate utility loads, and private source paths return 404. Live submissions were independently computed from the public, fictitious datasets.
+
+Browser validation covered locked gates before the core milestone, core-only backup import, all three capstones in sequence (including text sample identifiers), certificate issuance, downloaded signed JSON and verification through both the issued link and the downloaded file. Changing or submitting an invalid proof clears the certificate and disables printing. Importing completed Expert progress restores both certificate controls immediately. GitHub Sprint and Smart lesson search validation pass for the reviewed implementation.
+
+The screenshots below use **Fictitious QA Learner** and fictitious QA progress. They are validation evidence, not an actual learner's completion record. Native Excel execution and a saved PDF were not part of this validation.
+
+![Three verified Expert Track capstones using fictitious QA progress](excel-sprint-expert-preview-20261001.jpg)
+
+![Server-verified Expert Track certificate for Fictitious QA Learner](excel-sprint-certificate-preview-20261001.jpg)
