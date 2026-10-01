@@ -1,0 +1,328 @@
+{
+  "id": "L1-A5",
+  "level": 1,
+  "assignment": 5,
+  "title": "Thickness decisions with fixed references",
+  "formulas": [
+    "IF",
+    "ABS"
+  ],
+  "minutes": 45,
+  "scenario": "Kesvani Gauge Works is checking 32 fictitious pipe-wall samples against a training-only target of 12.70 mm with tolerance ±0.20 mm. These values are not a real product standard. The workbook stores target in Parameters!B2 and tolerance in Parameters!B3; keep those cells fixed when copying.",
+  "lesson": {
+    "intro": "A decision formula separates the condition from its two outcomes. Exact boundary measurements pass this training rule. An absolute reference such as Parameters!$B$2 keeps both column and row fixed when copied; Data!C2 stays relative and moves with each sample.",
+    "functions": [
+      {
+        "name": "IF",
+        "purpose": "Choose one result when a condition is true and another when false.",
+        "syntax": "=IF(logical_test, value_if_true, [value_if_false])",
+        "arguments": "logical_test evaluates TRUE/FALSE; value_if_true is the first outcome; optional value_if_false is the other.",
+        "example": "=IF(12.7>=12.5,\"Pass\",\"Hold\")",
+        "result": "Pass",
+        "useCase": "Classify results using a stated threshold.",
+        "mistake": "Quote text outputs and choose >= or <= deliberately at the boundary."
+      },
+      {
+        "name": "ABS",
+        "purpose": "Return distance from zero without a sign.",
+        "syntax": "=ABS(number)",
+        "arguments": "number is the numeric input, such as measured value minus target.",
+        "example": "=ABS(12.48-12.70)",
+        "result": 0.22,
+        "useCase": "Measure deviation magnitude for a two-sided tolerance.",
+        "mistake": "Taking ABS of the measurement alone does not measure deviation from target."
+      }
+    ],
+    "combine": "Nest ABS inside IF to check the distance from target. Reuse AVERAGE for batch centering and MIN/MAX for a two-sided batch check. Fix target and tolerance with $; keep each measurement relative. CSV users should create Parameters with labels in A2/A3 and the stated numeric values in B2/B3."
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "prompt": "Calculate the absolute distance of the first sample’s Measured_mm from the fixed target, in mm. Reference Parameters!B2.",
+      "output": "Answers!B2",
+      "type": "number",
+      "formulas": [
+        "ABS"
+      ]
+    },
+    {
+      "id": "t2",
+      "prompt": "Calculate the absolute distance between mean Measured_mm for all 32 samples and the fixed target. Submit the unrounded value in mm.",
+      "output": "Answers!B3",
+      "type": "number",
+      "formulas": [
+        "ABS",
+        "AVERAGE"
+      ]
+    },
+    {
+      "id": "t3",
+      "prompt": "Classify the first eight samples as Pass when their distance from target is at most the tolerance; otherwise Hold. Return exact labels in dataset order. Reference the fixed Parameters cells. Round each deviation to two decimal places before comparing, matching the measurement precision.",
+      "output": "Answers!B5:B12",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "ABS",
+        "ROUND"
+      ]
+    },
+    {
+      "id": "t4",
+      "prompt": "Return Release if the minimum measured thickness is at least target minus tolerance AND the maximum is at most target plus tolerance. Otherwise return Hold. Use nested decisions or another valid approach; evaluate all 32 samples.",
+      "output": "Answers!B14",
+      "type": "text",
+      "formulas": [
+        "IF",
+        "MIN",
+        "MAX"
+      ]
+    }
+  ],
+  "bonus": {
+    "id": "bonus",
+    "prompt": "Return Centred if mean thickness is within 0.05 mm of target, inclusive; otherwise Investigate. Reference Parameters!B2.",
+    "output": "Answers!B16",
+    "type": "text",
+    "formulas": [
+      "IF",
+      "ABS",
+      "AVERAGE"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Sample_code",
+      "Product_code",
+      "Measured_mm",
+      "Piece_mass_kg"
+    ],
+    "rows": [
+      [
+        "KG-S4301",
+        "KG-P704",
+        12.5,
+        60.5
+      ],
+      [
+        "KG-S4302",
+        "KG-P703",
+        12.9,
+        44.7
+      ],
+      [
+        "KG-S4303",
+        "KG-P704",
+        12.65,
+        44.9
+      ],
+      [
+        "KG-S4304",
+        "KG-P702",
+        12.72,
+        65.2
+      ],
+      [
+        "KG-S4305",
+        "KG-P705",
+        12.56,
+        47.8
+      ],
+      [
+        "KG-S4306",
+        "KG-P702",
+        12.68,
+        55.3
+      ],
+      [
+        "KG-S4307",
+        "KG-P704",
+        12.8,
+        55.4
+      ],
+      [
+        "KG-S4308",
+        "KG-P704",
+        13.02,
+        50.2
+      ],
+      [
+        "KG-S4309",
+        "KG-P702",
+        12.64,
+        49.1
+      ],
+      [
+        "KG-S4310",
+        "KG-P701",
+        12.5,
+        49.8
+      ],
+      [
+        "KG-S4311",
+        "KG-P701",
+        12.92,
+        57.3
+      ],
+      [
+        "KG-S4312",
+        "KG-P705",
+        12.69,
+        51.3
+      ],
+      [
+        "KG-S4313",
+        "KG-P705",
+        12.41,
+        67.6
+      ],
+      [
+        "KG-S4314",
+        "KG-P705",
+        12.55,
+        42.7
+      ],
+      [
+        "KG-S4315",
+        "KG-P702",
+        12.79,
+        57.6
+      ],
+      [
+        "KG-S4316",
+        "KG-P701",
+        12.39,
+        68.6
+      ],
+      [
+        "KG-S4317",
+        "KG-P704",
+        12.4,
+        68.9
+      ],
+      [
+        "KG-S4318",
+        "KG-P705",
+        12.44,
+        47.5
+      ],
+      [
+        "KG-S4319",
+        "KG-P703",
+        12.58,
+        62
+      ],
+      [
+        "KG-S4320",
+        "KG-P704",
+        12.76,
+        59.1
+      ],
+      [
+        "KG-S4321",
+        "KG-P701",
+        12.95,
+        67.1
+      ],
+      [
+        "KG-S4322",
+        "KG-P702",
+        12.92,
+        62.1
+      ],
+      [
+        "KG-S4323",
+        "KG-P705",
+        12.56,
+        46
+      ],
+      [
+        "KG-S4324",
+        "KG-P702",
+        12.47,
+        57.8
+      ],
+      [
+        "KG-S4325",
+        "KG-P701",
+        12.6,
+        46.9
+      ],
+      [
+        "KG-S4326",
+        "KG-P705",
+        12.44,
+        50.3
+      ],
+      [
+        "KG-S4327",
+        "KG-P705",
+        12.5,
+        43.3
+      ],
+      [
+        "KG-S4328",
+        "KG-P703",
+        12.74,
+        53.3
+      ],
+      [
+        "KG-S4329",
+        "KG-P702",
+        12.77,
+        70.2
+      ],
+      [
+        "KG-S4330",
+        "KG-P702",
+        12.71,
+        47.1
+      ],
+      [
+        "KG-S4331",
+        "KG-P704",
+        12.89,
+        57.9
+      ],
+      [
+        "KG-S4332",
+        "KG-P705",
+        12.44,
+        47.2
+      ]
+    ],
+    "rowCount": 32,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Sample_code",
+        "description": "Invented wall-thickness sample code."
+      },
+      {
+        "name": "Product_code",
+        "description": "Invented training product code."
+      },
+      {
+        "name": "Measured_mm",
+        "description": "Measured wall thickness in mm."
+      },
+      {
+        "name": "Piece_mass_kg",
+        "description": "Measured piece mass, kg."
+      }
+    ],
+    "parameters": [
+      {
+        "cell": "B2",
+        "name": "Target_mm",
+        "value": 12.7
+      },
+      {
+        "cell": "B3",
+        "name": "Tolerance_mm",
+        "value": 0.2
+      }
+    ],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L1-A5.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L1-A5.csv"
+  }
+}

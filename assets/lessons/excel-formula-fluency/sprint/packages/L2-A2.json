@@ -1,0 +1,295 @@
+{
+  "id": "L2-A2",
+  "level": 2,
+  "assignment": 2,
+  "title": "Downtime triage and safe ratios",
+  "formulas": [
+    "IFS",
+    "IFERROR"
+  ],
+  "minutes": 40,
+  "scenario": "Pelvaris Mill is triaging 24 fictitious downtime events. Some events lose zero units, which is a valid measurement rather than missing data. Supervisors need duration bands and cost-per-lost-unit decisions that explain zero-denominator cases.",
+  "lesson": {
+    "intro": "Ordered decision rules and safe error handling keep a report readable. Do not convert every error into zero: zero cost and an undefined cost-per-unit ratio mean different things.",
+    "functions": [
+      {
+        "name": "IFS",
+        "purpose": "Return the result for the first true condition.",
+        "syntax": "=IFS(logical_test1, value_if_true1, [logical_test2, value_if_true2], ...)",
+        "arguments": "Each test is paired with its result; later test/result pairs are optional.",
+        "example": "=IFS(18<=10,\"Short\",18<=30,\"Medium\",TRUE,\"Long\")",
+        "result": "Medium",
+        "useCase": "Classify duration into ordered bands.",
+        "mistake": "Put narrower conditions first; TRUE at the end supplies a catch-all outcome."
+      },
+      {
+        "name": "IFERROR",
+        "purpose": "Use a stated fallback if an expression produces an Excel error.",
+        "syntax": "=IFERROR(value, value_if_error)",
+        "arguments": "value is the calculation; value_if_error is returned only when that calculation errors.",
+        "example": "=IFERROR(40/0,\"No lost units\")",
+        "result": "No lost units",
+        "useCase": "Explain an undefined ratio without breaking a dashboard.",
+        "mistake": "IFERROR also hides unexpected errors; verify references before adding a fallback."
+      }
+    ],
+    "combine": "Reuse ROUND for currency-per-unit outputs and IF for a threshold decision. IFS assigns duration labels in increasing upper-bound order. IFERROR belongs outside the entire ratio calculation or ratio-based decision. A zero-denominator fallback should remain text, not a misleading number."
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "prompt": "Classify the first event’s Duration_min as Short for at most 10 minutes, Medium for more than 10 through 30 minutes, or Long for more than 30 minutes.",
+      "output": "Answers!B2",
+      "type": "text",
+      "formulas": [
+        "IFS"
+      ]
+    },
+    {
+      "id": "t2",
+      "prompt": "For the first six events, calculate Labor_cost_CAD per Units_lost, rounded to two decimals. Return No lost units when the ratio is undefined. Keep dataset order.",
+      "output": "Answers!B4:B9",
+      "type": "array",
+      "formulas": [
+        "IFERROR",
+        "ROUND"
+      ]
+    },
+    {
+      "id": "t3",
+      "prompt": "For the first six events, classify Duration_min as Critical for at least 45 minutes, Priority for at least 20 but less than 45, otherwise Routine. Keep dataset order.",
+      "output": "Answers!B11:B16",
+      "type": "array",
+      "formulas": [
+        "IFS"
+      ]
+    },
+    {
+      "id": "t4",
+      "prompt": "For the first eight events, return Review when the unrounded Labor_cost_CAD per Units_lost exceeds 15, otherwise Accept. Return No loss when the ratio is undefined. Keep dataset order.",
+      "output": "Answers!B18:B25",
+      "type": "array",
+      "formulas": [
+        "IFERROR",
+        "IF"
+      ]
+    }
+  ],
+  "bonus": {
+    "id": "bonus",
+    "prompt": "Calculate overall labour cost per lost unit across all 24 events, rounded to two decimals. Include labour cost from zero-loss events in the total cost.",
+    "output": "Answers!B27",
+    "type": "number",
+    "formulas": [
+      "IFERROR",
+      "ROUND",
+      "SUM"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Event_code",
+      "Line",
+      "Duration_min",
+      "Units_lost",
+      "Labor_cost_CAD"
+    ],
+    "rows": [
+      [
+        "PM-E1701",
+        "Talven",
+        10,
+        0,
+        244.92
+      ],
+      [
+        "PM-E1702",
+        "Korrin",
+        57,
+        33,
+        367.57
+      ],
+      [
+        "PM-E1703",
+        "Istral",
+        39,
+        18,
+        413.52
+      ],
+      [
+        "PM-E1704",
+        "Talven",
+        58,
+        28,
+        451.16
+      ],
+      [
+        "PM-E1705",
+        "Korrin",
+        61,
+        0,
+        440.06
+      ],
+      [
+        "PM-E1706",
+        "Istral",
+        4,
+        26,
+        371.3
+      ],
+      [
+        "PM-E1707",
+        "Talven",
+        4,
+        26,
+        236.43
+      ],
+      [
+        "PM-E1708",
+        "Korrin",
+        28,
+        25,
+        398.06
+      ],
+      [
+        "PM-E1709",
+        "Istral",
+        34,
+        0,
+        210.69
+      ],
+      [
+        "PM-E1710",
+        "Talven",
+        31,
+        11,
+        336.26
+      ],
+      [
+        "PM-E1711",
+        "Korrin",
+        42,
+        35,
+        291.16
+      ],
+      [
+        "PM-E1712",
+        "Istral",
+        15,
+        32,
+        438.87
+      ],
+      [
+        "PM-E1713",
+        "Talven",
+        63,
+        0,
+        93.96
+      ],
+      [
+        "PM-E1714",
+        "Korrin",
+        38,
+        41,
+        273.01
+      ],
+      [
+        "PM-E1715",
+        "Istral",
+        15,
+        11,
+        265.69
+      ],
+      [
+        "PM-E1716",
+        "Talven",
+        37,
+        44,
+        311.34
+      ],
+      [
+        "PM-E1717",
+        "Korrin",
+        61,
+        0,
+        283.42
+      ],
+      [
+        "PM-E1718",
+        "Istral",
+        59,
+        34,
+        483.73
+      ],
+      [
+        "PM-E1719",
+        "Talven",
+        46,
+        15,
+        219.95
+      ],
+      [
+        "PM-E1720",
+        "Korrin",
+        20,
+        22,
+        351.9
+      ],
+      [
+        "PM-E1721",
+        "Istral",
+        47,
+        0,
+        109.28
+      ],
+      [
+        "PM-E1722",
+        "Talven",
+        30,
+        42,
+        221.56
+      ],
+      [
+        "PM-E1723",
+        "Korrin",
+        42,
+        25,
+        177.78
+      ],
+      [
+        "PM-E1724",
+        "Istral",
+        45,
+        34,
+        365.09
+      ]
+    ],
+    "rowCount": 24,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Event_code",
+        "description": "Invented unique downtime event code."
+      },
+      {
+        "name": "Line",
+        "description": "Invented line code."
+      },
+      {
+        "name": "Duration_min",
+        "description": "Observed downtime duration, minutes."
+      },
+      {
+        "name": "Units_lost",
+        "description": "Nonnegative units lost; zero is a valid observed result."
+      },
+      {
+        "name": "Labor_cost_CAD",
+        "description": "Event labour recovery cost, Canadian dollars."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L2-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L2-A2.csv"
+  }
+}

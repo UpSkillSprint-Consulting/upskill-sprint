@@ -1,0 +1,967 @@
+{
+  "L1-A1": {
+    "version": 1,
+    "tasks": [
+      {
+        "id": "t1",
+        "answer": 2446.73,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=SUM(Data!D2:D25)",
+        "modelNote": "Enter at Answers!B2.",
+        "alternatives": [],
+        "hints": [
+          "Check that all 24 tapped-mass rows, and no charged-mass rows, are included.",
+          "Use the totaling function on the Tapped_t column.",
+          "=SUM(Data!____)"
+        ]
+      },
+      {
+        "id": "t2",
+        "answer": 61.791666666666664,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=AVERAGE(Data!E2:E25)",
+        "modelNote": "Enter at Answers!B3.",
+        "alternatives": [],
+        "hints": [
+          "The result must be a mean in minutes, rather than a total.",
+          "Use AVERAGE on all tap-duration observations.",
+          "=AVERAGE(Data!____)"
+        ]
+      },
+      {
+        "id": "t3",
+        "answer": 92.7494313874147,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=SUM(Data!D2:D25)/SUM(Data!C2:C25)*100",
+        "modelNote": "Enter at Answers!B4.",
+        "alternatives": [],
+        "hints": [
+          "Use total tapped mass as the numerator and total charged mass as the denominator.",
+          "Combine two SUM calculations before multiplying by 100.",
+          "=SUM(Data!____)/SUM(Data!____)*100"
+        ]
+      },
+      {
+        "id": "t4",
+        "answer": 7.969583333333333,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=AVERAGE(Data!C2:C25)-AVERAGE(Data!D2:D25)",
+        "modelNote": "Enter at Answers!B5.",
+        "alternatives": [
+          "=(SUM(Data!C2:C25)-SUM(Data!D2:D25))/24"
+        ],
+        "hints": [
+          "The difference is charged minus tapped and stays in tonnes.",
+          "Subtract the average of one mass column from the other.",
+          "=AVERAGE(Data!____)-AVERAGE(Data!____)"
+        ]
+      }
+    ],
+    "bonus": {
+      "id": "bonus",
+      "answer": 98.99109912339851,
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "model": "=SUM(Data!D2:D25)/SUM(Data!E2:E25)*60",
+      "modelNote": "Enter at Answers!B7.",
+      "alternatives": [],
+      "hints": [
+        "Convert the pooled minutes denominator to hours.",
+        "Divide total mass by total time, then convert minutes to hours.",
+        "=SUM(Data!____)/SUM(Data!____)*60"
+      ]
+    }
+  },
+  "L1-A2": {
+    "version": 1,
+    "tasks": [
+      {
+        "id": "t1",
+        "answer": 26,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=COUNT(Data!D2:D27)",
+        "modelNote": "Enter at Answers!B2.",
+        "alternatives": [],
+        "hints": [
+          "A record count should not change because one order has more units.",
+          "Use COUNT for numeric entries.",
+          "=COUNT(Data!____)"
+        ]
+      },
+      {
+        "id": "t2",
+        "answer": 26,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=COUNTA(Data!A2:A27)",
+        "modelNote": "Enter at Answers!B3.",
+        "alternatives": [],
+        "hints": [
+          "Order codes are text, but every data cell is populated.",
+          "Use the nonempty-cell count rather than the numeric-cell count.",
+          "=COUNTA(Data!____)"
+        ]
+      },
+      {
+        "id": "t3",
+        "answer": 0,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=COUNT(Data!A2:A27)",
+        "modelNote": "Enter at Answers!B4.",
+        "alternatives": [],
+        "hints": [
+          "Digits embedded in a text identifier are not numeric cells.",
+          "Apply COUNT to the text-code range without converting it.",
+          "=COUNT(Data!____)"
+        ]
+      },
+      {
+        "id": "t4",
+        "answer": 1118.808076923077,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=SUM(Data!E2:E27)/COUNTA(Data!A2:A27)",
+        "modelNote": "Enter at Answers!B5.",
+        "alternatives": [
+          "=AVERAGE(Data!E2:E27)"
+        ],
+        "hints": [
+          "Use order value in the numerator and record count in the denominator.",
+          "Reuse SUM and divide it by COUNTA of order IDs.",
+          "=SUM(Data!____)/COUNTA(Data!____)"
+        ]
+      }
+    ],
+    "bonus": {
+      "id": "bonus",
+      "answer": 37.92307692307692,
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "model": "=SUM(Data!D2:D27)/COUNTA(Data!C2:C27)",
+      "modelNote": "Enter at Answers!B7.",
+      "alternatives": [],
+      "hints": [
+        "The denominator is the shipment-record count, not order value.",
+        "Combine SUM of units with COUNTA of shipment references.",
+        "=SUM(Data!____)/COUNTA(Data!____)"
+      ]
+    }
+  },
+  "L1-A3": {
+    "version": 1,
+    "tasks": [
+      {
+        "id": "t1",
+        "answer": 385,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=MIN(Data!C2:C29)",
+        "modelNote": "Enter at Answers!B2.",
+        "alternatives": [],
+        "hints": [
+          "Use the yield column and retain MPa as the unit.",
+          "Use MIN over the complete yield range.",
+          "=MIN(Data!____)"
+        ]
+      },
+      {
+        "id": "t2",
+        "answer": 595,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=MAX(Data!D2:D29)",
+        "modelNote": "Enter at Answers!B3.",
+        "alternatives": [],
+        "hints": [
+          "Yield and tensile strength are different measured columns.",
+          "Use MAX on tensile strength.",
+          "=MAX(Data!____)"
+        ]
+      },
+      {
+        "id": "t3",
+        "answer": 11.2,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=MAX(Data!E2:E29)-MIN(Data!E2:E29)",
+        "modelNote": "Enter at Answers!B4.",
+        "alternatives": [],
+        "hints": [
+          "The range is a positive spread within the elongation column.",
+          "Subtract MIN from MAX using identical ranges.",
+          "=MAX(Data!____)-MIN(Data!____)"
+        ]
+      },
+      {
+        "id": "t4",
+        "answer": 1.5454545454545454,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=MAX(Data!D2:D29)/MIN(Data!C2:C29)",
+        "modelNote": "Enter at Answers!B5.",
+        "alternatives": [],
+        "hints": [
+          "Use different strength columns in the stated numerator and denominator.",
+          "Combine the correct MAX and MIN results with division.",
+          "=MAX(Data!____)/MIN(Data!____)"
+        ]
+      }
+    ],
+    "bonus": {
+      "id": "bonus",
+      "answer": 21.42680819550728,
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "model": "=(MAX(Data!C2:C29)-MIN(Data!C2:C29))/AVERAGE(Data!C2:C29)*100",
+      "modelNote": "Enter at Answers!B7.",
+      "alternatives": [],
+      "hints": [
+        "Keep the entire range calculation together before dividing.",
+        "Use parentheses around MAX minus MIN, then divide by AVERAGE.",
+        "=(MAX(Data!____)-MIN(Data!____))/AVERAGE(Data!____)*100"
+      ]
+    }
+  },
+  "L1-A4": {
+    "version": 1,
+    "tasks": [
+      {
+        "id": "t1",
+        "answer": 29.97,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=ROUND(Data!E2,2)",
+        "modelNote": "Enter at Answers!B2.",
+        "alternatives": [],
+        "hints": [
+          "Round the numeric cost itself, not only its cell format.",
+          "Use ROUND with two decimal places.",
+          "=ROUND(Data!____,2)"
+        ]
+      },
+      {
+        "id": "t2",
+        "answer": [
+          [
+            10
+          ],
+          [
+            21
+          ],
+          [
+            11
+          ],
+          [
+            9
+          ],
+          [
+            6
+          ]
+        ],
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=ROUNDUP(Data!B2/Data!D2,0)",
+        "modelNote": "fill down from Answers!B3 to B7",
+        "alternatives": [],
+        "hints": [
+          "Any positive remainder requires another complete pack.",
+          "Divide demand by pack size, then round away from zero to an integer.",
+          "=ROUNDUP(Data!B2/____,0)"
+        ]
+      },
+      {
+        "id": "t3",
+        "answer": [
+          [
+            13
+          ],
+          [
+            19
+          ],
+          [
+            14
+          ],
+          [
+            9
+          ],
+          [
+            10
+          ]
+        ],
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=ROUNDDOWN(Data!C2/Data!D2,0)",
+        "modelNote": "fill down from Answers!B9 to B13",
+        "alternatives": [],
+        "hints": [
+          "A partial pack cannot be counted as a complete pack.",
+          "Divide stock by pack size and round toward zero.",
+          "=ROUNDDOWN(Data!C2/____,0)"
+        ]
+      },
+      {
+        "id": "t4",
+        "answer": [
+          [
+            2457.21
+          ],
+          [
+            2963.76
+          ],
+          [
+            4148.47
+          ],
+          [
+            2550.15
+          ],
+          [
+            6257.6
+          ]
+        ],
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=ROUND(Data!C2*Data!E2,2)",
+        "modelNote": "fill down from Answers!B15 to B19",
+        "alternatives": [],
+        "hints": [
+          "Multiply stock by the row’s cost before rounding each line.",
+          "Use ROUND around the line-value multiplication and fill down.",
+          "=ROUND(Data!C2*____,2)"
+        ]
+      }
+    ],
+    "bonus": {
+      "id": "bonus",
+      "answer": 18377.19,
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "model": "=ROUND(SUM(Answers!B15:B19),2)",
+      "modelNote": "Enter at Answers!B21.",
+      "alternatives": [],
+      "hints": [
+        "Use the rounded lines from task 4 as the inputs.",
+        "Reuse SUM over the five answer cells, then retain two decimals.",
+        "=ROUND(SUM(Answers!____),2)"
+      ]
+    }
+  },
+  "L1-A5": {
+    "version": 1,
+    "tasks": [
+      {
+        "id": "t1",
+        "answer": 0.2,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=ABS(Data!C2-Parameters!$B$2)",
+        "modelNote": "Enter at Answers!B2.",
+        "alternatives": [],
+        "hints": [
+          "Deviation is measured minus target, with its sign removed.",
+          "Use ABS on the subtraction and fix the target cell.",
+          "=ABS(Data!C2-____)"
+        ]
+      },
+      {
+        "id": "t2",
+        "answer": 0.047187499999999716,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=ABS(AVERAGE(Data!C2:C33)-Parameters!$B$2)",
+        "modelNote": "Enter at Answers!B3.",
+        "alternatives": [],
+        "hints": [
+          "Take the mean first, then its distance from target. This is not the average of individual absolute deviations.",
+          "Nest AVERAGE inside ABS after subtracting the target.",
+          "=ABS(AVERAGE(Data!____)-Parameters!$B$2)"
+        ]
+      },
+      {
+        "id": "t3",
+        "answer": [
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ]
+        ],
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IF(ROUND(ABS(Data!C2-Parameters!$B$2),2)<=Parameters!$B$3,\"Pass\",\"Hold\")",
+        "modelNote": "fill down from Answers!B5 to B12",
+        "alternatives": [],
+        "hints": [
+          "The two exact tolerance boundaries pass. Apply the same fixed target and tolerance to every row.",
+          "Nest ABS in IF; keep measurement relative and both Parameters cells absolute.",
+          "=IF(ROUND(ABS(Data!C2-____),2)<=Parameters!$B$3,\"Pass\",\"Hold\")"
+        ]
+      },
+      {
+        "id": "t4",
+        "answer": "Hold",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IF(MIN(Data!C2:C33)>=Parameters!$B$2-Parameters!$B$3,IF(MAX(Data!C2:C33)<=Parameters!$B$2+Parameters!$B$3,\"Release\",\"Hold\"),\"Hold\")",
+        "modelNote": "Enter at Answers!B14.",
+        "alternatives": [],
+        "hints": [
+          "Both the lower and upper bounds must pass for the whole batch.",
+          "Use nested IF with MIN and MAX; either failed boundary returns Hold.",
+          "=IF(MIN(Data!____)>=Parameters!$B$2-Parameters!$B$3,IF(____,\"Release\",\"Hold\"),\"Hold\")"
+        ]
+      }
+    ],
+    "bonus": {
+      "id": "bonus",
+      "answer": "Centred",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "model": "=IF(ABS(AVERAGE(Data!C2:C33)-Parameters!$B$2)<=0.05,\"Centred\",\"Investigate\")",
+      "modelNote": "Enter at Answers!B16.",
+      "alternatives": [],
+      "hints": [
+        "This checks the batch mean, not whether all individual samples pass.",
+        "Use AVERAGE inside an absolute-deviation IF decision.",
+        "=IF(ABS(AVERAGE(Data!____)-Parameters!$B$2)<=0.05,\"Centred\",\"Investigate\")"
+      ]
+    }
+  },
+  "L2-A1": {
+    "version": 1,
+    "tasks": [
+      {
+        "id": "t1",
+        "answer": "Eligible",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IF(AND(Data!B2<=10,Data!C2>=95),\"Eligible\",\"Review\")",
+        "modelNote": "Enter at Answers!B2.",
+        "alternatives": [],
+        "hints": [
+          "Both lead-time and quality conditions must pass; equality passes.",
+          "Use AND inside the earlier IF function.",
+          "=IF(AND(Data!B2<=____,Data!C2>=95),\"Eligible\",\"Review\")"
+        ]
+      },
+      {
+        "id": "t2",
+        "answer": [
+          [
+            "Clear"
+          ],
+          [
+            "Clear"
+          ],
+          [
+            "Alert"
+          ],
+          [
+            "Clear"
+          ],
+          [
+            "Clear"
+          ],
+          [
+            "Alert"
+          ],
+          [
+            "Alert"
+          ],
+          [
+            "Alert"
+          ]
+        ],
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IF(OR(Data!B2>10,Data!C2<95),\"Alert\",\"Clear\")",
+        "modelNote": "fill down from Answers!B4 to B11",
+        "alternatives": [],
+        "hints": [
+          "Either adverse condition triggers the alert. Equality alone is not adverse.",
+          "Use OR for alternatives inside IF.",
+          "=IF(OR(Data!B2>____,Data!C2<95),\"Alert\",\"Clear\")"
+        ]
+      },
+      {
+        "id": "t3",
+        "answer": [
+          [
+            "Blocked"
+          ],
+          [
+            "Allowed"
+          ],
+          [
+            "Allowed"
+          ],
+          [
+            "Allowed"
+          ],
+          [
+            "Allowed"
+          ],
+          [
+            "Blocked"
+          ],
+          [
+            "Allowed"
+          ],
+          [
+            "Allowed"
+          ]
+        ],
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IF(NOT(Data!E2=\"Yes\"),\"Allowed\",\"Blocked\")",
+        "modelNote": "fill down from Answers!B13 to B20",
+        "alternatives": [],
+        "hints": [
+          "Check the credit-hold column only; do not mix this result with supplier approval.",
+          "Use NOT around the credit-hold equality test, inside IF.",
+          "=IF(NOT(Data!____=\"Yes\"),\"Allowed\",\"Blocked\")"
+        ]
+      },
+      {
+        "id": "t4",
+        "answer": [
+          [
+            "Do not order"
+          ],
+          [
+            "Order"
+          ],
+          [
+            "Do not order"
+          ],
+          [
+            "Order"
+          ],
+          [
+            "Do not order"
+          ],
+          [
+            "Do not order"
+          ],
+          [
+            "Do not order"
+          ],
+          [
+            "Do not order"
+          ]
+        ],
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IF(AND(Data!D2=\"Yes\",NOT(Data!E2=\"Yes\"),Data!B2<=10,Data!C2>=95),\"Order\",\"Do not order\")",
+        "modelNote": "fill down from Answers!B22 to B29",
+        "alternatives": [],
+        "hints": [
+          "Four conditions must hold simultaneously. A good score cannot cancel a credit hold.",
+          "Combine AND with NOT for the blocked condition, then return the IF labels.",
+          "=IF(AND(Data!D2=\"Yes\",____,Data!B2<=10,Data!C2>=95),\"Order\",\"Do not order\")"
+        ]
+      }
+    ],
+    "bonus": {
+      "id": "bonus",
+      "answer": "Routine",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "model": "=IF(AND(Data!D2=\"Yes\",OR(Data!E2=\"Yes\",Data!B2>10,Data!C2<95)),\"Escalate\",\"Routine\")",
+      "modelNote": "Enter at Answers!B31.",
+      "alternatives": [],
+      "hints": [
+        "Approval is required for escalation; then any one adverse condition suffices.",
+        "Nest OR inside AND, then wrap the combined test in IF.",
+        "=IF(AND(Data!D2=\"Yes\",OR(____)),\"Escalate\",\"Routine\")"
+      ]
+    }
+  },
+  "L2-A2": {
+    "version": 1,
+    "tasks": [
+      {
+        "id": "t1",
+        "answer": "Short",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IFS(Data!C2<=10,\"Short\",Data!C2<=30,\"Medium\",TRUE,\"Long\")",
+        "modelNote": "Enter at Answers!B2.",
+        "alternatives": [],
+        "hints": [
+          "Check the inclusive upper bounds and evaluate the shortest band first.",
+          "Use IFS with ordered tests and a final TRUE catch-all.",
+          "=IFS(Data!C2<=____,\"Short\",Data!C2<=30,\"Medium\",TRUE,\"Long\")"
+        ]
+      },
+      {
+        "id": "t2",
+        "answer": [
+          [
+            "No lost units"
+          ],
+          [
+            11.14
+          ],
+          [
+            22.97
+          ],
+          [
+            16.11
+          ],
+          [
+            "No lost units"
+          ],
+          [
+            14.28
+          ]
+        ],
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IFERROR(ROUND(Data!E2/Data!D2,2),\"No lost units\")",
+        "modelNote": "fill down from Answers!B4 to B9",
+        "alternatives": [],
+        "hints": [
+          "Zero lost units needs the exact explanatory label; nonzero rows need a rounded cost-per-unit value.",
+          "Wrap ROUND of the division inside IFERROR.",
+          "=IFERROR(ROUND(Data!E2/____,2),\"No lost units\")"
+        ]
+      },
+      {
+        "id": "t3",
+        "answer": [
+          [
+            "Routine"
+          ],
+          [
+            "Critical"
+          ],
+          [
+            "Priority"
+          ],
+          [
+            "Critical"
+          ],
+          [
+            "Critical"
+          ],
+          [
+            "Routine"
+          ]
+        ],
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IFS(Data!C2>=45,\"Critical\",Data!C2>=20,\"Priority\",TRUE,\"Routine\")",
+        "modelNote": "fill down from Answers!B11 to B16",
+        "alternatives": [],
+        "hints": [
+          "The longest-duration rule must be tested before the wider >=20 rule.",
+          "Use IFS in descending lower-bound order.",
+          "=IFS(Data!C2>=____,\"Critical\",Data!C2>=20,\"Priority\",TRUE,\"Routine\")"
+        ]
+      },
+      {
+        "id": "t4",
+        "answer": [
+          [
+            "No loss"
+          ],
+          [
+            "Accept"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "No loss"
+          ],
+          [
+            "Accept"
+          ],
+          [
+            "Accept"
+          ],
+          [
+            "Review"
+          ]
+        ],
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IFERROR(IF(Data!E2/Data!D2>15,\"Review\",\"Accept\"),\"No loss\")",
+        "modelNote": "fill down from Answers!B18 to B25",
+        "alternatives": [],
+        "hints": [
+          "Compare the unrounded ratio. A zero denominator must not be treated as Accept.",
+          "Wrap the IF decision containing division with IFERROR.",
+          "=IFERROR(IF(Data!E2/____>15,\"Review\",\"Accept\"),\"No loss\")"
+        ]
+      }
+    ],
+    "bonus": {
+      "id": "bonus",
+      "answer": 14.65,
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "model": "=IFERROR(ROUND(SUM(Data!E2:E25)/SUM(Data!D2:D25),2),\"No lost units\")",
+      "modelNote": "Enter at Answers!B27.",
+      "alternatives": [],
+      "hints": [
+        "Pool costs and lost units separately; do not average individual ratios.",
+        "Reuse SUM twice, then ROUND the aggregate ratio with a clear fallback.",
+        "=IFERROR(ROUND(SUM(Data!____)/SUM(Data!____),2),\"No lost units\")"
+      ]
+    }
+  },
+  "L2-A3": {
+    "version": 1,
+    "tasks": [
+      {
+        "id": "t1",
+        "answer": 11798.850000000002,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=SUMIFS(Data!F2:F27,Data!B2:B27,\"Cove\")",
+        "modelNote": "Enter at Answers!B2.",
+        "alternatives": [],
+        "hints": [
+          "Filter the region only; do not restrict channel or category yet.",
+          "Use SUMIFS with revenue first and one criterion pair.",
+          "=SUMIFS(Data!F2:F27,Data!____,\"Cove\")"
+        ]
+      },
+      {
+        "id": "t2",
+        "answer": 5,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=COUNTIFS(Data!B2:B27,\"Cove\",Data!C2:C27,\"Wholesale\")",
+        "modelNote": "Enter at Answers!B3.",
+        "alternatives": [],
+        "hints": [
+          "Each matching line contributes one, regardless of its units or revenue.",
+          "Use COUNTIFS with both required conditions.",
+          "=COUNTIFS(Data!B2:B27,\"Cove\",Data!____,\"Wholesale\")"
+        ]
+      },
+      {
+        "id": "t3",
+        "answer": 1851.6299999999999,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=SUMIFS(Data!F2:F27,Data!B2:B27,\"Cove\",Data!C2:C27,\"Wholesale\",Data!D2:D27,\"Supplies\")",
+        "modelNote": "Enter at Answers!B4.",
+        "alternatives": [],
+        "hints": [
+          "All three conditions must apply to the same row.",
+          "Use three aligned criterion pairs in SUMIFS.",
+          "=SUMIFS(Data!F2:F27,Data!B2:B27,\"Cove\",Data!C2:C27,\"Wholesale\",____,\"Supplies\")"
+        ]
+      },
+      {
+        "id": "t4",
+        "answer": 759.48,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IFERROR(ROUND(SUMIFS(Data!F2:F27,Data!B2:B27,\"Cove\",Data!C2:C27,\"Wholesale\")/COUNTIFS(Data!B2:B27,\"Cove\",Data!C2:C27,\"Wholesale\"),2),\"No sales\")",
+        "modelNote": "Enter at Answers!B5.",
+        "alternatives": [],
+        "hints": [
+          "The total and the count must describe exactly the same group.",
+          "Combine SUMIFS/COUNTIFS, then reuse ROUND and IFERROR.",
+          "=IFERROR(ROUND(SUMIFS(____)/COUNTIFS(____),2),\"No sales\")"
+        ]
+      }
+    ],
+    "bonus": {
+      "id": "bonus",
+      "answer": 11422.840000000002,
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "model": "=SUMIFS(Data!F2:F27,Data!B2:B27,\"Cove\",Data!F2:F27,\">=500\")",
+      "modelNote": "Enter at Answers!B7.",
+      "alternatives": [],
+      "hints": [
+        "The revenue criterion screens each line; do not screen the grand total.",
+        "Apply a quoted >= criterion to the revenue range as another SUMIFS pair.",
+        "=SUMIFS(Data!F2:F27,Data!B2:B27,\"Cove\",Data!F2:F27,____)"
+      ]
+    }
+  },
+  "L2-A4": {
+    "version": 1,
+    "tasks": [
+      {
+        "id": "t1",
+        "answer": 43.714285714285715,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=AVERAGEIFS(Data!E2:E29,Data!B2:B29,\"Mill-2\")",
+        "modelNote": "Enter at Answers!B2.",
+        "alternatives": [],
+        "hints": [
+          "Select Mill-2 records only; do not sum their minutes.",
+          "Use AVERAGEIFS with the duration range first.",
+          "=AVERAGEIFS(Data!E2:E29,Data!____,\"Mill-2\")"
+        ]
+      },
+      {
+        "id": "t2",
+        "answer": 272.98,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IFERROR(ROUND(AVERAGEIFS(Data!F2:F29,Data!B2:B29,\"Mill-2\",Data!C2:C29,\"Night\",Data!D2:D29,\"Seam\"),2),\"No repairs\")",
+        "modelNote": "Enter at Answers!B3.",
+        "alternatives": [],
+        "hints": [
+          "Apply all three conditions to the mean cost.",
+          "Use AVERAGEIFS with three pairs, then ROUND and IFERROR.",
+          "=IFERROR(ROUND(AVERAGEIFS(Data!F2:F29,____),2),\"No repairs\")"
+        ]
+      },
+      {
+        "id": "t3",
+        "answer": 3276.46,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=SUMIF(Data!D2:D29,\"Seam\",Data!F2:F29)",
+        "modelNote": "Enter at Answers!B4.",
+        "alternatives": [],
+        "hints": [
+          "The screened column is defect family; the values to add are costs.",
+          "Use SUMIF with its distinct criterion-first argument order.",
+          "=SUMIF(Data!____,\"Seam\",Data!F2:F29)"
+        ]
+      },
+      {
+        "id": "t4",
+        "answer": "Prioritize",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IF(AND(AVERAGEIFS(Data!E2:E29,Data!B2:B29,\"Mill-2\",Data!C2:C29,\"Night\")>40,SUMIF(Data!D2:D29,\"Seam\",Data!F2:F29)>1500),\"Prioritize\",\"Monitor\")",
+        "modelNote": "Enter at Answers!B5.",
+        "alternatives": [],
+        "hints": [
+          "Use the specified average group and the separate all-Seam cost group. Both thresholds are strict > tests.",
+          "Reuse IF and AND around one AVERAGEIFS test and one SUMIF test.",
+          "=IF(AND(AVERAGEIFS(____)>40,SUMIF(____)>1500),\"Prioritize\",\"Monitor\")"
+        ]
+      }
+    ],
+    "bonus": {
+      "id": "bonus",
+      "answer": 34.51,
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "model": "=ROUND(SUMIF(Data!D2:D29,\"Seam\",Data!F2:F29)/SUM(Data!F2:F29)*100,2)",
+      "modelNote": "Enter at Answers!B7.",
+      "alternatives": [],
+      "hints": [
+        "Divide the Seam cost total by the total of all repairs, then multiply by 100.",
+        "Combine SUMIF with earlier SUM and ROUND.",
+        "=ROUND(SUMIF(____)/SUM(Data!F2:F29)*100,2)"
+      ]
+    }
+  },
+  "L2-A5": {
+    "version": 1,
+    "tasks": [
+      {
+        "id": "t1",
+        "answer": 11,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=MAXIFS(Data!E2:E31,Data!B2:B31,\"Zephra\",Data!D2:D31,\"Delivered\")",
+        "modelNote": "Enter at Answers!B2.",
+        "alternatives": [],
+        "hints": [
+          "Do not include In transit records, even if they have a longer elapsed time.",
+          "Use MAXIFS with carrier and delivered-status criteria.",
+          "=MAXIFS(Data!E2:E31,Data!B2:B31,\"Zephra\",Data!____,\"Delivered\")"
+        ]
+      },
+      {
+        "id": "t2",
+        "answer": 2,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=MINIFS(Data!E2:E31,Data!B2:B31,\"Zephra\",Data!C2:C31,\"North\",Data!D2:D31,\"Delivered\")",
+        "modelNote": "Enter at Answers!B3.",
+        "alternatives": [],
+        "hints": [
+          "All three conditions describe the selected delivery group.",
+          "Use MINIFS with three aligned range/criterion pairs.",
+          "=MINIFS(Data!E2:E31,Data!B2:B31,\"Zephra\",____,\"North\",Data!D2:D31,\"Delivered\")"
+        ]
+      },
+      {
+        "id": "t3",
+        "answer": 9,
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=MAXIFS(Data!E2:E31,Data!B2:B31,\"Zephra\",Data!C2:C31,\"North\",Data!D2:D31,\"Delivered\")-MINIFS(Data!E2:E31,Data!B2:B31,\"Zephra\",Data!C2:C31,\"North\",Data!D2:D31,\"Delivered\")",
+        "modelNote": "Enter at Answers!B4.",
+        "alternatives": [],
+        "hints": [
+          "Subtract extremes from exactly the same group, including region and status.",
+          "Combine MAXIFS and MINIFS with identical criterion pairs.",
+          "=MAXIFS(____)-MINIFS(____)"
+        ]
+      },
+      {
+        "id": "t4",
+        "answer": "No matching shipments",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "model": "=IF(COUNTIFS(Data!B2:B31,\"Vanta\",Data!D2:D31,\"Delivered\")>0,MAXIFS(Data!E2:E31,Data!B2:B31,\"Vanta\",Data!D2:D31,\"Delivered\"),\"No matching shipments\")",
+        "modelNote": "Enter at Answers!B5.",
+        "alternatives": [],
+        "hints": [
+          "No matching deliveries is different from a measured zero-day delivery.",
+          "Guard MAXIFS with an IF test on COUNTIFS.",
+          "=IF(COUNTIFS(____)>0,MAXIFS(____),\"No matching shipments\")"
+        ]
+      }
+    ],
+    "bonus": {
+      "id": "bonus",
+      "answer": "Review",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "model": "=IF(AND(COUNTIFS(Data!B2:B31,\"Zephra\",Data!C2:C31,\"North\",Data!D2:D31,\"Delivered\")>0,MAXIFS(Data!E2:E31,Data!B2:B31,\"Zephra\",Data!C2:C31,\"North\",Data!D2:D31,\"Delivered\")<=5),\"Met\",\"Review\")",
+      "modelNote": "Enter at Answers!B7.",
+      "alternatives": [],
+      "hints": [
+        "Confirm the group exists before applying the five-day rule.",
+        "Combine a count check and conditional maximum inside AND, then IF.",
+        "=IF(AND(COUNTIFS(____)>0,MAXIFS(____)<=5),\"Met\",\"Review\")"
+      ]
+    }
+  }
+}

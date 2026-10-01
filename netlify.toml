@@ -3,7 +3,7 @@
 
 [build]
   command = "npm run build:site"
-  publish = "."
+  publish = "public-site"
   functions = "netlify/functions"
 
 [functions]

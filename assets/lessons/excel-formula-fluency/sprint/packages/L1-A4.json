@@ -1,0 +1,345 @@
+{
+  "id": "L1-A4",
+  "level": 1,
+  "assignment": 4,
+  "title": "Inventory rounding decisions",
+  "formulas": [
+    "ROUND",
+    "ROUNDUP",
+    "ROUNDDOWN"
+  ],
+  "minutes": 40,
+  "scenario": "Ruvella Parts Depot is planning stock for 30 fictitious items. Demand is in units, while replenishment uses complete packs; stock can contain a partial pack. Unit costs include extra decimal places so the invoice policy can round each line to cents.",
+  "lesson": {
+    "intro": "Changing number format only changes display. Rounding changes the calculated value. Enter the first row formula and fill down so relative row references move to the next item.",
+    "functions": [
+      {
+        "name": "ROUND",
+        "purpose": "Round to the nearest stated decimal position.",
+        "syntax": "=ROUND(number, num_digits)",
+        "arguments": "number is the input; num_digits is decimal places, 0 for an integer or negative for tens/hundreds.",
+        "example": "=ROUND(18.276,2)",
+        "result": 18.28,
+        "useCase": "Round monetary line values to cents.",
+        "mistake": "Formatting as currency is not mathematical rounding."
+      },
+      {
+        "name": "ROUNDUP",
+        "purpose": "Round away from zero.",
+        "syntax": "=ROUNDUP(number, num_digits)",
+        "arguments": "number is the value; num_digits sets the retained decimal position.",
+        "example": "=ROUNDUP(53/12,0)",
+        "result": 5,
+        "useCase": "Order enough complete packs for positive demand.",
+        "mistake": "Up means away from zero, including for negative numbers."
+      },
+      {
+        "name": "ROUNDDOWN",
+        "purpose": "Round toward zero.",
+        "syntax": "=ROUNDDOWN(number, num_digits)",
+        "arguments": "number supplies the input; num_digits controls the retained decimal position.",
+        "example": "=ROUNDDOWN(53/12,0)",
+        "result": 4,
+        "useCase": "Count complete packs in positive stock.",
+        "mistake": "Down means toward zero; it is not the mathematical floor for negatives."
+      }
+    ],
+    "combine": "Reuse SUM after rounding each line if the policy rounds lines individually. Rounding the grand total can differ. Data!B2/Data!D2 moves to row 3 when copied; fix references only when the same constant must be used in every row."
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "prompt": "Round the first item’s Unit_cost_CAD to two decimal places.",
+      "output": "Answers!B2",
+      "type": "number",
+      "formulas": [
+        "ROUND"
+      ]
+    },
+    {
+      "id": "t2",
+      "prompt": "For the first five items, calculate the number of complete packs to order to meet Demand_units. Return one integer per row in dataset order.",
+      "output": "Answers!B3:B7",
+      "type": "array",
+      "formulas": [
+        "ROUNDUP"
+      ]
+    },
+    {
+      "id": "t3",
+      "prompt": "For the first five items, calculate complete packs contained in Stock_units. Ignore any incomplete remainder. Return integers in dataset order.",
+      "output": "Answers!B9:B13",
+      "type": "array",
+      "formulas": [
+        "ROUNDDOWN"
+      ]
+    },
+    {
+      "id": "t4",
+      "prompt": "For the first five items, calculate Stock_units times Unit_cost_CAD, rounding each item value to two decimal places. Return values in dataset order.",
+      "output": "Answers!B15:B19",
+      "type": "array",
+      "formulas": [
+        "ROUND"
+      ]
+    }
+  ],
+  "bonus": {
+    "id": "bonus",
+    "prompt": "Total the five individually rounded stock values from task 4. Round that total to two decimal places.",
+    "output": "Answers!B21",
+    "type": "number",
+    "formulas": [
+      "SUM",
+      "ROUND"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "SKU",
+      "Demand_units",
+      "Stock_units",
+      "Pack_size_units",
+      "Unit_cost_CAD"
+    ],
+    "rows": [
+      [
+        "RP-1601",
+        57,
+        82,
+        6,
+        29.966
+      ],
+      [
+        "RP-1602",
+        162,
+        158,
+        8,
+        18.758
+      ],
+      [
+        "RP-1603",
+        123,
+        178,
+        12,
+        23.306
+      ],
+      [
+        "RP-1604",
+        143,
+        157,
+        16,
+        16.243
+      ],
+      [
+        "RP-1605",
+        108,
+        200,
+        20,
+        31.288
+      ],
+      [
+        "RP-1606",
+        133,
+        199,
+        6,
+        24.355
+      ],
+      [
+        "RP-1607",
+        178,
+        169,
+        8,
+        8.125
+      ],
+      [
+        "RP-1608",
+        176,
+        61,
+        12,
+        19.317
+      ],
+      [
+        "RP-1609",
+        160,
+        224,
+        16,
+        17.705
+      ],
+      [
+        "RP-1610",
+        177,
+        84,
+        20,
+        34.416
+      ],
+      [
+        "RP-1611",
+        132,
+        219,
+        6,
+        14.535
+      ],
+      [
+        "RP-1612",
+        141,
+        83,
+        8,
+        22.187
+      ],
+      [
+        "RP-1613",
+        40,
+        94,
+        12,
+        29.433
+      ],
+      [
+        "RP-1614",
+        35,
+        213,
+        16,
+        12.094
+      ],
+      [
+        "RP-1615",
+        99,
+        169,
+        20,
+        12.131
+      ],
+      [
+        "RP-1616",
+        95,
+        236,
+        6,
+        21.518
+      ],
+      [
+        "RP-1617",
+        35,
+        104,
+        8,
+        13.488
+      ],
+      [
+        "RP-1618",
+        75,
+        74,
+        12,
+        31.719
+      ],
+      [
+        "RP-1619",
+        155,
+        83,
+        16,
+        35.97
+      ],
+      [
+        "RP-1620",
+        183,
+        223,
+        20,
+        38.249
+      ],
+      [
+        "RP-1621",
+        130,
+        112,
+        6,
+        31.997
+      ],
+      [
+        "RP-1622",
+        37,
+        190,
+        8,
+        22.311
+      ],
+      [
+        "RP-1623",
+        131,
+        193,
+        12,
+        34.269
+      ],
+      [
+        "RP-1624",
+        86,
+        240,
+        16,
+        22.265
+      ],
+      [
+        "RP-1625",
+        93,
+        154,
+        20,
+        7.108
+      ],
+      [
+        "RP-1626",
+        77,
+        164,
+        6,
+        22.039
+      ],
+      [
+        "RP-1627",
+        35,
+        150,
+        8,
+        17.415
+      ],
+      [
+        "RP-1628",
+        70,
+        54,
+        12,
+        30.837
+      ],
+      [
+        "RP-1629",
+        40,
+        49,
+        16,
+        29.288
+      ],
+      [
+        "RP-1630",
+        90,
+        226,
+        20,
+        10.922
+      ]
+    ],
+    "rowCount": 30,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "SKU",
+        "description": "Invented unique stocked item code."
+      },
+      {
+        "name": "Demand_units",
+        "description": "Forecast units needed; positive integer."
+      },
+      {
+        "name": "Stock_units",
+        "description": "Physical stock on hand, including partial packs."
+      },
+      {
+        "name": "Pack_size_units",
+        "description": "Positive units supplied per complete pack."
+      },
+      {
+        "name": "Unit_cost_CAD",
+        "description": "Cost per unit in Canadian dollars, three decimal places."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L1-A4.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L1-A4.csv"
+  }
+}

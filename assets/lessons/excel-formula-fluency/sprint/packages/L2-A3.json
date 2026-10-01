@@ -1,0 +1,339 @@
+{
+  "id": "L2-A3",
+  "level": 2,
+  "assignment": 3,
+  "title": "Sales with multiple conditions",
+  "formulas": [
+    "SUMIFS",
+    "COUNTIFS"
+  ],
+  "minutes": 45,
+  "scenario": "Averiq Stationery is reviewing 26 fictitious September sales lines. The commercial team needs results for a region, channel and product category together. Revenue already represents the whole sales line, so it must not be multiplied by units again.",
+  "lesson": {
+    "intro": "Conditional aggregation screens rows first and then summarizes only matching rows. Multiple criterion pairs operate as AND. Keep every result and criterion range aligned to the same data rows.",
+    "functions": [
+      {
+        "name": "SUMIFS",
+        "purpose": "Add numeric values whose rows meet every criterion.",
+        "syntax": "=SUMIFS(sum_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+        "arguments": "sum_range holds values; each criteria_range and criteria pair screens the corresponding rows.",
+        "example": "=SUMIFS(D2:D4,B2:B4,\"Cove\")",
+        "result": "320 when D2:D4 contains 120,80,200 and B2:B4 contains Cove,Vale,Cove",
+        "useCase": "Sum revenue for a region and channel.",
+        "mistake": "The sum range comes first, and all ranges need matching size and row alignment."
+      },
+      {
+        "name": "COUNTIFS",
+        "purpose": "Count rows that satisfy every criterion.",
+        "syntax": "=COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+        "arguments": "Each range/criterion pair adds a required condition; subsequent pairs are optional.",
+        "example": "=COUNTIFS(B2:B4,\"Cove\")",
+        "result": "2 when B2:B4 contains Cove,Vale,Cove",
+        "useCase": "Count matching orders or inspected samples.",
+        "mistake": "COUNTIFS counts rows, not units. Quote criteria such as \">=500\"."
+      }
+    ],
+    "combine": "Reuse ROUND and IFERROR when dividing conditional revenue by conditional row count. A criterion written as \">=\"&cell connects an operator to a cell value. Apply identical conditions to numerator and denominator; omitting one condition can produce a plausible but wrong average."
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "prompt": "Total Revenue_CAD for Region Cove, including both channels and both categories.",
+      "output": "Answers!B2",
+      "type": "number",
+      "formulas": [
+        "SUMIFS"
+      ]
+    },
+    {
+      "id": "t2",
+      "prompt": "Count sales lines that are both Region Cove and Channel Wholesale. Count rows rather than sold units.",
+      "output": "Answers!B3",
+      "type": "number",
+      "formulas": [
+        "COUNTIFS"
+      ]
+    },
+    {
+      "id": "t3",
+      "prompt": "Total Revenue_CAD for Region Cove, Channel Wholesale and Category Supplies together.",
+      "output": "Answers!B4",
+      "type": "number",
+      "formulas": [
+        "SUMIFS"
+      ]
+    },
+    {
+      "id": "t4",
+      "prompt": "Calculate revenue per sales line for Region Cove and Channel Wholesale, rounded to two decimals. Divide that group’s total revenue by its matching line count. Use No sales if no matching rows exist.",
+      "output": "Answers!B5",
+      "type": "number",
+      "formulas": [
+        "SUMIFS",
+        "COUNTIFS",
+        "ROUND",
+        "IFERROR"
+      ]
+    }
+  ],
+  "bonus": {
+    "id": "bonus",
+    "prompt": "Total Revenue_CAD for Region Cove lines with Revenue_CAD at least 500, including the 500 boundary.",
+    "output": "Answers!B7",
+    "type": "number",
+    "formulas": [
+      "SUMIFS"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Sales_line",
+      "Region",
+      "Channel",
+      "Category",
+      "Units",
+      "Revenue_CAD"
+    ],
+    "rows": [
+      [
+        "AS-3101",
+        "Cove",
+        "Wholesale",
+        "Supplies",
+        31,
+        567.87
+      ],
+      [
+        "AS-3102",
+        "Vale",
+        "Retail",
+        "Supplies",
+        27,
+        318.61
+      ],
+      [
+        "AS-3103",
+        "Cove",
+        "Retail",
+        "Fixtures",
+        32,
+        376.01
+      ],
+      [
+        "AS-3104",
+        "Vale",
+        "Wholesale",
+        "Fixtures",
+        14,
+        763.1
+      ],
+      [
+        "AS-3105",
+        "Cove",
+        "Retail",
+        "Supplies",
+        31,
+        1269.75
+      ],
+      [
+        "AS-3106",
+        "Vale",
+        "Retail",
+        "Supplies",
+        10,
+        502.26
+      ],
+      [
+        "AS-3107",
+        "Cove",
+        "Wholesale",
+        "Fixtures",
+        5,
+        766.09
+      ],
+      [
+        "AS-3108",
+        "Vale",
+        "Retail",
+        "Fixtures",
+        28,
+        569.06
+      ],
+      [
+        "AS-3109",
+        "Cove",
+        "Retail",
+        "Supplies",
+        21,
+        1064.13
+      ],
+      [
+        "AS-3110",
+        "Vale",
+        "Wholesale",
+        "Supplies",
+        8,
+        847.92
+      ],
+      [
+        "AS-3111",
+        "Cove",
+        "Retail",
+        "Fixtures",
+        23,
+        1252.39
+      ],
+      [
+        "AS-3112",
+        "Vale",
+        "Retail",
+        "Fixtures",
+        3,
+        915.53
+      ],
+      [
+        "AS-3113",
+        "Cove",
+        "Wholesale",
+        "Supplies",
+        23,
+        552.23
+      ],
+      [
+        "AS-3114",
+        "Vale",
+        "Retail",
+        "Supplies",
+        11,
+        471.63
+      ],
+      [
+        "AS-3115",
+        "Cove",
+        "Retail",
+        "Fixtures",
+        9,
+        1161.39
+      ],
+      [
+        "AS-3116",
+        "Vale",
+        "Wholesale",
+        "Fixtures",
+        17,
+        1086.31
+      ],
+      [
+        "AS-3117",
+        "Cove",
+        "Retail",
+        "Supplies",
+        11,
+        886.64
+      ],
+      [
+        "AS-3118",
+        "Vale",
+        "Retail",
+        "Supplies",
+        27,
+        915.28
+      ],
+      [
+        "AS-3119",
+        "Cove",
+        "Wholesale",
+        "Fixtures",
+        6,
+        1179.67
+      ],
+      [
+        "AS-3120",
+        "Vale",
+        "Retail",
+        "Fixtures",
+        28,
+        359.9
+      ],
+      [
+        "AS-3121",
+        "Cove",
+        "Retail",
+        "Supplies",
+        22,
+        615.26
+      ],
+      [
+        "AS-3122",
+        "Vale",
+        "Wholesale",
+        "Supplies",
+        30,
+        573.32
+      ],
+      [
+        "AS-3123",
+        "Cove",
+        "Retail",
+        "Fixtures",
+        5,
+        1375.89
+      ],
+      [
+        "AS-3124",
+        "Vale",
+        "Retail",
+        "Fixtures",
+        7,
+        439.38
+      ],
+      [
+        "AS-3125",
+        "Cove",
+        "Wholesale",
+        "Supplies",
+        20,
+        731.53
+      ],
+      [
+        "AS-3126",
+        "Vale",
+        "Retail",
+        "Supplies",
+        6,
+        575.85
+      ]
+    ],
+    "rowCount": 26,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Sales_line",
+        "description": "Invented unique sales-line identifier."
+      },
+      {
+        "name": "Region",
+        "description": "Invented sales territory: Cove or Vale."
+      },
+      {
+        "name": "Channel",
+        "description": "Wholesale or Retail sales channel."
+      },
+      {
+        "name": "Category",
+        "description": "Supplies or Fixtures product category."
+      },
+      {
+        "name": "Units",
+        "description": "Sold units on this line."
+      },
+      {
+        "name": "Revenue_CAD",
+        "description": "Total sales-line revenue, Canadian dollars."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L2-A3.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L2-A3.csv"
+  }
+}

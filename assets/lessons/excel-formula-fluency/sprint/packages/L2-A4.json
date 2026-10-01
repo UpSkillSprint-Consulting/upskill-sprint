@@ -1,0 +1,359 @@
+{
+  "id": "L2-A4",
+  "level": 2,
+  "assignment": 4,
+  "title": "Repair averages and targeted costs",
+  "formulas": [
+    "AVERAGEIFS",
+    "SUMIF"
+  ],
+  "minutes": 50,
+  "scenario": "Tervalon Pipe Services is examining 28 fictitious repair records. The team wants typical repair time for selected cells and shifts, plus cost attributed to one defect family. A training-only prioritization rule combines a group average with total Seam-repair cost.",
+  "lesson": {
+    "intro": "A conditional mean uses only matching observations. Its denominator is the number of matching numeric values, rather than every row in the table. Clean data still requires careful choice of group.",
+    "functions": [
+      {
+        "name": "AVERAGEIFS",
+        "purpose": "Average numeric values whose rows meet every criterion.",
+        "syntax": "=AVERAGEIFS(average_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+        "arguments": "average_range holds measurements; aligned criteria range/value pairs define the eligible rows.",
+        "example": "=AVERAGEIFS(D2:D4,B2:B4,\"Day\")",
+        "result": "26 when D2:D4 contains 18,26,34 and B2:B4 contains Day,Night,Day",
+        "useCase": "Mean repair duration for a cell and shift.",
+        "mistake": "No matching numeric observations produces #DIV/0!, not a meaningful zero."
+      },
+      {
+        "name": "SUMIF",
+        "purpose": "Sum values for one condition.",
+        "syntax": "=SUMIF(range, criteria, [sum_range])",
+        "arguments": "range is screened; criteria is the condition; optional sum_range supplies values instead of range itself.",
+        "example": "=SUMIF(B2:B4,\"Seam\",D2:D4)",
+        "result": "200 when B2:B4 contains Seam,Edge,Seam and D2:D4 contains 90,60,110",
+        "useCase": "Attribute costs to one defect family.",
+        "mistake": "SUMIF puts the criterion range first; SUMIFS puts the sum range first."
+      }
+    ],
+    "combine": "Reuse IFERROR to label missing groups, ROUND to present a mean, and IF with AND for a two-part decision. Multiple conditions belong in AVERAGEIFS; a single cost-category condition can use SUMIF. Do not confuse an average duration with a summed duration."
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "prompt": "Calculate unrounded mean Repair_min for Cell Mill-2, across all shifts and defect families.",
+      "output": "Answers!B2",
+      "type": "number",
+      "formulas": [
+        "AVERAGEIFS"
+      ]
+    },
+    {
+      "id": "t2",
+      "prompt": "Calculate mean Repair_cost_CAD for Cell Mill-2, Shift Night and Defect_family Seam, rounded to two decimals. Use No repairs if the group has no numeric observations.",
+      "output": "Answers!B3",
+      "type": "number",
+      "formulas": [
+        "AVERAGEIFS",
+        "ROUND",
+        "IFERROR"
+      ]
+    },
+    {
+      "id": "t3",
+      "prompt": "Total Repair_cost_CAD for Defect_family Seam, across both cells and shifts.",
+      "output": "Answers!B4",
+      "type": "number",
+      "formulas": [
+        "SUMIF"
+      ]
+    },
+    {
+      "id": "t4",
+      "prompt": "Return Prioritize if mean Repair_min for Mill-2 Night records exceeds 40 AND total Repair_cost_CAD for all Seam records exceeds 1500. Otherwise return Monitor. These are separate groups, as stated.",
+      "output": "Answers!B5",
+      "type": "text",
+      "formulas": [
+        "IF",
+        "AND",
+        "AVERAGEIFS",
+        "SUMIF"
+      ]
+    }
+  ],
+  "bonus": {
+    "id": "bonus",
+    "prompt": "Calculate the percentage of total repair cost attributed to Seam records, rounded to two decimals. Submit a percentage number, not a fraction.",
+    "output": "Answers!B7",
+    "type": "number",
+    "formulas": [
+      "SUMIF",
+      "SUM",
+      "ROUND"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Repair_code",
+      "Cell",
+      "Shift",
+      "Defect_family",
+      "Repair_min",
+      "Repair_cost_CAD"
+    ],
+    "rows": [
+      [
+        "TP-R5201",
+        "Mill-2",
+        "Night",
+        "Seam",
+        40,
+        159.56
+      ],
+      [
+        "TP-R5202",
+        "Mill-1",
+        "Night",
+        "Edge",
+        59,
+        430.13
+      ],
+      [
+        "TP-R5203",
+        "Mill-2",
+        "Day",
+        "Surface",
+        39,
+        269.21
+      ],
+      [
+        "TP-R5204",
+        "Mill-1",
+        "Day",
+        "Seam",
+        74,
+        538.25
+      ],
+      [
+        "TP-R5205",
+        "Mill-2",
+        "Night",
+        "Edge",
+        30,
+        211.54
+      ],
+      [
+        "TP-R5206",
+        "Mill-1",
+        "Night",
+        "Surface",
+        62,
+        228.31
+      ],
+      [
+        "TP-R5207",
+        "Mill-2",
+        "Day",
+        "Seam",
+        34,
+        524.79
+      ],
+      [
+        "TP-R5208",
+        "Mill-1",
+        "Day",
+        "Edge",
+        65,
+        569.22
+      ],
+      [
+        "TP-R5209",
+        "Mill-2",
+        "Night",
+        "Surface",
+        61,
+        481.77
+      ],
+      [
+        "TP-R5210",
+        "Mill-1",
+        "Night",
+        "Seam",
+        57,
+        279.75
+      ],
+      [
+        "TP-R5211",
+        "Mill-2",
+        "Day",
+        "Edge",
+        47,
+        350.98
+      ],
+      [
+        "TP-R5212",
+        "Mill-1",
+        "Day",
+        "Surface",
+        57,
+        192.18
+      ],
+      [
+        "TP-R5213",
+        "Mill-2",
+        "Night",
+        "Seam",
+        70,
+        176.4
+      ],
+      [
+        "TP-R5214",
+        "Mill-1",
+        "Night",
+        "Edge",
+        53,
+        124.75
+      ],
+      [
+        "TP-R5215",
+        "Mill-2",
+        "Day",
+        "Surface",
+        73,
+        445.1
+      ],
+      [
+        "TP-R5216",
+        "Mill-1",
+        "Day",
+        "Seam",
+        57,
+        249.54
+      ],
+      [
+        "TP-R5217",
+        "Mill-2",
+        "Night",
+        "Edge",
+        45,
+        274.78
+      ],
+      [
+        "TP-R5218",
+        "Mill-1",
+        "Night",
+        "Surface",
+        50,
+        430.96
+      ],
+      [
+        "TP-R5219",
+        "Mill-2",
+        "Day",
+        "Seam",
+        27,
+        216.14
+      ],
+      [
+        "TP-R5220",
+        "Mill-1",
+        "Day",
+        "Edge",
+        51,
+        500.7
+      ],
+      [
+        "TP-R5221",
+        "Mill-2",
+        "Night",
+        "Surface",
+        21,
+        125.6
+      ],
+      [
+        "TP-R5222",
+        "Mill-1",
+        "Night",
+        "Seam",
+        50,
+        121.02
+      ],
+      [
+        "TP-R5223",
+        "Mill-2",
+        "Day",
+        "Edge",
+        44,
+        435.64
+      ],
+      [
+        "TP-R5224",
+        "Mill-1",
+        "Day",
+        "Surface",
+        54,
+        462.67
+      ],
+      [
+        "TP-R5225",
+        "Mill-2",
+        "Night",
+        "Seam",
+        31,
+        482.97
+      ],
+      [
+        "TP-R5226",
+        "Mill-1",
+        "Night",
+        "Edge",
+        69,
+        186.67
+      ],
+      [
+        "TP-R5227",
+        "Mill-2",
+        "Day",
+        "Surface",
+        50,
+        496.26
+      ],
+      [
+        "TP-R5228",
+        "Mill-1",
+        "Day",
+        "Seam",
+        36,
+        528.04
+      ]
+    ],
+    "rowCount": 28,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Repair_code",
+        "description": "Invented unique repair ID."
+      },
+      {
+        "name": "Cell",
+        "description": "Mill-1 or Mill-2 repair cell."
+      },
+      {
+        "name": "Shift",
+        "description": "Day or Night shift."
+      },
+      {
+        "name": "Defect_family",
+        "description": "Training defect category: Seam, Edge or Surface."
+      },
+      {
+        "name": "Repair_min",
+        "description": "Repair time, minutes."
+      },
+      {
+        "name": "Repair_cost_CAD",
+        "description": "Repair cost, Canadian dollars."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L2-A4.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L2-A4.csv"
+  }
+}

@@ -1,0 +1,323 @@
+{
+  "id": "L1-A3",
+  "level": 1,
+  "assignment": 3,
+  "title": "Mechanical test extremes",
+  "formulas": [
+    "MIN",
+    "MAX"
+  ],
+  "minutes": 35,
+  "scenario": "Orvanta Tube Lab is reviewing 28 fictitious tensile specimens from the Talren rolling line. Yield strength and tensile strength are measured in MPa; elongation is a percentage. The report needs observed extremes and spread, without declaring compliance with any real specification.",
+  "lesson": {
+    "intro": "An observed extreme is a descriptive result. It is not automatically a specification limit or a control limit. Select the relevant measured column and keep its units.",
+    "functions": [
+      {
+        "name": "MIN",
+        "purpose": "Return the smallest numeric value.",
+        "syntax": "=MIN(number1, [number2], ...)",
+        "arguments": "number1 is a value or range; optional arguments include additional values or ranges.",
+        "example": "=MIN(432,457,441)",
+        "result": 432,
+        "useCase": "Find the lowest measured strength or price.",
+        "mistake": "Text and blanks in references are ignored; a real zero participates."
+      },
+      {
+        "name": "MAX",
+        "purpose": "Return the largest numeric value.",
+        "syntax": "=MAX(number1, [number2], ...)",
+        "arguments": "number1 supplies the first numeric input or range; later inputs are optional.",
+        "example": "=MAX(532,548,539)",
+        "result": 548,
+        "useCase": "Find the highest observed test value.",
+        "mistake": "Maximum does not identify which specimen produced it; that needs a later lookup technique."
+      }
+    ],
+    "combine": "Observed range is MAX minus MIN of the same measured column. Reuse AVERAGE to express that range relative to the mean. A cross-column strength ratio is dimensionless because both inputs use MPa; it is a descriptive comparison only."
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "prompt": "Find the lowest Yield_MPa across all specimens.",
+      "output": "Answers!B2",
+      "type": "number",
+      "formulas": [
+        "MIN"
+      ]
+    },
+    {
+      "id": "t2",
+      "prompt": "Find the highest Tensile_MPa across all specimens.",
+      "output": "Answers!B3",
+      "type": "number",
+      "formulas": [
+        "MAX"
+      ]
+    },
+    {
+      "id": "t3",
+      "prompt": "Calculate the observed elongation range: largest minus smallest Elongation_pct, in percentage points.",
+      "output": "Answers!B4",
+      "type": "number",
+      "formulas": [
+        "MAX",
+        "MIN"
+      ]
+    },
+    {
+      "id": "t4",
+      "prompt": "Calculate maximum tensile strength divided by minimum yield strength. Submit the unrounded dimensionless ratio.",
+      "output": "Answers!B5",
+      "type": "number",
+      "formulas": [
+        "MAX",
+        "MIN"
+      ]
+    }
+  ],
+  "bonus": {
+    "id": "bonus",
+    "prompt": "Calculate 100 times the yield-strength range divided by mean yield strength. Submit the unrounded percentage number.",
+    "output": "Answers!B7",
+    "type": "number",
+    "formulas": [
+      "MAX",
+      "MIN",
+      "AVERAGE"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Sample_code",
+      "Heat_no",
+      "Yield_MPa",
+      "Tensile_MPa",
+      "Elongation_pct"
+    ],
+    "rows": [
+      [
+        "OT-S2101",
+        "OT-H8201",
+        438,
+        564,
+        22.4
+      ],
+      [
+        "OT-S2102",
+        "OT-H8201",
+        439,
+        561,
+        17.3
+      ],
+      [
+        "OT-S2103",
+        "OT-H8201",
+        445,
+        570,
+        20.2
+      ],
+      [
+        "OT-S2104",
+        "OT-H8201",
+        390,
+        502,
+        27.9
+      ],
+      [
+        "OT-S2105",
+        "OT-H8202",
+        433,
+        515,
+        23.6
+      ],
+      [
+        "OT-S2106",
+        "OT-H8202",
+        478,
+        584,
+        17.4
+      ],
+      [
+        "OT-S2107",
+        "OT-H8202",
+        476,
+        556,
+        23.9
+      ],
+      [
+        "OT-S2108",
+        "OT-H8202",
+        413,
+        542,
+        21
+      ],
+      [
+        "OT-S2109",
+        "OT-H8203",
+        469,
+        577,
+        17.4
+      ],
+      [
+        "OT-S2110",
+        "OT-H8203",
+        391,
+        495,
+        26.8
+      ],
+      [
+        "OT-S2111",
+        "OT-H8203",
+        408,
+        488,
+        26.6
+      ],
+      [
+        "OT-S2112",
+        "OT-H8203",
+        410,
+        505,
+        24.6
+      ],
+      [
+        "OT-S2113",
+        "OT-H8204",
+        463,
+        571,
+        26.1
+      ],
+      [
+        "OT-S2114",
+        "OT-H8204",
+        403,
+        518,
+        18.4
+      ],
+      [
+        "OT-S2115",
+        "OT-H8204",
+        385,
+        490,
+        23.2
+      ],
+      [
+        "OT-S2116",
+        "OT-H8204",
+        446,
+        529,
+        25.1
+      ],
+      [
+        "OT-S2117",
+        "OT-H8205",
+        439,
+        551,
+        27.8
+      ],
+      [
+        "OT-S2118",
+        "OT-H8205",
+        471,
+        589,
+        23.6
+      ],
+      [
+        "OT-S2119",
+        "OT-H8205",
+        417,
+        495,
+        25.9
+      ],
+      [
+        "OT-S2120",
+        "OT-H8205",
+        428,
+        506,
+        19.7
+      ],
+      [
+        "OT-S2121",
+        "OT-H8206",
+        449,
+        571,
+        28.1
+      ],
+      [
+        "OT-S2122",
+        "OT-H8206",
+        395,
+        485,
+        23.4
+      ],
+      [
+        "OT-S2123",
+        "OT-H8206",
+        465,
+        579,
+        28.5
+      ],
+      [
+        "OT-S2124",
+        "OT-H8206",
+        413,
+        533,
+        20.8
+      ],
+      [
+        "OT-S2125",
+        "OT-H8207",
+        466,
+        595,
+        26.5
+      ],
+      [
+        "OT-S2126",
+        "OT-H8207",
+        476,
+        568,
+        26.6
+      ],
+      [
+        "OT-S2127",
+        "OT-H8207",
+        440,
+        541,
+        21.4
+      ],
+      [
+        "OT-S2128",
+        "OT-H8207",
+        407,
+        495,
+        18.8
+      ]
+    ],
+    "rowCount": 28,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Sample_code",
+        "description": "Invented unique tensile sample ID."
+      },
+      {
+        "name": "Heat_no",
+        "description": "Invented source heat identifier."
+      },
+      {
+        "name": "Yield_MPa",
+        "description": "Measured yield strength, MPa."
+      },
+      {
+        "name": "Tensile_MPa",
+        "description": "Measured ultimate tensile strength, MPa."
+      },
+      {
+        "name": "Elongation_pct",
+        "description": "Measured total elongation, percentage points."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L1-A3.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L1-A3.csv"
+  }
+}

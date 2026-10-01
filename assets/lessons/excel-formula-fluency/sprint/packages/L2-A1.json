@@ -1,0 +1,296 @@
+{
+  "id": "L2-A1",
+  "level": 2,
+  "assignment": 1,
+  "title": "Supplier eligibility logic",
+  "formulas": [
+    "AND",
+    "OR",
+    "NOT"
+  ],
+  "minutes": 35,
+  "scenario": "Novrila Procurement is screening 22 fictitious suppliers. An order can proceed only with approval, no credit hold, lead time at most 10 days and quality score at least 95%. Separate alerts explain why a supplier needs review.",
+  "lesson": {
+    "intro": "Logic functions return TRUE/FALSE. Reuse IF to translate that logical result into an operational label. AND requires every condition; OR needs any condition; NOT reverses one logical result.",
+    "functions": [
+      {
+        "name": "AND",
+        "purpose": "Test that every condition is true.",
+        "syntax": "=AND(logical1, [logical2], ...)",
+        "arguments": "logical1 is the first test; optional logical arguments add tests.",
+        "example": "=AND(8<=10,96>=95)",
+        "result": "TRUE",
+        "useCase": "Require multiple release or eligibility conditions.",
+        "mistake": "One false condition makes the whole test false."
+      },
+      {
+        "name": "OR",
+        "purpose": "Test that at least one condition is true.",
+        "syntax": "=OR(logical1, [logical2], ...)",
+        "arguments": "logical1 is the first test; optional arguments add alternatives.",
+        "example": "=OR(12>10,97<95)",
+        "result": "TRUE",
+        "useCase": "Flag any late or low-quality supplier.",
+        "mistake": "OR does not require both conditions to be true."
+      },
+      {
+        "name": "NOT",
+        "purpose": "Reverse a logical value.",
+        "syntax": "=NOT(logical)",
+        "arguments": "logical is one expression that evaluates TRUE/FALSE.",
+        "example": "=NOT(\"No\"=\"Yes\")",
+        "result": "TRUE",
+        "useCase": "Allow an action when a blocking condition is absent.",
+        "mistake": "NOT reverses the whole enclosed test; place parentheses deliberately."
+      }
+    ],
+    "combine": "Use IF(AND(...), outcome1, outcome2) as a pattern on other data, then construct your own task formulas. Quote labels. A >=95 score includes 95, and <=10 includes 10. Copying a row-based formula should change the supplier row without changing its business rules."
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "prompt": "For the first supplier, return Eligible when Lead_days is at most 10 and Quality_score_pct is at least 95; otherwise Review. Ignore approval and credit status for this task.",
+      "output": "Answers!B2",
+      "type": "text",
+      "formulas": [
+        "IF",
+        "AND"
+      ]
+    },
+    {
+      "id": "t2",
+      "prompt": "For the first eight suppliers, return Alert if Lead_days exceeds 10 OR Quality_score_pct is below 95. Otherwise return Clear. Keep dataset order.",
+      "output": "Answers!B4:B11",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "OR"
+      ]
+    },
+    {
+      "id": "t3",
+      "prompt": "For the first eight suppliers, return Allowed when Credit_hold is not Yes, otherwise Blocked. Keep dataset order and use a logical reversal.",
+      "output": "Answers!B13:B20",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "NOT"
+      ]
+    },
+    {
+      "id": "t4",
+      "prompt": "For the first eight suppliers, return Order only when Approved is Yes, Credit_hold is not Yes, Lead_days is at most 10 and Quality_score_pct is at least 95. Otherwise return Do not order. Keep dataset order.",
+      "output": "Answers!B22:B29",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "AND",
+        "NOT"
+      ]
+    }
+  ],
+  "bonus": {
+    "id": "bonus",
+    "prompt": "For the first supplier, return Escalate if it is approved but either has a credit hold or fails the lead-time/quality screen. Otherwise return Routine.",
+    "output": "Answers!B31",
+    "type": "text",
+    "formulas": [
+      "IF",
+      "AND",
+      "OR",
+      "NOT"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Supplier_code",
+      "Lead_days",
+      "Quality_score_pct",
+      "Approved",
+      "Credit_hold"
+    ],
+    "rows": [
+      [
+        "NP-6601",
+        10,
+        95,
+        "No",
+        "Yes"
+      ],
+      [
+        "NP-6602",
+        8,
+        97,
+        "Yes",
+        "No"
+      ],
+      [
+        "NP-6603",
+        12,
+        90,
+        "Yes",
+        "No"
+      ],
+      [
+        "NP-6604",
+        9,
+        99,
+        "Yes",
+        "No"
+      ],
+      [
+        "NP-6605",
+        6,
+        96,
+        "No",
+        "No"
+      ],
+      [
+        "NP-6606",
+        8,
+        92,
+        "Yes",
+        "Yes"
+      ],
+      [
+        "NP-6607",
+        4,
+        92,
+        "Yes",
+        "No"
+      ],
+      [
+        "NP-6608",
+        15,
+        91,
+        "Yes",
+        "No"
+      ],
+      [
+        "NP-6609",
+        11,
+        100,
+        "No",
+        "No"
+      ],
+      [
+        "NP-6610",
+        15,
+        98,
+        "Yes",
+        "No"
+      ],
+      [
+        "NP-6611",
+        11,
+        93,
+        "Yes",
+        "Yes"
+      ],
+      [
+        "NP-6612",
+        9,
+        90,
+        "Yes",
+        "No"
+      ],
+      [
+        "NP-6613",
+        14,
+        93,
+        "No",
+        "No"
+      ],
+      [
+        "NP-6614",
+        7,
+        90,
+        "Yes",
+        "No"
+      ],
+      [
+        "NP-6615",
+        5,
+        99,
+        "Yes",
+        "No"
+      ],
+      [
+        "NP-6616",
+        9,
+        96,
+        "Yes",
+        "Yes"
+      ],
+      [
+        "NP-6617",
+        14,
+        91,
+        "No",
+        "No"
+      ],
+      [
+        "NP-6618",
+        12,
+        96,
+        "Yes",
+        "No"
+      ],
+      [
+        "NP-6619",
+        6,
+        91,
+        "Yes",
+        "No"
+      ],
+      [
+        "NP-6620",
+        14,
+        94,
+        "Yes",
+        "No"
+      ],
+      [
+        "NP-6621",
+        16,
+        100,
+        "No",
+        "Yes"
+      ],
+      [
+        "NP-6622",
+        11,
+        95,
+        "Yes",
+        "No"
+      ]
+    ],
+    "rowCount": 22,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Supplier_code",
+        "description": "Invented unique supplier identifier."
+      },
+      {
+        "name": "Lead_days",
+        "description": "Promised lead time, calendar days."
+      },
+      {
+        "name": "Quality_score_pct",
+        "description": "Supplier quality score, percent."
+      },
+      {
+        "name": "Approved",
+        "description": "Yes or No approval status."
+      },
+      {
+        "name": "Credit_hold",
+        "description": "Yes indicates procurement is blocked."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L2-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L2-A1.csv"
+  }
+}
