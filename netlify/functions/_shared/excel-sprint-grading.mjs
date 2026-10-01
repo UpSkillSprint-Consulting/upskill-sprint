@@ -3,7 +3,7 @@ import answers from './excel-sprint-answers.json' with { type: 'json' };
 
 // This module and the answer JSON are function inputs, never public site assets.
 export const CURRICULUM_VERSION = 1;
-export const PACKAGE_IDS = Object.freeze(Array.from({ length: 10 }, (_, i) => `L${Math.floor(i / 5) + 1}-A${i % 5 + 1}`));
+export const PACKAGE_IDS = Object.freeze(Array.from({ length: 30 }, (_, i) => `L${Math.floor(i / 5) + 1}-A${i % 5 + 1}`));
 const MAX_BODY_BYTES = 64 * 1024;
 const MAX_TOKEN_LENGTH = 12000;
 const HEADERS = {
@@ -127,7 +127,7 @@ function validateCompletion(proof) {
       proof.firstAttemptScore !== Math.round(key.tasks.filter(task => proof.firstAttemptCorrect[task.id]).length / key.tasks.length * 100)) fail(403, 'The progress proof is invalid.');
 }
 
-function predecessorFor(packageId, predecessorToken, secret) {
+export function predecessorFor(packageId, predecessorToken, secret) {
   const index = PACKAGE_IDS.indexOf(packageId);
   if (index === 0) {
     if (predecessorToken !== undefined && predecessorToken !== null && predecessorToken !== '') fail(403, 'This assignment starts a new learning path.');
@@ -163,7 +163,7 @@ export function validFormula(formula) {
   return !quote && stack.length === 0;
 }
 
-function validateResult(value, depth = 0, count = { cells: 0 }) {
+export function validateResult(value, depth = 0, count = { cells: 0 }) {
   if (depth > 2) return false;
   if (Array.isArray(value)) return value.length > 0 && value.length <= 1000 && value.every(cell => validateResult(cell, depth + 1, count));
   count.cells++;
@@ -286,6 +286,6 @@ export function verifyProgress(payload, secret) {
 export function packageSolutions(payload, secret) {
   const key = packageKey(payload.packageId); const proof = readToken(payload.completionToken, secret, 'completion');
   if (proof.packageId !== payload.packageId) fail(403, 'Complete this assignment before reviewing its solutions.');
-  const model = task => ({ taskId: task.id, model: task.model, alternatives: task.alternatives || [] });
+  const model = task => ({ taskId: task.id, model: task.model, alternatives: task.alternatives || [], ...(task.note ? {note:task.note} : {}) });
   return { packageId: payload.packageId, curriculumVersion: CURRICULUM_VERSION, tasks: key.tasks.map(model), ...(key.bonus ? { bonus: model(key.bonus) } : {}) };
 }

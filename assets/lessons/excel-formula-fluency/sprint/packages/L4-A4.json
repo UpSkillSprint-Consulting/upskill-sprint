@@ -1,0 +1,338 @@
+{
+  "id": "L4-A4",
+  "level": 4,
+  "assignment": 4,
+  "title": "Split and rebuild a manifest",
+  "formulas": [
+    "TEXTSPLIT",
+    "TEXTJOIN"
+  ],
+  "minutes": 60,
+  "scenario": "Irvella Dispatch has 56 invented manifests in the three-field pattern ORDER|ZONE|PRIORITY. Some Zone fields are intentionally empty; their field positions must be preserved. Blank zones receive Unknown in the standardized display.",
+  "lesson": {
+    "intro": "A split operation creates cells, while a join creates one text value. Empty-field handling controls whether the original schema remains intact.",
+    "functions": [
+      {
+        "name": "TEXTSPLIT",
+        "purpose": "Split text into a spilled array.",
+        "syntax": "=TEXTSPLIT(text, col_delimiter, [row_delimiter], [ignore_empty], [match_mode], [pad_with])",
+        "arguments": "Input and column delimiter are required. Optional row delimiter creates rows; ignore_empty omits empty fields, match_mode controls case and pad_with fills gaps.",
+        "example": "=TEXTSPLIT(\"A|B|C\",\"|\")",
+        "result": "A, B, C in three columns",
+        "useCase": "Separate manifest fields.",
+        "mistake": "Leave enough empty cells for the spill. Ignoring empty fields changes their positions."
+      },
+      {
+        "name": "TEXTJOIN",
+        "purpose": "Join values with a chosen separator.",
+        "syntax": "=TEXTJOIN(delimiter, ignore_empty, text1, [text2], ...)",
+        "arguments": "delimiter separates values; ignore_empty is TRUE/FALSE; remaining arguments supply text or ranges.",
+        "example": "=TEXTJOIN(\" / \",TRUE,\"A\",\"\",\"B\")",
+        "result": "A / B",
+        "useCase": "Create readable lists.",
+        "mistake": "Ignoring empty cells changes the output; choose deliberately."
+      }
+    ],
+    "combine": "Reuse IF to handle empty zones and UPPER/TRIM to standardize display text. TEXTSPLIT ignore_empty FALSE preserves an empty middle field. TEXTJOIN ignore_empty TRUE deliberately removes empty entries from the readable summary."
+  },
+  "tasks": [
+    {
+      "prompt": "Split the first manifest into three columns: order, zone and priority. Preserve the empty zone as an empty cell.",
+      "output": "Answers!B2:D2",
+      "type": "array",
+      "formulas": [
+        "TEXTSPLIT"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "For the second manifest, return a readable summary joined with the exact delimiter space / space, ignoring empty fields.",
+      "output": "Answers!B5",
+      "type": "text",
+      "formulas": [
+        "TEXTJOIN",
+        "TEXTSPLIT"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first six manifests, return their middle zone; replace an empty zone with Unknown.",
+      "output": "Answers!B8:B13",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "INDEX",
+        "TEXTSPLIT"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "For the first manifest, rebuild all three fields using delimiter | and keeping empty fields; the result must equal the source.",
+      "output": "Answers!B16",
+      "type": "text",
+      "formulas": [
+        "TEXTJOIN",
+        "TEXTSPLIT"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Return the first manifest’s priority in uppercase.",
+    "output": "Answers!B19",
+    "type": "text",
+    "formulas": [
+      "UPPER",
+      "INDEX",
+      "TEXTSPLIT"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Manifest",
+      "Cartons_units"
+    ],
+    "rows": [
+      [
+        "IV-500||Urgent",
+        31
+      ],
+      [
+        "IV-501|West|Routine",
+        11
+      ],
+      [
+        "IV-502|East|Routine",
+        36
+      ],
+      [
+        "IV-503|West|Urgent",
+        18
+      ],
+      [
+        "IV-504||Routine",
+        39
+      ],
+      [
+        "IV-505|West|Routine",
+        42
+      ],
+      [
+        "IV-506|East|Urgent",
+        17
+      ],
+      [
+        "IV-507|West|Routine",
+        7
+      ],
+      [
+        "IV-508||Routine",
+        37
+      ],
+      [
+        "IV-509|West|Urgent",
+        33
+      ],
+      [
+        "IV-510|East|Routine",
+        26
+      ],
+      [
+        "IV-511|West|Routine",
+        10
+      ],
+      [
+        "IV-512||Urgent",
+        22
+      ],
+      [
+        "IV-513|West|Routine",
+        4
+      ],
+      [
+        "IV-514|East|Routine",
+        34
+      ],
+      [
+        "IV-515|West|Urgent",
+        21
+      ],
+      [
+        "IV-516||Routine",
+        31
+      ],
+      [
+        "IV-517|West|Routine",
+        20
+      ],
+      [
+        "IV-518|East|Urgent",
+        17
+      ],
+      [
+        "IV-519|West|Routine",
+        9
+      ],
+      [
+        "IV-520||Routine",
+        16
+      ],
+      [
+        "IV-521|West|Urgent",
+        35
+      ],
+      [
+        "IV-522|East|Routine",
+        17
+      ],
+      [
+        "IV-523|West|Routine",
+        43
+      ],
+      [
+        "IV-524||Urgent",
+        41
+      ],
+      [
+        "IV-525|West|Routine",
+        41
+      ],
+      [
+        "IV-526|East|Routine",
+        9
+      ],
+      [
+        "IV-527|West|Urgent",
+        17
+      ],
+      [
+        "IV-528||Routine",
+        33
+      ],
+      [
+        "IV-529|West|Routine",
+        26
+      ],
+      [
+        "IV-530|East|Urgent",
+        34
+      ],
+      [
+        "IV-531|West|Routine",
+        40
+      ],
+      [
+        "IV-532||Routine",
+        35
+      ],
+      [
+        "IV-533|West|Urgent",
+        11
+      ],
+      [
+        "IV-534|East|Routine",
+        14
+      ],
+      [
+        "IV-535|West|Routine",
+        23
+      ],
+      [
+        "IV-536||Urgent",
+        33
+      ],
+      [
+        "IV-537|West|Routine",
+        21
+      ],
+      [
+        "IV-538|East|Routine",
+        34
+      ],
+      [
+        "IV-539|West|Urgent",
+        29
+      ],
+      [
+        "IV-540||Routine",
+        23
+      ],
+      [
+        "IV-541|West|Routine",
+        6
+      ],
+      [
+        "IV-542|East|Urgent",
+        37
+      ],
+      [
+        "IV-543|West|Routine",
+        12
+      ],
+      [
+        "IV-544||Routine",
+        4
+      ],
+      [
+        "IV-545|West|Urgent",
+        26
+      ],
+      [
+        "IV-546|East|Routine",
+        33
+      ],
+      [
+        "IV-547|West|Routine",
+        15
+      ],
+      [
+        "IV-548||Urgent",
+        16
+      ],
+      [
+        "IV-549|West|Routine",
+        44
+      ],
+      [
+        "IV-550|East|Routine",
+        26
+      ],
+      [
+        "IV-551|West|Urgent",
+        41
+      ],
+      [
+        "IV-552||Routine",
+        22
+      ],
+      [
+        "IV-553|West|Routine",
+        37
+      ],
+      [
+        "IV-554|East|Urgent",
+        8
+      ],
+      [
+        "IV-555|West|Routine",
+        29
+      ]
+    ],
+    "rowCount": 56,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Manifest",
+        "description": "Manifest. See scenario for business rules."
+      },
+      {
+        "name": "Cartons_units",
+        "description": "Cartons units. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L4-A4.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L4-A4.csv"
+  }
+}

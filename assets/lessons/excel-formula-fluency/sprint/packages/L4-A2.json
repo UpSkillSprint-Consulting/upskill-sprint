@@ -1,0 +1,370 @@
+{
+  "id": "L4-A2",
+  "level": 4,
+  "assignment": 2,
+  "title": "Read fixed-width business codes",
+  "formulas": [
+    "LEFT",
+    "RIGHT",
+    "MID"
+  ],
+  "minutes": 50,
+  "scenario": "Gorvella Inventory has 48 invented item codes in the fixed pattern AA-NNN-Z. Outer ordinary spaces and mixed-case prefixes are present. Each row is an inventory observation, including repeats of the same SKU.",
+  "lesson": {
+    "intro": "Fixed-width codes can be decomposed by character position once their ordinary outer spaces are removed. Hyphens occupy positions just like letters and digits.",
+    "functions": [
+      {
+        "name": "LEFT",
+        "purpose": "Extract the first characters.",
+        "syntax": "=LEFT(text, [num_chars])",
+        "arguments": "text is the source; num_chars is the count, defaulting to 1.",
+        "example": "=LEFT(\"NX-410\",2)",
+        "result": "NX",
+        "useCase": "Read a fixed-width prefix.",
+        "mistake": "Count positions after cleaning the input."
+      },
+      {
+        "name": "RIGHT",
+        "purpose": "Extract the last characters.",
+        "syntax": "=RIGHT(text, [num_chars])",
+        "arguments": "text is the source; num_chars is the count, defaulting to 1.",
+        "example": "=RIGHT(\"NX-410\",3)",
+        "result": "410",
+        "useCase": "Read a fixed-width suffix.",
+        "mistake": "The returned digits are text until explicitly converted."
+      },
+      {
+        "name": "MID",
+        "purpose": "Extract characters starting at a position.",
+        "syntax": "=MID(text, start_num, num_chars)",
+        "arguments": "text is the source; start_num is a 1-based position; num_chars is the count.",
+        "example": "=MID(\"AB-12-Z\",4,2)",
+        "result": "12",
+        "useCase": "Read a fixed-width code segment.",
+        "mistake": "Position 1 is the first character; separators count too."
+      }
+    ],
+    "combine": "Reuse TRIM/UPPER from the prior level-4 lesson, and IF from Level 1 to assign a category. The extracted number remains text; retain its leading zeros."
+  },
+  "tasks": [
+    {
+      "prompt": "For the first six records, return the two-letter uppercase prefix after trimming.",
+      "output": "Answers!B2:B7",
+      "type": "array",
+      "formulas": [
+        "LEFT",
+        "TRIM",
+        "UPPER"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "For the first six records, return the three-character numeric segment as text, preserving leading zeros.",
+      "output": "Answers!B10:B15",
+      "type": "array",
+      "formulas": [
+        "MID",
+        "TRIM"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first six records, return the final one-letter suffix.",
+      "output": "Answers!B18:B23",
+      "type": "array",
+      "formulas": [
+        "RIGHT",
+        "TRIM"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "For the first six records, return Priority for suffix A, otherwise Standard.",
+      "output": "Answers!B26:B31",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "RIGHT",
+        "TRIM"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Calculate first-row stock value, rounded to cents.",
+    "output": "Answers!B34",
+    "type": "number",
+    "formulas": [
+      "ROUND"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Raw_SKU",
+      "Stock_units",
+      "Unit_price_CAD"
+    ],
+    "rows": [
+      [
+        " GV-007-A ",
+        79,
+        7.97
+      ],
+      [
+        " gv-008-B ",
+        204,
+        23.67
+      ],
+      [
+        " GV-009-C ",
+        214,
+        41.54
+      ],
+      [
+        " gv-010-A ",
+        16,
+        43.87
+      ],
+      [
+        " GV-011-B ",
+        155,
+        14.29
+      ],
+      [
+        " gv-012-C ",
+        80,
+        24.95
+      ],
+      [
+        " GV-013-A ",
+        61,
+        26.78
+      ],
+      [
+        " gv-014-B ",
+        26,
+        38.71
+      ],
+      [
+        " GV-015-C ",
+        237,
+        34.51
+      ],
+      [
+        " gv-016-A ",
+        95,
+        47.59
+      ],
+      [
+        " GV-017-B ",
+        82,
+        27.39
+      ],
+      [
+        " gv-018-C ",
+        223,
+        10.19
+      ],
+      [
+        " GV-019-A ",
+        51,
+        37.87
+      ],
+      [
+        " gv-020-B ",
+        67,
+        19.28
+      ],
+      [
+        " GV-021-C ",
+        238,
+        29.82
+      ],
+      [
+        " gv-022-A ",
+        142,
+        9
+      ],
+      [
+        " GV-023-B ",
+        206,
+        35.27
+      ],
+      [
+        " gv-024-C ",
+        140,
+        11.25
+      ],
+      [
+        " GV-025-A ",
+        196,
+        48.49
+      ],
+      [
+        " gv-026-B ",
+        192,
+        42.42
+      ],
+      [
+        " GV-027-C ",
+        215,
+        22.7
+      ],
+      [
+        " gv-028-A ",
+        118,
+        14.25
+      ],
+      [
+        " GV-029-B ",
+        221,
+        21.71
+      ],
+      [
+        " gv-030-C ",
+        28,
+        30.66
+      ],
+      [
+        " GV-031-A ",
+        82,
+        25.07
+      ],
+      [
+        " gv-032-B ",
+        179,
+        10.14
+      ],
+      [
+        " GV-033-C ",
+        132,
+        25.15
+      ],
+      [
+        " gv-034-A ",
+        125,
+        15.49
+      ],
+      [
+        " GV-035-B ",
+        183,
+        23.38
+      ],
+      [
+        " gv-036-C ",
+        227,
+        35.42
+      ],
+      [
+        " GV-007-A ",
+        228,
+        21.23
+      ],
+      [
+        " gv-008-B ",
+        170,
+        13.5
+      ],
+      [
+        " GV-009-C ",
+        133,
+        25.7
+      ],
+      [
+        " gv-010-A ",
+        187,
+        19.55
+      ],
+      [
+        " GV-011-B ",
+        41,
+        12.89
+      ],
+      [
+        " gv-012-C ",
+        219,
+        34.82
+      ],
+      [
+        " GV-013-A ",
+        69,
+        21.45
+      ],
+      [
+        " gv-014-B ",
+        71,
+        5.79
+      ],
+      [
+        " GV-015-C ",
+        203,
+        37.21
+      ],
+      [
+        " gv-016-A ",
+        26,
+        6.91
+      ],
+      [
+        " GV-017-B ",
+        237,
+        36.12
+      ],
+      [
+        " gv-018-C ",
+        64,
+        16.69
+      ],
+      [
+        " GV-019-A ",
+        90,
+        42.36
+      ],
+      [
+        " gv-020-B ",
+        227,
+        37.49
+      ],
+      [
+        " GV-021-C ",
+        237,
+        25.82
+      ],
+      [
+        " gv-022-A ",
+        171,
+        41.57
+      ],
+      [
+        " GV-023-B ",
+        170,
+        38.65
+      ],
+      [
+        " gv-024-C ",
+        102,
+        18.12
+      ]
+    ],
+    "rowCount": 48,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Raw_SKU",
+        "description": "Raw SKU. See scenario for business rules."
+      },
+      {
+        "name": "Stock_units",
+        "description": "Stock units. See scenario for business rules."
+      },
+      {
+        "name": "Unit_price_CAD",
+        "description": "Unit price CAD. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L4-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L4-A2.csv"
+  }
+}

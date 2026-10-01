@@ -1,0 +1,34 @@
+name: Excel Formula Sprint validation
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/excel-sprint-validation.yml'
+      - 'content/excel-sprint/**'
+      - 'assets/lessons/excel-formula-fluency/sprint/**'
+      - 'netlify/functions/excel-sprint-*.mjs'
+      - 'netlify/functions/_shared/excel-sprint-*'
+      - 'scripts/*excel-sprint*.mjs'
+      - 'scripts/lib/excel-sprint-xlsx.mjs'
+      - 'tests/excel-sprint*.test.js'
+      - 'package*.json'
+      - '.node-version'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - name: Require reproducible seeded packages and workbooks
+        run: |
+          npm run build:excel-sprint
+          git diff --exit-code -- assets/lessons/excel-formula-fluency/sprint netlify/functions/_shared/excel-sprint-answers.json netlify/functions/_shared/excel-sprint-coaching-context.json
+      - name: Check grading, coaching, curriculum, backups and learner controls
+        run: node --test tests/excel-sprint*.test.js

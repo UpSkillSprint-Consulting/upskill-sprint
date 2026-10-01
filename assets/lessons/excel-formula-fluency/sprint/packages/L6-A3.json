@@ -1,0 +1,482 @@
+{
+  "id": "L6-A3",
+  "level": 6,
+  "assignment": 3,
+  "title": "Create a distinct heat register",
+  "formulas": [
+    "UNIQUE",
+    "SEQUENCE"
+  ],
+  "minutes": 75,
+  "scenario": "Relvani Melt Tracking has 72 invented sample records spanning six heat codes. Heat codes repeat across samples; one blank code represents an incomplete record and must be excluded from the distinct register. Sample counts must still reflect all valid records per heat.",
+  "lesson": {
+    "intro": "UNIQUE constructs the key register; SEQUENCE supplies a separate display index. Neither function aggregates measurements by itself. Distinguish a missing key from a valid repeated heat.",
+    "functions": [
+      {
+        "name": "UNIQUE",
+        "purpose": "Return distinct values or rows.",
+        "syntax": "=UNIQUE(array, [by_col], [exactly_once])",
+        "arguments": "array supplies values; by_col TRUE compares columns; exactly_once TRUE returns only entries occurring once.",
+        "example": "=UNIQUE({\"A\";\"B\";\"A\"})",
+        "result": "A then B",
+        "useCase": "Create distinct heat/sample pairs.",
+        "mistake": "A two-column input distinguishes full row pairs, not each column independently."
+      },
+      {
+        "name": "SEQUENCE",
+        "purpose": "Generate a numeric array.",
+        "syntax": "=SEQUENCE(rows, [columns], [start], [step])",
+        "arguments": "Specify rows; optional columns, starting value and increment determine the grid.",
+        "example": "=SEQUENCE(3,1,10,2)",
+        "result": "10, 12, 14",
+        "useCase": "Number rows or create planned sample indices.",
+        "mistake": "Rows and columns must be positive; these numbers do not become observations."
+      }
+    ],
+    "combine": "Reuse SORT for stable ascending heat order, FILTER to exclude blank keys, and COUNTIFS for counts aligned to the spilled register. Do not use exactly_once TRUE when all distinct heats are needed."
+  },
+  "tasks": [
+    {
+      "prompt": "Return distinct nonblank Heat_no values sorted ascending.",
+      "output": "Answers!B2:B7",
+      "type": "array",
+      "formulas": [
+        "UNIQUE",
+        "SORT",
+        "FILTER"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return display numbers 1 through 6 as a six-row column.",
+      "output": "Answers!B10:B15",
+      "type": "array",
+      "formulas": [
+        "SEQUENCE"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "Return the sample-record counts for the six sorted nonblank heats in the same order as the register.",
+      "output": "Answers!B18:B23",
+      "type": "array",
+      "formulas": [
+        "COUNTIFS",
+        "UNIQUE",
+        "FILTER",
+        "SORT"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Return two columns: sorted nonblank Heat_no and its record count.",
+      "output": "Answers!B26:C31",
+      "type": "array",
+      "formulas": [
+        "HSTACK",
+        "UNIQUE",
+        "COUNTIFS",
+        "FILTER",
+        "SORT"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Count records with a blank Heat_no.",
+    "output": "Answers!B34",
+    "type": "number",
+    "formulas": [
+      "COUNTIFS"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Sample_code",
+      "Heat_no",
+      "Tap_t"
+    ],
+    "rows": [
+      [
+        "RM-1",
+        "RH-3",
+        111.8
+      ],
+      [
+        "RM-2",
+        "RH-1",
+        88.54
+      ],
+      [
+        "RM-3",
+        "RH-6",
+        90.34
+      ],
+      [
+        "RM-4",
+        "RH-2",
+        91.76
+      ],
+      [
+        "RM-5",
+        "RH-5",
+        106.55
+      ],
+      [
+        "RM-6",
+        "",
+        89.87
+      ],
+      [
+        "RM-7",
+        "RH-3",
+        93.27
+      ],
+      [
+        "RM-8",
+        "RH-1",
+        103.11
+      ],
+      [
+        "RM-9",
+        "RH-6",
+        95.45
+      ],
+      [
+        "RM-10",
+        "RH-2",
+        93.87
+      ],
+      [
+        "RM-11",
+        "RH-5",
+        106.95
+      ],
+      [
+        "RM-12",
+        "RH-4",
+        106.25
+      ],
+      [
+        "RM-13",
+        "RH-3",
+        93.57
+      ],
+      [
+        "RM-14",
+        "RH-1",
+        104.03
+      ],
+      [
+        "RM-15",
+        "RH-6",
+        96.31
+      ],
+      [
+        "RM-16",
+        "RH-2",
+        84.64
+      ],
+      [
+        "RM-17",
+        "RH-5",
+        114.81
+      ],
+      [
+        "RM-18",
+        "RH-4",
+        88.88
+      ],
+      [
+        "RM-19",
+        "RH-3",
+        108.15
+      ],
+      [
+        "RM-20",
+        "RH-1",
+        106.79
+      ],
+      [
+        "RM-21",
+        "RH-6",
+        97.74
+      ],
+      [
+        "RM-22",
+        "RH-2",
+        98.49
+      ],
+      [
+        "RM-23",
+        "RH-5",
+        113.76
+      ],
+      [
+        "RM-24",
+        "RH-4",
+        111.03
+      ],
+      [
+        "RM-25",
+        "RH-3",
+        82.39
+      ],
+      [
+        "RM-26",
+        "RH-1",
+        93.2
+      ],
+      [
+        "RM-27",
+        "RH-6",
+        88.16
+      ],
+      [
+        "RM-28",
+        "RH-2",
+        109.46
+      ],
+      [
+        "RM-29",
+        "RH-5",
+        108.01
+      ],
+      [
+        "RM-30",
+        "RH-4",
+        91.71
+      ],
+      [
+        "RM-31",
+        "RH-3",
+        97.53
+      ],
+      [
+        "RM-32",
+        "RH-1",
+        85.26
+      ],
+      [
+        "RM-33",
+        "RH-6",
+        102.88
+      ],
+      [
+        "RM-34",
+        "RH-2",
+        98.37
+      ],
+      [
+        "RM-35",
+        "RH-5",
+        108.47
+      ],
+      [
+        "RM-36",
+        "RH-4",
+        87.36
+      ],
+      [
+        "RM-37",
+        "RH-3",
+        110.98
+      ],
+      [
+        "RM-38",
+        "RH-1",
+        103.28
+      ],
+      [
+        "RM-39",
+        "RH-6",
+        99.47
+      ],
+      [
+        "RM-40",
+        "RH-2",
+        110.29
+      ],
+      [
+        "RM-41",
+        "RH-5",
+        86.64
+      ],
+      [
+        "RM-42",
+        "RH-4",
+        93.73
+      ],
+      [
+        "RM-43",
+        "RH-3",
+        105.72
+      ],
+      [
+        "RM-44",
+        "RH-1",
+        114.62
+      ],
+      [
+        "RM-45",
+        "RH-6",
+        113.87
+      ],
+      [
+        "RM-46",
+        "RH-2",
+        89.97
+      ],
+      [
+        "RM-47",
+        "RH-5",
+        100.88
+      ],
+      [
+        "RM-48",
+        "RH-4",
+        89.46
+      ],
+      [
+        "RM-49",
+        "RH-3",
+        99.69
+      ],
+      [
+        "RM-50",
+        "RH-1",
+        94.29
+      ],
+      [
+        "RM-51",
+        "RH-6",
+        89.61
+      ],
+      [
+        "RM-52",
+        "RH-2",
+        99.79
+      ],
+      [
+        "RM-53",
+        "RH-5",
+        111.87
+      ],
+      [
+        "RM-54",
+        "RH-4",
+        115
+      ],
+      [
+        "RM-55",
+        "RH-3",
+        100.07
+      ],
+      [
+        "RM-56",
+        "RH-1",
+        104.56
+      ],
+      [
+        "RM-57",
+        "RH-6",
+        96.88
+      ],
+      [
+        "RM-58",
+        "RH-2",
+        104.73
+      ],
+      [
+        "RM-59",
+        "RH-5",
+        103.47
+      ],
+      [
+        "RM-60",
+        "RH-4",
+        98.98
+      ],
+      [
+        "RM-61",
+        "RH-3",
+        98.76
+      ],
+      [
+        "RM-62",
+        "RH-1",
+        90.21
+      ],
+      [
+        "RM-63",
+        "RH-6",
+        94.58
+      ],
+      [
+        "RM-64",
+        "RH-2",
+        86.36
+      ],
+      [
+        "RM-65",
+        "RH-5",
+        94.49
+      ],
+      [
+        "RM-66",
+        "RH-4",
+        85.4
+      ],
+      [
+        "RM-67",
+        "RH-3",
+        112.69
+      ],
+      [
+        "RM-68",
+        "RH-1",
+        86.4
+      ],
+      [
+        "RM-69",
+        "RH-6",
+        87.86
+      ],
+      [
+        "RM-70",
+        "RH-2",
+        114.49
+      ],
+      [
+        "RM-71",
+        "RH-5",
+        90.32
+      ],
+      [
+        "RM-72",
+        "RH-4",
+        97.81
+      ]
+    ],
+    "rowCount": 72,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Sample_code",
+        "description": "Sample code. See scenario for business rules."
+      },
+      {
+        "name": "Heat_no",
+        "description": "Heat no. See scenario for business rules."
+      },
+      {
+        "name": "Tap_t",
+        "description": "Tap t. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L6-A3.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L6-A3.csv"
+  }
+}

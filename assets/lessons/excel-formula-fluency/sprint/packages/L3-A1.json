@@ -1,0 +1,263 @@
+{
+  "id": "L3-A1",
+  "level": 3,
+  "assignment": 1,
+  "title": "Match a training specification",
+  "formulas": [
+    "XLOOKUP",
+    "INDEX"
+  ],
+  "minutes": 35,
+  "scenario": "Arelvon Tube Lab has 24 invented tensile samples. Match each Product_code to the Specs sheet; a blank or unlisted code must return Missing, and repeated sample records remain separate. These limits are fictitious training rules, not a published standard.",
+  "lesson": {
+    "intro": "A lookup connects records by an explicit key. Match exact product codes rather than assuming that sample and specification rows are in the same order.",
+    "functions": [
+      {
+        "name": "XLOOKUP",
+        "purpose": "Find a key and return its corresponding value.",
+        "syntax": "=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])",
+        "arguments": "Supply the key, aligned key and return ranges, optional missing label, match mode (0 exact, -1 next smaller, 1 next larger), and search direction (1 first, -1 last).",
+        "example": "=XLOOKUP(\"P2\",{\"P1\",\"P2\"},{400,450},\"Missing\")",
+        "result": 450,
+        "useCase": "Retrieve a specification or allowance.",
+        "mistake": "Exact is the default. A first match does not aggregate duplicates. Binary search requires correctly sorted keys."
+      },
+      {
+        "name": "INDEX",
+        "purpose": "Return the value at a row and column position.",
+        "syntax": "=INDEX(array, row_num, [column_num])",
+        "arguments": "array contains values; row_num selects its row and optional column_num selects its column.",
+        "example": "=INDEX({20,30;40,50},2,1)",
+        "result": 40,
+        "useCase": "Select an item in a specification matrix.",
+        "mistake": "Row positions are relative to the selected array, not worksheet row numbers."
+      }
+    ],
+    "combine": "Reuse IF for a strength decision and ROUND when displaying a strength-to-limit ratio. A valid zero and a missing key are different; protect missing matches before doing arithmetic."
+  },
+  "tasks": [
+    {
+      "prompt": "Look up Yield_min_MPa for the first sample’s Product_code.",
+      "output": "Answers!B2",
+      "type": "number",
+      "formulas": [
+        "XLOOKUP"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return the second Specs row’s Yield_min_MPa by its position within the four-row specification array.",
+      "output": "Answers!B5",
+      "type": "number",
+      "formulas": [
+        "INDEX"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first six samples, return Pass if Yield_MPa is at least the matched minimum, Hold if below it, or Missing if the product key is blank/unlisted. Keep dataset order.",
+      "output": "Answers!B8:B13",
+      "type": "array",
+      "formulas": [
+        "XLOOKUP",
+        "IF"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "For the first sample, calculate Yield_MPa divided by its matched minimum, rounded to three decimals.",
+      "output": "Answers!B16",
+      "type": "number",
+      "formulas": [
+        "XLOOKUP",
+        "ROUND"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Return the final specification row’s Product_code using its array position.",
+    "output": "Answers!B19",
+    "type": "text",
+    "formulas": [
+      "INDEX"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Sample_code",
+      "Product_code",
+      "Yield_MPa"
+    ],
+    "rows": [
+      [
+        "AL-S1",
+        "AX-3",
+        380
+      ],
+      [
+        "AL-S2",
+        "AX-1",
+        405
+      ],
+      [
+        "AL-S3",
+        "AX-4",
+        374
+      ],
+      [
+        "AL-S4",
+        "AX-2",
+        465
+      ],
+      [
+        "AL-S5",
+        "",
+        442
+      ],
+      [
+        "AL-S6",
+        "AX-999",
+        471
+      ],
+      [
+        "AL-S7",
+        "AX-4",
+        414
+      ],
+      [
+        "AL-S8",
+        "AX-2",
+        379
+      ],
+      [
+        "AL-S9",
+        "AX-3",
+        461
+      ],
+      [
+        "AL-S10",
+        "AX-1",
+        446
+      ],
+      [
+        "AL-S11",
+        "AX-4",
+        458
+      ],
+      [
+        "AL-S12",
+        "AX-2",
+        478
+      ],
+      [
+        "AL-S13",
+        "AX-3",
+        444
+      ],
+      [
+        "AL-S14",
+        "AX-1",
+        394
+      ],
+      [
+        "AL-S15",
+        "AX-4",
+        466
+      ],
+      [
+        "AL-S16",
+        "AX-2",
+        446
+      ],
+      [
+        "AL-S17",
+        "AX-3",
+        465
+      ],
+      [
+        "AL-S18",
+        "AX-1",
+        419
+      ],
+      [
+        "AL-S19",
+        "AX-4",
+        470
+      ],
+      [
+        "AL-S20",
+        "AX-2",
+        459
+      ],
+      [
+        "AL-S21",
+        "AX-3",
+        397
+      ],
+      [
+        "AL-S22",
+        "AX-1",
+        427
+      ],
+      [
+        "AL-S23",
+        "AX-4",
+        447
+      ],
+      [
+        "AL-S24",
+        "AX-2",
+        459
+      ]
+    ],
+    "rowCount": 24,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Sample_code",
+        "description": "Sample code. See scenario for business rules."
+      },
+      {
+        "name": "Product_code",
+        "description": "Product code. See scenario for business rules."
+      },
+      {
+        "name": "Yield_MPa",
+        "description": "Yield MPa. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A1.csv",
+    "sheets": [
+      {
+        "name": "Specs",
+        "headers": [
+          "Product_code",
+          "Yield_min_MPa"
+        ],
+        "rows": [
+          [
+            "AX-1",
+            385
+          ],
+          [
+            "AX-2",
+            400
+          ],
+          [
+            "AX-3",
+            420
+          ],
+          [
+            "AX-4",
+            450
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A1-Specs.csv"
+      }
+    ]
+  }
+}

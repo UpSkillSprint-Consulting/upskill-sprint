@@ -106,7 +106,7 @@ test('a completion never depends on the optional bonus and bonus updates retain 
   assert.equal(checked.body.nextPackageId, 'L1-A3');
 });
 
-test('all ten packages form a continuous chain including the level boundary', async () => {
+test('all thirty packages form a continuous chain including every level boundary', async () => {
   const tokens = [];
   for (const packageId of shared.PACKAGE_IDS) {
     const result = await complete(packageId, tokens.at(-1));
@@ -115,7 +115,7 @@ test('all ten packages form a continuous chain including the level boundary', as
   const result = await call(verify, 'verify', { tokens });
   assert.equal(result.response.status, 200);
   assert.equal(result.body.verified, true);
-  assert.equal(result.body.completions.length, 10);
+  assert.equal(result.body.completions.length, 30);
   assert.equal(result.body.nextPackageId, null);
   assert.equal(new Set(result.body.completions.map(record => record.chainId)).size, 1);
 });

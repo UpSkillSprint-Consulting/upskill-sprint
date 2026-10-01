@@ -1,0 +1,616 @@
+{
+  "id": "L5-A5",
+  "level": 5,
+  "assignment": 5,
+  "title": "Measure overnight production shifts",
+  "formulas": [
+    "TIME",
+    "MOD"
+  ],
+  "minutes": 75,
+  "scenario": "Orvani Rolling has 60 invented shifts with start/end hour and minute components. Every shift lasts under 24 hours; a lower end time means it crosses midnight. Unpaid break minutes are subtracted once, and training Review means net hours strictly above 8.",
+  "lesson": {
+    "intro": "Excel times are fractions of a day. An overnight subtraction can be negative, so use a remainder modulo one day and multiply by 24 for hours.",
+    "functions": [
+      {
+        "name": "TIME",
+        "purpose": "Construct a time from components.",
+        "syntax": "=TIME(hour, minute, second)",
+        "arguments": "Supply hours, minutes and seconds; output is a fraction of one day.",
+        "example": "=TEXT(TIME(7,30,0),\"hh:mm\")",
+        "result": "07:30",
+        "useCase": "Build time values without locale-dependent text parsing.",
+        "mistake": "Hours above 23 wrap; do not use TIME to preserve multi-day durations."
+      },
+      {
+        "name": "MOD",
+        "purpose": "Return the remainder after division.",
+        "syntax": "=MOD(number, divisor)",
+        "arguments": "number is the input and divisor the division base.",
+        "example": "=MOD(3-22,24)",
+        "result": 5,
+        "useCase": "Calculate overnight duration for shifts shorter than 24 hours.",
+        "mistake": "MOD hides whole days; it is inappropriate for multi-day durations."
+      }
+    ],
+    "combine": "Reuse ROUND for reported hours and IF for the review flag. Divide break minutes by 60 before subtracting from hours. The stated under-24-hour assumption is essential: MOD cannot retain elapsed whole days."
+  },
+  "tasks": [
+    {
+      "prompt": "For the first six shifts, return the start time as text hh:mm.",
+      "output": "Answers!B2:B7",
+      "type": "array",
+      "formulas": [
+        "TIME",
+        "TEXT"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "For the first six shifts, calculate gross hours across midnight, rounded to two decimals.",
+      "output": "Answers!B10:B15",
+      "type": "array",
+      "formulas": [
+        "MOD",
+        "TIME",
+        "ROUND"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first six shifts, calculate net hours after subtracting Break_min once, rounded to two decimals.",
+      "output": "Answers!B18:B23",
+      "type": "array",
+      "formulas": [
+        "MOD",
+        "TIME",
+        "ROUND"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "For the first six shifts, return Review if unrounded net hours strictly exceed 8, otherwise Standard.",
+      "output": "Answers!B26:B31",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "MOD",
+        "TIME"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Return the first shift’s gross duration in minutes as an unrounded number.",
+    "output": "Answers!B34",
+    "type": "number",
+    "formulas": [
+      "MOD",
+      "TIME"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Shift_code",
+      "Start_hour",
+      "Start_minute",
+      "End_hour",
+      "End_minute",
+      "Break_min"
+    ],
+    "rows": [
+      [
+        "OR-1",
+        6,
+        0,
+        14,
+        1,
+        30
+      ],
+      [
+        "OR-2",
+        14,
+        0,
+        22,
+        57,
+        45
+      ],
+      [
+        "OR-3",
+        22,
+        0,
+        5,
+        50,
+        60
+      ],
+      [
+        "OR-4",
+        6,
+        0,
+        14,
+        2,
+        30
+      ],
+      [
+        "OR-5",
+        14,
+        0,
+        21,
+        39,
+        45
+      ],
+      [
+        "OR-6",
+        22,
+        0,
+        6,
+        12,
+        60
+      ],
+      [
+        "OR-7",
+        6,
+        0,
+        14,
+        41,
+        30
+      ],
+      [
+        "OR-8",
+        14,
+        0,
+        21,
+        46,
+        45
+      ],
+      [
+        "OR-9",
+        22,
+        0,
+        6,
+        34,
+        60
+      ],
+      [
+        "OR-10",
+        6,
+        0,
+        15,
+        20,
+        30
+      ],
+      [
+        "OR-11",
+        14,
+        0,
+        23,
+        16,
+        45
+      ],
+      [
+        "OR-12",
+        22,
+        0,
+        7,
+        25,
+        60
+      ],
+      [
+        "OR-13",
+        6,
+        0,
+        14,
+        27,
+        30
+      ],
+      [
+        "OR-14",
+        14,
+        0,
+        22,
+        43,
+        45
+      ],
+      [
+        "OR-15",
+        22,
+        0,
+        6,
+        24,
+        60
+      ],
+      [
+        "OR-16",
+        6,
+        0,
+        14,
+        26,
+        30
+      ],
+      [
+        "OR-17",
+        14,
+        0,
+        23,
+        1,
+        45
+      ],
+      [
+        "OR-18",
+        22,
+        0,
+        7,
+        24,
+        60
+      ],
+      [
+        "OR-19",
+        6,
+        0,
+        15,
+        13,
+        30
+      ],
+      [
+        "OR-20",
+        14,
+        0,
+        22,
+        56,
+        45
+      ],
+      [
+        "OR-21",
+        22,
+        0,
+        6,
+        7,
+        60
+      ],
+      [
+        "OR-22",
+        6,
+        0,
+        13,
+        46,
+        30
+      ],
+      [
+        "OR-23",
+        14,
+        0,
+        22,
+        44,
+        45
+      ],
+      [
+        "OR-24",
+        22,
+        0,
+        7,
+        24,
+        60
+      ],
+      [
+        "OR-25",
+        6,
+        0,
+        14,
+        13,
+        30
+      ],
+      [
+        "OR-26",
+        14,
+        0,
+        21,
+        36,
+        45
+      ],
+      [
+        "OR-27",
+        22,
+        0,
+        5,
+        43,
+        60
+      ],
+      [
+        "OR-28",
+        6,
+        0,
+        14,
+        9,
+        30
+      ],
+      [
+        "OR-29",
+        14,
+        0,
+        22,
+        8,
+        45
+      ],
+      [
+        "OR-30",
+        22,
+        0,
+        7,
+        21,
+        60
+      ],
+      [
+        "OR-31",
+        6,
+        0,
+        14,
+        7,
+        30
+      ],
+      [
+        "OR-32",
+        14,
+        0,
+        22,
+        13,
+        45
+      ],
+      [
+        "OR-33",
+        22,
+        0,
+        6,
+        34,
+        60
+      ],
+      [
+        "OR-34",
+        6,
+        0,
+        13,
+        41,
+        30
+      ],
+      [
+        "OR-35",
+        14,
+        0,
+        22,
+        15,
+        45
+      ],
+      [
+        "OR-36",
+        22,
+        0,
+        7,
+        23,
+        60
+      ],
+      [
+        "OR-37",
+        6,
+        0,
+        15,
+        20,
+        30
+      ],
+      [
+        "OR-38",
+        14,
+        0,
+        22,
+        45,
+        45
+      ],
+      [
+        "OR-39",
+        22,
+        0,
+        6,
+        48,
+        60
+      ],
+      [
+        "OR-40",
+        6,
+        0,
+        14,
+        5,
+        30
+      ],
+      [
+        "OR-41",
+        14,
+        0,
+        23,
+        26,
+        45
+      ],
+      [
+        "OR-42",
+        22,
+        0,
+        6,
+        21,
+        60
+      ],
+      [
+        "OR-43",
+        6,
+        0,
+        14,
+        17,
+        30
+      ],
+      [
+        "OR-44",
+        14,
+        0,
+        22,
+        13,
+        45
+      ],
+      [
+        "OR-45",
+        22,
+        0,
+        7,
+        20,
+        60
+      ],
+      [
+        "OR-46",
+        6,
+        0,
+        13,
+        59,
+        30
+      ],
+      [
+        "OR-47",
+        14,
+        0,
+        21,
+        55,
+        45
+      ],
+      [
+        "OR-48",
+        22,
+        0,
+        6,
+        17,
+        60
+      ],
+      [
+        "OR-49",
+        6,
+        0,
+        15,
+        20,
+        30
+      ],
+      [
+        "OR-50",
+        14,
+        0,
+        23,
+        9,
+        45
+      ],
+      [
+        "OR-51",
+        22,
+        0,
+        5,
+        58,
+        60
+      ],
+      [
+        "OR-52",
+        6,
+        0,
+        15,
+        0,
+        30
+      ],
+      [
+        "OR-53",
+        14,
+        0,
+        22,
+        26,
+        45
+      ],
+      [
+        "OR-54",
+        22,
+        0,
+        7,
+        11,
+        60
+      ],
+      [
+        "OR-55",
+        6,
+        0,
+        14,
+        15,
+        30
+      ],
+      [
+        "OR-56",
+        14,
+        0,
+        21,
+        49,
+        45
+      ],
+      [
+        "OR-57",
+        22,
+        0,
+        6,
+        42,
+        60
+      ],
+      [
+        "OR-58",
+        6,
+        0,
+        14,
+        34,
+        30
+      ],
+      [
+        "OR-59",
+        14,
+        0,
+        22,
+        0,
+        45
+      ],
+      [
+        "OR-60",
+        22,
+        0,
+        5,
+        30,
+        60
+      ]
+    ],
+    "rowCount": 60,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Shift_code",
+        "description": "Shift code. See scenario for business rules."
+      },
+      {
+        "name": "Start_hour",
+        "description": "Start hour. See scenario for business rules."
+      },
+      {
+        "name": "Start_minute",
+        "description": "Start minute. See scenario for business rules."
+      },
+      {
+        "name": "End_hour",
+        "description": "End hour. See scenario for business rules."
+      },
+      {
+        "name": "End_minute",
+        "description": "End minute. See scenario for business rules."
+      },
+      {
+        "name": "Break_min",
+        "description": "Break min. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L5-A5.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L5-A5.csv"
+  }
+}

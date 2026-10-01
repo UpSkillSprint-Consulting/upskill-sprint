@@ -155,61 +155,47 @@
         "Map results to specification bands",
         "Build an error-aware lookup report"
       ],
-      "available": false,
+      "available": true,
       "packages": [
         {
           "id": "L3-A1",
-          "title": "Look up a product specification",
+          "title": "Match a training specification",
           "formulas": [
             "XLOOKUP",
-            "INDEX",
-            "MATCH",
-            "Two-way lookups",
-            "Approximate spec bands"
+            "INDEX"
           ]
         },
         {
           "id": "L3-A2",
           "title": "Match an employee allowance",
           "formulas": [
-            "XLOOKUP",
-            "INDEX",
             "MATCH",
-            "Two-way lookups",
-            "Approximate spec bands"
+            "INDEX"
           ]
         },
         {
           "id": "L3-A3",
-          "title": "Combine two specification dimensions",
+          "title": "Read a two-way specification matrix",
           "formulas": [
-            "XLOOKUP",
             "INDEX",
-            "MATCH",
-            "Two-way lookups",
-            "Approximate spec bands"
+            "MATCH"
           ]
         },
         {
           "id": "L3-A4",
-          "title": "Map results to specification bands",
+          "title": "Map values to training bands",
           "formulas": [
             "XLOOKUP",
-            "INDEX",
-            "MATCH",
-            "Two-way lookups",
-            "Approximate spec bands"
+            "MATCH"
           ]
         },
         {
           "id": "L3-A5",
-          "title": "Build an error-aware lookup report",
+          "title": "Audit duplicate and absent keys",
           "formulas": [
             "XLOOKUP",
             "INDEX",
-            "MATCH",
-            "Two-way lookups",
-            "Approximate spec bands"
+            "MATCH"
           ]
         }
       ]
@@ -239,7 +225,7 @@
         "Split a shipment manifest",
         "Assemble readable quality reports"
       ],
-      "available": false,
+      "available": true,
       "packages": [
         {
           "id": "L4-A1",
@@ -247,93 +233,41 @@
           "formulas": [
             "TRIM",
             "CLEAN",
-            "UPPER",
-            "PROPER",
-            "LEFT",
-            "RIGHT",
-            "MID",
-            "TEXTBEFORE",
-            "TEXTAFTER",
-            "TEXTSPLIT",
-            "TEXTJOIN",
-            "SUBSTITUTE",
-            "TEXT"
+            "UPPER"
           ]
         },
         {
           "id": "L4-A2",
-          "title": "Standardize customer names",
+          "title": "Read fixed-width business codes",
           "formulas": [
-            "TRIM",
-            "CLEAN",
-            "UPPER",
-            "PROPER",
             "LEFT",
             "RIGHT",
-            "MID",
-            "TEXTBEFORE",
-            "TEXTAFTER",
-            "TEXTSPLIT",
-            "TEXTJOIN",
-            "SUBSTITUTE",
-            "TEXT"
+            "MID"
           ]
         },
         {
           "id": "L4-A3",
-          "title": "Extract product code segments",
+          "title": "Split compound heat/sample keys",
           "formulas": [
-            "TRIM",
-            "CLEAN",
-            "UPPER",
-            "PROPER",
-            "LEFT",
-            "RIGHT",
-            "MID",
             "TEXTBEFORE",
-            "TEXTAFTER",
-            "TEXTSPLIT",
-            "TEXTJOIN",
-            "SUBSTITUTE",
-            "TEXT"
+            "TEXTAFTER"
           ]
         },
         {
           "id": "L4-A4",
-          "title": "Split a shipment manifest",
+          "title": "Split and rebuild a manifest",
           "formulas": [
-            "TRIM",
-            "CLEAN",
-            "UPPER",
-            "PROPER",
-            "LEFT",
-            "RIGHT",
-            "MID",
-            "TEXTBEFORE",
-            "TEXTAFTER",
             "TEXTSPLIT",
-            "TEXTJOIN",
-            "SUBSTITUTE",
-            "TEXT"
+            "TEXTJOIN"
           ]
         },
         {
           "id": "L4-A5",
-          "title": "Assemble readable quality reports",
+          "title": "Build readable measurement messages",
           "formulas": [
-            "TRIM",
-            "CLEAN",
-            "UPPER",
-            "PROPER",
-            "LEFT",
-            "RIGHT",
-            "MID",
-            "TEXTBEFORE",
-            "TEXTAFTER",
-            "TEXTSPLIT",
-            "TEXTJOIN",
             "SUBSTITUTE",
-            "TEXT"
+            "TEXT",
+            "PROPER"
           ]
         }
       ]
@@ -358,76 +292,46 @@
         "Analyze employee service dates",
         "Calculate overnight shift durations"
       ],
-      "available": false,
+      "available": true,
       "packages": [
         {
           "id": "L5-A1",
-          "title": "Build a test schedule",
+          "title": "Build a test reporting calendar",
           "formulas": [
             "DATE",
-            "EOMONTH",
-            "EDATE",
-            "NETWORKDAYS",
-            "WORKDAY",
-            "WEEKNUM",
-            "DATEDIF",
-            "Shift calculations"
+            "EOMONTH"
           ]
         },
         {
           "id": "L5-A2",
-          "title": "Plan month-end inventory",
+          "title": "Plan calendar-month replenishment",
           "formulas": [
-            "DATE",
-            "EOMONTH",
             "EDATE",
-            "NETWORKDAYS",
-            "WORKDAY",
-            "WEEKNUM",
-            "DATEDIF",
-            "Shift calculations"
+            "EOMONTH"
           ]
         },
         {
           "id": "L5-A3",
-          "title": "Calculate business-day deadlines",
+          "title": "Calculate working-day review deadlines",
           "formulas": [
-            "DATE",
-            "EOMONTH",
-            "EDATE",
-            "NETWORKDAYS",
             "WORKDAY",
-            "WEEKNUM",
-            "DATEDIF",
-            "Shift calculations"
+            "NETWORKDAYS"
           ]
         },
         {
           "id": "L5-A4",
-          "title": "Analyze employee service dates",
+          "title": "Analyze completed employee service",
           "formulas": [
-            "DATE",
-            "EOMONTH",
-            "EDATE",
-            "NETWORKDAYS",
-            "WORKDAY",
-            "WEEKNUM",
             "DATEDIF",
-            "Shift calculations"
+            "WEEKNUM"
           ]
         },
         {
           "id": "L5-A5",
-          "title": "Calculate overnight shift durations",
+          "title": "Measure overnight production shifts",
           "formulas": [
-            "DATE",
-            "EOMONTH",
-            "EDATE",
-            "NETWORKDAYS",
-            "WORKDAY",
-            "WEEKNUM",
-            "DATEDIF",
-            "Shift calculations"
+            "TIME",
+            "MOD"
           ]
         }
       ]
@@ -455,70 +359,36 @@
         "Combine rolling and inspection extracts",
         "Reshape Charpy orientations side by side"
       ],
-      "available": false,
+      "available": true,
       "packages": [
         {
           "id": "L6-A1",
           "title": "Filter inspection exceptions",
           "formulas": [
             "FILTER",
-            "SORT",
-            "SORTBY",
-            "UNIQUE",
-            "SEQUENCE",
-            "CHOOSECOLS",
-            "CHOOSEROWS",
-            "VSTACK",
-            "HSTACK",
-            "TAKE",
-            "DROP"
+            "SORT"
           ]
         },
         {
           "id": "L6-A2",
           "title": "Sort a business priority queue",
           "formulas": [
-            "FILTER",
-            "SORT",
             "SORTBY",
-            "UNIQUE",
-            "SEQUENCE",
-            "CHOOSECOLS",
-            "CHOOSEROWS",
-            "VSTACK",
-            "HSTACK",
-            "TAKE",
-            "DROP"
+            "CHOOSEROWS"
           ]
         },
         {
           "id": "L6-A3",
-          "title": "Build unique heat summaries",
+          "title": "Create a distinct heat register",
           "formulas": [
-            "FILTER",
-            "SORT",
-            "SORTBY",
             "UNIQUE",
-            "SEQUENCE",
-            "CHOOSECOLS",
-            "CHOOSEROWS",
-            "VSTACK",
-            "HSTACK",
-            "TAKE",
-            "DROP"
+            "SEQUENCE"
           ]
         },
         {
           "id": "L6-A4",
-          "title": "Combine rolling and inspection extracts",
+          "title": "Combine two stock extracts",
           "formulas": [
-            "FILTER",
-            "SORT",
-            "SORTBY",
-            "UNIQUE",
-            "SEQUENCE",
-            "CHOOSECOLS",
-            "CHOOSEROWS",
             "VSTACK",
             "HSTACK",
             "TAKE",
@@ -529,17 +399,9 @@
           "id": "L6-A5",
           "title": "Reshape Charpy orientations side by side",
           "formulas": [
-            "FILTER",
-            "SORT",
-            "SORTBY",
-            "UNIQUE",
-            "SEQUENCE",
             "CHOOSECOLS",
             "CHOOSEROWS",
-            "VSTACK",
-            "HSTACK",
-            "TAKE",
-            "DROP"
+            "HSTACK"
           ]
         }
       ]

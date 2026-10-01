@@ -1,0 +1,528 @@
+{
+  "id": "L6-A2",
+  "level": 6,
+  "assignment": 2,
+  "title": "Sort a business priority queue",
+  "formulas": [
+    "SORTBY",
+    "CHOOSEROWS"
+  ],
+  "minutes": 70,
+  "scenario": "Qervella Orders has 68 invented orders with Urgency_score and Order_value_CAD. Scores and values can repeat; Order_code ascending is the final tie-break. Blank Customer_code fields are intentional and do not remove an order from the queue.",
+  "lesson": {
+    "intro": "A reproducible queue needs explicit tie-breaks. SORTBY can order by urgency descending, value descending and code ascending while returning the original row columns.",
+    "functions": [
+      {
+        "name": "SORTBY",
+        "purpose": "Sort by one or more aligned key arrays.",
+        "syntax": "=SORTBY(array, by_array1, [sort_order1], [by_array2], [sort_order2], ...)",
+        "arguments": "array is returned; each by_array and order pair supplies a primary or subsequent key.",
+        "example": "=SORTBY({\"A\";\"B\"},{3;1},1)",
+        "result": "B then A",
+        "useCase": "Prioritize orders with a deterministic tie-break.",
+        "mistake": "Key arrays must align with the returned rows."
+      },
+      {
+        "name": "CHOOSEROWS",
+        "purpose": "Select and reorder array rows.",
+        "syntax": "=CHOOSEROWS(array, row_num1, [row_num2], ...)",
+        "arguments": "Provide the array and 1-based row indices; negative indices count back from its last row.",
+        "example": "=CHOOSEROWS({10;20;30},1,-1)",
+        "result": "10 then 30",
+        "useCase": "Inspect the first and last records.",
+        "mistake": "Indices apply to the current array, after any filtering or sorting."
+      }
+    ],
+    "combine": "Reuse ROUND for values and IF for a review flag. CHOOSEROWS selects positions after sorting, not source worksheet row numbers. Keep related fields together so row identity survives sorting."
+  },
+  "tasks": [
+    {
+      "prompt": "Return all Order_code values sorted by Urgency_score descending, Order_value_CAD descending, then Order_code ascending.",
+      "output": "Answers!B2:B69",
+      "type": "array",
+      "formulas": [
+        "SORTBY"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return the first and last source Order_code values as a two-row column.",
+      "output": "Answers!B72:B73",
+      "type": "array",
+      "formulas": [
+        "CHOOSEROWS"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "Return the first three complete queue records (four columns) under the stated three-key ordering.",
+      "output": "Answers!B76:E78",
+      "type": "array",
+      "formulas": [
+        "CHOOSEROWS",
+        "SORTBY"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "For the first six source records, return High when Urgency_score is at least 4, otherwise Normal.",
+      "output": "Answers!B81:B86",
+      "type": "array",
+      "formulas": [
+        "IF"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Return the third record’s Order_code in the sorted queue.",
+    "output": "Answers!B89",
+    "type": "text",
+    "formulas": [
+      "INDEX",
+      "SORTBY"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Order_code",
+      "Customer_code",
+      "Urgency_score",
+      "Order_value_CAD"
+    ],
+    "rows": [
+      [
+        "QO-101",
+        "",
+        2,
+        625
+      ],
+      [
+        "QO-102",
+        "QC-2",
+        1,
+        425
+      ],
+      [
+        "QO-103",
+        "QC-3",
+        5,
+        600
+      ],
+      [
+        "QO-104",
+        "QC-4",
+        4,
+        875
+      ],
+      [
+        "QO-105",
+        "QC-5",
+        5,
+        325
+      ],
+      [
+        "QO-106",
+        "QC-6",
+        4,
+        450
+      ],
+      [
+        "QO-107",
+        "QC-7",
+        5,
+        850
+      ],
+      [
+        "QO-108",
+        "",
+        2,
+        625
+      ],
+      [
+        "QO-109",
+        "QC-9",
+        2,
+        625
+      ],
+      [
+        "QO-110",
+        "QC-1",
+        4,
+        1225
+      ],
+      [
+        "QO-111",
+        "QC-2",
+        5,
+        500
+      ],
+      [
+        "QO-112",
+        "QC-3",
+        3,
+        950
+      ],
+      [
+        "QO-113",
+        "QC-4",
+        2,
+        575
+      ],
+      [
+        "QO-114",
+        "QC-5",
+        2,
+        1075
+      ],
+      [
+        "QO-115",
+        "",
+        4,
+        325
+      ],
+      [
+        "QO-116",
+        "QC-7",
+        1,
+        300
+      ],
+      [
+        "QO-117",
+        "QC-8",
+        4,
+        1100
+      ],
+      [
+        "QO-118",
+        "QC-9",
+        1,
+        675
+      ],
+      [
+        "QO-119",
+        "QC-1",
+        5,
+        1100
+      ],
+      [
+        "QO-120",
+        "QC-2",
+        5,
+        1150
+      ],
+      [
+        "QO-121",
+        "QC-3",
+        1,
+        250
+      ],
+      [
+        "QO-122",
+        "",
+        3,
+        550
+      ],
+      [
+        "QO-123",
+        "QC-5",
+        4,
+        250
+      ],
+      [
+        "QO-124",
+        "QC-6",
+        1,
+        750
+      ],
+      [
+        "QO-125",
+        "QC-7",
+        2,
+        1150
+      ],
+      [
+        "QO-126",
+        "QC-8",
+        5,
+        925
+      ],
+      [
+        "QO-127",
+        "QC-9",
+        2,
+        250
+      ],
+      [
+        "QO-128",
+        "QC-1",
+        5,
+        1200
+      ],
+      [
+        "QO-129",
+        "",
+        2,
+        750
+      ],
+      [
+        "QO-130",
+        "QC-3",
+        2,
+        875
+      ],
+      [
+        "QO-131",
+        "QC-4",
+        3,
+        900
+      ],
+      [
+        "QO-132",
+        "QC-5",
+        4,
+        825
+      ],
+      [
+        "QO-133",
+        "QC-6",
+        5,
+        425
+      ],
+      [
+        "QO-134",
+        "QC-7",
+        2,
+        975
+      ],
+      [
+        "QO-135",
+        "QC-8",
+        3,
+        1125
+      ],
+      [
+        "QO-136",
+        "",
+        3,
+        700
+      ],
+      [
+        "QO-137",
+        "QC-1",
+        3,
+        550
+      ],
+      [
+        "QO-138",
+        "QC-2",
+        2,
+        875
+      ],
+      [
+        "QO-139",
+        "QC-3",
+        2,
+        1025
+      ],
+      [
+        "QO-140",
+        "QC-4",
+        5,
+        750
+      ],
+      [
+        "QO-141",
+        "QC-5",
+        3,
+        450
+      ],
+      [
+        "QO-142",
+        "QC-6",
+        2,
+        675
+      ],
+      [
+        "QO-143",
+        "",
+        3,
+        300
+      ],
+      [
+        "QO-144",
+        "QC-8",
+        3,
+        850
+      ],
+      [
+        "QO-145",
+        "QC-9",
+        4,
+        700
+      ],
+      [
+        "QO-146",
+        "QC-1",
+        5,
+        1100
+      ],
+      [
+        "QO-147",
+        "QC-2",
+        1,
+        1000
+      ],
+      [
+        "QO-148",
+        "QC-3",
+        4,
+        650
+      ],
+      [
+        "QO-149",
+        "QC-4",
+        3,
+        825
+      ],
+      [
+        "QO-150",
+        "",
+        1,
+        475
+      ],
+      [
+        "QO-151",
+        "QC-6",
+        3,
+        325
+      ],
+      [
+        "QO-152",
+        "QC-7",
+        3,
+        1250
+      ],
+      [
+        "QO-153",
+        "QC-8",
+        4,
+        1050
+      ],
+      [
+        "QO-154",
+        "QC-9",
+        3,
+        550
+      ],
+      [
+        "QO-155",
+        "QC-1",
+        4,
+        250
+      ],
+      [
+        "QO-156",
+        "QC-2",
+        4,
+        550
+      ],
+      [
+        "QO-157",
+        "",
+        4,
+        625
+      ],
+      [
+        "QO-158",
+        "QC-4",
+        1,
+        1175
+      ],
+      [
+        "QO-159",
+        "QC-5",
+        3,
+        875
+      ],
+      [
+        "QO-160",
+        "QC-6",
+        2,
+        725
+      ],
+      [
+        "QO-161",
+        "QC-7",
+        1,
+        450
+      ],
+      [
+        "QO-162",
+        "QC-8",
+        4,
+        575
+      ],
+      [
+        "QO-163",
+        "QC-9",
+        2,
+        525
+      ],
+      [
+        "QO-164",
+        "",
+        1,
+        1100
+      ],
+      [
+        "QO-165",
+        "QC-2",
+        3,
+        750
+      ],
+      [
+        "QO-166",
+        "QC-3",
+        3,
+        825
+      ],
+      [
+        "QO-167",
+        "QC-4",
+        4,
+        1025
+      ],
+      [
+        "QO-168",
+        "QC-5",
+        3,
+        1175
+      ]
+    ],
+    "rowCount": 68,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Order_code",
+        "description": "Order code. See scenario for business rules."
+      },
+      {
+        "name": "Customer_code",
+        "description": "Customer code. See scenario for business rules."
+      },
+      {
+        "name": "Urgency_score",
+        "description": "Urgency score. See scenario for business rules."
+      },
+      {
+        "name": "Order_value_CAD",
+        "description": "Order value CAD. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L6-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L6-A2.csv"
+  }
+}

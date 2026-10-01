@@ -55,7 +55,7 @@
       });
       Object.keys(item.submissions || {}).forEach(function (taskId) {
         var value = item.submissions[taskId];
-        if (!/^(?:t[1-5]|bonus)$/.test(taskId) || !isObject(value) || !string(value.formula, 4000) || !safeResult(value.result, 0)) throw new Error('Invalid saved formula or result in backup.');
+        if (!/^(?:t[1-5]|bonus)$/.test(taskId) || !isObject(value) || !string(value.formula, 4096) || !safeResult(value.result, 0)) throw new Error('Invalid saved formula or result in backup.');
         copy.submissions[taskId] = { formula: value.formula, result: value.result };
         if (string(value.resultText, 20000)) copy.submissions[taskId].resultText = value.resultText;
       });
