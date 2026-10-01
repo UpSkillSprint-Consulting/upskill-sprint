@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 52,
   "contentLessonCount": 47,
-  "sectionCount": 2025,
+  "sectionCount": 2027,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -2701,6 +2701,33 @@
       "placeholder": false,
       "contentAvailable": true,
       "sections": [
+        {
+          "id": "sprint-heading",
+          "heading": "Excel Formula Sprint",
+          "breadcrumb": [
+            "Excel Formula Sprint"
+          ],
+          "text": "Loading your assignment path…",
+          "excerpt": "Loading your assignment path…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-formula-reference-and-additional-practice",
+          "heading": "Formula reference and additional practice",
+          "breadcrumb": [
+            "Formula reference and additional practice"
+          ],
+          "text": "The lessons, workbook labs, projects and local credentials below are additional practice. They keep their original progress and do not unlock Sprint assignments or count as signed Sprint completions. Phase 3 · Intelligence & enterprise",
+          "excerpt": "The lessons, workbook labs, projects and local credentials below are additional practice. They keep their original progress and do not unlock Sprint assignments or count as signed Sprint completions. Phase 3 · Intelligence & enterprise",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
         {
           "id": "lesson-section-from-learning-platform-to-excel-talent-system",
           "heading": "From learning platform to Excel talent system.",
