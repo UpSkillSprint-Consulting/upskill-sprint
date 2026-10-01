@@ -149,6 +149,7 @@
     if (!canOpen(currentPackage.id)) { message('Verify saved progress before requesting formula coaching.', true); return; }
     collectDrafts();
     var pkg = currentPackage, saved = record(pkg.id), input = saved.submissions[taskId];
+    message('');
     var task = pkg.tasks.concat(pkg.bonus ? [pkg.bonus] : []).find(function (item) { return item.id === taskId; });
     if (!task || !saved.tasks[taskId] || !saved.tasks[taskId].attempts) { message('Check this task’s result once before requesting formula coaching.', true); return; }
     var panel = mount.querySelector('[data-sprint-coach-panel="' + taskId + '"]');

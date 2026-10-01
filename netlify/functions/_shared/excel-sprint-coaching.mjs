@@ -58,5 +58,11 @@ export async function coachFormula(payload,secret) {
   if(error.status)throw error;
   fail(503,'Formula coaching is temporarily unavailable. Result checks remain available.');
  }
- return {packageId:payload.packageId,taskId:payload.taskId,submissionCorrect,feedback:cleanFeedback(data)};
+ const feedback=cleanFeedback(data);
+ // The workbook reserves other cells for other tasks. Keep the practice action
+ // deterministic so a model cannot recommend copying over those answers.
+ feedback.nextStep=submissionCorrect
+  ?'Recalculate your formula in Excel and confirm the result in '+task.output+'. Keep other answer cells unchanged; a matching submitted value alone does not verify formula execution.'
+  :'Review the requested inputs and output layout, then revise your formula in Excel and check '+task.output+' again. Keep other answer cells unchanged.';
+ return {packageId:payload.packageId,taskId:payload.taskId,submissionCorrect,feedback};
 }

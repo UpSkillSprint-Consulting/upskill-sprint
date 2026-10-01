@@ -19,11 +19,12 @@ test('coaching requires a signed attempted task and predecessor; rejects score o
  assert.equal(calls,0);assert.equal(config.rateLimit.windowLimit,6);
 });
 test('provider receives no private answer key or model and AI verdict cannot override scoring',async()=>{
- env();const p=payload();let outbound;globalThis.fetch=async(url,init)=>{assert.equal(url,'https://api.anthropic.com/v1/messages');outbound=JSON.parse(init.body);return aiResponse({...feedback,references:'`'+feedback.references+'`',nextStep:'Test one boundary\ncase in Excel.'});};
- const result=await call(p);assert.equal(result.status,200);assert.equal(result.body.submissionCorrect,true);assert.deepEqual(result.body.feedback,feedback);
+ env();const p=payload(),output=JSON.parse(fs.readFileSync('assets/lessons/excel-formula-fluency/sprint/packages/L1-A1.json')).tasks[0].output;let outbound;globalThis.fetch=async(url,init)=>{assert.equal(url,'https://api.anthropic.com/v1/messages');outbound=JSON.parse(init.body);return aiResponse({...feedback,references:'`'+feedback.references+'`',nextStep:'Copy the formula down\nall Answers rows.'});};
+ const result=await call(p);assert.equal(result.status,200);assert.equal(result.body.submissionCorrect,true);
+ const {nextStep,...review}=result.body.feedback,{nextStep:unused,...expected}=feedback;assert.deepEqual(review,expected);assert.ok(nextStep.includes(output));assert.match(nextStep,/Keep other answer cells unchanged/);assert.doesNotMatch(nextStep,/copy|all Answers rows/i);
  const content=JSON.parse(outbound.messages[0].content);assert.ok(!/"(?:answer|model|hints|alternatives)":/.test(JSON.stringify(content)));assert.equal(content.submittedFormula,p.formula);assert.equal(outbound.model,C.COACH_MODEL);
  assert.equal(result.body.completionToken,undefined);assert.equal(G.readToken(p.receipt,SECRET,'receipt').taskStates.t1.attempts,1);
- const revised=await call({...p,result:'wrong'});assert.equal(revised.body.submissionCorrect,false);assert.equal(revised.body.score,undefined);
+ const revised=await call({...p,result:'wrong'});assert.equal(revised.body.submissionCorrect,false);assert.equal(revised.body.score,undefined);assert.ok(revised.body.feedback.nextStep.includes(output));assert.notEqual(revised.body.feedback.nextStep,nextStep);
 });
 test('gateway base URL is respected and availability exposes only a boolean',async()=>{
  env('gateway-key','https://gateway.example/v1');assert.equal(C.coachingSettings().endpoint,'https://gateway.example/v1/messages');const s=await status();assert.deepEqual(await s.json(),{available:true});
