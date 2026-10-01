@@ -1,0 +1,418 @@
+{
+  "id": "L8-A5",
+  "level": 8,
+  "assignment": 5,
+  "title": "Build a reusable Charpy calculation library",
+  "formulas": [
+    "LAMBDA",
+    "LET"
+  ],
+  "minutes": 80,
+  "scenario": "Jervali Testworks has 40 fictitious duplicate Charpy measurements. Define MeanEnergy(sampleKey,heatKey,orientation) in Name Manager or use its inline equivalent. It averages numeric replicates for both keys and normalized orientation, rounds to two decimals, and returns Missing when no numeric result exists.",
+  "lesson": {
+    "intro": "Reusable calculations need an explicit input contract. Keep all identifying keys as parameters rather than relying on an incidental worksheet row.",
+    "functions": [
+      {
+        "name": "LAMBDA",
+        "purpose": "Define a reusable calculation.",
+        "syntax": "=LAMBDA([parameter1, parameter2, ...], calculation)",
+        "arguments": "Optional parameters name inputs (up to 253); calculation returns the result. Call an inline function with arguments or assign it a name in Name Manager.",
+        "example": "=LAMBDA(amount,fee,amount-fee)(12,3)",
+        "result": 9,
+        "useCase": "Reuse a margin or orientation-mean rule.",
+        "mistake": "An uncalled inline LAMBDA returns #CALC!; call argument counts must match."
+      },
+      {
+        "name": "LET",
+        "purpose": "Name intermediate expressions.",
+        "syntax": "=LET(name1, name_value1, [name2, name_value2], ..., calculation)",
+        "arguments": "Provide a valid name/value pair, optional further pairs, and the final expression using those names; up to 126 pairs.",
+        "example": "=LET(amount,12,fee,3,amount-fee)",
+        "result": 9,
+        "useCase": "Calculate a guarded yield once.",
+        "mistake": "Names cannot collide with cell references; the last argument returns the result."
+      }
+    ],
+    "combine": "Review MAP, FILTER, ISNUMBER and HSTACK. MeanEnergy can name its mask in LET and reuse it to count and average the population. Named formulas are workbook-local: create the definition before calling it. Any equivalent formula is accepted. Text sample IDs retain leading zeros."
+  },
+  "orientationReshape": true,
+  "tasks": [
+    {
+      "prompt": "Return LPA mean energy for every Keys row (10 × 1), using both identifiers and the stated duplicate/missing rule.",
+      "output": "Answers!B2:B11",
+      "type": "array",
+      "formulas": [
+        "MAP",
+        "LAMBDA",
+        "LET"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return TWA mean energy for every Keys row (10 × 1), retaining Missing and numeric zero.",
+      "output": "Answers!B14:B23",
+      "type": "array",
+      "formulas": [
+        "MAP",
+        "LAMBDA"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "Assemble sample_no, heat_no, LPA_mean_J and TWA_mean_J for all Keys rows, in scaffold order without headers (10 × 4).",
+      "output": "Answers!B26:E35",
+      "type": "array",
+      "formulas": [
+        "HSTACK"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Count key pairs with at least one Missing orientation mean. Count a pair once if both orientations are missing.",
+      "output": "Answers!B38",
+      "type": "number",
+      "formulas": [
+        "BYROW",
+        "LAMBDA",
+        "COUNTIFS",
+        "SUM"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review SUMPRODUCT: count raw measured zero-energy records; blank cells must be excluded.",
+    "output": "Answers!B41",
+    "type": "number",
+    "formulas": [
+      "SUMPRODUCT",
+      "ISNUMBER"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "sample_no",
+      "heat_no",
+      "Orientation",
+      "Energy_J"
+    ],
+    "rows": [
+      [
+        "001",
+        "JV-H1",
+        " LPA ",
+        0
+      ],
+      [
+        "001",
+        "JV-H1",
+        " LPA ",
+        17
+      ],
+      [
+        "001",
+        "JV-H1",
+        "twa",
+        ""
+      ],
+      [
+        "001",
+        "JV-H1",
+        "twa",
+        ""
+      ],
+      [
+        "002",
+        "JV-H1",
+        " LPA ",
+        44
+      ],
+      [
+        "002",
+        "JV-H1",
+        " LPA ",
+        ""
+      ],
+      [
+        "002",
+        "JV-H1",
+        "twa",
+        45
+      ],
+      [
+        "002",
+        "JV-H1",
+        "twa",
+        42
+      ],
+      [
+        "003",
+        "JV-H1",
+        " LPA ",
+        0
+      ],
+      [
+        "003",
+        "JV-H1",
+        " LPA ",
+        0
+      ],
+      [
+        "003",
+        "JV-H1",
+        "twa",
+        16
+      ],
+      [
+        "003",
+        "JV-H1",
+        "twa",
+        20
+      ],
+      [
+        "004",
+        "JV-H1",
+        " LPA ",
+        27
+      ],
+      [
+        "004",
+        "JV-H1",
+        " LPA ",
+        27
+      ],
+      [
+        "004",
+        "JV-H1",
+        "twa",
+        20
+      ],
+      [
+        "004",
+        "JV-H1",
+        "twa",
+        20
+      ],
+      [
+        "005",
+        "JV-H1",
+        " LPA ",
+        46
+      ],
+      [
+        "005",
+        "JV-H1",
+        " LPA ",
+        27
+      ],
+      [
+        "005",
+        "JV-H1",
+        "twa",
+        23
+      ],
+      [
+        "005",
+        "JV-H1",
+        "twa",
+        21
+      ],
+      [
+        "001",
+        "JV-H2",
+        " LPA ",
+        47
+      ],
+      [
+        "001",
+        "JV-H2",
+        " LPA ",
+        43
+      ],
+      [
+        "001",
+        "JV-H2",
+        "twa",
+        44
+      ],
+      [
+        "001",
+        "JV-H2",
+        "twa",
+        34
+      ],
+      [
+        "002",
+        "JV-H2",
+        " LPA ",
+        40
+      ],
+      [
+        "002",
+        "JV-H2",
+        " LPA ",
+        26
+      ],
+      [
+        "002",
+        "JV-H2",
+        "twa",
+        20
+      ],
+      [
+        "002",
+        "JV-H2",
+        "twa",
+        36
+      ],
+      [
+        "003",
+        "JV-H2",
+        " LPA ",
+        25
+      ],
+      [
+        "003",
+        "JV-H2",
+        " LPA ",
+        17
+      ],
+      [
+        "003",
+        "JV-H2",
+        "twa",
+        26
+      ],
+      [
+        "003",
+        "JV-H2",
+        "twa",
+        37
+      ],
+      [
+        "004",
+        "JV-H2",
+        " LPA ",
+        30
+      ],
+      [
+        "004",
+        "JV-H2",
+        " LPA ",
+        24
+      ],
+      [
+        "004",
+        "JV-H2",
+        "twa",
+        43
+      ],
+      [
+        "004",
+        "JV-H2",
+        "twa",
+        22
+      ],
+      [
+        "005",
+        "JV-H2",
+        " LPA ",
+        16
+      ],
+      [
+        "005",
+        "JV-H2",
+        " LPA ",
+        33
+      ],
+      [
+        "005",
+        "JV-H2",
+        "twa",
+        32
+      ],
+      [
+        "005",
+        "JV-H2",
+        "twa",
+        26
+      ]
+    ],
+    "rowCount": 40,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "sample_no",
+        "description": "Text sample identifier reused across heats."
+      },
+      {
+        "name": "heat_no",
+        "description": "Invented heat identifier."
+      },
+      {
+        "name": "Orientation",
+        "description": "LPA/TWA with inconsistent case/spaces."
+      },
+      {
+        "name": "Energy_J",
+        "description": "Numeric joules, blank unmeasured, zero measured."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L8-A5.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L8-A5.csv",
+    "sheets": [
+      {
+        "name": "Keys",
+        "headers": [
+          "sample_no",
+          "heat_no"
+        ],
+        "rows": [
+          [
+            "001",
+            "JV-H1"
+          ],
+          [
+            "002",
+            "JV-H1"
+          ],
+          [
+            "003",
+            "JV-H1"
+          ],
+          [
+            "004",
+            "JV-H1"
+          ],
+          [
+            "005",
+            "JV-H1"
+          ],
+          [
+            "001",
+            "JV-H2"
+          ],
+          [
+            "002",
+            "JV-H2"
+          ],
+          [
+            "003",
+            "JV-H2"
+          ],
+          [
+            "004",
+            "JV-H2"
+          ],
+          [
+            "005",
+            "JV-H2"
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L8-A5-Keys.csv"
+      }
+    ]
+  }
+}

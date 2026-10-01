@@ -1,0 +1,561 @@
+{
+  "id": "L10-A2",
+  "level": 10,
+  "assignment": 2,
+  "title": "Reconcile orders and partial shipments",
+  "formulas": [
+    "LET",
+    "MAP"
+  ],
+  "minutes": 85,
+  "scenario": "Qervali Distribution has 40 fictitious orders and a Shipments table with partial and repeated dispatches. Aggregate all shipments by Order_no; shipments for absent orders are orphans and remain separate. Remaining units = ordered − shipped; negative means overshipment and must not be clamped to zero.",
+  "lesson": {
+    "intro": "Reconciling tables requires aggregate joins when an order can have several shipments. A first-match lookup loses partial dispatches. Independent control totals expose orphan movements.",
+    "functions": [
+      {
+        "name": "LET",
+        "purpose": "Name intermediate expressions.",
+        "syntax": "=LET(name1, name_value1, [name2, name_value2], ..., calculation)",
+        "arguments": "Provide a valid name/value pair, optional further pairs, and the final expression using those names; up to 126 pairs.",
+        "example": "=LET(amount,12,fee,3,amount-fee)",
+        "result": 9,
+        "useCase": "Calculate a guarded yield once.",
+        "mistake": "Names cannot collide with cell references; the last argument returns the result."
+      },
+      {
+        "name": "MAP",
+        "purpose": "Transform corresponding array elements.",
+        "syntax": "=MAP(array1, [array2, ...], lambda)",
+        "arguments": "array1 and optional aligned arrays supply values; the final LAMBDA has one parameter per array and returns one result per position.",
+        "example": "=MAP({2;4},LAMBDA(item,item*3))",
+        "result": "6 then 12",
+        "useCase": "Apply a reusable margin calculation.",
+        "mistake": "Each call must return one value; mismatched parameters error."
+      }
+    ],
+    "combine": "Review SUMIFS, COUNTIFS, FILTER, HSTACK and SUM. Use the order scaffold to preserve source order. Return Short for positive remaining units, Over for negative, Balanced for zero. Any equivalent formula is accepted; all quantities are numeric."
+  },
+  "tasks": [
+    {
+      "prompt": "Return total shipped units for the first eight order rows (8 × 1). Sum every partial shipment; absent shipments produce numeric zero.",
+      "output": "Answers!B2:B9",
+      "type": "array",
+      "formulas": [
+        "MAP",
+        "LAMBDA",
+        "SUMIFS"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return Order_no, Ordered_units, Shipped_units, Remaining_units, Status for every order (40 × 5), source order. Preserve signed remaining units.",
+      "output": "Answers!B12:F51",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "MAP",
+        "SUMIFS",
+        "HSTACK",
+        "IF"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "From task 2, return every Short or Over row in original order order, without headers. Balanced rows are excluded.",
+      "output": "Answers!B54:F84",
+      "type": "array",
+      "formulas": [
+        "FILTER"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Return total ordered units, matched shipped units, orphan shipped units, and all shipped units − matched − orphan as one 1 × 4 row. The last value must reconcile to numeric zero.",
+      "output": "Answers!B87:E87",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "COUNTIFS",
+        "FILTER",
+        "HSTACK",
+        "SUM"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review COUNTIFS: count Over orders from task 2.",
+    "output": "Answers!B90",
+    "type": "number",
+    "formulas": [
+      "COUNTIFS"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Order_no",
+      "Ordered_units",
+      "Price_CAD"
+    ],
+    "rows": [
+      [
+        "QV-001",
+        0,
+        43
+      ],
+      [
+        "QV-002",
+        22,
+        52
+      ],
+      [
+        "QV-003",
+        41,
+        78
+      ],
+      [
+        "QV-004",
+        16,
+        48
+      ],
+      [
+        "QV-005",
+        46,
+        42
+      ],
+      [
+        "QV-006",
+        35,
+        86
+      ],
+      [
+        "QV-007",
+        21,
+        86
+      ],
+      [
+        "QV-008",
+        24,
+        28
+      ],
+      [
+        "QV-009",
+        35,
+        40
+      ],
+      [
+        "QV-010",
+        28,
+        78
+      ],
+      [
+        "QV-011",
+        50,
+        38
+      ],
+      [
+        "QV-012",
+        23,
+        56
+      ],
+      [
+        "QV-013",
+        30,
+        36
+      ],
+      [
+        "QV-014",
+        47,
+        83
+      ],
+      [
+        "QV-015",
+        60,
+        45
+      ],
+      [
+        "QV-016",
+        32,
+        82
+      ],
+      [
+        "QV-017",
+        59,
+        62
+      ],
+      [
+        "QV-018",
+        26,
+        70
+      ],
+      [
+        "QV-019",
+        41,
+        68
+      ],
+      [
+        "QV-020",
+        16,
+        71
+      ],
+      [
+        "QV-021",
+        59,
+        80
+      ],
+      [
+        "QV-022",
+        48,
+        68
+      ],
+      [
+        "QV-023",
+        16,
+        63
+      ],
+      [
+        "QV-024",
+        23,
+        70
+      ],
+      [
+        "QV-025",
+        39,
+        49
+      ],
+      [
+        "QV-026",
+        18,
+        50
+      ],
+      [
+        "QV-027",
+        51,
+        23
+      ],
+      [
+        "QV-028",
+        35,
+        69
+      ],
+      [
+        "QV-029",
+        41,
+        48
+      ],
+      [
+        "QV-030",
+        26,
+        22
+      ],
+      [
+        "QV-031",
+        20,
+        58
+      ],
+      [
+        "QV-032",
+        17,
+        76
+      ],
+      [
+        "QV-033",
+        34,
+        67
+      ],
+      [
+        "QV-034",
+        61,
+        51
+      ],
+      [
+        "QV-035",
+        27,
+        88
+      ],
+      [
+        "QV-036",
+        54,
+        62
+      ],
+      [
+        "QV-037",
+        42,
+        66
+      ],
+      [
+        "QV-038",
+        39,
+        82
+      ],
+      [
+        "QV-039",
+        18,
+        79
+      ],
+      [
+        "QV-040",
+        70,
+        45
+      ]
+    ],
+    "rowCount": 40,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Order_no",
+        "description": "Unique padded order key."
+      },
+      {
+        "name": "Ordered_units",
+        "description": "Nonnegative ordered quantity; a measured zero order is valid."
+      },
+      {
+        "name": "Price_CAD",
+        "description": "Numeric price per unit, CAD."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A2.csv",
+    "sheets": [
+      {
+        "name": "Shipments",
+        "headers": [
+          "Shipment_no",
+          "Order_no",
+          "Shipped_units"
+        ],
+        "rows": [
+          [
+            "QS-1",
+            "QV-001",
+            5
+          ],
+          [
+            "QS-2",
+            "QV-002",
+            25
+          ],
+          [
+            "QS-3",
+            "QV-003",
+            37
+          ],
+          [
+            "QS-4",
+            "QV-004",
+            12
+          ],
+          [
+            "QS-5",
+            "QV-005",
+            46
+          ],
+          [
+            "QS-6",
+            "QV-006",
+            38
+          ],
+          [
+            "QS-7",
+            "QV-007",
+            17
+          ],
+          [
+            "QS-8",
+            "QV-008",
+            20
+          ],
+          [
+            "QS-9",
+            "QV-009",
+            35
+          ],
+          [
+            "QS-10",
+            "QV-010",
+            31
+          ],
+          [
+            "QS-11",
+            "QV-011",
+            46
+          ],
+          [
+            "QS-12",
+            "QV-012",
+            19
+          ],
+          [
+            "QS-13",
+            "QV-013",
+            30
+          ],
+          [
+            "QS-14",
+            "QV-014",
+            50
+          ],
+          [
+            "QS-15",
+            "QV-015",
+            56
+          ],
+          [
+            "QS-16",
+            "QV-016",
+            28
+          ],
+          [
+            "QS-17",
+            "QV-017",
+            59
+          ],
+          [
+            "QS-18",
+            "QV-018",
+            29
+          ],
+          [
+            "QS-19",
+            "QV-019",
+            37
+          ],
+          [
+            "QS-20",
+            "QV-020",
+            12
+          ],
+          [
+            "QS-21",
+            "QV-021",
+            59
+          ],
+          [
+            "QS-22",
+            "QV-022",
+            51
+          ],
+          [
+            "QS-23",
+            "QV-023",
+            12
+          ],
+          [
+            "QS-24",
+            "QV-024",
+            19
+          ],
+          [
+            "QS-25",
+            "QV-025",
+            39
+          ],
+          [
+            "QS-26",
+            "QV-026",
+            21
+          ],
+          [
+            "QS-27",
+            "QV-027",
+            47
+          ],
+          [
+            "QS-28",
+            "QV-028",
+            31
+          ],
+          [
+            "QS-29",
+            "QV-029",
+            41
+          ],
+          [
+            "QS-30",
+            "QV-030",
+            29
+          ],
+          [
+            "QS-31",
+            "QV-031",
+            16
+          ],
+          [
+            "QS-32",
+            "QV-032",
+            13
+          ],
+          [
+            "QS-33",
+            "QV-033",
+            34
+          ],
+          [
+            "QS-34",
+            "QV-034",
+            64
+          ],
+          [
+            "QS-35",
+            "QV-035",
+            23
+          ],
+          [
+            "QS-36",
+            "QV-036",
+            50
+          ],
+          [
+            "QS-37",
+            "QV-037",
+            42
+          ],
+          [
+            "QS-38",
+            "QV-038",
+            42
+          ],
+          [
+            "QS-39",
+            "QV-039",
+            14
+          ],
+          [
+            "QS-40",
+            "QV-040",
+            66
+          ],
+          [
+            "QS-41",
+            "QV-003",
+            2
+          ],
+          [
+            "QS-42",
+            "QV-004",
+            6
+          ],
+          [
+            "QS-43",
+            "QV-008",
+            8
+          ],
+          [
+            "QS-44",
+            "QV-999",
+            11
+          ],
+          [
+            "QS-45",
+            "QV-998",
+            7
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A2-Shipments.csv"
+      }
+    ]
+  }
+}

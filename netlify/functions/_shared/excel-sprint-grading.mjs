@@ -3,7 +3,7 @@ import answers from './excel-sprint-answers.json' with { type: 'json' };
 
 // This module and the answer JSON are function inputs, never public site assets.
 export const CURRICULUM_VERSION = 1;
-export const PACKAGE_IDS = Object.freeze(Array.from({ length: 30 }, (_, i) => `L${Math.floor(i / 5) + 1}-A${i % 5 + 1}`));
+export const PACKAGE_IDS = Object.freeze(Array.from({ length: 50 }, (_, i) => `L${Math.floor(i / 5) + 1}-A${i % 5 + 1}`));
 // Expert Track v1 has a fixed Levels 1–6 prerequisite. Future core releases do not change its proofs.
 export const EXPERT_IDS = Object.freeze(['EX-A1', 'EX-A2', 'EX-A3']);
 export const EXPERT_CORE_IDS = Object.freeze(PACKAGE_IDS.slice(0, 30));

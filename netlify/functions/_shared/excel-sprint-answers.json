@@ -4505,6 +4505,4662 @@
       "output": "Answers!B132"
     }
   },
+  "L7-A1": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": 96.62480376766091,
+        "model": "=SUM(Data!D2:D41)/SUM(Data!C2:C41)*100",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Weight batches by inspected units.",
+          "Divide the two source totals.",
+          "=SUM(____)/SUM(____)*100"
+        ],
+        "alternatives": [
+          "=SUMPRODUCT(Data!D2:D41)/SUMPRODUCT(Data!C2:C41)*100"
+        ],
+        "id": "t1",
+        "prompt": "Calculate pooled good yield: 100 × total Good_units / total Inspected_units across all 40 batches.",
+        "output": "Answers!B2"
+      },
+      {
+        "answer": 11756,
+        "model": "=SUMPRODUCT(Data!E2:E41,Data!F2:F41)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Every batch has its own hours and rate.",
+          "Use aligned SUMPRODUCT arrays.",
+          "=SUMPRODUCT(____,Data!F2:F41)"
+        ],
+        "alternatives": [],
+        "id": "t2",
+        "prompt": "Calculate total operating cost as the sum of each batch’s Hours_h × Rate_CAD_per_h. Submit unrounded CAD.",
+        "output": "Answers!B5"
+      },
+      {
+        "answer": 6713,
+        "model": "=SUMPRODUCT(--(Data!B2:B41=\"Day\"),Data!D2:D41)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Exclude Night batches but retain repeated Day records.",
+          "Multiply the Day mask by good units.",
+          "=SUMPRODUCT(--(____=\"Day\"),____)"
+        ],
+        "alternatives": [
+          "=SUMIFS(Data!D2:D41,Data!B2:B41,\"Day\")"
+        ],
+        "id": "t3",
+        "prompt": "Calculate total Good_units for Day batches only.",
+        "output": "Answers!B8"
+      },
+      {
+        "answer": 0.8393713689855505,
+        "model": "=SUMPRODUCT(--(Data!B2:B41=\"Day\"),Data!E2:E41,Data!F2:F41)/SUMPRODUCT(--(Data!B2:B41=\"Day\"),Data!D2:D41)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Use the same Day population in numerator and denominator.",
+          "Divide two conditional SUMPRODUCT totals.",
+          "=SUMPRODUCT(____)/SUMPRODUCT(____)"
+        ],
+        "alternatives": [],
+        "id": "t4",
+        "prompt": "Calculate Day operating cost per Day good unit: selected hours × rates / selected good units. Submit unrounded CAD/unit.",
+        "output": "Answers!B11"
+      }
+    ],
+    "bonus": {
+      "answer": 134.34,
+      "model": "=ROUND(SUM(Data!D2:D41)/SUM(Data!E2:E41),2)",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "This is pooled production rate, not mean batch rate.",
+        "Divide totals then ROUND.",
+        "=ROUND(SUM(____)/SUM(____),2)"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review ROUND: return total good units per total operating hour, rounded to two decimals.",
+      "output": "Answers!B14"
+    }
+  },
+  "L7-A2": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            1
+          ],
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            1
+          ]
+        ],
+        "model": "=COUNTIFS(Data!$B$2:$B$37,Requests!A2,Data!$C$2:$C$37,Requests!B2)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Count both matching conditions and retain duplicates.",
+          "Use COUNTIFS with two criteria.",
+          "=COUNTIFS(____,Requests!A2,____,Requests!B2)"
+        ],
+        "alternatives": [],
+        "note": "Fill down for all six requests.",
+        "id": "t1",
+        "prompt": "For all six Requests rows, return matching-line counts as a 6 × 1 column in request order.",
+        "output": "Answers!B2:B7"
+      },
+      {
+        "answer": [
+          [
+            "BV-1"
+          ],
+          [
+            "Review key"
+          ],
+          [
+            "BV-4"
+          ],
+          [
+            "Review key"
+          ],
+          [
+            "BV-5"
+          ],
+          [
+            "BV-6"
+          ]
+        ],
+        "model": "=IF(COUNTIFS(Data!$B$2:$B$37,Requests!A2,Data!$C$2:$C$37,Requests!B2)=1,XLOOKUP(1,(Data!$B$2:$B$37=Requests!A2)*(Data!$C$2:$C$37=Requests!B2),Data!$A$2:$A$37),\"Review key\")",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "An absent or duplicate combination needs review.",
+          "Guard the Boolean XLOOKUP with match count.",
+          "=IF(COUNTIFS(____)=____,XLOOKUP(1,____,____),\"Review key\")"
+        ],
+        "alternatives": [],
+        "note": "Fill down in request order.",
+        "id": "t2",
+        "prompt": "For all six requests, return Order_no only for exactly one match; return Review key for zero or multiple matches.",
+        "output": "Answers!B10:B15"
+      },
+      {
+        "answer": 1,
+        "model": "=XMATCH(1,(Data!B2:B37=Requests!A2)*(Data!C2:C37=Requests!B2),0)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "The position is relative to data rows, excluding the header.",
+          "Match one in the combined mask.",
+          "=XMATCH(1,____,0)"
+        ],
+        "alternatives": [
+          "=MATCH(1,(Data!B2:B37=Requests!A2)*(Data!C2:C37=Requests!B2),0)"
+        ],
+        "id": "t3",
+        "prompt": "Return the first request’s 1-based matching position within Data rows, using both conditions.",
+        "output": "Answers!B18"
+      },
+      {
+        "answer": [
+          [
+            "BV-2",
+            "C2",
+            "P2",
+            33,
+            90
+          ],
+          [
+            "BV-3",
+            "C2",
+            "P2",
+            71,
+            36
+          ]
+        ],
+        "model": "=FILTER(Data!A2:E37,(Data!B2:B37=Requests!A3)*(Data!C2:C37=Requests!B3),\"None\")",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Both matching lines belong in the report.",
+          "Use a two-condition FILTER.",
+          "=FILTER(Data!A2:E37,____,\"None\")"
+        ],
+        "alternatives": [],
+        "id": "t4",
+        "prompt": "Return all complete Data rows matching the second request, in source order. Keep both duplicate lines (2 × 5).",
+        "output": "Answers!B21:F22"
+      }
+    ],
+    "bonus": {
+      "answer": 104,
+      "model": "=SUMIFS(Data!D2:D37,Data!B2:B37,Requests!A3,Data!C2:C37,Requests!B3)",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Aggregate duplicate lines; do not select only one.",
+        "Use SUMIFS with both keys.",
+        "=SUMIFS(____,____,Requests!A3,____,Requests!B3)"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review SUMIFS: total Units across every line matching the second request.",
+      "output": "Answers!B25"
+    }
+  },
+  "L7-A3": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "LPA"
+          ],
+          [
+            "TWA"
+          ],
+          [
+            "TWA"
+          ]
+        ],
+        "model": "=UPPER(TRIM(Data!C2:C9))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Remove outer spaces and standardize letter case.",
+          "Nest TRIM inside UPPER.",
+          "=UPPER(____(Data!C2:C9))"
+        ],
+        "alternatives": [],
+        "id": "t1",
+        "prompt": "Normalize Orientation for the first eight source records, as an 8 × 1 column in source order.",
+        "output": "Answers!B2:B9"
+      },
+      {
+        "answer": [
+          [
+            2,
+            0
+          ],
+          [
+            1,
+            2
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            2
+          ],
+          [
+            2,
+            2
+          ]
+        ],
+        "model": "=SUMPRODUCT(--(Data!$A$2:$A$41=Keys!$A2),--(Data!$B$2:$B$41=Keys!$B2),--(UPPER(TRIM(Data!$C$2:$C$41))=\"LPA\"),--ISNUMBER(Data!$D$2:$D$41))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Use sample, heat, orientation and numeric status together.",
+          "SUMPRODUCT combines four masks.",
+          "=SUMPRODUCT(--(____),--(____),--(____),--ISNUMBER(____))"
+        ],
+        "alternatives": [],
+        "note": "Fill down; repeat for TWA in the second output column.",
+        "id": "t2",
+        "prompt": "In Keys order, return numeric replicate counts for LPA then TWA (10 × 2). Blank energy does not count; zero does.",
+        "output": "Answers!B12:C21"
+      },
+      {
+        "answer": [
+          [
+            9.5,
+            "Missing"
+          ],
+          [
+            39,
+            33.5
+          ],
+          [
+            0,
+            28.5
+          ],
+          [
+            27,
+            20
+          ],
+          [
+            28.5,
+            35.5
+          ],
+          [
+            35,
+            46.5
+          ],
+          [
+            24.5,
+            31
+          ],
+          [
+            36.5,
+            36
+          ],
+          [
+            23,
+            26
+          ],
+          [
+            29,
+            22.5
+          ]
+        ],
+        "model": "=IF(SUMPRODUCT(--(Data!$A$2:$A$41=Keys!$A2),--(Data!$B$2:$B$41=Keys!$B2),--(UPPER(TRIM(Data!$C$2:$C$41))=\"LPA\"),--ISNUMBER(Data!$D$2:$D$41))=0,\"Missing\",ROUND(AVERAGE(FILTER(Data!$D$2:$D$41,(Data!$A$2:$A$41=Keys!$A2)*(Data!$B$2:$B$41=Keys!$B2)*(UPPER(TRIM(Data!$C$2:$C$41))=\"LPA\")*ISNUMBER(Data!$D$2:$D$41))),2))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Average all numeric replicates and retain missing groups.",
+          "Guard a numeric-only FILTER before averaging.",
+          "=IF(SUMPRODUCT(____)=0,\"Missing\",ROUND(AVERAGE(FILTER(____,____)),2))"
+        ],
+        "alternatives": [],
+        "note": "Fill down; repeat with TWA for the second column.",
+        "id": "t3",
+        "prompt": "In Keys order, return LPA and TWA numeric means, rounded to two decimals (10 × 2). Use Missing when a count is zero.",
+        "output": "Answers!B24:C33"
+      },
+      {
+        "answer": [
+          [
+            "001",
+            "CV-H1",
+            9.5,
+            "Missing"
+          ],
+          [
+            "002",
+            "CV-H1",
+            39,
+            33.5
+          ],
+          [
+            "003",
+            "CV-H1",
+            0,
+            28.5
+          ],
+          [
+            "004",
+            "CV-H1",
+            27,
+            20
+          ],
+          [
+            "005",
+            "CV-H1",
+            28.5,
+            35.5
+          ],
+          [
+            "001",
+            "CV-H2",
+            35,
+            46.5
+          ],
+          [
+            "002",
+            "CV-H2",
+            24.5,
+            31
+          ],
+          [
+            "003",
+            "CV-H2",
+            36.5,
+            36
+          ],
+          [
+            "004",
+            "CV-H2",
+            23,
+            26
+          ],
+          [
+            "005",
+            "CV-H2",
+            29,
+            22.5
+          ]
+        ],
+        "model": "=HSTACK(Keys!A2:B11,Answers!B24:C33)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Keep both identifiers beside the two means.",
+          "HSTACK the key scaffold and task-3 results.",
+          "=HSTACK(____,____)"
+        ],
+        "alternatives": [
+          "=CHOOSE({1,2,3,4},Keys!A2:A11,Keys!B2:B11,Answers!B24:B33,Answers!C24:C33)"
+        ],
+        "id": "t4",
+        "prompt": "Assemble sample_no, heat_no, LPA_mean_J, TWA_mean_J in Keys order, without headers (10 × 4). Preserve text sample IDs.",
+        "output": "Answers!B36:E45"
+      }
+    ],
+    "bonus": {
+      "answer": 1,
+      "model": "=COUNTIFS(Answers!B24:C33,\"Missing\")",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Count orientation cells rather than raw blank replicates.",
+        "Apply COUNTIFS to task 3.",
+        "=COUNTIFS(____,\"Missing\")"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review COUNTIFS: count Missing orientation cells in the task-3 result only.",
+      "output": "Answers!B48"
+    }
+  },
+  "L7-A4": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ],
+          [
+            "Missing"
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4
+          ]
+        ],
+        "model": "=IFNA(XMATCH(Data!B2,Matrix!$A$2:$A$5,0),\"Missing\")",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Unknown grades have no position.",
+          "Use exact XMATCH with IFNA.",
+          "=IFNA(XMATCH(____,____,0),\"Missing\")"
+        ],
+        "alternatives": [],
+        "note": "Fill down eight rows.",
+        "id": "t1",
+        "prompt": "For the first eight records, return the exact grade position within Matrix data rows, or Missing for an absent grade.",
+        "output": "Answers!B2:B9"
+      },
+      {
+        "answer": [
+          [
+            27
+          ],
+          [
+            25
+          ],
+          [
+            40
+          ],
+          [
+            35
+          ],
+          [
+            "Missing"
+          ],
+          [
+            "Missing"
+          ],
+          [
+            40
+          ],
+          [
+            35
+          ]
+        ],
+        "model": "=IFNA(INDEX(Matrix!$B$2:$C$5,XMATCH(Data!B2,Matrix!$A$2:$A$5,0),XMATCH(Data!C2,Matrix!$B$1:$C$1,0)),\"Missing\")",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Match grade to rows and orientation to columns.",
+          "Put two XMATCH expressions inside INDEX.",
+          "=IFNA(INDEX(____,XMATCH(____),XMATCH(____)),\"Missing\")"
+        ],
+        "alternatives": [
+          "=IFNA(INDEX(Matrix!$B$2:$C$5,MATCH(Data!B2,Matrix!$A$2:$A$5,0),MATCH(Data!C2,Matrix!$B$1:$C$1,0)),\"Missing\")"
+        ],
+        "note": "Fill down eight rows.",
+        "id": "t2",
+        "prompt": "For the first eight records, return the matched energy limit in joules, or Missing if either dimension is absent.",
+        "output": "Answers!B12:B19"
+      },
+      {
+        "answer": [
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Missing"
+          ],
+          [
+            "Missing"
+          ],
+          [
+            "Missing"
+          ],
+          [
+            "Pass"
+          ]
+        ],
+        "model": "=IF(OR(Answers!B12=\"Missing\",NOT(ISNUMBER(Data!D2))),\"Missing\",IF(Data!D2>=Answers!B12,\"Pass\",\"Hold\"))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Equality passes; absent energy does not become zero.",
+          "Guard the task-2 limit and energy before IF.",
+          "=IF(OR(____),\"Missing\",IF(____,\"Pass\",\"Hold\"))"
+        ],
+        "alternatives": [],
+        "note": "Use the corresponding task-2 limit; fill down eight rows.",
+        "id": "t3",
+        "prompt": "For the first eight records, return Pass when measured energy is at least the matched limit, Hold below it, or Missing for absent energy/dimensions.",
+        "output": "Answers!B22:B29"
+      },
+      {
+        "answer": 3,
+        "model": "=COUNTIFS(Answers!B22:B29,\"Missing\")",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Count absent input or dimension statuses in the requested eight rows.",
+          "Review COUNTIFS on task 3.",
+          "=COUNTIFS(____,\"Missing\")"
+        ],
+        "alternatives": [],
+        "id": "t4",
+        "prompt": "Count Missing statuses in the first eight task-3 outputs.",
+        "output": "Answers!B32"
+      }
+    ],
+    "bonus": {
+      "answer": 35,
+      "model": "=INDEX(Matrix!B2:C5,4,2)",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "G4 is the fourth matrix data row; TWA is the second measure column.",
+        "Use relative INDEX positions.",
+        "=INDEX(____,4,2)"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review INDEX: return the Matrix requirement for G4 and TWA.",
+      "output": "Answers!B35"
+    }
+  },
+  "L7-A5": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            "Review"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Pass"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Pass"
+          ]
+        ],
+        "model": "=IF(NOT(ISNUMBER(Data!D2)),\"Review\",IF(OR(Data!C2<9.5,Data!C2>10.5,Data!D2<450),\"Hold\",\"Pass\"))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Blank strength is Review and exact limits are inclusive.",
+          "Guard missing strength before the failure conditions.",
+          "=IF(____,\"Review\",IF(OR(____),\"Hold\",\"Pass\"))"
+        ],
+        "alternatives": [],
+        "note": "Fill down all 60 rows.",
+        "id": "t1",
+        "prompt": "For every source record, return Pass, Hold or Review (60 × 1), in source order.",
+        "output": "Answers!B2:B61"
+      },
+      {
+        "answer": [
+          [
+            "EV-001",
+            "EV-H1",
+            9.5,
+            "",
+            386
+          ],
+          [
+            "EV-005",
+            "EV-H5",
+            10.6,
+            456,
+            290
+          ],
+          [
+            "EV-007",
+            "EV-H2",
+            10.2,
+            443,
+            352
+          ],
+          [
+            "EV-011",
+            "EV-H1",
+            9.3,
+            428,
+            555
+          ],
+          [
+            "EV-012",
+            "EV-H2",
+            10.7,
+            "",
+            177
+          ],
+          [
+            "EV-020",
+            "EV-H5",
+            9.6,
+            427,
+            525
+          ],
+          [
+            "EV-023",
+            "EV-H3",
+            9.5,
+            "",
+            633
+          ],
+          [
+            "EV-025",
+            "EV-H5",
+            10,
+            437,
+            360
+          ],
+          [
+            "EV-027",
+            "EV-H2",
+            9.5,
+            442,
+            653
+          ],
+          [
+            "EV-029",
+            "EV-H4",
+            10,
+            425,
+            756
+          ],
+          [
+            "EV-030",
+            "EV-H5",
+            9.3,
+            482,
+            189
+          ],
+          [
+            "EV-031",
+            "EV-H1",
+            9.4,
+            444,
+            678
+          ],
+          [
+            "EV-033",
+            "EV-H3",
+            10.7,
+            439,
+            462
+          ],
+          [
+            "EV-034",
+            "EV-H4",
+            9.3,
+            "",
+            756
+          ],
+          [
+            "EV-041",
+            "EV-H1",
+            10.6,
+            443,
+            140
+          ],
+          [
+            "EV-043",
+            "EV-H3",
+            9.5,
+            434,
+            647
+          ],
+          [
+            "EV-044",
+            "EV-H4",
+            10.6,
+            473,
+            780
+          ],
+          [
+            "EV-045",
+            "EV-H5",
+            10.5,
+            "",
+            141
+          ],
+          [
+            "EV-046",
+            "EV-H1",
+            10.7,
+            447,
+            411
+          ],
+          [
+            "EV-047",
+            "EV-H2",
+            10.4,
+            428,
+            379
+          ],
+          [
+            "EV-049",
+            "EV-H4",
+            10.5,
+            433,
+            530
+          ],
+          [
+            "EV-052",
+            "EV-H2",
+            9.3,
+            447,
+            623
+          ],
+          [
+            "EV-054",
+            "EV-H4",
+            10.6,
+            485,
+            653
+          ],
+          [
+            "EV-056",
+            "EV-H1",
+            10.6,
+            "",
+            498
+          ],
+          [
+            "EV-057",
+            "EV-H2",
+            9.8,
+            429,
+            182
+          ],
+          [
+            "EV-058",
+            "EV-H3",
+            10.6,
+            455,
+            386
+          ],
+          [
+            "EV-059",
+            "EV-H4",
+            9.9,
+            438,
+            518
+          ]
+        ],
+        "model": "=SORTBY(FILTER(Data!A2:E61,Answers!B2:B61<>\"Pass\"),FILTER(Data!A2:A61,Answers!B2:B61<>\"Pass\"),1)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Retain every non-Pass record.",
+          "Filter output and sort key with the same mask.",
+          "=SORTBY(FILTER(____,____),FILTER(____,____),1)"
+        ],
+        "alternatives": [],
+        "id": "t2",
+        "prompt": "Return every full Data row whose task-1 status is Hold or Review, sorted by Inspection_no ascending. Keep repeated heats.",
+        "output": "Answers!B64:F90"
+      },
+      {
+        "answer": 10069,
+        "model": "=SUMIFS(Data!E2:E61,Answers!B2:B61,\"Hold\")",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Review and Pass costs do not belong in the Hold total.",
+          "Review SUMIFS using task-1 statuses.",
+          "=SUMIFS(____,____,\"Hold\")"
+        ],
+        "alternatives": [],
+        "id": "t3",
+        "prompt": "Calculate total Rework_CAD for Hold records only. Review costs are pending and excluded.",
+        "output": "Answers!B93"
+      },
+      {
+        "answer": [
+          [
+            "EV-007",
+            "EV-H2",
+            10.2,
+            443,
+            352
+          ],
+          [
+            "EV-012",
+            "EV-H2",
+            10.7,
+            "",
+            177
+          ],
+          [
+            "EV-027",
+            "EV-H2",
+            9.5,
+            442,
+            653
+          ],
+          [
+            "EV-047",
+            "EV-H2",
+            10.4,
+            428,
+            379
+          ],
+          [
+            "EV-052",
+            "EV-H2",
+            9.3,
+            447,
+            623
+          ],
+          [
+            "EV-057",
+            "EV-H2",
+            9.8,
+            429,
+            182
+          ]
+        ],
+        "model": "=FILTER(FILTER(Data!A2:E61,Answers!B2:B61<>\"Pass\"),FILTER(Data!B2:B61,Answers!B2:B61<>\"Pass\")=\"EV-H2\",\"None\")",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Both exception status and heat must match.",
+          "Filter the exceptions first, then their aligned heat key.",
+          "=FILTER(FILTER(____,____),FILTER(____,____)=\"EV-H2\",\"None\")"
+        ],
+        "alternatives": [
+          "=FILTER(Data!A2:E61,(Answers!B2:B61<>\"Pass\")*(Data!B2:B61=\"EV-H2\"),\"None\")"
+        ],
+        "id": "t4",
+        "prompt": "From the full exception population, return full Data rows for heat EV-H2 in source order. Use nested filtering; any equivalent formula is accepted.",
+        "output": "Answers!B96:F101"
+      }
+    ],
+    "bonus": {
+      "answer": 6,
+      "model": "=COUNTIFS(Answers!B2:B61,\"Review\")",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Count missing-strength reviews, not all exceptions.",
+        "Use COUNTIFS on task 1.",
+        "=COUNTIFS(____,\"Review\")"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review COUNTIFS: count task-1 Review records.",
+      "output": "Answers!B104"
+    }
+  },
+  "L8-A1": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            "Missing"
+          ],
+          [
+            6.93
+          ],
+          [
+            8.48
+          ],
+          [
+            8.88
+          ],
+          [
+            3.6
+          ],
+          [
+            7.08
+          ],
+          [
+            5.05
+          ],
+          [
+            4.44
+          ]
+        ],
+        "model": "=LET(charged,Data!B2,tapped,Data!C2,IF(ISNUMBER(tapped),ROUND(charged-tapped,2),\"Missing\"))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "An unmeasured tapped mass is not a zero value.",
+          "Name both quantities and guard ISNUMBER.",
+          "=LET(charged,____,tapped,____,IF(____,ROUND(charged-tapped,2),\"Missing\"))"
+        ],
+        "alternatives": [],
+        "note": "Fill down eight rows.",
+        "id": "t1",
+        "prompt": "For the first eight heats, return Charged_t − Tapped_t rounded to two decimals, or Missing for blank tapped mass.",
+        "output": "Answers!B2:B9"
+      },
+      {
+        "answer": 93.2932726837443,
+        "model": "=LET(ok,ISNUMBER(Data!C2:C45),SUM(FILTER(Data!C2:C45,ok))/SUM(FILTER(Data!B2:B45,ok))*100)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "The denominator must exclude the same incomplete heats as the numerator.",
+          "Reuse one completeness mask in both FILTER calls.",
+          "=LET(ok,____,SUM(FILTER(____,ok))/SUM(FILTER(____,ok))*100)"
+        ],
+        "alternatives": [
+          "=SUMPRODUCT(Data!C2:C45)/SUMPRODUCT(--ISNUMBER(Data!C2:C45),Data!B2:B45)*100"
+        ],
+        "id": "t2",
+        "prompt": "Return pooled yield for complete heats only: 100 × selected tapped tonnes / selected charged tonnes. Submit unrounded.",
+        "output": "Answers!B12"
+      },
+      {
+        "answer": [
+          [
+            "FV-022",
+            2.94,
+            97
+          ],
+          [
+            "FV-023",
+            2.73,
+            97
+          ],
+          [
+            "FV-035",
+            3.06,
+            97
+          ],
+          [
+            "FV-042",
+            3.75,
+            97
+          ],
+          [
+            "FV-005",
+            3.6,
+            96
+          ],
+          [
+            "FV-008",
+            4.44,
+            96
+          ],
+          [
+            "FV-011",
+            4.96,
+            96
+          ],
+          [
+            "FV-007",
+            5.05,
+            95
+          ],
+          [
+            "FV-018",
+            5.55,
+            95
+          ],
+          [
+            "FV-038",
+            5.1,
+            95
+          ],
+          [
+            "FV-006",
+            7.08,
+            94
+          ],
+          [
+            "FV-009",
+            5.64,
+            94
+          ],
+          [
+            "FV-014",
+            6.72,
+            94
+          ],
+          [
+            "FV-016",
+            6.84,
+            94
+          ],
+          [
+            "FV-020",
+            7.38,
+            94
+          ],
+          [
+            "FV-025",
+            5.82,
+            94
+          ],
+          [
+            "FV-026",
+            6.72,
+            94
+          ],
+          [
+            "FV-030",
+            6.78,
+            94
+          ],
+          [
+            "FV-032",
+            6.12,
+            94
+          ],
+          [
+            "FV-002",
+            6.93,
+            93
+          ],
+          [
+            "FV-013",
+            7.63,
+            93
+          ],
+          [
+            "FV-027",
+            6.3,
+            93
+          ],
+          [
+            "FV-029",
+            7.7,
+            93
+          ],
+          [
+            "FV-043",
+            7.28,
+            93
+          ],
+          [
+            "FV-003",
+            8.48,
+            92
+          ],
+          [
+            "FV-004",
+            8.88,
+            92
+          ],
+          [
+            "FV-012",
+            8.96,
+            92
+          ],
+          [
+            "FV-017",
+            9.04,
+            92
+          ],
+          [
+            "FV-024",
+            8.64,
+            92
+          ],
+          [
+            "FV-039",
+            9.04,
+            92
+          ],
+          [
+            "FV-041",
+            8.96,
+            92
+          ],
+          [
+            "FV-021",
+            9.72,
+            91
+          ],
+          [
+            "FV-036",
+            8.46,
+            91
+          ],
+          [
+            "FV-044",
+            8.64,
+            91
+          ],
+          [
+            "FV-015",
+            10.5,
+            90
+          ],
+          [
+            "FV-031",
+            9.8,
+            90
+          ],
+          [
+            "FV-033",
+            11.5,
+            90
+          ],
+          [
+            "FV-034",
+            11.9,
+            90
+          ],
+          [
+            "FV-040",
+            11.5,
+            90
+          ]
+        ],
+        "model": "=LET(valid,FILTER(Data!A2:C45,ISNUMBER(Data!C2:C45)),charged,CHOOSECOLS(valid,2),tapped,CHOOSECOLS(valid,3),yield,ROUND(tapped/charged*100,2),SORTBY(HSTACK(CHOOSECOLS(valid,1),ROUND(charged-tapped,2),yield),yield,-1,CHOOSECOLS(valid,1),1))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Sort the displayed rounded yield and resolve ties by heat.",
+          "Name the filtered data and aligned sort keys.",
+          "=LET(valid,FILTER(____,____),charged,____,tapped,____,yield,____,SORTBY(HSTACK(____),yield,-1,____,1))"
+        ],
+        "alternatives": [],
+        "id": "t3",
+        "prompt": "Return Heat_no, loss_t and yield_pct for all complete heats. Round both metrics to two decimals; sort by rounded yield descending, then Heat_no ascending. No headers.",
+        "output": "Answers!B15:D53"
+      },
+      {
+        "answer": 173686.8,
+        "model": "=LET(ok,ISNUMBER(Data!C2:C45),ROUND((SUM(FILTER(Data!B2:B45,ok))-SUM(FILTER(Data!C2:C45,ok)))*620,2))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Only complete heats have a known melt loss.",
+          "Use the same mask for charged and tapped totals.",
+          "=LET(ok,____,ROUND((SUM(FILTER(____,ok))-SUM(FILTER(____,ok)))*620,2))"
+        ],
+        "alternatives": [],
+        "id": "t4",
+        "prompt": "Calculate complete-heat melt-loss cost: 620 × total charged-minus-tapped tonnes. Round the final CAD total to cents.",
+        "output": "Answers!B56"
+      }
+    ],
+    "bonus": {
+      "answer": 39,
+      "model": "=COUNT(Data!C2:C45)",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Exclude unmeasured cells.",
+        "Use COUNT on tapped mass.",
+        "=COUNT(____)"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review COUNT: count numeric tapped-mass observations.",
+      "output": "Answers!B59"
+    }
+  },
+  "L8-A2": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": "Zero revenue",
+        "model": "=LAMBDA(revenue,cost,costKnown,IF(NOT(costKnown),\"Missing\",IF(revenue=0,\"Zero revenue\",ROUND((revenue-cost)/revenue*100,2))))(Data!B3,Data!C3,ISNUMBER(Data!C3))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "The second row has valid cost and zero revenue.",
+          "Handle missing cost before the zero denominator.",
+          "=LAMBDA(revenue,cost,costKnown,IF(____,\"Missing\",IF(____,\"Zero revenue\",____)))(Data!B3,Data!C3,ISNUMBER(Data!C3))"
+        ],
+        "alternatives": [],
+        "id": "t1",
+        "prompt": "Call a reusable margin calculation for the second source line. Return a percentage rounded to two decimals or the stated exception label.",
+        "output": "Answers!B2"
+      },
+      {
+        "answer": [
+          [
+            "Missing"
+          ],
+          [
+            "Zero revenue"
+          ],
+          [
+            -261.37
+          ],
+          [
+            -72.38
+          ],
+          [
+            "Missing"
+          ],
+          [
+            35.38
+          ],
+          [
+            48.62
+          ],
+          [
+            -23.16
+          ]
+        ],
+        "model": "=MAP(Data!B2:B9,Data!C2:C9,ISNUMBER(Data!C2:C9),LAMBDA(revenue,cost,costKnown,IF(NOT(costKnown),\"Missing\",IF(revenue=0,\"Zero revenue\",ROUND((revenue-cost)/revenue*100,2)))))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Map each revenue to its cost and source numeric-status flag.",
+          "Pass three aligned arrays and a three-parameter LAMBDA.",
+          "=MAP(____,____,ISNUMBER(____),LAMBDA(revenue,cost,costKnown,____))"
+        ],
+        "alternatives": [],
+        "id": "t2",
+        "prompt": "Return margins for the first eight source lines (8 × 1), with the stated rounding and exception precedence.",
+        "output": "Answers!B5:B12"
+      },
+      {
+        "answer": [
+          [
+            "Review"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Thin"
+          ],
+          [
+            "Thin"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Strong"
+          ],
+          [
+            "Strong"
+          ],
+          [
+            "Thin"
+          ]
+        ],
+        "model": "=MAP(Answers!B5:B12,LAMBDA(margin,IF(ISNUMBER(margin),IF(margin>=20,\"Strong\",\"Thin\"),\"Review\")))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Classify the rounded margin; labels require Review.",
+          "Map task-2 values using ISNUMBER and IF.",
+          "=MAP(____,LAMBDA(margin,IF(____,IF(____,\"Strong\",\"Thin\"),\"Review\")))"
+        ],
+        "alternatives": [],
+        "id": "t3",
+        "prompt": "For the first eight lines, return Strong for numeric rounded margin ≥ 20, Thin below 20, or Review for either exception label.",
+        "output": "Answers!B15:B22"
+      },
+      {
+        "answer": 11324,
+        "model": "=SUM(MAP(Data!B2:B41,Data!C2:C41,ISNUMBER(Data!C2:C41),LAMBDA(revenue,cost,costKnown,IF(costKnown,revenue-cost,0))))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Zero revenue can have a known loss; missing cost cannot.",
+          "Map only numeric-cost profits before summing.",
+          "=SUM(MAP(____,____,ISNUMBER(____),LAMBDA(revenue,cost,costKnown,IF(____,revenue-cost,0))))"
+        ],
+        "alternatives": [
+          "=SUM(FILTER(Data!B2:B41,ISNUMBER(Data!C2:C41)))-SUM(FILTER(Data!C2:C41,ISNUMBER(Data!C2:C41)))"
+        ],
+        "id": "t4",
+        "prompt": "Return total known profit across all 40 lines, including zero-revenue lines with numeric cost. Exclude unknown cost. Submit unrounded CAD.",
+        "output": "Answers!B25"
+      }
+    ],
+    "bonus": {
+      "answer": 3,
+      "model": "=COUNTIFS(Answers!B15:B22,\"Review\")",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Both missing cost and zero revenue are review classifications.",
+        "Count Review in task 3.",
+        "=COUNTIFS(____,\"Review\")"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review COUNTIFS: count Review classifications in the first-eight task-3 results.",
+      "output": "Answers!B28"
+    }
+  },
+  "L8-A3": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            "Missing"
+          ],
+          [
+            24
+          ],
+          [
+            31
+          ],
+          [
+            24
+          ],
+          [
+            18
+          ],
+          [
+            20
+          ],
+          [
+            20
+          ],
+          [
+            43
+          ]
+        ],
+        "model": "=BYROW(IF(ISNUMBER(Data!B2:D9),Data!B2:D9,\"Missing\"),LAMBDA(readings,IF(COUNT(readings)=3,MIN(readings),\"Missing\")))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Incomplete rows need Missing even if other readings are present.",
+          "Preserve a text missing marker before testing the numeric count.",
+          "=BYROW(IF(ISNUMBER(____),____,\"Missing\"),LAMBDA(readings,IF(____,MIN(readings),\"Missing\")))"
+        ],
+        "alternatives": [],
+        "id": "t1",
+        "prompt": "For the first eight samples, return the minimum reading if all three are numeric; otherwise Missing (8 × 1).",
+        "output": "Answers!B2:B9"
+      },
+      {
+        "answer": [
+          [
+            "Missing"
+          ],
+          [
+            29.67
+          ],
+          [
+            35.67
+          ],
+          [
+            33.67
+          ],
+          [
+            27
+          ],
+          [
+            31.67
+          ],
+          [
+            24.67
+          ],
+          [
+            44.67
+          ]
+        ],
+        "model": "=BYROW(IF(ISNUMBER(Data!B2:D9),Data!B2:D9,\"Missing\"),LAMBDA(readings,IF(COUNT(readings)=3,ROUND(AVERAGE(readings),2),\"Missing\")))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Do not average a partial sample for this metric.",
+          "Preserve missing markers, guard completeness, then round the row mean.",
+          "=BYROW(IF(ISNUMBER(____),____,\"Missing\"),LAMBDA(readings,IF(COUNT(readings)=____,ROUND(AVERAGE(readings),2),\"Missing\")))"
+        ],
+        "alternatives": [],
+        "id": "t2",
+        "prompt": "For the first eight samples, return the mean of all three readings rounded to two decimals, or Missing for an incomplete row.",
+        "output": "Answers!B12:B19"
+      },
+      {
+        "answer": [
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            2
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            1
+          ],
+          [
+            3
+          ],
+          [
+            2
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            2
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            2
+          ],
+          [
+            2
+          ],
+          [
+            2
+          ],
+          [
+            2
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            1
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            0
+          ],
+          [
+            2
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            2
+          ],
+          [
+            2
+          ],
+          [
+            1
+          ],
+          [
+            0
+          ],
+          [
+            2
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            2
+          ],
+          [
+            2
+          ]
+        ],
+        "model": "=BYROW(Data!B2:D41,LAMBDA(readings,SUM(--ISNUMBER(readings)*--(readings>=27))))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Equality counts, blank does not, zero is below the threshold.",
+          "Sum the numeric-and-threshold Boolean mask per row.",
+          "=BYROW(____,LAMBDA(readings,SUM(____)))"
+        ],
+        "alternatives": [
+          "=COUNTIFS(Data!B2:D2,\">=27\")"
+        ],
+        "note": "Alternative: fill down 40 rows.",
+        "id": "t3",
+        "prompt": "For all 40 samples, count numeric readings ≥ 27 J, regardless of whether the other readings are blank (40 × 1).",
+        "output": "Answers!B22:B61"
+      },
+      {
+        "answer": [
+          [
+            27.68,
+            33.66,
+            32.58
+          ]
+        ],
+        "model": "=BYCOL(IF(ISNUMBER(Data!B2:D41),Data!B2:D41,\"Missing\"),LAMBDA(readings,ROUND(AVERAGE(readings),2)))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "This summarizes columns, not individual samples.",
+          "Preserve blank status as text, then return a rounded mean per column.",
+          "=BYCOL(IF(ISNUMBER(____),____,\"Missing\"),LAMBDA(readings,ROUND(AVERAGE(readings),2)))"
+        ],
+        "alternatives": [],
+        "id": "t4",
+        "prompt": "Return mean Reading_1_J, Reading_2_J and Reading_3_J across all samples as one 1 × 3 row. Ignore blanks, retain zeros, and round each mean to two decimals.",
+        "output": "Answers!B64:D64"
+      }
+    ],
+    "bonus": {
+      "answer": 73,
+      "model": "=SUM(Answers!B22:B61)",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Each task-3 row contributes its count.",
+        "Sum the task-3 output column.",
+        "=SUM(____)"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review SUM: total passing-reading counts from task 3.",
+      "output": "Answers!B67"
+    }
+  },
+  "L8-A4": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            157
+          ],
+          [
+            -11
+          ],
+          [
+            252
+          ],
+          [
+            791
+          ],
+          [
+            1278
+          ],
+          [
+            1370
+          ],
+          [
+            1733
+          ],
+          [
+            2132
+          ],
+          [
+            2046
+          ],
+          [
+            2549
+          ]
+        ],
+        "model": "=SCAN(0,Data!B2:B11,LAMBDA(acc,cost,acc+cost))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "A recovery credit reduces the running net value.",
+          "SCAN adds the signed cost to its accumulator.",
+          "=SCAN(0,____,LAMBDA(acc,cost,____))"
+        ],
+        "alternatives": [],
+        "id": "t1",
+        "prompt": "Return cumulative net COPQ after each of the first ten events (10 × 1), retaining negative credits.",
+        "output": "Answers!B2:B11"
+      },
+      {
+        "answer": 14854,
+        "model": "=REDUCE(0,Data!B2:B51,LAMBDA(acc,cost,acc+cost))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Include every signed event once.",
+          "REDUCE returns the final accumulator.",
+          "=REDUCE(0,____,LAMBDA(acc,cost,____))"
+        ],
+        "alternatives": [
+          "=SUM(Data!B2:B51)"
+        ],
+        "id": "t2",
+        "prompt": "Return final net COPQ across all 50 events, including credits.",
+        "output": "Answers!B14"
+      },
+      {
+        "answer": [
+          [
+            157
+          ],
+          [
+            157
+          ],
+          [
+            420
+          ],
+          [
+            959
+          ],
+          [
+            1446
+          ],
+          [
+            1538
+          ],
+          [
+            1901
+          ],
+          [
+            2300
+          ],
+          [
+            2300
+          ],
+          [
+            2803
+          ]
+        ],
+        "model": "=SCAN(0,Data!B2:B11,LAMBDA(acc,cost,acc+MAX(cost,0)))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "This metric excludes credits without changing the raw data.",
+          "Add only the nonnegative part at each step.",
+          "=SCAN(0,____,LAMBDA(acc,cost,acc+____)))"
+        ],
+        "alternatives": [],
+        "id": "t3",
+        "prompt": "Return cumulative gross cost after each of the first ten events. Add positive costs; credits leave gross cost unchanged.",
+        "output": "Answers!B17:B26"
+      },
+      {
+        "answer": 15692,
+        "model": "=REDUCE(0,Data!B2:B51,LAMBDA(acc,cost,IF(cost>0,acc+cost,acc)))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "A credit is excluded from this gross metric.",
+          "Condition the accumulator update on positive cost.",
+          "=REDUCE(0,____,LAMBDA(acc,cost,IF(____,acc+cost,acc)))"
+        ],
+        "alternatives": [
+          "=SUMIFS(Data!B2:B51,Data!B2:B51,\">0\")"
+        ],
+        "id": "t4",
+        "prompt": "Return final gross cost across all 50 events, excluding negative credits.",
+        "output": "Answers!B29"
+      }
+    ],
+    "bonus": {
+      "answer": 7,
+      "model": "=COUNTIFS(Data!B2:B51,\"<0\")",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Count credit events, not their dollar value.",
+        "Use a negative-value COUNTIFS criterion.",
+        "=COUNTIFS(____,\"<0\")"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review COUNTIFS: count negative recovery-credit events.",
+      "output": "Answers!B32"
+    }
+  },
+  "L8-A5": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            8.5
+          ],
+          [
+            44
+          ],
+          [
+            0
+          ],
+          [
+            27
+          ],
+          [
+            36.5
+          ],
+          [
+            45
+          ],
+          [
+            33
+          ],
+          [
+            21
+          ],
+          [
+            27
+          ],
+          [
+            24.5
+          ]
+        ],
+        "model": "=MAP(Keys!A2:A11,Keys!B2:B11,LAMBDA(sampleKey,heatKey,MeanEnergy(sampleKey,heatKey,\"LPA\")))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "The same sample number occurs in multiple heats.",
+          "Pass sample and heat to the reusable function.",
+          "=MAP(____,____,LAMBDA(sampleKey,heatKey,MeanEnergy(____,____,\"LPA\")))"
+        ],
+        "alternatives": [
+          "=MAP(Keys!A2:A11,Keys!B2:B11,LAMBDA(sampleKey,heatKey,LAMBDA(sampleKey,heatKey,orientation,LET(mask,(Data!$A$2:$A$41=sampleKey)*(Data!$B$2:$B$41=heatKey)*(UPPER(TRIM(Data!$C$2:$C$41))=UPPER(TRIM(orientation)))*ISNUMBER(Data!$D$2:$D$41),IF(SUM(mask)=0,\"Missing\",ROUND(AVERAGE(FILTER(Data!$D$2:$D$41,mask)),2))))(sampleKey,heatKey,\"LPA\")))"
+        ],
+        "note": "Define MeanEnergy in Name Manager as =LAMBDA(sampleKey,heatKey,orientation,LET(mask,(Data!$A$2:$A$41=sampleKey)*(Data!$B$2:$B$41=heatKey)*(UPPER(TRIM(Data!$C$2:$C$41))=UPPER(TRIM(orientation)))*ISNUMBER(Data!$D$2:$D$41),IF(SUM(mask)=0,\"Missing\",ROUND(AVERAGE(FILTER(Data!$D$2:$D$41,mask)),2))))",
+        "id": "t1",
+        "prompt": "Return LPA mean energy for every Keys row (10 × 1), using both identifiers and the stated duplicate/missing rule.",
+        "output": "Answers!B2:B11"
+      },
+      {
+        "answer": [
+          [
+            "Missing"
+          ],
+          [
+            43.5
+          ],
+          [
+            18
+          ],
+          [
+            20
+          ],
+          [
+            22
+          ],
+          [
+            39
+          ],
+          [
+            28
+          ],
+          [
+            31.5
+          ],
+          [
+            32.5
+          ],
+          [
+            29
+          ]
+        ],
+        "model": "=MAP(Keys!A2:A11,Keys!B2:B11,LAMBDA(sampleKey,heatKey,MeanEnergy(sampleKey,heatKey,\"TWA\")))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Use the TWA population; one pair has no numeric TWA result.",
+          "Reuse the same function with a different orientation argument.",
+          "=MAP(____,____,LAMBDA(sampleKey,heatKey,MeanEnergy(____,____,____)))"
+        ],
+        "alternatives": [],
+        "note": "Use the same MeanEnergy definition as task 1.",
+        "id": "t2",
+        "prompt": "Return TWA mean energy for every Keys row (10 × 1), retaining Missing and numeric zero.",
+        "output": "Answers!B14:B23"
+      },
+      {
+        "answer": [
+          [
+            "001",
+            "JV-H1",
+            8.5,
+            "Missing"
+          ],
+          [
+            "002",
+            "JV-H1",
+            44,
+            43.5
+          ],
+          [
+            "003",
+            "JV-H1",
+            0,
+            18
+          ],
+          [
+            "004",
+            "JV-H1",
+            27,
+            20
+          ],
+          [
+            "005",
+            "JV-H1",
+            36.5,
+            22
+          ],
+          [
+            "001",
+            "JV-H2",
+            45,
+            39
+          ],
+          [
+            "002",
+            "JV-H2",
+            33,
+            28
+          ],
+          [
+            "003",
+            "JV-H2",
+            21,
+            31.5
+          ],
+          [
+            "004",
+            "JV-H2",
+            27,
+            32.5
+          ],
+          [
+            "005",
+            "JV-H2",
+            24.5,
+            29
+          ]
+        ],
+        "model": "=HSTACK(Keys!A2:B11,Answers!B2:B11,Answers!B14:B23)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Both identifier columns must remain beside their corresponding means.",
+          "Combine Keys and the two output columns.",
+          "=HSTACK(____,____,____)"
+        ],
+        "alternatives": [],
+        "id": "t3",
+        "prompt": "Assemble sample_no, heat_no, LPA_mean_J and TWA_mean_J for all Keys rows, in scaffold order without headers (10 × 4).",
+        "output": "Answers!B26:E35"
+      },
+      {
+        "answer": 1,
+        "model": "=SUM(BYROW(Answers!D26:E35,LAMBDA(orientations,--(COUNTIFS(orientations,\"Missing\")>0))))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "A pair is one row, regardless of the number of missing orientations.",
+          "Reduce each result row to a missing-present flag, then sum.",
+          "=SUM(BYROW(____,LAMBDA(orientations,--(____>0))))"
+        ],
+        "alternatives": [],
+        "id": "t4",
+        "prompt": "Count key pairs with at least one Missing orientation mean. Count a pair once if both orientations are missing.",
+        "output": "Answers!B38"
+      }
+    ],
+    "bonus": {
+      "answer": 3,
+      "model": "=SUMPRODUCT(--ISNUMBER(Data!D2:D41),--(Data!D2:D41=0))",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Excel equality to zero can also match blank cells; require numeric type.",
+        "Combine ISNUMBER with the zero comparison.",
+        "=SUMPRODUCT(--ISNUMBER(____),--(____=0))"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review SUMPRODUCT: count raw measured zero-energy records; blank cells must be excluded.",
+      "output": "Answers!B41"
+    }
+  },
+  "L9-A1": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            "Day",
+            241.7,
+            47188
+          ],
+          [
+            "Night",
+            227.5,
+            45493
+          ]
+        ],
+        "model": "=GROUPBY(Data!B2:B49,Data!C2:D49,LAMBDA(values,ROUND(SUM(values),2)),0,0,1)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Combine every batch for each shift.",
+          "Set headers and total depth to zero in GROUPBY.",
+          "=GROUPBY(____,____,LAMBDA(values,ROUND(SUM(values),2)),0,0,1)"
+        ],
+        "alternatives": [],
+        "id": "t1",
+        "prompt": "Return Shift, total Produced_t and total Cost_CAD (2 × 3), shift ascending. Round tonnes to two decimals; no headers/totals.",
+        "output": "Answers!B2:D3"
+      },
+      {
+        "answer": [
+          [
+            "KV-H1",
+            102.9,
+            13636
+          ],
+          [
+            "KV-H2",
+            70,
+            14105
+          ],
+          [
+            "KV-H3",
+            81.8,
+            13920
+          ],
+          [
+            "KV-H4",
+            58.1,
+            16752
+          ],
+          [
+            "KV-H5",
+            85.4,
+            16454
+          ],
+          [
+            "KV-H6",
+            71,
+            17814
+          ]
+        ],
+        "model": "=GROUPBY(Data!A2:A49,Data!C2:D49,LAMBDA(values,ROUND(SUM(values),2)),0,0,1)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Summarize by heat rather than by shift.",
+          "Change the grouping range, keeping aligned measures.",
+          "=GROUPBY(____,Data!C2:D49,____,0,0,1)"
+        ],
+        "alternatives": [],
+        "id": "t2",
+        "prompt": "Return Heat_no, total Produced_t and total Cost_CAD (6 × 3), heat ascending. Round tonnes to two decimals; no headers/totals.",
+        "output": "Answers!B6:D11"
+      },
+      {
+        "answer": [
+          [
+            "KV-H1",
+            "Day",
+            52.1,
+            7641
+          ],
+          [
+            "KV-H1",
+            "Night",
+            50.8,
+            5995
+          ],
+          [
+            "KV-H2",
+            "Day",
+            35.3,
+            6882
+          ],
+          [
+            "KV-H2",
+            "Night",
+            34.7,
+            7223
+          ],
+          [
+            "KV-H3",
+            "Day",
+            43.8,
+            7437
+          ],
+          [
+            "KV-H3",
+            "Night",
+            38,
+            6483
+          ],
+          [
+            "KV-H4",
+            "Day",
+            33.3,
+            8106
+          ],
+          [
+            "KV-H4",
+            "Night",
+            24.8,
+            8646
+          ],
+          [
+            "KV-H5",
+            "Day",
+            48.8,
+            8650
+          ],
+          [
+            "KV-H5",
+            "Night",
+            36.6,
+            7804
+          ],
+          [
+            "KV-H6",
+            "Day",
+            28.4,
+            8472
+          ],
+          [
+            "KV-H6",
+            "Night",
+            42.6,
+            9342
+          ]
+        ],
+        "model": "=GROUPBY(Data!A2:B49,Data!C2:D49,LAMBDA(values,ROUND(SUM(values),2)),0,0,{1,2},,1)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Both fields identify each group; flat output repeats labels.",
+          "Use two row fields and table relationship 1.",
+          "=GROUPBY(____,____,____,0,0,{1,2},,____)"
+        ],
+        "alternatives": [],
+        "id": "t3",
+        "prompt": "Return Heat_no, Shift, total Produced_t, total Cost_CAD for each combination (12 × 4), heat then shift ascending. Repeat both labels on every row. Round tonnes to two decimals; no headers/totals.",
+        "output": "Answers!B14:E25"
+      },
+      {
+        "answer": 0,
+        "model": "=SUM(Answers!E14:E25)-SUM(Data!D2:D49)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Compare grouped totals with a separate raw source total.",
+          "Subtract raw cost from task-3 grouped cost.",
+          "=SUM(____)-SUM(____)"
+        ],
+        "alternatives": [
+          "=SUM(Answers!D6:D11)-SUM(Data!D2:D49)"
+        ],
+        "id": "t4",
+        "prompt": "Review reconciliation: return grouped total Cost_CAD from task 3 minus the independent raw Cost_CAD total. Submit numeric zero when reconciled.",
+        "output": "Answers!B28"
+      }
+    ],
+    "bonus": {
+      "answer": 9.775,
+      "model": "=ROUND(AVERAGE(Data!C2:C49),3)",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Average raw batches, not unequal heat totals.",
+        "Use AVERAGE on the raw production column.",
+        "=ROUND(AVERAGE(____),3)"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review AVERAGE: return average batch Produced_t across all 48 raw records, rounded to three decimals.",
+      "output": "Answers!B31"
+    }
+  },
+  "L9-A2": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            "001|LV-H1",
+            2
+          ],
+          [
+            "001|LV-H2",
+            4
+          ],
+          [
+            "002|LV-H1",
+            3
+          ],
+          [
+            "002|LV-H2",
+            4
+          ],
+          [
+            "003|LV-H1",
+            4
+          ],
+          [
+            "003|LV-H2",
+            4
+          ],
+          [
+            "004|LV-H1",
+            4
+          ],
+          [
+            "004|LV-H2",
+            4
+          ],
+          [
+            "005|LV-H1",
+            4
+          ],
+          [
+            "005|LV-H2",
+            4
+          ]
+        ],
+        "model": "=GROUPBY(Data!E2:E41,IF(ISNUMBER(Data!D2:D41),Data!D2:D41,\"Missing\"),COUNT,0,0,1)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Count numeric replicates, not source rows.",
+          "Preserve blanks as text and use COUNT as the aggregator.",
+          "=GROUPBY(____,IF(ISNUMBER(____),____,\"Missing\"),____,0,0,1)"
+        ],
+        "alternatives": [],
+        "id": "t1",
+        "prompt": "Group by Pair_key and return Pair_key plus numeric Energy_J count (10 × 2). Sort key ascending; no headers/totals. Zero counts as numeric.",
+        "output": "Answers!B2:C11"
+      },
+      {
+        "answer": [
+          [
+            "001|LV-H1",
+            11.5,
+            "Missing"
+          ],
+          [
+            "001|LV-H2",
+            25.5,
+            32.5
+          ],
+          [
+            "002|LV-H1",
+            29,
+            19.5
+          ],
+          [
+            "002|LV-H2",
+            42,
+            39
+          ],
+          [
+            "003|LV-H1",
+            0,
+            35.5
+          ],
+          [
+            "003|LV-H2",
+            44.5,
+            34
+          ],
+          [
+            "004|LV-H1",
+            27,
+            20
+          ],
+          [
+            "004|LV-H2",
+            41.5,
+            27.5
+          ],
+          [
+            "005|LV-H1",
+            36,
+            41.5
+          ],
+          [
+            "005|LV-H2",
+            32.5,
+            34.5
+          ]
+        ],
+        "model": "=DROP(PIVOTBY(Data!E2:E41,UPPER(TRIM(Data!C2:C41)),IF(ISNUMBER(Data!D2:D41),Data!D2:D41,\"Missing\"),LAMBDA(values,IF(COUNT(values)=0,\"Missing\",ROUND(AVERAGE(values),2))),0,0,1,0,1),1)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Use both identifiers through Pair_key and normalize the orientation axis.",
+          "Preserve blank status as text, guard the mean with COUNT, and DROP the column-label row.",
+          "=DROP(PIVOTBY(____,____,IF(ISNUMBER(____),____,\"Missing\"),LAMBDA(values,IF(____,\"Missing\",____)),0,0,1,0,1),1)"
+        ],
+        "alternatives": [],
+        "id": "t2",
+        "prompt": "Return Pair_key, LPA_mean_J and TWA_mean_J (10 × 3), key ascending, with no orientation-label row or totals. Round numeric means to two decimals; return Missing for all-blank groups.",
+        "output": "Answers!B14:D23"
+      },
+      {
+        "answer": [
+          [
+            "001",
+            "LV-H1",
+            11.5,
+            "Missing"
+          ],
+          [
+            "001",
+            "LV-H2",
+            25.5,
+            32.5
+          ],
+          [
+            "002",
+            "LV-H1",
+            29,
+            19.5
+          ],
+          [
+            "002",
+            "LV-H2",
+            42,
+            39
+          ],
+          [
+            "003",
+            "LV-H1",
+            0,
+            35.5
+          ],
+          [
+            "003",
+            "LV-H2",
+            44.5,
+            34
+          ],
+          [
+            "004",
+            "LV-H1",
+            27,
+            20
+          ],
+          [
+            "004",
+            "LV-H2",
+            41.5,
+            27.5
+          ],
+          [
+            "005",
+            "LV-H1",
+            36,
+            41.5
+          ],
+          [
+            "005",
+            "LV-H2",
+            32.5,
+            34.5
+          ]
+        ],
+        "model": "=HSTACK(TEXTBEFORE(Answers!B14:B23,\"|\"),TEXTAFTER(Answers!B14:B23,\"|\"),Answers!C14:D23)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Keep the leading zeros and separate both key components.",
+          "Split Pair_key at its guaranteed delimiter, then HSTACK.",
+          "=HSTACK(TEXTBEFORE(____,\"|\"),TEXTAFTER(____,\"|\"),____)"
+        ],
+        "alternatives": [
+          "=HSTACK(LEFT(Answers!B14:B23,3),TEXTAFTER(Answers!B14:B23,\"|\"),Answers!C14:D23)"
+        ],
+        "id": "t3",
+        "prompt": "Split the task-2 Pair_key and assemble sample_no, heat_no, LPA_mean_J and TWA_mean_J (10 × 4), same row order. Preserve text sample identifiers.",
+        "output": "Answers!B26:E35"
+      },
+      {
+        "answer": 1,
+        "model": "=COUNTIFS(Answers!C14:D23,\"Missing\")",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "A missing orientation mean is an aggregate result.",
+          "Count Missing within the two mean columns.",
+          "=COUNTIFS(____,\"Missing\")"
+        ],
+        "alternatives": [],
+        "id": "t4",
+        "prompt": "Count Missing orientation means in the task-2 result. Do not count blank raw replicates.",
+        "output": "Answers!B38"
+      }
+    ],
+    "bonus": {
+      "answer": 37,
+      "model": "=COUNT(Data!D2:D41)",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Zero remains numeric and blank replicates are excluded.",
+        "Count the original energy column.",
+        "=COUNT(____)"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review COUNT: return the number of numeric raw Energy_J measurements.",
+      "output": "Answers!B41"
+    }
+  },
+  "L9-A3": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": 0.23488864259177095,
+        "model": "=STDEV.S(Data!B2:B49)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Use n−1 sample spread and exclude unmeasured cells.",
+          "Apply STDEV.S to the complete source range.",
+          "=STDEV.S(____)"
+        ],
+        "alternatives": [
+          "=SQRT(SUM((FILTER(Data!B2:B49,ISNUMBER(Data!B2:B49))-AVERAGE(Data!B2:B49))^2)/(COUNT(Data!B2:B49)-1))"
+        ],
+        "id": "t1",
+        "prompt": "Return sample standard deviation of all numeric Thickness_mm observations. Submit unrounded mm.",
+        "output": "Answers!B2"
+      },
+      {
+        "answer": 9.96,
+        "model": "=ROUND(PERCENTILE.INC(Data!B2:B49,0.5),3)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Use a percentile proportion of 0.5.",
+          "Round PERCENTILE.INC at the final stage.",
+          "=ROUND(PERCENTILE.INC(____,____),3)"
+        ],
+        "alternatives": [],
+        "id": "t2",
+        "prompt": "Return the inclusive 50th percentile of numeric thickness, rounded to three decimals.",
+        "output": "Answers!B5"
+      },
+      {
+        "answer": 10.3,
+        "model": "=ROUND(PERCENTILE.INC(Data!B2:B49,0.9),3)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Use inclusive linear interpolation at the 90th percentile.",
+          "Use k=0.9 rather than 90.",
+          "=ROUND(PERCENTILE.INC(____,____),3)"
+        ],
+        "alternatives": [],
+        "id": "t3",
+        "prompt": "Return the inclusive 90th percentile of numeric thickness, rounded to three decimals.",
+        "output": "Answers!B8"
+      },
+      {
+        "answer": 11,
+        "model": "=SUMPRODUCT(--ISNUMBER(Data!B2:B49),--((Data!B2:B49<9.7)+(Data!B2:B49>10.3)>0))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Values exactly at 9.7 or 10.3 pass the specification.",
+          "Count a numeric-and-outside Boolean mask.",
+          "=SUMPRODUCT(--ISNUMBER(____),--((____<9.7)+(____>10.3)>0))"
+        ],
+        "alternatives": [],
+        "id": "t4",
+        "prompt": "Count numeric observations outside the inclusive 9.7–10.3 mm training specification. Exclude unmeasured cells.",
+        "output": "Answers!B11"
+      }
+    ],
+    "bonus": {
+      "answer": 9.983,
+      "model": "=ROUND(AVERAGE(Data!B2:B49),3)",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Average observations, excluding blank measurements.",
+        "Use AVERAGE then ROUND.",
+        "=ROUND(AVERAGE(____),3)"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review AVERAGE: return numeric mean thickness rounded to three decimals.",
+      "output": "Answers!B14"
+    }
+  },
+  "L9-A4": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": 36,
+        "model": "=SUMPRODUCT(--ISNUMBER(Data!B2:B45),--ISNUMBER(Data!C2:C45))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Both variables must be numeric in the same row.",
+          "Combine the two ISNUMBER masks.",
+          "=SUMPRODUCT(--ISNUMBER(____),--ISNUMBER(____))"
+        ],
+        "alternatives": [],
+        "id": "t1",
+        "prompt": "Count complete numeric pairs across all 44 records.",
+        "output": "Answers!B2"
+      },
+      {
+        "answer": -0.9364838798874721,
+        "model": "=LET(ok,ISNUMBER(Data!B2:B45)*ISNUMBER(Data!C2:C45),CORREL(FILTER(Data!B2:B45,ok),FILTER(Data!C2:C45,ok)))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "The two filtered arrays must contain exactly the same records.",
+          "Reuse one complete-pair mask in both FILTER calls.",
+          "=LET(ok,____,CORREL(FILTER(____,ok),FILTER(____,ok)))"
+        ],
+        "alternatives": [],
+        "id": "t2",
+        "prompt": "Return Pearson correlation using complete pairs only. Submit unrounded r.",
+        "output": "Answers!B5"
+      },
+      {
+        "answer": [
+          [
+            "Missing pair"
+          ],
+          [
+            "Missing pair"
+          ],
+          [
+            "Paired"
+          ],
+          [
+            "Paired"
+          ],
+          [
+            "Paired"
+          ],
+          [
+            "Paired"
+          ],
+          [
+            "Paired"
+          ],
+          [
+            "Paired"
+          ]
+        ],
+        "model": "=IF(AND(ISNUMBER(Data!B2),ISNUMBER(Data!C2)),\"Paired\",\"Missing pair\")",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "One present variable does not form a pair.",
+          "Review AND on the numeric tests.",
+          "=IF(AND(____,____),\"Paired\",\"Missing pair\")"
+        ],
+        "alternatives": [],
+        "note": "Fill down eight records.",
+        "id": "t3",
+        "prompt": "For the first eight records, return Paired when both cells are numeric; otherwise Missing pair (8 × 1).",
+        "output": "Answers!B8:B15"
+      },
+      {
+        "answer": "Association only",
+        "model": "=IF(ABS(Answers!B5)>=0.5,\"Association only\",\"Weak association\")",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Use the magnitude for this label; preserve the sign in task 2.",
+          "Classify ABS of the correlation.",
+          "=IF(ABS(____)>=____,\"Association only\",\"Weak association\")"
+        ],
+        "alternatives": [
+          "=IF(OR(Answers!B5>=0.5,Answers!B5<=-0.5),\"Association only\",\"Weak association\")"
+        ],
+        "id": "t4",
+        "prompt": "Using unrounded task-2 r, return Association only when |r| ≥ 0.5; otherwise Weak association. This is a practice description, not a causal conclusion.",
+        "output": "Answers!B18"
+      }
+    ],
+    "bonus": {
+      "answer": 525.39,
+      "model": "=ROUND(AVERAGE(FILTER(Data!C2:C45,ISNUMBER(Data!B2:B45)*ISNUMBER(Data!C2:C45))),2)",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Use the paired population, not all populated energy cells.",
+        "Reuse the same completeness mask.",
+        "=ROUND(AVERAGE(FILTER(____,____)),2)"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review AVERAGE: return mean Energy_kWh_per_t for complete pairs only, rounded to two decimals.",
+      "output": "Answers!B21"
+    }
+  },
+  "L9-A5": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            10.0916,
+            0.11187383564551984
+          ]
+        ],
+        "model": "=HSTACK(AVERAGE(Data!B2:B51),STDEV.S(Data!B2:B51))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Return mean first and n−1 sample standard deviation second.",
+          "Combine the two descriptive metrics with HSTACK.",
+          "=HSTACK(AVERAGE(____),STDEV.S(____))"
+        ],
+        "alternatives": [],
+        "id": "t1",
+        "prompt": "Return sample mean and sample STDEV.S as one 1 × 2 row. Submit both unrounded, in mm.",
+        "output": "Answers!B2:C2"
+      },
+      {
+        "answer": 1.6666666666666707,
+        "model": "=(Assumptions!B3-Assumptions!B2)/(6*Assumptions!B4)",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Specification width is divided by six times the supplied sigma.",
+          "Read LSL, USL and within sigma from Assumptions.",
+          "=(____-____)/(6*____)"
+        ],
+        "alternatives": [
+          "=LET(lsl,Assumptions!B2,usl,Assumptions!B3,sigma,Assumptions!B4,(usl-lsl)/(6*sigma))"
+        ],
+        "id": "t2",
+        "prompt": "Calculate illustrative Cp using the supplied within-process sigma, not task-1 sample spread. Submit unrounded.",
+        "output": "Answers!B5"
+      },
+      {
+        "answer": 1.1577777777777836,
+        "model": "=MIN((Assumptions!B3-Answers!B2)/(3*Assumptions!B4),(Answers!B2-Assumptions!B2)/(3*Assumptions!B4))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Use the smaller distance to a specification, not the full width.",
+          "Calculate both one-sided ratios and take MIN.",
+          "=MIN((____-____)/(3*____),(____-____)/(3*____))"
+        ],
+        "alternatives": [],
+        "id": "t3",
+        "prompt": "Calculate illustrative Cpk using the task-1 mean and supplied within-process sigma. Submit unrounded.",
+        "output": "Answers!B8"
+      },
+      {
+        "answer": [
+          [
+            9.84,
+            10.2
+          ]
+        ],
+        "model": "=HSTACK(ROUND(Assumptions!B5-3*Assumptions!B4,3),ROUND(Assumptions!B5+3*Assumptions!B4,3))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Use the historical reference mean; do not replace these with specification limits.",
+          "Subtract/add three supplied sigma units around the reference.",
+          "=HSTACK(ROUND(____-3*____,3),ROUND(____+3*____,3))"
+        ],
+        "alternatives": [],
+        "id": "t4",
+        "prompt": "Return lower and upper historical-reference control limits as one 1 × 2 row: Reference_mean_mm ± 3 × Within_sigma_mm. Round to three decimals. These are for individual observations, not subgroup averages.",
+        "output": "Answers!B11:C11"
+      }
+    ],
+    "bonus": {
+      "answer": 0,
+      "model": "=COUNTIFS(Data!B2:B51,\"<\"&Assumptions!B2)+COUNTIFS(Data!B2:B51,\">\"&Assumptions!B3)",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Compare with specifications, not reference control limits.",
+        "Add counts below LSL and above USL.",
+        "=COUNTIFS(____,\"<\"&____)+COUNTIFS(____,\">\"&____)"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review COUNTIFS: count sample thicknesses outside the inclusive specification limits.",
+      "output": "Answers!B14"
+    }
+  },
+  "L10-A1": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            450
+          ],
+          [
+            "Review"
+          ],
+          [
+            480
+          ],
+          [
+            "Review"
+          ],
+          [
+            450
+          ],
+          [
+            "Review"
+          ],
+          [
+            480
+          ],
+          [
+            "Review"
+          ]
+        ],
+        "model": "=LET(grade,Data!B2,matches,COUNTIFS(Specs!$A$2:$A$5,grade),IF(matches=1,XLOOKUP(grade,Specs!$A$2:$A$5,Specs!$B$2:$B$5),\"Review\"))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Exactly one specification must match.",
+          "Name match count and guard the lookup.",
+          "=LET(grade,____,matches,COUNTIFS(____,grade),IF(____,XLOOKUP(____),\"Review\"))"
+        ],
+        "alternatives": [],
+        "note": "Fill down eight records.",
+        "id": "t1",
+        "prompt": "For the first eight rows, return a unique grade’s minimum strength or Review for an absent/duplicated key (8 × 1).",
+        "output": "Answers!B2:B9"
+      },
+      {
+        "answer": [
+          [
+            "Review"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Hold"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Released"
+          ],
+          [
+            "Review"
+          ]
+        ],
+        "model": "=LET(grade,Data!B2,strength,Data!C2,matches,COUNTIFS(Specs!$A$2:$A$5,grade),IF(OR(matches<>1,NOT(ISNUMBER(strength))),\"Review\",IF(strength>=XLOOKUP(grade,Specs!$A$2:$A$5,Specs!$B$2:$B$5),\"Released\",\"Hold\")))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Do not compare until both specification and measurement are valid.",
+          "Guard cardinality and numeric type before the lookup comparison.",
+          "=LET(grade,____,strength,____,matches,____,IF(OR(____),\"Review\",IF(____,\"Released\",\"Hold\")))"
+        ],
+        "alternatives": [],
+        "note": "Fill down all source records.",
+        "id": "t2",
+        "prompt": "Return Released, Hold or Review for all 60 inspections in source order. Equality to a unique minimum is Released; blank strength is Review.",
+        "output": "Answers!B12:B71"
+      },
+      {
+        "answer": [
+          [
+            16,
+            11,
+            33,
+            6732
+          ]
+        ],
+        "model": "=HSTACK(COUNTIFS(Answers!B12:B71,\"Released\"),COUNTIFS(Answers!B12:B71,\"Hold\"),COUNTIFS(Answers!B12:B71,\"Review\"),SUMIFS(Data!D2:D61,Answers!B12:B71,\"Hold\"))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "The three counts partition all 60 rows; only Hold contributes cost.",
+          "Combine counts and conditional cost in one summary row.",
+          "=HSTACK(COUNTIFS(____,\"Released\"),COUNTIFS(____,\"Hold\"),COUNTIFS(____,\"Review\"),SUMIFS(____,____,\"Hold\"))"
+        ],
+        "alternatives": [],
+        "id": "t3",
+        "prompt": "Return Released count, Hold count, Review count and total Hold_cost_CAD for Hold rows as one 1 × 4 row. Review costs are pending and excluded.",
+        "output": "Answers!B74:E74"
+      },
+      {
+        "answer": [
+          [
+            "PV-043",
+            "G3",
+            454,
+            992
+          ],
+          [
+            "PV-033",
+            "G1",
+            444,
+            991
+          ],
+          [
+            "PV-003",
+            "G3",
+            462,
+            931
+          ],
+          [
+            "PV-007",
+            "G3",
+            420,
+            891
+          ],
+          [
+            "PV-035",
+            "G3",
+            470,
+            762
+          ],
+          [
+            "PV-029",
+            "G1",
+            424,
+            727
+          ],
+          [
+            "PV-027",
+            "G3",
+            421,
+            353
+          ],
+          [
+            "PV-051",
+            "G3",
+            425,
+            349
+          ],
+          [
+            "PV-047",
+            "G3",
+            443,
+            346
+          ],
+          [
+            "PV-053",
+            "G1",
+            440,
+            230
+          ],
+          [
+            "PV-039",
+            "G3",
+            470,
+            160
+          ]
+        ],
+        "model": "=LET(held,FILTER(Data!A2:D61,Answers!B12:B71=\"Hold\"),SORTBY(held,CHOOSECOLS(held,4),-1,CHOOSECOLS(held,1),1))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Review rows are not the confirmed Hold queue.",
+          "Filter Hold once and sort aligned columns with a tie key.",
+          "=LET(held,FILTER(____,____),SORTBY(held,____,-1,____,1))"
+        ],
+        "alternatives": [
+          "=SORTBY(FILTER(Data!A2:D61,Answers!B12:B71=\"Hold\"),FILTER(Data!D2:D61,Answers!B12:B71=\"Hold\"),-1,FILTER(Data!A2:A61,Answers!B12:B71=\"Hold\"),1)"
+        ],
+        "id": "t4",
+        "prompt": "Return full Data rows for Hold inspections, sorted by Hold_cost_CAD descending then Inspection_no ascending. No headers.",
+        "output": "Answers!B77:E87"
+      }
+    ],
+    "bonus": {
+      "answer": 0,
+      "model": "=Answers!E74-SUMIFS(Data!D2:D61,Answers!B12:B71,\"Hold\")",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Use the summary cost and an independent source-based conditional sum.",
+        "Subtract the selected raw costs.",
+        "=Answers!E74-SUMIFS(____,____,\"Hold\")"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review SUM: subtract the independent raw Hold-cost sum from the summary Hold cost; return numeric zero when reconciled.",
+      "output": "Answers!B90"
+    }
+  },
+  "L10-A2": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            5
+          ],
+          [
+            25
+          ],
+          [
+            39
+          ],
+          [
+            18
+          ],
+          [
+            46
+          ],
+          [
+            38
+          ],
+          [
+            17
+          ],
+          [
+            28
+          ]
+        ],
+        "model": "=MAP(Data!A2:A9,LAMBDA(order,SUMIFS(Shipments!C2:C46,Shipments!B2:B46,order)))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Aggregate every matching dispatch.",
+          "MAP the order scaffold to a SUMIFS total.",
+          "=MAP(____,LAMBDA(order,SUMIFS(____,____,order)))"
+        ],
+        "alternatives": [],
+        "id": "t1",
+        "prompt": "Return total shipped units for the first eight order rows (8 × 1). Sum every partial shipment; absent shipments produce numeric zero.",
+        "output": "Answers!B2:B9"
+      },
+      {
+        "answer": [
+          [
+            "QV-001",
+            0,
+            5,
+            -5,
+            "Over"
+          ],
+          [
+            "QV-002",
+            22,
+            25,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-003",
+            41,
+            39,
+            2,
+            "Short"
+          ],
+          [
+            "QV-004",
+            16,
+            18,
+            -2,
+            "Over"
+          ],
+          [
+            "QV-005",
+            46,
+            46,
+            0,
+            "Balanced"
+          ],
+          [
+            "QV-006",
+            35,
+            38,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-007",
+            21,
+            17,
+            4,
+            "Short"
+          ],
+          [
+            "QV-008",
+            24,
+            28,
+            -4,
+            "Over"
+          ],
+          [
+            "QV-009",
+            35,
+            35,
+            0,
+            "Balanced"
+          ],
+          [
+            "QV-010",
+            28,
+            31,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-011",
+            50,
+            46,
+            4,
+            "Short"
+          ],
+          [
+            "QV-012",
+            23,
+            19,
+            4,
+            "Short"
+          ],
+          [
+            "QV-013",
+            30,
+            30,
+            0,
+            "Balanced"
+          ],
+          [
+            "QV-014",
+            47,
+            50,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-015",
+            60,
+            56,
+            4,
+            "Short"
+          ],
+          [
+            "QV-016",
+            32,
+            28,
+            4,
+            "Short"
+          ],
+          [
+            "QV-017",
+            59,
+            59,
+            0,
+            "Balanced"
+          ],
+          [
+            "QV-018",
+            26,
+            29,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-019",
+            41,
+            37,
+            4,
+            "Short"
+          ],
+          [
+            "QV-020",
+            16,
+            12,
+            4,
+            "Short"
+          ],
+          [
+            "QV-021",
+            59,
+            59,
+            0,
+            "Balanced"
+          ],
+          [
+            "QV-022",
+            48,
+            51,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-023",
+            16,
+            12,
+            4,
+            "Short"
+          ],
+          [
+            "QV-024",
+            23,
+            19,
+            4,
+            "Short"
+          ],
+          [
+            "QV-025",
+            39,
+            39,
+            0,
+            "Balanced"
+          ],
+          [
+            "QV-026",
+            18,
+            21,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-027",
+            51,
+            47,
+            4,
+            "Short"
+          ],
+          [
+            "QV-028",
+            35,
+            31,
+            4,
+            "Short"
+          ],
+          [
+            "QV-029",
+            41,
+            41,
+            0,
+            "Balanced"
+          ],
+          [
+            "QV-030",
+            26,
+            29,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-031",
+            20,
+            16,
+            4,
+            "Short"
+          ],
+          [
+            "QV-032",
+            17,
+            13,
+            4,
+            "Short"
+          ],
+          [
+            "QV-033",
+            34,
+            34,
+            0,
+            "Balanced"
+          ],
+          [
+            "QV-034",
+            61,
+            64,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-035",
+            27,
+            23,
+            4,
+            "Short"
+          ],
+          [
+            "QV-036",
+            54,
+            50,
+            4,
+            "Short"
+          ],
+          [
+            "QV-037",
+            42,
+            42,
+            0,
+            "Balanced"
+          ],
+          [
+            "QV-038",
+            39,
+            42,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-039",
+            18,
+            14,
+            4,
+            "Short"
+          ],
+          [
+            "QV-040",
+            70,
+            66,
+            4,
+            "Short"
+          ]
+        ],
+        "model": "=LET(orders,Data!A2:A41,ordered,Data!B2:B41,shipped,MAP(orders,LAMBDA(order,SUMIFS(Shipments!C2:C46,Shipments!B2:B46,order))),remaining,ordered-shipped,HSTACK(orders,ordered,shipped,remaining,IF(remaining>0,\"Short\",IF(remaining<0,\"Over\",\"Balanced\"))))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Keep overshipments negative and unmatched order shipments at zero.",
+          "Name the aggregate and signed difference before labeling.",
+          "=LET(orders,____,ordered,____,shipped,MAP(____),remaining,____,HSTACK(____,IF(remaining>0,\"Short\",IF(remaining<0,\"Over\",\"Balanced\"))))"
+        ],
+        "alternatives": [],
+        "id": "t2",
+        "prompt": "Return Order_no, Ordered_units, Shipped_units, Remaining_units, Status for every order (40 × 5), source order. Preserve signed remaining units.",
+        "output": "Answers!B12:F51"
+      },
+      {
+        "answer": [
+          [
+            "QV-001",
+            0,
+            5,
+            -5,
+            "Over"
+          ],
+          [
+            "QV-002",
+            22,
+            25,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-003",
+            41,
+            39,
+            2,
+            "Short"
+          ],
+          [
+            "QV-004",
+            16,
+            18,
+            -2,
+            "Over"
+          ],
+          [
+            "QV-006",
+            35,
+            38,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-007",
+            21,
+            17,
+            4,
+            "Short"
+          ],
+          [
+            "QV-008",
+            24,
+            28,
+            -4,
+            "Over"
+          ],
+          [
+            "QV-010",
+            28,
+            31,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-011",
+            50,
+            46,
+            4,
+            "Short"
+          ],
+          [
+            "QV-012",
+            23,
+            19,
+            4,
+            "Short"
+          ],
+          [
+            "QV-014",
+            47,
+            50,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-015",
+            60,
+            56,
+            4,
+            "Short"
+          ],
+          [
+            "QV-016",
+            32,
+            28,
+            4,
+            "Short"
+          ],
+          [
+            "QV-018",
+            26,
+            29,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-019",
+            41,
+            37,
+            4,
+            "Short"
+          ],
+          [
+            "QV-020",
+            16,
+            12,
+            4,
+            "Short"
+          ],
+          [
+            "QV-022",
+            48,
+            51,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-023",
+            16,
+            12,
+            4,
+            "Short"
+          ],
+          [
+            "QV-024",
+            23,
+            19,
+            4,
+            "Short"
+          ],
+          [
+            "QV-026",
+            18,
+            21,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-027",
+            51,
+            47,
+            4,
+            "Short"
+          ],
+          [
+            "QV-028",
+            35,
+            31,
+            4,
+            "Short"
+          ],
+          [
+            "QV-030",
+            26,
+            29,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-031",
+            20,
+            16,
+            4,
+            "Short"
+          ],
+          [
+            "QV-032",
+            17,
+            13,
+            4,
+            "Short"
+          ],
+          [
+            "QV-034",
+            61,
+            64,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-035",
+            27,
+            23,
+            4,
+            "Short"
+          ],
+          [
+            "QV-036",
+            54,
+            50,
+            4,
+            "Short"
+          ],
+          [
+            "QV-038",
+            39,
+            42,
+            -3,
+            "Over"
+          ],
+          [
+            "QV-039",
+            18,
+            14,
+            4,
+            "Short"
+          ],
+          [
+            "QV-040",
+            70,
+            66,
+            4,
+            "Short"
+          ]
+        ],
+        "model": "=FILTER(Answers!B12:F51,Answers!E12:E51<>0,\"None\")",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Both positive and negative remaining quantities are exceptions.",
+          "Filter on nonzero signed remaining.",
+          "=FILTER(____,____<>0,\"None\")"
+        ],
+        "alternatives": [
+          "=FILTER(Answers!B12:F51,Answers!F12:F51<>\"Balanced\",\"None\")"
+        ],
+        "id": "t3",
+        "prompt": "From task 2, return every Short or Over row in original order order, without headers. Balanced rows are excluded.",
+        "output": "Answers!B54:F84"
+      },
+      {
+        "answer": [
+          [
+            1390,
+            1361,
+            18,
+            0
+          ]
+        ],
+        "model": "=LET(known,COUNTIFS(Data!A2:A41,Shipments!B2:B46)>0,matched,SUM(FILTER(Shipments!C2:C46,known)),orphan,SUM(FILTER(Shipments!C2:C46,NOT(known))),HSTACK(SUM(Data!B2:B41),matched,orphan,SUM(Shipments!C2:C46)-matched-orphan))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Orphans are shipment records whose order is absent.",
+          "Partition raw shipments by order-key membership and reconcile both groups.",
+          "=LET(known,____,matched,SUM(FILTER(____,known)),orphan,SUM(FILTER(____,NOT(known))),HSTACK(____,matched,orphan,____-matched-orphan))"
+        ],
+        "alternatives": [],
+        "id": "t4",
+        "prompt": "Return total ordered units, matched shipped units, orphan shipped units, and all shipped units − matched − orphan as one 1 × 4 row. The last value must reconcile to numeric zero.",
+        "output": "Answers!B87:E87"
+      }
+    ],
+    "bonus": {
+      "answer": 13,
+      "model": "=COUNTIFS(Answers!F12:F51,\"Over\")",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Count orders rather than dispatch records.",
+        "Count Over in the joined report.",
+        "=COUNTIFS(____,\"Over\")"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review COUNTIFS: count Over orders from task 2.",
+      "output": "Answers!B90"
+    }
+  },
+  "L10-A3": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            0
+          ],
+          [
+            "Review"
+          ],
+          [
+            1184
+          ],
+          [
+            "Review"
+          ],
+          [
+            960
+          ],
+          [
+            "Review"
+          ],
+          [
+            816
+          ],
+          [
+            "Review"
+          ]
+        ],
+        "model": "=LET(grade,Data!B2,mass,Data!C2,matches,COUNTIFS(Rates!$A$2:$A$5,grade),IF(OR(matches<>1,NOT(ISNUMBER(mass))),\"Review\",ROUND(mass*XLOOKUP(grade,Rates!$A$2:$A$5,Rates!$B$2:$B$5),2)))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Zero mass is valid; blank mass and ambiguous keys need Review.",
+          "Guard numeric mass and rate cardinality before calculating.",
+          "=LET(grade,____,mass,____,matches,____,IF(OR(____),\"Review\",ROUND(____,2)))"
+        ],
+        "alternatives": [],
+        "note": "Fill down eight jobs.",
+        "id": "t1",
+        "prompt": "For the first eight jobs, return corrected cost rounded to cents, or Review for absent/ambiguous rate or missing mass.",
+        "output": "Answers!B2:B9"
+      },
+      {
+        "answer": [
+          [
+            "Mismatch"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Match"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Match"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Match"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Match"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Mismatch"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Match"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Match"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Match"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Mismatch"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Match"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Match"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Match"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Match"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Mismatch"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Match"
+          ],
+          [
+            "Review"
+          ],
+          [
+            "Match"
+          ],
+          [
+            "Review"
+          ]
+        ],
+        "model": "=LET(grade,Data!B2,mass,Data!C2,matches,COUNTIFS(Rates!$A$2:$A$5,grade),IF(OR(matches<>1,NOT(ISNUMBER(mass))),\"Review\",IF(ABS(ROUND(Data!D2-ROUND(mass*XLOOKUP(grade,Rates!$A$2:$A$5,Rates!$B$2:$B$5),2),2))>0.01,\"Mismatch\",\"Match\")))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Exactly one cent remains Match; round the difference before testing.",
+          "Compare a guarded corrected amount with its independent quote.",
+          "=LET(grade,____,mass,____,matches,____,IF(OR(____),\"Review\",IF(ABS(ROUND(____,2))>0.01,\"Mismatch\",\"Match\")))"
+        ],
+        "alternatives": [],
+        "note": "Fill down all jobs.",
+        "id": "t2",
+        "prompt": "For every job, return Review for an unavailable corrected cost; otherwise Mismatch when |ROUND(quoted − corrected,2)| > 0.01, or Match when ≤ 0.01. Source order (36 × 1).",
+        "output": "Answers!B12:B47"
+      },
+      {
+        "answer": [
+          [
+            "RV-001",
+            0,
+            2,
+            "Mismatch"
+          ],
+          [
+            "RV-002",
+            "Review",
+            1148,
+            "Review"
+          ],
+          [
+            "RV-004",
+            "Review",
+            966,
+            "Review"
+          ],
+          [
+            "RV-006",
+            "Review",
+            716,
+            "Review"
+          ],
+          [
+            "RV-008",
+            "Review",
+            1316,
+            "Review"
+          ],
+          [
+            "RV-010",
+            "Review",
+            420,
+            "Review"
+          ],
+          [
+            "RV-011",
+            1568,
+            1570,
+            "Mismatch"
+          ],
+          [
+            "RV-012",
+            "Review",
+            868,
+            "Review"
+          ],
+          [
+            "RV-014",
+            "Review",
+            308,
+            "Review"
+          ],
+          [
+            "RV-016",
+            "Review",
+            1332,
+            "Review"
+          ],
+          [
+            "RV-018",
+            "Review",
+            602,
+            "Review"
+          ],
+          [
+            "RV-019",
+            "Review",
+            480,
+            "Review"
+          ],
+          [
+            "RV-020",
+            "Review",
+            364,
+            "Review"
+          ],
+          [
+            "RV-021",
+            480,
+            482,
+            "Mismatch"
+          ],
+          [
+            "RV-022",
+            "Review",
+            770,
+            "Review"
+          ],
+          [
+            "RV-024",
+            "Review",
+            364,
+            "Review"
+          ],
+          [
+            "RV-026",
+            "Review",
+            856,
+            "Review"
+          ],
+          [
+            "RV-028",
+            "Review",
+            420,
+            "Review"
+          ],
+          [
+            "RV-030",
+            "Review",
+            616,
+            "Review"
+          ],
+          [
+            "RV-031",
+            368,
+            370,
+            "Mismatch"
+          ],
+          [
+            "RV-032",
+            "Review",
+            420,
+            "Review"
+          ],
+          [
+            "RV-034",
+            "Review",
+            350,
+            "Review"
+          ],
+          [
+            "RV-036",
+            "Review",
+            1122,
+            "Review"
+          ]
+        ],
+        "model": "=LET(grade,Data!B2:B37,mass,Data!C2:C37,known,(COUNTIFS(Rates!A2:A5,grade)=1)*ISNUMBER(mass),corrected,IF(known,ROUND(mass*XLOOKUP(grade,Rates!A2:A5,Rates!B2:B5,0),2),\"Review\"),SORT(FILTER(HSTACK(Data!A2:A37,corrected,Data!D2:D37,Answers!B12:B47),Answers!B12:B47<>\"Match\"),1,1))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Keep review reasons beside the independent quote.",
+          "Build a guarded corrected-cost column and filter non-Match statuses.",
+          "=LET(grade,____,mass,____,known,____,corrected,IF(____),SORT(FILTER(HSTACK(____),____),1,1))"
+        ],
+        "alternatives": [],
+        "id": "t3",
+        "prompt": "Return Job_no, Corrected_CAD, Quoted_CAD and Status for all Review/Mismatch jobs, sorted by Job_no ascending. Unavailable corrected cost is the text Review. No headers.",
+        "output": "Answers!B50:E72"
+      },
+      {
+        "answer": 12000,
+        "model": "=SUM(MAP(Data!B2:B37,Data!C2:C37,LAMBDA(grade,mass,IF(AND(COUNTIFS(Rates!A2:A5,grade)=1,ISNUMBER(mass)),ROUND(mass*XLOOKUP(grade,Rates!A2:A5,Rates!B2:B5),2),0))))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Aggregate known corrected costs only, after row-level rounding.",
+          "Map the guarded calculation and sum numeric costs.",
+          "=SUM(MAP(____,____,LAMBDA(grade,mass,IF(____,ROUND(____,2),0))))"
+        ],
+        "alternatives": [
+          "=SUM(FILTER(Data!C2:C37*XLOOKUP(Data!B2:B37,Rates!A2:A5,Rates!B2:B5,0),(COUNTIFS(Rates!A2:A5,Data!B2:B37)=1)*ISNUMBER(Data!C2:C37)))"
+        ],
+        "id": "t4",
+        "prompt": "Return the total corrected cost for jobs with unique rates and numeric mass. Exclude Review jobs; sum costs after each row is rounded to cents.",
+        "output": "Answers!B75"
+      }
+    ],
+    "bonus": {
+      "answer": 4,
+      "model": "=COUNTIFS(Answers!B12:B47,\"Mismatch\")",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Review jobs cannot yet be declared cost mismatches.",
+        "Count only Mismatch in task 2.",
+        "=COUNTIFS(____,\"Mismatch\")"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review COUNTIFS: count Mismatch jobs from task 2.",
+      "output": "Answers!B78"
+    }
+  },
+  "L10-A4": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            -5,
+            -260,
+            140
+          ],
+          [
+            40,
+            2320,
+            1080
+          ],
+          [
+            15,
+            585,
+            90
+          ],
+          [
+            34,
+            1326,
+            306
+          ],
+          [
+            38,
+            1596,
+            1064
+          ],
+          [
+            32,
+            1120,
+            -1440
+          ],
+          [
+            34,
+            1292,
+            374
+          ],
+          [
+            51,
+            2346,
+            1275
+          ]
+        ],
+        "model": "=LET(net,Data!C2:C9-Data!D2:D9,HSTACK(net,ROUND(net*Data!E2:E9,2),ROUND(net*(Data!E2:E9-Data!F2:F9),2)))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Returns reverse both revenue and matching unit cost.",
+          "Reuse the signed net-unit array in the two money calculations.",
+          "=LET(net,____,HSTACK(net,ROUND(____,2),ROUND(____,2)))"
+        ],
+        "alternatives": [],
+        "id": "t1",
+        "prompt": "For the first eight lines, return Net_units, Net_revenue_CAD and Net_profit_CAD (8 × 3). Preserve negative net quantities; round money to cents.",
+        "output": "Answers!B2:D9"
+      },
+      {
+        "answer": [
+          [
+            "2026-07",
+            410,
+            18936,
+            4655,
+            24.58
+          ],
+          [
+            "2026-08",
+            436,
+            18955,
+            1904,
+            10.04
+          ],
+          [
+            "2026-09",
+            392,
+            16519,
+            3145,
+            19.04
+          ]
+        ],
+        "model": "=LET(months,Months!A2:A4,net,Data!C2:C46-Data!D2:D46,units,MAP(months,LAMBDA(month,SUMPRODUCT(--(Data!A2:A46=month),net))),revenue,MAP(months,LAMBDA(month,SUMPRODUCT(--(Data!A2:A46=month),net,Data!E2:E46))),profit,MAP(months,LAMBDA(month,SUMPRODUCT(--(Data!A2:A46=month),net,Data!E2:E46-Data!F2:F46))),HSTACK(months,units,ROUND(revenue,2),ROUND(profit,2),IF(revenue=0,\"Zero revenue\",ROUND(profit/revenue*100,2))))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Compute margin from selected total profit and total revenue.",
+          "Map each month to aligned raw totals before HSTACK.",
+          "=LET(months,____,net,____,units,MAP(____),revenue,MAP(____),profit,MAP(____),HSTACK(____,IF(revenue=0,\"Zero revenue\",____)))"
+        ],
+        "alternatives": [],
+        "id": "t2",
+        "prompt": "Return Month, Net_units, Net_revenue_CAD, Net_profit_CAD and Margin_pct (3 × 5), Months order. Compute margin from monthly totals; Zero revenue for a zero monthly denominator.",
+        "output": "Answers!B12:F14"
+      },
+      {
+        "answer": [
+          [
+            "SV-P1",
+            -10732
+          ]
+        ],
+        "model": "=LET(products,Products!A2:A6,net,Data!C2:C46-Data!D2:D46,profit,MAP(products,LAMBDA(product,SUMPRODUCT(--(Data!B2:B46=product),net,Data!E2:E46-Data!F2:F46))),report,FILTER(HSTACK(products,ROUND(profit,2)),profit<0),SORTBY(report,CHOOSECOLS(report,2),1,CHOOSECOLS(report,1),1))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Select negative aggregated product profit, not individual loss lines.",
+          "Map products to totals, filter and sort with a tie key.",
+          "=LET(products,____,net,____,profit,MAP(____),report,FILTER(____,____),SORTBY(report,____,1,____,1))"
+        ],
+        "alternatives": [],
+        "id": "t3",
+        "prompt": "Aggregate across all months and return loss-making Product plus Net_profit_CAD (two columns), sorted by profit ascending then Product ascending. Include only strictly negative product profit.",
+        "output": "Answers!B17:C17"
+      },
+      {
+        "answer": [
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "model": "=HSTACK(SUM(Answers!C12:C14)-SUM(Data!C2:C46)+SUM(Data!D2:D46),ROUND(SUM(Answers!D12:D14)-SUMPRODUCT(Data!C2:C46-Data!D2:D46,Data!E2:E46),2),ROUND(SUM(Answers!E12:E14)-SUMPRODUCT(Data!C2:C46-Data!D2:D46,Data!E2:E46-Data!F2:F46),2))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Each grouped headline needs a separate raw source calculation.",
+          "Subtract raw units, revenue and profit from the respective monthly totals.",
+          "=HSTACK(____,ROUND(____,2),ROUND(____,2))"
+        ],
+        "alternatives": [
+          "=LET(net,Data!C2:C46-Data!D2:D46,HSTACK(SUM(Answers!C12:C14)-SUM(net),SUM(Answers!D12:D14)-SUM(net*Data!E2:E46),SUM(Answers!E12:E14)-SUM(net*(Data!E2:E46-Data!F2:F46))))"
+        ],
+        "id": "t4",
+        "prompt": "Return three independent reconciliations: monthly total net units minus raw net units, monthly revenue minus raw revenue, and monthly profit minus raw profit (1 × 3). Round money differences to cents; reconciled outputs are numeric zero.",
+        "output": "Answers!B20:D20"
+      }
+    ],
+    "bonus": {
+      "answer": 4,
+      "model": "=SUMPRODUCT(--(Data!D2:D46>Data!C2:C46))",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Compare the two quantities within each row.",
+        "Sum the oversold-return Boolean mask.",
+        "=SUMPRODUCT(--(____>____))"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review COUNTIFS: count raw lines with returns strictly greater than sold units.",
+      "output": "Answers!B23"
+    }
+  },
+  "L10-A5": {
+    "version": 1,
+    "tasks": [
+      {
+        "answer": [
+          [
+            "001",
+            "TV-H1"
+          ],
+          [
+            "002",
+            "TV-H1"
+          ],
+          [
+            "003",
+            "TV-H1"
+          ],
+          [
+            "004",
+            "TV-H1"
+          ],
+          [
+            "005",
+            "TV-H1"
+          ],
+          [
+            "006",
+            "TV-H1"
+          ],
+          [
+            "001",
+            "TV-H2"
+          ],
+          [
+            "002",
+            "TV-H2"
+          ],
+          [
+            "003",
+            "TV-H2"
+          ],
+          [
+            "004",
+            "TV-H2"
+          ],
+          [
+            "005",
+            "TV-H2"
+          ],
+          [
+            "006",
+            "TV-H2"
+          ]
+        ],
+        "model": "=LET(keys,UNIQUE(CHOOSECOLS(Data!A2:D49,1,2)),SORTBY(keys,CHOOSECOLS(keys,2),1,CHOOSECOLS(keys,1),1))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Deduplicate complete two-column keys, not sample numbers alone.",
+          "UNIQUE the pair array and sort heat before sample.",
+          "=LET(keys,UNIQUE(CHOOSECOLS(____,____,____)),SORTBY(keys,____,1,____,1))"
+        ],
+        "alternatives": [],
+        "id": "t1",
+        "prompt": "Return unique sample_no and heat_no pairs (12 × 2), sorted by heat_no ascending then sample_no ascending. No headers; preserve text IDs.",
+        "output": "Answers!B2:C13"
+      },
+      {
+        "answer": [
+          [
+            21.5,
+            "Missing"
+          ],
+          [
+            17,
+            22.5
+          ],
+          [
+            0,
+            35
+          ],
+          [
+            27,
+            20
+          ],
+          [
+            25.5,
+            30.5
+          ],
+          [
+            41.5,
+            29.5
+          ],
+          [
+            35.5,
+            21
+          ],
+          [
+            38,
+            43.5
+          ],
+          [
+            31,
+            33
+          ],
+          [
+            24,
+            35
+          ],
+          [
+            30.5,
+            32
+          ],
+          [
+            37,
+            31
+          ]
+        ],
+        "model": "=MAP(Answers!B2:B13,Answers!C2:C13,LAMBDA(sampleKey,heatKey,LET(mask,(Data!A2:A49=sampleKey)*(Data!B2:B49=heatKey)*(UPPER(TRIM(Data!C2:C49))=\"LPA\")*ISNUMBER(Data!D2:D49),IF(SUM(mask)=0,\"Missing\",ROUND(AVERAGE(FILTER(Data!D2:D49,mask)),2)))))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Use both identifiers and only numeric energies; blank replicates do not dilute a mean.",
+          "MAP the key scaffold to a guarded numeric FILTER mean.",
+          "=MAP(____,____,LAMBDA(sampleKey,heatKey,LET(mask,____,IF(SUM(mask)=0,\"Missing\",ROUND(AVERAGE(FILTER(____,mask)),2)))))"
+        ],
+        "alternatives": [],
+        "note": "Enter the LPA column at its anchor; repeat with TWA in the second output column.",
+        "id": "t2",
+        "prompt": "In task-1 key order, return LPA_mean_J and TWA_mean_J (12 × 2). Average all numeric replicates, round means to two decimals, and return Missing when a numeric group is empty.",
+        "output": "Answers!B16:C27"
+      },
+      {
+        "answer": [
+          [
+            "001",
+            "TV-H1",
+            21.5,
+            "Missing",
+            "Review"
+          ],
+          [
+            "002",
+            "TV-H1",
+            17,
+            22.5,
+            "Hold"
+          ],
+          [
+            "003",
+            "TV-H1",
+            0,
+            35,
+            "Hold"
+          ],
+          [
+            "004",
+            "TV-H1",
+            27,
+            20,
+            "Pass"
+          ],
+          [
+            "005",
+            "TV-H1",
+            25.5,
+            30.5,
+            "Hold"
+          ],
+          [
+            "006",
+            "TV-H1",
+            41.5,
+            29.5,
+            "Pass"
+          ],
+          [
+            "001",
+            "TV-H2",
+            35.5,
+            21,
+            "Pass"
+          ],
+          [
+            "002",
+            "TV-H2",
+            38,
+            43.5,
+            "Pass"
+          ],
+          [
+            "003",
+            "TV-H2",
+            31,
+            33,
+            "Pass"
+          ],
+          [
+            "004",
+            "TV-H2",
+            24,
+            35,
+            "Hold"
+          ],
+          [
+            "005",
+            "TV-H2",
+            30.5,
+            32,
+            "Pass"
+          ],
+          [
+            "006",
+            "TV-H2",
+            37,
+            31,
+            "Pass"
+          ]
+        ],
+        "model": "=LET(lpa,Answers!B16:B27,twa,Answers!C16:C27,HSTACK(Answers!B2:C13,lpa,twa,IF((lpa=\"Missing\")+(twa=\"Missing\"),\"Review\",IF((lpa<27)+(twa<20),\"Hold\",\"Pass\"))))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "Do not compare missing means as if they were measured values.",
+          "Apply the missing guard before either below-limit test.",
+          "=LET(lpa,____,twa,____,HSTACK(____,IF(____,\"Review\",IF(____,\"Hold\",\"Pass\"))))"
+        ],
+        "alternatives": [],
+        "id": "t3",
+        "prompt": "Return sample_no, heat_no, LPA_mean_J, TWA_mean_J and Status (12 × 5), task-1 order. Review takes precedence over Hold; equal means at the training minima pass.",
+        "output": "Answers!B30:F41"
+      },
+      {
+        "answer": [
+          [
+            7,
+            4,
+            1,
+            1560
+          ]
+        ],
+        "model": "=LET(keys,Answers!B30:C41,status,Answers!F30:F41,cost,MAP(CHOOSECOLS(keys,1),CHOOSECOLS(keys,2),LAMBDA(sampleKey,heatKey,SUMIFS(Costs!C2:C13,Costs!A2:A13,sampleKey,Costs!B2:B13,heatKey))),HSTACK(COUNTIFS(status,\"Pass\"),COUNTIFS(status,\"Hold\"),COUNTIFS(status,\"Review\"),SUM(FILTER(cost,status=\"Hold\",0))))",
+        "tolerance": 0.000001,
+        "orderInsensitive": false,
+        "hints": [
+          "The cost join must match both sample and heat, and only Hold pairs contribute.",
+          "Map each pair to its cost, then select Hold.",
+          "=LET(keys,____,status,____,cost,MAP(____,____,LAMBDA(sampleKey,heatKey,SUMIFS(____))),HSTACK(____,SUM(FILTER(cost,____,0))))"
+        ],
+        "alternatives": [
+          "=HSTACK(COUNTIFS(Answers!F30:F41,\"Pass\"),COUNTIFS(Answers!F30:F41,\"Hold\"),COUNTIFS(Answers!F30:F41,\"Review\"),SUM(MAP(Answers!B30:B41,Answers!C30:C41,Answers!F30:F41,LAMBDA(sampleKey,heatKey,status,IF(status=\"Hold\",SUMIFS(Costs!C2:C13,Costs!A2:A13,sampleKey,Costs!B2:B13,heatKey),0)))))"
+        ],
+        "id": "t4",
+        "prompt": "Return Pass count, Hold count, Review count and total Hold_cost_CAD for Hold pairs only (1 × 4). Join Costs by both identifiers; count each pair once. Review costs remain pending.",
+        "output": "Answers!B44:E44"
+      }
+    ],
+    "bonus": {
+      "answer": 1,
+      "model": "=COUNTIFS(Answers!B16:C27,\"Missing\")",
+      "tolerance": 0.000001,
+      "orderInsensitive": false,
+      "hints": [
+        "Count missing orientation outputs, not raw blank replicates.",
+        "Apply COUNTIFS to the two mean columns.",
+        "=COUNTIFS(____,\"Missing\")"
+      ],
+      "alternatives": [],
+      "id": "bonus",
+      "prompt": "Review COUNTIFS: count Missing orientation mean cells in task 2.",
+      "output": "Answers!B47"
+    }
+  },
   "EX-A1": {
     "version": 1,
     "tasks": [

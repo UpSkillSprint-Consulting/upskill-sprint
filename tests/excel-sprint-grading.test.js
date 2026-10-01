@@ -106,7 +106,7 @@ test('a completion never depends on the optional bonus and bonus updates retain 
   assert.equal(checked.body.nextPackageId, 'L1-A3');
 });
 
-test('all thirty packages form a continuous chain including every level boundary', async () => {
+test('all fifty packages form a continuous chain including every level boundary', async () => {
   const tokens = [];
   for (const packageId of shared.PACKAGE_IDS) {
     const result = await complete(packageId, tokens.at(-1));
@@ -115,7 +115,7 @@ test('all thirty packages form a continuous chain including every level boundary
   const result = await call(verify, 'verify', { tokens });
   assert.equal(result.response.status, 200);
   assert.equal(result.body.verified, true);
-  assert.equal(result.body.completions.length, 30);
+  assert.equal(result.body.completions.length, 50);
   assert.equal(result.body.nextPackageId, null);
   assert.equal(new Set(result.body.completions.map(record => record.chainId)).size, 1);
 });
@@ -214,7 +214,7 @@ test('grading accepts a valid alternative formula instead of forcing the model p
 test('malformed and abusive requests reject without leaking private keys', async () => {
   const valid = tasks('L1-A1', ['t1']);
   const invalid = [
-    null, [], {}, { packageId: '__proto__', submissions: valid }, { packageId: 'L10-A1', submissions: valid },
+    null, [], {}, { packageId: '__proto__', submissions: valid }, { packageId: 'L11-A1', submissions: valid },
     { packageId: 'L1-A1', submissions: [] }, { packageId: 'L1-A1', submissions: [valid[0], valid[0]] },
     { packageId: 'L1-A1', submissions: [{ taskId: 'nope', formula: '=1', result: 1 }] },
     { packageId: 'L1-A1', submissions: [{ taskId: 't1', formula: '=1' }] },

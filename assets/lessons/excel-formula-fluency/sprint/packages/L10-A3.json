@@ -1,0 +1,378 @@
+{
+  "id": "L10-A3",
+  "level": 10,
+  "assignment": 3,
+  "title": "Audit a guarded formula chain",
+  "formulas": [
+    "LET",
+    "ROUND"
+  ],
+  "minutes": 90,
+  "scenario": "Rervani Costing has 36 fictitious inspection jobs, quoted costs and a Rates table. A rate is usable only when its grade key is unique; blank mass is unknown and numeric zero is valid. Correct cost is mass × unique rate, rounded to cents; a rounded quoted-minus-correct difference over 0.01 CAD in magnitude is Mismatch.",
+  "lesson": {
+    "intro": "A formula audit compares a corrected calculation with an independent quoted value. Keep ambiguous mappings and missing inputs visible before deciding whether a cost matches.",
+    "functions": [
+      {
+        "name": "LET",
+        "purpose": "Name intermediate expressions.",
+        "syntax": "=LET(name1, name_value1, [name2, name_value2], ..., calculation)",
+        "arguments": "Provide a valid name/value pair, optional further pairs, and the final expression using those names; up to 126 pairs.",
+        "example": "=LET(amount,12,fee,3,amount-fee)",
+        "result": 9,
+        "useCase": "Calculate a guarded yield once.",
+        "mistake": "Names cannot collide with cell references; the last argument returns the result."
+      },
+      {
+        "name": "ROUND",
+        "purpose": "Round to a stated precision.",
+        "syntax": "=ROUND(number, num_digits)",
+        "arguments": "number is the result; num_digits is decimal places (negative for places left of the decimal point).",
+        "example": "=ROUND(12.346,2)",
+        "result": 12.35,
+        "useCase": "Present currency or replicate means.",
+        "mistake": "Round at the specified stage; display formatting does not change the value."
+      }
+    ],
+    "combine": "Review COUNTIFS, XLOOKUP, ISNUMBER, ABS, FILTER and SORT. Nest at least four functions in the guarded cost rule. Missing mass or absent/duplicate rates produce Review. Quotes are numeric. Any equivalent formula is accepted."
+  },
+  "tasks": [
+    {
+      "prompt": "For the first eight jobs, return corrected cost rounded to cents, or Review for absent/ambiguous rate or missing mass.",
+      "output": "Answers!B2:B9",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "COUNTIFS",
+        "IF",
+        "ISNUMBER",
+        "ROUND",
+        "XLOOKUP"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "For every job, return Review for an unavailable corrected cost; otherwise Mismatch when |ROUND(quoted − corrected,2)| > 0.01, or Match when ≤ 0.01. Source order (36 × 1).",
+      "output": "Answers!B12:B47",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "IF",
+        "ABS",
+        "ROUND",
+        "XLOOKUP"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "Return Job_no, Corrected_CAD, Quoted_CAD and Status for all Review/Mismatch jobs, sorted by Job_no ascending. Unavailable corrected cost is the text Review. No headers.",
+      "output": "Answers!B50:E72",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "XLOOKUP",
+        "FILTER",
+        "HSTACK",
+        "SORT"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Return the total corrected cost for jobs with unique rates and numeric mass. Exclude Review jobs; sum costs after each row is rounded to cents.",
+      "output": "Answers!B75",
+      "type": "number",
+      "formulas": [
+        "SUM",
+        "MAP",
+        "LAMBDA",
+        "ROUND"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review COUNTIFS: count Mismatch jobs from task 2.",
+    "output": "Answers!B78",
+    "type": "number",
+    "formulas": [
+      "COUNTIFS"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Job_no",
+      "Grade",
+      "Mass_t",
+      "Quoted_CAD"
+    ],
+    "rows": [
+      [
+        "RV-001",
+        "G1",
+        0,
+        2
+      ],
+      [
+        "RV-002",
+        "G2",
+        8.2,
+        1148
+      ],
+      [
+        "RV-003",
+        "G3",
+        7.4,
+        1184
+      ],
+      [
+        "RV-004",
+        "GX",
+        6.9,
+        966
+      ],
+      [
+        "RV-005",
+        "G1",
+        8,
+        960.01
+      ],
+      [
+        "RV-006",
+        "G2",
+        5.1,
+        716
+      ],
+      [
+        "RV-007",
+        "G3",
+        5.1,
+        816
+      ],
+      [
+        "RV-008",
+        "GX",
+        9.4,
+        1316
+      ],
+      [
+        "RV-009",
+        "G1",
+        3.2,
+        384
+      ],
+      [
+        "RV-010",
+        "G2",
+        "",
+        420
+      ],
+      [
+        "RV-011",
+        "G3",
+        9.8,
+        1570
+      ],
+      [
+        "RV-012",
+        "GX",
+        6.2,
+        868
+      ],
+      [
+        "RV-013",
+        "G1",
+        5,
+        600
+      ],
+      [
+        "RV-014",
+        "G2",
+        2.2,
+        308
+      ],
+      [
+        "RV-015",
+        "G3",
+        4,
+        640
+      ],
+      [
+        "RV-016",
+        "GX",
+        9.5,
+        1332
+      ],
+      [
+        "RV-017",
+        "G1",
+        3.9,
+        468
+      ],
+      [
+        "RV-018",
+        "G2",
+        4.3,
+        602
+      ],
+      [
+        "RV-019",
+        "G3",
+        "",
+        480
+      ],
+      [
+        "RV-020",
+        "GX",
+        2.6,
+        364
+      ],
+      [
+        "RV-021",
+        "G1",
+        4,
+        482
+      ],
+      [
+        "RV-022",
+        "G2",
+        5.5,
+        770
+      ],
+      [
+        "RV-023",
+        "G3",
+        4.6,
+        736
+      ],
+      [
+        "RV-024",
+        "GX",
+        2.6,
+        364
+      ],
+      [
+        "RV-025",
+        "G1",
+        7.4,
+        888
+      ],
+      [
+        "RV-026",
+        "G2",
+        6.1,
+        856
+      ],
+      [
+        "RV-027",
+        "G3",
+        6.7,
+        1072
+      ],
+      [
+        "RV-028",
+        "GX",
+        "",
+        420
+      ],
+      [
+        "RV-029",
+        "G1",
+        6.6,
+        792
+      ],
+      [
+        "RV-030",
+        "G2",
+        4.4,
+        616
+      ],
+      [
+        "RV-031",
+        "G3",
+        2.3,
+        370
+      ],
+      [
+        "RV-032",
+        "GX",
+        3,
+        420
+      ],
+      [
+        "RV-033",
+        "G1",
+        4.3,
+        516
+      ],
+      [
+        "RV-034",
+        "G2",
+        2.5,
+        350
+      ],
+      [
+        "RV-035",
+        "G3",
+        3.3,
+        528
+      ],
+      [
+        "RV-036",
+        "GX",
+        8,
+        1122
+      ]
+    ],
+    "rowCount": 36,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Job_no",
+        "description": "Unique padded job identifier."
+      },
+      {
+        "name": "Grade",
+        "description": "Rate key; includes ambiguous and absent keys."
+      },
+      {
+        "name": "Mass_t",
+        "description": "Numeric metric tonnes or blank unmeasured mass."
+      },
+      {
+        "name": "Quoted_CAD",
+        "description": "Independent quoted cost, CAD."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A3.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A3.csv",
+    "sheets": [
+      {
+        "name": "Rates",
+        "headers": [
+          "Grade",
+          "Rate_CAD_per_t"
+        ],
+        "rows": [
+          [
+            "G1",
+            120
+          ],
+          [
+            "G2",
+            130
+          ],
+          [
+            "G2",
+            150
+          ],
+          [
+            "G3",
+            160
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A3-Rates.csv"
+      }
+    ]
+  }
+}

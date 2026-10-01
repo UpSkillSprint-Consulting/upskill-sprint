@@ -1,0 +1,320 @@
+{
+  "id": "L8-A2",
+  "level": 8,
+  "assignment": 2,
+  "title": "Create a reusable margin formula",
+  "formulas": [
+    "LAMBDA",
+    "MAP"
+  ],
+  "minutes": 65,
+  "scenario": "Gorvani Sales records 40 fictitious product lines with revenue and cost in CAD. Blank cost means Missing; zero revenue means Zero revenue, unless cost is missing first. Otherwise margin is 100 × (revenue − cost) / revenue.",
+  "lesson": {
+    "intro": "A LAMBDA captures a rule; MAP applies that rule to corresponding values. State exception precedence before reusing a calculation across a whole column.",
+    "functions": [
+      {
+        "name": "LAMBDA",
+        "purpose": "Define a reusable calculation.",
+        "syntax": "=LAMBDA([parameter1, parameter2, ...], calculation)",
+        "arguments": "Optional parameters name inputs (up to 253); calculation returns the result. Call an inline function with arguments or assign it a name in Name Manager.",
+        "example": "=LAMBDA(amount,fee,amount-fee)(12,3)",
+        "result": 9,
+        "useCase": "Reuse a margin or orientation-mean rule.",
+        "mistake": "An uncalled inline LAMBDA returns #CALC!; call argument counts must match."
+      },
+      {
+        "name": "MAP",
+        "purpose": "Transform corresponding array elements.",
+        "syntax": "=MAP(array1, [array2, ...], lambda)",
+        "arguments": "array1 and optional aligned arrays supply values; the final LAMBDA has one parameter per array and returns one result per position.",
+        "example": "=MAP({2;4},LAMBDA(item,item*3))",
+        "result": "6 then 12",
+        "useCase": "Apply a reusable margin calculation.",
+        "mistake": "Each call must return one value; mismatched parameters error."
+      }
+    ],
+    "combine": "Review IF, ISNUMBER and ROUND. Name revenue, cost and costKnown parameters; compute costKnown with ISNUMBER on the original source before MAP can coerce a blank. Call the function inline or define MarginPct in Name Manager. Missing cost takes precedence over zero revenue. Any valid formula is accepted; margin is a percentage number."
+  },
+  "tasks": [
+    {
+      "prompt": "Call a reusable margin calculation for the second source line. Return a percentage rounded to two decimals or the stated exception label.",
+      "output": "Answers!B2",
+      "type": "text",
+      "formulas": [
+        "LAMBDA",
+        "IF",
+        "ISNUMBER"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return margins for the first eight source lines (8 × 1), with the stated rounding and exception precedence.",
+      "output": "Answers!B5:B12",
+      "type": "array",
+      "formulas": [
+        "MAP",
+        "LAMBDA"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first eight lines, return Strong for numeric rounded margin ≥ 20, Thin below 20, or Review for either exception label.",
+      "output": "Answers!B15:B22",
+      "type": "array",
+      "formulas": [
+        "MAP",
+        "LAMBDA",
+        "IF"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Return total known profit across all 40 lines, including zero-revenue lines with numeric cost. Exclude unknown cost. Submit unrounded CAD.",
+      "output": "Answers!B25",
+      "type": "number",
+      "formulas": [
+        "SUM",
+        "MAP",
+        "LAMBDA"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review COUNTIFS: count Review classifications in the first-eight task-3 results.",
+    "output": "Answers!B28",
+    "type": "number",
+    "formulas": [
+      "COUNTIFS"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Line_no",
+      "Revenue_CAD",
+      "Cost_CAD"
+    ],
+    "rows": [
+      [
+        "GV-1",
+        1719,
+        ""
+      ],
+      [
+        "GV-2",
+        0,
+        317
+      ],
+      [
+        "GV-3",
+        466,
+        1684
+      ],
+      [
+        "GV-4",
+        706,
+        1217
+      ],
+      [
+        "GV-5",
+        0,
+        ""
+      ],
+      [
+        "GV-6",
+        2035,
+        1315
+      ],
+      [
+        "GV-7",
+        1734,
+        891
+      ],
+      [
+        "GV-8",
+        488,
+        601
+      ],
+      [
+        "GV-9",
+        561,
+        400
+      ],
+      [
+        "GV-10",
+        1480,
+        581
+      ],
+      [
+        "GV-11",
+        1396,
+        685
+      ],
+      [
+        "GV-12",
+        1148,
+        332
+      ],
+      [
+        "GV-13",
+        1064,
+        723
+      ],
+      [
+        "GV-14",
+        1620,
+        ""
+      ],
+      [
+        "GV-15",
+        800,
+        324
+      ],
+      [
+        "GV-16",
+        575,
+        1762
+      ],
+      [
+        "GV-17",
+        961,
+        720
+      ],
+      [
+        "GV-18",
+        1871,
+        1269
+      ],
+      [
+        "GV-19",
+        1407,
+        1201
+      ],
+      [
+        "GV-20",
+        2366,
+        1080
+      ],
+      [
+        "GV-21",
+        679,
+        805
+      ],
+      [
+        "GV-22",
+        617,
+        846
+      ],
+      [
+        "GV-23",
+        1241,
+        418
+      ],
+      [
+        "GV-24",
+        2477,
+        553
+      ],
+      [
+        "GV-25",
+        913,
+        679
+      ],
+      [
+        "GV-26",
+        1295,
+        1748
+      ],
+      [
+        "GV-27",
+        1436,
+        ""
+      ],
+      [
+        "GV-28",
+        750,
+        486
+      ],
+      [
+        "GV-29",
+        1236,
+        790
+      ],
+      [
+        "GV-30",
+        2403,
+        1249
+      ],
+      [
+        "GV-31",
+        1772,
+        1345
+      ],
+      [
+        "GV-32",
+        633,
+        1188
+      ],
+      [
+        "GV-33",
+        1532,
+        963
+      ],
+      [
+        "GV-34",
+        1649,
+        1283
+      ],
+      [
+        "GV-35",
+        2129,
+        473
+      ],
+      [
+        "GV-36",
+        1800,
+        1390
+      ],
+      [
+        "GV-37",
+        707,
+        1485
+      ],
+      [
+        "GV-38",
+        2391,
+        896
+      ],
+      [
+        "GV-39",
+        571,
+        830
+      ],
+      [
+        "GV-40",
+        1216,
+        ""
+      ]
+    ],
+    "rowCount": 40,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Line_no",
+        "description": "Unique invented line identifier."
+      },
+      {
+        "name": "Revenue_CAD",
+        "description": "Nonnegative revenue, CAD; zero is valid."
+      },
+      {
+        "name": "Cost_CAD",
+        "description": "Numeric cost in CAD, or blank unknown cost."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L8-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L8-A2.csv"
+  }
+}

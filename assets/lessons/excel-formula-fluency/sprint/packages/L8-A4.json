@@ -1,0 +1,314 @@
+{
+  "id": "L8-A4",
+  "level": 8,
+  "assignment": 4,
+  "title": "Calculate cumulative losses and credits",
+  "formulas": [
+    "SCAN",
+    "REDUCE"
+  ],
+  "minutes": 75,
+  "scenario": "Irvani Quality records 50 fictitious COPQ events in chronological source order. Positive CAD values are costs and negative values are recovery credits. Net loss retains credits; gross cost deliberately excludes them. No cells are missing.",
+  "lesson": {
+    "intro": "SCAN exposes the running accumulation after each event. REDUCE returns the final accumulation. Different rules can track net cost and gross cost without erasing credits from the source.",
+    "functions": [
+      {
+        "name": "SCAN",
+        "purpose": "Return every accumulated result.",
+        "syntax": "=SCAN([initial_value], array, lambda(accumulator, value, body))",
+        "arguments": "Optional initial_value starts the accumulator; array supplies ordered values; lambda names accumulator and current value, then calculates the next accumulator.",
+        "example": "=SCAN(0,{3;5;2},LAMBDA(acc,item,acc+item))",
+        "result": "3 then 8 then 10",
+        "useCase": "Track cumulative COPQ after each event.",
+        "mistake": "Input order matters. Credits stay negative unless the rule deliberately excludes them."
+      },
+      {
+        "name": "REDUCE",
+        "purpose": "Return a final accumulation.",
+        "syntax": "=REDUCE([initial_value], array, lambda(accumulator, value, body))",
+        "arguments": "Optional initial_value starts the accumulator; array supplies values; lambda names accumulator and current value and returns the next accumulator.",
+        "example": "=REDUCE(0,{3;5;2},LAMBDA(acc,item,acc+item))",
+        "result": 10,
+        "useCase": "Total selected costs with a reusable rule.",
+        "mistake": "Start products at 1 and sums at 0. Unlike SCAN, only the final value is returned."
+      }
+    ],
+    "combine": "Review IF, MAX and COUNTIFS. Start sums at zero and keep source order for running totals. Use a scalar LAMBDA body for each step. Any valid formula is accepted; submit unrounded CAD values."
+  },
+  "tasks": [
+    {
+      "prompt": "Return cumulative net COPQ after each of the first ten events (10 × 1), retaining negative credits.",
+      "output": "Answers!B2:B11",
+      "type": "array",
+      "formulas": [
+        "SCAN",
+        "LAMBDA"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return final net COPQ across all 50 events, including credits.",
+      "output": "Answers!B14",
+      "type": "number",
+      "formulas": [
+        "REDUCE",
+        "LAMBDA"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "Return cumulative gross cost after each of the first ten events. Add positive costs; credits leave gross cost unchanged.",
+      "output": "Answers!B17:B26",
+      "type": "array",
+      "formulas": [
+        "SCAN",
+        "LAMBDA",
+        "MAX"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Return final gross cost across all 50 events, excluding negative credits.",
+      "output": "Answers!B29",
+      "type": "number",
+      "formulas": [
+        "REDUCE",
+        "LAMBDA",
+        "IF"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review COUNTIFS: count negative recovery-credit events.",
+    "output": "Answers!B32",
+    "type": "number",
+    "formulas": [
+      "COUNTIFS"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Event_no",
+      "COPQ_CAD"
+    ],
+    "rows": [
+      [
+        "IV-001",
+        157
+      ],
+      [
+        "IV-002",
+        -168
+      ],
+      [
+        "IV-003",
+        263
+      ],
+      [
+        "IV-004",
+        539
+      ],
+      [
+        "IV-005",
+        487
+      ],
+      [
+        "IV-006",
+        92
+      ],
+      [
+        "IV-007",
+        363
+      ],
+      [
+        "IV-008",
+        399
+      ],
+      [
+        "IV-009",
+        -86
+      ],
+      [
+        "IV-010",
+        503
+      ],
+      [
+        "IV-011",
+        511
+      ],
+      [
+        "IV-012",
+        357
+      ],
+      [
+        "IV-013",
+        573
+      ],
+      [
+        "IV-014",
+        239
+      ],
+      [
+        "IV-015",
+        163
+      ],
+      [
+        "IV-016",
+        -154
+      ],
+      [
+        "IV-017",
+        496
+      ],
+      [
+        "IV-018",
+        474
+      ],
+      [
+        "IV-019",
+        493
+      ],
+      [
+        "IV-020",
+        382
+      ],
+      [
+        "IV-021",
+        506
+      ],
+      [
+        "IV-022",
+        182
+      ],
+      [
+        "IV-023",
+        -69
+      ],
+      [
+        "IV-024",
+        232
+      ],
+      [
+        "IV-025",
+        351
+      ],
+      [
+        "IV-026",
+        395
+      ],
+      [
+        "IV-027",
+        354
+      ],
+      [
+        "IV-028",
+        161
+      ],
+      [
+        "IV-029",
+        522
+      ],
+      [
+        "IV-030",
+        -72
+      ],
+      [
+        "IV-031",
+        453
+      ],
+      [
+        "IV-032",
+        538
+      ],
+      [
+        "IV-033",
+        593
+      ],
+      [
+        "IV-034",
+        211
+      ],
+      [
+        "IV-035",
+        361
+      ],
+      [
+        "IV-036",
+        484
+      ],
+      [
+        "IV-037",
+        -112
+      ],
+      [
+        "IV-038",
+        331
+      ],
+      [
+        "IV-039",
+        256
+      ],
+      [
+        "IV-040",
+        386
+      ],
+      [
+        "IV-041",
+        474
+      ],
+      [
+        "IV-042",
+        544
+      ],
+      [
+        "IV-043",
+        176
+      ],
+      [
+        "IV-044",
+        -177
+      ],
+      [
+        "IV-045",
+        158
+      ],
+      [
+        "IV-046",
+        301
+      ],
+      [
+        "IV-047",
+        310
+      ],
+      [
+        "IV-048",
+        330
+      ],
+      [
+        "IV-049",
+        419
+      ],
+      [
+        "IV-050",
+        173
+      ]
+    ],
+    "rowCount": 50,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Event_no",
+        "description": "Unique chronological event key."
+      },
+      {
+        "name": "COPQ_CAD",
+        "description": "Positive cost or negative recovery credit, CAD."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L8-A4.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L8-A4.csv"
+  }
+}

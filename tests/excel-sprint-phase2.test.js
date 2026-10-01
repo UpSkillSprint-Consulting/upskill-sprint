@@ -28,7 +28,7 @@ test('all twenty new packages meet curriculum, dataset and workbook constraints'
   for(const sheet of p.dataset.sheets||[]){assert.ok(fs.existsSync(path.join(__dirname,'..',sheet.csv)));assert.ok(sheet.rows.every(r=>r.length===sheet.headers.length));}
  }
  assert.equal(unique.size,20);
- const catalog=JSON.parse(fs.readFileSync(`${dir}/catalog.json`));assert.equal(catalog.levels.filter(l=>l.available).length,6);assert.equal(catalog.levels.flatMap(l=>l.packages).length,50);
+ const catalog=JSON.parse(fs.readFileSync(`${dir}/catalog.json`));assert.equal(catalog.levels.filter(l=>l.available).length,10);assert.equal(catalog.levels.flatMap(l=>l.packages).length,50);
 });
 
 test('original grading keys and curriculum versions remain compatible with Phase 1 proofs',async()=>{

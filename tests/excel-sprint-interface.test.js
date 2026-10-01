@@ -11,7 +11,7 @@ async function ready(check){for(let i=0;i<80;i++){if(check())return;await new Pr
 async function harness(id,count,coaching=true,expertCount=0){
  const G=await import('../netlify/functions/_shared/excel-sprint-grading.mjs'),state=P.emptyState();state.selectedPackageId=id;
  for(const packageId of G.PACKAGE_IDS.slice(0,count)){const r=G.gradeSubmission({packageId,predecessorToken:state.tokens.at(-1),submissions:keys[packageId].tasks.map(t=>({taskId:t.id,formula:t.model,result:t.answer}))},SECRET);state.tokens.push(r.completionToken);}
- for(const packageId of G.EXPERT_IDS.slice(0,expertCount)){const r=G.gradeSubmission({packageId,predecessorToken:state.expertTokens.at(-1)||state.tokens.at(-1),submissions:keys[packageId].tasks.map(t=>({taskId:t.id,formula:t.model,result:t.answer}))},SECRET);state.expertTokens.push(r.completionToken);}
+ for(const packageId of G.EXPERT_IDS.slice(0,expertCount)){const r=G.gradeSubmission({packageId,predecessorToken:state.expertTokens.at(-1)||state.tokens[29],submissions:keys[packageId].tasks.map(t=>({taskId:t.id,formula:t.model,result:t.answer}))},SECRET);state.expertTokens.push(r.completionToken);}
  const dom=new JSDOM('<div id="excel-sprint-app"></div>',{url:'https://sprint.example/lesson',runScripts:'outside-only'}),w=dom.window,calls=[];
  w.TextEncoder=TextEncoder;w.localStorage.setItem('upskillsprint.excel-sprint.v1',JSON.stringify(state));
  w.fetch=async(url,init={})=>{
@@ -33,7 +33,7 @@ async function harness(id,count,coaching=true,expertCount=0){
 
 test('a Phase 1 backup unlocks Level 3 and exposes supporting-sheet downloads',async()=>{
  const h=await harness('L3-A1',10);try{
-  assert.match(h.find('.sprint-hero-stats').textContent,/Levels 1–6/);
+  assert.match(h.find('.sprint-hero-stats').textContent,/All 10 levels are ready/);
   assert.equal(h.find('[data-sprint-open="L3-A1"]').disabled,false);assert.equal(h.find('[data-sprint-open="L3-A2"]').disabled,true);
   assert.match(h.find('.sprint-supporting-sheet').textContent,/Specs sheet/);
   assert.equal(h.find('[data-sprint-sheet="Specs"]').textContent,'Copy Specs for Excel');
@@ -45,8 +45,30 @@ test('a Phase 1 backup unlocks Level 3 and exposes supporting-sheet downloads',a
 test('Expert Track stays locked until all 30 prerequisites verify and certificates show exact scope',async()=>{
  const h=await harness('L6-A5',29);try{
   assert.equal(h.find('[data-sprint-open="EX-A1"]').disabled,true);assert.equal(h.find('[data-sprint-action="certificate-levels-1-6"]').disabled,true);assert.equal(h.find('[data-sprint-action="certificate-expert-track-v1"]').disabled,true);
-  assert.match(h.find('#sprint-certificates').textContent,/Full 50-assignment completion: future release/);
+  assert.equal(h.find('[data-sprint-action="certificate-full-path"]').disabled,true);
+  assert.match(h.find('#sprint-certificates').textContent,/requires all 50 core assignments/);
  }finally{h.dom.window.close();}
+});
+test('the Level 6 milestone continues into Level 7 and preserves the optional Expert branch',async()=>{
+ const h=await harness('L6-A5',30,false);try{
+  assert.equal(h.find('[data-sprint-open="L7-A1"]').disabled,false);assert.equal(h.find('[data-sprint-open="L7-A2"]').disabled,true);assert.equal(h.find('[data-sprint-open="EX-A1"]').disabled,false);assert.equal(h.find('[data-sprint-action="certificate-full-path"]').disabled,true);
+  const next=h.find('#sprint-assignment [data-sprint-open]');assert.equal(next.dataset.sprintOpen,'L7-A1');next.click();await ready(()=>h.find('.sprint-assignment-heading').textContent.includes('Calculate weighted production rates'));
+  const t=keys['L7-A1'].tasks[0];h.find('[data-sprint-formula-input="t1"]').value=t.model;h.find('[data-sprint-result-input="t1"]').value='0';h.find('[data-sprint-check="t1"]').click();await ready(()=>h.find('#sprint-message').textContent.includes('Results checked.'));
+  for(const task of keys['L7-A1'].tasks){h.find('[data-sprint-formula-input="'+task.id+'"]').value=task.model;h.find('[data-sprint-result-input="'+task.id+'"]').value=String(task.answer);}
+  h.find('[data-sprint-action="grade-all"]').click();await ready(()=>h.find('[data-sprint-open="L7-A2"]').disabled===false);
+  const sent=h.calls.find(c=>c.url.endsWith('/grade'));assert.equal(JSON.parse(Buffer.from(sent.body.predecessorToken.split('.')[0],'base64url')).packageId,'L6-A5');const saved=JSON.parse(h.w.localStorage.getItem(P.KEY));assert.equal(saved.tokens.length,31);assert.equal(saved.expertTokens.length,0);assert.equal(saved.packages['L7-A1'].firstAttemptScore,75);assert.equal(saved.packages['L7-A1'].tasks.t1.attempts,2);
+ }finally{h.dom.window.close();}
+});
+test('all fifty core completions enable the full award while Expert counts remain capped at thirty prerequisites',async()=>{
+ const h=await harness('L10-A5',50,false);try{
+  assert.equal(h.find('[data-sprint-action="certificate-full-path"]').disabled,false);assert.equal(h.find('[data-sprint-action="certificate-expert-track-v1"]').disabled,true);assert.match(h.find('#sprint-expert').textContent,/30 \/ 30 prerequisite/);assert.ok(!h.find('#sprint-expert').textContent.includes('50 / 30'));
+  assert.equal(h.find('#sprint-assignment [data-sprint-open]'),null);assert.equal(h.find('#sprint-assignment a[href="#sprint-certificates"]').textContent,'View certificate eligibility');
+  const name=h.find('#sprint-certificate-name');name.value='Fictitious Test Learner';name.dispatchEvent(new h.w.Event('input',{bubbles:true}));h.find('[data-sprint-action="certificate-full-path"]').click();await ready(()=>h.find('#sprint-certificate-result a'));
+  const sent=h.calls.find(c=>c.url.endsWith('/certificate'));assert.equal(sent.body.award,'full-path');assert.equal(sent.body.tokens.length,50);assert.equal(sent.body.expertTokens.length,0);assert.match(h.find('#sprint-certificate-result').textContent,/50 core assignments across Levels 1–10/);assert.equal(h.calls.filter(c=>c.url.endsWith('/grade')).length,0);
+ }finally{h.dom.window.close();}
+});
+test('a restored fifty-core and three-capstone backup enables each independently scoped award',async()=>{
+ const h=await harness('EX-A3',50,false,3);try{for(const award of ['levels-1-6','expert-track-v1','full-path'])assert.equal(h.find('[data-sprint-action="certificate-'+award+'"]').disabled,false);assert.match(h.find('#sprint-expert').textContent,/30 \/ 30 prerequisite assignments.*3 \/ 3/);}finally{h.dom.window.close();}
 });
 test('capstone grading uses the Level 6 predecessor and preserves separate core and expert proofs',async()=>{
  const h=await harness('EX-A1',30,false);try{

@@ -1,0 +1,413 @@
+{
+  "id": "L9-A1",
+  "level": 9,
+  "assignment": 1,
+  "title": "Group production summaries",
+  "formulas": [
+    "GROUPBY",
+    "SUM"
+  ],
+  "minutes": 70,
+  "scenario": "Kelvani Rolling records 48 fictitious batches for six heats and two shifts. Every batch contributes tonnes and cost; repeated keys aggregate. Report no headers or grand/subtotals, and sort grouping keys ascending.",
+  "lesson": {
+    "intro": "Formula grouping creates a summary directly from repeated records. Explicit header and total settings prevent a summary from changing shape unexpectedly.",
+    "functions": [
+      {
+        "name": "GROUPBY",
+        "purpose": "Aggregate records by row keys.",
+        "syntax": "=GROUPBY(row_fields, values, function, [field_headers], [total_depth], [sort_order], [filter_array], [field_relationship])",
+        "arguments": "row_fields are grouping columns; values are aligned measures; function aggregates. Headers: 0 none, 1 input hidden, 2 generated, 3 input shown (default auto). Total depth: 0 none, ±1 grand, ±2 subtotals (negative at top; default auto). Sort indices are signed column positions; filter_array is an aligned Boolean mask. Relationship: 0 hierarchy, 1 flat table.",
+        "example": "=GROUPBY({\"A\";\"A\";\"B\"},{2;3;7},SUM,0,0,1)",
+        "result": "A,5 then B,7",
+        "useCase": "Summarize production batches.",
+        "mistake": "Specify totals and headers explicitly; aggregates combine duplicate keys."
+      },
+      {
+        "name": "SUM",
+        "purpose": "Add numeric inputs.",
+        "syntax": "=SUM(number1, [number2], ...)",
+        "arguments": "number1 supplies a number or range; optional arguments add inputs.",
+        "example": "=SUM(4,7)",
+        "result": 11,
+        "useCase": "Reconcile a source total.",
+        "mistake": "Do not add subtotals to their own detail."
+      }
+    ],
+    "combine": "Review HSTACK and ROUND. Current Microsoft 365 is required; if GROUPBY is unavailable, use a unique-key scaffold with SUMIFS. That alternative is accepted. Use field_relationship 1 for repeated complete key labels in flat reports."
+  },
+  "tasks": [
+    {
+      "prompt": "Return Shift, total Produced_t and total Cost_CAD (2 × 3), shift ascending. Round tonnes to two decimals; no headers/totals.",
+      "output": "Answers!B2:D3",
+      "type": "array",
+      "formulas": [
+        "GROUPBY",
+        "LAMBDA",
+        "ROUND",
+        "SUM"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return Heat_no, total Produced_t and total Cost_CAD (6 × 3), heat ascending. Round tonnes to two decimals; no headers/totals.",
+      "output": "Answers!B6:D11",
+      "type": "array",
+      "formulas": [
+        "GROUPBY",
+        "LAMBDA",
+        "SUM"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "Return Heat_no, Shift, total Produced_t, total Cost_CAD for each combination (12 × 4), heat then shift ascending. Repeat both labels on every row. Round tonnes to two decimals; no headers/totals.",
+      "output": "Answers!B14:E25",
+      "type": "array",
+      "formulas": [
+        "GROUPBY",
+        "LAMBDA"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Review reconciliation: return grouped total Cost_CAD from task 3 minus the independent raw Cost_CAD total. Submit numeric zero when reconciled.",
+      "output": "Answers!B28",
+      "type": "number",
+      "formulas": [
+        "SUM"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review AVERAGE: return average batch Produced_t across all 48 raw records, rounded to three decimals.",
+    "output": "Answers!B31",
+    "type": "number",
+    "formulas": [
+      "AVERAGE",
+      "ROUND"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Heat_no",
+      "Shift",
+      "Produced_t",
+      "Cost_CAD"
+    ],
+    "rows": [
+      [
+        "KV-H1",
+        "Day",
+        14,
+        2453
+      ],
+      [
+        "KV-H1",
+        "Night",
+        12.6,
+        2043
+      ],
+      [
+        "KV-H2",
+        "Day",
+        8,
+        2479
+      ],
+      [
+        "KV-H2",
+        "Night",
+        6.3,
+        2825
+      ],
+      [
+        "KV-H3",
+        "Day",
+        14.4,
+        2739
+      ],
+      [
+        "KV-H3",
+        "Night",
+        8.3,
+        1140
+      ],
+      [
+        "KV-H4",
+        "Day",
+        9,
+        1514
+      ],
+      [
+        "KV-H4",
+        "Night",
+        6.8,
+        2470
+      ],
+      [
+        "KV-H5",
+        "Day",
+        13.7,
+        1073
+      ],
+      [
+        "KV-H5",
+        "Night",
+        10.4,
+        2944
+      ],
+      [
+        "KV-H6",
+        "Day",
+        5.2,
+        1153
+      ],
+      [
+        "KV-H6",
+        "Night",
+        10.1,
+        1837
+      ],
+      [
+        "KV-H1",
+        "Day",
+        13.7,
+        1289
+      ],
+      [
+        "KV-H1",
+        "Night",
+        14.9,
+        1089
+      ],
+      [
+        "KV-H2",
+        "Day",
+        9.8,
+        2044
+      ],
+      [
+        "KV-H2",
+        "Night",
+        13.3,
+        2088
+      ],
+      [
+        "KV-H3",
+        "Day",
+        10,
+        2027
+      ],
+      [
+        "KV-H3",
+        "Night",
+        10,
+        2133
+      ],
+      [
+        "KV-H4",
+        "Day",
+        6,
+        2799
+      ],
+      [
+        "KV-H4",
+        "Night",
+        5.5,
+        1898
+      ],
+      [
+        "KV-H5",
+        "Day",
+        10.1,
+        2812
+      ],
+      [
+        "KV-H5",
+        "Night",
+        12,
+        2122
+      ],
+      [
+        "KV-H6",
+        "Day",
+        8.3,
+        1927
+      ],
+      [
+        "KV-H6",
+        "Night",
+        8.5,
+        1923
+      ],
+      [
+        "KV-H1",
+        "Day",
+        10.1,
+        2905
+      ],
+      [
+        "KV-H1",
+        "Night",
+        14.5,
+        1105
+      ],
+      [
+        "KV-H2",
+        "Day",
+        9.2,
+        962
+      ],
+      [
+        "KV-H2",
+        "Night",
+        9.2,
+        999
+      ],
+      [
+        "KV-H3",
+        "Day",
+        9.4,
+        1346
+      ],
+      [
+        "KV-H3",
+        "Night",
+        10.5,
+        971
+      ],
+      [
+        "KV-H4",
+        "Day",
+        6.5,
+        2464
+      ],
+      [
+        "KV-H4",
+        "Night",
+        6.5,
+        2972
+      ],
+      [
+        "KV-H5",
+        "Day",
+        13.5,
+        2368
+      ],
+      [
+        "KV-H5",
+        "Night",
+        8.1,
+        1319
+      ],
+      [
+        "KV-H6",
+        "Day",
+        6.7,
+        2896
+      ],
+      [
+        "KV-H6",
+        "Night",
+        10.7,
+        2651
+      ],
+      [
+        "KV-H1",
+        "Day",
+        14.3,
+        994
+      ],
+      [
+        "KV-H1",
+        "Night",
+        8.8,
+        1758
+      ],
+      [
+        "KV-H2",
+        "Day",
+        8.3,
+        1397
+      ],
+      [
+        "KV-H2",
+        "Night",
+        5.9,
+        1311
+      ],
+      [
+        "KV-H3",
+        "Day",
+        10,
+        1325
+      ],
+      [
+        "KV-H3",
+        "Night",
+        9.2,
+        2239
+      ],
+      [
+        "KV-H4",
+        "Day",
+        11.8,
+        1329
+      ],
+      [
+        "KV-H4",
+        "Night",
+        6,
+        1306
+      ],
+      [
+        "KV-H5",
+        "Day",
+        11.5,
+        2397
+      ],
+      [
+        "KV-H5",
+        "Night",
+        6.1,
+        1419
+      ],
+      [
+        "KV-H6",
+        "Day",
+        8.2,
+        2496
+      ],
+      [
+        "KV-H6",
+        "Night",
+        13.3,
+        2931
+      ]
+    ],
+    "rowCount": 48,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Heat_no",
+        "description": "One of six invented heat keys."
+      },
+      {
+        "name": "Shift",
+        "description": "Day/Night grouping key."
+      },
+      {
+        "name": "Produced_t",
+        "description": "Numeric production, metric tonnes."
+      },
+      {
+        "name": "Cost_CAD",
+        "description": "Numeric batch cost, CAD."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L9-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L9-A1.csv"
+  }
+}

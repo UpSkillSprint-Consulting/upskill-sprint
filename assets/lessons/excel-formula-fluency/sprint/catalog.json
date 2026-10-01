@@ -423,61 +423,47 @@
         "Match specifications in two dimensions",
         "Filter a full quality exception report"
       ],
-      "available": false,
+      "available": true,
+      "orientationPackageId": "L7-A3",
       "packages": [
         {
           "id": "L7-A1",
           "title": "Calculate weighted production rates",
           "formulas": [
             "SUMPRODUCT",
-            "Boolean arrays",
-            "Multi-criteria lookups",
-            "XMATCH",
-            "Nested FILTER conditions"
+            "SUM"
           ]
         },
         {
           "id": "L7-A2",
           "title": "Build a multi-criteria order lookup",
           "formulas": [
-            "SUMPRODUCT",
-            "Boolean arrays",
-            "Multi-criteria lookups",
             "XMATCH",
-            "Nested FILTER conditions"
+            "XLOOKUP"
           ]
         },
         {
           "id": "L7-A3",
-          "title": "Audit array conditions",
+          "title": "Audit Charpy arrays by sample and heat",
           "formulas": [
             "SUMPRODUCT",
-            "Boolean arrays",
-            "Multi-criteria lookups",
-            "XMATCH",
-            "Nested FILTER conditions"
+            "ISNUMBER"
           ]
         },
         {
           "id": "L7-A4",
           "title": "Match specifications in two dimensions",
           "formulas": [
-            "SUMPRODUCT",
-            "Boolean arrays",
-            "Multi-criteria lookups",
             "XMATCH",
-            "Nested FILTER conditions"
+            "INDEX"
           ]
         },
         {
           "id": "L7-A5",
           "title": "Filter a full quality exception report",
           "formulas": [
-            "SUMPRODUCT",
-            "Boolean arrays",
-            "Multi-criteria lookups",
-            "XMATCH",
-            "Nested FILTER conditions"
+            "FILTER",
+            "SORTBY"
           ]
         }
       ]
@@ -502,76 +488,47 @@
         "Calculate cumulative losses",
         "Build a reusable calculation library"
       ],
-      "available": false,
+      "available": true,
+      "orientationPackageId": "L8-A5",
       "packages": [
         {
           "id": "L8-A1",
-          "title": "Name intermediate calculations",
+          "title": "Name intermediate yield calculations",
           "formulas": [
             "LET",
-            "LAMBDA",
-            "MAP",
-            "BYROW",
-            "BYCOL",
-            "REDUCE",
-            "SCAN",
-            "Named formulas"
+            "ISNUMBER"
           ]
         },
         {
           "id": "L8-A2",
           "title": "Create a reusable margin formula",
           "formulas": [
-            "LET",
             "LAMBDA",
-            "MAP",
-            "BYROW",
-            "BYCOL",
-            "REDUCE",
-            "SCAN",
-            "Named formulas"
+            "MAP"
           ]
         },
         {
           "id": "L8-A3",
-          "title": "Score samples row by row",
+          "title": "Score repeated readings row by row",
           "formulas": [
-            "LET",
-            "LAMBDA",
-            "MAP",
             "BYROW",
-            "BYCOL",
-            "REDUCE",
-            "SCAN",
-            "Named formulas"
+            "BYCOL"
           ]
         },
         {
           "id": "L8-A4",
-          "title": "Calculate cumulative losses",
+          "title": "Calculate cumulative losses and credits",
           "formulas": [
-            "LET",
-            "LAMBDA",
-            "MAP",
-            "BYROW",
-            "BYCOL",
-            "REDUCE",
             "SCAN",
-            "Named formulas"
+            "REDUCE"
           ]
         },
         {
           "id": "L8-A5",
-          "title": "Build a reusable calculation library",
+          "title": "Build a reusable Charpy calculation library",
           "formulas": [
-            "LET",
             "LAMBDA",
-            "MAP",
-            "BYROW",
-            "BYCOL",
-            "REDUCE",
-            "SCAN",
-            "Named formulas"
+            "LET"
           ]
         }
       ]
@@ -596,76 +553,47 @@
         "Explore correlations responsibly",
         "Calculate process capability with stated assumptions"
       ],
-      "available": false,
+      "available": true,
+      "orientationPackageId": "L9-A2",
       "packages": [
         {
           "id": "L9-A1",
           "title": "Group production summaries",
           "formulas": [
             "GROUPBY",
-            "PIVOTBY",
-            "STDEV.S",
-            "PERCENTILE.INC",
-            "CORREL",
-            "SPC limits",
-            "Cp",
-            "Cpk"
+            "SUM"
           ]
         },
         {
           "id": "L9-A2",
-          "title": "Pivot business outcomes",
+          "title": "Pivot Charpy orientations with duplicate means",
           "formulas": [
-            "GROUPBY",
             "PIVOTBY",
-            "STDEV.S",
-            "PERCENTILE.INC",
-            "CORREL",
-            "SPC limits",
-            "Cp",
-            "Cpk"
+            "COUNT"
           ]
         },
         {
           "id": "L9-A3",
-          "title": "Measure variation and percentiles",
+          "title": "Measure variation and inclusive percentiles",
           "formulas": [
-            "GROUPBY",
-            "PIVOTBY",
             "STDEV.S",
-            "PERCENTILE.INC",
-            "CORREL",
-            "SPC limits",
-            "Cp",
-            "Cpk"
+            "PERCENTILE.INC"
           ]
         },
         {
           "id": "L9-A4",
-          "title": "Explore correlations responsibly",
+          "title": "Explore paired correlations responsibly",
           "formulas": [
-            "GROUPBY",
-            "PIVOTBY",
-            "STDEV.S",
-            "PERCENTILE.INC",
             "CORREL",
-            "SPC limits",
-            "Cp",
-            "Cpk"
+            "ISNUMBER"
           ]
         },
         {
           "id": "L9-A5",
-          "title": "Calculate process capability with stated assumptions",
+          "title": "Calculate capability under stated assumptions",
           "formulas": [
-            "GROUPBY",
-            "PIVOTBY",
             "STDEV.S",
-            "PERCENTILE.INC",
-            "CORREL",
-            "SPC limits",
-            "Cp",
-            "Cpk"
+            "AVERAGE"
           ]
         }
       ]
@@ -687,61 +615,47 @@
         "Create a formula-driven mini dashboard",
         "Complete the integrated manufacturing capstone"
       ],
-      "available": false,
+      "available": true,
+      "orientationPackageId": "L10-A5",
       "packages": [
         {
           "id": "L10-A1",
           "title": "Build a robust inspection summary",
           "formulas": [
-            "Nested formulas",
-            "Four-function combinations",
-            "Error-proofing",
-            "Formula-driven dashboards",
-            "Capstone"
+            "LET",
+            "FILTER"
           ]
         },
         {
           "id": "L10-A2",
-          "title": "Reconcile multiple business tables",
+          "title": "Reconcile orders and partial shipments",
           "formulas": [
-            "Nested formulas",
-            "Four-function combinations",
-            "Error-proofing",
-            "Formula-driven dashboards",
-            "Capstone"
+            "LET",
+            "MAP"
           ]
         },
         {
           "id": "L10-A3",
-          "title": "Audit a complex formula chain",
+          "title": "Audit a guarded formula chain",
           "formulas": [
-            "Nested formulas",
-            "Four-function combinations",
-            "Error-proofing",
-            "Formula-driven dashboards",
-            "Capstone"
+            "LET",
+            "ROUND"
           ]
         },
         {
           "id": "L10-A4",
-          "title": "Create a formula-driven mini dashboard",
+          "title": "Create a formula-driven business dashboard",
           "formulas": [
-            "Nested formulas",
-            "Four-function combinations",
-            "Error-proofing",
-            "Formula-driven dashboards",
-            "Capstone"
+            "LET",
+            "MAP"
           ]
         },
         {
           "id": "L10-A5",
-          "title": "Complete the integrated manufacturing capstone",
+          "title": "Complete the integrated Charpy capstone",
           "formulas": [
-            "Nested formulas",
-            "Four-function combinations",
-            "Error-proofing",
-            "Formula-driven dashboards",
-            "Capstone"
+            "LET",
+            "MAP"
           ]
         }
       ]

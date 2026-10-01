@@ -9,7 +9,7 @@ const pub=id=>JSON.parse(fs.readFileSync(`assets/lessons/excel-formula-fluency/s
 const imports=Promise.all([import('../netlify/functions/_shared/excel-sprint-grading.mjs'),import('../netlify/functions/_shared/excel-sprint-certificates.mjs')]);
 async function path(count=3,miss=false){
  const [G]=await imports,tokens=[],expertTokens=[];
- for(const id of G.PACKAGE_IDS){const r=G.gradeSubmission({packageId:id,predecessorToken:tokens.at(-1),submissions:keys[id].tasks.map(t=>({taskId:t.id,formula:t.model,result:t.answer}))},SECRET);tokens.push(r.completionToken);}
+ for(const id of G.EXPERT_CORE_IDS){const r=G.gradeSubmission({packageId:id,predecessorToken:tokens.at(-1),submissions:keys[id].tasks.map(t=>({taskId:t.id,formula:t.model,result:t.answer}))},SECRET);tokens.push(r.completionToken);}
  for(const id of G.EXPERT_IDS.slice(0,count)){
   let receipt;if(miss&&id==='EX-A1')receipt=G.gradeSubmission({packageId:id,predecessorToken:tokens.at(-1),submissions:[{taskId:'t1',formula:'=1',result:'wrong'}]},SECRET).receipt;
   const r=G.gradeSubmission({packageId:id,receipt,predecessorToken:expertTokens.at(-1)||tokens.at(-1),submissions:keys[id].tasks.map(t=>({taskId:t.id,formula:t.model,result:t.answer}))},SECRET);expertTokens.push(r.completionToken);
@@ -21,7 +21,7 @@ test('Expert Track requires the fixed Level 6 milestone and sequential same-path
  assert.throws(()=>G.gradeSubmission({packageId:'EX-A1',submissions:submit('EX-A1')},SECRET),e=>e.status===403);
  assert.throws(()=>G.gradeSubmission({packageId:'EX-A1',predecessorToken:proofs.tokens[9],submissions:submit('EX-A1')},SECRET),e=>e.status===403);
  assert.throws(()=>G.gradeSubmission({packageId:'EX-A3',predecessorToken:proofs.expertTokens[0],submissions:submit('EX-A3')},SECRET),e=>e.status===403);
- const good=G.verifyProgress(proofs,SECRET);assert.equal(good.nextPackageId,null);assert.equal(good.nextExpertPackageId,'EX-A2');assert.equal(good.completions.length,30);
+ const good=G.verifyProgress(proofs,SECRET);assert.equal(good.nextPackageId,'L7-A1');assert.equal(good.nextExpertPackageId,'EX-A2');assert.equal(good.completions.length,30);
  assert.throws(()=>G.verifyProgress({...proofs,tokens:proofs.tokens.slice(0,29)},SECRET),e=>e.status===403);
  const other=await path(1);assert.throws(()=>G.verifyProgress({tokens:proofs.tokens,expertTokens:other.expertTokens},SECRET),e=>e.status===403);
  assert.throws(()=>G.packageSolutions({packageId:'EX-A2',completionToken:proofs.expertTokens[0]},SECRET),e=>e.status===403);
@@ -45,7 +45,8 @@ test('certificates require all signed outputs, accept retries, and state the exa
  const again=C.issueCertificate({...proofs,award:'expert-track-v1',learnerName:'José Vale'},SECRET);assert.equal(again.certificate.certificateId,expert.certificate.certificateId);
  assert.throws(()=>C.issueCertificate({...proofs,expertTokens:proofs.expertTokens.slice(0,2),award:'expert-track-v1',learnerName:'Nora'},SECRET),e=>e.status===403);
  assert.throws(()=>C.issueCertificate({tokens:proofs.tokens.slice(0,29),award:'levels-1-6',learnerName:'Nora'},SECRET),e=>e.status===403);
- for(const award of ['full-path','constructor','__proto__'])assert.throws(()=>C.issueCertificate({...proofs,award,learnerName:'Nora'},SECRET),e=>e.status===400);
+ assert.throws(()=>C.issueCertificate({...proofs,award:'full-path',learnerName:'Nora'},SECRET),e=>e.status===403);
+ for(const award of ['constructor','__proto__'])assert.throws(()=>C.issueCertificate({...proofs,award,learnerName:'Nora'},SECRET),e=>e.status===400);
 });
 test('changed names, scopes, signatures, completion tokens and markup cannot pass certificate verification',async()=>{
  const [,C]=await imports,proofs=await path(),issued=C.issueCertificate({...proofs,award:'expert-track-v1',learnerName:'Nora Vale'},SECRET);

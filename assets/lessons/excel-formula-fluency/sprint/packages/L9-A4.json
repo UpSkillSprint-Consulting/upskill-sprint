@@ -1,0 +1,341 @@
+{
+  "id": "L9-A4",
+  "level": 9,
+  "assignment": 4,
+  "title": "Explore paired correlations responsibly",
+  "formulas": [
+    "CORREL",
+    "ISNUMBER"
+  ],
+  "minutes": 85,
+  "scenario": "Nevrali Operations records 44 fictitious batches with production rate and energy per tonne. Some cells are unmeasured. Correlation uses only records with both values numeric; preserve row pairing, and describe association without claiming a causal effect.",
+  "lesson": {
+    "intro": "Correlation measures linear association for aligned pairs. Independently dropping missing values from each column breaks those pairs and can produce a misleading result.",
+    "functions": [
+      {
+        "name": "CORREL",
+        "purpose": "Measure linear association.",
+        "syntax": "=CORREL(array1, array2)",
+        "arguments": "Supply aligned numeric pairs; both arrays require equal length and nonzero variation.",
+        "example": "=CORREL({1;2;3},{3;6;9})",
+        "result": 1,
+        "useCase": "Explore paired operating variables.",
+        "mistake": "Filter both arrays with the same completeness mask. Correlation does not establish causation."
+      },
+      {
+        "name": "ISNUMBER",
+        "purpose": "Test the stored value type.",
+        "syntax": "=ISNUMBER(value)",
+        "arguments": "value is the cell or expression to test.",
+        "example": "=ISNUMBER(0)",
+        "result": true,
+        "useCase": "Keep measured zero and exclude blank results.",
+        "mistake": "A numeric-looking text string is not a number."
+      }
+    ],
+    "combine": "Review LET, FILTER, ABS and IF. Create one complete-pair mask for both arrays. For this exercise only, |r| ≥ 0.5 receives the label Association only; below it receives Weak association. Neither label proves causation. Any valid formula is accepted."
+  },
+  "tasks": [
+    {
+      "prompt": "Count complete numeric pairs across all 44 records.",
+      "output": "Answers!B2",
+      "type": "number",
+      "formulas": [
+        "SUMPRODUCT",
+        "ISNUMBER"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return Pearson correlation using complete pairs only. Submit unrounded r.",
+      "output": "Answers!B5",
+      "type": "number",
+      "formulas": [
+        "CORREL",
+        "LET",
+        "FILTER"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first eight records, return Paired when both cells are numeric; otherwise Missing pair (8 × 1).",
+      "output": "Answers!B8:B15",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "AND",
+        "ISNUMBER"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Using unrounded task-2 r, return Association only when |r| ≥ 0.5; otherwise Weak association. This is a practice description, not a causal conclusion.",
+      "output": "Answers!B18",
+      "type": "text",
+      "formulas": [
+        "IF",
+        "ABS"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review AVERAGE: return mean Energy_kWh_per_t for complete pairs only, rounded to two decimals.",
+    "output": "Answers!B21",
+    "type": "number",
+    "formulas": [
+      "AVERAGE",
+      "FILTER",
+      "ROUND"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Batch_no",
+      "Rate_t_per_h",
+      "Energy_kWh_per_t"
+    ],
+    "rows": [
+      [
+        "NV-1",
+        "",
+        492
+      ],
+      [
+        "NV-2",
+        43,
+        ""
+      ],
+      [
+        "NV-3",
+        59,
+        526
+      ],
+      [
+        "NV-4",
+        57,
+        517
+      ],
+      [
+        "NV-5",
+        51,
+        523
+      ],
+      [
+        "NV-6",
+        33,
+        565
+      ],
+      [
+        "NV-7",
+        36,
+        584
+      ],
+      [
+        "NV-8",
+        57,
+        510
+      ],
+      [
+        "NV-9",
+        62,
+        477
+      ],
+      [
+        "NV-10",
+        31,
+        610
+      ],
+      [
+        "NV-11",
+        40,
+        582
+      ],
+      [
+        "NV-12",
+        "",
+        539
+      ],
+      [
+        "NV-13",
+        69,
+        457
+      ],
+      [
+        "NV-14",
+        53,
+        535
+      ],
+      [
+        "NV-15",
+        43,
+        ""
+      ],
+      [
+        "NV-16",
+        69,
+        479
+      ],
+      [
+        "NV-17",
+        66,
+        487
+      ],
+      [
+        "NV-18",
+        51,
+        539
+      ],
+      [
+        "NV-19",
+        63,
+        474
+      ],
+      [
+        "NV-20",
+        46,
+        550
+      ],
+      [
+        "NV-21",
+        66,
+        463
+      ],
+      [
+        "NV-22",
+        42,
+        571
+      ],
+      [
+        "NV-23",
+        "",
+        551
+      ],
+      [
+        "NV-24",
+        61,
+        502
+      ],
+      [
+        "NV-25",
+        60,
+        497
+      ],
+      [
+        "NV-26",
+        59,
+        520
+      ],
+      [
+        "NV-27",
+        53,
+        496
+      ],
+      [
+        "NV-28",
+        35,
+        ""
+      ],
+      [
+        "NV-29",
+        49,
+        540
+      ],
+      [
+        "NV-30",
+        50,
+        540
+      ],
+      [
+        "NV-31",
+        63,
+        495
+      ],
+      [
+        "NV-32",
+        63,
+        492
+      ],
+      [
+        "NV-33",
+        41,
+        580
+      ],
+      [
+        "NV-34",
+        "",
+        468
+      ],
+      [
+        "NV-35",
+        43,
+        538
+      ],
+      [
+        "NV-36",
+        62,
+        473
+      ],
+      [
+        "NV-37",
+        59,
+        492
+      ],
+      [
+        "NV-38",
+        30,
+        613
+      ],
+      [
+        "NV-39",
+        34,
+        562
+      ],
+      [
+        "NV-40",
+        47,
+        525
+      ],
+      [
+        "NV-41",
+        57,
+        ""
+      ],
+      [
+        "NV-42",
+        62,
+        511
+      ],
+      [
+        "NV-43",
+        31,
+        589
+      ],
+      [
+        "NV-44",
+        52,
+        500
+      ]
+    ],
+    "rowCount": 44,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Batch_no",
+        "description": "Unique invented batch identifier."
+      },
+      {
+        "name": "Rate_t_per_h",
+        "description": "Numeric production rate, t/h, or blank."
+      },
+      {
+        "name": "Energy_kWh_per_t",
+        "description": "Numeric energy intensity, kWh/t, or blank."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L9-A4.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L9-A4.csv"
+  }
+}

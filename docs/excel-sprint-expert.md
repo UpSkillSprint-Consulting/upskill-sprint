@@ -1,6 +1,6 @@
 # Excel Formula Sprint — Expert Track and certificates
 
-Expert Track v1 is a separate mastery route after the thirty released Levels 1–6 assignments. It adds three seeded capstones with four required tasks and an optional bonus each. Levels 7–10, placement and adaptive reinforcement remain future releases. Completing Expert Track does not complete the planned fifty-assignment core path.
+Expert Track v1 is a separate mastery route after the thirty Levels 1–6 assignments. It adds three seeded capstones with four required tasks and an optional bonus each. The full fifty-assignment core path and Levels 1–10 award are now released; see [Levels 7–10](excel-sprint-levels7-10.md). Placement and adaptive reinforcement remain future work. Completing Expert Track keeps its fixed thirty-core-plus-three scope.
 
 ## Capstones
 
