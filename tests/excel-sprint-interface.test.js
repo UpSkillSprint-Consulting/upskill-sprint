@@ -68,6 +68,38 @@ test('restored expert completion enables certificate issuance without extra grad
  }finally{h.dom.window.close();}
 });
 
+test('importing a verified backup restores enabled capstone and certificate controls',async()=>{
+ for(const expertCount of [0,3]){
+  const h=await harness('EX-A1',30,false,expertCount);try{
+   const text=h.w.localStorage.getItem(P.KEY),input=h.find('#sprint-import');
+   Object.defineProperty(input,'files',{value:[{size:Buffer.byteLength(text),text:async()=>text}]});
+   input.dispatchEvent(new h.w.Event('change',{bubbles:true}));
+   await ready(()=>h.find('#sprint-message').textContent.startsWith('Backup restored.'));
+   assert.equal(h.find('[data-sprint-open="EX-A1"]').disabled,false);
+   assert.equal(h.find('[data-sprint-action="certificate-levels-1-6"]').disabled,false);
+   assert.equal(h.find('[data-sprint-action="certificate-expert-track-v1"]').disabled,expertCount!==3);
+   assert.equal(h.find('#sprint-certificate-name').disabled,false);
+   assert.equal(h.find('[data-sprint-check="t1"]').disabled,false);
+   assert.ok(!h.find('[data-sprint-action="grade-all"]').textContent.includes('Checking'));
+   assert.equal(h.calls.filter(c=>c.url.endsWith('/grade')).length,0);
+  }finally{h.dom.window.close();}
+ }
+});
+test('failed backup import preserves current drafts and usable controls',async()=>{
+ const h=await harness('EX-A1',30,false);try{
+  const formula='=UPPER(TRIM(Data!C2:C61))',result='GX-1';
+  h.find('[data-sprint-formula-input="t1"]').value=formula;
+  h.find('[data-sprint-result-input="t1"]').value=result;
+  const input=h.find('#sprint-import');Object.defineProperty(input,'files',{value:[{size:8,text:async()=>'not JSON'}]});
+  input.dispatchEvent(new h.w.Event('change',{bubbles:true}));
+  await ready(()=>h.find('#sprint-message').textContent.includes('Your current progress has not been replaced.'));
+  assert.equal(h.find('[data-sprint-formula-input="t1"]').value,formula);
+  assert.equal(h.find('[data-sprint-result-input="t1"]').value,result);
+  assert.equal(h.find('[data-sprint-action="grade-all"]').disabled,false);
+  assert.equal(h.find('[data-sprint-action="certificate-levels-1-6"]').disabled,false);
+ }finally{h.dom.window.close();}
+});
+
 test('pasted text leading zeros survive grading; coaching is escaped and cannot change attempts',async()=>{
  const h=await harness('L4-A2',16);try{
   h.find('[data-sprint-formula-input="t2"]').value=keys['L4-A2'].tasks[1].model;

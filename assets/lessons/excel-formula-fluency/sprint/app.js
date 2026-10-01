@@ -450,7 +450,13 @@
       await openPackage(state.selectedPackageId, false);
       message('Backup restored. Verified completions and saved assignment work are available.');
     } catch (error) { message(error.message + ' Your current progress has not been replaced.', true); }
-    finally { busy = false; var input = mount.querySelector('#sprint-import'); if (input) input.value = ''; }
+    finally {
+      busy = false;
+      if (currentPackage) { collectDrafts(); renderAssignment(); }
+      else renderSummary();
+      var input = mount.querySelector('#sprint-import');
+      if (input) input.value = '';
+    }
   }
   async function copyDataset(sheetName) {
     if (!currentPackage) return;
