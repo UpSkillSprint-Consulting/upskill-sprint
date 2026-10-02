@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 52,
   "contentLessonCount": 47,
-  "sectionCount": 2027,
+  "sectionCount": 2028,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -2701,6 +2701,20 @@
       "placeholder": false,
       "contentAvailable": true,
       "sections": [
+        {
+          "id": "excel-introduction-heading",
+          "heading": "Introduction to Excel",
+          "breadcrumb": [
+            "Introduction to Excel"
+          ],
+          "text": "Excel is a spreadsheet tool for organizing data, calculating results, and exploring patterns. An Excel file is a workbook. Each workbook contains worksheets, and each worksheet has rows, columns, and cells. A cell address such as B2 identifies its column and row. A formula starts with = and calculates a result. Start with the building blocks below, then move on to placement, practice, and your first assignment. The introduction's quizzes save their own progress in this browser; they do not change your signed Sprint completion. Open the complete introduction in its own window Continue to Excel Formula Sprint",
+          "excerpt": "Excel is a spreadsheet tool for organizing data, calculating results, and exploring patterns. An Excel file is a workbook. Each workbook contains worksheets, and each worksheet has rows, columns, and cells. A cell address such as B2 identifies its column and…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
         {
           "id": "sprint-heading",
           "heading": "Excel Formula Sprint",

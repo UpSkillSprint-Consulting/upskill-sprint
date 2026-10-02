@@ -598,6 +598,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
       <span class="pill">Microsoft 365 Excel</span>
     </div>
     <div class="hero-actions">
+      <a class="btn" href="#excel-introduction">Start with the Excel introduction</a>
       <a class="btn" href="#sprint-assignment">Start your next assignment</a>
       <a class="btn secondary" href="#sprint-learning">Placement check and practice</a>
       <a class="btn secondary" href="/assets/lessons/excel-formula-fluency/excel-formula-fluency-practice-workbook.xlsx" download>Download reference workbook</a>
@@ -609,9 +610,11 @@ html, body { max-width: 100%; overflow-x: hidden; }
     <aside class="toc" aria-label="Lesson navigation">
       <h2>Lesson map</h2>
       <select class="mobile-toc" id="mobileToc" aria-label="Jump to module">
+        <option value="#excel-introduction">Start here: Introduction to Excel</option>
         <option value="#excel-sprint">Excel Formula Sprint</option><option value="#sprint-assignment">Your assignment</option><option value="#sprint-learning">Placement, practice and review</option><option value="#sprint-dashboard">Sprint progress</option><option value="#sprint-certificates">Sprint certificates</option><option value="#start">Formula reference</option><option value="#diagnostic">Reference diagnostic</option><option value="#grammar">1. Formula grammar</option><option value="#dynamic">2. Dynamic ranges</option><option value="#analysis">3. Analytical formulas</option><option value="#functional">4. Modern formula programming</option><option value="#design">5. Model design</option><option value="#live-lab">Reference workbook lab</option><option value="#practice">Reference challenges</option><option value="#mastery-center">Reference mastery tracker</option><option value="#capstone">Reference capstone</option>
       </select>
       <nav class="toc-links">
+        <a href="#excel-introduction">Start here: Introduction to Excel</a>
         <a href="#excel-sprint">Excel Formula Sprint</a>
         <a href="#sprint-assignment">Your assignment</a>
         <a href="#sprint-learning">Placement, practice & review</a>
@@ -632,6 +635,14 @@ html, body { max-width: 100%; overflow-x: hidden; }
     </aside>
 
     <main id="lesson-content">
+      <section id="excel-introduction" aria-labelledby="excel-introduction-heading">
+        <h2 id="excel-introduction-heading">Introduction to Excel</h2>
+        <p>Excel is a spreadsheet tool for organizing data, calculating results, and exploring patterns. An Excel file is a workbook. Each workbook contains worksheets, and each worksheet has rows, columns, and cells. A cell address such as B2 identifies its column and row. A formula starts with = and calculates a result.</p>
+        <p>Start with the building blocks below, then move on to placement, practice, and your first assignment. The introduction's quizzes save their own progress in this browser; they do not change your signed Sprint completion.</p>
+        <iframe id="excel-introduction-frame" title="Excel building blocks: interactive introduction" src="/assets/lessons/excel-formula-fluency/sprint/introduction.html" style="display:block;width:100%;height:1400px;border:1px solid #234059;border-radius:18px;background:#071120" loading="eager"></iframe>
+        <p><a href="/assets/lessons/excel-formula-fluency/sprint/introduction.html" target="_blank" rel="noopener">Open the complete introduction in its own window</a></p>
+        <a class="btn" href="#excel-sprint">Continue to Excel Formula Sprint</a>
+      </section>
       <section id="excel-sprint" aria-labelledby="sprint-heading">
         <div id="excel-sprint-app"><h2 id="sprint-heading">Excel Formula Sprint</h2><p>Loading your assignment path…</p></div>
         <noscript>Excel Formula Sprint needs JavaScript. The complete formula reference below remains readable.</noscript>
@@ -2321,6 +2332,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 </script>
 <!-- PHASE1_PLATFORM_END -->
 <script src="/contrast-fix.js"></script>
+<script defer src="/assets/lessons/excel-formula-fluency/sprint/introduction.js"></script>
 <script defer src="/assets/lessons/excel-formula-fluency/sprint/learning.js"></script>
 <script defer src="/assets/lessons/excel-formula-fluency/sprint/progress.js"></script>
 <script defer src="/assets/lessons/excel-formula-fluency/sprint/dashboard.js"></script>

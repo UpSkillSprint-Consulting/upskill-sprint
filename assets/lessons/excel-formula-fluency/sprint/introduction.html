@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Excel Building Blocks — UpSkillSprint</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef3f8; --panel:#ffffff; --panel2:#e4ecf5; --line:#c7d5e4;
+  --text:#0b1a2e; --muted:#4c6380; --accent:#12728f; --accent-ink:#ffffff;
+  --ok:#1b8760; --bad:#c13d37; --warn:#996f0c; --cellsel:#d3eef6;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --head:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#071120; --panel:#0d1b30; --panel2:#12243f; --line:#1f3758;
+    --text:#d8e4f1; --muted:#8ea5bf; --accent:#3fb6d8; --accent-ink:#071120;
+    --ok:#4fd1a5; --bad:#f08080; --warn:#f2c14e; --cellsel:#123f55;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#071120; --panel:#0d1b30; --panel2:#12243f; --line:#1f3758;
+  --text:#d8e4f1; --muted:#8ea5bf; --accent:#3fb6d8; --accent-ink:#071120;
+  --ok:#4fd1a5; --bad:#f08080; --warn:#f2c14e; --cellsel:#123f55;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6}
+code,.mono{font-family:var(--mono);font-size:.88em}
+code{background:var(--panel2);padding:.1em .35em;border-radius:4px;white-space:nowrap}
+h1,h2,h3{font-family:var(--head);font-weight:600;line-height:1.1;margin:0}
+h2{font-size:2.1rem;margin-bottom:.4rem}
+h3{font-size:1.35rem;margin:2rem 0 .6rem}
+p{margin:.6rem 0}
+a{color:var(--accent)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.hero{padding:44px 0 28px;border-bottom:1px solid var(--line)}
+.brand{font-family:var(--head);font-size:1.05rem;color:var(--muted);letter-spacing:.02em}
+.hero h1{font-size:clamp(2.4rem,6vw,3.8rem);margin:.3rem 0 .5rem}
+.hero p.lede{max-width:62ch;color:var(--muted);margin:0 0 1.4rem}
+
+/* formula bar hero */
+.fbar{display:flex;align-items:stretch;border:1px solid var(--line);background:var(--panel);border-radius:6px;overflow-x:auto;max-width:100%}
+.fbar .fx{font-family:var(--mono);font-style:italic;color:var(--muted);padding:12px 14px;border-right:1px solid var(--line);flex:none}
+.fbar .tokens{display:flex;align-items:center;padding:6px 10px;font-family:var(--mono);font-size:clamp(1.1rem,3.4vw,1.6rem);white-space:nowrap}
+.tok{background:none;border:0;border-bottom:2px solid transparent;padding:4px 2px;cursor:pointer;font-family:var(--mono);font-size:inherit}
+.tok.plain{cursor:default}
+.tok.live{border-bottom-color:var(--accent);color:var(--accent)}
+.tok.live:hover,.tok.live[aria-pressed="true"]{background:var(--cellsel)}
+.tokinfo{min-height:3.4em;margin-top:.8rem;color:var(--muted);max-width:70ch}
+.tokinfo strong{color:var(--text)}
+
+/* nav */
+nav.steps{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav.steps .wrap{display:flex;gap:4px;overflow-x:auto;padding-top:8px;padding-bottom:8px}
+.stepbtn{flex:none;display:flex;align-items:center;gap:8px;background:none;border:1px solid transparent;border-radius:6px;padding:7px 12px;cursor:pointer;color:var(--muted);font-family:var(--head);font-size:1.08rem;font-weight:600}
+.stepbtn .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;border:1.5px solid currentColor;font-size:.85rem}
+.stepbtn[aria-current="true"]{color:var(--text);border-color:var(--line);background:var(--panel)}
+.stepbtn.done .n{background:var(--ok);border-color:var(--ok);color:var(--bg)}
+.progress{margin-left:auto;flex:none;align-self:center;font-size:.9rem;color:var(--muted);padding-left:12px}
+
+main{padding:32px 0 80px}
+section.mod{display:none;max-width:780px}
+section.mod.on{display:block}
+.intro{color:var(--muted);font-size:1.08rem;max-width:64ch}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin:1rem 0}
+.panel.try{border-left:4px solid var(--accent)}
+.panel .label{font-family:var(--head);font-weight:600;font-size:1.1rem;margin-bottom:.4rem;color:var(--accent)}
+.note{border-left:3px solid var(--warn);padding:.2rem 0 .2rem 14px;margin:1rem 0;color:var(--text)}
+
+.scroll{overflow-x:auto;max-width:100%}
+table.ref{border-collapse:collapse;width:100%;font-size:.95rem}
+table.ref th,table.ref td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+table.ref th{font-family:var(--head);font-weight:600;font-size:1.02rem;color:var(--muted)}
+table.ref td:first-child{font-family:var(--mono);white-space:nowrap}
+
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:.6rem 0}
+.btn{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:7px 12px;cursor:pointer;font-size:.95rem}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
+.btn.mono{font-family:var(--mono);font-size:.9rem}
+.btn[aria-pressed="true"]{border-color:var(--accent);background:var(--cellsel)}
+
+input[type=text]{font-family:var(--mono);font-size:1rem;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:8px 10px;width:100%;max-width:340px}
+input[type=text]:focus{border-color:var(--accent);outline:none}
+
+/* mini sheet */
+.sheet{border-collapse:collapse;font-family:var(--mono);font-size:.9rem;margin:.4rem 0}
+.sheet th{background:var(--panel2);color:var(--muted);font-weight:500;padding:4px 10px;border:1px solid var(--line);min-width:30px}
+.sheet td{border:1px solid var(--line);padding:4px 10px;min-width:72px;text-align:right;background:var(--panel)}
+.sheet td.txt{text-align:left;color:var(--muted)}
+.sheet td.hl{background:var(--cellsel);outline:2px solid var(--accent);outline-offset:-2px}
+.sheet td.good{background:color-mix(in srgb,var(--ok) 18%,var(--panel))}
+.sheet td.badc{background:color-mix(in srgb,var(--bad) 18%,var(--panel))}
+.sheet td.src{outline:2px dashed var(--accent);outline-offset:-3px}
+
+.memory{display:flex;flex-wrap:wrap;gap:6px;align-items:center;min-height:42px}
+.chip{font-family:var(--mono);font-size:.9rem;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+.out{font-family:var(--mono);font-size:.92rem;margin-top:.6rem;white-space:pre-wrap}
+.ok{color:var(--ok)} .bad{color:var(--bad)} .muted{color:var(--muted)}
+
+/* drill */
+.drill{display:grid;gap:8px}
+.drow{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:8px 0}
+.drow .ex{font-family:var(--mono)}
+.drow .why{grid-column:1/-1;font-size:.93rem;color:var(--muted)}
+
+/* matrix + flow */
+.matrix{display:grid;grid-template-columns:auto 1fr 1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:1rem 0}
+.matrix>div{padding:12px 14px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel)}
+.matrix>div:nth-child(3n){border-right:0}
+.matrix>div:nth-last-child(-n+3){border-bottom:0}
+.matrix .mh{background:var(--panel2);font-family:var(--head);font-weight:600;font-size:1.08rem;color:var(--muted)}
+.matrix .cellh{font-family:var(--head);font-weight:600;font-size:1.2rem;color:var(--accent);margin-bottom:.2rem}
+.matrix .eg{font-family:var(--mono);font-size:.85rem;color:var(--muted);margin-top:.3rem}
+@media (max-width:620px){.matrix{grid-template-columns:1fr}.matrix>div{border-right:0}.matrix .mh:first-child{display:none}}
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;margin:1rem 0}
+.flow .stage{flex:1 1 150px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px;min-width:140px}
+.flow .stage b{display:block;font-family:var(--head);font-size:1.12rem;font-weight:600}
+.flow .stage code{white-space:normal}
+.flow .stage .k{font-size:.82rem;color:var(--accent)}
+.flow .arrow{flex:0 0 26px;display:grid;place-items:center;color:var(--muted);font-size:1.2rem}
+@media (max-width:620px){.flow{flex-direction:column}.flow .arrow{transform:rotate(90deg);height:26px}}
+.live td.tag{font-size:.82rem;color:var(--muted);white-space:nowrap}
+.live td.res{font-family:var(--mono);text-align:right}
+.live tr.flash td.res{color:var(--accent);font-weight:600}
+.sheet td.spill{outline:1px dashed var(--accent);outline-offset:-2px;background:var(--cellsel)}
+.sheet td.newrow{color:var(--accent);font-weight:600}
+.twocol{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+
+/* object tree */
+.objgrid{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:18px}
+@media (max-width:720px){.objgrid{grid-template-columns:1fr}}
+.tree{font-family:var(--mono);font-size:.9rem;list-style:none;margin:0;padding:0}
+.tree ul{list-style:none;margin:0;padding-left:16px;border-left:1px solid var(--line)}
+.tree li{margin:2px 0}
+.tree button{background:none;border:0;padding:3px 6px;border-radius:4px;cursor:pointer;font-family:var(--mono);font-size:.9rem;text-align:left}
+.tree button:hover{background:var(--panel2)}
+.tree button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.objdetail h4{font-family:var(--head);font-size:1.5rem;margin:0 0 .3rem;font-weight:600}
+pre.code{font-family:var(--mono);font-size:.85rem;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px 12px;overflow-x:auto;margin:.6rem 0}
+
+/* symbols */
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin:.6rem 0}
+.symlist{display:grid;gap:0}
+.sym{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.sym .s{font-family:var(--mono);font-size:1.15rem;color:var(--accent);word-break:break-all}
+.sym .cat{font-size:.82rem;color:var(--muted)}
+.sym .eg{font-family:var(--mono);font-size:.85rem;color:var(--muted)}
+.many{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.many .panel{margin:0}
+.many .big{font-family:var(--mono);font-size:2rem;color:var(--accent);line-height:1}
+.many ul{padding-left:18px;margin:.4rem 0 0;font-size:.93rem}
+
+.predict{display:grid;grid-template-columns:minmax(150px,auto) minmax(90px,140px) auto;gap:8px 12px;align-items:center}
+.predict .ex{font-family:var(--mono)}
+.predict input{max-width:140px}
+.predict .fb{grid-column:1/-1;font-size:.92rem;margin-top:-4px;margin-bottom:6px}
+@media (max-width:520px){.predict{grid-template-columns:1fr 1fr}.predict .ex{grid-column:1/-1}}
+
+/* F4 */
+.f4ref{font-family:var(--mono);font-size:2.4rem;color:var(--accent);margin:.4rem 0}
+
+/* quiz */
+.quiz .q{padding:14px 0;border-bottom:1px solid var(--line)}
+.quiz .qp{font-weight:600;margin-bottom:.5rem}
+.quiz .opts{display:grid;gap:6px}
+.opt{text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 12px;cursor:pointer;font-size:.98rem}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 14%,var(--panel))}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,var(--panel))}
+.expl{font-size:.93rem;margin-top:.5rem;color:var(--muted)}
+.expl b{color:var(--text)}
+.score{font-family:var(--head);font-size:1.4rem;font-weight:600;margin-top:1rem}
+
+.nextrow{display:flex;justify-content:space-between;gap:12px;margin-top:2.4rem;flex-wrap:wrap}
+footer{border-top:1px solid var(--line);padding:20px 0 40px;color:var(--muted);font-size:.9rem}
+.themebtn{background:none;border:1px solid var(--line);border-radius:6px;padding:4px 10px;cursor:pointer;color:var(--muted);font-size:.85rem}
+
+@media (prefers-reduced-motion:no-preference){
+  .tokinfo{transition:opacity .2s}
+}
+</style>
+<link rel="stylesheet" href="/assets/lessons/excel-formula-fluency/sprint/introduction.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand">UpSkillSprint · Excel foundations</div>
+    <h1>Excel building blocks</h1>
+    <p class="lede">One formula, four ideas. Click each highlighted piece of the formula below to see which lesson explains it, then work through the lessons in order. Each one ends with a short quiz; score 80% or more to mark it complete.</p>
+    <div class="fbar" role="group" aria-label="Example formula">
+      <div class="fx">fx</div>
+      <div class="tokens" id="tokens"></div>
+    </div>
+    <div class="tokinfo" id="tokinfo" aria-live="polite">Click a highlighted part of the formula.</div>
+  </div>
+</header>
+
+<nav class="steps" aria-label="Lessons">
+  <div class="wrap" id="stepnav"></div>
+</nav>
+
+<main class="wrap" id="main">
+
+<!-- ===================== LESSON 1 ===================== -->
+<section class="mod" id="m1" data-title="Ranges &amp; arrays">
+  <h2>Ranges, arrays, and their dynamic versions</h2>
+  <p class="intro">Both look like "a bunch of values," but they live in different places, and each comes in a fixed-size and a self-resizing form. Knowing which of the four you're holding explains why some formulas work, why others throw an error, and why some reports quietly miss new data.</p>
+
+  <h3>The core idea</h3>
+  <p>A <b>range</b> is a reference to cells on the worksheet, such as <code>A2:A6</code>. It has an address, and every cell in it can hold a value, a formula, and formatting.</p>
+  <p>An <b>array</b> is a set of values held in memory while Excel calculates. It can be typed directly as a constant, like <code>{42,38,55}</code>, or produced by an operation, like <code>A2:A6*1.2</code>. An array has no address. If you enter one as a formula on its own, modern Excel <em>spills</em> it into the cells below or beside.</p>
+  <p>A range can always be used as an array, because Excel can read its values. An array can never be used as a range, because there's nothing on the sheet to point at.</p>
+
+  <div class="panel try">
+    <div class="label">Try it: watch where the values live</div>
+    <p class="muted" style="margin-top:0">Column A holds Charpy impact results in joules. Pick a formula to see whether Excel is pointing at cells or building values in memory.</p>
+    <div class="scroll"><table class="sheet" id="m1sheet"></table></div>
+    <div class="btnrow" id="m1btns"></div>
+    <div><b>In calculation memory:</b></div>
+    <div class="memory" id="m1mem"><span class="muted">Nothing yet.</span></div>
+    <div class="out" id="m1out"></div>
+  </div>
+
+  <h3>Why the difference matters</h3>
+  <p>Some functions insist on a real range. The <code>*IF</code> and <code>*IFS</code> family (<code>SUMIF</code>, <code>COUNTIF</code>, <code>AVERAGEIFS</code> and friends) need a range for their range arguments, and so does <code>OFFSET</code>. That's why <code>=SUMIF(A2:A6*2,"&gt;80")</code> is rejected while <code>=SUMIF(A2:A6,"&gt;40")</code> works. When you need to test a calculated array, switch to <code>SUMPRODUCT</code>, <code>FILTER</code>, or <code>SUM</code> with conditions multiplied together.</p>
+
+  <div class="scroll"><table class="ref">
+    <thead><tr><th></th><th>Range</th><th>Array</th></tr></thead>
+    <tbody>
+      <tr><td>Lives</td><td>On the worksheet grid</td><td>In memory during calculation</td></tr>
+      <tr><td>Has address</td><td>Yes, e.g. A2:A6</td><td>No (unless spilled; then use D2#)</td></tr>
+      <tr><td>Good for</td><td>Source data, visible checks, formatting, charts</td><td>Transformations without helper columns</td></tr>
+      <tr><td>Watch out</td><td>Fixed addresses miss new rows</td><td>Hidden steps are harder to audit; #SPILL! when blocked</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note"><b>Audit tip:</b> select part of a formula in the formula bar and press F9 to see the array it produces. Press Esc afterwards so you don't save the values over your formula.</div>
+
+
+  <h3>Adding the time dimension: static vs dynamic</h3>
+  <p>Ranges and arrays each come in two flavours. A <b>static</b> one has a size fixed when you write the formula. A <b>dynamic</b> one works out its size every time Excel recalculates, so it grows and shrinks with the data. That gives four combinations:</p>
+
+  <div class="matrix" role="table" aria-label="Static and dynamic ranges and arrays">
+    <div class="mh" role="columnheader"></div>
+    <div class="mh" role="columnheader">Static: size fixed when written</div>
+    <div class="mh" role="columnheader">Dynamic: size recalculated</div>
+
+    <div class="mh" role="rowheader">Range<br><span style="font-weight:500;font-size:.9rem">a reference to cells</span></div>
+    <div><div class="cellh">Static range</div>A plain address. Add a row 7 and it won't see it.<div class="eg">A2:A6 · $A$2:$A$500</div></div>
+    <div><div class="cellh">Dynamic range</div>Still a reference to cells, but its boundaries move with the data.<div class="eg">tblCharpy[Joules] · A2:.A500 · D2# · a name defined with OFFSET or INDEX</div></div>
+
+    <div class="mh" role="rowheader">Array<br><span style="font-weight:500;font-size:.9rem">values in memory</span></div>
+    <div><div class="cellh">Static array</div>Values whose count never changes: typed constants, or a legacy Ctrl+Shift+Enter formula entered into a fixed block of cells.<div class="eg">{40,45,50} · {=A2:A6*2}</div></div>
+    <div><div class="cellh">Dynamic array</div>A calculated result whose length depends on the data. It spills into as many cells as it needs.<div class="eg">FILTER(…) · SORT(…) · UNIQUE(…) · SEQUENCE(n)</div></div>
+  </div>
+
+  <p>The word "dynamic" shows up in both columns of Excel's vocabulary, which is where most of the confusion comes from. A <b>dynamic range</b> answers "which cells should I look at?" A <b>dynamic array</b> answers "how many values did my calculation produce?" The first is about <em>addresses</em>; the second is about <em>results</em>.</p>
+
+  <h3>How the four are linked</h3>
+  <p>They aren't separate tools. In a modern workbook they form a chain, and the <b>spill range</b> is the hinge that connects arrays back to ranges.</p>
+
+  <div class="flow" aria-label="How ranges and arrays connect">
+    <div class="stage"><span class="k">Dynamic range</span><b>Source data</b><code>tblCharpy[Joules]</code> grows as rows are added</div>
+    <div class="arrow" aria-hidden="true">›</div>
+    <div class="stage"><span class="k">Read as array</span><b>Values in memory</b>Excel reads the cells' current values</div>
+    <div class="arrow" aria-hidden="true">›</div>
+    <div class="stage"><span class="k">Dynamic array</span><b>Calculated result</b><code>=FILTER(…,…&gt;40)</code> returns however many pass</div>
+    <div class="arrow" aria-hidden="true">›</div>
+    <div class="stage"><span class="k">Spill range</span><b>Back on the grid</b>Results occupy C2:C?, a range that resizes itself</div>
+    <div class="arrow" aria-hidden="true">›</div>
+    <div class="stage"><span class="k">Dynamic range again</span><b>Next formula</b><code>=COUNTIF(C2#,"&gt;50")</code> uses it as a real range</div>
+  </div>
+
+  <p>Three links are worth remembering. First, <b>any range can become an array</b>: the moment a formula does arithmetic on it or passes it to most functions, Excel reads its values. Second, <b>an array can only become a range by spilling</b>: once a dynamic array lands on the sheet, its footprint is a real range with an address. Third, <b>the # operator turns that footprint into a dynamic range</b>: <code>C2#</code> always means "whatever C2 spilled, at its current size." That's how you feed a FILTER result into SUMIF or COUNTIF, which refuse raw arrays but accept <code>C2#</code>.</p>
+
+  <div class="panel try">
+    <div class="label">Try it: add test results and watch what keeps up</div>
+    <p class="muted" style="margin-top:0">Column A is a Table column named <code>tblCharpy[Joules]</code>. Column C holds <code>=SORT(FILTER(tblCharpy[Joules], tblCharpy[Joules]&gt;40))</code>, which spills (dashed outline). Add or remove results and compare the formulas below.</p>
+    <div class="btnrow">
+      <button class="btn primary" id="dynAdd">Add a test result</button>
+      <button class="btn" id="dynDel">Remove last result</button>
+      <button class="btn" id="dynReset">Reset</button>
+    </div>
+    <div class="twocol">
+      <div class="scroll"><table class="sheet" id="dynSheet"></table></div>
+      <div class="scroll" style="flex:1 1 320px"><table class="ref live" id="dynTable"></table></div>
+    </div>
+    <div class="out" id="dynOut"></div>
+  </div>
+
+  <h3>Reference or values? A quick test</h3>
+  <p>Some functions hand back a <b>reference</b> (so the result is a range, and works anywhere a range is required), and others hand back <b>values</b> (an array). <code>INDEX</code>, <code>OFFSET</code>, <code>INDIRECT</code>, <code>XLOOKUP</code> pointed at a range, and <code>TRIMRANGE</code> return references, which is why the classic dynamic named range <code>=OFFSET($A$2,0,0,COUNTA($A:$A)-1)</code> works inside SUMIF. <code>FILTER</code>, <code>SORT</code>, <code>UNIQUE</code>, <code>SEQUENCE</code>, <code>TRANSPOSE</code>, and any arithmetic return values.</p>
+  <p>When you're unsure, ask Excel: <code>=ISREF(INDEX(A2:A6,2))</code> returns TRUE, while <code>=ISREF(FILTER(A2:A6,A2:A6&gt;40))</code> returns FALSE. If ISREF says FALSE and you need a range, spill the result into a cell and reference it with <code>#</code>.</p>
+
+  <div class="note"><b>Which dynamic range should you use?</b> For data people type in, an Excel Table is the most robust and the easiest to read. Trim references (<code>A2:.A5000</code>) are a light option in Microsoft 365 when you don't want a Table. OFFSET-based names still work everywhere but are volatile, recalculating on every change, so avoid them in large workbooks. INDEX-based names (<code>=$A$2:INDEX($A:$A,COUNTA($A:$A))</code>) do the same job without the volatility.</div>
+
+  <h3>Drill: range or array?</h3>
+  <div class="drill" id="m1drill"></div>
+
+  <h3>Quiz</h3>
+  <div class="quiz" id="q1"></div>
+  <div class="nextrow"><span></span><button class="btn primary" data-go="m2">Next lesson: the object model</button></div>
+</section>
+
+<!-- ===================== LESSON 2 ===================== -->
+<section class="mod" id="m2" data-title="The object model">
+  <h2>The Excel object model</h2>
+  <p class="intro">Everything in Excel is an object sitting inside another object: a cell inside a sheet, a sheet inside a workbook, a workbook inside the application. VBA, Office Scripts, and Python libraries all use this same family tree.</p>
+
+  <h3>How objects work</h3>
+  <p>Each object has <b>properties</b> (things it <em>is</em>, like a cell's <code>Value</code> or a font's <code>Bold</code>) and <b>methods</b> (things it can <em>do</em>, like <code>ClearContents</code> or <code>Refresh</code>). Objects of the same kind are grouped into <b>collections</b>, which are named in the plural: <code>Worksheets</code> holds every <code>Worksheet</code>.</p>
+  <p>You reach an object by walking down the tree with dots: <code>Application.Workbooks("QC.xlsx").Worksheets("Charpy").Range("B2")</code>. In practice VBA lets you start lower, so <code>Worksheets("Charpy").Range("B2")</code> assumes the active workbook.</p>
+
+  <div class="panel try">
+    <div class="label">Explore the tree</div>
+    <p class="muted" style="margin-top:0">Select any object to see what it is, where you meet it in the normal Excel window, and a line of VBA that uses it.</p>
+    <div class="objgrid">
+      <ul class="tree" id="tree"></ul>
+      <div class="objdetail" id="objdetail"></div>
+    </div>
+  </div>
+
+  <h3>The ones you'll use most</h3>
+  <p>Almost all practical automation uses a short chain: <b>Application → Workbook → Worksheet → Range</b>, plus <b>ListObject</b> for Tables, <b>PivotTable</b>, <b>Chart</b>, and <b>Shape</b>. Two shortcuts are worth knowing early. <code>Cells(row, column)</code> returns a Range using numbers, which is handy inside loops. <code>Sheets</code> includes chart sheets, while <code>Worksheets</code> includes only grid sheets.</p>
+  <div class="note"><b>Same tree, other languages:</b> Office Scripts (Excel on the web) uses <code>workbook.getWorksheet("Charpy").getRange("B2")</code>, and Python's openpyxl uses <code>wb["Charpy"]["B2"]</code>. The names change slightly; the hierarchy doesn't.</div>
+
+  <h3>Quiz</h3>
+  <div class="quiz" id="q2"></div>
+  <div class="nextrow"><button class="btn" data-go="m1">Back</button><button class="btn primary" data-go="m3">Next lesson: symbols</button></div>
+</section>
+
+<!-- ===================== LESSON 3 ===================== -->
+<section class="mod" id="m3" data-title="Symbols">
+  <h2>Excel symbols</h2>
+  <p class="intro">Excel reuses a small set of characters for very different jobs. The same <code>#</code> can mean a spill range, a digit placeholder, or an error. Context tells you which.</p>
+
+  <h3>One symbol, many jobs</h3>
+  <div class="many" id="many"></div>
+
+  <h3>Symbol finder</h3>
+  <p class="muted">Search by symbol or meaning, or filter by where the symbol is used.</p>
+  <input type="text" id="symsearch" placeholder="Try  $   or  wildcard   or  trim" aria-label="Search symbols">
+  <div class="filters" id="symfilters"></div>
+  <div class="symlist" id="symlist"></div>
+
+  <h3>Order of operations</h3>
+  <p>When a formula mixes operators, Excel works through them in this order. Operators on the same level are evaluated left to right.</p>
+  <div class="scroll"><table class="ref">
+    <thead><tr><th>Order</th><th>Operator</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>:</code> <code>(space)</code> <code>,</code></td><td>Reference operators</td></tr>
+      <tr><td>2</td><td><code>-</code></td><td>Negation, as in <code>-A1</code></td></tr>
+      <tr><td>3</td><td><code>%</code></td><td>Percent</td></tr>
+      <tr><td>4</td><td><code>^</code></td><td>Exponent</td></tr>
+      <tr><td>5</td><td><code>*</code> <code>/</code></td><td>Multiply, divide</td></tr>
+      <tr><td>6</td><td><code>+</code> <code>-</code></td><td>Add, subtract</td></tr>
+      <tr><td>7</td><td><code>&amp;</code></td><td>Join text</td></tr>
+      <tr><td>8</td><td><code>=</code> <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code> <code>&lt;&gt;</code></td><td>Comparisons</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="panel try">
+    <div class="label">Predict the result</div>
+    <p class="muted" style="margin-top:0">Type what Excel would return, then check. Several of these surprise experienced users.</p>
+    <div class="predict" id="predict"></div>
+  </div>
+
+  <h3>Quiz</h3>
+  <div class="quiz" id="q3"></div>
+  <div class="nextrow"><button class="btn" data-go="m2">Back</button><button class="btn primary" data-go="m4">Next lesson: relative vs absolute</button></div>
+</section>
+
+<!-- ===================== LESSON 4 ===================== -->
+<section class="mod" id="m4" data-title="Relative vs absolute">
+  <h2>Relative vs absolute references</h2>
+  <p class="intro">This is the idea that makes a single formula reusable across hundreds of rows. Get it right and you write a formula once; get it wrong and every copy quietly points at the wrong cell.</p>
+
+  <h3>What Excel actually stores</h3>
+  <p>When cell C2 holds <code>=A2*B2</code>, Excel doesn't remember "A2." It remembers "two cells to my left, same row." Copy the formula to C3 and it becomes <code>=A3*B3</code>. That's a <b>relative reference</b>.</p>
+  <p>A <code>$</code> locks the part it sits in front of. <code>$F$1</code> is <b>absolute</b>: it always means F1, wherever you copy it. <code>$F1</code> and <code>F$1</code> are <b>mixed</b>: one part locked, one part free.</p>
+
+  <div class="scroll"><table class="ref">
+    <thead><tr><th>Reference</th><th>Column</th><th>Row</th><th>When copied</th></tr></thead>
+    <tbody>
+      <tr><td>A1</td><td>moves</td><td>moves</td><td>Both shift</td></tr>
+      <tr><td>$A$1</td><td>locked</td><td>locked</td><td>Never changes</td></tr>
+      <tr><td>$A1</td><td>locked</td><td>moves</td><td>Stays in column A</td></tr>
+      <tr><td>A$1</td><td>moves</td><td>locked</td><td>Stays in row 1</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="panel try">
+    <div class="label">Practise the F4 key</div>
+    <p class="muted" style="margin-top:0">In the formula bar, put your cursor in a reference and press F4 (Mac: ⌘T or Fn F4). Each press moves to the next form.</p>
+    <div class="f4ref" id="f4ref">A1</div>
+    <div id="f4desc" class="muted"></div>
+    <div class="btnrow"><button class="btn primary" id="f4btn">Press F4</button></div>
+  </div>
+
+  <div class="panel try">
+    <div class="label">Challenge 1: one rate, many rows</div>
+    <p style="margin-top:0">Each order's total is Qty × Price × the markup in F1. Write the formula for <b>C2</b> so it still works when filled down to C8.</p>
+    <div class="scroll"><table class="sheet" id="sheetA"></table></div>
+    <div class="btnrow" style="align-items:center">
+      <input type="text" id="fA" value="=A2*B2*F1" aria-label="Formula for C2">
+      <button class="btn primary" id="fillA">Fill down to C8</button>
+      <button class="btn" id="copyA">Copy C2 to D2 instead</button>
+    </div>
+    <div class="out" id="outA"></div>
+  </div>
+
+  <div class="panel try">
+    <div class="label">Challenge 2: a two-way table</div>
+    <p style="margin-top:0">Each cell in B2:F6 should equal its row header in column A times its column header in row 1. Write one formula for <b>B2</b> that can be filled both right and down. Only arithmetic and cell references are supported here.</p>
+    <div class="scroll"><table class="sheet" id="sheetB"></table></div>
+    <div class="btnrow" style="align-items:center">
+      <input type="text" id="fB" value="=A2*B1" aria-label="Formula for B2">
+      <button class="btn primary" id="fillB">Fill B2:F6</button>
+    </div>
+    <div class="out" id="outB"></div>
+  </div>
+
+  <h3>Habits worth building</h3>
+  <p><b>Copying and moving behave differently.</b> Copying or filling shifts relative references. Cutting and pasting, or inserting rows, keeps every formula pointing at the same cells.</p>
+  <p><b>Names and Tables read better than dollar signs.</b> Name F1 <code>Markup</code> and the formula becomes <code>=A2*B2*Markup</code>, which is absolute and self-explaining. In an Excel Table, <code>=[@Qty]*[@Price]</code> always means "this row."</p>
+  <p><b>Conditional formatting uses the same rules.</b> References are relative to the top-left cell of the range the rule applies to. A rule meant to check each row should use <code>$A2</code>, not <code>$A$2</code>, or every row checks row 2.</p>
+
+  <h3>Quiz</h3>
+  <div class="quiz" id="q4"></div>
+  <div class="nextrow"><button class="btn" data-go="m3">Back</button><button class="btn primary" data-go="m5">Final check</button></div>
+</section>
+
+<!-- ===================== FINAL ===================== -->
+<section class="mod" id="m5" data-title="Final check">
+  <h2>Final check</h2>
+  <p class="intro">Eleven questions that mix all four lessons. Score 80% or more to complete the module.</p>
+  <div class="quiz" id="q5"></div>
+  <div class="nextrow"><button class="btn" data-go="m4">Back</button><button class="btn" id="resetall">Reset all progress</button></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+    <span>UpSkillSprint · upskillsprint.com · Progress is saved in this browser only.</span>
+    <button class="themebtn" id="themebtn">Switch theme</button>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- storage ---------- */
+const KEY = "uss-excel-blocks-v1";
+let state = {done:{}};
+try { const raw = localStorage.getItem(KEY); if (raw) state = Object.assign({done:{}}, JSON.parse(raw)); } catch(e){}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){} }
+
+/* ---------- theme ---------- */
+try { const t = localStorage.getItem(KEY+"-theme"); if (t) document.documentElement.setAttribute("data-theme", t); } catch(e){}
+$("#themebtn").addEventListener("click", () => {
+  const cur = document.documentElement.getAttribute("data-theme") ||
+    (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const nxt = cur === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", nxt);
+  try { localStorage.setItem(KEY+"-theme", nxt); } catch(e){}
+});
+
+/* ---------- nav ---------- */
+const mods = ["m1","m2","m3","m4","m5"];
+function renderNav(active){
+  const nav = $("#stepnav");
+  const n = Object.keys(state.done).filter(k => state.done[k]).length;
+  nav.innerHTML = mods.map((id,i) => {
+    const t = document.getElementById(id).dataset.title;
+    return `<button class="stepbtn ${state.done[id]?"done":""}" data-go="${id}" aria-current="${id===active}"><span class="n">${state.done[id]?"✓":i+1}</span>${esc(t)}</button>`;
+  }).join("") + `<span class="progress">${n} of 5 complete</span>`;
+}
+let current = "m1";
+function go(id, scroll){
+  current = id;
+  mods.forEach(m => document.getElementById(m).classList.toggle("on", m===id));
+  renderNav(id);
+  if (scroll) { const top = $("nav.steps").offsetTop; window.scrollTo({top: top, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth"}); }
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-go]");
+  if (b) go(b.dataset.go, true);
+});
+
+/* ---------- hero tokens ---------- */
+const toks = [
+  {t:"=", plain:true},
+  {t:"SUM", plain:true},
+  {t:"(", plain:true},
+  {t:"B2:.B500", go:"m1", info:"<strong>A range with a trim reference.</strong> B2:B500 points at real cells on the sheet. The dot after the colon trims empty rows off the bottom. Lessons 1 and 3."},
+  {t:"*", go:"m3", info:"<strong>One symbol, many jobs.</strong> Here it multiplies. In COUNTIF it's a wildcard, and in a number format it repeats a character. Lesson 3."},
+  {t:"$F$1", go:"m4", info:"<strong>An absolute reference.</strong> The dollar signs lock both column and row, so every copy of this formula still uses F1. Lesson 4."},
+  {t:")", plain:true}
+];
+const tokWrap = $("#tokens");
+toks.forEach((k,i) => {
+  const b = document.createElement("button");
+  b.className = "tok " + (k.plain ? "plain" : "live");
+  b.textContent = k.t;
+  if (k.plain) { b.tabIndex = -1; b.setAttribute("aria-hidden","true"); }
+  else {
+    b.setAttribute("aria-pressed","false");
+    b.addEventListener("click", () => {
+      tokWrap.querySelectorAll(".tok.live").forEach(x => x.setAttribute("aria-pressed","false"));
+      b.setAttribute("aria-pressed","true");
+      $("#tokinfo").innerHTML = k.info + ` <a href="#" data-go="${k.go}">Open the lesson</a>`;
+    });
+  }
+  tokWrap.appendChild(b);
+});
+// whole formula is also the result of a Range calculation -> object model note
+$("#tokinfo").innerHTML = "Click a highlighted part of the formula. Behind the scenes, every cell reference in it is a <strong>Range object</strong>, which Lesson 2 explains.";
+
+/* ---------- quiz engine ---------- */
+function quiz(elId, modId, qs){
+  const el = document.getElementById(elId);
+  let answered = 0, right = 0;
+  el.innerHTML = qs.map((q,qi) => `
+    <div class="q" data-q="${qi}">
+      <div class="qp">${qi+1}. ${q.p}</div>
+      <div class="opts">${q.o.map((o,oi)=>`<button class="opt" data-o="${oi}">${o}</button>`).join("")}</div>
+      <div class="expl" hidden></div>
+    </div>`).join("") + `<div class="score" aria-live="polite"></div><div class="btnrow"><button class="btn retry" hidden>Try the quiz again</button></div>`;
+  el.querySelectorAll(".q").forEach(qd => {
+    const q = qs[+qd.dataset.q];
+    qd.querySelectorAll(".opt").forEach(btn => btn.addEventListener("click", () => {
+      const pick = +btn.dataset.o;
+      qd.querySelectorAll(".opt").forEach((b,i) => { b.disabled = true; if (i===q.a) b.classList.add("right"); });
+      if (pick !== q.a) btn.classList.add("wrong"); else right++;
+      answered++;
+      const ex = qd.querySelector(".expl"); ex.hidden = false;
+      ex.innerHTML = `<b>${pick===q.a?"Correct.":"Not quite."}</b> ${q.e}`;
+      if (answered === qs.length){
+        const pct = Math.round(100*right/qs.length);
+        const pass = pct >= 80;
+        el.querySelector(".score").innerHTML = `Score: ${right} / ${qs.length} (${pct}%) <span class="${pass?"ok":"bad"}" style="font-size:1rem;font-family:var(--body);font-weight:500">${pass?"Lesson complete.":"Review the lesson and try again; 80% marks it complete."}</span>`;
+        el.querySelector(".retry").hidden = false;
+        if (pass){ state.done[modId] = true; save(); renderNav(current); }
+      }
+    }));
+  });
+  el.querySelector(".retry").addEventListener("click", () => quiz(elId, modId, qs));
+}
+
+/* ================= LESSON 1 ================= */
+const charpy = [42,38,55,29,47];
+function m1Sheet(hl){
+  let h = `<tr><th></th><th>A</th></tr><tr><th>1</th><td class="txt">Charpy J</td></tr>`;
+  charpy.forEach((v,i) => h += `<tr><th>${i+2}</th><td class="${hl?"hl":""}">${v}</td></tr>`);
+  $("#m1sheet").innerHTML = h;
+}
+m1Sheet(false);
+const m1opts = [
+  {f:"=A2:A6", hl:true, mem:null, out:'A <b>range</b>. Excel points at five real cells (highlighted). Entered on its own, it spills a copy of their values.'},
+  {f:"=A2:A6*1.2", hl:true, mem:charpy.map(v=>+(v*1.2).toFixed(1)), out:'Excel reads the range, multiplies each value, and builds a new <b>array</b> in memory. Those five results have no address until they spill.'},
+  {f:"={40,45,50}", hl:false, mem:[40,45,50], out:'An <b>array constant</b>. No cells involved at all; the values are typed straight into the formula.'},
+  {f:'=SUMIF(A2:A6,">40")', hl:true, mem:null, out:'<span class="ok">Result: 144.</span> SUMIF gets the real range it needs and adds 42 + 55 + 47.'},
+  {f:'=SUMIF(A2:A6*2,">80")', hl:true, mem:charpy.map(v=>v*2), out:'<span class="bad">Excel refuses this formula.</span> A2:A6*2 is an array, and SUMIF\'s first argument must be a range. Use <code>=SUMPRODUCT((A2:A6*2&gt;80)*(A2:A6*2))</code> instead, which returns 288.'},
+  {f:"=SUM((A2:A6>40)*A2:A6)", hl:true, mem:charpy.map(v=>(v>40?1:0)*v), out:'<span class="ok">Result: 144.</span> The comparison makes an array of TRUE/FALSE, multiplying turns it into 1/0, and SUM adds what survives. Same answer as SUMIF, built from arrays.'}
+];
+$("#m1btns").innerHTML = m1opts.map((o,i)=>`<button class="btn mono" data-m1="${i}" aria-pressed="false">${esc(o.f)}</button>`).join("");
+$("#m1btns").addEventListener("click", e => {
+  const b = e.target.closest("[data-m1]"); if (!b) return;
+  $("#m1btns").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed","false"));
+  b.setAttribute("aria-pressed","true");
+  const o = m1opts[+b.dataset.m1];
+  m1Sheet(o.hl);
+  $("#m1mem").innerHTML = o.mem ? `<span class="muted">{</span>` + o.mem.map(v=>`<span class="chip">${v}</span>`).join("") + `<span class="muted">}</span>` : `<span class="muted">Nothing extra. Excel reads the cells directly.</span>`;
+  $("#m1out").innerHTML = o.out;
+});
+
+const drill = [
+  {x:"A2:A6", a:"Range", w:"A plain address points at cells."},
+  {x:"{12,15,9}", a:"Array", w:"Curly braces typed into a formula make an array constant."},
+  {x:"A2:A6*1.2", a:"Array", w:"Any arithmetic on a range produces a new set of values in memory."},
+  {x:"Sheet2!B4:D10", a:"Range", w:"A sheet name plus an address is still a reference to cells."},
+  {x:'FILTER(A2:A6,A2:A6>40)', a:"Array", w:"FILTER returns calculated values. They spill, but the function's output itself is an array."},
+  {x:"D2#", a:"Range", w:"The # spill operator refers to the cells a dynamic array occupies, so it behaves as a range you can pass to SUMIF."},
+  {x:"A2:.A500", a:"Range", w:"A trim reference is still a reference, just one that shrinks to fit the data."},
+  {x:"SEQUENCE(5)", a:"Array", w:"SEQUENCE generates values that exist only in the calculation until they spill."},
+  {x:"tblCharpy[Joules]", a:"Range", w:"A Table column is a dynamic range: real cells whose boundaries grow with the Table."},
+  {x:"OFFSET($A$2,0,0,COUNTA($A:$A)-1)", a:"Range", w:"OFFSET returns a reference, so this is the classic dynamic named range."},
+  {x:"UNIQUE(tblCharpy[Heat])", a:"Array", w:"A dynamic array: its length depends on how many distinct heats exist."}
+];
+$("#m1drill").innerHTML = drill.map((d,i)=>`
+  <div class="drow" data-d="${i}">
+    <span class="ex">${esc(d.x)}</span>
+    <span class="btnrow" style="margin:0"><button class="btn" data-pick="Range">Range</button><button class="btn" data-pick="Array">Array</button></span>
+    <span class="why" hidden></span>
+  </div>`).join("");
+$("#m1drill").addEventListener("click", e => {
+  const b = e.target.closest("[data-pick]"); if (!b) return;
+  const row = b.closest(".drow"); const d = drill[+row.dataset.d];
+  const ok = b.dataset.pick === d.a;
+  const why = row.querySelector(".why"); why.hidden = false;
+  why.innerHTML = `<span class="${ok?"ok":"bad"}">${ok?"Yes":"No"}, it's ${d.a.toLowerCase() === "range" ? "a range" : "an array"}.</span> ${esc(d.w)}`;
+});
+
+
+/* ---- dynamic range/array demo ---- */
+const dynStart = [42,38,55,29,47];
+let dyn = dynStart.slice();
+const dynPool = [51,33,60,44,27,49,36,58,41,30,53,46];
+let dynPoolI = 0, dynPrev = null;
+function dynCalc(){
+  const pass = dyn.filter(v=>v>40).sort((a,b)=>a-b);
+  const first5 = dyn.slice(0,5);
+  return [
+    {f:"=COUNT(A2:A6)", k:"Static range", v: first5.length, note:"Fixed at five cells; new rows are ignored."},
+    {f:"=COUNT(tblCharpy[Joules])", k:"Dynamic range (Table)", v: dyn.length, note:"The Table grows, so the reference grows."},
+    {f:"=COUNT(A2:.A500)", k:"Dynamic range (trim ref)", v: dyn.length, note:"Trims empty rows, so it ends at the last result."},
+    {f:"=COUNT(Joules)", k:"Dynamic range (OFFSET name)", v: dyn.length, note:"Joules is defined as =OFFSET($A$2,0,0,COUNTA($A:$A)-1)."},
+    {f:"=SUM({42,38,55})", k:"Static array", v: 135, note:"Typed constants never change."},
+    {f:"=ROWS(C2#)", k:"Spill reference", v: pass.length, note:"Follows the size of the FILTER result in C2."},
+    {f:'=COUNTIF(C2#,">50")', k:"Spill ref as a range", v: pass.filter(v=>v>50).length, note:"COUNTIF accepts C2# because it's a real range."}
+  ];
+}
+function dynRender(changed){
+  const pass = dyn.filter(v=>v>40).sort((a,b)=>a-b);
+  const rows = Math.max(dyn.length, pass.length, 6) + 1;
+  let h = `<tr><th></th><th>A</th><th>B</th><th>C</th></tr><tr><th>1</th><td class="txt">Joules</td><td></td><td class="txt">Passed &gt;40</td></tr>`;
+  for (let r=0;r<rows-1;r++){
+    const a = dyn[r], c = pass[r];
+    const isNew = changed==="add" && r===dyn.length-1;
+    const staticEdge = r===4 ? ' style="border-bottom:2px solid var(--warn)"' : "";
+    h += `<tr><th>${r+2}</th><td class="${isNew?"newrow":""}"${staticEdge}>${a===undefined?"":a}</td><td></td><td class="${c!==undefined?"spill":""}">${c===undefined?"":c}</td></tr>`;
+  }
+  $("#dynSheet").innerHTML = h;
+  const calc = dynCalc();
+  $("#dynTable").innerHTML = `<thead><tr><th>Formula</th><th>Kind</th><th style="text-align:right">Result</th></tr></thead><tbody>` +
+    calc.map((c,i)=>{
+      const moved = dynPrev && dynPrev[i].v !== c.v;
+      return `<tr class="${moved?"flash":""}"><td>${esc(c.f)}<div class="muted" style="font-family:var(--body);font-size:.82rem;white-space:normal">${esc(c.note)}</div></td><td class="tag">${esc(c.k)}</td><td class="res">${c.v}</td></tr>`;
+    }).join("") + `</tbody>`;
+  dynPrev = calc;
+  const missed = dyn.length - 5;
+  $("#dynOut").innerHTML = missed > 0
+    ? `<span class="bad">=COUNT(A2:A6) is now missing ${missed} result${missed>1?"s":""}</span> (the amber line marks where the static range ends). Every dynamic range kept up, and the spill range in column C resized itself to ${pass.length} cells.`
+    : missed < 0 ? `<span class="muted">With fewer than five results the static range simply includes empty cells. The dynamic versions shrink to fit.</span>`
+    : `<span class="muted">Right now all the formulas agree. Add a result to see which ones fall behind.</span>`;
+}
+$("#dynAdd").addEventListener("click", ()=>{ if (dyn.length>=14) { $("#dynOut").innerHTML='<span class="muted">That\'s enough rows for the demo. Remove some or reset.</span>'; return; } dyn.push(dynPool[dynPoolI++ % dynPool.length]); dynRender("add"); });
+$("#dynDel").addEventListener("click", ()=>{ if (dyn.length) { dyn.pop(); dynRender("del"); } });
+$("#dynReset").addEventListener("click", ()=>{ dyn = dynStart.slice(); dynPoolI = 0; dynPrev = null; dynRender(); });
+dynRender();
+
+quiz("q1","m1",[
+  {p:"What does a range have that an array doesn't?", o:["A fixed number of values","An address on the worksheet","The ability to hold text","A formula"], a:1, e:"A range is a reference to cells, so it always has an address like A2:A6. An array is values in memory with no location."},
+  {p:"You enter <code>=A2:A6*B2:B6</code> in an empty cell in Excel 365. What happens?", o:["#VALUE! error","Only the first product appears","Excel builds an array of five products and spills them down","Excel asks for Ctrl+Shift+Enter"], a:2, e:"Multiplying two ranges element by element creates an array of five results, and dynamic-array Excel spills them into five cells."},
+  {p:"Why is <code>=COUNTIF(A2:A10*2,\">5\")</code> rejected?", o:["COUNTIF can't count numbers","The criteria needs to be a number","COUNTIF's range argument must be a real range, not a calculated array","You can't multiply inside a formula"], a:2, e:"The *IF and *IFS functions need an actual range for their range arguments. Use SUMPRODUCT or FILTER for calculated arrays."},
+  {p:"In the array constant <code>{1,2;3,4}</code>, what does the semicolon do?", o:["Starts a new row","Starts a new column","Separates two arrays","Marks a comment"], a:0, e:"Commas separate columns and semicolons separate rows, so this is a 2 × 2 array. Locales that use a decimal comma may use different separators."},
+  {p:"A FILTER formula in D2 spills down to D9. What does <code>D2#</code> refer to?", o:["Only cell D2","The whole spilled result, however long it gets","Column D","An error in D2"], a:1, e:"The # spill operator refers to the entire spill range, and it resizes automatically when the result grows or shrinks."},
+  {p:"Which of these is a <b>dynamic range</b> rather than a dynamic array?", o:["=FILTER(A2:A50,A2:A50>40)","tblCharpy[Joules]","=SORT(A2:A50)","=SEQUENCE(10)"], a:1, e:"A Table column is a reference to cells whose size follows the data. The others calculate values; they're dynamic arrays."},
+  {p:"C2 holds a FILTER that spills. You need COUNTIF over its results. What works?", o:["=COUNTIF(FILTER(...),\">50\")","=COUNTIF(C2#,\">50\")","=COUNTIF(C2,\">50\")","COUNTIF can't do this"], a:1, e:"Raw FILTER output is an array, which COUNTIF rejects. C2# is the spill range, a real range that resizes with the result."},
+  {p:"What does <code>=ISREF(FILTER(A2:A6,A2:A6>40))</code> return?", o:["TRUE","FALSE","#VALUE!","The filtered values"], a:1, e:"FILTER returns values, not a reference. ISREF is a quick way to check which kind a function hands back."}
+]);
+
+/* ================= LESSON 2 ================= */
+const objs = {
+  Application:{d:"Excel itself. Controls global settings such as calculation mode, screen updating, and the status bar, and gives VBA access to worksheet functions.", ui:"Options that affect every open workbook, e.g. File → Options → Formulas → Calculation.", c:"Application.Calculation = xlCalculationManual\nApplication.ScreenUpdating = False\nx = Application.WorksheetFunction.Max(Range(\"B2:B50\"))"},
+  Workbooks:{d:"The collection of every workbook currently open.", ui:"The list of files under View → Switch Windows.", c:"Set wb = Workbooks.Open(\"Charpy_Q3.xlsx\")\nDebug.Print Workbooks.Count"},
+  Workbook:{d:"One open .xlsx or .xlsm file. ThisWorkbook means the file containing the code; ActiveWorkbook means whichever file is in front.", ui:"A single Excel file window.", c:"ThisWorkbook.Save\nActiveWorkbook.Close SaveChanges:=False"},
+  Worksheets:{d:"The collection of grid sheets in a workbook. Sheets is a wider collection that also includes chart sheets.", ui:"The sheet tabs along the bottom.", c:"Worksheets.Add After:=Worksheets(Worksheets.Count)\nDebug.Print Worksheets.Count"},
+  Worksheet:{d:"A single grid sheet. Most other objects you work with live on one.", ui:"One sheet tab and its grid.", c:"Set ws = ThisWorkbook.Worksheets(\"Charpy\")\nws.Name = \"Charpy_2026\""},
+  Range:{d:"The most used object of all: one cell, a block of cells, whole rows or columns, or several separate areas. Cells, Rows, Columns, Offset, Resize and CurrentRegion all return Range objects.", ui:"Anything you can select on the grid.", c:"ws.Range(\"B2\").Value = 47\nws.Cells(2, 2).Value = 47   ' same cell\nws.Range(\"A1\").CurrentRegion.Select"},
+  Font:{d:"Font settings of a Range: name, size, bold, colour.", ui:"Home → Font group.", c:"Range(\"A1:F1\").Font.Bold = True"},
+  Interior:{d:"Cell fill: colour and pattern.", ui:"Home → Fill Color.", c:"Range(\"B5\").Interior.Color = RGB(255, 220, 220)"},
+  FormatConditions:{d:"The conditional formatting rules applied to a Range.", ui:"Home → Conditional Formatting.", c:"Range(\"B2:B50\").FormatConditions.Add _\n  Type:=xlCellValue, Operator:=xlLess, Formula1:=\"=27\""},
+  Validation:{d:"Data validation rule for a Range, such as a dropdown list.", ui:"Data → Data Validation.", c:"Range(\"C2:C50\").Validation.Add _\n  Type:=xlValidateList, Formula1:=\"Pass,Fail\""},
+  ListObject:{d:"An Excel Table. Contains ListColumns, ListRows, a header row, and an optional totals row.", ui:"Insert → Table (Ctrl+T).", c:"Set t = ws.ListObjects(\"tblCharpy\")\nt.ListRows.Add\nt.ShowTotals = True"},
+  PivotTable:{d:"A pivot table. Its data comes from a PivotCache, and it is built from PivotFields and PivotItems.", ui:"Insert → PivotTable.", c:"ws.PivotTables(\"ptHeats\").PivotCache.Refresh"},
+  ChartObject:{d:"The container that holds a chart embedded on a worksheet. The Chart itself sits inside it.", ui:"A chart floating on a sheet.", c:"ws.ChartObjects(1).Chart.ChartType = xlLine"},
+  Chart:{d:"The chart itself, with its series, axes, and titles. Can also be a separate chart sheet.", ui:"Chart Design and Format tabs.", c:"With ws.ChartObjects(1).Chart\n  .HasTitle = True\n  .ChartTitle.Text = \"Charpy by heat\"\nEnd With"},
+  Shapes:{d:"Anything floating over the grid that isn't a cell: pictures, text boxes, icons, buttons, SmartArt.", ui:"Insert → Shapes, Pictures, Icons.", c:"ws.Shapes.AddShape msoShapeRectangle, 10, 10, 120, 40"},
+  Comments:{d:"Notes (the legacy red-triangle kind) and, separately, threaded comments (CommentsThreaded).", ui:"Review → Notes / Comments.", c:"Range(\"B7\").AddComment \"Retest required\""},
+  Names:{d:"Defined names. A name can point at a cell, a range, a constant, a formula, or a LAMBDA.", ui:"Formulas → Name Manager.", c:"ThisWorkbook.Names.Add Name:=\"Markup\", RefersTo:=\"=Sheet1!$F$1\""},
+  Queries:{d:"Power Query queries in the workbook. Their refresh links are WorkbookConnection objects.", ui:"Data → Queries & Connections.", c:"ThisWorkbook.Connections(\"Query - Charpy\").Refresh"},
+  Windows:{d:"Window views of a workbook: zoom, freeze panes, gridlines.", ui:"View tab.", c:"ActiveWindow.FreezePanes = True\nActiveWindow.Zoom = 85"}
+};
+const treeData = ["Application",[ "Workbooks",[ "Workbook",[ "Worksheets",[ "Worksheet",[ "Range",["Font","Interior","FormatConditions","Validation"], "ListObject","PivotTable","ChartObject",["Chart"], "Shapes","Comments" ] ], "Names","Queries","Windows" ] ] ]];
+function buildTree(arr){
+  let h = "";
+  for (let i=0;i<arr.length;i++){
+    const it = arr[i];
+    if (Array.isArray(it)) continue;
+    const kids = Array.isArray(arr[i+1]) ? arr[i+1] : null;
+    h += `<li><button data-obj="${it}" aria-pressed="false">${it}</button>${kids?`<ul>${buildTree(kids)}</ul>`:""}</li>`;
+  }
+  return h;
+}
+$("#tree").innerHTML = buildTree(treeData);
+function showObj(name){
+  const o = objs[name];
+  $("#tree").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed", b.dataset.obj===name));
+  $("#objdetail").innerHTML = `<h4>${name}</h4><p style="margin-top:0">${esc(o.d)}</p><p class="muted"><b>Where you see it:</b> ${esc(o.ui)}</p><pre class="code">${esc(o.c)}</pre>`;
+}
+$("#tree").addEventListener("click", e => { const b = e.target.closest("[data-obj]"); if (b) showObj(b.dataset.obj); });
+showObj("Range");
+
+quiz("q2","m2",[
+  {p:"Which object sits at the top of the hierarchy?", o:["Workbook","Worksheet","Application","Range"], a:2, e:"Application is Excel itself. Workbooks live inside it, sheets inside workbooks, ranges inside sheets."},
+  {p:"In VBA, an Excel Table (Ctrl+T) is which object?", o:["Table","ListObject","Range","DataTable"], a:1, e:"Tables are ListObjects. They're reached through Worksheet.ListObjects(\"name\")."},
+  {p:"<code>Range(\"B2\")</code> and <code>Cells(2, 2)</code> return…", o:["Different kinds of object","The same cell, both as Range objects","A value and a reference","Nothing, unless a sheet is active"], a:1, e:"Cells(row, column) is just a numeric way to get a Range. Both point at B2."},
+  {p:"A chart floating on a worksheet is held inside a…", o:["Shape only","ChartObject","PivotTable","Window"], a:1, e:"Embedded charts live in a ChartObject container; the Chart object holds series, axes and titles."},
+  {p:"What's the difference between <code>Sheets</code> and <code>Worksheets</code>?", o:["None","Sheets also includes chart sheets","Worksheets also includes hidden sheets","Sheets only includes the active sheet"], a:1, e:"Worksheets holds grid sheets only. Sheets holds every tab, including chart sheets."}
+]);
+
+/* ================= LESSON 3 ================= */
+const many = [
+  {s:"#", u:["<code>D2#</code> refers to a spill range","<code>#,##0</code> digit placeholder in a format","<code>#N/A</code>, <code>#REF!</code> start error values","<code>Table[#Headers]</code> marks a Table section","<code>\"#Sheet2!A1\"</code> in HYPERLINK is an internal link","<code>#####</code> means the column is too narrow"]},
+  {s:"*", u:["<code>=A2*B2</code> multiplies","<code>\"*steel*\"</code> wildcard for any characters","<code>(cond1)*(cond2)</code> acts as AND in array logic","<code>$* #,##0</code> repeats a character to fill a cell"]},
+  {s:":", u:["<code>A2:A6</code> range operator","<code>Jan:Dec!B5</code> spans several sheets","<code>A:.A</code>, <code>A.:A</code>, <code>A.:.A</code> trim references","<code>h:mm</code> time separator in formats","<code>[[Col1]:[Col3]]</code> spans Table columns"]},
+  {s:"@", u:["<code>=@A1:A10</code> implicit intersection","<code>[@Qty]</code> means this row of a Table","<code>@</code> text placeholder in a number format"]},
+  {s:",", u:["Separates function arguments","<code>SUM(A1:A5,C1:C5)</code> union operator","Column separator inside <code>{ }</code>","Thousands separator; trailing comma scales by 1,000 in formats"]},
+  {s:"$", u:["<code>$A$1</code> locks column and row","<code>$A1</code>, <code>A$1</code> lock one part","Literal dollar sign in a number format"]}
+];
+$("#many").innerHTML = many.map(m=>`<div class="panel"><div class="big">${esc(m.s)}</div><ul>${m.u.map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("");
+
+const syms = [
+  // arithmetic
+  ["+","Arithmetic","Add; unary plus. In array logic, acts as OR between conditions","=A1+B1"],
+  ["-","Arithmetic","Subtract; also negation","=A1-B1, =-A1"],
+  ["*","Arithmetic","Multiply","=A1*B1"],
+  ["/","Arithmetic","Divide","=A1/B1"],
+  ["%","Arithmetic","Percent: divides by 100","=20%*50 → 10"],
+  ["^","Arithmetic","Exponent","=3^2 → 9"],
+  ["--","Arithmetic","Double negative: converts TRUE/FALSE to 1/0","=SUMPRODUCT(--(A1:A9>5))"],
+  // comparison
+  ["=","Comparison","Equal to; also starts every formula","=A1=B1"],
+  [">","Comparison","Greater than","=A1>B1"],
+  ["<","Comparison","Less than","=A1<B1"],
+  [">=","Comparison","Greater than or equal to","=A1>=27"],
+  ["<=","Comparison","Less than or equal to","=A1<=B1"],
+  ["<>","Comparison","Not equal to","=A1<>0"],
+  // text
+  ["&","Text","Joins text","=A1&\" \"&B1"],
+  ["\" \"","Text","Wraps a text string","=\"Pass\""],
+  ["\"\"","Text","Empty text, or an escaped quote inside text","=IF(A1=\"\",\"blank\",A1)"],
+  ["'","Text","Typed first in a cell, stores the entry as text","'00123"],
+  // reference
+  [":","Reference","Range operator: all cells between two references","A2:A6"],
+  ["(space)","Reference","Intersection: cells shared by two ranges","=B1:B10 A5:D5 → B5"],
+  [",","Reference","Union: combines references (also the argument separator)","=SUM(A1:A5,C1:C5)"],
+  ["#","Reference","Spilled range operator","=SUM(D2#)"],
+  ["@","Reference","Implicit intersection: return one value","=@A1:A10"],
+  [":.","Reference","Trim reference: drop trailing blank rows/columns","=COUNTA(A:.A)"],
+  [".:","Reference","Trim reference: drop leading blank rows/columns","A1.:A100"],
+  [".:.","Reference","Trim reference: drop blanks at both ends","A1.:.E10"],
+  ["$","Reference","Absolute reference lock","$A$1, $A1, A$1"],
+  ["!","Reference","Separates sheet name from address","=Sheet2!A1"],
+  ["' '","Reference","Wraps sheet names with spaces","='Q3 Data'!A1"],
+  ["Sheet1:Sheet3!","Reference","3D reference across a run of sheets","=SUM(Jan:Dec!B5)"],
+  ["[Book.xlsx]","Reference","External workbook reference","=[Book2.xlsx]Sheet1!A1"],
+  ["R[n]C[n]","Reference","R1C1 style: brackets mean relative offset","R[-2]C = two rows up"],
+  ["( )","Reference","Grouping and function arguments","=(A1+B1)*2"],
+  // tables
+  ["Table[Col]","Tables","Structured reference to a whole Table column","=SUM(tblCharpy[Joules])"],
+  ["[@Col]","Tables","This row of a Table column","=[@Qty]*[@Price]"],
+  ["[#Headers]","Tables","Table sections: #Headers, #Data, #Totals, #All, #This Row","=tbl[[#Totals],[Joules]]"],
+  ["'#","Tables","Escapes special characters in Table column names","tbl[Qty'#]"],
+  // arrays
+  ["{ }","Arrays","Array constant","={1,2,3}"],
+  [";","Arrays","Row separator inside { } (and argument separator in some locales)","={1;2;3}"],
+  // wildcards
+  ["*","Wildcards","Any number of characters","=COUNTIF(A:A,\"*steel*\")"],
+  ["?","Wildcards","Exactly one character","\"X?2\" matches X52"],
+  ["~","Wildcards","Escape: treat next *, ? or ~ literally","\"5~*\" matches 5*"],
+  // number formats
+  ["0","Number format","Digit; shows insignificant zeros","0.00 → 5.10"],
+  ["#","Number format","Digit; hides insignificant zeros","#,##0"],
+  ["?","Number format","Digit; pads with a space to align decimals","0.0??"],
+  [".","Number format","Decimal point","0.000"],
+  [",","Number format","Thousands separator; trailing comma scales by 1,000","#,##0, → 12 for 12,345"],
+  ["%","Number format","Multiplies by 100 and shows %","0.0%"],
+  ["E+ E-","Number format","Scientific notation","0.00E+00"],
+  ["/","Number format","Fractions","# ?/?"],
+  [":","Number format","Time separator","h:mm:ss"],
+  [";","Number format","Sections: positive;negative;zero;text","0;(0);\"-\""],
+  ["@","Number format","Text placeholder","\"Heat \"@"],
+  ["*","Number format","Repeat next character to fill the cell","$* #,##0"],
+  ["_","Number format","Space the width of the next character","#,##0_)"],
+  ["\\ or !","Number format","Show the next character literally","0\\ \"J\""],
+  ["[Red]","Number format","Font colour","[Red]-0"],
+  ["[>=27]","Number format","Condition","[Red][<27]0;0"],
+  ["[h]","Number format","Elapsed time beyond 24 h (also [m], [s])","[h]:mm"],
+  ["[$€-x]","Number format","Currency or locale code","[$€-x-euro2] #,##0.00"],
+  // errors
+  ["#DIV/0!","Errors","Division by zero","=A1/0"],
+  ["#N/A","Errors","Value not available / not found","XLOOKUP miss"],
+  ["#NAME?","Errors","Unrecognised name or function","=SUMM(A1:A5)"],
+  ["#NULL!","Errors","Intersection of ranges that don't overlap","=A1:A5 C1:C5"],
+  ["#NUM!","Errors","Invalid number","=SQRT(-1)"],
+  ["#REF!","Errors","Reference no longer valid","Deleted row"],
+  ["#VALUE!","Errors","Wrong type of value","=\"abc\"+1"],
+  ["#SPILL!","Errors","Spill area is blocked","Value in the way"],
+  ["#CALC!","Errors","Calculation problem, e.g. empty array","=FILTER(A:A,A:A>999)"],
+  ["#FIELD!","Errors","Linked data type field missing",""],
+  ["#BUSY!","Errors","Still calculating or fetching",""],
+  ["#BLOCKED!","Errors","Feature or connection blocked (also #CONNECT!, #UNKNOWN!)",""],
+  ["#PYTHON!","Errors","Error in a Python in Excel formula",""],
+  ["#####","Errors","Not an error: column too narrow, or a negative date/time",""],
+  // other
+  ["&P &N","Headers & footers","Page number, total pages (also &D date, &T time, &F file, &A sheet; && for a literal &)","Page &P of &N"],
+  ["_xlfn.","Behind the scenes","Function not recognised by this Excel version","_xlfn.XLOOKUP(...)"],
+  ["_xlfn._TRO_","Behind the scenes","How trim references are stored in the file",""],
+  ["_xlpm.","Behind the scenes","Prefix for LAMBDA/LET parameter names in the stored file",""],
+  ["{=...}","Behind the scenes","Legacy Ctrl+Shift+Enter array formula","{=SUM(A1:A5*B1:B5)}"]
+];
+const cats = ["All", ...new Set(syms.map(s=>s[1]))];
+let symCat = "All";
+$("#symfilters").innerHTML = cats.map(c=>`<button class="btn" data-cat="${esc(c)}" aria-pressed="${c==="All"}">${esc(c)}</button>`).join("");
+function renderSyms(){
+  const q = $("#symsearch").value.trim().toLowerCase();
+  const list = syms.filter(s => (symCat==="All"||s[1]===symCat) && (!q || s.join(" ").toLowerCase().includes(q)));
+  $("#symlist").innerHTML = list.length ? list.map(s=>`<div class="sym"><div class="s">${esc(s[0])}</div><div><div>${esc(s[2])}</div>${s[3]?`<div class="eg">${esc(s[3])}</div>`:""}<div class="cat">${esc(s[1])}</div></div></div>`).join("")
+    : `<p class="muted">No symbols match "${esc(q)}". Try a shorter search or pick All.</p>`;
+}
+$("#symfilters").addEventListener("click", e => {
+  const b = e.target.closest("[data-cat]"); if (!b) return;
+  symCat = b.dataset.cat;
+  $("#symfilters").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b));
+  renderSyms();
+});
+$("#symsearch").addEventListener("input", renderSyms);
+renderSyms();
+
+const preds = [
+  {x:"=2+3*4", a:["14"], e:"Multiplication happens before addition: 3*4 = 12, then + 2."},
+  {x:"=-2^2", a:["4"], e:"Negation ranks above exponents in Excel, so this is (-2)^2. Write =-(2^2) for −4."},
+  {x:"=2^3^2", a:["64"], e:"Exponents are evaluated left to right in Excel: (2^3)^2 = 64. Many calculators give 512."},
+  {x:"=10/2*5", a:["25"], e:"Same level, so left to right: 10/2 = 5, then × 5."},
+  {x:'="A"&1+1', a:["a2"], e:"Addition comes before joining text, so 1+1 = 2 first, then \"A\"&2 gives A2."},
+  {x:"=50%^2", a:["0.25",".25"], e:"Percent comes first: 50% = 0.5, then squared."},
+  {x:"=1+2=3", a:["true"], e:"Comparisons come last: 1+2 = 3 is evaluated, then compared with 3."},
+  {x:"=-3^2+1", a:["10"], e:"(-3)^2 = 9, then + 1."}
+];
+$("#predict").innerHTML = preds.map((p,i)=>`
+  <span class="ex">${esc(p.x)}</span>
+  <input type="text" data-p="${i}" aria-label="Your answer for ${esc(p.x)}">
+  <button class="btn" data-pc="${i}">Check</button>
+  <div class="fb" id="pfb${i}"></div>`).join("");
+function checkPred(i){
+  const p = preds[i];
+  const v = document.querySelector(`[data-p="${i}"]`).value.trim().toLowerCase().replace(/^"|"$/g,"");
+  const fb = document.getElementById("pfb"+i);
+  if (!v){ fb.innerHTML = `<span class="muted">Type a result first.</span>`; return; }
+  const ok = p.a.includes(v);
+  fb.innerHTML = `<span class="${ok?"ok":"bad"}">${ok?"Right.":"Excel returns "+esc(p.a[0].toUpperCase()==="A2"?"A2":p.a[0].toUpperCase()==="TRUE"?"TRUE":p.a[0])+"."}</span> ${esc(p.e)}`;
+}
+$("#predict").addEventListener("click", e => { const b = e.target.closest("[data-pc]"); if (b) checkPred(+b.dataset.pc); });
+$("#predict").addEventListener("keydown", e => { if (e.key==="Enter" && e.target.dataset.p!==undefined) checkPred(+e.target.dataset.p); });
+
+quiz("q3","m3",[
+  {p:"What does <code>=COUNTIF(A:A,\"~*\")</code> count?", o:["Every non-empty cell","Cells containing exactly an asterisk","Cells containing any text","Nothing; it's an error"], a:1, e:"The tilde tells Excel to treat the next * as a literal character instead of a wildcard."},
+  {p:"What does <code>A:.A</code> do?", o:["Selects column A twice","Refers to column A with trailing empty rows trimmed off","Refers to the active cell in column A","Creates a 3D reference"], a:1, e:"A dot after the colon trims trailing blanks. It's shorthand for TRIMRANGE and needs Microsoft 365."},
+  {p:"What does a single space between two ranges do, as in <code>=B1:B10 A5:D5</code>?", o:["Joins them","Returns the cells they share","Adds them","Nothing; it's a typo"], a:1, e:"The space is the intersection operator. B1:B10 and A5:D5 share B5. If they share nothing, you get #NULL!."},
+  {p:"Which result does <code>=-2^2</code> give?", o:["-4","4","#NUM!","0"], a:1, e:"Excel applies negation before exponents, so it computes (-2)^2."},
+  {p:"The custom format <code>#,##0,</code> shows 12,345 as…", o:["12,345","12","12.3","12,345,000"], a:1, e:"A trailing comma scales the displayed number by 1,000. The stored value doesn't change."},
+  {p:"You see <code>#####</code> in a cell. What's the most likely cause?", o:["Circular reference","The column is too narrow","A deleted reference","Division by zero"], a:1, e:"##### isn't a true error. Widen the column, or check for a negative date or time."}
+]);
+
+/* ================= LESSON 4 ================= */
+// F4
+const f4 = [
+  {r:"A1", d:"Relative. Column and row both shift when copied."},
+  {r:"$A$1", d:"Absolute. Always A1, wherever you copy it."},
+  {r:"A$1", d:"Mixed. Row 1 is locked; the column can shift."},
+  {r:"$A1", d:"Mixed. Column A is locked; the row can shift."}
+];
+let f4i = 0;
+function showF4(){ $("#f4ref").textContent = f4[f4i].r; $("#f4desc").textContent = f4[f4i].d; }
+$("#f4btn").addEventListener("click", ()=>{ f4i = (f4i+1)%4; showF4(); });
+showF4();
+
+// reference helpers
+const colToNum = s => s.split("").reduce((n,c)=>n*26 + c.charCodeAt(0)-64, 0);
+const numToCol = n => { let s=""; while(n>0){ const m=(n-1)%26; s=String.fromCharCode(65+m)+s; n=Math.floor((n-1)/26);} return s; };
+const REF = /(^|[^A-Za-z0-9_$])(\$?)([A-Za-z]{1,3})(\$?)(\d+)(?![A-Za-z0-9_(])/g;
+function mapOutsideQuotes(f, fn){
+  return f.split('"').map((part,i)=> i%2 ? part : fn(part)).join('"');
+}
+function shift(f, dr, dc){
+  let bad = false;
+  const out = mapOutsideQuotes(f, part => part.replace(REF, (m,pre,cd,col,rd,row) => {
+    let c = colToNum(col.toUpperCase()), r = +row;
+    if (!cd) c += dc; if (!rd) r += dr;
+    if (c<1 || r<1){ bad = true; return pre+"#REF!"; }
+    return pre + cd + numToCol(c) + rd + r;
+  }));
+  return {f:out, bad};
+}
+function evaluate(f, get){
+  if (!f.startsWith("=")) return {err:"Formulas start with ="};
+  let body = f.slice(1);
+  if (/#REF!/.test(body)) return {err:"#REF!"};
+  try{
+    // expand ranges inside SUM
+    body = body.replace(/(\$?[A-Za-z]{1,3}\$?\d+):(\$?[A-Za-z]{1,3}\$?\d+)/g, (m,a,b)=>{
+      const pa = a.replace(/\$/g,"").toUpperCase().match(/([A-Z]+)(\d+)/), pb = b.replace(/\$/g,"").toUpperCase().match(/([A-Z]+)(\d+)/);
+      const c1=Math.min(colToNum(pa[1]),colToNum(pb[1])), c2=Math.max(colToNum(pa[1]),colToNum(pb[1]));
+      const r1=Math.min(+pa[2],+pb[2]), r2=Math.max(+pa[2],+pb[2]);
+      const vals=[]; for(let r=r1;r<=r2;r++) for(let c=c1;c<=c2;c++){ const v=get(numToCol(c)+r); vals.push(typeof v==="number"?v:0); }
+      return "(" + (vals.length?vals.join("+"):"0") + ")";
+    });
+    body = body.replace(/SUM\(/gi,"(");
+    body = body.replace(REF, (m,pre,cd,col,rd,row)=>{
+      const v = get(col.toUpperCase()+row);
+      if (typeof v !== "number") throw new Error("text");
+      return pre + "(" + v + ")";
+    });
+    if (/[^0-9+\-*/().\s^%]/.test(body)) return {err:"Only numbers, + - * / ^ %, brackets, cell references and SUM are supported here"};
+    body = body.replace(/(\d+(?:\.\d+)?)%/g,"($1/100)").replace(/\^/g,"**");
+    const v = Function('"use strict";return (' + body + ')')();
+    if (!isFinite(v)) return {err:"#DIV/0!"};
+    return {v};
+  }catch(e){
+    return {err: e.message==="text" ? "#VALUE! (a reference points at a text or empty cell)" : "Couldn't calculate this formula"};
+  }
+}
+const fmt = v => Math.round(v*100)/100;
+
+// Sheet A
+const A = {A1:"Qty",B1:"Price",C1:"Total",E1:"Markup",F1:1.15};
+[[12,4.5],[5,12],[30,2.25],[8,9.8],[20,3.4],[3,25],[15,6]].forEach((p,i)=>{A["A"+(i+2)]=p[0];A["B"+(i+2)]=p[1];});
+function drawA(results, extra){
+  let h = `<tr><th></th>${["A","B","C","D","E","F"].map(c=>`<th>${c}</th>`).join("")}</tr>`;
+  for (let r=1;r<=8;r++){
+    h += `<tr><th>${r}</th>`;
+    ["A","B","C","D","E","F"].forEach(c=>{
+      const k=c+r; let v=A[k], cls=typeof v==="string"?"txt":"";
+      if (results && results[k]){ v=results[k].show; cls=results[k].cls; }
+      if (extra && extra[k]) cls += " "+extra[k];
+      h += `<td class="${cls}" title="${results&&results[k]?esc(results[k].f):""}">${v===undefined?"":esc(v)}</td>`;
+    });
+    h += `</tr>`;
+  }
+  $("#sheetA").innerHTML = h;
+}
+drawA();
+$("#fillA").addEventListener("click", ()=>{
+  const f = $("#fA").value.trim();
+  const res = {}; let lines = [], allOk = true;
+  const extra = {C2:"src"};
+  for (let r=2;r<=8;r++){
+    const s = shift(f, r-2, 0);
+    const ev = evaluate(s.f, k=>A[k]);
+    const expect = A["A"+r]*A["B"+r]*A.F1;
+    const ok = ev.v!==undefined && Math.abs(ev.v-expect)<1e-6;
+    if (!ok) allOk=false;
+    res["C"+r] = {show: ev.v!==undefined?fmt(ev.v):"ERR", cls: ok?"good":"badc", f:s.f};
+    lines.push(`C${r}: ${s.f.padEnd(16)} → ${ev.v!==undefined?fmt(ev.v):ev.err}  ${ok?"✓":"✗ expected "+fmt(expect)}`);
+  }
+  drawA(res, extra);
+  $("#outA").innerHTML = esc(lines.join("\n")) + "\n\n" + (allOk
+    ? `<span class="ok">Every row is correct. The $ signs kept F1 fixed while A and B moved down row by row.</span>`
+    : `<span class="bad">Some rows are wrong.</span> Look at what F1 turned into as the formula moved down. Which part of that reference needs locking?`);
+});
+$("#copyA").addEventListener("click", ()=>{
+  const f = $("#fA").value.trim();
+  const s = shift(f, 0, 1);
+  const ev = evaluate(s.f, k=>A[k]);
+  drawA({D2:{show: ev.v!==undefined?fmt(ev.v):"ERR", cls:"hl", f:s.f}}, {C2:"src"});
+  $("#outA").innerHTML = esc(`D2: ${s.f}  → ${ev.v!==undefined?fmt(ev.v):ev.err}`) + `\n\n<span class="muted">Copying one column right shifts every unlocked column letter by one. Relative references move in both directions, not just down.</span>`;
+});
+
+// Sheet B
+const B = {};
+[2,4,6,8,10].forEach((v,i)=>B["A"+(i+2)]=v);
+[1,2,3,4,5].forEach((v,i)=>B[numToCol(i+2)+"1"]=v);
+function drawB(res){
+  let h = `<tr><th></th>${["A","B","C","D","E","F"].map(c=>`<th>${c}</th>`).join("")}</tr>`;
+  for (let r=1;r<=6;r++){
+    h += `<tr><th>${r}</th>`;
+    ["A","B","C","D","E","F"].forEach(c=>{
+      const k=c+r; let v=B[k], cls="";
+      if (r===1||c==="A") cls="txt";
+      if (res && res[k]){ v=res[k].show; cls=res[k].cls; }
+      if (k==="B2") cls += " src";
+      h += `<td class="${cls}" title="${res&&res[k]?esc(res[k].f):""}">${v===undefined?"":esc(v)}</td>`;
+    });
+    h += `</tr>`;
+  }
+  $("#sheetB").innerHTML = h;
+}
+drawB();
+$("#fillB").addEventListener("click", ()=>{
+  const f = $("#fB").value.trim();
+  const res = {}; let good=0, sample=[];
+  for (let r=2;r<=6;r++) for (let c=2;c<=6;c++){
+    const k = numToCol(c)+r;
+    const s = shift(f, r-2, c-2);
+    const ev = evaluate(s.f, x=>B[x]);
+    const expect = B["A"+r]*B[numToCol(c)+"1"];
+    const ok = ev.v!==undefined && Math.abs(ev.v-expect)<1e-6;
+    if (ok) good++;
+    res[k] = {show: ev.v!==undefined?fmt(ev.v):"ERR", cls: ok?"good":"badc", f:s.f};
+    if ((r===2&&c===3)||(r===3&&c===2)||(r===6&&c===6)) sample.push(`${k}: ${s.f}`);
+  }
+  drawB(res);
+  $("#outB").innerHTML = esc(sample.join("\n")) + "\n\n" + (good===25
+    ? `<span class="ok">All 25 cells correct.</span> Locking the column of the row header ($A) and the row of the column header ($1) is what lets one formula fill in both directions.`
+    : `<span class="bad">${good} of 25 cells correct.</span> Check C2 and B3 above. When filling right, the row-header reference must stay in column A. When filling down, the column-header reference must stay in row 1.`);
+});
+
+quiz("q4","m4",[
+  {p:"C2 contains <code>=A2*$F$1</code>. You copy it to C5. What does C5 contain?", o:["=A2*$F$1","=A5*$F$4","=A5*$F$1","=D5*$F$1"], a:2, e:"Moving down three rows shifts the relative A2 to A5. $F$1 is fully locked, so it stays."},
+  {p:"B2 contains <code>=$A2*10</code>. You copy it one column right to C2. Result?", o:["=$A2*10","=$B2*10","=B2*10","=$A3*10"], a:0, e:"The column is locked by $, and the row didn't change because you moved sideways."},
+  {p:"Your cursor is in <code>A1</code> in the formula bar. You press F4 once. What do you get?", o:["A$1","$A1","$A$1","A1 is deleted"], a:2, e:"The cycle is A1 → $A$1 → A$1 → $A1 → A1."},
+  {p:"You <b>cut</b> a formula from C2 and paste it into H9. What happens to its references?", o:["They shift by 7 rows and 5 columns","They stay pointing at the same cells","They all become absolute","They become #REF!"], a:1, e:"Cut-and-paste moves the formula without re-aiming it. Only copying and filling shift relative references."},
+  {p:"B2 contains <code>=B$1*$A2</code>. You fill it to D4. What does D4 contain?", o:["=D$1*$A4","=B$1*$A2","=D$3*$C4","=D1*A4"], a:0, e:"Columns shift B→D where not locked, rows shift 2→4 where not locked. B$1 becomes D$1 and $A2 becomes $A4."}
+]);
+
+/* ================= FINAL ================= */
+quiz("q5","m5",[
+  {p:"Which of these is an array, not a range?", o:["Sheet1!A1:A10","A1:.A500","A1:A10*2","D2#"], a:2, e:"Any calculation on a range produces an array in memory. The others all reference cells."},
+  {p:"You want to sum values in B2:B100 only where A2:A100 is greater than 5, but A must be doubled first. Which works?", o:["=SUMIF(A2:A100*2,\">5\",B2:B100)","=SUMPRODUCT((A2:A100*2>5)*B2:B100)","=SUMIF(A2:A100,\">5\"*2,B2:B100)","=SUM(A2:A100*2>5)"], a:1, e:"SUMIF needs a real range. SUMPRODUCT happily works with calculated arrays."},
+  {p:"In VBA, which object would you use to add a dropdown list to C2:C50?", o:["FormatConditions","Validation","ListObject","Names"], a:1, e:"Dropdowns are data validation, so Range(\"C2:C50\").Validation."},
+  {p:"<code>ThisWorkbook.Worksheets(\"QC\").Range(\"B2\")</code> walks which path?", o:["Application → Range → Worksheet","Workbook → Worksheet → Range","Worksheet → Workbook → Range","Range → Worksheet → Workbook"], a:1, e:"Each dot steps one level down the hierarchy."},
+  {p:"Where in Excel is <code>*</code> a wildcard?", o:["=A1*B1","In COUNTIF criteria like \"*pipe*\"","In $A$1","In {1,2,3}"], a:1, e:"In criteria for COUNTIF, SUMIF, MATCH and similar, * matches any run of characters."},
+  {p:"Which formula keeps working as rows are added below, without calculating a whole empty column?", o:["=SUM(B2:B500)","=SUM(B:B)","=SUM(B2:.B10000)","=SUM($B$2:$B$500)"], a:2, e:"A trailing trim reference shrinks to the data, so it grows as you add rows but skips the empty tail."},
+  {p:"What does <code>=\"Heat \"&2+3</code> return?", o:["Heat 23","Heat 5","#VALUE!","Heat 2+3"], a:1, e:"Addition is evaluated before the & join."},
+  {p:"A conditional format applied to A2:F50 should highlight a row when column D is below 27. Which rule formula is right?", o:["=$D$2<27","=D2<27","=$D2<27","=D$2<27"], a:2, e:"Lock the column (always D) but let the row move with each row of the range."},
+  {p:"A formula needs a constant rate stored in F1 and is copied across 200 rows. What's the clearest approach?", o:["Type the rate into every formula","Use F1 without $","Name F1 something like Markup and use the name","Use OFFSET to find F1"], a:2, e:"A defined name acts as an absolute reference and documents what the value means."},
+  {p:"Your report uses <code>=AVERAGE(A2:A500)</code> and new heats are appended monthly. Which change makes it a dynamic range without volatile functions?", o:["=AVERAGE(OFFSET(A2,0,0,500))","=AVERAGE(tblCharpy[Joules])","=AVERAGE(FILTER(A2:A500,A2:A500))","=AVERAGE({A2:A500})"], a:1, e:"A Table column grows with the data and isn't volatile. OFFSET works but recalculates on every change."},
+  {p:"Which error appears when a dynamic array can't spill because a cell is in the way?", o:["#REF!","#SPILL!","#NULL!","#CALC!"], a:1, e:"Clear the blocking cell and the result spills normally."}
+]);
+
+/* ---------- reset ---------- */
+$("#resetall").addEventListener("click", ()=>{
+  state = {done:{}}; save(); renderNav(current);
+  location.reload();
+});
+
+go("m1", false);
+})();
+</script>
+</body>
+</html>
+
