@@ -1,0 +1,166 @@
+{
+  "id": "R8-A2",
+  "version": 1,
+  "skillId": "level-8",
+  "level": 8,
+  "title": "Name a pooled margin calculation 2",
+  "scenario": "An invented business register stores independent sales and direct costs in CAD. The requested margin uses totals across all records. All records and limits are fictitious training assumptions.",
+  "lesson": {
+    "intro": "LET assigns meaningful local names to intermediate values, then returns the final calculation. Names exist only inside that formula. Pooled margin is (total sales − total cost) / total sales. A zero sales total needs an explicit missing-result rule.",
+    "formulas": [
+      {
+        "name": "LET",
+        "syntax": "=LET(name1, name_value1, [name2, name_value2], ..., calculation)",
+        "explanation": "Provide local name/value pairs, followed by the expression to return. Names must be valid Excel names and can be reused in the final calculation.",
+        "example": "=LET(sales,120,cost,90,(sales-cost)/sales)",
+        "result": 0.25
+      },
+      {
+        "name": "SUM",
+        "syntax": "=SUM(number1, [number2], ...)",
+        "explanation": "Add numeric values across the selected range. Zero remains a valid contribution.",
+        "example": "=SUM(10,0,15)",
+        "result": 25
+      }
+    ]
+  },
+  "task": {
+    "id": "t1",
+    "prompt": "Return pooled margin = (total Sales_CAD − total Direct_cost_CAD) / total Sales_CAD for all 20 records. Keep all repeated amount values as separate records, including numeric zero. No inputs are blank. Round only the final decimal ratio to three places (0.25 means 25%). If total sales were zero, return the text Missing. Practice using LET to name the two totals. Return one numeric value in Answers!B2. Use an Excel formula; any equivalent approach is accepted. Submit the formula and the complete output.",
+    "output": "Answers!B2",
+    "type": "number",
+    "formulas": [
+      "LET",
+      "SUM",
+      "IF",
+      "ROUND"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Record_no",
+      "Sales_CAD",
+      "Direct_cost_CAD"
+    ],
+    "rows": [
+      [
+        "MG2-1",
+        611,
+        452.14
+      ],
+      [
+        "MG2-2",
+        326,
+        205.38
+      ],
+      [
+        "MG2-3",
+        776,
+        504.4
+      ],
+      [
+        "MG2-4",
+        250,
+        100
+      ],
+      [
+        "MG2-5",
+        0,
+        0
+      ],
+      [
+        "MG2-6",
+        340,
+        139.4
+      ],
+      [
+        "MG2-7",
+        620,
+        334.8
+      ],
+      [
+        "MG2-8",
+        410,
+        315.7
+      ],
+      [
+        "MG2-9",
+        456,
+        342
+      ],
+      [
+        "MG2-10",
+        489,
+        381.42
+      ],
+      [
+        "MG2-11",
+        316,
+        167.48
+      ],
+      [
+        "MG2-12",
+        250,
+        195
+      ],
+      [
+        "MG2-13",
+        275,
+        143
+      ],
+      [
+        "MG2-14",
+        758,
+        333.52
+      ],
+      [
+        "MG2-15",
+        186,
+        87.42
+      ],
+      [
+        "MG2-16",
+        523,
+        224.89
+      ],
+      [
+        "MG2-17",
+        690,
+        510.6
+      ],
+      [
+        "MG2-18",
+        702,
+        245.7
+      ],
+      [
+        "MG2-19",
+        605,
+        296.45
+      ],
+      [
+        "MG2-20",
+        166,
+        61.42
+      ]
+    ],
+    "rowCount": 20,
+    "tableName": "PracticeData",
+    "columns": [
+      {
+        "name": "Record_no",
+        "description": "Unique independent sales record."
+      },
+      {
+        "name": "Sales_CAD",
+        "description": "Numeric nonnegative sales in CAD."
+      },
+      {
+        "name": "Direct_cost_CAD",
+        "description": "Numeric direct cost in CAD; zero-sales rows have zero cost."
+      }
+    ],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R8-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R8-A2.csv"
+  }
+}

@@ -1,0 +1,164 @@
+{
+  "id": "R6-A2",
+  "version": 1,
+  "skillId": "level-6",
+  "level": 6,
+  "title": "Filter thickness exceptions 2",
+  "scenario": "An invented pipe-inspection register has 20 separate measurements. Several records share a heat, but every record must remain independently traceable. All records and limits are fictitious training assumptions.",
+  "lesson": {
+    "intro": "FILTER returns records meeting an aligned Boolean mask. Multiplication combines AND conditions. Check ISNUMBER so a missing measurement cannot be treated as zero. Leave the entire spill area empty before entering the formula.",
+    "formulas": [
+      {
+        "name": "FILTER",
+        "syntax": "=FILTER(array, include, [if_empty])",
+        "explanation": "array is the returned range; include is an aligned TRUE/FALSE mask. Optional if_empty defines the no-match result.",
+        "example": "=FILTER({\"A\";\"B\";\"C\"},{TRUE;FALSE;TRUE},\"None\")",
+        "result": "A then C"
+      },
+      {
+        "name": "ISNUMBER",
+        "syntax": "=ISNUMBER(value)",
+        "explanation": "value is tested for a numeric type. Numeric zero is TRUE; empty/text inputs are FALSE.",
+        "example": "=ISNUMBER(0)",
+        "result": true
+      }
+    ]
+  },
+  "task": {
+    "id": "t1",
+    "prompt": "Return only Record_no values whose Thickness_mm is numeric and strictly below the training threshold 12 mm. Equality is excluded; numeric zero is included and blanks are excluded. Keep source order and all qualifying records even when heats repeat. Spill one formula from B2. Do not round or add a header; if a future dataset has no matches, return the single text None. Return 6 rows × 1 column, without a header, in Answers!B2:B7. Use an Excel formula; any equivalent approach is accepted. Submit the formula and the complete output.",
+    "output": "Answers!B2:B7",
+    "type": "array",
+    "formulas": [
+      "FILTER",
+      "ISNUMBER"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Record_no",
+      "Heat_no",
+      "Thickness_mm"
+    ],
+    "rows": [
+      [
+        "FL2-001",
+        "RH2-0",
+        11.9
+      ],
+      [
+        "FL2-002",
+        "RH2-1",
+        11.3
+      ],
+      [
+        "FL2-003",
+        "RH2-2",
+        ""
+      ],
+      [
+        "FL2-004",
+        "RH2-3",
+        13.2
+      ],
+      [
+        "FL2-005",
+        "RH2-0",
+        0
+      ],
+      [
+        "FL2-006",
+        "RH2-1",
+        12.2
+      ],
+      [
+        "FL2-007",
+        "RH2-2",
+        12
+      ],
+      [
+        "FL2-008",
+        "RH2-3",
+        12.2
+      ],
+      [
+        "FL2-009",
+        "RH2-0",
+        12.5
+      ],
+      [
+        "FL2-010",
+        "RH2-1",
+        12
+      ],
+      [
+        "FL2-011",
+        "RH2-2",
+        12.5
+      ],
+      [
+        "FL2-012",
+        "RH2-3",
+        11.3
+      ],
+      [
+        "FL2-013",
+        "RH2-0",
+        13.1
+      ],
+      [
+        "FL2-014",
+        "RH2-1",
+        12.5
+      ],
+      [
+        "FL2-015",
+        "RH2-2",
+        11
+      ],
+      [
+        "FL2-016",
+        "RH2-3",
+        11.3
+      ],
+      [
+        "FL2-017",
+        "RH2-0",
+        13.2
+      ],
+      [
+        "FL2-018",
+        "RH2-1",
+        13.2
+      ],
+      [
+        "FL2-019",
+        "RH2-2",
+        13
+      ],
+      [
+        "FL2-020",
+        "RH2-3",
+        12.2
+      ]
+    ],
+    "rowCount": 20,
+    "tableName": "PracticeData",
+    "columns": [
+      {
+        "name": "Record_no",
+        "description": "Unique measurement identifier."
+      },
+      {
+        "name": "Heat_no",
+        "description": "Repeating invented heat identifier."
+      },
+      {
+        "name": "Thickness_mm",
+        "description": "Numeric thickness in mm. Empty means missing; zero is a recorded training measurement."
+      }
+    ],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R6-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R6-A2.csv"
+  }
+}

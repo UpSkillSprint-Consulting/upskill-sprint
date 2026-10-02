@@ -1,0 +1,166 @@
+{
+  "id": "R9-A2",
+  "version": 1,
+  "skillId": "level-9",
+  "level": 9,
+  "title": "Keep correlation pairs aligned",
+  "scenario": "A fictitious experiment pairs two instrument readings per observation. Missing readings occur in different rows; numeric zero is permitted. Units are arbitrary training units. All records and limits are fictitious training assumptions.",
+  "lesson": {
+    "intro": "CORREL measures linear association between aligned numeric pairs. Filter both columns with the same completeness mask so unrelated rows never become pairs. Keep numeric zero. Nonzero variation and at least two complete pairs are required; correlation does not prove causation.",
+    "formulas": [
+      {
+        "name": "CORREL",
+        "syntax": "=CORREL(array1, array2)",
+        "explanation": "The two arrays contain corresponding numeric observations, with equal length and nonzero variation.",
+        "example": "=CORREL({0;1;2},{0;2;4})",
+        "result": 1
+      },
+      {
+        "name": "FILTER",
+        "syntax": "=FILTER(array, include, [if_empty])",
+        "explanation": "Use one aligned mask to select complete pairs from each numeric column.",
+        "example": "=FILTER({4;7;9},{TRUE;FALSE;TRUE})",
+        "result": "4 then 9"
+      }
+    ]
+  },
+  "task": {
+    "id": "t1",
+    "prompt": "Calculate Pearson correlation using only rows where Reading_X_units AND Reading_Y_units are numeric. Keep every complete pair in source order, including numeric zero and repeated readings. Never filter the two arrays independently or replace missing readings with zero. Both retained arrays have nonzero variation and at least two rows. Round the final correlation to three decimals. Return one numeric value in Answers!B2. Use an Excel formula; any equivalent approach is accepted. Submit the formula and the complete output.",
+    "output": "Answers!B2",
+    "type": "number",
+    "formulas": [
+      "CORREL",
+      "FILTER",
+      "ISNUMBER",
+      "ROUND"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Observation_no",
+      "Reading_X_units",
+      "Reading_Y_units"
+    ],
+    "rows": [
+      [
+        "CR-1",
+        38,
+        80
+      ],
+      [
+        "CR-2",
+        17,
+        27
+      ],
+      [
+        "CR-3",
+        "",
+        66
+      ],
+      [
+        "CR-4",
+        38,
+        71
+      ],
+      [
+        "CR-5",
+        0,
+        2
+      ],
+      [
+        "CR-6",
+        19,
+        42
+      ],
+      [
+        "CR-7",
+        36,
+        76
+      ],
+      [
+        "CR-8",
+        30,
+        ""
+      ],
+      [
+        "CR-9",
+        21,
+        40
+      ],
+      [
+        "CR-10",
+        14,
+        26
+      ],
+      [
+        "CR-11",
+        31,
+        66
+      ],
+      [
+        "CR-12",
+        20,
+        38
+      ],
+      [
+        "CR-13",
+        19,
+        39
+      ],
+      [
+        "CR-14",
+        37,
+        82
+      ],
+      [
+        "CR-15",
+        17,
+        27
+      ],
+      [
+        "CR-16",
+        22,
+        44
+      ],
+      [
+        "CR-17",
+        12,
+        29
+      ],
+      [
+        "CR-18",
+        11,
+        30
+      ],
+      [
+        "CR-19",
+        14,
+        31
+      ],
+      [
+        "CR-20",
+        14,
+        25
+      ]
+    ],
+    "rowCount": 20,
+    "tableName": "PracticeData",
+    "columns": [
+      {
+        "name": "Observation_no",
+        "description": "Unique paired observation."
+      },
+      {
+        "name": "Reading_X_units",
+        "description": "Numeric X reading; blank means missing, zero is valid."
+      },
+      {
+        "name": "Reading_Y_units",
+        "description": "Numeric Y reading; blank means missing, zero is valid."
+      }
+    ],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R9-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R9-A2.csv"
+  }
+}

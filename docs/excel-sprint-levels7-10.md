@@ -27,7 +27,7 @@ Expert Track v1 still branches from the fixed L6-A5 completion, even when the br
 | expert-track-v1 | Those same 30 core assignments plus EX-A1–A3 |
 | full-path | All 50 core assignments, Levels 1–10; no Expert capstone requirement |
 
-Older award names, claims, completion dates and certificate identities stay stable when a learner later completes the core path. A forty-nine-assignment chain cannot issue the full award. Signed proof verification, proof-file download, shareable link and print/Save as PDF use the existing certificate page. Names are self-reported. Grading checks matching submitted outputs and a syntactically valid formula; it does not execute Excel or verify identity/independent work. Placement and adaptive reinforcement remain future work.
+Older award names, claims, completion dates and certificate identities stay stable when a learner later completes the core path. A forty-nine-assignment chain cannot issue the full award. Signed proof verification, proof-file download, shareable link and print/Save as PDF use the existing certificate page. Names are self-reported. Grading checks matching submitted outputs and a syntactically valid formula; it does not execute Excel or verify identity/independent work. Placement guidance and targeted reinforcement are documented in [Placement and practice](excel-sprint-learning.md).
 
 ## Download production and validation
 

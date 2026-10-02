@@ -1,0 +1,166 @@
+{
+  "id": "R8-A1",
+  "version": 1,
+  "skillId": "level-8",
+  "level": 8,
+  "title": "Name a pooled margin calculation 1",
+  "scenario": "An invented business register stores independent sales and direct costs in CAD. The requested margin uses totals across all records. All records and limits are fictitious training assumptions.",
+  "lesson": {
+    "intro": "LET assigns meaningful local names to intermediate values, then returns the final calculation. Names exist only inside that formula. Pooled margin is (total sales − total cost) / total sales. A zero sales total needs an explicit missing-result rule.",
+    "formulas": [
+      {
+        "name": "LET",
+        "syntax": "=LET(name1, name_value1, [name2, name_value2], ..., calculation)",
+        "explanation": "Provide local name/value pairs, followed by the expression to return. Names must be valid Excel names and can be reused in the final calculation.",
+        "example": "=LET(sales,120,cost,90,(sales-cost)/sales)",
+        "result": 0.25
+      },
+      {
+        "name": "SUM",
+        "syntax": "=SUM(number1, [number2], ...)",
+        "explanation": "Add numeric values across the selected range. Zero remains a valid contribution.",
+        "example": "=SUM(10,0,15)",
+        "result": 25
+      }
+    ]
+  },
+  "task": {
+    "id": "t1",
+    "prompt": "Return pooled margin = (total Sales_CAD − total Direct_cost_CAD) / total Sales_CAD for all 20 records. Keep all repeated amount values as separate records, including numeric zero. No inputs are blank. Round only the final decimal ratio to three places (0.25 means 25%). If total sales were zero, return the text Missing. Practice using LET to name the two totals. Return one numeric value in Answers!B2. Use an Excel formula; any equivalent approach is accepted. Submit the formula and the complete output.",
+    "output": "Answers!B2",
+    "type": "number",
+    "formulas": [
+      "LET",
+      "SUM",
+      "IF",
+      "ROUND"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Record_no",
+      "Sales_CAD",
+      "Direct_cost_CAD"
+    ],
+    "rows": [
+      [
+        "MG1-1",
+        624,
+        355.68
+      ],
+      [
+        "MG1-2",
+        796,
+        509.44
+      ],
+      [
+        "MG1-3",
+        207,
+        136.62
+      ],
+      [
+        "MG1-4",
+        652,
+        417.28
+      ],
+      [
+        "MG1-5",
+        0,
+        0
+      ],
+      [
+        "MG1-6",
+        236,
+        172.28
+      ],
+      [
+        "MG1-7",
+        298,
+        134.1
+      ],
+      [
+        "MG1-8",
+        258,
+        180.6
+      ],
+      [
+        "MG1-9",
+        607,
+        218.52
+      ],
+      [
+        "MG1-10",
+        195,
+        111.15
+      ],
+      [
+        "MG1-11",
+        774,
+        317.34
+      ],
+      [
+        "MG1-12",
+        258,
+        201.24
+      ],
+      [
+        "MG1-13",
+        524,
+        267.24
+      ],
+      [
+        "MG1-14",
+        511,
+        311.71
+      ],
+      [
+        "MG1-15",
+        765,
+        336.6
+      ],
+      [
+        "MG1-16",
+        157,
+        84.78
+      ],
+      [
+        "MG1-17",
+        577,
+        259.65
+      ],
+      [
+        "MG1-18",
+        538,
+        425.02
+      ],
+      [
+        "MG1-19",
+        653,
+        235.08
+      ],
+      [
+        "MG1-20",
+        271,
+        157.18
+      ]
+    ],
+    "rowCount": 20,
+    "tableName": "PracticeData",
+    "columns": [
+      {
+        "name": "Record_no",
+        "description": "Unique independent sales record."
+      },
+      {
+        "name": "Sales_CAD",
+        "description": "Numeric nonnegative sales in CAD."
+      },
+      {
+        "name": "Direct_cost_CAD",
+        "description": "Numeric direct cost in CAD; zero-sales rows have zero cost."
+      }
+    ],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R8-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R8-A1.csv"
+  }
+}

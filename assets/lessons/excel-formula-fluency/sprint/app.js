@@ -23,6 +23,7 @@
   var solutionCache = new Map();
   var coachingAvailable = false;
   var coachCache = new Map();
+  var learningApp = null;
   function releasedCount() { return catalog.levels.filter(function (level) { return level.available; }).reduce(function (n, level) { return n + level.packages.length; }, 0); }
   var NOTICE = 'Your progress is saved in this browser only. Clearing browser data or switching devices will lose it unless you export a backup.';
 
@@ -103,6 +104,7 @@
     }
   }
   function collectDrafts() {
+    if (learningApp) learningApp.collectDrafts();
     if (!currentPackage) return;
     var saved = record(currentPackage.id);
     currentPackage.tasks.concat(currentPackage.bonus ? [currentPackage.bonus] : []).forEach(function (task) {
@@ -195,23 +197,38 @@
     finally { collectDrafts(); busy = false; renderAssignment(); }
   }
   function shell() {
+    if (learningApp && learningApp.destroy) learningApp.destroy();
+    learningApp = null;
     mount.innerHTML = '<div class="sprint-hero"><div><p class="sprint-eyebrow">Excel Formula Sprint · Microsoft 365</p><h2 id="sprint-heading">Learn it. Build it.<br><span>Prove it in Excel.</span></h2><p>Build formula fluency through short lessons and realistic, fictitious datasets. Each assignment unlocks when every required task is correct.</p></div><div class="sprint-hero-stats"><strong>10<span>levels</span></strong><strong>50<span>assignment packages</span></strong><p>All 10 levels are ready.<br>50 assignments, from foundations to integrated dashboards.</p></div></div>' +
       '<div id="sprint-first-notice" class="sprint-notice"' + (state.noticeDismissed ? ' hidden' : '') + '><p>' + NOTICE + '</p><button type="button" data-sprint-action="dismiss-notice">Got it</button></div>' +
       '<div id="sprint-storage-warning" class="sprint-message sprint-message-error" role="alert" hidden></div>' +
-      '<div class="sprint-toolbar"><a href="#sprint-assignment" class="sprint-button sprint-primary">Start / continue assignment</a><a href="#sprint-expert" class="sprint-button sprint-secondary">Expert Track</a><a href="#sprint-certificates" class="sprint-button sprint-secondary">Certificates</a><a href="#sprint-dashboard" class="sprint-button sprint-secondary">Your dashboard</a><button type="button" class="sprint-button sprint-secondary" data-sprint-action="export">Export backup</button><label class="sprint-button sprint-secondary" for="sprint-import">Import backup<input type="file" id="sprint-import" accept=".json,application/json" class="sprint-sr-only"></label><button type="button" class="sprint-link-button" data-sprint-action="reset">Reset progress</button></div>' +
+      '<div class="sprint-toolbar"><a href="#sprint-assignment" class="sprint-button sprint-primary">Start / continue assignment</a><a href="#sprint-learning" class="sprint-button sprint-secondary">Placement &amp; practice</a><a href="#sprint-expert" class="sprint-button sprint-secondary">Expert Track</a><a href="#sprint-certificates" class="sprint-button sprint-secondary">Certificates</a><a href="#sprint-dashboard" class="sprint-button sprint-secondary">Your dashboard</a><button type="button" class="sprint-button sprint-secondary" data-sprint-action="export">Export backup</button><label class="sprint-button sprint-secondary" for="sprint-import">Import backup<input type="file" id="sprint-import" accept=".json,application/json" class="sprint-sr-only"></label><button type="button" class="sprint-link-button" data-sprint-action="reset">Reset progress</button></div>' +
       '<div id="sprint-reset-confirm" class="sprint-notice" hidden><p>Reset all Excel Formula Sprint progress saved in this browser? Export a backup first if you want to keep it.</p><div class="sprint-inline-actions"><button type="button" class="sprint-button sprint-danger" data-sprint-action="confirm-reset">Yes, reset Sprint progress</button><button type="button" class="sprint-button sprint-secondary" data-sprint-action="cancel-reset">Keep my progress</button></div></div>' +
       '<div id="sprint-backup-reminder" class="sprint-notice" hidden></div>' +
       '<div id="sprint-message" class="sprint-message" role="status" aria-live="polite" hidden></div>' +
+      '<section id="sprint-learning" class="sprint-learning" aria-label="Placement and targeted practice"></section>' +
       '<div class="sprint-path-heading"><div><p class="sprint-eyebrow">The full path</p><h3>Choose your next assignment</h3></div><div><p id="sprint-verification" class="sprint-muted">Checking saved completions…</p><button type="button" class="sprint-link-button" data-sprint-action="verify" id="sprint-verify-button" hidden>Verify saved progress</button></div></div><div id="sprint-map" class="sprint-map"></div>' +
       '<section id="sprint-expert" class="sprint-expert" aria-label="Expert Track capstones"></section>' +
       '<div id="sprint-assignment" class="sprint-assignment" tabindex="-1" aria-live="polite"></div>' +
       '<section id="sprint-dashboard" class="sprint-dashboard" aria-label="Excel Sprint progress dashboard"></section>' +
       '<section id="sprint-certificates" class="sprint-certificates" aria-label="Completion certificates"></section>' +
-      '<p class="sprint-release-note">All 50 core assignments and the full Levels 1–10 certificate are available. Placement tests and reinforcement drills are planned. Expert Track v1 is a separate three-capstone route after Levels 1–6. Existing Formula Fluency learning material remains below as a reference.</p>';
+      '<p class="sprint-release-note">All 50 core assignments, placement guidance, targeted practice and the full Levels 1–10 certificate are available. Expert Track v1 is a separate three-capstone route after Levels 1–6. Existing Formula Fluency learning material remains below as a reference.</p>';
+    if (window.ExcelSprintLearningApp) learningApp = window.ExcelSprintLearningApp.mount({
+      element: mount.querySelector('#sprint-learning'),
+      getState: function () { return state.learning; },
+      saveState: function (learning) { state.learning = learning; return persist(); },
+      getCompletions: function () { return completions; },
+      openCore: function (id) {
+        if (busy) { message('Wait for the result check to finish before changing assignments.'); return; }
+        return openPackage(id, true);
+      },
+      request: request
+    });
     renderSummary();
     storageNotice();
   }
   function renderSummary() {
+    if (learningApp) learningApp.refresh();
     mount.querySelector('#sprint-map').innerHTML = catalog.levels.map(function (level) {
       var levelSolved = level.packages.filter(function (pkg) { return completed(pkg.id); }).length;
       return '<div class="sprint-level' + (!level.available ? ' sprint-level-upcoming' : '') + '"><div class="sprint-level-title"><span class="sprint-level-number">' + level.level + '</span><div><h4>' + esc(level.title) + '</h4><span class="sprint-muted">' + (level.available ? levelSolved + ' / 5 solved' : 'Future release') + '</span></div></div><p class="sprint-level-formulas">' + esc(level.formulas.join(' · ')) + '</p><div class="sprint-package-grid">' + level.packages.map(function (pkg, index) {
@@ -435,6 +452,8 @@
       collectDrafts();
       flushTime();
       activeSince = null;
+      if (learningApp && learningApp.destroy) learningApp.destroy();
+      learningApp = null;
       completions = response.completions;
       expertCompletions = response.expertCompletions;
       verified = true;
@@ -509,6 +528,8 @@
     if (action === 'reset') { mount.querySelector('#sprint-reset-confirm').hidden = false; }
     if (action === 'cancel-reset') mount.querySelector('#sprint-reset-confirm').hidden = true;
     if (action === 'confirm-reset') {
+      if (learningApp && learningApp.destroy) learningApp.destroy();
+      learningApp = null;
       state = P.emptyState();
       completions = [];
       expertCompletions = [];

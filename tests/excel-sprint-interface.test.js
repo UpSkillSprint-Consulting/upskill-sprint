@@ -26,7 +26,7 @@ async function harness(id,count,coaching=true,expertCount=0){
   return new Response(JSON.stringify(response),{status:200,headers:{'content-type':'application/json'}});
  };
  w.HTMLElement.prototype.scrollIntoView=function(){};
- for(const file of ['progress.js','dashboard.js','app.js'])w.eval(fs.readFileSync(asset+file,'utf8'));
+ for(const file of ['learning.js','progress.js','dashboard.js','app.js'])w.eval(fs.readFileSync(asset+file,'utf8'));
  await ready(()=>w.document.querySelector('#sprint-assignment fieldset'));
  return{dom,w,calls,find:selector=>w.document.querySelector(selector)};
 }

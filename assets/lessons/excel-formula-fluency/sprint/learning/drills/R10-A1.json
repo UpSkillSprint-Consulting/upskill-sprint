@@ -1,0 +1,174 @@
+{
+  "id": "R10-A1",
+  "version": 1,
+  "skillId": "level-10",
+  "level": 10,
+  "title": "Build guarded line revenue 1",
+  "scenario": "A fictitious sales register contains sales and returns. Negative quantity is an allowed return; a zero price is an allowed free item. A missing quantity or price requires review of that line. All records and limits are fictitious training assumptions.",
+  "lesson": {
+    "intro": "Combine named inputs, type checks and a guarded calculation. LET makes quantity and price readable. ISNUMBER distinguishes valid numeric zero from missing input. AND requires both inputs; IF returns Missing before arithmetic. ROUND applies only to valid line revenue.",
+    "formulas": [
+      {
+        "name": "LET",
+        "syntax": "=LET(name1, name_value1, [name2, name_value2], ..., calculation)",
+        "explanation": "Name each input locally, then return the guarded calculation.",
+        "example": "=LET(q,3,p,2.5,q*p)",
+        "result": 7.5
+      },
+      {
+        "name": "AND",
+        "syntax": "=AND(logical1, [logical2], ...)",
+        "explanation": "All supplied conditions must be TRUE. Optional conditions add requirements.",
+        "example": "=AND(ISNUMBER(0),ISNUMBER(4))",
+        "result": true
+      },
+      {
+        "name": "IF",
+        "syntax": "=IF(logical_test, value_if_true, [value_if_false])",
+        "explanation": "Test completeness before multiplying. Return the appropriate result branch.",
+        "example": "=IF(ISNUMBER(\"\"),7,\"Missing\")",
+        "result": "Missing"
+      }
+    ]
+  },
+  "task": {
+    "id": "t1",
+    "prompt": "For each row, return Quantity_units × Unit_price_CAD rounded to two decimals when both inputs are numeric. Otherwise return Missing. Preserve negative returns, numeric zero and every independent record in source order. Do not turn blanks into zero, deduplicate or take absolute values. Enter at B2 and fill down through B21. Practice combining at least four Excel functions. Return 20 rows × 1 column, without a header, in Answers!B2:B21. Use an Excel formula; any equivalent approach is accepted. Submit the formula and the complete output.",
+    "output": "Answers!B2:B21",
+    "type": "array",
+    "formulas": [
+      "LET",
+      "ISNUMBER",
+      "AND",
+      "IF",
+      "ROUND"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Order_line",
+      "Quantity_units",
+      "Unit_price_CAD"
+    ],
+    "rows": [
+      [
+        "CP1-1",
+        10,
+        5.35
+      ],
+      [
+        "CP1-2",
+        31,
+        4.22
+      ],
+      [
+        "CP1-3",
+        "",
+        7.59
+      ],
+      [
+        "CP1-4",
+        17,
+        3.27
+      ],
+      [
+        "CP1-5",
+        0,
+        3.49
+      ],
+      [
+        "CP1-6",
+        28,
+        2.46
+      ],
+      [
+        "CP1-7",
+        -3,
+        8.32
+      ],
+      [
+        "CP1-8",
+        6,
+        ""
+      ],
+      [
+        "CP1-9",
+        37,
+        2.42
+      ],
+      [
+        "CP1-10",
+        38,
+        0
+      ],
+      [
+        "CP1-11",
+        9,
+        5.56
+      ],
+      [
+        "CP1-12",
+        23,
+        1.86
+      ],
+      [
+        "CP1-13",
+        13,
+        7.36
+      ],
+      [
+        "CP1-14",
+        12,
+        5.77
+      ],
+      [
+        "CP1-15",
+        39,
+        9.36
+      ],
+      [
+        "CP1-16",
+        7,
+        8.81
+      ],
+      [
+        "CP1-17",
+        20,
+        2.99
+      ],
+      [
+        "CP1-18",
+        13,
+        6.52
+      ],
+      [
+        "CP1-19",
+        6,
+        9.14
+      ],
+      [
+        "CP1-20",
+        34,
+        8.4
+      ]
+    ],
+    "rowCount": 20,
+    "tableName": "PracticeData",
+    "columns": [
+      {
+        "name": "Order_line",
+        "description": "Unique independent order-line identifier."
+      },
+      {
+        "name": "Quantity_units",
+        "description": "Numeric units; negative is a return, zero is allowed, blank is missing."
+      },
+      {
+        "name": "Unit_price_CAD",
+        "description": "Numeric CAD per unit; zero is allowed, blank is missing."
+      }
+    ],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R10-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R10-A1.csv"
+  }
+}

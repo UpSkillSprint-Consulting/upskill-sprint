@@ -1,0 +1,189 @@
+{
+  "id": "R5-A2",
+  "version": 1,
+  "skillId": "level-5",
+  "level": 5,
+  "title": "Build unambiguous test dates 2",
+  "scenario": "A fictitious test schedule stores year, month and day as separate integers. All listed dates are valid, including a leap-day case. All records and limits are fictitious training assumptions.",
+  "lesson": {
+    "intro": "DATE builds an Excel date from numeric components without ambiguous text parsing. TEXT formats that date for an ISO-style output. For date arithmetic keep the DATE result numeric; this task deliberately requests an ISO text label.",
+    "formulas": [
+      {
+        "name": "DATE",
+        "syntax": "=DATE(year, month, day)",
+        "explanation": "year, month and day are numeric components. DATE produces a numeric date serial.",
+        "example": "=DATE(2024,2,29)",
+        "result": "2024-02-29"
+      },
+      {
+        "name": "TEXT",
+        "syntax": "=TEXT(value, format_text)",
+        "explanation": "value is the number or date to format. format_text controls the returned text.",
+        "example": "=TEXT(DATE(2024,2,29),\"yyyy-mm-dd\")",
+        "result": "2024-02-29"
+      }
+    ]
+  },
+  "task": {
+    "id": "t1",
+    "prompt": "Construct each date from Year, Month and Day, then return ISO text yyyy-mm-dd. Use all 20 rows in source order, without deduplication. Inputs have no blanks or zeros and are valid dates; do not infer dates from identifiers. Enter at B2 and fill down through B21. No rounding applies. Return 20 rows × 1 column, without a header, in Answers!B2:B21. Use an Excel formula; any equivalent approach is accepted. Submit the formula and the complete output.",
+    "output": "Answers!B2:B21",
+    "type": "array",
+    "formulas": [
+      "DATE",
+      "TEXT"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Test_no",
+      "Year",
+      "Month",
+      "Day"
+    ],
+    "rows": [
+      [
+        "DT2-1",
+        2028,
+        1,
+        3
+      ],
+      [
+        "DT2-2",
+        2028,
+        2,
+        29
+      ],
+      [
+        "DT2-3",
+        2028,
+        3,
+        9
+      ],
+      [
+        "DT2-4",
+        2028,
+        4,
+        12
+      ],
+      [
+        "DT2-5",
+        2028,
+        1,
+        15
+      ],
+      [
+        "DT2-6",
+        2028,
+        2,
+        18
+      ],
+      [
+        "DT2-7",
+        2028,
+        3,
+        21
+      ],
+      [
+        "DT2-8",
+        2028,
+        4,
+        24
+      ],
+      [
+        "DT2-9",
+        2028,
+        1,
+        27
+      ],
+      [
+        "DT2-10",
+        2028,
+        2,
+        3
+      ],
+      [
+        "DT2-11",
+        2028,
+        3,
+        6
+      ],
+      [
+        "DT2-12",
+        2028,
+        4,
+        9
+      ],
+      [
+        "DT2-13",
+        2028,
+        1,
+        12
+      ],
+      [
+        "DT2-14",
+        2028,
+        2,
+        15
+      ],
+      [
+        "DT2-15",
+        2028,
+        3,
+        18
+      ],
+      [
+        "DT2-16",
+        2028,
+        4,
+        21
+      ],
+      [
+        "DT2-17",
+        2028,
+        1,
+        24
+      ],
+      [
+        "DT2-18",
+        2028,
+        2,
+        27
+      ],
+      [
+        "DT2-19",
+        2028,
+        3,
+        3
+      ],
+      [
+        "DT2-20",
+        2028,
+        4,
+        6
+      ]
+    ],
+    "rowCount": 20,
+    "tableName": "PracticeData",
+    "columns": [
+      {
+        "name": "Test_no",
+        "description": "Unique test identifier."
+      },
+      {
+        "name": "Year",
+        "description": "Four-digit numeric year."
+      },
+      {
+        "name": "Month",
+        "description": "Numeric month, 1 through 12."
+      },
+      {
+        "name": "Day",
+        "description": "Valid numeric day for the listed month/year."
+      }
+    ],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R5-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R5-A2.csv"
+  }
+}

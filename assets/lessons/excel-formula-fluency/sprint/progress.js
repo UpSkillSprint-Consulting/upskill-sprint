@@ -1,15 +1,17 @@
 (function (root, factory) {
   'use strict';
-  var api = factory();
+  var api = factory(typeof module === 'object' && module.exports ? require('./learning.js') : root.ExcelSprintLearning);
   if (typeof module === 'object' && module.exports) module.exports = api;
   else root.ExcelSprintProgress = api;
-})(typeof globalThis !== 'undefined' ? globalThis : this, function () {
+})(typeof globalThis !== 'undefined' ? globalThis : this, function (Learning) {
   'use strict';
   var KEY = 'upskillsprint.excel-sprint.v1';
   var MAX_BACKUP_BYTES = 2 * 1024 * 1024;
   var PACKAGE = /^(?:L(?:[1-9]|10)-A[1-5]|EX-A[1-3])$/;
   function emptyState() {
-    return { version: 1, updatedAt: new Date().toISOString(), selectedPackageId: 'L1-A1', tokens: [], expertTokens: [], packages: {}, formulas: {}, activityDays: [], badges: [], noticeDismissed: false, backupReminder: null };
+    var state = { version: 1, updatedAt: new Date().toISOString(), selectedPackageId: 'L1-A1', tokens: [], expertTokens: [], packages: {}, formulas: {}, activityDays: [], badges: [], noticeDismissed: false, backupReminder: null };
+    if (Learning) state.learning = Learning.emptyState();
+    return state;
   }
   function isObject(value) { return !!value && typeof value === 'object' && !Array.isArray(value); }
   function string(value, max) { return typeof value === 'string' && value.length <= max; }
@@ -79,6 +81,10 @@
     state.noticeDismissed = input.noticeDismissed === true;
     if (Number.isInteger(input.backupReminder) && input.backupReminder >= 1 && input.backupReminder <= 10) state.backupReminder = input.backupReminder;
     if (validDate(input.updatedAt)) state.updatedAt = input.updatedAt;
+    if (input.learning !== undefined) {
+      if (!Learning) throw new Error('Placement and practice records could not be read. Reload the lesson before importing this backup.');
+      state.learning = Learning.validateState(input.learning);
+    }
     return state;
   }
   function parseBackup(text) {

@@ -29,6 +29,6 @@ jobs:
       - name: Require reproducible seeded packages and workbooks
         run: |
           npm run build:excel-sprint
-          git diff --exit-code -- assets/lessons/excel-formula-fluency/sprint netlify/functions/_shared/excel-sprint-answers.json netlify/functions/_shared/excel-sprint-coaching-context.json
+          git diff --exit-code -- assets/lessons/excel-formula-fluency/sprint netlify/functions/_shared/excel-sprint-answers.json netlify/functions/_shared/excel-sprint-coaching-context.json netlify/functions/_shared/excel-sprint-learning-answers.json
       - name: Check grading, coaching, curriculum, backups and learner controls
         run: node --test tests/excel-sprint*.test.js
