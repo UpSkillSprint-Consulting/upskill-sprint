@@ -691,6 +691,7 @@
     } catch (_) { showBackupText(); message('The backup download could not start. Copy the complete backup text and save it as a .json file.', true); }
   }
   function showBackupText() {
+    backupCopySequence++;
     if (!stateLoaded) { message(stateLoadFailed ? 'Saved work could not be read. Reload the latest progress or use a previously exported backup.' : 'Saved work is still loading. Wait for backup export or reload the latest progress.', true); return false; }
     collectDrafts(); flushTime(); persist();
     var panel = mount.querySelector('#sprint-backup-text-panel'), input = mount.querySelector('#sprint-backup-text');
@@ -702,7 +703,7 @@
     if (!showBackupText()) return;
     var input = mount.querySelector('#sprint-backup-text'), panel = mount.querySelector('#sprint-backup-text-panel');
     var sequence = ++backupCopySequence, feedbackSequence = messageSequence, text = input.value;
-    function currentCopy() { return sequence === backupCopySequence && feedbackSequence === messageSequence && input.isConnected && mount.querySelector('#sprint-backup-text') === input && !panel.hidden && input.value === text; }
+    function currentCopy() { return sequence === backupCopySequence && feedbackSequence === messageSequence && input.isConnected && mount.querySelector('#sprint-backup-text') === input && !panel.hidden && panel.contains(document.activeElement) && input.value === text; }
     try {
       if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('Clipboard unavailable');
       await navigator.clipboard.writeText(text);
@@ -801,7 +802,7 @@
     if (action === 'export') exportBackup();
     if (action === 'backup-text') showBackupText();
     if (action === 'copy-backup-text') await copyBackupText();
-    if (action === 'close-backup-text') { mount.querySelector('#sprint-backup-text-panel').hidden = true; var trigger = mount.querySelector('[data-sprint-action="backup-text"]'); if (trigger) trigger.focus(); }
+    if (action === 'close-backup-text') { backupCopySequence++; mount.querySelector('#sprint-backup-text-panel').hidden = true; var trigger = mount.querySelector('[data-sprint-action="backup-text"]'); if (trigger) trigger.focus(); }
     if (!storageNotice() && !['export','backup-text','copy-backup-text','close-backup-text','copy','solutions','certificate-download','cancel-reset'].includes(action)) { message('Export this tab’s drafts, then reload the latest progress before continuing.', true); return; }
     if (busy) { if (!['export','backup-text','copy-backup-text','close-backup-text'].includes(action)) message('A request is still running. Your drafts are saved; wait for it to finish before changing Sprint progress.'); return; }
     if (action === 'grade-all') await grade(currentPackage.tasks.filter(function (task) { return !(visibleRecord(currentPackage.id).tasks[task.id] && visibleRecord(currentPackage.id).tasks[task.id].correct); }).map(function (task) { return task.id; }));

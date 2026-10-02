@@ -66,6 +66,24 @@ test('a delayed backup clipboard reply cannot reopen a closed panel or interrupt
   }finally{if(release)release();h.close();}
  }
 });
+test('backup clipboard denial cannot take focus after the student resumes editing',async()=>{
+ const h=await harness();let reject;try{
+  Object.defineProperty(h.w.navigator,'clipboard',{value:{writeText:()=>new Promise((resolve,fail)=>{reject=fail;})}});
+  h.find('[data-sprint-action="copy-backup-text"]').click();
+  const field=h.find('[data-sprint-formula-input="t1"]');field.focus();
+  reject(new Error('Denied'));await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(h.w.document.activeElement,field);assert.doesNotMatch(h.find('#sprint-message').textContent,/selected.*manually/);
+ }finally{h.close();}
+});
+test('closing and reopening backup text invalidates the previous clipboard request',async()=>{
+ const h=await harness();let release;try{
+  Object.defineProperty(h.w.navigator,'clipboard',{value:{writeText:()=>new Promise(resolve=>{release=resolve;})}});
+  h.find('[data-sprint-action="copy-backup-text"]').click();
+  h.find('[data-sprint-action="close-backup-text"]').click();h.find('[data-sprint-action="backup-text"]').click();
+  const feedback=h.find('#sprint-message').textContent;release();await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(h.find('#sprint-message').textContent,feedback);assert.equal(h.find('#sprint-backup-text-panel').hidden,false);
+ }finally{if(release)release();h.close();}
+});
 test('a fresh student can start before optional coaching responds and receives it without losing focus or drafts',async()=>{
  const slow=deferred(),h=await harness({waits:[['/api/excel-sprint/coaching-status',slow.wait]]});try{
   assert.equal(h.find('[data-sprint-open="L1-A1"]').disabled,false);assert.equal(h.find('[data-sprint-open="L1-A2"]').disabled,true);
