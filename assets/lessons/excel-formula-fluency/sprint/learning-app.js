@@ -86,6 +86,17 @@
       return entries.filter(function (entry, index) { return entries.findIndex(function (other) { return other.token === entry.token; }) === index; });
     }
     function receiptFingerprint(state) { return JSON.stringify(allReceipts(state)); }
+    function verificationBatches(entries) {
+      var batches = [], batch = [];
+      entries.forEach(function (entry) {
+        var candidate = batch.concat(entry);
+        var bytes = new root.Blob([JSON.stringify({action:'verify-many',tokens:candidate.map(function (item) { return item.token; })})]).size;
+        if (batch.length && bytes > 64 * 1024) { batches.push(batch); batch = [entry]; }
+        else batch = candidate;
+      });
+      if (batch.length) batches.push(batch);
+      return batches;
+    }
     function coreFingerprint() { return JSON.stringify((options.getCompletions() || []).map(function (item) { return item.packageId; })); }
     function collectDrafts() {
       if (destroyed || !catalog) return;
@@ -115,7 +126,7 @@
       var state = localState(); state.selectedView = view; save(state);
     }
     function heading() {
-      return '<div class="sprint-learning-heading"><div><p class="sprint-eyebrow">Placement and focused practice</p><h3 id="sprint-learning-heading">Find your next learning step</h3><p>Check your starting point, practise a weak skill, and return for a short review.</p></div>' + (view !== 'overview' ? '<button type="button" class="sprint-button" data-learning-action="overview"' + (busy ? ' disabled' : '') + '>Back to learning plan</button>' : '') + '</div><p class="sprint-muted">Placement and practice guide your learning. They do not unlock core assignments or count toward certificates.</p><div data-learning-message class="sprint-message" role="status" aria-live="polite" hidden></div>';
+      return '<div class="sprint-learning-heading"><div><p class="sprint-eyebrow">Placement and focused practice</p><h3 id="sprint-learning-heading">Find your next learning step</h3><p>Check your starting point, practise a weak skill, and return for a short review.</p></div>' + (view !== 'overview' ? '<button type="button" class="sprint-button" data-learning-action="overview"' + (busy ? ' disabled' : '') + '>Back to learning plan</button>' : '') + '</div><p class="sprint-muted">Placement and practice guide your learning. They do not unlock core assignments or count toward certificates.</p><div id="sprint-learning-message" data-learning-message class="sprint-message" role="status" aria-live="polite" hidden></div>';
     }
     function dateLabel(value) {
       if (!value) return '';
@@ -199,6 +210,7 @@
       var target = messageError ? element.querySelector('[data-learning-message]') : element.querySelector('.sprint-learning-feedback');
       if (target && target.textContent) { target.setAttribute('tabindex', '-1'); target.focus({preventScroll:true}); }
     }
+    function focusModel() { var heading = element.querySelector('.sprint-solutions h5'); if (heading) { heading.setAttribute('tabindex','-1'); heading.focus({preventScroll:true}); return true; } return false; }
     async function openDrill(id, fresh) {
       if (busy || destroyed || !/^R(?:[1-9]|10)-A[12]$/.test(id)) return;
       collectDrafts(); setBusy(true); notice('Loading practice dataset…');
@@ -232,10 +244,13 @@
       collectDrafts(); var drill = currentDrill, saved = localState().drills[drill.id] || {}, draft = saved.submissions || {};
       if (saved.receipt && !trustedState().drills[drill.id].receipt) { notice('Verify the saved result or start a fresh attempt before checking.', true); return; }
       var parsed;
+      var formulaInput = element.querySelector('[data-learning-formula]'), resultInput = element.querySelector('[data-learning-result]'), invalidInput = formulaInput;
+      formulaInput.removeAttribute('aria-invalid'); resultInput.removeAttribute('aria-invalid');
       try {
         if (!/^\s*=\s*\S/.test(draft.formula || '')) throw new Error('Enter a formula beginning with =.');
+        invalidInput = resultInput;
         parsed = parseResult(resultText(draft), drill.task.type);
-      } catch (error) { notice(error.message, true); return; }
+      } catch (error) { notice(error.message, true); invalidInput.setAttribute('aria-invalid','true'); invalidInput.setAttribute('aria-describedby','sprint-learning-message'); invalidInput.focus(); return; }
       setBusy(true); notice(''); renderDrill();
       try {
         var report = await options.request(ENDPOINT, {action:'grade',drillId:drill.id,formula:draft.formula,result:parsed,receipt:saved.receipt});
@@ -251,7 +266,7 @@
       if (busy || destroyed || !currentDrill) return;
       var id = currentDrill.id, report = trustedState().drills[id];
       if (!report || !report.correct) { notice('Complete this practice task before comparing model formulas.', true); return; }
-      if (models.has(report.receipt)) { renderDrill(); return; }
+      if (models.has(report.receipt)) { renderDrill(); focusModel(); return; }
       collectDrafts(); setBusy(true); notice('Loading model formulas…'); renderDrill();
       try {
         var data = await options.request(ENDPOINT, {action:'solutions',drillId:id,token:report.receipt});
@@ -259,7 +274,7 @@
         if (!data || data.drillId !== id || typeof data.model !== 'string' || data.alternatives !== undefined && !Array.isArray(data.alternatives)) throw new Error('The model formula was unavailable. Try again.');
         models.set(report.receipt, data); notice('');
       } catch (error) { if (!destroyed) notice(error.message, true); }
-      finally { if (!destroyed) { setBusy(false); renderDrill(); var heading = element.querySelector('.sprint-solutions h5'); if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({preventScroll:true}); } else focusFeedback(); } }
+      finally { if (!destroyed) { setBusy(false); renderDrill(); if (!focusModel()) focusFeedback(); } }
     }
     async function copyData() {
       if (!currentDrill) return;
@@ -300,12 +315,14 @@
         var eligible = pending.filter(function (entry) { return typeof entry.token === 'string' && entry.token.length > 0 && entry.token.length <= 6000; });
         var failed = eligible.length !== pending.length;
         // Receipts are checked independently so one unavailable result does not hide other verified practice.
-        if (eligible.length) {
+        var groups = verificationBatches(eligible);
+        for (var groupIndex = 0; groupIndex < groups.length; groupIndex++) {
+          var group = groups[groupIndex];
           try {
-            var batch = await options.request(ENDPOINT, {action:'verify-many',tokens:eligible.map(function (entry) { return entry.token; })});
+            var batch = await options.request(ENDPOINT, {action:'verify-many',tokens:group.map(function (entry) { return entry.token; })});
             if (destroyed || sequence !== refreshSequence) return;
             if (!batch || !Array.isArray(batch.results)) throw new Error('Saved results could not be verified.');
-            eligible.forEach(function (expected) {
+            group.forEach(function (expected) {
               var result = batch.results.find(function (entry) { return entry.token === expected.token; });
               if (!result || result.verified !== true || !validReport(result.report, expected.token)) { failed = true; return; }
               verifiedReports.set(expected.token, result.report);
@@ -356,7 +373,7 @@
       if (event.target.hasAttribute('data-learning-diagnostic')) { event.preventDefault(); submitDiagnostic(); }
       if (event.target.hasAttribute('data-learning-grade')) { event.preventDefault(); submitDrill(); }
     }
-    function input(event) { if (event.target.matches('[data-learning-formula], [data-learning-result], [data-learning-diagnostic] input')) collectDrafts(); }
+    function input(event) { if (event.target.matches('[data-learning-formula], [data-learning-result], [data-learning-diagnostic] input')) { event.target.removeAttribute('aria-invalid'); collectDrafts(); } }
     function focusout() { if (deferredRender) root.setTimeout(function () { if (!destroyed && !busy) refreshRender(); }, 0); }
     element.addEventListener('click', click); element.addEventListener('submit', submit); element.addEventListener('input', input); element.addEventListener('change', input); element.addEventListener('focusout', focusout);
     refresh();

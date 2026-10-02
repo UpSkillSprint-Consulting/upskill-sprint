@@ -33,7 +33,7 @@
         "mistake": "Use multiplication for AND and addition for OR; errors in the mask propagate."
       }
     ],
-    "combine": "Review COUNTIFS, XLOOKUP, ISNUMBER, IF, HSTACK and SORTBY. Build a nested rule using at least four functions, then reuse its statuses for summaries and queues. Any equivalent formula is accepted. Training rules do not authorize production release."
+    "combine": "Review COUNTIFS, XLOOKUP, ISNUMBER, IF, HSTACK and SORTBY. Practice combining at least four functions in the nested rule, then reuse its statuses for summaries and queues. Any equivalent formula is accepted. Training rules do not authorize production release."
   },
   "tasks": [
     {

@@ -22,6 +22,7 @@ async function harness(initial, existingReports) {
     if (control.delay && control.delay.action === body.action) await control.delay.wait;
     if (body.action === 'verify') { if (!verified.has(body.token)) throw new Error('Invalid saved proof.'); return {verified:true,report:clone(verified.get(body.token))}; }
     if (body.action === 'verify-many') {
+      if (Buffer.byteLength(JSON.stringify(body))>64*1024) throw new Error('Verification request exceeds 64 KB.');
       if (body.tokens.some(token=>typeof token!=='string' || !token || token.length>6000)) throw new Error('Invalid receipt length.');
       return {results:body.tokens.map(token=>verified.has(token)?{token,verified:true,report:clone(verified.get(token))}:{token,verified:false})};
     }
@@ -263,4 +264,32 @@ test('result parsing preserves text identifiers, numeric zero and trailing blank
   const UI=require('../assets/lessons/excel-formula-fluency/sprint/learning-app.js');
   assert.deepEqual(UI.parseResult('001\t0\t\n002\t7\t\n','array'),[['001','0',''],['002','7','']]);
   assert.equal(UI.parseResult('0','number'),0);assert.equal(UI.parseResult('001','text'),'001');assert.throws(()=>UI.parseResult('1,000','number'),/without units/);
+});
+test('practice validation directs keyboard focus to the missing formula or invalid result without calling the service',async()=>{
+ const h=await harness();try{
+  await openFirst(h);h.find('[data-learning-grade]').dispatchEvent(new h.w.Event('submit',{bubbles:true,cancelable:true}));assert.equal(h.w.document.activeElement,h.find('[data-learning-formula]'));assert.equal(h.find('[data-learning-formula]').getAttribute('aria-invalid'),'true');assert.equal(h.find('[data-learning-formula]').getAttribute('aria-describedby'),'sprint-learning-message');
+  change(h,'[data-learning-formula]','=AVERAGE(Data!B2:B21)');change(h,'[data-learning-result]','1,000');h.find('[data-learning-grade]').dispatchEvent(new h.w.Event('submit',{bubbles:true,cancelable:true}));assert.equal(h.w.document.activeElement,h.find('[data-learning-result]'));assert.equal(h.find('[data-learning-result]').getAttribute('aria-invalid'),'true');assert.equal(h.find('[data-learning-formula]').hasAttribute('aria-invalid'),false);assert.equal(h.calls.filter(call=>call.body?.action==='grade').length,0);
+ }finally{h.close();}
+});
+test('byte-bounded restoration verifies good reports alongside thirty escaped long invalid receipts',async()=>{
+ let state=L.emptyState(),number=0;const corrupt=[];
+ function report(level,variant,correct){const receipt='"'.repeat(5995)+String(++number).padStart(5,'0');corrupt.push(receipt);return{type:'drill',runId:runId(number),drillId:'R'+level+'-A'+variant,skillId:'level-'+level,correct,submissionCorrect:correct,attempts:1,firstAttemptCorrect:correct,hint:'Imported claim',...(correct?{completedAt:at}:{}),receipt};}
+ for(let level=1;level<=10;level++){state=L.applyDrill(state,report(level,1,true),at);state=L.applyDrill(state,report(level,1,false),at);state=L.applyDrill(state,report(level,2,false),at);state.drills['R'+level+'-A1'].submissions={formula:'=AVERAGE(Data!B2:B21)',result:0,resultText:'0'};}
+ const diagnostic={type:'diagnostic',runId:runId(++number),completed:true,score:10,skills:Array.from({length:10},(_,i)=>({skillId:'level-'+(i+1),level:i+1,status:i===0?'correct':'skipped'})),timestamp:at,receipt:'good-placement-proof'};state=L.applyDiagnostic(state,diagnostic);
+ const h=await harness(state,[[diagnostic.receipt,diagnostic]]);try{
+  await ready(()=>h.find('.sprint-learning-report'));assert.match(h.find('.sprint-learning-report').textContent,/10% correct/);assert.match(h.find('#sprint-learning').textContent,/Some saved learning results could not be verified/);
+  const batches=h.calls.filter(call=>call.body?.action==='verify-many');assert.ok(batches.length>1);assert.ok(batches.every(call=>Buffer.byteLength(JSON.stringify(call.body))<=64*1024));const tokens=batches.flatMap(call=>call.body.tokens);assert.equal(tokens.length,31);assert.equal(new Set(tokens).size,31);assert.ok(tokens.includes(diagnostic.receipt));assert.ok(corrupt.every(token=>tokens.includes(token)));assert.equal(h.state().drills['R1-A1'].submissions.resultText,'0');assert.equal(h.state().drills['R1-A1'].receipt,corrupt[1]);
+ }finally{h.close();}
+});
+test('a failed placement retake keeps the earlier report and resumes skipped choices before replacing it with the new check',async()=>{
+ const h=await harness();try{
+  h.find('[data-learning-action="diagnostic"]').click();correctOptions.forEach((choice,index)=>h.find('input[name="learning-q'+(index+1)+'"][value="'+choice+'"]').click());h.find('[data-learning-diagnostic]').dispatchEvent(new h.w.Event('submit',{bubbles:true,cancelable:true}));await ready(()=>h.find('.sprint-learning-report'));assert.equal(h.state().diagnostic.score,100);
+  h.find('[data-learning-action="diagnostic"]').click();assert.equal(h.w.document.querySelectorAll('[data-learning-diagnostic] input:checked').length,0);h.find('input[name="learning-q1"][value="skip"]').click();h.control.failAction='diagnostic';h.find('[data-learning-diagnostic]').dispatchEvent(new h.w.Event('submit',{bubbles:true,cancelable:true}));await ready(()=>h.find('[data-learning-message]').textContent.includes('Cannot reach')&&!h.find('[data-learning-diagnostic] button[type="submit"]').disabled);assert.equal(h.state().diagnostic.score,100);
+  h.find('[data-learning-action="overview"]').click();assert.match(h.find('.sprint-learning-report').textContent,/100% correct/);assert.match(h.find('[data-learning-action="diagnostic"]').textContent,/Continue/);h.find('[data-learning-action="diagnostic"]').click();assert.equal(h.find('input[name="learning-q1"][value="skip"]').checked,true);h.control.failAction=null;h.find('[data-learning-diagnostic]').dispatchEvent(new h.w.Event('submit',{bubbles:true,cancelable:true}));await ready(()=>h.find('.sprint-learning-report'));assert.equal(h.state().diagnostic.score,0);assert.equal(h.w.document.querySelectorAll('.sprint-learning-skill-results strong').length,10);assert.ok(Array.from(h.w.document.querySelectorAll('.sprint-learning-skill-results strong')).every(item=>item.textContent==='Unassessed'));assert.equal(h.find('[data-learning-core]').getAttribute('data-learning-core'),'L1-A1');
+ }finally{h.close();}
+});
+test('cached practice model reviews retain keyboard focus on the model heading without another service request',async()=>{
+ const h=await harness();try{
+  await openFirst(h);await solve(h);h.find('[data-learning-action="solutions"]').focus();h.find('[data-learning-action="solutions"]').click();await ready(()=>h.find('.sprint-solutions h5'));assert.equal(h.w.document.activeElement,h.find('.sprint-solutions h5'));h.find('[data-learning-action="overview"]').click();h.find('.sprint-learning-all-skills [data-learning-drill="R1-A1"]').click();await ready(()=>h.find('[data-learning-grade]'));h.find('[data-learning-action="solutions"]').focus();h.find('[data-learning-action="solutions"]').click();assert.equal(h.w.document.activeElement,h.find('.sprint-solutions h5'));assert.equal(h.calls.filter(call=>call.body?.action==='solutions').length,1);
+ }finally{h.close();}
 });

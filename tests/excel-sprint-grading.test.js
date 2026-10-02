@@ -124,6 +124,84 @@ test('checking an incorrect revision preserves earned completion but reports the
   assert.doesNotMatch(task.hint, /^Correct\./);
 });
 
+test('malformed optional receipts fail instead of silently issuing new first-attempt metrics', async () => {
+  const failed = await call(grade, 'grade', { packageId: 'L1-A1', submissions: tasks('L1-A1', ['t1'], false) });
+  for (const receipt of [false, 0, '', [], {}]) {
+    const result = await call(grade, 'grade', { packageId: 'L1-A1', submissions: tasks('L1-A1', ['t1']), receipt });
+    assert.equal(result.response.status, 403);
+    assert.equal(result.body.receipt, undefined);
+    assert.equal(result.body.completionToken, undefined);
+  }
+  const resumed = await call(grade, 'grade', { packageId: 'L1-A1', submissions: tasks('L1-A1', ['t1']), receipt: failed.body.receipt });
+  assert.equal(resumed.body.tasks[0].attempts, 2);
+  assert.equal(resumed.body.tasks[0].firstAttemptCorrect, false);
+  for (const receipt of [undefined, null]) {
+    const fresh = await call(grade, 'grade', { packageId: 'L1-A1', submissions: tasks('L1-A1', ['t1']), receipt });
+    assert.equal(fresh.response.status, 200);
+    assert.equal(fresh.body.tasks[0].attempts, 1);
+  }
+});
+
+test('receipt verification restores signed historical counters without grading the current browser draft', async () => {
+  const first = await call(grade, 'grade', { packageId: 'L1-A1', submissions: tasks('L1-A1', ['t1'], false) });
+  const partial = await call(grade, 'grade', { packageId: 'L1-A1', receipt: first.body.receipt, submissions: tasks('L1-A1', ['t2']) });
+  const checked = await call(verify, 'verify', { action: 'receipt', packageId: 'L1-A1', receipt: partial.body.receipt });
+  assert.equal(checked.response.status, 200);
+  assert.equal(checked.body.verified, true);
+  assert.equal(checked.body.receipt, partial.body.receipt);
+  assert.equal(checked.body.completed, false);
+  assert.equal(checked.body.score, 25);
+  assert.equal(checked.body.firstAttemptScore, 25);
+  assert.deepEqual(checked.body.tasks.map(task => [task.taskId, task.correct, task.attempts, task.firstAttemptCorrect]), [
+    ['t1', false, 1, false], ['t2', true, 1, true], ['t3', false, 0, null], ['t4', false, 0, null]
+  ]);
+  assert.equal(checked.body.tasks.every(task => task.submissionCorrect === undefined), true);
+  assert.equal(checked.body.completionToken, undefined);
+  assert.equal(/"(?:answer|model|alternatives)"\s*:/.test(JSON.stringify(checked.body)), false);
+  assert.deepEqual((await call(verify, 'verify', { action: 'receipt', packageId: 'L1-A1', receipt: partial.body.receipt })).body, checked.body);
+  const corrected = await call(grade, 'grade', { packageId: 'L1-A1', receipt: checked.body.receipt, submissions: tasks('L1-A1', ['t1']) });
+  assert.equal(corrected.body.tasks[0].attempts, 2);
+  assert.equal(corrected.body.tasks[0].firstAttemptCorrect, false);
+});
+
+test('receipt verification rejects unrelated paths, malformed proofs and unused action fields', async () => {
+  const a = await complete(), b = await complete();
+  const a2 = await call(grade, 'grade', { packageId: 'L1-A2', predecessorToken: a.completionToken, submissions: tasks('L1-A2', ['t1']) });
+  for (const payload of [
+    { action: 'receipt', packageId: 'L1-A2', predecessorToken: b.completionToken, receipt: a2.body.receipt },
+    { action: 'receipt', packageId: 'L1-A2', receipt: a2.body.receipt },
+    { action: 'receipt', packageId: 'L1-A1', receipt: a2.body.receipt },
+    { action: 'receipt', packageId: 'L1-A1', receipt: a.completionToken },
+    { action: 'receipt', packageId: 'L1-A1', receipt: 'corrupted-receipt' },
+    { action: 'receipt', packageId: 'L1-A1', receipt: 'a'.repeat(12001) }
+  ]) assert.equal((await call(verify, 'verify', payload)).response.status, 403);
+  for (const payload of [
+    { action: 'receipt', packageId: 'L1-A1', receipt: a.receipt, tokens: [] },
+    { tokens: [], receipt: a.receipt }, { action: 'other', tokens: [] }, { action: null }
+  ]) assert.equal((await call(verify, 'verify', payload)).response.status, 400);
+  assert.equal((await call(verify, 'verify', { tokens: [a.completionToken] })).response.status, 200);
+  const malformed = shared.readToken(a.receipt, SECRET, 'receipt');
+  malformed.taskStates.t1.attempts = 2;
+  assert.equal((await call(verify, 'verify', { action: 'receipt', packageId: 'L1-A1', receipt: shared.signToken(malformed, SECRET) })).response.status, 403);
+});
+
+test('Expert receipt verification uses the fixed Level 6 prerequisite and keeps core and capstone runs separate', async () => {
+  let predecessorToken;
+  for (const packageId of shared.EXPERT_CORE_IDS) predecessorToken = (await complete(packageId, predecessorToken)).completionToken;
+  const capstone = await call(grade, 'grade', { packageId: 'EX-A1', predecessorToken, submissions: tasks('EX-A1', ['t1'], false) });
+  const checked = await call(verify, 'verify', { action: 'receipt', packageId: 'EX-A1', predecessorToken, receipt: capstone.body.receipt });
+  assert.equal(checked.response.status, 200);
+  assert.equal(checked.body.tasks[0].attempts, 1);
+  assert.equal(checked.body.tasks[0].correct, false);
+  assert.equal(checked.body.receipt, capstone.body.receipt);
+  assert.equal((await call(verify, 'verify', { action: 'receipt', packageId: 'L7-A1', predecessorToken, receipt: capstone.body.receipt })).response.status, 403);
+  const done = await complete('EX-A1', predecessorToken);
+  const completion = await call(verify, 'verify', { action: 'receipt', packageId: 'EX-A1', predecessorToken, receipt: done.receipt });
+  assert.equal(completion.response.status, 200);
+  assert.equal(completion.body.completed, true);
+  assert.equal(completion.body.completionToken, done.completionToken);
+});
+
 test('all fifty packages form a continuous chain including every level boundary', async () => {
   const tokens = [];
   for (const packageId of shared.PACKAGE_IDS) {

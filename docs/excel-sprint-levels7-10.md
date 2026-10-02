@@ -1,6 +1,6 @@
 # Excel Formula Sprint — Levels 7–10
 
-All fifty core assignments are now released. The final twenty packages add 885 fictitious source records, twenty XLSX downloads, eleven supporting CSV tables, eighty required tasks and twenty optional bonuses. Every lesson is under 400 words and includes two documented function signatures, arguments, worked miniature examples, common mistakes and a review of earlier skills.
+All fifty core assignments are now released. The final twenty packages add 885 fictitious source records, twenty XLSX downloads, eleven supporting CSV tables, eighty required tasks and twenty optional bonuses. Every lesson is under 400 words and includes at least two documented function signatures, arguments, worked miniature examples, common mistakes and a review of earlier skills.
 
 | Level | Assignments | Main skills | Required orientation assignment |
 | --- | --- | --- | --- |
@@ -27,7 +27,7 @@ Expert Track v1 still branches from the fixed L6-A5 completion, even when the br
 | expert-track-v1 | Those same 30 core assignments plus EX-A1–A3 |
 | full-path | All 50 core assignments, Levels 1–10; no Expert capstone requirement |
 
-Older award names, claims, completion dates and certificate identities stay stable when a learner later completes the core path. A forty-nine-assignment chain cannot issue the full award. Signed proof verification, proof-file download, shareable link and print/Save as PDF use the existing certificate page. Names are self-reported. Grading checks matching submitted outputs and a syntactically valid formula; it does not execute Excel or verify identity/independent work. Placement guidance and targeted reinforcement are documented in [Placement and practice](excel-sprint-learning.md).
+Older award names, claims, completion dates and certificate identities stay stable when a learner later completes the core path. A forty-nine-assignment chain cannot issue the full award. Signed proof verification, proof-file download, shareable link and print/Save as PDF use the existing certificate page. Names are self-reported. Grading checks matching submitted outputs and basic formula structure; it does not execute Excel or verify identity/independent work. Placement guidance and targeted reinforcement are documented in [Placement and practice](excel-sprint-learning.md).
 
 ## Download production and validation
 

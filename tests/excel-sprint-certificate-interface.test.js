@@ -22,6 +22,29 @@ test('editing a proof while verification is pending cannot display the previous 
  try{w.eval(fs.readFileSync('assets/lessons/excel-formula-fluency/sprint/certificate.js','utf8'));const input=w.document.getElementById('certificate-token');input.value=f.certificateToken;w.document.getElementById('certificate-verify').click();input.value='changed';input.dispatchEvent(new w.Event('input'));resolve(new Response(JSON.stringify({verified:true,certificate:f.certificate}),{status:200}));await new Promise(r=>setImmediate(r));assert.equal(w.document.getElementById('certificate-document').hidden,true);assert.equal(w.document.getElementById('certificate-print').disabled,true);assert.match(w.document.getElementById('certificate-status').textContent,/Proof changed/);
  }finally{w.close();}
 });
+test('an obsolete verification-link copy cannot replace changed-proof feedback or select the new token',async()=>{
+ const f=await fixture();
+ for(const denied of [false,true]){
+  const dom=new JSDOM(fs.readFileSync('excel-sprint-certificate.html','utf8'),{url:'https://sprint.example/excel-sprint-certificate#proof='+f.certificateToken,runScripts:'outside-only'}),w=dom.window;let settle,selected=0;
+  Object.defineProperty(w.navigator,'clipboard',{value:{writeText:()=>new Promise((resolve,reject)=>{settle=()=>denied?reject(new Error('Clipboard denied')):resolve();})}});
+  w.fetch=async()=>new Response(JSON.stringify({verified:true,certificate:f.certificate}),{status:200});
+  try{
+   w.eval(fs.readFileSync('assets/lessons/excel-formula-fluency/sprint/certificate.js','utf8'));await ready(()=>!w.document.getElementById('certificate-document').hidden);
+   w.document.getElementById('certificate-copy').click();const input=w.document.getElementById('certificate-token');input.select=()=>selected++;input.value='new unverified proof';input.dispatchEvent(new w.Event('input'));settle();await new Promise(resolve=>setImmediate(resolve));
+   assert.equal(w.document.getElementById('certificate-status').textContent,'Proof changed. Verify it before printing.');assert.equal(selected,0);assert.equal(w.document.getElementById('certificate-document').hidden,true);
+  }finally{w.close();}
+ }
+});
+test('a JSON proof with no object reports an invalid certificate file without a raw exception',async()=>{
+ for(const text of ['null','[]','"token"']){
+  const dom=new JSDOM(fs.readFileSync('excel-sprint-certificate.html','utf8'),{url:'https://sprint.example/excel-sprint-certificate',runScripts:'outside-only'}),w=dom.window;let calls=0;
+  w.fetch=async()=>{calls++;throw new Error('No request expected');};
+  try{
+   w.eval(fs.readFileSync('assets/lessons/excel-formula-fluency/sprint/certificate.js','utf8'));const input=w.document.getElementById('certificate-file');Object.defineProperty(input,'files',{value:[{size:text.length,text:async()=>text}]});input.dispatchEvent(new w.Event('change'));await ready(()=>w.document.getElementById('certificate-status').className==='certificate-error');
+   assert.equal(w.document.getElementById('certificate-status').textContent,'This file is not a signed Excel Sprint certificate proof.');assert.equal(calls,0);assert.equal(w.document.getElementById('certificate-document').hidden,true);
+  }finally{w.close();}
+ }
+});
 test('certificate endpoints enforce JSON, origin and the existing signing secret',async()=>{
  const issue=(await import('../netlify/functions/excel-sprint-certificate.mjs')).default,verify=(await import('../netlify/functions/excel-sprint-certificate-verify.mjs')).default;
  const request=(url,body,headers={})=>new Request('https://sprint.example'+url,{method:'POST',headers:{'content-type':'application/json',...headers},body:JSON.stringify(body)});

@@ -170,6 +170,9 @@ test('drill retries retain signed first attempts, advance hints and freeze compl
   assert.equal(later.body.firstAttemptCorrect, false);
   assert.equal(later.body.completedAt, corrected.body.completedAt);
   assert.equal(later.body.runId, corrected.body.runId);
+  assert.match(later.body.hint, /revised result does not match/);
+  assert.match(later.body.hint, /earlier correct practice result remains recorded/);
+  assert.doesNotMatch(later.body.hint, /^Correct\./);
   assert.deepEqual((await call({ action: 'verify', token: later.body.receipt })).body.report, later.body);
   assert.deepEqual((await call({ action: 'verify', token: corrected.body.receipt })).body.report, corrected.body);
   const fresh = await call(submission(drillId));

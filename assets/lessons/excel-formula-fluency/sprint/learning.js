@@ -29,7 +29,7 @@
     return copy;
   }
   function diagnosticReport(input) {
-    if (!object(input) || input.type !== 'diagnostic' || !RUN.test(input.runId) || input.completed !== true || !Number.isInteger(input.score) || input.score < 0 || input.score > 100 || !date(input.timestamp) || !string(input.receipt, 60000) || !input.receipt || !Array.isArray(input.skills) || input.skills.length !== 10) fail();
+    if (!object(input) || input.type !== 'diagnostic' || !string(input.runId,36) || !RUN.test(input.runId) || input.completed !== true || !Number.isInteger(input.score) || input.score < 0 || input.score > 100 || !date(input.timestamp) || !string(input.receipt, 60000) || !input.receipt || !Array.isArray(input.skills) || input.skills.length !== 10) fail();
     var seen = new Set();
     var skills = input.skills.map(function (item) {
       if (!object(item) || !SKILL.test(item.skillId) || !Number.isInteger(item.level) || item.skillId !== 'level-' + item.level || seen.has(item.skillId) || ['correct', 'incorrect', 'skipped'].indexOf(item.status) < 0) fail();
@@ -40,7 +40,7 @@
     return { type: 'diagnostic', runId: input.runId, completed: true, score: input.score, skills: skills, timestamp: input.timestamp, receipt: input.receipt };
   }
   function drillReport(input, id) {
-    if (!object(input) || input.type !== 'drill' || !RUN.test(input.runId) || input.drillId !== id || !DRILL.test(id) || input.skillId !== skillFor(id) || typeof input.correct !== 'boolean' || typeof input.submissionCorrect !== 'boolean' || !Number.isInteger(input.attempts) || input.attempts < 1 || input.attempts > 10000 || typeof input.firstAttemptCorrect !== 'boolean' || !string(input.hint, 4000) || !string(input.receipt, 60000) || !input.receipt) fail();
+    if (!object(input) || input.type !== 'drill' || !string(input.runId,36) || !RUN.test(input.runId) || typeof id !== 'string' || input.drillId !== id || !DRILL.test(id) || input.skillId !== skillFor(id) || typeof input.correct !== 'boolean' || typeof input.submissionCorrect !== 'boolean' || !Number.isInteger(input.attempts) || input.attempts < 1 || input.attempts > 10000 || typeof input.firstAttemptCorrect !== 'boolean' || !string(input.hint, 4000) || !string(input.receipt, 60000) || !input.receipt) fail();
     if (input.completedAt !== undefined && !date(input.completedAt) || input.correct && !date(input.completedAt) || !input.correct && input.completedAt !== undefined || input.submissionCorrect && !input.correct) fail();
     var copy = { type: 'drill', runId: input.runId, drillId: id, skillId: input.skillId, correct: input.correct, submissionCorrect: input.submissionCorrect, attempts: input.attempts, firstAttemptCorrect: input.firstAttemptCorrect, hint: input.hint, receipt: input.receipt };
     if (input.completedAt !== undefined) copy.completedAt = input.completedAt;
@@ -51,14 +51,14 @@
     var state = emptyState();
     if (input.diagnostic !== undefined && input.diagnostic !== null) state.diagnostic = diagnosticReport(input.diagnostic);
     if (input.selectedView !== undefined) {
-      if (input.selectedView !== 'overview' && input.selectedView !== 'diagnostic' && !DRILL.test(input.selectedView)) fail();
+      if (typeof input.selectedView !== 'string' || input.selectedView !== 'overview' && input.selectedView !== 'diagnostic' && !DRILL.test(input.selectedView)) fail();
       state.selectedView = input.selectedView;
     }
     if (input.diagnosticAnswers !== undefined) {
       if (!object(input.diagnosticAnswers) || Object.keys(input.diagnosticAnswers).length > 10) fail();
       Object.keys(input.diagnosticAnswers).forEach(function (id) {
         var value = input.diagnosticAnswers[id];
-        if (!/^q(?:[1-9]|10)$/.test(id) || value !== null && !/^[a-d]$/.test(value)) fail();
+        if (!/^q(?:[1-9]|10)$/.test(id) || value !== null && (typeof value !== 'string' || !/^[a-d]$/.test(value))) fail();
         state.diagnosticAnswers[id] = value;
       });
     }
@@ -75,7 +75,7 @@
       if (!object(input.reviews) || Object.keys(input.reviews).length > 10) fail();
       Object.keys(input.reviews).forEach(function (id) {
         var entry = input.reviews[id];
-        if (!SKILL.test(id) || !object(entry) || !Number.isInteger(entry.stage) || entry.stage < 1 || entry.stage > 4 || !date(entry.nextReviewAt) || !DRILL.test(entry.lastDrillId) || skillFor(entry.lastDrillId) !== id || !RUN.test(entry.lastRunId) || !string(entry.lastReceipt, 60000) || !entry.lastReceipt || !date(entry.lastCompletedAt) || Date.parse(entry.nextReviewAt) !== Date.parse(entry.lastCompletedAt) + INTERVALS[entry.stage - 1] * DAY) fail();
+        if (!SKILL.test(id) || !object(entry) || !Number.isInteger(entry.stage) || entry.stage < 1 || entry.stage > 4 || !date(entry.nextReviewAt) || typeof entry.lastDrillId !== 'string' || !DRILL.test(entry.lastDrillId) || skillFor(entry.lastDrillId) !== id || !string(entry.lastRunId,36) || !RUN.test(entry.lastRunId) || !string(entry.lastReceipt, 60000) || !entry.lastReceipt || !date(entry.lastCompletedAt) || Date.parse(entry.nextReviewAt) !== Date.parse(entry.lastCompletedAt) + INTERVALS[entry.stage - 1] * DAY) fail();
         state.reviews[id] = { stage: entry.stage, nextReviewAt: entry.nextReviewAt, lastReceipt: entry.lastReceipt, lastRunId: entry.lastRunId, lastDrillId: entry.lastDrillId, lastCompletedAt: entry.lastCompletedAt };
       });
     }
@@ -110,7 +110,7 @@
     return next;
   }
   function freshRun(state, id) {
-    if (!DRILL.test(id)) fail();
+    if (typeof id !== 'string' || !DRILL.test(id)) fail();
     var next = validateState(state);
     next.drills[id] = { submissions: { formula: '', result: '', resultText: '' } };
     return next;

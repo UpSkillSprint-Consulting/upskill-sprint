@@ -457,7 +457,8 @@
           "title": "Match specifications in two dimensions",
           "formulas": [
             "XMATCH",
-            "INDEX"
+            "INDEX",
+            "IFNA"
           ]
         },
         {

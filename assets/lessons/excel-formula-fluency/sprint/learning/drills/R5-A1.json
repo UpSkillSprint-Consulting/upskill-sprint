@@ -11,8 +11,8 @@
       {
         "name": "DATE",
         "syntax": "=DATE(year, month, day)",
-        "explanation": "year, month and day are numeric components. DATE produces a numeric date serial.",
-        "example": "=DATE(2024,2,29)",
+        "explanation": "year, month and day are numeric components. DATE produces a numeric date serial; the worked example wraps it in TEXT to show ISO text.",
+        "example": "=TEXT(DATE(2024,2,29),\"yyyy-mm-dd\")",
         "result": "2024-02-29"
       },
       {

@@ -33,7 +33,7 @@
         "mistake": "Each call must return one value; mismatched parameters error."
       }
     ],
-    "combine": "Review SORT, UNIQUE, CHOOSECOLS, FILTER, ISNUMBER, ROUND, HSTACK, IF and SUMIFS. Combine at least four functions in the orientation-mean rule. Any equivalent formula is accepted. Numeric zero is measured, sample IDs remain text, and costs for Review pairs are pending. Training statuses do not authorize production release."
+    "combine": "Review SORT, UNIQUE, CHOOSECOLS, FILTER, ISNUMBER, ROUND, HSTACK, IF and SUMIFS. Practice combining at least four functions in the orientation-mean rule. Any equivalent formula is accepted. Numeric zero is measured, sample IDs remain text, and costs for Review pairs are pending. Training statuses do not authorize production release."
   },
   "orientationReshape": true,
   "tasks": [

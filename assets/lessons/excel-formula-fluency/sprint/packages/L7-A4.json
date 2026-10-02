@@ -5,7 +5,8 @@
   "title": "Match specifications in two dimensions",
   "formulas": [
     "XMATCH",
-    "INDEX"
+    "INDEX",
+    "IFNA"
   ],
   "minutes": 65,
   "scenario": "Dorlavi Inspection has 36 fictitious Charpy records and a grade-by-orientation Matrix. A blank or unlisted grade/orientation returns Missing. The matrix limits are training assumptions; a measured energy at or above its unique limit is Pass.",
@@ -31,9 +32,19 @@
         "result": 11,
         "useCase": "Read a two-dimensional training matrix.",
         "mistake": "Worksheet row numbers differ from positions within the array."
+      },
+      {
+        "name": "IFNA",
+        "purpose": "Handle an unavailable exact match.",
+        "syntax": "=IFNA(value, value_if_na)",
+        "arguments": "value is the expression checked for #N/A; value_if_na is the result to return only for that error.",
+        "example": "=IFNA(XMATCH(\"Absent\",{\"A\",\"B\"},0),\"Missing\")",
+        "result": "Missing",
+        "useCase": "Label an absent grade or orientation without hiding other formula errors.",
+        "mistake": "Unlike IFERROR, IFNA handles only #N/A; errors such as #REF! still need correction."
       }
     ],
-    "combine": "Review IFNA, IF and COUNTIFS. Place two exact XMATCH positions inside INDEX. Check energy availability before comparing; a missing measurement must remain Missing. Any valid formula is accepted."
+    "combine": "IFNA labels an unavailable exact match while leaving other formula errors visible. Review IF and COUNTIFS. Place two exact XMATCH positions inside INDEX. Check energy availability before comparing; a missing measurement must remain Missing. Any valid formula is accepted."
   },
   "tasks": [
     {

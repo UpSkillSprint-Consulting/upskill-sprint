@@ -68,7 +68,7 @@ function drillReport(proof, receipt) {
   return {
     type: 'drill', runId: proof.runId, drillId: proof.drillId, skillId: key.skillId, correct: proof.correct, submissionCorrect: proof.submissionCorrect,
     attempts: proof.attempts, firstAttemptCorrect: proof.firstAttemptCorrect,
-    hint: proof.correct ? 'Correct. This practice drill is complete.' : key.task.hints?.[Math.min(proof.attempts, 3) - 1] || fallback[Math.min(proof.attempts, 3) - 1],
+    hint: proof.correct ? proof.submissionCorrect ? 'Correct. This practice drill is complete.' : 'The revised result does not match. Your earlier correct practice result remains recorded.' : key.task.hints?.[Math.min(proof.attempts, 3) - 1] || fallback[Math.min(proof.attempts, 3) - 1],
     ...(proof.correct ? { completedAt: proof.completedAt } : {}), receipt
   };
 }

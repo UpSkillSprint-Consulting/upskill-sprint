@@ -25,11 +25,11 @@
  tokenInput.addEventListener('input',function(){clear();report('Proof changed. Verify it before printing.');});
  fileInput.addEventListener('change',async function(){
   clear();var current=serial,file=fileInput.files[0];if(!file)return;
-  try{if(file.size>20000)throw new Error('Choose a signed certificate JSON file smaller than 20 KB.');var proof=JSON.parse(await file.text());if(current!==serial)return;if(proof.type!=='excel-sprint-certificate'||proof.version!==1||typeof proof.certificateToken!=='string'||proof.certificateToken.length>10000)throw new Error('This file is not a signed Excel Sprint certificate proof.');tokenInput.value=proof.certificateToken;await verify();}
+  try{if(file.size>20000)throw new Error('Choose a signed certificate JSON file smaller than 20 KB.');var proof=JSON.parse(await file.text());if(current!==serial)return;if(!proof||typeof proof!=='object'||Array.isArray(proof)||proof.type!=='excel-sprint-certificate'||proof.version!==1||typeof proof.certificateToken!=='string'||proof.certificateToken.length>10000)throw new Error('This file is not a signed Excel Sprint certificate proof.');tokenInput.value=proof.certificateToken;await verify();}
   catch(error){if(current===serial)report(error instanceof SyntaxError?'The selected file is not valid JSON.':error.message,true);}
  });
  print.addEventListener('click',function(){if(verifiedToken&&!card.hidden)window.print();});
- copy.addEventListener('click',async function(){if(!verifiedToken)return;var link=location.origin+location.pathname+'#proof='+encodeURIComponent(verifiedToken);try{await navigator.clipboard.writeText(link);report('Verification link copied. It contains the learner name in the signed proof.');}catch(_){tokenInput.focus();tokenInput.select();report('Clipboard is unavailable. Copy the selected token and share it with this verification page.');}});
+ copy.addEventListener('click',async function(){if(!verifiedToken)return;var current=serial,token=verifiedToken,link=location.origin+location.pathname+'#proof='+encodeURIComponent(token);try{await navigator.clipboard.writeText(link);if(current!==serial||token!==verifiedToken)return;report('Verification link copied. It contains the learner name in the signed proof.');}catch(_){if(current!==serial||token!==verifiedToken)return;tokenInput.focus();tokenInput.select();report('Clipboard is unavailable. Copy the selected token and share it with this verification page.');}});
  function fromHash(){clear();var params=new URLSearchParams(location.hash.slice(1)),proof=params.get('proof');if(proof){tokenInput.value=proof;verify();}else{tokenInput.value='';report('No certificate verified yet.');}}
  window.addEventListener('hashchange',fromHash);fromHash();
 })();

@@ -1,4 +1,4 @@
-"""Read-only OOXML audit of public source values, blank learner ranges and leaks."""
+"""Read-only OOXML audit of public data, student contracts, blank ranges and leaks."""
 import json,pathlib,zipfile,xml.etree.ElementTree as E,posixpath,re
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 BASE=ROOT/'assets/lessons/excel-formula-fluency/sprint'
@@ -26,7 +26,7 @@ def read_workbook(path):
    cells[c.attrib['r']]=value
   sheets[name]=cells
  return sheets,hidden,formulas
-errors=[];source_cells=answer_cells=workbooks=sheet_count=0
+errors=[];source_cells=answer_cells=workbooks=sheet_count=instruction_contracts=0
 paths=list((BASE/'packages').glob('*.json'))+list((BASE/'learning/drills').glob('*.json'))
 for p in sorted(paths):
  d=json.loads(p.read_text());id=d['id'];path=ROOT/d['dataset']['xlsx'].lstrip('/');sheets,hidden,formulas=read_workbook(path);workbooks+=1;sheet_count+=len(sheets)
@@ -44,7 +44,16 @@ for p in sorted(paths):
  for parameter in d.get('parameters',[]) or d['dataset'].get('parameters',[]):
   if sheets.get('Parameters',{}).get(parameter['cell'],'')!=parameter['value']:errors.append([id,'parameter mismatch',parameter['cell']])
  tasks=d.get('tasks',[])+([d['bonus']] if d.get('bonus') else [])+([d['task']] if d.get('task') else [])
+ instruction_text='\n'.join(str(v) for v in sheets.get('Instructions',{}).values())
+ if d['scenario'] not in instruction_text:errors.append([id,'missing workbook scenario'])
+ else:instruction_contracts+=1
+ meanings='\n'.join(str(v) for name in ['Instructions','Dictionary'] for v in sheets.get(name,{}).values())
+ for c in d['dataset']['columns']:
+  if c['description'] not in meanings:errors.append([id,'missing column meaning',c['name']])
+ occupied=set()
  for t in tasks:
+  if t['prompt'] not in instruction_text or t['output'] not in instruction_text:errors.append([id,t['id'],'workbook task contract differs from public task'])
+  else:instruction_contracts+=1
   m=re.fullmatch(r'Answers!([A-Z]+)(\d+)(?::([A-Z]+)(\d+))?',t['output'])
   if not m:errors.append([id,t['id'],'invalid output range']);continue
   def number(s):
@@ -53,8 +62,11 @@ for p in sorted(paths):
    return n
   for row in range(int(m[2]),int(m[4] or m[2])+1):
    for col in range(number(m[1]),number(m[3] or m[1])+1):
-    if sheets.get('Answers',{}).get(column(col)+str(row),'')!='':errors.append([id,t['id'],'nonempty learner answer'])
+    address=column(col)+str(row)
+    if address in occupied:errors.append([id,t['id'],'overlapping learner output range'])
+    occupied.add(address)
+    if sheets.get('Answers',{}).get(address,'')!='':errors.append([id,t['id'],'nonempty learner answer'])
     answer_cells+=1
-report={'workbooks':workbooks,'sheets':sheet_count,'source_cells':source_cells,'empty_answer_cells':answer_cells,'errors':errors}
+report={'workbooks':workbooks,'sheets':sheet_count,'source_cells':source_cells,'empty_answer_cells':answer_cells,'instruction_contracts':instruction_contracts,'errors':errors}
 print(json.dumps(report))
 if errors:raise SystemExit(1)

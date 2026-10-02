@@ -8886,7 +8886,7 @@
       ],
       "alternatives": [],
       "id": "bonus",
-      "prompt": "Review COUNTIFS: count raw lines with returns strictly greater than sold units.",
+      "prompt": "Review SUMPRODUCT: count raw lines with returns strictly greater than sold units by comparing the two quantities within each row.",
       "output": "Answers!B23"
     }
   },

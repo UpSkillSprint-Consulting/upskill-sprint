@@ -1,7 +1,7 @@
-import { handleRequest, verifyProgress } from './_shared/excel-sprint-grading.mjs';
+import { handleRequest, verifyAction } from './_shared/excel-sprint-grading.mjs';
 
 export default async function verify(request) {
-  return handleRequest(request, ['tokens', 'expertTokens'], verifyProgress);
+  return handleRequest(request, ['tokens', 'expertTokens', 'action', 'packageId', 'receipt', 'predecessorToken'], verifyAction);
 }
 
 export const config = {

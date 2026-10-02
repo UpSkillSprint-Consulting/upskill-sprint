@@ -111,8 +111,11 @@ export function readToken(token, secret, type) {
 }
 
 function validTaskState(state) {
-  return isRecord(state) && validInteger(state.attempts) && typeof state.solved === 'boolean' &&
-    (state.attempts === 0 ? state.firstAttemptCorrect === null && !state.solved : typeof state.firstAttemptCorrect === 'boolean');
+  if (!isRecord(state) || !validInteger(state.attempts) || typeof state.solved !== 'boolean') return false;
+  if (state.attempts === 0) return state.firstAttemptCorrect === null && !state.solved;
+  if (typeof state.firstAttemptCorrect !== 'boolean') return false;
+  if (!state.solved) return state.firstAttemptCorrect === false;
+  return state.firstAttemptCorrect ? state.attempts === 1 : state.attempts >= 2;
 }
 
 function validateReceipt(proof) {
@@ -239,7 +242,7 @@ export function gradeSubmission(payload, secret) {
     seen.add(entry.taskId);
   }
   const previous = predecessorFor(packageId, predecessorToken, secret);
-  const proof = receipt ? readToken(receipt, secret, 'receipt') : newReceipt(packageId, key, previous);
+  const proof = receipt === undefined || receipt === null ? newReceipt(packageId, key, previous) : readToken(receipt, secret, 'receipt');
   if (proof.packageId !== packageId || proof.predecessorHash !== (previous?.hash || null) || previous && proof.chainId !== previous.chainId) fail(403, 'The progress proof belongs to another assignment or learning path.');
   if (proof.completionToken) {
     const completed = readToken(proof.completionToken, secret, 'completion');
@@ -300,6 +303,39 @@ export function verifyProgress(payload, secret) {
   }
   return { verified: true, curriculumVersion: CURRICULUM_VERSION, completions, nextPackageId: PACKAGE_IDS[completions.length] || null,
     expertCompletions, nextExpertPackageId: completions.length >= EXPERT_CORE_IDS.length ? EXPERT_IDS[expertCompletions.length] || null : null };
+}
+
+export function verifyReceipt(payload, secret) {
+  const key = packageKey(payload.packageId);
+  const previous = predecessorFor(payload.packageId, payload.predecessorToken, secret);
+  const proof = readToken(payload.receipt, secret, 'receipt');
+  if (proof.packageId !== payload.packageId || proof.predecessorHash !== (previous?.hash || null) ||
+      previous && proof.chainId !== previous.chainId) fail(403, 'The progress proof belongs to another assignment or learning path.');
+  const completed = key.tasks.every(task => proof.taskStates[task.id].solved);
+  if (completed !== !!proof.completionToken) fail(403, 'The progress proof is invalid.');
+  if (proof.completionToken) {
+    const completion = readToken(proof.completionToken, secret, 'completion');
+    if (completion.packageId !== proof.packageId || completion.chainId !== proof.chainId || completion.predecessorHash !== proof.predecessorHash ||
+        key.tasks.some(task => completion.attempts[task.id] !== proof.taskStates[task.id].attempts || completion.firstAttemptCorrect[task.id] !== proof.taskStates[task.id].firstAttemptCorrect)) {
+      fail(403, 'The progress proof is invalid.');
+    }
+  }
+  // These are authenticated historical attempts. A receipt does not attest to
+  // the formula/result draft currently stored beside it in the browser.
+  return {
+    verified: true, packageId: payload.packageId, curriculumVersion: CURRICULUM_VERSION,
+    score: Math.round(key.tasks.filter(task => proof.taskStates[task.id].solved).length / key.tasks.length * 100),
+    firstAttemptScore: Math.round(key.tasks.filter(task => proof.taskStates[task.id].firstAttemptCorrect === true).length / key.tasks.length * 100),
+    completed, tasks: key.tasks.map(task => taskResponse(task, proof.taskStates[task.id])),
+    ...(key.bonus ? { bonus: taskResponse(key.bonus, proof.bonusState) } : {}), receipt: payload.receipt,
+    ...(proof.completionToken ? { completionToken: proof.completionToken } : {})
+  };
+}
+
+export function verifyAction(payload, secret) {
+  const fields = payload.action === undefined ? ['tokens', 'expertTokens'] : ['action', 'packageId', 'receipt', 'predecessorToken'];
+  if (Object.keys(payload).some(field => !fields.includes(field)) || payload.action !== undefined && payload.action !== 'receipt') fail(400, 'Invalid verification request fields or action.');
+  return payload.action === 'receipt' ? verifyReceipt(payload, secret) : verifyProgress(payload, secret);
 }
 
 export function packageSolutions(payload, secret) {
