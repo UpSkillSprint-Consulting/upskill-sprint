@@ -22,6 +22,12 @@ Public packages and downloads contain only scenarios, mini-lessons, task instruc
 
 All twenty independently calculated practice outputs pass local grading. The calculations use only public rows and task contracts. Exported XLSX readback verifies all 1,281 source cells, preserved text/whitespace/numeric zero, and empty learner output ranges. All sixty rendered workbook sheets were visually reviewed. Workbook fingerprints and byte hashes pass the portable generator.
 
-The full site build and 122 search/catalog checks pass. Focused and existing Sprint checks cover private grading, signature boundaries, core/Expert compatibility, diagnostic skip handling, first-attempt preservation, draft export/import, model gating, malformed records, review intervals, anchor verification, thirty-one-receipt batch restoration, and import/reset races. An independent engineering review found no remaining blocking defects.
+The full site build, 122 search/catalog checks and all 106 Sprint tests pass. Focused and existing Sprint checks cover private grading, signature boundaries, core/Expert compatibility, diagnostic skip handling, first-attempt preservation, draft export/import, model gating, malformed records, review intervals, anchor verification, thirty-one-receipt batch restoration, and import/reset races. An independent engineering review found no remaining blocking defects.
 
-Preview/browser results and final CI status will be recorded after the updated draft deploy is ready. Native Excel execution is not claimed.
+Live verification on draft PR #234 exercised all twenty drills with independently calculated outputs from the public datasets. An intentionally incorrect Level 1 result produced a hint; its corrected retry completed after two attempts and scheduled the first review. A mixed diagnostic produced 80%, recommended the missed skill and left the skipped skill unassessed. The existing ten core completions, next L3-A1 link and learning results were restored after a reload. Practice did not unlock core work or certificates. Model comparisons became available only after successful practice.
+
+The browser review exposed a focusout refresh that could replace a pressed button before its click. The fix preserves focused interactive controls; regression tests cover mouse press/release and explicit verification retries. A fresh live run on deploy `6abeff037c114c0008af40d5` confirmed single-click submission and preserved the original review date after early practice. This deploy is ready at commit `8affcb2a2a13eb9f92310843ab5beb6615cf0fa9`.
+
+Cloud-browser download events timed out for both an XLSX link and the existing backup export, so live file retrieval is unverified. All workbook contents and backup round trips were checked locally. Native Excel execution is not claimed.
+
+![Placement and focused practice preview](excel-sprint-learning-preview-20261002.jpg)
