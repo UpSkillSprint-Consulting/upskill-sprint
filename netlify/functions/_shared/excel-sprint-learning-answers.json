@@ -1,0 +1,840 @@
+{
+  "version": 1,
+  "diagnostic": {
+    "id": "placement-v1",
+    "questions": [
+      {
+        "id": "q1",
+        "skillId": "level-1",
+        "correctOption": "c",
+        "explanation": "AVERAGE includes numeric zero and ignores a genuinely empty cell: (10+0+20)/3 = 10."
+      },
+      {
+        "id": "q2",
+        "skillId": "level-2",
+        "correctOption": "a",
+        "explanation": "SUMIFS applies both criteria to each row and sums the matching costs. Adding separate conditional sums includes unwanted rows and can double-count."
+      },
+      {
+        "id": "q3",
+        "skillId": "level-3",
+        "correctOption": "d",
+        "explanation": "A first-match or last-match lookup hides duplicate keys. Count matching keys before selecting a value."
+      },
+      {
+        "id": "q4",
+        "skillId": "level-4",
+        "correctOption": "b",
+        "explanation": "CLEAN removes the nonprinting line break, TRIM removes excess ordinary spaces, and UPPER standardizes letters."
+      },
+      {
+        "id": "q5",
+        "skillId": "level-5",
+        "correctOption": "c",
+        "explanation": "For a shift shorter than one day, MOD(end-start,1)*24 returns eight hours. The assumption is essential because MOD discards whole days."
+      },
+      {
+        "id": "q6",
+        "skillId": "level-6",
+        "correctOption": "a",
+        "explanation": "An exception report requested at record level retains every matching row. Deduplicating or averaging would change the report grain."
+      },
+      {
+        "id": "q7",
+        "skillId": "level-7",
+        "correctOption": "d",
+        "explanation": "Pooled yield is 100*(90+50)/(100+1000), rounded to 12.73. An average of the batch percentages weights both batches equally."
+      },
+      {
+        "id": "q8",
+        "skillId": "level-8",
+        "correctOption": "b",
+        "explanation": "LET names intermediate values within one formula, improving readability and allowing reuse. Names do not remove validation requirements."
+      },
+      {
+        "id": "q9",
+        "skillId": "level-9",
+        "correctOption": "c",
+        "explanation": "Use the same complete-pair mask for both arrays. This preserves row alignment, retains numeric zeros and excludes missing measurements."
+      },
+      {
+        "id": "q10",
+        "skillId": "level-10",
+        "correctOption": "a",
+        "explanation": "The missing-input rule has precedence. Evaluate completeness first, then apply the numeric acceptance comparison. These are fictitious training rules."
+      }
+    ]
+  },
+  "drills": {
+    "R1-A1": {
+      "version": 1,
+      "skillId": "level-1",
+      "task": {
+        "id": "t1",
+        "answer": 28.21,
+        "tolerance": 0.000001,
+        "model": "=ROUND(AVERAGE(Data!B2:B21),2)",
+        "alternatives": [
+          "=ROUND(SUM(Data!B2:B21)/COUNT(Data!B2:B21),2)"
+        ],
+        "hints": [
+          "Include the measured zero but exclude the genuinely empty cell.",
+          "Use AVERAGE across B2:B21, then round once.",
+          "=ROUND(AVERAGE(____),2)"
+        ]
+      }
+    },
+    "R2-A1": {
+      "version": 1,
+      "skillId": "level-2",
+      "task": {
+        "id": "t1",
+        "answer": 216,
+        "tolerance": 0.000001,
+        "model": "=SUMIFS(Data!D2:D21,Data!B2:B21,\"Day\",Data!C2:C21,\"Repair\")",
+        "alternatives": [
+          "=SUMPRODUCT(--(Data!B2:B21=\"Day\"),--(Data!C2:C21=\"Repair\"),N(Data!D2:D21))"
+        ],
+        "hints": [
+          "Both criteria must match the same event.",
+          "Use SUMIFS with the downtime column and two aligned criteria ranges.",
+          "=SUMIFS(____,Data!B2:B21,\"Day\",____,\"Repair\")"
+        ]
+      }
+    },
+    "R3-A1": {
+      "version": 1,
+      "skillId": "level-3",
+      "task": {
+        "id": "t1",
+        "answer": 0,
+        "tolerance": 0.000001,
+        "model": "=XLOOKUP(\"LK1-014\",Data!A2:A21,Data!C2:C21,\"Missing\",0)",
+        "alternatives": [
+          "=IFNA(INDEX(Data!C2:C21,MATCH(\"LK1-014\",Data!A2:A21,0)),\"Missing\")"
+        ],
+        "hints": [
+          "Match the complete product code exactly; an absent code differs from a zero allowance.",
+          "Use exact XLOOKUP with an explicit Missing fallback.",
+          "=XLOOKUP(____,Data!A2:A21,Data!C2:C21,\"Missing\",0)"
+        ]
+      }
+    },
+    "R4-A1": {
+      "version": 1,
+      "skillId": "level-4",
+      "task": {
+        "id": "t1",
+        "answer": [
+          [
+            "QA1-00"
+          ],
+          [
+            "QA1- 1"
+          ],
+          [
+            "Missing"
+          ],
+          [
+            "QA1-03"
+          ],
+          [
+            "Missing"
+          ],
+          [
+            "QA1-5"
+          ],
+          [
+            "0"
+          ],
+          [
+            "QA1- 0"
+          ],
+          [
+            "QA1-1"
+          ],
+          [
+            "QA1-02"
+          ],
+          [
+            "QA1- 3"
+          ],
+          [
+            "QA1-4"
+          ],
+          [
+            "QA1-05"
+          ],
+          [
+            "QA1- 6"
+          ],
+          [
+            "QA1-0"
+          ],
+          [
+            "QA1-01"
+          ],
+          [
+            "QA1- 2"
+          ],
+          [
+            "QA1-3"
+          ],
+          [
+            "QA1-04"
+          ],
+          [
+            "QA1- 5"
+          ]
+        ],
+        "tolerance": 0.000001,
+        "model": "=IF(TRIM(CLEAN(Data!B2))=\"\",\"Missing\",UPPER(TRIM(CLEAN(Data!B2)))) [fill down through Answers!B21]",
+        "alternatives": [
+          "=LET(t,UPPER(TRIM(CLEAN(Data!B2))),IF(t=\"\",\"Missing\",t)) [fill down through Answers!B21]"
+        ],
+        "hints": [
+          "Space-only codes are missing, but the literal text 0 is valid.",
+          "Apply CLEAN, TRIM and UPPER before the empty-code decision.",
+          "=IF(TRIM(CLEAN(____))=\"\",\"Missing\",UPPER(TRIM(CLEAN(____))))"
+        ]
+      }
+    },
+    "R5-A1": {
+      "version": 1,
+      "skillId": "level-5",
+      "task": {
+        "id": "t1",
+        "answer": [
+          [
+            "2028-01-02"
+          ],
+          [
+            "2028-02-29"
+          ],
+          [
+            "2028-03-08"
+          ],
+          [
+            "2028-04-11"
+          ],
+          [
+            "2028-01-14"
+          ],
+          [
+            "2028-02-17"
+          ],
+          [
+            "2028-03-20"
+          ],
+          [
+            "2028-04-23"
+          ],
+          [
+            "2028-01-26"
+          ],
+          [
+            "2028-02-02"
+          ],
+          [
+            "2028-03-05"
+          ],
+          [
+            "2028-04-08"
+          ],
+          [
+            "2028-01-11"
+          ],
+          [
+            "2028-02-14"
+          ],
+          [
+            "2028-03-17"
+          ],
+          [
+            "2028-04-20"
+          ],
+          [
+            "2028-01-23"
+          ],
+          [
+            "2028-02-26"
+          ],
+          [
+            "2028-03-02"
+          ],
+          [
+            "2028-04-05"
+          ]
+        ],
+        "tolerance": 0.000001,
+        "model": "=TEXT(DATE(Data!B2,Data!C2,Data!D2),\"yyyy-mm-dd\") [fill down through Answers!B21]",
+        "alternatives": [
+          "=TEXT(DATE(Data!B2,Data!C2,1)+Data!D2-1,\"yyyy-mm-dd\") [fill down through Answers!B21]"
+        ],
+        "hints": [
+          "Keep the leap-day row valid and format all labels with four-digit years.",
+          "Use DATE for components, then TEXT for ISO formatting.",
+          "=TEXT(DATE(____,Data!C2,____),\"yyyy-mm-dd\")"
+        ]
+      }
+    },
+    "R6-A1": {
+      "version": 1,
+      "skillId": "level-6",
+      "task": {
+        "id": "t1",
+        "answer": [
+          [
+            "FL1-001"
+          ],
+          [
+            "FL1-002"
+          ],
+          [
+            "FL1-005"
+          ],
+          [
+            "FL1-011"
+          ],
+          [
+            "FL1-013"
+          ],
+          [
+            "FL1-016"
+          ],
+          [
+            "FL1-017"
+          ],
+          [
+            "FL1-020"
+          ]
+        ],
+        "tolerance": 0.000001,
+        "model": "=FILTER(Data!A2:A21,ISNUMBER(Data!C2:C21)*(Data!C2:C21<12),\"None\")",
+        "alternatives": [
+          "=FILTER(Data!A2:A21,(Data!C2:C21<>\"\")*(Data!C2:C21<12),\"None\")"
+        ],
+        "hints": [
+          "A blank measurement cannot be reported as a measured zero; equality at 12 is not below the limit.",
+          "Combine ISNUMBER with the strict comparison in FILTER.",
+          "=FILTER(Data!A2:A21,ISNUMBER(____)*(____<12),\"None\")"
+        ]
+      }
+    },
+    "R7-A1": {
+      "version": 1,
+      "skillId": "level-7",
+      "task": {
+        "id": "t1",
+        "answer": 95.64,
+        "tolerance": 0.000001,
+        "model": "=ROUND(100*SUMPRODUCT(--(Data!B2:B21=\"Day\"),Data!D2:D21)/SUMPRODUCT(--(Data!B2:B21=\"Day\"),Data!C2:C21),2)",
+        "alternatives": [
+          "=ROUND(100*SUMIFS(Data!D2:D21,Data!B2:B21,\"Day\")/SUMIFS(Data!C2:C21,Data!B2:B21,\"Day\"),2)"
+        ],
+        "hints": [
+          "The numerator and denominator must include the same Day batches.",
+          "Use a Day mask in two SUMPRODUCT totals and divide the totals.",
+          "=ROUND(100*SUMPRODUCT(____,Data!D2:D21)/SUMPRODUCT(____,Data!C2:C21),2)"
+        ]
+      }
+    },
+    "R8-A1": {
+      "version": 1,
+      "skillId": "level-8",
+      "task": {
+        "id": "t1",
+        "answer": 0.457,
+        "tolerance": 0.000001,
+        "model": "=LET(sales,SUM(Data!B2:B21),cost,SUM(Data!C2:C21),IF(sales=0,\"Missing\",ROUND((sales-cost)/sales,3)))",
+        "alternatives": [
+          "=LET(totalSales,SUM(Data!B2:B21),totalCost,SUM(Data!C2:C21),IF(totalSales<>0,ROUND(1-totalCost/totalSales,3),\"Missing\"))"
+        ],
+        "hints": [
+          "Divide the difference of totals by total sales; do not average row margins.",
+          "Name sales and cost with LET, then guard the sales denominator.",
+          "=LET(sales,____,cost,____,IF(sales=0,\"Missing\",ROUND((sales-cost)/sales,3)))"
+        ]
+      }
+    },
+    "R9-A1": {
+      "version": 1,
+      "skillId": "level-9",
+      "task": {
+        "id": "t1",
+        "answer": 11.918,
+        "tolerance": 0.000001,
+        "model": "=ROUND(STDEV.S(Data!B2:B21),3)",
+        "alternatives": [
+          "=ROUND(SQRT(DEVSQ(Data!B2:B21)/(COUNT(Data!B2:B21)-1)),3)"
+        ],
+        "hints": [
+          "A sample statistic uses n−1 and retains numeric zero.",
+          "Use STDEV.S rather than STDEV.P, followed by ROUND.",
+          "=ROUND(STDEV.S(____),3)"
+        ]
+      }
+    },
+    "R10-A1": {
+      "version": 1,
+      "skillId": "level-10",
+      "task": {
+        "id": "t1",
+        "answer": [
+          [
+            53.5
+          ],
+          [
+            130.82
+          ],
+          [
+            "Missing"
+          ],
+          [
+            55.59
+          ],
+          [
+            0
+          ],
+          [
+            68.88
+          ],
+          [
+            -24.96
+          ],
+          [
+            "Missing"
+          ],
+          [
+            89.54
+          ],
+          [
+            0
+          ],
+          [
+            50.04
+          ],
+          [
+            42.78
+          ],
+          [
+            95.68
+          ],
+          [
+            69.24
+          ],
+          [
+            365.04
+          ],
+          [
+            61.67
+          ],
+          [
+            59.8
+          ],
+          [
+            84.76
+          ],
+          [
+            54.84
+          ],
+          [
+            285.6
+          ]
+        ],
+        "tolerance": 0.000001,
+        "model": "=LET(q,Data!B2,p,Data!C2,IF(AND(ISNUMBER(Data!B2),ISNUMBER(Data!C2)),ROUND(q*p,2),\"Missing\")) [fill down through Answers!B21]",
+        "alternatives": [
+          "=IF(AND(ISNUMBER(Data!B2),ISNUMBER(Data!C2)),ROUND(PRODUCT(Data!B2,Data!C2),2),\"Missing\") [fill down through Answers!B21]"
+        ],
+        "hints": [
+          "Validate both original source cells before multiplying; zero and negative quantities remain numeric.",
+          "Combine LET, ISNUMBER, AND, IF and ROUND; apply type checks directly to the original cells.",
+          "=LET(q,Data!B2,p,Data!C2,IF(AND(____,____),ROUND(q*p,2),\"Missing\"))"
+        ]
+      }
+    },
+    "R1-A2": {
+      "version": 1,
+      "skillId": "level-1",
+      "task": {
+        "id": "t1",
+        "answer": 24.26,
+        "tolerance": 0.000001,
+        "model": "=ROUND(AVERAGE(Data!B2:B21),2)",
+        "alternatives": [
+          "=ROUND(SUM(Data!B2:B21)/COUNT(Data!B2:B21),2)"
+        ],
+        "hints": [
+          "Include the measured zero but exclude the genuinely empty cell.",
+          "Use AVERAGE across B2:B21, then round once.",
+          "=ROUND(AVERAGE(____),2)"
+        ]
+      }
+    },
+    "R2-A2": {
+      "version": 1,
+      "skillId": "level-2",
+      "task": {
+        "id": "t1",
+        "answer": 249,
+        "tolerance": 0.000001,
+        "model": "=SUMIFS(Data!D2:D21,Data!B2:B21,\"Day\",Data!C2:C21,\"Repair\")",
+        "alternatives": [
+          "=SUMPRODUCT(--(Data!B2:B21=\"Day\"),--(Data!C2:C21=\"Repair\"),N(Data!D2:D21))"
+        ],
+        "hints": [
+          "Both criteria must match the same event.",
+          "Use SUMIFS with the downtime column and two aligned criteria ranges.",
+          "=SUMIFS(____,Data!B2:B21,\"Day\",____,\"Repair\")"
+        ]
+      }
+    },
+    "R3-A2": {
+      "version": 1,
+      "skillId": "level-3",
+      "task": {
+        "id": "t1",
+        "answer": "Missing",
+        "tolerance": 0.000001,
+        "model": "=XLOOKUP(\"LK2-999\",Data!A2:A21,Data!C2:C21,\"Missing\",0)",
+        "alternatives": [
+          "=IFNA(INDEX(Data!C2:C21,MATCH(\"LK2-999\",Data!A2:A21,0)),\"Missing\")"
+        ],
+        "hints": [
+          "Match the complete product code exactly; an absent code differs from a zero allowance.",
+          "Use exact XLOOKUP with an explicit Missing fallback.",
+          "=XLOOKUP(____,Data!A2:A21,Data!C2:C21,\"Missing\",0)"
+        ]
+      }
+    },
+    "R4-A2": {
+      "version": 1,
+      "skillId": "level-4",
+      "task": {
+        "id": "t1",
+        "answer": [
+          [
+            "QA2-00"
+          ],
+          [
+            "QA2- 1"
+          ],
+          [
+            "Missing"
+          ],
+          [
+            "QA2-03"
+          ],
+          [
+            "Missing"
+          ],
+          [
+            "QA2-5"
+          ],
+          [
+            "0"
+          ],
+          [
+            "QA2- 0"
+          ],
+          [
+            "QA2-1"
+          ],
+          [
+            "QA2-02"
+          ],
+          [
+            "QA2- 3"
+          ],
+          [
+            "QA2-4"
+          ],
+          [
+            "QA2-05"
+          ],
+          [
+            "QA2- 6"
+          ],
+          [
+            "QA2-0"
+          ],
+          [
+            "QA2-01"
+          ],
+          [
+            "QA2- 2"
+          ],
+          [
+            "QA2-3"
+          ],
+          [
+            "QA2-04"
+          ],
+          [
+            "QA2- 5"
+          ]
+        ],
+        "tolerance": 0.000001,
+        "model": "=IF(TRIM(CLEAN(Data!B2))=\"\",\"Missing\",UPPER(TRIM(CLEAN(Data!B2)))) [fill down through Answers!B21]",
+        "alternatives": [
+          "=LET(t,UPPER(TRIM(CLEAN(Data!B2))),IF(t=\"\",\"Missing\",t)) [fill down through Answers!B21]"
+        ],
+        "hints": [
+          "Space-only codes are missing, but the literal text 0 is valid.",
+          "Apply CLEAN, TRIM and UPPER before the empty-code decision.",
+          "=IF(TRIM(CLEAN(____))=\"\",\"Missing\",UPPER(TRIM(CLEAN(____))))"
+        ]
+      }
+    },
+    "R5-A2": {
+      "version": 1,
+      "skillId": "level-5",
+      "task": {
+        "id": "t1",
+        "answer": [
+          [
+            "2028-01-03"
+          ],
+          [
+            "2028-02-29"
+          ],
+          [
+            "2028-03-09"
+          ],
+          [
+            "2028-04-12"
+          ],
+          [
+            "2028-01-15"
+          ],
+          [
+            "2028-02-18"
+          ],
+          [
+            "2028-03-21"
+          ],
+          [
+            "2028-04-24"
+          ],
+          [
+            "2028-01-27"
+          ],
+          [
+            "2028-02-03"
+          ],
+          [
+            "2028-03-06"
+          ],
+          [
+            "2028-04-09"
+          ],
+          [
+            "2028-01-12"
+          ],
+          [
+            "2028-02-15"
+          ],
+          [
+            "2028-03-18"
+          ],
+          [
+            "2028-04-21"
+          ],
+          [
+            "2028-01-24"
+          ],
+          [
+            "2028-02-27"
+          ],
+          [
+            "2028-03-03"
+          ],
+          [
+            "2028-04-06"
+          ]
+        ],
+        "tolerance": 0.000001,
+        "model": "=TEXT(DATE(Data!B2,Data!C2,Data!D2),\"yyyy-mm-dd\") [fill down through Answers!B21]",
+        "alternatives": [
+          "=TEXT(DATE(Data!B2,Data!C2,1)+Data!D2-1,\"yyyy-mm-dd\") [fill down through Answers!B21]"
+        ],
+        "hints": [
+          "Keep the leap-day row valid and format all labels with four-digit years.",
+          "Use DATE for components, then TEXT for ISO formatting.",
+          "=TEXT(DATE(____,Data!C2,____),\"yyyy-mm-dd\")"
+        ]
+      }
+    },
+    "R6-A2": {
+      "version": 1,
+      "skillId": "level-6",
+      "task": {
+        "id": "t1",
+        "answer": [
+          [
+            "FL2-001"
+          ],
+          [
+            "FL2-002"
+          ],
+          [
+            "FL2-005"
+          ],
+          [
+            "FL2-012"
+          ],
+          [
+            "FL2-015"
+          ],
+          [
+            "FL2-016"
+          ]
+        ],
+        "tolerance": 0.000001,
+        "model": "=FILTER(Data!A2:A21,ISNUMBER(Data!C2:C21)*(Data!C2:C21<12),\"None\")",
+        "alternatives": [
+          "=FILTER(Data!A2:A21,(Data!C2:C21<>\"\")*(Data!C2:C21<12),\"None\")"
+        ],
+        "hints": [
+          "A blank measurement cannot be reported as a measured zero; equality at 12 is not below the limit.",
+          "Combine ISNUMBER with the strict comparison in FILTER.",
+          "=FILTER(Data!A2:A21,ISNUMBER(____)*(____<12),\"None\")"
+        ]
+      }
+    },
+    "R7-A2": {
+      "version": 1,
+      "skillId": "level-7",
+      "task": {
+        "id": "t1",
+        "answer": 97.74,
+        "tolerance": 0.000001,
+        "model": "=ROUND(100*SUMPRODUCT(--(Data!B2:B21=\"Day\"),Data!D2:D21)/SUMPRODUCT(--(Data!B2:B21=\"Day\"),Data!C2:C21),2)",
+        "alternatives": [
+          "=ROUND(100*SUMIFS(Data!D2:D21,Data!B2:B21,\"Day\")/SUMIFS(Data!C2:C21,Data!B2:B21,\"Day\"),2)"
+        ],
+        "hints": [
+          "The numerator and denominator must include the same Day batches.",
+          "Use a Day mask in two SUMPRODUCT totals and divide the totals.",
+          "=ROUND(100*SUMPRODUCT(____,Data!D2:D21)/SUMPRODUCT(____,Data!C2:C21),2)"
+        ]
+      }
+    },
+    "R8-A2": {
+      "version": 1,
+      "skillId": "level-8",
+      "task": {
+        "id": "t1",
+        "answer": 0.424,
+        "tolerance": 0.000001,
+        "model": "=LET(sales,SUM(Data!B2:B21),cost,SUM(Data!C2:C21),IF(sales=0,\"Missing\",ROUND((sales-cost)/sales,3)))",
+        "alternatives": [
+          "=LET(totalSales,SUM(Data!B2:B21),totalCost,SUM(Data!C2:C21),IF(totalSales<>0,ROUND(1-totalCost/totalSales,3),\"Missing\"))"
+        ],
+        "hints": [
+          "Divide the difference of totals by total sales; do not average row margins.",
+          "Name sales and cost with LET, then guard the sales denominator.",
+          "=LET(sales,____,cost,____,IF(sales=0,\"Missing\",ROUND((sales-cost)/sales,3)))"
+        ]
+      }
+    },
+    "R9-A2": {
+      "version": 1,
+      "skillId": "level-9",
+      "task": {
+        "id": "t1",
+        "answer": 0.979,
+        "tolerance": 0.000001,
+        "model": "=LET(x,Data!B2:B21,y,Data!C2:C21,keep,ISNUMBER(Data!B2:B21)*ISNUMBER(Data!C2:C21),ROUND(CORREL(FILTER(x,keep),FILTER(y,keep)),3))",
+        "alternatives": [
+          "=ROUND(CORREL(FILTER(Data!B2:B21,ISNUMBER(Data!B2:B21)*ISNUMBER(Data!C2:C21)),FILTER(Data!C2:C21,ISNUMBER(Data!B2:B21)*ISNUMBER(Data!C2:C21))),3)"
+        ],
+        "hints": [
+          "The same complete-pair rows must be retained in both arrays.",
+          "Build ISNUMBER(X)*ISNUMBER(Y) on the original source ranges, then use it in both FILTER calls.",
+          "=LET(x,Data!B2:B21,y,Data!C2:C21,keep,____,ROUND(CORREL(FILTER(x,keep),FILTER(y,keep)),3))"
+        ]
+      }
+    },
+    "R10-A2": {
+      "version": 1,
+      "skillId": "level-10",
+      "task": {
+        "id": "t1",
+        "answer": [
+          [
+            25.65
+          ],
+          [
+            90.61
+          ],
+          [
+            "Missing"
+          ],
+          [
+            176.61
+          ],
+          [
+            0
+          ],
+          [
+            25.41
+          ],
+          [
+            -23.25
+          ],
+          [
+            "Missing"
+          ],
+          [
+            69.86
+          ],
+          [
+            0
+          ],
+          [
+            128.8
+          ],
+          [
+            21.28
+          ],
+          [
+            151.6
+          ],
+          [
+            33.22
+          ],
+          [
+            57.9
+          ],
+          [
+            396.03
+          ],
+          [
+            177.08
+          ],
+          [
+            173.58
+          ],
+          [
+            223.8
+          ],
+          [
+            229.1
+          ]
+        ],
+        "tolerance": 0.000001,
+        "model": "=LET(q,Data!B2,p,Data!C2,IF(AND(ISNUMBER(Data!B2),ISNUMBER(Data!C2)),ROUND(q*p,2),\"Missing\")) [fill down through Answers!B21]",
+        "alternatives": [
+          "=IF(AND(ISNUMBER(Data!B2),ISNUMBER(Data!C2)),ROUND(PRODUCT(Data!B2,Data!C2),2),\"Missing\") [fill down through Answers!B21]"
+        ],
+        "hints": [
+          "Validate both original source cells before multiplying; zero and negative quantities remain numeric.",
+          "Combine LET, ISNUMBER, AND, IF and ROUND; apply type checks directly to the original cells.",
+          "=LET(q,Data!B2,p,Data!C2,IF(AND(____,____),ROUND(q*p,2),\"Missing\"))"
+        ]
+      }
+    }
+  }
+}

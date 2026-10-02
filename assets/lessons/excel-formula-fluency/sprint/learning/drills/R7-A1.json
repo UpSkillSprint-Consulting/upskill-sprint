@@ -1,0 +1,189 @@
+{
+  "id": "R7-A1",
+  "version": 1,
+  "skillId": "level-7",
+  "level": 7,
+  "title": "Calculate a weighted Day yield 1",
+  "scenario": "An invented finishing team records independent production batches. Batch sizes differ, and the requested population is Day batches only. All records and limits are fictitious training assumptions.",
+  "lesson": {
+    "intro": "A pooled yield divides selected good units by the same population of inspected units. SUMPRODUCT can multiply a Boolean selection mask by an aligned quantity column. A mean of batch percentages gives each batch equal weight and answers a different question.",
+    "formulas": [
+      {
+        "name": "SUMPRODUCT",
+        "syntax": "=SUMPRODUCT(array1, [array2], ...)",
+        "explanation": "Aligned arrays are multiplied entry by entry and their products are summed. Additional arrays are optional; double unary converts TRUE/FALSE to 1/0.",
+        "example": "=SUMPRODUCT({2;3},{4;5})",
+        "result": 23
+      },
+      {
+        "name": "ROUND",
+        "syntax": "=ROUND(number, num_digits)",
+        "explanation": "Round the final ratio to the requested precision.",
+        "example": "=ROUND(18.765,2)",
+        "result": 18.77
+      }
+    ]
+  },
+  "task": {
+    "id": "t1",
+    "prompt": "Calculate 100 × total Good_units / total Inspected_units for Day batches only. Use the identical Day population in both totals, retaining every repeated shift record and legitimate zero-volume batch. All quantities are numeric, without blanks; the selected inspected total is positive. Round the final percentage number to two decimals (for example 93.25, not 0.9325). Return one numeric value in Answers!B2. Use an Excel formula; any equivalent approach is accepted. Submit the formula and the complete output.",
+    "output": "Answers!B2",
+    "type": "number",
+    "formulas": [
+      "SUMPRODUCT",
+      "ROUND"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Batch_no",
+      "Shift",
+      "Inspected_units",
+      "Good_units"
+    ],
+    "rows": [
+      [
+        "WY1-1",
+        "Day",
+        307,
+        285
+      ],
+      [
+        "WY1-2",
+        "Night",
+        456,
+        438
+      ],
+      [
+        "WY1-3",
+        "Day",
+        206,
+        185
+      ],
+      [
+        "WY1-4",
+        "Night",
+        532,
+        512
+      ],
+      [
+        "WY1-5",
+        "Day",
+        0,
+        0
+      ],
+      [
+        "WY1-6",
+        "Night",
+        620,
+        620
+      ],
+      [
+        "WY1-7",
+        "Day",
+        554,
+        534
+      ],
+      [
+        "WY1-8",
+        "Night",
+        476,
+        466
+      ],
+      [
+        "WY1-9",
+        "Day",
+        226,
+        207
+      ],
+      [
+        "WY1-10",
+        "Night",
+        608,
+        605
+      ],
+      [
+        "WY1-11",
+        "Day",
+        467,
+        445
+      ],
+      [
+        "WY1-12",
+        "Night",
+        386,
+        371
+      ],
+      [
+        "WY1-13",
+        "Day",
+        353,
+        353
+      ],
+      [
+        "WY1-14",
+        "Night",
+        195,
+        182
+      ],
+      [
+        "WY1-15",
+        "Day",
+        173,
+        155
+      ],
+      [
+        "WY1-16",
+        "Night",
+        126,
+        111
+      ],
+      [
+        "WY1-17",
+        "Day",
+        448,
+        444
+      ],
+      [
+        "WY1-18",
+        "Night",
+        180,
+        165
+      ],
+      [
+        "WY1-19",
+        "Day",
+        501,
+        486
+      ],
+      [
+        "WY1-20",
+        "Night",
+        329,
+        306
+      ]
+    ],
+    "rowCount": 20,
+    "tableName": "PracticeData",
+    "columns": [
+      {
+        "name": "Batch_no",
+        "description": "Unique batch identifier."
+      },
+      {
+        "name": "Shift",
+        "description": "Exact Day or Night."
+      },
+      {
+        "name": "Inspected_units",
+        "description": "Numeric nonnegative units; zero is a zero-volume batch."
+      },
+      {
+        "name": "Good_units",
+        "description": "Numeric units, between zero and Inspected_units."
+      }
+    ],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R7-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R7-A1.csv"
+  }
+}

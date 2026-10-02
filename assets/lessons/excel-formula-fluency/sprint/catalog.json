@@ -1,0 +1,729 @@
+{
+  "version": 1,
+  "levels": [
+    {
+      "level": 1,
+      "title": "Foundations",
+      "formulas": [
+        "SUM",
+        "AVERAGE",
+        "COUNT",
+        "COUNTA",
+        "MIN",
+        "MAX",
+        "ROUND",
+        "ROUNDUP",
+        "ROUNDDOWN",
+        "IF",
+        "ABS",
+        "Absolute and relative references"
+      ],
+      "titles": [
+        "Heat totals and averages",
+        "Order counts and complete records",
+        "Mechanical test extremes",
+        "Inventory rounding decisions",
+        "Thickness decisions with fixed references"
+      ],
+      "available": true,
+      "packages": [
+        {
+          "id": "L1-A1",
+          "title": "Heat totals and averages",
+          "formulas": [
+            "SUM",
+            "AVERAGE"
+          ]
+        },
+        {
+          "id": "L1-A2",
+          "title": "Order counts and complete records",
+          "formulas": [
+            "COUNT",
+            "COUNTA"
+          ]
+        },
+        {
+          "id": "L1-A3",
+          "title": "Mechanical test extremes",
+          "formulas": [
+            "MIN",
+            "MAX"
+          ]
+        },
+        {
+          "id": "L1-A4",
+          "title": "Inventory rounding decisions",
+          "formulas": [
+            "ROUND",
+            "ROUNDUP",
+            "ROUNDDOWN"
+          ]
+        },
+        {
+          "id": "L1-A5",
+          "title": "Thickness decisions with fixed references",
+          "formulas": [
+            "IF",
+            "ABS"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "title": "Logic & conditional aggregation",
+      "formulas": [
+        "AND",
+        "OR",
+        "NOT",
+        "IFS",
+        "IFERROR",
+        "SUMIFS",
+        "COUNTIFS",
+        "AVERAGEIFS",
+        "SUMIF",
+        "MAXIFS",
+        "MINIFS"
+      ],
+      "titles": [
+        "Supplier eligibility logic",
+        "Downtime triage and safe ratios",
+        "Sales with multiple conditions",
+        "Repair averages and targeted costs",
+        "Shipment extremes and missing groups"
+      ],
+      "available": true,
+      "packages": [
+        {
+          "id": "L2-A1",
+          "title": "Supplier eligibility logic",
+          "formulas": [
+            "AND",
+            "OR",
+            "NOT"
+          ]
+        },
+        {
+          "id": "L2-A2",
+          "title": "Downtime triage and safe ratios",
+          "formulas": [
+            "IFS",
+            "IFERROR"
+          ]
+        },
+        {
+          "id": "L2-A3",
+          "title": "Sales with multiple conditions",
+          "formulas": [
+            "SUMIFS",
+            "COUNTIFS"
+          ]
+        },
+        {
+          "id": "L2-A4",
+          "title": "Repair averages and targeted costs",
+          "formulas": [
+            "AVERAGEIFS",
+            "SUMIF"
+          ]
+        },
+        {
+          "id": "L2-A5",
+          "title": "Shipment extremes and missing groups",
+          "formulas": [
+            "MAXIFS",
+            "MINIFS"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "title": "Lookups",
+      "formulas": [
+        "XLOOKUP",
+        "INDEX",
+        "MATCH",
+        "Two-way lookups",
+        "Approximate spec bands"
+      ],
+      "titles": [
+        "Look up a product specification",
+        "Match an employee allowance",
+        "Combine two specification dimensions",
+        "Map results to specification bands",
+        "Build an error-aware lookup report"
+      ],
+      "available": true,
+      "packages": [
+        {
+          "id": "L3-A1",
+          "title": "Match a training specification",
+          "formulas": [
+            "XLOOKUP",
+            "INDEX"
+          ]
+        },
+        {
+          "id": "L3-A2",
+          "title": "Match an employee allowance",
+          "formulas": [
+            "MATCH",
+            "INDEX"
+          ]
+        },
+        {
+          "id": "L3-A3",
+          "title": "Read a two-way specification matrix",
+          "formulas": [
+            "INDEX",
+            "MATCH"
+          ]
+        },
+        {
+          "id": "L3-A4",
+          "title": "Map values to training bands",
+          "formulas": [
+            "XLOOKUP",
+            "MATCH"
+          ]
+        },
+        {
+          "id": "L3-A5",
+          "title": "Audit duplicate and absent keys",
+          "formulas": [
+            "XLOOKUP",
+            "INDEX",
+            "MATCH"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "title": "Text",
+      "formulas": [
+        "TRIM",
+        "CLEAN",
+        "UPPER",
+        "PROPER",
+        "LEFT",
+        "RIGHT",
+        "MID",
+        "TEXTBEFORE",
+        "TEXTAFTER",
+        "TEXTSPLIT",
+        "TEXTJOIN",
+        "SUBSTITUTE",
+        "TEXT"
+      ],
+      "titles": [
+        "Clean inspection identifiers",
+        "Standardize customer names",
+        "Extract product code segments",
+        "Split a shipment manifest",
+        "Assemble readable quality reports"
+      ],
+      "available": true,
+      "packages": [
+        {
+          "id": "L4-A1",
+          "title": "Clean inspection identifiers",
+          "formulas": [
+            "TRIM",
+            "CLEAN",
+            "UPPER"
+          ]
+        },
+        {
+          "id": "L4-A2",
+          "title": "Read fixed-width business codes",
+          "formulas": [
+            "LEFT",
+            "RIGHT",
+            "MID"
+          ]
+        },
+        {
+          "id": "L4-A3",
+          "title": "Split compound heat/sample keys",
+          "formulas": [
+            "TEXTBEFORE",
+            "TEXTAFTER"
+          ]
+        },
+        {
+          "id": "L4-A4",
+          "title": "Split and rebuild a manifest",
+          "formulas": [
+            "TEXTSPLIT",
+            "TEXTJOIN"
+          ]
+        },
+        {
+          "id": "L4-A5",
+          "title": "Build readable measurement messages",
+          "formulas": [
+            "SUBSTITUTE",
+            "TEXT",
+            "PROPER"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "title": "Dates & time",
+      "formulas": [
+        "DATE",
+        "EOMONTH",
+        "EDATE",
+        "NETWORKDAYS",
+        "WORKDAY",
+        "WEEKNUM",
+        "DATEDIF",
+        "Shift calculations"
+      ],
+      "titles": [
+        "Build a test schedule",
+        "Plan month-end inventory",
+        "Calculate business-day deadlines",
+        "Analyze employee service dates",
+        "Calculate overnight shift durations"
+      ],
+      "available": true,
+      "packages": [
+        {
+          "id": "L5-A1",
+          "title": "Build a test reporting calendar",
+          "formulas": [
+            "DATE",
+            "EOMONTH"
+          ]
+        },
+        {
+          "id": "L5-A2",
+          "title": "Plan calendar-month replenishment",
+          "formulas": [
+            "EDATE",
+            "EOMONTH"
+          ]
+        },
+        {
+          "id": "L5-A3",
+          "title": "Calculate working-day review deadlines",
+          "formulas": [
+            "WORKDAY",
+            "NETWORKDAYS"
+          ]
+        },
+        {
+          "id": "L5-A4",
+          "title": "Analyze completed employee service",
+          "formulas": [
+            "DATEDIF",
+            "WEEKNUM"
+          ]
+        },
+        {
+          "id": "L5-A5",
+          "title": "Measure overnight production shifts",
+          "formulas": [
+            "TIME",
+            "MOD"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 6,
+      "title": "Dynamic arrays",
+      "formulas": [
+        "FILTER",
+        "SORT",
+        "SORTBY",
+        "UNIQUE",
+        "SEQUENCE",
+        "CHOOSECOLS",
+        "CHOOSEROWS",
+        "VSTACK",
+        "HSTACK",
+        "TAKE",
+        "DROP"
+      ],
+      "titles": [
+        "Filter inspection exceptions",
+        "Sort a business priority queue",
+        "Build unique heat summaries",
+        "Combine rolling and inspection extracts",
+        "Reshape Charpy orientations side by side"
+      ],
+      "available": true,
+      "packages": [
+        {
+          "id": "L6-A1",
+          "title": "Filter inspection exceptions",
+          "formulas": [
+            "FILTER",
+            "SORT",
+            "CHOOSECOLS"
+          ]
+        },
+        {
+          "id": "L6-A2",
+          "title": "Sort a business priority queue",
+          "formulas": [
+            "SORTBY",
+            "CHOOSEROWS"
+          ]
+        },
+        {
+          "id": "L6-A3",
+          "title": "Create a distinct heat register",
+          "formulas": [
+            "UNIQUE",
+            "SEQUENCE",
+            "HSTACK"
+          ]
+        },
+        {
+          "id": "L6-A4",
+          "title": "Combine two stock extracts",
+          "formulas": [
+            "VSTACK",
+            "HSTACK",
+            "TAKE",
+            "DROP"
+          ]
+        },
+        {
+          "id": "L6-A5",
+          "title": "Reshape Charpy orientations side by side",
+          "formulas": [
+            "CHOOSECOLS",
+            "CHOOSEROWS",
+            "HSTACK"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 7,
+      "title": "Array logic",
+      "formulas": [
+        "SUMPRODUCT",
+        "Boolean arrays",
+        "Multi-criteria lookups",
+        "XMATCH",
+        "Nested FILTER conditions"
+      ],
+      "titles": [
+        "Calculate weighted production rates",
+        "Build a multi-criteria order lookup",
+        "Audit array conditions",
+        "Match specifications in two dimensions",
+        "Filter a full quality exception report"
+      ],
+      "available": true,
+      "orientationPackageId": "L7-A3",
+      "packages": [
+        {
+          "id": "L7-A1",
+          "title": "Calculate weighted production rates",
+          "formulas": [
+            "SUMPRODUCT",
+            "SUM"
+          ]
+        },
+        {
+          "id": "L7-A2",
+          "title": "Build a multi-criteria order lookup",
+          "formulas": [
+            "XMATCH",
+            "XLOOKUP"
+          ]
+        },
+        {
+          "id": "L7-A3",
+          "title": "Audit Charpy arrays by sample and heat",
+          "formulas": [
+            "SUMPRODUCT",
+            "ISNUMBER"
+          ]
+        },
+        {
+          "id": "L7-A4",
+          "title": "Match specifications in two dimensions",
+          "formulas": [
+            "XMATCH",
+            "INDEX",
+            "IFNA"
+          ]
+        },
+        {
+          "id": "L7-A5",
+          "title": "Filter a full quality exception report",
+          "formulas": [
+            "FILTER",
+            "SORTBY"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 8,
+      "title": "Structure & reuse",
+      "formulas": [
+        "LET",
+        "LAMBDA",
+        "MAP",
+        "BYROW",
+        "BYCOL",
+        "REDUCE",
+        "SCAN",
+        "Named formulas"
+      ],
+      "titles": [
+        "Name intermediate calculations",
+        "Create a reusable margin formula",
+        "Score samples row by row",
+        "Calculate cumulative losses",
+        "Build a reusable calculation library"
+      ],
+      "available": true,
+      "orientationPackageId": "L8-A5",
+      "packages": [
+        {
+          "id": "L8-A1",
+          "title": "Name intermediate yield calculations",
+          "formulas": [
+            "LET",
+            "ISNUMBER"
+          ]
+        },
+        {
+          "id": "L8-A2",
+          "title": "Create a reusable margin formula",
+          "formulas": [
+            "LAMBDA",
+            "MAP"
+          ]
+        },
+        {
+          "id": "L8-A3",
+          "title": "Score repeated readings row by row",
+          "formulas": [
+            "BYROW",
+            "BYCOL"
+          ]
+        },
+        {
+          "id": "L8-A4",
+          "title": "Calculate cumulative losses and credits",
+          "formulas": [
+            "SCAN",
+            "REDUCE"
+          ]
+        },
+        {
+          "id": "L8-A5",
+          "title": "Build a reusable Charpy calculation library",
+          "formulas": [
+            "LAMBDA",
+            "LET"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 9,
+      "title": "Analysis & reporting",
+      "formulas": [
+        "GROUPBY",
+        "PIVOTBY",
+        "STDEV.S",
+        "PERCENTILE.INC",
+        "CORREL",
+        "SPC limits",
+        "Cp",
+        "Cpk"
+      ],
+      "titles": [
+        "Group production summaries",
+        "Pivot business outcomes",
+        "Measure variation and percentiles",
+        "Explore correlations responsibly",
+        "Calculate process capability with stated assumptions"
+      ],
+      "available": true,
+      "orientationPackageId": "L9-A2",
+      "packages": [
+        {
+          "id": "L9-A1",
+          "title": "Group production summaries",
+          "formulas": [
+            "GROUPBY",
+            "SUM"
+          ]
+        },
+        {
+          "id": "L9-A2",
+          "title": "Pivot Charpy orientations with duplicate means",
+          "formulas": [
+            "PIVOTBY",
+            "COUNT"
+          ]
+        },
+        {
+          "id": "L9-A3",
+          "title": "Measure variation and inclusive percentiles",
+          "formulas": [
+            "STDEV.S",
+            "PERCENTILE.INC"
+          ]
+        },
+        {
+          "id": "L9-A4",
+          "title": "Explore paired correlations responsibly",
+          "formulas": [
+            "CORREL",
+            "ISNUMBER"
+          ]
+        },
+        {
+          "id": "L9-A5",
+          "title": "Calculate capability under stated assumptions",
+          "formulas": [
+            "STDEV.S",
+            "AVERAGE"
+          ]
+        }
+      ]
+    },
+    {
+      "level": 10,
+      "title": "Mastery",
+      "formulas": [
+        "Nested formulas",
+        "Four-function combinations",
+        "Error-proofing",
+        "Formula-driven dashboards",
+        "Capstone"
+      ],
+      "titles": [
+        "Build a robust inspection summary",
+        "Reconcile multiple business tables",
+        "Audit a complex formula chain",
+        "Create a formula-driven mini dashboard",
+        "Complete the integrated manufacturing capstone"
+      ],
+      "available": true,
+      "orientationPackageId": "L10-A5",
+      "packages": [
+        {
+          "id": "L10-A1",
+          "title": "Build a robust inspection summary",
+          "formulas": [
+            "LET",
+            "FILTER"
+          ]
+        },
+        {
+          "id": "L10-A2",
+          "title": "Reconcile orders and partial shipments",
+          "formulas": [
+            "LET",
+            "MAP"
+          ]
+        },
+        {
+          "id": "L10-A3",
+          "title": "Audit a guarded formula chain",
+          "formulas": [
+            "LET",
+            "ROUND"
+          ]
+        },
+        {
+          "id": "L10-A4",
+          "title": "Create a formula-driven business dashboard",
+          "formulas": [
+            "LET",
+            "MAP"
+          ]
+        },
+        {
+          "id": "L10-A5",
+          "title": "Complete the integrated Charpy capstone",
+          "formulas": [
+            "LET",
+            "MAP"
+          ]
+        }
+      ]
+    }
+  ],
+  "expert": {
+    "version": 1,
+    "title": "Expert Track",
+    "requiredCoreIds": [
+      "L1-A1",
+      "L1-A2",
+      "L1-A3",
+      "L1-A4",
+      "L1-A5",
+      "L2-A1",
+      "L2-A2",
+      "L2-A3",
+      "L2-A4",
+      "L2-A5",
+      "L3-A1",
+      "L3-A2",
+      "L3-A3",
+      "L3-A4",
+      "L3-A5",
+      "L4-A1",
+      "L4-A2",
+      "L4-A3",
+      "L4-A4",
+      "L4-A5",
+      "L5-A1",
+      "L5-A2",
+      "L5-A3",
+      "L5-A4",
+      "L5-A5",
+      "L6-A1",
+      "L6-A2",
+      "L6-A3",
+      "L6-A4",
+      "L6-A5"
+    ],
+    "packages": [
+      {
+        "id": "EX-A1",
+        "title": "Reconcile a manufacturing release queue",
+        "formulas": [
+          "LET",
+          "SUMPRODUCT"
+        ]
+      },
+      {
+        "id": "EX-A2",
+        "title": "Reshape duplicate Charpy measurements",
+        "formulas": [
+          "AVERAGEIFS",
+          "COUNTIFS"
+        ]
+      },
+      {
+        "id": "EX-A3",
+        "title": "Build a reconciled inventory dashboard",
+        "formulas": [
+          "SUMIFS",
+          "SORTBY"
+        ]
+      }
+    ]
+  }
+}

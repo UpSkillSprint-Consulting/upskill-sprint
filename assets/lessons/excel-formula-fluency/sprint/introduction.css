@@ -1,0 +1,21 @@
+/* Match the Sprint working surface without changing the supplied lesson. */
+html:not([data-theme="light"]) {
+  --bg:#071120; --panel:#0d1b30; --panel2:#14273d; --line:#29465f;
+  --text:#e5edf5; --muted:#b5c6d6; --accent:#3fb6d8; --accent-ink:#071120;
+  --ok:#8ae4c4; --bad:#f08080; --warn:#f2c14e; --cellsel:#123f55;
+}
+body {font-family:"Barlow Condensed",Arial,sans-serif; font-size:18px; line-height:1.6;}
+.wrap {max-width:none; padding-inline:clamp(16px,3vw,36px);}
+header.hero {padding-top:28px; padding-bottom:20px;}
+.hero h1 {font-size:clamp(30px,4vw,48px);}
+section.mod {max-width:none;}
+.panel,.quiz,.note,.compare,.fbar {border-radius:9px;}
+.btn,.stepbtn {min-height:44px; border-radius:6px;}
+nav.steps {position:static;}
+code {white-space:normal; overflow-wrap:anywhere;}
+.fbar .tokens {white-space:nowrap;}
+footer {padding-bottom:24px;}
+@media(max-width:600px) {
+  .wrap {padding-inline:16px;}
+  .stepbtn {font-size:16px;}
+}

@@ -1,0 +1,546 @@
+{
+  "id": "L10-A4",
+  "level": 10,
+  "assignment": 4,
+  "title": "Create a formula-driven business dashboard",
+  "formulas": [
+    "LET",
+    "MAP"
+  ],
+  "minutes": 95,
+  "scenario": "Selvani Supplies has 45 fictitious monthly sales lines. Returns reverse units, revenue and per-unit cost; net units may be negative and must be preserved. Revenue = net units × selling price; profit = net units × (price − unit cost).",
+  "lesson": {
+    "intro": "A dashboard combines traceable metrics at a common grouping level. A ratio such as margin belongs to the grouped totals rather than an average of line margins.",
+    "functions": [
+      {
+        "name": "LET",
+        "purpose": "Name intermediate expressions.",
+        "syntax": "=LET(name1, name_value1, [name2, name_value2], ..., calculation)",
+        "arguments": "Provide a valid name/value pair, optional further pairs, and the final expression using those names; up to 126 pairs.",
+        "example": "=LET(amount,12,fee,3,amount-fee)",
+        "result": 9,
+        "useCase": "Calculate a guarded yield once.",
+        "mistake": "Names cannot collide with cell references; the last argument returns the result."
+      },
+      {
+        "name": "MAP",
+        "purpose": "Transform corresponding array elements.",
+        "syntax": "=MAP(array1, [array2, ...], lambda)",
+        "arguments": "array1 and optional aligned arrays supply values; the final LAMBDA has one parameter per array and returns one result per position.",
+        "example": "=MAP({2;4},LAMBDA(item,item*3))",
+        "result": "6 then 12",
+        "useCase": "Apply a reusable margin calculation.",
+        "mistake": "Each call must return one value; mismatched parameters error."
+      }
+    ],
+    "combine": "Review SUMPRODUCT, HSTACK, FILTER, SORTBY and ROUND. Define net units once, aggregate by the Months/Product scaffold, and reconcile with independent raw calculations. Any equivalent formula is accepted; round money to cents and margin percentage numbers to two decimals."
+  },
+  "tasks": [
+    {
+      "prompt": "For the first eight lines, return Net_units, Net_revenue_CAD and Net_profit_CAD (8 × 3). Preserve negative net quantities; round money to cents.",
+      "output": "Answers!B2:D9",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "HSTACK",
+        "ROUND"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return Month, Net_units, Net_revenue_CAD, Net_profit_CAD and Margin_pct (3 × 5), Months order. Compute margin from monthly totals; Zero revenue for a zero monthly denominator.",
+      "output": "Answers!B12:F14",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "MAP",
+        "SUMPRODUCT",
+        "HSTACK",
+        "ROUND",
+        "IF"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "Aggregate across all months and return loss-making Product plus Net_profit_CAD (two columns), sorted by profit ascending then Product ascending. Include only strictly negative product profit.",
+      "output": "Answers!B17:C17",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "MAP",
+        "SUMPRODUCT",
+        "FILTER",
+        "SORTBY"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Return three independent reconciliations: monthly total net units minus raw net units, monthly revenue minus raw revenue, and monthly profit minus raw profit (1 × 3). Round money differences to cents; reconciled outputs are numeric zero.",
+      "output": "Answers!B20:D20",
+      "type": "array",
+      "formulas": [
+        "HSTACK",
+        "SUM",
+        "SUMPRODUCT",
+        "ROUND"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review SUMPRODUCT: count raw lines with returns strictly greater than sold units by comparing the two quantities within each row.",
+    "output": "Answers!B23",
+    "type": "number",
+    "formulas": [
+      "SUMPRODUCT"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Month",
+      "Product",
+      "Sold_units",
+      "Returned_units",
+      "Price_CAD",
+      "Unit_cost_CAD"
+    ],
+    "rows": [
+      [
+        "2026-07",
+        "SV-P1",
+        28,
+        33,
+        52,
+        80
+      ],
+      [
+        "2026-07",
+        "SV-P2",
+        43,
+        3,
+        58,
+        31
+      ],
+      [
+        "2026-07",
+        "SV-P3",
+        16,
+        1,
+        39,
+        33
+      ],
+      [
+        "2026-07",
+        "SV-P4",
+        36,
+        2,
+        39,
+        30
+      ],
+      [
+        "2026-07",
+        "SV-P5",
+        38,
+        0,
+        42,
+        14
+      ],
+      [
+        "2026-07",
+        "SV-P1",
+        33,
+        1,
+        35,
+        80
+      ],
+      [
+        "2026-07",
+        "SV-P2",
+        35,
+        1,
+        38,
+        27
+      ],
+      [
+        "2026-07",
+        "SV-P3",
+        55,
+        4,
+        46,
+        21
+      ],
+      [
+        "2026-07",
+        "SV-P4",
+        19,
+        0,
+        35,
+        18
+      ],
+      [
+        "2026-07",
+        "SV-P5",
+        39,
+        2,
+        60,
+        24
+      ],
+      [
+        "2026-07",
+        "SV-P1",
+        57,
+        1,
+        54,
+        80
+      ],
+      [
+        "2026-07",
+        "SV-P2",
+        14,
+        7,
+        36,
+        23
+      ],
+      [
+        "2026-07",
+        "SV-P3",
+        31,
+        1,
+        60,
+        16
+      ],
+      [
+        "2026-07",
+        "SV-P4",
+        40,
+        45,
+        59,
+        20
+      ],
+      [
+        "2026-07",
+        "SV-P5",
+        27,
+        0,
+        35,
+        22
+      ],
+      [
+        "2026-08",
+        "SV-P1",
+        53,
+        4,
+        51,
+        80
+      ],
+      [
+        "2026-08",
+        "SV-P2",
+        29,
+        4,
+        40,
+        18
+      ],
+      [
+        "2026-08",
+        "SV-P3",
+        49,
+        5,
+        53,
+        30
+      ],
+      [
+        "2026-08",
+        "SV-P4",
+        47,
+        7,
+        33,
+        31
+      ],
+      [
+        "2026-08",
+        "SV-P5",
+        15,
+        5,
+        48,
+        15
+      ],
+      [
+        "2026-08",
+        "SV-P1",
+        46,
+        1,
+        32,
+        80
+      ],
+      [
+        "2026-08",
+        "SV-P2",
+        55,
+        7,
+        37,
+        23
+      ],
+      [
+        "2026-08",
+        "SV-P3",
+        41,
+        7,
+        32,
+        34
+      ],
+      [
+        "2026-08",
+        "SV-P4",
+        19,
+        8,
+        36,
+        12
+      ],
+      [
+        "2026-08",
+        "SV-P5",
+        31,
+        8,
+        54,
+        18
+      ],
+      [
+        "2026-08",
+        "SV-P1",
+        20,
+        0,
+        39,
+        80
+      ],
+      [
+        "2026-08",
+        "SV-P2",
+        32,
+        37,
+        45,
+        30
+      ],
+      [
+        "2026-08",
+        "SV-P3",
+        36,
+        1,
+        52,
+        26
+      ],
+      [
+        "2026-08",
+        "SV-P4",
+        23,
+        3,
+        56,
+        14
+      ],
+      [
+        "2026-08",
+        "SV-P5",
+        44,
+        7,
+        51,
+        25
+      ],
+      [
+        "2026-09",
+        "SV-P1",
+        59,
+        6,
+        35,
+        80
+      ],
+      [
+        "2026-09",
+        "SV-P2",
+        30,
+        2,
+        43,
+        18
+      ],
+      [
+        "2026-09",
+        "SV-P3",
+        30,
+        8,
+        39,
+        14
+      ],
+      [
+        "2026-09",
+        "SV-P4",
+        26,
+        4,
+        37,
+        21
+      ],
+      [
+        "2026-09",
+        "SV-P5",
+        54,
+        3,
+        50,
+        20
+      ],
+      [
+        "2026-09",
+        "SV-P1",
+        24,
+        8,
+        30,
+        80
+      ],
+      [
+        "2026-09",
+        "SV-P2",
+        31,
+        6,
+        56,
+        21
+      ],
+      [
+        "2026-09",
+        "SV-P3",
+        38,
+        1,
+        44,
+        25
+      ],
+      [
+        "2026-09",
+        "SV-P4",
+        22,
+        6,
+        38,
+        32
+      ],
+      [
+        "2026-09",
+        "SV-P5",
+        15,
+        20,
+        56,
+        19
+      ],
+      [
+        "2026-09",
+        "SV-P1",
+        21,
+        6,
+        54,
+        80
+      ],
+      [
+        "2026-09",
+        "SV-P2",
+        32,
+        3,
+        47,
+        20
+      ],
+      [
+        "2026-09",
+        "SV-P3",
+        49,
+        5,
+        41,
+        31
+      ],
+      [
+        "2026-09",
+        "SV-P4",
+        11,
+        2,
+        35,
+        21
+      ],
+      [
+        "2026-09",
+        "SV-P5",
+        30,
+        0,
+        37,
+        12
+      ]
+    ],
+    "rowCount": 45,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Month",
+        "description": "ISO year-month, one of three reporting months."
+      },
+      {
+        "name": "Product",
+        "description": "One of five invented product keys."
+      },
+      {
+        "name": "Sold_units",
+        "description": "Numeric sold units."
+      },
+      {
+        "name": "Returned_units",
+        "description": "Numeric returned units; may exceed a line’s sales."
+      },
+      {
+        "name": "Price_CAD",
+        "description": "Selling price per unit, CAD."
+      },
+      {
+        "name": "Unit_cost_CAD",
+        "description": "Cost per unit, CAD."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A4.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A4.csv",
+    "sheets": [
+      {
+        "name": "Months",
+        "headers": [
+          "Month"
+        ],
+        "rows": [
+          [
+            "2026-07"
+          ],
+          [
+            "2026-08"
+          ],
+          [
+            "2026-09"
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A4-Months.csv"
+      },
+      {
+        "name": "Products",
+        "headers": [
+          "Product"
+        ],
+        "rows": [
+          [
+            "SV-P1"
+          ],
+          [
+            "SV-P2"
+          ],
+          [
+            "SV-P3"
+          ],
+          [
+            "SV-P4"
+          ],
+          [
+            "SV-P5"
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A4-Products.csv"
+      }
+    ]
+  }
+}

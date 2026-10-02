@@ -39,34 +39,34 @@
   <script src="/site-sections.js"></script>
   <style>
     :root {
-      --ink: #12231d;
-      --muted: #5f6f69;
-      --paper: #f7faf8;
-      --card: #ffffff;
-      --line: #dce7e1;
-      --excel: #107c41;
-      --excel-dark: #0b5c31;
-      --mint: #dff4e8;
-      --amber: #f8b84e;
-      --amber-soft: #fff4d9;
-      --red: #c43d43;
-      --red-soft: #fdebed;
-      --blue: #2f6fed;
-      --blue-soft: #eaf0ff;
-      --shadow: 0 16px 44px rgba(15, 61, 40, .10);
-      --radius: 18px;
+      --excel-reference-ink: #12231d;
+      --excel-reference-muted: #5f6f69;
+      --excel-reference-paper: #f7faf8;
+      --excel-reference-card: #ffffff;
+      --excel-reference-line: #dce7e1;
+      --excel-reference-excel: #107c41;
+      --excel-reference-excel-dark: #0b5c31;
+      --excel-reference-mint: #dff4e8;
+      --excel-reference-amber: #f8b84e;
+      --excel-reference-amber-soft: #fff4d9;
+      --excel-reference-red: #c43d43;
+      --excel-reference-red-soft: #fdebed;
+      --excel-reference-blue: #2f6fed;
+      --excel-reference-blue-soft: #eaf0ff;
+      --excel-reference-shadow: 0 16px 44px rgba(15, 61, 40, .10);
+      --excel-reference-radius: 18px;
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      color: var(--ink);
-      background: var(--paper);
+      color: var(--excel-reference-ink);
+      background: var(--excel-reference-paper);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       line-height: 1.62;
     }
     button, input, select { font: inherit; }
-    a { color: var(--excel-dark); }
+    a { color: var(--excel-reference-excel-dark); }
     code, .formula, .formula-input {
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
     }
@@ -80,7 +80,7 @@
       gap: 16px;
       padding: 12px clamp(18px, 4vw, 56px);
       background: rgba(255,255,255,.94);
-      border-bottom: 1px solid var(--line);
+      border-bottom: 1px solid var(--excel-reference-line);
       backdrop-filter: blur(12px);
     }
     .brand { display: flex; align-items: center; gap: 10px; color:inherit; text-decoration:none; font-weight: 800; }
@@ -90,13 +90,13 @@
       height: 34px;
       place-items: center;
       color: white;
-      background: var(--excel);
+      background: var(--excel-reference-excel);
       border-radius: 9px;
     }
     .top-progress { width: min(340px, 44vw); }
-    .top-progress-row { display:flex; justify-content:space-between; font-size: 12px; color: var(--muted); }
+    .top-progress-row { display:flex; justify-content:space-between; font-size: 12px; color: var(--excel-reference-muted); }
     .progress-track { height: 8px; overflow: hidden; background: #e8efeb; border-radius: 999px; }
-    .progress-fill { width: 0; height: 100%; background: linear-gradient(90deg,var(--excel),#42b777); transition: width .3s ease; }
+    .progress-fill { width: 0; height: 100%; background: linear-gradient(90deg,var(--excel-reference-excel),#42b777); transition: width .3s ease; }
     .hero {
       position: relative;
       overflow: hidden;
@@ -119,100 +119,100 @@
     .hero-actions .btn:hover { color:#fff; background:#073b26; }
     .pill { padding: 8px 12px; font-size: 13px; font-weight: 750; border: 1px solid rgba(255,255,255,.25); border-radius:999px; background:rgba(255,255,255,.10); }
     .layout { display:grid; grid-template-columns: 250px minmax(0, 1fr); max-width: 1440px; margin:0 auto; }
-    .toc { position: sticky; top: 59px; align-self:start; height: calc(100vh - 59px); padding: 30px 18px; overflow:auto; border-right:1px solid var(--line); background:#fbfdfc; }
-    .toc h2 { margin:0 0 12px 10px; font-size:13px; letter-spacing:.11em; text-transform:uppercase; color:var(--muted); }
+    .toc { position: sticky; top: 59px; align-self:start; height: calc(100vh - 59px); padding: 30px 18px; overflow:auto; border-right:1px solid var(--excel-reference-line); background:#fbfdfc; }
+    .toc h2 { margin:0 0 12px 10px; font-size:13px; letter-spacing:.11em; text-transform:uppercase; color:var(--excel-reference-muted); }
     .toc a { display:block; margin:3px 0; padding:9px 10px; color:#385048; text-decoration:none; border-radius:10px; font-size:14px; }
-    .toc a:hover, .toc a.active { color:var(--excel-dark); background:var(--mint); font-weight:750; }
+    .toc a:hover, .toc a.active { color:var(--excel-reference-excel-dark); background:var(--excel-reference-mint); font-weight:750; }
     main { min-width:0; padding: 30px clamp(20px, 5vw, 72px) 90px; }
     section { scroll-margin-top: 82px; max-width:1050px; margin:0 auto 76px; }
-    .section-kicker { color:var(--excel); font-size:13px; font-weight:850; letter-spacing:.12em; text-transform:uppercase; }
+    .section-kicker { color:var(--excel-reference-excel); font-size:13px; font-weight:850; letter-spacing:.12em; text-transform:uppercase; }
     h2 { margin:6px 0 16px; font-size:clamp(30px, 4vw, 46px); line-height:1.14; letter-spacing:-.025em; }
     h3 { margin:30px 0 10px; font-size:24px; line-height:1.25; }
     h4 { margin:22px 0 8px; font-size:18px; }
-    .section-intro { max-width:830px; color:var(--muted); font-size:18px; }
+    .section-intro { max-width:830px; color:var(--excel-reference-muted); font-size:18px; }
     .card-grid { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:16px; margin:24px 0; }
-    .card { padding:22px; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:0 7px 22px rgba(15,61,40,.05); }
+    .card { padding:22px; background:var(--excel-reference-card); border:1px solid var(--excel-reference-line); border-radius:var(--excel-reference-radius); box-shadow:0 7px 22px rgba(15,61,40,.05); }
     .card h3, .card h4 { margin-top:0; }
-    .number { display:grid; width:38px; height:38px; place-items:center; margin-bottom:14px; color:white; background:var(--excel); border-radius:11px; font-weight:850; }
-    .callout { margin:22px 0; padding:18px 20px; border-left:5px solid var(--excel); background:var(--mint); border-radius:4px 14px 14px 4px; }
-    .callout.warning { border-color:var(--amber); background:var(--amber-soft); }
+    .number { display:grid; width:38px; height:38px; place-items:center; margin-bottom:14px; color:white; background:var(--excel-reference-excel); border-radius:11px; font-weight:850; }
+    .callout { margin:22px 0; padding:18px 20px; border-left:5px solid var(--excel-reference-excel); background:var(--excel-reference-mint); border-radius:4px 14px 14px 4px; }
+    .callout.warning { border-color:var(--excel-reference-amber); background:var(--excel-reference-amber-soft); }
     .callout strong { display:block; margin-bottom:3px; }
     .formula {
       display:block; overflow:auto; margin:12px 0; padding:14px 16px; color:#dff8ea; background:#10261d; border-radius:12px; white-space:pre-wrap;
     }
-    .inline-code { padding:2px 6px; color:var(--excel-dark); background:var(--mint); border-radius:6px; font-family:Consolas,monospace; }
-    .table-wrap { overflow:auto; margin:20px 0; border:1px solid var(--line); border-radius:14px; background:white; }
+    .inline-code { padding:2px 6px; color:var(--excel-reference-excel-dark); background:var(--excel-reference-mint); border-radius:6px; font-family:Consolas,monospace; }
+    .table-wrap { overflow:auto; margin:20px 0; border:1px solid var(--excel-reference-line); border-radius:14px; background:white; }
     table { width:100%; border-collapse:collapse; font-size:14px; }
     th { padding:12px 14px; color:#385048; background:#eef5f1; text-align:left; font-size:12px; letter-spacing:.035em; text-transform:uppercase; }
     td { padding:11px 14px; border-top:1px solid #e8efeb; vertical-align:top; }
     tr:hover td { background:#fbfdfc; }
     .level-path { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:28px 0; }
-    .level { position:relative; padding:22px; border-radius:16px; background:white; border:1px solid var(--line); }
-    .level b { display:block; color:var(--excel-dark); font-size:18px; }
-    .level span { color:var(--muted); font-size:14px; }
+    .level { position:relative; padding:22px; border-radius:16px; background:white; border:1px solid var(--excel-reference-line); }
+    .level b { display:block; color:var(--excel-reference-excel-dark); font-size:18px; }
+    .level span { color:var(--excel-reference-muted); font-size:14px; }
     .anatomy {
-      display:flex; flex-wrap:wrap; gap:5px; align-items:center; padding:20px; border:1px solid var(--line); border-radius:15px; background:white;
+      display:flex; flex-wrap:wrap; gap:5px; align-items:center; padding:20px; border:1px solid var(--excel-reference-line); border-radius:15px; background:white;
     }
     .token { padding:7px 8px; border:0; border-radius:8px; cursor:pointer; font-family:Consolas,monospace; font-weight:700; background:#edf3f0; }
-    .token:hover, .token.selected { color:white; background:var(--excel); }
+    .token:hover, .token.selected { color:white; background:var(--excel-reference-excel); }
     .token-note { min-height:72px; margin-top:12px; padding:15px; color:#345048; background:#f0f7f3; border-radius:12px; }
     .lab { margin:28px 0; padding:22px; background:#f1f7f4; border:1px solid #cfe1d7; border-radius:18px; }
     .lab-head { display:flex; align-items:start; justify-content:space-between; gap:16px; }
     .lab-head h3 { margin:0; }
     .controls { display:flex; flex-wrap:wrap; gap:12px; margin:16px 0; }
     label { display:grid; gap:5px; color:#456158; font-size:13px; font-weight:750; }
-    input, select { min-height:42px; padding:9px 11px; color:var(--ink); background:white; border:1px solid #bfd3c8; border-radius:9px; }
-    input:focus, select:focus { outline:3px solid rgba(16,124,65,.15); border-color:var(--excel); }
-    .btn { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:42px; padding:9px 15px; color:white; background:var(--excel); border:0; border-radius:9px; cursor:pointer; font-weight:800; }
-    .btn:hover { background:var(--excel-dark); }
-    .btn.secondary { color:var(--excel-dark); background:white; border:1px solid #b9d1c4; }
+    input, select { min-height:42px; padding:9px 11px; color:var(--excel-reference-ink); background:white; border:1px solid #bfd3c8; border-radius:9px; }
+    input:focus, select:focus { outline:3px solid rgba(16,124,65,.15); border-color:var(--excel-reference-excel); }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:7px; min-height:42px; padding:9px 15px; color:white; background:var(--excel-reference-excel); border:0; border-radius:9px; cursor:pointer; font-weight:800; }
+    .btn:hover { background:var(--excel-reference-excel-dark); }
+    .btn.secondary { color:var(--excel-reference-excel-dark); background:white; border:1px solid #b9d1c4; }
     .btn.ghost { color:#4f655d; background:#e8f0ec; }
     .btn.warn { color:#6b4500; background:#ffe3a8; }
     .ref-result { padding:17px; color:white; background:#16352a; border-radius:12px; font-size:18px; font-family:Consolas,monospace; }
     .tabs { display:flex; gap:7px; flex-wrap:wrap; margin:20px 0 12px; }
-    .tab { padding:8px 12px; border:1px solid var(--line); background:white; border-radius:999px; cursor:pointer; font-weight:750; color:#426057; }
-    .tab.active { color:white; background:var(--excel); border-color:var(--excel); }
+    .tab { padding:8px 12px; border:1px solid var(--excel-reference-line); background:white; border-radius:999px; cursor:pointer; font-weight:750; color:#426057; }
+    .tab.active { color:white; background:var(--excel-reference-excel); border-color:var(--excel-reference-excel); }
     .tab-panel { display:none; }
     .tab-panel.active { display:block; }
     .flow { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin:18px 0; }
-    .flow-step { padding:16px; text-align:center; background:white; border:1px solid var(--line); border-radius:13px; }
-    .flow-step b { display:block; color:var(--excel); }
+    .flow-step { padding:16px; text-align:center; background:white; border:1px solid var(--excel-reference-line); border-radius:13px; }
+    .flow-step b { display:block; color:var(--excel-reference-excel); }
     .filter-output { max-height:310px; overflow:auto; }
-    .practice-shell { overflow:hidden; margin-top:28px; background:white; border:1px solid #bdd3c7; border-radius:20px; box-shadow:var(--shadow); }
+    .practice-shell { overflow:hidden; margin-top:28px; background:white; border:1px solid #bdd3c7; border-radius:20px; box-shadow:var(--excel-reference-shadow); }
     .practice-toolbar { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; padding:15px 18px; color:white; background:#164b34; }
     .practice-toolbar select { min-height:36px; padding:5px 9px; }
     .scoreboard { display:flex; gap:16px; font-size:13px; }
     .scoreboard b { font-size:17px; }
     .practice-body { display:grid; grid-template-columns:260px minmax(0,1fr); min-height:620px; }
-    .challenge-list { max-height:720px; overflow:auto; padding:12px; background:#f3f7f5; border-right:1px solid var(--line); }
+    .challenge-list { max-height:720px; overflow:auto; padding:12px; background:#f3f7f5; border-right:1px solid var(--excel-reference-line); }
     .challenge-item { width:100%; margin:3px 0; padding:10px; text-align:left; border:0; border-radius:9px; background:transparent; cursor:pointer; color:#344e45; }
     .challenge-item:hover, .challenge-item.active { background:white; box-shadow:0 3px 12px rgba(15,61,40,.08); }
-    .challenge-item.done::before { content:"✓ "; color:var(--excel); font-weight:900; }
+    .challenge-item.done::before { content:"✓ "; color:var(--excel-reference-excel); font-weight:900; }
     .challenge-item.revealed::before { content:"◉ "; color:#9b6a00; }
     .challenge-stage { min-width:0; padding:clamp(18px,4vw,38px); }
     .challenge-meta { display:flex; gap:8px; flex-wrap:wrap; }
     .badge { padding:4px 8px; color:#376052; background:#e5f1eb; border-radius:999px; font-size:12px; font-weight:800; }
     .badge.advanced { color:#694700; background:#fff0c9; }
     .challenge-stage h3 { margin:15px 0 8px; font-size:25px; }
-    .challenge-context { color:var(--muted); }
+    .challenge-context { color:var(--excel-reference-muted); }
     .formula-bar { display:grid; grid-template-columns:42px 1fr; align-items:center; margin:20px 0 12px; border:2px solid #9bbbad; border-radius:10px; overflow:hidden; background:white; }
-    .fx { display:grid; height:100%; place-items:center; color:var(--excel); background:#edf4f0; font-family:Georgia,serif; font-style:italic; font-weight:800; }
+    .fx { display:grid; height:100%; place-items:center; color:var(--excel-reference-excel); background:#edf4f0; font-family:Georgia,serif; font-style:italic; font-weight:800; }
     .formula-input { width:100%; min-height:52px; border:0; border-radius:0; font-size:16px; }
     .formula-input:focus { outline:0; }
     .feedback { display:none; margin:15px 0; padding:14px 16px; border-radius:12px; }
     .feedback.show { display:block; }
     .feedback.success { color:#0c5a30; background:#e0f5e9; border:1px solid #a9ddbd; }
-    .feedback.error { color:#87252b; background:var(--red-soft); border:1px solid #efb9bd; }
-    .feedback.info { color:#284f9c; background:var(--blue-soft); border:1px solid #bfcdfa; }
-    .answer-panel { display:none; margin-top:12px; padding:16px; border-left:4px solid var(--amber); background:var(--amber-soft); border-radius:5px 12px 12px 5px; }
+    .feedback.error { color:#87252b; background:var(--excel-reference-red-soft); border:1px solid #efb9bd; }
+    .feedback.info { color:#284f9c; background:var(--excel-reference-blue-soft); border:1px solid #bfcdfa; }
+    .answer-panel { display:none; margin-top:12px; padding:16px; border-left:4px solid var(--excel-reference-amber); background:var(--excel-reference-amber-soft); border-radius:5px 12px 12px 5px; }
     .answer-panel.show { display:block; }
     .nav-buttons { display:flex; justify-content:space-between; gap:10px; margin-top:22px; }
     .mastery { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:20px 0; }
-    .mastery-card { padding:17px; background:white; border:1px solid var(--line); border-radius:14px; }
-    .mastery-card strong { display:block; font-size:26px; color:var(--excel); }
+    .mastery-card { padding:17px; background:white; border:1px solid var(--excel-reference-line); border-radius:14px; }
+    .mastery-card strong { display:block; font-size:26px; color:var(--excel-reference-excel); }
     .checklist { list-style:none; padding:0; }
     .checklist li { position:relative; margin:8px 0; padding-left:27px; }
-    .checklist li::before { position:absolute; left:0; content:"✓"; color:var(--excel); font-weight:900; }
+    .checklist li::before { position:absolute; left:0; content:"✓"; color:var(--excel-reference-excel); font-weight:900; }
     .topbar .theme-control { order:3; margin-left:auto; }
     .topbar .top-progress { order:1; }
     .topbar .phase2-top-actions { order:2; margin-left:0; margin-right:0; }
@@ -231,7 +231,7 @@
       .mobile-toc { display:block; }
       .card-grid, .level-path { grid-template-columns:1fr; }
       .practice-body { grid-template-columns:1fr; }
-      .challenge-list { display:flex; max-height:none; overflow-x:auto; border-right:0; border-bottom:1px solid var(--line); }
+      .challenge-list { display:flex; max-height:none; overflow-x:auto; border-right:0; border-bottom:1px solid var(--excel-reference-line); }
       .challenge-item { min-width:160px; }
       .flow { grid-template-columns:1fr 1fr; }
       .mastery { grid-template-columns:1fr 1fr; }
@@ -284,7 +284,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
   background: #fff;
   border: 1px solid #bfd5c8;
   border-radius: 20px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--excel-reference-shadow);
 }
 .platform-head {
   display: flex;
@@ -317,7 +317,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 .diagnostic-score-card span { color: #cce9d7; font-size: 13px; }
 .diagnostic-question { display: none; }
 .diagnostic-question.active { display: block; }
-.question-count { color: var(--excel); font-size: 13px; font-weight: 850; text-transform: uppercase; letter-spacing: .08em; }
+.question-count { color: var(--excel-reference-excel); font-size: 13px; font-weight: 850; text-transform: uppercase; letter-spacing: .08em; }
 .diagnostic-question h3 { max-width: 780px; margin: 10px 0 18px; }
 .option-grid { display: grid; gap: 10px; }
 .option-card {
@@ -334,7 +334,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
   font-weight: 650;
 }
 .option-card:hover, .option-card.selected { background: #e5f5ec; border-color: #68b88c; }
-.option-card input { min-height: auto; margin-top: 4px; accent-color: var(--excel); }
+.option-card input { min-height: auto; margin-top: 4px; accent-color: var(--excel-reference-excel); }
 .diagnostic-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 22px; }
 .diagnostic-result { display: none; }
 .diagnostic-result.show { display: block; }
@@ -345,10 +345,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
   border: 1px solid #b9dec8;
   border-radius: 15px;
 }
-.recommendation-card strong { color: var(--excel-dark); font-size: 21px; }
+.recommendation-card strong { color: var(--excel-reference-excel-dark); font-size: 21px; }
 .diagnostic-breakdown { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 10px; }
-.diagnostic-skill { padding: 13px; background: #f5f8f6; border: 1px solid var(--line); border-radius: 12px; }
-.diagnostic-skill b { display: block; color: var(--excel-dark); }
+.diagnostic-skill { padding: 13px; background: #f5f8f6; border: 1px solid var(--excel-reference-line); border-radius: 12px; }
+.diagnostic-skill b { display: block; color: var(--excel-reference-excel-dark); }
 
 .live-controls {
   display: grid;
@@ -356,13 +356,13 @@ html, body { max-width: 100%; overflow-x: hidden; }
   gap: 12px;
   padding: 16px 18px;
   background: #f0f6f3;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--excel-reference-line);
 }
 .live-controls label { align-content: start; }
 .live-layout { display: grid; grid-template-columns: 285px minmax(0,1fr); min-width: 0; max-width: 100%; min-height: 660px; }
-.mission-panel { min-width: 0; max-width: 100%; overflow: hidden; padding: 18px; background: #f7faf8; border-right: 1px solid var(--line); }
+.mission-panel { min-width: 0; max-width: 100%; overflow: hidden; padding: 18px; background: #f7faf8; border-right: 1px solid var(--excel-reference-line); }
 .mission-panel h3 { margin: 0 0 8px; }
-.mission-panel p { color: var(--muted); font-size: 14px; }
+.mission-panel p { color: var(--excel-reference-muted); font-size: 14px; }
 .mission-pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 13px 0; }
 .test-pill { padding: 4px 8px; color: #3f5a50; background: #e5eee9; border-radius: 999px; font-size: 11px; font-weight: 800; }
 .test-pill.pass { color: #08582e; background: #d8f3e4; }
@@ -378,13 +378,13 @@ html, body { max-width: 100%; overflow-x: hidden; }
   text-align: left;
   font-size: 13px;
 }
-.mission-button:hover, .mission-button.active { color: var(--excel-dark); background: #fff; box-shadow: 0 3px 10px rgba(15,61,40,.08); }
-.mission-button.complete::before { content: "✓ "; color: var(--excel); font-weight: 900; }
+.mission-button:hover, .mission-button.active { color: var(--excel-reference-excel-dark); background: #fff; box-shadow: 0 3px 10px rgba(15,61,40,.08); }
+.mission-button.complete::before { content: "✓ "; color: var(--excel-reference-excel); font-weight: 900; }
 .sheet-workspace { min-width: 0; max-width: 100%; overflow: hidden; padding: 18px; background: #fff; }
-.sheet-statusbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; color: var(--muted); font-size: 12px; }
-.sheet-statusbar strong { color: var(--ink); }
+.sheet-statusbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; color: var(--excel-reference-muted); font-size: 12px; }
+.sheet-statusbar strong { color: var(--excel-reference-ink); }
 .workbook-tabs { display: flex; gap: 4px; }
-.workbook-tab { padding: 5px 10px; color: var(--excel-dark); background: #dff1e7; border-radius: 7px 7px 0 0; font-weight: 800; }
+.workbook-tab { padding: 5px 10px; color: var(--excel-reference-excel-dark); background: #dff1e7; border-radius: 7px 7px 0 0; font-weight: 800; }
 .formula-workbar {
   display: grid;
   grid-template-columns: 64px 42px minmax(0,1fr);
@@ -395,7 +395,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 }
 .name-box, .live-fx { display: grid; place-items: center; background: #edf4f0; border-right: 1px solid #cbdad2; }
 .name-box { font-family: Consolas,monospace; font-weight: 800; }
-.live-fx { color: var(--excel); font-family: Georgia,serif; font-style: italic; font-weight: 800; }
+.live-fx { color: var(--excel-reference-excel); font-family: Georgia,serif; font-style: italic; font-weight: 800; }
 .live-formula-input { width: 100%; min-height: 44px; padding: 9px 12px; border: 0; border-radius: 0; font-family: Consolas,monospace; }
 .live-formula-input:focus { outline: 3px solid rgba(16,124,65,.13); outline-offset: -3px; }
 .grid-scroll { max-width: 100%; overflow: auto; border: 1px solid #b9ccc2; border-top: 0; }
@@ -420,10 +420,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
   text-overflow: ellipsis;
   cursor: cell;
 }
-.grid-cell.source-header { color: #fff; background: var(--excel); font-weight: 800; }
+.grid-cell.source-header { color: #fff; background: var(--excel-reference-excel); font-weight: 800; }
 .grid-cell.context-cell { color: #684700; background: #fff0ca; font-weight: 750; }
-.grid-cell.target-cell { background: #fff8e7; border: 2px solid var(--amber); font-weight: 800; }
-.grid-cell.selected { position: relative; outline: 3px solid var(--excel); outline-offset: -2px; z-index: 1; }
+.grid-cell.target-cell { background: #fff8e7; border: 2px solid var(--excel-reference-amber); font-weight: 800; }
+.grid-cell.selected { position: relative; outline: 3px solid var(--excel-reference-excel); outline-offset: -2px; z-index: 1; }
 .grid-cell.editable:hover { background: #f0f8f4; }
 .grid-cell.formula-result { color: #0b5c31; }
 .live-actions { display: flex; flex-wrap: wrap; gap: 9px; margin: 14px 0; }
@@ -436,7 +436,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 .hidden-test { padding: 7px; text-align: center; background: rgba(255,255,255,.65); border-radius: 8px; font-size: 11px; font-weight: 800; }
 .hidden-test.pass { color: #096033; background: #ccebd9; }
 .hidden-test.fail { color: #8a282f; background: #f8cfd2; }
-.engine-note { margin: 9px 0 0; color: var(--muted); font-size: 12px; }
+.engine-note { margin: 9px 0 0; color: var(--excel-reference-muted); font-size: 12px; }
 
 .mastery-body { padding: clamp(18px,4vw,32px); }
 .mastery-summary { display: grid; grid-template-columns: 190px minmax(0,1fr); gap: 22px; align-items: center; }
@@ -447,24 +447,24 @@ html, body { max-width: 100%; overflow-x: hidden; }
   place-items: center;
   margin: auto;
   border-radius: 50%;
-  background: conic-gradient(var(--excel) var(--mastery-angle,0%),#e3ece7 0);
+  background: conic-gradient(var(--excel-reference-excel) var(--mastery-angle,0%),#e3ece7 0);
 }
 .mastery-ring::before { grid-area: 1/1; width: 124px; height: 124px; content: ""; background: #fff; border-radius: 50%; }
 .mastery-ring-content { grid-area: 1/1; z-index: 1; text-align: center; }
-.mastery-ring-content strong { display: block; color: var(--excel-dark); font-size: 36px; line-height: 1; }
-.mastery-ring-content span { color: var(--muted); font-size: 12px; }
+.mastery-ring-content strong { display: block; color: var(--excel-reference-excel-dark); font-size: 36px; line-height: 1; }
+.mastery-ring-content span { color: var(--excel-reference-muted); font-size: 12px; }
 .skill-bars { display: grid; gap: 10px; }
 .skill-row { display: grid; grid-template-columns: 170px minmax(0,1fr) 48px 80px; gap: 10px; align-items: center; font-size: 13px; }
 .skill-row > span:first-child { font-weight: 750; }
 .skill-track { height: 10px; overflow: hidden; background: #e5ece8; border-radius: 999px; }
-.skill-fill { height: 100%; background: linear-gradient(90deg,var(--excel),#47b879); border-radius: inherit; }
-.skill-score { color: var(--excel-dark); font-weight: 850; text-align: right; }
-.skill-evidence { color: var(--muted); font-size: 11px; }
-.review-panel { display: grid; grid-template-columns: minmax(0,1fr) 250px; gap: 18px; margin-top: 28px; padding-top: 23px; border-top: 1px solid var(--line); }
+.skill-fill { height: 100%; background: linear-gradient(90deg,var(--excel-reference-excel),#47b879); border-radius: inherit; }
+.skill-score { color: var(--excel-reference-excel-dark); font-weight: 850; text-align: right; }
+.skill-evidence { color: var(--excel-reference-muted); font-size: 11px; }
+.review-panel { display: grid; grid-template-columns: minmax(0,1fr) 250px; gap: 18px; margin-top: 28px; padding-top: 23px; border-top: 1px solid var(--excel-reference-line); }
 .review-queue { display: grid; gap: 8px; }
 .review-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 13px; background: #f6f9f7; border: 1px solid #dce7e1; border-radius: 11px; font-size: 13px; }
 .review-item b { display: block; }
-.review-item small { color: var(--muted); }
+.review-item small { color: var(--excel-reference-muted); }
 .review-card { padding: 18px; color: #fff; background: #183d2f; border-radius: 15px; }
 .review-card strong { display: block; font-size: 38px; }
 .review-card p { color: #d2e8db; font-size: 13px; }
@@ -477,7 +477,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 
 @media (max-width: 980px) {
   .live-layout { grid-template-columns: 1fr; }
-  .mission-panel { border-right: 0; border-bottom: 1px solid var(--line); }
+  .mission-panel { border-right: 0; border-bottom: 1px solid var(--excel-reference-line); }
   .mission-list { display: flex; overflow-x: auto; }
   .mission-button { flex: 0 0 175px; min-width: 175px; }
   .diagnostic-breakdown { grid-template-columns: repeat(2,1fr); }
@@ -508,7 +508,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
 .phase2-sync-dot.synced{background:#34d399;box-shadow:0 0 0 3px rgba(52,211,153,.12)}
 .phase2-ribbon{background:linear-gradient(90deg,#0f766e,#0369a1);color:#fff;border-radius:12px;padding:11px 16px;margin-top:18px;display:inline-flex;gap:12px;align-items:center;font-weight:750;font-size:13px;box-shadow:0 10px 24px rgba(3,105,161,.2)}
 .platform-section{scroll-margin-top:88px}
-.hub-shell,.graph-shell,.pathway-shell,.project-shell,.badge-shell,.instructor-shell,.authoring-shell{border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 18px 50px rgba(15,23,42,.08)}
+.hub-shell,.graph-shell,.pathway-shell,.project-shell,.badge-shell,.instructor-shell,.authoring-shell{border:1px solid var(--excel-reference-line);border-radius:18px;background:#fff;overflow:hidden;box-shadow:0 18px 50px rgba(15,23,42,.08)}
 .hub-head{padding:24px;background:linear-gradient(120deg,#082f49,#0f766e 62%,#155e75);color:#fff;display:flex;justify-content:space-between;gap:24px;align-items:flex-start}
 .hub-head h3{color:#fff;margin:4px 0 6px;font-size:24px}.hub-head p{margin:0;color:#cffafe;max-width:660px}
 .hub-level{min-width:178px;text-align:right}.hub-level strong{display:block;font-size:32px;line-height:1}.hub-level span{font-size:12px;color:#a5f3fc}
@@ -519,10 +519,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
 .recommendation-score{width:72px;height:72px;border-radius:18px;background:#ecfeff;color:#0e7490;display:grid;place-items:center;font-size:25px;font-weight:900;border:1px solid #a5f3fc}
 .next-actions{display:grid;gap:9px;margin-top:14px}
 .next-action{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:11px;border:1px solid #e2e8f0;border-radius:11px;background:#fff;color:inherit;text-decoration:none}
-.next-action:hover{border-color:#38bdf8;background:#f0f9ff}.next-action b{font-size:13px}.next-action small{display:block;color:var(--muted);margin-top:2px}.next-action-index{width:28px;height:28px;border-radius:8px;background:#e0f2fe;color:#0369a1;display:grid;place-items:center;font-weight:900}
+.next-action:hover{border-color:#38bdf8;background:#f0f9ff}.next-action b{font-size:13px}.next-action small{display:block;color:var(--excel-reference-muted);margin-top:2px}.next-action-index{width:28px;height:28px;border-radius:8px;background:#e0f2fe;color:#0369a1;display:grid;place-items:center;font-weight:900}
 .pathway-mini{padding:14px;border-radius:13px;background:#f0fdfa;border:1px solid #99f6e4}.pathway-mini strong{display:block;margin-bottom:5px}.mini-progress{height:8px;background:#ccfbf1;border-radius:999px;overflow:hidden;margin:10px 0 6px}.mini-progress span{display:block;height:100%;background:#0d9488;border-radius:999px}
 .phase2-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.phase2-tab{border:1px solid #cbd5e1;background:#fff;border-radius:999px;padding:8px 12px;font:inherit;font-size:12px;font-weight:800;color:#475569;cursor:pointer}.phase2-tab.active{background:#082f49;color:#fff;border-color:#082f49}
-.graph-head,.pathway-head,.project-head,.badge-head,.instructor-head,.authoring-head{padding:20px 22px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;gap:20px;align-items:center}.graph-head h3,.pathway-head h3,.project-head h3,.badge-head h3,.instructor-head h3,.authoring-head h3{margin:0}.subtle{color:var(--muted);font-size:13px}
+.graph-head,.pathway-head,.project-head,.badge-head,.instructor-head,.authoring-head{padding:20px 22px;border-bottom:1px solid #e2e8f0;display:flex;justify-content:space-between;gap:20px;align-items:center}.graph-head h3,.pathway-head h3,.project-head h3,.badge-head h3,.instructor-head h3,.authoring-head h3{margin:0}.subtle{color:var(--excel-reference-muted);font-size:13px}
 .skills-graph{padding:24px;background:radial-gradient(circle at top right,#ecfeff,transparent 38%),#f8fafc;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;position:relative}
 .skill-node{border:1px solid #cbd5e1;background:#fff;border-radius:14px;padding:15px;min-height:138px;position:relative;transition:.18s ease}.skill-node:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(15,23,42,.1)}
 .skill-node.recommended{border:2px solid #0ea5e9;box-shadow:0 0 0 4px rgba(14,165,233,.09)}.skill-node.locked{background:#f8fafc;opacity:.72}.skill-node.mastered{border-color:#34d399;background:#f0fdf4}
@@ -567,9 +567,12 @@ html, body { max-width: 100%; overflow-x: hidden; }
 @media print{.coach-fab,.phase3-capabilities,.audit-dropzone,.industry-toolbar,.industry-actions,.cert-actions,.portfolio-controls,.org-top,.org-export{display:none}.credential-card{display:block!important;box-shadow:none;page-break-inside:avoid}}
 
 </style>
-<link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/lessons-theme.css"></head>
-<body data-lesson-page="true" data-category="power-bi-excel-sql" data-level="advanced" data-interactive="true">
-<a class="skip-link" href="#lesson-content">Skip to lesson content</a>
+<link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/lessons-theme.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/lessons/excel-formula-fluency/sprint/styles.css">
+<link rel="stylesheet" href="/assets/lessons/excel-formula-fluency/sprint/reference-theme.css">
+</head>
+<body data-lesson-page="true" data-category="power-bi-excel-sql" data-level="advanced" data-interactive="true" data-lesson-type="general" data-local-progress-only="true">
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
 <header class="site lesson-sitebar">
   <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
@@ -582,45 +585,69 @@ html, body { max-width: 100%; overflow-x: hidden; }
 </header>
 
 
+  <div class="excel-reference-content">
   <header class="hero">
     <p class="eyebrow">Interactive Excel learning path</p>
-    <h1>From formula symbols to dynamic analytical models.</h1>
-    <p class="lede">Diagnose your starting point, learn Excel’s formula language, practise in a live workbook, and build durable mastery through hidden tests and spaced review.</p>
+    <h1>Build your Excel skills, one assignment at a time.</h1>
+    <p class="lede">Check your starting point, work through 50 core assignments, and practise with manufacturing datasets in Excel. Get feedback on your submitted results, revisit skills with spaced review, and finish with optional Expert capstones.</p>
     <div class="hero-meta">
       <span class="pill">Beginner → Advanced</span>
-      <span class="pill">Adaptive Phase 1</span>
-      <span class="pill">50 challenges + 10 live missions</span>
-      <span class="pill">Manufacturing dataset</span>
-      <span class="pill">Excel 365 + legacy guidance</span>
+      <span class="pill">50 core assignments</span>
+      <span class="pill">20 practice drills + 3 Expert capstones</span>
+      <span class="pill">Synthetic manufacturing datasets</span>
+      <span class="pill">Microsoft 365 Excel</span>
     </div>
     <div class="hero-actions">
-      <a class="btn" href="/assets/lessons/excel-formula-fluency/excel-formula-fluency-practice-workbook.xlsx" download>Download Excel practice workbook</a>
+      <a class="btn" href="#excel-introduction">Start with the Excel introduction</a>
+      <a class="btn" href="#sprint-assignment">Start your next assignment</a>
+      <a class="btn secondary" href="#sprint-learning">Placement check and practice</a>
+      <a class="btn secondary" href="/assets/lessons/excel-formula-fluency/excel-formula-fluency-practice-workbook.xlsx" download>Download reference workbook</a>
     </div>
-    <div class="phase1-ribbon">Result-based grading · hidden tests · personalized review</div>
+    <div class="phase1-ribbon">Work in Excel · submit your formula and result · save a progress backup</div>
   </header>
 
   <div class="layout">
     <aside class="toc" aria-label="Lesson navigation">
       <h2>Lesson map</h2>
       <select class="mobile-toc" id="mobileToc" aria-label="Jump to module">
-        <option value="#start">Start here</option><option value="#diagnostic">Diagnostic</option><option value="#grammar">1. Formula grammar</option><option value="#dynamic">2. Dynamic ranges</option><option value="#analysis">3. Analytical formulas</option><option value="#functional">4. Modern formula programming</option><option value="#design">5. Model design</option><option value="#live-lab">Live workbook lab</option><option value="#practice">6. Formula challenges</option><option value="#mastery-center">Mastery & review</option><option value="#capstone">Capstone</option>
+        <option value="#excel-introduction">Start here: Introduction to Excel</option>
+        <option value="#excel-sprint">Excel Formula Sprint</option><option value="#sprint-assignment">Your assignment</option><option value="#sprint-learning">Placement, practice and review</option><option value="#sprint-dashboard">Sprint progress</option><option value="#sprint-certificates">Sprint certificates</option><option value="#start">Formula reference</option><option value="#diagnostic">Reference diagnostic</option><option value="#grammar">1. Formula grammar</option><option value="#dynamic">2. Dynamic ranges</option><option value="#analysis">3. Analytical formulas</option><option value="#functional">4. Modern formula programming</option><option value="#design">5. Model design</option><option value="#live-lab">Reference workbook lab</option><option value="#practice">Reference challenges</option><option value="#mastery-center">Reference mastery tracker</option><option value="#capstone">Reference capstone</option>
       </select>
       <nav class="toc-links">
-        <a href="#start">Start here</a>
-        <a href="#diagnostic">Diagnostic</a>
+        <a href="#excel-introduction">Start here: Introduction to Excel</a>
+        <a href="#excel-sprint">Excel Formula Sprint</a>
+        <a href="#sprint-assignment">Your assignment</a>
+        <a href="#sprint-learning">Placement, practice & review</a>
+        <a href="#sprint-dashboard">Sprint progress</a>
+        <a href="#sprint-certificates">Sprint certificates</a>
+        <a href="#start">Formula reference</a>
+        <a href="#diagnostic">Reference diagnostic</a>
         <a href="#grammar">1. Formula grammar</a>
         <a href="#dynamic">2. Dynamic ranges</a>
         <a href="#analysis">3. Analytical formulas</a>
         <a href="#functional">4. Formula programming</a>
         <a href="#design">5. Model design</a>
-        <a href="#live-lab">Live workbook lab</a>
-        <a href="#practice">6. Formula challenges</a>
-        <a href="#mastery-center">Mastery & review</a>
-        <a href="#capstone">Capstone</a>
+        <a href="#live-lab">Reference workbook lab</a>
+        <a href="#practice">Reference challenges</a>
+        <a href="#mastery-center">Reference mastery tracker</a>
+        <a href="#capstone">Reference capstone</a>
       </nav>
     </aside>
 
-    <main>
+    <main id="lesson-content">
+      <section id="excel-introduction" aria-labelledby="excel-introduction-heading">
+        <h2 id="excel-introduction-heading">Introduction to Excel</h2>
+        <p>Excel is a spreadsheet tool for organizing data, calculating results, and exploring patterns. An Excel file is a workbook. Each workbook contains worksheets, and each worksheet has rows, columns, and cells. A cell address such as B2 identifies its column and row. A formula starts with = and calculates a result.</p>
+        <p>Start with the building blocks below, then move on to placement, practice, and your first assignment. The introduction's quizzes save their own progress in this browser; they do not change your signed Sprint completion.</p>
+        <iframe id="excel-introduction-frame" title="Excel building blocks: interactive introduction" src="/assets/lessons/excel-formula-fluency/sprint/introduction.html" style="display:block;width:100%;height:1400px;border:1px solid #234059;border-radius:18px;background:#071120" loading="eager"></iframe>
+        <p><a href="/assets/lessons/excel-formula-fluency/sprint/introduction.html" target="_blank" rel="noopener">Open the complete introduction in its own window</a></p>
+        <a class="btn" href="#excel-sprint">Continue to Excel Formula Sprint</a>
+      </section>
+      <section id="excel-sprint" aria-labelledby="sprint-heading">
+        <div id="excel-sprint-app"><h2 id="sprint-heading">Excel Formula Sprint</h2><p>Loading your assignment path…</p></div>
+        <noscript>Excel Formula Sprint needs JavaScript. The complete formula reference below remains readable.</noscript>
+      </section>
+      <section id="legacy-practice-notice"><h2>Formula reference and additional practice</h2><p>The lessons, workbook labs, projects and local credentials below are additional practice. They keep their original progress and do not unlock Sprint assignments or count as signed Sprint completions.</p></section>
       <!-- PHASE3_PLATFORM_BEGIN -->
 <section id="phase3-command" class="phase3-section">
   <div class="phase3-cockpit">
@@ -632,7 +659,7 @@ html, body { max-width: 100%; overflow-x: hidden; }
       <a class="capability-card" href="#excel-coach"><span class="capability-icon">AI</span><span><b>Context-aware Excel Coach</b><small>Guidance based on your current formula, evidence, and pathway.</small></span></a>
       <a class="capability-card" href="#workbook-auditor"><span class="capability-icon">✓</span><span><b>Workbook Inspector</b><small>Upload and grade formula quality, risks, and robustness locally.</small></span></a>
       <a class="capability-card" href="#industry-library"><span class="capability-icon">▦</span><span><b>Industry Project Library</b><small>Realistic practice across manufacturing, quality, finance, and more.</small></span></a>
-      <a class="capability-card" href="#certification"><span class="capability-icon">★</span><span><b>Verified Certification</b><small>Timed assessment plus mastery, mission, and project evidence.</small></span></a>
+      <a class="capability-card" href="#certification"><span class="capability-icon">★</span><span><b>Reference practice certificate</b><small>A local record of the additional assessment and practice.</small></span></a>
       <a class="capability-card" href="#portfolio-studio"><span class="capability-icon">↗</span><span><b>Shareable Portfolio</b><small>Export a portable evidence-rich portfolio as standalone HTML.</small></span></a>
       <a class="capability-card" href="#organization-center"><span class="capability-icon">◎</span><span><b>Team Training Management</b><small>Teams, assignments, deadlines, skills gaps, and reporting.</small></span></a>
     </div>
@@ -677,15 +704,15 @@ html, body { max-width: 100%; overflow-x: hidden; }
 </section>
 
 <section id="certification" class="phase3-section">
-  <p class="section-kicker">Evidence-verified certification</p>
-  <h2>Prove you can build—not merely recognize answers.</h2>
-  <p class="section-intro">The Excel Formula Professional credential combines a timed assessment with mastery, hidden-test missions, and completed project evidence. The certificate includes a locally verifiable credential ID.</p>
+  <p class="section-kicker">Reference practice assessment</p>
+  <h2>Review your additional practice.</h2>
+  <p class="section-intro">This local practice certificate records the reference assessment, missions and project entries saved in this browser. Its ID only looks up a local record; it does not verify identity, Excel proficiency or a signed Sprint award. For signed course completion, use <a href="#sprint-certificates">Sprint certificates</a>.</p>
   <div class="cert-shell">
-    <div class="graph-head"><div><h3>Excel Formula Professional</h3><span class="subtle">UpSkillSprint evidence-verified credential · 85% standard</span></div><span class="phase3-badge" id="certStatePill">Not yet eligible</span></div>
+    <div class="graph-head"><div><h3>Excel Formula Professional — reference practice</h3><span class="subtle">Local practice record · 85% assessment threshold</span></div><span class="phase3-badge" id="certStatePill">Not yet eligible</span></div>
     <div class="cert-readiness"><div class="cert-gauge"><div><span>Readiness</span><strong id="certReadiness">0%</strong><span id="certReadinessText">0 of 4 requirements</span></div></div><div class="cert-requirements" id="certRequirements"></div></div>
     <div class="cert-actions"><label class="skill-checkbox"><input type="checkbox" id="certAttestation"> I will complete the timed assessment without outside assistance.</label><button class="btn" id="startCertExam">Start 12-question assessment</button><button class="btn secondary" id="startCertPractice">Try 5-question practice</button></div>
     <div class="cert-assessment" id="certAssessment"><div class="exam-bar"><span id="examProgress">Question 1 of 12</span><strong id="examTimer">30:00</strong></div><div class="exam-body"><span class="section-kicker" id="examSkill"></span><h3 id="examQuestion"></h3><div class="exam-options" id="examOptions"></div><div class="exam-nav"><button class="btn secondary" id="examPrevious">← Previous</button><button class="btn" id="examNext">Next →</button><button class="btn warn" id="submitExam" style="display:none">Submit assessment</button></div><div class="validation-report" id="examResult" aria-live="polite"></div></div></div>
-    <div class="credential-area"><div class="credential-card" id="credentialCard"></div><div class="verify-box"><input id="verifyCredentialInput" placeholder="Enter a credential ID"><button class="btn secondary" id="verifyCredential">Verify credential</button></div><div class="verify-result" id="verifyResult"></div></div>
+    <div class="credential-area"><div class="credential-card" id="credentialCard"></div><div class="verify-box"><input id="verifyCredentialInput" placeholder="Enter a local practice ID" aria-label="Local practice certificate ID"><button class="btn secondary" id="verifyCredential">Find local record</button></div><div class="verify-result" id="verifyResult" role="status"></div></div>
   </div>
 </section>
 
@@ -1218,12 +1245,54 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
       </section>
     </main>
   </div>
-  
+  </div>
 <section class="lesson-backlink" aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left"><a href="/lessons#power-bi-excel-sql" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Power BI, Excel & SQL lessons</a></section>
 <footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
 
 <div class="phase1-toast" id="phase1Toast" role="status" aria-live="polite"></div>
 
+  <script id="reference-progress-storage">
+  (function(){
+    "use strict";
+    const cache=new Map(),unreadable=new Map(),failures=new Set(),blockedReads=new Set(),LIMIT=2*1024*1024;
+    const object=v=>!!v&&typeof v==="object"&&!Array.isArray(v);
+    function validProgress(p){
+      if(!object(p))return false;
+      for(const key of ["completed","revealed","skillStats","review","liveLab","phase2","phase3"])if(p[key]!==undefined&&!object(p[key]))return false;
+      for(const key of ["streak","xp","current"])if(p[key]!==undefined&&(!Number.isFinite(p[key])||p[key]<0))return false;
+      if(p.current!==undefined&&(!Number.isInteger(p.current)||p.current>=50))return false;
+      for(const [owner,fields] of [[p.liveLab,["completed","attempts"]],[p.phase2,["projects","badges","sync"]],[p.phase3,["coach","industryProjects","certification","portfolio","organization"]]])if(owner)for(const key of fields)if(owner[key]!==undefined&&!object(owner[key]))return false;
+      for(const [owner,fields] of [[p.phase2,["customLessons"]],[p.phase3,["audits"]],[p.phase3?.certification,["assessments","credentials"]],[p.phase3?.coach,["history"]],[p.phase3?.portfolio,["artifacts"]],[p.phase3?.organization,["members","teams","assignments"]]])if(owner)for(const key of fields)if(owner[key]!==undefined&&(!Array.isArray(owner[key])||!owner[key].every(object)))return false;
+      for(const records of [p.skillStats,p.review,p.phase2?.projects,p.phase3?.industryProjects])if(records&&!Object.values(records).every(object))return false;
+      if(p.diagnostic!==undefined&&p.diagnostic!==null&&(!object(p.diagnostic)||p.diagnostic.bySkill!==undefined&&(!object(p.diagnostic.bySkill)||!Object.values(p.diagnostic.bySkill).every(object))))return false;
+      if(p.phase3?.portfolio?.visibility!==undefined&&!object(p.phase3.portfolio.visibility))return false;
+      if(p.phase3?.coach?.hintLevels!==undefined&&!object(p.phase3.coach.hintLevels))return false;
+      for(const project of [...Object.values(p.phase2?.projects||{}),...Object.values(p.phase3?.industryProjects||{})])if(project.checks!==undefined&&(!Array.isArray(project.checks)||!project.checks.every(Number.isInteger)))return false;
+      for(const team of p.phase3?.organization?.teams||[])if(team.memberIds!==undefined&&(!Array.isArray(team.memberIds)||!team.memberIds.every(x=>typeof x==="string")))return false;
+      for(const credential of p.phase3?.certification?.credentials||[])if(typeof credential.id!=="string"||!credential.id.trim())return false;
+      for(const value of [p.phase2?.sync?.lastSync,...Object.values(p.review||{}).map(x=>x.dueAt),...(p.phase3?.certification?.credentials||[]).map(x=>x.issuedAt)])if(value!==undefined&&value!==null&&(typeof value!=="number"||!Number.isFinite(new Date(value).getTime())))return false;
+      return true;
+    }
+    function normalizeProgress(p){
+      if(p.liveLab)p.liveLab={completed:{},attempts:{},seed:3471,mission:0,...p.liveLab};
+      for(const records of [p.phase2?.projects,p.phase3?.industryProjects])if(records)for(const key of Object.keys(records))records[key]={status:"started",checks:[],note:"",evidence:"",...records[key]};
+      if(p.phase3){const x=p.phase3;x.coach={history:[],hintLevels:{},...x.coach};x.certification={assessments:[],bestScore:0,credentials:[],...x.certification};x.portfolio={headline:"Excel Formula & Analytics Practitioner",bio:"I build reliable, auditable Excel models that turn operational data into decisions.",visibility:{mastery:true,projects:true,audits:true,credentials:true},artifacts:[],...x.portfolio};x.organization={name:"UpSkillSprint Learning Organization",members:[],teams:[],assignments:[],...x.organization};x.organization.teams=x.organization.teams.map(team=>({memberIds:[],...team}));}
+      return p;
+    }
+    function status(){
+      const el=document.getElementById("reference-save-status"),raw=document.getElementById("reference-recovery-export");if(!el)return;
+      el.textContent=unreadable.size?"Some reference progress could not be read. Its original saved text is preserved. New reference changes stay on this page; export your profile before leaving.":failures.size?"Reference changes are only kept on this page because browser storage is unavailable. Export your profile before leaving.":"Reference progress is saved in this browser when you make changes. Export your profile to keep a backup.";
+      if(raw)raw.hidden=!unreadable.size;
+    }
+    function readText(key){if(cache.has(key))return cache.get(key);try{const raw=window.localStorage.getItem(key);cache.set(key,raw);return raw;}catch{failures.add(key);blockedReads.add(key);status();return null;}}
+    function readJSON(key,fallback,validate){const raw=readText(key);if(raw===null)return fallback;try{if(typeof raw!=="string"||raw.length>LIMIT)throw new Error();const value=JSON.parse(raw);if(!validate(value))throw new Error();return value;}catch{unreadable.set(key,raw);cache.set(key,JSON.stringify(fallback));status();return fallback;}}
+    function writeText(key,text){const activeSelection=key==="excelFormulaFluencyActiveProfileV2";if(!activeSelection)cache.set(key,text);if(unreadable.size||blockedReads.size){status();return false;}try{window.localStorage.setItem(key,text);cache.set(key,text);failures.delete(key);status();return true;}catch{failures.add(key);status();return false;}}
+    function saveMessage(message){return unreadable.size||failures.size?String(message).replace(/\bsaved\b/gi,"updated for this visit")+" Browser saving is unavailable; export your profile before leaving.":message;}
+    function accounts(key){return readJSON(key,[],a=>Array.isArray(a)&&a.every(x=>object(x)&&typeof x.id==="string"&&!!x.id.trim()&&typeof x.name==="string"&&!!x.name.trim()&&(x.role===undefined||typeof x.role==="string"&&!!x.role.trim())&&(x.createdAt===undefined||x.createdAt===null||typeof x.createdAt==="number"&&Number.isFinite(new Date(x.createdAt).getTime()))&&validProgress(x.progress===undefined?{}:x.progress))).map(x=>({...x,role:x.role||"learner",createdAt:x.createdAt??null,progress:normalizeProgress(x.progress||{})}));}
+    window.ReferenceProgressStorage={readText,readJSON,writeText,validProgress,normalizeProgress,saveMessage,accounts,savingAvailable:()=>!unreadable.size&&!failures.size};
+    const notice=document.getElementById("legacy-practice-notice");if(notice){const box=document.createElement("div");box.innerHTML='<p id="reference-save-status" role="status" aria-live="polite"></p><button class="btn secondary" id="openAccountDialog" type="button">Reference profile and backup</button> <button class="btn secondary" id="reference-recovery-export" type="button" hidden>Show unreadable saved text for backup</button><textarea id="reference-recovery-text" aria-label="Unreadable reference progress backup" readonly hidden style="width:100%;min-height:160px"></textarea>';notice.appendChild(box);document.getElementById("reference-recovery-export").onclick=()=>{const field=document.getElementById("reference-recovery-text");field.value=JSON.stringify(Object.fromEntries(unreadable),null,2);field.hidden=false;field.focus();field.select();};}status();
+  })();
+  </script>
   <script>
     const productionData = [
       ["2026-07-01","Melt Shop","437690-A001",27,94.3,12.4,188,"PASS"],
@@ -1311,23 +1380,24 @@ Any cell: =COUNTA(D2#)</span><p>The anchor formula occupies D2; its results spil
       {l:"Advanced",t:"GROUPBY",n:"Average delay by facility",p:"Using Table ProductionData, group Facility and calculate average Delay Time.",a:["=GROUPBY(PRODUCTIONDATA[FACILITY],PRODUCTIONDATA[DELAY TIME],AVERAGE)"],h:"GROUPBY(row_fields, values, function).",w:"The formula returns a dynamic grouped summary. Confirm function availability.",f:"=GROUPBY(ProductionData[Facility],ProductionData[Delay Time],AVERAGE)",d:[0,1,2]},
       {l:"Advanced",t:"PIVOTBY",n:"Create a two-way average",p:"Create a formula summary with Facility as rows, WeekNum as columns, and average Tap Time as values.",a:["=PIVOTBY(PRODUCTIONDATA[FACILITY],PRODUCTIONDATA[WEEKNUM],PRODUCTIONDATA[TAP TIME],AVERAGE)"],h:"PIVOTBY(row_fields, col_fields, values, function).",w:"This is formula-generated and updates with the source Table.",f:"=PIVOTBY(ProductionData[Facility],ProductionData[WeekNum],ProductionData[Tap Time],AVERAGE)",d:[0,1,2,3,4,5]},
       {l:"Advanced",t:"TRIMRANGE",n:"Remove empty outside edges",p:"Trim empty outer rows and columns from A1:H1000.",a:["=TRIMRANGE(A1:H1000)"],h:"TRIMRANGE takes the source range.",w:"It trims blank edges, not necessarily blanks inside the data.",f:"=TRIMRANGE(A1:H1000)"},
-      {l:"Advanced",t:"Capstone",n:"Selector-driven fail rate",p:"M2 is Facility and M3 is WeekNum. Use LET and FILTER to return the percentage of matching records whose Status is FAIL or HOLD.",a:["=LET(FACILITY,B2:B28,WEEK,D2:D28,STATUS,H2:H28,MATCHING,FILTER(STATUS,(FACILITY=M2)*(WEEK=M3),\"\"),IF(COUNTA(MATCHING)=0,\"NO RECORDS\",SUM(--((MATCHING=\"FAIL\")+(MATCHING=\"HOLD\")>0))/COUNTA(MATCHING)))"],h:"Name the columns, filter Status, then count FAIL/HOLD divided by matching count.",w:"The formula distinguishes no records from a genuine zero issue rate.",f:"=LET(facility,B2:B28,week,D2:D28,status,H2:H28,matching,FILTER(status,(facility=M2)*(week=M3),\"\"),IF(COUNTA(matching)=0,\"No records\",SUM(--((matching=\"FAIL\")+(matching=\"HOLD\")>0))/COUNTA(matching)))",d:[4,5,6,7,8,9]},
+      {l:"Advanced",t:"Capstone",n:"Selector-driven fail rate",p:"M2 is Facility and M3 is WeekNum. Use LET and FILTER to return the percentage of matching records whose Status is FAIL or HOLD; return No records when no rows match.",a:["=LET(FACILITY,B2:B28,WEEK,D2:D28,STATUS,H2:H28,MATCHING,FILTER(STATUS,(FACILITY=M2)*(WEEK=M3),\"\"),IF(SUM(--(MATCHING<>\"\"))=0,\"NO RECORDS\",SUM(--((MATCHING=\"FAIL\")+(MATCHING=\"HOLD\")>0))/SUM(--(MATCHING<>\"\"))))"],h:"Name the columns and filter Status. Sum the Boolean test matching<>\"\" to exclude the empty fallback, then divide the FAIL/HOLD count by that nonempty count.",w:"COUNTA counts empty text returned by FILTER. Counting nonempty statuses explicitly distinguishes no records from a genuine zero issue rate.",f:"=LET(facility,B2:B28,week,D2:D28,status,H2:H28,matching,FILTER(status,(facility=M2)*(week=M3),\"\"),IF(SUM(--(matching<>\"\"))=0,\"No records\",SUM(--((matching=\"FAIL\")+(matching=\"HOLD\")>0))/SUM(--(matching<>\"\"))))",d:[4,5,6,7,8,9]},
       {l:"Advanced",t:"Capstone",n:"Selector-driven performance summary",p:"M2 is Facility and M3 is WeekNum. Use LET to return `Median tap: ` followed by the filtered median rounded to one decimal; return No records when empty.",a:["=LET(FACILITY,B2:B28,WEEK,D2:D28,TAP,E2:E28,MATCHING,FILTER(TAP,(FACILITY=M2)*(WEEK=M3),\"\"),IF(COUNT(MATCHING)=0,\"NO RECORDS\",\"MEDIAN TAP: \"&ROUND(MEDIAN(MATCHING),1)))"],h:"Filter Tap Time, test COUNT, then concatenate the label and rounded median.",w:"LET keeps the selector logic readable and evaluates the subset once.",f:"=LET(facility,B2:B28,week,D2:D28,tap,E2:E28,matching,FILTER(tap,(facility=M2)*(week=M3),\"\"),IF(COUNT(matching)=0,\"No records\",\"Median tap: \"&ROUND(MEDIAN(matching),1)))",d:[10,11,12,13,14,15]}
     ];
 
-    const state = JSON.parse(localStorage.getItem("excelFormulaFluency") || '{"completed":{},"revealed":{},"streak":0,"xp":0,"current":0}');
+    const referenceStorage=window.ReferenceProgressStorage;
+    const state=Object.assign({completed:{},revealed:{},streak:0,xp:0,current:0},referenceStorage.normalizeProgress(referenceStorage.readJSON("excelFormulaFluency",{},referenceStorage.validProgress)));
     let filteredIndices = challenges.map((_,i)=>i);
 
     const normalize = s => s.trim().toUpperCase().replace(/;/g,",").replace(/\s+/g,"").replace(/[‘’]/g,"'").replace(/[“”]/g,'"');
-    const save = () => localStorage.setItem("excelFormulaFluency",JSON.stringify(state));
+    const save = () => referenceStorage.writeText("excelFormulaFluency",JSON.stringify(state));
     const masteryPercent = () => Math.round(Object.keys(state.completed).length/challenges.length*100);
     function updateProgress(){
       const p=masteryPercent();
-      document.getElementById("progressFill").style.width=p+"%";
-      document.getElementById("progressLabel").textContent=p+"%";
-      document.getElementById("correctCount").textContent=Object.keys(state.completed).length;
-      document.getElementById("streakCount").textContent=state.streak;
-      document.getElementById("xpCount").textContent=state.xp;
+      const fill=document.getElementById("progressFill");if(fill)fill.style.width=p+"%";
+      const label=document.getElementById("progressLabel");if(label)label.textContent=p+"%";
+      const correct=document.getElementById("correctCount");if(correct)correct.textContent=Object.keys(state.completed).length;
+      const streak=document.getElementById("streakCount");if(streak)streak.textContent=state.streak;
+      const xp=document.getElementById("xpCount");if(xp)xp.textContent=state.xp;
       if(typeof window.phase1Refresh==="function") window.phase1Refresh();
     }
     function renderList(){
@@ -1453,7 +1523,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
   function toast(message) {
     const el = document.getElementById("phase1Toast");
     if (!el) return;
-    el.textContent = message;
+    el.textContent = window.ReferenceProgressStorage.saveMessage(message);
     el.classList.add("show");
     clearTimeout(toast.timer);
     toast.timer = setTimeout(()=>el.classList.remove("show"),3200);
@@ -1602,8 +1672,8 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
     const overall=assessed.length?Math.round(assessed.reduce((a,b)=>a+b,0)/assessed.length):0;
     document.getElementById("overallMastery").textContent=overall+"%";
     document.getElementById("masteryRing").style.setProperty("--mastery-angle",overall+"%");
-    document.getElementById("progressFill").style.width=overall+"%";
-    document.getElementById("progressLabel").textContent=overall+"%";
+    const fill=document.getElementById("progressFill");if(fill)fill.style.width=overall+"%";
+    const label=document.getElementById("progressLabel");if(label)label.textContent=overall+"%";
   }
 
   function dueReviews() {
@@ -1889,18 +1959,19 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
   const skillIdFromName=name=>SKILLS.find(s=>s.name===name)?.id;
   const progressSnapshot=()=>clone(state);
   const fmtDate=ts=>ts?new Intl.DateTimeFormat(undefined,{month:"short",day:"numeric",year:"numeric"}).format(new Date(ts)):"Not yet";
-  function toast2(message){const el=byId("phase2Toast");if(!el)return;el.textContent=message;el.classList.add("show");clearTimeout(toast2.timer);toast2.timer=setTimeout(()=>el.classList.remove("show"),3400);}
+  function toast2(message){const el=byId("phase2Toast");if(!el)return;el.textContent=window.ReferenceProgressStorage.saveMessage(message);el.classList.add("show");clearTimeout(toast2.timer);toast2.timer=setTimeout(()=>el.classList.remove("show"),3400);}
   function download(name,content,type="application/json"){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-  function loadAccounts(){try{const x=JSON.parse(localStorage.getItem(ACCOUNT_KEY)||"[]");return Array.isArray(x)?x:[];}catch{return[];}}
+  const referenceStore=window.ReferenceProgressStorage;
+  function loadAccounts(){return referenceStore.accounts(ACCOUNT_KEY);}
   let accounts=loadAccounts();
-  let activeId=localStorage.getItem(ACTIVE_KEY);
+  let activeId=referenceStore.readText(ACTIVE_KEY);
   function ensurePhase2(p){p.completed=p.completed||{};p.revealed=p.revealed||{};p.skillStats=p.skillStats||{};p.review=p.review||{};p.liveLab=p.liveLab||{completed:{},attempts:{},seed:3471,mission:0};p.phase2=p.phase2||{};p.phase2.activePathway=p.phase2.activePathway||"foundations_path";p.phase2.projects=p.phase2.projects||{};p.phase2.badges=p.phase2.badges||{};p.phase2.customLessons=p.phase2.customLessons||[];p.phase2.sync=p.phase2.sync||{endpoint:"",lastSync:null,status:"local"};return p;}
   ensurePhase2(state);
-  if(!accounts.length){activeId=id();accounts=[{id:activeId,name:"My Learning Profile",role:"learner",createdAt:Date.now(),updatedAt:Date.now(),progress:progressSnapshot()}];localStorage.setItem(ACTIVE_KEY,activeId);}
-  if(!accounts.some(a=>a.id===activeId)){activeId=accounts[0].id;localStorage.setItem(ACTIVE_KEY,activeId);}
-  function saveAccounts(){localStorage.setItem(ACCOUNT_KEY,JSON.stringify(accounts));}
+  if(!accounts.length){activeId=id();accounts=[{id:activeId,name:"My Learning Profile",role:"learner",createdAt:Date.now(),updatedAt:Date.now(),progress:progressSnapshot()}];referenceStore.writeText(ACTIVE_KEY,activeId);}
+  if(!accounts.some(a=>a.id===activeId)){activeId=accounts[0].id;referenceStore.writeText(ACTIVE_KEY,activeId);}
+  function saveAccounts(){return referenceStore.writeText(ACCOUNT_KEY,JSON.stringify(accounts));}
   function activeAccount(){return accounts.find(a=>a.id===activeId)||accounts[0];}
-  function persistActive(){const a=activeAccount();if(!a)return;a.progress=progressSnapshot();a.updatedAt=Date.now();saveAccounts();}
+  function persistActive(){const a=activeAccount();if(!a)return false;a.progress=progressSnapshot();a.updatedAt=Date.now();return saveAccounts();}
 
   function evidenceFor(p,sid){const name=skillById(sid)?.name||sid,s=p.skillStats?.[name]||{attempts:0,correct:0,hints:0,reveals:0},d=p.diagnostic?.bySkill?.[name]||{correct:0,total:0},attempts=(s.attempts||0)+(d.total||0),correct=(s.correct||0)+(d.correct||0);if(!attempts)return{score:null,attempts:0,correct:0};const penalty=Math.min(25,(s.hints||0)*2+(s.reveals||0)*5);return{score:Math.max(0,Math.min(100,Math.round(correct/attempts*100-penalty))),attempts,correct};}
   function scoreFor(p,sid){return evidenceFor(p,sid).score??0;}
@@ -1917,7 +1988,8 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
   function awardBadges(p){p.phase2.badges=p.phase2.badges||{};const newly=[];BADGES.forEach(b=>{if(!p.phase2.badges[b.id]&&b.test(p)){p.phase2.badges[b.id]=Date.now();newly.push(b.title);}});return newly;}
 
   function installChrome(){
-    const actions=document.createElement("div");actions.className="phase2-top-actions";actions.innerHTML='<button class="phase2-profile-chip" id="openAccountDialog"><span class="phase2-sync-dot" id="syncDot"></span><span class="phase2-avatar" id="topAvatar">L</span><span id="topProfileName">Learner</span></button>';document.querySelector(".topbar").appendChild(actions);
+    const topbar=document.querySelector(".topbar");
+    if(topbar&&!byId("openAccountDialog")){const actions=document.createElement("div");actions.className="phase2-top-actions";actions.innerHTML='<button class="phase2-profile-chip" id="openAccountDialog"><span class="phase2-sync-dot" id="syncDot"></span><span class="phase2-avatar" id="topAvatar">L</span><span id="topProfileName">Learner</span></button>';topbar.appendChild(actions);}
     const hero=document.querySelector(".hero-meta");if(hero){const pill=document.createElement("span");pill.className="pill";pill.textContent="Phase 2 learning platform";hero.appendChild(pill);}
     document.querySelectorAll(".hero-meta .pill").forEach(x=>{if(x.textContent.includes("Adaptive Phase 1"))x.textContent="Adaptive Phase 1 + platform Phase 2";});
     const links=[["#learning-hub","Learning hub"],["#skills-graph","Skills graph"],["#pathways","Pathways"],["#projects","Projects"],["#badges","Badges"],["#instructor","Instructor"],["#authoring","Authoring"]];
@@ -1932,7 +2004,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
     byId("nextActions").querySelectorAll("[data-challenge]").forEach(el=>el.addEventListener("click",()=>{const n=Number(el.dataset.challenge);if(Number.isInteger(n)&&n>=0){state.current=n;save();}}));
     byId("activePathwayMini").innerHTML=`<strong>${esc(path.title)}</strong><span>${esc(path.description)}</span><div class="mini-progress"><span style="width:${pp}%"></span></div><small>${pp}% pathway readiness</small>`;byId("activePathwayPill").textContent=path.title;
     const sync=p.phase2.sync;byId("hubSyncSummary").textContent=sync.endpoint?(sync.lastSync?`Last endpoint sync: ${fmtDate(sync.lastSync)}.`:"Cloud endpoint configured; sync when ready."):"Progress is protected in this browser. Configure an endpoint from your profile for cross-device sync.";
-    const dot=byId("syncDot");dot?.classList.toggle("synced",Boolean(sync.lastSync));byId("topProfileName").textContent=a.name;byId("topAvatar").textContent=(a.name.trim()[0]||"L").toUpperCase();
+    const dot=byId("syncDot");dot?.classList.toggle("synced",Boolean(sync.lastSync));const name=byId("topProfileName");if(name)name.textContent=a.name;const avatar=byId("topAvatar");if(avatar)avatar.textContent=(a.name.trim()[0]||"L").toUpperCase();
   }
 
   function renderGraph(){const rec=recommendedSkill(state);byId("graphRecommendation").textContent=`Recommended now: ${rec.name} · prerequisites are checked automatically`;byId("skillsGraph").innerHTML=SKILLS.map(s=>{const e=evidenceFor(state,s.id),locked=!isUnlocked(state,s),mastered=(e.score||0)>=75,classes=["skill-node",s.id===rec.id?"recommended":"",locked?"locked":"",mastered?"mastered":""].filter(Boolean).join(" "),pre=s.prereqs.length?s.prereqs.map(x=>skillById(x).name).join(" + "):"None";return`<article class="${classes}"><div class="skill-node-top"><h4>${esc(s.name)}</h4><span class="skill-node-score">${e.score===null?"—":e.score+"%"}</span></div><p>${esc(s.description)}</p><div class="skill-prereq"><b>${locked?"Locked by":"Prerequisites"}:</b> ${esc(pre)}</div><div class="node-bar"><span style="width:${e.score||0}%"></span></div></article>`;}).join("");}
@@ -1960,10 +2032,28 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
   function bindExports(){byId("downloadPlatformSchema").onclick=()=>{const runtime=window.ExcelLearningSchema||SCHEMA,lessons=[...(runtime.lessons||[CORE_LESSON]),...state.phase2.customLessons],major=String(runtime.version||VERSION).split(".")[0];download(`excel-learning-platform-schema-v${major}.json`,JSON.stringify({...runtime,lessons},null,2));};byId("exportTranscript").onclick=()=>download("excel-skills-transcript.json",JSON.stringify(transcript(),null,2));byId("exportPortfolio").onclick=()=>download("excel-project-portfolio.json",JSON.stringify({learner:activeAccount().name,generatedAt:new Date().toISOString(),projects:PROJECTS.map(p=>({...p,progress:state.phase2.projects[p.id]||{status:"not-started"}}))},null,2));byId("exportCohort").onclick=()=>{persistActive();const head=["Learner","Role",...SKILLS.map(s=>s.name),"Overall","Reviews Due"],rows=accounts.map(a=>{const p=ensurePhase2(a.progress||{});return[a.name,a.role,...SKILLS.map(s=>evidenceFor(p,s.id).score??""),overall(p),dueCount(p)];}),csv=[head,...rows].map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(",")).join("\n");download("excel-cohort-progress.csv",csv,"text/csv");};}
 
   function renderProfiles(){const a=activeAccount();byId("profileChoices").innerHTML=accounts.map(x=>`<button class="profile-choice ${x.id===activeId?"active":""}" data-profile="${x.id}"><b>${esc(x.name)}</b><span>${esc(x.role)} · ${overall(ensurePhase2(x.progress||{}))}% mastery</span></button>`).join("");byId("settingsProfileName").textContent=a.name;byId("settingsProfileMeta").textContent=`${a.role[0].toUpperCase()+a.role.slice(1)} · created ${fmtDate(a.createdAt)}`;byId("settingsAvatar").textContent=(a.name.trim()[0]||"L").toUpperCase();byId("profileNameInput").value=a.name;byId("profileRoleInput").value=a.role;byId("syncEndpointInput").value=state.phase2.sync.endpoint||"";renderSyncStatus();byId("profileChoices").querySelectorAll("[data-profile]").forEach(b=>b.onclick=()=>switchProfile(b.dataset.profile));}
-  function renderSyncStatus(message,type){const box=byId("syncStatus"),sync=state.phase2.sync;if(message)box.textContent=message;else box.textContent=sync.lastSync?`Synced successfully ${fmtDate(sync.lastSync)}. Local copy remains available.`:sync.endpoint?"Endpoint configured. Select Sync now to send this profile.":"Local copy is safe. No cloud endpoint configured.";box.className="sync-status "+(type||(sync.lastSync?"good":""));}
-  function switchProfile(pid){if(pid===activeId)return;persistActive();const target=accounts.find(a=>a.id===pid);if(!target)return;const p=ensurePhase2(clone(target.progress||{}));Object.keys(state).forEach(k=>delete state[k]);Object.assign(state,p);localStorage.setItem("excelFormulaFluency",JSON.stringify(state));activeId=pid;localStorage.setItem(ACTIVE_KEY,pid);saveAccounts();location.reload();}
-  async function syncNow(){const endpoint=byId("syncEndpointInput").value.trim();state.phase2.sync.endpoint=endpoint;save();persistActive();if(!endpoint){renderSyncStatus("Saved locally. Add an HTTPS endpoint to enable cross-device sync.","");renderHub();return;}if(!/^https:\/\//i.test(endpoint)){renderSyncStatus("Use an HTTPS endpoint so learner data is encrypted in transit.","bad");return;}renderSyncStatus("Syncing active profile…","");const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);try{const response=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({schemaVersion:VERSION,profile:activeAccount(),sentAt:new Date().toISOString()}),signal:controller.signal});if(!response.ok)throw new Error(`Endpoint returned ${response.status}`);state.phase2.sync.lastSync=Date.now();state.phase2.sync.status="synced";save();persistActive();renderSyncStatus("Cloud sync completed. Your local copy is still available.","good");renderHub();}catch(e){state.phase2.sync.status="error";save();renderSyncStatus(`Cloud sync was not completed (${e.message}). Your local progress is safe.`,"bad");}finally{clearTimeout(timer);}}
-  function bindProfiles(){const dialog=byId("accountDialog");byId("openAccountDialog").onclick=()=>{renderProfiles();dialog.showModal?dialog.showModal():dialog.setAttribute("open","");};byId("closeAccountDialog").onclick=()=>dialog.close?dialog.close():dialog.removeAttribute("open");dialog.addEventListener("click",e=>{if(e.target===dialog)dialog.close();});byId("newProfile").onclick=()=>{const name=prompt("Name this learner profile:","New Learner");if(!name?.trim())return;persistActive();const nid=id(),p=ensurePhase2({completed:{},revealed:{},streak:0,xp:0,current:0});accounts.push({id:nid,name:name.trim().slice(0,60),role:"learner",createdAt:Date.now(),updatedAt:Date.now(),progress:p});saveAccounts();switchProfile(nid);};byId("saveProfileSettings").onclick=()=>{const a=activeAccount(),name=byId("profileNameInput").value.trim();if(!name){toast2("Profile name cannot be blank.");return;}a.name=name.slice(0,60);a.role=byId("profileRoleInput").value;persistActive();renderProfiles();renderHub();renderInstructor();toast2("Profile settings saved.");};byId("syncNow").onclick=syncNow;byId("exportProfile").onclick=()=>{persistActive();download(`${activeAccount().name.toLowerCase().replace(/[^a-z0-9]+/g,"-")}-excel-profile.json`,JSON.stringify({schemaVersion:VERSION,exportedAt:new Date().toISOString(),profile:activeAccount()},null,2));};byId("importProfile").onclick=()=>byId("importProfileFile").click();byId("importProfileFile").onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const data=JSON.parse(await file.text()),p=data.profile||data;if(!p.name||!p.progress)throw new Error("Missing profile name or progress");p.id=id();p.name=String(p.name).slice(0,60)+" (Imported)";p.progress=ensurePhase2(p.progress);p.createdAt=Date.now();p.updatedAt=Date.now();accounts.push(p);saveAccounts();toast2("Profile imported. Select it from the profile list.");renderProfiles();}catch(err){toast2(`Profile import failed: ${err.message}`);}e.target.value="";};}
+  function renderSyncStatus(message,type){const box=byId("syncStatus"),sync=state.phase2.sync,available=referenceStore.savingAvailable();if(message)box.textContent=message;else box.textContent=!available?"Browser saving is unavailable. Export your profile before leaving.":sync.lastSync?`Synced successfully ${fmtDate(sync.lastSync)}. Local copy remains available.`:sync.endpoint?"Endpoint configured. Select Sync now to send this profile.":"Local copy is available in this browser. No cloud endpoint configured.";box.className="sync-status "+(type||(!available?"bad":sync.lastSync?"good":""));}
+  function switchProfile(pid){if(pid===activeId)return;if(!save()||!persistActive()){toast2("Export your current profile before changing profiles; browser saving is unavailable.");return;}const target=accounts.find(a=>a.id===pid);if(!target)return;const p=ensurePhase2(clone(target.progress||{})),previous=JSON.stringify(state);if(!referenceStore.writeText("excelFormulaFluency",JSON.stringify(p))){toast2("Profile change could not be saved. Export your current profile before leaving.");return;}if(!referenceStore.writeText(ACTIVE_KEY,pid)){referenceStore.writeText("excelFormulaFluency",previous);toast2("Profile change could not be saved. Export your current profile before leaving.");return;}Object.keys(state).forEach(k=>delete state[k]);Object.assign(state,p);activeId=pid;location.reload();}
+  async function syncNow(){
+    const endpoint=byId("syncEndpointInput").value.trim();state.phase2.sync.endpoint=endpoint;const saved=save(),profileSaved=persistActive();
+    if(!endpoint){renderHub();renderSyncStatus(saved&&profileSaved?"Saved locally. Add an HTTPS endpoint to enable cross-device sync.":"Browser saving is unavailable. Export your profile before leaving.",saved&&profileSaved?"":"bad");return;}
+    if(!/^https:\/\//i.test(endpoint)){renderSyncStatus("Use an HTTPS endpoint so learner data is encrypted in transit.","bad");return;}
+    renderSyncStatus("Syncing active profile…","");const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
+    try{const response=await fetch(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({schemaVersion:VERSION,profile:activeAccount(),sentAt:new Date().toISOString()}),signal:controller.signal});if(!response.ok)throw new Error(`Endpoint returned ${response.status}`);state.phase2.sync.lastSync=Date.now();state.phase2.sync.status="synced";const localSaved=save(),accountSaved=persistActive();renderHub();renderSyncStatus(localSaved&&accountSaved?"Cloud sync completed. Your local copy is still available.":"Cloud sync completed, but browser saving is unavailable. Export your profile too.","good");}
+    catch(e){state.phase2.sync.status="error";save();renderSyncStatus(`Cloud sync was not completed (${e.message}). Your current progress remains on this page; export your profile before leaving.`,"bad");}finally{clearTimeout(timer);}
+  }
+  function bindProfiles(){
+    const dialog=byId("accountDialog"),opener=byId("openAccountDialog");if(opener)opener.onclick=()=>{renderProfiles();dialog.showModal?dialog.showModal():dialog.setAttribute("open","");};
+    byId("closeAccountDialog").onclick=()=>dialog.close?dialog.close():dialog.removeAttribute("open");dialog.addEventListener("click",e=>{if(e.target===dialog)(dialog.close?dialog.close():dialog.removeAttribute("open"));});
+    byId("newProfile").onclick=()=>{const name=prompt("Name this learner profile:","New Learner");if(!name?.trim())return;persistActive();const nid=id(),p=ensurePhase2({completed:{},revealed:{},streak:0,xp:0,current:0});accounts.push({id:nid,name:name.trim().slice(0,60),role:"learner",createdAt:Date.now(),updatedAt:Date.now(),progress:p});saveAccounts();switchProfile(nid);};
+    byId("saveProfileSettings").onclick=()=>{const a=activeAccount(),name=byId("profileNameInput").value.trim();if(!name){toast2("Profile name cannot be blank.");return;}a.name=name.slice(0,60);a.role=byId("profileRoleInput").value;persistActive();renderProfiles();renderHub();renderInstructor();toast2("Profile settings saved.");};byId("syncNow").onclick=syncNow;
+    byId("exportProfile").onclick=()=>{persistActive();download(`${activeAccount().name.toLowerCase().replace(/[^a-z0-9]+/g,"-")}-excel-profile.json`,JSON.stringify({schemaVersion:VERSION,exportedAt:new Date().toISOString(),profile:activeAccount()},null,2));};byId("importProfile").onclick=()=>byId("importProfileFile").click();
+    byId("importProfileFile").onchange=async e=>{const file=e.target.files[0];if(!file)return;try{
+      if(file.size>2*1024*1024)throw new Error("Choose a profile smaller than 2 MB");const raw=await file.text();if(raw.length>2*1024*1024)throw new Error("Choose a profile smaller than 2 MB");
+      const data=JSON.parse(raw),p=data?.profile||data;if(!p||typeof p.name!=="string"||!p.name.trim()||!referenceStore.validProgress(p.progress)||p.role!==undefined&&(typeof p.role!=="string"||!p.role.trim()))throw new Error("Invalid profile name, role or progress");
+      p.id=id();p.name=p.name.trim().slice(0,60)+" (Imported)";p.role=p.role||"learner";p.progress=ensurePhase2(referenceStore.normalizeProgress(p.progress));p.createdAt=Date.now();p.updatedAt=Date.now();accounts.push(p);saveAccounts();toast2("Profile imported. Select it from the profile list.");renderProfiles();
+    }catch(err){toast2(`Profile import failed: ${err.message}`);}e.target.value="";};
+  }
 
   function bindAuthor(){SKILLS.forEach((s,i)=>{const label=document.createElement("label");label.className="skill-checkbox";label.innerHTML=`<input type="checkbox" name="authorSkill" value="${s.id}" ${s.id==="lookups"||s.id==="references"?"checked":""}> <span>${esc(s.name)}</span>`;byId("authorSkillChecks").appendChild(label);});byId("lessonAuthorForm").addEventListener("input",renderAuthor);byId("lessonAuthorForm").onsubmit=e=>{e.preventDefault();const{draft,errors}=renderAuthor();if(errors.length){toast2("Resolve the schema errors before publishing.");return;}const clean={...draft};delete clean._parseError;const idx=state.phase2.customLessons.findIndex(x=>x.slug===clean.slug);if(idx>=0)state.phase2.customLessons[idx]=clean;else state.phase2.customLessons.push(clean);save();persistActive();renderCatalog();toast2(idx>=0?"Local lesson updated.":"Lesson published to the local content catalog.");};byId("validateLesson").onclick=()=>{const{errors}=renderAuthor();toast2(errors.length?`${errors.length} validation issue${errors.length===1?"":"s"} found.`:"Lesson schema is valid.");};byId("exportLesson").onclick=()=>{const{draft,errors}=renderAuthor();if(errors.length){toast2("Resolve schema errors before export.");return;}delete draft._parseError;download(`${draft.slug}.lesson.json`,JSON.stringify({schemaVersion:VERSION,type:"lesson",lesson:draft},null,2));};byId("resetAuthorSample").onclick=()=>{byId("authorTitle").value="Reliable XLOOKUP Patterns";byId("authorSlug").value="reliable-xlookup-patterns";byId("authorLevel").value="Intermediate";byId("authorMinutes").value=35;byId("authorPrereqs").value="references";byId("authorObjectives").value="Build an exact-match XLOOKUP with a safe fallback\nReturn the latest matching record\nValidate lookup and return-array dimensions";byId("authorContent").value="Use XLOOKUP to replace fragile positional lookups, then test exact-match, no-match, and duplicate-record cases.";byId("authorChallenges").value='[{"prompt":"Return Tap Time for the Heat ID in M2.","expected":"=XLOOKUP(M2,C2:C28,E2:E28,\\"Not found\\")","points":20}]';document.querySelectorAll("[name=authorSkill]").forEach(x=>x.checked=x.value==="lookups"||x.value==="references");renderAuthor();};renderAuthor();}
 
@@ -2014,13 +2104,14 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   P3.el=id=>document.getElementById(id);
   P3.skill=id=>P3.skills.find(s=>s.id===id)||{id,name:id,prereqs:[]};
   P3.download=(name,content,type="application/json")=>{const b=new Blob([content],{type}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);};
-  P3.toast=message=>{const el=P3.el("phase2Toast")||P3.el("phase1Toast");if(!el)return;el.textContent=message;el.classList.add("show");clearTimeout(P3.toast.timer);P3.toast.timer=setTimeout(()=>el.classList.remove("show"),3600);};
+  P3.toast=message=>{const el=P3.el("phase2Toast")||P3.el("phase1Toast");if(!el)return;el.textContent=window.ReferenceProgressStorage.saveMessage(message);el.classList.add("show");clearTimeout(P3.toast.timer);P3.toast.timer=setTimeout(()=>el.classList.remove("show"),3600);};
   P3.ensure=p=>{p.phase3=p.phase3||{};const x=p.phase3;x.coach=x.coach||{history:[],hintLevels:{}};x.audits=x.audits||[];x.industryProjects=x.industryProjects||{};x.certification=x.certification||{assessments:[],bestScore:0,credentials:[]};x.portfolio=x.portfolio||{headline:"Excel Formula & Analytics Practitioner",bio:"I build reliable, auditable Excel models that turn operational data into decisions.",visibility:{mastery:true,projects:true,audits:true,credentials:true},artifacts:[]};x.organization=x.organization||{name:"UpSkillSprint Learning Organization",members:[],teams:[],assignments:[]};return p;};
   P3.ensure(state);
-  P3.accounts=()=>{try{const a=JSON.parse(localStorage.getItem(ACCOUNT_KEY)||"[]");return Array.isArray(a)?a:[];}catch{return[];}};
-  P3.activeAccount=()=>{const a=P3.accounts(),id=localStorage.getItem(ACTIVE_KEY);return a.find(x=>x.id===id)||a[0]||{id:"local",name:"Learner",role:"learner",progress:state};};
+  const referenceStore=window.ReferenceProgressStorage;
+  P3.accounts=()=>referenceStore.accounts(ACCOUNT_KEY);
+  P3.activeAccount=()=>{const a=P3.accounts(),id=referenceStore.readText(ACTIVE_KEY);return a.find(x=>x.id===id)||a[0]||{id:"local",name:"Learner",role:"learner",progress:state};};
   P3.activeName=()=>P3.activeAccount().name||"Learner";
-  P3.persist=()=>{save();const accounts=P3.accounts(),active=P3.activeAccount(),i=accounts.findIndex(a=>a.id===active.id);if(i>=0){accounts[i].progress=P3.clone(state);accounts[i].updatedAt=Date.now();localStorage.setItem(ACCOUNT_KEY,JSON.stringify(accounts));}};
+  P3.persist=()=>{const saved=save(),accounts=P3.accounts(),active=P3.activeAccount(),i=accounts.findIndex(a=>a.id===active.id);if(i>=0){accounts[i].progress=P3.clone(state);accounts[i].updatedAt=Date.now();return referenceStore.writeText(ACCOUNT_KEY,JSON.stringify(accounts))&&saved;}return saved;};
   P3.evidence=(p,sid)=>{const sk=P3.skill(sid),s=p.skillStats?.[sk.name]||{},d=p.diagnostic?.bySkill?.[sk.name]||{},attempts=(s.attempts||0)+(d.total||0),correct=(s.correct||0)+(d.correct||0);if(!attempts)return{score:null,attempts:0};return{score:Math.max(0,Math.min(100,Math.round(correct/attempts*100-Math.min(25,(s.hints||0)*2+(s.reveals||0)*5)))),attempts};};
   P3.overall=p=>{const v=P3.skills.map(s=>P3.evidence(p,s.id).score).filter(x=>x!==null);return v.length?Math.round(v.reduce((a,b)=>a+b,0)/v.length):0;};
   P3.due=p=>Object.values(p.review||{}).filter(x=>(x.dueAt||0)<=Date.now()).length;
@@ -2171,14 +2262,16 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
   let session=null,timer=null;
   function shuffle(a){const x=[...a];for(let i=x.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[x[i],x[j]]=[x[j],x[i]];}return x;}
   function renderReadiness(){const req=P3.certRequirements(),done=req.filter(x=>x.done).length,r=Math.round(done/req.length*100),cred=state.phase3.certification.credentials.at(-1);P3.el("certReadiness").textContent=r+"%";P3.el("certReadinessText").textContent=`${done} of ${req.length} requirements`;P3.el("certRequirements").innerHTML=req.map(x=>`<div class="cert-requirement ${x.done?"done":""}"><i>${x.done?"✓":"•"}</i><div><b>${P3.esc(x.name)}</b><small>${P3.esc(x.detail)}</small></div></div>`).join("");P3.el("certStatePill").textContent=cred?"Credential issued":done===req.length?"Eligible for issuance":`${done} of ${req.length} requirements`;renderCredential(cred);}
-  function start(practice){if(!practice&&!P3.el("certAttestation").checked){P3.toast("Confirm the assessment integrity statement before starting.");return;}clearInterval(timer);session={practice,questions:shuffle(Q).slice(0,practice?5:12),index:0,answers:{},startedAt:Date.now(),seconds:practice?600:1800};P3.el("certAssessment").classList.add("show");P3.el("examResult").className="validation-report";timer=setInterval(()=>{session.seconds--;renderTimer();if(session.seconds<=0)submit();},1000);renderQuestion();P3.el("certAssessment").scrollIntoView({behavior:"smooth",block:"start"});}
-  function renderTimer(){const s=Math.max(0,session?.seconds||0);P3.el("examTimer").textContent=`${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;}
-  function renderQuestion(){const q=session.questions[session.index],last=session.index===session.questions.length-1;P3.el("examProgress").textContent=`Question ${session.index+1} of ${session.questions.length}${session.practice?" · practice":""}`;P3.el("examSkill").textContent=P3.skill(q.s).name;P3.el("examQuestion").textContent=q.q;P3.el("examOptions").innerHTML=q.o.map((x,i)=>`<label class="exam-option"><input type="radio" name="examAnswer" value="${i}" ${session.answers[session.index]===i?"checked":""}><span>${P3.esc(x)}</span></label>`).join("");P3.el("examOptions").querySelectorAll("input").forEach(x=>x.onchange=()=>session.answers[session.index]=Number(x.value));P3.el("examPrevious").disabled=session.index===0;P3.el("examNext").style.display=last?"none":"inline-flex";P3.el("submitExam").style.display=last?"inline-flex":"none";renderTimer();}
-  function next(dir){const selected=P3.el("examOptions").querySelector("input:checked");if(dir>0&&!selected){P3.toast("Choose an answer before continuing.");return;}session.index=Math.max(0,Math.min(session.questions.length-1,session.index+dir));renderQuestion();}
-  function submit(){if(!session)return;if(Object.keys(session.answers).length<session.questions.length&&session.seconds>0){P3.toast("Answer every question before submitting.");return;}clearInterval(timer);const correct=session.questions.reduce((n,q,i)=>n+(session.answers[i]===q.a),0),score=Math.round(correct/session.questions.length*100),result={id:"assessment-"+Date.now(),practice:session.practice,score,correct,total:session.questions.length,startedAt:session.startedAt,completedAt:Date.now(),durationSeconds:(session.practice?600:1800)-session.seconds};state.phase3.certification.assessments.push(result);if(!session.practice)state.phase3.certification.bestScore=Math.max(state.phase3.certification.bestScore||0,score);P3.persist();const box=P3.el("examResult");box.className=`validation-report show ${score>=85?"success":"error"}`;box.innerHTML=`<strong>${session.practice?"Practice":"Assessment"} score: ${score}% (${correct}/${session.questions.length})</strong><span>${score>=85?"You met the 85% assessment standard.":"Review the explanations below, then rebuild evidence before another attempt."}</span><div class="audit-checks" style="max-height:240px;margin-top:10px">${session.questions.map((q,i)=>`<div class="audit-check ${session.answers[i]===q.a?"pass":"fail"}"><i>${session.answers[i]===q.a?"✓":"×"}</i><div><b>${P3.esc(q.q)}</b><small>${P3.esc(q.w)}</small></div></div>`).join("")}</div>`;if(!session.practice&&score>=85)maybeIssue();session=null;renderReadiness();P3.refresh();}
-  function maybeIssue(){const req=P3.certRequirements(),cert=state.phase3.certification;if(!req.every(x=>x.done)||cert.credentials.length)return false;const now=Date.now(),name=P3.activeName(),id=`USS-XFP-${P3.hash(name+now+cert.bestScore)}`,credential={id,name,title:"Excel Formula Professional",issuer:"UpSkillSprint",issuedAt:now,mastery:P3.overall(state),assessment:cert.bestScore,missions:Object.keys(state.liveLab?.completed||{}).length,projects:P3.projectCount(),verification:"Evidence verified in platform version 3.0"};cert.credentials.push(credential);P3.persist();P3.toast("Excel Formula Professional credential issued.");return true;}
-  function renderCredential(c){const box=P3.el("credentialCard");if(!c){box.classList.remove("show");box.innerHTML="";return;}box.classList.add("show");box.innerHTML=`<span class="section-kicker">Certificate of verified proficiency</span><h3>${P3.esc(c.title)}</h3><p>This certifies that</p><h2>${P3.esc(c.name)}</h2><p>demonstrated formula mastery through timed assessment, hidden-test missions, and applied project evidence.</p><p><strong>${c.mastery}% mastery · ${c.assessment}% assessment · ${c.missions} missions · ${c.projects} projects</strong></p><p>Issued ${new Date(c.issuedAt).toLocaleDateString()}</p><span class="credential-id">Credential ID: ${P3.esc(c.id)}</span><div class="author-actions" style="justify-content:center;position:relative"><button class="btn secondary" id="downloadCredential">Download credential</button><button class="btn ghost" id="printCredential">Print</button></div>`;P3.el("downloadCredential").onclick=()=>P3.download(`${c.id}.credential.json`,JSON.stringify(c,null,2));P3.el("printCredential").onclick=()=>window.print();}
-  function verify(){const id=P3.el("verifyCredentialInput").value.trim().toUpperCase(),all=state.phase3.certification.credentials,c=all.find(x=>x.id.toUpperCase()===id),out=P3.el("verifyResult");if(c){out.style.color="#047857";out.textContent=`Verified: ${c.name} · ${c.title} · issued ${new Date(c.issuedAt).toLocaleDateString()}.`;}else{out.style.color="#b91c1c";out.textContent="No matching credential exists in this local verification registry.";}}
+  function start(practice){if(!practice&&!P3.el("certAttestation").checked){P3.toast("Confirm the assessment integrity statement before starting.");return;}clearInterval(timer);const startedAt=Date.now(),seconds=practice?600:1800;session={practice,questions:shuffle(Q).slice(0,practice?5:12),index:0,answers:{},startedAt,deadline:startedAt+seconds*1000,seconds};P3.el("certAssessment").classList.add("show");P3.el("examResult").className="validation-report";timer=setInterval(tick,1000);renderQuestion();P3.el("certAssessment").scrollIntoView({behavior:"smooth",block:"start"});}
+  function renderTimer(){if(session)session.seconds=Math.max(0,Math.min(session.seconds,Math.ceil((session.deadline-Date.now())/1000)));const s=session?.seconds||0;P3.el("examTimer").textContent=`${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;}
+  function tick(){if(!session)return;renderTimer();if(session.seconds<=0)submit();}
+  function renderQuestion(){if(!session)return;const q=session.questions[session.index],last=session.index===session.questions.length-1;P3.el("examProgress").textContent=`Question ${session.index+1} of ${session.questions.length}${session.practice?" · practice":""}`;P3.el("examSkill").textContent=P3.skill(q.s).name;P3.el("examQuestion").textContent=q.q;P3.el("examOptions").innerHTML=q.o.map((x,i)=>`<label class="exam-option"><input type="radio" name="examAnswer" value="${i}" ${session.answers[session.index]===i?"checked":""}><span>${P3.esc(x)}</span></label>`).join("");P3.el("examOptions").querySelectorAll("input").forEach(x=>x.onchange=()=>{tick();if(session)session.answers[session.index]=Number(x.value);});P3.el("examPrevious").disabled=session.index===0;P3.el("examNext").disabled=false;P3.el("submitExam").disabled=false;P3.el("examNext").style.display=last?"none":"inline-flex";P3.el("submitExam").style.display=last?"inline-flex":"none";renderTimer();}
+  function next(dir){if(!session)return;tick();if(!session)return;const selected=P3.el("examOptions").querySelector("input:checked");if(dir>0&&!selected){P3.toast("Choose an answer before continuing.");return;}session.index=Math.max(0,Math.min(session.questions.length-1,session.index+dir));renderQuestion();}
+  function submit(){if(!session)return;renderTimer();if(Object.keys(session.answers).length<session.questions.length&&session.seconds>0){P3.toast("Answer every question before submitting.");return;}clearInterval(timer);const correct=session.questions.reduce((n,q,i)=>n+(session.answers[i]===q.a),0),score=Math.round(correct/session.questions.length*100),result={id:"assessment-"+Date.now(),practice:session.practice,score,correct,total:session.questions.length,startedAt:session.startedAt,completedAt:Date.now(),durationSeconds:(session.practice?600:1800)-session.seconds};state.phase3.certification.assessments.push(result);if(!session.practice)state.phase3.certification.bestScore=Math.max(state.phase3.certification.bestScore||0,score);P3.persist();const box=P3.el("examResult");box.className=`validation-report show ${score>=85?"success":"error"}`;box.innerHTML=`<strong>${session.practice?"Practice":"Assessment"} score: ${score}% (${correct}/${session.questions.length})</strong><span>${score>=85?"You met the 85% assessment standard.":"Review the explanations below, then rebuild evidence before another attempt."}</span><div class="audit-checks" style="max-height:240px;margin-top:10px">${session.questions.map((q,i)=>`<div class="audit-check ${session.answers[i]===q.a?"pass":"fail"}"><i>${session.answers[i]===q.a?"✓":"×"}</i><div><b>${P3.esc(q.q)}</b><small>${P3.esc(q.w)}</small></div></div>`).join("")}</div>`;if(!session.practice&&score>=85)maybeIssue();session=null;for(const id of ["examPrevious","examNext","submitExam"])P3.el(id).disabled=true;P3.el("examOptions").querySelectorAll("input").forEach(input=>input.disabled=true);P3.el("examProgress").textContent="Assessment complete";renderReadiness();P3.refresh();}
+  document.addEventListener("visibilitychange",tick);window.addEventListener("focus",tick);
+  function maybeIssue(){const req=P3.certRequirements(),cert=state.phase3.certification;if(!req.every(x=>x.done)||cert.credentials.length)return false;const now=Date.now(),name=P3.activeName(),id=`USS-XFP-${P3.hash(name+now+cert.bestScore)}`,credential={id,name,title:"Excel Formula Professional",issuer:"UpSkillSprint",issuedAt:now,mastery:P3.overall(state),assessment:cert.bestScore,missions:Object.keys(state.liveLab?.completed||{}).length,projects:P3.projectCount(),verification:"Local reference practice record; not a signed Sprint award or independent proficiency verification."};cert.credentials.push(credential);P3.persist();P3.toast("Excel Formula Professional credential issued.");return true;}
+  function renderCredential(c){const box=P3.el("credentialCard");if(!c){box.classList.remove("show");box.innerHTML="";return;}box.classList.add("show");box.innerHTML=`<span class="section-kicker">Local reference practice certificate</span><h3>${P3.esc(c.title)}</h3><p>Local practice record for</p><h2>${P3.esc(c.name)}</h2><p>completed the reference assessment and practice entries recorded in this browser. This is not a signed Sprint award or independent verification of Excel proficiency.</p><p><strong>${c.mastery}% mastery · ${c.assessment}% assessment · ${c.missions} missions · ${c.projects} projects</strong></p><p>Issued ${new Date(c.issuedAt).toLocaleDateString()}</p><span class="credential-id">Credential ID: ${P3.esc(c.id)}</span><div class="author-actions" style="justify-content:center;position:relative"><button class="btn secondary" id="downloadCredential">Download credential</button><button class="btn ghost" id="printCredential">Print</button></div>`;P3.el("downloadCredential").onclick=()=>P3.download(`${c.id}.credential.json`,JSON.stringify({...c,verification:"Local reference practice record; not a signed Sprint award or independent proficiency verification."},null,2));P3.el("printCredential").onclick=()=>window.print();}
+  function verify(){const id=P3.el("verifyCredentialInput").value.trim().toUpperCase(),all=state.phase3.certification.credentials,c=all.find(x=>typeof x?.id==="string"&&x.id.toUpperCase()===id),out=P3.el("verifyResult");if(c){out.style.color="#047857";out.textContent=`Local record found: ${c.name} · ${c.title} · saved ${new Date(c.issuedAt).toLocaleDateString()}. This is not independent verification.`;}else{out.style.color="#b91c1c";out.textContent="No matching credential exists in this local verification registry.";}}
   P3.el("startCertExam").onclick=()=>start(false);P3.el("startCertPractice").onclick=()=>start(true);P3.el("examPrevious").onclick=()=>next(-1);P3.el("examNext").onclick=()=>next(1);P3.el("submitExam").onclick=submit;P3.el("verifyCredential").onclick=verify;P3.certQuestions=Q;P3.cert={start,submit,renderReadiness,maybeIssue};P3.refreshers.push(renderReadiness);
 })();
 
@@ -2239,5 +2332,11 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 </script>
 <!-- PHASE1_PLATFORM_END -->
 <script src="/contrast-fix.js"></script>
+<script defer src="/assets/lessons/excel-formula-fluency/sprint/introduction.js"></script>
+<script defer src="/assets/lessons/excel-formula-fluency/sprint/learning.js"></script>
+<script defer src="/assets/lessons/excel-formula-fluency/sprint/progress.js"></script>
+<script defer src="/assets/lessons/excel-formula-fluency/sprint/dashboard.js"></script>
+<script defer src="/assets/lessons/excel-formula-fluency/sprint/learning-app.js"></script>
+<script defer src="/assets/lessons/excel-formula-fluency/sprint/app.js"></script>
 </body>
 </html>

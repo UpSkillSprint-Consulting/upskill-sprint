@@ -1,0 +1,316 @@
+{
+  "id": "L3-A2",
+  "level": 3,
+  "assignment": 2,
+  "title": "Match an employee allowance",
+  "formulas": [
+    "MATCH",
+    "INDEX"
+  ],
+  "minutes": 40,
+  "scenario": "Belvori Services has 26 invented employee expense records and six allowance codes. Duplicate employee names are legitimate; Employee_code identifies the record. One unknown and one blank Band_code must receive Missing.",
+  "lesson": {
+    "intro": "MATCH gives a position; INDEX uses that position to retrieve a value. This separates the key search from the return column and avoids the constraints of column-order lookup methods.",
+    "functions": [
+      {
+        "name": "MATCH",
+        "purpose": "Find the relative position of a value.",
+        "syntax": "=MATCH(lookup_value, lookup_array, [match_type])",
+        "arguments": "lookup_value is the key; lookup_array is one row or column; use match_type 0 for exact matching.",
+        "example": "=MATCH(\"Night\",{\"Day\",\"Night\"},0)",
+        "result": 2,
+        "useCase": "Find a row or column position for INDEX.",
+        "mistake": "Omitting 0 requests approximate matching, which has ordering requirements."
+      },
+      {
+        "name": "INDEX",
+        "purpose": "Return the value at a row and column position.",
+        "syntax": "=INDEX(array, row_num, [column_num])",
+        "arguments": "array contains values; row_num selects its row and optional column_num selects its column.",
+        "example": "=INDEX({20,30;40,50},2,1)",
+        "result": 40,
+        "useCase": "Select an item in a specification matrix.",
+        "mistake": "Row positions are relative to the selected array, not worksheet row numbers."
+      }
+    ],
+    "combine": "Use MATCH(...,0) for exact keys and earlier IFERROR only for the stated Missing outcome. Reuse ROUND to compare a reimbursement with a monthly allowance; keep references fixed when filling down."
+  },
+  "tasks": [
+    {
+      "prompt": "Find the 1-based position of the first employee’s Band_code within Allowances!A2:A7.",
+      "output": "Answers!B2",
+      "type": "number",
+      "formulas": [
+        "MATCH"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return the third allowance amount using its row position.",
+      "output": "Answers!B5",
+      "type": "number",
+      "formulas": [
+        "INDEX"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first six employees, retrieve Monthly_allowance_CAD by exact Band_code, returning Missing for unknown or blank bands.",
+      "output": "Answers!B8:B13",
+      "type": "array",
+      "formulas": [
+        "INDEX",
+        "MATCH",
+        "IFERROR"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "For the first employee, calculate Claim_CAD minus its matched allowance, rounded to two decimals.",
+      "output": "Answers!B16",
+      "type": "number",
+      "formulas": [
+        "INDEX",
+        "MATCH",
+        "ROUND"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "For the first employee, return Review when Claim_CAD exceeds the matched allowance, otherwise Within.",
+    "output": "Answers!B19",
+    "type": "text",
+    "formulas": [
+      "IF",
+      "INDEX",
+      "MATCH"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Employee_code",
+      "Employee_name",
+      "Band_code",
+      "Claim_CAD"
+    ],
+    "rows": [
+      [
+        "BV-E1",
+        "Nora Talven",
+        "B1",
+        225.48
+      ],
+      [
+        "BV-E2",
+        "Iven Rellor",
+        "B2",
+        234.34
+      ],
+      [
+        "BV-E3",
+        "Sena Varyn",
+        "B3",
+        135.31
+      ],
+      [
+        "BV-E4",
+        "Nora Talven",
+        "B4",
+        161.4
+      ],
+      [
+        "BV-E5",
+        "Iven Rellor",
+        "B9",
+        128.63
+      ],
+      [
+        "BV-E6",
+        "Sena Varyn",
+        "",
+        455.96
+      ],
+      [
+        "BV-E7",
+        "Nora Talven",
+        "B1",
+        451.65
+      ],
+      [
+        "BV-E8",
+        "Iven Rellor",
+        "B2",
+        508.54
+      ],
+      [
+        "BV-E9",
+        "Sena Varyn",
+        "B3",
+        150.49
+      ],
+      [
+        "BV-E10",
+        "Nora Talven",
+        "B4",
+        423.58
+      ],
+      [
+        "BV-E11",
+        "Iven Rellor",
+        "B5",
+        102.03
+      ],
+      [
+        "BV-E12",
+        "Sena Varyn",
+        "B6",
+        366.66
+      ],
+      [
+        "BV-E13",
+        "Nora Talven",
+        "B1",
+        410.99
+      ],
+      [
+        "BV-E14",
+        "Iven Rellor",
+        "B2",
+        349.52
+      ],
+      [
+        "BV-E15",
+        "Sena Varyn",
+        "B3",
+        353.14
+      ],
+      [
+        "BV-E16",
+        "Nora Talven",
+        "B4",
+        512.38
+      ],
+      [
+        "BV-E17",
+        "Iven Rellor",
+        "B5",
+        309
+      ],
+      [
+        "BV-E18",
+        "Sena Varyn",
+        "B6",
+        417.57
+      ],
+      [
+        "BV-E19",
+        "Nora Talven",
+        "B1",
+        478.57
+      ],
+      [
+        "BV-E20",
+        "Iven Rellor",
+        "B2",
+        402.28
+      ],
+      [
+        "BV-E21",
+        "Sena Varyn",
+        "B3",
+        301.62
+      ],
+      [
+        "BV-E22",
+        "Nora Talven",
+        "B4",
+        409.12
+      ],
+      [
+        "BV-E23",
+        "Iven Rellor",
+        "B5",
+        117.64
+      ],
+      [
+        "BV-E24",
+        "Sena Varyn",
+        "B6",
+        440.82
+      ],
+      [
+        "BV-E25",
+        "Nora Talven",
+        "B1",
+        215.63
+      ],
+      [
+        "BV-E26",
+        "Iven Rellor",
+        "B2",
+        142.07
+      ]
+    ],
+    "rowCount": 26,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Employee_code",
+        "description": "Employee code. See scenario for business rules."
+      },
+      {
+        "name": "Employee_name",
+        "description": "Employee name. See scenario for business rules."
+      },
+      {
+        "name": "Band_code",
+        "description": "Band code. See scenario for business rules."
+      },
+      {
+        "name": "Claim_CAD",
+        "description": "Claim CAD. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A2.csv",
+    "sheets": [
+      {
+        "name": "Allowances",
+        "headers": [
+          "Band_code",
+          "Monthly_allowance_CAD"
+        ],
+        "rows": [
+          [
+            "B1",
+            200
+          ],
+          [
+            "B2",
+            245
+          ],
+          [
+            "B3",
+            290
+          ],
+          [
+            "B4",
+            335
+          ],
+          [
+            "B5",
+            380
+          ],
+          [
+            "B6",
+            425
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A2-Allowances.csv"
+      }
+    ]
+  }
+}

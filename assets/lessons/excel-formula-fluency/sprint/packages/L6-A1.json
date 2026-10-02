@@ -1,0 +1,515 @@
+{
+  "id": "L6-A1",
+  "level": 6,
+  "assignment": 1,
+  "title": "Filter inspection exceptions",
+  "formulas": [
+    "FILTER",
+    "SORT",
+    "CHOOSECOLS"
+  ],
+  "minutes": 65,
+  "scenario": "Pervani Tube Inspection has 64 invented length measurements. Blank Length_mm means not measured and must be excluded from threshold analysis; zero is not used as a substitute. Review rows are measured lengths strictly below 5985 mm.",
+  "lesson": {
+    "intro": "Dynamic arrays return a whole report from one formula. FILTER chooses eligible observations; SORT orders the resulting numeric values. Keep the spill area empty.",
+    "functions": [
+      {
+        "name": "FILTER",
+        "purpose": "Keep rows or columns meeting a condition.",
+        "syntax": "=FILTER(array, include, [if_empty])",
+        "arguments": "array supplies data, include is an aligned TRUE/FALSE condition array, and if_empty handles no matches.",
+        "example": "=FILTER({2;7;9},{FALSE;TRUE;TRUE},\"None\")",
+        "result": "7 and 9 in two rows",
+        "useCase": "Extract inspection exceptions.",
+        "mistake": "Blank output cells are needed. AND combines criteria with multiplication, OR with addition."
+      },
+      {
+        "name": "SORT",
+        "purpose": "Sort a dynamic array.",
+        "syntax": "=SORT(array, [sort_index], [sort_order], [by_col])",
+        "arguments": "Choose the data, optional 1-based key column/row, order (1 ascending/-1 descending), and by_col TRUE to sort columns.",
+        "example": "=SORT({9;2;7})",
+        "result": "2, 7, 9 in three rows",
+        "useCase": "Order a filtered report.",
+        "mistake": "Sorting by one key leaves ties; use SORTBY for explicit secondary keys."
+      },
+      {
+        "name": "CHOOSECOLS",
+        "purpose": "Select and reorder array columns.",
+        "syntax": "=CHOOSECOLS(array, col_num1, [col_num2], ...)",
+        "arguments": "Provide an array and 1-based column indices; negative indices count from its right edge.",
+        "example": "=CHOOSECOLS({1,2,3;4,5,6},3,1)",
+        "result": "3,1 then 6,4",
+        "useCase": "Build a compact quality report.",
+        "mistake": "Index zero or outside the width errors."
+      }
+    ],
+    "combine": "Reuse IF/COUNTIFS and ROUND where needed. A blank can behave like zero in numeric comparisons, so explicitly exclude blank readings before the threshold test. A filtered count should agree with the same eligible population."
+  },
+  "tasks": [
+    {
+      "prompt": "Return all Inspection_code values for measured Length_mm below 5985, preserving source order.",
+      "output": "Answers!B2:B21",
+      "type": "array",
+      "formulas": [
+        "FILTER"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return all measured Length_mm below 5985 sorted ascending, preserving duplicate observations.",
+      "output": "Answers!B24:B43",
+      "type": "array",
+      "formulas": [
+        "SORT",
+        "FILTER"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "Count the measured rows below 5985 across the whole dataset.",
+      "output": "Answers!B46",
+      "type": "number",
+      "formulas": [
+        "COUNTIFS"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Return Inspection_code and Length_mm as two columns for Tovrin rows with measured Length_mm below 5985, in source order.",
+      "output": "Answers!B49:C58",
+      "type": "array",
+      "formulas": [
+        "FILTER",
+        "CHOOSECOLS"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Return None when filtering inspection codes for the nonexistent line Absent.",
+    "output": "Answers!B61",
+    "type": "text",
+    "formulas": [
+      "FILTER"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Inspection_code",
+      "Line",
+      "Length_mm",
+      "Defects_units"
+    ],
+    "rows": [
+      [
+        "PT-1",
+        "Tovrin",
+        "",
+        1
+      ],
+      [
+        "PT-2",
+        "Neral",
+        5961,
+        4
+      ],
+      [
+        "PT-3",
+        "Tovrin",
+        6014,
+        4
+      ],
+      [
+        "PT-4",
+        "Neral",
+        5989,
+        0
+      ],
+      [
+        "PT-5",
+        "Tovrin",
+        5979,
+        2
+      ],
+      [
+        "PT-6",
+        "Neral",
+        6027,
+        3
+      ],
+      [
+        "PT-7",
+        "Tovrin",
+        6013,
+        4
+      ],
+      [
+        "PT-8",
+        "Neral",
+        6013,
+        2
+      ],
+      [
+        "PT-9",
+        "Tovrin",
+        6019,
+        0
+      ],
+      [
+        "PT-10",
+        "Neral",
+        "",
+        0
+      ],
+      [
+        "PT-11",
+        "Tovrin",
+        6012,
+        4
+      ],
+      [
+        "PT-12",
+        "Neral",
+        5979,
+        4
+      ],
+      [
+        "PT-13",
+        "Tovrin",
+        5999,
+        0
+      ],
+      [
+        "PT-14",
+        "Neral",
+        6027,
+        3
+      ],
+      [
+        "PT-15",
+        "Tovrin",
+        5961,
+        2
+      ],
+      [
+        "PT-16",
+        "Neral",
+        6013,
+        1
+      ],
+      [
+        "PT-17",
+        "Tovrin",
+        5972,
+        2
+      ],
+      [
+        "PT-18",
+        "Neral",
+        6010,
+        2
+      ],
+      [
+        "PT-19",
+        "Tovrin",
+        "",
+        4
+      ],
+      [
+        "PT-20",
+        "Neral",
+        6004,
+        1
+      ],
+      [
+        "PT-21",
+        "Tovrin",
+        5990,
+        4
+      ],
+      [
+        "PT-22",
+        "Neral",
+        6024,
+        1
+      ],
+      [
+        "PT-23",
+        "Tovrin",
+        5971,
+        3
+      ],
+      [
+        "PT-24",
+        "Neral",
+        5980,
+        3
+      ],
+      [
+        "PT-25",
+        "Tovrin",
+        5994,
+        0
+      ],
+      [
+        "PT-26",
+        "Neral",
+        5960,
+        1
+      ],
+      [
+        "PT-27",
+        "Tovrin",
+        5983,
+        0
+      ],
+      [
+        "PT-28",
+        "Neral",
+        "",
+        4
+      ],
+      [
+        "PT-29",
+        "Tovrin",
+        6001,
+        2
+      ],
+      [
+        "PT-30",
+        "Neral",
+        6002,
+        3
+      ],
+      [
+        "PT-31",
+        "Tovrin",
+        5976,
+        2
+      ],
+      [
+        "PT-32",
+        "Neral",
+        5977,
+        0
+      ],
+      [
+        "PT-33",
+        "Tovrin",
+        5973,
+        4
+      ],
+      [
+        "PT-34",
+        "Neral",
+        5992,
+        4
+      ],
+      [
+        "PT-35",
+        "Tovrin",
+        6004,
+        4
+      ],
+      [
+        "PT-36",
+        "Neral",
+        6006,
+        3
+      ],
+      [
+        "PT-37",
+        "Tovrin",
+        "",
+        1
+      ],
+      [
+        "PT-38",
+        "Neral",
+        5970,
+        4
+      ],
+      [
+        "PT-39",
+        "Tovrin",
+        5988,
+        0
+      ],
+      [
+        "PT-40",
+        "Neral",
+        5981,
+        3
+      ],
+      [
+        "PT-41",
+        "Tovrin",
+        6005,
+        3
+      ],
+      [
+        "PT-42",
+        "Neral",
+        6019,
+        4
+      ],
+      [
+        "PT-43",
+        "Tovrin",
+        5981,
+        1
+      ],
+      [
+        "PT-44",
+        "Neral",
+        5995,
+        0
+      ],
+      [
+        "PT-45",
+        "Tovrin",
+        5981,
+        1
+      ],
+      [
+        "PT-46",
+        "Neral",
+        "",
+        4
+      ],
+      [
+        "PT-47",
+        "Tovrin",
+        5967,
+        2
+      ],
+      [
+        "PT-48",
+        "Neral",
+        6018,
+        1
+      ],
+      [
+        "PT-49",
+        "Tovrin",
+        6016,
+        3
+      ],
+      [
+        "PT-50",
+        "Neral",
+        5967,
+        2
+      ],
+      [
+        "PT-51",
+        "Tovrin",
+        5992,
+        2
+      ],
+      [
+        "PT-52",
+        "Neral",
+        6026,
+        0
+      ],
+      [
+        "PT-53",
+        "Tovrin",
+        6003,
+        4
+      ],
+      [
+        "PT-54",
+        "Neral",
+        5963,
+        2
+      ],
+      [
+        "PT-55",
+        "Tovrin",
+        "",
+        4
+      ],
+      [
+        "PT-56",
+        "Neral",
+        5986,
+        0
+      ],
+      [
+        "PT-57",
+        "Tovrin",
+        5985,
+        4
+      ],
+      [
+        "PT-58",
+        "Neral",
+        6009,
+        3
+      ],
+      [
+        "PT-59",
+        "Tovrin",
+        5987,
+        4
+      ],
+      [
+        "PT-60",
+        "Neral",
+        6006,
+        1
+      ],
+      [
+        "PT-61",
+        "Tovrin",
+        6012,
+        0
+      ],
+      [
+        "PT-62",
+        "Neral",
+        5969,
+        0
+      ],
+      [
+        "PT-63",
+        "Tovrin",
+        6010,
+        3
+      ],
+      [
+        "PT-64",
+        "Neral",
+        "",
+        4
+      ]
+    ],
+    "rowCount": 64,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Inspection_code",
+        "description": "Inspection code. See scenario for business rules."
+      },
+      {
+        "name": "Line",
+        "description": "Line. See scenario for business rules."
+      },
+      {
+        "name": "Length_mm",
+        "description": "Length mm. See scenario for business rules."
+      },
+      {
+        "name": "Defects_units",
+        "description": "Defects units. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L6-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L6-A1.csv"
+  }
+}

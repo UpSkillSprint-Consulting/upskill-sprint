@@ -1,0 +1,291 @@
+{
+  "id": "L1-A1",
+  "level": 1,
+  "assignment": 1,
+  "title": "Heat totals and averages",
+  "formulas": [
+    "SUM",
+    "AVERAGE"
+  ],
+  "minutes": 25,
+  "scenario": "Neralis Meltworks is checking 24 fictitious EAF heats from its Kestrel plant. The superintendent needs total output, average tap time and one pooled metal-yield result. Every mass is in metric tonnes; each row is one heat.",
+  "lesson": {
+    "intro": "A formula starts with =. A range such as Data!D2:D25 includes both endpoints. Build totals and means from cells so the result follows the data, instead of typing a calculated answer.",
+    "functions": [
+      {
+        "name": "SUM",
+        "purpose": "Add numeric values.",
+        "syntax": "=SUM(number1, [number2], ...)",
+        "arguments": "number1 is a number, cell or range; later arguments are optional additional inputs.",
+        "example": "=SUM(14,18,22)",
+        "result": 54,
+        "useCase": "Total tonnes, units or costs.",
+        "mistake": "Exclude headings and unrelated numeric columns; text in referenced cells is ignored."
+      },
+      {
+        "name": "AVERAGE",
+        "purpose": "Calculate an arithmetic mean.",
+        "syntax": "=AVERAGE(number1, [number2], ...)",
+        "arguments": "number1 supplies the first number or range; optional inputs add more observations.",
+        "example": "=AVERAGE(14,18,22)",
+        "result": 18,
+        "useCase": "Typical tap time or measured mass.",
+        "mistake": "Referenced blanks are ignored, but zero is included. An average of individual yields differs from pooled yield."
+      }
+    ],
+    "combine": "For pooled yield, divide total tapped mass by total charged mass and multiply by 100. Arithmetic operators * and / combine results. The ratio of totals weights larger heats correctly. Use Data! before ranges when entering formulas on Answers."
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "prompt": "Calculate the total tapped mass for all 24 heats, in metric tonnes.",
+      "output": "Answers!B2",
+      "type": "number",
+      "formulas": [
+        "SUM"
+      ]
+    },
+    {
+      "id": "t2",
+      "prompt": "Calculate the average tap duration for all 24 heats, in minutes. Submit the unrounded numeric value.",
+      "output": "Answers!B3",
+      "type": "number",
+      "formulas": [
+        "AVERAGE"
+      ]
+    },
+    {
+      "id": "t3",
+      "prompt": "Calculate pooled metal yield as 100 times total tapped mass divided by total charged mass. Submit the unrounded percentage number, for example 93.4 rather than 0.934.",
+      "output": "Answers!B4",
+      "type": "number",
+      "formulas": [
+        "SUM"
+      ]
+    },
+    {
+      "id": "t4",
+      "prompt": "Calculate the difference between average charged mass and average tapped mass, in tonnes. Submit an unrounded number.",
+      "output": "Answers!B5",
+      "type": "number",
+      "formulas": [
+        "AVERAGE"
+      ]
+    }
+  ],
+  "bonus": {
+    "id": "bonus",
+    "prompt": "Calculate aggregate tapped tonnes per hour using total tap duration, rather than averaging individual heat rates.",
+    "output": "Answers!B7",
+    "type": "number",
+    "formulas": [
+      "SUM"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Heat_no",
+      "Tap_date",
+      "Charged_t",
+      "Tapped_t",
+      "Tap_duration_min"
+    ],
+    "rows": [
+      [
+        "NM-7101",
+        "2026-09-01",
+        118,
+        107.38,
+        66
+      ],
+      [
+        "NM-7102",
+        "2026-09-02",
+        109,
+        97.01,
+        49
+      ],
+      [
+        "NM-7103",
+        "2026-09-03",
+        103,
+        91.67,
+        73
+      ],
+      [
+        "NM-7104",
+        "2026-09-04",
+        110,
+        101.2,
+        47
+      ],
+      [
+        "NM-7105",
+        "2026-09-05",
+        93,
+        82.77,
+        71
+      ],
+      [
+        "NM-7106",
+        "2026-09-06",
+        115,
+        109.25,
+        72
+      ],
+      [
+        "NM-7107",
+        "2026-09-07",
+        116,
+        104.4,
+        57
+      ],
+      [
+        "NM-7108",
+        "2026-09-08",
+        103,
+        98.88,
+        69
+      ],
+      [
+        "NM-7109",
+        "2026-09-09",
+        122,
+        115.9,
+        74
+      ],
+      [
+        "NM-7110",
+        "2026-09-10",
+        113,
+        108.48,
+        52
+      ],
+      [
+        "NM-7111",
+        "2026-09-11",
+        92,
+        86.48,
+        65
+      ],
+      [
+        "NM-7112",
+        "2026-09-12",
+        122,
+        114.68,
+        70
+      ],
+      [
+        "NM-7113",
+        "2026-09-13",
+        110,
+        100.1,
+        76
+      ],
+      [
+        "NM-7114",
+        "2026-09-14",
+        108,
+        101.52,
+        60
+      ],
+      [
+        "NM-7115",
+        "2026-09-15",
+        106,
+        97.52,
+        61
+      ],
+      [
+        "NM-7116",
+        "2026-09-16",
+        126,
+        112.14,
+        73
+      ],
+      [
+        "NM-7117",
+        "2026-09-17",
+        101,
+        94.94,
+        67
+      ],
+      [
+        "NM-7118",
+        "2026-09-18",
+        99,
+        95.04,
+        55
+      ],
+      [
+        "NM-7119",
+        "2026-09-19",
+        107,
+        97.37,
+        53
+      ],
+      [
+        "NM-7120",
+        "2026-09-20",
+        119,
+        114.24,
+        58
+      ],
+      [
+        "NM-7121",
+        "2026-09-21",
+        126,
+        119.7,
+        64
+      ],
+      [
+        "NM-7122",
+        "2026-09-22",
+        103,
+        95.79,
+        54
+      ],
+      [
+        "NM-7123",
+        "2026-09-23",
+        119,
+        113.05,
+        50
+      ],
+      [
+        "NM-7124",
+        "2026-09-24",
+        98,
+        87.22,
+        47
+      ]
+    ],
+    "rowCount": 24,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Heat_no",
+        "description": "Invented unique heat identifier."
+      },
+      {
+        "name": "Tap_date",
+        "description": "ISO date of tap in September 2026."
+      },
+      {
+        "name": "Charged_t",
+        "description": "Total metallic charge, metric tonnes."
+      },
+      {
+        "name": "Tapped_t",
+        "description": "Liquid steel tapped, metric tonnes."
+      },
+      {
+        "name": "Tap_duration_min",
+        "description": "Heat tap duration, minutes."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L1-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L1-A1.csv"
+  }
+}

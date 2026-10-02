@@ -1,0 +1,382 @@
+{
+  "id": "L7-A4",
+  "level": 7,
+  "assignment": 4,
+  "title": "Match specifications in two dimensions",
+  "formulas": [
+    "XMATCH",
+    "INDEX",
+    "IFNA"
+  ],
+  "minutes": 65,
+  "scenario": "Dorlavi Inspection has 36 fictitious Charpy records and a grade-by-orientation Matrix. A blank or unlisted grade/orientation returns Missing. The matrix limits are training assumptions; a measured energy at or above its unique limit is Pass.",
+  "lesson": {
+    "intro": "Two-way matching selects a row key and a column key independently. Exact matching should find named dimensions rather than relying on their current order.",
+    "functions": [
+      {
+        "name": "XMATCH",
+        "purpose": "Find a relative position.",
+        "syntax": "=XMATCH(lookup_value, lookup_array, [match_mode], [search_mode])",
+        "arguments": "Supply key and one-dimensional range; match mode 0 exact, -1 next smaller, 1 next larger, 2 wildcard; search 1 forward, -1 reverse, 2 ascending binary, -2 descending binary.",
+        "example": "=XMATCH(\"B\",{\"A\",\"B\"},0,1)",
+        "result": 2,
+        "useCase": "Match both dimensions of a specification.",
+        "mistake": "Binary modes require sorted keys. A first match does not prove uniqueness."
+      },
+      {
+        "name": "INDEX",
+        "purpose": "Select a row and column.",
+        "syntax": "=INDEX(array, row_num, [column_num])",
+        "arguments": "array is the source; row_num and optional column_num are positions within it.",
+        "example": "=INDEX({7,9;11,13},2,1)",
+        "result": 11,
+        "useCase": "Read a two-dimensional training matrix.",
+        "mistake": "Worksheet row numbers differ from positions within the array."
+      },
+      {
+        "name": "IFNA",
+        "purpose": "Handle an unavailable exact match.",
+        "syntax": "=IFNA(value, value_if_na)",
+        "arguments": "value is the expression checked for #N/A; value_if_na is the result to return only for that error.",
+        "example": "=IFNA(XMATCH(\"Absent\",{\"A\",\"B\"},0),\"Missing\")",
+        "result": "Missing",
+        "useCase": "Label an absent grade or orientation without hiding other formula errors.",
+        "mistake": "Unlike IFERROR, IFNA handles only #N/A; errors such as #REF! still need correction."
+      }
+    ],
+    "combine": "IFNA labels an unavailable exact match while leaving other formula errors visible. Review IF and COUNTIFS. Place two exact XMATCH positions inside INDEX. Check energy availability before comparing; a missing measurement must remain Missing. Any valid formula is accepted."
+  },
+  "tasks": [
+    {
+      "prompt": "For the first eight records, return the exact grade position within Matrix data rows, or Missing for an absent grade.",
+      "output": "Answers!B2:B9",
+      "type": "array",
+      "formulas": [
+        "XMATCH",
+        "IFNA"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "For the first eight records, return the matched energy limit in joules, or Missing if either dimension is absent.",
+      "output": "Answers!B12:B19",
+      "type": "array",
+      "formulas": [
+        "INDEX",
+        "XMATCH",
+        "IFNA"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first eight records, return Pass when measured energy is at least the matched limit, Hold below it, or Missing for absent energy/dimensions.",
+      "output": "Answers!B22:B29",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "ISNUMBER"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Count Missing statuses in the first eight task-3 outputs.",
+      "output": "Answers!B32",
+      "type": "number",
+      "formulas": [
+        "COUNTIFS"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review INDEX: return the Matrix requirement for G4 and TWA.",
+    "output": "Answers!B35",
+    "type": "number",
+    "formulas": [
+      "INDEX"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Sample_no",
+      "Grade",
+      "Orientation",
+      "Energy_J"
+    ],
+    "rows": [
+      [
+        "DV-1",
+        "G1",
+        "LPA",
+        27
+      ],
+      [
+        "DV-2",
+        "G2",
+        "TWA",
+        29
+      ],
+      [
+        "DV-3",
+        "G3",
+        "LPA",
+        42
+      ],
+      [
+        "DV-4",
+        "G4",
+        "TWA",
+        40
+      ],
+      [
+        "DV-5",
+        "GX",
+        "LPA",
+        48
+      ],
+      [
+        "DV-6",
+        "G2",
+        "Unknown",
+        39
+      ],
+      [
+        "DV-7",
+        "G3",
+        "LPA",
+        ""
+      ],
+      [
+        "DV-8",
+        "G4",
+        "TWA",
+        52
+      ],
+      [
+        "DV-9",
+        "G1",
+        "LPA",
+        20
+      ],
+      [
+        "DV-10",
+        "G2",
+        "TWA",
+        29
+      ],
+      [
+        "DV-11",
+        "G3",
+        "LPA",
+        23
+      ],
+      [
+        "DV-12",
+        "G4",
+        "TWA",
+        52
+      ],
+      [
+        "DV-13",
+        "G1",
+        "LPA",
+        37
+      ],
+      [
+        "DV-14",
+        "G2",
+        "TWA",
+        24
+      ],
+      [
+        "DV-15",
+        "G3",
+        "LPA",
+        36
+      ],
+      [
+        "DV-16",
+        "G4",
+        "TWA",
+        19
+      ],
+      [
+        "DV-17",
+        "G1",
+        "LPA",
+        24
+      ],
+      [
+        "DV-18",
+        "G2",
+        "TWA",
+        40
+      ],
+      [
+        "DV-19",
+        "G3",
+        "LPA",
+        38
+      ],
+      [
+        "DV-20",
+        "G4",
+        "TWA",
+        39
+      ],
+      [
+        "DV-21",
+        "G1",
+        "LPA",
+        16
+      ],
+      [
+        "DV-22",
+        "G2",
+        "TWA",
+        45
+      ],
+      [
+        "DV-23",
+        "G3",
+        "LPA",
+        46
+      ],
+      [
+        "DV-24",
+        "G4",
+        "TWA",
+        27
+      ],
+      [
+        "DV-25",
+        "G1",
+        "LPA",
+        18
+      ],
+      [
+        "DV-26",
+        "G2",
+        "TWA",
+        43
+      ],
+      [
+        "DV-27",
+        "G3",
+        "LPA",
+        32
+      ],
+      [
+        "DV-28",
+        "G4",
+        "TWA",
+        26
+      ],
+      [
+        "DV-29",
+        "G1",
+        "LPA",
+        28
+      ],
+      [
+        "DV-30",
+        "G2",
+        "TWA",
+        15
+      ],
+      [
+        "DV-31",
+        "G3",
+        "LPA",
+        16
+      ],
+      [
+        "DV-32",
+        "G4",
+        "TWA",
+        15
+      ],
+      [
+        "DV-33",
+        "G1",
+        "LPA",
+        15
+      ],
+      [
+        "DV-34",
+        "G2",
+        "TWA",
+        42
+      ],
+      [
+        "DV-35",
+        "G3",
+        "LPA",
+        33
+      ],
+      [
+        "DV-36",
+        "G4",
+        "TWA",
+        24
+      ]
+    ],
+    "rowCount": 36,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Sample_no",
+        "description": "Unique invented sample identifier."
+      },
+      {
+        "name": "Grade",
+        "description": "G1–G4 or deliberately unknown."
+      },
+      {
+        "name": "Orientation",
+        "description": "LPA/TWA or deliberately unknown."
+      },
+      {
+        "name": "Energy_J",
+        "description": "Numeric joules or blank unmeasured result."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L7-A4.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L7-A4.csv",
+    "sheets": [
+      {
+        "name": "Matrix",
+        "headers": [
+          "Grade",
+          "LPA",
+          "TWA"
+        ],
+        "rows": [
+          [
+            "G1",
+            27,
+            20
+          ],
+          [
+            "G2",
+            34,
+            25
+          ],
+          [
+            "G3",
+            40,
+            30
+          ],
+          [
+            "G4",
+            47,
+            35
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L7-A4-Matrix.csv"
+      }
+    ]
+  }
+}

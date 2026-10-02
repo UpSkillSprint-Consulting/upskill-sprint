@@ -1,0 +1,293 @@
+{
+  "id": "L3-A4",
+  "level": 3,
+  "assignment": 4,
+  "title": "Map values to training bands",
+  "formulas": [
+    "XLOOKUP",
+    "MATCH"
+  ],
+  "minutes": 50,
+  "scenario": "Delvori Logistics is pricing 30 invented shipments using ascending lower-bound mass bands. Each band includes its lower bound and continues up to the next bound; duplicate masses are valid observations. A negative mass is invalid and must not match a price band.",
+  "lesson": {
+    "intro": "Approximate matching implements a stated interval rule. Lower-bound tables use the exact match or next smaller key; upper-bound tables require a different mode.",
+    "functions": [
+      {
+        "name": "XLOOKUP",
+        "purpose": "Find a key and return its corresponding value.",
+        "syntax": "=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])",
+        "arguments": "Supply the key, aligned key and return ranges, optional missing label, match mode (0 exact, -1 next smaller, 1 next larger), and search direction (1 first, -1 last).",
+        "example": "=XLOOKUP(\"P2\",{\"P1\",\"P2\"},{400,450},\"Missing\")",
+        "result": 450,
+        "useCase": "Retrieve a specification or allowance.",
+        "mistake": "Exact is the default. A first match does not aggregate duplicates. Binary search requires correctly sorted keys."
+      },
+      {
+        "name": "MATCH",
+        "purpose": "Find the relative position of a value.",
+        "syntax": "=MATCH(lookup_value, lookup_array, [match_type])",
+        "arguments": "lookup_value is the key; lookup_array is one row or column; use match_type 0 for exact matching.",
+        "example": "=MATCH(\"Night\",{\"Day\",\"Night\"},0)",
+        "result": 2,
+        "useCase": "Find a row or column position for INDEX.",
+        "mistake": "Omitting 0 requests approximate matching, which has ordering requirements."
+      }
+    ],
+    "combine": "Reuse IF to exclude negative mass and ROUND for freight cost. MATCH with type 1 requires ascending lower bounds. XLOOKUP match_mode -1 expresses exact-or-next-smaller; avoid binary search unless ordering is guaranteed."
+  },
+  "tasks": [
+    {
+      "prompt": "Return Rate_CAD_per_km for the first shipment’s mass using the stated lower-bound bands.",
+      "output": "Answers!B2",
+      "type": "number",
+      "formulas": [
+        "XLOOKUP"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return the first mass’s 1-based band position within Bands!A2:A5.",
+      "output": "Answers!B5",
+      "type": "number",
+      "formulas": [
+        "MATCH"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first six shipments, return the rate for each nonnegative mass and Invalid for negative mass.",
+      "output": "Answers!B8:B13",
+      "type": "array",
+      "formulas": [
+        "XLOOKUP",
+        "IF"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "For the first shipment, calculate Distance_km times the matched rate, rounded to cents.",
+      "output": "Answers!B16",
+      "type": "number",
+      "formulas": [
+        "ROUND",
+        "XLOOKUP"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Return Rate_CAD_per_km for a hypothetical 99.9 kg shipment.",
+    "output": "Answers!B19",
+    "type": "number",
+    "formulas": [
+      "XLOOKUP"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Shipment_code",
+      "Mass_kg",
+      "Distance_km"
+    ],
+    "rows": [
+      [
+        "DL-1",
+        25,
+        217
+      ],
+      [
+        "DL-2",
+        50,
+        218
+      ],
+      [
+        "DL-3",
+        100,
+        38
+      ],
+      [
+        "DL-4",
+        0,
+        19
+      ],
+      [
+        "DL-5",
+        113,
+        102
+      ],
+      [
+        "DL-6",
+        -2,
+        190
+      ],
+      [
+        "DL-7",
+        150,
+        111
+      ],
+      [
+        "DL-8",
+        53,
+        75
+      ],
+      [
+        "DL-9",
+        170,
+        114
+      ],
+      [
+        "DL-10",
+        115,
+        171
+      ],
+      [
+        "DL-11",
+        49,
+        146
+      ],
+      [
+        "DL-12",
+        45,
+        181
+      ],
+      [
+        "DL-13",
+        4,
+        213
+      ],
+      [
+        "DL-14",
+        158,
+        42
+      ],
+      [
+        "DL-15",
+        149,
+        194
+      ],
+      [
+        "DL-16",
+        66,
+        28
+      ],
+      [
+        "DL-17",
+        36,
+        169
+      ],
+      [
+        "DL-18",
+        85,
+        118
+      ],
+      [
+        "DL-19",
+        120,
+        153
+      ],
+      [
+        "DL-20",
+        63,
+        160
+      ],
+      [
+        "DL-21",
+        25,
+        173
+      ],
+      [
+        "DL-22",
+        13,
+        87
+      ],
+      [
+        "DL-23",
+        110,
+        163
+      ],
+      [
+        "DL-24",
+        107,
+        106
+      ],
+      [
+        "DL-25",
+        12,
+        63
+      ],
+      [
+        "DL-26",
+        0,
+        11
+      ],
+      [
+        "DL-27",
+        41,
+        152
+      ],
+      [
+        "DL-28",
+        9,
+        213
+      ],
+      [
+        "DL-29",
+        111,
+        176
+      ],
+      [
+        "DL-30",
+        35,
+        111
+      ]
+    ],
+    "rowCount": 30,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Shipment_code",
+        "description": "Shipment code. See scenario for business rules."
+      },
+      {
+        "name": "Mass_kg",
+        "description": "Mass kg. See scenario for business rules."
+      },
+      {
+        "name": "Distance_km",
+        "description": "Distance km. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A4.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A4.csv",
+    "sheets": [
+      {
+        "name": "Bands",
+        "headers": [
+          "Lower_kg",
+          "Rate_CAD_per_km"
+        ],
+        "rows": [
+          [
+            0,
+            0.8
+          ],
+          [
+            25,
+            1.1
+          ],
+          [
+            50,
+            1.5
+          ],
+          [
+            100,
+            2.2
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A4-Bands.csv"
+      }
+    ]
+  }
+}

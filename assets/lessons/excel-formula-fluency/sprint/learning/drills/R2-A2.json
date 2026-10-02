@@ -1,0 +1,181 @@
+{
+  "id": "R2-A2",
+  "version": 1,
+  "skillId": "level-2",
+  "level": 2,
+  "title": "Total selected downtime 2",
+  "scenario": "A fictitious rolling line logs downtime by shift and cause. Each event is independent; repeated shift and cause values are expected. All records and limits are fictitious training assumptions.",
+  "lesson": {
+    "intro": "SUMIFS adds a numeric column only where every criterion matches the same row. Keep sum and criteria ranges aligned. Do not add two separate conditional totals for an AND rule. Separate miniature example: A2:A4 contains Day, Night, Day; B2:B4 contains 4, 7, 3.",
+    "formulas": [
+      {
+        "name": "SUMIFS",
+        "syntax": "=SUMIFS(sum_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+        "explanation": "sum_range contains amounts. Each criteria_range aligns with it; the following criterion defines which rows qualify. Additional pairs are optional.",
+        "example": "=SUMIFS(B2:B4,A2:A4,\"Day\")",
+        "result": 7
+      }
+    ]
+  },
+  "task": {
+    "id": "t1",
+    "prompt": "Total Downtime_min for Shift = Day AND Cause = Repair. Keep every qualifying record, including repeated categories. Ignore blank amounts and retain zero. Return the exact integer total, without rounding. Return one numeric value in Answers!B2. Use an Excel formula; any equivalent approach is accepted. Submit the formula and the complete output.",
+    "output": "Answers!B2",
+    "type": "number",
+    "formulas": [
+      "SUMIFS"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Event_no",
+      "Shift",
+      "Cause",
+      "Downtime_min"
+    ],
+    "rows": [
+      [
+        "DY2-1",
+        "Day",
+        "Setup",
+        59
+      ],
+      [
+        "DY2-2",
+        "Night",
+        "Repair",
+        10
+      ],
+      [
+        "DY2-3",
+        "Day",
+        "Repair",
+        ""
+      ],
+      [
+        "DY2-4",
+        "Night",
+        "Setup",
+        69
+      ],
+      [
+        "DY2-5",
+        "Day",
+        "Repair",
+        50
+      ],
+      [
+        "DY2-6",
+        "Night",
+        "Repair",
+        31
+      ],
+      [
+        "DY2-7",
+        "Day",
+        "Setup",
+        0
+      ],
+      [
+        "DY2-8",
+        "Night",
+        "Repair",
+        58
+      ],
+      [
+        "DY2-9",
+        "Day",
+        "Repair",
+        23
+      ],
+      [
+        "DY2-10",
+        "Night",
+        "Setup",
+        89
+      ],
+      [
+        "DY2-11",
+        "Day",
+        "Repair",
+        87
+      ],
+      [
+        "DY2-12",
+        "Night",
+        "Repair",
+        85
+      ],
+      [
+        "DY2-13",
+        "Day",
+        "Setup",
+        45
+      ],
+      [
+        "DY2-14",
+        "Night",
+        "Repair",
+        33
+      ],
+      [
+        "DY2-15",
+        "Day",
+        "Repair",
+        69
+      ],
+      [
+        "DY2-16",
+        "Night",
+        "Setup",
+        65
+      ],
+      [
+        "DY2-17",
+        "Day",
+        "Repair",
+        20
+      ],
+      [
+        "DY2-18",
+        "Night",
+        "Repair",
+        56
+      ],
+      [
+        "DY2-19",
+        "Day",
+        "Setup",
+        58
+      ],
+      [
+        "DY2-20",
+        "Night",
+        "Repair",
+        89
+      ]
+    ],
+    "rowCount": 20,
+    "tableName": "PracticeData",
+    "columns": [
+      {
+        "name": "Event_no",
+        "description": "Unique event identifier."
+      },
+      {
+        "name": "Shift",
+        "description": "Exact Day or Night text."
+      },
+      {
+        "name": "Cause",
+        "description": "Exact Repair or Setup text."
+      },
+      {
+        "name": "Downtime_min",
+        "description": "Minutes. Blank contributes no numeric amount; numeric zero contributes zero."
+      }
+    ],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R2-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R2-A2.csv"
+  }
+}

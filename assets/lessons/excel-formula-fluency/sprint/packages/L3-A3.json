@@ -1,0 +1,323 @@
+{
+  "id": "L3-A3",
+  "level": 3,
+  "assignment": 3,
+  "title": "Read a two-way specification matrix",
+  "formulas": [
+    "INDEX",
+    "MATCH"
+  ],
+  "minutes": 45,
+  "scenario": "Corvani Alloy Lab has 28 invented inspection records. Each required energy depends on both Grade_code and Orientation, using the Matrix sheet. A blank grade and an unknown orientation are included so an incomplete lookup cannot silently select a default.",
+  "lesson": {
+    "intro": "A two-way lookup finds both the row and column of a value. Search grade labels vertically and orientation labels horizontally; use their positions inside INDEX.",
+    "functions": [
+      {
+        "name": "INDEX",
+        "purpose": "Return the value at a row and column position.",
+        "syntax": "=INDEX(array, row_num, [column_num])",
+        "arguments": "array contains values; row_num selects its row and optional column_num selects its column.",
+        "example": "=INDEX({20,30;40,50},2,1)",
+        "result": 40,
+        "useCase": "Select an item in a specification matrix.",
+        "mistake": "Row positions are relative to the selected array, not worksheet row numbers."
+      },
+      {
+        "name": "MATCH",
+        "purpose": "Find the relative position of a value.",
+        "syntax": "=MATCH(lookup_value, lookup_array, [match_type])",
+        "arguments": "lookup_value is the key; lookup_array is one row or column; use match_type 0 for exact matching.",
+        "example": "=MATCH(\"Night\",{\"Day\",\"Night\"},0)",
+        "result": 2,
+        "useCase": "Find a row or column position for INDEX.",
+        "mistake": "Omitting 0 requests approximate matching, which has ordering requirements."
+      }
+    ],
+    "combine": "Reuse IFERROR for Missing and IF for a training-only energy decision. Use exact MATCH for each dimension; matching only the grade can produce a plausible but wrong requirement."
+  },
+  "tasks": [
+    {
+      "prompt": "Find the first record’s Grade_code position in Matrix!A2:A5.",
+      "output": "Answers!B2",
+      "type": "number",
+      "formulas": [
+        "MATCH"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Find the first record’s Orientation position within Matrix!B1:C1.",
+      "output": "Answers!B5",
+      "type": "number",
+      "formulas": [
+        "MATCH"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first six records, return their energy requirement in J from the two-dimensional matrix, or Missing for an absent grade/orientation.",
+      "output": "Answers!B8:B13",
+      "type": "array",
+      "formulas": [
+        "INDEX",
+        "MATCH",
+        "IFERROR"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "For the first record, return Pass if Energy_J meets or exceeds its two-way requirement, otherwise Hold.",
+      "output": "Answers!B16",
+      "type": "text",
+      "formulas": [
+        "IF",
+        "INDEX",
+        "MATCH"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Return the difference between the first grade’s LPA and TWA requirements: LPA minus TWA.",
+    "output": "Answers!B19",
+    "type": "number",
+    "formulas": [
+      "INDEX"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Record_code",
+      "Grade_code",
+      "Orientation",
+      "Energy_J"
+    ],
+    "rows": [
+      [
+        "CL-1",
+        "G1",
+        "LPA",
+        57
+      ],
+      [
+        "CL-2",
+        "G2",
+        "TWA",
+        20
+      ],
+      [
+        "CL-3",
+        "G3",
+        "LPA",
+        29
+      ],
+      [
+        "CL-4",
+        "G4",
+        "TWA",
+        59
+      ],
+      [
+        "CL-5",
+        "",
+        "LPA",
+        36
+      ],
+      [
+        "CL-6",
+        "G2",
+        "ZZ",
+        25
+      ],
+      [
+        "CL-7",
+        "G3",
+        "LPA",
+        28
+      ],
+      [
+        "CL-8",
+        "G4",
+        "TWA",
+        28
+      ],
+      [
+        "CL-9",
+        "G1",
+        "LPA",
+        26
+      ],
+      [
+        "CL-10",
+        "G2",
+        "TWA",
+        23
+      ],
+      [
+        "CL-11",
+        "G3",
+        "LPA",
+        65
+      ],
+      [
+        "CL-12",
+        "G4",
+        "TWA",
+        29
+      ],
+      [
+        "CL-13",
+        "G1",
+        "LPA",
+        57
+      ],
+      [
+        "CL-14",
+        "G2",
+        "TWA",
+        28
+      ],
+      [
+        "CL-15",
+        "G3",
+        "LPA",
+        56
+      ],
+      [
+        "CL-16",
+        "G4",
+        "TWA",
+        17
+      ],
+      [
+        "CL-17",
+        "G1",
+        "LPA",
+        18
+      ],
+      [
+        "CL-18",
+        "G2",
+        "TWA",
+        57
+      ],
+      [
+        "CL-19",
+        "G3",
+        "LPA",
+        64
+      ],
+      [
+        "CL-20",
+        "G4",
+        "TWA",
+        47
+      ],
+      [
+        "CL-21",
+        "G1",
+        "LPA",
+        36
+      ],
+      [
+        "CL-22",
+        "G2",
+        "TWA",
+        48
+      ],
+      [
+        "CL-23",
+        "G3",
+        "LPA",
+        25
+      ],
+      [
+        "CL-24",
+        "G4",
+        "TWA",
+        29
+      ],
+      [
+        "CL-25",
+        "G1",
+        "LPA",
+        30
+      ],
+      [
+        "CL-26",
+        "G2",
+        "TWA",
+        20
+      ],
+      [
+        "CL-27",
+        "G3",
+        "LPA",
+        56
+      ],
+      [
+        "CL-28",
+        "G4",
+        "TWA",
+        41
+      ]
+    ],
+    "rowCount": 28,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Record_code",
+        "description": "Record code. See scenario for business rules."
+      },
+      {
+        "name": "Grade_code",
+        "description": "Grade code. See scenario for business rules."
+      },
+      {
+        "name": "Orientation",
+        "description": "Orientation. See scenario for business rules."
+      },
+      {
+        "name": "Energy_J",
+        "description": "Energy J. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A3.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A3.csv",
+    "sheets": [
+      {
+        "name": "Matrix",
+        "headers": [
+          "Grade_code",
+          "LPA",
+          "TWA"
+        ],
+        "rows": [
+          [
+            "G1",
+            27,
+            20
+          ],
+          [
+            "G2",
+            34,
+            25
+          ],
+          [
+            "G3",
+            40,
+            30
+          ],
+          [
+            "G4",
+            47,
+            35
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A3-Matrix.csv"
+      }
+    ]
+  }
+}

@@ -1,0 +1,494 @@
+{
+  "id": "L10-A5",
+  "level": 10,
+  "assignment": 5,
+  "title": "Complete the integrated Charpy capstone",
+  "formulas": [
+    "LET",
+    "MAP"
+  ],
+  "minutes": 100,
+  "scenario": "Tervali Pipe Lab has 48 fictitious Charpy replicates for twelve sample/heat pairs. Average numeric duplicate energies by both keys and normalized orientation; round means to two decimals. Training LPA/TWA minima are 27/20 J inclusive; missing means require Review, either low mean means Hold, otherwise Pass.",
+  "lesson": {
+    "intro": "The capstone combines a key scaffold, guarded replicate means, a decision rule and a reconciled cost summary. Each intermediate result has an explicit shape and business meaning.",
+    "functions": [
+      {
+        "name": "LET",
+        "purpose": "Name intermediate expressions.",
+        "syntax": "=LET(name1, name_value1, [name2, name_value2], ..., calculation)",
+        "arguments": "Provide a valid name/value pair, optional further pairs, and the final expression using those names; up to 126 pairs.",
+        "example": "=LET(amount,12,fee,3,amount-fee)",
+        "result": 9,
+        "useCase": "Calculate a guarded yield once.",
+        "mistake": "Names cannot collide with cell references; the last argument returns the result."
+      },
+      {
+        "name": "MAP",
+        "purpose": "Transform corresponding array elements.",
+        "syntax": "=MAP(array1, [array2, ...], lambda)",
+        "arguments": "array1 and optional aligned arrays supply values; the final LAMBDA has one parameter per array and returns one result per position.",
+        "example": "=MAP({2;4},LAMBDA(item,item*3))",
+        "result": "6 then 12",
+        "useCase": "Apply a reusable margin calculation.",
+        "mistake": "Each call must return one value; mismatched parameters error."
+      }
+    ],
+    "combine": "Review SORT, UNIQUE, CHOOSECOLS, FILTER, ISNUMBER, ROUND, HSTACK, IF and SUMIFS. Practice combining at least four functions in the orientation-mean rule. Any equivalent formula is accepted. Numeric zero is measured, sample IDs remain text, and costs for Review pairs are pending. Training statuses do not authorize production release."
+  },
+  "orientationReshape": true,
+  "tasks": [
+    {
+      "prompt": "Return unique sample_no and heat_no pairs (12 × 2), sorted by heat_no ascending then sample_no ascending. No headers; preserve text IDs.",
+      "output": "Answers!B2:C13",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "UNIQUE",
+        "CHOOSECOLS",
+        "SORTBY"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "In task-1 key order, return LPA_mean_J and TWA_mean_J (12 × 2). Average all numeric replicates, round means to two decimals, and return Missing when a numeric group is empty.",
+      "output": "Answers!B16:C27",
+      "type": "array",
+      "formulas": [
+        "MAP",
+        "LAMBDA",
+        "LET",
+        "FILTER",
+        "ROUND",
+        "AVERAGE"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "Return sample_no, heat_no, LPA_mean_J, TWA_mean_J and Status (12 × 5), task-1 order. Review takes precedence over Hold; equal means at the training minima pass.",
+      "output": "Answers!B30:F41",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "HSTACK",
+        "IF"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Return Pass count, Hold count, Review count and total Hold_cost_CAD for Hold pairs only (1 × 4). Join Costs by both identifiers; count each pair once. Review costs remain pending.",
+      "output": "Answers!B44:E44",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "MAP",
+        "SUMIFS",
+        "COUNTIFS",
+        "HSTACK"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review COUNTIFS: count Missing orientation mean cells in task 2.",
+    "output": "Answers!B47",
+    "type": "number",
+    "formulas": [
+      "COUNTIFS"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "sample_no",
+      "heat_no",
+      "Orientation",
+      "Energy_J"
+    ],
+    "rows": [
+      [
+        "001",
+        "TV-H1",
+        " LPA ",
+        0
+      ],
+      [
+        "001",
+        "TV-H1",
+        " LPA ",
+        43
+      ],
+      [
+        "001",
+        "TV-H1",
+        "twa",
+        ""
+      ],
+      [
+        "001",
+        "TV-H1",
+        "twa",
+        ""
+      ],
+      [
+        "002",
+        "TV-H1",
+        " LPA ",
+        17
+      ],
+      [
+        "002",
+        "TV-H1",
+        " LPA ",
+        ""
+      ],
+      [
+        "002",
+        "TV-H1",
+        "twa",
+        29
+      ],
+      [
+        "002",
+        "TV-H1",
+        "twa",
+        16
+      ],
+      [
+        "003",
+        "TV-H1",
+        " LPA ",
+        0
+      ],
+      [
+        "003",
+        "TV-H1",
+        " LPA ",
+        0
+      ],
+      [
+        "003",
+        "TV-H1",
+        "twa",
+        22
+      ],
+      [
+        "003",
+        "TV-H1",
+        "twa",
+        48
+      ],
+      [
+        "004",
+        "TV-H1",
+        " LPA ",
+        27
+      ],
+      [
+        "004",
+        "TV-H1",
+        " LPA ",
+        27
+      ],
+      [
+        "004",
+        "TV-H1",
+        "twa",
+        20
+      ],
+      [
+        "004",
+        "TV-H1",
+        "twa",
+        20
+      ],
+      [
+        "005",
+        "TV-H1",
+        " LPA ",
+        25
+      ],
+      [
+        "005",
+        "TV-H1",
+        " LPA ",
+        26
+      ],
+      [
+        "005",
+        "TV-H1",
+        "twa",
+        36
+      ],
+      [
+        "005",
+        "TV-H1",
+        "twa",
+        25
+      ],
+      [
+        "006",
+        "TV-H1",
+        " LPA ",
+        43
+      ],
+      [
+        "006",
+        "TV-H1",
+        " LPA ",
+        40
+      ],
+      [
+        "006",
+        "TV-H1",
+        "twa",
+        41
+      ],
+      [
+        "006",
+        "TV-H1",
+        "twa",
+        18
+      ],
+      [
+        "001",
+        "TV-H2",
+        " LPA ",
+        40
+      ],
+      [
+        "001",
+        "TV-H2",
+        " LPA ",
+        31
+      ],
+      [
+        "001",
+        "TV-H2",
+        "twa",
+        26
+      ],
+      [
+        "001",
+        "TV-H2",
+        "twa",
+        16
+      ],
+      [
+        "002",
+        "TV-H2",
+        " LPA ",
+        34
+      ],
+      [
+        "002",
+        "TV-H2",
+        " LPA ",
+        42
+      ],
+      [
+        "002",
+        "TV-H2",
+        "twa",
+        45
+      ],
+      [
+        "002",
+        "TV-H2",
+        "twa",
+        42
+      ],
+      [
+        "003",
+        "TV-H2",
+        " LPA ",
+        35
+      ],
+      [
+        "003",
+        "TV-H2",
+        " LPA ",
+        27
+      ],
+      [
+        "003",
+        "TV-H2",
+        "twa",
+        20
+      ],
+      [
+        "003",
+        "TV-H2",
+        "twa",
+        46
+      ],
+      [
+        "004",
+        "TV-H2",
+        " LPA ",
+        16
+      ],
+      [
+        "004",
+        "TV-H2",
+        " LPA ",
+        32
+      ],
+      [
+        "004",
+        "TV-H2",
+        "twa",
+        22
+      ],
+      [
+        "004",
+        "TV-H2",
+        "twa",
+        48
+      ],
+      [
+        "005",
+        "TV-H2",
+        " LPA ",
+        34
+      ],
+      [
+        "005",
+        "TV-H2",
+        " LPA ",
+        27
+      ],
+      [
+        "005",
+        "TV-H2",
+        "twa",
+        25
+      ],
+      [
+        "005",
+        "TV-H2",
+        "twa",
+        39
+      ],
+      [
+        "006",
+        "TV-H2",
+        " LPA ",
+        26
+      ],
+      [
+        "006",
+        "TV-H2",
+        " LPA ",
+        48
+      ],
+      [
+        "006",
+        "TV-H2",
+        "twa",
+        38
+      ],
+      [
+        "006",
+        "TV-H2",
+        "twa",
+        24
+      ]
+    ],
+    "rowCount": 48,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "sample_no",
+        "description": "Leading-zero text sample identifier reused in two heats."
+      },
+      {
+        "name": "heat_no",
+        "description": "Invented heat key."
+      },
+      {
+        "name": "Orientation",
+        "description": "LPA/TWA with inconsistent case/spaces."
+      },
+      {
+        "name": "Energy_J",
+        "description": "Numeric joules, blank unmeasured, zero measured."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A5.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A5.csv",
+    "sheets": [
+      {
+        "name": "Costs",
+        "headers": [
+          "sample_no",
+          "heat_no",
+          "Hold_cost_CAD"
+        ],
+        "rows": [
+          [
+            "001",
+            "TV-H1",
+            250
+          ],
+          [
+            "002",
+            "TV-H1",
+            285
+          ],
+          [
+            "003",
+            "TV-H1",
+            320
+          ],
+          [
+            "004",
+            "TV-H1",
+            355
+          ],
+          [
+            "005",
+            "TV-H1",
+            390
+          ],
+          [
+            "006",
+            "TV-H1",
+            425
+          ],
+          [
+            "001",
+            "TV-H2",
+            460
+          ],
+          [
+            "002",
+            "TV-H2",
+            495
+          ],
+          [
+            "003",
+            "TV-H2",
+            530
+          ],
+          [
+            "004",
+            "TV-H2",
+            565
+          ],
+          [
+            "005",
+            "TV-H2",
+            600
+          ],
+          [
+            "006",
+            "TV-H2",
+            635
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A5-Costs.csv"
+      }
+    ]
+  }
+}

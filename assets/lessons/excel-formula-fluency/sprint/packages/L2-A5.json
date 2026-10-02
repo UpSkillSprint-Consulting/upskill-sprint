@@ -1,0 +1,374 @@
+{
+  "id": "L2-A5",
+  "level": 2,
+  "assignment": 5,
+  "title": "Shipment extremes and missing groups",
+  "formulas": [
+    "MAXIFS",
+    "MINIFS"
+  ],
+  "minutes": 55,
+  "scenario": "Solvani Distribution is reviewing 30 fictitious shipment records. Delivered and In transit records must not be mixed when judging observed lead times. One invented carrier has no delivered shipments, so the report must distinguish an absent group from a genuine zero-day result.",
+  "lesson": {
+    "intro": "Conditional extremes describe a selected group. MAXIFS and MINIFS return zero when no rows match, so first check group existence before treating an extreme as an observed lead time.",
+    "functions": [
+      {
+        "name": "MAXIFS",
+        "purpose": "Return the largest numeric value among rows meeting all criteria.",
+        "syntax": "=MAXIFS(max_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+        "arguments": "max_range holds numeric observations; aligned criteria pairs specify the eligible rows.",
+        "example": "=MAXIFS(D2:D4,B2:B4,\"Done\")",
+        "result": "5 when D2:D4 contains 3,9,5 and B2:B4 contains Done,Open,Done",
+        "useCase": "Find the longest delivered-shipment lead time.",
+        "mistake": "No matches returns zero; that does not prove a real zero-day delivery."
+      },
+      {
+        "name": "MINIFS",
+        "purpose": "Return the smallest numeric value among rows meeting all criteria.",
+        "syntax": "=MINIFS(min_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+        "arguments": "min_range is the measurement range; each range/criterion pair adds a required condition.",
+        "example": "=MINIFS(D2:D4,B2:B4,\"Done\")",
+        "result": "3 when D2:D4 contains 3,9,5 and B2:B4 contains Done,Open,Done",
+        "useCase": "Find the shortest observed lead time in a group.",
+        "mistake": "All ranges must share size and row alignment; use COUNTIFS to distinguish an empty group."
+      }
+    ],
+    "combine": "Reuse COUNTIFS and IF to handle absent groups explicitly. Subtract MINIFS from MAXIFS for a selected group’s observed range. Reuse AND for a service decision only after confirming records exist. These training results are descriptive; they are not control limits."
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "prompt": "Find the longest Lead_days for Carrier Zephra with Status Delivered, across both regions.",
+      "output": "Answers!B2",
+      "type": "number",
+      "formulas": [
+        "MAXIFS"
+      ]
+    },
+    {
+      "id": "t2",
+      "prompt": "Find the shortest Lead_days for Carrier Zephra, Region North and Status Delivered together.",
+      "output": "Answers!B3",
+      "type": "number",
+      "formulas": [
+        "MINIFS"
+      ]
+    },
+    {
+      "id": "t3",
+      "prompt": "Calculate longest minus shortest Lead_days for Zephra North Delivered shipments. Use the same three-condition group for both extremes.",
+      "output": "Answers!B4",
+      "type": "number",
+      "formulas": [
+        "MAXIFS",
+        "MINIFS"
+      ]
+    },
+    {
+      "id": "t4",
+      "prompt": "For Carrier Vanta with Status Delivered, return its longest Lead_days if at least one matching row exists; otherwise return No matching shipments. Do not use zero as the absence label.",
+      "output": "Answers!B5",
+      "type": "text",
+      "formulas": [
+        "IF",
+        "COUNTIFS",
+        "MAXIFS"
+      ]
+    }
+  ],
+  "bonus": {
+    "id": "bonus",
+    "prompt": "Return Met when at least one Zephra North Delivered record exists and its longest Lead_days is at most 5. Otherwise return Review.",
+    "output": "Answers!B7",
+    "type": "text",
+    "formulas": [
+      "IF",
+      "AND",
+      "COUNTIFS",
+      "MAXIFS"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Shipment_code",
+      "Carrier",
+      "Region",
+      "Status",
+      "Lead_days",
+      "Freight_CAD"
+    ],
+    "rows": [
+      [
+        "SD-8801",
+        "Zephra",
+        "North",
+        "In transit",
+        5,
+        88.04
+      ],
+      [
+        "SD-8802",
+        "Ordel",
+        "South",
+        "Delivered",
+        10,
+        77.29
+      ],
+      [
+        "SD-8803",
+        "Vanta",
+        "North",
+        "In transit",
+        5,
+        374.01
+      ],
+      [
+        "SD-8804",
+        "Zephra",
+        "South",
+        "Delivered",
+        3,
+        169.19
+      ],
+      [
+        "SD-8805",
+        "Ordel",
+        "North",
+        "Delivered",
+        7,
+        161.64
+      ],
+      [
+        "SD-8806",
+        "Vanta",
+        "South",
+        "In transit",
+        7,
+        357.75
+      ],
+      [
+        "SD-8807",
+        "Zephra",
+        "North",
+        "Delivered",
+        11,
+        181.35
+      ],
+      [
+        "SD-8808",
+        "Ordel",
+        "South",
+        "Delivered",
+        7,
+        333.25
+      ],
+      [
+        "SD-8809",
+        "Vanta",
+        "North",
+        "In transit",
+        11,
+        251.01
+      ],
+      [
+        "SD-8810",
+        "Zephra",
+        "South",
+        "Delivered",
+        3,
+        192.91
+      ],
+      [
+        "SD-8811",
+        "Ordel",
+        "North",
+        "In transit",
+        1,
+        206.92
+      ],
+      [
+        "SD-8812",
+        "Vanta",
+        "South",
+        "In transit",
+        4,
+        118.06
+      ],
+      [
+        "SD-8813",
+        "Zephra",
+        "North",
+        "Delivered",
+        9,
+        133.79
+      ],
+      [
+        "SD-8814",
+        "Ordel",
+        "South",
+        "Delivered",
+        9,
+        233.77
+      ],
+      [
+        "SD-8815",
+        "Vanta",
+        "North",
+        "In transit",
+        8,
+        116.46
+      ],
+      [
+        "SD-8816",
+        "Zephra",
+        "South",
+        "In transit",
+        10,
+        395.51
+      ],
+      [
+        "SD-8817",
+        "Ordel",
+        "North",
+        "Delivered",
+        4,
+        171.49
+      ],
+      [
+        "SD-8818",
+        "Vanta",
+        "South",
+        "In transit",
+        5,
+        82.05
+      ],
+      [
+        "SD-8819",
+        "Zephra",
+        "North",
+        "Delivered",
+        3,
+        407.37
+      ],
+      [
+        "SD-8820",
+        "Ordel",
+        "South",
+        "Delivered",
+        2,
+        401.32
+      ],
+      [
+        "SD-8821",
+        "Vanta",
+        "North",
+        "In transit",
+        6,
+        157.44
+      ],
+      [
+        "SD-8822",
+        "Zephra",
+        "South",
+        "Delivered",
+        11,
+        210.35
+      ],
+      [
+        "SD-8823",
+        "Ordel",
+        "North",
+        "Delivered",
+        10,
+        136.42
+      ],
+      [
+        "SD-8824",
+        "Vanta",
+        "South",
+        "In transit",
+        3,
+        362.07
+      ],
+      [
+        "SD-8825",
+        "Zephra",
+        "North",
+        "Delivered",
+        2,
+        274.41
+      ],
+      [
+        "SD-8826",
+        "Ordel",
+        "South",
+        "In transit",
+        3,
+        250.02
+      ],
+      [
+        "SD-8827",
+        "Vanta",
+        "North",
+        "In transit",
+        8,
+        237.4
+      ],
+      [
+        "SD-8828",
+        "Zephra",
+        "South",
+        "Delivered",
+        4,
+        141.88
+      ],
+      [
+        "SD-8829",
+        "Ordel",
+        "North",
+        "Delivered",
+        2,
+        334.13
+      ],
+      [
+        "SD-8830",
+        "Vanta",
+        "South",
+        "In transit",
+        7,
+        258.74
+      ]
+    ],
+    "rowCount": 30,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Shipment_code",
+        "description": "Invented unique shipment identifier."
+      },
+      {
+        "name": "Carrier",
+        "description": "Invented carrier code: Zephra, Ordel or Vanta."
+      },
+      {
+        "name": "Region",
+        "description": "Invented delivery area: North or South."
+      },
+      {
+        "name": "Status",
+        "description": "Delivered or In transit."
+      },
+      {
+        "name": "Lead_days",
+        "description": "Measured or elapsed calendar days, positive integer."
+      },
+      {
+        "name": "Freight_CAD",
+        "description": "Shipment freight cost, Canadian dollars."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L2-A5.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L2-A5.csv"
+  }
+}

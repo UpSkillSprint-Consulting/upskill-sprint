@@ -1,0 +1,437 @@
+{
+  "id": "L5-A1",
+  "level": 5,
+  "assignment": 1,
+  "title": "Build a test reporting calendar",
+  "formulas": [
+    "DATE",
+    "EOMONTH"
+  ],
+  "minutes": 55,
+  "scenario": "Kelvani Materials Lab has 44 invented test-date components. Dates are valid numeric year/month/day values, avoiding locale-dependent parsing. Reporting months use calendar month ends; repeated test dates remain separate samples.",
+  "lesson": {
+    "intro": "Construct dates from explicit components rather than trusting a computer’s regional date interpretation. Date functions return serial values; submit ISO text where requested.",
+    "functions": [
+      {
+        "name": "DATE",
+        "purpose": "Construct an Excel date from components.",
+        "syntax": "=DATE(year, month, day)",
+        "arguments": "Supply a four-digit year, month number and day number.",
+        "example": "=TEXT(DATE(2026,2,3),\"yyyy-mm-dd\")",
+        "result": "2026-02-03",
+        "useCase": "Build locale-independent dates.",
+        "mistake": "Excel normalizes overflow days/months; validate unexpected components."
+      },
+      {
+        "name": "EOMONTH",
+        "purpose": "Find a month-end date.",
+        "syntax": "=EOMONTH(start_date, months)",
+        "arguments": "start_date is a date; months is the forward/backward month offset.",
+        "example": "=TEXT(EOMONTH(DATE(2026,2,3),0),\"yyyy-mm-dd\")",
+        "result": "2026-02-28",
+        "useCase": "Set a reporting cutoff.",
+        "mistake": "It returns a date serial; apply a date format or TEXT for submission."
+      }
+    ],
+    "combine": "Reuse TEXT from Level 4 to return yyyy-mm-dd and COUNTIFS from Level 2 for component counts. The reporting cutoff is month end, including leap-year rules handled by Excel."
+  },
+  "tasks": [
+    {
+      "prompt": "For the first six records, construct dates and return ISO text yyyy-mm-dd.",
+      "output": "Answers!B2:B7",
+      "type": "array",
+      "formulas": [
+        "DATE",
+        "TEXT"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "For the first six records, return the calendar month-end cutoff as ISO text.",
+      "output": "Answers!B10:B15",
+      "type": "array",
+      "formulas": [
+        "EOMONTH",
+        "DATE",
+        "TEXT"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first record, count calendar days from its test date to month end, excluding the starting date.",
+      "output": "Answers!B18",
+      "type": "number",
+      "formulas": [
+        "EOMONTH",
+        "DATE"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Count all records whose Month component equals 7.",
+      "output": "Answers!B21",
+      "type": "number",
+      "formulas": [
+        "COUNTIFS"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Return the month end three calendar months after the first test date, as ISO text.",
+    "output": "Answers!B24",
+    "type": "text",
+    "formulas": [
+      "EOMONTH",
+      "DATE",
+      "TEXT"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Sample_code",
+      "Year",
+      "Month",
+      "Day",
+      "Energy_J"
+    ],
+    "rows": [
+      [
+        "KM-1",
+        2026,
+        7,
+        1,
+        37
+      ],
+      [
+        "KM-2",
+        2026,
+        8,
+        2,
+        62
+      ],
+      [
+        "KM-3",
+        2026,
+        9,
+        3,
+        41
+      ],
+      [
+        "KM-4",
+        2026,
+        7,
+        4,
+        45
+      ],
+      [
+        "KM-5",
+        2026,
+        8,
+        5,
+        59
+      ],
+      [
+        "KM-6",
+        2026,
+        9,
+        6,
+        82
+      ],
+      [
+        "KM-7",
+        2026,
+        7,
+        7,
+        71
+      ],
+      [
+        "KM-8",
+        2026,
+        8,
+        8,
+        71
+      ],
+      [
+        "KM-9",
+        2026,
+        9,
+        9,
+        32
+      ],
+      [
+        "KM-10",
+        2026,
+        7,
+        10,
+        80
+      ],
+      [
+        "KM-11",
+        2026,
+        8,
+        11,
+        76
+      ],
+      [
+        "KM-12",
+        2026,
+        9,
+        12,
+        51
+      ],
+      [
+        "KM-13",
+        2026,
+        7,
+        13,
+        46
+      ],
+      [
+        "KM-14",
+        2026,
+        8,
+        14,
+        26
+      ],
+      [
+        "KM-15",
+        2026,
+        9,
+        15,
+        27
+      ],
+      [
+        "KM-16",
+        2026,
+        7,
+        16,
+        43
+      ],
+      [
+        "KM-17",
+        2026,
+        8,
+        17,
+        53
+      ],
+      [
+        "KM-18",
+        2026,
+        9,
+        18,
+        80
+      ],
+      [
+        "KM-19",
+        2026,
+        7,
+        19,
+        28
+      ],
+      [
+        "KM-20",
+        2026,
+        8,
+        20,
+        29
+      ],
+      [
+        "KM-21",
+        2026,
+        9,
+        21,
+        78
+      ],
+      [
+        "KM-22",
+        2026,
+        7,
+        22,
+        30
+      ],
+      [
+        "KM-23",
+        2026,
+        8,
+        23,
+        54
+      ],
+      [
+        "KM-24",
+        2026,
+        9,
+        24,
+        64
+      ],
+      [
+        "KM-25",
+        2026,
+        7,
+        25,
+        74
+      ],
+      [
+        "KM-26",
+        2026,
+        8,
+        26,
+        70
+      ],
+      [
+        "KM-27",
+        2026,
+        9,
+        27,
+        36
+      ],
+      [
+        "KM-28",
+        2026,
+        7,
+        1,
+        26
+      ],
+      [
+        "KM-29",
+        2026,
+        8,
+        2,
+        80
+      ],
+      [
+        "KM-30",
+        2026,
+        9,
+        3,
+        50
+      ],
+      [
+        "KM-31",
+        2026,
+        7,
+        4,
+        45
+      ],
+      [
+        "KM-32",
+        2026,
+        8,
+        5,
+        36
+      ],
+      [
+        "KM-33",
+        2026,
+        9,
+        6,
+        28
+      ],
+      [
+        "KM-34",
+        2026,
+        7,
+        7,
+        72
+      ],
+      [
+        "KM-35",
+        2026,
+        8,
+        8,
+        70
+      ],
+      [
+        "KM-36",
+        2026,
+        9,
+        9,
+        62
+      ],
+      [
+        "KM-37",
+        2026,
+        7,
+        10,
+        30
+      ],
+      [
+        "KM-38",
+        2026,
+        8,
+        11,
+        79
+      ],
+      [
+        "KM-39",
+        2026,
+        9,
+        12,
+        58
+      ],
+      [
+        "KM-40",
+        2026,
+        7,
+        13,
+        68
+      ],
+      [
+        "KM-41",
+        2026,
+        8,
+        14,
+        64
+      ],
+      [
+        "KM-42",
+        2026,
+        9,
+        15,
+        50
+      ],
+      [
+        "KM-43",
+        2026,
+        7,
+        16,
+        67
+      ],
+      [
+        "KM-44",
+        2026,
+        8,
+        17,
+        27
+      ]
+    ],
+    "rowCount": 44,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Sample_code",
+        "description": "Sample code. See scenario for business rules."
+      },
+      {
+        "name": "Year",
+        "description": "Year. See scenario for business rules."
+      },
+      {
+        "name": "Month",
+        "description": "Month. See scenario for business rules."
+      },
+      {
+        "name": "Day",
+        "description": "Day. See scenario for business rules."
+      },
+      {
+        "name": "Energy_J",
+        "description": "Energy J. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L5-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L5-A1.csv"
+  }
+}

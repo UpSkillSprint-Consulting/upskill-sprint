@@ -1,0 +1,571 @@
+{
+  "id": "EX-A3",
+  "track": "expert",
+  "assignment": 3,
+  "title": "Build a reconciled inventory dashboard",
+  "formulas": [
+    "SUMIFS",
+    "SORTBY"
+  ],
+  "minutes": 75,
+  "scenario": "Ildavon Supply records 60 fictitious inventory movements. Stock provides six unique SKUs, opening units and minimum units. Normalize Movement with TRIM/UPPER. Receipt adds units; Dispatch and Scrap subtract units. All SKUs are valid and quantities are nonnegative. Negative closing stock is meaningful and must remain visible. Reorder when closing units are strictly below the minimum; equality does not reorder.",
+  "lesson": {
+    "intro": "Build an inventory report from opening balances and movement totals. Verify the finished dashboard against source movements, then prioritize shortages with deterministic ties.",
+    "functions": [
+      {
+        "name": "SUMIFS",
+        "purpose": "Sum numeric records meeting all criteria.",
+        "syntax": "=SUMIFS(sum_range, criteria_range1, criteria1, [criteria_range2, criteria2], …)",
+        "arguments": "Start with values, then aligned criterion pairs. Example: A2:A4 contains A, B, A; B2:B4 contains 5, 7, 9.",
+        "example": "=SUMIFS(B2:B4,A2:A4,\"A\")",
+        "result": 14,
+        "useCase": "Build and audit the capstone report.",
+        "mistake": "A zero total does not distinguish no matching records from records whose sum is zero."
+      },
+      {
+        "name": "SORTBY",
+        "purpose": "Sort a report by aligned primary and tie-break keys.",
+        "syntax": "=SORTBY(array, by_array1, [sort_order1], [by_array2], [sort_order2], …)",
+        "arguments": "Use 1 for ascending and -1 for descending. Every sort key must align with the report.",
+        "example": "=SORTBY({\"A\";\"B\"},{3;1},1)",
+        "result": "B, then A",
+        "useCase": "Build and audit the capstone report.",
+        "mistake": "Filter the key arrays with the same mask as the output. Declare tie ordering explicitly."
+      }
+    ],
+    "combine": "Use signed movement helpers, SUMIFS by SKU and SORTBY after FILTER. Reconcile total closing units to opening plus the independent source net movement. Reuse SUMPRODUCT for a quantity-weighted cost."
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "prompt": "Return signed units for every movement. Receipt is positive; Dispatch and Scrap are negative. Keep Data order.",
+      "output": "Answers!B2:B61",
+      "type": "array"
+    },
+    {
+      "id": "t2",
+      "prompt": "For all six SKUs in Stock order, return six columns: SKU, opening units, receipt units, dispatch units, scrap units, closing units. Movement totals are positive; closing = opening + receipts - dispatch - scrap.",
+      "output": "Answers!B65:G70",
+      "type": "array"
+    },
+    {
+      "id": "t3",
+      "prompt": "Return the 2 SKUs needing reorder in three columns: SKU, closing units, shortage to minimum. Sort closing ascending, then SKU ascending. Preserve negative closing values.",
+      "output": "Answers!B74:D75",
+      "type": "array"
+    },
+    {
+      "id": "t4",
+      "prompt": "Return one row: source net movement units, source opening units, dashboard closing units, reconciliation difference (dashboard closing - source opening - source net movement). Recompute source net directly from Data rather than summing the Task 1 helper.",
+      "output": "Answers!B84:E84",
+      "type": "array"
+    }
+  ],
+  "bonus": {
+    "id": "bonus",
+    "prompt": "Calculate the quantity-weighted Unit_cost_CAD for Dispatch movements only, rounded to four decimals. Use dispatched units as the denominator.",
+    "output": "Answers!B88",
+    "type": "number"
+  },
+  "dataset": {
+    "headers": [
+      "Txn_no",
+      "SKU",
+      "Movement",
+      "Units",
+      "Unit_cost_CAD"
+    ],
+    "rows": [
+      [
+        "IL-T001",
+        "IN-001",
+        "Dispatch",
+        24,
+        12.66
+      ],
+      [
+        "IL-T002",
+        "IN-002",
+        " dispatch ",
+        9,
+        14.99
+      ],
+      [
+        "IL-T003",
+        "IN-003",
+        "Dispatch",
+        21,
+        9.15
+      ],
+      [
+        "IL-T004",
+        "IN-004",
+        " dispatch ",
+        13,
+        9.88
+      ],
+      [
+        "IL-T005",
+        "IN-005",
+        "Dispatch",
+        8,
+        9.62
+      ],
+      [
+        "IL-T006",
+        "IN-006",
+        " dispatch ",
+        21,
+        16.85
+      ],
+      [
+        "IL-T007",
+        "IN-001",
+        "Dispatch",
+        13,
+        13.56
+      ],
+      [
+        "IL-T008",
+        "IN-002",
+        " dispatch ",
+        24,
+        16.69
+      ],
+      [
+        "IL-T009",
+        "IN-003",
+        "Dispatch",
+        14,
+        12
+      ],
+      [
+        "IL-T010",
+        "IN-004",
+        " dispatch ",
+        15,
+        14.39
+      ],
+      [
+        "IL-T011",
+        "IN-005",
+        "Dispatch",
+        10,
+        11.09
+      ],
+      [
+        "IL-T012",
+        "IN-006",
+        " dispatch ",
+        12,
+        15.12
+      ],
+      [
+        "IL-T013",
+        "IN-001",
+        "Receipt",
+        14,
+        9.91
+      ],
+      [
+        "IL-T014",
+        "IN-002",
+        " dispatch ",
+        20,
+        14.86
+      ],
+      [
+        "IL-T015",
+        "IN-003",
+        "Scrap",
+        12,
+        8.92
+      ],
+      [
+        "IL-T016",
+        "IN-004",
+        " receipt ",
+        25,
+        8.28
+      ],
+      [
+        "IL-T017",
+        "IN-005",
+        "Dispatch",
+        16,
+        18
+      ],
+      [
+        "IL-T018",
+        "IN-006",
+        " scrap ",
+        22,
+        9.08
+      ],
+      [
+        "IL-T019",
+        "IN-001",
+        "Receipt",
+        19,
+        15.3
+      ],
+      [
+        "IL-T020",
+        "IN-002",
+        " dispatch ",
+        13,
+        10.37
+      ],
+      [
+        "IL-T021",
+        "IN-003",
+        "Scrap",
+        15,
+        11.11
+      ],
+      [
+        "IL-T022",
+        "IN-004",
+        " receipt ",
+        22,
+        15.37
+      ],
+      [
+        "IL-T023",
+        "IN-005",
+        "Dispatch",
+        17,
+        12.92
+      ],
+      [
+        "IL-T024",
+        "IN-006",
+        " scrap ",
+        16,
+        10.89
+      ],
+      [
+        "IL-T025",
+        "IN-001",
+        "Receipt",
+        21,
+        10.57
+      ],
+      [
+        "IL-T026",
+        "IN-002",
+        " dispatch ",
+        18,
+        9.05
+      ],
+      [
+        "IL-T027",
+        "IN-003",
+        "Scrap",
+        15,
+        13.12
+      ],
+      [
+        "IL-T028",
+        "IN-004",
+        " receipt ",
+        24,
+        14.51
+      ],
+      [
+        "IL-T029",
+        "IN-005",
+        "Dispatch",
+        15,
+        11.06
+      ],
+      [
+        "IL-T030",
+        "IN-006",
+        " scrap ",
+        11,
+        17.71
+      ],
+      [
+        "IL-T031",
+        "IN-001",
+        "Receipt",
+        12,
+        10.5
+      ],
+      [
+        "IL-T032",
+        "IN-002",
+        " dispatch ",
+        14,
+        16.55
+      ],
+      [
+        "IL-T033",
+        "IN-003",
+        "Scrap",
+        11,
+        8.12
+      ],
+      [
+        "IL-T034",
+        "IN-004",
+        " receipt ",
+        13,
+        11.87
+      ],
+      [
+        "IL-T035",
+        "IN-005",
+        "Dispatch",
+        9,
+        8.29
+      ],
+      [
+        "IL-T036",
+        "IN-006",
+        " scrap ",
+        25,
+        14.12
+      ],
+      [
+        "IL-T037",
+        "IN-001",
+        "Receipt",
+        24,
+        16.34
+      ],
+      [
+        "IL-T038",
+        "IN-002",
+        " dispatch ",
+        8,
+        11.58
+      ],
+      [
+        "IL-T039",
+        "IN-003",
+        "Scrap",
+        18,
+        14.3
+      ],
+      [
+        "IL-T040",
+        "IN-004",
+        " receipt ",
+        24,
+        12.82
+      ],
+      [
+        "IL-T041",
+        "IN-005",
+        "Dispatch",
+        15,
+        8.09
+      ],
+      [
+        "IL-T042",
+        "IN-006",
+        " scrap ",
+        8,
+        8.31
+      ],
+      [
+        "IL-T043",
+        "IN-001",
+        "Receipt",
+        21,
+        17.51
+      ],
+      [
+        "IL-T044",
+        "IN-002",
+        " dispatch ",
+        24,
+        9.15
+      ],
+      [
+        "IL-T045",
+        "IN-003",
+        "Scrap",
+        16,
+        12.93
+      ],
+      [
+        "IL-T046",
+        "IN-004",
+        " receipt ",
+        8,
+        12.75
+      ],
+      [
+        "IL-T047",
+        "IN-005",
+        "Dispatch",
+        23,
+        15.24
+      ],
+      [
+        "IL-T048",
+        "IN-006",
+        " scrap ",
+        21,
+        8.45
+      ],
+      [
+        "IL-T049",
+        "IN-001",
+        "Receipt",
+        12,
+        17.64
+      ],
+      [
+        "IL-T050",
+        "IN-002",
+        " dispatch ",
+        20,
+        8
+      ],
+      [
+        "IL-T051",
+        "IN-003",
+        "Scrap",
+        21,
+        11.04
+      ],
+      [
+        "IL-T052",
+        "IN-004",
+        " receipt ",
+        13,
+        8.57
+      ],
+      [
+        "IL-T053",
+        "IN-005",
+        "Dispatch",
+        23,
+        16.82
+      ],
+      [
+        "IL-T054",
+        "IN-006",
+        " scrap ",
+        17,
+        8.6
+      ],
+      [
+        "IL-T055",
+        "IN-001",
+        "Receipt",
+        12,
+        13.14
+      ],
+      [
+        "IL-T056",
+        "IN-002",
+        " dispatch ",
+        17,
+        9.03
+      ],
+      [
+        "IL-T057",
+        "IN-003",
+        "Scrap",
+        19,
+        14.22
+      ],
+      [
+        "IL-T058",
+        "IN-004",
+        " receipt ",
+        15,
+        15.02
+      ],
+      [
+        "IL-T059",
+        "IN-005",
+        "Dispatch",
+        16,
+        13.45
+      ],
+      [
+        "IL-T060",
+        "IN-006",
+        " scrap ",
+        17,
+        15.96
+      ]
+    ],
+    "rowCount": 60,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Txn_no",
+        "description": "Unique transaction identifier."
+      },
+      {
+        "name": "SKU",
+        "description": "Exact inventory key; each SKU matches one Stock row."
+      },
+      {
+        "name": "Movement",
+        "description": "Receipt, Dispatch or Scrap, with optional outer spaces and mixed case."
+      },
+      {
+        "name": "Units",
+        "description": "Nonnegative inventory quantity for this transaction."
+      },
+      {
+        "name": "Unit_cost_CAD",
+        "description": "Transaction unit cost in CAD per inventory unit."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/EX-A3.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/EX-A3.csv",
+    "sheets": [
+      {
+        "name": "Stock",
+        "headers": [
+          "SKU",
+          "Opening_units",
+          "Minimum_units"
+        ],
+        "rows": [
+          [
+            "IN-001",
+            20,
+            50
+          ],
+          [
+            "IN-002",
+            20,
+            50
+          ],
+          [
+            "IN-003",
+            180,
+            50
+          ],
+          [
+            "IN-004",
+            195,
+            50
+          ],
+          [
+            "IN-005",
+            210,
+            50
+          ],
+          [
+            "IN-006",
+            225,
+            50
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/EX-A3-Stock.csv"
+      }
+    ]
+  }
+}

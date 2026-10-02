@@ -1,0 +1,413 @@
+{
+  "id": "L7-A2",
+  "level": 7,
+  "assignment": 2,
+  "title": "Build a multi-criteria order lookup",
+  "formulas": [
+    "XMATCH",
+    "XLOOKUP"
+  ],
+  "minutes": 55,
+  "scenario": "Belvori Sales has 36 fictitious order lines. Customer and Product jointly identify an order request only when exactly one line matches; duplicate combinations are ambiguous. Requests includes unique, duplicate and absent combinations.",
+  "lesson": {
+    "intro": "Combining exact conditions produces a lookup mask. A value of one means all requested conditions match, but several ones still mean an ambiguous request.",
+    "functions": [
+      {
+        "name": "XMATCH",
+        "purpose": "Find a relative position.",
+        "syntax": "=XMATCH(lookup_value, lookup_array, [match_mode], [search_mode])",
+        "arguments": "Supply key and one-dimensional range; match mode 0 exact, -1 next smaller, 1 next larger, 2 wildcard; search 1 forward, -1 reverse, 2 ascending binary, -2 descending binary.",
+        "example": "=XMATCH(\"B\",{\"A\",\"B\"},0,1)",
+        "result": 2,
+        "useCase": "Match both dimensions of a specification.",
+        "mistake": "Binary modes require sorted keys. A first match does not prove uniqueness."
+      },
+      {
+        "name": "XLOOKUP",
+        "purpose": "Return a value for a key.",
+        "syntax": "=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])",
+        "arguments": "Supply key, aligned lookup and return arrays, optional missing result; match mode 0 exact, -1 next smaller, 1 next larger, 2 wildcard; search 1 forward, -1 reverse, 2/-2 sorted binary.",
+        "example": "=XLOOKUP(\"B\",{\"A\",\"B\"},{12,18},\"Missing\",0,1)",
+        "result": 18,
+        "useCase": "Retrieve an unambiguous order.",
+        "mistake": "Count duplicate matches before selecting a value."
+      }
+    ],
+    "combine": "Review COUNTIFS before a lookup. Use XMATCH(1,mask,0) for a position or XLOOKUP(1,mask,return_range) for a value. Do not silently pick the first duplicate. Any valid Excel formula is accepted."
+  },
+  "tasks": [
+    {
+      "prompt": "For all six Requests rows, return matching-line counts as a 6 × 1 column in request order.",
+      "output": "Answers!B2:B7",
+      "type": "array",
+      "formulas": [
+        "COUNTIFS"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "For all six requests, return Order_no only for exactly one match; return Review key for zero or multiple matches.",
+      "output": "Answers!B10:B15",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "XLOOKUP",
+        "COUNTIFS"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "Return the first request’s 1-based matching position within Data rows, using both conditions.",
+      "output": "Answers!B18",
+      "type": "number",
+      "formulas": [
+        "XMATCH"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Return all complete Data rows matching the second request, in source order. Keep both duplicate lines (2 × 5).",
+      "output": "Answers!B21:F22",
+      "type": "array",
+      "formulas": [
+        "FILTER"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review SUMIFS: total Units across every line matching the second request.",
+    "output": "Answers!B25",
+    "type": "number",
+    "formulas": [
+      "SUMIFS"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Order_no",
+      "Customer",
+      "Product",
+      "Units",
+      "Price_CAD"
+    ],
+    "rows": [
+      [
+        "BV-1",
+        "C1",
+        "P1",
+        23,
+        70
+      ],
+      [
+        "BV-2",
+        "C2",
+        "P2",
+        33,
+        90
+      ],
+      [
+        "BV-3",
+        "C2",
+        "P2",
+        71,
+        36
+      ],
+      [
+        "BV-4",
+        "C3",
+        "P3",
+        57,
+        65
+      ],
+      [
+        "BV-5",
+        "C4",
+        "P4",
+        75,
+        59
+      ],
+      [
+        "BV-6",
+        "C5",
+        "P5",
+        21,
+        34
+      ],
+      [
+        "BV-7",
+        "C6",
+        "P1",
+        6,
+        54
+      ],
+      [
+        "BV-8",
+        "C6",
+        "P2",
+        77,
+        25
+      ],
+      [
+        "BV-9",
+        "C6",
+        "P3",
+        32,
+        54
+      ],
+      [
+        "BV-10",
+        "C7",
+        "P1",
+        47,
+        85
+      ],
+      [
+        "BV-11",
+        "C7",
+        "P2",
+        78,
+        28
+      ],
+      [
+        "BV-12",
+        "C7",
+        "P3",
+        29,
+        62
+      ],
+      [
+        "BV-13",
+        "C8",
+        "P1",
+        27,
+        83
+      ],
+      [
+        "BV-14",
+        "C8",
+        "P2",
+        25,
+        42
+      ],
+      [
+        "BV-15",
+        "C8",
+        "P3",
+        62,
+        80
+      ],
+      [
+        "BV-16",
+        "C9",
+        "P1",
+        45,
+        88
+      ],
+      [
+        "BV-17",
+        "C9",
+        "P2",
+        78,
+        87
+      ],
+      [
+        "BV-18",
+        "C9",
+        "P3",
+        33,
+        82
+      ],
+      [
+        "BV-19",
+        "C10",
+        "P1",
+        59,
+        23
+      ],
+      [
+        "BV-20",
+        "C10",
+        "P2",
+        47,
+        81
+      ],
+      [
+        "BV-21",
+        "C10",
+        "P3",
+        69,
+        25
+      ],
+      [
+        "BV-22",
+        "C11",
+        "P1",
+        77,
+        55
+      ],
+      [
+        "BV-23",
+        "C11",
+        "P2",
+        64,
+        22
+      ],
+      [
+        "BV-24",
+        "C11",
+        "P3",
+        32,
+        22
+      ],
+      [
+        "BV-25",
+        "C12",
+        "P1",
+        9,
+        87
+      ],
+      [
+        "BV-26",
+        "C12",
+        "P2",
+        25,
+        23
+      ],
+      [
+        "BV-27",
+        "C12",
+        "P3",
+        37,
+        85
+      ],
+      [
+        "BV-28",
+        "C13",
+        "P1",
+        62,
+        53
+      ],
+      [
+        "BV-29",
+        "C13",
+        "P2",
+        23,
+        66
+      ],
+      [
+        "BV-30",
+        "C13",
+        "P3",
+        70,
+        71
+      ],
+      [
+        "BV-31",
+        "C14",
+        "P1",
+        10,
+        57
+      ],
+      [
+        "BV-32",
+        "C14",
+        "P2",
+        24,
+        65
+      ],
+      [
+        "BV-33",
+        "C14",
+        "P3",
+        10,
+        90
+      ],
+      [
+        "BV-34",
+        "C15",
+        "P1",
+        61,
+        34
+      ],
+      [
+        "BV-35",
+        "C15",
+        "P2",
+        17,
+        35
+      ],
+      [
+        "BV-36",
+        "C15",
+        "P3",
+        17,
+        63
+      ]
+    ],
+    "rowCount": 36,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Order_no",
+        "description": "Unique invented order identifier."
+      },
+      {
+        "name": "Customer",
+        "description": "Customer key."
+      },
+      {
+        "name": "Product",
+        "description": "Product key; customer/product may repeat."
+      },
+      {
+        "name": "Units",
+        "description": "Positive ordered units."
+      },
+      {
+        "name": "Price_CAD",
+        "description": "Price per unit, CAD."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L7-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L7-A2.csv",
+    "sheets": [
+      {
+        "name": "Requests",
+        "headers": [
+          "Customer",
+          "Product"
+        ],
+        "rows": [
+          [
+            "C1",
+            "P1"
+          ],
+          [
+            "C2",
+            "P2"
+          ],
+          [
+            "C3",
+            "P3"
+          ],
+          [
+            "C99",
+            "P1"
+          ],
+          [
+            "C4",
+            "P4"
+          ],
+          [
+            "C5",
+            "P5"
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L7-A2-Requests.csv"
+      }
+    ]
+  }
+}

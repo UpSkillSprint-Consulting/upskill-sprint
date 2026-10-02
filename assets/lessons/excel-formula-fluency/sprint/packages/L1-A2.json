@@ -1,0 +1,307 @@
+{
+  "id": "L1-A2",
+  "level": 1,
+  "assignment": 2,
+  "title": "Order counts and complete records",
+  "formulas": [
+    "COUNT",
+    "COUNTA"
+  ],
+  "minutes": 30,
+  "scenario": "Velora Office Supply is reconciling 26 fictitious customer orders. Every order has a text order code, a shipment reference, a units count and a value in Canadian dollars. A complete order register should count records without mistaking text codes for numbers.",
+  "lesson": {
+    "intro": "Counting answers a different question from totaling. Clean text identifiers are valid data: a code such as VO-501 is not a number and should not be coerced into one.",
+    "functions": [
+      {
+        "name": "COUNT",
+        "purpose": "Count numeric cells in a referenced range.",
+        "syntax": "=COUNT(value1, [value2], ...)",
+        "arguments": "value1 is the first range or input; optional values add further ranges or inputs.",
+        "example": "=COUNT(6,9,12)",
+        "result": 3,
+        "useCase": "Count numeric quantity or test-result entries.",
+        "mistake": "Text identifiers in a referenced range do not count; zero does."
+      },
+      {
+        "name": "COUNTA",
+        "purpose": "Count cells that are not empty.",
+        "syntax": "=COUNTA(value1, [value2], ...)",
+        "arguments": "value1 is a range or value; optional arguments add more inputs.",
+        "example": "=COUNTA(\"VO-7\",\"VO-8\",\"VO-9\")",
+        "result": 3,
+        "useCase": "Count populated order IDs or shipment references.",
+        "mistake": "A formula returning empty text is still counted; COUNTA is not a unique-record counter."
+      }
+    ],
+    "combine": "Reuse SUM to compute total order value. Dividing that total by COUNTA of order IDs gives value per recorded order. Relative references move when copied: Data!D2 becomes Data!D3 one row down. Count only data rows, because COUNTA would include a text header."
+  },
+  "tasks": [
+    {
+      "id": "t1",
+      "prompt": "Count numeric entries in the Units column. Do not total the units.",
+      "output": "Answers!B2",
+      "type": "number",
+      "formulas": [
+        "COUNT"
+      ]
+    },
+    {
+      "id": "t2",
+      "prompt": "Count populated Order_code cells, excluding the heading.",
+      "output": "Answers!B3",
+      "type": "number",
+      "formulas": [
+        "COUNTA"
+      ]
+    },
+    {
+      "id": "t3",
+      "prompt": "Count numeric entries in Order_code. The task concerns the stored cell type, not the digits inside each text code.",
+      "output": "Answers!B4",
+      "type": "number",
+      "formulas": [
+        "COUNT"
+      ]
+    },
+    {
+      "id": "t4",
+      "prompt": "Calculate value per recorded order: total Order_value_CAD divided by the count of populated Order_code cells. Submit the unrounded number.",
+      "output": "Answers!B5",
+      "type": "number",
+      "formulas": [
+        "SUM",
+        "COUNTA"
+      ]
+    }
+  ],
+  "bonus": {
+    "id": "bonus",
+    "prompt": "Calculate average units per recorded shipment using total units and the count of Shipment_ref entries.",
+    "output": "Answers!B7",
+    "type": "number",
+    "formulas": [
+      "SUM",
+      "COUNTA"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Order_code",
+      "Customer_code",
+      "Shipment_ref",
+      "Units",
+      "Order_value_CAD"
+    ],
+    "rows": [
+      [
+        "VO-501",
+        "VC-308",
+        "VS-9901",
+        39,
+        829.37
+      ],
+      [
+        "VO-502",
+        "VC-304",
+        "VS-9902",
+        22,
+        1887.08
+      ],
+      [
+        "VO-503",
+        "VC-309",
+        "VS-9903",
+        27,
+        249.46
+      ],
+      [
+        "VO-504",
+        "VC-308",
+        "VS-9904",
+        25,
+        1007.17
+      ],
+      [
+        "VO-505",
+        "VC-307",
+        "VS-9905",
+        32,
+        218.18
+      ],
+      [
+        "VO-506",
+        "VC-305",
+        "VS-9906",
+        32,
+        1615.61
+      ],
+      [
+        "VO-507",
+        "VC-302",
+        "VS-9907",
+        32,
+        677.81
+      ],
+      [
+        "VO-508",
+        "VC-307",
+        "VS-9908",
+        32,
+        1292.37
+      ],
+      [
+        "VO-509",
+        "VC-308",
+        "VS-9909",
+        17,
+        211.18
+      ],
+      [
+        "VO-510",
+        "VC-301",
+        "VS-9910",
+        54,
+        1509.92
+      ],
+      [
+        "VO-511",
+        "VC-302",
+        "VS-9911",
+        44,
+        1062.16
+      ],
+      [
+        "VO-512",
+        "VC-304",
+        "VS-9912",
+        66,
+        1708.88
+      ],
+      [
+        "VO-513",
+        "VC-307",
+        "VS-9913",
+        43,
+        732.43
+      ],
+      [
+        "VO-514",
+        "VC-303",
+        "VS-9914",
+        59,
+        1865.06
+      ],
+      [
+        "VO-515",
+        "VC-302",
+        "VS-9915",
+        45,
+        1889.97
+      ],
+      [
+        "VO-516",
+        "VC-309",
+        "VS-9916",
+        10,
+        1830.43
+      ],
+      [
+        "VO-517",
+        "VC-305",
+        "VS-9917",
+        32,
+        1056.24
+      ],
+      [
+        "VO-518",
+        "VC-309",
+        "VS-9918",
+        43,
+        1823.6
+      ],
+      [
+        "VO-519",
+        "VC-303",
+        "VS-9919",
+        32,
+        349.46
+      ],
+      [
+        "VO-520",
+        "VC-307",
+        "VS-9920",
+        38,
+        1820.44
+      ],
+      [
+        "VO-521",
+        "VC-307",
+        "VS-9921",
+        67,
+        738.56
+      ],
+      [
+        "VO-522",
+        "VC-306",
+        "VS-9922",
+        53,
+        849.89
+      ],
+      [
+        "VO-523",
+        "VC-303",
+        "VS-9923",
+        55,
+        172.51
+      ],
+      [
+        "VO-524",
+        "VC-301",
+        "VS-9924",
+        24,
+        1755.44
+      ],
+      [
+        "VO-525",
+        "VC-308",
+        "VS-9925",
+        40,
+        550.2
+      ],
+      [
+        "VO-526",
+        "VC-302",
+        "VS-9926",
+        23,
+        1385.59
+      ]
+    ],
+    "rowCount": 26,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Order_code",
+        "description": "Invented text order identifier."
+      },
+      {
+        "name": "Customer_code",
+        "description": "Invented customer account code."
+      },
+      {
+        "name": "Shipment_ref",
+        "description": "Invented dispatch reference; every row is populated."
+      },
+      {
+        "name": "Units",
+        "description": "Positive integer ordered units."
+      },
+      {
+        "name": "Order_value_CAD",
+        "description": "Order value, Canadian dollars."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L1-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L1-A2.csv"
+  }
+}

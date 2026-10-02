@@ -1,0 +1,371 @@
+{
+  "id": "L8-A3",
+  "level": 8,
+  "assignment": 3,
+  "title": "Score repeated readings row by row",
+  "formulas": [
+    "BYROW",
+    "BYCOL"
+  ],
+  "minutes": 70,
+  "scenario": "Hervali Lab has 40 fictitious samples with three energy readings each. Blank is unmeasured; zero is a measured result. Row minimum and mean are available only when all three readings are numeric; the training pass count is the number of numeric readings ≥ 27 J.",
+  "lesson": {
+    "intro": "Row-wise calculations summarize one sample at a time. Column-wise calculations summarize a reading position across samples. Both helpers require a scalar result for each call.",
+    "functions": [
+      {
+        "name": "BYROW",
+        "purpose": "Calculate one result per row.",
+        "syntax": "=BYROW(array, lambda(row))",
+        "arguments": "array supplies rows; lambda receives one row and must return one scalar.",
+        "example": "=BYROW({2,4;3,7},LAMBDA(readings,SUM(readings)))",
+        "result": "6 then 10",
+        "useCase": "Score repeated sample readings.",
+        "mistake": "Returning multiple cells per row creates #CALC!."
+      },
+      {
+        "name": "BYCOL",
+        "purpose": "Calculate one result per column.",
+        "syntax": "=BYCOL(array, lambda(column))",
+        "arguments": "array supplies columns; lambda receives one column and returns one scalar.",
+        "example": "=BYCOL({2,4;3,7},LAMBDA(readings,SUM(readings)))",
+        "result": "5, 11",
+        "useCase": "Summarize reading positions.",
+        "mistake": "Column summaries and row summaries have different shapes."
+      }
+    ],
+    "combine": "Review COUNT, MIN, AVERAGE, SUM and ROUND. Guard complete-row metrics with COUNT=3. For column means, ignore blanks and retain zeros. Any valid formula is accepted; source order is the output order."
+  },
+  "tasks": [
+    {
+      "prompt": "For the first eight samples, return the minimum reading if all three are numeric; otherwise Missing (8 × 1).",
+      "output": "Answers!B2:B9",
+      "type": "array",
+      "formulas": [
+        "BYROW",
+        "LAMBDA",
+        "IF",
+        "COUNT",
+        "MIN"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "For the first eight samples, return the mean of all three readings rounded to two decimals, or Missing for an incomplete row.",
+      "output": "Answers!B12:B19",
+      "type": "array",
+      "formulas": [
+        "BYROW",
+        "LAMBDA",
+        "ROUND",
+        "AVERAGE"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For all 40 samples, count numeric readings ≥ 27 J, regardless of whether the other readings are blank (40 × 1).",
+      "output": "Answers!B22:B61",
+      "type": "array",
+      "formulas": [
+        "BYROW",
+        "LAMBDA",
+        "SUM",
+        "ISNUMBER"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Return mean Reading_1_J, Reading_2_J and Reading_3_J across all samples as one 1 × 3 row. Ignore blanks, retain zeros, and round each mean to two decimals.",
+      "output": "Answers!B64:D64",
+      "type": "array",
+      "formulas": [
+        "BYCOL",
+        "LAMBDA",
+        "AVERAGE",
+        "ROUND"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review SUM: total passing-reading counts from task 3.",
+    "output": "Answers!B67",
+    "type": "number",
+    "formulas": [
+      "SUM"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Sample_no",
+      "Reading_1_J",
+      "Reading_2_J",
+      "Reading_3_J"
+    ],
+    "rows": [
+      [
+        "HV-1",
+        0,
+        "",
+        27
+      ],
+      [
+        "HV-2",
+        38,
+        24,
+        27
+      ],
+      [
+        "HV-3",
+        31,
+        40,
+        36
+      ],
+      [
+        "HV-4",
+        37,
+        40,
+        24
+      ],
+      [
+        "HV-5",
+        38,
+        18,
+        25
+      ],
+      [
+        "HV-6",
+        33,
+        42,
+        20
+      ],
+      [
+        "HV-7",
+        33,
+        21,
+        20
+      ],
+      [
+        "HV-8",
+        43,
+        46,
+        45
+      ],
+      [
+        "HV-9",
+        16,
+        38,
+        36
+      ],
+      [
+        "HV-10",
+        22,
+        "",
+        35
+      ],
+      [
+        "HV-11",
+        37,
+        18,
+        46
+      ],
+      [
+        "HV-12",
+        18,
+        28,
+        36
+      ],
+      [
+        "HV-13",
+        32,
+        16,
+        32
+      ],
+      [
+        "HV-14",
+        28,
+        40,
+        48
+      ],
+      [
+        "HV-15",
+        17,
+        28,
+        41
+      ],
+      [
+        "HV-16",
+        43,
+        18,
+        37
+      ],
+      [
+        "HV-17",
+        23,
+        48,
+        45
+      ],
+      [
+        "HV-18",
+        30,
+        45,
+        26
+      ],
+      [
+        "HV-19",
+        17,
+        "",
+        44
+      ],
+      [
+        "HV-20",
+        26,
+        42,
+        27
+      ],
+      [
+        "HV-21",
+        25,
+        27,
+        22
+      ],
+      [
+        "HV-22",
+        43,
+        17,
+        16
+      ],
+      [
+        "HV-23",
+        28,
+        45,
+        23
+      ],
+      [
+        "HV-24",
+        19,
+        43,
+        46
+      ],
+      [
+        "HV-25",
+        42,
+        38,
+        36
+      ],
+      [
+        "HV-26",
+        16,
+        23,
+        23
+      ],
+      [
+        "HV-27",
+        28,
+        47,
+        16
+      ],
+      [
+        "HV-28",
+        20,
+        "",
+        40
+      ],
+      [
+        "HV-29",
+        19,
+        35,
+        39
+      ],
+      [
+        "HV-30",
+        33,
+        18,
+        44
+      ],
+      [
+        "HV-31",
+        24,
+        39,
+        33
+      ],
+      [
+        "HV-32",
+        26,
+        24,
+        29
+      ],
+      [
+        "HV-33",
+        21,
+        17,
+        20
+      ],
+      [
+        "HV-34",
+        22,
+        41,
+        29
+      ],
+      [
+        "HV-35",
+        30,
+        44,
+        22
+      ],
+      [
+        "HV-36",
+        38,
+        38,
+        38
+      ],
+      [
+        "HV-37",
+        30,
+        "",
+        43
+      ],
+      [
+        "HV-38",
+        28,
+        48,
+        42
+      ],
+      [
+        "HV-39",
+        16,
+        48,
+        48
+      ],
+      [
+        "HV-40",
+        37,
+        34,
+        17
+      ]
+    ],
+    "rowCount": 40,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Sample_no",
+        "description": "Unique invented sample key."
+      },
+      {
+        "name": "Reading_1_J",
+        "description": "First numeric energy reading, J, or blank."
+      },
+      {
+        "name": "Reading_2_J",
+        "description": "Second numeric reading, J, or blank."
+      },
+      {
+        "name": "Reading_3_J",
+        "description": "Third numeric reading, J, or blank."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L8-A3.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L8-A3.csv"
+  }
+}

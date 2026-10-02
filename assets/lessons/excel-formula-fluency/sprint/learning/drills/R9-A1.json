@@ -1,0 +1,139 @@
+{
+  "id": "R9-A1",
+  "version": 1,
+  "skillId": "level-9",
+  "level": 9,
+  "title": "Estimate sample variation",
+  "scenario": "A fictitious inspection experiment records event durations in minutes. The rows are observations, with numeric zero permitted and one missing measurement. All records and limits are fictitious training assumptions.",
+  "lesson": {
+    "intro": "STDEV.S describes sample spread using n−1 in its denominator. It ignores referenced blanks and includes numeric zero. At least two numeric observations are needed. This descriptive measure alone does not establish process stability or production acceptance.",
+    "formulas": [
+      {
+        "name": "STDEV.S",
+        "syntax": "=STDEV.S(number1, [number2], ...)",
+        "explanation": "number1 is a numeric sample or range. Further optional arguments add observations. The sample denominator is n−1.",
+        "example": "=STDEV.S(8,10,12)",
+        "result": 2
+      },
+      {
+        "name": "ROUND",
+        "syntax": "=ROUND(number, num_digits)",
+        "explanation": "Round the completed statistic once.",
+        "example": "=ROUND(1.23456,3)",
+        "result": 1.235
+      }
+    ]
+  },
+  "task": {
+    "id": "t1",
+    "prompt": "Calculate sample standard deviation of Duration_min over all 20 records. Exclude blanks and include zero; repeated durations remain separate observations. Use n−1, not the population denominator. Round only the final result to three decimals. These data have at least two numeric observations. Return one numeric value in Answers!B2. Use an Excel formula; any equivalent approach is accepted. Submit the formula and the complete output.",
+    "output": "Answers!B2",
+    "type": "number",
+    "formulas": [
+      "STDEV.S",
+      "ROUND"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Observation_no",
+      "Duration_min"
+    ],
+    "rows": [
+      [
+        "SD-1",
+        23
+      ],
+      [
+        "SD-2",
+        42
+      ],
+      [
+        "SD-3",
+        ""
+      ],
+      [
+        "SD-4",
+        39
+      ],
+      [
+        "SD-5",
+        0
+      ],
+      [
+        "SD-6",
+        26
+      ],
+      [
+        "SD-7",
+        24
+      ],
+      [
+        "SD-8",
+        36
+      ],
+      [
+        "SD-9",
+        40
+      ],
+      [
+        "SD-10",
+        12
+      ],
+      [
+        "SD-11",
+        28
+      ],
+      [
+        "SD-12",
+        26
+      ],
+      [
+        "SD-13",
+        17
+      ],
+      [
+        "SD-14",
+        20
+      ],
+      [
+        "SD-15",
+        15
+      ],
+      [
+        "SD-16",
+        12
+      ],
+      [
+        "SD-17",
+        41
+      ],
+      [
+        "SD-18",
+        25
+      ],
+      [
+        "SD-19",
+        39
+      ],
+      [
+        "SD-20",
+        37
+      ]
+    ],
+    "rowCount": 20,
+    "tableName": "PracticeData",
+    "columns": [
+      {
+        "name": "Observation_no",
+        "description": "Unique independent observation."
+      },
+      {
+        "name": "Duration_min",
+        "description": "Numeric duration in minutes. Blank is missing; zero is measured zero."
+      }
+    ],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R9-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R9-A1.csv"
+  }
+}

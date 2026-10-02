@@ -168,6 +168,7 @@
 
   function renderWidget() {
     if (!isLessonPage()) return;
+    if (document.body.hasAttribute("data-local-progress-only")) return;
     injectParetoEndingStyles();
     if (PAGE_SLUG === '/lessons/understanding-pareto-chart') return;
 

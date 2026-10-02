@@ -1,0 +1,417 @@
+{
+  "id": "L7-A3",
+  "level": 7,
+  "assignment": 3,
+  "title": "Audit Charpy arrays by sample and heat",
+  "formulas": [
+    "SUMPRODUCT",
+    "ISNUMBER"
+  ],
+  "minutes": 60,
+  "scenario": "Cervani Testworks has 40 fictitious Charpy measurements for ten sample/heat pairs. Normalize Orientation with TRIM and UPPER; average numeric duplicate measurements for each pair/orientation, rounded to two decimals. No numeric measurement means Missing; measured zero remains numeric.",
+  "lesson": {
+    "intro": "An array mask can require both identifiers, a normalized orientation and a numeric measurement. Counting that population first prevents a blank group from masquerading as zero energy.",
+    "functions": [
+      {
+        "name": "SUMPRODUCT",
+        "purpose": "Sum aligned products.",
+        "syntax": "=SUMPRODUCT(array1, [array2], ...)",
+        "arguments": "array1 is the first bounded numeric array; optional arrays have identical dimensions and multiply elementwise.",
+        "example": "=SUMPRODUCT({2,3},{4,5})",
+        "result": 23,
+        "useCase": "Calculate weighted yield or condition counts.",
+        "mistake": "Align rows. Coerce Boolean conditions with --; distinguish blanks from measured zero."
+      },
+      {
+        "name": "ISNUMBER",
+        "purpose": "Test the stored value type.",
+        "syntax": "=ISNUMBER(value)",
+        "arguments": "value is the cell or expression to test.",
+        "example": "=ISNUMBER(0)",
+        "result": true,
+        "useCase": "Keep measured zero and exclude blank results.",
+        "mistake": "A numeric-looking text string is not a number."
+      }
+    ],
+    "combine": "Review TRIM, UPPER, AVERAGEIFS and HSTACK. Keys provides the unique sample/heat scaffold in source order. Normalize orientation inside the mask; both keys are always required. Any valid formula is accepted. Keep leading-zero sample IDs as text."
+  },
+  "orientationReshape": true,
+  "tasks": [
+    {
+      "prompt": "Normalize Orientation for the first eight source records, as an 8 × 1 column in source order.",
+      "output": "Answers!B2:B9",
+      "type": "array",
+      "formulas": [
+        "UPPER",
+        "TRIM"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "In Keys order, return numeric replicate counts for LPA then TWA (10 × 2). Blank energy does not count; zero does.",
+      "output": "Answers!B12:C21",
+      "type": "array",
+      "formulas": [
+        "SUMPRODUCT",
+        "ISNUMBER"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "In Keys order, return LPA and TWA numeric means, rounded to two decimals (10 × 2). Use Missing when a count is zero.",
+      "output": "Answers!B24:C33",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "SUMPRODUCT",
+        "FILTER",
+        "AVERAGE",
+        "ROUND"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Assemble sample_no, heat_no, LPA_mean_J, TWA_mean_J in Keys order, without headers (10 × 4). Preserve text sample IDs.",
+      "output": "Answers!B36:E45",
+      "type": "array",
+      "formulas": [
+        "HSTACK"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review COUNTIFS: count Missing orientation cells in the task-3 result only.",
+    "output": "Answers!B48",
+    "type": "number",
+    "formulas": [
+      "COUNTIFS"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "sample_no",
+      "heat_no",
+      "Orientation",
+      "Energy_J"
+    ],
+    "rows": [
+      [
+        "001",
+        "CV-H1",
+        " LPA ",
+        0
+      ],
+      [
+        "001",
+        "CV-H1",
+        " LPA ",
+        19
+      ],
+      [
+        "001",
+        "CV-H1",
+        "twa",
+        ""
+      ],
+      [
+        "001",
+        "CV-H1",
+        "twa",
+        ""
+      ],
+      [
+        "002",
+        "CV-H1",
+        " LPA ",
+        39
+      ],
+      [
+        "002",
+        "CV-H1",
+        " LPA ",
+        ""
+      ],
+      [
+        "002",
+        "CV-H1",
+        "twa",
+        47
+      ],
+      [
+        "002",
+        "CV-H1",
+        "twa",
+        20
+      ],
+      [
+        "003",
+        "CV-H1",
+        " LPA ",
+        0
+      ],
+      [
+        "003",
+        "CV-H1",
+        " LPA ",
+        0
+      ],
+      [
+        "003",
+        "CV-H1",
+        "twa",
+        32
+      ],
+      [
+        "003",
+        "CV-H1",
+        "twa",
+        25
+      ],
+      [
+        "004",
+        "CV-H1",
+        " LPA ",
+        27
+      ],
+      [
+        "004",
+        "CV-H1",
+        " LPA ",
+        27
+      ],
+      [
+        "004",
+        "CV-H1",
+        "twa",
+        20
+      ],
+      [
+        "004",
+        "CV-H1",
+        "twa",
+        20
+      ],
+      [
+        "005",
+        "CV-H1",
+        " LPA ",
+        20
+      ],
+      [
+        "005",
+        "CV-H1",
+        " LPA ",
+        37
+      ],
+      [
+        "005",
+        "CV-H1",
+        "twa",
+        42
+      ],
+      [
+        "005",
+        "CV-H1",
+        "twa",
+        29
+      ],
+      [
+        "001",
+        "CV-H2",
+        " LPA ",
+        26
+      ],
+      [
+        "001",
+        "CV-H2",
+        " LPA ",
+        44
+      ],
+      [
+        "001",
+        "CV-H2",
+        "twa",
+        47
+      ],
+      [
+        "001",
+        "CV-H2",
+        "twa",
+        46
+      ],
+      [
+        "002",
+        "CV-H2",
+        " LPA ",
+        26
+      ],
+      [
+        "002",
+        "CV-H2",
+        " LPA ",
+        23
+      ],
+      [
+        "002",
+        "CV-H2",
+        "twa",
+        36
+      ],
+      [
+        "002",
+        "CV-H2",
+        "twa",
+        26
+      ],
+      [
+        "003",
+        "CV-H2",
+        " LPA ",
+        47
+      ],
+      [
+        "003",
+        "CV-H2",
+        " LPA ",
+        26
+      ],
+      [
+        "003",
+        "CV-H2",
+        "twa",
+        47
+      ],
+      [
+        "003",
+        "CV-H2",
+        "twa",
+        25
+      ],
+      [
+        "004",
+        "CV-H2",
+        " LPA ",
+        29
+      ],
+      [
+        "004",
+        "CV-H2",
+        " LPA ",
+        17
+      ],
+      [
+        "004",
+        "CV-H2",
+        "twa",
+        30
+      ],
+      [
+        "004",
+        "CV-H2",
+        "twa",
+        22
+      ],
+      [
+        "005",
+        "CV-H2",
+        " LPA ",
+        29
+      ],
+      [
+        "005",
+        "CV-H2",
+        " LPA ",
+        29
+      ],
+      [
+        "005",
+        "CV-H2",
+        "twa",
+        29
+      ],
+      [
+        "005",
+        "CV-H2",
+        "twa",
+        16
+      ]
+    ],
+    "rowCount": 40,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "sample_no",
+        "description": "Text sample identifier; reused across heats."
+      },
+      {
+        "name": "heat_no",
+        "description": "Invented heat identifier."
+      },
+      {
+        "name": "Orientation",
+        "description": "LPA/TWA with deliberate case and outer-space differences."
+      },
+      {
+        "name": "Energy_J",
+        "description": "Numeric energy in joules; blank means unmeasured, zero is measured."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L7-A3.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L7-A3.csv",
+    "sheets": [
+      {
+        "name": "Keys",
+        "headers": [
+          "sample_no",
+          "heat_no"
+        ],
+        "rows": [
+          [
+            "001",
+            "CV-H1"
+          ],
+          [
+            "002",
+            "CV-H1"
+          ],
+          [
+            "003",
+            "CV-H1"
+          ],
+          [
+            "004",
+            "CV-H1"
+          ],
+          [
+            "005",
+            "CV-H1"
+          ],
+          [
+            "001",
+            "CV-H2"
+          ],
+          [
+            "002",
+            "CV-H2"
+          ],
+          [
+            "003",
+            "CV-H2"
+          ],
+          [
+            "004",
+            "CV-H2"
+          ],
+          [
+            "005",
+            "CV-H2"
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L7-A3-Keys.csv"
+      }
+    ]
+  }
+}

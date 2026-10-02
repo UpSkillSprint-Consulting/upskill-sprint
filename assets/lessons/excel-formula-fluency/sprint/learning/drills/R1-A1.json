@@ -1,0 +1,139 @@
+{
+  "id": "R1-A1",
+  "version": 1,
+  "skillId": "level-1",
+  "level": 1,
+  "title": "Average event duration 1",
+  "scenario": "An invented pipe-inspection team records event durations in minutes. Each row is a separate event, including repeated durations. All records and limits are fictitious training assumptions.",
+  "lesson": {
+    "intro": "AVERAGE adds numeric observations and divides by their count. A measured zero is an observation; an empty cell is missing. Use the data range rather than typing a calculated answer.",
+    "formulas": [
+      {
+        "name": "AVERAGE",
+        "syntax": "=AVERAGE(number1, [number2], ...)",
+        "explanation": "number1 is a number, cell or range. Optional further arguments add observations. Referenced text and blanks are ignored; zero counts.",
+        "example": "=AVERAGE(6,0,12)",
+        "result": 6
+      },
+      {
+        "name": "ROUND",
+        "syntax": "=ROUND(number, num_digits)",
+        "explanation": "number is the result; num_digits sets decimal places. Round the final mean only.",
+        "example": "=ROUND(2.346,2)",
+        "result": 2.35
+      }
+    ]
+  },
+  "task": {
+    "id": "t1",
+    "prompt": "Calculate the mean of Duration_min across all 20 events, excluding blank cells and including numeric zero. Repeated durations are separate observations. Round the final mean to two decimal places. Return one numeric value in Answers!B2. Use an Excel formula; any equivalent approach is accepted. Submit the formula and the complete output.",
+    "output": "Answers!B2",
+    "type": "number",
+    "formulas": [
+      "AVERAGE",
+      "ROUND"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Event_no",
+      "Duration_min"
+    ],
+    "rows": [
+      [
+        "RX1-1",
+        29
+      ],
+      [
+        "RX1-2",
+        35
+      ],
+      [
+        "RX1-3",
+        ""
+      ],
+      [
+        "RX1-4",
+        38
+      ],
+      [
+        "RX1-5",
+        0
+      ],
+      [
+        "RX1-6",
+        36
+      ],
+      [
+        "RX1-7",
+        35
+      ],
+      [
+        "RX1-8",
+        30
+      ],
+      [
+        "RX1-9",
+        38
+      ],
+      [
+        "RX1-10",
+        35
+      ],
+      [
+        "RX1-11",
+        25
+      ],
+      [
+        "RX1-12",
+        12
+      ],
+      [
+        "RX1-13",
+        17
+      ],
+      [
+        "RX1-14",
+        30
+      ],
+      [
+        "RX1-15",
+        38
+      ],
+      [
+        "RX1-16",
+        33
+      ],
+      [
+        "RX1-17",
+        29
+      ],
+      [
+        "RX1-18",
+        37
+      ],
+      [
+        "RX1-19",
+        20
+      ],
+      [
+        "RX1-20",
+        19
+      ]
+    ],
+    "rowCount": 20,
+    "tableName": "PracticeData",
+    "columns": [
+      {
+        "name": "Event_no",
+        "description": "Unique invented event identifier."
+      },
+      {
+        "name": "Duration_min",
+        "description": "Numeric duration in minutes. Empty means not recorded; zero means measured zero."
+      }
+    ],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R1-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R1-A1.csv"
+  }
+}

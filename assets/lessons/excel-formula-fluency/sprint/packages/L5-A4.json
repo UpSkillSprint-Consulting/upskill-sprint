@@ -1,0 +1,459 @@
+{
+  "id": "L5-A4",
+  "level": 5,
+  "assignment": 4,
+  "title": "Analyze completed employee service",
+  "formulas": [
+    "DATEDIF",
+    "WEEKNUM"
+  ],
+  "minutes": 70,
+  "scenario": "Norvella Business Support has 56 invented employment records. Use the fixed reporting date October 1, 2026, not today. Dates are provided as explicit components; completed years/months exclude partial intervals.",
+  "lesson": {
+    "intro": "Completed service is a calendar calculation. Use a fixed reporting date so the assignment’s answer remains reproducible. Calendar week rules must also be stated explicitly.",
+    "functions": [
+      {
+        "name": "DATEDIF",
+        "purpose": "Count complete date intervals.",
+        "syntax": "=DATEDIF(start_date, end_date, unit)",
+        "arguments": "Use ordered dates and quoted unit \"Y\" for complete years or \"M\" for complete months.",
+        "example": "=DATEDIF(DATE(2024,6,15),DATE(2026,6,14),\"Y\")",
+        "result": 1,
+        "useCase": "Calculate completed employee service years.",
+        "mistake": "End before start errors. Avoid the problematic MD unit; years are not elapsed days divided by 365."
+      },
+      {
+        "name": "WEEKNUM",
+        "purpose": "Assign a calendar week number.",
+        "syntax": "=WEEKNUM(serial_number, [return_type])",
+        "arguments": "serial_number is a date; return_type 2 means Monday-start weeks with the week containing January 1 as week 1.",
+        "example": "=WEEKNUM(DATE(2026,1,1),2)",
+        "result": 1,
+        "useCase": "Group activity into stated calendar weeks.",
+        "mistake": "Return type 2 is not ISO week numbering; ISO uses return type 21."
+      }
+    ],
+    "combine": "Reuse DATE, IF and COUNTIFS. WEEKNUM return type 2 uses Monday-start weeks with the week containing January 1 numbered one; it is not ISO numbering. DATEDIF Y/M avoids the problematic MD unit."
+  },
+  "tasks": [
+    {
+      "prompt": "For the first six employees, return completed years of service through October 1, 2026.",
+      "output": "Answers!B2:B7",
+      "type": "array",
+      "formulas": [
+        "DATEDIF",
+        "DATE"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "For the first six employees, return completed months of service through the same fixed date.",
+      "output": "Answers!B10:B15",
+      "type": "array",
+      "formulas": [
+        "DATEDIF",
+        "DATE"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first six start dates, return Monday-start calendar week numbers under WEEKNUM return type 2.",
+      "output": "Answers!B18:B23",
+      "type": "array",
+      "formulas": [
+        "WEEKNUM",
+        "DATE"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "For the first six employees, return Established for at least three completed years, otherwise Developing.",
+      "output": "Answers!B26:B31",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "DATEDIF",
+        "DATE"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Count employees with Year component 2025 across the entire register.",
+    "output": "Answers!B34",
+    "type": "number",
+    "formulas": [
+      "COUNTIFS"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Employee_code",
+      "Year",
+      "Month",
+      "Day"
+    ],
+    "rows": [
+      [
+        "NB-1",
+        2020,
+        1,
+        1
+      ],
+      [
+        "NB-2",
+        2021,
+        2,
+        2
+      ],
+      [
+        "NB-3",
+        2022,
+        3,
+        3
+      ],
+      [
+        "NB-4",
+        2023,
+        4,
+        4
+      ],
+      [
+        "NB-5",
+        2024,
+        5,
+        5
+      ],
+      [
+        "NB-6",
+        2025,
+        6,
+        6
+      ],
+      [
+        "NB-7",
+        2020,
+        7,
+        7
+      ],
+      [
+        "NB-8",
+        2021,
+        8,
+        8
+      ],
+      [
+        "NB-9",
+        2022,
+        9,
+        9
+      ],
+      [
+        "NB-10",
+        2023,
+        10,
+        10
+      ],
+      [
+        "NB-11",
+        2024,
+        11,
+        11
+      ],
+      [
+        "NB-12",
+        2025,
+        12,
+        12
+      ],
+      [
+        "NB-13",
+        2020,
+        1,
+        13
+      ],
+      [
+        "NB-14",
+        2021,
+        2,
+        14
+      ],
+      [
+        "NB-15",
+        2022,
+        3,
+        15
+      ],
+      [
+        "NB-16",
+        2023,
+        4,
+        16
+      ],
+      [
+        "NB-17",
+        2024,
+        5,
+        17
+      ],
+      [
+        "NB-18",
+        2025,
+        6,
+        18
+      ],
+      [
+        "NB-19",
+        2020,
+        7,
+        19
+      ],
+      [
+        "NB-20",
+        2021,
+        8,
+        20
+      ],
+      [
+        "NB-21",
+        2022,
+        9,
+        21
+      ],
+      [
+        "NB-22",
+        2023,
+        10,
+        22
+      ],
+      [
+        "NB-23",
+        2024,
+        11,
+        23
+      ],
+      [
+        "NB-24",
+        2025,
+        12,
+        24
+      ],
+      [
+        "NB-25",
+        2020,
+        1,
+        25
+      ],
+      [
+        "NB-26",
+        2021,
+        2,
+        26
+      ],
+      [
+        "NB-27",
+        2022,
+        3,
+        27
+      ],
+      [
+        "NB-28",
+        2023,
+        4,
+        1
+      ],
+      [
+        "NB-29",
+        2024,
+        5,
+        2
+      ],
+      [
+        "NB-30",
+        2025,
+        6,
+        3
+      ],
+      [
+        "NB-31",
+        2020,
+        7,
+        4
+      ],
+      [
+        "NB-32",
+        2021,
+        8,
+        5
+      ],
+      [
+        "NB-33",
+        2022,
+        9,
+        6
+      ],
+      [
+        "NB-34",
+        2023,
+        10,
+        7
+      ],
+      [
+        "NB-35",
+        2024,
+        11,
+        8
+      ],
+      [
+        "NB-36",
+        2025,
+        12,
+        9
+      ],
+      [
+        "NB-37",
+        2020,
+        1,
+        10
+      ],
+      [
+        "NB-38",
+        2021,
+        2,
+        11
+      ],
+      [
+        "NB-39",
+        2022,
+        3,
+        12
+      ],
+      [
+        "NB-40",
+        2023,
+        4,
+        13
+      ],
+      [
+        "NB-41",
+        2024,
+        5,
+        14
+      ],
+      [
+        "NB-42",
+        2025,
+        6,
+        15
+      ],
+      [
+        "NB-43",
+        2020,
+        7,
+        16
+      ],
+      [
+        "NB-44",
+        2021,
+        8,
+        17
+      ],
+      [
+        "NB-45",
+        2022,
+        9,
+        18
+      ],
+      [
+        "NB-46",
+        2023,
+        10,
+        19
+      ],
+      [
+        "NB-47",
+        2024,
+        11,
+        20
+      ],
+      [
+        "NB-48",
+        2025,
+        12,
+        21
+      ],
+      [
+        "NB-49",
+        2020,
+        1,
+        22
+      ],
+      [
+        "NB-50",
+        2021,
+        2,
+        23
+      ],
+      [
+        "NB-51",
+        2022,
+        3,
+        24
+      ],
+      [
+        "NB-52",
+        2023,
+        4,
+        25
+      ],
+      [
+        "NB-53",
+        2024,
+        5,
+        26
+      ],
+      [
+        "NB-54",
+        2025,
+        6,
+        27
+      ],
+      [
+        "NB-55",
+        2020,
+        7,
+        1
+      ],
+      [
+        "NB-56",
+        2021,
+        8,
+        2
+      ]
+    ],
+    "rowCount": 56,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Employee_code",
+        "description": "Employee code. See scenario for business rules."
+      },
+      {
+        "name": "Year",
+        "description": "Year. See scenario for business rules."
+      },
+      {
+        "name": "Month",
+        "description": "Month. See scenario for business rules."
+      },
+      {
+        "name": "Day",
+        "description": "Day. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L5-A4.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L5-A4.csv"
+  }
+}

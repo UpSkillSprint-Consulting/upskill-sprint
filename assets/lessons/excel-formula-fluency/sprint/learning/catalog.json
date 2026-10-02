@@ -1,0 +1,411 @@
+{
+  "version": 1,
+  "diagnostic": {
+    "id": "placement-v1",
+    "title": "Find your next Excel practice",
+    "questions": [
+      {
+        "id": "q1",
+        "skillId": "level-1",
+        "level": 1,
+        "prompt": "A training range contains the numbers 10, 0, a genuinely empty cell, and 20. What does AVERAGE return?",
+        "options": [
+          {
+            "id": "a",
+            "text": "15"
+          },
+          {
+            "id": "b",
+            "text": "7.5"
+          },
+          {
+            "id": "c",
+            "text": "10"
+          },
+          {
+            "id": "d",
+            "text": "An error"
+          }
+        ]
+      },
+      {
+        "id": "q2",
+        "skillId": "level-2",
+        "level": 2,
+        "prompt": "You need total repair cost where Shift is Day AND Defect is Scratch. Which formula expresses both conditions?",
+        "options": [
+          {
+            "id": "a",
+            "text": "=SUMIFS(Cost,Shift,\"Day\",Defect,\"Scratch\")"
+          },
+          {
+            "id": "b",
+            "text": "=SUM(Cost)"
+          },
+          {
+            "id": "c",
+            "text": "=SUMIF(Shift,\"Day\",Cost)+SUMIF(Defect,\"Scratch\",Cost)"
+          },
+          {
+            "id": "d",
+            "text": "=COUNTIFS(Shift,\"Day\",Defect,\"Scratch\")"
+          }
+        ]
+      },
+      {
+        "id": "q3",
+        "skillId": "level-3",
+        "level": 3,
+        "prompt": "A product lookup must return Ambiguous when its key occurs twice. Which approach follows that rule?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Use the last match"
+          },
+          {
+            "id": "b",
+            "text": "Use the first match"
+          },
+          {
+            "id": "c",
+            "text": "Treat duplicates as absent"
+          },
+          {
+            "id": "d",
+            "text": "Count exact matches, then look up only when the count is one"
+          }
+        ]
+      },
+      {
+        "id": "q4",
+        "skillId": "level-4",
+        "level": 4,
+        "prompt": "An inspector code has extra spaces and a line break. Which formula removes the nonprinting line break, trims spaces and converts letters to capitals?",
+        "options": [
+          {
+            "id": "a",
+            "text": "=PROPER(A2)"
+          },
+          {
+            "id": "b",
+            "text": "=UPPER(TRIM(CLEAN(A2)))"
+          },
+          {
+            "id": "c",
+            "text": "=LEFT(A2,3)"
+          },
+          {
+            "id": "d",
+            "text": "=TEXT(A2,\"0\")"
+          }
+        ]
+      },
+      {
+        "id": "q5",
+        "skillId": "level-5",
+        "level": 5,
+        "prompt": "A single shift starts at 22:00 and ends at 06:00 the next day. It lasts less than 24 hours. Which elapsed duration is correct?",
+        "options": [
+          {
+            "id": "a",
+            "text": "-16 hours"
+          },
+          {
+            "id": "b",
+            "text": "16 hours"
+          },
+          {
+            "id": "c",
+            "text": "8 hours"
+          },
+          {
+            "id": "d",
+            "text": "32 hours"
+          }
+        ]
+      },
+      {
+        "id": "q6",
+        "skillId": "level-6",
+        "level": 6,
+        "prompt": "FILTER returns all inspection rows with numeric thickness below 12 mm. Several records share one heat number. Which duplicate rule preserves the requested report?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Keep every matching source record"
+          },
+          {
+            "id": "b",
+            "text": "Keep only one record per heat"
+          },
+          {
+            "id": "c",
+            "text": "Keep the first heat regardless of thickness"
+          },
+          {
+            "id": "d",
+            "text": "Average each heat before filtering"
+          }
+        ]
+      },
+      {
+        "id": "q7",
+        "skillId": "level-7",
+        "level": 7,
+        "prompt": "Two batches have 90 good units of 100 inspected, and 50 good units of 1,000 inspected. What is the pooled good yield, rounded to two decimal places as a percentage number?",
+        "options": [
+          {
+            "id": "a",
+            "text": "47.50"
+          },
+          {
+            "id": "b",
+            "text": "70.00"
+          },
+          {
+            "id": "c",
+            "text": "14.00"
+          },
+          {
+            "id": "d",
+            "text": "12.73"
+          }
+        ]
+      },
+      {
+        "id": "q8",
+        "skillId": "level-8",
+        "level": 8,
+        "prompt": "A long formula uses the same filtered array three times. What does LET allow you to do?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Convert every output to text"
+          },
+          {
+            "id": "b",
+            "text": "Name the intermediate array and reuse it inside the formula"
+          },
+          {
+            "id": "c",
+            "text": "Store the result permanently even after inputs change"
+          },
+          {
+            "id": "d",
+            "text": "Remove all missing-data checks"
+          }
+        ]
+      },
+      {
+        "id": "q9",
+        "skillId": "level-9",
+        "level": 9,
+        "prompt": "Two measurement columns have blanks in different rows and valid numeric zeros. Before CORREL, which population should be used?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Only rows with positive numbers"
+          },
+          {
+            "id": "b",
+            "text": "Filter each column independently"
+          },
+          {
+            "id": "c",
+            "text": "Rows where both measurements are numeric, keeping zero"
+          },
+          {
+            "id": "d",
+            "text": "Replace every blank with zero"
+          }
+        ]
+      },
+      {
+        "id": "q10",
+        "skillId": "level-10",
+        "level": 10,
+        "prompt": "An integrated training rule requires Review if any required input is missing. Otherwise it returns Hold below the limit, or Pass at or above it. A row has missing cost data and a below-limit test. Which status comes first?",
+        "options": [
+          {
+            "id": "a",
+            "text": "Review"
+          },
+          {
+            "id": "b",
+            "text": "Hold"
+          },
+          {
+            "id": "c",
+            "text": "Pass"
+          },
+          {
+            "id": "d",
+            "text": "Zero"
+          }
+        ]
+      }
+    ]
+  },
+  "skills": [
+    {
+      "id": "level-1",
+      "level": 1,
+      "title": "Foundations",
+      "corePackageId": "L1-A1",
+      "drills": [
+        {
+          "id": "R1-A1",
+          "title": "Average event duration 1"
+        },
+        {
+          "id": "R1-A2",
+          "title": "Average event duration 2"
+        }
+      ]
+    },
+    {
+      "id": "level-2",
+      "level": 2,
+      "title": "Logic and conditional aggregation",
+      "corePackageId": "L2-A1",
+      "drills": [
+        {
+          "id": "R2-A1",
+          "title": "Total selected downtime 1"
+        },
+        {
+          "id": "R2-A2",
+          "title": "Total selected downtime 2"
+        }
+      ]
+    },
+    {
+      "id": "level-3",
+      "level": 3,
+      "title": "Exact lookups",
+      "corePackageId": "L3-A1",
+      "drills": [
+        {
+          "id": "R3-A1",
+          "title": "Find a product allowance 1"
+        },
+        {
+          "id": "R3-A2",
+          "title": "Find a product allowance 2"
+        }
+      ]
+    },
+    {
+      "id": "level-4",
+      "level": 4,
+      "title": "Text cleaning",
+      "corePackageId": "L4-A1",
+      "drills": [
+        {
+          "id": "R4-A1",
+          "title": "Normalize inspector codes 1"
+        },
+        {
+          "id": "R4-A2",
+          "title": "Normalize inspector codes 2"
+        }
+      ]
+    },
+    {
+      "id": "level-5",
+      "level": 5,
+      "title": "Dates and time",
+      "corePackageId": "L5-A1",
+      "drills": [
+        {
+          "id": "R5-A1",
+          "title": "Build unambiguous test dates 1"
+        },
+        {
+          "id": "R5-A2",
+          "title": "Build unambiguous test dates 2"
+        }
+      ]
+    },
+    {
+      "id": "level-6",
+      "level": 6,
+      "title": "Dynamic arrays",
+      "corePackageId": "L6-A1",
+      "drills": [
+        {
+          "id": "R6-A1",
+          "title": "Filter thickness exceptions 1"
+        },
+        {
+          "id": "R6-A2",
+          "title": "Filter thickness exceptions 2"
+        }
+      ]
+    },
+    {
+      "id": "level-7",
+      "level": 7,
+      "title": "Array logic",
+      "corePackageId": "L7-A1",
+      "drills": [
+        {
+          "id": "R7-A1",
+          "title": "Calculate a weighted Day yield 1"
+        },
+        {
+          "id": "R7-A2",
+          "title": "Calculate a weighted Day yield 2"
+        }
+      ]
+    },
+    {
+      "id": "level-8",
+      "level": 8,
+      "title": "Structure and reuse",
+      "corePackageId": "L8-A1",
+      "drills": [
+        {
+          "id": "R8-A1",
+          "title": "Name a pooled margin calculation 1"
+        },
+        {
+          "id": "R8-A2",
+          "title": "Name a pooled margin calculation 2"
+        }
+      ]
+    },
+    {
+      "id": "level-9",
+      "level": 9,
+      "title": "Analysis and reporting",
+      "corePackageId": "L9-A1",
+      "drills": [
+        {
+          "id": "R9-A1",
+          "title": "Estimate sample variation"
+        },
+        {
+          "id": "R9-A2",
+          "title": "Keep correlation pairs aligned"
+        }
+      ]
+    },
+    {
+      "id": "level-10",
+      "level": 10,
+      "title": "Integrated formulas",
+      "corePackageId": "L10-A1",
+      "drills": [
+        {
+          "id": "R10-A1",
+          "title": "Build guarded line revenue 1"
+        },
+        {
+          "id": "R10-A2",
+          "title": "Build guarded line revenue 2"
+        }
+      ]
+    }
+  ]
+}

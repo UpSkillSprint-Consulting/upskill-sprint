@@ -1,0 +1,430 @@
+{
+  "id": "L4-A5",
+  "level": 4,
+  "assignment": 5,
+  "title": "Build readable measurement messages",
+  "formulas": [
+    "SUBSTITUTE",
+    "TEXT",
+    "PROPER"
+  ],
+  "minutes": 65,
+  "scenario": "Jelvani Quality Services has 60 invented readings for a training report. Raw sample IDs use underscores and inconsistent case; numeric measurements must remain numeric in Data. Messages need stable decimal places and standardized text.",
+  "lesson": {
+    "intro": "Report text is a presentation layer. Normalize a separator deliberately, and format numeric values only when assembling a message. Preserve raw readings for analysis.",
+    "functions": [
+      {
+        "name": "SUBSTITUTE",
+        "purpose": "Replace specified text.",
+        "syntax": "=SUBSTITUTE(text, old_text, new_text, [instance_num])",
+        "arguments": "Input, old text and replacement are required. Optional instance_num limits replacement to one occurrence.",
+        "example": "=SUBSTITUTE(\"A_B_C\",\"_\",\"-\")",
+        "result": "A-B-C",
+        "useCase": "Normalize separators.",
+        "mistake": "Replacement is case-sensitive; it is not a wildcard search."
+      },
+      {
+        "name": "TEXT",
+        "purpose": "Format a value as text.",
+        "syntax": "=TEXT(value, format_text)",
+        "arguments": "value is numeric/date data; format_text is a quoted Excel number-format code.",
+        "example": "=TEXT(12.5,\"0.00\")",
+        "result": "12.50",
+        "useCase": "Include formatted measurements in a sentence.",
+        "mistake": "The result is text and should not replace numeric calculation inputs."
+      },
+      {
+        "name": "PROPER",
+        "purpose": "Capitalize each word.",
+        "syntax": "=PROPER(text)",
+        "arguments": "text is the string or reference.",
+        "example": "=PROPER(\"nora vale\")",
+        "result": "Nora Vale",
+        "useCase": "Present fictitious customer names.",
+        "mistake": "Acronyms and mixed-case brands may need deliberate exceptions."
+      }
+    ],
+    "combine": "Reuse ROUND for numeric results and IF for a training threshold. TEXT(\"0.00\") controls displayed decimals, while ROUND changes the numeric value. PROPER is suitable for these invented plain names; it is not a universal name-correction rule."
+  },
+  "tasks": [
+    {
+      "prompt": "For the first six records, replace all underscores with hyphens, trim ordinary spaces and uppercase the sample ID.",
+      "output": "Answers!B2:B7",
+      "type": "array",
+      "formulas": [
+        "SUBSTITUTE",
+        "TRIM",
+        "UPPER"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "For the first six records, return Reading_mm as text with exactly three decimals.",
+      "output": "Answers!B10:B15",
+      "type": "array",
+      "formulas": [
+        "TEXT"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first six technicians, return title-case names.",
+      "output": "Answers!B18:B23",
+      "type": "array",
+      "formulas": [
+        "PROPER"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "For the first six records, create messages SAMPLE: 0.00 mm | STATUS, where SAMPLE is the normalized ID, STATUS is Review if the unrounded reading exceeds 13.00, otherwise Within. Use exactly the shown spaces and two displayed decimals.",
+      "output": "Answers!B26:B31",
+      "type": "array",
+      "formulas": [
+        "SUBSTITUTE",
+        "TEXT",
+        "IF",
+        "TRIM",
+        "UPPER"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Return the first reading rounded numerically to two decimals.",
+    "output": "Answers!B34",
+    "type": "number",
+    "formulas": [
+      "ROUND"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Raw_sample",
+      "Technician_name",
+      "Reading_mm"
+    ],
+    "rows": [
+      [
+        " jq_s_1 ",
+        "nora talven",
+        12.55
+      ],
+      [
+        " jq_s_2 ",
+        "iven rellor",
+        12.25
+      ],
+      [
+        " jq_s_3 ",
+        "sena varyn",
+        12.491
+      ],
+      [
+        " jq_s_4 ",
+        "nora talven",
+        13.173
+      ],
+      [
+        " jq_s_5 ",
+        "iven rellor",
+        13.012
+      ],
+      [
+        " jq_s_6 ",
+        "sena varyn",
+        12.273
+      ],
+      [
+        " jq_s_7 ",
+        "nora talven",
+        12.943
+      ],
+      [
+        " jq_s_8 ",
+        "iven rellor",
+        12.538
+      ],
+      [
+        " jq_s_9 ",
+        "sena varyn",
+        12.57
+      ],
+      [
+        " jq_s_10 ",
+        "nora talven",
+        12.521
+      ],
+      [
+        " jq_s_11 ",
+        "iven rellor",
+        12.951
+      ],
+      [
+        " jq_s_12 ",
+        "sena varyn",
+        12.799
+      ],
+      [
+        " jq_s_13 ",
+        "nora talven",
+        12.536
+      ],
+      [
+        " jq_s_14 ",
+        "iven rellor",
+        12.173
+      ],
+      [
+        " jq_s_15 ",
+        "sena varyn",
+        12.404
+      ],
+      [
+        " jq_s_16 ",
+        "nora talven",
+        12.317
+      ],
+      [
+        " jq_s_17 ",
+        "iven rellor",
+        12.25
+      ],
+      [
+        " jq_s_18 ",
+        "sena varyn",
+        12.364
+      ],
+      [
+        " jq_s_19 ",
+        "nora talven",
+        12.487
+      ],
+      [
+        " jq_s_20 ",
+        "iven rellor",
+        12.375
+      ],
+      [
+        " jq_s_21 ",
+        "sena varyn",
+        12.594
+      ],
+      [
+        " jq_s_22 ",
+        "nora talven",
+        12.758
+      ],
+      [
+        " jq_s_23 ",
+        "iven rellor",
+        12.172
+      ],
+      [
+        " jq_s_24 ",
+        "sena varyn",
+        13.293
+      ],
+      [
+        " jq_s_25 ",
+        "nora talven",
+        13.288
+      ],
+      [
+        " jq_s_26 ",
+        "iven rellor",
+        13.133
+      ],
+      [
+        " jq_s_27 ",
+        "sena varyn",
+        12.857
+      ],
+      [
+        " jq_s_28 ",
+        "nora talven",
+        12.773
+      ],
+      [
+        " jq_s_29 ",
+        "iven rellor",
+        12.394
+      ],
+      [
+        " jq_s_30 ",
+        "sena varyn",
+        13.016
+      ],
+      [
+        " jq_s_31 ",
+        "nora talven",
+        12.734
+      ],
+      [
+        " jq_s_32 ",
+        "iven rellor",
+        12.885
+      ],
+      [
+        " jq_s_33 ",
+        "sena varyn",
+        13.134
+      ],
+      [
+        " jq_s_34 ",
+        "nora talven",
+        12.322
+      ],
+      [
+        " jq_s_35 ",
+        "iven rellor",
+        12.349
+      ],
+      [
+        " jq_s_36 ",
+        "sena varyn",
+        12.398
+      ],
+      [
+        " jq_s_37 ",
+        "nora talven",
+        12.27
+      ],
+      [
+        " jq_s_38 ",
+        "iven rellor",
+        12.639
+      ],
+      [
+        " jq_s_39 ",
+        "sena varyn",
+        12.332
+      ],
+      [
+        " jq_s_40 ",
+        "nora talven",
+        13.02
+      ],
+      [
+        " jq_s_41 ",
+        "iven rellor",
+        12.916
+      ],
+      [
+        " jq_s_42 ",
+        "sena varyn",
+        13.093
+      ],
+      [
+        " jq_s_43 ",
+        "nora talven",
+        12.151
+      ],
+      [
+        " jq_s_44 ",
+        "iven rellor",
+        13.284
+      ],
+      [
+        " jq_s_45 ",
+        "sena varyn",
+        12.66
+      ],
+      [
+        " jq_s_46 ",
+        "nora talven",
+        13.051
+      ],
+      [
+        " jq_s_47 ",
+        "iven rellor",
+        13.075
+      ],
+      [
+        " jq_s_48 ",
+        "sena varyn",
+        13.226
+      ],
+      [
+        " jq_s_49 ",
+        "nora talven",
+        12.854
+      ],
+      [
+        " jq_s_50 ",
+        "iven rellor",
+        12.594
+      ],
+      [
+        " jq_s_51 ",
+        "sena varyn",
+        13.203
+      ],
+      [
+        " jq_s_52 ",
+        "nora talven",
+        12.585
+      ],
+      [
+        " jq_s_53 ",
+        "iven rellor",
+        12.549
+      ],
+      [
+        " jq_s_54 ",
+        "sena varyn",
+        12.809
+      ],
+      [
+        " jq_s_55 ",
+        "nora talven",
+        12.732
+      ],
+      [
+        " jq_s_56 ",
+        "iven rellor",
+        13.102
+      ],
+      [
+        " jq_s_57 ",
+        "sena varyn",
+        13.141
+      ],
+      [
+        " jq_s_58 ",
+        "nora talven",
+        12.244
+      ],
+      [
+        " jq_s_59 ",
+        "iven rellor",
+        13.129
+      ],
+      [
+        " jq_s_60 ",
+        "sena varyn",
+        13.019
+      ]
+    ],
+    "rowCount": 60,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Raw_sample",
+        "description": "Raw sample. See scenario for business rules."
+      },
+      {
+        "name": "Technician_name",
+        "description": "Technician name. See scenario for business rules."
+      },
+      {
+        "name": "Reading_mm",
+        "description": "Reading mm. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L4-A5.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L4-A5.csv"
+  }
+}

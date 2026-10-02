@@ -1,0 +1,339 @@
+{
+  "id": "L9-A5",
+  "level": 9,
+  "assignment": 5,
+  "title": "Calculate capability under stated assumptions",
+  "formulas": [
+    "STDEV.S",
+    "AVERAGE"
+  ],
+  "minutes": 90,
+  "scenario": "Orvani Lab provides 50 fictitious independent thickness observations. For illustration, assume a stable normal process and a separately supplied within-process sigma of 0.06 mm; these assumptions are not demonstrated by this sample. Specification limits and historical reference mean are on Assumptions.",
+  "lesson": {
+    "intro": "Sample spread and an assumed within-process sigma serve different purposes. Cp compares specification width with six sigma; Cpk also accounts for the sample mean’s distance from either specification.",
+    "functions": [
+      {
+        "name": "STDEV.S",
+        "purpose": "Estimate sample standard deviation.",
+        "syntax": "=STDEV.S(number1, [number2], ...)",
+        "arguments": "number1 is a numeric sample or range; optional arguments add observations; the denominator is n−1.",
+        "example": "=STDEV.S(8,10,12)",
+        "result": 2,
+        "useCase": "Describe observed variation.",
+        "mistake": "At least two numeric values are needed. Sample spread does not prove stability."
+      },
+      {
+        "name": "AVERAGE",
+        "purpose": "Calculate the arithmetic mean.",
+        "syntax": "=AVERAGE(number1, [number2], ...)",
+        "arguments": "number1 supplies a value/range; optional arguments add observations.",
+        "example": "=AVERAGE(8,10,12)",
+        "result": 10,
+        "useCase": "Estimate a training sample mean.",
+        "mistake": "Blanks are excluded and numeric zero is included."
+      }
+    ],
+    "combine": "Review MIN and ROUND. Cp=(USL−LSL)/(6×sigma); Cpk=MIN((USL−mean)/(3×sigma),(mean−LSL)/(3×sigma)). Reference control limits are historical mean ± 3×sigma, for individual observations. They are not specification limits. These illustrative indices do not prove stability or production acceptance. Any valid formula is accepted."
+  },
+  "tasks": [
+    {
+      "prompt": "Return sample mean and sample STDEV.S as one 1 × 2 row. Submit both unrounded, in mm.",
+      "output": "Answers!B2:C2",
+      "type": "array",
+      "formulas": [
+        "AVERAGE",
+        "STDEV.S",
+        "HSTACK"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Calculate illustrative Cp using the supplied within-process sigma, not task-1 sample spread. Submit unrounded.",
+      "output": "Answers!B5",
+      "type": "number",
+      "formulas": [
+        "SUM"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "Calculate illustrative Cpk using the task-1 mean and supplied within-process sigma. Submit unrounded.",
+      "output": "Answers!B8",
+      "type": "number",
+      "formulas": [
+        "MIN"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Return lower and upper historical-reference control limits as one 1 × 2 row: Reference_mean_mm ± 3 × Within_sigma_mm. Round to three decimals. These are for individual observations, not subgroup averages.",
+      "output": "Answers!B11:C11",
+      "type": "array",
+      "formulas": [
+        "HSTACK",
+        "ROUND"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review COUNTIFS: count sample thicknesses outside the inclusive specification limits.",
+    "output": "Answers!B14",
+    "type": "number",
+    "formulas": [
+      "COUNTIFS"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Observation_no",
+      "Thickness_mm"
+    ],
+    "rows": [
+      [
+        "OV-1",
+        10.05
+      ],
+      [
+        "OV-2",
+        9.9
+      ],
+      [
+        "OV-3",
+        10.17
+      ],
+      [
+        "OV-4",
+        10.2
+      ],
+      [
+        "OV-5",
+        10.17
+      ],
+      [
+        "OV-6",
+        9.96
+      ],
+      [
+        "OV-7",
+        10.19
+      ],
+      [
+        "OV-8",
+        10.27
+      ],
+      [
+        "OV-9",
+        10.22
+      ],
+      [
+        "OV-10",
+        10.07
+      ],
+      [
+        "OV-11",
+        9.91
+      ],
+      [
+        "OV-12",
+        10.15
+      ],
+      [
+        "OV-13",
+        9.93
+      ],
+      [
+        "OV-14",
+        10.25
+      ],
+      [
+        "OV-15",
+        9.92
+      ],
+      [
+        "OV-16",
+        10.05
+      ],
+      [
+        "OV-17",
+        10.25
+      ],
+      [
+        "OV-18",
+        10.05
+      ],
+      [
+        "OV-19",
+        10.1
+      ],
+      [
+        "OV-20",
+        10.26
+      ],
+      [
+        "OV-21",
+        10.1
+      ],
+      [
+        "OV-22",
+        10.25
+      ],
+      [
+        "OV-23",
+        10.12
+      ],
+      [
+        "OV-24",
+        10.26
+      ],
+      [
+        "OV-25",
+        9.96
+      ],
+      [
+        "OV-26",
+        10.09
+      ],
+      [
+        "OV-27",
+        9.96
+      ],
+      [
+        "OV-28",
+        9.98
+      ],
+      [
+        "OV-29",
+        10.06
+      ],
+      [
+        "OV-30",
+        9.98
+      ],
+      [
+        "OV-31",
+        10.19
+      ],
+      [
+        "OV-32",
+        10.11
+      ],
+      [
+        "OV-33",
+        10.21
+      ],
+      [
+        "OV-34",
+        10.08
+      ],
+      [
+        "OV-35",
+        9.89
+      ],
+      [
+        "OV-36",
+        10.28
+      ],
+      [
+        "OV-37",
+        10.06
+      ],
+      [
+        "OV-38",
+        10.15
+      ],
+      [
+        "OV-39",
+        10.06
+      ],
+      [
+        "OV-40",
+        10.15
+      ],
+      [
+        "OV-41",
+        10
+      ],
+      [
+        "OV-42",
+        9.98
+      ],
+      [
+        "OV-43",
+        10.04
+      ],
+      [
+        "OV-44",
+        10.06
+      ],
+      [
+        "OV-45",
+        9.92
+      ],
+      [
+        "OV-46",
+        10.16
+      ],
+      [
+        "OV-47",
+        10.03
+      ],
+      [
+        "OV-48",
+        10.07
+      ],
+      [
+        "OV-49",
+        10.21
+      ],
+      [
+        "OV-50",
+        10.1
+      ]
+    ],
+    "rowCount": 50,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Observation_no",
+        "description": "Unique invented observation identifier."
+      },
+      {
+        "name": "Thickness_mm",
+        "description": "Numeric individual thickness, mm."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L9-A5.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L9-A5.csv",
+    "sheets": [
+      {
+        "name": "Assumptions",
+        "headers": [
+          "Parameter",
+          "Value_mm"
+        ],
+        "rows": [
+          [
+            "LSL_mm",
+            9.7
+          ],
+          [
+            "USL_mm",
+            10.3
+          ],
+          [
+            "Within_sigma_mm",
+            0.06
+          ],
+          [
+            "Reference_mean_mm",
+            10.02
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L9-A5-Assumptions.csv"
+      }
+    ]
+  }
+}

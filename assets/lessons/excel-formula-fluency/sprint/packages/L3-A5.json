@@ -1,0 +1,321 @@
+{
+  "id": "L3-A5",
+  "level": 3,
+  "assignment": 5,
+  "title": "Audit duplicate and absent keys",
+  "formulas": [
+    "XLOOKUP",
+    "INDEX",
+    "MATCH"
+  ],
+  "minutes": 55,
+  "scenario": "Esvani Inspection receives 32 invented sample records and a Limits table. A repeated product key in Limits is deliberately ambiguous; blank/unlisted keys are also present. Use a requirement only when exactly one matching specification row exists.",
+  "lesson": {
+    "intro": "A successful lookup is not evidence that a key is unique. Confirm cardinality first when duplicate specifications would make a decision ambiguous.",
+    "functions": [
+      {
+        "name": "XLOOKUP",
+        "purpose": "Find a key and return its corresponding value.",
+        "syntax": "=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])",
+        "arguments": "Supply the key, aligned key and return ranges, optional missing label, match mode (0 exact, -1 next smaller, 1 next larger), and search direction (1 first, -1 last).",
+        "example": "=XLOOKUP(\"P2\",{\"P1\",\"P2\"},{400,450},\"Missing\")",
+        "result": 450,
+        "useCase": "Retrieve a specification or allowance.",
+        "mistake": "Exact is the default. A first match does not aggregate duplicates. Binary search requires correctly sorted keys."
+      },
+      {
+        "name": "INDEX",
+        "purpose": "Return the value at a row and column position.",
+        "syntax": "=INDEX(array, row_num, [column_num])",
+        "arguments": "array contains values; row_num selects its row and optional column_num selects its column.",
+        "example": "=INDEX({20,30;40,50},2,1)",
+        "result": 40,
+        "useCase": "Select an item in a specification matrix.",
+        "mistake": "Row positions are relative to the selected array, not worksheet row numbers."
+      },
+      {
+        "name": "MATCH",
+        "purpose": "Find the relative position of a value.",
+        "syntax": "=MATCH(lookup_value, lookup_array, [match_type])",
+        "arguments": "lookup_value is the key; lookup_array is one row or column; use match_type 0 for exact matching.",
+        "example": "=MATCH(\"Night\",{\"Day\",\"Night\"},0)",
+        "result": 2,
+        "useCase": "Find a row or column position for INDEX.",
+        "mistake": "Omitting 0 requests approximate matching, which has ordering requirements."
+      }
+    ],
+    "combine": "Reuse COUNTIFS and IF to require exactly one limit record. Then use XLOOKUP or INDEX/MATCH to retrieve it. IFERROR alone does not detect duplicates because a first-match lookup can succeed."
+  },
+  "tasks": [
+    {
+      "prompt": "For the first six inspection rows, count matching Product_code entries in Limits, excluding its header.",
+      "output": "Answers!B2:B7",
+      "type": "array",
+      "formulas": [
+        "COUNTIFS"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return the first unique product’s hardness limit using INDEX/MATCH.",
+      "output": "Answers!B10",
+      "type": "number",
+      "formulas": [
+        "INDEX",
+        "MATCH"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first six rows, return the hardness limit only when exactly one Limits row matches; otherwise return Review key.",
+      "output": "Answers!B13:B18",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "COUNTIFS",
+        "XLOOKUP"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "For the first six rows, return Pass for hardness at most a unique limit, Hold above it, or Review key for any ambiguous/absent key.",
+      "output": "Answers!B21:B26",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "COUNTIFS",
+        "XLOOKUP"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Count Limits rows with product EX-2.",
+    "output": "Answers!B29",
+    "type": "number",
+    "formulas": [
+      "COUNTIFS"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Record_code",
+      "Product_code",
+      "Hardness_HB"
+    ],
+    "rows": [
+      [
+        "EI-1",
+        "EX-1",
+        208
+      ],
+      [
+        "EI-2",
+        "EX-2",
+        189
+      ],
+      [
+        "EI-3",
+        "EX-3",
+        202
+      ],
+      [
+        "EI-4",
+        "EX-9",
+        242
+      ],
+      [
+        "EI-5",
+        "",
+        155
+      ],
+      [
+        "EI-6",
+        "EX-4",
+        159
+      ],
+      [
+        "EI-7",
+        "EX-1",
+        236
+      ],
+      [
+        "EI-8",
+        "EX-2",
+        169
+      ],
+      [
+        "EI-9",
+        "EX-3",
+        184
+      ],
+      [
+        "EI-10",
+        "EX-9",
+        213
+      ],
+      [
+        "EI-11",
+        "",
+        235
+      ],
+      [
+        "EI-12",
+        "EX-4",
+        240
+      ],
+      [
+        "EI-13",
+        "EX-1",
+        219
+      ],
+      [
+        "EI-14",
+        "EX-2",
+        225
+      ],
+      [
+        "EI-15",
+        "EX-3",
+        228
+      ],
+      [
+        "EI-16",
+        "EX-9",
+        166
+      ],
+      [
+        "EI-17",
+        "",
+        220
+      ],
+      [
+        "EI-18",
+        "EX-4",
+        199
+      ],
+      [
+        "EI-19",
+        "EX-1",
+        189
+      ],
+      [
+        "EI-20",
+        "EX-2",
+        223
+      ],
+      [
+        "EI-21",
+        "EX-3",
+        170
+      ],
+      [
+        "EI-22",
+        "EX-9",
+        178
+      ],
+      [
+        "EI-23",
+        "",
+        186
+      ],
+      [
+        "EI-24",
+        "EX-4",
+        229
+      ],
+      [
+        "EI-25",
+        "EX-1",
+        217
+      ],
+      [
+        "EI-26",
+        "EX-2",
+        195
+      ],
+      [
+        "EI-27",
+        "EX-3",
+        205
+      ],
+      [
+        "EI-28",
+        "EX-9",
+        160
+      ],
+      [
+        "EI-29",
+        "",
+        220
+      ],
+      [
+        "EI-30",
+        "EX-4",
+        229
+      ],
+      [
+        "EI-31",
+        "EX-1",
+        226
+      ],
+      [
+        "EI-32",
+        "EX-2",
+        203
+      ]
+    ],
+    "rowCount": 32,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Record_code",
+        "description": "Record code. See scenario for business rules."
+      },
+      {
+        "name": "Product_code",
+        "description": "Product code. See scenario for business rules."
+      },
+      {
+        "name": "Hardness_HB",
+        "description": "Hardness HB. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A5.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A5.csv",
+    "sheets": [
+      {
+        "name": "Limits",
+        "headers": [
+          "Product_code",
+          "Hardness_max_HB"
+        ],
+        "rows": [
+          [
+            "EX-1",
+            200
+          ],
+          [
+            "EX-2",
+            210
+          ],
+          [
+            "EX-2",
+            220
+          ],
+          [
+            "EX-3",
+            230
+          ],
+          [
+            "EX-4",
+            240
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L3-A5-Limits.csv"
+      }
+    ]
+  }
+}

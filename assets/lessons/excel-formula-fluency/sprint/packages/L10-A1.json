@@ -1,0 +1,518 @@
+{
+  "id": "L10-A1",
+  "level": 10,
+  "assignment": 1,
+  "title": "Build a robust inspection summary",
+  "formulas": [
+    "LET",
+    "FILTER"
+  ],
+  "minutes": 80,
+  "scenario": "Pelvani Pipeworks records 60 fictitious inspections. Specs includes one deliberately duplicated grade; an absent/ambiguous grade or blank strength means Review. A unique specification and numeric strength produce Released at/above the training minimum, otherwise Hold.",
+  "lesson": {
+    "intro": "An integrated report should make input guards visible before a comparison. A successful lookup can still select an ambiguous specification unless cardinality is checked.",
+    "functions": [
+      {
+        "name": "LET",
+        "purpose": "Name intermediate expressions.",
+        "syntax": "=LET(name1, name_value1, [name2, name_value2], ..., calculation)",
+        "arguments": "Provide a valid name/value pair, optional further pairs, and the final expression using those names; up to 126 pairs.",
+        "example": "=LET(amount,12,fee,3,amount-fee)",
+        "result": 9,
+        "useCase": "Calculate a guarded yield once.",
+        "mistake": "Names cannot collide with cell references; the last argument returns the result."
+      },
+      {
+        "name": "FILTER",
+        "purpose": "Select records with a Boolean mask.",
+        "syntax": "=FILTER(array, include, [if_empty])",
+        "arguments": "array is the source; include is an aligned row/column mask; optional if_empty supplies a deliberate fallback.",
+        "example": "=FILTER({5;8;2},{TRUE;FALSE;TRUE},\"None\")",
+        "result": "5 then 2",
+        "useCase": "Build a quality exception queue.",
+        "mistake": "Use multiplication for AND and addition for OR; errors in the mask propagate."
+      }
+    ],
+    "combine": "Review COUNTIFS, XLOOKUP, ISNUMBER, IF, HSTACK and SORTBY. Practice combining at least four functions in the nested rule, then reuse its statuses for summaries and queues. Any equivalent formula is accepted. Training rules do not authorize production release."
+  },
+  "tasks": [
+    {
+      "prompt": "For the first eight rows, return a unique grade’s minimum strength or Review for an absent/duplicated key (8 × 1).",
+      "output": "Answers!B2:B9",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "COUNTIFS",
+        "IF",
+        "XLOOKUP"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return Released, Hold or Review for all 60 inspections in source order. Equality to a unique minimum is Released; blank strength is Review.",
+      "output": "Answers!B12:B71",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "COUNTIFS",
+        "ISNUMBER",
+        "IF",
+        "XLOOKUP"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "Return Released count, Hold count, Review count and total Hold_cost_CAD for Hold rows as one 1 × 4 row. Review costs are pending and excluded.",
+      "output": "Answers!B74:E74",
+      "type": "array",
+      "formulas": [
+        "HSTACK",
+        "COUNTIFS",
+        "SUMIFS"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Return full Data rows for Hold inspections, sorted by Hold_cost_CAD descending then Inspection_no ascending. No headers.",
+      "output": "Answers!B77:E87",
+      "type": "array",
+      "formulas": [
+        "LET",
+        "FILTER",
+        "SORTBY",
+        "CHOOSECOLS"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review SUM: subtract the independent raw Hold-cost sum from the summary Hold cost; return numeric zero when reconciled.",
+    "output": "Answers!B90",
+    "type": "number",
+    "formulas": [
+      "SUMIFS"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Inspection_no",
+      "Grade",
+      "Strength_MPa",
+      "Hold_cost_CAD"
+    ],
+    "rows": [
+      [
+        "PV-001",
+        "G1",
+        "",
+        731
+      ],
+      [
+        "PV-002",
+        "G2",
+        515,
+        904
+      ],
+      [
+        "PV-003",
+        "G3",
+        462,
+        931
+      ],
+      [
+        "PV-004",
+        "GX",
+        439,
+        333
+      ],
+      [
+        "PV-005",
+        "G1",
+        450,
+        662
+      ],
+      [
+        "PV-006",
+        "G2",
+        511,
+        398
+      ],
+      [
+        "PV-007",
+        "G3",
+        420,
+        891
+      ],
+      [
+        "PV-008",
+        "GX",
+        500,
+        257
+      ],
+      [
+        "PV-009",
+        "G1",
+        474,
+        915
+      ],
+      [
+        "PV-010",
+        "G2",
+        428,
+        695
+      ],
+      [
+        "PV-011",
+        "G3",
+        488,
+        440
+      ],
+      [
+        "PV-012",
+        "GX",
+        "",
+        1182
+      ],
+      [
+        "PV-013",
+        "G1",
+        467,
+        549
+      ],
+      [
+        "PV-014",
+        "G2",
+        489,
+        794
+      ],
+      [
+        "PV-015",
+        "G3",
+        483,
+        250
+      ],
+      [
+        "PV-016",
+        "GX",
+        497,
+        1103
+      ],
+      [
+        "PV-017",
+        "G1",
+        520,
+        314
+      ],
+      [
+        "PV-018",
+        "G2",
+        436,
+        339
+      ],
+      [
+        "PV-019",
+        "G3",
+        513,
+        512
+      ],
+      [
+        "PV-020",
+        "GX",
+        493,
+        702
+      ],
+      [
+        "PV-021",
+        "G1",
+        482,
+        883
+      ],
+      [
+        "PV-022",
+        "G2",
+        479,
+        914
+      ],
+      [
+        "PV-023",
+        "G3",
+        "",
+        944
+      ],
+      [
+        "PV-024",
+        "GX",
+        508,
+        598
+      ],
+      [
+        "PV-025",
+        "G1",
+        507,
+        837
+      ],
+      [
+        "PV-026",
+        "G2",
+        499,
+        949
+      ],
+      [
+        "PV-027",
+        "G3",
+        421,
+        353
+      ],
+      [
+        "PV-028",
+        "GX",
+        464,
+        359
+      ],
+      [
+        "PV-029",
+        "G1",
+        424,
+        727
+      ],
+      [
+        "PV-030",
+        "G2",
+        514,
+        549
+      ],
+      [
+        "PV-031",
+        "G3",
+        520,
+        291
+      ],
+      [
+        "PV-032",
+        "GX",
+        439,
+        795
+      ],
+      [
+        "PV-033",
+        "G1",
+        444,
+        991
+      ],
+      [
+        "PV-034",
+        "G2",
+        "",
+        160
+      ],
+      [
+        "PV-035",
+        "G3",
+        470,
+        762
+      ],
+      [
+        "PV-036",
+        "GX",
+        484,
+        647
+      ],
+      [
+        "PV-037",
+        "G1",
+        467,
+        1135
+      ],
+      [
+        "PV-038",
+        "G2",
+        444,
+        367
+      ],
+      [
+        "PV-039",
+        "G3",
+        470,
+        160
+      ],
+      [
+        "PV-040",
+        "GX",
+        473,
+        198
+      ],
+      [
+        "PV-041",
+        "G1",
+        489,
+        988
+      ],
+      [
+        "PV-042",
+        "G2",
+        489,
+        780
+      ],
+      [
+        "PV-043",
+        "G3",
+        454,
+        992
+      ],
+      [
+        "PV-044",
+        "GX",
+        486,
+        288
+      ],
+      [
+        "PV-045",
+        "G1",
+        "",
+        1196
+      ],
+      [
+        "PV-046",
+        "G2",
+        437,
+        1043
+      ],
+      [
+        "PV-047",
+        "G3",
+        443,
+        346
+      ],
+      [
+        "PV-048",
+        "GX",
+        424,
+        135
+      ],
+      [
+        "PV-049",
+        "G1",
+        481,
+        460
+      ],
+      [
+        "PV-050",
+        "G2",
+        423,
+        709
+      ],
+      [
+        "PV-051",
+        "G3",
+        425,
+        349
+      ],
+      [
+        "PV-052",
+        "GX",
+        490,
+        639
+      ],
+      [
+        "PV-053",
+        "G1",
+        440,
+        230
+      ],
+      [
+        "PV-054",
+        "G2",
+        487,
+        369
+      ],
+      [
+        "PV-055",
+        "G3",
+        519,
+        930
+      ],
+      [
+        "PV-056",
+        "GX",
+        "",
+        222
+      ],
+      [
+        "PV-057",
+        "G1",
+        488,
+        1138
+      ],
+      [
+        "PV-058",
+        "G2",
+        459,
+        878
+      ],
+      [
+        "PV-059",
+        "G3",
+        511,
+        1159
+      ],
+      [
+        "PV-060",
+        "GX",
+        498,
+        264
+      ]
+    ],
+    "rowCount": 60,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Inspection_no",
+        "description": "Unique padded inspection key."
+      },
+      {
+        "name": "Grade",
+        "description": "G1/G2/G3 or deliberately unknown GX."
+      },
+      {
+        "name": "Strength_MPa",
+        "description": "Numeric tensile strength, MPa, or blank."
+      },
+      {
+        "name": "Hold_cost_CAD",
+        "description": "Fictitious potential hold cost in CAD."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A1.csv",
+    "sheets": [
+      {
+        "name": "Specs",
+        "headers": [
+          "Grade",
+          "Min_strength_MPa"
+        ],
+        "rows": [
+          [
+            "G1",
+            450
+          ],
+          [
+            "G2",
+            460
+          ],
+          [
+            "G2",
+            470
+          ],
+          [
+            "G3",
+            480
+          ]
+        ],
+        "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L10-A1-Specs.csv"
+      }
+    ]
+  }
+}

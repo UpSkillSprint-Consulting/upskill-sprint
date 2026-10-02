@@ -1,0 +1,410 @@
+{
+  "id": "L9-A2",
+  "level": 9,
+  "assignment": 2,
+  "title": "Pivot Charpy orientations with duplicate means",
+  "formulas": [
+    "PIVOTBY",
+    "COUNT"
+  ],
+  "minutes": 75,
+  "scenario": "Lervani Lab records 40 fictitious Charpy replicates. Pair_key contains text sample_no and heat_no separated by |; neither identifier contains that delimiter. Aggregate numeric replicates by both keys and normalized orientation; all-blank groups return Missing, and measured zero is retained.",
+  "lesson": {
+    "intro": "A formula pivot organizes one key across rows and another across columns. A custom aggregation can distinguish numeric measurements from an all-blank group.",
+    "functions": [
+      {
+        "name": "PIVOTBY",
+        "purpose": "Aggregate across row and column keys.",
+        "syntax": "=PIVOTBY(row_fields, col_fields, values, function, [field_headers], [row_total_depth], [row_sort_order], [col_total_depth], [col_sort_order], [filter_array], [relative_to])",
+        "arguments": "Row/column fields group aligned values; function aggregates. Headers: 0 none, 1 input hidden, 2 generated, 3 input shown (default auto). Row/column total depth: 0 none, ±1 grand, ±2 subtotals (negative at top; default auto). Signed sort indices order axes; filter_array includes rows. For two-argument aggregators, relative_to: 0 column, 1 row, 2 grand, 3 parent column, 4 parent row total.",
+        "example": "=DROP(PIVOTBY({\"A\";\"A\"},{\"L\";\"T\"},{8;6},SUM,0,0,1,0,1),1)",
+        "result": "A,8,6",
+        "useCase": "Place Charpy orientations side by side.",
+        "mistake": "Column labels remain part of the pivot result. Define blank and duplicate rules."
+      },
+      {
+        "name": "COUNT",
+        "purpose": "Count numeric observations.",
+        "syntax": "=COUNT(value1, [value2], ...)",
+        "arguments": "value1 supplies a value or range; optional arguments add inputs.",
+        "example": "=COUNT(0,5,\"Missing\")",
+        "result": 2,
+        "useCase": "Count numeric replicates before averaging.",
+        "mistake": "Zero counts; text and blanks in references do not."
+      }
+    ],
+    "combine": "Review LAMBDA, ROUND, DROP, TEXTBEFORE and TEXTAFTER. PIVOTBY retains an orientation-label row: remove it when the task requests data only. Use ascending row/column keys and zero total depths. If unavailable, use a key scaffold with guarded AVERAGEIFS; equivalent outputs are accepted."
+  },
+  "orientationReshape": true,
+  "tasks": [
+    {
+      "prompt": "Group by Pair_key and return Pair_key plus numeric Energy_J count (10 × 2). Sort key ascending; no headers/totals. Zero counts as numeric.",
+      "output": "Answers!B2:C11",
+      "type": "array",
+      "formulas": [
+        "GROUPBY",
+        "COUNT"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Return Pair_key, LPA_mean_J and TWA_mean_J (10 × 3), key ascending, with no orientation-label row or totals. Round numeric means to two decimals; return Missing for all-blank groups.",
+      "output": "Answers!B14:D23",
+      "type": "array",
+      "formulas": [
+        "PIVOTBY",
+        "LAMBDA",
+        "COUNT",
+        "DROP"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "Split the task-2 Pair_key and assemble sample_no, heat_no, LPA_mean_J and TWA_mean_J (10 × 4), same row order. Preserve text sample identifiers.",
+      "output": "Answers!B26:E35",
+      "type": "array",
+      "formulas": [
+        "HSTACK",
+        "TEXTBEFORE",
+        "TEXTAFTER"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Count Missing orientation means in the task-2 result. Do not count blank raw replicates.",
+      "output": "Answers!B38",
+      "type": "number",
+      "formulas": [
+        "COUNTIFS"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Review COUNT: return the number of numeric raw Energy_J measurements.",
+    "output": "Answers!B41",
+    "type": "number",
+    "formulas": [
+      "COUNT"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "sample_no",
+      "heat_no",
+      "Orientation",
+      "Energy_J",
+      "Pair_key"
+    ],
+    "rows": [
+      [
+        "001",
+        "LV-H1",
+        " LPA ",
+        0,
+        "001|LV-H1"
+      ],
+      [
+        "001",
+        "LV-H1",
+        " LPA ",
+        23,
+        "001|LV-H1"
+      ],
+      [
+        "001",
+        "LV-H1",
+        "twa",
+        "",
+        "001|LV-H1"
+      ],
+      [
+        "001",
+        "LV-H1",
+        "twa",
+        "",
+        "001|LV-H1"
+      ],
+      [
+        "002",
+        "LV-H1",
+        " LPA ",
+        29,
+        "002|LV-H1"
+      ],
+      [
+        "002",
+        "LV-H1",
+        " LPA ",
+        "",
+        "002|LV-H1"
+      ],
+      [
+        "002",
+        "LV-H1",
+        "twa",
+        19,
+        "002|LV-H1"
+      ],
+      [
+        "002",
+        "LV-H1",
+        "twa",
+        20,
+        "002|LV-H1"
+      ],
+      [
+        "003",
+        "LV-H1",
+        " LPA ",
+        0,
+        "003|LV-H1"
+      ],
+      [
+        "003",
+        "LV-H1",
+        " LPA ",
+        0,
+        "003|LV-H1"
+      ],
+      [
+        "003",
+        "LV-H1",
+        "twa",
+        25,
+        "003|LV-H1"
+      ],
+      [
+        "003",
+        "LV-H1",
+        "twa",
+        46,
+        "003|LV-H1"
+      ],
+      [
+        "004",
+        "LV-H1",
+        " LPA ",
+        27,
+        "004|LV-H1"
+      ],
+      [
+        "004",
+        "LV-H1",
+        " LPA ",
+        27,
+        "004|LV-H1"
+      ],
+      [
+        "004",
+        "LV-H1",
+        "twa",
+        20,
+        "004|LV-H1"
+      ],
+      [
+        "004",
+        "LV-H1",
+        "twa",
+        20,
+        "004|LV-H1"
+      ],
+      [
+        "005",
+        "LV-H1",
+        " LPA ",
+        43,
+        "005|LV-H1"
+      ],
+      [
+        "005",
+        "LV-H1",
+        " LPA ",
+        29,
+        "005|LV-H1"
+      ],
+      [
+        "005",
+        "LV-H1",
+        "twa",
+        42,
+        "005|LV-H1"
+      ],
+      [
+        "005",
+        "LV-H1",
+        "twa",
+        41,
+        "005|LV-H1"
+      ],
+      [
+        "001",
+        "LV-H2",
+        " LPA ",
+        25,
+        "001|LV-H2"
+      ],
+      [
+        "001",
+        "LV-H2",
+        " LPA ",
+        26,
+        "001|LV-H2"
+      ],
+      [
+        "001",
+        "LV-H2",
+        "twa",
+        18,
+        "001|LV-H2"
+      ],
+      [
+        "001",
+        "LV-H2",
+        "twa",
+        47,
+        "001|LV-H2"
+      ],
+      [
+        "002",
+        "LV-H2",
+        " LPA ",
+        41,
+        "002|LV-H2"
+      ],
+      [
+        "002",
+        "LV-H2",
+        " LPA ",
+        43,
+        "002|LV-H2"
+      ],
+      [
+        "002",
+        "LV-H2",
+        "twa",
+        33,
+        "002|LV-H2"
+      ],
+      [
+        "002",
+        "LV-H2",
+        "twa",
+        45,
+        "002|LV-H2"
+      ],
+      [
+        "003",
+        "LV-H2",
+        " LPA ",
+        45,
+        "003|LV-H2"
+      ],
+      [
+        "003",
+        "LV-H2",
+        " LPA ",
+        44,
+        "003|LV-H2"
+      ],
+      [
+        "003",
+        "LV-H2",
+        "twa",
+        30,
+        "003|LV-H2"
+      ],
+      [
+        "003",
+        "LV-H2",
+        "twa",
+        38,
+        "003|LV-H2"
+      ],
+      [
+        "004",
+        "LV-H2",
+        " LPA ",
+        43,
+        "004|LV-H2"
+      ],
+      [
+        "004",
+        "LV-H2",
+        " LPA ",
+        40,
+        "004|LV-H2"
+      ],
+      [
+        "004",
+        "LV-H2",
+        "twa",
+        35,
+        "004|LV-H2"
+      ],
+      [
+        "004",
+        "LV-H2",
+        "twa",
+        20,
+        "004|LV-H2"
+      ],
+      [
+        "005",
+        "LV-H2",
+        " LPA ",
+        23,
+        "005|LV-H2"
+      ],
+      [
+        "005",
+        "LV-H2",
+        " LPA ",
+        42,
+        "005|LV-H2"
+      ],
+      [
+        "005",
+        "LV-H2",
+        "twa",
+        23,
+        "005|LV-H2"
+      ],
+      [
+        "005",
+        "LV-H2",
+        "twa",
+        46,
+        "005|LV-H2"
+      ]
+    ],
+    "rowCount": 40,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "sample_no",
+        "description": "Leading-zero text identifier, reused across heats."
+      },
+      {
+        "name": "heat_no",
+        "description": "Invented heat key."
+      },
+      {
+        "name": "Orientation",
+        "description": "LPA/TWA with case and outer-space differences."
+      },
+      {
+        "name": "Energy_J",
+        "description": "Numeric joules or blank unmeasured replicate."
+      },
+      {
+        "name": "Pair_key",
+        "description": "Lossless sample_no|heat_no text key; delimiters never occur in either component."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L9-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L9-A2.csv"
+  }
+}

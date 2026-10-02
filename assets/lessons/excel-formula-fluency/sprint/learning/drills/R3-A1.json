@@ -1,0 +1,156 @@
+{
+  "id": "R3-A1",
+  "version": 1,
+  "skillId": "level-3",
+  "level": 3,
+  "title": "Find a product allowance 1",
+  "scenario": "An invented allowance register has one unique product key per row. All allowance values are numeric CAD amounts; zero is a permitted allowance. All records and limits are fictitious training assumptions.",
+  "lesson": {
+    "intro": "An exact lookup matches a key, not a row position. Explicitly define what happens when the key is absent. A numeric zero returned from an existing record remains zero.",
+    "formulas": [
+      {
+        "name": "XLOOKUP",
+        "syntax": "=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])",
+        "explanation": "lookup_value is the key; aligned lookup_array and return_array contain keys and results. Optional if_not_found handles absence, match_mode 0 means exact, and search_mode controls search direction.",
+        "example": "=XLOOKUP(\"B\",{\"A\";\"B\"},{7;0},\"Missing\",0)",
+        "result": 0
+      }
+    ]
+  },
+  "task": {
+    "id": "t1",
+    "prompt": "Look up the Allowance_CAD for exact Product_code LK1-014. An absent key must return the text Missing. Keys are unique, so there is no duplicate selection. Preserve a matched numeric zero; do not round a numeric allowance. Return one numeric value in Answers!B2. Use an Excel formula; any equivalent approach is accepted. Submit the formula and the complete output.",
+    "output": "Answers!B2",
+    "type": "number",
+    "formulas": [
+      "XLOOKUP"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Product_code",
+      "Description",
+      "Allowance_CAD"
+    ],
+    "rows": [
+      [
+        "LK1-001",
+        "Product 1",
+        79
+      ],
+      [
+        "LK1-002",
+        "Product 2",
+        155
+      ],
+      [
+        "LK1-003",
+        "Product 3",
+        142
+      ],
+      [
+        "LK1-004",
+        "Product 4",
+        84
+      ],
+      [
+        "LK1-005",
+        "Product 5",
+        74
+      ],
+      [
+        "LK1-006",
+        "Product 6",
+        53
+      ],
+      [
+        "LK1-007",
+        "Product 7",
+        68
+      ],
+      [
+        "LK1-008",
+        "Product 8",
+        131
+      ],
+      [
+        "LK1-009",
+        "Product 9",
+        57
+      ],
+      [
+        "LK1-010",
+        "Product 10",
+        72
+      ],
+      [
+        "LK1-011",
+        "Product 11",
+        59
+      ],
+      [
+        "LK1-012",
+        "Product 12",
+        69
+      ],
+      [
+        "LK1-013",
+        "Product 13",
+        101
+      ],
+      [
+        "LK1-014",
+        "Product 14",
+        0
+      ],
+      [
+        "LK1-015",
+        "Product 15",
+        78
+      ],
+      [
+        "LK1-016",
+        "Product 16",
+        104
+      ],
+      [
+        "LK1-017",
+        "Product 17",
+        133
+      ],
+      [
+        "LK1-018",
+        "Product 18",
+        89
+      ],
+      [
+        "LK1-019",
+        "Product 19",
+        63
+      ],
+      [
+        "LK1-020",
+        "Product 20",
+        119
+      ]
+    ],
+    "rowCount": 20,
+    "tableName": "PracticeData",
+    "columns": [
+      {
+        "name": "Product_code",
+        "description": "Unique exact text key, including leading-zero numeric segments."
+      },
+      {
+        "name": "Description",
+        "description": "Product label."
+      },
+      {
+        "name": "Allowance_CAD",
+        "description": "Numeric allowance in CAD, including a legitimate zero. No blanks."
+      }
+    ],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R3-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R3-A1.csv"
+  }
+}

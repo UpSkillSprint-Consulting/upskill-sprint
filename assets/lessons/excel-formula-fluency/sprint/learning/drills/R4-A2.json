@@ -1,0 +1,148 @@
+{
+  "id": "R4-A2",
+  "version": 1,
+  "skillId": "level-4",
+  "level": 4,
+  "title": "Normalize inspector codes 2",
+  "scenario": "An invented inspection register contains codes with ordinary spaces and nonprinting line breaks. Repeated codes represent separate records. All records and limits are fictitious training assumptions.",
+  "lesson": {
+    "intro": "Clean text before comparing it. CLEAN removes nonprinting characters, TRIM removes leading/trailing ordinary spaces and reduces repeated internal spaces, and UPPER standardizes letter case. Do not delete legitimate internal spaces.",
+    "formulas": [
+      {
+        "name": "CLEAN",
+        "syntax": "=CLEAN(text)",
+        "explanation": "text is a cell or string with nonprinting ASCII characters to remove.",
+        "example": "=CLEAN(\"QA\"&CHAR(10)&\"7\")",
+        "result": "QA7"
+      },
+      {
+        "name": "TRIM",
+        "syntax": "=TRIM(text)",
+        "explanation": "text is trimmed of ordinary edge spaces and repeated internal spaces.",
+        "example": "=TRIM(\"  QA  7  \")",
+        "result": "QA 7"
+      },
+      {
+        "name": "UPPER",
+        "syntax": "=UPPER(text)",
+        "explanation": "text letters become capitals; digits and punctuation remain.",
+        "example": "=UPPER(\"qa-7\")",
+        "result": "QA-7"
+      }
+    ]
+  },
+  "task": {
+    "id": "t1",
+    "prompt": "For every row, remove nonprinting ASCII characters, trim ordinary spaces, collapse repeated internal spaces and uppercase letters. If the cleaned code is empty, return Missing. Preserve text 0 and legitimate single internal spaces. Keep dataset order and every duplicate record. Enter at B2 and fill down through B21; return text without rounding. Return 20 rows × 1 column, without a header, in Answers!B2:B21. Use an Excel formula; any equivalent approach is accepted. Submit the formula and the complete output.",
+    "output": "Answers!B2:B21",
+    "type": "array",
+    "formulas": [
+      "CLEAN",
+      "TRIM",
+      "UPPER",
+      "IF"
+    ]
+  },
+  "dataset": {
+    "headers": [
+      "Record_no",
+      "Inspector_text"
+    ],
+    "rows": [
+      [
+        "TX2-1",
+        "  qa2-00 \n"
+      ],
+      [
+        "TX2-2",
+        "Qa2-  1"
+      ],
+      [
+        "TX2-3",
+        ""
+      ],
+      [
+        "TX2-4",
+        "  qa2-03 \n"
+      ],
+      [
+        "TX2-5",
+        "   "
+      ],
+      [
+        "TX2-6",
+        "qa2-5"
+      ],
+      [
+        "TX2-7",
+        "0"
+      ],
+      [
+        "TX2-8",
+        "Qa2-  0"
+      ],
+      [
+        "TX2-9",
+        "qa2-1"
+      ],
+      [
+        "TX2-10",
+        "  qa2-02 \n"
+      ],
+      [
+        "TX2-11",
+        "Qa2-  3"
+      ],
+      [
+        "TX2-12",
+        "qa2-4"
+      ],
+      [
+        "TX2-13",
+        "  qa2-05 \n"
+      ],
+      [
+        "TX2-14",
+        "Qa2-  6"
+      ],
+      [
+        "TX2-15",
+        "qa2-0"
+      ],
+      [
+        "TX2-16",
+        "  qa2-01 \n"
+      ],
+      [
+        "TX2-17",
+        "Qa2-  2"
+      ],
+      [
+        "TX2-18",
+        "qa2-3"
+      ],
+      [
+        "TX2-19",
+        "  qa2-04 \n"
+      ],
+      [
+        "TX2-20",
+        "Qa2-  5"
+      ]
+    ],
+    "rowCount": 20,
+    "tableName": "PracticeData",
+    "columns": [
+      {
+        "name": "Record_no",
+        "description": "Unique record identifier."
+      },
+      {
+        "name": "Inspector_text",
+        "description": "Raw code. Empty and space-only values are missing; text 0 is a valid code."
+      }
+    ],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R4-A2.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/learning/datasets/R4-A2.csv"
+  }
+}

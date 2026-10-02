@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="robots" content="noindex"><meta name="referrer" content="no-referrer">
+ <title>Verify an Excel Sprint certificate | UpSkillSprint</title>
+ <link rel="stylesheet" href="/assets/lessons/excel-formula-fluency/sprint/certificate.css">
+ <script defer src="/assets/lessons/excel-formula-fluency/sprint/certificate.js"></script>
+</head>
+<body>
+ <main>
+  <nav class="certificate-tools" aria-label="Certificate navigation"><a href="/lessons/power-bi-excel-sql/excel-formula-fluency#excel-sprint">Back to Excel Formula Sprint</a><span>UpSkillSprint</span></nav>
+  <section class="certificate-tools certificate-controls" aria-labelledby="verify-heading">
+   <p class="certificate-eyebrow">Signed learning record</p><h1 id="verify-heading">Verify a completion certificate</h1>
+   <p>Upload the signed proof downloaded from Excel Formula Sprint, or paste its certificate token. The service verifies the signature before displaying the certificate.</p>
+   <label for="certificate-file">Signed proof JSON</label><input id="certificate-file" type="file" accept=".json,application/json">
+   <label for="certificate-token">Certificate token</label><textarea id="certificate-token" rows="3" maxlength="10000" spellcheck="false" autocomplete="off"></textarea>
+   <div class="certificate-actions"><button id="certificate-verify" type="button">Verify proof</button><button id="certificate-print" type="button" disabled>Print / save as PDF</button><button id="certificate-copy" type="button" disabled>Copy verification link</button></div>
+   <p id="certificate-status" role="status" aria-live="polite">No certificate verified yet.</p>
+  </section>
+  <article id="certificate-document" class="certificate-document" aria-label="Verified completion certificate" hidden></article>
+  <p class="certificate-tools certificate-footnote">The learner name is self-reported. A valid signature verifies the issued completion record, with the scope and limits printed on the certificate. Keep the signed JSON proof alongside a printed or PDF copy.</p>
+ </main>
+</body>
+</html>

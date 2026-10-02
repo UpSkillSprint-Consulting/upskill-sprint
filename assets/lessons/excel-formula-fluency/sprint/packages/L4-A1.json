@@ -1,0 +1,352 @@
+{
+  "id": "L4-A1",
+  "level": 4,
+  "assignment": 1,
+  "title": "Clean inspection identifiers",
+  "formulas": [
+    "TRIM",
+    "CLEAN",
+    "UPPER"
+  ],
+  "minutes": 45,
+  "scenario": "Felnori Mill has 44 invented imported inspection IDs. ASCII tab characters, ordinary outer spaces and inconsistent letter case are deliberate; no nonbreaking spaces occur. Repeated canonical IDs are legitimate retests and must remain separate records.",
+  "lesson": {
+    "intro": "Cleaning should target the actual messiness. Remove ASCII control characters, collapse ordinary spaces, then standardize case. Keep the raw identifier so the transformation can be traced.",
+    "functions": [
+      {
+        "name": "TRIM",
+        "purpose": "Remove outer spaces and repeated ordinary spaces.",
+        "syntax": "=TRIM(text)",
+        "arguments": "text is the string or cell to clean.",
+        "example": "=TRIM(\"  A   B  \")",
+        "result": "A B",
+        "useCase": "Normalize imported identifiers.",
+        "mistake": "Nonbreaking spaces are not ordinary spaces; replace them deliberately."
+      },
+      {
+        "name": "CLEAN",
+        "purpose": "Remove ASCII control characters.",
+        "syntax": "=CLEAN(text)",
+        "arguments": "text is the string or reference containing unwanted control characters.",
+        "example": "=CLEAN(\"A\"&CHAR(9)&\"B\")",
+        "result": "AB",
+        "useCase": "Remove tabs from exported codes.",
+        "mistake": "CLEAN does not remove every Unicode invisible character."
+      },
+      {
+        "name": "UPPER",
+        "purpose": "Convert letters to uppercase.",
+        "syntax": "=UPPER(text)",
+        "arguments": "text is the input string or cell.",
+        "example": "=UPPER(\"ab-7\")",
+        "result": "AB-7",
+        "useCase": "Make a canonical product key.",
+        "mistake": "It does not remove spaces or change numeric values."
+      }
+    ],
+    "combine": "Reuse IF for a classification after cleaning and COUNTA for record counts. CLEAN and TRIM solve different problems; nesting them in the wrong order may preserve a separator you meant to remove."
+  },
+  "tasks": [
+    {
+      "prompt": "For the first six records, remove ASCII control characters, trim ordinary spaces and return uppercase canonical inspection IDs.",
+      "output": "Answers!B2:B7",
+      "type": "array",
+      "formulas": [
+        "UPPER",
+        "TRIM",
+        "CLEAN"
+      ],
+      "id": "t1"
+    },
+    {
+      "prompt": "Remove control characters and outer ordinary spaces from the first raw ID, preserving its original letter case.",
+      "output": "Answers!B10",
+      "type": "text",
+      "formulas": [
+        "TRIM",
+        "CLEAN"
+      ],
+      "id": "t2"
+    },
+    {
+      "prompt": "For the first six records, return Retest when the canonical uppercase ID is FN-101, otherwise Other.",
+      "output": "Answers!B13:B18",
+      "type": "array",
+      "formulas": [
+        "IF",
+        "UPPER",
+        "TRIM",
+        "CLEAN"
+      ],
+      "id": "t3"
+    },
+    {
+      "prompt": "Count populated raw inspection ID cells across all 44 rows. Retests still count as records.",
+      "output": "Answers!B21",
+      "type": "number",
+      "formulas": [
+        "COUNTA"
+      ],
+      "id": "t4"
+    }
+  ],
+  "bonus": {
+    "prompt": "Return the first cleaned uppercase ID followed by the literal text |CHECK.",
+    "output": "Answers!B24",
+    "type": "text",
+    "formulas": [
+      "UPPER",
+      "TRIM",
+      "CLEAN"
+    ],
+    "id": "bonus"
+  },
+  "dataset": {
+    "headers": [
+      "Raw_inspection_id",
+      "Station",
+      "Length_mm"
+    ],
+    "rows": [
+      [
+        "  fn\t-101  ",
+        "Terral",
+        6017
+      ],
+      [
+        "FN-102 ",
+        "Osvin",
+        6040
+      ],
+      [
+        "fn-103",
+        "Terral",
+        5987
+      ],
+      [
+        "  fn\t-104  ",
+        "Osvin",
+        5997
+      ],
+      [
+        "FN-105 ",
+        "Terral",
+        6014
+      ],
+      [
+        "fn-106",
+        "Osvin",
+        5988
+      ],
+      [
+        "  fn\t-107  ",
+        "Terral",
+        6040
+      ],
+      [
+        "FN-108 ",
+        "Osvin",
+        6006
+      ],
+      [
+        "fn-109",
+        "Terral",
+        6040
+      ],
+      [
+        "  fn\t-110  ",
+        "Osvin",
+        6029
+      ],
+      [
+        "FN-111 ",
+        "Terral",
+        6018
+      ],
+      [
+        "fn-112",
+        "Osvin",
+        6020
+      ],
+      [
+        "  fn\t-113  ",
+        "Terral",
+        6027
+      ],
+      [
+        "FN-114 ",
+        "Osvin",
+        6019
+      ],
+      [
+        "fn-115",
+        "Terral",
+        5989
+      ],
+      [
+        "  fn\t-116  ",
+        "Osvin",
+        6029
+      ],
+      [
+        "FN-117 ",
+        "Terral",
+        6024
+      ],
+      [
+        "fn-118",
+        "Osvin",
+        6025
+      ],
+      [
+        "  fn\t-119  ",
+        "Terral",
+        5991
+      ],
+      [
+        "FN-120 ",
+        "Osvin",
+        5988
+      ],
+      [
+        "fn-101",
+        "Terral",
+        5986
+      ],
+      [
+        "  fn\t-102  ",
+        "Osvin",
+        6021
+      ],
+      [
+        "FN-103 ",
+        "Terral",
+        6024
+      ],
+      [
+        "fn-104",
+        "Osvin",
+        6008
+      ],
+      [
+        "  fn\t-105  ",
+        "Terral",
+        6033
+      ],
+      [
+        "FN-106 ",
+        "Osvin",
+        6010
+      ],
+      [
+        "fn-107",
+        "Terral",
+        6010
+      ],
+      [
+        "  fn\t-108  ",
+        "Osvin",
+        6033
+      ],
+      [
+        "FN-109 ",
+        "Terral",
+        5987
+      ],
+      [
+        "fn-110",
+        "Osvin",
+        6010
+      ],
+      [
+        "  fn\t-111  ",
+        "Terral",
+        6032
+      ],
+      [
+        "FN-112 ",
+        "Osvin",
+        6033
+      ],
+      [
+        "fn-113",
+        "Terral",
+        6003
+      ],
+      [
+        "  fn\t-114  ",
+        "Osvin",
+        5980
+      ],
+      [
+        "FN-115 ",
+        "Terral",
+        6031
+      ],
+      [
+        "fn-116",
+        "Osvin",
+        6017
+      ],
+      [
+        "  fn\t-117  ",
+        "Terral",
+        6026
+      ],
+      [
+        "FN-118 ",
+        "Osvin",
+        6002
+      ],
+      [
+        "fn-119",
+        "Terral",
+        6014
+      ],
+      [
+        "  fn\t-120  ",
+        "Osvin",
+        5994
+      ],
+      [
+        "FN-101 ",
+        "Terral",
+        5988
+      ],
+      [
+        "fn-102",
+        "Osvin",
+        5982
+      ],
+      [
+        "  fn\t-103  ",
+        "Terral",
+        5980
+      ],
+      [
+        "FN-104 ",
+        "Osvin",
+        6019
+      ]
+    ],
+    "rowCount": 44,
+    "tableName": "SprintData",
+    "columns": [
+      {
+        "name": "Raw_inspection_id",
+        "description": "Raw inspection id. See scenario for business rules."
+      },
+      {
+        "name": "Station",
+        "description": "Station. See scenario for business rules."
+      },
+      {
+        "name": "Length_mm",
+        "description": "Length mm. See scenario for business rules."
+      }
+    ],
+    "parameters": [],
+    "xlsx": "/assets/lessons/excel-formula-fluency/sprint/datasets/L4-A1.xlsx",
+    "csv": "/assets/lessons/excel-formula-fluency/sprint/datasets/L4-A1.csv"
+  }
+}
