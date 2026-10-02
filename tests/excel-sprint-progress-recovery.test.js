@@ -10,7 +10,7 @@ function localStore(entries={}) {const data=new Map(Object.entries(entries));ret
 function indexedStore(entries={},behavior={}) {
  const data=new Map(Object.entries(entries));const metrics={closed:0,aborted:0};let openedRequest;
  const db={objectStoreNames:{contains:()=>true},createObjectStore(){},close(){metrics.closed++;},transaction(_name,mode){
-  const transaction={abort(){metrics.aborted++;queueMicrotask(()=>transaction.onabort&&transaction.onabort());},objectStore(){return {get(key){const request={};if(!behavior.hangRead)queueMicrotask(()=>{request.result=clone(data.get(key)||null);request.onsuccess&&request.onsuccess();});return request;},put(value,key){if(!behavior.hangWrite)data.set(key,clone(value));if(!behavior.hangWrite)queueMicrotask(()=>behavior.failWrite?transaction.onerror&&transaction.onerror():transaction.oncomplete&&transaction.oncomplete());}};}};
+  const transaction={abort(){metrics.aborted++;queueMicrotask(()=>transaction.onabort&&transaction.onabort());},objectStore(){return {get(key){const request={};if(!behavior.hangRead)queueMicrotask(()=>{if(behavior.beforeRead)behavior.beforeRead(key,mode);request.result=clone(data.get(key)||null);request.onsuccess&&request.onsuccess();});return request;},put(value,key){if(!behavior.hangWrite)data.set(key,clone(value));if(!behavior.hangWrite)queueMicrotask(()=>behavior.failWrite?transaction.onerror&&transaction.onerror():transaction.oncomplete&&transaction.oncomplete());}};}};
   return transaction;
  }};
  return {data,metrics,get openedRequest(){return openedRequest;},open(){openedRequest={};if(!behavior.hangOpen)queueMicrotask(()=>{openedRequest.result=db;openedRequest.onsuccess&&openedRequest.onsuccess();});return openedRequest;},db};
@@ -82,6 +82,16 @@ test('mixed-access tabs never let a stale local primary defeat the newer protect
 test('explicit reset has a fresh barrier even when another tab originally loaded the same empty course',async()=>{
  const local=localStore();const a=P.createStore({localStorage:local}),b=P.createStore({localStorage:local});const stateA=await a.load(),stateB=await b.load();
  stateA.tokens=['earned-proof'];await a.save(stateA);await a.save(P.emptyState(),{replace:true});stateB.tokens=['stale-old-path-proof'];await b.save(stateB);assert.equal(b.status().externalUpdate,true);assert.deepEqual((await P.createStore({localStorage:local}).load()).tokens,[]);
+});
+test('reload settles a final pagehide study-time save before pausing a fresh student view',async()=>{
+ const local=localStore();const behavior={};const indexedDB=indexedStore({},behavior);const outgoing=P.createStore({localStorage:local,indexedDB});const prior=await outgoing.load();prior.tokens=Array.from({length:11},(_,i)=>'signed-'+i);prior.packages['L3-A1']={submissions:{},tasks:{},timeMs:1000};await outgoing.save(prior);
+ let finalFlush;let armed=true;behavior.beforeRead=(key,mode)=>{if(armed&&key===P.RECOVERY_KEY&&mode==='readwrite'){armed=false;prior.packages['L3-A1'].timeMs+=1000;finalFlush=outgoing.save(prior);}};
+ const incoming=P.createStore({localStorage:local,indexedDB});const resumed=await incoming.load();await finalFlush;assert.equal(resumed.tokens.length,11);assert.equal(incoming.status().externalUpdate,false);assert.equal(resumed.packages['L3-A1'].timeMs,2000);
+});
+test('bootstrap catch-up stays bounded and keeps a continuing external writer protected',async()=>{
+ const local=localStore();const behavior={};const indexedDB=indexedStore({},behavior);const initial=P.createStore({localStorage:local,indexedDB});const state=await initial.load();state.tokens=['retained-proof'];state.packages['L1-A1']={submissions:{},tasks:{},timeMs:0};await initial.save(state);
+ let races=0;behavior.beforeRead=(key,mode)=>{if(key!==P.RECOVERY_KEY||mode!=='readwrite'||races>=3)return;const latest=JSON.parse(local.getItem(P.RECOVERY_KEY));latest.revision++;latest.writeId='external-writer-'+(++races);latest.state.storageRevision=latest.revision;latest.state.storageWriteId=latest.writeId;latest.state.packages['L1-A1'].timeMs+=1000;local.setItem(P.RECOVERY_KEY,JSON.stringify(latest));local.setItem(P.KEY,JSON.stringify(latest.state));indexedDB.data.set(P.RECOVERY_KEY,clone(latest));indexedDB.data.set(P.KEY,clone(latest.state));};
+ const incoming=P.createStore({localStorage:local,indexedDB});await incoming.load();assert.equal(races,3);assert.equal(incoming.status().externalUpdate,true);assert.equal(JSON.parse(local.getItem(P.KEY)).packages['L1-A1'].timeMs,3000);assert.deepEqual(JSON.parse(local.getItem(P.KEY)).tokens,['retained-proof']);
 });
 test('intentional import without learning and reset replace recovery copies and never revive removed work',async()=>{
  const local=localStore();const indexedDB=indexedStore();const store=P.createStore({localStorage:local,indexedDB});let state=await store.load();state.learning=learningDraft('old data');await store.save(state);

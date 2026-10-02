@@ -8,6 +8,8 @@
   var BASE = '/assets/lessons/excel-formula-fluency/sprint/';
   var store = P.createStore(window);
   var state = P.emptyState();
+  var stateLoaded = false;
+  var stateLoadFailed = false;
   var catalog;
   var completions = [];
   var expertCompletions = [];
@@ -29,6 +31,8 @@
   var coachCache = new Map();
   var learningApp = null;
   var storageConflict = false;
+  var initialHash = window.location.hash;
+  var initialAnchorCancelled = false;
   function releasedCount() { return catalog.levels.filter(function (level) { return level.available; }).reduce(function (n, level) { return n + level.packages.length; }, 0); }
   var NOTICE = 'Your progress is saved in this browser only. Clearing browser data or switching devices will lose it unless you export a backup.';
 
@@ -67,8 +71,14 @@
       coachingStatusCheck++;
       checkingCoaching = false;
       busy = false;
+      var assignment = mount.querySelector('#sprint-assignment');
+      if (assignment && !currentPackage) assignment.innerHTML = '<p class="sprint-message" role="status">Assignment loading paused because progress changed in another tab. Export this tab’s saved work, then reload the latest progress.</p>';
     }
     var target = mount.querySelector('#sprint-storage-warning');
+    if (storageConflict && !target) {
+      bootstrapRecovery();
+      target = mount.querySelector('#sprint-storage-warning');
+    }
     if (target) {
       if (storageConflict) {
         if (!target.querySelector('[data-sprint-action="reload-progress"]')) target.innerHTML = '<p><strong>Progress changed in another open tab.</strong> This tab is paused to protect the latest work. Export a backup of this tab’s drafts before reloading.</p><button type="button" class="sprint-button sprint-primary" data-sprint-action="reload-progress">Reload latest progress</button>';
@@ -122,6 +132,21 @@
   function nextId(id) { return isExpert(id) ? 'EX-A' + (+id.slice(-1) + 1) : P.packageNumber(id) === releasedCount() ? null : P.packageId(P.packageNumber(id) + 1); }
   function dayStamp() {
     return D.dayStamp();
+  }
+  async function restoreInitialAnchor(epoch) {
+    if (!/^#sprint-(?:assignment|learning|expert|dashboard|certificates)$/.test(initialHash) || initialAnchorCancelled) return;
+    // Practice can still change the height above the lower Sprint sections after
+    // the core lesson has loaded. Finish its bootstrap before restoring the URL.
+    if (learningApp) await learningApp.refresh();
+    var schedule = typeof window.requestAnimationFrame === 'function' ? window.requestAnimationFrame.bind(window) : function (callback) { window.setTimeout(callback, 0); };
+    schedule(function () {
+      if (epoch !== stateEpoch || initialAnchorCancelled || window.location.hash !== initialHash) return;
+      var target = document.getElementById(initialHash.slice(1));
+      if (!target || !mount.contains(target)) return;
+      target.setAttribute('tabindex', '-1');
+      target.focus({preventScroll:true});
+      target.scrollIntoView({behavior:'auto',block:'start'});
+    });
   }
   function studyDay() { var day = dayStamp(); if (!state.activityDays.includes(day)) state.activityDays.push(day); }
   function flushTime() {
@@ -247,6 +272,11 @@
   }
   function backupTextPanel() {
     return '<section id="sprint-backup-text-panel" class="sprint-notice" aria-labelledby="sprint-backup-text-heading" hidden><h4 id="sprint-backup-text-heading">Save your progress as text</h4><p>Copy the complete text into a plain text file. Save it with a .json extension, then use Import backup to restore it.</p><label for="sprint-backup-text">Complete progress JSON</label><textarea id="sprint-backup-text" rows="8" readonly spellcheck="false"></textarea><div class="sprint-inline-actions"><button type="button" class="sprint-button" data-sprint-action="copy-backup-text">Copy backup text</button><button type="button" class="sprint-button" data-sprint-action="close-backup-text">Close backup text</button></div></section>';
+  }
+  function bootstrapRecovery() {
+    if (!mount.querySelector('#sprint-bootstrap-recovery')) mount.innerHTML = '<section id="sprint-bootstrap-recovery" aria-label="Saved progress recovery"><div id="sprint-storage-warning" class="sprint-message sprint-message-error" role="alert"></div><p id="sprint-bootstrap-backup-status" role="status"></p><div class="sprint-inline-actions"><button type="button" class="sprint-button" data-sprint-action="export">Export backup</button><button type="button" class="sprint-button" data-sprint-action="backup-text">Show backup text</button></div>' + backupTextPanel() + '<div id="sprint-message" class="sprint-message" role="status" aria-live="polite" hidden></div></section>';
+    mount.querySelector('#sprint-bootstrap-backup-status').textContent = stateLoaded ? 'This tab’s saved assignment work is available for export. Reload to continue with the latest progress.' : stateLoadFailed ? 'Saved work could not be read in this tab. Reload the latest progress or use a previously exported backup.' : 'Reading this tab’s saved work. Backup export will be available when it finishes. You can reload the latest progress now.';
+    mount.querySelectorAll('[data-sprint-action="export"], [data-sprint-action="backup-text"]').forEach(function (button) { button.disabled = !stateLoaded; });
   }
   function shell() {
     if (learningApp && learningApp.destroy) learningApp.destroy();
@@ -490,6 +520,7 @@
       response.tasks.concat(response.bonus ? [response.bonus] : []).forEach(function (task) { saved.tasks[task.taskId] = Object.assign({}, saved.tasks[task.taskId], task); if (checkedDrafts[task.taskId]) saved.tasks[task.taskId].checkedSubmission = checkedDrafts[task.taskId]; });
       studyDay();
       if (response.completed && response.completionToken) {
+        var previouslyComplete = !!completed(pkg.id);
         var oldCount = completions.length;
         var pendingTokens = (isExpert(pkg.id) ? state.expertTokens : state.tokens).slice();
         if (!completed(pkg.id)) pendingTokens.push(response.completionToken);
@@ -504,7 +535,10 @@
         verified = true;
         state = P.applyVerified(state, completions, catalog, expertCompletions);
         if (!isExpert(pkg.id) && completions.length > oldCount && completions.length % 5 === 0) state.backupReminder = completions.length / 5;
-        message(isExpert(pkg.id) && expertCompletions.length === 3 ? 'Expert Track complete. Your Expert Track certificate is available below.' : completions.length === releasedCount() && !isExpert(pkg.id) ? 'All 50 core assignments are complete. Your full Levels 1–10 certificate is available below.' : 'Assignment complete. All required tasks are correct and your next assignment is unlocked.');
+        if (response.tasks.some(function (task) { return taskIds.includes(task.taskId) && task.submissionCorrect === false; })) message('The revised answer needs more work. Your earlier assignment completion and unlocked progress remain recorded.');
+        else if (response.bonus && taskIds.includes(response.bonus.taskId)) message(response.bonus.submissionCorrect === false ? (response.bonus.correct ? 'The revised bonus result does not match. Your earlier correct bonus result and assignment completion remain recorded.' : 'The bonus result does not match yet. Your completed assignment and unlocked progress remain recorded.') : 'Bonus result correct. Your completed assignment and unlocked progress remain recorded.');
+        else if (previouslyComplete) message('Your checked revision is correct. Your recorded assignment completion and unlocked progress remain available.');
+        else message(isExpert(pkg.id) && expertCompletions.length === 3 ? 'Expert Track complete. Your Expert Track certificate is available below.' : completions.length === releasedCount() && !isExpert(pkg.id) ? 'All 50 core assignments are complete. Your full Levels 1–10 certificate is available below.' : 'Assignment complete. All required tasks are correct and your next assignment is unlocked.');
       } else message('Results checked. Review the feedback beside each submitted task.');
       if (taskIds.some(function (id) { return draftChanged(record(pkg.id).tasks[id], record(pkg.id).submissions[id]); })) message(mount.querySelector('#sprint-message').textContent + ' Your latest edits are saved but have not been checked.');
       await persist();
@@ -524,6 +558,7 @@
     } catch (error) { target.innerHTML = '<p class="sprint-message sprint-message-error" role="alert">' + esc(error.message) + '</p>'; }
   }
   function exportBackup() {
+    if (!stateLoaded) { message(stateLoadFailed ? 'Saved work could not be read. Reload the latest progress or use a previously exported backup.' : 'Saved work is still loading. Wait for backup export or reload the latest progress.', true); return; }
     collectDrafts();
     flushTime();
     persist();
@@ -541,13 +576,15 @@
     } catch (_) { showBackupText(); message('The backup download could not start. Copy the complete backup text and save it as a .json file.', true); }
   }
   function showBackupText() {
+    if (!stateLoaded) { message(stateLoadFailed ? 'Saved work could not be read. Reload the latest progress or use a previously exported backup.' : 'Saved work is still loading. Wait for backup export or reload the latest progress.', true); return false; }
     collectDrafts(); flushTime(); persist();
     var panel = mount.querySelector('#sprint-backup-text-panel'), input = mount.querySelector('#sprint-backup-text');
-    if (!panel || !input) return;
+    if (!panel || !input) return false;
     panel.hidden = false; input.value = JSON.stringify(state, null, 2); input.focus({preventScroll:true}); input.select();
+    return true;
   }
   async function copyBackupText() {
-    showBackupText();
+    if (!showBackupText()) return;
     var input = mount.querySelector('#sprint-backup-text');
     try {
       if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('Clipboard unavailable');
@@ -708,6 +745,9 @@
   });
   window.addEventListener('pagehide', function () { collectDrafts(); flushTime(); activeSince = null; persist(); });
   window.addEventListener('storage', function (event) { if (!event.key || event.key === P.KEY || event.key.indexOf(P.KEY + '.') === 0) storageNotice(); });
+  ['pointerdown','keydown','wheel','touchstart','input'].forEach(function (type) {
+    document.addEventListener(type, function () { initialAnchorCancelled = true; }, {once:true,passive:true});
+  });
   window.addEventListener('online', async function () {
     if (verified || busy || !catalog) return;
     await verifySaved();
@@ -720,7 +760,22 @@
     learningApp = null;
     mount.innerHTML = '<p class="sprint-loading" role="status">Loading Excel Formula Sprint…</p>';
     try {
-      var values = await Promise.allSettled([store.load(), request(BASE + 'catalog.json')]);
+      var loadedState = store.load().then(function (saved) {
+        // Retain the read snapshot even when a foreign save cancels catalog
+        // loading. No editable lesson exists before this read finishes.
+        if (epoch === stateEpoch || storageConflict && !mount.querySelector('#sprint-assignment')) {
+          state = saved;
+          stateLoaded = true;
+          stateLoadFailed = false;
+          if (storageConflict) { bootstrapRecovery(); storageNotice(); }
+        }
+        return saved;
+      }, function (error) {
+        stateLoadFailed = true;
+        if (storageConflict && !mount.querySelector('#sprint-assignment')) { bootstrapRecovery(); storageNotice(); }
+        throw error;
+      });
+      var values = await Promise.allSettled([loadedState, request(BASE + 'catalog.json')]);
       if (epoch !== stateEpoch) return;
       if (values[0].status === 'rejected') throw values[0].reason;
       state = values[0].value;
@@ -734,6 +789,7 @@
       if (epoch !== stateEpoch) return;
       if (!canRead(state.selectedPackageId)) state.selectedPackageId = 'L1-A1';
       await openPackage(state.selectedPackageId, false);
+      if (epoch === stateEpoch) restoreInitialAnchor(epoch);
     } catch (error) {
       if (epoch !== stateEpoch) return;
       mount.innerHTML = '<p class="sprint-message sprint-message-error" role="alert">' + esc(error.message) + '</p><p>Saved work remains in this browser. You can export it while the course is unavailable.</p><div class="sprint-inline-actions"><button type="button" class="sprint-button sprint-primary" id="sprint-retry-init">Retry loading Sprint</button><button type="button" class="sprint-button" data-sprint-action="export">Export backup</button><button type="button" class="sprint-button" data-sprint-action="backup-text">Show backup text</button></div>' + backupTextPanel() + '<div id="sprint-storage-warning" class="sprint-message sprint-message-error" role="alert" hidden></div><div id="sprint-message" class="sprint-message" role="status" aria-live="polite" hidden></div>';

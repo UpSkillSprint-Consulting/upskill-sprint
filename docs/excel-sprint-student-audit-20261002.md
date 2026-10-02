@@ -20,6 +20,7 @@ The checker compares submitted result values and checks basic formula structure.
 | Grading requests | Editing while a check ran could lose the newest draft or imply the edited formula was checked; a wrong revision could still show a green pass | Preserve newer edits and distinguish the current checked result from an earlier completed task |
 | Reset/import | A late core verification response could alter replacement progress | Ignore responses from an earlier progress lifecycle |
 | Startup | Optional AI availability could delay the assignment screen | Load assignments independently of coaching availability |
+| Startup recovery | A closing page's final save could unnecessarily pause the replacement page; a later conflict during catalog loading could leave the loading screen without recovery controls | Retry protected-record loading within a bounded startup window and expose backup/reload controls for conflicts before the assignment shell exists |
 | Study dates | The dashboard streak used the device timezone while reviews used Regina time | Use Regina calendar dates consistently |
 | Review scheduling | A browser clock behind the server could reject the first review anchor | Schedule from the authenticated completion time |
 | Practice recommendations | Starting fresh practice could reintroduce a previously addressed placement weakness | Retain verified review evidence when evaluating that weakness |
@@ -34,18 +35,34 @@ The checker compares submitted result values and checks basic formula structure.
 | Course entry | Navigation mixed Sprint placement/certificates with the separate reference trackers | Give Sprint assignment, placement, progress and certificate sections explicit links; label reference practice |
 | Reference certificates | A local record lookup and printable practice card claimed independently verified proficiency | Label the card, lookup and downloaded record as local practice while preserving existing record IDs |
 | Assessment wording | Some text implied complete Excel syntax validation | State the actual output/basic-structure check and provide locale, precision and spill guidance |
+| Deep links | Initial placement or progress links could scroll before the asynchronous Sprint sections existed | Focus the requested section after bootstrap, while respecting subsequent student navigation or edits |
+| Search index | Revised lesson wording left the committed generated search index stale | Regenerate the canonical index and verify the exact Smart lesson search workflow |
 
 The model review used Microsoft's primary documentation for [BYROW](https://support.microsoft.com/en-us/excel/functions/byrow-function), [COUNTIFS](https://support.microsoft.com/en-us/excel/functions/countifs-function), [MAP](https://support.microsoft.com/en-us/excel/functions/map-function) and [IS functions](https://support.microsoft.com/en-us/excel/functions/is-functions). Source-type preservation is a precaution inferred from those contracts; all expected result values remain unchanged.
 
 ## Verification
 
-Local validation passes: **150 Sprint checks**, **74 lesson search/catalog checks**, and the complete site build. The generator remains portable and reproducible; build staging excludes server code and private grading keys. Arithmetic and OOXML checks are committed as reproducible audit scripts and run in the Sprint validation workflow.
+Local validation passes: **156 Sprint checks**, the exact Smart lesson search workflow's **122 checks plus 21 production-index checks**, and the complete site build. Search validation runs from a clean tracked checkout before generating production-only lessons. The generator remains portable and reproducible; build staging excludes server code and private grading keys. Arithmetic and OOXML checks are committed as reproducible audit scripts and run in the Sprint validation workflow.
 
 All 73 workbooks were inspected across 293 sheets: 11,720 source cells match the public datasets and all 3,258 learner answer cells remain empty. The 46 changed workbook sheets were rendered and independently reviewed; no clipping or unreadable instructions were found. These checks include the ten newly styled foundations workbooks and the re-authored L8-A5 template.
 
 Focused regressions exercise first visits, skipped placement questions, exact array/text results, wrong-to-correct retries, model gates, bonus retention, edited and incorrect revisions, offline/service errors, corrupt and blocked storage, older writers, mixed storage availability, concurrent tabs, late responses, backup access and explicit reset/import. Signed core/Expert/certificate scope and old proof compatibility remain covered. Independent final engineering review and live preview verification are the release checks.
 
-Live preview evidence will be added after the audited build deploys.
+The first audited build was verified on [draft preview #234](https://deploy-preview-234--upskillsprint.netlify.app/lessons/power-bi-excel-sql/excel-formula-fluency#sprint-learning), Netlify deploy `6abf1770dbf9000008ef29b4`, source commit `08f8cf63170784b5a55f251c7cc46a60c49da357`.
+
+| Live student workflow | Observed result |
+| --- | --- |
+| Restore an actual earlier exported QA backup | Ten signed core completions, an 80% placement result, twenty practice results and ten review records restored |
+| Complete L3-A1 from public source rows | Four required results passed and produced the eleventh signed completion; next core assignment became L3-A2 |
+| Submit a wrong revision after completion | Current task showed revised-answer feedback without a green badge; earlier completion and attempt history remained |
+| Complete the optional bonus | Correct bonus remained separate from the core award and survived recovery |
+| Let an older pre-learning lesson tab save | All eleven signed completions, twenty practice results and the bonus remained in the protected recovery record |
+| Export a fresh backup | Actual 59,629-byte downloaded JSON contained eleven completions, the 80% placement result, twenty practice results, ten reviews and the correct bonus |
+| Inspect placement and next-step guidance | Placement result remained visible and recommendations used the restored history |
+
+The older-tab check exposed an unnecessary pause on normal reload. That startup timing gap and the later pre-shell conflict are covered by additional deterministic regressions. The final preview must also verify the normal reload, corrected revision message and initial deep-link behavior.
+
+![Placement assessment in the audited preview](excel-sprint-student-audit-preview-20261002.jpg)
 
 ## Practical limits
 

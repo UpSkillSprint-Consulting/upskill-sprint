@@ -325,8 +325,9 @@
         } catch (_) { resolve(false); }
       });
     }
-    async function load() {
-      database = await open();
+    async function load(attempt) {
+      attempt = Number.isInteger(attempt) ? attempt : 0;
+      if (!database) database = await open();
       var candidates = [];
       var mirrors = [];
       var protectedCandidates = [];
@@ -379,6 +380,14 @@
       mode = database ? 'indexedDB' : storage() ? 'localStorage' : 'memory';
       lastContent = content(memory);
       await save(memory);
+      // The outgoing page can finish its final pagehide transaction while a
+      // reload is reading. Before any student view is editable, read the newer
+      // record again instead of presenting an immediately paused empty lesson.
+      if (status().externalUpdate && attempt < 2) {
+        externalUpdate = false;
+        warning = '';
+        return load(attempt + 1);
+      }
       return memory;
     }
     function save(value, options) {

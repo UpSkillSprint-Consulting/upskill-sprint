@@ -2734,7 +2734,7 @@
           "breadcrumb": [
             "From learning platform to Excel talent system."
           ],
-          "text": "Get context-aware coaching, inspect real workbooks, prove skills through evidence, build a shareable portfolio, and coordinate team learning from one connected platform. Certification readiness 0% Building verified evidence AI Context-aware Excel Coach Guidance based on your current formula, evidence, and pathway. ✓ Workbook Inspector Upload and grade formula quality, risks, and robustness locally. ▦ Industry Project Library Realistic practice across manufacturing, quality, finance, and more. ★ Verified Certification Timed assessment plus mastery, mission, and project evidence. ↗ Shareable Portfolio Export a portable evidence-rich portfolio as standalone HTML. ◎ Team Training Management Teams, assignments, deadlines, skills gaps, and reporting. Context-aware coaching",
+          "text": "Get context-aware coaching, inspect real workbooks, prove skills through evidence, build a shareable portfolio, and coordinate team learning from one connected platform. Certification readiness 0% Building verified evidence AI Context-aware Excel Coach Guidance based on your current formula, evidence, and pathway. ✓ Workbook Inspector Upload and grade formula quality, risks, and robustness locally. ▦ Industry Project Library Realistic practice across manufacturing, quality, finance, and more. ★ Reference practice certificate A local record of the additional assessment and practice. ↗ Shareable Portfolio Export a portable evidence-rich portfolio as standalone HTML. ◎ Team Training Management Teams, assignments, deadlines, skills gaps, and reporting. Context-aware coaching",
           "excerpt": "Get context-aware coaching, inspect real workbooks, prove skills through evidence, build a shareable portfolio, and coordinate team learning from one connected platform. Certification readiness 0% Building verified evidence AI Context-aware Excel Coach…",
           "kinds": [
             "section",
@@ -2857,36 +2857,38 @@
             "Practise Excel in the language of real work.",
             "Industry Project Library"
           ],
-          "text": "18 applied projects 0 completed Evidence-verified certification",
-          "excerpt": "18 applied projects 0 completed Evidence-verified certification",
+          "text": "18 applied projects 0 completed Reference practice assessment",
+          "excerpt": "18 applied projects 0 completed Reference practice assessment",
           "kinds": [
-            "section"
+            "section",
+            "example"
           ]
         },
         {
-          "id": "lesson-section-prove-you-can-build-not-merely-recognize-answers",
-          "heading": "Prove you can build—not merely recognize answers.",
+          "id": "lesson-section-review-your-additional-practice",
+          "heading": "Review your additional practice.",
           "breadcrumb": [
-            "Prove you can build—not merely recognize answers."
+            "Review your additional practice."
           ],
-          "text": "The Excel Formula Professional credential combines a timed assessment with mastery, hidden-test missions, and completed project evidence. The certificate includes a locally verifiable credential ID.",
-          "excerpt": "The Excel Formula Professional credential combines a timed assessment with mastery, hidden-test missions, and completed project evidence. The certificate includes a locally verifiable credential ID.",
+          "text": "This local practice certificate records the reference assessment, missions and project entries saved in this browser. Its ID only looks up a local record; it does not verify identity, Excel proficiency or a signed Sprint award. For signed course completion, use Sprint certificates .",
+          "excerpt": "This local practice certificate records the reference assessment, missions and project entries saved in this browser. Its ID only looks up a local record; it does not verify identity, Excel proficiency or a signed Sprint award. For signed course completion,…",
           "kinds": [
             "section",
-            "formula"
+            "example"
           ]
         },
         {
-          "id": "lesson-section-excel-formula-professional",
-          "heading": "Excel Formula Professional",
+          "id": "lesson-section-excel-formula-professional-reference-practice",
+          "heading": "Excel Formula Professional — reference practice",
           "breadcrumb": [
-            "Prove you can build—not merely recognize answers.",
-            "Excel Formula Professional"
+            "Review your additional practice.",
+            "Excel Formula Professional — reference practice"
           ],
-          "text": "UpSkillSprint evidence-verified credential · 85% standard Not yet eligible Readiness 0% 0 of 4 requirements I will complete the timed assessment without outside assistance. Question 1 of 12 30:00",
-          "excerpt": "UpSkillSprint evidence-verified credential · 85% standard Not yet eligible Readiness 0% 0 of 4 requirements I will complete the timed assessment without outside assistance. Question 1 of 12 30:00",
+          "text": "Local practice record · 85% assessment threshold Not yet eligible Readiness 0% 0 of 4 requirements I will complete the timed assessment without outside assistance. Question 1 of 12 30:00",
+          "excerpt": "Local practice record · 85% assessment threshold Not yet eligible Readiness 0% 0 of 4 requirements I will complete the timed assessment without outside assistance. Question 1 of 12 30:00",
           "kinds": [
             "section",
+            "example",
             "formula"
           ]
         },
