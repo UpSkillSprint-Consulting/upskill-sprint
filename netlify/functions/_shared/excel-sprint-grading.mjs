@@ -93,7 +93,8 @@ export function readToken(token, secret, type) {
   const [encoded, supplied] = token.split('.');
   const expected = createHmac('sha256', secret).update(`excel-sprint-v1.${encoded}`).digest();
   const actual = Buffer.from(supplied, 'base64url');
-  if (actual.length !== expected.length || !timingSafeEqual(actual, expected)) fail(403, 'The progress proof is invalid.');
+  if (actual.length !== expected.length || actual.toString('base64url') !== supplied ||
+      Buffer.from(encoded, 'base64url').toString('base64url') !== encoded || !timingSafeEqual(actual, expected)) fail(403, 'The progress proof is invalid.');
   let proof;
   try { proof = JSON.parse(Buffer.from(encoded, 'base64url').toString('utf8')); }
   catch { fail(403, 'The progress proof is invalid.'); }
@@ -220,7 +221,7 @@ function taskResponse(task, state, submittedCorrect) {
   return {
     taskId: task.id, correct: state.solved, attempts: state.attempts, firstAttemptCorrect: state.firstAttemptCorrect,
     ...(submittedCorrect === undefined ? {} : { submissionCorrect: submittedCorrect }),
-    hint: state.solved ? 'Correct. This task is complete.' : state.attempts ? (task.hints?.[Math.min(state.attempts, 3) - 1] || fallback[Math.min(state.attempts, 3) - 1]) : null
+    hint: state.solved ? submittedCorrect === false ? 'The revised result does not match. Your earlier correct result remains recorded.' : 'Correct. This task is complete.' : state.attempts ? (task.hints?.[Math.min(state.attempts, 3) - 1] || fallback[Math.min(state.attempts, 3) - 1]) : null
   };
 }
 
@@ -304,6 +305,9 @@ export function verifyProgress(payload, secret) {
 export function packageSolutions(payload, secret) {
   const key = packageKey(payload.packageId); const proof = readToken(payload.completionToken, secret, 'completion');
   if (proof.packageId !== payload.packageId) fail(403, 'Complete this assignment before reviewing its solutions.');
-  const model = task => ({ taskId: task.id, model: task.model, alternatives: task.alternatives || [], ...(task.note ? {note:task.note} : {}) });
+  const model = task => {
+    const note = task.note || task.modelNote;
+    return { taskId: task.id, model: task.model, alternatives: task.alternatives || [], ...(note ? { note } : {}) };
+  };
   return { packageId: payload.packageId, curriculumVersion: CURRICULUM_VERSION, tasks: key.tasks.map(model), ...(key.bonus ? { bonus: model(key.bonus) } : {}) };
 }

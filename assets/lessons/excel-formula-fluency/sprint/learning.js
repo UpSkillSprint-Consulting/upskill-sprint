@@ -97,13 +97,13 @@
     var item = drillReport(report, report && report.drillId);
     var previous = next.drills[item.drillId];
     var review = next.reviews[item.skillId];
-    var now = nowDate(nowISO).getTime();
+    nowDate(nowISO);
     var completed = item.completedAt && Date.parse(item.completedAt);
     var duplicate = previous && previous.correct && (previous.receipt === item.receipt || previous.runId === item.runId) || review && (review.lastReceipt === item.receipt || review.lastRunId === item.runId);
     next.drills[item.drillId] = Object.assign({}, item, { submissions: report.submissions !== undefined ? submissions(report.submissions) : previous && previous.submissions || { formula: '', result: '', resultText: '' } });
     // Only a newly graded correct submission changes this local review schedule.
     // Signed completion counters are copied verbatim and never recalculated here.
-    if (item.correct && item.submissionCorrect && !duplicate && completed <= now && (!review || completed >= Date.parse(review.nextReviewAt) && item.drillId !== review.lastDrillId)) {
+    if (item.correct && item.submissionCorrect && !duplicate && (!review || completed >= Date.parse(review.nextReviewAt) && item.drillId !== review.lastDrillId)) {
       var stage = review ? Math.min(review.stage + 1, 4) : 1;
       next.reviews[item.skillId] = { stage: stage, nextReviewAt: new Date(completed + INTERVALS[stage - 1] * DAY).toISOString(), lastReceipt: item.receipt, lastRunId: item.runId, lastDrillId: item.drillId, lastCompletedAt: item.completedAt };
     }
@@ -135,6 +135,8 @@
     }
     var candidates = {};
     function solvedSince(skillId, timestamp) {
+      var review = learning.reviews[skillId];
+      if (review && Date.parse(review.lastCompletedAt) >= Date.parse(timestamp)) return true;
       return Object.keys(learning.drills).some(function (id) { var entry = learning.drills[id]; return skillFor(id) === skillId && entry.correct && date(entry.completedAt) && Date.parse(entry.completedAt) >= Date.parse(timestamp); });
     }
     function add(skillId, reason, priority) {

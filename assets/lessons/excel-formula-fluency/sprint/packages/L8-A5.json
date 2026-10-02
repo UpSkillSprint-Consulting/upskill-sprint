@@ -74,7 +74,6 @@
       "formulas": [
         "BYROW",
         "LAMBDA",
-        "COUNTIFS",
         "SUM"
       ],
       "id": "t4"

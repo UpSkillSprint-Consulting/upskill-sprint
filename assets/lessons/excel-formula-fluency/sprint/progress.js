@@ -6,6 +6,8 @@
 })(typeof globalThis !== 'undefined' ? globalThis : this, function (Learning) {
   'use strict';
   var KEY = 'upskillsprint.excel-sprint.v1';
+  var LEARNING_KEY = KEY + '.learning-recovery';
+  var RECOVERY_KEY = KEY + '.progress-recovery';
   var MAX_BACKUP_BYTES = 2 * 1024 * 1024;
   var PACKAGE = /^(?:L(?:[1-9]|10)-A[1-5]|EX-A[1-3])$/;
   function emptyState() {
@@ -70,6 +72,11 @@
         copy.tasks[taskId] = { correct: value.correct, attempts: value.attempts, firstAttemptCorrect: value.firstAttemptCorrect === true ? true : value.firstAttemptCorrect === false ? false : null };
         if (string(value.hint, 4000)) copy.tasks[taskId].hint = value.hint;
         if (typeof value.submissionCorrect === 'boolean') copy.tasks[taskId].submissionCorrect = value.submissionCorrect;
+        if (value.checkedSubmission !== undefined) {
+          var checked = value.checkedSubmission;
+          if (!isObject(checked) || !string(checked.formula, 4096) || !string(checked.resultText, 20000)) throw new Error('Invalid checked submission in backup.');
+          copy.tasks[taskId].checkedSubmission = { formula: checked.formula, resultText: checked.resultText };
+        }
       });
       state.packages[id] = copy;
     });
@@ -81,6 +88,15 @@
     state.noticeDismissed = input.noticeDismissed === true;
     if (Number.isInteger(input.backupReminder) && input.backupReminder >= 1 && input.backupReminder <= 10) state.backupReminder = input.backupReminder;
     if (validDate(input.updatedAt)) state.updatedAt = input.updatedAt;
+    if (input.storageRevision !== undefined) {
+      if (!Number.isSafeInteger(input.storageRevision) || input.storageRevision < 1 || !string(input.storageWriteId, 80) || !/^[a-zA-Z0-9.-]+$/.test(input.storageWriteId)) throw new Error('Invalid saved progress revision.');
+      state.storageRevision = input.storageRevision;
+      state.storageWriteId = input.storageWriteId;
+      if (input.storageGeneration !== undefined) {
+        if (!string(input.storageGeneration,80) || !/^[a-zA-Z0-9.-]+$/.test(input.storageGeneration)) throw new Error('Invalid saved progress generation.');
+        state.storageGeneration = input.storageGeneration;
+      }
+    }
     if (input.learning !== undefined) {
       if (!Learning) throw new Error('Placement and practice records could not be read. Reload the lesson before importing this backup.');
       state.learning = Learning.validateState(input.learning);
@@ -111,15 +127,18 @@
     completions.concat(expertCompletions || []).forEach(function (item) {
       if (!PACKAGE.test(item.packageId)) return;
       var record = next.packages[item.packageId] || { tasks: {}, submissions: {}, timeMs: 0 };
-      record.tasks = Object.fromEntries(Object.keys(item.attempts).map(function (id) { return [id, { correct: true, attempts: item.attempts[id], firstAttemptCorrect: item.firstAttemptCorrect[id], hint: "Correct. This task is complete." }]; }));
+      var previousTasks = record.tasks;
+      var bonus = previousTasks.bonus;
+      record.tasks = Object.fromEntries(Object.keys(item.attempts).map(function (id) {
+        var task = { correct: true, attempts: item.attempts[id], firstAttemptCorrect: !!(item.firstAttemptCorrect && item.firstAttemptCorrect[id]), hint: 'Correct. This task is complete.' };
+        if (previousTasks[id] && previousTasks[id].checkedSubmission) task.checkedSubmission = previousTasks[id].checkedSubmission;
+        if (previousTasks[id] && typeof previousTasks[id].submissionCorrect === 'boolean') task.submissionCorrect = previousTasks[id].submissionCorrect;
+        return [id, task];
+      }));
+      if (bonus) record.tasks.bonus = bonus;
       record.score = item.score;
       record.firstAttemptScore = item.firstAttemptScore;
       record.solvedAt = new Date(item.timestamp).toISOString();
-      Object.keys(item.attempts || {}).forEach(function (taskId) {
-        if (!/^t[1-5]$/.test(taskId) || !Number.isInteger(item.attempts[taskId])) return;
-        var previous = record.tasks[taskId] || {};
-        record.tasks[taskId] = { correct: true, attempts: item.attempts[taskId], firstAttemptCorrect: !!(item.firstAttemptCorrect && item.firstAttemptCorrect[taskId]), hint: previous.hint || 'Correct result verified.' };
-      });
       next.packages[item.packageId] = record;
       var match = item.packageId.match(/^L(\d+)/);
       var level = match && catalog.levels.find(function (entry) { return entry.level === +match[1]; });
@@ -141,68 +160,289 @@
     var queue = Promise.resolve();
     var mode = 'memory';
     var warning = '';
+    var lastSavedAt = 0;
+    var lastLearningJSON = null;
+    var lastLearningRevision = 0;
+    var progressRevision = 0;
+    var externalUpdate = false;
+    var ownWrites = new Set();
+    var writer = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
+    var writeNumber = 0;
+    var lastContent = null;
+    var generation = writer + '-initial';
+    var setTimer = typeof env.setTimeout === 'function' ? env.setTimeout.bind(env) : setTimeout;
+    var clearTimer = typeof env.clearTimeout === 'function' ? env.clearTimeout.bind(env) : clearTimeout;
+    var STORAGE_TIMEOUT_MS = 3000;
     function storage() { try { return env.localStorage; } catch (_) { return null; } }
-    function open() {
+    function learningMirror(value) {
+      if (!Learning || !isObject(value) || value.version !== 1 || !validDate(value.updatedAt)) throw new Error('Invalid practice recovery copy.');
+      if (value.revision !== undefined && (!Number.isSafeInteger(value.revision) || value.revision < 0)) throw new Error('Invalid practice recovery revision.');
+      return { version:1, updatedAt:value.updatedAt, revision:value.revision || 0, learning:Learning.validateState(value.learning) };
+    }
+    function parseMirror(raw) {
+      if (!string(raw, MAX_BACKUP_BYTES)) throw new Error('Invalid practice recovery copy.');
+      return learningMirror(JSON.parse(raw));
+    }
+    function protectedCopy(input) {
+      if (!isObject(input) || input.version !== 1 || !Number.isSafeInteger(input.revision) || input.revision < 1 || !string(input.writeId, 80)) throw new Error('Invalid progress recovery copy.');
+      var state = validateState(input.state);
+      if (state.storageRevision !== input.revision || state.storageWriteId !== input.writeId) throw new Error('Invalid progress recovery copy.');
+      return {version:1,revision:input.revision,writeId:input.writeId,state:state};
+    }
+    function parseProtected(raw) { if (!string(raw, MAX_BACKUP_BYTES + 512)) throw new Error('Invalid progress recovery copy.'); return protectedCopy(JSON.parse(raw)); }
+    function content(state) { var copy = validateState(state); delete copy.updatedAt; delete copy.storageRevision; delete copy.storageWriteId; return JSON.stringify(copy); }
+    function remember(id) { if (id) ownWrites.add(id); if (ownWrites.size > 128) ownWrites.delete(ownWrites.values().next().value); }
+    function conflict(latest, state, baselineContent) {
+      var latestContent = latest && content(latest.state);
+      var changedGeneration = latest && latest.state.storageGeneration && latest.state.storageGeneration !== (state.storageGeneration || memory.storageGeneration || generation);
+      return latest && !ownWrites.has(latest.writeId) && latest.writeId !== state.storageWriteId && (changedGeneration || latestContent !== content(state) && latestContent !== baselineContent);
+    }
+    function flagExternal() { externalUpdate = true; warning = 'Progress changed in another open lesson tab. Export this tab’s current work, then reload to use the latest saved progress.'; }
+    function localProtected() { try { var local = storage(), raw = local && local.getItem(RECOVERY_KEY); return raw ? parseProtected(raw) : null; } catch (_) { return null; } }
+    function status() {
+      if (!externalUpdate && conflict(localProtected(), memory)) flagExternal();
+      return {mode:mode,warning:warning,externalUpdate:externalUpdate};
+    }
+    function bounded(fallback, operation) {
       return new Promise(function (resolve) {
+        var settled = false;
+        var cancel = null;
+        var timer = setTimer(function () {
+          if (settled) return;
+          settled = true;
+          if (cancel) try { cancel(); } catch (_) {}
+          resolve(fallback);
+        }, STORAGE_TIMEOUT_MS);
+        function done(value) { if (settled) return; settled = true; clearTimer(timer); resolve(value); }
+        try { cancel = operation(done, function () { return settled; }); } catch (_) { done(fallback); }
+      });
+    }
+    function closeDB(value) { if (database === value) database = null; try { value.close(); } catch (_) {} }
+    function open() {
+      return bounded(null, function (resolve, settled) {
         try {
           if (!env.indexedDB) return resolve(null);
           var request = env.indexedDB.open('upskillsprint-excel-sprint', 1);
           request.onupgradeneeded = function () { if (!request.result.objectStoreNames.contains('progress')) request.result.createObjectStore('progress'); };
-          request.onsuccess = function () { resolve(request.result); };
+          request.onsuccess = function () { if (settled()) closeDB(request.result); else resolve(request.result); };
           request.onerror = function () { resolve(null); };
           request.onblocked = function () { resolve(null); };
         } catch (_) { resolve(null); }
       });
     }
-    function readDB() {
-      return new Promise(function (resolve) {
+    function readDB(key) {
+      return bounded(null, function (resolve) {
         if (!database) return resolve(null);
+        var current = database;
         try {
-          var request = database.transaction('progress', 'readonly').objectStore('progress').get(KEY);
+          var transaction = current.transaction('progress', 'readonly');
+          var request = transaction.objectStore('progress').get(key);
           request.onsuccess = function () { resolve(request.result || null); };
           request.onerror = function () { resolve(null); };
+          transaction.onabort = transaction.onerror = function () { resolve(null); };
+          return function () { try { transaction.abort(); } catch (_) {} closeDB(current); };
         } catch (_) { resolve(null); }
       });
     }
-    function writeDB(value) {
-      return new Promise(function (resolve) {
+    function writeDB(value, recovery, preserveLearning, source, sourceLearningJSON, protectedState, replace, baselineContent) {
+      return bounded(false, function (resolve) {
         if (!database) return resolve(false);
+        var current = database;
         try {
-          var transaction = database.transaction('progress', 'readwrite');
-          transaction.objectStore('progress').put(value, KEY);
-          transaction.oncomplete = function () { resolve(true); };
+          var transaction = current.transaction('progress', 'readwrite');
+          var savedMirror = recovery;
+          function write() {
+            transaction.objectStore('progress').put(value, KEY);
+            if (savedMirror) transaction.objectStore('progress').put(savedMirror, LEARNING_KEY);
+            protectedState.state = value;
+            transaction.objectStore('progress').put(protectedState, RECOVERY_KEY);
+          }
+          function afterProtected() { if (recovery) {
+            // Read and write the isolated mirror in one transaction, so a stale
+            // tab also respects newer practice when localStorage is blocked.
+            var request = transaction.objectStore('progress').get(LEARNING_KEY);
+            request.onsuccess = function () {
+              var latest = null;
+              try { if (request.result) latest = learningMirror(request.result); } catch (_) {}
+              if (latest && preserveLearning && latest.revision > recovery.revision) {
+                savedMirror = latest;
+                value.learning = latest.learning;
+              } else if (latest && !preserveLearning && latest.revision >= recovery.revision) savedMirror.revision = latest.revision + 1;
+              write();
+            };
+            request.onerror = function () { try { transaction.abort(); } catch (_) {} resolve(false); };
+          } else write(); }
+          var protectedRequest = transaction.objectStore('progress').get(RECOVERY_KEY);
+          protectedRequest.onsuccess = function () {
+            var latest = null;
+            try { if (protectedRequest.result) latest = protectedCopy(protectedRequest.result); } catch (_) {}
+            if (!replace && conflict(latest, value, baselineContent)) {
+              flagExternal();
+              // Discard only this tab's provisional disk copy, keeping its DOM
+              // work available for export while preserving the newer record.
+              try {
+                var local = storage(), currentLocal = localProtected();
+                if (local && (!currentLocal || ownWrites.has(currentLocal.writeId))) {
+                  local.setItem(RECOVERY_KEY, JSON.stringify(latest));
+                  local.setItem(KEY, JSON.stringify(latest.state));
+                }
+              } catch (_) {}
+              resolve(false);
+              return;
+            }
+            if (latest) {
+              progressRevision = Math.max(progressRevision, latest.revision);
+              protectedState.revision = Math.max(protectedState.revision, latest.revision + (content(latest.state) !== content(value) || replace ? 1 : 0));
+              value.storageRevision = protectedState.revision;
+            }
+            afterProtected();
+          };
+          protectedRequest.onerror = function () { try { transaction.abort(); } catch (_) {} resolve(false); };
+          transaction.oncomplete = function () {
+            if (externalUpdate) return resolve(false);
+            progressRevision = Math.max(progressRevision, protectedState.revision);
+            if (source && source.storageWriteId === value.storageWriteId) source.storageRevision = value.storageRevision;
+            try {
+              var primaryLocal = storage(), rawPrimary = primaryLocal && primaryLocal.getItem(KEY), parsedPrimary = rawPrimary && parseBackup(rawPrimary);
+              if (primaryLocal && parsedPrimary && parsedPrimary.storageWriteId === value.storageWriteId) {
+                primaryLocal.setItem(RECOVERY_KEY, JSON.stringify(protectedState));
+                primaryLocal.setItem(KEY, JSON.stringify(value));
+              }
+            } catch (_) {}
+            if (savedMirror) {
+              lastLearningRevision = Math.max(lastLearningRevision, savedMirror.revision);
+              if (JSON.stringify(memory.learning) === sourceLearningJSON) { memory.learning = savedMirror.learning; lastLearningJSON = JSON.stringify(memory.learning); }
+              if (source && JSON.stringify(source.learning) === sourceLearningJSON) source.learning = Learning.validateState(savedMirror.learning);
+              try {
+                var local = storage(), raw = local && local.getItem(LEARNING_KEY), latestLocal = raw && parseMirror(raw);
+                if (local && (!latestLocal || latestLocal.revision <= savedMirror.revision)) local.setItem(LEARNING_KEY, JSON.stringify(savedMirror));
+              } catch (_) {}
+            }
+            resolve(true);
+          };
           transaction.onerror = transaction.onabort = function () { resolve(false); };
+          return function () { try { transaction.abort(); } catch (_) {} closeDB(current); };
         } catch (_) { resolve(false); }
       });
     }
     async function load() {
       database = await open();
       var candidates = [];
-      var dbValue = await readDB();
-      if (dbValue) try { candidates.push(validateState(dbValue)); } catch (_) { warning = 'Saved progress could not be read. Import a backup to recover it.'; }
-      try { var local = storage(); var raw = local && local.getItem(KEY); if (raw) candidates.push(parseBackup(raw)); } catch (_) { warning = 'Saved progress could not be read. Import a backup to recover it.'; }
-      if (candidates.length) memory = candidates.sort(function (a, b) { return Date.parse(b.updatedAt) - Date.parse(a.updatedAt); })[0];
+      var mirrors = [];
+      var protectedCandidates = [];
+      var stored = await Promise.all([readDB(KEY), Learning ? readDB(LEARNING_KEY) : Promise.resolve(null), readDB(RECOVERY_KEY)]);
+      var dbValue = stored[0];
+      if (dbValue) try { candidates.push({state:validateState(dbValue),priority:0,hasLearning:Object.prototype.hasOwnProperty.call(dbValue,'learning')}); } catch (_) { warning = 'Saved progress could not be read. Import a backup to recover it.'; }
+      if (stored[1]) try { mirrors.push(Object.assign(learningMirror(stored[1]),{priority:0})); } catch (_) { warning = 'A practice recovery copy could not be read. Export a new backup.'; }
+      if (stored[2]) try { protectedCandidates.push(Object.assign(protectedCopy(stored[2]),{priority:0})); } catch (_) { warning = 'A progress recovery copy could not be read. Export a new backup.'; }
+      try {
+        var local = storage();
+        var raw = local && local.getItem(KEY);
+        if (raw) { var parsed = parseBackup(raw); candidates.push({state:parsed,priority:1,hasLearning:Object.prototype.hasOwnProperty.call(JSON.parse(raw),'learning')}); }
+      } catch (_) { warning = 'Saved progress could not be read. Import a backup to recover it.'; }
+      if (Learning) try { var recoveryRaw = local && local.getItem(LEARNING_KEY); if (recoveryRaw) mirrors.push(Object.assign(parseMirror(recoveryRaw),{priority:1})); } catch (_) { warning = 'A practice recovery copy could not be read. Export a new backup.'; }
+      try { var protectedRaw = local && local.getItem(RECOVERY_KEY); if (protectedRaw) protectedCandidates.push(Object.assign(parseProtected(protectedRaw),{priority:1})); } catch (_) { warning = 'A progress recovery copy could not be read. Export a new backup.'; }
+      // localStorage is written synchronously before the queued database transaction.
+      // On equal timestamps it therefore holds the latest surviving draft.
+      if (candidates.length) {
+        var chosen = candidates.sort(function (a, b) { return Date.parse(b.state.updatedAt) - Date.parse(a.state.updatedAt) || b.priority - a.priority; })[0];
+        memory = chosen.state;
+        lastSavedAt = Date.parse(memory.updatedAt);
+        if (warning) warning = 'A damaged saved copy was recovered from another browser copy. Export a backup now.';
+      }
+      if (protectedCandidates.length) {
+        var protectedLatest = protectedCandidates.sort(function (a,b) { return b.revision-a.revision || b.priority-a.priority; })[0];
+        if (!chosen || !chosen.state.storageRevision || protectedLatest.revision >= chosen.state.storageRevision) {
+          if (chosen && content(chosen.state) !== content(protectedLatest.state)) warning = 'The latest course progress was recovered after another open lesson tab replaced an older saved record. Export a fresh backup.';
+          memory = protectedLatest.state;
+          chosen = {state:memory,hasLearning:!!memory.learning};
+          lastSavedAt = Date.parse(memory.updatedAt);
+        }
+      }
+      progressRevision = memory.storageRevision || 0;
+      generation = memory.storageGeneration || generation;
+      remember(memory.storageWriteId);
+      if (mirrors.length && (!chosen || !chosen.hasLearning)) {
+        var recovered = mirrors.sort(function (a, b) { return b.revision-a.revision || Date.parse(b.updatedAt) - Date.parse(a.updatedAt) || b.priority-a.priority; })[0];
+        memory.learning = recovered.learning;
+        lastSavedAt = Math.max(lastSavedAt, Date.parse(recovered.updatedAt));
+        warning = 'Placement and practice were recovered after another open lesson tab replaced an older saved record. Export a fresh backup.';
+      }
+      // An explicitly modern empty record can be an intentional reset. Do not
+      // revive an earlier mirror merely because its clock was ahead.
+      if (chosen && chosen.hasLearning) mirrors.forEach(function (entry) { lastSavedAt = Math.max(lastSavedAt, Date.parse(entry.updatedAt)); });
+      lastLearningJSON = Learning && memory.learning ? JSON.stringify(memory.learning) : null;
+      if (mirrors.length) {
+        var matching = mirrors.filter(function (entry) { return JSON.stringify(entry.learning) === lastLearningJSON; });
+        lastLearningRevision = Math.max.apply(Math, (matching.length ? matching : mirrors).map(function (entry) { return entry.revision; })) + (matching.length ? 0 : 1);
+      }
       mode = database ? 'indexedDB' : storage() ? 'localStorage' : 'memory';
+      lastContent = content(memory);
       await save(memory);
       return memory;
     }
-    function save(value) {
+    function save(value, options) {
+      var baselineContent = lastContent || content(memory);
+      var latestProtected = localProtected();
+      if (!(options && options.replace) && (externalUpdate || conflict(latestProtected, value, baselineContent))) { flagExternal(); return Promise.resolve(status()); }
+      if (options && options.replace) externalUpdate = false;
+      if (latestProtected) progressRevision = Math.max(progressRevision,latestProtected.revision);
+      var previousLearning = memory.learning;
       memory = validateState(value);
-      memory.updatedAt = new Date().toISOString();
+      var incomingLearning = memory.learning && JSON.stringify(memory.learning);
+      var preserveLearning = Learning && !(options && options.replace) && incomingLearning === lastLearningJSON;
+      // A core-only autosave from a second modern tab must not replace newer practice.
+      // Explicit import and reset deliberately replace both copies.
+      if (preserveLearning) {
+        if (previousLearning) memory.learning = previousLearning;
+        try {
+          var currentLocal = storage();
+          var externalRaw = currentLocal && currentLocal.getItem(LEARNING_KEY);
+          var external = externalRaw && parseMirror(externalRaw);
+          if (external && (external.revision > lastLearningRevision || external.revision === lastLearningRevision && Date.parse(external.updatedAt) > lastSavedAt)) { memory.learning = external.learning; lastSavedAt = Math.max(lastSavedAt, Date.parse(external.updatedAt)); lastLearningRevision = external.revision; }
+        } catch (_) {}
+      } else if (Learning) {
+        try {
+          var revisionLocal = storage(), revisionRaw = revisionLocal && revisionLocal.getItem(LEARNING_KEY), latestRevision = revisionRaw && parseMirror(revisionRaw);
+          if (latestRevision) lastLearningRevision = Math.max(lastLearningRevision, latestRevision.revision);
+        } catch (_) {}
+        lastLearningRevision++;
+      }
+      lastSavedAt = Math.max(Date.now(), lastSavedAt + 1);
+      memory.updatedAt = new Date(lastSavedAt).toISOString();
+      if (options && options.replace) generation = writer + '-replace-' + (++writeNumber);
+      memory.storageGeneration = generation;
+      progressRevision++;
+      memory.storageRevision = progressRevision;
+      memory.storageWriteId = writer + '-' + (++writeNumber);
+      remember(memory.storageWriteId);
+      if (memory.learning && JSON.stringify(memory.learning) !== incomingLearning) value.learning = Learning.validateState(memory.learning);
+      lastLearningJSON = memory.learning && JSON.stringify(memory.learning);
+      value.updatedAt = memory.updatedAt;
+      value.storageRevision = memory.storageRevision;
+      value.storageWriteId = memory.storageWriteId;
+      value.storageGeneration = memory.storageGeneration;
       var snapshot = JSON.parse(JSON.stringify(memory));
+      lastContent = content(snapshot);
+      var protectedState = {version:1,revision:progressRevision,writeId:snapshot.storageWriteId,state:snapshot};
+      var recovery = Learning && snapshot.learning ? {version:1,updatedAt:snapshot.updatedAt,revision:lastLearningRevision,learning:snapshot.learning} : null;
+      var savedLearningJSON = lastLearningJSON;
       // Write the small backup synchronously too, so pagehide cannot lose the latest draft.
       var localSaved = false;
-      try { var local = storage(); if (local) { local.setItem(KEY, JSON.stringify(snapshot)); localSaved = true; } } catch (_) {}
+      var local = storage();
+      if (recovery) try { if (local) local.setItem(LEARNING_KEY, JSON.stringify(recovery)); } catch (_) {}
+      try { if (local) local.setItem(RECOVERY_KEY, JSON.stringify(protectedState)); } catch (_) {}
+      try { if (local) { local.setItem(KEY, JSON.stringify(snapshot)); localSaved = true; } } catch (_) {}
       queue = queue.then(async function () {
-        var dbSaved = await writeDB(snapshot);
+        var dbSaved = externalUpdate && !(options && options.replace) ? false : await writeDB(snapshot, recovery, preserveLearning, value, savedLearningJSON, protectedState, !!(options && options.replace), baselineContent);
         mode = dbSaved ? 'indexedDB' : localSaved ? 'localStorage' : 'memory';
         if (mode === 'memory') warning = 'Browser storage is unavailable. Progress lasts only while this page stays open. Export a backup before leaving.';
         else if (warning.indexOf('Browser storage') === 0) warning = '';
-        return { mode: mode, warning: warning };
+        return status();
       });
       return queue;
     }
-    return { load: load, save: save, status: function () { return { mode: mode, warning: warning }; } };
+    return { load: load, save: save, status: status };
   }
-  return { KEY: KEY, MAX_BACKUP_BYTES: MAX_BACKUP_BYTES, emptyState: emptyState, validateState: validateState, parseBackup: parseBackup, packageNumber: packageNumber, packageId: packageId, unlocked: unlocked, applyVerified: applyVerified, createStore: createStore };
+  return { KEY: KEY, LEARNING_KEY: LEARNING_KEY, RECOVERY_KEY: RECOVERY_KEY, MAX_BACKUP_BYTES: MAX_BACKUP_BYTES, emptyState: emptyState, validateState: validateState, parseBackup: parseBackup, packageNumber: packageNumber, packageId: packageId, unlocked: unlocked, applyVerified: applyVerified, createStore: createStore };
 });

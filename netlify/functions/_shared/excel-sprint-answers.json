@@ -5665,12 +5665,12 @@
             4.44
           ]
         ],
-        "model": "=LET(charged,Data!B2,tapped,Data!C2,IF(ISNUMBER(tapped),ROUND(charged-tapped,2),\"Missing\"))",
+        "model": "=LET(charged,Data!B2,tapped,Data!C2,IF(ISNUMBER(Data!C2),ROUND(charged-tapped,2),\"Missing\"))",
         "tolerance": 0.000001,
         "orderInsensitive": false,
         "hints": [
           "An unmeasured tapped mass is not a zero value.",
-          "Name both quantities and guard ISNUMBER.",
+          "Name both quantities, but apply ISNUMBER directly to the original tapped-mass cell.",
           "=LET(charged,____,tapped,____,IF(____,ROUND(charged-tapped,2),\"Missing\"))"
         ],
         "alternatives": [],
@@ -6654,15 +6654,17 @@
       },
       {
         "answer": 1,
-        "model": "=SUM(BYROW(Answers!D26:E35,LAMBDA(orientations,--(COUNTIFS(orientations,\"Missing\")>0))))",
+        "model": "=SUM(BYROW(Answers!D26:E35,LAMBDA(orientations,--(SUM(--(orientations=\"Missing\"))>0))))",
         "tolerance": 0.000001,
         "orderInsensitive": false,
         "hints": [
           "A pair is one row, regardless of the number of missing orientations.",
-          "Reduce each result row to a missing-present flag, then sum.",
+          "Sum Boolean comparisons inside each row-array, then count rows with a positive sum.",
           "=SUM(BYROW(____,LAMBDA(orientations,--(____>0))))"
         ],
-        "alternatives": [],
+        "alternatives": [
+          "=SUMPRODUCT(--(((Answers!D26:D35=\"Missing\")+(Answers!E26:E35=\"Missing\"))>0))"
+        ],
         "id": "t4",
         "prompt": "Count key pairs with at least one Missing orientation mean. Count a pair once if both orientations are missing.",
         "output": "Answers!B38"
@@ -8405,12 +8407,12 @@
             "Review"
           ]
         ],
-        "model": "=LET(grade,Data!B2,mass,Data!C2,matches,COUNTIFS(Rates!$A$2:$A$5,grade),IF(OR(matches<>1,NOT(ISNUMBER(mass))),\"Review\",ROUND(mass*XLOOKUP(grade,Rates!$A$2:$A$5,Rates!$B$2:$B$5),2)))",
+        "model": "=LET(grade,Data!B2,mass,Data!C2,matches,COUNTIFS(Rates!$A$2:$A$5,grade),IF(OR(matches<>1,NOT(ISNUMBER(Data!C2))),\"Review\",ROUND(mass*XLOOKUP(grade,Rates!$A$2:$A$5,Rates!$B$2:$B$5),2)))",
         "tolerance": 0.000001,
         "orderInsensitive": false,
         "hints": [
           "Zero mass is valid; blank mass and ambiguous keys need Review.",
-          "Guard numeric mass and rate cardinality before calculating.",
+          "Check ISNUMBER on the original mass cell and rate cardinality before calculating.",
           "=LET(grade,____,mass,____,matches,____,IF(OR(____),\"Review\",ROUND(____,2)))"
         ],
         "alternatives": [],
@@ -8530,12 +8532,12 @@
             "Review"
           ]
         ],
-        "model": "=LET(grade,Data!B2,mass,Data!C2,matches,COUNTIFS(Rates!$A$2:$A$5,grade),IF(OR(matches<>1,NOT(ISNUMBER(mass))),\"Review\",IF(ABS(ROUND(Data!D2-ROUND(mass*XLOOKUP(grade,Rates!$A$2:$A$5,Rates!$B$2:$B$5),2),2))>0.01,\"Mismatch\",\"Match\")))",
+        "model": "=LET(grade,Data!B2,mass,Data!C2,matches,COUNTIFS(Rates!$A$2:$A$5,grade),IF(OR(matches<>1,NOT(ISNUMBER(Data!C2))),\"Review\",IF(ABS(ROUND(Data!D2-ROUND(mass*XLOOKUP(grade,Rates!$A$2:$A$5,Rates!$B$2:$B$5),2),2))>0.01,\"Mismatch\",\"Match\")))",
         "tolerance": 0.000001,
         "orderInsensitive": false,
         "hints": [
           "Exactly one cent remains Match; round the difference before testing.",
-          "Compare a guarded corrected amount with its independent quote.",
+          "Check original-source completeness before comparing corrected amount with its independent quote.",
           "=LET(grade,____,mass,____,matches,____,IF(OR(____),\"Review\",IF(ABS(ROUND(____,2))>0.01,\"Mismatch\",\"Match\")))"
         ],
         "alternatives": [],
@@ -8685,12 +8687,12 @@
             "Review"
           ]
         ],
-        "model": "=LET(grade,Data!B2:B37,mass,Data!C2:C37,known,(COUNTIFS(Rates!A2:A5,grade)=1)*ISNUMBER(mass),corrected,IF(known,ROUND(mass*XLOOKUP(grade,Rates!A2:A5,Rates!B2:B5,0),2),\"Review\"),SORT(FILTER(HSTACK(Data!A2:A37,corrected,Data!D2:D37,Answers!B12:B47),Answers!B12:B47<>\"Match\"),1,1))",
+        "model": "=LET(grade,Data!B2:B37,mass,Data!C2:C37,known,(COUNTIFS(Rates!A2:A5,grade)=1)*ISNUMBER(Data!C2:C37),corrected,IF(known,ROUND(mass*XLOOKUP(grade,Rates!A2:A5,Rates!B2:B5,0),2),\"Review\"),SORT(FILTER(HSTACK(Data!A2:A37,corrected,Data!D2:D37,Answers!B12:B47),Answers!B12:B47<>\"Match\"),1,1))",
         "tolerance": 0.000001,
         "orderInsensitive": false,
         "hints": [
           "Keep review reasons beside the independent quote.",
-          "Build a guarded corrected-cost column and filter non-Match statuses.",
+          "Build a source-type guarded corrected-cost column and filter non-Match statuses.",
           "=LET(grade,____,mass,____,known,____,corrected,IF(____),SORT(FILTER(HSTACK(____),____),1,1))"
         ],
         "alternatives": [],
@@ -8700,16 +8702,16 @@
       },
       {
         "answer": 12000,
-        "model": "=SUM(MAP(Data!B2:B37,Data!C2:C37,LAMBDA(grade,mass,IF(AND(COUNTIFS(Rates!A2:A5,grade)=1,ISNUMBER(mass)),ROUND(mass*XLOOKUP(grade,Rates!A2:A5,Rates!B2:B5),2),0))))",
+        "model": "=SUM(MAP(Data!B2:B37,Data!C2:C37,ISNUMBER(Data!C2:C37),LAMBDA(grade,mass,massKnown,IF(AND(COUNTIFS(Rates!A2:A5,grade)=1,massKnown),ROUND(mass*XLOOKUP(grade,Rates!A2:A5,Rates!B2:B5),2),0))))",
         "tolerance": 0.000001,
         "orderInsensitive": false,
         "hints": [
           "Aggregate known corrected costs only, after row-level rounding.",
-          "Map the guarded calculation and sum numeric costs.",
-          "=SUM(MAP(____,____,LAMBDA(grade,mass,IF(____,ROUND(____,2),0))))"
+          "Pass original-source numeric flags into MAP, then sum the guarded rounded costs.",
+          "=SUM(MAP(____,____,ISNUMBER(____),LAMBDA(grade,mass,massKnown,IF(____,ROUND(____,2),0))))"
         ],
         "alternatives": [
-          "=SUM(FILTER(Data!C2:C37*XLOOKUP(Data!B2:B37,Rates!A2:A5,Rates!B2:B5,0),(COUNTIFS(Rates!A2:A5,Data!B2:B37)=1)*ISNUMBER(Data!C2:C37)))"
+          "=SUM(FILTER(ROUND(Data!C2:C37*XLOOKUP(Data!B2:B37,Rates!A2:A5,Rates!B2:B5,0),2),(COUNTIFS(Rates!A2:A5,Data!B2:B37)=1)*ISNUMBER(Data!C2:C37)))"
         ],
         "id": "t4",
         "prompt": "Return the total corrected cost for jobs with unique rates and numeric mass. Exclude Review jobs; sum costs after each row is rounded to cents.",

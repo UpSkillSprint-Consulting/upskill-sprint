@@ -16,7 +16,7 @@ The existing version 1 progress format gains an optional learning record. Older 
 
 Learning receipts use their own signature domain and types. They cannot serve as core or Expert completion proofs and do not count toward any certificate. The original core packages, their keys, workbook sources and award scopes remain stable.
 
-Public packages and downloads contain only scenarios, mini-lessons, task instructions and fictitious datasets. Diagnostic answer choices, grading keys, hints and model formulas stay in excluded server inputs. Grading checks submitted output values and formula syntax; it does not execute Excel or establish independent formula-writing ability.
+Public packages and downloads contain only scenarios, mini-lessons, task instructions and fictitious datasets. Diagnostic answer choices, grading keys, hints and model formulas stay in excluded server inputs. Grading checks submitted output values and basic formula structure; it does not parse or execute Excel formulas or establish independent formula-writing ability.
 
 ## Validation
 
@@ -28,6 +28,6 @@ Live verification on draft PR #234 exercised all twenty drills with independentl
 
 The browser review exposed a focusout refresh that could replace a pressed button before its click. The fix preserves focused interactive controls; regression tests cover mouse press/release and explicit verification retries. A fresh live run on deploy `6abeff037c114c0008af40d5` confirmed single-click submission and preserved the original review date after early practice. This deploy is ready at commit `8affcb2a2a13eb9f92310843ab5beb6615cf0fa9`.
 
-Cloud-browser download events timed out for both an XLSX link and the existing backup export, so live file retrieval is unverified. All workbook contents and backup round trips were checked locally. Native Excel execution is not claimed.
+The later student audit located the actual downloaded files despite the cloud-browser download-event timeout: the exported progress JSON contains the diagnostic, all twenty drill results and ten review records, and R1-A1/R10-A1 workbook downloads match the committed bytes. The event waiter was inconclusive, not evidence that those downloads failed. See [the student audit](excel-sprint-student-audit-20261002.md) for recovery fixes and current validation. Native Excel execution is not claimed.
 
 ![Placement and focused practice preview](excel-sprint-learning-preview-20261002.jpg)

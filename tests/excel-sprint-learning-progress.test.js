@@ -89,6 +89,19 @@ test('local learning records cannot unlock core assignments or satisfy core veri
 test('Regina day boundary remains fixed in winter and summer and rejects invalid dates',()=>{
  assert.equal(L.dayStamp('2026-10-02T05:59:59Z'),'2026-10-01');assert.equal(L.dayStamp('2026-10-02T06:00:00Z'),'2026-10-02');assert.equal(L.dayStamp('2026-07-01T05:59:59Z'),'2026-06-30');assert.equal(L.dayStamp('2026-01-01T06:00:00Z'),'2026-01-01');assert.throws(()=>L.dayStamp('invalid'));
 });
+test('signed completion schedules review despite a slow device clock and a fresh draft retains resolved skill evidence',()=>{
+ const report=drill('R2-A1','server-time','2026-10-02T06:05:00.000Z',{attempts:1,firstAttemptCorrect:true});
+ let state=L.applyDiagnostic(L.emptyState(),diagnostic({2:'skipped'},'2026-10-02T05:59:00.000Z'));
+ state=L.applyDrill(state,report,'2026-10-02T06:00:00.000Z');assert.equal(state.reviews['level-2'].nextReviewAt,'2026-10-03T06:05:00.000Z');assert.equal(state.drills['R2-A1'].attempts,1);assert.equal(state.drills['R2-A1'].firstAttemptCorrect,true);
+ state=L.freshRun(state,'R2-A1');const choices=L.recommendations(state,catalog,[],'2026-10-02T06:06:00.000Z');assert.ok(!choices.practice.some(x=>x.skillId==='level-2'));
+ const due=L.recommendations(state,catalog,[],'2026-10-03T06:05:00.000Z').practice.find(x=>x.skillId==='level-2');assert.equal(due.id,'R2-A2');assert.equal(due.reason,'A spaced review is due.');
+});
+test('due boundaries and late review shift the next interval from the actual new completion date',()=>{
+ let state=L.applyDrill(L.emptyState(),drill('R10-A1','december','2026-12-31T23:55:00.000Z'),'2026-12-31T23:55:00.000Z');
+ assert.equal(state.reviews['level-10'].nextReviewAt,'2027-01-01T23:55:00.000Z');assert.equal(L.recommendations(state,catalog,[],'2027-01-01T23:54:59.999Z').practice.length,0);assert.equal(L.recommendations(state,catalog,[],'2027-01-01T23:55:00.000Z').practice[0].due,true);
+ state=L.applyDrill(state,drill('R10-A2','late','2027-01-15T23:55:00.000Z'),'2027-01-15T23:55:00.000Z');assert.equal(state.reviews['level-10'].stage,2);assert.equal(state.reviews['level-10'].nextReviewAt,'2027-01-18T23:55:00.000Z');
+ const leap=L.applyDrill(L.emptyState(),drill('R10-A1','leap','2028-02-28T12:00:00.000Z'),'2028-02-28T12:00:00.000Z');assert.equal(leap.reviews['level-10'].nextReviewAt,'2028-02-29T12:00:00.000Z');
+});
 test('malformed learning imports reject unknown IDs, unsafe drafts, inconsistent skill reports and edited review dates',()=>{
  for(const mutate of [
   s=>s.drills['R11-A1']={submissions:{formula:'',result:''}},

@@ -251,7 +251,7 @@ export function phase2Packages(randomFor) {
    T('Return the first shift’s gross duration in minutes as an unrounded number.',gross(rows[0])*60,'=MOD(TIME(Data!D2,Data!E2,0)-TIME(Data!B2,Data!C2,0),1)*1440',['MOD','TIME'],hints('One day contains 1440 minutes.','Multiply the MOD day fraction by 1440.','=MOD(____,1)*____'))
   ];});
 
- add(6,1,'Filter inspection exceptions','Pervani Tube Inspection has 64 invented length measurements. Blank Length_mm means not measured and must be excluded from threshold analysis; zero is not used as a substitute. Review rows are measured lengths strictly below 5985 mm.',['FILTER','SORT'],
+ add(6,1,'Filter inspection exceptions','Pervani Tube Inspection has 64 invented length measurements. Blank Length_mm means not measured and must be excluded from threshold analysis; zero is not used as a substitute. Review rows are measured lengths strictly below 5985 mm.',['FILTER','SORT','CHOOSECOLS'],
   'Dynamic arrays return a whole report from one formula. FILTER chooses eligible observations; SORT orders the resulting numeric values. Keep the spill area empty.',
   'Reuse IF/COUNTIFS and ROUND where needed. A blank can behave like zero in numeric comparisons, so explicitly exclude blank readings before the threshold test. A filtered count should agree with the same eligible population.',
   ['Inspection_code','Line','Length_mm','Defects_units'],r=>Array.from({length:64},(_,i)=>[`PT-${i+1}`,i%2?'Neral':'Tovrin',i%9===0?'':r.int(5960,6030),r.int(0,4)]),
@@ -275,7 +275,7 @@ export function phase2Packages(randomFor) {
    T('Return the third record’s Order_code in the sorted queue.',ordered[2][0],'=INDEX(SORTBY(Data!A2:A69,Data!C2:C69,-1,Data!D2:D69,-1,Data!A2:A69,1),3)',['INDEX','SORTBY'],hints('Third refers to the sorted queue.','Reuse INDEX after SORTBY.','=INDEX(SORTBY(____),____)'))
   ];});
 
- add(6,3,'Create a distinct heat register','Relvani Melt Tracking has 72 invented sample records spanning six heat codes. Heat codes repeat across samples; one blank code represents an incomplete record and must be excluded from the distinct register. Sample counts must still reflect all valid records per heat.',['UNIQUE','SEQUENCE'],
+ add(6,3,'Create a distinct heat register','Relvani Melt Tracking has 72 invented sample records spanning six heat codes. Heat codes repeat across samples; one blank code represents an incomplete record and must be excluded from the distinct register. Sample counts must still reflect all valid records per heat.',['UNIQUE','SEQUENCE','HSTACK'],
   'UNIQUE constructs the key register; SEQUENCE supplies a separate display index. Neither function aggregates measurements by itself. Distinguish a missing key from a valid repeated heat.',
   'Reuse SORT for stable ascending heat order, FILTER to exclude blank keys, and COUNTIFS for counts aligned to the spilled register. Do not use exactly_once TRUE when all distinct heats are needed.',
   ['Sample_code','Heat_no','Tap_t'],r=>Array.from({length:72},(_,i)=>[`RM-${i+1}`,i===5?'':`RH-${[3,1,6,2,5,4][i%6]}`,r.int(8200,11500)/100]),

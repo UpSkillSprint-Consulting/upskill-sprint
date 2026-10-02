@@ -12,6 +12,10 @@
   var completions = [];
   var expertCompletions = [];
   var learnerName = '';
+  var stateEpoch = 0;
+  var packageLoadSequence = 0;
+  var coachingStatusCheck = 0;
+  var checkingCoaching = false;
   var latestCertificate = null;
   var currentPackage;
   var verified = false;
@@ -24,10 +28,13 @@
   var coachingAvailable = false;
   var coachCache = new Map();
   var learningApp = null;
+  var storageConflict = false;
   function releasedCount() { return catalog.levels.filter(function (level) { return level.available; }).reduce(function (n, level) { return n + level.packages.length; }, 0); }
   var NOTICE = 'Your progress is saved in this browser only. Clearing browser data or switching devices will lose it unless you export a backup.';
 
   async function request(url, body) {
+    var changesProgress = body !== undefined && (['/api/excel-sprint/grade', '/api/excel-sprint/coach', '/api/excel-sprint/certificate'].includes(url) || url === '/api/excel-sprint/learning' && ['grade', 'diagnostic'].includes(body.action));
+    if (changesProgress && !await mutationReady()) throw new Error('Progress changed in another tab. Export this tab’s drafts, then reload the latest progress before continuing.');
     var controller = typeof AbortController === 'function' ? new AbortController() : null;
     var timeout = controller ? setTimeout(function () { controller.abort(); }, 20000) : null;
     try {
@@ -35,6 +42,7 @@
       var data;
       try { data = await response.json(); } catch (_) { throw new Error('The service returned an unreadable response. Please try again.'); }
       if (!response.ok) throw new Error(data.message || data.error || 'The service is unavailable. Your saved work is still here. Please try again.');
+      if (changesProgress && !await mutationReady()) throw new Error('Progress changed in another tab while this request was running. Your drafts are still available for export. Reload the latest progress before continuing.');
       return data;
     } catch (error) {
       if (error.name === 'AbortError') throw new Error('The request timed out. Your work is saved; try again when the connection is stable.');
@@ -51,17 +59,37 @@
     target.setAttribute('role', error ? 'alert' : 'status');
   }
   function storageNotice() {
-    var target = mount.querySelector('#sprint-storage-warning');
-    if (!target) return;
     var status = store.status();
-    target.textContent = status.warning;
-    target.hidden = !status.warning;
+    if (status.externalUpdate && !storageConflict) {
+      storageConflict = true;
+      stateEpoch++;
+      packageLoadSequence++;
+      coachingStatusCheck++;
+      checkingCoaching = false;
+      busy = false;
+    }
+    var target = mount.querySelector('#sprint-storage-warning');
+    if (target) {
+      if (storageConflict) {
+        if (!target.querySelector('[data-sprint-action="reload-progress"]')) target.innerHTML = '<p><strong>Progress changed in another open tab.</strong> This tab is paused to protect the latest work. Export a backup of this tab’s drafts before reloading.</p><button type="button" class="sprint-button sprint-primary" data-sprint-action="reload-progress">Reload latest progress</button>';
+        target.hidden = false;
+      } else { target.textContent = status.warning; target.hidden = !status.warning; }
+    }
+    return !storageConflict;
   }
-  async function persist() {
-    try { await store.save(state); storageNotice(); } catch (_) {
+  async function persist(options) {
+    if (!storageNotice()) return;
+    try { await store.save(state, options); storageNotice(); } catch (_) {
       var target = mount.querySelector('#sprint-storage-warning');
       if (target) { target.hidden = false; target.textContent = 'Your work could not be saved. Export a backup before leaving this page.'; }
     }
+  }
+  async function mutationReady() {
+    if (!storageNotice()) return false;
+    collectDrafts();
+    flushTime();
+    await persist();
+    return storageNotice();
   }
   function record(id) {
     if (!state.packages[id]) state.packages[id] = { submissions: {}, tasks: {}, timeMs: 0 };
@@ -93,8 +121,7 @@
   function previousId(id) { return isExpert(id) ? id === 'EX-A1' ? 'L6-A5' : 'EX-A' + (+id.slice(-1) - 1) : P.packageId(P.packageNumber(id) - 1); }
   function nextId(id) { return isExpert(id) ? 'EX-A' + (+id.slice(-1) + 1) : P.packageNumber(id) === releasedCount() ? null : P.packageId(P.packageNumber(id) + 1); }
   function dayStamp() {
-    var now = new Date();
-    return now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+    return D.dayStamp();
   }
   function studyDay() { var day = dayStamp(); if (!state.activityDays.includes(day)) state.activityDays.push(day); }
   function flushTime() {
@@ -159,6 +186,7 @@
   }
   async function reviewFormula(taskId) {
     if (busy || !currentPackage || !coachingAvailable) return;
+    if (!storageNotice()) { message('Export this tab’s drafts, then reload the latest progress before requesting coaching.', true); return; }
     if (!canOpen(currentPackage.id)) { message('Verify saved progress before requesting formula coaching.', true); return; }
     collectDrafts();
     var pkg = currentPackage, saved = record(pkg.id), input = saved.submissions[taskId];
@@ -184,7 +212,7 @@
       if (latest && latest.formula === snapshot.formula && resultText(latest) === snapshot.resultText) coachCache.set(pkg.id + ':' + taskId, { formula: snapshot.formula, resultText: snapshot.resultText, response: response });
       else message('Your answer changed during the review. Request coaching again for the revised formula.');
     } catch (error) { message(error.message, true); }
-    finally { collectDrafts(); busy = false; renderAssignment(); }
+    finally { collectDrafts(); busy = false; if (!storageConflict) renderAssignment(); }
   }
   async function retryCoaching() {
     collectDrafts();
@@ -194,7 +222,31 @@
       coachingAvailable = (await request('/api/excel-sprint/coaching-status')).available === true;
       message(coachingAvailable ? 'Formula coaching is available. Check a task, then choose Review my formula.' : 'Formula coaching is temporarily unavailable. Try again later; result checks remain available.');
     } catch (error) { message(error.message, true); }
-    finally { collectDrafts(); busy = false; renderAssignment(); }
+    finally { collectDrafts(); busy = false; if (!storageConflict) renderAssignment(); }
+  }
+  function coachingNotice() {
+    if (coachingAvailable) return 'After checking a task, choose Review my formula for AI feedback on logic, references, readability and efficiency. Your formula and result are sent for this review. AI suggestions can be mistaken; verify them in Excel.';
+    return (checkingCoaching ? 'Checking optional formula coaching. ' : 'Formula coaching is temporarily unavailable. ') + 'Result checks remain available. <button type="button" class="sprint-link-button" data-sprint-action="retry-coaching">Retry formula coaching</button>';
+  }
+  async function checkCoachingInBackground(epoch) {
+    var check = ++coachingStatusCheck;
+    checkingCoaching = true;
+    try { var result = await request('/api/excel-sprint/coaching-status'); if (epoch !== stateEpoch || check !== coachingStatusCheck) return; coachingAvailable = result.available === true; }
+    catch (_) { if (epoch !== stateEpoch || check !== coachingStatusCheck) return; coachingAvailable = false; }
+    if (epoch !== stateEpoch || check !== coachingStatusCheck) return;
+    checkingCoaching = false;
+    var notice = mount.querySelector('.sprint-coaching-notice');
+    if (notice) notice.innerHTML = coachingNotice();
+    if (!currentPackage || !coachingAvailable) return;
+    currentPackage.tasks.concat(currentPackage.bonus ? [currentPackage.bonus] : []).forEach(function (task) {
+      var checkButton = mount.querySelector('[data-sprint-check="' + task.id + '"]');
+      if (!checkButton || mount.querySelector('[data-sprint-coach="' + task.id + '"]')) return;
+      var status = record(currentPackage.id).tasks[task.id];
+      checkButton.insertAdjacentHTML('afterend', '<button type="button" class="sprint-button sprint-secondary" data-sprint-coach="' + esc(task.id) + '"' + (busy || !status || !status.attempts ? ' disabled' : '') + '>Review my formula</button>');
+    });
+  }
+  function backupTextPanel() {
+    return '<section id="sprint-backup-text-panel" class="sprint-notice" aria-labelledby="sprint-backup-text-heading" hidden><h4 id="sprint-backup-text-heading">Save your progress as text</h4><p>Copy the complete text into a plain text file. Save it with a .json extension, then use Import backup to restore it.</p><label for="sprint-backup-text">Complete progress JSON</label><textarea id="sprint-backup-text" rows="8" readonly spellcheck="false"></textarea><div class="sprint-inline-actions"><button type="button" class="sprint-button" data-sprint-action="copy-backup-text">Copy backup text</button><button type="button" class="sprint-button" data-sprint-action="close-backup-text">Close backup text</button></div></section>';
   }
   function shell() {
     if (learningApp && learningApp.destroy) learningApp.destroy();
@@ -202,7 +254,8 @@
     mount.innerHTML = '<div class="sprint-hero"><div><p class="sprint-eyebrow">Excel Formula Sprint · Microsoft 365</p><h2 id="sprint-heading">Learn it. Build it.<br><span>Prove it in Excel.</span></h2><p>Build formula fluency through short lessons and realistic, fictitious datasets. Each assignment unlocks when every required task is correct.</p></div><div class="sprint-hero-stats"><strong>10<span>levels</span></strong><strong>50<span>assignment packages</span></strong><p>All 10 levels are ready.<br>50 assignments, from foundations to integrated dashboards.</p></div></div>' +
       '<div id="sprint-first-notice" class="sprint-notice"' + (state.noticeDismissed ? ' hidden' : '') + '><p>' + NOTICE + '</p><button type="button" data-sprint-action="dismiss-notice">Got it</button></div>' +
       '<div id="sprint-storage-warning" class="sprint-message sprint-message-error" role="alert" hidden></div>' +
-      '<div class="sprint-toolbar"><a href="#sprint-assignment" class="sprint-button sprint-primary">Start / continue assignment</a><a href="#sprint-learning" class="sprint-button sprint-secondary">Placement &amp; practice</a><a href="#sprint-expert" class="sprint-button sprint-secondary">Expert Track</a><a href="#sprint-certificates" class="sprint-button sprint-secondary">Certificates</a><a href="#sprint-dashboard" class="sprint-button sprint-secondary">Your dashboard</a><button type="button" class="sprint-button sprint-secondary" data-sprint-action="export">Export backup</button><label class="sprint-button sprint-secondary" for="sprint-import">Import backup<input type="file" id="sprint-import" accept=".json,application/json" class="sprint-sr-only"></label><button type="button" class="sprint-link-button" data-sprint-action="reset">Reset progress</button></div>' +
+      '<div class="sprint-toolbar"><a href="#sprint-assignment" class="sprint-button sprint-primary">Start / continue assignment</a><a href="#sprint-learning" class="sprint-button sprint-secondary">Placement &amp; practice</a><a href="#sprint-expert" class="sprint-button sprint-secondary">Expert Track</a><a href="#sprint-certificates" class="sprint-button sprint-secondary">Certificates</a><a href="#sprint-dashboard" class="sprint-button sprint-secondary">Your dashboard</a><button type="button" class="sprint-button sprint-secondary" data-sprint-action="export">Export backup</button><label class="sprint-button sprint-secondary" for="sprint-import">Import backup<input type="file" id="sprint-import" accept=".json,application/json" class="sprint-sr-only"></label><button type="button" class="sprint-link-button" data-sprint-action="reset" aria-controls="sprint-reset-confirm" aria-expanded="false">Reset progress</button></div>' +
+      '<div class="sprint-inline-actions"><button type="button" class="sprint-link-button" data-sprint-action="backup-text">Show backup text</button><span class="sprint-muted">Use this if a backup download does not appear.</span></div>' + backupTextPanel() +
       '<div id="sprint-reset-confirm" class="sprint-notice" hidden><p>Reset all Excel Formula Sprint progress saved in this browser? Export a backup first if you want to keep it.</p><div class="sprint-inline-actions"><button type="button" class="sprint-button sprint-danger" data-sprint-action="confirm-reset">Yes, reset Sprint progress</button><button type="button" class="sprint-button sprint-secondary" data-sprint-action="cancel-reset">Keep my progress</button></div></div>' +
       '<div id="sprint-backup-reminder" class="sprint-notice" hidden></div>' +
       '<div id="sprint-message" class="sprint-message" role="status" aria-live="polite" hidden></div>' +
@@ -218,6 +271,7 @@
       getState: function () { return state.learning; },
       saveState: function (learning) { state.learning = learning; return persist(); },
       getCompletions: function () { return completions; },
+      canChangeProgress: storageNotice,
       openCore: function (id) {
         if (busy) { message('Wait for the result check to finish before changing assignments.'); return; }
         return openPackage(id, true);
@@ -263,6 +317,7 @@
     mount.querySelector('#sprint-certificates').innerHTML = '<p class="sprint-eyebrow">Your completion record</p><h3>Certificates</h3><p>Earn a Levels 1–6 certificate after 30 core assignments, a full Levels 1–10 certificate after all 50, or an Expert Track certificate after the first 30 and all three capstones. Every required task must pass. Bonuses and first-attempt scores do not block an award.</p><label for="sprint-certificate-name">Learner name to display</label><input id="sprint-certificate-name" type="text" maxlength="80" autocomplete="name" value="' + esc(learnerName) + '"' + (busy ? ' disabled' : '') + '><p class="sprint-muted">This name is self-reported and will appear in the shareable proof. Certificates verify submitted results and signed progress; they do not verify identity or Excel formula execution.</p><div class="sprint-inline-actions"><button type="button" class="sprint-button sprint-secondary" data-sprint-action="certificate-levels-1-6"' + (!coreReady || busy ? ' disabled' : '') + '>Create Levels 1–6 certificate</button><button type="button" class="sprint-button sprint-primary" data-sprint-action="certificate-expert-track-v1"' + (!coreReady || expertCompletions.length !== 3 || busy ? ' disabled' : '') + '>Create Expert Track certificate</button><button type="button" class="sprint-button sprint-primary" data-sprint-action="certificate-full-path"' + (!verified || completions.length !== 50 || busy ? ' disabled' : '') + '>Create Levels 1–10 certificate</button><a class="sprint-button sprint-secondary" href="/excel-sprint-certificate">Verify a certificate</a></div><p class="sprint-muted">The full Levels 1–10 award requires all 50 core assignments. Expert capstones are a separate optional award.</p><div id="sprint-certificate-result">' + (latestCertificate ? '<div class="sprint-completion"><h4>' + esc(latestCertificate.certificate.title) + '</h4><p>' + esc(latestCertificate.certificate.learnerName) + ' · ' + esc(latestCertificate.certificate.scope) + '</p><div class="sprint-inline-actions"><a class="sprint-button sprint-primary" href="/excel-sprint-certificate#proof=' + encodeURIComponent(latestCertificate.certificateToken) + '" target="_blank" rel="noopener">Open certificate / save as PDF</a><button type="button" class="sprint-button sprint-secondary" data-sprint-action="certificate-download">Download signed proof</button></div><p class="sprint-muted">Keep the proof to verify or reprint the certificate later. Export a progress backup separately to restore assignments.</p></div>' : '') + '</div>';
   }
   async function createCertificate(award) {
+    if (!storageNotice()) { message('Reload the latest progress before creating a certificate. This tab’s drafts are available for export.', true); return; }
     collectDrafts();
     busy = true;
     latestCertificate = null;
@@ -282,14 +337,34 @@
     var url = URL.createObjectURL(blob), link = document.createElement('a');
     link.href = url; link.download = 'Excel-Sprint-certificate-' + latestCertificate.certificate.certificateId + '.json'; document.body.appendChild(link); link.click(); link.remove();
     setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    message('Signed proof download requested. Check your browser’s Downloads and keep the .json file.');
+  }
+  function draftChanged(status, input) {
+    return !!(status && status.checkedSubmission && (status.checkedSubmission.formula !== (input && input.formula || '') || status.checkedSubmission.resultText !== resultText(input)));
+  }
+  function taskFeedback(status, input) {
+    if (!status || !status.attempts) return '';
+    var changed = draftChanged(status, input);
+    var revisedIncorrect = status.correct && status.submissionCorrect === false;
+    return '<p class="sprint-task-feedback' + (changed ? ' sprint-unchecked' : status.correct && !revisedIncorrect ? ' sprint-correct' : ' sprint-incorrect') + '" role="status"><strong>' + (changed ? 'Revised answer not checked' : revisedIncorrect ? 'Revised answer not correct' : status.correct ? 'Correct' : 'Not yet correct') + (revisedIncorrect && !changed ? '.</strong> This revised output does not match. Your earlier correct result remains recorded (' + status.attempts + ' recorded attempt' + (status.attempts === 1 ? '' : 's') + ').' : ' · ' + status.attempts + ' attempt' + (status.attempts === 1 ? '' : 's') + '.</strong> ' + (changed ? 'Your draft changed after its last check. Check the revised answer to get new feedback.' + (status.correct ? ' Your earlier correct result remains recorded.' : '') : esc(status.hint || ''))) + '</p>';
+  }
+  function updateDraftFeedback(taskId) {
+    if (!currentPackage) return;
+    var formula = mount.querySelector('[data-sprint-formula-input="' + taskId + '"]'), result = mount.querySelector('[data-sprint-result-input="' + taskId + '"]'), target = mount.querySelector('[data-sprint-feedback="' + taskId + '"]');
+    if (!formula || !result || !target) return;
+    var status = record(currentPackage.id).tasks[taskId], input = {formula:formula.value,resultText:result.value};
+    target.innerHTML = taskFeedback(status, input);
+    formula.closest('fieldset').classList.toggle('is-correct', !!(status && status.correct && status.submissionCorrect !== false && !draftChanged(status, input)));
+    var badge = mount.querySelector('[data-sprint-passed="' + taskId + '"]');
+    if (badge) badge.textContent = draftChanged(status, input) || status.submissionCorrect === false ? 'Earlier check passed' : 'Passed';
   }
   function taskMarkup(task, number, optional) {
     var saved = record(currentPackage.id);
     var input = saved.submissions[task.id];
     var status = saved.tasks[task.id];
     var typeLabel = task.type === 'array' ? 'Spilled array / output range' : task.type === 'number' ? 'Number' : 'Text';
-    var feedback = status && status.attempts ? '<p class="sprint-task-feedback' + (status.correct ? ' sprint-correct' : ' sprint-incorrect') + '" role="status"><strong>' + (status.correct ? 'Correct' : 'Not yet correct') + ' · ' + status.attempts + ' attempt' + (status.attempts === 1 ? '' : 's') + '.</strong> ' + esc(status.hint || '') + (status.submissionCorrect === false && status.correct ? ' Your earlier correct result remains recorded.' : '') + '</p>' : '';
-    return '<fieldset class="sprint-task' + (status && status.correct ? ' is-correct' : '') + '"><legend>' + (optional ? 'Optional bonus' : 'Task ' + number) + '</legend><p>' + esc(task.prompt) + '</p><div class="sprint-task-meta"><span>Output: <code>' + esc(task.output) + '</code></span><span>Result type: ' + typeLabel + '</span></div><label for="sprint-formula-' + task.id + '">Your Excel formula</label><textarea id="sprint-formula-' + task.id + '" data-sprint-formula-input="' + task.id + '" rows="2" maxlength="4096" spellcheck="false" placeholder="= Your formula" aria-describedby="sprint-help-' + task.id + '">' + esc(input && input.formula || '') + '</textarea><label for="sprint-result-' + task.id + '">Result produced in Excel</label><textarea id="sprint-result-' + task.id + '" data-sprint-result-input="' + task.id + '" rows="' + (task.type === 'array' ? 4 : 2) + '" maxlength="16000" spellcheck="false" placeholder="' + (task.type === 'array' ? 'Paste the output range from Excel' : task.type === 'number' ? 'For example, 12.75' : 'Paste the resulting text') + '">' + esc(resultText(input)) + '</textarea><p id="sprint-help-' + task.id + '" class="sprint-input-help">' + (task.type === 'array' ? 'Copy the requested cells from Excel. Keep rows on separate lines and columns separated by tabs.' : task.type === 'number' ? 'Use a decimal point if needed. Enter the value without units or thousands separators.' : 'Enter the text exactly as it appears in Excel.') + '</p><p class="sprint-input-error" data-sprint-task-error="' + task.id + '" role="alert" hidden></p><div class="sprint-task-actions"><button type="button" class="sprint-button sprint-secondary" data-sprint-check="' + task.id + '"' + (busy ? ' disabled' : '') + '>' + (status && status.correct ? 'Check revised answer' : optional ? 'Check bonus' : 'Check task') + '</button>' + (coachingAvailable ? '<button type="button" class="sprint-button sprint-secondary" data-sprint-coach="' + task.id + '"' + (busy || !status || !status.attempts ? ' disabled' : '') + '>Review my formula</button>' : '') + (status && status.correct ? '<span class="sprint-status sprint-status-good">Passed</span>' : '') + '</div>' + feedback + '<div data-sprint-coach-panel="' + task.id + '" class="sprint-coaching" aria-live="polite">' + coachMarkup(task.id, input) + '</div></fieldset>';
+    var feedback = '<div data-sprint-feedback="' + esc(task.id) + '" aria-live="polite">' + taskFeedback(status, input) + '</div>';
+    return '<fieldset class="sprint-task' + (status && status.correct && status.submissionCorrect !== false && !draftChanged(status, input) ? ' is-correct' : '') + '"><legend>' + (optional ? 'Optional bonus' : 'Task ' + number) + '</legend><p>' + esc(task.prompt) + '</p><div class="sprint-task-meta"><span>Output: <code>' + esc(task.output) + '</code></span><span>Result type: ' + typeLabel + '</span></div><label for="sprint-formula-' + task.id + '">Your Excel formula</label><textarea id="sprint-formula-' + task.id + '" data-sprint-formula-input="' + task.id + '" rows="2" maxlength="4096" spellcheck="false" placeholder="= Your formula" aria-describedby="sprint-help-' + task.id + ' sprint-error-' + task.id + '">' + esc(input && input.formula || '') + '</textarea><label for="sprint-result-' + task.id + '">Result produced in Excel</label><textarea id="sprint-result-' + task.id + '" data-sprint-result-input="' + task.id + '" aria-describedby="sprint-help-' + task.id + ' sprint-error-' + task.id + '" rows="' + (task.type === 'array' ? 4 : 2) + '" maxlength="16000" spellcheck="false" placeholder="' + (task.type === 'array' ? 'Paste the output range from Excel' : task.type === 'number' ? 'For example, 12.75' : 'Paste the resulting text') + '">' + esc(resultText(input)) + '</textarea><p id="sprint-help-' + task.id + '" class="sprint-input-help">' + (task.type === 'array' ? 'Copy the requested cells from Excel. Keep rows on separate lines and columns separated by tabs.' : task.type === 'number' ? 'Use a decimal point if needed. Enter the value without units or thousands separators.' : 'Enter the text exactly as it appears in Excel.') + '</p><p class="sprint-input-error" id="sprint-error-' + task.id + '" data-sprint-task-error="' + task.id + '" role="alert" hidden></p><div class="sprint-task-actions"><button type="button" class="sprint-button sprint-secondary" data-sprint-check="' + task.id + '"' + (busy ? ' disabled' : '') + '>' + (status && status.correct ? 'Check revised answer' : optional ? 'Check bonus' : 'Check task') + '</button>' + (coachingAvailable ? '<button type="button" class="sprint-button sprint-secondary" data-sprint-coach="' + task.id + '"' + (busy || !status || !status.attempts ? ' disabled' : '') + '>Review my formula</button>' : '') + (status && status.correct ? '<span class="sprint-status sprint-status-good" data-sprint-passed="' + task.id + '">' + (draftChanged(status, input) || status.submissionCorrect === false ? 'Earlier check passed' : 'Passed') + '</span>' : '') + '</div>' + feedback + '<div data-sprint-coach-panel="' + task.id + '" class="sprint-coaching" aria-live="polite">' + coachMarkup(task.id, input) + '</div></fieldset>';
   }
   function renderAssignment() {
     var pkg = currentPackage;
@@ -302,7 +377,7 @@
       '<div class="sprint-lesson"><h4>Learn the formulas</h4><p>' + esc(lesson.intro) + '</p><div class="sprint-lesson-functions">' + lesson.functions.map(function (item) { return '<article class="sprint-function"><h5>' + esc(item.name) + '</h5><p>' + esc(item.purpose) + '</p><div class="sprint-formula-block"><code>' + esc(item.syntax) + '</code></div><p class="sprint-muted">' + esc(item.arguments) + '</p><div class="sprint-worked-example"><span class="sprint-eyebrow">Worked example</span><div class="sprint-formula-block"><code>' + esc(item.example) + '</code></div><p>Result: <strong>' + esc(item.result) + '</strong></p></div><p><strong>Use it for:</strong> ' + esc(item.useCase) + '</p><p><strong>Watch for:</strong> ' + esc(item.mistake) + '</p></article>'; }).join('') + '</div><p class="sprint-combine"><strong>Combine what you know.</strong> ' + esc(lesson.combine) + '</p></div>' +
       '<div class="sprint-dataset"><div class="sprint-dataset-heading"><div><h4>Your assignment dataset</h4><p>' + dataset.rowCount + ' fictitious records · Excel table <code>' + esc(dataset.tableName) + '</code></p></div><div class="sprint-inline-actions"><a class="sprint-button sprint-primary" href="' + esc(dataset.xlsx) + '" download>Download .xlsx</a><a class="sprint-button sprint-secondary" href="' + esc(dataset.csv) + '" download>Download .csv</a><button type="button" class="sprint-button sprint-secondary" data-sprint-action="copy">Copy for Excel</button></div></div><p class="sprint-muted">Open the workbook in Microsoft 365 Excel and solve the tasks there. The workbook has a data dictionary and an Answers sheet. For CSV or copied data, name the data sheet <code>Data</code>, create the table named above from the headings and records only, and add an <code>Answers</code> sheet. Keep the training footer outside the table.</p><div class="sprint-table-scroll" tabindex="0" role="region" aria-label="Assignment dataset, scroll horizontally for all columns"><table><caption>' + esc(pkg.id) + ' practice data</caption><thead><tr>' + dataset.headers.map(function (header) { return '<th scope="col">' + esc(header) + '</th>'; }).join('') + '</tr></thead><tbody>' + dataset.rows.map(function (row) { return '<tr>' + row.map(function (cell) { return '<td>' + esc(cell) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div><p class="sprint-data-footer">Fictitious data for training purposes.</p>' +
       (dataset.parameters && dataset.parameters.length ? '<div class="sprint-parameters"><h5>Parameters sheet</h5><p>For CSV or copied data, create a sheet named <code>Parameters</code> with these exact values and cells.</p><div class="sprint-table-scroll"><table><thead><tr><th scope="col">Cell</th><th scope="col">Parameter</th><th scope="col">Value</th></tr></thead><tbody>' + dataset.parameters.map(function (parameter) { return '<tr><td>' + esc(parameter.cell) + '</td><td>' + esc(parameter.name) + '</td><td>' + esc(parameter.value) + '</td></tr>'; }).join('') + '</tbody></table></div></div>' : '') + supportingSheets(dataset) + '<details><summary>Column dictionary</summary><dl class="sprint-dictionary">' + dataset.columns.map(function (column) { return '<div><dt>' + esc(column.name) + '</dt><dd>' + esc(column.description) + '</dd></div>'; }).join('') + '</dl></details></div>' +
-      '<div class="sprint-task-section"><h4>Prove your mastery</h4><p>Submit both your formula and its Excel result. Results determine your score; a formula must be present and well formed. Full solution reviews unlock after all required tasks pass.</p><p class="sprint-coaching-notice">' + (coachingAvailable ? 'After checking a task, choose Review my formula for AI feedback on logic, references, readability and efficiency. Your formula and result are sent for this review. AI suggestions can be mistaken; verify them in Excel.' : 'Formula coaching is temporarily unavailable. You can still check results and continue learning. <button type="button" class="sprint-link-button" data-sprint-action="retry-coaching">Retry formula coaching</button>') + '</p><div class="sprint-required-tasks">' + pkg.tasks.map(function (task, index) { return taskMarkup(task, index + 1, false); }).join('') + '</div><div class="sprint-grade-actions"><button type="button" class="sprint-button sprint-primary" data-sprint-action="grade-all"' + (busy || isSolved ? ' disabled' : '') + '>' + (busy ? 'Checking…' : isSolved ? 'All required tasks passed' : 'Check all unfinished tasks') + '</button><span class="sprint-muted">' + pkg.tasks.filter(function (task) { return record(pkg.id).tasks[task.id] && record(pkg.id).tasks[task.id].correct; }).length + ' / ' + pkg.tasks.length + ' required tasks passed</span></div></div>' +
+      '<div class="sprint-task-section"><h4>Prove your mastery</h4><p>Submit both your formula and its Excel result. Checks compare your submitted output and basic formula structure. Test the calculation in Excel. Use commas or semicolons as required by your Excel settings. Enter spill formulas outside Excel Tables and leave the spill range clear. Keep full precision unless the task asks for rounding. Full solution reviews unlock after all required tasks pass.</p><p class="sprint-coaching-notice">' + coachingNotice() + '</p><div class="sprint-required-tasks">' + pkg.tasks.map(function (task, index) { return taskMarkup(task, index + 1, false); }).join('') + '</div><div class="sprint-grade-actions"><button type="button" class="sprint-button sprint-primary" data-sprint-action="grade-all"' + (busy || isSolved ? ' disabled' : '') + '>' + (busy ? 'Checking…' : isSolved ? 'All required tasks passed' : 'Check all unfinished tasks') + '</button><span class="sprint-muted">' + pkg.tasks.filter(function (task) { return record(pkg.id).tasks[task.id] && record(pkg.id).tasks[task.id].correct; }).length + ' / ' + pkg.tasks.length + ' required tasks passed</span></div></div>' +
       (pkg.bonus ? '<details class="sprint-bonus"><summary>Optional stretch challenge</summary><p class="sprint-muted">The bonus does not block progress.</p>' + taskMarkup(pkg.bonus, 0, true) + '</details>' : '') +
       '<div class="sprint-solutions">' + (isSolved ? '<div class="sprint-completion"><h4>Assignment complete</h4><p>Every required task passed. Your first-attempt score: <strong>' + record(pkg.id).firstAttemptScore + '%</strong>.</p><div class="sprint-inline-actions"><button type="button" class="sprint-button sprint-secondary" data-sprint-action="solutions">Review model solutions</button>' + (canOpen(nextId(pkg.id)) ? '<button type="button" class="sprint-button sprint-primary" data-sprint-open="' + nextId(pkg.id) + '">Continue to next assignment →</button>' : '<a class="sprint-button sprint-primary" href="#sprint-certificates">View certificate eligibility</a>') + '</div></div><div id="sprint-models"></div>' : '<p class="sprint-muted">Model solutions become available after this assignment is solved.</p>') + '</div>';
     renderSummary();
@@ -316,34 +391,44 @@
     return response;
   }
   async function verifySaved() {
+    if (!storageNotice()) return false;
+    var epoch = stateEpoch, tokens = state.tokens.slice(), expertTokens = state.expertTokens.slice();
     try {
-      var response = await verifyTokens(state.tokens, state.expertTokens);
+      var response = await verifyTokens(tokens, expertTokens);
+      if (!storageNotice()) return false;
+      if (epoch !== stateEpoch || JSON.stringify(tokens) !== JSON.stringify(state.tokens) || JSON.stringify(expertTokens) !== JSON.stringify(state.expertTokens)) return false;
       completions = response.completions;
       expertCompletions = response.expertCompletions;
       verified = true;
       state = P.applyVerified(state, completions, catalog, expertCompletions);
       await persist();
     } catch (error) {
+      if (epoch !== stateEpoch || JSON.stringify(tokens) !== JSON.stringify(state.tokens) || JSON.stringify(expertTokens) !== JSON.stringify(state.expertTokens)) return false;
       completions = [];
       expertCompletions = [];
       verified = false;
       message(error.message + ' Saved answers and time remain available in your backup.', true);
     }
     renderSummary();
+    return true;
   }
   async function openPackage(id, focus) {
+    if (!storageNotice()) { message('Export this tab’s drafts, then reload the latest progress before changing assignments.', true); return; }
     if (!canRead(id)) { message('Complete the previous required assignments to unlock this package.', true); return; }
     collectDrafts();
     flushTime();
     activeSince = null;
+    var epoch = stateEpoch, sequence = ++packageLoadSequence;
     state.selectedPackageId = id;
     await persist();
+    if (!storageNotice()) return;
+    if (epoch !== stateEpoch || sequence !== packageLoadSequence) return;
     loadingId = id;
     var target = mount.querySelector('#sprint-assignment');
     target.innerHTML = '<p class="sprint-loading" role="status">Loading ' + esc(id) + '…</p>';
     try {
       var pkg = packageCache.get(id) || await request(BASE + 'packages/' + id + '.json');
-      if (loadingId !== id) return;
+      if (loadingId !== id || epoch !== stateEpoch || sequence !== packageLoadSequence) return;
       if (!pkg || pkg.id !== id || !pkg.lesson || !pkg.dataset || !Array.isArray(pkg.tasks)) throw new Error('This assignment could not be loaded. Please try again.');
       packageCache.set(id, pkg);
       currentPackage = pkg;
@@ -353,16 +438,20 @@
       if (focus) target.focus({ preventScroll: true });
       if (focus) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (error) {
-      if (loadingId !== id) return;
+      if (loadingId !== id || epoch !== stateEpoch || sequence !== packageLoadSequence) return;
       currentPackage = null;
       target.innerHTML = '<p class="sprint-message sprint-message-error" role="alert">' + esc(error.message) + '</p><button type="button" class="sprint-button sprint-primary" data-sprint-open="' + esc(id) + '">Retry loading assignment</button>';
     }
   }
   async function grade(taskIds) {
     if (busy || !currentPackage) return;
+    if (!storageNotice()) { message('Export this tab’s drafts, then reload the latest progress before checking another result.', true); return; }
     if (!canOpen(currentPackage.id)) { message('Reconnect and verify saved progress before submitting this assignment.', true); return; }
     var pkg = currentPackage;
     var submissions = [];
+    var checkedDrafts = {};
+    var firstInvalid = null;
+    var epoch = stateEpoch;
     var valid = true;
     collectDrafts();
     pkg.tasks.concat(pkg.bonus ? [pkg.bonus] : []).forEach(function (task) {
@@ -371,15 +460,19 @@
       errorTarget.hidden = true;
       var formulaInput = mount.querySelector('[data-sprint-formula-input="' + task.id + '"]');
       var resultInput = mount.querySelector('[data-sprint-result-input="' + task.id + '"]');
+      formulaInput.removeAttribute('aria-invalid'); resultInput.removeAttribute('aria-invalid');
+      var invalidField = formulaInput;
       try {
         var formula = formulaInput.value.trim();
         if (!formula || formula[0] !== '=' || formula.length < 2) throw new Error('Enter your Excel formula beginning with =.');
+        invalidField = resultInput;
+        checkedDrafts[task.id] = {formula:formulaInput.value,resultText:resultInput.value};
         submissions.push({ taskId: task.id, formula: formula, result: parseResult(resultInput.value, task.type) });
-      } catch (error) { valid = false; errorTarget.textContent = error.message; errorTarget.hidden = false; }
+      } catch (error) { valid = false; invalidField.setAttribute('aria-invalid', 'true'); if (!firstInvalid) firstInvalid = invalidField; errorTarget.textContent = error.message; errorTarget.hidden = false; }
     });
     flushTime();
     persist();
-    if (!valid) { message('Finish the highlighted formula and result fields before checking.', true); return; }
+    if (!valid) { message('Finish the highlighted formula and result fields before checking.', true); if (firstInvalid) firstInvalid.focus(); return; }
     if (!submissions.length) { message('All required tasks have already passed.'); return; }
     busy = true;
     mount.querySelectorAll('[data-sprint-check], [data-sprint-coach], [data-sprint-action="grade-all"], [data-sprint-open]').forEach(function (button) { button.disabled = true; });
@@ -388,11 +481,13 @@
       var saved = record(pkg.id);
       var predecessor = completed(previousId(pkg.id));
       var response = await request('/api/excel-sprint/grade', { packageId: pkg.id, submissions: submissions, predecessorToken: predecessor && predecessor.completionToken, receipt: saved.receipt });
+      if (epoch !== stateEpoch || !currentPackage || currentPackage.id !== pkg.id) return;
       if (response.packageId !== pkg.id || !Array.isArray(response.tasks) || typeof response.receipt !== 'string') throw new Error('The grading response was incomplete. Your previous progress has been kept.');
+      collectDrafts();
       saved.receipt = response.receipt;
       saved.score = response.score;
       saved.firstAttemptScore = response.firstAttemptScore;
-      response.tasks.concat(response.bonus ? [response.bonus] : []).forEach(function (task) { saved.tasks[task.taskId] = task; });
+      response.tasks.concat(response.bonus ? [response.bonus] : []).forEach(function (task) { saved.tasks[task.taskId] = Object.assign({}, saved.tasks[task.taskId], task); if (checkedDrafts[task.taskId]) saved.tasks[task.taskId].checkedSubmission = checkedDrafts[task.taskId]; });
       studyDay();
       if (response.completed && response.completionToken) {
         var oldCount = completions.length;
@@ -402,6 +497,8 @@
         else state.tokens = pendingTokens;
         verified = false;
         var verification = await verifyTokens(state.tokens, state.expertTokens);
+        if (epoch !== stateEpoch || !currentPackage || currentPackage.id !== pkg.id) return;
+        collectDrafts();
         completions = verification.completions;
         expertCompletions = verification.expertCompletions;
         verified = true;
@@ -409,9 +506,10 @@
         if (!isExpert(pkg.id) && completions.length > oldCount && completions.length % 5 === 0) state.backupReminder = completions.length / 5;
         message(isExpert(pkg.id) && expertCompletions.length === 3 ? 'Expert Track complete. Your Expert Track certificate is available below.' : completions.length === releasedCount() && !isExpert(pkg.id) ? 'All 50 core assignments are complete. Your full Levels 1–10 certificate is available below.' : 'Assignment complete. All required tasks are correct and your next assignment is unlocked.');
       } else message('Results checked. Review the feedback beside each submitted task.');
+      if (taskIds.some(function (id) { return draftChanged(record(pkg.id).tasks[id], record(pkg.id).submissions[id]); })) message(mount.querySelector('#sprint-message').textContent + ' Your latest edits are saved but have not been checked.');
       await persist();
-    } catch (error) { message(error.message, true); await persist(); }
-    finally { busy = false; renderAssignment(); }
+    } catch (error) { if (epoch === stateEpoch) { collectDrafts(); message(error.message, true); await persist(); } }
+    finally { if (epoch === stateEpoch) { collectDrafts(); busy = false; renderAssignment(); var feedback = mount.querySelector('[data-sprint-feedback="' + taskIds[0] + '"]'); if (feedback && feedback.textContent) { feedback.setAttribute('tabindex', '-1'); feedback.focus({preventScroll:true}); } } }
   }
   async function solutions() {
     if (!currentPackage || !completed(currentPackage.id)) return;
@@ -429,31 +527,54 @@
     collectDrafts();
     flushTime();
     persist();
-    var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-    var url = URL.createObjectURL(blob);
-    var link = document.createElement('a');
-    link.href = url;
-    link.download = 'Excel-Formula-Sprint-progress-' + dayStamp() + '.json';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
-    message('Progress backup downloaded. Keep it somewhere you can find it later.');
+    try {
+      var blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement('a');
+      link.href = url;
+      link.download = 'Excel-Formula-Sprint-progress-' + dayStamp() + '.json';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      message('Backup download requested. Check your browser’s Downloads. If no file appears, choose Show backup text.');
+    } catch (_) { showBackupText(); message('The backup download could not start. Copy the complete backup text and save it as a .json file.', true); }
+  }
+  function showBackupText() {
+    collectDrafts(); flushTime(); persist();
+    var panel = mount.querySelector('#sprint-backup-text-panel'), input = mount.querySelector('#sprint-backup-text');
+    if (!panel || !input) return;
+    panel.hidden = false; input.value = JSON.stringify(state, null, 2); input.focus({preventScroll:true}); input.select();
+  }
+  async function copyBackupText() {
+    showBackupText();
+    var input = mount.querySelector('#sprint-backup-text');
+    try {
+      if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(input.value);
+      message('Backup text copied. Save it in a plain text file with a .json extension.');
+    } catch (_) { input.focus(); input.select(); message('Automatic copy is unavailable. The complete backup text is selected; copy it manually and save it as a .json file.'); }
   }
   async function importBackup(file) {
     if (!file || busy) return;
+    if (!await mutationReady()) { message('Export this tab’s drafts and reload the latest progress before importing a backup.', true); return; }
     busy = true;
     message('Validating the backup and its completed assignments…');
     try {
       if (file.size > P.MAX_BACKUP_BYTES) throw new Error('Choose a progress JSON file smaller than 2 MB.');
       var candidate = P.parseBackup(await file.text());
       var response = await verifyTokens(candidate.tokens, candidate.expertTokens);
+      if (!await mutationReady()) { message('Progress changed while the backup was being checked. Your current work has not been replaced. Export this tab’s drafts, then reload the latest progress.', true); return; }
       // The current record is replaced only after the whole imported chain verifies.
       collectDrafts();
       flushTime();
       activeSince = null;
       if (learningApp && learningApp.destroy) learningApp.destroy();
       learningApp = null;
+      stateEpoch++;
+      packageLoadSequence++;
+      checkingCoaching = false;
+      coachingStatusCheck++;
       completions = response.completions;
       expertCompletions = response.expertCompletions;
       verified = true;
@@ -464,15 +585,17 @@
       coachCache.clear();
       latestCertificate = null;
       currentPackage = null;
-      await persist();
+      await persist({replace:true});
       shell();
       await openPackage(state.selectedPackageId, false);
       message('Backup restored. Verified completions and saved assignment work are available.');
     } catch (error) { message(error.message + ' Your current progress has not been replaced.', true); }
     finally {
       busy = false;
-      if (currentPackage) { collectDrafts(); renderAssignment(); }
-      else renderSummary();
+      if (!storageConflict) {
+        if (currentPackage) { collectDrafts(); renderAssignment(); }
+        else renderSummary();
+      }
       var input = mount.querySelector('#sprint-import');
       if (input) input.value = '';
     }
@@ -503,6 +626,8 @@
     }
   }
   mount.addEventListener('click', async function (event) {
+    var download = event.target.closest('a[download]');
+    if (download && !download.closest('#sprint-learning')) message('Download requested. Check your browser’s Downloads. Dataset copy and CSV options are also available.');
     var opener = event.target.closest('[data-sprint-open]');
     if (opener && !opener.disabled && !busy) { await openPackage(opener.dataset.sprintOpen, true); return; }
     var check = event.target.closest('[data-sprint-check]');
@@ -512,8 +637,13 @@
     var button = event.target.closest('[data-sprint-action]');
     if (!button) return;
     var action = button.dataset.sprintAction;
+    if (action === 'reload-progress') { window.location.reload(); return; }
     if (action === 'export') exportBackup();
-    if (busy) return;
+    if (action === 'backup-text') showBackupText();
+    if (action === 'copy-backup-text') await copyBackupText();
+    if (action === 'close-backup-text') { mount.querySelector('#sprint-backup-text-panel').hidden = true; var trigger = mount.querySelector('[data-sprint-action="backup-text"]'); if (trigger) trigger.focus(); }
+    if (!storageNotice() && !['export','backup-text','copy-backup-text','close-backup-text','copy','solutions','certificate-download','cancel-reset'].includes(action)) { message('Export this tab’s drafts, then reload the latest progress before continuing.', true); return; }
+    if (busy) { if (!['export','backup-text','copy-backup-text','close-backup-text'].includes(action)) message('A request is still running. Your drafts are saved; wait for it to finish before changing Sprint progress.'); return; }
     if (action === 'grade-all') await grade(currentPackage.tasks.filter(function (task) { return !(record(currentPackage.id).tasks[task.id] && record(currentPackage.id).tasks[task.id].correct); }).map(function (task) { return task.id; }));
     if (action === 'solutions') await solutions();
     if (action === 'retry-coaching') await retryCoaching();
@@ -521,13 +651,18 @@
     if (action === 'certificate-expert-track-v1') await createCertificate('expert-track-v1');
     if (action === 'certificate-full-path') await createCertificate('full-path');
     if (action === 'certificate-download') downloadCertificate();
-    if (action === 'verify') { await verifySaved(); if (currentPackage) renderAssignment(); }
+    if (action === 'verify') { if (await verifySaved() && currentPackage) { collectDrafts(); renderAssignment(); } }
     if (action === 'copy') await copyDataset(button.dataset.sprintSheet);
     if (action === 'dismiss-notice') { state.noticeDismissed = true; mount.querySelector('#sprint-first-notice').hidden = true; await persist(); }
     if (action === 'dismiss-backup') { state.backupReminder = null; await persist(); renderSummary(); }
-    if (action === 'reset') { mount.querySelector('#sprint-reset-confirm').hidden = false; }
-    if (action === 'cancel-reset') mount.querySelector('#sprint-reset-confirm').hidden = true;
+    if (action === 'reset') { mount.querySelector('#sprint-reset-confirm').hidden = false; button.setAttribute('aria-expanded', 'true'); mount.querySelector('[data-sprint-action="cancel-reset"]').focus(); }
+    if (action === 'cancel-reset') { mount.querySelector('#sprint-reset-confirm').hidden = true; var reset = mount.querySelector('[data-sprint-action="reset"]'); reset.setAttribute('aria-expanded','false'); reset.focus(); }
     if (action === 'confirm-reset') {
+      if (!await mutationReady()) { message('Export this tab’s drafts and reload the latest progress before resetting it.', true); return; }
+      stateEpoch++;
+      packageLoadSequence++;
+      checkingCoaching = false;
+      coachingStatusCheck++;
       if (learningApp && learningApp.destroy) learningApp.destroy();
       learningApp = null;
       state = P.emptyState();
@@ -539,9 +674,9 @@
       activeSince = null;
       solutionCache.clear();
       coachCache.clear();
-      await persist();
+      await persist({replace:true});
       shell();
-      await openPackage('L1-A1', false);
+      await openPackage('L1-A1', true);
       message('Excel Formula Sprint progress reset. Begin again with L1-A1.');
     }
   });
@@ -560,6 +695,7 @@
       if (currentPackage) coachCache.delete(currentPackage.id + ':' + taskId);
       var panel = mount.querySelector('[data-sprint-coach-panel="' + taskId + '"]');
       if (panel) panel.textContent = '';
+      updateDraftFeedback(taskId);
       clearTimeout(draftTimer);
       draftTimer = setTimeout(function () { collectDrafts(); persist(); }, 400);
     }
@@ -571,6 +707,7 @@
     persist();
   });
   window.addEventListener('pagehide', function () { collectDrafts(); flushTime(); activeSince = null; persist(); });
+  window.addEventListener('storage', function (event) { if (!event.key || event.key === P.KEY || event.key.indexOf(P.KEY + '.') === 0) storageNotice(); });
   window.addEventListener('online', async function () {
     if (verified || busy || !catalog) return;
     await verifySaved();
@@ -578,20 +715,30 @@
   });
   setInterval(function () { if (currentPackage && !document.hidden) { flushTime(); collectDrafts(); persist(); } }, 15000);
   async function initialize() {
+    var epoch = ++stateEpoch;
+    if (learningApp && learningApp.destroy) learningApp.destroy();
+    learningApp = null;
     mount.innerHTML = '<p class="sprint-loading" role="status">Loading Excel Formula Sprint…</p>';
     try {
-      var values = await Promise.all([store.load(), request(BASE + 'catalog.json')]);
-      state = values[0];
-      catalog = values[1];
+      var values = await Promise.allSettled([store.load(), request(BASE + 'catalog.json')]);
+      if (epoch !== stateEpoch) return;
+      if (values[0].status === 'rejected') throw values[0].reason;
+      state = values[0].value;
+      if (values[1].status === 'rejected') throw values[1].reason;
+      catalog = values[1].value;
       if (!catalog || !Array.isArray(catalog.levels) || catalog.levels.length !== 10) throw new Error('The curriculum could not be loaded.');
-      try { coachingAvailable = (await request('/api/excel-sprint/coaching-status')).available === true; } catch (_) { coachingAvailable = false; }
+      checkingCoaching = true;
       shell();
+      checkCoachingInBackground(epoch);
       await verifySaved();
+      if (epoch !== stateEpoch) return;
       if (!canRead(state.selectedPackageId)) state.selectedPackageId = 'L1-A1';
       await openPackage(state.selectedPackageId, false);
     } catch (error) {
-      mount.innerHTML = '<p class="sprint-message sprint-message-error" role="alert">' + esc(error.message) + '</p><button type="button" class="sprint-button sprint-primary" id="sprint-retry-init">Retry loading Sprint</button>';
+      if (epoch !== stateEpoch) return;
+      mount.innerHTML = '<p class="sprint-message sprint-message-error" role="alert">' + esc(error.message) + '</p><p>Saved work remains in this browser. You can export it while the course is unavailable.</p><div class="sprint-inline-actions"><button type="button" class="sprint-button sprint-primary" id="sprint-retry-init">Retry loading Sprint</button><button type="button" class="sprint-button" data-sprint-action="export">Export backup</button><button type="button" class="sprint-button" data-sprint-action="backup-text">Show backup text</button></div>' + backupTextPanel() + '<div id="sprint-storage-warning" class="sprint-message sprint-message-error" role="alert" hidden></div><div id="sprint-message" class="sprint-message" role="status" aria-live="polite" hidden></div>';
       mount.querySelector('#sprint-retry-init').addEventListener('click', initialize);
+      storageNotice();
     }
   }
   initialize();

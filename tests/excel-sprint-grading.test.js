@@ -106,6 +106,24 @@ test('a completion never depends on the optional bonus and bonus updates retain 
   assert.equal(checked.body.nextPackageId, 'L1-A3');
 });
 
+test('checking an incorrect revision preserves earned completion but reports the latest result accurately', async () => {
+  const first = await complete();
+  const taskId = keys['L1-A1'].tasks[0].id;
+  const revised = await call(grade, 'grade', {
+    packageId: 'L1-A1', receipt: first.receipt, submissions: tasks('L1-A1', [taskId], false)
+  });
+  const task = revised.body.tasks.find(task => task.taskId === taskId);
+  assert.equal(revised.body.completed, true);
+  assert.equal(revised.body.completionToken, first.completionToken);
+  assert.equal(task.correct, true);
+  assert.equal(task.submissionCorrect, false);
+  assert.equal(task.attempts, first.tasks.find(task => task.taskId === taskId).attempts);
+  assert.equal(task.firstAttemptCorrect, first.tasks.find(task => task.taskId === taskId).firstAttemptCorrect);
+  assert.match(task.hint, /revised result does not match/);
+  assert.match(task.hint, /earlier correct result remains recorded/);
+  assert.doesNotMatch(task.hint, /^Correct\./);
+});
+
 test('all fifty packages form a continuous chain including every level boundary', async () => {
   const tokens = [];
   for (const packageId of shared.PACKAGE_IDS) {
@@ -148,6 +166,22 @@ test('tampered signatures, scores, counters, and cross-secret proofs fail closed
   assert.equal((await call(grade, 'grade', { packageId: 'L1-A1', submissions: tasks('L1-A1'), score: 100 })).response.status, 400);
 });
 
+test('alternate base64url spellings of a valid signature cannot verify, unlock, or resume', async () => {
+  const first = await complete();
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+  function alias(token) {
+    const [encoded, mac] = token.split('.');
+    const changed = mac.slice(0, -1) + alphabet[alphabet.indexOf(mac.at(-1)) + 1];
+    assert.deepEqual(Buffer.from(changed, 'base64url'), Buffer.from(mac, 'base64url'));
+    return `${encoded}.${changed}`;
+  }
+  assert.equal((await call(verify, 'verify', { tokens: [first.completionToken] })).response.status, 200);
+  assert.equal((await call(verify, 'verify', { tokens: [alias(first.completionToken)] })).response.status, 403);
+  assert.equal((await call(grade, 'grade', { packageId: 'L1-A1', submissions: tasks('L1-A1'), receipt: alias(first.receipt) })).response.status, 403);
+  assert.equal((await call(grade, 'grade', { packageId: 'L1-A2', submissions: tasks('L1-A2'), predecessorToken: alias(first.completionToken) })).response.status, 403);
+  assert.equal((await call(solutions, 'solutions', { packageId: 'L1-A1', completionToken: alias(first.completionToken) })).response.status, 403);
+});
+
 test('import rejects reordered, duplicate, incomplete, and mixed-chain completions', async () => {
   const a = await complete(); const b = await complete();
   const a2 = await complete('L1-A2', a.completionToken);
@@ -176,6 +210,27 @@ test('solutions require completion of the matching package and are absent from g
   assert.equal(allowed.response.status, 200);
   assert.equal(allowed.body.tasks[0].model, keys['L1-A1'].tasks[0].model);
   assert.deepEqual(allowed.body.tasks[0].alternatives, keys['L1-A1'].tasks[0].alternatives);
+});
+
+test('model comparisons retain published fill-down guidance for the original starter assignments', async () => {
+  let predecessorToken;
+  let arrayGuidance = 0;
+  for (const packageId of shared.PACKAGE_IDS.slice(0, 10)) {
+    const completed = await complete(packageId, predecessorToken);
+    predecessorToken = completed.completionToken;
+    const result = await call(solutions, 'solutions', { packageId, completionToken: completed.completionToken });
+    assert.equal(result.response.status, 200);
+    for (const task of keys[packageId].tasks) {
+      assert.equal(result.body.tasks.find(item => item.taskId === task.id).note, task.note || task.modelNote);
+      if (Array.isArray(task.answer)) {
+        assert.ok(result.body.tasks.find(item => item.taskId === task.id).note);
+        arrayGuidance++;
+      }
+    }
+    const bonus = keys[packageId].bonus;
+    if (bonus) assert.equal(result.body.bonus.note, bonus.note || bonus.modelNote);
+  }
+  assert.equal(arrayGuidance, 10);
 });
 
 test('scalar numeric tolerances and array shapes, row order, and duplicates are checked', () => {

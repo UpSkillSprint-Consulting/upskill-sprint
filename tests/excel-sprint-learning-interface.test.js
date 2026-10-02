@@ -223,6 +223,26 @@ test('an oversized corrupt imported receipt leaves valid restored reports visibl
     assert.equal(h.find('[data-learning-grade] button[type="submit"]').disabled,true);
   }finally{h.close();}
 });
+test('a valid practice proof restores its proper drill even if a malformed record reused the same token first',async()=>{
+  const genuine={type:'drill',runId:runId(1),drillId:'R2-A1',skillId:'level-2',correct:true,submissionCorrect:true,attempts:1,firstAttemptCorrect:true,hint:'Correct.',completedAt:at,receipt:'genuine-level-two-proof'};
+  const state=L.emptyState();state.selectedView='R2-A1';state.drills['R1-A1']={...genuine,drillId:'R1-A1',skillId:'level-1'};state.drills['R2-A1']=genuine;
+  const h=await harness(state,[[genuine.receipt,genuine]]);try {
+    await ready(()=>h.find('[data-learning-action="solutions"]'));
+    assert.match(h.find('.sprint-learning-feedback').textContent,/Practice complete/);assert.equal(h.calls.filter(item=>item.body?.action==='verify-many').length,1);
+    h.find('[data-learning-action="overview"]').click();h.find('[data-learning-drill="R1-A1"]').click();await ready(()=>h.find('.sprint-learning-drill-heading')?.textContent.includes('R1-A1'));
+    assert.equal(h.find('[data-learning-action="solutions"]'),null);assert.equal(h.find('[data-learning-grade] button[type="submit"]').disabled,true);
+    assert.equal(h.state().drills['R1-A1'].receipt,genuine.receipt);
+  }finally{h.close();}
+});
+test('denied clipboard access exposes selected public data for manual copying without losing the formula draft',async()=>{
+  const h=await harness();try {
+    await openFirst(h);change(h,'[data-learning-formula]','=AVERAGE(Data!B2:B21)');
+    Object.defineProperty(h.w.navigator,'clipboard',{value:{writeText:async()=>{throw new Error('Permission denied');}}});
+    h.find('[data-learning-action="copy"]').click();await ready(()=>!h.find('[data-learning-copy-fallback]').hidden);
+    const text=h.find('#learning-copy-text');assert.match(text.value,/Event_no\tDuration_min/);assert.equal(h.w.document.activeElement,text);assert.equal(text.selectionEnd,text.value.length);
+    assert.equal(h.state().drills['R1-A1'].submissions.formula,'=AVERAGE(Data!B2:B21)');assert.equal(h.find('[data-learning-formula]').value,'=AVERAGE(Data!B2:B21)');
+  }finally{h.close();}
+});
 test('clipboard data quotes multiline inspector fields so copied columns and rows stay intact',async()=>{
   const h=await harness();try {
     let copied='';Object.defineProperty(h.w.navigator,'clipboard',{value:{writeText:async text=>{copied=text;}}});h.find('[data-learning-drill="R4-A1"]').click();await ready(()=>h.find('[data-learning-grade]'));

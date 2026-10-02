@@ -10,6 +10,12 @@ before(async()=>{G=await import('../netlify/functions/_shared/excel-sprint-gradi
 after(()=>{globalThis.Netlify=originalNetlify;globalThis.fetch=originalFetch;});
 function env(key='test-anthropic-key',base){globalThis.Netlify={env:{get:name=>({EXCEL_SPRINT_SIGNING_SECRET:SECRET,ANTHROPIC_API_KEY:key,ANTHROPIC_BASE_URL:base})[name]}};}
 function payload(){const task=keys['L1-A1'].tasks[0];const graded=G.gradeSubmission({packageId:'L1-A1',submissions:[{taskId:task.id,formula:task.model,result:task.answer}]},SECRET);return{packageId:'L1-A1',taskId:task.id,formula:task.model,result:task.answer,receipt:graded.receipt};}
+function advancedPayload(packageId,taskId){
+ let predecessorToken;
+ for(const id of G.PACKAGE_IDS.slice(0,G.PACKAGE_IDS.indexOf(packageId))){const graded=G.gradeSubmission({packageId:id,predecessorToken,submissions:keys[id].tasks.map(task=>({taskId:task.id,formula:task.model,result:task.answer}))},SECRET);predecessorToken=graded.completionToken;}
+ const task=keys[packageId].tasks.find(task=>task.id===taskId),graded=G.gradeSubmission({packageId,predecessorToken,submissions:[{taskId,formula:task.model,result:task.answer}]},SECRET);
+ return{packageId,taskId,formula:task.model,result:task.answer,receipt:graded.receipt,predecessorToken};
+}
 async function call(body){const response=await handler(new Request('https://sprint.example/api/excel-sprint/coach',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}));return{status:response.status,body:await response.json()};}
 function aiResponse(value=feedback){return new Response(JSON.stringify({content:[{type:'text',text:JSON.stringify(value)}],stop_reason:'end_turn'}),{status:200});}
 
@@ -42,4 +48,30 @@ test('missing AI configuration, timeouts and provider failures preserve result g
 });
 test('provider solution snippets, extra verdicts, HTML and incomplete structured feedback are rejected',async()=>{
  env();for(const invalid of [{...feedback,nextStep:'=SUM(Data!D2:D25)'},{...feedback,logic:'Use SUM(Data!D2:D25)'},{...feedback,logic:'Use LOG10(Data!D2)'},{...feedback,logic:'<img src=x>'},{...feedback,correct:true},{logic:'Only one field'}]){globalThis.fetch=async()=>aiResponse(invalid);const result=await call(payload());assert.equal(result.status,503);assert.equal(result.body.feedback,undefined);}
+});
+test('mixed-case Excel snippets are rejected while ordinary parentheses stay valid prose',async()=>{
+ env();
+ for(const snippet of ['sum(Data!D2:D25)','SuM(Data!D2:D25)','sUm (Data!D2:D25)','if(A2,1,0)','If(A2,1,0)','log10(Data!D2)','_xlfn.SuM(Data!D2:D25)','_xlfn._xlws.filter(Data!D2:D25,A2)','sqrt(Data!D2)','ceiling.math(A2,1)','today()','unknown_call(Data!D2)','unknown_call(2,"text")']){
+  globalThis.fetch=async()=>aiResponse({...feedback,logic:'Try '+snippet});
+  const result=await call(payload());assert.equal(result.status,503,snippet);assert.equal(result.body.feedback,undefined);
+ }
+ for(const prose of ['Check duplicates (such as repeated keys).','Check references (relative ranges).','Review each input (including blanks).','Data!D2:D25 (relative cells) is the full data range.','SUM includes hidden rows and ignores blank cells.']){
+  globalThis.fetch=async()=>aiResponse({...feedback,logic:prose});
+  const result=await call(payload());assert.equal(result.status,200,prose);assert.equal(result.body.feedback.logic,prose);
+ }
+});
+test('coaching permits explicitly instructed helpers and references to earlier published task outputs',async()=>{
+ env();const outbound=[];
+ globalThis.fetch=async(url,init)=>{outbound.push(JSON.parse(init.body));return aiResponse({...feedback,logic:'Follow the published helper steps, and keep other task outputs unchanged.'});};
+ const holiday=await call(advancedPayload('L5-A3','t1'));assert.equal(holiday.status,200);
+ const holidayContext=JSON.parse(outbound[0].messages[0].content);
+ assert.match(holidayContext.task.prompt,/create Holidays!E2:E3 as real dates/);
+ assert.match(outbound[0].system,/Permit helper cells only when the published task explicitly instructs their use/);
+ assert.doesNotMatch(outbound[0].system,/only allowed answer destination|never suggest filling other cells/);
+ const reshape=await call(advancedPayload('L6-A5','t3'));assert.equal(reshape.status,200);
+ const reshapeContext=JSON.parse(outbound[1].messages[0].content);
+ assert.ok(reshapeContext.priorTaskOutputs.some(task=>task.taskId==='t1'&&task.output==='Answers!B2:C41'));
+ assert.match(outbound[1].system,/Previously published task outputs may be referenced/);
+ assert.match(outbound[1].system,/do not overwrite other task outputs or invent helper ranges/);
+ assert.equal(/"(?:answer|model|hints|alternatives)":/.test(JSON.stringify(reshapeContext)),false);
 });

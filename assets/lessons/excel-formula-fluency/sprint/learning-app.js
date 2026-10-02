@@ -39,6 +39,10 @@
     var message = '', messageError = false, verificationWarning = '', lastReceiptFingerprint = '', lastCoreFingerprint = '';
     var now = typeof options.now === 'function' ? options.now : function () { return new Date().toISOString(); };
     function localState() { return L.validateState(options.getState() || L.emptyState()); }
+    function setBusy(value) {
+      busy = value; element.setAttribute('aria-busy', String(value));
+      if (value) element.querySelectorAll('button').forEach(function (button) { button.disabled = true; });
+    }
     function save(next) { if (!destroyed) return options.saveState(next); }
     function notice(text, error) { message = text || ''; messageError = !!error; renderNotice(); }
     function renderNotice() {
@@ -50,7 +54,8 @@
     }
     function trustedState() {
       var next = localState();
-      next.diagnostic = next.diagnostic && verifiedReports.get(next.diagnostic.receipt) || null;
+      var diagnostic = next.diagnostic && verifiedReports.get(next.diagnostic.receipt);
+      next.diagnostic = diagnostic && diagnostic.type === 'diagnostic' ? diagnostic : null;
       Object.keys(next.drills || {}).forEach(function (id) {
         var saved = next.drills[id], report = saved.receipt && verifiedReports.get(saved.receipt);
         next.drills[id] = report && report.type === 'drill' && report.drillId === id ? Object.assign({}, report, {submissions:saved.submissions || {}}) : {submissions:saved.submissions || {}};
@@ -63,6 +68,14 @@
     }
     function matches(report, expected, token) {
       return !!report && report.type === expected.type && report.receipt === token && (expected.type !== 'drill' || report.drillId === expected.drillId);
+    }
+    function validReport(report, token) {
+      if (!report || report.receipt !== token) return false;
+      var candidate = L.emptyState();
+      if (report.type === 'diagnostic') candidate.diagnostic = report;
+      else if (report.type === 'drill' && /^R(?:[1-9]|10)-A[12]$/.test(report.drillId)) candidate.drills[report.drillId] = report;
+      else return false;
+      try { L.validateState(candidate); return true; } catch (_) { return false; }
     }
     function allReceipts(state) {
       var entries = [];
@@ -146,7 +159,7 @@
     }
     function datasetMarkup(dataset) {
       return '<section class="sprint-dataset"><h4>Practice dataset</h4><p class="sprint-muted">Fictitious data. Use the downloaded workbook, or paste copied data into a sheet named Data with headings in row 1.</p><div class="sprint-inline-actions">' +
-        (dataset.xlsx ? '<a class="sprint-button" href="' + escape(dataset.xlsx) + '" download>Download practice .xlsx</a>' : '') + (dataset.csv ? '<a class="sprint-button" href="' + escape(dataset.csv) + '" download>Download .csv</a>' : '') + '<button type="button" class="sprint-button" data-learning-action="copy">Copy data for Excel</button></div><div class="sprint-table-scroll" tabindex="0" role="region" aria-label="Practice data table"><table><caption>Data · ' + dataset.rows.length + ' rows</caption><thead><tr>' + dataset.headers.map(function (header) { return '<th scope="col">' + escape(header) + '</th>'; }).join('') + '</tr></thead><tbody>' + dataset.rows.map(function (row) { return '<tr>' + row.map(function (cell) { return '<td>' + escape(cell) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>' + (dataset.columns && dataset.columns.length ? '<details><summary>Column meanings</summary><dl class="sprint-dictionary">' + dataset.columns.map(function (column) { return '<div><dt>' + escape(column.name) + '</dt><dd>' + escape(column.description) + '</dd></div>'; }).join('') + '</dl></details>' : '') + '</section>';
+        (dataset.xlsx ? '<a class="sprint-button" href="' + escape(dataset.xlsx) + '" download>Download practice .xlsx</a>' : '') + (dataset.csv ? '<a class="sprint-button" href="' + escape(dataset.csv) + '" download>Download .csv</a>' : '') + '<button type="button" class="sprint-button" data-learning-action="copy">Copy data for Excel</button></div><div data-learning-copy-fallback hidden><label for="learning-copy-text">Copy these data manually</label><textarea id="learning-copy-text" readonly rows="8" spellcheck="false"></textarea></div><div class="sprint-table-scroll" tabindex="0" role="region" aria-label="Practice data table"><table><caption>Data · ' + dataset.rows.length + ' rows</caption><thead><tr>' + dataset.headers.map(function (header) { return '<th scope="col">' + escape(header) + '</th>'; }).join('') + '</tr></thead><tbody>' + dataset.rows.map(function (row) { return '<tr>' + row.map(function (cell) { return '<td>' + escape(cell) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>' + (dataset.columns && dataset.columns.length ? '<details><summary>Column meanings</summary><dl class="sprint-dictionary">' + dataset.columns.map(function (column) { return '<div><dt>' + escape(column.name) + '</dt><dd>' + escape(column.description) + '</dd></div>'; }).join('') + '</dl></details>' : '') + '</section>';
     }
     function modelMarkup(data) {
       if (!data) return '';
@@ -161,7 +174,7 @@
       element.innerHTML = heading() + '<div class="sprint-learning-drill-heading"><p class="sprint-eyebrow">Level ' + escape(drill.level) + ' · Focused practice · ' + escape(drill.id) + '</p><h4>' + escape(drill.title) + '</h4><p>' + escape(drill.scenario) + '</p></div>' +
         '<section class="sprint-lesson"><p>' + escape(drill.lesson.intro) + '</p><div class="sprint-lesson-functions">' + formulas.map(function (formula) { return '<article class="sprint-function"><h5>' + escape(formula.name) + '</h5><p>' + escape(formula.explanation || formula.purpose) + '</p><div class="sprint-formula-block"><code>' + escape(formula.syntax) + '</code></div><p>Example: <code>' + escape(formula.example) + '</code> → ' + escape(Array.isArray(formula.result) ? JSON.stringify(formula.result) : formula.result) + '</p></article>'; }).join('') + '</div></section>' + datasetMarkup(drill.dataset) +
         (unverified ? '<div class="sprint-message sprint-message-error" role="status"><p>The saved practice result is not verified yet. Your formula and output are still saved.</p><div class="sprint-inline-actions"><button type="button" class="sprint-button" data-learning-action="verify"' + (busy ? ' disabled' : '') + '>Retry verification</button><button type="button" class="sprint-button" data-learning-action="fresh"' + (busy ? ' disabled' : '') + '>Start a fresh attempt</button></div></div>' : '') +
-        '<form data-learning-grade class="sprint-task"><h5>Your practice task</h5><p>' + escape(drill.task.prompt) + '</p><p>Output: <code>' + escape(drill.task.output) + '</code>. ' + (drill.task.type === 'array' ? 'Paste the exact range with tabs between columns and new lines between rows. Text identifiers and blank cells are kept.' : 'Enter the result from Excel without units.') + '</p><div class="sprint-task-fields"><div><label for="learning-formula">Your Excel formula</label><textarea id="learning-formula" data-learning-formula spellcheck="false" maxlength="4096"' + (busy || complete ? ' readonly' : '') + '>' + escape(draft.formula) + '</textarea></div><div><label for="learning-result">Excel result</label><textarea id="learning-result" data-learning-result spellcheck="false" maxlength="16000"' + (busy || complete ? ' readonly' : '') + '>' + escape(resultText(draft)) + '</textarea></div></div><div class="sprint-learning-feedback" role="status" aria-live="polite">' + (report.receipt ? '<p class="' + (complete ? 'sprint-status-good' : 'sprint-task-error') + '">' + (complete ? 'Practice complete' : 'Not correct yet') + ' · ' + report.attempts + (report.attempts === 1 ? ' attempt' : ' attempts') + '</p><p>' + escape(report.hint) + '</p>' : '') + '</div><div class="sprint-inline-actions"><button type="submit" class="sprint-button sprint-primary"' + (busy || complete || unverified ? ' disabled' : '') + '>' + (busy ? 'Checking result…' : 'Check my result') + '</button>' + (complete ? '<button type="button" class="sprint-button" data-learning-action="solutions"' + (busy ? ' disabled' : '') + '>Compare model formulas</button><button type="button" class="sprint-button" data-learning-action="fresh"' + (busy ? ' disabled' : '') + '>Start fresh practice</button>' : '') + '</div><p class="sprint-muted">Checks compare your submitted output and formula syntax. Run the formula in Excel to test how it behaves with the data.</p>' + modelMarkup(models.get(report.receipt)) + '</form>' +
+        '<form data-learning-grade class="sprint-task"><h5>Your practice task</h5><p>' + escape(drill.task.prompt) + '</p><p>Output: <code>' + escape(drill.task.output) + '</code>. ' + (drill.task.type === 'array' ? 'Paste the exact range with tabs between columns and new lines between rows. Text identifiers and blank cells are kept.' : 'Enter the result from Excel without units.') + '</p><div class="sprint-task-fields"><div><label for="learning-formula">Your Excel formula</label><textarea id="learning-formula" data-learning-formula spellcheck="false" maxlength="4096"' + (busy || complete ? ' readonly' : '') + '>' + escape(draft.formula) + '</textarea></div><div><label for="learning-result">Excel result</label><textarea id="learning-result" data-learning-result spellcheck="false" maxlength="16000"' + (busy || complete ? ' readonly' : '') + '>' + escape(resultText(draft)) + '</textarea></div></div><div class="sprint-learning-feedback" role="status" aria-live="polite">' + (report.receipt ? '<p class="' + (complete ? 'sprint-status-good' : 'sprint-task-error') + '">' + (complete ? 'Practice complete' : 'Not correct yet') + ' · ' + report.attempts + (report.attempts === 1 ? ' attempt' : ' attempts') + '</p><p>' + escape(report.hint) + '</p>' : '') + '</div><div class="sprint-inline-actions"><button type="submit" class="sprint-button sprint-primary"' + (busy || complete || unverified ? ' disabled' : '') + '>' + (busy ? 'Checking result…' : 'Check my result') + '</button>' + (complete ? '<button type="button" class="sprint-button" data-learning-action="solutions"' + (busy ? ' disabled' : '') + '>Compare model formulas</button><button type="button" class="sprint-button" data-learning-action="fresh"' + (busy ? ' disabled' : '') + '>Start fresh practice</button>' : '') + '</div><p class="sprint-muted">Checks compare your submitted output and basic formula structure. Run the formula in Excel. Use commas or semicolons for your Excel settings. Put spill formulas outside Excel Tables and keep the spill range clear. Keep full precision unless the task asks for rounding.</p>' + modelMarkup(models.get(report.receipt)) + '</form>' +
         (state.reviews[drill.skillId] ? '<p class="sprint-notice">Next review: ' + escape(dateLabel(state.reviews[drill.skillId].nextReviewAt)) + ' (Regina time). Open your learning plan for the next dataset.</p>' : '');
       renderNotice();
     }
@@ -188,7 +201,7 @@
     }
     async function openDrill(id, fresh) {
       if (busy || destroyed || !/^R(?:[1-9]|10)-A[12]$/.test(id)) return;
-      collectDrafts(); busy = true; notice('Loading practice dataset…');
+      collectDrafts(); setBusy(true); notice('Loading practice dataset…');
       try {
         var drill = drillCache.get(id) || await options.request(BASE + 'drills/' + id + '.json');
         if (destroyed) return;
@@ -197,13 +210,13 @@
         if (fresh) save(L.freshRun(localState(), id));
         currentDrill = drill; setView(id); notice('');
       } catch (error) { if (!destroyed) notice(error.message, true); }
-      finally { if (!destroyed) { busy = false; render(); focusView(); } }
+      finally { if (!destroyed) { setBusy(false); render(); focusView(); } }
     }
     async function submitDiagnostic() {
       if (busy || destroyed) return;
       collectDrafts(); var state = localState();
       var answers = catalog.diagnostic.questions.map(function (question) { return {questionId:question.id,optionId:state.diagnosticAnswers[question.id] || null}; });
-      busy = true; notice(''); renderDiagnostic();
+      setBusy(true); notice(''); renderDiagnostic();
       try {
         var report = await options.request(ENDPOINT, {action:'diagnostic',answers:answers});
         if (destroyed) return;
@@ -212,18 +225,18 @@
         next.diagnosticAnswers = {}; next.selectedView = 'overview'; view = 'overview'; save(next);
         notice('Your placement check is ready. Skipped skills remain unassessed.');
       } catch (error) { if (!destroyed) notice(error.message, true); }
-      finally { if (!destroyed) { busy = false; render(); focusView(); } }
+      finally { if (!destroyed) { setBusy(false); render(); focusView(); } }
     }
     async function submitDrill() {
       if (busy || destroyed || !currentDrill) return;
       collectDrafts(); var drill = currentDrill, saved = localState().drills[drill.id] || {}, draft = saved.submissions || {};
-      if (saved.receipt && !verifiedReports.has(saved.receipt)) { notice('Verify the saved result or start a fresh attempt before checking.', true); return; }
+      if (saved.receipt && !trustedState().drills[drill.id].receipt) { notice('Verify the saved result or start a fresh attempt before checking.', true); return; }
       var parsed;
       try {
         if (!/^\s*=\s*\S/.test(draft.formula || '')) throw new Error('Enter a formula beginning with =.');
         parsed = parseResult(resultText(draft), drill.task.type);
       } catch (error) { notice(error.message, true); return; }
-      busy = true; notice(''); renderDrill();
+      setBusy(true); notice(''); renderDrill();
       try {
         var report = await options.request(ENDPOINT, {action:'grade',drillId:drill.id,formula:draft.formula,result:parsed,receipt:saved.receipt});
         if (destroyed) return;
@@ -232,30 +245,35 @@
         var next = L.applyDrill(source, report, now()); verifiedReports.set(report.receipt, report); save(next);
         notice(report.correct ? 'Practice result checked. Your next review is on the learning plan.' : 'Your work is saved. Use the hint, revise the formula in Excel, and try again.');
       } catch (error) { if (!destroyed) notice(error.message, true); }
-      finally { if (!destroyed) { busy = false; render(); focusFeedback(); } }
+      finally { if (!destroyed) { setBusy(false); render(); focusFeedback(); } }
     }
     async function showSolutions() {
       if (busy || destroyed || !currentDrill) return;
       var id = currentDrill.id, report = trustedState().drills[id];
       if (!report || !report.correct) { notice('Complete this practice task before comparing model formulas.', true); return; }
       if (models.has(report.receipt)) { renderDrill(); return; }
-      collectDrafts(); busy = true; notice('Loading model formulas…'); renderDrill();
+      collectDrafts(); setBusy(true); notice('Loading model formulas…'); renderDrill();
       try {
         var data = await options.request(ENDPOINT, {action:'solutions',drillId:id,token:report.receipt});
         if (destroyed) return;
         if (!data || data.drillId !== id || typeof data.model !== 'string' || data.alternatives !== undefined && !Array.isArray(data.alternatives)) throw new Error('The model formula was unavailable. Try again.');
         models.set(report.receipt, data); notice('');
       } catch (error) { if (!destroyed) notice(error.message, true); }
-      finally { if (!destroyed) { busy = false; renderDrill(); var heading = element.querySelector('.sprint-solutions h5'); if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({preventScroll:true}); } else focusFeedback(); } }
+      finally { if (!destroyed) { setBusy(false); renderDrill(); var heading = element.querySelector('.sprint-solutions h5'); if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({preventScroll:true}); } else focusFeedback(); } }
     }
     async function copyData() {
       if (!currentDrill) return;
-      var data = currentDrill.dataset, text = [data.headers].concat(data.rows).map(function (row) { return row.map(function (cell) { var value = cell === null || cell === undefined ? '' : String(cell); return /[\t\n\r"]/.test(value) ? '"' + value.replace(/"/g, '""') + '"' : value; }).join('\t'); }).join('\n');
+      var id = currentDrill.id, data = currentDrill.dataset, text = [data.headers].concat(data.rows).map(function (row) { return row.map(function (cell) { var value = cell === null || cell === undefined ? '' : String(cell); return /[\t\n\r"]/.test(value) ? '"' + value.replace(/"/g, '""') + '"' : value; }).join('\t'); }).join('\n');
       try {
         if (!root.navigator.clipboard || !root.navigator.clipboard.writeText) throw new Error('Clipboard access is unavailable. Download the workbook or CSV instead.');
         await root.navigator.clipboard.writeText(text);
-        if (!destroyed) notice('Data copied. Paste into Data!A1 in Excel.');
-      } catch (error) { if (!destroyed) notice(error.message || 'Copy failed. Download the workbook or CSV instead.', true); }
+        if (!destroyed && currentDrill && currentDrill.id === id) notice('Data copied. Paste into Data!A1 in Excel.');
+      } catch (_) {
+        if (destroyed || !currentDrill || currentDrill.id !== id) return;
+        var panel = element.querySelector('[data-learning-copy-fallback]'), input = element.querySelector('#learning-copy-text');
+        if (panel && input) { panel.hidden = false; input.value = text; input.focus({preventScroll:true}); input.select(); }
+        notice('Automatic copy is unavailable. The data are selected below; copy them manually and paste into Data!A1 in Excel.');
+      }
     }
     async function refresh(force) {
       if (destroyed) return;
@@ -289,8 +307,11 @@
             if (!batch || !Array.isArray(batch.results)) throw new Error('Saved results could not be verified.');
             eligible.forEach(function (expected) {
               var result = batch.results.find(function (entry) { return entry.token === expected.token; });
-              if (!result || result.verified !== true || !matches(result.report, expected, expected.token)) { failed = true; return; }
+              if (!result || result.verified !== true || !validReport(result.report, expected.token)) { failed = true; return; }
               verifiedReports.set(expected.token, result.report);
+              // Keep a genuine proof usable by its correct record even when another
+              // imported record attached the same token to the wrong drill.
+              if (!matches(result.report, expected, expected.token)) failed = true;
             });
           } catch (_) { if (destroyed || sequence !== refreshSequence) return; failed = true; }
         }
@@ -313,8 +334,11 @@
       }
     }
     function click(event) {
+      var download = event.target.closest('a[download]');
+      if (download && element.contains(download)) { notice('Download requested. Check your browser’s Downloads. You can also use Copy data for Excel.'); return; }
       var target = event.target.closest('[data-learning-action], [data-learning-drill], [data-learning-core]');
       if (!target || !element.contains(target) || target.disabled || busy) return;
+      if (typeof options.canChangeProgress === 'function' && !options.canChangeProgress() && !['copy','solutions'].includes(target.getAttribute('data-learning-action'))) { notice('Progress changed in another tab. Export this tab’s drafts, then reload the latest progress before continuing.', true); return; }
       if (target.hasAttribute('data-learning-drill')) { openDrill(target.getAttribute('data-learning-drill'), target.getAttribute('data-learning-fresh') === 'true'); return; }
       if (target.hasAttribute('data-learning-core')) { collectDrafts(); options.openCore(target.getAttribute('data-learning-core')); return; }
       var action = target.getAttribute('data-learning-action');
@@ -328,6 +352,7 @@
       if (action === 'copy') copyData();
     }
     function submit(event) {
+      if ((event.target.hasAttribute('data-learning-diagnostic') || event.target.hasAttribute('data-learning-grade')) && typeof options.canChangeProgress === 'function' && !options.canChangeProgress()) { event.preventDefault(); notice('Progress changed in another tab. Export this tab’s drafts, then reload the latest progress before continuing.', true); return; }
       if (event.target.hasAttribute('data-learning-diagnostic')) { event.preventDefault(); submitDiagnostic(); }
       if (event.target.hasAttribute('data-learning-grade')) { event.preventDefault(); submitDrill(); }
     }

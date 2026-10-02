@@ -5,7 +5,8 @@
   "title": "Filter inspection exceptions",
   "formulas": [
     "FILTER",
-    "SORT"
+    "SORT",
+    "CHOOSECOLS"
   ],
   "minutes": 65,
   "scenario": "Pervani Tube Inspection has 64 invented length measurements. Blank Length_mm means not measured and must be excluded from threshold analysis; zero is not used as a substitute. Review rows are measured lengths strictly below 5985 mm.",
@@ -31,6 +32,16 @@
         "result": "2, 7, 9 in three rows",
         "useCase": "Order a filtered report.",
         "mistake": "Sorting by one key leaves ties; use SORTBY for explicit secondary keys."
+      },
+      {
+        "name": "CHOOSECOLS",
+        "purpose": "Select and reorder array columns.",
+        "syntax": "=CHOOSECOLS(array, col_num1, [col_num2], ...)",
+        "arguments": "Provide an array and 1-based column indices; negative indices count from its right edge.",
+        "example": "=CHOOSECOLS({1,2,3;4,5,6},3,1)",
+        "result": "3,1 then 6,4",
+        "useCase": "Build a compact quality report.",
+        "mistake": "Index zero or outside the width errors."
       }
     ],
     "combine": "Reuse IF/COUNTIFS and ROUND where needed. A blank can behave like zero in numeric comparisons, so explicitly exclude blank readings before the threshold test. A filtered count should agree with the same eligible population."

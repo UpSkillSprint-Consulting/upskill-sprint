@@ -9,7 +9,9 @@ const {phase2Packages}=await import(pathToFileURL(path.join(root,'content/excel-
 const {randomFor,workbookFingerprint}=await import(pathToFileURL(path.join(root,'content/excel-sprint/seed.mjs')));
 const out=path.join(root,'content/excel-sprint/workbooks'),previews=path.resolve(process.argv[3]||'workbook-previews');
 await fs.mkdir(out,{recursive:true});await fs.mkdir(previews,{recursive:true});
-const manifest={};
+// Keep entries owned by the foundations, final levels and Expert authors.
+let manifest;
+try{manifest=JSON.parse(await fs.readFile(path.join(out,'manifest.json'),'utf8'));}catch(error){if(error.code!=='ENOENT')throw error;manifest={};}
 const letter=n=>{let s='';for(;n;n=Math.floor((n-1)/26))s=String.fromCharCode(65+(n-1)%26)+s;return s;};
 function header(sheet,range){sheet.getRange(range).format={fill:'#102D3D',font:{bold:true,color:'#FFFFFF'},rowHeight:30,wrapText:true};}
 function base(sheet){sheet.showGridLines=false;sheet.getRange('A1:H150').format.font={name:'Aptos',size:11,color:'#173847'};sheet.getRange('A1:H150').format.columnWidth=22;sheet.freezePanes.freezeRows(1);}

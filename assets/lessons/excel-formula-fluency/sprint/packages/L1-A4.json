@@ -58,7 +58,7 @@
     },
     {
       "id": "t2",
-      "prompt": "For the first five items, calculate the number of complete packs to order to meet Demand_units. Return one integer per row in dataset order.",
+      "prompt": "For the first five items, calculate complete packs needed to cover the full Demand_units. Ignore current Stock_units for this task; this is gross pack sizing, not net replenishment. Return one integer per row in dataset order.",
       "output": "Answers!B3:B7",
       "type": "array",
       "formulas": [

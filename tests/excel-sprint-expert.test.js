@@ -58,6 +58,22 @@ test('changed names, scopes, signatures, completion tokens and markup cannot pas
  assert.throws(()=>C.verifyCertificate({certificateToken:issued.certificateToken},SECRET+'changed'),e=>e.status===403);
  for(const name of ['<img src=x>','A\nB','\u202eNora','123','A'.repeat(81)])assert.throws(()=>C.issueCertificate({...proofs,award:'levels-1-6',learnerName:name},SECRET),e=>e.status===400);
 });
+test('certificate awards require strings and signature encodings must be canonical',async()=>{
+ const [,C]=await imports,proofs=await path(0);
+ for(const award of [['levels-1-6'],['expert-track-v1'],['full-path'],null,{},30])assert.throws(()=>C.issueCertificate({...proofs,award,learnerName:'Fictitious Audit Learner'},SECRET),e=>e.status===400);
+ const issued=C.issueCertificate({...proofs,award:'levels-1-6',learnerName:'Fictitious Audit Learner'},SECRET);
+ const [encoded,mac]=issued.certificateToken.split('.'),alphabet='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+ const changed=mac.slice(0,-1)+alphabet[alphabet.indexOf(mac.at(-1))+1];
+ assert.deepEqual(Buffer.from(changed,'base64url'),Buffer.from(mac,'base64url'));
+ assert.equal(C.verifyCertificate({certificateToken:issued.certificateToken},SECRET).verified,true);
+ assert.throws(()=>C.verifyCertificate({certificateToken:encoded+'.'+changed},SECRET),e=>e.status===403);
+ // The old issuer could create this malformed signed award. Verify must reject
+ // its shape even though its signature and computed certificate ID are valid.
+ const {createHash,createHmac}=require('node:crypto'),malformed={...issued.certificate,award:['levels-1-6']};
+ malformed.certificateId=createHash('sha256').update(JSON.stringify([malformed.award,malformed.chainId,malformed.coreProofHash,malformed.expertProofHash,malformed.learnerName])).digest('hex').slice(0,24).toUpperCase();
+ const payload=Buffer.from(JSON.stringify(malformed)).toString('base64url'),signature=createHmac('sha256',SECRET).update('excel-sprint-certificate-v1.'+payload).digest('base64url');
+ assert.throws(()=>C.verifyCertificate({certificateToken:payload+'.'+signature},SECRET),e=>e.status===403);
+});
 test('capstones have independent seeds, bounded blank answer ranges and no public solutions',async()=>{
  const {expertPackages}=await import('../content/excel-sprint/expert.mjs'),{randomFor,workbookFingerprint}=await import('../content/excel-sprint/seed.mjs'),{createHash}=require('node:crypto'),[G]=await imports;
  const sources=expertPackages(randomFor),manifest=JSON.parse(fs.readFileSync('content/excel-sprint/workbooks/manifest.json'));

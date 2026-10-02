@@ -366,7 +366,8 @@
           "title": "Filter inspection exceptions",
           "formulas": [
             "FILTER",
-            "SORT"
+            "SORT",
+            "CHOOSECOLS"
           ]
         },
         {
@@ -382,7 +383,8 @@
           "title": "Create a distinct heat register",
           "formulas": [
             "UNIQUE",
-            "SEQUENCE"
+            "SEQUENCE",
+            "HSTACK"
           ]
         },
         {

@@ -24,7 +24,7 @@ for(const p of packages){
  await writeFile(`${base}/packages/${p.id}.json`,JSON.stringify({...pub,dataset},null,2)+'\n');
  await writeFile(`${base}/datasets/${p.id}.csv`,csv([headers,...rows,[],['Fictitious data for training purposes.']]));
  for(const sheet of sheets)await writeFile(`${base}/datasets/${p.id}-${sheet.name}.csv`,csv([sheet.headers,...sheet.rows,[],['Fictitious data for training purposes.']]));
- if(p.level<=2)await writeFile(`${base}/datasets/${p.id}.xlsx`,workbook(p));
+ if(p.level<=2&&!manifest[p.id])await writeFile(`${base}/datasets/${p.id}.xlsx`,workbook(p));
  else {
   const entry=manifest[p.id],source=await readFile(`${workbookDir}/${p.id}.xlsx`);
   if(entry?.fingerprint!==workbookFingerprint(p)||entry.sha256!==createHash('sha256').update(source).digest('hex'))throw new Error(`${p.id}: workbook source is stale. Re-author the seeded workbook before building.`);

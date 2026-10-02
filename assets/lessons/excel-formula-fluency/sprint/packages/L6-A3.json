@@ -5,7 +5,8 @@
   "title": "Create a distinct heat register",
   "formulas": [
     "UNIQUE",
-    "SEQUENCE"
+    "SEQUENCE",
+    "HSTACK"
   ],
   "minutes": 75,
   "scenario": "Relvani Melt Tracking has 72 invented sample records spanning six heat codes. Heat codes repeat across samples; one blank code represents an incomplete record and must be excluded from the distinct register. Sample counts must still reflect all valid records per heat.",
@@ -31,6 +32,16 @@
         "result": "10, 12, 14",
         "useCase": "Number rows or create planned sample indices.",
         "mistake": "Rows and columns must be positive; these numbers do not become observations."
+      },
+      {
+        "name": "HSTACK",
+        "purpose": "Append arrays horizontally.",
+        "syntax": "=HSTACK(array1, [array2], ...)",
+        "arguments": "Supply arrays to append side by side, with matching row counts.",
+        "example": "=HSTACK({1;2},{3;4})",
+        "result": "1,3 then 2,4",
+        "useCase": "Put orientation results beside sample keys.",
+        "mistake": "Different heights cause #N/A padding; row identity must also agree."
       }
     ],
     "combine": "Reuse SORT for stable ascending heat order, FILTER to exclude blank keys, and COUNTIFS for counts aligned to the spilled register. Do not use exactly_once TRUE when all distinct heats are needed."

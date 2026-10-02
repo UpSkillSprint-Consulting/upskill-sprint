@@ -17,7 +17,7 @@ function nameOf(value) {
 }
 function identity(proof) { return sha(JSON.stringify([proof.award,proof.chainId,proof.coreProofHash,proof.expertProofHash,proof.learnerName])).slice(0,24).toUpperCase(); }
 export function issueCertificate(payload, secret) {
- const award = Object.hasOwn(AWARDS, payload.award) ? AWARDS[payload.award] : null;
+ const award = typeof payload.award === 'string' && Object.hasOwn(AWARDS, payload.award) ? AWARDS[payload.award] : null;
  if (!award) fail(400, 'Choose a released certificate award.');
  const name = nameOf(payload.learnerName);
  const progress = verifyProgress(payload, secret);
@@ -37,9 +37,9 @@ export function verifyCertificate(payload, secret) {
  const token = payload.certificateToken;
  if (typeof token !== 'string' || token.length > 10000 || !/^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]{43}$/.test(token)) fail(403, 'The certificate proof is invalid.');
  const [encoded, supplied] = token.split('.'), expected = createHmac('sha256',secret).update(DOMAIN+encoded).digest(), actual = Buffer.from(supplied,'base64url');
- if (actual.length !== expected.length || !timingSafeEqual(actual,expected)) fail(403, 'The certificate proof is invalid.');
+ if (actual.length !== expected.length || actual.toString('base64url')!==supplied || Buffer.from(encoded,'base64url').toString('base64url')!==encoded || !timingSafeEqual(actual,expected)) fail(403, 'The certificate proof is invalid.');
  let proof;try { proof=JSON.parse(Buffer.from(encoded,'base64url').toString('utf8')); } catch { fail(403,'The certificate proof is invalid.'); }
- const award = proof && Object.hasOwn(AWARDS, proof.award) ? AWARDS[proof.award] : null;
+ const award = proof && typeof proof.award==='string' && Object.hasOwn(AWARDS, proof.award) ? AWARDS[proof.award] : null;
  if (!award || proof.type!=='certificate' || proof.schema!==1 || proof.issuer!=='UpSkillSprint' || proof.title!==award.title || proof.scope!==award.scope ||
      proof.nameSource!=='self-reported' || proof.coreCount!==award.coreCount || proof.expertCount!==award.expertCount ||
      JSON.stringify(proof.corePackageIds)!==JSON.stringify(award.coreCount===50?PACKAGE_IDS:EXPERT_CORE_IDS) || JSON.stringify(proof.expertPackageIds)!==JSON.stringify(award.expertCount?EXPERT_IDS:[]) ||
