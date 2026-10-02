@@ -117,6 +117,7 @@
       }).join('') + '</ul></div>';
     }
     function renderOverview() {
+      deferredRender = false;
       var state = trustedState(), recommendations = L.recommendations(state, catalog, options.getCompletions() || [], now());
       var nextCore = recommendations.nextCore, hasDraft = Object.keys(state.diagnosticAnswers || {}).length > 0;
       element.innerHTML = heading() + '<div class="sprint-inline-actions"><button type="button" class="sprint-button sprint-primary" data-learning-action="diagnostic">' + (hasDraft ? 'Continue placement check' : state.diagnostic ? 'Retake placement check' : 'Take the 10-question placement check') + '</button>' + (hasDraft ? '<button type="button" class="sprint-link-button" data-learning-action="new-diagnostic">Discard placement draft and start again</button>' : '') + '<span class="sprint-muted">About 10 minutes · one question per level · skipping is allowed</span></div>' +
@@ -133,6 +134,7 @@
       renderNotice();
     }
     function renderDiagnostic() {
+      deferredRender = false;
       var state = localState(), answers = state.diagnosticAnswers || {};
       element.innerHTML = heading() + '<form data-learning-diagnostic><h4>' + escape(catalog.diagnostic.title) + '</h4><p>Choose one answer for each question. Choose “Skip / unsure” if you have not learned that skill. Unanswered questions are also marked unassessed.</p>' + catalog.diagnostic.questions.map(function (question, index) {
         return '<fieldset class="sprint-learning-question"><legend>' + (index + 1) + '. Level ' + escape(question.level) + ' · ' + escape(question.prompt) + '</legend>' + question.options.concat([{id:'skip',text:'Skip / unsure — leave this skill unassessed'}]).map(function (option) {
@@ -152,6 +154,7 @@
     }
     function renderDrill() {
       if (!currentDrill) return;
+      deferredRender = false;
       var drill = currentDrill, local = localState().drills[drill.id] || {}, state = trustedState(), report = state.drills[drill.id] || {}, draft = local.submissions || {};
       var unverified = !!local.receipt && !report.receipt, complete = report.correct === true;
       var formulas = drill.lesson.formulas || drill.lesson.functions || [];
@@ -170,7 +173,9 @@
     }
     function refreshRender() {
       var focused = element.ownerDocument.activeElement;
-      if (focused && element.contains(focused) && focused.matches('textarea, input')) { deferredRender = true; return; }
+      // A mouse press moves focus to its button/link before the click fires. Replacing
+      // that control during focusout can cancel the first submission or download.
+      if (focused && element.contains(focused) && focused.matches('textarea, input, button, a, summary, select')) { deferredRender = true; return; }
       collectDrafts(); deferredRender = false; render();
     }
     function focusView() {
@@ -292,8 +297,14 @@
         if (destroyed || sequence !== refreshSequence) return;
         checking = false; lastReceiptFingerprint = fingerprint;
         verificationWarning = failed ? 'Some saved learning results could not be verified. Drafts are kept. Retry verification, retake placement, or start fresh practice.' : '';
+        // An explicit verification click has finished by the time its request returns.
+        // Move focus to the heading so its updated controls can be shown safely.
+        var focused = element.ownerDocument.activeElement;
+        var refocus = force && focused && element.contains(focused) && focused.matches('[data-learning-action="verify"]');
+        if (refocus) focusView();
         // Leave active text fields and radio focus intact during ordinary core-summary updates.
         if (!busy && (view === 'overview' || pending.length)) refreshRender();
+        if (!busy && refocus) focusView();
       } catch (error) {
         if (!destroyed && sequence === refreshSequence) {
           checking = false; catalog = null;

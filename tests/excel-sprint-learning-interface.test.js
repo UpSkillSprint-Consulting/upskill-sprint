@@ -89,6 +89,33 @@ test('unfinished placement choices survive overview navigation, refresh and deli
     h.find('[data-learning-action="overview"]').click();h.find('[data-learning-action="new-diagnostic"]').click();assert.equal(h.find('input[name="learning-q1"][value="c"]').checked,false);
   }finally{h.close();}
 });
+test('a deferred saved-result refresh preserves download and submit controls between mouse press and release',async()=>{
+  const h=await harness();try {
+    await openFirst(h);change(h,'[data-learning-formula]','=ROUND(AVERAGE(Data!B2:B21),2)');change(h,'[data-learning-result]',String(publicMean()));
+    const diagnostic={type:'diagnostic',runId:runId(1),completed:true,score:100,skills:Array.from({length:10},(_,i)=>({skillId:'level-'+(i+1),level:i+1,status:'correct'})),timestamp:at,receipt:'pending-saved-placement'};
+    h.verified.set(diagnostic.receipt,diagnostic);h.setState(L.applyDiagnostic(h.state(),diagnostic));h.find('[data-learning-result]').focus();
+    await h.app.refresh();
+    const download=h.find('.sprint-dataset a[download]');download.dispatchEvent(new h.w.MouseEvent('mousedown',{bubbles:true}));download.focus();
+    await new Promise(resolve=>setTimeout(resolve,5));assert.equal(download.isConnected,true,'The pressed download link must survive the queued focusout refresh.');
+    download.dispatchEvent(new h.w.MouseEvent('mouseup',{bubbles:true}));
+    const button=h.find('[data-learning-grade] button[type="submit"]');button.dispatchEvent(new h.w.MouseEvent('mousedown',{bubbles:true}));button.focus();
+    await new Promise(resolve=>setTimeout(resolve,5));
+    assert.equal(button.isConnected,true,'The pressed submit button must survive the queued focusout refresh.');
+    button.dispatchEvent(new h.w.MouseEvent('mouseup',{bubbles:true}));button.click();
+    await ready(()=>h.state().drills['R1-A1']?.correct===true);assert.equal(h.calls.filter(item=>item.body?.action==='grade').length,1);
+  }finally{h.close();}
+});
+test('an explicit verification retry displays verified practice controls after its request returns',async()=>{
+  const report={type:'drill',runId:runId(1),drillId:'R1-A1',skillId:'level-1',correct:true,submissionCorrect:true,attempts:1,firstAttemptCorrect:true,hint:'Correct. The requested result matches.',completedAt:at,receipt:'retry-saved-valid-report'};
+  const state=L.applyDrill(L.emptyState(),report,at);state.selectedView='R1-A1';
+  const h=await harness(state);try {
+    assert.equal(h.find('[data-learning-action="solutions"]'),null);h.verified.set(report.receipt,report);
+    const button=h.find('[data-learning-action="verify"]');button.focus();button.click();
+    await ready(()=>h.find('[data-learning-action="solutions"]'));
+    assert.match(h.find('.sprint-learning-feedback').textContent,/Practice complete/);assert.equal(h.find('[data-learning-formula]').readOnly,true);
+    assert.equal(h.w.document.activeElement.tagName,'H4');
+  }finally{h.close();}
+});
 test('failed practice retains hints and attempt history; a correction gates model access and schedules review',async()=>{
   const h=await harness();try {
     await openFirst(h);assert.equal(h.find('[data-learning-action="solutions"]'),null);
