@@ -35,7 +35,7 @@
     var element = options.element, L = root.ExcelSprintLearning;
     if (!element || !L) return {refresh:function () {},collectDrafts:function () {},destroy:function () {}};
     var catalog = null, currentDrill = null, drillCache = new Map(), verifiedReports = new Map(), models = new Map();
-    var destroyed = false, busy = false, checking = false, refreshSequence = 0, view = 'overview', deferredRender = false;
+    var destroyed = false, busy = false, checking = false, refreshSequence = 0, copySequence = 0, view = 'overview', deferredRender = false;
     var message = '', messageError = false, verificationWarning = '', lastReceiptFingerprint = '', lastCoreFingerprint = '';
     var now = typeof options.now === 'function' ? options.now : function () { return new Date().toISOString(); };
     function localState() { return L.validateState(options.getState() || L.emptyState()); }
@@ -278,14 +278,15 @@
     }
     async function copyData() {
       if (!currentDrill) return;
+      var sequence = ++copySequence, panel = element.querySelector('[data-learning-copy-fallback]'), input = element.querySelector('#learning-copy-text');
+      function currentCopy() { return !destroyed && sequence === copySequence && view === id && currentDrill && currentDrill.id === id && input && input.isConnected && element.querySelector('#learning-copy-text') === input; }
       var id = currentDrill.id, data = currentDrill.dataset, text = [data.headers].concat(data.rows).map(function (row) { return row.map(function (cell) { var value = cell === null || cell === undefined ? '' : String(cell); return /[\t\n\r"]/.test(value) ? '"' + value.replace(/"/g, '""') + '"' : value; }).join('\t'); }).join('\n');
       try {
         if (!root.navigator.clipboard || !root.navigator.clipboard.writeText) throw new Error('Clipboard access is unavailable. Download the workbook or CSV instead.');
         await root.navigator.clipboard.writeText(text);
-        if (!destroyed && currentDrill && currentDrill.id === id) notice('Data copied. Paste into Data!A1 in Excel.');
+        if (currentCopy()) notice('Data copied. Paste into Data!A1 in Excel.');
       } catch (_) {
-        if (destroyed || !currentDrill || currentDrill.id !== id) return;
-        var panel = element.querySelector('[data-learning-copy-fallback]'), input = element.querySelector('#learning-copy-text');
+        if (!currentCopy()) return;
         if (panel && input) { panel.hidden = false; input.value = text; input.focus({preventScroll:true}); input.select(); }
         notice('Automatic copy is unavailable. The data are selected below; copy them manually and paste into Data!A1 in Excel.');
       }

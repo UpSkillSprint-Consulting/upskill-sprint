@@ -57,7 +57,9 @@
       throw error;
     } finally { if (timeout) clearTimeout(timeout); }
   }
+  var messageSequence = 0, backupCopySequence = 0;
   function message(text, error) {
+    messageSequence++;
     var target = mount.querySelector('#sprint-message');
     if (!target) return;
     target.textContent = text || '';
@@ -698,12 +700,15 @@
   }
   async function copyBackupText() {
     if (!showBackupText()) return;
-    var input = mount.querySelector('#sprint-backup-text');
+    var input = mount.querySelector('#sprint-backup-text'), panel = mount.querySelector('#sprint-backup-text-panel');
+    var sequence = ++backupCopySequence, feedbackSequence = messageSequence, text = input.value;
+    function currentCopy() { return sequence === backupCopySequence && feedbackSequence === messageSequence && input.isConnected && mount.querySelector('#sprint-backup-text') === input && !panel.hidden && input.value === text; }
     try {
       if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('Clipboard unavailable');
-      await navigator.clipboard.writeText(input.value);
+      await navigator.clipboard.writeText(text);
+      if (!currentCopy()) return;
       message('Backup text copied. Save it in a plain text file with a .json extension.');
-    } catch (_) { input.focus(); input.select(); message('Automatic copy is unavailable. The complete backup text is selected; copy it manually and save it as a .json file.'); }
+    } catch (_) { if (!currentCopy()) return; input.focus(); input.select(); message('Automatic copy is unavailable. The complete backup text is selected; copy it manually and save it as a .json file.'); }
   }
   async function importBackup(file) {
     if (!file || busy) return;

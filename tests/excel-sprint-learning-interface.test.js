@@ -252,6 +252,23 @@ test('clipboard data quotes multiline inspector fields so copied columns and row
     for(const row of data.rows) for(const value of row) if(typeof value==='string' && /[\t\n\r"]/.test(value)) assert.ok(copied.includes('"'+value.replace(/"/g,'""')+'"'));
   }finally{h.close();}
 });
+test('a delayed practice clipboard reply cannot interrupt a reopened instance of the same drill',async()=>{
+  for (const denied of [false,true]) {
+    const h=await harness();let release;
+    try {
+      await openFirst(h);
+      Object.defineProperty(h.w.navigator,'clipboard',{value:{writeText:()=>new Promise((resolve,reject)=>{release=()=>denied?reject(new Error('Denied')):resolve();})}});
+      h.find('[data-learning-action="copy"]').click();
+      h.find('[data-learning-action="overview"]').click();await openFirst(h);
+      const field=h.find('[data-learning-formula]');change(h,'[data-learning-formula]','=SUM(Data!B2:B21)');field.focus();
+      release();await new Promise(resolve=>setImmediate(resolve));
+      assert.equal(h.w.document.activeElement,field);
+      assert.equal(h.find('[data-learning-copy-fallback]').hidden,true);
+      assert.equal(h.find('[data-learning-message]').hidden,true);
+      assert.equal(field.value,'=SUM(Data!B2:B21)');
+    } finally {if(release)release();h.close();}
+  }
+});
 test('destroyed views ignore late grading and never overwrite replacement imported state',async()=>{
   const h=await harness();try {
     await openFirst(h);let release;h.control.delay={action:'grade',wait:new Promise(resolve=>{release=resolve;})};change(h,'[data-learning-formula]','=AVERAGE(Data!B2:B21)');change(h,'[data-learning-result]',String(publicMean()));

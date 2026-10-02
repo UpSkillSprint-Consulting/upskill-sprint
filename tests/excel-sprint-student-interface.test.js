@@ -51,6 +51,21 @@ async function solveFoundations(h){for(const answer of publicFoundationAnswers()
 async function anotherTab(h,change,options){const store=h.w.ExcelSprintProgress.createStore(h.w),state=await store.load();const next=change(state)||state;await store.save(next,options);h.w.dispatchEvent(new h.w.StorageEvent('storage',{key:h.w.ExcelSprintProgress.RECOVERY_KEY,storageArea:h.w.localStorage}));return next;}
 function addCoreProof(h,state,packageId){const proof=h.G.gradeSubmission({packageId,predecessorToken:state.tokens.at(-1),submissions:fixtures[packageId].tasks.map(task=>({taskId:task.id,formula:task.model,result:task.answer}))},SECRET);state.tokens.push(proof.completionToken);}
 
+test('a delayed backup clipboard reply cannot reopen a closed panel or interrupt current feedback',async()=>{
+ for(const denied of [false,true]){
+  const h=await harness();let release;try{
+   Object.defineProperty(h.w.navigator,'clipboard',{value:{writeText:()=>new Promise((resolve,reject)=>{release=()=>denied?reject(new Error('Denied')):resolve();})}});
+   h.find('[data-sprint-action="copy-backup-text"]').click();
+   h.find('[data-sprint-action="close-backup-text"]').click();
+   const field=h.find('[data-sprint-formula-input="t1"]');field.focus();
+   h.find('[data-sprint-check="t1"]').click();const feedback=h.find('#sprint-message').textContent;
+   const focused=h.w.document.activeElement;release();await new Promise(resolve=>setImmediate(resolve));
+   assert.equal(h.find('#sprint-backup-text-panel').hidden,true);
+   assert.equal(h.find('#sprint-message').textContent,feedback);
+   assert.equal(h.w.document.activeElement,focused);
+  }finally{if(release)release();h.close();}
+ }
+});
 test('a fresh student can start before optional coaching responds and receives it without losing focus or drafts',async()=>{
  const slow=deferred(),h=await harness({waits:[['/api/excel-sprint/coaching-status',slow.wait]]});try{
   assert.equal(h.find('[data-sprint-open="L1-A1"]').disabled,false);assert.equal(h.find('[data-sprint-open="L1-A2"]').disabled,true);
