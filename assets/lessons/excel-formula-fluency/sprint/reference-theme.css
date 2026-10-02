@@ -1,0 +1,92 @@
+/* These reference surfaces use their own tokens and must follow the site theme. */
+html[data-theme="dark"] {
+  --excel-reference-ink:#e5edf5;
+  --excel-reference-muted:#b5c6d6;
+  --excel-reference-paper:#0b1220;
+  --excel-reference-card:#111c2d;
+  --excel-reference-line:#334a63;
+  --excel-reference-excel:#8ae4c4;
+  --excel-reference-excel-dark:#8ae4c4;
+  --excel-reference-mint:#12362f;
+  --excel-reference-amber-soft:#382d19;
+  --excel-reference-red-soft:#331e2c;
+  --excel-reference-blue-soft:#142c46;
+}
+html[data-theme="dark"] :is(
+  .table-wrap,.level,.anatomy,.token-note,.lab,.flow-step,.practice-shell,
+  .challenge-list,.formula-bar,.mastery-card,.diagnostic-shell,.live-sheet-shell,
+  .mastery-shell,.recommendation-card,.diagnostic-skill,.live-controls,.mission-panel,
+  .sheet-workspace,.review-item,.hub-shell,.graph-shell,.pathway-shell,.project-shell,
+  .badge-shell,.instructor-shell,.authoring-shell,.hub-grid,.hub-card,.next-action,
+  .pathway-mini,.skills-graph,.skill-node,.pathway-grid,.path-card,.filter-bar,
+  .project-grid,.project-card,.project-workspace,.rubric-item,.badge-grid,.badge-card,
+  .badge-medal,.instructor-kpis,.instructor-kpi,.author-form,.author-preview,
+  .skill-checkbox,.account-modal,.profile-list,.platform-empty,.phase3-cockpit,
+  .coach-shell,.audit-shell,.industry-shell,.cert-shell,.portfolio-shell,.org-shell,
+  .phase3-capabilities,.capability-card,.coach-intro,.coach-context-item,.coach-bubble,
+  .coach-quick,.coach-app,.coach-messages,.coach-message.assistant,.coach-composer,
+  .coach-suggestion,.audit-dropzone,.audit-kpi,.audit-panel-head,.sheet-pill,
+  .industry-toolbar,.industry-grid,.industry-card,.industry-workspace,.deliverable-item,
+  .cert-readiness,.cert-requirement,.cert-actions,.credential-card,.portfolio-controls,
+  .visibility-row,.portfolio-item,.org-top,.org-panel-head,.org-editor,.member-pick,
+  .phase3-empty,.name-box,.live-fx,.grid-corner,.col-heading,.row-heading,.grid-cell,
+  .fx,.preview-browser-bar
+) {
+  background:#111c2d !important;
+  color:#e5edf5 !important;
+  border-color:#334a63 !important;
+}
+html[data-theme="dark"] :is(.callout,.callout.warning,.answer-panel) {
+  background:var(--excel-reference-mint) !important;
+  color:#e5edf5 !important;
+  border-color:#8ae4c4 !important;
+}
+html[data-theme="dark"] :is(.callout.warning,.answer-panel,.grid-cell.context-cell,.grid-cell.target-cell) {
+  background:#382d19 !important;
+  color:#ffe0a0 !important;
+  border-color:#e4b85f !important;
+}
+html[data-theme="dark"] :is(.badge,.test-pill,.workbook-tab,.micro-tag,.member-chip,
+  .capability-icon,.industry-symbol,.upload-icon,.project-icon,.next-action-index,
+  .recommendation-score,.step-dot,.phase3-badge,.coach-chip,.badge.advanced) {
+  background:#20364e !important;
+  color:#e5edf5 !important;
+}
+html[data-theme="dark"] :is(.token,.tab,.phase2-tab,.btn.secondary,.btn.ghost,
+  .challenge-item,.mission-button,.profile-choice) {
+  background:#14273d !important;
+  color:#e5edf5 !important;
+  border-color:#39536c !important;
+}
+html[data-theme="dark"] :is(.token.selected,.token:hover,.tab.active,.phase2-tab.active,
+  .challenge-item.active,.challenge-item:hover,.mission-button.active,.mission-button:hover,
+  .profile-choice.active,.team-card.active,.option-card.selected,.option-card:hover) {
+  background:#12362f !important;
+  color:#e5edf5 !important;
+  border-color:#8ae4c4 !important;
+}
+html[data-theme="dark"] :is(.feedback.success,.validation-report.success,.test-pill.pass,
+  .hidden-test.pass,.sync-status.good,.privacy-note,.heat-high,.audit-check.pass i) {
+  background:#12362f !important; color:#a3efd1 !important;
+}
+html[data-theme="dark"] :is(.feedback.error,.validation-report.error,.hidden-test.fail,
+  .sync-status.bad,.issue-row.high,.heat-low,.audit-check.fail i) {
+  background:#331e2c !important; color:#ffb7c3 !important;
+}
+html[data-theme="dark"] :is(.feedback.info,.validation-report.info,.hidden-test,
+  .heat-none,.option-card,.exam-option:has(input:checked)) {
+  background:#142c46 !important; color:#d4e9ff !important;
+}
+html[data-theme="dark"] :is(.sync-status,.issue-row,.heat-mid,.audit-check.warn i,.btn.warn) {
+  background:#382d19 !important; color:#ffe0a0 !important;
+}
+html[data-theme="dark"] :is(.skill-track,.node-bar,.mini-progress) {background:#334a63 !important;}
+html[data-theme="dark"] .mastery-ring::before {background:#111c2d;}
+html[data-theme="dark"] #lesson-content :is(.btn:not(.secondary):not(.ghost):not(.warn),.number,.grid-cell.source-header) {
+  background:#196846 !important; color:#ffffff !important;
+}
+html[data-theme="dark"] .phase1-ribbon {background:#12362f; color:#a3efd1;}
+html[data-theme="dark"] .toc a {color:#cbd8e7;}
+html[data-theme="dark"] .toc :is(a:hover,a.active) {background:#12362f; color:#a3efd1;}
+html[data-theme="dark"] tr:hover td {background:#192b40;}
+html[data-theme="dark"] header.site .header-cta {background:#67d4df !important; color:#071120 !important;}
