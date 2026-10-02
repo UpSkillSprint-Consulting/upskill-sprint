@@ -86,6 +86,7 @@ html[data-theme="dark"] #lesson-content :is(.btn:not(.secondary):not(.ghost):not
   background:#196846 !important; color:#ffffff !important;
 }
 html[data-theme="dark"] .phase1-ribbon {background:#12362f; color:#a3efd1;}
+html[data-theme="dark"] .skill-prereq {color:#b5c6d6;}
 html[data-theme="dark"] .toc a {color:#cbd8e7;}
 html[data-theme="dark"] .toc :is(a:hover,a.active) {background:#12362f; color:#a3efd1;}
 html[data-theme="dark"] tr:hover td {background:#192b40;}
