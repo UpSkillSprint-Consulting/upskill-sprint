@@ -60,9 +60,18 @@ The first audited build was verified on [draft preview #234](https://deploy-prev
 | Export a fresh backup | Actual 59,629-byte downloaded JSON contained eleven completions, the 80% placement result, twenty practice results, ten reviews and the correct bonus |
 | Inspect placement and next-step guidance | Placement result remained visible and recommendations used the restored history |
 
-The older-tab check exposed an unnecessary pause on normal reload. That startup timing gap and the later pre-shell conflict are covered by additional deterministic regressions. The final preview must also verify the normal reload, corrected revision message and initial deep-link behavior.
+The older-tab check exposed an unnecessary pause on normal reload. That startup timing gap and the later pre-shell conflict are covered by additional deterministic regressions. The follow-up build was verified on the same preview, Netlify deploy `6abf1ec7d0cf30000868c124`, source commit `eb2ef6bd6f6c39289ccd38214c2e7cb0bae2e1c7`:
+
+- A normal reload after another old-tab save opened L3-A1 as solved and verified without a paused or empty assignment. Backup text retained eleven signed core completions, twenty drill records, ten reviews, the 80% diagnostic and the correct bonus.
+- The initial `#sprint-learning` link focused placement after asynchronous loading and put its section at the top of the viewport. Next core assignment remained L3-A2.
+- A wrong checked revision showed “The revised answer needs more work” globally and beside the task, with no green pass on the revised field. Restoring and checking the public-derived value produced the correct-revision message and preserved the original completion.
+- Independent startup-boundary checks kept the exact `001` draft and saved time exportable during catalog/verification conflicts; a pending storage read disabled export until the snapshot resolved. The newer foreign record remained untouched.
+
+Smart lesson search and Sprint validation both passed on this source commit. The remaining site workflows are checked on the final PR head before handoff.
 
 ![Placement assessment in the audited preview](excel-sprint-student-audit-preview-20261002.jpg)
+
+![Recovered placement levels and next core assignment in the follow-up preview](excel-sprint-student-audit-final-preview-20261002.jpg)
 
 ## Practical limits
 
