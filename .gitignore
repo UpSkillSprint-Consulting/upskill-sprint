@@ -4,3 +4,8 @@ node_modules/
 .segment03-results/
 public-site/
 .netlify/
+
+# OS / editor metadata that should never be committed
+.thumbnail
+Thumbs.db
+desktop.ini
