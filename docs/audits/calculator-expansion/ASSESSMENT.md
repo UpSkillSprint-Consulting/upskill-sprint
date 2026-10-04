@@ -91,3 +91,8 @@ Fixtures are checked into `tests/fixtures/calculator-distributions.json`. To reg
 - [NIST Gamma distribution](https://www.itl.nist.gov/div898/handbook/eda/section3/eda366b.htm)
 - [NIST Weibull distribution](https://www.itl.nist.gov/div898/handbook/eda/section3/eda3668.htm)
 - [math.js expression security](https://mathjs.org/docs/expressions/security.html)
+
+
+## Student interface follow-up
+
+See `STUDENT-UI-ASSESSMENT.md` for the October 4 top-down student review, shared-chrome integration, 68-test calculator result, responsive/theme checks and confirmed broader-repository blockers. This follow-up does not claim a full accessibility certification or a universally green repository test suite.

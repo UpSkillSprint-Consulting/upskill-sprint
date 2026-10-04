@@ -1,0 +1,165 @@
+{
+  "desktopTextContrast": [
+    {
+      "theme": "light",
+      "id": "pg-guide",
+      "issues": []
+    },
+    {
+      "theme": "light",
+      "id": "pg-dist",
+      "issues": []
+    },
+    {
+      "theme": "light",
+      "id": "pg-test",
+      "issues": []
+    },
+    {
+      "theme": "light",
+      "id": "pg-data",
+      "issues": []
+    },
+    {
+      "theme": "light",
+      "id": "pg-spc",
+      "issues": []
+    },
+    {
+      "theme": "light",
+      "id": "pg-cost",
+      "issues": []
+    },
+    {
+      "theme": "light",
+      "id": "pg-graph",
+      "issues": []
+    },
+    {
+      "theme": "light",
+      "id": "pg-math",
+      "issues": []
+    },
+    {
+      "theme": "light",
+      "id": "pg-finance",
+      "issues": []
+    },
+    {
+      "theme": "light",
+      "id": "pg-program",
+      "issues": []
+    },
+    {
+      "theme": "light",
+      "id": "pg-calc",
+      "issues": []
+    },
+    {
+      "theme": "dark",
+      "id": "pg-guide",
+      "issues": []
+    },
+    {
+      "theme": "dark",
+      "id": "pg-dist",
+      "issues": []
+    },
+    {
+      "theme": "dark",
+      "id": "pg-test",
+      "issues": []
+    },
+    {
+      "theme": "dark",
+      "id": "pg-data",
+      "issues": []
+    },
+    {
+      "theme": "dark",
+      "id": "pg-spc",
+      "issues": []
+    },
+    {
+      "theme": "dark",
+      "id": "pg-cost",
+      "issues": []
+    },
+    {
+      "theme": "dark",
+      "id": "pg-graph",
+      "issues": []
+    },
+    {
+      "theme": "dark",
+      "id": "pg-math",
+      "issues": []
+    },
+    {
+      "theme": "dark",
+      "id": "pg-finance",
+      "issues": []
+    },
+    {
+      "theme": "dark",
+      "id": "pg-program",
+      "issues": []
+    },
+    {
+      "theme": "dark",
+      "id": "pg-calc",
+      "issues": []
+    }
+  ],
+  "narrowCalculator": {
+    "statesChecked": 44,
+    "widths": [
+      390,
+      320
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "issues": []
+  },
+  "narrowManual": [
+    {
+      "theme": "dark",
+      "width": "390",
+      "layout": {
+        "scrollWidth": 375,
+        "width": 375
+      },
+      "contrast": []
+    },
+    {
+      "theme": "dark",
+      "width": "320",
+      "layout": {
+        "scrollWidth": 305,
+        "width": 305
+      },
+      "contrast": []
+    },
+    {
+      "theme": "light",
+      "width": "390",
+      "layout": {
+        "scrollWidth": 375,
+        "width": 375
+      },
+      "contrast": []
+    },
+    {
+      "theme": "light",
+      "width": "320",
+      "layout": {
+        "scrollWidth": 305,
+        "width": 305
+      },
+      "contrast": []
+    }
+  ],
+  "method": "DOM-based text contrast and overflow spot checks; not an axe or screen-reader certification"
+}

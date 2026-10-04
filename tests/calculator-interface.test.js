@@ -110,3 +110,13 @@ test('manual contents follow section order and shared chrome remains outside the
  assert.equal(d.querySelector('main header.site'),null);assert.equal(d.querySelector('main footer.site'),null);
  dom.window.close();
 });
+
+test('companion help preserves the working tab and quick start covers all workspaces',()=>{
+ const dom=new JSDOM(fs.readFileSync('tools/engineering-statistics-calculator.html','utf8'));
+ const links=[...dom.window.document.querySelectorAll('a[href^="/tools/calculator-manual"]')];assert.ok(links.length>=4);
+ for(const link of links){assert.equal(link.target,'_blank');assert.equal(link.rel,'noopener');assert.match(link.title,/new tab/);}
+ dom.window.close();
+ const manual=new JSDOM(fs.readFileSync('tools/calculator-manual.html','utf8')),quick=manual.window.document.getElementById('quick').nextElementSibling.nextElementSibling;
+ assert.equal(quick.querySelectorAll('li').length,11);
+ assert.match(manual.window.document.body.textContent,/46\.715695/);manual.window.close();
+});

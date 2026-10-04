@@ -20,7 +20,7 @@ The manual preserves existing material and adds the complete guided workflow in 
 
 ## Verification
 
-- 65 calculator engine/interface/manual tests pass, including 11 advanced-SPC and nine quality-economics tests; independent SciPy and 40-digit Decimal fixtures support the numerical checks.
+- 68 calculator engine/interface/manual tests pass, including 11 advanced-SPC and nine quality-economics tests; independent SciPy and 40-digit Decimal fixtures support the numerical checks.
 - 360 fixed SciPy 1.17.0 distribution comparisons, plus five independent guided t-inference reference cases.
 - Excel tests cover compressed/stored ZIPs, shared/inline strings, sheets, date conversion, caches and invalid/oversized/corrupt XML packages.
 - UI tests cover worked examples, incorrect inputs, missing pairs, filters, edits, stale results, asynchronous imports, project restoration, exports and handoffs.
@@ -36,3 +36,16 @@ The manual preserves existing material and adds the complete guided workflow in 
 - Export payloads pass validation, but the cloud browser did not capture live blob-download delivery.
 - XLSX is a bounded, values-only importer. Recalculate/save formulas in Excel first; unsupported formats should be exported as CSV. Dedicated mobile-device and assistive-technology testing remains outstanding.
 - MSA remains outside this addition. Cost comparisons do not automatically establish cash savings, project causation or independent verification. SPC supports equal-size numeric subgroups and selected rules; exact count limits, dispersion corrections, non-normal capability and streaming state are not implemented.
+
+## Student interface assessment — October 4
+
+Calculator and manual now use the canonical eight-link site header, mobile menu, shared theme control and footer. Calculator CSS tokens/selectors are isolated from site chrome. Source Serif / Work Sans typography, a concise first-visit guide, breadcrumbs, clearer active tabs and a compact mobile workspace selector align the experience with the site. Existing methods and all teaching headings remain present.
+
+Corrected the pasted-data placeholder, manual contents order, missing quick-start workspace descriptions, the first numerical example, selected-tab contrast flashes and scientific-keypad contrast. Companion help opens a separate tab to preserve current inputs.
+
+All 68 calculator tests pass. The site build and calculator CI pass. Reviewed all eleven workspaces in light/dark themes; 44 narrow calculator states at 390/320px and four narrow manual states have no page overflow or detected text-contrast failures in the recorded DOM checks. Live examples and mobile menu/selector workflows pass.
+
+See [student assessment](docs/audits/calculator-expansion/STUDENT-UI-ASSESSMENT.md) for evidence and limits. Broad repository testing is **not fully green**: exam/auth and two Excel page-controller defects reproduce on the pre-change checkout, and the full runner did not terminate cleanly. Physical devices, screen readers, comprehensive automated accessibility and live file delivery remain unverified. Full-page screenshot capture timed out; viewport evidence is attached.
+
+![Calculator light](docs/audits/calculator-expansion/calculator-student-light.jpg)
+![Calculator dark](docs/audits/calculator-expansion/calculator-student-dark.jpg)
