@@ -77,3 +77,25 @@ test('value and derivative do not require the unused upper bound',async()=>{
 test('small probabilities remain visible and singular endpoint densities show infinity',()=>{
  const {dom,w}=setup();assert.equal(w.fmtP(1e-8),'1.0000e-8');assert.equal(w.fmtN(Infinity),'∞');dom.window.close();
 });
+
+
+test('shared-variable calculations invalidate graphs made from previous session values',async()=>{
+ const {dom,w,d}=setup();
+ input(w,d,'math-input','A=2');d.getElementById('math-run').click();await tick();
+ input(w,d,'graph-expressions','A*x');d.getElementById('graph-run').click();await tick();assert.ok(d.querySelector('#graph-view svg'));
+ input(w,d,'math-input','A=4');d.getElementById('math-run').click();assert.equal(d.getElementById('graph-view').textContent,'');await tick();
+ d.getElementById('graph-run').click();await tick();assert.ok(d.querySelector('#graph-view svg'));
+ d.getElementById('program-run').click();assert.equal(d.getElementById('graph-view').textContent,'');await tick();dom.window.close();
+});
+
+test('exports contain usable SVG, data tables and original program source',async()=>{
+ const {dom,w,d}=setup(),downloads=[],blobs=new Map();w.Blob=Blob;
+ w.URL.createObjectURL=blob=>{const url='blob:test-'+blobs.size;blobs.set(url,blob);return url;};w.URL.revokeObjectURL=()=>{};
+ w.HTMLAnchorElement.prototype.click=function(){downloads.push({name:this.download,blob:blobs.get(this.href)});};
+ d.getElementById('graph-run').click();await tick();d.getElementById('graph-save').click();
+ assert.equal(downloads[0].name,'engineering-graph.svg');
+ const svg=new JSDOM(await downloads[0].blob.text(),{contentType:'image/svg+xml'});assert.equal(svg.window.document.documentElement.namespaceURI,'http://www.w3.org/2000/svg');assert.equal(svg.window.document.querySelectorAll('path[clip-path]').length,2);assert.ok(!/NaN|undefined/.test(svg.serialize()));svg.window.close();
+ d.getElementById('analysis-example').click();d.getElementById('analysis-csv').click();assert.match(await downloads[1].blob.text(),/"Mean","50.81"/);
+ input(w,d,'program-source','Disp "result"');d.getElementById('program-save').click();assert.equal(await downloads[2].blob.text(),'Disp "result"');
+ dom.window.close();
+});

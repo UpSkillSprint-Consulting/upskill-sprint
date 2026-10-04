@@ -16,7 +16,7 @@ The calculator and manual are now readable source HTML instead of compressed run
 
 ## Verification
 
-- 26 calculator engine/interface/manual tests passed, including 360 distribution comparisons against fixed SciPy 1.17.0 references.
+- 28 calculator engine/interface/manual tests passed, including 360 distribution comparisons against fixed SciPy 1.17.0 references.
 - 8 relevant contrast and tool-directory integration checks passed.
 - Full site build succeeded; generated unrelated artifacts were excluded from the change.
 - Reference fixtures cover all 16 distributions plus large-df chi-square, independently calculated ANOVA, NIST I-chart limits, regression, matrix/complex arithmetic, calculus, finance and bounded program control flow.
@@ -26,7 +26,8 @@ The calculator and manual are now readable source HTML instead of compressed run
 ## Delivery
 
 - PR #236 is open for review; no merge or production deployment is requested.
-- The calculator loads on the Netlify deploy preview and the graph worker renders successfully. The refreshed preview and CI are checked after the assessment fixes are published.
+- Refreshed preview verified: degree-mode/numerical corrections, multi-line Ans, TVM/amortization, graphing/tracing, light/dark desktop rendering, scientific keypad and manual navigation.
+- SVG/CSV/program export payload tests pass; this cloud browser could not capture the live blob-download event.
 - Mobile CSS and overflow behavior are included, but dedicated mobile-device rendering has not been verified in this environment.
 
 math.js 15.2.0 is served locally with its Apache-2.0 license. New workspaces process data locally without uploading it. Existing scientific-calculator history remains in browser storage; advanced variables are session-only.

@@ -15,18 +15,20 @@ The assessment covers the eight workspaces in PR #236, including numerical refer
 | Multi-line Ans stored a result container | `A=2` followed by `A+3`, then `Ans*2`, failed | Ans now stores the final value; expected output 10. |
 | Angle mode covered only part of the trig catalog | csc/sec/cot/atan2 ignored DEG; string helpers used RAD even in DEG | All circular trig/inverse helpers and nested numerical helpers honor the selected angle unit. Complex argument remains radians, as documented. |
 | Unsupported functions could be passed as callbacks | `map(["2+2"],evaluate)` bypassed the intended catalog | Validate function references as well as direct calls; reject reserved loop variable names. Supported callbacks remain usable. |
-| Old table/program/finance output could survive input edits or pending responses | Output could be mistaken for current input results | Clear old output and ignore outdated response versions. |
+| Old table/program/finance output could survive input edits or pending responses | Output could be mistaken for current input results | Clear old output and ignore outdated response versions. Math/program execution and worker resets also invalidate graphs based on shared variables. |
 | Graph click trace used the full SVG width instead of plot geometry | Click position did not correctly identify the plotted point | Select the nearest sampled point on the chosen curve. |
 | Value/derivative required an unused upper bound | Clearing b prevented an operation that only needs a | Only validate b for operations that use an interval. |
 | Numerical failure could produce a misleading hypothesis decision | NaN comparisons could fall into “fail to reject” | Reject nonfinite p-values/critical values before producing a decision. |
 
 ## Executed validation
 
-- 26 calculator tests pass. These include 360 numerical comparisons against fixed SciPy 1.17.0 output, covering PDF/PMF, CDF, inclusive upper tails and quantiles for all 16 distributions plus a large-df chi-square case.
+- 28 calculator tests pass. These include 360 numerical comparisons against fixed SciPy 1.17.0 output, covering PDF/PMF, CDF, inclusive upper tails and quantiles for all 16 distributions plus a large-df chi-square case.
 - Fixture tolerance: 1e-8 relative, with 1e-20 absolute floor. This is a test tolerance, not a universal precision guarantee.
 - 8 additional existing tests pass for contrast/theme behavior and tool-directory integration.
 - Full `npm run build:site` succeeds. Generated unrelated lesson files are excluded from this PR.
-- Baseline deploy preview loads, the graph worker renders, and all eight tabs are present. Follow-up rendered preview/CI checks are recorded in the PR description after publication.
+- Deploy preview verification: multi-line Ans → 10; DEG csc(30) → 2, atan2(1,1) → 45, nDeriv(sin(x),0) → π/180, integral sin(x) over 0–180 → 360/π; scaled root → 2; large-df chi-square median CDF → approximately 0.5. TVM payment and 60-row amortization render successfully.
+- Function graph and trace render in both light and dark desktop themes. Scientific keypad entry 2+3 returns 5. The manual loads, contains the corrected angle explanation, has no broken TOC targets, and retains its explicit partial-compatibility notice.
+- Export payload tests validate parseable SVG, CSV mean output and preserved program source. The cloud browser could not capture the live blob-download event, so actual file delivery has not been verified through that browser.
 - Manual updated for angle behavior, multi-line Ans, stale output, TVM equations/search limits and numerical limitations.
 
 Fixtures are checked into `tests/fixtures/calculator-distributions.json`. To regenerate with SciPy installed, run `python docs/audits/calculator-expansion/generate-reference-fixtures.py` from the repository root. CI consumes the committed values and does not require Python/SciPy.
