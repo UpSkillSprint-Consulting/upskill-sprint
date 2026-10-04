@@ -138,7 +138,7 @@ function prepareGuide(originalHtml, guideNotice) {
     .replace('>← Back to Tool<', '>Back to Tool<')
     .replace('>↑</button>', '>Top</button>')
     .replace('</head>', '<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + accountHead + '\n</head>')
-    .replace('<body>', '<body class="grade-spec-guide-page">\n' + siteHeader)
+    .replace('<body>', '<body class="grade-spec-guide-page">\n' + siteHeader.replace('href="#app">Skip to Material Specification Lookup', 'href="#guideContent">Skip to the user guide'))
     .replace('</body>', backLink + '\n</body>');
 
   guide = replaceRequired(

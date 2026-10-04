@@ -578,7 +578,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
   <div class="w-head"><span class="w-tag">Try it</span><span class="w-title">Predicted mean vs. the actual slab</span></div>
   <div class="w-sub">The blue line is the model — a <b>line of averages</b>. Pick a process setting to see the predicted mean, then sample a real slab and watch the <b>residual</b> appear. Sample a few: the actuals scatter <i>around</i> the line, never on it.</div>
   <canvas class="w-canvas"></canvas>
-  <div class="w-ctl"><label>Process setting</label><input type="range" class="w-slider rd-x" min="42" max="58" step="0.5" value="50"><span class="val rd-xval">50</span>
+  <div class="w-ctl"><label>Process setting</label><input type="range" aria-label="Process setting" class="w-slider rd-x" min="42" max="58" step="0.5" value="50"><span class="val rd-xval">50</span>
     <button class="w-btn rd-sample">Sample an actual slab &#8617;</button></div>
   <div class="w-note rd-out">Move the slider to a setting, then sample an actual slab to reveal its residual.</div>
 </div>
@@ -714,7 +714,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
       <div style="margin-top:10px"><span class="w-badge of-badge info">&mdash;</span></div>
     </div>
   </div>
-  <div class="w-ctl"><label>Model complexity (polynomial degree)</label><input type="range" class="w-slider of-deg" min="1" max="8" step="1" value="1"><span class="val of-degval">1</span></div>
+  <div class="w-ctl"><label>Model complexity (polynomial degree)</label><input type="range" aria-label="Model complexity (polynomial degree)" class="w-slider of-deg" min="1" max="8" step="1" value="1"><span class="val of-degval">1</span></div>
   <div class="w-note of-note">&mdash;</div>
 </div>
   <h3>Parameters vs hyperparameters</h3>
@@ -793,7 +793,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
   <div class="w-head"><span class="w-tag">Try it</span><span class="w-title">Move the threshold &mdash; watch precision fight recall</span></div>
   <div class="w-sub">Each dot is a part the model scored 0&rarr;1 for &ldquo;defect.&rdquo; Slide the decision <b>threshold</b>: everything to its right is flagged. There is no free lunch &mdash; catching more defects (recall) means more false alarms (precision).</div>
   <canvas class="w-canvas th-strip"></canvas>
-  <div class="w-ctl"><label>Decision threshold</label><input type="range" class="w-slider th-t" min="0.05" max="0.95" step="0.03" value="0.5"><span class="val th-tval">0.50</span></div>
+  <div class="w-ctl"><label>Decision threshold</label><input type="range" aria-label="Decision threshold" class="w-slider th-t" min="0.05" max="0.95" step="0.03" value="0.5"><span class="val th-tval">0.50</span></div>
   <div class="w-row" style="margin-top:6px">
     <div class="w-col">
       <div class="cm">
@@ -822,7 +822,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
   <div class="w-row">
     <div class="w-col">
       <canvas class="w-canvas roc-canvas"></canvas>
-      <div class="w-ctl"><label>Decision threshold</label><input type="range" class="w-slider roc-t" min="0" max="1" step="0.01" value="0.5"><span class="val roc-tval">0.50</span></div>
+      <div class="w-ctl"><label>Decision threshold</label><input type="range" aria-label="ROC decision threshold" class="w-slider roc-t" min="0" max="1" step="0.01" value="0.5"><span class="val roc-tval">0.50</span></div>
     </div>
     <div class="w-col" style="min-width:220px">
       <div class="roc-legend">
