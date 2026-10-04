@@ -2,6 +2,7 @@
 const CalculatorUI=(()=>{
   const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const fmt=CalculatorAnalysis.format;
+  const tick=x=>x!==0&&(Math.abs(x)>=1e5||Math.abs(x)<1e-3)?x.toExponential(3):String(Number(x.toPrecision(4)));
   function table(t){return `<div class="analysis-table" tabindex="0" role="region" aria-label="${esc(t.title)}"><table><caption>${esc(t.title)}</caption><thead><tr>${t.headers.map(h=>`<th scope="col">${esc(h)}</th>`).join('')}</tr></thead><tbody>${t.rows.map(r=>`<tr>${r.map(c=>`<td>${esc(fmt(c))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;}
   function plot(spec){
     let points=spec.points||[],bars=null;
@@ -21,10 +22,10 @@ const CalculatorUI=(()=>{
     // An absolute 0.5 pad disappears at large magnitudes; use a representable relative pad.
     if(xmin===xmax){const pad=Math.max(.5,Math.abs(xmin)*.05);xmin-=pad;xmax+=pad;}if(ymin===ymax){const pad=Math.max(.5,Math.abs(ymin)*.05);ymin-=pad;ymax+=pad;}
     if(!spec.bounds){const xp=(xmax-xmin)*.06,yp=(ymax-ymin)*.1;xmin-=xp;xmax+=xp;ymin=bars?0:ymin-yp;ymax+=yp;}
-    const X=x=>68+(x-xmin)/(xmax-xmin)*600,Y=y=>290-(y-ymin)/(ymax-ymin)*235;
-    let svg=`<svg viewBox="0 0 720 345" role="img" aria-label="${esc(spec.title)}"><title>${esc(spec.title)}</title><path class="axis" fill="none" d="M68 45V290H680"/>`;
-    for(let i=0;i<=4;i++){let x=xmin+(xmax-xmin)*i/4,y=ymin+(ymax-ymin)*i/4;svg+=`<text x="${X(x)}" y="315" text-anchor="middle">${esc(Number(x.toPrecision(4)))}</text><text x="60" y="${Y(y)+4}" text-anchor="end">${esc(Number(y.toPrecision(4)))}</text>`;}
-    (spec.limits||[]).forEach(y=>svg+=`<path class="limit" d="M68 ${Y(y)}H668"/><text x="674" y="${Y(y)}">${esc(Number(y.toPrecision(3)))}</text>`);
+    const X=x=>104+(x-xmin)/(xmax-xmin)*550,Y=y=>290-(y-ymin)/(ymax-ymin)*235;
+    let svg=`<svg viewBox="0 0 720 345" role="img" aria-label="${esc(spec.title)}"><title>${esc(spec.title)}</title><path class="axis" fill="none" d="M104 45V290H664"/>`;
+    for(let i=0;i<=4;i++){let x=xmin+(xmax-xmin)*i/4,y=ymin+(ymax-ymin)*i/4;svg+=`<text x="${X(x)}" y="315" text-anchor="middle">${esc(tick(x))}</text><text x="96" y="${Y(y)+4}" text-anchor="end">${esc(tick(y))}</text>`;}
+    (spec.limits||[]).forEach(y=>svg+=`<path class="limit" d="M104 ${Y(y)}H654"/><text x="650" y="${Y(y)-5}" text-anchor="end">${esc(tick(y))}</text>`);
     if(bars){const width=Math.min(40,560/bars.length);bars.forEach(p=>svg+=`<rect class="point" x="${X(p[0])-width/2}" y="${Y(p[1])}" width="${width}" height="${290-Y(p[1])}"><title>Bin center ${fmt(p[0])}: ${p[1]} observations</title></rect>`);}
     else{
       if(spec.type==='sequence')svg+=`<polyline class="fit" points="${all.map(p=>`${X(p[0])},${Y(p[1])}`).join(' ')}"/>`;

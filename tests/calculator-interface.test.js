@@ -11,6 +11,7 @@ test('QA: large constant data produce finite visible plot coordinates',()=>{
  assert.equal(d.getElementById('analysis-status').dataset.error,'false');
  assert.equal(d.querySelectorAll('#analysis-charts svg').length,3);
  assert.doesNotMatch(d.getElementById('analysis-charts').innerHTML,/NaN|Infinity/);
+ assert.ok([...d.querySelectorAll('#analysis-charts svg text')].some(e=>/e\+20/.test(e.textContent)),'Large tick values use compact scientific notation');
  dom.window.close();
 });
 test('QA: summary Welch test retains its degrees of freedom after unit scaling',()=>{
@@ -54,6 +55,8 @@ test('manual TOC, workspace coverage and compatibility limitations are explicit'
  for(const a of d.querySelectorAll('.toc a[href^="#"]'))assert.ok(d.getElementById(a.hash.slice(1)),a.hash);
  for(const id of ['quality-cost','advanced-spc','guided-analysis','data-quality','capability','graphing','math-workspace','finance','programs','coverage','exports'])assert.ok(d.getElementById(id));
  assert.match(d.body.textContent,/Full TI-84 Plus CE feature parity has not been reached/);
+ assert.match(d.body.textContent,/Seven user storage registers/);
+ assert.match(d.body.textContent,/colour follows the selected theme/);
  assert.doesNotMatch(d.body.textContent,/Matches the hardware exactly|agree with Minitab, R, and scipy to at least/);
  dom.window.close();
 });
