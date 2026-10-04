@@ -1,0 +1,7 @@
+/* Native MathML compiled from reviewed LaTeX; no remote font or script required. */
+.lookup-equation{display:inline-block;max-width:100%;overflow-x:auto;vertical-align:middle;padding:10px 6px;margin:2px 10px 2px 0}
+.lookup-equation math{font-size:1.12em;math-style:normal;color:inherit}
+.tb-tbl-formula,.lookup-formula-reference{font-family:inherit;line-height:1.7}
+.tb-tbl-formula p{font-size:.92em;max-width:80ch;margin:8px 0}
+.lookup-formula-reference{padding:12px 16px;margin:16px 0;border:1px solid var(--calc-line);border-radius:8px}
+@media(max-width:600px){.lookup-equation{display:block;width:100%;box-sizing:border-box;margin-right:0}.lookup-equation math{font-size:1em}}

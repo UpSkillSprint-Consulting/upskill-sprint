@@ -31,3 +31,4 @@
 #pg-lookup .tb-tbl-table .tbl-hit{outline:2px solid var(--calc-text);outline-offset:-3px}
 #pg-lookup .tb-tbl-loading,#pg-lookup .tb-tbl-error{padding:16px;color:var(--calc-text)}
 @media(max-width:600px){#pg-lookup #tb-tables{padding:14px}#pg-lookup .lookup-mobile-choice{display:block}#pg-lookup .tb-tbl-chiprow{display:none}#pg-lookup .tb-tbl-field{width:100%}#pg-lookup .tb-tbl-field :is(input,select){width:100%}#pg-lookup .tb-tbl-tablewrap{max-height:360px}#pg-lookup .tb-tbl-lookupbar{padding:12px}}
+@media(max-width:600px){#pg-lookup .tb-tbl-table .tbl-corner{white-space:normal;min-width:64px;max-width:88px;overflow-wrap:anywhere}}

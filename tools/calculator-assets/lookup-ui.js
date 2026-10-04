@@ -24,7 +24,7 @@
   studentized_range: ['Studentized range — Tukey q', 'Select the family significance level α, number of groups k (column), and error degrees of freedom (row). These critical q values support Tukey multiple comparisons under the relevant ANOVA assumptions; they are not t critical values.'],
   duncan: ['Duncan’s multiple range', 'Select α, error df and p, the number of ordered means spanned by a comparison. Duncan uses a range-dependent significance level and does not provide Tukey’s strong familywise error control. Use only with a justified comparison procedure.'],
   control_chart: ['Control-chart constants', 'Enter subgroup size n to find A2, A3, d2, c4, D3, D4, B3 and B4. For X-bar/R charts, mean limits are grand mean ± A2 × average range; range limits are D3 and D4 × average range. Constants depend on subgroup size, not total observations.'],
-  sigma_level: ['Sigma level / DPMO', 'The table distinguishes centered normal coverage from the conventional 1.5σ shift. Find highlights shifted PPM. The shift is a convention, not evidence that your process has shifted or is stable. Enter a tabulated tenth of a sigma level.'],
+  sigma_level: ['Sigma level / DPMO', 'The table distinguishes centered normal coverage from the conventional 1.5σ shift. Find highlights shifted PPM. Centered PPM is rounded to a whole number; shifted PPM to one decimal. A displayed zero is not proof of zero defects. The shift is a convention, not evidence that your process has shifted or is stable. Enter a tabulated tenth of a sigma level.'],
   median_ranks: ['Median ranks', 'For ordered failure rank i out of n, the table gives the plotting position (i − 0.3)/(n + 0.4). Use 1 ≤ i ≤ n. This approximation is not a method for handling censored observations.'],
   normal_scores: ['Normal scores', 'Blom’s plotting position (i − 0.375)/(n + 0.25) is transformed with the standard-normal inverse CDF. Use whole-number rank i and sample size n, with 1 ≤ i ≤ n. These are plotting scores, not test critical values.'],
   tolerance_one: ['One-sided normal tolerance factors', 'Choose confidence γ, population proportion P and sample size n. The factor k forms a normal-population bound x̄ + ks or x̄ − ks. Confidence and population coverage are different quantities; this is not a confidence interval for the mean.'],
@@ -36,7 +36,7 @@
   if (!guide) return;
   picker.value = id;
   const title = document.createElement('h3'); title.textContent = guide[0];
-  const text = document.createElement('p'); text.textContent = guide[1];
+  const text = document.createElement('p'); text.innerHTML = window.LookupMath.format(guide[1]);
   help.replaceChildren(title, text);
  }
  let initialized = false;

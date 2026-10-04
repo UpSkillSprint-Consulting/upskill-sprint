@@ -25,6 +25,23 @@ test('all 18 shared reference options render with guidance and accessible contro
  assert.equal(d.querySelector('[data-tbl-find]'),null);dom.window.close();
 });
 
+test('lookup equations are typeset from LaTeX, including tolerance quantile conventions',async()=>{
+ const {dom,d}=await open();
+ for(const entry of windowEntries()){
+  await choose(d,entry);
+  const panel=d.querySelector('.tb-tbl-formula');
+  assert.ok(panel.querySelector('math'),entry);
+  assert.ok(panel.querySelector('annotation[encoding="application/x-tex"]'),entry);
+  assert.equal(panel.querySelector('merror'),null,entry);
+  assert.doesNotMatch(panel.textContent,/sqrt\(|Phi\^-1|t'\(gamma/);
+ }
+ await choose(d,'tolerance_one');assert.ok(d.querySelector('.tb-tbl-formula mfrac'));assert.ok(d.querySelector('.tb-tbl-formula msqrt'));
+ await choose(d,'tolerance_two');assert.match(d.querySelector('.tb-tbl-formula').textContent,/LOWER-tail/);
+ const manual=fs.readFileSync('tools/calculator-manual.html','utf8');assert.match(manual,/lookup-equations:start/);assert.match(manual,/application\/x-tex/);
+ dom.window.close();
+ function windowEntries(){return ['z','t','chi_square','f','binomial_pmf','binomial_cmf','poisson_pmf','poisson_cmf','exponential','studentized_range','duncan','control_chart','sigma_level','median_ranks','normal_scores','tolerance_one','tolerance_two'];}
+});
+
 test('distribution examples return expected values with matching row, column and cell',async()=>{
  const {dom,d}=await open();
  for(const [id,params,expected]of [
@@ -53,4 +70,21 @@ test('tolerance grid matches visible confidence from initial render through Find
 
 test('table load failure is visible and retry succeeds without resetting calculator work',async()=>{
  const {dom,w,d}=setup();const fetch=w.fetch;w.fetch=async()=>{throw new Error('offline');};d.querySelector('[data-page="pg-lookup"]').click();await tick();assert.match(d.querySelector('.tb-tbl-error').textContent,/Could not load/);w.fetch=fetch;await choose(d,'z');assert.match(find(d,{z:1.96}),/0\.9750/);dom.window.close();
+});
+
+test('scientific notation represents the entered count rather than a truncated integer',async()=>{
+ const {dom,d}=await open();await choose(d,'binomial_pmf');
+ find(d,{n:'1e1',x:'0e0',p:'0.10'});assert.equal(d.querySelector('.tbl-hit-row').dataset.row,'10_0');assert.ok(Math.abs(Number(d.querySelector('.tbl-hit').textContent)-0.9**10)<0.0001);
+ await choose(d,'poisson_pmf');find(d,{x:'1e1',lambda:'4.00'});assert.equal(d.querySelector('.tbl-hit-row').dataset.row,'10');
+ await choose(d,'t');assert.match(find(d,{df:'1e1',alpha:'0.025'}),/2\.228/);dom.window.close();
+});
+
+test('an older response for the same table cannot reset a completed lookup',async()=>{
+ const {dom,w,d}=setup(),pending=[];w.fetch=url=>new Promise(resolve=>pending.push(()=>resolve({ok:true,json:async()=>JSON.parse(fs.readFileSync('.'+url,'utf8'))})));
+ d.querySelector('[data-page="pg-lookup"]').click();d.querySelector('[data-tbl-select="t"]').click();d.querySelector('[data-tbl-select="z"]').click();
+ pending[2]();await tick();find(d,{z:1.96});pending[0]();await tick();assert.match(d.querySelector('[data-tbl-result]').textContent,/0\.9750/);pending[1]();await tick();assert.match(d.querySelector('[data-tbl-result]').textContent,/0\.9750/);dom.window.close();
+});
+
+test('keyboard focus stays on the selected reference-table button',async()=>{
+ const {dom,d}=await open();const button=d.querySelector('[data-tbl-select="f"]');button.focus();button.click();await tick();assert.equal(d.activeElement,button);dom.window.close();
 });

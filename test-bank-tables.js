@@ -177,6 +177,7 @@
   var CATEGORY_ORDER = ['Distributions', 'Discrete', 'DOE & Comparisons', 'Process & Reliability', 'Sampling'];
 
   function byId(id) { for (var i = 0; i < REGISTRY.length; i++) { if (REGISTRY[i].id === id) return REGISTRY[i]; } return null; }
+  function numericKey(value) { return value == null || String(value).trim() === '' ? NaN : Number(value); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function getPath(obj, path) {
     var parts = path.split('.'); var cur = obj;
@@ -197,7 +198,7 @@
   /* ---------------------------------------------------------------------
    * State
    * ------------------------------------------------------------------- */
-  var state = { activeId: 'z', lastResult: null };
+  var state = { activeId: 'z', lastResult: null, request: 0 };
 
   /* ---------------------------------------------------------------------
    * Rendering: shell (category chips + key inputs + result area)
@@ -296,7 +297,7 @@
         return '<thead>' + head + '</thead><tbody>' + body + '</tbody>';
       },
       find: function (data, params, entry) {
-        var target = parseInt(params[entry.rowField], 10);
+        var target = numericKey(params[entry.rowField]);
         if (isNaN(target)) return null;
         var rows = data.rows;
         var best = null;
@@ -330,8 +331,8 @@
         var alpha = params.alpha;
         var t = getPath(data, entry.tablesPath)[alpha];
         if (!t) return null;
-        var targetRow = parseInt(params[entry.rowField], 10);
-        var targetColNum = parseInt(params[entry.colField], 10);
+        var targetRow = numericKey(params[entry.rowField]);
+        var targetColNum = numericKey(params[entry.colField]);
         if (isNaN(targetRow) || isNaN(targetColNum)) return null;
         var rows = t.rows, best = null;
         for (var i = 0; i < rows.length; i++) {
@@ -365,7 +366,7 @@
       },
       find: function (data, params, entry) {
         var d = getPath(data, entry.dataPath);
-        var n = parseInt(params.n, 10), x = parseInt(params.x, 10), p = params.p;
+        var n = numericKey(params.n), x = numericKey(params.x), p = params.p;
         var row = d.rows.filter(function (r) { return r.n === n && r.x === x; })[0];
         if (!row) return null;
         var value = row.values[p];
@@ -387,7 +388,7 @@
       },
       find: function (data, params, entry) {
         var d = getPath(data, entry.dataPath);
-        var x = parseInt(params.x, 10), lam = params.lambda;
+        var x = numericKey(params.x), lam = params.lambda;
         var row = d.rows.filter(function (r) { return r.x === x; })[0];
         if (!row) return null;
         var value = row.values[lam];
@@ -431,7 +432,7 @@
         return '<thead>' + head + '</thead><tbody>' + body + '</tbody>';
       },
       find: function (data, params) {
-        var n = parseInt(params.n, 10);
+        var n = numericKey(params.n);
         var row = data.rows.filter(function (r) { return r.n === n; })[0];
         if (!row) return null;
         var fmt = SHAPES.flatRow.fmt3;
@@ -473,7 +474,7 @@
         return '<thead>' + head + '</thead><tbody>' + body + '</tbody>';
       },
       find: function (data, params) {
-        var i = parseInt(params.i, 10), n = String(parseInt(params.n, 10));
+        var i = numericKey(params.i), n = String(numericKey(params.n));
         var row = data.rows.filter(function (r) { return r.i === i; })[0];
         if (!row || row.values[n] == null) return null;
         return { rowKey: i, colKey: n, value: row.values[n], label: 'i=' + i + ', n=' + n + ' \u2192 ' + row.values[n] };
@@ -498,7 +499,7 @@
         var side = getPath(data, entry.side);
         var t = side.tables[params.gamma];
         if (!t) return null;
-        var targetN = parseInt(params.n, 10);
+        var targetN = numericKey(params.n);
         if (isNaN(targetN)) return null;
         var rows = t.rows, best = null;
         for (var i = 0; i < rows.length; i++) { if (rows[i].n >= targetN) { best = rows[i]; break; } }
@@ -528,9 +529,12 @@
   function renderBody(entry, data) {
     var shape = SHAPES[entry.shape];
     var params = readParams(entry);
-    var formula = shape.formula(entry, data);
+    var typeset = window.LookupMath && window.LookupMath.formulas[entry.id];
+    var formula = typeset ? typeset.html + '<p>' + esc(typeset.note) + '</p>' : shape.formula(entry, data);
     var tableHtml = shape.table(data, entry, params);
-    var method = entry.side ? getPath(data, entry.side + '.formula') : data.source;
+    var method = entry.side ? (typeset ? typeset.note : getPath(data, entry.side + '.formula')) : data.source;
+    if (typeset && entry.id === 'sigma_level') method = 'Computed from the standard-normal distribution using SciPy. Layout follows CSSBB Handbook Appendix I. The displayed shifted formula includes both tails.';
+    if (typeset && entry.id === 'control_chart') method = 'Normal-sample constants computed using gamma functions and numerical integration of order-statistic distributions. Derived control-chart factors use standard relationships; the formulas above identify the mean-chart factors.';
     return (formula ? '<div class="tb-tbl-formula">' + formula + '</div>' : '') +
       renderKeyInputs(entry, data) +
       '<div class="tb-tbl-tablewrap" tabindex="0" role="region" aria-label="' + esc(entry.label) + ' table, scroll to browse" data-tbl-tablewrap><table class="tb-tbl-table" aria-label="' + esc(entry.label) + '">' + tableHtml + '</table></div>' +
@@ -562,7 +566,18 @@
       row.classList.add('tbl-hit-row');
       var cell = row.querySelector('[data-col="' + CSS.escape(String(result.colKey)) + '"]');
       if (cell) { var column = wrap.querySelector('thead tr').children[cell.cellIndex]; if (column) column.classList.add('tbl-hit-col'); }
-      if (cell) { cell.classList.add('tbl-hit'); if (typeof cell.scrollIntoView === 'function') cell.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' }); }
+      if (cell) {
+        cell.classList.add('tbl-hit');
+        if (document.getElementById('tb-tables').dataset.tblExact === 'true') {
+          // Center in the usable grid area, excluding the frozen row header.
+          // scrollIntoView alone can put the answer behind that sticky column.
+          var grid = wrap.getBoundingClientRect(), target = cell.getBoundingClientRect();
+          var frozen = row.querySelector('th').getBoundingClientRect().width;
+          wrap.scrollLeft += target.left + target.width / 2 - (grid.left + frozen + (wrap.clientWidth - frozen) / 2);
+          wrap.scrollTop += target.top + target.height / 2 - (grid.top + wrap.clientHeight / 2);
+          if (typeof wrap.scrollIntoView === 'function') wrap.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'auto' });
+        } else if (typeof cell.scrollIntoView === 'function') cell.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' });
+      }
       else if (typeof row.scrollIntoView === 'function') { row.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
     }
   }
@@ -595,6 +610,8 @@
     var shape = SHAPES[entry.shape];
     if (entry.shape === 'matrix' || entry.shape === 'toleranceFactors') {
       wrap.querySelector('table').innerHTML = shape.table(data, entry, params);
+      Array.prototype.forEach.call(wrap.querySelectorAll('thead th'), function (th) { th.scope = 'col'; });
+      Array.prototype.forEach.call(wrap.querySelectorAll('tbody th'), function (th) { th.scope = 'row'; });
     }
     var result = shape.find(data, params, entry);
     var exact = document.getElementById('tb-tables').dataset.tblExact === 'true';
@@ -607,17 +624,21 @@
 
   function selectTable(id) {
     state.activeId = id;
+    var request = ++state.request;
     var body = document.querySelector('[data-tbl-body]');
     var host = document.getElementById('tb-tables');
     if (host) {
-      var chiprow = host.querySelector('.tb-tbl-chiprow');
-      if (chiprow) { chiprow.innerHTML = renderCategoryChips(); wireChips(chiprow); }
+      Array.prototype.forEach.call(host.querySelectorAll('[data-tbl-select]'), function (button) {
+        var active = button.getAttribute('data-tbl-select') === id;
+        button.classList.toggle('active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
     }
     var entry = byId(id);
     if (!body) return;
     body.innerHTML = '<p class="tb-tbl-loading">Loading ' + esc(entry.label) + '\u2026</p>';
     loadTable(entry, function (data, err) {
-      if (state.activeId !== id) return; // student has since switched away -- this response is stale, discard it
+      if (state.activeId !== id || state.request !== request) return; // stale, including an earlier request for this same table
       if (err || !data) { body.innerHTML = '<p class="tb-tbl-error">Could not load this table. Check your connection and try again.</p>'; return; }
       // Do not inherit parameters from the previous table, and render the grid
       // from the selectors actually displayed (not a different default gamma).
