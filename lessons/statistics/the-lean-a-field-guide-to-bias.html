@@ -53,7 +53,7 @@
 <style id="bias-lesson-style">
 .bias-lesson{
   --lesson-bias-bg:#eaf1f6; --lesson-bias-panel:#ffffff; --lesson-bias-panel2:#dfe9f1; --lesson-bias-ink:#0b2238; --lesson-bias-muted:#4d6479; --lesson-bias-line:#c4d4e1;
-  --lesson-bias-cyan:#0e6d8b; --lesson-bias-coral:#b53e35; --lesson-bias-sea:#18734f; --lesson-bias-amber:#b86f0c; --lesson-bias-violet:#6a4fc0;
+  --lesson-bias-cyan:#0e6d8b; --lesson-bias-coral:#b53e35; --lesson-bias-sea:#18734f; --lesson-bias-amber:#b86f0c; --lesson-bias-amber-text:#9a5b07; --lesson-bias-violet:#6a4fc0;
   --lesson-bias-target1:#d6e4ee; --lesson-bias-target2:#c3d6e4;
   --lesson-bias-display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
   --lesson-bias-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -940,7 +940,7 @@ function filterCat(cats){gCat=cats;gFam='all';gTerm='';document.getElementById('
   const stages=[
     [['sel'],'Who gets in','Selection and sampling','var(--lesson-bias-cyan)','sel'],
     [['survey'],'How we ask','Surveys and interviews','var(--lesson-bias-violet)','survey'],
-    [['meas'],'How we measure','Measurement and reporting','var(--lesson-bias-amber)','meas'],
+    [['meas'],'How we measure','Measurement and reporting','var(--lesson-bias-amber-text)','meas'],
     [['model'],'How we analyse','Analysis and models','var(--lesson-bias-cyan)','model'],
     [['mind','social','belief'],'Who decides','Judgement, social and belief','var(--lesson-bias-coral)','mind']
   ];
@@ -1136,7 +1136,7 @@ function filterCat(cats){gCat=cats;gFam='all';gTerm='';document.getElementById('
   });
 })();
 </script>
-<style id="bias-lesson-dark">html[data-theme="dark"] .bias-lesson{--lesson-bias-bg:#071120;--lesson-bias-panel:#0d1b30;--lesson-bias-panel2:#12243d;--lesson-bias-ink:#e4eef6;--lesson-bias-muted:#8ea6bb;--lesson-bias-line:#1f3654;--lesson-bias-cyan:#3fb6d8;--lesson-bias-coral:#ef7a6f;--lesson-bias-sea:#5fd3a4;--lesson-bias-amber:#f2a33a;--lesson-bias-violet:#a98cf0;--lesson-bias-target1:#0f2138;--lesson-bias-target2:#15304f}
+<style id="bias-lesson-dark">html[data-theme="dark"] .bias-lesson{--lesson-bias-bg:#071120;--lesson-bias-panel:#0d1b30;--lesson-bias-panel2:#12243d;--lesson-bias-ink:#e4eef6;--lesson-bias-muted:#8ea6bb;--lesson-bias-line:#1f3654;--lesson-bias-cyan:#3fb6d8;--lesson-bias-coral:#ef7a6f;--lesson-bias-sea:#5fd3a4;--lesson-bias-amber:#f2a33a;--lesson-bias-amber-text:#f2a33a;--lesson-bias-violet:#a98cf0;--lesson-bias-target1:#0f2138;--lesson-bias-target2:#15304f}
 html[data-theme="dark"] .bias-lesson .dlbtn{color:#1b1206}
 html[data-theme="dark"] .bias-lesson .dlzone .badge{color:#1b1206}
 html[data-theme="dark"] .bias-lesson .statistics-implementation th{background:var(--lesson-bias-panel2);color:var(--lesson-bias-ink)}
