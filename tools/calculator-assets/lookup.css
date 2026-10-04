@@ -27,7 +27,7 @@
 #pg-lookup .tb-tbl-table tbody th:not(:first-child){position:static}
 #pg-lookup .tb-tbl-table .tbl-corner{left:0;z-index:3}
 #pg-lookup .tb-tbl-table tbody tr:nth-child(even){background:var(--calc-panel-2)}
-#pg-lookup .tb-tbl-table .tbl-hit-row th,#pg-lookup .tb-tbl-table .tbl-hit-col,#pg-lookup .tb-tbl-table .tbl-hit{background:var(--calc-action);color:var(--calc-on-action);font-weight:700}
+#pg-lookup .tb-tbl-table .tbl-hit-row th,#pg-lookup .tb-tbl-table .tbl-hit-col,#pg-lookup .tb-tbl-table .tbl-hit{background:var(--calc-action)!important;color:var(--calc-on-action)!important;font-weight:700}
 #pg-lookup .tb-tbl-table .tbl-hit{outline:2px solid var(--calc-text);outline-offset:-3px}
 #pg-lookup .tb-tbl-loading,#pg-lookup .tb-tbl-error{padding:16px;color:var(--calc-text)}
 @media(max-width:600px){#pg-lookup #tb-tables{padding:14px}#pg-lookup .lookup-mobile-choice{display:block}#pg-lookup .tb-tbl-chiprow{display:none}#pg-lookup .tb-tbl-field{width:100%}#pg-lookup .tb-tbl-field :is(input,select){width:100%}#pg-lookup .tb-tbl-tablewrap{max-height:360px}#pg-lookup .tb-tbl-lookupbar{padding:12px}}
