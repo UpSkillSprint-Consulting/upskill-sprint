@@ -25,6 +25,7 @@ const CalculatorAnalysis = (() => {
     // Offset mean keeps small differences around a large baseline visible.
     const n=values.length, mean=values[0]+values.reduce((sum,x)=>sum+(x-values[0]),0)/n;
     const ss=values.reduce((sum,x)=>sum+(x-mean)**2,0), s=Math.sqrt(ss/(n-1));
+    requireValue(Number.isFinite(ss)&&(s>0||values.every(x=>x===values[0])),'Variation is outside the numerical range. Rescale measurements.');
     const sorted=[...values].sort((a,b)=>a-b), q1=quantile(sorted,.25), q3=quantile(sorted,.75);
     return {n,mean,ss,s,sorted,q1,q3,median:quantile(sorted,.5),iqr:q3-q1};
   }
@@ -47,7 +48,9 @@ const CalculatorAnalysis = (() => {
     const sse=residuals.reduce((s,v)=>s+v*v,0), mse=sse/(rows.length-2), error=Math.sqrt(mse), slopeSE=error/Math.sqrt(x.ss),t=slopeSE>0?slope/slopeSE:NaN;
     const p=slopeSE>0?2*upperTail(DISTS.find(d=>d.id==='t'),Math.abs(t),{df:rows.length-2}):slope!==0?0:NaN;
     const margin=critical(confidence,rows.length-2)*slopeSE;
-    return {kind:'regression',title:'Linear regression',metrics:[['Slope',slope],['Intercept',intercept],['Pearson r',y.ss>0?cross/Math.sqrt(x.ss*y.ss):NaN],['R²',y.ss>0?Math.max(0,1-sse/y.ss):NaN],['Residual standard error (n − 2)',error],['RMSE (n)',Math.sqrt(sse/rows.length)],['Slope p-value (two-sided)',p],[`${confidence*100}% slope interval — lower`,slope-margin],[`${confidence*100}% slope interval — upper`,slope+margin]],
+    // Divide by each norm separately: multiplying sums of squares can overflow or underflow.
+    const correlation=y.ss>0?Math.max(-1,Math.min(1,cross/Math.sqrt(x.ss)/Math.sqrt(y.ss))):NaN;
+    return {kind:'regression',title:'Linear regression',metrics:[['Slope',slope],['Intercept',intercept],['Pearson r',correlation],['R²',y.ss>0?Math.max(0,1-sse/y.ss):NaN],['Residual standard error (n − 2)',error],['RMSE (n)',Math.sqrt(sse/rows.length)],['Slope p-value (two-sided)',p],[`${confidence*100}% slope interval — lower`,slope-margin],[`${confidence*100}% slope interval — upper`,slope+margin]],
       charts:[{type:'scatter',points:rows,line:xs.map((v,i)=>[v,fitted[i]]),title:'Y versus X and fitted line'},{type:'scatter',points:xs.map((v,i)=>[fitted[i],residuals[i]]),title:'Residuals versus fitted Y'}],
       tables:[{title:'Fitted values and residuals',headers:['X','Y','Fitted Y','Residual'],rows:rows.map((r,i)=>[...r,fitted[i],residuals[i]])}],notes:['Ordinary least squares with an intercept: fitted Y = intercept + slope × X.','Slope inference assumes independent, normally distributed errors with constant variance. Check the residual plot. Correlation does not establish causation.','Constant Y makes correlation and R² undefined. A perfect fit has zero estimated residual error; inferential estimates are degenerate.']};
   }
@@ -71,7 +74,7 @@ const CalculatorAnalysis = (() => {
       fitted=xs.map(x=>model==='log'?a+b*Math.log(x):model==='exp'?Math.exp(a+b*x):Math.exp(a)*x**b);
       formula=model==='log'?`Y = ${format(a)} + ${format(b)} × ln(X)`:model==='exp'?`Y = ${format(Math.exp(a))} × exp(${format(b)} × X)`:`Y = ${format(Math.exp(a))} × X^${format(b)}`;
     }
-    requireValue(fitted.every(Number.isFinite),'Fit exceeded the numerical range. Rescale inputs.');
+    requireValue(fitted.every(Number.isFinite)&&coefficients.every(Number.isFinite),'Fit or original-unit coefficients exceeded the numerical range. Rescale inputs.');
     const d=describe(ys),residuals=ys.map((y,i)=>y-fitted[i]),sse=residuals.reduce((s,r)=>s+r*r,0);
     return {kind:model,title:'Curve fit — '+({poly2:'quadratic',poly3:'cubic',poly4:'quartic',log:'logarithmic',exp:'exponential',power:'power'}[model]),metrics:[['Fitted equation',formula],...coefficients.map((v,i)=>['Coefficient '+i,v]),['R² (original Y scale)',d.ss>0?1-sse/d.ss:NaN],['RMSE (original Y scale)',Math.sqrt(sse/rows.length)]],charts:[{type:'scatter',points:rows,line:xs.map((x,i)=>[x,fitted[i]]),title:'Observations and fitted values'},{type:'scatter',points:fitted.map((v,i)=>[v,residuals[i]]),title:'Residuals versus fitted Y'}],tables:[{title:'Fitted values',headers:['X','Y','Fitted Y','Residual'],rows:rows.map((r,i)=>[...r,fitted[i],residuals[i]])}],notes:['The fitted line connects fitted values at the supplied X values. Use Graphing to inspect the continuous fitted equation.','Polynomial fits use centered/scaled X for calculation and report coefficients in the original X units. Exponential and power models fit ln(Y); their least-squares objective is on the log scale, with no retransformation bias correction.','Model form, independence, and residual behavior require review. These fits do not imply causation, and extrapolation can be unreliable.']};
   }
@@ -112,7 +115,9 @@ const CalculatorAnalysis = (() => {
     requireValue(rows.length===2&&rows[0].length>=2&&rows[0].length===rows[1].length,'Use exactly two equal-length rows: observed counts, then expected counts.');
     const [observed,expected]=rows;requireValue(observed.every(x=>Number.isSafeInteger(x)&&x>=0)&&expected.every(x=>x>0),'Observed counts must be nonnegative integers; expected counts must be positive.');
     const n=observed.reduce((s,x)=>s+x,0),total=expected.reduce((s,x)=>s+x,0);requireValue(n>0&&Math.abs(n-total)<=1e-8*Math.max(n,1),'Observed and expected totals must match.');
+    requireValue(Number.isSafeInteger(n),'Total observed count must be a safe integer (at most 9,007,199,254,740,991).');
     const contributions=observed.map((x,i)=>(x-expected[i])**2/expected[i]),stat=contributions.reduce((s,x)=>s+x,0),df=observed.length-1,p=upperTail(DISTS.find(d=>d.id==='chi2'),stat,{df}),small=expected.some(x=>x<5);
+    requireValue(Number.isFinite(stat)&&Number.isFinite(p),'Goodness-of-fit calculation exceeded the numerical range. Review expected counts or use higher-precision software.');
     return {kind:'gof',title:'Chi-square goodness of fit',metrics:[['Pearson χ²',stat],['Degrees of freedom',df],['Approximate p-value',p],['Decision',small?'Small expected counts — review approximation':p<alpha?'Reject specified distribution':'Fail to reject specified distribution']],charts:[],tables:[{title:'Category contributions',headers:['Category','Observed','Expected','χ² contribution'],rows:observed.map((x,i)=>[i+1,x,expected[i],contributions[i]])}],notes:[`α = ${alpha}. This test assumes the expected proportions were specified independently of the data. df = categories − 1; do not use these df if parameters were estimated from these observations.`,small?'Expected counts below 5 can make the asymptotic p-value unreliable.':'All expected counts are at least 5.','Use mutually exclusive categories with independent observations; enter expected counts, not probabilities.']};
   }
   return {parse,describe,summary,regression,curveFit,capability,anova,chi,gof,format};

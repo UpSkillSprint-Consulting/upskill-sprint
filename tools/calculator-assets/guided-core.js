@@ -108,7 +108,7 @@ const GuidedAnalysis = (() => {
           check(groups.every(g=>g.length>=2),'Each included group requires at least two observations.');
           const stats=groups.map(A.describe);
           if(groups.length===2){
-            const [before,after]=stats,a=after.s**2/after.n,b=before.s**2/before.n,se=Math.sqrt(a+b),df=(a+b)**2/(a*a/(after.n-1)+b*b/(before.n-1));
+            const [before,after]=stats,a=after.s**2/after.n,b=before.s**2/before.n,se=Math.sqrt(a+b),weight=a/(a+b),df=1/(weight**2/(after.n-1)+(1-weight)**2/(before.n-1));
             result=tResult('welch',after.mean-before.mean,se,df,options.confidence,`Welch t test — ${p.groups[1]} minus ${p.groups[0]}`);
             result.charts=[{type:'scatter',points:groups.flatMap((g,i)=>g.map(v=>[i+1,v])),title:'Measurements by group',xlabel:`1 = ${p.groups[0]}; 2 = ${p.groups[1]}`,ylabel:yName}];
             result.tables=[{title:'Group summaries',headers:['Group','n','Mean','Sample s'],rows:stats.map((s,i)=>[p.groups[i],s.n,s.mean,s.s])}];

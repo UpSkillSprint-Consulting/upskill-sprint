@@ -964,7 +964,7 @@ const TESTS = [
 { id:"t2", name:"2-sample t test (Welch, unequal variances)",
   fields:[["x1","Mean x\u0304\u2081",""],["s1","Std dev s\u2081",""],["n1","n\u2081",""],["x2","Mean x\u0304\u2082",""],["s2","Std dev s\u2082",""],["n2","n\u2082",""]],
   run:v=>{ const a=v.s1*v.s1/v.n1, b=v.s2*v.s2/v.n2;
-    const df=Math.pow(a+b,2)/(a*a/(v.n1-1)+b*b/(v.n2-1));
+    const weight=a/(a+b),df=1/(weight*weight/(v.n1-1)+(1-weight)*(1-weight)/(v.n2-1));
     return { stat:(v.x1-v.x2)/Math.sqrt(a+b), dist:DISTS.find(d=>d.id==="t"), p:{df}, statName:"t",
       df:"Welch df = "+fmtN(df,5), h0:"\u03BC\u2081 = \u03BC\u2082", hsym:"\u03BC\u2081 \u2212 \u03BC\u2082" }; } },
 { id:"t2p", name:"2-sample t test (pooled, equal variances)",

@@ -5,6 +5,22 @@ const vm=require('node:vm');
 const {JSDOM}=require('jsdom');
 const {setup}=require('./helpers/calculator-browser');
 function input(w,d,id,value){d.getElementById(id).value=value;d.getElementById(id).dispatchEvent(new w.Event('input',{bubbles:true}));}
+test('QA: large constant data produce finite visible plot coordinates',()=>{
+ const {dom,w,d}=setup();
+ input(w,d,'analysis-data','1e20\n1e20\n1e20');d.getElementById('analysis-run').click();
+ assert.equal(d.getElementById('analysis-status').dataset.error,'false');
+ assert.equal(d.querySelectorAll('#analysis-charts svg').length,3);
+ assert.doesNotMatch(d.getElementById('analysis-charts').innerHTML,/NaN|Infinity/);
+ dom.window.close();
+});
+test('QA: summary Welch test retains its degrees of freedom after unit scaling',()=>{
+ const {dom,w,d}=setup();d.getElementById('tsel').value='2';d.getElementById('tsel').dispatchEvent(new w.Event('change'));
+ for(const scale of [1e90,1e-90]){
+  for(const [key,value]of Object.entries({x1:10*scale,x2:7*scale,s1:scale,s2:scale,n1:3,n2:3}))d.querySelector(`.tfield[data-key=${key}]`).value=value;
+  d.getElementById('trun').click();assert.match(d.getElementById('thyp').textContent,/Welch df = 4/);assert.match(d.getElementById('tdecision').textContent,/Reject H/);
+ }
+ dom.window.close();
+});
 const tick=()=>new Promise(r=>setTimeout(r,20));
 test('all workspaces initialize, tabs have keyboard semantics, and labels are unique',async()=>{
  const {dom,d}=setup();assert.equal(d.querySelectorAll('[role=tab]').length,11);assert.equal(d.querySelectorAll('[aria-selected=true]').length,1);

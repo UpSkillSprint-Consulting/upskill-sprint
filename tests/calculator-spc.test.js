@@ -5,6 +5,12 @@ for(const file of ['numeric','analysis-core','guided-data','spc-core'])vm.runInC
 const S=vm.runInContext('CalculatorSPC',ctx),f=JSON.parse(fs.readFileSync('tests/fixtures/calculator-spc-reference.json'));
 const near=(a,b)=>assert.ok(Math.abs(a-b)<1e-8*Math.max(1,Math.abs(b)),`${a} != ${b}`);
 const opts={kind:'xr',baselineRows:25,timeOrder:true,confidence:.95,normal:true,lsl:7,usl:13};
+test('QA: small EWMA weights retain nonzero startup limits without false signals',()=>{
+ const r=S.run([[-1],[1],[1]],{kind:'ewma',baselineRows:2,timeOrder:true,lambda:1e-20,L:3});
+ const p=r.charts[0].points.at(-1),expected=3*Math.sqrt(2)*1e-20;
+ assert.ok(Math.abs(p.hi/expected-1)<1e-12);assert.ok(Math.abs(p.value/1e-20-1)<1e-12);assert.equal(p.signals.length,0);
+ assert.throws(()=>S.run([[-1],[1],[1]],{kind:'ewma',baselineRows:2,timeOrder:true,lambda:1e-320,L:3}),/range|resolution/i);
+});
 const set=(w,d,id,value)=>{const e=d.getElementById('spc-'+id);if(e.type==='checkbox')e.checked=value;else e.value=value;e.dispatchEvent(new w.Event('input',{bubbles:true}));};
 test('SPC subgroup location/spread limits and capability intervals match independent SciPy fixtures',()=>{
  for(const kind of ['xr','xs']){const r=S.run(f.subgroups,{...opts,kind}),e=f.expected[kind];near(r.model.center,e.center);near(r.model.sigma,e.sigma);near(r.model.spread,e.spread);near(r.charts[0].points[0].lo,e.lo);near(r.charts[0].points[0].hi,e.hi);near(r.charts[1].points[0].lo,e.spreadLo);near(r.charts[1].points[0].hi,e.spreadHi);

@@ -7,6 +7,20 @@ const costs=csv('cost',[['Base','A','Internal failure','Scrap',10,'tonnes',100,1
 const production=csv('production',[['Base','A',100,10000],['Base','B',100,20000],['Now','A',50,5000],['Now','B',150,30000]]);
 const opts={baseline:'Base',current:'Now',currency:'CAD',productionUnit:'tonnes',assumptions:'Comparable constant rates and scope; independent accounting verification.',complete:true,cash:1000,avoidance:500,capacity:400,initial:1000,recurring:100,years:3,discount:10,sensitivity:20};
 const set=(w,d,id,v)=>{const e=d.getElementById('cost-'+id);if(e.type==='checkbox')e.checked=v;else e.value=v;e.dispatchEvent(new w.Event('input',{bubbles:true}));};
+test('QA: cost ratios cannot publish nonfinite output or silently underflow to zero',()=>{
+ assert.throws(()=>C.caseModel({...opts,initial:1e-320,recurring:0}),/range|rescale/i);
+ const tiny=csv('production',[['Base','A',1e-320,1],['Base','B',100,20000],['Now','A',50,5000],['Now','B',150,30000]]);
+ assert.throws(()=>C.run(C.read(costs,tiny,''),opts),/range|rescale/i);
+ const underflow=csv('cost',[['Base','A','Internal failure','Scrap',1e-200,'tonnes',1e-200,0]]);
+ assert.throws(()=>C.read(underflow,production,''),/range|rescale/i);
+});
+test('QA: cost numerical errors hide old results and disable report downloads',()=>{
+ const {dom,w,d}=setup();d.getElementById('cost-example').click();d.getElementById('cost-run').click();
+ set(w,d,'initial','1e-320');set(w,d,'recurring','0');d.getElementById('cost-run').click();
+ assert.equal(d.getElementById('cost-status').dataset.error,'true');assert.match(d.getElementById('cost-status').textContent,/range|rescale/i);
+ assert.equal(d.getElementById('cost-output').hidden,true);assert.equal(d.getElementById('cost-report').disabled,true);
+ dom.window.close();
+});
 test('Quality costs reconcile categories, COPQ and product-mix normalization without claiming cash',()=>{
  const r=C.run(C.read(costs,production,''),opts);near(r.base.coq,3000);near(r.current.coq,1350);near(r.current.copq,1200);near(r.current.expected[2]+r.current.expected[3],3500);near(r.current.adjustedCOPQ,2300);near(r.current.adjustedCOQ,2150);near(r.current.percentRevenue,1350/35000);near(r.current.perUnit,6.75);near(r.mix[1].share,.75);assert.equal(r.benefits.verified[0],0);assert.equal(r.benefits.actualNet,0);
 });

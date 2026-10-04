@@ -18,7 +18,8 @@ const CalculatorUI=(()=>{
     if(!all.length)return '<p>No finite points in this window.</p>';
     const xVals=all.map(p=>p[0]), yVals=[...all.map(p=>p[1]),...(spec.limits||[])];
     let xmin=spec.bounds?.[0]??Math.min(...xVals),xmax=spec.bounds?.[1]??Math.max(...xVals),ymin=spec.bounds?.[2]??Math.min(...yVals),ymax=spec.bounds?.[3]??Math.max(...yVals);
-    if(xmin===xmax){xmin-=.5;xmax+=.5;}if(ymin===ymax){ymin-=.5;ymax+=.5;}
+    // An absolute 0.5 pad disappears at large magnitudes; use a representable relative pad.
+    if(xmin===xmax){const pad=Math.max(.5,Math.abs(xmin)*.05);xmin-=pad;xmax+=pad;}if(ymin===ymax){const pad=Math.max(.5,Math.abs(ymin)*.05);ymin-=pad;ymax+=pad;}
     if(!spec.bounds){const xp=(xmax-xmin)*.06,yp=(ymax-ymin)*.1;xmin-=xp;xmax+=xp;ymin=bars?0:ymin-yp;ymax+=yp;}
     const X=x=>68+(x-xmin)/(xmax-xmin)*600,Y=y=>290-(y-ymin)/(ymax-ymin)*235;
     let svg=`<svg viewBox="0 0 720 345" role="img" aria-label="${esc(spec.title)}"><title>${esc(spec.title)}</title><path class="axis" fill="none" d="M68 45V290H680"/>`;

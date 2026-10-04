@@ -7,6 +7,12 @@ const QualityCost=(()=>{
  const types=['Cash savings','Cost avoidance','Released capacity','Implementation cost','Recurring cost'];
  const statuses=['Projected','Realized','Verified'];
  const sum=a=>a.reduce((s,x)=>s+x,0),key=(a,b)=>JSON.stringify([a,b]);
+ // Never publish Infinity/NaN as a valid metric or let JSON turn it into a missing value.
+ function finiteResult(value){
+  if(typeof value==='number')check(Number.isFinite(value),'Cost calculation exceeded the numerical range. Rescale currency/production units and check very small denominators.');
+  else if(value&&typeof value==='object')Object.values(value).forEach(finiteResult);
+  return value;
+ }
  function num(v,label,negative=false){const n=D.number(v);check(Number.isFinite(n)&&Math.abs(n)<=1e12&&(negative||n>=0),`${label}: enter ${negative?'a':'a nonnegative'} complete number within ${negative?'±':''}1 trillion.`);return n;}
  function text(v,label){const s=String(v??'').trim();check(s&&s.length<=500,`${label}: enter 1–500 characters.`);return s;}
  function choice(v,items,label){const match=items.find(x=>x.toLowerCase()===String(v).trim().toLowerCase());check(match,`${label}: use ${items.join(', ')}.`);return match;}
@@ -22,7 +28,7 @@ const QualityCost=(()=>{
   const costs=table(costText,'cost').map((r,i)=>{
    for(const f of ['Period','Product','Cause','Unit'])r[f]=text(r[f],`Cost row ${i+2} ${f}`);
    r.Category=choice(r.Category,categories,'Cost category');for(const f of ['Quantity','UnitCost','Events'])r[f]=num(r[f],`Cost row ${i+2} ${f}`);
-   check(Number.isSafeInteger(r.Events),'Events must be whole-number counts.');r.amount=r.Quantity*r.UnitCost;check(r.amount<=1e15,'A cost line exceeds 1 quadrillion; check units and rates.');return r;
+   check(Number.isSafeInteger(r.Events),'Events must be whole-number counts.');r.amount=r.Quantity*r.UnitCost;check(r.amount<=1e15,'A cost line exceeds 1 quadrillion; check units and rates.');check(r.amount>0||r.Quantity===0||r.UnitCost===0,'A positive cost line is below the numerical range. Rescale quantities and rates.');return r;
   });
   const seen=new Set();const production=table(productionText,'production').map((r,i)=>{for(const f of ['Period','Product'])r[f]=text(r[f],`Production row ${i+2} ${f}`);r.Volume=num(r.Volume,'Production volume');check(r.Volume>0,'Production volume must be greater than zero.');r.Revenue=r.Revenue===''?null:num(r.Revenue,'Revenue');const k=key(r.Period,r.Product);check(!seen.has(k),'Duplicate period/product in the production table.');seen.add(k);return r;});
   check(production.length,'Add production rows.');check(costs.length,'Add at least one cost line.');
@@ -55,7 +61,7 @@ const QualityCost=(()=>{
    const payback=c.initial===0?(net>=0?0:null):net>0&&c.initial/net<=c.years?c.initial/net:null;
    const cost=c.initial+c.recurring*c.years;
    return {name,factor,cash,net,npv:sum(flows.map(f=>f.present)),netTotal:sum(flows.map(f=>f.net)),roi:cost>0?(cash*c.years-cost)/cost:null,payback,flows};
-  });return {inputs:c,scenarios};
+  });return finiteResult({inputs:c,scenarios});
  }
  function run(data,o){
   check(data.periods.includes(o.baseline),'Select a baseline period.');check(data.periods.includes(o.current)&&o.current!==o.baseline,'Choose a different comparison period.');
@@ -84,7 +90,7 @@ const QualityCost=(()=>{
   if(realized[3]||realized[4])warnings.push('Actual project costs awaiting verification are excluded from verified net cash. Review pending costs before using the verified subtotal.');
   const currentVerified=sum(data.benefits.filter(v=>v.Period===o.current&&v.Type==='Cash savings'&&v.Status==='Verified').map(v=>v.Amount));
   if(current.adjustedCOQ!=null&&currentVerified>Math.max(0,current.adjustedCOQ))warnings.push('Verified cash claims in the comparison period exceed the normalized COQ reduction. Reconcile scope, prices, attribution and supporting evidence; these measures need not be identical.');
-  return {currency,productionUnit,notes,base,current,periodRows,mix,costPareto:pareto(selected,'cost'),frequencyPareto:pareto(selected,'events'),business:caseModel(o),benefits:{projected,realized,verified,actual,verifiedNet:verified[0]-verified[3]-verified[4],actualNet:actual[0]-actual[3]-actual[4],verification},warnings,generated:new Date().toISOString(),options:o,data};
+  return finiteResult({currency,productionUnit,notes,base,current,periodRows,mix,costPareto:pareto(selected,'cost'),frequencyPareto:pareto(selected,'events'),business:caseModel(o),benefits:{projected,realized,verified,actual,verifiedNet:verified[0]-verified[3]-verified[4],actualNet:actual[0]-actual[3]-actual[4],verification},warnings,generated:new Date().toISOString(),options:o,data});
  }
  function restore(raw){check(typeof raw==='string'&&raw.length<=3500000,'Project exceeds 3.5 MB.');let v;try{v=JSON.parse(raw);}catch{throw Error('Invalid project JSON.');}check(v?.format==='upskillsprint-quality-cost'&&v.version===1&&v.inputs&&v.settings,'Unsupported cost-workspace format/version.');for(const k of ['cost','production','benefits'])check(typeof v.inputs[k]==='string','Missing project table: '+k);read(v.inputs.cost,v.inputs.production,v.inputs.benefits);return v;}
  function report(r){return ['UpSkillSprint Cost of Quality & Savings v1',`Generated: ${r.generated}`,`Currency: ${r.currency}; production unit: ${r.productionUnit}`,`Settings: ${JSON.stringify(r.options)}`,'',...r.warnings,'','Period analysis:',D.csv([['Period','Volume','COQ','COPQ','COQ/unit','COQ/revenue','Mix-adjusted COQ reduction','Mix-adjusted COPQ reduction'],...r.periodRows.map(v=>[v.period,v.volume,v.coq,v.copq,v.perUnit,v.percentRevenue??'Unavailable',v.adjustedCOQ??'Unavailable',v.adjustedCOPQ??'Unavailable'])]),'','Product mix and baseline rates:',JSON.stringify(r.mix,null,2),'','Category costs by period:',D.csv([['Period',...categories],...r.periodRows.map(v=>[v.period,...v.cat])]),'','Projected business case:',JSON.stringify(r.business,null,2),'','Benefit register totals (project-wide, no forecast addition):',JSON.stringify(r.benefits,null,2),'','Input cost ledger:',D.csv([headers.cost,...r.data.costs.map(v=>headers.cost.map(k=>v[k]))]),'','Input production:',D.csv([headers.production,...r.data.production.map(v=>headers.production.map(k=>v[k]??''))]),'','Input benefit records:',D.csv([headers.benefits,...r.data.benefits.map(v=>headers.benefits.map(k=>v[k]))]),'','Cost Pareto:',D.csv([['Category','Cause','Cost','Events','Cumulative cost fraction'],...r.costPareto.map(v=>[v.category,v.cause,v.cost,v.events,v.cumulative??'Unavailable'])]),'','Frequency Pareto:',D.csv([['Category','Cause','Events','Cumulative event fraction'],...r.frequencyPareto.map(v=>[v.category,v.cause,v.events,v.cumulative??'Unavailable'])])].join('\n');}

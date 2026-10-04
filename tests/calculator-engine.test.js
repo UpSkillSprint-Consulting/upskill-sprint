@@ -82,6 +82,30 @@ test('goodness of fit uses independently specified expected counts and rejects m
  assert.throws(()=>analysis('CalculatorAnalysis.gof([[18,22],[30,30]])'),/totals must match/);
 });
 
+test('QA: Pearson correlation is invariant to large and small measurement units',()=>{
+ for(const scale of [1e90,1e-90])for(const sign of [-1,1]){
+  const rows=[1,2,3,4,5].map(x=>[x*scale,sign*(2*x+1)*scale]);
+  const m=Object.fromEntries(analysis(`CalculatorAnalysis.regression(${JSON.stringify(rows)})`).metrics);
+  near(m['Pearson r'],sign,1e-12);near(m.Slope,2*sign,1e-12);near(m['R²'],1,1e-12);
+ }
+});
+test('QA: 50 fresh seeded regression cases match independent SciPy references across units',()=>{
+ const refs=JSON.parse(fs.readFileSync('tests/fixtures/calculator-final-qa-reference.json'));
+ assert.equal(refs.regression.length,50);
+ for(const c of refs.regression){
+  const m=Object.fromEntries(analysis(`CalculatorAnalysis.regression(${JSON.stringify(c.rows)})`).metrics);
+  near(m.Slope,c.expected.slope,1e-10);near(m['Pearson r'],c.expected.r,1e-10);
+  near(m['Slope p-value (two-sided)'],c.expected.p,1e-11);
+ }
+});
+test('QA: unrepresentable variation, fitted equations and unsafe count totals fail clearly',()=>{
+ assert.throws(()=>analysis('CalculatorAnalysis.summary([1e-200,2e-200,3e-200])'),/range|rescale/i);
+ const rows=[1,2,3,4,5,6].map(x=>[x*1e90,1+x+x**4]);
+ assert.throws(()=>analysis(`CalculatorAnalysis.curveFit(${JSON.stringify(rows)},"poly4")`),/range|rescale/i);
+ assert.throws(()=>analysis('CalculatorAnalysis.gof([[9007199254740990,9007199254740990],[9007199254740990,9007199254740990]])'),/safe integer/);
+ assert.throws(()=>analysis('CalculatorAnalysis.gof([[20,0],[1e-320,20]])'),/range|rescale/i);
+});
+
 test('360 distribution comparisons against SciPy 1.17.0 fixtures',()=>{
  const fixtures=JSON.parse(fs.readFileSync(path.join(__dirname,'fixtures/calculator-distributions.json'),'utf8'));
  let comparisons=0;

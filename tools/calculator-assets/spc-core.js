@@ -62,8 +62,9 @@ const CalculatorSPC=(()=>{
     add(r[0],mu,mu-3*s,mu+3*s);
     if(i>0)spread.points.push(point(index,Math.abs(r[0]-rows[i-1][0]),m.spread,0,3.267*m.spread,phase,label));
    }else if(k==='ewma'){
-    z=options.lambda*r[0]+(1-options.lambda)*z;
-    const width=options.L*s*Math.sqrt(options.lambda/(2-options.lambda)*(1-(1-options.lambda)**(2*(i+1))));
+    z+=options.lambda*(r[0]-z);
+    const width=options.L*s*Math.sqrt(options.lambda/(2-options.lambda)*-Math.expm1(2*(i+1)*Math.log1p(-options.lambda)));
+    check(Number.isFinite(width)&&width>0&&mu-width<mu+width,'EWMA limits are outside numerical resolution. Increase λ or rescale measurements.');
     add(z,mu,mu-width,mu+width);
    }else if(k==='cusum'){
     const standard=(r[0]-mu)/s;plus=Math.max(0,plus+standard-options.k);minus=Math.max(0,minus-standard-options.k);

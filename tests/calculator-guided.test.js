@@ -10,6 +10,23 @@ const D=vm.runInContext('GuidedData',context),G=vm.runInContext('GuidedAnalysis'
 const dataset=text=>D.create(D.parseDelimited(text));
 const near=(a,b,tol=1e-9)=>assert.ok(Math.abs(a-b)<=tol*Math.max(1,Math.abs(b)),`${a} != ${b}`);
 const opts={goal:'compare',design:'independent',y:'1',group:'0',baseline:'Before',direction:'lower',threshold:'0.2',confidence:.95,filterColumn:''};
+test('QA: guided Welch inference is invariant to measurement units',()=>{
+ for(const scale of [1e90,1e-90]){
+  const d=dataset('Group,Y\n'+[...['Before,10','Before,12','Before,11'],...['After,7','After,8','After,9']].map(row=>{const [g,y]=row.split(',');return g+','+Number(y)*scale;}).join('\n'));
+  const e=G.run(d,{...opts,threshold:0}).result.effect;
+  near(e.df,4,1e-12);near(e.estimate/scale,-3,1e-12);near(e.se/scale,Math.sqrt(2/3),1e-12);
+  near(e.p,0.021311641128756727,1e-11);
+ }
+});
+test('QA: 50 fresh seeded Welch cases match independent SciPy references across units',()=>{
+ const refs=JSON.parse(fs.readFileSync('tests/fixtures/calculator-final-qa-reference.json'));
+ assert.equal(refs.welch.length,50);
+ for(const c of refs.welch){
+  const d=dataset('Group,Y\n'+[...c.before.map(y=>'Before,'+y),...c.after.map(y=>'After,'+y)].join('\n'));
+  const e=G.run(d,{...opts,threshold:0}).result.effect;
+  near(e.df,c.expected.df,1e-10);near(e.estimate/e.se,c.expected.stat,1e-10);near(e.p,c.expected.p,1e-11);
+ }
+});
 
 test('CSV preserves quoted delimiters, line breaks, BOM, empty and short records',()=>{
   const parsed=D.parseDelimited('\uFEFFLabel,Value,Note\r\n"A, B",1,"line 1\nline 2"\r\nC,,"He said ""yes"""\r\nD,3\r\n');
