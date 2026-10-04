@@ -1,0 +1,234 @@
+{
+  "mobile": [
+    {
+      "id": "z",
+      "scroll": 375,
+      "table": "Standard Normal (Z)",
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "id": "f",
+      "scroll": 375,
+      "table": "F Distribution",
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "id": "binomial_pmf",
+      "scroll": 375,
+      "table": "Binomial (PMF)",
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "id": "tolerance_two",
+      "scroll": 375,
+      "table": "Tolerance Factors (Two-Sided)",
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "id": "random_numbers",
+      "scroll": 375,
+      "table": "Random Number Table",
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "id": "z",
+      "scroll": 305,
+      "table": "Standard Normal (Z)",
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "id": "f",
+      "scroll": 305,
+      "table": "F Distribution",
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "id": "binomial_pmf",
+      "scroll": 305,
+      "table": "Binomial (PMF)",
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "id": "tolerance_two",
+      "scroll": 305,
+      "table": "Tolerance Factors (Two-Sided)",
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "id": "random_numbers",
+      "scroll": 305,
+      "table": "Random Number Table",
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "id": "z",
+      "scroll": 375,
+      "table": "Standard Normal (Z)",
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "id": "f",
+      "scroll": 375,
+      "table": "F Distribution",
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "id": "binomial_pmf",
+      "scroll": 375,
+      "table": "Binomial (PMF)",
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "id": "tolerance_two",
+      "scroll": 375,
+      "table": "Tolerance Factors (Two-Sided)",
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "id": "random_numbers",
+      "scroll": 375,
+      "table": "Random Number Table",
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "id": "z",
+      "scroll": 305,
+      "table": "Standard Normal (Z)",
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "id": "f",
+      "scroll": 305,
+      "table": "F Distribution",
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "id": "binomial_pmf",
+      "scroll": 305,
+      "table": "Binomial (PMF)",
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "id": "tolerance_two",
+      "scroll": 305,
+      "table": "Tolerance Factors (Two-Sided)",
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "id": "random_numbers",
+      "scroll": 305,
+      "table": "Random Number Table",
+      "theme": "light",
+      "width": 305
+    }
+  ],
+  "live": [
+    {
+      "hit": "0.5199",
+      "input": "0.05",
+      "result": "Φ(0.05) ≈ 0.5199",
+      "row": "0"
+    },
+    {
+      "hit": "0.4801",
+      "input": "-0.05",
+      "result": "Φ(-0.05) ≈ 0.4801",
+      "row": "-0"
+    },
+    {
+      "input": "1.965",
+      "result": "No exact match — check your inputs. Use tabulated keys or the Distributions calculator; values are not interpolated."
+    },
+    {
+      "hit": "0.9750",
+      "input": "1.96",
+      "result": "Φ(1.96) ≈ 0.9750",
+      "row": "1.9"
+    }
+  ],
+  "contrast": [
+    {
+      "checks": [
+        {
+          "contrast": 10.752098227572674,
+          "selector": ".tb-tbl-chip.active"
+        },
+        {
+          "contrast": 10.752098227572674,
+          "selector": ".tb-tbl-find"
+        },
+        {
+          "contrast": 10.752098227572674,
+          "selector": ".tbl-hit"
+        },
+        {
+          "contrast": 10.752098227572674,
+          "selector": ".tbl-hit-col"
+        },
+        {
+          "contrast": 10.752098227572674,
+          "selector": ".tbl-hit-row th"
+        }
+      ],
+      "theme": "dark"
+    },
+    {
+      "checks": [
+        {
+          "contrast": 5.3577549124490425,
+          "selector": ".tb-tbl-chip.active"
+        },
+        {
+          "contrast": 5.3577549124490425,
+          "selector": ".tb-tbl-find"
+        },
+        {
+          "contrast": 5.3577549124490425,
+          "selector": ".tbl-hit"
+        },
+        {
+          "contrast": 5.3577549124490425,
+          "selector": ".tbl-hit-col"
+        },
+        {
+          "contrast": 5.3577549124490425,
+          "selector": ".tbl-hit-row th"
+        }
+      ],
+      "theme": "light"
+    }
+  ],
+  "finalNarrow": [
+    {
+      "result": "Student's t(0.025, df=10) = 2.228",
+      "scroll": 305,
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "result": "Student's t(0.025, df=10) = 2.228",
+      "scroll": 305,
+      "theme": "dark",
+      "width": 305
+    }
+  ]
+}
