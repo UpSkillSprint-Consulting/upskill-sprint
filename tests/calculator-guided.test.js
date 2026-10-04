@@ -95,6 +95,16 @@ test('editing data, settings, filters and dataset selection clears old results a
   example(w,d,'paired');assert.equal(d.getElementById('guide-dataset').options.length,2);set(w,d,'dataset','0');assert.equal(d.getElementById('guide-output').hidden,true);
   dom.window.close();
 });
+test('input-only cell edits reach calculations immediately without replacing the focused editor',()=>{
+  const {dom,w,d}=setup();example(w,d,'process');
+  const cell=d.querySelector('#guide-table [data-row="0"][data-cell="1"]');cell.focus();cell.value='11.1';cell.dispatchEvent(new w.Event('input',{bubbles:true}));
+  assert.equal(d.activeElement,cell);assert.match(d.getElementById('guide-profile').textContent,/Revision 2/);
+  d.getElementById('guide-run').click();assert.match(d.getElementById('guide-metrics').textContent,/-0.633333333/);
+  const name=d.getElementById('guide-name');name.value='Edited process';name.dispatchEvent(new w.Event('input',{bubbles:true}));
+  d.getElementById('guide-run').click();assert.match(d.getElementById('guide-provenance').textContent,/Edited process/);
+  const header=d.querySelector('#guide-table [data-column="1"]');header.value='';header.dispatchEvent(new w.Event('input',{bubbles:true}));d.getElementById('guide-run').click();assert.match(d.getElementById('guide-status').textContent,/column names/);
+  dom.window.close();
+});
 test('CSV import displays text safely, rejects malformed inputs and keeps existing datasets after an error',()=>{
   const {dom,w,d}=setup();set(w,d,'paste','Group,Y\n<img src=x onerror=alert(1)>,10\nB,12');d.getElementById('guide-paste-load').click();
   assert.equal(d.querySelectorAll('#guide-table img').length,0);assert.equal(d.getElementById('guide-dataset').options.length,1);

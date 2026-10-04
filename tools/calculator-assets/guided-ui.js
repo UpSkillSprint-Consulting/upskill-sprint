@@ -4,7 +4,12 @@
   const settingIds=['goal','design','y','x','group','baseline','target','direction','threshold','lsl','usl','time-order','confidence','unit','filter-column','filter-value','allow-missing','equal-variance'];
   const keys={timeOrder:'time-order',filterColumn:'filter-column',filterValue:'filter-value',allowMissing:'allow-missing',equalVariance:'equal-variance'};
   let datasets=[],active=0,page=0,workbook=null,workbookName='',importVersion=0,output=null;
+  const edits=new WeakMap();
   const current=()=>datasets[active];
+  function checkMetadata(){
+    const d=current();if(!d)return;D.check(el('name').value.trim()===d.name,'Enter a nonempty dataset name.');
+    for(const e of el('table').querySelectorAll('[data-column]'))D.check(e.value.trim()===d.columns[Number(e.dataset.column)],'Finish editing column names: names must be nonempty and unique.');
+  }
   function settings(){const values={};for(const id of settingIds){const e=el(id);values[id]=e.type==='checkbox'?e.checked:e.value;}return values;}
   function options(){const values=settings();for(const [key,id]of Object.entries(keys))values[key]=values[id];return values;}
   function status(message,error=false){el('data-status').textContent=message;el('data-status').dataset.error=String(error);}
@@ -21,15 +26,21 @@
     if(reset&&d){const profile=D.profile(d).columns,numeric=profile.map((c,i)=>c.type==='Numeric'?i:null).filter(i=>i!=null),category=profile.findIndex(c=>c.type==='Text / category');
       el('y').value=String(numeric[0]??0);el('x').value=String(numeric[1]??(d.columns.length>1?1:0));el('group').value=category>=0?String(category):'';
     }
-    values();
+    values(reset);
   }
-  function values(){
+  function values(reset=false){
     const d=current();if(!d)return;
     const group=el('group').value,filter=el('filter-column').value;
     const groups=group===''?[]:[...new Set(d.rows.map(r=>r[Number(group)].trim()).filter(Boolean))];
-    selectOptions('baseline',groups.slice(0,100).map(v=>[v,v]));
+    const baseline=el('baseline').value,groupEntries=groups.slice(0,100).map(v=>[v,v]);
+    if(!reset&&baseline&&!groups.includes(baseline))groupEntries.push([baseline,baseline+' (not present)']);
+    selectOptions('baseline',groupEntries,reset?(groups[0]??''):undefined);
     el('filter-value-box').hidden=filter==='';
-    if(filter!=='')selectOptions('filter-value',[...new Set(d.rows.map(r=>r[Number(filter)]))].map(v=>[v,v||'(blank)']));
+    if(filter!==''){
+      const items=[...new Set(d.rows.map(r=>r[Number(filter)]))],previous=el('filter-value').value,entries=items.map(v=>[v,v||'(blank)']);
+      if(!reset&&!items.includes(previous)&&el('filter-value').options.length)entries.push([previous,(previous||'(blank)')+' (not present)']);
+      selectOptions('filter-value',entries,reset?(items[0]??''):undefined);
+    }
     else selectOptions('filter-value',[]);
   }
   function recommendation(){
@@ -46,14 +57,18 @@
     el('recommendation').innerHTML=`<strong>${esc(p.method)}</strong><p>${esc(p.why)}</p><ul>${p.assumptions.map(s=>`<li>${esc(s)}</li>`).join('')}</ul>${issue?`<p><b>Before running:</b> ${esc(issue)}</p>`:''}`;
     el('run').disabled=!current();
   }
-  function table(){
-    const d=current();if(!d)return;const profile=D.profile(d),start=page*25,end=Math.min(d.rows.length,start+25);
+  function metadata(){
+    const d=current();if(!d)return;const profile=D.profile(d);
     el('profile').innerHTML=`<strong>${d.rows.length.toLocaleString()}</strong> rows · <strong>${d.columns.length}</strong> columns · <strong>${profile.missing}</strong> blank cells · <strong>${profile.duplicates}</strong> duplicate rows retained · <strong>${d.excluded.length}</strong> explicitly excluded · Revision ${d.revision}`;
+    el('audit').innerHTML=d.audit.length?d.audit.slice(-100).map(a=>`<p>${esc(a.at)} · ${esc(a.action)}</p>`).join(''):'No edits since import.';
+    if(d.audit.length>100)el('audit').insertAdjacentHTML('afterbegin','<p>Showing the latest 100 edits. The project and analysis report retain the full history.</p>');
+    return profile;
+  }
+  function table(){
+    const d=current();if(!d)return;const profile=metadata(),start=page*25,end=Math.min(d.rows.length,start+25);
     el('table').innerHTML=`<table><caption>${esc(d.name)} — rows ${start+1}–${end}; source row numbers retained</caption><thead><tr><th scope="col">Use</th><th scope="col">Row<br>Source</th>${d.columns.map((name,j)=>`<th scope="col"><input data-column="${j}" aria-label="Column ${j+1} name" value="${esc(name)}" maxlength="100"><span class="guide-column-type">${profile.columns[j].type} · ${profile.columns[j].missing} blanks</span></th>`).join('')}</tr></thead><tbody>${d.rows.slice(start,end).map((r,k)=>{const i=start+k,excluded=d.excluded.includes(i);return `<tr data-excluded="${excluded}"><td><input type="checkbox" data-row-use="${i}" aria-label="Include data row ${i+1}" ${excluded?'':'checked'}></td><th scope="row">${i+1}<br><small>${d.sourceRows[i]}</small></th>${r.map((v,j)=>`<td><input data-row="${i}" data-cell="${j}" aria-label="Data row ${i+1}, ${esc(d.columns[j])}" value="${esc(v)}" maxlength="10000" spellcheck="false"></td>`).join('')}</tr>`;}).join('')}</tbody></table>`;
     el('page').textContent=`Rows ${start+1}–${end} of ${d.rows.length}`;el('prev').disabled=page===0;el('next').disabled=end>=d.rows.length;
     el('import-notes').innerHTML=d.notes.map(n=>`<p>${esc(n)}</p>`).join('');
-    el('audit').innerHTML=d.audit.length?d.audit.slice(-100).map(a=>`<p>${esc(a.at)} · ${esc(a.action)}</p>`).join(''):'No edits since import.';
-    if(d.audit.length>100)el('audit').insertAdjacentHTML('afterbegin','<p>Showing the latest 100 edits. The project and analysis report retain the full history.</p>');
   }
   function refresh(reset=false){
     el('data-tools').hidden=!current();selectOptions('dataset',datasets.map((d,i)=>[String(i),d.name]),String(active));
@@ -114,32 +129,56 @@
     else e.value=value.slice(0,e.maxLength>0?e.maxLength:100);
   }
   el('project-save').onclick=guarded(()=>{
+    checkMetadata();
     if(!current())return;const text=JSON.stringify({format:'upskillsprint-guided-workspace',version:1,saved:new Date().toISOString(),datasets,active,settings:settings()},null,2);
     D.check(new Blob([text]).size<=D.limits.file,'This workspace exceeds the 10 MB project limit. Download individual datasets as CSV.');
     U.download('upskillsprint-analysis-workspace.json',text,'application/json');status('Workspace download prepared. Keep this file to restore the datasets and settings.');
   });
   el('dataset').onchange=()=>{active=Number(el('dataset').value);page=0;importVersion++;invalidate();refresh(true);};
-  el('name').addEventListener('input',()=>invalidate());
+  el('name').addEventListener('input',guarded(()=>{
+    invalidate();const d=current(),name=el('name').value.trim();if(!d||!name||name===d.name)return;
+    D.audit(d,`Renamed dataset: ${d.name} → ${name}`);d.name=name;selectOptions('dataset',datasets.map((v,i)=>[String(i),v.name]),String(active));metadata();
+  }));
   el('name').onchange=guarded(()=>{
-    const d=current(),name=el('name').value.trim();if(!name){el('name').value=d.name;throw new Error('Enter a dataset name.');}D.audit(d,`Renamed dataset: ${d.name} → ${name}`);d.name=name;refresh();
+    const d=current(),name=el('name').value.trim();if(!name){el('name').value=d.name;throw new Error('Enter a dataset name.');}if(name!==d.name){D.audit(d,`Renamed dataset: ${d.name} → ${name}`);d.name=name;refresh();}
   });
   el('remove').onclick=()=>{
     if(!current()||!window.confirm(`Remove “${current().name}” from this session? Save workspace first if you need these data later.`))return;
     importVersion++;datasets.splice(active,1);active=Math.max(0,active-1);page=0;invalidate('Dataset removed. Select another dataset or import data.');refresh(true);if(!current())el('import-panel').open=true;status('Dataset removed from this session.');
   };
-  el('data-csv').onclick=()=>{const d=current();if(d)U.download('guided-analysis-data.csv',D.csv([['Included','Source row',...d.columns],...d.rows.map((r,i)=>[d.excluded.includes(i)?'No':'Yes',d.sourceRows[i],...r])]),'text/csv;charset=utf-8');};
-  el('table').addEventListener('input',()=>invalidate());
+  el('data-csv').onclick=guarded(()=>{checkMetadata();const d=current();if(d)U.download('guided-analysis-data.csv',D.csv([['Included','Source row',...d.columns],...d.rows.map((r,i)=>[d.excluded.includes(i)?'No':'Yes',d.sourceRows[i],...r])]),'text/csv;charset=utf-8');});
+  el('table').addEventListener('input',guarded(event=>{
+    invalidate();const e=event.target,d=current();if(!d)return;
+    if(e.hasAttribute('data-column')){
+      const j=Number(e.dataset.column),value=e.value.trim();
+      if(!value||d.columns.some((name,k)=>k!==j&&name===value))return;
+      if(value===d.columns[j])return;D.audit(d,`Column ${j+1}: ${d.columns[j]} → ${value}`);d.columns[j]=value;columns();metadata();recommendation();return;
+    }
+    if(!e.hasAttribute('data-cell'))return;
+    const i=Number(e.dataset.row),j=Number(e.dataset.cell),value=e.value,before=d.rows[i][j];if(value===before)return;
+    const total=d.rows.reduce((sum,row)=>sum+row.reduce((s,v)=>s+v.length,0),0)-before.length+value.length;
+    if(total>D.limits.text){e.value=before;throw new Error('Dataset text exceeds 5 million characters.');}
+    let edit=edits.get(e);
+    if(!edit||edit.dataset!==d){D.audit(d,'Cell edit');edit={dataset:d,before,index:d.audit.length-1};edits.set(e,edit);}else d.revision++;
+    d.audit[edit.index]={at:new Date().toISOString(),action:`Row ${i+1}, ${d.columns[j]}: ${edit.before} → ${value}`.slice(0,500)};
+    d.rows[i][j]=value;const profile=metadata();
+    el('table').querySelectorAll('.guide-column-type').forEach((label,k)=>label.textContent=`${profile.columns[k].type} · ${profile.columns[k].missing} blanks`);
+    values();recommendation();status('Dataset updated. Previous analysis results are cleared.');
+  }));
+  el('table').addEventListener('focusout',event=>edits.delete(event.target));
   el('table').addEventListener('change',guarded(event=>{
     const e=event.target,d=current();if(!d)return;
     if(e.hasAttribute('data-column')){
       const j=Number(e.dataset.column),value=e.value.trim();
       if(!value||d.columns.some((name,k)=>k!==j&&name===value)){e.value=d.columns[j];throw new Error('Column names must be nonempty and unique.');}
+      if(value===d.columns[j])return;
       D.audit(d,`Column ${j+1}: ${d.columns[j]} → ${value}`);d.columns[j]=value;
     }else if(e.hasAttribute('data-row-use')){
       const i=Number(e.dataset.rowUse);D.audit(d,`Data row ${i+1}: ${e.checked?'included':'excluded by user'}`);
       d.excluded=d.excluded.filter(v=>v!==i);if(!e.checked)d.excluded.push(i);
     }else if(e.hasAttribute('data-cell')){
       const i=Number(e.dataset.row),j=Number(e.dataset.cell),value=e.value;
+      if(value===d.rows[i][j])return;
       const total=d.rows.reduce((sum,row)=>sum+row.reduce((s,v)=>s+v.length,0),0)-d.rows[i][j].length+value.length;
       if(total>D.limits.text){e.value=d.rows[i][j];throw new Error('Dataset text exceeds 5 million characters.');}
       D.audit(d,`Row ${i+1}, ${d.columns[j]}: ${d.rows[i][j]} → ${value}`);d.rows[i][j]=value;
@@ -173,7 +212,7 @@
     }
   }
   el('run').onclick=()=>{
-    invalidate('Analyzing…');try{output=G.run(current(),options());show(output);}catch(error){invalidate(error.message);el('status').dataset.error='true';}
+    invalidate('Analyzing…');try{checkMetadata();output=G.run(current(),options());show(output);}catch(error){invalidate(error.message);el('status').dataset.error='true';}
   };
   el('report').onclick=()=>{if(output)U.download('guided-analysis-report.txt',G.report(output,current()));};
   el('result-csv').onclick=()=>{if(!output)return;const {result,plan}=output;U.download('guided-analysis-results.csv',D.csv([['Dataset',current().name],['Revision',current().revision],['Method',result.title],['Included rows',plan.selected.length],['Excluded rows',plan.excluded.length],['Interpretation',output.interpretation],[],['Metric','Value'],...result.metrics,...result.tables.flatMap(t=>[[],[t.title],t.headers,...t.rows]),[],['Data row excluded','Source row','Reason'],...plan.excluded.map(r=>[r.row,r.sourceRow,r.reason])]),'text/csv;charset=utf-8');};

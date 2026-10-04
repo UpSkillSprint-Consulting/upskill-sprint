@@ -35,7 +35,7 @@ const GuidedAnalysis = (() => {
       for(const j of numeric)check(Number.isFinite(D.number(row[j])),`Data row ${i+1} (source row ${dataset.sourceRows[i]}), ${dataset.columns[j]}: “${row[j].slice(0,60)}” is not a complete number within ±1e100. Correct it or explicitly uncheck this row.`);
       selected.push({index:i,sourceRow:dataset.sourceRows[i],values:row});
     });
-    check(!missing||options.allowMissing,`${missing} rows have missing values in the selected columns. Fill them, uncheck them, or explicitly allow complete rows only.`);
+    check(!missing||options.allowMissing,`${missing} ${missing===1?'row has':'rows have'} missing values in the selected columns. Fill them, uncheck them, or explicitly allow complete rows only.`);
     check(selected.length>=2,'At least two included, complete observations are required.');
     const groups=group==null?[]:[...new Set(selected.map(r=>r.values[group].trim()))];
     if(goal==='compare'&&group!=null){

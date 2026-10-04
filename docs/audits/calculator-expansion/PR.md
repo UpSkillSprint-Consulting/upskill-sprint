@@ -16,7 +16,7 @@ The manual preserves existing material and adds the complete guided workflow in 
 
 ## Verification
 
-- 44 calculator engine/interface/manual tests pass.
+- 45 calculator engine/interface/manual tests pass.
 - 360 fixed SciPy 1.17.0 distribution comparisons, plus five independent guided t-inference reference cases.
 - Excel tests cover compressed/stored ZIPs, shared/inline strings, sheets, date conversion, caches and invalid/oversized/corrupt XML packages.
 - UI tests cover worked examples, incorrect inputs, missing pairs, filters, edits, stale results, asynchronous imports, project restoration, exports and handoffs.
@@ -25,7 +25,7 @@ The manual preserves existing material and adds the complete guided workflow in 
 
 ## Delivery and limits
 
-- PR #236 remains open and unmerged. The updated deploy preview is pending live review.
+- PR #236 remains open and unmerged. The live preview passed Excel import/regression and missing-value workflow checks. A discovered input-only edit defect is corrected and regression-tested; the corrected preview is awaiting final verification.
 - Data stays in browser memory unless explicitly downloaded; workspace JSON files contain the datasets. Existing scientific-calculator history retains its prior browser-storage behavior.
 - XLSX is a bounded, values-only importer. Recalculate/save formulas in Excel first; unsupported formats should be exported as CSV. Dedicated mobile-device and assistive-technology testing remains outstanding.
 - Advanced SPC, MSA and cost-of-quality/verified savings are not part of this guided-workspace addition.
