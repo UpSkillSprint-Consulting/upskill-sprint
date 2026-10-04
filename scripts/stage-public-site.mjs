@@ -8,12 +8,18 @@ export const excludedDirectories = new Set([
   'netlify', 'node_modules', 'scripts', 'tests', 'docs', 'content', 'source-assets',
   'public-site', 'coverage', 'test-results', 'playwright-report'
 ]);
+// Authoring aids that live at the repo root but are not public pages.
+export const excludedFiles = new Set([
+  'How to Add a New Lesson.dc.html',
+  'upskillsprint_lesson_theme_reference.html',
+  'lesson-template.html'
+]);
 export async function stagePublicSite(source = root, destination = join(root, 'public-site')) {
   await rm(destination, { recursive: true, force: true });
   await mkdir(destination, { recursive: true });
   let count = 0;
   for (const entry of await readdir(source, { withFileTypes: true })) {
-    if (entry.name.startsWith('.') || excludedDirectories.has(entry.name)) continue;
+    if (entry.name.startsWith('.') || excludedDirectories.has(entry.name) || excludedFiles.has(entry.name)) continue;
     if (entry.isDirectory()) {
       await cp(join(source, entry.name), join(destination, entry.name), {
         recursive: true,

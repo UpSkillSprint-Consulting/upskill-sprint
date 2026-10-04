@@ -26,3 +26,15 @@
 
 [build.processing.html]
   pretty_urls = true
+
+# Fragment and fallback HTML that is fetched by other pages at runtime but is
+# not a standalone page: keep it out of search results.
+[[headers]]
+  for = "/lessons/assets/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/test-bank-assets/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"

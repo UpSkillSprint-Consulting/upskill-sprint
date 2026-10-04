@@ -1,7 +1,7 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 52,
+  "lessonCount": 48,
   "contentLessonCount": 47,
   "sectionCount": 2040,
   "lessons": [
@@ -1510,22 +1510,6 @@
           ]
         }
       ]
-    },
-    {
-      "id": "coming-soon-dmaic-in-10-minutes",
-      "path": "/lesson-template",
-      "title": "DMAIC in 10 Minutes",
-      "description": "Understand the five phases of a structured Lean Six Sigma improvement project.",
-      "topic": "lean-six-sigma",
-      "level": "beginner",
-      "minutes": 10,
-      "interactive": false,
-      "keywords": [
-        "dmaic define measure analyze improve control lean six sigma"
-      ],
-      "placeholder": true,
-      "contentAvailable": false,
-      "sections": []
     },
     {
       "id": "one-way-anova",
@@ -4147,22 +4131,6 @@
       ]
     },
     {
-      "id": "coming-soon-building-your-first-pivot-table",
-      "path": "/lesson-template",
-      "title": "Building Your First Pivot Table",
-      "description": "Summarize a messy spreadsheet into a clear view you can use for decisions.",
-      "topic": "power-bi-excel-sql",
-      "level": "beginner",
-      "minutes": 10,
-      "interactive": false,
-      "keywords": [
-        "first pivot table excel summarize spreadsheet"
-      ],
-      "placeholder": true,
-      "contentAvailable": false,
-      "sections": []
-    },
-    {
       "id": "coming-soon-writing-your-first-sql-query",
       "path": "/lesson-template",
       "title": "Writing Your First SQL Query",
@@ -4173,38 +4141,6 @@
       "interactive": false,
       "keywords": [
         "first sql query select where join database"
-      ],
-      "placeholder": true,
-      "contentAvailable": false,
-      "sections": []
-    },
-    {
-      "id": "coming-soon-scoping-a-project-that-ships",
-      "path": "/lesson-template",
-      "title": "Scoping a Project That Ships",
-      "description": "Define scope, stakeholders, and success criteria before the work begins.",
-      "topic": "project-management",
-      "level": "beginner",
-      "minutes": 8,
-      "interactive": false,
-      "keywords": [
-        "scoping a project scope stakeholders success criteria project management"
-      ],
-      "placeholder": true,
-      "contentAvailable": false,
-      "sections": []
-    },
-    {
-      "id": "coming-soon-turning-data-into-a-business-case",
-      "path": "/lesson-template",
-      "title": "Turning Data Into a Business Case",
-      "description": "Structure an analysis so leaders can understand the evidence and act on it.",
-      "topic": "business-decision-making",
-      "level": "intermediate",
-      "minutes": 13,
-      "interactive": false,
-      "keywords": [
-        "turning data into a business case leadership excel decision making"
       ],
       "placeholder": true,
       "contentAvailable": false,
