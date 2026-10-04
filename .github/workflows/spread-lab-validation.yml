@@ -27,10 +27,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
           cache: npm
@@ -54,7 +54,7 @@ jobs:
           cp lessons/statistics/variance-covariance-correlation-and-coefficient-of-variation.html artifacts/spread-lab/source/
           cp tests/spread-lab-lesson.test.js scripts/validate-spread-lab.cjs artifacts/spread-lab/source/
           git rev-parse HEAD > artifacts/spread-lab/source/commit.txt
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: spread-lab-browser-validation
@@ -68,8 +68,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: '22'
           cache: npm
@@ -80,7 +80,7 @@ jobs:
           mkdir -p artifacts/spread-lab-build
           (node scripts/validate-simple-test-bank.mjs && node scripts/build-binomial-poisson-exponential-lesson.mjs && node scripts/validate-binomial-poisson-exponential-visual.mjs && node scripts/build-grade-specification-lookup.mjs && node scripts/build-interactive-sql-lesson.mjs && node scripts/focus-sql-clause-learning.mjs) 2>&1 | tee artifacts/spread-lab-build/build.txt
           git rev-parse HEAD > artifacts/spread-lab-build/commit.txt
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: spread-lab-production-build
