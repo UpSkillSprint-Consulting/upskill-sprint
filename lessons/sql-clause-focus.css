@@ -170,3 +170,15 @@ html[data-theme="dark"] .clause-key {
     justify-content: center;
   }
 }
+
+/* Dark theme: keep the focus header text white on the deeper clause colours,
+   and use dark text on the light teal action buttons (white measured 2.4:1). */
+html[data-theme="dark"] .clause-focus-header p,
+html[data-theme="dark"] .clause-focus-header h3 {
+  color: #fff;
+}
+
+html[data-theme="dark"] .button:not(.secondary),
+html[data-theme="dark"] .btn-teal {
+  color: #0b1220;
+}
