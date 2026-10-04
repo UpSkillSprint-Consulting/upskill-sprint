@@ -49,6 +49,8 @@ label.mobile-menu-btn {
 h1, h2, h3 { font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; margin: 0; }
 a { color: var(--teal); text-decoration: none; }
 a:hover { color: var(--teal-dark); }
+/* Links inside running text are underlined so they are not identified by colour alone (WCAG 1.4.1). */
+:where(main, article) :where(p, li, dd, td, figcaption, blockquote, .callout, .remember, .note) > a:not([class]) { text-decoration: underline; text-underline-offset: 0.15em; }
 a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
   outline: 2px solid var(--teal); outline-offset: 2px;
 }

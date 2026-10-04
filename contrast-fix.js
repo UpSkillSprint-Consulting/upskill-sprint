@@ -12,6 +12,9 @@
   const REPAIR_SELECTOR = '.' + LIGHT_CLASS + ', .' + DARK_CLASS;
   const SKIP_SELECTOR = 'script,style,noscript,template,svg,canvas,[data-contrast-ignore]';
   const THEME_TRANSITION_MS = 240;
+  // Text colours applied by the repair classes below (#172033 and #f4f7fb).
+  const REPAIR_LIGHT_TEXT = { r: 23, g: 32, b: 51, a: 1 };
+  const REPAIR_DARK_TEXT = { r: 244, g: 247, b: 251, a: 1 };
 
   let scanQueued = false;
   let themeRefreshFrame = 0;
@@ -194,7 +197,11 @@
     const ratio = contrastRatio(textColour, background);
 
     if (ratio < minimumContrast(styles)) {
-      setRepairClass(element, luminance(background) >= 0.5 ? LIGHT_CLASS : DARK_CLASS);
+      // Pick whichever repair colour actually contrasts more with this background;
+      // mid-tone fills (greens, ambers, teals) need dark text, not white.
+      const darkText = contrastRatio(REPAIR_LIGHT_TEXT, background);
+      const lightText = contrastRatio(REPAIR_DARK_TEXT, background);
+      setRepairClass(element, darkText >= lightText ? LIGHT_CLASS : DARK_CLASS);
     }
   }
 

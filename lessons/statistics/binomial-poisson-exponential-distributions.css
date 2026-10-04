@@ -1,7 +1,7 @@
 :root{
   --paper:#ffffff;--surface:#ffffff;--surface-soft:#f4f7fa;--ink:#101828;--ink-soft:#344054;
   --muted:#667085;--line:#dfe5ec;--navy:#0f2a43;--teal:#0e7c86;--teal-dark:#075f68;
-  --amber:#d97706;--success:#2f855a;--warning:#b7791f;--danger:#c24132;--info:#2f6fb0;
+  --amber:#d97706;--success:#2f855a;--warning:#98651a;--danger:#c24132;--info:#2f6fb0;
   --radius-sm:9px;--radius-md:14px;--radius-lg:20px;--shadow-sm:0 8px 24px rgba(15,42,67,.08);
   --shadow-md:0 14px 34px rgba(15,42,67,.10);--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --bg:var(--paper);--surface-2:var(--surface-soft);--text:var(--ink);--brand:var(--teal);--brand-2:var(--teal-dark);
