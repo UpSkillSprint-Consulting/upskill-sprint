@@ -42,20 +42,17 @@
 # Legacy duplicate URLs: send them to the one canonical lesson URL with a
 # permanent redirect. force = true is needed because the old redirect stubs
 # still exist as files (they stay as a client-side fallback).
+# The DMAIC path contains spaces. Netlify's docs ask for URL-encoded paths;
+# the literal-space splat rule is the form the Netlify CLI matches locally.
+# Both are kept so the redirect works either way.
 [[redirects]]
-  from = "/lesson/Lean%20Six%20Sigma/DMAIC%20Formula%20Encyclopedia"
+  from = "/lesson/Lean%20Six%20Sigma/DMAIC%20Formula%20Encyclopedia/*"
   to = "/lessons/lean-six-sigma/dmaic-formula-encyclopedia"
   status = 301
   force = true
 
 [[redirects]]
-  from = "/lesson/Lean%20Six%20Sigma/DMAIC%20Formula%20Encyclopedia/"
-  to = "/lessons/lean-six-sigma/dmaic-formula-encyclopedia"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/lesson/Lean%20Six%20Sigma/DMAIC%20Formula%20Encyclopedia/index.html"
+  from = "/lesson/Lean Six Sigma/DMAIC Formula Encyclopedia/*"
   to = "/lessons/lean-six-sigma/dmaic-formula-encyclopedia"
   status = 301
   force = true
