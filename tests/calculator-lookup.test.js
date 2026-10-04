@@ -7,6 +7,11 @@ async function choose(d,id){d.querySelector(`[data-tbl-select="${id}"]`).click()
 function find(d,params){for(const [key,value]of Object.entries(params))d.querySelector(`[data-tbl-key="${key}"]`).value=String(value);d.querySelector('[data-tbl-find]').click();return d.querySelector('[data-tbl-result]').textContent;}
 async function open(){const ctx=setup();ctx.d.querySelector('[data-page="pg-lookup"]').click();await tick();return ctx;}
 
+test('lookup initializes when mobile selection happens before the adapter finishes loading',async()=>{
+ const {dom,d}=setup({beforeScript(src,w){if(src==='/tools/calculator-assets/lookup-ui.js'){const picker=w.document.getElementById('calc-workspace');picker.value='pg-lookup';picker.dispatchEvent(new w.Event('change'));}}});
+ await tick();assert.ok(d.querySelector('.tb-tbl-table'));assert.match(find(d,{z:1.96}),/0\.9750/);dom.window.close();
+});
+
 test('lookup opens lazily from mobile picker and preserves results across workspaces',async()=>{
  const {dom,w,d}=setup();let requests=0;const fetch=w.fetch;w.fetch=(...args)=>{requests++;return fetch(...args);};
  assert.equal(requests,0);const picker=d.getElementById('calc-workspace');picker.value='pg-lookup';picker.dispatchEvent(new w.Event('change'));await tick();

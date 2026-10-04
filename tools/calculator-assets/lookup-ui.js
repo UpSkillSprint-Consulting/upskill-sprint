@@ -40,10 +40,13 @@
   help.replaceChildren(title, text);
  }
  let initialized = false;
- document.querySelector('[data-page="pg-lookup"]').addEventListener('click', () => {
+ function initialize() {
   if (initialized) return;
   initialized = true; explain('z'); window.__TBTables.onOpen();
- });
+ }
+ document.querySelector('[data-page="pg-lookup"]').addEventListener('click', initialize);
+ // The mobile picker can be used while the remaining scripts are downloading.
+ if (document.getElementById('pg-lookup').classList.contains('active')) initialize();
  host.addEventListener('click', event => {
   const chip = event.target.closest('[data-tbl-select]');
   if (chip) explain(chip.dataset.tblSelect);

@@ -13,6 +13,7 @@ One-sided tolerance factors are checked against noncentral-t quantiles. Two-side
 - Rebuilding the table buttons discarded keyboard focus. Selection now updates existing buttons in place.
 - At 320 px, the F table's frozen first column measured 328 px inside a 222 px grid and covered the selected cell. Corner labels now wrap; lookup scrolling centers the cell in the region excluding the frozen column.
 - Table re-rendering now reapplies row/column header scopes.
+- Live preview testing caught an early-loading race: selecting the mobile workspace before the adapter loaded left the panel empty. The adapter now initializes an already-selected lookup workspace; an additional regression reproduces the ordering.
 
 ## Professional equation typography
 
@@ -22,9 +23,9 @@ The manual includes the same full equation reference. Fractions and expressions 
 
 ## Verification
 
-- **118 focused tests passed**: calculator numerical/UI/manual tests plus existing shared exam-table tests. Four new regression tests cover the first three defects and equation rendering across all mathematical tables.
+- **119 focused tests passed**: calculator numerical/UI/manual tests plus existing shared exam-table tests. Five new regression tests cover input parsing, stale responses, keyboard focus, early workspace selection, and equation rendering across all mathematical tables.
 - Full site build passed.
 - Numerical report: 22,402 checks passed with the precision and sampling limits above.
-- Live preview checks follow publication of this change; final browser evidence will be recorded separately.
+- Live preview: scientific-notation binomial lookup returns 0.3487 for ten trials, zero successes and probability 0.10; tolerance lookup returns 2.911 for sample size 10 with confidence and coverage both 0.95; table selection retains focus. Twenty loaded table/theme/width states (F, both tolerance options, Duncan and sigma at 320/390 px, light/dark) have no page overflow or MathML errors. F results are visible beside the now-64-px frozen label. The manual renders 29 equations across 17 mathematical reference entries with no overflow at both narrow widths. See `lookup-audit-browser.json` and `calculator-lookup-equations.jpg`.
 
 This is an assistant QA pass with independent reference arithmetic, not third-party certification. Physical devices, screen readers and exhaustive parameter coverage remain outside this audit. PR #236 remains unmerged.

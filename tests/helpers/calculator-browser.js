@@ -1,7 +1,7 @@
 const fs=require('node:fs');
 const vm=require('node:vm');
 const {JSDOM}=require('jsdom');
-function setup(){
+function setup(options={}){
  const html=fs.readFileSync('tools/engineering-statistics-calculator.html','utf8');
  const dom=new JSDOM(html,{url:'https://calculator.test/tools/engineering-statistics-calculator',runScripts:'outside-only',pretendToBeVisual:true});
  const w=dom.window;
@@ -16,7 +16,7 @@ function setup(){
  w.CSS = {escape:s=>String(s).replace(/[^a-zA-Z0-9_-]/g,'\\$&')};
  w.fetch=async url=>({ok:true,json:async()=>JSON.parse(fs.readFileSync('.'+url,'utf8'))});
  const ctx=dom.getInternalVMContext();
- for(const script of w.document.scripts){const src=script.getAttribute('src');if(src?.startsWith('/tools/calculator-assets/')||src==='/test-bank-tables.js')vm.runInContext(fs.readFileSync('.'+src,'utf8'),ctx);else if(!src)vm.runInContext(script.textContent,ctx);}
+ for(const script of w.document.scripts){const src=script.getAttribute('src');if(options.beforeScript)options.beforeScript(src,w);if(src?.startsWith('/tools/calculator-assets/')||src==='/test-bank-tables.js')vm.runInContext(fs.readFileSync('.'+src,'utf8'),ctx);else if(!src)vm.runInContext(script.textContent,ctx);}
  return {dom,w,d:w.document};
 }
 module.exports={setup};

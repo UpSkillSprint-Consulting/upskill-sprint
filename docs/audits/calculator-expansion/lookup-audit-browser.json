@@ -1,0 +1,199 @@
+{
+  "preview": "https://deploy-preview-236--upskillsprint.netlify.app/tools/engineering-statistics-calculator",
+  "sourceCommit": "b3f5ef4bb54ef197da1326bc567a8ef3c73399da",
+  "narrow": [
+    {
+      "errors": 0,
+      "math": 1,
+      "scrollWidth": 305,
+      "table": "f",
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "errors": 0,
+      "math": 4,
+      "scrollWidth": 305,
+      "table": "tolerance_one",
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "errors": 0,
+      "math": 3,
+      "scrollWidth": 305,
+      "table": "tolerance_two",
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "errors": 0,
+      "math": 2,
+      "scrollWidth": 305,
+      "table": "duncan",
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "errors": 0,
+      "math": 2,
+      "scrollWidth": 305,
+      "table": "sigma_level",
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "errors": 0,
+      "math": 1,
+      "scrollWidth": 375,
+      "table": "f",
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "errors": 0,
+      "math": 4,
+      "scrollWidth": 375,
+      "table": "tolerance_one",
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "errors": 0,
+      "math": 3,
+      "scrollWidth": 375,
+      "table": "tolerance_two",
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "errors": 0,
+      "math": 2,
+      "scrollWidth": 375,
+      "table": "duncan",
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "errors": 0,
+      "math": 2,
+      "scrollWidth": 375,
+      "table": "sigma_level",
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "errors": 0,
+      "math": 1,
+      "scrollWidth": 305,
+      "table": "f",
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "errors": 0,
+      "math": 4,
+      "scrollWidth": 305,
+      "table": "tolerance_one",
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "errors": 0,
+      "math": 3,
+      "scrollWidth": 305,
+      "table": "tolerance_two",
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "errors": 0,
+      "math": 2,
+      "scrollWidth": 305,
+      "table": "duncan",
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "errors": 0,
+      "math": 2,
+      "scrollWidth": 305,
+      "table": "sigma_level",
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "errors": 0,
+      "math": 1,
+      "scrollWidth": 375,
+      "table": "f",
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "errors": 0,
+      "math": 4,
+      "scrollWidth": 375,
+      "table": "tolerance_one",
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "errors": 0,
+      "math": 3,
+      "scrollWidth": 375,
+      "table": "tolerance_two",
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "errors": 0,
+      "math": 2,
+      "scrollWidth": 375,
+      "table": "duncan",
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "errors": 0,
+      "math": 2,
+      "scrollWidth": 375,
+      "table": "sigma_level",
+      "theme": "light",
+      "width": 375
+    }
+  ],
+  "highlightVisibility": [
+    {
+      "headerWidth": 64,
+      "result": "F Distribution = 2.866 (df=20, Numerator df (v₁)=4)",
+      "visible": true,
+      "width": 305
+    },
+    {
+      "headerWidth": 64,
+      "result": "F Distribution = 2.866 (df=20, Numerator df (v₁)=4)",
+      "visible": true,
+      "width": 375
+    }
+  ],
+  "manual": [
+    {
+      "equations": 29,
+      "errors": 0,
+      "references": 17,
+      "scrollWidth": 305,
+      "width": 305
+    },
+    {
+      "equations": 29,
+      "errors": 0,
+      "references": 17,
+      "scrollWidth": 375,
+      "width": 375
+    }
+  ],
+  "scientificNotationResult": "n=10, x=0, p=0.10 → 0.3487",
+  "toleranceResult": "n=10, P=0.95, γ=0.95 → k=2.911",
+  "focus": "tolerance_one"
+}
