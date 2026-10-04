@@ -345,10 +345,10 @@
       topic: 'statistics',
       level: 'beginner',
       interactive: 'true',
-      search: 'dot notation anova doe row total column total grand total summation sum then square square then sum squared total sum of squared observations correction factor raw sum of squares excel sumsq minitab beginner general interactive',
-      meta: '<span>Beginner</span><span>General</span><span>10 min</span>',
+      search: 'three-index marginal totals means chi-square independence expected counts dot notation anova doe row total column total grand total summation sum then square square then sum squared total sum of squared observations correction factor raw sum of squares excel sumsq minitab beginner general interactive',
+      meta: '<span>Beginner</span><span>General</span><span>35 min</span>',
       title: 'Understanding Dot Notation',
-      description: 'Dot notation'
+      description: 'Read two- and three-index notation, totals and means, with worked ANOVA and chi-square examples and an eight-question quiz.'
     },
     {
       marker: 'data-introduction-to-calculus-for-quality-and-reliability-engineers',
