@@ -52,7 +52,7 @@ window.MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['$$','$$']
   --atm-surface:#eef3f9; --atm-surface-deep:#e6edf6;
   --atm-ink:#152233; --atm-ink-dim:#3f5266; --atm-ink-faint:#586d84;
   --atm-strong:#0a1626;
-  --atm-cyan:#0e7fa6; --atm-amber:#a4680f; --atm-teal:#0a8f76; --atm-orange:#c05226;
+  --atm-cyan:#0c6d8e; --atm-amber:#945e0e; --atm-teal:#087762; --atm-orange:#af4b23;
   --atm-violet:#5b4fd6; --atm-danger:#bd3145;
   --atm-mtb:#0e7a4e; --atm-xl:#0b7a3f;
   --atm-hair:rgba(21,34,51,.42); --atm-dot:#152233;
@@ -678,9 +678,9 @@ table.toolmap tr:hover td{background:rgba(63,182,216,.03)}
     </div>
 
     <!-- Predict -->
-    <div class="detail" style="--atm-c:#4fd18a">
+    <div class="detail" style="--atm-c:var(--atm-mtb)">
       <div class="kicker">Predict — item 1</div>
-      <h3 style="color:#4fd18a">Score new settings, with CI and PI in one table</h3>
+      <h3 style="color:var(--atm-mtb)">Score new settings, with CI and PI in one table</h3>
       <p>Enter the factor levels you're considering; Minitab returns the fitted value plus both intervals side by side. This is the CI/PI distinction from earlier, delivered as a table instead of a band. <strong>Real problem:</strong> "If we run the roughing schedule at 18% reduction with 0.06% C, what yield strength should we expect, and can I promise a single heat clears 355 MPa?"</p>
       <div class="miniconsole">
         <div class="widget" style="margin:0">
@@ -762,9 +762,9 @@ Reduction = <span class="ok">16.4%</span>   Carbon = <span class="ok">0.058%</sp
     <p>Excel does the same four jobs without a stats package — the trick is that your model has to live in a cell as a <strong>formula</strong> so these tools can push values through it. Once your fitted equation is in a cell referencing input cells, all four What-If tools are just different ways to interrogate it. Solver (a separate add-in in the Analyze group) is the heavy one.</p>
 
     <!-- Goal Seek -->
-    <div class="detail" style="--atm-c:#3fc37a">
+    <div class="detail" style="--atm-c:var(--atm-xl)">
       <div class="kicker">Goal Seek — back-solve one input</div>
-      <h3 style="color:#3fc37a">"Hit this number — what input gets me there?"</h3>
+      <h3 style="color:var(--atm-xl)">"Hit this number — what input gets me there?"</h3>
       <p>Goal Seek inverts a formula: you fix the <em>output</em> you want and it changes <em>one</em> input cell until the formula lands there. <strong>Real problem:</strong> the customer needs 380 MPa minimum. Your strength formula is <code>=290+4.6*Reduction</code>. What reduction hits exactly 380?</p>
       <ol class="steps">
         <li>Put the model in a cell: <code>B3 =290+4.6*B1</code> (B1 = reduction).</li>
@@ -1403,6 +1403,8 @@ const DESIGN = { Rmin:10, Rmax:20, Cmin:0.03, Cmax:0.07, n:30, sigma:11, t:2.05 
     const r=Math.round(30+t*(63-30)), g=Math.round(50+t*(182-50)), b=Math.round(75+t*(216-75));
     return 'rgb('+r+','+g+','+b+')';
   }
+  // light text on the darker slate cells, dark text on the bright cyan cells (WCAG contrast)
+  function textColor(v){ return (v-vmin)/(vmax-vmin)<0.58 ? '#ffffff' : '#04101f'; }
   function render(spec){
     let html='<table class="heatmap"><tr><td class="corner">=290+4.6R<br>+320(C−.05)</td>';
     Cvals.forEach(C=>{ html+='<th>C='+C.toFixed(2)+'</th>'; });
@@ -1413,7 +1415,7 @@ const DESIGN = { Rmin:10, Rmax:20, Cmin:0.03, Cmax:0.07, n:30, sigma:11, t:2.05 
       row.forEach((v,j)=>{
         const pass=v>=spec; if(pass)passCount++;
         const locked=(lock&&lock.i===i&&lock.j===j)?' style="outline:2px solid #fff;outline-offset:-2px;"':'';
-        html+='<td class="cell'+(pass?' pass':'')+'" data-i="'+i+'" data-j="'+j+'" style="background:'+color(v)+'">'+v.toFixed(0)+'</td>';
+        html+='<td class="cell'+(pass?' pass':'')+'" data-i="'+i+'" data-j="'+j+'" style="background:'+color(v)+';color:'+textColor(v)+'">'+v.toFixed(0)+'</td>';
       });
       html+='</tr>';
     });
