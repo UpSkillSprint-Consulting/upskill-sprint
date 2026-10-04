@@ -185,10 +185,26 @@
     });
   }
 
-  function responseColor(value, min, max) {
+  function responseHue(value, min, max) {
     const t = max === min ? .5 : (value - min) / (max - min);
-    const hue = 210 - t * 190;
-    return `hsl(${hue} 74% 45%)`;
+    return 210 - t * 190;
+  }
+
+  function responseColor(value, min, max) {
+    return `hsl(${responseHue(value, min, max)} 74% 40%)`;
+  }
+
+  // Pick black or white corner text, whichever contrasts more with the fill (WCAG AA, at least 4.5:1).
+  function responseTextColor(value, min, max) {
+    const h = responseHue(value, min, max), s = .74, l = .40;
+    const a = s * Math.min(l, 1 - l);
+    const channel = n => {
+      const k = (n + h / 30) % 12;
+      const v = l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
+      return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4);
+    };
+    const luminance = .2126 * channel(0) + .7152 * channel(8) + .0722 * channel(4);
+    return 1.05 / (luminance + .05) >= (luminance + .05) / .05 ? "#fff" : "#000";
   }
 
   function renderSquare2() {
@@ -219,6 +235,7 @@
       button.style.left = positions[i].left + "%";
       button.style.top = positions[i].top + "%";
       button.style.background = responseColor(predicted, min, max);
+      button.style.color = responseTextColor(predicted, min, max);
       button.innerHTML = `${fmt(predicted, 2)}<small>${m.response}</small>`;
       button.title = `Run ${i + 1}`;
       button.addEventListener("click", () => {
