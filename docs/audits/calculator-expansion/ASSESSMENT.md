@@ -11,7 +11,7 @@ The assessment covers the eight workspaces in PR #236, including numerical refer
 | Hypergeometric upper tail used subtraction from 1 | Small tail probabilities lost accuracy | Sum the upper-tail masses directly. |
 | Small positive probabilities rounded to zero | Values such as 1e-8 displayed as 0 | Scientific notation for small positive probabilities; singular densities display infinity. |
 | Root solver accepted any small residual as zero | `solve("1e-15*(x-2)",0,3)` returned 0 instead of 2 | Converge on bracket width, check scaled residual, reject reversed/nonfinite brackets and tested discontinuities. |
-| TVM used differences of large nearly equal values for coefficients | Large valid balances could report an unidentifiable unknown or lose accuracy | Direct linear coefficients; discounted/scaled equations for rate/N; finite-result validation and rejection of all-zero non-unique cash flows. |
+| TVM used differences of large nearly equal values for coefficients | Large valid balances could report an unidentifiable unknown or lose accuracy | Direct linear coefficients; discounted/scaled equations for rate/N; finite-result validation and rejection of all-zero non-unique cash flows. Addressed the PR review’s −99% case by deriving the rate bound from compounding frequency and expanding positive bounds; −1,188% nominal monthly and +10,000% annual fixtures also pass. |
 | Multi-line Ans stored a result container | `A=2` followed by `A+3`, then `Ans*2`, failed | Ans now stores the final value; expected output 10. |
 | Angle mode covered only part of the trig catalog | csc/sec/cot/atan2 ignored DEG; string helpers used RAD even in DEG | All circular trig/inverse helpers and nested numerical helpers honor the selected angle unit. Complex argument remains radians, as documented. |
 | Unsupported functions could be passed as callbacks | `map(["2+2"],evaluate)` bypassed the intended catalog | Validate function references as well as direct calls; reject reserved loop variable names. Supported callbacks remain usable. |
@@ -38,7 +38,7 @@ Fixtures are checked into `tests/fixtures/calculator-distributions.json`. To reg
 - Full TI-BASIC, TI device/file interfaces, proprietary apps, several regression families and TI-specific editors are not implemented. Manual §20 remains explicit about the gaps.
 - Tests cover selected representative and edge cases. Floating-point overflow/underflow, ill-conditioned matrices and extreme inputs still require care.
 - Sampled graphs/integration can miss narrow or highly oscillatory features; extrema searches assume a unimodal interval. A sign-changing bracket does not prove mathematical continuity.
-- TVM rate/N searches remain bounded; IRR can have multiple solutions. Financial examples are mathematical cash-flow checks, not lender-specific schedules.
+- TVM rate searches use the compounding domain and up to 40 upper-bound expansions; N searches remain bounded; IRR can have multiple solutions. Financial examples are mathematical cash-flow checks, not lender-specific schedules.
 - Worker limits reduce hangs and disallow unsupported function references; this assessment is not a formal security certification.
 - Desktop rendering is checked on the deploy preview. Dedicated mobile-device and assistive-technology testing has not been completed in this environment.
 

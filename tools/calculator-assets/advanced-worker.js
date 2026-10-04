@@ -73,7 +73,8 @@ function financeResidual(v){
   const f=financeFactors(v),scale=Math.max(1,Math.abs(v.pv),Math.abs(v.pmt),Math.abs(v.fv));
   // Discount positive-rate equations to avoid overflow at the search endpoints.
   const discount=Math.exp(-v.n*f.q);
-  return f.q>=0 ? v.pv/scale+v.pmt/scale*f.paymentFactor*(f.r===0?v.n:-Math.expm1(-v.n*f.q)/f.r)+v.fv/scale*discount : v.pv/scale*f.growth+v.pmt/scale*f.paymentFactor*f.annuity+v.fv/scale;
+  const paymentPresent=f.q===0?v.n:v.begin?-Math.expm1(-v.n*f.q)/-Math.expm1(-f.q):-Math.expm1(-v.n*f.q)/f.r;
+  return f.q>=0 ? v.pv/scale+v.pmt/scale*paymentPresent+v.fv/scale*discount : v.pv/scale*f.growth+v.pmt/scale*f.paymentFactor*f.annuity+v.fv/scale;
 }
 function sequence(expr,start,end,step=1,mode='RAD'){
   need([start,end,step].every(Number.isFinite)&&step!==0&&(end-start)/step>=0&&(end-start)/step<=9999,'Sequence must contain 1–10,000 values with a finite nonzero step.');
@@ -182,8 +183,13 @@ function handle(data){
     result=-Object.entries(terms).reduce((sum,[name,value])=>name===key?sum:sum+value,0)/coefficients[key];
   }else{
     need(v.pv!==0||v.pmt!==0||v.fv!==0,'All cash flows are zero; there is no unique solution.');
-    const low=key==='rate'?-90:0,high=key==='rate'?1000:100000;
-    result=root(x=>financeResidual({...v,[key]:x}),low,high);
+    if(key==='rate')need(v.n>0,'A rate is not uniquely determined when N is zero.');
+    const low=key==='rate'?-100*v.cy*(1-1e-12):0;
+    let high=key==='rate'?Math.max(1000,100*v.cy):100000;
+    const residual=x=>financeResidual({...v,[key]:x}),left=real(residual(low));let right=real(residual(high));
+    if(key==='rate')for(let i=0;i<40&&left!==0&&right!==0&&Math.sign(left)===Math.sign(right);i++){high*=2;right=real(residual(high));}
+    need(left!==0||right!==0,'These inputs do not determine a unique solution.');
+    result=root(residual,low,high);
   }
   real(result);
   return {text:`${key.toUpperCase()} = ${math.format(result,{precision:12})}`,value:result};

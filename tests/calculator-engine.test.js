@@ -128,6 +128,10 @@ test('TVM handles large balances, negative rates, zero rate, and degenerate cash
  near(solve('fv',{pv:1e20}),-1e20*1.005**60,1e-12);
  near(solve('pmt',{pv:1e15,n:360}),-1e15*.005/(1-1.005**-360),1e-12);
  near(solve('rate',{pv:1000,pmt:0,fv:-900,n:1,py:1,cy:1}),-10,1e-10);
+ near(solve('rate',{pv:100,pmt:0,fv:-1,n:1,py:1,cy:1}),-99,1e-10);
+ near(solve('rate',{pv:100,pmt:0,fv:-10100,n:1,py:1,cy:1}),10000,1e-10);
+ near(solve('rate',{pv:100,pmt:0,fv:-1,n:1,py:12,cy:12}),-1188,1e-10);
+ assert.throws(()=>solve('rate',{n:0,pv:100,fv:-100}),/N is zero/);
  near(solve('n',{pv:20000,pmt:-200,fv:0,rate:0}),100);
  near(solve('n',{pv:100,pmt:0,fv:-200,rate:1000,py:1,cy:1}),Math.log(2)/Math.log(11));
  assert.throws(()=>solve('rate',{pv:0,pmt:0,fv:0}),/no unique solution/);
