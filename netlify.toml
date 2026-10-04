@@ -38,3 +38,36 @@
   for = "/test-bank-assets/*"
   [headers.values]
     X-Robots-Tag = "noindex"
+
+# Legacy duplicate URLs: send them to the one canonical lesson URL with a
+# permanent redirect. force = true is needed because the old redirect stubs
+# still exist as files (they stay as a client-side fallback).
+[[redirects]]
+  from = "/lesson/Lean%20Six%20Sigma/DMAIC%20Formula%20Encyclopedia"
+  to = "/lessons/lean-six-sigma/dmaic-formula-encyclopedia"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/lesson/Lean%20Six%20Sigma/DMAIC%20Formula%20Encyclopedia/"
+  to = "/lessons/lean-six-sigma/dmaic-formula-encyclopedia"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/lesson/Lean%20Six%20Sigma/DMAIC%20Formula%20Encyclopedia/index.html"
+  to = "/lessons/lean-six-sigma/dmaic-formula-encyclopedia"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/lessons/minitab-control-chart-selection-analysis"
+  to = "/lessons/power-bi-excel-sql/minitab-control-chart-selection-analysis"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/lessons/minitab-control-chart-selection-analysis.html"
+  to = "/lessons/power-bi-excel-sql/minitab-control-chart-selection-analysis"
+  status = 301
+  force = true

@@ -138,6 +138,14 @@
       dataScript.textContent = dataScript.textContent.slice(0, applicationStart);
       lesson.querySelectorAll('script[src*="mathjax"]').forEach(script => script.remove());
       lesson.title = 'DMAIC Formula Encyclopedia | UpSkill Sprint Consulting';
+      // The decoded lesson has no canonical link, so document.write() would
+      // drop the loader's. Keep one canonical URL for this lesson.
+      if (!lesson.head.querySelector('link[rel="canonical"]')) {
+        const canonical = lesson.createElement('link');
+        canonical.rel = 'canonical';
+        canonical.href = 'https://upskillsprint.com/lessons/lean-six-sigma/dmaic-formula-encyclopedia';
+        lesson.head.append(canonical);
+      }
       lesson.body.classList.add('dmaic-encyclopedia-page');
       const styles = lesson.createElement('link');
       styles.rel = 'stylesheet'; styles.href = '/dmaic-encyclopedia-fixes.css?v=2';
