@@ -85,3 +85,28 @@ test('exports contain usable SVG, data tables and original program source',async
  input(w,d,'program-source','Disp "result"');d.getElementById('program-save').click();assert.equal(await downloads[2].blob.text(),'Disp "result"');
  dom.window.close();
 });
+
+test('compact workspace navigation stays synchronized with keyboard tabs and handoffs',()=>{
+ const {dom,w,d}=setup(),picker=d.getElementById('calc-workspace');
+ assert.equal(picker.options.length,11);assert.equal(picker.value,'pg-guide');
+ picker.value='pg-cost';picker.dispatchEvent(new w.Event('change'));
+ assert.equal(d.querySelector('.page.active').id,'pg-cost');
+ const tab=d.querySelector('[data-page=pg-cost]');
+ tab.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));
+ assert.equal(picker.value,'pg-graph');assert.equal(d.querySelector('[aria-selected=true]').dataset.page,'pg-graph');
+ d.querySelector('[data-page=pg-spc]').click();assert.equal(picker.value,'pg-spc');
+ assert.equal(d.querySelectorAll('main').length,1);assert.equal(d.querySelectorAll('header.site').length,1);
+ assert.equal(d.querySelectorAll('footer.site').length,1);
+ assert.equal(d.querySelectorAll('header.site .desktop-nav a').length,8);
+ assert.ok(d.getElementById('guide-paste').placeholder.includes('\n'));assert.ok(!d.getElementById('guide-paste').placeholder.includes('\\n'));
+ dom.window.close();
+});
+
+test('manual contents follow section order and shared chrome remains outside the manual',()=>{
+ const dom=new JSDOM(fs.readFileSync('tools/calculator-manual.html','utf8')),d=dom.window.document;
+ const links=[...d.querySelectorAll('.toc a')].map(a=>a.hash.slice(1));
+ assert.deepEqual(links,[...d.querySelectorAll('h2[id]')].map(h=>h.id));
+ assert.equal(d.querySelectorAll('header.site').length,1);assert.equal(d.querySelectorAll('footer.site').length,1);
+ assert.equal(d.querySelector('main header.site'),null);assert.equal(d.querySelector('main footer.site'),null);
+ dom.window.close();
+});

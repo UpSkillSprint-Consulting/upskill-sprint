@@ -1,31 +1,31 @@
 /* Shared accessible workspaces; preserve the calculator's established theme. */
-:root {--muted:#acbdcb;--faint:#9fb2c2;--red:#ff9292}
-html[data-theme="light"] {--muted:#465b70;--faint:#4d6175;--accent:#8a4b08;--teal:#13695e;--red:#a22c38}
-html[data-theme="light"] .btn:not(.ghost){background:#f0a64b;color:#182130}
-.tagline,.hint,.dnote,.res .k,footer.pg,label.f,.seg button{font-size:14px;letter-spacing:normal}
-.tabs{flex-wrap:wrap}.tab{font-size:17px;padding:9px 12px}
-.tab:focus-visible,button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
-.panel{min-width:0}.paramrow>*{min-width:0}.res .v{word-break:normal;overflow-wrap:anywhere}
-.analysis-output{padding:20px;min-width:0}.analysis-output h2,.dside h2{font-size:20px;font-family:var(--sans);letter-spacing:0}
-.analysis-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}
-.analysis-actions h2{flex:1}.analysis-actions button{padding:9px 12px}.btn:disabled{opacity:.5;cursor:not-allowed}
-#analysis-status,.workspace-status{padding:12px 0;color:var(--muted)}
-#analysis-status[data-error="true"],.workspace-status[data-error="true"]{color:var(--red)}
-#analysis-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:10px}
-.analysis-notes p,#analysis-notes p{margin:10px 0;color:var(--muted);font-size:14px}
-.analysis-table{overflow:auto;max-height:420px;margin:18px 0}.analysis-table table{border-collapse:collapse;width:100%;font-size:14px}
-.analysis-table caption{text-align:left;padding:10px 0;font-weight:600;font-size:16px}
-.analysis-table th,.analysis-table td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
-.analysis-table th:first-child,.analysis-table td:first-child{text-align:left}.analysis-table thead{background:var(--panel-2)}
-.analysis-reference{margin-top:20px;padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:10px;font-size:15px}
-.analysis-reference p{margin:12px 0}.analysis-reference ul{margin-left:20px}.analysis-reference a,a.method-link{color:var(--teal)}
-.analysis-figure{margin:20px 0}.analysis-figure figcaption{font-size:15px;font-weight:600;margin-bottom:6px}
-.analysis-figure svg{width:100%;height:auto;background:var(--panel-2);border-radius:8px;color:var(--text);display:block}
-.analysis-figure .axis{stroke:var(--muted);stroke-width:1}.analysis-figure .point{fill:var(--teal)}
-.analysis-figure .fit{stroke:var(--accent);stroke-width:2;fill:none}.analysis-figure .limit{stroke:var(--red);stroke-width:1.5;stroke-dasharray:5 4}
-.analysis-figure text{font-family:var(--mono);font-size:16px;fill:var(--text)}
-pre.work-output{white-space:pre-wrap;overflow-wrap:anywhere;font-family:var(--mono);background:var(--panel-2);border:1px solid var(--line);padding:16px;min-height:70px;font-size:15px}
-.work-help{font-size:14px;color:var(--muted);margin:10px 0}.work-catalog{display:grid;gap:6px;margin-top:12px}.work-catalog button{text-align:left}
-[hidden]{display:none!important}
-@media(max-width:600px){.wrap{padding:14px 12px 30px}.dside,.analysis-output{padding:14px}.tabs{gap:0}.tab{font-size:15px;padding:8px}.calcgrid{grid-template-columns:minmax(0,1fr)}.analysis-figure{overflow-x:auto}.analysis-figure svg{min-width:420px}.paramrow{gap:7px}.tool-topbar{gap:8px}.tagline{line-height:1.6}.tool-brand{white-space:normal}}
-@media print{header,.dside,.analysis-actions,.analysis-reference,.tabs,footer{display:none!important}.page{display:none!important}.page.active{display:block!important}.grid2{display:block}.analysis-output{border:0}body{background:white;color:black}.analysis-table{max-height:none;overflow:visible}}
+:root {--calc-muted:#acbdcb;--calc-faint:#9fb2c2;--calc-red:#ff9292}
+html[data-theme="light"] {--calc-muted:#465b70;--calc-faint:#4d6175;--calc-accent:#8a4b08;--calc-teal:#13695e;--calc-red:#a22c38}
+html[data-theme="light"] :where(#calculator-shell) .btn:not(.ghost){background:#f0a64b;color:#182130}
+:where(#calculator-shell) .tagline,:where(#calculator-shell) .hint,:where(#calculator-shell) .dnote,:where(#calculator-shell) .res .k,:where(#calculator-shell) footer.pg,:where(#calculator-shell) label.f,:where(#calculator-shell) .seg button{font-size:14px;letter-spacing:normal}
+:where(#calculator-shell) .tabs{flex-wrap:wrap}:where(#calculator-shell) .tab{font-size:17px;padding:9px 12px}
+:where(#calculator-shell) .tab:focus-visible,:where(#calculator-shell) button:focus-visible,:where(#calculator-shell) summary:focus-visible,:where(#calculator-shell) a:focus-visible{outline:3px solid var(--calc-teal);outline-offset:3px}
+:where(#calculator-shell) .panel{min-width:0}:where(#calculator-shell) .paramrow>*{min-width:0}:where(#calculator-shell) .res .v{word-break:normal;overflow-wrap:anywhere}
+:where(#calculator-shell) .analysis-output{padding:20px;min-width:0}:where(#calculator-shell) .analysis-output h2,:where(#calculator-shell) .dside h2{font-size:20px;font-family:var(--calc-sans);letter-spacing:0}
+:where(#calculator-shell) .analysis-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:12px 0}
+:where(#calculator-shell) .analysis-actions h2{flex:1}:where(#calculator-shell) .analysis-actions button{padding:9px 12px}:where(#calculator-shell) .btn:disabled{opacity:.5;cursor:not-allowed}
+:where(#calculator-shell) #analysis-status,:where(#calculator-shell) .workspace-status{padding:12px 0;color:var(--calc-muted)}
+:where(#calculator-shell) #analysis-status[data-error="true"],:where(#calculator-shell) .workspace-status[data-error="true"]{color:var(--calc-red)}
+:where(#calculator-shell) #analysis-results{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:10px}
+:where(#calculator-shell) .analysis-notes p,:where(#calculator-shell) #analysis-notes p{margin:10px 0;color:var(--calc-muted);font-size:14px}
+:where(#calculator-shell) .analysis-table{overflow:auto;max-height:420px;margin:18px 0}:where(#calculator-shell) .analysis-table table{border-collapse:collapse;width:100%;font-size:14px}
+:where(#calculator-shell) .analysis-table caption{text-align:left;padding:10px 0;font-weight:600;font-size:16px}
+:where(#calculator-shell) .analysis-table th,:where(#calculator-shell) .analysis-table td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--calc-line);white-space:nowrap}
+:where(#calculator-shell) .analysis-table th:first-child,:where(#calculator-shell) .analysis-table td:first-child{text-align:left}:where(#calculator-shell) .analysis-table thead{background:var(--calc-panel-2)}
+:where(#calculator-shell) .analysis-reference{margin-top:20px;padding:18px;background:var(--calc-panel);border:1px solid var(--calc-line);border-radius:10px;font-size:15px}
+:where(#calculator-shell) .analysis-reference p{margin:12px 0}:where(#calculator-shell) .analysis-reference ul{margin-left:20px}:where(#calculator-shell) .analysis-reference a,:where(#calculator-shell) a.method-link{color:var(--calc-teal)}
+:where(#calculator-shell) .analysis-figure{margin:20px 0}:where(#calculator-shell) .analysis-figure figcaption{font-size:15px;font-weight:600;margin-bottom:6px}
+:where(#calculator-shell) .analysis-figure svg{width:100%;height:auto;background:var(--calc-panel-2);border-radius:8px;color:var(--calc-text);display:block}
+:where(#calculator-shell) .analysis-figure .axis{stroke:var(--calc-muted);stroke-width:1}:where(#calculator-shell) .analysis-figure .point{fill:var(--calc-teal)}
+:where(#calculator-shell) .analysis-figure .fit{stroke:var(--calc-accent);stroke-width:2;fill:none}:where(#calculator-shell) .analysis-figure .limit{stroke:var(--calc-red);stroke-width:1.5;stroke-dasharray:5 4}
+:where(#calculator-shell) .analysis-figure text{font-family:var(--calc-mono);font-size:16px;fill:var(--calc-text)}
+:where(#calculator-shell) pre.work-output{white-space:pre-wrap;overflow-wrap:anywhere;font-family:var(--calc-mono);background:var(--calc-panel-2);border:1px solid var(--calc-line);padding:16px;min-height:70px;font-size:15px}
+:where(#calculator-shell) .work-help{font-size:14px;color:var(--calc-muted);margin:10px 0}:where(#calculator-shell) .work-catalog{display:grid;gap:6px;margin-top:12px}:where(#calculator-shell) .work-catalog button{text-align:left}
+:where(#calculator-shell) [hidden]{display:none!important}
+@media(max-width:600px){:where(#calculator-shell) .wrap{padding:14px 12px 30px}:where(#calculator-shell) .dside,:where(#calculator-shell) .analysis-output{padding:14px}:where(#calculator-shell) .tabs{gap:0}:where(#calculator-shell) .tab{font-size:15px;padding:8px}:where(#calculator-shell) .calcgrid{grid-template-columns:minmax(0,1fr)}:where(#calculator-shell) .analysis-figure{overflow-x:auto}:where(#calculator-shell) .analysis-figure svg{min-width:420px}:where(#calculator-shell) .paramrow{gap:7px}:where(#calculator-shell) .tool-topbar{gap:8px}:where(#calculator-shell) .tagline{line-height:1.6}:where(#calculator-shell) .tool-brand{white-space:normal}}
+@media print{:where(#calculator-shell) header,:where(#calculator-shell) .dside,:where(#calculator-shell) .analysis-actions,:where(#calculator-shell) .analysis-reference,:where(#calculator-shell) .tabs,:where(#calculator-shell) footer{display:none!important}:where(#calculator-shell) .page{display:none!important}:where(#calculator-shell) .page.active{display:block!important}:where(#calculator-shell) .grid2{display:block}:where(#calculator-shell) .analysis-output{border:0}#calculator-shell{background:white;color:black}:where(#calculator-shell) .analysis-table{max-height:none;overflow:visible}}

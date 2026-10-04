@@ -23,7 +23,7 @@
   svg+=line('lo','spc-limit')+line('hi','spc-limit')+line('cl','spc-cl')+line('value','spc-data');
   const boundary=pts.findIndex(p=>p.phase==='Monitoring');if(boundary>0){const at=x((pts[boundary-1].index+pts[boundary].index)/2);svg+=`<path class="spc-boundary" d="M${at} 40V266"/><text x="${Math.min(at+6,610)}" y="30">Monitoring →</text>`;}
   // Keep every signal marker even on large charts; ordinary markers are thinned.
-  pts.forEach((p,i)=>{if(p.signals.length||i%Math.max(1,Math.ceil(pts.length/300))===0)svg+=`<circle class="${p.signals.length?'spc-signal':''}" fill="var(--teal)" cx="${x(p.index)}" cy="${y(p.value)}" r="${p.signals.length?4:2}"><title>${esc(p.phase+' point '+p.index+'; source '+p.label+': '+fmt(p.value)+(p.signals.length?'; '+p.signals.join('; '):''))}</title></circle>`;});
+  pts.forEach((p,i)=>{if(p.signals.length||i%Math.max(1,Math.ceil(pts.length/300))===0)svg+=`<circle class="${p.signals.length?'spc-signal':''}" fill="var(--calc-teal)" cx="${x(p.index)}" cy="${y(p.value)}" r="${p.signals.length?4:2}"><title>${esc(p.phase+' point '+p.index+'; source '+p.label+': '+fmt(p.value)+(p.signals.length?'; '+p.signals.join('; '):''))}</title></circle>`;});
   svg+=`<text x="82" y="283">${pts[0].index}</text><text x="650" y="283" text-anchor="end">${pts.at(-1).index}</text><text x="365" y="307" text-anchor="middle">Time-ordered point</text></svg>`;
   return `<figure class="analysis-figure"><figcaption>${esc(chart.name)}</figcaption>${svg}<p class="hint">Teal: statistic · dashed red: control limits · dotted: center · red markers: signals. Exact values and reasons appear below.</p></figure>`;
  }

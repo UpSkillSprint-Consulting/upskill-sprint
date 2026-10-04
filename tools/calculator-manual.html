@@ -10,79 +10,82 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#0A1118">
-<link rel="canonical" href="https://upskillsprint.com/tools/calculator-manual.html">
+<link rel="canonical" href="https://upskillsprint.com/tools/calculator-manual">
 <title>Calculator Manual | UpSkill Sprint</title>
 <meta name="description" content="User manual for the UpSkill Sprint Engineering & Statistics Calculator: guided Excel/CSV analysis, reusable datasets, statistics, quality, graphing and scientific math.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@500;600;700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/lessons-theme.css">
+<script src="/site-sections.js"></script>
 <style>
 :root{
-  --bg:#0A1118; --panel:#101B26; --panel-2:#15222E;
-  --line:#21384C; --line-soft:#182A3A;
-  --text:#E8EEF4; --muted:#7E93A6; --faint:#55697B;
-  --accent:#F0A64B; --accent-dim:rgba(240,166,75,.14);
-  --teal:#46C2AE; --red:#E36060; --blue:#6FA3E8;
-  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
-  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --disp:"Barlow Condensed","Arial Narrow",var(--sans);
+  --calc-bg:#0A1118; --calc-panel:#101B26; --calc-panel-2:#15222E;
+  --calc-line:#21384C; --calc-line-soft:#182A3A;
+  --calc-text:#E8EEF4; --calc-muted:#7E93A6; --calc-faint:#55697B;
+  --calc-accent:#F0A64B; --calc-accent-dim:rgba(240,166,75,.14);
+  --calc-teal:#46C2AE; --calc-red:#E36060; --calc-blue:#6FA3E8;
+  --calc-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --calc-sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --calc-disp:"Barlow Condensed","Arial Narrow",var(--calc-sans);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
-::selection{background:var(--accent);color:#0A1118}
-.wrap{max-width:900px;margin:0 auto;padding:36px clamp(16px,4vw,44px) 80px}
-header.doc{border-bottom:1px solid var(--line-soft);padding-bottom:22px;margin-bottom:30px}
-h1{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4.5vw,42px);letter-spacing:.05em;text-transform:uppercase;line-height:1.1}
-h1 .amp{color:var(--accent)}
-.sub{color:var(--muted);margin-top:8px;font-size:14px}
-h2{font-family:var(--disp);font-weight:600;font-size:26px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:44px 0 12px;padding-top:10px;border-top:1px solid var(--line-soft)}
-h3{font-family:var(--disp);font-weight:600;font-size:19px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin:26px 0 8px}
-p{margin:10px 0;color:var(--text)}
-p.note{color:var(--muted);font-size:14px;border-left:3px solid var(--accent);padding:8px 14px;background:var(--panel);border-radius:0 8px 8px 0;margin:14px 0}
-kbd{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1px solid var(--line);border-bottom-width:2.5px;border-radius:6px;padding:1px 8px;white-space:nowrap;color:var(--text)}
-kbd.s{color:var(--accent);border-color:var(--accent)}
-kbd.a{color:var(--red);border-color:var(--red)}
-code{font-family:var(--mono);font-size:.9em;background:var(--panel-2);border-radius:5px;padding:1px 6px;color:var(--teal)}
-.seq{font-family:var(--mono);color:var(--muted)}
-.seq b{color:var(--accent);font-weight:500}
-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
-th{font-family:var(--disp);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:13px;color:var(--faint);text-align:left;padding:8px 12px;border-bottom:2px solid var(--line)}
-td{padding:8px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top}
-td:first-child{white-space:nowrap}
-tr:hover td{background:var(--panel)}
-.ex{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:16px 20px;margin:16px 0}
-.ex .lbl{font-family:var(--disp);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
-.ex .keys{font-family:var(--mono);font-size:14.5px;line-height:2.1}
-.ex .res{color:var(--accent);font-family:var(--mono);margin-top:6px}
-.toc{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:18px 24px;margin:20px 0}
-.toc a{color:var(--teal);text-decoration:none}
-.toc a:hover{color:var(--accent)}
-.toc ol{margin-left:20px}
-.toc li{margin:4px 0}
-ul,ol{margin:10px 0 10px 24px}
-li{margin:5px 0}
-strong{color:var(--text)}
-em{color:var(--muted);font-style:italic}
-.pill{display:inline-block;font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:5px;padding:0 7px;color:var(--faint);margin-right:4px}
-footer.doc{margin-top:60px;padding-top:20px;border-top:1px solid var(--line-soft);color:var(--faint);font-size:12.5px;line-height:1.6}
+:where(#calculator-shell) *{box-sizing:border-box;margin:0;padding:0}
+#calculator-shell{background:var(--calc-bg);color:var(--calc-text);font-family:var(--calc-sans);font-size:15.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+:where(#calculator-shell) ::selection{background:var(--calc-accent);color:#0A1118}
+:where(#calculator-shell) .wrap{max-width:900px;margin:0 auto;padding:36px clamp(16px,4vw,44px) 80px}
+:where(#calculator-shell) header.doc{border-bottom:1px solid var(--calc-line-soft);padding-bottom:22px;margin-bottom:30px}
+:where(#calculator-shell) h1{font-family:var(--calc-disp);font-weight:700;font-size:clamp(30px,4.5vw,42px);letter-spacing:.05em;text-transform:uppercase;line-height:1.1}
+:where(#calculator-shell) h1 .amp{color:var(--calc-accent)}
+:where(#calculator-shell) .sub{color:var(--calc-muted);margin-top:8px;font-size:14px}
+:where(#calculator-shell) h2{font-family:var(--calc-disp);font-weight:600;font-size:26px;letter-spacing:.06em;text-transform:uppercase;color:var(--calc-accent);margin:44px 0 12px;padding-top:10px;border-top:1px solid var(--calc-line-soft)}
+:where(#calculator-shell) h3{font-family:var(--calc-disp);font-weight:600;font-size:19px;letter-spacing:.08em;text-transform:uppercase;color:var(--calc-teal);margin:26px 0 8px}
+:where(#calculator-shell) p{margin:10px 0;color:var(--calc-text)}
+:where(#calculator-shell) p.note{color:var(--calc-muted);font-size:14px;border-left:3px solid var(--calc-accent);padding:8px 14px;background:var(--calc-panel);border-radius:0 8px 8px 0;margin:14px 0}
+:where(#calculator-shell) kbd{font-family:var(--calc-mono);font-size:.88em;background:var(--calc-panel-2);border:1px solid var(--calc-line);border-bottom-width:2.5px;border-radius:6px;padding:1px 8px;white-space:nowrap;color:var(--calc-text)}
+:where(#calculator-shell) kbd.s{color:var(--calc-accent);border-color:var(--calc-accent)}
+:where(#calculator-shell) kbd.a{color:var(--calc-red);border-color:var(--calc-red)}
+:where(#calculator-shell) code{font-family:var(--calc-mono);font-size:.9em;background:var(--calc-panel-2);border-radius:5px;padding:1px 6px;color:var(--calc-teal)}
+:where(#calculator-shell) .seq{font-family:var(--calc-mono);color:var(--calc-muted)}
+:where(#calculator-shell) .seq b{color:var(--calc-accent);font-weight:500}
+:where(#calculator-shell) table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+:where(#calculator-shell) th{font-family:var(--calc-disp);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:13px;color:var(--calc-faint);text-align:left;padding:8px 12px;border-bottom:2px solid var(--calc-line)}
+:where(#calculator-shell) td{padding:8px 12px;border-bottom:1px solid var(--calc-line-soft);vertical-align:top}
+:where(#calculator-shell) td:first-child{white-space:nowrap}
+:where(#calculator-shell) tr:hover td{background:var(--calc-panel)}
+:where(#calculator-shell) .ex{background:var(--calc-panel);border:1px solid var(--calc-line-soft);border-radius:12px;padding:16px 20px;margin:16px 0}
+:where(#calculator-shell) .ex .lbl{font-family:var(--calc-disp);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--calc-faint);margin-bottom:8px}
+:where(#calculator-shell) .ex .keys{font-family:var(--calc-mono);font-size:14.5px;line-height:2.1}
+:where(#calculator-shell) .ex .res{color:var(--calc-accent);font-family:var(--calc-mono);margin-top:6px}
+:where(#calculator-shell) .toc{background:var(--calc-panel);border:1px solid var(--calc-line-soft);border-radius:12px;padding:18px 24px;margin:20px 0}
+:where(#calculator-shell) .toc a{color:var(--calc-teal);text-decoration:none}
+:where(#calculator-shell) .toc a:hover{color:var(--calc-accent)}
+:where(#calculator-shell) .toc ol{margin-left:20px}
+:where(#calculator-shell) .toc li{margin:4px 0}
+:where(#calculator-shell) ul,:where(#calculator-shell) ol{margin:10px 0 10px 24px}
+:where(#calculator-shell) li{margin:5px 0}
+:where(#calculator-shell) strong{color:var(--calc-text)}
+:where(#calculator-shell) em{color:var(--calc-muted);font-style:italic}
+:where(#calculator-shell) .pill{display:inline-block;font-family:var(--calc-mono);font-size:11px;border:1px solid var(--calc-line);border-radius:5px;padding:0 7px;color:var(--calc-faint);margin-right:4px}
+:where(#calculator-shell) footer.doc{margin-top:60px;padding-top:20px;border-top:1px solid var(--calc-line-soft);color:var(--calc-faint);font-size:12.5px;line-height:1.6}
 @media print{
-  body{background:#fff;color:#111}
-  :root{--text:#111;--muted:#444;--faint:#666;--panel:#f5f5f5;--panel-2:#eee;--line:#bbb;--line-soft:#ddd;--accent:#8a5410;--teal:#0e6e60;--red:#a22}
-  h2{page-break-after:avoid}
-  .ex,table{page-break-inside:avoid}
+  #calculator-shell{background:#fff;color:#111}
+  :root{--calc-text:#111;--calc-muted:#444;--calc-faint:#666;--calc-panel:#f5f5f5;--calc-panel-2:#eee;--calc-line:#bbb;--calc-line-soft:#ddd;--calc-accent:#8a5410;--calc-teal:#0e6e60;--calc-red:#a22}
+  :where(#calculator-shell) h2{page-break-after:avoid}
+  :where(#calculator-shell) .ex,:where(#calculator-shell) table{page-break-inside:avoid}
 }
 
 /* ================= Shared UpSkill Sprint theme + tool bar ================= */
 html[data-theme="light"]{
-  --bg:#F5F7FA; --panel:#FFFFFF; --panel-2:#EEF3F7;
-  --line:#C9D5E1; --line-soft:#DDE5ED;
-  --text:#132238; --muted:#52657A; --faint:#718398;
-  --accent:#B7791F; --accent-dim:rgba(183,121,31,.12);
-  --teal:#0E7490; --red:#C2414B; --blue:#3B82C4;
+  --calc-bg:#F5F7FA; --calc-panel:#FFFFFF; --calc-panel-2:#EEF3F7;
+  --calc-line:#C9D5E1; --calc-line-soft:#DDE5ED;
+  --calc-text:#132238; --calc-muted:#52657A; --calc-faint:#718398;
+  --calc-accent:#B7791F; --calc-accent-dim:rgba(183,121,31,.12);
+  --calc-teal:#0E7490; --calc-red:#C2414B; --calc-blue:#3B82C4;
 }
-html[data-theme="light"] body{background:var(--bg);color:var(--text)}
-html[data-theme="light"] ::selection{color:#FFFFFF}
-.tool-topbar{
+html[data-theme="light"] :where(#calculator-shell) {background:var(--calc-bg);color:var(--calc-text)}
+html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
+:where(#calculator-shell) .tool-topbar{
   max-width:900px;
   margin:0 auto;
   padding:18px clamp(16px,4vw,44px) 0;
@@ -91,76 +94,88 @@ html[data-theme="light"] ::selection{color:#FFFFFF}
   justify-content:space-between;
   gap:18px;
 }
-.tool-brand{
+:where(#calculator-shell) .tool-brand{
   display:inline-flex;
   align-items:center;
   gap:10px;
-  color:var(--text);
+  color:var(--calc-text);
   text-decoration:none;
   font-weight:600;
   font-size:14.5px;
   white-space:nowrap;
 }
-.tool-brand img{width:30px;height:30px;object-fit:contain}
-.tool-top-actions{
+:where(#calculator-shell) .tool-brand img{width:30px;height:30px;object-fit:contain}
+:where(#calculator-shell) .tool-top-actions{
   display:flex;
   align-items:center;
   justify-content:flex-end;
   gap:14px;
 }
-.tool-back{
-  color:var(--muted);
+:where(#calculator-shell) .tool-back{
+  color:var(--calc-muted);
   text-decoration:none;
   font-size:13.5px;
   font-weight:600;
   white-space:nowrap;
 }
-.tool-back:hover{color:var(--accent)}
+:where(#calculator-shell) .tool-back:hover{color:var(--calc-accent)}
 @media(max-width:640px){
-  .tool-brand span{display:none}
-  .tool-top-actions{gap:9px}
-  .tool-back{font-size:12.5px}
+  :where(#calculator-shell) .tool-brand span{display:none}
+  :where(#calculator-shell) .tool-top-actions{gap:9px}
+  :where(#calculator-shell) .tool-back{font-size:12.5px}
 }
 
 </style>
 <script src="/theme.js"></script>
-<style>:root{--muted:#afbfce;--faint:#a8bbc9}html[data-theme="light"]{--muted:#42556b;--faint:#4b5e71}pre{overflow:auto;white-space:pre-wrap;background:var(--panel);padding:16px;border-radius:8px}table{display:block;overflow-x:auto}td,th{min-width:100px}p,li,td{overflow-wrap:anywhere}a:focus-visible{outline:3px solid var(--teal);outline-offset:3px}@media(max-width:600px){.wrap{padding:18px 14px}table{font-size:14px}}</style>
+<style>:root{--calc-muted:#afbfce;--calc-faint:#a8bbc9}html[data-theme="light"]{--calc-muted:#42556b;--calc-faint:#4b5e71}:where(#calculator-shell) pre{overflow:auto;white-space:pre-wrap;background:var(--calc-panel);padding:16px;border-radius:8px}:where(#calculator-shell) table{display:block;overflow-x:auto}:where(#calculator-shell) td,:where(#calculator-shell) th{min-width:100px}:where(#calculator-shell) p,:where(#calculator-shell) li,:where(#calculator-shell) td{overflow-wrap:anywhere}:where(#calculator-shell) a:focus-visible{outline:3px solid var(--calc-teal);outline-offset:3px}@media(max-width:600px){:where(#calculator-shell) .wrap{padding:18px 14px}:where(#calculator-shell) table{font-size:14px}}</style>
+<link rel="stylesheet" href="/tools/calculator-assets/presentation.css">
 </head>
 <body>
-<div class="tool-topbar">
-  <a class="tool-brand" href="/index.html">
-    <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
-    <span>UpSkill Sprint Consulting</span>
-  </a>
-  <div class="tool-top-actions">
-    <a class="tool-back" href="/tools/engineering-statistics-calculator.html">&larr; Back to Calculator</a>
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools" aria-current="page">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
   </div>
-</div>
-<div class="wrap">
+</header>
+<nav class="mobile-nav" aria-label="Mobile navigation"><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools" aria-current="page">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+<main id="calculator-shell" class="calculator-manual"><div class="wrap">
+<nav class="calc-breadcrumb" aria-label="Breadcrumb"><a href="/engineering-tools">Engineering Tools</a><span aria-hidden="true">/</span><a href="/tools/engineering-statistics-calculator">Calculator</a><span aria-hidden="true">/</span><span>User manual</span></nav>
 
-<header class="doc">
+<header class="doc"><p class="calc-kicker">Learn · practise · apply</p>
   <h1>Calculator <span class="amp">User Manual</span></h1>
-  <p class="sub">Engineering &amp; Statistics Calculator &middot; UpSkill Sprint &middot; updated October 4, 2026 · covers all eleven workspaces, examples, assumptions, exports and the TI-84 capability map &middot; <a href="/tools/engineering-statistics-calculator.html" style="color:var(--teal);text-decoration:none">Open the Calculator &rarr;</a></p>
+  <p class="sub">Engineering &amp; Statistics Calculator &middot; UpSkill Sprint &middot; updated October 4, 2026 · covers all eleven workspaces, examples, assumptions, exports and the TI-84 capability map &middot; <a href="/tools/engineering-statistics-calculator" style="color:var(--calc-teal);text-decoration:none">Open the Calculator &rarr;</a></p>
 </header>
 
-<div class="toc">
-  <ol>
-    <li><a href="#quick">Quick start</a></li>
-    <li><a href="#display">The display</a></li>
-    <li><a href="#typing">Typing equations (Natural Display editor)</a></li>
-    <li><a href="#keypad">The keypad &amp; SHIFT / ALPHA system</a></li>
-    <li><a href="#keyref">Complete key reference</a></li>
-    <li><a href="#memory">Memory &amp; registers (M, A&ndash;F, Ans)</a></li>
-    <li><a href="#aftereq">Behavior after pressing =</a></li>
-    <li><a href="#modes">Display modes: ENG, S&#8646;D, DMS, angle units</a></li>
-    <li><a href="#history">History tape &amp; STAT data panel</a></li>
-    <li><a href="#dist">Distributions tab</a></li>
-    <li><a href="#tests">Hypothesis Tests tab</a></li>
-    <li><a href="#shortcuts">Keyboard shortcut summary</a></li>
-    <li><a href="#accuracy">Accuracy notes</a></li>
-<li><a href="#data-quality">Data & Quality</a></li><li><a href="#capability">Capability & I-MR</a></li><li><a href="#graphing">Graphing, tracing & tables</a></li><li><a href="#math-workspace">Lists, matrices, complex numbers & units</a></li><li><a href="#finance">Finance & amortization</a></li><li><a href="#programs">Calculation programs</a></li><li><a href="#coverage">TI-84 capability map</a></li><li><a href="#exports">Exports, privacy & troubleshooting</a></li><li><a href="#quality-cost">Cost of Quality &amp; Verified Savings</a></li><li><a href="#advanced-spc">Advanced SPC — baselines, monitoring &amp; capability intervals</a></li><li><a href="#guided-analysis">Guided Analysis — import, questions &amp; interpretation</a></li>
-  </ol>
-</div>
+<div class="calc-start"><p><strong>New to the calculator?</strong> Start with section 1, then try Guided Analysis in section 22. For process monitoring use section 23; for quality costs and savings use section 24.</p><a href="/tools/engineering-statistics-calculator">Open the calculator <span aria-hidden="true">→</span></a></div>
+<nav class="toc" aria-label="Manual contents"><h2>In this manual</h2>
+  <ol><li><a href="#quick">Quick start</a></li>
+<li><a href="#display">The display</a></li>
+<li><a href="#typing">Typing equations (Natural Display editor)</a></li>
+<li><a href="#keypad">The keypad &amp; SHIFT / ALPHA system</a></li>
+<li><a href="#keyref">Complete key reference</a></li>
+<li><a href="#memory">Memory &amp; registers (M, A&ndash;F, Ans)</a></li>
+<li><a href="#aftereq">Behavior after pressing =</a></li>
+<li><a href="#modes">Display modes: ENG, S&#8646;D, DMS, angle units</a></li>
+<li><a href="#history">History tape &amp; STAT data panel</a></li>
+<li><a href="#dist">Distributions tab</a></li>
+<li><a href="#tests">Hypothesis Tests tab</a></li>
+<li><a href="#shortcuts">Keyboard shortcut summary</a></li>
+<li><a href="#accuracy">Accuracy notes</a></li>
+<li><a href="#data-quality">Data & Quality</a></li>
+<li><a href="#capability">Capability & I-MR</a></li>
+<li><a href="#graphing">Graphing, tracing & tables</a></li>
+<li><a href="#math-workspace">Lists, matrices, complex numbers & units</a></li>
+<li><a href="#finance">Finance & amortization</a></li>
+<li><a href="#programs">Calculation programs</a></li>
+<li><a href="#coverage">TI-84 capability map</a></li>
+<li><a href="#exports">Exports, privacy & troubleshooting</a></li>
+<li><a href="#guided-analysis">Guided Analysis — import, questions &amp; interpretation</a></li>
+<li><a href="#advanced-spc">Advanced SPC — baselines, monitoring &amp; capability intervals</a></li>
+<li><a href="#quality-cost">Cost of Quality &amp; Verified Savings</a></li></ol>
+</nav>
 
 <h2 id="quick">1 &middot; Quick Start</h2>
 <p>The tool has eleven workspaces along the top. <strong>Guided Analysis</strong> opens first and walks you from a dataset to an analysis and next steps:</p>
@@ -222,7 +237,7 @@ html[data-theme="light"] ::selection{color:#FFFFFF}
 
 <h2 id="keyref">5 &middot; Complete Key Reference</h2>
 <table>
-  <tr><th>Key</th><th>Plain</th><th><span style="color:var(--accent)">SHIFT</span></th><th><span style="color:var(--red)">ALPHA</span></th></tr>
+  <tr><th>Key</th><th>Plain</th><th><span style="color:var(--calc-accent)">SHIFT</span></th><th><span style="color:var(--calc-red)">ALPHA</span></th></tr>
   <tr><td><kbd>MODE</kbd></td><td>Cycle angle unit DEG &rarr; RAD &rarr; GRA</td><td>&mdash;</td><td>&mdash;</td></tr>
   <tr><td><kbd>ON</kbd></td><td>Full reset: clears screen, modifiers, hyp, ENG</td><td>&mdash;</td><td>&mdash;</td></tr>
   <tr><td><kbd>Abs</kbd></td><td>|&thinsp;x&thinsp;| absolute-value bars</td><td>&mdash;</td><td>&mdash;</td></tr>
@@ -261,7 +276,7 @@ html[data-theme="light"] ::selection{color:#FFFFFF}
 <p>Seven storage locations: the running memory <strong>M</strong>, six registers <strong>A&ndash;F</strong>, and the automatic <strong>Ans</strong>.</p>
 <div class="ex">
   <div class="lbl">Store 42 into register D, then use it</div>
-  <div class="keys"><span class="seq"><b>4</b> <b>2</b> <b>=</b> &nbsp;&rarr;&nbsp; <b>SHIFT</b> <b>RCL</b> <span style="color:var(--faint)">(STO badge lights)</span> <b>sin</b><span style="color:var(--faint)"> (the D key)</span></span></div>
+  <div class="keys"><span class="seq"><b>4</b> <b>2</b> <b>=</b> &nbsp;&rarr;&nbsp; <b>SHIFT</b> <b>RCL</b> <span style="color:var(--calc-faint)">(STO badge lights)</span> <b>sin</b><span style="color:var(--calc-faint)"> (the D key)</span></span></div>
   <div class="keys"><span class="seq">Later: <b>RCL</b> <b>sin</b> <b>+</b> <b>8</b> <b>=</b></span></div>
   <div class="res">D + 8 = 50 &nbsp;&middot;&nbsp; registers behave as variables anywhere in an expression</div>
 </div>
@@ -389,7 +404,7 @@ Disp S</pre><p>This example prints 55. Supported commands are assignments with �
 <h2 id="exports">21 · Exports, Privacy &amp; Troubleshooting</h2>
 <p>Data &amp; Quality exports a text report with inputs, settings, metrics, tables and assumptions, plus a CSV results file. Guided Analysis additionally saves a workspace JSON containing its datasets, edits, exclusions and active analysis settings; it exports a traceable text report and CSV data/results. The graph exports SVG; the math tape and program source export text. Calculations run locally; these workspaces do not upload datasets or program source. The Scientific Calculator’s history continues to use browser local storage. Other session variables and analysis inputs are not automatically saved. Download anything you want to retain before reloading. Workspace files and reports contain the data you included; treat them accordingly when sharing.</p>
 <ul><li><strong>Invalid data:</strong> use the reported row/cell; remove headers and units, correct empty cells, and select the intended analysis.</li><li><strong>Old result disappeared:</strong> the input changed. Recalculate to create results for the current inputs.</li><li><strong>Worker timeout:</strong> reduce the expression/program size. The worker resets and shared variables must be re-entered.</li><li><strong>Graph gaps:</strong> inspect domain restrictions and singularities. Increase the window or evaluate the function numerically.</li><li><strong>Unsupported command:</strong> search the supported catalog. TI syntax is not automatically translated.</li><li><strong>Downloads:</strong> allow normal file downloads for this site. Export buttons for analysis remain disabled until calculation succeeds.</li></ul>
-<p>Keyboard navigation: use Tab to reach tabs, then Left/Right or Home/End to switch workspaces. Range sliders support arrow keys. Result tables scroll horizontally on small screens; tab bars wrap. Text and controls follow the site’s light/dark theme.</p>
+<p>Keyboard navigation: use Tab to reach tabs, then Left/Right or Home/End to switch workspaces. Range sliders support arrow keys. Result tables scroll horizontally on small screens; desktop tab bars wrap; on small screens, use the labelled workspace selector. Text and controls follow the site’s light/dark theme.</p>
 <h3>Method references</h3>
 <ul><li><a href="https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc322.htm">NIST — Individuals control charts</a></li><li><a href="https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm">NIST — Process capability</a></li><li><a href="https://www.itl.nist.gov/div898/handbook/prc/section4/prc434.htm">NIST — One-way ANOVA calculations</a> (the example is independently calculated from the listed observations).</li><li><a href="https://online.stat.psu.edu/stat500/Lesson08">Penn State — Chi-square independence</a></li><li><a href="https://mathjs.org/docs/expressions/syntax.html">math.js — expression syntax</a> and <a href="https://mathjs.org/docs/expressions/security.html">expression security and worker isolation</a></li></ul>
 
@@ -493,10 +508,12 @@ Disp S</pre><p>This example prints 55. Supported commands are assignments with �
 <p>Primary references: <a href="https://asq.org/quality-resources/cost-of-quality">ASQ — cost-of-quality categories</a>; <a href="https://projectdelivery.gov.uk/teal-book/home/part-e-planning-and-control/chapter-19-benefits-management/">Government Project Delivery — benefits ownership, tracking and verification</a>. Numerical forecast fixtures use independent 40-digit Python Decimal arithmetic.</p>
 
 <footer class="doc">
-  <p>UpSkill Sprint Consulting — practical tools for quality &amp; continuous-improvement professionals. This manual accompanies <a href="/tools/engineering-statistics-calculator.html" style="color:var(--teal)">engineering-statistics-calculator.html</a>; the advanced workspaces load locally served JavaScript modules and the bundled math.js engine (Apache-2.0). Print-friendly: use your browser's Print for a light-theme hard copy.</p>
+  <p>UpSkill Sprint Consulting — practical tools for quality &amp; continuous-improvement professionals. This manual accompanies <a href="/tools/engineering-statistics-calculator" style="color:var(--calc-teal)">engineering-statistics-calculator.html</a>; the advanced workspaces load locally served JavaScript modules and the bundled math.js engine (Apache-2.0). Print-friendly: use your browser's Print for a light-theme hard copy.</p>
 </footer>
 
 </div>
+</main>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
 <script src="/contrast-fix.js"></script>
 </body>
 </html>

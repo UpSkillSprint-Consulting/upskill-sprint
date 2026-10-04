@@ -1,52 +1,52 @@
-#pg-guide [hidden]{display:none!important}
-.guide-intro{display:flex;gap:24px;align-items:center;justify-content:space-between;margin:6px 0 22px}
-.guide-intro h2{font-family:var(--disp);font-size:clamp(28px,4vw,38px);letter-spacing:.01em;margin:4px 0 8px}
-.guide-intro p:not(.guide-eyebrow){color:var(--muted);max-width:740px;line-height:1.6}
-.guide-intro a{color:var(--teal);font-size:14px;white-space:nowrap}
-.guide-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--teal)}
-.guide-steps{display:grid;grid-template-columns:repeat(3,1fr);list-style:none;padding:0;margin:0 0 20px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
-.guide-steps li{padding:13px 18px;color:var(--muted);font-size:14px;display:flex;align-items:center;gap:10px}
-.guide-steps span{border:1px solid var(--teal);color:var(--teal);display:inline-grid;place-items:center;min-width:26px;height:26px;border-radius:50%;font-family:var(--mono);font-size:12px}
-.guide-data-panel{padding:22px;margin-bottom:22px;min-width:0}
-#pg-guide summary{cursor:pointer;color:var(--text);font-weight:600;line-height:1.6;padding:5px 0}
-#pg-guide details{margin:8px 0}
-.guide-import-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:12px}
-#pg-guide input[type=file]{padding:10px;white-space:normal}
-#pg-guide input[type=file]::file-selector-button{background:var(--panel-2);color:var(--text);border:1px solid var(--line);border-radius:5px;padding:6px;margin-right:8px;cursor:pointer}
-.guide-dataset-bar{display:grid;grid-template-columns:1fr 1fr auto;gap:16px;align-items:end}
-.guide-profile{color:var(--muted);padding:12px 0;font-size:14px;line-height:1.8}
-.guide-profile strong{color:var(--text)}
-.guide-analysis-grid{display:grid;grid-template-columns:minmax(290px,.8fr) minmax(0,1.6fr);gap:22px;align-items:start}
-.guide-question-panel,.guide-result-panel{padding:22px;min-width:0}
-#pg-guide h2{margin-bottom:14px}
-#pg-guide h3{font-size:18px;line-height:1.5;margin:16px 0 8px}
-.guide-check{display:flex;gap:9px;align-items:flex-start;line-height:1.6;color:var(--text);font-size:14px;margin:14px 0}
-.guide-check input{accent-color:var(--teal);margin-top:5px;flex-shrink:0}
-.guide-filter{padding:10px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
-.guide-recommendation{border-left:3px solid var(--teal);background:var(--panel-2);padding:14px 18px;border-radius:0 8px 8px 0;line-height:1.65;margin:10px 0 16px}
-.guide-recommendation strong{display:block;color:var(--teal);margin-bottom:5px}
-.guide-recommendation p,.guide-recommendation li{font-size:14px;color:var(--muted)}
-.guide-recommendation ul,#guide-next-steps,#guide-notes ul{padding-left:20px}
-.guide-recommendation li{margin-top:6px}
-.guide-interpretation{font-size:16px;line-height:1.7;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:15px 0;margin-bottom:10px;overflow-wrap:anywhere}
-#guide-metrics{padding:12px 0}
-#guide-notes p,#guide-next-steps li{font-size:14px;line-height:1.65;color:var(--muted);margin:9px 0}
-#guide-status,#guide-data-status{margin:12px 0;overflow-wrap:anywhere;line-height:1.6}
-#guide-status[data-error=true],#guide-data-status[data-error=true]{color:var(--red)}
-.guide-table{max-height:410px;margin:12px 0}
-.guide-table table{min-width:100%;width:max-content}
-.guide-table th{position:sticky;top:0;background:var(--panel-2);z-index:1;vertical-align:top}
-.guide-table td,.guide-table th{padding:6px 8px}
-.guide-table input:not([type=checkbox]){width:155px;min-height:36px;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:5px;padding:6px 8px;font:13px var(--mono)}
-.guide-table input[data-column]{font-weight:600;color:var(--teal)}
-.guide-table tr[data-excluded=true] td{opacity:.65}
-.guide-table .guide-column-type{display:block;font:11px var(--sans);color:var(--muted);text-transform:none;letter-spacing:0;padding-top:4px}
-#guide-audit{font-size:13px;color:var(--muted);max-height:220px;overflow:auto;line-height:1.7}
-#guide-import-notes p{font-size:13px;line-height:1.6;color:var(--muted);margin:6px 0}
-#pg-guide .hint{line-height:1.6;overflow-wrap:anywhere}
-#pg-guide button:disabled{opacity:.55;cursor:not-allowed}
-#pg-guide :is(button,input,select,textarea,summary,a):focus-visible{outline:3px solid var(--teal);outline-offset:3px}
-#pg-guide .analysis-actions{flex-wrap:wrap}
-@media(max-width:1000px){.guide-dataset-bar{grid-template-columns:1fr 1fr}.guide-dataset-bar .analysis-actions{grid-column:1/-1}}
-@media(max-width:780px){.guide-analysis-grid,.guide-import-grid{grid-template-columns:1fr}.guide-intro{align-items:flex-start;flex-direction:column;gap:10px}.guide-steps{grid-template-columns:1fr}.guide-steps li{padding:8px 14px}.guide-data-panel,.guide-question-panel,.guide-result-panel{padding:16px}.guide-dataset-bar{grid-template-columns:1fr}.guide-analysis-grid{gap:16px}.guide-import-grid{gap:18px}}
-@media print{#guide-import-panel,.guide-question-panel,.guide-dataset-bar,.guide-steps,#guide-table-panel,#pg-guide .analysis-actions{display:none}.guide-analysis-grid{display:block}}
+:where(#calculator-shell) #pg-guide [hidden]{display:none!important}
+:where(#calculator-shell) .guide-intro{display:flex;gap:24px;align-items:center;justify-content:space-between;margin:6px 0 22px}
+:where(#calculator-shell) .guide-intro h2{font-family:var(--calc-disp);font-size:clamp(28px,4vw,38px);letter-spacing:.01em;margin:4px 0 8px}
+:where(#calculator-shell) .guide-intro p:not(.guide-eyebrow){color:var(--calc-muted);max-width:740px;line-height:1.6}
+:where(#calculator-shell) .guide-intro a{color:var(--calc-teal);font-size:14px;white-space:nowrap}
+:where(#calculator-shell) .guide-eyebrow{font-family:var(--calc-mono);font-size:11px;letter-spacing:.16em;color:var(--calc-teal)}
+:where(#calculator-shell) .guide-steps{display:grid;grid-template-columns:repeat(3,1fr);list-style:none;padding:0;margin:0 0 20px;border:1px solid var(--calc-line);border-radius:10px;background:var(--calc-panel)}
+:where(#calculator-shell) .guide-steps li{padding:13px 18px;color:var(--calc-muted);font-size:14px;display:flex;align-items:center;gap:10px}
+:where(#calculator-shell) .guide-steps span{border:1px solid var(--calc-teal);color:var(--calc-teal);display:inline-grid;place-items:center;min-width:26px;height:26px;border-radius:50%;font-family:var(--calc-mono);font-size:12px}
+:where(#calculator-shell) .guide-data-panel{padding:22px;margin-bottom:22px;min-width:0}
+:where(#calculator-shell) #pg-guide summary{cursor:pointer;color:var(--calc-text);font-weight:600;line-height:1.6;padding:5px 0}
+:where(#calculator-shell) #pg-guide details{margin:8px 0}
+:where(#calculator-shell) .guide-import-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:12px}
+:where(#calculator-shell) #pg-guide input[type=file]{padding:10px;white-space:normal}
+:where(#calculator-shell) #pg-guide input[type=file]::file-selector-button{background:var(--calc-panel-2);color:var(--calc-text);border:1px solid var(--calc-line);border-radius:5px;padding:6px;margin-right:8px;cursor:pointer}
+:where(#calculator-shell) .guide-dataset-bar{display:grid;grid-template-columns:1fr 1fr auto;gap:16px;align-items:end}
+:where(#calculator-shell) .guide-profile{color:var(--calc-muted);padding:12px 0;font-size:14px;line-height:1.8}
+:where(#calculator-shell) .guide-profile strong{color:var(--calc-text)}
+:where(#calculator-shell) .guide-analysis-grid{display:grid;grid-template-columns:minmax(290px,.8fr) minmax(0,1.6fr);gap:22px;align-items:start}
+:where(#calculator-shell) .guide-question-panel,:where(#calculator-shell) .guide-result-panel{padding:22px;min-width:0}
+:where(#calculator-shell) #pg-guide h2{margin-bottom:14px}
+:where(#calculator-shell) #pg-guide h3{font-size:18px;line-height:1.5;margin:16px 0 8px}
+:where(#calculator-shell) .guide-check{display:flex;gap:9px;align-items:flex-start;line-height:1.6;color:var(--calc-text);font-size:14px;margin:14px 0}
+:where(#calculator-shell) .guide-check input{accent-color:var(--calc-teal);margin-top:5px;flex-shrink:0}
+:where(#calculator-shell) .guide-filter{padding:10px 0;border-top:1px solid var(--calc-line-soft);border-bottom:1px solid var(--calc-line-soft)}
+:where(#calculator-shell) .guide-recommendation{border-left:3px solid var(--calc-teal);background:var(--calc-panel-2);padding:14px 18px;border-radius:0 8px 8px 0;line-height:1.65;margin:10px 0 16px}
+:where(#calculator-shell) .guide-recommendation strong{display:block;color:var(--calc-teal);margin-bottom:5px}
+:where(#calculator-shell) .guide-recommendation p,:where(#calculator-shell) .guide-recommendation li{font-size:14px;color:var(--calc-muted)}
+:where(#calculator-shell) .guide-recommendation ul,:where(#calculator-shell) #guide-next-steps,:where(#calculator-shell) #guide-notes ul{padding-left:20px}
+:where(#calculator-shell) .guide-recommendation li{margin-top:6px}
+:where(#calculator-shell) .guide-interpretation{font-size:16px;line-height:1.7;border-top:1px solid var(--calc-line);border-bottom:1px solid var(--calc-line);padding:15px 0;margin-bottom:10px;overflow-wrap:anywhere}
+:where(#calculator-shell) #guide-metrics{padding:12px 0}
+:where(#calculator-shell) #guide-notes p,:where(#calculator-shell) #guide-next-steps li{font-size:14px;line-height:1.65;color:var(--calc-muted);margin:9px 0}
+:where(#calculator-shell) #guide-status,:where(#calculator-shell) #guide-data-status{margin:12px 0;overflow-wrap:anywhere;line-height:1.6}
+:where(#calculator-shell) #guide-status[data-error=true],:where(#calculator-shell) #guide-data-status[data-error=true]{color:var(--calc-red)}
+:where(#calculator-shell) .guide-table{max-height:410px;margin:12px 0}
+:where(#calculator-shell) .guide-table table{min-width:100%;width:max-content}
+:where(#calculator-shell) .guide-table th{position:sticky;top:0;background:var(--calc-panel-2);z-index:1;vertical-align:top}
+:where(#calculator-shell) .guide-table td,:where(#calculator-shell) .guide-table th{padding:6px 8px}
+:where(#calculator-shell) .guide-table input:not([type=checkbox]){width:155px;min-height:36px;background:var(--calc-panel);color:var(--calc-text);border:1px solid var(--calc-line);border-radius:5px;padding:6px 8px;font:13px var(--calc-mono)}
+:where(#calculator-shell) .guide-table input[data-column]{font-weight:600;color:var(--calc-teal)}
+:where(#calculator-shell) .guide-table tr[data-excluded=true] td{opacity:.65}
+:where(#calculator-shell) .guide-table .guide-column-type{display:block;font:11px var(--calc-sans);color:var(--calc-muted);text-transform:none;letter-spacing:0;padding-top:4px}
+:where(#calculator-shell) #guide-audit{font-size:13px;color:var(--calc-muted);max-height:220px;overflow:auto;line-height:1.7}
+:where(#calculator-shell) #guide-import-notes p{font-size:13px;line-height:1.6;color:var(--calc-muted);margin:6px 0}
+:where(#calculator-shell) #pg-guide .hint{line-height:1.6;overflow-wrap:anywhere}
+:where(#calculator-shell) #pg-guide button:disabled{opacity:.55;cursor:not-allowed}
+:where(#calculator-shell) #pg-guide :is(button,input,select,textarea,summary,a):focus-visible{outline:3px solid var(--calc-teal);outline-offset:3px}
+:where(#calculator-shell) #pg-guide .analysis-actions{flex-wrap:wrap}
+@media(max-width:1000px){:where(#calculator-shell) .guide-dataset-bar{grid-template-columns:1fr 1fr}:where(#calculator-shell) .guide-dataset-bar .analysis-actions{grid-column:1/-1}}
+@media(max-width:780px){:where(#calculator-shell) .guide-analysis-grid,:where(#calculator-shell) .guide-import-grid{grid-template-columns:1fr}:where(#calculator-shell) .guide-intro{align-items:flex-start;flex-direction:column;gap:10px}:where(#calculator-shell) .guide-steps{grid-template-columns:1fr}:where(#calculator-shell) .guide-steps li{padding:8px 14px}:where(#calculator-shell) .guide-data-panel,:where(#calculator-shell) .guide-question-panel,:where(#calculator-shell) .guide-result-panel{padding:16px}:where(#calculator-shell) .guide-dataset-bar{grid-template-columns:1fr}:where(#calculator-shell) .guide-analysis-grid{gap:16px}:where(#calculator-shell) .guide-import-grid{gap:18px}}
+@media print{:where(#calculator-shell) #guide-import-panel,:where(#calculator-shell) .guide-question-panel,:where(#calculator-shell) .guide-dataset-bar,:where(#calculator-shell) .guide-steps,:where(#calculator-shell) #guide-table-panel,:where(#calculator-shell) #pg-guide .analysis-actions{display:none}:where(#calculator-shell) .guide-analysis-grid{display:block}}
