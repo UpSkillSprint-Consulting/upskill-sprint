@@ -266,6 +266,7 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
 <script src="/theme.js"></script>
 <link rel="stylesheet" href="/tools/calculator-assets/analysis.css">
 <link rel="stylesheet" href="/tools/calculator-assets/presentation.css">
+<link rel="stylesheet" href="/tools/calculator-assets/lookup.css">
 </head>
 <body>
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
@@ -287,6 +288,7 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
 <div class="tabs" role="tablist" aria-label="Calculator workspaces">
       <button class="tab active" data-page="pg-guide" role="tab">Guided Analysis</button>
       <button class="tab" data-page="pg-dist" role="tab">Distributions</button>
+      <button class="tab" data-page="pg-lookup" role="tab">Distribution Lookup Tables</button>
       <button class="tab" data-page="pg-test" role="tab">Hypothesis Tests</button>
       <button class="tab" data-page="pg-data" role="tab">Data &amp; Quality</button>
       <button class="tab" data-page="pg-spc" role="tab">Advanced SPC</button>
@@ -303,6 +305,16 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
 <div class="wrap">
 
 
+
+<section class="page" id="pg-lookup" aria-label="Distribution lookup tables workspace">
+ <div class="guide-intro"><div><h2>Distribution Lookup Tables</h2><p>Browse the reference tables used in the simulated exams. Choose a table, enter your lookup keys, and select Find to highlight the matching row, column and cell.</p></div><a href="/tools/calculator-manual#distribution-lookup" target="_blank" rel="noopener" title="Opens the user manual in a new tab">Lookup tables manual →</a></div>
+ <p class="lookup-note">Table values are rounded and cover a fixed grid. This workspace requires exact tabulated keys; it does not interpolate or substitute degrees of freedom. For values outside the tables, use the <button class="btn ghost" id="lookup-open-distributions" type="button">Distributions calculator</button>.</p>
+ <div class="panel" id="tb-tables" data-tbl-exact="true">
+  <div class="lookup-mobile-choice"><label for="lookup-table-choice">Choose a reference table</label><select id="lookup-table-choice" class="f"></select></div>
+  <div id="lookup-help" class="lookup-help" aria-live="polite"></div>
+  <div data-tbl-mount></div>
+ </div>
+</section>
 
 <section class="page" id="pg-cost" aria-label="Cost of quality and savings workspace">
  <div class="guide-intro"><div><p class="guide-eyebrow">CONNECT QUALITY TO BUSINESS RESULTS</p><h2>Measure the cost. Verify the benefit.</h2><p>Find the largest quality losses, evaluate an improvement case, and track documented benefits without treating every improvement as cash savings.</p></div><a href="/tools/calculator-manual#quality-cost" target="_blank" rel="noopener" title="Opens the user manual in a new tab">Cost &amp; savings manual →</a></div>
@@ -1892,5 +1904,7 @@ buildTests(); buildPad(); updMem(); renderHistory(); edClear(); setBadges();
 <script src="/tools/calculator-assets/quality-cost-ui.js"></script>
 <script src="/contrast-fix.js"></script>
 <script src="/tools/calculator-assets/presentation.js"></script>
+<script src="/test-bank-tables.js"></script>
+<script src="/tools/calculator-assets/lookup-ui.js"></script>
 </body>
 </html>

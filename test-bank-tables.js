@@ -208,7 +208,7 @@
     return CATEGORY_ORDER.map(function (cat) {
       if (!byCat[cat]) return '';
       return byCat[cat].map(function (e) {
-        return '<button type="button" class="tb-tbl-chip' + (e.id === state.activeId ? ' active' : '') + '" data-tbl-select="' + e.id + '">' + esc(e.label) + '</button>';
+        return '<button type="button" aria-pressed="' + (e.id === state.activeId) + '" class="tb-tbl-chip' + (e.id === state.activeId ? ' active' : '') + '" data-tbl-select="' + e.id + '">' + esc(e.label) + '</button>';
       }).join('');
     }).join('');
   }
@@ -218,16 +218,16 @@
     var fields = entry.keys.map(function (k) {
       if (k.type === 'select') {
         var opts = k.staticOptions || (data ? (getPath(data, k.optionsPath) || []) : []);
-        return '<div class="tb-tbl-field"><label>' + esc(k.label) + '</label><select data-tbl-key="' + k.id + '">' +
+        return '<div class="tb-tbl-field"><label for="tbl-key-' + k.id + '">' + esc(k.label) + '</label><select id="tbl-key-' + k.id + '" data-tbl-key="' + k.id + '">' +
           opts.map(function (o) { return '<option value="' + esc(o) + '">' + esc(o) + '</option>'; }).join('') +
           '</select></div>';
       }
-      return '<div class="tb-tbl-field"><label>' + esc(k.label) + '</label><input type="number" ' +
+      return '<div class="tb-tbl-field"><label for="tbl-key-' + k.id + '">' + esc(k.label) + '</label><input id="tbl-key-' + k.id + '" type="number" ' +
         (k.step ? 'step="' + k.step + '" ' : '') + 'placeholder="' + esc(k.placeholder || '') + '" data-tbl-key="' + k.id + '"></div>';
     }).join('');
     return '<div class="tb-tbl-lookupbar">' + fields +
       '<button type="button" class="tb-tbl-find" data-tbl-find>Find</button>' +
-      '<div class="tb-tbl-result" data-tbl-result></div></div>';
+      '<div class="tb-tbl-result" role="status" aria-live="polite" data-tbl-result></div></div>';
   }
 
   function renderShell() {
@@ -251,8 +251,9 @@
         var rows = data.negative_z.slice().reverse().concat(data.positive_z);
         var cols = data.column_offsets;
         var head = '<tr><th class="tbl-corner">z</th>' + cols.map(function (c) { return '<th>' + c + '</th>'; }).join('') + '</tr>';
-        var body = rows.map(function (r) {
-          return '<tr data-row="' + r.z + '"><th>' + r.z.toFixed(1) + '</th>' +
+        var body = rows.map(function (r, index) {
+          var negativeZero = r.z === 0 && index < data.negative_z.length;
+          return '<tr data-row="' + (negativeZero ? '-0' : r.z) + '"><th>' + (negativeZero ? '-0.0' : r.z.toFixed(1)) + '</th>' +
             cols.map(function (c) { return '<td data-col="' + c + '">' + r.values[c].toFixed(4) + '</td>'; }).join('') + '</tr>';
         }).join('');
         return '<thead>' + head + '</thead><tbody>' + body + '</tbody>';
@@ -279,7 +280,7 @@
         if (!row) return null;
         var value = row.values[offKey];
         if (value == null) return null;
-        return { rowKey: row.z, colKey: offKey, value: value, label: '\u03a6(' + z + ') \u2248 ' + value.toFixed(4) };
+        return { rowKey: rounded < 0 && row.z === 0 ? '-0' : row.z, colKey: offKey, value: value, label: '\u03a6(' + z + ') \u2248 ' + value.toFixed(4) };
       }
     },
 
@@ -529,9 +530,11 @@
     var params = readParams(entry);
     var formula = shape.formula(entry, data);
     var tableHtml = shape.table(data, entry, params);
+    var method = entry.side ? getPath(data, entry.side + '.formula') : data.source;
     return (formula ? '<div class="tb-tbl-formula">' + formula + '</div>' : '') +
       renderKeyInputs(entry, data) +
-      '<div class="tb-tbl-tablewrap" data-tbl-tablewrap><table class="tb-tbl-table">' + tableHtml + '</table></div>';
+      '<div class="tb-tbl-tablewrap" tabindex="0" role="region" aria-label="' + esc(entry.label) + ' table, scroll to browse" data-tbl-tablewrap><table class="tb-tbl-table" aria-label="' + esc(entry.label) + '">' + tableHtml + '</table></div>' +
+      (document.getElementById('tb-tables').dataset.tblExact === 'true' && (method || data.note) ? '<details class="lookup-method"><summary>Table source and method notes</summary><p>' + esc(method || '') + '</p><p>' + esc(data.note || '') + '</p></details>' : '');
   }
 
   function readParams(entry) {
@@ -558,9 +561,28 @@
     if (row) {
       row.classList.add('tbl-hit-row');
       var cell = row.querySelector('[data-col="' + CSS.escape(String(result.colKey)) + '"]');
+      if (cell) { var column = wrap.querySelector('thead tr').children[cell.cellIndex]; if (column) column.classList.add('tbl-hit-col'); }
       if (cell) { cell.classList.add('tbl-hit'); if (typeof cell.scrollIntoView === 'function') cell.scrollIntoView({ block: 'center', inline: 'center', behavior: 'smooth' }); }
       else if (typeof row.scrollIntoView === 'function') { row.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
     }
+  }
+
+  // Calculator lookup requires exact grid keys rather than the exam's legacy
+  // next-row convention. Never silently truncate counts or substitute df/n.
+  function exactMatch(entry, params, result) {
+    if (!result || result.value == null) return false;
+    if (entry.keys.some(function (k) {
+      if (k.type !== 'number') return false;
+      var raw = params[k.id], number = Number(raw);
+      if (!raw || !Number.isFinite(number)) return true;
+      if (entry.shape === 'z') return Math.abs(number * 100 - Math.round(number * 100)) > 1e-8;
+      if (entry.shape === 'exponential' || entry.shape === 'sigma') return number < 0 || Math.abs(number * 10 - Math.round(number * 10)) > 1e-8;
+      return !Number.isSafeInteger(number) || number < (k.id === 'x' ? 0 : 1);
+    })) return false;
+    if (entry.shape === 'keyedGrid') return Number(result.rowKey) === Number(params[entry.rowField]);
+    if (entry.shape === 'matrix') return Number(result.rowKey) === Number(params[entry.rowField]) && Number(result.colKey) === Number(params[entry.colField]);
+    if (entry.shape === 'toleranceFactors') return Number(result.rowKey) === Number(params.n);
+    return true;
   }
 
   function doFind() {
@@ -575,8 +597,11 @@
       wrap.querySelector('table').innerHTML = shape.table(data, entry, params);
     }
     var result = shape.find(data, params, entry);
+    var exact = document.getElementById('tb-tables').dataset.tblExact === 'true';
+    if (exact && !exactMatch(entry, params, result)) result = null;
+    clearHighlights(wrap);
     var out = document.querySelector('[data-tbl-result]');
-    if (out) out.textContent = result ? result.label : 'No exact match \u2014 check your inputs.';
+    if (out) out.textContent = result ? result.label : 'No exact match \u2014 check your inputs.' + (exact ? ' Use tabulated keys or the Distributions calculator; values are not interpolated.' : '');
     if (result) applyHighlight(wrap, result);
   }
 
@@ -594,10 +619,21 @@
     loadTable(entry, function (data, err) {
       if (state.activeId !== id) return; // student has since switched away -- this response is stale, discard it
       if (err || !data) { body.innerHTML = '<p class="tb-tbl-error">Could not load this table. Check your connection and try again.</p>'; return; }
+      // Do not inherit parameters from the previous table, and render the grid
+      // from the selectors actually displayed (not a different default gamma).
+      body.innerHTML = '';
       body.innerHTML = renderBody(entry, data);
+      if (entry.shape === 'matrix' || entry.shape === 'toleranceFactors') {
+        body.querySelector('table').innerHTML = SHAPES[entry.shape].table(data, entry, readParams(entry));
+      }
+      Array.prototype.forEach.call(body.querySelectorAll('thead th'), function (th) { th.scope = 'col'; });
+      Array.prototype.forEach.call(body.querySelectorAll('tbody th'), function (th) { th.scope = 'row'; });
       var findBtn = body.querySelector('[data-tbl-find]');
       if (findBtn) findBtn.addEventListener('click', doFind);
       Array.prototype.forEach.call(body.querySelectorAll('[data-tbl-key]'), function (el) {
+        function invalidate() { clearHighlights(body); var output = body.querySelector('[data-tbl-result]'); if (output) output.textContent = ''; }
+        el.addEventListener('input', invalidate);
+        el.addEventListener('change', invalidate);
         el.addEventListener('keydown', function (e) { if (e.key === 'Enter') doFind(); });
         if ((entry.shape === 'matrix' || entry.shape === 'toleranceFactors') && el.tagName === 'SELECT' && el.dataset.tblKey === (entry.shape === 'matrix' ? 'alpha' : 'gamma')) {
           el.addEventListener('change', doFind);

@@ -24,7 +24,7 @@ test('QA: summary Welch test retains its degrees of freedom after unit scaling',
 });
 const tick=()=>new Promise(r=>setTimeout(r,20));
 test('all workspaces initialize, tabs have keyboard semantics, and labels are unique',async()=>{
- const {dom,d}=setup();assert.equal(d.querySelectorAll('[role=tab]').length,11);assert.equal(d.querySelectorAll('[aria-selected=true]').length,1);
+ const {dom,d}=setup();assert.equal(d.querySelectorAll('[role=tab]').length,12);assert.equal(d.querySelectorAll('[aria-selected=true]').length,1);
  d.querySelector('[data-page=pg-data]').click();assert.equal(d.querySelector('.page.active').id,'pg-data');
  const ids=[...d.querySelectorAll('[id]')].map(e=>e.id);assert.equal(new Set(ids).size,ids.length);
  for(const el of d.querySelectorAll('input.f,select.f,textarea.f'))assert.ok(el.labels.length,`${el.id} needs a label`);
@@ -107,7 +107,7 @@ test('exports contain usable SVG, data tables and original program source',async
 
 test('compact workspace navigation stays synchronized with keyboard tabs and handoffs',()=>{
  const {dom,w,d}=setup(),picker=d.getElementById('calc-workspace');
- assert.equal(picker.options.length,11);assert.equal(picker.value,'pg-guide');
+ assert.equal(picker.options.length,12);assert.equal(picker.value,'pg-guide');
  picker.value='pg-cost';picker.dispatchEvent(new w.Event('change'));
  assert.equal(d.querySelector('.page.active').id,'pg-cost');
  const tab=d.querySelector('[data-page=pg-cost]');
@@ -136,6 +136,6 @@ test('companion help preserves the working tab and quick start covers all worksp
  for(const link of links){assert.equal(link.target,'_blank');assert.equal(link.rel,'noopener');assert.match(link.title,/new tab/);}
  dom.window.close();
  const manual=new JSDOM(fs.readFileSync('tools/calculator-manual.html','utf8')),quick=manual.window.document.getElementById('quick').nextElementSibling.nextElementSibling;
- assert.equal(quick.querySelectorAll('li').length,11);
+ assert.equal(quick.querySelectorAll('li').length,12);
  assert.match(manual.window.document.body.textContent,/46\.715695/);manual.window.close();
 });

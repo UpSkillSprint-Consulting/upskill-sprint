@@ -146,7 +146,7 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
 
 <header class="doc"><p class="calc-kicker">Learn · practise · apply</p>
   <h1>Calculator <span class="amp">User Manual</span></h1>
-  <p class="sub">Engineering &amp; Statistics Calculator &middot; UpSkill Sprint &middot; updated October 4, 2026 · covers all eleven workspaces, examples, assumptions, exports and the TI-84 capability map &middot; <a href="/tools/engineering-statistics-calculator" style="color:var(--calc-teal);text-decoration:none">Open the Calculator &rarr;</a></p>
+  <p class="sub">Engineering &amp; Statistics Calculator &middot; UpSkill Sprint &middot; updated October 4, 2026 · covers all twelve workspaces, examples, assumptions, exports and the TI-84 capability map &middot; <a href="/tools/engineering-statistics-calculator" style="color:var(--calc-teal);text-decoration:none">Open the Calculator &rarr;</a></p>
 </header>
 
 <div class="calc-start"><p><strong>New to the calculator?</strong> Start with section 1, then try Guided Analysis in section 22. For process monitoring use section 23; for quality costs and savings use section 24.</p><a href="/tools/engineering-statistics-calculator">Open the calculator <span aria-hidden="true">→</span></a></div>
@@ -174,15 +174,17 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
 <li><a href="#exports">Exports, privacy & troubleshooting</a></li>
 <li><a href="#guided-analysis">Guided Analysis — import, questions &amp; interpretation</a></li>
 <li><a href="#advanced-spc">Advanced SPC — baselines, monitoring &amp; capability intervals</a></li>
-<li><a href="#quality-cost">Cost of Quality &amp; Verified Savings</a></li></ol>
+<li><a href="#quality-cost">Cost of Quality &amp; Verified Savings</a></li>
+<li><a href="#distribution-lookup">Distribution Lookup Tables</a></li></ol>
 </nav>
 
 <h2 id="quick">1 &middot; Quick Start</h2>
-<p>The tool has eleven workspaces along the top. <strong>Guided Analysis</strong> opens first and walks you from a dataset to an analysis and next steps:</p>
+<p>The tool has twelve workspaces along the top. <strong>Guided Analysis</strong> opens first and walks you from a dataset to an analysis and next steps:</p>
 <ul>
   <li><strong>Guided Analysis</strong> — import Excel/CSV or paste a table, reuse datasets, select a question, inspect assumptions and exclusions, and download a reproducible report. Start with a worked example and select <strong>Run guided analysis</strong>.</li>
   <li><strong>Scientific Calculator</strong> — a full natural-display calculator that operates like a Casio fx-300ES PLUS 2: you type <em>into</em> stacked fractions, radicals, and exponents, with a SHIFT/ALPHA keypad, memory registers, and a history tape.</li>
   <li><strong>Distributions</strong> — probability calculator for 16 distributions with live shaded-region plots, critical values, and reliability metrics.</li>
+  <li><strong>Distribution Lookup Tables</strong> — browse the exam reference tables, enter lookup keys and highlight the matching row, column and cell. See section 25 for tail conventions and examples.</li>
   <li><strong>Hypothesis Tests</strong> — ten test presets that compute the statistic, p-value, and decision, and draw the rejection region.</li>
 <li><strong>Data &amp; Quality</strong> — raw-data summaries, regression, capability, I-MR, ANOVA and chi-square.</li><li><strong>Advanced SPC</strong> — choose a chart for your sampling design, establish a baseline, monitor later observations and review capability intervals where supported. See section 23.</li>
   <li><strong>Cost &amp; Savings</strong> — review COQ/COPQ, compare costs at a common production mix, evaluate cash scenarios and track documented benefits. See section 24.</li>
@@ -512,6 +514,30 @@ Disp S</pre><p>This example prints 55. Supported commands are assignments with �
 <p>Save the cost workspace JSON to retain all tables, settings and provenance. Restoring asks before replacing existing input, recomputes validation, clears the completeness acknowledgement and never runs automatically. Save supports valid tables with unfinished calculation settings; verified rows still require their evidence fields. The full text report retains settings, source data, all period results, cash scenarios/flows, register records and complete Pareto rankings. Results CSV provides machine-readable numeric summaries and all Pareto rows. Spreadsheet-formula-like labels are escaped. Monetary screen values round to two decimals; calculations use floating-point arithmetic.</p>
 <p>All work is local and session-only until explicitly downloaded. Limits: 2,000 data rows and one million characters per table; 3.5 MB saved-project limit; individual numeric inputs within one trillion, with a one-quadrillion line-cost limit. Missing/invalid numbers, unknown categories, duplicate production keys and duplicate benefit IDs are rejected. Period/product output tables show up to 200 rows; full report/CSV retain the calculations. This is an analysis and recordkeeping aid, not an accounting system, approval workflow or independent assurance service.</p>
 <p>Primary references: <a href="https://asq.org/quality-resources/cost-of-quality">ASQ — cost-of-quality categories</a>; <a href="https://projectdelivery.gov.uk/teal-book/home/part-e-planning-and-control/chapter-19-benefits-management/">Government Project Delivery — benefits ownership, tracking and verification</a>. Numerical forecast fixtures use independent 40-digit Python Decimal arithmetic.</p>
+
+<h2 id="distribution-lookup">25 &middot; Distribution Lookup Tables</h2>
+<p>This workspace reuses the simulated exam's 15 reference-data files and 18 lookup options. It provides traditional rounded tables; the separate Distributions workspace calculates probabilities and critical values for its supported distributions and parameter ranges.</p>
+<h3>Choose, find and read</h3>
+<ol><li>Select <strong>Distribution Lookup Tables</strong> in the desktop tabs or mobile workspace menu.</li><li>Choose a table and read its explanation and probability convention. Enter the lookup keys and press <strong>Find</strong> or Enter.</li><li>Read the result above the grid and the highlighted row, column header and cell. Scroll inside the grid to browse other entries; keyboard users can focus the table region and use arrow keys.</li><li>Changing an input clears the old result and highlight. Switching workspaces preserves the current table; switching table types resets the lookup fields.</li></ol>
+<p>Lookup requires exact tabulated keys: it does not interpolate, round an input to a nearby grid point, truncate counts, or substitute degrees of freedom/sample size. Z inputs must be tabulated hundredths; exponential X and sigma level use tabulated tenths. Missing, invalid or non-tabulated keys show <strong>No exact match</strong>. For continuous-distribution calculations beyond this grid, select <strong>Distributions calculator</strong>. The calculators do not cover every specialized reference table.</p>
+<h3>Available tables and conventions</h3>
+<table><thead><tr><th>Reference</th><th>How to interpret it</th></tr></thead><tbody>
+<tr><td>Standard normal (Z)</td><td>Cumulative left-tail Φ(z) = P(Z ≤ z). Right tail is 1 − Φ(z). For negative rows, subtract the positive column offset; −0.0 identifies values from −0.01 to −0.09.</td></tr>
+<tr><td>Student's t</td><td>Degrees of freedom by upper-tail α. A two-sided test with total α uses the α/2 column and ±t. Fractional df require the calculator.</td></tr>
+<tr><td>Chi-square</td><td>Degrees of freedom by upper-tail α. Two-sided variance intervals use separate α/2 and 1 − α/2 quantiles; the distribution is asymmetric.</td></tr>
+<tr><td>F</td><td>Upper-tail α, numerator df (column), denominator df (row). Do not exchange the two degrees of freedom.</td></tr>
+<tr><td>Binomial and Poisson (two options each)</td><td>PMF is P(X = x); cumulative is P(X ≤ x). For P(X ≥ x), subtract the cumulative value at x − 1 from 1.</td></tr>
+<tr><td>Exponential</td><td>Standardized X = rate × time = time / mean lifetime. Both left-tail failure and right-tail survival probabilities are shown.</td></tr>
+<tr><td>Tukey q and Duncan</td><td>Multiple-comparison critical values. Tukey uses number of groups; Duncan uses the number of ordered means spanned and a different error-control convention.</td></tr>
+<tr><td>Control-chart constants</td><td>Factors for the selected subgroup size, including A2, A3, d2, c4, D3, D4, B3 and B4.</td></tr>
+<tr><td>Sigma level / DPMO</td><td>Centered and conventional 1.5σ-shift coverage are separate. Find highlights shifted PPM; the convention is not proof of a process shift.</td></tr>
+<tr><td>Median ranks and normal scores</td><td>Rank i and sample size n for approximate plotting positions; not a censored-data analysis.</td></tr>
+<tr><td>Normal tolerance factors (one- and two-sided)</td><td>Confidence γ, population coverage P and sample size n. One-sided factors use the noncentral t distribution; two-sided factors use Howe's approximation. These are not confidence intervals for the mean.</td></tr>
+<tr><td>Random numbers</td><td>A fixed digit table for practicing random sampling, with no Find fields and no generation of new random digits.</td></tr>
+</tbody></table>
+<h3>Worked lookups</h3>
+<ul><li><strong>Z:</strong> z = 1.96 → Φ(z) = 0.9750. Right tail = 0.0250; symmetric two-tail probability ≈ 0.0500.</li><li><strong>t:</strong> df = 10, α = 0.025 → t ≈ 2.228 for a two-sided 5% test.</li><li><strong>Chi-square:</strong> df = 10, α = 0.05 → critical value ≈ 18.307.</li><li><strong>F:</strong> numerator df = 4, denominator df = 20, α = 0.05 → critical value ≈ 2.866.</li><li><strong>Binomial PMF:</strong> n = 10, x = 2, p = 0.10 → P(X = 2) ≈ 0.19371.</li><li><strong>Poisson PMF:</strong> x = 3, λ = 4 → P(X = 3) ≈ 0.19537.</li><li><strong>Exponential:</strong> X = 2 → failure probability 0.86466 and survival probability 0.13534.</li></ul>
+<p>Tables load on demand from this site's shared reference files and remain cached during the page session. If loading fails, check the connection and select the table again. Table precision can round very small probabilities to zero or large probabilities to one; do not interpret these as exact impossibility or certainty. Use the Distributions calculator for more numerical precision. Source/method notes are available below the grid where recorded. No dataset upload, exam attempt or exam timer is needed.</p>
 
 <nav class="calc-breadcrumb" aria-label="Continue learning"><a href="#manual-contents">Back to manual contents</a><span aria-hidden="true">·</span><a href="/tools/engineering-statistics-calculator">Open the calculator</a></nav>
 <footer class="doc">
