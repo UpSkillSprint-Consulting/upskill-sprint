@@ -41,7 +41,7 @@
   }
 
   function carryTheme(html) {
-    var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    var theme = document.documentElement && document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
     return html
       .replace(/<html\b([^>]*)>/i, function (tag, attrs) {
         return /\bdata-theme=/i.test(attrs) ? tag : '<html' + attrs + ' data-theme="' + theme + '">';
@@ -55,8 +55,10 @@
     var resources = blockingResources(html);
     var timeout = new Promise(function (resolve) { setTimeout(resolve, PRELOAD_TIMEOUT_MS); });
     return Promise.race([Promise.all(resources.map(preload)), timeout]).then(function () {
+      // Read the theme before document.open() removes the current <html>.
+      var lessonHtml = carryTheme(html);
       document.open();
-      document.write(carryTheme(html));
+      document.write(lessonHtml);
       document.close();
     });
   };
