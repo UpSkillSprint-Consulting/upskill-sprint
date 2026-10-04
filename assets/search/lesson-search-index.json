@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 52,
   "contentLessonCount": 47,
-  "sectionCount": 2028,
+  "sectionCount": 2040,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -26239,15 +26239,15 @@
       "id": "statistics--understanding-dot-notation",
       "path": "/lessons/statistics/understanding-dot-notation",
       "title": "Understanding Dot Notation",
-      "description": "Dot notation",
+      "description": "Read two- and three-index notation, totals and means, with worked ANOVA and chi-square examples and an eight-question quiz.",
       "topic": "statistics",
       "level": "beginner",
-      "minutes": 10,
+      "minutes": 35,
       "interactive": true,
       "keywords": [
         "dot notation",
-        "ANOVA dot notation",
-        "DOE dot notation",
+        "anova dot notation",
+        "doe dot notation",
         "row total",
         "column total",
         "grand total",
@@ -26255,9 +26255,13 @@
         "square then sum",
         "sum of squares",
         "correction factor",
-        "Excel SUMSQ",
-        "Minitab ANOVA",
-        "dot notation anova doe row total column total grand total summation sum then square square then sum squared total sum of squared observations correction factor raw sum of squares excel sumsq minitab beginner general interactive"
+        "excel sumsq",
+        "minitab anova",
+        "three-index notation",
+        "marginal totals",
+        "chi-square independence",
+        "expected counts",
+        "three-index marginal totals means chi-square independence expected counts dot notation anova doe row total column total grand total summation sum then square square then sum squared total sum of squared observations correction factor raw sum of squares excel sumsq minitab beginner general interactive"
       ],
       "placeholder": false,
       "contentAvailable": true,
@@ -26297,6 +26301,35 @@
           ],
           "text": "Notation Meaning How to read it \\(y_{ij}\\) One individual observation Observation j in row or treatment i \\(y_{i\\cdot}\\) Sum across all j values for row i Row i total \\(y_{\\cdot j}\\) Sum across all i values for column j Column j total \\(y_{\\cdot\\cdot}\\) Sum of every observation Grand total \\(y_{1\\cdot}\\) Row 1, all columns \\(y_{\\cdot 2}\\) All rows, column 2 \\(y_{\\cdot\\cdot}\\) All rows, all columns Dot = wildcard Sum over that position",
           "excerpt": "Notation Meaning How to read it \\(y_{ij}\\) One individual observation Observation j in row or treatment i \\(y_{i\\cdot}\\) Sum across all j values for row i Row i total \\(y_{\\cdot j}\\) Sum across all i values for column j Column j total \\(y_{\\cdot\\cdot}\\) Sum…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "three-index",
+          "heading": "Three indices: factor A, factor B, and replicate",
+          "breadcrumb": [
+            "Understanding Dot Notation in Plain English",
+            "Three indices: factor A, factor B, and replicate"
+          ],
+          "text": "In a replicated two-factor experiment, write a measurement as \\(y_{ijk}\\). Define the positions first: \\(i=1,\\ldots,a\\) identifies factor A, \\(j=1,\\ldots,b\\) identifies factor B, and \\(k=1,\\ldots,n\\) identifies a replicate within that A–B combination. Here, every combination has the same number \\(n\\) of observations. A cell means one combination of factor levels. The plain-text form y.j. means \\(y_{\\cdot j\\cdot}\\): keep B level j fixed; add over every A level and every replicate . It has three subscript positions. It is different from the two-position \\(y_{\\cdot j}\\). The dots are placeholders for summed indices, not decimal points or multiplication signs. All dot patterns for three-index observations Notation / typed form Held fixed Explicit summation Number of values added \\(y_{ijk}\\) / yijk i, j, k One observation; no summation 1 \\(y_{ij\\cdot}\\) / yij. i, j \\(\\sum_{k=1}^{n}y_{ijk}\\) n \\(y_{i\\cdot k}\\) / yi.k i, k \\(\\sum_{j=1}^{b}y_{ijk}\\) b \\(y_{\\cdot jk}\\) / y.jk j, k \\(\\sum_{i=1}^{a}y_{ijk}\\) a \\(y_{i\\cdot\\cdot}\\) / yi.. i \\(\\sum_{j=1}^{b}\\sum_{k=1}^{n}y_{ijk}\\) bn \\(y_{\\cdot j\\cdot}\\) / y.j. j \\(\\sum_{i=1}^{a}\\sum_{k=1}^{n}y_{ijk}\\) an \\(y_{\\cdot\\cdot k}\\) / y..k k \\(\\sum_{i=1}^{a}\\sum_{j=1}^{b}y_{ijk}\\) ab \\(y_{\\cdot\\cdot\\cdot}\\) / y... Nothing \\(\\sum_{i=1}^{a}\\sum_{j=1}^{b}\\sum_{k=1}^{n}y_{ijk}\\) abn The forms that retain k are valid sums, but a replicate number alone does not automatically represent a common block, time, or matched subject across cells. Give k that interpretation only when the experimental design supports it.",
+          "excerpt": "In a replicated two-factor experiment, write a measurement as \\(y_{ijk}\\). Define the positions first: \\(i=1,\\ldots,a\\) identifies factor A, \\(j=1,\\ldots,b\\) identifies factor B, and \\(k=1,\\ldots,n\\) identifies a replicate within that A–B combination. Here,…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "bar-versus-dot",
+          "heading": "A bar changes a total into a mean",
+          "breadcrumb": [
+            "Understanding Dot Notation in Plain English",
+            "Three indices: factor A, factor B, and replicate",
+            "A bar changes a total into a mean"
+          ],
+          "text": "In this lesson, an unbarred y with dots is a total ; a bar indicates a mean . Dots tell you which positions were aggregated. The bar tells you that division by the number of included observations is also required. \\[\\bar y_{ij\\cdot}=\\frac{y_{ij\\cdot}}{n},\\qquad \\bar y_{i\\cdot\\cdot}=\\frac{y_{i\\cdot\\cdot}}{bn}\\] \\[\\bar y_{\\cdot j\\cdot}=\\frac{y_{\\cdot j\\cdot}}{an},\\qquad \\bar y_{\\cdot\\cdot\\cdot}=\\frac{y_{\\cdot\\cdot\\cdot}}{abn}\\] Read the author's definitions: notation conventions vary. A dot is not itself an instruction to average. With unequal cell sizes, use the actual number of observations in each total; the balanced-design denominators above no longer apply unchanged.",
+          "excerpt": "In this lesson, an unbarred y with dots is a total ; a bar indicates a mean . Dots tell you which positions were aggregated. The bar tells you that division by the number of included observations is also required. \\[\\bar…",
           "kinds": [
             "section",
             "formula"
@@ -26376,6 +26409,35 @@
           ]
         },
         {
+          "id": "dot-versus-sigma",
+          "heading": "Dot notation versus the summation sign",
+          "breadcrumb": [
+            "Understanding Dot Notation in Plain English",
+            "Dot notation versus the summation sign"
+          ],
+          "text": "Dot notation names an aggregated quantity. The summation sign \\(\\sum\\) writes out the addition operation. They can represent exactly the same total; they are not competing statistical methods. \\[y_{\\cdot j\\cdot}=\\sum_{i=1}^{a}\\sum_{k=1}^{n}y_{ijk}\\] On the left, two dots say which indices have been summed out. On the right, the two summation signs explicitly give their indices and limits. The j remains fixed on both sides. Use dot notation when… Use a summation sign when… Referring repeatedly to a row, column, cell, or grand total. Showing precisely which values to add and their bounds. Keeping a statistical formula compact. Adding transformed terms, such as squares, residuals, or chi-square contributions. Showing the indices retained after aggregation. Deriving or implementing the calculation step by step.",
+          "excerpt": "Dot notation names an aggregated quantity. The summation sign \\(\\sum\\) writes out the addition operation. They can represent exactly the same total; they are not competing statistical methods. \\[y_{\\cdot j\\cdot}=\\sum_{i=1}^{a}\\sum_{k=1}^{n}y_{ijk}\\] On the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "both-together",
+          "heading": "Why one formula can contain both",
+          "breadcrumb": [
+            "Understanding Dot Notation in Plain English",
+            "Dot notation versus the summation sign",
+            "Why one formula can contain both"
+          ],
+          "text": "\\[\\sum_{j=1}^{b}y_{\\cdot j\\cdot}^{2}=\\sum_{j=1}^{b}\\left(\\sum_{i=1}^{a}\\sum_{k=1}^{n}y_{ijk}\\right)^2\\] For a fixed j, add all values across i and k. Square that B-level total. Repeat for each j, then add those squared totals. The outer sum still has a job: the dot total retains j. By contrast, \\(\\sum_{i,j,k}y_{ijk}^{2}\\) squares each individual observation before adding, and \\(y_{\\cdot\\cdot\\cdot}^{2}\\) squares the single grand total. These three operations generally give different results. Avoid summing an index twice: \\(\\sum_i y_{\\cdot j\\cdot}=a\\,y_{\\cdot j\\cdot}\\), because i is already absent from the total. This repeats the same value a times; it does not create a new marginal total.",
+          "excerpt": "\\[\\sum_{j=1}^{b}y_{\\cdot j\\cdot}^{2}=\\sum_{j=1}^{b}\\left(\\sum_{i=1}^{a}\\sum_{k=1}^{n}y_{ijk}\\right)^2\\] For a fixed j, add all values across i and k. Square that B-level total. Repeat for each j, then add those squared totals. The outer sum still has a job:…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
           "id": "lesson-section-6-interactive-practice",
           "heading": "6. Interactive Practice",
           "breadcrumb": [
@@ -26400,6 +26462,52 @@
           "excerpt": "Dot notation is used to shorten formulas for treatment totals, block totals, correction factors, and sums of squares. Quantity Typical notation Interpretation Treatment total \\(y_{i\\cdot}\\) All observations in treatment i added together Block total \\(y_{\\cdot…",
           "kinds": [
             "section"
+          ]
+        },
+        {
+          "id": "anova-worked",
+          "heading": "Worked example: dot notation in two-factor ANOVA",
+          "breadcrumb": [
+            "Understanding Dot Notation in Plain English",
+            "Worked example: dot notation in two-factor ANOVA"
+          ],
+          "text": "Use this small, synthetic strength dataset (arbitrary units). A represents two temperature settings; B represents two cooling settings. Each cell contains two independent experimental runs, so \\(a=b=n=2\\) and \\(N=abn=8\\). The purpose is to practise the notation, not recommend process settings. Two-factor data and marginal totals A level B1: k1, k2 B2: k1, k2 A-level total A1 8, 10 (cell total 18) 12, 14 (cell total 26) 44 A2 10, 12 (cell total 22) 18, 20 (cell total 38) 60 B-level totals 40 64 Grand total 104 \\[y_{112}=10,\\quad y_{12\\cdot}=12+14=26\\] \\[y_{1\\cdot\\cdot}=8+10+12+14=44\\] \\[y_{\\cdot2\\cdot}=12+14+18+20=64\\] Thus \\(\\bar y_{\\cdot2\\cdot}=64/(an)=64/4=16\\), while \\(\\bar y_{\\cdot\\cdot\\cdot}=104/8=13\\). The first is the mean at B2; the second is the mean of all eight measurements.",
+          "excerpt": "Use this small, synthetic strength dataset (arbitrary units). A represents two temperature settings; B represents two cooling settings. Each cell contains two independent experimental runs, so \\(a=b=n=2\\) and \\(N=abn=8\\). The purpose is to practise the…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "anova-ss",
+          "heading": "Reading the sums-of-squares formulas",
+          "breadcrumb": [
+            "Understanding Dot Notation in Plain English",
+            "Worked example: dot notation in two-factor ANOVA",
+            "Reading the sums-of-squares formulas"
+          ],
+          "text": "For this balanced, replicated, fixed-effects two-factor model, define the correction factor \\(C=y_{\\cdot\\cdot\\cdot}^{2}/(abn)=104^2/8=1352\\). The raw sum of squared observations is \\(8^2+10^2+12^2+14^2+10^2+12^2+18^2+20^2=1472\\). \\[SS_T=\\sum_{i=1}^{a}\\sum_{j=1}^{b}\\sum_{k=1}^{n}y_{ijk}^{2}-C=1472-1352=120\\] \\[SS_A=\\frac{1}{bn}\\sum_{i=1}^{a}y_{i\\cdot\\cdot}^{2}-C=\\frac{44^2+60^2}{4}-1352=32\\] \\[SS_B=\\frac{1}{an}\\sum_{j=1}^{b}y_{\\cdot j\\cdot}^{2}-C=\\frac{40^2+64^2}{4}-1352=72\\] \\[SS_{AB}=\\frac{1}{n}\\sum_{i=1}^{a}\\sum_{j=1}^{b}y_{ij\\cdot}^{2}-C-SS_A-SS_B\\] \\[SS_{AB}=\\frac{18^2+26^2+22^2+38^2}{2}-1352-32-72=8\\] \\[SS_E=SS_T-SS_A-SS_B-SS_{AB}=120-32-72-8=8\\] Here T means total corrected variation , A and B are the main effects, AB is their interaction, and E is within-cell error. Check the result directly: every observation is one unit from its cell mean, so eight squared deviations of 1 give \\(SS_E=8\\). The correction factor removes the overall mean contribution; it is not an error correction or a chi-square continuity correction. ANOVA calculation check Source SS Degrees of freedom MS = SS / df F = effect MS / error MS A 32 a − 1 = 1 32 16 B 72 b − 1 = 1 72 36 A × B 8 (a − 1)(b − 1) = 1 8 4 Error 8 ab(n − 1) = 4 2 — Total 120 abn − 1 = 7 — — ANOVA compares variation between factor-level means with residual variation. The observed B2–B1 difference is 4 at A1 and 8 at A2: this difference of differences explains the nonzero interaction SS. Statistical significance requires the appropriate F distribution and degrees of freedom, not just comparing raw SS values. Model conditions: inference assumes independent errors, approximately normal errors, and common error variance. Replicates must be independent experimental units, not repeated readings treated as new runs. With n = 1 there is no within-cell error df for this full interaction model. Unequal cell sizes require a general linear model and an explicit choice of sums of squares. Model and decomposition reference: NIST: two-way ANOVA . The dataset and arithmetic here are original teaching examples.",
+          "excerpt": "For this balanced, replicated, fixed-effects two-factor model, define the correction factor \\(C=y_{\\cdot\\cdot\\cdot}^{2}/(abn)=104^2/8=1352\\). The raw sum of squared observations is \\(8^2+10^2+12^2+14^2+10^2+12^2+18^2+20^2=1472\\).…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "chi-square-worked",
+          "heading": "Worked example: chi-square test of independence",
+          "breadcrumb": [
+            "Understanding Dot Notation in Plain English",
+            "Worked example: chi-square test of independence"
+          ],
+          "text": "Now the cells contain counts of items , not strength measurements. In this synthetic example, 100 independently sampled pipes are classified by production line and inspection result. Each pipe is counted once. Let \\(O_{ij}\\) be the observed count in row i and column j. Some books write \\(n_{ij}\\) instead. Observed inspection counts Line (i) Pass (j = 1) Fail (j = 2) Row total \\(O_{i\\cdot}\\) Line 1 30 20 50 Line 2 45 5 50 Column total \\(O_{\\cdot j}\\) 75 25 \\(O_{\\cdot\\cdot}=100\\) \\[O_{i\\cdot}=\\sum_j O_{ij},\\quad O_{\\cdot j}=\\sum_i O_{ij},\\quad N=O_{\\cdot\\cdot}=\\sum_i\\sum_j O_{ij}\\] The null hypothesis is that line and inspection result are independent. Under independence, each line would have the overall pass proportion, 75/100, and fail proportion, 25/100. Multiply the row size by these proportions to obtain expected counts: \\[E_{ij}=\\frac{O_{i\\cdot}O_{\\cdot j}}{O_{\\cdot\\cdot}}\\] \\[E_{11}=\\frac{50(75)}{100}=37.5,\\qquad E_{12}=\\frac{50(25)}{100}=12.5\\] Line 2 has the same row total, so its expected counts are also 37.5 and 12.5. Expected counts can be fractional. Their row totals, column totals, and grand total match those of the observed table. \\[\\chi^2=\\sum_{i=1}^{r}\\sum_{j=1}^{c}\\frac{(O_{ij}-E_{ij})^2}{E_{ij}}\\] \\[\\chi^2=\\frac{(30-37.5)^2}{37.5}+\\frac{(20-12.5)^2}{12.5}+\\frac{(45-37.5)^2}{37.5}+\\frac{(5-12.5)^2}{12.5}\\] \\[\\chi^2=1.5+4.5+1.5+4.5=12,\\qquad df=(r-1)(c-1)=1\\] The uncorrected Pearson test gives p ≈ 0.000532. At α = 0.05, reject independence: there is evidence of an association between line and inspection result. This does not establish that the line caused the difference. Two jobs in one test: the dots provide marginal totals for the expected counts; the summation signs add the four cell contributions to the test statistic. Do not include the margins themselves as extra cells in that sum. Use nonnegative frequency counts, mutually exclusive categories, independent observations, and adequately large expected counts. All four expected counts here exceed 5. For sparse tables, consider a suitable exact method rather than relying on the chi-square approximation. This example uses no Yates continuity correction. Question ANOVA Chi-square independence What is recorded? A numerical response for each experimental unit A count for each pair of categories What do dots summarize? Response totals or, with a bar, means Row counts, column counts, and sample size What does Σ combine? Squared totals or squared deviations, as the formula specifies Standardized squared observed–expected differences What is tested? Mean effects and interaction in the specified model Association between two categorical variables Method and implementation references: Microsoft: CHISQ.TEST and Minitab: table analyses .",
+          "excerpt": "Now the cells contain counts of items , not strength measurements. In this synthetic example, 100 independently sampled pipes are classified by production line and inspection result. Each pipe is counted once. Let \\(O_{ij}\\) be the observed count in row i and…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
           ]
         },
         {
@@ -26428,6 +26536,79 @@
           "excerpt": "Minitab normally performs these calculations internally when you run an ANOVA. Analysis Minitab path One-way ANOVA Stat → ANOVA → One-Way General factorial ANOVA Stat → ANOVA → General Linear Model → Fit General Linear Model Factorial DOE analysis Stat → DOE…",
           "kinds": [
             "section"
+          ]
+        },
+        {
+          "id": "statistics-implementation",
+          "heading": "Statistics Implementation",
+          "breadcrumb": [
+            "Understanding Dot Notation in Plain English",
+            "Statistics Implementation"
+          ],
+          "text": "",
+          "excerpt": "Statistics Implementation",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-excel-functions",
+          "heading": "Excel Functions",
+          "breadcrumb": [
+            "Understanding Dot Notation in Plain English",
+            "Statistics Implementation",
+            "Excel Functions"
+          ],
+          "text": "Function Syntax Purpose When to use it SUM SUM(number1, [number2], …) Add values Cell and marginal totals SUMSQ SUMSQ(number1, [number2], …) Add squared values Raw sum of squares, or squared totals when the input cells already contain totals AVERAGE AVERAGE(number1, [number2], …) Arithmetic mean Barred y notation for numeric observations SUMPRODUCT SUMPRODUCT(array1, [array2], …) Sum array calculations Combine chi-square cell contributions CHISQ.TEST CHISQ.TEST(actual_range, expected_range) Return the chi-square p-value Observed and expected count tables of matching shape CHISQ.DIST.RT CHISQ.DIST.RT(x, deg_freedom) Right-tail probability Get p from an already calculated chi-square statistic F.DIST.RT F.DIST.RT(x, deg_freedom1, deg_freedom2) Right-tail F probability Get p from an ANOVA F ratio and its numerator/error df The right-tail variants are used for these tests. CHISQ.DIST(x,df,TRUE) and F.DIST(x,df1,df2,TRUE) return left-tail cumulative probabilities instead; the FALSE versions return densities, not p-values.",
+          "excerpt": "Function Syntax Purpose When to use it SUM SUM(number1, [number2], …) Add values Cell and marginal totals SUMSQ SUMSQ(number1, [number2], …) Add squared values Raw sum of squares, or squared totals when the input cells already contain totals AVERAGE…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-excel-use-cases",
+          "heading": "Excel Use Cases",
+          "breadcrumb": [
+            "Understanding Dot Notation in Plain English",
+            "Statistics Implementation",
+            "Excel Use Cases"
+          ],
+          "text": "ANOVA data: enter the four A–B cells as rows 2–5, with the two replicate values in B:C: (8,10), (12,14), (10,12), (18,20). Put =SUM(B2:C2) in D2 and fill to D5. Then: Cell total: D2 = 18; cell mean: =AVERAGE(B2:C2) = 9. A1 total: =SUM(D2:D3) = 44; B2 total: =SUM(D3,D5) = 64. Grand total: =SUM(B2:C5) = 104; raw sum of squares: =SUMSQ(B2:C5) = 1472. Total SS: =SUMSQ(B2:C5)-SUM(B2:C5)^2/8 = 120. Sum of squared cell totals: =SUMSQ(D2:D5) = 2928. These inputs are already totals, unlike the raw observations in B:C. Interaction p-value: =F.DIST.RT(4,1,4) ≈ 0.1161. The nonzero observed interaction is not statistically significant at 0.05 in this tiny example. Chi-square data, on a separate sheet: place 30,20 in B2:C2 and 45,5 in B3:C3. Row totals go in D2:D3, column totals in B4:C4, and the grand total in D4. Put =$D2*B$4/$D$4 in F2, then fill across to G2 and down to row 3. Expected counts in F2:G3 are 37.5,12.5 in both rows. Statistic: =SUMPRODUCT((B2:C3-F2:G3)^2/F2:G3) = 12. P-value: =CHISQ.TEST(B2:C3,F2:G3) ≈ 0.000532. Check: =CHISQ.DIST.RT(12,1) gives the same p-value. Exclude totals from the test ranges. CHISQ.TEST returns a p-value, not the statistic 12. These references assume the exact layouts above and no missing observations.",
+          "excerpt": "ANOVA data: enter the four A–B cells as rows 2–5, with the two replicate values in B:C: (8,10), (12,14), (10,12), (18,20). Put =SUM(B2:C2) in D2 and fill to D5. Then: Cell total: D2 = 18; cell mean: =AVERAGE(B2:C2) = 9. A1 total: =SUM(D2:D3) = 44; B2 total:…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-minitab-navigation",
+          "heading": "Minitab Navigation",
+          "breadcrumb": [
+            "Understanding Dot Notation in Plain English",
+            "Statistics Implementation",
+            "Minitab Navigation"
+          ],
+          "text": "For the ANOVA example, use eight worksheet rows with columns for response, A, and B. Choose Stat → ANOVA → General Linear Model → Fit General Linear Model ; enter the response and the two categorical factors, then include A, B, and A*B in the model. Use Stat → ANOVA → One-Way only for a one-factor question. For a design already defined in Minitab's DOE tools, use Stat → DOE → Factorial → Analyze Factorial Design . For counts, choose Stat → Tables → Chi-Square Test for Association and Summarized data in a two-way table ; supply only the count columns, without totals. Alternatively, Stat → Tables → Cross Tabulation and Chi-Square also provides cross-tabulations and the independence test. Use the Pearson result to match this example.",
+          "excerpt": "For the ANOVA example, use eight worksheet rows with columns for response, A, and B. Choose Stat → ANOVA → General Linear Model → Fit General Linear Model ; enter the response and the two categorical factors, then include A, B, and A*B in the model. Use Stat…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lesson-section-exam-tips",
+          "heading": "Exam Tips",
+          "breadcrumb": [
+            "Understanding Dot Notation in Plain English",
+            "Statistics Implementation",
+            "Exam Tips"
+          ],
+          "text": "For ASQ CSSBB/CQE-style calculations, identify what each index means before substituting numbers. Count the observations inside each total before selecting the denominator. Distinguish a squared total, a sum of squares, a mean square, and a test statistic. For independence, use (rows − 1)(columns − 1), exclude margins, and work with counts. In practice, confirm the design and assumptions before interpreting software p-values.",
+          "excerpt": "For ASQ CSSBB/CQE-style calculations, identify what each index means before substituting numbers. Count the observations inside each total before selecting the denominator. Distinguish a squared total, a sum of squares, a mean square, and a test statistic.…",
+          "kinds": [
+            "section",
+            "example"
           ]
         },
         {
