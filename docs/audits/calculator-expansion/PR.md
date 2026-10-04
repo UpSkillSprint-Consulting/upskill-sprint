@@ -25,7 +25,8 @@ The manual preserves existing material and adds the complete guided workflow in 
 
 ## Delivery and limits
 
-- PR #236 remains open and unmerged. The live preview passed Excel import/regression and missing-value workflow checks. A discovered input-only edit defect is corrected and regression-tested; the corrected preview is awaiting final verification.
+- PR #236 remains open and unmerged. The live preview passed Excel import/regression and missing-value workflow checks. A discovered input-only edit defect is corrected, regression-tested and verified on the deployed preview. Workspace restoration and light/dark desktop rendering also pass.
 - Data stays in browser memory unless explicitly downloaded; workspace JSON files contain the datasets. Existing scientific-calculator history retains its prior browser-storage behavior.
+- Export payloads pass validation, but the cloud browser did not capture live blob-download delivery.
 - XLSX is a bounded, values-only importer. Recalculate/save formulas in Excel first; unsupported formats should be exported as CSV. Dedicated mobile-device and assistive-technology testing remains outstanding.
 - Advanced SPC, MSA and cost-of-quality/verified savings are not part of this guided-workspace addition.
