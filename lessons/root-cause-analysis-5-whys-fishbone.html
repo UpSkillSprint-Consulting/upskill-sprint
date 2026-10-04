@@ -1869,6 +1869,7 @@
         select.className = "matrix-select";
         select.setAttribute("data-key", key);
         select.setAttribute("data-field", field);
+        select.setAttribute("aria-label", field + " rating for " + key.replace("::", ": "));
         [
           { value: "0", label: "Low / none" },
           { value: "1", label: "Medium" },
