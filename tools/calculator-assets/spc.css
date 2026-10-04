@@ -1,0 +1,24 @@
+#pg-spc [hidden]{display:none!important}
+#pg-spc .guide-analysis-grid{grid-template-columns:minmax(280px,.8fr) minmax(0,1.6fr)}
+#pg-spc details{margin:16px 0;line-height:1.6}
+#pg-spc summary{cursor:pointer;font-weight:600}
+#pg-spc .hint,#spc-notes{font-size:13px;line-height:1.65;color:var(--muted);overflow-wrap:anywhere}
+#pg-spc .guide-recommendation{font-size:14px;color:var(--text)}
+#pg-spc .workspace-status{line-height:1.6;overflow-wrap:anywhere}
+#pg-spc .workspace-status[data-error=true]{color:var(--red)}
+#pg-spc button:disabled{opacity:.55;cursor:not-allowed}
+#pg-spc :is(button,input,select,textarea,summary,a):focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+#spc-charts .analysis-figure{margin:16px 0}
+#spc-charts svg{width:100%;height:auto;display:block}
+#spc-charts .spc-limit{stroke:var(--red);stroke-width:1.5;fill:none;stroke-dasharray:6 4}
+#spc-charts .spc-cl{stroke:var(--muted);stroke-width:1.3;fill:none;stroke-dasharray:2 3}
+#spc-charts .spc-data{stroke:var(--teal);stroke-width:1.6;fill:none}
+#spc-charts .spc-signal{fill:var(--red);stroke:var(--panel);stroke-width:1.5}
+#spc-charts text{fill:var(--text);font:12px var(--sans)}
+#spc-charts .spc-boundary{stroke:var(--muted);stroke-dasharray:3 4}
+#spc-capability h3{margin-top:20px}
+#spc-capability p{font-size:14px;line-height:1.65}
+#spc-data{font-family:var(--mono);font-size:13px}
+#spc-source{max-height:80px;overflow:auto}
+@media(max-width:780px){#pg-spc .guide-analysis-grid{grid-template-columns:1fr}}
+@media print{#pg-spc .guide-question-panel,#pg-spc .analysis-actions,#pg-spc .guide-steps{display:none}#pg-spc .guide-analysis-grid{display:block}}

@@ -7,7 +7,7 @@ const {setup}=require('./helpers/calculator-browser');
 function input(w,d,id,value){d.getElementById(id).value=value;d.getElementById(id).dispatchEvent(new w.Event('input',{bubbles:true}));}
 const tick=()=>new Promise(r=>setTimeout(r,20));
 test('all workspaces initialize, tabs have keyboard semantics, and labels are unique',async()=>{
- const {dom,d}=setup();assert.equal(d.querySelectorAll('[role=tab]').length,9);assert.equal(d.querySelectorAll('[aria-selected=true]').length,1);
+ const {dom,d}=setup();assert.equal(d.querySelectorAll('[role=tab]').length,10);assert.equal(d.querySelectorAll('[aria-selected=true]').length,1);
  d.querySelector('[data-page=pg-data]').click();assert.equal(d.querySelector('.page.active').id,'pg-data');
  const ids=[...d.querySelectorAll('[id]')].map(e=>e.id);assert.equal(new Set(ids).size,ids.length);
  for(const el of d.querySelectorAll('input.f,select.f,textarea.f'))assert.ok(el.labels.length,`${el.id} needs a label`);

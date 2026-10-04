@@ -245,5 +245,7 @@
     for(const id of ['goal','design','y','x','group'])if(id in settings)restoreSetting(id,settings[id]);values();for(const [id,value]of Object.entries(settings))restoreSetting(id,value);
     recommendation();invalidate('Worked example loaded. Review the method and assumptions, then run guided analysis.');
   });
+  // Read-only snapshot for the SPC workspace; no cross-workspace live mutation.
+  window.GuidedWorkspace={snapshot(){checkMetadata();D.check(current(),'Import a dataset in Guided Analysis first.');return JSON.parse(JSON.stringify({dataset:current(),settings:options()}));}};
   refresh();
 })();

@@ -1,10 +1,24 @@
 # Calculator assessment — October 4, 2026
 
-The assessment covers the nine workspaces in PR #236, including the guided analysis addition, numerical references, invalid inputs, state changes, worker isolation, and consistency with the user manual. The checked calculations pass after the corrections below. This is a browser implementation with documented scope limits; it is not complete TI-84 Plus CE emulation.
+The assessment covers the ten workspaces in PR #236, including the guided analysis and advanced SPC additions, numerical references, invalid inputs, state changes, worker isolation, and consistency with the user manual. The checked calculations pass after the corrections below. This is a browser implementation with documented scope limits; it is not complete TI-84 Plus CE emulation.
+
+## Advanced SPC addition — recommendation #2
+
+- Nine chart choices: I-MR, X-bar/R (2–10), X-bar/S (2–100), p, np, c, u, EWMA and standardized two-sided CUSUM.
+- Initial baseline rows alone estimate limits. Frozen snapshots retain baseline values/source labels and lock chart type; subsequent observations do not refit estimates. JSON restore recomputes parameters and does not automatically run. Sequential state restarts at the phase boundary/on each complete monitoring sequence.
+- Variable-denominator p/u limits, constant-size np validation, explicit c exposure acknowledgement, selected mean-chart run/trend rules, per-point reasons, all-point report/CSV export, and read-only snapshot handoff from Guided Analysis.
+- Baseline-only overall Pp/Ppk and subgroup pooled-within Cp/Cpk with 90/95/99% intervals. Spread indices use chi-square bounds; centered/one-sided indices use a labelled normal approximation. Observed specification counts are separate from stability and capability. Indices are withheld on baseline signals or without model acknowledgement; intervals below 25 measurements are withheld.
+- Manual §23 covers every workflow, estimator differences, limits and examples. Existing workspaces remain available.
+
+Validation: **56 focused calculator tests pass**, including 11 new SPC tests. Independent NumPy/SciPy fixtures check subgroup mean/spread limits, I-MR estimates, EWMA startup limits, CUSUM recurrence, and pooled/overall capability intervals. Direct checks cover weighted attribute centers/limits, freeze/refit invariance, source-row retention, ties/phase boundaries, degeneracy, one-sided specifications, negative confidence bounds, invalid input, nine UI examples, editing invalidation, guided handoff, save/restore and export payloads. Full site build passes. UI tests caught quoted CSV being fed to the numeric editor parser; internal handoffs/examples now use plain numeric rows while exported CSV remains correctly quoted.
+
+Method references: NIST/SEMATECH §§6.3.2, 6.3.3, 6.1.6 and Minitab normal capability potential-capability methods (pooled degrees of freedom). Fixture generator: `generate-spc-fixtures.py`; fixtures: `tests/fixtures/calculator-spc-reference.json`.
+
+Limits: equal-size numeric subgroups; selected rules only; normal capability model; no exact attribute limits, Laney adjustment, non-normal capability, multivariate SPC or live streaming. Frozen baseline files contain baseline values, not all analysis settings or monitoring input; the full report retains those. Dedicated mobile/assistive-technology testing and live download delivery remain unverified. Deployed browser assessment follows the preview build.
 
 ## Guided analysis addition
 
-The new default workspace connects a reusable dataset to a question, a supported method, an interpretation and next steps. It implements recommendation #1; advanced SPC, measurement system analysis and cost-of-quality/verified savings remain separate future work.
+The new default workspace connects a reusable dataset to a question, a supported method, an interpretation and next steps. It implements recommendation #1; Recommendation #2 adds advanced SPC below; measurement system analysis and cost-of-quality/verified savings remain separate future work.
 
 - Local CSV/TSV parsing and bounded .xlsx import, including worksheet choice, shared/inline strings, cached formula values and common date types. Excel formulas and external links are not executed. Missing caches, hidden rows, filters and merged cells are identified. Package size, decompressed size, dimensions and checksums are checked.
 - Up to five datasets; named columns; paginated cell editing; source row references; duplicate/blank profiling; explicit row exclusions; an exact category filter; opt-in complete-row analysis with paired rows kept together.

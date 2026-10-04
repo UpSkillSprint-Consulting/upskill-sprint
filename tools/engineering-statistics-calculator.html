@@ -258,6 +258,7 @@ html[data-theme="light"] ::selection{color:#FFFFFF}
 
 </style>
 <link rel="stylesheet" href="/tools/calculator-assets/guided.css">
+<link rel="stylesheet" href="/tools/calculator-assets/spc.css">
 <script src="/theme.js"></script>
 <link rel="stylesheet" href="/tools/calculator-assets/analysis.css">
 </head>
@@ -281,6 +282,7 @@ html[data-theme="light"] ::selection{color:#FFFFFF}
       <button class="tab" data-page="pg-dist" role="tab">Distributions</button>
       <button class="tab" data-page="pg-test" role="tab">Hypothesis Tests</button>
       <button class="tab" data-page="pg-data" role="tab">Data &amp; Quality</button>
+      <button class="tab" data-page="pg-spc" role="tab">Advanced SPC</button>
       <button class="tab" data-page="pg-graph" role="tab">Graphing</button>
 <button class="tab" data-page="pg-math" role="tab">Lists &amp; Matrices</button>
 <button class="tab" data-page="pg-finance" role="tab">Finance</button>
@@ -291,6 +293,39 @@ html[data-theme="light"] ::selection{color:#FFFFFF}
 </header>
 
 <div class="wrap">
+
+
+<section class="page" id="pg-spc" aria-label="Advanced SPC workspace">
+ <div class="guide-intro"><div><p class="guide-eyebrow">UNDERSTAND VARIATION · MONITOR CHANGE</p><h2>Know when your process changes.</h2><p>Establish a baseline, monitor new observations against fixed limits, and distinguish process stability from specification compliance.</p></div><a href="/tools/calculator-manual.html#advanced-spc">Advanced SPC manual →</a></div>
+ <ol class="guide-steps"><li><span>1</span> Choose the sampling model</li><li><span>2</span> Review and freeze a baseline</li><li><span>3</span> Investigate signals and capability</li></ol>
+ <div class="guide-analysis-grid">
+ <div class="panel guide-question-panel">
+  <h2>Data &amp; chart design</h2>
+  <label class="f" for="spc-kind">Control chart</label><select class="f" id="spc-kind"><option value="imr">Individuals / moving range</option><option value="xr">X-bar / R — subgroups of 2–10</option><option value="xs">X-bar / S — subgroups of 2–100</option><option value="p">p — fraction nonconforming</option><option value="np">np — nonconforming count</option><option value="c">c — defect count, equal opportunity</option><option value="u">u — defects per unit, varying exposure</option><option value="ewma">EWMA — small sustained shifts</option><option value="cusum">CUSUM — cumulative mean shifts</option></select>
+  <p id="spc-help" class="guide-recommendation"></p>
+  <details><summary>Reuse data from Guided Analysis</summary><p class="hint">Import Excel/CSV and edit it in Guided Analysis first. Choose columns in the order required above. Current explicit exclusions and the exact category filter are applied; blanks are rejected. The copy is a snapshot.</p><p id="spc-columns" class="hint">Select “Show active dataset” to see its columns.</p><button class="btn ghost" id="spc-show-data">Show active dataset</button><label class="f" for="spc-map">Column numbers, in chart order (for example 2,3)</label><input class="f" id="spc-map" value="1"><button class="btn ghost" id="spc-use-data">Copy selected columns</button></details>
+  <label class="f" for="spc-data">Time-ordered numeric rows (no headers)</label><textarea class="f" id="spc-data" rows="9" spellcheck="false" placeholder="Load an example, paste measurements, or copy a guided dataset"></textarea>
+  <p class="hint">Separate columns with commas, tabs or spaces. Up to 10,000 values and 250,000 characters. Missing cells are rejected; blank lines are ignored. Preserve chronological order.</p>
+  <button class="btn ghost" id="spc-example">Load chart example</button>
+  <p id="spc-source" class="hint">Pasted measurements</p>
+  <div id="spc-estimate"><label class="f" for="spc-baseline">Initial rows used to estimate baseline</label><input class="f" id="spc-baseline" value="25" inputmode="numeric"><p class="hint">Only these first rows estimate limits. Later rows are monitoring observations. Include at least 20 representative baseline rows when possible.</p></div>
+  <p id="spc-baseline-status" class="guide-recommendation" role="status">No frozen baseline. Estimate from the first rows.</p>
+  <div class="analysis-actions"><button class="btn ghost" id="spc-freeze" disabled>Freeze reviewed baseline</button><button class="btn ghost" id="spc-release" disabled>Release baseline</button><button class="btn ghost" id="spc-save-baseline" disabled>Save baseline JSON</button></div>
+  <label class="f" for="spc-restore">Restore baseline JSON</label><input class="f" id="spc-restore" type="file" accept=".json">
+  <p class="hint">Freezing keeps only the later monitoring rows in the editor; baseline data remain in the snapshot. With a frozen baseline, paste the complete monitoring sequence each time. Save before closing; there is no automatic storage.</p>
+  <div id="spc-ewma" hidden class="paramrow"><div><label class="f" for="spc-lambda">EWMA λ (0–1)</label><input class="f" id="spc-lambda" value="0.2"></div><div><label class="f" for="spc-L">Limit multiplier L</label><input class="f" id="spc-L" value="3"></div></div>
+  <div id="spc-cusum" hidden class="paramrow"><div><label class="f" for="spc-k">Reference k (sigma units)</label><input class="f" id="spc-k" value="0.5"></div><div><label class="f" for="spc-h">Decision h (sigma units)</label><input class="f" id="spc-h" value="5"></div></div>
+  <label id="spc-rules-box" class="guide-check"><input type="checkbox" id="spc-rules">Also flag 9 points on one side and 6-point trends on the mean chart.</label>
+  <label class="guide-check"><input type="checkbox" id="spc-time-order">I confirm chronological order, one process, independent sampling (or rational subgroups), and a suitable measurement system.</label>
+  <label id="spc-exposure-box" class="guide-check" hidden><input type="checkbox" id="spc-exposure">Every c-chart row has equal inspection opportunity.</label>
+  <details id="spc-specs" open><summary>Specification compliance &amp; capability</summary><p class="hint">Optional engineering limits apply to individual measurements, not subgroup means. Capability estimates use the baseline only.</p><div class="paramrow"><div><label class="f" for="spc-lsl">Lower specification (optional)</label><input class="f" id="spc-lsl" placeholder="LSL"></div><div><label class="f" for="spc-usl">Upper specification (optional)</label><input class="f" id="spc-usl" placeholder="USL"></div></div><label class="f" for="spc-confidence">Capability confidence level</label><select class="f" id="spc-confidence"><option value="0.9">90%</option><option value="0.95" selected>95%</option><option value="0.99">99%</option></select><label class="guide-check"><input type="checkbox" id="spc-normal">For capability inference, I have reviewed a representative, stable, approximately normal process and the measurement system.</label></details>
+  <button class="btn" id="spc-run">Analyze process</button>
+ </div>
+ <div class="panel guide-result-panel"><h2>Process evidence</h2><p id="spc-status" class="workspace-status" role="status" aria-live="polite">Choose a chart and load its example to get started.</p>
+ <div id="spc-output" hidden><div id="spc-summary" class="guide-interpretation"></div><div id="spc-charts"></div><div id="spc-capability"></div><details open><summary>Assumptions &amp; next steps</summary><div id="spc-notes"></div></details><details><summary>Point values, limits &amp; signal reasons</summary><p class="hint">Each chart shows the first 200 table rows here. Download the report or CSV for all rows. No observations are removed automatically.</p><div id="spc-tables"></div></details></div>
+ <div class="analysis-actions"><button class="btn ghost" id="spc-report" disabled>Download SPC report</button><button class="btn ghost" id="spc-csv" disabled>Download chart CSV</button></div>
+ </div></div>
+</section>
 
 <!-- ==================== GUIDED ANALYSIS ==================== -->
 <section class="page active" id="pg-guide" aria-label="Guided analysis workspace">
@@ -1816,6 +1851,8 @@ buildTests(); buildPad(); updMem(); renderHistory(); edClear(); setBadges();
 <script src="/tools/calculator-assets/guided-xlsx.js"></script>
 <script src="/tools/calculator-assets/guided-core.js"></script>
 <script src="/tools/calculator-assets/guided-ui.js"></script>
+<script src="/tools/calculator-assets/spc-core.js"></script>
+<script src="/tools/calculator-assets/spc-ui.js"></script>
 <script src="/contrast-fix.js"></script>
 </body>
 </html>
