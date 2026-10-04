@@ -26,6 +26,7 @@ The manual preserves existing material and adds the complete guided workflow in 
 - UI tests cover worked examples, incorrect inputs, missing pairs, filters, edits, stale results, asynchronous imports, project restoration, exports and handoffs.
 - Full site build succeeds. CI reruns the focused suite on PR updates.
 - Live SPC preview checks pass for X-bar/R capability, frozen-baseline invariance, variable-size p, EWMA, CUSUM and guided dataset handoff. Browser review improved result focus, chart labels, numeric example readability and capability-table wrapping.
+- Live Cost & Savings checks matched the worked example, blocked missing verification evidence, and confirmed capacity valuations do not affect cash NPV. Desktop layout and screenshot evidence are recorded in the assessment.
 - Scope, evidence and remaining limitations are documented in `docs/audits/calculator-expansion/ASSESSMENT.md`.
 
 ## Delivery and limits
