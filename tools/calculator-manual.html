@@ -150,7 +150,7 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
 </header>
 
 <div class="calc-start"><p><strong>New to the calculator?</strong> Start with section 1, then try Guided Analysis in section 22. For process monitoring use section 23; for quality costs and savings use section 24.</p><a href="/tools/engineering-statistics-calculator">Open the calculator <span aria-hidden="true">→</span></a></div>
-<nav class="toc" aria-label="Manual contents"><h2>In this manual</h2>
+<nav class="toc" id="manual-contents" aria-label="Manual contents"><h2>In this manual</h2>
   <ol><li><a href="#quick">Quick start</a></li>
 <li><a href="#display">The display</a></li>
 <li><a href="#typing">Typing equations (Natural Display editor)</a></li>
@@ -184,12 +184,14 @@ html[data-theme="light"] :where(#calculator-shell) ::selection{color:#FFFFFF}
   <li><strong>Scientific Calculator</strong> — a full natural-display calculator that operates like a Casio fx-300ES PLUS 2: you type <em>into</em> stacked fractions, radicals, and exponents, with a SHIFT/ALPHA keypad, memory registers, and a history tape.</li>
   <li><strong>Distributions</strong> — probability calculator for 16 distributions with live shaded-region plots, critical values, and reliability metrics.</li>
   <li><strong>Hypothesis Tests</strong> — ten test presets that compute the statistic, p-value, and decision, and draw the rejection region.</li>
-<li><strong>Data &amp; Quality</strong> — raw-data summaries, regression, capability, I-MR, ANOVA and chi-square.</li><li><strong>Graphing</strong> — function, parametric, polar and sequence plots, tables and numerical calculus.</li><li><strong>Lists &amp; Matrices</strong> — advanced expressions, complex numbers, units and a supported-function catalog.</li><li><strong>Finance</strong> — TVM and amortization, with NPV/IRR in the math workspace.</li><li><strong>Programs</strong> — bounded calculation programs using the documented command subset.</li></ul>
+<li><strong>Data &amp; Quality</strong> — raw-data summaries, regression, capability, I-MR, ANOVA and chi-square.</li><li><strong>Advanced SPC</strong> — choose a chart for your sampling design, establish a baseline, monitor later observations and review capability intervals where supported. See section 23.</li>
+  <li><strong>Cost &amp; Savings</strong> — review COQ/COPQ, compare costs at a common production mix, evaluate cash scenarios and track documented benefits. See section 24.</li>
+  <li><strong>Graphing</strong> — function, parametric, polar and sequence plots, tables and numerical calculus.</li><li><strong>Lists &amp; Matrices</strong> — advanced expressions, complex numbers, units and a supported-function catalog.</li><li><strong>Finance</strong> — TVM and amortization, with NPV/IRR in the math workspace.</li><li><strong>Programs</strong> — bounded calculation programs using the documented command subset.</li></ul>
 
 <div class="ex">
   <div class="lbl">30-second example — evaluate &radic;(59 &divide; 8) + 44</div>
   <div class="keys">Press <kbd>&radic;&#9633;</kbd> &rarr; type <kbd>5</kbd><kbd>9</kbd> &rarr; press <kbd>&#9633;&frasl;&#9633;</kbd> (59 jumps onto the fraction bar) &rarr; type <kbd>8</kbd> &rarr; press <kbd>&#9654;</kbd> twice to climb out &rarr; <kbd>+</kbd> <kbd>4</kbd><kbd>4</kbd> &rarr; <kbd>=</kbd></div>
-  <div class="res">Result: 46.71634&hellip; &mdash; the live "ghost" line shows the answer even before you press =</div>
+  <div class="res">Result: 46.715695&hellip; &mdash; the live "ghost" line shows the answer even before you press =</div>
 </div>
 
 <h2 id="display">2 &middot; The Display</h2>
@@ -507,6 +509,7 @@ Disp S</pre><p>This example prints 55. Supported commands are assignments with �
 <p>All work is local and session-only until explicitly downloaded. Limits: 2,000 data rows and one million characters per table; 3.5 MB saved-project limit; individual numeric inputs within one trillion, with a one-quadrillion line-cost limit. Missing/invalid numbers, unknown categories, duplicate production keys and duplicate benefit IDs are rejected. Period/product output tables show up to 200 rows; full report/CSV retain the calculations. This is an analysis and recordkeeping aid, not an accounting system, approval workflow or independent assurance service.</p>
 <p>Primary references: <a href="https://asq.org/quality-resources/cost-of-quality">ASQ — cost-of-quality categories</a>; <a href="https://projectdelivery.gov.uk/teal-book/home/part-e-planning-and-control/chapter-19-benefits-management/">Government Project Delivery — benefits ownership, tracking and verification</a>. Numerical forecast fixtures use independent 40-digit Python Decimal arithmetic.</p>
 
+<nav class="calc-breadcrumb" aria-label="Continue learning"><a href="#manual-contents">Back to manual contents</a><span aria-hidden="true">·</span><a href="/tools/engineering-statistics-calculator">Open the calculator</a></nav>
 <footer class="doc">
   <p>UpSkill Sprint Consulting — practical tools for quality &amp; continuous-improvement professionals. This manual accompanies <a href="/tools/engineering-statistics-calculator" style="color:var(--calc-teal)">engineering-statistics-calculator.html</a>; the advanced workspaces load locally served JavaScript modules and the bundled math.js engine (Apache-2.0). Print-friendly: use your browser's Print for a light-theme hard copy.</p>
 </footer>

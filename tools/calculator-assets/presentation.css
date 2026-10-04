@@ -16,9 +16,9 @@ html[data-theme="dark"]{--calc-action:#67d4df;--calc-on-action:#0b1220}
 #calculator-shell .calc-start strong{color:var(--calc-text)}
 #calculator-shell .calc-start a{flex-shrink:0;font-size:14px;font-weight:600;color:var(--calc-teal);text-decoration:underline;text-underline-offset:3px}
 #calculator-shell .tabs{gap:4px 8px;padding:4px 0 16px}
-#calculator-shell .tab{font-family:var(--calc-sans);font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;border:1px solid transparent;border-radius:7px;padding:10px 12px;min-height:44px;color:var(--calc-muted);line-height:1.4}
+#calculator-shell .tab{font-family:var(--calc-sans);font-size:13px;font-weight:600;letter-spacing:0;text-transform:none;border:1px solid transparent;border-radius:7px;padding:10px 12px;min-height:44px;color:var(--calc-muted)!important;transition:none;line-height:1.4}
 #calculator-shell .tab:hover{background:var(--calc-panel-2);color:var(--calc-text)}
-#calculator-shell .tab.active{background:var(--calc-action);color:var(--calc-on-action);border-color:var(--calc-action)}
+#calculator-shell .tab.active{background:var(--calc-action);color:var(--calc-on-action)!important;border-color:var(--calc-action)}
 #calculator-shell .btn{min-height:44px;line-height:1.45;white-space:normal;letter-spacing:0;box-shadow:none;transform:none}
 #calculator-shell .btn:not(.ghost){background:var(--calc-action);color:var(--calc-on-action)}
 #calculator-shell :is(button,input,select,textarea,summary,a,[tabindex]):focus-visible{outline:3px solid var(--calc-teal);outline-offset:3px}
@@ -67,3 +67,8 @@ html[data-theme="dark"]{--calc-action:#67d4df;--calc-on-action:#0b1220}
  #calculator-shell{--calc-text:#111;--calc-muted:#333;--calc-faint:#444;--calc-bg:#fff;--calc-panel:#fff;--calc-panel-2:#f1f1f1;--calc-line:#777;--calc-line-soft:#aaa;--calc-teal:#075985;--calc-accent:#713f12;background:#fff;color:#111}
  #calculator-shell.calculator-manual .wrap{max-width:none;padding:0}
 }
+
+/* Key labels and their button share the same intentional foreground. */
+#calculator-shell .key.eqk{background:var(--calc-action);color:var(--calc-on-action)!important}
+#calculator-shell .key.eqk .kmain{color:var(--calc-on-action)!important}
+#calculator-shell .klbl .ka{color:var(--calc-red)}
