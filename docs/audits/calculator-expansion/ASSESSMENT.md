@@ -1,6 +1,20 @@
 # Calculator assessment — October 4, 2026
 
-The assessment covers the ten workspaces in PR #236, including the guided analysis and advanced SPC additions, numerical references, invalid inputs, state changes, worker isolation, and consistency with the user manual. The checked calculations pass after the corrections below. This is a browser implementation with documented scope limits; it is not complete TI-84 Plus CE emulation.
+The assessment covers the eleven workspaces in PR #236, including guided analysis, advanced SPC and quality economics, numerical references, invalid inputs, state changes, worker isolation, and consistency with the user manual. The checked calculations pass after the corrections below. This is a browser implementation with documented scope limits; it is not complete TI-84 Plus CE emulation.
+
+## Cost of quality and verified savings — recommendation #3
+
+The Cost & Savings workspace adds quantity × rate quality-cost lines, four-category COQ/COPQ, cost and allocated-event Pareto rankings, production/revenue metrics and product-specific baseline normalization to the current volume/mix. New products without a baseline block adjusted comparisons rather than inventing a zero rate. Explicit completeness/valuation acknowledgement, duplicate-row warnings and source-preserving Guided Analysis handoff make the scope reviewable.
+
+A separate business-case model provides low/base/high annual cash-benefit sensitivity, year-end NPV, undiscounted cash ROI, simple within-year payback and annual flow tables. Cost avoidance and released capacity remain outside cash calculations. A project-wide benefit register separates Projected, Realized and Verified, uses unique IDs, permits signed reversals, requires evidence/owner/date/notes for verification and subtracts recorded implementation/recurring costs. Verified is a subset of actuals, never an additional amount; the tool records user assertions and does not authenticate approval or inspect evidence.
+
+Versioned save/restore, full text reports, results CSV and manual §24 cover scope, formulas, examples, assumptions and limits. Tables remain local/session-only; restore does not calculate automatically and resets completeness acknowledgement.
+
+Validation: **65 focused calculator tests pass**, including nine quality-economics tests. Independent 40-digit Python Decimal fixtures validate cash-flow NPV/ROI/payback for positive, negative, zero-rate, zero-cost and sensitivity scenarios. Tests check category reconciliation, changing product mix, missing baselines, separate Pareto ordering, zero totals, duplicate IDs/production keys, invalid/future dates, signed reversals, verified-versus-actual status treatment, exclusion of noncash from cash economics, safe text rendering, stale results, guided copying, project restore and complete export payloads. Full site build passes.
+
+Fictitious worked example: February COQ 16,600 CAD, COPQ 14,700 CAD; mix-adjusted reductions 5,900 and 6,300 CAD. Forecast cash NPV 92,447.783621 CAD at 10% over three years. User-recorded verified net cash −9,400 CAD and actual-recorded net cash −4,900 CAD are deliberately distinct from the annual forecast and cost reduction.
+
+References: ASQ cost-of-quality categories and Government Project Delivery benefits-management guidance. `generate-cost-fixtures.py` generates `tests/fixtures/calculator-quality-cost-reference.json` independently of JavaScript. This is bounded analytical recordkeeping, not a financial approval or accounting system. Non-normalized price/fixed-cost effects, missing expenses and double-counted benefits remain user review responsibilities. Mobile/assistive-technology tests and live download delivery remain unverified. Live preview assessment follows deployment.
 
 ## Advanced SPC addition — recommendation #2
 
@@ -18,7 +32,7 @@ Limits: equal-size numeric subgroups; selected rules only; normal capability mod
 
 ## Guided analysis addition
 
-The new default workspace connects a reusable dataset to a question, a supported method, an interpretation and next steps. It implements recommendation #1; Recommendation #2 adds advanced SPC below; measurement system analysis and cost-of-quality/verified savings remain separate future work.
+The new default workspace connects a reusable dataset to a question, a supported method, an interpretation and next steps. It implements recommendation #1; Recommendation #2 adds advanced SPC below; Recommendation #3 adds cost-of-quality and user-recorded benefit verification below; measurement system analysis remains separate future work.
 
 - Local CSV/TSV parsing and bounded .xlsx import, including worksheet choice, shared/inline strings, cached formula values and common date types. Excel formulas and external links are not executed. Missing caches, hidden rows, filters and merged cells are identified. Package size, decompressed size, dimensions and checksums are checked.
 - Up to five datasets; named columns; paginated cell editing; source row references; duplicate/blank profiling; explicit row exclusions; an exact category filter; opt-in complete-row analysis with paired rows kept together.

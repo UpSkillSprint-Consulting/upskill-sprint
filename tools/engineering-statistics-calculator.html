@@ -259,6 +259,7 @@ html[data-theme="light"] ::selection{color:#FFFFFF}
 </style>
 <link rel="stylesheet" href="/tools/calculator-assets/guided.css">
 <link rel="stylesheet" href="/tools/calculator-assets/spc.css">
+<link rel="stylesheet" href="/tools/calculator-assets/quality-cost.css">
 <script src="/theme.js"></script>
 <link rel="stylesheet" href="/tools/calculator-assets/analysis.css">
 </head>
@@ -283,6 +284,7 @@ html[data-theme="light"] ::selection{color:#FFFFFF}
       <button class="tab" data-page="pg-test" role="tab">Hypothesis Tests</button>
       <button class="tab" data-page="pg-data" role="tab">Data &amp; Quality</button>
       <button class="tab" data-page="pg-spc" role="tab">Advanced SPC</button>
+      <button class="tab" data-page="pg-cost" role="tab">Cost &amp; Savings</button>
       <button class="tab" data-page="pg-graph" role="tab">Graphing</button>
 <button class="tab" data-page="pg-math" role="tab">Lists &amp; Matrices</button>
 <button class="tab" data-page="pg-finance" role="tab">Finance</button>
@@ -294,6 +296,31 @@ html[data-theme="light"] ::selection{color:#FFFFFF}
 
 <div class="wrap">
 
+
+
+<section class="page" id="pg-cost" aria-label="Cost of quality and savings workspace">
+ <div class="guide-intro"><div><p class="guide-eyebrow">CONNECT QUALITY TO BUSINESS RESULTS</p><h2>Measure the cost. Verify the benefit.</h2><p>Find the largest quality losses, evaluate an improvement case, and track documented benefits without treating every improvement as cash savings.</p></div><a href="/tools/calculator-manual.html#quality-cost">Cost &amp; savings manual →</a></div>
+ <ol class="guide-steps"><li><span>1</span> Establish cost &amp; volume evidence</li><li><span>2</span> Compare the improvement case</li><li><span>3</span> Track actuals &amp; verification</li></ol>
+ <div class="guide-analysis-grid"><div class="panel guide-question-panel">
+ <h2>Project inputs</h2><div class="analysis-actions"><button class="btn ghost" id="cost-example">Load manufacturing example</button><button class="btn ghost" id="cost-save">Save cost workspace</button></div>
+ <label class="f" for="cost-restore">Restore cost workspace JSON</label><input class="f" id="cost-restore" type="file" accept=".json">
+ <div class="paramrow"><div><label class="f" for="cost-currency">Currency code (one currency)</label><input class="f" id="cost-currency" value="CAD" maxlength="3"></div><div><label class="f" for="cost-productionUnit">Production volume unit</label><input class="f" id="cost-productionUnit" value="tonnes" maxlength="100"></div></div>
+ <details open><summary>1 · Quality cost ledger</summary><p class="hint">Enter the headers below. Categories: Prevention, Appraisal, Internal failure, External failure. Line cost = Quantity × UnitCost. Use quantities such as scrap tonnes or rework/downtime hours and matching rates. Events are separately allocated counts, not quantities.</p><label class="f" for="cost-cost">Cost ledger CSV / Excel paste</label><textarea class="f" id="cost-cost" rows="8" spellcheck="false" placeholder="Period,Product,Category,Cause,Quantity,Unit,UnitCost,Events"></textarea></details>
+ <details open><summary>2 · Production volume &amp; revenue</summary><p class="hint">One row per period/product. Positive volume in one consistent production unit. Blank revenue means unknown; zero means zero. Periods follow table order. A baseline rate for each product adjusts comparisons to the current volume and product mix.</p><label class="f" for="cost-production">Production CSV / Excel paste</label><textarea class="f" id="cost-production" rows="5" spellcheck="false" placeholder="Period,Product,Volume,Revenue"></textarea></details>
+ <details><summary>Import from Guided Analysis</summary><p class="hint">Import Excel/CSV there first. Rename/reorder the columns to exactly match the target table headers. Explicit exclusions and the exact category filter apply. This copies a snapshot, with provenance in the report.</p><label class="f" for="cost-copy-target">Target table</label><select class="f" id="cost-copy-target"><option value="cost">Cost ledger</option><option value="production">Production</option><option value="benefits">Benefits register</option></select><button class="btn ghost" id="cost-copy">Copy active guided dataset</button><p id="cost-source" class="hint">Directly entered tables.</p></details>
+ <button class="btn ghost" id="cost-periods">Read tables &amp; update period choices</button><div class="paramrow"><div><label class="f" for="cost-baseline">Baseline period</label><select class="f" id="cost-baseline"></select></div><div><label class="f" for="cost-current">Comparison / Pareto period</label><select class="f" id="cost-current"></select></div></div>
+ <label class="f" for="cost-assumptions">Baseline, valuation, product-mix &amp; attribution assumptions</label><textarea class="f" id="cost-assumptions" rows="3" maxlength="500" placeholder="Comparable periods; consistent rates; volume unit; scope; confounders; reason for the baseline"></textarea>
+ <label class="guide-check"><input type="checkbox" id="cost-complete">I have reviewed complete, comparable records, consistent valuation and non-overlapping event counts. Missing cost rows represent zero within this scope.</label>
+ <details><summary>3 · Projected improvement business case</summary><p class="hint">Standalone annual forecast, not calculated or verified from the cost reduction. Year 0 implementation outlay; constant annual benefits/costs over the horizon. Only cash savings enter cash NPV, ROI and payback.</p>
+ <div class="paramrow"><div><label class="f" for="cost-cash">Projected annual cash savings</label><input class="f" id="cost-cash" value="0"></div><div><label class="f" for="cost-avoidance">Annual cost avoidance (noncash here)</label><input class="f" id="cost-avoidance" value="0"></div><div><label class="f" for="cost-capacity">Annual released capacity valuation (noncash)</label><input class="f" id="cost-capacity" value="0"></div><div><label class="f" for="cost-initial">Initial implementation cash cost</label><input class="f" id="cost-initial" value="0"></div><div><label class="f" for="cost-recurring">Annual incremental cash operating cost</label><input class="f" id="cost-recurring" value="0"></div><div><label class="f" for="cost-years">Horizon (whole years, 1–30)</label><input class="f" id="cost-years" value="3"></div><div><label class="f" for="cost-discount">Annual discount rate (%)</label><input class="f" id="cost-discount" value="10"></div><div><label class="f" for="cost-sensitivity">Cash benefit sensitivity (±%)</label><input class="f" id="cost-sensitivity" value="20"></div></div><p class="hint">Low/base/high scenarios vary gross cash benefit only; costs stay fixed. Use a rate consistent with your nominal/real cash-flow basis. No tax, inflation, terminal value or borrowing model is applied.</p></details>
+ <details><summary>4 · Benefit &amp; cost verification register</summary><p class="hint">Optional. Types: Cash savings, Cost avoidance, Released capacity, Implementation cost, Recurring cost. Status: Projected, Realized, Verified. Keep one unique ID per benefit/cost and update its status; do not duplicate it across stages. Amounts are period totals in the selected currency; capacity is a noncash valuation.</p><label class="f" for="cost-benefits">Benefit register CSV / Excel paste</label><textarea class="f" id="cost-benefits" rows="7" spellcheck="false" placeholder="ID,Period,Type,Amount,Status,Owner,Evidence,Date,Notes"></textarea><p class="hint">Verified entries require an owner, evidence reference, valid nonfuture date (YYYY-MM-DD) and basis/verification notes. Negative benefit amounts record reversals; cost amounts must be nonnegative. Verification is user-recorded, not authenticated or approved by this tool.</p></details>
+ <button class="btn" id="cost-run">Analyze costs &amp; benefits</button><p class="hint">Session-only, local calculations. Up to 2,000 rows / 1 MB per table. Save before closing. Do not add ledger cost reductions, forecasts and register benefits together.</p>
+ </div><div class="panel guide-result-panel"><h2>Quality economics</h2><p class="workspace-status" id="cost-status" tabindex="-1" role="status" aria-live="polite">Load an example or enter your cost and production tables.</p><div id="cost-output" hidden>
+ <div id="cost-summary" class="guide-interpretation"></div><div id="cost-metrics" class="cost-metrics"></div><div id="cost-categories"></div><details open><summary>Volume, product mix &amp; period tracking</summary><div id="cost-period-table"></div><div id="cost-mix"></div></details><div id="cost-pareto"></div>
+ <details open><summary>Projected business case — cash only</summary><div id="cost-business"></div></details><details><summary>Base-case annual cash flows</summary><div id="cost-flows"></div></details>
+ <details open><summary>Recorded benefits — separate from projections</summary><div id="cost-verification"></div></details><details open><summary>Interpretation &amp; review notes</summary><div id="cost-notes"></div></details>
+ </div><div class="analysis-actions"><button class="btn ghost" id="cost-report" disabled>Download cost &amp; savings report</button><button class="btn ghost" id="cost-csv" disabled>Download results CSV</button></div></div></div>
+</section>
 
 <section class="page" id="pg-spc" aria-label="Advanced SPC workspace">
  <div class="guide-intro"><div><p class="guide-eyebrow">UNDERSTAND VARIATION · MONITOR CHANGE</p><h2>Know when your process changes.</h2><p>Establish a baseline, monitor new observations against fixed limits, and distinguish process stability from specification compliance.</p></div><a href="/tools/calculator-manual.html#advanced-spc">Advanced SPC manual →</a></div>
@@ -1853,6 +1880,8 @@ buildTests(); buildPad(); updMem(); renderHistory(); edClear(); setBadges();
 <script src="/tools/calculator-assets/guided-ui.js"></script>
 <script src="/tools/calculator-assets/spc-core.js"></script>
 <script src="/tools/calculator-assets/spc-ui.js"></script>
+<script src="/tools/calculator-assets/quality-cost-core.js"></script>
+<script src="/tools/calculator-assets/quality-cost-ui.js"></script>
 <script src="/contrast-fix.js"></script>
 </body>
 </html>

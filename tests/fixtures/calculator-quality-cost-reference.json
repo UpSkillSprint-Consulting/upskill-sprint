@@ -1,0 +1,145 @@
+{
+  "source": "Python Decimal 40-digit independent discounted cash-flow arithmetic",
+  "cases": [
+    {
+      "inputs": {
+        "cash": 50000,
+        "initial": 12000,
+        "recurring": 8000,
+        "years": 3,
+        "discount": 10,
+        "sensitivity": 20,
+        "avoidance": 999999,
+        "capacity": 888888
+      },
+      "expected": [
+        {
+          "name": "Low",
+          "npv": 67579.26371149512,
+          "netTotal": 84000.0,
+          "roi": 2.3333333333333335,
+          "payback": 0.375
+        },
+        {
+          "name": "Base",
+          "npv": 92447.78362133734,
+          "netTotal": 114000.0,
+          "roi": 3.1666666666666665,
+          "payback": 0.2857142857142857
+        },
+        {
+          "name": "High",
+          "npv": 117316.30353117957,
+          "netTotal": 144000.0,
+          "roi": 4.0,
+          "payback": 0.23076923076923078
+        }
+      ]
+    },
+    {
+      "inputs": {
+        "cash": 1000,
+        "initial": 3000,
+        "recurring": 100,
+        "years": 5,
+        "discount": 0,
+        "sensitivity": 50,
+        "avoidance": 999999,
+        "capacity": 888888
+      },
+      "expected": [
+        {
+          "name": "Low",
+          "npv": -1000.0,
+          "netTotal": -1000.0,
+          "roi": -0.2857142857142857,
+          "payback": null
+        },
+        {
+          "name": "Base",
+          "npv": 1500.0,
+          "netTotal": 1500.0,
+          "roi": 0.42857142857142855,
+          "payback": 3.3333333333333335
+        },
+        {
+          "name": "High",
+          "npv": 4000.0,
+          "netTotal": 4000.0,
+          "roi": 1.1428571428571428,
+          "payback": 2.142857142857143
+        }
+      ]
+    },
+    {
+      "inputs": {
+        "cash": 100,
+        "initial": 1000,
+        "recurring": 200,
+        "years": 3,
+        "discount": 12,
+        "sensitivity": 100,
+        "avoidance": 999999,
+        "capacity": 888888
+      },
+      "expected": [
+        {
+          "name": "Low",
+          "npv": -1480.3662536443148,
+          "netTotal": -1600.0,
+          "roi": -1.0,
+          "payback": null
+        },
+        {
+          "name": "Base",
+          "npv": -1240.1831268221574,
+          "netTotal": -1300.0,
+          "roi": -0.8125,
+          "payback": null
+        },
+        {
+          "name": "High",
+          "npv": -1000.0,
+          "netTotal": -1000.0,
+          "roi": -0.625,
+          "payback": null
+        }
+      ]
+    },
+    {
+      "inputs": {
+        "cash": 0,
+        "initial": 0,
+        "recurring": 0,
+        "years": 1,
+        "discount": 0,
+        "sensitivity": 0,
+        "avoidance": 999999,
+        "capacity": 888888
+      },
+      "expected": [
+        {
+          "name": "Low",
+          "npv": 0.0,
+          "netTotal": 0.0,
+          "roi": null,
+          "payback": 0.0
+        },
+        {
+          "name": "Base",
+          "npv": 0.0,
+          "netTotal": 0.0,
+          "roi": null,
+          "payback": 0.0
+        },
+        {
+          "name": "High",
+          "npv": 0.0,
+          "netTotal": 0.0,
+          "roi": null,
+          "payback": 0.0
+        }
+      ]
+    }
+  ]
+}

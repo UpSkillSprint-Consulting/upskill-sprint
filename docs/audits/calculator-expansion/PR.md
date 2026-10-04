@@ -1,4 +1,4 @@
-# Advanced SPC, guided analysis and engineering calculator expansion
+# Guided analysis, advanced SPC and quality economics
 
 The calculator needed a path from a process question to a suitable analysis. Users otherwise had to choose a method, reshape data, transfer summary values and interpret the output separately.
 
@@ -12,13 +12,15 @@ This PR adds a Guided Analysis workspace as the starting tab:
 
 Recommendation #2 adds Advanced SPC: I-MR, X-bar/R, X-bar/S, p/np/c/u, EWMA and CUSUM; baseline/monitoring separation, frozen baseline JSON, source-traceable dataset handoff, selected run/trend rules, and baseline capability confidence intervals. Specification compliance remains distinct from chart stability. Manual section 23 documents methods, examples, assumptions and limits.
 
+Recommendation #3 adds Cost & Savings: four-category COQ/COPQ, cost/frequency Pareto, product-mix/volume-adjusted baseline comparisons, independent cash NPV/ROI/payback and sensitivity scenarios, and a user-maintained verification register with source/evidence/owner records. Cash, cost avoidance and capacity stay separate. Manual §24, saved projects and full reports document the workflow. Verification is user-recorded, not authenticated by the tool.
+
 It also retains the earlier PR expansion: raw-data quality analysis; graphing and calculus; advanced lists/matrices/complex math; finance and amortization; bounded calculation programs; and corrections to numeric validation, distribution boundaries/tails, TVM, angle modes, unsupported callbacks and stale results.
 
 The manual preserves existing material and adds the complete guided workflow in section 22, with worked examples, import limits, privacy, exclusions, reports and saved projects. The TI capability map remains explicit: this is not complete TI-84 hardware/OS/app or TI-BASIC emulation.
 
 ## Verification
 
-- 56 calculator engine/interface/manual tests pass, including 11 advanced-SPC tests and independent SciPy reference fixtures.
+- 65 calculator engine/interface/manual tests pass, including 11 advanced-SPC and nine quality-economics tests; independent SciPy and 40-digit Decimal fixtures support the numerical checks.
 - 360 fixed SciPy 1.17.0 distribution comparisons, plus five independent guided t-inference reference cases.
 - Excel tests cover compressed/stored ZIPs, shared/inline strings, sheets, date conversion, caches and invalid/oversized/corrupt XML packages.
 - UI tests cover worked examples, incorrect inputs, missing pairs, filters, edits, stale results, asynchronous imports, project restoration, exports and handoffs.
@@ -32,4 +34,4 @@ The manual preserves existing material and adds the complete guided workflow in 
 - Data stays in browser memory unless explicitly downloaded; workspace JSON files contain the datasets. Existing scientific-calculator history retains its prior browser-storage behavior.
 - Export payloads pass validation, but the cloud browser did not capture live blob-download delivery.
 - XLSX is a bounded, values-only importer. Recalculate/save formulas in Excel first; unsupported formats should be exported as CSV. Dedicated mobile-device and assistive-technology testing remains outstanding.
-- MSA and cost-of-quality/verified savings remain outside this addition. SPC supports equal-size numeric subgroups and selected rules; exact count limits, dispersion corrections, non-normal capability and streaming state are not implemented.
+- MSA remains outside this addition. Cost comparisons do not automatically establish cash savings, project causation or independent verification. SPC supports equal-size numeric subgroups and selected rules; exact count limits, dispersion corrections, non-normal capability and streaming state are not implemented.
