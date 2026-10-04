@@ -1,0 +1,28 @@
+:where(#calculator-shell) #pg-spc [hidden]{display:none!important}
+:where(#calculator-shell) #pg-spc .guide-analysis-grid{grid-template-columns:minmax(280px,.8fr) minmax(0,1.6fr)}
+:where(#calculator-shell) #pg-spc details{margin:16px 0;line-height:1.6}
+:where(#calculator-shell) #pg-spc summary{cursor:pointer;font-weight:600}
+:where(#calculator-shell) #pg-spc .hint,:where(#calculator-shell) #spc-notes{font-size:13px;line-height:1.65;color:var(--calc-muted);overflow-wrap:anywhere}
+:where(#calculator-shell) #pg-spc .guide-recommendation{font-size:14px;color:var(--calc-text)}
+:where(#calculator-shell) #pg-spc .workspace-status{line-height:1.6;overflow-wrap:anywhere}
+:where(#calculator-shell) #pg-spc .workspace-status[data-error=true]{color:var(--calc-red)}
+:where(#calculator-shell) #pg-spc button:disabled{opacity:.55;cursor:not-allowed}
+:where(#calculator-shell) #pg-spc :is(button,input,select,textarea,summary,a):focus-visible{outline:3px solid var(--calc-teal);outline-offset:3px}
+:where(#calculator-shell) #spc-charts .analysis-figure{margin:16px 0}
+:where(#calculator-shell) #spc-charts svg{width:100%;height:auto;display:block}
+:where(#calculator-shell) #spc-charts .spc-limit{stroke:var(--calc-red);stroke-width:1.5;fill:none;stroke-dasharray:6 4}
+:where(#calculator-shell) #spc-charts .spc-cl{stroke:var(--calc-muted);stroke-width:1.3;fill:none;stroke-dasharray:2 3}
+:where(#calculator-shell) #spc-charts .spc-data{stroke:var(--calc-teal);stroke-width:1.6;fill:none}
+:where(#calculator-shell) #spc-charts .spc-signal{fill:var(--calc-red);stroke:var(--calc-panel);stroke-width:1.5}
+:where(#calculator-shell) #spc-charts text{fill:var(--calc-text);font:12px var(--calc-sans)}
+:where(#calculator-shell) #spc-charts .spc-boundary{stroke:var(--calc-muted);stroke-dasharray:3 4}
+:where(#calculator-shell) #spc-capability h3{margin-top:20px}
+:where(#calculator-shell) #spc-capability p{font-size:14px;line-height:1.65}
+:where(#calculator-shell) #spc-data{font-family:var(--calc-mono);font-size:13px}
+:where(#calculator-shell) #spc-source{max-height:80px;overflow:auto}
+@media(max-width:780px){:where(#calculator-shell) #pg-spc .guide-analysis-grid{grid-template-columns:1fr}}
+@media print{:where(#calculator-shell) #pg-spc .guide-question-panel,:where(#calculator-shell) #pg-spc .analysis-actions,:where(#calculator-shell) #pg-spc .guide-steps{display:none}:where(#calculator-shell) #pg-spc .guide-analysis-grid{display:block}}
+
+:where(#calculator-shell) #spc-capability table{width:100%;min-width:0}
+:where(#calculator-shell) #spc-capability td:last-child,:where(#calculator-shell) #spc-capability th:last-child{white-space:normal;min-width:150px;max-width:250px}
+:where(#calculator-shell) #spc-status{scroll-margin-top:16px}

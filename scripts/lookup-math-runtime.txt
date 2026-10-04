@@ -1,0 +1,17 @@
+(function () {
+  const escape = value => value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  window.LookupMath.format = function (text) {
+    let output = '';
+    while (text) {
+      let first = text.length, pair;
+      for (const item of window.LookupMath.inline) {
+        const at = text.indexOf(item[0]);
+        if (at >= 0 && at < first) { first = at; pair = item; }
+      }
+      output += escape(text.slice(0,first));
+      if (!pair) break;
+      output += pair[1]; text = text.slice(first + pair[0].length);
+    }
+    return output;
+  };
+})();

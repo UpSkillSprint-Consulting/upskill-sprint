@@ -1,0 +1,101 @@
+# Calculator assessment — October 4, 2026
+
+The assessment covers the eleven workspaces in PR #236, including guided analysis, advanced SPC and quality economics, numerical references, invalid inputs, state changes, worker isolation, and consistency with the user manual. The checked calculations pass after the corrections below. This is a browser implementation with documented scope limits; it is not complete TI-84 Plus CE emulation.
+
+## Cost of quality and verified savings — recommendation #3
+
+The Cost & Savings workspace adds quantity × rate quality-cost lines, four-category COQ/COPQ, cost and allocated-event Pareto rankings, production/revenue metrics and product-specific baseline normalization to the current volume/mix. New products without a baseline block adjusted comparisons rather than inventing a zero rate. Explicit completeness/valuation acknowledgement, duplicate-row warnings and source-preserving Guided Analysis handoff make the scope reviewable.
+
+A separate business-case model provides low/base/high annual cash-benefit sensitivity, year-end NPV, undiscounted cash ROI, simple within-year payback and annual flow tables. Cost avoidance and released capacity remain outside cash calculations. A project-wide benefit register separates Projected, Realized and Verified, uses unique IDs, permits signed reversals, requires evidence/owner/date/notes for verification and subtracts recorded implementation/recurring costs. Verified is a subset of actuals, never an additional amount; the tool records user assertions and does not authenticate approval or inspect evidence.
+
+Versioned save/restore, full text reports, results CSV and manual §24 cover scope, formulas, examples, assumptions and limits. Tables remain local/session-only; restore does not calculate automatically and resets completeness acknowledgement.
+
+Validation: **65 focused calculator tests pass**, including nine quality-economics tests. Independent 40-digit Python Decimal fixtures validate cash-flow NPV/ROI/payback for positive, negative, zero-rate, zero-cost and sensitivity scenarios. Tests check category reconciliation, changing product mix, missing baselines, separate Pareto ordering, zero totals, duplicate IDs/production keys, invalid/future dates, signed reversals, verified-versus-actual status treatment, exclusion of noncash from cash economics, safe text rendering, stale results, guided copying, project restore and complete export payloads. Full site build passes.
+
+Fictitious worked example: February COQ 16,600 CAD, COPQ 14,700 CAD; mix-adjusted reductions 5,900 and 6,300 CAD. Forecast cash NPV 92,447.783621 CAD at 10% over three years. User-recorded verified net cash −9,400 CAD and actual-recorded net cash −4,900 CAD are deliberately distinct from the annual forecast and cost reduction.
+
+References: ASQ cost-of-quality categories and Government Project Delivery benefits-management guidance. `generate-cost-fixtures.py` generates `tests/fixtures/calculator-quality-cost-reference.json` independently of JavaScript. This is bounded analytical recordkeeping, not a financial approval or accounting system. Non-normalized price/fixed-cost effects, missing expenses and double-counted benefits remain user review responsibilities. Mobile/assistive-technology tests and live download delivery remain unverified. Live preview checks matched the February example (COQ CAD 16,600; COPQ CAD 14,700; adjusted COQ reduction CAD 5,900). Removing a verified entry’s evidence blocked analysis and disabled exports. Increasing projected capacity valuation from CAD 12,000 to CAD 1,200,000 left cash NPV unchanged. Desktop layout was reviewed at 1363px with no horizontal page overflow. Screenshot: `quality-cost-workspace.jpg`.
+
+## Advanced SPC addition — recommendation #2
+
+- Nine chart choices: I-MR, X-bar/R (2–10), X-bar/S (2–100), p, np, c, u, EWMA and standardized two-sided CUSUM.
+- Initial baseline rows alone estimate limits. Frozen snapshots retain baseline values/source labels and lock chart type; subsequent observations do not refit estimates. JSON restore recomputes parameters and does not automatically run. Sequential state restarts at the phase boundary/on each complete monitoring sequence.
+- Variable-denominator p/u limits, constant-size np validation, explicit c exposure acknowledgement, selected mean-chart run/trend rules, per-point reasons, all-point report/CSV export, and read-only snapshot handoff from Guided Analysis.
+- Baseline-only overall Pp/Ppk and subgroup pooled-within Cp/Cpk with 90/95/99% intervals. Spread indices use chi-square bounds; centered/one-sided indices use a labelled normal approximation. Observed specification counts are separate from stability and capability. Indices are withheld on baseline signals or without model acknowledgement; intervals below 25 measurements are withheld.
+- Manual §23 covers every workflow, estimator differences, limits and examples. Existing workspaces remain available.
+
+Validation: **56 focused calculator tests pass**, including 11 new SPC tests. Independent NumPy/SciPy fixtures check subgroup mean/spread limits, I-MR estimates, EWMA startup limits, CUSUM recurrence, and pooled/overall capability intervals. Direct checks cover weighted attribute centers/limits, freeze/refit invariance, source-row retention, ties/phase boundaries, degeneracy, one-sided specifications, negative confidence bounds, invalid input, nine UI examples, editing invalidation, guided handoff, save/restore and export payloads. Full site build passes. UI tests caught quoted CSV being fed to the numeric editor parser; internal handoffs/examples now use plain numeric rows while exported CSV remains correctly quoted.
+
+Method references: NIST/SEMATECH §§6.3.2, 6.3.3, 6.1.6 and Minitab normal capability potential-capability methods (pooled degrees of freedom). Fixture generator: `generate-spc-fixtures.py`; fixtures: `tests/fixtures/calculator-spc-reference.json`.
+
+Limits: equal-size numeric subgroups; selected rules only; normal capability model; no exact attribute limits, Laney adjustment, non-normal capability, multivariate SPC or live streaming. Frozen baseline files contain baseline values, not all analysis settings or monitoring input; the full report retains those. Dedicated mobile/assistive-technology testing and live download delivery remain unverified. Live preview validated X-bar/R with 25 baseline and 10 monitoring subgroups: 0 baseline signal points and 9 monitoring signal points, despite 0 observed out-of-spec measurements. Freezing retained identical capability results (Cpk 1.66941145, 95% approximate interval 1.43078181–1.90804108) and the same monitoring signals. Variable-size p, EWMA and CUSUM examples also ran successfully. Guided dataset copying retained revision, selected column and source row provenance. Browser review prompted cleaner example values, explicit chart-panel names, wrapping interval-method text and focus/scroll to results after running; automated focus regression checks pass. Final deployed fixes are verified: clean numeric examples, explicit X-bar panel title, and result focus with the status scrolled to 16 px from the viewport top. Light/dark desktop layouts are readable; page width has no document overflow at 1363 px. Evidence screenshot: `spc-workspace.jpg`.
+
+## Guided analysis addition
+
+The new default workspace connects a reusable dataset to a question, a supported method, an interpretation and next steps. It implements recommendation #1; Recommendation #2 adds advanced SPC below; Recommendation #3 adds cost-of-quality and user-recorded benefit verification below; measurement system analysis remains separate future work.
+
+- Local CSV/TSV parsing and bounded .xlsx import, including worksheet choice, shared/inline strings, cached formula values and common date types. Excel formulas and external links are not executed. Missing caches, hidden rows, filters and merged cells are identified. Package size, decompressed size, dimensions and checksums are checked.
+- Up to five datasets; named columns; paginated cell editing; source row references; duplicate/blank profiling; explicit row exclusions; an exact category filter; opt-in complete-row analysis with paired rows kept together.
+- Questions route to summary, Welch or paired t, one-sample t, classical ANOVA, linear regression, existing I-MR/capability or categorical independence. Guidance uses study design rather than an automated normality gate. Confidence, difference direction and practical thresholds are explicit.
+- Session-only data with a versioned JSON save/restore workflow; reports include included values, settings, dataset revision, full exclusions and edit history. CSV exports guard formula-like text. Data and setting changes invalidate results.
+- Handoffs use the current included values. Existing Data & Quality limits are respected; a valid Welch result with one zero-spread group stays in the guide because the legacy summary form requires positive standard deviations.
+- Manual §22, quick start and TOC cover all workflows and limitations. The process-change example reports difference −0.5333333333 mm and 95% interval [−0.7515055393, −0.3151611274] mm.
+
+Validation at implementation: **45 calculator tests pass**, including the original 360 distribution reference comparisons and five independent SciPy guided-inference cases (Welch, paired, one-sample, unequal variance/sample size, small scale, and multiple confidence levels). Import/UI tests cover quoted/multiline CSV, bad inputs, exclusions and filtering, missing pairs, both XLSX compression modes, shared strings, multiple worksheets, dates, missing formula caches, corrupt/oversized/DTD-containing workbooks, saved-project roundtrips, safe text rendering, asynchronous import races, state invalidation and analysis handoffs. The full site build passes. Live preview confirmed Excel worksheet selection and regression, CSV missing-value blocking/explicit complete-row analysis, and readable desktop layout without page overflow. It exposed a cell edit that updated the displayed value without committing to the dataset when no change event followed the input event. Cell edits now commit on input without replacing the active editor, edit history is coalesced within an editing session, and a regression test verifies the changed estimate. Dataset and column names also commit promptly, and invalid metadata blocks analysis/export. The corrected live preview was verified: changing the first process-example value from 10.5 to 11.1 immediately advances the revision and changes the estimated difference to −0.633333333 mm; restoring 10.5 returns −0.533333333 mm. Saved-workspace restoration and light/dark desktop rendering also pass. Evidence screenshot: `guided-workspace.jpg`. Live blob-download capture timed out; payload validation passed, but actual download delivery is not claimed.
+
+References/fixtures: `tests/fixtures/calculator-guided-reference.json`, `tests/fixtures/calculator-guided-xlsx.json`; regenerate with `python docs/audits/calculator-expansion/generate-guided-fixtures.py` (SciPy 1.17.0 and openpyxl 3.1.5). The tests run without Python. The custom XLSX reader is a bounded values importer, not full spreadsheet compatibility. Dedicated mobile-device and assistive-technology validation remains outstanding.
+
+## Findings and fixes
+
+| Finding | Effect before correction | Correction and verification |
+| --- | --- | --- |
+| Incomplete gamma series stopped after 500 iterations | At the median of chi-square with 1,000,000 df, CDF was approximately 0.2602 instead of 0.5 | Convergence-driven iteration with a finite cap; unconverged values return failure. SciPy CDF, survival and inverse fixtures now pass. |
+| Continuous density endpoints were forced to zero | Gamma/Weibull shape 1 and chi-square df 2 had incorrect density at zero; uniform Beta endpoints were wrong | Correct finite, zero and infinite endpoint limits; explicit endpoint tests. |
+| Hypergeometric upper tail used subtraction from 1 | Small tail probabilities lost accuracy | Sum the upper-tail masses directly. |
+| Small positive probabilities rounded to zero | Values such as 1e-8 displayed as 0 | Scientific notation for small positive probabilities; singular densities display infinity. |
+| Root solver accepted any small residual as zero | `solve("1e-15*(x-2)",0,3)` returned 0 instead of 2 | Converge on bracket width, check scaled residual, reject reversed/nonfinite brackets and tested discontinuities. |
+| TVM used differences of large nearly equal values for coefficients | Large valid balances could report an unidentifiable unknown or lose accuracy | Direct linear coefficients; discounted/scaled equations for rate/N; finite-result validation and rejection of all-zero non-unique cash flows. Addressed the PR review’s −99% case by deriving the rate bound from compounding frequency and expanding positive bounds; −1,188% nominal monthly and +10,000% annual fixtures also pass. |
+| Multi-line Ans stored a result container | `A=2` followed by `A+3`, then `Ans*2`, failed | Ans now stores the final value; expected output 10. |
+| Angle mode covered only part of the trig catalog | csc/sec/cot/atan2 ignored DEG; string helpers used RAD even in DEG | All circular trig/inverse helpers and nested numerical helpers honor the selected angle unit. Complex argument remains radians, as documented. |
+| Unsupported functions could be passed as callbacks | `map(["2+2"],evaluate)` bypassed the intended catalog | Validate function references as well as direct calls; reject reserved loop variable names. Supported callbacks remain usable. |
+| Old table/program/finance output could survive input edits or pending responses | Output could be mistaken for current input results | Clear old output and ignore outdated response versions. Math/program execution and worker resets also invalidate graphs based on shared variables. |
+| Graph click trace used the full SVG width instead of plot geometry | Click position did not correctly identify the plotted point | Select the nearest sampled point on the chosen curve. |
+| Value/derivative required an unused upper bound | Clearing b prevented an operation that only needs a | Only validate b for operations that use an interval. |
+| Numerical failure could produce a misleading hypothesis decision | NaN comparisons could fall into “fail to reject” | Reject nonfinite p-values/critical values before producing a decision. |
+
+## Executed validation
+
+- 28 calculator tests pass. These include 360 numerical comparisons against fixed SciPy 1.17.0 output, covering PDF/PMF, CDF, inclusive upper tails and quantiles for all 16 distributions plus a large-df chi-square case.
+- Fixture tolerance: 1e-8 relative, with 1e-20 absolute floor. This is a test tolerance, not a universal precision guarantee.
+- 8 additional existing tests pass for contrast/theme behavior and tool-directory integration.
+- Full `npm run build:site` succeeds. Generated unrelated lesson files are excluded from this PR.
+- Deploy preview verification: multi-line Ans → 10; DEG csc(30) → 2, atan2(1,1) → 45, nDeriv(sin(x),0) → π/180, integral sin(x) over 0–180 → 360/π; scaled root → 2; large-df chi-square median CDF → approximately 0.5. TVM payment and 60-row amortization render successfully.
+- Function graph and trace render in both light and dark desktop themes. Scientific keypad entry 2+3 returns 5. The manual loads, contains the corrected angle explanation, has no broken TOC targets, and retains its explicit partial-compatibility notice.
+- Export payload tests validate parseable SVG, CSV mean output and preserved program source. The cloud browser could not capture the live blob-download event, so actual file delivery has not been verified through that browser.
+- Manual updated for angle behavior, multi-line Ans, stale output, TVM equations/search limits and numerical limitations.
+
+Fixtures are checked into `tests/fixtures/calculator-distributions.json`. To regenerate with SciPy installed, run `python docs/audits/calculator-expansion/generate-reference-fixtures.py` from the repository root. CI consumes the committed values and does not require Python/SciPy.
+
+## Remaining limits
+
+- Full TI-BASIC, TI device/file interfaces, proprietary apps, several regression families and TI-specific editors are not implemented. Manual §20 remains explicit about the gaps.
+- Tests cover selected representative and edge cases. Floating-point overflow/underflow, ill-conditioned matrices and extreme inputs still require care.
+- Sampled graphs/integration can miss narrow or highly oscillatory features; extrema searches assume a unimodal interval. A sign-changing bracket does not prove mathematical continuity.
+- TVM rate searches use the compounding domain and up to 40 upper-bound expansions; N searches remain bounded; IRR can have multiple solutions. Financial examples are mathematical cash-flow checks, not lender-specific schedules.
+- Worker limits reduce hangs and disallow unsupported function references; this assessment is not a formal security certification.
+- Desktop rendering is checked on the deploy preview. Dedicated mobile-device and assistive-technology testing has not been completed in this environment.
+
+## Primary references
+
+- [SciPy continuous-distribution definitions](https://docs.scipy.org/doc/scipy/tutorial/stats/continuous.html)
+- [NIST Gamma distribution](https://www.itl.nist.gov/div898/handbook/eda/section3/eda366b.htm)
+- [NIST Weibull distribution](https://www.itl.nist.gov/div898/handbook/eda/section3/eda3668.htm)
+- [math.js expression security](https://mathjs.org/docs/expressions/security.html)
+
+
+## Student interface follow-up
+
+See `STUDENT-UI-ASSESSMENT.md` for the October 4 top-down student review, shared-chrome integration, 68-test calculator result, responsive/theme checks and confirmed broader-repository blockers. This follow-up does not claim a full accessibility certification or a universally green repository test suite.
+# Final independent-reference QA addendum
+
+The 4 October final pass is recorded in [FINAL-QA-AUDIT.md](FINAL-QA-AUDIT.md). It supersedes earlier calculator test totals: **78 tests now pass**, including 100 fresh independently generated regression/Welch cases. Numerical boundary, chart-rendering and manual defects found in that pass are corrected. Review its explicit repository-test, download-delivery and device/accessibility limitations before release; the PR remains unmerged.

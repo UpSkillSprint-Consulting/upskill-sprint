@@ -1,0 +1,25 @@
+{
+  "scipy": "1.17.0",
+  "checks": {
+    "Z": 820,
+    "t": 372,
+    "chisquare": 440,
+    "F": 9248,
+    "binomial_pmf": 1235,
+    "binomial_cmf": 1235,
+    "poisson_pmf": 2860,
+    "poisson_cmf": 2860,
+    "exponential": 122,
+    "median_ranks": 465,
+    "normal_scores": 465,
+    "sigma_level": 360,
+    "tolerance_one_sided": 696,
+    "tolerance_two_sided": 696,
+    "control_constants": 384,
+    "studentized_range": 47,
+    "duncan_multiple_range": 47,
+    "random_digits": 50
+  },
+  "total": 22402,
+  "failures": []
+}

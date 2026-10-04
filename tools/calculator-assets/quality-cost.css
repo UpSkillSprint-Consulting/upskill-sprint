@@ -1,0 +1,24 @@
+:where(#calculator-shell) #pg-cost [hidden]{display:none!important}
+:where(#calculator-shell) #pg-cost details{margin:16px 0;line-height:1.65}
+:where(#calculator-shell) #pg-cost summary{font-weight:600;cursor:pointer}
+:where(#calculator-shell) #pg-cost .hint,:where(#calculator-shell) #cost-notes{font-size:13px;line-height:1.65;color:var(--calc-muted);overflow-wrap:anywhere}
+:where(#calculator-shell) #pg-cost textarea{font:12px var(--calc-mono)}
+:where(#calculator-shell) #pg-cost .workspace-status{line-height:1.6;overflow-wrap:anywhere}
+:where(#calculator-shell) #pg-cost .workspace-status[data-error=true]{color:var(--calc-red)}
+:where(#calculator-shell) #pg-cost button:disabled{opacity:.55;cursor:not-allowed}
+:where(#calculator-shell) #pg-cost :is(button,input,select,textarea,summary,a):focus-visible{outline:3px solid var(--calc-teal);outline-offset:3px}
+:where(#calculator-shell) #cost-status{scroll-margin-top:16px}
+:where(#calculator-shell) .cost-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+:where(#calculator-shell) .cost-metric{padding:14px;border:1px solid var(--calc-line);border-radius:8px;background:var(--calc-panel-2)}
+:where(#calculator-shell) .cost-metric span{display:block;font-size:13px;color:var(--calc-muted)}
+:where(#calculator-shell) .cost-metric strong{display:block;font-size:23px;margin:7px 0;overflow-wrap:anywhere}
+:where(#calculator-shell) .cost-pareto{margin:22px 0}
+:where(#calculator-shell) .cost-pareto h3{font-size:17px;margin:10px 0}
+:where(#calculator-shell) .cost-bar-row{margin:12px 0;font-size:13px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 10px}
+:where(#calculator-shell) .cost-bar-track{grid-column:1/-1;height:10px;background:var(--calc-panel-2);border:1px solid var(--calc-line);border-radius:4px;overflow:hidden}
+:where(#calculator-shell) .cost-bar-fill{height:100%;background:var(--calc-teal)}
+:where(#calculator-shell) #cost-business p,:where(#calculator-shell) #cost-verification p,:where(#calculator-shell) #cost-mix p{font-size:14px;line-height:1.65}
+:where(#calculator-shell) #cost-output .analysis-table{max-height:420px}
+:where(#calculator-shell) #cost-output th,:where(#calculator-shell) #cost-output td{white-space:normal;min-width:80px}
+@media(max-width:780px){:where(#calculator-shell) #pg-cost .guide-analysis-grid{grid-template-columns:1fr}:where(#calculator-shell) .cost-metrics{grid-template-columns:1fr}}
+@media print{:where(#calculator-shell) #pg-cost .guide-question-panel,:where(#calculator-shell) #pg-cost .analysis-actions,:where(#calculator-shell) #pg-cost .guide-steps{display:none}:where(#calculator-shell) #pg-cost .guide-analysis-grid{display:block}}

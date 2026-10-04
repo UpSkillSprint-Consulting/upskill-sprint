@@ -1,0 +1,36 @@
+{
+ "tables": {
+  "z":{"tex":["\\Phi(z)=\\Pr(Z\\le z)","\\Pr(Z>z)=1-\\Phi(z)"],"note":"The standard-normal cumulative distribution gives the area to the left of the entered value."},
+  "t":{"tex":["\\Pr(T_\\nu>t_{\\alpha,\\nu})=\\alpha"],"note":"The subscript alpha denotes the upper-tail probability; nu is the degrees of freedom."},
+  "chi_square":{"tex":["\\Pr(\\chi^2_\\nu>c_{\\alpha,\\nu})=\\alpha"],"note":"Critical values use upper-tail probability alpha and degrees of freedom nu."},
+  "f":{"tex":["\\Pr(F_{\\nu_1,\\nu_2}>f_{\\alpha;\\nu_1,\\nu_2})=\\alpha"],"note":"The numerator degrees of freedom come first; the denominator degrees of freedom come second."},
+  "binomial_pmf":{"tex":["\\Pr(X=x)=\\binom{n}{x}p^x(1-p)^{n-x}"],"note":"Independent trials with constant success probability; the count ranges from zero through n."},
+  "binomial_cmf":{"tex":["\\Pr(X\\le x)=\\sum_{j=0}^{x}\\binom{n}{j}p^j(1-p)^{n-j}"],"note":"The cumulative probability includes the entered count."},
+  "poisson_pmf":{"tex":["\\Pr(X=x)=\\frac{e^{-\\lambda}\\lambda^x}{x!}"],"note":"Lambda is the expected count in the observation interval."},
+  "poisson_cmf":{"tex":["\\Pr(X\\le x)=e^{-\\lambda}\\sum_{j=0}^{x}\\frac{\\lambda^j}{j!}"],"note":"The cumulative probability includes the entered count."},
+  "exponential":{"tex":["X=\\lambda t=\\frac{t}{\\mu}","F(X)=1-e^{-X}","S(X)=e^{-X}"],"note":"Standardized time is rate times elapsed time; mu is mean lifetime. F is failure probability and S is survival probability."},
+  "studentized_range":{"tex":["\\Pr(Q_{k,\\nu}>q_{\\alpha;k,\\nu})=\\alpha"],"note":"Tukey critical values use the number of groups and error degrees of freedom."},
+  "duncan":{"tex":["\\alpha_p=1-(1-\\alpha)^{p-1}","\\operatorname{SSR}(p,\\nu,\\alpha)=F^{-1}_{Q_{p,\\nu}}(1-\\alpha_p)"],"note":"Duncan uses the number of ordered means spanned and a range-dependent significance level."},
+  "control_chart":{"tex":["A_2=\\frac{3}{d_2\\sqrt n}","A_3=\\frac{3}{c_4\\sqrt n}","\\operatorname{UCL}_{\\bar X},\\operatorname{LCL}_{\\bar X}=\\bar{\\bar X}\\pm A_2\\bar R"],"note":"Factors depend on subgroup size. The displayed mean limits apply to an X-bar/R chart."},
+  "sigma_level":{"tex":["\\operatorname{PPM}_{\\mathrm{centered}}=2\\times10^6[1-\\Phi(z)]","\\operatorname{DPMO}_{1.5\\sigma}=10^6[\\Phi(1.5-z)+1-\\Phi(z+1.5)]"],"note":"The shifted convention includes both tails. Centered PPM is rounded to a whole number; shifted PPM to one decimal."},
+  "median_ranks":{"tex":["\\operatorname{MR}(i,n)=\\frac{i-0.3}{n+0.4}"],"note":"Bernard’s approximation for complete, ordered failure data; this does not handle censoring."},
+  "normal_scores":{"tex":["\\operatorname{NS}(i,n)=\\Phi^{-1}\\!\\left(\\frac{i-0.375}{n+0.25}\\right)"],"note":"Blom’s plotting-position approximation transformed by the standard-normal inverse CDF."},
+  "tolerance_one":{"tex":["k=\\frac{t^{-1}_{\\nu,\\delta}(\\gamma)}{\\sqrt n}","\\nu=n-1,\\quad\\delta=z_P\\sqrt n","z_P=\\Phi^{-1}(P)","\\operatorname{UB}=\\bar x+ks,\\quad\\operatorname{LB}=\\bar x-ks"],"note":"The inverse is the noncentral t quantile at confidence gamma, with degrees of freedom nu and noncentrality delta. P is minimum population coverage. Each bound is one-sided; combining them does not give the corresponding two-sided tolerance interval."},
+  "tolerance_two":{"tex":["k\\approx z_{(1+P)/2}\\sqrt{\\frac{(n-1)(1+1/n)}{\\chi^2_{1-\\gamma,n-1}}}","z_u=\\Phi^{-1}(u)","[\\bar x-ks,\\;\\bar x+ks]"],"note":"Howe’s approximation. The chi-square subscript denotes a LOWER-tail quantile here, unlike the upper-tail column headings in the chi-square reference table. P is minimum population coverage and gamma is confidence."}
+ },
+ "inline": [
+  ["Φ(z) = P(Z ≤ z)","\\Phi(z)=\\Pr(Z\\le z)"],
+  ["1 − P(X ≤ x − 1)","1-\\Pr(X\\le x-1)"],
+  ["1 − P(X ≤ x)","1-\\Pr(X\\le x)"],
+  ["P(X ≤ x − 1)","\\Pr(X\\le x-1)"],
+  ["P(X = x)","\\Pr(X=x)"],["P(X ≤ x)","\\Pr(X\\le x)"],["P(X ≥ x)","\\Pr(X\\ge x)"],["P(X > x)","\\Pr(X>x)"],
+  ["P(Z ≤ z)","\\Pr(Z\\le z)"],["P(T > t) = α","\\Pr(T>t)=\\alpha"],["P(X > c) = α","\\Pr(X>c)=\\alpha"],
+  ["Φ(b) − Φ(a)","\\Phi(b)-\\Phi(a)"],["1 − Φ(z)","1-\\Phi(z)"],
+  ["X = λt = t/mean lifetime","X=\\lambda t=t/\\mu"],["1 − exp(−X)","1-e^{-X}"],["exp(−X)","e^{-X}"],
+  ["(i − 0.3)/(n + 0.4)","\\frac{i-0.3}{n+0.4}"],["(i − 0.375)/(n + 0.25)","\\frac{i-0.375}{n+0.25}"],
+  ["0 ≤ x ≤ n","0\\le x\\le n"],["1 ≤ i ≤ n","1\\le i\\le n"],["x̄ + ks","\\bar x+ks"],["x̄ − ks","\\bar x-ks"],["x̄ ± ks","\\bar x\\pm ks"],
+  ["1 − α/2","1-\\alpha/2"],["α/2","\\alpha/2"],["±t","\\pm t"],
+  ["grand mean ± A2 × average range","\\bar{\\bar X}\\pm A_2\\bar R"],["D4 × average range","D_4\\bar R"],
+  ["A2, A3, d2, c4, D3, D4, B3 and B4","A_2,\\;A_3,\\;d_2,\\;c_4,\\;D_3,\\;D_4,\\;B_3,\\;B_4"]
+ ]
+}
