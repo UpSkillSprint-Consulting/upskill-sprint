@@ -546,6 +546,48 @@
     font-size: 0.92rem;
   }
 }
+
+/* Dark theme. The shared theme (theme.js) darkens the wrapper, tables and body
+   text, but this lesson's own cards, callouts and zebra rows kept their light
+   backgrounds, which left light text on near-white panels. */
+html[data-theme="dark"] .lesson-wrapper {
+  --lsn-border: #2b3b50;
+  --lsn-text: #f4f7fb;
+  --lsn-muted: #a9b6c8;
+  --lsn-success: #10291f;
+  --lsn-warning: #2a2312;
+  --lsn-danger: #2b171b;
+  --lsn-white: #111c2d;
+  --lsn-canvas-bg: #111c2d;
+  --lsn-soft-blue: #10233a;
+}
+html[data-theme="dark"] .lesson-wrapper .interactive-card,
+html[data-theme="dark"] .lesson-wrapper .stat-box,
+html[data-theme="dark"] .lesson-wrapper .result-panel,
+html[data-theme="dark"] .lesson-wrapper .quiz-question,
+html[data-theme="dark"] .lesson-wrapper .reveal-box,
+html[data-theme="dark"] .lesson-wrapper .combo-grid div,
+html[data-theme="dark"] .lesson-wrapper .combo-grid button,
+html[data-theme="dark"] .lesson-wrapper .nav-box a {
+  background: #111c2d;
+  border-color: #2b3b50;
+}
+html[data-theme="dark"] .lesson-wrapper .combo-grid div.row-header { background: #10233a; }
+html[data-theme="dark"] .lesson-wrapper tr:nth-child(even) td { background: #0f1a2b; }
+html[data-theme="dark"] .lesson-wrapper .note,
+html[data-theme="dark"] .lesson-wrapper .success,
+html[data-theme="dark"] .lesson-wrapper .danger,
+html[data-theme="dark"] .lesson-wrapper .quiz-feedback,
+html[data-theme="dark"] .lesson-wrapper .formula-box { color: #f4f7fb; }
+html[data-theme="dark"] .lesson-wrapper h2,
+html[data-theme="dark"] .lesson-wrapper .memory-phrase,
+html[data-theme="dark"] .lesson-wrapper .nav-box a,
+html[data-theme="dark"] .lesson-wrapper .control-group label,
+html[data-theme="dark"] .lesson-wrapper .stat-box .value,
+html[data-theme="dark"] .lesson-wrapper .quiz-question p,
+html[data-theme="dark"] .lesson-wrapper .checkbox-row label,
+html[data-theme="dark"] .lesson-wrapper .combo-grid div.row-header,
+html[data-theme="dark"] .lesson-wrapper .combo-grid button { color: #dbeafe; }
 </style>
   <script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
