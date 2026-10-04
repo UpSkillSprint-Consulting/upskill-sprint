@@ -6,6 +6,7 @@ on:
       - 'tools/calculator-manual.html'
       - 'tools/calculator-assets/**'
       - 'tests/calculator-*.test.js'
+      - 'tests/fixtures/calculator-*.json'
       - '.github/workflows/calculator-validation.yml'
   workflow_dispatch:
 permissions:

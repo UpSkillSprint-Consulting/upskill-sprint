@@ -19,9 +19,9 @@ function gammaP(a,x){ // regularized lower incomplete gamma P(a,x)
   if(x===Infinity) return 1;
   if(x < a+1){ // series
     let ap=a, sum=1/a, del=sum;
-    for(let n=1;n<500;n++){ ap++; del*=x/ap; sum+=del;
-      if(Math.abs(del)<Math.abs(sum)*1e-15) break; }
-    return sum*Math.exp(-x+a*Math.log(x)-lgamma(a));
+    for(let n=1;n<=100000;n++){ ap++; del*=x/ap; sum+=del;
+      if(Math.abs(del)<Math.abs(sum)*1e-15) return Math.min(1,sum*Math.exp(-x+a*Math.log(x)-lgamma(a))); }
+    return NaN; // Never return an unconverged partial sum.
   }
   return 1-gammaQcf(a,x);
 }
@@ -29,14 +29,14 @@ function gammaQcf(a,x){ // continued fraction for Q(a,x), x>=a+1
   if(x===Infinity) return 0;
   const FPMIN=1e-300;
   let b=x+1-a, c=1/FPMIN, d=1/b, h=d;
-  for(let i=1;i<500;i++){
+  for(let i=1;i<=100000;i++){
     const an=-i*(i-a);
     b+=2; d=an*d+b; if(Math.abs(d)<FPMIN)d=FPMIN;
     c=b+an/c; if(Math.abs(c)<FPMIN)c=FPMIN;
     d=1/d; const del=d*c; h*=del;
-    if(Math.abs(del-1)<1e-15) break;
+    if(Math.abs(del-1)<1e-15) return Math.min(1,Math.exp(-x+a*Math.log(x)-lgamma(a))*h);
   }
-  return Math.exp(-x+a*Math.log(x)-lgamma(a))*h;
+  return NaN;
 }
 const gammaQ=(a,x)=> x<a+1 ? 1-gammaP(a,x) : gammaQcf(a,x);
 
@@ -136,14 +136,14 @@ const DISTS = [
   blurb:"Small-sample means, t-tests, confidence intervals." },
 { id:"chi2", name:"Chi-square \u03C7\u00B2",
   params:[P("df","Degrees of freedom \u03BD",10,1e-9)],
-  pdf:(x,p)=>x<=0?0:Math.exp((p.df/2-1)*Math.log(x)-x/2-lgamma(p.df/2)-(p.df/2)*Math.LN2),
+  pdf:(x,p)=>x<0?0:x===0?(p.df<2?Infinity:p.df===2?.5:0):Math.exp((p.df/2-1)*Math.log(x)-x/2-lgamma(p.df/2)-(p.df/2)*Math.LN2),
   cdf:(x,p)=>x<=0?0:gammaP(p.df/2,x/2),
   inv:(q,p,me)=>invCdf(x=>me.cdf(x,p),q,0,p.df+200*Math.sqrt(2*p.df)+200,x=>me.pdf(x,p)),
   mean:p=>p.df, sd:p=>Math.sqrt(2*p.df), support:()=>[0,Infinity],
   blurb:"Variance tests, goodness-of-fit, contingency tables." },
 { id:"f", name:"F distribution",
   params:[P("d1","Numerator df",5,1e-9),P("d2","Denominator df",10,1e-9)],
-  pdf:(x,p)=>{ if(x<=0)return 0; const{d1,d2}=p;
+  pdf:(x,p)=>{ if(x<0)return 0; if(x===0)return p.d1<2?Infinity:p.d1===2?1:0; const{d1,d2}=p;
     return Math.exp(lgamma((d1+d2)/2)-lgamma(d1/2)-lgamma(d2/2)
       +(d1/2)*Math.log(d1/d2)+(d1/2-1)*Math.log(x)-((d1+d2)/2)*Math.log(1+d1*x/d2)); },
   cdf:(x,p)=>x<=0?0:ibeta(p.d1/2,p.d2/2,p.d1*x/(p.d1*x+p.d2)),
@@ -161,7 +161,7 @@ const DISTS = [
   blurb:"Constant failure rate \u2014 useful life region of the bathtub curve. MTBF = 1/\u03BB." },
 { id:"weibull", name:"Weibull (2-parameter)", rel:true,
   params:[P("beta","Shape \u03B2",2,1e-300),P("eta","Scale \u03B7 (characteristic life)",1000,1e-300)],
-  pdf:(x,p)=>x<=0?0:(p.beta/p.eta)*Math.pow(x/p.eta,p.beta-1)*Math.exp(-Math.pow(x/p.eta,p.beta)),
+  pdf:(x,p)=>x<0?0:x===0?(p.beta<1?Infinity:p.beta===1?1/p.eta:0):(p.beta/p.eta)*Math.pow(x/p.eta,p.beta-1)*Math.exp(-Math.pow(x/p.eta,p.beta)),
   cdf:(x,p)=>x<=0?0:-Math.expm1(-Math.pow(x/p.eta,p.beta)),
   inv:(q,p)=>p.eta*Math.pow(-Math.log1p(-q),1/p.beta),
   mean:p=>p.eta*Math.exp(lgamma(1+1/p.beta)),
@@ -179,7 +179,7 @@ const DISTS = [
   blurb:"Fatigue life, crack growth, repair times, chemical concentrations." },
 { id:"gamma", name:"Gamma", rel:true,
   params:[P("k","Shape k",2,1e-300),P("theta","Scale \u03B8",1,1e-300)],
-  pdf:(x,p)=>x<=0?0:Math.exp((p.k-1)*Math.log(x)-x/p.theta-lgamma(p.k)-p.k*Math.log(p.theta)),
+  pdf:(x,p)=>x<0?0:x===0?(p.k<1?Infinity:p.k===1?1/p.theta:0):Math.exp((p.k-1)*Math.log(x)-x/p.theta-lgamma(p.k)-p.k*Math.log(p.theta)),
   cdf:(x,p)=>x<=0?0:gammaP(p.k,x/p.theta),
   inv:(q,p,me)=>invCdf(x=>me.cdf(x,p),q,0,p.k*p.theta+200*Math.sqrt(p.k)*p.theta+200,x=>me.pdf(x,p)),
   mean:p=>p.k*p.theta, sd:p=>Math.sqrt(p.k)*p.theta, support:()=>[0,Infinity],
@@ -193,7 +193,7 @@ const DISTS = [
   blurb:"Resolution error of gauges, random number base, worst-case ignorance." },
 { id:"beta", name:"Beta",
   params:[P("al","Shape \u03B1",2,1e-300),P("be","Shape \u03B2",5,1e-300)],
-  pdf:(x,p)=>x<=0||x>=1?0:Math.exp((p.al-1)*Math.log(x)+(p.be-1)*Math.log(1-x)+lgamma(p.al+p.be)-lgamma(p.al)-lgamma(p.be)),
+  pdf:(x,p)=>x<0||x>1?0:x===0?(p.al<1?Infinity:p.al===1?p.be:0):x===1?(p.be<1?Infinity:p.be===1?p.al:0):Math.exp((p.al-1)*Math.log(x)+(p.be-1)*Math.log(1-x)+lgamma(p.al+p.be)-lgamma(p.al)-lgamma(p.be)),
   cdf:(x,p)=>ibeta(p.al,p.be,Math.min(Math.max(x,0),1)),
   inv:(q,p,me)=>invCdf(x=>me.cdf(x,p),q,0,1,x=>me.pdf(x,p)),
   mean:p=>p.al/(p.al+p.be),
@@ -218,7 +218,7 @@ const DISTS = [
 { id:"geometric", name:"Geometric", discrete:true,
   params:[P("p","Success prob p",0.2,1e-12,1)],
   pdf:(k,pp)=>{return !Number.isInteger(k)||k<1?0:pp.p*Math.pow(1-pp.p,k-1);},
-  cdf:(k,pp)=>{k=Math.floor(k); return k<1?0:1-Math.pow(1-pp.p,k);},
+  cdf:(k,pp)=>{k=Math.floor(k); return k<1?0:-Math.expm1(k*Math.log1p(-pp.p));},
   mean:pp=>1/pp.p, sd:pp=>Math.sqrt(1-pp.p)/pp.p,
   support:pp=>[1,Math.max(15,Math.ceil(6/pp.p))],
   blurb:"Trials until first success/failure \u2014 e.g. units inspected until first defect. Support: k = 1, 2, \u2026" },
@@ -271,6 +271,7 @@ function upperTail(D,x,p){
     case "poisson": {const k=Math.ceil(x);return k<=0?1:gammaP(k,p.lam);}
     case "geometric": return Math.pow(1-p.p,Math.max(0,Math.ceil(x)-1));
     case "negbinom": {const k=Math.ceil(x);return k<=p.r?1:ibeta(k-p.r,p.r,1-p.p);}
+    case "hypergeom": {let sum=0;for(let k=Math.max(Math.ceil(x),Math.max(0,p.n+p.K-p.N));k<=Math.min(p.n,p.K);k++)sum+=D.pdf(k,p);return Math.min(1,sum);}
     default: return Math.max(0,1-D.cdf(D.discrete?Math.ceil(x)-1:x,p));
   }
 }

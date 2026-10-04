@@ -55,3 +55,25 @@ test('manual TOC, workspace coverage and compatibility limitations are explicit'
  assert.doesNotMatch(d.body.textContent,/Matches the hardware exactly|agree with Minitab, R, and scipy to at least/);
  dom.window.close();
 });
+
+test('table, program and finance outputs clear on edits, including pending responses',async()=>{
+ const {dom,w,d}=setup();
+ d.getElementById('graph-table-run').click();await tick();assert.equal(d.querySelectorAll('#graph-table tbody tr').length,11);
+ input(w,d,'graph-table-start','0');assert.equal(d.getElementById('graph-table').textContent,'');
+ d.getElementById('graph-table-run').click();input(w,d,'graph-table-step','2');await tick();assert.equal(d.getElementById('graph-table').textContent,'');
+ d.getElementById('program-run').click();await tick();assert.equal(d.getElementById('program-output').textContent,'55');
+ input(w,d,'program-source','Disp 42');assert.equal(d.getElementById('program-output').textContent,'');
+ d.getElementById('program-run').click();input(w,d,'program-source','Disp 99');await tick();assert.equal(d.getElementById('program-output').textContent,'');
+ d.getElementById('finance-run').click();await tick();assert.ok(d.getElementById('finance-output').textContent);
+ d.getElementById('finance-solve').value='fv';d.getElementById('finance-solve').dispatchEvent(new w.Event('change'));
+ assert.equal(d.getElementById('finance-output').textContent,'');assert.equal(d.getElementById('finance-table').textContent,'');
+ dom.window.close();
+});
+test('value and derivative do not require the unused upper bound',async()=>{
+ const {dom,w,d}=setup();input(w,d,'graph-b','');d.getElementById('graph-calculate').click();await tick();assert.match(d.getElementById('graph-answer').textContent,/value = -4/);dom.window.close();
+});
+
+
+test('small probabilities remain visible and singular endpoint densities show infinity',()=>{
+ const {dom,w}=setup();assert.equal(w.fmtP(1e-8),'1.0000e-8');assert.equal(w.fmtN(Infinity),'∞');dom.window.close();
+});

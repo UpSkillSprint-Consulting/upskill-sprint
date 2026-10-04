@@ -16,16 +16,17 @@ The calculator and manual are now readable source HTML instead of compressed run
 
 ## Verification
 
-- 17 calculator engine/interface/manual tests passed.
+- 26 calculator engine/interface/manual tests passed, including 360 distribution comparisons against fixed SciPy 1.17.0 references.
 - 8 relevant contrast and tool-directory integration checks passed.
 - Full site build succeeded; generated unrelated artifacts were excluded from the change.
-- Reference fixtures cover independently calculated ANOVA, NIST I-chart limits, probability tails, regression, matrix/complex arithmetic, calculus, finance and bounded program control flow.
+- Reference fixtures cover all 16 distributions plus large-df chi-square, independently calculated ANOVA, NIST I-chart limits, regression, matrix/complex arithmetic, calculus, finance and bounded program control flow.
+- Follow-up assessment fixed large-shape convergence, endpoint densities, small upper-tail accuracy/display, scaled roots and TVM, multi-line Ans, angle-mode consistency, unsupported callbacks, graph click tracing and stale outputs. See `docs/audits/calculator-expansion/ASSESSMENT.md`.
 - New calculator validation workflow runs the focused suite on PRs.
 
-## Remaining validation / delivery
+## Delivery
 
-- Local cloud-browser navigation was blocked by the browser client, so rendered desktop/mobile/light/dark QA must be completed on a deploy preview.
-- The user explicitly authorized creating a new PR on October 4, 2026. This branch is for review; no merge or live deployment is requested.
-- Next: inspect the deploy preview, fix any visual defects and confirm CI.
+- PR #236 is open for review; no merge or production deployment is requested.
+- The calculator loads on the Netlify deploy preview and the graph worker renders successfully. The refreshed preview and CI are checked after the assessment fixes are published.
+- Mobile CSS and overflow behavior are included, but dedicated mobile-device rendering has not been verified in this environment.
 
 math.js 15.2.0 is served locally with its Apache-2.0 license. New workspaces process data locally without uploading it. Existing scientific-calculator history remains in browser storage; advanced variables are session-only.

@@ -81,3 +81,54 @@ test('goodness of fit uses independently specified expected counts and rejects m
  const r=analysis('CalculatorAnalysis.gof([[18,22,20,25,15],[20,20,20,20,20]])');near(r.metrics[0][1],2.9);near(r.metrics[1][1],4);near(r.metrics[2][1],.5746972058298045);
  assert.throws(()=>analysis('CalculatorAnalysis.gof([[18,22],[30,30]])'),/totals must match/);
 });
+
+test('360 distribution comparisons against SciPy 1.17.0 fixtures',()=>{
+ const fixtures=JSON.parse(fs.readFileSync(path.join(__dirname,'fixtures/calculator-distributions.json'),'utf8'));
+ let comparisons=0;
+ for(const reference of fixtures){
+  context.reference=reference;
+  const actual=vm.runInContext(`(()=>{const d=DISTS.find(d=>d.id===reference.id),p=reference.params,x=reference.x;return {pdf:d.pdf(x,p),cdf:d.cdf(x,p),upper:upperTail(d,x,p),x:reference.prob?d.inv(reference.prob,p,d):x};})()`,context);
+  for(const key of ['pdf','cdf','upper','x']){
+   if(reference[key]==null)continue;
+   comparisons++;
+   const tolerance=1e-8*Math.max(Math.abs(reference[key]),1e-12);
+   assert.ok(Number.isFinite(actual[key])&&Math.abs(actual[key]-reference[key])<=tolerance,`${reference.id} ${key}: ${actual[key]} versus ${reference[key]}`);
+  }
+ }
+ assert.equal(comparisons,360);
+});
+test('density boundaries distinguish zero, finite density, and singular endpoints',()=>{
+ for(const [id,p,x,expected]of [['chi2',{df:1},0,Infinity],['chi2',{df:2},0,.5],['gamma',{k:1,theta:2},0,.5],['weibull',{beta:1,eta:2},0,.5],['beta',{al:1,be:3},0,3],['beta',{al:3,be:1},1,3],['beta',{al:.5,be:.5},0,Infinity],['f',{d1:2,d2:8},0,1]]){
+  const actual=vm.runInContext(`DISTS.find(d=>d.id==='${id}').pdf(${x},${JSON.stringify(p)})`,context);assert.equal(actual,expected,id);
+ }
+});
+test('degree mode is consistent across trig and nested numerical helpers',()=>{
+ const deg=expression=>Number(run({action:'evaluate',expression,angle:'DEG'}).text);
+ near(deg('csc(30)'),2);near(deg('sec(60)'),2);near(deg('cot(45)'),1);near(deg('acsc(2)'),30);near(deg('atan2(1,1)'),45);
+ near(deg('nDeriv("sin(x)",0)'),Math.PI/180);
+ near(deg('fnInt("sin(x)",0,180)'),360/Math.PI);
+ near(deg('solve("sin(x)-0.5",0,60)'),30);
+ assert.match(run({action:'evaluate',expression:'seq("sin(n)",0,90,30)',angle:'DEG'}).text,/\[0, 0.5, 0.866025403784, 1\]/);
+ near(deg('arg(1+i)'),Math.PI/4);
+});
+test('multi-line Ans is the final value and unsupported callbacks cannot bypass validation',()=>{
+ run({action:'evaluate',expression:'A=2\nA+3'});near(value('Ans*2'),10);
+ for(const expression of ['map(["2+2"],evaluate)','F=parse','filter([1],import)'])assert.throws(()=>run({action:'evaluate',expression}),/Unsupported function reference/);
+ assert.throws(()=>run({action:'program',source:'For(sin,1,3)\nDisp sin\nEnd'}),/non-reserved/);
+ near(value('sum(map([-1,-2,3],abs))'),6); // Supported function callbacks remain available.
+});
+test('roots are invariant under function scaling and reject invalid brackets',()=>{
+ near(value('solve("1e-15*(x-2)",0,3)'),2);
+ near(value('solve("1e15*(x-2)",0,3)'),2);
+ assert.throws(()=>value('solve("x-2",3,0)'),/lower < upper/);
+ assert.throws(()=>value('solve("1/(x-0.1)",0,1)'),/discontinuity/);
+});
+test('TVM handles large balances, negative rates, zero rate, and degenerate cash flows',()=>{
+ const solve=(key,values)=>run({action:'finance',solve:key,values:{n:60,rate:6,pv:20000,pmt:0,fv:0,py:12,cy:12,...values}}).value;
+ near(solve('fv',{pv:1e20}),-1e20*1.005**60,1e-12);
+ near(solve('pmt',{pv:1e15,n:360}),-1e15*.005/(1-1.005**-360),1e-12);
+ near(solve('rate',{pv:1000,pmt:0,fv:-900,n:1,py:1,cy:1}),-10,1e-10);
+ near(solve('n',{pv:20000,pmt:-200,fv:0,rate:0}),100);
+ near(solve('n',{pv:100,pmt:0,fv:-200,rate:1000,py:1,cy:1}),Math.log(2)/Math.log(11));
+ assert.throws(()=>solve('rate',{pv:0,pmt:0,fv:0}),/no unique solution/);
+});
