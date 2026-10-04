@@ -36,7 +36,7 @@ test('STAT mode never guesses that a two-column sample is regression',()=>{
 test('manual TOC, workspace coverage and compatibility limitations are explicit',()=>{
  const dom=new JSDOM(fs.readFileSync('tools/calculator-manual.html','utf8')),d=dom.window.document;
  for(const a of d.querySelectorAll('.toc a[href^="#"]'))assert.ok(d.getElementById(a.hash.slice(1)),a.hash);
- for(const id of ['guided-analysis','data-quality','capability','graphing','math-workspace','finance','programs','coverage','exports'])assert.ok(d.getElementById(id));
+ for(const id of ['advanced-spc','guided-analysis','data-quality','capability','graphing','math-workspace','finance','programs','coverage','exports'])assert.ok(d.getElementById(id));
  assert.match(d.body.textContent,/Full TI-84 Plus CE feature parity has not been reached/);
  assert.doesNotMatch(d.body.textContent,/Matches the hardware exactly|agree with Minitab, R, and scipy to at least/);
  dom.window.close();

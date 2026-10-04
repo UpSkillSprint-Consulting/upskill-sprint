@@ -36,7 +36,8 @@
    el('capability').innerHTML='<h3>Specification compliance &amp; baseline capability</h3>'+compliance('Baseline',cap.observed)+compliance('Monitoring',cap.monitoring)+(cap.rows.length?U.table({title:'Baseline capability estimates',headers:['Index','Estimate',`${r.options.confidence*100}% lower`,`${r.options.confidence*100}% upper`,'Estimator / interval'],rows:cap.rows.map(v=>[v.index,v.value,v.interval?.[0]??'Withheld',v.interval?.[1]??'Withheld',v.method])}):'')+cap.notes.map(n=>`<p class="hint">${esc(n)}</p>`).join('');
   }
   el('notes').innerHTML=r.notes.map(n=>`<p>${esc(n)}</p>`).join('');['report','csv'].forEach(id=>el(id).disabled=false);el('freeze').disabled=!!frozen||r.baselineSignals>0;
-  status('Analysis complete. Review both the location and spread charts, assumptions and signal reasons.');
+  status('Analysis complete. Review the chart panels, assumptions and signal reasons.');
+  el('status').focus({preventScroll:true});el('status').scrollIntoView?.({block:'start',behavior:'instant'});
  }
  el('run').onclick=()=>{invalidate();try{const rows=A.parse(el('data').value);result=S.run(rows,options(),frozen);render(result);}catch(e){invalidate();status(e.message,true);}};
  const noise=[-.4,.3,-.1,.6,-.6,.2,.4,-.2,.1,-.5,.5,0,-.3,.2,-.1,.4,-.4,.1,.5,-.2,.3,-.5,.2,-.1,0];
@@ -50,7 +51,7 @@
    else if(k==='u')rows.push([i>=25?25:4+(i*7)%6,1+(i%3)*.5]);
    else rows.push([v]);
   }
-  el('data').value=numericText(rows);el('baseline').value='25';source='Fictitious training example: '+S.kinds[k];labels=null;el('source').textContent=source;el('time-order').checked=true;el('exposure').checked=k==='c';el('normal').checked=false;el('rules').checked=false;el('lsl').value=S.attr(k)?'':'7';el('usl').value=S.attr(k)?'':'13';
+  el('data').value=numericText(rows.map(r=>r.map(v=>Number(v.toFixed(6)))));el('baseline').value='25';source='Fictitious training example: '+S.kinds[k];labels=null;el('source').textContent=source;el('time-order').checked=true;el('exposure').checked=k==='c';el('normal').checked=false;el('rules').checked=false;el('lsl').value=S.attr(k)?'':'7';el('usl').value=S.attr(k)?'':'13';
   invalidate('Example loaded: 25 baseline rows, followed by 10 monitoring rows. Review assumptions, then analyze.');
  });
  el('freeze').onclick=guarded(()=>{

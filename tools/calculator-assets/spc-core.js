@@ -48,7 +48,7 @@ const CalculatorSPC=(()=>{
  }
  function point(index,value,cl,lo,hi,phase,label){return {index,value,cl,lo,hi,phase,label,signals:value<lo||value>hi?['Beyond control limit']:[]};}
  function series(rows,m,phase,options,offset=0){
-  const k=m.kind,mu=m.center,s=m.sigma,n=m.size,out={name:kinds[k],points:[]},spread={name:k==='xs'?'Subgroup S':k==='xr'?'Subgroup R':'Moving range (2)',points:[]};
+  const k=m.kind,mu=m.center,s=m.sigma,n=m.size,out={name:k==='cusum'?'Upper CUSUM (positive magnitude)':sub(k)?'Subgroup mean (X-bar)':k==='imr'?'Individuals':kinds[k],points:[]},spread={name:k==='xs'?'Subgroup S':k==='xr'?'Subgroup R':'Moving range (2)',points:[]};
   let z=mu,plus=0,minus=0;
   rows.forEach((r,i)=>{
    const index=i+offset+1,label=options.labels?.[i+offset]||String(index),add=(v,c,l,h)=>out.points.push(point(index,v,c,l,h,phase,label));

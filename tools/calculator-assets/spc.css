@@ -22,3 +22,7 @@
 #spc-source{max-height:80px;overflow:auto}
 @media(max-width:780px){#pg-spc .guide-analysis-grid{grid-template-columns:1fr}}
 @media print{#pg-spc .guide-question-panel,#pg-spc .analysis-actions,#pg-spc .guide-steps{display:none}#pg-spc .guide-analysis-grid{display:block}}
+
+#spc-capability table{width:100%;min-width:0}
+#spc-capability td:last-child,#spc-capability th:last-child{white-space:normal;min-width:150px;max-width:250px}
+#spc-status{scroll-margin-top:16px}
