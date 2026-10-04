@@ -1,0 +1,276 @@
+{
+  "source": "SciPy 1.17.0",
+  "cases": [
+    {
+      "name": "independent-change",
+      "matrix": [
+        [
+          "Group",
+          "Y"
+        ],
+        [
+          "Before",
+          "10.5"
+        ],
+        [
+          "Before",
+          "10.3"
+        ],
+        [
+          "Before",
+          "10.8"
+        ],
+        [
+          "Before",
+          "10.4"
+        ],
+        [
+          "Before",
+          "10.6"
+        ],
+        [
+          "Before",
+          "10.7"
+        ],
+        [
+          "After",
+          "10.1"
+        ],
+        [
+          "After",
+          "9.9"
+        ],
+        [
+          "After",
+          "10.2"
+        ],
+        [
+          "After",
+          "10.0"
+        ],
+        [
+          "After",
+          "10.1"
+        ],
+        [
+          "After",
+          "9.8"
+        ]
+      ],
+      "options": {
+        "goal": "compare",
+        "design": "independent",
+        "y": "1",
+        "group": "0",
+        "baseline": "Before",
+        "confidence": 0.95,
+        "direction": "different"
+      },
+      "expected": {
+        "estimate": -0.5333333333333314,
+        "low": -0.7515055392577809,
+        "high": -0.315161127408882,
+        "p": 0.0003221769093742467,
+        "df": 9.475409836065563,
+        "se": 0.09718253158075481
+      }
+    },
+    {
+      "name": "unequal-variance-size",
+      "matrix": [
+        [
+          "Group",
+          "Y"
+        ],
+        [
+          "Before",
+          "1"
+        ],
+        [
+          "Before",
+          "2"
+        ],
+        [
+          "Before",
+          "4"
+        ],
+        [
+          "Before",
+          "6"
+        ],
+        [
+          "Before",
+          "9"
+        ],
+        [
+          "After",
+          "3.0"
+        ],
+        [
+          "After",
+          "3.1"
+        ],
+        [
+          "After",
+          "3.2"
+        ]
+      ],
+      "options": {
+        "goal": "compare",
+        "design": "independent",
+        "y": "1",
+        "group": "0",
+        "baseline": "Before",
+        "confidence": 0.99,
+        "direction": "different"
+      },
+      "expected": {
+        "estimate": -1.3000000000000003,
+        "low": -7.898930150843356,
+        "high": 5.298930150843356,
+        "p": 0.4164822906472644,
+        "df": 4.012934442797819,
+        "se": 1.4364307617610164
+      }
+    },
+    {
+      "name": "matched-change",
+      "matrix": [
+        [
+          "Before",
+          "After"
+        ],
+        [
+          "12",
+          "10"
+        ],
+        [
+          "15",
+          "12"
+        ],
+        [
+          "11",
+          "10"
+        ],
+        [
+          "14",
+          "11"
+        ],
+        [
+          "13",
+          "11"
+        ],
+        [
+          "16",
+          "12"
+        ]
+      ],
+      "options": {
+        "goal": "compare",
+        "design": "paired",
+        "y": "0",
+        "x": "1",
+        "confidence": 0.95,
+        "direction": "different"
+      },
+      "expected": {
+        "estimate": -2.5,
+        "low": -3.600657384708013,
+        "high": -1.3993426152919868,
+        "p": 0.00208479294548574,
+        "df": 5.0,
+        "se": 0.4281744192888377
+      }
+    },
+    {
+      "name": "small-scale",
+      "matrix": [
+        [
+          "Group",
+          "Y"
+        ],
+        [
+          "Before",
+          "1e-08"
+        ],
+        [
+          "Before",
+          "3e-08"
+        ],
+        [
+          "Before",
+          "4e-08"
+        ],
+        [
+          "After",
+          "4e-08"
+        ],
+        [
+          "After",
+          "5e-08"
+        ],
+        [
+          "After",
+          "8e-08"
+        ]
+      ],
+      "options": {
+        "goal": "compare",
+        "design": "independent",
+        "y": "1",
+        "group": "0",
+        "baseline": "Before",
+        "confidence": 0.9,
+        "direction": "different"
+      },
+      "expected": {
+        "estimate": 3.0000000000000004e-08,
+        "low": -2.6195630505609345e-09,
+        "high": 6.261956305056092e-08,
+        "p": 0.12079239583031656,
+        "df": 3.6697247706422016,
+        "se": 1.49071198499986e-08
+      }
+    },
+    {
+      "name": "target",
+      "matrix": [
+        [
+          "Y"
+        ],
+        [
+          "9.9"
+        ],
+        [
+          "10.2"
+        ],
+        [
+          "10.1"
+        ],
+        [
+          "10.4"
+        ],
+        [
+          "10.3"
+        ],
+        [
+          "10.0"
+        ]
+      ],
+      "options": {
+        "goal": "target",
+        "y": "0",
+        "target": "10",
+        "confidence": 0.95
+      },
+      "expected": {
+        "estimate": 0.15000000000000036,
+        "low": -0.04633143069803225,
+        "high": 0.34633143069803296,
+        "p": 0.10674552235509177,
+        "df": 5.0,
+        "se": 0.07637626158259737
+      }
+    }
+  ]
+}

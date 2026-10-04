@@ -1,6 +1,21 @@
 # Calculator assessment — October 4, 2026
 
-The assessment covers the eight workspaces in PR #236, including numerical references, invalid inputs, state changes, worker isolation, and consistency with the user manual. The checked calculations pass after the corrections below. This is a browser implementation with documented scope limits; it is not complete TI-84 Plus CE emulation.
+The assessment covers the nine workspaces in PR #236, including the guided analysis addition, numerical references, invalid inputs, state changes, worker isolation, and consistency with the user manual. The checked calculations pass after the corrections below. This is a browser implementation with documented scope limits; it is not complete TI-84 Plus CE emulation.
+
+## Guided analysis addition
+
+The new default workspace connects a reusable dataset to a question, a supported method, an interpretation and next steps. It implements recommendation #1; advanced SPC, measurement system analysis and cost-of-quality/verified savings remain separate future work.
+
+- Local CSV/TSV parsing and bounded .xlsx import, including worksheet choice, shared/inline strings, cached formula values and common date types. Excel formulas and external links are not executed. Missing caches, hidden rows, filters and merged cells are identified. Package size, decompressed size, dimensions and checksums are checked.
+- Up to five datasets; named columns; paginated cell editing; source row references; duplicate/blank profiling; explicit row exclusions; an exact category filter; opt-in complete-row analysis with paired rows kept together.
+- Questions route to summary, Welch or paired t, one-sample t, classical ANOVA, linear regression, existing I-MR/capability or categorical independence. Guidance uses study design rather than an automated normality gate. Confidence, difference direction and practical thresholds are explicit.
+- Session-only data with a versioned JSON save/restore workflow; reports include included values, settings, dataset revision, full exclusions and edit history. CSV exports guard formula-like text. Data and setting changes invalidate results.
+- Handoffs use the current included values. Existing Data & Quality limits are respected; a valid Welch result with one zero-spread group stays in the guide because the legacy summary form requires positive standard deviations.
+- Manual §22, quick start and TOC cover all workflows and limitations. The process-change example reports difference −0.5333333333 mm and 95% interval [−0.7515055393, −0.3151611274] mm.
+
+Validation at implementation: **44 calculator tests pass**, including the original 360 distribution reference comparisons and five independent SciPy guided-inference cases (Welch, paired, one-sample, unequal variance/sample size, small scale, and multiple confidence levels). Import/UI tests cover quoted/multiline CSV, bad inputs, exclusions and filtering, missing pairs, both XLSX compression modes, shared strings, multiple worksheets, dates, missing formula caches, corrupt/oversized/DTD-containing workbooks, saved-project roundtrips, safe text rendering, asynchronous import races, state invalidation and analysis handoffs. The full site build passes. Live preview review follows publication of this addition.
+
+References/fixtures: `tests/fixtures/calculator-guided-reference.json`, `tests/fixtures/calculator-guided-xlsx.json`; regenerate with `python docs/audits/calculator-expansion/generate-guided-fixtures.py` (SciPy 1.17.0 and openpyxl 3.1.5). The tests run without Python. The custom XLSX reader is a bounded values importer, not full spreadsheet compatibility. Dedicated mobile-device and assistive-technology validation remains outstanding.
 
 ## Findings and fixes
 

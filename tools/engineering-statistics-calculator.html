@@ -257,6 +257,7 @@ html[data-theme="light"] ::selection{color:#FFFFFF}
 }
 
 </style>
+<link rel="stylesheet" href="/tools/calculator-assets/guided.css">
 <script src="/theme.js"></script>
 <link rel="stylesheet" href="/tools/calculator-assets/analysis.css">
 </head>
@@ -274,9 +275,10 @@ html[data-theme="light"] ::selection{color:#FFFFFF}
   </div>
   <div class="hd">
     <h1>Engineering <span class="amp">&amp;</span> Statistics Calculator</h1>
-    <p class="tagline">16 distributions with shaded tail plots &middot; hypothesis tests with critical regions &middot; full scientific calculator &middot; raw-data quality analysis &middot; <a href="/tools/calculator-manual.html" style="color:var(--teal);text-decoration:none">User Manual &rarr;</a></p>
+    <p class="tagline">Guided data analysis &middot; Excel/CSV import &middot; statistics, quality, graphing and scientific math &middot; <a href="/tools/calculator-manual.html" style="color:var(--teal);text-decoration:none">User Manual &rarr;</a></p>
     <div class="tabs" role="tablist">
-      <button class="tab active" data-page="pg-dist" role="tab">Distributions</button>
+      <button class="tab active" data-page="pg-guide" role="tab">Guided Analysis</button>
+      <button class="tab" data-page="pg-dist" role="tab">Distributions</button>
       <button class="tab" data-page="pg-test" role="tab">Hypothesis Tests</button>
       <button class="tab" data-page="pg-data" role="tab">Data &amp; Quality</button>
       <button class="tab" data-page="pg-graph" role="tab">Graphing</button>
@@ -290,8 +292,55 @@ html[data-theme="light"] ::selection{color:#FFFFFF}
 
 <div class="wrap">
 
+<!-- ==================== GUIDED ANALYSIS ==================== -->
+<section class="page active" id="pg-guide" aria-label="Guided analysis workspace">
+  <div class="guide-intro"><div><p class="guide-eyebrow">FROM DATA TO A DECISION</p><h2>Start with your question.</h2><p>Bring your data, choose what you need to learn, and work through the evidence with clear assumptions and next steps.</p></div><a href="/tools/calculator-manual.html#guided-analysis">Guided workspace manual →</a></div>
+  <ol class="guide-steps" aria-label="Analysis workflow"><li><span>1</span> Bring &amp; review data</li><li><span>2</span> Define your question</li><li><span>3</span> Interpret &amp; take action</li></ol>
+  <div class="panel guide-data-panel">
+    <details id="guide-import-panel" open><summary>1 · Import or restore data</summary>
+      <div class="guide-import-grid">
+        <div><label class="f" for="guide-paste">Paste a table from Excel or CSV</label><textarea class="f" id="guide-paste" rows="4" spellcheck="false" placeholder="Group,Thickness\nBefore,9.8\nAfter,10.1"></textarea><div class="paramrow"><div><label class="f" for="guide-delimiter">Text separator</label><select class="f" id="guide-delimiter"><option value="auto">Detect from first record</option><option value=",">Comma</option><option value="tab">Tab (Excel paste)</option><option value=";">Semicolon</option></select></div><div class="guide-check"><label><input id="guide-headers" type="checkbox" checked> First row contains column names</label></div></div><button class="btn" id="guide-paste-load">Add pasted dataset</button></div>
+        <div><label class="f" for="guide-file">Import Excel (.xlsx), CSV or TSV</label><input class="f" id="guide-file" type="file" accept=".xlsx,.csv,.tsv,.txt"><p class="hint">Files stay in this browser. Up to 10 MB per file; 10,000 rows, 40 columns and 100,000 cells per dataset. Use a period for decimals. Older .xls files must be saved as .xlsx or CSV.</p><div id="guide-sheet-box" hidden><label class="f" for="guide-sheet">Excel worksheet</label><select class="f" id="guide-sheet"></select><button class="btn" id="guide-sheet-load">Add selected worksheet</button></div><label class="f" for="guide-project-file">Restore a saved workspace (.json)</label><input class="f" id="guide-project-file" type="file" accept=".json"><label class="f" for="guide-example">Try a worked dataset</label><select class="f" id="guide-example"><option value="process">Process change — independent groups</option><option value="paired">Matched before/after measurements</option><option value="capability">Thickness — time-ordered measurements</option><option value="association">Inspection outcomes by shift</option></select><button class="btn ghost" id="guide-example-load">Load worked example</button></div>
+      </div>
+    </details>
+    <p id="guide-data-status" class="workspace-status" role="status" aria-live="polite">Add a table or try a worked example. Up to five datasets can share this session.</p>
+    <div id="guide-data-tools" hidden>
+      <div class="guide-dataset-bar"><div><label class="f" for="guide-dataset">Active dataset</label><select class="f" id="guide-dataset"></select></div><div><label class="f" for="guide-name">Dataset name</label><input class="f" id="guide-name" maxlength="100"></div><div class="analysis-actions"><button class="btn ghost" id="guide-data-csv">Download data CSV</button><button class="btn ghost" id="guide-project-save">Save workspace</button><button class="btn ghost" id="guide-remove">Remove dataset</button></div></div>
+      <p id="guide-profile" class="guide-profile"></p>
+      <details id="guide-table-panel"><summary>Review and edit data · row exclusions &amp; import notes</summary><p class="hint">Edit cells directly. Uncheck a row to exclude it explicitly; changing data invalidates results. Row order is preserved. Duplicate rows are flagged for review and retained.</p><div id="guide-import-notes"></div><div id="guide-table" class="analysis-table guide-table" tabindex="0" role="region" aria-label="Editable dataset"></div><div class="analysis-actions"><button class="btn ghost" id="guide-prev">Previous rows</button><span id="guide-page" aria-live="polite"></span><button class="btn ghost" id="guide-next">Next rows</button><button class="btn ghost" id="guide-add-row">Add row</button></div><details><summary>Dataset edit history</summary><div id="guide-audit"></div></details></details>
+      <p class="hint">Datasets are held in memory for this session. Save workspace to keep data, edits, exclusions and analysis settings before reloading. Restoring a project adds its datasets; it never runs an analysis automatically.</p>
+    </div>
+  </div>
+  <div class="guide-analysis-grid">
+    <div class="panel guide-question-panel">
+      <h2>2 · Define your question</h2>
+      <label class="f" for="guide-goal">What are you trying to learn?</label><select class="f" id="guide-goal"><option value="describe">Understand my data</option><option value="compare">Compare groups or a process change</option><option value="target">Compare a mean with a target</option><option value="relationship">Explore a relationship</option><option value="capability">Check stability and capability</option><option value="association">Compare categorical outcomes</option></select>
+      <div id="guide-design-box" hidden><label class="f" for="guide-design">How were the observations collected?</label><select class="f" id="guide-design"><option value="independent">Independent groups — response + group columns</option><option value="paired">Matched pairs — before + after on each row</option></select></div>
+      <label class="f" id="guide-y-label" for="guide-y">Response / measurement column</label><select class="f" id="guide-y"></select>
+      <div id="guide-x-box" hidden><label class="f" id="guide-x-label" for="guide-x">Predictor X column</label><select class="f" id="guide-x"></select></div>
+      <div id="guide-group-box" hidden><label class="f" for="guide-group">Group column</label><select class="f" id="guide-group"></select><label class="f" for="guide-baseline">Reference group (subtracted from comparison group)</label><select class="f" id="guide-baseline"></select><p class="hint">For two groups, difference = comparison minus reference. With three or more groups, ANOVA tests for any mean difference.</p></div>
+      <div id="guide-target-box" hidden><label class="f" for="guide-target">Target population mean</label><input class="f" id="guide-target" inputmode="decimal"></div>
+      <div id="guide-change-box" hidden><label class="f" for="guide-direction">What would a useful change look like?</label><select class="f" id="guide-direction"><option value="different">Any difference — assess its meaning</option><option value="lower">A lower mean is better</option><option value="higher">A higher mean is better</option></select><label class="f" for="guide-threshold">Minimum useful change (measurement units)</label><input class="f" id="guide-threshold" value="0" inputmode="decimal"><p class="hint">Choose this threshold before reviewing results. All t tests use two-sided inference.</p></div>
+      <div id="guide-specs-box" hidden><div class="paramrow"><div><label class="f" for="guide-lsl">Lower specification (optional)</label><input class="f" id="guide-lsl" inputmode="decimal"></div><div><label class="f" for="guide-usl">Upper specification (optional)</label><input class="f" id="guide-usl" inputmode="decimal"></div></div><label class="guide-check"><input id="guide-time-order" type="checkbox"> The included rows are in measurement time order.</label></div>
+      <div class="paramrow"><div><label class="f" for="guide-confidence">Confidence level</label><select class="f" id="guide-confidence"><option value="0.9">90% (α = 0.10)</option><option value="0.95" selected>95% (α = 0.05)</option><option value="0.99">99% (α = 0.01)</option></select></div><div><label class="f" for="guide-unit">Response unit (optional)</label><input class="f" id="guide-unit" maxlength="40" placeholder="mm, MPa, minutes…"></div></div>
+      <details class="guide-filter"><summary>Filter rows and handle missing values</summary><label class="f" for="guide-filter-column">Include only one category</label><select class="f" id="guide-filter-column"></select><div id="guide-filter-value-box" hidden><label class="f" for="guide-filter-value">Keep rows with this exact value</label><select class="f" id="guide-filter-value"></select></div><label class="guide-check"><input id="guide-allow-missing" type="checkbox"> Use complete rows only and list every missing-value exclusion.</label><p class="hint">Only blanks in the selected analysis columns are treated as missing. Invalid numbers block analysis. Paired rows are excluded together.</p></details>
+      <label id="guide-variance-box" class="guide-check" hidden><input id="guide-equal-variance" type="checkbox"> I reviewed the equal-variance assumption for classical ANOVA.</label>
+      <div class="analysis-actions"><button class="btn" id="guide-run" disabled>Run guided analysis</button></div>
+      <p class="hint">Guidance follows your question and study design. It does not automatically certify assumptions or choose a method using a normality-test p-value.</p>
+    </div>
+    <div class="panel analysis-output guide-result-panel">
+      <h2>3 · Understand the evidence</h2>
+      <div id="guide-recommendation" class="guide-recommendation"></div>
+      <p id="guide-status" class="workspace-status" role="status" aria-live="polite">Import data, select your columns and review the suggested method.</p>
+      <div id="guide-output" hidden><h3 id="guide-result-title"></h3><p id="guide-interpretation" class="guide-interpretation"></p><p id="guide-provenance" class="hint"></p><div id="guide-metrics" class="results"></div><div id="guide-charts"></div><div id="guide-tables"></div><details open><summary>Assumptions &amp; method notes</summary><div id="guide-notes"></div></details><div class="guide-next"><h3>What to do next</h3><ol id="guide-next-steps"></ol></div><details><summary id="guide-exclusion-heading">Row exclusions</summary><div id="guide-exclusions"></div></details></div>
+      <div class="analysis-actions"><button class="btn ghost" id="guide-report" disabled>Download analysis report</button><button class="btn ghost" id="guide-result-csv" disabled>Download results CSV</button><button class="btn ghost" id="guide-open-analysis" disabled>Open in analysis tool</button></div>
+      <p class="hint">The report includes inputs, settings, exclusions, interpretation and next steps. Full results become unavailable when inputs change.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ==================== DISTRIBUTIONS ==================== -->
-<section class="page active" id="pg-dist">
+<section class="page" id="pg-dist">
   <div class="grid2">
     <div class="panel dside">
       <label class="f" for="dsel">Distribution</label>
@@ -1763,6 +1812,10 @@ buildTests(); buildPad(); updMem(); renderHistory(); edClear(); setBadges();
 <script src="/tools/calculator-assets/analysis-core.js"></script>
 <script src="/tools/calculator-assets/analysis-ui.js"></script>
 <script src="/tools/calculator-assets/advanced-ui.js"></script>
+<script src="/tools/calculator-assets/guided-data.js"></script>
+<script src="/tools/calculator-assets/guided-xlsx.js"></script>
+<script src="/tools/calculator-assets/guided-core.js"></script>
+<script src="/tools/calculator-assets/guided-ui.js"></script>
 <script src="/contrast-fix.js"></script>
 </body>
 </html>

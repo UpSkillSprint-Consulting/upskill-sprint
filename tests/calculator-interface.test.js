@@ -3,25 +3,11 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const vm=require('node:vm');
 const {JSDOM}=require('jsdom');
-function setup(){
- const html=fs.readFileSync('tools/engineering-statistics-calculator.html','utf8');
- const dom=new JSDOM(html,{url:'https://calculator.test/tools/engineering-statistics-calculator',runScripts:'outside-only',pretendToBeVisual:true});
- const w=dom.window;
- w.HTMLCanvasElement.prototype.getContext=()=>new Proxy({measureText:s=>({width:String(s).length*8})},{get:(o,k)=>k in o?o[k]:(()=>{})});
- class Worker {
-  constructor(){const self={postMessage:data=>queueMicrotask(()=>this.onmessage?.({data}))};this.context=vm.createContext({console,self,setTimeout,clearTimeout});this.context.importScripts=file=>vm.runInContext(fs.readFileSync('tools/calculator-assets/'+file,'utf8'),this.context);vm.runInContext(fs.readFileSync('tools/calculator-assets/advanced-worker.js','utf8'),this.context);}
-  postMessage(data){this.context.data=data;vm.runInContext('self.onmessage({data})',this.context);}
-  terminate(){}
- }
- w.Worker=Worker;
- const ctx=dom.getInternalVMContext();
- for(const script of w.document.scripts){const src=script.getAttribute('src');if(src?.startsWith('/tools/calculator-assets/'))vm.runInContext(fs.readFileSync('.'+src,'utf8'),ctx);else if(!src)vm.runInContext(script.textContent,ctx);}
- return {dom,w,d:w.document};
-}
+const {setup}=require('./helpers/calculator-browser');
 function input(w,d,id,value){d.getElementById(id).value=value;d.getElementById(id).dispatchEvent(new w.Event('input',{bubbles:true}));}
 const tick=()=>new Promise(r=>setTimeout(r,20));
 test('all workspaces initialize, tabs have keyboard semantics, and labels are unique',async()=>{
- const {dom,d}=setup();assert.equal(d.querySelectorAll('[role=tab]').length,8);assert.equal(d.querySelectorAll('[aria-selected=true]').length,1);
+ const {dom,d}=setup();assert.equal(d.querySelectorAll('[role=tab]').length,9);assert.equal(d.querySelectorAll('[aria-selected=true]').length,1);
  d.querySelector('[data-page=pg-data]').click();assert.equal(d.querySelector('.page.active').id,'pg-data');
  const ids=[...d.querySelectorAll('[id]')].map(e=>e.id);assert.equal(new Set(ids).size,ids.length);
  for(const el of d.querySelectorAll('input.f,select.f,textarea.f'))assert.ok(el.labels.length,`${el.id} needs a label`);
@@ -50,7 +36,7 @@ test('STAT mode never guesses that a two-column sample is regression',()=>{
 test('manual TOC, workspace coverage and compatibility limitations are explicit',()=>{
  const dom=new JSDOM(fs.readFileSync('tools/calculator-manual.html','utf8')),d=dom.window.document;
  for(const a of d.querySelectorAll('.toc a[href^="#"]'))assert.ok(d.getElementById(a.hash.slice(1)),a.hash);
- for(const id of ['data-quality','capability','graphing','math-workspace','finance','programs','coverage','exports'])assert.ok(d.getElementById(id));
+ for(const id of ['guided-analysis','data-quality','capability','graphing','math-workspace','finance','programs','coverage','exports'])assert.ok(d.getElementById(id));
  assert.match(d.body.textContent,/Full TI-84 Plus CE feature parity has not been reached/);
  assert.doesNotMatch(d.body.textContent,/Matches the hardware exactly|agree with Minitab, R, and scipy to at least/);
  dom.window.close();
