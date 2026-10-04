@@ -1,44 +1,402 @@
 <!DOCTYPE html>
+<!-- ============================================================
+  UpSkill Sprint — Engineering & Statistics Calculator: USER MANUAL
+  Companion documentation for engineering-statistics-calculator.html
+  Single-file HTML, no dependencies. Matches the tool's design system.
+  ============================================================ -->
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Calculator User Manual | UpSkill Sprint</title>
-<meta name="description" content="User manual for the UpSkill Sprint Engineering &amp; Statistics Calculator.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0A1118">
 <link rel="canonical" href="https://upskillsprint.com/tools/calculator-manual.html">
+<title>Calculator Manual | UpSkill Sprint</title>
+<meta name="description" content="User manual for the UpSkill Sprint Engineering & Statistics Calculator: natural-display scientific calculator, SHIFT/ALPHA key system, 16 probability distributions, and hypothesis tests.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f5f8fc;color:#172033;font:15px/1.55 Inter,Segoe UI,Arial,sans-serif}
-  .loader{width:min(560px,calc(100% - 40px));padding:32px;border:1px solid #dce4ee;border-radius:16px;background:#fff;box-shadow:0 12px 35px rgba(11,31,58,.09);text-align:center}
-  .loader h1{font-size:24px;margin:0 0 10px}.loader p{color:#5e6b7f;margin:0}.loader a{color:#1769aa}
-  html[data-theme="dark"] body{background:#0a1118;color:#e8eef4}html[data-theme="dark"] .loader{background:#101b26;border-color:#21384c}html[data-theme="dark"] .loader p{color:#a9b6c8}
+:root{
+  --bg:#0A1118; --panel:#101B26; --panel-2:#15222E;
+  --line:#21384C; --line-soft:#182A3A;
+  --text:#E8EEF4; --muted:#7E93A6; --faint:#55697B;
+  --accent:#F0A64B; --accent-dim:rgba(240,166,75,.14);
+  --teal:#46C2AE; --red:#E36060; --blue:#6FA3E8;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --disp:"Barlow Condensed","Arial Narrow",var(--sans);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#0A1118}
+.wrap{max-width:900px;margin:0 auto;padding:36px clamp(16px,4vw,44px) 80px}
+header.doc{border-bottom:1px solid var(--line-soft);padding-bottom:22px;margin-bottom:30px}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(30px,4.5vw,42px);letter-spacing:.05em;text-transform:uppercase;line-height:1.1}
+h1 .amp{color:var(--accent)}
+.sub{color:var(--muted);margin-top:8px;font-size:14px}
+h2{font-family:var(--disp);font-weight:600;font-size:26px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:44px 0 12px;padding-top:10px;border-top:1px solid var(--line-soft)}
+h3{font-family:var(--disp);font-weight:600;font-size:19px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin:26px 0 8px}
+p{margin:10px 0;color:var(--text)}
+p.note{color:var(--muted);font-size:14px;border-left:3px solid var(--accent);padding:8px 14px;background:var(--panel);border-radius:0 8px 8px 0;margin:14px 0}
+kbd{font-family:var(--mono);font-size:.88em;background:var(--panel-2);border:1px solid var(--line);border-bottom-width:2.5px;border-radius:6px;padding:1px 8px;white-space:nowrap;color:var(--text)}
+kbd.s{color:var(--accent);border-color:var(--accent)}
+kbd.a{color:var(--red);border-color:var(--red)}
+code{font-family:var(--mono);font-size:.9em;background:var(--panel-2);border-radius:5px;padding:1px 6px;color:var(--teal)}
+.seq{font-family:var(--mono);color:var(--muted)}
+.seq b{color:var(--accent);font-weight:500}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+th{font-family:var(--disp);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:13px;color:var(--faint);text-align:left;padding:8px 12px;border-bottom:2px solid var(--line)}
+td{padding:8px 12px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+td:first-child{white-space:nowrap}
+tr:hover td{background:var(--panel)}
+.ex{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:16px 20px;margin:16px 0}
+.ex .lbl{font-family:var(--disp);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.ex .keys{font-family:var(--mono);font-size:14.5px;line-height:2.1}
+.ex .res{color:var(--accent);font-family:var(--mono);margin-top:6px}
+.toc{background:var(--panel);border:1px solid var(--line-soft);border-radius:12px;padding:18px 24px;margin:20px 0}
+.toc a{color:var(--teal);text-decoration:none}
+.toc a:hover{color:var(--accent)}
+.toc ol{margin-left:20px}
+.toc li{margin:4px 0}
+ul,ol{margin:10px 0 10px 24px}
+li{margin:5px 0}
+strong{color:var(--text)}
+em{color:var(--muted);font-style:italic}
+.pill{display:inline-block;font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:5px;padding:0 7px;color:var(--faint);margin-right:4px}
+footer.doc{margin-top:60px;padding-top:20px;border-top:1px solid var(--line-soft);color:var(--faint);font-size:12.5px;line-height:1.6}
+@media print{
+  body{background:#fff;color:#111}
+  :root{--text:#111;--muted:#444;--faint:#666;--panel:#f5f5f5;--panel-2:#eee;--line:#bbb;--line-soft:#ddd;--accent:#8a5410;--teal:#0e6e60;--red:#a22}
+  h2{page-break-after:avoid}
+  .ex,table{page-break-inside:avoid}
+}
+
+/* ================= Shared UpSkill Sprint theme + tool bar ================= */
+html[data-theme="light"]{
+  --bg:#F5F7FA; --panel:#FFFFFF; --panel-2:#EEF3F7;
+  --line:#C9D5E1; --line-soft:#DDE5ED;
+  --text:#132238; --muted:#52657A; --faint:#718398;
+  --accent:#B7791F; --accent-dim:rgba(183,121,31,.12);
+  --teal:#0E7490; --red:#C2414B; --blue:#3B82C4;
+}
+html[data-theme="light"] body{background:var(--bg);color:var(--text)}
+html[data-theme="light"] ::selection{color:#FFFFFF}
+.tool-topbar{
+  max-width:900px;
+  margin:0 auto;
+  padding:18px clamp(16px,4vw,44px) 0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+}
+.tool-brand{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  color:var(--text);
+  text-decoration:none;
+  font-weight:600;
+  font-size:14.5px;
+  white-space:nowrap;
+}
+.tool-brand img{width:30px;height:30px;object-fit:contain}
+.tool-top-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:14px;
+}
+.tool-back{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:13.5px;
+  font-weight:600;
+  white-space:nowrap;
+}
+.tool-back:hover{color:var(--accent)}
+@media(max-width:640px){
+  .tool-brand span{display:none}
+  .tool-top-actions{gap:9px}
+  .tool-back{font-size:12.5px}
+}
+
 </style>
 <script src="/theme.js"></script>
-<script src="/tools/calculator-assets/manual-payload-01a.js"></script>
-<script src="/tools/calculator-assets/manual-payload-01b.js"></script>
-<script src="/tools/calculator-assets/manual-payload-01c.js"></script>
-<script src="/tools/calculator-assets/manual-payload-02a.js"></script>
-<script src="/tools/calculator-assets/manual-payload-02b.js"></script>
-  <script src="/site-sections.js"></script>
+<style>:root{--muted:#afbfce;--faint:#a8bbc9}html[data-theme="light"]{--muted:#42556b;--faint:#4b5e71}pre{overflow:auto;white-space:pre-wrap;background:var(--panel);padding:16px;border-radius:8px}table{display:block;overflow-x:auto}td,th{min-width:100px}p,li,td{overflow-wrap:anywhere}a:focus-visible{outline:3px solid var(--teal);outline-offset:3px}@media(max-width:600px){.wrap{padding:18px 14px}table{font-size:14px}}</style>
 </head>
 <body>
-<main class="loader" id="loader">
-  <h1>Loading Calculator User Manual</h1>
-  <p>Please wait while the manual opens.</p>
-</main>
-<script>
-(async function(){
-  try{
-    if(!('DecompressionStream' in window)) throw new Error('This browser does not support the required decompression feature.');
-    const payload=window.__upskillManualPayload||'';
-    const bytes=Uint8Array.from(atob(payload),c=>c.charCodeAt(0));
-    const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
-    const html=await new Response(stream).text();
-    document.open();document.write(html.replace('</body>', '<script src="/contrast-fix.js"><\/script></body>'));document.close();
-  }catch(error){
-    document.getElementById('loader').innerHTML='<h1>Unable to open the manual</h1><p>'+String(error.message||error)+'<br><br><a href="/tools/engineering-statistics-calculator.html">Return to Calculator</a></p>';
-  }
-}());
-</script>
+<div class="tool-topbar">
+  <a class="tool-brand" href="/index.html">
+    <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
+    <span>UpSkill Sprint Consulting</span>
+  </a>
+  <div class="tool-top-actions">
+    <a class="tool-back" href="/tools/engineering-statistics-calculator.html">&larr; Back to Calculator</a>
+  </div>
+</div>
+<div class="wrap">
+
+<header class="doc">
+  <h1>Calculator <span class="amp">User Manual</span></h1>
+  <p class="sub">Engineering &amp; Statistics Calculator &middot; UpSkill Sprint &middot; updated October 4, 2026 · covers all eight workspaces, examples, assumptions, exports and the TI-84 capability map &middot; <a href="/tools/engineering-statistics-calculator.html" style="color:var(--teal);text-decoration:none">Open the Calculator &rarr;</a></p>
+</header>
+
+<div class="toc">
+  <ol>
+    <li><a href="#quick">Quick start</a></li>
+    <li><a href="#display">The display</a></li>
+    <li><a href="#typing">Typing equations (Natural Display editor)</a></li>
+    <li><a href="#keypad">The keypad &amp; SHIFT / ALPHA system</a></li>
+    <li><a href="#keyref">Complete key reference</a></li>
+    <li><a href="#memory">Memory &amp; registers (M, A&ndash;F, Ans)</a></li>
+    <li><a href="#aftereq">Behavior after pressing =</a></li>
+    <li><a href="#modes">Display modes: ENG, S&#8646;D, DMS, angle units</a></li>
+    <li><a href="#history">History tape &amp; STAT data panel</a></li>
+    <li><a href="#dist">Distributions tab</a></li>
+    <li><a href="#tests">Hypothesis Tests tab</a></li>
+    <li><a href="#shortcuts">Keyboard shortcut summary</a></li>
+    <li><a href="#accuracy">Accuracy notes</a></li>
+<li><a href="#data-quality">Data & Quality</a></li><li><a href="#capability">Capability & I-MR</a></li><li><a href="#graphing">Graphing, tracing & tables</a></li><li><a href="#math-workspace">Lists, matrices, complex numbers & units</a></li><li><a href="#finance">Finance & amortization</a></li><li><a href="#programs">Calculation programs</a></li><li><a href="#coverage">TI-84 capability map</a></li><li><a href="#exports">Exports, privacy & troubleshooting</a></li>
+  </ol>
+</div>
+
+<h2 id="quick">1 &middot; Quick Start</h2>
+<p>The tool has eight workspaces along the top:</p>
+<ul>
+  <li><strong>Scientific Calculator</strong> — a full natural-display calculator that operates like a Casio fx-300ES PLUS 2: you type <em>into</em> stacked fractions, radicals, and exponents, with a SHIFT/ALPHA keypad, memory registers, and a history tape.</li>
+  <li><strong>Distributions</strong> — probability calculator for 16 distributions with live shaded-region plots, critical values, and reliability metrics.</li>
+  <li><strong>Hypothesis Tests</strong> — ten test presets that compute the statistic, p-value, and decision, and draw the rejection region.</li>
+<li><strong>Data &amp; Quality</strong> — raw-data summaries, regression, capability, I-MR, ANOVA and chi-square.</li><li><strong>Graphing</strong> — function, parametric, polar and sequence plots, tables and numerical calculus.</li><li><strong>Lists &amp; Matrices</strong> — advanced expressions, complex numbers, units and a supported-function catalog.</li><li><strong>Finance</strong> — TVM and amortization, with NPV/IRR in the math workspace.</li><li><strong>Programs</strong> — bounded calculation programs using the documented command subset.</li></ul>
+
+<div class="ex">
+  <div class="lbl">30-second example — evaluate &radic;(59 &divide; 8) + 44</div>
+  <div class="keys">Press <kbd>&radic;&#9633;</kbd> &rarr; type <kbd>5</kbd><kbd>9</kbd> &rarr; press <kbd>&#9633;&frasl;&#9633;</kbd> (59 jumps onto the fraction bar) &rarr; type <kbd>8</kbd> &rarr; press <kbd>&#9654;</kbd> twice to climb out &rarr; <kbd>+</kbd> <kbd>4</kbd><kbd>4</kbd> &rarr; <kbd>=</kbd></div>
+  <div class="res">Result: 46.71634&hellip; &mdash; the live "ghost" line shows the answer even before you press =</div>
+</div>
+
+<h2 id="display">2 &middot; The Display</h2>
+<p>The screen has four zones, top to bottom:</p>
+<table>
+  <tr><th>Zone</th><th>What it shows</th></tr>
+  <tr><td><strong>Equation area</strong></td><td>Your expression in true textbook layout — stacked fractions, stretching radicals, raised exponents. The blinking amber cursor marks where the next entry lands. Dashed boxes are empty slots waiting for input.</td></tr>
+  <tr><td><strong>Linear form</strong></td><td>The same expression in single-line notation (e.g. <code>44+((59)/(8))</code>) — handy for copying into Excel, Python, or Minitab.</td></tr>
+  <tr><td><strong>Ghost result</strong></td><td>A live preview (<code>= 51.375</code>) that updates as you type. Incomplete input shows "&hellip;"; syntax problems show a gentle description of what's wrong and where.</td></tr>
+  <tr><td><strong>Status badges + result</strong></td><td>Indicator strip (SHIFT, ALPHA, hyp, STO, DEG/RAD/GRA, ENG, S&#8646;D, M) above the main result line. Long results scroll horizontally like a hardware LCD. <strong>Click the result to copy it at full precision.</strong></td></tr>
+</table>
+
+<h2 id="typing">3 &middot; Typing Equations — the Natural Display Editor</h2>
+<p>The equation area is a <em>structural</em> editor: the math on screen is the input itself, not a preview. You can drive it entirely from the keypad, entirely from your keyboard, or mix both.</p>
+
+<h3>Creating structures</h3>
+<table>
+  <tr><th>You press</th><th>What happens</th></tr>
+  <tr><td><kbd>/</kbd> (keyboard) or <kbd>&#9633;&frasl;&#9633;</kbd></td><td>Creates a fraction. The term you just typed <strong>jumps up onto the bar as the numerator</strong> (parenthesized groups are collected whole), and the cursor lands in the denominator.</td></tr>
+  <tr><td><kbd>^</kbd> (keyboard) or <kbd>x&#9632;</kbd></td><td>Opens a raised exponent box. <kbd>x&sup2;</kbd> / <kbd>x&sup3;</kbd> / <kbd>x&#8315;&sup1;</kbd> insert the filled power and return the cursor to the baseline.</td></tr>
+  <tr><td><kbd>&radic;&#9633;</kbd></td><td>Inserts a radical; the sign stretches automatically over anything you build inside — even fraction-in-fraction stacks. <kbd class="s">SHIFT</kbd>+<kbd>&radic;&#9633;</kbd> gives &#8731;; <kbd class="s">SHIFT</kbd>+<kbd>x&#9632;</kbd> gives the n-th root with an index slot.</td></tr>
+  <tr><td>Letters then <kbd>(</kbd></td><td>Typing <code>sin</code> <code>tan</code> <code>ln</code> <code>logb</code> <code>ncr</code>&hellip; followed by <kbd>(</kbd> converts the letters into a live function with the cursor inside.</td></tr>
+</table>
+
+<h3>Moving around</h3>
+<ul>
+  <li><kbd>&#9664;</kbd> <kbd>&#9654;</kbd> walk <em>through</em> the structure — into a radical, across the radicand, out the other side.</li>
+  <li><kbd>&#9650;</kbd> <kbd>&#9660;</kbd> hop between numerator and denominator, and between a root's index and radicand. <kbd>&#9660;</kbd> also exits an exponent.</li>
+  <li><strong>Click anywhere</strong> — on a character (cursor lands before/after depending on which half you click), on an empty dashed slot, or on a slot's padding — the cursor goes exactly there.</li>
+  <li><kbd>Backspace</kbd> / <kbd>DEL</kbd> deletes leftward; at the edge of a structure it steps inside; deleting a fraction bar <em>dissolves</em> the structure but keeps its contents.</li>
+  <li><kbd>Ctrl</kbd>+<kbd>Z</kbd> undoes (up to 80 steps). <kbd>Ctrl</kbd>+<kbd>C</kbd> with nothing selected copies the linear form. Pasting a linear expression like <code>sqrt(10.39/(0.25*tan(720/(2*6))*6))</code> converts it into the stack automatically.</li>
+  <li><kbd>Enter</kbd> = evaluate.</li>
+</ul>
+
+<p class="note">Keyboard <kbd>/</kbd> builds a stacked fraction; the keypad <kbd>&divide;</kbd> inserts a linear &divide; sign — exactly the distinction the real Casio makes between the fraction key and the divide key. Both compute identically.</p>
+<h2 id="keypad">4 &middot; The Keypad &amp; SHIFT / ALPHA System</h2>
+<p>The keypad mirrors the fx-300ES PLUS 2 faceplate. Every key can carry up to three functions:</p>
+<ul>
+  <li><strong>Main label</strong> (white) — what the key does when pressed alone.</li>
+  <li><strong>Gold legend</strong> above-left — the <kbd class="s">SHIFT</kbd> function.</li>
+  <li><strong>Red legend</strong> above-right — the <kbd class="a">ALPHA</kbd> function (mostly the A&ndash;F registers).</li>
+</ul>
+<p><kbd class="s">SHIFT</kbd> and <kbd class="a">ALPHA</kbd> are <strong>one-shot prefix keys</strong>: press one (its badge lights and the key outlines), press the target key, and the modifier clears itself. Pressing it again cancels. <kbd>hyp</kbd> works the same way as a prefix for the trig keys: <span class="seq"><b>hyp</b> &rarr; <b>sin</b></span> gives sinh, and <span class="seq"><b>hyp</b> &rarr; <b>SHIFT</b> &rarr; <b>tan</b></span> gives tanh&#8315;&sup1;.</p>
+<p>The circular <strong>replay D-pad</strong> navigates the equation (&#9664;&#9654; through the structure, &#9650;&#9660; between stacked levels). On an empty screen, <kbd>&#9650;</kbd> recalls your previous calculation for editing — the classic Casio replay.</p>
+
+<h2 id="keyref">5 &middot; Complete Key Reference</h2>
+<table>
+  <tr><th>Key</th><th>Plain</th><th><span style="color:var(--accent)">SHIFT</span></th><th><span style="color:var(--red)">ALPHA</span></th></tr>
+  <tr><td><kbd>MODE</kbd></td><td>Cycle angle unit DEG &rarr; RAD &rarr; GRA</td><td>&mdash;</td><td>&mdash;</td></tr>
+  <tr><td><kbd>ON</kbd></td><td>Full reset: clears screen, modifiers, hyp, ENG</td><td>&mdash;</td><td>&mdash;</td></tr>
+  <tr><td><kbd>Abs</kbd></td><td>|&thinsp;x&thinsp;| absolute-value bars</td><td>&mdash;</td><td>&mdash;</td></tr>
+  <tr><td><kbd>x&sup3;</kbd></td><td>Cube</td><td>&mdash;</td><td>&mdash;</td></tr>
+  <tr><td><kbd>x&#8315;&sup1;</kbd></td><td>Reciprocal power</td><td>x! factorial</td><td>&mdash;</td></tr>
+  <tr><td><kbd>log&#8320;b</kbd></td><td>Log of any base: <code>logb(base, value)</code> — separate the arguments with <kbd class="s">SHIFT</kbd>+<kbd>)</kbd> (comma)</td><td>&mdash;</td><td>&mdash;</td></tr>
+  <tr><td><kbd>&#9633;&frasl;&#9633;</kbd></td><td>Stacked fraction (collects the preceding term as numerator)</td><td>&mdash;</td><td>&mdash;</td></tr>
+  <tr><td><kbd>&radic;&#9633;</kbd></td><td>Square root</td><td>&#8731;&#9633; cube root</td><td>&mdash;</td></tr>
+  <tr><td><kbd>x&sup2;</kbd></td><td>Square</td><td>&mdash;</td><td>&mdash;</td></tr>
+  <tr><td><kbd>x&#9632;</kbd></td><td>Power (opens exponent box)</td><td>&#8319;&radic;&#9633; n-th root</td><td>&mdash;</td></tr>
+  <tr><td><kbd>log</kbd></td><td>log&#8321;&#8320; </td><td>10&#739;</td><td>&mdash;</td></tr>
+  <tr><td><kbd>ln</kbd></td><td>Natural log</td><td>e&#739;</td><td>&mdash;</td></tr>
+  <tr><td><kbd>(&minus;)</kbd></td><td>Negative sign</td><td>&mdash;</td><td>Register A</td></tr>
+  <tr><td><kbd>&deg;&prime;&Prime;</kbd></td><td>Show last result as degrees-minutes-seconds</td><td>FACT — prime factorization of the last integer result</td><td>Register B</td></tr>
+  <tr><td><kbd>hyp</kbd></td><td>Hyperbolic prefix for the next trig key</td><td>&mdash;</td><td>Register C</td></tr>
+  <tr><td><kbd>sin</kbd> <kbd>cos</kbd> <kbd>tan</kbd></td><td>Trig (respects angle unit)</td><td>sin&#8315;&sup1; cos&#8315;&sup1; tan&#8315;&sup1;</td><td>Registers D, E, F</td></tr>
+  <tr><td><kbd>RCL</kbd></td><td>Recall: press then a letter key to insert that register</td><td>STO: press then a letter key (or M+) to store the last result there</td><td>&mdash;</td></tr>
+  <tr><td><kbd>ENG</kbd></td><td>Engineering notation; repeated presses step the exponent down by 3</td><td>&larr; steps the exponent back up</td><td>&mdash;</td></tr>
+  <tr><td><kbd>(</kbd></td><td>Open parenthesis (also completes typed function names)</td><td>% percent</td><td>&mdash;</td></tr>
+  <tr><td><kbd>)</kbd></td><td>Close parenthesis</td><td>, comma (argument separator)</td><td>&mdash;</td></tr>
+  <tr><td><kbd>S&#8646;D</kbd></td><td>Toggle result between decimal and exact fraction (e.g. 0.375 &#8646; 3&frasl;8)</td><td>&mdash;</td><td>&mdash;</td></tr>
+  <tr><td><kbd>M+</kbd></td><td>Add last result to M</td><td>M&minus; subtract from M &middot; (after STO: stores into M)</td><td>Insert M into the expression</td></tr>
+  <tr><td><kbd>DEL</kbd></td><td>Delete left of cursor (structure-aware)</td><td>INS legend (always in insert mode)</td><td>&mdash;</td></tr>
+  <tr><td><kbd>AC</kbd></td><td>Clear the expression</td><td>OFF legend</td><td>&mdash;</td></tr>
+  <tr><td><kbd>&times;</kbd></td><td>Multiply</td><td>nPr permutations</td><td>&mdash;</td></tr>
+  <tr><td><kbd>&divide;</kbd></td><td>Linear division sign</td><td>nCr combinations</td><td>&mdash;</td></tr>
+  <tr><td><kbd>1</kbd></td><td>Digit 1</td><td>STAT — jump to the data panel</td><td>&mdash;</td></tr>
+  <tr><td><kbd>0</kbd></td><td>Digit 0</td><td>Rnd — round the stored result to the displayed precision</td><td>&mdash;</td></tr>
+  <tr><td><kbd>.</kbd></td><td>Decimal point</td><td>Ran# — random number 0&ndash;1</td><td>&mdash;</td></tr>
+  <tr><td><kbd>&times;10&#739;</kbd></td><td>Scientific-notation entry (&times;10 with exponent box)</td><td>&pi;</td><td>e (Euler)</td></tr>
+  <tr><td><kbd>Ans</kbd></td><td>Insert the previous answer</td><td>DRG&#9654; — cycle angle unit</td><td>&mdash;</td></tr>
+  <tr><td><kbd>=</kbd></td><td>Evaluate and commit to history</td><td>&mdash;</td><td>&mdash;</td></tr>
+</table>
+
+<h2 id="memory">6 &middot; Memory &amp; Registers</h2>
+<p>Seven storage locations: the running memory <strong>M</strong>, six registers <strong>A&ndash;F</strong>, and the automatic <strong>Ans</strong>.</p>
+<div class="ex">
+  <div class="lbl">Store 42 into register D, then use it</div>
+  <div class="keys"><span class="seq"><b>4</b> <b>2</b> <b>=</b> &nbsp;&rarr;&nbsp; <b>SHIFT</b> <b>RCL</b> <span style="color:var(--faint)">(STO badge lights)</span> <b>sin</b><span style="color:var(--faint)"> (the D key)</span></span></div>
+  <div class="keys"><span class="seq">Later: <b>RCL</b> <b>sin</b> <b>+</b> <b>8</b> <b>=</b></span></div>
+  <div class="res">D + 8 = 50 &nbsp;&middot;&nbsp; registers behave as variables anywhere in an expression</div>
+</div>
+<p>You can also just <strong>type</strong> a register: uppercase <code>A</code>&ndash;<code>F</code> or <code>M</code> from the keyboard inserts it (lowercase <code>e</code> is always Euler's constant; uppercase <code>E</code> is the register).</p>
+
+<h2 id="aftereq">7 &middot; Behavior After Pressing =</h2>
+<p>The Scientific Calculator follows these entry rules:</p>
+<ul>
+  <li><strong>Digit or function</strong> &rarr; starts a fresh calculation.</li>
+  <li><strong>Operator</strong> (+ &minus; &times; &divide; ^ % !) &rarr; continues from Ans: after <span class="seq"><b>2</b><b>+</b><b>2</b><b>=</b></span>, pressing <span class="seq"><b>+</b><b>3</b><b>=</b></span> gives 7.</li>
+  <li><strong>Fraction key</strong> &rarr; the answer becomes the numerator.</li>
+  <li><strong>&#9664; or click</strong> &rarr; edit the expression you just evaluated.</li>
+  <li><strong>&#9650; on an empty screen</strong> &rarr; replay: recalls the last entry.</li>
+</ul>
+
+<h2 id="modes">8 &middot; Display Modes</h2>
+<table>
+  <tr><th>Mode</th><th>How it works</th></tr>
+  <tr><td><strong>DEG / RAD / GRA</strong></td><td><kbd>MODE</kbd> or <kbd class="s">SHIFT</kbd>+<kbd>Ans</kbd> cycles. Affects all trig and inverse trig. Badge shows the active unit.</td></tr>
+  <tr><td><strong>ENG</strong></td><td>Forces the exponent to a multiple of 3 (12&thinsp;450 &rarr; 12.45&times;10&sup3;). Each further press shifts down a step (12450&times;10&#8304;); <kbd class="s">SHIFT</kbd>+<kbd>ENG</kbd> shifts back. Ideal for kPa&rarr;MPa order-of-magnitude sanity checks.</td></tr>
+  <tr><td><strong>S&#8646;D</strong></td><td>Exact-fraction display via continued fractions: 0.15625 &#8646; 5&frasl;32. Falls back to decimal when no clean fraction exists.</td></tr>
+  <tr><td><strong>&deg;&prime;&Prime;</strong></td><td>Converts the last result to DMS: 2.5 &rarr; 2&deg; 30&prime; 0&Prime;.</td></tr>
+  <tr><td><strong>FACT</strong></td><td><kbd class="s">SHIFT</kbd>+<kbd>&deg;&prime;&Prime;</kbd>: prime factorization — 84 &rarr; 2&sup2; &times; 3 &times; 7 (integers 2 to 10&sup1;&sup2;).</td></tr>
+</table>
+
+<h2 id="history">9 &middot; History Tape &amp; STAT Data Panel</h2>
+<p><strong>History tape</strong> (right panel): every evaluated calculation is kept, rendered as a mini stacked equation with its result, and persists between sessions on the website. Click any entry to reload it into the editor for modification. Ans always holds the most recent result.</p>
+<p><strong>STAT panel</strong> (below the tape, or <kbd class="s">SHIFT</kbd>+<kbd>1</kbd>): paste data — one value per line or comma-separated — and press <em>Compute stats</em> for n, x&#772;, s (sample), &sigma; (population), &Sigma;x, &Sigma;x&sup2;, min / Q1 / median / Q3 / max. Select <strong>X,Y pairs</strong> explicitly and paste at least three pairs (one pair per line) for linear regression: slope b, intercept a, r, and r&sup2; — the calculator's equivalent of the Casio STAT mode, with paste instead of one-at-a-time entry.</p>
+
+<h2 id="dist">10 &middot; Distributions Tab</h2>
+<p>Pick a distribution, set its parameters, and ask either question:</p>
+<ul>
+  <li><strong>Given x &rarr; probability</strong> — enter a value; get the PDF/PMF, left tail P(X&nbsp;&le;&nbsp;x), right tail P(X&nbsp;&ge;&nbsp;x), the equal-tail two-tailed probability, or P(a&nbsp;&le;&nbsp;X&nbsp;&le;&nbsp;b) in Between mode.</li>
+  <li><strong>Given probability &rarr; x</strong> — enter &alpha; or a central probability; get critical values (z&#8320;.&#8320;&#8322;&#8325; = 1.959964, t-table values, &chi;&sup2; and F criticals) or a central interval.</li>
+</ul>
+<p>The plot shades the selected region in amber, labels the boundary values on the axis, prints the shaded probability, and marks the mean with a dashed teal line. Discrete distributions (Binomial, Poisson, Geometric, Negative Binomial, Hypergeometric) draw as bars with the included bars shaded — and the right tail is computed <em>inclusively</em>, P(X&nbsp;&ge;&nbsp;k), as it should be for counts.</p>
+<p>Discrete x inputs must be integers; distribution count parameters must also be integers and satisfy their domain. Uniform bounds require lower &lt; upper. Two-tail mode is disabled for discrete distributions because equal tail regions cannot generally match the requested probability. In inverse discrete mode, the selected quantile is the smallest integer with CDF at least the target; the actual inclusive region probability is displayed separately and may differ from the requested value.</p>
+<h3>Reliability distributions</h3>
+<p>For Exponential, Weibull, Lognormal, and Gamma, the results panel adds R(t) survival probability, hazard rate h(t), and MTBF. Weibull results include the &beta; interpretation (&beta;&nbsp;&lt;&nbsp;1 infant mortality, &beta;&nbsp;=&nbsp;1 random failures, &beta;&nbsp;&gt;&nbsp;1 wear-out) plus B10 life, and a reminder that F(&eta;)&nbsp;=&nbsp;63.2% always.</p>
+<div class="ex">
+  <div class="lbl">Example — Weibull component, &beta; = 2, &eta; = 1000 h: probability of surviving 500 h</div>
+  <div class="keys">Distribution: Weibull &middot; Shape 2 &middot; Scale 1000 &middot; Given x &rarr; probability &middot; Right tail &middot; x = 500</div>
+  <div class="res">P(X &ge; 500) = R(500) = 0.7788 &mdash; plotted with the survival region shaded</div>
+</div>
+
+<h2 id="tests">11 &middot; Hypothesis Tests Tab</h2>
+<p>Ten presets: 1- and 2-sample z (known population standard deviations), 1-sample t, 2-sample t (Welch and pooled), paired t, 1- and 2-proportion z, &chi;&sup2; for one variance, and F for two variances. Enter the summary statistics, choose the alternative (&ne;, &lt;, &gt;) and &alpha;, and run. You get the test statistic, p-value, critical value(s), and a plain-language decision — plus a plot of the reference distribution with the rejection region shaded and your statistic drawn as a red line. If the red line lands in the amber region, the result is significant at your &alpha;.</p>
+<p>All fields are checked before calculation. Sample sizes and success counts must be whole numbers, standard deviations positive, and success counts no larger than their sample sizes. Changing a field, test or alternative clears previous results. Two-sided (1 − α) intervals accompany the tests, even when the selected hypothesis test is one-sided. Proportion intervals use the Wald approximation and can perform poorly near 0 or 1; sparse expected counts trigger a normal-approximation caution.</p>
+<p class="note">For the asymmetric &chi;&sup2; and F distributions, two-tailed p-values use the equal-tail-probability convention, matching Minitab.</p>
+<div class="ex">
+  <div class="lbl">Example — did the process mean shift? x&#772; = 52, s = 4, n = 25, target &mu;&#8320; = 50</div>
+  <div class="keys">Test: 1-sample t &middot; Alternative: &ne; &middot; &alpha; = 0.05</div>
+  <div class="res">t = 2.50, df = 24, p = 0.0197 &lt; 0.05 &rarr; Reject H&#8320; &mdash; the statistic falls in the shaded region beyond t&#8320;.&#8320;&#8322;&#8325;,&#8322;&#8324; = &plusmn;2.0639</div>
+</div>
+
+<h2 id="shortcuts">12 &middot; Keyboard Shortcut Summary</h2>
+<table>
+  <tr><th>Keys</th><th>Action</th></tr>
+  <tr><td><kbd>0&ndash;9</kbd> <kbd>.</kbd> <kbd>+</kbd> <kbd>&minus;</kbd> <kbd>*</kbd> <kbd>)</kbd> <kbd>!</kbd> <kbd>%</kbd> <kbd>,</kbd></td><td>Direct entry</td></tr>
+  <tr><td><kbd>/</kbd></td><td>Stacked fraction (collects preceding term)</td></tr>
+  <tr><td><kbd>^</kbd></td><td>Exponent box</td></tr>
+  <tr><td>letters + <kbd>(</kbd></td><td>Function entry: <code>sin(</code> <code>asinh(</code> <code>ln(</code> <code>logb(</code> <code>ncr(</code> <code>root(</code> <code>mod(</code> &hellip;</td></tr>
+  <tr><td><kbd>pi</kbd>, <kbd>e</kbd>, <kbd>ans</kbd>, <kbd>A</kbd>&ndash;<kbd>F</kbd>, <kbd>M</kbd></td><td>Constants, previous answer, registers</td></tr>
+  <tr><td><kbd>&#9664;</kbd><kbd>&#9654;</kbd><kbd>&#9650;</kbd><kbd>&#9660;</kbd></td><td>Structural navigation</td></tr>
+  <tr><td><kbd>Backspace</kbd></td><td>Structure-aware delete</td></tr>
+  <tr><td><kbd>Enter</kbd></td><td>Evaluate</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>C</kbd> / paste</td><td>Undo / copy linear form / paste &amp; auto-stack a linear expression</td></tr>
+</table>
+
+<h2 id="accuracy">13 &middot; Accuracy Notes</h2>
+<p>The legacy distribution engine uses incomplete gamma/beta functions and numerical inversion. Tiny upper tails are evaluated directly where supported. New numerical and interface tests cover known matrix, probability, calculus, finance, control-chart, regression and ANOVA cases. This is targeted validation, not a guarantee of uniform precision across every input. IEEE double precision and displayed rounding can affect extreme cases; a numerical failure or undefined statistic must not be treated as evidence about a process.</p>
+
+<h2 id="data-quality">14 · Data &amp; Quality</h2>
+<p>Choose an analysis before pasting data. <strong>Load example</strong> supplies a complete working dataset. <strong>Analyze data</strong> replaces the results; changing data or settings invalidates the previous results and disables exports.</p>
+<table><tr><th>Analysis</th><th>Input format</th><th>Outputs and interpretation</th></tr>
+<tr><td>Descriptive statistics</td><td>Any arrangement of numeric cells, combined into one sample; minimum two values.</td><td>Mean, sample and population standard deviations, standard error, quartiles, sum, sum of squares, t confidence interval, histogram, box plot and normal probability plot. Quartiles use linear interpolation (Excel PERCENTILE.INC).</td></tr>
+<tr><td>Linear regression</td><td>Exactly X,Y per row; at least three pairs.</td><td>Slope, intercept, Pearson r, R², residual standard error (n − 2 denominator), RMSE (n denominator), two-sided slope p-value, slope interval, fitted values and residual plot. Constant X is rejected; constant Y makes r and R² undefined.</td></tr>
+<tr><td>Quadratic, cubic, quartic</td><td>X,Y pairs; at least degree + 2 observations and sufficient distinct X values.</td><td>Coefficients are displayed in original X units. Calculation uses centered and scaled X; ill-conditioned inputs are rejected. A line connects fitted values at supplied X values.</td></tr>
+<tr><td>Logarithmic, exponential, power</td><td>X,Y pairs. Logarithmic/power require positive X; exponential/power require positive Y.</td><td>Logarithmic: a + b ln(X). Exponential: a exp(bX). Power: aXᵇ. Exponential/power fit ln(Y), without retransformation bias correction. R² and RMSE are reported on the original Y scale.</td></tr>
+<tr><td>One-way ANOVA</td><td>One group per row; at least two groups and two values per group. Unequal group sizes are supported.</td><td>Classical equal-variance F test, ANOVA table, group summaries and eta-squared. A significant result means at least one mean differs; it does not identify the differing pairs.</td></tr>
+<tr><td>Chi-square independence</td><td>A rectangular table of nonnegative whole counts, at least 2 × 2. Exclude row/column totals.</td><td>Pearson χ², approximate p-value, df, Cramér’s V, expected frequencies and cell contributions. No Yates correction. Expected counts below 5 trigger a caution.</td></tr>
+<tr><td>Chi-square goodness of fit</td><td>Exactly two rows: observed counts, then expected counts. Positive expected counts; equal totals.</td><td>Pearson χ² and df = categories − 1. Expected proportions must be specified independently. Adjusted df for parameters estimated from these data are not implemented.</td></tr>
+</table>
+<p>Numbers may be separated by tabs, commas, semicolons or spaces. Use a period for the decimal point and omit headers, units, thousands separators and totals. Scientific notation such as <code>1.2e-3</code> is accepted. Blank lines are ignored, but empty cells and malformed values are rejected with their row and cell number. Data entry is limited to 10,000 values, 250,000 characters and magnitude 10¹⁰⁰.</p>
+<div class="ex"><div class="lbl">One-way ANOVA worked example</div><pre>6.9,5.4,5.8,4.6,4.0
+8.3,6.8,7.8,9.2,6.5
+8.0,10.5,8.1,6.9,9.3</pre><div class="res">Between SS = 27.8973333; within SS = 17.452; F(2,12) = 9.5911070; p = 0.00324822. At α = 0.05, reject equal population means.</div></div>
+<p><strong>Assumptions:</strong> mean intervals and regression inference require independent observations with suitable distributional assumptions. ANOVA assumes approximately normal errors and common population variance. Chi-square tests require independent counts in mutually exclusive categories. A large p-value does not prove equality or independence.</p>
+<h2 id="capability">15 · Capability &amp; I-MR Charts</h2>
+<ol><li>Choose Capability &amp; I-MR, then paste individual measurements <strong>in time order</strong>.</li><li>Enter the lower and/or upper engineering specification. A two-sided specification requires LSL &lt; USL.</li><li>Review the I-MR plots and flagged observation numbers before interpreting capability.</li><li>Compare observed out-of-specification counts with the separate normal-model estimate.</li></ol>
+<table><tr><th>Measure</th><th>Calculation / meaning</th></tr><tr><td>Overall s</td><td>Sample standard deviation, using n − 1.</td></tr><tr><td>Within sigma</td><td>Mean absolute difference between consecutive observations divided by 1.128.</td></tr><tr><td>Pp / Ppk</td><td>Spread / centering relative to specifications, using overall s.</td></tr><tr><td>Cp / Cpk</td><td>Spread / centering relative to specifications, using the moving-range sigma estimate.</td></tr><tr><td>Spread index</td><td>(USL − LSL) ÷ (6 × sigma); requires two limits.</td></tr><tr><td>Centering index</td><td>Smaller of (USL − mean) ÷ (3 × sigma) and (mean − LSL) ÷ (3 × sigma). For one limit, use the available side.</td></tr><tr><td>I-chart limits</td><td>Mean ± 3 × within sigma.</td></tr><tr><td>MR-chart limits</td><td>Lower 0; center MR̄; upper 3.267 × MR̄.</td></tr></table>
+<p>Only points beyond the limits are flagged. Other run rules are not tested. No flags does not prove stability. The same data estimate the limits and populate the chart. Autocorrelation, mixed populations, small samples and non-normality can invalidate capability interpretations. Specification limits are engineering requirements; control limits describe process behavior. Values exactly on specification limits count as conforming.</p>
+<p>Normal-model PPM uses the sample mean and overall s without a 1.5-sigma shift. It is not the observed defect rate. Zero variation is rejected; a very small sample cannot justify a confident capability claim.</p>
+<div class="ex"><div class="lbl">NIST flow-rate example</div><pre>49.6,47.6,49.9,51.3,47.8,51.2,52.6,52.4,53.6,52.1</pre><div class="res">Mean 50.81; MR̄ 1.8777778; I-chart limits 45.8159102 and 55.8040898. This example contains only ten observations and is for learning the calculation.</div></div>
+<h2 id="graphing">16 · Graphing, Tracing &amp; Tables</h2>
+<table><tr><th>Mode</th><th>Enter</th><th>How the range works</th></tr><tr><td>Function</td><td><code>x^2 - 4</code>, one function per row (up to ten).</td><td>X min/max define the sample interval; Y min/max define the visible window.</td></tr><tr><td>Parametric</td><td><code>3*cos(t); 2*sin(t)</code>; one x(t); y(t) pair per row.</td><td>Parameter start/end define t. Choose radians or degrees explicitly.</td></tr><tr><td>Polar</td><td><code>4*sin(3*theta)</code></td><td>theta runs between parameter bounds in the chosen angle unit.</td></tr><tr><td>Sequence</td><td><code>u*1.1</code>, where u is the previous value.</td><td>Integer n bounds; first point uses initial u at n start. Each later point evaluates the recurrence with current n and previous u. Maximum 2,000 points.</td></tr></table>
+<p>Press <strong>Draw graph</strong>. Zoom buttons rescale both axes around the window center. <strong>Standard window</strong> restores −10 to 10. <strong>Fit Y</strong> uses the central 96% of sampled Y values with padding, so extreme points can lie outside the fitted window. Trace a selected curve with the slider or arrow keys; click the plot to move approximately along its sample sequence. The trace reports sampled coordinates, not an exact interpolation.</p>
+<p>Function tables support an explicit start, step and 1–200 rows. Undefined values are marked. Tables and numerical analysis are available in Cartesian function mode; parametric/polar/sequence results can be inspected through tracing. Download graph saves a standalone SVG.</p>
+<p>Expressions accept pi, powers with ^, explicit multiplication with *, standard functions, and piecewise conditions such as <code>x &lt; 0 ? -x : x</code>. Natural logarithm is <code>log(x)</code> or <code>ln(x)</code>; base ten is <code>log10(x)</code>. Expressions are sampled at 801 points. The drawing breaks across undefined samples and large jumps, but can still miss a narrow feature or discontinuity. It is not a symbolic proof.</p>
+<h3>Numerical analysis</h3><table><tr><th>Operation</th><th>Inputs and limits</th></tr><tr><td>Value / derivative</td><td>First expression and a. The derivative uses a centered finite difference.</td></tr><tr><td>Zero / solve</td><td>First expression, lower a and upper b. The function must change sign across the bracket; even-multiplicity roots need a different method. Discontinuous intervals can fail.</td></tr><tr><td>Intersection</td><td>First two expressions; solve their difference within a sign-changing bracket.</td></tr><tr><td>Minimum / maximum</td><td>Golden-section search on a unimodal interval. This is a local search, not a global optimization guarantee.</td></tr><tr><td>Definite integral</td><td>Adaptive Simpson integration over finite bounds. Split intervals at singularities; non-convergence is reported.</td></tr></table>
+<div class="ex"><div class="lbl">Calculus checks</div><div class="res">For x² − 4 on [0,3], the zero is 2. For x³ at a = 2, the derivative is approximately 12. The integral of sin(x) from 0 to π, in radians, is 2.</div></div>
+<h2 id="math-workspace">17 · Lists, Matrices, Complex Numbers &amp; Units</h2>
+<p>This workspace uses a locally served copy of math.js 15.2.0. It runs in a separate worker. Use the searchable supported-function catalog and the worked-example menu. Values may be assigned to named session variables; these variables are shared with graphing and programs. They are separate from the Scientific Calculator’s M/A–F registers and Ans.</p>
+<table><tr><th>Task</th><th>Example</th></tr><tr><td>List and descriptive statistics</td><td><code>L1=[2,4,6,8,10]</code>, then <code>mean(L1)</code>, <code>std(L1)</code>, <code>cumSum(L1)</code>. std uses the sample convention by default.</td></tr><tr><td>Matrix</td><td><code>A=[2,1;1,3]</code>, <code>inv(A)</code>, <code>det(A)</code>, <code>transpose(A)</code>, <code>rref(A)</code>. Semicolons separate rows. ref returns reduced row-echelon form, which is also echelon form.</td></tr><tr><td>Simultaneous equations</td><td><code>lusolve([2,1;1,3],[5,7])</code> returns approximately [1.6, 1.8].</td></tr><tr><td>Complex numbers</td><td><code>(2+3i)*(1-i)</code> → 5 + i. <code>abs(3+4i)</code> → 5. <code>arg(1+i)</code> → π/4 radians.</td></tr><tr><td>Polynomial roots</td><td><code>polynomialRoot(-6,11,-6,1)</code> solves −6 + 11x − 6x² + x³ = 0. Coefficients are entered from constant upward. The library routine supports degree up to three.</td></tr><tr><td>Calculus</td><td><code>nDeriv("x^3",2)</code>, <code>fnInt("sin(x)",0,pi)</code>, <code>solve("x^2-2",0,2)</code>.</td></tr><tr><td>Generated list</td><td><code>seq("n^2",1,10)</code>. Bounds are inclusive; the step defaults to 1.</td></tr><tr><td>Probability</td><td><code>normalcdf(-1,1,0,1)</code>, <code>invNorm(0.975)</code>, <code>tcdf(-2,2,24)</code>, <code>binomcdf(20,0.1,2)</code>. Discrete CDFs include the specified count.</td></tr><tr><td>Combinatorics / random values</td><td><code>nCr(10,3)</code>, <code>nPr(10,3)</code>, <code>randInt(1,6)</code> (inclusive), <code>randNorm(0,1)</code>, <code>randBin(20,0.1)</code>. Samples are not reproducibly seeded.</td></tr><tr><td>Engineering units</td><td><code>25.4 mm to inch</code> → 1 inch; <code>100 degC to degF</code> → 212 degF.</td></tr></table>
+<p>RAD/DEG applies to sin/cos/tan and their inverse functions in this workspace. Complex argument and the string-based nDeriv/fnInt/solve/seq helpers use radians. Scientific Calculator angle mode is separate. Use parentheses and explicit operators when porting an expression from another calculator.</p>
+<p>Object access, matrix/list indexing and user-defined function declarations are disabled. Whole-array operations, assignments and supported functions remain available. Arrays are limited to 10,000 cells; calculations time out after six seconds, resetting shared variables. Input is limited to 8,000 characters per evaluation. A calculation tape can be downloaded as text.</p>
+<h2 id="finance">18 · Finance &amp; Amortization</h2>
+<ol><li>Select the unknown: N, annual nominal I%, PV, PMT or FV. Its input is disabled and ignored.</li><li>Enter the known values, payments per year, compounds per year, and beginning/end payment timing.</li><li>Use positive amounts for cash received and negative amounts for cash paid.</li><li>Press Solve TVM. For a positive principal and negative payment with an integer N ≤ 600, an amortization table is also displayed.</li></ol>
+<p>N counts payments, not years. If r is the effective rate per payment period, r = (1 + I% ÷ (100 × C/Y))^(C/Y ÷ P/Y) − 1. The solver uses PV(1+r)ᴺ + PMT × annuity factor + FV = 0, with the payment factor multiplied by (1+r) for beginning-of-period payments. At zero interest, the annuity factor is N.</p>
+<div class="ex"><div class="lbl">Five-year loan example</div><div class="res">N = 60, annual I% = 6, PV = 20,000, FV = 0, P/Y = C/Y = 12, end-of-period payments → PMT ≈ −386.656030589.</div></div>
+<p>In Lists &amp; Matrices, <code>npv(0.1,[-1000,400,400,400])</code> gives −5.25920360631. The first cash flow is at time zero; the rate is a decimal per period. <code>irr([-1000,400,400,400],0,1)</code> finds a periodic IRR of about 0.0970102574 within the bracket [0,1]. IRR may have multiple solutions or none. The TVM rate search is limited to annual nominal rates from −90% to 1,000%; N is bracketed from 0 to 100,000. These searches can fail for valid cases outside those ranges.</p>
+<p><code>eff(6,12)</code> returns the annual effective percentage for 6% nominal compounded monthly. <code>nom(effectivePercent,compoundsPerYear)</code> reverses the conversion. Amortization uses unrounded internal cash flows; lender rounding, fees and payment conventions can differ.</p>
+<h2 id="programs">19 · Calculation Programs</h2>
+<p>The program editor supports a deliberately limited, documented command language. It is not a complete TI-BASIC interpreter and does not load tokenized calculator files. Programs share session variables with the math workspace. Download source preserves the text for later reuse.</p>
+<pre>0→S
+For(I,1,10)
+  S+I→S
+End
+Disp S</pre><p>This example prints 55. Supported commands are assignments with →, -&gt; or =; Disp expression; ClrHome; For; While; If / Then / Else / End; and Stop. Every control block needs End. Conditions support comparisons and Boolean operators; a single = in an If/While condition means equality. Maximum: 500 lines, 10,000 execution steps and 1,000 output lines, plus the worker time limit.</p>
+<p>Not supported: Goto/Lbl, interactive Input/Prompt/Menu, key scanning, drawing commands, list indexing, strings with TI-specific token semantics, assembly, hardware calls, .8xp imports, or installed TI applications. Unsupported statements produce errors; they are not silently skipped.</p>
+<h2 id="coverage">20 · TI-84 Plus CE Capability Map</h2>
+<p>The additions implement many comparable browser workflows. <strong>Full TI-84 Plus CE feature parity has not been reached.</strong> This is an independent UpSkill Sprint tool with its own interface, syntax and numerical behavior, not an emulator or a Texas Instruments product. Do not assume that a TI command or file will work without checking the supported catalog and this manual.</p>
+<table><tr><th>TI-style capability family</th><th>Coverage in this tool</th></tr><tr><td>Scientific math, trig, hyperbolic, fractions, memory, combinatorics</td><td>Available through Scientific Calculator and the math workspace. Key layout, display modes, register names and syntax differ.</td></tr><tr><td>Cartesian / parametric / polar / sequence graphs</td><td>Available, with custom windows, zoom, trace and SVG export. Recurrences use one previous u; coupled sequences, cobweb plots, TI drawing/zoom presets and graph databases are not implemented.</td></tr><tr><td>Tables and graph analysis</td><td>Function tables, values, bracketed zeros/intersections, local extrema, derivatives and integrals. Split-screen TI layouts and exact hardware trace behavior are not reproduced.</td></tr><tr><td>Lists and matrices</td><td>Whole-array math, descriptive functions, determinant, inverse, transpose, RREF, simultaneous equations and generated lists. TI list/matrix cell editors and index syntax are not reproduced.</td></tr><tr><td>Complex and coordinate operations</td><td>Complex arithmetic, real/imaginary parts, conjugate, magnitude and argument. Rectangular-to-polar results can be obtained using abs/arg; graphing supports polar coordinates.</td></tr><tr><td>Statistics, plots and regressions</td><td>Summary statistics, histogram, box plot, normal probability plot, scatter/residual/sequence plots; linear, quadratic, cubic, quartic, logarithmic, exponential and power fits. Median–median, sinusoidal and logistic regression are not implemented.</td></tr><tr><td>Distributions and inference</td><td>16 distributions; z/t mean tests, paired t, proportion tests, variance tests, two-sided intervals from summary inputs, regression slope inference, ANOVA, independence and fixed-expected goodness-of-fit. Exact-method inference, frequency-list inference and every TI distribution syntax variant are not implemented.</td></tr><tr><td>Finance</td><td>TVM, payment timing and compounding, amortization, NPV/IRR and nominal/effective rate conversion. TI financial date/day-count functions, every amortization command, and dedicated cash-flow frequency lists are not implemented.</td></tr><tr><td>Programming</td><td>The subset in §19; not full TI-BASIC, assembly or binary-program compatibility.</td></tr><tr><td>Bundled applications</td><td>Related tasks such as units, roots and linear systems have equivalents. Cabri Jr., CellSheet, dedicated conic/inequality/transformation apps, periodic-table app, interactive probability-simulation app, and TI app installation are not reproduced.</td></tr><tr><td>Hardware / OS / ecosystem</td><td>USB/link transfer, TI Connect, TI-Innovator/Vernier interfaces, RAM/archive management, device clock, battery controls, Press-to-Test and exam certification are not browser features of this tool.</td></tr></table>
+<p>References: <a href="https://education.ti.com/en/guidebook/details/en/3BBF042421644CE2AF713484B03A8B11/ti-84-plus-ce" target="_blank" rel="noopener">Texas Instruments guidebooks</a> and <a href="https://education.ti.com/html/webhelp/EG_TI84PlusCE/EN/Subsystems/e-guide_ref84plus_en/content/m_appxa/aa_commandlist.HTML" target="_blank" rel="noopener">TI commands reference</a>. Exact TI behavior requires a compatible TI product; this tool makes no high-stakes-exam approval claim.</p>
+<h2 id="exports">21 · Exports, Privacy &amp; Troubleshooting</h2>
+<p>Data &amp; Quality exports a text report with inputs, settings, metrics, tables and assumptions, plus a CSV results file. The graph exports SVG; the math tape and program source export text. Calculations run locally; these workspaces do not upload datasets or program source. The Scientific Calculator’s history continues to use browser local storage. Other session variables and analysis inputs are not automatically saved. Download anything you want to retain before reloading.</p>
+<ul><li><strong>Invalid data:</strong> use the reported row/cell; remove headers and units, correct empty cells, and select the intended analysis.</li><li><strong>Old result disappeared:</strong> the input changed. Recalculate to create results for the current inputs.</li><li><strong>Worker timeout:</strong> reduce the expression/program size. The worker resets and shared variables must be re-entered.</li><li><strong>Graph gaps:</strong> inspect domain restrictions and singularities. Increase the window or evaluate the function numerically.</li><li><strong>Unsupported command:</strong> search the supported catalog. TI syntax is not automatically translated.</li><li><strong>Downloads:</strong> allow normal file downloads for this site. Export buttons for analysis remain disabled until calculation succeeds.</li></ul>
+<p>Keyboard navigation: use Tab to reach tabs, then Left/Right or Home/End to switch workspaces. Range sliders support arrow keys. Result tables scroll horizontally on small screens; tab bars wrap. Text and controls follow the site’s light/dark theme.</p>
+<h3>Method references</h3>
+<ul><li><a href="https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc322.htm">NIST — Individuals control charts</a></li><li><a href="https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm">NIST — Process capability</a></li><li><a href="https://www.itl.nist.gov/div898/handbook/prc/section4/prc434.htm">NIST — One-way ANOVA calculations</a> (the example is independently calculated from the listed observations).</li><li><a href="https://online.stat.psu.edu/stat500/Lesson08">Penn State — Chi-square independence</a></li><li><a href="https://mathjs.org/docs/expressions/syntax.html">math.js — expression syntax</a> and <a href="https://mathjs.org/docs/expressions/security.html">expression security and worker isolation</a></li></ul>
+
+<footer class="doc">
+  <p>UpSkill Sprint Consulting — practical tools for quality &amp; continuous-improvement professionals. This manual accompanies <a href="/tools/engineering-statistics-calculator.html" style="color:var(--teal)">engineering-statistics-calculator.html</a>; the advanced workspaces load locally served JavaScript modules and the bundled math.js engine (Apache-2.0). Print-friendly: use your browser's Print for a light-theme hard copy.</p>
+</footer>
+
+</div>
 <script src="/contrast-fix.js"></script>
 </body>
 </html>

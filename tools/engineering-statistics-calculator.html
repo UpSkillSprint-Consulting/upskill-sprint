@@ -1,53 +1,1765 @@
 <!DOCTYPE html>
+<!-- ============================================================
+  UpSkill Sprint — Engineering & Statistics Calculator
+  ------------------------------------------------------------
+  Purpose : Dual-mode instrument for LSS / quality / reliability:
+            1) Scientific calculator (textbook-style rendering,
+               history tape, memory, fractions, ENG notation,
+               descriptive stats + regression)
+            2) Statistical distribution engine (16 distributions,
+               PDF/CDF/inverse, tail regions, live shaded plots,
+               reliability metrics)
+            3) Hypothesis test presets (z, t, 2-sample t, paired,
+               proportions, chi-square variance, F) with critical
+               regions plotted
+  Stack   : Single-file HTML + CSS + vanilla JS. Zero dependencies.
+            Hand-rolled canvas plotting. Special functions via
+            Lanczos gamma, incomplete gamma/beta (Lentz continued
+            fractions), Acklam inverse normal + Newton refinement.
+  Author  : Built for upskillsprint.com
+  ============================================================ -->
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Engineering &amp; Statistics Calculator | UpSkill Sprint</title>
-<meta name="description" content="Scientific calculations, descriptive statistics, probability distributions, reliability metrics, and hypothesis tests.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#0A1118">
 <link rel="canonical" href="https://upskillsprint.com/tools/engineering-statistics-calculator.html">
+<title>Engineering &amp; Statistics Calculator | UpSkill Sprint</title>
+<meta name="description" content="Free engineering and statistical calculator: 16 probability distributions with shaded tail plots, critical values, p-values, hypothesis tests, reliability metrics, plus a full scientific calculator with history and fractions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f5f8fc;color:#172033;font:15px/1.55 Inter,Segoe UI,Arial,sans-serif}
-  .loader{width:min(560px,calc(100% - 40px));padding:32px;border:1px solid #dce4ee;border-radius:16px;background:#fff;box-shadow:0 12px 35px rgba(11,31,58,.09);text-align:center}
-  .loader h1{font-size:24px;margin:0 0 10px}.loader p{color:#5e6b7f;margin:0}.loader a{color:#1769aa}
-  html[data-theme="dark"] body{background:#0a1118;color:#e8eef4}html[data-theme="dark"] .loader{background:#101b26;border-color:#21384c}html[data-theme="dark"] .loader p{color:#a9b6c8}
+/* ================= Design tokens ================= */
+:root{
+  --bg:#0A1118; --panel:#101B26; --panel-2:#15222E; --panel-3:#1A2A38;
+  --line:#21384C; --line-soft:#182A3A;
+  --text:#E8EEF4; --muted:#7E93A6; --faint:#55697B;
+  --accent:#F0A64B; --accent-dim:rgba(240,166,75,.14);
+  --teal:#46C2AE; --red:#E36060; --blue:#6FA3E8; --green:#5DC98B;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --disp:"Barlow Condensed","Arial Narrow",var(--sans);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#0A1118}
+button{font-family:inherit}
+
+/* ================= Header & tabs ================= */
+header{border-bottom:1px solid var(--line-soft);background:linear-gradient(180deg,#0D1620 0%,var(--bg) 100%);padding:18px clamp(14px,4vw,40px) 0}
+.hd{max-width:1240px;margin:0 auto}
+h1{font-family:var(--disp);font-weight:700;font-size:clamp(23px,3.2vw,32px);letter-spacing:.06em;text-transform:uppercase}
+h1 .amp{color:var(--accent)}
+.tagline{color:var(--muted);font-size:12.5px;margin:2px 0 14px}
+.tabs{display:flex;gap:4px}
+.tab{background:none;border:none;border-bottom:3px solid transparent;color:var(--muted);cursor:pointer;font-family:var(--disp);font-size:17px;letter-spacing:.07em;text-transform:uppercase;padding:8px 16px 10px;transition:color .12s}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+.wrap{max-width:1240px;margin:0 auto;padding:22px clamp(14px,4vw,40px) 60px}
+.page{display:none}
+.page.active{display:block}
+.panel{background:var(--panel);border:1px solid var(--line-soft);border-radius:14px}
+.grid2{display:grid;grid-template-columns:390px 1fr;gap:20px;align-items:start}
+@media(max-width:980px){.grid2{grid-template-columns:1fr}}
+
+/* ================= Shared controls ================= */
+label.f{display:block;color:var(--muted);font-size:12px;letter-spacing:.04em;margin:10px 0 4px}
+input.f,select.f,textarea.f{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--text);font-family:var(--mono);font-size:14.5px;padding:8px 12px;outline:none}
+input.f:focus,select.f:focus,textarea.f:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim)}
+select.f{font-family:var(--sans);cursor:pointer}
+.seg{display:flex;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;width:fit-content;max-width:100%;flex-wrap:wrap}
+.seg button{background:var(--panel-2);border:none;color:var(--muted);cursor:pointer;font-size:12.5px;padding:7px 13px;transition:all .1s}
+.seg button.on{background:var(--accent-dim);color:var(--accent);font-weight:600}
+.seg button:not(:last-child){border-right:1px solid var(--line)}
+.btn{background:var(--accent);border:none;border-radius:8px;color:#0A1118;cursor:pointer;font-size:14px;font-weight:600;padding:10px 20px;transition:filter .12s}
+.btn:hover{filter:brightness(1.1)}
+.btn.ghost{background:var(--panel-2);color:var(--muted);border:1px solid var(--line)}
+.btn.ghost:hover{color:var(--text)}
+.hint{color:var(--faint);font-size:11.5px;margin-top:3px}
+.sechd{font-family:var(--disp);font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:16px 0 6px}
+
+/* ================= Distribution page ================= */
+.dside{padding:18px 20px 22px}
+.dmain{min-width:0}
+.plotbox{padding:14px 14px 6px}
+canvas#plot,canvas#tplot{width:100%;height:auto;display:block;border-radius:8px}
+.results{padding:6px 20px 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.res{background:var(--panel-2);border:1px solid var(--line-soft);border-radius:10px;padding:10px 14px}
+.res .k{color:var(--faint);font-size:11px;letter-spacing:.05em;text-transform:uppercase}
+.res .v{font-family:var(--mono);font-size:16.5px;margin-top:2px;word-break:break-all}
+.res.hero{border-color:var(--accent);background:var(--accent-dim)}
+.res.hero .v{color:var(--accent);font-size:19px}
+.res .v.dim{color:var(--muted)}
+.dnote{padding:0 20px 18px;color:var(--faint);font-size:12px;line-height:1.55}
+.dnote b{color:var(--muted);font-weight:600}
+.paramrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.paramrow.one{grid-template-columns:1fr}
+
+/* ================= Calculator page ================= */
+.calcgrid{display:grid;grid-template-columns:minmax(340px,460px) 1fr;gap:20px;align-items:start}
+@media(max-width:900px){.calcgrid{grid-template-columns:1fr}}
+.calc{padding:16px}
+.screen{background:#060B10;border:1px solid var(--line);border-radius:10px;padding:12px 16px;min-height:130px;display:flex;flex-direction:column;justify-content:space-between;margin-bottom:12px}
+/* ---- structural math editor (Natural Display) ---- */
+.mathedit{min-height:76px;font-family:var(--mono);font-size:23px;display:flex;align-items:center;overflow-x:auto;overflow-y:hidden;padding:8px 4px;cursor:text;outline:none}
+.mathedit:focus{box-shadow:inset 0 0 0 1px var(--accent-dim)}
+.mbox{display:inline-flex;align-items:center}
+.atom{display:inline-flex;align-items:center}
+.frac{flex-direction:column;margin:0 3px;text-align:center}
+.fnum,.fden{padding:0 6px;display:inline-flex;justify-content:center;align-items:center;line-height:1.35}
+.fnum{border-bottom:1.7px solid var(--text)}
+.frac .frac{font-size:.88em}
+.sqrt{align-items:stretch;margin:0 2px}
+.rsign{display:flex;align-self:stretch;width:12px;min-height:1.2em;color:var(--text);flex:none}
+.rsign svg{width:100%;height:100%;display:block}
+.rbody{border-top:1.7px solid var(--text);padding:2px 5px 1px 3px;display:inline-flex;align-items:center}
+.ridx{font-size:.58em;align-self:flex-start;margin-right:-4px;margin-top:-.25em;position:relative;z-index:1}
+.sup{font-size:.68em;align-self:center;transform:translateY(-.6em)}
+.fname{color:var(--teal);margin-right:1px}
+.och{color:var(--accent);padding:0 3px}
+.dch{color:var(--text)}
+.sch{color:var(--teal);padding:0 1px}
+.pch{color:var(--accent)}
+.cur{width:2px;background:var(--accent);align-self:stretch;min-height:1.1em;animation:blink 1.05s steps(1) infinite;margin:0 1px;border-radius:1px}
+@keyframes blink{50%{opacity:0}}
+.ebox{width:17px;height:24px;border:1.5px dashed var(--faint);border-radius:4px;margin:0 2px;cursor:text}
+.mbox:hover > .ebox,.ebox:hover{border-color:var(--accent)}
+.fnum,.fden,.rbody{cursor:text}
+.linear{font-family:var(--mono);font-size:12px;color:var(--faint);border-top:1px dashed var(--line-soft);margin-top:8px;padding-top:5px;word-break:break-all;min-height:16px}
+math mi{color:var(--teal);font-style:normal}
+math mo{color:var(--accent)}
+math mn{color:var(--text)}
+#result math{font-size:1em;color:inherit}
+#result{cursor:pointer}
+.hitem .he math{font-size:15px}
+.ghost{color:var(--faint);font-family:var(--mono);font-size:13px;text-align:right;min-height:18px;margin-top:3px}
+.ghost b{color:var(--muted);font-weight:500}
+.ghost .gsoft{color:var(--faint)}
+.resline{display:flex;flex-direction:column;align-items:stretch;gap:2px;margin-top:8px}
+.modebadges{display:flex;gap:5px;flex-wrap:wrap}
+#result{font-family:var(--mono);font-size:27px;color:var(--accent);text-align:right;width:100%;white-space:nowrap;overflow-x:auto;overflow-y:hidden;min-height:36px;scrollbar-width:thin}
+#result.err{white-space:normal;color:var(--red);font-size:15px}
+.badge{font-family:var(--mono);font-size:10.5px;color:var(--faint);border:1px solid var(--line);border-radius:5px;padding:1px 7px}
+.badge.on{color:var(--accent);border-color:var(--accent)}
+.kpads{display:flex;flex-direction:column;gap:8px}
+.fpad{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.npad{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.key{position:relative;background:var(--panel-2);border:1px solid var(--line-soft);border-radius:8px;color:var(--text);cursor:pointer;padding:3px 2px 6px;min-height:47px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;transition:all .09s;font-family:var(--mono)}
+.key:hover{border-color:var(--accent)}
+.key:active{transform:scale(.94)}
+.klbl{display:flex;gap:6px;font-size:9.5px;line-height:1;min-height:10px;margin-bottom:3px;font-family:var(--sans)}
+.klbl .ks{color:var(--accent)}
+.klbl .ka{color:#E36060}
+.kmain{font-size:13px;line-height:1.05;color:var(--text)}
+.npad .key{min-height:50px}
+.npad .kmain{font-size:18px}
+.key.modk{background:#22364C;font-weight:600}
+.key.modk .kmain{font-size:11.5px}
+.key.onk{outline:2px solid var(--accent);outline-offset:-1px}
+.key.alphak.onk{outline-color:#E36060}
+.key.grn{background:#28402E}
+.key.grn .kmain{color:#A9DFB2}
+.key.eqk{background:var(--accent)}
+.key.eqk .kmain{color:#0A1118;font-weight:700;font-size:19px}
+.key.opk .kmain{color:var(--accent);font-size:17px}
+.dpad{grid-column:3/5;grid-row:1/3;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);background:radial-gradient(circle,#22364C 0%,var(--panel-2) 75%);border:1px solid var(--line);border-radius:50%;justify-self:center;align-self:center;width:min(112px,100%);aspect-ratio:1;padding:4px}
+.dpad button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;border-radius:8px;padding:0}
+.dpad button:hover{color:var(--accent);background:var(--accent-dim)}
+.dpad .du{grid-area:1/2}.dpad .dl{grid-area:2/1}.dpad .dr{grid-area:2/3}.dpad .dd{grid-area:3/2}
+.histpanel{padding:16px 18px}
+.histpanel h3,.statpanel h3{font-family:var(--disp);font-size:16px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+#history{max-height:330px;overflow-y:auto;display:flex;flex-direction:column-reverse;gap:4px}
+.hitem{background:var(--panel-2);border:1px solid transparent;border-radius:8px;cursor:pointer;padding:6px 12px;font-family:var(--mono);font-size:13px}
+.hitem:hover{border-color:var(--accent)}
+.hitem .he{color:var(--muted);word-break:break-all}
+.hitem .hr{color:var(--accent);text-align:right}
+.statpanel{padding:16px 18px;border-top:1px solid var(--line-soft)}
+#statout{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-top:10px}
+
+/* ================= Tests page ================= */
+.tform{padding:18px 20px 22px}
+.decision{font-family:var(--disp);font-size:22px;letter-spacing:.05em;text-transform:uppercase;padding:12px 20px}
+.decision.reject{color:var(--red)}
+.decision.fail{color:var(--green)}
+.hyp{padding:0 20px 8px;font-family:var(--mono);font-size:14px;color:var(--muted)}
+.hyp b{color:var(--text)}
+
+footer.pg{max-width:1240px;margin:0 auto;padding:0 clamp(14px,4vw,40px) 40px;color:var(--faint);font-size:12px;line-height:1.6}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media(max-width:640px){.kmain{font-size:11.5px}.npad .kmain{font-size:16px}.key{min-height:44px}.results{grid-template-columns:1fr 1fr}}
+
+/* ================= Shared UpSkill Sprint theme + tool bar ================= */
+html[data-theme="light"]{
+  --bg:#F5F7FA; --panel:#FFFFFF; --panel-2:#EEF3F7; --panel-3:#E5EDF4;
+  --line:#C9D5E1; --line-soft:#DDE5ED;
+  --text:#132238; --muted:#52657A; --faint:#718398;
+}
+html[data-theme="light"] body{background:var(--bg);color:var(--text)}
+html[data-theme="light"] header{
+  background:linear-gradient(180deg,#FFFFFF 0%,#F5F7FA 100%);
+  border-bottom-color:var(--line-soft)
+}
+html[data-theme="light"] input.f,
+html[data-theme="light"] select.f,
+html[data-theme="light"] textarea.f{background:#FFFFFF}
+html[data-theme="light"] .screen{background:#FFFFFF}
+html[data-theme="light"] .key.modk,
+html[data-theme="light"] .dpad{
+  background:radial-gradient(circle,#E5EDF4 0%,var(--panel-2) 75%)
+}
+html[data-theme="light"] .key.grn{background:#E8F5EC}
+html[data-theme="light"] .key.grn .kmain{color:#276B3B}
+html[data-theme="light"] .eqk .kmain{color:#0A1118}
+html[data-theme="light"] ::selection{color:#FFFFFF}
+
+.tool-topbar{
+  max-width:1240px;
+  margin:0 auto 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+}
+.tool-brand{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  color:var(--text);
+  text-decoration:none;
+  font-weight:600;
+  font-size:14.5px;
+  white-space:nowrap;
+}
+.tool-brand img{width:30px;height:30px;object-fit:contain}
+.tool-top-actions{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:14px;
+}
+.tool-back{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:13.5px;
+  font-weight:600;
+  white-space:nowrap;
+}
+.tool-back:hover{color:var(--accent)}
+@media(max-width:640px){
+  .tool-topbar{align-items:flex-start}
+  .tool-brand span{display:none}
+  .tool-top-actions{gap:9px}
+  .tool-back{font-size:12.5px}
+}
+
 </style>
 <script src="/theme.js"></script>
-<script src="/tools/calculator-assets/calc-payload-01.js"></script>
-<script src="/tools/calculator-assets/calc-payload-02.js"></script>
-<script src="/tools/calculator-assets/calc-payload-03.js"></script>
-<script src="/tools/calculator-assets/calc-payload-04.js"></script>
-<script src="/tools/calculator-assets/calc-payload-05a.js"></script>
-<script src="/tools/calculator-assets/calc-payload-05b.js"></script>
-<script src="/tools/calculator-assets/calc-payload-05c.js"></script>
-<script src="/tools/calculator-assets/calc-payload-06.js"></script>
-<script src="/site-sections.js"></script>
+<link rel="stylesheet" href="/tools/calculator-assets/analysis.css">
 </head>
 <body>
-<main class="loader" id="loader">
-  <h1>Loading Engineering &amp; Statistics Calculator</h1>
-  <p>Please wait while the tool opens.</p>
-</main>
+
+<header>
+  <div class="tool-topbar">
+    <a class="tool-brand" href="/index.html">
+      <img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo">
+      <span>UpSkill Sprint Consulting</span>
+    </a>
+    <div class="tool-top-actions">
+      <a class="tool-back" href="/engineering-tools.html">&larr; Back to Engineering Tools</a>
+    </div>
+  </div>
+  <div class="hd">
+    <h1>Engineering <span class="amp">&amp;</span> Statistics Calculator</h1>
+    <p class="tagline">16 distributions with shaded tail plots &middot; hypothesis tests with critical regions &middot; full scientific calculator &middot; raw-data quality analysis &middot; <a href="/tools/calculator-manual.html" style="color:var(--teal);text-decoration:none">User Manual &rarr;</a></p>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-page="pg-dist" role="tab">Distributions</button>
+      <button class="tab" data-page="pg-test" role="tab">Hypothesis Tests</button>
+      <button class="tab" data-page="pg-data" role="tab">Data &amp; Quality</button>
+      <button class="tab" data-page="pg-graph" role="tab">Graphing</button>
+<button class="tab" data-page="pg-math" role="tab">Lists &amp; Matrices</button>
+<button class="tab" data-page="pg-finance" role="tab">Finance</button>
+<button class="tab" data-page="pg-program" role="tab">Programs</button>
+<button class="tab" data-page="pg-calc" role="tab">Scientific Calculator</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ==================== DISTRIBUTIONS ==================== -->
+<section class="page active" id="pg-dist">
+  <div class="grid2">
+    <div class="panel dside">
+      <label class="f" for="dsel">Distribution</label>
+      <select class="f" id="dsel"></select>
+      <div id="dparams"></div>
+
+      <div class="sechd">Question</div>
+      <div class="seg" id="dirseg">
+        <button class="on" data-v="x2p">Given x &rarr; probability</button>
+        <button data-v="p2x">Given probability &rarr; x</button>
+      </div>
+
+      <div class="sechd">Region</div>
+      <div class="seg" id="tailseg">
+        <button class="on" data-v="left">Left tail&ensp;P(X &le; x)</button>
+        <button data-v="right">Right tail&ensp;P(X &ge; x)</button>
+        <button data-v="two">Two-tail</button>
+        <button data-v="between">Between</button>
+      </div>
+
+      <div id="dinputs"></div>
+      <p class="hint" id="dhint"></p>
+    </div>
+
+    <div class="dmain">
+      <div class="panel">
+        <div class="plotbox"><canvas id="plot" width="1520" height="760"></canvas></div>
+        <div class="results" id="dresults"></div>
+        <div class="dnote" id="drelnote" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HYPOTHESIS TESTS ==================== -->
+<section class="page" id="pg-test">
+  <div class="grid2">
+    <div class="panel tform">
+      <label class="f" for="tsel">Test</label>
+      <select class="f" id="tsel"></select>
+      <div id="tparams"></div>
+      <div class="sechd">Alternative hypothesis</div>
+      <div class="seg" id="ttail">
+        <button data-v="two" class="on">&ne;&ensp;two-tailed</button>
+        <button data-v="left">&lt;&ensp;lower</button>
+        <button data-v="right">&gt;&ensp;upper</button>
+      </div>
+      <label class="f" for="talpha">Significance level &alpha;</label>
+      <input class="f" id="talpha" value="0.05" inputmode="decimal">
+      <div style="margin-top:16px"><button class="btn" id="trun">Run test</button></div>
+    </div>
+
+    <div class="dmain">
+      <div class="panel">
+        <div class="hyp" id="thyp" style="padding-top:16px"></div>
+        <div class="decision" id="tdecision"></div>
+        <div class="plotbox"><canvas id="tplot" width="1520" height="700"></canvas></div>
+        <div class="results" id="tresults"></div>
+        <div class="dnote" id="tnote" hidden></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="pg-data" aria-label="Data and quality analysis">
+  <div class="grid2">
+    <div class="panel dside">
+      <h2>Analyze your data</h2>
+      <label class="f" for="analysis-kind">Analysis</label>
+      <select class="f" id="analysis-kind">
+        <option value="summary">Descriptive statistics &amp; mean interval</option>
+        <option value="regression">Linear regression (X, Y)</option>
+<option value="poly2">Quadratic regression (X, Y)</option><option value="poly3">Cubic regression (X, Y)</option><option value="poly4">Quartic regression (X, Y)</option><option value="log">Logarithmic regression (X, Y)</option><option value="exp">Exponential regression (X, Y)</option><option value="power">Power regression (X, Y)</option>
+        <option value="capability">Capability &amp; I-MR charts</option>
+        <option value="anova">One-way ANOVA</option>
+        <option value="chi">Chi-square independence</option><option value="gof">Chi-square goodness of fit</option>
+      </select>
+      <p class="hint" id="analysis-help"></p>
+      <label class="f" for="analysis-data">Paste numeric data</label>
+      <textarea class="f" id="analysis-data" rows="9" spellcheck="false" aria-describedby="analysis-help"></textarea>
+      <p class="hint">Decimal point: period. Separate cells with tabs, commas, semicolons, or spaces. No headers or thousands separators. Blank lines are ignored; invalid or empty cells are reported.</p>
+      <div class="paramrow">
+        <div><label class="f" for="analysis-confidence">Confidence level</label><select class="f" id="analysis-confidence"><option value="0.9">90%</option><option value="0.95" selected>95%</option><option value="0.99">99%</option></select></div>
+        <div><label class="f" for="analysis-alpha">Significance α</label><select class="f" id="analysis-alpha"><option value="0.1">0.10</option><option value="0.05" selected>0.05</option><option value="0.01">0.01</option></select></div>
+      </div>
+      <div id="analysis-specs" hidden class="paramrow">
+        <div><label class="f" for="analysis-lsl">Lower specification (optional)</label><input class="f" id="analysis-lsl" inputmode="decimal"></div>
+        <div><label class="f" for="analysis-usl">Upper specification (optional)</label><input class="f" id="analysis-usl" inputmode="decimal"></div>
+      </div>
+      <div class="analysis-actions"><button class="btn" id="analysis-run">Analyze data</button><button class="btn ghost" id="analysis-example">Load example</button><button class="btn ghost" id="analysis-clear">Clear</button></div>
+      <p class="hint">Calculations run in your browser. This workspace does not upload or save your dataset.</p>
+    </div>
+    <div class="panel analysis-output">
+      <div class="analysis-actions"><h2 id="analysis-title">Results</h2><button class="btn ghost" id="analysis-export" disabled>Download report (.txt)</button><button class="btn ghost" id="analysis-csv" disabled>Download results (.csv)</button></div>
+      <p id="analysis-status" role="status" aria-live="polite">Choose an analysis, paste data, or load an example.</p>
+      <div id="analysis-results"></div>
+      <div id="analysis-charts"></div>
+      <div id="analysis-tables"></div>
+      <div id="analysis-notes"></div>
+    </div>
+  </div>
+  <details class="analysis-reference"><summary>Methods, assumptions &amp; references</summary>
+    <p>Intervals for a mean use Student’s t. Regression fits ordinary least squares with an intercept; residual standard error uses n − 2 degrees of freedom. ANOVA is the classical equal-variance F test. Chi-square uses Pearson’s statistic without continuity correction and reports every expected cell count.</p>
+    <p>Capability uses s for Pp/Ppk and MR̄ ÷ 1.128 for Cp/Cpk. I-MR limits are estimated from the entered sequence; only points beyond three-sigma limits are flagged. Review stability, independence and distribution shape before interpreting capability. Specification limits are engineering requirements, not control limits.</p>
+    <ul><li><a href="https://www.itl.nist.gov/div898/handbook/pmc/section3/pmc322.htm" target="_blank" rel="noopener">NIST: Individuals control charts</a></li><li><a href="https://www.itl.nist.gov/div898/handbook/pmc/section1/pmc16.htm" target="_blank" rel="noopener">NIST: Process capability</a></li><li><a href="https://www.itl.nist.gov/div898/handbook/prc/section4/prc431.htm" target="_blank" rel="noopener">NIST: One-way ANOVA</a></li><li><a href="https://online.stat.psu.edu/stat500/Lesson08" target="_blank" rel="noopener">Penn State: Chi-square independence</a></li></ul>
+  </details>
+</section>
+
+<section class="page" id="pg-graph">
+<div class="grid2"><div class="panel dside">
+<h2>Graph &amp; explore</h2>
+<label class="f" for="graph-mode">Graph mode</label><select class="f" id="graph-mode"><option value="function">Function: Y = f(x)</option><option value="parametric">Parametric: x(t); y(t)</option><option value="polar">Polar: r(θ)</option><option value="sequence">Sequence: u(n), using previous u</option></select>
+<label class="f" for="graph-angle">Angle unit</label><select class="f" id="graph-angle"><option value="RAD">Radians</option><option value="DEG">Degrees</option></select>
+<label class="f" for="graph-expressions">Expressions (one per line, up to 10)</label><textarea class="f" id="graph-expressions" rows="4" spellcheck="false">x^2 - 4
+2*x</textarea><p id="graph-help" class="work-help">Use x, pi, sin(x), abs(x), sqrt(x), log(x), or a piecewise expression such as x &lt; 0 ? -x : x.</p>
+<div class="paramrow"><div><label class="f" for="graph-xmin">X min</label><input class="f" id="graph-xmin" value="-10"></div><div><label class="f" for="graph-xmax">X max</label><input class="f" id="graph-xmax" value="10"></div><div><label class="f" for="graph-ymin">Y min</label><input class="f" id="graph-ymin" value="-10"></div><div><label class="f" for="graph-ymax">Y max</label><input class="f" id="graph-ymax" value="10"></div></div>
+<div id="graph-parameters" hidden><div class="paramrow"><div><label class="f" for="graph-start">Parameter / n start</label><input class="f" id="graph-start" value="0"></div><div><label class="f" for="graph-end">Parameter / n end</label><input class="f" id="graph-end" value="6.28318530718"></div></div><label class="f" for="graph-initial">Sequence initial u at start</label><input class="f" id="graph-initial" value="1"></div>
+<div class="analysis-actions"><button class="btn" id="graph-run">Draw graph</button><button class="btn ghost" id="graph-example">Load example</button><button class="btn ghost" id="graph-reset">Standard window</button></div>
+<details class="analysis-reference"><summary>Table settings (function mode)</summary><label class="f" for="graph-table-start">Table start</label><input class="f" id="graph-table-start" value="-5"><label class="f" for="graph-table-step">Table step</label><input class="f" id="graph-table-step" value="1"><label class="f" for="graph-table-count">Rows (1–200)</label><input class="f" id="graph-table-count" value="11"><button class="btn" id="graph-table-run">Generate table</button></details>
+</div><div class="panel analysis-output"><div class="analysis-actions"><h2>Graph window</h2><button class="btn ghost" id="graph-zoom-in">Zoom in</button><button class="btn ghost" id="graph-zoom-out">Zoom out</button><button class="btn ghost" id="graph-fit">Fit Y</button><button class="btn ghost" id="graph-save" disabled>Download graph</button></div><p class="workspace-status" id="graph-status" role="status">Draw the example or enter your own expressions.</p><div id="graph-view"></div>
+<label class="f" for="graph-curve">Trace curve</label><select class="f" id="graph-curve"><option value="0">Curve 1</option></select><label class="f" for="graph-trace">Trace sampled points (arrow keys supported)</label><input id="graph-trace" type="range" min="0" max="800" value="400" style="width:100%"><output id="graph-trace-value" aria-live="polite"></output>
+<details class="analysis-reference" open><summary>Numerical analysis (Cartesian functions)</summary><label class="f" for="graph-operation">Operation on first expression</label><select class="f" id="graph-operation"><option value="value">Value f(a)</option><option value="root">Zero / solve f(x) = 0</option><option value="intersect">Intersection of first two expressions</option><option value="min">Local minimum (unimodal interval)</option><option value="max">Local maximum (unimodal interval)</option><option value="derivative">Derivative at a</option><option value="integral">Definite integral from a to b</option></select><div class="paramrow"><div><label class="f" for="graph-a">a / lower bound</label><input class="f" id="graph-a" value="0"></div><div><label class="f" for="graph-b">b / upper bound</label><input class="f" id="graph-b" value="3"></div></div><div class="analysis-actions"><button class="btn" id="graph-calculate">Calculate</button></div><pre class="work-output" id="graph-answer" aria-live="polite"></pre><p class="work-help">Zeros need a sign-changing bracket. A minimum/maximum search assumes one extremum within the interval. Plot sampling can miss narrow features; check the window and numerical result.</p></details><div id="graph-table"></div></div></div>
+</section>
+<section class="page" id="pg-math"><div class="grid2"><div class="panel dside"><h2>Math workspace</h2><label class="f" for="math-angle">Angle unit</label><select class="f" id="math-angle"><option>RAD</option><option>DEG</option></select><label class="f" for="math-input">Expression, list, matrix, or assignment</label><textarea class="f" id="math-input" rows="5" spellcheck="false">A = [2,1;1,3]
+inv(A)</textarea><div class="analysis-actions"><button class="btn" id="math-run">Evaluate</button><button class="btn ghost" id="math-clear">Clear variables</button></div><p class="work-help">Lists: L1 = [1,2,3]. Matrices: A = [1,2;3,4]. Complex: sqrt(-1), (2+3i)*(1-i). Units: 25.4 mm to inch. Last result: Ans. Variables are shared with graphing and programs for this session.</p><label class="f" for="math-example">Worked example</label><select class="f" id="math-example"><option value="matrix">Matrix inverse</option><option value="linear">Simultaneous equations</option><option value="complex">Complex arithmetic</option><option value="lists">List statistics</option><option value="roots">Polynomial roots</option><option value="calculus">Calculus &amp; equation solver</option><option value="units">Unit conversion</option><option value="probability">Probability</option><option value="cash">NPV &amp; IRR</option></select><button class="btn ghost" id="math-load">Load example</button><label class="f" for="math-search">Search supported functions</label><input class="f" id="math-search" placeholder="matrix, sin, mean…"><div class="work-catalog" id="math-catalog"></div></div><div class="panel analysis-output"><h2>Calculation tape</h2><p id="math-status" class="workspace-status" role="status">Evaluate expressions using the examples or function catalog.</p><pre class="work-output" id="math-output" aria-live="polite"></pre><p id="math-variables" class="work-help"></p><div class="analysis-actions"><button class="btn ghost" id="math-save">Download tape</button></div><details class="analysis-reference" open><summary>Syntax &amp; numerical tools</summary><p>Use * for multiplication and ^ for powers. ln(x) and log(x) are natural logarithms; log10(x) is base 10. Complex results use a + bi. arg(z) returns radians. Functions nDeriv, fnInt, solve and seq always interpret trigonometry in radians.</p><p><code>nDeriv("x^3",2)</code>, <code>fnInt("sin(x)",0,pi)</code>, <code>solve("x^2-2",0,2)</code>, <code>seq("n^2",1,10)</code>, <code>rref([1,2,3;2,1,4])</code>.</p><p>Matrix/list indexing and user-defined functions are not enabled. Use whole-array operations. Large operations are bounded; a timeout resets workspace variables to keep the interface responsive.</p></details></div></div></section>
+<section class="page" id="pg-finance"><div class="grid2"><div class="panel dside"><h2>Time value of money</h2><label class="f" for="finance-solve">Solve for</label><select class="f" id="finance-solve"><option value="pmt">Payment PMT</option><option value="pv">Present value PV</option><option value="fv">Future value FV</option><option value="n">Number of payments N</option><option value="rate">Annual nominal rate I%</option></select><div class="paramrow"><div><label class="f" for="finance-n">N (payment periods)</label><input class="f" id="finance-n" value="60"></div><div><label class="f" for="finance-rate">I% (annual nominal)</label><input class="f" id="finance-rate" value="6"></div><div><label class="f" for="finance-pv">PV</label><input class="f" id="finance-pv" value="20000"></div><div><label class="f" for="finance-pmt">PMT</label><input class="f" id="finance-pmt" value="0"></div><div><label class="f" for="finance-fv">FV</label><input class="f" id="finance-fv" value="0"></div><div><label class="f" for="finance-py">Payments per year</label><input class="f" id="finance-py" value="12"></div><div><label class="f" for="finance-cy">Compounds per year</label><input class="f" id="finance-cy" value="12"></div></div><label class="f" for="finance-begin">Payment timing</label><select class="f" id="finance-begin"><option value="0">End of period (ordinary annuity)</option><option value="1">Beginning of period (annuity due)</option></select><div class="analysis-actions"><button class="btn" id="finance-run">Solve TVM</button></div><p class="work-help">Money received is positive; money paid is negative. N counts payment periods, not years. The selected unknown is ignored until solved.</p></div><div class="panel analysis-output"><h2>Financial results</h2><p class="workspace-status" id="finance-status" role="status"></p><pre class="work-output" id="finance-output" aria-live="polite"></pre><div id="finance-table"></div><details class="analysis-reference" open><summary>Cash flows &amp; rate conversion</summary><p>In Lists &amp; Matrices, use <code>npv(0.10,[-1000,400,400,400])</code> for a 10% per-period discount rate. The first cash flow occurs at time zero. Use <code>irr([-1000,400,400,400],0,1)</code> for the decimal periodic IRR within a bracket. IRR can have multiple roots or no root.</p><p><code>eff(6,12)</code> converts 6% annual nominal interest, compounded monthly, into an annual effective percentage. <code>nom(6.1678,12)</code> performs the reverse conversion. TVM uses an annual nominal percentage; NPV/IRR use decimal rates per cash-flow period.</p></details></div></div></section>
+<section class="page" id="pg-program"><div class="grid2"><div class="panel dside"><h2>Calculation programs</h2><label class="f" for="program-source">Program source</label><textarea class="f" id="program-source" rows="13" spellcheck="false">0→S
+For(I,1,10)
+S+I→S
+End
+Disp S</textarea><label class="f" for="program-angle">Angle unit</label><select class="f" id="program-angle"><option>RAD</option><option>DEG</option></select><div class="analysis-actions"><button class="btn" id="program-run">Run program</button><button class="btn ghost" id="program-save">Download source</button></div><p class="work-help">Programs run locally in an isolated worker. Maximum 500 lines and 10,000 execution steps. A timeout resets shared variables.</p></div><div class="panel analysis-output"><h2>Program output</h2><p class="workspace-status" id="program-status" role="status"></p><pre class="work-output" id="program-output" aria-live="polite"></pre><details class="analysis-reference" open><summary>Supported programming subset</summary><p>Assignments (<code>value→A</code>, <code>value-&gt;A</code>, or <code>A=value</code>), <code>Disp expression</code>, <code>ClrHome</code>, <code>For(I,start,end,step)</code>, <code>While condition</code>, <code>If condition</code> / <code>Then</code> / <code>Else</code> / <code>End</code>, and <code>Stop</code>. Every control block requires End, including If.</p><p>Use the math-workspace function catalog. This is a documented calculation-language subset, not a TI-BASIC emulator: device I/O, key events, labels/Goto, graphical commands, tokenized .8xp files and installed TI apps are not supported.</p></details></div></div></section>
+
+<!-- ==================== SCIENTIFIC CALCULATOR ==================== -->
+<section class="page" id="pg-calc">
+  <div class="calcgrid">
+    <div class="panel calc">
+      <div class="screen">
+        <div>
+          <div class="mathedit" id="medit" tabindex="0" role="textbox"
+               aria-label="Math input — type naturally, / makes a fraction, ^ a power"></div>
+          <div class="linear" id="linear" title="Linear form (what the engine evaluates)"></div>
+          <div class="ghost" id="ghost"></div>
+        </div>
+        <div class="resline">
+          <div class="modebadges">
+            <span class="badge" id="bdg-shift">SHIFT</span>
+            <span class="badge" id="bdg-alpha">ALPHA</span>
+            <span class="badge" id="bdg-hyp">hyp</span>
+            <span class="badge" id="bdg-sto">STO</span>
+            <span class="badge on" id="bdg-ang">DEG</span>
+            <span class="badge" id="bdg-eng">ENG</span>
+            <span class="badge" id="bdg-frac">S&#8646;D</span>
+            <span class="badge" id="bdg-mem" title="Memory register M">M: 0</span>
+          </div>
+          <div id="result">0</div>
+        </div>
+      </div>
+
+      <div class="kpads" id="pad"></div>
+    </div>
+
+    <div class="panel">
+      <div class="histpanel">
+        <h3>History tape</h3>
+        <div id="history"></div>
+        <p class="hint">Click any entry to reuse it. Ans holds the last result.</p>
+      </div>
+      <div class="statpanel">
+        <h3>Data / STAT mode</h3>
+        <label class="f" for="statmode">Data format</label><select class="f" id="statmode"><option value="values">Values (descriptive statistics)</option><option value="pairs">X,Y pairs (regression)</option></select>
+        <label class="f" for="statdata">Numeric data</label><textarea class="f" id="statdata" rows="3" placeholder="Paste data: one value per line or comma-separated.&#10;For regression, use x,y pairs (one pair per line)."></textarea>
+        <div style="margin-top:8px;display:flex;gap:8px">
+          <button class="btn" id="statrun">Compute stats</button>
+          <button class="btn ghost" id="statclr">Clear</button>
+        </div>
+        <div id="statout"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer class="pg">
+  <p><strong>New here?</strong> Read the <a href="/tools/calculator-manual.html" style="color:var(--accent)">User Manual</a> — key reference, SHIFT/ALPHA system, register workflow, worked examples for distributions and hypothesis tests.</p>
+  <p style="margin-top:6px"><strong>Numerical accuracy:</strong> distribution functions are computed with Lanczos gamma approximation and regularized incomplete gamma / beta functions (series + Lentz continued fractions); inverse CDFs use the Acklam rational approximation refined by Newton&ndash;Halley iteration. Selected calculations are regression-tested against independent reference values. Results use finite-precision arithmetic; extreme parameters can exceed the supported numerical range. Check method assumptions before using results for a decision.</p>
+  <p style="margin-top:6px">UpSkill Sprint Consulting &mdash; practical tools for quality &amp; continuous-improvement professionals.</p>
+</footer>
+
+<script src="/tools/calculator-assets/numeric.js"></script>
 <script>
-(async function(){
+"use strict";
+/* ============================================================
+   PLOTTING — hand-rolled canvas renderer with region shading
+   ============================================================ */
+const CLR = { curve:"#E8EEF4", axis:"#55697B", grid:"#182A3A", shade:"rgba(240,166,75,.38)",
+              shadeEdge:"#F0A64B", meanline:"#46C2AE", marker:"#E36060", text:"#7E93A6" };
+
+function syncCanvasTheme(){
+  const light = document.documentElement.dataset.theme === "light";
+  Object.assign(CLR, light ? {
+    curve:"#132238",
+    axis:"#718398",
+    grid:"#DDE5ED",
+    shade:"rgba(217,144,40,.30)",
+    shadeEdge:"#B7791F",
+    meanline:"#0E7490",
+    marker:"#C2414B",
+    text:"#52657A"
+  } : {
+    curve:"#E8EEF4",
+    axis:"#55697B",
+    grid:"#182A3A",
+    shade:"rgba(240,166,75,.38)",
+    shadeEdge:"#F0A64B",
+    meanline:"#46C2AE",
+    marker:"#E36060",
+    text:"#7E93A6"
+  });
+}
+syncCanvasTheme();
+
+window.addEventListener("upskill:themechange", ()=>{
+  syncCanvasTheme();
+  try{ refreshDist(); }catch(error){}
   try{
-    if(!('DecompressionStream' in window)) throw new Error('This browser does not support the required decompression feature.');
-    const payload=window.__upskillCalcPayload||'';
-    const bytes=Uint8Array.from(atob(payload),c=>c.charCodeAt(0));
-    const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
-    const html=await new Response(stream).text();
-    const finalHtml=html
-      .replace(/Engineering <span class="amp">&amp;<\/span> Statistical Calculator/g,'Engineering <span class="amp">&amp;</span> Statistics Calculator')
-      .replace(/Engineering &amp; Statistical Calculator/g,'Engineering &amp; Statistics Calculator')
-      .replace(/Engineering & Statistical Calculator/g,'Engineering & Statistics Calculator')
-      .replace(/15 probability distributions/g,'16 probability distributions')
-      .replace(/15 distributions/g,'16 distributions');
-    document.open();document.write(finalHtml.replace('</body>', '<script src="/contrast-fix.js"><\/script></body>'));document.close();
-  }catch(error){
-    document.getElementById('loader').innerHTML='<h1>Unable to open the tool</h1><p>'+String(error.message||error)+'<br><br><a href="/engineering-tools.html">Return to Engineering Tools</a></p>';
+    if(document.querySelector("#tresults .res")) runTest();
+  }catch(error){}
+});
+
+function fmtN(v, d){
+  if(v==null||!isFinite(v)) return "\u2014";
+  if(v===0) return "0";
+  const a=Math.abs(v);
+  if(a>=1e7||a<1e-4) return v.toExponential(4);
+  let s=Number(v.toPrecision(d||6)).toString();
+  return s;
+}
+function fmtP(p){ // probabilities
+  if(p==null||!isFinite(p)) return "\u2014";
+  if(p<1e-10&&p>0) return p.toExponential(4);
+  return Number(p.toFixed(6)).toString();
+}
+
+function drawDist(canvas, D, p, region, marker){
+  canvas.setAttribute('role','img');canvas.setAttribute('aria-label',D.name+' distribution'+(region?', '+region.mode+' region; probability '+fmtP(region.prob):'')+(marker!=null?'; statistic '+fmtN(marker,6):''));
+  const ctx=canvas.getContext("2d");
+  const W=canvas.width, H=canvas.height;
+  ctx.clearRect(0,0,W,H);
+  const padL=70,padR=30,padT=34,padB=64;
+  const pw=W-padL-padR, ph=H-padT-padB;
+
+  // x-range
+  let [slo,shi]=D.support(p);
+  let lo,hi;
+  if(D.discrete){ lo=slo; hi=shi; if(hi===lo){lo-=0.5;hi+=0.5;} }
+  else{
+    lo = isFinite(slo)? slo : D.inv(0.0005,p,D);
+    hi = isFinite(shi)? shi : D.inv(0.9995,p,D);
+    if(!isFinite(slo)) lo=D.inv(0.0005,p,D);
+    if(!isFinite(shi)) hi=D.inv(0.9995,p,D);
+    // include region bounds & marker in view
+    const ext=[region&&region.a,region&&region.b,marker].filter(v=>v!=null&&isFinite(v));
+    ext.forEach(v=>{ if(v<lo)lo=v; if(v>hi)hi=v; });
+    const span=hi-lo; lo-=span*0.04; hi+=span*0.04;
+    if(isFinite(slo)) lo=Math.max(lo,slo - (slo===0?span*0.02:0));
+    if(D.id!=="normal"&&D.id!=="z"&&D.id!=="t"&&isFinite(slo)&&slo===0) lo=Math.min(lo, -span*0.02);
   }
-}());
+
+  const X = v => padL + (v-lo)/(hi-lo)*pw;
+
+  // y max
+  let ymax=0;
+  if(D.discrete){ for(let k=Math.ceil(lo);k<=Math.floor(hi);k++) ymax=Math.max(ymax,D.pdf(k,p)); }
+  else { const N=500; for(let i=0;i<=N;i++){ const v=lo+(hi-lo)*i/N; const y=D.pdf(v,p); if(isFinite(y)) ymax=Math.max(ymax,Math.min(y,1e6)); } }
+  if(ymax<=0||!isFinite(ymax)) ymax=1;
+  ymax*=1.12;
+  const Y = y => padT + ph - y/ymax*ph;
+
+  // grid + axes
+  ctx.strokeStyle=CLR.grid; ctx.lineWidth=1;
+  for(let g=1;g<=4;g++){ const gy=padT+ph*g/5; ctx.beginPath(); ctx.moveTo(padL,gy); ctx.lineTo(W-padR,gy); ctx.stroke(); }
+  ctx.strokeStyle=CLR.axis; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(padL,padT); ctx.lineTo(padL,padT+ph); ctx.lineTo(W-padR,padT+ph); ctx.stroke();
+
+  const inRegion = v => {
+    if(!region) return false;
+    const{mode,a,b}=region;
+    if(mode==="left") return v<=a;
+    if(mode==="right") return v>=a;
+    if(mode==="two") return v<=a||v>=b;
+    if(mode==="between") return v>=a&&v<=b;
+    return false;
+  };
+
+  if(D.discrete){
+    const n=Math.floor(hi)-Math.ceil(lo)+1;
+    const bw=Math.max(2,Math.min(46,pw/n*0.72));
+    for(let k=Math.ceil(lo);k<=Math.floor(hi);k++){
+      const y=D.pdf(k,p), x=X(k);
+      const shaded=inRegion(k);
+      ctx.fillStyle= shaded ? CLR.shade : "rgba(232,238,244,.16)";
+      ctx.strokeStyle= shaded ? CLR.shadeEdge : "rgba(232,238,244,.45)";
+      ctx.lineWidth=1.4;
+      ctx.beginPath(); ctx.rect(x-bw/2, Y(y), bw, padT+ph-Y(y));
+      ctx.fill(); ctx.stroke();
+    }
+  } else {
+    const N=Math.min(1400,pw*2);
+    // shaded region fill
+    if(region){
+      ctx.beginPath(); let started=false;
+      for(let i=0;i<=N;i++){ const v=lo+(hi-lo)*i/N;
+        if(inRegion(v)){ const y=Math.min(D.pdf(v,p),ymax);
+          if(!started){ ctx.moveTo(X(v),padT+ph); started=true; }
+          ctx.lineTo(X(v),Y(y));
+        } else if(started){ const vp=lo+(hi-lo)*(i-1)/N; ctx.lineTo(X(vp),padT+ph); ctx.closePath(); started=false; }
+      }
+      if(started){ ctx.lineTo(X(hi),padT+ph); ctx.closePath(); }
+      ctx.fillStyle=CLR.shade; ctx.fill();
+    }
+    // curve
+    ctx.beginPath(); ctx.strokeStyle=CLR.curve; ctx.lineWidth=2.4;
+    let first=true;
+    for(let i=0;i<=N;i++){ const v=lo+(hi-lo)*i/N; let y=D.pdf(v,p);
+      if(!isFinite(y)) continue; y=Math.min(y,ymax);
+      if(first){ ctx.moveTo(X(v),Y(y)); first=false; } else ctx.lineTo(X(v),Y(y));
+    }
+    ctx.stroke();
+  }
+
+  // mean line
+  const mu=D.mean(p);
+  if(isFinite(mu)&&mu>=lo&&mu<=hi){
+    ctx.strokeStyle=CLR.meanline; ctx.setLineDash([6,6]); ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(X(mu),padT); ctx.lineTo(X(mu),padT+ph); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle=CLR.meanline; ctx.font="500 20px 'IBM Plex Mono',monospace"; ctx.textAlign="center";
+    ctx.fillText("\u03BC = "+fmtN(mu,4), X(mu), padT-10);
+  }
+  // region boundary lines + labels
+  if(region){
+    const bounds = region.mode==="left"||region.mode==="right" ? [region.a] : [region.a,region.b];
+    ctx.font="500 21px 'IBM Plex Mono',monospace";
+    bounds.forEach(bv=>{
+      if(bv==null||!isFinite(bv)||bv<lo||bv>hi) return;
+      ctx.strokeStyle=CLR.shadeEdge; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(X(bv),padT+8); ctx.lineTo(X(bv),padT+ph); ctx.stroke();
+      ctx.fillStyle=CLR.shadeEdge; ctx.textAlign="center";
+      ctx.fillText(fmtN(bv,5), X(bv), padT+ph+30);
+    });
+    if(region.prob!=null){
+      ctx.fillStyle=CLR.shadeEdge; ctx.font="600 26px 'IBM Plex Mono',monospace"; ctx.textAlign="left";
+      ctx.fillText("shaded P = "+fmtP(region.prob), padL+12, padT+26);
+    }
+  }
+  // test-statistic marker
+  if(marker!=null&&isFinite(marker)&&marker>=lo&&marker<=hi){
+    ctx.strokeStyle=CLR.marker; ctx.lineWidth=2.5;
+    ctx.beginPath(); ctx.moveTo(X(marker),padT+4); ctx.lineTo(X(marker),padT+ph); ctx.stroke();
+    ctx.fillStyle=CLR.marker; ctx.font="600 21px 'IBM Plex Mono',monospace"; ctx.textAlign="center";
+    ctx.fillText("stat = "+fmtN(marker,5), X(marker), padT+ph+54);
+  }
+  // x-axis ticks
+  ctx.fillStyle=CLR.text; ctx.font="18px 'IBM Plex Mono',monospace"; ctx.textAlign="center";
+  const ticks=6;
+  for(let i=0;i<=ticks;i++){ const v=lo+(hi-lo)*i/ticks;
+    ctx.fillText(fmtN(D.discrete?Math.round(v):v,4), X(v), H-14); }
+}
+
+/* ============================================================
+   DISTRIBUTIONS PAGE UI
+   ============================================================ */
+const $=s=>document.querySelector(s);
+let dState={ D:DISTS[0], dir:"x2p", tail:"left" };
+
+function buildDistSelect(){
+  const sel=$("#dsel");
+  sel.innerHTML=DISTS.map((d,i)=>'<option value="'+i+'">'+d.name+(d.discrete?"  (discrete)":"")+'</option>').join("");
+  sel.onchange=()=>{ dState.D=DISTS[+sel.value]; buildParams(); refreshDist(); };
+}
+function buildParams(){
+  const D=dState.D, box=$("#dparams");
+  box.innerHTML="";
+  if(D.params.length){
+    const row=document.createElement("div");
+    row.className="paramrow"+(D.params.length===1?" one":"");
+    D.params.forEach(pr=>{
+      const w=document.createElement("div");
+      w.innerHTML='<label class="f">'+pr.label+'</label><input class="f dparam" data-key="'+pr.key+'" value="'+pr.def+'" inputmode="decimal">';
+      row.appendChild(w);
+    });
+    box.appendChild(row);
+    box.querySelectorAll(".dparam").forEach(i=>i.addEventListener("input",refreshDist));
+  }
+  buildDInputs();
+  $("#dhint").textContent=D.blurb||"";
+}
+function buildDInputs(){
+  const box=$("#dinputs"), dir=dState.dir, tail=dState.tail, D=dState.D;
+  let html="";
+  if(dir==="x2p"){
+    if(tail==="between")
+      html='<div class="paramrow"><div><label class="f">Lower a</label><input class="f" id="din-a" inputmode="decimal"></div><div><label class="f">Upper b</label><input class="f" id="din-b" inputmode="decimal"></div></div>';
+    else
+      html='<label class="f">Value x'+(D.discrete?" (integer k)":"")+'</label><input class="f" id="din-a" inputmode="decimal">';
+  } else {
+    html='<label class="f">'+(tail==="between"?"Central probability (e.g. 0.95)":"Tail probability / \u03B1 (e.g. 0.05)")+'</label><input class="f" id="din-a" inputmode="decimal" value="0.05">';
+  }
+  box.innerHTML='<div class="sechd">Input</div>'+html;
+  box.querySelectorAll("input").forEach(i=>i.addEventListener("input",refreshDist));
+  // sensible defaults
+  const a=$("#din-a");
+  if(dir==="x2p"&&a&&!a.value){
+    const p=readParams(); const m=D.mean(p), s=D.sd(p);
+    a.value = D.discrete? Math.round(m) : fmtN(isFinite(s)? m+s : m,4);
+    if(tail==="between"){ const b=$("#din-b"); if(b&&!b.value){ a.value=fmtN(isFinite(s)?m-s:m,4); b.value=fmtN(isFinite(s)?m+s:m,4);} }
+  }
+}
+function readParams(){
+  const p={};
+  document.querySelectorAll(".dparam").forEach(i=>{ p[i.dataset.key]=strictNumber(i.value); });
+  let bad=false;
+  dState.D.params.forEach(pr=>{
+    let v=p[pr.key];
+    if(!isFinite(v)) bad=true;
+    if(pr.min!=null&&v<pr.min) bad=true;
+    if(pr.max!=null&&v>pr.max) bad=true;
+  });
+  if(dState.D.discrete){
+    for(const key of ["n","N","K","r"]) if(key in p && (!Number.isSafeInteger(p[key]) || p[key]>100000)) bad=true;
+    if(dState.D.id==="hypergeom" && (p.n>p.N||p.K>p.N||p.n>10000)) bad=true;
+    const support=dState.D.support(p); if(support[1]-support[0]>10000) bad=true;
+  }
+  if(dState.D.id==="uniform" && p.a>=p.b) bad=true;
+  p._bad=bad;
+  return p;
+}
+function refreshDist(){
+  const D=dState.D, p=readParams();
+  const resBox=$("#dresults");
+  if(p._bad){ $("#plot").getContext("2d").clearRect(0,0,1520,760); $("#drelnote").hidden=true; resBox.innerHTML='<div class="res"><div class="k">Input</div><div class="v dim">Enter valid parameters (positive scales; integer counts; valid bounds). Discrete plots support up to 10,001 outcomes.</div></div>'; return; }
+  const dir=dState.dir, tail=dState.tail;
+  const aEl=$("#din-a"), bEl=$("#din-b");
+  const av=aEl?strictNumber(aEl.value):NaN, bv=bEl?strictNumber(bEl.value):NaN;
+
+  if(!Number.isFinite(av) || (dir==="p2x" && !(av>0&&av<1)) || (dir==="x2p" && tail==="between" && (!Number.isFinite(bv)||bv<av)) || (dir==="x2p" && D.discrete && (!Number.isInteger(av)||(tail==="between"&&!Number.isInteger(bv))))){
+    resBox.textContent="Enter valid inputs: probability must be between 0 and 1, lower ≤ upper, and discrete x values must be integers.";
+    $("#drelnote").hidden=true; $("#plot").getContext("2d").clearRect(0,0,1520,760); return;
+  }
+  if(D.discrete && tail==="two") {resBox.textContent="Equal-tail two-sided regions are ambiguous for discrete distributions. Use left, right, or between to calculate an exact region.";$("#drelnote").hidden=true;$("#plot").getContext("2d").clearRect(0,0,1520,760);return;}
+  let region=null, results=[], xShow=null;
+  const cdf=x=>D.cdf(x,p), inv=q=>D.inv(q,p,D);
+
+  if(dir==="x2p"&&isFinite(av)){
+    xShow=av;
+    const Fl=cdf(av);
+    const Fr= upperTail(D,av,p);   // P(X >= x): discrete inclusive
+    if(tail==="left") region={mode:"left",a:av,prob:Fl};
+    else if(tail==="right") region={mode:"right",a:av,prob:Fr};
+    else if(tail==="two"){
+      const pl=Math.min(Fl, Fr);
+      const p2=Math.min(1,2*pl);
+      let lo2,hi2;
+      if(Fl<=0.5){ lo2=av; hi2=inv(1-pl); } else { hi2=av; lo2=inv(pl); }
+      region={mode:"two",a:lo2,b:hi2,prob:p2};
+      results.push(["Two-tail P (equal tails)",fmtP(p2),true]);
+    }
+    else if(tail==="between"&&isFinite(bv)){
+      const pr=Math.max(0, D.discrete? cdf(bv)-cdf(av-1) : (cdf(av)>0.5 ? upperTail(D,av,p)-upperTail(D,bv,p) : cdf(bv)-cdf(av)));
+      region={mode:"between",a:av,b:bv,prob:pr};
+      results.push(["P("+fmtN(av,4)+" \u2264 X \u2264 "+fmtN(bv,4)+")",fmtP(pr),true]);
+    }
+    if(tail==="left") results.push(["P(X \u2264 "+fmtN(av,5)+")",fmtP(Fl),true]);
+    if(tail==="right") results.push(["P(X \u2265 "+fmtN(av,5)+")",fmtP(Fr),true]);
+    results.push([D.discrete?"PMF  P(X = k)":"PDF  f(x)",fmtN(D.pdf(av,p),6)]);
+    if(tail!=="left") results.push(["P(X \u2264 x)  left",fmtP(Fl)]);
+    if(tail!=="right") results.push(["P(X \u2265 x)  right",fmtP(Fr)]);
+  }
+  else if(dir==="p2x"&&isFinite(av)&&av>0&&av<1){
+    if(tail==="left"){ const x=inv(av); region={mode:"left",a:x,prob:av};
+      results.push(["Critical value  x (left, p="+av+")",fmtN(x,6),true]); xShow=x; }
+    else if(tail==="right"){ const x=inv(1-av); region={mode:"right",a:x,prob:av};
+      results.push(["Critical value  x (upper, \u03B1="+av+")",fmtN(x,6),true]); xShow=x; }
+    else if(tail==="two"){ const l=inv(av/2), r=inv(1-av/2);
+      region={mode:"two",a:l,b:r,prob:av};
+      results.push(["Lower critical (\u03B1/2)",fmtN(l,6),true]);
+      results.push(["Upper critical (1\u2212\u03B1/2)",fmtN(r,6),true]); }
+    else { const l=inv((1-av)/2), r=inv(1-(1-av)/2);
+      region={mode:"between",a:l,b:r,prob:av};
+      results.push(["Central "+Math.round(av*100)+"% interval",fmtN(l,6)+"  to  "+fmtN(r,6),true]); }
+  }
+
+  if(D.discrete && dir==="p2x" && region){
+    region.prob=region.mode==="left"?cdf(region.a):region.mode==="right"?upperTail(D,region.a,p):cdf(region.b)-cdf(region.a-1);
+    results.push(["Actual inclusive region probability",fmtP(region.prob),true]);
+    results.push(["Quantile convention","Smallest k with CDF ≥ target; discrete region probability can differ from requested probability."]);
+  }
+  // moments
+  const mu=D.mean(p), sd=D.sd(p);
+  results.push(["Mean \u03BC",fmtN(mu,6)]);
+  results.push(["Std dev \u03C3",fmtN(sd,6)]);
+  results.push(["Variance \u03C3\u00B2",fmtN(sd*sd,6)]);
+
+  // reliability block
+  const rn=$("#drelnote");
+  if(D.rel&&xShow!=null&&isFinite(xShow)&&xShow>=0){
+    const R=upperTail(D,xShow,p), f=D.pdf(xShow,p), h=R>0?f/R:NaN;
+    results.push(["Reliability  R(t) = 1\u2212F(t)",fmtP(R)]);
+    results.push(["Hazard rate  h(t) = f/R",fmtN(h,6)]);
+    results.push(["MTBF / MTTF",fmtN(mu,6)]);
+    rn.hidden=false;
+    rn.innerHTML = D.id==="weibull"
+      ? "<b>Weibull read:</b> \u03B2 = "+fmtN(p.beta,4)+" \u2192 "+(p.beta<1?"decreasing hazard (infant mortality / early failures)":p.beta===1?"constant hazard (random failures \u2014 reduces to exponential)":"increasing hazard (wear-out)")+". Characteristic life \u03B7 = "+fmtN(p.eta,5)+": 63.2% of units fail by t = \u03B7 regardless of \u03B2. B10 life (10% failed) = "+fmtN(D.inv(0.10,p,D),5)+"."
+      : "<b>Reliability view:</b> R(t) is the survival probability at t = "+fmtN(xShow,5)+"; h(t) is the instantaneous failure rate at that age; MTBF is the distribution mean.";
+  } else rn.hidden=true;
+
+  resBox.innerHTML=results.map(r=>'<div class="res'+(r[2]?" hero":"")+'"><div class="k">'+r[0]+'</div><div class="v">'+r[1]+'</div></div>').join("");
+  drawDist($("#plot"),D,p,region,null);
+}
+
+$("#dirseg").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b)return;
+  dState.dir=b.dataset.v;
+  $("#dirseg").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
+  buildDInputs(); refreshDist();
+});
+$("#tailseg").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b)return;
+  dState.tail=b.dataset.v;
+  $("#tailseg").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
+  buildDInputs(); refreshDist();
+});
+
+/* ============================================================
+   HYPOTHESIS TESTS
+   ============================================================ */
+const TESTS = [
+{ id:"z1", name:"1-sample z test (mean, \u03C3 known)",
+  fields:[["xbar","Sample mean x\u0304",""],["mu0","Hypothesized mean \u03BC\u2080",""],["sig","Population \u03C3",""],["n","Sample size n",""]],
+  run:v=>({ stat:(v.xbar-v.mu0)/(v.sig/Math.sqrt(v.n)), dist:DISTS.find(d=>d.id==="z"), p:{}, statName:"z",
+    h0:"\u03BC = "+v.mu0, hsym:"\u03BC" }) },
+{ id:"t1", name:"1-sample t test (mean)",
+  fields:[["xbar","Sample mean x\u0304",""],["mu0","Hypothesized mean \u03BC\u2080",""],["s","Sample std dev s",""],["n","Sample size n",""]],
+  run:v=>({ stat:(v.xbar-v.mu0)/(v.s/Math.sqrt(v.n)), dist:DISTS.find(d=>d.id==="t"), p:{df:v.n-1}, statName:"t",
+    df:"df = "+(v.n-1), h0:"\u03BC = "+v.mu0, hsym:"\u03BC" }) },
+{ id:"t2", name:"2-sample t test (Welch, unequal variances)",
+  fields:[["x1","Mean x\u0304\u2081",""],["s1","Std dev s\u2081",""],["n1","n\u2081",""],["x2","Mean x\u0304\u2082",""],["s2","Std dev s\u2082",""],["n2","n\u2082",""]],
+  run:v=>{ const a=v.s1*v.s1/v.n1, b=v.s2*v.s2/v.n2;
+    const df=Math.pow(a+b,2)/(a*a/(v.n1-1)+b*b/(v.n2-1));
+    return { stat:(v.x1-v.x2)/Math.sqrt(a+b), dist:DISTS.find(d=>d.id==="t"), p:{df}, statName:"t",
+      df:"Welch df = "+fmtN(df,5), h0:"\u03BC\u2081 = \u03BC\u2082", hsym:"\u03BC\u2081 \u2212 \u03BC\u2082" }; } },
+{ id:"t2p", name:"2-sample t test (pooled, equal variances)",
+  fields:[["x1","Mean x\u0304\u2081",""],["s1","Std dev s\u2081",""],["n1","n\u2081",""],["x2","Mean x\u0304\u2082",""],["s2","Std dev s\u2082",""],["n2","n\u2082",""]],
+  run:v=>{ const df=v.n1+v.n2-2;
+    const sp=Math.sqrt(((v.n1-1)*v.s1*v.s1+(v.n2-1)*v.s2*v.s2)/df);
+    return { stat:(v.x1-v.x2)/(sp*Math.sqrt(1/v.n1+1/v.n2)), dist:DISTS.find(d=>d.id==="t"), p:{df}, statName:"t",
+      df:"df = "+df+", pooled s = "+fmtN(sp,5), h0:"\u03BC\u2081 = \u03BC\u2082", hsym:"\u03BC\u2081 \u2212 \u03BC\u2082" }; } },
+{ id:"tp", name:"Paired t test (differences)",
+  fields:[["dbar","Mean of differences d\u0304",""],["sd","Std dev of differences s\u2094",""],["n","Number of pairs n",""]],
+  run:v=>({ stat:v.dbar/(v.sd/Math.sqrt(v.n)), dist:DISTS.find(d=>d.id==="t"), p:{df:v.n-1}, statName:"t",
+    df:"df = "+(v.n-1), h0:"\u03BC\u2094 = 0", hsym:"\u03BC\u2094" }) },
+{ id:"p1", name:"1-proportion z test",
+  fields:[["x","Successes x",""],["n","Sample size n",""],["p0","Hypothesized proportion p\u2080",""]],
+  run:v=>{ const ph=v.x/v.n;
+    return { stat:(ph-v.p0)/Math.sqrt(v.p0*(1-v.p0)/v.n), dist:DISTS.find(d=>d.id==="z"), p:{}, statName:"z",
+      df:"p\u0302 = "+fmtN(ph,5), h0:"p = "+v.p0, hsym:"p" }; } },
+{ id:"p2", name:"2-proportion z test (pooled)",
+  fields:[["x1","Successes x\u2081",""],["n1","n\u2081",""],["x2","Successes x\u2082",""],["n2","n\u2082",""]],
+  run:v=>{ const p1=v.x1/v.n1,p2=v.x2/v.n2,pp=(v.x1+v.x2)/(v.n1+v.n2);
+    return { stat:(p1-p2)/Math.sqrt(pp*(1-pp)*(1/v.n1+1/v.n2)), dist:DISTS.find(d=>d.id==="z"), p:{}, statName:"z",
+      df:"p\u0302\u2081="+fmtN(p1,4)+", p\u0302\u2082="+fmtN(p2,4)+", pooled="+fmtN(pp,4), h0:"p\u2081 = p\u2082", hsym:"p\u2081 \u2212 p\u2082" }; } },
+{ id:"chi", name:"\u03C7\u00B2 test for one variance / std dev",
+  fields:[["s","Sample std dev s",""],["n","Sample size n",""],["sig0","Hypothesized \u03C3\u2080",""]],
+  run:v=>({ stat:(v.n-1)*v.s*v.s/(v.sig0*v.sig0), dist:DISTS.find(d=>d.id==="chi2"), p:{df:v.n-1}, statName:"\u03C7\u00B2",
+    df:"df = "+(v.n-1), h0:"\u03C3 = "+v.sig0, hsym:"\u03C3", asym:true }) },
+{ id:"f2", name:"F test for two variances",
+  fields:[["s1","Std dev s\u2081",""],["n1","n\u2081",""],["s2","Std dev s\u2082",""],["n2","n\u2082",""]],
+  run:v=>({ stat:(v.s1*v.s1)/(v.s2*v.s2), dist:DISTS.find(d=>d.id==="f"), p:{d1:v.n1-1,d2:v.n2-1}, statName:"F",
+    df:"df = ("+(v.n1-1)+", "+(v.n2-1)+")", h0:"\u03C3\u2081\u00B2 = \u03C3\u2082\u00B2", hsym:"\u03C3\u2081\u00B2/\u03C3\u2082\u00B2", asym:true }) },
+{ id:"z2", name:"2-sample z test (known population σ₁, σ₂)",
+ fields:[["x1","Mean x̄₁",""],["sig1","Population σ₁",""],["n1","n₁",""],["x2","Mean x̄₂",""],["sig2","Population σ₂",""],["n2","n₂",""]],
+ run:v=>({stat:(v.x1-v.x2)/Math.sqrt(v.sig1*v.sig1/v.n1+v.sig2*v.sig2/v.n2),dist:DISTS.find(d=>d.id==='z'),p:{},statName:'z',h0:'μ₁ = μ₂',hsym:'μ₁ − μ₂'}) }
+
+];
+
+function buildTests(){
+  const sel=$("#tsel");
+  sel.innerHTML=TESTS.map((t,i)=>'<option value="'+i+'">'+t.name+'</option>').join("");
+  sel.onchange=buildTestForm;
+  buildTestForm();
+}
+function buildTestForm(){
+  invalidateTest();
+  const T=TESTS[+$("#tsel").value], box=$("#tparams");
+  box.innerHTML='<div class="paramrow">'+T.fields.map(f=>
+    '<div><label class="f">'+f[1]+'</label><input class="f tfield" data-key="'+f[0]+'" inputmode="decimal" value="'+f[2]+'"></div>'
+  ).join("")+'</div>';
+}
+function runTest(){
+  const T=TESTS[+$("#tsel").value];
+  const v={}; let bad=false;
+  document.querySelectorAll(".tfield").forEach(i=>{ v[i.dataset.key]=strictNumber(i.value); if(!isFinite(v[i.dataset.key])) bad=true; });
+  const alpha=strictNumber($("#talpha").value);
+  const tail=$("#ttail").querySelector(".on").dataset.v;
+  const out=$("#tresults"), dec=$("#tdecision"), hyp=$("#thyp"), note=$("#tnote");
+  const problem=validateTest(T,v);
+  if(bad||problem||!isFinite(alpha)||alpha<=0||alpha>=1){
+    dec.textContent=""; hyp.textContent=""; note.hidden=true; $("#tplot").getContext("2d").clearRect(0,0,1520,700);
+    out.innerHTML='<div class="res"><div class="k">Input</div><div class="v dim">Fill in all fields (and 0 < \u03B1 < 1)</div></div>';
+    if(problem) out.textContent=problem;
+    return;
+  }
+  const r=T.run(v);
+  if(!Number.isFinite(r.stat)){invalidateTest("The test is undefined for these inputs. Check variability and counts.");return;}
+  const D=r.dist, p=r.p;
+  const cdf=x=>D.cdf(x,p), inv=q=>D.inv(q,p,D);
+  const Fl=cdf(r.stat);
+  let pval, region;
+  if(tail==="left"){ pval=Fl; region={mode:"left",a:inv(alpha),prob:alpha}; }
+  else if(tail==="right"){ pval=upperTail(D,r.stat,p); region={mode:"right",a:inv(1-alpha),prob:alpha}; }
+  else { pval=Math.min(1,2*Math.min(Fl,upperTail(D,r.stat,p)));
+         region={mode:"two",a:inv(alpha/2),b:inv(1-alpha/2),prob:alpha}; }
+  const reject=pval<alpha;
+
+  const altSym = tail==="two"?"\u2260":tail==="left"?"<":">";
+  hyp.innerHTML="H\u2080: <b>"+r.h0+"</b> &emsp; vs &emsp; H\u2081: <b>"+r.hsym+" "+altSym+" "+(["t2","t2p","p2","z2"].includes(T.id)?"0":T.id==="f2"?"1":(r.h0.split("= ")[1]||""))+"</b>"+(r.df?" &emsp;\u00B7&emsp; "+r.df:"");
+  dec.className="decision "+(reject?"reject":"fail");
+  dec.textContent = reject
+    ? "Reject H\u2080  (p = "+fmtP(pval)+" < \u03B1 = "+alpha+")"
+    : "Fail to reject H\u2080  (p = "+fmtP(pval)+" \u2265 \u03B1 = "+alpha+")";
+
+  const res=[
+    ["Test statistic  "+r.statName, fmtN(r.stat,6), true],
+    ["p-value ("+(tail==="two"?"two-tailed":tail==="left"?"lower":"upper")+")", fmtP(pval), true]
+  ];
+  if(tail==="two"){ res.push(["Lower critical", fmtN(region.a,6)]); res.push(["Upper critical", fmtN(region.b,6)]); }
+  else res.push(["Critical value", fmtN(region.a,6)]);
+  res.push(["\u03B1", String(alpha)]);
+  const ci=testInterval(T,v,r,alpha);
+  if(ci) res.push(...ci);
+  out.innerHTML=res.map(x=>'<div class="res'+(x[2]?" hero":"")+'"><div class="k">'+x[0]+'</div><div class="v">'+x[1]+'</div></div>').join("");
+
+  note.hidden=false;
+  note.innerHTML="<b>Read:</b> the shaded area is the rejection region at \u03B1 = "+alpha+" on the "+D.name+" reference distribution"+(r.df?" ("+r.df+")":"")+". The red line is your computed test statistic. If the red line falls inside the shaded region, the result is statistically significant at the chosen \u03B1."+(r.asym&&tail==="two"?" Note: for this asymmetric distribution the two-tailed p-value uses the equal-tail-probability convention (matches Minitab).":"");
+  const notes=[];
+  if(T.id.startsWith('p')){
+    const probs=T.id==='p1'?[v.n*v.p0,v.n*(1-v.p0)]:[v.n1*(v.x1+v.x2)/(v.n1+v.n2),v.n1*(1-(v.x1+v.x2)/(v.n1+v.n2)),v.n2*(v.x1+v.x2)/(v.n1+v.n2),v.n2*(1-(v.x1+v.x2)/(v.n1+v.n2))];
+    if(probs.some(x=>x<10))notes.push('Normal approximation caution: an expected success/failure count under H₀ is below 10. Consider an exact method.');
+  }
+  notes.push('Intervals shown are two-sided '+fmtN(100*(1-alpha),5)+'% intervals, regardless of the selected test direction.');
+  notes.push(['chi','f2'].includes(T.id)?'Variance tests assume independent normal observations and are sensitive to non-normality.':'Check independence and the distributional assumptions. Statistical significance alone does not establish practical importance.');
+  notes.push('Failing to reject H₀ is not proof that H₀ is true.');
+  note.innerHTML+='<p>'+notes.join(' ')+'</p>';
+  drawDist($("#tplot"),D,p,region,r.stat);
+}
+$("#trun").onclick=runTest;
+$("#ttail").addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b)return;
+  $("#ttail").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));
+});
+
+/* ============================================================
+   SCIENTIFIC CALCULATOR
+   ============================================================ */
+const store={
+  get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+};
+const calc={ ang:"DEG", eng:false, frac:false, ans:0, mem:{M:0,A:0,B:0,C:0,D:0,E:0,F:0}, lastVal:null, history:[], hIdx:null };
+try{ const h=store.get("calc-hist"); if(h){ calc.history=JSON.parse(h)||[]; calc.hIdx=calc.history.length; } }catch(e){}
+
+/* ---- Tokenizer + recursive-descent parser -> AST ---- */
+const FNS={sin:1,cos:1,tan:1,asin:1,acos:1,atan:1,sinh:1,cosh:1,tanh:1,asinh:1,acosh:1,atanh:1,
+  ln:1,log:1,log2:1,logb:2,sqrt:1,cbrt:1,abs:1,exp:1,floor:1,ceil:1,round:1,ncr:2,npr:2,root:2,mod:2,rand:0};
+function tokenize(s){
+  const t=[]; let i=0;
+  const isD=c=>c>="0"&&c<="9"||c===".";
+  const isA=c=>/[a-zA-Z]/.test(c);
+  while(i<s.length){
+    const c=s[i], pos=i;
+    if(c===" "){i++;continue;}
+    if(isD(c)){
+      const m=/^\d*\.?\d+(?:[eE][+-]?\d+)?/.exec(s.slice(i));
+      if(!m) throw {msg:"Malformed number",pos};
+      t.push({t:"num",v:parseFloat(m[0]),pos}); i+=m[0].length; continue; }
+    if(isA(c)){ let j=i; while(j<s.length&&isA(s[j]))j++;
+      const raw=s.slice(i,j), w=raw.toLowerCase();
+      if(/^[A-F]$/.test(raw)) t.push({t:"num",v:calc.mem[raw],sym:raw,pos}); // registers first: uppercase E is a register, lowercase e is Euler
+      else if(w==="pi") t.push({t:"num",v:Math.PI,sym:"\u03C0",pos});
+      else if(w==="e") t.push({t:"num",v:Math.E,sym:"e",pos});
+      else if(w==="ans") t.push({t:"num",v:calc.ans,sym:"Ans",pos});
+      else if(FNS[w]!=null) t.push({t:"fn",v:w,pos});
+      else if(w==="m") t.push({t:"num",v:calc.mem.M,sym:"M",pos});
+      else throw {msg:"Unknown name \u201C"+raw+"\u201D",pos};
+      i=j; continue; }
+    if("+-*/^(),!%".includes(c)){ t.push({t:c,pos}); i++; continue; }
+    if(c==="\u00D7"){t.push({t:"*",pos});i++;continue;}
+    if(c==="\u00F7"){t.push({t:"/",pos});i++;continue;}
+    if(c==="\u03C0"){t.push({t:"num",v:Math.PI,sym:"\u03C0",pos});i++;continue;}
+    if(c==="\u2212"){t.push({t:"-",pos});i++;continue;}
+    if(c==="\u221A"){t.push({t:"fn",v:"sqrt",pos});i++;continue;}
+    throw {msg:"Unexpected character \u201C"+c+"\u201D",pos};
+  }
+  return t;
+}
+function parse(tokens){
+  let pos=0;
+  const peek=()=>tokens[pos], eat=tt=>{ if(peek()&&peek().t===tt){pos++;return true;} return false; };
+  const perr=(msg)=>{ throw {msg, pos: peek()? peek().pos : undefined}; };
+  function expr(){ let n=term();
+    while(peek()&&(peek().t==="+"||peek().t==="-")){ const op=tokens[pos++].t; n={t:"bin",op,l:n,r:term()}; }
+    return n; }
+  function term(){ let n=unary();
+    for(;;){
+      if(peek()&&(peek().t==="*"||peek().t==="/")){ const op=tokens[pos++].t; n={t:"bin",op,l:n,r:unary()}; }
+      else if(peek()&&(peek().t==="num"||peek().t==="fn"||peek().t==="(")){ n={t:"bin",op:"*",implicit:true,l:n,r:unary()}; }
+      else break;
+    }
+    return n; }
+  function unary(){
+    if(eat("-")) return {t:"neg",v:unary()};
+    if(eat("+")) return unary();
+    return postfix(); }
+  function postfix(){ let n=power();
+    for(;;){
+      if(eat("!")) n={t:"fact",v:n};
+      else if(eat("%")) n={t:"bin",op:"/",pct:true,l:n,r:{t:"lit",v:100}};
+      else break; }
+    return n; }
+  function power(){ const b=atom();
+    if(eat("^")) return {t:"bin",op:"^",l:b,r:unary()};
+    return b; }
+  function atom(){
+    const tk=peek();
+    if(!tk) perr("Expression ends too early");
+    if(tk.t==="num"){ pos++; return {t:"lit",v:tk.v,sym:tk.sym}; }
+    if(tk.t==="fn"){ pos++; const name=tk.v, arity=FNS[name];
+      if(!eat("(")){
+        if(arity===0) return {t:"call",name,args:[]};
+        const a=unary(); return {t:"call",name,args:[a]}; }
+      const args=[];
+      if(!eat(")")){ do{ args.push(expr()); }while(eat(",")); if(!eat(")")) perr("Missing closing \u201C)\u201D"); }
+      return {t:"call",name,args}; }
+    if(eat("(")){ const n=expr(); if(!eat(")")) perr("Missing closing \u201C)\u201D"); return {t:"paren",v:n}; }
+    perr("Unexpected \u201C"+tk.t+"\u201D");
+  }
+  const n=expr();
+  if(pos<tokens.length) perr("Unexpected input after expression");
+  return n;
+}
+function toRad(x){ return calc.ang==="DEG"? x*Math.PI/180 : calc.ang==="GRA"? x*Math.PI/200 : x; }
+function fromRad(x){ return calc.ang==="DEG"? x*180/Math.PI : calc.ang==="GRA"? x*200/Math.PI : x; }
+function factorial(n){
+  if(n<0) { if(Number.isInteger(n)) throw "Factorial of negative integer"; }
+  if(Number.isInteger(n)&&n>=0&&n<=170){ let r=1; for(let i=2;i<=n;i++)r*=i; return r; }
+  return Math.exp(lgamma(n+1));
+}
+function evalAst(n){
+  switch(n.t){
+    case "lit": return n.v;
+    case "paren": return evalAst(n.v);
+    case "neg": return -evalAst(n.v);
+    case "fact": return factorial(evalAst(n.v));
+    case "bin": { const a=evalAst(n.l), b=evalAst(n.r);
+      switch(n.op){ case "+":return a+b; case "-":return a-b; case "*":return a*b;
+        case "/": if(b===0) throw "Division by zero"; return a/b;
+        case "^": return Math.pow(a,b); } }
+    case "call": { const a=n.args.map(evalAst);
+      switch(n.name){
+        case "sin":return Math.sin(toRad(a[0])); case "cos":return Math.cos(toRad(a[0])); case "tan":return Math.tan(toRad(a[0]));
+        case "asin":return fromRad(Math.asin(a[0])); case "acos":return fromRad(Math.acos(a[0])); case "atan":return fromRad(Math.atan(a[0]));
+        case "sinh":return Math.sinh(a[0]); case "cosh":return Math.cosh(a[0]); case "tanh":return Math.tanh(a[0]);
+        case "asinh":return Math.asinh(a[0]); case "acosh":return Math.acosh(a[0]); case "atanh":return Math.atanh(a[0]);
+        case "ln":return Math.log(a[0]); case "log":return Math.log10(a[0]); case "log2":return Math.log2(a[0]);
+        case "logb":return Math.log(a[1])/Math.log(a[0]);
+        case "sqrt":return Math.sqrt(a[0]); case "cbrt":return Math.cbrt(a[0]); case "abs":return Math.abs(a[0]);
+        case "exp":return Math.exp(a[0]); case "floor":return Math.floor(a[0]); case "ceil":return Math.ceil(a[0]); case "round":return Math.round(a[0]);
+        case "ncr":return Math.round(choose(a[0],a[1]));
+        case "npr":return Math.round(Math.exp(lgamma(a[0]+1)-lgamma(a[0]-a[1]+1)));
+        case "root":return Math.pow(a[1],1/a[0]);
+        case "mod":return ((a[0]%a[1])+a[1])%a[1];
+        case "rand":return Math.random();
+      } }
+  }
+  throw "Evaluation error";
+}
+/* ---- Textbook renderer: AST -> native MathML ----
+   Radicals stretch over tall content, nested fractions auto-
+   shrink, parens colored by depth, redundant parens dropped
+   where the layout itself groups (fraction bars, radicals). */
+function unwrapParen(n){ return n&&n.t==="paren" ? unwrapParen(n.v) : n; }
+function mml(n,d){
+  d=d||0;
+  switch(n.t){
+    case "lit": return n.sym ? "<mi>"+n.sym+"</mi>" : "<mn>"+n.v+"</mn>";
+    case "paren": { const c="pp"+(d%4);
+      return '<mrow><mo class="'+c+'">(</mo>'+mml(n.v,d+1)+'<mo class="'+c+'">)</mo></mrow>'; }
+    case "neg": return "<mrow><mo>\u2212</mo>"+mml(n.v,d)+"</mrow>";
+    case "fact": return "<mrow>"+mml(n.v,d)+"<mo>!</mo></mrow>";
+    case "bin":
+      if(n.pct) return "<mrow>"+mml(n.l,d)+"<mo>%</mo></mrow>";
+      if(n.op==="/") return "<mfrac><mrow>"+mml(unwrapParen(n.l),d)+"</mrow><mrow>"+mml(unwrapParen(n.r),d)+"</mrow></mfrac>";
+      if(n.op==="^") return "<msup><mrow>"+mml(n.l,d)+"</mrow><mrow>"+mml(unwrapParen(n.r),d)+"</mrow></msup>";
+      if(n.op==="*") return "<mrow>"+mml(n.l,d)+(n.implicit?"<mo>\u2062</mo>":"<mo>\u00D7</mo>")+mml(n.r,d)+"</mrow>";
+      return "<mrow>"+mml(n.l,d)+"<mo>"+(n.op==="-"?"\u2212":"+")+"</mo>"+mml(n.r,d)+"</mrow>";
+    case "call": {
+      if(n.name==="sqrt") return "<msqrt><mrow>"+n.args.map(a=>mml(unwrapParen(a),d)).join("")+"</mrow></msqrt>";
+      if(n.name==="cbrt") return "<mroot><mrow>"+n.args.map(a=>mml(unwrapParen(a),d)).join("")+"</mrow><mn>3</mn></mroot>";
+      if(n.name==="root"&&n.args.length===2)
+        return "<mroot><mrow>"+mml(unwrapParen(n.args[1]),d)+"</mrow><mrow>"+mml(unwrapParen(n.args[0]),d)+"</mrow></mroot>";
+      if(n.name==="abs") return "<mrow><mo>|</mo>"+n.args.map(a=>mml(unwrapParen(a),d)).join("")+"<mo>|</mo></mrow>";
+      if(n.name==="exp") return "<msup><mi>e</mi><mrow>"+n.args.map(a=>mml(unwrapParen(a),d)).join("")+"</mrow></msup>";
+      const c="pp"+(d%4);
+      return '<mrow><mi>'+n.name+'</mi><mo class="'+c+'">(</mo>'+n.args.map(a=>mml(a,d+1)).join("<mo>,</mo>")+'<mo class="'+c+'">)</mo></mrow>'; }
+  }
+  return "";
+}
+const toMathML = ast => '<math display="inline">'+mml(ast,0)+'</math>';
+/* ---- Fraction conversion (continued fractions) ---- */
+function toFraction(x,maxDen){
+  maxDen=maxDen||100000;
+  if(!isFinite(x)) return null;
+  const neg=x<0; x=Math.abs(x);
+  let h1=1,h0=0,k1=0,k0=1,b=x;
+  for(let i=0;i<64;i++){
+    const a=Math.floor(b);
+    let h2=a*h1+h0, k2=a*k1+k0;
+    if(k2>maxDen) break;
+    h0=h1;h1=h2;k0=k1;k1=k2;
+    if(Math.abs(x-h1/k1)<x*1e-12+1e-12) break;
+    if(b===a) break;
+    b=1/(b-a);
+  }
+  if(Math.abs(x-h1/k1)>Math.abs(x)*1e-9+1e-9) return null;
+  return {n:(neg?-1:1)*h1, d:k1};
+}
+/* ---- Display ---- */
+function showResult(v){
+  calc.lastVal=v;
+  const el=$("#result");
+  el.classList.remove("err");
+  if(calc.frac){
+    const f=toFraction(v);
+    if(f&&f.d!==1){ el.innerHTML='<math display="inline"><mfrac><mn>'+f.n+'</mn><mn>'+f.d+'</mn></mfrac></math>'; return; }
+  }
+  if(calc.eng&&v!==0&&isFinite(v)){
+    let e=Math.floor(Math.log10(Math.abs(v)));
+    e=3*Math.floor(e/3);
+    e-=3*(calc.engOfs||0);          // each ENG press shifts the exponent down 3; SHIFT+ENG shifts up
+    const m=v/Math.pow(10,e);
+    el.innerHTML=Number(m.toPrecision(10)).toString()+'\u00D710<sup>'+e+'</sup>';
+    return;
+  }
+  if(!isFinite(v)){ el.textContent=String(v); return; }
+  const a=Math.abs(v);
+  el.textContent = (a!==0&&(a>=1e12||a<1e-9)) ? v.toExponential(9) : Number(v.toPrecision(12)).toString();
+}
+function errMsg(e){
+  if(e&&e.msg) return e.msg+(e.pos!=null?" (position "+(e.pos+1)+")":"");
+  return String(e);
+}
+function evaluate(){
+  const s=edSerialize(ED.root);
+  if(!s) return;
+  try{
+    const ast=parse(tokenize(s));
+    const v=evalAst(ast);
+    if(typeof v!=="number"||isNaN(v)) throw "Math error";
+    calc.ans=v;
+    calc.justEval=true;
+    showResult(v);
+    calc.history.push({e:s,r:v});
+    if(calc.history.length>60) calc.history=calc.history.slice(-60);
+    store.set("calc-hist", JSON.stringify(calc.history));
+    renderHistory();
+  }catch(err){
+    const el=$("#result"); el.classList.add("err"); el.textContent=errMsg(err);
+  }
+}
+function updateGhost(s){
+  const gh=$("#ghost");
+  if(!s){ gh.innerHTML=""; return; }
+  try{
+    const ast=parse(tokenize(s));
+    const v=evalAst(ast);
+    gh.innerHTML=(typeof v==="number"&&isFinite(v))?"= <b>"+Number(v.toPrecision(12))+"</b>":"";
+  }catch(e){
+    gh.innerHTML='<span class="gsoft">'+(edHasEmpty(ED.root)?"\u2026":errMsg(e))+"</span>";
+  }
+}
+function renderHistory(){
+  $("#history").innerHTML=calc.history.map((h,i)=>{
+    let he;
+    try{ he=toMathML(parse(tokenize(h.e))); }
+    catch(e){ he=h.e.replace(/</g,"&lt;"); }
+    return '<div class="hitem" data-i="'+i+'"><div class="he">'+he+'</div><div class="hr">= '+Number(h.r.toPrecision(12))+'</div></div>';
+  }).join("");
+}
+$("#history").addEventListener("click",e=>{
+  const it=e.target.closest(".hitem"); if(!it)return;
+  try{
+    const ast=parse(tokenize(calc.history[+it.dataset.i].e));
+    ED.root=edNewBox(null); ED.cur={box:ED.root,i:0};
+    astToTree(ast,ED.root);
+    ED.cur={box:ED.root,i:ED.root.length};
+    edRender(); $("#medit").focus();
+  }catch(err){}
+});
+/* ============================================================
+   STRUCTURAL MATH EDITOR (Natural Display)
+   The expression is a tree of boxes; you type INTO the stack.
+   Atoms: ch, sym, frac{num,den}, sqrt{rad}, root{idx,rad},
+          sup{exp}, fn{name,arg}, abs{body}
+   ============================================================ */
+const ED={ root:null, cur:null, undo:[] };
+function edNewBox(parentAtom){ const b=[]; b.parent=parentAtom||null; return b; }
+function edBoxes(a){
+  switch(a.t){ case "frac":return[a.num,a.den]; case "sqrt":return[a.rad];
+    case "root":return[a.idx,a.rad]; case "sup":return[a.exp];
+    case "fn":return[a.arg]; case "abs":return[a.body]; default:return[]; } }
+function edClone(box,parentAtom){
+  const nb=edNewBox(parentAtom);
+  box.forEach(a=>{
+    let na;
+    switch(a.t){
+      case "ch": na={t:"ch",c:a.c}; break;
+      case "sym": na={t:"sym",s:a.s}; break;
+      case "frac": na={t:"frac"}; na.num=edClone(a.num,na); na.den=edClone(a.den,na); break;
+      case "sqrt": na={t:"sqrt"}; na.rad=edClone(a.rad,na); break;
+      case "root": na={t:"root"}; na.idx=edClone(a.idx,na); na.rad=edClone(a.rad,na); break;
+      case "sup": na={t:"sup"}; na.exp=edClone(a.exp,na); break;
+      case "fn": na={t:"fn",name:a.name}; na.arg=edClone(a.arg,na); break;
+      case "abs": na={t:"abs"}; na.body=edClone(a.body,na); break;
+    }
+    na.pb=nb; nb.push(na);
+  });
+  return nb;
+}
+function edSnap(){ ED.undo.push(edClone(ED.root,null)); if(ED.undo.length>80) ED.undo.shift(); }
+function edUndo(){ if(!ED.undo.length) return;
+  ED.root=ED.undo.pop(); ED.cur={box:ED.root,i:ED.root.length}; edRender(); }
+function edHasEmpty(box){ if(box.length===0&&box!==ED.root) return true;
+  return box.some(a=>edBoxes(a).some(edHasEmpty)); }
+
+/* ---- serialization: tree -> linear string for the engine ---- */
+function edSerAtom(a){
+  switch(a.t){
+    case "ch": return a.c;
+    case "sym": return {"\u03C0":"pi","e":"e","Ans":"ans","M":"M","A":"A"}[a.s]||a.s;
+    case "frac": return "(("+edSerialize(a.num)+")/("+edSerialize(a.den)+"))";
+    case "sqrt": return "sqrt("+edSerialize(a.rad)+")";
+    case "root": return "root("+edSerialize(a.idx)+","+edSerialize(a.rad)+")";
+    case "sup": return "^("+edSerialize(a.exp)+")";
+    case "fn": return a.name+"("+edSerialize(a.arg)+")";
+    case "abs": return "abs("+edSerialize(a.body)+")";
+  }
+  return "";
+}
+const edSerialize=box=>box.map(edSerAtom).join("");
+
+/* ---- linear AST -> tree (paste, history recall) ---- */
+function edPushAtom(box,a){ a.pb=box; edBoxes(a).forEach(b=>b.parent=a); box.push(a); return a; }
+function edPushCh(box,s){ for(const c of s) edPushAtom(box,{t:"ch",c}); }
+function astToTree(n,box){
+  switch(n.t){
+    case "lit":
+      if(n.sym) edPushAtom(box,{t:"sym",s:n.sym});
+      else edPushCh(box,String(n.v));
+      return;
+    case "paren": edPushCh(box,"("); astToTree(n.v,box); edPushCh(box,")"); return;
+    case "neg": edPushCh(box,"-"); astToTree(n.v,box); return;
+    case "fact": astToTree(n.v,box); edPushCh(box,"!"); return;
+    case "bin":
+      if(n.pct){ astToTree(n.l,box); edPushCh(box,"%"); return; }
+      if(n.op==="/"){
+        const f=edPushAtom(box,{t:"frac",num:edNewBox(),den:edNewBox()});
+        astToTree(unwrapParen(n.l),f.num); astToTree(unwrapParen(n.r),f.den); return; }
+      if(n.op==="^"){
+        astToTree(n.l,box);
+        const s=edPushAtom(box,{t:"sup",exp:edNewBox()});
+        astToTree(unwrapParen(n.r),s.exp); return; }
+      astToTree(n.l,box);
+      if(!n.implicit) edPushCh(box,n.op);
+      astToTree(n.r,box); return;
+    case "call":
+      if(n.name==="sqrt"){ const q=edPushAtom(box,{t:"sqrt",rad:edNewBox()});
+        n.args.forEach(a=>astToTree(unwrapParen(a),q.rad)); return; }
+      if(n.name==="root"&&n.args.length===2){ const r=edPushAtom(box,{t:"root",idx:edNewBox(),rad:edNewBox()});
+        astToTree(unwrapParen(n.args[0]),r.idx); astToTree(unwrapParen(n.args[1]),r.rad); return; }
+      if(n.name==="abs"){ const b=edPushAtom(box,{t:"abs",body:edNewBox()});
+        n.args.forEach(a=>astToTree(unwrapParen(a),b.body)); return; }
+      const f=edPushAtom(box,{t:"fn",name:n.name,arg:edNewBox()});
+      n.args.forEach((a,i)=>{ if(i) edPushCh(f.arg,","); astToTree(a,f.arg); });
+      return;
+  }
+}
+
+/* ---- rendering ---- */
+let ED_ATOMS=[], ED_BOXES=[];
+function edRender(){
+  ED_ATOMS=[]; ED_BOXES=[];
+  const el=$("#medit");
+  el.innerHTML=edRenderBox(ED.root,true);
+  const s=edSerialize(ED.root);
+  $("#linear").textContent=s;
+  updateGhost(s);
+  const cur=el.querySelector(".cur");
+  if(cur&&cur.scrollIntoView) cur.scrollIntoView({block:"nearest",inline:"nearest"});
+}
+function edRenderBox(box,isRoot){
+  ED_BOXES.push(box);
+  const bid=ED_BOXES.length-1;
+  let h="";
+  for(let k=0;k<=box.length;k++){
+    if(box===ED.cur.box&&k===ED.cur.i) h+='<span class="cur"></span>';
+    if(k<box.length) h+=edRenderAtom(box[k]);
+  }
+  if(!box.length&&box!==ED.cur.box&&!isRoot) h+='<span class="ebox"></span>';
+  return '<span class="mbox" data-b="'+bid+'">'+h+"</span>";
+}
+const RSVG='<svg viewBox="0 0 12 28" preserveAspectRatio="none" aria-hidden="true"><path d="M1 17 L4.6 26.5 L11 1.2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>';
+function edRenderAtom(a){
+  ED_ATOMS.push(a);
+  const id=' data-a="'+(ED_ATOMS.length-1)+'"';
+  switch(a.t){
+    case "ch": {
+      let c=a.c;
+      if(c==="*") c="\u00D7"; if(c==="-") c="\u2212"; if(c==="/") c="\u00F7";
+      const cls="()".includes(a.c)?"pch":/[0-9.]/.test(a.c)?"dch":"och";
+      return '<span class="atom '+cls+'"'+id+'>'+c+'</span>'; }
+    case "sym": return '<span class="atom sch"'+id+'>'+a.s+'</span>';
+    case "frac": return '<span class="atom frac"'+id+'><span class="fnum">'+edRenderBox(a.num)+'</span><span class="fden">'+edRenderBox(a.den)+'</span></span>';
+    case "sqrt": return '<span class="atom sqrt"'+id+'><span class="rsign">'+RSVG+'</span><span class="rbody">'+edRenderBox(a.rad)+'</span></span>';
+    case "root": return '<span class="atom sqrt"'+id+'><span class="ridx">'+edRenderBox(a.idx)+'</span><span class="rsign">'+RSVG+'</span><span class="rbody">'+edRenderBox(a.rad)+'</span></span>';
+    case "sup": return '<span class="atom sup"'+id+'>'+edRenderBox(a.exp)+'</span>';
+    case "fn": return '<span class="atom"'+id+'><span class="fname">'+a.name+'</span><span class="pch">(</span>'+edRenderBox(a.arg)+'<span class="pch">)</span></span>';
+    case "abs": return '<span class="atom"'+id+'><span class="pch">|</span>'+edRenderBox(a.body)+'<span class="pch">|</span></span>';
+  }
+  return "";
+}
+
+/* ---- editing operations ---- */
+function edFresh(nextIsOp){
+  // Casio behavior after "=": a digit/function starts a new entry;
+  // an operator or fraction continues the calculation from Ans.
+  if(!calc.justEval) return;
+  calc.justEval=false;
+  ED.root=edNewBox(null); ED.cur={box:ED.root,i:0}; ED.undo=[];
+  if(nextIsOp){ const a={t:"sym",s:"Ans"}; a.pb=ED.root; ED.root.push(a); ED.cur.i=1; }
+}
+function edInsCh(c){ edFresh("+-*/%!".includes(c)); edSnap();
+  const {box,i}=ED.cur;
+  edPushAtomAt(box,i,{t:"ch",c}); ED.cur.i++; edRender(); }
+function edPushAtomAt(box,i,a){ a.pb=box; edBoxes(a).forEach(b=>b.parent=a); box.splice(i,0,a); return a; }
+function edInsSym(s){ edFresh(false); edSnap();
+  const {box,i}=ED.cur;
+  edPushAtomAt(box,i,{t:"sym",s}); ED.cur.i++; edRender(); }
+function edFrac(){ edFresh(true); edSnap();
+  const {box,i}=ED.cur;
+  let j=i, depth=0;
+  while(j>0){                       // collect the preceding factor into the numerator
+    const a=box[j-1];
+    if(a.t==="ch"){
+      if(a.c===")") depth++;
+      else if(a.c==="("){ if(depth===0) break; depth--; }
+      else if(depth===0&&"+-*,".includes(a.c)) break;
+    }
+    j--;
+  }
+  const f={t:"frac",num:edNewBox(),den:edNewBox()};
+  const moved=box.splice(j,i-j);
+  moved.forEach(m=>m.pb=f.num); f.num.push(...moved);
+  edPushAtomAt(box,j,f);
+  ED.cur={box:f.den,i:0}; edRender(); }
+function edSup(fill){ edFresh(true); edSnap();
+  const {box,i}=ED.cur;
+  const s=edPushAtomAt(box,i,{t:"sup",exp:edNewBox()});
+  if(fill){ edPushCh(s.exp,fill); ED.cur={box,i:i+1}; }
+  else ED.cur={box:s.exp,i:0};
+  edRender(); }
+function edSqrt(){ edFresh(false); edSnap();
+  const {box,i}=ED.cur;
+  const q=edPushAtomAt(box,i,{t:"sqrt",rad:edNewBox()});
+  ED.cur={box:q.rad,i:0}; edRender(); }
+function edRoot(idxFill){ edFresh(false); edSnap();
+  const {box,i}=ED.cur;
+  const r=edPushAtomAt(box,i,{t:"root",idx:edNewBox(),rad:edNewBox()});
+  if(idxFill){ edPushCh(r.idx,idxFill); ED.cur={box:r.rad,i:0}; }
+  else ED.cur={box:r.idx,i:0};
+  edRender(); }
+function edFn(name){ edFresh(false); edSnap();
+  const {box,i}=ED.cur;
+  const f=edPushAtomAt(box,i,{t:"fn",name,arg:edNewBox()});
+  ED.cur={box:f.arg,i:0}; edRender(); }
+function edAbs(){ edFresh(false); edSnap();
+  const {box,i}=ED.cur;
+  const b=edPushAtomAt(box,i,{t:"abs",body:edNewBox()});
+  ED.cur={box:b.body,i:0}; edRender(); }
+function edOpenParen(){        // letter-run before cursor + "(" becomes a live function
+  const {box,i}=ED.cur;
+  let j=i;
+  while(j>0&&box[j-1].t==="ch"&&/[a-zA-Z]/.test(box[j-1].c)) j--;
+  const name=box.slice(j,i).map(a=>a.c).join("").toLowerCase();
+  if(name&&FNS[name]!=null){
+    edSnap();
+    box.splice(j,i-j);
+    const f={t:"fn",name,arg:edNewBox()};
+    edPushAtomAt(box,j,f);
+    ED.cur={box:f.arg,i:0}; edRender(); return;
+  }
+  edInsCh("(");
+}
+function edBackspace(){
+  calc.justEval=false;
+  const {box,i}=ED.cur;
+  if(i>0){
+    const a=box[i-1];
+    if(a.t==="ch"||a.t==="sym"){ edSnap(); box.splice(i-1,1); ED.cur.i--; }
+    else { const bs=edBoxes(a), last=bs[bs.length-1]; ED.cur={box:last,i:last.length}; }
+  } else {
+    const owner=box.parent;
+    if(!owner) return;
+    const bs=edBoxes(owner), bi=bs.indexOf(box);
+    if(bi>0){ const prev=bs[bi-1]; ED.cur={box:prev,i:prev.length}; }
+    else {
+      const ob=owner.pb, oi=ob.indexOf(owner);
+      edSnap();
+      const flat=[].concat(...bs);           // dissolve the structure, keep contents
+      flat.forEach(m=>m.pb=ob);
+      ob.splice(oi,1,...flat);
+      ED.cur={box:ob,i:oi};
+    }
+  }
+  edRender();
+}
+function edRight(){
+  calc.justEval=false;
+  const {box,i}=ED.cur;
+  if(i<box.length){
+    const bs=edBoxes(box[i]);
+    if(bs.length) ED.cur={box:bs[0],i:0}; else ED.cur.i++;
+  } else {
+    const owner=box.parent; if(!owner) return;
+    const bs=edBoxes(owner), bi=bs.indexOf(box);
+    if(bi<bs.length-1) ED.cur={box:bs[bi+1],i:0};
+    else { const ob=owner.pb; ED.cur={box:ob,i:ob.indexOf(owner)+1}; }
+  }
+  edRender();
+}
+function edLeft(){
+  calc.justEval=false;
+  const {box,i}=ED.cur;
+  if(i>0){
+    const bs=edBoxes(box[i-1]);
+    if(bs.length){ const lb=bs[bs.length-1]; ED.cur={box:lb,i:lb.length}; }
+    else ED.cur.i--;
+  } else {
+    const owner=box.parent; if(!owner) return;
+    const bs=edBoxes(owner), bi=bs.indexOf(box);
+    if(bi>0){ const pb=bs[bi-1]; ED.cur={box:pb,i:pb.length}; }
+    else { const ob=owner.pb; ED.cur={box:ob,i:ob.indexOf(owner)}; }
+  }
+  edRender();
+}
+function edVert(dir){
+  calc.justEval=false;
+  let b=ED.cur.box;
+  while(b){
+    const owner=b.parent;
+    if(!owner) return;
+    if(owner.t==="frac"){
+      const target=dir<0?owner.num:owner.den;
+      if(target!==b){ ED.cur={box:target,i:Math.min(ED.cur.i,target.length)}; edRender(); return; }
+    }
+    if(owner.t==="root"&&dir<0&&b===owner.rad){ ED.cur={box:owner.idx,i:owner.idx.length}; edRender(); return; }
+    if(owner.t==="root"&&dir>0&&b===owner.idx){ ED.cur={box:owner.rad,i:0}; edRender(); return; }
+    if(owner.t==="sup"&&dir>0){ const ob=owner.pb; ED.cur={box:ob,i:ob.indexOf(owner)+1}; edRender(); return; }
+    b=owner.pb;
+  }
+}
+function edClear(){ ED.root=edNewBox(null); ED.cur={box:ED.root,i:0}; ED.undo=[]; calc.justEval=false; edRender(); }
+
+/* ---- editor events ---- */
+const medit=$("#medit");
+medit.addEventListener("keydown",e=>{
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="z"){ e.preventDefault(); edUndo(); return; }
+  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="c"){
+    if(!(window.getSelection&&String(window.getSelection()))){
+      const s=edSerialize(ED.root);
+      if(s&&navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(s).catch(()=>{}); e.preventDefault(); }
+    } return; }
+  if(e.ctrlKey||e.metaKey||e.altKey) return;
+  if(e.key==="Enter"){ e.preventDefault(); evaluate(); return; }
+  if(e.key==="Backspace"){ e.preventDefault(); edBackspace(); return; }
+  if(e.key==="ArrowLeft"){ e.preventDefault(); edLeft(); return; }
+  if(e.key==="ArrowRight"){ e.preventDefault(); edRight(); return; }
+  if(e.key==="ArrowUp"){ e.preventDefault(); edVert(-1); return; }
+  if(e.key==="ArrowDown"){ e.preventDefault(); edVert(1); return; }
+  if(e.key==="/"){ e.preventDefault(); edFrac(); return; }
+  if(e.key==="^"){ e.preventDefault(); edSup(); return; }
+  if(e.key==="("){ e.preventDefault(); edOpenParen(); return; }
+  if(e.key.length===1&&/[0-9.+\-*)!%,a-zA-Z]/.test(e.key)){ e.preventDefault(); edInsCh(e.key); return; }
+});
+medit.addEventListener("mousedown",e=>{
+  e.preventDefault(); medit.focus(); calc.justEval=false;
+  const at=e.target.closest("[data-a]");
+  const bxEl=e.target.closest("[data-b]");
+  const holder=e.target.closest(".fnum,.fden,.rbody,.ridx");
+  if(bxEl&&(!at||at.contains(bxEl))){
+    // click landed inside a child box of a structure (incl. empty slots)
+    const box=ED_BOXES[+bxEl.dataset.b];
+    ED.cur={box,i:box.length};
+  } else if(holder&&(!at||at.contains(holder))){
+    // click on a slot's padding — enter that slot's box
+    const mb=holder.querySelector(":scope > .mbox");
+    if(mb){ const box=ED_BOXES[+mb.dataset.b]; ED.cur={box,i:box.length}; }
+  } else if(at){
+    const a=ED_ATOMS[+at.dataset.a], box=a.pb, i=box.indexOf(a);
+    const r=at.getBoundingClientRect();
+    ED.cur={box,i:i+((e.clientX>r.left+r.width/2)?1:0)};
+  } else {
+    ED.cur={box:ED.root,i:ED.root.length};
+  }
+  edRender();
+});
+medit.addEventListener("paste",e=>{
+  e.preventDefault();
+  const txt=((e.clipboardData||{}).getData? e.clipboardData.getData("text"):"").trim();
+  if(!txt) return;
+  try{
+    const ast=parse(tokenize(txt));
+    const tmp=edNewBox(null); astToTree(ast,tmp);
+    edSnap();
+    const {box,i}=ED.cur;
+    tmp.forEach(a=>a.pb=box);
+    box.splice(i,0,...tmp);
+    ED.cur.i+=tmp.length;
+    edRender();
+  }catch(err){}
+});
+
+/* ---- Casio fx-300ES PLUS keypad ----
+   Faithful layout: SHIFT (gold) / ALPHA (red) modifier system,
+   replay D-pad, hyp prefix, STO/RCL registers A-F, ENG stepping. */
+Object.assign(calc,{shift:false,alpha:false,hyp:false,sto:false,rcl:false,engOfs:0});
+
+function K(main,act,opts){ return Object.assign({m:main,act},opts||{}); }
+const CASIO_F=[ // 6-column rows (row 0-1 leave cols 3-4 to the D-pad)
+  [K("SHIFT","shift",{cls:"modk shiftk",ga:"1/1"}),K("ALPHA","alpha",{cls:"modk alphak",ga:"1/2"}),
+   K("MODE","mode",{ga:"1/5",s:"SETUP"}),K("ON","on",{cls:"modk",ga:"1/6"})],
+  [K("Abs","abs",{ga:"2/1"}),K("x\u00B3","sup3",{ga:"2/2"}),
+   K("x\u207B\u00B9","inv",{ga:"2/5",s:"x!"}),K("log\u2090b","logb",{ga:"2/6"})],
+  [K("\u25A1\u2044\u25A1","frac"),K("\u221A\u25A1","sqrt",{s:"\u221B\u25A1"}),K("x\u00B2","sup2"),
+   K("x\u25A0","sup",{s:"\u207F\u221A\u25A1"}),K("log","log",{s:"10\u02E3"}),K("ln","ln",{s:"e\u02E3"})],
+  [K("(\u2212)","neg",{a:"A"}),K("\u00B0\u2032\u2033","dms",{s:"FACT",a:"B"}),K("hyp","hyp",{a:"C"}),
+   K("sin","trig:sin",{s:"sin\u207B\u00B9",a:"D"}),K("cos","trig:cos",{s:"cos\u207B\u00B9",a:"E"}),K("tan","trig:tan",{s:"tan\u207B\u00B9",a:"F"})],
+  [K("RCL","rcl",{s:"STO"}),K("ENG","eng",{s:"\u2190"}),K("(","paro",{s:"%"}),K(")","parc",{s:","}),
+   K("S\u21C6D","sd"),K("M+","mplus",{s:"M\u2212",a:"M"})]
+];
+const CASIO_N=[
+  [K("7","c:7"),K("8","c:8"),K("9","c:9"),K("DEL","del",{cls:"grn",s:"INS"}),K("AC","ac",{cls:"grn",s:"OFF"})],
+  [K("4","c:4"),K("5","c:5"),K("6","c:6"),K("\u00D7","c:*",{cls:"opk",s:"nPr"}),K("\u00F7","c:/",{cls:"opk",s:"nCr"})],
+  [K("1","c:1",{s:"STAT"}),K("2","c:2"),K("3","c:3"),K("+","c:+",{cls:"opk"}),K("\u2212","c:-",{cls:"opk"})],
+  [K("0","c:0",{s:"Rnd"}),K(".","c:.",{s:"Ran#"}),K("\u00D710\u02E3","e10",{s:"\u03C0",a:"e"}),
+   K("Ans","ans",{s:"DRG\u25B8"}),K("=","eq",{cls:"eqk"})]
+];
+function keyHtml(k){
+  return '<button class="key '+(k.cls||"")+'" data-act="'+k.act+'"'+(k.ga?' style="grid-area:'+k.ga+'"':'')+'>'+
+    '<span class="klbl">'+(k.s?'<span class="ks">'+k.s+'</span>':'')+(k.a?'<span class="ka">'+k.a+'</span>':'')+'</span>'+
+    '<span class="kmain">'+k.m+'</span></button>';
+}
+function buildPad(){
+  const pad=$("#pad");
+  pad.innerHTML=
+    '<div class="fpad">'+
+      '<div class="dpad">'+
+        '<button class="du" data-act="nav:u" aria-label="Up">\u25B2</button>'+
+        '<button class="dl" data-act="nav:l" aria-label="Left">\u25C0</button>'+
+        '<button class="dr" data-act="nav:r" aria-label="Right">\u25B6</button>'+
+        '<button class="dd" data-act="nav:d" aria-label="Down">\u25BC</button>'+
+      '</div>'+
+      CASIO_F.map(r=>r.map(keyHtml).join("")).join("")+
+    '</div>'+
+    '<div class="npad">'+CASIO_N.map(r=>r.map(keyHtml).join("")).join("")+'</div>';
+  pad.addEventListener("click",e=>{
+    const b=e.target.closest("[data-act]"); if(!b)return;
+    doKey(b.dataset.act);
+    if(calc._skipFocus) calc._skipFocus=false;
+    else medit.focus();
+  });
+}
+function setBadges(){
+  $("#bdg-shift").classList.toggle("on",calc.shift);
+  $("#bdg-alpha").classList.toggle("on",calc.alpha);
+  $("#bdg-hyp").classList.toggle("on",calc.hyp);
+  $("#bdg-sto").classList.toggle("on",calc.sto||calc.rcl);
+  $("#bdg-sto").textContent=calc.sto?"STO":calc.rcl?"RCL":"STO";
+  $("#bdg-eng").classList.toggle("on",calc.eng);
+  document.querySelectorAll(".key.shiftk").forEach(k=>k.classList.toggle("onk",calc.shift));
+  document.querySelectorAll(".key.alphak").forEach(k=>k.classList.toggle("onk",calc.alpha));
+}
+function clearMods(){ calc.shift=false; calc.alpha=false; setBadges(); }
+function regKey(letter, plainAction){
+  // trig-row keys double as registers A-F (Casio ALPHA / STO / RCL flow)
+  if(calc.sto){ calc.mem[letter]=calc.lastVal||0; calc.sto=false; clearMods();
+    $("#ghost").innerHTML="= <b>"+Number((calc.mem[letter]).toPrecision(12))+"</b> \u2192 "+letter; return true; }
+  if(calc.rcl||calc.alpha){ calc.rcl=false; edInsSym(letter); clearMods(); medit.focus(); return true; }
+  return false;
+}
+function showDMS(){
+  const v=calc.lastVal; if(v==null||!isFinite(v)) return;
+  const neg=v<0, av=Math.abs(v);
+  const d=Math.floor(av), mf=(av-d)*60, m=Math.floor(mf), s=(mf-m)*60;
+  $("#ghost").innerHTML="= <b>"+(neg?"\u2212":"")+d+"\u00B0 "+m+"\u2032 "+Number(s.toFixed(4))+"\u2033</b>";
+}
+function showFact(){
+  const lv=calc.lastVal; if(lv==null||!isFinite(lv)) return;
+  if(Math.abs(lv-Math.round(lv))>1e-9||Math.abs(lv)<2||Math.abs(lv)>1e12){
+    $("#ghost").innerHTML='<span class="gsoft">FACT needs an integer between 2 and 10\u00B9\u00B2</span>'; return; }
+  let n=Math.round(Math.abs(lv)); const f={};
+  for(let p=2;p*p<=n;p+=(p===2?1:2)){ while(n%p===0){ f[p]=(f[p]||0)+1; n/=p; } }
+  if(n>1) f[n]=(f[n]||0)+1;
+  $("#ghost").innerHTML="= <b>"+Object.entries(f).map(([p,e])=>e>1?p+"<sup>"+e+"</sup>":p).join(" \u00D7 ")+"</b>";
+}
+function doKey(act){
+  const S=calc.shift, A=calc.alpha;
+  switch(act){
+    case "shift": calc.shift=!calc.shift; if(calc.shift) calc.alpha=false; setBadges(); return;
+    case "alpha": calc.alpha=!calc.alpha; if(calc.alpha) calc.shift=false; setBadges(); return;
+    case "mode": calc.ang=calc.ang==="DEG"?"RAD":calc.ang==="RAD"?"GRA":"DEG";
+      $("#bdg-ang").textContent=calc.ang; clearMods(); return;
+    case "on": edClear(); calc.hyp=false; calc.sto=false; calc.rcl=false; calc.eng=false; calc.engOfs=0;
+      $("#result").textContent="0"; $("#result").classList.remove("err"); clearMods(); medit.focus(); return;
+    case "nav:l": edLeft(); return;  case "nav:r": edRight(); return;
+    case "nav:u": if(!ED.root.length&&calc.history.length){ // replay: recall last entry on empty screen
+        try{ const ast=parse(tokenize(calc.history[calc.history.length-1].e));
+          ED.root=edNewBox(null); astToTree(ast,ED.root);
+          ED.cur={box:ED.root,i:ED.root.length}; edRender(); }catch(e){}
+      } else edVert(-1); return;
+    case "nav:d": edVert(1); return;
+    case "abs": edAbs(); break;
+    case "sup3": edSup("3"); break;
+    case "inv": if(S) edInsCh("!"); else edSup("-1"); break;
+    case "logb": edFn("logb"); break;
+    case "frac": edFrac(); break;
+    case "sqrt": if(S) edRoot("3"); else edSqrt(); break;
+    case "sup2": edSup("2"); break;
+    case "sup": if(S) edRoot(); else edSup(); break;
+    case "log": if(S){ edInsCh("1"); edInsCh("0"); edSup(); } else edFn("log"); break;
+    case "ln": if(S) edFn("exp"); else edFn("ln"); break;
+    case "neg": if(regKey("A")) return; edInsCh("-"); break;
+    case "dms": if(regKey("B")) return; if(S){ showFact(); clearMods(); return; } showDMS(); clearMods(); return;
+    case "hyp": if(regKey("C")) return; calc.hyp=!calc.hyp; setBadges(); return;
+    case "trig:sin": case "trig:cos": case "trig:tan": {
+      const base=act.slice(5);
+      const letter={sin:"D",cos:"E",tan:"F"}[base];
+      if(regKey(letter)) return;
+      edFn((S?"a":"")+base+(calc.hyp?"h":""));
+      calc.hyp=false; setBadges(); break; }
+    case "rcl": if(S){ calc.sto=true; calc.rcl=false; } else { calc.rcl=true; calc.sto=false; }
+      clearMods(); setBadges(); return;
+    case "eng": if(S){ if(calc.eng&&calc.engOfs>-6) calc.engOfs--; }
+      else { if(!calc.eng){ calc.eng=true; calc.engOfs=0; } else if(calc.engOfs<6) calc.engOfs++; }
+      if(calc.lastVal!=null) showResult(calc.lastVal);
+      clearMods(); setBadges(); return;
+    case "paro": if(S) edInsCh("%"); else edOpenParen(); break;
+    case "parc": edInsCh(S?",":")"); break;
+    case "sd": calc.frac=!calc.frac; $("#bdg-frac").classList.toggle("on",calc.frac);
+      if(calc.lastVal!=null) showResult(calc.lastVal); clearMods(); return;
+    case "mplus": if(A){ edInsSym("M"); break; }
+      if(calc.sto){ calc.mem.M=calc.lastVal||0; calc.sto=false; updMem(); setBadges();
+        $("#ghost").innerHTML="= <b>"+Number((calc.mem.M).toPrecision(12))+"</b> \u2192 M"; clearMods(); return; }
+      if(S) calc.mem.M-=(calc.lastVal||0); else calc.mem.M+=(calc.lastVal||0);
+      updMem(); clearMods(); return;
+    case "del": edBackspace(); clearMods(); medit.focus(); return;
+    case "ac": edClear(); $("#result").textContent="0"; $("#result").classList.remove("err"); clearMods(); medit.focus(); return;
+    case "e10": if(S){ edInsSym("\u03C0"); break; } if(A){ edInsSym("e"); break; }
+      edInsCh("*"); edInsCh("1"); edInsCh("0"); edSup(); break;
+    case "ans": if(S){ calc.ang=calc.ang==="DEG"?"RAD":calc.ang==="RAD"?"GRA":"DEG";
+        $("#bdg-ang").textContent=calc.ang; clearMods(); return; }
+      edInsSym("Ans"); break;
+    case "eq": calc.engOfs=0; evaluate(); clearMods(); return;
+    default:
+      if(act.startsWith("c:")){
+        const c=act.slice(2);
+        if(S&&c==="*"){ edFn("npr"); break; }
+        if(S&&c==="/"){ edFn("ncr"); break; }
+        if(S&&c==="1"){ const sd=$("#statdata"); if(sd){ sd.focus(); if(sd.scrollIntoView) sd.scrollIntoView({block:"center"}); } calc._skipFocus=true; clearMods(); return; }
+        if(S&&c==="0"){ if(calc.lastVal!=null){ const v=Number(calc.lastVal.toPrecision(10));
+            calc.lastVal=v; calc.ans=v; showResult(v); } clearMods(); return; }
+        if(S&&c==="."){ edFn("rand"); edRight(); break; }
+        edInsCh(c); break;
+      }
+      return;
+  }
+  clearMods(); medit.focus();
+}
+function updMem(msg){ $("#bdg-mem").textContent = msg || ("M: "+Number((calc.mem.M).toPrecision(8)));
+  $("#bdg-mem").classList.toggle("on", calc.mem.M!==0); }
+$("#result").title="Click to copy full-precision result";
+$("#result").addEventListener("click",()=>{
+  if(calc.lastVal==null) return;
+  const txt=String(calc.lastVal);
+  if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).catch(()=>{});
+});
+
+/* ---- STAT mode ---- */
+function quantile(sorted,q){
+  const pos=(sorted.length-1)*q, lo=Math.floor(pos), hi=Math.ceil(pos);
+  return sorted[lo]+(sorted[hi]-sorted[lo])*(pos-lo);
+}
+$("#statrun").onclick=()=>{
+  try {
+    const rows=CalculatorAnalysis.parse($("#statdata").value);
+    const paired=$("#statmode").value==="pairs";
+    const result=paired?CalculatorAnalysis.regression(rows,0.95):CalculatorAnalysis.summary(rows.flat(),0.95);
+    $("#statout").innerHTML=result.metrics.map(r=>'<div class="res"><div class="k">'+r[0]+'</div><div class="v">'+CalculatorAnalysis.format(r[1])+'</div></div>').join("");
+  } catch(e){$("#statout").textContent=e.message;}
+};
+$("#statclr").onclick=()=>{ $("#statdata").value=""; $("#statout").innerHTML=""; };
+["statdata","statmode"].forEach(id=>$("#"+id).addEventListener("input",()=>$("#statout").textContent="Inputs changed. Compute stats to update."));
+
+function testInterval(T,v,r,alpha){
+  let estimate,se,dist=r.dist,params=r.p,label='Mean';
+  if(T.id==='z1'){estimate=v.xbar;se=v.sig/Math.sqrt(v.n);}
+  else if(T.id==='t1'){estimate=v.xbar;se=v.s/Math.sqrt(v.n);}
+  else if(T.id==='tp'){estimate=v.dbar;se=v.sd/Math.sqrt(v.n);label='Mean difference';}
+  else if(T.id==='z2'){estimate=v.x1-v.x2;se=Math.sqrt(v.sig1*v.sig1/v.n1+v.sig2*v.sig2/v.n2);label='Mean difference';}
+  else if(T.id==='t2'||T.id==='t2p'){estimate=v.x1-v.x2;label='Mean difference';se=T.id==='t2'?Math.sqrt(v.s1*v.s1/v.n1+v.s2*v.s2/v.n2):Math.sqrt(((v.n1-1)*v.s1*v.s1+(v.n2-1)*v.s2*v.s2)/(v.n1+v.n2-2)*(1/v.n1+1/v.n2));}
+  else if(T.id==='p1'){estimate=v.x/v.n;se=Math.sqrt(estimate*(1-estimate)/v.n);label='Proportion (Wald)';}
+  else if(T.id==='p2'){const p1=v.x1/v.n1,p2=v.x2/v.n2;estimate=p1-p2;se=Math.sqrt(p1*(1-p1)/v.n1+p2*(1-p2)/v.n2);label='Proportion difference (Wald)';}
+  else if(T.id==='chi'){return [['Std dev interval — lower',fmtN(Math.sqrt((v.n-1)*v.s*v.s/dist.inv(1-alpha/2,params,dist)),7)],['Std dev interval — upper',fmtN(Math.sqrt((v.n-1)*v.s*v.s/dist.inv(alpha/2,params,dist)),7)]];}
+  else if(T.id==='f2'){const ratio=v.s1*v.s1/(v.s2*v.s2);return [['Variance-ratio interval — lower',fmtN(ratio/dist.inv(1-alpha/2,params,dist),7)],['Variance-ratio interval — upper',fmtN(ratio/dist.inv(alpha/2,params,dist),7)]];}
+  else return null;
+  const margin=dist.inv(1-alpha/2,params,dist)*se;
+  return [[label+' interval — lower',fmtN(estimate-margin,7)],[label+' interval — upper',fmtN(estimate+margin,7)]];
+}
+function invalidateTest(message="Enter inputs and run the test."){
+  $("#tdecision").textContent=""; $("#thyp").textContent="";$("#tnote").hidden=true;
+  $("#tresults").textContent=message;$("#tplot").getContext("2d").clearRect(0,0,1520,700);
+}
+function validateTest(T,v){
+  for(const key of ["n","n1","n2"]) if(key in v && (!Number.isSafeInteger(v[key])||v[key]<(T.id.startsWith("p")||T.id.startsWith("z")?1:2))) return "Sample sizes must be whole numbers (at least 2 for variance-based tests).";
+  for(const key of ["s","s1","s2","sd","sig","sig0","sig1","sig2"]) if(key in v && !(v[key]>0)) return "Standard deviations must be positive.";
+  if(T.id==="p1" && !(v.p0>0&&v.p0<1)) return "Hypothesized proportion must be between 0 and 1.";
+  if(T.id.startsWith("p")){
+    for(const suffix of (T.id==="p1"?[""]:["1","2"])) if(!Number.isSafeInteger(v["x"+suffix])||v["x"+suffix]<0||v["x"+suffix]>v["n"+suffix]) return "Success counts must be whole numbers from 0 through the sample size.";
+    if(T.id==="p2" && (v.x1+v.x2===0||v.x1+v.x2===v.n1+v.n2))return "The pooled proportion is 0 or 1; this z test is undefined.";
+  }
+  return "";
+}
+$("#pg-test").addEventListener("input",()=>invalidateTest("Inputs changed. Run the test again."));
+$("#ttail").addEventListener("click",()=>invalidateTest("Alternative changed. Run the test again."));
+
+/* ============================================================
+   TABS + INIT
+   ============================================================ */
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===t));
+  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===t.dataset.page));
+});
+buildDistSelect(); buildParams(); refreshDist();
+buildTests(); buildPad(); updMem(); renderHistory(); edClear(); setBadges();
 </script>
+<script src="/tools/calculator-assets/analysis-core.js"></script>
+<script src="/tools/calculator-assets/analysis-ui.js"></script>
+<script src="/tools/calculator-assets/advanced-ui.js"></script>
 <script src="/contrast-fix.js"></script>
 </body>
 </html>
