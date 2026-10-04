@@ -1,0 +1,399 @@
+{
+  "testedCommit": "ac677ef4b408b1f28d377555686296a9338e2965",
+  "narrowCalculator": [
+    {
+      "requestedWidth": 320,
+      "page": "pg-guide",
+      "active": "pg-guide",
+      "scrollWidth": 305,
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-dist",
+      "active": "pg-dist",
+      "scrollWidth": 305,
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-test",
+      "active": "pg-test",
+      "scrollWidth": 305,
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-data",
+      "active": "pg-data",
+      "scrollWidth": 305,
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-spc",
+      "active": "pg-spc",
+      "scrollWidth": 305,
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-cost",
+      "active": "pg-cost",
+      "scrollWidth": 305,
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-graph",
+      "active": "pg-graph",
+      "scrollWidth": 305,
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-math",
+      "active": "pg-math",
+      "scrollWidth": 305,
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-finance",
+      "active": "pg-finance",
+      "scrollWidth": 305,
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-program",
+      "active": "pg-program",
+      "scrollWidth": 305,
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-calc",
+      "active": "pg-calc",
+      "scrollWidth": 305,
+      "theme": "dark",
+      "width": 305
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-guide",
+      "active": "pg-guide",
+      "scrollWidth": 375,
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-dist",
+      "active": "pg-dist",
+      "scrollWidth": 375,
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-test",
+      "active": "pg-test",
+      "scrollWidth": 375,
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-data",
+      "active": "pg-data",
+      "scrollWidth": 375,
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-spc",
+      "active": "pg-spc",
+      "scrollWidth": 375,
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-cost",
+      "active": "pg-cost",
+      "scrollWidth": 375,
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-graph",
+      "active": "pg-graph",
+      "scrollWidth": 375,
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-math",
+      "active": "pg-math",
+      "scrollWidth": 375,
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-finance",
+      "active": "pg-finance",
+      "scrollWidth": 375,
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-program",
+      "active": "pg-program",
+      "scrollWidth": 375,
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-calc",
+      "active": "pg-calc",
+      "scrollWidth": 375,
+      "theme": "dark",
+      "width": 375
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-guide",
+      "active": "pg-guide",
+      "scrollWidth": 305,
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-dist",
+      "active": "pg-dist",
+      "scrollWidth": 305,
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-test",
+      "active": "pg-test",
+      "scrollWidth": 305,
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-data",
+      "active": "pg-data",
+      "scrollWidth": 305,
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-spc",
+      "active": "pg-spc",
+      "scrollWidth": 305,
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-cost",
+      "active": "pg-cost",
+      "scrollWidth": 305,
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-graph",
+      "active": "pg-graph",
+      "scrollWidth": 305,
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-math",
+      "active": "pg-math",
+      "scrollWidth": 305,
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-finance",
+      "active": "pg-finance",
+      "scrollWidth": 305,
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-program",
+      "active": "pg-program",
+      "scrollWidth": 305,
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "requestedWidth": 320,
+      "page": "pg-calc",
+      "active": "pg-calc",
+      "scrollWidth": 305,
+      "theme": "light",
+      "width": 305
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-guide",
+      "active": "pg-guide",
+      "scrollWidth": 375,
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-dist",
+      "active": "pg-dist",
+      "scrollWidth": 375,
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-test",
+      "active": "pg-test",
+      "scrollWidth": 375,
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-data",
+      "active": "pg-data",
+      "scrollWidth": 375,
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-spc",
+      "active": "pg-spc",
+      "scrollWidth": 375,
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-cost",
+      "active": "pg-cost",
+      "scrollWidth": 375,
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-graph",
+      "active": "pg-graph",
+      "scrollWidth": 375,
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-math",
+      "active": "pg-math",
+      "scrollWidth": 375,
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-finance",
+      "active": "pg-finance",
+      "scrollWidth": 375,
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-program",
+      "active": "pg-program",
+      "scrollWidth": 375,
+      "theme": "light",
+      "width": 375
+    },
+    {
+      "requestedWidth": 390,
+      "page": "pg-calc",
+      "active": "pg-calc",
+      "scrollWidth": 375,
+      "theme": "light",
+      "width": 375
+    }
+  ],
+  "manual": [
+    {
+      "requestedWidth": 320,
+      "brokenAnchors": 0,
+      "rangeGuidance": true,
+      "registerClarification": true,
+      "scrollWidth": 305,
+      "theme": "light",
+      "toc": 24,
+      "width": 305
+    },
+    {
+      "requestedWidth": 390,
+      "brokenAnchors": 0,
+      "rangeGuidance": true,
+      "registerClarification": true,
+      "scrollWidth": 375,
+      "theme": "light",
+      "toc": 24,
+      "width": 375
+    },
+    {
+      "requestedWidth": 320,
+      "brokenAnchors": 0,
+      "rangeGuidance": true,
+      "registerClarification": true,
+      "scrollWidth": 305,
+      "theme": "dark",
+      "toc": 24,
+      "width": 305
+    },
+    {
+      "requestedWidth": 390,
+      "brokenAnchors": 0,
+      "rangeGuidance": true,
+      "registerClarification": true,
+      "scrollWidth": 375,
+      "theme": "dark",
+      "toc": 24,
+      "width": 375
+    }
+  ]
+}

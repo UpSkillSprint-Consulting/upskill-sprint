@@ -20,7 +20,7 @@ The manual preserves existing material and adds the complete guided workflow in 
 
 ## Verification
 
-- 68 calculator engine/interface/manual tests pass, including 11 advanced-SPC and nine quality-economics tests; independent SciPy and 40-digit Decimal fixtures support the numerical checks.
+- 78 calculator engine/interface/manual tests pass; independent SciPy and 40-digit Decimal fixtures support the numerical checks, including 100 fresh final-audit regression/Welch cases across measurement scales.
 - 360 fixed SciPy 1.17.0 distribution comparisons, plus five independent guided t-inference reference cases.
 - Excel tests cover compressed/stored ZIPs, shared/inline strings, sheets, date conversion, caches and invalid/oversized/corrupt XML packages.
 - UI tests cover worked examples, incorrect inputs, missing pairs, filters, edits, stale results, asynchronous imports, project restoration, exports and handoffs.
@@ -49,3 +49,14 @@ See [student assessment](docs/audits/calculator-expansion/STUDENT-UI-ASSESSMENT.
 
 ![Calculator light](docs/audits/calculator-expansion/calculator-student-light.jpg)
 ![Calculator dark](docs/audits/calculator-expansion/calculator-student-dark.jpg)
+
+## Final professional QA pass — October 4
+
+Fresh adversarial review found and corrected scaling defects in Pearson correlation and both Welch workflows, underflowed variation, non-finite fitted coefficients and goodness-of-fit results, unsafe count totals, small-λ EWMA startup limits, invalid constant-sample chart coordinates, cost-ratio overflow/line-cost underflow, and clipped extreme-value tick labels. The manual now explains numerical-range errors and accurately describes register count and theme-aware key labels.
+
+All **78 calculator tests** and the site build pass. Added eight failure-focused regression groups and 100 fresh independently generated SciPy cases in two more tests. Confirmed the repaired calculations/error paths in the deployed browser; all eleven workspaces have correct navigation and no page overflow across 44 narrow theme/width states. All 24 manual anchors resolve in both themes at both widths.
+
+See [final QA audit](docs/audits/calculator-expansion/FINAL-QA-AUDIT.md) for reproductions, dispositions and limits. This is a fresh assistant review with independent reference arithmetic, **not third-party certification**. Four isolated unrelated repository failures reproduce on the pre-audit checkout; the whole-repository run remains incomplete. Actual file-download delivery, physical devices and formal assistive-technology validation remain acceptance checks. PR remains unmerged for human review.
+
+![Final corrected result](docs/audits/calculator-expansion/calculator-final-qa-light.jpg)
+![Final dark-theme chart](docs/audits/calculator-expansion/calculator-final-qa-dark.jpg)

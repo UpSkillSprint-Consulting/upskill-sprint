@@ -96,3 +96,6 @@ Fixtures are checked into `tests/fixtures/calculator-distributions.json`. To reg
 ## Student interface follow-up
 
 See `STUDENT-UI-ASSESSMENT.md` for the October 4 top-down student review, shared-chrome integration, 68-test calculator result, responsive/theme checks and confirmed broader-repository blockers. This follow-up does not claim a full accessibility certification or a universally green repository test suite.
+# Final independent-reference QA addendum
+
+The 4 October final pass is recorded in [FINAL-QA-AUDIT.md](FINAL-QA-AUDIT.md). It supersedes earlier calculator test totals: **78 tests now pass**, including 100 fresh independently generated regression/Welch cases. Numerical boundary, chart-rendering and manual defects found in that pass are corrected. Review its explicit repository-test, download-delivery and device/accessibility limitations before release; the PR remains unmerged.
