@@ -33,11 +33,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Root Cause Analysis: 5 Whys vs Fishbone Diagram | UpSkill Sprint Consulting</title>
+  <title>Root Cause Analysis: 5 Whys vs Fishbone | UpSkill Sprint</title>
   <meta name="description" content="An interactive visual lesson for choosing, building, and validating 5 Whys and fishbone root cause analyses.">
   <link rel="canonical" href="https://upskillsprint.com/lessons/root-cause-analysis-5-whys-fishbone">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Root Cause Analysis: 5 Whys vs Fishbone Diagram | UpSkill Sprint Consulting">
+  <meta property="og:title" content="Root Cause Analysis: 5 Whys vs Fishbone | UpSkill Sprint">
   <meta property="og:description" content="Build a 5 Whys chain, populate a live fishbone diagram, and decide which tool fits the problem.">
   <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
   <meta property="og:url" content="https://upskillsprint.com/lessons/root-cause-analysis-5-whys-fishbone">
@@ -1869,6 +1869,7 @@
         select.className = "matrix-select";
         select.setAttribute("data-key", key);
         select.setAttribute("data-field", field);
+        select.setAttribute("aria-label", field + " rating for " + key.replace("::", ": "));
         [
           { value: "0", label: "Low / none" },
           { value: "1", label: "Medium" },

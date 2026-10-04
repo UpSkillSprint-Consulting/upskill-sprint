@@ -217,7 +217,7 @@
             <div>
               <div class="toolbar-group" style="justify-content:space-between">
                 <h3 class="mb-0">Conditional interaction plot</h3>
-                <select id="interaction3Term" style="width:auto; min-width:180px">
+                <select id="interaction3Term" aria-label="Interaction term for the conditional plot" style="width:auto; min-width:180px">
                   <option value="AB">A × B, conditioned on C</option>
                   <option value="AC">A × C, conditioned on B</option>
                   <option value="BC">B × C, conditioned on A</option>

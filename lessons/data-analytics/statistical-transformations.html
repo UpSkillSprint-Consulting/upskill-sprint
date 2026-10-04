@@ -21,6 +21,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Statistical Transformations</title>
   <meta name="description" content="A beginner-friendly interactive lesson on log, square-root, reciprocal, and scaling transformations, logarithmic axes, and choosing the right mean.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Statistical Transformations">
+<meta property="og:description" content="A beginner-friendly interactive lesson on log, square-root, reciprocal, and scaling transformations, logarithmic axes, and choosing the right mean.">
+<meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+<meta property="og:url" content="https://upskillsprint.com/lessons/data-analytics/statistical-transformations">
+<meta name="twitter:card" content="summary">
   <link rel="canonical" href="https://upskillsprint.com/lessons/data-analytics/statistical-transformations">
   <link rel="stylesheet" href="/style.css">
   <link rel="stylesheet" href="/lessons-theme.css">
@@ -419,9 +425,9 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
               <h3>Which average rate is right?</h3>
               <p>A finishing line processes \(100\,\mathrm{t}\) at \(50\,\mathrm{t\,h}^{-1}\), then another \(100\,\mathrm{t}\) at \(100\,\mathrm{t\,h}^{-1}\). What was the line’s overall rate?</p>
               <div class="mean-choice-row" role="group" aria-label="Choose an average rate">
-                <button type="button" class="mean-choice" data-mean-challenge="arithmetic" aria-pressed="false">\(75.0\,\mathrm{t\,h}^{-1}\)</button>
-                <button type="button" class="mean-choice" data-mean-challenge="harmonic" aria-pressed="false">\(66.7\,\mathrm{t\,h}^{-1}\)</button>
-                <button type="button" class="mean-choice" data-mean-challenge="geometric" aria-pressed="false">\(70.7\,\mathrm{t\,h}^{-1}\)</button>
+                <button type="button" class="mean-choice" data-mean-challenge="arithmetic" aria-pressed="false" aria-label="75.0 tonnes per hour">\(75.0\,\mathrm{t\,h}^{-1}\)</button>
+                <button type="button" class="mean-choice" data-mean-challenge="harmonic" aria-pressed="false" aria-label="66.7 tonnes per hour">\(66.7\,\mathrm{t\,h}^{-1}\)</button>
+                <button type="button" class="mean-choice" data-mean-challenge="geometric" aria-pressed="false" aria-label="70.7 tonnes per hour">\(70.7\,\mathrm{t\,h}^{-1}\)</button>
               </div>
               <p class="mean-challenge-feedback" id="meanChallengeFeedback" role="status" aria-live="polite">Commit to an answer. The time check will show why.</p>
             </div>
@@ -627,17 +633,17 @@ combined_rate = tons.sum() / (tons / rate).sum()  # 80.0 t/h</code></pre></detai
       </fieldset>
       <fieldset class="quiz-question" data-answer="b" data-explanation="The square-root transformation is defined at zero and gently compresses larger counts. In contrast, the logarithm of zero and division by zero are undefined.">
         <legend>2. Defect counts include \(0\). Which transformation keeps \(0\) and compresses the larger counts?</legend>
-        <label class="quiz-option"><input type="radio" name="q2" value="a"> \(\log_{10}(x)\)</label>
-        <label class="quiz-option"><input type="radio" name="q2" value="b"> \(\sqrt{x}\)</label>
-        <label class="quiz-option"><input type="radio" name="q2" value="c"> \(\frac{1}{x}\)</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="a" aria-label="log base 10 of x"> \(\log_{10}(x)\)</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b" aria-label="square root of x"> \(\sqrt{x}\)</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c" aria-label="1 over x"> \(\frac{1}{x}\)</label>
         <div class="quiz-feedback"></div>
       </fieldset>
       <fieldset class="quiz-question" data-answer="b" data-explanation="The reciprocal converts five minutes per item to 0.2 item per minute. Converting minutes to hours gives 12 items per hour.">
         <legend>3. A process takes \(5\,\mathrm{min\,item^{-1}}\). What rate does its reciprocal represent?</legend>
-        <label class="quiz-option"><input type="radio" name="q3" value="a"> \(5\,\text{items}\,\mathrm{min}^{-1}\)</label>
-        <label class="quiz-option"><input type="radio" name="q3" value="b"> \(0.2\,\text{item}\,\mathrm{min}^{-1}=12\,\text{items}\,\mathrm{h}^{-1}\)</label>
-        <label class="quiz-option"><input type="radio" name="q3" value="c"> \(25\,\text{items}\,\mathrm{min}^{-1}\)</label>
-        <label class="quiz-option"><input type="radio" name="q3" value="d"> \(60\,\text{items}\,\mathrm{h}^{-1}\)</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="a" aria-label="5 items per minute"> \(5\,\text{items}\,\mathrm{min}^{-1}\)</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b" aria-label="0.2 items per minute, which is 12 items per hour"> \(0.2\,\text{item}\,\mathrm{min}^{-1}=12\,\text{items}\,\mathrm{h}^{-1}\)</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c" aria-label="25 items per minute"> \(25\,\text{items}\,\mathrm{min}^{-1}\)</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="d" aria-label="60 items per hour"> \(60\,\text{items}\,\mathrm{h}^{-1}\)</label>
         <div class="quiz-feedback"></div>
       </fieldset>
       <fieldset class="quiz-question" data-answer="b" data-explanation="A z-score recalculates each observation into standard-deviation units. A logarithmic axis leaves the stored observations unchanged and changes only their plotted spacing.">
