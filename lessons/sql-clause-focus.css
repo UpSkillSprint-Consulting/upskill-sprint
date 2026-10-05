@@ -66,8 +66,28 @@
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.09em;
-  opacity: 0.9;
   text-transform: uppercase;
+}
+
+/* Contrast (WCAG AA): the clause colours from the lesson stylesheet are
+   mid-tones, so white header text on them measured 2.1-4.4:1. The focus
+   header uses a deeper shade of each clause colour in both themes. */
+.clause-focus-header.c-select { background: #b4432c; }
+.clause-focus-header.c-from { background: #a65f0e; }
+.clause-focus-header.c-where { background: #7a5f00; }
+.clause-focus-header.c-order { background: #3f6b2c; }
+.clause-focus-header.c-group { background: #1f6f6a; }
+.clause-focus-header.c-having { background: #1f6497; }
+.clause-focus-header.c-join { background: #1f6497; }
+.clause-focus-header.c-limit { background: #4a55a0; }
+
+/* Clause key tiles: dark text on the light orange and yellow tiles, and on
+   every tile in dark mode, where the clause colours are lighter. */
+.clause-key.c-from,
+.clause-key.c-where,
+html[data-theme="dark"] .clause-key {
+  color: #0c1728;
+  text-shadow: none;
 }
 
 .clause-focus-body {
@@ -156,4 +176,16 @@
 footer.site .footer-grid .footer-heading {
   font-family: "Source Serif 4", Georgia, serif;
   line-height: 1.2;
+}
+
+/* Dark theme: keep the focus header text white on the deeper clause colours,
+   and use dark text on the light teal action buttons (white measured 2.4:1). */
+html[data-theme="dark"] .clause-focus-header p,
+html[data-theme="dark"] .clause-focus-header h3 {
+  color: #fff;
+}
+
+html[data-theme="dark"] .button:not(.secondary),
+html[data-theme="dark"] .btn-teal {
+  color: #0b1220;
 }
