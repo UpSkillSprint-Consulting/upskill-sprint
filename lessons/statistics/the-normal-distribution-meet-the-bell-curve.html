@@ -444,6 +444,15 @@ footer.lesson-footer {
   .panel, .tool, .formula-box, .quiz-q, .fig-panel, nav.lesson-toc { box-shadow: none !important; break-inside: avoid; }
   a { color: #000 !important; text-decoration: none; }
 }
+
+/* Heading outline fix: these headings were one level too deep (h4 straight
+   after h2). They are now one level up and carry .was-h4 / .was-h5, so they
+   keep the look of the original rules below. */
+.was-h4 { color: var(--ink); line-height: 1.25; font-family: 'Source Serif 4', Georgia, serif; font-weight: 600; }
+.mistake .was-h4 { margin: 0 0 0.3rem; }
+
+/* Keep re-levelled headings looking the same as before. */
+.mistake h3.was-h4{font-size:1.02rem}
 </style>
 <script src="/theme.js"></script>
 <script src="/site-sections.js"></script>
@@ -937,7 +946,7 @@ footer.lesson-footer {
   <h2 id="mistakes-h">Common mistakes and exam traps</h2>
 
   <div class="mistake">
-    <h4>1. Assuming everything is normal <span class="tag">Assumption error</span></h4>
+    <h3 class="was-h4">1. Assuming everything is normal <span class="tag">Assumption error</span></h3>
     <p><strong>Why it&rsquo;s wrong:</strong> many datasets (incomes, waiting times, defect counts) are skewed,
     so normal-based percentages will be badly off.
     <strong>How to recognise it:</strong> a lopsided histogram, or a mean far from the median.
@@ -945,7 +954,7 @@ footer.lesson-footer {
   </div>
 
   <div class="mistake">
-    <h4>2. Mixing up standard deviation and variance <span class="tag">Calculation error</span></h4>
+    <h3 class="was-h4">2. Mixing up standard deviation and variance <span class="tag">Calculation error</span></h3>
     <p><strong>Why it&rsquo;s wrong:</strong> variance is &sigma;&sup2; &mdash; the standard deviation squared. Dividing
     by variance instead of &sigma; gives a meaningless z-score.
     <strong>How to recognise it:</strong> z-scores that look absurdly small (e.g. 0.03 for an obviously extreme value).
@@ -953,7 +962,7 @@ footer.lesson-footer {
   </div>
 
   <div class="mistake">
-    <h4>3. Reading &ldquo;below&rdquo; when the question asks &ldquo;above&rdquo; <span class="tag">Interpretation error</span></h4>
+    <h3 class="was-h4">3. Reading &ldquo;below&rdquo; when the question asks &ldquo;above&rdquo; <span class="tag">Interpretation error</span></h3>
     <p><strong>Why it&rsquo;s wrong:</strong> tables and software usually give the area <em>below</em> a value.
     If the question asks for the proportion above, you must subtract from 1 (or 100%).
     <strong>How to recognise it:</strong> an answer like &ldquo;97.7% of bottles are overfilled&rdquo; when overfilling should be rare.
@@ -961,7 +970,7 @@ footer.lesson-footer {
   </div>
 
   <div class="mistake">
-    <h4>4. Dropping the minus sign <span class="tag">Calculation error</span></h4>
+    <h3 class="was-h4">4. Dropping the minus sign <span class="tag">Calculation error</span></h3>
     <p><strong>Why it&rsquo;s wrong:</strong> z = &minus;1.5 and z = +1.5 are equally &ldquo;unusual&rdquo; but on opposite
     sides of the mean &mdash; one is below average, one above.
     <strong>How to recognise it:</strong> conclusions that don&rsquo;t match common sense (&ldquo;the shortest person is above average height&rdquo;).
@@ -969,7 +978,7 @@ footer.lesson-footer {
   </div>
 
   <div class="mistake">
-    <h4>5. Treating 68&ndash;95&ndash;99.7 as exact for any dataset <span class="tag">Exam trap</span></h4>
+    <h3 class="was-h4">5. Treating 68&ndash;95&ndash;99.7 as exact for any dataset <span class="tag">Exam trap</span></h3>
     <p><strong>Why it&rsquo;s wrong:</strong> the rule holds only for (approximately) normal data, and the numbers
     themselves are rounded (the true values are 68.27%, 95.45%, 99.73%).
     <strong>How to recognise it:</strong> exam questions that sneak in a skewed dataset and expect you to notice.
@@ -977,7 +986,7 @@ footer.lesson-footer {
   </div>
 
   <div class="mistake">
-    <h4>6. Using the density instead of the cumulative probability in Excel <span class="tag">Software-output error</span></h4>
+    <h3 class="was-h4">6. Using the density instead of the cumulative probability in Excel <span class="tag">Software-output error</span></h3>
     <p><strong>Why it&rsquo;s wrong:</strong> <code>NORM.DIST(x, mean, sd, FALSE)</code> returns the curve&rsquo;s
     <em>height</em>, not a probability. Only the cumulative form (<code>TRUE</code>) gives &ldquo;% of values below x.&rdquo;
     <strong>How to recognise it:</strong> &ldquo;probabilities&rdquo; that don&rsquo;t land between sensible bounds, or results that change wildly with units.

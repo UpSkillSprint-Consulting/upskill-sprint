@@ -130,17 +130,17 @@ test('all supplied teaching content and headings are preserved apart from the re
   assert.deepEqual(headings, [
     ['H1', 'Introduction to Reliability and Maintainability'],
     ['H2', 'What Is Reliability? What Is Maintainability?'],
-    ['H4', 'Reliability'], ['H4', 'Maintainability'],
+    ['H3', 'Reliability'], ['H3', 'Maintainability'],
     ['H3', "The vocabulary, defined before it's used"],
-    ['H4', 'Non-repairable item'], ['H4', 'Repairable item'],
+    ['H3', 'Non-repairable item'], ['H3', 'Repairable item'],
     ['H2', 'Repairable vs. Non-Repairable Systems'],
-    ['H4', 'Non-repairable'], ['H4', 'Repairable'],
+    ['H3', 'Non-repairable'], ['H3', 'Repairable'],
     ['H2', 'Model Controls'], ['H2', 'Core Calculus Relationship'],
     ['H3', 'CDF → PDF via differentiation'], ['H3', 'PDF → CDF via integration'],
     ['H3', 'Extending to Reliability'], ['H3', 'Hazard Rate — the conditional rate'],
     ['H3', 'Tying it back together (integrate to recover R)'], ['H3', 'Summary Chain'],
     ['H3', 'Worked example'], ['H2', 'The Bathtub Curve'],
-    ['H2', 'Failure Rate vs. ROCOF'], ['H4', 'Hazard rate h(x)'], ['H4', 'ROCOF ρ(t)'],
+    ['H2', 'Failure Rate vs. ROCOF'], ['H3', 'Hazard rate h(x)'], ['H3', 'ROCOF ρ(t)'],
     ['H2', 'Maintainability'], ['H2', 'Maintainability Controls'],
     ['H2', 'Availability'], ['H2', 'Availability Calculator'], ['H2', 'Index Summary']
   ]);

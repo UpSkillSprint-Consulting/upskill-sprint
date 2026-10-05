@@ -129,7 +129,7 @@ function prepareApplication(originalHtml, hardeningScript, hardeningStyles, audi
     .replace('<title>Material Specification Lookup — Compliance & Calculators</title>', '<title>Material Specification Lookup | UpSkill Sprint Consulting</title>')
     .replaceAll('href="grade_spec_lookup_user_guide.html"', 'href="./how-to-use/"')
     .replace('<div class="top-actions">', '<div class="top-actions"><a class="btn site-companion" href="/tools/material-specification-compliance-checker">Compliance Checker</a>')
-    .replace('</head>', '<meta name="description" content="Interactive material specification lookup, comparison, compliance screening, reverse lookup, and engineering calculators for CSA, ASTM, and API material designations.">\n<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + authHead + '\n</head>')
+    .replace('</head>', '<meta name="description" content="Interactive material specification lookup, comparison, compliance screening, reverse lookup, and engineering calculators for CSA, ASTM, and API material designations.">\n<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + authHead + '\n</head>')
     .replace('<body>', '<body class="grade-spec-tool-page" data-require-auth data-required-access="administrator" data-access-resource="tool:/engineering-tools/grade-specification-lookup">\n' + siteHeader)
     .replace('</body>', backLink + '\n</body>');
 }
@@ -141,7 +141,7 @@ function prepareGuide(originalHtml, guideNotice) {
     .replaceAll('href="grade_spec_lookup.html"', 'href="../"')
     .replace('>← Back to Tool<', '>Back to Tool<')
     .replace('>↑</button>', '>Top</button>')
-    .replace('</head>', '<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + accountHead + guideSiteChrome + '\n</head>')
+    .replace('</head>', '<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use/">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + accountHead + guideSiteChrome + '\n</head>')
     .replace('<body>', '<body class="grade-spec-guide-page">\n' + siteHeader.replace('href="#app">Skip to Material Specification Lookup', 'href="#guideContent">Skip to the user guide'))
     .replace('</body>', backLink + '\n</body>');
 
@@ -178,7 +178,26 @@ function prepareGuide(originalHtml, guideNotice) {
       'Reverse lookup searches all grade records using the entered thickness and minimum performance requirements.',
       'Reverse lookup searches grade records using the entered material thickness, product-form filter, and minimum performance requirements. The temperature criterion is applied even when no CVN energy criterion is entered.'
     );
-  return guide;
+  return relevelGuideCardHeadings(guide);
+}
+
+// The guide's mini-card titles are h4s that sit directly under an h2, which skips a
+// heading level. Promote them to h3 and keep the original h4 look via .was-h4.
+function relevelGuideCardHeadings(guide) {
+  const cardHeading = /<article class="mini-card"><h4>([\s\S]*?)<\/h4>/g;
+  if (!cardHeading.test(guide)) {
+    throw new Error('Material Specification Lookup build failed: guide mini-card headings were not found.');
+  }
+  const styles = `<style id="grade-spec-guide-heading-order">
+.section-body .mini-card h3.was-h4{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:normal;font-size:1.25rem;font-weight:700;margin:0 0 7px;color:#d7e4f4}
+html[data-theme="light"] .grade-spec-guide-page .mini-card h3.was-h4{color:var(--text)}
+</style>`;
+  return replaceRequired(
+    guide.replace(cardHeading, '<article class="mini-card"><h3 class="was-h4">$1</h3>'),
+    '</head>',
+    `${styles}\n</head>`,
+    'guide heading-order styles'
+  );
 }
 
 async function build() {

@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 48,
   "contentLessonCount": 47,
-  "sectionCount": 2040,
+  "sectionCount": 2048,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -8314,6 +8314,7 @@
           "id": "lesson-section-in-this-lesson",
           "heading": "In this lesson",
           "breadcrumb": [
+            "Model Tuning & Evaluation",
             "In this lesson"
           ],
           "text": "Evaluation is the discipline of asking, honestly, “would this model still be right on data it has never seen?” Tuning is the discipline of improving it without lying to yourself in the process. This lesson builds both, one layer at a time. 01 What your model actually predicts The conditional mean, residuals, and why a line is a line of averages 02 Validate: train, holdout & cross-validation The three R² values and how overfitting shows up 03 Tune: bias, variance & hyperparameters Improving a model without cheating on the test set 04 Measure: the metric catalog Regression, classification, clustering & quantile metrics 05 Diagnose: reading the regression output Omnibus, JB, DW, condition number, VIF, AIC/BIC 06 Statistics Implementation Excel functions, use cases, Minitab paths & exam tips + Interpretation guide & common traps “When you see this, it means this” ✓ Practice activity & mini quiz With a full answer key Learning objectives",
@@ -8328,6 +8329,7 @@
           "id": "lesson-section-by-the-end-of-this-lesson-you-should-be-able-to",
           "heading": "By the end of this lesson you should be able to",
           "breadcrumb": [
+            "Model Tuning & Evaluation",
             "In this lesson",
             "By the end of this lesson you should be able to"
           ],
@@ -8341,7 +8343,7 @@
           "id": "lesson-section-four-quick-reference-posters",
           "heading": "Four quick-reference posters",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Four quick-reference posters"
           ],
           "text": "Four full-resolution infographics covering the whole model-building playbook — the workflow, and the regression, classification, quantile & clustering metric families with formulas. Download to print as a desk reference, or open full size on screen. POSTER PACK All four posters — one PDF, four pages A single full-resolution download: the build-the-best-model workflow, plus the regression, classification, and quantile & clustering metric families — every acronym spelled out, with formulas and acceptance ranges. Print the set as a desk reference. Download PDF 4 pages · print Open Pack View full size POSTER 1 Build the Best Model: Workflow, Overfitting & Validation The end-to-end modelling pipeline, data splitting & leakage, the three R²s, bias–variance, cross-validation schemes, hyperparameter search, and regularization. Page 1 POSTER 2 Regression Metrics: Meaning, Formula & Acceptance Range Every continuous-target metric with its equation and acceptance range — MAE, MSE, RMSE, RMSLE, MAPE, R² / adjusted R², AIC / BIC / Mallows’ Cp, and the residual diagnostics. Page 2 POSTER 3 Classification Metrics & Tuning — with Equations The confusion matrix and every classification metric with formulas — precision, recall, F1 / Fβ, ROC-AUC, PR-AUC, log loss, Brier, MCC — plus threshold tuning, imbalance, and calibration. Page 3 POSTER 4 Quantile & Clustering Evaluation — with Equations Pinball loss, prediction-interval coverage & width, and clustering indices with equations — silhouette, Davies–Bouldin, Calinski–Harabasz, choosing k, and external ARI / NMI. Page 4 One PDF, four pages — one poster per page. Module 01 · Foundation",
@@ -8355,7 +8357,7 @@
           "id": "lesson-section-what-is-your-model-actually-predicting",
           "heading": "What is your model actually predicting?",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "What is your model actually predicting?"
           ],
           "text": "Before you can judge a model, you have to know what it is trying to do. Almost everyone’s first misunderstanding is the same one: they think a regression predicts the exact value. It doesn’t — and that gap is where every evaluation metric lives.",
@@ -8368,7 +8370,7 @@
           "id": "lesson-section-the-confusion-stated-plainly",
           "heading": "The confusion, stated plainly",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "What is your model actually predicting?",
             "The confusion, stated plainly"
           ],
@@ -8382,7 +8384,7 @@
           "id": "lesson-section-it-predicts-the-conditional-mean",
           "heading": "It predicts the “conditional mean”",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "What is your model actually predicting?",
             "The confusion, stated plainly",
             "It predicts the “conditional mean”"
@@ -8397,7 +8399,7 @@
           "id": "lesson-section-the-error-is-the-leftover",
           "heading": "The error is the leftover",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "What is your model actually predicting?",
             "The confusion, stated plainly",
             "The error is the leftover"
@@ -8413,7 +8415,7 @@
           "id": "lesson-section-why-a-straight-line-still-works",
           "heading": "Why a straight line still works",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "What is your model actually predicting?",
             "The confusion, stated plainly",
             "Why a straight line still works"
@@ -8429,7 +8431,7 @@
           "id": "lesson-section-not-every-model-predicts-the-mean",
           "heading": "Not every model predicts the mean",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "What is your model actually predicting?",
             "Not every model predicts the mean"
           ],
@@ -8444,7 +8446,7 @@
           "id": "lesson-section-validate-train-holdout-and-cross-validation",
           "heading": "Validate: train, holdout & cross-validation",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Validate: train, holdout & cross-validation"
           ],
           "text": "A model that is graded on the same data it studied is like a student who saw the exam in advance. To know if it truly learned, you must test it on material it has never seen. That is the entire idea behind the three R² values you will see printed in modeling code. The core danger A flexible model can memorize its training data — capturing not just the real signal but the random noise. It then looks brilliant in training and collapses in the real world. This is overfitting , and validation exists to catch it.",
@@ -8459,7 +8461,7 @@
           "id": "lesson-section-the-three-r2-values-in-order-of-trust",
           "heading": "The three R² values, in order of trust",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Validate: train, holdout & cross-validation",
             "The three R² values, in order of trust"
           ],
@@ -8473,7 +8475,7 @@
           "id": "lesson-section-in-sample-r2-training-r2",
           "heading": "In-sample R² — Training R²",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Validate: train, holdout & cross-validation",
             "The three R² values, in order of trust",
             "In-sample R² — Training R²"
@@ -8489,7 +8491,7 @@
           "id": "lesson-section-holdout-r2-test-r2",
           "heading": "Holdout R² — Test R²",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Validate: train, holdout & cross-validation",
             "The three R² values, in order of trust",
             "Holdout R² — Test R²"
@@ -8505,7 +8507,7 @@
           "id": "lesson-section-cross-validation-r2-cv-r2",
           "heading": "Cross-validation R² — CV R²",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Validate: train, holdout & cross-validation",
             "The three R² values, in order of trust",
             "Cross-validation R² — CV R²"
@@ -8521,7 +8523,7 @@
           "id": "lesson-section-two-signatures-you-must-recognize",
           "heading": "Two signatures you must recognize",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Validate: train, holdout & cross-validation",
             "Two signatures you must recognize"
           ],
@@ -8537,7 +8539,7 @@
           "id": "lesson-section-tune-bias-variance-and-hyperparameters",
           "heading": "Tune: bias, variance & hyperparameters",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Tune: bias, variance & hyperparameters"
           ],
           "text": "Validation tells you whether a model generalizes. Tuning is how you make it generalize better — dialing the model’s complexity to the sweet spot between too simple and too clever. The whole art is doing this without secretly cheating on your final test.",
@@ -8550,7 +8552,7 @@
           "id": "lesson-section-the-bias-variance-trade-off",
           "heading": "The bias–variance trade-off",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Tune: bias, variance & hyperparameters",
             "The bias–variance trade-off"
           ],
@@ -8565,7 +8567,7 @@
           "id": "lesson-section-parameters-vs-hyperparameters",
           "heading": "Parameters vs hyperparameters",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Tune: bias, variance & hyperparameters",
             "Parameters vs hyperparameters"
           ],
@@ -8579,7 +8581,7 @@
           "id": "lesson-section-define-a-search-space",
           "heading": "Define a search space",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Tune: bias, variance & hyperparameters",
             "Parameters vs hyperparameters",
             "Define a search space"
@@ -8594,7 +8596,7 @@
           "id": "lesson-section-score-each-candidate-with-cv",
           "heading": "Score each candidate with CV",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Tune: bias, variance & hyperparameters",
             "Parameters vs hyperparameters",
             "Score each candidate with CV"
@@ -8609,7 +8611,7 @@
           "id": "lesson-section-search-efficiently",
           "heading": "Search efficiently",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Tune: bias, variance & hyperparameters",
             "Parameters vs hyperparameters",
             "Search efficiently"
@@ -8624,7 +8626,7 @@
           "id": "lesson-section-lock-it-in-then-test-once",
           "heading": "Lock it in, then test once",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Tune: bias, variance & hyperparameters",
             "Parameters vs hyperparameters",
             "Lock it in, then test once"
@@ -8640,7 +8642,7 @@
           "id": "lesson-section-measure-choosing-the-right-metric",
           "heading": "Measure: choosing the right metric",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Measure: choosing the right metric"
           ],
           "text": "A metric is a lens. The wrong lens can make a bad model look great. The metric must match three things at once: the type of problem , what the model predicts , and which mistake actually costs you . Decide Which metric should I use? The right metric depends on the problem type and what an error costs you . Pick both — the recommendation updates live. Problem type What matters most",
@@ -8653,7 +8655,7 @@
           "id": "lesson-section-regression-metrics-when-the-target-is-a-number",
           "heading": "Regression metrics — when the target is a number",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Measure: choosing the right metric",
             "Regression metrics — when the target is a number"
           ],
@@ -8668,7 +8670,7 @@
           "id": "lesson-section-classification-metrics-when-the-target-is-a-class",
           "heading": "Classification metrics — when the target is a class",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Measure: choosing the right metric",
             "Classification metrics — when the target is a class"
           ],
@@ -8684,7 +8686,7 @@
           "id": "lesson-section-clustering-metrics-when-there-are-no-labels",
           "heading": "Clustering metrics — when there are no labels",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Measure: choosing the right metric",
             "Clustering metrics — when there are no labels"
           ],
@@ -8698,7 +8700,7 @@
           "id": "lesson-section-quantile-regression-metrics-when-you-predict-a-percentile",
           "heading": "Quantile-regression metrics — when you predict a percentile",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Measure: choosing the right metric",
             "Quantile-regression metrics — when you predict a percentile"
           ],
@@ -8713,7 +8715,7 @@
           "id": "lesson-section-diagnose-reading-the-regression-output",
           "heading": "Diagnose: reading the regression output",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Diagnose: reading the regression output"
           ],
           "text": "Metrics tell you how accurate a model is. Diagnostics tell you whether you are even allowed to trust it — whether its assumptions hold and its coefficients are stable. A model can predict well and still fail its diagnostics, and vice versa. Read both. When you fit an OLS model in statsmodels , the summary prints a block of diagnostics beneath the coefficients. Here is that block, decoded, using the real values from the steel-process energy model. Diagnostic What it tests for Benchmark Steel value Verdict Omnibus p Overall normality of residuals (skew + kurtosis together) > 0.05 = normal 0.000 ✘ ignore (large N) Jarque–Bera p Normality of residuals (a second test) > 0.05 = normal ~0 ✘ ignore (same reason) Skew Symmetry of the residual distribution ≈ 0 −0.21 ✔ good Kurtosis Tail heaviness / outliers in residuals ≈ 3 2.61 ✔ good Durbin–Watson Autocorrelation — are residuals independent? ≈ 2 1.57 ⚠ mild autocorrelation Condition Number Multicollinearity / numerical stability < 100 (ideally < 30) 7,500 ✘ needs attention AIC Fit vs complexity trade-off (prediction focus) Lower is better (relative only) ~917,400 ⚠ compare models only BIC Fit vs complexity, with a stronger penalty Lower is better (relative only) ~917,400+ ⚠ compare models only The large-N trap — the most important lesson here With tens of thousands of rows, the Omnibus and Jarque–Bera normality tests almost always “fail” (p ≈ 0) , because they are powerful enough to flag microscopic, harmless departures from perfect normality. That is why both are marked “ignore” above even though the residuals are actually fine. Trust the skew (−0.21 ≈ 0) and kurtosis (2.61 ≈ 3) values and a residual plot instead of the p-value. This single misread sinks a lot of otherwise-good analyses. Self-check Diagnostic triage — act or ignore? Before you read the verdict, decide for yourself: is each number a real problem, or a distraction? Tap to reveal. Omnibus p = 0.000 tests: normality of residuals Tap: act or ignore? With 60k rows this test flags microscopic, harmless departures from normality. Judge normality by skew & kurtosis instead — not this p-value. ✗ Ignore Jarque–Bera p ≈ 0 tests: normality (second test) Tap: act or ignore? Same large-N trap as Omnibus. Two failing normality p-values here mean nothing on their own at this sample size. ✗ Ignore Skew = −0.21 tests: symmetry of residuals Tap: act or ignore? Essentially symmetric (target ≈ 0). This is the value you actually trust for normality — and it says the residuals are fine. ✓ Fine Kurtosis = 2.61 tests: tail heaviness Tap: act or ignore? Close to the normal benchmark of 3, slightly light-tailed. No outlier problem in the residuals. ✓ Fine Durbin–Watson = 1.57 tests: independence of residuals Tap: act or ignore? Below the ideal 2 → mild positive autocorrelation. Check row ordering / grouping; consider robust standard errors. ⚠ Watch Condition No. = 7,500 tests: multicollinearity Tap: act or ignore? Far above 30. Predictors are nearly collinear, so individual coefficients are unstable. Drop/combine features or use ridge. ✗ Act AIC / BIC ≈ 917k tests: fit vs complexity Tap: act or ignore? Only meaningful compared to another model fit to the same data. The absolute number says nothing on its own. ⚠ Relative VIF (per predictor) tests: collinearity per variable Tap: act or ignore? VIF > 10 (some say 5) flags a predictor tangled with the others — the per-variable companion to the condition number. ⚠ Check",
@@ -8727,7 +8729,7 @@
           "id": "lesson-section-the-other-diagnostics-you-will-meet",
           "heading": "The other diagnostics you will meet",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Diagnose: reading the regression output",
             "The other diagnostics you will meet"
           ],
@@ -8742,7 +8744,7 @@
           "id": "lesson-section-what-to-do-when-a-diagnostic-fails",
           "heading": "What to do when a diagnostic fails",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Diagnose: reading the regression output",
             "What to do when a diagnostic fails"
           ],
@@ -8758,7 +8760,7 @@
           "id": "lesson-section-doing-it-in-excel-and-minitab",
           "heading": "Doing it in Excel & Minitab",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Doing it in Excel & Minitab"
           ],
           "text": "These numbers don’t only live in Python. On the exam and on the job you will build and read them in Excel and Minitab. This section maps every core evaluation metric to the functions and menu paths that produce it.",
@@ -8771,7 +8773,7 @@
           "id": "lesson-section-excel-functions",
           "heading": "Excel functions",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Doing it in Excel & Minitab",
             "Excel functions"
           ],
@@ -8786,7 +8788,7 @@
           "id": "lesson-section-excel-use-cases",
           "heading": "Excel use cases",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Doing it in Excel & Minitab",
             "Excel use cases"
           ],
@@ -8801,7 +8803,7 @@
           "id": "lesson-section-minitab-navigation",
           "heading": "Minitab navigation",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Doing it in Excel & Minitab",
             "Minitab navigation"
           ],
@@ -8816,7 +8818,7 @@
           "id": "lesson-section-exam-tips-asq-cssbb-cqe",
           "heading": "Exam tips — ASQ CSSBB / CQE",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Doing it in Excel & Minitab",
             "Exam tips — ASQ CSSBB / CQE"
           ],
@@ -8831,7 +8833,7 @@
           "id": "lesson-section-when-you-see-this-it-means-this",
           "heading": "When you see this, it means this",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "When you see this, it means this"
           ],
           "text": "Tap any card to flip it — front is the symptom you'd spot in output, back is the diagnosis and the fix. Training R² ≫ holdout / CV R² Tap: what it means → Means: Overfitting — the model memorized noise. Do: Simplify, cut correlated features, add regularization; re-check with grouped CV. BAD All three R² values low Tap: what it means → Means: Underfitting — the model is too simple. Do: Add signal: better features, interactions, or a more flexible model. WARN Wide ± spread on CV R² Tap: what it means → Means: Instability — performance depends on the split. Do: Get more data, reduce complexity, confirm the split fits the data's structure. WARN 95%+ accuracy on a rare event Tap: what it means → Means: The accuracy illusion — 'always negative' scores high. Do: Switch to recall, precision, F1, or ROC-AUC. BAD Normality p ≈ 0 on a huge dataset Tap: what it means → Means: Usually the large-N trap, not a real problem. Do: Judge by skew (≈0), kurtosis (≈3), and a residual plot. GOOD Condition number in thousands / VIF > 10 Tap: what it means → Means: Multicollinearity — coefficients unstable. Do: Drop or combine predictors, standardize, or use ridge regression. BAD Durbin–Watson well below 2 Tap: what it means → Means: Positive autocorrelation — residuals not independent. Do: Check ordering/grouping, add lag terms, or use robust SEs. WARN R² reported for a quantile model Tap: what it means → Means: Wrong metric — it assumes a mean prediction. Do: Use pinball loss and pseudo R² instead. BAD Traps",
@@ -8845,7 +8847,7 @@
           "id": "lesson-section-where-people-go-wrong",
           "heading": "Where people go wrong",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Where people go wrong"
           ],
           "text": "Trap Judging on the training score Why wrong: a model can memorize its training data. Avoid it: report cross-validated performance on unseen data. Trap Tuning on the test set Why wrong: it quietly turns the test set into training data and inflates your final number. Avoid it: tune with CV, keep one untouched test set. Trap Leaking groups across the split Why wrong: the same slab in train and test lets the model “recognize” it. Avoid it: use GroupKFold to keep whole groups together. Trap Trusting accuracy on imbalanced data Why wrong: the majority class dominates the score. Avoid it: use precision, recall, F1, or ROC-AUC. Trap Chasing a normality p-value on big data Why wrong: the test over-rejects at large N. Avoid it: read skew, kurtosis, and plots. Trap Interpreting coefficients under multicollinearity Why wrong: a high condition number makes individual coefficients unstable and their signs unreliable. Avoid it: fix collinearity first, then interpret. Trap Comparing AIC/BIC across different datasets Why wrong: their scale has no absolute meaning. Avoid it: compare only across models fit to the same data. Trap Trusting a model because the software ran Why wrong: software executes instructions; it doesn’t validate the question or the assumptions. Avoid it: check inputs, metrics, and diagnostics in context. Practice",
@@ -8859,7 +8861,7 @@
           "id": "lesson-section-practice-activity-diagnose-these-three-models",
           "heading": "Practice activity — diagnose these three models",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Practice activity — diagnose these three models"
           ],
           "text": "For each result, name the problem (healthy, overfit, underfit, or unstable) and give one next step. Answers are on the following page. Model Training R² Holdout R² CV R² A · steel energy, depth-2 tree 0.44 0.42 0.41 ± 0.02 B · steel energy, depth-25 tree 0.99 0.55 0.49 ± 0.11 C · steel energy, tuned tree 0.80 0.76 0.75 ± 0.03 Bonus: Model B was validated with a plain random split rather than GroupKFold. How might its holdout R² of 0.55 be even worse than it looks? Answer key",
@@ -8874,7 +8876,7 @@
           "id": "lesson-section-practice-activity",
           "heading": "Practice activity",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "Practice activity — diagnose these three models",
             "Practice activity"
           ],
@@ -8890,7 +8892,7 @@
           "id": "lesson-section-the-evaluation-mindset",
           "heading": "The evaluation mindset",
           "breadcrumb": [
-            "In this lesson",
+            "Model Tuning & Evaluation",
             "The evaluation mindset"
           ],
           "text": "A regression predicts the conditional mean — the average outcome for cases like this one. The residual is the part it can’t and isn’t trying to predict. Judge a model on data it has never seen. Training R² is a diagnostic, holdout R² is a quick check, cross-validation R² is the truth. A big train→test gap and a wide CV spread mean overfitting ; low scores everywhere mean underfitting . Tuning navigates the bias–variance trade-off between them. Tune with cross-validation, never on the test set. Keep one untouched test set for a single, honest final number. Match the metric to the problem and the cost of errors: recall when a miss is dangerous, precision when a false alarm is costly, RMSE when big misses hurt, and never accuracy alone on imbalanced data. Diagnostics test trustworthiness , not accuracy. Beware the large-N normality trap; act on high condition number / VIF and on Durbin–Watson far from 2. With grouped data, split by the group (SlabID) so the score answers the real question: can it predict something brand new? Remember this Predict → Validate → Tune → Measure → Diagnose Decision rule Never trust a single number. Read fit and generalization together, match the metric to the decision, and let the diagnostics tell you whether you’re even allowed to believe the coefficients. UpSkill Sprint Consulting · upskillsprint.com · Practical learning for quality, data, and process improvement · © 2026",
@@ -18586,7 +18588,6 @@
           "breadcrumb": [
             "Finding the Best Predictive Regression Model in Minitab",
             "The selected model is only a candidate until it passes diagnostics",
-            "Required final review",
             "Prediction"
           ],
           "text": "Validation R², RMSE, MAD, and the gap between training and validation performance.",
@@ -18602,7 +18603,6 @@
           "breadcrumb": [
             "Finding the Best Predictive Regression Model in Minitab",
             "The selected model is only a candidate until it passes diagnostics",
-            "Required final review",
             "Complexity"
           ],
           "text": "Number of retained terms or basis functions; stability across alternate folds.",
@@ -18617,7 +18617,6 @@
           "breadcrumb": [
             "Finding the Best Predictive Regression Model in Minitab",
             "The selected model is only a candidate until it passes diagnostics",
-            "Required final review",
             "Collinearity"
           ],
           "text": "VIF values, coefficient instability, and redundant predictors.",
@@ -18632,7 +18631,6 @@
           "breadcrumb": [
             "Finding the Best Predictive Regression Model in Minitab",
             "The selected model is only a candidate until it passes diagnostics",
-            "Required final review",
             "Residual adequacy"
           ],
           "text": "Linearity, constant variance, normality when inference matters, and independence.",
@@ -18647,7 +18645,6 @@
           "breadcrumb": [
             "Finding the Best Predictive Regression Model in Minitab",
             "The selected model is only a candidate until it passes diagnostics",
-            "Required final review",
             "Influence"
           ],
           "text": "Leverage, Cook’s distance, DFITS, data quality, and sensitivity analyses.",
@@ -18662,7 +18659,6 @@
           "breadcrumb": [
             "Finding the Best Predictive Regression Model in Minitab",
             "The selected model is only a candidate until it passes diagnostics",
-            "Required final review",
             "Engineering validity"
           ],
           "text": "Logical signs, plausible thresholds, operating-range coverage, and no unsafe extrapolation. Step 7",
@@ -19052,6 +19048,7 @@
           "heading": "Step 1 — test every possible first predictor",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 1 — test every possible first predictor"
           ],
           "text": "Minitab temporarily evaluates: Y = β₀ + A Y = β₀ + B Y = β₀ + C Y = β₀ + D Y = β₀ + E Y = β₀ + F Suppose the candidate p-values are: Candidate Entry p-value A 0.001 B 0.028 C 0.190 D 0.350 E 0.110 F 0.420 A has the smallest p-value and satisfies alpha-to-enter = 0.15, so A enters: Model 1: Y = β₀ + A",
@@ -19066,6 +19063,7 @@
           "heading": "Step 2 — test the remaining predictors conditional on A",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 2 — test the remaining predictors conditional on A"
           ],
           "text": "Minitab evaluates A+B, A+C, A+D, A+E, and A+F. Suppose B has the smallest qualifying p-value. Model 2: Y = β₀ + A + B",
@@ -19080,6 +19078,7 @@
           "heading": "Step 3 — continue from the current model",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 3 — continue from the current model"
           ],
           "text": "Minitab tests A+B+C, A+B+D, A+B+E, and A+B+F. Suppose C enters. Model 3: Y = β₀ + A + B + C The sequence might continue: A → A+B → A+B+C → A+B+C+D Once A enters, ordinary Forward Selection does not remove it later, even if A becomes less useful after other terms are added. That is the method’s main limitation.",
@@ -19094,6 +19093,7 @@
           "heading": "How it stops",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "How it stops"
           ],
           "text": "The procedure stops when none of the remaining candidates has an entry p-value at or below alpha-to-enter. Mental model: “Start empty, add the strongest qualifying term, and never go backward.” 5.3 Backward Elimination — start full and remove weak terms Backward Elimination starts with all candidate predictors: Model 0: Y = β₀ + A + B + C + D + E + F",
@@ -19108,6 +19108,7 @@
           "heading": "Step 1 — inspect all included terms",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 1 — inspect all included terms"
           ],
           "text": "Suppose the p-values in the full model are: Included term p-value A 0.004 B 0.031 C 0.082 D 0.410 E 0.170 F 0.690 F has the largest p-value and exceeds alpha-to-remove = 0.15, so F is removed: Model 1: Y = β₀ + A + B + C + D + E",
@@ -19122,6 +19123,7 @@
           "heading": "Step 2 — refit before removing anything else",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 2 — refit before removing anything else"
           ],
           "text": "Minitab refits the reduced model because p-values can change when a correlated predictor is removed. Suppose D now has the largest p-value, 0.38. D is removed: Model 2: Y = β₀ + A + B + C + E",
@@ -19136,6 +19138,7 @@
           "heading": "Step 3 — continue until all remaining terms qualify",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 3 — continue until all remaining terms qualify"
           ],
           "text": "Suppose E now has p = 0.09 and all remaining terms are at or below 0.15. The procedure stops with A, B, C, and E. Backward Elimination requires the full model to be estimable. If the sample is small relative to the number of terms, or if predictors are perfectly aliased, the method may be inappropriate. Mental model: “Start with everything, remove the weakest term, refit, and repeat.” 5.4 Stepwise — variables can enter and later leave Stepwise regression combines forward entry with backward checking. It begins like Forward Selection, but after each addition Minitab re-examines terms already in the model.",
@@ -19150,6 +19153,7 @@
           "heading": "Step 1 — A enters",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 1 — A enters"
           ],
           "text": "From the intercept-only model, A has the smallest qualifying p-value: Model 1: Y = β₀ + A",
@@ -19164,6 +19168,7 @@
           "heading": "Step 2 — B enters",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 2 — B enters"
           ],
           "text": "Conditional on A, B has the smallest qualifying p-value: Model 2: Y = β₀ + A + B",
@@ -19178,6 +19183,7 @@
           "heading": "Step 3 — C enters",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 3 — C enters"
           ],
           "text": "Model 3: Y = β₀ + A + B + C",
@@ -19192,6 +19198,7 @@
           "heading": "Step 4 — Minitab checks whether A and B still deserve to stay",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 4 — Minitab checks whether A and B still deserve to stay"
           ],
           "text": "Suppose adding C reveals that B was mostly acting as a proxy for C. After refitting, the p-values are: Included term p-value after C enters A 0.006 B 0.220 C 0.012 B now exceeds alpha-to-remove = 0.15, so B leaves: Model 4: Y = β₀ + A + C",
@@ -19206,6 +19213,7 @@
           "heading": "Step 5 — forward entry resumes",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 5 — forward entry resumes"
           ],
           "text": "Minitab again evaluates the remaining candidates B, D, E, and F conditional on A and C. A possible path is: A → A+B → A+B+C → A+C → A+C+D A term can enter, leave, and potentially re-enter later because its p-value depends on the other terms currently in the model. Stepwise results can be unstable when predictors are highly correlated. Small changes in the data may change the selected path. Mental model: “Move forward, but after every move, look backward and clean up.” 5.5 Forward Information Criteria — add terms using fit-versus-complexity Forward Information Criteria also builds a model from small to large, but the next term is selected using an information criterion, such as AIC or AICc, rather than only a significance threshold.",
@@ -19219,6 +19227,7 @@
           "heading": "Step 1 — compare one-predictor candidates",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 1 — compare one-predictor candidates"
           ],
           "text": "Candidate model AICc A 412.4 B 418.9 C 415.7 D 426.1 E 421.5 F 429.0 The lower information criterion is preferred, so A enters: Model 1: Y = β₀ + A",
@@ -19233,6 +19242,7 @@
           "heading": "Step 2 — compare additions to A",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 2 — compare additions to A"
           ],
           "text": "Candidate model AICc A+B 398.5 A+C 392.8 A+D 409.4 A+E 404.7 A+F 411.6 C enters because A+C gives the largest improvement, represented here by the lowest AICc.",
@@ -19246,6 +19256,7 @@
           "heading": "Step 3 — stop when no addition improves the criterion enough",
           "breadcrumb": [
             "5. Variable-selection methods in the Stepwise dialog",
+            "When this is the correct choice",
             "Step 3 — stop when no addition improves the criterion enough"
           ],
           "text": "Suppose A+C+D has AICc = 391.9, while the current A+C model has AICc = 392.8. Depending on the exact rule and software implementation, D may enter because it improves the criterion. A retained term may have an individual p-value above 0.05. That is not necessarily a contradiction: information criteria optimize the model’s fit-complexity balance, not a sequence of individual hypothesis tests. Mental model: “Add the term that gives the best trade-off between improved fit and added complexity.”",
@@ -24749,7 +24760,6 @@
           "breadcrumb": [
             "Introduction to Design of Experiment (DOE)",
             "Move from the factorial square to the 2³ DOE cube",
-            "Paste a 2³ dataset",
             "Camera"
           ],
           "text": "",
@@ -24764,7 +24774,6 @@
           "breadcrumb": [
             "Introduction to Design of Experiment (DOE)",
             "Move from the factorial square to the 2³ DOE cube",
-            "Paste a 2³ dataset",
             "Plane isolation"
           ],
           "text": "Show all or focus one factor plane",
@@ -24779,7 +24788,6 @@
           "breadcrumb": [
             "Introduction to Design of Experiment (DOE)",
             "Move from the factorial square to the 2³ DOE cube",
-            "Paste a 2³ dataset",
             "Response display"
           ],
           "text": "Corner labels and colors",
@@ -24794,7 +24802,6 @@
           "breadcrumb": [
             "Introduction to Design of Experiment (DOE)",
             "Move from the factorial square to the 2³ DOE cube",
-            "Paste a 2³ dataset",
             "Model-term switches"
           ],
           "text": "Turning off a term sets its regression coefficient to zero and recalculates the predicted response. A B C AB AC BC ABC",
@@ -24809,7 +24816,6 @@
           "breadcrumb": [
             "Introduction to Design of Experiment (DOE)",
             "Move from the factorial square to the 2³ DOE cube",
-            "Paste a 2³ dataset",
             "Interaction focus"
           ],
           "text": "Click a cube corner to inspect the run. Drag to rotate · wheel/pinch to zoom · click a corner to inspect",
@@ -27285,7 +27291,6 @@
           "breadcrumb": [
             "Introduction to Reliability and Maintainability",
             "What Is Reliability? What Is Maintainability?",
-            "The vocabulary, defined before it's used",
             "Non-repairable item"
           ],
           "text": "Fails once, gets thrown away or replaced — never fixed. Think: a light bulb, a fuse, a weld test coupon. Described using TTF / MTTF.",
@@ -27300,7 +27305,6 @@
           "breadcrumb": [
             "Introduction to Reliability and Maintainability",
             "What Is Reliability? What Is Maintainability?",
-            "The vocabulary, defined before it's used",
             "Repairable item"
           ],
           "text": "Fails, gets fixed, goes back into service — this can happen many times over its life. Think: a pump, a rolling mill stand, a furnace. Described using MTBF / MTTR. The next section digs into this split in more detail with a timeline diagram. After that, the lesson works through the calculus of reliability for a single non-repairable item first (it's the simpler case — one item, one failure, done), then returns to repairable systems to cover MTBF, repair-time behavior (maintainability), and finally availability. ↑ Back to contents",
@@ -28868,8 +28872,68 @@
             "The Prevention-Appraisal-Failure (PAF) Model",
             "Where common activities fall in the hierarchy"
           ],
-          "text": "Cost of Quality Cost of Good Quality Prevention FMEA FTA Process capability studies Variation reduction Lessons learned Training Appraisal Costs Incoming inspection In-process inspection Final inspection Calibration Auditing Cost of Poor Quality Internal Failure Process delay Rework Scrap Defects Retest 8D / RCA / CAPA Downtime Loss of capacity External Failure Customer returns Warranty claims Loss of customer sales Repair & at-customer-location costs",
-          "excerpt": "Cost of Quality Cost of Good Quality Prevention FMEA FTA Process capability studies Variation reduction Lessons learned Training Appraisal Costs Incoming inspection In-process inspection Final inspection Calibration Auditing Cost of Poor Quality Internal…",
+          "text": "Cost of Quality Cost of Good Quality",
+          "excerpt": "Cost of Quality Cost of Good Quality",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-prevention",
+          "heading": "Prevention",
+          "breadcrumb": [
+            "Cost of Poor Quality (COPQ)",
+            "The Prevention-Appraisal-Failure (PAF) Model",
+            "Where common activities fall in the hierarchy",
+            "Prevention"
+          ],
+          "text": "FMEA FTA Process capability studies Variation reduction Lessons learned Training",
+          "excerpt": "FMEA FTA Process capability studies Variation reduction Lessons learned Training",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-appraisal-costs-2",
+          "heading": "Appraisal Costs",
+          "breadcrumb": [
+            "Cost of Poor Quality (COPQ)",
+            "The Prevention-Appraisal-Failure (PAF) Model",
+            "Where common activities fall in the hierarchy",
+            "Appraisal Costs"
+          ],
+          "text": "Incoming inspection In-process inspection Final inspection Calibration Auditing Cost of Poor Quality",
+          "excerpt": "Incoming inspection In-process inspection Final inspection Calibration Auditing Cost of Poor Quality",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-internal-failure",
+          "heading": "Internal Failure",
+          "breadcrumb": [
+            "Cost of Poor Quality (COPQ)",
+            "The Prevention-Appraisal-Failure (PAF) Model",
+            "Where common activities fall in the hierarchy",
+            "Internal Failure"
+          ],
+          "text": "Process delay Rework Scrap Defects Retest 8D / RCA / CAPA Downtime Loss of capacity",
+          "excerpt": "Process delay Rework Scrap Defects Retest 8D / RCA / CAPA Downtime Loss of capacity",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-external-failure",
+          "heading": "External Failure",
+          "breadcrumb": [
+            "Cost of Poor Quality (COPQ)",
+            "The Prevention-Appraisal-Failure (PAF) Model",
+            "Where common activities fall in the hierarchy",
+            "External Failure"
+          ],
+          "text": "Customer returns Warranty claims Loss of customer sales Repair & at-customer-location costs",
+          "excerpt": "Customer returns Warranty claims Loss of customer sales Repair & at-customer-location costs",
           "kinds": [
             "section"
           ]
@@ -28965,12 +29029,68 @@
             "Cost of Poor Quality (COPQ)",
             "Interactive: Classify the Cost"
           ],
-          "text": "Tap a scenario, then tap the bucket you think it belongs in. You'll get instant feedback — this is the exact skill CSSBB/CQE exam questions test when they describe a cost and ask you to categorize it. Two questions do most of the sorting work for you. First: has the customer received this yet? If yes, it's external failure, full stop — it doesn't matter how small the cost was. If no, ask the second question: is this money spent to find a defect, or to fix/scrap one that was already found? Finding = appraisal. Fixing/scrapping = internal failure. Anything spent before a defect could even occur — training, design reviews, supplier vetting — is prevention. Prevention Appraisal Internal Failure External Failure Score: 0 / 8",
+          "text": "Tap a scenario, then tap the bucket you think it belongs in. You'll get instant feedback — this is the exact skill CSSBB/CQE exam questions test when they describe a cost and ask you to categorize it. Two questions do most of the sorting work for you. First: has the customer received this yet? If yes, it's external failure, full stop — it doesn't matter how small the cost was. If no, ask the second question: is this money spent to find a defect, or to fix/scrap one that was already found? Finding = appraisal. Fixing/scrapping = internal failure. Anything spent before a defect could even occur — training, design reviews, supplier vetting — is prevention.",
           "excerpt": "Tap a scenario, then tap the bucket you think it belongs in. You'll get instant feedback — this is the exact skill CSSBB/CQE exam questions test when they describe a cost and ask you to categorize it. Two questions do most of the sorting work for you. First:…",
           "kinds": [
             "section",
             "example",
             "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-prevention-2",
+          "heading": "Prevention",
+          "breadcrumb": [
+            "Cost of Poor Quality (COPQ)",
+            "Interactive: Classify the Cost",
+            "Prevention"
+          ],
+          "text": "",
+          "excerpt": "Prevention",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-appraisal",
+          "heading": "Appraisal",
+          "breadcrumb": [
+            "Cost of Poor Quality (COPQ)",
+            "Interactive: Classify the Cost",
+            "Appraisal"
+          ],
+          "text": "",
+          "excerpt": "Appraisal",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-internal-failure-2",
+          "heading": "Internal Failure",
+          "breadcrumb": [
+            "Cost of Poor Quality (COPQ)",
+            "Interactive: Classify the Cost",
+            "Internal Failure"
+          ],
+          "text": "",
+          "excerpt": "Internal Failure",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lesson-section-external-failure-2",
+          "heading": "External Failure",
+          "breadcrumb": [
+            "Cost of Poor Quality (COPQ)",
+            "Interactive: Classify the Cost",
+            "External Failure"
+          ],
+          "text": "Score: 0 / 8",
+          "excerpt": "Score: 0 / 8",
+          "kinds": [
+            "section"
           ]
         },
         {

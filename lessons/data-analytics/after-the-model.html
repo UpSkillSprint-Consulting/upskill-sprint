@@ -277,6 +277,16 @@ table.toolmap tr:hover td{background:rgba(63,182,216,.03)}
     .card-link{position:absolute;inset:0;z-index:2;border-radius:12px;font-size:0;line-height:0;color:transparent;text-decoration:none}
     #lesson-content .card-link:focus-visible{outline:3px solid var(--atm-cyan);outline-offset:2px}
     #lesson-content section{scroll-margin-top:90px}
+
+/* Heading outline fix: these headings were one level too deep (h4 straight
+   after h2). They are now one level up and carry .was-h4 / .was-h5, so they
+   keep the look of the original rules below. */
+.card .was-h4 { font-family:var(--atm-disp);font-size:20px;font-weight:600;margin:0 0 8px;color:var(--atm-c,var(--atm-cyan));letter-spacing:.4px }
+.widget .was-h4 { font-family:var(--atm-disp);font-size:19px;font-weight:600;margin:0 0 4px;color:var(--atm-ink);letter-spacing:.4px }
+
+/* Keep re-levelled headings looking the same as before. */
+#lesson-content .card h3.was-h4{font-size:20px;line-height:1.62;letter-spacing:.4px;margin-top:0;color:var(--atm-c,var(--atm-cyan));border-bottom-color:var(--atm-c,var(--atm-cyan))}
+#lesson-content .widget h3.was-h4{font-size:19px;line-height:1.62;letter-spacing:.4px;margin:0 0 4px;color:var(--atm-ink);border-bottom-color:var(--atm-ink)}
 </style>
 </head>
 <body data-lesson-page="true" data-category="data-analytics" data-level="advanced" data-interactive="true" data-lesson-type="general">
@@ -317,56 +327,56 @@ table.toolmap tr:hover td{background:rgba(63,182,216,.03)}
       <div class="card" style="--atm-c:var(--atm-cyan)">
         <div class="qn">"What will Y be if I set X here?"</div>
         <a class="card-link" href="#predict" aria-label="Jump to the Predict section"></a>
-        <h4>1 · Predict</h4>
+        <h3 class="was-h4">1 · Predict</h3>
         <p>Score new settings inside the design space. Point estimate <em>plus</em> an interval — and you must pick the right interval.</p>
         <div class="tools"><b>Tools:</b> Minitab Predict · Excel TREND/FORECAST · statsmodels <code>get_prediction()</code></div>
       </div>
       <div class="card" style="--atm-c:var(--atm-amber)">
         <div class="qn">"What X gives me the best Y?"</div>
         <a class="card-link" href="#optimize" aria-label="Jump to the Optimize section"></a>
-        <h4>2 · Optimize</h4>
+        <h3 class="was-h4">2 · Optimize</h3>
         <p>Find the settings that maximize, minimize, or hit a target — often for several responses at once, without breaking any of them.</p>
         <div class="tools"><b>Tools:</b> Minitab Response Optimizer · Excel Solver · <code>scipy.optimize</code></div>
       </div>
       <div class="card" style="--atm-c:var(--atm-violet)">
         <div class="qn">"What actually matters?"</div>
         <a class="card-link" href="#robust" aria-label="Jump to the Rank drivers section"></a>
-        <h4>3 · Rank drivers</h4>
+        <h3 class="was-h4">3 · Rank drivers</h3>
         <p>Sort factors by leverage so you know where to tighten control and where you have slack to give away.</p>
         <div class="tools"><b>Tools:</b> Pareto of effects · std. coefficients · SHAP · partial dependence</div>
       </div>
       <div class="card" style="--atm-c:var(--atm-teal)">
         <div class="qn">"How do I stay good when inputs wobble?"</div>
         <a class="card-link" href="#robust" aria-label="Jump to the Robustify section"></a>
-        <h4>4 · Robustify</h4>
+        <h3 class="was-h4">4 · Robustify</h3>
         <p>Don't just chase the best mean — find the setpoint that's <em>least sensitive</em> to noise you can't control.</p>
         <div class="tools"><b>Tools:</b> Taguchi · dual-response · propagation of error</div>
       </div>
       <div class="card" style="--atm-c:var(--atm-orange)">
         <div class="qn">"What's the risk / spread of outcomes?"</div>
         <a class="card-link" href="#robust" aria-label="Jump to the Simulate section"></a>
-        <h4>5 · Simulate</h4>
+        <h3 class="was-h4">5 · Simulate</h3>
         <p>Push input variation through the model to predict the <em>distribution</em> of Y — and the capability — before you commit.</p>
         <div class="tools"><b>Tools:</b> Monte Carlo · tolerance analysis · predicted Cpk</div>
       </div>
       <div class="card" style="--atm-c:var(--atm-cyan)">
         <div class="qn">"Did the model tell the truth?"</div>
         <a class="card-link" href="#confirm" aria-label="Jump to the Confirm section"></a>
-        <h4>6 · Confirm</h4>
+        <h3 class="was-h4">6 · Confirm</h3>
         <p>Run trials at the predicted optimum. If reality lands inside the prediction interval, you're validated. If not, back up.</p>
         <div class="tools"><b>Tools:</b> confirmation runs · actual-vs-predicted check</div>
       </div>
       <div class="card" style="--atm-c:var(--atm-amber)">
         <div class="qn">"How do I hold the gains?"</div>
         <a class="card-link" href="#control" aria-label="Jump to the Deploy and monitor section"></a>
-        <h4>7 · Deploy &amp; monitor</h4>
+        <h3 class="was-h4">7 · Deploy &amp; monitor</h3>
         <p>Lock in setpoints, update the control plan, run the model as a soft sensor, and watch residuals for drift.</p>
         <div class="tools"><b>Tools:</b> SPC · control plan · scoring pipeline · drift monitoring</div>
       </div>
       <div class="card" style="--atm-c:var(--atm-violet)">
         <div class="qn">"Is this the right model at all?"</div>
         <a class="card-link" href="#dmaic" aria-label="Jump to the Loop back section"></a>
-        <h4>0 · (Loop back)</h4>
+        <h3 class="was-h4">0 · (Loop back)</h3>
         <p>If confirmation fails or residuals trend, you don't polish — you return upstream: re-specify, add terms, or collect data in a new region.</p>
         <div class="tools"><b>Tools:</b> residual diagnostics · lack-of-fit · augmenting the design</div>
       </div>
@@ -579,7 +589,7 @@ table.toolmap tr:hover td{background:rgba(63,182,216,.03)}
       <p>Skipping confirmation. A response surface optimized on 20 runs will <em>always</em> report an impressive optimum — that's what optimizers do. Whether that optimum survives contact with the real process is a separate, empirical question. In DMAIC this is a gate, not a formality: no confirmed result, no Control phase.</p>
     </div>
     <div class="widget">
-      <h4>Interactive · run confirmation heats against the PI</h4>
+      <h3 class="was-h4">Interactive · run confirmation heats against the PI</h3>
       <p class="sub">The model predicts a mean and a 95% PI at your optimum. Fire real heats and watch where they land. Flip on a hidden process shift to see what a <em>failed</em> confirmation looks like — the dots start escaping the band and the verdict turns.</p>
       <div class="canvas-wrap"><canvas id="confCanvas" width="1000" height="360"></canvas></div>
       <div class="controls">
@@ -616,7 +626,7 @@ table.toolmap tr:hover td{background:rgba(63,182,216,.03)}
       <p>"Set and forget." A model deployed with no drift monitoring is a liability with a shelf life — it keeps returning confident predictions long after the process has moved out from under it. Budget for periodic revalidation the same way you budget for gauge R&amp;R.</p>
     </div>
     <div class="widget">
-      <h4>Interactive · residual control chart — catch the drift</h4>
+      <h3 class="was-h4">Interactive · residual control chart — catch the drift</h3>
       <p class="sub">Each point is one heat's residual (actual − predicted). While the model holds, residuals scatter around zero inside the ±3σ limits. Turn up the drift and stream heats — watch the model go stale and the chart raise the alarm.</p>
       <div class="canvas-wrap"><canvas id="driftCanvas" width="1000" height="330"></canvas></div>
       <div class="controls">
@@ -1050,7 +1060,7 @@ html[data-theme="dark"] #quiz-heading{color:#e7eef4}
     <a href="/lessons#data-analytics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Data Analytics lessons</a>
   </section>
 
-  <footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+  <footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
 
 <script>
 window.__ATM_REDRAW = window.__ATM_REDRAW || [];

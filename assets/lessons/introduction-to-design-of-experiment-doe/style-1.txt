@@ -300,6 +300,16 @@
       color: var(--doe-heading);
     }
 
+    /* Headings re-levelled from h4 to h3 (they sit directly under an h2) keep the h4 look. */
+    h3.was-h4 {
+      margin: 0 0 8px;
+      color: var(--doe-heading);
+      font-size: 1em;
+      font-family: inherit;
+      font-weight: bold;
+      line-height: inherit;
+    }
+
     .lead {
       max-width: 880px;
       margin: 0;

@@ -317,6 +317,20 @@ html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
 html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
 html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
 </style>
+<style id="heading-order-fix">
+/* Heading outline fix: these headings were one level too deep (h4 straight
+   after h2). They are now one level up and carry .was-h4 / .was-h5, so they
+   keep the look of the original rules below. */
+.bias-lesson .spec .was-h4 { font-family:var(--lesson-bias-display);font-size:22px;font-weight:600;margin:0 0 4px;line-height:1.1 }
+.bias-lesson .kit .was-h4 { font-family:var(--lesson-bias-display);font-size:22px;font-weight:600;margin:0 0 4px }
+.bias-lesson .minichart .was-h4 { font-family:var(--lesson-bias-display);font-size:20px;font-weight:600;margin:0 0 4px }
+.bias-lesson .spec .was-h4 { display:flex;gap:8px;align-items:flex-start;justify-content:space-between }
+.bias-lesson .spec .was-h4 .ic { flex:none;color:var(--lesson-bias-fam);opacity:.8;margin-top:3px }
+
+/* Keep re-levelled headings looking the same as before. */
+.bias-lesson .minichart h3.was-h4{line-height:32px}
+.bias-lesson .kit h3.was-h4{line-height:1.6}
+</style>
 </head>
 <body data-lesson-page="true" data-category="statistics" data-level="beginner" data-interactive="true" data-lesson-type="general">
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
@@ -429,7 +443,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <small>A classic case: dividing by n instead of n − 1 makes the sample variance biased low, by a factor of (n − 1)/n. Bessel's correction removes it.</small>
       </div>
       <div class="minichart">
-        <h4>Bessel's correction, simulated</h4>
+        <h3 class="was-h4">Bessel's correction, simulated</h3>
         <p>3,000 simulated samples at each size, drawn from a population with true variance 1.</p>
         <div class="chart" id="besselChart"></div>
         <div class="legend"><span><i style="background:var(--lesson-bias-sea)"></i>True variance</span><span><i class="o" style="background:var(--lesson-bias-coral)"></i>Divide by n (biased)</span><span><i class="o" style="background:var(--lesson-bias-cyan)"></i>Divide by n − 1 (unbiased)</span></div>
@@ -663,16 +677,16 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   <h2>How to fight back</h2>
   <p class="prose" style="color:var(--lesson-bias-muted)">You can't switch bias off, in data or in people. You can design processes that catch it.</p>
   <div class="kit">
-    <div><h4>Randomize and stratify</h4><p>Let chance pick the sample, and make sure every subgroup gets represented. <em>Beats:</em> sampling, selection, undercoverage, self-selection.</p></div>
-    <div><h4>Count what's missing</h4><p>Track dropouts, non-responders, scrapped units and excluded rows. Ask who never made it into the dataset. <em>Beats:</em> survivorship, attrition, nonresponse, exclusion.</p></div>
-    <div><h4>Design the questions carefully</h4><p>Use neutral wording, randomize question order, keep surveys short, and collect sensitive answers anonymously. <em>Beats:</em> interview, question order, conformity, demand characteristics, neutral and extreme response.</p></div>
-    <div><h4>Blind the observer</h4><p>Hide the group label, heat history or expected answer from whoever measures or judges. <em>Beats:</em> observer, confirmation, halo, implicit.</p></div>
-    <div><h4>Validate the measurement system</h4><p>Check bias, linearity, stability and repeatability before trusting the numbers. <em>Beats:</em> measurement, error propagation.</p></div>
-    <div><h4>Decide the test before the data</h4><p>Write down the hypothesis and analysis plan first, and correct for multiple comparisons. <em>Beats:</em> model selection, confirmation, clustering illusion.</p></div>
-    <div><h4>Hunt for confounders</h4><p>Use designed experiments where you can, and stratify or adjust where you can't. <em>Beats:</em> omitted variable, cause-effect.</p></div>
-    <div><h4>Monitor after launch</h4><p>Control-chart model inputs and errors, and audit how the tool is actually used on the floor. <em>Beats:</em> concept drift, feedback loops, deployment, temporal.</p></div>
-    <div><h4>Argue with yourself</h4><p>Run a pre-mortem, appoint a devil's advocate, and let the most junior person speak first. <em>Beats:</em> groupthink, authority, bandwagon, sunk cost.</p></div>
-    <div><h4>Judge the decision, not the outcome</h4><p>Ask whether the choice was sound given what was known at the time. <em>Beats:</em> moral luck, self-serving, hindsight-driven recall.</p></div>
+    <div><h3 class="was-h4">Randomize and stratify</h3><p>Let chance pick the sample, and make sure every subgroup gets represented. <em>Beats:</em> sampling, selection, undercoverage, self-selection.</p></div>
+    <div><h3 class="was-h4">Count what's missing</h3><p>Track dropouts, non-responders, scrapped units and excluded rows. Ask who never made it into the dataset. <em>Beats:</em> survivorship, attrition, nonresponse, exclusion.</p></div>
+    <div><h3 class="was-h4">Design the questions carefully</h3><p>Use neutral wording, randomize question order, keep surveys short, and collect sensitive answers anonymously. <em>Beats:</em> interview, question order, conformity, demand characteristics, neutral and extreme response.</p></div>
+    <div><h3 class="was-h4">Blind the observer</h3><p>Hide the group label, heat history or expected answer from whoever measures or judges. <em>Beats:</em> observer, confirmation, halo, implicit.</p></div>
+    <div><h3 class="was-h4">Validate the measurement system</h3><p>Check bias, linearity, stability and repeatability before trusting the numbers. <em>Beats:</em> measurement, error propagation.</p></div>
+    <div><h3 class="was-h4">Decide the test before the data</h3><p>Write down the hypothesis and analysis plan first, and correct for multiple comparisons. <em>Beats:</em> model selection, confirmation, clustering illusion.</p></div>
+    <div><h3 class="was-h4">Hunt for confounders</h3><p>Use designed experiments where you can, and stratify or adjust where you can't. <em>Beats:</em> omitted variable, cause-effect.</p></div>
+    <div><h3 class="was-h4">Monitor after launch</h3><p>Control-chart model inputs and errors, and audit how the tool is actually used on the floor. <em>Beats:</em> concept drift, feedback loops, deployment, temporal.</p></div>
+    <div><h3 class="was-h4">Argue with yourself</h3><p>Run a pre-mortem, appoint a devil's advocate, and let the most junior person speak first. <em>Beats:</em> groupthink, authority, bandwagon, sunk cost.</p></div>
+    <div><h3 class="was-h4">Judge the decision, not the outcome</h3><p>Ask whether the choice was sound given what was known at the time. <em>Beats:</em> moral luck, self-serving, hindsight-driven recall.</p></div>
   </div>
 </div></section>
 
@@ -711,7 +725,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 <fieldset class="quiz-question" data-answer="d" data-explanation="The responding customers may differ from the 352 nonrespondents; a larger count of similar responders does not fix that selection mechanism."><legend>4. A survey of 400 customers receives 48 answers, mostly from open-claim accounts. What should you assess first?</legend><label class="quiz-option"><input type="radio" name="q4" value="a"> Only the average score</label><label class="quiz-option"><input type="radio" name="q4" value="b"> Whether the sample mean has more decimal places</label><label class="quiz-option"><input type="radio" name="q4" value="c"> The number of chart colours</label><label class="quiz-option"><input type="radio" name="q4" value="d"> How respondents differ from nonrespondents</label><div class="quiz-feedback"></div></fieldset>
 <fieldset class="quiz-question" data-answer="b" data-explanation="A Gage Linearity and Bias Study tests bias across reference values; a Type 1 study focuses on one reference part."><legend>5. What Minitab study fits repeated reference measurements across the gauge’s operating range?</legend><label class="quiz-option"><input type="radio" name="q5" value="a"> Display Descriptive Statistics only</label><label class="quiz-option"><input type="radio" name="q5" value="b"> Gage Linearity and Bias Study</label><label class="quiz-option"><input type="radio" name="q5" value="c"> Type 1 Gage Study only</label><label class="quiz-option"><input type="radio" name="q5" value="d"> A histogram with a normal curve</label><div class="quiz-feedback"></div></fieldset><div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div><div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div></form></div></section>
 <section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left"><a class="bias-back-link" href="/lessons#statistics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Statistics lessons</a></section>
-<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
 <script>
 /* ---------- Target demo ---------- */
 (function(){
