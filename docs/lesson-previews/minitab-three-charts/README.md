@@ -41,3 +41,15 @@ The initial exact `node --test tests/*.test.js` invocation did not terminate bec
 - [Expanded output, mobile dark](mobile-dark-output.png)
 
 See [browser-audit.json](browser-audit.json) for per-state checks, contrast measurements and accessibility results.
+
+## Deployed preview verification
+
+[Open the public lesson preview](https://deploy-preview-255--upskillsprint.netlify.app/lessons/power-bi-excel-sql/introduction-to-symmetry-variability-and-multi-vari-charts-in-minitab).
+
+- Netlify's `netlify/upskillsprint/deploy-preview` status succeeds. All three GitHub workflows succeed: Smart lesson search validation, Stateless test bank, and Spread Lab lesson validation.
+- The deployed preview passes **83/83** browser checks at 1440 px and 390 px, in both themes. All eight axe scans report zero violations, computed contrast checks pass, and no page JavaScript errors occur.
+- For automated rendering, the preview's HTML and assets were fetched through a temporary local transport that validates remote TLS certificates. This accommodates the execution proxy's certificate configuration without disabling certificate validation. The report records the deployed origin and SHA-256 of every fetched resource. External requests were blocked, as in the local browser audit.
+- A direct cloud-browser visit independently verifies the actual public URL in light and dark mode, all four initially closed output dropdowns, the live symmetry and interaction controls, and the original Minitab image. The downloaded workbook is byte-identical to the checked-in asset.
+- See [deployed browser audit](netlify-browser-audit.json) and [direct cloud-browser screenshot](netlify-preview-20261005-5a5e7b.jpg).
+
+The PR remains a draft because the Lesson Creation Guide's section 16 requires the full repository suite to be green; the unchanged-main failures above remain unresolved. Production publication requires the protected-main review and merge described in section 17.
