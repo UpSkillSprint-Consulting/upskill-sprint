@@ -25,13 +25,20 @@ export function normalizeUrl(url) {
   return url.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
 }
 
+// Netlify serves a folder's index.html at /folder/ and answers /folder with a
+// 301 to /folder/, so directory pages must be listed with the trailing slash.
+export function withDirectorySlash(relPath, url) {
+  const isDirectoryIndex = relPath === 'index.html' || relPath.endsWith('/index.html');
+  return isDirectoryIndex && !url.endsWith('/') ? url + '/' : url;
+}
+
 export function sitemapEntry(relPath, html) {
   const head = html.split(/<\/head>/i)[0];
   if (/<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(head)) return null;
   if (/<meta[^>]+http-equiv=["']refresh["']/i.test(head)) return null;
   const canonical = head.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i)?.[1];
   if (canonical && !canonical.startsWith(SITE)) return null;
-  return canonical ? normalizeUrl(canonical) : pageUrl(relPath);
+  return withDirectorySlash(relPath, canonical ? normalizeUrl(canonical) : pageUrl(relPath));
 }
 
 async function* htmlFiles(dir) {

@@ -88,8 +88,8 @@ jobs:
             [!directory.includes('class="tool-group-label"'), 'Redundant Material Specification Tools heading remains'],
             [directory.includes('href="#materials-quality">Material Specification Tools</a>'), 'Footer material-tools link does not target the first tool'],
             [directory.includes('/engineering-tools/grade-specification-lookup'), 'Engineering Tools directory entry missing'],
-            [sitemap.includes('/engineering-tools/grade-specification-lookup</loc>'), 'Application sitemap URL missing'],
-            [sitemap.includes('/engineering-tools/grade-specification-lookup/how-to-use</loc>'), 'Guide sitemap URL missing']
+            [sitemap.includes('/engineering-tools/grade-specification-lookup/</loc>'), 'Application sitemap URL missing'],
+            [sitemap.includes('/engineering-tools/grade-specification-lookup/how-to-use/</loc>'), 'Guide sitemap URL missing']
           ];
           for (const [condition, message] of checks) if (!condition) throw new Error(message);
           console.log('Material Specification Lookup integration checks passed.');

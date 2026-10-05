@@ -62,6 +62,6 @@ if(equilibrium&&!document.getElementById('spx-tab-navigator')){
   equilibrium.parentNode.insertBefore(panel.firstElementChild,equilibrium);equilibrium.hidden=true;
 }
 var checks=equilibrium&&equilibrium.querySelector('.spx-checks');if(checks)checks.classList.add('spx-engineer-only');var formulas=document.getElementById('spx-chem-formulas');if(formulas)formulas.classList.add('spx-advanced-only');var compareBody=document.getElementById('spx-compare-body');if(compareBody){var compareCard=compareBody.closest('.spx-card');if(compareCard){compareCard.id='spx-comparison-card';compareCard.classList.add('spx-engineer-only')}}
-var bottom=document.querySelector('.spx-bottom-nav');if(bottom&&!bottom.querySelector('.spx-bottom-guide')){var guide=document.createElement('a');guide.className='spx-bottom-guide';guide.href='/tools/steel-phase-explorer/how-to-use';guide.textContent='How to Use This Tool';bottom.appendChild(guide)}
+var bottom=document.querySelector('.spx-bottom-nav');if(bottom&&!bottom.querySelector('.spx-bottom-guide')){var guide=document.createElement('a');guide.className='spx-bottom-guide';guide.href='/tools/steel-phase-explorer/how-to-use/';guide.textContent='How to Use This Tool';bottom.appendChild(guide)}
 addScript('/tools/steel-phase-explorer-release1.js',function(){addScript('/tools/steel-phase-explorer-release2-loader.js',function(){addScript('/tools/steel-phase-explorer-release3-loader.js')})});
 })();
