@@ -50,7 +50,8 @@ jobs:
             tests/lesson-level-filter.test.js \
             tests/exam-practice-section.test.js \
             tests/lesson-library-build-parseable.test.js \
-            tests/lesson-meta-coverage.test.js
+            tests/lesson-meta-coverage.test.js \
+            tests/minitab-three-charts-lesson.test.js
       - name: Build the exact production site and generated lessons
         run: npm run build:site
       - name: Require generated SQL lesson content in the production index
