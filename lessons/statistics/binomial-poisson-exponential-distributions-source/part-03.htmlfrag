@@ -95,7 +95,7 @@
 <h3>c chart: equal opportunity</h3>
 <p>Use a c chart when every inspected unit is the same size and is inspected in the same way.</p>
 <p><strong>Example:</strong> every steel plate is 2 m × 2 m, and the full surface of every plate is inspected.</p>
-<div class="table-wrap"><table>
+<div class="table-wrap" tabindex="0" role="region" aria-label="c chart example table"><table>
 <thead><tr><th>Plate</th><th>Defects</th></tr></thead>
 <tbody><tr><td>1</td><td>2</td></tr><tr><td>2</td><td>4</td></tr><tr><td>3</td><td>1</td></tr><tr><td>4</td><td>3</td></tr></tbody>
 </table></div>
@@ -105,7 +105,7 @@
 <h3>u chart: unequal opportunity</h3>
 <p>Use a u chart when the inspected sizes, lengths, areas, or sample quantities differ.</p>
 <p><strong>Example:</strong> plates have different inspected surface areas.</p>
-<div class="table-wrap"><table>
+<div class="table-wrap" tabindex="0" role="region" aria-label="u chart example table"><table>
 <thead><tr><th>Plate</th><th>Area, m²</th><th>Defects</th><th>Defects/m²</th></tr></thead>
 <tbody><tr><td>A</td><td>2</td><td>2</td><td>1.00</td></tr><tr><td>B</td><td>6</td><td>5</td><td>0.83</td></tr><tr><td>C</td><td>10</td><td>7</td><td>0.70</td></tr></tbody>
 </table></div>
@@ -137,7 +137,7 @@ c chart    u chart
 (raw count) (defects per unit)
 </div>
 <div class="big-memory"><strong>Memory trick:</strong> c = count. u = defects per unit.</div>
-<div class="table-wrap"><table>
+<div class="table-wrap" tabindex="0" role="region" aria-label="c chart versus u chart comparison table"><table>
 <thead><tr><th>Chart or model</th><th>What it monitors</th><th>Underlying distribution</th></tr></thead>
 <tbody>
 <tr><td>np chart</td><td>Number of defective units when sample size is constant</td><td>Binomial</td></tr>

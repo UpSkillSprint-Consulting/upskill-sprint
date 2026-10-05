@@ -13,7 +13,7 @@
 </section>
 <section class="lesson-card" id="interpretation">
 <h2>13. When you see this, it means this</h2>
-<div class="table-wrap"><table>
+<div class="table-wrap" tabindex="0" role="region" aria-label="When you see this, it means this table"><table>
 <thead><tr><th>When you see this</th><th>It means this</th></tr></thead>
 <tbody>
 <tr><td>A fixed n with pass/fail outcomes</td><td>The selected-outcome count is bounded by n; consider a Binomial model.</td></tr>
@@ -79,7 +79,7 @@
 <div class="button-row"><button class="btn" id="assumptionAllBtn" type="button">Mark all supported</button><button class="btn secondary" id="assumptionResetBtn" type="button">Clear checklist</button></div>
 <p aria-live="polite" class="status-line warn" id="assumptionResult"></p>
 </div>
-<div class="table-wrap"><table><thead><tr><th>Diagnostic clue</th><th>What it may indicate</th><th>Next action</th></tr></thead><tbody>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Diagnostic clues table"><table><thead><tr><th>Diagnostic clue</th><th>What it may indicate</th><th>Next action</th></tr></thead><tbody>
 <tr><td>Poisson count variance far above the mean</td><td>Clustering, mixed rates, or omitted exposure effects</td><td>Stratify the data; consider negative-binomial or another overdispersed count model.</td></tr>
 <tr><td>Poisson count variance far below the mean</td><td>Regular spacing, process constraints, or dependence</td><td>Review the event definition and whether occurrences inhibit one another.</td></tr>
 <tr><td>Failure rate increases with age</td><td>Constant-hazard Exponential assumption is violated</td><td>Consider Weibull or a reliability model that allows changing hazard.</td></tr>
