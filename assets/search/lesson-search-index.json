@@ -1,9 +1,9 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 48,
-  "contentLessonCount": 47,
-  "sectionCount": 2048,
+  "lessonCount": 49,
+  "contentLessonCount": 48,
+  "sectionCount": 2082,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -20433,6 +20433,523 @@
           "kinds": [
             "section",
             "formula"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "power-bi-excel-sql--introduction-to-symmetry-variability-and-multi-vari-charts-in-minitab",
+      "path": "/lessons/power-bi-excel-sql/introduction-to-symmetry-variability-and-multi-vari-charts-in-minitab",
+      "title": "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+      "description": "Build and interpret three Minitab quality charts with live activities, guided steps, actual output, and downloadable pipe-manufacturing data.",
+      "topic": "power-bi-excel-sql",
+      "level": "beginner",
+      "minutes": 75,
+      "interactive": true,
+      "keywords": [
+        "minitab",
+        "symmetry plot",
+        "variability chart",
+        "multi-vari chart",
+        "skewness",
+        "within-cell variation",
+        "line shift interaction",
+        "wall thickness",
+        "excel",
+        "minitab symmetry plot variability chart multi-vari multi vari chart skewness median spread range standard deviation cell factors line shift interaction wall thickness downtime excel public beginner interactive"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "lesson-title",
+          "heading": "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab"
+          ],
+          "text": "Learn what each chart answers, build it in Minitab, and explain the result using a fictitious steel-pipe manufacturing case. Download the practice data Start the lesson All teaching data are fictitious. The screenshots are actual Minitab output supplied for this lesson. Live charts are browser teaching illustrations calculated from the practice data.",
+          "excerpt": "Learn what each chart answers, build it in Minitab, and explain the result using a fictitious steel-pipe manufacturing case. Download the practice data Start the lesson All teaching data are fictitious. The screenshots are actual Minitab output supplied for…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "learning-route-heading",
+          "heading": "Your learning route",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Your learning route"
+          ],
+          "text": "",
+          "excerpt": "Your learning route",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "learning-objectives",
+          "heading": "By the end, you can",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Your learning route",
+            "By the end, you can"
+          ],
+          "text": "Choose a chart for distribution shape, consistency, or factor effects. Import the practice workbook and assign responses and factors correctly. Create all three charts using clear Minitab menu paths. Read symmetry, cell ranges, sample standard deviations, and interactions. Write an evidence-based investigation recommendation. What you need: Minitab Statistical Software with these Quality Tools available. The instructions use the current English Minitab help labels. Your version may arrange the dialog differently. A spreadsheet application is useful for the optional Excel checks. You can complete the browser activities without Minitab. How to study: read the explanation, make a prediction in the live activity, follow the Minitab steps, then open Review Minitab output to compare your result. Keep the dropdown closed until you have tried the chart. 1 · Ask the right question",
+          "excerpt": "Choose a chart for distribution shape, consistency, or factor effects. Import the practice workbook and assign responses and factors correctly. Create all three charts using clear Minitab menu paths. Read symmetry, cell ranges, sample standard deviations, and…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "chart-choice-heading",
+          "heading": "Three charts, three different questions",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Three charts, three different questions"
+          ],
+          "text": "A process specialist is investigating wall-thickness differences between two pipe lines. Before fitting a model, they want to understand the distribution of measurements, the consistency of each operating group, and whether the shift effect changes between lines. These charts help answer those questions visually. What each Minitab quality chart is for Chart Question it answers Inputs Typical use case Symmetry plot Is a distribution balanced around its median? One numeric variable, such as thickness or downtime. Explore skewness before choosing summaries or an analysis approach. Variability chart Which factor combinations have different averages and different within-group spread? A numeric response and grouping factors, with repeated observations per cell. Find the line/shift/position combinations that are least consistent. Multi-vari chart How do factor-level means differ, and does one factor's effect depend on another? A numeric response and two or more meaningful factor levels. Look for position effects and Line × Shift interactions before ANOVA or regression. One important distinction: these are exploratory quality tools. They do not have control limits and do not establish time-ordered process stability. A symmetry plot does not establish normality. A visible factor pattern does not establish statistical significance or causation.",
+          "excerpt": "A process specialist is investigating wall-thickness differences between two pipe lines. Before fitting a model, they want to understand the distribution of measurements, the consistency of each operating group, and whether the shift effect changes between…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "choose-a-chart",
+          "heading": "Try it: choose a chart",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Three charts, three different questions",
+            "Try it: choose a chart"
+          ],
+          "text": "What are you investigating? Start with a symmetry plot of downtime to inspect the balance of the tails around the median. 2 · Prepare your worksheet",
+          "excerpt": "What are you investigating? Start with a symmetry plot of downtime to inspect the balance of the tails around the median. 2 · Prepare your worksheet",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "practice-data-heading",
+          "heading": "Download and import the practice data",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Download and import the practice data"
+          ],
+          "text": "The workbook contains the same values used by the supplied Minitab screenshots. The two analysis sheets serve different purposes. Do not combine them into a single analysis. Download the practice workbook (.xlsx) Symmetry data (.csv) Factor data (.csv) What is in the workbook? Sheet Contents Use Guide Chart instructions and interpretation notes. Read alongside this lesson; do not import for analysis. Symmetry_Data 30 wall readings and 30 independent downtime observations. Make two symmetry plots. Factor_Data 60 distinct pipes across 12 factor combinations. Make the variability and multi-vari charts. Data Dictionary Column definitions, units, and sampling design. Read before interpreting the measurements; do not import for analysis.",
+          "excerpt": "The workbook contains the same values used by the supplied Minitab screenshots. The two analysis sheets serve different purposes. Do not combine them into a single analysis. Download the practice workbook (.xlsx) Symmetry data (.csv) Factor data (.csv) What…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "import-workbook",
+          "heading": "Step by step: open the Excel workbook in Minitab",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Download and import the practice data",
+            "Step by step: open the Excel workbook in Minitab"
+          ],
+          "text": "Save the download. Choose the workbook link above and save the file somewhere you can find it. Open it in Minitab. Choose File → Open , select minitab-chart-practice.xlsx , and click Open . If the file is not shown, select an Excel-compatible file type in the file dialog. Select the sheets to import. In the Open Excel File dialog, inspect each sheet's tab. Leave Import this sheet selected for Symmetry_Data and Factor_Data . Clear it for Guide and Data Dictionary . Import the column names. Set First row to import to 1 and select Data has column names for each data sheet. Confirm the import. Check the worksheets. Symmetry_Data should have 30 rows and columns Obs , Wall_mm , Downtime_min . Factor_Data should have 60 rows and columns Pipe_ID , Line , Shift , Position , Wall_mm . Check the types. Wall_mm and Downtime_min must be numeric. Line , Shift , and Position are categorical text. If measurements imported as text, correct the import/decimal settings before plotting. Save a Minitab project if you want to keep your graphs. CSV alternative: open each CSV using File → Open , check the comma delimiter and that the first row supplies column names, and keep the files in separate worksheets. The CSV downloads contain analysis data only.",
+          "excerpt": "Save the download. Choose the workbook link above and save the file somewhere you can find it. Open it in Minitab. Choose File → Open , select minitab-chart-practice.xlsx , and click Open . If the file is not shown, select an Excel-compatible file type in the…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "sampling-design",
+          "heading": "Understand what one row means",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Download and import the practice data",
+            "Understand what one row means"
+          ],
+          "text": "In Symmetry_Data , the wall-thickness sample and downtime sample are independent datasets . Their placement on the same row does not pair a pipe with a stoppage. Obs is just a row identifier. In Factor_Data , each row is one measurement from one distinct pipe at its assigned Leading, Middle, or Trailing location. A pipe is measured only once in this example. The data are not repeated measurements of the same pipe at three locations. This distinction matters if you later select an inferential model. Factor, level, response, and cell: Wall_mm is the numeric response. Line, Shift, and Position are factors. A/B, Day/Night, and Leading/Middle/Trailing are their levels. A cell is one complete combination, such as B / Night / Leading. There are 2 × 2 × 3 = 12 cells , with 5 different pipes per cell , so there are 60 measurements. Every combination is represented. Preview the practice data These tables show every analysis row. Download the workbook to practice in Minitab. Symmetry_Data: independent samples Obs Wall_mm Downtime_min 1 9.535 3 2 9.525 7 3 9.540 11 4 9.520 24 5 9.545 140 6 9.515 6 7 9.550 10 8 9.510 17 9 9.555 80 10 9.505 5 11 9.560 9 12 9.500 14 13 9.570 48 14 9.490 4 15 9.580 8 16 9.480 12 17 9.590 30 18 9.470 190 19 9.600 7 20 9.460 10 21 9.615 20 22 9.445 105 23 9.630 6 24 9.430 9 25 9.650 15 26 9.410 62 27 9.680 5 28 9.380 8 29 9.720 13 30 9.340 38 Factor_Data: one distinct pipe per row Pipe_ID Line Shift Position Wall_mm P001 A Day Leading 9.470 P002 A Day Leading 9.480 P003 A Day Leading 9.490 P004 A Day Leading 9.500 P005 A Day Leading 9.510 P006 A Day Middle 9.510 P007 A Day Middle 9.520 P008 A Day Middle 9.530 P009 A Day Middle 9.540 P010 A Day Middle 9.550 P011 A Day Trailing 9.550 P012 A Day Trailing 9.560 P013 A Day Trailing 9.570 P014 A Day Trailing 9.580 P015 A Day Trailing 9.590 P016 A Night Leading 9.480 P017 A Night Leading 9.490 P018 A Night Leading 9.500 P019 A Night Leading 9.510 P020 A Night Leading 9.520 P021 A Night Middle 9.520 P022 A Night Middle 9.530 P023 A Night Middle 9.540 P024 A Night Middle 9.550 P025 A Night Middle 9.560 P026 A Night Trailing 9.560 P027 A Night Trailing 9.570 P028 A Night Trailing 9.580 P029 A Night Trailing 9.590 P030 A Night Trailing 9.600 P031 B Day Leading 9.480 P032 B Day Leading 9.500 P033 B Day Leading 9.520 P034 B Day Leading 9.540 P035 B Day Leading 9.560 P036 B Day Middle 9.520 P037 B Day Middle 9.540 P038 B Day Middle 9.560 P039 B Day Middle 9.580 P040 B Day Middle 9.600 P041 B Day Trailing 9.560 P042 B Day Trailing 9.580 P043 B Day Trailing 9.600 P044 B Day Trailing 9.620 P045 B Day Trailing 9.640 P046 B Night Leading 9.600 P047 B Night Leading 9.640 P048 B Night Leading 9.680 P049 B Night Leading 9.720 P050 B Night Leading 9.760 P051 B Night Middle 9.640 P052 B Night Middle 9.680 P053 B Night Middle 9.720 P054 B Night Middle 9.760 P055 B Night Middle 9.800 P056 B Night Trailing 9.680 P057 B Night Trailing 9.720 P058 B Night Trailing 9.760 P059 B Night Trailing 9.800 P060 B Night Trailing 9.840 3 · Distribution shape",
+          "excerpt": "In Symmetry_Data , the wall-thickness sample and downtime sample are independent datasets . Their placement on the same row does not pair a pipe with a stoppage. Obs is just a row identifier. In Factor_Data , each row is one measurement from one distinct pipe…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "symmetry-heading",
+          "heading": "Symmetry plot: are the two tails balanced?",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Symmetry plot: are the two tails balanced?"
+          ],
+          "text": "A symmetry plot compares observations above and below the median . Imagine folding a distribution at its median: values at corresponding distances on the two sides should line up if the distribution is symmetric. A few long stoppages can stretch the right tail even when most stoppages are short. Use it for: exploring wall-thickness distributions, cycle times, waiting times, repair durations, or other numeric measurements. It helps you see skewness that a single mean can hide. Examine a histogram as well to see features such as multiple peaks.",
+          "excerpt": "A symmetry plot compares observations above and below the median . Imagine folding a distribution at its median: values at corresponding distances on the two sides should line up if the distribution is symmetric. A few long stoppages can stretch the right…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "symmetry-mechanics",
+          "heading": "How the plot is constructed",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Symmetry plot: are the two tails balanced?",
+            "How the plot is constructed"
+          ],
+          "text": "Sort the observations and find the median. Pair the closest observation below the median with the closest above it. Continue outward through the tails. Plot the upper observation's distance above the median on the horizontal axis , and the lower observation's distance below the median on the vertical axis . Compare the plotted points with the diagonal equality line. d above = x upper − m d below = m − x lower Here, m is the sample median. The diagonal represents equal distances on the two sides. Read the axes before judging skewness Point pattern Meaning Why Near the diagonal Approximately symmetric. Above-median and below-median distances are similar. Diverges below the diagonal Right-skewed. The upper tail extends farther: horizontal distance is larger. Diverges above the diagonal Left-skewed. The lower tail extends farther: vertical distance is larger. Worked example: the wall median is 9.530 mm. The extreme pair is 9.340 and 9.720 mm, so both distances are 0.190 mm and the point lies on the diagonal. The downtime median is 11.5 min. Its extreme pair is 3 and 190 min: the horizontal distance is 178.5 min and the vertical distance is 8.5 min. That point lies far below the diagonal, showing a long right tail.",
+          "excerpt": "Sort the observations and find the median. Pair the closest observation below the median with the closest above it. Continue outward through the tails. Plot the upper observation's distance above the median on the horizontal axis , and the lower observation's…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "symmetry-lab-heading",
+          "heading": "Live activity: change the distribution",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Symmetry plot: are the two tails balanced?",
+            "Live activity: change the distribution"
+          ],
+          "text": "First predict where the points should move, then change the dataset. The reflected downtime and two-cluster examples are additional teaching scenarios. Dataset Inspect an observation pair Calculated symmetry plot. Both axes use the same distance scale. Calculated histogram. The dashed line marks the median. Try this: select the two-cluster example. Its symmetry points lie on the diagonal while its histogram has two separated groups. Explain why symmetry alone does not imply a normal distribution.",
+          "excerpt": "First predict where the points should move, then change the dataset. The reflected downtime and two-cluster examples are additional teaching scenarios. Dataset Inspect an observation pair Calculated symmetry plot. Both axes use the same distance scale.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "symmetry-minitab-steps",
+          "heading": "Step by step: create a symmetry plot in Minitab",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Symmetry plot: are the two tails balanced?",
+            "Step by step: create a symmetry plot in Minitab"
+          ],
+          "text": "Activate Symmetry_Data . Click that worksheet's tab. Verify Wall_mm and Downtime_min are numeric. Open the command. Choose Stat → Quality Tools → Symmetry Plot . Select the variable. Click Variables and choose Wall_mm from the column list. Do not select Obs . Create the graph. Click OK . Read the distance axes and diagonal, then compare the inset histogram. Repeat for downtime. Reopen the same command, replace the variable with Downtime_min , and click OK . Write the interpretation. State whether each sample is symmetric or skewed, identify the tail direction, and describe the evidence. Now open the output dropdowns below. Review Minitab output",
+          "excerpt": "Activate Symmetry_Data . Click that worksheet's tab. Verify Wall_mm and Downtime_min are numeric. Open the command. Choose Stat → Quality Tools → Symmetry Plot . Select the variable. Click Variables and choose Wall_mm from the column list. Do not select Obs .…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "wall-output-heading",
+          "heading": "Wall thickness: symmetric around 9.530 mm",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Symmetry plot: are the two tails balanced?",
+            "Wall thickness: symmetric around 9.530 mm"
+          ],
+          "text": "Actual Minitab output for Wall_mm in Symmetry_Data. Read the axes. The horizontal axis is distance above the median, and the vertical axis is distance below it. Compare with the diagonal. The points lie on the diagonal because the fictitious sample was constructed with matching distances on both sides of 9.530 mm. Check the histogram. Its two sides balance around the center. Report the result. “The wall-thickness sample is symmetric around its median of 9.530 mm.” This is a distribution observation. It does not prove normality, stability, or capability against specifications. Review Minitab output",
+          "excerpt": "Actual Minitab output for Wall_mm in Symmetry_Data. Read the axes. The horizontal axis is distance above the median, and the vertical axis is distance below it. Compare with the diagonal. The points lie on the diagonal because the fictitious sample was…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "downtime-output-heading",
+          "heading": "Downtime: a long right tail",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Symmetry plot: are the two tails balanced?",
+            "Downtime: a long right tail"
+          ],
+          "text": "Actual Minitab output for Downtime_min in Symmetry_Data. Compare the tail distances. Farther from the median, horizontal distances become much larger than vertical distances. Identify the direction. The points diverge below the diagonal, so the sample is right-skewed. Use the histogram. Most stoppages are short, while a few last much longer. The maximum is 190 min compared with a median of 11.5 min. Report the result. “Downtime has a long right tail. Investigate the long-duration stoppages separately and use a median alongside the mean when describing typical duration.” Do not select or transform a model solely from this graph. 4 · Consistency within groups",
+          "excerpt": "Actual Minitab output for Downtime_min in Symmetry_Data. Compare the tail distances. Farther from the median, horizontal distances become much larger than vertical distances. Identify the direction. The points diverge below the diagonal, so the sample is…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "variability-heading",
+          "heading": "Variability chart: compare averages and spread",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Variability chart: compare averages and spread"
+          ],
+          "text": "A variability chart groups individual measurements by factor levels so you can compare their means and their within-cell variation . Two groups can have the same average and very different consistency. Conversely, their averages can differ while their spreads remain similar. Use it for: comparing machines, lines, operators, shifts, suppliers, batches, or positions. In this example, the question is: “Which Line / Shift / Position combinations produce the greatest variation in wall thickness?”",
+          "excerpt": "A variability chart groups individual measurements by factor levels so you can compare their means and their within-cell variation . Two groups can have the same average and very different consistency. Conversely, their averages can differ while their spreads…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "variability-parts",
+          "heading": "Read the parts of the chart",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Variability chart: compare averages and spread",
+            "Read the parts of the chart"
+          ],
+          "text": "Individual points show the actual wall readings. Cell mean shows the average for one complete factor combination. Range bar joins that cell's observed minimum and maximum. A longer bar indicates more spread. It is not a confidence interval or a control limit. Connecting lines of cell means make changes in average response easier to follow. Overall mean is an optional horizontal reference line. It does not represent a specification or target. Standard deviation chart is an optional second graph comparing sample SDs within the cells. Five pipes per cell make SD estimation possible here. R = x max − x min s = ∑ i = 1 n ( x i − x ¯ ) 2 n − 1 Calculate the range and sample SD separately for each cell. A mean uses the five measurements in that cell. Why include Position? Leading, Middle, and Trailing means intentionally differ. If you group only by Line and Shift, the spread of the 15 readings mixes those position differences with the scatter of pipes measured at the same position. Including Position isolates the five-pipe comparison within each location.",
+          "excerpt": "Individual points show the actual wall readings. Cell mean shows the average for one complete factor combination. Range bar joins that cell's observed minimum and maximum. A longer bar indicates more spread. It is not a confidence interval or a control limit.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "variability-lab-heading",
+          "heading": "Live activity: move the mean or change the spread",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Variability chart: compare averages and spread",
+            "Live activity: move the mean or change the spread"
+          ],
+          "text": "Only the B / Night cells change. The downloaded dataset and actual Minitab screenshots stay at their original settings. Try a mean change first, reset, then try a spread change. Add to each B / Night mean (mm): 0.000 Multiply B / Night within-cell spread: 1.00× On a narrow screen, scroll each chart horizontally. L/M/T mean Leading/Middle/Trailing. Circles are observations, diamonds are cell means, and vertical bars are cell ranges. View the live cell statistics These values update with the activity controls Line Shift Position n Mean (mm) Range (mm) Sample SD (mm)",
+          "excerpt": "Only the B / Night cells change. The downloaded dataset and actual Minitab screenshots stay at their original settings. Try a mean change first, reset, then try a spread change. Add to each B / Night mean (mm): 0.000 Multiply B / Night within-cell spread:…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "variability-minitab-steps",
+          "heading": "Step by step: create a variability chart in Minitab",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Variability chart: compare averages and spread",
+            "Step by step: create a variability chart in Minitab"
+          ],
+          "text": "Activate Factor_Data . Check that all 60 rows are present. Open the command. Choose Stat → Quality Tools → Variability Chart . Assign the response. In Responses , enter Wall_mm . Assign the factors in order. In Factors (1–8, outermost first) , enter Line , then Shift , then Position . This places positions within shifts within lines. Leave By variables blank. Do not use Pipe_ID as a factor. Choose the display. Click Options . Select Individual data points , Range per cell , Connecting lines of cell means , and Overall mean to reproduce the supplied average-response screenshot. Also select Standard deviation chart to create the useful second graph. Create the charts. Click OK to close Options, then OK in the main dialog. Compare means and spread separately. Identify which cells have high means and which have long ranges. Use the SD chart to compare within-cell variability. Open the output dropdown below to check your findings. Review Minitab output",
+          "excerpt": "Activate Factor_Data . Check that all 60 rows are present. Open the command. Choose Stat → Quality Tools → Variability Chart . Assign the response. In Responses , enter Wall_mm . Assign the factors in order. In Factors (1–8, outermost first) , enter Line ,…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "variability-output-heading",
+          "heading": "B / Night has a higher mean and greater spread",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Variability chart: compare averages and spread",
+            "B / Night has a higher mean and greater spread"
+          ],
+          "text": "Actual Minitab average-response chart. Select the image to open a full-size view. The optional SD chart is not shown in this supplied screenshot. Read the grouping. Leading, Middle, and Trailing appear within Day and Night, grouped under Lines A and B. Find the overall mean. The horizontal reference is 9.5875 mm across all 60 readings. It is a sample mean, not a target or limit. Compare cell ranges. A / Day and A / Night ranges are 0.040 mm. B / Day ranges are 0.080 mm. B / Night ranges are 0.160 mm at each position. Compare averages. The 15-reading Line / Shift means are 9.530, 9.540, 9.560, and 9.720 mm respectively. B / Night stands out in both location and spread. Check your optional SD graph. Expect approximately 0.01581 mm for each A cell, 0.03162 mm for each B / Day cell, and 0.06325 mm for each B / Night cell. These are within-position SDs, not SDs of all 15 readings pooled across positions. Recommend an investigation. “Prioritize B / Night because it has both a higher average thickness and greater within-position variation. Review setup, measurement-system performance, and relevant operating conditions.” The chart alone does not identify a cause or show out-of-specification product. 5 · Factor effects and interactions",
+          "excerpt": "Actual Minitab average-response chart. Select the image to open a full-size view. The optional SD chart is not shown in this supplied screenshot. Read the grouping. Leading, Middle, and Trailing appear within Day and Night, grouped under Lines A and B. Find…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "multi-vari-heading",
+          "heading": "Multi-vari chart: does one factor change another's effect?",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Multi-vari chart: does one factor change another's effect?"
+          ],
+          "text": "A multi-vari chart displays response means across combinations of categorical factors. It lets you compare effects at several levels in one view. In this case, compare positions within shifts and shifts within lines. Use it for: exploring machine × operator, supplier × material, line × shift, or other factor relationships before a formal analysis. Its central value here is showing that the shift effect is different on Lines A and B.",
+          "excerpt": "A multi-vari chart displays response means across combinations of categorical factors. It lets you compare effects at several levels in one view. In this case, compare positions within shifts and shifts within lines. Use it for: exploring machine × operator,…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "multi-vari-versus-variability",
+          "heading": "How it differs from a variability chart",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Multi-vari chart: does one factor change another's effect?",
+            "How it differs from a variability chart"
+          ],
+          "text": "The variability chart emphasizes the observations and spread within each cell. The multi-vari chart emphasizes mean patterns across factors. It can display individual observations too, but the means-first view makes the factor structure easier to follow. Choose the one that answers your investigation question.",
+          "excerpt": "The variability chart emphasizes the observations and spread within each cell. The multi-vari chart emphasizes mean patterns across factors. It can display individual observations too, but the means-first view makes the factor structure easier to follow.…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "interaction-explained",
+          "heading": "What an interaction means",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Multi-vari chart: does one factor change another's effect?",
+            "What an interaction means"
+          ],
+          "text": "An interaction occurs when the effect of one factor depends on the level of another. Here, changing Day to Night increases average wall thickness by 0.010 mm on Line A and 0.160 mm on Line B . The unequal changes suggest a Line × Shift interaction. Lines do not have to cross for an interaction to exist. Δ A = 9.540 − 9.530 = 0.010 mm Δ B = 9.720 − 9.560 = 0.160 mm Δ B − Δ A = 0.150 mm Position effect: Trailing-position means exceed Leading-position means by 0.080 mm in all four Line / Shift groups. That position effect is consistent across those groups in this deliberately constructed example.",
+          "excerpt": "An interaction occurs when the effect of one factor depends on the level of another. Here, changing Day to Night increases average wall thickness by 0.010 mm on Line A and 0.160 mm on Line B . The unequal changes suggest a Line × Shift interaction. Lines do…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "multi-vari-lab-heading",
+          "heading": "Live activity: make the shift effect equal or unequal",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Multi-vari chart: does one factor change another's effect?",
+            "Live activity: make the shift effect equal or unequal"
+          ],
+          "text": "Set Line B's Night-minus-Day change to 0.010 mm to match Line A. Then return it to 0.160 mm. This is a simplified interaction plot of the Line / Shift means, averaged across the three positions; it supports reading the full Minitab multi-vari chart below. Line B: Night minus Day (mm): 0.160 Means in the simplified interaction activity Line Day mean (mm) Night mean (mm) Night − Day (mm) A 9.530 9.540 0.010 B 9.560 9.720 0.160",
+          "excerpt": "Set Line B's Night-minus-Day change to 0.010 mm to match Line A. Then return it to 0.160 mm. This is a simplified interaction plot of the Line / Shift means, averaged across the three positions; it supports reading the full Minitab multi-vari chart below.…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "multi-vari-minitab-steps",
+          "heading": "Step by step: create a multi-vari chart in Minitab",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Multi-vari chart: does one factor change another's effect?",
+            "Step by step: create a multi-vari chart in Minitab"
+          ],
+          "text": "Activate Factor_Data . Use the original 60-row worksheet. Open the command. Choose Stat → Quality Tools → Multi-Vari Chart . Assign the response. In Response , enter Wall_mm . Assign Factor 1. Select Position . This is the innermost comparison. Assign the remaining factors. Set Factor 2 to Shift and Factor 3 to Line . Leave Factor 4 blank. This order is the reverse of the outermost-first entry order used for the variability chart. Choose the display. Click Options . Select Connect means for Factor 1 , Connect means for Factor 2 , and Connect means for Factor 3 . For your first graph, leave Display individual data points unchecked so you can concentrate on the means. Create and read the graph. Click OK in Options and then OK in the main dialog. Read the legend, compare positions within each shift, then compare shifts within each line. Try the alternative view. Reopen the command with the same factor order and select Display individual data points . Compare how the added observations show scatter around the means. Changing factor order changes the viewing emphasis, not the measurements. Data requirements: Minitab supports up to four factors for Multi-Vari Chart. Each factor needs at least two levels, and observations must populate at least 60% of all factor-level combinations. Our 12 of 12 cells provide 100% coverage. Good replication and a suitable sampling design are still needed for meaningful inference. Review Minitab output",
+          "excerpt": "Activate Factor_Data . Use the original 60-row worksheet. Open the command. Choose Stat → Quality Tools → Multi-Vari Chart . Assign the response. In Response , enter Wall_mm . Assign Factor 1. Select Position . This is the innermost comparison. Assign the…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "multi-vari-output-heading",
+          "heading": "Read Position within Shift within Line",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Multi-vari chart: does one factor change another's effect?",
+            "Read Position within Shift within Line"
+          ],
+          "text": "Actual Minitab multi-vari output. Select the image for a full-size view. Start with the legend. In this output, the blue Position markers represent cell means, red squares represent Shift means within each line, and green diamonds represent Line means. Use the labels as well as colors. Compare the blue Position means. Leading to Middle to Trailing increases by 0.040 mm at each step, or 0.080 mm from Leading to Trailing. Compare Day and Night within A. The shift means are 9.530 and 9.540 mm, a 0.010 mm increase. Compare Day and Night within B. The shift means are 9.560 and 9.720 mm, a 0.160 mm increase. Compare Line means carefully. A averages 9.535 mm and B averages 9.640 mm. Averaging all shifts together conceals the much larger Night effect on B. Report the interaction. “The effect of Shift depends on Line: the Night increase is much larger on B. Analyze the Line × Shift combination rather than treating Night as a uniform effect.” A suitable ANOVA or regression model can test and estimate the effect after design and assumption checks. 6 · Practice, check, explain",
+          "excerpt": "Actual Minitab multi-vari output. Select the image for a full-size view. Start with the legend. In this output, the blue Position markers represent cell means, red squares represent Shift means within each line, and green diamonds represent Line means. Use…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "guided-practice-heading",
+          "heading": "Complete the investigation",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Complete the investigation"
+          ],
+          "text": "Use your Minitab graphs and the original dataset. Write your own interpretation before revealing each answer.",
+          "excerpt": "Use your Minitab graphs and the original dataset. Write your own interpretation before revealing each answer.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "numeric-practice",
+          "heading": "Quick calculation check",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Complete the investigation",
+            "Quick calculation check"
+          ],
+          "text": "Calculate the B / Night / Leading range from its five measurements: 9.600, 9.640, 9.680, 9.720, and 9.760 mm. Range (mm) Enter your result, then select Check my calculation. Explain the two symmetry plots. Which sample is symmetric and which has a long right tail? Check the explanation Wall_mm is symmetric around 9.530 mm because matching tail distances lie on the diagonal. Downtime_min is right-skewed: above-median distances exceed below-median distances, moving the points below the diagonal. Separate the mean problem from the consistency problem. Why should B / Night receive attention? Check the explanation Its overall Line / Shift mean is 9.720 mm, and each position cell has a range of 0.160 mm and sample SD about 0.06325 mm. Both the average and the within-position spread stand out. Specifications are not included, so this alone does not show whether the product fails a specification. Explain the interaction. Why would a single Day-to-Night average change be incomplete? Check the explanation The change is only 0.010 mm on A and 0.160 mm on B. The equally weighted pooled shift change is 0.085 mm, which hides these two different responses. Keep Line × Shift in the investigation. Investigate the sampling structure. How would the analysis change if Leading, Middle, and Trailing readings came from the same pipe? Check the explanation Measurements on the same pipe would be related. Record a shared Pipe_ID and use an appropriate repeated-measures or mixed-effects design when doing inference. Do not count those related readings as independent pipes. The graphs can still be useful descriptively. Write a short recommendation. Name the group, quote mean and spread evidence, identify checks, and state the next analysis. Read a worked recommendation “Prioritize Line B during Night. Its mean wall thickness is 9.720 mm and its within-position range is 0.160 mm, compared with 9.560 mm and 0.080 mm on B during Day. Check measurement-system performance, setup records, and operating conditions. Collect independent replicated data and use a model that includes Line × Shift, with assumption checks, to assess the pattern.”",
+          "excerpt": "Calculate the B / Night / Leading range from its five measurements: 9.600, 9.640, 9.680, 9.720, and 9.760 mm. Range (mm) Enter your result, then select Check my calculation. Explain the two symmetry plots. Which sample is symmetric and which has a long right…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "troubleshooting",
+          "heading": "If your Minitab graph looks different",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Complete the investigation",
+            "If your Minitab graph looks different"
+          ],
+          "text": "Common problems and fixes Problem Check Fix A measurement column is unavailable. Was it imported as text? Correct the delimiter, decimal separator, and header import. Confirm the response is numeric. The chart has too many groups. Did you include Pipe_ID or Obs as a factor? Use Line, Shift, and Position as the factors. IDs label observations. The groups appear in a different order. Factor order and value ordering. For variability enter Line, Shift, Position; for multi-vari enter Position, Shift, Line. Follow the labels even if category order differs. Your range seems too large. Did you omit Position and pool 15 readings? Use all three factors to compare the same five-pipe cells shown in the screenshot. There is no SD chart. Options and replication. Select Standard deviation chart. Verify that each cell contains multiple readings. The mean reference line is missing. Variability Chart → Options. Select Overall mean. Its original value is 9.5875 mm. Multi-vari cannot be created. At least two levels per factor and adequate cell coverage. Use the complete Factor_Data sheet and the three correct factor columns. 7 · Reproduce and verify",
+          "excerpt": "Common problems and fixes Problem Check Fix A measurement column is unavailable. Was it imported as text? Correct the delimiter, decimal separator, and header import. Confirm the response is numeric. The chart has too many groups. Did you include Pipe_ID or…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "implementation-heading",
+          "heading": "Statistics Implementation",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Statistics Implementation"
+          ],
+          "text": "",
+          "excerpt": "Statistics Implementation",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "excel-functions",
+          "heading": "Excel Functions",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Statistics Implementation",
+            "Excel Functions"
+          ],
+          "text": "The Excel checks use the exact column layout of the downloaded workbook. The multi-criteria functions use equal-sized ranges. Functions with FILTER or SORT require a version with dynamic arrays, such as Microsoft 365. Functions for the chart calculations Function Syntax Purpose When to use MEDIAN =MEDIAN(number1,[number2],…) Find the middle of a sorted sample. Center the symmetry plot. SORT =SORT(array,[sort_index],[sort_order],[by_col]) Return an ordered array. Arrange the measurements for median-tail pairing. INDEX =INDEX(array,row_num,[column_num]) Retrieve a value at a given position. Take the corresponding lower and upper values from a sorted sample. AVERAGE / AVERAGEIFS =AVERAGE(number1,[number2],…) =AVERAGEIFS(average_range,criteria_range1,criteria1,…) Calculate an overall or selected-group mean. Verify cell, Line / Shift, and overall means. MIN / MAX =MIN(number1,[number2],…) =MAX(number1,[number2],…) Find the lowest and highest values. Calculate a cell range as MAX minus MIN. MINIFS / MAXIFS =MINIFS(min_range,criteria_range1,criteria1,…) =MAXIFS(max_range,criteria_range1,criteria1,…) Find extremes meeting several criteria. Verify the range of a chosen factor combination. STDEV.S =STDEV.S(number1,[number2],…) Estimate sample standard deviation with the n − 1 denominator. Match Minitab's within-cell sample SD. COUNT / COUNTIFS =COUNT(value1,[value2],…) =COUNTIFS(criteria_range1,criteria1,…) Count numeric measurements or rows matching criteria. Verify 30/60 measurements and five observations per cell. FILTER =FILTER(array,include,[if_empty]) Return rows that meet conditions. Pass one cell's measurements to STDEV.S.",
+          "excerpt": "The Excel checks use the exact column layout of the downloaded workbook. The multi-criteria functions use equal-sized ranges. Functions with FILTER or SORT require a version with dynamic arrays, such as Microsoft 365. Functions for the chart calculations…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "excel-use-cases",
+          "heading": "Excel Use Cases",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Statistics Implementation",
+            "Excel Use Cases"
+          ],
+          "text": "Enter these formulas in unused cells in Excel. Do not overwrite the raw data columns. All results below refer to the original practice dataset. Verify the symmetry center. =MEDIAN(Symmetry_Data!B2:B31) gives 9.530 mm. =MEDIAN(Symmetry_Data!C2:C31) gives 11.5 min. =COUNT(Symmetry_Data!B2:B31) gives 30. Build the extreme wall pair. =INDEX(SORT(Symmetry_Data!B2:B31),1) gives 9.340; use row number 30 for 9.720. Subtract the median from the upper value for horizontal distance, and subtract the lower value from the median for vertical distance. Both distances equal 0.190 mm. Verify B / Night / Leading's mean. =AVERAGEIFS(Factor_Data!E2:E61,Factor_Data!B2:B61,\"B\",Factor_Data!C2:C61,\"Night\",Factor_Data!D2:D61,\"Leading\") gives 9.680 mm. Drop the Position criterion to obtain the B / Night mean, 9.720 mm. Verify the cell's replication. =COUNTIFS(Factor_Data!B2:B61,\"B\",Factor_Data!C2:C61,\"Night\",Factor_Data!D2:D61,\"Leading\") gives 5. Verify its range. =MAX(Factor_Data!E47:E51)-MIN(Factor_Data!E47:E51) gives 0.160 mm. Those rows are the five B / Night / Leading pipes in the original sheet. If you sort or reorder the data, select the cell with criteria instead: use MAXIFS and MINIFS with Line = B, Shift = Night, and Position = Leading. Verify its sample SD. =STDEV.S(Factor_Data!E47:E51) gives approximately 0.06324555 mm. A sort-safe Microsoft 365 formula is =STDEV.S(FILTER(Factor_Data!E2:E61,(Factor_Data!B2:B61=\"B\")*(Factor_Data!C2:C61=\"Night\")*(Factor_Data!D2:D61=\"Leading\"))) . Multiplication means all three conditions must be true. Verify the interaction. Use AVERAGEIFS to obtain each Line / Shift mean. Calculate Night minus Day within each line, then subtract A's change from B's. The difference is 0.150 mm. The overall mean =AVERAGE(Factor_Data!E2:E61) is 9.5875 mm. Version alternative: if FILTER or SORT is unavailable, copy the selected measurements into an unused range and sort/filter them with Excel's data commands before calculating. For selected-cell SD, use the five actual measurements; do not use SUBTOTAL or a whole-range STDEV.S that still includes other groups.",
+          "excerpt": "Enter these formulas in unused cells in Excel. Do not overwrite the raw data columns. All results below refer to the original practice dataset. Verify the symmetry center. =MEDIAN(Symmetry_Data!B2:B31) gives 9.530 mm. =MEDIAN(Symmetry_Data!C2:C31) gives 11.5…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "minitab-navigation",
+          "heading": "Minitab Navigation",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Statistics Implementation",
+            "Minitab Navigation"
+          ],
+          "text": "A quick reference after following the full walkthroughs Menu path Worksheet and entries Options and why Stat → Quality Tools → Symmetry Plot Symmetry_Data. Variables = Wall_mm; repeat with Downtime_min. Read tail distances and the inset histogram. Use Obs only as an ID. Stat → Quality Tools → Variability Chart Factor_Data. Responses = Wall_mm. Factors, outermost first = Line, Shift, Position. By variables blank. Individual points, Range per cell, Connecting lines of cell means, Overall mean, and Standard deviation chart. Compare location and spread separately. Stat → Quality Tools → Multi-Vari Chart Factor_Data. Response = Wall_mm. Factor 1 = Position; Factor 2 = Shift; Factor 3 = Line; Factor 4 blank. Connect means for Factors 1–3. First view: individual points off. Read factor effects and the unequal shift changes.",
+          "excerpt": "A quick reference after following the full walkthroughs Menu path Worksheet and entries Options and why Stat → Quality Tools → Symmetry Plot Symmetry_Data. Variables = Wall_mm; repeat with Downtime_min. Read tail distances and the inset histogram. Use Obs…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "exam-tips",
+          "heading": "Exam Tips",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Statistics Implementation",
+            "Exam Tips"
+          ],
+          "text": "For ASQ CSSBB/CQE study and workplace reasoning, focus on selecting the tool and interpreting the evidence rather than memorizing screen appearance. These are study reminders, not claims about specific exam questions. Symmetry and normality differ. A symmetric two-cluster distribution is still not bell-shaped. Read the axis orientation. With distance above on X and distance below on Y, below the diagonal means right skew. Compare like cells. Spread across positions mixes a systematic position effect with within-position scatter. Know the denominator. STDEV.S and the displayed sample SD use n − 1, not n. An interaction is a changing effect. Unequal Day-to-Night changes matter even if plotted lines do not cross. Respect the design. Repeated readings on one pipe are not independent pipes. Consider replication, measurement-system quality, and randomization before inference. Choose the next tool deliberately. Use supported ANOVA/regression for inferential effects and an appropriate time-ordered control chart for process stability. 9 · Apply it at work",
+          "excerpt": "For ASQ CSSBB/CQE study and workplace reasoning, focus on selecting the tool and interpreting the evidence rather than memorizing screen appearance. These are study reminders, not claims about specific exam questions. Symmetry and normality differ. A…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "next-steps-heading",
+          "heading": "Take the same approach to your own process",
+          "breadcrumb": [
+            "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
+            "Take the same approach to your own process"
+          ],
+          "text": "Start with a clear question and a sampling plan. Record meaningful factor levels and a unique observation or part ID. Explore the response distribution, compare means and within-group spread, then inspect interactions. Use the findings to plan the next measurement or model. Your deliverable: save the two symmetry graphs, the variability chart plus optional SD graph, and the multi-vari chart in your Minitab project. Write a short recommendation that names the group, quotes the mean and spread, and explains the interaction without claiming a cause. Official documentation and further practice The menu labels and options in this lesson were checked against the official Minitab documentation. Follow these links for your installed version's details. Minitab: interpret a symmetry plot Minitab: enter variability-chart data Minitab: variability-chart options Minitab: multi-vari chart data requirements Minitab: multi-vari chart options Minitab: open an Excel file Microsoft: Excel statistical functions Continue with the Minitab Control Chart Master Guide",
+          "excerpt": "Start with a clear question and a sampling plan. Record meaningful factor levels and a unique observation or part ID. Explore the response distribution, compare means and within-group spread, then inspect interactions. Use the findings to plan the next…",
+          "kinds": [
+            "section",
+            "example"
           ]
         }
       ]
