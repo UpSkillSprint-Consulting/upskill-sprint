@@ -127,7 +127,7 @@ function prepareApplication(originalHtml, hardeningScript, hardeningStyles, audi
     .replace('<title>Material Specification Lookup — Compliance & Calculators</title>', '<title>Material Specification Lookup | UpSkill Sprint Consulting</title>')
     .replaceAll('href="grade_spec_lookup_user_guide.html"', 'href="./how-to-use/"')
     .replace('<div class="top-actions">', '<div class="top-actions"><a class="btn site-companion" href="/tools/material-specification-compliance-checker">Compliance Checker</a>')
-    .replace('</head>', '<meta name="description" content="Interactive material specification lookup, comparison, compliance screening, reverse lookup, and engineering calculators for CSA, ASTM, and API material designations.">\n<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + authHead + '\n</head>')
+    .replace('</head>', '<meta name="description" content="Interactive material specification lookup, comparison, compliance screening, reverse lookup, and engineering calculators for CSA, ASTM, and API material designations.">\n<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + authHead + '\n</head>')
     .replace('<body>', '<body class="grade-spec-tool-page" data-require-auth data-required-access="administrator" data-access-resource="tool:/engineering-tools/grade-specification-lookup">\n' + siteHeader)
     .replace('</body>', backLink + '\n</body>');
 }
@@ -139,7 +139,7 @@ function prepareGuide(originalHtml, guideNotice) {
     .replaceAll('href="grade_spec_lookup.html"', 'href="../"')
     .replace('>← Back to Tool<', '>Back to Tool<')
     .replace('>↑</button>', '>Top</button>')
-    .replace('</head>', '<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + accountHead + '\n</head>')
+    .replace('</head>', '<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use/">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + accountHead + '\n</head>')
     .replace('<body>', '<body class="grade-spec-guide-page">\n' + siteHeader.replace('href="#app">Skip to Material Specification Lookup', 'href="#guideContent">Skip to the user guide'))
     .replace('</body>', backLink + '\n</body>');
 
