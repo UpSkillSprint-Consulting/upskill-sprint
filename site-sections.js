@@ -130,8 +130,265 @@
     else column.appendChild(toolsLink);
   }
 
+  /* ------------------------------------------------------------------
+     Shared site chrome: one primary navigation and one footer.
+     Every public page loads this file, so the header links and the
+     footer are normalised here instead of in each page's markup.
+     Pages that must stay minimal (printable certificate, admin gate,
+     Netlify form stub) opt out with <body data-site-chrome="minimal">.
+     Pages shown inside an iframe never get extra chrome.
+     ------------------------------------------------------------------ */
+  const SITE_NAV_LINKS = [
+    ['Start Here', '/start-here'],
+    ['Lessons', '/lessons'],
+    ['Engineering Tools', TOOLS_PATH],
+    ['Services', '/services'],
+    ['Request a Topic', '/request-topic'],
+    ['About', '/about'],
+    ['FAQ', '/faq'],
+    ['Contact', '/contact']
+  ];
+  const FOOTER_TOPIC_LINKS = [
+    ['Data Analytics', '/lessons#data-analytics'],
+    ['Quality Engineering', '/lessons#quality-engineering'],
+    ['Lean Six Sigma', '/lessons#lean-six-sigma'],
+    ['Statistics', '/lessons#statistics'],
+    ['Power BI, Excel & SQL', '/lessons#power-bi-excel-sql'],
+    ['Project Management', '/lessons#project-management'],
+    ['Business Decision-Making', '/lessons#business-decision-making'],
+    ['AI for Work', '/lessons#ai-for-work']
+  ];
+  const FOOTER_QUICK_LINKS = [['Home', '/']].concat(SITE_NAV_LINKS);
+  const SITE_CHROME_STYLE_ID = 'uss-site-chrome-styles';
+  const MENU_ICON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>';
+
+  function isFramed() {
+    try { return window.self !== window.top; } catch (error) { return true; }
+  }
+
+  function siteChromeDisabled() {
+    return !document.body || isFramed() || document.body.getAttribute('data-site-chrome') === 'minimal';
+  }
+
+  function escapeHtml(value) {
+    return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function currentNavLabel() {
+    const path = window.location.pathname.replace(/\.html$/i, '').replace(/\/index$/i, '/').replace(/\/+$/, '') || '/';
+    if (path === '/lessons' || path.startsWith('/lessons/') || path.startsWith('/lesson/')) return 'Lessons';
+    if (path === '/engineering-tools' || path.startsWith('/engineering-tools/') || path.startsWith('/tools/')) return 'Engineering Tools';
+    const match = SITE_NAV_LINKS.find(function (item) { return item[1].replace(/\.html$/i, '') === path; });
+    return match ? match[0] : '';
+  }
+
+  function linkLabel(link) {
+    return link.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+  }
+
+  function navLinksMarkup() {
+    const current = currentNavLabel();
+    return SITE_NAV_LINKS.map(function (item) {
+      return '<a href="' + item[1] + '"' + (item[0] === current ? ' aria-current="page"' : '') + '>' + escapeHtml(item[0]) + '</a>';
+    }).join('');
+  }
+
+  /* Add any primary link a page's own nav is missing, in the shared order. */
+  function normalizeSiteNav(nav) {
+    if (!nav) return;
+    const existing = Array.from(nav.querySelectorAll('a'));
+    let previous = null;
+    SITE_NAV_LINKS.forEach(function (item) {
+      let link = existing.find(function (candidate) { return linkLabel(candidate) === item[0].toLowerCase(); });
+      if (!link && item[1] === TOOLS_PATH) {
+        link = existing.find(function (candidate) { return /engineering-tools(\.html)?$/.test(candidate.getAttribute('href') || ''); });
+      }
+      if (!link) {
+        link = item[1] === TOOLS_PATH ? createToolsLink(isEngineeringToolsPage()) : document.createElement('a');
+        if (item[1] !== TOOLS_PATH) {
+          link.href = item[1];
+          link.textContent = item[0];
+          if (currentNavLabel() === item[0]) link.setAttribute('aria-current', 'page');
+        }
+        if (previous) insertAfter(previous, link);
+        else nav.insertBefore(link, nav.firstChild);
+      }
+      previous = link;
+    });
+  }
+
+  function hasThemeToggle() {
+    return !!document.querySelector('[data-theme-toggle], #theme-toggle, .theme-toggle, .themebtn');
+  }
+
+  function themeToggleMarkup() {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    return '<button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="' + dark + '" aria-label="' +
+      (dark ? 'Switch to light mode' : 'Switch to dark mode') + '" title="' + (dark ? 'Switch to light mode' : 'Switch to dark mode') +
+      '"><span class="sr-only">Toggle dark and light mode</span></button>';
+  }
+
+  /* After the shared chrome is in place, a page's own page-level <header> or
+     <footer> (a tool title bar, a lesson's back-link strip) would be a second
+     banner/contentinfo landmark. Keep the element, drop the duplicate role. */
+  function demoteDuplicateLandmarks(tagName) {
+    Array.from(document.querySelectorAll(tagName + ':not(.site)')).forEach(function (element) {
+      if (element.hasAttribute('role')) return;
+      if (element.parentElement && element.parentElement.closest('article, aside, main, nav, section, [role="main"], [role="region"], [role="article"], [role="complementary"], [role="navigation"]')) return;
+      element.setAttribute('role', 'none');
+    });
+  }
+
+  /* Pages with no site header at all get the shared one (not sticky, so it
+     never fights a page's own sticky toolbar). */
+  function ensureSiteHeader() {
+    if (siteChromeDisabled()) return;
+    const header = document.querySelector('header.site');
+    if (header) {
+      // A site header without primary navigation (only a back link) gets the shared nav.
+      if (!header.querySelector('nav.desktop-nav')) {
+        const nav = document.createElement('nav');
+        nav.className = 'desktop-nav uss-injected-nav';
+        nav.setAttribute('aria-label', 'Primary navigation');
+        nav.innerHTML = navLinksMarkup();
+        const brand = header.querySelector('.brand-stack, .brand, .brand-link');
+        const anchor = brand && brand.parentElement === header ? brand : null;
+        if (anchor) insertAfter(anchor, nav);
+        else header.insertBefore(nav, header.firstChild);
+      }
+      return;
+    }
+
+    const toggle = document.createElement('input');
+    toggle.type = 'checkbox';
+    toggle.id = 'uss-mnav-check';
+    toggle.className = 'mnav-check uss-mnav-check';
+    toggle.setAttribute('aria-hidden', 'true');
+
+    const siteHeader = document.createElement('header');
+    siteHeader.className = 'site uss-site-chrome uss-site-header';
+    siteHeader.innerHTML =
+      '<a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>' +
+      '<nav class="desktop-nav" aria-label="Primary navigation">' + navLinksMarkup() + '</nav>' +
+      '<div class="header-actions">' + (hasThemeToggle() ? '' : themeToggleMarkup()) +
+      '<label for="uss-mnav-check" class="mobile-menu-btn" aria-label="Open menu">' + MENU_ICON + '</label></div>';
+
+    const mobileNav = document.createElement('nav');
+    mobileNav.className = 'mobile-nav uss-site-chrome uss-mobile-nav';
+    mobileNav.setAttribute('aria-label', 'Primary navigation (mobile)');
+    mobileNav.innerHTML = navLinksMarkup();
+
+    const first = document.body.firstChild;
+    document.body.insertBefore(mobileNav, first);
+    document.body.insertBefore(siteHeader, mobileNav);
+    document.body.insertBefore(toggle, siteHeader);
+    demoteDuplicateLandmarks('header');
+    ensureSiteChromeStyles();
+  }
+
+  function footerColumn(title, links) {
+    return '<div><h2 class="footer-heading">' + escapeHtml(title) + '</h2>' + links.map(function (item) {
+      return '<a href="' + item[1] + '">' + escapeHtml(item[0]) + '</a>';
+    }).join('') + '</div>';
+  }
+
+  function siteFooterMarkup() {
+    return '<div class="uss-footer-wrap"><div class="footer-grid">' +
+      '<div><div class="brand"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div>' +
+      '<p class="footer-tagline">Practical learning for quality, data, process improvement, and business problem-solving.</p></div>' +
+      footerColumn('Quick Links', FOOTER_QUICK_LINKS) +
+      footerColumn('Topics', FOOTER_TOPIC_LINKS) +
+      '<div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p>Saskatchewan, Canada</p></div>' +
+      '</div></div>' +
+      '<div class="footer-bottom"><span>&copy; ' + new Date().getFullYear() + ' UpSkill Sprint Consulting</span>' +
+      '<div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div>';
+  }
+
+  /* One footer everywhere: existing site footers are rebuilt from the shared
+     markup, and pages without one get it appended. */
+  function ensureSiteFooter() {
+    if (siteChromeDisabled()) return;
+    let footers = Array.from(document.querySelectorAll('footer.site'));
+    if (!footers.length) {
+      const footer = document.createElement('footer');
+      footer.className = 'site';
+      document.body.appendChild(footer);
+      footers = [footer];
+    }
+    footers.forEach(function (footer) {
+      if (footer.getAttribute('data-uss-footer') === 'shared') return;
+      footer.classList.add('uss-site-chrome', 'uss-site-footer');
+      footer.setAttribute('data-uss-footer', 'shared');
+      footer.innerHTML = siteFooterMarkup();
+    });
+    demoteDuplicateLandmarks('footer');
+    ensureSiteChromeStyles();
+  }
+
+  /* Self-contained styles so the shared chrome looks the same on pages that
+     do not load /style.css (tools, starter kit, Excel sprint introduction). */
+  function ensureSiteChromeStyles() {
+    if (document.getElementById(SITE_CHROME_STYLE_ID)) return;
+    const style = document.createElement('style');
+    style.id = SITE_CHROME_STYLE_ID;
+    style.textContent = `
+      .uss-site-chrome { --uss-ink: #101828; --uss-line: #e3e7ee; --uss-card: #ffffff; --uss-teal: #0e7490; --uss-teal-dark: #0a5a70; --uss-navy: #0f2a43; --uss-pad: 56px; box-sizing: border-box; font-family: 'Work Sans', Arial, sans-serif; line-height: 1.5; }
+      html[data-theme="dark"] .uss-site-chrome { --uss-ink: #f4f7fb; --uss-line: #2b3b50; --uss-card: #111c2d; --uss-teal: #2bb7c9; --uss-teal-dark: #67d4df; --uss-navy: #102a43; }
+      .uss-site-chrome *, .uss-site-chrome *::before, .uss-site-chrome *::after { box-sizing: border-box; }
+      .uss-site-chrome a { text-decoration: none; }
+      .uss-mnav-check { display: none !important; }
+
+      header.site.uss-site-header { position: relative; top: auto; z-index: 20; width: 100%; max-width: none; align-self: stretch; grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0; padding: 18px 20px; border: 0; border-bottom: 1px solid var(--uss-line); border-radius: 0; background: rgba(255,255,255,0.94); box-shadow: none; color: var(--uss-ink); text-align: left; }
+      html[data-theme="dark"] header.site.uss-site-header { background: rgba(11,18,32,0.94); }
+      .uss-site-header .brand { display: flex; align-items: center; gap: 10px; min-width: 0; color: var(--uss-ink); }
+      .uss-site-chrome .brand img { display: block; height: 32px; width: auto; margin: 0; }
+      .uss-site-chrome .brand span { font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .uss-site-header nav.desktop-nav { display: flex; gap: 18px; margin: 0; padding: 0; font-size: 13.5px; font-weight: 600; white-space: nowrap; background: none; border: 0; }
+      .uss-site-header nav.desktop-nav a { padding: 6px 2px; border-bottom: 2px solid transparent; color: var(--uss-ink); }
+      .uss-site-header nav.desktop-nav a:hover, .uss-site-header nav.desktop-nav a[aria-current="page"] { border-bottom-color: var(--uss-teal); color: var(--uss-teal-dark); }
+      .uss-site-header .header-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex-shrink: 0; }
+      .uss-site-header label.mobile-menu-btn { display: none; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #cfd4dc; border-radius: 4px; background: var(--uss-card); color: var(--uss-ink); cursor: pointer; flex-shrink: 0; }
+      html[data-theme="dark"] .uss-site-header label.mobile-menu-btn { border-color: var(--uss-line); }
+      nav.mobile-nav.uss-mobile-nav { display: none; width: 100%; grid-column: 1 / -1; flex-direction: column; margin: 0; padding: 0; border-bottom: 1px solid var(--uss-line); background: var(--uss-card); }
+      nav.mobile-nav.uss-mobile-nav a { padding: 14px 20px; font-size: 14.5px; font-weight: 600; border-bottom: 1px solid var(--uss-line); color: var(--uss-ink); }
+      header.site nav.uss-injected-nav { display: flex; gap: 18px; font-size: 13.5px; font-weight: 600; white-space: nowrap; }
+      header.site nav.uss-injected-nav a { padding: 6px 2px; border-bottom: 2px solid transparent; color: var(--ink, #101828); text-decoration: none; }
+      header.site nav.uss-injected-nav a:hover, header.site nav.uss-injected-nav a[aria-current="page"] { border-bottom-color: var(--teal, #0e7490); color: var(--teal-dark, #0a5a70); }
+      /* With the shared nav present on wide screens, the header's own back link is redundant. */
+      @media (min-width: 1081px) { header.site:has(nav.uss-injected-nav) .back-link { display: none; } }
+      @media (max-width: 1080px) {
+        .uss-site-header nav.desktop-nav, header.site nav.uss-injected-nav { display: none; }
+        .uss-site-header label.mobile-menu-btn { display: flex; }
+        .uss-mnav-check:checked ~ nav.mobile-nav.uss-mobile-nav { display: flex; }
+      }
+      @media (max-width: 760px) { header.site.uss-site-header { padding: 14px 16px; } }
+      @media (max-width: 640px) { .uss-site-chrome .brand span { font-size: 15px; } }
+      @media (max-width: 560px) { .uss-site-header .brand span { display: none; } }
+
+      footer.site.uss-site-footer { display: block; width: 100%; max-width: none; flex: none; align-self: stretch; grid-column: 1 / -1; margin: 0; padding: 56px 0 32px; border: 0; border-top: 1px solid var(--uss-line); border-radius: 0; background: var(--uss-navy); box-shadow: none; color: #cbd5e1; font-size: 16px; text-align: left; }
+      .uss-site-footer .uss-footer-wrap { display: block; width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 var(--uss-pad); }
+      .uss-site-footer .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+      .uss-site-footer .brand { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; color: #ffffff; }
+      .uss-site-footer .brand span { color: #ffffff; }
+      .uss-site-footer .footer-tagline { max-width: 260px; margin: 0; font-size: 13.5px; line-height: 1.6; color: #cbd5e1; }
+      .uss-site-footer .footer-grid p { margin: 0; font-size: 13.5px; color: #cbd5e1; }
+      .uss-site-footer .footer-heading { display: block; margin: 0 0 12px; padding: 0; border: 0; font-family: inherit; font-size: 12.5px; font-weight: 700; line-height: inherit; letter-spacing: 0.06em; text-transform: uppercase; color: #ffffff; background: none; }
+      .uss-site-footer .footer-heading::before, .uss-site-footer .footer-heading::after { content: none; }
+      .uss-site-footer .footer-grid a { display: block; margin: 0 0 8px; font-size: 13.5px; color: #cbd5e1; border: 0; }
+      .uss-site-footer .footer-grid a:hover, .uss-site-footer .footer-bottom a:hover { color: #ffffff; }
+      .uss-site-footer .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; max-width: 1120px; margin: 32px auto 0; padding: 20px var(--uss-pad) 0; border-top: 1px solid rgba(255,255,255,0.15); font-size: 12.5px; color: #94a3b8; }
+      .uss-site-footer .footer-bottom a { display: inline; margin: 0 0 0 16px; color: #94a3b8; }
+      @media (max-width: 900px) { .uss-site-chrome { --uss-pad: 32px; } .uss-site-footer .footer-grid { grid-template-columns: 1fr 1fr; } }
+      @media (max-width: 640px) { .uss-site-chrome { --uss-pad: 20px; } .uss-site-footer .footer-grid { grid-template-columns: 1fr; } }
+    `;
+    document.head.appendChild(style);
+  }
+
   function ensureNavigation() {
+    ensureSiteHeader();
+    document.querySelectorAll('header.site nav.desktop-nav, nav.mobile-nav').forEach(normalizeSiteNav);
     document.querySelectorAll('nav.desktop-nav, nav.mobile-nav').forEach(addToolsLinkToNav);
+    ensureSiteFooter();
     addToolsLinkToFooter();
   }
 
