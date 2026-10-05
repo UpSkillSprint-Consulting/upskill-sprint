@@ -115,7 +115,7 @@
   }
 
   function addToolsLinkToFooter() {
-    const heading = Array.from(document.querySelectorAll('footer h4')).find(function (item) {
+    const heading = Array.from(document.querySelectorAll('footer h4, footer .footer-heading')).find(function (item) {
       return item.textContent.trim().toLowerCase() === 'quick links';
     });
     if (!heading) return;

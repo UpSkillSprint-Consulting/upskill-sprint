@@ -150,3 +150,10 @@
     justify-content: center;
   }
 }
+
+/* Footer column labels are h2.footer-heading for a correct outline; keep the
+   lesson's serif label look that the previous h4 markup had. */
+footer.site .footer-grid .footer-heading {
+  font-family: "Source Serif 4", Georgia, serif;
+  line-height: 1.2;
+}

@@ -282,7 +282,7 @@
       background: var(--surface);
     }
 
-    .control-group h4 { margin-bottom: 10px; }
+    .control-group h4, .control-group h3.was-h4 { margin-bottom: 10px; }
 
     .cube-view {
       position: relative;

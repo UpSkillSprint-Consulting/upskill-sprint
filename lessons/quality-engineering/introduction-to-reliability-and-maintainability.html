@@ -389,6 +389,15 @@ html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
 html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
 html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
 </style>
+<style id="heading-order-fix">
+/* Heading outline fix: these headings were one level too deep (h4 straight
+   after h2). They are now one level up and carry .was-h4 / .was-h5, so they
+   keep the look of the original rules below. */
+.mini-card .was-h4 { font-family:'Barlow Condensed', sans-serif; font-size:15px; letter-spacing:.02em; color:var(--reliability-accent); margin:0 0 6px 0; font-weight:600; text-transform:uppercase; }
+
+/* Keep re-levelled headings looking the same as before. */
+body h3.was-h4:not(.mini-card *){font-family:inherit;font-size:16px;font-weight:700;line-height:1.65;letter-spacing:normal;color:inherit;margin:1.33em 0;padding-bottom:0;border-bottom:0}
+</style>
 </head>
 <body data-lesson-page="true" data-category="quality-engineering" data-level="intermediate" data-interactive="true" data-lesson-type="general">
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
@@ -429,13 +438,13 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 
     <div class="two-col">
       <div class="mini-card">
-        <h4>Reliability</h4>
+        <h3 class="was-h4">Reliability</h3>
         <p><strong>Reliability is the probability that something keeps working, without failing, for a stated length of time, under stated conditions.</strong></p>
         <p>Say a batch of light bulbs is rated "90% reliable at 1,000 hours." That means if you ran a lot of them for 1,000 hours, about 90% would still be working and 10% would have burned out. Reliability always comes with a time attached — a bulb that's 90% reliable at 1,000 hours will be less reliable at 2,000 hours, because more time means more chances to fail.</p>
         <p>Reliability answers: <em>"What's the chance this still works after time t?"</em></p>
       </div>
       <div class="mini-card">
-        <h4>Maintainability</h4>
+        <h3 class="was-h4">Maintainability</h3>
         <p><strong>Maintainability is the probability that something broken gets fixed and working again within a stated length of time, once repair begins.</strong></p>
         <p>Say a machine is "80% maintainable within 4 hours." That means if it breaks down, there's an 80% chance the repair crew has it running again within 4 hours of starting the fix. The other 20% of the time, the repair drags on longer — parts aren't on hand, the fault is hard to find, and so on.</p>
         <p>Maintainability answers: <em>"What's the chance it's fixed within time t?"</em></p>
@@ -465,11 +474,11 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     <p>One more distinction worth having in mind from the very start, because it decides which of these terms applies:</p>
     <div class="two-col" style="margin-top:6px;">
       <div class="mini-card">
-        <h4>Non-repairable item</h4>
+        <h3 class="was-h4">Non-repairable item</h3>
         <p>Fails once, gets thrown away or replaced — never fixed. Think: a light bulb, a fuse, a weld test coupon. Described using TTF / MTTF.</p>
       </div>
       <div class="mini-card">
-        <h4>Repairable item</h4>
+        <h3 class="was-h4">Repairable item</h3>
         <p>Fails, gets fixed, goes back into service — this can happen many times over its life. Think: a pump, a rolling mill stand, a furnace. Described using MTBF / MTTR.</p>
       </div>
     </div>
@@ -485,13 +494,13 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 
     <div class="two-col">
       <div class="mini-card">
-        <h4>Non-repairable</h4>
+        <h3 class="was-h4">Non-repairable</h3>
         <p>Once it fails, it is discarded or replaced — never restored to service. There is exactly <strong>one</strong> Time-to-Failure (TTF) per unit, so a population of units gives you a distribution of TTFs. This is precisely the f(x)/F(x)/R(x)/h(x) machinery above.</p>
         <p><strong>Examples:</strong> a light bulb, a weld coupon, a fuse, a single bearing (if scrapped rather than reworked), a tensile test specimen.</p>
         <p><strong>Governing index:</strong> <strong>MTTF</strong> — Mean Time To Failure, \(E[T]=\int_0^\infty R(t)\,dt\).</p>
       </div>
       <div class="mini-card">
-        <h4>Repairable</h4>
+        <h3 class="was-h4">Repairable</h3>
         <p>Once it fails, it is <strong>restored</strong> to an operating state (repaired, refurbished) and returned to service. A single unit now generates a <em>sequence</em> of up-times and down-times over its life — a point process of failures, not one number.</p>
         <p><strong>Examples:</strong> a rolling mill stand, a reheat furnace, a pump, a CNC line — almost all production equipment.</p>
         <p><strong>Governing indices:</strong> <strong>MTBF</strong> (Mean Time Between Failures), <strong>MTTR</strong> (Mean Time To Repair), and <strong>Availability</strong>.</p>
@@ -710,7 +719,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       </div>
       <p class="plain-note" id="pdf-cdf-live-summary" aria-live="polite">For μ = 0.0 and σ = 1.0, the probability between x₁ = −1.0 and x₂ = 1.0 is 68.27%.</p>
 
-      <h4>What each graph means</h4>
+      <h3 class="was-h4">What each graph means</h3>
       <ul>
         <li>The bell-shaped curve is the <strong>PDF, (f(x))</strong>. Its height describes the concentration or density of possible values around x.</li>
         <li>The S-shaped curve is the <strong>CDF, (F(x))</strong>. Its height is the total probability accumulated up to x.</li>
@@ -718,7 +727,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       </ul>
       <p>Therefore, when (f(x)) is small, (F(x)) is nearly flat. As (f(x)) increases, (F(x)) becomes steeper. Where (f(x)) reaches its peak, (F(x)) has its steepest slope. As (f(x)) falls, (F(x)) continues increasing, but more slowly. The PDF eventually approaches zero while the CDF approaches 1.</p>
 
-      <h4>Probability between x₁ and x₂</h4>
+      <h3 class="was-h4">Probability between x₁ and x₂</h3>
       <p>The probability of falling between two values is the area under the PDF over that interval, which is also the change in CDF height:</p>
       <div class="eq-block">\[ P(x_1&lt;X\le x_2)=\int_{x_1}^{x_2}f(x)\,dx=F(x_2)-F(x_1) \]</div>
       <div class="reliability-callout"><strong>Important diagram correction:</strong> a probability interval is the shaded area under the <strong>PDF</strong>, not the area under the CDF. An area under the CDF would represent (int F(x)\,dx), which is not (P(x_1&lt;X\le x_2)).</div>
@@ -732,7 +741,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         </tbody>
       </table></div>
 
-      <h4>Reliability interpretation</h4>
+      <h3 class="was-h4">Reliability interpretation</h3>
       <p>When (T) is time to failure, (F(t)=P(T\le t)) is the probability that the unit has failed by time t, while (R(t)=1-F(t)=P(T&gt;t)) is the probability that it is still operating. The failure density connects both curves:</p>
       <div class="eq-block">\[ f(t)=\frac{dF(t)}{dt}=-\frac{dR(t)}{dt} \]</div>
       <div class="reliability-callout"><strong>Bottom line:</strong> (F(x_2)) is the accumulated probability up to x₂, (f(x_2)) is the CDF's slope at x₂, and (F(x_2)-F(x_1)) is the probability between the two draggable bounds. The same calculus relationship applies to the Weibull failure-time model used elsewhere in this lesson.</div>
@@ -859,11 +868,11 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 
     <div class="two-col">
       <div class="mini-card">
-        <h4>Hazard rate h(x)</h4>
+        <h3 class="was-h4">Hazard rate h(x)</h3>
         <p>Defined for a <strong>non-repairable</strong> item (or population of identical non-repairable items). It is a property of a probability distribution: \(h(x)=f(x)/R(x)\). It describes the instantaneous failure risk of <em>one unit that has never failed before</em>, conditioned on having survived to x.</p>
       </div>
       <div class="mini-card">
-        <h4>ROCOF ρ(t)</h4>
+        <h3 class="was-h4">ROCOF ρ(t)</h3>
         <p>Rate of Occurrence Of Failures — defined for a <strong>repairable</strong> system's failure/repair history. It is the intensity function of a counting process: the expected number of failures per unit time at system age t, <em>regardless of how many times it has already failed and been repaired</em>.</p>
       </div>
     </div>
@@ -1129,7 +1138,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 <section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
   <a href="/lessons#quality-engineering" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Quality Engineering lessons</a>
 </section>
-<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
 <script>
 function reliabilityColor(name){
   return getComputedStyle(document.documentElement).getPropertyValue(name).trim();

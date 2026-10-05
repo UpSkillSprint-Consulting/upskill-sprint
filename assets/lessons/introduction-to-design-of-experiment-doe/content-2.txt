@@ -112,7 +112,7 @@
           <div class="cube-layout">
             <aside class="cube-controls">
               <div class="control-group">
-                <h4>Camera</h4>
+                <h3 class="was-h4">Camera</h3>
                 <div class="toolbar-group">
                   <button class="btn btn-soft cube-view-btn" data-view="iso">Isometric</button>
                   <button class="btn btn-soft cube-view-btn" data-view="front">Front</button>
@@ -122,7 +122,7 @@
               </div>
 
               <div class="control-group">
-                <h4>Plane isolation</h4>
+                <h3 class="was-h4">Plane isolation</h3>
                 <div class="field">
                   <label for="planeSelect">Show all or focus one factor plane</label>
                   <select id="planeSelect">
@@ -139,7 +139,7 @@
               </div>
 
               <div class="control-group">
-                <h4>Response display</h4>
+                <h3 class="was-h4">Response display</h3>
                 <div class="field">
                   <label for="cubeResponseMode">Corner labels and colors</label>
                   <select id="cubeResponseMode">
@@ -151,7 +151,7 @@
               </div>
 
               <div class="control-group">
-                <h4>Model-term switches</h4>
+                <h3 class="was-h4">Model-term switches</h3>
                 <p class="small muted">
                   Turning off a term sets its regression coefficient to zero and recalculates the predicted response.
                 </p>
@@ -172,7 +172,7 @@
               </div>
 
               <div class="control-group">
-                <h4>Interaction focus</h4>
+                <h3 class="was-h4">Interaction focus</h3>
                 <div class="toolbar-group">
                   <button class="btn btn-outline interaction-focus" data-term="AB">AB</button>
                   <button class="btn btn-outline interaction-focus" data-term="AC">AC</button>

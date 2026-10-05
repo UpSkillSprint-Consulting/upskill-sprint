@@ -169,7 +169,7 @@
       html[data-theme="dark"] .lesson-wrapper p,
       html[data-theme="dark"] .lesson-wrapper li { color: var(--lp-muted); }
       html[data-theme="dark"] .lesson-wrapper h2,
-      html[data-theme="dark"] .lesson-wrapper h3 { color: var(--lp-navy); }
+      html[data-theme="dark"] .lesson-wrapper h3:not(.was-h4) { color: var(--lp-navy); }
       html[data-theme="dark"] .btn-primary { background: #e6f4f7 !important; color: #0b1220 !important; }
       html[data-theme="dark"] .btn-outline { color: var(--ink) !important; border-color: var(--line) !important; }
       html[data-theme="dark"] .hero-visual text { fill: var(--ink-soft) !important; }

@@ -278,7 +278,19 @@
       .lesson-section { page-break-inside: avoid; }
       details.workflow-step > * { display: block !important; }
     }
-  </style>
+  
+/* Heading outline fix: these headings were one level too deep (h4 straight
+   after h2). They are now one level up and carry .was-h4 / .was-h5, so they
+   keep the look of the original rules below. */
+.lesson-wrapper .was-h4 { font-family: "Source Serif 4", Georgia, serif; color: var(--ink, #101828); }
+.lesson-card .was-h4 { margin-top: 0; }
+.fold .was-h4 { margin: 0 0 8px; font: 800 11px/1.2 "Work Sans", Arial, sans-serif; color: var(--muted, #667085); text-transform: uppercase; letter-spacing: .05em; }
+.diagnostic-card .was-h4 { margin: 0 0 6px; font-size: 17px; }
+
+/* Keep re-levelled headings looking the same as before. */
+.lesson-wrapper h3.was-h4{font-weight:700} .lesson-wrapper .lesson-card h3.was-h4{font-size:16px;line-height:1.5;margin-bottom:1.33em}
+.lesson-wrapper .diagnostic-card h3.was-h4{font-size:17px;line-height:1.5;margin-bottom:6px}
+</style>
 </head>
 <body>
 <a class="skip-link" href="#lesson-content">Skip to lesson content</a>
@@ -674,30 +686,30 @@
           <div class="diagnostic-grid">
             <div class="lesson-card diagnostic-card">
               <svg class="mini-plot" viewBox="0 0 320 150" aria-label="Random residual scatter"><line x1="20" y1="75" x2="300" y2="75" stroke="#98a2b3"/><g fill="#0e7490"><circle cx="35" cy="62" r="4"/><circle cx="58" cy="89" r="4"/><circle cx="82" cy="69" r="4"/><circle cx="108" cy="91" r="4"/><circle cx="132" cy="55" r="4"/><circle cx="160" cy="78" r="4"/><circle cx="184" cy="96" r="4"/><circle cx="210" cy="60" r="4"/><circle cx="236" cy="82" r="4"/><circle cx="264" cy="51" r="4"/><circle cx="289" cy="91" r="4"/></g></svg>
-              <h4>Residuals versus fits</h4><p>Look for random scatter around zero. Curvature suggests missing terms; fanning suggests nonconstant variance.</p>
+              <h3 class="was-h4">Residuals versus fits</h3><p>Look for random scatter around zero. Curvature suggests missing terms; fanning suggests nonconstant variance.</p>
             </div>
             <div class="lesson-card diagnostic-card">
               <svg class="mini-plot" viewBox="0 0 320 150" aria-label="Residual time trend"><line x1="20" y1="75" x2="300" y2="75" stroke="#98a2b3"/><polyline points="25,108 50,100 75,95 100,85 125,79 150,72 175,65 200,60 225,48 250,43 280,35" fill="none" stroke="#b42318" stroke-width="3"/></svg>
-              <h4>Residuals versus order</h4><p>Trends, cycles, or shifts indicate dependence, process drift, omitted time effects, or a changing measurement system.</p>
+              <h3 class="was-h4">Residuals versus order</h3><p>Trends, cycles, or shifts indicate dependence, process drift, omitted time effects, or a changing measurement system.</p>
             </div>
             <div class="lesson-card diagnostic-card">
               <svg class="mini-plot" viewBox="0 0 320 150" aria-label="Normal probability plot"><line x1="35" y1="120" x2="285" y2="30" stroke="#98a2b3" stroke-width="2"/><g fill="#0e7490"><circle cx="45" cy="118" r="4"/><circle cx="75" cy="104" r="4"/><circle cx="105" cy="91" r="4"/><circle cx="135" cy="80" r="4"/><circle cx="165" cy="68" r="4"/><circle cx="195" cy="57" r="4"/><circle cx="225" cy="48" r="4"/><circle cx="260" cy="37" r="4"/><circle cx="287" cy="18" r="4"/></g></svg>
-              <h4>Normal probability plot</h4><p>Strong curvature or distant points can make p-values and confidence intervals unreliable, even when point predictions remain useful.</p>
+              <h3 class="was-h4">Normal probability plot</h3><p>Strong curvature or distant points can make p-values and confidence intervals unreliable, even when point predictions remain useful.</p>
             </div>
             <div class="lesson-card diagnostic-card">
               <svg class="mini-plot" viewBox="0 0 320 150" aria-label="Influential observation"><g fill="#0e7490"><circle cx="50" cy="90" r="5"/><circle cx="80" cy="84" r="5"/><circle cx="110" cy="78" r="5"/><circle cx="145" cy="72" r="5"/><circle cx="175" cy="66" r="5"/><circle cx="210" cy="59" r="5"/></g><circle cx="286" cy="25" r="10" fill="#b42318"/><line x1="35" y1="102" x2="230" y2="50" stroke="#98a2b3"/></svg>
-              <h4>Leverage and Cook’s distance</h4><p>Investigate observations with unusual predictor combinations or disproportionate influence. Never delete a valid point only because it weakens the model.</p>
+              <h3 class="was-h4">Leverage and Cook’s distance</h3><p>Investigate observations with unusual predictor combinations or disproportionate influence. Never delete a valid point only because it weakens the model.</p>
             </div>
           </div>
 
           <h3 style="margin-top:28px;">Required final review</h3>
           <div class="metric-grid">
-            <div class="lesson-card"><h4>Prediction</h4><p>Validation R², RMSE, MAD, and the gap between training and validation performance.</p></div>
-            <div class="lesson-card"><h4>Complexity</h4><p>Number of retained terms or basis functions; stability across alternate folds.</p></div>
-            <div class="lesson-card"><h4>Collinearity</h4><p>VIF values, coefficient instability, and redundant predictors.</p></div>
-            <div class="lesson-card"><h4>Residual adequacy</h4><p>Linearity, constant variance, normality when inference matters, and independence.</p></div>
-            <div class="lesson-card"><h4>Influence</h4><p>Leverage, Cook’s distance, DFITS, data quality, and sensitivity analyses.</p></div>
-            <div class="lesson-card"><h4>Engineering validity</h4><p>Logical signs, plausible thresholds, operating-range coverage, and no unsafe extrapolation.</p></div>
+            <div class="lesson-card"><h3 class="was-h4">Prediction</h3><p>Validation R², RMSE, MAD, and the gap between training and validation performance.</p></div>
+            <div class="lesson-card"><h3 class="was-h4">Complexity</h3><p>Number of retained terms or basis functions; stability across alternate folds.</p></div>
+            <div class="lesson-card"><h3 class="was-h4">Collinearity</h3><p>VIF values, coefficient instability, and redundant predictors.</p></div>
+            <div class="lesson-card"><h3 class="was-h4">Residual adequacy</h3><p>Linearity, constant variance, normality when inference matters, and independence.</p></div>
+            <div class="lesson-card"><h3 class="was-h4">Influence</h3><p>Leverage, Cook’s distance, DFITS, data quality, and sensitivity analyses.</p></div>
+            <div class="lesson-card"><h3 class="was-h4">Engineering validity</h3><p>Logical signs, plausible thresholds, operating-range coverage, and no unsafe extrapolation.</p></div>
           </div>
         </section>
 

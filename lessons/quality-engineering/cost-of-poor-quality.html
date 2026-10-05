@@ -735,6 +735,28 @@
   html[data-theme="dark"] .copq-stat-num { color: #7fc4dd; }
   html[data-theme="dark"] .copq-chip-detail { background: #1c2027; }
   html[data-theme="dark"] #copq-depth-slider { background: linear-gradient(to right, #1c3a44, #05141c); }
+
+/* Heading outline fix: these headings were one level too deep (h4 straight
+   after h2). They are now one level up and carry .was-h4 / .was-h5, so they
+   keep the look of the original rules below. */
+.copq-paf-card .was-h4 { margin: 0 0 0.4rem; font-size: 1rem; }
+.copq-chip-group .was-h4 { font-size: 0.85rem; margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.copq-chip-group.above .was-h4 { color: #2c6f86; }
+.copq-chip-group.tier .was-h4 { color: var(--copq-iceberg-deep); }
+.copq-bucket .was-h5 { margin: 0 0 0.5rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.copq-bucket[data-bucket="prevention"] .was-h5 { color: var(--copq-prevention); }
+.copq-bucket[data-bucket="appraisal"] .was-h5 { color: var(--copq-appraisal); }
+.copq-bucket[data-bucket="internal"] .was-h5 { color: var(--copq-internal); }
+.copq-bucket[data-bucket="external"] .was-h5 { color: var(--copq-external); }
+.copq-tree-leaf .was-h5 { margin: 0 0 0.4rem; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.03em; }
+.copq-tree-leaf.prevention .was-h5 { color: var(--copq-prevention); }
+.copq-tree-leaf.appraisal .was-h5 { color: var(--copq-appraisal); }
+.copq-tree-leaf.internal .was-h5 { color: var(--copq-internal); }
+.copq-tree-leaf.external .was-h5 { color: var(--copq-external); }
+
+/* Keep re-levelled headings looking the same as before. */
+body h3.was-h4{font-family:"Work Sans", Arial, sans-serif;font-weight:700}
+body h3.was-h5{font-family:"Work Sans", Arial, sans-serif;font-weight:700}
 </style>
 </head>
 
@@ -853,22 +875,22 @@
     </p>
     <div class="copq-paf-grid">
       <div class="copq-paf-card prevention">
-        <h4>Prevention Costs</h4>
+        <h3 class="was-h4">Prevention Costs</h3>
         <p>Money spent to keep defects from happening at all — training, FMEA, control plan development, supplier
         qualification, design reviews, poka-yoke.</p>
       </div>
       <div class="copq-paf-card appraisal">
-        <h4>Appraisal Costs</h4>
+        <h3 class="was-h4">Appraisal Costs</h3>
         <p>Money spent to find defects before the customer does — incoming inspection, in-process SPC checks,
         final test, gauge calibration, internal audits.</p>
       </div>
       <div class="copq-paf-card internal">
-        <h4>Internal Failure Costs</h4>
+        <h3 class="was-h4">Internal Failure Costs</h3>
         <p>Costs from defects caught before the customer ever sees them — scrap, rework, re-inspection,
         downtime, material review board time.</p>
       </div>
       <div class="copq-paf-card external">
-        <h4>External Failure Costs</h4>
+        <h3 class="was-h4">External Failure Costs</h3>
         <p>Costs from defects the customer finds — warranty claims, field returns, complaint handling, recalls,
         lost future business.</p>
       </div>
@@ -919,7 +941,7 @@
           <div class="copq-tree-branch-head cogq">Cost of Good Quality</div>
           <div class="copq-tree-branch-body">
             <div class="copq-tree-leaf prevention">
-              <h5>Prevention</h5>
+              <h4 class="was-h5">Prevention</h4>
               <ul>
                 <li>FMEA</li>
                 <li>FTA</li>
@@ -930,7 +952,7 @@
               </ul>
             </div>
             <div class="copq-tree-leaf appraisal">
-              <h5>Appraisal Costs</h5>
+              <h4 class="was-h5">Appraisal Costs</h4>
               <ul>
                 <li>Incoming inspection</li>
                 <li>In-process inspection</li>
@@ -945,7 +967,7 @@
           <div class="copq-tree-branch-head copq-red">Cost of Poor Quality</div>
           <div class="copq-tree-branch-body">
             <div class="copq-tree-leaf internal">
-              <h5>Internal Failure</h5>
+              <h4 class="was-h5">Internal Failure</h4>
               <ul>
                 <li>Process delay</li>
                 <li>Rework</li>
@@ -958,7 +980,7 @@
               </ul>
             </div>
             <div class="copq-tree-leaf external">
-              <h5>External Failure</h5>
+              <h4 class="was-h5">External Failure</h4>
               <ul>
                 <li>Customer returns</li>
                 <li>Warranty claims</li>
@@ -1113,7 +1135,7 @@
         </div>
         <div class="copq-chip-groups">
           <div class="copq-chip-group above">
-            <h4>Surface — always visible</h4>
+            <h3 class="was-h4">Surface — always visible</h3>
             <div class="copq-chip-list">
               <button type="button" class="copq-chip" data-detail="The easiest cost to spot — obvious scrap sitting in a bin.">Waste</button>
               <button type="button" class="copq-chip" data-detail="A rejected unit is tagged and tracked, so it shows up in reports immediately.">Reject</button>
@@ -1124,7 +1146,7 @@
             </div>
           </div>
           <div class="copq-chip-group tier" data-reveal-at="20">
-            <h4>Just below the surface</h4>
+            <h3 class="was-h4">Just below the surface</h3>
             <div class="copq-chip-list">
               <button type="button" class="copq-chip below-water" data-detail="Extra shipping to reroute defective parts rarely gets coded as a quality cost.">Transportation cost</button>
               <button type="button" class="copq-chip below-water" data-detail="Buffer stock held to cover unreliable processes ties up cash nobody labels 'quality.'">Inventory cost</button>
@@ -1133,7 +1155,7 @@
             </div>
           </div>
           <div class="copq-chip-group tier" data-reveal-at="50">
-            <h4>Mid-depth</h4>
+            <h3 class="was-h4">Mid-depth</h3>
             <div class="copq-chip-list">
               <button type="button" class="copq-chip below-water" data-detail="Doing more work than the customer needs, often to compensate for upstream variation.">Over-processing cost</button>
               <button type="button" class="copq-chip below-water" data-detail="Making extra units 'just in case' scrap happens — inflates inventory, not the COPQ line.">Over-production cost</button>
@@ -1141,7 +1163,7 @@
             </div>
           </div>
           <div class="copq-chip-group tier" data-reveal-at="80">
-            <h4>The seafloor</h4>
+            <h3 class="was-h4">The seafloor</h3>
             <div class="copq-chip-list">
               <button type="button" class="copq-chip below-water" data-detail="A skilled technician doing low-value rework instead of prevention work.">Under-utilization of employee skill</button>
               <button type="button" class="copq-chip below-water" data-detail="Burnout from constant firefighting drives good people out — recruiting cost never gets coded to quality.">Excessive employee turnover</button>
@@ -1181,10 +1203,10 @@
         <!-- chips injected by JS from data below -->
       </div>
       <div class="copq-bucket-grid">
-        <div class="copq-bucket" data-bucket="prevention"><h5>Prevention</h5><div class="copq-bucket-items"></div></div>
-        <div class="copq-bucket" data-bucket="appraisal"><h5>Appraisal</h5><div class="copq-bucket-items"></div></div>
-        <div class="copq-bucket" data-bucket="internal"><h5>Internal Failure</h5><div class="copq-bucket-items"></div></div>
-        <div class="copq-bucket" data-bucket="external"><h5>External Failure</h5><div class="copq-bucket-items"></div></div>
+        <div class="copq-bucket" data-bucket="prevention"><h3 class="was-h5">Prevention</h3><div class="copq-bucket-items"></div></div>
+        <div class="copq-bucket" data-bucket="appraisal"><h3 class="was-h5">Appraisal</h3><div class="copq-bucket-items"></div></div>
+        <div class="copq-bucket" data-bucket="internal"><h3 class="was-h5">Internal Failure</h3><div class="copq-bucket-items"></div></div>
+        <div class="copq-bucket" data-bucket="external"><h3 class="was-h5">External Failure</h3><div class="copq-bucket-items"></div></div>
       </div>
       <div class="copq-classify-controls">
         <span class="copq-classify-score" id="copq-classify-score">Score: 0 / 8</span>
@@ -1448,7 +1470,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
     <a href="/lessons#quality-engineering" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Quality Engineering lessons</a>
   </section>
 
-  <footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+  <footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
 
   <!-- EDIT: Lesson script -->
 <script>
