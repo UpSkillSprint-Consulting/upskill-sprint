@@ -339,7 +339,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
                 <div class="control"><div class="control-head"><label for="warmRepeat">Repeatability σ</label><output id="warmRepeatOut" for="warmRepeat">0.006 mm</output></div><input id="warmRepeat" type="range" min=".001" max=".05" step=".001" value=".006"></div>
                 <div class="control"><div class="control-head"><label for="warmRepro">Appraiser spread</label><output id="warmReproOut" for="warmRepro">0.004 mm</output></div><input id="warmRepro" type="range" min="0" max=".05" step=".001" value=".004"></div>
               </div>
-              <div id="warmPlot" class="plot" role="img" aria-label="Repeated measurements of one part by three appraisers"></div>
+              <div id="warmPlot" class="plot" role="group" aria-label="Repeated measurements of one part by three appraisers"></div>
               <div class="metric-grid mt-16">
                 <div class="metric-card pending"><small>Average reading</small><strong id="warmMean">—</strong><span>centre of all readings</span></div>
                 <div class="metric-card pending"><small>Observed bias</small><strong id="warmObservedBias">—</strong><span>average − reference</span></div>
@@ -432,7 +432,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
                 <div class="control"><div class="control-head"><label for="biasSlope">Bias change per mm</label><output id="biasSlopeOut" for="biasSlope">+0.000</output></div><input id="biasSlope" type="range" min="-.12" max=".12" step=".005" value="0"></div>
                 <div class="control"><div class="control-head"><label for="biasNoise">Repeatability σ</label><output id="biasNoiseOut" for="biasNoise">0.005 mm</output></div><input id="biasNoise" type="range" min=".001" max=".025" step=".001" value=".005"></div>
               </div>
-              <div id="linearityPlot" class="plot" role="img" aria-label="Bias versus reference value plot"></div>
+              <div id="linearityPlot" class="plot" role="group" aria-label="Bias versus reference value plot"></div>
               <div class="metric-grid">
                 <div class="metric-card pending"><small>Average bias</small><strong id="linearityMeanBias">—</strong><span>all references combined</span></div>
                 <div class="metric-card pending"><small>Fitted slope</small><strong id="linearitySlopeResult">—</strong><span>bias change per mm</span></div>
@@ -452,7 +452,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
                 <div class="control"><div class="control-head"><label for="stabilityDrift">Drift per period</label><output id="stabilityDriftOut" for="stabilityDrift">+0.0000 mm</output></div><input id="stabilityDrift" type="range" min="-.004" max=".004" step=".0002" value="0"></div>
                 <div class="control"><div class="control-head"><label for="stabilityNoise">Short-term σ</label><output id="stabilityNoiseOut" for="stabilityNoise">0.004 mm</output></div><input id="stabilityNoise" type="range" min=".001" max=".015" step=".001" value=".004"></div>
               </div>
-              <div id="stabilityPlot" class="plot small" role="img" aria-label="Check standard averages over time"></div>
+              <div id="stabilityPlot" class="plot small" role="group" aria-label="Check standard averages over time"></div>
               <div class="two-col">
                 <div class="metric-card pending"><small>First-half versus last-half</small><strong id="stabilityShift">—</strong><span>change in average reading</span></div>
                 <div class="metric-card pending"><small>Stability signal</small><strong id="stabilityDiagnosis">—</strong><span id="stabilityNote">watch the time pattern</span></div>
@@ -569,11 +569,11 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
               </div>
 
               <div class="chart-grid">
-                <div class="chart-card"><h4>Measurements by part</h4><p>Healthy: tight clusters within each part and clear separation between part averages.</p><div id="grrPartPlot" class="plot small" role="img" aria-label="Measurements by part"></div></div>
-                <div class="chart-card"><h4>Part × appraiser interaction</h4><p>Healthy: appraiser lines are close and roughly parallel.</p><div id="grrInteractionPlot" class="plot small" role="img" aria-label="Part by appraiser interaction plot"></div></div>
-                <div class="chart-card"><h4>Variance contribution</h4><p>Healthy: real part-to-part variance dominates the measurement components.</p><div id="grrVariancePlot" class="plot small" role="img" aria-label="Variance contribution chart"></div></div>
-                <div class="chart-card"><h4>Appraiser comparison</h4><p>Healthy: appraiser centres and spreads are similar.</p><div id="grrOperatorPlot" class="plot small" role="img" aria-label="Measurements by appraiser"></div></div>
-                <div class="chart-card wide"><h4>Within-cell range chart</h4><p>Each point is the range of all repeated readings for one completed part-appraiser cell. A point appears only after every planned trial in that cell has been collected.</p><div id="grrRangePlot" class="plot small" role="img" aria-label="Within-cell range chart"></div></div>
+                <div class="chart-card"><h4>Measurements by part</h4><p>Healthy: tight clusters within each part and clear separation between part averages.</p><div id="grrPartPlot" class="plot small" role="group" aria-label="Measurements by part"></div></div>
+                <div class="chart-card"><h4>Part × appraiser interaction</h4><p>Healthy: appraiser lines are close and roughly parallel.</p><div id="grrInteractionPlot" class="plot small" role="group" aria-label="Part by appraiser interaction plot"></div></div>
+                <div class="chart-card"><h4>Variance contribution</h4><p>Healthy: real part-to-part variance dominates the measurement components.</p><div id="grrVariancePlot" class="plot small" role="group" aria-label="Variance contribution chart"></div></div>
+                <div class="chart-card"><h4>Appraiser comparison</h4><p>Healthy: appraiser centres and spreads are similar.</p><div id="grrOperatorPlot" class="plot small" role="group" aria-label="Measurements by appraiser"></div></div>
+                <div class="chart-card wide"><h4>Within-cell range chart</h4><p>Each point is the range of all repeated readings for one completed part-appraiser cell. A point appears only after every planned trial in that cell has been collected.</p><div id="grrRangePlot" class="plot small" role="group" aria-label="Within-cell range chart"></div></div>
               </div>
 
               <details>
