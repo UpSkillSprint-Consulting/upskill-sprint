@@ -171,6 +171,13 @@ html[data-theme="dark"] .clause-key {
   }
 }
 
+/* Footer column labels are h2.footer-heading for a correct outline; keep the
+   lesson's serif label look that the previous h4 markup had. */
+footer.site .footer-grid .footer-heading {
+  font-family: "Source Serif 4", Georgia, serif;
+  line-height: 1.2;
+}
+
 /* Dark theme: keep the focus header text white on the deeper clause colours,
    and use dark text on the light teal action buttons (white measured 2.4:1). */
 html[data-theme="dark"] .clause-focus-header p,

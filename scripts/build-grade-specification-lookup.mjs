@@ -176,7 +176,26 @@ function prepareGuide(originalHtml, guideNotice) {
       'Reverse lookup searches all grade records using the entered thickness and minimum performance requirements.',
       'Reverse lookup searches grade records using the entered material thickness, product-form filter, and minimum performance requirements. The temperature criterion is applied even when no CVN energy criterion is entered.'
     );
-  return guide;
+  return relevelGuideCardHeadings(guide);
+}
+
+// The guide's mini-card titles are h4s that sit directly under an h2, which skips a
+// heading level. Promote them to h3 and keep the original h4 look via .was-h4.
+function relevelGuideCardHeadings(guide) {
+  const cardHeading = /<article class="mini-card"><h4>([\s\S]*?)<\/h4>/g;
+  if (!cardHeading.test(guide)) {
+    throw new Error('Material Specification Lookup build failed: guide mini-card headings were not found.');
+  }
+  const styles = `<style id="grade-spec-guide-heading-order">
+.section-body .mini-card h3.was-h4{font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:normal;font-size:1.25rem;font-weight:700;margin:0 0 7px;color:#d7e4f4}
+html[data-theme="light"] .grade-spec-guide-page .mini-card h3.was-h4{color:var(--text)}
+</style>`;
+  return replaceRequired(
+    guide.replace(cardHeading, '<article class="mini-card"><h3 class="was-h4">$1</h3>'),
+    '</head>',
+    `${styles}\n</head>`,
+    'guide heading-order styles'
+  );
 }
 
 async function build() {

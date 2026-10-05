@@ -817,6 +817,8 @@
     .loss-btn[aria-pressed="true"] { border-color: var(--teal); box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--teal) 22%, transparent); }
     .loss-detail { padding: 1rem; border: 1px solid var(--line); border-radius: 11px; background: var(--tint); }
     .loss-detail h4 { margin: 0 0 0.55rem; font-size: 1rem; }
+    /* Loss heading sits directly under an h2, so it is an h3 that keeps the h4 look. */
+    .loss-detail h3.was-h4 { margin: 0 0 0.55rem; font-size: 1rem; }
     .loss-detail dl { display: grid; grid-template-columns: minmax(126px, auto) 1fr; gap: 0.4rem 1rem; margin: 0; font-size: 0.87rem; }
     .loss-detail dt { font-weight: 700; color: var(--ink-soft); }
     .loss-detail dd { margin: 0; color: var(--ink-soft); }
@@ -1690,8 +1692,8 @@
         b.setAttribute("aria-pressed", String(Number(b.dataset.loss) === loss.id));
       });
       lossDetail.innerHTML =
-        '<h4>' + loss.id + '. ' + loss.name + ' &mdash; <span class="tag ' + loss.bucket.charAt(0) +
-        '">' + BUCKET[loss.bucket] + '</span></h4><dl>' +
+        '<h3 class="was-h4">' + loss.id + '. ' + loss.name + ' &mdash; <span class="tag ' + loss.bucket.charAt(0) +
+        '">' + BUCKET[loss.bucket] + '</span></h3><dl>' +
         '<dt>What it is</dt><dd>' + loss.what + '</dd>' +
         '<dt>Why this factor</dt><dd>' + loss.why + '</dd>' +
         '<dt>Evidence in the data</dt><dd>' + loss.evidence + '</dd>' +

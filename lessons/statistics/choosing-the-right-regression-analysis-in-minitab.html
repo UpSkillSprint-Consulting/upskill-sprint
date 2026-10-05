@@ -61,7 +61,7 @@ a{color:var(--blue)}
   position:sticky;top:18px;align-self:start;background:white;border:1px solid var(--line);
   border-radius:16px;padding:16px;box-shadow:var(--shadow);max-height:calc(100vh - 36px);overflow:auto
 }
-.sidebar h3{margin:.2rem 0 .7rem;color:var(--navy)}
+.sidebar h3,.sidebar h2.sidebar-heading{margin:.2rem 0 .7rem;color:var(--navy);font-size:1.17em}
 .sidebar a{
   display:block;text-decoration:none;padding:7px 9px;border-radius:8px;color:#34495e;font-size:.92rem
 }
@@ -147,6 +147,10 @@ details .inside{padding:0 16px 16px}
   section{box-shadow:none;break-inside:avoid}
   .layout{display:block}
 }
+
+/* Re-levelled heading (was h4 directly under an h2); keep the original look. */
+html body h3.was-h4{font-family:Inter,"Segoe UI",Arial,sans-serif;font-size:1em;font-weight:700;margin:1.33em 0;color:var(--teal)}
+html[data-theme="dark"] body h3.was-h4{color:#5cc7d6}
 </style>
 </head>
 <body data-lesson-page="true" data-category="statistics" data-level="intermediate" data-interactive="true" data-lesson-type="general">
@@ -178,7 +182,7 @@ details .inside{padding:0 16px 16px}
 
 <div class="layout">
   <nav class="sidebar" aria-label="Lesson navigation">
-    <h3>Lesson map</h3>
+    <h2 class="sidebar-heading">Lesson map</h2>
     <a href="#objectives">1. Learning objectives</a>
     <a href="#foundation">2. Regression foundations</a>
     <a href="#fitted-line">3. Fitted Line Plot</a>
@@ -405,7 +409,7 @@ If you place A, B, C, and the interaction A×B in the model, Minitab fits exactl
 
 <p>Minitab does not ask whether D, E, or F should enter, and it does not remove A, B, C, or A×B automatically.</p>
 
-<h4>When this is the correct choice</h4>
+<h3 class="was-h4">When this is the correct choice</h3>
 <ul>
 <li>The model was specified by engineering theory or prior studies.</li>
 <li>A designed experiment defines the required main effects and interactions.</li>
@@ -1975,7 +1979,7 @@ recommend();
 </section>
 <section class="uss-tail lesson-backlink" aria-label="Return to lesson category"><a href="/lessons#statistics">&larr; Back to Statistics lessons</a></section>
 
-<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
 
 <script>
 (function () {
@@ -2027,12 +2031,13 @@ html[data-theme="dark"]{
 html[data-theme="dark"] body{ background:#0c1622; color:var(--ink); }
 html[data-theme="dark"] section{ background:#131f2c; border-color:#243546; }
 html[data-theme="dark"] .sidebar{ background:#131f2c; border-color:#243546; }
-html[data-theme="dark"] .sidebar h3{ color:#dbe8f2; }
+html[data-theme="dark"] .sidebar h3, html[data-theme="dark"] .sidebar .sidebar-heading{ color:#dbe8f2; }
 html[data-theme="dark"] .sidebar a{ color:#c3d3e1; }
 html[data-theme="dark"] .sidebar a:hover{ background:#1c2a39; color:#fff; }
 html[data-theme="dark"] h2{ color:#dbe8f2; }
 html[data-theme="dark"] h3{ color:#8ec3ea; }
 html[data-theme="dark"] h4{ color:#5cc7d6; }
+html[data-theme="dark"] footer.site .footer-heading{ color:#5cc7d6; }
 html[data-theme="dark"] a{ color:#8ec3ea; }
 html[data-theme="dark"] .lead{ color:#c3d3e1; }
 html[data-theme="dark"] .callout{ background:#15212e; }

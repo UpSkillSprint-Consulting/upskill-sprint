@@ -46,19 +46,19 @@
           <div>
             <div class="grid-2">
               <div>
-                <h4>Randomization</h4>
+                <h3 class="was-h4">Randomization</h3>
                 <p>Protects effect estimates against time trends, warm-up, tool wear, operator sequence, and other lurking variables.</p>
               </div>
               <div>
-                <h4>Replication</h4>
+                <h3 class="was-h4">Replication</h3>
                 <p>Repeats treatment combinations independently and supplies an estimate of experimental error.</p>
               </div>
               <div>
-                <h4>Blocking</h4>
+                <h3 class="was-h4">Blocking</h3>
                 <p>Accounts for known nuisance variation, such as day, heat, coil, machine, raw-material lot, or operator.</p>
               </div>
               <div>
-                <h4>Center points</h4>
+                <h3 class="was-h4">Center points</h3>
                 <p>Provide a curvature check. A two-level model is linear between low and high settings and cannot independently estimate quadratic curvature.</p>
               </div>
             </div>

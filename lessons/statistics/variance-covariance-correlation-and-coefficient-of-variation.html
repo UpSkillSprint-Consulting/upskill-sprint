@@ -338,6 +338,16 @@ html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
 html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
 html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
 </style>
+<style id="heading-order-fix">
+/* Heading outline fix: these headings were one level too deep (h4 straight
+   after h2). They are now one level up and carry .was-h4 / .was-h5, so they
+   keep the look of the original rules below. */
+#lesson-content .cv-track .was-h4 { margin: 0 0 2px; font-family: var(--lesson-sl-serif); font-size: 1.02rem; font-weight:600; }
+#lesson-content .practice-col .was-h4 { font-family: var(--lesson-sl-serif); font-size: 1.05rem; margin: 0 0 10px; }
+
+/* Keep re-levelled headings looking the same as before. */
+#lesson-content .practice-col h3.was-h4{font-weight:700}
+</style>
 </head>
 <body data-lesson-page="true" data-category="statistics" data-level="intermediate" data-interactive="true" data-lesson-type="general">
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
@@ -633,13 +643,13 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 
     <div class="practice-two-col">
       <div class="practice-col">
-        <h4>Dataset A — pallet shipping weights</h4>
+        <h3 class="was-h4">Dataset A — pallet shipping weights</h3>
         <p class="widget-note">A warehouse weighs 8 outbound pallets, in kilograms.</p>
         <div class="dataset-list">760, 780, 795, 805, 815, 825, 840, 860 kg</div>
         <div class="track" id="practicePalletsTrack"></div>
       </div>
       <div class="practice-col">
-        <h4>Dataset B — precision pin diameters</h4>
+        <h3 class="was-h4">Dataset B — precision pin diameters</h3>
         <p class="widget-note">A gauge measures 8 machined pins, in millimeters.</p>
         <div class="dataset-list">4.5, 4.7, 4.8, 4.9, 5.1, 5.2, 5.4, 5.6 mm</div>
         <div class="track" id="practicePinsTrack"></div>
@@ -881,7 +891,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
   <a href="/lessons#statistics" id="sl-back-link" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Statistics lessons</a>
 </section>
 
-<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h4>Quick Links</h4><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h4>Topics</h4><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h4>Contact</h4><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
 
 
 <script>

@@ -88,6 +88,16 @@ lessonHtml = lessonHtml.replace(
   '<li><a href="#clause-lessons">Learn one clause at a time</a></li>'
 );
 
+// Footer column labels follow the page's h2 sections, so h4 skips a level.
+// Use the shared footer heading markup (h2.footer-heading, styled in style.css).
+for (const label of ['Quick Links', 'Topics', 'Contact']) {
+  const footerHeading = `<h4>${label}</h4>`;
+  if (!lessonHtml.includes(footerHeading)) {
+    throw new Error(`Unable to locate the SQL lesson footer heading: ${label}`);
+  }
+  lessonHtml = lessonHtml.replace(footerHeading, `<h2 class="footer-heading">${label}</h2>`);
+}
+
 const stylesheetTag = '  <link rel="stylesheet" href="/lessons/sql-clause-focus.css">\n';
 const headClose = lessonHtml.indexOf('</head>');
 if (headClose < 0) throw new Error('Unable to locate the SQL lesson head closing tag.');

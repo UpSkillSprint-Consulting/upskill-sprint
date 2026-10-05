@@ -181,7 +181,7 @@ html[data-theme="dark"] .field textarea::placeholder { color: #8391a5; }
 
 /* footer */
 footer.site { --muted: #cbd5e1 !important; padding: 56px 0 32px; border-top: 1px solid var(--line); background: var(--navy); color: #cbd5e1; }
-footer.site .brand, footer.site .brand span, footer.site h4 { color: #ffffff; }
+footer.site .brand, footer.site .brand span, footer.site h4, footer.site .footer-heading { color: #ffffff; }
 footer.site .footer-grid a, footer.site p { color: #cbd5e1 !important; }
 footer.site .footer-grid a:hover { color: #ffffff; }
 footer.site .footer-bottom { color: #94a3b8; border-top-color: rgba(255,255,255,0.15); }
@@ -190,7 +190,9 @@ footer.site .footer-bottom a:hover { color: #ffffff; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
 @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 640px) { .footer-grid { grid-template-columns: 1fr; } }
-.footer-grid h4 { font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+.footer-grid h4, .footer-grid .footer-heading { font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+/* Footer column labels are h2 for a correct heading outline; keep the small label look. */
+.footer-grid .footer-heading { font-family: inherit; line-height: inherit; padding: 0; border: 0; display: block; }
 .footer-grid a { display: block; font-size: 13.5px; margin-bottom: 8px; color: var(--ink); }
 .footer-bottom { max-width: var(--maxw); margin: 32px auto 0; padding: 20px var(--pad) 0; border-top: 1px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 12.5px; color: var(--muted); }
 .footer-bottom a { display: inline; margin: 0 0 0 16px; color: var(--muted); }
