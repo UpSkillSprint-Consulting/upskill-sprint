@@ -66,6 +66,8 @@ html[data-theme="light"] .hero-main,html[data-theme="light"] .hero-side{backgrou
 </style>
 <link rel="stylesheet" href="/assets/tool-site-header.css">`;
 
+// The guide is a public page, so it uses the shared site chrome (footer and nav normalisation).
+const guideSiteChrome = '\n<script src="/site-sections.js"></script>';
 const backLink = '<div class="uss-tool-back"><a href="/engineering-tools">Back to Engineering Tools</a></div>';
 
 function digest(value) {
@@ -139,7 +141,7 @@ function prepareGuide(originalHtml, guideNotice) {
     .replaceAll('href="grade_spec_lookup.html"', 'href="../"')
     .replace('>← Back to Tool<', '>Back to Tool<')
     .replace('>↑</button>', '>Top</button>')
-    .replace('</head>', '<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + accountHead + '\n</head>')
+    .replace('</head>', '<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + accountHead + guideSiteChrome + '\n</head>')
     .replace('<body>', '<body class="grade-spec-guide-page">\n' + siteHeader.replace('href="#app">Skip to Material Specification Lookup', 'href="#guideContent">Skip to the user guide'))
     .replace('</body>', backLink + '\n</body>');
 
