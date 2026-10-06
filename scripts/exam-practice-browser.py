@@ -113,7 +113,7 @@ def main():
                 if parsed.path == '/vendor/supabase.js':
                     request_route.fulfill(content_type='application/javascript', body=account_fixture(premium))
                     return
-                if parsed.path in ['/lessons/', '/lessons.html/']:
+                if parsed.path in ['/lessons', '/lessons.html', '/lessons/', '/lessons.html/']:
                     # The read-only server serves extensionless files, while
                     # Netlify also accepts a slash. Keep the browser's original
                     # location and serve the exact repository lessons document.
@@ -259,7 +259,7 @@ def main():
                     link.focus()
                     page.keyboard.press('Enter')
                     if not premium:
-                        expect(page).to_have_url(re.compile(r'/sign-in\.html\?next='))
+                        expect(page).to_have_url(re.compile(r'/sign-in(?:\.html)?\?next='))
                         next_path = parse_qs(urlparse(page.url).query)['next'][0]
                         assert next_path == chip['href'], (chip, next_path)
                         continue
@@ -281,7 +281,7 @@ def main():
                 directory()
                 page.locator('.exam-actions a[href="/test-bank"]').click()
                 if not premium:
-                    expect(page).to_have_url(re.compile(r'/sign-in\.html\?next='))
+                    expect(page).to_have_url(re.compile(r'/sign-in(?:\.html)?\?next='))
                     assert 'test-bank' in page.url, page.url
                     expect(page.locator('.tb-quiz')).to_have_count(0)
                     return
