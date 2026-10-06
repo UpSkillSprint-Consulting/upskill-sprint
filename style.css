@@ -137,7 +137,8 @@ html[data-theme="dark"] .theme-icon-moon { color: #7dd3fc; }
 html[data-theme="dark"] .theme-toggle { background: var(--teal); border-color: var(--teal); }
 html[data-theme="dark"] .theme-toggle::after { transform: translateX(22px); background: #f8fafc; }
 
-@media (max-width: 1080px) {
+/* Leave room for the exam tab, theme switch, and account controls. */
+@media (max-width: 1440px) {
   nav.desktop-nav { display: none; }
   label.mobile-menu-btn { display: flex; }
   .mnav-check:checked ~ nav.mobile-nav { display: flex; }

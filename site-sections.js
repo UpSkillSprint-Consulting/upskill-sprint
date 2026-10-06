@@ -2,6 +2,7 @@
   'use strict';
 
   const TOOLS_PATH = '/engineering-tools.html';
+  const EXAM_PRACTICE_PATH = '/exam-practice';
   const MATERIAL_CHECKER_PATH = '/tools/material-specification-compliance-checker.html';
   const CALCULATOR_PATH = '/tools/engineering-statistics-calculator.html';
   const UNIT_CONVERTER_PATH = '/tools/unit-converter.html';
@@ -77,7 +78,28 @@
   }
 
   function isLessonsPage() {
-    return pathEndsWith('/lessons.html') || pathEndsWith('/lessons');
+    const path = window.location.pathname.replace(/\/+$/, '');
+    return path.endsWith('/lessons.html') || path.endsWith('/lessons');
+  }
+
+  function redirectLegacyExamPractice() {
+    if (!isLessonsPage() || window.location.hash !== '#exam-practice') return false;
+    window.location.replace(EXAM_PRACTICE_PATH + window.location.search);
+    return true;
+  }
+
+  function openLinkedCertification() {
+    const path = window.location.pathname.replace(/\/+$/, '').replace(/\.html$/i, '');
+    if (!path.endsWith('/test-bank')) return;
+    const exam = (new URLSearchParams(window.location.search).get('exam') || '').trim().toLowerCase();
+    if (!exam) return;
+    // Use the delivered catalog so future certifications inherit deep links.
+    // Opening a certification shows its overview; starting an attempt remains
+    // the learner's explicit action through the normal exam controls.
+    const tile = Array.from(document.querySelectorAll('.tb-tile[data-exam]')).find(function (item) {
+      return item.dataset.exam.toLowerCase() === exam;
+    });
+    if (tile && !tile.classList.contains('active')) tile.click();
   }
 
   function isLessonDetailPage() {
@@ -141,6 +163,7 @@
   const SITE_NAV_LINKS = [
     ['Start Here', '/start-here'],
     ['Lessons', '/lessons'],
+    ['Exam Practice & Quizzes', EXAM_PRACTICE_PATH],
     ['Engineering Tools', TOOLS_PATH],
     ['Services', '/services'],
     ['Request a Topic', '/request-topic'],
@@ -176,6 +199,7 @@
 
   function currentNavLabel() {
     const path = window.location.pathname.replace(/\.html$/i, '').replace(/\/index$/i, '/').replace(/\/+$/, '') || '/';
+    if (path === '/test-bank' || path.startsWith('/test-bank/')) return 'Exam Practice & Quizzes';
     if (path === '/lessons' || path.startsWith('/lessons/') || path.startsWith('/lesson/')) return 'Lessons';
     if (path === '/engineering-tools' || path.startsWith('/engineering-tools/') || path.startsWith('/tools/')) return 'Engineering Tools';
     const match = SITE_NAV_LINKS.find(function (item) { return item[1].replace(/\.html$/i, '') === path; });
@@ -355,10 +379,10 @@
       header.site nav.uss-injected-nav a { padding: 6px 2px; border-bottom: 2px solid transparent; color: var(--ink, #101828); text-decoration: none; }
       header.site nav.uss-injected-nav a:hover, header.site nav.uss-injected-nav a[aria-current="page"] { border-bottom-color: var(--teal, #0e7490); color: var(--teal-dark, #0a5a70); }
       /* With the shared nav present on wide screens, the header's own back link is redundant. */
-      @media (min-width: 1081px) { header.site:has(nav.uss-injected-nav) .back-link { display: none; } }
-      @media (max-width: 1080px) {
-        .uss-site-header nav.desktop-nav, header.site nav.uss-injected-nav { display: none; }
-        .uss-site-header label.mobile-menu-btn { display: flex; }
+      @media (min-width: 1441px) { header.site:has(nav.uss-injected-nav) .back-link { display: none; } }
+      @media (max-width: 1440px) {
+        header.site nav.desktop-nav { display: none; }
+        header.site label.mobile-menu-btn { display: flex; }
         .uss-mnav-check:checked ~ nav.mobile-nav.uss-mobile-nav { display: flex; }
       }
       @media (max-width: 760px) { header.site.uss-site-header { padding: 14px 16px; } }
@@ -484,6 +508,11 @@
     document.querySelectorAll('nav.desktop-nav, nav.mobile-nav').forEach(addToolsLinkToNav);
     ensureSiteFooter();
     addToolsLinkToFooter();
+    const examBreadcrumb = currentNavLabel() === 'Exam Practice & Quizzes' && document.querySelector('.tb-crumb a');
+    if (examBreadcrumb) {
+      examBreadcrumb.href = EXAM_PRACTICE_PATH;
+      examBreadcrumb.textContent = 'Exam Practice & Quizzes';
+    }
     enhanceMobileMenuButtons();
   }
 
@@ -855,9 +884,12 @@
   }
 
   function initializeSiteSections() {
+    if (redirectLegacyExamPractice()) return;
+    if (isLessonsPage()) window.addEventListener('hashchange', redirectLegacyExamPractice);
     loadArrowCleanup();
     loadAuthScripts();
     ensureNavigation();
+    openLinkedCertification();
     ensureHomeContent();
     ensureLessonsLibraryLink();
     loadChiSquareLessonLibrary();

@@ -26,7 +26,7 @@ function gate(rpc) {
 const flush = () => new Promise(resolve => setImmediate(resolve));
 test('simulator and directory declare Premium minimum', () => {
   assert.match(read('test-bank.html'), /<body[^>]*data-required-access="premium"[^>]*data-access-resource="exam:\/test-bank"/);
-  assert.match(read('lessons.html'), /Premium and higher/);
+  assert.match(read('exam-practice.html'), /Premium and higher/);
   assert.match(read('supabase/premium-simulator-access.sql'), /'exam:\/test-bank', 'premium'/);
 });
 test('signed-out users go to sign in; lower tiers are denied', async () => {
@@ -35,7 +35,7 @@ test('signed-out users go to sign in; lower tiers are denied', async () => {
   assert.match(g.redirects[0], /sign-in.html\?next=/);
   const h = gate(() => Promise.resolve({data:false}));
   h.change({id:'registered'}); await flush();
-  assert.match(h.redirects[0], /access=premium/);
+  assert.equal(h.redirects[0], '/exam-practice?access=premium');
   assert.equal(h.classes.has('auth-ready'), false);
 });
 test('server authorization reveals content and sign-out locks it again', async () => {
@@ -52,11 +52,11 @@ test('server authorization reveals content and sign-out locks it again', async (
 test('RPC errors and hanging requests fail closed; stale replies cannot unlock', async () => {
   const g = gate(() => Promise.reject(new Error('offline')));
   g.change({id:'premium'}); await flush();
-  assert.match(g.redirects[0], /access=unavailable/);
+  assert.equal(g.redirects[0], '/exam-practice?access=unavailable');
   let finish;
   const h = gate(() => new Promise(resolve => {finish = resolve;}));
   h.change({id:'premium'}); await flush();
   h.timers[0](); finish({data:true}); await flush();
   assert.equal(h.classes.has('auth-ready'), false);
-  assert.match(h.redirects[0], /access=unavailable/);
+  assert.equal(h.redirects[0], '/exam-practice?access=unavailable');
 });
