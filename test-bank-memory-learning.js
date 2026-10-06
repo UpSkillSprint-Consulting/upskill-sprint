@@ -66,7 +66,7 @@
   /* The stateless delivery still needs deterministic scoring to open the
      result screen. Keep this small compatibility surface in memory: it grades
      only the current session and never writes learner data anywhere. */
-  function classify(question, selected) {
+  function classify(question, selected, revealed) {
     const q = question || {};
     if (!Array.isArray(q.options) || !Number.isInteger(q.answer) || q.answer < 0 || q.answer >= q.options.length) {
       throw new Error('Invalid single-select answer key');
@@ -74,16 +74,18 @@
     if (selected != null && (!Number.isInteger(selected) || selected < 0 || selected >= q.options.length)) {
       throw new Error('Invalid selected option');
     }
+    if (revealed === true) return 'incorrect';
     return selected == null ? 'unanswered' : selected === q.answer ? 'correct' : 'incorrect';
   }
 
   function scoreRecords(records, configuration) {
-    const counts = { total: 0, correct: 0, incorrect: 0, unanswered: 0 };
+    const counts = { total: 0, correct: 0, incorrect: 0, unanswered: 0, revealed: 0 };
     const byDomain = {};
     const bySubtopic = {};
     (records || []).forEach((record) => {
       const question = record && record.question;
-      const status = classify(question, record && record.selected);
+      const revealed = record && record.revealed === true;
+      const status = classify(question, record && record.selected, revealed);
       const subtopic = String(question.sub || 'general');
       let domain = null;
       if (configuration && Array.isArray(configuration.bok)) {
@@ -92,13 +94,16 @@
       }
       counts.total += 1;
       counts[status] += 1;
-      if (!bySubtopic[subtopic]) bySubtopic[subtopic] = { total: 0, correct: 0, incorrect: 0, unanswered: 0 };
+      if (revealed) counts.revealed += 1;
+      if (!bySubtopic[subtopic]) bySubtopic[subtopic] = { total: 0, correct: 0, incorrect: 0, unanswered: 0, revealed: 0 };
       bySubtopic[subtopic].total += 1;
       bySubtopic[subtopic][status] += 1;
+      if (revealed) bySubtopic[subtopic].revealed += 1;
       if (domain) {
-        if (!byDomain[domain]) byDomain[domain] = { total: 0, correct: 0, incorrect: 0, unanswered: 0 };
+        if (!byDomain[domain]) byDomain[domain] = { total: 0, correct: 0, incorrect: 0, unanswered: 0, revealed: 0 };
         byDomain[domain].total += 1;
         byDomain[domain][status] += 1;
+        if (revealed) byDomain[domain].revealed += 1;
       }
     });
     return Object.assign(counts, { byDomain: byDomain, bySubtopic: bySubtopic });

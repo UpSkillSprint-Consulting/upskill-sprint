@@ -56,3 +56,15 @@ test('a malformed answer key is review-required, not an unanswered learner mista
     assert.equal(h.w.document.querySelector('[data-retry-missed]').disabled,true);assert.deepEqual(h.errors,[]);
   }finally{h.close();}
 });
+test('feedback preserves mathematical inequalities without losing safe markup or security',async()=>{
+  const why='P(5.25<X<5.75) = P(-2.35<Z<3.53) ≈ 0.9904. <b>Keep the calculation.</b><script>window.badMath=true</script><img src="javascript:alert(1)" onerror="alert(1)">';
+  const h=await fixture({stem:'Use the calculation',options:['A','B'],answer:1,why});
+  try{
+    click(h.w,'[data-open-review="all"]');
+    const explanation=h.w.document.querySelector('.tb-explanation-copy');
+    assert.match(explanation.textContent,/P\(5\.25<X<5\.75\) = P\(-2\.35<Z<3\.53\) ≈ 0\.9904\./);
+    assert.equal(explanation.querySelector('b').textContent,'Keep the calculation.');
+    assert.equal(explanation.querySelector('script,[onerror],[src^="javascript:"]'),null);
+    assert.equal(h.w.badMath,undefined);assert.deepEqual(h.errors,[]);
+  }finally{h.close();}
+});

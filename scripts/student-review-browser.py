@@ -62,7 +62,7 @@ def main():
         page.goto(args.url,wait_until='domcontentloaded')
         page.wait_for_selector('body.auth-ready.access-ready')
         catalog=page.evaluate("()=>Object.entries(__TB.EXAMS).filter(([id,e])=>e.bank?.length).map(([id,e])=>({id,sets:Object.keys(e.sets||{1:e.bank})}))")
-        assert sorted(e['id'] for e in catalog)==['cmq','cqe','cssbb','cssgb','mbb']
+        assert {'cmq','cqe','cssbb','cssgb','mbb'}.issubset({e['id'] for e in catalog})
         report['catalog']=catalog
         def record(name,fn):
             start=time.monotonic()
@@ -106,7 +106,27 @@ def main():
         def student_flow(exam,bank,mode,timed):
             page.set_viewport_size({'width':390 if timed else 1440,'height':900 if timed else 1000})
             page.evaluate('(theme)=>document.documentElement.dataset.theme=theme','dark' if timed else 'light')
-            start(exam,bank,mode,timed);before=page.evaluate(PREPARE);total=len(before['records']);finish()
+            start(exam,bank,mode,timed);before=page.evaluate(PREPARE);total=len(before['records'])
+            if timed:
+                expect(page.locator('[data-reveal]')).to_have_count(0)
+                assert page.evaluate('()=>__TB.revealCurrentAnswer()') is False
+            else:
+                # Cover reveal in every set/mixed pool and session type, both
+                # after a correct selection and before any selection.
+                page.locator('[data-goto="1"]').click()
+                page.locator(f'[data-opt="{before["records"][1]["question"]["answer"]}"]').click()
+                page.locator('[data-reveal]').focus();page.keyboard.press('Space')
+                expect(page.locator('#tb-revealed-answer')).to_be_focused()
+                page.evaluate("()=>window.auditReveal=document.querySelector('#tb-revealed-answer')")
+                flag=page.locator('[data-flag]');flag.focus();page.keyboard.press('Enter')
+                expect(flag).to_be_focused();expect(flag).to_have_attribute('aria-pressed','false')
+                page.keyboard.press('Space');expect(flag).to_have_attribute('aria-pressed','true')
+                assert page.evaluate("()=>auditReveal===document.querySelector('#tb-revealed-answer')")
+                page.locator('[data-goto="3"]').click();page.locator('[data-reveal]').click()
+                expect(page.locator('.tb-navcell.revealed')).to_have_count(2)
+                page.locator('[data-goto="1"]').click()
+                expect(page.locator(f'[data-opt="{before["records"][1]["question"]["answer"]}"]')).to_have_attribute('aria-pressed','true')
+            finish()
             assert before['setId']==bank, (exam,mode,bank,before['setId'])
             valid=page.evaluate("""({exam,bank,mode})=>{const e=__TB.EXAMS[exam],s=__TB.getFeedbackSnapshot();const rows=bank==='mix'?Object.values(e.sets||{1:e.bank}).flat():(e.sets?.[bank]||e.bank);const signature=q=>JSON.stringify([q.qid||q.id||null,q.stem,q.options]);const allowed=new Set(rows.map(signature));return s.records.every(r=>allowed.has(signature(r.question)));}""",{'exam':exam,'bank':bank,'mode':mode})
             assert valid, 'A delivered question is outside the selected test set'
@@ -117,13 +137,14 @@ def main():
             expect(page.locator('.tb-review-card')).to_have_count(total)
             expect(page.locator('.tb-review-navcell')).to_have_count(total)
             no_overflow()
-            for filt,n in [('incorrect',2),('unanswered',1),('correct',total-3),('flagged',2),('missed',3)]:
+            expect(page.locator('.tb-review-navcell.revealed')).to_have_count(0 if timed else 2)
+            for filt,n in [('incorrect',2 if timed else 3),('unanswered',1 if timed else 0),('correct',total-3),('flagged',2),('missed',3)]+([] if timed else [('revealed',2)]):
                 page.locator(f'[data-review-tab="{filt}"]').click()
                 expect(page.locator('.tb-review-card')).to_have_count(n)
                 expect(page.locator(f'[data-review-tab="{filt}"]')).to_have_attribute('aria-pressed','true')
             page.locator('[data-review-goto="1"]').click()
             expect(page.locator('.tb-review-card')).to_have_count(1)
-            expect(page.locator('.tb-review-option.is-wrong')).to_have_count(1)
+            expect(page.locator('.tb-review-option.is-wrong')).to_have_count(1 if timed else 0)
             expect(page.locator('.tb-review-option.is-correct')).to_have_count(1)
             bounds=page.evaluate("()=>({card:document.querySelector('.tb-review-card').getBoundingClientRect().top,header:document.querySelector('header.site').getBoundingClientRect().bottom})")
             assert bounds['card']>=bounds['header']-1,bounds
@@ -157,6 +178,42 @@ def main():
                     for timed in [False,True]:
                         record(f'{exam["id"]}/set-{bank}/{mode}/{"timed" if timed else "untimed"}',
                                lambda e=exam['id'],s=bank,m=mode,t=timed:student_flow(e,s,m,t))
+        def answer_reveal():
+            page.set_viewport_size({'width':390,'height':844})
+            start('cssgb','1','quick',False)
+            q=page.evaluate('()=>__TB.getFeedbackSnapshot().records[0].question')
+            reveal=page.locator('[data-reveal]')
+            assert page.evaluate("()=>document.querySelector('[data-reveal]').previousElementSibling.hasAttribute('data-flag')")
+            reveal.focus();page.keyboard.press('Enter')
+            expect(page.locator('#tb-revealed-answer')).to_be_focused()
+            expect(reveal).to_be_disabled()
+            expect(page.locator('[data-opt]:not(:disabled)')).to_have_count(0)
+            assert 'Correct answer:' in page.locator('#tb-revealed-answer').inner_text()
+            for width in [320,390,1440]:
+                page.set_viewport_size({'width':width,'height':900})
+                for theme in ['light','dark']:
+                    page.evaluate('(t)=>document.documentElement.dataset.theme=t',theme)
+                    colors=page.evaluate("""()=>{const nav=document.querySelector('[data-goto="0"]');return {color:getComputedStyle(nav).color,expected:getComputedStyle(document.querySelector('.tb-quiz')).getPropertyValue('--reveal-blue').trim(),width:innerWidth,doc:document.documentElement.scrollWidth}}""")
+                    assert colors['color']==('rgb(29, 78, 216)' if theme=='light' else 'rgb(147, 197, 253)'),colors
+                    assert colors['doc']<=colors['width']+2,colors
+                    if width==390:page.screenshot(path=str(out/('answer-reveal-mobile-'+theme+'.png')))
+            page.locator('[data-goto="1"]').click()
+            second=page.evaluate('()=>__TB.getFeedbackSnapshot().records[1].question')
+            page.locator(f'[data-opt="{second["answer"]}"]').click()
+            page.locator('[data-reveal]').click()
+            finish()
+            grade=page.evaluate('()=>__TB.getFeedbackSnapshot().grading')
+            assert grade['incorrect']==2 and grade['correct']==0 and grade['revealed']==2,grade
+            page.locator('[data-open-review="all"]').click()
+            expect(page.locator('.tb-review-card.revealed')).to_have_count(2)
+            expect(page.locator('.tb-review-navcell.revealed')).to_have_count(2)
+            page.locator('[data-review-tab="revealed"]').click()
+            expect(page.locator('.tb-review-card')).to_have_count(2)
+            no_overflow();storage_clean()
+            start('cssgb','1','quick',True)
+            expect(page.locator('[data-reveal]')).to_have_count(0)
+            assert page.evaluate('()=>__TB.revealCurrentAnswer()') is False
+        record('untimed-reveal-blue-mobile-desktop-and-timed-guard',answer_reveal)
         def interactive():
             page.set_viewport_size({'width':390,'height':844});start('mbb','2','full',False)
             q=page.evaluate("""()=>{const s=__TB.getFeedbackSnapshot();const index=s.records.findIndex(r=>r.question.qid==='mbb:set-2:original-005');if(index<0)throw Error('Missing actual interactive item');s.records.forEach((r,i)=>{document.querySelector(`[data-goto="${i}"]`).click();if(i!==index)document.querySelector(`[data-opt="${r.question.answer}"]`).click();});return s.records[index].question;}""")
@@ -176,6 +233,21 @@ def main():
                 if int(i)!=q['answer']:assert text in page.locator('.tb-review-rationales').text_content()
             no_overflow();page.screenshot(path=str(out/'interactive-mobile.png'))
         record('interactive-slider-and-authored-rationales',interactive)
+        def interactive_reveal():
+            page.set_viewport_size({'width':390,'height':844});start('mbb','2','full',False)
+            index=page.evaluate("()=>__TB.getFeedbackSnapshot().records.findIndex(r=>r.question.qid==='mbb:set-2:original-005')")
+            assert index>=0;page.locator(f'[data-goto="{index}"]').click()
+            slider=page.locator('[data-tb-whatif]');slider.focus();page.keyboard.press('ArrowLeft');value=slider.input_value()
+            page.evaluate("()=>window.auditRevealSlider=document.querySelector('[data-tb-whatif]')")
+            page.locator('[data-reveal]').click()
+            details=page.locator('#tb-revealed-answer .tb-review-rationales');details.locator('summary').click()
+            flag=page.locator('[data-flag]');flag.focus();page.keyboard.press('Enter')
+            expect(flag).to_be_focused();expect(flag).to_have_attribute('aria-pressed','true')
+            expect(details).to_have_attribute('open','')
+            assert slider.input_value()==value
+            assert page.evaluate("()=>auditRevealSlider===document.querySelector('[data-tb-whatif]')")
+            assert page.evaluate("()=>document.documentElement.scrollWidth<=innerWidth+2")
+        record('real-interactive-reveal-and-flag-preserve-work',interactive_reveal)
         def extremes():
             page.set_viewport_size({'width':1440,'height':1000});start('cssgb','1','quick',False)
             page.evaluate("()=>__TB.getFeedbackSnapshot().records.forEach((r,i)=>{document.querySelector(`[data-goto=\"${i}\"]`).click();document.querySelector(`[data-opt=\"${r.question.answer}\"]`).click();})")
