@@ -106,3 +106,11 @@ html:has(link[rel="canonical"][href$="/chebyshev-inequality-vs-empirical-rule"])
 html:has(link[rel="canonical"][href$="/chebyshev-inequality-vs-empirical-rule"]) .lesson-footer .footer-inner > span {
   margin-left: auto;
 }
+
+/* Dark-mode contrast for the copy-exact lesson blocks in docs/LESSON_CREATION_GUIDE.md.
+   The canonical quiz kicker (#0f6b78, 3.0:1) and back-to-category link (#1f4e78, about 2:1)
+   are too dark on the dark page background. Lessons copy those blocks byte for byte (tests
+   compare them with the guide), so the fix lives here instead of in each lesson. The back
+   link colour is an inline style, so it needs !important. */
+html[data-theme="dark"] .quiz-section .lesson-kicker { color: #7dd3fc; }
+html[data-theme="dark"] [aria-label="Return to lesson category"] a { color: #7dd3fc !important; }

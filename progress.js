@@ -154,12 +154,24 @@
     document.head.appendChild(style);
   }
 
+  function labelWidgetLandmark(element) {
+    if (element.closest('main, aside, [role="main"], [role="complementary"], [role="region"]')) return;
+    if (!element.hasAttribute('role')) element.setAttribute('role', 'complementary');
+    if (!element.hasAttribute('aria-label')) element.setAttribute('aria-label', 'Lesson progress');
+  }
+
   function ensureWidgetContainer() {
     var existing = document.getElementById('lesson-progress-widget');
-    if (existing) return existing;
+    if (existing) {
+      labelWidgetLandmark(existing);
+      return existing;
+    }
     injectWidgetStyles();
-    var container = document.createElement('div');
+    // An <aside> is a complementary landmark, so the card is not stray content
+    // between <main> and the footer (axe "region").
+    var container = document.createElement('aside');
     container.id = 'lesson-progress-widget';
+    container.setAttribute('aria-label', 'Lesson progress');
     var footer = document.querySelector('footer');
     if (footer && footer.parentNode) footer.parentNode.insertBefore(container, footer);
     else document.body.appendChild(container);
