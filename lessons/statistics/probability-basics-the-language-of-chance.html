@@ -407,7 +407,7 @@ html[data-theme="dark"] #lesson-content{
   <div class="card">
     <h3>Draw from the jar (4 red, 6 blue &mdash; drawn with replacement each time)</h3>
     <div class="jar-wrap">
-      <div class="jar" id="pp-jar" aria-label="Jar of 4 red and 6 blue marbles"></div>
+      <div class="jar" id="pp-jar" role="img" aria-label="Jar of 4 red and 6 blue marbles"></div>
       <div class="draw-panel">
         <div class="btn-row">
           <button class="btn" id="pp-draw1">Draw &times;1</button>
@@ -554,7 +554,7 @@ Odds &rarr; Probability: &nbsp; P = (odds in favour) &divide; (odds in favour + 
   <p>200 finished pipe sections were inspected across two shifts. This is a made-up but realistic example &mdash; the exact kind of table you'll build in Excel or Minitab before you ever fit a formal hypothesis test.</p>
   <div class="tbl-wrap">
     <table>
-      <thead><tr><th></th><th>Shift A</th><th>Shift B</th><th>Total</th></tr></thead>
+      <thead><tr><th><span class="sr-only">Inspection result</span></th><th>Shift A</th><th>Shift B</th><th>Total</th></tr></thead>
       <tbody>
         <tr><th>Defective</th><td>6</td><td>10</td><td>16</td></tr>
         <tr><th>Good</th><td>94</td><td>90</td><td>184</td></tr>

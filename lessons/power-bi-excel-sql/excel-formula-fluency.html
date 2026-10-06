@@ -1776,7 +1776,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
   function renderGrid() {
     const box=document.getElementById("excelGrid"); if(!box)return; box.innerHTML="";
     const headerRow=document.createElement("div");headerRow.className="grid-row";headerRow.setAttribute("role","row");
-    const corner=document.createElement("div");corner.className="grid-corner";corner.setAttribute("role","columnheader");corner.setAttribute("aria-label","Row and column headings");headerRow.appendChild(corner);
+    const corner=document.createElement("div");corner.className="grid-corner";corner.setAttribute("role","columnheader");corner.innerHTML='<span class="sr-only">Row and column headings</span>';headerRow.appendChild(corner);
     for(let c=1;c<=10;c++){const h=document.createElement("div");h.className="col-heading";h.setAttribute("role","columnheader");h.textContent=cellName(1,c).replace(/1$/,"");headerRow.appendChild(h);}box.appendChild(headerRow);
     for(let r=1;r<=11;r++){
       const gridRow=document.createElement("div");gridRow.className="grid-row";gridRow.setAttribute("role","row");
