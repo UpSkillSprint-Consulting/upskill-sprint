@@ -855,7 +855,7 @@ git diff sitemap.xml                     # expect exactly your URL added (or rem
 
 The sitemap skips `noindex` pages, meta-refresh redirects, `assets/`, `lessons/assets/`,
 `test-bank-assets/`, `404.html`, and the authoring pages (`lesson-template.html`, the theme
-reference, `How to Add a New Lesson.dc.html`, the test-bank report form). `scripts/stage-public-site.mjs`
+reference, the test-bank report form). `scripts/stage-public-site.mjs`
 excludes `docs/`, `tests/`, `scripts/`, `netlify/`, `content/`, and `source-assets/` from the
 deploy, plus those authoring files. Never put lesson files in an excluded folder.
 

@@ -10,7 +10,6 @@ export const excludedDirectories = new Set([
 ]);
 // Authoring aids that live at the repo root but are not public pages.
 export const excludedFiles = new Set([
-  'How to Add a New Lesson.dc.html',
   'upskillsprint_lesson_theme_reference.html',
   'lesson-template.html'
 ]);
