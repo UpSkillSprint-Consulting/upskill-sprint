@@ -1,9 +1,9 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 49,
-  "contentLessonCount": 48,
-  "sectionCount": 2083,
+  "lessonCount": 50,
+  "contentLessonCount": 49,
+  "sectionCount": 2115,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -17571,6 +17571,501 @@
           ],
           "text": "Sample vs. population: if the question describes measuring \"all units produced\" or a defined finite lot, use population formulas (n divisor). If it describes a sample pulled for inspection — the overwhelming majority of exam scenarios — use sample formulas (n−1 divisor). Using n instead of n−1 is the single most common calculation trap. Correlation ≠ causation: a classic distractor answer treats a high r as proof that X causes Y. The exam will reward \"there is a strong linear association\" over \"X causes Y\" unless the question describes a controlled experiment. CV shows up in Measurement Systems Analysis and reliability questions as a way to compare variability across different gauges or different-scaled processes — if a question compares consistency across two different units of measure, CV (not raw StDev) is almost always the intended tool.",
           "excerpt": "Sample vs. population: if the question describes measuring \"all units produced\" or a defined finite lot, use population formulas (n divisor). If it describes a sample pulled for inspection — the overwhelming majority of exam scenarios — use sample formulas…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "statistics--confidence-prediction-tolerance-intervals",
+      "path": "/lessons/statistics/confidence-prediction-tolerance-intervals",
+      "title": "Confidence vs Prediction vs Tolerance Intervals",
+      "description": "See how CI, PI and TI differ with live sliders, a width-vs-sample-size chart, a coverage simulator, every formula, and Excel and Minitab steps.",
+      "topic": "statistics",
+      "level": "beginner",
+      "minutes": 45,
+      "interactive": true,
+      "keywords": [
+        "confidence interval",
+        "prediction interval",
+        "tolerance interval",
+        "statistical intervals",
+        "ci vs pi vs ti",
+        "tolerance factor k",
+        "CONFIDENCE.T",
+        "Minitab tolerance intervals",
+        "coverage",
+        "sample size",
+        "confidence interval prediction interval tolerance interval ci pi ti statistical intervals tolerance factor k2 coverage sample size standard error t distribution howe approximation confidence.t t.inv.2t chisq.inv minitab tolerance intervals excel cssbb cqe statistics beginner interactive"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "lesson-section-confidence-vs-prediction-vs-tolerance-intervals",
+          "heading": "Confidence vs Prediction vs Tolerance Intervals",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals"
+          ],
+          "text": "All three give you a lower and an upper limit. They answer three very different questions. Move the sliders below and watch the three intervals grow, shrink, and hit their floors in real time. Beginner 45 min Interactive Excel + Minitab CSSBB · CQE",
+          "excerpt": "All three give you a lower and an upper limit. They answer three very different questions. Move the sliders below and watch the three intervals grow, shrink, and hit their floors in real time. Beginner 45 min Interactive Excel + Minitab CSSBB · CQE",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "learn-heading",
+          "heading": "What you will be able to do",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "What you will be able to do"
+          ],
+          "text": "Say in plain words what a confidence, prediction, and tolerance interval each targets. Calculate all three by hand, in Excel, and in Minitab. Explain why a prediction interval never shrinks to zero, and why a tolerance interval is usually the widest. Pick the right interval for a real decision: an average, a next part, or a whole population against a spec.",
+          "excerpt": "Say in plain words what a confidence, prediction, and tolerance interval each targets. Calculate all three by hand, in Excel, and in Minitab. Explain why a prediction interval never shrinks to zero, and why a tolerance interval is usually the widest. Pick the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "one-minute-heading",
+          "heading": "The one-minute version",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The one-minute version"
+          ],
+          "text": "Imagine you weigh 20 salmon caught in one river. From those 20 fish you can build three different intervals. Each one aims at a different target. CI",
+          "excerpt": "Imagine you weigh 20 salmon caught in one river. From those 20 fish you can build three different intervals. Each one aims at a different target. CI",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "type-ci",
+          "heading": "Confidence interval",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The one-minute version",
+            "Confidence interval"
+          ],
+          "text": "\"Where is the true average?\" Targets: one population parameter, usually the mean \\(\\mu\\). Accounts for: sampling error only. \"We are 95% confident the average salmon in this river weighs between 5.12 kg and 5.88 kg.\" PI",
+          "excerpt": "\"Where is the true average?\" Targets: one population parameter, usually the mean \\(\\mu\\). Accounts for: sampling error only. \"We are 95% confident the average salmon in this river weighs between 5.12 kg and 5.88 kg.\" PI",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "type-pi",
+          "heading": "Prediction interval",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The one-minute version",
+            "Prediction interval"
+          ],
+          "text": "\"Where will the next data point fall?\" Targets: one single future observation. Accounts for: sampling error plus fish-to-fish scatter. \"We are 95% confident the next single salmon we catch will weigh between 3.77 kg and 7.23 kg.\" TI",
+          "excerpt": "\"Where will the next data point fall?\" Targets: one single future observation. Accounts for: sampling error plus fish-to-fish scatter. \"We are 95% confident the next single salmon we catch will weigh between 3.77 kg and 7.23 kg.\" TI",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "type-ti",
+          "heading": "Tolerance interval",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The one-minute version",
+            "Tolerance interval"
+          ],
+          "text": "\"Where does 99% of the population fall?\" Targets: a stated proportion of all individuals. Accounts for: sampling error in both the mean and the spread, for a whole slice of the population. \"We are 95% confident that 99% of all salmon in this river weigh between 2.57 kg and 8.43 kg.\"",
+          "excerpt": "\"Where does 99% of the population fall?\" Targets: a stated proportion of all individuals. Accounts for: sampling error in both the mean and the spread, for a whole slice of the population. \"We are 95% confident that 99% of all salmon in this river weigh…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "direct-comparison",
+          "heading": "Direct comparison",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The one-minute version",
+            "Direct comparison"
+          ],
+          "text": "Interval What it targets Key question As the sample size grows Relative width Confidence (CI) A population parameter, such as the true mean \"Where is the true average?\" Shrinks toward zero width Narrowest Prediction (PI) One single future observation \"Where will the next data point fall?\" Shrinks, then hits a floor: individual scatter never goes away Wider than the CI Tolerance (TI) A stated proportion of the population (for example 99%) \"Where does 99% of the population fall?\" Shrinks toward the true population percentiles Usually the widest Two percentages, not one. A tolerance interval always carries two numbers: a confidence level (how sure you are, for example 95%) and a coverage (how much of the population it must hold, for example 99%). Read \"95/99 tolerance interval\" as \"95% confident that at least 99% of individuals are inside.\"",
+          "excerpt": "Interval What it targets Key question As the sample size grows Relative width Confidence (CI) A population parameter, such as the true mean \"Where is the true average?\" Shrinks toward zero width Narrowest Prediction (PI) One single future observation \"Where…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "sample-heading",
+          "heading": "Meet the sample: 20 salmon",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Meet the sample: 20 salmon"
+          ],
+          "text": "These are the weights (kg) of 20 salmon from one river. We use them in every worked example below. The data is fictitious and was generated from a normal distribution for teaching. \\(n = 20\\) \\(\\bar{x} = 5.50\\,\\text{kg}\\) \\(s = 0.808\\,\\text{kg}\\) \\(s/\\sqrt{n} = 0.181\\,\\text{kg}\\)",
+          "excerpt": "These are the weights (kg) of 20 salmon from one river. We use them in every worked example below. The data is fictitious and was generated from a normal distribution for teaching. \\(n = 20\\) \\(\\bar{x} = 5.50\\,\\text{kg}\\) \\(s = 0.808\\,\\text{kg}\\) \\(s/\\sqrt{n}…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lab-heading",
+          "heading": "Interval Lab: see all three at once",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Interval Lab: see all three at once"
+          ],
+          "text": "Change the inputs. The grey curve is the population we estimate from \\(\\bar{x}\\) and \\(s\\). The three bars are the intervals. The numbers and formulas update as you move. Example data Salmon weight (kg) Pipe wall thickness (mm) Sample size \\(n\\) 20 Sample mean \\(\\bar{x}\\) Sample standard deviation \\(s\\) 0.808 Confidence level Tolerance coverage (share of population) Show spec limits Salmon have no spec. Pipe uses illustrative limits of 7.90 to 8.70 mm.",
+          "excerpt": "Change the inputs. The grey curve is the population we estimate from \\(\\bar{x}\\) and \\(s\\). The three bars are the intervals. The numbers and formulas update as you move. Example data Salmon weight (kg) Pipe wall thickness (mm) Sample size \\(n\\) 20 Sample…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "lab-live-math",
+          "heading": "Your numbers in the formulas",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Interval Lab: see all three at once",
+            "Your numbers in the formulas"
+          ],
+          "text": "",
+          "excerpt": "Your numbers in the formulas",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "lab-try-this",
+          "heading": "Try this",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Interval Lab: see all three at once",
+            "Try this"
+          ],
+          "text": "Drag \\(n\\) from 20 up to 200. The CI collapses. The PI barely moves. The TI shrinks but stays wide. Drag \\(n\\) down to 3. Everything balloons, and the TI explodes because a tiny sample tells you little about the spread. Double \\(s\\). All three widen in proportion: every interval is \"something times \\(s\\)\". Switch to the pipe example, tick Show spec limits , and drop \\(n\\) to 5. The process looks fine on average, yet the TI no longer fits inside the spec. Small samples cannot prove capability. Set coverage to 90% and push \\(n\\) above 100. Now the 95% PI is wider than the TI. \"TI is widest\" is usually true, not always.",
+          "excerpt": "Drag \\(n\\) from 20 up to 200. The CI collapses. The PI barely moves. The TI shrinks but stays wide. Drag \\(n\\) down to 3. Everything balloons, and the TI explodes because a tiny sample tells you little about the spread. Double \\(s\\). All three widen in…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "formulas-heading",
+          "heading": "The formulas, side by side",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The formulas, side by side"
+          ],
+          "text": "All three intervals share one shape: centre \\(\\pm\\) multiplier \\(\\times\\) spread . The centre is always \\(\\bar{x}\\). What changes is the multiplier, and that is the whole story.",
+          "excerpt": "All three intervals share one shape: centre \\(\\pm\\) multiplier \\(\\times\\) spread . The centre is always \\(\\bar{x}\\). What changes is the multiplier, and that is the whole story.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "formula-ci",
+          "heading": "1. Confidence interval for the mean",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The formulas, side by side",
+            "1. Confidence interval for the mean"
+          ],
+          "text": "When the population standard deviation is unknown (the usual case), use the \\(t\\) distribution: \\[ \\bar{x} \\pm t_{\\alpha/2,\\,n-1}\\,\\frac{s}{\\sqrt{n}} \\] where \\(\\bar{x}\\) is the sample mean, \\(s\\) is the sample standard deviation, \\(n\\) is the sample size, \\(\\alpha = 1 - \\text{confidence level}\\), and \\(t_{\\alpha/2,\\,n-1}\\) is the \\(t\\) value with \\(\\alpha/2\\) of the area above it and \\(n-1\\) degrees of freedom. The term \\(s/\\sqrt{n}\\) is the standard error of the mean. If the population standard deviation \\(\\sigma\\) is truly known, swap \\(t\\) for \\(z\\): \\[ \\bar{x} \\pm z_{\\alpha/2}\\,\\frac{\\sigma}{\\sqrt{n}} \\] where \\(z_{\\alpha/2}\\) is the standard normal value with \\(\\alpha/2\\) of the area above it (1.960 for 95%).",
+          "excerpt": "When the population standard deviation is unknown (the usual case), use the \\(t\\) distribution: \\[ \\bar{x} \\pm t_{\\alpha/2,\\,n-1}\\,\\frac{s}{\\sqrt{n}} \\] where \\(\\bar{x}\\) is the sample mean, \\(s\\) is the sample standard deviation, \\(n\\) is the sample size,…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-salmon-example-95",
+          "heading": "Salmon example (95%)",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The formulas, side by side",
+            "1. Confidence interval for the mean",
+            "Salmon example (95%)"
+          ],
+          "text": "\\[ \\begin{aligned} \\text{CI} &= 5.50 \\pm 2.093 \\times \\frac{0.808}{\\sqrt{20}} \\\\ &= 5.50 \\pm 0.378 \\\\ &= [5.12,\\ 5.88]\\ \\text{kg} \\end{aligned} \\]",
+          "excerpt": "\\[ \\begin{aligned} \\text{CI} &= 5.50 \\pm 2.093 \\times \\frac{0.808}{\\sqrt{20}} \\\\ &= 5.50 \\pm 0.378 \\\\ &= [5.12,\\ 5.88]\\ \\text{kg} \\end{aligned} \\]",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-pi",
+          "heading": "2. Prediction interval for one new observation",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The formulas, side by side",
+            "2. Prediction interval for one new observation"
+          ],
+          "text": "\\[ \\bar{x} \\pm t_{\\alpha/2,\\,n-1}\\, s\\sqrt{1+\\frac{1}{n}} \\] where every symbol means the same as above. The only change is the factor \\(\\sqrt{1 + 1/n}\\) in place of \\(1/\\sqrt{n}\\).",
+          "excerpt": "\\[ \\bar{x} \\pm t_{\\alpha/2,\\,n-1}\\, s\\sqrt{1+\\frac{1}{n}} \\] where every symbol means the same as above. The only change is the factor \\(\\sqrt{1 + 1/n}\\) in place of \\(1/\\sqrt{n}\\).",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-why-the-extra-1",
+          "heading": "Why the extra \"1\"?",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The formulas, side by side",
+            "2. Prediction interval for one new observation",
+            "Why the extra \"1\"?"
+          ],
+          "text": "A new fish differs from our sample mean for two reasons: the new fish varies around the true mean, and our sample mean is itself a bit off. Those two errors are independent, so their variances add: \\[ \\begin{aligned} \\operatorname{Var}\\left(X_{\\text{new}} - \\bar{X}\\right) &= \\sigma^2 + \\frac{\\sigma^2}{n} \\\\ &= \\sigma^2\\left(1 + \\frac{1}{n}\\right) \\end{aligned} \\] where \\(X_{\\text{new}}\\) is the next observation and \\(\\sigma^2\\) is the population variance. The \"1\" is the fish-to-fish scatter. It does not depend on \\(n\\), so it never goes away. That is the PI's floor.",
+          "excerpt": "A new fish differs from our sample mean for two reasons: the new fish varies around the true mean, and our sample mean is itself a bit off. Those two errors are independent, so their variances add: \\[ \\begin{aligned} \\operatorname{Var}\\left(X_{\\text{new}} -…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-salmon-example-95-2",
+          "heading": "Salmon example (95%)",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The formulas, side by side",
+            "2. Prediction interval for one new observation",
+            "Salmon example (95%)"
+          ],
+          "text": "\\[ \\begin{aligned} \\text{PI} &= 5.50 \\pm 2.093 \\times 0.808\\sqrt{1 + \\frac{1}{20}} \\\\ &= 5.50 \\pm 1.733 \\\\ &= [3.77,\\ 7.23]\\ \\text{kg} \\end{aligned} \\]",
+          "excerpt": "\\[ \\begin{aligned} \\text{PI} &= 5.50 \\pm 2.093 \\times 0.808\\sqrt{1 + \\frac{1}{20}} \\\\ &= 5.50 \\pm 1.733 \\\\ &= [3.77,\\ 7.23]\\ \\text{kg} \\end{aligned} \\]",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-ti",
+          "heading": "3. Two-sided tolerance interval (normal data)",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The formulas, side by side",
+            "3. Two-sided tolerance interval (normal data)"
+          ],
+          "text": "\\[ \\bar{x} \\pm k_2\\, s \\] where \\(k_2\\) is the two-sided tolerance factor . It depends on three things: the sample size \\(n\\), the coverage \\(p\\) (the share of the population to capture), and the confidence level \\(1-\\alpha\\). Minitab and published tables solve for the exact \\(k_2\\) numerically. A very good hand formula is Howe's approximation: \\[ k_2 \\approx \\sqrt{\\frac{(n-1)\\left(1+\\frac{1}{n}\\right) z^2_{(1-p)/2}}{\\chi^2_{\\alpha,\\,n-1}}} \\] where \\(z_{(1-p)/2}\\) is the standard normal value with \\((1-p)/2\\) of the area above it (2.576 for \\(p = 0.99\\)), and \\(\\chi^2_{\\alpha,\\,n-1}\\) is the chi-square value with \\(\\alpha\\) of the area below it and \\(n-1\\) degrees of freedom (10.117 for \\(\\alpha = 0.05\\), 19 df).",
+          "excerpt": "\\[ \\bar{x} \\pm k_2\\, s \\] where \\(k_2\\) is the two-sided tolerance factor . It depends on three things: the sample size \\(n\\), the coverage \\(p\\) (the share of the population to capture), and the confidence level \\(1-\\alpha\\). Minitab and published tables…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-salmon-example-95-confidence-99-coverage",
+          "heading": "Salmon example (95% confidence, 99% coverage)",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The formulas, side by side",
+            "3. Two-sided tolerance interval (normal data)",
+            "Salmon example (95% confidence, 99% coverage)"
+          ],
+          "text": "\\[ \\begin{aligned} k_2 &\\approx \\sqrt{\\frac{19 \\times 1.05 \\times 2.576^2}{10.117}} = 3.617 \\\\ k_2 &= 3.621 \\quad (\\text{exact}) \\\\ \\text{TI} &= 5.50 \\pm 3.621 \\times 0.808 \\\\ &= 5.50 \\pm 2.925 \\\\ &= [2.57,\\ 8.43]\\ \\text{kg} \\end{aligned} \\] Howe's \\(k_2\\) gives [2.58, 8.42] kg. That small gap is why Excel (Howe) and Minitab (exact) can differ in the second decimal.",
+          "excerpt": "\\[ \\begin{aligned} k_2 &\\approx \\sqrt{\\frac{19 \\times 1.05 \\times 2.576^2}{10.117}} = 3.617 \\\\ k_2 &= 3.621 \\quad (\\text{exact}) \\\\ \\text{TI} &= 5.50 \\pm 3.621 \\times 0.808 \\\\ &= 5.50 \\pm 2.925 \\\\ &= [2.57,\\ 8.43]\\ \\text{kg} \\end{aligned} \\] Howe's \\(k_2\\)…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "lesson-section-one-sided-tolerance-bounds",
+          "heading": "One-sided tolerance bounds",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The formulas, side by side",
+            "3. Two-sided tolerance interval (normal data)",
+            "One-sided tolerance bounds"
+          ],
+          "text": "Often only one side matters, such as a minimum strength. A lower tolerance bound is \\[ \\bar{x} - k_1\\, s \\] where \\(k_1\\) is the one-sided tolerance factor. It comes from tables or software (it is based on the noncentral \\(t\\) distribution). It is smaller than \\(k_2\\) because all of the uncovered population sits on one side.",
+          "excerpt": "Often only one side matters, such as a minimum strength. A lower tolerance bound is \\[ \\bar{x} - k_1\\, s \\] where \\(k_1\\) is the one-sided tolerance factor. It comes from tables or software (it is based on the noncentral \\(t\\) distribution). It is smaller…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "infinite-sample",
+          "heading": "What happens with an infinite sample?",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "The formulas, side by side",
+            "What happens with an infinite sample?"
+          ],
+          "text": "As \\(n \\to \\infty\\), \\(\\bar{x} \\to \\mu\\), \\(s \\to \\sigma\\), and \\(t \\to z\\). Each interval settles at a different limit: Interval Half-width as \\(n \\to \\infty\\) Plain words CI \\(t_{\\alpha/2,\\,n-1}\\,\\dfrac{s}{\\sqrt{n}} \\to 0\\) You eventually know the mean exactly. PI \\(t_{\\alpha/2,\\,n-1}\\, s\\sqrt{1+\\tfrac{1}{n}} \\to z_{\\alpha/2}\\,\\sigma\\) The next fish still varies: the floor is \\(\\pm 1.96\\sigma\\) at 95%. TI \\(k_2\\, s \\to z_{(1-p)/2}\\,\\sigma\\) It becomes the true population percentiles: \\(\\pm 2.576\\sigma\\) for 99% coverage. Going further: intervals around a regression line The same CI-versus-PI idea appears in regression. At a chosen predictor value \\(x_0\\), with fitted value \\(\\hat{y}_0\\): CI for the mean response: \\[ \\hat{y}_0 \\pm t_{\\alpha/2,\\,n-2}\\, s_e\\sqrt{\\frac{1}{n} + \\frac{(x_0-\\bar{x})^2}{S_{xx}}} \\] PI for one new response: \\[ \\hat{y}_0 \\pm t_{\\alpha/2,\\,n-2}\\, s_e\\sqrt{1 + \\frac{1}{n} + \\frac{(x_0-\\bar{x})^2}{S_{xx}}} \\] where \\(s_e\\) is the standard error of the regression (the residual standard deviation), \\(\\bar{x}\\) is the mean of the predictor, and \\(S_{xx} = \\sum (x_i - \\bar{x})^2\\). Again the PI carries the extra \"1\", so its band is always wider, and both bands flare out as \\(x_0\\) moves away from \\(\\bar{x}\\).",
+          "excerpt": "As \\(n \\to \\infty\\), \\(\\bar{x} \\to \\mu\\), \\(s \\to \\sigma\\), and \\(t \\to z\\). Each interval settles at a different limit: Interval Half-width as \\(n \\to \\infty\\) Plain words CI \\(t_{\\alpha/2,\\,n-1}\\,\\dfrac{s}{\\sqrt{n}} \\to 0\\) You eventually know the mean…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "width-heading",
+          "heading": "Watch the widths as the sample grows",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Watch the widths as the sample grows"
+          ],
+          "text": "This chart plots each interval's half-width as a multiple of \\(s\\). It uses the confidence and coverage you picked in the Interval Lab. The dot marks your current \\(n\\). Hover or touch the chart to read values. CI: \\(t/\\sqrt{n}\\) PI: \\(t\\sqrt{1+1/n}\\) TI: \\(k_2\\) Log scale on the sample-size axis. At very small \\(n\\) the lines run off the top of the chart. Show the numbers as a table Read the chart like this: the CI line dives toward zero. The PI line flattens onto its floor (\\(z_{\\alpha/2}\\)). The TI line falls fast at first and then creeps toward its own floor (\\(z_{(1-p)/2}\\)). More data buys you a lot of precision on the mean, and almost nothing on the next single part.",
+          "excerpt": "This chart plots each interval's half-width as a multiple of \\(s\\). It uses the confidence and coverage you picked in the Interval Lab. The dot marks your current \\(n\\). Hover or touch the chart to read values. CI: \\(t/\\sqrt{n}\\) PI: \\(t\\sqrt{1+1/n}\\) TI:…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "sim-heading",
+          "heading": "What does \"95%\" really mean? A coverage simulator",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "What does \"95%\" really mean? A coverage simulator"
+          ],
+          "text": "Here we play the river. We know the truth: salmon weights follow a normal distribution with \\(\\mu = 5.5\\,\\text{kg}\\) and \\(\\sigma = 0.8\\,\\text{kg}\\). Each click draws a fresh random sample, builds all three intervals, then checks each one against its own target. Interval Counts as a hit when… CI it contains the true mean \\(\\mu = 5.5\\) PI one brand-new fish, caught after the sample, lands inside it TI it actually holds at least the chosen coverage (for example 90%) of the whole population Sample size \\(n\\) 10 Confidence level TI coverage Show on the picture CI PI TI The big misconception: a 95% CI does not contain 95% of the data. In the simulator, look at the CI rows: they are far too narrow to hold most fish. The 95% is about the method : in the long run, 95% of intervals built this way capture \\(\\mu\\). Any one interval either contains \\(\\mu\\) or it does not.",
+          "excerpt": "Here we play the river. We know the truth: salmon weights follow a normal distribution with \\(\\mu = 5.5\\,\\text{kg}\\) and \\(\\sigma = 0.8\\,\\text{kg}\\). Each click draws a fresh random sample, builds all three intervals, then checks each one against its own…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "apps-heading",
+          "heading": "Where you will use each one at work",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Where you will use each one at work"
+          ],
+          "text": "Situation Interval Why Estimate the true average yield strength of a heat-treat batch CI The question is about the average, not any one coupon. Check whether the mean fill weight moved after a changeover CI Compare the CI for the mean with the target; this mirrors a hypothesis test. Tell a customer what the next coil's hardness will be PI One future item, so individual scatter matters. Predict the hardness of the next part tempered at a set temperature PI (regression) A single future response at a given \\(x\\). Show that at least 99% of pipe walls sit inside the thickness spec TI The claim is about nearly all product, with stated confidence. Set a minimum strength that 95% of bolts will exceed One-sided TI A lower tolerance bound protects one side only. Set engineering limits from a 50-part capability run TI Limits must cover the population, not just the mean.",
+          "excerpt": "Situation Interval Why Estimate the true average yield strength of a heat-treat batch CI The question is about the average, not any one coupon. Check whether the mean fill weight moved after a changeover CI Compare the CI for the mean with the target; this…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "sorter-heading",
+          "heading": "Practice: which interval do I need?",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Practice: which interval do I need?"
+          ],
+          "text": "Read each situation and pick CI, PI, or TI. You get feedback straight away.",
+          "excerpt": "Read each situation and pick CI, PI, or TI. You get feedback straight away.",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "mistakes-heading",
+          "heading": "Common mistakes to avoid",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Common mistakes to avoid"
+          ],
+          "text": "Judging parts against a spec with a CI. A narrow CI only says the average is well known. Individual parts can still fall out of spec. Use a TI for spec decisions. Saying \"95% of the data is inside the CI.\" That describes a tolerance interval (and then only with confidence attached), not a CI. Expecting more data to shrink a PI to nothing. It cannot. The floor is the process's own variation. To narrow a PI, reduce variation. Mixing up confidence and coverage. In a 95/99 TI, 95% is how sure you are; 99% is how much of the population is inside. Using the normal-theory formulas on clearly non-normal data. The PI and TI lean hard on normality because they describe individual values. Check a normal probability plot first. Minitab's tolerance interval tool also reports a nonparametric interval for this case. Using \\(z\\) instead of \\(t\\) with a small sample. Unless \\(\\sigma\\) is truly known, use \\(t\\) with \\(n-1\\) degrees of freedom.",
+          "excerpt": "Judging parts against a spec with a CI. A narrow CI only says the average is well known. Individual parts can still fall out of spec. Use a TI for spec decisions. Saying \"95% of the data is inside the CI.\" That describes a tolerance interval (and then only…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "impl-heading",
+          "heading": "Statistics Implementation",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Statistics Implementation"
+          ],
+          "text": "Here is how to produce every number in this lesson with Excel and Minitab, plus what to expect on the ASQ exams.",
+          "excerpt": "Here is how to produce every number in this lesson with Excel and Minitab, plus what to expect on the ASQ exams.",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "excel-functions",
+          "heading": "Excel functions",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Statistics Implementation",
+            "Excel functions"
+          ],
+          "text": "Excel has a one-step function for the CI half-width. It has no built-in prediction or tolerance interval for a single sample, so you build those from the critical-value functions below. Function Syntax Purpose When to use it AVERAGE =AVERAGE(number1, [number2], ...) Sample mean \\(\\bar{x}\\) The centre of all three intervals STDEV.S =STDEV.S(number1, [number2], ...) Sample standard deviation \\(s\\) (divides by \\(n-1\\)) Always for sample data. STDEV.P is for a whole population. COUNT =COUNT(value1, [value2], ...) Sample size \\(n\\) Counts numeric cells only CONFIDENCE.T =CONFIDENCE.T(alpha, standard_dev, size) CI half-width using \\(t\\): \\(t_{\\alpha/2,\\,n-1}\\, s/\\sqrt{n}\\) CI for a mean when \\(\\sigma\\) is unknown (most cases) CONFIDENCE.NORM =CONFIDENCE.NORM(alpha, standard_dev, size) CI half-width using \\(z\\): \\(z_{\\alpha/2}\\,\\sigma/\\sqrt{n}\\) Only when \\(\\sigma\\) is known. Older name: CONFIDENCE . T.INV.2T =T.INV.2T(probability, deg_freedom) Two-tailed \\(t\\) critical value \\(t_{\\alpha/2,\\,n-1}\\) Building a two-sided CI or PI by hand. Use probability = \\(\\alpha\\) (0.05 for 95%). Older name: TINV . T.INV =T.INV(probability, deg_freedom) Left-tailed inverse of \\(t\\) One-sided bounds, e.g. =T.INV(0.95, 19) for a 95% one-sided limit NORM.S.INV =NORM.S.INV(probability) Standard normal value with probability below it \\(z_{\\alpha/2}\\) and the coverage value \\(z_{(1-p)/2}\\) = NORM.S.INV((1+p)/2) . Older name: NORMSINV . CHISQ.INV =CHISQ.INV(probability, deg_freedom) Chi-square value with probability below it (left tail) The \\(\\chi^2_{\\alpha,\\,n-1}\\) in Howe's tolerance factor: =CHISQ.INV(0.05, 19) CHISQ.INV.RT =CHISQ.INV.RT(probability, deg_freedom) Chi-square value with probability above it (right tail) Same number as above via =CHISQ.INV.RT(0.95, 19) . Older name: CHIINV . SQRT =SQRT(number) Square root \\(\\sqrt{n}\\), \\(\\sqrt{1+1/n}\\), and the \\(k_2\\) formula FORECAST.LINEAR =FORECAST.LINEAR(x, known_y's, known_x's) Fitted value \\(\\hat{y}_0\\) on a straight line Centre of a regression CI or PI STEYX =STEYX(known_y's, known_x's) Standard error of the regression \\(s_e\\) Spread term in the regression CI and PI DEVSQ =DEVSQ(number1, [number2], ...) Sum of squared deviations, e.g. \\(S_{xx}\\) The \\((x_0-\\bar{x})^2/S_{xx}\\) term in regression intervals",
+          "excerpt": "Excel has a one-step function for the CI half-width. It has no built-in prediction or tolerance interval for a single sample, so you build those from the critical-value functions below. Function Syntax Purpose When to use it AVERAGE =AVERAGE(number1,…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "excel-use-cases",
+          "heading": "Excel use cases",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Statistics Implementation",
+            "Excel use cases"
+          ],
+          "text": "Paste the 20 salmon weights into cells A2:A21 (use the copy button above). Then enter these formulas. The results match the worked examples. Cell What it holds Formula Result D2 \\(n\\) =COUNT(A2:A21) 20 D3 \\(\\bar{x}\\) =AVERAGE(A2:A21) 5.50 D4 \\(s\\) =STDEV.S(A2:A21) 0.8079 D5 \\(t_{0.025,\\,19}\\) =T.INV.2T(0.05, D2-1) 2.0930 D6 CI half-width =CONFIDENCE.T(0.05, D4, D2) 0.3781 D7 CI lower / upper =D3-D6 and =D3+D6 5.12 / 5.88 D8 PI half-width =D5*D4*SQRT(1+1/D2) 1.7326 D9 PI lower / upper =D3-D8 and =D3+D8 3.77 / 7.23 D10 \\(k_2\\) (Howe), 95% confidence, 99% coverage =SQRT((D2-1)*(1+1/D2)*NORM.S.INV((1+0.99)/2)^2/CHISQ.INV(0.05, D2-1)) 3.6171 D11 TI lower / upper =D3-D10*D4 and =D3+D10*D4 2.58 / 8.42 Check yourself: =D5*D4/SQRT(D2) returns the same 0.3781 as CONFIDENCE.T . That is the CI formula built by hand. The PI formula differs only by swapping 1/SQRT(D2) for SQRT(1+1/D2) . Common Excel slip: T.INV.2T wants \\(\\alpha\\) (0.05), but T.INV wants the left-tail area (0.975 for the same two-sided value). Mixing them up gives a negative or wrong \\(t\\).",
+          "excerpt": "Paste the 20 salmon weights into cells A2:A21 (use the copy button above). Then enter these formulas. The results match the worked examples. Cell What it holds Formula Result D2 \\(n\\) =COUNT(A2:A21) 20 D3 \\(\\bar{x}\\) =AVERAGE(A2:A21) 5.50 D4 \\(s\\)…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "minitab-navigation",
+          "heading": "Minitab navigation",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Statistics Implementation",
+            "Minitab navigation"
+          ],
+          "text": "Goal Menu path Key settings and notes CI for the mean (\\(\\sigma\\) unknown) Stat → Basic Statistics → 1-Sample t Choose \"One or more samples, each in a column\" and select the weight column. Under Options set the Confidence level and keep the alternative hypothesis as \"Mean ≠ hypothesized mean\" for a two-sided interval. The output shows the 95% CI for \\(\\mu\\), about (5.122, 5.878). CI for the mean (\\(\\sigma\\) known) Stat → Basic Statistics → 1-Sample Z Enter the Known standard deviation . Use only when \\(\\sigma\\) truly comes from long process history. CI with a picture Stat → Basic Statistics → Graphical Summary Shows the 95% CI for the mean, the median, and the standard deviation next to a histogram and a normality test. A good first look. Tolerance interval Stat → Quality Tools → Tolerance Intervals (Normal Distribution) Enter the column and set Minimum percentage of population in interval (99). Under Options set the Confidence level (95) and choose Two-sided , Lower bound , or Upper bound . The output gives a Normal method interval, about (2.575, 8.425), and a Nonparametric method interval. \"Summarized data\" lets you enter just \\(n\\), \\(\\bar{x}\\), and \\(s\\). Tolerance interval, non-normal data Stat → Quality Tools → Tolerance Intervals (Nonnormal Distribution) Pick a fitted distribution such as Weibull or lognormal when the normal probability plot clearly bends. PI for one new value (single sample) Calc → Probability Distributions → t , then Calc → Calculator Minitab has no one-sample PI dialog. Choose Inverse cumulative probability , enter 19 degrees of freedom and input constant 0.975 to get 2.093, then compute \\(\\bar{x} \\pm t\\, s\\sqrt{1+1/n}\\) in the Calculator. CI and PI bands on a regression line Stat → Regression → Fitted Line Plot Under Options , tick Display confidence interval and Display prediction interval . You see both bands at once; the PI band is always the wider one. CI and PI at a chosen \\(x\\) Stat → Regression → Regression → Fit Regression Model , then Stat → Regression → Regression → Predict Enter the new predictor value. The output lists a \"95% CI\" (mean response) and a \"95% PI\" (one new response) side by side. Which option should I use? For the mean, use 1-Sample t . For anything about individual parts against a spec, use Tolerance Intervals (Normal Distribution) , and read the nonparametric result too if normality is doubtful. For a single future value from one sample, build the PI with the Calculator. For predictions from a model, use Predict after fitting it.",
+          "excerpt": "Goal Menu path Key settings and notes CI for the mean (\\(\\sigma\\) unknown) Stat → Basic Statistics → 1-Sample t Choose \"One or more samples, each in a column\" and select the weight column. Under Options set the Confidence level and keep the alternative…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "exam-tips",
+          "heading": "Exam tips (ASQ CSSBB and CQE)",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Statistics Implementation",
+            "Exam tips (ASQ CSSBB and CQE)"
+          ],
+          "text": "Read the target first. \"Average\", \"mean\", or \"true value\" points to a CI. \"Next\", \"a single\", or \"one more\" points to a PI. \"Percentage of the population\", \"proportion of units\", or \"specification\" points to a TI. Know the multiplier pattern. CI uses \\(1/\\sqrt{n}\\), PI uses \\(\\sqrt{1+1/n}\\), TI uses a table factor \\(k\\). Exam questions often hand you the \\(k\\) value or a table; you just apply \\(\\bar{x} \\pm k s\\). \\(t\\) or \\(z\\)? Use \\(z\\) only when \\(\\sigma\\) is given as known. Otherwise use \\(t\\) with \\(n-1\\) degrees of freedom. A small \\(n\\) with \\(s\\) is a strong hint for \\(t\\). Width ranking. At the same confidence level the CI is always narrower than the PI. Expect \"which interval is widest?\" questions; the TI is usually the answer, but check the coverage. Sample size effect. Quadrupling \\(n\\) roughly halves the CI width. It hardly changes the PI. This \"diminishing returns\" idea appears in sample-size questions. Interpretation traps. Watch for answer choices that say \"95% probability that \\(\\mu\\) is in this interval\" or \"95% of the data lie in the CI\". Both are wrong. On the job: capability and spec-setting decisions call for tolerance intervals; customer quotes on the next shipment call for prediction intervals; process-change and mean-shift questions call for confidence intervals.",
+          "excerpt": "Read the target first. \"Average\", \"mean\", or \"true value\" points to a CI. \"Next\", \"a single\", or \"one more\" points to a PI. \"Percentage of the population\", \"proportion of units\", or \"specification\" points to a TI. Know the multiplier pattern. CI uses…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "takeaways-heading",
+          "heading": "Key takeaways",
+          "breadcrumb": [
+            "Confidence vs Prediction vs Tolerance Intervals",
+            "Key takeaways"
+          ],
+          "text": "CI pins down a parameter (usually the mean). It shrinks to zero with enough data. PI brackets one future value. It has a floor set by the process's own scatter. TI brackets a stated share of the whole population with stated confidence. It is the right tool for specs and capability claims. All three are \\(\\bar{x} \\pm (\\text{multiplier}) \\times s\\). Learn the three multipliers and you know the lesson.",
+          "excerpt": "CI pins down a parameter (usually the mean). It shrinks to zero with enough data. PI brackets one future value. It has a floor set by the process's own scatter. TI brackets a stated share of the whole population with stated confidence. It is the right tool…",
           "kinds": [
             "section",
             "formula"
