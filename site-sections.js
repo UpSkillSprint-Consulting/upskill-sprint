@@ -271,7 +271,7 @@
       '<a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>' +
       '<nav class="desktop-nav" aria-label="Primary navigation">' + navLinksMarkup() + '</nav>' +
       '<div class="header-actions">' + (hasThemeToggle() ? '' : themeToggleMarkup()) +
-      '<label for="uss-mnav-check" class="mobile-menu-btn" aria-label="Open menu">' + MENU_ICON + '</label></div>';
+      '<label for="uss-mnav-check" class="mobile-menu-btn">' + MENU_ICON + '</label></div>';
 
     const mobileNav = document.createElement('nav');
     mobileNav.className = 'mobile-nav uss-site-chrome uss-mobile-nav';
@@ -384,12 +384,107 @@
     document.head.appendChild(style);
   }
 
+  /* Mobile menu: every header uses a CSS checkbox toggle (input.mnav-check + label.mobile-menu-btn).
+     aria-label is not allowed on a <label> without a role (axe aria-prohibited-attr), and the
+     checkbox is display:none and aria-hidden, so keyboard and screen-reader users could not open
+     the menu. The static markup stays as it is (lesson tests lock the guide's header block).
+     At runtime, the label loses aria-label and is hidden from assistive technology as a
+     pointer-only duplicate, and a real <button aria-expanded> is added next to it inside the
+     header. The button is visually hidden. While it has focus, the hamburger icon shows the
+     focus ring. It drives the same checkbox, so the CSS menu works unchanged. It only exists
+     for assistive technology while the mobile button is on screen. Escape closes the menu. */
+  const MENU_STYLE_ID = 'uss-mobile-menu-a11y';
+  const menuControls = [];
+
+  function ensureMenuStyles() {
+    if (document.getElementById(MENU_STYLE_ID)) return;
+    const style = document.createElement('style');
+    style.id = MENU_STYLE_ID;
+    style.textContent =
+      'button.uss-menu-toggle { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }' +
+      'button.uss-menu-toggle[hidden] { display: none; }' +
+      'label.mobile-menu-btn.uss-menu-focus { outline: 3px solid #0e7490; outline-offset: 2px; }' +
+      'html[data-theme="dark"] label.mobile-menu-btn.uss-menu-focus { outline-color: #7dd3fc; }';
+    document.head.appendChild(style);
+  }
+
+  function menuNavFor(box) {
+    let node = box.nextElementSibling;
+    while (node) {
+      if (node.matches && node.matches('nav.mobile-nav')) return node;
+      node = node.nextElementSibling;
+    }
+    return null;
+  }
+
+  function syncMobileMenuControls() {
+    menuControls.forEach(function (control) {
+      const shown = control.label.getClientRects().length > 0 && window.getComputedStyle(control.label).visibility !== 'hidden';
+      if (!shown && document.activeElement === control.button) control.button.blur();
+      control.button.hidden = !shown;
+      control.button.setAttribute('aria-expanded', control.box.checked ? 'true' : 'false');
+    });
+  }
+
+  function enhanceMobileMenuButtons() {
+    if (!document.body) return;
+    ensureMenuStyles();
+    let added = false;
+    document.querySelectorAll('label.mobile-menu-btn').forEach(function (label) {
+      if (label.getAttribute('data-uss-menu') === 'enhanced') return;
+      label.setAttribute('data-uss-menu', 'enhanced');
+      const name = (label.getAttribute('aria-label') || '').trim() || 'Open menu';
+      label.removeAttribute('aria-label');
+      const box = label.htmlFor ? document.getElementById(label.htmlFor) : null;
+      if (!box || box.type !== 'checkbox') return;
+      label.setAttribute('aria-hidden', 'true');
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'uss-menu-toggle';
+      button.textContent = name;
+      button.setAttribute('aria-expanded', box.checked ? 'true' : 'false');
+      const nav = menuNavFor(box);
+      if (nav && nav.id) button.setAttribute('aria-controls', nav.id);
+      label.parentNode.insertBefore(button, label);
+      const control = { label: label, box: box, button: button };
+      button.addEventListener('click', function () {
+        box.checked = !box.checked;
+        box.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+      button.addEventListener('focus', function () { label.classList.add('uss-menu-focus'); });
+      button.addEventListener('blur', function () { label.classList.remove('uss-menu-focus'); });
+      box.addEventListener('change', syncMobileMenuControls);
+      menuControls.push(control);
+      added = true;
+    });
+    if (!added) return;
+    syncMobileMenuControls();
+    if (!window.__ussMobileMenuListeners) {
+      window.__ussMobileMenuListeners = true;
+      let frame = 0;
+      window.addEventListener('resize', function () {
+        if (frame) return;
+        frame = window.requestAnimationFrame(function () { frame = 0; syncMobileMenuControls(); });
+      });
+      document.addEventListener('keydown', function (event) {
+        if (event.key !== 'Escape') return;
+        menuControls.forEach(function (control) {
+          if (!control.box.checked) return;
+          control.box.checked = false;
+          control.box.dispatchEvent(new Event('change', { bubbles: true }));
+          if (!control.button.hidden) control.button.focus();
+        });
+      });
+    }
+  }
+
   function ensureNavigation() {
     ensureSiteHeader();
     document.querySelectorAll('header.site nav.desktop-nav, nav.mobile-nav').forEach(normalizeSiteNav);
     document.querySelectorAll('nav.desktop-nav, nav.mobile-nav').forEach(addToolsLinkToNav);
     ensureSiteFooter();
     addToolsLinkToFooter();
+    enhanceMobileMenuButtons();
   }
 
   function buildHomeToolsSection() {
@@ -770,6 +865,8 @@
     enhanceLessonsHierarchy();
     activateAvailableTools();
     enhanceLeadMagnetCapture();
+    /* Some lesson scripts build their own header after this runs. */
+    window.addEventListener('load', enhanceMobileMenuButtons, { once: true });
   }
 
   installArrowCleanupWriteHook();
