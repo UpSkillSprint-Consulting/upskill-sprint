@@ -56,8 +56,8 @@
       return;
     }
     var premium = body.getAttribute('data-required-access') === 'premium';
-    var deniedPath = premium ? '/lessons.html?access=premium#exam-practice' : '/engineering-tools.html?access=administrator';
-    var unavailablePath = premium ? '/lessons.html?access=unavailable#exam-practice' : '/engineering-tools.html?access=unavailable';
+    var deniedPath = premium ? '/exam-practice?access=premium' : '/engineering-tools.html?access=administrator';
+    var unavailablePath = premium ? '/exam-practice?access=unavailable' : '/engineering-tools.html?access=unavailable';
 
     var auth = window.UpskillAuth;
     if (!auth || typeof auth.onChange !== 'function') {
