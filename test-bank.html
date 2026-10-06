@@ -4502,10 +4502,10 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var subName='';e.bok.forEach(function(bd){bd.subs.forEach(function(x){if(x.id===q.sub)subName=x.name;});});
     var revealed=isAnswerRevealed(session.i),revealedTotal=revealCount();
     var nav=session.items.map(function(_,i){return '<button type="button" class="tb-navcell'+(session.answers[i]!=null||isAnswerRevealed(i)?' done':'')+(i===session.i?' cur':'')+(session.flags[i]?' flag':'')+(isAnswerRevealed(i)?' revealed':'')+'" data-goto="'+i+'" aria-label="Question '+(i+1)+(session.flags[i]?', flagged':'')+(isAnswerRevealed(i)?', answer revealed, counted as incorrect':'')+'">'+(i+1)+'</button>';}).join('');
-    var opts=q.options.map(function(o,i){return '<button type="button" class="tb-opt'+(session.answers[session.i]===i?' sel':'')+(revealed&&i===q.answer?' reveal-correct':'')+'" data-opt="'+i+'"'+(revealed?' disabled':'')+'><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o)+'</span></button>';}).join('');
+    var opts=q.options.map(function(o,i){return '<button type="button" class="tb-opt'+(session.answers[session.i]===i?' sel':'')+(revealed&&i===q.answer?' reveal-correct':'')+'" data-opt="'+i+'" aria-pressed="'+(session.answers[session.i]===i)+'"'+(revealed?' disabled':'')+'><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o)+'</span></button>';}).join('');
     var timer=session.timed?'<span class="tb-timer" id="tb-timer">'+fmtClock((session.endsAt-Date.now())/1000)+'</span>':'<span class="tb-timer untimed">Untimed</span>';
     var toolbar='<div class="tb-toolbar">'+timer+
-      '<button type="button" class="tb-tbtn'+(session.flags[session.i]?' on':'')+'" data-flag>\u2691 '+(session.flags[session.i]?'Flagged':'Flag')+'</button>'+
+      '<button type="button" class="tb-tbtn'+(session.flags[session.i]?' on':'')+'" data-flag aria-pressed="'+!!session.flags[session.i]+'">\u2691 '+(session.flags[session.i]?'Flagged':'Flag')+'</button>'+
       (!session.timed?'<button type="button" class="tb-tbtn" data-reveal aria-describedby="tb-reveal-hint" '+(revealed?'aria-controls="tb-revealed-answer" ':'')+'aria-expanded="'+revealed+'"'+(revealed||!validRevealKey(q)?' disabled':'')+'>'+(revealed?'Answer Revealed':'Reveal Answer')+'</button>':'')+
       '<button type="button" class="tb-tbtn" data-formulas>\u2630 Formulas</button>'+
       '<button type="button" class="tb-tbtn" data-tables>\u25a4 Tables</button>'+
@@ -4532,11 +4532,13 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       button.classList.toggle('sel',selected);button.setAttribute('aria-pressed',String(selected));
       button.disabled=revealed;button.classList.toggle('reveal-correct',revealed&&+button.dataset.opt===q.answer);
     });
+    var flagButton=quiz.querySelector('[data-flag]');
+    if(flagButton){flagButton.classList.toggle('on',!!session.flags[session.i]);flagButton.setAttribute('aria-pressed',String(!!session.flags[session.i]));flagButton.textContent='\u2691 '+(session.flags[session.i]?'Flagged':'Flag');}
     var progress=quiz.querySelector('.tb-quizprog');
     var revealedTotal=revealCount();
     if(progress)progress.textContent='Question '+(session.i+1)+' of '+n+' · '+answered+' answered'+(revealedTotal?' · '+revealedTotal+' revealed':'')+(flagged?' · '+flagged+' flagged':'');
     var bar=quiz.querySelector('.tb-progress span');if(bar)bar.style.width=(completedQuestionCount()/n*100)+'%';
-    var current=quiz.querySelector('.tb-navcell.cur');if(current){current.classList.toggle('done',session.answers[session.i]!=null||revealed);current.classList.toggle('revealed',revealed);current.setAttribute('aria-label','Question '+(session.i+1)+(session.flags[session.i]?', flagged':'')+(revealed?', answer revealed, counted as incorrect':''));}
+    var current=quiz.querySelector('.tb-navcell.cur');if(current){current.classList.toggle('done',session.answers[session.i]!=null||revealed);current.classList.toggle('revealed',revealed);current.classList.toggle('flag',!!session.flags[session.i]);current.setAttribute('aria-label','Question '+(session.i+1)+(session.flags[session.i]?', flagged':'')+(revealed?', answer revealed, counted as incorrect':''));}
     if(revealed){
       var revealButton=quiz.querySelector('[data-reveal]');if(revealButton){revealButton.disabled=true;revealButton.textContent='Answer Revealed';revealButton.setAttribute('aria-expanded','true');revealButton.setAttribute('aria-controls','tb-revealed-answer');}
       if(!quiz.querySelector('#tb-revealed-answer')){
@@ -4581,7 +4583,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     Array.prototype.forEach.call(host.querySelectorAll('[data-goto]'),function(b){b.addEventListener('click',function(){session.i=+b.dataset.goto;renderMain();});});
     var nx=host.querySelector('[data-next]');if(nx)nx.addEventListener('click',function(){session.i++;renderMain();});
     var sb=host.querySelector('[data-submit]');if(sb)sb.addEventListener('click',function(){submitQuiz();});
-    var fl=host.querySelector('[data-flag]');if(fl)fl.addEventListener('click',function(){session.flags[session.i]=!session.flags[session.i];renderMain();});
+    var fl=host.querySelector('[data-flag]');if(fl)fl.addEventListener('click',function(){if(session.completed)return;session.flags[session.i]=!session.flags[session.i];updateQuizAnswerState(host);});
     var reveal=host.querySelector('[data-reveal]');if(reveal)reveal.addEventListener('click',revealCurrentAnswer);
     var fm=host.querySelector('[data-formulas]');if(fm)fm.addEventListener('click',function(){toggleTool('formulas');});
     var tbl=host.querySelector('[data-tables]');if(tbl)tbl.addEventListener('click',function(){toggleTool('tables');});

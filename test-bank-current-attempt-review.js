@@ -57,7 +57,10 @@
   }
   function safeHtml(value) {
     const template = document.createElement('template');
-    template.innerHTML = String(value || '');
+    // Authored feedback mixes HTML with inequalities such as 5.25<X<5.75.
+    // Only complete tag tokens belong to HTML; preserve the other '<' signs
+    // as text before parsing, then apply the existing sanitizer below.
+    template.innerHTML = String(value || '').replace(/<(?!\/?[a-z][\w:-]*(?:\s[^<>]*?)?\/?>|!--)/gi, '&lt;');
     template.content.querySelectorAll('script,iframe,object,embed,style,link,meta,base,form,input,button,textarea').forEach(n => n.remove());
     template.content.querySelectorAll('*').forEach(n => {
       Array.from(n.attributes).forEach(a => {

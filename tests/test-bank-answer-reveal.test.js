@@ -49,9 +49,10 @@ async function harness() {
     await Promise.resolve();
   }};
 }
-function start(w, exam, mode, timed = false) {
+function start(w, exam, mode, timed = false, bank = null) {
   w.document.querySelector(`.tb-tile[data-exam="${exam}"]`).click();
   const actual = mode === 'focused' ? 'focus' : mode;
+  if(bank != null) w.document.querySelector(actual==='full'?`[data-set="${bank}"]`:`[data-quiz-set-kind="${actual}"][data-quiz-set="${bank}"]`)?.click();
   w.document.querySelector(`[data-timing-kind="${actual}"][data-timed="${timed ? 1 : 0}"]`)?.click();
   const native = w.document.querySelector(`#tb-overview [data-mode="${actual}"]`);
   if (native) native.click();
@@ -114,10 +115,16 @@ test('untimed reveal applies to every delivered exam and session type', async pa
       assert.equal(w.__TB.getFeedbackSnapshot().records[0].selected, null, 'synthetic answer cannot override reveal');
       select(w, 1, second.answer);
       d.querySelector('[data-reveal]').click();
-      d.querySelector('[data-flag]').click();
+      const flag = d.querySelector('[data-flag]'), panel = d.querySelector('#tb-revealed-answer');
+      flag.focus();flag.click();
+      assert.equal(d.activeElement,flag,'flagging preserves keyboard focus');
+      assert.equal(flag.getAttribute('aria-pressed'),'true');
+      assert.equal(d.querySelector('#tb-revealed-answer'),panel,'flagging preserves reveal details');
       assert.ok(d.querySelector('[data-goto="1"]').classList.contains('revealed'));
       d.querySelector('[data-goto="0"]').click();
       assert.ok(d.querySelector('#tb-revealed-answer'));
+      d.querySelector('[data-goto="1"]').click();
+      assert.equal(d.querySelector(`[data-opt="${second.answer}"]`).getAttribute('aria-pressed'),'true','selected option remains accessible on return');
       const third = original.records[2].question;
       select(w, 2, third.answer);
       await finish(w);
@@ -191,4 +198,87 @@ test('future question schemas use shared grading and safe explanations', async (
     assert.equal(w.__TB.revealCurrentAnswer(),false,'invalid key cannot be revealed');
     assert.deepEqual(h.errors,[]);
   } finally {await h.close();}
+});
+test('real CQE calculations remain complete in reveal and review',async()=>{
+  const h=await harness(),w=h.w;
+  try{
+    const affected=Object.values(w.__TB.EXAMS.cqe.sets).flat().filter(q=>/<[XZ]</.test(q.why||''));
+    assert.equal(affected.length,4,'all current CQE inequality explanations are covered');
+    for(const q of affected){
+      const template=w.document.createElement('template');template.innerHTML=w.__TBFeedbackPresentation.explanationHtml(q);
+      assert.equal(template.content.querySelector('.tb-explanation-copy').textContent,q.why);
+    }
+    const data=start(w,'cqe','quick');data.records[0].question.why=affected[0].why;
+    click(w,'[data-reveal]');
+    assert.equal(w.document.querySelector('#tb-revealed-answer .tb-explanation-copy').textContent,affected[0].why);
+    await finish(w);click(w,'[data-open-review="all"]');
+    assert.equal(w.document.querySelector('.tb-review-card.revealed .tb-explanation-copy').textContent,affected[0].why);
+    assert.deepEqual(h.errors,[]);
+  }finally{await h.close();}
+});
+test('revealing and flagging preserve the real MBB interactive question',async()=>{
+  const h=await harness(),w=h.w,d=w.document;
+  try{
+    click(w,'.tb-tile[data-exam="mbb"]');click(w,'[data-set="2"]');
+    const data=start(w,'mbb','full',false,'2');
+    const index=data.records.findIndex(r=>r.question.qid==='mbb:set-2:original-005');assert.ok(index>=0);
+    click(w,`[data-goto="${index}"]`);
+    const slider=d.querySelector('[data-tb-whatif]');assert.ok(slider,'real authored interactive item');
+    slider.value='7';slider.dispatchEvent(new w.Event('input',{bubbles:true}));
+    click(w,'[data-reveal]');
+    assert.equal(d.querySelector('[data-tb-whatif]'),slider);assert.equal(slider.value,'7');
+    const details=d.querySelector('#tb-revealed-answer .tb-review-rationales');assert.ok(details);details.open=true;
+    const flag=d.querySelector('[data-flag]');flag.focus();flag.click();
+    assert.equal(d.activeElement,flag);assert.equal(d.querySelector('[data-tb-whatif]'),slider);
+    assert.equal(slider.value,'7');assert.equal(details.open,true);
+    assert.equal(flag.getAttribute('aria-pressed'),'true');
+    flag.click();assert.equal(flag.getAttribute('aria-pressed'),'false');
+    assert.equal(d.querySelector('.tb-navcell.cur').classList.contains('flag'),false);
+    assert.ok(d.querySelector('.tb-navcell.cur').classList.contains('revealed'));
+    assert.deepEqual(h.errors,[]);
+  }finally{await h.close();}
+});
+test('every current test set and mixed pool inherits reveal grading',async parent=>{
+  const catalog=await harness();
+  const exams=Object.entries(catalog.w.__TB.EXAMS).filter(([,e])=>e.bank?.length).map(([id,e])=>({id,sets:Object.keys(e.sets||{1:e.bank})}));
+  await catalog.close();
+  for(const exam of exams) await parent.test(exam.id,async()=>{
+    const h=await harness(),w=h.w;
+    try{
+      for(const mode of ['full','quick','focused'])for(const bank of [...exam.sets,...(exam.sets.length>1?['mix']:[])]){
+        w.document.querySelector('[data-back]')?.click();
+        click(w,`.tb-tile[data-exam="${exam.id}"]`);
+        const kind=mode==='focused'?'focus':mode;
+        const selector=kind==='full'?`[data-set="${bank}"]`:`[data-quiz-set-kind="${kind}"][data-quiz-set="${bank}"]`;
+        w.document.querySelector(selector)?.click();
+        const data=start(w,exam.id,mode,false,bank);
+        assert.equal(data.setId,bank,`${exam.id}/${mode}/${bank} uses selected pool`);
+        click(w,'[data-reveal]');await finish(w);
+        const grading=w.__TB.getFeedbackSnapshot().grading;
+        assert.equal(grading.incorrect,1);assert.equal(grading.revealed,1);assert.equal(grading.correct,0);
+        assert.equal(grading.unanswered,data.records.length-1);
+        click(w,'[data-open-review="missed"]');
+        assert.equal(w.document.querySelectorAll('.tb-review-card.revealed').length,1);
+      }
+      assert.deepEqual(h.errors,[]);
+    }finally{await h.close();}
+  });
+});
+test('a newly populated certification inherits the complete reveal flow',async()=>{
+  const h=await harness(),w=h.w,d=w.document;
+  try{
+    const e=w.__TB.EXAMS.cqa;
+    const q={qid:'future-certification:original-001',stem:'Future certification sample',sub:e.bok[0].subs[0].id,options:['First','Second','Third'],answer:2,why:'Shared reveal needs no certification-specific hook.'};
+    e.bank=[q];e.sets={1:[q]};
+    click(w,'.tb-tile[data-exam="cqa"]');click(w,'[data-timing-kind="full"][data-timed="0"]');click(w,'[data-mode="full"]');
+    assert.equal(w.__TB.revealCurrentAnswer(),true);
+    assert.match(d.querySelector('#tb-revealed-answer').textContent,/Third/);
+    await finish(w);
+    const data=w.__TB.getFeedbackSnapshot();assert.equal(data.examId,'cqa');
+    assert.equal(data.grading.incorrect,1);assert.equal(data.grading.revealed,1);assert.equal(data.grading.correct,0);
+    click(w,'[data-open-review="all"]');
+    assert.equal(d.querySelectorAll('.tb-review-card.revealed').length,1);
+    assert.equal(d.querySelectorAll('.tb-review-navcell.revealed').length,1);
+    assert.deepEqual(h.errors,[]);
+  }finally{await h.close();}
 });
