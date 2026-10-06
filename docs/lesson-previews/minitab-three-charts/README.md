@@ -19,7 +19,7 @@ No recreated charts, chart sliders or chart-generation code remain. Three nonvis
 
 The original supplied `image(10).png` is embedded unchanged below the average-response chart in the same closed review dropdown. The walkthrough now includes **Mean of standard deviations**. Its explanation covers the twelve five-pipe cells, SD ratios, the mean SD reference line, the difference between means and spread, and the limits of this exploratory chart. The new image hash is checked in the existing regression test.
 
-The screenshots and 79-check browser report below document the preceding four-image version. Current checks for the added fifth image are recorded in the PR.
+The screenshots and 79-check browser report below document the preceding four-image version. All 130 focused checks pass with the fifth image. A direct deployed-browser check confirms five original images inside four initially closed dropdowns, the SD image loading at 1536 × 576, and its readable explanation in light and dark themes. See [the added SD output in the lesson](sd-output-preview.jpg). Current deployment checks are recorded in the PR.
 
 ## Automated and browser validation
 
