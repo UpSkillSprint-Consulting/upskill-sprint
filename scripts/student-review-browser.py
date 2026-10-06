@@ -157,6 +157,42 @@ def main():
                     for timed in [False,True]:
                         record(f'{exam["id"]}/set-{bank}/{mode}/{"timed" if timed else "untimed"}',
                                lambda e=exam['id'],s=bank,m=mode,t=timed:student_flow(e,s,m,t))
+        def answer_reveal():
+            page.set_viewport_size({'width':390,'height':844})
+            start('cssgb','1','quick',False)
+            q=page.evaluate('()=>__TB.getFeedbackSnapshot().records[0].question')
+            reveal=page.locator('[data-reveal]')
+            assert page.evaluate("()=>document.querySelector('[data-reveal]').previousElementSibling.hasAttribute('data-flag')")
+            reveal.focus();page.keyboard.press('Enter')
+            expect(page.locator('#tb-revealed-answer')).to_be_focused()
+            expect(reveal).to_be_disabled()
+            expect(page.locator('[data-opt]:not(:disabled)')).to_have_count(0)
+            assert 'Correct answer:' in page.locator('#tb-revealed-answer').inner_text()
+            for width in [320,390,1440]:
+                page.set_viewport_size({'width':width,'height':900})
+                for theme in ['light','dark']:
+                    page.evaluate('(t)=>document.documentElement.dataset.theme=t',theme)
+                    colors=page.evaluate("""()=>{const nav=document.querySelector('[data-goto="0"]');return {color:getComputedStyle(nav).color,expected:getComputedStyle(document.querySelector('.tb-quiz')).getPropertyValue('--reveal-blue').trim(),width:innerWidth,doc:document.documentElement.scrollWidth}}""")
+                    assert colors['color']==('rgb(29, 78, 216)' if theme=='light' else 'rgb(147, 197, 253)'),colors
+                    assert colors['doc']<=colors['width']+2,colors
+                    if width==390:page.screenshot(path=str(out/('answer-reveal-mobile-'+theme+'.png')))
+            page.locator('[data-goto="1"]').click()
+            second=page.evaluate('()=>__TB.getFeedbackSnapshot().records[1].question')
+            page.locator(f'[data-opt="{second["answer"]}"]').click()
+            page.locator('[data-reveal]').click()
+            finish()
+            grade=page.evaluate('()=>__TB.getFeedbackSnapshot().grading')
+            assert grade['incorrect']==2 and grade['correct']==0 and grade['revealed']==2,grade
+            page.locator('[data-open-review="all"]').click()
+            expect(page.locator('.tb-review-card.revealed')).to_have_count(2)
+            expect(page.locator('.tb-review-navcell.revealed')).to_have_count(2)
+            page.locator('[data-review-tab="revealed"]').click()
+            expect(page.locator('.tb-review-card')).to_have_count(2)
+            no_overflow();storage_clean()
+            start('cssgb','1','quick',True)
+            expect(page.locator('[data-reveal]')).to_have_count(0)
+            assert page.evaluate('()=>__TB.revealCurrentAnswer()') is False
+        record('untimed-reveal-blue-mobile-desktop-and-timed-guard',answer_reveal)
         def interactive():
             page.set_viewport_size({'width':390,'height':844});start('mbb','2','full',False)
             q=page.evaluate("""()=>{const s=__TB.getFeedbackSnapshot();const index=s.records.findIndex(r=>r.question.qid==='mbb:set-2:original-005');if(index<0)throw Error('Missing actual interactive item');s.records.forEach((r,i)=>{document.querySelector(`[data-goto="${i}"]`).click();if(i!==index)document.querySelector(`[data-opt="${r.question.answer}"]`).click();});return s.records[index].question;}""")

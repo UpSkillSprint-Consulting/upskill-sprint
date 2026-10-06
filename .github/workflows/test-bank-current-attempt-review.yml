@@ -37,7 +37,7 @@ jobs:
       - name: Test current-attempt review and existing results
         run: |
           set -o pipefail
-          node --test --test-concurrency=1 --test-reporter=tap tests/test-bank-stateless-results.test.js tests/test-bank-current-attempt-review.test.js 2>&1 | tee post-exam-review-results.txt
+          node --test --test-concurrency=1 --test-reporter=tap tests/test-bank-stateless-results.test.js tests/test-bank-current-attempt-review.test.js tests/test-bank-answer-reveal.test.js 2>&1 | tee post-exam-review-results.txt
       - name: Upload regression evidence
         if: always()
         uses: actions/upload-artifact@v6

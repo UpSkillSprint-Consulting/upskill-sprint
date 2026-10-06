@@ -276,6 +276,22 @@
   .tb-tbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:7px 12px;font:inherit;font-weight:600;font-size:12.5px;cursor:pointer;white-space:nowrap}
   .tb-tbtn:hover{border-color:var(--teal)} .tb-tbtn.on{background:#b8791b;color:#fff;border-color:transparent}
   .tb-navcell.flag{border-color:#b8791b;box-shadow:inset 0 -3px 0 #b8791b}
+  .tb-quiz{--reveal-blue:#1d4ed8;--reveal-bg:#eff6ff}
+  html[data-theme="dark"] .tb-quiz{--reveal-blue:#93c5fd;--reveal-bg:#102440}
+  .tb-navcell.revealed{background:var(--reveal-bg);border-color:var(--reveal-blue);color:var(--reveal-blue)}
+  .tb-navcell.revealed.cur{outline-color:var(--reveal-blue)}
+  .tb-reveal-hint{font-size:12.5px;line-height:1.5;color:var(--muted);margin:0 0 14px}
+  .tb-tbtn[data-reveal]:disabled{cursor:default;color:var(--reveal-blue);border-color:var(--reveal-blue);background:var(--reveal-bg)}
+  .tb-revealed-answer{margin:18px 0;padding:16px;border:2px solid var(--reveal-blue);border-radius:10px;background:var(--reveal-bg);color:var(--ink);scroll-margin-top:100px;overflow-wrap:anywhere}
+  .tb-revealed-answer h3{font-size:17px;margin:0 0 10px;color:var(--reveal-blue)}
+  .tb-revealed-answer p{line-height:1.6;margin:8px 0}
+  .tb-revealed-answer .tb-explanation{margin-top:14px;line-height:1.65}
+  .tb-revealed-answer .tb-explanation-title{font-weight:700;margin-bottom:6px}
+  .tb-revealed-answer summary{cursor:pointer;font-weight:600}
+  .tb-revealed-answer:focus-visible{outline:3px solid var(--reveal-blue);outline-offset:3px}
+  .tb-opt:disabled{cursor:default;opacity:1}
+  .tb-opt.reveal-correct{border-color:var(--reveal-blue);background:var(--reveal-bg)}
+  .tb-opt.reveal-correct .k{background:var(--reveal-blue);color:var(--card);border-color:var(--reveal-blue)}
   .tb-timing{display:flex;align-items:center;gap:10px;margin-bottom:12px}
   /* tool layer */
   #tb-toollayer .tb-x{border:0;background:none;font-size:22px;line-height:1;color:var(--muted);cursor:pointer;padding:0 4px}
@@ -3787,7 +3803,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     return ui?stem+ui.conditions(q)+renderQuestionChart(q.chart):renderQuestionChart(q.chart)+stem;
   }
 
-  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart,renderQuestionContent:renderQuestionContent,feedbackText:feedbackText,firstFeedbackSentence:firstFeedbackSentence,feedbackKeyPoint:feedbackKeyPoint,explicitOptionRationale:explicitOptionRationale,getFeedbackSnapshot:getFeedbackSnapshot};
+  window.__TB={DM:DM,EXAMS:EXAMS,REFS:REFS,subUnits:subUnits,subAgg:subAgg,readiness:readiness,studyPlan:studyPlan,sm2:sm2,qualityFromMastery:qualityFromMastery,dueSubs:dueSubs,weightedPick:weightedPick,loadState:loadState,saveState:saveState,recordAttempt:recordAttempt,keyFor:keyFor,calcEval:calcEval,factorial:factorial,fmtClock:fmtClock,quizDurationSeconds:quizDurationSeconds,fmtQuizDuration:fmtQuizDuration,renderQuestionChart:renderQuestionChart,renderQuestionContent:renderQuestionContent,feedbackText:feedbackText,firstFeedbackSentence:firstFeedbackSentence,feedbackKeyPoint:feedbackKeyPoint,explicitOptionRationale:explicitOptionRationale,getFeedbackSnapshot:getFeedbackSnapshot,revealCurrentAnswer:revealCurrentAnswer};
   window.__TB.questionIdentityPolicy='explicit-v1';
   window.__TB.examVersionPolicy='catalog-v1';
   window.__TB.isExamSessionActive=function(examId){return current===examId&&view==='quiz';};
@@ -4117,7 +4133,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var start=learning.startSession({examId:current,questions:items,mode:kind,timed:!!timed,setId:setId,filter:filter||null,limitSeconds:durationSeconds,returnResult:true});
     var learningSessionId=start&&start.sessionId;
     if(!learningSessionId||start.saved===false||!writeAheadConfirmed(learning))return false;
-    session={id:learningSessionId,kind:kind,setId:setId,filter:filter||null,versionPin:start.versionPin||null,items:(start.pinnedQuestions||items).map(function(q){return {q:q};}),answers:{},flags:{},i:0,timed:!!timed,limitSeconds:durationSeconds,endsAt:timed?(start.versionPin?Date.parse(start.versionPin.deadlineAt):Date.now()+durationSeconds*1000):null,completed:false};
+    session={id:learningSessionId,kind:kind,setId:setId,filter:filter||null,versionPin:start.versionPin||null,items:(start.pinnedQuestions||items).map(function(q){return {q:q};}),answers:{},flags:{},revealed:{},i:0,timed:!!timed,limitSeconds:durationSeconds,endsAt:timed?(start.versionPin?Date.parse(start.versionPin.deadlineAt):Date.now()+durationSeconds*1000):null,completed:false};
     view='quiz';renderMain();startTimer();
     return true;
   }
@@ -4452,6 +4468,31 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
   function stopTools(){var c=document.getElementById('tb-calc'),f=document.getElementById('tb-formulas'),tb=document.getElementById('tb-tables');if(c)c.hidden=true;if(f)f.hidden=true;if(tb)tb.hidden=true;}
 
 
+  function isAnswerRevealed(index){return !!(session&&session.revealed&&session.revealed[index]);}
+  function validRevealKey(q){return q&&Array.isArray(q.options)&&Number.isInteger(q.answer)&&q.answer>=0&&q.answer<q.options.length;}
+  function revealCount(){return session.items.filter(function(_,index){return isAnswerRevealed(index);}).length;}
+  function completedQuestionCount(){return session.items.filter(function(_,index){return session.answers[index]!=null||isAnswerRevealed(index);}).length;}
+  function revealedAnswerHTML(q){
+    if(!isAnswerRevealed(session.i)||!validRevealKey(q))return '';
+    var presentation=window.__TBFeedbackPresentation;
+    var explanation;
+    if(presentation&&typeof presentation.explanationHtml==='function')explanation=presentation.explanationHtml(q);
+    else{
+      var text=document.createElement('template');text.innerHTML=q.why||'';
+      explanation='<p>'+esc(text.content.textContent||'An explanation is not available for this question yet.')+'</p>';
+    }
+    return '<section id="tb-revealed-answer" class="tb-revealed-answer" tabindex="-1" aria-labelledby="tb-revealed-title"><h3 id="tb-revealed-title">Answer revealed — counted as incorrect</h3><p><strong>Correct answer: '+String.fromCharCode(65+q.answer)+'. '+esc(q.options[q.answer])+'</strong></p>'+explanation+'</section>';
+  }
+  function revealCurrentAnswer(){
+    if(!session||session.completed||session.timed||isAnswerRevealed(session.i)||!validRevealKey(session.items[session.i].q))return false;
+    session.revealed[session.i]=true;
+    var host=document.getElementById('tb-overview');
+    // Update in place so revealing does not reset question visuals or entered work.
+    updateQuizAnswerState(host);
+    var panel=host.querySelector('#tb-revealed-answer');
+    if(panel){panel.focus({preventScroll:true});if(panel.scrollIntoView)panel.scrollIntoView({block:'nearest',behavior:'instant'});}
+    return true;
+  }
   function quizHTML(){
     var e=session.versionPin?session.versionPin.configuration:EXAMS[current],n=session.items.length,it=session.items[session.i],q=it.q;
     var questionId=window.__TBQuestionRegistry&&typeof window.__TBQuestionRegistry.idFor==='function'?window.__TBQuestionRegistry.idFor(current,q):(q.qid||q.questionId||q.id||'');
@@ -4459,21 +4500,24 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var flagged=0;for(var fk in session.flags){if(session.flags[fk])flagged++;}
     var dm=domainOf(e,q.sub);var col=DM[dm].color;
     var subName='';e.bok.forEach(function(bd){bd.subs.forEach(function(x){if(x.id===q.sub)subName=x.name;});});
-    var nav=session.items.map(function(_,i){return '<button type="button" class="tb-navcell'+(session.answers[i]!=null?' done':'')+(i===session.i?' cur':'')+(session.flags[i]?' flag':'')+'" data-goto="'+i+'" aria-label="Question '+(i+1)+(session.flags[i]?', flagged':'')+'">'+(i+1)+'</button>';}).join('');
-    var opts=q.options.map(function(o,i){return '<button type="button" class="tb-opt'+(session.answers[session.i]===i?' sel':'')+'" data-opt="'+i+'"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o)+'</span></button>';}).join('');
+    var revealed=isAnswerRevealed(session.i),revealedTotal=revealCount();
+    var nav=session.items.map(function(_,i){return '<button type="button" class="tb-navcell'+(session.answers[i]!=null||isAnswerRevealed(i)?' done':'')+(i===session.i?' cur':'')+(session.flags[i]?' flag':'')+(isAnswerRevealed(i)?' revealed':'')+'" data-goto="'+i+'" aria-label="Question '+(i+1)+(session.flags[i]?', flagged':'')+(isAnswerRevealed(i)?', answer revealed, counted as incorrect':'')+'">'+(i+1)+'</button>';}).join('');
+    var opts=q.options.map(function(o,i){return '<button type="button" class="tb-opt'+(session.answers[session.i]===i?' sel':'')+(revealed&&i===q.answer?' reveal-correct':'')+'" data-opt="'+i+'"'+(revealed?' disabled':'')+'><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o)+'</span></button>';}).join('');
     var timer=session.timed?'<span class="tb-timer" id="tb-timer">'+fmtClock((session.endsAt-Date.now())/1000)+'</span>':'<span class="tb-timer untimed">Untimed</span>';
     var toolbar='<div class="tb-toolbar">'+timer+
       '<button type="button" class="tb-tbtn'+(session.flags[session.i]?' on':'')+'" data-flag>\u2691 '+(session.flags[session.i]?'Flagged':'Flag')+'</button>'+
+      (!session.timed?'<button type="button" class="tb-tbtn" data-reveal aria-describedby="tb-reveal-hint" '+(revealed?'aria-controls="tb-revealed-answer" ':'')+'aria-expanded="'+revealed+'"'+(revealed||!validRevealKey(q)?' disabled':'')+'>'+(revealed?'Answer Revealed':'Reveal Answer')+'</button>':'')+
       '<button type="button" class="tb-tbtn" data-formulas>\u2630 Formulas</button>'+
       '<button type="button" class="tb-tbtn" data-tables>\u25a4 Tables</button>'+
       '<button type="button" class="tb-tbtn" data-calc>\u00f7 Calc</button>'+
       '<button type="button" class="tb-ghost" data-quit>Exit</button></div>';
     var sessionTitle=session.kind==='diagnostic'?'Sample diagnostic':session.kind==='exam'?'Full Exam':session.kind==='quick'?'Quick Quiz':session.kind==='focus'?'Focused Quiz':'Weak-area practice';
     return '<div class="tb-quiz'+(window.__TBMbbBatch1Review&&window.__TBMbbBatch1Review.applies(q)?' tb-mbb-batch1':'')+'" data-question-id="'+esc(questionId)+'"><div class="tb-quiztop"><div><div class="tb-diag-kick">'+sessionTitle+' &middot; '+esc(activeSetLabel(EXAMS[current],session.setId))+(session.kind==='practice'?'':session.timed?' \u00b7 timed':' \u00b7 untimed')+'</div>'+
-      '<div class="tb-quizprog">Question '+(session.i+1)+' of '+n+' &middot; '+answered+' answered'+(flagged?' &middot; '+flagged+' flagged':'')+'</div></div>'+toolbar+'</div>'+
-      '<div class="tb-progress"><span style="width:'+(answered/n*100)+'%"></span></div>'+
+      '<div class="tb-quizprog">Question '+(session.i+1)+' of '+n+' &middot; '+answered+' answered'+(revealedTotal?' &middot; '+revealedTotal+' revealed':'')+(flagged?' &middot; '+flagged+' flagged':'')+'</div></div>'+toolbar+'</div>'+
+      (!session.timed?'<p id="tb-reveal-hint" class="tb-reveal-hint">'+(validRevealKey(q)?'Revealing an answer counts that question as incorrect.':'Answer reveal is unavailable because this question needs an answer-key review.')+'</p>':'')+
+      '<div class="tb-progress"><span style="width:'+(completedQuestionCount()/n*100)+'%"></span></div>'+
       '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(subName)+'</div>'+
-      renderQuestionContent(q,false)+opts+
+      renderQuestionContent(q,false)+opts+revealedAnswerHTML(q)+
       '<div class="tb-quizfoot"><div class="tb-nav">'+nav+'</div>'+
         (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
       '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';
@@ -4482,14 +4526,24 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var quiz=host.querySelector('.tb-quiz');if(!quiz||!session)return;
     var answered=Object.keys(session.answers).length,n=session.items.length;
     var flagged=Object.keys(session.flags).filter(function(key){return session.flags[key];}).length;
+    var revealed=isAnswerRevealed(session.i),q=session.items[session.i].q;
     Array.prototype.forEach.call(quiz.querySelectorAll('[data-opt]'),function(button){
       var selected=+button.dataset.opt===session.answers[session.i];
       button.classList.toggle('sel',selected);button.setAttribute('aria-pressed',String(selected));
+      button.disabled=revealed;button.classList.toggle('reveal-correct',revealed&&+button.dataset.opt===q.answer);
     });
     var progress=quiz.querySelector('.tb-quizprog');
-    if(progress)progress.textContent='Question '+(session.i+1)+' of '+n+' · '+answered+' answered'+(flagged?' · '+flagged+' flagged':'');
-    var bar=quiz.querySelector('.tb-progress span');if(bar)bar.style.width=(answered/n*100)+'%';
-    var current=quiz.querySelector('.tb-navcell.cur');if(current)current.classList.toggle('done',session.answers[session.i]!=null);
+    var revealedTotal=revealCount();
+    if(progress)progress.textContent='Question '+(session.i+1)+' of '+n+' · '+answered+' answered'+(revealedTotal?' · '+revealedTotal+' revealed':'')+(flagged?' · '+flagged+' flagged':'');
+    var bar=quiz.querySelector('.tb-progress span');if(bar)bar.style.width=(completedQuestionCount()/n*100)+'%';
+    var current=quiz.querySelector('.tb-navcell.cur');if(current){current.classList.toggle('done',session.answers[session.i]!=null||revealed);current.classList.toggle('revealed',revealed);current.setAttribute('aria-label','Question '+(session.i+1)+(session.flags[session.i]?', flagged':'')+(revealed?', answer revealed, counted as incorrect':''));}
+    if(revealed){
+      var revealButton=quiz.querySelector('[data-reveal]');if(revealButton){revealButton.disabled=true;revealButton.textContent='Answer Revealed';revealButton.setAttribute('aria-expanded','true');revealButton.setAttribute('aria-controls','tb-revealed-answer');}
+      if(!quiz.querySelector('#tb-revealed-answer')){
+        quiz.querySelector('.tb-quizfoot').insertAdjacentHTML('beforebegin',revealedAnswerHTML(q));
+        document.dispatchEvent(new CustomEvent('tb:review-rendered',{detail:{root:quiz.querySelector('#tb-revealed-answer')}}));
+      }
+    }
     var notice=document.getElementById('tb-learning-storage-notice');if(notice)notice.remove();
   }
   function wireQuiz(){
@@ -4507,7 +4561,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
       slider.addEventListener('input',update);update();
     });
     Array.prototype.forEach.call(host.querySelectorAll('[data-opt]'),function(b){b.addEventListener('click',function(){
-      if(session.completed)return;
+      if(session.completed||isAnswerRevealed(session.i))return;
       // A failed timeout save must not let a learner revise expired answers.
       if(session.timed&&session.endsAt<=Date.now()){submitQuiz('timed-out');return;}
       var index=session.i,selected=+b.dataset.opt,question=session.items[index].q;
@@ -4528,6 +4582,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     var nx=host.querySelector('[data-next]');if(nx)nx.addEventListener('click',function(){session.i++;renderMain();});
     var sb=host.querySelector('[data-submit]');if(sb)sb.addEventListener('click',function(){submitQuiz();});
     var fl=host.querySelector('[data-flag]');if(fl)fl.addEventListener('click',function(){session.flags[session.i]=!session.flags[session.i];renderMain();});
+    var reveal=host.querySelector('[data-reveal]');if(reveal)reveal.addEventListener('click',revealCurrentAnswer);
     var fm=host.querySelector('[data-formulas]');if(fm)fm.addEventListener('click',function(){toggleTool('formulas');});
     var tbl=host.querySelector('[data-tables]');if(tbl)tbl.addEventListener('click',function(){toggleTool('tables');});
     var cc=host.querySelector('[data-calc]');if(cc)cc.addEventListener('click',function(){toggleTool('calc');});
@@ -4542,7 +4597,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     if(!session||!Array.isArray(session.items))return null;
     return {sessionId:session.id,examId:current,setId:session.setId,completed:!!session.completed,
       grading:session.originalGrade||null,versionPin:session.versionPin?window.__TBVersions.reference(session.versionPin):null,records:session.items.map(function(it,index){return {index:index,question:it.q,
-        selected:session.answers[index]==null?null:session.answers[index],flagged:!!session.flags[index]};})};
+        selected:session.answers[index]==null?null:session.answers[index],flagged:!!session.flags[index],revealed:isAnswerRevealed(index)};})};
   }
   function submitQuiz(completedReason){
     if(!session||session.completed)return;
@@ -4550,7 +4605,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     session.completed=true;
     stopTimer();stopTools();
     var e=session.versionPin?Object.assign({},EXAMS[current],session.versionPin.configuration,{pass:session.versionPin.siteTargetBps==null?null:session.versionPin.siteTargetBps/100}):EXAMS[current];
-    var learningRecords=session.items.map(function(it,index){var selected=session.answers[index];return {question:it.q,selected:selected==null?null:selected,status:window.__TBVersions.classify(it.q,selected)};});
+    var learningRecords=session.items.map(function(it,index){var selected=session.answers[index],revealed=isAnswerRevealed(index);return {question:it.q,selected:selected==null?null:selected,revealed:revealed,status:window.__TBVersions.classify(it.q,selected,revealed)};});
     var learning=window.__TBLearning;
     if(!learning||typeof learning.completeSession!=='function'||!session.id){session.completed=false;showLearningStorageNotice('Your completed test could not be saved because study-record storage is unavailable. Please wait a moment and submit again.');return;}
     var completion=learning.completeSession({examId:current,sessionId:session.id,mode:session.kind,timed:session.timed,filter:session.filter||null,startedAt:session.endsAt&&session.limitSeconds?session.endsAt-session.limitSeconds*1000:null,completedReason:completedReason||'submitted',records:learningRecords});
@@ -4581,7 +4636,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     var score=r.score,scored=score.correct,tot=score.total;
     var targetText=score.siteTargetMet===null?'Site practice target unavailable':(score.siteTargetMet?'Site practice target met':'Below site practice target')+' ('+window.__TBVersions.formatScore(score.siteTargetBps/100)+')';
     var resultStorageText=window.__TB_MEMORY_ONLY?'This result is available only in this tab until you leave or refresh.':'Saved locally; cloud acceptance is tracked separately in sync status.';
-    var gradeNotice='<div class="tb-score-result" data-score-result data-session-set="'+esc(session.setId)+'" data-score-percent="'+score.scorePercent+'" data-target-met="'+score.siteTargetMet+'"><strong>Session score: '+window.__TBVersions.formatScore(score.scorePercent)+' ('+score.correct+'/'+score.total+')</strong><p class="tb-result-set">Test set: '+esc(activeSetLabel(EXAMS[current],session.setId))+'</p><p>'+targetText+'. This is a site practice target, not an official certification pass/fail result.</p><p>'+(session.originalGrade?session.originalGrade.incorrect+' incorrect · '+session.originalGrade.unanswered+' unanswered. ':'')+(r.completedReason==='timed-out'?'Time expired. ':'')+resultStorageText+'</p></div>';
+    var gradeNotice='<div class="tb-score-result" data-score-result data-session-set="'+esc(session.setId)+'" data-score-percent="'+score.scorePercent+'" data-target-met="'+score.siteTargetMet+'"><strong>Session score: '+window.__TBVersions.formatScore(score.scorePercent)+' ('+score.correct+'/'+score.total+')</strong><p class="tb-result-set">Test set: '+esc(activeSetLabel(EXAMS[current],session.setId))+'</p><p>'+targetText+'. This is a site practice target, not an official certification pass/fail result.</p><p>'+(session.originalGrade?session.originalGrade.incorrect+' incorrect · '+session.originalGrade.unanswered+' unanswered'+(session.originalGrade.revealed?' · '+session.originalGrade.revealed+' revealed (counted as incorrect)':'')+'. ':'')+(r.completedReason==='timed-out'?'Time expired. ':'')+resultStorageText+'</p></div>';
     // per-domain -> sub breakdown
     var byDom={};r.units.forEach(function(u){var a=agg[u.id];if(!a||!a.t)return;byDom[u.domain]=byDom[u.domain]||{c:0,t:0,subs:[]};byDom[u.domain].c+=a.c;byDom[u.domain].t+=a.t;byDom[u.domain].subs.push({u:u,a:a});});
     var breakdown=e.bok.filter(function(bd){return byDom[bd.domain];}).map(function(bd){var g=byDom[bd.domain],p=g.c/g.t,col=(DM[bd.domain]||{}).color||'#6656b5';
