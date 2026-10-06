@@ -1,0 +1,78 @@
+name: Exam practice learner audit
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'exam-practice.html'
+      - 'lessons.html'
+      - 'site-sections.js'
+      - 'style.css'
+      - 'theme.js'
+      - 'auth.js'
+      - 'access-control.js'
+      - 'test-bank.html'
+      - 'netlify/edge-functions/test-bank-mobile-picker.js'
+      - 'tests/exam-practice-section.test.js'
+      - 'tests/premium-simulator-access.test.js'
+      - 'tests/mobile-header-overflow.test.js'
+      - 'scripts/student-review-server.mjs'
+      - 'scripts/exam-practice-browser.py'
+      - '.github/workflows/exam-practice-audit.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: exam-practice-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exam-practice-browser:
+    name: Exam practice (${{ matrix.browser }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - name: Verify navigation and access regressions
+        run: |
+          node --check site-sections.js
+          python -m py_compile scripts/exam-practice-browser.py
+          node --test --test-concurrency=1 tests/exam-practice-section.test.js tests/premium-simulator-access.test.js tests/mobile-header-overflow.test.js
+      - name: Install CI browser
+        run: |
+          python -m pip install playwright==1.57.0
+          python -m playwright install --with-deps ${{ matrix.browser }}
+      - name: Audit learner journeys, layout, and contrast
+        env:
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          mkdir -p exam-practice-audit-evidence
+          node scripts/student-review-server.mjs > exam-practice-audit-evidence/server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:8765/exam-practice -o /dev/null && break || sleep 1
+          done
+          set -o pipefail
+          python -u scripts/exam-practice-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/browser.log
+      - name: Upload audit results and screenshots
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: exam-practice-audit-${{ matrix.browser }}
+          path: exam-practice-audit-evidence
+          if-no-files-found: ignore
+          retention-days: 14

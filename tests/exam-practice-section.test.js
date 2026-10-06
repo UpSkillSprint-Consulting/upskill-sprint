@@ -51,16 +51,22 @@ test('exam practice is outside the lesson library, topic filters, and topic link
   assert.ok(doc.getElementById('quality-engineering'));
 });
 
-test('the public exam page keeps the heading, all seven certifications, and Test Bank entry', async t => {
+test('the public exam page describes current certification availability and Test Bank entry', async t => {
   const { window, errors } = await loadPage(t, 'exam-practice.html', 'https://upskillsprint.com/exam-practice');
   const doc = window.document;
   assert.equal(doc.querySelector('h1').textContent, 'Simulated Exam Practice & Quizzes');
   const section = doc.getElementById('exam-practice');
   const certs = Array.from(section.querySelectorAll('.chip'), chip => chip.textContent.trim());
-  assert.deepEqual(certs, ['CSSBB', 'MBB', 'CQE', 'CRE', 'CQA', 'CMQ/OE', 'CSSGB']);
-  assert.equal(section.querySelector('.category-count').textContent, `${certs.length} certifications`);
+  assert.deepEqual(certs, ['CSSBB', 'MBB', 'CQE', 'CRE — Coming soon', 'CQA — Coming soon', 'CMQ/OE', 'CSSGB']);
+  assert.equal(section.querySelector('.category-count').textContent, '5 available · 2 coming soon');
+  assert.match(section.textContent,/timed or untimed/);
+  assert.equal(section.querySelector('.exam-certifications').getAttribute('aria-label'),'Certification availability');
   assert.match(section.textContent, /Premium and higher/);
   assert.ok(section.querySelector('a[href="/test-bank"]'));
+  assert.deepEqual(Array.from(section.querySelectorAll('.exam-certifications a'), a=>a.getAttribute('href')),
+    ['/test-bank?exam=cssbb','/test-bank?exam=mbb','/test-bank?exam=cqe','/test-bank?exam=cre','/test-bank?exam=cqa','/test-bank?exam=cmq','/test-bank?exam=cssgb']);
+  assert.equal(section.querySelector('.exam-actions a').getAttribute('href'),'/test-bank','main entry keeps the whole catalog');
+
   assert.ok(fs.existsSync(path.join(ROOT, 'test-bank.html')));
   assert.equal(doc.body.hasAttribute('data-access-resource'), false, 'the directory is public');
   assert.deepEqual(errors, []);
@@ -102,7 +108,7 @@ test('exam overview and simulator routes share the active top tab, including pre
 });
 
 test('old lesson bookmarks forward to the moved page and keep access notices', () => {
-  for (const pathname of ['/lessons', '/lessons.html']) {
+  for (const pathname of ['/lessons', '/lessons/', '/lessons.html', '/lessons.html/']) {
     const redirects = [];
     const document = { readyState: 'complete' };
     function Document() {}
@@ -139,4 +145,13 @@ test('lesson topic and interactive filters still operate without the removed exa
   interactive.dispatchEvent(new window.Event('change'));
   assert.equal(window.document.getElementById('quality-engineering').hidden, false);
   assert.deepEqual(errors, []);
+});
+test('certification links open the corresponding simulator overview without starting an attempt',async t=>{
+  for(const id of ['cssbb','mbb','cqe','cre','cqa','cmq','cssgb']){
+    const {window}=await loadPage(t,'test-bank.html',`https://upskillsprint.com/test-bank?exam=${id}`);
+    assert.equal(window.document.querySelector('.tb-tile.active').dataset.exam,id);
+    assert.equal(window.document.querySelector('.tb-quiz'),null,'links do not start an exam');
+  }
+  const {window}=await loadPage(t,'test-bank.html','https://upskillsprint.com/test-bank?exam=unknown%22%5D');
+  assert.equal(window.document.querySelector('.tb-tile.active').dataset.exam,'cssbb','unknown IDs keep the normal catalog');
 });

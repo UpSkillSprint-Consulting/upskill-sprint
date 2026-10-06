@@ -6,11 +6,11 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#ffffff">
   <title>Simulated Exam Practice &amp; Quizzes | UpSkill Sprint Consulting</title>
-  <meta name="description" content="Practice for seven ASQ certifications with timed exam simulations, focused quizzes, quick quizzes, and detailed answer reviews. Premium access and higher.">
+  <meta name="description" content="Practise for five available ASQ certifications with timed or untimed simulations, focused and quick quizzes, and answer reviews. CQA and CRE are coming soon. Premium access and higher.">
   <link rel="canonical" href="https://upskillsprint.com/exam-practice">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Simulated Exam Practice &amp; Quizzes | UpSkill Sprint Consulting">
-  <meta property="og:description" content="Timed certification simulations and quizzes with diagnostics that guide your next lesson. Premium access and higher.">
+  <meta property="og:description" content="Timed and untimed certification simulations and quizzes with current-attempt results and explanations. Premium access and higher.">
   <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
   <meta property="og:url" content="https://upskillsprint.com/exam-practice">
   <meta name="twitter:card" content="summary">
@@ -27,12 +27,13 @@
     .exam-meta { color:var(--muted); font-size:13px; font-weight:600; margin-bottom:18px; }
     .exam-certifications { gap:8px; margin-bottom:24px; }
     .exam-access { color:var(--teal-dark); }
+    html[data-theme="dark"] .exam-page .btn-teal, html[data-theme="dark"] .exam-page .btn-teal:hover { color:#0b1220; }
     .exam-note { color:var(--muted); font-size:13.5px; line-height:1.6; margin:16px 0 0; }
   </style>
   <script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
 </head>
-<body>
+<body class="exam-page">
   <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
   <header class="site">
     <a href="/" class="brand"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
@@ -66,18 +67,18 @@
       <div class="wrap">
         <p class="eyebrow">Exam practice</p>
         <h1 id="exam-practice-title">Simulated Exam Practice &amp; Quizzes</h1>
-        <p class="exam-intro">Full-length, timed certification simulations with a per-domain diagnostic that pinpoints the exact subtopic you are weakest in &mdash; then links you straight to the lesson that rebuilds it.</p>
+        <p class="exam-intro">Choose timed or untimed certification simulations, focused quizzes, and quick quizzes. Review your current attempt, understand each explanation, and find lessons for further study.</p>
         <div class="card exam-summary">
-          <div class="exam-meta"><span class="category-count">7 certifications</span><span class="exam-access">Premium and higher</span></div>
-          <h2 style="font-size:20px;margin:0 0 14px;">Choose your certification in the Test Bank</h2>
-          <div class="exam-certifications" aria-label="Available certifications">
-            <span class="chip">CSSBB</span>
-            <span class="chip">MBB</span>
-            <span class="chip">CQE</span>
-            <span class="chip">CRE</span>
-            <span class="chip">CQA</span>
-            <span class="chip">CMQ/OE</span>
-            <span class="chip">CSSGB</span>
+          <div class="exam-meta"><span class="category-count">5 available &middot; 2 coming soon</span><span class="exam-access">Premium and higher</span></div>
+          <h2 style="font-size:20px;margin:0 0 14px;">Choose your certification</h2>
+          <div class="exam-certifications" aria-label="Certification availability">
+            <a class="chip" href="/test-bank?exam=cssbb">CSSBB</a>
+            <a class="chip" href="/test-bank?exam=mbb">MBB</a>
+            <a class="chip" href="/test-bank?exam=cqe">CQE</a>
+            <a class="chip" href="/test-bank?exam=cre">CRE &mdash; Coming soon</a>
+            <a class="chip" href="/test-bank?exam=cqa">CQA &mdash; Coming soon</a>
+            <a class="chip" href="/test-bank?exam=cmq">CMQ/OE</a>
+            <a class="chip" href="/test-bank?exam=cssgb">CSSGB</a>
           </div>
           <p style="color:var(--ink-soft);font-size:15px;line-height:1.65;margin:0 0 20px;">Choose a full exam, a focused quiz, or a quick quiz, then review your answers and explanations.</p>
           <div class="exam-actions"><a href="/test-bank" class="btn btn-teal">Open the Test Bank <span aria-hidden="true">&rarr;</span></a></div>

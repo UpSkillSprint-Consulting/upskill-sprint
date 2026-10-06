@@ -78,13 +78,28 @@
   }
 
   function isLessonsPage() {
-    return pathEndsWith('/lessons.html') || pathEndsWith('/lessons');
+    const path = window.location.pathname.replace(/\/+$/, '');
+    return path.endsWith('/lessons.html') || path.endsWith('/lessons');
   }
 
   function redirectLegacyExamPractice() {
     if (!isLessonsPage() || window.location.hash !== '#exam-practice') return false;
     window.location.replace(EXAM_PRACTICE_PATH + window.location.search);
     return true;
+  }
+
+  function openLinkedCertification() {
+    const path = window.location.pathname.replace(/\/+$/, '').replace(/\.html$/i, '');
+    if (!path.endsWith('/test-bank')) return;
+    const exam = (new URLSearchParams(window.location.search).get('exam') || '').trim().toLowerCase();
+    if (!exam) return;
+    // Use the delivered catalog so future certifications inherit deep links.
+    // Opening a certification shows its overview; starting an attempt remains
+    // the learner's explicit action through the normal exam controls.
+    const tile = Array.from(document.querySelectorAll('.tb-tile[data-exam]')).find(function (item) {
+      return item.dataset.exam.toLowerCase() === exam;
+    });
+    if (tile && !tile.classList.contains('active')) tile.click();
   }
 
   function isLessonDetailPage() {
@@ -874,6 +889,7 @@
     loadArrowCleanup();
     loadAuthScripts();
     ensureNavigation();
+    openLinkedCertification();
     ensureHomeContent();
     ensureLessonsLibraryLink();
     loadChiSquareLessonLibrary();
