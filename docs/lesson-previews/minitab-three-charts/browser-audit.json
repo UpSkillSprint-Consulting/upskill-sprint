@@ -1,0 +1,459 @@
+{
+  "environment": {
+    "browser": "153.0.8010.0",
+    "axe": "4.14.0",
+    "site": "local repository with actual shared site scripts",
+    "externalRequests": "blocked",
+    "viewports": [
+      1440,
+      390
+    ]
+  },
+  "assertions": [
+    {
+      "label": "1440 all outputs hidden initially",
+      "passed": true
+    },
+    {
+      "label": "1440 no recreated charts",
+      "passed": true
+    },
+    {
+      "label": "1440 all eight navigation links",
+      "passed": true
+    },
+    {
+      "label": "1440 one canonical footer",
+      "passed": true
+    },
+    {
+      "label": "1440 one injected progress card",
+      "passed": true
+    },
+    {
+      "label": "1440 theme switch light",
+      "passed": true
+    },
+    {
+      "label": "1440 light no page overflow",
+      "passed": true
+    },
+    {
+      "label": "1440 light hero contained",
+      "passed": true
+    },
+    {
+      "label": "1440 light computed text contrast",
+      "passed": true
+    },
+    {
+      "label": "1440 light no serious or critical lesson accessibility violations",
+      "passed": true
+    },
+    {
+      "label": "1440 light four original output images",
+      "passed": true
+    },
+    {
+      "label": "1440 theme switch dark",
+      "passed": true
+    },
+    {
+      "label": "1440 dark no page overflow",
+      "passed": true
+    },
+    {
+      "label": "1440 dark hero contained",
+      "passed": true
+    },
+    {
+      "label": "1440 dark computed text contrast",
+      "passed": true
+    },
+    {
+      "label": "1440 dark no serious or critical lesson accessibility violations",
+      "passed": true
+    },
+    {
+      "label": "1440 dark four original output images",
+      "passed": true
+    },
+    {
+      "label": "1440 symmetry prediction feedback",
+      "passed": true
+    },
+    {
+      "label": "1440 variability prediction feedback",
+      "passed": true
+    },
+    {
+      "label": "1440 multi-vari prediction feedback",
+      "passed": true
+    },
+    {
+      "label": "1440 guided practice feedback",
+      "passed": true
+    },
+    {
+      "label": "1440 unanswered quiz state",
+      "passed": true
+    },
+    {
+      "label": "1440 correct quiz state",
+      "passed": true
+    },
+    {
+      "label": "1440 incorrect quiz state",
+      "passed": true
+    },
+    {
+      "label": "1440 light supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "1440 light supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "1440 light supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "1440 light supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "1440 light output and feedback computed contrast",
+      "passed": true
+    },
+    {
+      "label": "1440 light outputs and feedback accessibility",
+      "passed": true
+    },
+    {
+      "label": "1440 dark supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "1440 dark supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "1440 dark supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "1440 dark supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "1440 dark output and feedback computed contrast",
+      "passed": true
+    },
+    {
+      "label": "1440 dark outputs and feedback accessibility",
+      "passed": true
+    },
+    {
+      "label": "1440 exact search result opens a collapsed Minitab output",
+      "passed": true
+    },
+    {
+      "label": "1440 workbook download matches source bytes",
+      "passed": true
+    },
+    {
+      "label": "1440 no page JavaScript errors",
+      "passed": true
+    },
+    {
+      "label": "390 all outputs hidden initially",
+      "passed": true
+    },
+    {
+      "label": "390 no recreated charts",
+      "passed": true
+    },
+    {
+      "label": "390 all eight navigation links",
+      "passed": true
+    },
+    {
+      "label": "390 one canonical footer",
+      "passed": true
+    },
+    {
+      "label": "390 one injected progress card",
+      "passed": true
+    },
+    {
+      "label": "390 theme switch light",
+      "passed": true
+    },
+    {
+      "label": "390 light no page overflow",
+      "passed": true
+    },
+    {
+      "label": "390 light hero contained",
+      "passed": true
+    },
+    {
+      "label": "390 light computed text contrast",
+      "passed": true
+    },
+    {
+      "label": "390 light no serious or critical lesson accessibility violations",
+      "passed": true
+    },
+    {
+      "label": "390 light four original output images",
+      "passed": true
+    },
+    {
+      "label": "390 theme switch dark",
+      "passed": true
+    },
+    {
+      "label": "390 dark no page overflow",
+      "passed": true
+    },
+    {
+      "label": "390 dark hero contained",
+      "passed": true
+    },
+    {
+      "label": "390 dark computed text contrast",
+      "passed": true
+    },
+    {
+      "label": "390 dark no serious or critical lesson accessibility violations",
+      "passed": true
+    },
+    {
+      "label": "390 dark four original output images",
+      "passed": true
+    },
+    {
+      "label": "390 symmetry prediction feedback",
+      "passed": true
+    },
+    {
+      "label": "390 variability prediction feedback",
+      "passed": true
+    },
+    {
+      "label": "390 multi-vari prediction feedback",
+      "passed": true
+    },
+    {
+      "label": "390 guided practice feedback",
+      "passed": true
+    },
+    {
+      "label": "390 unanswered quiz state",
+      "passed": true
+    },
+    {
+      "label": "390 correct quiz state",
+      "passed": true
+    },
+    {
+      "label": "390 incorrect quiz state",
+      "passed": true
+    },
+    {
+      "label": "390 light supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "390 light supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "390 light supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "390 light supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "390 light output and feedback computed contrast",
+      "passed": true
+    },
+    {
+      "label": "390 light outputs and feedback accessibility",
+      "passed": true
+    },
+    {
+      "label": "390 dark supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "390 dark supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "390 dark supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "390 dark supplied image loads",
+      "passed": true
+    },
+    {
+      "label": "390 dark output and feedback computed contrast",
+      "passed": true
+    },
+    {
+      "label": "390 dark outputs and feedback accessibility",
+      "passed": true
+    },
+    {
+      "label": "mobile navigation opens with canonical control",
+      "passed": true
+    },
+    {
+      "label": "390 exact search result opens a collapsed Minitab output",
+      "passed": true
+    },
+    {
+      "label": "390 workbook download matches source bytes",
+      "passed": true
+    },
+    {
+      "label": "390 no page JavaScript errors",
+      "passed": true
+    }
+  ],
+  "accessibility": [
+    {
+      "width": 1440,
+      "theme": "light",
+      "state": "initial",
+      "passes": 21,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ],
+      "computedContrast": {
+        "samples": 1050,
+        "minimumTextRatio": 6.19,
+        "failures": []
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "state": "initial",
+      "passes": 21,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ],
+      "computedContrast": {
+        "samples": 1050,
+        "minimumTextRatio": 6.19,
+        "failures": []
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "state": "outputs-and-feedback",
+      "passes": 22,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ],
+      "computedContrast": {
+        "samples": 1068,
+        "minimumTextRatio": 6.19,
+        "failures": []
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "state": "outputs-and-feedback",
+      "passes": 22,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ],
+      "computedContrast": {
+        "samples": 1068,
+        "minimumTextRatio": 6.19,
+        "failures": []
+      }
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "state": "initial",
+      "passes": 22,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ],
+      "computedContrast": {
+        "samples": 1050,
+        "minimumTextRatio": 6.19,
+        "failures": []
+      }
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "state": "initial",
+      "passes": 22,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ],
+      "computedContrast": {
+        "samples": 1050,
+        "minimumTextRatio": 6.19,
+        "failures": []
+      }
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "state": "outputs-and-feedback",
+      "passes": 23,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ],
+      "computedContrast": {
+        "samples": 1068,
+        "minimumTextRatio": 6.19,
+        "failures": []
+      }
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "state": "outputs-and-feedback",
+      "passes": 23,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ],
+      "computedContrast": {
+        "samples": 1068,
+        "minimumTextRatio": 6.19,
+        "failures": []
+      }
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "desktop-light.jpg",
+    "desktop-dark.jpg",
+    "mobile-light.jpg",
+    "mobile-dark.jpg"
+  ]
+}

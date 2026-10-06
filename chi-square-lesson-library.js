@@ -243,6 +243,18 @@
       description: 'Choose among fitted line plots, multiple regression, stepwise methods, Best Subsets, validation, interactions, polynomial models, and nonlinear regression.'
     },
     {
+      marker: 'data-minitab-symmetry-variability-multi-vari',
+      sectionId: 'power-bi-excel-sql',
+      path: '/lessons/power-bi-excel-sql/introduction-to-symmetry-variability-and-multi-vari-charts-in-minitab',
+      topic: 'power-bi-excel-sql',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'minitab symmetry plot variability chart multi-vari multi vari chart skewness median spread range standard deviation cell factors line shift interaction wall thickness downtime excel public beginner interactive',
+      meta: '<span>Beginner</span><span>Interactive</span><span>75 min</span><span>Minitab</span>',
+      title: 'Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab',
+      description: 'Build and interpret three Minitab quality charts with guided practice, step-by-step instructions, original Minitab output, and downloadable pipe-manufacturing data.'
+    },
+    {
       marker: 'data-minitab-control-chart-master-guide',
       sectionId: 'power-bi-excel-sql',
       path: '/lessons/power-bi-excel-sql/minitab-control-chart-selection-analysis',
