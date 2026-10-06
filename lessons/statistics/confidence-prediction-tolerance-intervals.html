@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Confidence vs Prediction vs Tolerance Intervals",
+  "slug": "confidence-prediction-tolerance-intervals",
+  "category": "Statistics",
+  "category_slug": "statistics",
+  "level": "Beginner",
+  "lesson_type": "General",
+  "estimated_minutes": 45,
+  "interactive": true,
+  "card_title": "Confidence vs Prediction vs Tolerance Intervals",
+  "card_description": "See how CI, PI and TI differ with live sliders, a width-vs-sample-size chart, a coverage simulator, every formula, and Excel and Minitab steps.",
+  "search_keywords": ["confidence interval", "prediction interval", "tolerance interval", "statistical intervals", "ci vs pi vs ti", "tolerance factor k", "CONFIDENCE.T", "Minitab tolerance intervals", "coverage", "sample size"],
+  "suggested_github_path": "lessons/statistics/confidence-prediction-tolerance-intervals.html",
+  "access_level": "public"
+}
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confidence vs Prediction vs Tolerance Intervals | UpSkill Sprint</title>
+  <meta name="description" content="See how confidence, prediction and tolerance intervals differ with live sliders, a coverage simulator, every formula, plus Excel and Minitab steps.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/statistics/confidence-prediction-tolerance-intervals">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Confidence vs Prediction vs Tolerance Intervals | UpSkill Sprint">
+  <meta property="og:description" content="See how confidence, prediction and tolerance intervals differ with live sliders, a coverage simulator, every formula, plus Excel and Minitab steps.">
+  <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+  <meta property="og:url" content="https://upskillsprint.com/lessons/statistics/confidence-prediction-tolerance-intervals">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+  <script defer src="/assets/js/math.js"></script>
+  <style id="cpti-lesson-style">
+    :root {
+      color-scheme: light dark;
+      --cpti-page: #f6f8fb;
+      --cpti-surface: #ffffff;
+      --cpti-surface-2: #f1f5f9;
+      --cpti-ink: #101828;
+      --cpti-ink-2: #344054;
+      --cpti-muted: #556070;
+      --cpti-line: #d5dde7;
+      --cpti-grid: #e4e9f0;
+      --cpti-accent: #0b6a76;
+      --cpti-accent-ink: #ffffff;
+      --cpti-link: #075985;
+      --cpti-focus: #b45309;
+      --cpti-ci: #2a78d6;
+      --cpti-pi: #d4561f;
+      --cpti-ti: #138a60;
+      --cpti-pop: #94a3b8;
+      --cpti-good: #15803d;
+      --cpti-bad: #b42318;
+      --cpti-good-bg: #ecfdf3;
+      --cpti-bad-bg: #fef3f2;
+      --cpti-note-bg: #eef6ff;
+      --cpti-warn-bg: #fff7e6;
+      --cpti-warn-line: #b7791f;
+      --cpti-code-bg: #eef2f6;
+      --cpti-shadow: 0 8px 24px rgba(15, 42, 67, .07);
+    }
+    html[data-theme="dark"] {
+      --cpti-page: #0b1220;
+      --cpti-surface: #111c2d;
+      --cpti-surface-2: #0f1a2b;
+      --cpti-ink: #f3f6fb;
+      --cpti-ink-2: #d5deeb;
+      --cpti-muted: #aab7c9;
+      --cpti-line: #2b3b50;
+      --cpti-grid: #1f2d40;
+      --cpti-accent: #46c4cb;
+      --cpti-accent-ink: #04252a;
+      --cpti-link: #7dd3fc;
+      --cpti-focus: #f7c96f;
+      --cpti-ci: #3987e5;
+      --cpti-pi: #d95926;
+      --cpti-ti: #199e70;
+      --cpti-pop: #64748b;
+      --cpti-good: #4ade80;
+      --cpti-bad: #fca5a5;
+      --cpti-good-bg: #10291c;
+      --cpti-bad-bg: #2c1717;
+      --cpti-note-bg: #12233a;
+      --cpti-warn-bg: #2a2413;
+      --cpti-warn-line: #efb65d;
+      --cpti-code-bg: #1a2638;
+      --cpti-shadow: none;
+    }
+
+    #lesson-content { background: var(--cpti-page); color: var(--cpti-ink); padding: 0 0 40px; }
+    :where(#lesson-content) * { box-sizing: border-box; }
+    :where(#lesson-content) .cpti-wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+    :where(#lesson-content) h2 { font-size: clamp(1.45rem, 3.2vw, 1.9rem); line-height: 1.25; margin: 0 0 12px; color: var(--cpti-ink); }
+    :where(#lesson-content) h3 { font-size: 1.15rem; line-height: 1.35; margin: 22px 0 8px; color: var(--cpti-ink); }
+    :where(#lesson-content) h4 { font-size: 1rem; margin: 16px 0 6px; color: var(--cpti-ink); }
+    :where(#lesson-content) p, :where(#lesson-content) li { color: var(--cpti-ink-2); font-size: 1rem; line-height: 1.7; }
+    :where(#lesson-content) strong { color: var(--cpti-ink); }
+    :where(#lesson-content) a { color: var(--cpti-link); }
+    :where(#lesson-content) code { background: var(--cpti-code-bg); color: var(--cpti-ink); padding: 1px 6px; border-radius: 5px; font-size: .92em; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+    :where(#lesson-content) :focus-visible { outline: 3px solid var(--cpti-focus); outline-offset: 2px; }
+
+    .cpti-hero { background: var(--cpti-surface); border-bottom: 1px solid var(--cpti-line); padding: 44px 0 34px; margin-bottom: 30px; }
+    .cpti-kicker { text-transform: uppercase; letter-spacing: .09em; font-size: .78rem; font-weight: 700; color: var(--cpti-accent); margin: 0 0 8px; }
+    html[data-theme="dark"] .cpti-kicker { color: #7dd3fc; }
+    .cpti-hero h1 { font-size: clamp(1.9rem, 5vw, 2.9rem); line-height: 1.12; margin: 0 0 14px; color: var(--cpti-ink); }
+    .cpti-lede { font-size: 1.12rem !important; max-width: 760px; margin: 0 0 18px; }
+    .cpti-pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+    .cpti-pills li { font-size: .85rem !important; line-height: 1.2 !important; font-weight: 600; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--cpti-line); background: var(--cpti-surface-2); color: var(--cpti-ink); }
+
+    .cpti-section { margin: 0 0 44px; }
+    .cpti-card { background: var(--cpti-surface); color: var(--cpti-ink); border: 1px solid var(--cpti-line); border-radius: 14px; padding: 22px; box-shadow: var(--cpti-shadow); }
+    .cpti-grid-3 { display: grid; gap: 16px; grid-template-columns: 1fr; }
+    @media (min-width: 820px) { .cpti-grid-3 { grid-template-columns: repeat(3, 1fr); } }
+    .cpti-type { border-top: 5px solid var(--cpti-ci); }
+    .cpti-type.is-pi { border-top-color: var(--cpti-pi); }
+    .cpti-type.is-ti { border-top-color: var(--cpti-ti); }
+    .cpti-type h3 { margin-top: 0; }
+    .cpti-tag { display: inline-block; font-weight: 800; font-size: .8rem; letter-spacing: .06em; padding: 3px 9px; border-radius: 6px; color: #ffffff; background: #1f5fae; margin-bottom: 8px; }
+    .cpti-tag.is-pi { background: #a8401a; }
+    .cpti-tag.is-ti { background: #0f6b4b; }
+    .cpti-question { font-family: 'Source Serif 4', Georgia, serif; font-size: 1.12rem !important; color: var(--cpti-ink) !important; margin: 4px 0 10px; }
+    .cpti-example { background: var(--cpti-surface-2); color: var(--cpti-ink-2); border-radius: 10px; padding: 12px 14px; font-size: .95rem !important; margin: 10px 0 0; }
+
+    .table-scroll { overflow-x: auto; border: 1px solid var(--cpti-line); border-radius: 12px; background: var(--cpti-surface); }
+    :where(#lesson-content) table { border-collapse: collapse; width: 100%; color: var(--cpti-ink); background: var(--cpti-surface); }
+    :where(#lesson-content) table.cpti-wide { min-width: 600px; }
+    :where(#lesson-content) caption { text-align: left; padding: 12px 14px 4px; color: var(--cpti-muted); font-size: .9rem; }
+    :where(#lesson-content) th, :where(#lesson-content) td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--cpti-line); font-size: .95rem; line-height: 1.5; color: var(--cpti-ink-2); }
+    :where(#lesson-content) thead th { background: var(--cpti-surface-2); color: var(--cpti-ink); font-weight: 700; }
+    :where(#lesson-content) tbody th { color: var(--cpti-ink); font-weight: 700; }
+    :where(#lesson-content) tr:last-child > * { border-bottom: 0; }
+    .cpti-num { font-variant-numeric: tabular-nums; }
+    :where(#lesson-content) th code, :where(#lesson-content) table.cpti-fn td:nth-child(2) code { white-space: nowrap; }
+
+    .cpti-callout { border-radius: 12px; padding: 14px 18px; margin: 18px 0; background: var(--cpti-note-bg); color: var(--cpti-ink-2); border-left: 5px solid var(--cpti-ci); }
+    .cpti-callout.is-warn { background: var(--cpti-warn-bg); border-left-color: var(--cpti-warn-line); }
+    .cpti-callout p { margin: 6px 0; }
+
+    .cpti-formula { background: var(--cpti-surface); color: var(--cpti-ink); border: 1px solid var(--cpti-line); border-left: 5px solid var(--cpti-ci); border-radius: 12px; padding: 16px 18px; margin: 14px 0; overflow-x: auto; }
+    .cpti-formula.is-pi { border-left-color: var(--cpti-pi); }
+    .cpti-formula.is-ti { border-left-color: var(--cpti-ti); }
+    .cpti-formula.is-neutral { border-left-color: var(--cpti-muted); }
+    .cpti-formula h3, .cpti-formula h4 { margin-top: 0; }
+    .cpti-formula p { margin: 8px 0; }
+    .cpti-where { font-size: .95rem !important; }
+
+    /* Interval Lab */
+    .cpti-lab { display: grid; gap: 18px; grid-template-columns: 1fr; }
+    @media (min-width: 900px) { .cpti-lab { grid-template-columns: 300px 1fr; } }
+    .cpti-controls fieldset { border: 1px solid var(--cpti-line); border-radius: 10px; padding: 10px 12px 12px; margin: 0 0 12px; }
+    .cpti-controls legend { font-weight: 700; font-size: .92rem; color: var(--cpti-ink); padding: 0 4px; }
+    .cpti-field { margin: 0 0 14px; }
+    .cpti-field label, .cpti-field .cpti-label { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-weight: 600; font-size: .93rem; color: var(--cpti-ink); margin-bottom: 4px; }
+    .cpti-field output { font-variant-numeric: tabular-nums; color: var(--cpti-ink); font-weight: 700; }
+    .cpti-field input[type="range"] { width: 100%; min-height: 32px; accent-color: var(--cpti-accent); }
+    .cpti-field select, .cpti-field input[type="number"] { width: 100%; min-height: 40px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--cpti-line); background: var(--cpti-surface); color: var(--cpti-ink); font: inherit; }
+    .cpti-radio { display: flex; align-items: center; gap: 8px; min-height: 36px; font-size: .95rem; color: var(--cpti-ink-2); cursor: pointer; }
+    .cpti-radio input, .cpti-check input { width: 18px; height: 18px; accent-color: var(--cpti-accent); }
+    .cpti-check { display: flex; align-items: center; gap: 8px; min-height: 36px; font-size: .95rem; color: var(--cpti-ink-2); cursor: pointer; }
+    .cpti-hint { font-size: .85rem !important; color: var(--cpti-muted) !important; margin: 2px 0 0; line-height: 1.5 !important; }
+    .cpti-svg { width: 100%; height: auto; display: block; }
+    .cpti-svg text { font-family: inherit; }
+    .cpti-readouts { display: grid; gap: 10px; grid-template-columns: 1fr; margin-top: 12px; }
+    @media (min-width: 640px) { .cpti-readouts { grid-template-columns: repeat(3, 1fr); } }
+    .cpti-readout { border: 1px solid var(--cpti-line); border-left: 5px solid var(--cpti-ci); border-radius: 10px; padding: 10px 12px; background: var(--cpti-surface-2); color: var(--cpti-ink); }
+    .cpti-readout.is-pi { border-left-color: var(--cpti-pi); }
+    .cpti-readout.is-ti { border-left-color: var(--cpti-ti); }
+    .cpti-readout .cpti-r-name { font-size: .8rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--cpti-muted); }
+    .cpti-readout .cpti-r-val { font-size: 1.15rem; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--cpti-ink); }
+    .cpti-readout .cpti-r-sub { font-size: .86rem; color: var(--cpti-ink-2); }
+    .cpti-verdict { margin-top: 12px; padding: 12px 14px; border-radius: 10px; font-weight: 600; color: var(--cpti-ink); background: var(--cpti-surface-2); border: 1px solid var(--cpti-line); }
+    .cpti-verdict.is-good { background: var(--cpti-good-bg); border-color: var(--cpti-good); }
+    .cpti-verdict.is-bad { background: var(--cpti-bad-bg); border-color: var(--cpti-bad); }
+    .cpti-live-formulas { display: grid; gap: 10px; grid-template-columns: 1fr; margin-top: 12px; }
+    @media (min-width: 980px) { .cpti-live-formulas { grid-template-columns: repeat(3, 1fr); } }
+    .cpti-live-formulas .cpti-formula { margin: 0; padding: 10px 12px; font-size: .84rem; }
+    .cpti-live-formulas .cpti-formula p { margin: 0; }
+    .cpti-try { margin: 14px 0 0; padding-left: 20px; }
+    .cpti-try li { margin: 4px 0; }
+
+    .cpti-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 9px 16px; border-radius: 10px; border: 1px solid var(--cpti-accent); background: var(--cpti-accent); color: var(--cpti-accent-ink); font: inherit; font-weight: 700; cursor: pointer; }
+    .cpti-btn.is-ghost { background: transparent; color: var(--cpti-ink); border-color: var(--cpti-line); }
+    .cpti-btn:hover { filter: brightness(1.08); }
+    .cpti-btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+
+    /* width chart */
+    .cpti-legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 0 0 8px; padding: 0; list-style: none; }
+    .cpti-legend li { display: flex; align-items: center; gap: 8px; font-size: .9rem !important; color: var(--cpti-ink-2); }
+    .cpti-legend svg { flex: none; }
+    .cpti-chart-box { position: relative; }
+    .cpti-tooltip { position: absolute; pointer-events: none; background: var(--cpti-surface); color: var(--cpti-ink); border: 1px solid var(--cpti-line); border-radius: 8px; padding: 8px 10px; font-size: .85rem; line-height: 1.45; box-shadow: 0 6px 18px rgba(0,0,0,.18); min-width: 150px; display: none; z-index: 2; }
+    .cpti-tooltip .cpti-tt-row { display: flex; align-items: center; gap: 8px; }
+    .cpti-tooltip strong { font-variant-numeric: tabular-nums; }
+    details.cpti-details { border: 1px solid var(--cpti-line); border-radius: 10px; padding: 10px 14px; background: var(--cpti-surface); color: var(--cpti-ink); margin: 12px 0; }
+    details.cpti-details summary { cursor: pointer; font-weight: 700; color: var(--cpti-ink); min-height: 28px; }
+
+    /* simulator */
+    .cpti-tally { display: grid; gap: 10px; grid-template-columns: 1fr; margin-top: 12px; }
+    @media (min-width: 640px) { .cpti-tally { grid-template-columns: repeat(3, 1fr); } }
+    .cpti-seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--cpti-line); border-radius: 10px; overflow: hidden; }
+    .cpti-seg label { display: flex; align-items: center; gap: 6px; padding: 8px 12px; min-height: 40px; cursor: pointer; color: var(--cpti-ink); font-weight: 600; font-size: .92rem; border-right: 1px solid var(--cpti-line); }
+    .cpti-seg label:last-child { border-right: 0; }
+    .cpti-seg input { accent-color: var(--cpti-accent); }
+
+    /* scenario sorter */
+    .cpti-scen-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; grid-template-columns: 1fr; }
+    @media (min-width: 820px) { .cpti-scen-list { grid-template-columns: 1fr 1fr; } }
+    .cpti-scen { border: 1px solid var(--cpti-line); border-radius: 12px; padding: 14px; background: var(--cpti-surface); color: var(--cpti-ink); }
+    .cpti-scen p { margin: 0 0 10px; }
+    .cpti-choice { display: flex; gap: 8px; flex-wrap: wrap; }
+    .cpti-choice button { min-height: 40px; min-width: 56px; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--cpti-line); background: var(--cpti-surface-2); color: var(--cpti-ink); font: inherit; font-weight: 700; cursor: pointer; }
+    .cpti-choice button[aria-pressed="true"] { border-color: var(--cpti-accent); box-shadow: inset 0 0 0 2px var(--cpti-accent); }
+    .cpti-scen-fb { margin-top: 10px; font-size: .93rem; color: var(--cpti-ink-2); min-height: 0; }
+    .cpti-scen-fb.is-good { color: var(--cpti-good); }
+    .cpti-scen-fb.is-bad { color: var(--cpti-bad); }
+    .cpti-scen-fb strong { color: inherit; }
+    .cpti-score { font-weight: 700; color: var(--cpti-ink); margin-top: 12px; }
+
+    .cpti-data-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 10px 0; max-width: 460px; }
+    .cpti-data-grid span { text-align: center; padding: 6px 0; border-radius: 6px; background: var(--cpti-surface-2); color: var(--cpti-ink); font-variant-numeric: tabular-nums; font-weight: 600; }
+    .cpti-stats { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 0; padding: 0; list-style: none; }
+    .cpti-stats li { border: 1px solid var(--cpti-line); border-radius: 10px; padding: 8px 12px; background: var(--cpti-surface-2); color: var(--cpti-ink); font-size: .95rem !important; }
+
+    .cpti-steps { counter-reset: cpti-step; list-style: none; padding: 0; margin: 10px 0; }
+    .cpti-steps > li { counter-increment: cpti-step; position: relative; padding-left: 40px; margin: 0 0 12px; }
+    .cpti-steps > li::before { content: counter(cpti-step); position: absolute; left: 0; top: 2px; width: 28px; height: 28px; border-radius: 50%; background: var(--cpti-accent); color: var(--cpti-accent-ink); font-weight: 800; font-size: .85rem; display: flex; align-items: center; justify-content: center; }
+
+    .cpti-takeaways { padding-left: 20px; }
+    .cpti-takeaways li { margin: 6px 0; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    @media (prefers-reduced-motion: reduce) { :where(#lesson-content) * { transition: none !important; animation: none !important; } }
+  </style>
+</head>
+<body data-lesson-page="true" data-category="statistics" data-level="beginner" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+
+<main id="lesson-content">
+  <div class="cpti-hero">
+    <div class="cpti-wrap">
+      <p class="cpti-kicker">Statistics · Beginner</p>
+      <h1>Confidence vs Prediction vs Tolerance Intervals</h1>
+      <p class="cpti-lede">All three give you a lower and an upper limit. They answer three very different questions. Move the sliders below and watch the three intervals grow, shrink, and hit their floors in real time.</p>
+      <ul class="cpti-pills" aria-label="Lesson facts">
+        <li>Beginner</li><li>45 min</li><li>Interactive</li><li>Excel + Minitab</li><li>CSSBB · CQE</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cpti-wrap">
+
+    <section class="cpti-section" id="what-you-will-learn" aria-labelledby="learn-heading">
+      <h2 id="learn-heading">What you will be able to do</h2>
+      <ul class="cpti-takeaways">
+        <li>Say in plain words what a confidence, prediction, and tolerance interval each targets.</li>
+        <li>Calculate all three by hand, in Excel, and in Minitab.</li>
+        <li>Explain why a prediction interval never shrinks to zero, and why a tolerance interval is usually the widest.</li>
+        <li>Pick the right interval for a real decision: an average, a next part, or a whole population against a spec.</li>
+      </ul>
+    </section>
+
+    <section class="cpti-section" id="one-minute-version" aria-labelledby="one-minute-heading">
+      <h2 id="one-minute-heading">The one-minute version</h2>
+      <p>Imagine you weigh 20 salmon caught in one river. From those 20 fish you can build three different intervals. Each one aims at a different target.</p>
+      <div class="cpti-grid-3">
+        <article class="cpti-card cpti-type" aria-labelledby="type-ci">
+          <span class="cpti-tag">CI</span>
+          <h3 id="type-ci">Confidence interval</h3>
+          <p class="cpti-question">"Where is the true average?"</p>
+          <p><strong>Targets:</strong> one population parameter, usually the mean \(\mu\).</p>
+          <p><strong>Accounts for:</strong> sampling error only.</p>
+          <p class="cpti-example">"We are 95% confident the <strong>average</strong> salmon in this river weighs between 5.12 kg and 5.88 kg."</p>
+        </article>
+        <article class="cpti-card cpti-type is-pi" aria-labelledby="type-pi">
+          <span class="cpti-tag is-pi">PI</span>
+          <h3 id="type-pi">Prediction interval</h3>
+          <p class="cpti-question">"Where will the next data point fall?"</p>
+          <p><strong>Targets:</strong> one single future observation.</p>
+          <p><strong>Accounts for:</strong> sampling error <em>plus</em> fish-to-fish scatter.</p>
+          <p class="cpti-example">"We are 95% confident the <strong>next single salmon</strong> we catch will weigh between 3.77 kg and 7.23 kg."</p>
+        </article>
+        <article class="cpti-card cpti-type is-ti" aria-labelledby="type-ti">
+          <span class="cpti-tag is-ti">TI</span>
+          <h3 id="type-ti">Tolerance interval</h3>
+          <p class="cpti-question">"Where does 99% of the population fall?"</p>
+          <p><strong>Targets:</strong> a stated proportion of all individuals.</p>
+          <p><strong>Accounts for:</strong> sampling error in both the mean and the spread, for a whole slice of the population.</p>
+          <p class="cpti-example">"We are 95% confident that <strong>99% of all salmon</strong> in this river weigh between 2.57 kg and 8.43 kg."</p>
+        </article>
+      </div>
+
+      <h3 id="direct-comparison">Direct comparison</h3>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Comparison of confidence, prediction and tolerance intervals">
+        <table class="cpti-wide">
+          <thead>
+            <tr><th scope="col">Interval</th><th scope="col">What it targets</th><th scope="col">Key question</th><th scope="col">As the sample size grows</th><th scope="col">Relative width</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Confidence (CI)</th><td>A population parameter, such as the true mean</td><td>"Where is the true average?"</td><td>Shrinks toward zero width</td><td>Narrowest</td></tr>
+            <tr><th scope="row">Prediction (PI)</th><td>One single future observation</td><td>"Where will the next data point fall?"</td><td>Shrinks, then hits a floor: individual scatter never goes away</td><td>Wider than the CI</td></tr>
+            <tr><th scope="row">Tolerance (TI)</th><td>A stated proportion of the population (for example 99%)</td><td>"Where does 99% of the population fall?"</td><td>Shrinks toward the true population percentiles</td><td>Usually the widest</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cpti-callout">
+        <p><strong>Two percentages, not one.</strong> A tolerance interval always carries two numbers: a <strong>confidence level</strong> (how sure you are, for example 95%) and a <strong>coverage</strong> (how much of the population it must hold, for example 99%). Read "95/99 tolerance interval" as "95% confident that at least 99% of individuals are inside."</p>
+      </div>
+    </section>
+
+    <section class="cpti-section" id="the-sample" aria-labelledby="sample-heading">
+      <h2 id="sample-heading">Meet the sample: 20 salmon</h2>
+      <p>These are the weights (kg) of 20 salmon from one river. We use them in every worked example below. The data is fictitious and was generated from a normal distribution for teaching.</p>
+      <div class="cpti-card">
+        <div class="cpti-data-grid" id="cpti-data-grid" aria-label="Twenty salmon weights in kilograms" role="list"></div>
+        <div class="cpti-btn-row">
+          <button type="button" class="cpti-btn is-ghost" id="cpti-copy-data">Copy the 20 values (one per line, for Excel or Minitab)</button>
+        </div>
+        <p class="cpti-hint" id="cpti-copy-status" role="status" aria-live="polite"></p>
+        <ul class="cpti-stats" aria-label="Sample summary statistics">
+          <li>\(n = 20\)</li>
+          <li>\(\bar{x} = 5.50\,\text{kg}\)</li>
+          <li>\(s = 0.808\,\text{kg}\)</li>
+          <li>\(s/\sqrt{n} = 0.181\,\text{kg}\)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="cpti-section" id="interval-lab" aria-labelledby="lab-heading">
+      <h2 id="lab-heading">Interval Lab: see all three at once</h2>
+      <p>Change the inputs. The grey curve is the population we estimate from \(\bar{x}\) and \(s\). The three bars are the intervals. The numbers and formulas update as you move.</p>
+      <div class="cpti-card">
+        <div class="cpti-lab">
+          <form class="cpti-controls" id="cpti-lab-form" onsubmit="return false">
+            <fieldset>
+              <legend>Example data</legend>
+              <label class="cpti-radio"><input type="radio" name="cpti-preset" value="salmon" checked> Salmon weight (kg)</label>
+              <label class="cpti-radio"><input type="radio" name="cpti-preset" value="pipe"> Pipe wall thickness (mm)</label>
+            </fieldset>
+            <div class="cpti-field">
+              <label for="cpti-n"><span>Sample size \(n\)</span> <output id="cpti-n-out" for="cpti-n">20</output></label>
+              <input type="range" id="cpti-n" min="2" max="200" step="1" value="20">
+            </div>
+            <div class="cpti-field">
+              <label for="cpti-mean"><span>Sample mean \(\bar{x}\)</span></label>
+              <input type="number" id="cpti-mean" step="0.01" value="5.50">
+            </div>
+            <div class="cpti-field">
+              <label for="cpti-s"><span>Sample standard deviation \(s\)</span> <output id="cpti-s-out" for="cpti-s">0.808</output></label>
+              <input type="range" id="cpti-s" min="0.2" max="2" step="0.00001" value="0.80786">
+            </div>
+            <div class="cpti-field">
+              <label for="cpti-conf">Confidence level</label>
+              <select id="cpti-conf">
+                <option value="0.90">90%</option>
+                <option value="0.95" selected>95%</option>
+                <option value="0.99">99%</option>
+              </select>
+            </div>
+            <div class="cpti-field">
+              <label for="cpti-cover">Tolerance coverage (share of population)</label>
+              <select id="cpti-cover">
+                <option value="0.90">90%</option>
+                <option value="0.95">95%</option>
+                <option value="0.99" selected>99%</option>
+                <option value="0.999">99.9%</option>
+              </select>
+            </div>
+            <label class="cpti-check"><input type="checkbox" id="cpti-specs"> Show spec limits</label>
+            <p class="cpti-hint" id="cpti-spec-note">Salmon have no spec. Pipe uses illustrative limits of 7.90 to 8.70 mm.</p>
+            <div class="cpti-btn-row"><button type="button" class="cpti-btn is-ghost" id="cpti-reset">Reset to the example</button></div>
+          </form>
+          <div>
+            <svg class="cpti-svg" id="cpti-lab-svg" viewBox="0 0 720 300" role="img" aria-labelledby="cpti-lab-svg-title" focusable="false">
+              <title id="cpti-lab-svg-title">Number line comparing the three intervals</title>
+            </svg>
+            <div class="cpti-readouts" data-search-exclude>
+              <div class="cpti-readout"><div class="cpti-r-name">CI · true mean</div><div class="cpti-r-val" id="cpti-ci-val">—</div><div class="cpti-r-sub" id="cpti-ci-sub"></div></div>
+              <div class="cpti-readout is-pi"><div class="cpti-r-name">PI · next value</div><div class="cpti-r-val" id="cpti-pi-val">—</div><div class="cpti-r-sub" id="cpti-pi-sub"></div></div>
+              <div class="cpti-readout is-ti"><div class="cpti-r-name">TI · <span id="cpti-ti-cover-name">99%</span> of population</div><div class="cpti-r-val" id="cpti-ti-val">—</div><div class="cpti-r-sub" id="cpti-ti-sub"></div></div>
+            </div>
+            <p class="cpti-verdict" id="cpti-lab-summary" role="status" aria-live="polite" data-search-exclude></p>
+          </div>
+        </div>
+        <h3 id="lab-live-math">Your numbers in the formulas</h3>
+        <div class="cpti-live-formulas" data-search-exclude>
+          <div class="cpti-formula"><p id="cpti-f-ci"></p></div>
+          <div class="cpti-formula is-pi"><p id="cpti-f-pi"></p></div>
+          <div class="cpti-formula is-ti"><p id="cpti-f-ti"></p></div>
+        </div>
+      </div>
+      <h3 id="lab-try-this">Try this</h3>
+      <ol class="cpti-try">
+        <li>Drag \(n\) from 20 up to 200. The CI collapses. The PI barely moves. The TI shrinks but stays wide.</li>
+        <li>Drag \(n\) down to 3. Everything balloons, and the TI explodes because a tiny sample tells you little about the spread.</li>
+        <li>Double \(s\). All three widen in proportion: every interval is "something times \(s\)".</li>
+        <li>Switch to the pipe example, tick <strong>Show spec limits</strong>, and drop \(n\) to 5. The process looks fine on average, yet the TI no longer fits inside the spec. Small samples cannot prove capability.</li>
+        <li>Set coverage to 90% and push \(n\) above 100. Now the 95% PI is wider than the TI. "TI is widest" is usually true, not always.</li>
+      </ol>
+    </section>
+
+    <section class="cpti-section" id="formulas" aria-labelledby="formulas-heading">
+      <h2 id="formulas-heading">The formulas, side by side</h2>
+      <p>All three intervals share one shape: <strong>centre \(\pm\) multiplier \(\times\) spread</strong>. The centre is always \(\bar{x}\). What changes is the multiplier, and that is the whole story.</p>
+
+      <div class="cpti-formula">
+        <h3 id="formula-ci">1. Confidence interval for the mean</h3>
+        <p>When the population standard deviation is unknown (the usual case), use the \(t\) distribution:</p>
+        <p>\[ \bar{x} \pm t_{\alpha/2,\,n-1}\,\frac{s}{\sqrt{n}} \]</p>
+        <p class="cpti-where">where \(\bar{x}\) is the sample mean, \(s\) is the sample standard deviation, \(n\) is the sample size, \(\alpha = 1 - \text{confidence level}\), and \(t_{\alpha/2,\,n-1}\) is the \(t\) value with \(\alpha/2\) of the area above it and \(n-1\) degrees of freedom. The term \(s/\sqrt{n}\) is the <strong>standard error</strong> of the mean.</p>
+        <p>If the population standard deviation \(\sigma\) is truly known, swap \(t\) for \(z\):</p>
+        <p>\[ \bar{x} \pm z_{\alpha/2}\,\frac{\sigma}{\sqrt{n}} \]</p>
+        <p class="cpti-where">where \(z_{\alpha/2}\) is the standard normal value with \(\alpha/2\) of the area above it (1.960 for 95%).</p>
+        <h4>Salmon example (95%)</h4>
+        <p>\[ \begin{aligned} \text{CI} &= 5.50 \pm 2.093 \times \frac{0.808}{\sqrt{20}} \\ &= 5.50 \pm 0.378 \\ &= [5.12,\ 5.88]\ \text{kg} \end{aligned} \]</p>
+      </div>
+
+      <div class="cpti-formula is-pi">
+        <h3 id="formula-pi">2. Prediction interval for one new observation</h3>
+        <p>\[ \bar{x} \pm t_{\alpha/2,\,n-1}\, s\sqrt{1+\frac{1}{n}} \]</p>
+        <p class="cpti-where">where every symbol means the same as above. The only change is the factor \(\sqrt{1 + 1/n}\) in place of \(1/\sqrt{n}\).</p>
+        <h4>Why the extra "1"?</h4>
+        <p>A new fish differs from our sample mean for two reasons: the new fish varies around the true mean, and our sample mean is itself a bit off. Those two errors are independent, so their variances add:</p>
+        <p>\[ \begin{aligned} \operatorname{Var}\left(X_{\text{new}} - \bar{X}\right) &= \sigma^2 + \frac{\sigma^2}{n} \\ &= \sigma^2\left(1 + \frac{1}{n}\right) \end{aligned} \]</p>
+        <p class="cpti-where">where \(X_{\text{new}}\) is the next observation and \(\sigma^2\) is the population variance. The "1" is the fish-to-fish scatter. It does not depend on \(n\), so it never goes away. That is the PI's floor.</p>
+        <h4>Salmon example (95%)</h4>
+        <p>\[ \begin{aligned} \text{PI} &= 5.50 \pm 2.093 \times 0.808\sqrt{1 + \frac{1}{20}} \\ &= 5.50 \pm 1.733 \\ &= [3.77,\ 7.23]\ \text{kg} \end{aligned} \]</p>
+      </div>
+
+      <div class="cpti-formula is-ti">
+        <h3 id="formula-ti">3. Two-sided tolerance interval (normal data)</h3>
+        <p>\[ \bar{x} \pm k_2\, s \]</p>
+        <p class="cpti-where">where \(k_2\) is the two-sided <strong>tolerance factor</strong>. It depends on three things: the sample size \(n\), the coverage \(p\) (the share of the population to capture), and the confidence level \(1-\alpha\).</p>
+        <p>Minitab and published tables solve for the exact \(k_2\) numerically. A very good hand formula is Howe's approximation:</p>
+        <p>\[ k_2 \approx \sqrt{\frac{(n-1)\left(1+\frac{1}{n}\right) z^2_{(1-p)/2}}{\chi^2_{\alpha,\,n-1}}} \]</p>
+        <p class="cpti-where">where \(z_{(1-p)/2}\) is the standard normal value with \((1-p)/2\) of the area above it (2.576 for \(p = 0.99\)), and \(\chi^2_{\alpha,\,n-1}\) is the chi-square value with \(\alpha\) of the area <strong>below</strong> it and \(n-1\) degrees of freedom (10.117 for \(\alpha = 0.05\), 19 df).</p>
+        <h4>Salmon example (95% confidence, 99% coverage)</h4>
+        <p>\[ \begin{aligned} k_2 &\approx \sqrt{\frac{19 \times 1.05 \times 2.576^2}{10.117}} = 3.617 \\ k_2 &= 3.621 \quad (\text{exact}) \\ \text{TI} &= 5.50 \pm 3.621 \times 0.808 \\ &= 5.50 \pm 2.925 \\ &= [2.57,\ 8.43]\ \text{kg} \end{aligned} \]</p>
+        <p class="cpti-where">Howe's \(k_2\) gives [2.58, 8.42] kg. That small gap is why Excel (Howe) and Minitab (exact) can differ in the second decimal.</p>
+        <h4>One-sided tolerance bounds</h4>
+        <p>Often only one side matters, such as a minimum strength. A lower tolerance bound is</p>
+        <p>\[ \bar{x} - k_1\, s \]</p>
+        <p class="cpti-where">where \(k_1\) is the one-sided tolerance factor. It comes from tables or software (it is based on the noncentral \(t\) distribution). It is smaller than \(k_2\) because all of the uncovered population sits on one side.</p>
+      </div>
+
+      <h3 id="infinite-sample">What happens with an infinite sample?</h3>
+      <p>As \(n \to \infty\), \(\bar{x} \to \mu\), \(s \to \sigma\), and \(t \to z\). Each interval settles at a different limit:</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Limits of each interval as the sample size becomes very large">
+        <table class="cpti-wide">
+          <thead><tr><th scope="col">Interval</th><th scope="col">Half-width as \(n \to \infty\)</th><th scope="col">Plain words</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">CI</th><td>\(t_{\alpha/2,\,n-1}\,\dfrac{s}{\sqrt{n}} \to 0\)</td><td>You eventually know the mean exactly.</td></tr>
+            <tr><th scope="row">PI</th><td>\(t_{\alpha/2,\,n-1}\, s\sqrt{1+\tfrac{1}{n}} \to z_{\alpha/2}\,\sigma\)</td><td>The next fish still varies: the floor is \(\pm 1.96\sigma\) at 95%.</td></tr>
+            <tr><th scope="row">TI</th><td>\(k_2\, s \to z_{(1-p)/2}\,\sigma\)</td><td>It becomes the true population percentiles: \(\pm 2.576\sigma\) for 99% coverage.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="cpti-details">
+        <summary>Going further: intervals around a regression line</summary>
+        <p>The same CI-versus-PI idea appears in regression. At a chosen predictor value \(x_0\), with fitted value \(\hat{y}_0\):</p>
+        <p><strong>CI for the mean response:</strong></p>
+        <p>\[ \hat{y}_0 \pm t_{\alpha/2,\,n-2}\, s_e\sqrt{\frac{1}{n} + \frac{(x_0-\bar{x})^2}{S_{xx}}} \]</p>
+        <p><strong>PI for one new response:</strong></p>
+        <p>\[ \hat{y}_0 \pm t_{\alpha/2,\,n-2}\, s_e\sqrt{1 + \frac{1}{n} + \frac{(x_0-\bar{x})^2}{S_{xx}}} \]</p>
+        <p class="cpti-where">where \(s_e\) is the standard error of the regression (the residual standard deviation), \(\bar{x}\) is the mean of the predictor, and \(S_{xx} = \sum (x_i - \bar{x})^2\). Again the PI carries the extra "1", so its band is always wider, and both bands flare out as \(x_0\) moves away from \(\bar{x}\).</p>
+      </details>
+    </section>
+
+    <section class="cpti-section" id="width-vs-n" aria-labelledby="width-heading">
+      <h2 id="width-heading">Watch the widths as the sample grows</h2>
+      <p>This chart plots each interval's half-width as a multiple of \(s\). It uses the confidence and coverage you picked in the Interval Lab. The dot marks your current \(n\). Hover or touch the chart to read values.</p>
+      <div class="cpti-card">
+        <ul class="cpti-legend" aria-label="Chart legend">
+          <li><svg width="28" height="10" aria-hidden="true"><line x1="1" y1="5" x2="27" y2="5" stroke="var(--cpti-ci)" stroke-width="3" stroke-linecap="round"/></svg>CI: \(t/\sqrt{n}\)</li>
+          <li><svg width="28" height="10" aria-hidden="true"><line x1="1" y1="5" x2="27" y2="5" stroke="var(--cpti-pi)" stroke-width="3" stroke-dasharray="8 5"/></svg>PI: \(t\sqrt{1+1/n}\)</li>
+          <li><svg width="28" height="10" aria-hidden="true"><line x1="2" y1="5" x2="27" y2="5" stroke="var(--cpti-ti)" stroke-width="3" stroke-dasharray="1 5" stroke-linecap="round"/></svg>TI: \(k_2\)</li>
+        </ul>
+        <div class="cpti-chart-box" id="cpti-width-box">
+          <svg class="cpti-svg" id="cpti-width-svg" viewBox="0 0 720 340" role="img" aria-labelledby="cpti-width-title" focusable="false">
+            <title id="cpti-width-title">Half-width multipliers of the three intervals versus sample size</title>
+          </svg>
+          <div class="cpti-tooltip" id="cpti-width-tip" aria-hidden="true"></div>
+        </div>
+        <p class="cpti-hint">Log scale on the sample-size axis. At very small \(n\) the lines run off the top of the chart.</p>
+        <details class="cpti-details">
+          <summary>Show the numbers as a table</summary>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Half-width multipliers by sample size" data-search-exclude>
+            <table id="cpti-width-table">
+              <thead><tr><th scope="col">\(n\)</th><th scope="col">CI multiplier</th><th scope="col">PI multiplier</th><th scope="col">TI factor \(k_2\)</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </details>
+      </div>
+      <div class="cpti-callout">
+        <p><strong>Read the chart like this:</strong> the CI line dives toward zero. The PI line flattens onto its floor (\(z_{\alpha/2}\)). The TI line falls fast at first and then creeps toward its own floor (\(z_{(1-p)/2}\)). More data buys you a lot of precision on the mean, and almost nothing on the next single part.</p>
+      </div>
+    </section>
+
+    <section class="cpti-section" id="coverage-simulator" aria-labelledby="sim-heading">
+      <h2 id="sim-heading">What does "95%" really mean? A coverage simulator</h2>
+      <p>Here we play the river. We know the truth: salmon weights follow a normal distribution with \(\mu = 5.5\,\text{kg}\) and \(\sigma = 0.8\,\text{kg}\). Each click draws a fresh random sample, builds all three intervals, then checks each one against its own target.</p>
+      <div class="cpti-table-wrap table-scroll" tabindex="0" role="region" aria-label="How each interval is scored in the simulator">
+        <table>
+          <thead><tr><th scope="col">Interval</th><th scope="col">Counts as a hit when…</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">CI</th><td>it contains the true mean \(\mu = 5.5\)</td></tr>
+            <tr><th scope="row">PI</th><td>one brand-new fish, caught after the sample, lands inside it</td></tr>
+            <tr><th scope="row">TI</th><td>it actually holds at least the chosen coverage (for example 90%) of the whole population</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cpti-card" style="margin-top:14px">
+        <form class="cpti-controls" id="cpti-sim-form" onsubmit="return false">
+          <div class="cpti-lab" style="grid-template-columns:1fr">
+            <div style="display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+              <div class="cpti-field">
+                <label for="cpti-sim-n"><span>Sample size \(n\)</span> <output id="cpti-sim-n-out" for="cpti-sim-n">10</output></label>
+                <input type="range" id="cpti-sim-n" min="3" max="100" step="1" value="10">
+              </div>
+              <div class="cpti-field">
+                <label for="cpti-sim-conf">Confidence level</label>
+                <select id="cpti-sim-conf"><option value="0.90">90%</option><option value="0.95" selected>95%</option><option value="0.99">99%</option></select>
+              </div>
+              <div class="cpti-field">
+                <label for="cpti-sim-cover">TI coverage</label>
+                <select id="cpti-sim-cover"><option value="0.90" selected>90%</option><option value="0.95">95%</option><option value="0.99">99%</option></select>
+              </div>
+            </div>
+            <fieldset>
+              <legend>Show on the picture</legend>
+              <div class="cpti-seg">
+                <label><input type="radio" name="cpti-sim-view" value="ci" checked> CI</label>
+                <label><input type="radio" name="cpti-sim-view" value="pi"> PI</label>
+                <label><input type="radio" name="cpti-sim-view" value="ti"> TI</label>
+              </div>
+            </fieldset>
+          </div>
+          <div class="cpti-btn-row">
+            <button type="button" class="cpti-btn" id="cpti-sim-one">Draw 1 sample</button>
+            <button type="button" class="cpti-btn" id="cpti-sim-many">Draw 100 samples</button>
+            <button type="button" class="cpti-btn is-ghost" id="cpti-sim-reset">Reset</button>
+          </div>
+        </form>
+        <svg class="cpti-svg" id="cpti-sim-svg" viewBox="0 0 720 360" role="img" aria-labelledby="cpti-sim-title" focusable="false">
+          <title id="cpti-sim-title">The most recent simulated intervals</title>
+        </svg>
+        <div class="cpti-tally" data-search-exclude>
+          <div class="cpti-readout"><div class="cpti-r-name">CI captured \(\mu\)</div><div class="cpti-r-val" id="cpti-tally-ci">0 of 0</div><div class="cpti-r-sub">Long-run target: <span id="cpti-target-ci">95%</span></div></div>
+          <div class="cpti-readout is-pi"><div class="cpti-r-name">PI caught the next fish</div><div class="cpti-r-val" id="cpti-tally-pi">0 of 0</div><div class="cpti-r-sub">Long-run target: <span id="cpti-target-pi">95%</span></div></div>
+          <div class="cpti-readout is-ti"><div class="cpti-r-name">TI held the coverage</div><div class="cpti-r-val" id="cpti-tally-ti">0 of 0</div><div class="cpti-r-sub">Long-run target: <span id="cpti-target-ti">95%</span></div></div>
+        </div>
+        <p class="cpti-verdict" id="cpti-sim-status" role="status" aria-live="polite" data-search-exclude>Click "Draw 100 samples" a few times and watch each hit rate settle near its target.</p>
+      </div>
+      <div class="cpti-callout is-warn">
+        <p><strong>The big misconception:</strong> a 95% CI does <em>not</em> contain 95% of the data. In the simulator, look at the CI rows: they are far too narrow to hold most fish. The 95% is about the <em>method</em>: in the long run, 95% of intervals built this way capture \(\mu\). Any one interval either contains \(\mu\) or it does not.</p>
+      </div>
+    </section>
+
+    <section class="cpti-section" id="real-applications" aria-labelledby="apps-heading">
+      <h2 id="apps-heading">Where you will use each one at work</h2>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Workplace applications of each interval">
+        <table>
+          <thead><tr><th scope="col">Situation</th><th scope="col">Interval</th><th scope="col">Why</th></tr></thead>
+          <tbody>
+            <tr><td>Estimate the true average yield strength of a heat-treat batch</td><th scope="row">CI</th><td>The question is about the average, not any one coupon.</td></tr>
+            <tr><td>Check whether the mean fill weight moved after a changeover</td><th scope="row">CI</th><td>Compare the CI for the mean with the target; this mirrors a hypothesis test.</td></tr>
+            <tr><td>Tell a customer what the next coil's hardness will be</td><th scope="row">PI</th><td>One future item, so individual scatter matters.</td></tr>
+            <tr><td>Predict the hardness of the next part tempered at a set temperature</td><th scope="row">PI (regression)</th><td>A single future response at a given \(x\).</td></tr>
+            <tr><td>Show that at least 99% of pipe walls sit inside the thickness spec</td><th scope="row">TI</th><td>The claim is about nearly all product, with stated confidence.</td></tr>
+            <tr><td>Set a minimum strength that 95% of bolts will exceed</td><th scope="row">One-sided TI</th><td>A lower tolerance bound protects one side only.</td></tr>
+            <tr><td>Set engineering limits from a 50-part capability run</td><th scope="row">TI</th><td>Limits must cover the population, not just the mean.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cpti-section" id="which-interval" aria-labelledby="sorter-heading">
+      <h2 id="sorter-heading">Practice: which interval do I need?</h2>
+      <p>Read each situation and pick CI, PI, or TI. You get feedback straight away.</p>
+      <ul class="cpti-scen-list" id="cpti-scenarios"></ul>
+      <p class="cpti-score" id="cpti-scen-score" role="status" aria-live="polite" data-search-exclude>Score: 0 of 8 answered</p>
+    </section>
+
+    <section class="cpti-section" id="common-mistakes" aria-labelledby="mistakes-heading">
+      <h2 id="mistakes-heading">Common mistakes to avoid</h2>
+      <ol class="cpti-steps">
+        <li><strong>Judging parts against a spec with a CI.</strong> A narrow CI only says the <em>average</em> is well known. Individual parts can still fall out of spec. Use a TI for spec decisions.</li>
+        <li><strong>Saying "95% of the data is inside the CI."</strong> That describes a tolerance interval (and then only with confidence attached), not a CI.</li>
+        <li><strong>Expecting more data to shrink a PI to nothing.</strong> It cannot. The floor is the process's own variation. To narrow a PI, reduce variation.</li>
+        <li><strong>Mixing up confidence and coverage.</strong> In a 95/99 TI, 95% is how sure you are; 99% is how much of the population is inside.</li>
+        <li><strong>Using the normal-theory formulas on clearly non-normal data.</strong> The PI and TI lean hard on normality because they describe individual values. Check a normal probability plot first. Minitab's tolerance interval tool also reports a nonparametric interval for this case.</li>
+        <li><strong>Using \(z\) instead of \(t\) with a small sample.</strong> Unless \(\sigma\) is truly known, use \(t\) with \(n-1\) degrees of freedom.</li>
+      </ol>
+    </section>
+
+    <section class="cpti-section" id="statistics-implementation" aria-labelledby="impl-heading">
+      <h2 id="impl-heading">Statistics Implementation</h2>
+      <p>Here is how to produce every number in this lesson with Excel and Minitab, plus what to expect on the ASQ exams.</p>
+
+      <h3 id="excel-functions">Excel functions</h3>
+      <p>Excel has a one-step function for the CI half-width. It has no built-in prediction or tolerance interval for a single sample, so you build those from the critical-value functions below.</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Excel functions for statistical intervals">
+        <table class="cpti-wide cpti-fn">
+          <thead><tr><th scope="col">Function</th><th scope="col">Syntax</th><th scope="col">Purpose</th><th scope="col">When to use it</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>AVERAGE</code></th><td><code>=AVERAGE(number1, [number2], ...)</code></td><td>Sample mean \(\bar{x}\)</td><td>The centre of all three intervals</td></tr>
+            <tr><th scope="row"><code>STDEV.S</code></th><td><code>=STDEV.S(number1, [number2], ...)</code></td><td>Sample standard deviation \(s\) (divides by \(n-1\))</td><td>Always for sample data. <code>STDEV.P</code> is for a whole population.</td></tr>
+            <tr><th scope="row"><code>COUNT</code></th><td><code>=COUNT(value1, [value2], ...)</code></td><td>Sample size \(n\)</td><td>Counts numeric cells only</td></tr>
+            <tr><th scope="row"><code>CONFIDENCE.T</code></th><td><code>=CONFIDENCE.T(alpha, standard_dev, size)</code></td><td>CI half-width using \(t\): \(t_{\alpha/2,\,n-1}\, s/\sqrt{n}\)</td><td>CI for a mean when \(\sigma\) is unknown (most cases)</td></tr>
+            <tr><th scope="row"><code>CONFIDENCE.NORM</code></th><td><code>=CONFIDENCE.NORM(alpha, standard_dev, size)</code></td><td>CI half-width using \(z\): \(z_{\alpha/2}\,\sigma/\sqrt{n}\)</td><td>Only when \(\sigma\) is known. Older name: <code>CONFIDENCE</code>.</td></tr>
+            <tr><th scope="row"><code>T.INV.2T</code></th><td><code>=T.INV.2T(probability, deg_freedom)</code></td><td>Two-tailed \(t\) critical value \(t_{\alpha/2,\,n-1}\)</td><td>Building a two-sided CI or PI by hand. Use <code>probability</code> = \(\alpha\) (0.05 for 95%). Older name: <code>TINV</code>.</td></tr>
+            <tr><th scope="row"><code>T.INV</code></th><td><code>=T.INV(probability, deg_freedom)</code></td><td>Left-tailed inverse of \(t\)</td><td>One-sided bounds, e.g. <code>=T.INV(0.95, 19)</code> for a 95% one-sided limit</td></tr>
+            <tr><th scope="row"><code>NORM.S.INV</code></th><td><code>=NORM.S.INV(probability)</code></td><td>Standard normal value with <code>probability</code> below it</td><td>\(z_{\alpha/2}\) and the coverage value \(z_{(1-p)/2}\) = <code>NORM.S.INV((1+p)/2)</code>. Older name: <code>NORMSINV</code>.</td></tr>
+            <tr><th scope="row"><code>CHISQ.INV</code></th><td><code>=CHISQ.INV(probability, deg_freedom)</code></td><td>Chi-square value with <code>probability</code> below it (left tail)</td><td>The \(\chi^2_{\alpha,\,n-1}\) in Howe's tolerance factor: <code>=CHISQ.INV(0.05, 19)</code></td></tr>
+            <tr><th scope="row"><code>CHISQ.INV.RT</code></th><td><code>=CHISQ.INV.RT(probability, deg_freedom)</code></td><td>Chi-square value with <code>probability</code> above it (right tail)</td><td>Same number as above via <code>=CHISQ.INV.RT(0.95, 19)</code>. Older name: <code>CHIINV</code>.</td></tr>
+            <tr><th scope="row"><code>SQRT</code></th><td><code>=SQRT(number)</code></td><td>Square root</td><td>\(\sqrt{n}\), \(\sqrt{1+1/n}\), and the \(k_2\) formula</td></tr>
+            <tr><th scope="row"><code>FORECAST.LINEAR</code></th><td><code>=FORECAST.LINEAR(x, known_y's, known_x's)</code></td><td>Fitted value \(\hat{y}_0\) on a straight line</td><td>Centre of a regression CI or PI</td></tr>
+            <tr><th scope="row"><code>STEYX</code></th><td><code>=STEYX(known_y's, known_x's)</code></td><td>Standard error of the regression \(s_e\)</td><td>Spread term in the regression CI and PI</td></tr>
+            <tr><th scope="row"><code>DEVSQ</code></th><td><code>=DEVSQ(number1, [number2], ...)</code></td><td>Sum of squared deviations, e.g. \(S_{xx}\)</td><td>The \((x_0-\bar{x})^2/S_{xx}\) term in regression intervals</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="excel-use-cases">Excel use cases</h3>
+      <p>Paste the 20 salmon weights into cells <code>A2:A21</code> (use the copy button above). Then enter these formulas. The results match the worked examples.</p>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Excel worksheet layout for the salmon intervals">
+        <table class="cpti-wide">
+          <thead><tr><th scope="col">Cell</th><th scope="col">What it holds</th><th scope="col">Formula</th><th scope="col">Result</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>D2</code></th><td>\(n\)</td><td><code>=COUNT(A2:A21)</code></td><td class="cpti-num">20</td></tr>
+            <tr><th scope="row"><code>D3</code></th><td>\(\bar{x}\)</td><td><code>=AVERAGE(A2:A21)</code></td><td class="cpti-num">5.50</td></tr>
+            <tr><th scope="row"><code>D4</code></th><td>\(s\)</td><td><code>=STDEV.S(A2:A21)</code></td><td class="cpti-num">0.8079</td></tr>
+            <tr><th scope="row"><code>D5</code></th><td>\(t_{0.025,\,19}\)</td><td><code>=T.INV.2T(0.05, D2-1)</code></td><td class="cpti-num">2.0930</td></tr>
+            <tr><th scope="row"><code>D6</code></th><td>CI half-width</td><td><code>=CONFIDENCE.T(0.05, D4, D2)</code></td><td class="cpti-num">0.3781</td></tr>
+            <tr><th scope="row"><code>D7</code></th><td>CI lower / upper</td><td><code>=D3-D6</code> and <code>=D3+D6</code></td><td class="cpti-num">5.12 / 5.88</td></tr>
+            <tr><th scope="row"><code>D8</code></th><td>PI half-width</td><td><code>=D5*D4*SQRT(1+1/D2)</code></td><td class="cpti-num">1.7326</td></tr>
+            <tr><th scope="row"><code>D9</code></th><td>PI lower / upper</td><td><code>=D3-D8</code> and <code>=D3+D8</code></td><td class="cpti-num">3.77 / 7.23</td></tr>
+            <tr><th scope="row"><code>D10</code></th><td>\(k_2\) (Howe), 95% confidence, 99% coverage</td><td><code>=SQRT((D2-1)*(1+1/D2)*NORM.S.INV((1+0.99)/2)^2/CHISQ.INV(0.05, D2-1))</code></td><td class="cpti-num">3.6171</td></tr>
+            <tr><th scope="row"><code>D11</code></th><td>TI lower / upper</td><td><code>=D3-D10*D4</code> and <code>=D3+D10*D4</code></td><td class="cpti-num">2.58 / 8.42</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cpti-callout">
+        <p><strong>Check yourself:</strong> <code>=D5*D4/SQRT(D2)</code> returns the same 0.3781 as <code>CONFIDENCE.T</code>. That is the CI formula built by hand. The PI formula differs only by swapping <code>1/SQRT(D2)</code> for <code>SQRT(1+1/D2)</code>.</p>
+        <p><strong>Common Excel slip:</strong> <code>T.INV.2T</code> wants \(\alpha\) (0.05), but <code>T.INV</code> wants the left-tail area (0.975 for the same two-sided value). Mixing them up gives a negative or wrong \(t\).</p>
+      </div>
+
+      <h3 id="minitab-navigation">Minitab navigation</h3>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Minitab menu paths for statistical intervals">
+        <table class="cpti-wide">
+          <thead><tr><th scope="col">Goal</th><th scope="col">Menu path</th><th scope="col">Key settings and notes</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">CI for the mean (\(\sigma\) unknown)</th><td><code>Stat → Basic Statistics → 1-Sample t</code></td><td>Choose "One or more samples, each in a column" and select the weight column. Under <strong>Options</strong> set the <strong>Confidence level</strong> and keep the alternative hypothesis as "Mean ≠ hypothesized mean" for a two-sided interval. The output shows the 95% CI for \(\mu\), about (5.122, 5.878).</td></tr>
+            <tr><th scope="row">CI for the mean (\(\sigma\) known)</th><td><code>Stat → Basic Statistics → 1-Sample Z</code></td><td>Enter the <strong>Known standard deviation</strong>. Use only when \(\sigma\) truly comes from long process history.</td></tr>
+            <tr><th scope="row">CI with a picture</th><td><code>Stat → Basic Statistics → Graphical Summary</code></td><td>Shows the 95% CI for the mean, the median, and the standard deviation next to a histogram and a normality test. A good first look.</td></tr>
+            <tr><th scope="row">Tolerance interval</th><td><code>Stat → Quality Tools → Tolerance Intervals (Normal Distribution)</code></td><td>Enter the column and set <strong>Minimum percentage of population in interval</strong> (99). Under <strong>Options</strong> set the <strong>Confidence level</strong> (95) and choose <strong>Two-sided</strong>, <strong>Lower bound</strong>, or <strong>Upper bound</strong>. The output gives a <em>Normal method</em> interval, about (2.575, 8.425), and a <em>Nonparametric method</em> interval. "Summarized data" lets you enter just \(n\), \(\bar{x}\), and \(s\).</td></tr>
+            <tr><th scope="row">Tolerance interval, non-normal data</th><td><code>Stat → Quality Tools → Tolerance Intervals (Nonnormal Distribution)</code></td><td>Pick a fitted distribution such as Weibull or lognormal when the normal probability plot clearly bends.</td></tr>
+            <tr><th scope="row">PI for one new value (single sample)</th><td><code>Calc → Probability Distributions → t</code>, then <code>Calc → Calculator</code></td><td>Minitab has no one-sample PI dialog. Choose <strong>Inverse cumulative probability</strong>, enter 19 degrees of freedom and input constant 0.975 to get 2.093, then compute \(\bar{x} \pm t\, s\sqrt{1+1/n}\) in the Calculator.</td></tr>
+            <tr><th scope="row">CI and PI bands on a regression line</th><td><code>Stat → Regression → Fitted Line Plot</code></td><td>Under <strong>Options</strong>, tick <strong>Display confidence interval</strong> and <strong>Display prediction interval</strong>. You see both bands at once; the PI band is always the wider one.</td></tr>
+            <tr><th scope="row">CI and PI at a chosen \(x\)</th><td><code>Stat → Regression → Regression → Fit Regression Model</code>, then <code>Stat → Regression → Regression → Predict</code></td><td>Enter the new predictor value. The output lists a "95% CI" (mean response) and a "95% PI" (one new response) side by side.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cpti-callout">
+        <p><strong>Which option should I use?</strong> For the mean, use <code>1-Sample t</code>. For anything about individual parts against a spec, use <code>Tolerance Intervals (Normal Distribution)</code>, and read the nonparametric result too if normality is doubtful. For a single future value from one sample, build the PI with the Calculator. For predictions from a model, use <code>Predict</code> after fitting it.</p>
+      </div>
+
+      <h3 id="exam-tips">Exam tips (ASQ CSSBB and CQE)</h3>
+      <ul class="cpti-takeaways">
+        <li><strong>Read the target first.</strong> "Average", "mean", or "true value" points to a CI. "Next", "a single", or "one more" points to a PI. "Percentage of the population", "proportion of units", or "specification" points to a TI.</li>
+        <li><strong>Know the multiplier pattern.</strong> CI uses \(1/\sqrt{n}\), PI uses \(\sqrt{1+1/n}\), TI uses a table factor \(k\). Exam questions often hand you the \(k\) value or a table; you just apply \(\bar{x} \pm k s\).</li>
+        <li><strong>\(t\) or \(z\)?</strong> Use \(z\) only when \(\sigma\) is given as known. Otherwise use \(t\) with \(n-1\) degrees of freedom. A small \(n\) with \(s\) is a strong hint for \(t\).</li>
+        <li><strong>Width ranking.</strong> At the same confidence level the CI is always narrower than the PI. Expect "which interval is widest?" questions; the TI is usually the answer, but check the coverage.</li>
+        <li><strong>Sample size effect.</strong> Quadrupling \(n\) roughly halves the CI width. It hardly changes the PI. This "diminishing returns" idea appears in sample-size questions.</li>
+        <li><strong>Interpretation traps.</strong> Watch for answer choices that say "95% probability that \(\mu\) is in this interval" or "95% of the data lie in the CI". Both are wrong.</li>
+        <li><strong>On the job:</strong> capability and spec-setting decisions call for tolerance intervals; customer quotes on the next shipment call for prediction intervals; process-change and mean-shift questions call for confidence intervals.</li>
+      </ul>
+    </section>
+
+    <section class="cpti-section" id="key-takeaways" aria-labelledby="takeaways-heading">
+      <h2 id="takeaways-heading">Key takeaways</h2>
+      <ul class="cpti-takeaways">
+        <li><strong>CI</strong> pins down a parameter (usually the mean). It shrinks to zero with enough data.</li>
+        <li><strong>PI</strong> brackets one future value. It has a floor set by the process's own scatter.</li>
+        <li><strong>TI</strong> brackets a stated share of the whole population with stated confidence. It is the right tool for specs and capability claims.</li>
+        <li>All three are \(\bar{x} \pm (\text{multiplier}) \times s\). Learn the three multipliers and you know the lesson.</li>
+      </ul>
+    </section>
+  </div>
+
+<style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="A prediction interval targets one future observation. The question is about the next coil, not the average coil or a share of all coils.">
+        <legend>1. A customer asks what tensile strength to expect for the next single coil you ship. Which interval answers that?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> Confidence interval for the mean</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> Prediction interval</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> Tolerance interval</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="The CI only reflects uncertainty in the mean, which shrinks as 1 over root n. The PI keeps the fish-to-fish scatter term (the 1 under the square root), so it levels off at about plus or minus z times sigma.">
+        <legend>2. You increase the sample size from 20 to 2,000. What happens?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> The CI and PI both shrink to almost zero width</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> The PI shrinks a lot, but the CI barely changes</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> The CI shrinks a lot, but the PI barely changes</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="d"> Neither changes, because the confidence level is the same</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="In a 95/99 tolerance interval, 95% is the confidence level and 99% is the minimum share of the population the interval must contain.">
+        <legend>3. What does a "95/99 tolerance interval" claim?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> We are 95% confident that at least 99% of the population lies inside it</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> We are 99% confident that 95% of the population lies inside it</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> There is a 95% chance the mean lies inside it 99% of the time</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="d" data-explanation="The 95% describes the method. Over many repeated samples, 95% of intervals built this way capture the true mean. It says nothing about 95% of individual data points.">
+        <legend>4. Which statement about a 95% confidence interval for the mean is correct?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> 95% of the sample data fall inside it</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> 95% of all future parts will fall inside it</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> It is wider than the matching prediction interval</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="d"> If we repeated the study many times, about 95% of such intervals would contain the true mean</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="The PI is x-bar plus or minus t times s times the square root of 1 + 1/n: 2.093 x 0.808 x 1.0247 = 1.733, so 5.50 plus or minus 1.73 gives 3.77 to 7.23 kg.">
+        <legend>5. For the salmon sample (n = 20, mean 5.50 kg, s = 0.808 kg, t = 2.093), what is the 95% prediction interval?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> 5.12 to 5.88 kg</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> 3.77 to 7.23 kg</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> 2.57 to 8.43 kg</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="d"> 4.69 to 6.31 kg</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Tolerance Intervals (Normal Distribution) sits under Stat, Quality Tools. You set the minimum percentage of population in interval and, under Options, the confidence level and the interval type.">
+        <legend>6. In Minitab, where do you calculate a tolerance interval for normal data?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> Stat → Basic Statistics → 1-Sample t</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> Stat → Regression → Fitted Line Plot</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> Stat → Quality Tools → Tolerance Intervals (Normal Distribution)</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="d"> Calc → Probability Distributions → Normal</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+</main>
+
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#statistics" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Statistics lessons</a>
+</section>
+
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+
+<script id="cpti-lesson-script">
+(function () {
+  'use strict';
+  /* ---------- Statistics engine (no libraries) ---------- */
+  var M = {};
+  function erfc(x) {
+    // Numerical Recipes erfcc: fractional error < 1.2e-7 everywhere.
+    var z = Math.abs(x), t = 1 / (1 + 0.5 * z);
+    var r = t * Math.exp(-z * z - 1.26551223 + t * (1.00002368 + t * (0.37409196 + t * (0.09678418 +
+      t * (-0.18628806 + t * (0.27886807 + t * (-1.13520398 + t * (1.48851587 + t * (-0.82215223 + t * 0.17087277)))))))));
+    return x >= 0 ? r : 2 - r;
+  }
+  M.normCdf = function (x) { return 0.5 * erfc(-x / Math.SQRT2); };
+  M.normPdf = function (x) { return Math.exp(-x * x / 2) / Math.sqrt(2 * Math.PI); };
+  M.normInv = function (p) {
+    // Acklam's rational approximation, polished with one Halley step.
+    if (p <= 0) return -Infinity;
+    if (p >= 1) return Infinity;
+    var a = [-39.69683028665376, 220.9460984245205, -275.9285104469687, 138.3577518672690, -30.66479806614716, 2.506628277459239];
+    var b = [-54.47609879822406, 161.5858368580409, -155.6989798598866, 66.80131188771972, -13.28068155288572];
+    var c = [-0.007784894002430293, -0.3223964580411365, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783];
+    var d = [0.007784695709041462, 0.3224671290700398, 2.445134137142996, 3.754408661907416];
+    var q, r, x;
+    if (p < 0.02425) {
+      q = Math.sqrt(-2 * Math.log(p));
+      x = (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
+    } else if (p > 1 - 0.02425) {
+      q = Math.sqrt(-2 * Math.log(1 - p));
+      x = -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5]) / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
+    } else {
+      q = p - 0.5; r = q * q;
+      x = (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
+    }
+    var e = M.normCdf(x) - p;
+    var u = e * Math.sqrt(2 * Math.PI) * Math.exp(x * x / 2);
+    return x - u / (1 + x * u / 2);
+  };
+  var LG = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059,
+    12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+  function lnGamma(z) {
+    if (z < 0.5) return Math.log(Math.PI / Math.sin(Math.PI * z)) - lnGamma(1 - z);
+    z -= 1;
+    var x = LG[0];
+    for (var i = 1; i < 9; i++) x += LG[i] / (z + i);
+    var t = z + 7.5;
+    return 0.5 * Math.log(2 * Math.PI) + (z + 0.5) * Math.log(t) - t + Math.log(x);
+  }
+  var TINY = 1e-300;
+  function gser(a, x) {
+    var ap = a, sum = 1 / a, del = sum;
+    for (var n = 0; n < 1000; n++) { ap += 1; del *= x / ap; sum += del; if (Math.abs(del) < Math.abs(sum) * 1e-15) break; }
+    return sum * Math.exp(-x + a * Math.log(x) - lnGamma(a));
+  }
+  function gcf(a, x) {
+    var b = x + 1 - a, c = 1 / TINY, d = 1 / b, h = d;
+    for (var i = 1; i < 1000; i++) {
+      var an = -i * (i - a); b += 2;
+      d = an * d + b; if (Math.abs(d) < TINY) d = TINY;
+      c = b + an / c; if (Math.abs(c) < TINY) c = TINY;
+      d = 1 / d; var del = d * c; h *= del;
+      if (Math.abs(del - 1) < 1e-15) break;
+    }
+    return Math.exp(-x + a * Math.log(x) - lnGamma(a)) * h;
+  }
+  function gammaP(a, x) { if (x <= 0) return 0; return x < a + 1 ? gser(a, x) : 1 - gcf(a, x); }
+  function gammaQ(a, x) { if (x <= 0) return 1; return x < a + 1 ? 1 - gser(a, x) : gcf(a, x); }
+  M.chi2Cdf = function (x, k) { return gammaP(k / 2, x / 2); };
+  M.chi2Sf = function (x, k) { return gammaQ(k / 2, x / 2); };
+  M.chi2Inv = function (p, k) {
+    // Left-tail inverse: the value with probability p BELOW it (Excel CHISQ.INV).
+    var lo = 0, hi = k + 10 * Math.sqrt(2 * k) + 10;
+    while (M.chi2Cdf(hi, k) < p) hi *= 2;
+    for (var i = 0; i < 200; i++) {
+      var mid = (lo + hi) / 2;
+      if (M.chi2Cdf(mid, k) < p) lo = mid; else hi = mid;
+      if (hi - lo < 1e-12 * Math.max(1, mid)) break;
+    }
+    return (lo + hi) / 2;
+  };
+  function betacf(a, b, x) {
+    var qab = a + b, qap = a + 1, qam = a - 1, c = 1, d = 1 - qab * x / qap;
+    if (Math.abs(d) < TINY) d = TINY;
+    d = 1 / d; var h = d;
+    for (var m = 1; m <= 1000; m++) {
+      var m2 = 2 * m, aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+      d = 1 + aa * d; if (Math.abs(d) < TINY) d = TINY;
+      c = 1 + aa / c; if (Math.abs(c) < TINY) c = TINY;
+      d = 1 / d; h *= d * c;
+      aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+      d = 1 + aa * d; if (Math.abs(d) < TINY) d = TINY;
+      c = 1 + aa / c; if (Math.abs(c) < TINY) c = TINY;
+      d = 1 / d; var del = d * c; h *= del;
+      if (Math.abs(del - 1) < 1e-15) break;
+    }
+    return h;
+  }
+  function ibeta(a, b, x) {
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    var bt = Math.exp(lnGamma(a + b) - lnGamma(a) - lnGamma(b) + a * Math.log(x) + b * Math.log(1 - x));
+    return x < (a + 1) / (a + b + 2) ? bt * betacf(a, b, x) / a : 1 - bt * betacf(b, a, 1 - x) / b;
+  }
+  M.tCdf = function (t, df) {
+    var tail = 0.5 * ibeta(df / 2, 0.5, df / (df + t * t));
+    return t > 0 ? 1 - tail : tail;
+  };
+  M.tInv = function (p, df) {
+    // Left-tail inverse (Excel T.INV). Two-sided critical value = tInv(1 - alpha/2, df).
+    if (p === 0.5) return 0;
+    var lo = -1, hi = 1;
+    while (M.tCdf(lo, df) > p) lo *= 2;
+    while (M.tCdf(hi, df) < p) hi *= 2;
+    for (var i = 0; i < 200; i++) {
+      var mid = (lo + hi) / 2;
+      if (M.tCdf(mid, df) < p) lo = mid; else hi = mid;
+      if (hi - lo < 1e-12 * Math.max(1, Math.abs(mid))) break;
+    }
+    return (lo + hi) / 2;
+  };
+  // r such that Phi(z + r) - Phi(z - r) = P (the half-width that covers P of a N(z, 1) population).
+  M.coverageR = function (z, P, start) {
+    var r = start || M.normInv((1 + P) / 2) + z * z / 2;
+    for (var i = 0; i < 40; i++) {
+      var f = M.normCdf(z + r) - M.normCdf(z - r) - P;
+      var d = M.normPdf(z + r) + M.normPdf(z - r);
+      var step = f / d;
+      r -= step;
+      if (r < 0) r = 1e-6;
+      if (Math.abs(step) < 1e-12) break;
+    }
+    return r;
+  };
+  // Howe (1969) approximation for the two-sided normal tolerance factor (what Excel users build).
+  M.k2Howe = function (n, P, g) {
+    var z = M.normInv((1 + P) / 2);
+    return Math.sqrt((n - 1) * (1 + 1 / n) * z * z / M.chi2Inv(1 - g, n - 1));
+  };
+  // Exact two-sided normal tolerance factor (the method Minitab reports), solved by
+  // Simpson integration of the Odeh/Owen coverage equation, then a root search on k.
+  var kCache = {};
+  M.k2Exact = function (n, P, g) {
+    var key = n + '|' + P + '|' + g;
+    if (kCache[key]) return kCache[key];
+    var m = 96, Z = 8 / Math.sqrt(n), h = Z / m, df = n - 1, r2 = [], w = [], r = 0;
+    for (var i = 0; i <= m; i++) {
+      var z = i * h;
+      r = M.coverageR(z, P, i ? r : 0);
+      r2.push(r * r);
+      w.push((i === 0 || i === m ? 1 : (i % 2 ? 4 : 2)) * h / 3 * Math.exp(-n * z * z / 2));
+    }
+    var c = Math.sqrt(2 * n / Math.PI);
+    var cov = function (k) {
+      var s = 0;
+      for (var j = 0; j <= m; j++) s += w[j] * M.chi2Sf(df * r2[j] / (k * k), df);
+      return c * s;
+    };
+    // Illinois (modified regula falsi) on cov(k) - g, bracketed around Howe's value.
+    var guess = M.k2Howe(n, P, g), lo = guess * 0.95, hi = guess * 1.05, flo = cov(lo) - g, fhi = cov(hi) - g;
+    while (flo > 0) { lo = Math.max(Math.sqrt(r2[0]), lo * 0.8); flo = cov(lo) - g; if (lo === Math.sqrt(r2[0])) break; }
+    while (fhi < 0) { hi *= 1.25; fhi = cov(hi) - g; }
+    var side = 0, k = hi;
+    for (var it = 0; it < 60; it++) {
+      k = (lo * fhi - hi * flo) / (fhi - flo);
+      var fk = cov(k) - g;
+      if (Math.abs(fk) < 1e-11 || hi - lo < 1e-10) break;
+      if (fk * fhi > 0) { hi = k; fhi = fk; if (side === -1) flo /= 2; side = -1; }
+      else { lo = k; flo = fk; if (side === 1) fhi /= 2; side = 1; }
+    }
+    kCache[key] = k;
+    return k;
+  };
+  // All three intervals for one set of inputs. conf and P are proportions (0.95, 0.99 ...).
+  M.intervals = function (mean, s, n, conf, P) {
+    var alpha = 1 - conf, t = M.tInv(1 - alpha / 2, n - 1), k = M.k2Exact(n, P, conf);
+    var ci = t * s / Math.sqrt(n), pi = t * s * Math.sqrt(1 + 1 / n), ti = k * s;
+    return {
+      t: t, k: k, kHowe: M.k2Howe(n, P, conf), se: s / Math.sqrt(n),
+      ci: [mean - ci, mean + ci], pi: [mean - pi, mean + pi], ti: [mean - ti, mean + ti],
+      ciHalf: ci, piHalf: pi, tiHalf: ti,
+      zConf: M.normInv(1 - alpha / 2), zCover: M.normInv((1 + P) / 2)
+    };
+  };
+
+  /* ---------- helpers ---------- */
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function $(id) { return document.getElementById(id); }
+  function el(tag, attrs, parent, text) {
+    var node = document.createElementNS(SVGNS, tag);
+    for (var k in attrs) if (Object.prototype.hasOwnProperty.call(attrs, k)) node.setAttribute(k, attrs[k]);
+    if (text !== undefined) node.textContent = text;
+    if (parent) parent.appendChild(node);
+    return node;
+  }
+  function clearSvg(svg) {
+    Array.prototype.slice.call(svg.childNodes).forEach(function (c) { if (c.nodeName.toLowerCase() !== 'title') svg.removeChild(c); });
+  }
+  function fmt(x, d) { return Number(x).toFixed(d); }
+  // The SVG is named by its <title> (aria-labelledby), so keep that title current.
+  function labelSvg(svg, text) { var t = svg.querySelector('title'); if (t) t.textContent = text; }
+  // Size each chart's viewBox to its real on-screen width so text stays readable on phones.
+  function fitWidth(svg, height) {
+    var w = svg.getBoundingClientRect ? svg.getBoundingClientRect().width : 0;
+    w = w >= 280 ? Math.round(w) : 720;
+    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + height);
+    return w;
+  }
+  function pct(p) { var v = p * 100; return (Math.abs(v - Math.round(v)) < 1e-9 ? Math.round(v) : v.toFixed(1)) + '%'; }
+  function typeset(nodes) {
+    if (window.UpskillMath && window.UpskillMath.typeset) window.UpskillMath.typeset(nodes);
+  }
+  var timers = {};
+  function debounce(key, fn, ms) { clearTimeout(timers[key]); timers[key] = setTimeout(fn, ms); }
+
+  /* ---------- sample data ---------- */
+  var SALMON = [6.4, 4.8, 4.2, 7.3, 6.4, 5.7, 4.7, 6.1, 4.2, 6.0, 5.8, 6.0, 4.8, 5.6, 5.7, 4.9, 5.8, 5.4, 4.5, 5.7];
+  var grid = $('cpti-data-grid');
+  if (grid) SALMON.forEach(function (v) { var s = document.createElement('span'); s.setAttribute('role', 'listitem'); s.textContent = v.toFixed(1); grid.appendChild(s); });
+  var copyBtn = $('cpti-copy-data');
+  if (copyBtn) copyBtn.addEventListener('click', function () {
+    var text = SALMON.map(function (v) { return v.toFixed(1); }).join('\n');
+    var status = $('cpti-copy-status');
+    var done = function () { if (status) status.textContent = 'Copied 20 values. Paste them into cell A2 in Excel or into C1 in Minitab.'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { if (status) status.textContent = 'Copy was blocked by the browser. The values are: ' + text.replace(/\n/g, ', '); });
+    } else if (status) {
+      status.textContent = 'The values are: ' + text.replace(/\n/g, ', ');
+    }
+  });
+
+  /* ---------- Interval Lab ---------- */
+  var PRESETS = {
+    salmon: { n: 20, mean: 5.50, s: 0.80786, sMin: 0.2, sMax: 2, sStep: 0.00001, lo: 0, hi: 11, step: 0.01, dec: 2, unit: 'kg', specs: null, ticks: 1 },
+    pipe: { n: 30, mean: 8.30, s: 0.100, sMin: 0.02, sMax: 0.25, sStep: 0.0001, lo: 7.3, hi: 9.3, step: 0.001, dec: 3, unit: 'mm', specs: [7.90, 8.70], ticks: 0.2 }
+  };
+  var lab = { preset: 'salmon' };
+  function labInputs() {
+    var p = PRESETS[lab.preset];
+    var mean = parseFloat($('cpti-mean').value);
+    if (!isFinite(mean)) mean = p.mean;
+    return {
+      p: p, n: parseInt($('cpti-n').value, 10), mean: mean, s: parseFloat($('cpti-s').value),
+      conf: parseFloat($('cpti-conf').value), cover: parseFloat($('cpti-cover').value), specs: $('cpti-specs').checked
+    };
+  }
+  function drawLab(inp, r) {
+    var svg = $('cpti-lab-svg'); clearSvg(svg);
+    var VW = fitWidth(svg, 300), small = VW < 520;
+    var p = inp.p, L = small ? 34 : 48, R = VW - (small ? 12 : 20), W = R - L;
+    var x = function (v) { return L + (v - p.lo) / (p.hi - p.lo) * W; };
+    var clampX = function (v) { return Math.max(L, Math.min(R, x(v))); };
+    // population curve
+    var pts = [], base = 118, top = 18, maxPdf = 1 / (inp.s * Math.sqrt(2 * Math.PI));
+    for (var i = 0; i <= 160; i++) {
+      var v = p.lo + (p.hi - p.lo) * i / 160, d = M.normPdf((v - inp.mean) / inp.s) / inp.s;
+      pts.push(x(v).toFixed(1) + ',' + (base - (base - top) * d / maxPdf).toFixed(1));
+    }
+    el('polygon', { points: x(p.lo) + ',' + base + ' ' + pts.join(' ') + ' ' + x(p.hi) + ',' + base, fill: 'var(--cpti-pop)', 'fill-opacity': '0.22', stroke: 'var(--cpti-pop)', 'stroke-width': '2' }, svg);
+    el('text', { x: L, y: 13, 'font-size': '13', fill: 'var(--cpti-muted)' }, svg, small ? 'Estimated population' : 'Estimated population (normal curve from the sample mean and s)');
+    // axis
+    var axisY = 262;
+    el('line', { x1: L, y1: axisY, x2: R, y2: axisY, stroke: 'var(--cpti-muted)', 'stroke-width': '1' }, svg);
+    for (var t = Math.ceil(p.lo / p.ticks) * p.ticks; t <= p.hi + 1e-9; t += p.ticks) {
+      el('line', { x1: x(t), y1: axisY, x2: x(t), y2: axisY + 5, stroke: 'var(--cpti-muted)' }, svg);
+      var idx = Math.round((t - p.lo) / p.ticks);
+      if (!small || idx % 2 === 0) el('text', { x: x(t), y: axisY + 19, 'text-anchor': 'middle', 'font-size': '13', fill: 'var(--cpti-ink-2)' }, svg, p.ticks < 1 ? t.toFixed(1) : String(Math.round(t)));
+    }
+    el('text', { x: (L + R) / 2, y: 296, 'text-anchor': 'middle', 'font-size': '13', fill: 'var(--cpti-muted)' }, svg, (lab.preset === 'salmon' ? 'Weight' : 'Wall thickness') + ' (' + p.unit + ')');
+    // mean line
+    el('line', { x1: x(inp.mean), y1: top, x2: x(inp.mean), y2: axisY, stroke: 'var(--cpti-ink-2)', 'stroke-width': '1.5', 'stroke-dasharray': '3 4' }, svg);
+    // spec limits
+    if (inp.specs && p.specs) {
+      p.specs.forEach(function (sv, idx) {
+        el('line', { x1: x(sv), y1: top, x2: x(sv), y2: axisY, stroke: 'var(--cpti-bad)', 'stroke-width': '2', 'stroke-dasharray': '6 4' }, svg);
+        el('text', { x: x(sv) + (idx ? -4 : 4), y: top + 30, 'text-anchor': idx ? 'end' : 'start', 'font-size': '13', 'font-weight': '700', fill: 'var(--cpti-bad)' }, svg, (idx ? 'USL ' : 'LSL ') + sv.toFixed(2));
+      });
+    }
+    // bars
+    var rows = [['CI', r.ci, 'var(--cpti-ci)', 150], ['PI', r.pi, 'var(--cpti-pi)', 188], ['TI', r.ti, 'var(--cpti-ti)', 226]];
+    rows.forEach(function (row) {
+      var lo = row[1][0], hi = row[1][1], y = row[3];
+      el('text', { x: 4, y: y + 5, 'font-size': '14', 'font-weight': '800', fill: 'var(--cpti-ink)' }, svg, row[0]);
+      var x1 = clampX(lo), x2 = clampX(hi);
+      el('rect', { x: x1, y: y - 7, width: Math.max(2, x2 - x1), height: 14, rx: 4, fill: row[2] }, svg);
+      if (x(lo) < L) el('path', { d: 'M' + (L - 2) + ' ' + y + ' l10 -9 v18 z', fill: row[2] }, svg);
+      if (x(hi) > R) el('path', { d: 'M' + (R + 2) + ' ' + y + ' l-10 -9 v18 z', fill: row[2] }, svg);
+      var leftLabel = fmt(lo, p.dec), rightLabel = fmt(hi, p.dec);
+      var narrow = x2 - x1 < (p.dec > 2 ? 110 : 90);
+      el('text', { x: narrow ? x1 - 4 : x1, y: y - 11, 'text-anchor': narrow ? 'end' : 'start', 'font-size': '13', fill: 'var(--cpti-ink)' }, svg, leftLabel);
+      el('text', { x: narrow ? x2 + 4 : x2, y: y - 11, 'text-anchor': narrow ? 'start' : 'end', 'font-size': '13', fill: 'var(--cpti-ink)' }, svg, rightLabel);
+    });
+    labelSvg(svg, 'CI ' + fmt(r.ci[0], p.dec) + ' to ' + fmt(r.ci[1], p.dec) + ', PI ' + fmt(r.pi[0], p.dec) + ' to ' + fmt(r.pi[1], p.dec) + ', TI ' + fmt(r.ti[0], p.dec) + ' to ' + fmt(r.ti[1], p.dec) + ' ' + p.unit + '.');
+  }
+  function labFormulas(inp, r) {
+    var d = inp.p.dec, m = fmt(inp.mean, d), s = fmt(inp.s, 3), n = inp.n;
+    var sq = Math.sqrt(1 + 1 / n);
+    $('cpti-f-ci').textContent = '\\[\\begin{aligned}\\text{CI} &= \\bar{x} \\pm t\\,\\frac{s}{\\sqrt{n}} \\\\ &= ' + m + ' \\pm ' + fmt(r.t, 3) + '\\times ' + s + '/\\sqrt{' + n + '} \\\\ &= ' + m + ' \\pm ' + fmt(r.ciHalf, d + 1) + '\\end{aligned}\\]';
+    $('cpti-f-pi').textContent = '\\[\\begin{aligned}\\text{PI} &= \\bar{x} \\pm t\\, s\\sqrt{1+1/n} \\\\ &= ' + m + ' \\pm ' + fmt(r.t, 3) + '\\times ' + s + '\\times ' + fmt(sq, 3) + ' \\\\ &= ' + m + ' \\pm ' + fmt(r.piHalf, d + 1) + '\\end{aligned}\\]';
+    $('cpti-f-ti').textContent = '\\[\\begin{aligned}\\text{TI} &= \\bar{x} \\pm k_2\\, s \\\\ &= ' + m + ' \\pm ' + fmt(r.k, 3) + '\\times ' + s + ' \\\\ &= ' + m + ' \\pm ' + fmt(r.tiHalf, d + 1) + '\\end{aligned}\\]';
+    typeset([$('cpti-f-ci'), $('cpti-f-pi'), $('cpti-f-ti')]);
+  }
+  function updateLab(skipMath) {
+    var inp = labInputs();
+    var r = M.intervals(inp.mean, inp.s, inp.n, inp.conf, inp.cover);
+    var p = inp.p, d = p.dec;
+    $('cpti-n-out').textContent = inp.n;
+    $('cpti-s-out').textContent = fmt(inp.s, 3);
+    $('cpti-ti-cover-name').textContent = pct(inp.cover);
+    $('cpti-ci-val').textContent = fmt(r.ci[0], d) + ' to ' + fmt(r.ci[1], d) + ' ' + p.unit;
+    $('cpti-pi-val').textContent = fmt(r.pi[0], d) + ' to ' + fmt(r.pi[1], d) + ' ' + p.unit;
+    $('cpti-ti-val').textContent = fmt(r.ti[0], d) + ' to ' + fmt(r.ti[1], d) + ' ' + p.unit;
+    $('cpti-ci-sub').textContent = 'Width ' + fmt(2 * r.ciHalf, d) + ' · t = ' + fmt(r.t, 3);
+    $('cpti-pi-sub').textContent = 'Width ' + fmt(2 * r.piHalf, d) + ' · ' + fmt(r.piHalf / r.ciHalf, 1) + '× the CI';
+    $('cpti-ti-sub').textContent = 'Width ' + fmt(2 * r.tiHalf, d) + ' · k₂ = ' + fmt(r.k, 3) + ' · ' + fmt(r.tiHalf / r.ciHalf, 1) + '× the CI';
+    var summary = $('cpti-lab-summary');
+    summary.className = 'cpti-verdict';
+    var msg = 'With n = ' + inp.n + ', the PI is ' + fmt(r.piHalf / r.ciHalf, 1) + ' times as wide as the CI, and the TI is ' + fmt(r.tiHalf / r.ciHalf, 1) + ' times as wide.';
+    if (r.piHalf > r.tiHalf) msg += ' Here the PI is wider than the TI, because the TI only has to cover ' + pct(inp.cover) + ' of the population.';
+    if (inp.specs && p.specs) {
+      var inside = r.ti[0] >= p.specs[0] && r.ti[1] <= p.specs[1];
+      summary.className = 'cpti-verdict ' + (inside ? 'is-good' : 'is-bad');
+      msg = (inside ? '✔ Inside spec: ' : '✖ Not shown to be inside spec: ') + 'the ' + pct(inp.conf) + '/' + pct(inp.cover) + ' TI runs from ' + fmt(r.ti[0], d) + ' to ' + fmt(r.ti[1], d) + ' ' + p.unit + '. ' +
+        (inside ? 'We are ' + pct(inp.conf) + ' confident at least ' + pct(inp.cover) + ' of pipes meet the spec.' : 'The data cannot yet support the claim that ' + pct(inp.cover) + ' of pipes meet the spec. Collect more data or reduce variation.');
+    }
+    summary.textContent = msg;
+    drawLab(inp, r);
+    if (!skipMath) debounce('labmath', function () { labFormulas(inp, r); }, 150);
+    lab.last = { inputs: inp, result: r };
+    debounce('width', updateWidthChart, 60);
+    return r;
+  }
+  function applyPreset(name) {
+    lab.preset = name;
+    var p = PRESETS[name];
+    var n = $('cpti-n'), s = $('cpti-s'), m = $('cpti-mean');
+    n.value = p.n;
+    s.min = p.sMin; s.max = p.sMax; s.step = p.sStep; s.value = p.s;
+    m.step = p.step; m.value = p.mean.toFixed(p.dec);
+    $('cpti-specs').checked = !!p.specs;
+    $('cpti-specs').disabled = !p.specs;
+    $('cpti-spec-note').textContent = p.specs ? 'Illustrative spec limits: 7.90 to 8.70 mm.' : 'Salmon have no spec. Switch to the pipe example to see spec limits.';
+    updateLab();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="cpti-preset"]'), function (radio) {
+    radio.addEventListener('change', function () { if (radio.checked) applyPreset(radio.value); });
+  });
+  ['cpti-n', 'cpti-s', 'cpti-mean'].forEach(function (id) { $(id).addEventListener('input', function () { updateLab(); }); });
+  ['cpti-conf', 'cpti-cover', 'cpti-specs'].forEach(function (id) { $(id).addEventListener('change', function () { updateLab(); }); });
+  $('cpti-reset').addEventListener('click', function () {
+    $('cpti-conf').value = '0.95'; $('cpti-cover').value = '0.99';
+    document.querySelector('input[name="cpti-preset"][value="' + lab.preset + '"]').checked = true;
+    applyPreset(lab.preset);
+  });
+
+  /* ---------- Width vs n chart ---------- */
+  var chart = { L: 56, R: 650, T: 16, B: 290, nMin: 2, nMax: 200, yMax: 6, W: 720 };
+  function chartNs() {
+    var ns = [], seen = {};
+    for (var i = 0; i <= 44; i++) {
+      var v = Math.round(Math.exp(Math.log(chart.nMin) + (Math.log(chart.nMax) - Math.log(chart.nMin)) * i / 44));
+      if (!seen[v]) { seen[v] = 1; ns.push(v); }
+    }
+    return ns;
+  }
+  function multipliers(n, conf, cover) {
+    var t = M.tInv(1 - (1 - conf) / 2, n - 1);
+    return { n: n, ci: t / Math.sqrt(n), pi: t * Math.sqrt(1 + 1 / n), ti: M.k2Exact(n, cover, conf) };
+  }
+  function updateWidthChart() {
+    var svg = $('cpti-width-svg'); if (!svg || !lab.last) return;
+    var inp = lab.last.inputs, conf = inp.conf, cover = inp.cover;
+    var data = chartNs().map(function (n) { return multipliers(n, conf, cover); });
+    chart.data = data;
+    clearSvg(svg);
+    chart.W = fitWidth(svg, 340);
+    chart.L = chart.W < 520 ? 40 : 56; chart.R = chart.W - (chart.W < 520 ? 62 : 70);
+    var L = chart.L, R = chart.R, T = chart.T, B = chart.B;
+    var xs = function (n) { return L + (Math.log(n) - Math.log(chart.nMin)) / (Math.log(chart.nMax) - Math.log(chart.nMin)) * (R - L); };
+    var ys = function (v) { return B - Math.min(v, chart.yMax + 0.6) / chart.yMax * (B - T); };
+    chart.xs = xs; chart.ys = ys;
+    var defs = el('defs', {}, svg);
+    var cp = el('clipPath', { id: 'cpti-plot-clip' }, defs);
+    el('rect', { x: L, y: T - 2, width: R - L + 2, height: B - T + 2 }, cp);
+    for (var g = 0; g <= chart.yMax; g++) {
+      el('line', { x1: L, y1: ys(g), x2: R, y2: ys(g), stroke: 'var(--cpti-grid)', 'stroke-width': '1' }, svg);
+      el('text', { x: L - 8, y: ys(g) + 4, 'text-anchor': 'end', 'font-size': '12', fill: 'var(--cpti-ink-2)' }, svg, String(g));
+    }
+    (chart.W < 520 ? [2, 5, 20, 50, 200] : [2, 5, 10, 20, 50, 100, 200]).forEach(function (n) {
+      el('line', { x1: xs(n), y1: B, x2: xs(n), y2: B + 5, stroke: 'var(--cpti-muted)' }, svg);
+      el('text', { x: xs(n), y: B + 19, 'text-anchor': 'middle', 'font-size': '12', fill: 'var(--cpti-ink-2)' }, svg, String(n));
+    });
+    el('line', { x1: L, y1: B, x2: R, y2: B, stroke: 'var(--cpti-muted)' }, svg);
+    el('text', { x: (L + R) / 2, y: B + 40, 'text-anchor': 'middle', 'font-size': '12', fill: 'var(--cpti-muted)' }, svg, 'Sample size n (log scale)');
+    el('text', { x: 14, y: (T + B) / 2, 'text-anchor': 'middle', 'font-size': '12', fill: 'var(--cpti-muted)', transform: 'rotate(-90 14 ' + (T + B) / 2 + ')' }, svg, 'Half-width ÷ s');
+    // floors
+    var zc = M.normInv(1 - (1 - conf) / 2), zp = M.normInv((1 + cover) / 2);
+    var floors = [[zc, 'PI floor ' + zc.toFixed(2)], [zp, 'TI floor ' + zp.toFixed(2)]].sort(function (a, b) { return a[0] - b[0]; });
+    var floorGap = Math.abs(ys(floors[1][0]) - ys(floors[0][0]));
+    floors.forEach(function (f, i) {
+      el('line', { x1: L, y1: ys(f[0]), x2: R, y2: ys(f[0]), stroke: 'var(--cpti-muted)', 'stroke-width': '1', 'stroke-dasharray': '2 3' }, svg);
+      // Labels sit just below each floor line at the right, where the curves have already flattened.
+      if (floorGap < 18 && i === 1) return;
+      var text = floorGap < 18 ? 'PI and TI floor ' + f[0].toFixed(2) : f[1];
+      el('text', { x: R - 4, y: ys(f[0]) + 15, 'text-anchor': 'end', 'font-size': '12', fill: 'var(--cpti-muted)' }, svg, text);
+    });
+    var series = [['ci', 'var(--cpti-ci)', null, 'CI'], ['pi', 'var(--cpti-pi)', '8 5', 'PI'], ['ti', 'var(--cpti-ti)', '1 5', 'TI']];
+    var plot = el('g', { 'clip-path': 'url(#cpti-plot-clip)' }, svg);
+    series.forEach(function (sr) {
+      var dstr = data.map(function (pnt, i) { return (i ? 'L' : 'M') + xs(pnt.n).toFixed(1) + ' ' + ys(pnt[sr[0]]).toFixed(1); }).join(' ');
+      var attrs = { d: dstr, fill: 'none', stroke: sr[1], 'stroke-width': '3', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' };
+      if (sr[2]) attrs['stroke-dasharray'] = sr[2];
+      el('path', attrs, plot);
+    });
+    // direct labels at the right edge, nudged apart
+    var last = data[data.length - 1];
+    var labels = series.map(function (sr) { return { key: sr[0], text: sr[3] + ' ' + last[sr[0]].toFixed(2), y: ys(last[sr[0]]) }; }).sort(function (a, b) { return a.y - b.y; });
+    for (var i = 1; i < labels.length; i++) if (labels[i].y - labels[i - 1].y < 15) labels[i].y = labels[i - 1].y + 15;
+    labels.forEach(function (lb) { el('text', { x: R + 8, y: lb.y + 4, 'font-size': '12', 'font-weight': '700', fill: 'var(--cpti-ink)' }, svg, lb.text); });
+    // current n markers
+    var cur = multipliers(inp.n, conf, cover);
+    if (inp.n >= chart.nMin && inp.n <= chart.nMax) {
+      el('line', { x1: xs(inp.n), y1: T, x2: xs(inp.n), y2: B, stroke: 'var(--cpti-ink-2)', 'stroke-width': '1', 'stroke-dasharray': '3 3' }, svg);
+      series.forEach(function (sr) {
+        if (cur[sr[0]] <= chart.yMax + 0.5) el('circle', { cx: xs(inp.n), cy: ys(cur[sr[0]]), r: 6, fill: sr[1], stroke: 'var(--cpti-surface)', 'stroke-width': '2' }, svg);
+      });
+      el('text', { x: Math.min(xs(inp.n) + 6, R - 70), y: T + 12, 'font-size': '12', 'font-weight': '700', fill: 'var(--cpti-ink)' }, svg, 'your n = ' + inp.n);
+    }
+    chart.hair = el('line', { x1: 0, y1: T, x2: 0, y2: B, stroke: 'var(--cpti-ink-2)', 'stroke-width': '1', visibility: 'hidden' }, svg);
+    labelSvg(svg, 'At n = ' + inp.n + ': CI multiplier ' + cur.ci.toFixed(2) + ', PI multiplier ' + cur.pi.toFixed(2) + ', TI factor ' + cur.ti.toFixed(2) + '. As n grows to 200 the CI falls to ' + last.ci.toFixed(2) + ', the PI levels near ' + zc.toFixed(2) + ' and the TI approaches ' + zp.toFixed(2) + '.');
+    // table view
+    var tbody = document.querySelector('#cpti-width-table tbody');
+    if (tbody) {
+      tbody.textContent = '';
+      [2, 3, 5, 10, 20, 30, 50, 100, 200].forEach(function (n) {
+        var mm = multipliers(n, conf, cover), tr = document.createElement('tr');
+        [String(n), mm.ci.toFixed(3), mm.pi.toFixed(3), mm.ti.toFixed(3)].forEach(function (v, j) { var c = document.createElement(j ? 'td' : 'th'); if (!j) c.setAttribute('scope', 'row'); c.className = 'cpti-num'; c.textContent = v; tr.appendChild(c); });
+        tbody.appendChild(tr);
+      });
+      var tr = document.createElement('tr');
+      ['∞', '0', zc.toFixed(3), zp.toFixed(3)].forEach(function (v, j) { var c = document.createElement(j ? 'td' : 'th'); if (!j) c.setAttribute('scope', 'row'); c.className = 'cpti-num'; c.textContent = v; tr.appendChild(c); });
+      tbody.appendChild(tr);
+    }
+  }
+  (function wireTooltip() {
+    var svg = $('cpti-width-svg'), tip = $('cpti-width-tip'), box = $('cpti-width-box');
+    if (!svg || !tip) return;
+    function move(ev) {
+      if (!chart.data) return;
+      var rect = svg.getBoundingClientRect(); if (!rect.width) return;
+      var px = (ev.clientX - rect.left) / rect.width * chart.W;
+      if (px < chart.L || px > chart.R) { hide(); return; }
+      var best = chart.data[0];
+      chart.data.forEach(function (d) { if (Math.abs(chart.xs(d.n) - px) < Math.abs(chart.xs(best.n) - px)) best = d; });
+      chart.hair.setAttribute('x1', chart.xs(best.n)); chart.hair.setAttribute('x2', chart.xs(best.n)); chart.hair.setAttribute('visibility', 'visible');
+      tip.textContent = '';
+      var head = document.createElement('div'); head.textContent = 'n = ' + best.n; head.style.fontWeight = '700'; tip.appendChild(head);
+      [['ci', 'CI', 'var(--cpti-ci)', ''], ['pi', 'PI', 'var(--cpti-pi)', '6 4'], ['ti', 'TI', 'var(--cpti-ti)', '1 4']].forEach(function (s) {
+        var row = document.createElement('div'); row.className = 'cpti-tt-row';
+        var key = document.createElementNS(SVGNS, 'svg'); key.setAttribute('width', '18'); key.setAttribute('height', '8'); key.setAttribute('aria-hidden', 'true');
+        el('line', { x1: 1, y1: 4, x2: 17, y2: 4, stroke: s[2], 'stroke-width': '3', 'stroke-linecap': 'round', 'stroke-dasharray': s[3] || 'none' }, key);
+        var val = document.createElement('strong'); val.textContent = best[s[0]].toFixed(3);
+        var name = document.createElement('span'); name.textContent = s[1];
+        row.appendChild(key); row.appendChild(val); row.appendChild(name); tip.appendChild(row);
+      });
+      tip.style.display = 'block';
+      var bx = box.getBoundingClientRect(), left = ev.clientX - bx.left + 14;
+      if (left + 170 > bx.width) left = ev.clientX - bx.left - 180;
+      tip.style.left = Math.max(0, left) + 'px'; tip.style.top = Math.max(0, ev.clientY - bx.top - 40) + 'px';
+    }
+    function hide() { tip.style.display = 'none'; if (chart.hair) chart.hair.setAttribute('visibility', 'hidden'); }
+    svg.addEventListener('pointermove', move);
+    svg.addEventListener('pointerdown', move);
+    svg.addEventListener('pointerleave', hide);
+  })();
+
+  /* ---------- Coverage simulator ---------- */
+  var MU = 5.5, SIGMA = 0.8, SIM_ROWS = 20;
+  var sim = { seed: (Date.now() >>> 0) || 1, rows: [], tally: { ci: 0, pi: 0, ti: 0, total: 0 } };
+  function rand() {
+    // mulberry32: small, fast, seedable
+    sim.seed = (sim.seed + 0x6D2B79F5) >>> 0;
+    var t = sim.seed;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
+  function randNorm() {
+    var u = 0, v = 0;
+    while (u === 0) u = rand();
+    v = rand();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  }
+  function simSettings() {
+    return { n: parseInt($('cpti-sim-n').value, 10), conf: parseFloat($('cpti-sim-conf').value), cover: parseFloat($('cpti-sim-cover').value) };
+  }
+  function simulateOnce(st) {
+    var xs = [], sum = 0;
+    for (var i = 0; i < st.n; i++) { var x = MU + SIGMA * randNorm(); xs.push(x); sum += x; }
+    var mean = sum / st.n, ss = 0;
+    xs.forEach(function (x) { ss += (x - mean) * (x - mean); });
+    var s = Math.sqrt(ss / (st.n - 1));
+    var r = M.intervals(mean, s, st.n, st.conf, st.cover);
+    var nextFish = MU + SIGMA * randNorm();
+    var trueCover = M.normCdf((r.ti[1] - MU) / SIGMA) - M.normCdf((r.ti[0] - MU) / SIGMA);
+    return {
+      mean: mean, s: s, ci: r.ci, pi: r.pi, ti: r.ti, next: nextFish, trueCover: trueCover,
+      hit: { ci: r.ci[0] <= MU && MU <= r.ci[1], pi: r.pi[0] <= nextFish && nextFish <= r.pi[1], ti: trueCover >= st.cover }
+    };
+  }
+  function runSim(count) {
+    var st = simSettings();
+    for (var i = 0; i < count; i++) {
+      var row = simulateOnce(st);
+      sim.rows.push(row);
+      if (sim.rows.length > SIM_ROWS) sim.rows.shift();
+      sim.tally.total++;
+      ['ci', 'pi', 'ti'].forEach(function (k) { if (row.hit[k]) sim.tally[k]++; });
+    }
+    renderSim();
+    return sim.tally;
+  }
+  function resetSim() {
+    sim.rows = []; sim.tally = { ci: 0, pi: 0, ti: 0, total: 0 };
+    renderSim();
+    $('cpti-sim-status').textContent = 'Reset. Draw samples to start a new tally.';
+  }
+  function simView() { var c = document.querySelector('input[name="cpti-sim-view"]:checked'); return c ? c.value : 'ci'; }
+  function renderSim() {
+    var svg = $('cpti-sim-svg'); if (!svg) return;
+    clearSvg(svg);
+    var st = simSettings(), view = simView();
+    var VW = fitWidth(svg, 360), small = VW < 520;
+    var L = small ? 10 : 40, R = VW - (small ? 62 : 70), T = 22, B = 320, lo = 1.5, hi = 9.5;
+    var x = function (v) { return L + (v - lo) / (hi - lo) * (R - L); };
+    var cx = function (v) { return Math.max(L, Math.min(R, x(v))); };
+    for (var t = 2; t <= 9; t++) {
+      el('line', { x1: x(t), y1: T, x2: x(t), y2: B, stroke: 'var(--cpti-grid)' }, svg);
+      if (small && t % 2) continue;
+      el('text', { x: x(t), y: B + 18, 'text-anchor': 'middle', 'font-size': '12', fill: 'var(--cpti-ink-2)' }, svg, String(t));
+    }
+    el('text', { x: (L + R) / 2, y: B + 36, 'text-anchor': 'middle', 'font-size': '12', fill: 'var(--cpti-muted)' }, svg, small ? 'Weight (kg) · newest at bottom' : 'Weight (kg) · newest sample at the bottom');
+    var color = { ci: 'var(--cpti-ci)', pi: 'var(--cpti-pi)', ti: 'var(--cpti-ti)' }[view];
+    if (view === 'ti') {
+      var zp = M.normInv((1 + st.cover) / 2);
+      el('rect', { x: x(MU - zp * SIGMA), y: T, width: x(MU + zp * SIGMA) - x(MU - zp * SIGMA), height: B - T, fill: 'var(--cpti-pop)', 'fill-opacity': '0.18' }, svg);
+      el('text', { x: x(MU), y: T - 6, 'text-anchor': 'middle', 'font-size': '12', fill: 'var(--cpti-muted)' }, svg, (small ? 'Shaded: true central ' : 'Shaded: the true central ') + pct(st.cover) + (small ? '' : ' of the population'));
+    } else {
+      el('line', { x1: x(MU), y1: T, x2: x(MU), y2: B, stroke: 'var(--cpti-ink)', 'stroke-width': '2' }, svg);
+      el('text', { x: x(MU), y: T - 6, 'text-anchor': 'middle', 'font-size': '12', 'font-weight': '700', fill: 'var(--cpti-ink)' }, svg, 'true μ = 5.5');
+    }
+    var h = (B - T) / SIM_ROWS;
+    sim.rows.forEach(function (row, i) {
+      var y = T + h * (i + 0.5) + (SIM_ROWS - sim.rows.length) * h;
+      var iv = row[view], hit = row.hit[view];
+      var attrs = { x1: cx(iv[0]), y1: y, x2: cx(iv[1]), y2: y, stroke: hit ? color : 'var(--cpti-bad)', 'stroke-width': '5', 'stroke-linecap': 'round' };
+      if (!hit) attrs['stroke-dasharray'] = '6 4';
+      el('line', attrs, svg);
+      if (view === 'pi') el('circle', { cx: cx(row.next), cy: y, r: 4.5, fill: 'var(--cpti-ink)', stroke: 'var(--cpti-surface)', 'stroke-width': '1.5' }, svg);
+      el('text', { x: R + 8, y: y + 4, 'font-size': '12', 'font-weight': '700', fill: hit ? 'var(--cpti-good)' : 'var(--cpti-bad)' }, svg, hit ? '✔ hit' : '✖ miss');
+    });
+    if (!sim.rows.length) el('text', { x: (L + R) / 2, y: (T + B) / 2, 'text-anchor': 'middle', 'font-size': '14', fill: 'var(--cpti-muted)', stroke: 'var(--cpti-surface)', 'stroke-width': '6', 'paint-order': 'stroke' }, svg, 'No samples yet. Press "Draw 1 sample".');
+    var tl = sim.tally, total = tl.total;
+    ['ci', 'pi', 'ti'].forEach(function (k) {
+      $('cpti-tally-' + k).textContent = tl[k] + ' of ' + total + (total ? ' (' + (100 * tl[k] / total).toFixed(1) + '%)' : '');
+    });
+    var target = pct(st.conf);
+    $('cpti-target-ci').textContent = target; $('cpti-target-pi').textContent = target; $('cpti-target-ti').textContent = target;
+    labelSvg(svg, 'Showing the last ' + sim.rows.length + ' ' + view.toUpperCase() + 's. ' + sim.rows.filter(function (r) { return !r.hit[view]; }).length + ' of them missed. Running totals are listed below the picture.');
+    if (total) $('cpti-sim-status').textContent = 'After ' + total + ' samples of n = ' + st.n + ': CI ' + (100 * tl.ci / total).toFixed(1) + '%, PI ' + (100 * tl.pi / total).toFixed(1) + '%, TI ' + (100 * tl.ti / total).toFixed(1) + '%. All three aim for ' + target + ', each against a different target.';
+  }
+  $('cpti-sim-one').addEventListener('click', function () { runSim(1); });
+  $('cpti-sim-many').addEventListener('click', function () { runSim(100); });
+  $('cpti-sim-reset').addEventListener('click', resetSim);
+  $('cpti-sim-n').addEventListener('input', function () { $('cpti-sim-n-out').textContent = this.value; });
+  ['cpti-sim-n', 'cpti-sim-conf', 'cpti-sim-cover'].forEach(function (id) {
+    $(id).addEventListener('change', function () { resetSim(); $('cpti-sim-status').textContent = 'Settings changed, so the tally was reset.'; });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="cpti-sim-view"]'), function (r) { r.addEventListener('change', renderSim); });
+
+  /* ---------- Scenario sorter ---------- */
+  var SCENARIOS = [
+    ['Your manager asks for the true average yield strength of this heat-treat batch, give or take.', 'ci', 'The question is about the average, so a confidence interval for the mean answers it.'],
+    ['A customer wants to know what tensile strength to expect for the next single coil you ship.', 'pi', 'One future item means a prediction interval. Individual scatter must be included.'],
+    ['Can you claim that at least 99% of all pipes meet the 7.90 to 8.70 mm wall-thickness spec?', 'ti', 'A claim about a share of the whole population is a tolerance interval, then compared with the spec.'],
+    ['After a line changeover, has the mean fill weight moved away from 500 g?', 'ci', 'A shift in the mean is a question about a parameter: build a CI for the mean and see whether 500 g is inside it.'],
+    ['Warranty planning: what bearing life will at least 95% of bearings exceed?', 'ti', 'A minimum that a stated share of units will exceed is a one-sided lower tolerance bound.'],
+    ['A fisher wants to know how heavy the next salmon on the line will be.', 'pi', 'The next single fish is one future observation: a prediction interval.'],
+    ['A capacity plan needs the true average cycle time of an assembly station.', 'ci', 'The plan depends on the average, so a confidence interval for the mean fits.'],
+    ['From a 50-part capability run, set limits that nearly every future part will fall inside.', 'ti', 'Limits that must hold almost all parts describe the population: use a tolerance interval.']
+  ];
+  var scenState = {};
+  var list = $('cpti-scenarios');
+  function scoreScen() {
+    var answered = 0, right = 0;
+    for (var k in scenState) if (Object.prototype.hasOwnProperty.call(scenState, k)) { answered++; if (scenState[k]) right++; }
+    $('cpti-scen-score').textContent = 'Score: ' + right + ' correct of ' + answered + ' answered (8 total)';
+    return { answered: answered, right: right };
+  }
+  if (list) SCENARIOS.forEach(function (sc, i) {
+    var li = document.createElement('li'); li.className = 'cpti-scen';
+    var p = document.createElement('p'); p.id = 'cpti-scen-q' + i; p.textContent = (i + 1) + '. ' + sc[0]; li.appendChild(p);
+    var group = document.createElement('div'); group.className = 'cpti-choice'; group.setAttribute('role', 'group'); group.setAttribute('aria-labelledby', p.id);
+    var fb = document.createElement('p'); fb.className = 'cpti-scen-fb'; fb.setAttribute('aria-live', 'polite');
+    ['ci', 'pi', 'ti'].forEach(function (choice) {
+      var b = document.createElement('button'); b.type = 'button'; b.textContent = choice.toUpperCase(); b.setAttribute('aria-pressed', 'false'); b.setAttribute('data-choice', choice);
+      b.addEventListener('click', function () {
+        Array.prototype.forEach.call(group.querySelectorAll('button'), function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+        var ok = choice === sc[1];
+        scenState[i] = ok;
+        fb.className = 'cpti-scen-fb ' + (ok ? 'is-good' : 'is-bad');
+        fb.textContent = '';
+        var strong = document.createElement('strong'); strong.textContent = ok ? '✔ Correct. ' : '✖ Not quite. The answer is ' + sc[1].toUpperCase() + '. ';
+        fb.appendChild(strong); fb.appendChild(document.createTextNode(sc[2]));
+        scoreScen();
+      });
+      group.appendChild(b);
+    });
+    li.appendChild(group); li.appendChild(fb); list.appendChild(li);
+  });
+
+  /* ---------- start ---------- */
+  applyPreset('salmon');
+  runSim(20);
+  $('cpti-sim-status').textContent = 'We drew 20 samples to get you started. Click "Draw 100 samples" a few times and watch each hit rate settle near its target.';
+  var lastW = window.innerWidth;
+  window.addEventListener('resize', function () {
+    if (window.innerWidth === lastW) return;
+    lastW = window.innerWidth;
+    debounce('resize', function () { updateLab(true); updateWidthChart(); renderSim(); }, 150);
+  });
+  window.CPTI = { M: M, updateLab: updateLab, applyPreset: applyPreset, runSim: runSim, resetSim: resetSim, sim: sim, lab: lab, chart: chart, multipliers: multipliers, scenarios: SCENARIOS, scoreScen: scoreScen, salmon: SALMON, updateWidthChart: updateWidthChart };
+})();
+</script>
+<style id="confidence-prediction-tolerance-intervals-dark-overrides">
+html[data-theme="dark"] .quiz-section .lesson-kicker { color: #7dd3fc; }
+html[data-theme="dark"] [aria-label="Return to lesson category"] a { color: #7dd3fc !important; }
+html[data-theme="dark"] .cpti-tag { background: #1d4f8f; }
+html[data-theme="dark"] .cpti-tag.is-pi { background: #8f3412; }
+html[data-theme="dark"] .cpti-tag.is-ti { background: #0b5a3f; }
+html[data-theme="dark"] .quiz-question legend { color: #f3f6fb; }
+html[data-theme="dark"] .quiz-head p, html[data-theme="dark"] .quiz-head h3 { color: #e7eef4; }
+</style>
+</body>
+</html>

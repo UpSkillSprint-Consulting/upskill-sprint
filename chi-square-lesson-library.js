@@ -207,6 +207,18 @@
       description: 'Build intuition for variance, standard deviation, coefficient of variation and its cousins, covariance, and correlation with live interactive widgets, a fully worked dataset comparison, and Excel + Minitab guidance.'
     },
     {
+      marker: 'data-confidence-prediction-tolerance-intervals',
+      sectionId: 'statistics',
+      path: '/lessons/statistics/confidence-prediction-tolerance-intervals',
+      topic: 'statistics',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'confidence interval prediction interval tolerance interval ci pi ti statistical intervals tolerance factor k2 coverage sample size standard error t distribution howe approximation confidence.t t.inv.2t chisq.inv minitab tolerance intervals excel cssbb cqe statistics beginner interactive',
+      meta: '<span>Beginner</span><span>Interactive</span><span>45 min</span><span>Excel + Minitab</span>',
+      title: 'Confidence vs Prediction vs Tolerance Intervals',
+      description: 'See how CI, PI and TI differ with live sliders, a width-vs-sample-size chart, a coverage simulator, every formula, and Excel and Minitab steps.'
+    },
+    {
       marker: 'data-beyond-the-bell',
       sectionId: 'statistics',
       path: '/lessons/statistics/beyond-the-bell-the-normal-distribution-and-its-relatives',
