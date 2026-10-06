@@ -9,11 +9,17 @@ The user explicitly selected **Public** access and **Power BI, Excel & SQL**. Th
 No recreated charts, chart sliders or chart-generation code remain. Three nonvisual prediction activities, chart-choice feedback, numeric practice and the quiz retain interactivity. Original output image hashes are locked in the regression tests and match the supplied uploads.
 
 
-- Four user-supplied Minitab screenshots are preserved as original PNGs, inside native `details` elements closed on initial load. Every summary reads “Review Minitab output”; interpretation is inside the same dropdown.
+- Five user-supplied Minitab screenshots are preserved as original PNGs, inside native `details` elements closed on initial load. Every summary reads “Review Minitab output”; interpretation is inside the same dropdown.
 - The workbook contains Guide, Symmetry_Data, Factor_Data and Data Dictionary. Numeric values and every row in both analysis sheets were compared with the downloadable CSVs and embedded activity data using an independent XLSX reader.
 - Factor_Data has 60 distinct pipe IDs, 12 complete factor combinations and five different pipes per cell. It does not represent repeated measurements on the same pipe.
 - Verified wall median 9.530 mm; downtime median 11.5 min; overall factor mean 9.5875 mm; B / Night / Leading mean 9.680 mm, range 0.160 mm and sample SD 0.06324555 mm; Line × Shift difference in shift changes 0.150 mm.
 - Official Minitab documentation was used to check menu paths, factor ordering, optional displays and the Multi-Vari Chart coverage requirement. Links appear in the lesson.
+
+## Standard-deviation output addition
+
+The original supplied `image(10).png` is embedded unchanged below the average-response chart in the same closed review dropdown. The walkthrough now includes **Mean of standard deviations**. Its explanation covers the twelve five-pipe cells, SD ratios, the mean SD reference line, the difference between means and spread, and the limits of this exploratory chart. The new image hash is checked in the existing regression test.
+
+The screenshots and 79-check browser report below document the preceding four-image version. Current checks for the added fifth image are recorded in the PR.
 
 ## Automated and browser validation
 

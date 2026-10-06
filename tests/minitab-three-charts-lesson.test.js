@@ -75,7 +75,7 @@ test('canonical chrome is copied exactly, and the complete lesson is searchable 
   dom.window.close();
 });
 
-test('all four supplied Minitab outputs and their explanations are collapsed initially', () => {
+test('all five supplied Minitab outputs and their explanations are collapsed initially', () => {
   const {dom, d} = setup();
   const details = [...d.querySelectorAll('details.mc-output')];
   assert.equal(details.length, 4);
@@ -92,7 +92,11 @@ test('all four supplied Minitab outputs and their explanations are collapsed ini
     output.open = false;
   }
   assert.equal(d.querySelector('#variability-output img').width, 1536);
-  assert.match(d.querySelector('#variability-output').textContent, /optional SD chart is not shown/i);
+  assert.equal(d.querySelectorAll('details.mc-output img').length, 5);
+  assert.equal(d.querySelectorAll('#variability-output img').length, 2);
+  assert.ok(d.querySelector('#variability-output #variability-sd-output-heading'));
+  assert.match(d.querySelector('#variability-output').textContent, /arithmetic mean of the twelve cell SDs/);
+  assert.doesNotMatch(d.querySelector('#variability-output').textContent, /SD chart is not shown/);
   dom.window.close();
 });
 
@@ -127,10 +131,11 @@ test('lesson embeds original output images and never renders replacement charts'
   const crypto = require('node:crypto');
   const originals = {
     'symmetry-wall.png': 'image(5).png', 'symmetry-downtime.png': 'image(7).png',
-    'variability-wall.png': 'image(8).png', 'multi-vari-wall.png': 'image(9).png'
+    'variability-wall.png': 'image(8).png', 'multi-vari-wall.png': 'image(9).png', 'variability-standard-deviation.png': 'image(10).png'
   };
-  // Lock the four original supplied image bytes, independent of local uploads.
+  // Lock the five original supplied image bytes, independent of local uploads.
   const hashes = {"symmetry-wall.png": "f9c43609f4741f94269590bf9fd6c98e8fb791a305747009072b2ad2f2ec3ae2", "symmetry-downtime.png": "5740ffeb057d2daaed05ec4f1e033af31a76357cf86811c7c9adc9f87ffc625b", "variability-wall.png": "1672fe6065b0ff42ce22f1f937d2d92481b7e5a28bf11296be383c23c93b7b17", "multi-vari-wall.png": "a16c9e78231af08f5a6575ccda5bdc0bf33dec19676e0ba8eca909639b0e0a91"};
+  hashes["variability-standard-deviation.png"] = "02b5bfb1a84719d00665e1189718cccd17eef3361820ebc54a7d5d0c53aebb01";
   for (const file of Object.keys(originals)) {
     assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(assets,file))).digest('hex'), hashes[file]);
     assert.ok(d.querySelector(`details.mc-output img[src$="/${file}"]`));
