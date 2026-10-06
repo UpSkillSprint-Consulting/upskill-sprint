@@ -12,7 +12,7 @@ export const SITE = 'https://upskillsprint.com';
 export const excludedPrefixes = ['assets/', 'lessons/assets/', 'test-bank-assets/', 'netlify/'];
 export const excludedFiles = new Set([
   '404.html', 'lesson-template.html', 'upskillsprint_lesson_theme_reference.html',
-  'How to Add a New Lesson.dc.html', 'test-bank-report-form.html'
+  'test-bank-report-form.html'
 ]);
 
 export function pageUrl(relPath) {
