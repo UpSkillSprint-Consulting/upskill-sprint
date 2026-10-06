@@ -70,7 +70,7 @@ test('canonical chrome is copied exactly, and the complete lesson is searchable 
   assert.equal(d.querySelector('section[aria-label="Return to lesson category"] a').getAttribute('href'), '/lessons#power-bi-excel-sql');
   for (const id of ['chart-choice', 'practice-data', 'symmetry', 'variability', 'multi-vari', 'guided-practice', 'implementation', 'quiz', 'next-steps']) assert.ok(d.querySelector(`#lesson-content #${id}`));
   const ids = Array.from(d.querySelectorAll('[id]')).map(e => e.id);
-  assert.equal(new Set(ids).size, ids.length, 'all IDs must be unique, including live SVG titles');
+  assert.equal(new Set(ids).size, ids.length, 'all IDs must be unique');
   for (const link of d.querySelectorAll('.mc-toc a')) assert.ok(d.querySelector(link.getAttribute('href')));
   dom.window.close();
 });
@@ -118,65 +118,43 @@ test('downloaded CSVs, embedded teaching values, and sampling design agree', () 
   dom.window.close();
 });
 
-test('symmetry activity correctly orients both skew directions and does not equate symmetry with normality', () => {
-  const {dom, w, d} = setup();
-  assert.match(d.querySelector('#mc-pair-readout').textContent, /9.340.*9.720.*0.190.*0.190/);
-  input(w,d,'mc-symmetry-data','downtime','change');
-  assert.match(d.querySelector('#mc-symmetry-readout').textContent, /Median = 11.5 min.*Right-skewed/);
-  assert.match(d.querySelector('#mc-pair-readout').textContent, /Distance above = 178.5.*distance below = 8.5/);
-  let chosen = d.querySelector('#mc-symmetry-svg .mc-selected');
-  assert.ok(Number(chosen.getAttribute('cx')) > 300);
-  assert.ok(Number(chosen.getAttribute('cy')) > 300);
-  input(w,d,'mc-symmetry-data','left','change');
-  assert.match(d.querySelector('#mc-symmetry-readout').textContent, /Left-skewed/);
-  assert.match(d.querySelector('#mc-pair-readout').textContent, /Distance above = 8.5.*distance below = 178.5/);
-  input(w,d,'mc-symmetry-data','bimodal','change');
-  assert.match(d.querySelector('#mc-symmetry-readout').textContent, /Symmetric but two-cluster/);
-  assert.equal(d.querySelectorAll('#mc-symmetry-svg circle').length, 15);
-  const bars = [...d.querySelectorAll('#mc-histogram-svg rect')];
-  assert.equal(bars.reduce((n,b)=>n+(Number(b.getAttribute('height'))===0?1:0),0), 2);
-  input(w,d,'mc-pair',0,'change');
-  assert.match(d.querySelector('#mc-pair-readout').textContent, /Pair 1 of 15/);
-  for (const t of d.querySelectorAll('#mc-histogram-svg text')) assert.ok(!t.textContent.includes('NaN'));
-  dom.window.close();
-});
-
-test('variability activity moves cell means independently of ranges and SDs, and reset restores the source', () => {
-  const {dom, w, d} = setup();
-  function cells() {return [...d.querySelectorAll('#mc-cell-statistics tr')].map(tr=>[...tr.children].map(c=>c.textContent));}
-  const base = cells();
-  assert.equal(base.length, 12);
-  assert.deepEqual(base[9], ['B','Night','Leading','5','9.680','0.160','0.06325']);
-  input(w,d,'mc-mean-change',-.1);
-  let changed = cells();
-  assert.deepEqual(changed[9], ['B','Night','Leading','5','9.580','0.160','0.06325']);
-  assert.deepEqual(changed.slice(0,9), base.slice(0,9));
-  input(w,d,'mc-spread-change',2);
-  changed = cells();
-  assert.deepEqual(changed[9], ['B','Night','Leading','5','9.580','0.320','0.12649']);
-  assert.equal(d.querySelectorAll('#mc-variability-svg circle').length, 60);
-  // Extreme combined control settings must remain inside the fixed plotting area.
-  for (const change of [-.18,.12]) {
-    input(w,d,'mc-mean-change',change);
-    for (const point of d.querySelectorAll('#mc-variability-svg circle')) assert.ok(Number(point.getAttribute('cy')) >= 55 && Number(point.getAttribute('cy')) <= 330);
+test('lesson embeds original output images and never renders replacement charts', () => {
+  const {dom, d} = setup();
+  assert.equal(d.querySelectorAll('#lesson-content svg,#lesson-content canvas,.mc-plot').length, 0);
+  assert.equal(d.querySelectorAll('#lesson-content input[type=range]').length, 0);
+  const script = d.getElementById('mc-interactions').textContent;
+  assert.doesNotMatch(script, /createElementNS|svgNode|function chart|function symmetry|function variability|function interaction/);
+  const crypto = require('node:crypto');
+  const originals = {
+    'symmetry-wall.png': 'image(5).png', 'symmetry-downtime.png': 'image(7).png',
+    'variability-wall.png': 'image(8).png', 'multi-vari-wall.png': 'image(9).png'
+  };
+  // Lock the four original supplied image bytes, independent of local uploads.
+  const hashes = {"symmetry-wall.png": "f9c43609f4741f94269590bf9fd6c98e8fb791a305747009072b2ad2f2ec3ae2", "symmetry-downtime.png": "5740ffeb057d2daaed05ec4f1e033af31a76357cf86811c7c9adc9f87ffc625b", "variability-wall.png": "1672fe6065b0ff42ce22f1f937d2d92481b7e5a28bf11296be383c23c93b7b17", "multi-vari-wall.png": "a16c9e78231af08f5a6575ccda5bdc0bf33dec19676e0ba8eca909639b0e0a91"};
+  for (const file of Object.keys(originals)) {
+    assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(assets,file))).digest('hex'), hashes[file]);
+    assert.ok(d.querySelector(`details.mc-output img[src$="/${file}"]`));
   }
-  d.getElementById('mc-variability-reset').click();
-  assert.deepEqual(cells(), base);
   dom.window.close();
 });
 
-test('interaction activity calculates unequal and equal shift effects and updates the accessible table', () => {
+test('nonvisual prediction activities explain symmetry, spread and interaction without changing outputs', () => {
   const {dom, w, d} = setup();
-  assert.match(d.querySelector('#mc-interaction-readout').textContent, /Difference between shift changes = 0.150 mm/);
-  d.getElementById('mc-equal-effects').click();
-  assert.equal(d.querySelector('#mc-b-night-mean').textContent, '9.570');
-  assert.match(d.querySelector('#mc-interaction-readout').textContent, /0.000 mm.*no Line × Shift interaction/);
-  input(w,d,'mc-shift-effect',-.05);
-  assert.equal(d.querySelector('#mc-b-night-mean').textContent, '9.510');
-  assert.match(d.querySelector('#mc-interaction-readout').textContent, /−?\-0.060 mm/);
-  d.getElementById('mc-interaction-reset').click();
-  assert.equal(d.querySelector('#mc-b-night-mean').textContent, '9.720');
-  assert.equal(d.querySelector('#mc-b-shift-change').textContent, '0.160');
+  const sources = [...d.querySelectorAll('details.mc-output img')].map(i=>i.src);
+  for (const [key,wrong,correct,evidence] of [
+    ['symmetry','above','below',/178.5.*8.5.*below the diagonal/],
+    ['variability','all','mean',/0.100.*range and sample SD stay the same/],
+    ['multi-vari','proof','interaction',/0.150.*statistical significance requires/]
+  ]) {
+    assert.equal(d.getElementById(`mc-${key}-feedback`).textContent,'');
+    input(w,d,`mc-${key}-prediction`,wrong,'change');
+    assert.match(d.getElementById(`mc-${key}-feedback`).textContent,/Review your reasoning/);
+    input(w,d,`mc-${key}-prediction`,correct,'change');
+    const feedback=d.getElementById(`mc-${key}-feedback`).textContent;
+    assert.match(feedback,/Correct/);assert.match(feedback,evidence);
+  }
+  assert.deepEqual([...d.querySelectorAll('details.mc-output img')].map(i=>i.src), sources);
+  assert.equal(d.querySelectorAll('details.mc-output[open]').length,0);
   dom.window.close();
 });
 

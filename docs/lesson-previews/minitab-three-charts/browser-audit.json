@@ -15,7 +15,7 @@
       "passed": true
     },
     {
-      "label": "1440 original symmetry pair",
+      "label": "1440 no recreated charts",
       "passed": true
     },
     {
@@ -43,7 +43,7 @@
       "passed": true
     },
     {
-      "label": "1440 light computed text and chart contrast",
+      "label": "1440 light computed text contrast",
       "passed": true
     },
     {
@@ -51,7 +51,7 @@
       "passed": true
     },
     {
-      "label": "1440 light SVG labels fit their viewBoxes",
+      "label": "1440 light four original output images",
       "passed": true
     },
     {
@@ -67,7 +67,7 @@
       "passed": true
     },
     {
-      "label": "1440 dark computed text and chart contrast",
+      "label": "1440 dark computed text contrast",
       "passed": true
     },
     {
@@ -75,27 +75,19 @@
       "passed": true
     },
     {
-      "label": "1440 dark SVG labels fit their viewBoxes",
+      "label": "1440 dark four original output images",
       "passed": true
     },
     {
-      "label": "1440 select changes the symmetry calculation",
+      "label": "1440 symmetry prediction feedback",
       "passed": true
     },
     {
-      "label": "1440 dataset selector works by keyboard",
+      "label": "1440 variability prediction feedback",
       "passed": true
     },
     {
-      "label": "1440 mean slider works",
-      "passed": true
-    },
-    {
-      "label": "1440 spread slider works",
-      "passed": true
-    },
-    {
-      "label": "1440 equal effect activity",
+      "label": "1440 multi-vari prediction feedback",
       "passed": true
     },
     {
@@ -179,7 +171,7 @@
       "passed": true
     },
     {
-      "label": "390 original symmetry pair",
+      "label": "390 no recreated charts",
       "passed": true
     },
     {
@@ -207,7 +199,7 @@
       "passed": true
     },
     {
-      "label": "390 light computed text and chart contrast",
+      "label": "390 light computed text contrast",
       "passed": true
     },
     {
@@ -215,7 +207,7 @@
       "passed": true
     },
     {
-      "label": "390 light SVG labels fit their viewBoxes",
+      "label": "390 light four original output images",
       "passed": true
     },
     {
@@ -231,7 +223,7 @@
       "passed": true
     },
     {
-      "label": "390 dark computed text and chart contrast",
+      "label": "390 dark computed text contrast",
       "passed": true
     },
     {
@@ -239,27 +231,19 @@
       "passed": true
     },
     {
-      "label": "390 dark SVG labels fit their viewBoxes",
+      "label": "390 dark four original output images",
       "passed": true
     },
     {
-      "label": "390 select changes the symmetry calculation",
+      "label": "390 symmetry prediction feedback",
       "passed": true
     },
     {
-      "label": "390 dataset selector works by keyboard",
+      "label": "390 variability prediction feedback",
       "passed": true
     },
     {
-      "label": "390 mean slider works",
-      "passed": true
-    },
-    {
-      "label": "390 spread slider works",
-      "passed": true
-    },
-    {
-      "label": "390 equal effect activity",
+      "label": "390 multi-vari prediction feedback",
       "passed": true
     },
     {
@@ -348,33 +332,79 @@
       "width": 1440,
       "theme": "light",
       "state": "initial",
+      "passes": 21,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ],
+      "computedContrast": {
+        "samples": 1050,
+        "minimumTextRatio": 6.19,
+        "failures": []
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "state": "initial",
+      "passes": 21,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ],
+      "computedContrast": {
+        "samples": 1050,
+        "minimumTextRatio": 6.19,
+        "failures": []
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "state": "outputs-and-feedback",
       "passes": 22,
       "violations": [],
       "incomplete": [
         "color-contrast"
       ],
       "computedContrast": {
-        "samples": 1240,
+        "samples": 1068,
         "minimumTextRatio": 6.19,
-        "failures": [],
-        "dataColors": [
-          {
-            "key": "--lesson-mc-accent",
-            "ratio": 7.960935799962088
-          },
-          {
-            "key": "--lesson-mc-alt",
-            "ratio": 6.689003034455736
-          },
-          {
-            "key": "--lesson-mc-selected",
-            "ratio": 8.453683899961112
-          }
-        ]
+        "failures": []
       }
     },
     {
       "width": 1440,
+      "theme": "dark",
+      "state": "outputs-and-feedback",
+      "passes": 22,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ],
+      "computedContrast": {
+        "samples": 1068,
+        "minimumTextRatio": 6.19,
+        "failures": []
+      }
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "state": "initial",
+      "passes": 22,
+      "violations": [],
+      "incomplete": [
+        "color-contrast"
+      ],
+      "computedContrast": {
+        "samples": 1050,
+        "minimumTextRatio": 6.19,
+        "failures": []
+      }
+    },
+    {
+      "width": 390,
       "theme": "dark",
       "state": "initial",
       "passes": 22,
@@ -383,27 +413,13 @@
         "color-contrast"
       ],
       "computedContrast": {
-        "samples": 1240,
+        "samples": 1050,
         "minimumTextRatio": 6.19,
-        "failures": [],
-        "dataColors": [
-          {
-            "key": "--lesson-mc-accent",
-            "ratio": 10.372694362088305
-          },
-          {
-            "key": "--lesson-mc-alt",
-            "ratio": 9.510644417150788
-          },
-          {
-            "key": "--lesson-mc-selected",
-            "ratio": 9.166451781090625
-          }
-        ]
+        "failures": []
       }
     },
     {
-      "width": 1440,
+      "width": 390,
       "theme": "light",
       "state": "outputs-and-feedback",
       "passes": 23,
@@ -412,27 +428,13 @@
         "color-contrast"
       ],
       "computedContrast": {
-        "samples": 1255,
+        "samples": 1068,
         "minimumTextRatio": 6.19,
-        "failures": [],
-        "dataColors": [
-          {
-            "key": "--lesson-mc-accent",
-            "ratio": 7.960935799962088
-          },
-          {
-            "key": "--lesson-mc-alt",
-            "ratio": 6.689003034455736
-          },
-          {
-            "key": "--lesson-mc-selected",
-            "ratio": 8.453683899961112
-          }
-        ]
+        "failures": []
       }
     },
     {
-      "width": 1440,
+      "width": 390,
       "theme": "dark",
       "state": "outputs-and-feedback",
       "passes": 23,
@@ -441,147 +443,17 @@
         "color-contrast"
       ],
       "computedContrast": {
-        "samples": 1255,
+        "samples": 1068,
         "minimumTextRatio": 6.19,
-        "failures": [],
-        "dataColors": [
-          {
-            "key": "--lesson-mc-accent",
-            "ratio": 10.372694362088305
-          },
-          {
-            "key": "--lesson-mc-alt",
-            "ratio": 9.510644417150788
-          },
-          {
-            "key": "--lesson-mc-selected",
-            "ratio": 9.166451781090625
-          }
-        ]
-      }
-    },
-    {
-      "width": 390,
-      "theme": "light",
-      "state": "initial",
-      "passes": 23,
-      "violations": [],
-      "incomplete": [
-        "color-contrast"
-      ],
-      "computedContrast": {
-        "samples": 1240,
-        "minimumTextRatio": 6.19,
-        "failures": [],
-        "dataColors": [
-          {
-            "key": "--lesson-mc-accent",
-            "ratio": 7.960935799962088
-          },
-          {
-            "key": "--lesson-mc-alt",
-            "ratio": 6.689003034455736
-          },
-          {
-            "key": "--lesson-mc-selected",
-            "ratio": 8.453683899961112
-          }
-        ]
-      }
-    },
-    {
-      "width": 390,
-      "theme": "dark",
-      "state": "initial",
-      "passes": 23,
-      "violations": [],
-      "incomplete": [
-        "color-contrast"
-      ],
-      "computedContrast": {
-        "samples": 1240,
-        "minimumTextRatio": 6.19,
-        "failures": [],
-        "dataColors": [
-          {
-            "key": "--lesson-mc-accent",
-            "ratio": 10.372694362088305
-          },
-          {
-            "key": "--lesson-mc-alt",
-            "ratio": 9.510644417150788
-          },
-          {
-            "key": "--lesson-mc-selected",
-            "ratio": 9.166451781090625
-          }
-        ]
-      }
-    },
-    {
-      "width": 390,
-      "theme": "light",
-      "state": "outputs-and-feedback",
-      "passes": 24,
-      "violations": [],
-      "incomplete": [
-        "color-contrast"
-      ],
-      "computedContrast": {
-        "samples": 1255,
-        "minimumTextRatio": 6.19,
-        "failures": [],
-        "dataColors": [
-          {
-            "key": "--lesson-mc-accent",
-            "ratio": 7.960935799962088
-          },
-          {
-            "key": "--lesson-mc-alt",
-            "ratio": 6.689003034455736
-          },
-          {
-            "key": "--lesson-mc-selected",
-            "ratio": 8.453683899961112
-          }
-        ]
-      }
-    },
-    {
-      "width": 390,
-      "theme": "dark",
-      "state": "outputs-and-feedback",
-      "passes": 24,
-      "violations": [],
-      "incomplete": [
-        "color-contrast"
-      ],
-      "computedContrast": {
-        "samples": 1255,
-        "minimumTextRatio": 6.19,
-        "failures": [],
-        "dataColors": [
-          {
-            "key": "--lesson-mc-accent",
-            "ratio": 10.372694362088305
-          },
-          {
-            "key": "--lesson-mc-alt",
-            "ratio": 9.510644417150788
-          },
-          {
-            "key": "--lesson-mc-selected",
-            "ratio": 9.166451781090625
-          }
-        ]
+        "failures": []
       }
     }
   ],
   "errors": [],
   "screenshots": [
-    "desktop-light.png",
-    "desktop-dark.png",
-    "mobile-light.png",
-    "mobile-dark.png"
+    "desktop-light.jpg",
+    "desktop-dark.jpg",
+    "mobile-light.jpg",
+    "mobile-dark.jpg"
   ]
 }

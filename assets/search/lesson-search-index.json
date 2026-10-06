@@ -20441,7 +20441,7 @@
       "id": "power-bi-excel-sql--introduction-to-symmetry-variability-and-multi-vari-charts-in-minitab",
       "path": "/lessons/power-bi-excel-sql/introduction-to-symmetry-variability-and-multi-vari-charts-in-minitab",
       "title": "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
-      "description": "Build and interpret three Minitab quality charts with live activities, guided steps, actual output, and downloadable pipe-manufacturing data.",
+      "description": "Build and interpret three Minitab quality charts with guided practice, step-by-step instructions, original Minitab output, and downloadable pipe-manufacturing data.",
       "topic": "power-bi-excel-sql",
       "level": "beginner",
       "minutes": 75,
@@ -20467,7 +20467,7 @@
           "breadcrumb": [
             "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab"
           ],
-          "text": "Learn what each chart answers, build it in Minitab, and explain the result using a fictitious steel-pipe manufacturing case. Download the practice data Start the lesson All teaching data are fictitious. The screenshots are actual Minitab output supplied for this lesson. Live charts are browser teaching illustrations calculated from the practice data.",
+          "text": "Learn what each chart answers, build it in Minitab, and explain the result using a fictitious steel-pipe manufacturing case. Download the practice data Start the lesson All teaching data are fictitious. The screenshots are actual Minitab output supplied for this lesson. Each chart below is the original supplied Minitab screenshot, embedded unchanged with its interpretation.",
           "excerpt": "Learn what each chart answers, build it in Minitab, and explain the result using a fictitious steel-pipe manufacturing case. Download the practice data Start the lesson All teaching data are fictitious. The screenshots are actual Minitab output supplied for…",
           "kinds": [
             "section",
@@ -20495,7 +20495,7 @@
             "Your learning route",
             "By the end, you can"
           ],
-          "text": "Choose a chart for distribution shape, consistency, or factor effects. Import the practice workbook and assign responses and factors correctly. Create all three charts using clear Minitab menu paths. Read symmetry, cell ranges, sample standard deviations, and interactions. Write an evidence-based investigation recommendation. What you need: Minitab Statistical Software with these Quality Tools available. The instructions use the current English Minitab help labels. Your version may arrange the dialog differently. A spreadsheet application is useful for the optional Excel checks. You can complete the browser activities without Minitab. How to study: read the explanation, make a prediction in the live activity, follow the Minitab steps, then open Review Minitab output to compare your result. Keep the dropdown closed until you have tried the chart. 1 · Ask the right question",
+          "text": "Choose a chart for distribution shape, consistency, or factor effects. Import the practice workbook and assign responses and factors correctly. Create all three charts using clear Minitab menu paths. Read symmetry, cell ranges, sample standard deviations, and interactions. Write an evidence-based investigation recommendation. What you need: Minitab Statistical Software with these Quality Tools available. The instructions use the current English Minitab help labels. Your version may arrange the dialog differently. A spreadsheet application is useful for the optional Excel checks. You can complete the browser activities without Minitab. How to study: read the explanation, make a prediction in the practice activity, follow the Minitab steps, then open Review Minitab output to compare your result. Keep the dropdown closed until you have tried the chart. 1 · Ask the right question",
           "excerpt": "Choose a chart for distribution shape, consistency, or factor effects. Import the practice workbook and assign responses and factors correctly. Create all three charts using clear Minitab menu paths. Read symmetry, cell ranges, sample standard deviations, and…",
           "kinds": [
             "section",
@@ -20607,17 +20607,16 @@
         },
         {
           "id": "symmetry-lab-heading",
-          "heading": "Live activity: change the distribution",
+          "heading": "Predict before reviewing: which tail is longer?",
           "breadcrumb": [
             "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
             "Symmetry plot: are the two tails balanced?",
-            "Live activity: change the distribution"
+            "Predict before reviewing: which tail is longer?"
           ],
-          "text": "First predict where the points should move, then change the dataset. The reflected downtime and two-cluster examples are additional teaching scenarios. Dataset Inspect an observation pair Calculated symmetry plot. Both axes use the same distance scale. Calculated histogram. The dashed line marks the median. Try this: select the two-cluster example. Its symmetry points lie on the diagonal while its histogram has two separated groups. Explain why symmetry alone does not imply a normal distribution.",
-          "excerpt": "First predict where the points should move, then change the dataset. The reflected downtime and two-cluster examples are additional teaching scenarios. Dataset Inspect an observation pair Calculated symmetry plot. Both axes use the same distance scale.…",
+          "text": "For downtime, the extreme pair is 3 and 190 min and the median is 11.5 min. The distance above the median is 178.5 min; the distance below is 8.5 min. Where should this pair appear relative to the diagonal? Your prediction Follow the Minitab steps below, then open Review Minitab output to compare your reasoning with the original output and explanation.",
+          "excerpt": "For downtime, the extreme pair is 3 and 190 min and the median is 11.5 min. The distance above the median is 178.5 min; the distance below is 8.5 min. Where should this pair appear relative to the diagonal? Your prediction Follow the Minitab steps below, then…",
           "kinds": [
-            "section",
-            "example"
+            "section"
           ]
         },
         {
@@ -20693,17 +20692,17 @@
         },
         {
           "id": "variability-lab-heading",
-          "heading": "Live activity: move the mean or change the spread",
+          "heading": "Practice: distinguish the mean from the spread",
           "breadcrumb": [
             "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
             "Variability chart: compare averages and spread",
-            "Live activity: move the mean or change the spread"
+            "Practice: distinguish the mean from the spread"
           ],
-          "text": "Only the B / Night cells change. The downloaded dataset and actual Minitab screenshots stay at their original settings. Try a mean change first, reset, then try a spread change. Add to each B / Night mean (mm): 0.000 Multiply B / Night within-cell spread: 1.00× On a narrow screen, scroll each chart horizontally. L/M/T mean Leading/Middle/Trailing. Circles are observations, diamonds are cell means, and vertical bars are cell ranges. View the live cell statistics These values update with the activity controls Line Shift Position n Mean (mm) Range (mm) Sample SD (mm)",
-          "excerpt": "Only the B / Night cells change. The downloaded dataset and actual Minitab screenshots stay at their original settings. Try a mean change first, reset, then try a spread change. Add to each B / Night mean (mm): 0.000 Multiply B / Night within-cell spread:…",
+          "text": "Imagine adding 0.100 mm to each of the five measurements in one cell. Before looking at the output, decide what happens to that cell’s mean, range and sample standard deviation. Your prediction Follow the Minitab steps below, then open Review Minitab output to compare your reasoning with the original output and explanation.",
+          "excerpt": "Imagine adding 0.100 mm to each of the five measurements in one cell. Before looking at the output, decide what happens to that cell’s mean, range and sample standard deviation. Your prediction Follow the Minitab steps below, then open Review Minitab output…",
           "kinds": [
             "section",
-            "formula"
+            "example"
           ]
         },
         {
@@ -20780,16 +20779,17 @@
         },
         {
           "id": "multi-vari-lab-heading",
-          "heading": "Live activity: make the shift effect equal or unequal",
+          "heading": "Practice: compare the shift effects",
           "breadcrumb": [
             "Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab",
             "Multi-vari chart: does one factor change another's effect?",
-            "Live activity: make the shift effect equal or unequal"
+            "Practice: compare the shift effects"
           ],
-          "text": "Set Line B's Night-minus-Day change to 0.010 mm to match Line A. Then return it to 0.160 mm. This is a simplified interaction plot of the Line / Shift means, averaged across the three positions; it supports reading the full Minitab multi-vari chart below. Line B: Night minus Day (mm): 0.160 Means in the simplified interaction activity Line Day mean (mm) Night mean (mm) Night − Day (mm) A 9.530 9.540 0.010 B 9.560 9.720 0.160",
-          "excerpt": "Set Line B's Night-minus-Day change to 0.010 mm to match Line A. Then return it to 0.160 mm. This is a simplified interaction plot of the Line / Shift means, averaged across the three positions; it supports reading the full Minitab multi-vari chart below.…",
+          "text": "Using the original data, Line A changes from 9.530 to 9.540 mm; Line B changes from 9.560 to 9.720 mm. What does this suggest about Line and Shift? Your prediction Follow the Minitab steps below, then open Review Minitab output to compare your reasoning with the original output and explanation. Original practice data: means averaged across positions Line Day mean (mm) Night mean (mm) Night − Day (mm) A 9.530 9.540 0.010 B 9.560 9.720 0.160",
+          "excerpt": "Using the original data, Line A changes from 9.530 to 9.540 mm; Line B changes from 9.560 to 9.720 mm. What does this suggest about Line and Shift? Your prediction Follow the Minitab steps below, then open Review Minitab output to compare your reasoning with…",
           "kinds": [
-            "section"
+            "section",
+            "example"
           ]
         },
         {

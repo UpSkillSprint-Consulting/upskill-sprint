@@ -252,7 +252,7 @@
       search: 'minitab symmetry plot variability chart multi-vari multi vari chart skewness median spread range standard deviation cell factors line shift interaction wall thickness downtime excel public beginner interactive',
       meta: '<span>Beginner</span><span>Interactive</span><span>75 min</span><span>Minitab</span>',
       title: 'Introduction to Symmetry Plot, Variability Chart and Multi-Vari Chart in Minitab',
-      description: 'Build and interpret three Minitab quality charts with live activities, guided steps, actual output, and downloadable pipe-manufacturing data.'
+      description: 'Build and interpret three Minitab quality charts with guided practice, step-by-step instructions, original Minitab output, and downloadable pipe-manufacturing data.'
     },
     {
       marker: 'data-minitab-control-chart-master-guide',
