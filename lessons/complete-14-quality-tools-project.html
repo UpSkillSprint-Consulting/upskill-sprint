@@ -331,7 +331,7 @@ const stages=[
       PHASE_ORDER.map(p => '<span class="qw-net-key"><i style="background:' + PHASE_COLOR[p] + '"></i>' + p.charAt(0).toUpperCase() + p.slice(1) + '</span>').join('') +
       '<span class="qw-net-key"><i class="qw-key-pre"></i>Prerequisite</span><span class="qw-net-key"><i class="qw-key-suc"></i>Successor</span>' +
       '</div>' +
-      '<div class="qw-net-scroll"><svg id="qw-net-svg" viewBox="0 0 ' + W + ' ' + H + '" class="qw-net-svg" role="img" aria-label="Tool relationship network across the five DMAIC phases"></svg></div>' +
+      '<div class="qw-net-scroll"><svg id="qw-net-svg" viewBox="0 0 ' + W + ' ' + H + '" class="qw-net-svg" role="group" aria-label="Tool relationship network across the five DMAIC phases"></svg></div>' +
       '<p class="qw-net-read" id="qw-net-read" aria-live="polite">Tap any tool to trace what must come before it and what typically follows.</p>';
 
     const svg = host.querySelector('#qw-net-svg');
