@@ -268,7 +268,8 @@ test('a newly populated certification inherits the complete reveal flow',async()
   const h=await harness(),w=h.w,d=w.document;
   try{
     const e=w.__TB.EXAMS.cqa;
-    const q={qid:'future-certification:original-001',stem:'Future certification sample',sub:e.bok[0].subs[0].id,options:['First','Second','Third'],answer:2,why:'Shared reveal needs no certification-specific hook.'};
+    e.bok=[{domain:'enterprise',weight:100,subs:[{id:'future-auditing',name:'Future auditing',lesson:'/lessons',lessonName:'Browse lessons',w:100}]}];
+    const q={qid:'future-certification:original-001',stem:'Future certification sample',sub:'future-auditing',options:['First','Second','Third'],answer:2,why:'Shared reveal needs no certification-specific hook.'};
     e.bank=[q];e.sets={1:[q]};
     click(w,'.tb-tile[data-exam="cqa"]');click(w,'[data-timing-kind="full"][data-timed="0"]');click(w,'[data-mode="full"]');
     assert.equal(w.__TB.revealCurrentAnswer(),true);
@@ -276,6 +277,7 @@ test('a newly populated certification inherits the complete reveal flow',async()
     await finish(w);
     const data=w.__TB.getFeedbackSnapshot();assert.equal(data.examId,'cqa');
     assert.equal(data.grading.incorrect,1);assert.equal(data.grading.revealed,1);assert.equal(data.grading.correct,0);
+    assert.equal(data.grading.bySubtopic['future-auditing'].incorrect,1);
     click(w,'[data-open-review="all"]');
     assert.equal(d.querySelectorAll('.tb-review-card.revealed').length,1);
     assert.equal(d.querySelectorAll('.tb-review-navcell.revealed').length,1);
