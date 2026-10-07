@@ -264,6 +264,11 @@ def main():
                         assert ratio >= 4.5, {'theme': theme, 'width': width, 'hovered': hovered, 'contrast': ratio, **colors}
                         bounds = cta.bounding_box()
                         assert bounds and bounds['x'] >= -1 and bounds['x'] + bounds['width'] <= width + 1, bounds
+                # Keyboard/hover checks scroll the page. Reset before capture so
+                # the sticky header is shown at the top, not over the cards.
+                page.evaluate("()=>{document.activeElement.blur();window.scrollTo({top:0,behavior:'instant'});}")
+                page.mouse.move(0, 0)
+                page.wait_for_timeout(250)
                 page.screenshot(path=str(out / f'{tier}-directory-{width}-{theme}.png'), full_page=True)
 
             for width in [320, 390, 768, 1440, 1441, 1536]:
