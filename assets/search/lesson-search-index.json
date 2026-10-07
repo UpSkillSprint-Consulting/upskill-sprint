@@ -1,9 +1,9 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 50,
-  "contentLessonCount": 49,
-  "sectionCount": 2115,
+  "lessonCount": 51,
+  "contentLessonCount": 50,
+  "sectionCount": 2156,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -22663,6 +22663,641 @@
           ],
           "text": "You now have one structured method for selecting a Minitab control chart, preparing the worksheet, running the analysis, and interpreting signals without confusing stability with capability. Back to Power BI, Excel & SQL",
           "excerpt": "You now have one structured method for selecting a Minitab control chart, preparing the worksheet, running the analysis, and interpreting signals without confusing stability with capability. Back to Power BI, Excel & SQL",
+          "kinds": [
+            "section"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "power-bi-excel-sql--excel-cube-functions",
+      "path": "/lessons/power-bi-excel-sql/excel-cube-functions",
+      "title": "Excel CUBE Functions: Beginner to Advanced",
+      "description": "Master all seven Excel CUBE functions, from your first CUBEVALUE to dynamic Top N reports, slicer-driven formulas, MDX sets and KPIs, with live builders and practice data.",
+      "topic": "power-bi-excel-sql",
+      "level": "beginner",
+      "minutes": 90,
+      "interactive": true,
+      "keywords": [
+        "cube functions",
+        "cubevalue",
+        "cubemember",
+        "cubeset",
+        "cubesetcount",
+        "cuberankedmember",
+        "cubememberproperty",
+        "cubekpimember",
+        "data model",
+        "power pivot",
+        "mdx",
+        "olap",
+        "excel",
+        "excel cube functions cubevalue cubemember cubeset cubesetcount cuberankedmember cubememberproperty cubekpimember data model power pivot dax measures mdx olap member expression top n slicer kpi convert to formulas thisworkbookdatamodel public beginner interactive"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "cube-title",
+          "heading": "Excel CUBE Functions: Beginner to Advanced",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced"
+          ],
+          "text": "CUBE functions let an ordinary Excel cell ask a question of a data model: \"what is the reject count for X70 pipe from Mill A in March?\" This lesson takes you from your first CUBEVALUE to dynamic Top N reports, multi-select filters, slicer-driven formulas, MDX set expressions and KPIs, using all seven CUBE functions. All 7 CUBE functions About 90 minutes 3 live builders Practice workbook included Excel for Windows Part 1 · Beginner",
+          "excerpt": "CUBE functions let an ordinary Excel cell ask a question of a data model: \"what is the reject count for X70 pipe from Mill A in March?\" This lesson takes you from your first CUBEVALUE to dynamic Top N reports, multi-select filters, slicer-driven formulas, MDX…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "why-cube-heading",
+          "heading": "What CUBE functions are and why they matter",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "What CUBE functions are and why they matter"
+          ],
+          "text": "A normal Excel formula such as SUMIFS reads cells on a worksheet. A CUBE function reads a model instead: either the Data Model built into your workbook with Power Pivot, or an external OLAP cube such as SQL Server Analysis Services. The model already knows your tables, relationships and calculations (called measures ). A CUBE function simply names which slice of the model you want and returns the answer. Think of a PivotTable. Every value cell in a PivotTable is the intersection of a measure (for example Total Rejects) with the row and column items (for example Grade X70 and Mill A). CUBE functions let you place each of those intersections in any cell you like, mixed with normal formulas, text and formatting. You keep the power of the model and lose the rigid PivotTable grid.",
+          "excerpt": "A normal Excel formula such as SUMIFS reads cells on a worksheet. A CUBE function reads a model instead: either the Data Model built into your workbook with Power Pivot, or an external OLAP cube such as SQL Server Analysis Services. The model already knows…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "seven-functions",
+          "heading": "The seven functions at a glance",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "What CUBE functions are and why they matter",
+            "The seven functions at a glance"
+          ],
+          "text": "Each CUBE function and what it returns Function Returns Typical job Level CUBEMEMBER One member or a tuple (a combination of members) Row and column headers; inputs to other CUBE functions Beginner CUBEVALUE An aggregated number The values in your report. The only function that does arithmetic. Beginner CUBESET A set of members, optionally sorted Lists, Top N, multi-select filters Intermediate CUBESETCOUNT The number of items in a set Sizing a dynamic list; guarding a Top N Intermediate CUBERANKEDMEMBER The nth member of a set Top N and Bottom N reports Intermediate CUBEMEMBERPROPERTY A property value of a member Attributes stored on an OLAP member (OLAP cubes only) Advanced CUBEKPIMEMBER A KPI value, goal, status, trend, weight or time member Scorecards that compare a measure with its target Advanced",
+          "excerpt": "Each CUBE function and what it returns Function Returns Typical job Level CUBEMEMBER One member or a tuple (a combination of members) Row and column headers; inputs to other CUBE functions Beginner CUBEVALUE An aggregated number The values in your report. The…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "when-to-use",
+          "heading": "When to use CUBE functions instead of the alternatives",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "What CUBE functions are and why they matter",
+            "When to use CUBE functions instead of the alternatives"
+          ],
+          "text": "Choosing the right tool Tool Strength Weakness SUMIFS / AVERAGEIFS Simple, works on any worksheet range Recalculates over raw rows; ratios and distinct counts get complicated; slow on very large data PivotTable Fast exploration, drag and drop Fixed grid layout; refresh can overwrite nearby cells; hard to mix with custom layouts GETPIVOTDATA Free-form cells that read a PivotTable The PivotTable must exist and must show the item you ask for CUBE functions Free-form cells that read the model directly; one set of measures feeds many reports; slicers still work Needs a Data Model or OLAP cube; member-expression syntax to learn (this lesson) If you remember one thing: CUBEVALUE is the calculator. Every other CUBE function exists to tell CUBEVALUE which slice to calculate. Part 1 · Beginner",
+          "excerpt": "Choosing the right tool Tool Strength Weakness SUMIFS / AVERAGEIFS Simple, works on any worksheet range Recalculates over raw rows; ratios and distinct counts get complicated; slow on very large data PivotTable Fast exploration, drag and drop Fixed grid…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "setup-heading",
+          "heading": "Set up the Data Model with the practice data",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Set up the Data Model with the practice data"
+          ],
+          "text": "The practice workbook holds one fictitious table named Tests with 96 rows: six months (January to June 2026), two mills, two shifts and four line-pipe grades. Each row records the pipe joints inspected ( Pieces ), the joints rejected ( Rejects ) and the batch average Charpy energy in joules ( CharpyJ ). A Data Dictionary tab documents every column. Download the practice dataset (Excel .xlsx) Download the same data (CSV) Requirements: Excel for Windows (Microsoft 365 recommended) is needed to build a Data Model and DAX measures. Every value quoted in this lesson comes from this workbook, so you can check your formulas against the text.",
+          "excerpt": "The practice workbook holds one fictitious table named Tests with 96 rows: six months (January to June 2026), two mills, two shifts and four line-pipe grades. Each row records the pipe joints inspected ( Pieces ), the joints rejected ( Rejects ) and the batch…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "setup-steps",
+          "heading": "Step by step",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Set up the Data Model with the practice data",
+            "Step by step"
+          ],
+          "text": "Open the workbook. The data on the Tests sheet is already an Excel table named Tests (check under Table Design → Table Name ). Name your tables before loading them: the table name becomes part of every member expression. Add the table to the Data Model. Click inside the table, then choose Insert → PivotTable → From Table/Range and tick Add this data to the Data Model . If you have the Power Pivot tab, Power Pivot → Add to Data Model does the same job. Create four explicit measures. In the PivotTable Fields pane, right-click the Tests table and choose Add Measure (or use Power Pivot → Measures → New Measure ). Create the DAX measures below. Confirm the connection name. A workbook Data Model is always reached through the connection named ThisWorkbookDataModel . You will type it as the first argument of every CUBE function in this lesson. Total Pieces := SUM ( Tests[Pieces] ) Total Rejects := SUM ( Tests[Rejects] ) Reject Rate := DIVIDE ( [Total Rejects], [Total Pieces] ) Avg Charpy J := AVERAGE ( Tests[CharpyJ] ) Why explicit measures? If you drag Pieces into a Data Model PivotTable, Excel creates an implicit measure called Sum of Pieces . CUBE functions can use it ( [Measures].[Sum of Pieces] ), but it disappears if you remove the field and you cannot reuse it inside other measures. Explicit measures are stable names you control, so every formula in this lesson uses them. No Power Pivot tab? Turn it on under File → Options → Add-ins → Manage: COM Add-ins → Go , then tick Microsoft Power Pivot for Excel . You can still complete most of this lesson with the PivotTable Fields pane alone. Part 1 · Beginner",
+          "excerpt": "Open the workbook. The data on the Tests sheet is already an Excel table named Tests (check under Table Design → Table Name ). Name your tables before loading them: the table name becomes part of every member expression. Add the table to the Data Model. Click…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "member-expressions-heading",
+          "heading": "Member expressions: the language inside the quotes",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Member expressions: the language inside the quotes"
+          ],
+          "text": "Every CUBE function takes text arguments that name things in the model. These strings use MDX (Multidimensional Expressions) naming, the query language of OLAP cubes. You only need a small part of MDX to be productive. [Tests] table (dimension) .[Grade] column (hierarchy) .&[X70] member, by key The patterns you will use most Pattern Example Meaning A measure [Measures].[Total Rejects] Every measure lives in the special [Measures] dimension. Member by key [Tests].[Grade].&[X70] The & means \"match the key value\". This is the form Excel itself generates. Use it by default. Member by name [Tests].[Grade].[X70] Matches the member caption. Works for text columns, but numbers and dates can have a caption that differs from the key. The All member [Tests].[Grade].[All] The grand total of that column, the same as not filtering it at all. All children (a set) [Tests].[Grade].[All].Children Every grade. This is a set , so it belongs in CUBESET , not CUBEMEMBER . Tuple (a combination) ([Tests].[Grade].&[X70],[Tests].[Mill].&[Mill A]) One member from each of several columns, in parentheses, separated by commas. Set literal {[Tests].[Grade].&[X65],[Tests].[Grade].&[X70]} A hand-picked list of members from one column, in braces.",
+          "excerpt": "Every CUBE function takes text arguments that name things in the model. These strings use MDX (Multidimensional Expressions) naming, the query language of OLAP cubes. You only need a small part of MDX to be productive. [Tests] table (dimension) .[Grade]…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "member-rules",
+          "heading": "Rules that prevent most errors",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Member expressions: the language inside the quotes",
+            "Rules that prevent most errors"
+          ],
+          "text": "Every name sits in square brackets , especially names with spaces: [Mill A] , [Total Rejects] . The whole expression is a text string , so it is wrapped in double quotes in the formula: \"[Tests].[Mill].&[Mill A]\" . Names come from the model, not the worksheet. [Tests] is the table name in the Data Model, not the sheet name. Let Excel help. When you type =CUBEVALUE(\"ThisWorkbookDataModel\",\"[ Excel offers a list of tables, measures and members. Press Tab to accept a suggestion. Dates and numbers have keys that look different. A date member in the Data Model has a key such as &[2026-03-01T00:00:00] . That is why the practice data stores the month as text ( 2026-03 ). If you are unsure of a key, build a PivotTable and use Convert to Formulas (Part 6) to see the exact text Excel generates.",
+          "excerpt": "Every name sits in square brackets , especially names with spaces: [Mill A] , [Total Rejects] . The whole expression is a text string , so it is wrapped in double quotes in the formula: \"[Tests].[Mill].&[Mill A]\" . Names come from the model, not the…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "expr-checker-heading",
+          "heading": "Live builder 1: member expression checker",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Member expressions: the language inside the quotes",
+            "Live builder 1: member expression checker"
+          ],
+          "text": "Type a member expression the way you would inside the quotes of a CUBE function. The checker validates it against the practice model (table Tests ; columns Month , Mill , Shift , Grade , TestID ; the four measures above) and tells you what Excel would return. Member expression Try an example: Part 1 · Beginner",
+          "excerpt": "Type a member expression the way you would inside the quotes of a CUBE function. The checker validates it against the practice model (table Tests ; columns Month , Mill , Shift , Grade , TestID ; the four measures above) and tells you what Excel would return.…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "cubemember-heading",
+          "heading": "CUBEMEMBER: name one member (or a tuple)",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBEMEMBER: name one member (or a tuple)"
+          ],
+          "text": "=CUBEMEMBER(connection, member_expression, [caption]) CUBEMEMBER arguments Argument Required? What to pass connection Yes Text name of the connection. For the workbook Data Model: \"ThisWorkbookDataModel\" . member_expression Yes Text that names one member, or a tuple of members from different columns. caption No Text to display in the cell instead of the member's own caption. The cell shows the member's caption (for example X70 ), but behind the scenes it holds a reference to the member itself. That is what makes it useful: other CUBE functions can point at the cell.",
+          "excerpt": "=CUBEMEMBER(connection, member_expression, [caption]) CUBEMEMBER arguments Argument Required? What to pass connection Yes Text name of the connection. For the workbook Data Model: \"ThisWorkbookDataModel\" . member_expression Yes Text that names one member, or…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubemember-basic",
+          "heading": "Basic: a header cell",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBEMEMBER: name one member (or a tuple)",
+            "Basic: a header cell"
+          ],
+          "text": "B1 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Tests].[Grade].&[X70]\") A2 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Tests].[Mill].&[Mill A]\") A1 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Measures].[Total Rejects]\",\"Rejects\") B1 displays X70 , A2 displays Mill A , and A1 displays your custom caption Rejects while still pointing at the Total Rejects measure.",
+          "excerpt": "B1 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Tests].[Grade].&[X70]\") A2 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Tests].[Mill].&[Mill A]\") A1 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Measures].[Total Rejects]\",\"Rejects\") B1 displays X70 , A2 displays Mill A , and A1…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubemember-dynamic",
+          "heading": "Intermediate: build the expression from a cell",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBEMEMBER: name one member (or a tuple)",
+            "Intermediate: build the expression from a cell"
+          ],
+          "text": "Because the member expression is just text, you can assemble it with & . Put a grade such as X65 in cell G1 (a data-validation drop-down works well) and write: =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Tests].[Grade].&[\"&G1&\"]\") Change G1 and every formula that points at this member updates. The first & inside the quotes is part of MDX (the key marker); the & operators outside the quotes are Excel text joins.",
+          "excerpt": "Because the member expression is just text, you can assemble it with & . Put a grade such as X65 in cell G1 (a data-validation drop-down works well) and write: =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Tests].[Grade].&[\"&G1&\"]\") Change G1 and every formula that…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubemember-tuple",
+          "heading": "Advanced: a tuple in one cell",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBEMEMBER: name one member (or a tuple)",
+            "Advanced: a tuple in one cell"
+          ],
+          "text": "=CUBEMEMBER(\"ThisWorkbookDataModel\", \"([Tests].[Grade].&[X70],[Tests].[Mill].&[Mill A],[Measures].[Total Rejects])\", \"X70 rejects, Mill A\") A tuple combines one member from each of several columns, plus (optionally) a measure. If this formula sits in cell D1, then =CUBEVALUE(\"ThisWorkbookDataModel\",D1) returns 154 , the X70 rejects made on Mill A. Tuples keep long reports tidy because a whole slice lives in one cell. In everyday reports, though, the more common pattern is to keep one member per CUBEMEMBER cell and pass several of those cells to CUBEVALUE , as the next part shows. Part 1 · Beginner",
+          "excerpt": "=CUBEMEMBER(\"ThisWorkbookDataModel\", \"([Tests].[Grade].&[X70],[Tests].[Mill].&[Mill A],[Measures].[Total Rejects])\", \"X70 rejects, Mill A\") A tuple combines one member from each of several columns, plus (optionally) a measure. If this formula sits in cell D1,…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubevalue-heading",
+          "heading": "CUBEVALUE: calculate the slice",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBEVALUE: calculate the slice"
+          ],
+          "text": "=CUBEVALUE(connection, [member_expression1], [member_expression2], ...) CUBEVALUE evaluates the model at the intersection of every member you pass. Each member_expression can be a text expression, a cell that contains CUBEMEMBER , a cell that contains CUBESET , or the name of a slicer. Columns you do not mention are not filtered (they stay at their All member). If you name no measure, the model's default measure is used, so always name one.",
+          "excerpt": "=CUBEVALUE(connection, [member_expression1], [member_expression2], ...) CUBEVALUE evaluates the model at the intersection of every member you pass. Each member_expression can be a text expression, a cell that contains CUBEMEMBER , a cell that contains CUBESET…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubevalue-basic",
+          "heading": "Basic: one number",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBEVALUE: calculate the slice",
+            "Basic: one number"
+          ],
+          "text": "=CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Total Pieces]\") Returns 42,130 , every joint inspected in the practice data. Add a slicer member to narrow it: =CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Total Rejects]\",\"[Tests].[Grade].&[X70]\") Returns 327 rejected X70 joints (out of 893 rejects overall).",
+          "excerpt": "=CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Total Pieces]\") Returns 42,130 , every joint inspected in the practice data. Add a slicer member to narrow it: =CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Total Rejects]\",\"[Tests].[Grade].&[X70]\") Returns…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubevalue-multi",
+          "heading": "Beginner+: several filters at once",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBEVALUE: calculate the slice",
+            "Beginner+: several filters at once"
+          ],
+          "text": "=CUBEVALUE(\"ThisWorkbookDataModel\", \"[Measures].[Total Rejects]\", \"[Tests].[Grade].&[X70]\", \"[Tests].[Mill].&[Mill A]\", \"[Tests].[Month].&[2026-03]\") Returns 27 . Swap the measure for [Measures].[Total Pieces] and you get 867 ; with [Measures].[Reject Rate] you get 0.0311, which displays as 3.11% once the cell is formatted as a percentage. Each argument may name only one column; to filter one column by several values at once, use a set (Part 7).",
+          "excerpt": "=CUBEVALUE(\"ThisWorkbookDataModel\", \"[Measures].[Total Rejects]\", \"[Tests].[Grade].&[X70]\", \"[Tests].[Mill].&[Mill A]\", \"[Tests].[Month].&[2026-03]\") Returns 27 . Swap the measure for [Measures].[Total Pieces] and you get 867 ; with [Measures].[Reject Rate]…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubevalue-grid",
+          "heading": "Intermediate: the report grid pattern",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBEVALUE: calculate the slice",
+            "Intermediate: the report grid pattern"
+          ],
+          "text": "Professional CUBE reports put CUBEMEMBER headers along the top and side and a single CUBEVALUE formula in the body, copied across and down with mixed references. A1 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Measures].[Total Rejects]\") B1 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Tests].[Mill].&[Mill A]\") C1 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Tests].[Mill].&[Mill B]\") A2 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Tests].[Grade].&[X52]\") (X60, X65, X70 below) B2 =CUBEVALUE(\"ThisWorkbookDataModel\",$A$1,$A2,B$1) copy to B2:C5 $A$1 locks the measure, $A2 locks the column (so each row reads its own grade) and B$1 locks the row (so each column reads its own mill). Change A1 to [Measures].[Reject Rate] and the whole grid switches measure.",
+          "excerpt": "Professional CUBE reports put CUBEMEMBER headers along the top and side and a single CUBEVALUE formula in the body, copied across and down with mixed references. A1 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Measures].[Total Rejects]\") B1…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubevalue-blanks",
+          "heading": "Intermediate: blanks and arithmetic",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBEVALUE: calculate the slice",
+            "Intermediate: blanks and arithmetic"
+          ],
+          "text": "When an intersection has no data, CUBEVALUE returns an empty, zero-length text value rather than a zero. Arithmetic on it can then produce #VALUE! . Wrap the value in N() (or test it with ISNUMBER ) before doing maths with it: =N(CUBEVALUE(\"ThisWorkbookDataModel\",$A$1,$A2,B$1)) - N(CUBEVALUE(\"ThisWorkbookDataModel\",$A$1,$A2,C$1))",
+          "excerpt": "When an intersection has no data, CUBEVALUE returns an empty, zero-length text value rather than a zero. Arithmetic on it can then produce #VALUE! . Wrap the value in N() (or test it with ISNUMBER ) before doing maths with it:…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubevalue-slicers",
+          "heading": "Intermediate: drive formulas with a slicer",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBEVALUE: calculate the slice",
+            "Intermediate: drive formulas with a slicer"
+          ],
+          "text": "Insert a slicer from any Data Model PivotTable ( PivotTable Analyze → Insert Slicer ), then open Slicer → Slicer Settings and read Name to use in formulas , for example Slicer_Shift . Pass that name, without quotes, as an argument: =CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Reject Rate]\",$A2,Slicer_Shift) The formula now respects whatever the user selects in the slicer, including several selected items. You can delete the PivotTable you used to create the slicer; the slicer keeps working with CUBE formulas.",
+          "excerpt": "Insert a slicer from any Data Model PivotTable ( PivotTable Analyze → Insert Slicer ), then open Slicer → Slicer Settings and read Name to use in formulas , for example Slicer_Shift . Pass that name, without quotes, as an argument:…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "cv-builder-heading",
+          "heading": "Live builder 2: CUBEVALUE formula and result",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBEVALUE: calculate the slice",
+            "Live builder 2: CUBEVALUE formula and result"
+          ],
+          "text": "Pick a measure and up to four filters. The builder writes the exact formula and calculates the answer from the practice data, just as the Data Model would. Measure Grade Mill Shift Month Formula Result: Part 1 · Beginner",
+          "excerpt": "Pick a measure and up to four filters. The builder writes the exact formula and calculates the answer from the practice data, just as the Data Model would. Measure Grade Mill Shift Month Formula Result: Part 1 · Beginner",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "convert-heading",
+          "heading": "Shortcut: let Excel write the formulas (Convert to Formulas)",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Shortcut: let Excel write the formulas (Convert to Formulas)"
+          ],
+          "text": "You never have to memorise exact member keys. Excel can turn a Data Model PivotTable into CUBE formulas for you: Build a PivotTable from the Data Model with Grade on Rows, Mill on Columns and Total Rejects in Values. Select any cell in it and choose PivotTable Analyze → OLAP Tools → Convert to Formulas . (In older versions the tab is called Analyze or Options .) If the PivotTable has report filters, Excel asks whether to convert them too. Choose to convert them if you want every cell as a formula. Inspect the result: headers become CUBEMEMBER , values become CUBEVALUE , with the exact member text Excel uses. Workflow tip: prototype with a PivotTable, convert, then delete, move and restyle cells freely. The converted cells are ordinary formulas, so you can copy them to other sheets or rewrite them with cell references. Convert to Formulas is only available for PivotTables based on the Data Model or an OLAP source. A PivotTable built from a plain range has no model behind it, so the option is greyed out. Part 2 · Intermediate",
+          "excerpt": "You never have to memorise exact member keys. Excel can turn a Data Model PivotTable into CUBE formulas for you: Build a PivotTable from the Data Model with Grade on Rows, Mill on Columns and Total Rejects in Values. Select any cell in it and choose…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubeset-heading",
+          "heading": "CUBESET: define a group of members",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBESET: define a group of members"
+          ],
+          "text": "=CUBESET(connection, set_expression, [caption], [sort_order], [sort_by]) CUBESET arguments Argument Required? What to pass connection Yes \"ThisWorkbookDataModel\" or your OLAP connection name. set_expression Yes Text that returns a set, such as \"[Tests].[Grade].[All].Children\" , or a cell reference to a CUBEMEMBER that returns members. caption No Text shown in the cell. A set has no single caption of its own, so always supply one. sort_order No A number from 0 to 6 (table below). Default 0. sort_by Only for sort_order 1 or 2 The measure to sort by, for example \"[Measures].[Total Rejects]\" . sort_order values Value Name Sorts by Needs sort_by? 0 SortNone Leaves the set in its existing order No 1 SortAscending The sort_by value, smallest first Yes 2 SortDescending The sort_by value, largest first Yes 3 SortAlphaAscending Caption, A to Z No 4 Sort_Alpha_Descending Caption, Z to A No 5 Sort_Natural_Ascending The model's natural (hierarchy) order No 6 Sort_Natural_Descending The model's natural order, reversed No A CUBESET cell shows only its caption. Its value is the set itself, which you pass to CUBESETCOUNT , CUBERANKEDMEMBER or CUBEVALUE .",
+          "excerpt": "=CUBESET(connection, set_expression, [caption], [sort_order], [sort_by]) CUBESET arguments Argument Required? What to pass connection Yes \"ThisWorkbookDataModel\" or your OLAP connection name. set_expression Yes Text that returns a set, such as…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubeset-examples",
+          "heading": "Set expressions from simple to advanced",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBESET: define a group of members",
+            "Set expressions from simple to advanced"
+          ],
+          "text": "All grades, largest reject count first =CUBESET(\"ThisWorkbookDataModel\",\"[Tests].[Grade].[All].Children\",\"Grades by rejects\",2,\"[Measures].[Total Rejects]\") A hand-picked list (set literal) =CUBESET(\"ThisWorkbookDataModel\",\"{[Tests].[Grade].&[X65],[Tests].[Grade].&[X70]}\",\"High grades\") A range of members (first quarter) =CUBESET(\"ThisWorkbookDataModel\",\"[Tests].[Month].&[2026-01]:[Tests].[Month].&[2026-03]\",\"Q1 2026\") Everything except one member =CUBESET(\"ThisWorkbookDataModel\",\"Except([Tests].[Grade].[All].Children,{[Tests].[Grade].&[X52]})\",\"All but X52\") The top 2 grades by rejects (MDX TopCount) =CUBESET(\"ThisWorkbookDataModel\",\"TopCount([Tests].[Grade].[All].Children,2,[Measures].[Total Rejects])\",\"Top 2 grades\") Only grades above a 2.5% reject rate (MDX Filter) =CUBESET(\"ThisWorkbookDataModel\",\"Filter([Tests].[Grade].[All].Children,[Measures].[Reject Rate]>0.025)\",\"Over 2.5%\") In the practice data, the TopCount set holds X70 (327 rejects) and X65 (241 rejects), and the Filter set holds X70 alone (3.07% reject rate). A range such as &[2026-01]:&[2026-03] follows the column's sort order, which is why sortable text keys like 2026-03 are so useful.",
+          "excerpt": "All grades, largest reject count first =CUBESET(\"ThisWorkbookDataModel\",\"[Tests].[Grade].[All].Children\",\"Grades by rejects\",2,\"[Measures].[Total Rejects]\") A hand-picked list (set literal) =CUBESET(\"ThisWorkbookDataModel\",\"{[Tests].[Grade].&[X65],[Tests].[Gra…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubeset-as-filter",
+          "heading": "Intermediate: a set as a multi-select filter",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBESET: define a group of members",
+            "Intermediate: a set as a multi-select filter"
+          ],
+          "text": "Pass a CUBESET cell to CUBEVALUE and the measure is aggregated over every member in the set. This is how you filter one column by several values without a slicer: H1 =CUBESET(\"ThisWorkbookDataModel\",\"{[Tests].[Grade].&[X65],[Tests].[Grade].&[X70]}\",\"X65 + X70\") H2 =CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Total Rejects]\",H1) H2 returns 568 (241 + 327). Because Reject Rate is a DAX ratio, using it with H1 correctly divides the combined rejects by the combined pieces instead of averaging two percentages. Part 2 · Intermediate",
+          "excerpt": "Pass a CUBESET cell to CUBEVALUE and the measure is aggregated over every member in the set. This is how you filter one column by several values without a slicer: H1 =CUBESET(\"ThisWorkbookDataModel\",\"{[Tests].[Grade].&[X65],[Tests].[Grade].&[X70]}\",\"X65 +…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubesetcount-heading",
+          "heading": "CUBESETCOUNT: how many items are in the set?",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBESETCOUNT: how many items are in the set?"
+          ],
+          "text": "=CUBESETCOUNT(set) The only argument is a CUBESET , normally as a cell reference. With H1 holding all grades, =CUBESETCOUNT(H1) returns 4. With a Filter set it returns however many members passed the test, which makes it ideal for counting things like \"how many grades are above target this month?\". =CUBESETCOUNT(CUBESET(\"ThisWorkbookDataModel\",\"Filter([Tests].[Grade].[All].Children,[Measures].[Reject Rate]>0.025)\")) Returns 1 for the practice data. Its most important job, though, is to guard CUBERANKEDMEMBER so a Top N list never asks for a rank that does not exist. Part 2 · Intermediate",
+          "excerpt": "=CUBESETCOUNT(set) The only argument is a CUBESET , normally as a cell reference. With H1 holding all grades, =CUBESETCOUNT(H1) returns 4. With a Filter set it returns however many members passed the test, which makes it ideal for counting things like \"how…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "cuberankedmember-heading",
+          "heading": "CUBERANKEDMEMBER: the nth member of a set",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBERANKEDMEMBER: the nth member of a set"
+          ],
+          "text": "=CUBERANKEDMEMBER(connection, set_expression, rank, [caption]) rank is a whole number: 1 returns the first member of the set, 2 the second, and so on. The order is the order of the set, so sort the set first with CUBESET 's sort_order . Like CUBEMEMBER , the result is a member that other formulas can reference.",
+          "excerpt": "=CUBERANKEDMEMBER(connection, set_expression, rank, [caption]) rank is a whole number: 1 returns the first member of the set, 2 the second, and so on. The order is the order of the set, so sort the set first with CUBESET 's sort_order . Like CUBEMEMBER , the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "topn-pattern",
+          "heading": "The dynamic Top N report",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBERANKEDMEMBER: the nth member of a set",
+            "The dynamic Top N report"
+          ],
+          "text": "E1 3 (N, typed by the user) F1 =CUBESET(\"ThisWorkbookDataModel\",\"[Tests].[Grade].[All].Children\",\"Grades by rejects\",2,\"[Measures].[Total Rejects]\") F2 =IF(ROWS(F$2:F2)<=MIN($E$1,CUBESETCOUNT($F$1)), CUBERANKEDMEMBER(\"ThisWorkbookDataModel\",$F$1,ROWS(F$2:F2)),\"\") G2 =IF(F2=\"\",\"\",CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Total Rejects]\",F2)) copy F2:G2 down for as many rows as the largest N you allow ROWS(F$2:F2) produces 1, 2, 3... as you copy down, and the IF stops the list at N or at the size of the set, whichever is smaller. With N = 3 the list reads X70 (327), X65 (241), X60 (176). Change F1's sort_order to 1 for a Bottom N list.",
+          "excerpt": "E1 3 (N, typed by the user) F1 =CUBESET(\"ThisWorkbookDataModel\",\"[Tests].[Grade].[All].Children\",\"Grades by rejects\",2,\"[Measures].[Total Rejects]\") F2 =IF(ROWS(F$2:F2)<=MIN($E$1,CUBESETCOUNT($F$1)),…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "set-explorer-heading",
+          "heading": "Live builder 3: CUBESET, CUBESETCOUNT and CUBERANKEDMEMBER together",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBERANKEDMEMBER: the nth member of a set",
+            "Live builder 3: CUBESET, CUBESETCOUNT and CUBERANKEDMEMBER together"
+          ],
+          "text": "Choose a column to list, a sort order and a measure. The builder writes the three formulas and shows the ranked list the Data Model would return. Column to list sort_order sort_by and value measure Top N (rows to show) What CUBERANKEDMEMBER and CUBEVALUE return Rank Member caption Value Part 3 · Advanced",
+          "excerpt": "Choose a column to list, a sort order and a measure. The builder writes the three formulas and shows the ranked list the Data Model would return. Column to list sort_order sort_by and value measure Top N (rows to show) What CUBERANKEDMEMBER and CUBEVALUE…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "cubememberproperty-heading",
+          "heading": "CUBEMEMBERPROPERTY: read a member's property (OLAP cubes)",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBEMEMBERPROPERTY: read a member's property (OLAP cubes)"
+          ],
+          "text": "=CUBEMEMBERPROPERTY(connection, member_expression, property) In a multidimensional OLAP cube (for example SQL Server Analysis Services Multidimensional), a cube designer can attach member properties to members: a product's colour, a customer's region, a mill's commissioning year. CUBEMEMBERPROPERTY returns one of those values. property is the property name as text (or a cell holding it). =CUBEMEMBERPROPERTY(\"PlantCube\",\"[Equipment].[Line].&[Mill A]\",\"Commissioned Year\") The connection, member and property above are illustrative names for an OLAP cube that defines such a property. The practice workbook does not. Data Model users: the workbook Data Model (Power Pivot) does not have member properties, so this function has nothing to return there. Add the attribute as a column in your table instead and slice by it with CUBEMEMBER and CUBEVALUE , or put it in a lookup table and use XLOOKUP on the member caption. Part 3 · Advanced",
+          "excerpt": "=CUBEMEMBERPROPERTY(connection, member_expression, property) In a multidimensional OLAP cube (for example SQL Server Analysis Services Multidimensional), a cube designer can attach member properties to members: a product's colour, a customer's region, a…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "cubekpimember-heading",
+          "heading": "CUBEKPIMEMBER: value, goal, status and trend of a KPI",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "CUBEKPIMEMBER: value, goal, status and trend of a KPI"
+          ],
+          "text": "=CUBEKPIMEMBER(connection, kpi_name, kpi_property, [caption]) A KPI (key performance indicator) is a measure plus a target and status thresholds, defined in the model. In the Data Model you create one with Power Pivot → KPIs → New KPI : choose the base measure (for example Reject Rate ), an absolute target such as 0.02, and status thresholds. CUBEKPIMEMBER returns the KPI component you ask for as a member, and CUBEVALUE turns it into a number. kpi_property values Value Constant Returns 1 KPIValue The actual value of the KPI measure 2 KPIGoal The target 3 KPIStatus The status at that moment, typically a number from -1 to 1 4 KPITrend The trend value, if the model defines one 5 KPIWeight The relative importance assigned to the KPI 6 KPICurrentTimeMember A temporal context for the KPI B1 =CUBEKPIMEMBER(\"ThisWorkbookDataModel\",\"Reject Rate\",2,\"Goal\") B2 =CUBEVALUE(\"ThisWorkbookDataModel\",$B$1,$A2) goal for the grade in A2 C2 =CUBEVALUE(\"ThisWorkbookDataModel\",CUBEKPIMEMBER(\"ThisWorkbookDataModel\",\"Reject Rate\",3),$A2) status Pair the status with conditional-formatting icon sets (and a text label such as \"Above target\") so the meaning never depends on colour alone. Not every model defines trend, weight or a current time member; when a component is missing, there is nothing for CUBEVALUE to return. Part 3 · Advanced",
+          "excerpt": "=CUBEKPIMEMBER(connection, kpi_name, kpi_property, [caption]) A KPI (key performance indicator) is a measure plus a target and status thresholds, defined in the model. In the Data Model you create one with Power Pivot → KPIs → New KPI : choose the base…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "advanced-patterns-heading",
+          "heading": "Advanced patterns",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Advanced patterns"
+          ],
+          "text": "",
+          "excerpt": "Advanced patterns",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pattern-dropdown",
+          "heading": "1. Drop-down driven dashboards",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Advanced patterns",
+            "1. Drop-down driven dashboards"
+          ],
+          "text": "Give users data-validation drop-downs (for grade, mill, month) and build member strings from them. One header cell per drop-down keeps the formulas short: K1 X70 (drop-down) K2 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Tests].[Grade].&[\"&K1&\"]\") L1 2026-03 (drop-down) L2 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Tests].[Month].&[\"&L1&\"]\") M2 =CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Reject Rate]\",K2,L2) Add an \"All\" choice by testing for it: IF(K1=\"All\",\"[Tests].[Grade].[All]\",\"[Tests].[Grade].&[\"&K1&\"]\") .",
+          "excerpt": "Give users data-validation drop-downs (for grade, mill, month) and build member strings from them. One header cell per drop-down keeps the formulas short: K1 X70 (drop-down) K2 =CUBEMEMBER(\"ThisWorkbookDataModel\",\"[Tests].[Grade].&[\"&K1&\"]\") L1 2026-03…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "pattern-period",
+          "heading": "2. Period-over-period comparisons",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Advanced patterns",
+            "2. Period-over-period comparisons"
+          ],
+          "text": "Compute the previous month's key with ordinary Excel date functions, then pass both members: L3 =TEXT(EDATE(DATEVALUE(L1&\"-01\"),-1),\"yyyy-mm\") returns 2026-02 M3 =CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Total Rejects]\",\"[Tests].[Month].&[\"&L3&\"]\") M4 =N(CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Total Rejects]\",L2)) - N(M3) With L1 = 2026-03, March has 144 rejects and February 159, so M4 shows -15. For year-to-date or rolling windows, use a range set such as \"[Tests].[Month].&[2026-01]:[Tests].[Month].&[\"&L1&\"]\" inside a CUBESET and pass the set to CUBEVALUE .",
+          "excerpt": "Compute the previous month's key with ordinary Excel date functions, then pass both members: L3 =TEXT(EDATE(DATEVALUE(L1&\"-01\"),-1),\"yyyy-mm\") returns 2026-02 M3 =CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Total Rejects]\",\"[Tests].[Month].&[\"&L3&\"]\") M4…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "pattern-asymmetric",
+          "heading": "3. Asymmetric reports",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Advanced patterns",
+            "3. Asymmetric reports"
+          ],
+          "text": "A PivotTable forces every row to share the same columns. CUBE reports do not. Row 5 can show Mill A by month while row 6 shows a year-to-date set for Mill B and row 7 shows a KPI status, all in one tidy block. This is the main reason quality and finance teams switch to CUBE formulas for monthly packs.",
+          "excerpt": "A PivotTable forces every row to share the same columns. CUBE reports do not. Row 5 can show Mill A by month while row 6 shows a year-to-date set for Mill B and row 7 shows a KPI status, all in one tidy block. This is the main reason quality and finance teams…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pattern-long-expressions",
+          "heading": "4. Long expressions and the 255-character limit",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Advanced patterns",
+            "4. Long expressions and the 255-character limit"
+          ],
+          "text": "A single member expression longer than 255 characters makes the function return #VALUE! . Long sets (many hand-picked members) hit this quickly. Split the work: build the set once in its own CUBESET cell, or build members in CUBEMEMBER cells, and pass the cell references. References also make formulas easier to read and audit.",
+          "excerpt": "A single member expression longer than 255 characters makes the function return #VALUE! . Long sets (many hand-picked members) hit this quickly. Split the work: build the set once in its own CUBESET cell, or build members in CUBEMEMBER cells, and pass the…",
+          "kinds": [
+            "section"
+          ]
+        },
+        {
+          "id": "pattern-performance",
+          "heading": "5. Refresh and performance",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Advanced patterns",
+            "5. Refresh and performance"
+          ],
+          "text": "CUBE functions calculate asynchronously. Cells show #GETTING_DATA briefly while the model answers; this is normal. Data → Refresh All reloads the model from its source and then recalculates the CUBE formulas. Reuse header cells. A sheet with 2,000 CUBEVALUE cells that reference shared CUBEMEMBER headers is faster and easier to audit than 2,000 formulas that each repeat long text expressions. Put the logic in DAX measures, not in Excel arithmetic on top of CUBEVALUE . A ratio measure such as Reject Rate stays correct at every level of aggregation; dividing two CUBEVALUE cells works only if you remember to do it at each level. CUBE functions return one value per cell. They do not spill like dynamic-array formulas, so lay out one formula per cell.",
+          "excerpt": "CUBE functions calculate asynchronously. Cells show #GETTING_DATA briefly while the model answers; this is normal. Data → Refresh All reloads the model from its source and then recalculates the CUBE formulas. Reuse header cells. A sheet with 2,000 CUBEVALUE…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "pattern-error-proofing",
+          "heading": "6. Error-proofing a finished report",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Advanced patterns",
+            "6. Error-proofing a finished report"
+          ],
+          "text": "=IFERROR(N(CUBEVALUE(\"ThisWorkbookDataModel\",$A$1,$A2,B$1)),0) Use IFERROR only on finished, tested reports. While building, let errors show: a #N/A tells you a member name is wrong, and hiding it would turn a typo into a silent zero. Reference",
+          "excerpt": "=IFERROR(N(CUBEVALUE(\"ThisWorkbookDataModel\",$A$1,$A2,B$1)),0) Use IFERROR only on finished, tested reports. While building, let errors show: a #N/A tells you a member name is wrong, and hiding it would turn a typo into a silent zero. Reference",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "troubleshooting-heading",
+          "heading": "Errors and troubleshooting",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Errors and troubleshooting"
+          ],
+          "text": "What each result usually means You see Usual cause Fix #NAME? The connection name is wrong or the model/server is not available. Use \"ThisWorkbookDataModel\" exactly; check the OLAP connection under Data → Queries & Connections . #N/A The member does not exist, a name is misspelled, brackets are missing, or two members in a set come from different columns. Re-type with autocomplete, or copy the expression from Convert to Formulas. #VALUE! An element of the tuple is invalid, or an expression exceeds 255 characters. Split long expressions into CUBEMEMBER / CUBESET cells. Empty cell No data at that intersection (for example a grade never made on that mill). Expected. Wrap in N() before arithmetic. #GETTING_DATA The model is still calculating. Wait; if it persists, refresh the model. Wrong total Using an implicit measure or averaging percentages in Excel. Use explicit DAX measures (ratios as DIVIDE ). Date member not found Using the caption ( 3/1/2026 ) instead of the key. Use the key form shown by Convert to Formulas, for example &[2026-03-01T00:00:00] . Reference",
+          "excerpt": "What each result usually means You see Usual cause Fix #NAME? The connection name is wrong or the model/server is not available. Use \"ThisWorkbookDataModel\" exactly; check the OLAP connection under Data → Queries & Connections . #N/A The member does not…",
+          "kinds": [
+            "section",
+            "example"
+          ]
+        },
+        {
+          "id": "cheat-sheet-heading",
+          "heading": "Syntax cheat sheet",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Syntax cheat sheet"
+          ],
+          "text": "=CUBEMEMBER(connection, member_expression, [caption]) =CUBEVALUE(connection, [member_expression1], [member_expression2], ...) =CUBESET(connection, set_expression, [caption], [sort_order], [sort_by]) =CUBESETCOUNT(set) =CUBERANKEDMEMBER(connection, set_expression, rank, [caption]) =CUBEMEMBERPROPERTY(connection, member_expression, property) =CUBEKPIMEMBER(connection, kpi_name, kpi_property, [caption]) Connection for the workbook Data Model: \"ThisWorkbookDataModel\" Measure: [Measures].[Total Rejects] Member by key: [Table].[Column].&[Key] All member: [Table].[Column].[All] All children: [Table].[Column].[All].Children Tuple: ([Table].[ColA].&[a],[Table].[ColB].&[b]) Set literal: {[Table].[Col].&[a],[Table].[Col].&[b]} Range: [Table].[Col].&[first]:[Table].[Col].&[last] MDX helpers: TopCount(set,n,measure) BottomCount(set,n,measure) Filter(set,condition) Except(set1,set2) Practice",
+          "excerpt": "=CUBEMEMBER(connection, member_expression, [caption]) =CUBEVALUE(connection, [member_expression1], [member_expression2], ...) =CUBESET(connection, set_expression, [caption], [sort_order], [sort_by]) =CUBESETCOUNT(set) =CUBERANKEDMEMBER(connection,…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "practice-heading",
+          "heading": "Practice exercises",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Practice exercises"
+          ],
+          "text": "Use the practice workbook. Try each exercise before opening the answer, then check your number against it. Exercise 1 (beginner): total pieces for Mill B =CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Total Pieces]\",\"[Tests].[Mill].&[Mill B]\") Answer: 20,843 pieces. Exercise 2 (beginner): rejects for Mill B =CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Total Rejects]\",\"[Tests].[Mill].&[Mill B]\") Answer: 479 rejects. Mill A has 414. Exercise 3 (beginner): overall reject rate =CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Reject Rate]\") Answer: 0.0212, or 2.12% when formatted as a percentage (893 rejects out of 42,130 pieces). Exercise 4 (intermediate): a grade-by-mill grid Build headers with CUBEMEMBER for the four grades (A2:A5) and two mills (B1:C1), the measure in A1, then one formula in B2 copied to B2:C5: =CUBEVALUE(\"ThisWorkbookDataModel\",$A$1,$A2,B$1) Check: the X70 row should add up to 327 rejects across the two mills. Exercise 5 (intermediate): March rejects for grades X65 and X70 combined H1 =CUBESET(\"ThisWorkbookDataModel\",\"{[Tests].[Grade].&[X65],[Tests].[Grade].&[X70]}\",\"X65 + X70\") H2 =CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Total Rejects]\",H1,\"[Tests].[Month].&[2026-03]\") Answer: 92 rejects (X65 had 41 and X70 had 51 in March). You can confirm each part in Live builder 2. Exercise 6 (intermediate): a Top 2 grades list by rejects Use the Top N pattern with N = 2. Answer: X70 (327) then X65 (241). Exercise 7 (advanced): which month had the fewest rejects? =CUBERANKEDMEMBER(\"ThisWorkbookDataModel\", CUBESET(\"ThisWorkbookDataModel\",\"[Tests].[Month].[All].Children\",\"Months\",1,\"[Measures].[Total Rejects]\"),1) Answer: 2026-06 with 137 rejects (sort_order 1 puts the smallest first). Exercise 8 (advanced): count grades above a 2.0% reject rate =CUBESETCOUNT(CUBESET(\"ThisWorkbookDataModel\",\"Filter([Tests].[Grade].[All].Children,[Measures].[Reject Rate]>0.02)\")) Answer: 2 (X65 at 2.29% and X70 at 3.07%).",
+          "excerpt": "Use the practice workbook. Try each exercise before opening the answer, then check your number against it. Exercise 1 (beginner): total pieces for Mill B =CUBEVALUE(\"ThisWorkbookDataModel\",\"[Measures].[Total Pieces]\",\"[Tests].[Mill].&[Mill B]\") Answer: 20,843…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "next-steps-heading",
+          "heading": "Where to go next",
+          "breadcrumb": [
+            "Excel CUBE Functions: Beginner to Advanced",
+            "Where to go next"
+          ],
+          "text": "You now know all seven CUBE functions. Rebuild one of your own recurring reports (a monthly quality pack, a scrap summary or a KPI scorecard) as a CUBE report: model the data once, write the measures in DAX, then let the formulas place every number exactly where you want it.",
+          "excerpt": "You now know all seven CUBE functions. Rebuild one of your own recurring reports (a monthly quality pack, a scrap summary or a KPI scorecard) as a CUBE report: model the data once, write the measures in DAX, then let the formulas place every number exactly…",
           "kinds": [
             "section"
           ]

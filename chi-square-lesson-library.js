@@ -279,6 +279,18 @@
       description: 'Choose the right control chart, prepare your worksheet, navigate Minitab, and interpret special-cause signals with confidence.'
     },
     {
+      marker: 'data-excel-cube-functions',
+      sectionId: 'power-bi-excel-sql',
+      path: '/lessons/power-bi-excel-sql/excel-cube-functions',
+      topic: 'power-bi-excel-sql',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'excel cube functions cubevalue cubemember cubeset cubesetcount cuberankedmember cubememberproperty cubekpimember data model power pivot dax measures mdx olap member expression top n slicer kpi convert to formulas thisworkbookdatamodel public beginner interactive',
+      meta: '<span>Beginner</span><span>Interactive</span><span>90 min</span><span>Excel</span>',
+      title: 'Excel CUBE Functions: Beginner to Advanced',
+      description: 'Master all seven Excel CUBE functions, from your first CUBEVALUE to dynamic Top N reports, slicer-driven formulas, MDX sets and KPIs, with live builders and practice data.'
+    },
+    {
       marker: 'data-process-capability',
       sectionId: 'lean-six-sigma',
       path: '/lessons/lean-six-sigma/process-capability-cp-and-cpk',
