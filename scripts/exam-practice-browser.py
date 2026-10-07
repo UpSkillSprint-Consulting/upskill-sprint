@@ -176,15 +176,19 @@ def main():
             def learner_directory():
                 directory()
                 nav_state('Exam Practice & Quizzes')
-                for certification in ['CRE', 'CQA']:
-                    chip = page.locator('.exam-certifications .chip').filter(has_text=re.compile(r'^' + certification + r'\b'))
-                    expect(chip).to_have_count(1)
-                    expect(chip).to_contain_text(re.compile('Coming soon', re.I))
+                expect(page.locator('.exam-card')).to_have_count(7)
+                expect(page.locator('.exam-coming-soon .exam-card')).to_have_count(2)
+                expect(page.locator('.exam-card[href="/test-bank?exam=mbb"] h3')).to_have_text('Certified Six Sigma Master Black Belt')
+                for certification in ['cre', 'cqa']:
+                    card = page.locator(f'.exam-coming-soon .exam-card[href="/test-bank?exam={certification}"]')
+                    expect(card).to_have_count(1)
+                    expect(card.locator('.exam-status')).to_have_text('Coming soon')
+                    expect(card.locator('.exam-card-action')).to_contain_text('View exam details')
                 expect(page.locator('.exam-intro')).to_contain_text('untimed')
                 expect(page.locator('.exam-actions a[href="/test-bank"]')).to_be_visible()
                 expect(page.locator('footer a[href="/exam-practice"]')).to_be_visible()
-                for chip in page.locator('.exam-certifications .chip').all():
-                    expect(chip).to_have_attribute('href', re.compile(r'^/test-bank\?exam=[^&#]+$'))
+                for card in page.locator('.exam-card').all():
+                    expect(card).to_have_attribute('href', re.compile(r'^/test-bank\?exam=[^&#]+$'))
                 # Use the real Account menu to confirm the fixture state.
                 page.locator('#account-menu-btn').click()
                 if premium:
@@ -202,6 +206,29 @@ def main():
                 page.evaluate('(theme)=>document.documentElement.dataset.theme=theme', theme)
                 nav_state('Exam Practice & Quizzes')
                 no_header_overlap()
+                # Long full names must wrap without clipping at every breakpoint.
+                expected_columns = 1 if width <= 640 else 2 if width <= 900 else 3
+                columns = page.locator('.exam-grid').first.evaluate("e=>getComputedStyle(e).gridTemplateColumns.split(' ').length")
+                assert columns == expected_columns, (width, columns, expected_columns)
+                page.keyboard.press('Tab')
+                for card in page.locator('.exam-card').all():
+                    bounds = card.bounding_box()
+                    assert bounds and bounds['height'] >= 44 and bounds['x'] >= 0 and bounds['x'] + bounds['width'] <= width + 1, bounds
+                    assert card.evaluate('e=>e.scrollWidth<=e.clientWidth+1'), card.inner_text()
+                    for label in card.locator('h3,.exam-acronym,.exam-status,.exam-card-action').all():
+                        colors = label.evaluate("""e=>{
+                          const style=getComputedStyle(e);
+                          let parent=e;
+                          while(parent && getComputedStyle(parent).backgroundColor==='rgba(0, 0, 0, 0)') parent=parent.parentElement;
+                          return {text:style.color,background:getComputedStyle(parent).backgroundColor};
+                        }""")
+                        assert contrast_ratio(colors['text'], colors['background']) >= 4.5, (theme, label.inner_text(), colors)
+                        label_bounds = label.bounding_box()
+                        assert label_bounds['x'] >= bounds['x'] and label_bounds['x'] + label_bounds['width'] <= bounds['x'] + bounds['width'] + 1, label_bounds
+                    card.focus()
+                    expect(card).to_be_focused()
+                    outline = card.evaluate("e=>({style:getComputedStyle(e).outlineStyle,width:parseFloat(getComputedStyle(e).outlineWidth)})")
+                    assert outline['style'] != 'none' and outline['width'] >= 2, outline
                 if width <= 1440:
                     expect(page.locator('nav.desktop-nav')).not_to_be_visible()
                     menu = page.locator('button.uss-menu-toggle')
@@ -237,16 +264,21 @@ def main():
                         assert ratio >= 4.5, {'theme': theme, 'width': width, 'hovered': hovered, 'contrast': ratio, **colors}
                         bounds = cta.bounding_box()
                         assert bounds and bounds['x'] >= -1 and bounds['x'] + bounds['width'] <= width + 1, bounds
+                # Keyboard/hover checks scroll the page. Reset before capture so
+                # the sticky header is shown at the top, not over the cards.
+                page.evaluate("()=>{document.activeElement.blur();window.scrollTo({top:0,behavior:'instant'});}")
+                page.mouse.move(0, 0)
+                page.wait_for_timeout(250)
                 page.screenshot(path=str(out / f'{tier}-directory-{width}-{theme}.png'), full_page=True)
 
-            for width in [320, 390, 1440, 1441, 1536]:
+            for width in [320, 390, 768, 1440, 1441, 1536]:
                 for theme in ['light', 'dark']:
                     record(f'layout-{width}-{theme}', lambda w=width, t=theme: layout(w, t))
 
             def certification_links():
                 page.set_viewport_size({'width': 1536, 'height': 1000})
                 directory()
-                chips = page.locator('.exam-certifications .chip').evaluate_all("rows=>rows.map(e=>({label:e.textContent.trim(),href:e.getAttribute('href')}))")
+                chips = page.locator('.exam-card').evaluate_all("rows=>rows.map(e=>({label:e.textContent.trim(),href:e.getAttribute('href')}))")
                 assert chips, 'The directory must offer certification links'
                 for chip in chips:
                     directory()
@@ -319,6 +351,40 @@ def main():
                 expect(page.locator('h1')).to_have_text('Simulated Exam Practice & Quizzes')
 
             record('legacy-bookmarks-and-hashchange', legacy_bookmarks)
+
+            def unit_converter(width, theme):
+                page.set_viewport_size({'width': width, 'height': 900})
+                page.goto(base + '/tools/unit-converter', wait_until='load')
+                expect(page.locator('#account-menu-btn')).to_be_visible()
+                expect(page.locator('header')).to_have_count(1)
+                expect(page.locator('header.site .brand img')).to_have_count(1)
+                expect(page.locator('h1')).to_have_count(1)
+                expect(page.locator('.converter-heading')).to_have_count(1)
+                expect(page.locator('.converter-heading img')).to_have_count(0)
+                expect(page.locator('#search')).to_have_count(1)
+                toggle = page.locator('header.site .theme-toggle')
+                expect(page.locator('.theme-toggle')).to_have_count(1)
+                expect(toggle).to_be_visible()
+                if page.locator('html').get_attribute('data-theme') != theme:
+                    toggle.click()
+                expect(page.locator('html')).to_have_attribute('data-theme', theme)
+                expect(toggle).to_have_attribute('aria-checked', 'true' if theme == 'dark' else 'false')
+                nav_state('Engineering Tools')
+                no_header_overlap()
+                header = page.locator('header.site').bounding_box()
+                heading = page.locator('.converter-heading').bounding_box()
+                assert heading['y'] >= header['y'] + header['height'] - 1, (header, heading)
+                page.locator('.uval[data-unit="MPa"]').fill('1')
+                assert float(page.locator('.uval[data-unit="kPa"]').input_value()) == 1000
+                expect(page.locator('.converter-back')).to_have_attribute('href', '/engineering-tools')
+                page.evaluate("()=>{document.activeElement.blur();window.scrollTo({top:0,behavior:'instant'});}")
+                page.mouse.move(0, 0)
+                page.wait_for_timeout(300)
+                page.screenshot(path=str(out / f'{tier}-unit-converter-{width}-{theme}.png'), full_page=True)
+
+            for width in [320, 390, 1536]:
+                for theme in ['light', 'dark']:
+                    record(f'unit-converter-{width}-{theme}', lambda w=width, t=theme: unit_converter(w, t))
             context.close()
         browser.close()
     report['passed'] = sum(case['result'] == 'PASS' for case in report['cases'])

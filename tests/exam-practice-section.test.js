@@ -56,19 +56,57 @@ test('the public exam page describes current certification availability and Test
   const doc = window.document;
   assert.equal(doc.querySelector('h1').textContent, 'Simulated Exam Practice & Quizzes');
   const section = doc.getElementById('exam-practice');
-  const certs = Array.from(section.querySelectorAll('.chip'), chip => chip.textContent.trim());
-  assert.deepEqual(certs, ['CSSBB', 'MBB', 'CQE', 'CRE — Coming soon', 'CQA — Coming soon', 'CMQ/OE', 'CSSGB']);
+  const cards = Array.from(section.querySelectorAll('.exam-card'));
+  const certs = cards.map(card => [card.querySelector('h3').textContent, card.querySelector('.exam-acronym').textContent]);
+  assert.deepEqual(certs, [
+    ['Certified Six Sigma Black Belt', 'CSSBB'],
+    ['Certified Six Sigma Master Black Belt', 'MBB'],
+    ['Certified Quality Engineer', 'CQE'],
+    ['Certified Manager of Quality/Organizational Excellence', 'CMQ/OE'],
+    ['Certified Six Sigma Green Belt', 'CSSGB'],
+    ['Certified Reliability Engineer', 'CRE'],
+    ['Certified Quality Auditor', 'CQA']
+  ]);
   assert.equal(section.querySelector('.category-count').textContent, '5 available · 2 coming soon');
   assert.match(section.textContent,/timed or untimed/);
   assert.equal(section.querySelector('.exam-certifications').getAttribute('aria-label'),'Certification availability');
-  assert.match(section.textContent, /Premium and higher/);
+  assert.match(section.textContent, /Premium account or higher/);
+  assert.equal((section.textContent.match(/Premium/g) || []).length, 1, 'access requirement is stated once');
   assert.ok(section.querySelector('a[href="/test-bank"]'));
   assert.deepEqual(Array.from(section.querySelectorAll('.exam-certifications a'), a=>a.getAttribute('href')),
-    ['/test-bank?exam=cssbb','/test-bank?exam=mbb','/test-bank?exam=cqe','/test-bank?exam=cre','/test-bank?exam=cqa','/test-bank?exam=cmq','/test-bank?exam=cssgb']);
+    ['/test-bank?exam=cssbb','/test-bank?exam=mbb','/test-bank?exam=cqe','/test-bank?exam=cmq','/test-bank?exam=cssgb','/test-bank?exam=cre','/test-bank?exam=cqa']);
+  assert.equal(section.querySelectorAll('.exam-coming-soon .exam-card').length, 2);
+  assert.equal(section.querySelector('.exam-coming-soon h2').textContent, 'Coming soon');
+  for (const card of cards) {
+    const upcoming = Boolean(card.closest('.exam-coming-soon'));
+    assert.equal(card.querySelector('.exam-status').textContent, upcoming ? 'Coming soon' : 'Available now');
+    assert.match(card.querySelector('.exam-card-action').textContent, upcoming ? /View exam details/ : /Start practicing/);
+    assert.equal(card.querySelectorAll('a, button, input, select').length, 0, 'one keyboard stop per card, no nested controls');
+    assert.equal(card.firstElementChild.tagName, 'H3', 'the full name comes before the acronym');
+    assert.equal(card.querySelector('.exam-card-action span').getAttribute('aria-hidden'), 'true');
+    const group = card.closest('section');
+    assert.ok(doc.getElementById(group.getAttribute('aria-labelledby')), 'each group has an accessible heading');
+  }
+  assert.equal(section.querySelectorAll('.chip').length, 0, 'acronym-only pills are removed');
   assert.equal(section.querySelector('.exam-actions a').getAttribute('href'),'/test-bank','main entry keeps the whole catalog');
 
   assert.ok(fs.existsSync(path.join(ROOT, 'test-bank.html')));
   assert.equal(doc.body.hasAttribute('data-access-resource'), false, 'the directory is public');
+  assert.deepEqual(errors, []);
+});
+
+test('unit converter has one shared banner and one unbranded tool heading', async t => {
+  const { window, errors } = await loadPage(t, 'tools/unit-converter.html', 'https://upskillsprint.com/tools/unit-converter');
+  const doc = window.document;
+  assert.equal(doc.querySelectorAll('header').length, 1);
+  assert.equal(doc.querySelectorAll('header.site .brand img').length, 1);
+  assert.equal(doc.querySelectorAll('h1').length, 1);
+  assert.equal(doc.querySelectorAll('.converter-heading').length, 1);
+  assert.equal(doc.querySelector('.converter-heading').querySelectorAll('img, .theme-toggle, .tool-top-actions').length, 0);
+  assert.equal(doc.querySelectorAll('.theme-toggle').length, 1);
+  assert.equal(doc.querySelectorAll('#search').length, 1);
+  assert.equal(doc.querySelectorAll('.unit-categories').length, 1);
+  assert.equal(doc.querySelector('.converter-back').getAttribute('href'), '/engineering-tools');
   assert.deepEqual(errors, []);
 });
 
