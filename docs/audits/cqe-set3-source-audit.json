@@ -1,0 +1,6999 @@
+{
+  "sourceTitle": "The ASQ Certified Quality Engineer Study Guide, Second Edition",
+  "editor": "Scott A. Laman",
+  "sourceSha256": "b1be6768963b84d1382147fad3321023ef2e8df1cc7b63d43b87b90ef117d598",
+  "pdfPageOffset": 27,
+  "renderDpi": 216,
+  "questionCount": 613,
+  "assets": [
+    {
+      "id": "quality-costs",
+      "src": "/test-bank-assets/cqe-set3-source/figure-001.png",
+      "pdfPage": 45,
+      "printedPage": 18,
+      "cropPoints": [
+        202,
+        461,
+        410,
+        556
+      ],
+      "width": 624,
+      "height": 285,
+      "sha256": "1a50e07a17188e1d01fe1aa432b61084a609c16accf44e493af89af62cc256e7",
+      "questions": [
+        170,
+        171
+      ]
+    },
+    {
+      "id": "control-frame",
+      "src": "/test-bank-assets/cqe-set3-source/figure-002.png",
+      "pdfPage": 53,
+      "printedPage": 26,
+      "cropPoints": [
+        102,
+        220,
+        510,
+        262
+      ],
+      "width": 1224,
+      "height": 126,
+      "sha256": "90e07faf25b2d2f96bc56737ab2c655cec6c5ec14eab010a9cf66a2f983cc747",
+      "questions": [
+        244,
+        245,
+        525
+      ]
+    },
+    {
+      "id": "component-failures",
+      "src": "/test-bank-assets/cqe-set3-source/figure-003.png",
+      "pdfPage": 55,
+      "printedPage": 28,
+      "cropPoints": [
+        180,
+        318,
+        432,
+        456
+      ],
+      "width": 756,
+      "height": 414,
+      "sha256": "8f5a17d2bde653053999f863c1cbbede1bbcb3233bdf508908d02c87c70511dd",
+      "questions": [
+        246,
+        247,
+        248
+      ]
+    },
+    {
+      "id": "oc-curves-company",
+      "src": "/test-bank-assets/cqe-set3-source/figure-004.png",
+      "pdfPage": 75,
+      "printedPage": 48,
+      "cropPoints": [
+        228,
+        183,
+        386,
+        337
+      ],
+      "width": 474,
+      "height": 462,
+      "sha256": "9e406e56e8c8f4ff7e8dfbb80be6c8a7f7918798081289ca47cc90aa94a75a24",
+      "questions": [
+        279
+      ]
+    },
+    {
+      "id": "gage-anova",
+      "src": "/test-bank-assets/cqe-set3-source/figure-005.png",
+      "pdfPage": 85,
+      "printedPage": 58,
+      "cropPoints": [
+        168,
+        266,
+        444,
+        404
+      ],
+      "width": 828,
+      "height": 414,
+      "sha256": "0242a3c655ce17ec0dc483219b8cae78febdf188e2addc18f04cfd923b17ce7b",
+      "questions": [
+        316,
+        317,
+        318
+      ]
+    },
+    {
+      "id": "gage-range",
+      "src": "/test-bank-assets/cqe-set3-source/figure-006.png",
+      "pdfPage": 86,
+      "printedPage": 59,
+      "cropPoints": [
+        170,
+        282,
+        440,
+        456
+      ],
+      "width": 810,
+      "height": 522,
+      "sha256": "feaf2f1ef7c3b25340b68dff9ccc15abba564777201d285e660ecaf63ff72a5a",
+      "questions": [
+        319
+      ]
+    },
+    {
+      "id": "distribution-fit",
+      "src": "/test-bank-assets/cqe-set3-source/figure-007.png",
+      "pdfPage": 121,
+      "printedPage": 94,
+      "cropPoints": [
+        195,
+        324,
+        443,
+        439
+      ],
+      "width": 744,
+      "height": 345,
+      "sha256": "3a0a1be56c97f33b9c383a89f0c3469d0ebf339835157453171ebfafe34748bb",
+      "questions": [
+        320
+      ]
+    },
+    {
+      "id": "normal-probability",
+      "src": "/test-bank-assets/cqe-set3-source/figure-008.png",
+      "pdfPage": 123,
+      "printedPage": 96,
+      "cropPoints": [
+        169,
+        377,
+        444,
+        554
+      ],
+      "width": 825,
+      "height": 531,
+      "sha256": "a6213d2299b9e5d483c78e01676e5604470822ceb7873602c5e0b5e29afc66f8",
+      "questions": [
+        322
+      ]
+    },
+    {
+      "id": "shift-contingency",
+      "src": "/test-bank-assets/cqe-set3-source/figure-009.png",
+      "pdfPage": 124,
+      "printedPage": 97,
+      "cropPoints": [
+        169,
+        326,
+        443,
+        457
+      ],
+      "width": 822,
+      "height": 393,
+      "sha256": "7f0bcc4fa7f5e16c9ad24919c463d0a1420aa125c06119824aaf753903bfa484",
+      "questions": [
+        323,
+        343,
+        576
+      ]
+    },
+    {
+      "id": "invoice-errors",
+      "src": "/test-bank-assets/cqe-set3-source/figure-010.png",
+      "pdfPage": 127,
+      "printedPage": 100,
+      "cropPoints": [
+        172,
+        183,
+        440,
+        237
+      ],
+      "width": 804,
+      "height": 162,
+      "sha256": "548dcaf2e7c1d84f2d7a5c0ac3c43570b150ad1b32154286fb5426c910aa822c",
+      "questions": [
+        324,
+        586
+      ]
+    },
+    {
+      "id": "inspector-measurements",
+      "src": "/test-bank-assets/cqe-set3-source/figure-011.png",
+      "pdfPage": 132,
+      "printedPage": 105,
+      "cropPoints": [
+        190,
+        371,
+        422,
+        446
+      ],
+      "width": 696,
+      "height": 225,
+      "sha256": "1a438f5a6b1272139a27d7fc3d55b1dfa214021301ee686aea13a39dbff9fcf4",
+      "questions": [
+        337,
+        597
+      ]
+    },
+    {
+      "id": "medication-counts",
+      "src": "/test-bank-assets/cqe-set3-source/figure-012.png",
+      "pdfPage": 132,
+      "printedPage": 105,
+      "cropPoints": [
+        209,
+        589,
+        403,
+        727
+      ],
+      "width": 582,
+      "height": 414,
+      "sha256": "3a55dd84dd5194a135eaf9a0ab132f17d9295a721c869abf9cb488d2ed9925b5",
+      "questions": [
+        338
+      ]
+    },
+    {
+      "id": "strain-anova",
+      "src": "/test-bank-assets/cqe-set3-source/figure-013.png",
+      "pdfPage": 133,
+      "printedPage": 106,
+      "cropPoints": [
+        201,
+        393,
+        411,
+        489
+      ],
+      "width": 630,
+      "height": 288,
+      "sha256": "b144b9cff3e131839c9babc4a1581aae131fcd9e2bf767c092877cc6c4d9eea0",
+      "questions": [
+        340
+      ]
+    },
+    {
+      "id": "interaction-parallel",
+      "src": "/test-bank-assets/cqe-set3-source/figure-014.png",
+      "pdfPage": 134,
+      "printedPage": 107,
+      "cropPoints": [
+        172,
+        135,
+        440,
+        291
+      ],
+      "width": 804,
+      "height": 468,
+      "sha256": "95598ff1a7fde2c7ed16ebc9a34ad8fc2d69574cd370dcd655e27f19340f90c4",
+      "questions": [
+        342
+      ]
+    },
+    {
+      "id": "scatter-positive",
+      "src": "/test-bank-assets/cqe-set3-source/figure-015.png",
+      "pdfPage": 136,
+      "printedPage": 109,
+      "cropPoints": [
+        170,
+        292,
+        444,
+        466
+      ],
+      "width": 822,
+      "height": 522,
+      "sha256": "1bab2de237b27ba475efe78b5718fbad2d70410e0ca2bb29655661b07356d041",
+      "questions": [
+        348
+      ]
+    },
+    {
+      "id": "scatter-quadratic",
+      "src": "/test-bank-assets/cqe-set3-source/figure-016.png",
+      "pdfPage": 137,
+      "printedPage": 110,
+      "cropPoints": [
+        174,
+        119,
+        442,
+        293
+      ],
+      "width": 804,
+      "height": 522,
+      "sha256": "c5b8784f7a558d84673a23365f2121718a054e56808fd5f5af5646bf8c7dfe9a",
+      "questions": [
+        349
+      ]
+    },
+    {
+      "id": "moving-range",
+      "src": "/test-bank-assets/cqe-set3-source/figure-017.png",
+      "pdfPage": 142,
+      "printedPage": 115,
+      "cropPoints": [
+        158,
+        232,
+        467,
+        413
+      ],
+      "width": 927,
+      "height": 543,
+      "sha256": "1f78e2716fa9fbe49c4ccd145e43f1bd94d72115ed93373e7fb84aae87cfd172",
+      "questions": [
+        371
+      ]
+    },
+    {
+      "id": "p-chart-pattern",
+      "src": "/test-bank-assets/cqe-set3-source/figure-018.png",
+      "pdfPage": 142,
+      "printedPage": 115,
+      "cropPoints": [
+        157,
+        553,
+        469,
+        735
+      ],
+      "width": 936,
+      "height": 546,
+      "sha256": "ca10c9db8d609521dae8a6662079698f5b02c7f0e9935e1a58f56548b0a44272",
+      "questions": [
+        372
+      ]
+    },
+    {
+      "id": "xbar-stable",
+      "src": "/test-bank-assets/cqe-set3-source/figure-019.png",
+      "pdfPage": 143,
+      "printedPage": 116,
+      "cropPoints": [
+        157,
+        209,
+        469,
+        392
+      ],
+      "width": 936,
+      "height": 549,
+      "sha256": "fdc13eaf71784591e1f1d1b2c2448e2dc8554c5fce90c92a5a22d7bda1aed745",
+      "questions": [
+        373
+      ]
+    },
+    {
+      "id": "factorial-anova",
+      "src": "/test-bank-assets/cqe-set3-source/figure-020.png",
+      "pdfPage": 147,
+      "printedPage": 120,
+      "cropPoints": [
+        177,
+        468,
+        435,
+        690
+      ],
+      "width": 774,
+      "height": 666,
+      "sha256": "f4913b57c0b6c06f98d344a70cd4a9513b4f1c4a2de7ea55640d840cc2b65f8b",
+      "questions": [
+        391
+      ]
+    },
+    {
+      "id": "pesticide-scenario",
+      "src": "/test-bank-assets/cqe-set3-source/figure-021.png",
+      "pdfPage": 175,
+      "printedPage": 148,
+      "cropPoints": [
+        215,
+        111,
+        397,
+        236
+      ],
+      "width": 546,
+      "height": 375,
+      "sha256": "9f2c2dd54c55add100bbde821a6a6bd501ee6295b9dac2f92f6e4d51e8f54a63",
+      "questions": [
+        143
+      ]
+    },
+    {
+      "id": "severity-probability",
+      "src": "/test-bank-assets/cqe-set3-source/figure-022.png",
+      "pdfPage": 178,
+      "printedPage": 151,
+      "cropPoints": [
+        169,
+        491,
+        443,
+        608
+      ],
+      "width": 822,
+      "height": 351,
+      "sha256": "579f4f3ee44f249cd4462f82d0a62a4e6fe7f28fe0b257dcc0bef26b3b980131",
+      "questions": [
+        192
+      ]
+    },
+    {
+      "id": "additional-quality-costs",
+      "src": "/test-bank-assets/cqe-set3-source/figure-023.png",
+      "pdfPage": 191,
+      "printedPage": 164,
+      "cropPoints": [
+        216,
+        296,
+        396,
+        390
+      ],
+      "width": 540,
+      "height": 282,
+      "sha256": "b9bf256ec4d73023d92fa42bd3aeb360b1d5caa8920719f4c95b9b8b97d12a94",
+      "questions": [
+        412
+      ]
+    },
+    {
+      "id": "car-failure-risk",
+      "src": "/test-bank-assets/cqe-set3-source/figure-024.png",
+      "pdfPage": 193,
+      "printedPage": 166,
+      "cropPoints": [
+        101,
+        352,
+        508,
+        511
+      ],
+      "width": 1221,
+      "height": 477,
+      "sha256": "fae935d8ac9fd1c3dc8960c1d6cd31b92eea242d324a180a5e6afe06f69d8c28",
+      "questions": [
+        487
+      ]
+    },
+    {
+      "id": "weibull-probability",
+      "src": "/test-bank-assets/cqe-set3-source/figure-025.png",
+      "pdfPage": 195,
+      "printedPage": 168,
+      "cropPoints": [
+        170,
+        137,
+        443,
+        313
+      ],
+      "width": 819,
+      "height": 528,
+      "sha256": "3e4372a854a7a9b89b9ab71a4eb7f333500d0af9db35820ef6db1ee5ca737ef8",
+      "questions": [
+        535
+      ]
+    },
+    {
+      "id": "gage-xbar",
+      "src": "/test-bank-assets/cqe-set3-source/figure-026.png",
+      "pdfPage": 196,
+      "printedPage": 169,
+      "cropPoints": [
+        168,
+        143,
+        443,
+        319
+      ],
+      "width": 825,
+      "height": 528,
+      "sha256": "72bb1f4108da39abfc0a442da52262731801dcec5b909993205298063d0a6e95",
+      "questions": [
+        460
+      ]
+    },
+    {
+      "id": "oc-curves-manufacturer",
+      "src": "/test-bank-assets/cqe-set3-source/figure-027.png",
+      "pdfPage": 198,
+      "printedPage": 171,
+      "cropPoints": [
+        228,
+        547,
+        386,
+        705
+      ],
+      "width": 474,
+      "height": 474,
+      "sha256": "b988e6671e2aae0a2ab2b4966ca7b393cb9cffbebe562ee852df8a9019eddc01",
+      "questions": [
+        462
+      ]
+    },
+    {
+      "id": "grocery-boxplots",
+      "src": "/test-bank-assets/cqe-set3-source/figure-028.png",
+      "pdfPage": 199,
+      "printedPage": 172,
+      "cropPoints": [
+        169,
+        373,
+        445,
+        566
+      ],
+      "width": 828,
+      "height": 579,
+      "sha256": "0ae100dc166ade225b9d7b2cb7b67807e7c21b68f7ead7d26f7c1dccff81cb2c",
+      "questions": [
+        541
+      ]
+    },
+    {
+      "id": "interaction-crossing",
+      "src": "/test-bank-assets/cqe-set3-source/figure-029.png",
+      "pdfPage": 200,
+      "printedPage": 173,
+      "cropPoints": [
+        172,
+        120,
+        440,
+        276
+      ],
+      "width": 804,
+      "height": 468,
+      "sha256": "24239b1c2f168a65bb2789b536191cd95ea673b5355154fd72ac6ed95479322b",
+      "questions": [
+        542
+      ]
+    },
+    {
+      "id": "scatter-negative-strong",
+      "src": "/test-bank-assets/cqe-set3-source/figure-030.png",
+      "pdfPage": 204,
+      "printedPage": 177,
+      "cropPoints": [
+        168,
+        164,
+        443,
+        340
+      ],
+      "width": 825,
+      "height": 528,
+      "sha256": "8b685c2c12bec068926f7bae3d37675eb6648e52a1a404b6be45410242179fed",
+      "questions": [
+        547
+      ]
+    },
+    {
+      "id": "c-chart-pattern",
+      "src": "/test-bank-assets/cqe-set3-source/figure-031.png",
+      "pdfPage": 206,
+      "printedPage": 179,
+      "cropPoints": [
+        155,
+        547,
+        466,
+        734
+      ],
+      "width": 933,
+      "height": 561,
+      "sha256": "a48226bf611f71900012970c3a66ea1d46f67a5664ed5042d016b91946360b74",
+      "questions": [
+        550
+      ]
+    },
+    {
+      "id": "shift-contingency-additional",
+      "src": "/test-bank-assets/cqe-set3-source/figure-032.png",
+      "pdfPage": 211,
+      "printedPage": 184,
+      "cropPoints": [
+        169,
+        183,
+        443,
+        315
+      ],
+      "width": 822,
+      "height": 396,
+      "sha256": "8419a5ea2ed031a940cf16a37c0636366eeb0a75d4ea5c353545a1967973dcc4",
+      "questions": [
+        555
+      ]
+    },
+    {
+      "id": "xbar-run",
+      "src": "/test-bank-assets/cqe-set3-source/figure-033.png",
+      "pdfPage": 214,
+      "printedPage": 187,
+      "cropPoints": [
+        157,
+        119,
+        469,
+        302
+      ],
+      "width": 936,
+      "height": 549,
+      "sha256": "fa2333b88d3528c05b059cc4daa88cfedfb80c8a8f690e0bbc3b39c809e5c61d",
+      "questions": [
+        559
+      ]
+    },
+    {
+      "id": "scatter-negative-weak",
+      "src": "/test-bank-assets/cqe-set3-source/figure-034.png",
+      "pdfPage": 216,
+      "printedPage": 189,
+      "cropPoints": [
+        169,
+        119,
+        444,
+        296
+      ],
+      "width": 825,
+      "height": 531,
+      "sha256": "db3ec9a04a51f165a09ba23420342f622a0aad6a7c4417263a6fd3feaee58a18",
+      "questions": [
+        563
+      ]
+    },
+    {
+      "id": "medication-counts-additional",
+      "src": "/test-bank-assets/cqe-set3-source/figure-035.png",
+      "pdfPage": 218,
+      "printedPage": 191,
+      "cropPoints": [
+        209,
+        123,
+        403,
+        261
+      ],
+      "width": 582,
+      "height": 414,
+      "sha256": "6f85d79d46fa734f182c7f68fc7d4576eef1697c26f505c8ef49df5894f5cc65",
+      "questions": [
+        566
+      ]
+    },
+    {
+      "id": "reliability-parallel",
+      "src": "/test-bank-assets/cqe-set3-source/figure-036.png",
+      "pdfPage": 220,
+      "printedPage": 193,
+      "cropPoints": [
+        173,
+        362,
+        439,
+        518
+      ],
+      "width": 798,
+      "height": 468,
+      "sha256": "02e0cf8a0adc29cefe7982aa47c5b9c72d60e003425434bc089d73f6cb7e7df9",
+      "questions": [
+        508
+      ]
+    },
+    {
+      "id": "risk-treatment",
+      "src": "/test-bank-assets/cqe-set3-source/figure-037.png",
+      "pdfPage": 221,
+      "printedPage": 194,
+      "cropPoints": [
+        103,
+        389,
+        512,
+        591
+      ],
+      "width": 1227,
+      "height": 606,
+      "sha256": "e602e72b79f562afcd9aabe3ca4786a43c2ea2923b12710c2b88c4d68371c18c",
+      "questions": [
+        611
+      ]
+    },
+    {
+      "id": "scatter-no-linear-trend",
+      "src": "/test-bank-assets/cqe-set3-source/figure-038.png",
+      "pdfPage": 222,
+      "printedPage": 195,
+      "cropPoints": [
+        169,
+        457,
+        444,
+        634
+      ],
+      "width": 825,
+      "height": 531,
+      "sha256": "992a33a13c094ab943584b063dc75ec07d38ecea8fee2d6e83702e94ccdf6913",
+      "questions": [
+        572
+      ]
+    },
+    {
+      "id": "car-regression-anova",
+      "src": "/test-bank-assets/cqe-set3-source/figure-039.png",
+      "pdfPage": 226,
+      "printedPage": 199,
+      "cropPoints": [
+        173,
+        341,
+        439,
+        437
+      ],
+      "width": 798,
+      "height": 288,
+      "sha256": "f4449cb156c9874958c7cd5d4c0c78c9f65b1eff4e0b1ff12dfa3a250b46bb5e",
+      "questions": [
+        578
+      ]
+    },
+    {
+      "id": "distribution-histogram",
+      "src": "/test-bank-assets/cqe-set3-source/figure-040.png",
+      "pdfPage": 228,
+      "printedPage": 201,
+      "cropPoints": [
+        166,
+        104,
+        449,
+        293
+      ],
+      "width": 849,
+      "height": 567,
+      "sha256": "ef20d3c60767f9944536242b7e0e6c557b46e80f69e27782d97ebe71740655d0",
+      "questions": [
+        581
+      ]
+    },
+    {
+      "id": "two-factor-anova",
+      "src": "/test-bank-assets/cqe-set3-source/figure-041.png",
+      "pdfPage": 234,
+      "printedPage": 207,
+      "cropPoints": [
+        180,
+        137,
+        433,
+        276
+      ],
+      "width": 759,
+      "height": 417,
+      "sha256": "58b9ae07535ee045aad544ac02f1a5c3fe0a0d11181be8b65d0002b90458fb98",
+      "questions": [
+        592
+      ]
+    },
+    {
+      "id": "salary-histogram",
+      "src": "/test-bank-assets/cqe-set3-source/figure-042.png",
+      "pdfPage": 235,
+      "printedPage": 208,
+      "cropPoints": [
+        167,
+        533,
+        449,
+        720
+      ],
+      "width": 846,
+      "height": 561,
+      "sha256": "25ce2ed23006f91bc2e90045eaa4934e24fd9720009eab0b119267f6228ef8a5",
+      "questions": [
+        594
+      ]
+    },
+    {
+      "id": "factorial-anova-additional",
+      "src": "/test-bank-assets/cqe-set3-source/figure-043.png",
+      "pdfPage": 237,
+      "printedPage": 210,
+      "cropPoints": [
+        190,
+        296,
+        423,
+        518
+      ],
+      "width": 699,
+      "height": 666,
+      "sha256": "2dc67507c56ce7a9f4dee1a9176fb8db2ae11b33e1f718bfd4ae972886f3ffe5",
+      "questions": [
+        522
+      ]
+    },
+    {
+      "id": "blocked-anova",
+      "src": "/test-bank-assets/cqe-set3-source/figure-044.png",
+      "pdfPage": 239,
+      "printedPage": 212,
+      "cropPoints": [
+        181,
+        123,
+        432,
+        241
+      ],
+      "width": 753,
+      "height": 354,
+      "sha256": "913b011c178a585f8a15e9d36dbc1fd8385d92ddc17da59317b494b7a8deb46a",
+      "questions": [
+        599
+      ]
+    },
+    {
+      "id": "xbar-outside-limit",
+      "src": "/test-bank-assets/cqe-set3-source/figure-045.png",
+      "pdfPage": 240,
+      "printedPage": 213,
+      "cropPoints": [
+        158,
+        419,
+        471,
+        604
+      ],
+      "width": 939,
+      "height": 555,
+      "sha256": "33bbc4f58e1ab9956dcf06ae67df84d6d1e24f0b0f9479762d9c65d3606dcf3e",
+      "questions": [
+        604
+      ]
+    },
+    {
+      "id": "reliability-series",
+      "src": "/test-bank-assets/cqe-set3-source/figure-046.png",
+      "pdfPage": 242,
+      "printedPage": 215,
+      "cropPoints": [
+        170,
+        236,
+        442,
+        284
+      ],
+      "width": 816,
+      "height": 144,
+      "sha256": "303017424c5b47311251c58db42d2546fbb5cbb17b1aae6edc7534cff0727d56",
+      "questions": [
+        524
+      ]
+    },
+    {
+      "id": "prevention-costs",
+      "src": "/test-bank-assets/cqe-set3-source/figure-047.png",
+      "pdfPage": 244,
+      "printedPage": 217,
+      "cropPoints": [
+        218,
+        603,
+        396,
+        678
+      ],
+      "width": 534,
+      "height": 225,
+      "sha256": "12436a1c61029d25d9f1b8dea0b0193891faaef4574b0a47919877ec446c2e0c",
+      "questions": [
+        429
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "q": 1,
+      "qid": "cqe:set-3:legacy-1",
+      "sourceQuestion": 1,
+      "sourceSection": "I",
+      "printedPage": 3,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 30
+    },
+    {
+      "q": 2,
+      "qid": "cqe:set-3:legacy-2",
+      "sourceQuestion": 2,
+      "sourceSection": "I",
+      "printedPage": 3,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 30
+    },
+    {
+      "q": 3,
+      "qid": "cqe:set-3:legacy-3",
+      "sourceQuestion": 3,
+      "sourceSection": "I",
+      "printedPage": 3,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 30
+    },
+    {
+      "q": 4,
+      "qid": "cqe:set-3:legacy-4",
+      "sourceQuestion": 4,
+      "sourceSection": "I",
+      "printedPage": 3,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 30
+    },
+    {
+      "q": 5,
+      "qid": "cqe:set-3:legacy-5",
+      "sourceQuestion": 5,
+      "sourceSection": "I",
+      "printedPage": 4,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 31
+    },
+    {
+      "q": 6,
+      "qid": "cqe:set-3:legacy-6",
+      "sourceQuestion": 6,
+      "sourceSection": "I",
+      "printedPage": 4,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 31
+    },
+    {
+      "q": 7,
+      "qid": "cqe:set-3:legacy-7",
+      "sourceQuestion": 7,
+      "sourceSection": "I",
+      "printedPage": 4,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 31
+    },
+    {
+      "q": 8,
+      "qid": "cqe:set-3:legacy-8",
+      "sourceQuestion": 8,
+      "sourceSection": "I",
+      "printedPage": 4,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 31
+    },
+    {
+      "q": 9,
+      "qid": "cqe:set-3:legacy-9",
+      "sourceQuestion": 9,
+      "sourceSection": "I",
+      "printedPage": 4,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 31
+    },
+    {
+      "q": 10,
+      "qid": "cqe:set-3:legacy-10",
+      "sourceQuestion": 10,
+      "sourceSection": "I",
+      "printedPage": 5,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 32
+    },
+    {
+      "q": 11,
+      "qid": "cqe:set-3:legacy-11",
+      "sourceQuestion": 11,
+      "sourceSection": "I",
+      "printedPage": 5,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 32
+    },
+    {
+      "q": 12,
+      "qid": "cqe:set-3:legacy-12",
+      "sourceQuestion": 12,
+      "sourceSection": "I",
+      "printedPage": 5,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 32
+    },
+    {
+      "q": 13,
+      "qid": "cqe:set-3:legacy-13",
+      "sourceQuestion": 13,
+      "sourceSection": "I",
+      "printedPage": 5,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 32
+    },
+    {
+      "q": 14,
+      "qid": "cqe:set-3:legacy-14",
+      "sourceQuestion": 14,
+      "sourceSection": "I",
+      "printedPage": 5,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 32
+    },
+    {
+      "q": 15,
+      "qid": "cqe:set-3:legacy-15",
+      "sourceQuestion": 15,
+      "sourceSection": "I",
+      "printedPage": 6,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 33
+    },
+    {
+      "q": 16,
+      "qid": "cqe:set-3:legacy-16",
+      "sourceQuestion": 16,
+      "sourceSection": "I",
+      "printedPage": 6,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 33
+    },
+    {
+      "q": 17,
+      "qid": "cqe:set-3:legacy-17",
+      "sourceQuestion": 17,
+      "sourceSection": "I",
+      "printedPage": 6,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 33
+    },
+    {
+      "q": 18,
+      "qid": "cqe:set-3:legacy-18",
+      "sourceQuestion": 1,
+      "sourceSection": "II",
+      "printedPage": 13,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 40
+    },
+    {
+      "q": 19,
+      "qid": "cqe:set-3:legacy-19",
+      "sourceQuestion": 2,
+      "sourceSection": "II",
+      "printedPage": 13,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 40
+    },
+    {
+      "q": 20,
+      "qid": "cqe:set-3:legacy-20",
+      "sourceQuestion": 3,
+      "sourceSection": "II",
+      "printedPage": 13,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 40
+    },
+    {
+      "q": 21,
+      "qid": "cqe:set-3:legacy-21",
+      "sourceQuestion": 4,
+      "sourceSection": "II",
+      "printedPage": 13,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 40
+    },
+    {
+      "q": 22,
+      "qid": "cqe:set-3:legacy-22",
+      "sourceQuestion": 5,
+      "sourceSection": "II",
+      "printedPage": 14,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 41
+    },
+    {
+      "q": 23,
+      "qid": "cqe:set-3:legacy-23",
+      "sourceQuestion": 6,
+      "sourceSection": "II",
+      "printedPage": 14,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 41
+    },
+    {
+      "q": 24,
+      "qid": "cqe:set-3:legacy-24",
+      "sourceQuestion": 7,
+      "sourceSection": "II",
+      "printedPage": 14,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 41
+    },
+    {
+      "q": 25,
+      "qid": "cqe:set-3:legacy-25",
+      "sourceQuestion": 8,
+      "sourceSection": "II",
+      "printedPage": 14,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 41
+    },
+    {
+      "q": 26,
+      "qid": "cqe:set-3:legacy-26",
+      "sourceQuestion": 9,
+      "sourceSection": "II",
+      "printedPage": 14,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 41
+    },
+    {
+      "q": 27,
+      "qid": "cqe:set-3:legacy-27",
+      "sourceQuestion": 10,
+      "sourceSection": "II",
+      "printedPage": 15,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 42
+    },
+    {
+      "q": 28,
+      "qid": "cqe:set-3:legacy-28",
+      "sourceQuestion": 11,
+      "sourceSection": "II",
+      "printedPage": 15,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 42
+    },
+    {
+      "q": 29,
+      "qid": "cqe:set-3:legacy-29",
+      "sourceQuestion": 12,
+      "sourceSection": "II",
+      "printedPage": 15,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 42
+    },
+    {
+      "q": 30,
+      "qid": "cqe:set-3:legacy-30",
+      "sourceQuestion": 13,
+      "sourceSection": "II",
+      "printedPage": 15,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 42
+    },
+    {
+      "q": 31,
+      "qid": "cqe:set-3:legacy-31",
+      "sourceQuestion": 14,
+      "sourceSection": "II",
+      "printedPage": 15,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 42
+    },
+    {
+      "q": 32,
+      "qid": "cqe:set-3:legacy-32",
+      "sourceQuestion": 15,
+      "sourceSection": "II",
+      "printedPage": 16,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 43
+    },
+    {
+      "q": 33,
+      "qid": "cqe:set-3:legacy-33",
+      "sourceQuestion": 16,
+      "sourceSection": "II",
+      "printedPage": 16,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 43
+    },
+    {
+      "q": 34,
+      "qid": "cqe:set-3:legacy-34",
+      "sourceQuestion": 17,
+      "sourceSection": "II",
+      "printedPage": 16,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 43
+    },
+    {
+      "q": 35,
+      "qid": "cqe:set-3:legacy-35",
+      "sourceQuestion": 18,
+      "sourceSection": "II",
+      "printedPage": 16,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 43
+    },
+    {
+      "q": 36,
+      "qid": "cqe:set-3:legacy-36",
+      "sourceQuestion": 1,
+      "sourceSection": "III",
+      "printedPage": 23,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 50
+    },
+    {
+      "q": 37,
+      "qid": "cqe:set-3:legacy-37",
+      "sourceQuestion": 2,
+      "sourceSection": "III",
+      "printedPage": 23,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 50
+    },
+    {
+      "q": 38,
+      "qid": "cqe:set-3:legacy-38",
+      "sourceQuestion": 3,
+      "sourceSection": "III",
+      "printedPage": 23,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 50
+    },
+    {
+      "q": 39,
+      "qid": "cqe:set-3:legacy-39",
+      "sourceQuestion": 4,
+      "sourceSection": "III",
+      "printedPage": 23,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 50
+    },
+    {
+      "q": 40,
+      "qid": "cqe:set-3:legacy-40",
+      "sourceQuestion": 5,
+      "sourceSection": "III",
+      "printedPage": 24,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 51
+    },
+    {
+      "q": 41,
+      "qid": "cqe:set-3:legacy-41",
+      "sourceQuestion": 6,
+      "sourceSection": "III",
+      "printedPage": 24,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 51
+    },
+    {
+      "q": 42,
+      "qid": "cqe:set-3:legacy-42",
+      "sourceQuestion": 7,
+      "sourceSection": "III",
+      "printedPage": 24,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 51
+    },
+    {
+      "q": 43,
+      "qid": "cqe:set-3:legacy-43",
+      "sourceQuestion": 8,
+      "sourceSection": "III",
+      "printedPage": 24,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 51
+    },
+    {
+      "q": 44,
+      "qid": "cqe:set-3:legacy-44",
+      "sourceQuestion": 9,
+      "sourceSection": "III",
+      "printedPage": 24,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 51
+    },
+    {
+      "q": 45,
+      "qid": "cqe:set-3:legacy-45",
+      "sourceQuestion": 10,
+      "sourceSection": "III",
+      "printedPage": 25,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 52
+    },
+    {
+      "q": 46,
+      "qid": "cqe:set-3:legacy-46",
+      "sourceQuestion": 12,
+      "sourceSection": "III",
+      "printedPage": 25,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 52
+    },
+    {
+      "q": 47,
+      "qid": "cqe:set-3:legacy-47",
+      "sourceQuestion": 13,
+      "sourceSection": "III",
+      "printedPage": 25,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 52
+    },
+    {
+      "q": 48,
+      "qid": "cqe:set-3:legacy-48",
+      "sourceQuestion": 14,
+      "sourceSection": "III",
+      "printedPage": 25,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 52
+    },
+    {
+      "q": 49,
+      "qid": "cqe:set-3:legacy-49",
+      "sourceQuestion": 15,
+      "sourceSection": "III",
+      "printedPage": 26,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 53
+    },
+    {
+      "q": 50,
+      "qid": "cqe:set-3:legacy-50",
+      "sourceQuestion": 18,
+      "sourceSection": "III",
+      "printedPage": 26,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 53
+    },
+    {
+      "q": 51,
+      "qid": "cqe:set-3:legacy-51",
+      "sourceQuestion": 19,
+      "sourceSection": "III",
+      "printedPage": 27,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 54
+    },
+    {
+      "q": 52,
+      "qid": "cqe:set-3:legacy-52",
+      "sourceQuestion": 20,
+      "sourceSection": "III",
+      "printedPage": 27,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 54
+    },
+    {
+      "q": 53,
+      "qid": "cqe:set-3:legacy-53",
+      "sourceQuestion": 21,
+      "sourceSection": "III",
+      "printedPage": 27,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 54
+    },
+    {
+      "q": 54,
+      "qid": "cqe:set-3:legacy-54",
+      "sourceQuestion": 22,
+      "sourceSection": "III",
+      "printedPage": 27,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 54
+    },
+    {
+      "q": 55,
+      "qid": "cqe:set-3:legacy-55",
+      "sourceQuestion": 23,
+      "sourceSection": "III",
+      "printedPage": 27,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 54
+    },
+    {
+      "q": 56,
+      "qid": "cqe:set-3:legacy-56",
+      "sourceQuestion": 24,
+      "sourceSection": "III",
+      "printedPage": 28,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 55
+    },
+    {
+      "q": 57,
+      "qid": "cqe:set-3:legacy-57",
+      "sourceQuestion": 1,
+      "sourceSection": "IV",
+      "printedPage": 45,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 72
+    },
+    {
+      "q": 58,
+      "qid": "cqe:set-3:legacy-58",
+      "sourceQuestion": 2,
+      "sourceSection": "IV",
+      "printedPage": 45,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 72
+    },
+    {
+      "q": 59,
+      "qid": "cqe:set-3:legacy-59",
+      "sourceQuestion": 3,
+      "sourceSection": "IV",
+      "printedPage": 45,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 72
+    },
+    {
+      "q": 60,
+      "qid": "cqe:set-3:legacy-60",
+      "sourceQuestion": 4,
+      "sourceSection": "IV",
+      "printedPage": 45,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 72
+    },
+    {
+      "q": 61,
+      "qid": "cqe:set-3:legacy-61",
+      "sourceQuestion": 5,
+      "sourceSection": "IV",
+      "printedPage": 46,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 73
+    },
+    {
+      "q": 62,
+      "qid": "cqe:set-3:legacy-62",
+      "sourceQuestion": 6,
+      "sourceSection": "IV",
+      "printedPage": 46,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 73
+    },
+    {
+      "q": 63,
+      "qid": "cqe:set-3:legacy-63",
+      "sourceQuestion": 7,
+      "sourceSection": "IV",
+      "printedPage": 46,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 73
+    },
+    {
+      "q": 64,
+      "qid": "cqe:set-3:legacy-64",
+      "sourceQuestion": 8,
+      "sourceSection": "IV",
+      "printedPage": 46,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 73
+    },
+    {
+      "q": 65,
+      "qid": "cqe:set-3:legacy-65",
+      "sourceQuestion": 9,
+      "sourceSection": "IV",
+      "printedPage": 46,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 73
+    },
+    {
+      "q": 66,
+      "qid": "cqe:set-3:legacy-66",
+      "sourceQuestion": 10,
+      "sourceSection": "IV",
+      "printedPage": 47,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 74
+    },
+    {
+      "q": 67,
+      "qid": "cqe:set-3:legacy-67",
+      "sourceQuestion": 11,
+      "sourceSection": "IV",
+      "printedPage": 47,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 74
+    },
+    {
+      "q": 68,
+      "qid": "cqe:set-3:legacy-68",
+      "sourceQuestion": 12,
+      "sourceSection": "IV",
+      "printedPage": 47,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 74
+    },
+    {
+      "q": 69,
+      "qid": "cqe:set-3:legacy-69",
+      "sourceQuestion": 13,
+      "sourceSection": "IV",
+      "printedPage": 47,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 74
+    },
+    {
+      "q": 70,
+      "qid": "cqe:set-3:legacy-70",
+      "sourceQuestion": 14,
+      "sourceSection": "IV",
+      "printedPage": 47,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 74
+    },
+    {
+      "q": 71,
+      "qid": "cqe:set-3:legacy-71",
+      "sourceQuestion": 16,
+      "sourceSection": "IV",
+      "printedPage": 48,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 75
+    },
+    {
+      "q": 72,
+      "qid": "cqe:set-3:legacy-72",
+      "sourceQuestion": 17,
+      "sourceSection": "IV",
+      "printedPage": 48,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 75
+    },
+    {
+      "q": 73,
+      "qid": "cqe:set-3:legacy-73",
+      "sourceQuestion": 18,
+      "sourceSection": "IV",
+      "printedPage": 49,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 76
+    },
+    {
+      "q": 74,
+      "qid": "cqe:set-3:legacy-74",
+      "sourceQuestion": 19,
+      "sourceSection": "IV",
+      "printedPage": 49,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 76
+    },
+    {
+      "q": 75,
+      "qid": "cqe:set-3:legacy-75",
+      "sourceQuestion": 20,
+      "sourceSection": "IV",
+      "printedPage": 49,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 76
+    },
+    {
+      "q": 76,
+      "qid": "cqe:set-3:legacy-76",
+      "sourceQuestion": 21,
+      "sourceSection": "IV",
+      "printedPage": 49,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 76
+    },
+    {
+      "q": 77,
+      "qid": "cqe:set-3:legacy-77",
+      "sourceQuestion": 22,
+      "sourceSection": "IV",
+      "printedPage": 49,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 76
+    },
+    {
+      "q": 78,
+      "qid": "cqe:set-3:legacy-78",
+      "sourceQuestion": 23,
+      "sourceSection": "IV",
+      "printedPage": 50,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 77
+    },
+    {
+      "q": 79,
+      "qid": "cqe:set-3:legacy-79",
+      "sourceQuestion": 24,
+      "sourceSection": "IV",
+      "printedPage": 50,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 77
+    },
+    {
+      "q": 80,
+      "qid": "cqe:set-3:legacy-80",
+      "sourceQuestion": 1,
+      "sourceSection": "V",
+      "printedPage": 71,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 98
+    },
+    {
+      "q": 81,
+      "qid": "cqe:set-3:legacy-81",
+      "sourceQuestion": 2,
+      "sourceSection": "V",
+      "printedPage": 71,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 98
+    },
+    {
+      "q": 82,
+      "qid": "cqe:set-3:legacy-82",
+      "sourceQuestion": 3,
+      "sourceSection": "V",
+      "printedPage": 71,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 98
+    },
+    {
+      "q": 83,
+      "qid": "cqe:set-3:legacy-83",
+      "sourceQuestion": 4,
+      "sourceSection": "V",
+      "printedPage": 72,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 99
+    },
+    {
+      "q": 84,
+      "qid": "cqe:set-3:legacy-84",
+      "sourceQuestion": 5,
+      "sourceSection": "V",
+      "printedPage": 72,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 99
+    },
+    {
+      "q": 85,
+      "qid": "cqe:set-3:legacy-85",
+      "sourceQuestion": 6,
+      "sourceSection": "V",
+      "printedPage": 72,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 99
+    },
+    {
+      "q": 86,
+      "qid": "cqe:set-3:legacy-86",
+      "sourceQuestion": 7,
+      "sourceSection": "V",
+      "printedPage": 72,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 99
+    },
+    {
+      "q": 87,
+      "qid": "cqe:set-3:legacy-87",
+      "sourceQuestion": 8,
+      "sourceSection": "V",
+      "printedPage": 72,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 99
+    },
+    {
+      "q": 88,
+      "qid": "cqe:set-3:legacy-88",
+      "sourceQuestion": 9,
+      "sourceSection": "V",
+      "printedPage": 73,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 100
+    },
+    {
+      "q": 89,
+      "qid": "cqe:set-3:legacy-89",
+      "sourceQuestion": 10,
+      "sourceSection": "V",
+      "printedPage": 73,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 100
+    },
+    {
+      "q": 90,
+      "qid": "cqe:set-3:legacy-90",
+      "sourceQuestion": 11,
+      "sourceSection": "V",
+      "printedPage": 73,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 100
+    },
+    {
+      "q": 91,
+      "qid": "cqe:set-3:legacy-91",
+      "sourceQuestion": 12,
+      "sourceSection": "V",
+      "printedPage": 73,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 100
+    },
+    {
+      "q": 92,
+      "qid": "cqe:set-3:legacy-92",
+      "sourceQuestion": 13,
+      "sourceSection": "V",
+      "printedPage": 74,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 101
+    },
+    {
+      "q": 93,
+      "qid": "cqe:set-3:legacy-93",
+      "sourceQuestion": 14,
+      "sourceSection": "V",
+      "printedPage": 74,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 101
+    },
+    {
+      "q": 94,
+      "qid": "cqe:set-3:legacy-94",
+      "sourceQuestion": 15,
+      "sourceSection": "V",
+      "printedPage": 74,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 101
+    },
+    {
+      "q": 95,
+      "qid": "cqe:set-3:legacy-95",
+      "sourceQuestion": 16,
+      "sourceSection": "V",
+      "printedPage": 74,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 101
+    },
+    {
+      "q": 96,
+      "qid": "cqe:set-3:legacy-96",
+      "sourceQuestion": 17,
+      "sourceSection": "V",
+      "printedPage": 75,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 102
+    },
+    {
+      "q": 97,
+      "qid": "cqe:set-3:legacy-97",
+      "sourceQuestion": 18,
+      "sourceSection": "V",
+      "printedPage": 75,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 102
+    },
+    {
+      "q": 98,
+      "qid": "cqe:set-3:legacy-98",
+      "sourceQuestion": 19,
+      "sourceSection": "V",
+      "printedPage": 75,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 102
+    },
+    {
+      "q": 99,
+      "qid": "cqe:set-3:legacy-99",
+      "sourceQuestion": 20,
+      "sourceSection": "V",
+      "printedPage": 75,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 102
+    },
+    {
+      "q": 100,
+      "qid": "cqe:set-3:legacy-100",
+      "sourceQuestion": 21,
+      "sourceSection": "V",
+      "printedPage": 76,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 103
+    },
+    {
+      "q": 101,
+      "qid": "cqe:set-3:legacy-101",
+      "sourceQuestion": 22,
+      "sourceSection": "V",
+      "printedPage": 76,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 103
+    },
+    {
+      "q": 102,
+      "qid": "cqe:set-3:legacy-102",
+      "sourceQuestion": 23,
+      "sourceSection": "V",
+      "printedPage": 76,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 103
+    },
+    {
+      "q": 103,
+      "qid": "cqe:set-3:legacy-103",
+      "sourceQuestion": 24,
+      "sourceSection": "V",
+      "printedPage": 76,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 103
+    },
+    {
+      "q": 104,
+      "qid": "cqe:set-3:legacy-104",
+      "sourceQuestion": 25,
+      "sourceSection": "V",
+      "printedPage": 76,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 103
+    },
+    {
+      "q": 105,
+      "qid": "cqe:set-3:legacy-105",
+      "sourceQuestion": 26,
+      "sourceSection": "V",
+      "printedPage": 77,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 104
+    },
+    {
+      "q": 106,
+      "qid": "cqe:set-3:legacy-106",
+      "sourceQuestion": 1,
+      "sourceSection": "VI",
+      "printedPage": 93,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 120
+    },
+    {
+      "q": 107,
+      "qid": "cqe:set-3:legacy-107",
+      "sourceQuestion": 2,
+      "sourceSection": "VI",
+      "printedPage": 93,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 120
+    },
+    {
+      "q": 108,
+      "qid": "cqe:set-3:legacy-108",
+      "sourceQuestion": 3,
+      "sourceSection": "VI",
+      "printedPage": 93,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 120
+    },
+    {
+      "q": 109,
+      "qid": "cqe:set-3:legacy-109",
+      "sourceQuestion": 4,
+      "sourceSection": "VI",
+      "printedPage": 93,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 120
+    },
+    {
+      "q": 110,
+      "qid": "cqe:set-3:legacy-110",
+      "sourceQuestion": 5,
+      "sourceSection": "VI",
+      "printedPage": 94,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 121
+    },
+    {
+      "q": 111,
+      "qid": "cqe:set-3:legacy-111",
+      "sourceQuestion": 6,
+      "sourceSection": "VI",
+      "printedPage": 94,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 121
+    },
+    {
+      "q": 112,
+      "qid": "cqe:set-3:legacy-112",
+      "sourceQuestion": 8,
+      "sourceSection": "VI",
+      "printedPage": 94,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 121
+    },
+    {
+      "q": 113,
+      "qid": "cqe:set-3:legacy-113",
+      "sourceQuestion": 9,
+      "sourceSection": "VI",
+      "printedPage": 94,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 121
+    },
+    {
+      "q": 114,
+      "qid": "cqe:set-3:legacy-114",
+      "sourceQuestion": 10,
+      "sourceSection": "VI",
+      "printedPage": 95,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 122
+    },
+    {
+      "q": 115,
+      "qid": "cqe:set-3:legacy-115",
+      "sourceQuestion": 11,
+      "sourceSection": "VI",
+      "printedPage": 95,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 122
+    },
+    {
+      "q": 116,
+      "qid": "cqe:set-3:legacy-116",
+      "sourceQuestion": 12,
+      "sourceSection": "VI",
+      "printedPage": 95,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 122
+    },
+    {
+      "q": 117,
+      "qid": "cqe:set-3:legacy-117",
+      "sourceQuestion": 13,
+      "sourceSection": "VI",
+      "printedPage": 95,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 122
+    },
+    {
+      "q": 118,
+      "qid": "cqe:set-3:legacy-118",
+      "sourceQuestion": 14,
+      "sourceSection": "VI",
+      "printedPage": 96,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 123
+    },
+    {
+      "q": 119,
+      "qid": "cqe:set-3:legacy-119",
+      "sourceQuestion": 17,
+      "sourceSection": "VI",
+      "printedPage": 96,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 123
+    },
+    {
+      "q": 120,
+      "qid": "cqe:set-3:legacy-120",
+      "sourceQuestion": 18,
+      "sourceSection": "VI",
+      "printedPage": 97,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 124
+    },
+    {
+      "q": 121,
+      "qid": "cqe:set-3:legacy-121",
+      "sourceQuestion": 20,
+      "sourceSection": "VI",
+      "printedPage": 97,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 124
+    },
+    {
+      "q": 122,
+      "qid": "cqe:set-3:legacy-122",
+      "sourceQuestion": 21,
+      "sourceSection": "VI",
+      "printedPage": 98,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 125
+    },
+    {
+      "q": 123,
+      "qid": "cqe:set-3:legacy-123",
+      "sourceQuestion": 22,
+      "sourceSection": "VI",
+      "printedPage": 98,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 125
+    },
+    {
+      "q": 124,
+      "qid": "cqe:set-3:legacy-124",
+      "sourceQuestion": 23,
+      "sourceSection": "VI",
+      "printedPage": 98,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 125
+    },
+    {
+      "q": 125,
+      "qid": "cqe:set-3:legacy-125",
+      "sourceQuestion": 24,
+      "sourceSection": "VI",
+      "printedPage": 98,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 125
+    },
+    {
+      "q": 126,
+      "qid": "cqe:set-3:legacy-126",
+      "sourceQuestion": 25,
+      "sourceSection": "VI",
+      "printedPage": 98,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 125
+    },
+    {
+      "q": 127,
+      "qid": "cqe:set-3:legacy-127",
+      "sourceQuestion": 26,
+      "sourceSection": "VI",
+      "printedPage": 99,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 126
+    },
+    {
+      "q": 128,
+      "qid": "cqe:set-3:legacy-128",
+      "sourceQuestion": 27,
+      "sourceSection": "VI",
+      "printedPage": 99,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 126
+    },
+    {
+      "q": 129,
+      "qid": "cqe:set-3:legacy-129",
+      "sourceQuestion": 28,
+      "sourceSection": "VI",
+      "printedPage": 99,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 126
+    },
+    {
+      "q": 130,
+      "qid": "cqe:set-3:legacy-130",
+      "sourceQuestion": 29,
+      "sourceSection": "VI",
+      "printedPage": 99,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 126
+    },
+    {
+      "q": 131,
+      "qid": "cqe:set-3:legacy-131",
+      "sourceQuestion": 30,
+      "sourceSection": "VI",
+      "printedPage": 99,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 126
+    },
+    {
+      "q": 132,
+      "qid": "cqe:set-3:legacy-132",
+      "sourceQuestion": 32,
+      "sourceSection": "VI",
+      "printedPage": 100,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 127
+    },
+    {
+      "q": 133,
+      "qid": "cqe:set-3:legacy-133",
+      "sourceQuestion": 33,
+      "sourceSection": "VI",
+      "printedPage": 100,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 127
+    },
+    {
+      "q": 134,
+      "qid": "cqe:set-3:legacy-134",
+      "sourceQuestion": 34,
+      "sourceSection": "VI",
+      "printedPage": 100,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 127
+    },
+    {
+      "q": 135,
+      "qid": "cqe:set-3:legacy-135",
+      "sourceQuestion": 35,
+      "sourceSection": "VI",
+      "printedPage": 101,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 128
+    },
+    {
+      "q": 136,
+      "qid": "cqe:set-3:legacy-136",
+      "sourceQuestion": 36,
+      "sourceSection": "VI",
+      "printedPage": 101,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 128
+    },
+    {
+      "q": 137,
+      "qid": "cqe:set-3:legacy-137",
+      "sourceQuestion": 37,
+      "sourceSection": "VI",
+      "printedPage": 101,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 128
+    },
+    {
+      "q": 138,
+      "qid": "cqe:set-3:legacy-138",
+      "sourceQuestion": 38,
+      "sourceSection": "VI",
+      "printedPage": 101,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 128
+    },
+    {
+      "q": 139,
+      "qid": "cqe:set-3:legacy-139",
+      "sourceQuestion": 39,
+      "sourceSection": "VI",
+      "printedPage": 102,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 129
+    },
+    {
+      "q": 140,
+      "qid": "cqe:set-3:legacy-140",
+      "sourceQuestion": 1,
+      "sourceSection": "VII",
+      "printedPage": 147,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 174
+    },
+    {
+      "q": 141,
+      "qid": "cqe:set-3:legacy-141",
+      "sourceQuestion": 2,
+      "sourceSection": "VII",
+      "printedPage": 147,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 174
+    },
+    {
+      "q": 142,
+      "qid": "cqe:set-3:legacy-142",
+      "sourceQuestion": 3,
+      "sourceSection": "VII",
+      "printedPage": 147,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 174
+    },
+    {
+      "q": 143,
+      "qid": "cqe:set-3:legacy-143",
+      "sourceQuestion": 4,
+      "sourceSection": "VII",
+      "printedPage": 148,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-021.png",
+      "status": "source-visual-attached",
+      "pdfPage": 175
+    },
+    {
+      "q": 144,
+      "qid": "cqe:set-3:legacy-144",
+      "sourceQuestion": 5,
+      "sourceSection": "VII",
+      "printedPage": 148,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 175
+    },
+    {
+      "q": 145,
+      "qid": "cqe:set-3:legacy-145",
+      "sourceQuestion": 6,
+      "sourceSection": "VII",
+      "printedPage": 148,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 175
+    },
+    {
+      "q": 146,
+      "qid": "cqe:set-3:legacy-146",
+      "sourceQuestion": 7,
+      "sourceSection": "VII",
+      "printedPage": 148,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 175
+    },
+    {
+      "q": 147,
+      "qid": "cqe:set-3:legacy-147",
+      "sourceQuestion": 8,
+      "sourceSection": "VII",
+      "printedPage": 149,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 176
+    },
+    {
+      "q": 148,
+      "qid": "cqe:set-3:legacy-148",
+      "sourceQuestion": 9,
+      "sourceSection": "VII",
+      "printedPage": 149,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 176
+    },
+    {
+      "q": 149,
+      "qid": "cqe:set-3:legacy-149",
+      "sourceQuestion": 10,
+      "sourceSection": "VII",
+      "printedPage": 149,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 176
+    },
+    {
+      "q": 150,
+      "qid": "cqe:set-3:legacy-150",
+      "sourceQuestion": 11,
+      "sourceSection": "VII",
+      "printedPage": 149,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 176
+    },
+    {
+      "q": 151,
+      "qid": "cqe:set-3:legacy-151",
+      "sourceQuestion": 12,
+      "sourceSection": "VII",
+      "printedPage": 150,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 177
+    },
+    {
+      "q": 152,
+      "qid": "cqe:set-3:legacy-152",
+      "sourceQuestion": 13,
+      "sourceSection": "VII",
+      "printedPage": 150,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 177
+    },
+    {
+      "q": 153,
+      "qid": "cqe:set-3:legacy-153",
+      "sourceQuestion": 14,
+      "sourceSection": "VII",
+      "printedPage": 150,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 177
+    },
+    {
+      "q": 154,
+      "qid": "cqe:set-3:legacy-154",
+      "sourceQuestion": 15,
+      "sourceSection": "VII",
+      "printedPage": 150,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 177
+    },
+    {
+      "q": 155,
+      "qid": "cqe:set-3:legacy-155",
+      "sourceQuestion": 16,
+      "sourceSection": "VII",
+      "printedPage": 150,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 177
+    },
+    {
+      "q": 156,
+      "qid": "cqe:set-3:legacy-156",
+      "sourceQuestion": 17,
+      "sourceSection": "VII",
+      "printedPage": 151,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 178
+    },
+    {
+      "q": 157,
+      "qid": "cqe:set-3:legacy-157",
+      "sourceQuestion": 18,
+      "sourceSection": "VII",
+      "printedPage": 151,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 178
+    },
+    {
+      "q": 158,
+      "qid": "cqe:set-3:legacy-158",
+      "sourceQuestion": 19,
+      "sourceSection": "VII",
+      "printedPage": 151,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 178
+    },
+    {
+      "q": 159,
+      "qid": "cqe:set-3:legacy-159",
+      "sourceQuestion": 21,
+      "sourceSection": "VII",
+      "printedPage": 152,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 179
+    },
+    {
+      "q": 160,
+      "qid": "cqe:set-3:legacy-160",
+      "sourceQuestion": 22,
+      "sourceSection": "VII",
+      "printedPage": 152,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 179
+    },
+    {
+      "q": 161,
+      "qid": "cqe:set-3:legacy-161",
+      "sourceQuestion": 19,
+      "sourceSection": "II",
+      "printedPage": 16,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 43
+    },
+    {
+      "q": 162,
+      "qid": "cqe:set-3:legacy-162",
+      "sourceQuestion": 20,
+      "sourceSection": "II",
+      "printedPage": 17,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 44
+    },
+    {
+      "q": 163,
+      "qid": "cqe:set-3:legacy-163",
+      "sourceQuestion": 21,
+      "sourceSection": "II",
+      "printedPage": 17,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 44
+    },
+    {
+      "q": 164,
+      "qid": "cqe:set-3:legacy-164",
+      "sourceQuestion": 22,
+      "sourceSection": "II",
+      "printedPage": 17,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 44
+    },
+    {
+      "q": 165,
+      "qid": "cqe:set-3:legacy-165",
+      "sourceQuestion": 23,
+      "sourceSection": "II",
+      "printedPage": 17,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 44
+    },
+    {
+      "q": 166,
+      "qid": "cqe:set-3:legacy-166",
+      "sourceQuestion": 24,
+      "sourceSection": "II",
+      "printedPage": 17,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 44
+    },
+    {
+      "q": 167,
+      "qid": "cqe:set-3:legacy-167",
+      "sourceQuestion": 25,
+      "sourceSection": "II",
+      "printedPage": 18,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 45
+    },
+    {
+      "q": 168,
+      "qid": "cqe:set-3:legacy-168",
+      "sourceQuestion": 26,
+      "sourceSection": "II",
+      "printedPage": 18,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 45
+    },
+    {
+      "q": 169,
+      "qid": "cqe:set-3:legacy-169",
+      "sourceQuestion": 27,
+      "sourceSection": "II",
+      "printedPage": 18,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 45
+    },
+    {
+      "q": 170,
+      "qid": "cqe:set-3:legacy-170",
+      "sourceQuestion": 28,
+      "sourceSection": "II",
+      "printedPage": 18,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-001.png",
+      "status": "source-visual-attached",
+      "pdfPage": 45
+    },
+    {
+      "q": 171,
+      "qid": "cqe:set-3:legacy-171",
+      "sourceQuestion": 29,
+      "sourceSection": "II",
+      "printedPage": 19,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-001.png",
+      "status": "source-visual-attached",
+      "pdfPage": 46
+    },
+    {
+      "q": 172,
+      "qid": "cqe:set-3:legacy-172",
+      "sourceQuestion": 30,
+      "sourceSection": "II",
+      "printedPage": 19,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 46
+    },
+    {
+      "q": 173,
+      "qid": "cqe:set-3:legacy-173",
+      "sourceQuestion": 31,
+      "sourceSection": "II",
+      "printedPage": 19,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 46
+    },
+    {
+      "q": 174,
+      "qid": "cqe:set-3:legacy-174",
+      "sourceQuestion": 32,
+      "sourceSection": "II",
+      "printedPage": 19,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 46
+    },
+    {
+      "q": 175,
+      "qid": "cqe:set-3:legacy-175",
+      "sourceQuestion": 33,
+      "sourceSection": "II",
+      "printedPage": 20,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 47
+    },
+    {
+      "q": 176,
+      "qid": "cqe:set-3:legacy-176",
+      "sourceQuestion": 18,
+      "sourceSection": "I",
+      "printedPage": 6,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 33
+    },
+    {
+      "q": 177,
+      "qid": "cqe:set-3:legacy-177",
+      "sourceQuestion": 19,
+      "sourceSection": "I",
+      "printedPage": 6,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 33
+    },
+    {
+      "q": 178,
+      "qid": "cqe:set-3:legacy-178",
+      "sourceQuestion": 20,
+      "sourceSection": "I",
+      "printedPage": 7,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 34
+    },
+    {
+      "q": 179,
+      "qid": "cqe:set-3:legacy-179",
+      "sourceQuestion": 21,
+      "sourceSection": "I",
+      "printedPage": 7,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 34
+    },
+    {
+      "q": 180,
+      "qid": "cqe:set-3:legacy-180",
+      "sourceQuestion": 22,
+      "sourceSection": "I",
+      "printedPage": 7,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 34
+    },
+    {
+      "q": 181,
+      "qid": "cqe:set-3:legacy-181",
+      "sourceQuestion": 23,
+      "sourceSection": "I",
+      "printedPage": 7,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 34
+    },
+    {
+      "q": 182,
+      "qid": "cqe:set-3:legacy-182",
+      "sourceQuestion": 24,
+      "sourceSection": "I",
+      "printedPage": 7,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 34
+    },
+    {
+      "q": 183,
+      "qid": "cqe:set-3:legacy-183",
+      "sourceQuestion": 25,
+      "sourceSection": "I",
+      "printedPage": 8,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 35
+    },
+    {
+      "q": 184,
+      "qid": "cqe:set-3:legacy-184",
+      "sourceQuestion": 26,
+      "sourceSection": "I",
+      "printedPage": 8,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 35
+    },
+    {
+      "q": 185,
+      "qid": "cqe:set-3:legacy-185",
+      "sourceQuestion": 27,
+      "sourceSection": "I",
+      "printedPage": 8,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 35
+    },
+    {
+      "q": 186,
+      "qid": "cqe:set-3:legacy-186",
+      "sourceQuestion": 28,
+      "sourceSection": "I",
+      "printedPage": 8,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 35
+    },
+    {
+      "q": 187,
+      "qid": "cqe:set-3:legacy-187",
+      "sourceQuestion": 29,
+      "sourceSection": "I",
+      "printedPage": 8,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 35
+    },
+    {
+      "q": 188,
+      "qid": "cqe:set-3:legacy-188",
+      "sourceQuestion": 30,
+      "sourceSection": "I",
+      "printedPage": 9,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 36
+    },
+    {
+      "q": 189,
+      "qid": "cqe:set-3:legacy-189",
+      "sourceQuestion": 31,
+      "sourceSection": "I",
+      "printedPage": 9,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 36
+    },
+    {
+      "q": 190,
+      "qid": "cqe:set-3:legacy-190",
+      "sourceQuestion": 32,
+      "sourceSection": "I",
+      "printedPage": 9,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 36
+    },
+    {
+      "q": 191,
+      "qid": "cqe:set-3:legacy-191",
+      "sourceQuestion": 33,
+      "sourceSection": "I",
+      "printedPage": 9,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 36
+    },
+    {
+      "q": 192,
+      "qid": "cqe:set-3:legacy-192",
+      "sourceQuestion": 20,
+      "sourceSection": "VII",
+      "printedPage": 151,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-022.png",
+      "status": "source-visual-attached",
+      "pdfPage": 178
+    },
+    {
+      "q": 193,
+      "qid": "cqe:set-3:legacy-193",
+      "sourceQuestion": 23,
+      "sourceSection": "VII",
+      "printedPage": 152,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 179
+    },
+    {
+      "q": 194,
+      "qid": "cqe:set-3:legacy-194",
+      "sourceQuestion": 24,
+      "sourceSection": "VII",
+      "printedPage": 152,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 179
+    },
+    {
+      "q": 195,
+      "qid": "cqe:set-3:legacy-195",
+      "sourceQuestion": 25,
+      "sourceSection": "VII",
+      "printedPage": 152,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 179
+    },
+    {
+      "q": 196,
+      "qid": "cqe:set-3:legacy-196",
+      "sourceQuestion": 26,
+      "sourceSection": "VII",
+      "printedPage": 153,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 180
+    },
+    {
+      "q": 197,
+      "qid": "cqe:set-3:legacy-197",
+      "sourceQuestion": 27,
+      "sourceSection": "VII",
+      "printedPage": 153,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 180
+    },
+    {
+      "q": 198,
+      "qid": "cqe:set-3:legacy-198",
+      "sourceQuestion": 28,
+      "sourceSection": "VII",
+      "printedPage": 153,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 180
+    },
+    {
+      "q": 199,
+      "qid": "cqe:set-3:legacy-199",
+      "sourceQuestion": 29,
+      "sourceSection": "VII",
+      "printedPage": 153,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 180
+    },
+    {
+      "q": 200,
+      "qid": "cqe:set-3:legacy-200",
+      "sourceQuestion": 30,
+      "sourceSection": "VII",
+      "printedPage": 153,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 180
+    },
+    {
+      "q": 201,
+      "qid": "cqe:set-3:legacy-201",
+      "sourceQuestion": 31,
+      "sourceSection": "VII",
+      "printedPage": 154,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 181
+    },
+    {
+      "q": 202,
+      "qid": "cqe:set-3:legacy-202",
+      "sourceQuestion": 32,
+      "sourceSection": "VII",
+      "printedPage": 154,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 181
+    },
+    {
+      "q": 203,
+      "qid": "cqe:set-3:legacy-203",
+      "sourceQuestion": 33,
+      "sourceSection": "VII",
+      "printedPage": 154,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 181
+    },
+    {
+      "q": 204,
+      "qid": "cqe:set-3:legacy-204",
+      "sourceQuestion": 34,
+      "sourceSection": "VII",
+      "printedPage": 154,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 181
+    },
+    {
+      "q": 205,
+      "qid": "cqe:set-3:legacy-205",
+      "sourceQuestion": 35,
+      "sourceSection": "VII",
+      "printedPage": 155,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 182
+    },
+    {
+      "q": 206,
+      "qid": "cqe:set-3:legacy-206",
+      "sourceQuestion": 36,
+      "sourceSection": "VII",
+      "printedPage": 155,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 182
+    },
+    {
+      "q": 207,
+      "qid": "cqe:set-3:legacy-207",
+      "sourceQuestion": 37,
+      "sourceSection": "VII",
+      "printedPage": 155,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 182
+    },
+    {
+      "q": 208,
+      "qid": "cqe:set-3:legacy-208",
+      "sourceQuestion": 27,
+      "sourceSection": "V",
+      "printedPage": 77,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 104
+    },
+    {
+      "q": 209,
+      "qid": "cqe:set-3:legacy-209",
+      "sourceQuestion": 28,
+      "sourceSection": "V",
+      "printedPage": 77,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 104
+    },
+    {
+      "q": 210,
+      "qid": "cqe:set-3:legacy-210",
+      "sourceQuestion": 29,
+      "sourceSection": "V",
+      "printedPage": 77,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 104
+    },
+    {
+      "q": 211,
+      "qid": "cqe:set-3:legacy-211",
+      "sourceQuestion": 30,
+      "sourceSection": "V",
+      "printedPage": 77,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 104
+    },
+    {
+      "q": 212,
+      "qid": "cqe:set-3:legacy-212",
+      "sourceQuestion": 31,
+      "sourceSection": "V",
+      "printedPage": 78,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 105
+    },
+    {
+      "q": 213,
+      "qid": "cqe:set-3:legacy-213",
+      "sourceQuestion": 32,
+      "sourceSection": "V",
+      "printedPage": 78,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 105
+    },
+    {
+      "q": 214,
+      "qid": "cqe:set-3:legacy-214",
+      "sourceQuestion": 33,
+      "sourceSection": "V",
+      "printedPage": 78,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 105
+    },
+    {
+      "q": 215,
+      "qid": "cqe:set-3:legacy-215",
+      "sourceQuestion": 34,
+      "sourceSection": "V",
+      "printedPage": 78,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 105
+    },
+    {
+      "q": 216,
+      "qid": "cqe:set-3:legacy-216",
+      "sourceQuestion": 35,
+      "sourceSection": "V",
+      "printedPage": 78,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 105
+    },
+    {
+      "q": 217,
+      "qid": "cqe:set-3:legacy-217",
+      "sourceQuestion": 36,
+      "sourceSection": "V",
+      "printedPage": 79,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 106
+    },
+    {
+      "q": 218,
+      "qid": "cqe:set-3:legacy-218",
+      "sourceQuestion": 37,
+      "sourceSection": "V",
+      "printedPage": 79,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 106
+    },
+    {
+      "q": 219,
+      "qid": "cqe:set-3:legacy-219",
+      "sourceQuestion": 38,
+      "sourceSection": "V",
+      "printedPage": 79,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 106
+    },
+    {
+      "q": 220,
+      "qid": "cqe:set-3:legacy-220",
+      "sourceQuestion": 39,
+      "sourceSection": "V",
+      "printedPage": 79,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 106
+    },
+    {
+      "q": 221,
+      "qid": "cqe:set-3:legacy-221",
+      "sourceQuestion": 40,
+      "sourceSection": "V",
+      "printedPage": 80,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 107
+    },
+    {
+      "q": 222,
+      "qid": "cqe:set-3:legacy-222",
+      "sourceQuestion": 41,
+      "sourceSection": "V",
+      "printedPage": 80,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 107
+    },
+    {
+      "q": 223,
+      "qid": "cqe:set-3:legacy-223",
+      "sourceQuestion": 42,
+      "sourceSection": "V",
+      "printedPage": 80,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 107
+    },
+    {
+      "q": 224,
+      "qid": "cqe:set-3:legacy-224",
+      "sourceQuestion": 43,
+      "sourceSection": "V",
+      "printedPage": 80,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 107
+    },
+    {
+      "q": 225,
+      "qid": "cqe:set-3:legacy-225",
+      "sourceQuestion": 44,
+      "sourceSection": "V",
+      "printedPage": 80,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 107
+    },
+    {
+      "q": 226,
+      "qid": "cqe:set-3:legacy-226",
+      "sourceQuestion": 45,
+      "sourceSection": "V",
+      "printedPage": 81,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 108
+    },
+    {
+      "q": 227,
+      "qid": "cqe:set-3:legacy-227",
+      "sourceQuestion": 46,
+      "sourceSection": "V",
+      "printedPage": 81,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 108
+    },
+    {
+      "q": 228,
+      "qid": "cqe:set-3:legacy-228",
+      "sourceQuestion": 47,
+      "sourceSection": "V",
+      "printedPage": 81,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 108
+    },
+    {
+      "q": 229,
+      "qid": "cqe:set-3:legacy-229",
+      "sourceQuestion": 48,
+      "sourceSection": "V",
+      "printedPage": 81,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 108
+    },
+    {
+      "q": 230,
+      "qid": "cqe:set-3:legacy-230",
+      "sourceQuestion": 49,
+      "sourceSection": "V",
+      "printedPage": 82,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 109
+    },
+    {
+      "q": 231,
+      "qid": "cqe:set-3:legacy-231",
+      "sourceQuestion": 50,
+      "sourceSection": "V",
+      "printedPage": 82,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 109
+    },
+    {
+      "q": 232,
+      "qid": "cqe:set-3:legacy-232",
+      "sourceQuestion": 51,
+      "sourceSection": "V",
+      "printedPage": 82,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 109
+    },
+    {
+      "q": 233,
+      "qid": "cqe:set-3:legacy-233",
+      "sourceQuestion": 52,
+      "sourceSection": "V",
+      "printedPage": 82,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 109
+    },
+    {
+      "q": 234,
+      "qid": "cqe:set-3:legacy-234",
+      "sourceQuestion": 53,
+      "sourceSection": "V",
+      "printedPage": 82,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 109
+    },
+    {
+      "q": 235,
+      "qid": "cqe:set-3:legacy-235",
+      "sourceQuestion": 54,
+      "sourceSection": "V",
+      "printedPage": 83,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 110
+    },
+    {
+      "q": 236,
+      "qid": "cqe:set-3:legacy-236",
+      "sourceQuestion": 55,
+      "sourceSection": "V",
+      "printedPage": 83,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 110
+    },
+    {
+      "q": 237,
+      "qid": "cqe:set-3:legacy-237",
+      "sourceQuestion": 56,
+      "sourceSection": "V",
+      "printedPage": 83,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 110
+    },
+    {
+      "q": 238,
+      "qid": "cqe:set-3:legacy-238",
+      "sourceQuestion": 57,
+      "sourceSection": "V",
+      "printedPage": 83,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 110
+    },
+    {
+      "q": 239,
+      "qid": "cqe:set-3:legacy-239",
+      "sourceQuestion": 58,
+      "sourceSection": "V",
+      "printedPage": 83,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 110
+    },
+    {
+      "q": 240,
+      "qid": "cqe:set-3:legacy-240",
+      "sourceQuestion": 59,
+      "sourceSection": "V",
+      "printedPage": 84,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 111
+    },
+    {
+      "q": 241,
+      "qid": "cqe:set-3:legacy-241",
+      "sourceQuestion": 60,
+      "sourceSection": "V",
+      "printedPage": 84,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 111
+    },
+    {
+      "q": 242,
+      "qid": "cqe:set-3:legacy-242",
+      "sourceQuestion": 7,
+      "sourceSection": "III",
+      "printedPage": 24,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 51
+    },
+    {
+      "q": 243,
+      "qid": "cqe:set-3:legacy-243",
+      "sourceQuestion": 11,
+      "sourceSection": "III",
+      "printedPage": 25,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 52
+    },
+    {
+      "q": 244,
+      "qid": "cqe:set-3:legacy-244",
+      "sourceQuestion": 16,
+      "sourceSection": "III",
+      "printedPage": 26,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-002.png",
+      "status": "source-visual-attached",
+      "pdfPage": 53
+    },
+    {
+      "q": 245,
+      "qid": "cqe:set-3:legacy-245",
+      "sourceQuestion": 17,
+      "sourceSection": "III",
+      "printedPage": 26,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-002.png",
+      "status": "source-visual-attached",
+      "pdfPage": 53
+    },
+    {
+      "q": 246,
+      "qid": "cqe:set-3:legacy-246",
+      "sourceQuestion": 25,
+      "sourceSection": "III",
+      "printedPage": 28,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-003.png",
+      "status": "source-visual-attached",
+      "pdfPage": 55
+    },
+    {
+      "q": 247,
+      "qid": "cqe:set-3:legacy-247",
+      "sourceQuestion": 26,
+      "sourceSection": "III",
+      "printedPage": 28,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-003.png",
+      "status": "source-visual-attached",
+      "pdfPage": 55
+    },
+    {
+      "q": 248,
+      "qid": "cqe:set-3:legacy-248",
+      "sourceQuestion": 27,
+      "sourceSection": "III",
+      "printedPage": 29,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-003.png",
+      "status": "source-visual-attached",
+      "pdfPage": 56
+    },
+    {
+      "q": 249,
+      "qid": "cqe:set-3:legacy-249",
+      "sourceQuestion": 28,
+      "sourceSection": "III",
+      "printedPage": 29,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 56
+    },
+    {
+      "q": 250,
+      "qid": "cqe:set-3:legacy-250",
+      "sourceQuestion": 29,
+      "sourceSection": "III",
+      "printedPage": 29,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 56
+    },
+    {
+      "q": 251,
+      "qid": "cqe:set-3:legacy-251",
+      "sourceQuestion": 30,
+      "sourceSection": "III",
+      "printedPage": 29,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 56
+    },
+    {
+      "q": 252,
+      "qid": "cqe:set-3:legacy-252",
+      "sourceQuestion": 31,
+      "sourceSection": "III",
+      "printedPage": 29,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 56
+    },
+    {
+      "q": 253,
+      "qid": "cqe:set-3:legacy-253",
+      "sourceQuestion": 32,
+      "sourceSection": "III",
+      "printedPage": 30,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 57
+    },
+    {
+      "q": 254,
+      "qid": "cqe:set-3:legacy-254",
+      "sourceQuestion": 33,
+      "sourceSection": "III",
+      "printedPage": 30,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 57
+    },
+    {
+      "q": 255,
+      "qid": "cqe:set-3:legacy-255",
+      "sourceQuestion": 34,
+      "sourceSection": "III",
+      "printedPage": 30,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 57
+    },
+    {
+      "q": 256,
+      "qid": "cqe:set-3:legacy-256",
+      "sourceQuestion": 35,
+      "sourceSection": "III",
+      "printedPage": 30,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 57
+    },
+    {
+      "q": 257,
+      "qid": "cqe:set-3:legacy-257",
+      "sourceQuestion": 36,
+      "sourceSection": "III",
+      "printedPage": 30,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 57
+    },
+    {
+      "q": 258,
+      "qid": "cqe:set-3:legacy-258",
+      "sourceQuestion": 37,
+      "sourceSection": "III",
+      "printedPage": 31,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 58
+    },
+    {
+      "q": 259,
+      "qid": "cqe:set-3:legacy-259",
+      "sourceQuestion": 38,
+      "sourceSection": "III",
+      "printedPage": 31,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 58
+    },
+    {
+      "q": 260,
+      "qid": "cqe:set-3:legacy-260",
+      "sourceQuestion": 39,
+      "sourceSection": "III",
+      "printedPage": 31,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 58
+    },
+    {
+      "q": 261,
+      "qid": "cqe:set-3:legacy-261",
+      "sourceQuestion": 40,
+      "sourceSection": "III",
+      "printedPage": 31,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 58
+    },
+    {
+      "q": 262,
+      "qid": "cqe:set-3:legacy-262",
+      "sourceQuestion": 41,
+      "sourceSection": "III",
+      "printedPage": 32,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 59
+    },
+    {
+      "q": 263,
+      "qid": "cqe:set-3:legacy-263",
+      "sourceQuestion": 42,
+      "sourceSection": "III",
+      "printedPage": 32,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 59
+    },
+    {
+      "q": 264,
+      "qid": "cqe:set-3:legacy-264",
+      "sourceQuestion": 43,
+      "sourceSection": "III",
+      "printedPage": 32,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 59
+    },
+    {
+      "q": 265,
+      "qid": "cqe:set-3:legacy-265",
+      "sourceQuestion": 45,
+      "sourceSection": "III",
+      "printedPage": 32,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 59
+    },
+    {
+      "q": 266,
+      "qid": "cqe:set-3:legacy-266",
+      "sourceQuestion": 46,
+      "sourceSection": "III",
+      "printedPage": 33,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 60
+    },
+    {
+      "q": 267,
+      "qid": "cqe:set-3:legacy-267",
+      "sourceQuestion": 47,
+      "sourceSection": "III",
+      "printedPage": 33,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 60
+    },
+    {
+      "q": 268,
+      "qid": "cqe:set-3:legacy-268",
+      "sourceQuestion": 48,
+      "sourceSection": "III",
+      "printedPage": 33,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 60
+    },
+    {
+      "q": 269,
+      "qid": "cqe:set-3:legacy-269",
+      "sourceQuestion": 49,
+      "sourceSection": "III",
+      "printedPage": 33,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 60
+    },
+    {
+      "q": 270,
+      "qid": "cqe:set-3:legacy-270",
+      "sourceQuestion": 50,
+      "sourceSection": "III",
+      "printedPage": 33,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 60
+    },
+    {
+      "q": 271,
+      "qid": "cqe:set-3:legacy-271",
+      "sourceQuestion": 51,
+      "sourceSection": "III",
+      "printedPage": 34,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 61
+    },
+    {
+      "q": 272,
+      "qid": "cqe:set-3:legacy-272",
+      "sourceQuestion": 52,
+      "sourceSection": "III",
+      "printedPage": 34,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 61
+    },
+    {
+      "q": 273,
+      "qid": "cqe:set-3:legacy-273",
+      "sourceQuestion": 53,
+      "sourceSection": "III",
+      "printedPage": 34,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 61
+    },
+    {
+      "q": 274,
+      "qid": "cqe:set-3:legacy-274",
+      "sourceQuestion": 54,
+      "sourceSection": "III",
+      "printedPage": 34,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 61
+    },
+    {
+      "q": 275,
+      "qid": "cqe:set-3:legacy-275",
+      "sourceQuestion": 55,
+      "sourceSection": "III",
+      "printedPage": 34,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 61
+    },
+    {
+      "q": 276,
+      "qid": "cqe:set-3:legacy-276",
+      "sourceQuestion": 56,
+      "sourceSection": "III",
+      "printedPage": 35,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 62
+    },
+    {
+      "q": 277,
+      "qid": "cqe:set-3:legacy-277",
+      "sourceQuestion": 57,
+      "sourceSection": "III",
+      "printedPage": 35,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 62
+    },
+    {
+      "q": 278,
+      "qid": "cqe:set-3:legacy-278",
+      "sourceQuestion": 58,
+      "sourceSection": "III",
+      "printedPage": 35,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 62
+    },
+    {
+      "q": 279,
+      "qid": "cqe:set-3:legacy-279",
+      "sourceQuestion": 15,
+      "sourceSection": "IV",
+      "printedPage": 48,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-004.png",
+      "status": "source-visual-attached",
+      "pdfPage": 75
+    },
+    {
+      "q": 280,
+      "qid": "cqe:set-3:legacy-280",
+      "sourceQuestion": 24,
+      "sourceSection": "IV",
+      "printedPage": 50,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 77
+    },
+    {
+      "q": 281,
+      "qid": "cqe:set-3:legacy-281",
+      "sourceQuestion": 25,
+      "sourceSection": "IV",
+      "printedPage": 50,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 77
+    },
+    {
+      "q": 282,
+      "qid": "cqe:set-3:legacy-282",
+      "sourceQuestion": 26,
+      "sourceSection": "IV",
+      "printedPage": 50,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 77
+    },
+    {
+      "q": 283,
+      "qid": "cqe:set-3:legacy-283",
+      "sourceQuestion": 27,
+      "sourceSection": "IV",
+      "printedPage": 51,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 78
+    },
+    {
+      "q": 284,
+      "qid": "cqe:set-3:legacy-284",
+      "sourceQuestion": 28,
+      "sourceSection": "IV",
+      "printedPage": 51,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 78
+    },
+    {
+      "q": 285,
+      "qid": "cqe:set-3:legacy-285",
+      "sourceQuestion": 29,
+      "sourceSection": "IV",
+      "printedPage": 51,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 78
+    },
+    {
+      "q": 286,
+      "qid": "cqe:set-3:legacy-286",
+      "sourceQuestion": 30,
+      "sourceSection": "IV",
+      "printedPage": 51,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 78
+    },
+    {
+      "q": 287,
+      "qid": "cqe:set-3:legacy-287",
+      "sourceQuestion": 31,
+      "sourceSection": "IV",
+      "printedPage": 52,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 79
+    },
+    {
+      "q": 288,
+      "qid": "cqe:set-3:legacy-288",
+      "sourceQuestion": 32,
+      "sourceSection": "IV",
+      "printedPage": 52,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 79
+    },
+    {
+      "q": 289,
+      "qid": "cqe:set-3:legacy-289",
+      "sourceQuestion": 33,
+      "sourceSection": "IV",
+      "printedPage": 52,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 79
+    },
+    {
+      "q": 290,
+      "qid": "cqe:set-3:legacy-290",
+      "sourceQuestion": 34,
+      "sourceSection": "IV",
+      "printedPage": 52,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 79
+    },
+    {
+      "q": 291,
+      "qid": "cqe:set-3:legacy-291",
+      "sourceQuestion": 35,
+      "sourceSection": "IV",
+      "printedPage": 53,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 80
+    },
+    {
+      "q": 292,
+      "qid": "cqe:set-3:legacy-292",
+      "sourceQuestion": 36,
+      "sourceSection": "IV",
+      "printedPage": 53,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 80
+    },
+    {
+      "q": 293,
+      "qid": "cqe:set-3:legacy-293",
+      "sourceQuestion": 37,
+      "sourceSection": "IV",
+      "printedPage": 53,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 80
+    },
+    {
+      "q": 294,
+      "qid": "cqe:set-3:legacy-294",
+      "sourceQuestion": 38,
+      "sourceSection": "IV",
+      "printedPage": 53,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 80
+    },
+    {
+      "q": 295,
+      "qid": "cqe:set-3:legacy-295",
+      "sourceQuestion": 39,
+      "sourceSection": "IV",
+      "printedPage": 53,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 80
+    },
+    {
+      "q": 296,
+      "qid": "cqe:set-3:legacy-296",
+      "sourceQuestion": 40,
+      "sourceSection": "IV",
+      "printedPage": 54,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 81
+    },
+    {
+      "q": 297,
+      "qid": "cqe:set-3:legacy-297",
+      "sourceQuestion": 41,
+      "sourceSection": "IV",
+      "printedPage": 54,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 81
+    },
+    {
+      "q": 298,
+      "qid": "cqe:set-3:legacy-298",
+      "sourceQuestion": 42,
+      "sourceSection": "IV",
+      "printedPage": 54,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 81
+    },
+    {
+      "q": 299,
+      "qid": "cqe:set-3:legacy-299",
+      "sourceQuestion": 43,
+      "sourceSection": "IV",
+      "printedPage": 54,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 81
+    },
+    {
+      "q": 300,
+      "qid": "cqe:set-3:legacy-300",
+      "sourceQuestion": 44,
+      "sourceSection": "IV",
+      "printedPage": 54,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 81
+    },
+    {
+      "q": 301,
+      "qid": "cqe:set-3:legacy-301",
+      "sourceQuestion": 45,
+      "sourceSection": "IV",
+      "printedPage": 55,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 82
+    },
+    {
+      "q": 302,
+      "qid": "cqe:set-3:legacy-302",
+      "sourceQuestion": 46,
+      "sourceSection": "IV",
+      "printedPage": 55,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 82
+    },
+    {
+      "q": 303,
+      "qid": "cqe:set-3:legacy-303",
+      "sourceQuestion": 47,
+      "sourceSection": "IV",
+      "printedPage": 55,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 82
+    },
+    {
+      "q": 304,
+      "qid": "cqe:set-3:legacy-304",
+      "sourceQuestion": 48,
+      "sourceSection": "IV",
+      "printedPage": 55,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 82
+    },
+    {
+      "q": 305,
+      "qid": "cqe:set-3:legacy-305",
+      "sourceQuestion": 49,
+      "sourceSection": "IV",
+      "printedPage": 55,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 82
+    },
+    {
+      "q": 306,
+      "qid": "cqe:set-3:legacy-306",
+      "sourceQuestion": 50,
+      "sourceSection": "IV",
+      "printedPage": 56,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 83
+    },
+    {
+      "q": 307,
+      "qid": "cqe:set-3:legacy-307",
+      "sourceQuestion": 51,
+      "sourceSection": "IV",
+      "printedPage": 56,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 83
+    },
+    {
+      "q": 308,
+      "qid": "cqe:set-3:legacy-308",
+      "sourceQuestion": 52,
+      "sourceSection": "IV",
+      "printedPage": 56,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 83
+    },
+    {
+      "q": 309,
+      "qid": "cqe:set-3:legacy-309",
+      "sourceQuestion": 53,
+      "sourceSection": "IV",
+      "printedPage": 56,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 83
+    },
+    {
+      "q": 310,
+      "qid": "cqe:set-3:legacy-310",
+      "sourceQuestion": 54,
+      "sourceSection": "IV",
+      "printedPage": 56,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 83
+    },
+    {
+      "q": 311,
+      "qid": "cqe:set-3:legacy-311",
+      "sourceQuestion": 55,
+      "sourceSection": "IV",
+      "printedPage": 57,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 84
+    },
+    {
+      "q": 312,
+      "qid": "cqe:set-3:legacy-312",
+      "sourceQuestion": 56,
+      "sourceSection": "IV",
+      "printedPage": 57,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 84
+    },
+    {
+      "q": 313,
+      "qid": "cqe:set-3:legacy-313",
+      "sourceQuestion": 57,
+      "sourceSection": "IV",
+      "printedPage": 57,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 84
+    },
+    {
+      "q": 314,
+      "qid": "cqe:set-3:legacy-314",
+      "sourceQuestion": 58,
+      "sourceSection": "IV",
+      "printedPage": 57,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 84
+    },
+    {
+      "q": 315,
+      "qid": "cqe:set-3:legacy-315",
+      "sourceQuestion": 59,
+      "sourceSection": "IV",
+      "printedPage": 58,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 85
+    },
+    {
+      "q": 316,
+      "qid": "cqe:set-3:legacy-316",
+      "sourceQuestion": 60,
+      "sourceSection": "IV",
+      "printedPage": 58,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-005.png",
+      "status": "source-visual-attached",
+      "pdfPage": 85
+    },
+    {
+      "q": 317,
+      "qid": "cqe:set-3:legacy-317",
+      "sourceQuestion": 61,
+      "sourceSection": "IV",
+      "printedPage": 58,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-005.png",
+      "status": "source-visual-attached",
+      "pdfPage": 85
+    },
+    {
+      "q": 318,
+      "qid": "cqe:set-3:legacy-318",
+      "sourceQuestion": 62,
+      "sourceSection": "IV",
+      "printedPage": 59,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-005.png",
+      "status": "source-visual-attached",
+      "pdfPage": 86
+    },
+    {
+      "q": 319,
+      "qid": "cqe:set-3:legacy-319",
+      "sourceQuestion": 63,
+      "sourceSection": "IV",
+      "printedPage": 59,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-006.png",
+      "status": "source-visual-attached",
+      "pdfPage": 86
+    },
+    {
+      "q": 320,
+      "qid": "cqe:set-3:legacy-320",
+      "sourceQuestion": 7,
+      "sourceSection": "VI",
+      "printedPage": 94,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-007.png",
+      "status": "source-visual-attached",
+      "pdfPage": 121
+    },
+    {
+      "q": 321,
+      "qid": "cqe:set-3:legacy-321",
+      "sourceQuestion": 15,
+      "sourceSection": "VI",
+      "printedPage": 96,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 123
+    },
+    {
+      "q": 322,
+      "qid": "cqe:set-3:legacy-322",
+      "sourceQuestion": 16,
+      "sourceSection": "VI",
+      "printedPage": 96,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-008.png",
+      "status": "source-visual-attached",
+      "pdfPage": 123
+    },
+    {
+      "q": 323,
+      "qid": "cqe:set-3:legacy-323",
+      "sourceQuestion": 19,
+      "sourceSection": "VI",
+      "printedPage": 97,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-009.png",
+      "status": "source-visual-attached",
+      "pdfPage": 124
+    },
+    {
+      "q": 324,
+      "qid": "cqe:set-3:legacy-324",
+      "sourceQuestion": 31,
+      "sourceSection": "VI",
+      "printedPage": 100,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-010.png",
+      "status": "source-visual-attached",
+      "pdfPage": 127
+    },
+    {
+      "q": 325,
+      "qid": "cqe:set-3:legacy-325",
+      "sourceQuestion": 40,
+      "sourceSection": "VI",
+      "printedPage": 102,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 129
+    },
+    {
+      "q": 326,
+      "qid": "cqe:set-3:legacy-326",
+      "sourceQuestion": 41,
+      "sourceSection": "VI",
+      "printedPage": 102,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 129
+    },
+    {
+      "q": 327,
+      "qid": "cqe:set-3:legacy-327",
+      "sourceQuestion": 42,
+      "sourceSection": "VI",
+      "printedPage": 102,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 129
+    },
+    {
+      "q": 328,
+      "qid": "cqe:set-3:legacy-328",
+      "sourceQuestion": 43,
+      "sourceSection": "VI",
+      "printedPage": 103,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 130
+    },
+    {
+      "q": 329,
+      "qid": "cqe:set-3:legacy-329",
+      "sourceQuestion": 44,
+      "sourceSection": "VI",
+      "printedPage": 103,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 130
+    },
+    {
+      "q": 330,
+      "qid": "cqe:set-3:legacy-330",
+      "sourceQuestion": 45,
+      "sourceSection": "VI",
+      "printedPage": 103,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 130
+    },
+    {
+      "q": 331,
+      "qid": "cqe:set-3:legacy-331",
+      "sourceQuestion": 46,
+      "sourceSection": "VI",
+      "printedPage": 104,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 131
+    },
+    {
+      "q": 332,
+      "qid": "cqe:set-3:legacy-332",
+      "sourceQuestion": 47,
+      "sourceSection": "VI",
+      "printedPage": 104,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 131
+    },
+    {
+      "q": 333,
+      "qid": "cqe:set-3:legacy-333",
+      "sourceQuestion": 48,
+      "sourceSection": "VI",
+      "printedPage": 104,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 131
+    },
+    {
+      "q": 334,
+      "qid": "cqe:set-3:legacy-334",
+      "sourceQuestion": 49,
+      "sourceSection": "VI",
+      "printedPage": 104,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 131
+    },
+    {
+      "q": 335,
+      "qid": "cqe:set-3:legacy-335",
+      "sourceQuestion": 50,
+      "sourceSection": "VI",
+      "printedPage": 104,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 131
+    },
+    {
+      "q": 336,
+      "qid": "cqe:set-3:legacy-336",
+      "sourceQuestion": 51,
+      "sourceSection": "VI",
+      "printedPage": 105,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 132
+    },
+    {
+      "q": 337,
+      "qid": "cqe:set-3:legacy-337",
+      "sourceQuestion": 52,
+      "sourceSection": "VI",
+      "printedPage": 105,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-011.png",
+      "status": "source-visual-attached",
+      "pdfPage": 132
+    },
+    {
+      "q": 338,
+      "qid": "cqe:set-3:legacy-338",
+      "sourceQuestion": 53,
+      "sourceSection": "VI",
+      "printedPage": 105,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-012.png",
+      "status": "source-visual-attached",
+      "pdfPage": 132
+    },
+    {
+      "q": 339,
+      "qid": "cqe:set-3:legacy-339",
+      "sourceQuestion": 54,
+      "sourceSection": "VI",
+      "printedPage": 106,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 133
+    },
+    {
+      "q": 340,
+      "qid": "cqe:set-3:legacy-340",
+      "sourceQuestion": 55,
+      "sourceSection": "VI",
+      "printedPage": 106,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-013.png",
+      "status": "source-visual-attached",
+      "pdfPage": 133
+    },
+    {
+      "q": 341,
+      "qid": "cqe:set-3:legacy-341",
+      "sourceQuestion": 56,
+      "sourceSection": "VI",
+      "printedPage": 106,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 133
+    },
+    {
+      "q": 342,
+      "qid": "cqe:set-3:legacy-342",
+      "sourceQuestion": 57,
+      "sourceSection": "VI",
+      "printedPage": 107,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-014.png",
+      "status": "source-visual-attached",
+      "pdfPage": 134
+    },
+    {
+      "q": 343,
+      "qid": "cqe:set-3:legacy-343",
+      "sourceQuestion": 59,
+      "sourceSection": "VI",
+      "printedPage": 108,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-009.png",
+      "status": "source-visual-attached",
+      "pdfPage": 135
+    },
+    {
+      "q": 344,
+      "qid": "cqe:set-3:legacy-344",
+      "sourceQuestion": 60,
+      "sourceSection": "VI",
+      "printedPage": 108,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 135
+    },
+    {
+      "q": 345,
+      "qid": "cqe:set-3:legacy-345",
+      "sourceQuestion": 61,
+      "sourceSection": "VI",
+      "printedPage": 108,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 135
+    },
+    {
+      "q": 346,
+      "qid": "cqe:set-3:legacy-346",
+      "sourceQuestion": 62,
+      "sourceSection": "VI",
+      "printedPage": 108,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 135
+    },
+    {
+      "q": 347,
+      "qid": "cqe:set-3:legacy-347",
+      "sourceQuestion": 63,
+      "sourceSection": "VI",
+      "printedPage": 109,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 136
+    },
+    {
+      "q": 348,
+      "qid": "cqe:set-3:legacy-348",
+      "sourceQuestion": 64,
+      "sourceSection": "VI",
+      "printedPage": 109,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-015.png",
+      "status": "source-visual-attached",
+      "pdfPage": 136
+    },
+    {
+      "q": 349,
+      "qid": "cqe:set-3:legacy-349",
+      "sourceQuestion": 65,
+      "sourceSection": "VI",
+      "printedPage": 110,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-016.png",
+      "status": "source-visual-attached",
+      "pdfPage": 137
+    },
+    {
+      "q": 350,
+      "qid": "cqe:set-3:legacy-350",
+      "sourceQuestion": 66,
+      "sourceSection": "VI",
+      "printedPage": 110,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 137
+    },
+    {
+      "q": 351,
+      "qid": "cqe:set-3:legacy-351",
+      "sourceQuestion": 67,
+      "sourceSection": "VI",
+      "printedPage": 110,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 137
+    },
+    {
+      "q": 352,
+      "qid": "cqe:set-3:legacy-352",
+      "sourceQuestion": 68,
+      "sourceSection": "VI",
+      "printedPage": 111,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 138
+    },
+    {
+      "q": 353,
+      "qid": "cqe:set-3:legacy-353",
+      "sourceQuestion": 69,
+      "sourceSection": "VI",
+      "printedPage": 111,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 138
+    },
+    {
+      "q": 354,
+      "qid": "cqe:set-3:legacy-354",
+      "sourceQuestion": 70,
+      "sourceSection": "VI",
+      "printedPage": 111,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 138
+    },
+    {
+      "q": 355,
+      "qid": "cqe:set-3:legacy-355",
+      "sourceQuestion": 71,
+      "sourceSection": "VI",
+      "printedPage": 111,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 138
+    },
+    {
+      "q": 356,
+      "qid": "cqe:set-3:legacy-356",
+      "sourceQuestion": 72,
+      "sourceSection": "VI",
+      "printedPage": 111,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 138
+    },
+    {
+      "q": 357,
+      "qid": "cqe:set-3:legacy-357",
+      "sourceQuestion": 73,
+      "sourceSection": "VI",
+      "printedPage": 112,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 139
+    },
+    {
+      "q": 358,
+      "qid": "cqe:set-3:legacy-358",
+      "sourceQuestion": 74,
+      "sourceSection": "VI",
+      "printedPage": 112,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 139
+    },
+    {
+      "q": 359,
+      "qid": "cqe:set-3:legacy-359",
+      "sourceQuestion": 75,
+      "sourceSection": "VI",
+      "printedPage": 112,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 139
+    },
+    {
+      "q": 360,
+      "qid": "cqe:set-3:legacy-360",
+      "sourceQuestion": 76,
+      "sourceSection": "VI",
+      "printedPage": 112,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 139
+    },
+    {
+      "q": 361,
+      "qid": "cqe:set-3:legacy-361",
+      "sourceQuestion": 77,
+      "sourceSection": "VI",
+      "printedPage": 112,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 139
+    },
+    {
+      "q": 362,
+      "qid": "cqe:set-3:legacy-362",
+      "sourceQuestion": 78,
+      "sourceSection": "VI",
+      "printedPage": 113,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 140
+    },
+    {
+      "q": 363,
+      "qid": "cqe:set-3:legacy-363",
+      "sourceQuestion": 79,
+      "sourceSection": "VI",
+      "printedPage": 113,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 140
+    },
+    {
+      "q": 364,
+      "qid": "cqe:set-3:legacy-364",
+      "sourceQuestion": 80,
+      "sourceSection": "VI",
+      "printedPage": 113,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 140
+    },
+    {
+      "q": 365,
+      "qid": "cqe:set-3:legacy-365",
+      "sourceQuestion": 81,
+      "sourceSection": "VI",
+      "printedPage": 113,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 140
+    },
+    {
+      "q": 366,
+      "qid": "cqe:set-3:legacy-366",
+      "sourceQuestion": 82,
+      "sourceSection": "VI",
+      "printedPage": 114,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 141
+    },
+    {
+      "q": 367,
+      "qid": "cqe:set-3:legacy-367",
+      "sourceQuestion": 83,
+      "sourceSection": "VI",
+      "printedPage": 114,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 141
+    },
+    {
+      "q": 368,
+      "qid": "cqe:set-3:legacy-368",
+      "sourceQuestion": 84,
+      "sourceSection": "VI",
+      "printedPage": 114,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 141
+    },
+    {
+      "q": 369,
+      "qid": "cqe:set-3:legacy-369",
+      "sourceQuestion": 85,
+      "sourceSection": "VI",
+      "printedPage": 114,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 141
+    },
+    {
+      "q": 370,
+      "qid": "cqe:set-3:legacy-370",
+      "sourceQuestion": 86,
+      "sourceSection": "VI",
+      "printedPage": 115,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 142
+    },
+    {
+      "q": 371,
+      "qid": "cqe:set-3:legacy-371",
+      "sourceQuestion": 87,
+      "sourceSection": "VI",
+      "printedPage": 115,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-017.png",
+      "status": "source-visual-attached",
+      "pdfPage": 142
+    },
+    {
+      "q": 372,
+      "qid": "cqe:set-3:legacy-372",
+      "sourceQuestion": 88,
+      "sourceSection": "VI",
+      "printedPage": 115,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-018.png",
+      "status": "source-visual-attached",
+      "pdfPage": 142
+    },
+    {
+      "q": 373,
+      "qid": "cqe:set-3:legacy-373",
+      "sourceQuestion": 89,
+      "sourceSection": "VI",
+      "printedPage": 116,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-019.png",
+      "status": "source-visual-attached",
+      "pdfPage": 143
+    },
+    {
+      "q": 374,
+      "qid": "cqe:set-3:legacy-374",
+      "sourceQuestion": 90,
+      "sourceSection": "VI",
+      "printedPage": 116,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 143
+    },
+    {
+      "q": 375,
+      "qid": "cqe:set-3:legacy-375",
+      "sourceQuestion": 91,
+      "sourceSection": "VI",
+      "printedPage": 116,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 143
+    },
+    {
+      "q": 376,
+      "qid": "cqe:set-3:legacy-376",
+      "sourceQuestion": 92,
+      "sourceSection": "VI",
+      "printedPage": 117,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 144
+    },
+    {
+      "q": 377,
+      "qid": "cqe:set-3:legacy-377",
+      "sourceQuestion": 93,
+      "sourceSection": "VI",
+      "printedPage": 117,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 144
+    },
+    {
+      "q": 378,
+      "qid": "cqe:set-3:legacy-378",
+      "sourceQuestion": 94,
+      "sourceSection": "VI",
+      "printedPage": 117,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 144
+    },
+    {
+      "q": 379,
+      "qid": "cqe:set-3:legacy-379",
+      "sourceQuestion": 95,
+      "sourceSection": "VI",
+      "printedPage": 117,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 144
+    },
+    {
+      "q": 380,
+      "qid": "cqe:set-3:legacy-380",
+      "sourceQuestion": 96,
+      "sourceSection": "VI",
+      "printedPage": 118,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 145
+    },
+    {
+      "q": 381,
+      "qid": "cqe:set-3:legacy-381",
+      "sourceQuestion": 97,
+      "sourceSection": "VI",
+      "printedPage": 118,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 145
+    },
+    {
+      "q": 382,
+      "qid": "cqe:set-3:legacy-382",
+      "sourceQuestion": 98,
+      "sourceSection": "VI",
+      "printedPage": 118,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 145
+    },
+    {
+      "q": 383,
+      "qid": "cqe:set-3:legacy-383",
+      "sourceQuestion": 99,
+      "sourceSection": "VI",
+      "printedPage": 118,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 145
+    },
+    {
+      "q": 384,
+      "qid": "cqe:set-3:legacy-384",
+      "sourceQuestion": 100,
+      "sourceSection": "VI",
+      "printedPage": 119,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 146
+    },
+    {
+      "q": 385,
+      "qid": "cqe:set-3:legacy-385",
+      "sourceQuestion": 101,
+      "sourceSection": "VI",
+      "printedPage": 119,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 146
+    },
+    {
+      "q": 386,
+      "qid": "cqe:set-3:legacy-386",
+      "sourceQuestion": 102,
+      "sourceSection": "VI",
+      "printedPage": 119,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 146
+    },
+    {
+      "q": 387,
+      "qid": "cqe:set-3:legacy-387",
+      "sourceQuestion": 103,
+      "sourceSection": "VI",
+      "printedPage": 119,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 146
+    },
+    {
+      "q": 388,
+      "qid": "cqe:set-3:legacy-388",
+      "sourceQuestion": 104,
+      "sourceSection": "VI",
+      "printedPage": 119,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 146
+    },
+    {
+      "q": 389,
+      "qid": "cqe:set-3:legacy-389",
+      "sourceQuestion": 105,
+      "sourceSection": "VI",
+      "printedPage": 120,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 147
+    },
+    {
+      "q": 390,
+      "qid": "cqe:set-3:legacy-390",
+      "sourceQuestion": 106,
+      "sourceSection": "VI",
+      "printedPage": 120,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 147
+    },
+    {
+      "q": 391,
+      "qid": "cqe:set-3:legacy-391",
+      "sourceQuestion": 107,
+      "sourceSection": "VI",
+      "printedPage": 120,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-020.png",
+      "status": "source-visual-attached",
+      "pdfPage": 147
+    },
+    {
+      "q": 392,
+      "qid": "cqe:set-3:legacy-392",
+      "sourceQuestion": 108,
+      "sourceSection": "VI",
+      "printedPage": 121,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 148
+    },
+    {
+      "q": 393,
+      "qid": "cqe:set-3:legacy-393",
+      "sourceQuestion": 109,
+      "sourceSection": "VI",
+      "printedPage": 121,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 148
+    },
+    {
+      "q": 394,
+      "qid": "cqe:set-3:legacy-394",
+      "sourceQuestion": 110,
+      "sourceSection": "VI",
+      "printedPage": 121,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 148
+    },
+    {
+      "q": 395,
+      "qid": "cqe:set-3:legacy-395",
+      "sourceQuestion": 111,
+      "sourceSection": "VI",
+      "printedPage": 121,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 148
+    },
+    {
+      "q": 396,
+      "qid": "cqe:set-3:legacy-396",
+      "sourceQuestion": 112,
+      "sourceSection": "VI",
+      "printedPage": 122,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 149
+    },
+    {
+      "q": 397,
+      "qid": "cqe:set-3:legacy-397",
+      "sourceQuestion": 113,
+      "sourceSection": "VI",
+      "printedPage": 122,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 149
+    },
+    {
+      "q": 398,
+      "qid": "cqe:set-3:legacy-398",
+      "sourceQuestion": 114,
+      "sourceSection": "VI",
+      "printedPage": 122,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 149
+    },
+    {
+      "q": 399,
+      "qid": "cqe:set-3:legacy-399",
+      "sourceQuestion": 115,
+      "sourceSection": "VI",
+      "printedPage": 122,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 149
+    },
+    {
+      "q": 400,
+      "qid": "cqe:set-3:legacy-400",
+      "sourceQuestion": 92,
+      "sourceSection": "S2",
+      "printedPage": 186,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 213
+    },
+    {
+      "q": 401,
+      "qid": "cqe:set-3:legacy-401",
+      "sourceQuestion": 135,
+      "sourceSection": "S2",
+      "printedPage": 198,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 225
+    },
+    {
+      "q": 402,
+      "qid": "cqe:set-3:legacy-402",
+      "sourceQuestion": 212,
+      "sourceSection": "S2",
+      "printedPage": 217,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 244
+    },
+    {
+      "q": 403,
+      "qid": "cqe:set-3:legacy-403",
+      "sourceQuestion": 49,
+      "sourceSection": "S2",
+      "printedPage": 176,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 203
+    },
+    {
+      "q": 404,
+      "qid": "cqe:set-3:legacy-404",
+      "sourceQuestion": 60,
+      "sourceSection": "S2",
+      "printedPage": 178,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 205
+    },
+    {
+      "q": 405,
+      "qid": "cqe:set-3:legacy-405",
+      "sourceQuestion": 68,
+      "sourceSection": "S2",
+      "printedPage": 180,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 207
+    },
+    {
+      "q": 406,
+      "qid": "cqe:set-3:legacy-406",
+      "sourceQuestion": 90,
+      "sourceSection": "S2",
+      "printedPage": 186,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 213
+    },
+    {
+      "q": 407,
+      "qid": "cqe:set-3:legacy-407",
+      "sourceQuestion": 151,
+      "sourceSection": "S2",
+      "printedPage": 202,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 229
+    },
+    {
+      "q": 408,
+      "qid": "cqe:set-3:legacy-408",
+      "sourceQuestion": 166,
+      "sourceSection": "S2",
+      "printedPage": 205,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 232
+    },
+    {
+      "q": 409,
+      "qid": "cqe:set-3:legacy-409",
+      "sourceQuestion": 196,
+      "sourceSection": "S2",
+      "printedPage": 214,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 241
+    },
+    {
+      "q": 410,
+      "qid": "cqe:set-3:legacy-410",
+      "sourceQuestion": 201,
+      "sourceSection": "S2",
+      "printedPage": 215,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 242
+    },
+    {
+      "q": 411,
+      "qid": "cqe:set-3:legacy-411",
+      "sourceQuestion": 215,
+      "sourceSection": "S2",
+      "printedPage": 218,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 245
+    },
+    {
+      "q": 412,
+      "qid": "cqe:set-3:legacy-412",
+      "sourceQuestion": 7,
+      "sourceSection": "S2",
+      "printedPage": 164,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-023.png",
+      "status": "source-visual-attached",
+      "pdfPage": 191
+    },
+    {
+      "q": 413,
+      "qid": "cqe:set-3:legacy-413",
+      "sourceQuestion": 17,
+      "sourceSection": "S2",
+      "printedPage": 167,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 194
+    },
+    {
+      "q": 414,
+      "qid": "cqe:set-3:legacy-414",
+      "sourceQuestion": 19,
+      "sourceSection": "S2",
+      "printedPage": 167,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 194
+    },
+    {
+      "q": 415,
+      "qid": "cqe:set-3:legacy-415",
+      "sourceQuestion": 38,
+      "sourceSection": "S2",
+      "printedPage": 173,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 200
+    },
+    {
+      "q": 416,
+      "qid": "cqe:set-3:legacy-416",
+      "sourceQuestion": 51,
+      "sourceSection": "S2",
+      "printedPage": 176,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 203
+    },
+    {
+      "q": 417,
+      "qid": "cqe:set-3:legacy-417",
+      "sourceQuestion": 70,
+      "sourceSection": "S2",
+      "printedPage": 181,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 208
+    },
+    {
+      "q": 418,
+      "qid": "cqe:set-3:legacy-418",
+      "sourceQuestion": 100,
+      "sourceSection": "S2",
+      "printedPage": 188,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 215
+    },
+    {
+      "q": 419,
+      "qid": "cqe:set-3:legacy-419",
+      "sourceQuestion": 107,
+      "sourceSection": "S2",
+      "printedPage": 190,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 217
+    },
+    {
+      "q": 420,
+      "qid": "cqe:set-3:legacy-420",
+      "sourceQuestion": 108,
+      "sourceSection": "S2",
+      "printedPage": 190,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 217
+    },
+    {
+      "q": 421,
+      "qid": "cqe:set-3:legacy-421",
+      "sourceQuestion": 131,
+      "sourceSection": "S2",
+      "printedPage": 197,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 224
+    },
+    {
+      "q": 422,
+      "qid": "cqe:set-3:legacy-422",
+      "sourceQuestion": 161,
+      "sourceSection": "S2",
+      "printedPage": 204,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 231
+    },
+    {
+      "q": 423,
+      "qid": "cqe:set-3:legacy-423",
+      "sourceQuestion": 171,
+      "sourceSection": "S2",
+      "printedPage": 206,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 233
+    },
+    {
+      "q": 424,
+      "qid": "cqe:set-3:legacy-424",
+      "sourceQuestion": 176,
+      "sourceSection": "S2",
+      "printedPage": 208,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 235
+    },
+    {
+      "q": 425,
+      "qid": "cqe:set-3:legacy-425",
+      "sourceQuestion": 181,
+      "sourceSection": "S2",
+      "printedPage": 209,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 236
+    },
+    {
+      "q": 426,
+      "qid": "cqe:set-3:legacy-426",
+      "sourceQuestion": 190,
+      "sourceSection": "S2",
+      "printedPage": 212,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 239
+    },
+    {
+      "q": 427,
+      "qid": "cqe:set-3:legacy-427",
+      "sourceQuestion": 206,
+      "sourceSection": "S2",
+      "printedPage": 216,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 243
+    },
+    {
+      "q": 428,
+      "qid": "cqe:set-3:legacy-428",
+      "sourceQuestion": 213,
+      "sourceSection": "S2",
+      "printedPage": 217,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 244
+    },
+    {
+      "q": 429,
+      "qid": "cqe:set-3:legacy-429",
+      "sourceQuestion": 214,
+      "sourceSection": "S2",
+      "printedPage": 217,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-047.png",
+      "status": "source-visual-attached",
+      "pdfPage": 244
+    },
+    {
+      "q": 430,
+      "qid": "cqe:set-3:legacy-430",
+      "sourceQuestion": 4,
+      "sourceSection": "S2",
+      "printedPage": 163,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 190
+    },
+    {
+      "q": 431,
+      "qid": "cqe:set-3:legacy-431",
+      "sourceQuestion": 12,
+      "sourceSection": "S2",
+      "printedPage": 165,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 192
+    },
+    {
+      "q": 432,
+      "qid": "cqe:set-3:legacy-432",
+      "sourceQuestion": 13,
+      "sourceSection": "S2",
+      "printedPage": 165,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 192
+    },
+    {
+      "q": 433,
+      "qid": "cqe:set-3:legacy-433",
+      "sourceQuestion": 20,
+      "sourceSection": "S2",
+      "printedPage": 167,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 194
+    },
+    {
+      "q": 434,
+      "qid": "cqe:set-3:legacy-434",
+      "sourceQuestion": 28,
+      "sourceSection": "S2",
+      "printedPage": 170,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 197
+    },
+    {
+      "q": 435,
+      "qid": "cqe:set-3:legacy-435",
+      "sourceQuestion": 30,
+      "sourceSection": "S2",
+      "printedPage": 170,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 197
+    },
+    {
+      "q": 436,
+      "qid": "cqe:set-3:legacy-436",
+      "sourceQuestion": 39,
+      "sourceSection": "S2",
+      "printedPage": 173,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 200
+    },
+    {
+      "q": 437,
+      "qid": "cqe:set-3:legacy-437",
+      "sourceQuestion": 46,
+      "sourceSection": "S2",
+      "printedPage": 175,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 202
+    },
+    {
+      "q": 438,
+      "qid": "cqe:set-3:legacy-438",
+      "sourceQuestion": 47,
+      "sourceSection": "S2",
+      "printedPage": 175,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 202
+    },
+    {
+      "q": 439,
+      "qid": "cqe:set-3:legacy-439",
+      "sourceQuestion": 52,
+      "sourceSection": "S2",
+      "printedPage": 176,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 203
+    },
+    {
+      "q": 440,
+      "qid": "cqe:set-3:legacy-440",
+      "sourceQuestion": 67,
+      "sourceSection": "S2",
+      "printedPage": 180,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 207
+    },
+    {
+      "q": 441,
+      "qid": "cqe:set-3:legacy-441",
+      "sourceQuestion": 81,
+      "sourceSection": "S2",
+      "printedPage": 183,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 210
+    },
+    {
+      "q": 442,
+      "qid": "cqe:set-3:legacy-442",
+      "sourceQuestion": 85,
+      "sourceSection": "S2",
+      "printedPage": 185,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 212
+    },
+    {
+      "q": 443,
+      "qid": "cqe:set-3:legacy-443",
+      "sourceQuestion": 91,
+      "sourceSection": "S2",
+      "printedPage": 186,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 213
+    },
+    {
+      "q": 444,
+      "qid": "cqe:set-3:legacy-444",
+      "sourceQuestion": 116,
+      "sourceSection": "S2",
+      "printedPage": 193,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 220
+    },
+    {
+      "q": 445,
+      "qid": "cqe:set-3:legacy-445",
+      "sourceQuestion": 119,
+      "sourceSection": "S2",
+      "printedPage": 193,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 220
+    },
+    {
+      "q": 446,
+      "qid": "cqe:set-3:legacy-446",
+      "sourceQuestion": 129,
+      "sourceSection": "S2",
+      "printedPage": 196,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 223
+    },
+    {
+      "q": 447,
+      "qid": "cqe:set-3:legacy-447",
+      "sourceQuestion": 136,
+      "sourceSection": "S2",
+      "printedPage": 198,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 225
+    },
+    {
+      "q": 448,
+      "qid": "cqe:set-3:legacy-448",
+      "sourceQuestion": 142,
+      "sourceSection": "S2",
+      "printedPage": 200,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 227
+    },
+    {
+      "q": 449,
+      "qid": "cqe:set-3:legacy-449",
+      "sourceQuestion": 149,
+      "sourceSection": "S2",
+      "printedPage": 202,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 229
+    },
+    {
+      "q": 450,
+      "qid": "cqe:set-3:legacy-450",
+      "sourceQuestion": 154,
+      "sourceSection": "S2",
+      "printedPage": 203,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 230
+    },
+    {
+      "q": 451,
+      "qid": "cqe:set-3:legacy-451",
+      "sourceQuestion": 167,
+      "sourceSection": "S2",
+      "printedPage": 206,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 233
+    },
+    {
+      "q": 452,
+      "qid": "cqe:set-3:legacy-452",
+      "sourceQuestion": 179,
+      "sourceSection": "S2",
+      "printedPage": 209,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 236
+    },
+    {
+      "q": 453,
+      "qid": "cqe:set-3:legacy-453",
+      "sourceQuestion": 180,
+      "sourceSection": "S2",
+      "printedPage": 209,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 236
+    },
+    {
+      "q": 454,
+      "qid": "cqe:set-3:legacy-454",
+      "sourceQuestion": 198,
+      "sourceSection": "S2",
+      "printedPage": 214,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 241
+    },
+    {
+      "q": 455,
+      "qid": "cqe:set-3:legacy-455",
+      "sourceQuestion": 205,
+      "sourceSection": "S2",
+      "printedPage": 216,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 243
+    },
+    {
+      "q": 456,
+      "qid": "cqe:set-3:legacy-456",
+      "sourceQuestion": 210,
+      "sourceSection": "S2",
+      "printedPage": 217,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 244
+    },
+    {
+      "q": 457,
+      "qid": "cqe:set-3:legacy-457",
+      "sourceQuestion": 1,
+      "sourceSection": "S2",
+      "printedPage": 163,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 190
+    },
+    {
+      "q": 458,
+      "qid": "cqe:set-3:legacy-458",
+      "sourceQuestion": 6,
+      "sourceSection": "S2",
+      "printedPage": 164,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 191
+    },
+    {
+      "q": 459,
+      "qid": "cqe:set-3:legacy-459",
+      "sourceQuestion": 18,
+      "sourceSection": "S2",
+      "printedPage": 167,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 194
+    },
+    {
+      "q": 460,
+      "qid": "cqe:set-3:legacy-460",
+      "sourceQuestion": 23,
+      "sourceSection": "S2",
+      "printedPage": 169,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-026.png",
+      "status": "source-visual-attached",
+      "pdfPage": 196
+    },
+    {
+      "q": 461,
+      "qid": "cqe:set-3:legacy-461",
+      "sourceQuestion": 26,
+      "sourceSection": "S2",
+      "printedPage": 170,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 197
+    },
+    {
+      "q": 462,
+      "qid": "cqe:set-3:legacy-462",
+      "sourceQuestion": 34,
+      "sourceSection": "S2",
+      "printedPage": 171,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-027.png",
+      "status": "source-visual-attached",
+      "pdfPage": 198
+    },
+    {
+      "q": 463,
+      "qid": "cqe:set-3:legacy-463",
+      "sourceQuestion": 40,
+      "sourceSection": "S2",
+      "printedPage": 173,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 200
+    },
+    {
+      "q": 464,
+      "qid": "cqe:set-3:legacy-464",
+      "sourceQuestion": 43,
+      "sourceSection": "S2",
+      "printedPage": 174,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 201
+    },
+    {
+      "q": 465,
+      "qid": "cqe:set-3:legacy-465",
+      "sourceQuestion": 48,
+      "sourceSection": "S2",
+      "printedPage": 175,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 202
+    },
+    {
+      "q": 466,
+      "qid": "cqe:set-3:legacy-466",
+      "sourceQuestion": 50,
+      "sourceSection": "S2",
+      "printedPage": 176,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 203
+    },
+    {
+      "q": 467,
+      "qid": "cqe:set-3:legacy-467",
+      "sourceQuestion": 55,
+      "sourceSection": "S2",
+      "printedPage": 177,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 204
+    },
+    {
+      "q": 468,
+      "qid": "cqe:set-3:legacy-468",
+      "sourceQuestion": 59,
+      "sourceSection": "S2",
+      "printedPage": 178,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 205
+    },
+    {
+      "q": 469,
+      "qid": "cqe:set-3:legacy-469",
+      "sourceQuestion": 63,
+      "sourceSection": "S2",
+      "printedPage": 179,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 206
+    },
+    {
+      "q": 470,
+      "qid": "cqe:set-3:legacy-470",
+      "sourceQuestion": 65,
+      "sourceSection": "S2",
+      "printedPage": 180,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 207
+    },
+    {
+      "q": 471,
+      "qid": "cqe:set-3:legacy-471",
+      "sourceQuestion": 73,
+      "sourceSection": "S2",
+      "printedPage": 182,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 209
+    },
+    {
+      "q": 472,
+      "qid": "cqe:set-3:legacy-472",
+      "sourceQuestion": 78,
+      "sourceSection": "S2",
+      "printedPage": 183,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 210
+    },
+    {
+      "q": 473,
+      "qid": "cqe:set-3:legacy-473",
+      "sourceQuestion": 80,
+      "sourceSection": "S2",
+      "printedPage": 183,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 210
+    },
+    {
+      "q": 474,
+      "qid": "cqe:set-3:legacy-474",
+      "sourceQuestion": 89,
+      "sourceSection": "S2",
+      "printedPage": 185,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 212
+    },
+    {
+      "q": 475,
+      "qid": "cqe:set-3:legacy-475",
+      "sourceQuestion": 96,
+      "sourceSection": "S2",
+      "printedPage": 187,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 214
+    },
+    {
+      "q": 476,
+      "qid": "cqe:set-3:legacy-476",
+      "sourceQuestion": 102,
+      "sourceSection": "S2",
+      "printedPage": 189,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 216
+    },
+    {
+      "q": 477,
+      "qid": "cqe:set-3:legacy-477",
+      "sourceQuestion": 103,
+      "sourceSection": "S2",
+      "printedPage": 189,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 216
+    },
+    {
+      "q": 478,
+      "qid": "cqe:set-3:legacy-478",
+      "sourceQuestion": 110,
+      "sourceSection": "S2",
+      "printedPage": 191,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 218
+    },
+    {
+      "q": 479,
+      "qid": "cqe:set-3:legacy-479",
+      "sourceQuestion": 115,
+      "sourceSection": "S2",
+      "printedPage": 192,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 219
+    },
+    {
+      "q": 480,
+      "qid": "cqe:set-3:legacy-480",
+      "sourceQuestion": 126,
+      "sourceSection": "S2",
+      "printedPage": 196,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 223
+    },
+    {
+      "q": 481,
+      "qid": "cqe:set-3:legacy-481",
+      "sourceQuestion": 130,
+      "sourceSection": "S2",
+      "printedPage": 197,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 224
+    },
+    {
+      "q": 482,
+      "qid": "cqe:set-3:legacy-482",
+      "sourceQuestion": 137,
+      "sourceSection": "S2",
+      "printedPage": 198,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 225
+    },
+    {
+      "q": 483,
+      "qid": "cqe:set-3:legacy-483",
+      "sourceQuestion": 143,
+      "sourceSection": "S2",
+      "printedPage": 200,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 227
+    },
+    {
+      "q": 484,
+      "qid": "cqe:set-3:legacy-484",
+      "sourceQuestion": 152,
+      "sourceSection": "S2",
+      "printedPage": 202,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 229
+    },
+    {
+      "q": 485,
+      "qid": "cqe:set-3:legacy-485",
+      "sourceQuestion": 3,
+      "sourceSection": "S2",
+      "printedPage": 163,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 190
+    },
+    {
+      "q": 486,
+      "qid": "cqe:set-3:legacy-486",
+      "sourceQuestion": 10,
+      "sourceSection": "S2",
+      "printedPage": 165,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 192
+    },
+    {
+      "q": 487,
+      "qid": "cqe:set-3:legacy-487",
+      "sourceQuestion": 15,
+      "sourceSection": "S2",
+      "printedPage": 166,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-024.png",
+      "status": "source-visual-attached",
+      "pdfPage": 193
+    },
+    {
+      "q": 488,
+      "qid": "cqe:set-3:legacy-488",
+      "sourceQuestion": 16,
+      "sourceSection": "S2",
+      "printedPage": 166,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 193
+    },
+    {
+      "q": 489,
+      "qid": "cqe:set-3:legacy-489",
+      "sourceQuestion": 24,
+      "sourceSection": "S2",
+      "printedPage": 169,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 196
+    },
+    {
+      "q": 490,
+      "qid": "cqe:set-3:legacy-490",
+      "sourceQuestion": 32,
+      "sourceSection": "S2",
+      "printedPage": 171,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 198
+    },
+    {
+      "q": 491,
+      "qid": "cqe:set-3:legacy-491",
+      "sourceQuestion": 35,
+      "sourceSection": "S2",
+      "printedPage": 172,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 199
+    },
+    {
+      "q": 492,
+      "qid": "cqe:set-3:legacy-492",
+      "sourceQuestion": 42,
+      "sourceSection": "S2",
+      "printedPage": 174,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 201
+    },
+    {
+      "q": 493,
+      "qid": "cqe:set-3:legacy-493",
+      "sourceQuestion": 56,
+      "sourceSection": "S2",
+      "printedPage": 177,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 204
+    },
+    {
+      "q": 494,
+      "qid": "cqe:set-3:legacy-494",
+      "sourceQuestion": 58,
+      "sourceSection": "S2",
+      "printedPage": 178,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 205
+    },
+    {
+      "q": 495,
+      "qid": "cqe:set-3:legacy-495",
+      "sourceQuestion": 62,
+      "sourceSection": "S2",
+      "printedPage": 179,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 206
+    },
+    {
+      "q": 496,
+      "qid": "cqe:set-3:legacy-496",
+      "sourceQuestion": 71,
+      "sourceSection": "S2",
+      "printedPage": 181,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 208
+    },
+    {
+      "q": 497,
+      "qid": "cqe:set-3:legacy-497",
+      "sourceQuestion": 72,
+      "sourceSection": "S2",
+      "printedPage": 181,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 208
+    },
+    {
+      "q": 498,
+      "qid": "cqe:set-3:legacy-498",
+      "sourceQuestion": 74,
+      "sourceSection": "S2",
+      "printedPage": 182,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 209
+    },
+    {
+      "q": 499,
+      "qid": "cqe:set-3:legacy-499",
+      "sourceQuestion": 77,
+      "sourceSection": "S2",
+      "printedPage": 182,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 209
+    },
+    {
+      "q": 500,
+      "qid": "cqe:set-3:legacy-500",
+      "sourceQuestion": 79,
+      "sourceSection": "S2",
+      "printedPage": 183,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 210
+    },
+    {
+      "q": 501,
+      "qid": "cqe:set-3:legacy-501",
+      "sourceQuestion": 82,
+      "sourceSection": "S2",
+      "printedPage": 183,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 210
+    },
+    {
+      "q": 502,
+      "qid": "cqe:set-3:legacy-502",
+      "sourceQuestion": 84,
+      "sourceSection": "S2",
+      "printedPage": 184,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 211
+    },
+    {
+      "q": 503,
+      "qid": "cqe:set-3:legacy-503",
+      "sourceQuestion": 88,
+      "sourceSection": "S2",
+      "printedPage": 185,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 212
+    },
+    {
+      "q": 504,
+      "qid": "cqe:set-3:legacy-504",
+      "sourceQuestion": 97,
+      "sourceSection": "S2",
+      "printedPage": 188,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 215
+    },
+    {
+      "q": 505,
+      "qid": "cqe:set-3:legacy-505",
+      "sourceQuestion": 105,
+      "sourceSection": "S2",
+      "printedPage": 190,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 217
+    },
+    {
+      "q": 506,
+      "qid": "cqe:set-3:legacy-506",
+      "sourceQuestion": 112,
+      "sourceSection": "S2",
+      "printedPage": 192,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 219
+    },
+    {
+      "q": 507,
+      "qid": "cqe:set-3:legacy-507",
+      "sourceQuestion": 117,
+      "sourceSection": "S2",
+      "printedPage": 193,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 220
+    },
+    {
+      "q": 508,
+      "qid": "cqe:set-3:legacy-508",
+      "sourceQuestion": 118,
+      "sourceSection": "S2",
+      "printedPage": 193,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-036.png",
+      "status": "source-visual-attached",
+      "pdfPage": 220
+    },
+    {
+      "q": 509,
+      "qid": "cqe:set-3:legacy-509",
+      "sourceQuestion": 122,
+      "sourceSection": "S2",
+      "printedPage": 195,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 222
+    },
+    {
+      "q": 510,
+      "qid": "cqe:set-3:legacy-510",
+      "sourceQuestion": 123,
+      "sourceSection": "S2",
+      "printedPage": 195,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 222
+    },
+    {
+      "q": 511,
+      "qid": "cqe:set-3:legacy-511",
+      "sourceQuestion": 138,
+      "sourceSection": "S2",
+      "printedPage": 199,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 226
+    },
+    {
+      "q": 512,
+      "qid": "cqe:set-3:legacy-512",
+      "sourceQuestion": 141,
+      "sourceSection": "S2",
+      "printedPage": 200,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 227
+    },
+    {
+      "q": 513,
+      "qid": "cqe:set-3:legacy-513",
+      "sourceQuestion": 145,
+      "sourceSection": "S2",
+      "printedPage": 200,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 227
+    },
+    {
+      "q": 514,
+      "qid": "cqe:set-3:legacy-514",
+      "sourceQuestion": 148,
+      "sourceSection": "S2",
+      "printedPage": 201,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 228
+    },
+    {
+      "q": 515,
+      "qid": "cqe:set-3:legacy-515",
+      "sourceQuestion": 150,
+      "sourceSection": "S2",
+      "printedPage": 202,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 229
+    },
+    {
+      "q": 516,
+      "qid": "cqe:set-3:legacy-516",
+      "sourceQuestion": 155,
+      "sourceSection": "S2",
+      "printedPage": 203,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 230
+    },
+    {
+      "q": 517,
+      "qid": "cqe:set-3:legacy-517",
+      "sourceQuestion": 158,
+      "sourceSection": "S2",
+      "printedPage": 204,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 231
+    },
+    {
+      "q": 518,
+      "qid": "cqe:set-3:legacy-518",
+      "sourceQuestion": 162,
+      "sourceSection": "S2",
+      "printedPage": 205,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 232
+    },
+    {
+      "q": 519,
+      "qid": "cqe:set-3:legacy-519",
+      "sourceQuestion": 174,
+      "sourceSection": "S2",
+      "printedPage": 207,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 234
+    },
+    {
+      "q": 520,
+      "qid": "cqe:set-3:legacy-520",
+      "sourceQuestion": 177,
+      "sourceSection": "S2",
+      "printedPage": 208,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 235
+    },
+    {
+      "q": 521,
+      "qid": "cqe:set-3:legacy-521",
+      "sourceQuestion": 183,
+      "sourceSection": "S2",
+      "printedPage": 210,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 237
+    },
+    {
+      "q": 522,
+      "qid": "cqe:set-3:legacy-522",
+      "sourceQuestion": 184,
+      "sourceSection": "S2",
+      "printedPage": 210,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-043.png",
+      "status": "source-visual-attached",
+      "pdfPage": 237
+    },
+    {
+      "q": 523,
+      "qid": "cqe:set-3:legacy-523",
+      "sourceQuestion": 186,
+      "sourceSection": "S2",
+      "printedPage": 211,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 238
+    },
+    {
+      "q": 524,
+      "qid": "cqe:set-3:legacy-524",
+      "sourceQuestion": 202,
+      "sourceSection": "S2",
+      "printedPage": 215,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-046.png",
+      "status": "source-visual-attached",
+      "pdfPage": 242
+    },
+    {
+      "q": 525,
+      "qid": "cqe:set-3:legacy-525",
+      "sourceQuestion": 203,
+      "sourceSection": "S2",
+      "printedPage": 215,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-002.png",
+      "status": "source-visual-attached",
+      "pdfPage": 242
+    },
+    {
+      "q": 526,
+      "qid": "cqe:set-3:legacy-526",
+      "sourceQuestion": 204,
+      "sourceSection": "S2",
+      "printedPage": 215,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 242
+    },
+    {
+      "q": 527,
+      "qid": "cqe:set-3:legacy-527",
+      "sourceQuestion": 207,
+      "sourceSection": "S2",
+      "printedPage": 216,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 243
+    },
+    {
+      "q": 528,
+      "qid": "cqe:set-3:legacy-528",
+      "sourceQuestion": 208,
+      "sourceSection": "S2",
+      "printedPage": 216,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 243
+    },
+    {
+      "q": 529,
+      "qid": "cqe:set-3:legacy-529",
+      "sourceQuestion": 209,
+      "sourceSection": "S2",
+      "printedPage": 216,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 243
+    },
+    {
+      "q": 530,
+      "qid": "cqe:set-3:legacy-530",
+      "sourceQuestion": 2,
+      "sourceSection": "S2",
+      "printedPage": 163,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 190
+    },
+    {
+      "q": 531,
+      "qid": "cqe:set-3:legacy-531",
+      "sourceQuestion": 5,
+      "sourceSection": "S2",
+      "printedPage": 163,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 190
+    },
+    {
+      "q": 532,
+      "qid": "cqe:set-3:legacy-532",
+      "sourceQuestion": 8,
+      "sourceSection": "S2",
+      "printedPage": 164,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 191
+    },
+    {
+      "q": 533,
+      "qid": "cqe:set-3:legacy-533",
+      "sourceQuestion": 9,
+      "sourceSection": "S2",
+      "printedPage": 165,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 192
+    },
+    {
+      "q": 534,
+      "qid": "cqe:set-3:legacy-534",
+      "sourceQuestion": 14,
+      "sourceSection": "S2",
+      "printedPage": 166,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 193
+    },
+    {
+      "q": 535,
+      "qid": "cqe:set-3:legacy-535",
+      "sourceQuestion": 21,
+      "sourceSection": "S2",
+      "printedPage": 168,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-025.png",
+      "status": "source-visual-attached",
+      "pdfPage": 195
+    },
+    {
+      "q": 536,
+      "qid": "cqe:set-3:legacy-536",
+      "sourceQuestion": 22,
+      "sourceSection": "S2",
+      "printedPage": 168,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 195
+    },
+    {
+      "q": 537,
+      "qid": "cqe:set-3:legacy-537",
+      "sourceQuestion": 25,
+      "sourceSection": "S2",
+      "printedPage": 169,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 196
+    },
+    {
+      "q": 538,
+      "qid": "cqe:set-3:legacy-538",
+      "sourceQuestion": 29,
+      "sourceSection": "S2",
+      "printedPage": 170,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 197
+    },
+    {
+      "q": 539,
+      "qid": "cqe:set-3:legacy-539",
+      "sourceQuestion": 31,
+      "sourceSection": "S2",
+      "printedPage": 171,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 198
+    },
+    {
+      "q": 540,
+      "qid": "cqe:set-3:legacy-540",
+      "sourceQuestion": 33,
+      "sourceSection": "S2",
+      "printedPage": 171,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 198
+    },
+    {
+      "q": 541,
+      "qid": "cqe:set-3:legacy-541",
+      "sourceQuestion": 36,
+      "sourceSection": "S2",
+      "printedPage": 172,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-028.png",
+      "status": "source-visual-attached",
+      "pdfPage": 199
+    },
+    {
+      "q": 542,
+      "qid": "cqe:set-3:legacy-542",
+      "sourceQuestion": 37,
+      "sourceSection": "S2",
+      "printedPage": 173,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-029.png",
+      "status": "source-visual-attached",
+      "pdfPage": 200
+    },
+    {
+      "q": 543,
+      "qid": "cqe:set-3:legacy-543",
+      "sourceQuestion": 41,
+      "sourceSection": "S2",
+      "printedPage": 174,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 201
+    },
+    {
+      "q": 544,
+      "qid": "cqe:set-3:legacy-544",
+      "sourceQuestion": 44,
+      "sourceSection": "S2",
+      "printedPage": 174,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 201
+    },
+    {
+      "q": 545,
+      "qid": "cqe:set-3:legacy-545",
+      "sourceQuestion": 45,
+      "sourceSection": "S2",
+      "printedPage": 175,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 202
+    },
+    {
+      "q": 546,
+      "qid": "cqe:set-3:legacy-546",
+      "sourceQuestion": 53,
+      "sourceSection": "S2",
+      "printedPage": 176,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 203
+    },
+    {
+      "q": 547,
+      "qid": "cqe:set-3:legacy-547",
+      "sourceQuestion": 54,
+      "sourceSection": "S2",
+      "printedPage": 177,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-030.png",
+      "status": "source-visual-attached",
+      "pdfPage": 204
+    },
+    {
+      "q": 548,
+      "qid": "cqe:set-3:legacy-548",
+      "sourceQuestion": 57,
+      "sourceSection": "S2",
+      "printedPage": 178,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 205
+    },
+    {
+      "q": 549,
+      "qid": "cqe:set-3:legacy-549",
+      "sourceQuestion": 61,
+      "sourceSection": "S2",
+      "printedPage": 179,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 206
+    },
+    {
+      "q": 550,
+      "qid": "cqe:set-3:legacy-550",
+      "sourceQuestion": 64,
+      "sourceSection": "S2",
+      "printedPage": 179,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-031.png",
+      "status": "source-visual-attached",
+      "pdfPage": 206
+    },
+    {
+      "q": 551,
+      "qid": "cqe:set-3:legacy-551",
+      "sourceQuestion": 66,
+      "sourceSection": "S2",
+      "printedPage": 180,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 207
+    },
+    {
+      "q": 552,
+      "qid": "cqe:set-3:legacy-552",
+      "sourceQuestion": 69,
+      "sourceSection": "S2",
+      "printedPage": 181,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 208
+    },
+    {
+      "q": 553,
+      "qid": "cqe:set-3:legacy-553",
+      "sourceQuestion": 75,
+      "sourceSection": "S2",
+      "printedPage": 182,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 209
+    },
+    {
+      "q": 554,
+      "qid": "cqe:set-3:legacy-554",
+      "sourceQuestion": 76,
+      "sourceSection": "S2",
+      "printedPage": 182,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 209
+    },
+    {
+      "q": 555,
+      "qid": "cqe:set-3:legacy-555",
+      "sourceQuestion": 83,
+      "sourceSection": "S2",
+      "printedPage": 184,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-032.png",
+      "status": "source-visual-attached",
+      "pdfPage": 211
+    },
+    {
+      "q": 556,
+      "qid": "cqe:set-3:legacy-556",
+      "sourceQuestion": 86,
+      "sourceSection": "S2",
+      "printedPage": 185,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 212
+    },
+    {
+      "q": 557,
+      "qid": "cqe:set-3:legacy-557",
+      "sourceQuestion": 87,
+      "sourceSection": "S2",
+      "printedPage": 185,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 212
+    },
+    {
+      "q": 558,
+      "qid": "cqe:set-3:legacy-558",
+      "sourceQuestion": 93,
+      "sourceSection": "S2",
+      "printedPage": 186,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 213
+    },
+    {
+      "q": 559,
+      "qid": "cqe:set-3:legacy-559",
+      "sourceQuestion": 94,
+      "sourceSection": "S2",
+      "printedPage": 187,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-033.png",
+      "status": "source-visual-attached",
+      "pdfPage": 214
+    },
+    {
+      "q": 560,
+      "qid": "cqe:set-3:legacy-560",
+      "sourceQuestion": 95,
+      "sourceSection": "S2",
+      "printedPage": 187,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 214
+    },
+    {
+      "q": 561,
+      "qid": "cqe:set-3:legacy-561",
+      "sourceQuestion": 98,
+      "sourceSection": "S2",
+      "printedPage": 188,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 215
+    },
+    {
+      "q": 562,
+      "qid": "cqe:set-3:legacy-562",
+      "sourceQuestion": 99,
+      "sourceSection": "S2",
+      "printedPage": 188,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 215
+    },
+    {
+      "q": 563,
+      "qid": "cqe:set-3:legacy-563",
+      "sourceQuestion": 101,
+      "sourceSection": "S2",
+      "printedPage": 189,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-034.png",
+      "status": "source-visual-attached",
+      "pdfPage": 216
+    },
+    {
+      "q": 564,
+      "qid": "cqe:set-3:legacy-564",
+      "sourceQuestion": 104,
+      "sourceSection": "S2",
+      "printedPage": 189,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 216
+    },
+    {
+      "q": 565,
+      "qid": "cqe:set-3:legacy-565",
+      "sourceQuestion": 106,
+      "sourceSection": "S2",
+      "printedPage": 190,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 217
+    },
+    {
+      "q": 566,
+      "qid": "cqe:set-3:legacy-566",
+      "sourceQuestion": 109,
+      "sourceSection": "S2",
+      "printedPage": 191,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-035.png",
+      "status": "source-visual-attached",
+      "pdfPage": 218
+    },
+    {
+      "q": 567,
+      "qid": "cqe:set-3:legacy-567",
+      "sourceQuestion": 111,
+      "sourceSection": "S2",
+      "printedPage": 191,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 218
+    },
+    {
+      "q": 568,
+      "qid": "cqe:set-3:legacy-568",
+      "sourceQuestion": 113,
+      "sourceSection": "S2",
+      "printedPage": 192,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 219
+    },
+    {
+      "q": 569,
+      "qid": "cqe:set-3:legacy-569",
+      "sourceQuestion": 114,
+      "sourceSection": "S2",
+      "printedPage": 192,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 219
+    },
+    {
+      "q": 570,
+      "qid": "cqe:set-3:legacy-570",
+      "sourceQuestion": 120,
+      "sourceSection": "S2",
+      "printedPage": 194,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 221
+    },
+    {
+      "q": 571,
+      "qid": "cqe:set-3:legacy-571",
+      "sourceQuestion": 124,
+      "sourceSection": "S2",
+      "printedPage": 195,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 222
+    },
+    {
+      "q": 572,
+      "qid": "cqe:set-3:legacy-572",
+      "sourceQuestion": 125,
+      "sourceSection": "S2",
+      "printedPage": 195,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-038.png",
+      "status": "source-visual-attached",
+      "pdfPage": 222
+    },
+    {
+      "q": 573,
+      "qid": "cqe:set-3:legacy-573",
+      "sourceQuestion": 127,
+      "sourceSection": "S2",
+      "printedPage": 196,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 223
+    },
+    {
+      "q": 574,
+      "qid": "cqe:set-3:legacy-574",
+      "sourceQuestion": 128,
+      "sourceSection": "S2",
+      "printedPage": 196,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 223
+    },
+    {
+      "q": 575,
+      "qid": "cqe:set-3:legacy-575",
+      "sourceQuestion": 132,
+      "sourceSection": "S2",
+      "printedPage": 197,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 224
+    },
+    {
+      "q": 576,
+      "qid": "cqe:set-3:legacy-576",
+      "sourceQuestion": 133,
+      "sourceSection": "S2",
+      "printedPage": 197,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-009.png",
+      "status": "source-visual-attached",
+      "pdfPage": 224
+    },
+    {
+      "q": 577,
+      "qid": "cqe:set-3:legacy-577",
+      "sourceQuestion": 134,
+      "sourceSection": "S2",
+      "printedPage": 198,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 225
+    },
+    {
+      "q": 578,
+      "qid": "cqe:set-3:legacy-578",
+      "sourceQuestion": 139,
+      "sourceSection": "S2",
+      "printedPage": 199,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-039.png",
+      "status": "source-visual-attached",
+      "pdfPage": 226
+    },
+    {
+      "q": 579,
+      "qid": "cqe:set-3:legacy-579",
+      "sourceQuestion": 140,
+      "sourceSection": "S2",
+      "printedPage": 199,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 226
+    },
+    {
+      "q": 580,
+      "qid": "cqe:set-3:legacy-580",
+      "sourceQuestion": 144,
+      "sourceSection": "S2",
+      "printedPage": 200,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 227
+    },
+    {
+      "q": 581,
+      "qid": "cqe:set-3:legacy-581",
+      "sourceQuestion": 146,
+      "sourceSection": "S2",
+      "printedPage": 201,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-040.png",
+      "status": "source-visual-attached",
+      "pdfPage": 228
+    },
+    {
+      "q": 582,
+      "qid": "cqe:set-3:legacy-582",
+      "sourceQuestion": 147,
+      "sourceSection": "S2",
+      "printedPage": 201,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 228
+    },
+    {
+      "q": 583,
+      "qid": "cqe:set-3:legacy-583",
+      "sourceQuestion": 153,
+      "sourceSection": "S2",
+      "printedPage": 202,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 229
+    },
+    {
+      "q": 584,
+      "qid": "cqe:set-3:legacy-584",
+      "sourceQuestion": 156,
+      "sourceSection": "S2",
+      "printedPage": 203,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 230
+    },
+    {
+      "q": 585,
+      "qid": "cqe:set-3:legacy-585",
+      "sourceQuestion": 157,
+      "sourceSection": "S2",
+      "printedPage": 203,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 230
+    },
+    {
+      "q": 586,
+      "qid": "cqe:set-3:legacy-586",
+      "sourceQuestion": 159,
+      "sourceSection": "S2",
+      "printedPage": 204,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-010.png",
+      "status": "source-visual-attached",
+      "pdfPage": 231
+    },
+    {
+      "q": 587,
+      "qid": "cqe:set-3:legacy-587",
+      "sourceQuestion": 164,
+      "sourceSection": "S2",
+      "printedPage": 205,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 232
+    },
+    {
+      "q": 588,
+      "qid": "cqe:set-3:legacy-588",
+      "sourceQuestion": 165,
+      "sourceSection": "S2",
+      "printedPage": 205,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 232
+    },
+    {
+      "q": 589,
+      "qid": "cqe:set-3:legacy-589",
+      "sourceQuestion": 168,
+      "sourceSection": "S2",
+      "printedPage": 206,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 233
+    },
+    {
+      "q": 590,
+      "qid": "cqe:set-3:legacy-590",
+      "sourceQuestion": 169,
+      "sourceSection": "S2",
+      "printedPage": 206,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 233
+    },
+    {
+      "q": 591,
+      "qid": "cqe:set-3:legacy-591",
+      "sourceQuestion": 170,
+      "sourceSection": "S2",
+      "printedPage": 206,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 233
+    },
+    {
+      "q": 592,
+      "qid": "cqe:set-3:legacy-592",
+      "sourceQuestion": 172,
+      "sourceSection": "S2",
+      "printedPage": 207,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-041.png",
+      "status": "source-visual-attached",
+      "pdfPage": 234
+    },
+    {
+      "q": 593,
+      "qid": "cqe:set-3:legacy-593",
+      "sourceQuestion": 175,
+      "sourceSection": "S2",
+      "printedPage": 208,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 235
+    },
+    {
+      "q": 594,
+      "qid": "cqe:set-3:legacy-594",
+      "sourceQuestion": 178,
+      "sourceSection": "S2",
+      "printedPage": 208,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-042.png",
+      "status": "source-visual-attached",
+      "pdfPage": 235
+    },
+    {
+      "q": 595,
+      "qid": "cqe:set-3:legacy-595",
+      "sourceQuestion": 182,
+      "sourceSection": "S2",
+      "printedPage": 209,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 236
+    },
+    {
+      "q": 596,
+      "qid": "cqe:set-3:legacy-596",
+      "sourceQuestion": 185,
+      "sourceSection": "S2",
+      "printedPage": 210,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 237
+    },
+    {
+      "q": 597,
+      "qid": "cqe:set-3:legacy-597",
+      "sourceQuestion": 187,
+      "sourceSection": "S2",
+      "printedPage": 211,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-011.png",
+      "status": "source-visual-attached",
+      "pdfPage": 238
+    },
+    {
+      "q": 598,
+      "qid": "cqe:set-3:legacy-598",
+      "sourceQuestion": 188,
+      "sourceSection": "S2",
+      "printedPage": 211,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 238
+    },
+    {
+      "q": 599,
+      "qid": "cqe:set-3:legacy-599",
+      "sourceQuestion": 189,
+      "sourceSection": "S2",
+      "printedPage": 212,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-044.png",
+      "status": "source-visual-attached",
+      "pdfPage": 239
+    },
+    {
+      "q": 600,
+      "qid": "cqe:set-3:legacy-600",
+      "sourceQuestion": 191,
+      "sourceSection": "S2",
+      "printedPage": 212,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 239
+    },
+    {
+      "q": 601,
+      "qid": "cqe:set-3:legacy-601",
+      "sourceQuestion": 192,
+      "sourceSection": "S2",
+      "printedPage": 212,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 239
+    },
+    {
+      "q": 602,
+      "qid": "cqe:set-3:legacy-602",
+      "sourceQuestion": 193,
+      "sourceSection": "S2",
+      "printedPage": 213,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 240
+    },
+    {
+      "q": 603,
+      "qid": "cqe:set-3:legacy-603",
+      "sourceQuestion": 194,
+      "sourceSection": "S2",
+      "printedPage": 213,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 240
+    },
+    {
+      "q": 604,
+      "qid": "cqe:set-3:legacy-604",
+      "sourceQuestion": 195,
+      "sourceSection": "S2",
+      "printedPage": 213,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-045.png",
+      "status": "source-visual-attached",
+      "pdfPage": 240
+    },
+    {
+      "q": 605,
+      "qid": "cqe:set-3:legacy-605",
+      "sourceQuestion": 197,
+      "sourceSection": "S2",
+      "printedPage": 214,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 241
+    },
+    {
+      "q": 606,
+      "qid": "cqe:set-3:legacy-606",
+      "sourceQuestion": 199,
+      "sourceSection": "S2",
+      "printedPage": 214,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 241
+    },
+    {
+      "q": 607,
+      "qid": "cqe:set-3:legacy-607",
+      "sourceQuestion": 211,
+      "sourceSection": "S2",
+      "printedPage": 217,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 244
+    },
+    {
+      "q": 608,
+      "qid": "cqe:set-3:legacy-608",
+      "sourceQuestion": 160,
+      "sourceSection": "S2",
+      "printedPage": 204,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 231
+    },
+    {
+      "q": 609,
+      "qid": "cqe:set-3:legacy-609",
+      "sourceQuestion": 163,
+      "sourceSection": "S2",
+      "printedPage": 205,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 232
+    },
+    {
+      "q": 610,
+      "qid": "cqe:set-3:legacy-610",
+      "sourceQuestion": 173,
+      "sourceSection": "S2",
+      "printedPage": 207,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 234
+    },
+    {
+      "q": 611,
+      "qid": "cqe:set-3:legacy-611",
+      "sourceQuestion": 121,
+      "sourceSection": "S2",
+      "printedPage": 194,
+      "visualAsset": "/test-bank-assets/cqe-set3-source/figure-037.png",
+      "status": "source-visual-attached",
+      "pdfPage": 221
+    },
+    {
+      "q": 612,
+      "qid": "cqe:set-3:legacy-612",
+      "sourceQuestion": 200,
+      "sourceSection": "S2",
+      "printedPage": 214,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 241
+    },
+    {
+      "q": 613,
+      "qid": "cqe:set-3:legacy-613",
+      "sourceQuestion": 216,
+      "sourceSection": "S2",
+      "printedPage": 218,
+      "visualAsset": null,
+      "status": "no-source-visual-required",
+      "pdfPage": 245
+    }
+  ]
+}

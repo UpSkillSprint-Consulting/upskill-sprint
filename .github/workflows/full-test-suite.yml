@@ -32,3 +32,7 @@ jobs:
         run: node scripts/validate-simple-test-bank.mjs
       - name: Validate result screens
         run: node --test tests/test-bank-stateless-results.test.js
+      - name: Validate CQE source figures and student journeys
+        run: node --test tests/test-bank-cqe-source-visuals.test.js
+      - name: Validate the complete CQE Set 3 question audit
+        run: node --test tests/test-bank-cqe-question-audit.test.js

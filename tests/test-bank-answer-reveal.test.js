@@ -202,8 +202,13 @@ test('future question schemas use shared grading and safe explanations', async (
 test('real CQE calculations remain complete in reveal and review',async()=>{
   const h=await harness(),w=h.w;
   try{
-    const affected=Object.values(w.__TB.EXAMS.cqe.sets).flat().filter(q=>/<[XZ]</.test(q.why||''));
-    assert.equal(affected.length,4,'all current CQE inequality explanations are covered');
+    const ids=new Set([377,378,574,591].map(n=>`cqe:set-3:legacy-${n}`));
+    const affected=Object.values(w.__TB.EXAMS.cqe.sets).flat().filter(q=>ids.has(q.qid));
+    assert.equal(affected.length,4,'all four audited normal-probability questions are covered');
+    // Keep the original escaping regression even when edited solutions use
+    // prose or spaced inequalities instead of compact <X< / <Z< expressions.
+    const compact={...affected[0],why:'P(5.25<X<5.75) = P(-2.35<Z<3.53).'};
+    affected.unshift(compact);
     for(const q of affected){
       const template=w.document.createElement('template');template.innerHTML=w.__TBFeedbackPresentation.explanationHtml(q);
       assert.equal(template.content.querySelector('.tb-explanation-copy').textContent,q.why);
