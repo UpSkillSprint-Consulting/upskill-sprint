@@ -2,7 +2,7 @@
 
 Audit date: 7 October 2026. Baseline: `970ac58d25d71a2c07f52ca8b6fb5f4e2e6ffcd0`.
 
-Reviewed all **613 questions individually**: stem, four choices, keyed answer, worked explanation, source mapping and required visual. Corrected **219 questions**; **394** needed no further change. Independently recomputed **143 numerical questions**. Re-inspected all **47 source crops used by 58 questions**.
+Reviewed all **613 questions individually**: stem, four choices, keyed answer, worked explanation, source mapping and required visual. Corrected **221 questions**; **392** needed no further change. Independently recomputed **143 numerical questions**. Re-inspected all **47 source crops used by 58 questions**.
 
 The review preserves the original pool, stable IDs and original visual crops. Source disagreement is recorded explicitly. This audit is a reasoned review, not an ASQ endorsement or a guarantee that no error can remain.
 
@@ -24,9 +24,9 @@ Five answer **indices** changed: Q167, Q172, Q284, Q401 and Q607. Other correcti
 ## Verification
 
 - Independent numerical verification: `python scripts/audits/verify-cqe-set3-calculations.py` (NumPy and SciPy required). All 143 checks pass.
-- **99 Node checks pass**: 4 exhaustive audit regressions, 10 source-visual/student-journey tests, 27 formula-pane checks, 9 existing Set 3 context checks, and 49 result/review/reveal regressions. Stateless architecture and whitespace validation also pass.
-- Added an ASN formula reference for Q281 and clarified the distinct Z1.4/Z1.9 lookup quantities. The audit regression is required in the existing PR workflow.
-- The exhaustive ledger includes a hash of every final question, so subsequent edits cannot silently inherit this audit. Browser workflow results are reported in the pull request.
+- **99 Node checks pass** across audit integrity, source visuals/student journeys, formula references, existing context checks, result screens, answer reveal and review. Stateless architecture, JavaScript syntax and whitespace validation pass.
+- Q281 now has its ASN formula reference. The audit regression runs in the existing required PR workflow.
+- The exhaustive ledger hashes every final question. Browser workflow results are reported in the pull request.
 - The first source-mapping audit remains in `cqe-set3-source-audit.json`. Existing duplicate-source pairs and four guide questions absent from this bank remain documented there. This second audit covers all existing 613 entries.
 
 ## Question-by-question ledger
@@ -322,7 +322,7 @@ Five answer **indices** changed: Q167, Q172, Q284, Q401 and Q607. Other correcti
 | 287 | IV.31; p. 52 | verified | H double AQL.65 redirects J, first-stage Ac0 Re2. |
 | 288 | IV.32; p. 52 | verified | Variables plans can reduce n at equal protection under distribution assumptions. |
 | 289 | IV.33; p. 52 | corrected | Checked the 2003 Z1.9 Table B-3 standard-deviation method: code F, n = 10 at AQL .65; removed the overgeneralization that AQL never matters. Change: Remove the false assertion that sample size never depends on AQL arrows. |
-| 290 | IV.34; p. 52 | verified | n=4 unbiased tail estimates: max(0,.5-Q/3); compare total with M=1.49%. Independently computed 6.666666666666665; checked against the selected answer. |
+| 290 | IV.34; p. 52 | corrected | n=4 unbiased tail estimates: max(0,.5-Q/3); compare total with M=1.49%. Independently computed 6.666666666666665; checked against the selected answer. Change: State the unknown-variability standard-deviation method so the Z1.9 lookup is unambiguous. |
 | 291 | IV.35; p. 53 | verified | Sample integrity protects against contamination and misrepresentation. |
 | 292 | IV.36; p. 53 | verified | Batch/change/configuration controls preserve identity and history. |
 | 293 | IV.37; p. 53 | verified | Dimensional inspection determines conformance, not improvement by itself. |
@@ -350,7 +350,7 @@ Five answer **indices** changed: Q167, Q172, Q284, Q401 and Q607. Other correcti
 | 315 | IV.59; p. 58 | verified | Sum variance components. Independently computed 1.1308; checked against the selected answer. |
 | 316 | IV.60; p. 58 | verified | Full ANOVA: repeatability plus nonnegative operator/interaction components. Independently computed 1.233; checked against the selected answer. |
 | 317 | IV.61; p. 58 | corrected | Repeatability fraction of full-model total variance. Independently computed 42.19953225714449; checked against the selected answer. Change: Full-model part variance used wrong mean square; repeatability contribution recalculated. |
-| 318 | IV.62; p. 59 | verified | 6 * measurement SD / tolerance. Independently computed 0.33312159941979147; checked against the selected answer. |
+| 318 | IV.62; p. 59 | corrected | 6 * measurement SD / tolerance. Independently computed 0.33312159941979147; checked against the selected answer. Change: Specify the full-model variance convention instead of leaving pooling implicit. |
 | 319 | IV.63; p. 59 | corrected | Range chart stable within-operator repeatability; does not compare mean bias. Change: No signal does not prove absence of special causes or equal operator means. |
 | 320 | VI.7; p. 94 | corrected | Weibull lowestAD/highestp; no proof from p-value alone. Change: Largest goodness-of-fit p-value alone is not proof of best model. |
 | 321 | VI.15; p. 96 | corrected | Whiskers may exclude outliers; specify classical five-number-summary convention. Change: Tukey whiskers need not be minimum/maximum. |

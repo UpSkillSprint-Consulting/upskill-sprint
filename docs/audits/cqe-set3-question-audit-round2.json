@@ -4,8 +4,8 @@
   "scope": "Second full question-by-question audit of the existing CQE Set 3 bank: all stems, four choices, keys, feedback, source dependencies and visuals. Numerical calculations independently recomputed; standards lookup assumptions checked.",
   "summary": {
     "questions": 613,
-    "correctedQuestions": 219,
-    "unchangedQuestions": 394,
+    "correctedQuestions": 221,
+    "unchangedQuestions": 392,
     "answerIndexChanges": [
       167,
       172,
@@ -6726,10 +6726,14 @@
       "sourceVisualReviewed": false,
       "answerLetter": "C",
       "selectedAnswer": "10",
-      "contentSha256": "94536fcd3477355024c902745190e926d7c41139f95b6f29698c402a3ce09f0d",
+      "contentSha256": "338ca8c1d63be43c228829c064340dc13a1ca4ba3178e4b3078bc900cec5543e",
       "correction": {
         "reason": "Remove the false assertion that sample size never depends on AQL arrows.",
         "fields": {
+          "stem": {
+            "before": "A lot of 100 items is submitted for inspection under ANSI/ASQ Z1.9-2003 (R2018), level II, normal inspection with AQL = 0.65%. Both upper and lower specification limits are specified for these items. What sample size is required for this sampling plan?",
+            "after": "A lot of 100 items is submitted for inspection under ANSI/ASQ Z1.9-2003 (R2018), level II, normal inspection with AQL = 0.65%. Both upper and lower specification limits are specified for these items. What sample size is required for this sampling plan? Assume normal measurements with unknown variability and use the standard-deviation method."
+          },
           "why": {
             "before": "ANSI/ASQ Z1.9-2003 (R2018) Table A-2 gives sample size code letter F for this lot; Table B-3 shows code letter F corresponds to a sample size of 10, regardless of AQL level. [IV.C.2]",
             "after": "For the stated unknown-variability standard-deviation method, Table A-2 gives code F. At AQL 0.65%, normal-inspection Table B-3 uses n = 10. At other code/AQL intersections an arrow can change the plan, so the AQL cannot generally be ignored. [IV.C.2]"
@@ -6741,7 +6745,7 @@
       "question": 290,
       "qid": "cqe:set-3:legacy-290",
       "verificationNote": "n=4 unbiased tail estimates: max(0,.5-Q/3); compare total with M=1.49%. Independently computed 6.666666666666665; checked against the selected answer.",
-      "status": "verified",
+      "status": "corrected",
       "source": {
         "sourceSection": "IV",
         "sourceQuestion": 34,
@@ -6752,7 +6756,7 @@
       "sourceVisualReviewed": false,
       "answerLetter": "D",
       "selectedAnswer": "No, since the total percentage nonconforming is more than the maximum allowable.",
-      "contentSha256": "35c4388b37d1f5e625936486a28f66a281c1866d7ee94970d1aa176f7561b04b",
+      "contentSha256": "8b191bd25944a0b7d3534c92f7a2f14d4b63788844faf09f32bcb8ae9eb5cbb6",
       "calculation": {
         "question": 290,
         "method": "n=4 unbiased tail estimates: max(0,.5-Q/3); compare total with M=1.49%",
@@ -6760,6 +6764,15 @@
         "expected": 6.666666667,
         "tolerance": 1e-08,
         "selectedAnswer": "No, since the total percentage nonconforming is more than the maximum allowable."
+      },
+      "correction": {
+        "reason": "State the unknown-variability standard-deviation method so the Z1.9 lookup is unambiguous.",
+        "fields": {
+          "stem": {
+            "before": "A lot of twenty items is submitted for inspection under ANSI/ASQ Z1.9-2003 (R2018), level II, normal inspection with AQL = 1.00%. The required sample size for this sampling plan is four. The results of the four measurements are: 51, 47, 45, 39. Does this lot meet the acceptance criteria? The upper and lower specification limits for this process are 52 and 37, respectively.",
+            "after": "A lot of twenty items is submitted for inspection under ANSI/ASQ Z1.9-2003 (R2018), level II, normal inspection with AQL = 1.00%. The required sample size for this sampling plan is four. The results of the four measurements are: 51, 47, 45, 39. Does this lot meet the acceptance criteria? The upper and lower specification limits for this process are 52 and 37, respectively. Assume normal measurements with unknown variability and use the standard-deviation method."
+          }
+        }
       }
     },
     {
@@ -7382,7 +7395,7 @@
       "question": 318,
       "qid": "cqe:set-3:legacy-318",
       "verificationNote": "6 * measurement SD / tolerance. Independently computed 0.33312159941979147; checked against the selected answer.",
-      "status": "verified",
+      "status": "corrected",
       "source": {
         "sourceSection": "IV",
         "sourceQuestion": 62,
@@ -7393,7 +7406,7 @@
       "sourceVisualReviewed": true,
       "answerLetter": "A",
       "selectedAnswer": "0.333",
-      "contentSha256": "6330641806b97d7ee1e7eee7d9caa39c9c4131cb7df47765582b24500fed6c77",
+      "contentSha256": "0f6706d559219c274fde12b763d505c68cdb9ed7de8a56123c4af15af2f11c96",
       "calculation": {
         "question": 318,
         "method": "6 * measurement SD / tolerance",
@@ -7401,6 +7414,15 @@
         "expected": 0.333,
         "tolerance": 0.000500001,
         "selectedAnswer": "0.333"
+      },
+      "correction": {
+        "reason": "Specify the full-model variance convention instead of leaving pooling implicit.",
+        "fields": {
+          "stem": {
+            "before": "The ANOVA table shows a gage R&R study in which two operators measured five parts three times each using the same gage. The upper and lower specification limits are 30 and 10. What is the precision-to-tolerance ratio?",
+            "after": "The ANOVA table shows a gage R&R study in which two operators measured five parts three times each using the same gage. The upper and lower specification limits are 30 and 10. What is the precision-to-tolerance ratio? Use full-model variance components, setting negative estimates to zero."
+          }
+        }
       }
     },
     {

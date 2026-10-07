@@ -30,7 +30,7 @@ test('the second audit covers the exact final content of all 613 questions indiv
     assert.doesNotMatch(q.stem, /previous (?:question|problem)|using the same (?:study|data|table)/i);
     assert.doesNotMatch(q.options.join(' '), /\bH\s+[,;]/, 'missing hypothesis subscript');
   }
-  assert.equal(audit.questions.filter(q => q.correction).length, 219);
+  assert.equal(audit.questions.filter(q => q.correction).length, 221);
   assert.equal(audit.questions.filter(q => q.calculation).length, 143);
 });
 
