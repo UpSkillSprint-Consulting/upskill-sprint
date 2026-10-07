@@ -18,6 +18,7 @@ on:
       - 'tests/mobile-header-overflow.test.js'
       - 'scripts/student-review-server.mjs'
       - 'scripts/exam-practice-browser.py'
+      - 'scripts/prepare-ci-browser.sh'
       - '.github/workflows/exam-practice-audit.yml'
 
 permissions:
@@ -53,8 +54,8 @@ jobs:
           node --test --test-concurrency=1 tests/exam-practice-section.test.js tests/premium-simulator-access.test.js tests/mobile-header-overflow.test.js
       - name: Install CI browser
         run: |
-          python -m pip install playwright==1.57.0
-          python -m playwright install --with-deps ${{ matrix.browser }}
+          bash -n scripts/prepare-ci-browser.sh
+          bash scripts/prepare-ci-browser.sh "${{ matrix.browser }}"
       - name: Audit learner journeys, layout, and contrast
         env:
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}

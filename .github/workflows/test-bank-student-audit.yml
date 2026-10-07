@@ -9,6 +9,7 @@ on:
       - 'netlify/edge-functions/test-bank-mobile-picker.js'
       - 'scripts/student-review-*'
       - 'tests/test-bank-student-*.test.js'
+      - 'scripts/prepare-ci-browser.sh'
       - '.github/workflows/test-bank-student-audit.yml'
 
 permissions:
@@ -44,8 +45,8 @@ jobs:
         run: node --test tests/test-bank-student-*.test.js
       - name: Install browser test dependencies
         run: |
-          python -m pip install playwright==1.57.0
-          python -m playwright install --with-deps ${{ matrix.browser }}
+          bash -n scripts/prepare-ci-browser.sh
+          bash scripts/prepare-ci-browser.sh "${{ matrix.browser }}"
       - name: Collect focused layout diagnostics
         run: |
           mkdir -p student-audit-evidence
