@@ -277,6 +277,15 @@ test('all calculation-based questions in all three CQE banks map to at least one
   assert.deepEqual(excessive, [], `questions with implausibly broad formula matches:\n${excessive.join('\n')}`);
 });
 
+test('source-audited CQE control-limit calculations retain formulas with mathematical subscripts', async () => {
+  const { window } = await loadRealPage();
+  const api = window.__TB_FORMULAS_TEST__;
+  const question = window.__TB.EXAMS.cqe.sets[3].find(q => q.qid === 'cqe:set-3:legacy-533');
+  assert.equal(question.chart, undefined, 'calculation does not depend on a fabricated history plot');
+  assert.match(question.why, /A₂.*D₄/);
+  assert.ok(api.formulasForQuestion(question).some(formula => formula.id === 'xbar-r'));
+});
+
 test('CQE bank stems are unambiguous across sets for reliable question-to-set mapping', async () => {
   const { window } = await loadRealPage();
   const sets = window.__TB.EXAMS.cqe.sets;

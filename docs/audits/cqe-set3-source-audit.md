@@ -11,6 +11,7 @@ Source: *The ASQ Certified Quality Engineer Study Guide*, second edition, Scott 
 - Replaced flat inline table text and descriptive answer hints with neutral prompts and original figures. Full-size image links and descriptive alternative text are available. Figure backgrounds stay white in dark mode.
 - Removed invented sample histories from calculation-only Q365, Q533 and Q549; these guide questions do not contain plots.
 - Preserved the 613-question pool, question identities, set membership, domain assignments and other exam banks.
+- Updated control-chart formula matching to recognize mathematical subscripts (A₂, D₃, D₄), so the restored Q533 explanation retains its contextual formula reference.
 
 ## Corrective findings
 
@@ -42,7 +43,8 @@ The 613 entries represent 611 distinct source questions: III.7 maps to Set 3 Q42
 - `node --test tests/test-bank-cqe-source-visuals.test.js`: 10 passing tests, including all 613 mappings, all 47 asset checksums, all 58 quiz/review renderings, and six timed/untimed Full/Quick/Focused journeys through reveal, review and retry.
 - `node scripts/validate-simple-test-bank.mjs`: passes.
 - Existing stateless results, current-attempt review and answer-reveal suites: 49 passing tests.
+- Formula-pane basic, exhaustive and mode suites: 26 passing tests, including a regression for the restored Q533 subscript notation.
 - `scripts/extract-cqe-set3-source-visuals.py`: reproduces all 47 byte-identical crops from the supplied source. The PDF itself is not committed.
-- Browser layout checks are wired into the existing Chromium/WebKit student-audit workflow: all 58 images at 1280, 390 and 320 px in light/dark themes, asset loading, overflow, full-size opening, and representative screenshots. See PR checks for the executed browser results.
+- Chromium and WebKit source-image checks pass: 348 checks per browser across all 58 images at 1280, 390 and 320 px in light/dark themes, covering asset loading, overflow and full-size opening. Representative desktop/mobile screenshots were also inspected. These checks run in the existing student-audit workflow; see PR checks for complete student-journey results.
 
 This is a complete source-matching and visual-dependency audit of the existing pool, with targeted corrections to discrepancies encountered. It is not a claim that every original textbook calculation or statement is independently error-free.
