@@ -54,13 +54,16 @@ jobs:
           trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
           for i in $(seq 1 30); do curl -fsS http://127.0.0.1:8765/test-bank -o /dev/null && break || sleep 1; done
           set -o pipefail
+          python -u scripts/student-review-cqe-visuals.py --browser ${{ matrix.browser }} 2>&1 | tee student-audit-evidence/cqe-source-visuals.log
           python -u scripts/student-review-layout.py --browser ${{ matrix.browser }} 2>&1 | tee student-audit-evidence/layout.log
       - name: Publish layout diagnostics
         if: always()
         uses: actions/upload-artifact@v6
         with:
           name: student-layout-${{ matrix.browser }}
-          path: student-audit-evidence/layout*
+          path: |
+            student-audit-evidence/layout*
+            student-audit-evidence/cqe-*
           if-no-files-found: ignore
           retention-days: 14
       - name: Validate complete student journeys
