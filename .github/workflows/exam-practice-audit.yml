@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - 'exam-practice.html'
+      - 'tools/unit-converter.html'
       - 'lessons.html'
       - 'site-sections.js'
       - 'style.css'

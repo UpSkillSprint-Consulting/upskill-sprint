@@ -95,6 +95,21 @@ test('the public exam page describes current certification availability and Test
   assert.deepEqual(errors, []);
 });
 
+test('unit converter has one shared banner and one unbranded tool heading', async t => {
+  const { window, errors } = await loadPage(t, 'tools/unit-converter.html', 'https://upskillsprint.com/tools/unit-converter');
+  const doc = window.document;
+  assert.equal(doc.querySelectorAll('header').length, 1);
+  assert.equal(doc.querySelectorAll('header.site .brand img').length, 1);
+  assert.equal(doc.querySelectorAll('h1').length, 1);
+  assert.equal(doc.querySelectorAll('.converter-heading').length, 1);
+  assert.equal(doc.querySelector('.converter-heading').querySelectorAll('img, .theme-toggle, .tool-top-actions').length, 0);
+  assert.equal(doc.querySelectorAll('.theme-toggle').length, 1);
+  assert.equal(doc.querySelectorAll('#search').length, 1);
+  assert.equal(doc.querySelectorAll('.unit-categories').length, 1);
+  assert.equal(doc.querySelector('.converter-back').getAttribute('href'), '/engineering-tools');
+  assert.deepEqual(errors, []);
+});
+
 test('desktop and mobile navigation place the exam tab immediately after Lessons on every page type', async t => {
   const pages = [
     ['index.html', '/'],

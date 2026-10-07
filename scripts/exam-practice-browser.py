@@ -351,6 +351,40 @@ def main():
                 expect(page.locator('h1')).to_have_text('Simulated Exam Practice & Quizzes')
 
             record('legacy-bookmarks-and-hashchange', legacy_bookmarks)
+
+            def unit_converter(width, theme):
+                page.set_viewport_size({'width': width, 'height': 900})
+                page.goto(base + '/tools/unit-converter', wait_until='load')
+                expect(page.locator('#account-menu-btn')).to_be_visible()
+                expect(page.locator('header')).to_have_count(1)
+                expect(page.locator('header.site .brand img')).to_have_count(1)
+                expect(page.locator('h1')).to_have_count(1)
+                expect(page.locator('.converter-heading')).to_have_count(1)
+                expect(page.locator('.converter-heading img')).to_have_count(0)
+                expect(page.locator('#search')).to_have_count(1)
+                toggle = page.locator('header.site .theme-toggle')
+                expect(page.locator('.theme-toggle')).to_have_count(1)
+                expect(toggle).to_be_visible()
+                if page.locator('html').get_attribute('data-theme') != theme:
+                    toggle.click()
+                expect(page.locator('html')).to_have_attribute('data-theme', theme)
+                expect(toggle).to_have_attribute('aria-checked', 'true' if theme == 'dark' else 'false')
+                nav_state('Engineering Tools')
+                no_header_overlap()
+                header = page.locator('header.site').bounding_box()
+                heading = page.locator('.converter-heading').bounding_box()
+                assert heading['y'] >= header['y'] + header['height'] - 1, (header, heading)
+                page.locator('.uval[data-unit="MPa"]').fill('1')
+                assert float(page.locator('.uval[data-unit="kPa"]').input_value()) == 1000
+                expect(page.locator('.converter-back')).to_have_attribute('href', '/engineering-tools')
+                page.evaluate("()=>{document.activeElement.blur();window.scrollTo({top:0,behavior:'instant'});}")
+                page.mouse.move(0, 0)
+                page.wait_for_timeout(300)
+                page.screenshot(path=str(out / f'{tier}-unit-converter-{width}-{theme}.png'), full_page=True)
+
+            for width in [320, 390, 1536]:
+                for theme in ['light', 'dark']:
+                    record(f'unit-converter-{width}-{theme}', lambda w=width, t=theme: unit_converter(w, t))
             context.close()
         browser.close()
     report['passed'] = sum(case['result'] == 'PASS' for case in report['cases'])
