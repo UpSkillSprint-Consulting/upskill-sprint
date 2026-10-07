@@ -286,6 +286,16 @@ test('source-audited CQE control-limit calculations retain formulas with mathema
   assert.ok(api.formulasForQuestion(question).some(formula => formula.id === 'xbar-r'));
 });
 
+test('CQE Q281 uses the ASN formula with its actual continuation region', async () => {
+  const { window } = await loadRealPage();
+  const api = window.__TB_FORMULAS_TEST__;
+  const question = window.__TB.EXAMS.cqe.sets[3].find(q => q.qid === 'cqe:set-3:legacy-281');
+  const formula = api.formulasForQuestion(question).find(f => f.id === 'double-sampling-asn');
+  assert.ok(formula);
+  assert.match(formula.formula, /n₁ \+ n₂ P\(c₁ < X₁ < r₁\)/);
+  assert.match(formula.variables, /additional second sample size/);
+});
+
 test('CQE bank stems are unambiguous across sets for reliable question-to-set mapping', async () => {
   const { window } = await loadRealPage();
   const sets = window.__TB.EXAMS.cqe.sets;

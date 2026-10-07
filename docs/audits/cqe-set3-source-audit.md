@@ -2,6 +2,8 @@
 
 Source: *The ASQ Certified Quality Engineer Study Guide*, second edition, Scott A. Laman (editor), user-supplied 279-page PDF. Printed page n is PDF page n + 27.
 
+**Follow-up:** The full second audit is in [cqe-set3-question-audit-round2.md](cqe-set3-question-audit-round2.md). It independently reviews all 613 questions and supersedes the first-pass numerical finding for Q317.
+
 ## Coverage and changes
 
 - Matched all **613 existing Set 3 entries** to section, question number and PDF/printed page. The machine-readable map is `cqe-set3-source-audit.json`.
@@ -20,7 +22,7 @@ Source: *The ASQ Certified Quality Engineer Study Guide*, second edition, Scott 
 | 42 | Completed the truncated product-development prompt. |
 | 244, 245, 525 | Restored the actual feature control frame, including its parallelism symbol and circled L. Previous prose incorrectly called it perpendicularity. |
 | 280, 281 | Removed displaced parameter subscripts in double-sampling prompts. |
-| 317 | Corrected the description of 40.28%: it is the estimated share of total observed variance, including part-to-part variation. |
+| 317 | The second audit recomputes the full-model repeatability share as **42.20%**, correcting the first pass’s retained 40.28% value. |
 | 330 | Corrected the keyed critical value to 2.402, matching the guide solution and the right-tailed t test. |
 | 340 | Corrected F critical value to approximately 3.89 for df 2 and 12. Replaced the claim of proven equality with insufficient evidence of a difference. |
 | 391 | Preserved the source ANOVA image and explained its ABC F-ratio typo in feedback; the significant-term answer is unchanged. |
