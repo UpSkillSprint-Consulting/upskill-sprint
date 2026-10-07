@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Excel CUBE Functions: Beginner to Advanced",
+  "slug": "excel-cube-functions",
+  "category": "Power BI, Excel & SQL",
+  "category_slug": "power-bi-excel-sql",
+  "level": "Beginner",
+  "lesson_type": "General",
+  "estimated_minutes": 90,
+  "interactive": true,
+  "access_level": "public",
+  "card_title": "Excel CUBE Functions: Beginner to Advanced",
+  "card_description": "Master all seven Excel CUBE functions, from your first CUBEVALUE to dynamic Top N reports, slicer-driven formulas, MDX sets and KPIs, with live builders and practice data.",
+  "search_keywords": ["cube functions","cubevalue","cubemember","cubeset","cubesetcount","cuberankedmember","cubememberproperty","cubekpimember","data model","power pivot","mdx","olap","excel"],
+  "suggested_github_path": "lessons/power-bi-excel-sql/excel-cube-functions.html"
+}
+-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Excel CUBE Functions: Beginner to Advanced | UpSkill Sprint</title>
+<meta name="description" content="Learn all seven Excel CUBE functions step by step: syntax, member expressions, sets, Top N lists, slicers and KPIs, with live builders and a practice workbook.">
+<link rel="canonical" href="https://upskillsprint.com/lessons/power-bi-excel-sql/excel-cube-functions">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Excel CUBE Functions: Beginner to Advanced | UpSkill Sprint">
+<meta property="og:description" content="Learn all seven Excel CUBE functions step by step: syntax, member expressions, sets, Top N lists, slicers and KPIs, with live builders and a practice workbook.">
+<meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+<meta property="og:url" content="https://upskillsprint.com/lessons/power-bi-excel-sql/excel-cube-functions">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/lessons-theme.css">
+<script src="/theme.js"></script>
+<script src="/site-sections.js"></script>
+<style id="cube-lesson-style">
+.cube-lesson{
+  --lesson-cube-ink:#183149;--lesson-cube-muted:#425f73;--lesson-cube-surface:#ffffff;--lesson-cube-soft:#f1f6fa;--lesson-cube-border:#b8cbd8;
+  --lesson-cube-accent:#075968;--lesson-cube-button-ink:#ffffff;--lesson-cube-focus:#6b3290;--lesson-cube-warn-line:#9a5b0c;--lesson-cube-warn-bg:#fff8eb;
+  --lesson-cube-code-bg:#0f2233;--lesson-cube-code-ink:#e6f1f8;--lesson-cube-code-key:#9adce8;--lesson-cube-good:#1f6b45;--lesson-cube-bad:#a12b2b;
+  max-width:1040px;margin:0 auto;padding:24px 24px 0;color:var(--lesson-cube-ink);font-size:16px;line-height:1.7;color-scheme:light dark;
+}
+.cube-lesson *{box-sizing:border-box}
+.cube-lesson .cube-hero{background:var(--lesson-cube-soft);color:var(--lesson-cube-ink);border:1px solid var(--lesson-cube-border);border-radius:18px;padding:36px;margin:8px 0 28px}
+.cube-lesson h1{font-size:clamp(30px,4vw,43px);line-height:1.18;letter-spacing:-.025em;margin:8px 0 18px;max-width:870px;color:var(--lesson-cube-ink)}
+.cube-lesson h2{font-size:clamp(25px,3vw,31px);line-height:1.3;margin:4px 0 18px;color:var(--lesson-cube-ink)}
+.cube-lesson h3{font-size:21px;line-height:1.4;margin:28px 0 12px;color:var(--lesson-cube-ink)}
+.cube-lesson h4{font-size:17.5px;line-height:1.45;margin:22px 0 8px;color:var(--lesson-cube-ink)}
+.cube-lesson p{margin:12px 0 16px}
+.cube-lesson .cube-kicker{font-size:12.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--lesson-cube-accent);margin:0 0 8px}
+.cube-lesson .cube-lead{font-size:19px;line-height:1.6;max-width:840px}
+.cube-lesson .cube-small{font-size:14px;line-height:1.6;color:var(--lesson-cube-muted)}
+.cube-lesson .cube-pills{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 6px;padding:0;list-style:none}
+.cube-lesson .cube-pills li{margin:0;padding:4px 12px;border:1px solid var(--lesson-cube-border);border-radius:999px;background:var(--lesson-cube-surface);color:var(--lesson-cube-ink);font-size:14px;font-weight:600}
+.cube-lesson .cube-section{padding:28px 0;border-top:1px solid var(--lesson-cube-border);scroll-margin-top:110px}
+.cube-lesson :is(h2,h3,h4,details){scroll-margin-top:110px}
+.cube-lesson a{color:var(--lesson-cube-accent);text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.cube-lesson :is(a,button,input,select,summary,[tabindex]):focus-visible{outline:3px solid var(--lesson-cube-focus);outline-offset:3px}
+.cube-lesson .cube-toc{background:var(--lesson-cube-soft);color:var(--lesson-cube-ink);border:1px solid var(--lesson-cube-border);border-radius:12px;padding:20px 22px}
+.cube-lesson .cube-toc ol{margin:0;padding-left:22px;columns:2;column-gap:32px}
+.cube-lesson .cube-toc li{padding:2px 0;margin:4px 0;break-inside:avoid}
+.cube-lesson :is(ul,ol){padding-left:24px}
+.cube-lesson li{margin:8px 0}
+.cube-lesson .cube-steps{counter-reset:cube-step;list-style:none;padding:0;margin:18px 0 24px}
+.cube-lesson .cube-steps>li{counter-increment:cube-step;border-left:3px solid var(--lesson-cube-accent);background:var(--lesson-cube-soft);color:var(--lesson-cube-ink);padding:14px 18px 14px 56px;position:relative;margin:10px 0;border-radius:0 10px 10px 0}
+.cube-lesson .cube-steps>li:before{content:counter(cube-step);position:absolute;left:18px;top:14px;font-weight:700;color:var(--lesson-cube-accent);font-size:19px}
+.cube-lesson .cube-downloads{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+.cube-lesson .cube-button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 17px;background:var(--lesson-cube-accent);color:var(--lesson-cube-button-ink);border:1px solid var(--lesson-cube-accent);border-radius:9px;font:inherit;font-size:15px;font-weight:700;text-decoration:none;cursor:pointer}
+.cube-lesson .cube-button:hover{text-decoration:underline;text-underline-offset:3px}
+.cube-lesson .cube-secondary{background:var(--lesson-cube-surface);color:var(--lesson-cube-accent);border-color:var(--lesson-cube-accent)}
+.cube-lesson .cube-chip{min-height:40px;padding:6px 12px;font:inherit;font-size:14px;background:var(--lesson-cube-surface);color:var(--lesson-cube-accent);border:1px solid var(--lesson-cube-accent);border-radius:8px;cursor:pointer;margin:4px 6px 4px 0}
+.cube-lesson .cube-scroll{max-width:100%;overflow-x:auto;margin:20px 0;border:1px solid var(--lesson-cube-border);border-radius:10px;background:var(--lesson-cube-surface);color:var(--lesson-cube-ink)}
+.cube-lesson table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.55;min-width:640px;margin:0;background:var(--lesson-cube-surface);color:var(--lesson-cube-ink)}
+.cube-lesson caption{text-align:left;font-weight:600;padding:13px 15px;background:var(--lesson-cube-soft);color:var(--lesson-cube-ink)}
+.cube-lesson :is(th,td){text-align:left;padding:11px 14px;border-bottom:1px solid var(--lesson-cube-border);vertical-align:top}
+.cube-lesson thead th{background:var(--lesson-cube-soft);color:var(--lesson-cube-ink);font-weight:700}
+.cube-lesson tbody th{font-weight:700}
+.cube-lesson tbody tr:last-child>*{border-bottom:0}
+.cube-lesson td.cube-num{font-variant-numeric:tabular-nums;text-align:right}
+.cube-lesson code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:.9em;background:var(--lesson-cube-soft);color:var(--lesson-cube-ink);border:1px solid var(--lesson-cube-border);border-radius:4px;padding:1px 4px;overflow-wrap:anywhere;white-space:normal}
+.cube-lesson pre.cube-code{background:var(--lesson-cube-code-bg);color:var(--lesson-cube-code-ink);border-radius:10px;padding:16px 18px;margin:16px 0 20px;white-space:pre-wrap;overflow-wrap:anywhere;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:14.5px;line-height:1.6}
+.cube-lesson pre.cube-code code{background:transparent;color:inherit;border:0;padding:0;font-size:inherit;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere}
+.cube-lesson pre.cube-code,.cube-lesson .cube-readout,.cube-lesson .cube-activity{min-width:0;max-width:100%}
+.cube-lesson .quiz-question{min-width:0}
+.cube-lesson :is(.quiz-option,.quiz-question legend){overflow-wrap:anywhere;word-break:break-word}
+.cube-lesson pre.cube-code .cube-cell{color:var(--lesson-cube-code-key);font-weight:700}
+.cube-lesson .cube-callout{background:var(--lesson-cube-soft);color:var(--lesson-cube-ink);border:1px solid var(--lesson-cube-border);border-left:5px solid var(--lesson-cube-accent);padding:15px 19px;border-radius:8px;margin:22px 0}
+.cube-lesson .cube-callout.cube-warn{background:var(--lesson-cube-warn-bg);border-left-color:var(--lesson-cube-warn-line)}
+.cube-lesson .cube-callout>:first-child{margin-top:0}
+.cube-lesson .cube-callout>:last-child{margin-bottom:0}
+.cube-lesson .cube-callout strong.cube-label{display:inline-block;margin-right:6px}
+.cube-lesson .cube-activity{background:var(--lesson-cube-surface);color:var(--lesson-cube-ink);border:2px solid var(--lesson-cube-accent);padding:24px;border-radius:14px;margin:26px 0}
+.cube-lesson .cube-activity>h3:first-child{margin-top:0}
+.cube-lesson .cube-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px 18px;margin:18px 0}
+.cube-lesson label{display:block;font-weight:600;margin:4px 0 6px}
+.cube-lesson :is(select,input[type=number],input[type=text]){width:100%;min-height:44px;font:inherit;font-size:15px;background:var(--lesson-cube-surface);color:var(--lesson-cube-ink);border:1px solid var(--lesson-cube-muted);padding:8px 11px;border-radius:8px}
+.cube-lesson input[type=text]{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.cube-lesson .cube-readout{background:var(--lesson-cube-soft);color:var(--lesson-cube-ink);border:1px solid var(--lesson-cube-border);border-left:5px solid var(--lesson-cube-accent);border-radius:8px;padding:14px 16px;margin:14px 0}
+.cube-lesson .cube-readout.cube-is-error{border-left-color:var(--lesson-cube-bad)}
+.cube-lesson .cube-readout.cube-is-ok{border-left-color:var(--lesson-cube-good)}
+.cube-lesson .cube-readout p{margin:6px 0}
+.cube-lesson .cube-result{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums}
+.cube-lesson .cube-details{background:var(--lesson-cube-surface);color:var(--lesson-cube-ink);border:1px solid var(--lesson-cube-border);border-radius:10px;margin:14px 0;overflow:hidden}
+.cube-lesson .cube-details>summary{padding:14px 18px;min-height:48px;cursor:pointer;font-weight:700;color:var(--lesson-cube-accent);line-height:1.5}
+.cube-lesson .cube-details[open]>summary{background:var(--lesson-cube-soft);border-bottom:1px solid var(--lesson-cube-border)}
+.cube-lesson .cube-detail-body{padding:16px 20px}
+.cube-lesson .cube-detail-body>:first-child{margin-top:0}
+.cube-lesson .cube-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.cube-lesson .cube-grid-2>*{min-width:0}
+.cube-lesson .cube-anatomy{display:flex;flex-wrap:wrap;gap:6px;align-items:stretch;margin:16px 0;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:15px}
+.cube-lesson .cube-anatomy span{display:flex;flex-direction:column;border:1px solid var(--lesson-cube-border);background:var(--lesson-cube-soft);color:var(--lesson-cube-ink);border-radius:8px;padding:8px 10px}
+.cube-lesson .cube-anatomy small{font-family:system-ui,sans-serif;font-size:12.5px;color:var(--lesson-cube-muted);margin-top:4px}
+@media(max-width:720px){
+  .cube-lesson{padding:18px 16px 0}
+  .cube-lesson .cube-hero{padding:24px 18px}
+  .cube-lesson .cube-toc ol{columns:1}
+  .cube-lesson .cube-grid-2{grid-template-columns:1fr}
+  .cube-lesson .cube-activity{padding:18px 14px}
+  .cube-lesson .cube-steps>li{padding-left:46px}
+  .cube-lesson .cube-steps>li:before{left:14px}
+}
+</style>
+<style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+</head>
+<body data-lesson-page="true" data-category="power-bi-excel-sql" data-level="beginner" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<main id="lesson-content" class="cube-lesson">
+
+<section class="cube-hero" aria-labelledby="cube-title">
+  <p class="cube-kicker">Power BI, Excel &amp; SQL &middot; Beginner to advanced</p>
+  <h1 id="cube-title">Excel CUBE Functions: Beginner to Advanced</h1>
+  <p class="cube-lead">CUBE functions let an ordinary Excel cell ask a question of a data model: "what is the reject count for X70 pipe from Mill A in March?" This lesson takes you from your first <code>CUBEVALUE</code> to dynamic Top N reports, multi-select filters, slicer-driven formulas, MDX set expressions and KPIs, using all seven CUBE functions.</p>
+  <ul class="cube-pills" aria-label="Lesson facts">
+    <li>All 7 CUBE functions</li><li>About 90 minutes</li><li>3 live builders</li><li>Practice workbook included</li><li>Excel for Windows</li>
+  </ul>
+</section>
+
+<nav class="cube-toc" aria-labelledby="cube-toc-heading">
+  <h2 id="cube-toc-heading" style="font-size:20px;margin-top:0">In this lesson</h2>
+  <ol>
+    <li><a href="#why-cube">What CUBE functions are and why they matter</a></li>
+    <li><a href="#setup">Set up the Data Model with the practice data</a></li>
+    <li><a href="#member-expressions">Member expressions: the language inside the quotes</a></li>
+    <li><a href="#cubemember">CUBEMEMBER</a></li>
+    <li><a href="#cubevalue">CUBEVALUE</a></li>
+    <li><a href="#convert-to-formulas">Shortcut: Convert to Formulas</a></li>
+    <li><a href="#cubeset">CUBESET</a></li>
+    <li><a href="#cubesetcount">CUBESETCOUNT</a></li>
+    <li><a href="#cuberankedmember">CUBERANKEDMEMBER</a></li>
+    <li><a href="#cubememberproperty">CUBEMEMBERPROPERTY</a></li>
+    <li><a href="#cubekpimember">CUBEKPIMEMBER</a></li>
+    <li><a href="#advanced-patterns">Advanced patterns</a></li>
+    <li><a href="#troubleshooting">Errors and troubleshooting</a></li>
+    <li><a href="#cheat-sheet">Syntax cheat sheet</a></li>
+    <li><a href="#practice">Practice exercises</a></li>
+    <li><a href="#quiz">Check your understanding</a></li>
+  </ol>
+</nav>
+
+<section class="cube-section" id="why-cube" aria-labelledby="why-cube-heading">
+  <p class="cube-kicker">Part 1 &middot; Beginner</p>
+  <h2 id="why-cube-heading">What CUBE functions are and why they matter</h2>
+  <p>A normal Excel formula such as <code>SUMIFS</code> reads cells on a worksheet. A CUBE function reads a <strong>model</strong> instead: either the Data Model built into your workbook with Power Pivot, or an external OLAP cube such as SQL Server Analysis Services. The model already knows your tables, relationships and calculations (called <strong>measures</strong>). A CUBE function simply names <em>which slice of the model</em> you want and returns the answer.</p>
+  <p>Think of a PivotTable. Every value cell in a PivotTable is the intersection of a measure (for example Total Rejects) with the row and column items (for example Grade X70 and Mill A). CUBE functions let you place each of those intersections in any cell you like, mixed with normal formulas, text and formatting. You keep the power of the model and lose the rigid PivotTable grid.</p>
+
+  <h3 id="seven-functions">The seven functions at a glance</h3>
+  <div class="cube-scroll" tabindex="0" role="region" aria-label="Summary of the seven CUBE functions">
+    <table>
+      <caption>Each CUBE function and what it returns</caption>
+      <thead><tr><th scope="col">Function</th><th scope="col">Returns</th><th scope="col">Typical job</th><th scope="col">Level</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><code>CUBEMEMBER</code></th><td>One member or a tuple (a combination of members)</td><td>Row and column headers; inputs to other CUBE functions</td><td>Beginner</td></tr>
+        <tr><th scope="row"><code>CUBEVALUE</code></th><td>An aggregated number</td><td>The values in your report. The only function that does arithmetic.</td><td>Beginner</td></tr>
+        <tr><th scope="row"><code>CUBESET</code></th><td>A set of members, optionally sorted</td><td>Lists, Top N, multi-select filters</td><td>Intermediate</td></tr>
+        <tr><th scope="row"><code>CUBESETCOUNT</code></th><td>The number of items in a set</td><td>Sizing a dynamic list; guarding a Top N</td><td>Intermediate</td></tr>
+        <tr><th scope="row"><code>CUBERANKEDMEMBER</code></th><td>The nth member of a set</td><td>Top N and Bottom N reports</td><td>Intermediate</td></tr>
+        <tr><th scope="row"><code>CUBEMEMBERPROPERTY</code></th><td>A property value of a member</td><td>Attributes stored on an OLAP member (OLAP cubes only)</td><td>Advanced</td></tr>
+        <tr><th scope="row"><code>CUBEKPIMEMBER</code></th><td>A KPI value, goal, status, trend, weight or time member</td><td>Scorecards that compare a measure with its target</td><td>Advanced</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 id="when-to-use">When to use CUBE functions instead of the alternatives</h3>
+  <div class="cube-scroll" tabindex="0" role="region" aria-label="CUBE functions compared with SUMIFS, PivotTables and GETPIVOTDATA">
+    <table>
+      <caption>Choosing the right tool</caption>
+      <thead><tr><th scope="col">Tool</th><th scope="col">Strength</th><th scope="col">Weakness</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><code>SUMIFS</code> / <code>AVERAGEIFS</code></th><td>Simple, works on any worksheet range</td><td>Recalculates over raw rows; ratios and distinct counts get complicated; slow on very large data</td></tr>
+        <tr><th scope="row">PivotTable</th><td>Fast exploration, drag and drop</td><td>Fixed grid layout; refresh can overwrite nearby cells; hard to mix with custom layouts</td></tr>
+        <tr><th scope="row"><code>GETPIVOTDATA</code></th><td>Free-form cells that read a PivotTable</td><td>The PivotTable must exist and must show the item you ask for</td></tr>
+        <tr><th scope="row">CUBE functions</th><td>Free-form cells that read the model directly; one set of measures feeds many reports; slicers still work</td><td>Needs a Data Model or OLAP cube; member-expression syntax to learn (this lesson)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="cube-callout"><p><strong class="cube-label">If you remember one thing:</strong> <code>CUBEVALUE</code> is the calculator. Every other CUBE function exists to tell <code>CUBEVALUE</code> <em>which</em> slice to calculate.</p></div>
+</section>
+
+<section class="cube-section" id="setup" aria-labelledby="setup-heading">
+  <p class="cube-kicker">Part 1 &middot; Beginner</p>
+  <h2 id="setup-heading">Set up the Data Model with the practice data</h2>
+  <p>The practice workbook holds one fictitious table named <code>Tests</code> with 96 rows: six months (January to June 2026), two mills, two shifts and four line-pipe grades. Each row records the pipe joints inspected (<code>Pieces</code>), the joints rejected (<code>Rejects</code>) and the batch average Charpy energy in joules (<code>CharpyJ</code>). A Data Dictionary tab documents every column.</p>
+  <div class="cube-downloads">
+    <a class="cube-button" href="/assets/lessons/excel-cube-functions/cube-practice-dataset.xlsx" download>Download the practice dataset (Excel .xlsx)</a>
+    <a class="cube-button cube-secondary" href="/assets/lessons/excel-cube-functions/cube-practice-tests.csv" download>Download the same data (CSV)</a>
+  </div>
+  <p class="cube-small">Requirements: Excel for Windows (Microsoft 365 recommended) is needed to build a Data Model and DAX measures. Every value quoted in this lesson comes from this workbook, so you can check your formulas against the text.</p>
+
+  <h3 id="setup-steps">Step by step</h3>
+  <ol class="cube-steps">
+    <li><strong>Open the workbook.</strong> The data on the <code>Tests</code> sheet is already an Excel table named <code>Tests</code> (check under <code>Table Design &rarr; Table Name</code>). Name your tables before loading them: the table name becomes part of every member expression.</li>
+    <li><strong>Add the table to the Data Model.</strong> Click inside the table, then choose <code>Insert &rarr; PivotTable &rarr; From Table/Range</code> and tick <strong>Add this data to the Data Model</strong>. If you have the Power Pivot tab, <code>Power Pivot &rarr; Add to Data Model</code> does the same job.</li>
+    <li><strong>Create four explicit measures.</strong> In the PivotTable Fields pane, right-click the <code>Tests</code> table and choose <strong>Add Measure</strong> (or use <code>Power Pivot &rarr; Measures &rarr; New Measure</code>). Create the DAX measures below.</li>
+    <li><strong>Confirm the connection name.</strong> A workbook Data Model is always reached through the connection named <code>ThisWorkbookDataModel</code>. You will type it as the first argument of every CUBE function in this lesson.</li>
+  </ol>
+<pre class="cube-code"><code>Total Pieces  := SUM ( Tests[Pieces] )
+Total Rejects := SUM ( Tests[Rejects] )
+Reject Rate   := DIVIDE ( [Total Rejects], [Total Pieces] )
+Avg Charpy J  := AVERAGE ( Tests[CharpyJ] )</code></pre>
+  <div class="cube-callout"><p><strong class="cube-label">Why explicit measures?</strong> If you drag <code>Pieces</code> into a Data Model PivotTable, Excel creates an <em>implicit</em> measure called <code>Sum of Pieces</code>. CUBE functions can use it (<code>[Measures].[Sum of Pieces]</code>), but it disappears if you remove the field and you cannot reuse it inside other measures. Explicit measures are stable names you control, so every formula in this lesson uses them.</p></div>
+  <div class="cube-callout cube-warn"><p><strong class="cube-label">No Power Pivot tab?</strong> Turn it on under <code>File &rarr; Options &rarr; Add-ins &rarr; Manage: COM Add-ins &rarr; Go</code>, then tick <strong>Microsoft Power Pivot for Excel</strong>. You can still complete most of this lesson with the PivotTable Fields pane alone.</p></div>
+</section>
+
+<section class="cube-section" id="member-expressions" aria-labelledby="member-expressions-heading">
+  <p class="cube-kicker">Part 1 &middot; Beginner</p>
+  <h2 id="member-expressions-heading">Member expressions: the language inside the quotes</h2>
+  <p>Every CUBE function takes text arguments that name things in the model. These strings use MDX (Multidimensional Expressions) naming, the query language of OLAP cubes. You only need a small part of MDX to be productive.</p>
+  <div class="cube-anatomy" role="group" aria-label="Anatomy of the member expression [Tests].[Grade].&amp;[X70]">
+    <span>[Tests]<small>table (dimension)</small></span>
+    <span>.[Grade]<small>column (hierarchy)</small></span>
+    <span>.&amp;[X70]<small>member, by key</small></span>
+  </div>
+  <div class="cube-scroll" tabindex="0" role="region" aria-label="Member expression patterns">
+    <table>
+      <caption>The patterns you will use most</caption>
+      <thead><tr><th scope="col">Pattern</th><th scope="col">Example</th><th scope="col">Meaning</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">A measure</th><td><code>[Measures].[Total Rejects]</code></td><td>Every measure lives in the special <code>[Measures]</code> dimension.</td></tr>
+        <tr><th scope="row">Member by key</th><td><code>[Tests].[Grade].&amp;[X70]</code></td><td>The <code>&amp;</code> means "match the key value". This is the form Excel itself generates. Use it by default.</td></tr>
+        <tr><th scope="row">Member by name</th><td><code>[Tests].[Grade].[X70]</code></td><td>Matches the member caption. Works for text columns, but numbers and dates can have a caption that differs from the key.</td></tr>
+        <tr><th scope="row">The All member</th><td><code>[Tests].[Grade].[All]</code></td><td>The grand total of that column, the same as not filtering it at all.</td></tr>
+        <tr><th scope="row">All children (a set)</th><td><code>[Tests].[Grade].[All].Children</code></td><td>Every grade. This is a <em>set</em>, so it belongs in <code>CUBESET</code>, not <code>CUBEMEMBER</code>.</td></tr>
+        <tr><th scope="row">Tuple (a combination)</th><td><code>([Tests].[Grade].&amp;[X70],[Tests].[Mill].&amp;[Mill A])</code></td><td>One member from each of several columns, in parentheses, separated by commas.</td></tr>
+        <tr><th scope="row">Set literal</th><td><code>{[Tests].[Grade].&amp;[X65],[Tests].[Grade].&amp;[X70]}</code></td><td>A hand-picked list of members from one column, in braces.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3 id="member-rules">Rules that prevent most errors</h3>
+  <ul>
+    <li><strong>Every name sits in square brackets</strong>, especially names with spaces: <code>[Mill A]</code>, <code>[Total Rejects]</code>.</li>
+    <li><strong>The whole expression is a text string</strong>, so it is wrapped in double quotes in the formula: <code>"[Tests].[Mill].&amp;[Mill A]"</code>.</li>
+    <li><strong>Names come from the model, not the worksheet.</strong> <code>[Tests]</code> is the table name in the Data Model, not the sheet name.</li>
+    <li><strong>Let Excel help.</strong> When you type <code>=CUBEVALUE("ThisWorkbookDataModel","[</code> Excel offers a list of tables, measures and members. Press Tab to accept a suggestion.</li>
+    <li><strong>Dates and numbers have keys that look different.</strong> A date member in the Data Model has a key such as <code>&amp;[2026-03-01T00:00:00]</code>. That is why the practice data stores the month as text (<code>2026-03</code>). If you are unsure of a key, build a PivotTable and use Convert to Formulas (Part 6) to see the exact text Excel generates.</li>
+  </ul>
+
+  <div class="cube-activity" id="expr-checker" aria-labelledby="expr-checker-heading">
+    <h3 id="expr-checker-heading">Live builder 1: member expression checker</h3>
+    <p>Type a member expression the way you would inside the quotes of a CUBE function. The checker validates it against the practice model (table <code>Tests</code>; columns <code>Month</code>, <code>Mill</code>, <code>Shift</code>, <code>Grade</code>, <code>TestID</code>; the four measures above) and tells you what Excel would return.</p>
+    <label for="expr-input">Member expression</label>
+    <input type="text" id="expr-input" value="[Tests].[Grade].&amp;[X70]" autocomplete="off" spellcheck="false">
+    <p class="cube-small" id="expr-examples-label">Try an example:</p>
+    <div role="group" aria-labelledby="expr-examples-label">
+      <button type="button" class="cube-chip" data-expr="[Measures].[Reject Rate]">A measure</button>
+      <button type="button" class="cube-chip" data-expr="[Tests].[Mill].&amp;[Mill B]">Mill B by key</button>
+      <button type="button" class="cube-chip" data-expr="[Tests].[Grade].[All]">All grades</button>
+      <button type="button" class="cube-chip" data-expr="[Tests].[Grade].&amp;[X80]">A grade that does not exist</button>
+      <button type="button" class="cube-chip" data-expr="[Tests].[Mill].&amp;[Mill C]">A mill that does not exist</button>
+      <button type="button" class="cube-chip" data-expr="[Test].[Grade].&amp;[X70]">Misspelled table</button>
+      <button type="button" class="cube-chip" data-expr="[Tests].[Mill].&amp;Mill A">Missing brackets</button>
+      <button type="button" class="cube-chip" data-expr="[Tests].[Grade].[All].Children">A set</button>
+    </div>
+    <p><button type="button" class="cube-button" id="expr-check">Check expression</button></p>
+    <div class="cube-readout" id="expr-result" role="status" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="cube-section" id="cubemember" aria-labelledby="cubemember-heading">
+  <p class="cube-kicker">Part 1 &middot; Beginner</p>
+  <h2 id="cubemember-heading">CUBEMEMBER: name one member (or a tuple)</h2>
+<pre class="cube-code"><code>=CUBEMEMBER(connection, member_expression, [caption])</code></pre>
+  <div class="cube-scroll" tabindex="0" role="region" aria-label="CUBEMEMBER arguments">
+    <table>
+      <caption>CUBEMEMBER arguments</caption>
+      <thead><tr><th scope="col">Argument</th><th scope="col">Required?</th><th scope="col">What to pass</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><code>connection</code></th><td>Yes</td><td>Text name of the connection. For the workbook Data Model: <code>"ThisWorkbookDataModel"</code>.</td></tr>
+        <tr><th scope="row"><code>member_expression</code></th><td>Yes</td><td>Text that names one member, or a tuple of members from different columns.</td></tr>
+        <tr><th scope="row"><code>caption</code></th><td>No</td><td>Text to display in the cell instead of the member's own caption.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The cell shows the member's caption (for example <code>X70</code>), but behind the scenes it holds a reference to the member itself. That is what makes it useful: other CUBE functions can point at the cell.</p>
+  <h3 id="cubemember-basic">Basic: a header cell</h3>
+<pre class="cube-code"><code><span class="cube-cell">B1</span>  =CUBEMEMBER("ThisWorkbookDataModel","[Tests].[Grade].&amp;[X70]")
+<span class="cube-cell">A2</span>  =CUBEMEMBER("ThisWorkbookDataModel","[Tests].[Mill].&amp;[Mill A]")
+<span class="cube-cell">A1</span>  =CUBEMEMBER("ThisWorkbookDataModel","[Measures].[Total Rejects]","Rejects")</code></pre>
+  <p>B1 displays <code>X70</code>, A2 displays <code>Mill A</code>, and A1 displays your custom caption <code>Rejects</code> while still pointing at the <code>Total Rejects</code> measure.</p>
+  <h3 id="cubemember-dynamic">Intermediate: build the expression from a cell</h3>
+  <p>Because the member expression is just text, you can assemble it with <code>&amp;</code>. Put a grade such as <code>X65</code> in cell <code>G1</code> (a data-validation drop-down works well) and write:</p>
+<pre class="cube-code"><code>=CUBEMEMBER("ThisWorkbookDataModel","[Tests].[Grade].&amp;["&amp;G1&amp;"]")</code></pre>
+  <p>Change G1 and every formula that points at this member updates. The first <code>&amp;</code> inside the quotes is part of MDX (the key marker); the <code>&amp;</code> operators outside the quotes are Excel text joins.</p>
+  <h3 id="cubemember-tuple">Advanced: a tuple in one cell</h3>
+<pre class="cube-code"><code>=CUBEMEMBER("ThisWorkbookDataModel",
+   "([Tests].[Grade].&amp;[X70],[Tests].[Mill].&amp;[Mill A],[Measures].[Total Rejects])",
+   "X70 rejects, Mill A")</code></pre>
+  <p>A tuple combines one member from each of several columns, plus (optionally) a measure. If this formula sits in cell D1, then <code>=CUBEVALUE("ThisWorkbookDataModel",D1)</code> returns <strong>154</strong>, the X70 rejects made on Mill A. Tuples keep long reports tidy because a whole slice lives in one cell. In everyday reports, though, the more common pattern is to keep one member per <code>CUBEMEMBER</code> cell and pass several of those cells to <code>CUBEVALUE</code>, as the next part shows.</p>
+</section>
+
+<section class="cube-section" id="cubevalue" aria-labelledby="cubevalue-heading">
+  <p class="cube-kicker">Part 1 &middot; Beginner</p>
+  <h2 id="cubevalue-heading">CUBEVALUE: calculate the slice</h2>
+<pre class="cube-code"><code>=CUBEVALUE(connection, [member_expression1], [member_expression2], ...)</code></pre>
+  <p><code>CUBEVALUE</code> evaluates the model at the intersection of every member you pass. Each <code>member_expression</code> can be a text expression, a cell that contains <code>CUBEMEMBER</code>, a cell that contains <code>CUBESET</code>, or the name of a slicer. Columns you do not mention are not filtered (they stay at their All member). If you name no measure, the model's default measure is used, so always name one.</p>
+
+  <h3 id="cubevalue-basic">Basic: one number</h3>
+<pre class="cube-code"><code>=CUBEVALUE("ThisWorkbookDataModel","[Measures].[Total Pieces]")</code></pre>
+  <p>Returns <strong>42,130</strong>, every joint inspected in the practice data. Add a slicer member to narrow it:</p>
+<pre class="cube-code"><code>=CUBEVALUE("ThisWorkbookDataModel","[Measures].[Total Rejects]","[Tests].[Grade].&amp;[X70]")</code></pre>
+  <p>Returns <strong>327</strong> rejected X70 joints (out of 893 rejects overall).</p>
+
+  <h3 id="cubevalue-multi">Beginner+: several filters at once</h3>
+<pre class="cube-code"><code>=CUBEVALUE("ThisWorkbookDataModel",
+   "[Measures].[Total Rejects]",
+   "[Tests].[Grade].&amp;[X70]",
+   "[Tests].[Mill].&amp;[Mill A]",
+   "[Tests].[Month].&amp;[2026-03]")</code></pre>
+  <p>Returns <strong>27</strong>. Swap the measure for <code>[Measures].[Total Pieces]</code> and you get <strong>867</strong>; with <code>[Measures].[Reject Rate]</code> you get 0.0311, which displays as 3.11% once the cell is formatted as a percentage. Each argument may name only one column; to filter one column by several values at once, use a set (Part 7).</p>
+
+  <h3 id="cubevalue-grid">Intermediate: the report grid pattern</h3>
+  <p>Professional CUBE reports put <code>CUBEMEMBER</code> headers along the top and side and a single <code>CUBEVALUE</code> formula in the body, copied across and down with mixed references.</p>
+<pre class="cube-code"><code><span class="cube-cell">A1</span>  =CUBEMEMBER("ThisWorkbookDataModel","[Measures].[Total Rejects]")
+<span class="cube-cell">B1</span>  =CUBEMEMBER("ThisWorkbookDataModel","[Tests].[Mill].&amp;[Mill A]")
+<span class="cube-cell">C1</span>  =CUBEMEMBER("ThisWorkbookDataModel","[Tests].[Mill].&amp;[Mill B]")
+<span class="cube-cell">A2</span>  =CUBEMEMBER("ThisWorkbookDataModel","[Tests].[Grade].&amp;[X52]")    (X60, X65, X70 below)
+<span class="cube-cell">B2</span>  =CUBEVALUE("ThisWorkbookDataModel",$A$1,$A2,B$1)          copy to B2:C5</code></pre>
+  <p><code>$A$1</code> locks the measure, <code>$A2</code> locks the column (so each row reads its own grade) and <code>B$1</code> locks the row (so each column reads its own mill). Change A1 to <code>[Measures].[Reject Rate]</code> and the whole grid switches measure.</p>
+
+  <h3 id="cubevalue-blanks">Intermediate: blanks and arithmetic</h3>
+  <p>When an intersection has no data, <code>CUBEVALUE</code> returns an empty, zero-length text value rather than a zero. Arithmetic on it can then produce <code>#VALUE!</code>. Wrap the value in <code>N()</code> (or test it with <code>ISNUMBER</code>) before doing maths with it:</p>
+<pre class="cube-code"><code>=N(CUBEVALUE("ThisWorkbookDataModel",$A$1,$A2,B$1)) - N(CUBEVALUE("ThisWorkbookDataModel",$A$1,$A2,C$1))</code></pre>
+
+  <h3 id="cubevalue-slicers">Intermediate: drive formulas with a slicer</h3>
+  <p>Insert a slicer from any Data Model PivotTable (<code>PivotTable Analyze &rarr; Insert Slicer</code>), then open <code>Slicer &rarr; Slicer Settings</code> and read <strong>Name to use in formulas</strong>, for example <code>Slicer_Shift</code>. Pass that name, without quotes, as an argument:</p>
+<pre class="cube-code"><code>=CUBEVALUE("ThisWorkbookDataModel","[Measures].[Reject Rate]",$A2,Slicer_Shift)</code></pre>
+  <p>The formula now respects whatever the user selects in the slicer, including several selected items. You can delete the PivotTable you used to create the slicer; the slicer keeps working with CUBE formulas.</p>
+
+  <div class="cube-activity" id="cv-builder" aria-labelledby="cv-builder-heading">
+    <h3 id="cv-builder-heading">Live builder 2: CUBEVALUE formula and result</h3>
+    <p>Pick a measure and up to four filters. The builder writes the exact formula and calculates the answer from the practice data, just as the Data Model would.</p>
+    <div class="cube-controls">
+      <div><label for="cv-measure">Measure</label><select id="cv-measure"></select></div>
+      <div><label for="cv-grade">Grade</label><select id="cv-grade"></select></div>
+      <div><label for="cv-mill">Mill</label><select id="cv-mill"></select></div>
+      <div><label for="cv-shift">Shift</label><select id="cv-shift"></select></div>
+      <div><label for="cv-month">Month</label><select id="cv-month"></select></div>
+    </div>
+    <div class="cube-readout" id="cv-output" role="status" aria-live="polite">
+      <p><strong>Formula</strong></p>
+      <pre class="cube-code"><code id="cv-formula"></code></pre>
+      <p><strong>Result:</strong> <span class="cube-result" id="cv-result"></span></p>
+      <p class="cube-small" id="cv-note"></p>
+    </div>
+  </div>
+</section>
+
+<section class="cube-section" id="convert-to-formulas" aria-labelledby="convert-heading">
+  <p class="cube-kicker">Part 1 &middot; Beginner</p>
+  <h2 id="convert-heading">Shortcut: let Excel write the formulas (Convert to Formulas)</h2>
+  <p>You never have to memorise exact member keys. Excel can turn a Data Model PivotTable into CUBE formulas for you:</p>
+  <ol class="cube-steps">
+    <li>Build a PivotTable from the Data Model with <code>Grade</code> on Rows, <code>Mill</code> on Columns and <code>Total Rejects</code> in Values.</li>
+    <li>Select any cell in it and choose <code>PivotTable Analyze &rarr; OLAP Tools &rarr; Convert to Formulas</code>. (In older versions the tab is called <code>Analyze</code> or <code>Options</code>.)</li>
+    <li>If the PivotTable has report filters, Excel asks whether to convert them too. Choose to convert them if you want every cell as a formula.</li>
+    <li>Inspect the result: headers become <code>CUBEMEMBER</code>, values become <code>CUBEVALUE</code>, with the exact member text Excel uses.</li>
+  </ol>
+  <div class="cube-callout"><p><strong class="cube-label">Workflow tip:</strong> prototype with a PivotTable, convert, then delete, move and restyle cells freely. The converted cells are ordinary formulas, so you can copy them to other sheets or rewrite them with cell references.</p></div>
+  <p>Convert to Formulas is only available for PivotTables based on the Data Model or an OLAP source. A PivotTable built from a plain range has no model behind it, so the option is greyed out.</p>
+</section>
+
+<section class="cube-section" id="cubeset" aria-labelledby="cubeset-heading">
+  <p class="cube-kicker">Part 2 &middot; Intermediate</p>
+  <h2 id="cubeset-heading">CUBESET: define a group of members</h2>
+<pre class="cube-code"><code>=CUBESET(connection, set_expression, [caption], [sort_order], [sort_by])</code></pre>
+  <div class="cube-scroll" tabindex="0" role="region" aria-label="CUBESET arguments">
+    <table>
+      <caption>CUBESET arguments</caption>
+      <thead><tr><th scope="col">Argument</th><th scope="col">Required?</th><th scope="col">What to pass</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><code>connection</code></th><td>Yes</td><td><code>"ThisWorkbookDataModel"</code> or your OLAP connection name.</td></tr>
+        <tr><th scope="row"><code>set_expression</code></th><td>Yes</td><td>Text that returns a set, such as <code>"[Tests].[Grade].[All].Children"</code>, or a cell reference to a <code>CUBEMEMBER</code> that returns members.</td></tr>
+        <tr><th scope="row"><code>caption</code></th><td>No</td><td>Text shown in the cell. A set has no single caption of its own, so always supply one.</td></tr>
+        <tr><th scope="row"><code>sort_order</code></th><td>No</td><td>A number from 0 to 6 (table below). Default 0.</td></tr>
+        <tr><th scope="row"><code>sort_by</code></th><td>Only for sort_order 1 or 2</td><td>The measure to sort by, for example <code>"[Measures].[Total Rejects]"</code>.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="cube-scroll" tabindex="0" role="region" aria-label="CUBESET sort_order values">
+    <table>
+      <caption>sort_order values</caption>
+      <thead><tr><th scope="col">Value</th><th scope="col">Name</th><th scope="col">Sorts by</th><th scope="col">Needs sort_by?</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">0</th><td>SortNone</td><td>Leaves the set in its existing order</td><td>No</td></tr>
+        <tr><th scope="row">1</th><td>SortAscending</td><td>The <code>sort_by</code> value, smallest first</td><td>Yes</td></tr>
+        <tr><th scope="row">2</th><td>SortDescending</td><td>The <code>sort_by</code> value, largest first</td><td>Yes</td></tr>
+        <tr><th scope="row">3</th><td>SortAlphaAscending</td><td>Caption, A to Z</td><td>No</td></tr>
+        <tr><th scope="row">4</th><td>Sort_Alpha_Descending</td><td>Caption, Z to A</td><td>No</td></tr>
+        <tr><th scope="row">5</th><td>Sort_Natural_Ascending</td><td>The model's natural (hierarchy) order</td><td>No</td></tr>
+        <tr><th scope="row">6</th><td>Sort_Natural_Descending</td><td>The model's natural order, reversed</td><td>No</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>A <code>CUBESET</code> cell shows only its caption. Its value is the set itself, which you pass to <code>CUBESETCOUNT</code>, <code>CUBERANKEDMEMBER</code> or <code>CUBEVALUE</code>.</p>
+
+  <h3 id="cubeset-examples">Set expressions from simple to advanced</h3>
+<pre class="cube-code"><code>All grades, largest reject count first
+=CUBESET("ThisWorkbookDataModel","[Tests].[Grade].[All].Children","Grades by rejects",2,"[Measures].[Total Rejects]")
+
+A hand-picked list (set literal)
+=CUBESET("ThisWorkbookDataModel","{[Tests].[Grade].&amp;[X65],[Tests].[Grade].&amp;[X70]}","High grades")
+
+A range of members (first quarter)
+=CUBESET("ThisWorkbookDataModel","[Tests].[Month].&amp;[2026-01]:[Tests].[Month].&amp;[2026-03]","Q1 2026")
+
+Everything except one member
+=CUBESET("ThisWorkbookDataModel","Except([Tests].[Grade].[All].Children,{[Tests].[Grade].&amp;[X52]})","All but X52")
+
+The top 2 grades by rejects (MDX TopCount)
+=CUBESET("ThisWorkbookDataModel","TopCount([Tests].[Grade].[All].Children,2,[Measures].[Total Rejects])","Top 2 grades")
+
+Only grades above a 2.5% reject rate (MDX Filter)
+=CUBESET("ThisWorkbookDataModel","Filter([Tests].[Grade].[All].Children,[Measures].[Reject Rate]&gt;0.025)","Over 2.5%")</code></pre>
+  <p>In the practice data, the TopCount set holds X70 (327 rejects) and X65 (241 rejects), and the Filter set holds X70 alone (3.07% reject rate). A range such as <code>&amp;[2026-01]:&amp;[2026-03]</code> follows the column's sort order, which is why sortable text keys like <code>2026-03</code> are so useful.</p>
+
+  <h3 id="cubeset-as-filter">Intermediate: a set as a multi-select filter</h3>
+  <p>Pass a <code>CUBESET</code> cell to <code>CUBEVALUE</code> and the measure is aggregated over every member in the set. This is how you filter one column by several values without a slicer:</p>
+<pre class="cube-code"><code><span class="cube-cell">H1</span>  =CUBESET("ThisWorkbookDataModel","{[Tests].[Grade].&amp;[X65],[Tests].[Grade].&amp;[X70]}","X65 + X70")
+<span class="cube-cell">H2</span>  =CUBEVALUE("ThisWorkbookDataModel","[Measures].[Total Rejects]",H1)</code></pre>
+  <p>H2 returns <strong>568</strong> (241 + 327). Because <code>Reject Rate</code> is a DAX ratio, using it with H1 correctly divides the combined rejects by the combined pieces instead of averaging two percentages.</p>
+</section>
+
+<section class="cube-section" id="cubesetcount" aria-labelledby="cubesetcount-heading">
+  <p class="cube-kicker">Part 2 &middot; Intermediate</p>
+  <h2 id="cubesetcount-heading">CUBESETCOUNT: how many items are in the set?</h2>
+<pre class="cube-code"><code>=CUBESETCOUNT(set)</code></pre>
+  <p>The only argument is a <code>CUBESET</code>, normally as a cell reference. With H1 holding all grades, <code>=CUBESETCOUNT(H1)</code> returns 4. With a <code>Filter</code> set it returns however many members passed the test, which makes it ideal for counting things like "how many grades are above target this month?".</p>
+<pre class="cube-code"><code>=CUBESETCOUNT(CUBESET("ThisWorkbookDataModel","Filter([Tests].[Grade].[All].Children,[Measures].[Reject Rate]&gt;0.025)"))</code></pre>
+  <p>Returns 1 for the practice data. Its most important job, though, is to guard <code>CUBERANKEDMEMBER</code> so a Top N list never asks for a rank that does not exist.</p>
+</section>
+
+<section class="cube-section" id="cuberankedmember" aria-labelledby="cuberankedmember-heading">
+  <p class="cube-kicker">Part 2 &middot; Intermediate</p>
+  <h2 id="cuberankedmember-heading">CUBERANKEDMEMBER: the nth member of a set</h2>
+<pre class="cube-code"><code>=CUBERANKEDMEMBER(connection, set_expression, rank, [caption])</code></pre>
+  <p><code>rank</code> is a whole number: 1 returns the first member of the set, 2 the second, and so on. The order is the order of the set, so sort the set first with <code>CUBESET</code>'s <code>sort_order</code>. Like <code>CUBEMEMBER</code>, the result is a member that other formulas can reference.</p>
+  <h3 id="topn-pattern">The dynamic Top N report</h3>
+<pre class="cube-code"><code><span class="cube-cell">E1</span>  3                                   (N, typed by the user)
+<span class="cube-cell">F1</span>  =CUBESET("ThisWorkbookDataModel","[Tests].[Grade].[All].Children","Grades by rejects",2,"[Measures].[Total Rejects]")
+<span class="cube-cell">F2</span>  =IF(ROWS(F$2:F2)&lt;=MIN($E$1,CUBESETCOUNT($F$1)),
+       CUBERANKEDMEMBER("ThisWorkbookDataModel",$F$1,ROWS(F$2:F2)),"")
+<span class="cube-cell">G2</span>  =IF(F2="","",CUBEVALUE("ThisWorkbookDataModel","[Measures].[Total Rejects]",F2))
+      copy F2:G2 down for as many rows as the largest N you allow</code></pre>
+  <p><code>ROWS(F$2:F2)</code> produces 1, 2, 3... as you copy down, and the <code>IF</code> stops the list at N or at the size of the set, whichever is smaller. With N = 3 the list reads X70 (327), X65 (241), X60 (176). Change F1's <code>sort_order</code> to 1 for a Bottom N list.</p>
+
+  <div class="cube-activity" id="set-explorer" aria-labelledby="set-explorer-heading">
+    <h3 id="set-explorer-heading">Live builder 3: CUBESET, CUBESETCOUNT and CUBERANKEDMEMBER together</h3>
+    <p>Choose a column to list, a sort order and a measure. The builder writes the three formulas and shows the ranked list the Data Model would return.</p>
+    <div class="cube-controls">
+      <div><label for="set-dim">Column to list</label><select id="set-dim"></select></div>
+      <div><label for="set-order">sort_order</label><select id="set-order"></select></div>
+      <div><label for="set-measure">sort_by and value measure</label><select id="set-measure"></select></div>
+      <div><label for="set-n">Top N (rows to show)</label><input type="number" id="set-n" min="1" max="10" step="1" value="3"></div>
+    </div>
+    <div class="cube-readout" id="set-output" role="status" aria-live="polite">
+      <pre class="cube-code"><code id="set-formulas"></code></pre>
+      <p id="set-count"></p>
+    </div>
+    <div class="cube-scroll" tabindex="0" role="region" aria-label="Ranked members returned by the set">
+      <table id="set-table">
+        <caption>What CUBERANKEDMEMBER and CUBEVALUE return</caption>
+        <thead><tr><th scope="col">Rank</th><th scope="col">Member caption</th><th scope="col">Value</th></tr></thead>
+        <tbody id="set-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="cube-section" id="cubememberproperty" aria-labelledby="cubememberproperty-heading">
+  <p class="cube-kicker">Part 3 &middot; Advanced</p>
+  <h2 id="cubememberproperty-heading">CUBEMEMBERPROPERTY: read a member's property (OLAP cubes)</h2>
+<pre class="cube-code"><code>=CUBEMEMBERPROPERTY(connection, member_expression, property)</code></pre>
+  <p>In a multidimensional OLAP cube (for example SQL Server Analysis Services Multidimensional), a cube designer can attach <strong>member properties</strong> to members: a product's colour, a customer's region, a mill's commissioning year. <code>CUBEMEMBERPROPERTY</code> returns one of those values. <code>property</code> is the property name as text (or a cell holding it).</p>
+<pre class="cube-code"><code>=CUBEMEMBERPROPERTY("PlantCube","[Equipment].[Line].&amp;[Mill A]","Commissioned Year")</code></pre>
+  <p class="cube-small">The connection, member and property above are illustrative names for an OLAP cube that defines such a property. The practice workbook does not.</p>
+  <div class="cube-callout cube-warn"><p><strong class="cube-label">Data Model users:</strong> the workbook Data Model (Power Pivot) does not have member properties, so this function has nothing to return there. Add the attribute as a column in your table instead and slice by it with <code>CUBEMEMBER</code> and <code>CUBEVALUE</code>, or put it in a lookup table and use <code>XLOOKUP</code> on the member caption.</p></div>
+</section>
+
+<section class="cube-section" id="cubekpimember" aria-labelledby="cubekpimember-heading">
+  <p class="cube-kicker">Part 3 &middot; Advanced</p>
+  <h2 id="cubekpimember-heading">CUBEKPIMEMBER: value, goal, status and trend of a KPI</h2>
+<pre class="cube-code"><code>=CUBEKPIMEMBER(connection, kpi_name, kpi_property, [caption])</code></pre>
+  <p>A KPI (key performance indicator) is a measure plus a target and status thresholds, defined in the model. In the Data Model you create one with <code>Power Pivot &rarr; KPIs &rarr; New KPI</code>: choose the base measure (for example <code>Reject Rate</code>), an absolute target such as 0.02, and status thresholds. <code>CUBEKPIMEMBER</code> returns the KPI component you ask for as a member, and <code>CUBEVALUE</code> turns it into a number.</p>
+  <div class="cube-scroll" tabindex="0" role="region" aria-label="CUBEKPIMEMBER kpi_property values">
+    <table>
+      <caption>kpi_property values</caption>
+      <thead><tr><th scope="col">Value</th><th scope="col">Constant</th><th scope="col">Returns</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">1</th><td>KPIValue</td><td>The actual value of the KPI measure</td></tr>
+        <tr><th scope="row">2</th><td>KPIGoal</td><td>The target</td></tr>
+        <tr><th scope="row">3</th><td>KPIStatus</td><td>The status at that moment, typically a number from -1 to 1</td></tr>
+        <tr><th scope="row">4</th><td>KPITrend</td><td>The trend value, if the model defines one</td></tr>
+        <tr><th scope="row">5</th><td>KPIWeight</td><td>The relative importance assigned to the KPI</td></tr>
+        <tr><th scope="row">6</th><td>KPICurrentTimeMember</td><td>A temporal context for the KPI</td></tr>
+      </tbody>
+    </table>
+  </div>
+<pre class="cube-code"><code><span class="cube-cell">B1</span>  =CUBEKPIMEMBER("ThisWorkbookDataModel","Reject Rate",2,"Goal")
+<span class="cube-cell">B2</span>  =CUBEVALUE("ThisWorkbookDataModel",$B$1,$A2)          goal for the grade in A2
+<span class="cube-cell">C2</span>  =CUBEVALUE("ThisWorkbookDataModel",CUBEKPIMEMBER("ThisWorkbookDataModel","Reject Rate",3),$A2)   status</code></pre>
+  <p>Pair the status with conditional-formatting icon sets (and a text label such as "Above target") so the meaning never depends on colour alone. Not every model defines trend, weight or a current time member; when a component is missing, there is nothing for <code>CUBEVALUE</code> to return.</p>
+</section>
+
+<section class="cube-section" id="advanced-patterns" aria-labelledby="advanced-patterns-heading">
+  <p class="cube-kicker">Part 3 &middot; Advanced</p>
+  <h2 id="advanced-patterns-heading">Advanced patterns</h2>
+
+  <h3 id="pattern-dropdown">1. Drop-down driven dashboards</h3>
+  <p>Give users data-validation drop-downs (for grade, mill, month) and build member strings from them. One header cell per drop-down keeps the formulas short:</p>
+<pre class="cube-code"><code><span class="cube-cell">K1</span>  X70                                     (drop-down)
+<span class="cube-cell">K2</span>  =CUBEMEMBER("ThisWorkbookDataModel","[Tests].[Grade].&amp;["&amp;K1&amp;"]")
+<span class="cube-cell">L1</span>  2026-03                                 (drop-down)
+<span class="cube-cell">L2</span>  =CUBEMEMBER("ThisWorkbookDataModel","[Tests].[Month].&amp;["&amp;L1&amp;"]")
+<span class="cube-cell">M2</span>  =CUBEVALUE("ThisWorkbookDataModel","[Measures].[Reject Rate]",K2,L2)</code></pre>
+  <p>Add an "All" choice by testing for it: <code>IF(K1="All","[Tests].[Grade].[All]","[Tests].[Grade].&amp;["&amp;K1&amp;"]")</code>.</p>
+
+  <h3 id="pattern-period">2. Period-over-period comparisons</h3>
+  <p>Compute the previous month's key with ordinary Excel date functions, then pass both members:</p>
+<pre class="cube-code"><code><span class="cube-cell">L3</span>  =TEXT(EDATE(DATEVALUE(L1&amp;"-01"),-1),"yyyy-mm")        returns 2026-02
+<span class="cube-cell">M3</span>  =CUBEVALUE("ThisWorkbookDataModel","[Measures].[Total Rejects]","[Tests].[Month].&amp;["&amp;L3&amp;"]")
+<span class="cube-cell">M4</span>  =N(CUBEVALUE("ThisWorkbookDataModel","[Measures].[Total Rejects]",L2)) - N(M3)</code></pre>
+  <p>With L1 = 2026-03, March has 144 rejects and February 159, so M4 shows -15. For year-to-date or rolling windows, use a range set such as <code>"[Tests].[Month].&amp;[2026-01]:[Tests].[Month].&amp;["&amp;L1&amp;"]"</code> inside a <code>CUBESET</code> and pass the set to <code>CUBEVALUE</code>.</p>
+
+  <h3 id="pattern-asymmetric">3. Asymmetric reports</h3>
+  <p>A PivotTable forces every row to share the same columns. CUBE reports do not. Row 5 can show Mill A by month while row 6 shows a year-to-date set for Mill B and row 7 shows a KPI status, all in one tidy block. This is the main reason quality and finance teams switch to CUBE formulas for monthly packs.</p>
+
+  <h3 id="pattern-long-expressions">4. Long expressions and the 255-character limit</h3>
+  <p>A single member expression longer than 255 characters makes the function return <code>#VALUE!</code>. Long sets (many hand-picked members) hit this quickly. Split the work: build the set once in its own <code>CUBESET</code> cell, or build members in <code>CUBEMEMBER</code> cells, and pass the cell references. References also make formulas easier to read and audit.</p>
+
+  <h3 id="pattern-performance">5. Refresh and performance</h3>
+  <ul>
+    <li>CUBE functions calculate asynchronously. Cells show <code>#GETTING_DATA</code> briefly while the model answers; this is normal.</li>
+    <li><code>Data &rarr; Refresh All</code> reloads the model from its source and then recalculates the CUBE formulas.</li>
+    <li>Reuse header cells. A sheet with 2,000 <code>CUBEVALUE</code> cells that reference shared <code>CUBEMEMBER</code> headers is faster and easier to audit than 2,000 formulas that each repeat long text expressions.</li>
+    <li>Put the logic in DAX measures, not in Excel arithmetic on top of <code>CUBEVALUE</code>. A ratio measure such as <code>Reject Rate</code> stays correct at every level of aggregation; dividing two <code>CUBEVALUE</code> cells works only if you remember to do it at each level.</li>
+    <li>CUBE functions return one value per cell. They do not spill like dynamic-array formulas, so lay out one formula per cell.</li>
+  </ul>
+
+  <h3 id="pattern-error-proofing">6. Error-proofing a finished report</h3>
+<pre class="cube-code"><code>=IFERROR(N(CUBEVALUE("ThisWorkbookDataModel",$A$1,$A2,B$1)),0)</code></pre>
+  <p>Use <code>IFERROR</code> only on finished, tested reports. While building, let errors show: a <code>#N/A</code> tells you a member name is wrong, and hiding it would turn a typo into a silent zero.</p>
+</section>
+
+<section class="cube-section" id="troubleshooting" aria-labelledby="troubleshooting-heading">
+  <p class="cube-kicker">Reference</p>
+  <h2 id="troubleshooting-heading">Errors and troubleshooting</h2>
+  <div class="cube-scroll" tabindex="0" role="region" aria-label="CUBE function errors, causes and fixes">
+    <table>
+      <caption>What each result usually means</caption>
+      <thead><tr><th scope="col">You see</th><th scope="col">Usual cause</th><th scope="col">Fix</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><code>#NAME?</code></th><td>The connection name is wrong or the model/server is not available.</td><td>Use <code>"ThisWorkbookDataModel"</code> exactly; check the OLAP connection under <code>Data &rarr; Queries &amp; Connections</code>.</td></tr>
+        <tr><th scope="row"><code>#N/A</code></th><td>The member does not exist, a name is misspelled, brackets are missing, or two members in a set come from different columns.</td><td>Re-type with autocomplete, or copy the expression from Convert to Formulas.</td></tr>
+        <tr><th scope="row"><code>#VALUE!</code></th><td>An element of the tuple is invalid, or an expression exceeds 255 characters.</td><td>Split long expressions into <code>CUBEMEMBER</code>/<code>CUBESET</code> cells.</td></tr>
+        <tr><th scope="row">Empty cell</th><td>No data at that intersection (for example a grade never made on that mill).</td><td>Expected. Wrap in <code>N()</code> before arithmetic.</td></tr>
+        <tr><th scope="row"><code>#GETTING_DATA</code></th><td>The model is still calculating.</td><td>Wait; if it persists, refresh the model.</td></tr>
+        <tr><th scope="row">Wrong total</th><td>Using an implicit measure or averaging percentages in Excel.</td><td>Use explicit DAX measures (ratios as <code>DIVIDE</code>).</td></tr>
+        <tr><th scope="row">Date member not found</th><td>Using the caption (<code>3/1/2026</code>) instead of the key.</td><td>Use the key form shown by Convert to Formulas, for example <code>&amp;[2026-03-01T00:00:00]</code>.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="cube-section" id="cheat-sheet" aria-labelledby="cheat-sheet-heading">
+  <p class="cube-kicker">Reference</p>
+  <h2 id="cheat-sheet-heading">Syntax cheat sheet</h2>
+<pre class="cube-code"><code>=CUBEMEMBER(connection, member_expression, [caption])
+=CUBEVALUE(connection, [member_expression1], [member_expression2], ...)
+=CUBESET(connection, set_expression, [caption], [sort_order], [sort_by])
+=CUBESETCOUNT(set)
+=CUBERANKEDMEMBER(connection, set_expression, rank, [caption])
+=CUBEMEMBERPROPERTY(connection, member_expression, property)
+=CUBEKPIMEMBER(connection, kpi_name, kpi_property, [caption])
+
+Connection for the workbook Data Model:  "ThisWorkbookDataModel"
+Measure:            [Measures].[Total Rejects]
+Member by key:      [Table].[Column].&amp;[Key]
+All member:         [Table].[Column].[All]
+All children:       [Table].[Column].[All].Children
+Tuple:              ([Table].[ColA].&amp;[a],[Table].[ColB].&amp;[b])
+Set literal:        {[Table].[Col].&amp;[a],[Table].[Col].&amp;[b]}
+Range:              [Table].[Col].&amp;[first]:[Table].[Col].&amp;[last]
+MDX helpers:        TopCount(set,n,measure)  BottomCount(set,n,measure)  Filter(set,condition)  Except(set1,set2)</code></pre>
+</section>
+
+<section class="cube-section" id="practice" aria-labelledby="practice-heading">
+  <p class="cube-kicker">Practice</p>
+  <h2 id="practice-heading">Practice exercises</h2>
+  <p>Use the practice workbook. Try each exercise before opening the answer, then check your number against it.</p>
+  <details class="cube-details"><summary>Exercise 1 (beginner): total pieces for Mill B</summary><div class="cube-detail-body">
+<pre class="cube-code"><code>=CUBEVALUE("ThisWorkbookDataModel","[Measures].[Total Pieces]","[Tests].[Mill].&amp;[Mill B]")</code></pre>
+    <p>Answer: 20,843 pieces.</p></div></details>
+  <details class="cube-details"><summary>Exercise 2 (beginner): rejects for Mill B</summary><div class="cube-detail-body">
+<pre class="cube-code"><code>=CUBEVALUE("ThisWorkbookDataModel","[Measures].[Total Rejects]","[Tests].[Mill].&amp;[Mill B]")</code></pre>
+    <p>Answer: 479 rejects. Mill A has 414.</p></div></details>
+  <details class="cube-details"><summary>Exercise 3 (beginner): overall reject rate</summary><div class="cube-detail-body">
+<pre class="cube-code"><code>=CUBEVALUE("ThisWorkbookDataModel","[Measures].[Reject Rate]")</code></pre>
+    <p>Answer: 0.0212, or 2.12% when formatted as a percentage (893 rejects out of 42,130 pieces).</p></div></details>
+  <details class="cube-details"><summary>Exercise 4 (intermediate): a grade-by-mill grid</summary><div class="cube-detail-body">
+    <p>Build headers with <code>CUBEMEMBER</code> for the four grades (A2:A5) and two mills (B1:C1), the measure in A1, then one formula in B2 copied to B2:C5:</p>
+<pre class="cube-code"><code>=CUBEVALUE("ThisWorkbookDataModel",$A$1,$A2,B$1)</code></pre>
+    <p>Check: the X70 row should add up to 327 rejects across the two mills.</p></div></details>
+  <details class="cube-details"><summary>Exercise 5 (intermediate): March rejects for grades X65 and X70 combined</summary><div class="cube-detail-body">
+<pre class="cube-code"><code><span class="cube-cell">H1</span>  =CUBESET("ThisWorkbookDataModel","{[Tests].[Grade].&amp;[X65],[Tests].[Grade].&amp;[X70]}","X65 + X70")
+<span class="cube-cell">H2</span>  =CUBEVALUE("ThisWorkbookDataModel","[Measures].[Total Rejects]",H1,"[Tests].[Month].&amp;[2026-03]")</code></pre>
+    <p>Answer: 92 rejects (X65 had 41 and X70 had 51 in March). You can confirm each part in Live builder 2.</p></div></details>
+  <details class="cube-details"><summary>Exercise 6 (intermediate): a Top 2 grades list by rejects</summary><div class="cube-detail-body">
+    <p>Use the Top N pattern with N = 2. Answer: X70 (327) then X65 (241).</p></div></details>
+  <details class="cube-details"><summary>Exercise 7 (advanced): which month had the fewest rejects?</summary><div class="cube-detail-body">
+<pre class="cube-code"><code>=CUBERANKEDMEMBER("ThisWorkbookDataModel",
+   CUBESET("ThisWorkbookDataModel","[Tests].[Month].[All].Children","Months",1,"[Measures].[Total Rejects]"),1)</code></pre>
+    <p>Answer: 2026-06 with 137 rejects (sort_order 1 puts the smallest first).</p></div></details>
+  <details class="cube-details"><summary>Exercise 8 (advanced): count grades above a 2.0% reject rate</summary><div class="cube-detail-body">
+<pre class="cube-code"><code>=CUBESETCOUNT(CUBESET("ThisWorkbookDataModel","Filter([Tests].[Grade].[All].Children,[Measures].[Reject Rate]&gt;0.02)"))</code></pre>
+    <p>Answer: 2 (X65 at 2.29% and X70 at 3.07%).</p></div></details>
+</section>
+
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="c" data-explanation="CUBEVALUE is the only CUBE function that returns an aggregated number. The others return members, sets, counts, properties or KPI members that tell CUBEVALUE which slice to calculate.">
+        <legend>1. Which CUBE function actually calculates the numbers in a report?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a"> CUBEMEMBER</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b"> CUBESET</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c"> CUBEVALUE</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="d"> CUBERANKEDMEMBER</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="A workbook Data Model built with Power Pivot is always reached through the connection named ThisWorkbookDataModel.">
+        <legend>2. What is the connection argument when the data lives in the workbook's own Data Model?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> The worksheet name, such as "Tests"</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> "ThisWorkbookDataModel"</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> "PowerPivot"</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="d"> The file path of the workbook</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="The ampersand before the brackets tells MDX to match the member by its key value. It is the form Convert to Formulas generates and the safest default.">
+        <legend>3. In [Tests].[Grade].&amp;[X70], what does the &amp; mean?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> Match the member by its key</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> Join two text strings</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Include all children of X70</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="d"> Exclude X70 from the result</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="d" data-explanation="$A$1 locks the measure cell completely, $A2 keeps column A so each row reads its own row header, and B$1 keeps row 1 so each column reads its own column header.">
+        <legend>4. In the grid formula =CUBEVALUE("ThisWorkbookDataModel",$A$1,$A2,B$1), why is it written $A2 and B$1?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> CUBE functions require mixed references</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> To stop the formula from recalculating</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> To make the result spill across the grid</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="d"> So one formula can be copied across and down while each cell reads its own row and column headers</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="sort_order 2 sorts in descending order by the sort_by value, and it requires the sort_by argument, here the Total Rejects measure.">
+        <legend>5. Which CUBESET call lists grades from the most rejects to the fewest?</legend>
+        <label class="quiz-option"><input type="radio" name="q5" value="a"> CUBESET(conn,"[Tests].[Grade].[All].Children","Grades",4)</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="b"> CUBESET(conn,"[Tests].[Grade].[All].Children","Grades",2,"[Measures].[Total Rejects]")</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="c"> CUBESET(conn,"[Tests].[Grade].[All].Children","Grades",1)</label>
+        <label class="quiz-option"><input type="radio" name="q5" value="d"> CUBESET(conn,"[Measures].[Total Rejects]","Grades",2)</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="CUBESETCOUNT returns the size of the set, so MIN(N, CUBESETCOUNT(set)) stops CUBERANKEDMEMBER from asking for a rank the set does not have.">
+        <legend>6. In a dynamic Top N list, what is CUBESETCOUNT used for?</legend>
+        <label class="quiz-option"><input type="radio" name="q6" value="a"> To sort the set</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="b"> To add up the values of the set</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="c"> To stop the list at the size of the set when N is larger than the set</label>
+        <label class="quiz-option"><input type="radio" name="q6" value="d"> To refresh the Data Model</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="Passing a CUBESET cell to CUBEVALUE aggregates the measure over every member of the set, which acts as a multi-select filter on that column. A DAX ratio measure such as Reject Rate stays correct for the combined set.">
+        <legend>7. You need total rejects for grades X65 and X70 combined in one cell. What is the cleanest approach?</legend>
+        <label class="quiz-option"><input type="radio" name="q7" value="a"> Put both grades in a CUBESET and pass that set cell to CUBEVALUE</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="b"> Pass "[Tests].[Grade].&amp;[X65]" and "[Tests].[Grade].&amp;[X70]" as two separate CUBEVALUE arguments</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="c"> Use CUBEMEMBERPROPERTY with the property "Total"</label>
+        <label class="quiz-option"><input type="radio" name="q7" value="d"> It cannot be done without a PivotTable</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="#N/A usually means the member does not exist or the expression is mistyped, for example a misspelled table name or missing brackets. Re-type it with autocomplete or copy it from Convert to Formulas.">
+        <legend>8. A CUBEVALUE formula returns #N/A. What is the most likely cause?</legend>
+        <label class="quiz-option"><input type="radio" name="q8" value="a"> The model is still calculating</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="b"> A member name is misspelled or does not exist in the model</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="c"> There is no data at that intersection</label>
+        <label class="quiz-option"><input type="radio" name="q8" value="d"> The cell is formatted as a percentage</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section class="cube-section" id="next-steps" aria-labelledby="next-steps-heading">
+  <h2 id="next-steps-heading">Where to go next</h2>
+  <p>You now know all seven CUBE functions. Rebuild one of your own recurring reports (a monthly quality pack, a scrap summary or a KPI scorecard) as a CUBE report: model the data once, write the measures in DAX, then let the formulas place every number exactly where you want it.</p>
+</section>
+</main>
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#power-bi-excel-sql" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Power BI, Excel &amp; SQL lessons</a>
+</section>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<script type="application/json" id="cube-practice-data">[["T001","2026-01","Mill A","Day","X52",502,7,101.4],["T002","2026-01","Mill A","Day","X60",396,5,110.2],["T003","2026-01","Mill A","Day","X65",550,13,126.4],["T004","2026-01","Mill A","Day","X70",421,12,140.8],["T005","2026-01","Mill A","Night","X52",441,7,96.0],["T006","2026-01","Mill A","Night","X60",373,9,115.6],["T007","2026-01","Mill A","Night","X65",550,15,124.7],["T008","2026-01","Mill A","Night","X70",416,14,134.7],["T009","2026-01","Mill B","Day","X52",551,10,95.1],["T010","2026-01","Mill B","Day","X60",312,5,109.0],["T011","2026-01","Mill B","Day","X65",435,10,123.4],["T012","2026-01","Mill B","Day","X70",306,10,134.0],["T013","2026-01","Mill B","Night","X52",488,8,99.3],["T014","2026-01","Mill B","Night","X60",407,10,111.4],["T015","2026-01","Mill B","Night","X65",361,11,113.8],["T016","2026-01","Mill B","Night","X70",487,19,133.1],["T017","2026-02","Mill A","Day","X52",365,5,93.0],["T018","2026-02","Mill A","Day","X60",432,5,111.3],["T019","2026-02","Mill A","Day","X65",319,7,122.5],["T020","2026-02","Mill A","Day","X70",393,12,131.6],["T021","2026-02","Mill A","Night","X52",511,8,93.4],["T022","2026-02","Mill A","Night","X60",466,8,108.0],["T023","2026-02","Mill A","Night","X65",438,11,120.3],["T024","2026-02","Mill A","Night","X70",347,11,138.6],["T025","2026-02","Mill B","Day","X52",386,6,99.6],["T026","2026-02","Mill B","Day","X60",367,6,105.6],["T027","2026-02","Mill B","Day","X65",476,11,123.4],["T028","2026-02","Mill B","Day","X70",531,17,133.7],["T029","2026-02","Mill B","Night","X52",481,9,96.4],["T030","2026-02","Mill B","Night","X60",425,10,108.9],["T031","2026-02","Mill B","Night","X65",476,14,121.3],["T032","2026-02","Mill B","Night","X70",492,19,126.6],["T033","2026-03","Mill A","Day","X52",530,5,104.3],["T034","2026-03","Mill A","Day","X60",318,4,111.9],["T035","2026-03","Mill A","Day","X65",509,8,122.1],["T036","2026-03","Mill A","Day","X70",401,12,135.8],["T037","2026-03","Mill A","Night","X52",457,7,103.0],["T038","2026-03","Mill A","Night","X60",378,7,113.9],["T039","2026-03","Mill A","Night","X65",425,10,125.3],["T040","2026-03","Mill A","Night","X70",466,15,132.2],["T041","2026-03","Mill B","Day","X52",520,7,96.6],["T042","2026-03","Mill B","Day","X60",456,9,106.0],["T043","2026-03","Mill B","Day","X65",390,10,120.2],["T044","2026-03","Mill B","Day","X70",476,14,135.2],["T045","2026-03","Mill B","Night","X52",309,5,89.9],["T046","2026-03","Mill B","Night","X60",394,8,103.1],["T047","2026-03","Mill B","Night","X65",546,13,117.2],["T048","2026-03","Mill B","Night","X70",326,10,130.6],["T049","2026-04","Mill A","Day","X52",321,4,102.2],["T050","2026-04","Mill A","Day","X60",529,8,115.4],["T051","2026-04","Mill A","Day","X65",301,6,129.6],["T052","2026-04","Mill A","Day","X70",353,9,140.8],["T053","2026-04","Mill A","Night","X52",339,3,102.2],["T054","2026-04","Mill A","Night","X60",495,8,107.9],["T055","2026-04","Mill A","Night","X65",519,13,120.0],["T056","2026-04","Mill A","Night","X70",523,17,135.7],["T057","2026-04","Mill B","Day","X52",404,7,99.2],["T058","2026-04","Mill B","Day","X60",478,10,104.6],["T059","2026-04","Mill B","Day","X65",306,7,119.1],["T060","2026-04","Mill B","Day","X70",433,13,128.7],["T061","2026-04","Mill B","Night","X52",421,6,99.2],["T062","2026-04","Mill B","Night","X60",342,8,107.1],["T063","2026-04","Mill B","Night","X65",463,12,113.0],["T064","2026-04","Mill B","Night","X70",439,14,136.7],["T065","2026-05","Mill A","Day","X52",557,4,98.7],["T066","2026-05","Mill A","Day","X60",497,7,115.3],["T067","2026-05","Mill A","Day","X65",388,6,124.4],["T068","2026-05","Mill A","Day","X70",445,11,132.8],["T069","2026-05","Mill A","Night","X52",550,5,98.4],["T070","2026-05","Mill A","Night","X60",458,9,107.4],["T071","2026-05","Mill A","Night","X65",500,11,126.5],["T072","2026-05","Mill A","Night","X70",540,16,134.5],["T073","2026-05","Mill B","Day","X52",347,4,94.3],["T074","2026-05","Mill B","Day","X60",541,9,101.3],["T075","2026-05","Mill B","Day","X65",320,7,119.3],["T076","2026-05","Mill B","Day","X70",545,18,137.4],["T077","2026-05","Mill B","Night","X52",444,7,90.3],["T078","2026-05","Mill B","Night","X60",542,10,108.5],["T079","2026-05","Mill B","Night","X65",417,9,120.6],["T080","2026-05","Mill B","Night","X70",331,10,135.0],["T081","2026-06","Mill A","Day","X52",461,2,103.7],["T082","2026-06","Mill A","Day","X60",329,5,114.0],["T083","2026-06","Mill A","Day","X65",410,8,122.8],["T084","2026-06","Mill A","Day","X70",549,14,140.6],["T085","2026-06","Mill A","Night","X52",545,8,94.8],["T086","2026-06","Mill A","Night","X60",368,4,108.1],["T087","2026-06","Mill A","Night","X65",462,8,125.5],["T088","2026-06","Mill A","Night","X70",444,11,134.4],["T089","2026-06","Mill B","Day","X52",508,6,91.4],["T090","2026-06","Mill B","Day","X60",341,4,109.4],["T091","2026-06","Mill B","Day","X65",532,10,115.3],["T092","2026-06","Mill B","Day","X70",452,12,128.5],["T093","2026-06","Mill B","Night","X52",515,9,97.6],["T094","2026-06","Mill B","Night","X60",377,8,100.8],["T095","2026-06","Mill B","Night","X65",416,11,117.3],["T096","2026-06","Mill B","Night","X70",531,17,133.7]]</script>
+<script id="cube-lesson-interactions">
+(function () {
+  'use strict';
+  var dataEl = document.getElementById('cube-practice-data');
+  if (!dataEl) return;
+  var rows = JSON.parse(dataEl.textContent);
+  var CONN = 'ThisWorkbookDataModel';
+  var COLS = { TestID: 0, Month: 1, Mill: 2, Shift: 3, Grade: 4 };
+  var MEASURES = ['Total Pieces', 'Total Rejects', 'Reject Rate', 'Avg Charpy J'];
+
+  function distinct(col) {
+    var seen = {};
+    rows.forEach(function (r) { seen[r[COLS[col]]] = true; });
+    return Object.keys(seen).sort();
+  }
+  function findCol(name) {
+    var keys = Object.keys(COLS);
+    for (var i = 0; i < keys.length; i++) if (keys[i].toLowerCase() === String(name).toLowerCase()) return keys[i];
+    return null;
+  }
+  function findMeasure(name) {
+    for (var i = 0; i < MEASURES.length; i++) if (MEASURES[i].toLowerCase() === String(name).toLowerCase()) return MEASURES[i];
+    return null;
+  }
+  function findMember(col, value) {
+    var list = distinct(col);
+    for (var i = 0; i < list.length; i++) if (list[i].toLowerCase() === String(value).toLowerCase()) return list[i];
+    return null;
+  }
+
+  // filters: { Grade: ['X70'], Mill: ['Mill A'] } (an array means a set = OR within that column)
+  function evaluate(measure, filters) {
+    filters = filters || {};
+    var pieces = 0, rejects = 0, charpySum = 0, n = 0;
+    rows.forEach(function (r) {
+      for (var col in filters) {
+        if (!Object.prototype.hasOwnProperty.call(filters, col)) continue;
+        var allowed = filters[col];
+        if (allowed && allowed.length && allowed.indexOf(r[COLS[col]]) === -1) return;
+      }
+      pieces += r[5]; rejects += r[6]; charpySum += r[7]; n++;
+    });
+    if (n === 0) return '';
+    if (measure === 'Total Pieces') return pieces;
+    if (measure === 'Total Rejects') return rejects;
+    if (measure === 'Reject Rate') return pieces ? rejects / pieces : '';
+    if (measure === 'Avg Charpy J') return charpySum / n;
+    return '';
+  }
+  function fmt(measure, v) {
+    if (v === '') return '(empty)';
+    if (measure === 'Reject Rate') return v.toFixed(4) + ' (' + (v * 100).toFixed(2) + '% when formatted as a percentage)';
+    if (measure === 'Avg Charpy J') return v.toFixed(1) + ' J';
+    return v.toLocaleString('en-US');
+  }
+  function memberExpr(col, value) { return '[Tests].[' + col + '].&[' + value + ']'; }
+
+  function buildCubeValue(measure, filters) {
+    var parts = ['"' + CONN + '"', '"[Measures].[' + measure + ']"'];
+    ['Grade', 'Mill', 'Shift', 'Month'].forEach(function (col) {
+      if (filters[col]) parts.push('"' + memberExpr(col, filters[col]) + '"');
+    });
+    return '=CUBEVALUE(' + parts.join(',') + ')';
+  }
+
+  function checkExpression(raw) {
+    var s = String(raw || '').trim();
+    var note = '';
+    if (/^".*"$/.test(s)) { s = s.slice(1, -1).trim(); note = 'The outer double quotes belong to the formula, not the expression; they were ignored here. '; }
+    if (!s) return { ok: false, kind: 'empty', excel: '#N/A', message: 'Type a member expression, for example [Tests].[Grade].&[X70].' };
+    var m;
+    if ((m = s.match(/^\[Measures\]\.\[([^\]]+)\]$/i))) {
+      var meas = findMeasure(m[1]);
+      if (meas) return { ok: true, kind: 'measure', excel: 'member', message: note + 'Valid measure: [Measures].[' + meas + ']. CUBEMEMBER shows "' + meas + '"; CUBEVALUE with only this argument returns ' + fmt(meas, evaluate(meas, {})) + '.' };
+      return { ok: false, kind: 'measure', excel: '#N/A', message: note + 'There is no measure called "' + m[1] + '" in this model, so Excel returns #N/A. Available measures: ' + MEASURES.join(', ') + '.' };
+    }
+    if ((m = s.match(/^\[([^\]]+)\]\.\[([^\]]+)\]\.\[All\]\.(Children|Members)$/i))) {
+      return { ok: true, kind: 'set', excel: 'set', message: note + 'This is a SET (every member of ' + m[2] + '), not a single member. Use it as the set_expression of CUBESET; CUBEMEMBER cannot return a set.' };
+    }
+    if ((m = s.match(/^\[([^\]]+)\]\.\[([^\]]+)\]\.(&)?\[([^\]]+)\]$/))) {
+      if (m[1].toLowerCase() !== 'tests') return { ok: false, kind: 'table', excel: '#N/A', message: note + 'The model has no table called [' + m[1] + ']. The table is [Tests], so Excel returns #N/A.' };
+      var col = findCol(m[2]);
+      if (!col) return { ok: false, kind: 'column', excel: '#N/A', message: note + 'Table [Tests] has no column called [' + m[2] + ']. Columns: ' + Object.keys(COLS).join(', ') + '. Excel returns #N/A.' };
+      if (!m[3] && m[4].toLowerCase() === 'all') return { ok: true, kind: 'all', excel: 'member', message: note + 'Valid: the All member of ' + col + ' (no filter on that column). Total rejects at this member: ' + fmt('Total Rejects', evaluate('Total Rejects', {})) + '.' };
+      var member = findMember(col, m[4]);
+      if (!member) return { ok: false, kind: 'member', excel: '#N/A', message: note + 'There is no ' + col + ' member "' + m[4] + '". Members: ' + distinct(col).slice(0, 8).join(', ') + (distinct(col).length > 8 ? ', ...' : '') + '. Excel returns #N/A.' };
+      var f = {}; f[col] = [member];
+      return { ok: true, kind: 'member', excel: 'member', message: note + 'Valid member ' + (m[3] ? 'by key' : 'by name') + ': ' + col + ' = ' + member + '. CUBEMEMBER shows "' + member + '". Total Rejects for it: ' + fmt('Total Rejects', evaluate('Total Rejects', f)) + '.' };
+    }
+    if (/^\[[^\]]+\]\.\[[^\]]+\]\.&?[^\[]/.test(s)) return { ok: false, kind: 'syntax', excel: '#N/A', message: note + 'The member name must sit in square brackets, for example .&[Mill A]. Without them Excel returns #N/A.' };
+    return { ok: false, kind: 'syntax', excel: '#N/A', message: note + 'This does not match a member pattern. Use [Measures].[Name] or [Table].[Column].&[Key]. Excel would return #N/A.' };
+  }
+
+  var ORDER_LABELS = ['0 · SortNone', '1 · SortAscending (by sort_by)', '2 · SortDescending (by sort_by)', '3 · SortAlphaAscending', '4 · Sort_Alpha_Descending', '5 · Sort_Natural_Ascending', '6 · Sort_Natural_Descending'];
+  function buildSet(col, order, measure) {
+    var members = distinct(col);
+    var scored = members.map(function (m) { var f = {}; f[col] = [m]; return { caption: m, value: evaluate(measure, f) }; });
+    var natural = scored.slice();
+    if (order === 1 || order === 2) {
+      scored.sort(function (a, b) { return (a.value - b.value) || (a.caption < b.caption ? -1 : 1); });
+      if (order === 2) scored.sort(function (a, b) { return (b.value - a.value) || (a.caption < b.caption ? -1 : 1); });
+    } else if (order === 3 || order === 5) {
+      scored.sort(function (a, b) { return a.caption < b.caption ? -1 : a.caption > b.caption ? 1 : 0; });
+    } else if (order === 4 || order === 6) {
+      scored.sort(function (a, b) { return a.caption < b.caption ? 1 : a.caption > b.caption ? -1 : 0; });
+    } else {
+      scored = natural;
+    }
+    return scored;
+  }
+
+  function el(id) { return document.getElementById(id); }
+  function fillSelect(sel, options, selected) {
+    if (!sel) return;
+    sel.textContent = '';
+    options.forEach(function (o) {
+      var opt = document.createElement('option');
+      opt.value = o.value; opt.textContent = o.label;
+      if (o.value === selected) opt.selected = true;
+      sel.appendChild(opt);
+    });
+  }
+
+  // Builder 1: expression checker
+  function runChecker() {
+    var input = el('expr-input'), out = el('expr-result');
+    if (!input || !out) return;
+    var r = checkExpression(input.value);
+    out.className = 'cube-readout ' + (r.ok ? 'cube-is-ok' : 'cube-is-error');
+    out.textContent = '';
+    var p1 = document.createElement('p');
+    var strong = document.createElement('strong');
+    strong.textContent = r.ok ? 'Valid. ' : 'Problem: Excel returns ' + r.excel + '. ';
+    p1.appendChild(strong);
+    p1.appendChild(document.createTextNode(r.message));
+    out.appendChild(p1);
+  }
+  if (el('expr-check')) {
+    el('expr-check').addEventListener('click', runChecker);
+    el('expr-input').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); runChecker(); } });
+    Array.prototype.forEach.call(document.querySelectorAll('#expr-checker [data-expr]'), function (b) {
+      b.addEventListener('click', function () { el('expr-input').value = b.getAttribute('data-expr'); runChecker(); });
+    });
+    runChecker();
+  }
+
+  // Builder 2: CUBEVALUE
+  function allOpt(col) { return [{ value: '', label: 'All (no filter)' }].concat(distinct(col).map(function (v) { return { value: v, label: v }; })); }
+  function runCubeValue() {
+    var measure = el('cv-measure').value;
+    var filters = {}, evalFilters = {};
+    [['Grade', 'cv-grade'], ['Mill', 'cv-mill'], ['Shift', 'cv-shift'], ['Month', 'cv-month']].forEach(function (p) {
+      var v = el(p[1]).value;
+      if (v) { filters[p[0]] = v; evalFilters[p[0]] = [v]; }
+    });
+    el('cv-formula').textContent = buildCubeValue(measure, filters);
+    el('cv-result').textContent = fmt(measure, evaluate(measure, evalFilters));
+    var unfiltered = ['Grade', 'Mill', 'Shift', 'Month'].filter(function (c) { return !filters[c]; });
+    el('cv-note').textContent = unfiltered.length ? 'Not mentioned, so not filtered (All member): ' + unfiltered.join(', ') + '.' : 'Every column is filtered, so this is a single row of the practice table.';
+  }
+  if (el('cv-measure')) {
+    fillSelect(el('cv-measure'), MEASURES.map(function (m) { return { value: m, label: m }; }), 'Total Rejects');
+    fillSelect(el('cv-grade'), allOpt('Grade'), 'X70');
+    fillSelect(el('cv-mill'), allOpt('Mill'), 'Mill A');
+    fillSelect(el('cv-shift'), allOpt('Shift'), '');
+    fillSelect(el('cv-month'), allOpt('Month'), '2026-03');
+    ['cv-measure', 'cv-grade', 'cv-mill', 'cv-shift', 'cv-month'].forEach(function (id) { el(id).addEventListener('change', runCubeValue); });
+    runCubeValue();
+  }
+
+  // Builder 3: CUBESET / CUBESETCOUNT / CUBERANKEDMEMBER
+  function runSet() {
+    var col = el('set-dim').value;
+    var order = parseInt(el('set-order').value, 10);
+    var measure = el('set-measure').value;
+    var n = parseInt(el('set-n').value, 10);
+    if (!(n >= 1)) n = 1;
+    if (n > 10) n = 10;
+    var set = buildSet(col, order, measure);
+    var sortBy = (order === 1 || order === 2) ? ',"[Measures].[' + measure + ']"' : '';
+    var formulas =
+      'F1  =CUBESET("' + CONN + '","[Tests].[' + col + '].[All].Children","' + col + ' list",' + order + sortBy + ')\n' +
+      'H1  =CUBESETCOUNT(F1)                       returns ' + set.length + '\n' +
+      'F2  =CUBERANKEDMEMBER("' + CONN + '",$F$1,ROWS(F$2:F2))     copy down\n' +
+      'G2  =CUBEVALUE("' + CONN + '","[Measures].[' + measure + ']",F2)';
+    el('set-formulas').textContent = formulas;
+    var shown = Math.min(n, set.length);
+    el('set-count').textContent = 'CUBESETCOUNT returns ' + set.length + '. Showing ' + shown + ' of ' + set.length + ' ranked members' + ((order === 0 || order === 3 || order === 4 || order === 5 || order === 6) ? ' (this sort_order ignores sort_by; the value column still uses ' + measure + ').' : '.');
+    var tbody = el('set-tbody');
+    tbody.textContent = '';
+    set.slice(0, shown).forEach(function (item, i) {
+      var tr = document.createElement('tr');
+      var th = document.createElement('th'); th.scope = 'row'; th.textContent = String(i + 1);
+      var td1 = document.createElement('td'); td1.textContent = item.caption;
+      var td2 = document.createElement('td'); td2.className = 'cube-num'; td2.textContent = fmt(measure, item.value).replace(/ \(.*\)$/, '');
+      tr.appendChild(th); tr.appendChild(td1); tr.appendChild(td2);
+      tbody.appendChild(tr);
+    });
+  }
+  if (el('set-dim')) {
+    fillSelect(el('set-dim'), ['Grade', 'Mill', 'Shift', 'Month'].map(function (c) { return { value: c, label: c }; }), 'Grade');
+    fillSelect(el('set-order'), ORDER_LABELS.map(function (l, i) { return { value: String(i), label: l }; }), '2');
+    fillSelect(el('set-measure'), MEASURES.map(function (m) { return { value: m, label: m }; }), 'Total Rejects');
+    ['set-dim', 'set-order', 'set-measure'].forEach(function (id) { el(id).addEventListener('change', runSet); });
+    el('set-n').addEventListener('input', runSet);
+    runSet();
+  }
+
+  window.CubeLesson = { evaluate: evaluate, checkExpression: checkExpression, buildCubeValue: buildCubeValue, buildSet: buildSet, distinct: distinct };
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+<style id="excel-cube-functions-dark-overrides">
+html[data-theme="dark"] .cube-lesson{--lesson-cube-ink:#eaf2f8;--lesson-cube-muted:#bfcede;--lesson-cube-surface:#142432;--lesson-cube-soft:#1b3041;--lesson-cube-border:#4c677b;--lesson-cube-accent:#9adce8;--lesson-cube-button-ink:#0c2631;--lesson-cube-focus:#f0c36a;--lesson-cube-warn-line:#f0c36a;--lesson-cube-warn-bg:#2a2413;--lesson-cube-code-bg:#0a1724;--lesson-cube-code-ink:#e6f1f8;--lesson-cube-code-key:#9adce8;--lesson-cube-good:#5fd39a;--lesson-cube-bad:#f08a8a}
+html[data-theme="dark"] #quiz{color:#e7eef4}
+html[data-theme="dark"] .quiz-section .lesson-kicker{color:#7dd3fc}
+html[data-theme="dark"] #quiz :is(.quiz,.quiz-question,.quiz-feedback){color:#e7eef4}
+html[data-theme="dark"] [aria-label="Return to lesson category"] a{color:#7dd3fc!important}
+</style>
+</body>
+</html>
