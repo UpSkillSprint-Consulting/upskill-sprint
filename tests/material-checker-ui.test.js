@@ -147,6 +147,15 @@ test('standard input loading produces actual-only rows and survives assessment r
   assert.ok(run(window).rows.some(r=>/CVN count below/.test(r.name)&&r.status==='fail'));
 });
 
+test('Z245 specimen-area input explains the governing elongation equation and basis', async () => {
+  const dom=await createChecker(); const {window}=dom;
+  loadAudited(window,'Z245');
+  const area=window.document.querySelector('[data-standard-key="nominalAreaMM2"]');
+  assert.ok(area);
+  assert.match(area.closest('.standard-field').textContent,/e = 1940 × A\^0\.2 \/ U\^0\.9/);
+  assert.match(area.closest('.standard-field').textContent,/specified minimum TS.*50 mm basis/);
+});
+
 test('unknown ASTM order choices remain unknown until the user records them', async () => {
   const dom=await createChecker(); const {window}=dom;
   loadAudited(window,'A36',{standardContext:{form:'PLATE',analysisType:'HEAT',unitBasis:'SI',gaugeLengthMM:50}});
