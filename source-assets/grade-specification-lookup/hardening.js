@@ -3,7 +3,9 @@
 (() => {
   'use strict';
 
-  const HARDENED_VERSION = '3.0.1';
+  // This value is part of the persisted local-storage key. Keep it stable for
+  // display/data additions that do not change the saved-state schema.
+  const HARDENED_VERSION = '3.0.0';
   const Z245_IMPERIAL_GRADES = Object.freeze({
     241: 35,
     290: 42,
