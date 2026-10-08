@@ -198,6 +198,42 @@ test('tabs, search, diagnostics, and toggles expose accessible state', () => {
   assert.ok(document.querySelector('#siBtn')?.hasAttribute('aria-pressed'));
 });
 
+test('compliance inputs use a prominent drawer that is collapsed by default across the tool', async () => {
+  const document = dom.window.document;
+  const reference = { bodyKey: 'CSA_Z245_1', gradeKey: 'GR_483_CAT_II' };
+  dom.window.eval(`state.phase2Tab='compliance'; selectEntry(findEntry(${JSON.stringify(reference)}))`);
+
+  let drawer = document.querySelector('#complianceInputDrawer');
+  assert.ok(drawer);
+  assert.equal(drawer.tagName, 'DETAILS');
+  assert.equal(drawer.open, false, 'the optional input workspace starts collapsed');
+  assert.match(drawer.querySelector('summary').textContent.replace(/\s+/g, ' '), /Compliance input workspace.*Enter or import test results.*Open checker/);
+  assert.match(drawer.querySelector('.featured-input-copy small').textContent, /chemistry, mechanical, Charpy, DWTT and Excel batch entry/);
+  for (const selector of ['#checkRowId', '#checkAnalysis', '#checkThickness', '#checkYS', '#checkUTS', '#checkCVN1', '#checkShear1', '#checkDWTT1', '#pasteInput']) {
+    assert.ok(drawer.querySelector(selector), `${selector} stays inside the shared compliance workspace`);
+  }
+  assert.equal(drawer.contains(document.querySelector('#runCheckBtn')), false, 'Run check remains visible outside the drawer');
+  assert.equal(drawer.contains(document.querySelector('#checkResults')), false, 'results remain visible outside the drawer');
+
+  drawer.querySelector('summary').click();
+  assert.equal(drawer.open, true, 'the user can open the workspace');
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
+  document.querySelector('#impBtn').click();
+  drawer = document.querySelector('#complianceInputDrawer');
+  assert.equal(drawer.open, true, 'an in-page unit rerender preserves the user’s open choice');
+  assert.match(drawer.querySelector('.featured-input-open').textContent, /Close checker/);
+  drawer.querySelector('summary').click();
+  assert.equal(drawer.open, false, 'the user can tuck the workspace away again');
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
+  document.querySelector('#siBtn').click();
+  assert.equal(document.querySelector('#complianceInputDrawer').open, false, 'the closed choice also survives an in-page rerender');
+
+  dom.window.eval("selectEntry(findEntry({bodyKey:'CSA_G40_21',gradeKey:'G40_260W'}))");
+  drawer = document.querySelector('#complianceInputDrawer');
+  assert.ok(drawer, 'the same featured disclosure is used for other specification bodies');
+  assert.equal(drawer.open, false);
+});
+
 test('user guide documents incomplete, invalid, form-filter, and temperature behavior', () => {
   const guide = readFileSync(guidePath, 'utf8');
   assert.match(guide, /INCOMPLETE/);
