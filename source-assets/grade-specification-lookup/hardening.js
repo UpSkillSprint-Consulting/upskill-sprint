@@ -6,6 +6,7 @@
   // This value is part of the persisted local-storage key. Keep it stable for
   // display/data additions that do not change the saved-state schema.
   const HARDENED_VERSION = '3.0.0';
+  let chemistryAnalysisBasis = String(storageGet('gradeSpecChemistryAnalysisBasis', 'HEAT')).toUpperCase();
   const Z245_IMPERIAL_GRADES = Object.freeze({
     241: 35,
     290: 42,
@@ -701,6 +702,17 @@
     document.getElementById('siBtn')?.setAttribute('aria-pressed', String(state.unit === 'SI'));
     document.getElementById('impBtn')?.setAttribute('aria-pressed', String(state.unit === 'IMPERIAL'));
     document.getElementById('favoriteBtn')?.setAttribute('aria-pressed', String(isFavorite(currentEntry())));
+    document.querySelectorAll('[data-chemistry-analysis]').forEach((button) => {
+      if (button.dataset.analysisBound) return;
+      button.dataset.analysisBound = 'true';
+      button.addEventListener('click', () => {
+        const basis = button.dataset.chemistryAnalysis;
+        if (!['HEAT', 'PRODUCT'].includes(basis) || basis === chemistryAnalysisBasis) return;
+        chemistryAnalysisBasis = basis;
+        storageSet('gradeSpecChemistryAnalysisBasis', basis);
+        render();
+      });
+    });
     document.getElementById('checkResults')?.setAttribute('aria-live', 'polite');
     document.getElementById('toast')?.setAttribute('role', 'status');
     const search = document.getElementById('globalSearch');
@@ -795,7 +807,7 @@
       const table = details.closest('table');
       const heading = cell && table?.querySelector('thead tr')?.children[cell.cellIndex]?.textContent;
       const hasAnalysis = table?.querySelector('thead tr')?.children[1]?.textContent.trim() === 'Analysis';
-      const context = row ? `${row.children[0].textContent.trim()}${hasAnalysis ? ` · ${row.children[1].textContent.trim()}` : ''}${heading ? ` · ${heading}` : ''}` :
+      const context = row ? `${row.children[0].textContent.trim()}${row.dataset.analysisBasis ? ` · ${row.dataset.analysisBasis}` : hasAnalysis ? ` · ${row.children[1].textContent.trim()}` : ''}${heading ? ` · ${heading}` : ''}` :
         details.closest('[data-reference-label]')?.dataset.referenceLabel || details.closest('.metric, .subcard, .formula-box, .note')?.querySelector('.metric-label, .note-topic')?.textContent || title;
       references.push(`<li><strong>${esc(context)}</strong><div>${details.querySelector('.reference-content').innerHTML}</div></li>`);
       details.remove();
@@ -814,10 +826,13 @@
     if (!table) return template.innerHTML;
     table.classList.add('requirements-table', 'chemistry-table');
     const rows = [...table.querySelectorAll('tbody tr')];
-    const analyses = [...new Set(rows.map((row) => row.children[1].textContent.trim()))];
+    const analyses = [...new Set(rows.map((row) => row.children[1].textContent.trim().toUpperCase()))];
+    rows.forEach((row) => { row.dataset.analysisBasis = row.children[1].textContent.trim().toUpperCase(); });
     rows.forEach((row) => row.children[1].classList.add('analysis-cell'));
     const caption = document.createElement('caption');
-    caption.textContent = analyses.length === 1 ? `${analyses[0].toLowerCase().replace(/^./, (c) => c.toUpperCase())} analysis · weight percent` : 'Heat and product analysis · weight percent';
+    const selectable = analyses.filter((basis) => ['HEAT', 'PRODUCT'].includes(basis));
+    const selected = selectable.includes(chemistryAnalysisBasis) ? chemistryAnalysisBasis : selectable[0] || analyses[0];
+    caption.textContent = `${selected.toLowerCase().replace(/^./, (c) => c.toUpperCase())} analysis · weight percent`;
     table.prepend(caption);
     table.querySelectorAll('thead th').forEach((th) => th.setAttribute('scope', 'col'));
     rows.forEach((row) => {
@@ -828,10 +843,17 @@
       row.querySelectorAll('.bound-symbol').forEach((badge) => badge.remove());
       row.querySelectorAll('.num').forEach((number) => number.textContent = number.textContent.replace(/\s+wt\s*%$/, ''));
     });
-    if (analyses.length === 1) {
-      table.querySelector('thead tr').children[1].remove();
-      rows.forEach((row) => row.children[1].remove());
-    } else rows.forEach((row) => row.children[1].textContent = row.children[1].textContent.toLowerCase().replace(/^./, (c) => c.toUpperCase()));
+    rows.filter((row) => row.dataset.analysisBasis !== selected).forEach((row) => row.remove());
+    table.querySelector('thead tr').children[1].remove();
+    rows.filter((row) => row.dataset.analysisBasis === selected).forEach((row) => row.children[1].remove());
+    if (selectable.length > 1) {
+      const toggle = document.createElement('div');
+      toggle.className = 'chemistry-analysis-toggle';
+      toggle.setAttribute('role', 'group');
+      toggle.setAttribute('aria-label', 'Chemistry analysis basis');
+      toggle.innerHTML = selectable.map((basis) => `<button type="button" class="chemistry-analysis-button${basis === selected ? ' active' : ''}" data-chemistry-analysis="${basis}" aria-pressed="${basis === selected}">${basis === 'HEAT' ? 'Heat analysis' : 'Product analysis'}</button>`).join('');
+      table.before(toggle);
+    }
     // Keep formula content accessible, but give it its own secondary disclosure.
     const ceBox = template.content.querySelector('.formula-box');
     if (ceBox) {
