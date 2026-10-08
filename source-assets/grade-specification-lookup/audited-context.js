@@ -405,8 +405,8 @@
         fields.push(numberInput('standardOrderShear', 'Order average shear area (%) when ≥5 heats', saved.orderAverageShear, 'min="0" max="100" step="0.1"'));
       }
     }
-    const forceOpen = entry.bodyKey === 'CSA_Z245_1' && unresolved;
-    return `<details class="standard-context-controls"${forceOpen ? ' open' : ''}><summary>Order & specimen details${forceOpen ? ' — required to resolve conditional limits' : ''}</summary><div class="p2-grid">${fields.join('')}</div><button type="button" class="btn primary" id="applyStandardContext">Apply details</button><p class="field-note">Product dimensions select the requirement. Specimen dimensions and measured test temperature describe the test. Keep these separate.</p></details>`;
+    const needsContext = entry.bodyKey === 'CSA_Z245_1' && unresolved;
+    return `<details class="standard-context-controls"><summary>Order & specimen details${needsContext ? ' — required to resolve conditional limits' : ''}</summary><div class="p2-grid">${fields.join('')}</div><button type="button" class="btn primary" id="applyStandardContext">Apply details</button><p class="field-note">Product dimensions select the requirement. Specimen dimensions and measured test temperature describe the test. Keep these separate.</p></details>`;
   }
   function requirementValue(value, unit) {
     const converted = ENGINE.convert(value, unit, state.unit);
