@@ -260,6 +260,33 @@ test('mechanical interval shows exclusive lower boundary and converts to imperia
   document.querySelector('#siBtn').click();
 });
 
+test('CSA Z245 grade dropdown switches designation labels without changing the grade record', () => {
+  const document = dom.window.document;
+  const reference = { bodyKey: 'CSA_Z245_1', gradeKey: 'GR_483_CAT_II' };
+  dom.window.eval(`selectEntry(findEntry(${JSON.stringify(reference)}))`);
+
+  const gradeSelect = document.querySelector('#gradeSelect');
+  const variantSelect = document.querySelector('#variantSelect');
+  assert.equal(gradeSelect.value, 'Grade 483');
+  assert.equal(gradeSelect.selectedOptions[0].textContent, 'Grade 483');
+  assert.equal(variantSelect.value, reference.gradeKey);
+
+  document.querySelector('#impBtn').click();
+  assert.equal(gradeSelect.value, 'Grade 483', 'canonical metric family remains the stored value');
+  assert.equal(gradeSelect.selectedOptions[0].textContent, 'Grade 70');
+  assert.equal(variantSelect.value, reference.gradeKey, 'unit toggle preserves the exact audited category record');
+
+  const imperialLabels = Array.from(gradeSelect.options).map((option) => option.textContent);
+  assert.deepEqual(imperialLabels, [
+    'Grade 35', 'Grade 42', 'Grade 46 (intermediate)', 'Grade 52', 'Grade 56', 'Grade 60',
+    'Grade 65', 'Grade 70', 'Grade 80', 'Grade 90', 'Grade 100', 'Grade 120'
+  ]);
+
+  document.querySelector('#siBtn').click();
+  assert.equal(gradeSelect.selectedOptions[0].textContent, 'Grade 483');
+  assert.equal(variantSelect.value, reference.gradeKey);
+});
+
 const z245Ref = { bodyKey: 'CSA_Z245_1', gradeKey: 'GR_359_CAT_II' };
 const z245Chemistry = { C: 0.1, Mn: 1, Si: 0.2, P: 0.01, S: 0.01, Nb: 0, Ti: 0, V: 0, B: 0, Cu: 0, Ni: 0, Cr: 0, Mo: 0 };
 function pipeInput(od = 457) {
