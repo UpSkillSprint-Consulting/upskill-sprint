@@ -87,6 +87,32 @@ function click(w, selector) {
   el.click();
 }
 function score(w) { return w.document.querySelector('[data-score-result]').textContent; }
+test('status theme keeps flags independent and labels every question state', async () => {
+  const h = await harness(), w = h.w, d = w.document;
+  try {
+    const original = start(w, 'cssgb', 'quick');
+    const first = d.querySelector('[data-goto="0"]');
+    assert.match(first.getAttribute('aria-label'), /unanswered/);
+    assert.equal(first.getAttribute('aria-current'), 'step');
+    click(w, '[data-flag]');
+    assert.ok(first.classList.contains('flag'));
+    assert.match(first.getAttribute('aria-label'), /unanswered, flagged/);
+    click(w, `[data-opt="${original.records[0].question.answer}"]`);
+    assert.match(first.getAttribute('aria-label'), /answered, awaiting grading, flagged/);
+    click(w, '[data-reveal]');
+    assert.ok(first.classList.contains('revealed') && first.classList.contains('flag'));
+    assert.match(first.getAttribute('aria-label'), /answer revealed, counted as incorrect/);
+    assert.match(d.querySelector('.tb-status-key').textContent, /Slate grey: unanswered/);
+    await finish(w);
+    click(w, '[data-open-review="all"]');
+    const revealed = d.querySelector('.tb-review-navcell.revealed');
+    assert.ok(revealed.querySelector('svg'), 'eye icon for revealed answer');
+    assert.ok(revealed.querySelector('.tb-rnc-flag'), 'flag survives grading');
+    assert.match(d.querySelector('.tb-review-navcell.unanswered').textContent, /○/);
+    assert.match(d.querySelector('.tb-review-gridkey').textContent, /Slate grey: unanswered/);
+    assert.equal(w.__TB.getFeedbackSnapshot().grading.incorrect, 1);
+  } finally { await h.close(); }
+});
 test('untimed reveal applies to every delivered exam and session type', async parent => {
   const catalog = await harness();
   const exams = [...catalog.w.document.querySelectorAll('.tb-tile[data-exam]')].filter(el => !/coming soon/i.test(el.textContent)).map(el => el.dataset.exam);

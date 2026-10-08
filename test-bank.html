@@ -227,9 +227,13 @@
   .tb-opt.sel .k{background:var(--teal);color:#fff;border-color:transparent}
   .tb-quizfoot{display:flex;align-items:center;gap:14px;justify-content:space-between;margin-top:18px;flex-wrap:wrap}
   .tb-nav{display:flex;flex-wrap:wrap;gap:6px}
-  .tb-navcell{width:32px;height:32px;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--muted);font:inherit;font-size:12px;font-weight:600;cursor:pointer}
-  .tb-navcell.done{background:color-mix(in srgb,var(--teal) 14%,var(--card));color:var(--ink);border-color:var(--teal)}
-  .tb-navcell.cur{outline:2px solid var(--teal);outline-offset:1px}
+  .tb-navcell{position:relative;display:grid;place-items:center;flex-shrink:0;width:44px;height:48px;padding:4px;border-radius:8px;border:1px solid currentColor;background:color-mix(in srgb,var(--status-neutral) 7%,var(--card));color:var(--status-neutral);font:inherit;font-size:12px;font-weight:600;cursor:pointer}
+  .tb-navcell::before{content:'○';font-size:16px;line-height:16px}
+  .tb-navcell.done{background:#0e7490;color:#fff;border-color:var(--status-answered)}
+  .tb-navcell.done::before{content:'●'}
+  .tb-navcell.cur{outline:3px solid var(--status-current);outline-offset:2px}
+  .tb-status-key{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12px;line-height:1.6;color:var(--ink);margin:16px 0}
+  .tb-status-key span{display:inline-flex;align-items:center;gap:5px}
   /* results */
   .tb-resbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
   .tb-restag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
@@ -281,12 +285,13 @@
   .tb-timer.untimed{font-family:inherit;font-weight:600;font-size:12.5px;color:var(--muted)}
   @keyframes tbPulse{0%,100%{opacity:1}50%{opacity:.55}}
   .tb-tbtn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:7px 12px;font:inherit;font-weight:600;font-size:12.5px;cursor:pointer;white-space:nowrap}
-  .tb-tbtn:hover{border-color:var(--teal)} .tb-tbtn.on{background:#b8791b;color:#fff;border-color:transparent}
-  .tb-navcell.flag{border-color:#b8791b;box-shadow:inset 0 -3px 0 #b8791b}
-  .tb-quiz{--reveal-blue:#1d4ed8;--reveal-bg:#eff6ff}
-  html[data-theme="dark"] .tb-quiz{--reveal-blue:#93c5fd;--reveal-bg:#102440}
-  .tb-navcell.revealed{background:var(--reveal-bg);border-color:var(--reveal-blue);color:var(--reveal-blue)}
-  .tb-navcell.revealed.cur{outline-color:var(--reveal-blue)}
+  .tb-tbtn:hover{border-color:var(--teal)} .tb-tbtn.on{background:color-mix(in srgb,var(--status-flag) 10%,var(--card));color:var(--status-flag);border-color:var(--status-flag)}
+  .tb-navcell.flag::after{content:'⚑';position:absolute;right:-5px;top:-8px;padding:0 4px;border:2px solid var(--card);border-radius:5px;background:#ff9500;color:#172b3a;font-size:18px;font-weight:800;line-height:22px}
+  .tb-tbtn.on{background:#ff9500;color:#172b3a;border-color:#b45309}
+  .tb-quiz{--reveal-blue:#1d4ed8;--reveal-bg:#eff6ff;--status-neutral:#475569;--status-answered:#0e7490;--status-flag:#8b5c0c;--status-current:#344054}
+  html[data-theme="dark"] .tb-quiz{--reveal-blue:#93c5fd;--reveal-bg:#102440;--status-neutral:#cbd5e1;--status-answered:#67d4df;--status-flag:#f0c36a;--status-current:#f8fafc}
+  .tb-navcell.revealed{background:#1d4ed8;border-color:var(--reveal-blue);color:#fff}
+  .tb-navcell.revealed::before{content:'';width:16px;height:16px;background:currentColor;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2' d='M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z'/%3E%3Ccircle fill='none' stroke='black' stroke-width='2' cx='12' cy='12' r='3'/%3E%3C/svg%3E") center/contain no-repeat}
   .tb-reveal-hint{font-size:12.5px;line-height:1.5;color:var(--muted);margin:0 0 14px}
   .tb-tbtn[data-reveal]:disabled{cursor:default;color:var(--reveal-blue);border-color:var(--reveal-blue);background:var(--reveal-bg)}
   .tb-revealed-answer{margin:18px 0;padding:16px;border:2px solid var(--reveal-blue);border-radius:10px;background:var(--reveal-bg);color:var(--ink);scroll-margin-top:100px;overflow-wrap:anywhere}
@@ -4520,7 +4525,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var dm=domainOf(e,q.sub);var col=DM[dm].color;
     var subName='';e.bok.forEach(function(bd){bd.subs.forEach(function(x){if(x.id===q.sub)subName=x.name;});});
     var revealed=isAnswerRevealed(session.i),revealedTotal=revealCount();
-    var nav=session.items.map(function(_,i){return '<button type="button" class="tb-navcell'+(session.answers[i]!=null||isAnswerRevealed(i)?' done':'')+(i===session.i?' cur':'')+(session.flags[i]?' flag':'')+(isAnswerRevealed(i)?' revealed':'')+'" data-goto="'+i+'" aria-label="Question '+(i+1)+(session.flags[i]?', flagged':'')+(isAnswerRevealed(i)?', answer revealed, counted as incorrect':'')+'">'+(i+1)+'</button>';}).join('');
+    var nav=session.items.map(function(_,i){return '<button type="button" class="tb-navcell'+(session.answers[i]!=null||isAnswerRevealed(i)?' done':'')+(i===session.i?' cur':'')+(session.flags[i]?' flag':'')+(isAnswerRevealed(i)?' revealed':'')+'" data-goto="'+i+'" aria-current="'+(i===session.i?'step':'false')+'" aria-label="Question '+(i+1)+(isAnswerRevealed(i)?'':session.answers[i]!=null?', answered, awaiting grading':', unanswered')+(session.flags[i]?', flagged':'')+(isAnswerRevealed(i)?', answer revealed, counted as incorrect':'')+'">'+(i+1)+'</button>';}).join('');
     var opts=q.options.map(function(o,i){return '<button type="button" class="tb-opt'+(session.answers[session.i]===i?' sel':'')+(revealed&&i===q.answer?' reveal-correct':'')+'" data-opt="'+i+'" aria-pressed="'+(session.answers[session.i]===i)+'"'+(revealed?' disabled':'')+'><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o)+'</span></button>';}).join('');
     var timer=session.timed?'<span class="tb-timer" id="tb-timer">'+fmtClock((session.endsAt-Date.now())/1000)+'</span>':'<span class="tb-timer untimed">Untimed</span>';
     var toolbar='<div class="tb-toolbar">'+timer+
@@ -4539,6 +4544,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       renderQuestionContent(q,false)+opts+revealedAnswerHTML(q)+
       '<div class="tb-quizfoot"><div class="tb-nav">'+nav+'</div>'+
         (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
+      '<div class="tb-status-key" aria-label="Question status legend"><span>○ Slate grey: unanswered</span><span>● Teal: answered, awaiting grading</span><span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg> Blue: revealed (counts as incorrect)</span><span>⚑ Orange: flagged for review</span><span>Outline: current question</span></div>'+
       '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';
   }
   function updateQuizAnswerState(host){
@@ -4557,7 +4563,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var revealedTotal=revealCount();
     if(progress)progress.textContent='Question '+(session.i+1)+' of '+n+' · '+answered+' answered'+(revealedTotal?' · '+revealedTotal+' revealed':'')+(flagged?' · '+flagged+' flagged':'');
     var bar=quiz.querySelector('.tb-progress span');if(bar)bar.style.width=(completedQuestionCount()/n*100)+'%';
-    var current=quiz.querySelector('.tb-navcell.cur');if(current){current.classList.toggle('done',session.answers[session.i]!=null||revealed);current.classList.toggle('revealed',revealed);current.classList.toggle('flag',!!session.flags[session.i]);current.setAttribute('aria-label','Question '+(session.i+1)+(session.flags[session.i]?', flagged':'')+(revealed?', answer revealed, counted as incorrect':''));}
+    var current=quiz.querySelector('.tb-navcell.cur');if(current){current.classList.toggle('done',session.answers[session.i]!=null||revealed);current.classList.toggle('revealed',revealed);current.classList.toggle('flag',!!session.flags[session.i]);current.setAttribute('aria-label','Question '+(session.i+1)+(revealed?'':session.answers[session.i]!=null?', answered, awaiting grading':', unanswered')+(session.flags[session.i]?', flagged':'')+(revealed?', answer revealed, counted as incorrect':''));}
     if(revealed){
       var revealButton=quiz.querySelector('[data-reveal]');if(revealButton){revealButton.disabled=true;revealButton.textContent='Answer Revealed';revealButton.setAttribute('aria-expanded','true');revealButton.setAttribute('aria-controls','tb-revealed-answer');}
       if(!quiz.querySelector('#tb-revealed-answer')){
