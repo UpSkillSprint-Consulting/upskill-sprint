@@ -194,7 +194,7 @@ def main():
                 for theme in ['light','dark']:
                     page.evaluate('(t)=>document.documentElement.dataset.theme=t',theme)
                     colors=page.evaluate("""()=>{const nav=document.querySelector('[data-goto="0"]');return {color:getComputedStyle(nav).color,expected:getComputedStyle(document.querySelector('.tb-quiz')).getPropertyValue('--reveal-blue').trim(),width:innerWidth,doc:document.documentElement.scrollWidth}}""")
-                    assert colors['color']==('rgb(29, 78, 216)' if theme=='light' else 'rgb(147, 197, 253)'),colors
+                    assert colors['color']=='rgb(255, 255, 255)',colors
                     assert colors['doc']<=colors['width']+2,colors
                     if width==390:page.screenshot(path=str(out/('answer-reveal-mobile-'+theme+'.png')))
             page.locator('[data-goto="1"]').click()
@@ -219,20 +219,20 @@ def main():
             page.evaluate("""()=>{const s=__TB.getFeedbackSnapshot();for(let i=0;i<4;i++){document.querySelector(`[data-goto="${i}"]`).click();document.querySelector('[data-flag]').click();if(i<2)document.querySelector(`[data-opt="${i===0?s.records[i].question.answer:(s.records[i].question.answer+1)%s.records[i].question.options.length}"]`).click();if(i===2)document.querySelector('[data-reveal]').click();}}""")
             for theme in ['light','dark']:
                 page.evaluate('(t)=>document.documentElement.dataset.theme=t',theme)
-                colors=page.evaluate("""()=>[0,2,3].map(i=>{const e=document.querySelector(`[data-goto="${i}"]`),s=getComputedStyle(e);return [s.color,getComputedStyle(e,'::after').color,s.outlineWidth,e.getBoundingClientRect().width]})""")
-                expected=['rgb(14, 116, 144)','rgb(29, 78, 216)','rgb(71, 85, 105)'] if theme=='light' else ['rgb(103, 212, 223)','rgb(147, 197, 253)','rgb(203, 213, 225)']
+                colors=page.evaluate("""()=>[0,2,3].map(i=>{const e=document.querySelector(`[data-goto="${i}"]`),s=getComputedStyle(e);return [i===3?s.color:s.backgroundColor,getComputedStyle(e,'::after').backgroundColor,s.outlineWidth,e.getBoundingClientRect().width]})""")
+                expected=['rgb(14, 116, 144)','rgb(29, 78, 216)','rgb(71, 85, 105)'] if theme=='light' else ['rgb(14, 116, 144)','rgb(29, 78, 216)','rgb(203, 213, 225)']
                 assert [c[0] for c in colors]==expected,colors
-                assert all(c[1]==('rgb(139, 92, 12)' if theme=='light' else 'rgb(240, 195, 106)') and c[3]>=44 for c in colors),colors
+                assert all(c[1]=='rgb(255, 149, 0)' and c[3]>=44 for c in colors),colors
                 assert colors[2][2]=='3px',colors
             finish();page.locator('[data-open-review="all"]').click()
             for width in [320,390,1440]:
                 page.set_viewport_size({'width':width,'height':900})
                 for theme in ['light','dark']:
                     page.evaluate('(t)=>document.documentElement.dataset.theme=t',theme)
-                    colors=page.evaluate("""()=>['correct','incorrect','revealed','unanswered'].map(state=>{const e=document.querySelector('.tb-review-navcell.'+state);return [getComputedStyle(e).color,getComputedStyle(e.querySelector('.tb-rnc-flag')).color]})""")
-                    expected=['rgb(20, 115, 79)','rgb(163, 51, 47)','rgb(29, 78, 216)','rgb(71, 85, 105)'] if theme=='light' else ['rgb(110, 231, 183)','rgb(252, 165, 165)','rgb(147, 197, 253)','rgb(203, 213, 225)']
+                    colors=page.evaluate("""()=>['correct','incorrect','revealed','unanswered'].map(state=>{const e=document.querySelector('.tb-review-navcell.'+state);return [state==='unanswered'?getComputedStyle(e).color:getComputedStyle(e).backgroundColor,getComputedStyle(e.querySelector('.tb-rnc-flag')).backgroundColor]})""")
+                    expected=['rgb(21, 128, 61)','rgb(220, 38, 38)','rgb(29, 78, 216)','rgb(71, 85, 105)'] if theme=='light' else ['rgb(21, 128, 61)','rgb(220, 38, 38)','rgb(29, 78, 216)','rgb(203, 213, 225)']
                     assert [c[0] for c in colors]==expected,colors
-                    assert all(c[1]==('rgb(139, 92, 12)' if theme=='light' else 'rgb(240, 195, 106)') for c in colors),colors
+                    assert all(c[1]=='rgb(255, 149, 0)' for c in colors),colors
                     no_overflow()
                     page.locator('#tb-review-grid').scroll_into_view_if_needed()
                     page.screenshot(path=str(out/(f'status-theme-{width}-{theme}.png')))
