@@ -214,6 +214,31 @@ def main():
             expect(page.locator('[data-reveal]')).to_have_count(0)
             assert page.evaluate('()=>__TB.revealCurrentAnswer()') is False
         record('untimed-reveal-blue-mobile-desktop-and-timed-guard',answer_reveal)
+        def status_theme():
+            start('cssgb','1','quick',False)
+            page.evaluate("""()=>{const s=__TB.getFeedbackSnapshot();for(let i=0;i<4;i++){document.querySelector(`[data-goto="${i}"]`).click();document.querySelector('[data-flag]').click();if(i<2)document.querySelector(`[data-opt="${i===0?s.records[i].question.answer:(s.records[i].question.answer+1)%s.records[i].question.options.length}"]`).click();if(i===2)document.querySelector('[data-reveal]').click();}}""")
+            for theme in ['light','dark']:
+                page.evaluate('(t)=>document.documentElement.dataset.theme=t',theme)
+                colors=page.evaluate("""()=>[0,2,3].map(i=>{const e=document.querySelector(`[data-goto="${i}"]`),s=getComputedStyle(e);return [s.color,getComputedStyle(e,'::after').color,s.outlineWidth,e.getBoundingClientRect().width]})""")
+                expected=['rgb(14, 116, 144)','rgb(29, 78, 216)','rgb(71, 85, 105)'] if theme=='light' else ['rgb(103, 212, 223)','rgb(147, 197, 253)','rgb(203, 213, 225)']
+                assert [c[0] for c in colors]==expected,colors
+                assert all(c[1]==('rgb(139, 92, 12)' if theme=='light' else 'rgb(240, 195, 106)') and c[3]>=44 for c in colors),colors
+                assert colors[2][2]=='3px',colors
+            finish();page.locator('[data-open-review="all"]').click()
+            for width in [320,390,1440]:
+                page.set_viewport_size({'width':width,'height':900})
+                for theme in ['light','dark']:
+                    page.evaluate('(t)=>document.documentElement.dataset.theme=t',theme)
+                    colors=page.evaluate("""()=>['correct','incorrect','revealed','unanswered'].map(state=>{const e=document.querySelector('.tb-review-navcell.'+state);return [getComputedStyle(e).color,getComputedStyle(e.querySelector('.tb-rnc-flag')).color]})""")
+                    expected=['rgb(20, 115, 79)','rgb(163, 51, 47)','rgb(29, 78, 216)','rgb(71, 85, 105)'] if theme=='light' else ['rgb(110, 231, 183)','rgb(252, 165, 165)','rgb(147, 197, 253)','rgb(203, 213, 225)']
+                    assert [c[0] for c in colors]==expected,colors
+                    assert all(c[1]==('rgb(139, 92, 12)' if theme=='light' else 'rgb(240, 195, 106)') for c in colors),colors
+                    no_overflow()
+                    page.locator('#tb-review-grid').scroll_into_view_if_needed()
+                    page.screenshot(path=str(out/(f'status-theme-{width}-{theme}.png')))
+            grade=page.evaluate('()=>__TB.getFeedbackSnapshot().grading')
+            assert grade['correct']==1 and grade['incorrect']==2 and grade['revealed']==1,grade
+        record('status-palette-flags-light-dark-mobile-desktop',status_theme)
         def interactive():
             page.set_viewport_size({'width':390,'height':844});start('mbb','2','full',False)
             q=page.evaluate("""()=>{const s=__TB.getFeedbackSnapshot();const index=s.records.findIndex(r=>r.question.qid==='mbb:set-2:original-005');if(index<0)throw Error('Missing actual interactive item');s.records.forEach((r,i)=>{document.querySelector(`[data-goto="${i}"]`).click();if(i!==index)document.querySelector(`[data-opt="${r.question.answer}"]`).click();});return s.records[index].question;}""")
