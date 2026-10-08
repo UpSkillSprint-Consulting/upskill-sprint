@@ -321,7 +321,7 @@ test('every CSA Z245 standard grade exposes complete conditional tensile and tou
     }
     assert.match(text, /27 J.*40 J/, `Grade ${grade} shows both Category II CVN energy branches`);
     assert.match(text, /DWTT average ≥60%.*each specimen ≥50%/, `Grade ${grade} shows the large-OD DWTT rule`);
-    assert.equal(document.querySelector('.standard-context-controls').open, true, `Grade ${grade} opens missing context controls`);
+    assert.equal(document.querySelector('.standard-context-controls').open, false, `Grade ${grade} keeps order details collapsed by default`);
   }
 
   dom.window.eval("selectEntry(findEntry({bodyKey:'CSA_Z245_1',gradeKey:'GR_483_CAT_I'}))");
