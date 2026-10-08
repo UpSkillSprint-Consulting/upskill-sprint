@@ -365,7 +365,7 @@
   function option(id, label, values, saved) {
     return selectInput(id, label, [{ value: '', label: 'Select when applicable' }, ...values.map(([value, text]) => ({ value, label: text }))], saved === true ? 'YES' : saved === false ? 'NO' : saved ?? '');
   }
-  function contextControls(entry) {
+  function contextControls(entry, unresolved = false) {
     const saved = settingsFor(entry);
     const yesNo = [['NO', 'No'], ['YES', 'Yes']];
     const fields = [];
@@ -400,7 +400,34 @@
         fields.push(numberInput('standardOrderShear', 'Order average shear area (%) when ≥5 heats', saved.orderAverageShear, 'min="0" max="100" step="0.1"'));
       }
     }
-    return `<details class="standard-context-controls"><summary>Order & specimen details</summary><div class="p2-grid">${fields.join('')}</div><button type="button" class="btn primary" id="applyStandardContext">Apply details</button><p class="field-note">Product dimensions select the requirement. Specimen dimensions and measured test temperature describe the test. Keep these separate.</p></details>`;
+    const forceOpen = entry.bodyKey === 'CSA_Z245_1' && unresolved;
+    return `<details class="standard-context-controls"${forceOpen ? ' open' : ''}><summary>Order & specimen details${forceOpen ? ' — required to resolve conditional limits' : ''}</summary><div class="p2-grid">${fields.join('')}</div><button type="button" class="btn primary" id="applyStandardContext">Apply details</button><p class="field-note">Product dimensions select the requirement. Specimen dimensions and measured test temperature describe the test. Keep these separate.</p></details>`;
+  }
+  function requirementValue(value, unit) {
+    const converted = ENGINE.convert(value, unit, state.unit);
+    return `${fmtNumber(converted.value, converted.unit)} ${displayUnit(converted.unit)}`.trim();
+  }
+  function z245RequirementSnapshot(entry) {
+    if (entry.bodyKey !== 'CSA_Z245_1') return '';
+    const number = Number(entry.grade.displayName.match(/Grade\s+(\d+)/)?.[1]);
+    const tensile = z245TensileValues(number);
+    if (!tensile) return '';
+    const category = String(entry.grade.category || '').replace('CAT_', '');
+    const ratio = tensile[4] === tensile[5] ? String(tensile[4]) : `${tensile[4]} flattened strip / ${tensile[5]} other specimen`;
+    const hardness = number >= 483 ? '30 HRC or 302 HV10' : '27 HRC or 279 HV10';
+    const sourCap = number <= 386 ? 625 : number < 483 ? 650 : 665;
+    const toughness = category === 'I'
+      ? '<strong>Category I:</strong> no base requirement to demonstrate notch toughness.'
+      : category === 'III'
+        ? `<strong>Category III:</strong> ordered test temperature; full-size CVN average ≥${requirementValue(18, 'J')}; each specimen ≥${requirementValue(12, 'J')}; no base shear-area requirement.`
+        : `<strong>Category II:</strong> ordered test temperature; full-size CVN average ≥${requirementValue(27, 'J')} for OD &lt;457 mm or ≥${requirementValue(40, 'J')} for OD ≥457 mm. At OD ≤457 mm, CVN shear average ≥60% and each specimen ≥50%. At OD &gt;457 mm, DWTT average ≥60% and each specimen ≥50%. Order average shear ≥85% when five or more heats are supplied.`;
+    const intermediate = !Z245_AUDIT.standardGrades.includes(number)
+      ? '<p class="snapshot-note">Intermediate grade: strength values are interpolated and rounded using the attached-edition rules.</p>'
+      : '';
+    const sour = number <= 483
+      ? `<li><strong>Sour-service overlay:</strong> TS maximum ${requirementValue(sourCap, 'MPa')}; macrohardness ≤22 HRC/250 HV10; microhardness ≤250 HV0.5; nickel ≤1.0%. Other Clause 16 requirements remain mandatory.</li>`
+      : '<li><strong>Sour-service scope:</strong> the attached edition limits sour-service grades to Grade 483 and below.</li>';
+    return `<section class="z245-requirement-snapshot" id="z245RequirementSnapshot" aria-labelledby="z245SnapshotHeading"><div class="snapshot-heading"><h4 id="z245SnapshotHeading">Complete conditional requirement snapshot</h4><span>CSA Z245.1:26 · Grade ${number} · Category ${category}</span></div>${intermediate}<div class="table-wrap"><table class="requirements-table snapshot-table"><thead><tr><th scope="col">Property</th><th scope="col">Minimum</th><th scope="col">Maximum</th><th scope="col">Applicability</th></tr></thead><tbody><tr><th scope="row">Yield strength</th><td>${requirementValue(tensile[0], 'MPa')}</td><td>${requirementValue(tensile[1], 'MPa')}</td><td>Maximum applies at OD ≥219.1 mm</td></tr><tr><th scope="row">Tensile strength</th><td>${requirementValue(tensile[2], 'MPa')}</td><td>${requirementValue(tensile[3], 'MPa')}</td><td>Maximum applies at OD ≥219.1 mm</td></tr><tr><th scope="row">Yield / tensile ratio</th><td>—</td><td>${esc(ratio)}</td><td>Applies at OD ≥355.6 mm</td></tr><tr><th scope="row">Base hardness</th><td>—</td><td>${hardness}</td><td>Non-sour base requirement</td></tr></tbody></table></div><div class="snapshot-toughness">${toughness}</div><ul class="snapshot-conditions"><li><strong>CVN specimen rule:</strong> three adjacent specimens; at most one below the required average and none below two-thirds of it. Use the largest feasible specimen and the tabulated subsize factors.</li><li><strong>Elongation:</strong> calculated from nominal specimen area and specified minimum tensile strength on the 50 mm basis; it is not a single fixed percentage.</li>${sour}<li><strong>Separate locations:</strong> body, SAW weld/HAZ, EW fusion line and EW weld zone have distinct applicability and order conditions.</li></ul><p class="snapshot-source">Table 8 and Clauses 7.2, 7.6–7.8, 8.1–8.6 and 16. Enter the order details below to determine which conditional values govern the assessment.</p></section>`;
   }
   function catalogItems(audit) {
     const raw = audit.catalog || audit.requirements || [];
@@ -414,7 +441,7 @@
     const notes = assessment.contextNotes.map(textOf).filter(Boolean);
     const items = catalogItems(audit);
     const catalog = items.map((item) => `<li><strong>${esc(item.topic || item.title || item.id || 'Requirement')}</strong>${item.clauseRef || item.clause ? `<span class="standard-clause">${esc(item.clauseRef || item.clause)}</span>` : ''}<p>${esc(textOf(item))}</p></li>`).join('');
-    return `<section class="card standard-reference" id="standardReference"><div class="card-head"><h3>Governing requirements</h3><span class="standard-edition">${esc(entry.grade.specEdition)}</span></div><div class="card-body"><p class="standard-source-note">Requirements checked against the supplied edition. Conditions in the order and referenced standards still apply.</p>${missing.length ? `<p class="standard-context-status">To resolve this record: ${missing.map(esc).join('; ')}.</p>` : '<p class="standard-context-status resolved">Selection context resolved.</p>'}${notes.length ? `<ul class="standard-context-notes">${notes.map((text) => `<li>${esc(text)}</li>`).join('')}</ul>` : ''}${contextControls(entry)}<details class="standard-catalog"><summary>Detailed requirements & clause references <span>${items.length}</span></summary><ul>${catalog}</ul></details></div></section>`;
+    return `<section class="card standard-reference" id="standardReference"><div class="card-head"><h3>Governing requirements</h3><span class="standard-edition">${esc(entry.grade.specEdition)}</span></div><div class="card-body"><p class="standard-source-note">Requirements checked against the supplied edition. Conditions in the order and referenced standards still apply.</p>${z245RequirementSnapshot(entry)}${missing.length ? `<p class="standard-context-status">To resolve this record: ${missing.map(esc).join('; ')}.</p>` : '<p class="standard-context-status resolved">Selection context resolved.</p>'}${notes.length ? `<ul class="standard-context-notes">${notes.map((text) => `<li>${esc(text)}</li>`).join('')}</ul>` : ''}${contextControls(entry, missing.length > 0)}<details class="standard-catalog"><summary>Detailed requirements & clause references <span>${items.length}</span></summary><ul>${catalog}</ul></details></div></section>`;
   }
   const originalRender = render;
   render = () => {
