@@ -198,6 +198,42 @@ test('tabs, search, diagnostics, and toggles expose accessible state', () => {
   assert.ok(document.querySelector('#siBtn')?.hasAttribute('aria-pressed'));
 });
 
+test('compliance inputs use a prominent drawer that is collapsed by default across the tool', async () => {
+  const document = dom.window.document;
+  const reference = { bodyKey: 'CSA_Z245_1', gradeKey: 'GR_483_CAT_II' };
+  dom.window.eval(`state.phase2Tab='compliance'; selectEntry(findEntry(${JSON.stringify(reference)}))`);
+
+  let drawer = document.querySelector('#complianceInputDrawer');
+  assert.ok(drawer);
+  assert.equal(drawer.tagName, 'DETAILS');
+  assert.equal(drawer.open, false, 'the optional input workspace starts collapsed');
+  assert.match(drawer.querySelector('summary').textContent.replace(/\s+/g, ' '), /Compliance input workspace.*Enter or import test results.*Open checker/);
+  assert.match(drawer.querySelector('.featured-input-copy small').textContent, /chemistry, mechanical, Charpy, DWTT and Excel batch entry/);
+  for (const selector of ['#checkRowId', '#checkAnalysis', '#checkThickness', '#checkYS', '#checkUTS', '#checkCVN1', '#checkShear1', '#checkDWTT1', '#pasteInput']) {
+    assert.ok(drawer.querySelector(selector), `${selector} stays inside the shared compliance workspace`);
+  }
+  assert.equal(drawer.contains(document.querySelector('#runCheckBtn')), false, 'Run check remains visible outside the drawer');
+  assert.equal(drawer.contains(document.querySelector('#checkResults')), false, 'results remain visible outside the drawer');
+
+  drawer.querySelector('summary').click();
+  assert.equal(drawer.open, true, 'the user can open the workspace');
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
+  document.querySelector('#impBtn').click();
+  drawer = document.querySelector('#complianceInputDrawer');
+  assert.equal(drawer.open, true, 'an in-page unit rerender preserves the user’s open choice');
+  assert.match(drawer.querySelector('.featured-input-open').textContent, /Close checker/);
+  drawer.querySelector('summary').click();
+  assert.equal(drawer.open, false, 'the user can tuck the workspace away again');
+  await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
+  document.querySelector('#siBtn').click();
+  assert.equal(document.querySelector('#complianceInputDrawer').open, false, 'the closed choice also survives an in-page rerender');
+
+  dom.window.eval("selectEntry(findEntry({bodyKey:'CSA_G40_21',gradeKey:'G40_260W'}))");
+  drawer = document.querySelector('#complianceInputDrawer');
+  assert.ok(drawer, 'the same featured disclosure is used for other specification bodies');
+  assert.equal(drawer.open, false);
+});
+
 test('user guide documents incomplete, invalid, form-filter, and temperature behavior', () => {
   const guide = readFileSync(guidePath, 'utf8');
   assert.match(guide, /INCOMPLETE/);
@@ -231,11 +267,59 @@ test('lookup uses aligned tables with one collapsed source disclosure per sectio
 
 test('chemistry sources retain analysis basis and CE limits stay visible beside collapsed formulas', () => {
   const document = dom.window.document;
-  const chemistry = document.querySelector('#chemistry');
-  assert.match(chemistry.querySelector('.section-references').textContent, /HEAT.*Minimum|HEAT.*Maximum/);
+  dom.window.eval("selectEntry(findEntry({bodyKey:'CSA_Z245_1',gradeKey:'GR_483_CAT_II'}))");
+  let chemistry = document.querySelector('#chemistry');
+  const buttons = [...chemistry.querySelectorAll('[data-chemistry-analysis]')];
+  assert.deepEqual(buttons.map((button) => button.textContent), ['Heat analysis', 'Product analysis']);
+  assert.equal(chemistry.querySelectorAll('tbody tr[data-analysis-basis="PRODUCT"]:not([hidden])').length, 0);
+  assert.ok(chemistry.querySelectorAll('tbody tr[data-analysis-basis="HEAT"]:not([hidden])').length > 0);
+  assert.match(chemistry.querySelector('caption').textContent, /Heat analysis/);
+  assert.match([...chemistry.querySelectorAll('.section-references li:not([hidden])')].map((item) => item.textContent).join(' '), /HEAT.*Minimum|HEAT.*Maximum/);
   assert.equal(chemistry.querySelector('.formula-details').open, false);
   assert.ok(chemistry.querySelector('.formula-box > .metric-grid .num'));
   assert.equal(chemistry.querySelector('.formula-details .metric .num'), null);
+  const paste = document.querySelector('#pasteInput');
+  paste.value = 'Heat\tC\tYS\nH-1\t0.10\t500';
+  document.querySelector('#detectPasteBtn').click();
+  assert.ok(document.querySelector('#pasteMapper select'));
+  document.querySelector('#batchResults').innerHTML = '<div data-batch-preserved>Preserved batch result</div>';
+  chemistry.querySelector('[data-chemistry-analysis="PRODUCT"]').click();
+  chemistry = document.querySelector('#chemistry');
+  assert.equal(chemistry.querySelectorAll('tbody tr[data-analysis-basis="HEAT"]:not([hidden])').length, 0);
+  assert.ok(chemistry.querySelectorAll('tbody tr[data-analysis-basis="PRODUCT"]:not([hidden])').length > 0);
+  assert.match(chemistry.querySelector('caption').textContent, /Product analysis/);
+  assert.equal(chemistry.querySelector('[data-chemistry-analysis="PRODUCT"]').getAttribute('aria-pressed'), 'true');
+  const visibleSources = [...chemistry.querySelectorAll('.section-references li:not([hidden])')].map((item) => item.textContent).join(' ');
+  assert.match(visibleSources, /PRODUCT.*Minimum|PRODUCT.*Maximum/);
+  assert.doesNotMatch(visibleSources, /HEAT/);
+  assert.equal(document.querySelector('#pasteInput').value, 'Heat\tC\tYS\nH-1\t0.10\t500');
+  assert.ok(document.querySelector('#pasteMapper select'));
+  assert.ok(document.querySelector('[data-batch-preserved]'));
+  chemistry.querySelector('[data-chemistry-analysis="HEAT"]').click();
+});
+
+test('chemistry comparison never mixes Heat and Product analysis bases', () => {
+  const document = dom.window.document;
+  let heatOnly;
+  for (const [bodyKey, body] of Object.entries(qa.data().specBodies)) {
+    for (const [gradeKey, grade] of Object.entries(body.grades)) {
+      if (grade.chemistry.analysisTypes.includes('HEAT') && !grade.chemistry.analysisTypes.includes('PRODUCT')) {
+        heatOnly = { bodyKey, gradeKey };
+        break;
+      }
+    }
+    if (heatOnly) break;
+  }
+  assert.ok(heatOnly);
+  dom.window.eval(`state.pinned=${JSON.stringify(heatOnly)}; selectEntry(findEntry({bodyKey:'CSA_Z245_1',gradeKey:'GR_483_CAT_II'}));`);
+  document.querySelector('#chemistry [data-chemistry-analysis="PRODUCT"]').click();
+  assert.ok(document.querySelectorAll('#chemistry tbody tr[data-analysis-basis="PRODUCT"]:not([hidden])').length > 0);
+  assert.equal(document.querySelectorAll('#chemistry tbody tr[data-analysis-basis="HEAT"]:not([hidden])').length, 0);
+  assert.equal(document.querySelectorAll('#chemistry-pinned tbody tr:not([hidden])').length, 0);
+  assert.equal(document.querySelector('#chemistry-pinned .chemistry-basis-unavailable').hidden, false);
+  assert.match(document.querySelector('#chemistry-pinned .chemistry-basis-unavailable').textContent, /Product analysis is not specified/);
+  document.querySelector('#chemistry [data-chemistry-analysis="HEAT"]').click();
+  dom.window.eval('state.pinned=null; render();');
 });
 
 test('mechanical interval shows exclusive lower boundary and converts to imperial only once', () => {
@@ -288,6 +372,61 @@ test('CSA Z245 grade dropdown switches designation labels without changing the g
   assert.equal(variantSelect.value, reference.gradeKey);
 });
 
+test('Imperial mode converts every interactive engineering quantity and preserves canonical calculations', () => {
+  const document = dom.window.document;
+  const reference = { bodyKey: 'CSA_Z245_1', gradeKey: 'GR_483_CAT_II' };
+  dom.window.eval(`
+    localStorage.removeItem('gradeSpecCalc:elong');
+    localStorage.removeItem('gradeSpecCalc:charpy');
+    localStorage.removeItem('gradeSpecCalc:reverse');
+    storageSet('gradeSpecAttachedEditionContext:v1:CSA_Z245_1', {
+      odMM: 508, gaugeLengthMM: 50, nominalAreaMM2: 500, orderTemperatureC: -20,
+      supplyCondition: 'AS_MANUFACTURED', tensileSpecimenType: 'FLATTENED_STRIP', toughnessTarget: 'BODY'
+    });
+    state.phase2Tab = 'elongcalc';
+    selectEntry(findEntry(${JSON.stringify(reference)}));
+  `);
+  document.querySelector('#impBtn').click();
+
+  assert.match(document.querySelector('#elongNominalArea').closest('label').textContent, /Nominal specimen area \(in²\)/);
+  assert.ok(Math.abs(Number(document.querySelector('#elongNominalArea').value) - 0.775) < 0.00001);
+  assert.match(document.querySelector('#standardArea').closest('label').textContent, /in²/);
+  assert.match(document.querySelector('#standardOD').closest('label').textContent, /\(in\)/);
+  assert.match(document.querySelector('#checkYS').closest('label').textContent, /\(ksi\)/);
+  assert.match(document.querySelector('#checkCVN1').closest('label').textContent, /\(ft·lbf\)/);
+  assert.match(document.querySelector('#checkCVNTemp').closest('label').textContent, /\(°F\)/);
+  assert.match(document.querySelector('#charpyCalcEnergy').closest('label').textContent, /\(ft·lbf\)/);
+  assert.match(document.querySelector('#hydroOD').closest('label').textContent, /\(in\)/);
+  assert.match(document.querySelector('#hydroOutput').textContent, /psi/);
+  assert.match(document.querySelector('#reverseYS').closest('label').textContent, /\(ksi\)/);
+  assert.match(document.querySelector('#reverseCVN').closest('label').textContent, /\(ft·lbf/);
+  assert.match(document.querySelector('#reverseTemp').closest('label').textContent, /\(°F/);
+
+  const snapshot = document.querySelector('#z245RequirementSnapshot').textContent.replace(/\s+/g, ' ');
+  assert.match(snapshot, /e = 1244\.71 × A0\.2 ÷ U0\.9/);
+  assert.match(snapshot, /area in in².*capped at 0\.775 in²/);
+  assert.match(snapshot, /strength in ksi/);
+  assert.doesNotMatch(document.querySelector('.snapshot-formula').textContent, /mm²|MPa/);
+
+  document.querySelector('#elongNominalArea').value = '0.5';
+  document.querySelector('#elongNominalArea').dispatchEvent(new dom.window.Event('input', { bubbles: true }));
+  const storedElongation = JSON.parse(dom.window.localStorage.getItem('gradeSpecCalc:elong'));
+  assert.ok(Math.abs(storedElongation.nominalAreaMM2 - 322.58) < 0.02, 'in² input is converted back to canonical mm²');
+
+  document.querySelector('#standardArea').value = '0.775';
+  document.querySelector('#standardOD').value = '20';
+  document.querySelector('#standardGauge').value = '1.9685';
+  document.querySelector('#applyStandardContext').click();
+  const storedContext = JSON.parse(dom.window.localStorage.getItem('gradeSpecAttachedEditionContext:v1:CSA_Z245_1'));
+  assert.ok(Math.abs(storedContext.nominalAreaMM2 - 500.0) < 0.1);
+  assert.ok(Math.abs(storedContext.odMM - 508.0) < 0.01);
+  assert.ok(Math.abs(storedContext.gaugeLengthMM - 50.0) < 0.01);
+
+  document.querySelector('#siBtn').click();
+  assert.match(document.querySelector('#elongNominalArea').closest('label').textContent, /Nominal specimen area \(mm²\)/);
+  assert.match(document.querySelector('#checkYS').closest('label').textContent, /\(MPa\)/);
+});
+
 test('every CSA Z245 standard grade exposes complete conditional tensile and toughness requirements', () => {
   const document = dom.window.document;
   const table = [
@@ -307,8 +446,22 @@ test('every CSA Z245 standard grade exposes complete conditional tensile and tou
     }
     assert.match(text, /27 J.*40 J/, `Grade ${grade} shows both Category II CVN energy branches`);
     assert.match(text, /DWTT average ≥60%.*each specimen ≥50%/, `Grade ${grade} shows the large-OD DWTT rule`);
-    assert.equal(document.querySelector('.standard-context-controls').open, true, `Grade ${grade} opens missing context controls`);
+    const additionalDetails = snapshot.querySelector('.snapshot-details');
+    assert.ok(additionalDetails, `Grade ${grade} exposes supporting requirements in a disclosure`);
+    assert.equal(additionalDetails.open, false, `Grade ${grade} keeps supporting requirements collapsed by default`);
+    assert.equal(snapshot.querySelector('.snapshot-formula').closest('.snapshot-details'), additionalDetails, 'long-form calculation details are tucked inside the disclosure');
+    assert.equal(snapshot.querySelector('.snapshot-table').closest('.snapshot-details'), null, 'the compact mechanical limits table remains immediately visible');
+    assert.equal(document.querySelector('.standard-context-controls').open, false, `Grade ${grade} keeps order details collapsed by default`);
   }
+
+  const disclosure = document.querySelector('.snapshot-details');
+  const disclosureToggle = disclosure.querySelector('summary');
+  assert.match(disclosure.querySelector('.snapshot-details-closed').textContent, /Show additional requirements/);
+  assert.match(disclosure.querySelector('.snapshot-details-open').textContent, /Hide additional requirements/);
+  disclosureToggle.click();
+  assert.equal(disclosure.open, true, 'the user can expand supporting requirements');
+  disclosureToggle.click();
+  assert.equal(disclosure.open, false, 'the user can collapse supporting requirements again');
 
   dom.window.eval("selectEntry(findEntry({bodyKey:'CSA_Z245_1',gradeKey:'GR_483_CAT_I'}))");
   assert.match(document.querySelector('#z245RequirementSnapshot').textContent, /Category I: no base requirement to demonstrate notch toughness/);
@@ -342,7 +495,9 @@ test('Grade 483 resolves its upper tensile, ratio, Charpy and DWTT requirements 
   set('#standardService', 'BASE');
   document.querySelector('#applyStandardContext').click();
 
-  const mechanical = document.querySelector('#mechanical').textContent.replace(/\s+/g, ' ');
+  assert.equal(document.querySelector('#mechanical'), null, 'the duplicate partial Z245 mechanical table is removed');
+  assert.equal(document.querySelector('.anchor-bar a[href="#z245RequirementSnapshot"]')?.textContent, 'Mechanical');
+  const mechanical = document.querySelector('#z245RequirementSnapshot').textContent.replace(/\s+/g, ' ');
   assert.match(mechanical, /Yield strength.*483 MPa.*620 MPa/);
   assert.match(mechanical, /Tensile strength.*565 MPa.*760 MPa/);
   assert.match(mechanical, /Yield \/ tensile ratio.*0\.93/);

@@ -6,6 +6,10 @@
   // This value is part of the persisted local-storage key. Keep it stable for
   // display/data additions that do not change the saved-state schema.
   const HARDENED_VERSION = '3.0.0';
+  let chemistryAnalysisBasis = String(storageGet('gradeSpecChemistryAnalysisBasis', 'HEAT')).toUpperCase();
+  // The compliance workspace starts tucked away on every fresh page load, but
+  // a user's choice survives in-page rerenders such as a unit or grade change.
+  let complianceInputDrawerOpen = false;
   const Z245_IMPERIAL_GRADES = Object.freeze({
     241: 35,
     290: 42,
@@ -246,7 +250,20 @@
       const dwttCard = `<div class="p2-card"><h3>Drop-weight tear test (DWTT)</h3><div class="p2-grid three">${numberInput('checkOD', 'Outside diameter (mm)', saved.od, 'step="0.01" min="0"')}${numberInput('checkDWTTShear', 'Average shear area (%)', saved.dwttShear, 'step="0.1" min="0" max="100"')}${numberInput('checkDWTTTemp', 'Actual test temperature (°C)', saved.dwttTemp, 'step="1"')}</div><p class="field-note">Outside diameter determines whether the stored DWTT rule applies.</p></div>`;
       html = html.replace('<div class="p2-card paste-card">', `${dwttCard}<div class="p2-card paste-card">`);
     }
+    const open = complianceInputDrawerOpen ? ' open' : '';
+    const summary = `<summary class="featured-input-summary"><span class="featured-input-icon" aria-hidden="true">✓</span><span class="featured-input-copy"><span class="featured-input-kicker">Compliance input workspace</span><strong>Enter or import test results</strong><small>Job context, chemistry, mechanical, Charpy, DWTT and Excel batch entry.</small></span><span class="featured-input-toggle"><span class="featured-input-closed">Open checker</span><span class="featured-input-open">Close checker</span><span class="featured-input-chevron" aria-hidden="true"></span></span></summary>`;
+    html = html
+      .replace('<div class="checker-layout"><div class="input-stack">', `<div class="checker-layout"><details id="complianceInputDrawer" class="featured-input-drawer"${open}>${summary}<div class="input-stack">`)
+      .replace('</div><div class="result-stack">', '</div></details><div class="result-stack">');
     return html;
+  };
+
+  const baseBindComplianceDrawer = bindCompliance;
+  bindCompliance = function bindComplianceDrawer(entry) {
+    baseBindComplianceDrawer(entry);
+    const drawer = document.getElementById('complianceInputDrawer');
+    if (!drawer) return;
+    drawer.addEventListener('toggle', () => { complianceInputDrawerOpen = drawer.open; });
   };
 
   Object.assign(PHASE2_FIELDS, {
@@ -701,6 +718,17 @@
     document.getElementById('siBtn')?.setAttribute('aria-pressed', String(state.unit === 'SI'));
     document.getElementById('impBtn')?.setAttribute('aria-pressed', String(state.unit === 'IMPERIAL'));
     document.getElementById('favoriteBtn')?.setAttribute('aria-pressed', String(isFavorite(currentEntry())));
+    document.querySelectorAll('[data-chemistry-analysis]').forEach((button) => {
+      if (button.dataset.analysisBound) return;
+      button.dataset.analysisBound = 'true';
+      button.addEventListener('click', () => {
+        const basis = button.dataset.chemistryAnalysis;
+        if (!['HEAT', 'PRODUCT'].includes(basis) || basis === chemistryAnalysisBasis) return;
+        chemistryAnalysisBasis = basis;
+        storageSet('gradeSpecChemistryAnalysisBasis', basis);
+        applyChemistryBasis(document);
+      });
+    });
     document.getElementById('checkResults')?.setAttribute('aria-live', 'polite');
     document.getElementById('toast')?.setAttribute('role', 'status');
     const search = document.getElementById('globalSearch');
@@ -795,7 +823,7 @@
       const table = details.closest('table');
       const heading = cell && table?.querySelector('thead tr')?.children[cell.cellIndex]?.textContent;
       const hasAnalysis = table?.querySelector('thead tr')?.children[1]?.textContent.trim() === 'Analysis';
-      const context = row ? `${row.children[0].textContent.trim()}${hasAnalysis ? ` · ${row.children[1].textContent.trim()}` : ''}${heading ? ` · ${heading}` : ''}` :
+      const context = row ? `${row.children[0].textContent.trim()}${row.dataset.analysisBasis ? ` · ${row.dataset.analysisBasis}` : hasAnalysis ? ` · ${row.children[1].textContent.trim()}` : ''}${heading ? ` · ${heading}` : ''}` :
         details.closest('[data-reference-label]')?.dataset.referenceLabel || details.closest('.metric, .subcard, .formula-box, .note')?.querySelector('.metric-label, .note-topic')?.textContent || title;
       references.push(`<li><strong>${esc(context)}</strong><div>${details.querySelector('.reference-content').innerHTML}</div></li>`);
       details.remove();
@@ -807,6 +835,36 @@
 
   // Chemistry: analysis basis appears once per table, not once per element.
   const baseRenderChemistry = renderChemistry;
+  function applyChemistryBasis(root) {
+    const selected = ['HEAT', 'PRODUCT'].includes(chemistryAnalysisBasis) ? chemistryAnalysisBasis : 'HEAT';
+    root.querySelectorAll('.chemistry-table').forEach((table) => {
+      const rows = [...table.querySelectorAll('tbody tr[data-analysis-basis]')];
+      rows.forEach((row) => { row.hidden = row.dataset.analysisBasis !== selected; });
+      const available = rows.some((row) => row.dataset.analysisBasis === selected);
+      const wrapper = table.closest('.table-wrap');
+      if (wrapper) wrapper.hidden = !available;
+      const section = table.closest('.card');
+      const unavailable = section?.querySelector('.chemistry-basis-unavailable');
+      if (unavailable) {
+        unavailable.hidden = available;
+        unavailable.textContent = `${selected === 'HEAT' ? 'Heat' : 'Product'} analysis is not specified for this grade record.`;
+      }
+      const caption = table.querySelector('caption');
+      if (caption) caption.textContent = `${selected.toLowerCase().replace(/^./, (character) => character.toUpperCase())} analysis · weight percent`;
+      const references = section?.querySelector('.section-references');
+      if (references) {
+        references.querySelectorAll('li[data-analysis-basis]').forEach((item) => { item.hidden = item.dataset.analysisBasis !== selected; });
+        const visibleCount = references.querySelectorAll('li:not([hidden])').length;
+        const count = references.querySelector('summary span');
+        if (count) count.textContent = String(visibleCount);
+      }
+    });
+    root.querySelectorAll('[data-chemistry-analysis]').forEach((control) => {
+      const active = control.dataset.chemistryAnalysis === selected;
+      control.classList.toggle('active', active);
+      control.setAttribute('aria-pressed', String(active));
+    });
+  }
   renderChemistry = (eff, compareEff) => {
     const template = document.createElement('template');
     template.innerHTML = baseRenderChemistry(eff, compareEff);
@@ -814,10 +872,13 @@
     if (!table) return template.innerHTML;
     table.classList.add('requirements-table', 'chemistry-table');
     const rows = [...table.querySelectorAll('tbody tr')];
-    const analyses = [...new Set(rows.map((row) => row.children[1].textContent.trim()))];
+    const analyses = [...new Set(rows.map((row) => row.children[1].textContent.trim().toUpperCase()))];
+    rows.forEach((row) => { row.dataset.analysisBasis = row.children[1].textContent.trim().toUpperCase(); });
     rows.forEach((row) => row.children[1].classList.add('analysis-cell'));
     const caption = document.createElement('caption');
-    caption.textContent = analyses.length === 1 ? `${analyses[0].toLowerCase().replace(/^./, (c) => c.toUpperCase())} analysis · weight percent` : 'Heat and product analysis · weight percent';
+    const selectable = analyses.filter((basis) => ['HEAT', 'PRODUCT'].includes(basis));
+    const selected = ['HEAT', 'PRODUCT'].includes(chemistryAnalysisBasis) ? chemistryAnalysisBasis : 'HEAT';
+    caption.textContent = `${selected.toLowerCase().replace(/^./, (c) => c.toUpperCase())} analysis · weight percent`;
     table.prepend(caption);
     table.querySelectorAll('thead th').forEach((th) => th.setAttribute('scope', 'col'));
     rows.forEach((row) => {
@@ -828,10 +889,34 @@
       row.querySelectorAll('.bound-symbol').forEach((badge) => badge.remove());
       row.querySelectorAll('.num').forEach((number) => number.textContent = number.textContent.replace(/\s+wt\s*%$/, ''));
     });
-    if (analyses.length === 1) {
-      table.querySelector('thead tr').children[1].remove();
-      rows.forEach((row) => row.children[1].remove());
-    } else rows.forEach((row) => row.children[1].textContent = row.children[1].textContent.toLowerCase().replace(/^./, (c) => c.toUpperCase()));
+    rows.forEach((row) => { row.hidden = row.dataset.analysisBasis !== selected; });
+    table.querySelector('thead tr').children[1].remove();
+    rows.forEach((row) => row.children[1].remove());
+    const compared = (compareEff?.grade.chemistry.analysisTypes || []).map((basis) => String(basis).toUpperCase()).filter((basis) => ['HEAT', 'PRODUCT'].includes(basis));
+    const choices = [...new Set([...selectable, ...compared])];
+    if (choices.length > 1) {
+      const toggle = document.createElement('div');
+      toggle.className = 'chemistry-analysis-toggle';
+      toggle.setAttribute('role', 'group');
+      toggle.setAttribute('aria-label', 'Chemistry analysis basis');
+      toggle.innerHTML = choices.map((basis) => `<button type="button" class="chemistry-analysis-button${basis === selected ? ' active' : ''}" data-chemistry-analysis="${basis}" aria-pressed="${basis === selected}">${basis === 'HEAT' ? 'Heat analysis' : 'Product analysis'}</button>`).join('');
+      table.before(toggle);
+    }
+    const unavailable = document.createElement('div');
+    unavailable.className = 'empty-state chemistry-basis-unavailable';
+    unavailable.hidden = selectable.includes(selected);
+    unavailable.textContent = `${selected === 'HEAT' ? 'Heat' : 'Product'} analysis is not specified for this grade record.`;
+    table.closest('.table-wrap').before(unavailable);
+    table.closest('.table-wrap').hidden = !selectable.includes(selected);
+    template.content.querySelectorAll('.section-references li').forEach((item) => {
+      const match = item.querySelector('strong')?.textContent.match(/ · (HEAT|PRODUCT)(?: ·|$)/);
+      if (match) {
+        item.dataset.analysisBasis = match[1];
+        item.hidden = match[1] !== selected;
+      }
+    });
+    const sourceCount = template.content.querySelector('.section-references summary span');
+    if (sourceCount) sourceCount.textContent = String(template.content.querySelectorAll('.section-references li:not([hidden])').length);
     // Keep formula content accessible, but give it its own secondary disclosure.
     const ceBox = template.content.querySelector('.formula-box');
     if (ceBox) {
