@@ -287,6 +287,60 @@ test('CSA Z245 grade dropdown switches designation labels without changing the g
   assert.equal(variantSelect.value, reference.gradeKey);
 });
 
+test('every CSA Z245 standard grade exposes complete conditional tensile and toughness requirements', () => {
+  const document = dom.window.document;
+  const table = [
+    [241, 495, 414, 760], [290, 495, 414, 760], [359, 530, 455, 760],
+    [386, 540, 490, 760], [414, 565, 517, 760], [448, 600, 531, 760],
+    [483, 620, 565, 760], [550, 690, 620, 830], [620, 760, 690, 900],
+    [690, 825, 760, 970], [825, 1050, 915, 1145]
+  ];
+  for (const [grade, maxYield, minTensile, maxTensile] of table) {
+    const reference = { bodyKey: 'CSA_Z245_1', gradeKey: `GR_${grade}_CAT_II` };
+    dom.window.eval(`selectEntry(findEntry(${JSON.stringify(reference)}))`);
+    const snapshot = document.querySelector('#z245RequirementSnapshot');
+    assert.ok(snapshot, `Grade ${grade} has a visible requirement snapshot`);
+    const text = snapshot.textContent.replace(/,/g, '').replace(/\s+/g, ' ');
+    for (const expected of [`${grade} MPa`, `${maxYield} MPa`, `${minTensile} MPa`, `${maxTensile} MPa`]) {
+      assert.ok(text.includes(expected), `Grade ${grade} shows ${expected}`);
+    }
+    assert.match(text, /27 J.*40 J/, `Grade ${grade} shows both Category II CVN energy branches`);
+    assert.match(text, /DWTT average ≥60%.*each specimen ≥50%/, `Grade ${grade} shows the large-OD DWTT rule`);
+    assert.equal(document.querySelector('.standard-context-controls').open, true, `Grade ${grade} opens missing context controls`);
+  }
+
+  dom.window.eval("selectEntry(findEntry({bodyKey:'CSA_Z245_1',gradeKey:'GR_483_CAT_I'}))");
+  assert.match(document.querySelector('#z245RequirementSnapshot').textContent, /Category I: no base requirement to demonstrate notch toughness/);
+  dom.window.eval("selectEntry(findEntry({bodyKey:'CSA_Z245_1',gradeKey:'GR_483_CAT_III'}))");
+  const categoryThree = document.querySelector('#z245RequirementSnapshot').textContent.replace(/\s+/g, ' ');
+  assert.match(categoryThree, /Category III:.*18 J.*12 J.*no base shear-area requirement/);
+});
+
+test('Grade 483 resolves its upper tensile, ratio, Charpy and DWTT requirements after order context is applied', () => {
+  const document = dom.window.document;
+  dom.window.eval("selectEntry(findEntry({bodyKey:'CSA_Z245_1',gradeKey:'GR_483_CAT_II'}))");
+  const set = (selector, value) => { document.querySelector(selector).value = value; };
+  set('#standardOD', '762');
+  set('#standardOrderTemperature', '-20');
+  set('#standardArea', '500');
+  set('#standardGauge', '50');
+  set('#standardSupply', 'AS_MANUFACTURED');
+  set('#standardSpecimen', 'FLATTENED_STRIP');
+  set('#standardToughnessTarget', 'BODY');
+  set('#standardService', 'BASE');
+  document.querySelector('#applyStandardContext').click();
+
+  const mechanical = document.querySelector('#mechanical').textContent.replace(/\s+/g, ' ');
+  assert.match(mechanical, /Yield strength.*483 MPa.*620 MPa/);
+  assert.match(mechanical, /Tensile strength.*565 MPa.*760 MPa/);
+  assert.match(mechanical, /Yield \/ tensile ratio.*0\.93/);
+  const charpy = document.querySelector('#charpy').textContent.replace(/\s+/g, ' ');
+  assert.match(charpy, /Test temperature.*-20 °C/);
+  assert.match(charpy, /Average full-size energy.*40 J/);
+  assert.match(charpy, /DWTT.*60%/);
+  assert.equal(document.querySelector('.standard-context-controls').open, false);
+});
+
 const z245Ref = { bodyKey: 'CSA_Z245_1', gradeKey: 'GR_359_CAT_II' };
 const z245Chemistry = { C: 0.1, Mn: 1, Si: 0.2, P: 0.01, S: 0.01, Nb: 0, Ti: 0, V: 0, B: 0, Cu: 0, Ni: 0, Cr: 0, Mo: 0 };
 function pipeInput(od = 457) {
