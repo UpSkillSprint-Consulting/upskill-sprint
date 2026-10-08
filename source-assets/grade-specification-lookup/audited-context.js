@@ -34,8 +34,8 @@
   };
   const settingsKey = (entry) => `gradeSpecAttachedEditionContext:v1:${entry.bodyKey}`;
   const settingsFor = (entry) => storageGet(settingsKey(entry), {});
-  const numericKeys = ['widthMM', 'odMM', 'gaugeLengthMM', 'shapeFlangeThicknessMM', 'testTemperatureC', 'orderTemperatureC', 'nominalAreaMM2'];
-  const booleanKeys = ['copperSpecified', 'floorPlate', 'manufacturerTestRequired'];
+  const numericKeys = ['widthMM', 'odMM', 'gaugeLengthMM', 'shapeFlangeThicknessMM', 'testTemperatureC', 'orderTemperatureC', 'nominalAreaMM2', 'orderedCvnEnergyJ', 'fusionLineOrderTemperatureC'];
+  const booleanKeys = ['copperSpecified', 'floorPlate', 'manufacturerTestRequired', 'elongationConvertedTo50MM', 'sawWeldToughnessOrdered', 'ewFusionLineAtBodyTemperaturePassed'];
   function contextFor(entry, thicknessMM = state.thicknessMM, overrides = {}) {
     const saved = settingsFor(entry);
     const context = { ...saved, form: state.form, thicknessMM, unitBasis: state.unit, ...overrides };
@@ -365,7 +365,7 @@
   function option(id, label, values, saved) {
     return selectInput(id, label, [{ value: '', label: 'Select when applicable' }, ...values.map(([value, text]) => ({ value, label: text }))], saved === true ? 'YES' : saved === false ? 'NO' : saved ?? '');
   }
-  function contextControls(entry) {
+  function contextControls(entry, unresolved = false) {
     const saved = settingsFor(entry);
     const yesNo = [['NO', 'No'], ['YES', 'Yes']];
     const fields = [];
@@ -394,13 +394,45 @@
         fields.push(numberInput('standardOD', 'Nominal outside diameter (mm)', saved.odMM, 'min="21.3" max="2032" step="0.01"'));
         fields.push(numberInput('standardOrderTemperature', 'Ordered body toughness temperature (°C)', saved.orderTemperatureC, 'step="1"'));
         fields.push(numberInput('standardArea', 'Nominal tensile specimen area (mm²)', saved.nominalAreaMM2, 'min="0.01" step="1"'));
-        fields.push(option('standardToughnessTarget', 'Toughness test location', [['BODY', 'Pipe body'], ['WELD_HAZ', 'Weld / HAZ'], ['EW_FUSION_LINE', 'EW fusion line'], ['EW_WELD_ZONE', 'EW weld zone']], saved.toughnessTarget));
+        fields.push(option('standardElongationConverted', 'Non-50 mm elongation converted to 50 mm?', yesNo, saved.elongationConvertedTo50MM));
+        fields.push(numberInput('standardOrderedEnergy', 'Additional ordered CVN average energy (J)', saved.orderedCvnEnergyJ, 'min="0" step="0.1"'));
+        fields.push(option('standardToughnessTarget', 'Toughness test location', [['BODY', 'Pipe body'], ['SAW_WELD', 'SAW weld'], ['SAW_HAZ', 'SAW heat-affected zone'], ['EW_FUSION_LINE', 'EW fusion line'], ['EW_WELD_ZONE', 'EW weld zone']], saved.toughnessTarget));
+        fields.push(numberInput('standardFusionLineTemp', 'Ordered EW fusion-line temperature (°C)', saved.fusionLineOrderTemperatureC, 'step="1"'));
+        fields.push(option('standardSawToughness', 'SAW weld / HAZ toughness ordered?', yesNo, saved.sawWeldToughnessOrdered));
+        fields.push(option('standardEwWaiver', 'EW fusion-line tests passed at body temperature?', yesNo, saved.ewFusionLineAtBodyTemperaturePassed));
         fields.push(option('standardService', 'Service requirements in order', [['BASE', 'Base standard'], ['SOUR', 'Sour service'], ['ELEVATED', 'Elevated-temperature service'], ['STRAIN', 'Strain-based design']], saved.serviceCondition));
         fields.push(numberInput('standardOrderHeats', 'Number of heats in order', saved.orderHeatCount, 'min="1" step="1"'));
         fields.push(numberInput('standardOrderShear', 'Order average shear area (%) when ≥5 heats', saved.orderAverageShear, 'min="0" max="100" step="0.1"'));
       }
     }
-    return `<details class="standard-context-controls"><summary>Order & specimen details</summary><div class="p2-grid">${fields.join('')}</div><button type="button" class="btn primary" id="applyStandardContext">Apply details</button><p class="field-note">Product dimensions select the requirement. Specimen dimensions and measured test temperature describe the test. Keep these separate.</p></details>`;
+    const forceOpen = entry.bodyKey === 'CSA_Z245_1' && unresolved;
+    return `<details class="standard-context-controls"${forceOpen ? ' open' : ''}><summary>Order & specimen details${forceOpen ? ' — required to resolve conditional limits' : ''}</summary><div class="p2-grid">${fields.join('')}</div><button type="button" class="btn primary" id="applyStandardContext">Apply details</button><p class="field-note">Product dimensions select the requirement. Specimen dimensions and measured test temperature describe the test. Keep these separate.</p></details>`;
+  }
+  function requirementValue(value, unit) {
+    const converted = ENGINE.convert(value, unit, state.unit);
+    return `${fmtNumber(converted.value, converted.unit)} ${displayUnit(converted.unit)}`.trim();
+  }
+  function z245RequirementSnapshot(entry) {
+    if (entry.bodyKey !== 'CSA_Z245_1') return '';
+    const number = Number(entry.grade.displayName.match(/Grade\s+(\d+)/)?.[1]);
+    const tensile = z245TensileValues(number);
+    if (!tensile) return '';
+    const category = String(entry.grade.category || '').replace('CAT_', '');
+    const ratio = tensile[4] === tensile[5] ? String(tensile[4]) : `${tensile[4]} flattened strip / ${tensile[5]} other specimen`;
+    const hardness = number >= 483 ? '30 HRC or 302 HV10' : '27 HRC or 279 HV10';
+    const sourCap = number <= 386 ? 625 : number < 483 ? 650 : 665;
+    const toughness = category === 'I'
+      ? '<strong>Category I:</strong> no base requirement to demonstrate notch toughness.'
+      : category === 'III'
+        ? `<strong>Category III:</strong> ordered test temperature; full-size CVN average ≥${requirementValue(18, 'J')}; each specimen ≥${requirementValue(12, 'J')}; no base shear-area requirement.`
+        : `<strong>Category II:</strong> ordered test temperature; full-size CVN average ≥${requirementValue(27, 'J')} for OD &lt;457 mm or ≥${requirementValue(40, 'J')} for OD ≥457 mm. At OD ≤457 mm, CVN shear average ≥60% and each specimen ≥50%. At OD &gt;457 mm, DWTT average ≥60% and each specimen ≥50%. Order average shear ≥85% when five or more heats are supplied.`;
+    const intermediate = !Z245_AUDIT.standardGrades.includes(number)
+      ? '<p class="snapshot-note">Intermediate grade: strength values are interpolated and rounded using the attached-edition rules.</p>'
+      : '';
+    const sour = number <= 483
+      ? `<li><strong>Sour-service overlay:</strong> TS maximum ${requirementValue(sourCap, 'MPa')}; macrohardness ≤22 HRC/250 HV10; microhardness ≤250 HV0.5; nickel ≤1.0%. Other Clause 16 requirements remain mandatory.</li>`
+      : '<li><strong>Sour-service scope:</strong> the attached edition limits sour-service grades to Grade 483 and below.</li>';
+    return `<section class="z245-requirement-snapshot" id="z245RequirementSnapshot" aria-labelledby="z245SnapshotHeading"><div class="snapshot-heading"><h4 id="z245SnapshotHeading">Key calculated and conditional requirements</h4><span>CSA Z245.1:26 · Grade ${number} · Category ${category}</span></div>${intermediate}<div class="table-wrap"><table class="requirements-table snapshot-table"><thead><tr><th scope="col">Property</th><th scope="col">Minimum</th><th scope="col">Maximum</th><th scope="col">Applicability</th></tr></thead><tbody><tr><th scope="row">Yield strength</th><td>${requirementValue(tensile[0], 'MPa')}</td><td>${requirementValue(tensile[1], 'MPa')}</td><td>Maximum applies at OD ≥219.1 mm</td></tr><tr><th scope="row">Tensile strength</th><td>${requirementValue(tensile[2], 'MPa')}</td><td>${requirementValue(tensile[3], 'MPa')}</td><td>Maximum applies at OD ≥219.1 mm</td></tr><tr><th scope="row">Yield / tensile ratio</th><td>—</td><td>${esc(ratio)}</td><td>Applies at OD ≥355.6 mm</td></tr><tr><th scope="row">Base hardness</th><td>—</td><td>${hardness}</td><td>Non-sour base requirement</td></tr></tbody></table></div><div class="snapshot-formula"><strong>Body elongation minimum (50 mm basis)</strong><span class="formula">e = 1940 × A<sup>0.2</sup> ÷ U<sup>0.9</sup></span><p><strong>A</strong> = nominal specimen cross-sectional area in mm², rounded to the nearest 1 mm² and capped at 500 mm². <strong>U</strong> = the grade’s specified minimum tensile strength in MPa—not the measured tensile result. Round the calculated elongation to the nearest whole percent. A non-50 mm result requires the specified ISO 2566-1 conversion or documented agreement.</p></div><div class="snapshot-toughness">${toughness}</div><ul class="snapshot-conditions"><li><strong>Strength reporting:</strong> measured yield and tensile strength are rounded to the nearest MPa. Grades 241–620 use yield at 0.5% total extension under load; higher grades use 0.2% offset.</li><li><strong>Weld tension:</strong> applicable SAW weld specimens must meet the Table 8 tensile-strength requirement and at least 10% elongation on the 50 mm basis; applicable EW weld specimens require tensile strength. Body and weld tests are separate.</li><li><strong>Elevated service:</strong> where ordered and otherwise applicable, Table 8 permits only the maximum YS to increase—75 MPa through Grade 448 or 100 MPa above Grade 448. It does not increase maximum TS.</li><li><strong>CVN specimen rule:</strong> three adjacent specimens; at most one below the required average and none below two-thirds of it. Use the largest feasible specimen and the tabulated subsize factors.</li>${sour}<li><strong>Separate toughness locations:</strong> body, SAW weld, SAW HAZ, EW fusion line and EW weld zone have distinct applicability, temperature and waiver conditions.</li></ul><p class="snapshot-source">This snapshot covers key machine-readable limits; it is not a complete product-certification checklist. The detailed 69-topic source catalog below retains manufacturing, sampling, retest, NDE, dimensional, hydrotest, marking and certification conditions. Table 8 and Clauses 7.2, 7.6–7.8, 8.1–8.6 and 16.</p></section>`;
   }
   function catalogItems(audit) {
     const raw = audit.catalog || audit.requirements || [];
@@ -414,7 +446,7 @@
     const notes = assessment.contextNotes.map(textOf).filter(Boolean);
     const items = catalogItems(audit);
     const catalog = items.map((item) => `<li><strong>${esc(item.topic || item.title || item.id || 'Requirement')}</strong>${item.clauseRef || item.clause ? `<span class="standard-clause">${esc(item.clauseRef || item.clause)}</span>` : ''}<p>${esc(textOf(item))}</p></li>`).join('');
-    return `<section class="card standard-reference" id="standardReference"><div class="card-head"><h3>Governing requirements</h3><span class="standard-edition">${esc(entry.grade.specEdition)}</span></div><div class="card-body"><p class="standard-source-note">Requirements checked against the supplied edition. Conditions in the order and referenced standards still apply.</p>${missing.length ? `<p class="standard-context-status">To resolve this record: ${missing.map(esc).join('; ')}.</p>` : '<p class="standard-context-status resolved">Selection context resolved.</p>'}${notes.length ? `<ul class="standard-context-notes">${notes.map((text) => `<li>${esc(text)}</li>`).join('')}</ul>` : ''}${contextControls(entry)}<details class="standard-catalog"><summary>Detailed requirements & clause references <span>${items.length}</span></summary><ul>${catalog}</ul></details></div></section>`;
+    return `<section class="card standard-reference" id="standardReference"><div class="card-head"><h3>Governing requirements</h3><span class="standard-edition">${esc(entry.grade.specEdition)}</span></div><div class="card-body"><p class="standard-source-note">Requirements checked against the supplied edition. Conditions in the order and referenced standards still apply.</p>${z245RequirementSnapshot(entry)}${missing.length ? `<p class="standard-context-status">To resolve this record: ${missing.map(esc).join('; ')}.</p>` : '<p class="standard-context-status resolved">Selection context resolved.</p>'}${notes.length ? `<ul class="standard-context-notes">${notes.map((text) => `<li>${esc(text)}</li>`).join('')}</ul>` : ''}${contextControls(entry, missing.length > 0)}<details class="standard-catalog"><summary>Detailed requirements & clause references <span>${items.length}</span></summary><ul>${catalog}</ul></details></div></section>`;
   }
   const originalRender = render;
   render = () => {
@@ -448,7 +480,7 @@
     }
     document.getElementById('applyStandardContext')?.addEventListener('click', () => {
       const saved = settingsFor(entry);
-      const fields = { standardWidth: 'widthMM', standardOD: 'odMM', standardGauge: 'gaugeLengthMM', standardFlange: 'shapeFlangeThicknessMM', standardShape: 'shapeDesignation', standardCopper: 'copperSpecified', standardFloor: 'floorPlate', standardBearing: 'bearingUse', standardManufacturerTest: 'manufacturerTestRequired', standardOrderTemperature: 'orderTemperatureC', standardImpactCategory: 'impactCategory', standardSupply: 'supplyCondition', standardOrientation: 'tensileOrientation', standardSpecimen: 'tensileSpecimenType', standardSubtype: 'productSubtype', standardShapeLocation: 'shapeTestLocation', standardShapeGroup: 'shapeGroup', standardArea: 'nominalAreaMM2', standardToughnessTarget: 'toughnessTarget', standardService: 'serviceCondition', standardOrderHeats: 'orderHeatCount', standardOrderShear: 'orderAverageShear' };
+      const fields = { standardWidth: 'widthMM', standardOD: 'odMM', standardGauge: 'gaugeLengthMM', standardFlange: 'shapeFlangeThicknessMM', standardShape: 'shapeDesignation', standardCopper: 'copperSpecified', standardFloor: 'floorPlate', standardBearing: 'bearingUse', standardManufacturerTest: 'manufacturerTestRequired', standardOrderTemperature: 'orderTemperatureC', standardImpactCategory: 'impactCategory', standardSupply: 'supplyCondition', standardOrientation: 'tensileOrientation', standardSpecimen: 'tensileSpecimenType', standardSubtype: 'productSubtype', standardShapeLocation: 'shapeTestLocation', standardShapeGroup: 'shapeGroup', standardArea: 'nominalAreaMM2', standardElongationConverted: 'elongationConvertedTo50MM', standardOrderedEnergy: 'orderedCvnEnergyJ', standardToughnessTarget: 'toughnessTarget', standardFusionLineTemp: 'fusionLineOrderTemperatureC', standardSawToughness: 'sawWeldToughnessOrdered', standardEwWaiver: 'ewFusionLineAtBodyTemperaturePassed', standardService: 'serviceCondition', standardOrderHeats: 'orderHeatCount', standardOrderShear: 'orderAverageShear' };
       for (const [id, key] of Object.entries(fields)) {
         const input = document.getElementById(id);
         if (input) saved[key] = input.value;
