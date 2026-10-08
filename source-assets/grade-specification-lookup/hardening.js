@@ -710,7 +710,7 @@
         if (!['HEAT', 'PRODUCT'].includes(basis) || basis === chemistryAnalysisBasis) return;
         chemistryAnalysisBasis = basis;
         storageSet('gradeSpecChemistryAnalysisBasis', basis);
-        render();
+        applyChemistryBasis(document);
       });
     });
     document.getElementById('checkResults')?.setAttribute('aria-live', 'polite');
@@ -819,6 +819,36 @@
 
   // Chemistry: analysis basis appears once per table, not once per element.
   const baseRenderChemistry = renderChemistry;
+  function applyChemistryBasis(root) {
+    const selected = ['HEAT', 'PRODUCT'].includes(chemistryAnalysisBasis) ? chemistryAnalysisBasis : 'HEAT';
+    root.querySelectorAll('.chemistry-table').forEach((table) => {
+      const rows = [...table.querySelectorAll('tbody tr[data-analysis-basis]')];
+      rows.forEach((row) => { row.hidden = row.dataset.analysisBasis !== selected; });
+      const available = rows.some((row) => row.dataset.analysisBasis === selected);
+      const wrapper = table.closest('.table-wrap');
+      if (wrapper) wrapper.hidden = !available;
+      const section = table.closest('.card');
+      const unavailable = section?.querySelector('.chemistry-basis-unavailable');
+      if (unavailable) {
+        unavailable.hidden = available;
+        unavailable.textContent = `${selected === 'HEAT' ? 'Heat' : 'Product'} analysis is not specified for this grade record.`;
+      }
+      const caption = table.querySelector('caption');
+      if (caption) caption.textContent = `${selected.toLowerCase().replace(/^./, (character) => character.toUpperCase())} analysis · weight percent`;
+      const references = section?.querySelector('.section-references');
+      if (references) {
+        references.querySelectorAll('li[data-analysis-basis]').forEach((item) => { item.hidden = item.dataset.analysisBasis !== selected; });
+        const visibleCount = references.querySelectorAll('li:not([hidden])').length;
+        const count = references.querySelector('summary span');
+        if (count) count.textContent = String(visibleCount);
+      }
+    });
+    root.querySelectorAll('[data-chemistry-analysis]').forEach((control) => {
+      const active = control.dataset.chemistryAnalysis === selected;
+      control.classList.toggle('active', active);
+      control.setAttribute('aria-pressed', String(active));
+    });
+  }
   renderChemistry = (eff, compareEff) => {
     const template = document.createElement('template');
     template.innerHTML = baseRenderChemistry(eff, compareEff);
@@ -831,7 +861,7 @@
     rows.forEach((row) => row.children[1].classList.add('analysis-cell'));
     const caption = document.createElement('caption');
     const selectable = analyses.filter((basis) => ['HEAT', 'PRODUCT'].includes(basis));
-    const selected = selectable.includes(chemistryAnalysisBasis) ? chemistryAnalysisBasis : selectable[0] || analyses[0];
+    const selected = ['HEAT', 'PRODUCT'].includes(chemistryAnalysisBasis) ? chemistryAnalysisBasis : 'HEAT';
     caption.textContent = `${selected.toLowerCase().replace(/^./, (c) => c.toUpperCase())} analysis · weight percent`;
     table.prepend(caption);
     table.querySelectorAll('thead th').forEach((th) => th.setAttribute('scope', 'col'));
@@ -843,17 +873,34 @@
       row.querySelectorAll('.bound-symbol').forEach((badge) => badge.remove());
       row.querySelectorAll('.num').forEach((number) => number.textContent = number.textContent.replace(/\s+wt\s*%$/, ''));
     });
-    rows.filter((row) => row.dataset.analysisBasis !== selected).forEach((row) => row.remove());
+    rows.forEach((row) => { row.hidden = row.dataset.analysisBasis !== selected; });
     table.querySelector('thead tr').children[1].remove();
-    rows.filter((row) => row.dataset.analysisBasis === selected).forEach((row) => row.children[1].remove());
-    if (selectable.length > 1) {
+    rows.forEach((row) => row.children[1].remove());
+    const compared = (compareEff?.grade.chemistry.analysisTypes || []).map((basis) => String(basis).toUpperCase()).filter((basis) => ['HEAT', 'PRODUCT'].includes(basis));
+    const choices = [...new Set([...selectable, ...compared])];
+    if (choices.length > 1) {
       const toggle = document.createElement('div');
       toggle.className = 'chemistry-analysis-toggle';
       toggle.setAttribute('role', 'group');
       toggle.setAttribute('aria-label', 'Chemistry analysis basis');
-      toggle.innerHTML = selectable.map((basis) => `<button type="button" class="chemistry-analysis-button${basis === selected ? ' active' : ''}" data-chemistry-analysis="${basis}" aria-pressed="${basis === selected}">${basis === 'HEAT' ? 'Heat analysis' : 'Product analysis'}</button>`).join('');
+      toggle.innerHTML = choices.map((basis) => `<button type="button" class="chemistry-analysis-button${basis === selected ? ' active' : ''}" data-chemistry-analysis="${basis}" aria-pressed="${basis === selected}">${basis === 'HEAT' ? 'Heat analysis' : 'Product analysis'}</button>`).join('');
       table.before(toggle);
     }
+    const unavailable = document.createElement('div');
+    unavailable.className = 'empty-state chemistry-basis-unavailable';
+    unavailable.hidden = selectable.includes(selected);
+    unavailable.textContent = `${selected === 'HEAT' ? 'Heat' : 'Product'} analysis is not specified for this grade record.`;
+    table.closest('.table-wrap').before(unavailable);
+    table.closest('.table-wrap').hidden = !selectable.includes(selected);
+    template.content.querySelectorAll('.section-references li').forEach((item) => {
+      const match = item.querySelector('strong')?.textContent.match(/ · (HEAT|PRODUCT)(?: ·|$)/);
+      if (match) {
+        item.dataset.analysisBasis = match[1];
+        item.hidden = match[1] !== selected;
+      }
+    });
+    const sourceCount = template.content.querySelector('.section-references summary span');
+    if (sourceCount) sourceCount.textContent = String(template.content.querySelectorAll('.section-references li:not([hidden])').length);
     // Keep formula content accessible, but give it its own secondary disclosure.
     const ceBox = template.content.querySelector('.formula-box');
     if (ceBox) {
