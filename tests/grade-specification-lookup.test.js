@@ -320,6 +320,17 @@ test('every CSA Z245 standard grade exposes complete conditional tensile and tou
 test('Grade 483 resolves its upper tensile, ratio, Charpy and DWTT requirements after order context is applied', () => {
   const document = dom.window.document;
   dom.window.eval("selectEntry(findEntry({bodyKey:'CSA_Z245_1',gradeKey:'GR_483_CAT_II'}))");
+  const snapshot = document.querySelector('#z245RequirementSnapshot').textContent.replace(/\s+/g, ' ');
+  assert.match(snapshot, /e = 1940 × A0\.2 ÷ U0\.9/);
+  assert.match(snapshot, /A.*rounded to the nearest 1 mm² and capped at 500 mm²/);
+  assert.match(snapshot, /U.*specified minimum tensile strength.*not the measured tensile result/);
+  assert.match(snapshot, /not a complete product-certification checklist/);
+  assert.ok(document.querySelector('#standardElongationConverted'));
+  assert.ok(document.querySelector('#standardOrderedEnergy'));
+  assert.ok(document.querySelector('#standardFusionLineTemp'));
+  assert.ok(document.querySelector('#standardSawToughness'));
+  assert.ok(document.querySelector('#standardEwWaiver'));
+  assert.deepEqual(Array.from(document.querySelector('#standardToughnessTarget').options).map((option) => option.value), ['', 'BODY', 'SAW_WELD', 'SAW_HAZ', 'EW_FUSION_LINE', 'EW_WELD_ZONE']);
   const set = (selector, value) => { document.querySelector(selector).value = value; };
   set('#standardOD', '762');
   set('#standardOrderTemperature', '-20');
