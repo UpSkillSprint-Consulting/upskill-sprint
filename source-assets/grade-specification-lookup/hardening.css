@@ -48,6 +48,11 @@ html[data-theme="light"] .data-integrity-banner,html[data-theme="light"] .editio
 .grade-spec-tool-page .unspecified-value{color:var(--muted);font-weight:400!important}
 .grade-spec-tool-page .element-name{display:inline;margin-left:10px;font-size:13px;color:var(--muted)}
 .grade-spec-tool-page .requirements-table .limit{padding:0;gap:4px}
+.grade-spec-tool-page .chemistry-analysis-toggle{display:inline-flex;gap:4px;margin:0 0 14px;padding:4px;border:1px solid var(--line);border-radius:10px;background:var(--panel2)}
+.grade-spec-tool-page .chemistry-analysis-button{min-height:38px;padding:8px 14px;border:1px solid transparent;border-radius:7px;background:transparent;color:var(--muted);font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.grade-spec-tool-page .chemistry-analysis-button:hover{color:var(--text);border-color:var(--line)}
+.grade-spec-tool-page .chemistry-analysis-button.active{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.16)}
+.grade-spec-tool-page .chemistry-analysis-button:focus-visible{outline:3px solid color-mix(in srgb,var(--teal) 40%,transparent);outline-offset:2px}
 .grade-spec-tool-page .limit.overlay,.grade-spec-tool-page .limit.diff{padding:4px 6px}
 .grade-spec-tool-page .requirement-legend{color:var(--muted);font-size:12px;margin:14px 0 0}
 .grade-spec-tool-page .thickness-context{display:flex;flex-wrap:wrap;gap:6px 20px;padding:0 0 16px;color:var(--muted);font-size:13px}
