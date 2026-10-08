@@ -235,21 +235,55 @@ test('chemistry sources retain analysis basis and CE limits stay visible beside 
   let chemistry = document.querySelector('#chemistry');
   const buttons = [...chemistry.querySelectorAll('[data-chemistry-analysis]')];
   assert.deepEqual(buttons.map((button) => button.textContent), ['Heat analysis', 'Product analysis']);
-  assert.equal(chemistry.querySelectorAll('tbody tr[data-analysis-basis="PRODUCT"]').length, 0);
-  assert.ok(chemistry.querySelectorAll('tbody tr[data-analysis-basis="HEAT"]').length > 0);
+  assert.equal(chemistry.querySelectorAll('tbody tr[data-analysis-basis="PRODUCT"]:not([hidden])').length, 0);
+  assert.ok(chemistry.querySelectorAll('tbody tr[data-analysis-basis="HEAT"]:not([hidden])').length > 0);
   assert.match(chemistry.querySelector('caption').textContent, /Heat analysis/);
-  assert.match(chemistry.querySelector('.section-references').textContent, /HEAT.*Minimum|HEAT.*Maximum/);
+  assert.match([...chemistry.querySelectorAll('.section-references li:not([hidden])')].map((item) => item.textContent).join(' '), /HEAT.*Minimum|HEAT.*Maximum/);
   assert.equal(chemistry.querySelector('.formula-details').open, false);
   assert.ok(chemistry.querySelector('.formula-box > .metric-grid .num'));
   assert.equal(chemistry.querySelector('.formula-details .metric .num'), null);
+  const paste = document.querySelector('#pasteInput');
+  paste.value = 'Heat\tC\tYS\nH-1\t0.10\t500';
+  document.querySelector('#detectPasteBtn').click();
+  assert.ok(document.querySelector('#pasteMapper select'));
+  document.querySelector('#batchResults').innerHTML = '<div data-batch-preserved>Preserved batch result</div>';
   chemistry.querySelector('[data-chemistry-analysis="PRODUCT"]').click();
   chemistry = document.querySelector('#chemistry');
-  assert.equal(chemistry.querySelectorAll('tbody tr[data-analysis-basis="HEAT"]').length, 0);
-  assert.ok(chemistry.querySelectorAll('tbody tr[data-analysis-basis="PRODUCT"]').length > 0);
+  assert.equal(chemistry.querySelectorAll('tbody tr[data-analysis-basis="HEAT"]:not([hidden])').length, 0);
+  assert.ok(chemistry.querySelectorAll('tbody tr[data-analysis-basis="PRODUCT"]:not([hidden])').length > 0);
   assert.match(chemistry.querySelector('caption').textContent, /Product analysis/);
   assert.equal(chemistry.querySelector('[data-chemistry-analysis="PRODUCT"]').getAttribute('aria-pressed'), 'true');
-  assert.match(chemistry.querySelector('.section-references').textContent, /PRODUCT.*Minimum|PRODUCT.*Maximum/);
+  const visibleSources = [...chemistry.querySelectorAll('.section-references li:not([hidden])')].map((item) => item.textContent).join(' ');
+  assert.match(visibleSources, /PRODUCT.*Minimum|PRODUCT.*Maximum/);
+  assert.doesNotMatch(visibleSources, /HEAT/);
+  assert.equal(document.querySelector('#pasteInput').value, 'Heat\tC\tYS\nH-1\t0.10\t500');
+  assert.ok(document.querySelector('#pasteMapper select'));
+  assert.ok(document.querySelector('[data-batch-preserved]'));
   chemistry.querySelector('[data-chemistry-analysis="HEAT"]').click();
+});
+
+test('chemistry comparison never mixes Heat and Product analysis bases', () => {
+  const document = dom.window.document;
+  let heatOnly;
+  for (const [bodyKey, body] of Object.entries(qa.data().specBodies)) {
+    for (const [gradeKey, grade] of Object.entries(body.grades)) {
+      if (grade.chemistry.analysisTypes.includes('HEAT') && !grade.chemistry.analysisTypes.includes('PRODUCT')) {
+        heatOnly = { bodyKey, gradeKey };
+        break;
+      }
+    }
+    if (heatOnly) break;
+  }
+  assert.ok(heatOnly);
+  dom.window.eval(`state.pinned=${JSON.stringify(heatOnly)}; selectEntry(findEntry({bodyKey:'CSA_Z245_1',gradeKey:'GR_483_CAT_II'}));`);
+  document.querySelector('#chemistry [data-chemistry-analysis="PRODUCT"]').click();
+  assert.ok(document.querySelectorAll('#chemistry tbody tr[data-analysis-basis="PRODUCT"]:not([hidden])').length > 0);
+  assert.equal(document.querySelectorAll('#chemistry tbody tr[data-analysis-basis="HEAT"]:not([hidden])').length, 0);
+  assert.equal(document.querySelectorAll('#chemistry-pinned tbody tr:not([hidden])').length, 0);
+  assert.equal(document.querySelector('#chemistry-pinned .chemistry-basis-unavailable').hidden, false);
+  assert.match(document.querySelector('#chemistry-pinned .chemistry-basis-unavailable').textContent, /Product analysis is not specified/);
+  document.querySelector('#chemistry [data-chemistry-analysis="HEAT"]').click();
+  dom.window.eval('state.pinned=null; render();');
 });
 
 test('mechanical interval shows exclusive lower boundary and converts to imperial only once', () => {
