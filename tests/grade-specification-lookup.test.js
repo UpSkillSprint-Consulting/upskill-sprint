@@ -410,8 +410,22 @@ test('every CSA Z245 standard grade exposes complete conditional tensile and tou
     }
     assert.match(text, /27 J.*40 J/, `Grade ${grade} shows both Category II CVN energy branches`);
     assert.match(text, /DWTT average ≥60%.*each specimen ≥50%/, `Grade ${grade} shows the large-OD DWTT rule`);
+    const additionalDetails = snapshot.querySelector('.snapshot-details');
+    assert.ok(additionalDetails, `Grade ${grade} exposes supporting requirements in a disclosure`);
+    assert.equal(additionalDetails.open, false, `Grade ${grade} keeps supporting requirements collapsed by default`);
+    assert.equal(snapshot.querySelector('.snapshot-formula').closest('.snapshot-details'), additionalDetails, 'long-form calculation details are tucked inside the disclosure');
+    assert.equal(snapshot.querySelector('.snapshot-table').closest('.snapshot-details'), null, 'the compact mechanical limits table remains immediately visible');
     assert.equal(document.querySelector('.standard-context-controls').open, false, `Grade ${grade} keeps order details collapsed by default`);
   }
+
+  const disclosure = document.querySelector('.snapshot-details');
+  const disclosureToggle = disclosure.querySelector('summary');
+  assert.match(disclosure.querySelector('.snapshot-details-closed').textContent, /Show additional requirements/);
+  assert.match(disclosure.querySelector('.snapshot-details-open').textContent, /Hide additional requirements/);
+  disclosureToggle.click();
+  assert.equal(disclosure.open, true, 'the user can expand supporting requirements');
+  disclosureToggle.click();
+  assert.equal(disclosure.open, false, 'the user can collapse supporting requirements again');
 
   dom.window.eval("selectEntry(findEntry({bodyKey:'CSA_Z245_1',gradeKey:'GR_483_CAT_I'}))");
   assert.match(document.querySelector('#z245RequirementSnapshot').textContent, /Category I: no base requirement to demonstrate notch toughness/);
