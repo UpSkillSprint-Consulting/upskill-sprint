@@ -7,6 +7,9 @@
   // display/data additions that do not change the saved-state schema.
   const HARDENED_VERSION = '3.0.0';
   let chemistryAnalysisBasis = String(storageGet('gradeSpecChemistryAnalysisBasis', 'HEAT')).toUpperCase();
+  // The compliance workspace starts tucked away on every fresh page load, but
+  // a user's choice survives in-page rerenders such as a unit or grade change.
+  let complianceInputDrawerOpen = false;
   const Z245_IMPERIAL_GRADES = Object.freeze({
     241: 35,
     290: 42,
@@ -247,7 +250,20 @@
       const dwttCard = `<div class="p2-card"><h3>Drop-weight tear test (DWTT)</h3><div class="p2-grid three">${numberInput('checkOD', 'Outside diameter (mm)', saved.od, 'step="0.01" min="0"')}${numberInput('checkDWTTShear', 'Average shear area (%)', saved.dwttShear, 'step="0.1" min="0" max="100"')}${numberInput('checkDWTTTemp', 'Actual test temperature (°C)', saved.dwttTemp, 'step="1"')}</div><p class="field-note">Outside diameter determines whether the stored DWTT rule applies.</p></div>`;
       html = html.replace('<div class="p2-card paste-card">', `${dwttCard}<div class="p2-card paste-card">`);
     }
+    const open = complianceInputDrawerOpen ? ' open' : '';
+    const summary = `<summary class="featured-input-summary"><span class="featured-input-icon" aria-hidden="true">✓</span><span class="featured-input-copy"><span class="featured-input-kicker">Compliance input workspace</span><strong>Enter or import test results</strong><small>Job context, chemistry, mechanical, Charpy, DWTT and Excel batch entry.</small></span><span class="featured-input-toggle"><span class="featured-input-closed">Open checker</span><span class="featured-input-open">Close checker</span><span class="featured-input-chevron" aria-hidden="true"></span></span></summary>`;
+    html = html
+      .replace('<div class="checker-layout"><div class="input-stack">', `<div class="checker-layout"><details id="complianceInputDrawer" class="featured-input-drawer"${open}>${summary}<div class="input-stack">`)
+      .replace('</div><div class="result-stack">', '</div></details><div class="result-stack">');
     return html;
+  };
+
+  const baseBindComplianceDrawer = bindCompliance;
+  bindCompliance = function bindComplianceDrawer(entry) {
+    baseBindComplianceDrawer(entry);
+    const drawer = document.getElementById('complianceInputDrawer');
+    if (!drawer) return;
+    drawer.addEventListener('toggle', () => { complianceInputDrawerOpen = drawer.open; });
   };
 
   Object.assign(PHASE2_FIELDS, {
