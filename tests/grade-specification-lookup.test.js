@@ -356,7 +356,9 @@ test('Grade 483 resolves its upper tensile, ratio, Charpy and DWTT requirements 
   set('#standardService', 'BASE');
   document.querySelector('#applyStandardContext').click();
 
-  const mechanical = document.querySelector('#mechanical').textContent.replace(/\s+/g, ' ');
+  assert.equal(document.querySelector('#mechanical'), null, 'the duplicate partial Z245 mechanical table is removed');
+  assert.equal(document.querySelector('.anchor-bar a[href="#z245RequirementSnapshot"]')?.textContent, 'Mechanical');
+  const mechanical = document.querySelector('#z245RequirementSnapshot').textContent.replace(/\s+/g, ' ');
   assert.match(mechanical, /Yield strength.*483 MPa.*620 MPa/);
   assert.match(mechanical, /Tensile strength.*565 MPa.*760 MPa/);
   assert.match(mechanical, /Yield \/ tensile ratio.*0\.93/);
