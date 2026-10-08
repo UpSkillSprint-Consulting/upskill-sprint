@@ -352,6 +352,9 @@
   };
   const originalMechanical = renderMechanical;
   renderMechanical = (effective, compared) => {
+    // The Z245 governing-requirements snapshot is the canonical mechanical
+    // presentation. Do not repeat a second, partially resolved table below it.
+    if (effective.grade.specEdition === Z245_AUDIT.edition) return '';
     const html = originalMechanical(effective, compared);
     const row = resolveThicknessRow(effective.grade, state.thicknessMM);
     if (!row || (row.tMax_mm < 1000000 && !effective.standardAssessment?.allThicknesses)) return html;
@@ -458,6 +461,9 @@
       if (od && finiteNumber(od.value) === null) od.value = settingsFor(entry).odMM ?? '';
     }
     document.querySelector('#app .grade-header')?.insertAdjacentHTML('afterend', renderStandardReference(entry));
+    if (entry.bodyKey === 'CSA_Z245_1') {
+      document.querySelectorAll('.anchor-bar a[href="#mechanical"]').forEach((link) => link.setAttribute('href', '#z245RequirementSnapshot'));
+    }
     const banner = document.querySelector('.data-integrity-banner');
     if (banner) banner.innerHTML = '<div class="data-status-heading"><strong>Supplied edition checked</strong><span>Numerical screening; order and documentary requirements still apply.</span></div>';
     if (entry.bodyKey === 'ASTM') {
