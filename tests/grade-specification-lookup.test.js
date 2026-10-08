@@ -49,6 +49,7 @@ after(() => {
 
 test('application boots without runtime errors and discloses dataset status', () => {
   assert.ok(qa);
+  assert.equal(qa.version, '3.0.0', 'display-only updates must preserve saved checker state');
   const audit = qa.audit();
   assert.equal(audit.grades, 268);
   assert.equal(audit.verifiedGrades, 66);
