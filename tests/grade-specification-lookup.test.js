@@ -231,11 +231,25 @@ test('lookup uses aligned tables with one collapsed source disclosure per sectio
 
 test('chemistry sources retain analysis basis and CE limits stay visible beside collapsed formulas', () => {
   const document = dom.window.document;
-  const chemistry = document.querySelector('#chemistry');
+  dom.window.eval("selectEntry(findEntry({bodyKey:'CSA_Z245_1',gradeKey:'GR_483_CAT_II'}))");
+  let chemistry = document.querySelector('#chemistry');
+  const buttons = [...chemistry.querySelectorAll('[data-chemistry-analysis]')];
+  assert.deepEqual(buttons.map((button) => button.textContent), ['Heat analysis', 'Product analysis']);
+  assert.equal(chemistry.querySelectorAll('tbody tr[data-analysis-basis="PRODUCT"]').length, 0);
+  assert.ok(chemistry.querySelectorAll('tbody tr[data-analysis-basis="HEAT"]').length > 0);
+  assert.match(chemistry.querySelector('caption').textContent, /Heat analysis/);
   assert.match(chemistry.querySelector('.section-references').textContent, /HEAT.*Minimum|HEAT.*Maximum/);
   assert.equal(chemistry.querySelector('.formula-details').open, false);
   assert.ok(chemistry.querySelector('.formula-box > .metric-grid .num'));
   assert.equal(chemistry.querySelector('.formula-details .metric .num'), null);
+  chemistry.querySelector('[data-chemistry-analysis="PRODUCT"]').click();
+  chemistry = document.querySelector('#chemistry');
+  assert.equal(chemistry.querySelectorAll('tbody tr[data-analysis-basis="HEAT"]').length, 0);
+  assert.ok(chemistry.querySelectorAll('tbody tr[data-analysis-basis="PRODUCT"]').length > 0);
+  assert.match(chemistry.querySelector('caption').textContent, /Product analysis/);
+  assert.equal(chemistry.querySelector('[data-chemistry-analysis="PRODUCT"]').getAttribute('aria-pressed'), 'true');
+  assert.match(chemistry.querySelector('.section-references').textContent, /PRODUCT.*Minimum|PRODUCT.*Maximum/);
+  chemistry.querySelector('[data-chemistry-analysis="HEAT"]').click();
 });
 
 test('mechanical interval shows exclusive lower boundary and converts to imperial only once', () => {
