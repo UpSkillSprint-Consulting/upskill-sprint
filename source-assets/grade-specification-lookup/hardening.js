@@ -3,7 +3,21 @@
 (() => {
   'use strict';
 
-  const HARDENED_VERSION = '3.0.0';
+  const HARDENED_VERSION = '3.0.1';
+  const Z245_IMPERIAL_GRADES = Object.freeze({
+    241: 35,
+    290: 42,
+    317: 46,
+    359: 52,
+    386: 56,
+    414: 60,
+    448: 65,
+    483: 70,
+    550: 80,
+    620: 90,
+    690: 100,
+    825: 120
+  });
   const OFFICIAL_SOURCES = {
     API_5L: {
       label: 'API Spec 5L, 47th Edition',
@@ -47,6 +61,27 @@
   }
 
   applyKnownDesignationCorrections();
+
+  function displayedGradeFamily(bodyKey, family, unitSystem) {
+    if (bodyKey !== 'CSA_Z245_1' || unitSystem !== 'IMPERIAL') return family;
+    const match = String(family || '').match(/^Grade\s+(\d+)(\s+\(intermediate\))?$/i);
+    if (!match) return family;
+    const imperial = Z245_IMPERIAL_GRADES[Number(match[1])];
+    return imperial ? `Grade ${imperial}${match[2] || ''}` : family;
+  }
+
+  // Keep the metric family as the option value and stored selection. Only the
+  // user-facing label changes, so Grade 483 and Grade 70 resolve to the same
+  // audited CSA Z245.1 grade record and category-specific requirements.
+  const baseSyncSelectors = syncSelectors;
+  syncSelectors = function syncSelectorsWithUnitGradeLabels() {
+    baseSyncSelectors();
+    const select = document.getElementById('gradeSelect');
+    if (!select) return;
+    Array.from(select.options).forEach((option) => {
+      option.textContent = displayedGradeFamily(state.specBody, option.value, state.unit);
+    });
+  };
 
   function datasetAudit(data = SPEC_DATA) {
     let grades = 0;
