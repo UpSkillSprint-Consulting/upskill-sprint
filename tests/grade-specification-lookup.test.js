@@ -302,6 +302,61 @@ test('CSA Z245 grade dropdown switches designation labels without changing the g
   assert.equal(variantSelect.value, reference.gradeKey);
 });
 
+test('Imperial mode converts every interactive engineering quantity and preserves canonical calculations', () => {
+  const document = dom.window.document;
+  const reference = { bodyKey: 'CSA_Z245_1', gradeKey: 'GR_483_CAT_II' };
+  dom.window.eval(`
+    localStorage.removeItem('gradeSpecCalc:elong');
+    localStorage.removeItem('gradeSpecCalc:charpy');
+    localStorage.removeItem('gradeSpecCalc:reverse');
+    storageSet('gradeSpecAttachedEditionContext:v1:CSA_Z245_1', {
+      odMM: 508, gaugeLengthMM: 50, nominalAreaMM2: 500, orderTemperatureC: -20,
+      supplyCondition: 'AS_MANUFACTURED', tensileSpecimenType: 'FLATTENED_STRIP', toughnessTarget: 'BODY'
+    });
+    state.phase2Tab = 'elongcalc';
+    selectEntry(findEntry(${JSON.stringify(reference)}));
+  `);
+  document.querySelector('#impBtn').click();
+
+  assert.match(document.querySelector('#elongNominalArea').closest('label').textContent, /Nominal specimen area \(in²\)/);
+  assert.ok(Math.abs(Number(document.querySelector('#elongNominalArea').value) - 0.775) < 0.00001);
+  assert.match(document.querySelector('#standardArea').closest('label').textContent, /in²/);
+  assert.match(document.querySelector('#standardOD').closest('label').textContent, /\(in\)/);
+  assert.match(document.querySelector('#checkYS').closest('label').textContent, /\(ksi\)/);
+  assert.match(document.querySelector('#checkCVN1').closest('label').textContent, /\(ft·lbf\)/);
+  assert.match(document.querySelector('#checkCVNTemp').closest('label').textContent, /\(°F\)/);
+  assert.match(document.querySelector('#charpyCalcEnergy').closest('label').textContent, /\(ft·lbf\)/);
+  assert.match(document.querySelector('#hydroOD').closest('label').textContent, /\(in\)/);
+  assert.match(document.querySelector('#hydroOutput').textContent, /psi/);
+  assert.match(document.querySelector('#reverseYS').closest('label').textContent, /\(ksi\)/);
+  assert.match(document.querySelector('#reverseCVN').closest('label').textContent, /\(ft·lbf/);
+  assert.match(document.querySelector('#reverseTemp').closest('label').textContent, /\(°F/);
+
+  const snapshot = document.querySelector('#z245RequirementSnapshot').textContent.replace(/\s+/g, ' ');
+  assert.match(snapshot, /e = 1244\.71 × A0\.2 ÷ U0\.9/);
+  assert.match(snapshot, /area in in².*capped at 0\.775 in²/);
+  assert.match(snapshot, /strength in ksi/);
+  assert.doesNotMatch(document.querySelector('.snapshot-formula').textContent, /mm²|MPa/);
+
+  document.querySelector('#elongNominalArea').value = '0.5';
+  document.querySelector('#elongNominalArea').dispatchEvent(new dom.window.Event('input', { bubbles: true }));
+  const storedElongation = JSON.parse(dom.window.localStorage.getItem('gradeSpecCalc:elong'));
+  assert.ok(Math.abs(storedElongation.nominalAreaMM2 - 322.58) < 0.02, 'in² input is converted back to canonical mm²');
+
+  document.querySelector('#standardArea').value = '0.775';
+  document.querySelector('#standardOD').value = '20';
+  document.querySelector('#standardGauge').value = '1.9685';
+  document.querySelector('#applyStandardContext').click();
+  const storedContext = JSON.parse(dom.window.localStorage.getItem('gradeSpecAttachedEditionContext:v1:CSA_Z245_1'));
+  assert.ok(Math.abs(storedContext.nominalAreaMM2 - 500.0) < 0.1);
+  assert.ok(Math.abs(storedContext.odMM - 508.0) < 0.01);
+  assert.ok(Math.abs(storedContext.gaugeLengthMM - 50.0) < 0.01);
+
+  document.querySelector('#siBtn').click();
+  assert.match(document.querySelector('#elongNominalArea').closest('label').textContent, /Nominal specimen area \(mm²\)/);
+  assert.match(document.querySelector('#checkYS').closest('label').textContent, /\(MPa\)/);
+});
+
 test('every CSA Z245 standard grade exposes complete conditional tensile and toughness requirements', () => {
   const document = dom.window.document;
   const table = [
