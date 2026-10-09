@@ -311,9 +311,67 @@
     s+=text(330,369,'Elapsed active-maintenance time (hours)')+text(330,397,'X and Y start together; verification waits for both.')+text(330,423,'Task crews are separate; Class A details are in the table.');
     return svg(c.title,c.description,660,447,s);
   }
+  function lifetimeDensity(c, age=1500) {
+    const x=t=>100+t/2000*530,y=f=>282-f/.001*212;
+    let s='';
+    for(const f of [0,.00025,.0005,.00075,.001])s+=line(100,y(f),630,y(f),'class="cre2-grid"')+text(52,y(f)+5,f.toFixed(5));
+    for(const t of [0,500,1000,1500,2000])s+=line(x(t),282,x(t),288)+text(x(t),310,t.toLocaleString('en-US'));
+    s+='<polygon points="100,282 '+x(age)+',282 '+x(age)+','+y(age/2000000)+'" fill="currentColor" opacity="0.10"/>';
+    s+=line(100,70,100,282)+line(100,282,630,282)+line(100,282,630,70,'class="cre2-curve"');
+    s+=line(x(age),70,x(age),282,'class="cre2-mission"')+'<circle cx="'+x(age)+'" cy="'+y(age/2000000)+'" r="5"/>';
+    s+=text(240,28,'Probability density f(t), per hour')+text(365,345,'Age (hours)');
+    s+=text(355,377,'Shaded area: probability of failure by the selected age.')+text(355,403,'Marker: '+age.toLocaleString('en-US')+' h; density is zero outside 0–2,000 h.');
+    return svg(c.title,'A linear density rises from zero to 0.001 per hour over ages zero to 2,000 hours. The marker and shaded area extend to age '+age+' hours. The density height is '+(age/2000000).toFixed(6)+' per hour.',680,428,s);
+  }
+  function thermalExposure(c) {
+    const x=t=>72+t/100*560,y=t=>309-(t-20)/70*210;let s='';
+    for(const temp of [20,40,60,80,90])s+=line(72,y(temp),632,y(temp),'class="cre2-grid"')+text(43,y(temp)+5,String(temp));
+    for(const minute of [0,20,40,60,80,100])s+=line(x(minute),309,x(minute),315)+text(x(minute),337,String(minute));
+    s+='<rect x="72" y="'+y(87)+'" width="560" height="'+(y(83)-y(87))+'" style="fill:currentColor;opacity:0.12;stroke:none"/>';
+    s+=line(72,99,72,309)+line(72,309,632,309)+text(163,79,'Temperature (°C)');
+    s+=line(70,24,108,24)+text(216,29,'Product (solid)')+line(363,24,401,24,'stroke-dasharray="8 5"')+text(518,29,'Chamber (dashed)');
+    s+=text(363,55,'Shaded product band: 83–87 °C');
+    for(const [col,dash] of [[1,' stroke-dasharray="8 5"'],[2,'']])s+='<polyline class="cre2-curve" points="'+c.rows.map(r=>x(r[0])+','+y(r[col])).join(' ')+'"'+dash+'/>';
+    c.rows.forEach(r=>{s+='<circle cx="'+x(r[0])+'" cy="'+y(r[2])+'" r="3"/>';});
+    s+=line(x(40),y(83),x(40),309,'class="cre2-mission"')+line(x(90),y(85),x(90),309,'class="cre2-mission"');
+    s+=text(345,370,'Elapsed test time (minutes)')+text(345,400,'Continuous record: first band entry at 40 min; assessment at 90 min.');
+    return svg(c.title,c.description,690,425,s);
+  }
+  function diagnosticCoverage(c) {
+    let s=box(235,18,210,44,'Diagnostic attempt')+line(340,62,340,82)+line(178,82,502,82)+line(178,82,178,92)+line(178,122,178,132)+line(502,82,502,92)+line(502,122,502,132);
+    s+=text(178,115,'Probability c')+text(502,115,'Probability 1 − c');
+    s+='<rect x="26" y="132" width="304" height="79" rx="7"/>'+text(178,160,'Correct initial module isolation')+text(178,191,'Total diagnosis: 0.25 h');
+    s+='<rect x="350" y="132" width="304" height="79" rx="7"/>'+text(502,160,'Further fault isolation')+text(502,191,'Total diagnosis: 2.75 h');
+    s+=line(178,211,178,241)+line(502,211,502,241)+line(178,241,502,241)+line(340,241,340,270);
+    s+='<rect x="162" y="270" width="356" height="70" rx="7"/>'+text(340,297,'Replacement and verification')+text(340,324,'Additional time: 0.50 h');
+    s+=text(340,374,'Each diagnostic duration already includes the initial attempt.');
+    return svg(c.title,c.description,680,399,s);
+  }
+  function inspectionWindow(c) {
+    const span=(y,x1,x2)=>line(x1,y,x2,y)+line(x1,y-8,x1,y+8)+line(x2,y-8,x2,y+8);
+    let s=text(350,29,'Degradation interval, measured from condition appearance');
+    s+=span(70,100,590)+text(345,61,'14 days')+text(100,103,'P: detectable')+text(590,103,'F: functional failure');
+    s+=text(350,156,'Inspection schedule, with an unspecified phase relative to P');
+    s+=span(196,100,450)+text(275,187,'10 days')+text(100,229,'Inspection')+text(450,229,'Next inspection');
+    s+=text(350,282,'Response time, measured from detection at an inspection');
+    s+=span(322,100,310)+text(205,313,'6 days')+text(100,355,'Detection')+text(310,355,'Intervention complete');
+    s+=text(350,398,'Each strip has its own origin; their starting points are not aligned in time.');
+    return svg(c.title,c.description,700,423,s);
+  }
+  const timelyIntervention=interval=>Math.min(1,8/interval);
+  function inspectionPlot(interval) {
+    const x=t=>78+(t-4)/16*530,y=p=>280-p*216;let s='';
+    for(const p of [0,.2,.4,.6,.8,1])s+=line(78,y(p),608,y(p),'class="cre2-grid"')+text(43,y(p)+5,(p*100).toFixed(0)+'%');
+    for(const t of [4,8,12,16,20])s+=line(x(t),280,x(t),286)+text(x(t),309,String(t));
+    s+=line(78,64,78,280)+line(78,280,608,280)+text(324,26,'Probability of completing intervention before failure');
+    const points=Array.from({length:161},(_,i)=>{const t=4+i/10;return x(t).toFixed(2)+','+y(timelyIntervention(t)).toFixed(2);}).join(' ');
+    s+='<polyline class="cre2-curve" points="'+points+'"/>'+line(x(interval),64,x(interval),280,'class="cre2-mission"')+'<circle cx="'+x(interval)+'" cy="'+y(timelyIntervention(interval))+'" r="5"/>';
+    s+=text(345,347,'Inspection spacing (days)')+text(345,380,'Fixed 14-day progression and 6-day response; uniform phase.');
+    return svg('Inspection spacing and timely intervention','With '+interval+' days between inspections, the modeled probability of timely completed intervention is '+(100*timelyIntervention(interval)).toFixed(1)+' percent. The curve is 100 percent through eight days and declines for longer intervals.',660,405,s);
+  }
   function exhibit(q) {
     const c=q.chart;if(!c)return '';
-    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):c.creKind==='p-diagram'?pDiagram(c):c.creKind==='conditional-life'?conditionalLife(c):c.creKind==='derating'?derating(c):c.creKind==='weibull-probability'?weibullProbability(c):c.creKind==='mission-profile'?missionProfile(c):c.creKind==='capability-spread'?capabilitySpread(c):c.creKind==='degradation-trend'?degradationTrend(c):c.creKind==='voting-system'?votingSystem(c):c.creKind==='minimal-cuts'?minimalCuts(c):c.creKind==='fatigue-model'?fatigueModel(c):c.creKind==='cold-standby'?coldStandby(c):c.creKind==='repair-workflow'?repairWorkflow(c):'';
+    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):c.creKind==='p-diagram'?pDiagram(c):c.creKind==='conditional-life'?conditionalLife(c):c.creKind==='derating'?derating(c):c.creKind==='weibull-probability'?weibullProbability(c):c.creKind==='mission-profile'?missionProfile(c):c.creKind==='capability-spread'?capabilitySpread(c):c.creKind==='degradation-trend'?degradationTrend(c):c.creKind==='voting-system'?votingSystem(c):c.creKind==='minimal-cuts'?minimalCuts(c):c.creKind==='fatigue-model'?fatigueModel(c):c.creKind==='cold-standby'?coldStandby(c):c.creKind==='repair-workflow'?repairWorkflow(c):c.creKind==='lifetime-density'?lifetimeDensity(c):c.creKind==='thermal-exposure'?thermalExposure(c):c.creKind==='diagnostic-coverage'?diagnosticCoverage(c):c.creKind==='inspection-window'?inspectionWindow(c):'';
     return '<section class="cre2-exhibit" aria-label="Question evidence">'+
       (diagram?'<p class="cre2-caption">'+esc(c.title)+'</p>'+diagram+'<details class="cre2-alternative"><summary>Read the diagram description and data table</summary>'+(c.description?'<p>'+esc(c.description)+'</p>':'')+table(c)+'</details>':table(c))+
       '<p class="cre2-scroll-note">On a narrow screen, swipe or scroll within the exhibit to read it at full size.</p></section>';
@@ -346,6 +404,8 @@
     if(q.explorer==='voting-required')return header+'<label for="'+id+'">Minimum number of successful sensors required</label><select id="'+id+'"><option value="1">1 of 3</option><option value="2" selected>2 of 3 (question baseline)</option><option value="3">3 of 3</option></select><p>All sensor reliabilities remain 0.90; the required voter remains 0.98. Independence and all other assumptions stay fixed.</p><div data-cre-explorer-plot>'+votingSystem(q.chart,2)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 2 required sensors</button></details>';
     if(q.explorer==='fatigue-stress')return header+'<label for="'+id+'">Stress amplitude (MPa)</label><input id="'+id+'" type="range" min="60" max="120" step="5" value="80"><p>The fitted exponent stays at three. Explore only the stated 60–120 MPa interval with unchanged stress ratio, frequency, environment, and failure mechanism. Results are medians, not guaranteed lives.</p><div data-cre-explorer-plot>'+fatigueModel(q.chart,80)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 80 MPa</button></details>';
     if(q.explorer==='standby-coverage')return header+'<label for="'+id+'">Detection-and-transfer success probability</label><select id="'+id+'"><option value="0">0%</option><option value="0.5">50%</option><option value="0.9" selected>90% (question baseline)</option><option value="1">100%</option></select><p>The mission stays at 200 hours and both operating failure rates at 0.001 per hour. Idle failures and transfer delays remain excluded.</p><div data-cre-explorer-plot>'+standbyPlot(.9)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 90%</button></details>';
+    if(q.explorer==='density-age')return header+'<label for="'+id+'">Surviving unit’s age (hours)</label><input id="'+id+'" type="range" min="200" max="1800" step="100" value="1500"><p>The specified density model stays fixed. The shaded area gives cumulative failure probability; hazard conditions on the remaining survivors.</p><div data-cre-explorer-plot>'+lifetimeDensity(q.chart,1500)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 1,500 hours</button></details>';
+    if(q.explorer==='inspection-interval')return header+'<label for="'+id+'">Time between inspections (days)</label><input id="'+id+'" type="range" min="4" max="20" step="2" value="10"><p>The detectable-to-failure interval stays at 14 days and the complete response at 6 days. Detection is perfect; condition appearance has uniform phase. This explores only the stated hypothetical failure mode.</p><div data-cre-explorer-plot>'+inspectionPlot(10)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 10 days</button></details>';
     return '';
   }
   function updateExplorer(el,q) {
@@ -402,6 +462,13 @@
       const primary=Math.exp(-.2),standby=value*.2*primary;
       out.textContent='Transfer success: '+(100*value).toFixed(0)+'%. Success without transfer: '+primary.toFixed(5)+'. Additional success via the spare: '+standby.toFixed(5)+'. Total mission reliability: '+standbyReliability(value).toFixed(5)+'.';
       el.querySelector('[data-cre-explorer-plot]').innerHTML=standbyPlot(value);
+    } else if(q.explorer==='density-age') {
+      const density=value/2000000,cdf=value*value/4000000,survival=1-cdf;
+      out.textContent='Age: '+value.toLocaleString('en-US')+' h. Density: '+density.toFixed(6)+' per hour. Cumulative failure probability: '+cdf.toFixed(4)+'. Survival probability: '+survival.toFixed(4)+'. Instantaneous hazard: '+(density/survival).toFixed(6)+' per hour; this is a conditional rate, not a finite-interval probability.';
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=lifetimeDensity(q.chart,value);
+    } else if(q.explorer==='inspection-interval') {
+      out.textContent='Inspection spacing: '+value+' days. Detection delay is uniform from 0 to '+value+' days. Completion must occur before day 14, so detection must occur before day 8. Probability of timely completed intervention: '+(100*timelyIntervention(value)).toFixed(1)+'%.';
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=inspectionPlot(value);
     }
   }
   let mathQueue=Promise.resolve();
@@ -433,7 +500,7 @@
           const control=el.querySelector('input,select');
           control.addEventListener('input',()=>updateExplorer(el,q));
           control.addEventListener('change',()=>updateExplorer(el,q));
-          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85','sequential-failures':'4','derating-temperature':'100','mission-high-duration':'2','replacement-failure-cost':'1000','chi-square-count':'40','voting-required':'2','fatigue-stress':'80','standby-coverage':'0.9'};
+          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85','sequential-failures':'4','derating-temperature':'100','mission-high-duration':'2','replacement-failure-cost':'1000','chi-square-count':'40','voting-required':'2','fatigue-stress':'80','standby-coverage':'0.9','density-age':'1500','inspection-interval':'10'};
           el.querySelector('[data-cre-reset]').addEventListener('click',()=>{control.value=defaults[q.explorer];updateExplorer(el,q);});
           updateExplorer(el,q);
         }
