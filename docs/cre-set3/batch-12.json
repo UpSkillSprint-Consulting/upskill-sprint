@@ -1,0 +1,435 @@
+{
+  "examId": "cre",
+  "set": 3,
+  "batch": 12,
+  "items": "cre:set-3:111 through cre:set-3:120",
+  "note": "Second-pass CRE Set 3 items. Not copied from Set 2. Each display equation is on its own line.",
+  "questions": [
+    {
+      "qid": "cre:set-3:111",
+      "set": 3,
+      "sub": "III.A.7",
+      "bok": "Confidence and tolerance intervals",
+      "cognitive": "Evaluate",
+      "stem": "A two-sided tolerance interval uses the given factor \\(K\\). The sample mean is \\(\\bar x\\) and the sample standard deviation is \\(s\\).\n\\[\nU=\\bar x+Ks\n\\]\nWhat is the upper tolerance limit?",
+      "options": [
+        "42",
+        "43",
+        "46",
+        "52"
+      ],
+      "answer": 2,
+      "why": "Multiply the factor by the standard deviation. \\(K\\) is not added by itself, and this is not a confidence interval for the mean.\n\\[\nU=40+2(3)=46\n\\]\n42 adds \\(K\\) and drops \\(s\\). 43 adds \\(s\\) and drops \\(K\\). 52 uses \\(Ks\\) twice. <b>C. 46</b>",
+      "traps": {
+        "A": "Adds the factor and ignores the standard deviation.",
+        "B": "Adds the standard deviation and ignores the factor.",
+        "D": "Doubles the product of the factor and the standard deviation."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Tolerance-interval inputs",
+        "altText": "The sample mean is 40 and the sample standard deviation is 3. The stated two-sided tolerance factor K is 2.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Mean",
+            "40"
+          ],
+          [
+            "Standard deviation",
+            "3"
+          ],
+          [
+            "Tolerance factor K",
+            "2"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:112",
+      "set": 3,
+      "sub": "III.A.1",
+      "bok": "Basic statistics",
+      "cognitive": "Analyze",
+      "stem": "The standard error of a mean is\n\\[\nSE=\\frac{s}{\\sqrt{n}}\n\\]\nThe standard deviation is the value in the table. What is the standard error at the larger sample size?",
+      "options": [
+        "0.083",
+        "1",
+        "2",
+        "12"
+      ],
+      "answer": 1,
+      "why": "Divide by the square root of the sample size, not by the sample size.\n\\[\nSE=\\frac{12}{\\sqrt{144}}=1\n\\]\n0.083 divides 12 by 144. 2 is the standard error at \\(n=36\\). 12 is the standard deviation. <b>B. 1</b>",
+      "traps": {
+        "A": "Divides the standard deviation by the sample size.",
+        "C": "Uses the smaller sample.",
+        "D": "Reports the standard deviation."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Two sample sizes",
+        "altText": "The sample standard deviation is 12. One sample has 36 observations and the other has 144. The question asks for the standard error at 144.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Standard deviation",
+            "12"
+          ],
+          [
+            "Smaller sample size",
+            "36"
+          ],
+          [
+            "Larger sample size",
+            "144"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:113",
+      "set": 3,
+      "sub": "III.A.3",
+      "bok": "Probability distributions",
+      "cognitive": "Analyze",
+      "stem": "Three independent units each have mission reliability 0.80. A failure of a unit is the event of interest.\n\\[\nP=3(0.20)(0.80)^{2}\n\\]\nWhat is the probability that exactly one unit fails?",
+      "options": [
+        "0.384",
+        "0.488",
+        "0.512",
+        "0.008"
+      ],
+      "answer": 0,
+      "why": "Exactly one failure can happen on any of the three units.\n\\[\n(0.80)^{2}=0.64\n\\]\n\\[\nP=3(0.20)(0.64)=0.384\n\\]\n0.512 is the probability that none fail. 0.488 is the probability that at least one fails. 0.008 is the probability that all three fail. <b>A. 0.384</b>",
+      "traps": {
+        "B": "Subtracts the all-survive probability from 1.",
+        "C": "Reports the probability that all three survive.",
+        "D": "Cubes the failure probability."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Three-unit mission",
+        "altText": "Three independent units each have mission reliability 0.80. The question asks for exactly one failure.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Units",
+            "3"
+          ],
+          [
+            "Reliability of one unit",
+            "0.80"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:114",
+      "set": 3,
+      "sub": "I.B.1",
+      "bok": "Reliability, maintainability, and availability",
+      "cognitive": "Apply",
+      "stem": "Two machines are in active parallel. Either machine can carry the load. Their steady-state availabilities are independent.\n\\[\nA=1-(1-A_1)(1-A_2)\n\\]\nWhat is the availability of the pair?",
+      "options": [
+        "0.855",
+        "0.925",
+        "0.950",
+        "0.995"
+      ],
+      "answer": 3,
+      "why": "The pair is unavailable only when both machines are down.\n\\[\nA=1-(0.05)(0.10)=0.995\n\\]\n0.855 multiplies the availabilities and requires both. 0.925 averages them. 0.950 keeps only the stronger machine. <b>D. 0.995</b>",
+      "traps": {
+        "A": "Requires both machines, which is a series model.",
+        "B": "Averages the two availabilities.",
+        "C": "Drops the weaker machine."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Parallel machine availability",
+        "altText": "Machine 1 availability is 0.95. Machine 2 availability is 0.90. Either machine can carry the load.",
+        "columns": [
+          "Machine",
+          "Availability"
+        ],
+        "rows": [
+          [
+            "1",
+            "0.95"
+          ],
+          [
+            "2",
+            "0.90"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:115",
+      "set": 3,
+      "sub": "I.B.1",
+      "bok": "Reliability, maintainability, and availability",
+      "cognitive": "Apply",
+      "stem": "A constant failure rate is stated in FIT. One FIT is one failure per \\(10^{9}\\) device-hours.\n\\[\nMTTF=\\frac{10^{9}}{FIT}\n\\]\nWhat is the MTTF?",
+      "options": [
+        "200 hours",
+        "5,000 hours",
+        "5,000,000 hours",
+        "200,000,000 hours"
+      ],
+      "answer": 2,
+      "why": "Divide one billion device-hours by the FIT value.\n\\[\nMTTF=\\frac{10^{9}}{200}=5000000\n\\]\n200 hours treats the FIT count as a time. 5,000 hours divides one million by 200. 200,000,000 hours multiplies 200 by one million. <b>C. 5,000,000 hours</b>",
+      "traps": {
+        "A": "Treats the FIT value as hours.",
+        "B": "Uses \\(10^{6}\\) instead of \\(10^{9}\\).",
+        "D": "Multiplies the FIT value by one million."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Constant failure rate",
+        "altText": "The failure rate is 200 FIT, meaning 200 failures per 1,000,000,000 device-hours.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Failure rate",
+            "200 FIT"
+          ],
+          [
+            "Device-hours per FIT",
+            "1,000,000,000"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:116",
+      "set": 3,
+      "sub": "IV.C.1",
+      "bok": "Reliability block diagrams",
+      "cognitive": "Evaluate",
+      "stem": "Three independent elements are in series. All three must survive the mission.\n\\[\nR=R_1 R_2 R_3\n\\]\nWhat is the mission reliability?",
+      "options": [
+        "0.400",
+        "0.504",
+        "0.700",
+        "0.800"
+      ],
+      "answer": 1,
+      "why": "Multiply the three reliabilities. Adding the unreliabilities is a poor approximation at these values.\n\\[\nR=(0.90)(0.80)(0.70)=0.504\n\\]\n0.400 subtracts the sum of the unreliabilities from 1. 0.700 is only the weakest element. 0.800 is the average of the three reliabilities. <b>B. 0.504</b>",
+      "traps": {
+        "A": "Uses \\(1-(0.10+0.20+0.30)\\).",
+        "C": "Uses the weakest element.",
+        "D": "Averages the three reliabilities."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Three-element series mission",
+        "altText": "The mission reliabilities are 0.90, 0.80, and 0.70. All three elements are required, and the failures are independent.",
+        "columns": [
+          "Element",
+          "Mission reliability"
+        ],
+        "rows": [
+          [
+            "1",
+            "0.90"
+          ],
+          [
+            "2",
+            "0.80"
+          ],
+          [
+            "3",
+            "0.70"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:117",
+      "set": 3,
+      "sub": "II.B.2",
+      "bok": "FMEA, FMECA, and use FMEA",
+      "cognitive": "Evaluate",
+      "stem": "A failure-mode criticality uses the mode proportion \\(\\alpha\\), the conditional probability \\(\\beta\\) that the effect occurs given the mode, the part failure rate \\(\\lambda\\), and the mission time \\(t\\).\n\\[\nC_m=\\beta\\alpha\\lambda t\n\\]\nWhat is the mode criticality?",
+      "options": [
+        "0.002",
+        "0.20",
+        "0.40",
+        "0.50"
+      ],
+      "answer": 1,
+      "why": "First find the expected number of mode failures, then multiply by \\(\\beta\\).\n\\[\n\\alpha\\lambda t=0.40(0.002)(500)=0.40\n\\]\n\\[\nC_m=0.50(0.40)=0.20\n\\]\n0.002 is the part failure rate. 0.40 stops before \\(\\beta\\). 0.50 is \\(\\beta\\) itself. <b>B. 0.20</b>",
+      "traps": {
+        "A": "Reports the part failure rate.",
+        "C": "Omits the conditional probability of the effect.",
+        "D": "Reports the conditional probability."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Failure-mode criticality inputs",
+        "altText": "Alpha is 0.40, beta is 0.50, the part failure rate is 0.002 per hour, and the mission is 500 hours.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Mode proportion, alpha",
+            "0.40"
+          ],
+          [
+            "Effect probability, beta",
+            "0.50"
+          ],
+          [
+            "Part failure rate",
+            "0.002 per hour"
+          ],
+          [
+            "Mission time",
+            "500 h"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:118",
+      "set": 3,
+      "sub": "II.A.2",
+      "bok": "Risk assessment and prioritization",
+      "cognitive": "Analyze",
+      "stem": "Expected annual loss is frequency times consequence. A control changes only the frequency. The consequence stays the same.\n\\[\nE=fc\n\\]\nBy how many dollars does the expected annual loss fall?",
+      "options": [
+        "100",
+        "400",
+        "300",
+        "5,000"
+      ],
+      "answer": 2,
+      "why": "Subtract the expected loss after the control from the expected loss before it.\n\\[\nE_{before}=0.08(5000)=400\n\\]\n\\[\nE_{after}=0.02(5000)=100\n\\]\n\\[\n\\Delta E=400-100=300\n\\]\n100 dollars is the remaining loss. 400 dollars is the original loss. 5,000 dollars is the consequence of one event. <b>C. 300</b>",
+      "traps": {
+        "A": "Reports the expected loss after the control.",
+        "B": "Reports the expected loss before the control.",
+        "D": "Reports the consequence of one event."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Risk before and after a control",
+        "altText": "Before the control, the frequency is 0.08 events per year and the consequence is 5,000 dollars. After the control, the frequency is 0.02 events per year and the consequence is unchanged.",
+        "columns": [
+          "State",
+          "Frequency per year",
+          "Consequence"
+        ],
+        "rows": [
+          [
+            "Before",
+            "0.08",
+            "$5,000"
+          ],
+          [
+            "After",
+            "0.02",
+            "$5,000"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:119",
+      "set": 3,
+      "sub": "V.A.5",
+      "bok": "Human factors",
+      "cognitive": "Understand",
+      "stem": "An operator task has a human-error probability \\(h\\). A second check catches the error unless that check also fails. The check fails with probability \\(q\\), and the two errors are independent.\n\\[\nP=hq\n\\]\nWhat is the probability that the task error is made and the check misses it?",
+      "options": [
+        "0.002",
+        "0.020",
+        "0.100",
+        "0.120"
+      ],
+      "answer": 0,
+      "why": "Both the task error and the missed check are required.\n\\[\nP=(0.020)(0.100)=0.002\n\\]\n0.020 is the task-error probability alone. 0.100 is the probability that the check fails. 0.120 adds those two probabilities. <b>A. 0.002</b>",
+      "traps": {
+        "B": "Ignores the check.",
+        "C": "Ignores the task error.",
+        "D": "Adds the two probabilities."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Task error and check",
+        "altText": "The task-error probability is 0.020. The independent probability that the check misses an error is 0.100.",
+        "columns": [
+          "Event",
+          "Probability"
+        ],
+        "rows": [
+          [
+            "Task error",
+            "0.020"
+          ],
+          [
+            "Check misses the error",
+            "0.100"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:120",
+      "set": 3,
+      "sub": "V.C.2",
+      "bok": "Preventive maintenance",
+      "cognitive": "Apply",
+      "stem": "Over the same 2,000 hours, compare the two policies in the table. Failure cost and service cost are stated. Which policy has the lower total cost, and what is that cost?",
+      "options": [
+        "Run to failure, 1,500 dollars",
+        "Preventive policy, 900 dollars",
+        "Preventive policy, 600 dollars",
+        "Run to failure, 150 dollars"
+      ],
+      "answer": 1,
+      "why": "Add every failure and every preventive service. Do not drop the failures that remain under the preventive policy.\n\\[\nC_{fail}=10(150)=1500\n\\]\n\\[\nC_{pm}=2(150)+6(100)=900\n\\]\nThe preventive policy costs less on these counts. 600 dollars omits the two failures that still occur. 150 dollars is the cost of one failure. <b>B. Preventive policy, 900 dollars</b>",
+      "traps": {
+        "A": "Selects the higher total.",
+        "C": "Omits the failures that remain under the preventive policy.",
+        "D": "Uses the cost of a single failure."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Maintenance cost over 2,000 hours",
+        "altText": "Run to failure has 10 failures and no services. The preventive policy has 2 failures and 6 services. Each failure costs 150 dollars and each service costs 100 dollars.",
+        "columns": [
+          "Policy",
+          "Failures",
+          "Services"
+        ],
+        "rows": [
+          [
+            "Run to failure",
+            "10",
+            "0"
+          ],
+          [
+            "Preventive policy",
+            "2",
+            "6"
+          ]
+        ]
+      }
+    }
+  ]
+}
