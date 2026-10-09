@@ -1,0 +1,446 @@
+{
+  "examId": "cre",
+  "set": 3,
+  "batch": 4,
+  "items": "cre:set-3:031 through cre:set-3:040",
+  "note": "Original CRE Set 3 items. Not copied from Set 2 or from handbook examples. Each display equation is on its own line.",
+  "questions": [
+    {
+      "qid": "cre:set-3:031",
+      "set": 3,
+      "sub": "II.B.6",
+      "bok": "System safety",
+      "cognitive": "Evaluate",
+      "stem": "The safety review below is the current evidence. No field accident has been reported. Which action is the best safety tradeoff?",
+      "options": [
+        "Enlarge the label. It is the cheapest action and the issue occurs most often.",
+        "Add the cover interlock. It controls the burn hazard, which has the highest impact and a feasible design control.",
+        "Fund the software rewrite. The highest spend removes the most safety risk.",
+        "Accept all three. The absence of an accident report shows that the current risk is controlled."
+      ],
+      "answer": 1,
+      "why": "Safety priority follows impact and the chance of harm, not the lowest price or the largest budget. The burn hazard is the serious item, and a design interlock reduces the unintended use. A clearer label does not remove that energy hazard. The reboot has negligible safety impact, and no accident yet is not evidence that the hazard is controlled. <b>B. Add the cover interlock. It controls the burn hazard, which has the highest impact and a feasible design control.</b>",
+      "traps": {
+        "A": "Ranks a frequent minor labeling issue above a serious burn hazard.",
+        "C": "Treats cost as if it measured risk reduction.",
+        "D": "Uses the lack of an accident report as proof of control."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Safety tradeoff record",
+        "altText": "A cover left off during service can cause a serious burn and occurs occasionally. An interlock costs 12 dollars per unit. Small label text is a minor issue, occurs frequently, and a larger label costs 1 dollar. A software reboot is negligible, remote, and has no safety effect. A rewrite costs 80 dollars.",
+        "columns": [
+          "Issue",
+          "Impact",
+          "Occurrence",
+          "Available control"
+        ],
+        "rows": [
+          [
+            "Cover left off during service",
+            "Serious burn",
+            "Occasional",
+            "Interlock, $12"
+          ],
+          [
+            "Label text too small",
+            "Minor",
+            "Frequent",
+            "Larger label, $1"
+          ],
+          [
+            "Software reboot",
+            "Negligible, no safety effect",
+            "Remote",
+            "Rewrite, $80"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:032",
+      "set": 3,
+      "sub": "II.C",
+      "bok": "Risk mitigation",
+      "cognitive": "Evaluate",
+      "stem": "A program will fund every technically possible further reduction, including a control whose cost is grossly disproportionate to the risk removed, until no further reduction is possible. Which goal is that?",
+      "options": [
+        "ALARP. A grossly disproportionate cost is a reason to stop.",
+        "ALARA. Further reduction is limited to what is reasonably achievable.",
+        "ALAP. Reduction continues to the lowest level that is technically possible.",
+        "ISO 55000. The decision is an asset-value optimization and not a safety goal."
+      ],
+      "answer": 2,
+      "why": "ALAP means as low as possible. The stated rule keeps spending until a further technical reduction does not exist. ALARP allows a stop when the cost is grossly disproportionate to the benefit. ALARA limits the reduction to what is reasonably achievable. ISO 55000 is an asset-management standard. It is not this residual-risk rule. <b>C. ALAP. Reduction continues to the lowest level that is technically possible.</b>",
+      "traps": {
+        "A": "Gives the reason ALARP would reject this spending rule.",
+        "B": "Stops at reasonable achievability, which the program does not do.",
+        "D": "Substitutes an asset-management standard for the safety goal."
+      }
+    },
+    {
+      "qid": "cre:set-3:033",
+      "set": 3,
+      "sub": "III.A.1",
+      "bok": "Basic statistics",
+      "cognitive": "Analyze",
+      "stem": "The five times below are a sample from a larger process. What is the sample standard deviation, to three decimal places?\n\\[\ns=\\sqrt{\\frac{\\sum (x_i-\\bar x)^2}{n-1}}\n\\]",
+      "options": [
+        "1.414 hours",
+        "1.581 hours",
+        "2.500 hours",
+        "10.000 hours"
+      ],
+      "answer": 1,
+      "why": "The sample mean is 10 hours. The squared deviations sum to 10. The sample variance divides by \\(n-1\\), not by \\(n\\).\n\\[\n\\bar x=10\n\\]\n\\[\ns=\\sqrt{\\frac{10}{4}}=\\sqrt{2.5}=1.581\n\\]\n1.414 hours divides the same sum of squares by 5. 2.500 hours is the sample variance. 10 hours is the mean. <b>B. 1.581 hours</b>",
+      "traps": {
+        "A": "Uses the population divisor n.",
+        "C": "Stops at the variance.",
+        "D": "Reports the sample mean."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Sample of failure times",
+        "altText": "Five sampled times, in hours, are 8, 9, 10, 11, and 12.",
+        "columns": [
+          "Unit",
+          "Time (h)"
+        ],
+        "rows": [
+          [
+            "1",
+            "8"
+          ],
+          [
+            "2",
+            "9"
+          ],
+          [
+            "3",
+            "10"
+          ],
+          [
+            "4",
+            "11"
+          ],
+          [
+            "5",
+            "12"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:034",
+      "set": 3,
+      "sub": "III.A.2",
+      "bok": "Basic probability concepts",
+      "cognitive": "Analyze",
+      "stem": "A detector alarms on a defective unit with probability \\(P(A\\mid D)\\) and alarms on a good unit with probability \\(P(A\\mid D')\\). The incoming proportion defective is \\(P(D)\\).\n\\[\nP(D\\mid A)=\\frac{P(A\\mid D)P(D)}{P(A\\mid D)P(D)+P(A\\mid D')P(D')}\n\\]\nWhat is the probability that an alarmed unit is actually defective, to three decimal places?",
+      "options": [
+        "0.019",
+        "0.020",
+        "0.162",
+        "0.950"
+      ],
+      "answer": 2,
+      "why": "The alarm is more common among the many good units than the joint probability suggests.\n\\[\nP(A\\mid D)P(D)=0.019\n\\]\n\\[\nP(A\\mid D')P(D')=0.098\n\\]\n\\[\nP(D\\mid A)=\\frac{0.019}{0.117}=0.162\n\\]\n0.019 is only the joint probability of defect and alarm. 0.020 is the incoming proportion. 0.950 is the detection probability. <b>C. 0.162</b>",
+      "traps": {
+        "A": "Stops at the joint probability of defect and alarm.",
+        "B": "Reports the incoming proportion defective.",
+        "D": "Reports the probability of an alarm given a defect."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Detector evidence",
+        "altText": "Two percent of incoming units are defective. The detector alarms on 95 percent of defective units and on 10 percent of good units.",
+        "columns": [
+          "Event",
+          "Probability"
+        ],
+        "rows": [
+          [
+            "Defective, P(D)",
+            "0.02"
+          ],
+          [
+            "Alarm given defective",
+            "0.95"
+          ],
+          [
+            "Alarm given good",
+            "0.10"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:035",
+      "set": 3,
+      "sub": "III.A.3",
+      "bok": "Probability distributions",
+      "cognitive": "Analyze",
+      "stem": "Sensor failures occur independently at a constant average rate of 2 per year. Use \\(e^{-2}=0.1353\\). What is the probability of at least one failure in a one-year period?",
+      "options": [
+        "0.1353",
+        "0.8647",
+        "2.000",
+        "0.2706"
+      ],
+      "answer": 1,
+      "why": "A constant independent rate over a fixed interval is a Poisson count. The probability of no failure is the zero term.\n\\[\nP(X=0)=e^{-2}=0.1353\n\\]\n\\[\nP(X\\ge 1)=1-0.1353=0.8647\n\\]\nThe rate 2 is not a probability. 0.2706 is the probability of exactly one failure, \\(2e^{-2}\\). <b>B. 0.8647</b>",
+      "traps": {
+        "A": "Reports the probability of zero failures.",
+        "C": "Treats the Poisson mean as the probability.",
+        "D": "Stops at the probability of exactly one failure."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Sensor failures in one year",
+        "altText": "Failures occur independently at an average rate of 2 per year. e to the -2 is 0.1353.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Average failures per year",
+            "2"
+          ],
+          [
+            "e to the -2",
+            "0.1353"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:036",
+      "set": 3,
+      "sub": "III.A.4",
+      "bok": "Probability functions",
+      "cognitive": "Evaluate",
+      "stem": "At 100 hours, the probability density is \\(f(100)=0.004\\) per hour and the reliability is \\(R(100)=0.80\\). Which value is the hazard rate at 100 hours?\n\\[\nh(t)=\\frac{f(t)}{R(t)}\n\\]",
+      "options": [
+        "0.0032 per hour",
+        "0.004 per hour",
+        "0.005 per hour",
+        "0.200"
+      ],
+      "answer": 2,
+      "why": "The hazard is the density among the units still surviving, not the unconditional density and not the unreliability.\n\\[\nh(100)=\\frac{0.004}{0.80}=0.005\n\\]\n0.0032 is the product \\(f(100)R(100)\\). 0.004 is the density. 0.200 is \\(1-R(100)\\). <b>C. 0.005 per hour</b>",
+      "traps": {
+        "A": "Multiplies the density by the reliability.",
+        "B": "Uses the density as the hazard.",
+        "D": "Uses the unreliability."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Density and reliability at 100 hours",
+        "altText": "At 100 hours the probability density is 0.004 per hour and the reliability is 0.80.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Age",
+            "100 h"
+          ],
+          [
+            "Probability density",
+            "0.004 per hour"
+          ],
+          [
+            "Reliability",
+            "0.80"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:037",
+      "set": 3,
+      "sub": "III.A.5",
+      "bok": "Sampling plans for reliability testing",
+      "cognitive": "Apply",
+      "stem": "Times to failure are exponential. The demonstration target is \\(\\theta=500\\) hours at confidence \\(C=0.90\\), with zero failures allowed. Use \\(\\ln 0.10=-2.3026\\).\n\\[\nT=-\\theta\\ln(1-C)\n\\]\nHow many total unit-hours are required?",
+      "options": [
+        "450.0 hours",
+        "500.0 hours",
+        "1,151.3 hours",
+        "2,302.6 hours"
+      ],
+      "answer": 2,
+      "why": "Zero failures do not mean the required time is the target life. Substitute the stated logarithm.\n\\[\nT=-500\\ln(0.10)=1151.3\n\\]\n450 hours is 90 percent of the target. 500 hours is the target itself. 2,302.6 hours uses \\(-\\ln 0.10\\) twice. <b>C. 1,151.3 hours</b>",
+      "traps": {
+        "A": "Takes 90 percent of the target life.",
+        "B": "Uses the target life as the test time.",
+        "D": "Doubles the required total time."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Zero-failure demonstration",
+        "altText": "The exponential mean-life target is 500 hours. Confidence is 0.90, so zero failures are allowed. The natural log of 0.10 is -2.3026.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Target mean life",
+            "500 h"
+          ],
+          [
+            "Confidence",
+            "0.90"
+          ],
+          [
+            "Natural log of 0.10",
+            "-2.3026"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:038",
+      "set": 3,
+      "sub": "III.A.6",
+      "bok": "Statistical process control and capability",
+      "cognitive": "Apply",
+      "stem": "A stable strength process is approximately normal. The mean is \\(\\mu\\), the standard deviation is \\(\\sigma\\), and the specification limits are LSL and USL.\n\\[\nC_{pu}=\\frac{USL-\\mu}{3\\sigma}\n\\]\n\\[\nC_{pl}=\\frac{\\mu-LSL}{3\\sigma}\n\\]\n\\[\nC_{pk}=\\min(C_{pu},C_{pl})\n\\]\nWhat is \\(C_{pk}\\)?",
+      "options": [
+        "0.50",
+        "1.50",
+        "2.00",
+        "1.00"
+      ],
+      "answer": 3,
+      "why": "The process sits closer to the lower limit, so the smaller index governs.\n\\[\nC_{pu}=\\frac{124-100}{12}=2.00\n\\]\n\\[\nC_{pl}=\\frac{100-88}{12}=1.00\n\\]\n\\[\nC_{pk}=1.00\n\\]\n1.50 is \\(C_p\\), which ignores the off-center mean. 2.00 is only the upper index. 0.50 puts \\(6\\sigma\\) in a one-sided denominator. <b>D. 1.00</b>",
+      "traps": {
+        "A": "Divides the one-sided distance by \\(6\\sigma\\).",
+        "B": "Reports \\(C_p\\) instead of \\(C_{pk}\\).",
+        "C": "Reports the larger one-sided index."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Strength process",
+        "altText": "The process mean is 100, the standard deviation is 4, the lower specification is 88, and the upper specification is 124.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Mean",
+            "100"
+          ],
+          [
+            "Standard deviation",
+            "4"
+          ],
+          [
+            "LSL",
+            "88"
+          ],
+          [
+            "USL",
+            "124"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:039",
+      "set": 3,
+      "sub": "III.A.7",
+      "bok": "Confidence and tolerance intervals",
+      "cognitive": "Evaluate",
+      "stem": "An exponential test is failure-terminated at \\(r=4\\) failures, with total unit time \\(T=2{,}000\\) hours. For a 90 percent two-sided interval the lower bound uses the upper-tail chi-square value with \\(2r\\) degrees of freedom.\n\\[\n\\theta_L=\\frac{2T}{\\chi^2_{0.05,\\,2r}}\n\\]\nWhat is the lower bound, to one decimal place?",
+      "options": [
+        "257.9 hours",
+        "500.0 hours",
+        "1,000.0 hours",
+        "1,463.6 hours"
+      ],
+      "answer": 0,
+      "why": "Four failures give 8 degrees of freedom. The lower bound divides by the larger chi-square value.\n\\[\n\\theta_L=\\frac{2(2000)}{15.507}=257.9\n\\]\n500 hours is the point estimate \\(T/r\\). 1,000 hours is \\(T/2\\). 1,463.6 hours divides by the lower-tail value and is the upper end of this interval, not the lower bound. <b>A. 257.9 hours</b>",
+      "traps": {
+        "B": "Reports the point estimate.",
+        "C": "Divides the total time by 2.",
+        "D": "Swaps the chi-square tails."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Chi-square values for 8 degrees of freedom",
+        "altText": "For 8 degrees of freedom, the upper 5 percent point is 15.507 and the lower 5 percent point is 2.733.",
+        "columns": [
+          "Tail",
+          "Chi-square"
+        ],
+        "rows": [
+          [
+            "Upper 5 percent",
+            "15.507"
+          ],
+          [
+            "Lower 5 percent",
+            "2.733"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:040",
+      "set": 3,
+      "sub": "III.B.1",
+      "bok": "Sources and uses of reliability data",
+      "cognitive": "Analyze",
+      "stem": "Warranty observation stops at 12 months. The five records below are the complete result. Which use of the data is appropriate?",
+      "options": [
+        "Average the three failure times. Units still operating at 12 months do not belong in a life estimate.",
+        "Treat the two units with no failure as right-censored at 12 months.",
+        "Treat the two units with no failure as failed at 12 months.",
+        "Treat the two units with no failure as units that will never fail."
+      ],
+      "answer": 1,
+      "why": "Warranty data stop because the observation stops, not because the surviving units have proved an infinite life. Units 4 and 5 are right-censored at 12 months. Averaging only the three failure times ignores those survivors and understates life. Calling them failures at 12 months, or survivors forever, invents an outcome the records do not show. <b>B. Treat the two units with no failure as right-censored at 12 months.</b>",
+      "traps": {
+        "A": "Discards the surviving units.",
+        "C": "Assigns a failure that was not observed.",
+        "D": "Turns a limited observation window into an infinite life."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Warranty records",
+        "altText": "Three units failed at 3, 7, and 11 months. Two units had no failure and observation ended at 12 months.",
+        "columns": [
+          "Unit",
+          "Record"
+        ],
+        "rows": [
+          [
+            "1",
+            "Failed at 3 months"
+          ],
+          [
+            "2",
+            "Failed at 7 months"
+          ],
+          [
+            "3",
+            "Failed at 11 months"
+          ],
+          [
+            "4",
+            "No failure; observation ends at 12 months"
+          ],
+          [
+            "5",
+            "No failure; observation ends at 12 months"
+          ]
+        ]
+      }
+    }
+  ]
+}

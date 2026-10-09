@@ -1,0 +1,465 @@
+{
+  "examId": "cre",
+  "set": 3,
+  "batch": 11,
+  "items": "cre:set-3:101 through cre:set-3:110",
+  "note": "Second-pass CRE Set 3 items. Not copied from Set 2. Each display equation is on its own line.",
+  "questions": [
+    {
+      "qid": "cre:set-3:101",
+      "set": 3,
+      "sub": "IV.C.1",
+      "bok": "Reliability block diagrams",
+      "cognitive": "Evaluate",
+      "stem": "Four identical units are independent. The function works if at least three of the four work. Each unit has mission reliability \\(R\\).\n\\[\nR_{3/4}=4R^{3}(1-R)+R^{4}\n\\]\nWhat is the mission reliability of the function?",
+      "options": [
+        "0.2916",
+        "0.6561",
+        "0.9000",
+        "0.9477"
+      ],
+      "answer": 3,
+      "why": "At least three means exactly three, plus all four.\n\\[\n4(0.90)^{3}(0.10)=0.2916\n\\]\n\\[\n(0.90)^{4}=0.6561\n\\]\n\\[\nR_{3/4}=0.2916+0.6561=0.9477\n\\]\n0.2916 stops at exactly three. 0.6561 requires all four. 0.9000 is one unit. <b>D. 0.9477</b>",
+      "traps": {
+        "A": "Counts only the exactly-three outcome.",
+        "B": "Requires every unit to survive.",
+        "C": "Uses the reliability of one unit."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Three-out-of-four function",
+        "altText": "Four identical independent units each have mission reliability 0.90. The function requires at least three of the four.",
+        "columns": [
+          "Unit",
+          "Mission reliability",
+          "Requirement"
+        ],
+        "rows": [
+          [
+            "1",
+            "0.90",
+            "At least three"
+          ],
+          [
+            "2",
+            "0.90",
+            "At least three"
+          ],
+          [
+            "3",
+            "0.90",
+            "At least three"
+          ],
+          [
+            "4",
+            "0.90",
+            "At least three"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:102",
+      "set": 3,
+      "sub": "IV.C.3",
+      "bok": "Failure models",
+      "cognitive": "Analyze",
+      "stem": "Two load blocks are applied in sequence. \\(n\\) is the cycles applied and \\(N\\) is the cycles to the failure criterion at that stress. Damage adds by Miner's rule.\n\\[\nD=n_1/N_1+n_2/N_2\n\\]\nWhat is the cumulative damage?",
+      "options": [
+        "0.20",
+        "0.25",
+        "0.45",
+        "0.60"
+      ],
+      "answer": 2,
+      "why": "Use each block's own life in its denominator.\n\\[\n\\frac{2000}{10000}=0.20\n\\]\n\\[\n\\frac{1000}{4000}=0.25\n\\]\n\\[\nD=0.20+0.25=0.45\n\\]\n0.20 and 0.25 are single blocks. 0.60 swaps the two lives. The total is below 1, so the rule does not yet predict failure. <b>C. 0.45</b>",
+      "traps": {
+        "A": "Stops after the first block.",
+        "B": "Stops after the second block.",
+        "D": "Pairs each applied-cycle count with the other block's life."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Miner load blocks",
+        "altText": "Block 1 applies 2,000 cycles where the life is 10,000 cycles. Block 2 applies 1,000 cycles where the life is 4,000 cycles.",
+        "columns": [
+          "Block",
+          "Cycles applied",
+          "Life at that stress"
+        ],
+        "rows": [
+          [
+            "1",
+            "2,000",
+            "10,000"
+          ],
+          [
+            "2",
+            "1,000",
+            "4,000"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:103",
+      "set": 3,
+      "sub": "I.B.1",
+      "bok": "Reliability, maintainability, and availability",
+      "cognitive": "Apply",
+      "stem": "Operational availability includes mean logistics delay. Mean time between failures is \\(MTBF\\), mean repair time is \\(MTTR\\), and mean logistics delay is \\(MLD\\).\n\\[\nA_o=\\frac{MTBF}{MTBF+MTTR+MLD}\n\\]\nWhat is the operational availability?",
+      "options": [
+        "0.100",
+        "0.875",
+        "0.959",
+        "23.3"
+      ],
+      "answer": 1,
+      "why": "Logistics delay is in the denominator for operational availability. Leave it out only for inherent availability.\n\\[\nA_o=\\frac{700}{800}=0.875\n\\]\n0.100 is logistics delay divided by MTBF. 0.959 removes the logistics delay. 23.3 divides MTBF by the repair time. <b>B. 0.875</b>",
+      "traps": {
+        "A": "Divides logistics delay by MTBF.",
+        "C": "Computes inherent availability.",
+        "D": "Divides MTBF by MTTR."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Operational availability inputs",
+        "altText": "MTBF is 700 hours, MTTR is 30 hours, and mean logistics delay is 70 hours.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "MTBF",
+            "700 h"
+          ],
+          [
+            "MTTR",
+            "30 h"
+          ],
+          [
+            "Mean logistics delay",
+            "70 h"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:104",
+      "set": 3,
+      "sub": "V.C.3",
+      "bok": "Corrective maintenance",
+      "cognitive": "Apply",
+      "stem": "Three corrective tasks have the shares and durations below. The mean corrective time weights each duration by its share.\n\\[\nMTTR=p_1 t_1+p_2 t_2+p_3 t_3\n\\]\nWhat is the mean corrective time?",
+      "options": [
+        "20 minutes",
+        "40 minutes",
+        "50 minutes",
+        "90 minutes"
+      ],
+      "answer": 1,
+      "why": "Weight the durations. Do not average them as if each task were equally common.\n\\[\nMTTR=0.50(20)+0.30(40)+0.20(90)\n\\]\n\\[\nMTTR=10+12+18=40\n\\]\n20 minutes is the shortest task. 50 minutes is the unweighted average. 90 minutes is the longest task. <b>B. 40 minutes</b>",
+      "traps": {
+        "A": "Uses the most common duration without weighting the others.",
+        "C": "Averages the three durations.",
+        "D": "Uses the longest duration."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Corrective-task mix",
+        "altText": "Half of the tasks take 20 minutes, 30 percent take 40 minutes, and 20 percent take 90 minutes.",
+        "columns": [
+          "Task",
+          "Share",
+          "Duration"
+        ],
+        "rows": [
+          [
+            "A",
+            "0.50",
+            "20 min"
+          ],
+          [
+            "B",
+            "0.30",
+            "40 min"
+          ],
+          [
+            "C",
+            "0.20",
+            "90 min"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:105",
+      "set": 3,
+      "sub": "III.A.3",
+      "bok": "Probability distributions",
+      "cognitive": "Analyze",
+      "stem": "Failures in a month follow a Poisson distribution with mean 3. Use \\(e^{-3}=0.0498\\).\n\\[\nP(X\\le 1)=e^{-3}(1+3)\n\\]\nWhat is the probability of at most one failure?",
+      "options": [
+        "0.0498",
+        "0.1494",
+        "0.1992",
+        "0.9502"
+      ],
+      "answer": 2,
+      "why": "At most one includes zero and exactly one.\n\\[\nP(X\\le 1)=0.0498(4)=0.1992\n\\]\n0.0498 is the probability of zero. 0.1494 is the probability of exactly one. 0.9502 is the probability of at least one. <b>C. 0.1992</b>",
+      "traps": {
+        "A": "Uses only the zero term.",
+        "B": "Uses only the exactly-one term.",
+        "D": "Subtracts the zero term from 1."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Monthly failure count",
+        "altText": "The Poisson mean is 3 failures per month. The question asks for the probability of 0 or 1 failure.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Mean failures per month",
+            "3"
+          ],
+          [
+            "e to the -3",
+            "0.0498"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:106",
+      "set": 3,
+      "sub": "IV.C.1",
+      "bok": "Reliability block diagrams",
+      "cognitive": "Evaluate",
+      "stem": "Three independent exponential elements are in series. The mission length is \\(t\\). Use \\(e^{-0.8}=0.4493\\).\n\\[\nR(t)=\\exp(-\\lambda_s t)\n\\]\n\\[\n\\lambda_s=\\lambda_1+\\lambda_2+\\lambda_3\n\\]\nWhat is the mission reliability?",
+      "options": [
+        "0.4493",
+        "0.8187",
+        "0.9960",
+        "250 hours"
+      ],
+      "answer": 0,
+      "why": "Add the rates, multiply by the mission time, and then take the exponential.\n\\[\n\\lambda_s=0.001+0.002+0.001=0.004\n\\]\n\\[\n\\lambda_s t=0.004(200)=0.8\n\\]\n\\[\nR(200)=e^{-0.8}=0.4493\n\\]\n0.8187 is \\(e^{-0.2}\\), the reliability of the 0.001 rate alone. 0.9960 is \\(e^{-0.004}\\), which drops the mission time. 250 hours is the system MTTF, not the reliability. <b>A. 0.4493</b>",
+      "traps": {
+        "B": "Uses only one of the small failure rates.",
+        "C": "Omits the mission length.",
+        "D": "Reports the mean life instead of the reliability."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Series exponential mission",
+        "altText": "Element failure rates are 0.001, 0.002, and 0.001 per hour. The mission is 200 hours. The elements are in series and independent.",
+        "columns": [
+          "Element",
+          "Failure rate per hour"
+        ],
+        "rows": [
+          [
+            "1",
+            "0.001"
+          ],
+          [
+            "2",
+            "0.002"
+          ],
+          [
+            "3",
+            "0.001"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:107",
+      "set": 3,
+      "sub": "II.B.2",
+      "bok": "FMEA, FMECA, and use FMEA",
+      "cognitive": "Evaluate",
+      "stem": "The worksheet ranks open actions by the product below. Severity, occurrence, and detection are the table ratings.\n\\[\nRPN=S\\times O\\times D\n\\]\nWhich mode is first under that rule?",
+      "options": [
+        "Mode A",
+        "Mode B",
+        "Mode C",
+        "Modes A and C, because both products equal 120"
+      ],
+      "answer": 1,
+      "why": "Multiply each row. The largest product is first. Severity does not override a smaller product.\n\\[\nRPN_A=8\\times 3\\times 4=96\n\\]\n\\[\nRPN_B=4\\times 8\\times 5=160\n\\]\n\\[\nRPN_C=10\\times 2\\times 6=120\n\\]\nMode C has the highest severity and a product of 120. Mode B has the highest product. <b>B. Mode B</b>",
+      "traps": {
+        "A": "Selects the middle product.",
+        "C": "Selects the highest severity.",
+        "D": "Invents a tie that the products do not have."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Open FMEA ratings",
+        "altText": "Mode A has severity 8, occurrence 3, and detection 4. Mode B has severity 4, occurrence 8, and detection 5. Mode C has severity 10, occurrence 2, and detection 6. Rank by the product of the three ratings.",
+        "columns": [
+          "Mode",
+          "Severity",
+          "Occurrence",
+          "Detection"
+        ],
+        "rows": [
+          [
+            "A",
+            "8",
+            "3",
+            "4"
+          ],
+          [
+            "B",
+            "4",
+            "8",
+            "5"
+          ],
+          [
+            "C",
+            "10",
+            "2",
+            "6"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:108",
+      "set": 3,
+      "sub": "V.A.7",
+      "bok": "Design for reliability",
+      "cognitive": "Analyze",
+      "stem": "Three independent dimensions stack. The statistical half-width is the root-sum-square of the half-widths \\(t_1\\), \\(t_2\\), and \\(t_3\\).\n\\[\nt=\\sqrt{t_1^{2}+t_2^{2}+t_3^{2}}\n\\]\nWhat is that half-width?",
+      "options": [
+        "±0.20",
+        "±0.30",
+        "±0.50",
+        "±0.90"
+      ],
+      "answer": 1,
+      "why": "Square, add, and take the square root. Do not add the half-widths.\n\\[\nt=\\sqrt{0.10^{2}+0.20^{2}+0.20^{2}}\n\\]\n\\[\nt=\\sqrt{0.09}=0.30\n\\]\n±0.20 is the largest single half-width. ±0.50 is the worst-case sum. ±0.90 squares and adds but does not take the root. <b>B. ±0.30</b>",
+      "traps": {
+        "A": "Uses the largest single tolerance.",
+        "C": "Adds the half-widths.",
+        "D": "Stops at the sum of the squares."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Dimension half-widths",
+        "altText": "Three independent dimensions have half-widths 0.10, 0.20, and 0.20. The stack uses the root-sum-square.",
+        "columns": [
+          "Dimension",
+          "Half-width"
+        ],
+        "rows": [
+          [
+            "A",
+            "±0.10"
+          ],
+          [
+            "B",
+            "±0.20"
+          ],
+          [
+            "C",
+            "±0.20"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:109",
+      "set": 3,
+      "sub": "III.A.3",
+      "bok": "Probability distributions",
+      "cognitive": "Analyze",
+      "stem": "Life is lognormal. \\(\\mu\\) and \\(\\sigma\\) are the mean and standard deviation of the natural log of life. The 10 percent point of the standard normal distribution is \\(z=-1.28\\). Use \\(e^{4.36}=78.26\\), \\(e^{3.72}=41.26\\), and \\(e^{5}=148.41\\).\n\\[\nt_{0.10}=\\exp(\\mu+z\\sigma)\n\\]\nWhat is the B10 life?",
+      "options": [
+        "41.26 hours",
+        "78.26 hours",
+        "4.36 hours",
+        "148.41 hours"
+      ],
+      "answer": 1,
+      "why": "Multiply \\(z\\) by \\(\\sigma\\) before adding it to \\(\\mu\\).\n\\[\n\\mu+z\\sigma=5+(-1.28)(0.50)=4.36\n\\]\n\\[\nt_{0.10}=e^{4.36}=78.26\n\\]\n41.26 hours uses \\(e^{\\mu+z}\\) and drops \\(\\sigma\\). 4.36 hours is the log-life. 148.41 hours is the median, \\(e^{\\mu}\\). <b>B. 78.26 hours</b>",
+      "traps": {
+        "A": "Adds z to mu and ignores sigma.",
+        "C": "Stops at the log of life.",
+        "D": "Reports the median."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Lognormal B10 inputs",
+        "altText": "mu is 5 and sigma is 0.50 on the natural-log scale. The standard-normal value for a 10 percent lower tail is -1.28.",
+        "columns": [
+          "Parameter",
+          "Value"
+        ],
+        "rows": [
+          [
+            "mu",
+            "5"
+          ],
+          [
+            "sigma",
+            "0.50"
+          ],
+          [
+            "z at 10 percent",
+            "-1.28"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:110",
+      "set": 3,
+      "sub": "III.A.3",
+      "bok": "Probability distributions",
+      "cognitive": "Analyze",
+      "stem": "A fleet of identical units fails at a constant rate \\(\\lambda\\). The fleet size is \\(n\\) and the exposure of each unit is \\(t\\).\n\\[\nE=n\\lambda t\n\\]\nHow many failures are expected?",
+      "options": [
+        "2",
+        "50",
+        "100",
+        "1,000"
+      ],
+      "answer": 2,
+      "why": "Multiply the fleet size, the rate, and the exposure per unit.\n\\[\nE=50(0.002)(1000)=100\n\\]\n2 is \\(\\lambda t\\) for one unit. 50 is the fleet size. 1,000 is the exposure of one unit. <b>C. 100</b>",
+      "traps": {
+        "A": "Uses one unit and drops the fleet size.",
+        "B": "Reports the number of units.",
+        "D": "Reports the hours on one unit."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Fleet exposure",
+        "altText": "There are 50 units. Each has failure rate 0.002 per hour and is exposed for 1,000 hours.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Units",
+            "50"
+          ],
+          [
+            "Failure rate",
+            "0.002 per hour"
+          ],
+          [
+            "Exposure per unit",
+            "1,000 h"
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,367 @@
+{
+  "examId": "cre",
+  "set": 3,
+  "batch": 3,
+  "items": "cre:set-3:021 through cre:set-3:030",
+  "note": "Original CRE Set 3 items. Not copied from Set 2 or from handbook examples. Each display equation is on its own line.",
+  "questions": [
+    {
+      "qid": "cre:set-3:021",
+      "set": 3,
+      "sub": "I.C.2",
+      "bok": "Six Sigma methodologies",
+      "cognitive": "Understand",
+      "stem": "Field returns of a valve are high. The team has not written what \"leak\" means, and it has no agreed way to measure leak rate. The first proposal is to change the seal compound. Which statement best aligns the work with DMAIC?",
+      "options": [
+        "Define the leak and how it will be measured before a seal change is treated as the improvement.",
+        "Skip to Improve. A physical change is the only step that counts as Six Sigma.",
+        "Start at Control, so the new seal is locked in before the current leak is described.",
+        "Use DMAIC only after the product is in decline. Reliability work during launch is outside Lean and Six Sigma."
+      ],
+      "answer": 0,
+      "why": "DMAIC starts by defining the problem and the measurement. Changing the seal before the defect and its measure are agreed mixes an untested fix with Improve. Control cannot lock in a change that has not been defined or shown to work, and reliability problems are not reserved for the end of the life cycle. <b>A. Define the leak and how it will be measured before a seal change is treated as the improvement.</b>",
+      "traps": {
+        "B": "Treats a hardware change as a substitute for Define and Measure.",
+        "C": "Starts at the last DMAIC step.",
+        "D": "Separates reliability from the improvement cycle."
+      }
+    },
+    {
+      "qid": "cre:set-3:022",
+      "set": 3,
+      "sub": "I.C.3",
+      "bok": "Systems engineering and integration",
+      "cognitive": "Understand",
+      "stem": "Each of two controllers meets its own reliability allocation. The system still misses commands because the two controllers use different timing limits, and that interface was never specified. Which statement is best?",
+      "options": [
+        "The allocations were met, so the system requirement is met.",
+        "Add the two controller failure probabilities. The interface cannot create a system failure.",
+        "Component allocations do not cover the interaction. The missing timing limit is a systems-integration failure.",
+        "Reliability engineering stops at the component. Interface timing belongs only to the software schedule."
+      ],
+      "answer": 2,
+      "why": "Systems engineering treats the interactions among components as part of the system. Meeting two separate allocations does not show that the controllers work together. A timing mismatch is a system failure even when neither controller has failed its own part specification. <b>C. Component allocations do not cover the interaction. The missing timing limit is a systems-integration failure.</b>",
+      "traps": {
+        "A": "Treats the sum of the parts as proof of the system.",
+        "B": "Ignores an interface failure that is not a parts-failure probability.",
+        "D": "Removes integration from the reliability task."
+      }
+    },
+    {
+      "qid": "cre:set-3:023",
+      "set": 3,
+      "sub": "II.A.1",
+      "bok": "Risk management techniques",
+      "cognitive": "Evaluate",
+      "stem": "A valve risk register lists only part failures. The parameter diagram information below was available and was not used. Which evaluation is best?",
+      "options": [
+        "The register is complete. Part failures are the only risks a reliability program ranks.",
+        "The register is not complete. The noise factors and the shut-valve error state are identified risks and were left out.",
+        "Add the noise factors only after the first field failure. A parameter diagram is not used to find risks.",
+        "Drop the 12 V command. An intended input is a risk and should be ranked above the error state."
+      ],
+      "answer": 1,
+      "why": "A parameter diagram and the use case are risk-identification tools. Road salt, the hot soak, and the valve staying shut are risks to performance and safety. Leaving them off the register is not justified by waiting for a field failure, and the intended 12 V command is an input, not itself a risk. <b>B. The register is not complete. The noise factors and the shut-valve error state are identified risks and were left out.</b>",
+      "traps": {
+        "A": "Limits identification to a parts list.",
+        "C": "Delays a known use-condition risk until after it has already occurred.",
+        "D": "Ranks the normal command as if it were a failure."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Parameter diagram notes",
+        "altText": "Intended input is a 12 V command. Intended output is the valve opens. Noise factors are road salt and a 40°C soak, and they were not entered in the register. The error state is the valve stays shut, and it was not entered.",
+        "columns": [
+          "Element",
+          "Record"
+        ],
+        "rows": [
+          [
+            "Input",
+            "12 V command"
+          ],
+          [
+            "Intended output",
+            "Valve opens"
+          ],
+          [
+            "Noise factors",
+            "Road salt; 40°C soak"
+          ],
+          [
+            "Error state",
+            "Valve stays shut"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:024",
+      "set": 3,
+      "sub": "II.A.2",
+      "bok": "Risk assessment and prioritization",
+      "cognitive": "Analyze",
+      "stem": "Three risks are scored on the same 1-to-5 scales. Likelihood is \\(L\\) and consequence is \\(C\\).\n\\[\nS = L \\times C\n\\]\nWhich risk has the highest score, and what is that score?",
+      "options": [
+        "Schedule delay, 7",
+        "Process noise, 4",
+        "Seal leak, 20",
+        "Seal leak, 9"
+      ],
+      "answer": 2,
+      "why": "Multiply. Do not add.\n\\[\nS_{\\mathrm{leak}} = 4 \\times 5 = 20\n\\]\n\\[\nS_{\\mathrm{delay}} = 5 \\times 2 = 10\n\\]\n\\[\nS_{\\mathrm{noise}} = 2 \\times 2 = 4\n\\]\nThe delay has the highest likelihood and a score of 10. Adding 4 and 5 gives 9 and is not the stated score. <b>C. Seal leak, 20</b>",
+      "traps": {
+        "A": "Selects the highest likelihood and adds the two ratings.",
+        "B": "Selects the lowest score.",
+        "D": "Adds the leak ratings instead of multiplying them."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Semi-quantitative risk scores",
+        "altText": "Seal leak has likelihood 4 and consequence 5. Schedule delay has likelihood 5 and consequence 2. Process noise has likelihood 2 and consequence 2. Both scales run from 1 to 5.",
+        "columns": [
+          "Risk",
+          "Likelihood L",
+          "Consequence C"
+        ],
+        "rows": [
+          [
+            "Seal leak",
+            "4",
+            "5"
+          ],
+          [
+            "Schedule delay",
+            "5",
+            "2"
+          ],
+          [
+            "Process noise",
+            "2",
+            "2"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:025",
+      "set": 3,
+      "sub": "II.A.3",
+      "bok": "Types of risk",
+      "cognitive": "Analyze",
+      "stem": "Ransomware locks the maintenance laptop. Repair cannot start until access is restored. Teardown of the failed hardware shows the same wear mechanism as before the attack. Which classification is best?",
+      "options": [
+        "Technical hardware risk. The wear mechanism changed because the laptop was unavailable.",
+        "Strategic brand risk only. Downtime of the repair tool does not affect reliability.",
+        "Analytical risk. The failure rate must be recalculated because a cyber event is a statistical outlier.",
+        "Cybersecurity risk. It adds downtime and does not, by itself, change the hardware failure rate."
+      ],
+      "answer": 3,
+      "why": "The body of knowledge separates cybersecurity risk from technical, strategic, financial, and analytical risk. Here the attack affects the ability to repair. The observed wear mechanism is unchanged, so the hardware failure rate is not automatically revised. The availability loss is still a reliability consequence. <b>D. Cybersecurity risk. It adds downtime and does not, by itself, change the hardware failure rate.</b>",
+      "traps": {
+        "A": "Rewrites an unchanged wear mechanism as a new hardware failure mode.",
+        "B": "Drops a real availability effect because the failed part looks the same.",
+        "C": "Treats a security event as a reason to recompute the failure rate without new failure data."
+      }
+    },
+    {
+      "qid": "cre:set-3:026",
+      "set": 3,
+      "sub": "II.B.1",
+      "bok": "Fault tree analysis",
+      "cognitive": "Analyze",
+      "stem": "Cooling is lost if the pump fails or if both the valve is stuck and the sensor has failed. The basic events are independent. Pump probability is \\(q_A\\), valve probability is \\(q_V\\), and sensor probability is \\(q_S\\).\n\\[\nQ_B = q_V q_S\n\\]\n\\[\nQ = 1-(1-q_A)(1-Q_B)\n\\]\nWhat is the probability of loss of cooling?",
+      "options": [
+        "0.0050",
+        "0.0249",
+        "0.0250",
+        "0.1621"
+      ],
+      "answer": 1,
+      "why": "The valve and sensor enter through an AND gate. That pair is then OR-combined with the pump. Independence gives the exact union, not the rare-event sum and not a three-event OR.\n\\[\nQ_B = (0.10)(0.05) = 0.005\n\\]\n\\[\nQ = 1-(1-0.02)(1-0.005) = 0.0249\n\\]\n0.0250 is the rare-event sum. 0.1621 treats all three basic events as one OR gate. <b>B. 0.0249</b>",
+      "traps": {
+        "A": "Reports only the AND-gate probability.",
+        "C": "Adds the pump probability to the pair, which double-counts their overlap.",
+        "D": "Puts the pump, valve, and sensor under one OR gate."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Cooling fault tree",
+        "altText": "Loss of cooling is an OR of pump failure and an AND pair. Pump failure probability is 0.02. The valve stuck probability is 0.10 and the sensor-failed probability is 0.05. The basic events are independent.",
+        "columns": [
+          "Event",
+          "Gate or role",
+          "Probability"
+        ],
+        "rows": [
+          [
+            "Pump failure",
+            "Basic event",
+            "0.02"
+          ],
+          [
+            "Valve stuck",
+            "Basic event",
+            "0.10"
+          ],
+          [
+            "Sensor failed",
+            "Basic event",
+            "0.05"
+          ],
+          [
+            "Valve and sensor",
+            "AND",
+            "product"
+          ],
+          [
+            "Loss of cooling",
+            "OR of pump and the AND pair",
+            "asked"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:027",
+      "set": 3,
+      "sub": "II.B.2",
+      "bok": "FMEA, FMECA, and use FMEA",
+      "cognitive": "Evaluate",
+      "stem": "Technicians can install a filter backwards. The team will study that use error. Severity and occurrence will be discussed, but no criticality ranking is required. Which method fits?",
+      "options": [
+        "Use FMEA. The object of the study is the use error, and criticality ranking was not required.",
+        "FMECA. Any worksheet that names severity is a criticality analysis.",
+        "Functional FMEA of the design. A backwards filter is a design function, not a use error.",
+        "Process FMEA of machining. The error happens at installation, so it is a machining step."
+      ],
+      "answer": 0,
+      "why": "Use FMEA examines how the product can be used or misused. FMECA adds a criticality ranking, which this study does not require. A backwards filter is not a design function and it is not a machining operation. Naming severity does not by itself turn the study into an FMECA. <b>A. Use FMEA. The object of the study is the use error, and criticality ranking was not required.</b>",
+      "traps": {
+        "B": "Equates a severity discussion with a criticality analysis.",
+        "C": "Calls a use error a design function.",
+        "D": "Places an installation error in the machining process."
+      }
+    },
+    {
+      "qid": "cre:set-3:028",
+      "set": 3,
+      "sub": "II.B.3",
+      "bok": "Common-cause failure",
+      "cognitive": "Understand",
+      "stem": "Two pumps are in active parallel. Each has failure probability \\(q = 0.01\\). Both pumps depend on one shared water supply, and loss of that supply stops both. Which statement is best?",
+      "options": [
+        "The probability that both pumps are lost is \\(q^2 = 0.0001\\), because parallel units are independent.",
+        "The shared supply is a common cause. Using \\(q^2\\) understates the probability that both pumps are lost.",
+        "Common cause applies only when the two pumps have the same part number.",
+        "Redundancy removes common cause. The shared supply does not belong in the risk model."
+      ],
+      "answer": 1,
+      "why": "Independent parallel arithmetic counts only the chance that the two pumps fail separately.\n\\[\nq^2 = (0.01)^2 = 0.0001\n\\]\nA supply failure stops both pumps together, so that probability is not the system risk. The independent result is smaller than the common-cause risk and therefore understates it. Matching part numbers are not what creates the dependence. <b>B. The shared supply is a common cause. Using \\(q^2\\) understates the probability that both pumps are lost.</b>",
+      "traps": {
+        "A": "Assumes independence that the shared supply removes.",
+        "C": "Limits common cause to identical part numbers.",
+        "D": "Treats redundancy as proof that a shared dependency does not matter."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Shared-supply pumps",
+        "altText": "Two pumps are in active parallel. Each has failure probability 0.01. Both stop if the shared water supply is lost.",
+        "columns": [
+          "Element",
+          "Failure probability"
+        ],
+        "rows": [
+          [
+            "Pump 1",
+            "0.01"
+          ],
+          [
+            "Pump 2",
+            "0.01"
+          ],
+          [
+            "Shared water supply",
+            "Stops both pumps"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:029",
+      "set": 3,
+      "sub": "II.B.4",
+      "bok": "Hazard analysis",
+      "cognitive": "Understand",
+      "stem": "A new heater design can release stored thermal energy if the cover is left off during service. No field accidents have been reported. Which use of hazard analysis is best?",
+      "options": [
+        "Wait for the first field accident. Hazard analysis uses only reported incidents.",
+        "List the heater as acceptable. No accident report means there is no hazard.",
+        "Identify the thermal hazard and the cover-off service case during development, before the design is frozen.",
+        "Replace the design review with the hazard list. Once a hazard is named, no control is needed."
+      ],
+      "answer": 2,
+      "why": "Hazard analysis informs development by identifying hazards, such as stored energy, and the conditions that release them. It is not limited to accidents that have already occurred, and naming the hazard does not by itself control it. The cover-off case is a reason to choose a control while the design can still be changed. <b>C. Identify the thermal hazard and the cover-off service case during development, before the design is frozen.</b>",
+      "traps": {
+        "A": "Turns a prospective method into a look-back at accidents.",
+        "B": "Treats an absent accident report as evidence of no hazard.",
+        "D": "Stops at identification and skips the control."
+      }
+    },
+    {
+      "qid": "cre:set-3:030",
+      "set": 3,
+      "sub": "II.B.5",
+      "bok": "Risk matrices",
+      "cognitive": "Understand",
+      "stem": "Using the matrix below, what is the class of a hazard whose impact is Serious and whose likelihood is Occasional?",
+      "options": [
+        "Low",
+        "Medium",
+        "High",
+        "The matrix cannot be used until a failure probability is calculated."
+      ],
+      "answer": 1,
+      "why": "A risk matrix classifies by the stated impact and likelihood. The Serious row and the Occasional column meet at Medium. Serious does not automatically mean High, and Occasional does not automatically mean Low. The matrix is a ranking aid. It does not require a calculated probability before it is used. <b>B. Medium</b>",
+      "traps": {
+        "A": "Reads the Negligible row or the Remote column.",
+        "C": "Reads the Catastrophic row or the Frequent column.",
+        "D": "Refuses a qualitative matrix because a probability was not supplied."
+      },
+      "chart": {
+        "type": "risk-matrix",
+        "title": "Hazard risk matrix",
+        "altText": "Impact rows are Catastrophic, Serious, and Negligible. Likelihood columns are Remote, Occasional, and Frequent. Catastrophic is medium, high, high. Serious is low, medium, high. Negligible is low, low, medium.",
+        "rows": [
+          "Catastrophic",
+          "Serious",
+          "Negligible"
+        ],
+        "cols": [
+          "Remote",
+          "Occasional",
+          "Frequent"
+        ],
+        "cells": [
+          [
+            "medium",
+            "high",
+            "high"
+          ],
+          [
+            "low",
+            "medium",
+            "high"
+          ],
+          [
+            "low",
+            "low",
+            "medium"
+          ]
+        ],
+        "rowAxis": "Impact",
+        "colAxis": "Likelihood"
+      }
+    }
+  ]
+}

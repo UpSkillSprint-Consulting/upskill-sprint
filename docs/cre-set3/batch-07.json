@@ -1,0 +1,432 @@
+{
+  "examId": "cre",
+  "set": 3,
+  "batch": 7,
+  "items": "cre:set-3:061 through cre:set-3:070",
+  "note": "Original CRE Set 3 items for lifecycle reliability. Set 2 already covers stress-strength and age-based preventive maintenance, so those two topics are not repeated. Each display equation is on its own line.",
+  "questions": [
+    {
+      "qid": "cre:set-3:061",
+      "set": 3,
+      "sub": "V.A.1",
+      "bok": "Design evaluation",
+      "cognitive": "Apply",
+      "stem": "A laboratory test shows that a pump meets the written requirement of at least 8 L/min with water on a bench. The customer's fluid, temperature, and duty cycle have not been used. Which statement is best?",
+      "options": [
+        "The bench result is validation, because it compares the pump with a number.",
+        "The bench result is verification against the written requirement. Validation against the customer's use is still open.",
+        "Verification and validation are the same activity, so the bench result closes both.",
+        "Verification can be done only after the pump is in the field."
+      ],
+      "answer": 1,
+      "why": "Verification asks whether the product meets a stated requirement. The bench test does that for 8 L/min with water. Validation asks whether the product meets the intended use. The customer's fluid, temperature, and duty cycle were not in the test, so that question is still open. <b>B. The bench result is verification against the written requirement. Validation against the customer's use is still open.</b>",
+      "traps": {
+        "A": "Treats any numerical comparison as validation.",
+        "C": "Collapses the two questions into one.",
+        "D": "Moves verification out of the laboratory."
+      }
+    },
+    {
+      "qid": "cre:set-3:062",
+      "set": 3,
+      "sub": "V.A.3",
+      "bok": "Design of experiments",
+      "cognitive": "Analyze",
+      "stem": "The eight-run factorial below uses coded levels. The main effect of factor A is the difference of the two averages.\n\\[\nE_A=\\bar y_{A+}-\\bar y_{A-}\n\\]\nWhat is \\(E_A\\)?",
+      "options": [
+        "3.25",
+        "6.0",
+        "6.5",
+        "26"
+      ],
+      "answer": 2,
+      "why": "Average the four runs at each level of A, then subtract.\n\\[\n\\bar y_{A+}=(16+20+15+21)/4=18\n\\]\n\\[\n\\bar y_{A-}=(10+12+11+13)/4=11.5\n\\]\n\\[\nE_A=18-11.5=6.5\n\\]\n3.25 divides the same contrast by all eight runs. 6.0 is only the first pair. 26 is the contrast before it is averaged. <b>C. 6.5</b>",
+      "traps": {
+        "A": "Divides the contrast by eight instead of by four.",
+        "B": "Uses only the first pair of runs.",
+        "D": "Stops before dividing by the number of runs at each level."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Full factorial responses",
+        "altText": "Eight runs. The A, B, and C columns are coded levels. The response is y. Runs at A+ are 16, 20, 15, and 21. Runs at A- are 10, 12, 11, and 13.",
+        "columns": [
+          "Run",
+          "A",
+          "B",
+          "C",
+          "y"
+        ],
+        "rows": [
+          [
+            "1",
+            "−",
+            "−",
+            "−",
+            "10"
+          ],
+          [
+            "2",
+            "+",
+            "−",
+            "−",
+            "16"
+          ],
+          [
+            "3",
+            "−",
+            "+",
+            "−",
+            "12"
+          ],
+          [
+            "4",
+            "+",
+            "+",
+            "−",
+            "20"
+          ],
+          [
+            "5",
+            "−",
+            "−",
+            "+",
+            "11"
+          ],
+          [
+            "6",
+            "+",
+            "−",
+            "+",
+            "15"
+          ],
+          [
+            "7",
+            "−",
+            "+",
+            "+",
+            "13"
+          ],
+          [
+            "8",
+            "+",
+            "+",
+            "+",
+            "21"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:063",
+      "set": 3,
+      "sub": "V.A.4",
+      "bok": "Reliability strategies",
+      "cognitive": "Apply",
+      "stem": "The mission reliability requirement is at least 0.98. Any one row below is affordable, and a slip of three weeks is acceptable. Which choice meets the requirement?",
+      "options": [
+        "No change",
+        "Screening",
+        "Partial redesign",
+        "Redundancy"
+      ],
+      "answer": 3,
+      "why": "Cost and schedule do not replace the reliability requirement. Screening reaches 0.96 and the partial redesign reaches 0.97. Both miss 0.98. Redundancy reaches 0.99 and is inside the stated budget and schedule. <b>D. Redundancy</b>",
+      "traps": {
+        "A": "Leaves the design below the requirement.",
+        "B": "Selects a cheaper action that still misses 0.98.",
+        "C": "Stops at 0.97, which is short of the requirement."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Reliability options",
+        "altText": "No change gives reliability 0.90 at no added cost. Screening gives 0.96 for 8 cost units and one week. A partial redesign gives 0.97 for 12 cost units and two weeks. Redundancy gives 0.99 for 25 cost units and three weeks. The requirement is 0.98.",
+        "columns": [
+          "Choice",
+          "Mission reliability",
+          "Added cost",
+          "Schedule slip"
+        ],
+        "rows": [
+          [
+            "No change",
+            "0.90",
+            "0",
+            "None"
+          ],
+          [
+            "Screening",
+            "0.96",
+            "8",
+            "1 week"
+          ],
+          [
+            "Partial redesign",
+            "0.97",
+            "12",
+            "2 weeks"
+          ],
+          [
+            "Redundancy",
+            "0.99",
+            "25",
+            "3 weeks"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:064",
+      "set": 3,
+      "sub": "V.A.5",
+      "bok": "Human factors",
+      "cognitive": "Understand",
+      "stem": "A technician must hold a spring latch open with one hand and turn a valve with the other. The bay allows only one person, and the latch closes when it is released. Which statement is best?",
+      "options": [
+        "The task design makes a use error likely. The latch should be held by the fixture, not by the second hand.",
+        "The valve failure rate should be increased. The problem is a hardware hazard rate.",
+        "A second warning label is the reliability control. The task does not need to change.",
+        "Human factors apply only after a field injury. This task is not a reliability issue yet."
+      ],
+      "answer": 0,
+      "why": "The task cannot be completed as designed by one person without releasing the latch. That is a human-factors failure mode. It is not fixed by changing the valve's constant failure rate, by another label, or by waiting for an injury. <b>A. The task design makes a use error likely. The latch should be held by the fixture, not by the second hand.</b>",
+      "traps": {
+        "B": "Rewrites a task conflict as a hardware failure rate.",
+        "C": "Relies on another warning instead of changing the task.",
+        "D": "Waits for an injury before treating the task as a reliability concern."
+      }
+    },
+    {
+      "qid": "cre:set-3:065",
+      "set": 3,
+      "sub": "V.A.6",
+      "bok": "Design for X",
+      "cognitive": "Apply",
+      "stem": "Built-in test detects 30 percent of the failure modes. The assembly has no test connector, so the other modes cannot be isolated without replacing the whole unit. The screw count was already reduced. Which gap remains?",
+      "options": [
+        "Design for manufacturability. The screw-count change has not been finished.",
+        "Design for testability. Most failure modes still cannot be isolated.",
+        "Design for cost. Fewer screws are required before any test access is added.",
+        "No gap. Replacing the whole unit is a complete diagnostic test."
+      ],
+      "answer": 1,
+      "why": "Testability is the ability to detect and isolate a failure. Coverage of 30 percent, with no connector for the rest, leaves that gap. The screw-count reduction is a manufacturability change and does not create the missing isolation. Swapping the whole unit does not identify the failed mode. <b>B. Design for testability. Most failure modes still cannot be isolated.</b>",
+      "traps": {
+        "A": "Reopens a manufacturability change that the stem says is already done.",
+        "C": "Puts cost ahead of the ability to isolate a failure.",
+        "D": "Treats replacement of the assembly as diagnosis."
+      }
+    },
+    {
+      "qid": "cre:set-3:066",
+      "set": 3,
+      "sub": "V.A.7",
+      "bok": "Design for reliability",
+      "cognitive": "Analyze",
+      "stem": "A finite-element result gives the stress at a corner. The material allowable is \\(S_{allow}\\) and the calculated stress is \\(\\sigma\\).\n\\[\nn=\\frac{S_{allow}}{\\sigma}\n\\]\nWhat is the factor of safety, to two decimal places?",
+      "options": [
+        "0.83",
+        "1.20",
+        "1.50",
+        "30"
+      ],
+      "answer": 0,
+      "why": "The factor is the allowable divided by the stress, not the reverse.\n\\[\nn=\\frac{150}{180}=0.83\n\\]\nA factor below 1 means the calculated stress is above the allowable. 1.20 inverts the ratio. 1.50 is a target that this corner does not meet. 30 is the difference of the two stresses, in megapascals. <b>A. 0.83</b>",
+      "traps": {
+        "B": "Divides the stress by the allowable.",
+        "C": "Reports a target factor instead of the calculated factor.",
+        "D": "Subtracts the two stresses."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Corner stress check",
+        "altText": "The finite-element stress at the corner is 180 MPa. The material allowable is 150 MPa.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Calculated stress",
+            "180 MPa"
+          ],
+          [
+            "Material allowable",
+            "150 MPa"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:067",
+      "set": 3,
+      "sub": "V.B.1",
+      "bok": "Derating and safe operating area",
+      "cognitive": "Analyze",
+      "stem": "The capacitor guideline limits applied voltage to half of the rated voltage.\n\\[\nV_{der}=0.50\\,V_{rated}\n\\]\nIs this application inside the derating rule?",
+      "options": [
+        "Yes. The applied voltage is below the 50 V rating.",
+        "Yes. Half of the applied voltage is 20 V, which is below the rating.",
+        "No. The derated limit is 25 V, and 40 V is above it.",
+        "No. A capacitor is acceptable only at zero applied voltage."
+      ],
+      "answer": 2,
+      "why": "The nameplate rating is not the derated limit.\n\\[\nV_{der}=0.50(50)=25\n\\]\nThe applied 40 V is under 50 V and still above 25 V, so the part is outside the stated rule. Half of the applied voltage is not the criterion. <b>C. No. The derated limit is 25 V, and 40 V is above it.</b>",
+      "traps": {
+        "A": "Compares the application with the nameplate instead of the derated limit.",
+        "B": "Takes half of the applied voltage instead of half of the rating.",
+        "D": "Replaces a stated 50 percent rule with a zero-voltage rule."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Capacitor application",
+        "altText": "The capacitor is rated 50 V. The circuit applies 40 V. The derating rule allows half of the rated voltage.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Rated voltage",
+            "50 V"
+          ],
+          [
+            "Applied voltage",
+            "40 V"
+          ],
+          [
+            "Derating",
+            "50 percent of rated voltage"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:068",
+      "set": 3,
+      "sub": "V.B.2",
+      "bok": "Standardization and reuse",
+      "cognitive": "Apply",
+      "stem": "Four custom fasteners are each used in one place and have no field history. One standard fastener has five years of field data and can replace all four. Which choice is the better reliability decision?",
+      "options": [
+        "Keep the four custom fasteners. A part designed for one location is always more reliable.",
+        "Use the standard fastener in all four places. The field history and the smaller part variety are the reliability evidence.",
+        "Keep the custom fasteners and add a preventive task for each. Maintenance data can replace a proven part.",
+        "Use all five fasteners. More part numbers increase the chance that one of them is reliable."
+      ],
+      "answer": 1,
+      "why": "Standardization and reuse reduce the number of unproven parts and apply the history already collected. A local custom design does not outweigh missing field evidence. A preventive task does not turn an unproven fastener into a proven one, and adding part numbers does not add reliability. <b>B. Use the standard fastener in all four places. The field history and the smaller part variety are the reliability evidence.</b>",
+      "traps": {
+        "A": "Prefers an unproven custom part because it was designed locally.",
+        "C": "Uses maintenance to compensate for missing part evidence.",
+        "D": "Treats a larger parts list as a reliability improvement."
+      }
+    },
+    {
+      "qid": "cre:set-3:069",
+      "set": 3,
+      "sub": "V.C.1",
+      "bok": "Maintenance strategy and spares",
+      "cognitive": "Apply",
+      "stem": "Demand for a spare during the replenishment lead time follows the cumulative probabilities below. What is the smallest stock that gives at least a 0.95 probability that demand does not exceed the stock?",
+      "options": [
+        "4",
+        "6",
+        "7",
+        "8"
+      ],
+      "answer": 3,
+      "why": "Read the smallest stock whose cumulative probability is at least 0.95. The table gives 0.949 at 7 and 0.979 at 8, so 7 is short.\n\\[\nP(X\\le 8)=0.979\n\\]\nFour is the mean demand, not the 0.95 stock. Six reaches only 0.889. <b>D. 8</b>",
+      "traps": {
+        "A": "Stocks the mean demand.",
+        "B": "Stops at a cumulative probability of 0.889.",
+        "C": "Accepts 0.949, which is below 0.95."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Spare demand during lead time",
+        "altText": "For a mean demand of 4 during the lead time, the cumulative probability is 0.629 at 4 spares, 0.889 at 6, 0.949 at 7, and 0.979 at 8.",
+        "columns": [
+          "Stock",
+          "P(demand ≤ stock)"
+        ],
+        "rows": [
+          [
+            "4",
+            "0.629"
+          ],
+          [
+            "6",
+            "0.889"
+          ],
+          [
+            "7",
+            "0.949"
+          ],
+          [
+            "8",
+            "0.979"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:070",
+      "set": 3,
+      "sub": "V.C.3",
+      "bok": "Corrective maintenance",
+      "cognitive": "Apply",
+      "stem": "The times below are for one corrective action. Active corrective time includes fault isolation, disassembly, interchange, and checkout. Waiting for the part is logistics delay.\n\\[\nT_{active}=t_i+t_d+t_r+t_c\n\\]\nWhat is the active corrective time?",
+      "options": [
+        "25 minutes",
+        "70 minutes",
+        "110 minutes",
+        "40 minutes"
+      ],
+      "answer": 1,
+      "why": "Add the four active elements. Leave the wait out.\n\\[\nT_{active}=20+15+25+10=70\n\\]\n25 minutes is only the interchange. 40 minutes is the logistics delay. 110 minutes adds that delay to the active time. <b>B. 70 minutes</b>",
+      "traps": {
+        "A": "Reports only the interchange time.",
+        "C": "Includes the logistics delay in the active time.",
+        "D": "Reports the logistics delay."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Corrective-maintenance elements",
+        "altText": "Fault isolation is 20 minutes, disassembly is 15, interchange is 25, and checkout is 10. Waiting for the part is 40 minutes and is logistics delay.",
+        "columns": [
+          "Element",
+          "Minutes",
+          "Class"
+        ],
+        "rows": [
+          [
+            "Fault isolation",
+            "20",
+            "Active"
+          ],
+          [
+            "Disassembly",
+            "15",
+            "Active"
+          ],
+          [
+            "Interchange",
+            "25",
+            "Active"
+          ],
+          [
+            "Checkout",
+            "10",
+            "Active"
+          ],
+          [
+            "Waiting for the part",
+            "40",
+            "Logistics delay"
+          ]
+        ]
+      }
+    }
+  ]
+}
