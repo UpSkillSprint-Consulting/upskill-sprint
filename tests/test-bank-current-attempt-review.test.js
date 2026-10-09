@@ -62,7 +62,7 @@ function start(w, exam, mode) {
   }
   assert.ok(w.document.querySelector('.tb-quiz'), `${exam}/${mode} starts`);
   const data = w.__TB.getFeedbackSnapshot();
-  assert.ok(data.records.length >= 3, 'at least three questions for correction coverage');
+  assert.ok(data.records.length >= 2, 'at least two questions for correction coverage, including a small released batch');
   return data;
 }
 function select(w, index, option) {
@@ -105,19 +105,22 @@ test('all active certifications support review and correction in every mode', as
       try {
         const before = start(w, exam, mode);
         const total = before.records.length;
+        const missedCount = Math.min(3, total);
+        const correctCount = total - missedCount;
+        const incorrectCount = missedCount - 1;
         for (let i = 0; i < total - 1; i++) {
           const q = before.records[i].question;
-          select(w, i, i < total - 3 ? q.answer : (q.answer + 1) % q.options.length);
+          select(w, i, i < correctCount ? q.answer : (q.answer + 1) % q.options.length);
         }
         await finish(w);
         const originalScore = score(w);
         click(w, '[data-open-review="all"]');
         assert.equal(w.document.querySelectorAll('.tb-review-card').length, total);
         assert.equal(w.document.querySelectorAll('.tb-review-navcell').length, total);
-        assert.equal(w.document.querySelectorAll('.tb-review-card[data-review-status="correct"]').length, total - 3);
-        assert.equal(w.document.querySelectorAll('.tb-review-card[data-review-status="incorrect"]').length, 2);
+        assert.equal(w.document.querySelectorAll('.tb-review-card[data-review-status="correct"]').length, correctCount);
+        assert.equal(w.document.querySelectorAll('.tb-review-card[data-review-status="incorrect"]').length, incorrectCount);
         assert.equal(w.document.querySelectorAll('.tb-review-card[data-review-status="unanswered"]').length, 1);
-        for (const [filter, count] of [['missed',3],['incorrect',2],['unanswered',1],['correct',total - 3],['flagged',0]]) {
+        for (const [filter, count] of [['missed',missedCount],['incorrect',incorrectCount],['unanswered',1],['correct',correctCount],['flagged',0]]) {
           click(w, `[data-review-tab="${filter}"]`);
           assert.equal(w.document.querySelectorAll('.tb-review-card').length, count);
         }
@@ -128,7 +131,7 @@ test('all active certifications support review and correction in every mode', as
         click(w, '[data-retry-missed]');
         assert.equal(w.document.querySelector('[data-retry-check]').disabled, true);
         assert.equal(w.document.querySelector('.tb-retry-feedback'), null);
-        const missed = before.records.slice(-3);
+        const missed = before.records.slice(-missedCount);
         for (let i = 0; i < missed.length; i++) {
           const q = missed[i].question;
           click(w, `[data-retry-opt="${i === 0 ? (q.answer + 1) % q.options.length : q.answer}"]`);
@@ -137,7 +140,7 @@ test('all active certifications support review and correction in every mode', as
           assert.ok([...w.document.querySelectorAll('[data-retry-opt]')].every(b => b.disabled));
           click(w, '[data-retry-next]');
         }
-        assert.match(w.document.querySelector('.tb-correction-count').textContent, /2 of 3/);
+        assert.match(w.document.querySelector('.tb-correction-count').textContent, new RegExp((missedCount - 1) + ' of ' + missedCount));
         click(w, '[data-retry-remaining]');
         assert.match(w.document.querySelector('.tb-retry-head').textContent, /1 of 1/);
         click(w, `[data-retry-opt="${missed[0].question.answer}"]`);
@@ -146,7 +149,7 @@ test('all active certifications support review and correction in every mode', as
         assert.equal(w.document.querySelector('[data-retry-remaining]'), null);
         assert.equal(score(w), originalScore, 'correction must not change the original result');
         click(w, '[data-retry-return]');
-        assert.equal(w.document.querySelectorAll('.tb-review-card').length, 3);
+        assert.equal(w.document.querySelectorAll('.tb-review-card').length, missedCount);
         click(w, '[data-back]'); await tick(w);
         assert.equal(w.document.querySelector('#tb-feedback-loop'), null);
         assert.deepEqual(h.errors, []);

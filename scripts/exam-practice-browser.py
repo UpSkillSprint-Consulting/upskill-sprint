@@ -177,13 +177,16 @@ def main():
                 directory()
                 nav_state('Exam Practice & Quizzes')
                 expect(page.locator('.exam-card')).to_have_count(7)
-                expect(page.locator('.exam-coming-soon .exam-card')).to_have_count(2)
+                expect(page.locator('.exam-coming-soon .exam-card')).to_have_count(1)
                 expect(page.locator('.exam-card[href="/test-bank?exam=mbb"] h3')).to_have_text('Certified Six Sigma Master Black Belt')
-                for certification in ['cre', 'cqa']:
+                for certification in ['cqa']:
                     card = page.locator(f'.exam-coming-soon .exam-card[href="/test-bank?exam={certification}"]')
                     expect(card).to_have_count(1)
                     expect(card.locator('.exam-status')).to_have_text('Coming soon')
                     expect(card.locator('.exam-card-action')).to_contain_text('View exam details')
+                cre = page.locator('.exam-card[href="/test-bank?exam=cre"]')
+                expect(cre.locator('.exam-status')).to_have_text('Set 2: 10 questions available')
+                expect(cre.locator('.exam-card-action')).to_contain_text('Start practicing')
                 expect(page.locator('.exam-intro')).to_contain_text('untimed')
                 expect(page.locator('.exam-actions a[href="/test-bank"]')).to_be_visible()
                 expect(page.locator('footer a[href="/exam-practice"]')).to_be_visible()
@@ -323,11 +326,16 @@ def main():
                 assert page.locator('.tb-tile[data-exam]').count() == page.evaluate('()=>Object.keys(__TB.EXAMS).length')
                 nav_state('Exam Practice & Quizzes')
                 no_header_overlap()
-                for certification in ['cqa', 'cre']:
+                for certification in ['cqa']:
                     page.locator(f'.tb-tile[data-exam="{certification}"]').click()
                     expect(page.locator('#tb-overview .tb-soon')).to_have_text('Coming soon')
                     expect(page.locator('#tb-overview .tb-soonline')).to_be_visible()
                     expect(page.locator('.tb-quiz')).to_have_count(0)
+                page.locator('.tb-tile[data-exam="cre"]').click()
+                expect(page.locator('#tb-overview [data-mode="full"]')).to_be_visible()
+                expect(page.locator('[data-set="2"]')).to_have_attribute('aria-pressed', 'true')
+                expect(page.locator('[data-set="1"]')).to_be_disabled()
+                expect(page.locator('.tb-quiz')).to_have_count(0)
                 breadcrumb = page.locator('.tb-crumb a')
                 expect(breadcrumb).to_have_attribute('href', '/exam-practice')
                 expect(breadcrumb).to_have_text('Exam Practice & Quizzes')
@@ -336,6 +344,54 @@ def main():
                 nav_state('Exam Practice & Quizzes')
 
             record('test-bank-entry-access-and-breadcrumb', simulator_journey)
+
+            def cre_set2_review():
+                if not premium:
+                    return  # Signed-out CRE gating is covered by certification_links.
+                for width, theme in [(1536, 'light'), (1536, 'dark'), (390, 'light'), (390, 'dark')]:
+                    page.set_viewport_size({'width': width, 'height': 1000})
+                    page.goto(base + '/test-bank?exam=cre', wait_until='load')
+                    page.wait_for_selector('body.auth-ready.access-ready')
+                    page.evaluate('(theme)=>document.documentElement.setAttribute("data-theme",theme)', theme)
+                    expect(page.locator('[data-set="2"]')).to_have_attribute('aria-pressed', 'true')
+                    page.locator('[data-timing-kind="full"][data-timed="0"]').click()
+                    page.locator('[data-mode="full"]').click()
+                    expect(page.locator('[data-goto]')).to_have_count(10)
+                    exhibits = 0
+                    for i in range(10):
+                        page.locator(f'[data-goto="{i}"]').click()
+                        expect(page.locator('[data-cre-question]')).to_have_count(1)
+                        expect(page.locator('.cre2-explorer')).to_have_count(0)
+                        exhibits += page.locator('.cre2-exhibit').count()
+                        assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2')
+                    assert exhibits == 6
+                    page.locator('[data-submit]').click()
+                    page.locator('[data-open-review="all"]').click()
+                    expect(page.locator('.tb-review-card')).to_have_count(10)
+                    expect(page.locator('.tb-review-card .cre2-exhibit')).to_have_count(6)
+                    expect(page.locator('.cre2-explorer')).to_have_count(2)
+                    original_score = page.locator('[data-score-result]').text_content()
+                    sample = page.locator('[data-cre-explorer="sample-size"]')
+                    sample.locator('summary').click()
+                    sample.locator('select').select_option('0.99')
+                    expect(sample.locator('output')).to_contain_text('44 independent units')
+                    sample.locator('[data-cre-reset]').click()
+                    expect(sample.locator('select')).to_have_value('0.95')
+                    curve = page.locator('[data-cre-explorer="weibull"]')
+                    curve.locator('summary').click()
+                    slider = curve.locator('input')
+                    slider.focus()
+                    slider.press('Home')
+                    for _ in range(14):
+                        slider.press('ArrowRight')
+                    expect(curve.locator('output')).to_contain_text('1500 hours')
+                    expect(curve.locator('output')).to_contain_text('A has higher reliability')
+                    assert page.locator('[data-score-result]').text_content() == original_score
+                    assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2')
+                    curve.scroll_into_view_if_needed()
+                    page.screenshot(path=str(out / f'cre-set2-{width}-{theme}.png'), full_page=False)
+
+            record('cre-set2-evidence-and-review', cre_set2_review)
 
             def legacy_bookmarks():
                 for route in ['/lessons', '/lessons.html', '/lessons/', '/lessons.html/']:
