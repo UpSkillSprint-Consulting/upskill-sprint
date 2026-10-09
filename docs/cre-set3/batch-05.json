@@ -1,0 +1,367 @@
+{
+  "examId": "cre",
+  "set": 3,
+  "batch": 5,
+  "items": "cre:set-3:041 through cre:set-3:050",
+  "note": "Original CRE Set 3 items. Not copied from Set 2. The zero-failure demonstration in Set 2 is not repeated. Each display equation is on its own line.",
+  "questions": [
+    {
+      "qid": "cre:set-3:041",
+      "set": 3,
+      "sub": "III.B.2",
+      "bok": "Types of data",
+      "cognitive": "Evaluate",
+      "stem": "The Nevada chart below counts returns by sale month and month in service. A blank cell means those units have not reached that age. Month-1 returns are \\(r_1\\) and the number shipped is \\(n\\).\n\\[\np_1=\\frac{r_1}{n}\n\\]\nWhat is the month-1 return proportion?",
+      "options": [
+        "0.020",
+        "0.025",
+        "0.030",
+        "0.040"
+      ],
+      "answer": 0,
+      "why": "Every shipped unit has had a chance to fail in month 1, including the March units that returned none. The blank March cell is month 2, so it is not a month-1 zero and it is not a reason to drop March.\n\\[\nr_1=4+6+0=10\n\\]\n\\[\np_1=\\frac{10}{500}=0.020\n\\]\n0.025 drops the 100 March units. 0.030 divides January's two ages by January's shipments. 0.040 divides all observed returns by all shipments. <b>A. 0.020</b>",
+      "traps": {
+        "B": "Drops March because its month-2 cell is blank.",
+        "C": "Mixes January's month-1 and month-2 returns.",
+        "D": "Pools every age instead of using month 1 only."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Nevada return chart",
+        "altText": "January shipped 200 units, with 4 returns in month 1 and 2 in month 2. February shipped 200, with 6 in month 1 and 8 in month 2. March shipped 100, with 0 in month 1. The March month-2 cell is blank because those units have not reached month 2.",
+        "columns": [
+          "Sale month",
+          "Shipped",
+          "Month 1 returns",
+          "Month 2 returns"
+        ],
+        "rows": [
+          [
+            "January",
+            "200",
+            "4",
+            "2"
+          ],
+          [
+            "February",
+            "200",
+            "6",
+            "8"
+          ],
+          [
+            "March",
+            "100",
+            "0",
+            "blank"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:042",
+      "set": 3,
+      "sub": "III.B.3",
+      "bok": "Data collection methods",
+      "cognitive": "Evaluate",
+      "stem": "A connector opens for about 30 milliseconds a few times each week in the field. Technicians currently describe the problem from memory on a monthly survey. Which collection method best fits the objective?",
+      "options": [
+        "An annual satisfaction score. A single rating is enough for an event that lasts 30 milliseconds.",
+        "Keep the memory survey, but ask the technician to estimate the duration to the nearest minute.",
+        "An automated event recorder that stores the timestamp and the open duration.",
+        "One end-of-line mating cycle recorded as pass or fail. A field intermittent will appear there."
+      ],
+      "answer": 2,
+      "why": "The objective is to capture a short, infrequent field event. An automated recorder can store the time and duration. A satisfaction score and a monthly memory survey do not resolve a 30-millisecond open, and one end-of-line cycle does not represent the field occurrence. <b>C. An automated event recorder that stores the timestamp and the open duration.</b>",
+      "traps": {
+        "A": "Replaces an event record with a yearly opinion score.",
+        "B": "Asks memory to resolve an event shorter than the survey can capture.",
+        "D": "Uses a single factory check for a field intermittent."
+      }
+    },
+    {
+      "qid": "cre:set-3:043",
+      "set": 3,
+      "sub": "III.B.4",
+      "bok": "Data summary and reporting",
+      "cognitive": "Analyze",
+      "stem": "The failure counts below are complete for the period. The cumulative share is \\(F_k\\) after the counts are ordered from largest to smallest, and \\(N\\) is the total.\n\\[\nF_k=\\frac{\\sum_{i=1}^{k} c_i}{N}\n\\]\nWhich is the smallest set whose cumulative share exceeds 80 percent?",
+      "options": [
+        "Seal only",
+        "Seal and sensor",
+        "Seal, sensor, and gasket",
+        "All five categories"
+      ],
+      "answer": 2,
+      "why": "Order the counts, then accumulate.\n\\[\nF_1=\\frac{40}{100}=0.40\n\\]\n\\[\nF_2=\\frac{65}{100}=0.65\n\\]\n\\[\nF_3=\\frac{85}{100}=0.85\n\\]\nTwo categories reach only 65 percent. The gasket is required to pass 80 percent. The screw and the paint are not needed for that threshold. <b>C. Seal, sensor, and gasket</b>",
+      "traps": {
+        "A": "Stops at the single largest count.",
+        "B": "Stops before the cumulative share exceeds 80 percent.",
+        "D": "Includes categories that are past the threshold."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Field failure counts",
+        "altText": "Seal 40, sensor 25, gasket 20, screw 10, and paint 5. The five counts sum to 100.",
+        "columns": [
+          "Category",
+          "Failures"
+        ],
+        "rows": [
+          [
+            "Seal",
+            "40"
+          ],
+          [
+            "Sensor",
+            "25"
+          ],
+          [
+            "Gasket",
+            "20"
+          ],
+          [
+            "Screw",
+            "10"
+          ],
+          [
+            "Paint",
+            "5"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:044",
+      "set": 3,
+      "sub": "III.B.5",
+      "bok": "Failure analysis methods",
+      "cognitive": "Understand",
+      "stem": "A shaft from a rotating-bending application has a fracture covered with beach marks and striations. The warranty text says only \"customer misuse.\" Which conclusion is best supported?",
+      "options": [
+        "The warranty text is the physical analysis. Striations do not need to be examined.",
+        "Fractography supports fatigue crack growth. The misuse label does not replace that evidence.",
+        "The striations show a voltage surge. Fatigue is not a candidate.",
+        "Infrared inspection of an unfailed spare is the analysis that identifies this fracture mechanism."
+      ],
+      "answer": 1,
+      "why": "Beach marks and striations on a fracture from cyclic bending are physical evidence of fatigue crack growth. A free-text warranty label does not identify the mechanism, a voltage surge does not write those marks on a shaft, and inspecting an unfailed spare with infrared does not read this fracture surface. <b>B. Fractography supports fatigue crack growth. The misuse label does not replace that evidence.</b>",
+      "traps": {
+        "A": "Treats a warranty phrase as the failure analysis.",
+        "C": "Assigns a fracture pattern to an electrical surge.",
+        "D": "Chooses a method that does not examine the fracture."
+      }
+    },
+    {
+      "qid": "cre:set-3:045",
+      "set": 3,
+      "sub": "III.B.6",
+      "bok": "FRACAS",
+      "cognitive": "Evaluate",
+      "stem": "The record below is offered as a closed FRACAS loop. Which evaluation is best?",
+      "options": [
+        "Closed. A returned unit was cleaned, so the corrective action is verified.",
+        "Not closed. The cause is unknown, the code cannot be trended, and effectiveness was not checked.",
+        "Closed. A free-text symptom is a standard problem code.",
+        "Not closed only because the report date is missing. The other steps are complete."
+      ],
+      "answer": 1,
+      "why": "A closed loop reports the failure in a way that can be trended, finds the cause, acts on that cause, and checks that the action worked. Cleaning one returned unit, with no cause and no effectiveness check, does not close the loop. Free text is not a standard code. <b>B. Not closed. The cause is unknown, the code cannot be trended, and effectiveness was not checked.</b>",
+      "traps": {
+        "A": "Calls a one-unit cleanup a verified corrective action.",
+        "C": "Treats unstructured text as a trendable code.",
+        "D": "Ignores the missing cause, code, and effectiveness check."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "FRACAS record",
+        "altText": "A report was filed in free text. The cause was not identified. The returned unit's filter was cleaned. No effectiveness check was recorded, and no standard problem-cause code was assigned.",
+        "columns": [
+          "Step",
+          "Record"
+        ],
+        "rows": [
+          [
+            "Report",
+            "Free-text symptom only"
+          ],
+          [
+            "Cause",
+            "Not identified"
+          ],
+          [
+            "Action",
+            "Filter cleaned on the returned unit"
+          ],
+          [
+            "Verification",
+            "None"
+          ],
+          [
+            "Code",
+            "No standard problem-cause code"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:046",
+      "set": 3,
+      "sub": "IV.A.1",
+      "bok": "Reliability test strategies",
+      "cognitive": "Evaluate",
+      "stem": "A design is still changing. The present objective is to find failure mechanisms and remove them, and test failures are expected. Which strategy fits?",
+      "options": [
+        "A zero-failure demonstration. Any failure means the test plan was wrong.",
+        "Wait until the design is frozen, then start the discovery test.",
+        "Test, analyze, and fix. Failures during this phase are inputs to the design change.",
+        "Extend the warranty instead of testing. Field time will replace a discovery test."
+      ],
+      "answer": 2,
+      "why": "Test, analyze, and fix is a discovery strategy for development, when failures are expected and the design can still change. A zero-failure demonstration answers a different question and is not the strategy for finding mechanisms. Waiting until the design is frozen, or replacing the test with a warranty change, gives up the chance to fix what the test is meant to reveal. <b>C. Test, analyze, and fix. Failures during this phase are inputs to the design change.</b>",
+      "traps": {
+        "A": "Uses a demonstration rule during a discovery phase.",
+        "B": "Delays discovery until the design can no longer use it.",
+        "D": "Substitutes a commercial term for the test."
+      }
+    },
+    {
+      "qid": "cre:set-3:047",
+      "set": 3,
+      "sub": "IV.A.2",
+      "bok": "Environmental factors and use conditions",
+      "cognitive": "Analyze",
+      "stem": "Five failures occurred during a calendar exposure of \\(t_c\\) hours. The product operates for a duty cycle \\(d\\) and is otherwise off. The rate wanted is per operating hour.\n\\[\nt_o=d\\,t_c\n\\]\n\\[\n\\hat\\lambda=\\frac{r}{t_o}\n\\]\nWhat is the operating-time failure rate?",
+      "options": [
+        "0.0025 per hour",
+        "0.010 per hour",
+        "0.250 per hour",
+        "400 hours"
+      ],
+      "answer": 1,
+      "why": "Calendar time is not the operating exposure.\n\\[\nt_o=0.25(2000)=500\n\\]\n\\[\n\\hat\\lambda=\\frac{5}{500}=0.010\n\\]\n0.0025 divides by the calendar time. 0.250 is the duty cycle, not a failure rate. 400 hours is the calendar time divided by the failure count. <b>B. 0.010 per hour</b>",
+      "traps": {
+        "A": "Uses calendar hours as operating hours.",
+        "C": "Reports the duty cycle.",
+        "D": "Inverts the calendar rate and reports a time."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Use profile",
+        "altText": "Calendar exposure is 2,000 hours. The duty cycle is 0.25. Five failures occurred in that exposure.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Calendar exposure",
+            "2,000 h"
+          ],
+          [
+            "Duty cycle",
+            "0.25"
+          ],
+          [
+            "Failures",
+            "5"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:048",
+      "set": 3,
+      "sub": "IV.A.3",
+      "bok": "Failure consequence",
+      "cognitive": "Understand",
+      "stem": "A seal leak is rare and can release a hazardous fluid. Nuisance resets are common and have no safety effect. An acceptance rule that uses only the failure count would reject the resets and accept the seal. Which statement is best?",
+      "options": [
+        "The count rule is sufficient. Consequence is already contained in the count.",
+        "Accept the seal. A rare event cannot set an acceptance criterion.",
+        "Reject the resets and ignore the seal. The common event is always the safety event.",
+        "The seal can fail acceptance because of its consequence, even though it adds little to the failure count."
+      ],
+      "answer": 3,
+      "why": "Acceptance criteria depend on the consequence of the failure mode as well as how often it occurs. A hazardous leak is not made acceptable by being rare, and a common nuisance reset is not made hazardous by its count. <b>D. The seal can fail acceptance because of its consequence, even though it adds little to the failure count.</b>",
+      "traps": {
+        "A": "Treats the count as a substitute for consequence.",
+        "B": "Removes rare severe events from the criteria.",
+        "C": "Assigns the safety effect to the most common event."
+      }
+    },
+    {
+      "qid": "cre:set-3:049",
+      "set": 3,
+      "sub": "IV.A.4",
+      "bok": "Failure criteria",
+      "cognitive": "Understand",
+      "stem": "The requirement says a pump has failed if delivery stays below 8 L/min. In the test log, only a complete stop was counted as a failure. A unit that delivered 5 L/min was marked pass. Which statement is best?",
+      "options": [
+        "The pass is correct. The pump was still running, so the function was met.",
+        "The unit failed. The stated criterion is the flow limit, not a complete stop.",
+        "The warranty period is the failure criterion. Flow does not define failure.",
+        "The log is correct because 5 L/min is closer to 8 L/min than to zero."
+      ],
+      "answer": 1,
+      "why": "The failure criterion comes from the requirement: delivery below 8 L/min. A unit at 5 L/min has already met that criterion. Still running is not the required function, and neither the warranty window nor the distance from zero changes the stated limit. <b>B. The unit failed. The stated criterion is the flow limit, not a complete stop.</b>",
+      "traps": {
+        "A": "Replaces the functional limit with \"still running.\"",
+        "C": "Uses the warranty duration as the definition of failure.",
+        "D": "Judges the miss by how far it is from zero."
+      }
+    },
+    {
+      "qid": "cre:set-3:050",
+      "set": 3,
+      "sub": "IV.A.5",
+      "bok": "Test environment",
+      "cognitive": "Evaluate",
+      "stem": "The use profile and the test that was run are below. The units passed. Which decision is supported?",
+      "options": [
+        "Accept the design for field use. A pass at any controlled condition is sufficient.",
+        "Accept the design. The laboratory is more controlled than the field, so it is the harder test.",
+        "Do not use this pass as the field acceptance decision. The test omitted the stated temperature, vibration, and duty cycle.",
+        "Reject the hardware design. A difference in test setup proves the product will fail in the field."
+      ],
+      "answer": 2,
+      "why": "The test has to represent the use environment before a pass supports a field decision. This run omitted the 55°C condition, the vibration, and the 80 percent duty cycle. That missing exposure does not by itself prove the hardware will fail. It does mean this pass is not the acceptance evidence. <b>C. Do not use this pass as the field acceptance decision. The test omitted the stated temperature, vibration, and duty cycle.</b>",
+      "traps": {
+        "A": "Treats an unrepresentative pass as field acceptance.",
+        "B": "Assumes a milder laboratory condition is the harder use.",
+        "D": "Turns a test-planning gap into a demonstrated field failure."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Use profile and test actually run",
+        "altText": "Field use is 55°C, 5 g vibration, and 80 percent duty cycle. The test was run at 25°C, with no vibration, and at 10 percent duty cycle. The units passed that test.",
+        "columns": [
+          "Condition",
+          "Field use",
+          "Test run"
+        ],
+        "rows": [
+          [
+            "Temperature",
+            "55°C",
+            "25°C"
+          ],
+          [
+            "Vibration",
+            "5 g",
+            "None"
+          ],
+          [
+            "Duty cycle",
+            "80 percent",
+            "10 percent"
+          ],
+          [
+            "Result",
+            "Not observed",
+            "Pass"
+          ]
+        ]
+      }
+    }
+  ]
+}
