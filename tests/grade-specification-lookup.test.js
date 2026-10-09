@@ -254,6 +254,16 @@ test('light theme keeps lookup controls, metadata, and diagnostics readable', ()
   assert.match(application, /html\[data-theme="light"\] \.grade-spec-tool-page\{[\s\S]*?--muted:#475569[\s\S]*?--teal:#0e6675/);
 });
 
+test('lookup and guide equations use the shared professional LaTeX renderer', () => {
+  const application = readFileSync(applicationPath, 'utf8');
+  const guide = readFileSync(guidePath, 'utf8');
+  assert.match(application, /<script defer src="\/tools\/material-math-renderer\.js"><\/script>/);
+  assert.match(guide, /\\\(\\mathrm\{CE\}_\{\\mathrm\{IIW\}\} = C \+ \\frac\{\\mathrm\{Mn\}\}\{6\}/);
+  assert.match(guide, /\\\(e_\{\\min\} = \\frac\{C\\,A\^\{0\.2\}\}\{U\^\{0\.9\}\}\\\)/);
+  assert.doesNotMatch(guide, /<div class="formula">CEIIW = C \+ Mn\/6/);
+  assert.doesNotMatch(guide, /<div class="formula">e_min = C × A\^0\.2 \/ U\^0\.9/);
+});
+
 test('user guide documents incomplete, invalid, form-filter, and temperature behavior', () => {
   const guide = readFileSync(guidePath, 'utf8');
   assert.match(guide, /INCOMPLETE/);
