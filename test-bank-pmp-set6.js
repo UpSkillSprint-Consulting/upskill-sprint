@@ -268,20 +268,33 @@
   global.registerPMPSet6 = function (exam) {
     if (!exam) return;
     var existing = exam.sets || {};
-    var first = existing[1] || exam.bank || [];
-    var second = existing[2] || [];
-    var third = existing[3] || [];
-    var fourth = existing[4] || [];
-    var fifth = existing[5] || [];
-    exam.sets = Object.assign({}, existing, {1: first, 2: second, 3: third, 4: fourth, 5: fifth, 6: questions});
-    if (!exam.bank || !exam.bank.length) exam.bank = first.length ? first : questions;
-    var ids = Array.isArray(exam.plannedSets) ? exam.plannedSets.map(String) : ['1', '2', '3', '4', '5'];
-    if (ids.indexOf('6') < 0) ids.push('6');
-    exam.plannedSets = ids;
-    exam.setPlans = Object.assign({}, exam.setPlans, {
-      6: {target: 10, label: 'Q171-Q180'}
-    });
-    exam.fullExamQuestionsBySet = Object.assign({}, exam.fullExamQuestionsBySet, {6: 10});
-    exam.setName = 'Set 1: Q001-Q080 · Set 2: Q081-Q100 · Set 3: Q101-Q130 · Set 4: Q131-Q150 · Set 5: Q151-Q170 · Set 6: Q171-Q180';
+    var merged = [];
+    var seen = {};
+    function add(list) {
+      (list || []).forEach(function (q) {
+        if (!q) return;
+        if (q.qid && seen[q.qid]) return;
+        if (q.qid) seen[q.qid] = true;
+        merged.push(q);
+      });
+    }
+    add(existing[1] || exam.bank || []);
+    add(existing[2]);
+    add(existing[3]);
+    add(existing[4]);
+    add(existing[5]);
+    add(questions);
+    exam.sets = {1: merged, 2: [], 3: []};
+    exam.bank = merged;
+    exam.plannedSets = ['1', '2', '3'];
+    exam.setPlans = {
+      1: {target: 180, label: 'Q001-Q180'},
+      2: {target: 0, label: 'Held for Claude'},
+      3: {target: 0, label: 'Held for GPT'}
+    };
+    exam.fullExamQuestionsBySet = {1: 180};
+    exam.setName = 'Set 1';
+    exam.questions = 180;
+    exam.minutes = 240;
   };
 })(typeof window !== 'undefined' ? window : globalThis);

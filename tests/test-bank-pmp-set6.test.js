@@ -45,10 +45,18 @@ test('PMP Set 6 is ten original items, Q171-Q180, and does not replace earlier s
     fullExamQuestionsBySet: {}
   };
   registerPMPSet6(exam);
-  assert.equal(exam.bank, prior[0]);
-  assert.equal(exam.sets[5], prior[4]);
-  assert.equal(exam.sets[6], qs);
-  assert.deepEqual(exam.plannedSets, ['1', '2', '3', '4', '5', '6']);
-  assert.equal(exam.setPlans[6].label, 'Q171-Q180');
-  assert.equal(exam.fullExamQuestionsBySet[6], 10);
+  assert.equal(exam.bank.length, 15);
+  assert.equal(exam.bank[0].qid, 'keep-1');
+  assert.equal(exam.bank[14].qid, 'pmp:set-6:180');
+  assert.equal(exam.sets[1], exam.bank);
+  assert.equal(exam.sets[2].length, 0);
+  assert.equal(exam.sets[3].length, 0);
+  assert.equal(exam.sets[4], undefined);
+  assert.equal(exam.sets[6], undefined);
+  assert.deepEqual(Array.from(exam.plannedSets), ['1', '2', '3']);
+  assert.equal(exam.setPlans[1].label, 'Q001-Q180');
+  assert.equal(exam.setPlans[2].label, 'Held for Claude');
+  assert.equal(exam.setPlans[3].label, 'Held for GPT');
+  assert.equal(exam.fullExamQuestionsBySet[1], 180);
+  assert.equal(exam.fullExamQuestionsBySet[6], undefined);
 });
