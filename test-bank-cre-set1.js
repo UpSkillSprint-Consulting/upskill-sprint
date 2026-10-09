@@ -1785,6 +1785,912 @@
         "example": null
       }
     ]
+  },
+  {
+    "qid": "cre:set-1:b03-q21",
+    "set": 1,
+    "batch": 3,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "B. Data Management",
+      "code": "III.B.1",
+      "topic": "Limits of warranty data as a reliability source"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, decision",
+    "quantitative": false,
+    "stem": "Warranty claims for a water-heater control are shown by month in service, per 1,000 units in service. The warranty lasts 12 months. What is the best interpretation of the drop after month 12, and what should the reliability engineer do next?",
+    "chart": {
+      "type": "cre-xy-plot",
+      "eyebrow": "Warranty claims by age",
+      "title": "Claims per 1,000 units in service",
+      "altText": "Claims per 1,000 units in service against month in service from 1 to 18. Claims start at 9.5 in month 1, fall to about 2.4 by month 5, rise steadily from 2.4 in month 7 to 3.5 in month 12, then drop to between 0.3 and 0.6 from month 13 to month 18. A marker shows that the 12-month warranty ends at month 12.",
+      "xTicks": [
+        0,
+        3,
+        6,
+        9,
+        12,
+        15,
+        18
+      ],
+      "yTicks": [
+        0,
+        2,
+        4,
+        6,
+        8,
+        10
+      ],
+      "series": [
+        {
+          "label": "Claims per 1,000",
+          "points": [
+            [
+              1,
+              9.5
+            ],
+            [
+              2,
+              5.1
+            ],
+            [
+              3,
+              3.2
+            ],
+            [
+              4,
+              2.6
+            ],
+            [
+              5,
+              2.4
+            ],
+            [
+              6,
+              2.5
+            ],
+            [
+              7,
+              2.4
+            ],
+            [
+              8,
+              2.6
+            ],
+            [
+              9,
+              2.8
+            ],
+            [
+              10,
+              3.0
+            ],
+            [
+              11,
+              3.2
+            ],
+            [
+              12,
+              3.5
+            ],
+            [
+              13,
+              0.6
+            ],
+            [
+              14,
+              0.4
+            ],
+            [
+              15,
+              0.5
+            ],
+            [
+              16,
+              0.3
+            ],
+            [
+              17,
+              0.4
+            ],
+            [
+              18,
+              0.3
+            ]
+          ]
+        }
+      ],
+      "markers": [
+        {
+          "x": 12,
+          "y": 3.5,
+          "label": "Warranty ends"
+        }
+      ],
+      "xLabel": "Month in service",
+      "yLabel": "Claims per 1,000 units"
+    },
+    "options": [
+      "The control enters its useful-life period after 12 months, so its hazard falls; no further action is needed.",
+      "Claims stop being captured when warranty coverage ends. The rise in months 7 to 12 suggests wear-out, so gather post-warranty field or service data before judging late-life reliability.",
+      "A design change introduced in month 13 removed the failure mode; confirm the change with the supplier.",
+      "Infant mortality ends at month 12, so the low rate after that is the true constant failure rate."
+    ],
+    "answer": 1,
+    "why": "<p>The drop happens at exactly the age where warranty coverage ends, for every production lot, so it reflects the data source, not the product. Failures after month 12 are no longer claimed, so warranty data are effectively censored at 12 months. The rising rate from month 7 to month 12 is the real signal: it points to an emerging wear-out mechanism. Service records, parts sales, telemetry or a field follow-up study are needed to see late-life behavior.</p><p><b>B. Coverage ends, so claims stop; gather post-warranty data before judging late life.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Sources and Uses of Reliability Data — warranty data and field service data.</span></p>",
+    "optionRationales": [
+      "The rate was rising, not falling, from month 7 to month 12. Nothing in the product changes at month 13; only the reporting does.",
+      "Correct. The cliff coincides with the end of coverage, and the pre-cliff trend points to wear-out.",
+      "A design change takes effect by production date, so it would show up in later-built units at every age. Here every unit drops at the same age.",
+      "The early-life decline ended by about month 5. The drop at month 12 is a reporting cutoff, not a change in hazard."
+    ],
+    "keyPoint": "Warranty data stop at the end of coverage; a drop at that age is a data artifact, not a reliability improvement.",
+    "trap": "Reading the end of warranty reporting as a falling hazard or a design fix.",
+    "formula": null,
+    "assumptions": [
+      "Claims are counted by age in service, and coverage is the same for all units."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "warranty data",
+      "field data",
+      "censoring",
+      "wear-out",
+      "data source limitations"
+    ],
+    "sourceSection": "Chapter 7 - Data Management",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 7 - Data Management",
+        "section": "Sources and uses of reliability data — warranty data",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b03-q22",
+    "set": 1,
+    "batch": 3,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "B. Data Management",
+      "code": "III.B.1",
+      "topic": "Normalizing field failures by exposure"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "Two product lines of a pump controller are compared using field returns and operating hours from IoT telemetry. Returns diagnosed as \"no fault found\" (NFF) are not failures. Which line has the higher field failure rate, and on what basis?",
+    "chart": {
+      "type": "data-table",
+      "title": "Field data by product line",
+      "columns": [
+        "Product line",
+        "Units in service",
+        "Mean operating hours (telemetry)",
+        "Returns",
+        "No fault found"
+      ],
+      "rows": [
+        [
+          "Line A",
+          "600",
+          "1,200",
+          "38",
+          "8"
+        ],
+        [
+          "Line B",
+          "1,500",
+          "400",
+          "52",
+          "7"
+        ]
+      ]
+    },
+    "options": [
+      "Line A, because 5.0% of its units have failed, versus 3.0% for Line B.",
+      "Line B, with 86.7 versus 52.8 failures per \\(10^{6}\\) unit-hours.",
+      "Line B, with 75.0 versus 41.7 confirmed failures per \\(10^{6}\\) unit-hours.",
+      "Line B, because it has 45 confirmed failures versus 30."
+    ],
+    "answer": 2,
+    "why": "<p>Compare failure rates per unit of exposure, using confirmed failures only:</p><p>\\[\\begin{aligned}T_A &= 600(1200) = 720000 \\\\ T_B &= 1500(400) = 600000 \\\\ \\lambda_A &= \\frac{38 - 8}{720000} = 41.7 \\times 10^{-6} \\\\ \\lambda_B &= \\frac{52 - 7}{600000} = 75.0 \\times 10^{-6}\\end{aligned}\\]</p><p>where \\(T\\) is total unit-hours in service and \\(\\lambda\\) is confirmed failures per unit-hour. Line A shows a larger fraction of units failed only because its units have run three times as many hours. Per hour of exposure, Line B fails 1.8 times as often.</p><p><b>C. Line B, 75.0 versus 41.7 confirmed failures per \\(10^{6}\\) unit-hours.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Sources and Uses of Reliability Data — IoT and big data; data normalization.</span></p>",
+    "optionRationales": [
+      "Fraction of units failed ignores how long the units have run. Line A has three times the exposure per unit.",
+      "Counts NFF returns as failures: \\(38/720000\\) and \\(52/600000\\). NFF units were tested and found good.",
+      "Correct. \\(30/720000 = 41.7\\) and \\(45/600000 = 75.0\\) per \\(10^{6}\\) unit-hours.",
+      "The right line, but raw counts are not comparable because the lines differ in units and hours."
+    ],
+    "keyPoint": "Compare field reliability on a common exposure basis (failures per unit-hour), using confirmed failures only.",
+    "trap": "Comparing fractions of units failed or raw counts, or counting no-fault-found returns.",
+    "formula": "\\(\\lambda = (\\text{returns} - \\text{NFF})/(n\\,\\bar{t})\\)",
+    "assumptions": [
+      "Telemetry hours are accurate and failures follow a roughly constant rate over the exposure observed."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "normalization",
+      "exposure",
+      "failure rate",
+      "IoT telemetry",
+      "no fault found"
+    ],
+    "sourceSection": "Chapter 7 - Data Management",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 7 - Data Management",
+        "section": "Sources and uses of reliability data — IoT and normalization",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b03-q23",
+    "set": 1,
+    "batch": 3,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "B. Data Management",
+      "code": "III.B.2",
+      "topic": "Classifying censored data from periodic inspections"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, classification",
+    "quantitative": false,
+    "stem": "Six actuators were life-tested. The stand checked each unit at 250, 500, 750 and 1,000 hours, and a failure alarm also recorded the exact time of some failures. How should the results be entered for life-data analysis?",
+    "chart": {
+      "type": "data-table",
+      "title": "Actuator life test log",
+      "columns": [
+        "Unit",
+        "Finding"
+      ],
+      "rows": [
+        [
+          "U1",
+          "Found failed at the 250 h inspection"
+        ],
+        [
+          "U2",
+          "Running at 250 h; found failed at 500 h"
+        ],
+        [
+          "U3",
+          "Failure alarm logged at 610 h"
+        ],
+        [
+          "U4",
+          "Running at every inspection; test ended at 1,000 h"
+        ],
+        [
+          "U5",
+          "Removed at 400 h for an unrelated fixture fault"
+        ],
+        [
+          "U6",
+          "Running at 750 h; found failed at 1,000 h"
+        ]
+      ]
+    },
+    "options": [
+      "U1 is left-censored at 250 h; U2 and U6 are interval-censored; U3 is an exact failure; U4 and U5 are right-censored.",
+      "U1, U2 and U6 are exact failures at 250 h, 500 h and 1,000 h; U3 is an exact failure; U4 and U5 are right-censored.",
+      "U1 is left-censored at 250 h; U2 and U6 are interval-censored; U3 is an exact failure; U4 is right-censored; U5 is dropped because its removal was unrelated to the failure mode.",
+      "U1 is right-censored at 250 h; U2 and U6 are left-censored; U3 is an exact failure; U4 and U5 are right-censored."
+    ],
+    "answer": 0,
+    "why": "<p>Each record must say only what is known. U1 failed some time before its first check (left-censored at 250 h). U2 failed between 250 h and 500 h, and U6 between 750 h and 1,000 h (interval-censored). U3’s alarm gives an exact time. U4 survived the whole test, and U5 was removed while still working, so both are right-censored (suspensions). Suspensions stay in the analysis: they carry information that the unit survived to that time.</p><p><b>A. U1 left; U2 and U6 interval; U3 exact; U4 and U5 right-censored.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Types of Data — censored and complete data.</span></p>",
+    "optionRationales": [
+      "Correct. Each unit is recorded with exactly the information the test provides.",
+      "Treats inspection times as failure times. The failures happened earlier, at unknown times inside each interval, so this biases life low.",
+      "The classification is right, but dropping a suspension throws away survival information and biases the estimate low.",
+      "Reverses left and right censoring. A unit found failed at the first check has an upper bound on its failure time, which is left censoring."
+    ],
+    "keyPoint": "Exact, right-, left- and interval-censored records each carry different information; keep suspensions in the analysis.",
+    "trap": "Using the inspection time as the failure time, or deleting units that were removed without failing.",
+    "formula": null,
+    "assumptions": [
+      "Unit U5’s removal was unrelated to its condition (non-informative censoring)."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "censoring",
+      "interval censoring",
+      "left censoring",
+      "suspensions",
+      "life data"
+    ],
+    "sourceSection": "Chapter 7 - Data Management",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 7 - Data Management",
+        "section": "Types of data — censored and complete data",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b03-q24",
+    "set": 1,
+    "batch": 3,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "B. Data Management",
+      "code": "III.B.2",
+      "topic": "Interpreting a Cox proportional hazards model"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Software output interpretation, calculation",
+    "quantitative": true,
+    "stem": "A Cox proportional hazards model was fitted to valve-seat life data with suspensions, using coating and operating temperature as covariates. Relative to an old-coating valve at 60 °C, what is the hazard ratio for a new-coating valve at 80 °C, and what does it mean?",
+    "chart": {
+      "type": "data-table",
+      "title": "Cox regression: valve-seat life",
+      "columns": [
+        "Term",
+        "coef",
+        "exp(coef)",
+        "SE(coef)",
+        "p"
+      ],
+      "rows": [
+        [
+          "New coating (1 = yes, 0 = no)",
+          "−0.693",
+          "0.500",
+          "0.210",
+          "0.001"
+        ],
+        [
+          "Temperature (per 10 °C above 60 °C)",
+          "0.405",
+          "1.499",
+          "0.150",
+          "0.007"
+        ]
+      ]
+    },
+    "options": [
+      "0.75: the new valve’s hazard is 25% lower than the reference at every age.",
+      "1.13: the new valve’s hazard is about 13% higher than the reference at every age, so the coating benefit is more than offset by the extra 20 °C.",
+      "1.50: the new valve’s hazard is about 50% higher than the reference at every age.",
+      "2.25: the new valve’s hazard is about 125% higher than the reference at every age."
+    ],
+    "answer": 1,
+    "why": "<p>In a Cox model the covariates act multiplicatively on the hazard, and the ratio is the same at every age:</p><p>\\[\\begin{aligned}\\text{HR} &= e^{\\beta_1 x_1 + \\beta_2 x_2} \\\\ &= e^{-0.693 + 0.810} \\\\ &= 0.500 \\times 1.499^{2} \\\\ &\\approx 1.12\\end{aligned}\\]</p><p>where \\(\\beta_1 = -0.693\\) and \\(\\beta_2 = 0.405\\) are the fitted coefficients, \\(x_1 = 1\\) for the new coating and \\(x_2 = 2\\) because 80 °C is two 10 °C steps above 60 °C, so \\(\\beta_2 x_2 = 0.810\\). The coating halves the hazard, but two temperature steps multiply it by about 2.25, so the net hazard is about 13% higher than the reference at every age.</p><p><b>B. 1.13: about 13% higher at every age.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Types of Data — data analysis tools (survival analysis and the Cox proportional hazards model).</span></p>",
+    "optionRationales": [
+      "Applies only one temperature step: \\(0.500 \\times 1.499 = 0.75\\). 80 °C is two steps above 60 °C.",
+      "Correct. \\(0.500 \\times 1.499^{2} \\approx 1.12\\); the effects multiply.",
+      "Adds the effects instead of multiplying them: \\(0.5 + 2(1.5 - 1) = 1.5\\).",
+      "Uses only the temperature effect, \\(1.499^{2} \\approx 2.25\\), and ignores the coating."
+    ],
+    "keyPoint": "Cox hazard ratios multiply across covariates: \\(\\text{HR} = \\prod e^{\\beta_i x_i}\\), and the ratio is constant over age.",
+    "trap": "Adding hazard ratios, applying a per-step coefficient only once, or ignoring a covariate.",
+    "formula": "\\(\\text{HR} = \\exp\\left(\\sum \\beta_i x_i\\right)\\)",
+    "assumptions": [
+      "The proportional-hazards assumption holds for both covariates.",
+      "The temperature effect is log-linear across 60 °C to 80 °C."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "Cox proportional hazards",
+      "hazard ratio",
+      "covariates",
+      "survival analysis"
+    ],
+    "sourceSection": "Chapter 7 - Data Management",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 7 - Data Management",
+        "section": "Types of data — survival analysis and the Cox model",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b03-q25",
+    "set": 1,
+    "batch": 3,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "B. Data Management",
+      "code": "III.B.2",
+      "topic": "Scales of measurement"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Understand",
+    "questionType": "Concept",
+    "quantitative": false,
+    "stem": "An engineer computes an Arrhenius acceleration factor between a 125 °C test and 55 °C use. A colleague asks why the temperatures must be converted to kelvin first. Which statement gives the correct reason?",
+    "options": [
+      "Kelvin values are larger numbers, which reduces rounding error in the exponent.",
+      "The Boltzmann constant is published only in SI units, so any SI temperature unit would work.",
+      "Celsius is an ordinal scale, so even differences between Celsius temperatures are not meaningful.",
+      "Celsius is an interval scale with an arbitrary zero, so ratios of Celsius temperatures are meaningless; the Arrhenius model needs absolute temperature on a ratio scale."
+    ],
+    "answer": 3,
+    "why": "<p>Celsius has an arbitrary zero, so it is an interval scale: differences are meaningful but ratios and reciprocals are not. The Arrhenius model uses \\(1/T\\), which needs absolute temperature, a ratio scale with a true zero: \\(T_{\\text{K}} = T_{^{\\circ}\\text{C}} + 273.15\\).</p><p><b>D. Celsius is an interval scale; the model needs a ratio scale (kelvin).</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Types of Data — measurement scales (Table 7.4).</span></p>",
+    "optionRationales": [
+      "Rounding is not the issue; a model using \\(1/T\\) in Celsius gives wrong answers, not imprecise ones.",
+      "Celsius is also an SI-derived unit. The issue is the zero point, not the unit system.",
+      "Celsius is interval, not ordinal: differences such as 10 °C are meaningful.",
+      "Correct. Ratios and reciprocals of temperature need an absolute (ratio-scale) temperature."
+    ],
+    "keyPoint": "Match the analysis to the measurement scale: ratios need a ratio scale with a true zero.",
+    "trap": "Treating Celsius as a ratio scale, or confusing interval with ordinal.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "measurement scales",
+      "interval scale",
+      "ratio scale",
+      "Arrhenius",
+      "absolute temperature"
+    ],
+    "sourceSection": "Chapter 7 - Data Management",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 7 - Data Management",
+        "section": "Types of data — measurement scales",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b03-q26",
+    "set": 1,
+    "batch": 3,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "B. Data Management",
+      "code": "III.B.3",
+      "topic": "Choosing a data collection method for time-to-failure data"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Scenario judgment",
+    "quantitative": false,
+    "stem": "A reliability engineer needs time-to-failure data for the main bearings in a fleet of 40 wind turbines. Today, site technicians record failures in a monthly paper report with the date only and a free-text description. Which change best meets the analysis need?",
+    "options": [
+      "Send a survey to the technicians asking them to estimate when each failure in the past year happened.",
+      "Capture each stoppage automatically from the turbine controller with a time stamp and operating hours, and record the failure mode from a defined code list in the maintenance system.",
+      "Move the paper report from monthly to weekly so that the failure dates are more accurate.",
+      "Use the turbine manufacturer’s warranty claims as the time-to-failure source."
+    ],
+    "answer": 1,
+    "why": "<p>Life-data analysis needs operating time to failure (or to suspension) for every unit, and a consistent failure-mode classification. Automated capture from the controller gives exact, time-stamped operating hours without transcription error, and a defined code list makes modes comparable across sites. The other options keep the recall, calendar-time or coverage problems.</p><p><b>B. Automated, time-stamped capture with operating hours and coded failure modes.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Data Collection Methods; Sources and Uses of Reliability Data — manual versus automated systems.</span></p>",
+    "optionRationales": [
+      "Recall surveys add memory error and still miss operating hours.",
+      "Correct. It records operating time and a consistent failure mode for every event.",
+      "More frequent paper reports improve dates a little but still miss operating hours and consistent coding.",
+      "Warranty claims stop at the end of coverage and rarely record operating hours, so most bearing life would be censored."
+    ],
+    "keyPoint": "Choose collection methods that capture operating time to failure, suspensions and coded failure modes for every unit.",
+    "trap": "Settling for calendar dates, recall or warranty data when operating-hour data can be captured automatically.",
+    "formula": null,
+    "assumptions": [
+      "The turbine controllers log stoppages and operating hours."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "data collection",
+      "automated monitoring",
+      "CMMS",
+      "failure codes",
+      "operating hours"
+    ],
+    "sourceSection": "Chapter 7 - Data Management",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 7 - Data Management",
+        "section": "Data collection methods",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b03-q27",
+    "set": 1,
+    "batch": 3,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "B. Data Management",
+      "code": "III.B.4",
+      "topic": "Bad actor analysis with a Pareto cut"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A plant loses production whenever a transfer pump is down. Over the last year the eight pumps recorded the data shown. A bad actor analysis should target the smallest group of pumps that accounts for at least 70% of the downtime. Which pumps should it target?",
+    "chart": {
+      "type": "data-table",
+      "title": "Transfer pumps — last 12 months",
+      "columns": [
+        "Pump",
+        "Failures",
+        "Downtime (h)",
+        "Mean time to repair (h)"
+      ],
+      "rows": [
+        [
+          "P-101",
+          "14",
+          "120",
+          "8.6"
+        ],
+        [
+          "P-102",
+          "6",
+          "45",
+          "7.5"
+        ],
+        [
+          "P-103",
+          "5",
+          "310",
+          "62.0"
+        ],
+        [
+          "P-104",
+          "3",
+          "30",
+          "10.0"
+        ],
+        [
+          "P-105",
+          "4",
+          "260",
+          "65.0"
+        ],
+        [
+          "P-106",
+          "9",
+          "55",
+          "6.1"
+        ],
+        [
+          "P-107",
+          "2",
+          "25",
+          "12.5"
+        ],
+        [
+          "P-108",
+          "7",
+          "155",
+          "22.1"
+        ]
+      ]
+    },
+    "options": [
+      "P-101, P-106 and P-108, the pumps with the most failures.",
+      "P-103 and P-105, the two pumps with the most downtime.",
+      "P-103, P-105 and P-108.",
+      "P-101, P-103 and P-105."
+    ],
+    "answer": 2,
+    "why": "<p>Rank the pumps by downtime, which is the measure that drives lost production, and accumulate the share of the 1,000 h total:</p><p>\\[\\begin{aligned}\\text{P-103}{:}\\ & 310/1000 = 31.0\\% \\\\ +\\,\\text{P-105}{:}\\ & 570/1000 = 57.0\\% \\\\ +\\,\\text{P-108}{:}\\ & 725/1000 = 72.5\\%\\end{aligned}\\]</p><p>where each line adds the next pump’s downtime to the running total out of 1,000 h. Three pumps are needed to pass 70%. P-101 fails most often, but its repairs are short; P-103 and P-105 fail rarely but take over 60 h to repair, which also points the analysis at repair logistics, not only at failure frequency.</p><p><b>C. P-103, P-105 and P-108 (72.5% of downtime).</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Data Summary and Reporting — bad actor analysis and Pareto charts (Examples 7.1 and 7.4).</span></p>",
+    "optionRationales": [
+      "Ranks by failure count. These three pumps account for only 33% of downtime.",
+      "Stops at 57% of downtime, short of the 70% target.",
+      "Correct. The top three by downtime account for 72.5%.",
+      "Mixes criteria: P-101 is chosen for its failure count. These three account for 69%, which is still short of 70%."
+    ],
+    "keyPoint": "Rank bad actors by the consequence that matters (here downtime), not by failure count.",
+    "trap": "Ranking by number of failures, or stopping the Pareto cut before the target share.",
+    "formula": "Cumulative share \\(= \\sum_{i=1}^{k} d_{(i)} / \\sum d\\), with downtime \\(d\\) sorted from largest",
+    "assumptions": [
+      "Lost production is proportional to downtime."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "bad actor analysis",
+      "Pareto",
+      "downtime",
+      "MTTR",
+      "prioritization"
+    ],
+    "sourceSection": "Chapter 7 - Data Management",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 7 - Data Management",
+        "section": "Data summary and reporting — bad actor analysis",
+        "example": "Examples 7.1, 7.4"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b03-q28",
+    "set": 1,
+    "batch": 3,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "B. Data Management",
+      "code": "III.B.2",
+      "topic": "Life table from a Nevada chart"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "The Nevada chart shows warranty claims for a small appliance by production month and claim month. Units ship at the start of their production month, every claim is a failure, and data are complete through April 30. Pooling all cohorts by month in service (life-table method), what is the estimated probability that a unit fails within its first three months in service?",
+    "chart": {
+      "type": "data-table",
+      "title": "Nevada chart: warranty claims",
+      "columns": [
+        "Production month",
+        "Units shipped",
+        "Claims in Jan",
+        "Claims in Feb",
+        "Claims in Mar",
+        "Claims in Apr"
+      ],
+      "rows": [
+        [
+          "Jan",
+          "1,000",
+          "80",
+          "50",
+          "40",
+          "30"
+        ],
+        [
+          "Feb",
+          "1,000",
+          "—",
+          "90",
+          "45",
+          "35"
+        ],
+        [
+          "Mar",
+          "1,000",
+          "—",
+          "—",
+          "70",
+          "55"
+        ],
+        [
+          "Apr",
+          "1,000",
+          "—",
+          "—",
+          "—",
+          "100"
+        ]
+      ]
+    },
+    "options": [
+      "14.88%",
+      "16.33%",
+      "17.21%",
+      "18.26%"
+    ],
+    "answer": 2,
+    "why": "<p>Read each row along its diagonal to convert claim months into months in service. Then, for each month in service, divide the claims by the units still at risk from every cohort that has reached that age:</p><p>Month 1: all four cohorts are at risk (4,000 units) and 80 + 90 + 70 + 100 = 340 fail. Month 2: only the January to March cohorts have reached it; 920 + 910 + 930 = 2,760 are still at risk and 50 + 45 + 55 = 150 fail. Month 3: only January and February; 870 + 865 = 1,735 at risk and 40 + 35 = 75 fail.</p><p>\\[\\begin{aligned}h_1 &= 340/4000 = 0.0850 \\\\ h_2 &= 150/2760 = 0.0543 \\\\ h_3 &= 75/1735 = 0.0432\\end{aligned}\\]</p><p>\\[\\begin{aligned}F(3) &= 1 - \\prod_{j=1}^{3}(1 - h_j) \\\\ &= 1 - 0.8279 \\\\ &= 0.1721\\end{aligned}\\]</p><p>where \\(h_j\\) is the conditional probability of failing in month \\(j\\) of service, given survival to its start, \\(F(3)\\) is the probability of failing within three months, and \\(0.915 \\times 0.9457 \\times 0.9568 = 0.8279\\). The April cohort contributes only to \\(h_1\\), and the March cohort only to \\(h_1\\) and \\(h_2\\).</p><p><b>C. 17.21%</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Types of Data — data analysis tools (Nevada chart analysis, survival analysis, Table 7.6).</span></p>",
+    "optionRationales": [
+      "\\(595/4000\\): all claims over all units, mixing cohorts that have had one to four months of exposure.",
+      "Uses units shipped as each denominator (\\(150/3000\\), \\(75/2000\\)) instead of the units still at risk.",
+      "Correct. \\(1 - (0.915)(0.9457)(0.9568) = 0.1721\\).",
+      "Adds the monthly hazards (\\(0.0850 + 0.0543 + 0.0432\\)). Conditional probabilities must be combined through survival, not summed."
+    ],
+    "keyPoint": "Turn a Nevada chart into age-based hazards with the correct risk set at each age, then multiply survival probabilities.",
+    "trap": "Dividing by units shipped instead of units at risk, mixing exposure ages, or summing conditional probabilities.",
+    "formula": "\\(F(k) = 1 - \\prod_{j=1}^{k}(1 - h_j)\\), \\(h_j = d_j/n_j\\)",
+    "assumptions": [
+      "Claims are first failures and each claimed unit leaves the risk set.",
+      "Censoring happens only at the April 30 data cutoff."
+    ],
+    "estimatedMinutes": 6,
+    "keywords": [
+      "Nevada chart",
+      "life table",
+      "warranty analysis",
+      "hazard",
+      "risk set"
+    ],
+    "sourceSection": "Chapter 7 - Data Management",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 7 - Data Management",
+        "section": "Types of data — Nevada chart analysis",
+        "example": "Table 7.6"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b03-q29",
+    "set": 1,
+    "batch": 3,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "B. Data Management",
+      "code": "III.B.5",
+      "topic": "Selecting a failure analysis technique"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Understand",
+    "questionType": "Scenario judgment",
+    "quantitative": false,
+    "stem": "Several molded power modules failed thermal cycling with intermittent open circuits. The failure analyst suspects delamination between the mold compound and the die paddle and wants to confirm it without opening the packages. Which technique should be used first?",
+    "options": [
+      "Scanning acoustic microscopy (SAM).",
+      "Scanning electron microscopy (SEM) of a polished cross-section.",
+      "Tensile pull testing of the module leads.",
+      "Infrared thermography of a powered module."
+    ],
+    "answer": 0,
+    "why": "<p>SAM sends ultrasound through the package and images internal interfaces. An air gap at a delaminated interface reflects strongly, so SAM shows delamination nondestructively and maps where it is. Destructive methods such as cross-sectioning and SEM come later, once SAM has shown where to cut.</p><p><b>A. Scanning acoustic microscopy (SAM).</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Failure Analysis Methods (SEM, SAM, infrared inspection, radiography, mechanical testing).</span></p>",
+    "optionRationales": [
+      "Correct. SAM detects internal delamination without opening the package.",
+      "SEM needs a cross-section, which destroys the evidence elsewhere in the part. Use it after SAM locates the defect.",
+      "Lead pull strength says nothing about an internal mold-compound interface.",
+      "Infrared thermography finds hot spots on a powered part; it cannot reliably image a thin internal gap, especially one that only opens intermittently."
+    ],
+    "keyPoint": "Start failure analysis with nondestructive methods matched to the suspected mechanism; SAM is the standard tool for package delamination.",
+    "trap": "Jumping to a destructive method before nondestructive inspection has located the defect.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "failure analysis",
+      "scanning acoustic microscopy",
+      "delamination",
+      "nondestructive testing",
+      "SEM"
+    ],
+    "sourceSection": "Chapter 7 - Data Management",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 7 - Data Management",
+        "section": "Failure analysis methods",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b03-q30",
+    "set": 1,
+    "batch": 3,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "B. Data Management",
+      "code": "III.B.6",
+      "topic": "Closing the FRACAS loop"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, decision",
+    "quantitative": false,
+    "stem": "The FRACAS summary for a hospital medication cart is shown. Leadership asks why the same failures keep returning even though every report is closed. Which change would most directly fix the problem?",
+    "chart": {
+      "type": "data-table",
+      "title": "FRACAS summary — medication cart",
+      "columns": [
+        "Report",
+        "Failure mode",
+        "Corrective action",
+        "Closed on",
+        "Effectiveness check",
+        "Recurrences since closure"
+      ],
+      "rows": [
+        [
+          "FR-211",
+          "Drawer seal leak",
+          "O-ring material change",
+          "Implementation",
+          "Not done",
+          "3"
+        ],
+        [
+          "FR-214",
+          "Connector fretting",
+          "New terminal design",
+          "Implementation",
+          "Not done",
+          "2"
+        ],
+        [
+          "FR-219",
+          "Caster bearing noise",
+          "Supplier lot quarantined",
+          "Implementation",
+          "Not done",
+          "4"
+        ],
+        [
+          "FR-222",
+          "Display flicker",
+          "Firmware 2.3",
+          "Verified in field",
+          "30-day check passed",
+          "0"
+        ]
+      ]
+    },
+    "options": [
+      "Encourage technicians to report more minor issues so that the FRACAS database is larger.",
+      "Replace free-text failure modes with a coded list so that a Pareto analysis can be run.",
+      "Route every report to the supplier quality engineer so that reports close faster.",
+      "Close a report only after the corrective action’s effectiveness is verified with data, and reopen it automatically if the failure mode recurs."
+    ],
+    "answer": 3,
+    "why": "<p>Every report that recurred was closed on implementation with no effectiveness check; the one report that was verified in the field has not recurred. A FRACAS loop is only closed when data show the action worked. FR-219 also shows the cost of skipping verification: quarantining a lot is containment, not a corrective action, and verification would have exposed that.</p><p><b>D. Close only on verified effectiveness, and reopen on recurrence.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Failure Reporting, Analysis, and Corrective Action System (FRACAS), Example 7.7.</span></p>",
+    "optionRationales": [
+      "More reports do not stop recurrence of the failures already known.",
+      "Coded failure modes help analysis, but the recurring failures here are already identified.",
+      "Faster closure is the problem, not the cure; the reports are already closing before the actions are proven.",
+      "Correct. Verification is the step missing from every recurring report."
+    ],
+    "keyPoint": "A FRACAS report is closed only when data verify the corrective action; recurrence reopens it.",
+    "trap": "Measuring FRACAS health by closure rate instead of by recurrence.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "FRACAS",
+      "closed loop",
+      "corrective action",
+      "effectiveness verification",
+      "containment"
+    ],
+    "sourceSection": "Chapter 7 - Data Management",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 7 - Data Management",
+        "section": "FRACAS",
+        "example": "Example 7.7"
+      }
+    ]
   }
 ];
 })(window);

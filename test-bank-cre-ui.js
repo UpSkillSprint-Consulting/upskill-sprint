@@ -57,7 +57,10 @@
       ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] mjx-container[display="true"]{max-width:100%;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;padding:4px 0;color:var(--ink)}',
       /* scoped under the page IDs so it outranks #tb-feedback-loop svg{max-width:100%} without !important */
       ':is(#tb-overview,#tb-feedback-loop,body) :is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] mjx-container[display="true"] > svg{max-width:none}',
-      ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] mjx-container[display="true"]:focus-visible{outline:2px solid var(--teal);outline-offset:2px}'
+      ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] mjx-container[display="true"]:focus-visible{outline:2px solid var(--teal);outline-offset:2px}',
+      /* Wide exhibit tables: the deciding columns may start off-screen on a phone, so say so. */
+      '@media (max-width:600px){:is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-chart-wrap:has(table.tb-q-data-table th:nth-child(4))::before{content:"Swipe sideways to see every column.";display:block;margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(--muted)}}',
+      ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-chart-wrap[data-cre-table]:focus-visible{outline:2px solid var(--teal);outline-offset:2px}'
     ].join('\n');
     document.head.appendChild(style);
   }
@@ -220,13 +223,23 @@
   /* Make each typeset display equation in a CRE Set 1 question a labelled, keyboard-scrollable
      region (MathJax inserts the containers after the engine renders, so watch for them). */
   var SCOPE=':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] mjx-container[display="true"]';
+  var TABLE_SCOPE=':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-chart-wrap';
+  function each(root,selector,fn){
+    var list=root.matches&&root.matches(selector)?[root]:root.querySelectorAll(selector);
+    Array.prototype.forEach.call(list,fn);
+  }
   function labelMath(root){
     if(!root||!root.querySelectorAll)return;
-    var list=root.matches&&root.matches(SCOPE)?[root]:root.querySelectorAll(SCOPE);
-    Array.prototype.forEach.call(list,function(el){
+    each(root,SCOPE,function(el){
       if(el.hasAttribute('data-cre-math'))return;
       el.setAttribute('data-cre-math','');el.tabIndex=0;el.setAttribute('role','region');
       el.setAttribute('aria-label','Worked equation; scroll sideways if it is wider than the screen');
+    });
+    // Exhibit tables scroll inside their wrapper; make that region reachable by keyboard.
+    each(root,TABLE_SCOPE,function(el){
+      if(el.hasAttribute('data-cre-table')||!el.querySelector('table.tb-q-data-table'))return;
+      el.setAttribute('data-cre-table','');el.tabIndex=0;el.setAttribute('role','region');
+      el.setAttribute('aria-label','Exhibit table; scroll sideways to see every column');
     });
   }
   if(typeof document!=='undefined'){

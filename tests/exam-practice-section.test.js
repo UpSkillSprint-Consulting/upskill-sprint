@@ -80,7 +80,7 @@ test('the public exam page describes current certification availability and Test
   for (const card of cards) {
     const upcoming = Boolean(card.closest('.exam-coming-soon'));
     const cre = card.getAttribute('href') === '/test-bank?exam=cre';
-    assert.equal(card.querySelector('.exam-status').textContent, upcoming ? 'Coming soon' : cre ? 'Sets 1–3: 40 questions available' : 'Available now');
+    assert.equal(card.querySelector('.exam-status').textContent, upcoming ? 'Coming soon' : cre ? 'Sets 1–3: 50 questions available' : 'Available now');
     assert.match(card.querySelector('.exam-card-action').textContent, upcoming ? /View exam details/ : /Start practicing/);
     assert.equal(card.querySelectorAll('a, button, input, select').length, 0, 'one keyboard stop per card, no nested controls');
     assert.equal(card.firstElementChild.tagName, 'H3', 'the full name comes before the acronym');

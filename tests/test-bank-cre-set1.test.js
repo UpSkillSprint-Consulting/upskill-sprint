@@ -40,7 +40,8 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-const BATCHES = [1, 2];
+const BATCHES = [1, 2, 3];
+const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/ };
 
 test('CRE Set 1 has ten well-formed, uniquely identified questions per released batch', () => {
   assert.equal(BANK.length, BATCHES.length * 10);
@@ -55,7 +56,7 @@ test('CRE Set 1 has ten well-formed, uniquely identified questions per released 
     assert.equal(q.set, 1);
     assert.ok(BATCHES.includes(q.batch));
     assert.equal(q.sub, 'cre-statistics', `${q.qid} belongs to domain III`);
-    assert.match(q.bok.code, q.batch === 1 ? /^III\.A\.[1-3]$/ : /^III\.A\.[4-7]$/);
+    assert.match(q.bok.code, BATCH_CODES[q.batch]);
     assert.equal(q.options.length, 4, `${q.qid} has four options`);
     assert.equal(new Set(q.options).size, 4, `${q.qid} options are distinct`);
     assert.ok(Number.isInteger(q.answer) && q.answer >= 0 && q.answer < 4, `${q.qid} answer index`);
@@ -362,6 +363,63 @@ test('Q19 requirement judged on the one-sided lower bound, not the estimate', ()
   assert.match(q.options[q.answer], /not demonstrated at 1,000 h.*750 h/);
 });
 
+test('Q21 the claims cliff sits exactly at the end of the 12-month warranty', () => {
+  const q = byId('cre:set-1:b03-q21');
+  const pts = q.chart.series[0].points;
+  const at = (m) => pts.find(([x]) => x === m)[1];
+  assert.ok(at(12) > at(7), 'rising before the cliff (wear-out signal)');
+  assert.ok(Math.max(...pts.filter(([x]) => x > 12).map(([, y]) => y)) < at(12) / 4, 'cliff after month 12');
+  assert.match(q.options[q.answer], /^Claims stop being captured when warranty coverage ends/);
+});
+
+test('Q22 confirmed failures per unit-hour, NFF excluded', () => {
+  const q = byId('cre:set-1:b03-q22');
+  const rate = (row) => (n_(row[3]) - n_(row[4])) / (n_(row[1]) * n_(row[2])) * 1e6;
+  const [a, b] = q.chart.rows.map(rate);
+  assert.ok(Math.abs(a - 41.7) < 0.05 && Math.abs(b - 75.0) < 0.05);
+  assert.ok(q.options[q.answer].includes('75.0 versus 41.7 confirmed failures'));
+});
+
+test('Q24 Cox hazard ratio multiplies across covariates', () => {
+  const q = byId('cre:set-1:b03-q24');
+  const [coat, temp] = q.chart.rows.map((r) => Number(String(r[1]).replace('−', '-')));
+  const hr = Math.exp(coat * 1 + temp * 2);
+  assert.ok(Math.abs(hr - 1.124) < 0.002);
+  const lead = (o) => Number(o.split(':')[0]);
+  assert.ok(Math.abs(lead(q.options[q.answer]) - hr) < 0.006, 'keyed hazard ratio');
+  q.options.forEach((o, i) => { if (i !== q.answer) assert.ok(Math.abs(lead(o) - hr) > 0.006, `distractor ${o.slice(0, 5)}`); });
+});
+
+test('Q27 smallest set of pumps reaching 70% of downtime', () => {
+  const q = byId('cre:set-1:b03-q27');
+  const rows = q.chart.rows.map(([p, , d]) => ({ p, d: n_(d) })).sort((x, y) => y.d - x.d);
+  const total = rows.reduce((a, r) => a + r.d, 0);
+  const pick = []; let cum = 0;
+  for (const r of rows) { if (cum / total >= 0.70) break; pick.push(r.p); cum += r.d; }
+  assert.deepEqual(pick, ['P-103', 'P-105', 'P-108']);
+  assert.equal(q.options[q.answer], 'P-103, P-105 and P-108.');
+});
+
+test('Q28 life table from the Nevada chart (cohorts pooled by month in service)', () => {
+  const q = byId('cre:set-1:b03-q28');
+  const cohorts = q.chart.rows.map((r) => ({ n: n_(r[1]), claims: r.slice(2).map((c) => (c === '—' ? null : n_(c))).filter((c) => c !== null) }));
+  let R = 1;
+  for (let age = 0; age < 3; age++) {
+    let risk = 0, fail = 0;
+    for (const c of cohorts) if (c.claims.length > age) { risk += c.n - c.claims.slice(0, age).reduce((a, b) => a + b, 0); fail += c.claims[age]; }
+    R *= 1 - fail / risk;
+  }
+  assertKeyed(q, (1 - R) * 100, 0.006);
+});
+
+test('Q23 and Q30 exhibits support their keys', () => {
+  const q23 = byId('cre:set-1:b03-q23');
+  assert.match(q23.chart.rows.find((r) => r[0] === 'U5')[1], /Removed at 400 h/);
+  assert.match(q23.options[q23.answer], /U1 is left-censored.*U2 and U6 are interval-censored.*U4 and U5 are right-censored/);
+  const q30 = byId('cre:set-1:b03-q30');
+  q30.chart.rows.forEach((r) => assert.equal(Number(r[5]) > 0, r[4] === 'Not done', `${r[0]}: recurrence iff not verified`));
+});
+
 /* ---------- 3. production delivery ---------- */
 
 async function productionHtml() {
@@ -521,6 +579,15 @@ test('typeset display math in Set 1 becomes a full-size, keyboard-scrollable reg
     // The no-shrink rule must outrank #tb-feedback-loop svg { max-width: 100% } (an ID selector).
     const css = window.document.getElementById('cre-visuals-style').textContent;
     assert.match(css, /:is\(#tb-overview,#tb-feedback-loop,body\) [^{]*mjx-container\[display="true"\] > svg\{max-width:none\}/);
+    // Wide exhibit tables: keyboard-reachable scroll region plus a phone swipe hint.
+    const tableIndex = window.__TB.getFeedbackSnapshot().records.findIndex((r) => r.question.qid === 'cre:set-1:b03-q30');
+    click(window, window.document.querySelector(`[data-goto="${tableIndex}"]`));
+    await new Promise((resolve) => window.setTimeout(resolve, 0));
+    const wrap = window.document.querySelector('.tb-quiz .tb-q-chart-wrap');
+    assert.equal(wrap.getAttribute('role'), 'region');
+    assert.equal(wrap.tabIndex, 0);
+    assert.match(wrap.getAttribute('aria-label'), /scroll sideways to see every column/);
+    assert.match(css, /max-width:600px[^}]*th:nth-child\(4\)\)::before\{content:"Swipe sideways to see every column\."/);
     assert.deepEqual(errors, []);
   } finally { dom.window.close(); }
 });
