@@ -40,8 +40,10 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-const BATCHES = [1, 2, 3];
-const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/ };
+const BATCHES = [1, 2, 3, 4];
+const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/ };
+// BoK domain → engine area (the five shared CRE domains)
+const DOMAIN_SUB = { III: 'cre-statistics', IV: 'cre-testing' };
 
 test('CRE Set 1 has ten well-formed, uniquely identified questions per released batch', () => {
   assert.equal(BANK.length, BATCHES.length * 10);
@@ -55,7 +57,8 @@ test('CRE Set 1 has ten well-formed, uniquely identified questions per released 
     ids.add(q.qid);
     assert.equal(q.set, 1);
     assert.ok(BATCHES.includes(q.batch));
-    assert.equal(q.sub, 'cre-statistics', `${q.qid} belongs to domain III`);
+    assert.equal(q.sub, DOMAIN_SUB[q.bok.code.split('.')[0]], `${q.qid} area matches its BoK domain`);
+    assert.ok(q.bok.domain.startsWith(q.bok.code.split('.')[0] + '. '), `${q.qid} domain name matches its code`);
     assert.match(q.bok.code, BATCH_CODES[q.batch]);
     assert.equal(q.options.length, 4, `${q.qid} has four options`);
     assert.equal(new Set(q.options).size, 4, `${q.qid} options are distinct`);
@@ -88,6 +91,13 @@ for (const batch of BATCHES) {
     assert.ok(Math.max(...letters) <= 3 && Math.min(...letters) >= 2, `answer positions are balanced: ${letters}`);
   });
 }
+
+test('batch 4 completes Domain III at 35 questions and covers every IV.A planning topic', () => {
+  const rows = BANK.filter((q) => q.batch === 4);
+  assert.equal(rows.filter((q) => q.sub === 'cre-statistics').length, 5);
+  assert.equal(BANK.filter((q) => q.sub === 'cre-statistics').length, 35, 'Domain III is complete');
+  assert.deepEqual([...new Set(rows.filter((q) => q.sub === 'cre-testing').map((q) => q.bok.code))].sort(), ['IV.A.1', 'IV.A.2', 'IV.A.3', 'IV.A.4', 'IV.A.5']);
+});
 
 test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22', () => {
   // Plain-text math outside \( … \) or \[ … \] is not allowed: Greek letters, operators, superscripts,
@@ -446,6 +456,126 @@ test('Q23 and Q30 exhibits support their keys', () => {
   assert.match(q30.options[q30.answer], /remedial.*containment/);
 });
 
+test('Q31 Kaplan-Meier at 1,000 h with two suspensions; 5,000 h needs a parametric model', () => {
+  const q = byId('cre:set-1:b04-q31');
+  const log = [...q.chart.rows].flatMap(([unit, hours, status]) => {
+    const n = /^S6 to S10$/.test(unit) ? 5 : 1;
+    return Array.from({ length: n }, () => ({ t: n_(hours), failed: status === 'Failed' }));
+  }).sort((a, b) => a.t - b.t);
+  assert.equal(log.length, 10);
+  let atRisk = 10, R = 1;
+  for (const row of log) { if (row.failed) R *= (atRisk - 1) / atRisk; atRisk--; }
+  assert.ok(Math.abs(R - 0.65625) < 1e-9);
+  const keyed = q.options[q.answer];
+  assert.ok(keyed.startsWith(`Reliability at 1,000 h is ${R.toFixed(3)}.`) && /parametric model/.test(keyed), keyed);
+  assert.ok(Math.max(...log.map((r) => r.t)) < 5000, '5,000 h lies beyond every observation');
+  // distractors: suspensions ignored (7/10), and an unchecked constant-hazard extrapolation (R^5)
+  assert.ok(q.options.some((o) => o.startsWith('Reliability at 1,000 h is 0.700')));
+  assert.ok(q.options.some((o) => o.includes(`about ${(R ** 5).toFixed(2)}`)));
+});
+
+test('Q32 lognormal B10 from the 50% and 84.1% points of the plotted line', () => {
+  const q = byId('cre:set-1:b04-q32');
+  const { median, sigma } = q.chart.line;
+  const at = (f) => q.chart.markers.find((m) => m.f === f).t;
+  assert.equal(at(50), median);
+  assert.ok(Math.abs(Math.log(at(84.1) / at(50)) - sigma) < 1e-4, 'the 84.1% marker sits one sigma above the median');
+  assertKeyed(q, median * Math.exp(normInv(0.10) * sigma), 1);
+  // plotted points are median ranks for 12 failures and lie near the line
+  q.chart.points.forEach(([t, f], i) => {
+    assert.ok(Math.abs(f - 100 * (i + 1 - 0.3) / 12.4) < 0.06);
+    assert.ok(Math.abs(Math.log(t / median) / sigma - normInv(f / 100)) < 0.08, `point ${i + 1} near the fitted line`);
+  });
+});
+
+test('Q33 two-sided 90% lower limit is the one-sided 95% bound; B10 bound misses 3,000 h', () => {
+  const q = byId('cre:set-1:b04-q33');
+  const rows = [...q.chart.rows].map((r) => r.map(n_));
+  const b10 = rows.find((r) => r[0] === 10);
+  assert.ok(b10[2] < 3000 && b10[1] > 3000);
+  // intervals are symmetric on the log scale, wider for lower percentiles, and follow one Weibull shape
+  rows.forEach((r) => assert.ok(Math.abs(Math.log(r[1] / r[2]) - Math.log(r[3] / r[1])) < 0.01));
+  const beta = (p1, p2, t1, t2) => Math.log(Math.log(1 - p2) / Math.log(1 - p1)) / Math.log(t2 / t1);
+  assert.ok(Math.abs(beta(0.05, 0.10, rows[1][1], rows[2][1]) - beta(0.01, 0.10, rows[0][1], rows[2][1])) < 0.05);
+  assert.match(q.options[q.answer], /^Not demonstrated: the lower limit of a two-sided 90% interval is a one-sided 95% lower bound/);
+});
+
+test('Q34 only Supplier C meets the quartile rule without an early outlier', () => {
+  const q = byId('cre:set-1:b04-q34');
+  const pass = [...q.chart.groups].filter((g) => g.q1 > 40);
+  assert.equal(pass.map((g) => g.label).join(), 'Supplier B,Supplier C');
+  const lowest = (g) => Math.min(g.min, ...(g.outliers || []));
+  assert.equal(pass.reduce((best, g) => (lowest(g) > lowest(best) ? g : best)).label, 'Supplier C');
+  q.chart.groups.forEach((g) => {
+    assert.ok(g.min <= g.q1 && g.q1 <= g.median && g.median <= g.q3 && g.q3 <= g.max);
+    // a valid box plot: whiskers stay inside the 1.5 × IQR fences, plotted outliers lie outside them
+    const iqr = g.q3 - g.q1, lo = g.q1 - 1.5 * iqr, hi = g.q3 + 1.5 * iqr;
+    assert.ok(g.min >= lo && g.max <= hi, `${g.label} whiskers inside the fences`);
+    (g.outliers || []).forEach((o) => assert.ok(o < lo || o > hi, `${g.label} outlier ${o} is beyond a fence`));
+  });
+  assert.match(q.options[q.answer], /^Supplier C:/);
+});
+
+test('Q35 the zero readings flatten the fit: r ≈ 0.01 with them, strong without', () => {
+  const q = byId('cre:set-1:b04-q35');
+  const pts = q.chart.series[0].points;
+  const r = (xy) => {
+    const n = xy.length, mx = xy.reduce((a, p) => a + p[0], 0) / n, my = xy.reduce((a, p) => a + p[1], 0) / n;
+    const sxy = xy.reduce((a, p) => a + (p[0] - mx) * (p[1] - my), 0), sxx = xy.reduce((a, p) => a + (p[0] - mx) ** 2, 0), syy = xy.reduce((a, p) => a + (p[1] - my) ** 2, 0);
+    return sxy / Math.sqrt(sxx * syy);
+  };
+  assert.equal(pts.length, 40);
+  assert.equal(pts.filter((p) => p[1] === 0).length, 8);
+  assert.ok(Math.abs(r(pts) - 0.01) < 0.005, 'the stem quotes the AI tool correctly');
+  assert.ok(r(pts.filter((p) => p[1] > 0)) > 0.95);
+  assert.match(q.options[q.answer], /sensor or logger dropouts/);
+});
+
+test('Q36 Duane projection to an instantaneous MTBF of 2,500 h', () => {
+  const q = byId('cre:set-1:b04-q36');
+  let T = 0, r = 0; const cum = [];
+  for (const row of q.chart.rows) { T += n_(row[1]); r += n_(row[2]); cum.push([T, T / r]); }
+  const [[T1, c1], , [T3, c3]] = cum;
+  const b = Math.log(c3 / c1) / Math.log(T3 / T1);
+  assert.ok(Math.abs(b - 0.369) < 0.001);
+  const more = T3 * ((2500 * (1 - b)) / c3) ** (1 / b) - T3;
+  assert.ok(Math.abs(more - 39500) < 100);
+  assert.equal(q.options[q.answer], 'About 39,500 more hours');
+  const cumOnly = T3 * (2500 / c3) ** (1 / b) - T3;
+  assert.ok(q.options.includes(`About ${Math.round(cumOnly / 1000)},000 more hours`), 'cumulative-MTBF trap is offered');
+});
+
+test('Q37 the plan separates field-combined stresses and runs on overdue calibration', () => {
+  const q = byId('cre:set-1:b04-q37');
+  const row = (k) => [...q.chart.rows].find((r) => r[0].startsWith(k));
+  assert.match(row('Vibration')[2], /after thermal cycling/);
+  assert.match(row('Temperature')[1], /while the vehicle vibrates/);
+  const months = (s) => n_(s.match(/(\d+) months/)[1]);
+  assert.ok(months(row('Chamber')[2]) > months(row('Chamber')[1]), 'calibration is overdue');
+  assert.match(q.options[q.answer], /at the same time.*recalibrate/);
+  assert.ok(q.options.some((o, i) => i !== q.answer && /^Recalibrate/.test(o)), "a distractor fixes calibration alone");
+});
+
+test('Q38 heavy-user life in cycles, then the extended zero-failure sample size', () => {
+  const q = byId('cre:set-1:b04-q38');
+  const plan = tableOf(q);
+  const perWeek = plan['Use at the 10th, 50th and 90th percentile user'].match(/\d+/g).map(Number);
+  const weeks = n_(plan['Warranty life'].match(/\((\d+) weeks\)/)[1]);
+  const beta = Number(plan['Known Weibull shape \\(\\beta\\)']), rig = n_(plan['Rig limit per latch']);
+  const size = (cycles) => Math.ceil(Math.log(0.10) / ((rig / cycles) ** beta * Math.log(0.95)));
+  assertKeyed(q, size(perWeek[2] * weeks), 0.01);
+  assert.ok(q.options.includes(String(size(perWeek[1] * weeks))), 'median-user trap is offered');
+});
+
+test('Q40 B10 = 2 years with beta = 1.5 implies an MTTF of 8.1 years', () => {
+  const q = byId('cre:set-1:b04-q40');
+  const beta = 1.5, eta = 2 / (-Math.log(0.9)) ** (1 / beta);
+  // Γ(1 + 1/β) by the Lanczos approximation
+  const gamma = (z) => { const g = 7, c = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7]; z -= 1; let x = c[0]; for (let i = 1; i < g + 2; i++) x += c[i] / (z + i); const t = z + g + 0.5; return Math.sqrt(2 * Math.PI) * t ** (z + 0.5) * Math.exp(-t) * x; };
+  assertKeyed(q, eta * gamma(1 + 1 / beta), 0.05);
+  assert.ok(q.options.includes(`${(2 / -Math.log(0.9)).toFixed(1)} years`), 'exponential trap is offered');
+});
+
 /* ---------- 3. production delivery ---------- */
 
 async function productionHtml() {
@@ -566,10 +696,21 @@ test('a full CRE sitting renders every visual and scores a perfect paper as 100%
         assert.equal(svg.querySelectorAll('circle.tb-chart-dot').length, 10, 'ten plotted failures');
         assert.ok(svg.querySelector('path.tb-chart-line'), 'fitted line drawn');
         assert.ok(svg.querySelector('.cre-ref'), '63.2% reference line drawn');
+      } else if (q.chart && q.chart.type === 'cre-lognormal-plot') {
+        const svg = quiz.querySelector('svg.cre-chart');
+        assert.ok(svg, `${q.qid} draws lognormal paper`);
+        assert.equal(svg.querySelectorAll('circle.tb-chart-dot').length, q.chart.points.length);
+        assert.ok(svg.querySelector('path.tb-chart-line') && svg.querySelector('.cre-ref'), 'fitted line and 50% reference drawn');
+      } else if (q.chart && q.chart.type === 'cre-box-plot') {
+        const svg = quiz.querySelector('svg.cre-chart');
+        assert.ok(svg, `${q.qid} draws the box plots`);
+        assert.equal(svg.querySelectorAll('rect.tb-chart-box').length, q.chart.groups.length);
+        assert.equal(svg.querySelectorAll('circle.tb-chart-outlier').length, q.chart.groups.reduce((a, g) => a + (g.outliers || []).length, 0));
       } else if (q.chart && q.chart.type === 'cre-xy-plot') {
         const svg = quiz.querySelector('svg.cre-chart');
         assert.ok(svg, `${q.qid} draws the x-y plot`);
-        assert.equal(svg.querySelectorAll('path.tb-chart-line').length, q.chart.series.length);
+        // scatter series (line: false) draw points only
+        assert.equal(svg.querySelectorAll('path.tb-chart-line').length, q.chart.series.filter((s) => s.line !== false).length);
         q.chart.yTicks.forEach((v) => assert.ok(svg.textContent.includes(String(v)), `${q.qid} y tick ${v}`));
       } else if (q.chart && q.chart.type === 'data-table') {
         const table = quiz.querySelector('table.tb-q-data-table');

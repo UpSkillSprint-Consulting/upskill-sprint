@@ -3,6 +3,8 @@
  * Batch 1 of 15: III.A.1–III.A.3 (basic statistics, probability, distributions).
  * Batch 2 of 15: III.A.4–III.A.7 (probability functions, sampling plans, SPC/capability,
  *                confidence and tolerance intervals).
+ * Batch 3 of 15: III.B.1–III.B.6 (data management).
+ * Batch 4 of 15: III remainder (III.A.1, A.3, A.7; III.B.4) and IV.A.1–IV.A.5 (reliability planning).
  *
  * Every calculated answer is recomputed independently in tests/test-bank-cre-set1.test.js.
  * Notation follows The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting &
@@ -2708,6 +2710,1091 @@
         "chapter": "Chapter 7 - Data Management",
         "section": "FRACAS",
         "example": "Example 7.7"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b04-q31",
+    "set": 1,
+    "batch": 4,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.1",
+      "topic": "Nonparametric (Kaplan–Meier) versus parametric estimation"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, calculation, decision",
+    "quantitative": true,
+    "stem": "Ten units of a new shaft seal were put on a 1,000-hour test. The log is shown. The customer asks for two figures: the reliability at 1,000 hours, and the reliability at the 5,000-hour service interval. Which response is correct?",
+    "chart": {
+      "type": "data-table",
+      "title": "Shaft seal test log",
+      "columns": [
+        "Unit",
+        "Hours",
+        "Status"
+      ],
+      "rows": [
+        [
+          "S1",
+          "310",
+          "Failed"
+        ],
+        [
+          "S2",
+          "400",
+          "Removed: test rig fault (seal still working)"
+        ],
+        [
+          "S3",
+          "520",
+          "Failed"
+        ],
+        [
+          "S4",
+          "650",
+          "Removed for a teardown inspection (seal still working)"
+        ],
+        [
+          "S5",
+          "780",
+          "Failed"
+        ],
+        [
+          "S6 to S10",
+          "1,000",
+          "Running when the test ended"
+        ]
+      ]
+    },
+    "options": [
+      "Reliability at 1,000 h is 0.700. Reliability at 5,000 h should come from a Weibull model fitted to the three failures, after its fit has been checked.",
+      "Reliability at 1,000 h is 0.656. Reliability at 5,000 h is also about 0.656, because the Kaplan–Meier curve stays flat after the last failure.",
+      "Reliability at 1,000 h is 0.656. Reliability at 5,000 h is about 0.12, found by compounding the 1,000 h result over five 1,000 h periods.",
+      "Reliability at 1,000 h is 0.656. Reliability at 5,000 h needs a parametric model, such as a Weibull fit checked against the data."
+    ],
+    "answer": 3,
+    "why": "<p>The Kaplan–Meier estimate multiplies the conditional survival at each failure, using the number of units still at risk just before it. A removed unit leaves the risk set after its removal time, but it still counts as surviving up to that time:</p><p>\\[\\begin{aligned}\\hat{R}(310) &= 9/10 = 0.900 \\\\ \\hat{R}(520) &= 0.900(7/8) \\\\ &= 0.7875 \\\\ \\hat{R}(780) &= 0.7875(5/6) \\\\ &= 0.656\\end{aligned}\\]</p><p>where \\(\\hat{R}(t)\\) is the Kaplan–Meier reliability estimate just after time \\(t\\); 8 units are at risk at 520 h because S1 failed and S2 was removed, and 6 are at risk at 780 h. No failures occur between 780 h and 1,000 h, so \\(\\hat{R}(1000) = 0.656\\).</p><p>A nonparametric estimate exists only over the observed time range. It says nothing about 5,000 h, five times longer than any unit ran. Reaching that far needs a parametric distribution, chosen and checked against the data, and the customer should be told the answer is an extrapolation.</p><p><b>D. 0.656; 5,000 h needs a checked parametric model.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Basic Statistics (parametric and nonparametric methods) and Reliability Distribution Estimation Using the Kaplan-Meier Method; Ch. 7, Parametric and Nonparametric Statistics.</span></p>",
+    "optionRationales": [
+      "\\(1 - 3/10 = 0.700\\) treats the two removed units as if they had survived the whole 1,000 h. They left the test at 400 h and 650 h.",
+      "The 1,000 h figure is right, but a Kaplan–Meier curve ends at the last observation. Holding it flat to 5,000 h assumes no failures in a period nobody observed.",
+      "\\(0.656^{5} = 0.12\\) assumes every 1,000 h period has the same survival, which is a constant-hazard (exponential) model adopted without checking it. Three failures cannot support that assumption.",
+      "Correct. \\(\\hat{R}(1000) = (9/10)(7/8)(5/6) = 0.656\\), and only a parametric model can extrapolate past the test."
+    ],
+    "keyPoint": "Kaplan–Meier handles suspensions without assuming a distribution, but it cannot extrapolate. Extrapolation requires a parametric model whose fit has been checked.",
+    "trap": "Ignoring suspensions, assuming a constant hazard without checking it, or extending a nonparametric curve beyond the data.",
+    "formula": "\\(\\hat{R}(t) = \\prod_{t_i \\le t}\\left(1 - \\frac{d_i}{n_i}\\right)\\)",
+    "assumptions": [
+      "Removals were unrelated to the seal condition (non-informative censoring)."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "Kaplan-Meier",
+      "nonparametric",
+      "parametric",
+      "suspensions",
+      "extrapolation"
+    ],
+    "sourceSection": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Reliability distribution estimation using the Kaplan-Meier method",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b04-q32",
+    "set": 1,
+    "batch": 4,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.3",
+      "topic": "Reading a lognormal probability plot"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "Failure times for a solder joint were plotted on lognormal probability paper, and the fitted line is shown. The line crosses 50% at 2,000 hours and 84.1% at 5,000 hours. What is the B10 life, the time by which 10% of joints are expected to fail?",
+    "chart": {
+      "type": "cre-lognormal-plot",
+      "title": "Solder joint life: lognormal probability plot",
+      "altText": "Lognormal probability plot of twelve solder-joint failure times, from about 500 hours to about 8,400 hours, plotted against median-rank unreliability from 5.6% to 94.4%. A straight fitted line runs through the points. Marked points on the line: 50% unreliability at 2,000 hours and 84.1% at 5,000 hours.",
+      "xTicks": [
+        100,
+        200,
+        500,
+        1000,
+        2000,
+        5000,
+        10000,
+        20000
+      ],
+      "yTicks": [
+        1,
+        5,
+        10,
+        20,
+        30,
+        50,
+        70,
+        80,
+        90,
+        95,
+        99
+      ],
+      "points": [
+        [
+          500,
+          5.6
+        ],
+        [
+          700,
+          13.7
+        ],
+        [
+          1020,
+          21.8
+        ],
+        [
+          1190,
+          29.8
+        ],
+        [
+          1550,
+          37.9
+        ],
+        [
+          1790,
+          46.0
+        ],
+        [
+          2240,
+          54.0
+        ],
+        [
+          2550,
+          62.1
+        ],
+        [
+          3410,
+          70.2
+        ],
+        [
+          3960,
+          78.2
+        ],
+        [
+          5610,
+          86.3
+        ],
+        [
+          8380,
+          94.4
+        ]
+      ],
+      "line": {
+        "median": 2000,
+        "sigma": 0.9163
+      },
+      "markers": [
+        {
+          "t": 2000,
+          "f": 50,
+          "label": "50% at 2,000 h"
+        },
+        {
+          "t": 5000,
+          "f": 84.1,
+          "label": "84.1% at 5,000 h"
+        }
+      ],
+      "xLabel": "Hours to failure (log scale)",
+      "yLabel": "Unreliability, % (normal scale)"
+    },
+    "options": [
+      "443 h",
+      "618 h",
+      "925 h",
+      "6,470 h"
+    ],
+    "answer": 1,
+    "why": "<p>On lognormal paper the line is the normal distribution of \\(\\ln t\\). The 50% point gives the median, and the 84.1% point is one log-standard deviation above it:</p><p>\\[\\begin{aligned}\\sigma &= \\ln\\left(\\frac{t_{84.1}}{t_{50}}\\right) \\\\ &= \\ln 2.5 = 0.916 \\\\ \\ln t_{10} &= \\ln 2000 - 1.2816\\,\\sigma \\\\ &= 7.601 - 1.174 \\\\ &= 6.427 \\\\ t_{10} &= e^{6.427} = 618 \\text{ h}\\end{aligned}\\]</p><p>where \\(t_{50}\\) is the median life, \\(t_{84.1}\\) the time at 84.1% unreliability, \\(\\sigma\\) the standard deviation of \\(\\ln t\\), \\(1.2816\\) the standard normal value with 10% below it and \\(t_{10}\\) the B10 life. Equivalently, \\(t_{10} = 2000 \\times 0.309\\).</p><p><b>B. 618 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions (lognormal) and Probability Plots and Assessing Goodness-of-Fit.</span></p>",
+    "optionRationales": [
+      "Uses \\(z = 1.645\\), the 5% point: \\(2000\\,e^{-1.645(0.916)} = 443\\) h. That is the B5 life.",
+      "Correct. \\(t_{10} = 2000\\,e^{-1.2816(0.916)} = 618\\) h.",
+      "Uses \\(z = 0.8416\\), the 20% point: \\(2000\\,e^{-0.8416(0.916)} = 925\\) h. That is the B20 life.",
+      "Adds \\(1.2816\\,\\sigma\\) instead of subtracting it: \\(2000\\,e^{1.174} = 6470\\) h is the B90 life."
+    ],
+    "keyPoint": "On lognormal paper, \\(\\sigma = \\ln(t_{84.1}/t_{50})\\) and \\(t_p = t_{50}\\,e^{z_p \\sigma}\\).",
+    "trap": "Using the z value for the wrong percentile, or adding instead of subtracting.",
+    "formula": "\\(t_p = t_{50}\\exp(z_p\\,\\sigma)\\), \\(z_{0.10} = -1.2816\\)",
+    "assumptions": [
+      "Life is lognormal, as the straight-line fit indicates."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "lognormal",
+      "probability plot",
+      "B10 life",
+      "percentile",
+      "median"
+    ],
+    "sourceSection": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Probability distributions — lognormal; probability plots",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b04-q33",
+    "set": 1,
+    "batch": 4,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.7",
+      "topic": "Demonstrating a percentile life from Weibull confidence bounds"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Software output interpretation, decision",
+    "quantitative": false,
+    "stem": "A requirement says that no more than 10% of fuel pumps may fail before 3,000 hours, demonstrated with 95% confidence. A Weibull analysis of life-test data produced the table of percentiles shown, with a two-sided 90% confidence interval. Which conclusion is correct?",
+    "chart": {
+      "type": "data-table",
+      "title": "Table of percentiles: Weibull fit, two-sided 90% confidence interval",
+      "columns": [
+        "Percent",
+        "Percentile (h)",
+        "Lower (h)",
+        "Upper (h)"
+      ],
+      "rows": [
+        [
+          "1",
+          "1,330",
+          "640",
+          "2,760"
+        ],
+        [
+          "5",
+          "3,050",
+          "1,880",
+          "4,950"
+        ],
+        [
+          "10",
+          "4,400",
+          "2,950",
+          "6,560"
+        ]
+      ]
+    },
+    "options": [
+      "Demonstrated: the B10 estimate of 4,400 h is well above 3,000 h.",
+      "Demonstrated: a one-sided 95% bound is less conservative than the two-sided 90% interval shown, so the true one-sided bound on B10 lies above 2,950 h and clears 3,000 h.",
+      "Not demonstrated: the lower limit of a two-sided 90% interval is a one-sided 95% lower bound, and for B10 it is 2,950 h, below 3,000 h.",
+      "Demonstrated: the B5 estimate of 3,050 h exceeds 3,000 h, so fewer than 5% of pumps fail before 3,000 h."
+    ],
+    "answer": 2,
+    "why": "<p>A two-sided 90% interval leaves 5% in each tail, so its lower limit is exactly a one-sided 95% lower confidence bound. The requirement is about the 10th percentile, so read the B10 row. The bound is 2,950 h, which is short of 3,000 h, so the requirement is not demonstrated even though the point estimate is 4,400 h. More test time or more units would narrow the interval.</p><p><b>C. Not demonstrated: the B10 one-sided 95% bound is 2,950 h.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals (Weibull intervals; one-sided and two-sided bounds).</span></p>",
+    "optionRationales": [
+      "A point estimate carries no confidence statement; the requirement asks for 95% confidence.",
+      "The two are the same bound. Each tail of a two-sided 90% interval holds 5%, so its lower limit is the one-sided 95% bound.",
+      "Correct. The two-sided 90% lower limit on B10 (2,950 h) is the one-sided 95% bound, and it falls short of 3,000 h.",
+      "The B5 row is a point estimate with no confidence attached, and its own lower bound (1,880 h) is far below 3,000 h. The requirement concerns B10 at 95% confidence."
+    ],
+    "keyPoint": "The lower limit of a two-sided \\(100(1 - 2\\alpha)\\%\\) interval is a one-sided \\(100(1 - \\alpha)\\%\\) bound. Check the percentile that matches the requirement.",
+    "trap": "Using the point estimate, believing the one-sided bound is looser, or reading the wrong percentile row.",
+    "formula": null,
+    "assumptions": [
+      "The Weibull model fits the test data."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "confidence bound",
+      "Weibull",
+      "percentile",
+      "B10",
+      "one-sided bound"
+    ],
+    "sourceSection": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Confidence and tolerance intervals — Weibull intervals",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b04-q34",
+    "set": 1,
+    "batch": 4,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "B. Data Management",
+      "code": "III.B.4",
+      "topic": "Comparing life data with box-and-whisker plots"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, decision",
+    "quantitative": false,
+    "stem": "Thirty bearings from each of three suppliers were run to failure on the same rig. The box plots show cycles to failure. The requirement is that at least 75% of bearings exceed 40,000 cycles, and warranty cost is driven by the earliest failures. Which supplier should be chosen?",
+    "chart": {
+      "type": "cre-box-plot",
+      "title": "Bearing cycles to failure by supplier",
+      "eyebrow": "Box-and-whisker plots",
+      "altText": "Box plots of cycles to failure in thousands. Supplier A: minimum 22, first quartile 35, median 48, third quartile 60, maximum 75. Supplier B: lower whisker 30, first quartile 44, median 52, third quartile 62, upper whisker 85, with one outlier at 12. Supplier C: minimum 38, first quartile 43, median 47, third quartile 51, maximum 57. A dashed line marks 40.",
+      "xTicks": [
+        0,
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100
+      ],
+      "groups": [
+        {
+          "label": "Supplier A",
+          "min": 22,
+          "q1": 35,
+          "median": 48,
+          "q3": 60,
+          "max": 75,
+          "outliers": []
+        },
+        {
+          "label": "Supplier B",
+          "min": 30,
+          "q1": 44,
+          "median": 52,
+          "q3": 62,
+          "max": 85,
+          "outliers": [
+            12
+          ]
+        },
+        {
+          "label": "Supplier C",
+          "min": 38,
+          "q1": 43,
+          "median": 47,
+          "q3": 51,
+          "max": 57,
+          "outliers": []
+        }
+      ],
+      "refLines": [
+        {
+          "x": 40,
+          "label": "40,000 cycles"
+        }
+      ],
+      "xLabel": "Cycles to failure (thousands)"
+    },
+    "options": [
+      "Supplier C: its first quartile is above 40,000 cycles, and its shortest life (38,000 cycles) is the longest of the three, with no outliers.",
+      "Supplier B: it has the highest median and third quartile, so its bearings give the longest life on average.",
+      "Supplier B: its first quartile (44,000 cycles) is above Supplier C’s (43,000 cycles), so more of its bearings exceed 40,000 cycles.",
+      "Either B or C: both first quartiles exceed 40,000 cycles, and a box plot cannot show early failures."
+    ],
+    "answer": 0,
+    "why": "<p>The first quartile is the life that 75% of bearings exceed, so the requirement is met when the box starts to the right of 40,000 cycles. Suppliers B and C both pass; A does not (35,000). The tiebreaker is the early tail. Supplier B has an outlier at 12,000 cycles and a lower whisker reaching 30,000 cycles, so it produces the earliest, warranty-driving failures. Supplier C is tightly grouped, with its shortest life at 38,000 cycles. Its lower median does not matter for this requirement.</p><p><b>A. Supplier C.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Data Summary and Reporting — data visualization techniques (box-and-whisker plots, Example 7.5).</span></p>",
+    "optionRationales": [
+      "Correct. C meets the 75% requirement and has the best early tail, which drives warranty cost.",
+      "A high median and upper quartile describe typical and long lives. The requirement and the warranty cost depend on the lower tail, where B has the earliest failure.",
+      "Both first quartiles clear 40,000 cycles, so both meet the 75% requirement. The 1,000-cycle difference in first quartiles does not outweigh B’s early outlier.",
+      "Box plots do show early failures: the lower whisker and the plotted outlier at 12,000 cycles are exactly that."
+    ],
+    "keyPoint": "Match the box-plot feature to the requirement: quartiles for coverage, whiskers and outliers for early failures, the median for typical life.",
+    "trap": "Choosing on the median, or overlooking an outlier in the lower tail.",
+    "formula": null,
+    "assumptions": [
+      "All bearings were tested under the same conditions."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "box plot",
+      "five-number summary",
+      "outliers",
+      "supplier comparison",
+      "data visualization"
+    ],
+    "sourceSection": "Chapter 7 - Data Management",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 7 - Data Management",
+        "section": "Data summary and reporting — data visualization techniques",
+        "example": "Example 7.5"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b04-q35",
+    "set": 1,
+    "batch": 4,
+    "sub": "cre-statistics",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "B. Data Management",
+      "code": "III.B.4",
+      "topic": "Data integrity before trusting an AI analysis"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, decision",
+    "quantitative": false,
+    "stem": "An AI analytics tool screened 40 vibration readings from pump bearings and reported almost no relationship between vibration and operating hours (\\(r = 0.01\\)). It recommends dropping vibration from the predictive-maintenance model. The readings are plotted with the tool’s fitted line. What should the reliability engineer do?",
+    "chart": {
+      "type": "cre-xy-plot",
+      "title": "Bearing vibration against operating hours",
+      "eyebrow": "Scatter plot",
+      "legend": true,
+      "altText": "Scatter plot of 40 vibration readings in millimetres per second against operating hours from 0 to 8,000. Thirty-two readings rise steadily from about 1 at 200 hours to about 4.5 at 8,000 hours. Eight readings between 6,250 and 7,350 hours are exactly 0.0. The AI tool’s dashed fitted line is almost flat at about 1.9.",
+      "xTicks": [
+        0,
+        1000,
+        2000,
+        3000,
+        4000,
+        5000,
+        6000,
+        7000,
+        8000
+      ],
+      "yTicks": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "series": [
+        {
+          "label": "Vibration readings",
+          "line": false,
+          "points": [
+            [
+              230,
+              1.1
+            ],
+            [
+              240,
+              1.1
+            ],
+            [
+              290,
+              1.1
+            ],
+            [
+              480,
+              0.9
+            ],
+            [
+              540,
+              1.3
+            ],
+            [
+              1400,
+              2.0
+            ],
+            [
+              1450,
+              1.3
+            ],
+            [
+              1700,
+              2.0
+            ],
+            [
+              1760,
+              1.8
+            ],
+            [
+              1880,
+              1.7
+            ],
+            [
+              1960,
+              2.4
+            ],
+            [
+              2130,
+              2.1
+            ],
+            [
+              2190,
+              1.7
+            ],
+            [
+              2370,
+              2.1
+            ],
+            [
+              2540,
+              2.3
+            ],
+            [
+              2560,
+              2.1
+            ],
+            [
+              3080,
+              2.6
+            ],
+            [
+              3670,
+              2.6
+            ],
+            [
+              3840,
+              2.9
+            ],
+            [
+              3850,
+              3.1
+            ],
+            [
+              4080,
+              2.7
+            ],
+            [
+              4140,
+              2.9
+            ],
+            [
+              4210,
+              2.8
+            ],
+            [
+              4220,
+              2.9
+            ],
+            [
+              4520,
+              2.7
+            ],
+            [
+              4980,
+              3.1
+            ],
+            [
+              5050,
+              3.2
+            ],
+            [
+              5080,
+              3.5
+            ],
+            [
+              5110,
+              3.6
+            ],
+            [
+              5600,
+              3.2
+            ],
+            [
+              6250,
+              0.0
+            ],
+            [
+              6380,
+              0.0
+            ],
+            [
+              6420,
+              0.0
+            ],
+            [
+              6610,
+              0.0
+            ],
+            [
+              6670,
+              0.0
+            ],
+            [
+              7010,
+              0.0
+            ],
+            [
+              7200,
+              0.0
+            ],
+            [
+              7350,
+              0.0
+            ],
+            [
+              7910,
+              4.5
+            ],
+            [
+              7960,
+              4.5
+            ]
+          ]
+        },
+        {
+          "label": "AI tool fitted line",
+          "dashed": true,
+          "showPoints": false,
+          "points": [
+            [
+              0,
+              1.92
+            ],
+            [
+              8000,
+              1.97
+            ]
+          ]
+        }
+      ],
+      "xLabel": "Operating hours",
+      "yLabel": "Vibration velocity (mm/s RMS)"
+    },
+    "options": [
+      "Accept the result: a correlation this close to zero shows vibration is not a useful wear indicator for these bearings.",
+      "Remove the readings that lie more than two standard deviations from the fitted line, then refit, so that the AI model is not distorted by noise.",
+      "Treat the eight 0.0 readings as suspected sensor or logger dropouts, confirm them against the logger records, exclude them with the reason documented, and then refit.",
+      "Log-transform the vibration readings to reduce the influence of the extreme values, then let the AI tool refit the relationship."
+    ],
+    "answer": 2,
+    "why": "<p>A running bearing cannot have zero vibration, and eight readings of exactly 0.0 clustered in one period of operating hours point to a data-collection fault, not physics. Those points sit at the highest operating hours, where true vibration is highest, so they flatten the fitted line and pull the correlation to almost zero. The other 32 readings rise steadily with hours. Data integrity must be checked before any analysis, human or AI, is trusted: confirm the dropouts in the logger records, exclude them with a documented reason, and refit. The Handbook also notes that AI methods need large, clean training sets and are not appropriate for every situation.</p><p><b>C. Treat the zeros as suspected dropouts, confirm, exclude with documentation, refit.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Data Summary and Reporting — data usability and data analysis (accuracy, integrity, AI); data visualization techniques (scatter plots).</span></p>",
+    "optionRationales": [
+      "The correlation is computed on corrupted data. The scatter plot shows a strong upward pattern once the impossible zeros are set aside.",
+      "The zeros are far from the true trend but close to the flat, distorted line, so a residual rule based on that line keeps them and may remove good readings instead.",
+      "Correct. It checks integrity first, documents the exclusion and then reanalyzes.",
+      "The logarithm of 0.0 is undefined, and a transformation would hide a data-integrity problem rather than fix it."
+    ],
+    "keyPoint": "Assess accuracy and integrity before analysis. Physically impossible values are data faults to investigate, not outliers to trim or transform.",
+    "trap": "Trusting an AI summary statistic without plotting the data, or \"cleaning\" with a rule built on the distorted fit.",
+    "formula": null,
+    "assumptions": [
+      "The pumps ran continuously while the readings were taken."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "data integrity",
+      "scatter plot",
+      "correlation",
+      "artificial intelligence",
+      "sensor dropout"
+    ],
+    "sourceSection": "Chapter 7 - Data Management",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 7 - Data Management",
+        "section": "Data summary and reporting — data usability and data analysis",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b04-q36",
+    "set": 1,
+    "batch": 4,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "A. Planning",
+      "code": "IV.A.1",
+      "topic": "Reliability growth (TAAF): Duane model projection"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "A pump controller is in a test, analyze and fix (TAAF) program. Each cycle accumulated 15,000 equivalent unit-hours, and design fixes were made between cycles. Using the Duane model, with the growth rate estimated from the first and third cumulative points, how many more test hours are needed to reach an instantaneous (current) MTBF of 2,500 hours if the same growth rate continues?",
+    "chart": {
+      "type": "data-table",
+      "title": "TAAF program results (equivalent unit-hours and failures in each cycle)",
+      "columns": [
+        "Cycle",
+        "Unit-hours",
+        "Failures"
+      ],
+      "rows": [
+        [
+          "1",
+          "15,000",
+          "18"
+        ],
+        [
+          "2",
+          "15,000",
+          "11"
+        ],
+        [
+          "3",
+          "15,000",
+          "7"
+        ]
+      ]
+    },
+    "options": [
+      "About 20,100 more hours",
+      "About 39,500 more hours",
+      "About 84,500 more hours",
+      "About 249,000 more hours"
+    ],
+    "answer": 1,
+    "why": "<p>Duane plots the cumulative MTBF against cumulative test time on log–log scales. First the cumulative points and the growth rate:</p><p>\\[\\begin{aligned}\\theta_{C,1} &= 15000/18 \\\\ &= 833.3 \\\\ \\theta_{C,3} &= 45000/36 \\\\ &= 1250 \\\\ b &= \\frac{\\log 1.5}{\\log 3} \\\\ &= 0.369\\end{aligned}\\]</p><p>where \\(\\theta_{C,1}\\) and \\(\\theta_{C,3}\\) are the cumulative MTBFs after cycles 1 and 3, \\(\\theta_C(T)\\) is the cumulative MTBF (total time divided by total failures) after \\(T\\) unit-hours, \\(b\\) is the growth rate, \\(1.5 = 1250/833.3\\) and \\(3 = 45000/15000\\). The instantaneous MTBF is \\(\\theta = \\theta_C/(1 - b)\\), now \\(1250/0.631 = 1981\\) h. To reach 2,500 h:</p><p>\\[\\begin{aligned}\\theta_C &= 2500(1 - b) \\\\ &= 1577 \\\\ T &= 45000(1.262)^{1/b} \\\\ &= 45000(1.262)^{2.71} \\\\ &= 84500 \\\\ \\Delta T &= 84500 - 45000 \\\\ &= 39500 \\text{ h}\\end{aligned}\\]</p><p>where \\(1.262 = 1577/1250\\) is the growth still needed in cumulative MTBF, \\(T\\) is the cumulative test time needed and \\(\\Delta T\\) the additional time. Growth is slow at this rate: a 26% rise in current MTBF needs nearly as much test time again as has been spent so far.</p><p><b>B. About 39,500 more hours.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 8, Reliability Growth Testing (Duane model; method of Example 8.1).</span></p>",
+    "optionRationales": [
+      "Uses the exponent \\(1/(1 - b)\\) instead of \\(1/b\\). Cumulative failures grow as \\(T^{1 - b}\\), but cumulative MTBF grows as \\(T^{b}\\), so projecting MTBF needs \\(1/b\\).",
+      "Correct. \\(b = 0.369\\), the target cumulative MTBF is 1,577 h, \\(T = 84500\\) h, so about 39,500 more hours.",
+      "84,500 h is the total cumulative test time needed. The 45,000 h already run count toward it, so only about 39,500 more hours are needed.",
+      "Sets the cumulative MTBF, rather than the instantaneous MTBF, equal to 2,500 h: \\(45000(2)^{2.71}\\). The current MTBF is higher than the cumulative by the factor \\(1/(1 - b)\\)."
+    ],
+    "keyPoint": "Duane: \\(\\theta_C \\propto T^{b}\\) and the instantaneous MTBF is \\(\\theta_C/(1 - b)\\). Convert the target before projecting the test time.",
+    "trap": "Confusing cumulative with instantaneous MTBF, or extrapolating growth linearly.",
+    "formula": "\\(b = \\log(\\theta_{C2}/\\theta_{C1})/\\log(T_2/T_1)\\); \\(\\theta = \\theta_C/(1 - b)\\); \\(T = T_0(\\theta_C/\\theta_{C0})^{1/b}\\)",
+    "assumptions": [
+      "The Duane growth rate stays constant and the TAAF process continues as before."
+    ],
+    "estimatedMinutes": 7,
+    "keywords": [
+      "reliability growth",
+      "Duane model",
+      "TAAF",
+      "instantaneous MTBF",
+      "cumulative MTBF"
+    ],
+    "sourceSection": "Chapter 8 - Reliability Planning",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 8 - Reliability Planning",
+        "section": "Reliability growth testing",
+        "example": "Example 8.1"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b04-q37",
+    "set": 1,
+    "batch": 4,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "A. Planning",
+      "code": "IV.A.5",
+      "topic": "Building the test environment into the plan"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, decision",
+    "quantitative": false,
+    "stem": "A reliability test plan for a vehicle-mounted electronic module is summarized below. In service, the module sees road vibration and daily temperature cycling at the same time. Which revision to the plan is most needed before testing begins?",
+    "chart": {
+      "type": "data-table",
+      "title": "Module test plan",
+      "columns": [
+        "Item",
+        "Field condition or requirement",
+        "Planned test"
+      ],
+      "rows": [
+        [
+          "Temperature",
+          "−30 °C to +70 °C, cycling daily while the vehicle vibrates",
+          "Thermal cycling, −40 °C to +85 °C, 500 cycles"
+        ],
+        [
+          "Vibration",
+          "Road vibration whenever the vehicle runs",
+          "Random vibration, 6 Grms for 24 h, run after thermal cycling ends"
+        ],
+        [
+          "Humidity",
+          "Up to 95% relative humidity, condensing",
+          "85 °C and 85% relative humidity for 1,000 h"
+        ],
+        [
+          "Chamber thermocouples and accelerometers",
+          "Calibration interval: 12 months",
+          "Last calibrated 30 months ago"
+        ]
+      ]
+    },
+    "options": [
+      "Run vibration before thermal cycling so that the harsher stress comes first, and extend the humidity test to 2,000 h.",
+      "Recalibrate the chamber instruments, then run the plan as written, with thermal cycling followed by vibration.",
+      "Double the number of modules on the thermal leg and drop the vibration leg, because temperature dominates electronics failures.",
+      "Apply thermal cycling and vibration at the same time, and recalibrate the chamber instruments before the test starts."
+    ],
+    "answer": 3,
+    "why": "<p>The test environment should reflect how the stresses act in use. The field applies vibration and temperature cycling at the same time, and their combined effect (for example, on solder joints) can differ from applying them one after the other, where the order itself changes the result. A combined-environment test (CERT) removes that problem. Separately, results are only valid if the test equipment is accurate: instruments 18 months past their calibration interval must be recalibrated before the test, not after.</p><p><b>D. Combine thermal cycling and vibration, and recalibrate first.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 8, Test Environment (combined environmental reliability testing, calibration); Environmental Factors and Use Conditions.</span></p>",
+    "optionRationales": [
+      "Any sequential order still separates stresses that act together in the field, and a longer humidity test does not address either real gap.",
+      "Recalibration fixes one gap, but running the stresses one after the other still misses failures caused by their combined effect in service.",
+      "Dropping vibration removes a field stress altogether; the plan should match the use environment, not a general rule about electronics.",
+      "Correct. It matches the combined field environment and makes the measurements trustworthy before testing starts."
+    ],
+    "keyPoint": "Build the test environment from the use environment, including stresses that act together, and verify test-equipment calibration before testing.",
+    "trap": "Testing combined field stresses sequentially, or running a test on overdue calibration.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "test environment",
+      "combined environment",
+      "CERT",
+      "calibration",
+      "vibration",
+      "thermal cycling"
+    ],
+    "sourceSection": "Chapter 8 - Reliability Planning",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 8 - Reliability Planning",
+        "section": "Test environment",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b04-q38",
+    "set": 1,
+    "batch": 4,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "A. Planning",
+      "code": "IV.A.2",
+      "topic": "Usage severity and zero-failure test planning"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "A dishwasher door latch must meet the reliability requirement shown for heavy users, defined as the 90th-percentile user. A zero-failure test will cycle each latch on a rig. Using the planning data, what is the minimum number of latches that must complete the test with no failures?",
+    "chart": {
+      "type": "data-table",
+      "title": "Latch test planning data",
+      "columns": [
+        "Item",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Warranty life",
+          "5 years (260 weeks)"
+        ],
+        [
+          "Use at the 10th, 50th and 90th percentile user",
+          "2, 5 and 9 cycles per week"
+        ],
+        [
+          "Reliability requirement",
+          "0.95 at warranty life for the 90th-percentile user"
+        ],
+        [
+          "Confidence",
+          "90%"
+        ],
+        [
+          "Known Weibull shape \\(\\beta\\)",
+          "2"
+        ],
+        [
+          "Rig limit per latch",
+          "4,000 cycles"
+        ]
+      ]
+    },
+    "options": [
+      "5",
+      "16",
+      "27",
+      "45"
+    ],
+    "answer": 1,
+    "why": "<p>First convert the requirement into cycles for the heavy user, then use the zero-failure plan with test-time extension:</p><p>\\[\\begin{aligned}t &= 9 \\times 260 = 2340 \\text{ cycles} \\\\ k &= \\frac{4000}{2340} = 1.709 \\\\ n &= \\frac{\\ln(1 - C)}{k^{\\beta}\\,\\ln R} \\\\ &= \\frac{\\ln 0.10}{1.709^{2}\\,\\ln 0.95} \\\\ &= \\frac{-2.303}{2.922(-0.0513)} \\\\ &= 15.4\\end{aligned}\\]</p><p>where \\(t\\) is the warranty life in cycles for the 90th-percentile user, \\(k\\) the ratio of test cycles to required cycles, \\(\\beta\\) the Weibull shape, \\(R\\) the required reliability and \\(C\\) the confidence. Round up: 16 latches.</p><p><b>B. 16</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 8, Customer Profiles; Planning Zero-Failure Tests to Estimate Reliability (Example 8.2); Environmental Factors and Use Conditions.</span></p>",
+    "optionRationales": [
+      "Uses the 50th-percentile user (\\(5 \\times 260 = 1300\\) cycles, \\(k = 3.08\\)): \\(n = 4.7\\), so 5. The requirement is set for heavy users.",
+      "Correct. \\(t = 2340\\) cycles, \\(k = 1.709\\), \\(n = 15.4\\), so 16 latches.",
+      "Uses \\(k\\) instead of \\(k^{\\beta}\\): \\(\\ln 0.10/(1.709 \\ln 0.95) = 26.3\\), so 27.",
+      "Ignores the test extension (\\(k = 1\\)): \\(\\ln 0.10/\\ln 0.95 = 44.9\\), so 45."
+    ],
+    "keyPoint": "Set the test length from the use profile the requirement names, then reduce the sample size by \\(k^{\\beta}\\) for testing beyond the required life.",
+    "trap": "Using the median user, scaling by \\(k\\) instead of \\(k^{\\beta}\\), or ignoring the extension.",
+    "formula": "\\(n = \\ln(1 - C)/(k^{\\beta}\\ln R)\\), \\(k = t_{\\text{test}}/t_{\\text{required}}\\)",
+    "assumptions": [
+      "Rig cycles are equivalent to field cycles.",
+      "The Weibull shape is known and the same on the rig and in service."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "customer usage profile",
+      "duty cycle",
+      "zero-failure test",
+      "Weibull",
+      "sample size"
+    ],
+    "sourceSection": "Chapter 8 - Reliability Planning",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 8 - Reliability Planning",
+        "section": "Customer profiles; planning zero-failure tests",
+        "example": "Example 8.2"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b04-q39",
+    "set": 1,
+    "batch": 4,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "A. Planning",
+      "code": "IV.A.3",
+      "topic": "Gathering expert judgment on failure consequences"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Understand",
+    "questionType": "Scenario judgment",
+    "quantitative": false,
+    "stem": "A team must rank the consequences of eight failure modes of a new infusion pump. In past meetings, one senior designer has dominated the discussion. Which technique collects expert judgment anonymously, over several rounds, until the experts reach consensus?",
+    "chart": null,
+    "options": [
+      "Delphi method",
+      "Brainstorming session",
+      "Probability and impact (PI) matrix",
+      "Five whys"
+    ],
+    "answer": 0,
+    "why": "<p>The Delphi method sends a questionnaire to each expert, anonymizes and summarizes the responses, and repeats the rounds until consensus forms. Because no one sees who said what, it avoids groupthink and the influence of dominant personalities. It takes longer than a meeting but gives each expert time to think.</p><p><b>A. Delphi method</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 8, Failure Consequence (Delphi method, PI matrix, FMEA).</span></p>",
+    "optionRationales": [
+      "Correct. Anonymous, iterative rounds that converge on consensus.",
+      "A brainstorming session is a group meeting, where a dominant voice can steer the result.",
+      "A PI matrix displays risks by likelihood and impact once they have been judged; it does not collect the judgments.",
+      "Five whys is a root cause technique, not a way to pool expert opinion on consequences."
+    ],
+    "keyPoint": "Delphi: anonymous, iterative expert rounds that avoid groupthink and dominant personalities.",
+    "trap": "Choosing a group meeting technique, or a display tool, for the task of gathering judgments.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "failure consequence",
+      "Delphi method",
+      "expert judgment",
+      "groupthink"
+    ],
+    "sourceSection": "Chapter 8 - Reliability Planning",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 8 - Reliability Planning",
+        "section": "Failure consequence",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b04-q40",
+    "set": 1,
+    "batch": 4,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "A. Planning",
+      "code": "IV.A.4",
+      "topic": "Turning a warranty requirement into a life requirement"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Calculation, decision",
+    "quantitative": true,
+    "stem": "A product has a 2-year warranty, and the failure criterion is that no more than 10% of units may fail within the warranty. Life data from the previous model fit a Weibull distribution with \\(\\beta = 1.5\\). Marketing wants to quote the requirement as a mean time to failure (MTTF). What is the minimum MTTF consistent with the warranty requirement?",
+    "chart": null,
+    "options": [
+      "1.8 years",
+      "7.0 years",
+      "8.1 years",
+      "19.0 years"
+    ],
+    "answer": 2,
+    "why": "<p>The requirement fixes the 10th percentile (B10) at 2 years. Solve for the scale \\(\\eta\\), then convert to the mean:</p><p>\\[\\begin{aligned}t_{10} &= \\eta\\,(-\\ln 0.90)^{1/\\beta} \\\\ 2 &= \\eta\\,(0.10536)^{0.667} \\\\ \\eta &= 2/0.2228 = 8.98 \\\\ \\text{MTTF} &= \\eta\\,\\Gamma\\left(1 + \\frac{1}{\\beta}\\right) \\\\ &= 8.98(0.9027) \\\\ &= 8.1 \\text{ years}\\end{aligned}\\]</p><p>where \\(t_{10}\\) is the B10 life, \\(\\eta\\) the Weibull scale, \\(\\beta\\) the shape and \\(\\Gamma\\) the gamma function. A requirement on a low percentile becomes a much longer mean when life varies widely, which is why failure criteria should be stated as a percentile, not as a mean.</p><p><b>C. 8.1 years</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 8, Failure Criteria (time requirements, lower percentile versus mean life).</span></p>",
+    "optionRationales": [
+      "Treats the 2-year warranty as the characteristic life \\(\\eta\\): \\(2\\,\\Gamma(1.667) = 1.8\\) years. At \\(\\eta\\), 63.2% of units have failed, far more than 10%.",
+      "Treats the median life as the mean: \\(8.98(\\ln 2)^{0.667} = 7.0\\) years. For \\(\\beta = 1.5\\) the mean is longer than the median.",
+      "Correct. \\(\\eta = 8.98\\) years and \\(\\text{MTTF} = 8.98\\,\\Gamma(1.667) = 8.1\\) years.",
+      "Assumes an exponential life: \\(2/(-\\ln 0.90) = 19.0\\) years. The wear-out shape (\\(\\beta = 1.5\\)) concentrates failures later, so the mean needed is far shorter."
+    ],
+    "keyPoint": "State failure criteria as a low percentile tied to the warranty. The equivalent mean depends strongly on the distribution shape.",
+    "trap": "Assuming an exponential distribution, or confusing the median or scale with the mean.",
+    "formula": "\\(t_p = \\eta(-\\ln(1 - p))^{1/\\beta}\\); \\(\\text{MTTF} = \\eta\\,\\Gamma(1 + 1/\\beta)\\)",
+    "assumptions": [
+      "The new model keeps the Weibull shape of the previous model."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "failure criteria",
+      "warranty",
+      "B10 life",
+      "MTTF",
+      "Weibull"
+    ],
+    "sourceSection": "Chapter 8 - Reliability Planning",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 8 - Reliability Planning",
+        "section": "Failure criteria",
+        "example": null
       }
     ]
   }
