@@ -14,3 +14,14 @@ html[data-theme=dark]{--mc-pass:#62d08b;--mc-pass-bg:#102a22;--mc-fail:#ff8b82;-
 .badge.invalid,.badge.invalid-input{background:var(--mc-fail-bg);color:var(--mc-fail)}
 .badge.pass-with-warnings{background:var(--mc-warn-bg);color:var(--mc-warn)}
 @media(max-width:640px){.req-row.charpy{grid-template-columns:1fr}.req-row.charpy .row-field:first-child{grid-column:auto}}
+
+/* Phone-width interaction hardening. Keep long workbench content inside its own scrollers. */
+@media screen and (max-width:640px){
+  .hero h1{font-size:clamp(2.2rem,10.5vw,2.8rem)}
+  .tabs{scrollbar-width:none;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{min-height:46px}
+  .panel-head .btn{width:100%}
+  .table-wrap{overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
+  .back a{width:100%;justify-content:center}
+}
