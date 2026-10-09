@@ -155,9 +155,156 @@
       assumptions: ['Constant hazard is supported throughout the planned service life.', 'The proposed replacement has no separate regulatory, safety, or hidden-failure justification.'],
       handbook: {chapter: 13, section: 'Preventive Maintenance (PM) Analysis'},
       studyReference: {title: 'Failure hazard and the bathtub curve', url: reliabilityLesson + '#sec-bathtub'}
+    },
+    {
+      number: 11, qid: 'cre:set-2:011', sub: 'cre-fundamentals', bok: 'I.A.5',
+      topic: 'Critical path and available float', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Product development', quantitative: true,
+      stem: 'The network shows a reliability demonstration project. All dependencies are finish-to-start with no lag. Activities may run in parallel, and resources are unconstrained. Activity C takes two days longer than its planned duration; all other durations remain as shown. What is the revised total project duration?',
+      options: ['17 days', '16 days', '18 days', '15 days'], answer: 0,
+      chart: {type: 'data-table', creKind: 'cpm', title: 'Planned activity network — durations in days', columns: ['ID', 'Activity', 'Planned duration (days)', 'Predecessors'], rows: [['A', 'Requirements', 3, 'None'], ['B', 'Design', 6, 'A'], ['C', 'Fixture design', 4, 'A'], ['D', 'Prototype', 4, 'B'], ['E', 'Fixture build', 5, 'C'], ['F', 'Demonstration', 3, 'D and E']], description: 'A branches to B and C. B precedes D; C precedes E. Both D and E must finish before F starts. Planned paths A–B–D–F and A–C–E–F take 16 and 15 days, respectively. The figure and table show the original plan; the question changes C from four to six days.'},
+      why: tex`<p>The original paths take \(3+6+4+3=16\) and \(3+4+5+3=15\) days. Activity C therefore has one day of total float. Its two-day overrun consumes that float and delays project completion by one day.</p><p>With C increased to six days, D finishes on day 13 and E on day 14. F must wait for both:</p><p>\[T_{\mathrm{project}}=\max(13,14)+3=17\text{ days}\]</p>`,
+      optionRationales: ['17 days recognizes that the two-day overrun uses one day of float before extending the project by one day.', '16 days assumes that C has enough float to absorb the entire two-day overrun; its original float is only one day.', '18 days adds the full overrun to the original 16-day project and ignores the available float.', '15 days is the original duration of the shorter path, not the revised completion time for the whole network.'],
+      keyPoint: 'Recalculate the longest path after a delay; the critical path can change.',
+      trap: 'A noncritical activity can become critical when its delay exceeds its float.',
+      assumptions: ['Durations are deterministic; the project begins at time zero.', 'All listed predecessors must finish, with no lags or resource constraints.'],
+      handbook: {chapter: 1, section: 'Project Management in Reliability Engineering; Critical Path Method'},
+      lessonGap: 'Use the cited handbook section and the forward-pass solution above; a dedicated reliability project-scheduling lesson is planned.'
+    },
+    {
+      number: 12, qid: 'cre:set-2:012', sub: 'cre-fundamentals', bok: 'I.A.8',
+      topic: 'Supplier change and reliability qualification', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Industrial electronics', quantitative: false,
+      stem: 'A supplier proposes changing both the encapsulant and manufacturing site for a qualified sensor. The electrical data sheet is unchanged, and the supplier cites the existing design’s aggregate MTBF. The application exposes the sensor to repeated thermal cycles. Which action BEST supports a reliability-based approval decision?',
+      options: ['Approve the change because unchanged electrical specifications establish unchanged field reliability.', 'Approve after a small sample passes room-temperature functional inspection, without further change assessment.', 'Apply a standard 20% reduction to the old MTBF and approve if the reduced value exceeds the requirement.', 'Require a traceable change-impact assessment, evidence for relevant failure mechanisms and use conditions, and targeted requalification against agreed acceptance criteria.'], answer: 3,
+      why: '<p>Changes to material and manufacturing location can affect interfaces, residual stress, process control, and thermomechanical failure mechanisms without changing room-temperature electrical specifications. Evidence from the old configuration does not automatically qualify the new configuration.</p><p>A defensible decision links the changes to the application’s stresses, examines relevant supplier and process evidence, and defines targeted requalification and acceptance criteria. The testing should address the identified risks rather than rely on an arbitrary MTBF adjustment.</p>',
+      optionRationales: ['Electrical specification equivalence does not establish equivalent lifetime behavior under thermal cycling.', 'Functional inspection can find immediate nonconformities but does not assess the changed configuration’s relevant wear-out mechanisms.', 'An arbitrary derating percentage provides no demonstrated connection between the changes and the application’s failure mechanisms.', 'This connects qualification evidence to the changed material, process, configuration, and actual use environment.'],
+      keyPoint: 'Qualify supplier changes using mechanism- and application-relevant evidence.',
+      trap: 'An unchanged data sheet is not evidence that a changed product has unchanged reliability.',
+      assumptions: ['The changes require customer reliability approval.', 'The cited MTBF does not include evidence from the proposed configuration.'],
+      handbook: {chapter: 1, section: 'Supplier Reliability Assessments'},
+      lessonGap: 'A dedicated supplier reliability qualification lesson is planned; use the cited handbook section and the decision explanation above.'
+    },
+    {
+      number: 13, qid: 'cre:set-2:013', sub: 'cre-risk', bok: 'II.B.3',
+      topic: 'Shared causes in redundant channels', cognitive: 'Understand', difficulty: 'Foundational', estimatedMinutes: 1,
+      industry: 'Industrial controls', quantitative: false,
+      stem: 'Two redundant controllers have separate processors but receive power from one common regulator. A regulator transient has been shown to disable both controllers at once. Which interpretation is MOST accurate?',
+      options: ['The controller failures are independent because the processors are physically separate.', 'The regulator provides a common cause of controller loss, so independence cannot be assumed for their overall failure events.', 'A third identical controller on the same regulator would eliminate the observed shared vulnerability.', 'The simultaneous failures prove that the regulator output is statistically in control because the cause is common.'], answer: 1,
+      why: '<p>One initiating event can disable both channels. Their overall loss events therefore share a cause and cannot be treated as independent merely because the processors are separate.</p><p>Adding another channel to the same vulnerable supply does not remove this cause. Common-cause failure in reliability analysis also must not be confused with common-cause variation in statistical process control; the observed event establishes neither process stability nor acceptable performance.</p>',
+      optionRationales: ['Physical separation of processors does not remove their dependence on the shared regulator.', 'A single regulator event can cause multiple channel losses, creating dependence between the overall failure events.', 'The additional controller would remain exposed to the same disabling supply event.', 'Common-cause failure is not evidence of statistical control; that conclusion requires appropriate time-ordered process analysis.'],
+      keyPoint: 'Assess shared causes before assuming independence in a redundant architecture.',
+      trap: 'Redundant channels can retain a shared vulnerability through a common support function.',
+      assumptions: ['The stated regulator event disables all controllers supplied by it.', 'The interpretation concerns overall channel loss, including supply-induced loss.'],
+      handbook: {chapter: 4, section: 'Common Mode Failure Analysis'},
+      lessonGap: 'A dedicated common-cause failure lesson is planned; use the cited handbook section and the shared-supply example above.'
+    },
+    {
+      number: 14, qid: 'cre:set-2:014', sub: 'cre-statistics', bok: 'III.A.2',
+      topic: 'Fault probability after a diagnostic alarm', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Condition monitoring', quantitative: true,
+      stem: 'The table describes a diagnostic system in its current operating population. Fault status has been independently verified, and the stated probabilities may be treated as known. For a randomly selected unit that produces an alarm, what is the probability that the unit actually has the fault?',
+      options: ['2.0%', '90.0%', '26.9%', '95.0%'], answer: 2,
+      chart: {type: 'data-table', title: 'Population and conditional alarm probabilities', columns: ['Actual state', 'Proportion of population', 'Probability of alarm GIVEN this state'], rows: [['Fault present', '0.02', '0.90'], ['Fault absent', '0.98', '0.05']]},
+      why: tex`<p>Let F mean fault present and A mean alarm. The required conditional probability reverses the conditioning in the sensitivity value. Count both true and false alarms in the denominator:</p><p>\[\Pr(F\mid A)=\frac{\Pr(A\mid F)\Pr(F)}{\Pr(A\mid F)\Pr(F)+\Pr(A\mid F^c)\Pr(F^c)}=\frac{0.90(0.02)}{0.90(0.02)+0.05(0.98)}\approx0.2687\]</p><p>For an equivalent population of 10,000 units, 180 faulty units and 490 healthy units would alarm: \(180/670\approx26.9\%\). A high sensitivity alone does not make most alarms true when the fault is uncommon.</p>`,
+      optionRationales: ['2.0% is the fault prevalence before observing the alarm; it ignores the new diagnostic evidence.', '90.0% is the probability of an alarm given a fault, not the probability of a fault given an alarm.', '26.9% divides the joint probability of a true alarm by the probability of any alarm.', '95.0% is specificity, the probability of no alarm given no fault; it is not the requested positive predictive value.'],
+      keyPoint: 'The meaning of an alarm depends on prevalence as well as sensitivity and false-alarm probability.',
+      trap: 'Reversing a conditional probability without accounting for base rates gives the wrong result.',
+      assumptions: ['The two actual states are mutually exclusive and exhaustive.', 'The diagnostic probabilities and prevalence apply to the same current population.'],
+      handbook: {chapter: 6, section: 'Basic Probability Concepts; conditional probability'},
+      lessonGap: 'Use the cited handbook section and the conditional-probability calculation above; a dedicated diagnostic predictive-value lesson is planned.',
+      explorer: 'alarm-prevalence'
+    },
+    {
+      number: 15, qid: 'cre:set-2:015', sub: 'cre-statistics', bok: 'III.A.7',
+      topic: 'One-sided exponential MTBF confidence bound', cognitive: 'Apply', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Component qualification', quantitative: true,
+      stem: 'A constant-hazard life test ends at a preplanned total exposure of 2,400 unit-hours. Four failures occur; failed units are immediately replaced by independent equivalent units. Using the supplied chi-square values, what is the one-sided 90% LOWER confidence bound on MTBF? In the table, p is the LEFT-tail probability: P(chi-square ≤ listed value) = p.',
+      options: ['600.0 h', '300.2 h', '359.2 h', '262.2 h'], answer: 1,
+      chart: {type: 'data-table', title: 'Chi-square quantiles — left-tail probabilities', columns: ['Degrees of freedom', 'p = 0.90', 'p = 0.95'], rows: [[8, '13.362', '15.507'], [10, '15.987', '18.307']]},
+      why: tex`<p>This is a time-terminated test, not a test stopped at the fourth failure. With total exposure \(T=2400\) unit-hours and \(r=4\) failures, the conventional exact one-sided lower bound uses \(2r+2=10\) degrees of freedom. Using the explicitly defined left-tail quantile convention,</p><p>\[\theta_L=\frac{2T}{\chi^2_{2r+2,\,0.90}}=\frac{4800}{15.987}\approx300.2\,\mathrm h\]</p><p>The point estimate is \(T/r=600\) hours. The lower bound reflects sampling uncertainty and is intentionally below that estimate. Its confidence level describes the repeated-sampling coverage of the procedure, not a probability assigned to a fixed unknown MTBF.</p>`,
+      optionRationales: ['600.0 hours is the maximum-likelihood point estimate, 2,400 divided by four; it is not a lower confidence bound.', '300.2 hours uses 2r + 2 degrees of freedom and the 90th left-tail percentile for the time-terminated test.', '359.2 hours uses eight degrees of freedom, appropriate to a different termination rule, and therefore uses the wrong quantile here.', '262.2 hours uses the 95th rather than the 90th left-tail percentile with ten degrees of freedom.'],
+      keyPoint: 'The test termination rule determines the confidence-bound degrees of freedom.',
+      trap: 'Check both the censoring/termination rule and the table’s tail convention before choosing a chi-square value.',
+      assumptions: ['Independent exponential lifetimes with a common constant failure rate; replacement preserves that rate.', 'The total exposure is fixed in advance and includes all operating time of original and replacement units.'],
+      handbook: {chapter: 6, section: 'Confidence and Tolerance Intervals; confidence limits for the exponential mean'},
+      lessonGap: 'A dedicated reliability confidence-bound lesson is planned; use the cited handbook section and the termination-rule distinction above.'
+    },
+    {
+      number: 16, qid: 'cre:set-2:016', sub: 'cre-statistics', bok: 'III.B.6',
+      topic: 'Evidence for FRACAS closure', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Field service', quantitative: false,
+      stem: 'A FRACAS investigation identifies an intermittent connector failure and implements a revised locking feature. The change order is complete, but effectiveness has not yet been verified. Which action BEST supports technical closure of the FRACAS record?',
+      options: ['Maintain traceability from the failures through root cause and the revision, verify effectiveness against predefined criteria under relevant conditions, and document authorized closure and recurrence monitoring.', 'Close the record because completion of the engineering change order establishes that the failure mechanism has been eliminated.', 'Close the record because no customer complaint arrived during the first day after release, regardless of the exposure accumulated.', 'Close the record after scrapping the returned units because removing the failed items eliminates the cause in the installed population.'], answer: 0,
+      why: '<p>FRACAS is a closed-loop process. Implementing a change is a milestone, but technical closure needs evidence that the action addresses the identified cause and meets defined effectiveness criteria.</p><p>The record should connect the original events, investigation, affected configuration, corrective action, verification results, and closure decision. Recurrence monitoring helps detect an ineffective action or a remaining mechanism after release.</p>',
+      optionRationales: ['This preserves the evidence chain and distinguishes implementation from verified effectiveness before authorized closure.', 'An administrative change-order milestone does not itself demonstrate that the corrected design works under relevant conditions.', 'An uneventful day with unspecified exposure is insufficient evidence of effectiveness against predefined reliability criteria.', 'Scrapping returned units removes those examples, but does not correct the mechanism in other affected units.'],
+      keyPoint: 'Close the corrective-action loop with verified effectiveness and traceable evidence.',
+      trap: 'An implemented action is not automatically an effective action.',
+      assumptions: ['A valid root-cause investigation supports the proposed revision.', 'The organization requires technical verification before authorized FRACAS closure.'],
+      handbook: {chapter: 7, section: 'Failure Reporting, Analysis, and Corrective Action System (FRACAS)'},
+      lessonGap: 'A dedicated FRACAS lesson is planned; use the cited handbook section and the closure criteria above.'
+    },
+    {
+      number: 17, qid: 'cre:set-2:017', sub: 'cre-testing', bok: 'IV.B.1',
+      topic: 'Pooling accelerated exposure for use-condition MTBF', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Electronic components', quantitative: true,
+      stem: tex`Independent units undergo three constant-stress accelerated life tests. All groups follow an exponential model with the same failure mechanism. Validated acceleration factors are treated as known and satisfy \(\lambda_{\mathrm{stress}}=AF\,\lambda_{\mathrm{use}}\). The table includes ALL accumulated exposure, including failed and surviving units. What is the pooled maximum-likelihood estimate of use-condition MTBF?`,
+      options: ['218.8 h', '583.3 h', '2,000 h', '6,000 h'], answer: 2,
+      chart: {type: 'data-table', title: 'Accelerated life-test results', columns: ['Group', 'Temperature', 'Acceleration factor', 'Total exposure (unit-h)', 'Failures'], rows: [['A', '65 °C', 2, 1000, 2], ['B', '75 °C', 4, 500, 1], ['C', '85 °C', 8, 250, 0]]},
+      why: tex`<p>For this exponential model, each stress-group exposure contributes \(AF_i T_i\) equivalent use-condition unit-hours. Pool that exposure and divide by the total observed failures:</p><p>\[T_{\mathrm{equiv}}=2(1000)+4(500)+8(250)=6000\text{ unit-hours}\]</p><p>\[\widehat\theta_{\mathrm{use}}=\frac{T_{\mathrm{equiv}}}{\sum r_i}=\frac{6000}{3}=2000\,\mathrm h\]</p><p>Group C still contributes exposure even though it has no failures. This is a point estimate conditional on the validated acceleration model, not a confidence bound or a guaranteed service life.</p>`,
+      optionRationales: ['218.8 hours divides each exposure by its acceleration factor, reversing the stated stress-to-use relationship.', '583.3 hours divides the unadjusted 1,750 unit-hours by three and ignores acceleration.', '2,000 hours uses all 6,000 equivalent use-condition unit-hours and all three failures.', '6,000 hours is the equivalent total exposure; it still must be divided by the number of failures to estimate MTBF.'],
+      keyPoint: 'Convert exposure to a common use-condition basis before pooling accelerated test results.',
+      trap: 'Zero-failure groups contribute exposure; they must not be discarded.',
+      assumptions: ['Known constant acceleration factors, a common exponential mechanism, and independent units.', 'All failures belong to the modeled mechanism; withdrawals are noninformative.'],
+      handbook: {chapter: 9, section: 'Accelerated Life Tests; acceleration factors and equivalent test time'},
+      lessonGap: 'A dedicated accelerated life-testing lesson is planned; use the cited handbook section and the pooled-exposure calculation above.'
+    },
+    {
+      number: 18, qid: 'cre:set-2:018', sub: 'cre-testing', bok: 'IV.A.1',
+      topic: 'Duane reliability-growth planning', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Development testing', quantitative: true,
+      stem: tex`A test–analyze–fix program has reached 1,000 cumulative unit-test-hours with a cumulative MTBF of 100 hours. Its planning model is \(\theta_c(T)=100(T/1000)^{0.40}\) hours, where T is total cumulative unit-test-hours. Assuming the fitted growth rate continues through effective corrective actions, approximately how much TOTAL cumulative test exposure is forecast to reach a CUMULATIVE MTBF of 200 hours?`,
+      options: ['2,000 unit-hours', '4,657 unit-hours', '1,577 unit-hours', '5,657 unit-hours'], answer: 3,
+      chart: {type: 'data-table', creKind: 'duane', title: 'Conditional Duane growth forecast — logarithmic axes', columns: ['Total test exposure (unit-h)', 'Forecast cumulative MTBF (h)'], rows: [[1000, '100.00'], [2000, '131.95'], [4000, '174.11'], [8000, '229.74']], description: 'A straight forecast line on log–log axes follows cumulative MTBF = 100 × (T/1000)^0.40. It starts at the current point of 1,000 unit-hours and 100 hours cumulative MTBF. The horizontal target is 200 hours. Points beyond the current exposure are model forecasts, not additional observed test results.'},
+      why: tex`<p>Set the cumulative model equal to the cumulative target and solve for total exposure:</p><p>\[200=100\left(\frac{T}{1000}\right)^{0.40}\quad\Rightarrow\quad T=1000\left(\frac{200}{100}\right)^{1/0.40}\approx5656.9\text{ unit-hours}\]</p><p>The answer is about <strong>5,657 total unit-hours</strong>, or 4,657 additional unit-hours beyond the current test point. The forecast assumes that the test–analyze–fix process continues to deliver the fitted improvement. Simply accumulating time without effective changes does not ensure growth. The model is not a confidence bound.</p>`,
+      optionRationales: ['2,000 unit-hours assumes that doubling test time doubles cumulative MTBF; the model’s growth exponent is only 0.40.', '4,657 unit-hours is the additional exposure beyond the current 1,000, but the question asks for total cumulative exposure.', '1,577 unit-hours confuses the instantaneous and cumulative Duane MTBF targets. At that exposure, cumulative MTBF is about 120 hours, not 200.', '5,657 unit-hours solves the supplied cumulative growth equation for the total exposure required by the forecast.'],
+      keyPoint: 'Keep cumulative and instantaneous growth metrics distinct, and distinguish total exposure from additional exposure.',
+      trap: 'A growth-model projection is conditional on continuing effective corrective action.',
+      assumptions: ['The supplied cumulative Duane model remains applicable over the forecast range.', 'The target concerns cumulative MTBF, not instantaneous MTBF or a confidence bound.'],
+      handbook: {chapter: 8, section: 'Reliability Test Strategies; reliability growth testing and the Duane model'},
+      lessonGap: 'A dedicated reliability-growth planning lesson is planned; use the cited handbook section and the model inversion above.'
+    },
+    {
+      number: 19, qid: 'cre:set-2:019', sub: 'cre-testing', bok: 'IV.B.3',
+      topic: 'Producer risk of a fixed-trial demonstration', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Product qualification', quantitative: true,
+      stem: 'A fixed-trial reliability demonstration tests 20 independent units for one complete mission each. Accept the design if no more than one unit fails; otherwise reject it. At the designated good-quality reference point, true mission reliability is 0.95. What is the producer’s risk at that reference point?',
+      options: ['26.4%', '73.6%', '64.2%', '5.0%'], answer: 0,
+      why: tex`<p>Producer’s risk is rejection probability at the designated good-quality reference. If X is the number of failures, then \(X\sim\operatorname{Binomial}(20,0.05)\). Acceptance covers zero or one failure:</p><p>\[\Pr(\text{accept})=0.95^{20}+20(0.05)(0.95^{19})\approx0.73584\]</p><p>\[\alpha=\Pr(X\ge2\mid R=0.95)=1-0.73584\approx0.26416=26.4\%\]</p><p>A 5% individual mission failure probability is not the same as a 5% probability of rejecting a design under this sampling rule.</p>`,
+      optionRationales: ['26.4% is the probability of two or more failures, which triggers rejection at the stated good-quality reference.', '73.6% is the probability of acceptance at that reference, the complement of producer’s risk.', '64.2% is the probability of at least one failure; this plan permits one failure, so that is not the rejection event.', '5.0% is the probability that one unit fails its mission, not the risk of rejecting the design after all 20 trials.'],
+      keyPoint: 'Define the rejection event and the reference quality before calculating producer’s risk.',
+      trap: 'Acceptance probability, individual failure probability, and producer’s risk are different quantities.',
+      assumptions: ['All 20 missions are completed, independent, and have the same success probability.', 'Reliability 0.95 is explicitly the good-quality reference for this plan.'],
+      handbook: {chapter: 9, section: 'Qualification/Demonstration Testing; operating characteristic curves and fixed-trial plans'},
+      lessonGap: 'A dedicated reliability acceptance-risk lesson is planned; use the cited handbook section and the binomial calculation above.',
+      explorer: 'acceptance-risk'
+    },
+    {
+      number: 20, qid: 'cre:set-2:020', sub: 'cre-lifecycle', bok: 'V.C.3',
+      topic: 'Lognormal corrective-repair percentile', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Maintenance planning', quantitative: true,
+      stem: 'Active corrective-repair time follows a lognormal distribution with median 2.00 hours and natural-log standard deviation 0.50 (time expressed in hours). Treat these population parameters as known. Logistics and administrative waiting are excluded. Using the standard normal 90th percentile z = 1.2816, within approximately how many hours will 90% of these active repairs be completed?',
+      options: ['2.00 h', '2.27 h', '4.55 h', '3.80 h'], answer: 3,
+      why: tex`<p>For a lognormal repair time, the median is \(\exp(\mu)=2\) hours, where \(\mu\) is the mean of the natural log of time expressed in hours. The percentile transforms back from the normal log-time scale:</p><p>\[t_{0.90}=\exp\!\left[\ln(2)+1.2816(0.50)\right]=2\exp(0.6408)\approx3.80\,\mathrm h\]</p><p>The mean active repair time, \(2\exp(0.50^2/2)\approx2.27\) hours, is a different quantity. The requested percentile does not include logistics or administrative delays.</p>`,
+      optionRationales: ['2.00 hours is the median, within which 50%, not 90%, of the modeled repairs are completed.', '2.27 hours is the mean of this lognormal repair-time distribution, not its 90th percentile.', '4.55 hours is approximately the 95th percentile, using z = 1.6449 instead of the supplied 90th-percentile value.', '3.80 hours transforms the supplied normal percentile back to the repair-time scale with the stated median and log standard deviation.'],
+      keyPoint: 'A maintainability percentile answers a completion-time question that the mean repair time does not.',
+      trap: 'The lognormal median, mean, and upper percentiles differ; match the statistic to the requirement.',
+      assumptions: ['The stated lognormal model and population parameters apply to active corrective repairs.', 'The requested duration excludes all waiting outside active repair.'],
+      handbook: {chapter: 13, section: 'Maintenance Strategies; Corrective Maintenance Analysis'},
+      lessonGap: 'A dedicated repair-time distribution lesson is planned; use the cited handbook section and the lognormal percentile calculation above.'
     }
   ];
-  questions.forEach(q => {q.set = 2; q.batch = 1; q.sourceDocument = 'The ASQ Certified Reliability Engineer Handbook, 4th edition (2025)'; q.original = true;});
+  questions.forEach(q => {q.set = 2; q.batch = Math.ceil(q.number / 10); q.sourceDocument = 'The ASQ Certified Reliability Engineer Handbook, 4th edition (2025)'; q.original = true;});
   global.CRE_SET2 = questions;
 
   // Merge only our set into the live definition. Existing Set 1 data is preserved.
@@ -167,7 +314,7 @@
     exam.sets = Object.assign({}, existing, {1: first, 2: questions});
     if (!exam.bank || !exam.bank.length) exam.bank = questions;
     exam.defaultSet = first.length ? '1' : '2';
-    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batch 1 · Q001–010'}});
+    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–2 · Q001–020'}});
     exam.fullExamQuestionsBySet = Object.assign({}, exam.fullExamQuestionsBySet, {2: 150});
     // Actual CBT pace: 165 displayed items in 258 minutes; this bank targets 150 core items.
     exam.questions = 165; exam.minutes = 258;

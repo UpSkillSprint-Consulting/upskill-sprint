@@ -49,9 +49,36 @@
     if(Number.isFinite(mission))s+=line(x(mission),top,x(mission),bottom,'class="cre2-mission"');
     return svg(c.title,'Two Weibull reliability curves: A has shape 1 and B shape 2; both have characteristic life 1,000 hours. Exact values at selected times are in the accompanying table.',w,h,s);
   }
+  function cpm(c) {
+    const node=(x,y,id,label,days)=>'<rect x="'+x+'" y="'+y+'" width="212" height="62" rx="7"/>'+text(x+106,y+25,id+' · '+label)+text(x+106,y+48,days+' days');
+    const arrow=(x1,y1,x2,y2)=>line(x1,y1,x2,y2)+'<polyline points="'+(x2-5)+','+(y2-8)+' '+x2+','+y2+' '+(x2+5)+','+(y2-8)+'"/>';
+    let s=node(234,16,'A','Requirements',3);
+    s+=line(340,78,340,99)+line(146,99,534,99)+arrow(146,99,146,122)+arrow(534,99,534,122);
+    s+=node(40,122,'B','Design',6)+node(428,122,'C','Fixture design',4);
+    s+=arrow(146,184,146,228)+arrow(534,184,534,228);
+    s+=node(40,228,'D','Prototype',4)+node(428,228,'E','Fixture build',5);
+    s+=line(146,290,146,314)+line(534,290,534,314)+line(146,314,534,314)+arrow(340,314,340,338);
+    s+=node(234,338,'F','Demonstration',3)+text(340,428,'Original plan; apply the change to C stated in the question.');
+    return svg(c.title,c.description,680,450,s);
+  }
+  function duane(c) {
+    const left=78,right=600,top=46,bottom=290;
+    const x=t=>left+Math.log(t/1000)/Math.log(8)*(right-left);
+    const y=m=>bottom-Math.log(m/100)/Math.log(2.5)*(bottom-top);
+    let s='';
+    for(const m of [100,125,150,200,250])s+=line(left,y(m),right,y(m),'class="cre2-grid"')+text(47,y(m)+5,String(m));
+    for(const t of [1000,2000,4000,8000])s+=line(x(t),top,x(t),bottom,'class="cre2-grid"')+text(x(t),317,t.toLocaleString('en-US'));
+    s+=line(left,top,left,bottom)+line(left,bottom,right,bottom);
+    s+=text(232,23,'Cumulative MTBF (hours; log scale)')+text(340,352,'Total test exposure (unit-hours; log scale)');
+    s+=line(left,y(200),right,y(200),'stroke-dasharray="6 5"')+text(177,y(200)-10,'Target: 200 h');
+    s+=line(x(1000),y(100),x(8000),y(100*Math.pow(8,.4)),'class="cre2-curve"');
+    s+='<circle cx="'+x(1000)+'" cy="'+y(100)+'" r="5"/>'+text(183,276,'Current test point');
+    s+=text(427,201,'Solid line: conditional forecast');
+    return svg(c.title,c.description,650,375,s);
+  }
   function exhibit(q) {
     const c=q.chart;if(!c)return '';
-    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):'';
+    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):'';
     return '<section class="cre2-exhibit" aria-label="Question evidence">'+
       (diagram?'<p class="cre2-caption">'+esc(c.title)+'</p>'+diagram+'<details class="cre2-alternative"><summary>Read the diagram description and data table</summary>'+(c.description?'<p>'+esc(c.description)+'</p>':'')+table(c)+'</details>':table(c))+
       '<p class="cre2-scroll-note">On a narrow screen, swipe or scroll within the exhibit to read it at full size.</p></section>';
@@ -72,6 +99,8 @@
     const header='<details class="cre2-explorer" data-cre-explorer="'+q.explorer+'"><summary>Explore this concept</summary><p>Change the practice scenario to test your understanding. The original question, answer key, and score stay unchanged.</p>';
     if(q.explorer==='weibull')return header+'<label for="'+id+'">Mission duration (hours)</label><input id="'+id+'" type="range" min="100" max="1900" step="100" value="500"><div data-cre-explorer-plot>'+weibull(q.chart,500)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 500 hours</button></details>';
     if(q.explorer==='sample-size')return header+'<label for="'+id+'">One-sided confidence level</label><select id="'+id+'"><option value="0.90">90%</option><option value="0.95" selected>95% (question baseline)</option><option value="0.99">99%</option></select><p>Required mission reliability stays at 0.90; acceptance still requires zero failures.</p><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 95%</button></details>';
+    if(q.explorer==='alarm-prevalence')return header+'<label for="'+id+'">Fault prevalence in the population</label><select id="'+id+'"><option value="0.01">1%</option><option value="0.02" selected>2% (question baseline)</option><option value="0.05">5%</option><option value="0.10">10%</option></select><p>Sensitivity stays at 90%; the false-alarm probability among healthy units stays at 5%. Counts below are expected values per 10,000 units.</p><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 2%</button></details>';
+    if(q.explorer==='acceptance-risk')return header+'<label for="'+id+'">Maximum failures permitted for acceptance</label><select id="'+id+'"><option value="0">0 failures</option><option value="1" selected>1 failure (question baseline)</option><option value="2">2 failures</option></select><p>The sample stays at 20 independent completed missions; true mission reliability stays at the good-quality reference of 0.95. Changing this control changes the hypothetical acceptance rule.</p><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 1 failure</button></details>';
     return '';
   }
   function updateExplorer(el,q) {
@@ -80,9 +109,16 @@
       const a=Math.exp(-value/1000), b=Math.exp(-Math.pow(value/1000,2));
       out.textContent=value+' hours: A reliability '+a.toFixed(4)+'; B reliability '+b.toFixed(4)+'. '+(Math.abs(a-b)<1e-10?'The designs are equal at this time.':(a>b?'A':'B')+' has higher reliability at this time.');
       el.querySelector('[data-cre-explorer-plot]').innerHTML=weibull(q.chart,value);
-    } else {
+    } else if(q.explorer==='sample-size') {
       const n=Math.ceil(Math.log(1-value)/Math.log(0.9));
       out.textContent='Minimum sample: '+n+' independent units completing the full mission with zero failures. All-success probability at reliability 0.90: '+Math.pow(.9,n).toFixed(5)+'.';
+    } else if(q.explorer==='alarm-prevalence') {
+      const trueAlarms=10000*value*.9,falseAlarms=10000*(1-value)*.05;
+      out.textContent='Expected true alarms: '+trueAlarms.toFixed(0)+'; false alarms: '+falseAlarms.toFixed(0)+'. Probability of a fault given an alarm: '+(100*trueAlarms/(trueAlarms+falseAlarms)).toFixed(1)+'%.';
+    } else if(q.explorer==='acceptance-risk') {
+      let term=Math.pow(.95,20),accept=term;
+      for(let k=1;k<=value;k++){term*=((21-k)/k)*(.05/.95);accept+=term;}
+      out.textContent='Acceptance probability: '+(100*accept).toFixed(1)+'%. Producer’s risk (rejection at reliability 0.95): '+(100*(1-accept)).toFixed(1)+'%.';
     }
   }
   let mathQueue=Promise.resolve();
@@ -114,7 +150,8 @@
           const control=el.querySelector('input,select');
           control.addEventListener('input',()=>updateExplorer(el,q));
           control.addEventListener('change',()=>updateExplorer(el,q));
-          el.querySelector('[data-cre-reset]').addEventListener('click',()=>{control.value=q.explorer==='weibull'?'500':'0.95';updateExplorer(el,q);});
+          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1'};
+          el.querySelector('[data-cre-reset]').addEventListener('click',()=>{control.value=defaults[q.explorer];updateExplorer(el,q);});
           updateExplorer(el,q);
         }
       }
