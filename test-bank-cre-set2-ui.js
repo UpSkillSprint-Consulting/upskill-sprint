@@ -458,9 +458,35 @@
     s+=text(350,371,'Each line compares the two processes within one material block.')+text(350,400,shift===0?'At zero block shift the two lines coincide.':'Points are cell means; see the table for individual observations.');
     return svg(c.title,'Block 1 means are 100 and 106. Block 2 means are '+(100+shift)+' and '+(106+shift)+'. Within each block B minus A is six thousand cycles. Specimen counts are three A and one B in block 1, and one A and three B in block 2.',700,427,s);
   }
+  function eventCounts(c) {
+    let s=text(355,25,'Recorded events (distinct classifications)');
+    c.rows.forEach(([label,count],i)=>{const y=72+i*70;s+='<text x="240" y="'+(y+6)+'" text-anchor="end">'+esc(label)+'</text>'+'<rect x="265" y="'+(y-15)+'" width="'+(count*34)+'" height="32" rx="3"/>'+text(285+count*34,y+6,count);});
+    s+=text(350,292,'Operating exposure: 24,000 unit-hours; downtime excluded.');
+    return svg(c.title,c.description,700,320,s);
+  }
+  const eventUCL = hours => 2+3*Math.sqrt(2000/hours);
+  function exposureChart(c, hours) {
+    const left=70,right=610,top=65,bottom=290,y=v=>bottom-v/12*(bottom-top);
+    let s=text(300,25,'Interruptions per 1,000 operating hours');
+    for(let v=0;v<=12;v+=2)s+=line(left,y(v),right,y(v),'class="cre2-grid"')+text(43,y(v)+5,v);
+    s+=line(left,top,left,bottom)+line(left,bottom,right,bottom)+line(left,y(2),right,y(2),'stroke-dasharray="2 5"');
+    const rows=Number.isFinite(hours)?[[1,hours,hours*.008]]:c.rows;
+    rows.forEach(([period,exposure,count],i)=>{const x=rows.length===1?340:130+i*140,u=count/exposure*1000,limit=eventUCL(exposure);s+=line(x-42,y(limit),x+42,y(limit),'stroke-dasharray="8 5"')+'<circle cx="'+x+'" cy="'+y(u)+'" r="6"/>'+text(x,317,rows.length===1?'Hypothetical period':'Period '+period)+text(x,343,exposure.toLocaleString('en-US')+' h');});
+    s+=text(350,375,'Dots: observed rates · dashed segments: upper limits')+text(350,400,'Dotted line: fixed baseline of 2 per 1,000 h');
+    return svg(c.title,Number.isFinite(hours)?'For '+hours+' operating hours, '+(hours*.008)+' interruptions give a rate of eight per 1,000 hours. The upper limit is '+eventUCL(hours).toFixed(3)+' per 1,000 hours.':c.description,700,425,s);
+  }
+  function thermalRange(c,range=60) {
+    const y=t=>285-t*2,left=100,right=600;let s=text(350,25,'Cycle endpoints (°C); maximum held at 100 °C');
+    for(let t=0;t<=100;t+=20)s+=line(left,y(t),right,y(t),'class="cre2-grid"')+text(66,y(t)+5,t);
+    for(const [x,min,label] of [[240,10,'Profile A'],[475,100-range,'Profile B']]){
+      s+=line(x,y(100),x,y(min),'class="cre2-curve"')+line(x-20,y(100),x+20,y(100))+line(x-20,y(min),x+20,y(min))+text(x,320,label)+text(x,346,'Range '+(100-min)+' °C');
+    }
+    s+=text(350,380,'Endpoint ranges, not time waveforms; other factors held fixed.');
+    return svg(c.title,'Profile A spans 10 to 100 degrees Celsius. Profile B spans '+(100-range)+' to 100 degrees Celsius, a range of '+range+' degrees.',700,405,s);
+  }
   function exhibit(q) {
     const c=q.chart;if(!c)return '';
-    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):c.creKind==='p-diagram'?pDiagram(c):c.creKind==='conditional-life'?conditionalLife(c):c.creKind==='derating'?derating(c):c.creKind==='weibull-probability'?weibullProbability(c):c.creKind==='mission-profile'?missionProfile(c):c.creKind==='capability-spread'?capabilitySpread(c):c.creKind==='degradation-trend'?degradationTrend(c):c.creKind==='voting-system'?votingSystem(c):c.creKind==='minimal-cuts'?minimalCuts(c):c.creKind==='fatigue-model'?fatigueModel(c):c.creKind==='cold-standby'?coldStandby(c):c.creKind==='repair-workflow'?repairWorkflow(c):c.creKind==='lifetime-density'?lifetimeDensity(c):c.creKind==='thermal-exposure'?thermalExposure(c):c.creKind==='diagnostic-coverage'?diagnosticCoverage(c):c.creKind==='inspection-window'?inspectionWindow(c):c.creKind==='fatigue-block'?fatigueBlock(c):c.creKind==='correlated-interference'?correlatedInterference(c):c.creKind==='proof-test-cycle'?proofTestCycle(c):c.creKind==='maintenance-delay'?maintenanceDelay(c):c.creKind==='load-sharing'?loadSharingDiagram(c):c.creKind==='blocked-contrast'?blockedContrast(c):'';
+    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):c.creKind==='p-diagram'?pDiagram(c):c.creKind==='conditional-life'?conditionalLife(c):c.creKind==='derating'?derating(c):c.creKind==='weibull-probability'?weibullProbability(c):c.creKind==='mission-profile'?missionProfile(c):c.creKind==='capability-spread'?capabilitySpread(c):c.creKind==='degradation-trend'?degradationTrend(c):c.creKind==='voting-system'?votingSystem(c):c.creKind==='minimal-cuts'?minimalCuts(c):c.creKind==='fatigue-model'?fatigueModel(c):c.creKind==='cold-standby'?coldStandby(c):c.creKind==='repair-workflow'?repairWorkflow(c):c.creKind==='lifetime-density'?lifetimeDensity(c):c.creKind==='thermal-exposure'?thermalExposure(c):c.creKind==='diagnostic-coverage'?diagnosticCoverage(c):c.creKind==='inspection-window'?inspectionWindow(c):c.creKind==='fatigue-block'?fatigueBlock(c):c.creKind==='correlated-interference'?correlatedInterference(c):c.creKind==='proof-test-cycle'?proofTestCycle(c):c.creKind==='maintenance-delay'?maintenanceDelay(c):c.creKind==='load-sharing'?loadSharingDiagram(c):c.creKind==='blocked-contrast'?blockedContrast(c):c.creKind==='event-counts'?eventCounts(c):c.creKind==='exposure-chart'?exposureChart(c):c.creKind==='thermal-range'?thermalRange(c):'';
     return '<section class="cre2-exhibit" aria-label="Question evidence">'+
       (diagram?'<p class="cre2-caption">'+esc(c.title)+'</p>'+diagram+'<details class="cre2-alternative"><summary>Read the diagram description and data table</summary>'+(c.description?'<p>'+esc(c.description)+'</p>':'')+table(c)+'</details>':table(c))+
       '<p class="cre2-scroll-note">On a narrow screen, swipe or scroll within the exhibit to read it at full size.</p></section>';
@@ -498,6 +524,8 @@
     if(q.explorer==='cox-hazard-ratio')return header+'<label for="'+id+'">Hazard ratio: B relative to A</label><input id="'+id+'" type="range" min="0.25" max="2" step="0.25" value="0.5"><p>The reference survival at 1,000 h remains 0.80. Proportionality holds throughout the interval and other covariates stay fixed. These are hypothetical model predictions, not causal estimates or confidence bounds.</p><div data-cre-explorer-plot>'+coxPlot(.5)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to hazard ratio 0.50</button></details>';
     if(q.explorer==='proof-test-interval')return header+'<label for="'+id+'">Time between proof tests (hours)</label><select id="'+id+'"><option value="250">250 h</option><option value="500" selected>500 h (question baseline)</option><option value="1000">1,000 h</option><option value="2000">2,000 h</option></select><p>The hidden-failure rate stays at 0.000020 per hour. Tests and restoration remain perfect and instantaneous; demands remain independent and uniform. These assumptions are for exploration, not selection of a real-system test interval.</p><div data-cre-explorer-plot>'+proofTestCycle(q.chart,500,true)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 500 hours</button></details>';
     if(q.explorer==='load-sharing-rate')return header+'<label for="'+id+'">Survivor failure rate after the first failure (per hour)</label><select id="'+id+'"><option value="1">0.001 — original rate retained</option><option value="2">0.002</option><option value="4" selected>0.004 — question baseline</option><option value="6">0.006</option></select><p>Each unit’s rate while both work remains 0.001 per hour. Perfect transfer, the stated memoryless model, and no repair remain fixed. The equal-transition-rate case is evaluated by its continuous limit.</p><div data-cre-explorer-plot>'+loadSharingPlot(4)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 0.004 per hour</button></details>';
+    if(q.explorer==='event-exposure')return header+'<label for="'+id+'">Operating exposure (hours)</label><select id="'+id+'"><option value="250">250 h — 2 interruptions</option><option value="500">500 h — 4 interruptions</option><option value="1000" selected>1,000 h — 8 interruptions</option><option value="2000">2,000 h — 16 interruptions</option></select><p>The observed rate stays at eight per 1,000 hours with integer counts. The fixed baseline stays at two. These are separate hypothetical periods, using the stated three-sigma rule rather than exact Poisson-tail limits.</p><div data-cre-explorer-plot>'+exposureChart(q.chart,1000)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 1,000 hours</button></details>';
+    if(q.explorer==='thermal-range')return header+'<label for="'+id+'">Profile B temperature range (°C)</label><input id="'+id+'" type="range" min="45" max="90" step="5" value="60"><p>Maximum temperature stays at 100 °C; the minimum changes. The hypothetical range-only model and all other factors stay fixed. Results are model medians, not guaranteed lives or authorization to change a real test.</p><div data-cre-explorer-plot>'+thermalRange(q.chart,60)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to a 60 °C range</button></details>';
     if(q.explorer==='block-shift')return header+'<label for="'+id+'">Added Block 2 life relative to Block 1 (thousands of cycles)</label><input id="'+id+'" type="range" min="0" max="40" step="5" value="20"><p>Both Block 2 cell means shift together. The within-block B-minus-A effect stays at six, and specimen counts remain A/B = 3/1 in Block 1 and 1/3 in Block 2. This explores point estimates only, without a significance or uncertainty claim.</p><div data-cre-explorer-plot>'+blockedContrast(q.chart,20)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to a 20-thousand-cycle block shift</button></details>';
     return '';
   }
@@ -573,6 +601,13 @@
     } else if(q.explorer==='load-sharing-rate') {
       out.textContent='Survivor rate: '+(.001*value).toFixed(3)+' per hour. System reliability at 100 h: '+loadSharingReliability(100,value).toFixed(4)+'. Original-rate parallel reference: '+loadSharingReliability(100,1).toFixed(4)+'.';
       el.querySelector('[data-cre-explorer-plot]').innerHTML=loadSharingPlot(value);
+    } else if(q.explorer==='event-exposure') {
+      const limit=eventUCL(value);
+      out.textContent='Exposure: '+value.toLocaleString('en-US')+' h. Interruptions: '+(value*.008)+'. Rate: 8.000 per 1,000 h. Upper limit: '+limit.toFixed(3)+' per 1,000 h. '+(8>limit?'Above upper limit.':'Not above upper limit.');
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=exposureChart(q.chart,value);
+    } else if(q.explorer==='thermal-range') {
+      out.textContent='Profile B minimum: '+(100-value)+' °C. Range: '+value+' °C. Predicted median life: '+Math.round(9000*(90/value)**2).toLocaleString('en-US')+' cycles. Maximum temperature remains 100 °C.';
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=thermalRange(q.chart,value);
     } else if(q.explorer==='block-shift') {
       const pooledA=100+value/4,pooledB=106+3*value/4;
       out.textContent='Block shift: '+value+' thousand cycles. Block-adjusted B minus A: +6.0 thousand cycles. Pooled A mean: '+pooledA.toFixed(1)+'. Pooled B mean: '+pooledB.toFixed(1)+'. Unadjusted B minus A: +'+(pooledB-pooledA).toFixed(1)+' thousand cycles.';
@@ -608,7 +643,7 @@
           const control=el.querySelector('input,select');
           control.addEventListener('input',()=>updateExplorer(el,q));
           control.addEventListener('change',()=>updateExplorer(el,q));
-          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85','sequential-failures':'4','derating-temperature':'100','mission-high-duration':'2','replacement-failure-cost':'1000','chi-square-count':'40','voting-required':'2','fatigue-stress':'80','standby-coverage':'0.9','density-age':'1500','inspection-interval':'10','cox-hazard-ratio':'0.5','proof-test-interval':'500','load-sharing-rate':'4','block-shift':'20'};
+          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85','sequential-failures':'4','derating-temperature':'100','mission-high-duration':'2','replacement-failure-cost':'1000','chi-square-count':'40','voting-required':'2','fatigue-stress':'80','standby-coverage':'0.9','density-age':'1500','inspection-interval':'10','cox-hazard-ratio':'0.5','proof-test-interval':'500','load-sharing-rate':'4','block-shift':'20','event-exposure':'1000','thermal-range':'60'};
           el.querySelector('[data-cre-reset]').addEventListener('click',()=>{control.value=defaults[q.explorer];updateExplorer(el,q);});
           updateExplorer(el,q);
         }

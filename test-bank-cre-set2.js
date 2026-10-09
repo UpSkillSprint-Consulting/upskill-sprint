@@ -1483,6 +1483,523 @@
       handbook:{chapter:11,section:'Design of Experiments; Blocking'},
       lessonGap:'A dedicated blocked-experiment analysis lesson is planned; use the handbook section and the explicitly defined contrast.',
       explorer:'block-shift'
+    },
+    {
+      "number": 101,
+      "qid": "cre:set-2:101",
+      "sub": "cre-fundamentals",
+      "bok": "I.B.1",
+      "topic": "Critical-failure metric and the exposure denominator",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A repairable fleet accumulates 24,000 operating unit-hours, excluding all downtime. Its validated log contains 12 distinct failures, classified as shown. Using total operating exposure divided by the number of critical failures, what is the observed mean time between critical failures (MTBCF)? Do not count scheduled maintenance as a failure.",
+      "options": [
+        "2,000 h",
+        "6,000 h",
+        "3,000 h",
+        "1,500 h"
+      ],
+      "answer": 1,
+      "why": "<p>Use only critical failures in the denominator, with the same operating-exposure basis.</p><p>\\[\\widehat{\\mathrm{MTBCF}}=\\frac{24{,}000}{4}=6{,}000\\,\\mathrm h\\]</p><p>Dividing by all twelve failures gives the observed MTBF of 2,000 h. The eight noncritical failures remain important, but they do not belong in this metric’s denominator. This exposure-based estimate is not a guarantee of any individual failure-free interval.</p>",
+      "optionRationales": [
+        "2,000 h divides exposure by all twelve failures and estimates MTBF, not MTBCF.",
+        "6,000 h uses the four critical failures and the stated operating exposure.",
+        "3,000 h divides exposure by the eight noncritical failures instead.",
+        "1,500 h adds the four maintenance visits to the twelve failures."
+      ],
+      "keyPoint": "Name the failure class and exposure basis before calculating a reliability metric.",
+      "trap": "A critical-failure measure does not use every maintenance event.",
+      "assumptions": [
+        "The twelve failures are distinct and the two failure classes do not overlap.",
+        "The requested metric uses operating unit-hours; scheduled visits are not failures."
+      ],
+      "handbook": {
+        "chapter": 2,
+        "section": "Basic Reliability Terminology"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Validated event classifications",
+        "columns": [
+          "Event class",
+          "Count"
+        ],
+        "rows": [
+          [
+            "Critical failures",
+            4
+          ],
+          [
+            "Noncritical failures",
+            8
+          ],
+          [
+            "Scheduled maintenance visits",
+            4
+          ]
+        ],
+        "description": "Four critical failures, eight noncritical failures, and four scheduled maintenance visits were recorded. Only the first two categories are failures.",
+        "creKind": "event-counts"
+      }
+    },
+    {
+      "number": 102,
+      "qid": "cre:set-2:102",
+      "sub": "cre-fundamentals",
+      "bok": "I.A.8",
+      "topic": "Supplier evidence applicable to the intended mission",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A supplier proposes using its published MTBF claim to approve a controller for outdoor service with daily power cycling. The evidence summary is shown. Which action best supports a defensible supplier assessment before accepting that claim for this application?",
+      "options": [
+        "Approve the claim because the total test exposure exceeds one million hours.",
+        "Reject the supplier because any test with a failure proves the design unsuitable.",
+        "Combine both studies into one MTBF without distinguishing revisions or environments.",
+        "Obtain traceable configuration, failure, censoring, and use-profile records, then assess applicability and any qualification gaps."
+      ],
+      "answer": 3,
+      "why": "<p>The large exposure total mainly describes an older revision in a different environment. The smaller study is closer to the intended application but does not by itself establish compliance with the required mission reliability.</p><p>Request auditable records and compare hardware/software configuration, loading, cycling, environment, failure definitions, and observation times with the intended mission. Assess whether transfer of evidence is justified and plan targeted qualification for uncovered conditions. Neither automatic approval nor automatic rejection follows from these summaries alone.</p>",
+      "optionRationales": [
+        "Large exposure under another configuration and environment does not establish applicability to outdoor cycling.",
+        "A recorded failure must be analyzed against requirements and the test plan; its existence alone is not an automatic rejection rule.",
+        "Pooling assumes comparable populations and conditions that have not been established.",
+        "Traceability and an applicability assessment identify whether the evidence supports the intended application and where more evidence is needed."
+      ],
+      "keyPoint": "Supplier reliability evidence must match the supplied configuration and intended use.",
+      "trap": "A precise-looking MTBF can be irrelevant to the mission you need to support.",
+      "assumptions": [
+        "No approved rule permits unconditional transfer from the old revision.",
+        "The summaries are incomplete evidence, not acceptance-test results with a stated decision boundary."
+      ],
+      "handbook": {
+        "chapter": 1,
+        "section": "Supplier Reliability Assessments"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Evidence supplied for the proposed controller",
+        "columns": [
+          "Study",
+          "Revision",
+          "Exposure (unit-hours)",
+          "Conditions",
+          "Failures"
+        ],
+        "rows": [
+          [
+            "Published claim",
+            "Previous",
+            "1,200,000",
+            "Indoor; continuously powered",
+            0
+          ],
+          [
+            "Engineering trial",
+            "Proposed",
+            "8,000",
+            "Outdoor; daily cycling",
+            2
+          ]
+        ],
+        "description": "Most exposure comes from a previous revision under continuous indoor power. The proposed revision has much less exposure under outdoor daily cycling."
+      }
+    },
+    {
+      "number": 103,
+      "qid": "cre:set-2:103",
+      "sub": "cre-risk",
+      "bok": "II.A.1",
+      "topic": "Risk controls dependent on an unverified response assumption",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A risk register credits an operator response to an alarm as the main control against equipment damage. Field interviews show that the alarm is often suppressed during startup, and no record demonstrates that an operator can respond within the available time. Which update is most appropriate?",
+      "options": [
+        "Retain the credited reduction because the alarm appears in the design drawing.",
+        "Remove the risk entry because the potential damage has not yet occurred.",
+        "Reassess risk using actual alarm availability and response capability, assign an owner, and verify a suitable control.",
+        "Lower the severity rating because operators have received general safety training."
+      ],
+      "answer": 2,
+      "why": "<p>A documented alarm is not evidence that the control is available and effective in the relevant operating state. Reassess the credited reduction using startup conditions, suppression behavior, and demonstrated response capability. Assign responsibility for resolving the gap and verifying the selected control.</p><p>The underlying consequence does not become less severe merely because training exists. Absence of a past loss also does not demonstrate adequate control.</p>",
+      "optionRationales": [
+        "A design drawing does not verify alarm availability or timely response under actual startup conditions.",
+        "No recorded loss is insufficient grounds to remove a credible risk from the register.",
+        "This replaces an unsupported control assumption with evidence and an accountable verification action.",
+        "Training alone does not change the stated consequence and does not demonstrate timely response."
+      ],
+      "keyPoint": "Risk registers should reflect verified control performance in the relevant operating states.",
+      "trap": "Documented controls and effective controls are not necessarily the same.",
+      "assumptions": [
+        "The alarm response is the credited primary risk reduction.",
+        "No independent control or demonstrated response time is supplied."
+      ],
+      "handbook": {
+        "chapter": 3,
+        "section": "Risk Management Techniques"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 104,
+      "qid": "cre:set-2:104",
+      "sub": "cre-statistics",
+      "bok": "III.A.6",
+      "topic": "Exposure-adjusted Poisson event-rate chart",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A stable repairable process has a baseline of \\(u_0=2\\) interruptions per 1,000 operating hours. Counts are modeled as independent Poisson events proportional to exposure. Use the specified three-sigma upper limit \\(\\mathrm{UCL}_i=2+3\\sqrt{2/E_i}\\), where \\(E_i\\) is exposure in thousands of hours; compare it with \\(u_i=c_i/E_i\\), where \\(c_i\\) is the interruption count. Under the single-point-above-UCL rule only, which period signals?",
+      "options": [
+        "Period 1 only",
+        "Period 2 only",
+        "Period 3 only",
+        "Periods 1 and 3"
+      ],
+      "answer": 0,
+      "why": "<p>Normalize each count by its exposure, then use the limit for that exposure. This is an exposure-based \\(u\\)-chart calculation.</p><p>\\[\\begin{aligned}u_1&=8,&\\mathrm{UCL}_1&=6.243\\\\u_2&=6,&\\mathrm{UCL}_2&=8.000\\\\u_3&=4.5,&\\mathrm{UCL}_3&=5.000\\\\u_4&=2,&\\mathrm{UCL}_4&=6.243\\end{aligned}\\]</p><p>All values are events per 1,000 operating hours. Only Period 1 exceeds its limit. Period 3 has the largest raw count, but it also has twice Period 1’s exposure. These conventional three-sigma limits are not exact Poisson-tail probability limits, particularly at small expected counts.</p>",
+      "optionRationales": [
+        "Period 1 is the only rate above its exposure-specific upper limit.",
+        "Period 2 has a rate of six but an upper limit of eight events per 1,000 hours.",
+        "Period 3 has the largest count, but its rate of 4.5 is below its limit of five.",
+        "Period 3 is incorrectly flagged if its longer exposure is ignored."
+      ],
+      "keyPoint": "Changing exposure changes both the observed event rate and its control limit.",
+      "trap": "The largest raw event count need not be the strongest rate signal.",
+      "assumptions": [
+        "The historical baseline is fixed; these four periods are not used to estimate it.",
+        "Only the specified upper single-point rule applies, with independent Poisson counts and proportional exposure."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Statistical Process Control"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Interruptions and operating exposure",
+        "columns": [
+          "Period",
+          "Operating hours",
+          "Interruptions"
+        ],
+        "rows": [
+          [
+            1,
+            1000,
+            8
+          ],
+          [
+            2,
+            500,
+            3
+          ],
+          [
+            3,
+            2000,
+            9
+          ],
+          [
+            4,
+            1000,
+            2
+          ]
+        ],
+        "description": "Observed rates for Periods 1 to 4 are 8, 6, 4.5, and 2 events per 1,000 hours. Dashed upper limits are 6.243, 8, 5, and 6.243. The baseline is two.",
+        "creKind": "exposure-chart"
+      },
+      "explorer": "event-exposure"
+    },
+    {
+      "number": 105,
+      "qid": "cre:set-2:105",
+      "sub": "cre-statistics",
+      "bok": "III.A.3",
+      "topic": "Lognormal B10 life versus median and mean",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "Lifetime \\(T\\) follows a known two-parameter lognormal distribution with median 2,000 h and standard deviation of natural log lifetime \\(\\sigma=0.40\\). The standard-normal 10th percentile is \\(z_{0.10}=-1.2816\\). What is the B10 life, meaning the time by which 10% of units fail, rounded to the nearest hour?",
+      "options": [
+        "3,339 h",
+        "1,198 h",
+        "2,000 h",
+        "2,167 h"
+      ],
+      "answer": 1,
+      "why": "<p>Convert the lower normal percentile back from log time. Let \\(t_{0.10}\\) denote B10 life.</p><p>\\[\\begin{aligned}\\ln t_{0.10}&=\\ln(2000)+0.40(-1.2816)\\\\t_{0.10}&=2000e^{-0.51264}\\\\&\\approx1{,}198\\,\\mathrm h\\end{aligned}\\]</p><p>At this time, survival is 90%. The median is 2,000 h; the mean is approximately 2,167 h. Neither is the lower 10th percentile. The result is a model percentile, not a confidence bound.</p>",
+      "optionRationales": [
+        "3,339 h uses the positive normal percentile and approximates B90, when 90% have failed.",
+        "1,198 h transforms the negative 10th-percentile normal value back to lifetime.",
+        "2,000 h is the median, when half the population has failed.",
+        "2,167 h is the lognormal mean, not its lower tenth percentile."
+      ],
+      "keyPoint": "B10 denotes 10% cumulative failures, hence 90% survival.",
+      "trap": "A 90%-survival life is a lower lifetime percentile, not the 90th failure percentile.",
+      "assumptions": [
+        "The lognormal parameters are known and there is no location shift.",
+        "Natural logarithms are used; parameter-estimation uncertainty is not requested."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Probability Distributions; Lognormal Distribution"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 106,
+      "qid": "cre:set-2:106",
+      "sub": "cre-statistics",
+      "bok": "III.B.2",
+      "topic": "Informative withdrawal in survival data",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A bearing study removes units from service as soon as vibration rises, before the functional-failure threshold is reached. The analyst right-censors these units and applies an ordinary Kaplan–Meier estimate. Elevated vibration is strongly associated with impending failure. Which concern is most justified?",
+      "options": [
+        "All withdrawn units should be entered as exact functional failures at their withdrawal times.",
+        "Kaplan–Meier automatically eliminates bias from every withdrawal mechanism.",
+        "The problem disappears if withdrawal times are rounded to complete days.",
+        "Withdrawal may be informative; assess the censoring mechanism and use a justified analysis or sensitivity study."
+      ],
+      "answer": 3,
+      "why": "<p>The observation ends earlier for units whose condition suggests higher failure risk. The usual noninformative-censoring assumption is therefore doubtful, so an ordinary Kaplan–Meier curve may overstate survival of the original population.</p><p>Retain the actual withdrawal times and reasons, examine the relationship with failure risk, and assess suitable modeling or sensitivity analyses. Withdrawal is not the defined functional failure, so inventing an exact failure time at withdrawal changes the endpoint.</p>",
+      "optionRationales": [
+        "Withdrawal on a precursor is not an observed crossing of the defined functional-failure threshold.",
+        "Kaplan–Meier needs an appropriate censoring assumption; it does not correct every selection mechanism.",
+        "Rounding observation times does not remove the dependence between withdrawal and impending failure.",
+        "This identifies the selection mechanism without fabricating failures or assuming a universal correction."
+      ],
+      "keyPoint": "Censoring methods require attention to why observations ended.",
+      "trap": "Recording a censoring time correctly does not by itself make censoring noninformative.",
+      "assumptions": [
+        "Functional failure and the vibration withdrawal trigger are different defined endpoints.",
+        "No model accounting for the risk-related withdrawal mechanism has been applied."
+      ],
+      "handbook": {
+        "chapter": 7,
+        "section": "Types of Data; Censored Data"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 107,
+      "qid": "cre:set-2:107",
+      "sub": "cre-testing",
+      "bok": "IV.C.3",
+      "topic": "Thermal-cycle life with a controlled maximum temperature",
+      "cognitive": "Analyze",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A validated simplified Coffin–Manson model for one solder-fatigue mechanism is \\(N_{50}=C(\\Delta T)^{-2}\\), where \\(N_{50}\\) is median cycles to failure, \\(\\Delta T\\) is cycle temperature range, and \\(C\\) is constant. Maximum temperature, cycling frequency, dwell conditions, and construction are held fixed; the model is valid over the ranges shown. Median life is 9,000 cycles in Profile A. What median life does the model predict in Profile B?",
+      "options": [
+        "4,000 cycles",
+        "13,500 cycles",
+        "20,250 cycles",
+        "9,000 cycles"
+      ],
+      "answer": 2,
+      "why": "<p>The cycle range falls from 90 °C to 60 °C while the other specified factors remain fixed. Temperature differences have the same numerical values in kelvins and degrees Celsius.</p><p>\\[\\begin{aligned}\\Delta T_A&=100-10=90\\,{}^\\circ\\mathrm C\\\\\\Delta T_B&=100-40=60\\,{}^\\circ\\mathrm C\\\\N_{50,B}&=9000\\left(\\frac{90}{60}\\right)^2\\\\&=20{,}250\\text{ cycles}\\end{aligned}\\]</p><p>The lower excursion reduces thermal-cycle fatigue under the stated model. This is a median-cycle prediction, not a minimum life or a guarantee. Holding maximum temperature and cycling conditions fixed is important when using this simplified range-only relation.</p>",
+      "optionRationales": [
+        "4,000 cycles reverses the range ratio and predicts shorter life for the smaller excursion.",
+        "13,500 cycles uses a first-power ratio and omits the specified exponent of two.",
+        "20,250 cycles uses the squared inverse range ratio with the other model factors fixed.",
+        "9,000 cycles treats equal maximum temperatures as equal fatigue loading and ignores the different ranges."
+      ],
+      "keyPoint": "Use temperature range for the cyclic model and absolute temperature for models that explicitly require it.",
+      "trap": "The maximum temperature alone does not describe a thermal cycle.",
+      "assumptions": [
+        "The same solder-fatigue mechanism and exponent apply to both profiles.",
+        "The stated simplified model is validated for these profiles; no unmodeled frequency or dwell effect is introduced."
+      ],
+      "handbook": {
+        "chapter": 10,
+        "section": "Failure Models; Coffin–Manson Model"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Thermal-cycle endpoints; frequency and dwell fixed",
+        "columns": [
+          "Profile",
+          "Minimum (°C)",
+          "Maximum (°C)"
+        ],
+        "rows": [
+          [
+            "A",
+            10,
+            100
+          ],
+          [
+            "B",
+            40,
+            100
+          ]
+        ],
+        "description": "Profile A ranges from 10 to 100 degrees Celsius; Profile B ranges from 40 to 100. Their maxima match but their ranges are 90 and 60 degrees Celsius. The figure shows endpoints, not a time waveform.",
+        "creKind": "thermal-range"
+      },
+      "explorer": "thermal-range"
+    },
+    {
+      "number": 108,
+      "qid": "cre:set-2:108",
+      "sub": "cre-testing",
+      "bok": "IV.B.6",
+      "topic": "What fault-injection testing establishes",
+      "cognitive": "Understand",
+      "difficulty": "Foundational",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A team injects corrupted sensor messages and communication timeouts into a controller. In the selected tests, it enters the specified safe state and logs the fault. Which conclusion is best supported?",
+      "options": [
+        "The tested detection and recovery responses behaved as specified for the injected conditions.",
+        "The field failure rate equals the fraction of injected faults that were detected.",
+        "The tests prove that untested faults cannot cause unsafe behavior.",
+        "No regression testing is needed after the fault-handling code is changed."
+      ],
+      "answer": 0,
+      "why": "<p>Fault injection can challenge detection, containment, and recovery behavior under selected faults. These tests support the specified responses for the conditions exercised.</p><p>Deliberately injected cases do not constitute a representative field-frequency sample. They do not establish an unconditional field failure rate or prove coverage of every untested fault. Changes to fault-handling code still need appropriate verification and regression testing.</p>",
+      "optionRationales": [
+        "This stays within the evidence: the selected faults produced the required responses under test.",
+        "A test detection fraction is not a field failure rate without an appropriate occurrence model and representative evidence.",
+        "Testing selected faults does not prove the absence of unsafe behavior for every untested fault.",
+        "Changes can affect existing behavior, so regression testing remains relevant."
+      ],
+      "keyPoint": "Fault injection evaluates behavior under selected faults; field reliability needs additional evidence.",
+      "trap": "A demanding fault test is not automatically a statistically representative mission test.",
+      "assumptions": [
+        "Injected faults and their expected responses were defined before the tests.",
+        "No representative field fault-frequency model was supplied."
+      ],
+      "handbook": {
+        "chapter": 9,
+        "section": "Software Testing; Fault-Injection Testing"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 109,
+      "qid": "cre:set-2:109",
+      "sub": "cre-lifecycle",
+      "bok": "V.A.7",
+      "topic": "FEA evidence for a cyclic-duty reliability requirement",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A bracket must meet a specified fatigue-life requirement under a repeated load spectrum. A design review presents the FEA summary below and recommends release. Which additional work most directly addresses the evidence gap?",
+      "options": [
+        "Release because a static yield factor above one proves the required fatigue life.",
+        "Evaluate the cyclic stress/strain response with a suitable fatigue model, credible inputs, and validation against relevant evidence.",
+        "Divide the static yield factor by the required cycle count to obtain failure probability.",
+        "Replace the material’s fatigue data with its tensile yield strength in every life calculation."
+      ],
+      "answer": 1,
+      "why": "<p>The static analysis addresses yielding for one modeled load case. It does not establish fatigue life under repeated loading. Use the mission load spectrum, relevant stress or strain response, appropriate fatigue data and model, and justified boundary conditions; validate the prediction against suitable evidence.</p><p>Mesh convergence for a static displacement result is useful numerical evidence but does not by itself validate cyclic loading, the fatigue model, or its uncertainty.</p>",
+      "optionRationales": [
+        "Avoiding yielding in a static case is not proof of compliance with a cyclic fatigue-life requirement.",
+        "This connects the structural calculation to the actual failure mechanism, mission loading, and validation need.",
+        "A safety factor divided by cycles is not a defined failure-probability model.",
+        "Yield strength and fatigue behavior are different properties and cannot be universally substituted."
+      ],
+      "keyPoint": "DfR analysis should connect the design model to the required function, failure mechanism, and mission.",
+      "trap": "A converged numerical result can still answer the wrong reliability question.",
+      "assumptions": [
+        "The specified requirement concerns fatigue over repeated loading.",
+        "No fatigue analysis or validated life evidence has been supplied."
+      ],
+      "handbook": {
+        "chapter": 11,
+        "section": "Design for Reliability; Finite Element Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Evidence presented at design review",
+        "columns": [
+          "Item",
+          "Reported evidence"
+        ],
+        "rows": [
+          [
+            "Load model",
+            "One static maximum-load case"
+          ],
+          [
+            "Static yield factor",
+            "1.8"
+          ],
+          [
+            "Numerical check",
+            "Displacement changes less than 1% on mesh refinement"
+          ],
+          [
+            "Fatigue-life assessment",
+            "Not performed"
+          ]
+        ],
+        "description": "The review contains a static load case, yield factor 1.8, a displacement convergence check, and no fatigue-life assessment."
+      }
+    },
+    {
+      "number": 110,
+      "qid": "cre:set-2:110",
+      "sub": "cre-lifecycle",
+      "bok": "V.B.2",
+      "topic": "Parts standardization constrained by mission requirements",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A manufacturer wants one seal compound across a product family to reduce inventory and maintenance errors. The proposed compound is qualified for four services but swells unacceptably in the fifth service’s fluid. Which decision best applies standardization to reliability?",
+      "options": [
+        "Use the common compound everywhere because fewer part numbers always improve reliability.",
+        "Keep the common compound and compensate only by shortening the inventory reorder interval.",
+        "Reject all standardization benefits and require a unique seal for every product.",
+        "Standardize where the compound meets requirements, retain or qualify a suitable alternative for the incompatible service, and prevent mix-ups."
+      ],
+      "answer": 3,
+      "why": "<p>Standardization can simplify procurement, assembly, and maintenance, but the common part must still meet each application’s requirements. Use the qualified compound in compatible services and maintain or qualify an appropriate alternative for the incompatible fluid.</p><p>Clear identification and selection controls address the remaining mix-up risk. Neither forcing an unsuitable part into every application nor abandoning all commonality is justified.</p>",
+      "optionRationales": [
+        "Fewer part numbers do not compensate for a demonstrated material incompatibility.",
+        "Inventory replenishment timing does not correct swelling in the operating fluid.",
+        "The four compatible services can still benefit from suitable common parts.",
+        "This preserves useful commonality while meeting application requirements and controlling selection errors."
+      ],
+      "keyPoint": "Standardize within verified application limits.",
+      "trap": "Simplification is valuable only when required performance is preserved.",
+      "assumptions": [
+        "The swelling violates the fifth service’s acceptance requirements.",
+        "No evidence shows that inventory changes correct the material incompatibility."
+      ],
+      "handbook": {
+        "chapter": 12,
+        "section": "Parts Standardization and System Simplification"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
     }
   ];
   questions.forEach(q => {q.set = 2; q.batch = Math.ceil(q.number / 10); q.sourceDocument = 'The ASQ Certified Reliability Engineer Handbook, 4th edition (2025)'; q.original = true;});
@@ -1495,7 +2012,7 @@
     exam.sets = Object.assign({}, existing, {1: first, 2: questions});
     if (!exam.bank || !exam.bank.length) exam.bank = questions;
     exam.defaultSet = first.length ? '1' : '2';
-    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–10 · Q001–100'}});
+    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–11 · Q001–110'}});
     exam.fullExamQuestionsBySet = Object.assign({}, exam.fullExamQuestionsBySet, {2: 150});
     // Actual CBT pace: 165 displayed items in 258 minutes; this bank targets 150 core items.
     exam.questions = 165; exam.minutes = 258;

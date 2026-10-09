@@ -1,6 +1,6 @@
 # CRE Set 2 — original practice bank
 
-Batches 1–10 provide Q001–100, one hundred of a planned 150 core questions. Batch 10 appends Q091–100 without changing the first ninety items. Sets 1 and 3 are managed separately. These are original practice items informed by the supplied handbook and the public ASQ Body of Knowledge, not reproduced or purported past ASQ examination items. Difficulty labels are editorial targets; equivalence to the live examination has not been established through candidate-response data.
+Batches 1–11 provide Q001–110, one hundred ten of a planned 150 core questions. Batch 11 appends Q101–110 without changing the first one hundred items. Sets 1 and 3 are managed separately. These are original practice items informed by the supplied handbook and the public ASQ Body of Knowledge, not reproduced or purported past ASQ examination items. Difficulty labels are editorial targets; equivalence to the live examination has not been established through candidate-response data.
 
 ## Authoritative blueprint
 
@@ -8,18 +8,18 @@ Batches 1–10 provide Q001–100, one hundred of a planned 150 core questions. 
 - [ASQ published 2025 CRE Body of Knowledge](https://www.asq.org/cert/resource/pdf/certification/2025-CRE-BoK.pdf): domain allocations 29, 25, 35, 35, 26. The PDF's internal footer says “2024 CRE BoK”; use its published topic codes and allocations.
 - Karen Hulting and Mary McShane-Vaughn, editors, *The ASQ Certified Reliability Engineer Handbook*, fourth edition (2025), user-supplied EPUB. Technical concepts checked in Chapters 1–13. No text, figures, or book files are copied into the site.
 
-The supplied handbook appendix lists older allocations (25/25/35/35/30) and nests maintainability under V.B. The published ASQ PDF takes precedence for the bank blueprint; maintainability is V.C. A 10-item timed practice session is 938 seconds (15:38), proportional to 258 minutes / 165 displayed questions. A 20-item session is 1,876 seconds (31:16); a 30-item session is 2,815 seconds (46:55); a 40-item session is 3,753 seconds (62:33); a 50-item session is 4,691 seconds (78:11); a 60-item session is 5,629 seconds (93:49); a 70-item session is 6,567 seconds (109:27); an 80-item session is 7,505 seconds (125:05); a 90-item session is 8,444 seconds (140:44); a 100-item session is 9,382 seconds (156:22). A completed 150-item core is not a full 165-item CBT replica.
+The supplied handbook appendix lists older allocations (25/25/35/35/30) and nests maintainability under V.B. The published ASQ PDF takes precedence for the bank blueprint; maintainability is V.C. A 10-item timed practice session is 938 seconds (15:38), proportional to 258 minutes / 165 displayed questions. A 20-item session is 1,876 seconds (31:16); a 30-item session is 2,815 seconds (46:55); a 40-item session is 3,753 seconds (62:33); a 50-item session is 4,691 seconds (78:11); a 60-item session is 5,629 seconds (93:49); a 70-item session is 6,567 seconds (109:27); an 80-item session is 7,505 seconds (125:05); a 90-item session is 8,444 seconds (140:44); a 100-item session is 9,382 seconds (156:22); a 110-item session is 10,320 seconds (172:00). A completed 150-item core is not a full 165-item CBT replica.
 
-| Official domain | Final core target | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 | Batch 9 | Batch 10 | Authored | Remaining |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| I. Reliability Fundamentals | 29 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | 2 | 2 | 19 | 10 |
-| II. Risk Management | 25 | 2 | 1 | 2 | 2 | 1 | 2 | 2 | 1 | 2 | 2 | 17 | 8 |
-| III. Probability and Statistics for Reliability | 35 | 2 | 3 | 2 | 2 | 3 | 2 | 2 | 3 | 2 | 2 | 23 | 12 |
-| IV. Reliability Planning, Testing, and Modeling | 35 | 2 | 3 | 2 | 2 | 2 | 3 | 2 | 3 | 2 | 3 | 24 | 11 |
-| V. Lifecycle Reliability | 26 | 2 | 1 | 2 | 2 | 2 | 1 | 2 | 2 | 2 | 1 | 17 | 9 |
-| Total | 150 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 100 | 50 |
+| Official domain | Final core target | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 | Batch 9 | Batch 10 | Batch 11 | Authored | Remaining |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| I. Reliability Fundamentals | 29 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | 2 | 2 | 2 | 21 | 8 |
+| II. Risk Management | 25 | 2 | 1 | 2 | 2 | 1 | 2 | 2 | 1 | 2 | 2 | 1 | 18 | 7 |
+| III. Probability and Statistics for Reliability | 35 | 2 | 3 | 2 | 2 | 3 | 2 | 2 | 3 | 2 | 2 | 3 | 26 | 9 |
+| IV. Reliability Planning, Testing, and Modeling | 35 | 2 | 3 | 2 | 2 | 2 | 3 | 2 | 3 | 2 | 3 | 2 | 26 | 9 |
+| V. Lifecycle Reliability | 26 | 2 | 1 | 2 | 2 | 2 | 1 | 2 | 2 | 2 | 1 | 2 | 19 | 7 |
+| Total | 150 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 110 | 40 |
 
-The cumulative 19/17/23/24/17 mix closely follows the official blueprint at one hundred questions. Later batches must fill the remaining allocations rather than repeat an equal-domain quota throughout. Authored counts describe the branch; release status is controlled by the pull request and merge.
+The cumulative 21/18/26/26/19 mix closely follows the official blueprint at one hundred ten questions. Later batches must fill the remaining allocations rather than repeat an equal-domain quota throughout. Authored counts describe the branch; release status is controlled by the pull request and merge.
 
 ## Batch 1 ledger
 
@@ -328,3 +328,33 @@ The five Set 2 subtopic identifiers are `cre-fundamentals`, `cre-risk`, `cre-sta
 ## Next batch gate
 
 Choose the next ten items against the remaining blueprint; avoid repeating the existing one hundred items’ principal skills. Independently solve every numerical key and distractor, confirm one best answer and all necessary assumptions, use visuals only when they supply evidence or aid reasoning, verify the complete learner flow, and update this ledger before release. Candidate feedback should inform later difficulty calibration.
+
+
+## Batch 11 ledger
+
+| ID | BoK | Skill / decision | Evidence | Target difficulty | Key | Handbook chapter |
+|---|---|---|---|---|---|---:|
+| 101 | I.B.1 | Critical failures and operating exposure | Event-class bar chart and data | Moderate | B: 6,000 h | 2 |
+| 102 | I.A.8 | Supplier claim applicability to intended mission | Revision/environment evidence table | Moderate | D | 1 |
+| 103 | II.A.1 | Reassess an unverified alarm-response control | Risk-register scenario | Moderate | C | 3 |
+| 104 | III.A.6 | Poisson event-rate signal with unequal exposure | Rate/limit plot and counts table | Moderate | A: Period 1 only | 6 |
+| 105 | III.A.3 | Lognormal B10 life with known parameters | Calculation with normal quantile | Moderate | B: 1,198 h | 6 |
+| 106 | III.B.2 | Informative withdrawal before functional failure | Survival-study scenario | Challenging | D | 7 |
+| 107 | IV.C.3 | Thermal-cycle range under a specified fatigue model | Temperature endpoint plot and table | Challenging | C: 20,250 cycles | 10 |
+| 108 | IV.B.6 | Scope of evidence from fault injection | Software-test scenario | Foundational | A | 9 |
+| 109 | V.A.7 | FEA evidence needed for a fatigue-life requirement | Design-review evidence table | Moderate | B | 11 |
+| 110 | V.B.2 | Standardize within verified compatibility limits | Seal-selection scenario | Moderate | D | 12 |
+
+Batch 11 adds five exhibits (two table-only, three figures) and two collapsed completed-review tools. The bank now has 110 questions, 61 exhibits (28 table-only, 33 figures), and 22 review tools. Answer positions total 27 A, 28 B, 27 C, and 28 D. Four new items are quantitative; six assess decisions or interpretation. Difficulty targets are one foundational, seven moderate, and two challenging, without a claim of measured ASQ difficulty equivalence. There are 40 questions left in the 150-item core: domain allocations 8/7/9/9/7.
+
+## Batch 11 technical review
+
+- Q101 uses total operating unit-hours divided by the four distinct critical failures. The supplied handbook's extracted MTBCF equation labels its exposure in cycles despite naming a time metric; this item explicitly defines and dimensionally checks its hour-based estimator rather than reproducing that inconsistency. All-failure, noncritical-only, and maintenance-inclusive distractors are independently checked.
+- Q102 distinguishes the applicability of supplier data from the size of its exposure total. Q103 requires evidence for credited control performance rather than changing severity or treating a design drawing as verification.
+- Q104 applies the explicitly supplied conventional three-sigma Poisson rate limit. Enumeration of Poisson probabilities independently recovers count means and variances and verifies that only Period 1 signals. The chart includes the fixed baseline, period-specific limits, observed rates, and raw exposure/count alternatives. The explorer holds the observed rate at eight per 1,000 hours with integer counts; 500 h lies exactly at the upper limit and does not satisfy the stated above-limit rule. No exact false-alarm probability is claimed. [NIST control-chart guidance](https://itl.nist.gov/div898/software/dataplot/refman1/auxillar/contchar.htm) distinguishes count charts from unequal-opportunity rate charts.
+- Q105 uses the lognormal lower tenth percentile, not the mean or upper percentile. Numerical density integration and bisection independently recover B10 and distinguish the B90 distractor. Known parameters mean this is not a confidence-bound exercise. [NIST lognormal reference](https://itl.nist.gov/div898/handbook/apr/section1/apr164.htm) supplies the distribution convention.
+- Q106 identifies risk-related withdrawal as a concern for ordinary noninformative-censoring analysis. It neither fabricates functional failures at withdrawal nor prescribes an unqualified universal statistical correction.
+- Q107 explicitly supplies a validated simplified range-only thermal-fatigue model. Maximum temperature, cycling frequency, dwell conditions, construction, and mechanism are fixed. Temperature differences do not require a Celsius-to-kelvin offset. The figure depicts endpoints rather than a waveform. An independently reconstructed model constant and integer-cycle search verify the key; the review changes the minimum while retaining the maximum. [NIST's modified Coffin–Manson discussion](https://www.itl.nist.gov/div898/handbook/apr/section1/apr153.htm) includes frequency, range, and maximum-temperature terms; it is not evidence that those extra terms can always be ignored. The explorer is hypothetical outside the two question profiles.
+- Q108 limits fault-injection conclusions to the exercised faults and responses. Q109 distinguishes a static structural result and a displacement convergence check from fatigue-life validation. Q110 preserves standardization benefits subject to material compatibility and selection controls.
+- Hash lock for Q001–100: `861b65a47721a56a80f3e230b46bcae420448de656a1d22dbceefc7c9ad7c961`. Earlier batch locks remain. Set 1 and Set 3 modules are unchanged.
+- Existing quick and focused modes cap draws at twenty questions. Fundamentals now contains 21 Set 2 items, so its focused draw is twenty. The full 110-item Set 2 sitting receives 10,320 seconds (172:00).
