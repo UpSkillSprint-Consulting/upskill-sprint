@@ -2544,6 +2544,586 @@
         "section": "Corrective Maintenance Analysis; Alignment and Checkout"
       },
       "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 121,
+      "qid": "cre:set-2:121",
+      "sub": "cre-fundamentals",
+      "bok": "I.A.7",
+      "topic": "Disclosing an interest in a supplier decision",
+      "cognitive": "Evaluate",
+      "difficulty": "Foundational",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "An engineer is assigned to lead the reliability assessment of two suppliers. The engineer privately owns a substantial financial interest in one supplier and believes the test results favor that supplier. The interest has not been disclosed. What is the most appropriate next step?",
+      "options": [
+        "Complete the recommendation and disclose the interest only if the other supplier objects.",
+        "Reject the supplier automatically, regardless of its technical evidence.",
+        "Continue as sole decision maker because numerical results cannot be biased.",
+        "Disclose the interest promptly and arrange an objective review with the conflict appropriately managed."
+      ],
+      "answer": 3,
+      "why": "<p>A financial interest can impair, or reasonably appear to impair, an evaluator’s independence. Disclose it before proceeding with the recommendation and use the organization’s process to manage the conflict, such as assigning an independent qualified evaluator.</p><p>Neither hiding the interest nor automatically penalizing the supplier provides an objective technical assessment. Preserve the evidence and protect confidential supplier information throughout the review.</p>",
+      "optionRationales": [
+        "Waiting for an objection prevents the organization from managing the known conflict before the decision.",
+        "Automatic rejection substitutes a different bias for an objective assessment of the supplier.",
+        "Numerical data do not remove judgment from test selection, interpretation, and recommendations.",
+        "Prompt disclosure and appropriate independent review protect both objectivity and the integrity of the decision."
+      ],
+      "keyPoint": "Disclose real or perceived conflicts before they compromise a professional decision.",
+      "trap": "Confidence in your own impartiality does not replace disclosure.",
+      "assumptions": [
+        "The financial interest is substantial and relevant to the decision.",
+        "No disclosure or independent conflict-management process has yet occurred."
+      ],
+      "handbook": {
+        "chapter": 1,
+        "section": "Ethics in Reliability Engineering"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 122,
+      "qid": "cre:set-2:122",
+      "sub": "cre-fundamentals",
+      "bok": "I.B.1",
+      "topic": "Achieved availability with unequal maintenance frequencies",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A maintenance record contains 480 operating hours, four corrective actions, and eight preventive actions. The table gives the mean active duration of each action type. An additional 84 hours of logistics and administrative waiting are recorded separately. All time categories are nonoverlapping. What achieved availability is estimated from this record, including active corrective and preventive maintenance but excluding waiting?",
+      "options": [
+        "80.00%",
+        "93.02%",
+        "95.24%",
+        "91.43%"
+      ],
+      "answer": 1,
+      "why": "<p>Weight each active duration by its action count. Corrective work totals 24 h and preventive work totals 12 h. Achieved availability includes both.</p><p>\\[A_a=\\frac{480}{480+4(6)+8(1.5)}=\\frac{480}{516}\\approx0.930233\\]</p><p>Equivalently, mean operating time between maintenance actions is 40 h, and mean active maintenance duration is 3 h. The 84 waiting hours are excluded from this metric, though they remain important to operational availability. An unweighted average of the two action-type means would give the wrong maintenance duration.</p>",
+      "optionRationales": [
+        "80.00% includes the 84 waiting hours and estimates operational availability over the complete record.",
+        "93.02% includes 36 active maintenance hours and correctly weights the two action types.",
+        "95.24% excludes preventive work, using only the 24 active corrective hours.",
+        "91.43% gives the two action-type means equal weight, although preventive actions occur twice as often."
+      ],
+      "keyPoint": "Achieved availability includes active preventive and corrective maintenance; frequency-weight the durations.",
+      "trap": "An average of category averages is wrong when the category frequencies differ.",
+      "assumptions": [
+        "Each recorded active action makes the unit unavailable for its required function.",
+        "There is no unrecorded downtime or overlapping maintenance; the estimate describes this record."
+      ],
+      "handbook": {
+        "chapter": 2,
+        "section": "Basic Reliability Terminology; Achieved Availability"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Active maintenance record",
+        "columns": [
+          "Action type",
+          "Number of actions",
+          "Mean active hours per action"
+        ],
+        "rows": [
+          [
+            "Corrective",
+            4,
+            6
+          ],
+          [
+            "Preventive",
+            8,
+            1.5
+          ]
+        ],
+        "description": "Four corrective actions average six hours; eight preventive actions average one and a half hours. Operating time is 480 hours and separate waiting time is 84 hours."
+      }
+    },
+    {
+      "number": 123,
+      "qid": "cre:set-2:123",
+      "sub": "cre-risk",
+      "bok": "II.A.2",
+      "topic": "Conditioning a redundant-system risk on a common shock",
+      "cognitive": "Analyze",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A mission requires at least one of two channels to work. A common shock occurs with probability 0.02 and makes both channels fail. If no shock occurs, each channel fails with probability 0.10, independently of the other channel conditional on no shock. These cases account for all failures. What is the probability of losing both channels during the mission?",
+      "options": [
+        "0.013924",
+        "0.030000",
+        "0.029800",
+        "0.000200"
+      ],
+      "answer": 2,
+      "why": "<p>Partition the missions into shock and no-shock cases. Let \\(S\\) denote the shock and \\(L\\) loss of both channels.</p><p>\\[\\begin{aligned}P(L)&=P(S)P(L\\mid S)\\\\&\\quad+P(S^c)P(L\\mid S^c)\\\\&=0.02(1)+0.98(0.10)(0.10)\\\\&=0.029800\\end{aligned}\\]</p><p>Each channel’s marginal failure probability is 0.118. Multiplying these marginals is invalid because the shared shock makes the channels dependent. The independence statement applies only within the no-shock case.</p>",
+      "optionRationales": [
+        "0.013924 multiplies the two marginal probabilities of 0.118, ignoring dependence induced by the common shock.",
+        "0.030000 adds 0.02 and 0.01 without weighting the conditional no-shock failure probability by 0.98.",
+        "0.029800 adds the two mutually exclusive mission cases with their proper weights.",
+        "0.000200 incorrectly requires a shock and both independent no-shock failures simultaneously."
+      ],
+      "keyPoint": "Conditional independence in one operating state does not establish unconditional independence.",
+      "trap": "A shared shock must be included once, through a complete partition of mission conditions.",
+      "assumptions": [
+        "The shock probability and conditional channel probabilities are known for the same mission.",
+        "The shock always defeats both channels; no repairs or other failure paths occur."
+      ],
+      "handbook": {
+        "chapter": 3,
+        "section": "Risk Assessment; Probabilistic Risk Assessment"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Partition of mission conditions",
+        "columns": [
+          "Mission condition",
+          "Probability of condition",
+          "Conditional probability of losing both"
+        ],
+        "rows": [
+          [
+            "Common shock",
+            "0.02",
+            "1.00"
+          ],
+          [
+            "No common shock",
+            "0.98",
+            "\\(0.10 \\times 0.10\\)"
+          ]
+        ],
+        "description": "Missions split into common shock with probability 0.02 and no shock with probability 0.98. Shock causes certain loss of both channels; without shock both independently fail with probability 0.10 each.",
+        "creKind": "common-shock"
+      },
+      "explorer": "common-shock"
+    },
+    {
+      "number": 124,
+      "qid": "cre:set-2:124",
+      "sub": "cre-risk",
+      "bok": "II.B.6",
+      "topic": "A safety function must address all hazardous energy",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A design review considers maintenance access to a clamping machine. Opening a guard reliably removes electrical drive power, but a pneumatic accumulator can still move the clamp with injurious force. The intended maintenance task places a hand in the clamp area. Which design-review conclusion is best supported?",
+      "options": [
+        "The access safety function is incomplete; address stored pneumatic energy and verify the safe condition for the maintenance task.",
+        "The guard is sufficient because its electrical interruption reliability is already demonstrated.",
+        "A higher motor reliability target will resolve the remaining maintenance-access hazard.",
+        "The hazard can be closed because no unintended clamp motion has yet been reported in service."
+      ],
+      "answer": 0,
+      "why": "<p>The electrical guard controls one source of motion, but stored pneumatic energy leaves a credible hazardous path during the intended task. The review must consider all relevant energy sources and the state required for safe access.</p><p>Develop and verify an appropriate means of controlling that stored energy, including foreseeable control failures, before closing the hazard. A successful component test or a lack of reported injuries does not demonstrate that the complete access safety function is adequate.</p>",
+      "optionRationales": [
+        "This addresses the demonstrated hazardous path and requires evidence that the intended task can be performed in the required safe condition.",
+        "Removing electrical power does not remove the pneumatic energy described in the scenario.",
+        "Motor reliability does not control motion driven by a separate stored-energy source.",
+        "Absence of reported events is not evidence that a known, physically credible hazardous path is controlled."
+      ],
+      "keyPoint": "Evaluate the complete safety function against the task and all relevant hazardous energy sources.",
+      "trap": "High reliability of one protective component does not establish system safety.",
+      "assumptions": [
+        "Stored pneumatic energy can cause the stated movement after electrical isolation.",
+        "No separate verified control currently prevents that movement during access."
+      ],
+      "handbook": {
+        "chapter": 4,
+        "section": "System Safety; Hazard Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 125,
+      "qid": "cre:set-2:125",
+      "sub": "cre-statistics",
+      "bok": "III.A.3",
+      "topic": "Exponential estimation with right-censored specimens",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "Five new, nonrepairable specimens start a life test together. Failed specimens are removed without replacement; the planned test ends at 600 h. Exact failure and censoring times are shown. Assume independent exponential lifetimes with a common unknown mean and noninformative administrative censoring. What is the maximum-likelihood estimate of mean time to failure?",
+      "options": [
+        "266.7 h",
+        "400.0 h",
+        "1,000.0 h",
+        "666.7 h"
+      ],
+      "answer": 3,
+      "why": "<p>Every specimen contributes its observed time at risk. The two survivors contribute 600 h each, without adding failures.</p><p>\\[\\begin{aligned}T&=100+200+500+600+600\\\\&=2000\\ \\text{unit-hours}\\\\\\widehat{\\mathrm{MTTF}}&=\\frac{T}{r}=\\frac{2000}{3}\\approx666.7\\ \\text{h}\\end{aligned}\\]</p><p>Here \\(T\\) is total observed exposure and \\(r\\) is the failure count. The likelihood for failure rate \\(\\lambda\\) is proportional to \\(\\lambda^3 e^{-2000\\lambda}\\), maximized at 0.0015 per hour. The estimate can exceed the 600-hour test cutoff: it is a model-based population mean, not the mean of the observed failure times.</p>",
+      "optionRationales": [
+        "266.7 h averages only the three failure times and discards survival information from the censored specimens.",
+        "400.0 h divides total observed time by all five specimens, incorrectly counting censoring as failure.",
+        "1,000.0 h assigns 600 h to every specimen, including units already removed after failure.",
+        "666.7 h uses all valid exposure and divides by the three actual failures under the stated exponential model."
+      ],
+      "keyPoint": "Right-censored specimens contribute exposure, but they do not contribute a failure count.",
+      "trap": "The average of observed failures alone is not the censored-data exponential MLE.",
+      "assumptions": [
+        "Lifetimes are independent and identically exponential; the fixed cutoff is unrelated to individual condition.",
+        "Failure times are exact, with no replacements, repairs, or additional exposure after failure."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Probability Distributions; Exponential Distribution and Censored Data"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Five-specimen life-test record",
+        "columns": [
+          "Specimen",
+          "Observed time (hours)",
+          "Status"
+        ],
+        "rows": [
+          [
+            "A",
+            100,
+            "Failure"
+          ],
+          [
+            "B",
+            200,
+            "Failure"
+          ],
+          [
+            "C",
+            500,
+            "Failure"
+          ],
+          [
+            "D",
+            600,
+            "Right-censored"
+          ],
+          [
+            "E",
+            600,
+            "Right-censored"
+          ]
+        ],
+        "description": "Five timelines start at zero. A, B, and C end in failures at 100, 200, and 500 hours. D and E survive to the fixed 600-hour cutoff, when they are right-censored.",
+        "creKind": "censored-exposure"
+      }
+    },
+    {
+      "number": 126,
+      "qid": "cre:set-2:126",
+      "sub": "cre-statistics",
+      "bok": "III.A.6",
+      "topic": "Apply a specified EWMA signal rule",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A stable baseline for an individual leakage measurement has mean 10.00 mL/min and standard deviation 1.00 mL/min. The approved EWMA plan initializes \\(z_0=10.00\\), uses \\(z_t=0.20x_t+0.80z_{t-1}\\), and applies fixed asymptotic three-sigma limits of 9.00 and 11.00 mL/min from the first observation. Only a point outside these limits signals. For the measurements below, which is the first EWMA signal?",
+      "options": [
+        "Observation 1",
+        "Observation 3",
+        "Observation 2",
+        "No signal through observation 3"
+      ],
+      "answer": 1,
+      "why": "<p>Apply the recursion in time order. Here \\(x_t\\) is the current measurement and \\(z_t\\) the EWMA statistic.</p><p>\\[\\begin{aligned}z_1&=0.20(12)+0.80(10)=10.40\\\\z_2&=0.20(12)+0.80(10.40)=10.72\\\\z_3&=0.20(13)+0.80(10.72)=11.176\\end{aligned}\\]</p><p>Only the third EWMA exceeds the specified 11.00 limit. The fixed limits are consistent with the asymptotic EWMA standard deviation:</p><p>\\[\\sigma_z=1\\sqrt{\\frac{0.20}{2-0.20}}=\\frac{1}{3}\\ \\text{mL/min}\\]</p><p>The plan deliberately specifies fixed limits; do not substitute time-varying startup limits or the limits for individual measurements. A signal calls for investigation and does not by itself identify its cause.</p>",
+      "optionRationales": [
+        "The first raw measurement exceeds 11.00, but the first EWMA is 10.40 and does not signal.",
+        "The third EWMA is 11.176, the first value outside the stated fixed limits.",
+        "The second EWMA is 10.72, still inside the stated limits.",
+        "Using individual-measurement limits of 7.00 and 13.00 would miss the EWMA signal and applies a different chart."
+      ],
+      "keyPoint": "Compare the specified chart statistic with its own approved limits.",
+      "trap": "Do not compare a raw measurement with an EWMA limit or silently switch startup conventions.",
+      "assumptions": [
+        "The stable baseline measurements are independent; the given plan and fixed limits are approved.",
+        "No supplementary run rules or time-varying startup limits apply."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Statistical Process Control and Capability Studies; EWMA extension verified against NIST"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Ordered leakage measurements",
+        "columns": [
+          "Observation",
+          "Leakage (mL/min)"
+        ],
+        "rows": [
+          [
+            1,
+            12
+          ],
+          [
+            2,
+            12
+          ],
+          [
+            3,
+            13
+          ]
+        ],
+        "description": "Leakage measurements in order are 12, 12, and 13 milliliters per minute. The EWMA starts at 10 and the fixed limits are 9 and 11."
+      }
+    },
+    {
+      "number": 127,
+      "qid": "cre:set-2:127",
+      "sub": "cre-testing",
+      "bok": "IV.B.1",
+      "topic": "Recognize a mechanism change in accelerated life testing",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A team plans to extrapolate field life using one temperature-acceleration model for seal oxidation. Failure analysis finds the same oxidation mechanism at 80 °C and 100 °C. At 140 °C, a material transition instead produces rapid extrusion; the transition is not reached in the intended field environment. What is the best next action before a field-life claim?",
+      "options": [
+        "Reassess the stress range and mechanism-specific evidence before fitting a field-life model; do not pool extrusion failures as oxidation failures.",
+        "Pool all failures because a higher stress must provide a more accurate acceleration factor.",
+        "Keep the 140 °C times but relabel extrusion as oxidation to preserve one model.",
+        "Discard the entire test because finding any new mechanism makes all lower-stress observations invalid."
+      ],
+      "answer": 0,
+      "why": "<p>Acceleration should shorten the time to the relevant mechanism without changing what fails. The 140 °C group shows a different mechanism associated with a transition outside the intended field range.</p><p>Retain the original records and reassess the usable stress range, failure classifications, and extrapolation model. The lower-stress evidence may remain useful, subject to its own adequacy. Whether and how observations enter a mechanism-specific censored analysis requires a justified competing-risk and censoring treatment; they must not simply be relabeled or silently removed.</p>",
+      "optionRationales": [
+        "This preserves the evidence while checking that the acceleration model actually represents the field-relevant mechanism.",
+        "More severe stress does not improve extrapolation when it introduces a different mechanism.",
+        "Relabeling a physically identified failure mode would misrepresent the evidence.",
+        "A high-stress mechanism change does not automatically invalidate correctly obtained lower-stress data."
+      ],
+      "keyPoint": "Validate mechanism continuity before extrapolating accelerated life to service conditions.",
+      "trap": "A shorter test life is not necessarily a faster version of the same field mechanism.",
+      "assumptions": [
+        "Failure analysis supports the stated mechanism assignments and material transition.",
+        "The intended use environment does not reach that transition; no validated cross-mechanism model is available."
+      ],
+      "handbook": {
+        "chapter": 9,
+        "section": "Accelerated Life Tests; Stress Selection and Failure Mechanisms"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Failure-analysis summary by test temperature",
+        "columns": [
+          "Temperature (°C)",
+          "Observed mechanism",
+          "Relation to intended field conditions"
+        ],
+        "rows": [
+          [
+            80,
+            "Oxidation",
+            "Field-relevant mechanism"
+          ],
+          [
+            100,
+            "Oxidation",
+            "Field-relevant mechanism"
+          ],
+          [
+            140,
+            "Extrusion after material transition",
+            "Transition not reached in intended field environment"
+          ]
+        ],
+        "description": "Oxidation occurs at 80 and 100 degrees Celsius. At 140 degrees Celsius a material transition introduces extrusion, a different mechanism."
+      }
+    },
+    {
+      "number": 128,
+      "qid": "cre:set-2:128",
+      "sub": "cre-testing",
+      "bok": "IV.C.1",
+      "topic": "Reliability of a bridge network",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 3,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A communication network succeeds if any working, bidirectional path connects S to T. The five links are independent over the mission. The four outer links each have reliability 0.90; the bridge link E has reliability 0.80. Nodes are perfect, failed links are open, and no repair or capacity limitation applies. What is the mission reliability of the network shown?",
+      "options": [
+        "0.96390",
+        "0.98010",
+        "0.99553",
+        "0.97686"
+      ],
+      "answer": 3,
+      "why": "<p>Condition on bridge E. When E works, U and V are connected: at least one left link and at least one right link must work. When E fails, only the two outer series paths remain.</p><p>\\[\\begin{aligned}R_{\\text{E works}}&=[1-(1-0.90)^2]^2\\\\&=0.98010\\\\R_{\\text{E fails}}&=1-(1-0.90^2)^2\\\\&=0.96390\\\\R&=0.80(0.98010)+0.20(0.96390)\\\\&=0.97686\\end{aligned}\\]</p><p>Here \\(R\\) is network mission reliability. The component sets used on the left and right are disjoint after conditioning. The four individual S-to-T paths overlap in the original network, so their success events cannot be treated as independent.</p>",
+      "optionRationales": [
+        "0.96390 ignores the working bridge and is the reliability when E is always failed.",
+        "0.98010 assumes the bridge is perfect instead of having reliability 0.80.",
+        "0.99553 treats the four overlapping paths as independent, greatly overstating redundancy.",
+        "0.97686 weights the two bridge states by their actual probabilities and accounts for shared links."
+      ],
+      "keyPoint": "Condition on a suitable bridge component to reduce a non-series-parallel network.",
+      "trap": "Independent links do not make overlapping network paths independent.",
+      "assumptions": [
+        "All links are bidirectional and independent; all four nodes are perfect.",
+        "Any connected path is sufficient; there are no throughput, repair, or switching constraints."
+      ],
+      "handbook": {
+        "chapter": 10,
+        "section": "Reliability Block Diagrams and Models; Network Reliability"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Bidirectional bridge network",
+        "columns": [
+          "Link",
+          "Endpoints",
+          "Mission reliability"
+        ],
+        "rows": [
+          [
+            "A",
+            "S–U",
+            "0.90"
+          ],
+          [
+            "B",
+            "U–T",
+            "0.90"
+          ],
+          [
+            "C",
+            "S–V",
+            "0.90"
+          ],
+          [
+            "D",
+            "V–T",
+            "0.90"
+          ],
+          [
+            "E",
+            "U–V",
+            "0.80"
+          ]
+        ],
+        "description": "Nodes S and T are the terminals, with U above V between them. Outer links A, B, C, D connect S–U, U–T, S–V, V–T respectively; bridge E connects U–V. Every link is bidirectional.",
+        "creKind": "bridge-network"
+      },
+      "explorer": "bridge-reliability"
+    },
+    {
+      "number": 129,
+      "qid": "cre:set-2:129",
+      "sub": "cre-lifecycle",
+      "bok": "V.A.3",
+      "topic": "Separate centering and noise sensitivity in design selection",
+      "cognitive": "Analyze",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A balanced experiment evaluates three control settings at two equally weighted noise conditions. The table contains mean response at each condition. The selection rule requires the average across the two conditions to be from 49 through 51 N inclusive, then chooses the eligible setting with the smallest high-minus-low response range. Using only this stated screening rule, which setting should proceed to confirmation testing?",
+      "options": [
+        "Setting A, because its average is exactly 50 N.",
+        "Setting C, because its response range is smallest.",
+        "Setting B, because it meets the average requirement and has the smallest eligible range.",
+        "No setting, because every observed condition mean must lie between 49 and 51 N."
+      ],
+      "answer": 2,
+      "why": "<p>Apply the average constraint before comparing sensitivity to the noise condition.</p><p>\\[\\begin{array}{c|cc}\\text{Setting}&\\text{Average (N)}&\\text{Range (N)}\\\\\\hline A&50&10\\\\B&51&4\\\\C&48&2\\end{array}\\]</p><p>A and B satisfy the inclusive average requirement. B has the smaller range, so it proceeds to confirmation. C is less sensitive to these two conditions but misses the required average. The rule does not require every individual condition mean to be within the average band.</p><p>This screen does not establish statistical significance, a tolerance interval, or robustness across untested noise conditions. Confirmation must address those claims as needed.</p>",
+      "optionRationales": [
+        "A is eligible, but exact centering does not override the rule to minimize range among eligible settings.",
+        "C has the smallest range, but its 48 N average violates the eligibility requirement.",
+        "B has an eligible average of 51 N and a 4 N range, lower than eligible A’s 10 N.",
+        "This imposes an individual-condition criterion that is not part of the stated average-based rule."
+      ],
+      "keyPoint": "Check the target constraint before choosing the least noise-sensitive design.",
+      "trap": "Small variation can coexist with an unacceptable average.",
+      "assumptions": [
+        "Noise conditions are equally weighted, and the displayed cell means come from a balanced experiment.",
+        "Only the stated deterministic screening rule is requested; uncertainty and untested conditions remain for confirmation."
+      ],
+      "handbook": {
+        "chapter": 11,
+        "section": "Design of Experiments; Robustness and Interpretation"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Mean force at two noise conditions",
+        "columns": [
+          "Control setting",
+          "Low-noise condition mean (N)",
+          "High-noise condition mean (N)"
+        ],
+        "rows": [
+          [
+            "A",
+            45,
+            55
+          ],
+          [
+            "B",
+            49,
+            53
+          ],
+          [
+            "C",
+            47,
+            49
+          ]
+        ],
+        "description": "A has responses 45 and 55 N, B has 49 and 53 N, and C has 47 and 49 N. Average eligibility is 49 through 51 N inclusive."
+      }
+    },
+    {
+      "number": 130,
+      "qid": "cre:set-2:130",
+      "sub": "cre-lifecycle",
+      "bok": "V.C.1",
+      "topic": "Maintenance planning under explicit warranty conditions",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A covered drive fails and is safely taken out of service. Its written warranty requires prompt notification, maintenance records, and supplier authorization before the enclosure is opened. An approved spare can restore production while the failed drive is held for assessment. Which maintenance plan best preserves the available options?",
+      "options": [
+        "Open the failed drive immediately and seek authorization after identifying the fault.",
+        "Restore production with the approved spare, preserve records, and notify the supplier before authorizing work on the covered drive.",
+        "Leave production stopped until the claim is settled, because using an approved spare necessarily cancels the warranty.",
+        "Discard the maintenance history and treat the warranty as a guarantee that the failure could not have occurred."
+      ],
+      "answer": 1,
+      "why": "<p>The stated terms define the relevant decision. Use the approved spare to restore service, retain the failed unit and maintenance evidence, and contact the supplier before opening the covered enclosure.</p><p>This separates service restoration from the warranty assessment. A warranty allocates responsibilities under its terms; it is not proof that a unit cannot fail. Coverage and repair timing should be confirmed rather than assumed. This answer applies to the explicit hypothetical terms, not to an unstated legal rule.</p>",
+      "optionRationales": [
+        "Opening the enclosure before authorization conflicts with the explicit condition and can compromise the claim assessment.",
+        "This restores service through an approved option while preserving the evidence and following the stated notification and authorization conditions.",
+        "The scenario permits an approved spare and states no requirement to keep production stopped during claim assessment.",
+        "Discarding records conflicts with the terms; a warranty does not establish failure-free performance."
+      ],
+      "keyPoint": "Plan restoration and warranty handling together using the actual stated conditions.",
+      "trap": "A warranty does not eliminate the need for maintenance records, spare planning, or failure analysis.",
+      "assumptions": [
+        "The failed unit is safely out of service, and an approved compatible spare is available.",
+        "The stated written terms govern this exercise; no emergency requires opening the covered unit before authorization."
+      ],
+      "handbook": {
+        "chapter": 13,
+        "section": "Maintenance Strategies; Equipment Warranties"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
     }
   ];
   questions.forEach(q => {q.set = 2; q.batch = Math.ceil(q.number / 10); q.sourceDocument = 'The ASQ Certified Reliability Engineer Handbook, 4th edition (2025)'; q.original = true;});
@@ -2556,7 +3136,7 @@
     exam.sets = Object.assign({}, existing, {1: first, 2: questions});
     if (!exam.bank || !exam.bank.length) exam.bank = questions;
     exam.defaultSet = first.length ? '1' : '2';
-    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–12 · Q001–120'}});
+    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–13 · Q001–130'}});
     exam.fullExamQuestionsBySet = Object.assign({}, exam.fullExamQuestionsBySet, {2: 150});
     // Actual CBT pace: 165 displayed items in 258 minutes; this bank targets 150 core items.
     exam.questions = 165; exam.minutes = 258;

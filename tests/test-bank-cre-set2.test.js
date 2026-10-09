@@ -10,18 +10,18 @@ const read = file => fs.readFileSync(path.resolve(__dirname, '..', file), 'utf8'
 const bank = () => {const ctx = {window: {}}; vm.runInNewContext(read('test-bank-cre-set2.js'), ctx); return ctx.window;};
 const tick = () => new Promise(resolve => setTimeout(resolve, 60));
 
-test('batch contract: stable IDs, current BoK weights, complete feedback, sixty-seven exhibits, valid lesson anchors', () => {
+test('batch contract: stable IDs, current BoK weights, complete feedback, seventy-four exhibits, valid lesson anchors', () => {
   const {CRE_SET2: qs, registerCRESet2} = bank();
-  assert.equal(qs.length, 120);
+  assert.equal(qs.length, 130);
   const exam = {bok: [], bank: []}, dm = {};
   registerCRESet2(exam, dm);
   assert.deepEqual(Array.from(exam.bok, d => d.weight), [29,25,35,35,26]);
   assert.equal(exam.questions, 165); assert.equal(exam.minutes, 258);
-  assert.equal(qs.filter(q => q.chart).length, 67);
-  assert.equal(qs.filter(q => q.chart?.creKind).length, 36);
-  assert.equal(qs.filter(q => q.explorer).length, 24);
-  assert.deepEqual(Array.from(exam.bok, d => qs.filter(q => q.sub === d.domain).length), [23,20,28,28,21]);
-  assert.deepEqual([0,1,2,3].map(key => qs.filter(q => q.answer === key).length), [30,30,30,30]);
+  assert.equal(qs.filter(q => q.chart).length, 74);
+  assert.equal(qs.filter(q => q.chart?.creKind).length, 39);
+  assert.equal(qs.filter(q => q.explorer).length, 26);
+  assert.deepEqual(Array.from(exam.bok, d => qs.filter(q => q.sub === d.domain).length), [25,22,30,30,23]);
+  assert.deepEqual([0,1,2,3].map(key => qs.filter(q => q.answer === key).length), [32,33,32,33]);
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,20))).digest('hex'), '488de3d62f6ba40533c7f4bbfa30ccba24492571571d06c08cdd8de328b29efc', 'Batches 1–2 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,30))).digest('hex'), '1d58917f68fcb88dd4fe42568d6e50394789e0cab74c16719108b1ff3841921b', 'Batches 1–3 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,40))).digest('hex'), '673070d6340dfe526539b3be6fbaaf14cf4b0ebfd26ea0ed9a6d707808b9c070', 'Batches 1–4 content is unchanged');
@@ -30,6 +30,7 @@ test('batch contract: stable IDs, current BoK weights, complete feedback, sixty-
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,70))).digest('hex'), '26de7da93287a6dc411fce15f3a62364d611f677e49a2f043fec26c207bb8db8', 'Batches 1–7 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,100))).digest('hex'), '861b65a47721a56a80f3e230b46bcae420448de656a1d22dbceefc7c9ad7c961', 'Batches 1–10 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,110))).digest('hex'), 'b1d8f74c16af70f2efa1e6d6b8d4d90f0457d49a351225d1ebec86c59d706af4', 'Batches 1–11 content is unchanged');
+  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,120))).digest('hex'), '0abf3a2b710b5d0928718160c1626c71cac986cb23bd5c0523343d785b09b588', 'Batches 1–12 content is unchanged');
   const released = JSON.stringify(qs.slice(0,10));
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,90))).digest('hex'), '3aa3b10d998f5c30c1b0befb8e15d0c3548f9aeeb9f6573495d0b2facc20fbfa', 'Batches 1–9 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,80))).digest('hex'), '0306b7d9d873b1efcdf7c169be1d620e547b7e91611c32501156443557421bb6', 'Batches 1–8 content is unchanged');
@@ -63,7 +64,7 @@ test('registering Set 2 preserves concurrent Set 1 and Set 3 question banks', ()
   assert.equal(exam.sets[1], first); assert.equal(exam.bank, first);
   assert.equal(JSON.stringify(first), before);
   assert.equal(exam.sets[3], third); assert.equal(JSON.stringify(third), thirdBefore);
-  assert.equal(exam.sets[2].length, 120);
+  assert.equal(exam.sets[2].length, 130);
 });
 
 test('independent calculations verify numeric keys and distractors', () => {
@@ -536,13 +537,13 @@ function useSet2(w,mode){click(w,mode==='full'?'[data-set="2"]':'[data-quiz-set-
 function start(w,mode){click(w,'.tb-tile[data-exam="cre"]');useSet2(w,mode);click(w,'#tb-overview [data-mode="'+mode+'"]');return w.__TB.getFeedbackSnapshot();}
 function submit(w){const n=w.__TB.getFeedbackSnapshot().records.length;click(w,'[data-goto="'+(n-1)+'"]');click(w,'[data-submit]');}
 
-test('production player uses Set 2, correct pace, sixty-seven exhibits, review tools, and immutable score',async()=>{
+test('production player uses Set 2, correct pace, seventy-four exhibits, review tools, and immutable score',async()=>{
   const h=await harness(),{w}=h;
   try{
     click(w,'.tb-tile[data-exam="cre"]');
     assert.equal(w.document.querySelector('[data-set="1"]').disabled,false);
     useSet2(w,'full');
-    assert.match(w.document.querySelector('#tb-overview').textContent,/120 of 150/);
+    assert.match(w.document.querySelector('#tb-overview').textContent,/130 of 150/);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,10),938);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,20),1876);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,30),2815);
@@ -555,21 +556,22 @@ test('production player uses Set 2, correct pace, sixty-seven exhibits, review t
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,100),9382);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,110),10320);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,120),11258);
+    assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,130),12196);
     click(w,'#tb-overview [data-mode="full"]');
     const snapshot=w.__TB.getFeedbackSnapshot();
-    assert.equal(snapshot.records.length,120);
+    assert.equal(snapshot.records.length,130);
     assert.ok(snapshot.records.every(r=>/^cre:set-2:/.test(r.question.qid)));
     assert.equal(w.document.querySelector('.cre2-explorer'),null);
     assert.equal(w.document.querySelector('.tb-explanation'),null);
     snapshot.records.forEach((r,i)=>{click(w,'[data-goto="'+i+'"]');click(w,'[data-opt="'+r.question.answer+'"]');});
     submit(w);await tick();
     const score=w.document.querySelector('[data-score-result]').textContent;
-    assert.match(score,/120\/120/);assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet,'2');
+    assert.match(score,/130\/130/);assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet,'2');
     click(w,'[data-open-review="all"]');await tick();
-    assert.equal(w.document.querySelectorAll('.tb-review-card').length,120);
-    assert.equal(w.document.querySelectorAll('.tb-review-card .cre2-exhibit').length,67);
-    assert.equal(w.document.querySelectorAll('.cre2-explorer').length,24);
-    assert.equal(w.document.querySelectorAll('.cre2-source strong').length,240);
+    assert.equal(w.document.querySelectorAll('.tb-review-card').length,130);
+    assert.equal(w.document.querySelectorAll('.tb-review-card .cre2-exhibit').length,74);
+    assert.equal(w.document.querySelectorAll('.cre2-explorer').length,26);
+    assert.equal(w.document.querySelectorAll('.cre2-source strong').length,260);
     for(const card of w.document.querySelectorAll('.tb-review-card'))assert.ok(h.typesetRoots.includes(card));
     const slider=w.document.querySelector('[data-cre-explorer="weibull"] input');
     slider.value='1500';slider.dispatchEvent(new w.Event('input',{bubbles:true}));
@@ -725,6 +727,14 @@ test('production player uses Set 2, correct pace, sixty-seven exhibits, review t
     assert.equal(histogram.closest('details').open,false);
     histogram.value='0';histogram.dispatchEvent(new w.Event('change',{bubbles:true}));assert.match(histogram.closest('details').querySelector('output').textContent,/1,200, 3,600, 9,000 count-hours/);
     histogram.closest('details').querySelector('button').click();assert.equal(histogram.value,'1');assert.match(histogram.closest('details').querySelector('output').textContent,/Bar areas: 0.20, 0.30, 0.50; total area: 1.00/);
+    const shock=w.document.querySelector('[data-cre-explorer="common-shock"] select');
+    assert.equal(shock.closest('details').open,false);
+    for(const [value,joint,marginalProduct] of [['0','0.010000','0.010000'],['0.05','0.059500','0.021025'],['0.10','0.109000','0.036100']]){shock.value=value;shock.dispatchEvent(new w.Event('change',{bubbles:true}));const out=shock.closest('details').querySelector('output').textContent;assert.ok(out.includes('both channels fail: '+joint));assert.ok(out.includes('Product of marginals: '+marginalProduct));}
+    shock.closest('details').querySelector('button').click();assert.equal(shock.value,'0.02');assert.match(shock.closest('details').querySelector('output').textContent,/0.029800.*0.013924/);
+    const bridge=w.document.querySelector('[data-cre-explorer="bridge-reliability"] select');
+    assert.equal(bridge.closest('details').open,false);
+    for(const [value,reliability] of [['0','0.96390'],['0.50','0.97200'],['1','0.98010']]){bridge.value=value;bridge.dispatchEvent(new w.Event('change',{bubbles:true}));assert.ok(bridge.closest('details').querySelector('output').textContent.includes('Network reliability: '+reliability));}
+    bridge.closest('details').querySelector('button').click();assert.equal(bridge.value,'0.80');assert.match(bridge.closest('details').querySelector('output').textContent,/Network reliability: 0.97686/);
     assert.equal(JSON.stringify(w.CRE_SET2),baseline);
     assert.equal(w.document.querySelector('[data-score-result]').textContent,score);
     // The concurrently merged Set 3 stays selectable and uses only its own bank.
@@ -857,4 +867,48 @@ test('Batch 12 independently verifies availability cycles, intervention states, 
   // A run-level assignment remains the replicate even when more observations are nested inside it.
   for(const temperature of [80,120]){const runs=qs[118].chart.rows.filter(r=>r[1]===temperature);assert.equal(runs.length,2);assert.equal(runs.reduce((sum,r)=>sum+r[2]*r[3],0),24);}
   for(const q of batch)for(const value of [q.stem,q.why,...q.options])assert.doesNotMatch(value.replace(/\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]/g,''),/\\[()[\]]/);
+});
+
+
+test('Batch 13 verifies weighted maintenance, common shocks, censored likelihood, EWMA history, and bridge connectivity independently',()=>{
+  const qs=bank().CRE_SET2,answer=n=>qs[n-1].options[qs[n-1].answer],batch=Array.from(qs.slice(120,130));
+  assert.equal(batch.filter(q=>q.quantitative).length,5);
+  assert.deepEqual(['Foundational','Moderate','Challenging'].map(d=>batch.filter(q=>q.difficulty===d).length),[1,6,3]);
+  // Expand individual maintenance actions rather than averaging category means.
+  const actions=Array.from(qs[121].chart.rows).flatMap(([kind,count,hours])=>Array.from({length:count},()=>({kind,hours})));
+  const active=actions.reduce((t,a)=>t+a.hours,0),corrective=actions.filter(a=>a.kind==='Corrective').reduce((t,a)=>t+a.hours,0);
+  assert.equal(answer(122),(100*480/(480+active)).toFixed(2)+'%');
+  assert.equal(qs[121].options[0],(100*480/(480+active+84)).toFixed(2)+'%');
+  assert.equal(qs[121].options[2],(100*480/(480+corrective)).toFixed(2)+'%');
+  assert.equal(qs[121].options[3],(100*480/(480+actions.length*(6+1.5)/2)).toFixed(2)+'%');
+  // Construct a uniformly weighted no-shock outcome grid, then add the shock stratum.
+  let both=0,a=0,b=0;for(let i=0;i<100;i++)for(let j=0;j<100;j++){if(i<10)a++;if(j<10)b++;if(i<10&&j<10)both++;}
+  const joint=.02+.98*both/10000,margA=.02+.98*a/10000,margB=.02+.98*b/10000;
+  assert.equal(answer(123),joint.toFixed(6));assert.equal(qs[122].options[0],(margA*margB).toFixed(6));
+  assert.equal(qs[122].options[1],(.02+both/10000).toFixed(6));assert.equal(qs[122].options[3],(.02*both/10000).toFixed(6));
+  // Maximize the product of individual failure densities and survivor probabilities on a fine mean-life grid.
+  const records=Array.from(qs[124].chart.rows),logLikelihood=mean=>records.reduce((ll,[,time,status])=>ll-time/mean-(status==='Failure'?Math.log(mean):0),0);
+  let best=0,bestLL=-Infinity;for(let tenth=1;tenth<=20000;tenth++){const mean=tenth/10,ll=logLikelihood(mean);if(ll>bestLL){bestLL=ll;best=mean;}}
+  assert.equal(answer(125),best.toFixed(1)+' h');
+  const failures=records.filter(r=>r[2]==='Failure'),total=records.reduce((v,r)=>v+r[1],0);
+  assert.equal(qs[124].options[0],(failures.reduce((v,r)=>v+r[1],0)/failures.length).toFixed(1)+' h');
+  assert.equal(qs[124].options[1],(total/records.length).toFixed(1)+' h');
+  assert.equal(qs[124].options[2],(600*records.length/failures.length).toLocaleString('en-US',{minimumFractionDigits:1,maximumFractionDigits:1})+' h');
+  // Expand EWMA into weighted history rather than reusing its recursion.
+  const data=Array.from(qs[125].chart.rows,r=>r[1]),history=data.map((_,i)=>10*.8**(i+1)+data.slice(0,i+1).reduce((z,x,j)=>z+.2*.8**(i-j)*x,0));
+  assert.deepEqual(history.map(z=>z.toFixed(3)),['10.400','10.720','11.176']);
+  assert.equal(answer(126),'Observation '+(history.findIndex(z=>z<9||z>11)+1));
+  let variance=0;for(let age=0;age<1000;age++)variance+=(.2*.8**age)**2;
+  assert.ok(Math.abs(10+3*Math.sqrt(variance)-11)<1e-12);
+  // Enumerate all 32 link states and search graph connectivity; no conditional-reduction formula is reused.
+  const edges=[[0,1],[1,3],[0,2],[2,3],[1,2]];
+  function enumerate(e){let probability=0;for(let mask=0;mask<32;mask++){const adjacency=[[],[],[],[]];let weight=1;edges.forEach(([u,v],i)=>{const r=i===4?e:.9,on=Boolean(mask&(1<<i));weight*=on?r:1-r;if(on){adjacency[u].push(v);adjacency[v].push(u);}});const seen=new Set([0]),queue=[0];while(queue.length){const u=queue.shift();for(const v of adjacency[u])if(!seen.has(v)){seen.add(v);queue.push(v);}}if(seen.has(3))probability+=weight;}return probability;}
+  assert.equal(answer(128),enumerate(.8).toFixed(5));assert.equal(qs[127].options[0],enumerate(0).toFixed(5));assert.equal(qs[127].options[1],enumerate(1).toFixed(5));assert.equal(enumerate(.5).toFixed(5),'0.97200');
+  const paths=[[0,1],[2,3],[0,4,3],[2,4,1]],wrong=1-paths.reduce((product,path)=>product*(1-path.reduce((p,i)=>p*(i===4?.8:.9),1)),1);
+  assert.equal(qs[127].options[2],wrong.toFixed(5));
+  // Apply eligibility and range ordering separately to the raw experimental means.
+  const designs=Array.from(qs[128].chart.rows,([id,lo,hi])=>({id,mean:(lo+hi)/2,range:hi-lo}));
+  assert.deepEqual(designs.map(d=>[d.mean,d.range]),[[50,10],[51,4],[48,2]]);
+  const eligible=designs.filter(d=>d.mean>=49&&d.mean<=51).sort((a,b)=>a.range-b.range);
+  assert.equal(eligible[0].id,'B');assert.match(answer(129),/^Setting B/);
 });
