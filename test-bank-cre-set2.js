@@ -302,6 +302,153 @@
       assumptions: ['The stated lognormal model and population parameters apply to active corrective repairs.', 'The requested duration excludes all waiting outside active repair.'],
       handbook: {chapter: 13, section: 'Maintenance Strategies; Corrective Maintenance Analysis'},
       lessonGap: 'A dedicated repair-time distribution lesson is planned; use the cited handbook section and the lognormal percentile calculation above.'
+    },
+    {
+      number: 21, qid: 'cre:set-2:021', sub: 'cre-fundamentals', bok: 'I.B.2',
+      topic: 'A measurable mission-reliability requirement', cognitive: 'Understand', difficulty: 'Foundational', estimatedMinutes: 1,
+      industry: 'Mobile equipment', quantitative: false,
+      stem: 'A customer needs an unattended pump to maintain its specified flow throughout an eight-hour mission under a defined temperature and vibration profile. Any interruption of required flow is a mission failure. Which statement most directly expresses the customer’s mission-reliability requirement?',
+      options: ['Average operating time between failures shall be at least eight hours.', 'At least 99% of pumps shall pass the incoming electrical inspection.', 'The probability of maintaining the specified flow without interruption for the full eight-hour mission under the stated use profile shall be at least 0.99.', 'The pump shall carry an eight-hour replacement warranty after delivery.'], answer: 2,
+      why: '<p>A mission-reliability requirement connects the required function, duration, use conditions, and acceptable probability of success. The third statement contains all four and uses the customer’s explicit failure criterion.</p><p>A mean time between failures is an average, not a probability of completing a particular mission. Incoming inspection addresses initial conformance, and a warranty defines a commercial obligation. Neither substitutes for mission reliability. A separate verification plan would specify how compliance is to be demonstrated and with what statistical confidence.</p>',
+      optionRationales: ['An eight-hour average does not imply a 99% probability of completing an eight-hour mission without failure.', 'Passing initial inspection does not establish uninterrupted performance throughout the customer’s use profile.', 'This specifies the required function, mission duration, environmental profile, and minimum probability of mission success.', 'A replacement warranty does not establish the probability of uninterrupted operation during the mission.'],
+      keyPoint: 'State reliability as success of a defined function over a defined duration and use profile.',
+      trap: 'An average life, inspection yield, or warranty period is not a mission-success probability.',
+      assumptions: ['The customer requires uninterrupted flow; recovery after interruption does not erase mission failure.', 'The temperature and vibration profile is defined in the referenced use specification.'],
+      handbook: {chapter: 2, section: 'Drivers of Reliability Requirements and Targets'},
+      studyReference: {title: 'Reliability as success over time and conditions', url: reliabilityLesson + '#sec-intro'}
+    },
+    {
+      number: 22, qid: 'cre:set-2:022', sub: 'cre-fundamentals', bok: 'I.B.4',
+      topic: 'Interpreting evidence in a root-cause investigation', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Mechanical assembly', quantitative: false,
+      stem: 'Housing cracks were first noticed after a new material lot entered production. Investigators then ran the randomized comparison below, with 20 independently assembled specimens per condition and the same cycling exposure. Which conclusion and next action are BEST supported by these results?',
+      options: ['Prioritize the assembly-torque mechanism across both lots, examine the fracture evidence, and verify whether a controlled torque correction prevents recurrence.', 'Declare the new material lot the sole root cause because its elevated-torque group has the largest failure count.', 'Conclude that torque has no effect because some specimens survive the elevated-torque condition.', 'Close the investigation by returning to the previous lot; its normal-torque group had no observed cracks.'], answer: 0,
+      chart: {type: 'data-table', title: 'Controlled comparison — cracked housings / specimens tested', columns: ['Material lot', 'Normal assembly torque', 'Elevated assembly torque'], rows: [['Previous lot', '0 / 20', '8 / 20'], ['New lot', '1 / 20', '9 / 20']]},
+      why: '<p>The elevated-torque condition has substantially more cracks within each material lot. That repeated pattern makes the torque-related mechanism a stronger investigation priority than blaming the new lot solely because the field timing coincided with its introduction.</p><p>The table does not establish that torque is the only cause or identify the physical fracture mechanism. Fracture examination and a controlled corrective-action verification should test that explanation. Returning to the previous lot would retain the observed elevated-torque vulnerability.</p>',
+      optionRationales: ['This follows the within-lot evidence while requiring mechanism confirmation and a verified corrective action before closure.', 'A largest cell count is not proof of a sole cause; the previous lot also has eight failures under elevated torque.', 'A factor can increase failure probability without causing every exposed specimen to fail.', 'The previous lot also fails at elevated torque, so changing lots alone does not address the demonstrated vulnerability.'],
+      keyPoint: 'Use controlled contrasts to prioritize a causal explanation, then verify the mechanism and correction.',
+      trap: 'A change that coincides with field failures is not automatically their root cause.',
+      assumptions: ['Test order is randomized and specimens are independent.', 'Apart from the stated factors, test conditions and failure criteria are comparable across groups.'],
+      handbook: {chapter: 2, section: 'Root Cause Analysis'},
+      lessonGap: 'Use the cited handbook section and the evidence-based investigation above; a dedicated reliability root-cause lesson is planned.'
+    },
+    {
+      number: 23, qid: 'cre:set-2:023', sub: 'cre-risk', bok: 'II.A.2',
+      topic: 'Conditional event-tree release frequency', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Process protection', quantitative: true,
+      stem: 'A hazardous demand occurs at a mean frequency of 0.40 per year. Both safeguards are called on each demand, and a release occurs only if they both fail along the event-tree path shown. A fails on 10% of demands. GIVEN that A has failed on a demand, B fails with probability 0.25. B’s overall failure probability across all demands is 0.05, but A and B are not assumed independent. What is the mean annual release frequency?',
+      options: ['0.002 per year', '0.100 per year', '0.140 per year', '0.010 per year'], answer: 3,
+      chart: {type: 'data-table', creKind: 'event-tree', title: 'Demand event tree — probabilities are conditional on reaching each branch', columns: ['Branch', 'Conditional probability', 'Outcome / next step'], rows: [['A succeeds, given a demand', '0.90', 'No release'], ['A fails, given a demand', '0.10', 'Proceed to B'], ['B succeeds, given A failed on a demand', '0.75', 'No release'], ['B fails, given A failed on a demand', '0.25', 'Release']], description: 'The initiating-demand frequency is 0.40 per year. A success leads to no release. A failure leads to the B branches: B success gives no release and B failure gives release. Only the path A fails, then B fails causes a release. B branch probabilities are conditional on A already having failed.'},
+      why: tex`<p>Multiply the initiating-event frequency by the conditional probabilities along the release path. The event tree already supplies B’s failure probability under the condition that matters:</p><p>\[\nu_{\mathrm{release}}=\nu_{\mathrm{demand}}\Pr(A_f\mid D)\Pr(B_f\mid A_f,D)=0.40(0.10)(0.25)=0.010\text{ per year}\]</p><p>Here D denotes a demand, and the subscript f denotes failure. Substituting B’s overall 0.05 probability would incorrectly assume independence. The result is an expected event frequency; it is not itself an exact probability of at least one release in a year.</p>`,
+      optionRationales: ['0.002 per year substitutes B’s overall failure probability for the conditional probability on the release path.', '0.100 per year multiplies 0.40 by 0.25 but omits the requirement that A must first fail.', '0.140 per year adds the two failure probabilities before multiplying by demand frequency, although both failures are required.', '0.010 per year multiplies demand frequency by the correctly conditioned probabilities along the release path.'],
+      keyPoint: 'Use the conditional probability for each reached event-tree branch.',
+      trap: 'An overall safeguard failure probability cannot replace a conditional branch probability when failures are dependent.',
+      assumptions: ['The stated conditional probabilities apply to the same demand population.', 'The release event requires both failures; successful action by either safeguard prevents release.'],
+      handbook: {chapter: 3, section: 'Risk Assessment; probabilistic risk assessment and event trees'},
+      lessonGap: 'A dedicated event-tree risk lesson is planned; use the cited handbook section and the conditional path calculation above.'
+    },
+    {
+      number: 24, qid: 'cre:set-2:024', sub: 'cre-risk', bok: 'II.C',
+      topic: 'Secondary risks introduced by a mitigation', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Industrial equipment', quantitative: false,
+      stem: 'A redesigned enclosure prevents access to a moving mechanism and meets the project’s access-protection criterion. Thermal testing then shows that the enclosure traps heat, creating a previously absent failure mode in a safety-related controller. What is the MOST appropriate risk-management action before release?',
+      options: ['Close the risk record because the enclosure has passed the original access-protection criterion.', 'Assess the introduced thermal risk, revise the design or controls as needed, and verify that both the original and introduced risks meet the acceptance criteria.', 'Remove the enclosure and substitute a warning label without reassessing the original access hazard.', 'Treat the controller failures solely as warranty costs because they were introduced by a safety improvement.'], answer: 1,
+      why: '<p>A mitigation can introduce secondary risks. Passing the original protection test does not establish that the modified system’s overall risk is acceptable.</p><p>The thermal failure mode must enter the risk assessment. The team should evaluate consequences and likelihood, choose appropriate design changes or controls, and verify their effectiveness while confirming that the original access protection remains effective. The release decision should use the resulting residual risks, not the original test result alone.</p>',
+      optionRationales: ['The original criterion does not address the newly identified safety-related failure mode.', 'This includes secondary risk in the assessment and requires verification of the combined control strategy.', 'Removing a demonstrated protection without reassessment could restore an unacceptable original hazard.', 'A controller’s safety-related consequences cannot be reduced to warranty cost simply because a mitigation introduced them.'],
+      keyPoint: 'Evaluate risks created by a mitigation as well as the risk it was designed to reduce.',
+      trap: 'A successful local risk control can create a new system-level vulnerability.',
+      assumptions: ['The thermal failure mode is supported by valid test evidence.', 'The project’s risk-acceptance criteria apply to both original and introduced hazards.'],
+      handbook: {chapter: 5, section: 'Risk Treatment; Secondary Risk'},
+      lessonGap: 'A dedicated risk-mitigation lesson is planned; use the cited handbook section and the secondary-risk decision above.'
+    },
+    {
+      number: 25, qid: 'cre:set-2:025', sub: 'cre-statistics', bok: 'III.A.6',
+      topic: 'Variable-sample-size p-chart limits', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Production screening', quantitative: true,
+      stem: 'An established in-control baseline nonconforming proportion is 0.020. Each week, an independent random sample is classified conforming/nonconforming. Use the conventional three-sigma p-chart limits, recalculated for each sample size, with negative lower limits set to zero. Under the single-point-beyond-a-control-limit rule only, which week signals an unusually HIGH nonconforming proportion?',
+      options: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], answer: 1,
+      chart: {type: 'data-table', creKind: 'p-chart', title: 'Weekly screening results and variable p-chart limits', columns: ['Week', 'Sample size', 'Nonconforming units', 'Observed proportion'], rows: [[1, 100, 6, '0.0600'], [2, 400, 18, '0.0450'], [3, 900, 29, '0.0322'], [4, 400, 14, '0.0350']], description: 'The center line is 2.0%. Upper three-sigma limits for weeks 1–4 are 6.2%, 4.1%, 3.4%, and 4.1%. Lower limits are 0%, 0%, 0.6%, and 0%. Observed proportions are 6.0%, 4.5%, approximately 3.22%, and 3.5%. Solid segments and circles show observed proportions; dashed segments and squares show the upper limits; dotted segments show lower limits.'},
+      why: tex`<p>The standard error depends on each week’s sample size. For a fixed baseline \(\bar p=0.020\),</p><p>\[UCL_i=\bar p+3\sqrt{\frac{\bar p(1-\bar p)}{n_i}}\]</p><p>The four upper limits are 0.062, 0.041, 0.034, and 0.041. Only Week 2 is above its own limit: \(18/400=0.045>0.041\). Week 1 has the highest observed proportion, but its smaller sample gives a wider limit. Week 3 has the largest count, but its proportion remains below its limit.</p><p>A signal calls for investigation; it does not by itself identify a physical root cause or prove that a reliability requirement has been met or missed.</p>`,
+      optionRationales: ['Week 1 has the highest observed proportion, 0.060, but that is below its 0.062 upper limit for n = 100.', 'Week 2 has proportion 0.045, exceeding its 0.041 upper limit for n = 400.', 'Week 3 has the most nonconforming units, but 29/900 is approximately 0.0322, below its 0.034 upper limit.', 'Week 4 has proportion 0.035, below its 0.041 upper limit for n = 400.'],
+      keyPoint: 'Changing sample size changes p-chart limits even when the baseline proportion stays fixed.',
+      trap: 'Neither the largest failure count nor the largest observed proportion necessarily gives the strongest control-chart signal.',
+      assumptions: ['Independent binomial classifications and an established baseline common to all four weeks.', 'Use the stated conventional three-sigma approximation, not exact binomial limits or supplementary run rules.'],
+      handbook: {chapter: 6, section: 'Statistical Process Control; attributes control charts'},
+      studyReference: {title: 'Control chart selection and attributes charts', url: '/lessons/power-bi-excel-sql/minitab-control-chart-selection-analysis#lesson-content'},
+      explorer: 'p-chart-sample'
+    },
+    {
+      number: 26, qid: 'cre:set-2:026', sub: 'cre-statistics', bok: 'III.B.2',
+      topic: 'Interval-censored and right-censored records', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Life testing', quantitative: false,
+      stem: 'Unit X is functioning at its 120-hour inspection and is found failed at its 160-hour inspection. Its actual failure time is not recorded. Unit Y is still functioning when observation ends at 200 hours. Inspections identify status correctly, failures are irreversible, and inspection/end times are unrelated to unit condition. How should these two records be represented in a lifetime analysis?',
+      options: ['X: exact failure at 140 h; Y: exact failure at 200 h.', 'X: exact failure at 160 h; Y: omit it because it has not failed.', 'X: interval-censored failure in (120, 160] h; Y: right-censored at 200 h.', 'X: right-censored at 120 h; Y: left-censored at 200 h.'], answer: 2,
+      why: tex`<p>X’s failure is known to have occurred after 120 hours and no later than 160 hours: \(120<T_X\le160\). That is interval censoring. Recording either the interval midpoint or the detection time as an exact failure invents timing information.</p><p>Y establishes only that \(T_Y>200\) hours, so its observation is right-censored at 200 hours. It still contributes survival information. Select a method that supports the actual censoring types rather than forcing interval observations into an exact-time/right-censored format.</p>`,
+      optionRationales: ['The midpoint is not an observed failure time, and the functioning unit did not fail at the observation endpoint.', 'Detection at 160 hours does not identify the failure instant; deleting the surviving unit discards valid lifetime information.', 'This preserves the observed failure interval for X and the lower bound on lifetime for Y without inventing events.', 'X is known to fail by 160 hours, so right censoring at 120 loses information; Y is known to survive beyond, not fail before, 200 hours.'],
+      keyPoint: 'Store what the observation establishes about lifetime, including interval bounds and censoring status.',
+      trap: 'Failure-detection time and actual failure time need not be the same.',
+      assumptions: ['Inspection status is accurate and a failed unit cannot recover between inspections.', 'Observation schedules are noninformative with respect to individual condition.'],
+      handbook: {chapter: 7, section: 'Types of Data; censored and complete reliability data'},
+      lessonGap: 'A dedicated censoring-types lesson is planned; use the cited handbook section and the observation intervals above.'
+    },
+    {
+      number: 27, qid: 'cre:set-2:027', sub: 'cre-testing', bok: 'IV.B.2',
+      topic: 'Developing a production stress screen', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Electronics manufacturing', quantitative: false,
+      stem: 'Development HALT identified useful operating and destruct limits, and the design weaknesses were corrected. A production team proposes applying the destruct-limit stress to every saleable unit as its HASS screen. Which response is BEST?',
+      options: ['Use the destruct-limit stress because any surviving unit has demonstrated its full service life.', 'Adopt the screen if a small pilot has no immediate functional failures; no other validation is needed.', 'Avoid all production screening because accelerated stresses cannot reveal manufacturing defects.', 'Develop a screen that detects relevant manufacturing weaknesses, and verify its effectiveness and non-damaging margin for conforming units before production release.'], answer: 3,
+      why: '<p>HALT explores design margins, including conditions that can cause destruction. A production screen has a different purpose: reveal relevant latent manufacturing weaknesses while preserving conforming units for service.</p><p>The screen should use development knowledge to select stress levels and duration, then demonstrate detection effectiveness and that conforming units are not damaged or unduly life-consumed. A brief functional pass alone does not rule out latent damage. Neither HALT nor HASS, by itself, establishes a numerical field-life guarantee.</p>',
+      optionRationales: ['Survival at a destruct-limit condition neither ensures freedom from damage nor demonstrates full service life.', 'Immediate functional survival alone does not establish adequate detection or absence of latent screen-induced damage.', 'Properly developed screens can expose manufacturing weaknesses; the issue is their purpose and validated stress margin.', 'This distinguishes margin discovery from production screening and requires evidence of both useful detection and protection of conforming units.'],
+      keyPoint: 'A saleable-unit stress screen needs demonstrated detection capability and a justified non-damaging margin.',
+      trap: 'A development destruct limit is not automatically an acceptable production-screen setting.',
+      assumptions: ['The corrected design’s margins have been re-established for the production configuration.', 'Units passing the proposed screen are intended for customer shipment.'],
+      handbook: {chapter: 9, section: 'Stress Screening; Highly Accelerated Stress Screening'},
+      lessonGap: 'A dedicated ESS/HASS lesson is planned; use the cited handbook section and the screen-validation decision above.'
+    },
+    {
+      number: 28, qid: 'cre:set-2:028', sub: 'cre-testing', bok: 'IV.C.3',
+      topic: 'Arrhenius acceleration using absolute temperature', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Temperature-accelerated testing', quantitative: true,
+      stem: tex`A validated single-mechanism Arrhenius model has activation energy \(E_a=0.70\,\mathrm{eV}\). Use temperature is 55 °C and test temperature is 85 °C. Use \(k=8.617333262\times10^{-5}\,\mathrm{eV/K}\) and \(T(\mathrm K)=T(^{\circ}\mathrm C)+273.15\). What is the approximate acceleration factor, defined here as life at use temperature divided by life at test temperature?`,
+      options: ['7.95', '0.126', '1.55', '1.09'], answer: 0,
+      why: tex`<p>The model uses absolute temperature and the same activation energy at both conditions. With \(T_u=328.15\,\mathrm K\) and \(T_s=358.15\,\mathrm K\),</p><p>\[\begin{aligned}AF&=\frac{L_u}{L_s}=\exp\!\left[\frac{E_a}{k}\left(\frac1{T_u}-\frac1{T_s}\right)\right]\\&=\exp\!\left[\frac{0.70}{8.617333262\times10^{-5}}\left(\frac1{328.15}-\frac1{358.15}\right)\right]\\&\approx7.9528\end{aligned}\]</p><p>For this model, characteristic life at 55 °C is approximately 7.95 times that at 85 °C. The higher test temperature produces an acceleration factor greater than one under the stated definition. This conclusion depends on the validated mechanism and model; a temperature increase alone does not establish model validity.</p>`,
+      optionRationales: ['7.95 uses the Arrhenius reciprocal-temperature difference in kelvin with the stated life-ratio direction.', '0.126 is approximately the reciprocal factor, obtained by reversing the life ratio or the temperature difference.', '1.55 is approximately 85/55, a ratio of Celsius temperatures that does not represent Arrhenius acceleration.', '1.09 is approximately 358.15/328.15; even in kelvin, a simple temperature ratio is not the Arrhenius factor.'],
+      keyPoint: 'Use kelvin and define the direction of the acceleration factor before evaluating an Arrhenius model.',
+      trap: 'Converting to kelvin is necessary but does not turn the model into a simple temperature ratio.',
+      assumptions: ['The same thermally activated failure mechanism and activation energy apply at both temperatures.', 'The life-ratio Arrhenius model is validated over the stated range.'],
+      handbook: {chapter: 10, section: 'Failure Models; Arrhenius model'},
+      lessonGap: 'A dedicated physics-of-failure model lesson is planned; use the cited handbook section and the Arrhenius calculation above.',
+      explorer: 'arrhenius-temperature'
+    },
+    {
+      number: 29, qid: 'cre:set-2:029', sub: 'cre-lifecycle', bok: 'V.A.3',
+      topic: 'Two-factor interaction effect versus coefficient', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Design experimentation', quantitative: true,
+      stem: 'A randomized, equally replicated full two-factor experiment measures time to failure. The plot and table give the cell means in hours; all lifetimes are observed to failure. Code each factor level as −1 (low) or +1 (high). Using the standard factorial-effect convention—mean response at AB = +1 minus mean response at AB = −1—what is the estimated AB interaction EFFECT?',
+      options: ['−500 h', '−250 h', '0 h', '+500 h'], answer: 0,
+      chart: {type: 'data-table', creKind: 'interaction', title: 'Mean time to failure — interaction plot', columns: ['A level', 'B level', 'Mean time to failure (h)'], rows: [['Low (−1)', 'Low (−1)', 1000], ['High (+1)', 'Low (−1)', 1500], ['Low (−1)', 'High (+1)', 1400], ['High (+1)', 'High (+1)', 900]], description: 'Horizontal axis: factor A, low to high. Vertical axis: mean time to failure in hours. The B-low solid line rises from 1,000 to 1,500 hours; the B-high dashed line falls from 1,400 to 900 hours. The lines cross. These are cell means; the figure does not show within-cell variability.'},
+      why: tex`<p>The product AB is positive at the low/low and high/high combinations. It is negative at high/low and low/high. Therefore,</p><p>\[\widehat{\mathrm{effect}}_{AB}=\frac{1000+900}{2}-\frac{1500+1400}{2}=950-1450=-500\,\mathrm h\]</p><p>In a regression using −1/+1 coding, the AB coefficient would be half the effect, −250 hours. The average A main effect is zero, but changing A increases mean life at B-low and decreases it at B-high. Statistical significance cannot be determined from the cell means alone.</p>`,
+      optionRationales: ['−500 hours uses the positive-product cell mean minus the negative-product cell mean, matching the requested effect convention.', '−250 hours is the coded regression coefficient, which is half the factorial effect for −1/+1 coding.', 'Zero hours is the average main effect of A; it does not describe the AB interaction.', '+500 hours reverses the positive-product and negative-product groups and therefore reverses the interaction sign.'],
+      keyPoint: 'Distinguish a factorial effect from its coded regression coefficient, and do not let averaging conceal interaction.',
+      trap: 'A zero average main effect does not mean a factor has no effect at either setting of the other factor.',
+      assumptions: ['A complete, equally replicated two-factor design with independent specimens and randomized run order.', 'The question asks for an effect estimate, not a significance test or confidence interval.'],
+      handbook: {chapter: 11, section: 'Design of Experiments; factorial effects and interactions'},
+      studyReference: {title: 'Factorial effects and interactions', url: '/lessons/introduction-to-design-of-experiment-doe#lesson-content'}
+    },
+    {
+      number: 30, qid: 'cre:set-2:030', sub: 'cre-lifecycle', bok: 'V.C.1',
+      topic: 'Spare-stock coverage during a fixed lead time', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Fleet maintenance', quantitative: true,
+      stem: 'Replacement demand across a fleet follows a homogeneous Poisson process with mean rate 0.10 units per calendar day. A replenishment arrives exactly 45 days from now; no replenishment or repaired return is available before then. Each demand consumes one spare. What is the MINIMUM starting stock that gives at least a 95% probability of satisfying every demand during these 45 days? The table gives cumulative probabilities P(N ≤ s).',
+      options: ['7 spares', '6 spares', '10 spares', '8 spares'], answer: 3,
+      chart: {type: 'data-table', title: 'Poisson cumulative lookup — probability demand does not exceed stock', columns: ['Stock s', 'Mean demand 3.0', 'Mean demand 4.5', 'Mean demand 6.0'], rows: [[6, '0.96649', '0.83105', '0.60630'], [7, '0.98810', '0.91341', '0.74398'], [8, '0.99620', '0.95974', '0.84724'], [9, '0.99890', '0.98291', '0.91608'], [10, '0.99971', '0.99333', '0.95738']]},
+      why: tex`<p>First convert demand rate to expected demand over the entire lead time:</p><p>\[\mu=\lambda L=0.10(45)=4.5\text{ units},\qquad N\sim\operatorname{Poisson}(4.5)\]</p><p>Choose the smallest integer stock s with \(\Pr(N\le s)\ge0.95\). The correct table column gives \(\Pr(N\le7)=0.91341\) and \(\Pr(N\le8)=0.95974\), so <strong>eight spares</strong> is the minimum. The stockout probability is about 4.03%.</p><p>This is the probability of no shortage over the fixed interval, not the fraction of individual demands filled immediately and not a guarantee against every possible demand count.</p>`,
+      optionRationales: ['Seven spares cover only about 91.34% of the modeled lead-time demand outcomes, below the stated target.', 'Six spares meet 95% for mean demand 3.0, corresponding to only 30 days at this rate, not the required 45 days.', 'Ten spares would meet the target but are not the minimum; they are the minimum shown for mean demand 6.0, or a 60-day interval.', 'Eight spares provide approximately 95.97% no-shortage probability, whereas seven provide only 91.34%.'],
+      keyPoint: 'Size stock against the demand distribution over the complete replenishment lead time.',
+      trap: 'A lead-time stock-coverage probability is different from a unit fill rate or the expected demand count.',
+      assumptions: ['Constant aggregate demand rate and independent Poisson increments over the stated calendar interval.', 'Every stocked spare is usable and interchangeable; there are no other stock withdrawals or returns.'],
+      handbook: {chapter: 13, section: 'Maintenance Strategies; spare parts analysis and forecasting'},
+      lessonGap: 'A dedicated spare-parts planning lesson is planned; use the cited handbook section and the lead-time demand calculation above.'
     }
   ];
   questions.forEach(q => {q.set = 2; q.batch = Math.ceil(q.number / 10); q.sourceDocument = 'The ASQ Certified Reliability Engineer Handbook, 4th edition (2025)'; q.original = true;});
@@ -314,7 +461,7 @@
     exam.sets = Object.assign({}, existing, {1: first, 2: questions});
     if (!exam.bank || !exam.bank.length) exam.bank = questions;
     exam.defaultSet = first.length ? '1' : '2';
-    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–2 · Q001–020'}});
+    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–3 · Q001–030'}});
     exam.fullExamQuestionsBySet = Object.assign({}, exam.fullExamQuestionsBySet, {2: 150});
     // Actual CBT pace: 165 displayed items in 258 minutes; this bank targets 150 core items.
     exam.questions = 165; exam.minutes = 258;
