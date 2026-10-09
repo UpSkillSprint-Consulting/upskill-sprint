@@ -237,13 +237,13 @@ test('compliance inputs use a prominent drawer that is collapsed by default acro
 
 test('phone layout rules keep lookup and compliance workspaces usable without page overflow', () => {
   const application = readFileSync(applicationPath, 'utf8');
-  assert.match(application, /\\.grade-spec-tool-page \\.table-wrap\\{max-width:100%;overflow-x:auto/);
-  assert.match(application, /@media\\(max-width:760px\\)[\\s\\S]*?\\.grade-spec-tool-page \\.top-shell\\{position:relative;top:auto/);
-  assert.match(application, /@media\\(max-width:760px\\)[\\s\\S]*?\\.grade-spec-tool-page \\.result-stack\\{position:static;max-height:none;overflow:visible/);
-  assert.match(application, /@media\\(max-width:700px\\)[\\s\\S]*?\\.grade-spec-tool-page \\.p2-grid,\\.grade-spec-tool-page \\.p2-grid\\.three,\\.grade-spec-tool-page \\.p2-grid\\.four,\\.grade-spec-tool-page \\.p2-grid\\.five\\{grid-template-columns:1fr\\}/);
-  assert.match(application, /\\.grade-spec-tool-page \\.p2-field input,[\\s\\S]*?min-height:44px;font-size:16px/);
-  assert.match(application, /@media\\(max-width:430px\\)[\\s\\S]*?\\.grade-spec-tool-page \\.control-grid\\{grid-template-columns:1fr\\}/);
-  assert.match(application, /\\.grade-spec-tool-page \\.tool-tab\\{min-height:46px/);
+  assert.match(application, /\.grade-spec-tool-page \.table-wrap\{max-width:100%;overflow-x:auto/);
+  assert.match(application, /@media\(max-width:760px\)[\s\S]*?\.grade-spec-tool-page \.top-shell\{position:relative;top:auto/);
+  assert.match(application, /@media\(max-width:760px\)[\s\S]*?\.grade-spec-tool-page \.result-stack\{position:static;max-height:none;overflow:visible/);
+  assert.match(application, /@media\(max-width:700px\)[\s\S]*?\.grade-spec-tool-page \.p2-grid,\.grade-spec-tool-page \.p2-grid\.three,\.grade-spec-tool-page \.p2-grid\.four,\.grade-spec-tool-page \.p2-grid\.five\{grid-template-columns:1fr\}/);
+  assert.match(application, /\.grade-spec-tool-page \.p2-field input,[\s\S]*?min-height:44px;font-size:16px/);
+  assert.match(application, /@media\(max-width:430px\)[\s\S]*?\.grade-spec-tool-page \.control-grid\{grid-template-columns:1fr\}/);
+  assert.match(application, /\.grade-spec-tool-page \.tool-tab\{min-height:46px/);
 });
 
 test('user guide documents incomplete, invalid, form-filter, and temperature behavior', () => {
