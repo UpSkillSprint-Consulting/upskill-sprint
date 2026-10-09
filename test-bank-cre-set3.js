@@ -186,7 +186,7 @@
   },
   {
     "sub": "cre-lead",
-    "stem": "Use the shift record below. Planned production time is shift length minus breaks, and actual operating time is planned production time minus maintenance downtime.\n\\[\n\\mathrm{OEE}=\\text{Availability}\\times\\text{Performance}\\times\\text{Quality}\n\\]\nwhere\n\\[\n\\text{Availability}=\\frac{\\text{actual operating time}}{\\text{planned production time}},\\quad\n\\text{Performance}=\\frac{\\text{pieces produced}/\\text{actual operating time}}{\\text{designed rate}},\\quad\n\\text{Quality}=\\frac{\\text{good pieces}}{\\text{pieces produced}}.\n\\]\nWhat is OEE, to one decimal place?",
+    "stem": "Use the shift record below. Planned production time is shift length minus breaks, and actual operating time is planned production time minus maintenance downtime.\n\\[\n\\mathrm{OEE}=\\text{Availability}\\times\\text{Performance}\\times\\text{Quality}\n\\]\nwhere\n\\[\n\\text{Availability}=\\frac{\\text{actual operating time}}{\\text{planned production time}}\n\\]\n\\[\n\\text{Performance}=\\frac{\\text{pieces produced}}{\\text{actual operating time}\\times\\text{designed rate}}\n\\]\n\\[\n\\text{Quality}=\\frac{\\text{good pieces}}{\\text{pieces produced}}\n\\]\nWhat is OEE, to one decimal place?",
     "options": [
       "95.0%",
       "90.0%",
@@ -194,7 +194,7 @@
       "73.9%"
     ],
     "answer": 3,
-    "why": "Planned time is \\(480-40=440\\) min and operating time is \\(440-60=380\\) min. Ideal output is \\(120\\times(380/60)=760\\) pieces.\n\\[\n\\text{Availability}=\\frac{380}{440}=0.864,\\quad\n\\text{Performance}=\\frac{684}{760}=0.900,\\quad\n\\text{Quality}=\\frac{650}{684}=0.950.\n\\]\n\\[\n\\mathrm{OEE}=0.864\\times 0.900\\times 0.950=0.739\\ (73.9\\%).\n\\]\nThe other choices are the three factors reported alone. <b>D. 73.9%</b>",
+    "why": "Planned time is \\(480-40=440\\) min and operating time is \\(440-60=380\\) min. Ideal output is \\(120\\times(380/60)=760\\) pieces.\n\\[\n\\text{Availability}=\\frac{380}{440}=0.864\n\\]\n\\[\n\\text{Performance}=\\frac{684}{760}=0.900\n\\]\n\\[\n\\text{Quality}=\\frac{650}{684}=0.950\n\\]\n\\[\n\\mathrm{OEE}=0.864\\times 0.900\\times 0.950=0.739\\ (73.9\\%).\n\\]\nThe other choices are the three factors reported alone. <b>D. 73.9%</b>",
     "set": 3,
     "qid": "cre:set-3:009",
     "bok": "I.A.9",

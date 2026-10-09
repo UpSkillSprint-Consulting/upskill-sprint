@@ -115,13 +115,54 @@
         "altText": "Activity network. A takes 5 days and splits to B, 8 days, and C, 4 days. B and C both finish into D, 6 days, then E, 3 days.",
         "durationUnit": "days",
         "nodes": {
-          "A": {"col": 0, "row": 0.5, "dur": 5},
-          "B": {"col": 1, "row": 0, "dur": 8},
-          "C": {"col": 1, "row": 1, "dur": 4},
-          "D": {"col": 2, "row": 0.5, "dur": 6},
-          "E": {"col": 3, "row": 0.5, "dur": 3}
+          "A": {
+            "col": 0,
+            "row": 0.5,
+            "dur": 5
+          },
+          "B": {
+            "col": 1,
+            "row": 0,
+            "dur": 8
+          },
+          "C": {
+            "col": 1,
+            "row": 1,
+            "dur": 4
+          },
+          "D": {
+            "col": 2,
+            "row": 0.5,
+            "dur": 6
+          },
+          "E": {
+            "col": 3,
+            "row": 0.5,
+            "dur": 3
+          }
         },
-        "edges": [["A", "B"], ["A", "C"], ["B", "D"], ["C", "D"], ["D", "E"]]
+        "edges": [
+          [
+            "A",
+            "B"
+          ],
+          [
+            "A",
+            "C"
+          ],
+          [
+            "B",
+            "D"
+          ],
+          [
+            "C",
+            "D"
+          ],
+          [
+            "D",
+            "E"
+          ]
+        ]
       }
     },
     {
@@ -193,7 +234,7 @@
       "sub": "I.A.9",
       "bok": "Performance monitoring",
       "cognitive": "Apply",
-      "stem": "Use the shift record below. Planned production time is shift length minus breaks, and actual operating time is planned production time minus maintenance downtime.\n\\[\n\\mathrm{OEE}=\\text{Availability}\\times\\text{Performance}\\times\\text{Quality}\n\\]\nwhere\n\\[\n\\text{Availability}=\\frac{\\text{actual operating time}}{\\text{planned production time}},\\quad\n\\text{Performance}=\\frac{\\text{pieces produced}/\\text{actual operating time}}{\\text{designed rate}},\\quad\n\\text{Quality}=\\frac{\\text{good pieces}}{\\text{pieces produced}}.\n\\]\nWhat is OEE, to one decimal place?",
+      "stem": "Use the shift record below. Planned production time is shift length minus breaks, and actual operating time is planned production time minus maintenance downtime.\n\\[\n\\mathrm{OEE}=\\text{Availability}\\times\\text{Performance}\\times\\text{Quality}\n\\]\nwhere\n\\[\n\\text{Availability}=\\frac{\\text{actual operating time}}{\\text{planned production time}}\n\\]\n\\[\n\\text{Performance}=\\frac{\\text{pieces produced}}{\\text{actual operating time}\\times\\text{designed rate}}\n\\]\n\\[\n\\text{Quality}=\\frac{\\text{good pieces}}{\\text{pieces produced}}\n\\]\nWhat is OEE, to one decimal place?",
       "options": [
         "95.0%",
         "90.0%",
@@ -201,7 +242,7 @@
         "73.9%"
       ],
       "answer": 3,
-      "why": "Planned time is \\(480-40=440\\) min and operating time is \\(440-60=380\\) min. Ideal output is \\(120\\times(380/60)=760\\) pieces.\n\\[\n\\text{Availability}=\\frac{380}{440}=0.864,\\quad\n\\text{Performance}=\\frac{684}{760}=0.900,\\quad\n\\text{Quality}=\\frac{650}{684}=0.950.\n\\]\n\\[\n\\mathrm{OEE}=0.864\\times 0.900\\times 0.950=0.739\\ (73.9\\%).\n\\]\nThe other choices are the three factors reported alone. <b>D. 73.9%</b>",
+      "why": "Planned time is \\(480-40=440\\) min and operating time is \\(440-60=380\\) min. Ideal output is \\(120\\times(380/60)=760\\) pieces.\n\\[\n\\text{Availability}=\\frac{380}{440}=0.864\n\\]\n\\[\n\\text{Performance}=\\frac{684}{760}=0.900\n\\]\n\\[\n\\text{Quality}=\\frac{650}{684}=0.950\n\\]\n\\[\n\\mathrm{OEE}=0.864\\times 0.900\\times 0.950=0.739\\ (73.9\\%).\n\\]\nThe other choices are the three factors reported alone. <b>D. 73.9%</b>",
       "traps": {
         "A": "Reports quality only.",
         "B": "Reports performance only.",
@@ -211,14 +252,35 @@
         "type": "data-table",
         "title": "Shift record",
         "altText": "Shift length 480 minutes. Breaks and meal 40 minutes. Maintenance downtime 60 minutes. Designed rate 120 pieces per hour. Pieces produced 684. Good pieces 650.",
-        "columns": ["Input", "Value"],
+        "columns": [
+          "Input",
+          "Value"
+        ],
         "rows": [
-          ["Shift length", "480 min"],
-          ["Breaks and meal", "40 min"],
-          ["Maintenance downtime", "60 min"],
-          ["Designed rate", "120 pieces/hour"],
-          ["Pieces produced", "684"],
-          ["Good pieces", "650"]
+          [
+            "Shift length",
+            "480 min"
+          ],
+          [
+            "Breaks and meal",
+            "40 min"
+          ],
+          [
+            "Maintenance downtime",
+            "60 min"
+          ],
+          [
+            "Designed rate",
+            "120 pieces/hour"
+          ],
+          [
+            "Pieces produced",
+            "684"
+          ],
+          [
+            "Good pieces",
+            "650"
+          ]
         ]
       }
     },
@@ -246,11 +308,27 @@
         "type": "data-table",
         "title": "Duane growth points",
         "altText": "At 100 hours, 20 cumulative failures, rate 0.200 per hour. At 400 hours, 40 failures, rate 0.100. At 1,600 hours, 80 failures, rate 0.050. The log-log plot is a straight line with slope −0.50.",
-        "columns": ["Cumulative time T (h)", "Cumulative failures n(T)", "Cumulative failure rate n(T)/T"],
+        "columns": [
+          "Cumulative time T (h)",
+          "Cumulative failures n(T)",
+          "Cumulative failure rate n(T)/T"
+        ],
         "rows": [
-          ["100", "20", "0.200"],
-          ["400", "40", "0.100"],
-          ["1600", "80", "0.050"]
+          [
+            "100",
+            "20",
+            "0.200"
+          ],
+          [
+            "400",
+            "40",
+            "0.100"
+          ],
+          [
+            "1600",
+            "80",
+            "0.050"
+          ]
         ]
       }
     }
