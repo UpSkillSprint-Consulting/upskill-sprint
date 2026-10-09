@@ -903,13 +903,13 @@
       "domain": "III. Probability and Statistics for Reliability",
       "subdomain": "A. Basic Concepts",
       "code": "III.A.4",
-      "topic": "Reliability from a hazard function (cumulative hazard)"
+      "topic": "Conditional reliability from a hazard function (cumulative hazard)"
     },
     "difficulty": "Hard",
     "cognitive": "Analyze",
     "questionType": "Visual evidence interpretation, calculation",
     "quantitative": true,
-    "stem": "Field data for a hydraulic seal give the hazard function shown. The hazard rate is constant until 1,000 hours and then rises linearly. What is the reliability of a new seal at 1,500 hours?",
+    "stem": "Field data for a hydraulic seal give the hazard function shown. The hazard rate is constant until 1,000 hours and then rises linearly. A seal has already run 800 hours without failing. What is the probability that it survives to 1,500 hours?",
     "chart": {
       "type": "cre-xy-plot",
       "eyebrow": "Hazard function",
@@ -973,29 +973,30 @@
       "yLabel": "Hazard rate (failures per 10,000 h)"
     },
     "options": [
-      "0.122",
-      "0.150",
+      "0.375",
       "0.427",
-      "0.549"
+      "0.589",
+      "0.638"
     ],
     "answer": 2,
-    "why": "<p>Reliability depends on the cumulative hazard \\(H(t)\\), the area under the hazard curve:</p><p>\\[\\begin{aligned}R(t) &= e^{-H(t)} \\\\ H(t) &= \\int_0^{t} h(u)\\,du \\\\ A_1 &= 0.0004(1000) \\\\ &= 0.40 \\\\ A_2 &= 500(0.0009) \\\\ &= 0.45 \\\\ H(1500) &= 0.85 \\\\ R(1500) &= e^{-0.85} \\\\ &= 0.427\\end{aligned}\\]</p><p>where \\(h(t)\\) is the hazard rate per hour read from the plot (4 and 14 failures per 10,000 h at 1,000 h and 1,500 h). \\(A_1\\) is the rectangle from 0 to 1,000 h; \\(A_2\\) is the trapezoid from 1,000 to 1,500 h, whose average height is \\((0.0004 + 0.0014)/2 = 0.0009\\) per hour.</p><p><b>C. 0.427</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Functions (hazard and cumulative hazard).</span></p>",
+    "why": "<p>For a unit that has survived to age \\(t_0\\), conditional reliability uses only the cumulative hazard accumulated between \\(t_0\\) and \\(t\\):</p><p>\\[\\begin{aligned}R(t \\mid t_0) &= e^{-\\Delta H} \\\\ \\Delta H &= H(t) - H(t_0) \\\\ A_1 &= 0.0004(200) \\\\ &= 0.08 \\\\ A_2 &= 500(0.0009) \\\\ &= 0.45 \\\\ \\Delta H &= 0.53 \\\\ R &= e^{-0.53} \\\\ &= 0.589\\end{aligned}\\]</p><p>where \\(R\\) is \\(R(1500 \\mid 800)\\), \\(\\Delta H\\) is the cumulative hazard added between \\(t_0 = 800\\) h and \\(t = 1500\\) h, \\(H(t) = \\int_0^{t} h(u)\\,du\\) is the area under the hazard curve and \\(h(t)\\) is per hour (4 and 14 failures per 10,000 h at 1,000 h and 1,500 h). \\(A_1\\) is the rectangle from 800 to 1,000 h; \\(A_2\\) is the trapezoid from 1,000 to 1,500 h, whose average height is \\((0.0004 + 0.0014)/2 = 0.0009\\) per hour. Survival to 800 h is already known, so the hazard before 800 h no longer matters.</p><p><b>C. 0.589</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Functions (hazard, cumulative hazard and conditional reliability).</span></p>",
     "optionRationales": [
-      "Multiplies the hazard at 1,500 h by the whole 1,500 h: \\(e^{-0.0014 \\times 1500} = 0.122\\). That applies the end-point rate from time zero.",
-      "\\(1 - H = 1 - 0.85 = 0.150\\) uses the small-\\(H\\) approximation \\(R \\approx 1 - H\\), which fails badly when \\(H\\) is not small.",
-      "Correct. \\(H(1500) = 0.40 + 0.45 = 0.85\\), so \\(R = e^{-0.85} = 0.427\\).",
-      "\\(e^{-0.0004 \\times 1500} = 0.549\\) ignores the wear-out ramp after 1,000 h."
+      "\\(e^{-0.0014 \\times 700} = 0.375\\) applies the end-point hazard to the whole remaining 700 h. The hazard only reaches that value at 1,500 h.",
+      "\\(e^{-0.85} = 0.427\\) is the reliability of a new seal at 1,500 h. It ignores the 800 h already survived.",
+      "Correct. \\(H(1500) - H(800) = 0.08 + 0.45 = 0.53\\), so \\(R = e^{-0.53} = 0.589\\).",
+      "\\(e^{-0.45} = 0.638\\) counts only the rising section and drops the 200 h of constant hazard from 800 h to 1,000 h."
     ],
-    "keyPoint": "\\(R(t) = \\exp\\left[-\\int_0^{t} h(u)\\,du\\right]\\). Use the area under the hazard curve, not the hazard at the end point.",
-    "trap": "Multiplying the end-point hazard by total time, or using \\(R \\approx 1 - H\\) when \\(H\\) is large.",
-    "formula": "\\(R(t) = \\exp[-H(t)]\\), \\(H(1500) = 0.85\\)",
+    "keyPoint": "Conditional reliability \\(R(t \\mid t_0) = \\exp\\{-[H(t) - H(t_0)]\\}\\): integrate the hazard only over the remaining interval.",
+    "trap": "Using the reliability of a new unit, or applying the end-point hazard to the whole interval.",
+    "formula": "\\(R(t \\mid t_0) = \\exp[-(H(t) - H(t_0))]\\), \\(H(1500) - H(800) = 0.53\\)",
     "assumptions": [
-      "The hazard function shown applies to a new seal from time zero."
+      "The hazard function shown applies to every seal from time zero, and the seal is not repaired or renewed."
     ],
-    "estimatedMinutes": 3,
+    "estimatedMinutes": 4,
     "keywords": [
       "hazard function",
       "cumulative hazard",
+      "conditional reliability",
       "reliability function",
       "wear-out"
     ],
@@ -1111,13 +1112,13 @@
       "domain": "III. Probability and Statistics for Reliability",
       "subdomain": "A. Basic Concepts",
       "code": "III.A.5",
-      "topic": "Zero-failure Weibull demonstration with test-time extension"
+      "topic": "Zero-failure Weibull demonstration: solving for test time"
     },
     "difficulty": "Hard",
     "cognitive": "Apply",
     "questionType": "Visual evidence interpretation, calculation",
     "quantitative": true,
-    "stem": "A zero-failure reliability demonstration is planned using the requirements in the table. Prior life data show that the failure mechanism follows a Weibull distribution with the shape parameter given. What is the minimum number of units that must complete the test with no failures?",
+    "stem": "A zero-failure reliability demonstration is planned using the requirements in the table. Each test station holds one unit, and all units must start together. Prior life data show that the failure mechanism follows a Weibull distribution with the shape parameter given. How long must each unit run, with no failures, to demonstrate the requirement?",
     "chart": {
       "type": "data-table",
       "title": "Demonstration test plan — actuator",
@@ -1139,11 +1140,7 @@
           "1.5"
         ],
         [
-          "Test time available per unit",
-          "3,000 h"
-        ],
-        [
-          "Test stations available",
+          "Test stations available (one unit each)",
           "12"
         ],
         [
@@ -1153,27 +1150,27 @@
       ]
     },
     "options": [
-      "24",
-      "25",
-      "30",
-      "45"
+      "7,480 h",
+      "4,820 h",
+      "8,000 h",
+      "14,470 h"
     ],
     "answer": 1,
-    "why": "<p>For a zero-failure Weibull test with known \\(\\beta\\), testing each unit for \\(k\\) times the mission time gives</p><p>\\[\\begin{aligned}k &= 3000/2000 = 1.5 \\\\ n &= \\frac{\\ln(1 - C)}{k^{\\beta}\\,\\ln R} \\\\ &= \\frac{\\ln 0.10}{1.5^{1.5}\\,\\ln 0.95} \\\\ &= 24.4\\end{aligned}\\]</p><p>where \\(C\\) is the required confidence, \\(R\\) the required reliability at the mission time, \\(\\beta\\) the Weibull shape and \\(k\\) the ratio of test time to mission time. Round up: 25 units. The number of stations and the unit cost affect scheduling and budget, not the sample size.</p><p><b>B. 25</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Sampling Plans for Statistics and Reliability Testing, Examples 6.64–6.66.</span></p>",
+    "why": "<p>For a zero-failure Weibull test with known \\(\\beta\\), testing \\(n\\) units for \\(k\\) times the mission time demonstrates the requirement when \\(n\\,k^{\\beta}\\ln R \\le \\ln(1 - C)\\). Fix \\(n = 12\\) and solve for \\(k\\):</p><p>\\[\\begin{aligned}k^{\\beta} &= \\frac{\\ln(1 - C)}{n\\,\\ln R} \\\\ &= \\frac{\\ln 0.10}{12\\,\\ln 0.95} \\\\ &= 3.741 \\\\ k &= 3.741^{1/1.5} \\\\ &= 2.410 \\\\ t_{\\text{test}} &= 2.410(2000) \\\\ &= 4820 \\text{ h}\\end{aligned}\\]</p><p>where \\(C\\) is the required confidence, \\(R\\) the required reliability at the mission time of 2,000 h, \\(\\beta\\) the Weibull shape, \\(n\\) the number of units on test and \\(k = t_{\\text{test}}/t_{\\text{mission}}\\). Because the mechanism wears out (\\(\\beta \\gt 1\\)), each extra hour of test counts for more than the last, so the time needed grows more slowly than the 3.741 ratio.</p><p><b>B. 4,820 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Sampling Plans for Statistics and Reliability Testing, Examples 6.64–6.66.</span></p>",
     "optionRationales": [
-      "\\(24.4\\) rounded down. A demonstration sample size is always rounded up, or the confidence falls short of 90%.",
-      "Correct. \\(n = \\ln(0.10)/(1.5^{1.5}\\ln 0.95) = 24.4\\), so 25 units.",
-      "Uses \\(k\\) instead of \\(k^{\\beta}\\): \\(\\ln(0.10)/(1.5 \\ln 0.95) = 29.9\\). That ignores how wear-out makes extra test time count for more.",
-      "Ignores the extended test time and tests at the mission time: \\(\\ln(0.10)/\\ln(0.95) = 44.9\\)."
+      "Uses \\(k = 3.741\\) directly, as if \\(\\beta = 1\\): \\(3.741 \\times 2000 = 7480\\) h. That ignores the wear-out shape.",
+      "Correct. \\(k^{1.5} = \\ln 0.10/(12 \\ln 0.95) = 3.741\\), so \\(k = 2.410\\) and \\(t = 4820\\) h.",
+      "Runs the 45-unit mission-time plan (\\(\\ln 0.10/\\ln 0.95 = 44.9\\)) as four successive groups of 12 for 2,000 h each. Units that start later do not share the same test conditions, and the stem requires one simultaneous run.",
+      "Raises the ratio to the power \\(\\beta\\) instead of \\(1/\\beta\\): \\(3.741^{1.5} \\times 2000 = 14470\\) h."
     ],
-    "keyPoint": "Extending test time by a factor \\(k\\) reduces the zero-failure sample size by a factor \\(k^{\\beta}\\) when \\(\\beta\\) is known.",
-    "trap": "Scaling by \\(k\\) instead of \\(k^{\\beta}\\), or rounding the sample size down.",
-    "formula": "\\(n = \\ln(1 - C)/[k^{\\beta}\\ln R]\\), \\(k = t_{\\text{test}}/t_{\\text{mission}}\\)",
+    "keyPoint": "With \\(n\\) fixed, solve \\(k = [\\ln(1 - C)/(n \\ln R)]^{1/\\beta}\\); the test-time ratio scales with the \\(1/\\beta\\) power.",
+    "trap": "Ignoring \\(\\beta\\), or raising the ratio to \\(\\beta\\) instead of \\(1/\\beta\\).",
+    "formula": "\\(k = \\left[\\frac{\\ln(1 - C)}{n \\ln R}\\right]^{1/\\beta}\\), \\(t_{\\text{test}} = k\\,t_{\\text{mission}}\\)",
     "assumptions": [
       "β is known and the same at test and use conditions.",
       "Units are tested at use conditions (no acceleration)."
     ],
-    "estimatedMinutes": 3,
+    "estimatedMinutes": 4,
     "keywords": [
       "reliability demonstration",
       "zero-failure test",
@@ -1202,40 +1199,41 @@
       "domain": "III. Probability and Statistics for Reliability",
       "subdomain": "A. Basic Concepts",
       "code": "III.A.5",
-      "topic": "Binomial demonstration plan that allows one failure"
+      "topic": "Binomial demonstration plans: sample size and producer’s risk"
     },
     "difficulty": "Very Hard",
     "cognitive": "Apply",
     "questionType": "Calculation",
     "quantitative": true,
-    "stem": "A customer requires a demonstration that a relay has reliability of at least 0.90 for one mission, at 90% confidence. The test plan will accept the relay design if no more than one unit fails. Using the binomial distribution, what is the minimum number of relays that must be tested?",
+    "stem": "A customer requires a demonstration that a relay has reliability of at least 0.90 for one mission, at 90% confidence. The team compares a zero-failure plan (accept if \\(c = 0\\) relays fail) with a plan that accepts if no more than \\(c = 1\\) relay fails. Using the binomial distribution, what is the minimum sample size of each plan, and what is the probability that each plan accepts a relay design whose true mission reliability is 0.97?",
     "options": [
-      "22",
-      "23",
-      "37",
-      "38"
+      "\\(c = 0\\): 22 relays, accepted with probability 0.51. \\(c = 1\\): 37 relays, accepted with probability 0.69.",
+      "\\(c = 0\\): 22 relays, accepted with probability 0.51. \\(c = 1\\): 38 relays, accepted with probability 0.31.",
+      "\\(c = 0\\): 22 relays, accepted with probability 0.49. \\(c = 1\\): 38 relays, accepted with probability 0.32.",
+      "\\(c = 0\\): 22 relays, accepted with probability 0.51. \\(c = 1\\): 38 relays, accepted with probability 0.68."
     ],
     "answer": 3,
-    "why": "<p>With \\(c = 1\\) allowed failure, choose the smallest \\(n\\) for which a design that only just fails the requirement (\\(R = 0.90\\), so \\(p = 0.10\\)) would still pass with probability no more than \\(1 - C = 0.10\\):</p><p>\\[\\begin{aligned}P_n &= q^{n} + n\\,p\\,q^{n-1} \\\\ P_{37} &= 0.1036 \\\\ P_{38} &= 0.0953\\end{aligned}\\]</p><p>where \\(P_n = \\Pr(X \\le 1)\\) when \\(n\\) relays are tested, \\(X\\) is the number of failures, \\(p = 1 - R = 0.10\\), \\(q = 0.90\\) and \\(C\\) is the confidence. At \\(n = 37\\) the probability (0.1036) is above 0.10; at \\(n = 38\\) it (0.0953) meets the limit.</p><p><b>D. 38</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Sampling Plans for Statistics and Reliability Testing (Examples 6.64–6.66) and Confidence Intervals (Example 6.84, lower confidence limit for reliability with failures).</span></p>",
+    "why": "<p>Each plan needs the smallest \\(n\\) for which a design that only just fails the requirement (\\(p = 0.10\\)) passes with probability no more than \\(1 - C = 0.10\\):</p><p>\\[\\begin{aligned}0.90^{n} &\\le 0.10 \\\\ n &\\ge \\frac{\\ln 0.10}{\\ln 0.90} \\\\ &= 21.9 \\Rightarrow 22\\end{aligned}\\]</p><p>for the zero-failure plan. For the \\(c = 1\\) plan:</p><p>\\[\\begin{aligned}P_n &= q^{n} + n\\,p\\,q^{n-1} \\\\ P_{37} &= 0.1036 \\\\ P_{38} &= 0.0953\\end{aligned}\\]</p><p>where \\(p = 1 - R = 0.10\\), \\(q = 0.90\\) and \\(P_n = \\Pr(X \\le 1)\\) with \\(n\\) relays on test, so 38 relays are needed. Then evaluate each plan at the true reliability 0.97 (\\(p_1 = 0.03\\)):</p><p>\\[\\begin{aligned}A_0 &= 0.97^{22} \\\\ &= 0.51 \\\\ A_1 &= 0.97^{38} \\\\ &\\quad + 38(0.03)(0.97)^{37} \\\\ &= 0.314 + 0.369 \\\\ &= 0.68\\end{aligned}\\]</p><p>where \\(p_1\\) is the true failure probability per mission and \\(A_0\\) and \\(A_1\\) are the probabilities that the \\(c = 0\\) and \\(c = 1\\) plans accept the design. Both plans give the customer the same protection, but the zero-failure plan rejects a genuinely good (0.97) design about half the time. Allowing one failure costs 16 more relays and raises the chance of accepting it to about two in three.</p><p><b>D. 22 relays at 0.51; 38 relays at 0.68.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Sampling Plans for Statistics and Reliability Testing (Examples 6.64–6.66) and Confidence Intervals (Example 6.84).</span></p>",
     "optionRationales": [
-      "The zero-failure plan: \\(\\ln(0.10)/\\ln(0.90) = 21.9\\), so 22. Allowing a failure needs more units, not the same number.",
-      "Adds one unit to the zero-failure size for the allowed failure. The binomial probability must be recalculated instead.",
-      "The chi-square (Poisson) approximation, \\(\\chi^2_{0.10,\\,4}/(2 \\times 0.1054) = 36.9\\), rounds to 37. The exact binomial calculation asked for gives \\(\\Pr(X \\le 1) = 0.104\\) at \\(n = 37\\), which is above 0.10.",
-      "Correct. \\(\\Pr(X \\le 1 \\mid 38, 0.10) = 0.095 \\le 0.10\\), while \\(n = 37\\) gives 0.104."
+      "Uses the chi-square (Poisson) approximation for the \\(c = 1\\) size: \\(\\chi^2_{0.10,\\,4}/(2 \\times 0.1054) = 36.9\\), so 37. The exact binomial calculation asked for gives \\(\\Pr(X \\le 1) = 0.104 \\gt 0.10\\) at \\(n = 37\\).",
+      "Counts only the zero-failure outcome for the \\(c = 1\\) plan: \\(0.97^{38} = 0.31\\). The plan also accepts when exactly one relay fails.",
+      "Reports the probability of rejection (\\(1 - 0.51\\) and \\(1 - 0.68\\)) instead of acceptance.",
+      "Correct. 22 and 38 relays; acceptance probabilities \\(0.97^{22} = 0.51\\) and \\(\\Pr(X \\le 1 \\mid 38, 0.03) = 0.68\\)."
     ],
-    "keyPoint": "For an allowed-failure plan, find the smallest \\(n\\) with \\(\\Pr(X \\le c \\mid n, 1 - R) \\le 1 - C\\).",
-    "trap": "Adding \\(c\\) to the zero-failure sample size, or using the Poisson approximation when the binomial is specified.",
-    "formula": "\\(\\sum_{x=0}^{c} \\binom{n}{x}(1 - R)^{x}R^{\\,n-x} \\le 1 - C\\)",
+    "keyPoint": "Size each plan at the requirement (\\(\\Pr(X \\le c \\mid n, 1 - R) \\le 1 - C\\)), then judge it by its OC curve: allowing failures costs units but lowers the producer’s risk.",
+    "trap": "Using the Poisson approximation when the binomial is specified, or forgetting the one-failure term when computing acceptance.",
+    "formula": "\\(\\sum_{x=0}^{c} \\binom{n}{x}p^{x}q^{\\,n-x} \\le 1 - C\\); \\(\\Pr(\\text{accept}) = \\sum_{x=0}^{c} \\binom{n}{x}p_1^{x}(1 - p_1)^{n-x}\\)",
     "assumptions": [
       "Each relay is an independent pass/fail trial with the same reliability."
     ],
-    "estimatedMinutes": 5,
+    "estimatedMinutes": 7,
     "keywords": [
       "binomial",
       "success run",
       "allowed failures",
       "reliability demonstration",
-      "confidence"
+      "OC curve",
+      "producer’s risk"
     ],
     "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
     "sourceSection": "Chapter 6 - Sampling Plans for Statistics and Reliability Testing",
@@ -1306,15 +1304,15 @@
     "options": [
       "5 ppm",
       "53 ppm",
-      "3,150 ppm",
+      "3,155 ppm",
       "3,210 ppm"
     ],
     "answer": 2,
-    "why": "<p>Long-term performance uses the overall standard deviation:</p><p>\\[\\begin{aligned}z_L &= \\frac{\\bar{x} - \\text{LSL}}{\\sigma_o} \\\\ &= \\frac{25.012 - 24.950}{0.0227} \\\\ &= 2.73 \\\\ p_L &= \\Phi(-2.73) = 0.00316\\end{aligned}\\]</p><p>where \\(\\bar{x}\\) is the process mean, \\(\\sigma_o\\) the overall standard deviation, \\(\\Phi\\) the standard normal CDF and \\(p_L\\) the fraction below the LSL. This matches \\(P_{pk} = z_L/3 = 0.91\\). The answer is about 3,150 ppm. The large gap between \\(C_{pk} = 1.48\\) and \\(P_{pk} = 0.91\\) shows the process drifts between subgroups, so the within-subgroup figure badly understates the undersize risk.</p><p><b>C. 3,150 ppm</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Statistical Process Control and Capability Studies, Example 6.80; Appendix D.</span></p>",
+    "why": "<p>Long-term performance uses the overall standard deviation:</p><p>\\[\\begin{aligned}z_L &= \\frac{\\bar{x} - \\text{LSL}}{\\sigma_o} \\\\ &= \\frac{25.012 - 24.950}{0.0227} \\\\ &= 2.73 \\\\ p_L &= \\Phi(-2.73) = 0.00316\\end{aligned}\\]</p><p>where \\(\\bar{x}\\) is the process mean, \\(\\sigma_o\\) the overall standard deviation, \\(\\Phi\\) the standard normal CDF and \\(p_L\\) the fraction below the LSL. This matches \\(P_{pk} = z_L/3 = 0.91\\). The answer is about 3,155 ppm. The large gap between \\(C_{pk} = 1.48\\) and \\(P_{pk} = 0.91\\) shows the process drifts between subgroups, so the within-subgroup figure badly understates the undersize risk.</p><p><b>C. 3,155 ppm</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Statistical Process Control and Capability Studies, Example 6.80; Appendix D.</span></p>",
     "optionRationales": [
       "Uses the within-subgroup standard deviation (\\(z = 4.43\\)), which describes short-term potential, not long-term performance.",
       "This is the expected fraction above the USL (\\(z = 3.88\\)). The concern is undersized journals.",
-      "Correct. \\(z_L = 0.062/0.0227 = 2.73\\) and \\(\\Phi(-2.73) \\approx 0.00316\\).",
+      "Correct. \\(z_L = 0.062/0.0227 = 2.731\\) and \\(\\Phi(-2.731) \\approx 0.003155\\), or 3,155 ppm. Working from the rounded \\(P_{pk} = 0.91\\) (\\(z = 2.73\\)) gives about 3,170 ppm, still nearest this option.",
       "Adds both tails (3,155 + 53 ppm). Only the lower tail is asked for."
     ],
     "keyPoint": "\\(P_p\\) and \\(P_{pk}\\) use the overall standard deviation and predict long-term nonconformance; on the side of interest \\(z = 3P_{pk}\\).",
@@ -1359,7 +1357,7 @@
     "cognitive": "Apply",
     "questionType": "Visual evidence interpretation, calculation",
     "quantitative": true,
-    "stem": "A final-inspection station records the proportion of circuit cards with one or more nonconformities. The number of cards inspected changes from day to day. Using the week shown as the baseline, which control chart and Tuesday control limit should be used, and is Tuesday’s result a signal?",
+    "stem": "A final-inspection station records the proportion of circuit cards with one or more nonconformities. The number of cards inspected changes from day to day. Using the week shown as the baseline, which control chart should be used, and which day or days signal?",
     "chart": {
       "type": "data-table",
       "title": "Final inspection — circuit cards",
@@ -1373,8 +1371,8 @@
         [
           "Mon",
           "120",
-          "5",
-          "7"
+          "4",
+          "6"
         ],
         [
           "Tue",
@@ -1385,50 +1383,50 @@
         [
           "Wed",
           "200",
-          "7",
-          "10"
+          "17",
+          "22"
         ],
         [
           "Thu",
           "180",
-          "6",
-          "9"
+          "4",
+          "6"
         ],
         [
           "Fri",
           "150",
-          "5",
-          "8"
+          "3",
+          "5"
         ],
         [
           "Sat",
           "250",
-          "8",
-          "12"
+          "3",
+          "7"
         ]
       ]
     },
     "options": [
-      "\\(np\\) chart; UCL \\(\\approx 14.3\\) nonconforming cards; Tuesday (9) is not a signal.",
-      "\\(p\\) chart using the average subgroup size; UCL \\(\\approx 0.086\\); Tuesday (0.090) is a signal.",
-      "\\(u\\) chart of nonconformities per card; UCL \\(\\approx 0.134\\); Tuesday (0.140) is a signal.",
-      "\\(p\\) chart with limits for each day’s subgroup size; Tuesday UCL \\(\\approx 0.099\\); Tuesday (0.090) is not a signal."
+      "\\(np\\) chart with \\(\\bar{n} = 167\\); UCL \\(\\approx 14.3\\) nonconforming cards; only Wednesday (17) signals.",
+      "\\(p\\) chart using the average subgroup size; UCL \\(\\approx 0.086\\); only Tuesday (0.090) signals.",
+      "\\(u\\) chart of nonconformities per card; only Tuesday (0.140, above its 0.134 limit) signals.",
+      "\\(p\\) chart with limits for each day’s subgroup size; only Wednesday (0.085, above its 0.082 limit) signals. Tuesday (0.090) is inside its 0.099 limit."
     ],
     "answer": 3,
-    "why": "<p>The characteristic is the proportion of nonconforming cards, an attribute, and the subgroup size varies, so a \\(p\\) chart with limits computed for each subgroup is the right choice:</p><p>\\[\\begin{aligned}\\bar{p} &= 40/1000 = 0.040 \\\\ \\sigma_i &= \\sqrt{\\bar{p}\\,\\bar{q}/n_i} \\\\ &= \\sqrt{0.0384/100} \\\\ &= 0.0196 \\\\ \\text{UCL}_i &= \\bar{p} + 3\\sigma_i \\\\ &= 0.040 + 0.059 \\\\ &= 0.099\\end{aligned}\\]</p><p>where \\(\\bar{p}\\) is the baseline proportion nonconforming, \\(\\bar{q} = 1 - \\bar{p} = 0.960\\), \\(n_i = 100\\) is the number of cards inspected on Tuesday and \\(\\sigma_i\\) is the standard error of that day’s proportion. Tuesday’s proportion is \\(9/100 = 0.090\\), below the limit, so it is not a signal. Using the average subgroup size (166.7) gives a tighter 0.086 limit and a false alarm for the smallest subgroup.</p><p><b>D. \\(p\\) chart with limits for each day’s subgroup size; not a signal.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Statistical Process Control, Examples 6.76–6.79 (p, np, c and u charts).</span></p>",
+    "why": "<p>The characteristic is the proportion of nonconforming cards, an attribute, and the subgroup size varies from 100 to 250, so a \\(p\\) chart with limits computed for each subgroup is the right choice:</p><p>\\[\\begin{aligned}\\bar{p} &= 40/1000 = 0.040 \\\\ \\text{UCL}_i &= \\bar{p} + 3\\sqrt{\\bar{p}\\,\\bar{q}/n_i} \\\\ \\text{UCL}_{\\text{Tue}} &= 0.040 + 0.059 \\\\ &= 0.099 \\\\ \\text{UCL}_{\\text{Wed}} &= 0.040 + 0.042 \\\\ &= 0.082\\end{aligned}\\]</p><p>where \\(\\bar{p}\\) is the baseline proportion nonconforming, \\(\\bar{q} = 1 - \\bar{p} = 0.960\\) and \\(n_i\\) is the number of cards inspected that day (100 on Tuesday, 200 on Wednesday). Tuesday’s proportion is \\(9/100 = 0.090\\), below its limit. Wednesday’s is \\(17/200 = 0.085\\), above its tighter limit, so Wednesday is the only signal. A single average-\\(n\\) limit (0.086) reverses both conclusions: it flags the small Tuesday sample and misses the large Wednesday one.</p><p><b>D. \\(p\\) chart with per-day limits; only Wednesday signals.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Statistical Process Control, Examples 6.76–6.79 (p, np, c and u charts).</span></p>",
     "optionRationales": [
-      "An \\(np\\) chart needs a constant subgroup size; with sizes from 100 to 250, a single count limit is not valid.",
-      "Average-\\(n\\) limits are only an approximation when sizes are similar. Tuesday’s subgroup is 40% smaller than average, and the shortcut produces a false signal.",
-      "A \\(u\\) chart tracks nonconformities per unit. The characteristic asked for is nonconforming cards, which is a \\(p\\)-chart problem.",
-      "Correct. \\(\\bar{p} = 0.040\\); \\(\\text{UCL}(n = 100) = 0.099\\); 0.090 is inside the limits."
+      "An \\(np\\) chart needs a constant subgroup size. With sizes from 100 to 250, a count limit built on the average size is not valid, even though it happens to flag Wednesday here.",
+      "Average-\\(n\\) limits are only an approximation when subgroup sizes are similar. Here the shortcut flags small-sample Tuesday (0.090 is inside its own 0.099 limit) and misses Wednesday (0.085 against its own 0.082 limit).",
+      "A \\(u\\) chart tracks nonconformities per card. The characteristic is nonconforming cards, which is a \\(p\\)-chart problem.",
+      "Correct. \\(\\bar{p} = 0.040\\); \\(\\text{UCL}_{\\text{Tue}} = 0.099\\) and \\(\\text{UCL}_{\\text{Wed}} = 0.082\\); only Wednesday is above its limit."
     ],
-    "keyPoint": "Nonconforming units with varying \\(n\\): use a \\(p\\) chart with limits recomputed for each subgroup size.",
-    "trap": "Using \\(np\\) (requires constant \\(n\\)), using an average \\(n\\) with widely varying sizes, or charting defects instead of defectives.",
+    "keyPoint": "Nonconforming units with varying \\(n\\): use a \\(p\\) chart with limits recomputed for each subgroup size. Average-\\(n\\) limits can both create and hide signals.",
+    "trap": "Using an average \\(n\\) when subgroup sizes vary widely, using \\(np\\) (requires constant \\(n\\)), or charting defects instead of defectives.",
     "formula": "\\(\\text{UCL}_i = \\bar{p} + 3\\sqrt{\\bar{p}(1 - \\bar{p})/n_i}\\)",
     "assumptions": [
       "The baseline week is in statistical control."
     ],
-    "estimatedMinutes": 4,
+    "estimatedMinutes": 5,
     "keywords": [
       "p chart",
       "variable subgroup size",
@@ -1457,13 +1455,13 @@
       "domain": "III. Probability and Statistics for Reliability",
       "subdomain": "A. Basic Concepts",
       "code": "III.A.7",
-      "topic": "Chi-square lower confidence bound on MTBF, time-terminated test"
+      "topic": "Chi-square MTBF bound: planning additional test time"
     },
     "difficulty": "Hard",
     "cognitive": "Evaluate",
     "questionType": "Visual evidence interpretation, calculation",
     "quantitative": true,
-    "stem": "Eight power supplies were tested at use conditions. Each failed unit was repaired immediately and returned to test, and the test ended on a pre-planned date. Assuming a constant failure rate, what is the one-sided 90% lower confidence bound on MTBF?",
+    "stem": "Eight power supplies were tested at use conditions. Each failed unit was repaired immediately and returned to test, and the test ended on a pre-planned date. The customer requires a one-sided 90% lower confidence bound on MTBF of at least 2,000 h. Assuming a constant failure rate, if testing resumes under the same rules and no further failures occur, how many more total unit-hours of testing are needed?",
     "chart": {
       "type": "data-table",
       "title": "Power supply test summary",
@@ -1516,32 +1514,33 @@
       ]
     },
     "options": [
-      "1,548 h",
-      "1,796 h",
-      "2,255 h",
-      "4,000 h"
+      "None: the current 90% lower bound (2,255 h) already exceeds 2,000 h.",
+      "About 1,360 h more.",
+      "About 3,510 h more.",
+      "About 14,720 h more."
     ],
     "answer": 1,
-    "why": "<p>Total test time is \\(T = 12000\\) h with \\(r = 3\\) failures, so the point estimate is \\(T/r = 4000\\) h. The test was time-terminated (it stopped on a date, not at a failure), so the lower bound uses \\(2r + 2 = 8\\) degrees of freedom:</p><p>\\[\\begin{aligned}\\text{MTBF}_L &= \\frac{2T}{\\chi^2_{\\alpha,\\,2r+2}} \\\\ &= \\frac{24000}{\\chi^2_{0.10,\\,8}} \\\\ &= \\frac{24000}{13.362} \\\\ &= 1796\\end{aligned}\\]</p><p>where \\(T\\) is the total time on test, \\(r\\) the number of failures, \\(\\alpha = 0.10\\) for a one-sided 90% bound and the result is in hours.</p><p><b>B. 1,796 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals, Example 6.95 (confidence interval for an exponential mean); Appendix G.</span></p>",
+    "why": "<p>Total test time so far is \\(T = 12000\\) h with \\(r = 3\\) failures. The test is time-terminated (it stops on a date, not at a failure), so the lower bound uses \\(2r + 2 = 8\\) degrees of freedom. The current bound is \\(24000/13.362 = 1796\\) h, short of the requirement. Solve for the total time needed:</p><p>\\[\\begin{aligned}\\frac{2T}{\\chi^2_{0.10,\\,8}} &\\ge 2000 \\\\ T_{\\text{req}} &= \\frac{2000(13.362)}{2} \\\\ &= 13362 \\text{ h} \\\\ \\Delta T &= 13362 - 12000 \\\\ &= 1362 \\text{ h}\\end{aligned}\\]</p><p>where \\(\\Delta T\\) is the additional unit-hours needed, \\(T\\) is the total unit-hours on test, \\(r\\) the number of failures and \\(\\alpha = 0.10\\) for a one-sided 90% bound. With no further failures, about 1,360 more unit-hours (for example, 170 more hours on each of the eight positions) meets the requirement.</p><p><b>B. About 1,360 h more.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals, Example 6.95 (confidence interval for an exponential mean); Appendix G.</span></p>",
     "optionRationales": [
-      "Uses \\(\\chi^2_{0.05,\\,8} = 15.507\\), the lower limit of a two-sided 90% interval, not a one-sided 90% bound.",
-      "Correct. \\(24000/\\chi^2_{0.10,\\,8} = 24000/13.362 = 1796\\) h.",
-      "Uses \\(2r = 6\\) degrees of freedom (\\(\\chi^2 = 10.645\\)), the failure-terminated formula. This test ended at a planned time.",
-      "\\(T/r = 4000\\) h is the point estimate, not a confidence bound."
+      "Uses \\(2r = 6\\) degrees of freedom (\\(\\chi^2 = 10.645\\)), the failure-terminated formula: \\(24000/10.645 = 2255\\) h. This test ends at a planned time, so 8 degrees of freedom apply.",
+      "Correct. \\(T_{\\text{req}} = 2000 \\times 13.362/2 = 13362\\) h, which is 1,362 h more than the 12,000 h already run.",
+      "Uses \\(\\chi^2_{0.05,\\,8} = 15.507\\), the value for a two-sided 90% interval: \\(T_{\\text{req}} = 15507\\) h.",
+      "Drops the factor 2 in \\(2T\\): \\(T_{\\text{req}} = 2000 \\times 13.362 = 26724\\) h."
     ],
-    "keyPoint": "Time-terminated: \\(\\text{MTBF}_L = 2T/\\chi^2_{\\alpha,\\,2r+2}\\). Failure-terminated: use \\(2r\\) degrees of freedom.",
-    "trap": "Using \\(2r\\) degrees of freedom on a time-terminated test, or the two-sided chi-square value for a one-sided bound.",
-    "formula": "\\(\\text{MTBF}_L = 2T/\\chi^2_{\\alpha,\\,2r+2}\\)",
+    "keyPoint": "Time-terminated: \\(\\text{MTBF}_L = 2T/\\chi^2_{\\alpha,\\,2r+2}\\). To plan more testing, solve for \\(T\\) with the planned number of failures.",
+    "trap": "Using \\(2r\\) degrees of freedom on a time-terminated test, the two-sided chi-square value, or dropping the 2 in \\(2T\\).",
+    "formula": "\\(T_{\\text{req}} = \\text{MTBF}_{\\text{req}}\\,\\chi^2_{\\alpha,\\,2r+2}/2\\)",
     "assumptions": [
       "Constant failure rate.",
       "Repairs restore units to as-good-as-new condition."
     ],
-    "estimatedMinutes": 3,
+    "estimatedMinutes": 4,
     "keywords": [
       "MTBF",
       "chi-square",
       "confidence bound",
       "time-terminated test",
+      "test planning",
       "exponential"
     ],
     "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
@@ -1565,13 +1564,13 @@
       "domain": "III. Probability and Statistics for Reliability",
       "subdomain": "A. Basic Concepts",
       "code": "III.A.7",
-      "topic": "One-sided normal tolerance bound versus confidence bound"
+      "topic": "One-sided normal tolerance bound: decision and sample size"
     },
     "difficulty": "Very Hard",
     "cognitive": "Evaluate",
     "questionType": "Visual evidence interpretation, calculation, decision",
     "quantitative": true,
-    "stem": "A random sample of 20 pipe-body tensile tests gives a mean yield strength of 74.6 ksi and a standard deviation of 2.1 ksi, and the data are approximately normal. The specified minimum yield strength is 68 ksi. A customer asks for 95% confidence that at least 99% of production meets the minimum. Using the factors shown, which statement is correct?",
+    "stem": "A random sample of 20 pipe-body tensile tests gives a mean yield strength of 74.6 ksi and a standard deviation of 2.1 ksi, and the data are approximately normal. The specified minimum yield strength is 68 ksi. A customer asks for 95% confidence that at least 99% of production meets the minimum. Using the factors shown, is the requirement demonstrated? If the sample mean and standard deviation stayed the same, what is the smallest tabled sample size that would demonstrate it?",
     "chart": {
       "type": "data-table",
       "title": "One-sided normal tolerance factors (95% confidence)",
@@ -1604,33 +1603,34 @@
       ]
     },
     "options": [
-      "The lower tolerance bound is 67.7 ksi, so the data do not show, with 95% confidence, that 99% of production exceeds 68 ksi.",
-      "The lower bound \\(\\bar{x} - 3s\\) is 68.3 ksi, so at least 99.87% of production exceeds 68 ksi, which meets the requirement.",
-      "The lower bound \\(\\bar{x} - 2.326s\\) is 69.7 ksi, so 99% of production exceeds 68 ksi, which meets the requirement.",
-      "The 95% lower confidence bound on the mean is 73.8 ksi, which is well above 68 ksi, so the requirement is met."
+      "Not demonstrated: the lower tolerance bound is 67.7 ksi. With the same mean and standard deviation, 30 is the smallest tabled sample size that would demonstrate it (68.2 ksi).",
+      "Not demonstrated: the lower tolerance bound is 67.7 ksi. With the same mean and standard deviation, a sample of 25 would demonstrate it, because its bound rounds to 68.0 ksi.",
+      "Demonstrated: the lower bound \\(\\bar{x} - 2.326s\\) is 69.7 ksi, so 99% of production exceeds 68 ksi with no further testing.",
+      "Demonstrated: the 95% lower confidence bound on the mean is 73.8 ksi, well above 68 ksi, so no further testing is needed."
     ],
     "answer": 0,
-    "why": "<p>The requirement is about the population (99% coverage) with 95% confidence, so it calls for a one-sided tolerance bound:</p><p>\\[\\begin{aligned}L &= \\bar{x} - k\\,s \\\\ &= 74.6 - 3.295(2.1) \\\\ &= 74.6 - 6.92 = 67.7 \\text{ ksi}\\end{aligned}\\]</p><p>where \\(\\bar{x}\\) is the sample mean, \\(s\\) the sample standard deviation and \\(k = 3.295\\) the factor for \\(n = 20\\), 99% coverage and 95% confidence. That is below 68 ksi, so the sample does not demonstrate the requirement. A larger sample (smaller \\(k\\)) or less variation would be needed.</p><p><b>A. 67.7 ksi; not demonstrated.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals, Example 6.88 (confidence interval versus tolerance interval); Appendix I.1.</span></p>",
+    "why": "<p>The requirement is about the population (99% coverage) with 95% confidence, so it calls for a one-sided tolerance bound:</p><p>\\[\\begin{aligned}L &= \\bar{x} - k\\,s \\\\ L_{20} &= 74.6 - 3.295(2.1) \\\\ &= 67.68 \\\\ L_{25} &= 74.6 - 3.158(2.1) \\\\ &= 67.97 \\\\ L_{30} &= 74.6 - 3.064(2.1) \\\\ &= 68.17\\end{aligned}\\]</p><p>where \\(\\bar{x}\\) is the sample mean, \\(s\\) the sample standard deviation and \\(k\\) (subscript \\(n\\)) the tabled factor for 99% coverage at 95% confidence. The bound must reach 68 ksi, so \\(k \\le (74.6 - 68)/2.1 = 3.143\\). The factor for \\(n = 25\\) (3.158) is just above that: its bound of 67.97 ksi only rounds to 68.0. The smallest tabled size that passes is \\(n = 30\\).</p><p><b>A. Not demonstrated; \\(n = 30\\) is the smallest tabled size that would demonstrate it.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals, Example 6.88 (confidence interval versus tolerance interval); Appendix I.1.</span></p>",
     "optionRationales": [
-      "Correct. \\(74.6 - 3.295(2.1) = 67.7\\) ksi, which is below 68 ksi.",
-      "\\(\\bar{x} - 3s\\) treats the sample estimates as the true \\(\\mu\\) and \\(\\sigma\\) and ignores sampling uncertainty. It is not tied to a stated confidence level.",
+      "Correct. \\(L_{20} = 67.7\\) ksi fails; \\(k \\le 3.143\\) is first met at \\(n = 30\\) (\\(L = 68.17\\) ksi).",
+      "\\(L_{25} = 74.6 - 3.158(2.1) = 67.97\\) ksi, which rounds to 68.0 but is still below the 68 ksi minimum. Compare unrounded values against a limit.",
       "\\(z_{0.01} = 2.326\\) gives the 1st percentile only if \\(\\mu\\) and \\(\\sigma\\) were known. With \\(n = 20\\), the tolerance factor 3.295 must be used.",
       "A confidence bound on the mean says where the average is, not where 99% of individual pipes are."
     ],
-    "keyPoint": "Coverage of individuals with confidence needs a tolerance bound, \\(\\bar{x} - k\\,s\\), not a confidence bound on the mean or a \\(z\\)-based percentile.",
-    "trap": "Using a confidence interval for the mean, or \\(z\\) instead of the tolerance factor \\(k\\), which inflates the apparent margin.",
-    "formula": "\\(L = \\bar{x} - k(n, p, \\gamma)\\,s = 67.7\\) ksi",
+    "keyPoint": "Coverage of individuals with confidence needs a tolerance bound, \\(\\bar{x} - k\\,s\\). The largest allowable factor, \\((\\bar{x} - L_{\\text{spec}})/s\\), tells you the sample size needed.",
+    "trap": "Rounding 67.97 to 68.0 and calling it a pass; using \\(z\\) or a confidence bound on the mean instead of the tolerance factor.",
+    "formula": "\\(L = \\bar{x} - k(n, p, \\gamma)\\,s\\); demonstrated if \\(k \\le (\\bar{x} - L_{\\text{spec}})/s = 3.143\\)",
     "assumptions": [
       "Yield strength is normally distributed.",
       "The 20 tests are a random sample of production."
     ],
-    "estimatedMinutes": 4,
+    "estimatedMinutes": 5,
     "keywords": [
       "tolerance interval",
       "tolerance factor",
       "confidence interval",
       "yield strength",
-      "coverage"
+      "coverage",
+      "sample size"
     ],
     "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
     "sourceSection": "Chapter 6 - Confidence and Tolerance Intervals",
@@ -1659,7 +1659,7 @@
     "cognitive": "Evaluate",
     "questionType": "Software output interpretation, decision",
     "quantitative": true,
-    "stem": "A program must show that a valve actuator has reliability of at least 0.90 at 1,000 hours, with 95% confidence. A Weibull analysis of test data produced the survival table shown. Which conclusion is correct?",
+    "stem": "A program must show that a valve actuator has reliability of at least 0.90 at 900 hours, with 95% confidence. A Weibull analysis of test data produced the survival table shown; 900 hours is not tabulated. Interpolating linearly between tabulated times, which conclusion is correct?",
     "chart": {
       "type": "data-table",
       "title": "Distribution Analysis: Actuator — table of survival probabilities (Weibull)",
@@ -1692,32 +1692,33 @@
       ]
     },
     "options": [
-      "The requirement is not demonstrated at 1,000 h, because the 95% lower bound is 0.874. The data support \\(R \\ge 0.90\\) at 95% confidence only up to about 750 h.",
-      "The requirement is demonstrated, because the reliability estimate at 1,000 h (0.927) exceeds 0.90.",
-      "The requirement is not demonstrated, because the lower bound shows that 12.6% of actuators will fail by 1,000 h.",
-      "The data cannot be judged against the requirement, because confidence bounds on reliability need a zero-failure test."
+      "Not demonstrated: the interpolated 95% lower bound at 900 h is about 0.889. The data support \\(R \\ge 0.90\\) at 95% confidence only to about 830 h.",
+      "Demonstrated: the interpolated reliability estimate at 900 h is about 0.939, which exceeds 0.90.",
+      "Demonstrated: the last tabulated time at or below 900 h is 750 h, where the 95% lower bound (0.912) exceeds 0.90.",
+      "Not demonstrated: the requirement is judged at the next tabulated time, 1,000 h, where the lower bound (0.874) shows that 12.6% of actuators will fail."
     ],
     "answer": 0,
-    "why": "<p>A requirement stated \"with 95% confidence\" is met only if the one-sided 95% lower confidence bound reaches the target:</p><p>\\[\\begin{aligned}R_L(1000) &= 0.874 \\lt 0.90 \\\\ R_L(750) &= 0.912 \\ge 0.90\\end{aligned}\\]</p><p>where \\(R_L(t)\\) is the one-sided 95% lower confidence bound on reliability at time \\(t\\). The requirement is not demonstrated at 1,000 h even though the point estimate is 0.927. Closing the gap needs more test units or more test time to narrow the interval.</p><p><b>A. Not demonstrated at 1,000 h; supported only to about 750 h.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals (Weibull, normal and lognormal intervals), Examples 6.83–6.84.</span></p>",
+    "why": "<p>A requirement stated \"with 95% confidence\" is met only if the one-sided 95% lower confidence bound reaches the target at the required time. Interpolate the lower bound between 750 h and 1,000 h:</p><p>\\[\\begin{aligned}R_L(900) &\\approx 0.912 - 0.023 \\\\ &= 0.889 \\lt 0.90 \\\\ t^{*} &\\approx 750 + 79 \\\\ &= 829 \\text{ h}\\end{aligned}\\]</p><p>where \\(0.023 = (150/250)(0.912 - 0.874)\\) is the fall in the bound over the first 150 h of the 750 to 1,000 h step, \\(79 = 250(0.012/0.038)\\) is the time taken for the bound to fall the further 0.012 to 0.90, \\(R_L(t)\\) is the one-sided 95% lower confidence bound on reliability at time \\(t\\) and \\(t^{*}\\) is the time at which it falls to 0.90. The requirement is not demonstrated at 900 h, even though the point estimate there is about 0.94. More units or more test time would narrow the interval.</p><p><b>A. Not demonstrated at 900 h; supported only to about 830 h.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals (Weibull, normal and lognormal intervals), Examples 6.83–6.84.</span></p>",
     "optionRationales": [
-      "Correct. \\(R_L(1000) = 0.874 \\lt 0.90\\), while \\(R_L(750) = 0.912\\).",
+      "Correct. \\(R_L(900) \\approx 0.889 \\lt 0.90\\); the bound crosses 0.90 at about 830 h.",
       "A point estimate carries no confidence statement. The requirement explicitly asks for 95% confidence.",
-      "The bound is a statement of confidence about the true reliability, not a prediction that exactly 12.6% will fail.",
-      "Confidence bounds can be calculated from data with failures; a zero-failure test is only one way to demonstrate reliability."
+      "Reliability falls with time, so passing at 750 h says nothing about 900 h. The check must be made at the required time.",
+      "The conclusion is right but the reasoning is not. Judging at 1,000 h tests a harder requirement than the one asked, and a confidence bound is not a prediction that exactly 12.6% will fail."
     ],
-    "keyPoint": "Compare the requirement with the lower confidence bound at the required confidence, not with the point estimate.",
-    "trap": "Accepting on the point estimate, or reading the confidence bound as a predicted failure fraction.",
-    "formula": "Demonstrated if \\(R_L(t;\\,95\\%) \\ge R_{\\text{required}}\\)",
+    "keyPoint": "Compare the requirement with the lower confidence bound at the required time and confidence, not with the point estimate or a neighboring tabulated time.",
+    "trap": "Accepting on the point estimate, or judging at the nearest tabulated time instead of the required time.",
+    "formula": "Demonstrated if \\(R_L(t;\\,95\\%) \\ge R_{\\text{required}}\\) at the required \\(t\\)",
     "assumptions": [
       "The Weibull model fits the test data.",
       "Test conditions represent use conditions."
     ],
-    "estimatedMinutes": 2,
+    "estimatedMinutes": 3,
     "keywords": [
       "confidence bound",
       "reliability demonstration",
       "Weibull",
-      "point estimate"
+      "point estimate",
+      "interpolation"
     ],
     "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
     "sourceSection": "Chapter 6 - Confidence and Tolerance Intervals",
@@ -1917,7 +1918,7 @@
     "options": [
       "The control enters its useful-life period after 12 months, so its hazard falls; no further action is needed.",
       "Claims stop being captured when warranty coverage ends. The rise in months 7 to 12 suggests wear-out, so gather post-warranty field or service data before judging late-life reliability.",
-      "A design change introduced in month 13 removed the failure mode; confirm the change with the supplier.",
+      "Claims stop being captured when warranty coverage ends. Months 5 to 12 are a stable useful-life period, so fit an exponential model to those months and extrapolate it past the warranty.",
       "Infant mortality ends at month 12, so the low rate after that is the true constant failure rate."
     ],
     "answer": 1,
@@ -1925,7 +1926,7 @@
     "optionRationales": [
       "The rate was rising, not falling, from month 7 to month 12. Nothing in the product changes at month 13; only the reporting does.",
       "Correct. The cliff coincides with the end of coverage, and the pre-cliff trend points to wear-out.",
-      "A design change takes effect by production date, so it would show up in later-built units at every age. Here every unit drops at the same age.",
+      "The censoring diagnosis is right, but the hazard is not stable: claims rise steadily from 2.4 to 3.5 per 1,000 between months 7 and 12. An exponential (constant-rate) extrapolation would understate late-life failures.",
       "The early-life decline ended by about month 5. The drop at month 12 is a reporting cutoff, not a change in hazard."
     ],
     "keyPoint": "Warranty data stop at the end of coverage; a drop at that age is a data artifact, not a reliability improvement.",
@@ -1963,13 +1964,13 @@
       "domain": "III. Probability and Statistics for Reliability",
       "subdomain": "B. Data Management",
       "code": "III.B.1",
-      "topic": "Normalizing field failures by exposure"
+      "topic": "Normalizing field failures by exposure and comparing rates"
     },
     "difficulty": "Hard",
     "cognitive": "Analyze",
     "questionType": "Visual evidence interpretation, calculation",
     "quantitative": true,
-    "stem": "Two product lines of a pump controller are compared using field returns and operating hours from IoT telemetry. Returns diagnosed as \"no fault found\" (NFF) are not failures. Which line has the higher field failure rate, and on what basis?",
+    "stem": "Two product lines of a pump controller are compared using field returns and operating hours from IoT telemetry. Returns diagnosed as \"no fault found\" (NFF) are not failures. Which line has the higher field failure rate, and is the difference statistically significant at the 5% level?",
     "chart": {
       "type": "data-table",
       "title": "Field data by product line",
@@ -1998,32 +1999,34 @@
       ]
     },
     "options": [
-      "Line A, because 5.0% of its units have failed, versus 3.0% for Line B.",
-      "Line B, with 86.7 versus 52.8 failures per \\(10^{6}\\) unit-hours.",
-      "Line B, with 75.0 versus 41.7 confirmed failures per \\(10^{6}\\) unit-hours.",
-      "Line B, because it has 45 confirmed failures versus 30."
+      "Line A, because 5.0% of its units have failed, versus 3.0% for Line B; the difference is significant.",
+      "Line B, with 86.7 versus 52.8 failures per \\(10^{6}\\) unit-hours; the difference is significant.",
+      "Line B, with 75.0 versus 41.7 confirmed failures per \\(10^{6}\\) unit-hours; the difference is significant at the 5% level (\\(z \\approx 2.5\\)).",
+      "Line B, with 75.0 versus 41.7 confirmed failures per \\(10^{6}\\) unit-hours, but the difference is not significant at the 5% level, because the two 95% confidence intervals for the rates overlap."
     ],
     "answer": 2,
-    "why": "<p>Compare failure rates per unit of exposure, using confirmed failures only:</p><p>\\[\\begin{aligned}T_A &= 600(1200) = 720000 \\\\ T_B &= 1500(400) = 600000 \\\\ \\lambda_A &= \\frac{38 - 8}{720000} = 41.7 \\times 10^{-6} \\\\ \\lambda_B &= \\frac{52 - 7}{600000} = 75.0 \\times 10^{-6}\\end{aligned}\\]</p><p>where \\(T\\) is total unit-hours in service and \\(\\lambda\\) is confirmed failures per unit-hour. Line A shows a larger fraction of units failed only because its units have run three times as many hours. Per hour of exposure, Line B fails 1.8 times as often.</p><p><b>C. Line B, 75.0 versus 41.7 confirmed failures per \\(10^{6}\\) unit-hours.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Sources and Uses of Reliability Data — IoT and big data; data normalization.</span></p>",
+    "why": "<p>Compare failure rates per unit of exposure, using confirmed failures only:</p><p>\\[\\begin{aligned}T_A &= 600(1200) = 720000 \\\\ T_B &= 1500(400) = 600000 \\\\ \\lambda_A &= \\frac{38 - 8}{720000} = 41.7 \\times 10^{-6} \\\\ \\lambda_B &= \\frac{52 - 7}{600000} = 75.0 \\times 10^{-6}\\end{aligned}\\]</p><p>where \\(T\\) is total unit-hours in service and \\(\\lambda\\) is confirmed failures per unit-hour. To test whether the rates differ, condition on the 75 confirmed failures. If the rates were equal, each failure would fall in Line B with probability equal to Line B’s share of the exposure:</p><p>\\[\\begin{aligned}\\pi_0 &= \\frac{600000}{1320000} = 0.4545 \\\\ E &= 75(0.4545) = 34.1 \\\\ z &= \\frac{45 - 34.1}{\\sqrt{75(0.4545)(0.5455)}} \\\\ &= \\frac{10.9}{4.31} = 2.53\\end{aligned}\\]</p><p>where \\(\\pi_0\\) is Line B’s share of total exposure, \\(E\\) the expected number of Line B failures under equal rates and \\(z\\) the normal-approximation test statistic. Since \\(2.53 \\gt 1.96\\) (two-sided \\(p \\approx 0.011\\); the exact binomial test gives 0.014), Line B’s rate is significantly higher. The individual 95% intervals (about 28 to 59 and 55 to 100 per \\(10^{6}\\) h) do overlap, but overlapping intervals do not show that two rates are equal.</p><p><b>C. Line B, 75.0 versus 41.7 per \\(10^{6}\\) unit-hours; significant (\\(z \\approx 2.5\\)).</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Sources and Uses of Reliability Data — IoT and big data; data normalization. Ch. 6, Hypothesis Testing and Interval Estimation Methodology Overview.</span></p>",
     "optionRationales": [
       "Fraction of units failed ignores how long the units have run. Line A has three times the exposure per unit.",
-      "Counts NFF returns as failures: \\(38/720000\\) and \\(52/600000\\). NFF units were tested and found good.",
-      "Correct. \\(30/720000 = 41.7\\) and \\(45/600000 = 75.0\\) per \\(10^{6}\\) unit-hours.",
-      "The right line, but raw counts are not comparable because the lines differ in units and hours."
+      "Counts NFF returns as failures. NFF units were returned but had no confirmed fault.",
+      "Correct. \\(\\lambda_B/\\lambda_A = 1.8\\), and the conditional test gives \\(z = 2.53\\), \\(p \\approx 0.01\\).",
+      "Overlap of two separate 95% intervals is a much stricter test than a direct comparison. The direct test of the difference gives \\(z = 2.53\\), \\(p \\approx 0.01\\)."
     ],
-    "keyPoint": "Compare field reliability on a common exposure basis (failures per unit-hour), using confirmed failures only.",
-    "trap": "Comparing fractions of units failed or raw counts, or counting no-fault-found returns.",
-    "formula": "\\(\\lambda = (\\text{returns} - \\text{NFF})/(n\\,\\bar{t})\\)",
+    "keyPoint": "Normalize field failures by exposure, exclude NFF, and compare rates with a direct test; overlapping confidence intervals do not prove equality.",
+    "trap": "Using fraction failed, counting NFF returns, or reading overlapping confidence intervals as \"no difference\".",
+    "formula": "\\(\\lambda = r/T\\); \\(z = (r_B - r\\pi_0)/\\sqrt{r\\pi_0(1 - \\pi_0)}\\), \\(\\pi_0 = T_B/(T_A + T_B)\\)",
     "assumptions": [
-      "Telemetry hours are accurate and failures follow a roughly constant rate over the exposure observed."
+      "Telemetry hours are accurate and failures follow a roughly constant rate over the exposure observed.",
+      "Failures are independent across units."
     ],
-    "estimatedMinutes": 3,
+    "estimatedMinutes": 5,
     "keywords": [
       "normalization",
       "exposure",
       "failure rate",
       "IoT telemetry",
-      "no fault found"
+      "no fault found",
+      "comparing rates"
     ],
     "sourceSection": "Chapter 7 - Data Management",
     "sources": [
@@ -2052,7 +2055,7 @@
     "cognitive": "Evaluate",
     "questionType": "Visual evidence interpretation, classification",
     "quantitative": false,
-    "stem": "Six actuators were life-tested. The stand checked each unit at 250, 500, 750 and 1,000 hours, and a failure alarm also recorded the exact time of some failures. How should the results be entered for life-data analysis?",
+    "stem": "Seven actuators were life-tested. The stand was scheduled to check each unit at 250, 500, 750 and 1,000 hours, and a failure alarm also recorded the exact time of some failures. How should the results be entered for life-data analysis?",
     "chart": {
       "type": "data-table",
       "title": "Actuator life test log",
@@ -2084,22 +2087,26 @@
         [
           "U6",
           "Running at 750 h; found failed at 1,000 h"
+        ],
+        [
+          "U7",
+          "Stand outage: the 250 h inspection was skipped; found failed at 500 h"
         ]
       ]
     },
     "options": [
-      "U1 is left-censored at 250 h; U2 and U6 are interval-censored; U3 is an exact failure; U4 and U5 are right-censored.",
-      "U1, U2 and U6 are exact failures at 250 h, 500 h and 1,000 h; U3 is an exact failure; U4 and U5 are right-censored.",
-      "U1 is left-censored at 250 h; U2 and U6 are interval-censored; U3 is an exact failure; U4 is right-censored; U5 is dropped because its removal was unrelated to the failure mode.",
-      "U1 is right-censored at 250 h; U2 and U6 are left-censored; U3 is an exact failure; U4 and U5 are right-censored."
+      "U1 and U7 are left-censored (at 250 h and 500 h); U2 and U6 are interval-censored; U3 is an exact failure; U4 and U5 are right-censored (at 1,000 h and 400 h).",
+      "U1 is left-censored at 250 h; U2, U6 and U7 are interval-censored (U7 between 250 h and 500 h); U3 is an exact failure; U4 and U5 are right-censored.",
+      "U1 and U7 are left-censored (at 250 h and 500 h); U2 and U6 are interval-censored; U3 is an exact failure; U4 is right-censored; U5 is dropped because its removal was unrelated to the failure mode.",
+      "U1 and U7 are left-censored (at 250 h and 500 h); U2 and U6 are interval-censored; U3 is an exact failure; U4 is right-censored at 1,000 h and U5 at 250 h, its last passed inspection."
     ],
     "answer": 0,
-    "why": "<p>Each record must say only what is known. U1 failed some time before its first check (left-censored at 250 h). U2 failed between 250 h and 500 h, and U6 between 750 h and 1,000 h (interval-censored). U3’s alarm gives an exact time. U4 survived the whole test, and U5 was removed while still working, so both are right-censored (suspensions). Suspensions stay in the analysis: they carry information that the unit survived to that time.</p><p><b>A. U1 left; U2 and U6 interval; U3 exact; U4 and U5 right-censored.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Types of Data — censored and complete data.</span></p>",
+    "why": "<p>Each record must say only what is known. U1 failed some time before its first check (left-censored at 250 h). U7 was never checked at 250 h, so its failure is only known to fall before 500 h: it is left-censored at 500 h, not interval-censored between 250 h and 500 h. U2 failed between 250 h and 500 h, and U6 between 750 h and 1,000 h (interval-censored). U3’s alarm gives an exact time. U4 survived the whole test, and U5 was removed while still working at 400 h, so both are right-censored (suspensions) at their own removal times. Suspensions stay in the analysis: they carry information that the unit survived to that time.</p><p><b>A. U1 and U7 left; U2 and U6 interval; U3 exact; U4 and U5 right-censored.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Types of Data — censored and complete data.</span></p>",
     "optionRationales": [
-      "Correct. Each unit is recorded with exactly the information the test provides.",
-      "Treats inspection times as failure times. The failures happened earlier, at unknown times inside each interval, so this biases life low.",
-      "The classification is right, but dropping a suspension throws away survival information and biases the estimate low.",
-      "Reverses left and right censoring. A unit found failed at the first check has an upper bound on its failure time, which is left censoring."
+      "Correct. Each unit is entered with exactly what is known about its failure time: before 250 h (U1), before 500 h (U7), within an inspection interval (U2, U6), exactly (U3), or after the removal time (U4, U5).",
+      "U7 was never seen running at 250 h, so its failure could have happened at any time before 500 h. Placing it in 250 to 500 h assumes an inspection that did not happen.",
+      "Dropping U5 throws away the information that it survived 400 h and biases the life estimate downward. Removal for an unrelated reason is a right-censored suspension.",
+      "U5 was running when it was removed at 400 h, so it is right-censored at 400 h. Censoring it at 250 h discards 150 h of known survival."
     ],
     "keyPoint": "Exact, right-, left- and interval-censored records each carry different information; keep suspensions in the analysis.",
     "trap": "Using the inspection time as the failure time, or deleting units that were removed without failing.",
@@ -2107,7 +2114,7 @@
     "assumptions": [
       "Unit U5’s removal was unrelated to its condition (non-informative censoring)."
     ],
-    "estimatedMinutes": 3,
+    "estimatedMinutes": 4,
     "keywords": [
       "censoring",
       "interval censoring",
@@ -2136,13 +2143,13 @@
       "domain": "III. Probability and Statistics for Reliability",
       "subdomain": "B. Data Management",
       "code": "III.B.2",
-      "topic": "Interpreting a Cox proportional hazards model"
+      "topic": "Cox proportional hazards: confidence interval and break-even covariate value"
     },
     "difficulty": "Very Hard",
     "cognitive": "Evaluate",
     "questionType": "Software output interpretation, calculation",
     "quantitative": true,
-    "stem": "A Cox proportional hazards model was fitted to valve-seat life data with suspensions, using coating and operating temperature as covariates. Relative to an old-coating valve at 60 °C, what is the hazard ratio for a new-coating valve at 80 °C, and what does it mean?",
+    "stem": "A Cox proportional hazards model was fitted to valve-seat life data with suspensions, using coating and operating temperature as covariates. What is the 95% confidence interval for the hazard ratio of the new coating, and above what operating temperature does a new-coating valve have a higher hazard than an old-coating valve at 60 °C?",
     "chart": {
       "type": "data-table",
       "title": "Cox regression: valve-seat life",
@@ -2171,30 +2178,31 @@
       ]
     },
     "options": [
-      "0.75: the new valve’s hazard is 25% lower than the reference at every age.",
-      "1.13: the new valve’s hazard is about 13% higher than the reference at every age, so the coating benefit is more than offset by the extra 20 °C.",
-      "1.50: the new valve’s hazard is about 50% higher than the reference at every age.",
-      "2.25: the new valve’s hazard is about 125% higher than the reference at every age."
+      "Coating hazard ratio 0.33 to 0.75; above about 70 °C.",
+      "Coating hazard ratio 0.33 to 0.75; above about 77 °C.",
+      "Coating hazard ratio 0.09 to 0.91; above about 77 °C.",
+      "Coating hazard ratio 0.33 to 0.75; above about 80 °C."
     ],
     "answer": 1,
-    "why": "<p>In a Cox model the covariates act multiplicatively on the hazard, and the ratio is the same at every age:</p><p>\\[\\begin{aligned}\\text{HR} &= e^{\\beta_1 x_1 + \\beta_2 x_2} \\\\ &= e^{-0.693 + 0.810} \\\\ &= 0.500 \\times 1.499^{2} \\\\ &\\approx 1.12\\end{aligned}\\]</p><p>where \\(\\beta_1 = -0.693\\) and \\(\\beta_2 = 0.405\\) are the fitted coefficients, \\(x_1 = 1\\) for the new coating and \\(x_2 = 2\\) because 80 °C is two 10 °C steps above 60 °C, so \\(\\beta_2 x_2 = 0.810\\). The coating halves the hazard, but two temperature steps multiply it by about 2.25, so the net hazard is about 13% higher than the reference at every age.</p><p><b>B. 1.13: about 13% higher at every age.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Types of Data — data analysis tools (survival analysis and the Cox proportional hazards model).</span></p>",
+    "why": "<p>Cox model confidence intervals are built on the coefficient scale and then exponentiated:</p><p>\\[\\begin{aligned}\\hat{\\beta} &= -0.693 \\pm 0.412 \\\\ &= (-1.105,\\; -0.281) \\\\ e^{-1.105} &= 0.33 \\\\ e^{-0.281} &= 0.75\\end{aligned}\\]</p><p>where \\(\\hat{\\beta} = -0.693\\) is the coating coefficient and \\(0.412 = 1.96 \\times 0.210\\) is \\(z_{0.025}\\) times its standard error. Exponentiating the two ends gives the hazard-ratio interval, 0.33 to 0.75. The interval excludes 1, so the coating benefit is significant. Covariate effects add on the log-hazard scale, so the new coating breaks even when the temperature term cancels it, \\(-0.693 + 0.405\\,x = 0\\):</p><p>\\[\\begin{aligned}0.405\\,x &= 0.693 \\\\ x &= 1.71 \\\\ T &= 60 + 10x \\\\ &= 77 \\text{ °C}\\end{aligned}\\]</p><p>where \\(x\\) is the number of 10 °C steps above 60 °C and \\(T\\) the break-even operating temperature. Above about 77 °C, the extra temperature more than offsets the coating’s halving of the hazard.</p><p><b>B. 0.33 to 0.75; above about 77 °C.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Types of Data — data analysis tools (survival analysis and the Cox proportional hazards model).</span></p>",
     "optionRationales": [
-      "Applies only one temperature step: \\(0.500 \\times 1.499 = 0.75\\). 80 °C is two steps above 60 °C.",
-      "Correct. \\(0.500 \\times 1.499^{2} \\approx 1.12\\); the effects multiply.",
-      "Adds the effects instead of multiplying them: \\(0.5 + 2(1.5 - 1) = 1.5\\).",
-      "Uses only the temperature effect, \\(1.499^{2} \\approx 2.25\\), and ignores the coating."
+      "Assumes one 10 °C step (a 50% increase) cancels the coating’s 50% reduction. On the hazard scale that gives \\(0.5 \\times 1.5 = 0.75\\), not 1.",
+      "Correct. \\(\\exp(-0.693 \\pm 1.96 \\times 0.210) = (0.33, 0.75)\\), and \\(0.693/0.405 = 1.71\\) steps, so about 77 °C.",
+      "Applies \\(\\pm 1.96\\,\\text{SE}\\) to \\(\\exp(\\text{coef})\\) instead of to the coefficient: \\(0.500 \\pm 0.41\\). Cox intervals are symmetric on the log scale, not the hazard-ratio scale.",
+      "Treats the temperature effect as adding 50% of the baseline per step (\\(0.5[1 + 0.5x] = 1\\) gives \\(x = 2\\)). Effects multiply: \\(0.5 \\times 1.499^{x} = 1\\) gives \\(x = 1.71\\)."
     ],
-    "keyPoint": "Cox hazard ratios multiply across covariates: \\(\\text{HR} = \\prod e^{\\beta_i x_i}\\), and the ratio is constant over age.",
-    "trap": "Adding hazard ratios, applying a per-step coefficient only once, or ignoring a covariate.",
-    "formula": "\\(\\text{HR} = \\exp\\left(\\sum \\beta_i x_i\\right)\\)",
+    "keyPoint": "In a Cox model, effects add on the log-hazard scale and multiply on the hazard-ratio scale. Build confidence intervals on the coefficient and exponentiate.",
+    "trap": "Building the interval on exp(coef), or treating hazard-ratio effects as additive.",
+    "formula": "\\(\\text{HR} = \\exp(\\sum \\beta_j x_j)\\); 95% CI \\(= \\exp(\\hat{\\beta} \\pm 1.96\\,\\text{SE})\\)",
     "assumptions": [
       "The proportional-hazards assumption holds for both covariates.",
       "The temperature effect is log-linear across 60 °C to 80 °C."
     ],
-    "estimatedMinutes": 4,
+    "estimatedMinutes": 5,
     "keywords": [
       "Cox proportional hazards",
       "hazard ratio",
+      "confidence interval",
       "covariates",
       "survival analysis"
     ],
@@ -2281,7 +2289,7 @@
     "quantitative": false,
     "stem": "A reliability engineer needs time-to-failure data for the main bearings in a fleet of 40 wind turbines. Today, site technicians record failures in a monthly paper report with the date only and a free-text description. Which change best meets the analysis need?",
     "options": [
-      "Send a survey to the technicians asking them to estimate when each failure in the past year happened.",
+      "Add each turbine’s operating hours, read from its hour meter, to the monthly paper report, and keep the free-text description so that technicians can describe each failure in their own words.",
       "Capture each stoppage automatically from the turbine controller with a time stamp and operating hours, and record the failure mode from a defined code list in the maintenance system.",
       "Move the paper report from monthly to weekly so that the failure dates are more accurate.",
       "Use the turbine manufacturer’s warranty claims as the time-to-failure source."
@@ -2289,7 +2297,7 @@
     "answer": 1,
     "why": "<p>Life-data analysis needs operating time to failure (or to suspension) for every unit, and a consistent failure-mode classification. Automated capture from the controller gives exact, time-stamped operating hours without transcription error, and a defined code list makes modes comparable across sites. The other options keep the recall, calendar-time or coverage problems.</p><p><b>B. Automated, time-stamped capture with operating hours and coded failure modes.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Data Collection Methods; Sources and Uses of Reliability Data — manual versus automated systems.</span></p>",
     "optionRationales": [
-      "Recall surveys add memory error and still miss operating hours.",
+      "This adds the time base but keeps manual monthly transcription and free-text failure descriptions. Bearing failures cannot be reliably separated by mode, so the life data would mix mechanisms.",
       "Correct. It records operating time and a consistent failure mode for every event.",
       "More frequent paper reports improve dates a little but still miss operating hours and consistent coding.",
       "Warranty claims stop at the end of coverage and rarely record operating hours, so most bearing life would be censored."
@@ -2335,93 +2343,103 @@
     "cognitive": "Analyze",
     "questionType": "Visual evidence interpretation, calculation",
     "quantitative": true,
-    "stem": "A plant loses production whenever a transfer pump is down. Over the last year the eight pumps recorded the data shown. A bad actor analysis should target the smallest group of pumps that accounts for at least 70% of the downtime. Which pumps should it target?",
+    "stem": "A plant loses production whenever a transfer pump is down for an unplanned repair. Over the last year the eight pumps recorded the data shown. A bad actor analysis ranks the pumps by unplanned downtime and targets the pumps at the top of the Pareto, down to the point where they account for at least 70% of unplanned downtime. Which pumps should it target?",
     "chart": {
       "type": "data-table",
       "title": "Transfer pumps — last 12 months",
       "columns": [
         "Pump",
         "Failures",
-        "Downtime (h)",
-        "Mean time to repair (h)"
+        "Total downtime (h)",
+        "Planned overhaul (h)",
+        "Unplanned MTTR (h)"
       ],
       "rows": [
         [
           "P-101",
           "14",
           "120",
+          "0",
           "8.6"
         ],
         [
           "P-102",
           "6",
           "45",
+          "0",
           "7.5"
         ],
         [
           "P-103",
           "5",
           "310",
-          "62.0"
+          "150",
+          "32.0"
         ],
         [
           "P-104",
           "3",
           "30",
+          "0",
           "10.0"
         ],
         [
           "P-105",
           "4",
           "260",
+          "0",
           "65.0"
         ],
         [
           "P-106",
           "9",
           "55",
+          "0",
           "6.1"
         ],
         [
           "P-107",
           "2",
           "25",
+          "0",
           "12.5"
         ],
         [
           "P-108",
           "7",
           "155",
+          "0",
           "22.1"
         ]
       ]
     },
     "options": [
       "P-101, P-106 and P-108, the pumps with the most failures.",
-      "P-103 and P-105, the two pumps with the most downtime.",
-      "P-103, P-105 and P-108.",
-      "P-101, P-103 and P-105."
+      "P-103, P-105 and P-108, which account for 72.5% of total downtime.",
+      "P-105, P-103, P-108 and P-101.",
+      "P-105, P-103, P-108 and P-107, the four pumps with the longest unplanned MTTR."
     ],
     "answer": 2,
-    "why": "<p>Rank the pumps by downtime, which is the measure that drives lost production, and accumulate the share of the 1,000 h total:</p><p>\\[\\begin{aligned}\\text{P-103}{:}\\ & 310/1000 = 31.0\\% \\\\ +\\,\\text{P-105}{:}\\ & 570/1000 = 57.0\\% \\\\ +\\,\\text{P-108}{:}\\ & 725/1000 = 72.5\\%\\end{aligned}\\]</p><p>where each line adds the next pump’s downtime to the running total out of 1,000 h. Three pumps are needed to pass 70%. P-101 fails most often, but its repairs are short; P-103 and P-105 fail rarely but take over 60 h to repair, which also points the analysis at repair logistics, not only at failure frequency.</p><p><b>C. P-103, P-105 and P-108 (72.5% of downtime).</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Data Summary and Reporting — bad actor analysis and Pareto charts (Examples 7.1 and 7.4).</span></p>",
+    "why": "<p>Remove the planned overhaul hours, rank by unplanned downtime, and accumulate:</p><p>\\[\\begin{aligned}\\text{Unplanned} &= 1000 - 150 \\\\ &= 850 \\text{ h} \\\\ \\text{P-105} &= 260 \\;(30.6\\%) \\\\ +\\,\\text{P-103} &= 420 \\;(49.4\\%) \\\\ +\\,\\text{P-108} &= 575 \\;(67.6\\%) \\\\ +\\,\\text{P-101} &= 695 \\;(81.8\\%)\\end{aligned}\\]</p><p>where each line is the cumulative unplanned downtime in hours and its share of 850 h. The top three reach only 67.6%, so P-101 is needed to pass 70%. P-101 has a short repair time but fails most often (14 times), so its downtime comes from frequency rather than duration.</p><p><b>C. P-105, P-103, P-108 and P-101.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Data Use — bad actor analysis; Pareto analysis.</span></p>",
     "optionRationales": [
-      "Ranks by failure count. These three pumps account for only 33% of downtime.",
-      "Stops at 57% of downtime, short of the 70% target.",
-      "Correct. The top three by downtime account for 72.5%.",
-      "Mixes criteria: P-101 is chosen for its failure count. These three account for 69%, which is still short of 70%."
+      "Failure count ignores repair duration. P-106 has 9 failures but only 55 h of downtime.",
+      "Includes P-103’s 150 h planned overhaul, which does not count as lost production. On unplanned downtime these three pumps reach only 67.6%.",
+      "Correct. Ranked by unplanned downtime, the cumulative share reaches 81.8% at the fourth pump, P-101.",
+      "MTTR ranks repair duration per failure and ignores how often a pump fails. P-107 (25 h) contributes far less downtime than P-101 (120 h)."
     ],
-    "keyPoint": "Rank bad actors by the consequence that matters (here downtime), not by failure count.",
-    "trap": "Ranking by number of failures, or stopping the Pareto cut before the target share.",
-    "formula": "Cumulative share \\(= \\sum_{i=1}^{k} d_{(i)} / \\sum d\\), with downtime \\(d\\) sorted from largest",
+    "keyPoint": "Rank bad actors by the loss that matters (unplanned downtime), after removing planned work, then cut the Pareto at the stated threshold.",
+    "trap": "Including planned overhaul hours, or ranking by failure count or MTTR instead of downtime.",
+    "formula": "Cumulative share \\(= \\sum_{\\text{ranked}} \\text{downtime}_i / \\sum \\text{downtime}\\)",
     "assumptions": [
-      "Lost production is proportional to downtime."
+      "Lost production is proportional to unplanned downtime; planned overhauls are scheduled during planned outages."
     ],
-    "estimatedMinutes": 3,
+    "estimatedMinutes": 4,
     "keywords": [
       "bad actor analysis",
       "Pareto",
       "downtime",
       "MTTR",
+      "planned maintenance",
       "prioritization"
     ],
     "sourceSection": "Chapter 7 - Data Management",
@@ -2451,7 +2469,7 @@
     "cognitive": "Analyze",
     "questionType": "Visual evidence interpretation, multi-step calculation",
     "quantitative": true,
-    "stem": "The Nevada chart shows warranty claims for a small appliance by production month and claim month. Units ship at the start of their production month, every claim is a failure, and data are complete through April 30. Pooling all cohorts by month in service (life-table method), what is the estimated probability that a unit fails within its first three months in service?",
+    "stem": "The Nevada chart shows warranty claims for a small appliance by production month and claim month. Units ship at the start of their production month, every claim is a failure, each claimed unit leaves the population at risk (it is not replaced), and data are complete through April 30. Pooling all cohorts by month in service (life-table method), what is the estimated probability that a unit fails within its first three months in service?",
     "chart": {
       "type": "data-table",
       "title": "Nevada chart: warranty claims",
@@ -2558,7 +2576,7 @@
     "options": [
       "Scanning acoustic microscopy (SAM).",
       "Scanning electron microscopy (SEM) of a polished cross-section.",
-      "Tensile pull testing of the module leads.",
+      "X-ray radiography of the modules.",
       "Infrared thermography of a powered module."
     ],
     "answer": 0,
@@ -2566,7 +2584,7 @@
     "optionRationales": [
       "Correct. SAM detects internal delamination without opening the package.",
       "SEM needs a cross-section, which destroys the evidence elsewhere in the part. Use it after SAM locates the defect.",
-      "Lead pull strength says nothing about an internal mold-compound interface.",
+      "X-ray is non-destructive and shows wire bonds and die-attach voids well, but a delamination is a very thin air gap with almost no density contrast, so X-ray usually misses it. SAM is highly sensitive to such gaps.",
       "Infrared thermography finds hot spots on a powered part; it cannot reliably image a thin internal gap, especially one that only opens intermittently."
     ],
     "keyPoint": "Start failure analysis with nondestructive methods matched to the suspected mechanism; SAM is the standard tool for package delamination.",
@@ -2608,78 +2626,79 @@
     "cognitive": "Evaluate",
     "questionType": "Visual evidence interpretation, decision",
     "quantitative": false,
-    "stem": "The FRACAS summary for a hospital medication cart is shown. Leadership asks why the same failures keep returning even though every report is closed. Which change would most directly fix the problem?",
+    "stem": "The FRACAS summary for a hospital medication cart is shown. Leadership asks why the same failures keep returning even though every report is closed. Which assessment is most complete?",
     "chart": {
       "type": "data-table",
       "title": "FRACAS summary — medication cart",
       "columns": [
         "Report",
         "Failure mode",
-        "Corrective action",
+        "Root cause recorded",
+        "Action taken",
         "Closed on",
-        "Effectiveness check",
         "Recurrences since closure"
       ],
       "rows": [
         [
           "FR-211",
           "Drawer seal leak",
-          "O-ring material change",
+          "O-ring compound swells in the cleaning agent",
+          "O-ring material changed",
           "Implementation",
-          "Not done",
           "3"
         ],
         [
           "FR-214",
           "Connector fretting",
-          "New terminal design",
+          "Not determined",
+          "Connectors replaced on affected carts",
           "Implementation",
-          "Not done",
           "2"
         ],
         [
           "FR-219",
           "Caster bearing noise",
-          "Supplier lot quarantined",
+          "Defective supplier lot",
+          "Lot quarantined",
           "Implementation",
-          "Not done",
           "4"
         ],
         [
           "FR-222",
           "Display flicker",
-          "Firmware 2.3",
-          "Verified in field",
-          "30-day check passed",
+          "Firmware timing race",
+          "Firmware 2.3 released",
+          "30-day field check passed",
           "0"
         ]
       ]
     },
     "options": [
-      "Encourage technicians to report more minor issues so that the FRACAS database is larger.",
-      "Replace free-text failure modes with a coded list so that a Pareto analysis can be run.",
-      "Route every report to the supplier quality engineer so that reports close faster.",
-      "Close a report only after the corrective action’s effectiveness is verified with data, and reopen it automatically if the failure mode recurs."
+      "Technicians should report minor issues too, so that recurrence trends show up sooner in the FRACAS database.",
+      "Every recurring report was closed at implementation. Adding a 30-day effectiveness check before closure will fix the problem, because the root causes and actions recorded are adequate.",
+      "FR-219 should be escalated to the supplier with a corrective action request, because a bad lot is a supplier problem. The other recurrences are random and need no further action.",
+      "Close reports only after effectiveness is verified with data, and reopen FR-214 and FR-219 for root-cause analysis: connector replacement is remedial and lot quarantine is containment."
     ],
     "answer": 3,
-    "why": "<p>Every report that recurred was closed on implementation with no effectiveness check; the one report that was verified in the field has not recurred. A FRACAS loop is only closed when data show the action worked. FR-219 also shows the cost of skipping verification: quarantining a lot is containment, not a corrective action, and verification would have exposed that.</p><p><b>D. Close only on verified effectiveness, and reopen on recurrence.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Failure Reporting, Analysis, and Corrective Action System (FRACAS), Example 7.7.</span></p>",
+    "why": "<p>Two separate weaknesses show in the table. First, the closure rule: every recurring report closed at implementation, while the only report verified in the field (FR-222) has not recurred. Second, the actions themselves: FR-214 has no root cause and only replaced parts (a remedial action), and FR-219 quarantined one lot (containment), which protects against that lot but not against the next one. FR-211 has a plausible root cause, but three recurrences show the action is not effective. Verification before closure would have caught this.</p><p><b>D. Verify effectiveness before closure, and reopen the reports whose actions were remedial or containment only.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Failure Reporting, Analysis, and Corrective Action System (FRACAS), Example 7.7.</span></p>",
     "optionRationales": [
-      "More reports do not stop recurrence of the failures already known.",
-      "Coded failure modes help analysis, but the recurring failures here are already identified.",
-      "Faster closure is the problem, not the cure; the reports are already closing before the actions are proven.",
-      "Correct. Verification is the step missing from every recurring report."
+      "More reports do not stop recurrence; the loop is not being closed on the reports already raised.",
+      "Verification would expose the problem but not fix it. FR-214 and FR-219 record no root-cause correction, so a 30-day check would simply fail.",
+      "FR-219 does need a supplier corrective action, but FR-211 and FR-214 recur for systematic reasons: an ineffective action and an undetermined root cause.",
+      "Correct. It fixes the closure rule and identifies that two of the actions were never corrective in the first place."
     ],
-    "keyPoint": "A FRACAS report is closed only when data verify the corrective action; recurrence reopens it.",
-    "trap": "Measuring FRACAS health by closure rate instead of by recurrence.",
+    "keyPoint": "A FRACAS closes the loop only when a root-cause corrective action is verified effective. Remedial repairs and containment do not prevent recurrence.",
+    "trap": "Treating parts replacement or lot quarantine as corrective action, or assuming that adding a verification step alone fixes recurrence.",
     "formula": null,
     "assumptions": [],
-    "estimatedMinutes": 2,
+    "estimatedMinutes": 3,
     "keywords": [
       "FRACAS",
       "closed loop",
       "corrective action",
-      "effectiveness verification",
-      "containment"
+      "containment",
+      "remedial action",
+      "effectiveness verification"
     ],
     "sourceSection": "Chapter 7 - Data Management",
     "sources": [

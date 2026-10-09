@@ -273,17 +273,16 @@ test('Q10 Weibull slope from the plotted line is about 0.5', () => {
 const tableOf = (q) => Object.fromEntries(q.chart.rows.map(([k, v]) => [k, v]));
 const n_ = (s) => Number(String(s).replace(/[^0-9.\-]/g, ''));
 
-test('Q11 reliability from the plotted hazard function (area under h)', () => {
+test('Q11 conditional reliability from the plotted hazard function (area from 800 h to 1,500 h)', () => {
   const q = byId('cre:set-1:b02-q11');
   const pts = q.chart.series[0].points.map(([t, h]) => [t, h / 1e4]);
-  let H = 0;
-  for (let i = 1; i < pts.length && pts[i - 1][0] < 1500; i++) {
-    const [t0, h0] = pts[i - 1], [t1, h1] = pts[i];
-    const tEnd = Math.min(t1, 1500), hEnd = h0 + (h1 - h0) * (tEnd - t0) / (t1 - t0);
-    H += (tEnd - t0) * (h0 + hEnd) / 2;
-  }
-  assert.ok(Math.abs(H - 0.85) < 1e-9);
-  assertKeyed(q, Math.exp(-H), 0.0006);
+  const hAt = (t) => { for (let i = 1; i < pts.length; i++) if (t <= pts[i][0]) { const [t0, h0] = pts[i - 1], [t1, h1] = pts[i]; return h0 + (h1 - h0) * (t - t0) / (t1 - t0); } return NaN; };
+  const cum = (t) => { let H = 0; for (let u = 0; u < t; u += 1) H += (hAt(u) + hAt(u + 1)) / 2; return H; };
+  const dH = cum(1500) - cum(800);
+  assert.ok(Math.abs(dH - 0.53) < 1e-6);
+  assert.match(q.stem, /already run 800 hours/);
+  assertKeyed(q, Math.exp(-dH), 0.0006);
+  assert.ok(q.options.includes(Math.exp(-cum(1500)).toFixed(3)), 'unconditional R(1500) is a distractor');
 });
 
 test('Q12 hazard = f/(1 − F) from the output, and it increases across the table', () => {
@@ -300,21 +299,26 @@ test('Q12 hazard = f/(1 − F) from the output, and it increases across the tabl
   });
 });
 
-test('Q13 zero-failure Weibull sample size with test-time extension', () => {
+test('Q13 zero-failure Weibull test: solve for test time with 12 stations', () => {
   const q = byId('cre:set-1:b02-q13');
   const plan = tableOf(q);
-  const beta = Number(plan['Known Weibull shape \\(\\beta\\)']), k = n_(plan['Test time available per unit']) / 2000;
-  const n = Math.log(1 - 0.90) / (k ** beta * Math.log(0.95));
-  assertKeyed(q, Math.ceil(n), 0.01);
+  const beta = Number(plan['Known Weibull shape \\(\\beta\\)']), n = Number(plan['Test stations available (one unit each)']);
+  const k = (Math.log(1 - 0.90) / (n * Math.log(0.95))) ** (1 / beta);
+  assertKeyed(q, 2000 * k, 10);
+  assert.ok(!('Test time available per unit' in plan), 'test time is the unknown');
 });
 
-test('Q14 binomial plan with one allowed failure', () => {
+test('Q14 c = 0 and c = 1 binomial plans and their acceptance probability at R = 0.97', () => {
   const q = byId('cre:set-1:b02-q14');
-  const accept = (n) => 0.9 ** n + n * 0.1 * 0.9 ** (n - 1);
-  let n = 2;
-  while (accept(n) > 0.10) n++;
-  assertKeyed(q, n, 0.01);
-  assert.ok(accept(n - 1) > 0.10);
+  const accept = (n, c, p) => Array.from({ length: c + 1 }, (_, x) => comb(n, x) * p ** x * (1 - p) ** (n - x)).reduce((a, b) => a + b, 0);
+  const size = (c) => { let n = 1; while (accept(n, c, 0.10) > 0.10) n++; return n; };
+  const n0 = size(0), n1 = size(1);
+  assert.deepEqual([n0, n1], [22, 38]);
+  const a0 = accept(n0, 0, 0.03), a1 = accept(n1, 1, 0.03);
+  const keyed = q.options[q.answer];
+  assert.ok(keyed.includes(`\\(c = 0\\): ${n0} relays, accepted with probability ${a0.toFixed(2)}`), keyed);
+  assert.ok(keyed.includes(`\\(c = 1\\): ${n1} relays, accepted with probability ${a1.toFixed(2)}`), keyed);
+  q.options.forEach((o, i) => { if (i !== q.answer) assert.ok(!(o.includes(`${n1} relays, accepted with probability ${a1.toFixed(2)}`) && o.includes(a0.toFixed(2))), o); });
 });
 
 test('Q15 long-term fraction below LSL uses the overall sigma', () => {
@@ -322,45 +326,60 @@ test('Q15 long-term fraction below LSL uses the overall sigma', () => {
   const r = tableOf(q);
   const z = (Number(r['Sample mean']) - Number(r.LSL)) / Number(r['StDev (overall)']);
   const ppm = (1 - normCdf(z)) * 1e6;
-  assert.ok(Math.abs(ppm - 3150) < 15, `ppm ${ppm}`);
-  assertKeyed(q, ppm, 15);
+  assertKeyed(q, ppm, 5);
+  const rounded = (1 - normCdf(0.91 * 3)) * 1e6; // working from the printed Ppk
+  const nearest = q.options.map(optionNumber).reduce((best, v, i, all) => (Math.abs(v - rounded) < Math.abs(all[best] - rounded) ? i : best), 0);
+  assert.equal(nearest, q.answer, 'the rounded-Ppk route still lands nearest the key');
   assert.ok(Math.abs(z / 3 - 0.91) < 0.005, 'Ppk shown agrees with the data');
 });
 
-test('Q16 p chart with per-subgroup limits; Tuesday is inside', () => {
+test('Q16 p chart with per-subgroup limits: only Wednesday signals', () => {
   const q = byId('cre:set-1:b02-q16');
-  const rows = q.chart.rows.map(([d, n, np]) => ({ d, n: Number(n), np: Number(np) }));
-  const pbar = rows.reduce((a, r) => a + r.np, 0) / rows.reduce((a, r) => a + r.n, 0);
-  const tue = rows.find((r) => r.d === 'Tue');
-  const ucl = pbar + 3 * Math.sqrt(pbar * (1 - pbar) / tue.n);
-  assert.ok(Math.abs(ucl - 0.099) < 0.0005);
-  assert.ok(tue.np / tue.n < ucl);
-  assert.match(q.options[q.answer], /^\\\(p\\\) chart with limits for each day.*not a signal/);
+  // spread into this realm: the data arrays come from the page's window
+  const rows = [...q.chart.rows].map(([d, n, np, c]) => ({ d, n: Number(n), np: Number(np), c: Number(c) }));
+  const N = rows.reduce((a, r) => a + r.n, 0);
+  const pbar = rows.reduce((a, r) => a + r.np, 0) / N;
+  const ucl = (n) => pbar + 3 * Math.sqrt(pbar * (1 - pbar) / n);
+  const signals = rows.filter((r) => r.np / r.n > ucl(r.n)).map((r) => r.d);
+  assert.deepEqual(signals, ['Wed']);
+  const avgN = N / rows.length;
+  assert.deepEqual(rows.filter((r) => r.np / r.n > ucl(avgN)).map((r) => r.d), ['Tue'], 'average-n limits reverse the conclusion');
+  const ubar = rows.reduce((a, r) => a + r.c, 0) / N;
+  assert.deepEqual(rows.filter((r) => r.c / r.n > ubar + 3 * Math.sqrt(ubar / r.n)).map((r) => r.d), ['Tue'], 'u-chart distractor is computed correctly');
+  assert.ok(Math.abs(ucl(100) - 0.099) < 0.0005 && Math.abs(ucl(200) - 0.082) < 0.0005);
+  assert.match(q.options[q.answer], /^\\\(p\\\) chart with limits for each day.*only Wednesday/);
 });
 
-test('Q17 time-terminated chi-square MTBF lower bound from the test summary', () => {
+test('Q17 additional unit-hours to reach a 2,000 h MTBF lower bound (time-terminated)', () => {
   const q = byId('cre:set-1:b02-q17');
   const T = q.chart.rows.reduce((a, r) => a + n_(r[1]), 0), r = q.chart.rows.reduce((a, row) => a + Number(row[2]), 0);
   assert.equal(T, 12000); assert.equal(r, 3);
-  assertKeyed(q, 2 * T / 13.362, 1); // χ²(0.10; 2r + 2 = 8) = 13.362, Appendix G
+  assert.ok(2 * T / 13.362 < 2000, 'not yet demonstrated');
+  const more = 2000 * 13.362 / 2 - T; // χ²(0.10; 2r + 2 = 8) = 13.362, Appendix G
+  assert.ok(Math.abs(more - 1362) < 1);
+  assert.match(q.options[q.answer], /^About 1,360 h more/);
 });
 
-test('Q18 one-sided tolerance bound with the tabled factor', () => {
+test('Q18 tolerance bound: not demonstrated at n = 20; smallest tabled n that passes is 30', () => {
   const q = byId('cre:set-1:b02-q18');
-  const k = Number(q.chart.rows.find((r) => r[0] === '20')[2]);
-  const L = 74.6 - k * 2.1;
-  assert.ok(Math.abs(L - 67.7) < 0.05 && L < 68);
-  assert.match(q.options[q.answer], /^The lower tolerance bound is 67\.7 ksi, so the data do not show/);
+  const L = (n) => 74.6 - Number(q.chart.rows.find((r) => r[0] === String(n))[2]) * 2.1;
+  assert.ok(L(20) < 68 && Math.abs(L(20) - 67.7) < 0.05);
+  const pass = q.chart.rows.map((r) => Number(r[0])).filter((n) => L(n) >= 68);
+  assert.equal(Math.min(...pass), 30);
+  assert.ok(L(25) < 68 && L(25).toFixed(1) === '68.0', 'n = 25 is the rounding trap');
+  assert.match(q.options[q.answer], /^Not demonstrated: the lower tolerance bound is 67\.7 ksi\..*30 is the smallest/);
 });
 
-test('Q19 requirement judged on the one-sided lower bound, not the estimate', () => {
+test('Q19 requirement at 900 h judged on the interpolated lower bound', () => {
   const q = byId('cre:set-1:b02-q19');
   const rows = q.chart.rows.map(([t, est, lo]) => ({ t: n_(t), est: Number(est), lo: Number(lo) }));
-  const at1000 = rows.find((r) => r.t === 1000);
-  assert.ok(at1000.est >= 0.90 && at1000.lo < 0.90);
-  const longest = Math.max(...rows.filter((r) => r.lo >= 0.90).map((r) => r.t));
-  assert.equal(longest, 750);
-  assert.match(q.options[q.answer], /not demonstrated at 1,000 h.*750 h/);
+  const interp = (key, t) => { const i = rows.findIndex((r) => r.t >= t); const a = rows[i - 1], b = rows[i]; return a[key] + (b[key] - a[key]) * (t - a.t) / (b.t - a.t); };
+  assert.ok(interp('lo', 900) < 0.90 && interp('est', 900) > 0.90);
+  assert.ok(Math.abs(interp('lo', 900) - 0.889) < 0.0006);
+  const a = rows.find((r) => r.t === 750), b = rows.find((r) => r.t === 1000);
+  const cross = a.t + (b.t - a.t) * (a.lo - 0.90) / (a.lo - b.lo);
+  assert.ok(Math.abs(cross - 830) < 2);
+  assert.match(q.options[q.answer], /^Not demonstrated: the interpolated 95% lower bound at 900 h is about 0\.889.*about 830 h/);
 });
 
 test('Q21 the claims cliff sits exactly at the end of the 12-month warranty', () => {
@@ -372,32 +391,37 @@ test('Q21 the claims cliff sits exactly at the end of the 12-month warranty', ()
   assert.match(q.options[q.answer], /^Claims stop being captured when warranty coverage ends/);
 });
 
-test('Q22 confirmed failures per unit-hour, NFF excluded', () => {
+test('Q22 confirmed failures per unit-hour, NFF excluded, and a significant difference', () => {
   const q = byId('cre:set-1:b03-q22');
-  const rate = (row) => (n_(row[3]) - n_(row[4])) / (n_(row[1]) * n_(row[2])) * 1e6;
-  const [a, b] = q.chart.rows.map(rate);
+  const rows = q.chart.rows.map((row) => ({ f: n_(row[3]) - n_(row[4]), T: n_(row[1]) * n_(row[2]) }));
+  const [a, b] = rows.map((r) => r.f / r.T * 1e6);
   assert.ok(Math.abs(a - 41.7) < 0.05 && Math.abs(b - 75.0) < 0.05);
-  assert.ok(q.options[q.answer].includes('75.0 versus 41.7 confirmed failures'));
+  const r = rows[0].f + rows[1].f, pi0 = rows[1].T / (rows[0].T + rows[1].T);
+  const z = (rows[1].f - r * pi0) / Math.sqrt(r * pi0 * (1 - pi0));
+  assert.ok(z > 1.96 && Math.abs(z - 2.53) < 0.005);
+  assert.ok(q.options[q.answer].includes('75.0 versus 41.7 confirmed failures') && /significant at the 5% level \(\\\(z \\approx 2\.5\\\)\)/.test(q.options[q.answer]));
 });
 
-test('Q24 Cox hazard ratio multiplies across covariates', () => {
+test('Q24 Cox model: CI on the coefficient scale and the break-even temperature', () => {
   const q = byId('cre:set-1:b03-q24');
   const [coat, temp] = q.chart.rows.map((r) => Number(String(r[1]).replace('−', '-')));
-  const hr = Math.exp(coat * 1 + temp * 2);
-  assert.ok(Math.abs(hr - 1.124) < 0.002);
-  const lead = (o) => Number(o.split(':')[0]);
-  assert.ok(Math.abs(lead(q.options[q.answer]) - hr) < 0.006, 'keyed hazard ratio');
-  q.options.forEach((o, i) => { if (i !== q.answer) assert.ok(Math.abs(lead(o) - hr) > 0.006, `distractor ${o.slice(0, 5)}`); });
+  const se = Number(q.chart.rows[0][3]);
+  const lo = Math.exp(coat - 1.96 * se), hi = Math.exp(coat + 1.96 * se);
+  const T = 60 + 10 * (-coat / temp);
+  assert.ok(Math.abs(T - 77.1) < 0.05);
+  assert.equal(q.options[q.answer], `Coating hazard ratio ${lo.toFixed(2)} to ${hi.toFixed(2)}; above about ${Math.round(T)} °C.`);
 });
 
-test('Q27 smallest set of pumps reaching 70% of downtime', () => {
+test('Q27 Pareto cut on unplanned downtime (planned overhaul excluded)', () => {
   const q = byId('cre:set-1:b03-q27');
-  const rows = q.chart.rows.map(([p, , d]) => ({ p, d: n_(d) })).sort((x, y) => y.d - x.d);
+  const rows = q.chart.rows.map(([p, , d, planned]) => ({ p, d: n_(d) - n_(planned) })).sort((x, y) => y.d - x.d);
   const total = rows.reduce((a, r) => a + r.d, 0);
+  assert.equal(total, 850);
   const pick = []; let cum = 0;
   for (const r of rows) { if (cum / total >= 0.70) break; pick.push(r.p); cum += r.d; }
-  assert.deepEqual(pick, ['P-103', 'P-105', 'P-108']);
-  assert.equal(q.options[q.answer], 'P-103, P-105 and P-108.');
+  assert.deepEqual(pick, ['P-105', 'P-103', 'P-108', 'P-101']);
+  assert.equal(q.options[q.answer], 'P-105, P-103, P-108 and P-101.');
+  q.chart.rows.forEach(([p, f, d, planned, mttr]) => assert.ok(Math.abs((n_(d) - n_(planned)) / Number(f) - Number(mttr)) < 0.06, `${p} MTTR`));
 });
 
 test('Q28 life table from the Nevada chart (cohorts pooled by month in service)', () => {
@@ -415,9 +439,11 @@ test('Q28 life table from the Nevada chart (cohorts pooled by month in service)'
 test('Q23 and Q30 exhibits support their keys', () => {
   const q23 = byId('cre:set-1:b03-q23');
   assert.match(q23.chart.rows.find((r) => r[0] === 'U5')[1], /Removed at 400 h/);
-  assert.match(q23.options[q23.answer], /U1 is left-censored.*U2 and U6 are interval-censored.*U4 and U5 are right-censored/);
+  assert.match(q23.chart.rows.find((r) => r[0] === 'U7')[1], /250 h inspection was skipped; found failed at 500 h/);
+  assert.match(q23.options[q23.answer], /^U1 and U7 are left-censored.*U2 and U6 are interval-censored.*U4 and U5 are right-censored \(at 1,000 h and 400 h\)\.$/);
   const q30 = byId('cre:set-1:b03-q30');
-  q30.chart.rows.forEach((r) => assert.equal(Number(r[5]) > 0, r[4] === 'Not done', `${r[0]}: recurrence iff not verified`));
+  q30.chart.rows.forEach((r) => assert.equal(Number(r[5]) > 0, r[4] === 'Implementation', `${r[0]}: recurrence iff closed without verification`));
+  assert.match(q30.options[q30.answer], /remedial.*containment/);
 });
 
 /* ---------- 3. production delivery ---------- */
