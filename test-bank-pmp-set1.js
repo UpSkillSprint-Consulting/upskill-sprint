@@ -1,6 +1,6 @@
 /*
  * PMI PMP Exam Set 1 — original practice questions.
- * Batch 1-4 of 18 (Q001-Q040). Written to the July 2026 Exam Content Outline
+ * Batch 1-6 of 18 (Q001-Q060). Written to the July 2026 Exam Content Outline
  * (People, Process, Business Environment) and the PMBOK Guide 8th Edition
  * performance domains. No PMI item, handbook passage, or figure is copied.
  * UpSkill Sprint is not affiliated with the Project Management Institute.
@@ -979,12 +979,494 @@
       ],
       keyPoint: 'Support the change until the new way is actually in use. Go-live is not the benefit.',
       trap: 'Handing adoption to operations on day one, while the old book is still the real system, strands the benefit.'
+    },
+    {
+      qid: 'pmp:set-1:041',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and manage procurement',
+      approach: 'Predictive',
+      stem: 'A fixed-price contractor on a predictive lab renovation says the room will miss the finish date unless you add weekend shifts. That date is already in the contract price. The contractor asks you to approve the overtime verbally so the crew can start tonight. What should you do?',
+      options: [
+        'Approve the overtime verbally. The finish date matters more than the paperwork.',
+        'Pay the overtime from contingency. Any threat to the date is already a risk response.',
+        'Check what the contract price already includes, assess the real delay, and authorize extra pay only through the change process the contract requires.',
+        'Tell the contractor the date is their problem and end the discussion.'
+      ],
+      answer: 2,
+      why: '<p>A verbal yes on a fixed-price contract can add cost the price was supposed to cover. The project manager checks whether the finish date is already in the price, looks at the actual delay, and uses the contract change path if extra pay is truly required. Approving tonight, spending contingency by reflex, or refusing to look at the delay all skip that control.</p><p><strong>Exam tip:</strong> Do not give a verbal direction that changes a fixed-price contract. Assess the obligation first, then use the change path the contract names.</p>',
+      optionRationales: [
+        'A verbal approval is still a direction. On a fixed-price job it can become cost you did not agree to in writing.',
+        'Contingency is not an automatic overtime fund. The contract may already include the date the contractor is trying to reopen.',
+        'The price, the delay, and the contract change path are all checked before any extra pay is authorized.',
+        'Ending the talk leaves a real schedule threat with no assessment and no record.'
+      ],
+      keyPoint: 'Extra pay on a fixed-price contract goes through the contract change path after you know what the price already covers.',
+      trap: 'Starting the crew tonight on a verbal yes is how fixed-price scope grows.'
+    },
+    {
+      qid: 'pmp:set-1:042',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and manage resources',
+      approach: 'Agile',
+      stem: 'A configuration sprint needs 40 validated scanners. The supplier can ship 15 this week and the rest in six weeks. The team wants to plan the sprint as if all 40 are on the dock, because the stories were written that way. What should you do?',
+      options: [
+        'Plan the sprint for all 40. The later shipment can be swapped in without changing the stories.',
+        'Replan the sprint around the 15 scanners that will actually arrive, make the shortage visible, and do not write the work as if the missing units are here.',
+        'Buy 25 unapproved substitutes today so the original stories can start.',
+        'Cancel the sprint until the full shipment arrives, and leave the 15 unused.'
+      ],
+      answer: 1,
+      why: '<p>The sprint can use 15 validated scanners, not 40. Planning as if the rest were here hides a resource constraint and builds stories the team cannot finish. The project manager replans to the units on hand and keeps the gap visible. Unapproved substitutes can break the validation, and idling the 15 that did arrive wastes the capacity you have.</p><p><strong>Exam tip:</strong> Resource the sprint with what will actually be here. Do not let a story written for a full shipment pretend the hardware has arrived.</p>',
+      optionRationales: [
+        'A later shipment is not inventory. Stories that need the missing 25 will stall, and the sprint goal will be fiction.',
+        'The sprint matches the 15 validated units, and the shortage stays visible instead of being planned away.',
+        'Unapproved hardware can fail the validation the sprint exists to protect.',
+        'Waiting for 40 and ignoring 15 throws away capacity that is already real.'
+      ],
+      keyPoint: 'Plan the sprint to the hardware that will arrive, and keep the shortage visible.',
+      trap: 'A story list is not a receipt. Missing scanners do not become available because the backlog assumed them.'
+    },
+    {
+      qid: 'pmp:set-1:043',
+      sub: 'pmp-people',
+      ecoTask: 'Manage conflict',
+      approach: 'Hybrid',
+      stem: 'The vendor interface team and your analysts each say the other caused a failed integration test. A review with the sponsor is in five days. The sponsor tells you to pick a side so the meeting stays short. What should you do?',
+      options: [
+        'Sit both sides down on the failed test, separate what happened from the blame, and agree the fix and the owner before the review.',
+        'Side with your analysts. They are your employees, so the vendor must absorb the rework.',
+        'Replace the vendor before the review so the argument ends.',
+        'Postpone the review until the two teams volunteer an apology.'
+      ],
+      answer: 0,
+      why: '<p>The test failed, and the review is soon. The useful move is to get the facts, name the fix, and name the owner, with both parties in the room. Picking your own staff, swapping the vendor, or waiting for an apology manages the argument and leaves the failed test untouched.</p><p><strong>Exam tip:</strong> When two teams blame each other for a failed result, facilitate the facts and the fix. Do not pick a side to shorten a meeting.</p>',
+      optionRationales: [
+        'Both parties work from the failed test, and the review gets a fix and an owner instead of a verdict.',
+        'Defending your own staff decides the conflict before the facts are on the table.',
+        'Replacing the vendor is a large step taken before anyone has shown who must change the interface.',
+        'An apology does not repair the integration, and the review date does not wait on one.'
+      ],
+      keyPoint: 'Resolve the failed test with both parties before you assign blame for the sponsor.',
+      trap: 'A shorter meeting is not a resolution if the failed test still has no owner.'
+    },
+    {
+      qid: 'pmp:set-1:044',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and manage procurement',
+      approach: 'Hybrid',
+      stem: 'A time-and-materials vendor is writing nurse-flow stories. The contract has no ceiling. The vendor has been adding work the product owner did not prioritize, because the hours are billable. Spend is ahead of the value delivered. What should you do?',
+      options: [
+        'Let the hours continue. The contract pays for time, so the extra stories are allowed.',
+        'Convert the entire remaining flow to a firm fixed price this week, even though the stories are still undefined.',
+        'Stop the vendor immediately and bring unfinished stories in-house with no handover.',
+        'Stop the unordered work, tie further hours to a prioritized backlog and a spend ceiling, and pay for work the product owner accepts against the goal.'
+      ],
+      answer: 3,
+      why: '<p>Time and materials with no ceiling will keep growing if billable hours are the only control. The project manager stops work that was not prioritized, then puts a ceiling and a real backlog in front of further spend. Leaving the hours open, locking a fixed price on undefined scope, or cutting the vendor off with no handover all miss that control.</p><p><strong>Exam tip:</strong> An open time-and-materials contract needs a backlog and a ceiling. Hours billed are not the same thing as value accepted.</p>',
+      optionRationales: [
+        'The contract allows billing. It does not require you to accept work nobody prioritized.',
+        'A firm fixed price on scope that is still undefined just moves the dispute into the price.',
+        'An abrupt stop with no handover strands the flow and the knowledge the vendor holds.',
+        'Unordered work stops, and further spend is limited by priority and a ceiling the product owner accepts.'
+      ],
+      keyPoint: 'Control an uncapped time-and-materials contract with priority and a ceiling, not with billable hours alone.',
+      trap: 'A contract that pays for time will buy unordered work until someone stops it.'
+    },
+    {
+      qid: 'pmp:set-1:045',
+      sub: 'pmp-business',
+      ecoTask: 'Plan and manage risk',
+      approach: 'Predictive',
+      stem: 'You are about to award a single-source contract for sterile-packaging film. The only qualified supplier has a plant in a flood plain, and that plant stopped shipments for three weeks last year. Nothing about this is in the risk register. The buyer says to award now and deal with a flood if one happens. What should you do?',
+      options: [
+        'Award today. A flood is only a risk after it happens.',
+        'Record the shipment stoppage as a risk before award, assess what it would do to the materials date, and choose a response while the contract can still be shaped.',
+        'Disqualify the only qualified supplier so the flood risk is gone.',
+        'Add a lump of contingency and leave the register unchanged.'
+      ],
+      answer: 1,
+      why: '<p>A known interruption at the only qualified plant is a risk now, before award, while the contract can still carry a response. The project manager records it, looks at the effect on the materials date, and chooses a response. Awarding and waiting, rejecting the only qualified source with no analysis, or padding contingency without a named risk all skip that step.</p><p><strong>Exam tip:</strong> Put a single-source threat in the register before you award. Do not wait until the plant is already under water.</p>',
+      optionRationales: [
+        'Waiting until the flood makes it an issue on a contract you can no longer shape.',
+        'The risk is named, its effect on the materials date is assessed, and the response is chosen before award.',
+        'Removing the only qualified supplier may stop the project. That choice needs analysis, not a reflex.',
+        'Money with no named risk does not put a flood response into the contract.'
+      ],
+      keyPoint: 'A single-source interruption risk is handled before award, while the contract can still carry the response.',
+      trap: 'Award now and deal with it later turns a manageable risk into a materials issue.'
+    },
+    {
+      qid: 'pmp:set-1:046',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and manage resources',
+      approach: 'Predictive',
+      stem: 'The resource plan says the people in the exhibit are dedicated to the portal. A director says the plan is fine because every name is assigned. What should you do?',
+      options: [
+        'Leave the plan as written. An assigned name is full-time capacity.',
+        'Tell every person to cover the portal at night so the names stay dedicated.',
+        'Replan the work to the availability in the exhibit, and show the director that an assigned name is not full-time capacity.',
+        'Hire four replacements today before you confirm which gaps are real.'
+      ],
+      answer: 2,
+      chart: {
+        type: 'data-table',
+        title: 'Where the people actually are',
+        columns: ['Role', 'What the plan says', 'What this month shows'],
+        rows: [
+          ['Buyer', '100 percent on the portal', 'Also running warehouse renewals two days a week'],
+          ['Interface analyst', 'Full time until acceptance', 'On call for the legacy system every night this week'],
+          ['Vendor engineer', 'Dedicated and on site', 'Contract allows 3 days a week, split with another hospital'],
+          ['Nurse super-user', '8 hours for acceptance', 'Roster still has a full ward shift']
+        ]
+      },
+      why: '<p>The exhibit shows that every assigned person is already shared with other work, including a vendor engineer the contract does not give you full time. The plan has to match that availability, and the director needs to see the gap. Night work as a patch, or hiring four people before the gap is confirmed, treats the org chart as capacity.</p><p><strong>Exam tip:</strong> Read the actual load, including the contract limit. A name on a resource plan is not a full-time person.</p>',
+      optionRationales: [
+        'Assignment is not availability. The month column already shows the split.',
+        'Nights hide the overload and still ignore the vendor contract limit of 3 days.',
+        'The schedule and the staffing follow the real hours, and the director sees why the names are not enough.',
+        'Hiring first spends money before anyone has checked which gap the contract or the roster actually creates.'
+      ],
+      keyPoint: 'Staff the work from real availability, not from names marked dedicated.',
+      trap: 'A full resource plan can still be short if those people are shared or contract-limited.'
+    },
+    {
+      qid: 'pmp:set-1:047',
+      sub: 'pmp-people',
+      ecoTask: 'Engage stakeholders',
+      approach: 'Predictive',
+      stem: 'You are negotiating a scanner-delivery change with the vendor project manager. In the last two meetings that person agreed, and the vendor contract office later rejected the change. The next meeting is tomorrow. What should you do?',
+      options: [
+        'Find out who can bind the vendor, include that person in the decision, and do not treat the project manager agreement as a contract change.',
+        'Hold the same meeting again. A third agreement from the project manager should be enough.',
+        'Sign the change on your side only, so your file shows the new date.',
+        'Ask your sponsor to pressure the vendor project manager into keeping the last verbal yes.'
+      ],
+      answer: 0,
+      why: '<p>Two rejected agreements show that the vendor project manager cannot bind the contract. The project manager finds the person who can, and puts that person in the decision, before another meeting repeats the miss. Signing alone, or pressing the same contact, does not create authority the contract office has already refused.</p><p><strong>Exam tip:</strong> Engage the person who can commit. Agreement from someone who was overruled twice is not a contract change.</p>',
+      optionRationales: [
+        'The person with authority is identified and included, so the next agreement can actually stand.',
+        'Repeating the meeting asks the same person for an authority they have already failed to deliver.',
+        'A one-sided signature does not change the vendor obligation.',
+        'Pressure on the project manager does not move the contract office that rejected the change.'
+      ],
+      keyPoint: 'Negotiate with the person who can bind the vendor, not only with the person who attends the meeting.',
+      trap: 'A friendly agreement that the contract office later voids was never a change.'
+    },
+    {
+      qid: 'pmp:set-1:048',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and manage procurement',
+      approach: 'Agile',
+      stem: 'The nurse-flow scope is still being discovered. Procurement wants a firm-fixed-price contract for the whole flow so the budget cannot move. The vendor is supposed to bid one price next week. What should you do?',
+      options: [
+        'Require the firm fixed price. A locked price is the only way to control an agile budget.',
+        'Skip the contract and let the vendor start on a handshake until the stories settle.',
+        'Pad the vendor price in private so the uncertainty is hidden inside a single number.',
+        'Do not fix a price for the whole undefined flow. Buy a defined slice or a time-boxed discovery first, and use a fixed price only where the scope is actually known.'
+      ],
+      answer: 3,
+      why: '<p>A firm fixed price needs scope you can describe. The nurse flow is still being discovered, so a single price next week either inflates the bid or sets up a dispute. The project manager buys a slice that is defined, or a short discovery, and fixes price only on what is known. Skipping the contract, or hiding contingency inside a padded bid, does not match the uncertainty.</p><p><strong>Exam tip:</strong> Match the contract to how well the scope is known. Do not force a firm fixed price across work that is still being discovered.</p>',
+      optionRationales: [
+        'A locked price on unknown scope does not control the budget. It moves the fight into change orders.',
+        'A handshake leaves the hospital with no obligation, no ceiling, and no acceptance rule.',
+        'A padded secret number hides the uncertainty from the decision instead of structuring it.',
+        'The next buy is limited to known work or a short discovery, and fixed price waits until the scope is real.'
+      ],
+      keyPoint: 'Use a fixed price where scope is known. Do not use it to freeze a flow that is still being discovered.',
+      trap: 'A single price feels like control and becomes a dispute when the stories are still moving.'
+    },
+    {
+      qid: 'pmp:set-1:049',
+      sub: 'pmp-business',
+      ecoTask: 'Plan and manage project compliance',
+      approach: 'Hybrid',
+      stem: 'The low bid for portal hosting stores patient order data in a country your compliance rule does not allow. That bid is well under the next bidder, who hosts in an allowed region. The buyer asks you to take the low bid and move the data later if anyone complains. What should you do?',
+      options: [
+        'Take the low bid. The savings can fund a move later if compliance objects.',
+        'Waive the residency rule yourself so the low bid qualifies.',
+        'Keep the residency rule as a requirement for award. Do not select hosting that breaks it, and evaluate the allowed bid against the real requirement.',
+        'Cancel the procurement so neither bidder can be accused of a bad award.'
+      ],
+      answer: 2,
+      why: '<p>The residency rule is a requirement, not a preference to fix after award. Selecting the low bid and hoping to move later accepts a breach. The project manager keeps the rule in the award criteria and lets the compliant bid compete on that basis. Waiving the rule, or cancelling to avoid the choice, both dodge the requirement.</p><p><strong>Exam tip:</strong> A lower price does not outrank a compliance constraint. Award on bids that meet the rule.</p>',
+      optionRationales: [
+        'Savings do not authorize storage the rule forbids. Moving later still starts from a breach.',
+        'The project manager does not get to waive a residency rule to qualify a price.',
+        'The rule stays in force, the noncompliant host is not awarded, and the allowed bid is judged on the real requirement.',
+        'Cancelling avoids a decision the requirement already answers.'
+      ],
+      keyPoint: 'Do not award hosting that breaks a data-residency rule because the price is lower.',
+      trap: 'Fix it later if someone complains is how a compliance requirement gets awarded away.'
+    },
+    {
+      qid: 'pmp:set-1:050',
+      sub: 'pmp-people',
+      ecoTask: 'Lead the project team',
+      approach: 'Agile',
+      stem: 'Your employees plan the nurse-flow sprint. The vendor engineers who build it are invited only to a Friday status call. They heard about a priority change from a ticket comment. The vendor lead says the engineers are being used as order-takers. What should you do?',
+      options: [
+        'Add a second status call midweek so comments are not the only channel.',
+        'Include the vendor engineers in planning and in the priority decision, as one team on the same goal, within what the contract allows.',
+        'Bring the work in-house next sprint and drop the vendor engineers.',
+        'Tell the vendor lead that ticket comments are the plan and the Friday call is optional.'
+      ],
+      answer: 1,
+      why: '<p>The people who build the flow are learning the goal after the decision. Another status call still leaves them out of planning. The project manager brings them into planning and priority, inside the contract, so there is one team. Pulling the work in-house, or pointing them at ticket comments, keeps the split the lead just named.</p><p><strong>Exam tip:</strong> A vendor squad that shares the goal belongs in planning. Do not manage them only through status and ticket comments.</p>',
+      optionRationales: [
+        'Another meeting reports decisions. It does not include the engineers in making them.',
+        'Planning and priority include the people who build the work, and the contract still bounds that participation.',
+        'In-housing next sprint is a sourcing decision made to avoid a planning problem.',
+        'Ticket comments are a late notice, not a shared plan. Making them official keeps the order-taker pattern.'
+      ],
+      keyPoint: 'Lead the vendor engineers as part of the team that plans the work, not as a crew that receives tickets.',
+      trap: 'More status meetings do not fix a team that hears the priority only after it has changed.'
+    },
+    {
+      qid: 'pmp:set-1:051',
+      sub: 'pmp-process',
+      ecoTask: 'Evaluate and manage project status',
+      approach: 'Hybrid',
+      stem: 'On the Northline hybrid hospital supply portal, the drug-order interface is predictive and the nurse request flow is adaptive. Go-live is 30 September, and operations must run the portal afterward. The sponsor reads the exhibit and asks you to report the release on track. What should you do?',
+      options: [
+        'Report on track. The interface is at 80 percent and most nurse stories are accepted.',
+        'Move go-live in the status mail without saying which tests are open.',
+        'Accept the vendor invoice as proof the interface is done, and report the nurse flow only.',
+        'Report the release not on track. The regulatory test, the pharmacy path, and the operations handover are open, and those are the items to replan.'
+      ],
+      answer: 3,
+      chart: {
+        type: 'data-table',
+        title: 'Northline portal, 12 September',
+        columns: ['Stream', 'What the report shows', 'What is still true'],
+        rows: [
+          ['Drug-order interface', '80 percent of tasks checked off', 'The required regulatory test is not scheduled'],
+          ['Nurse request flow', '12 of 14 stories accepted', 'The two open stories are the pharmacy request path'],
+          ['Go-live', 'Status mail says on track for 30 September', 'Operations has not signed the support handover'],
+          ['Vendor', 'Invoice says complete', 'Support starts only after acceptance']
+        ]
+      },
+      why: '<p>Percent complete and an invoice are not the release. The regulatory test is unscheduled, the pharmacy path is the work still open, and operations has not accepted support. The sponsor needs that status, and the replan starts there. Averaging the checked boxes, quietly moving the date, or treating the invoice as acceptance all report a release the exhibit does not support.</p><p><strong>Exam tip:</strong> Read the column that says what is still true. A high percent complete is not on track when the test, the value path, and the handover are open.</p>',
+      optionRationales: [
+        'Eighty percent and 12 of 14 leave out the test, the pharmacy path, and the handover. Those are the release.',
+        'A new date in the mail, with the gaps unnamed, is not a status report.',
+        'An invoice is a bill. Acceptance and support have not happened.',
+        'The report matches the open test, the open pharmacy path, and the missing handover, and the replan follows those facts.'
+      ],
+      keyPoint: 'Do not call a hybrid release on track because tasks are checked off while the test and the handover are open.',
+      trap: 'Percent complete and a vendor invoice are the two numbers most likely to paint a late release green.'
+    },
+    {
+      qid: 'pmp:set-1:052',
+      sub: 'pmp-process',
+      ecoTask: 'Manage project closure',
+      approach: 'Predictive',
+      stem: 'On the Northline portal, the drug-order interface was supposed to reach acceptance this week so its cost account can close. The regulatory test is still unscheduled. Finance asks you to close the account anyway so unused money can return to the hospital this quarter. What should you do?',
+      options: [
+        'Close the account. Returning money this quarter is the closure goal.',
+        'Do not close it. Show finance the unscheduled test, and finish or formally replan acceptance before the account closes.',
+        'Mark the regulatory test as waived so the account can close with a complete file.',
+        'Move the remaining interface charges onto the nurse-flow account and close the interface at zero.'
+      ],
+      answer: 1,
+      why: '<p>Closing the account would say the interface is finished. The regulatory test is not even scheduled. The project manager shows that gap and either finishes acceptance or replans it in the open. Closing for the quarter, waiving the test, or hiding the charges on another account all create a false finish.</p><p><strong>Exam tip:</strong> Do not close a cost account to tidy the quarter when the acceptance work is still open. Finish it or replan it visibly.</p>',
+      optionRationales: [
+        'Returning money is not closure if the test that defines done has not been scheduled.',
+        'Finance sees the open test, and the account stays open until acceptance is finished or formally replanned.',
+        'Waiving a required test to complete a file is a false acceptance.',
+        'Moving charges onto the nurse flow hides unfinished interface work inside a different budget.'
+      ],
+      keyPoint: 'Close the account after acceptance is real, not when the quarter wants the money back.',
+      trap: 'An unused balance is not evidence that the work is done.'
+    },
+    {
+      qid: 'pmp:set-1:053',
+      sub: 'pmp-people',
+      ecoTask: 'Plan and manage communication',
+      approach: 'Hybrid',
+      stem: 'On the Northline portal, operations is building the 30 September night roster from a vendor email that still says go-live is confirmed. Yesterday the steering group moved go-live to 14 October because the regulatory test is unscheduled. That decision sits in the steering notes, which operations does not read. What should you do?',
+      options: [
+        'Put the 14 October decision where operations builds the roster, and confirm they can restate it before you add another channel.',
+        'Send the full steering pack to every nurse so the notes are available.',
+        'Tell operations they should have read the steering notes.',
+        'Leave the vendor email in place. Correcting it will confuse the roster.'
+      ],
+      answer: 0,
+      why: '<p>Operations is staffing to the source they actually use, and that source is wrong. The decision has to land in the roster path, and someone has to check that operations can restate 14 October. A larger pack, a blame note, or protecting the stale vendor email all leave the night shift planned to the old date.</p><p><strong>Exam tip:</strong> When a date moves, update the artifact the receiving team uses to act. Do not assume they read the steering notes.</p>',
+      optionRationales: [
+        'The roster source gets the new date, and a restatement check shows the decision landed.',
+        'The steering pack is not where the roster is built. More pages repeat the miss.',
+        'Operations was never the audience of those notes. Blame skips the failed path.',
+        'Leaving the vendor email keeps the wrong date in the one place operations trusts.'
+      ],
+      keyPoint: 'A moved go-live is communicated when the team that staffs the night can restate the new date.',
+      trap: 'Steering notes are not communication if the roster is still built from a vendor email.'
+    },
+    {
+      qid: 'pmp:set-1:054',
+      sub: 'pmp-people',
+      ecoTask: 'Align stakeholder expectations',
+      approach: 'Hybrid',
+      stem: 'On the Northline portal, the agreed release is the nurse request flow plus emergency-drug orders only. At the closure review, pharmacy says the project failed unless the full formulary is live on day one. Nurses say they only need the request flow. What should you do?',
+      options: [
+        'Add the full formulary. Pharmacy will judge the project at go-live.',
+        'Drop the emergency-drug orders. The nurses did not mention them.',
+        'Restate the agreed release, show what the full formulary would do to the date and the test, and treat any addition as a change.',
+        'Declare the release a success or a failure based on which group speaks last.'
+      ],
+      answer: 2,
+      why: '<p>The agreed boundary is the request flow plus emergency-drug orders. Pharmacy and nursing are describing two other releases. The project manager puts the agreement back in the room, shows the impact of the full formulary, and runs any add through a change. Absorbing it, cutting the emergency orders, or scoring the project from the last speaker all abandon the boundary that was set.</p><p><strong>Exam tip:</strong> At closure, return to the agreed release. A new wish list is a change, not a verdict on the project.</p>',
+      optionRationales: [
+        'Adding the formulary at the review spends a test and a date the agreement did not include.',
+        'Emergency-drug orders are in the agreement. One group forgetting them does not remove them.',
+        'The agreed release is restated, the formulary impact is visible, and any add is a change.',
+        'Success is the agreed release, not the preference of whoever talks last.'
+      ],
+      keyPoint: 'Hold the agreed release at the closure review, and turn a new demand into a change.',
+      trap: 'A stakeholder who calls the project a failure is not, by themselves, changing the agreed scope.'
+    },
+    {
+      qid: 'pmp:set-1:055',
+      sub: 'pmp-process',
+      ecoTask: 'Ensure value-based delivery',
+      approach: 'Agile',
+      stem: 'On the Northline portal, the last nurse-flow sprint before go-live has four unfinished stories. All four are cosmetic screens. The product owner wants them pushed to production the night before go-live so the backlog looks empty. What should you do?',
+      options: [
+        'Deploy them the night before. An empty backlog is a clean close.',
+        'Leave them unreleased. Keep go-live to the agreed value, and record an explicit decision that the cosmetic screens wait.',
+        'Delete the four stories so the board looks finished.',
+        'Hold go-live until the cosmetic screens are perfect.'
+      ],
+      answer: 1,
+      why: '<p>The cosmetics are not the go-live value. Pushing them the night before adds risk to a release so the board looks empty. The project manager leaves them out, keeps the agreed value, and records that they wait. Deleting them pretends they were never wanted. Holding the whole go-live for screens that are not the value inverts the priority.</p><p><strong>Exam tip:</strong> Do not deploy leftovers to make a backlog look closed. Close on the value you agreed, and decide the rest in the open.</p>',
+      optionRationales: [
+        'A clean board is not a clean release. Night-before deploys add risk the value does not need.',
+        'Go-live stays on the agreed value, and the cosmetic stories are explicitly deferred.',
+        'Deleting the stories hides a decision. It does not make one.',
+        'Cosmetic screens are not a reason to hold the value the release was built to deliver.'
+      ],
+      keyPoint: 'Finish the release on agreed value. Do not empty the backlog by deploying leftovers.',
+      trap: 'An empty backlog the night before go-live can be a risk, not a sign of closure.'
+    },
+    {
+      qid: 'pmp:set-1:056',
+      sub: 'pmp-business',
+      ecoTask: 'Support organizational change',
+      approach: 'Hybrid',
+      stem: 'On the Northline portal, the nurse request software is installed. The night-shift procedure still tells nurses to fax the supply room. Only 6 of 40 night nurses have practiced the new request. The sponsor says the portal is ready because installation is done. What should you do?',
+      options: [
+        'Call it ready. Installed software is the change.',
+        'Send a memo the day before go-live forbidding the fax, and add no practice time.',
+        'Turn the portal off so the fax procedure stays official and the debate ends.',
+        'Do not call it ready. Update the night-shift procedure and have the nurses practice the new request before go-live.'
+      ],
+      answer: 3,
+      why: '<p>Installation is not the change the night shift will live with. The procedure still says fax, and almost none of the night nurses have practiced the new request. Ready means the procedure and the practice are in place. A last-day memo, or switching the portal off, either pretends the change happened or abandons it.</p><p><strong>Exam tip:</strong> Do not call a release ready because the software is installed. The people and the procedure have to be ready to use it.</p>',
+      optionRationales: [
+        'Installed software that the night shift has not practiced is not an adopted process.',
+        'A memo without practice leaves the fax as the way the shift knows how to work.',
+        'Turning the portal off removes the tool and keeps the old procedure, so the benefit never starts.',
+        'The procedure is updated and the night nurses practice before anyone calls the portal ready.'
+      ],
+      keyPoint: 'Go-live readiness includes the procedure and the people, not only the install.',
+      trap: 'Installed is not the same as ready when the old fax step is still the written procedure.'
+    },
+    {
+      qid: 'pmp:set-1:057',
+      sub: 'pmp-people',
+      ecoTask: 'Help ensure knowledge transfer',
+      approach: 'Predictive',
+      stem: 'On the Northline portal, the vendor built the drug-order interface. The contract ends at acceptance, which is planned for next week. Hospital clinical engineering has never restarted the interface without the vendor on the phone. What should you do?',
+      options: [
+        'Accept next week. The warranty phone line can cover restarts after that.',
+        'Have clinical engineering perform the restart from instructions they keep, and do not accept until that restart works without the vendor.',
+        'Extend the vendor with no end date so a restart is never the hospital problem.',
+        'Skip acceptance and leave the interface in an informal support arrangement.'
+      ],
+      answer: 1,
+      why: '<p>Acceptance ends the vendor obligation to be in the room. If clinical engineering cannot restart the interface alone, the hospital does not yet own the operation. The project manager has them do that restart from instructions they keep, before anyone signs. A warranty phone, an open-ended extension, or skipping acceptance all leave the critical operation with the vendor.</p><p><strong>Exam tip:</strong> When the contract ends at acceptance, prove the owner can perform the critical operation before you sign.</p>',
+      optionRationales: [
+        'A phone line is not a restart the hospital has performed. Acceptance would end the on-site help first.',
+        'Clinical engineering completes a real restart from durable instructions before acceptance is signed.',
+        'An extension with no end never transfers the work. It only delays the same gap.',
+        'Skipping acceptance avoids the proof and leaves support undefined.'
+      ],
+      keyPoint: 'Before you accept work that ends a vendor contract, prove the hospital can run the critical step alone.',
+      trap: 'A warranty phone number is not knowledge transfer.'
+    },
+    {
+      qid: 'pmp:set-1:058',
+      sub: 'pmp-process',
+      ecoTask: 'Manage project closure',
+      approach: 'Predictive',
+      stem: 'On the Northline portal, the interface budget still holds contingency because two identified risks did not occur. A director wants that money spent on a lobby status screen before you close the account, so the hospital does not lose it. The screen is not in scope. What should you do?',
+      options: [
+        'Do not spend the leftover contingency on the screen. Return it through the funding rules, and send the screen through change control if it is still wanted.',
+        'Buy the screen. Unused contingency is lost if you do not spend it before close.',
+        'Code the screen to the interface account and describe it as a risk response.',
+        'Split the screen cost across closed accounts so no single account shows a new purchase.'
+      ],
+      answer: 0,
+      why: '<p>Unused contingency from risks that did not occur is not a feature fund. The screen is new scope. The project manager returns the contingency the way the funding rules require and, if the director still wants the screen, puts that request through change control. Spending it to avoid losing it, or disguising the purchase, is not closure.</p><p><strong>Exam tip:</strong> At close, unused contingency goes back through the funding rules. It is not a last chance to buy something the scope left out.</p>',
+      optionRationales: [
+        'The unused reserve is released correctly, and the screen has to earn approval as a change.',
+        'Use-it-or-lose-it spending turns contingency into unapproved scope.',
+        'Calling a lobby screen a risk response records a purchase the risks never justified.',
+        'Splitting the cost hides the purchase. It does not authorize it.'
+      ],
+      keyPoint: 'Close unused contingency back to the funder. Do not empty it on new scope.',
+      trap: 'Fear of losing leftover money is not a reason to expand the project at close.'
+    },
+    {
+      qid: 'pmp:set-1:059',
+      sub: 'pmp-business',
+      ecoTask: 'Plan and manage project compliance',
+      approach: 'Predictive',
+      stem: 'On the Northline portal, an internal audit asks for the link from each drug-order requirement to the test that passed. Three requirements have no test linked. A teammate offers to mark those tests passed so the closure package is complete today. What should you do?',
+      options: [
+        'Mark the three tests passed. The package has to be complete for the audit meeting.',
+        'Delete the three requirements from the baseline so the trace has no gaps.',
+        'Tell the auditor the three links are missing, and run real tests before those requirements are closed.',
+        'Postpone the reply with no date and no plan to create the missing tests.'
+      ],
+      answer: 2,
+      why: '<p>A closure package that marks unrun tests as passed is false evidence. The honest status is that three requirements have no test link. The project manager says so and completes real tests before those items close. Deleting the requirements, or delaying with no plan, either erases the obligation or stalls the audit.</p><p><strong>Exam tip:</strong> Do not backfill a pass to finish a closure file. Missing evidence is reported, then the real test is done.</p>',
+      optionRationales: [
+        'A mark in the file is not a test. The audit would be relying on a result that never happened.',
+        'Deleting requirements to clean a trace removes scope so the paperwork looks finished.',
+        'The gap is stated, and closure of those requirements waits on tests that actually run.',
+        'Silence with no plan leaves the auditor and the team with the same hole.'
+      ],
+      keyPoint: 'Close a regulated requirement on a real test, not on a mark added to complete the file.',
+      trap: 'A complete-looking package is worse than an honest gap if the passes were never run.'
+    },
+    {
+      qid: 'pmp:set-1:060',
+      sub: 'pmp-people',
+      ecoTask: 'Lead the project team',
+      approach: 'Agile',
+      stem: 'On the Northline portal, go-live is Friday. A director wants a celebration Friday evening and the phase-2 kickoff Monday morning. Operations asked for two weeks of hypercare. The team has not reviewed the last failed integration test. What should you do?',
+      options: [
+        'Hold the celebration Friday and start phase 2 Monday. Morale is the constraint.',
+        'Keep the hypercare operations asked for, and review the failed integration test before any phase-2 commitment. Do not let the celebration replace that work.',
+        'Cancel every celebration so the team stays worried.',
+        'Start phase 2 Friday night so momentum is not lost over the weekend.'
+      ],
+      answer: 1,
+      why: '<p>Go-live still needs the hypercare operations asked for, and the team has not looked at a failed integration test. Those come before a phase-2 start. A celebration can happen only if it does not consume that work. Starting Monday, cancelling morale outright, or kicking off Friday night all put the next phase ahead of the release the team has not finished supporting.</p><p><strong>Exam tip:</strong> After go-live, protect hypercare and the unresolved failure before you start the next phase. Do not let a kickoff replace the handover.</p>',
+      optionRationales: [
+        'A Monday kickoff drops the two weeks operations asked for and skips the failed test.',
+        'Hypercare stays, the failed test is reviewed, and phase 2 waits until that support is real.',
+        'Cancelling a celebration does not create hypercare or review the test.',
+        'Friday night is the moment the live portal most needs the team, not a new phase.'
+      ],
+      keyPoint: 'Lead the team through hypercare and the open failure before you commit them to the next phase.',
+      trap: 'A celebration and a fast kickoff can abandon the people who just took the system live.'
     }
   ];
 
   questions.forEach(function (q, index) {
     q.set = 1;
-    q.batch = index < 10 ? 1 : index < 20 ? 2 : index < 30 ? 3 : 4;
+    q.batch = index < 10 ? 1 : index < 20 ? 2 : index < 30 ? 3 : index < 40 ? 4 : index < 50 ? 5 : 6;
     q.original = true;
     q.sourceDocument = 'Original UpSkill Sprint item. July 2026 PMP Exam Content Outline and PMBOK Guide 8th Edition used as references only. Not a PMI item.';
     if (q.qid !== 'pmp:set-1:' + String(index + 1).padStart(3, '0')) {
@@ -1002,7 +1484,7 @@
     exam.plannedSets = ['1', '2', '3'];
     exam.setName = 'Set 1 live · Sets 2–3 soon';
     exam.setPlans = Object.assign({}, exam.setPlans, {
-      1: {target: 180, label: 'Batches 1-4: Q001-Q040'},
+      1: {target: 180, label: 'Batches 1-6: Q001-Q060'},
       2: {target: 10, label: 'Not yet written'},
       3: {target: 10, label: 'Not yet written'}
     });
