@@ -120,7 +120,7 @@ test('Full, Quick and Focused selections remain independent across other control
     click(w,'[data-backsim]');click(w,'.tb-tile[data-exam="cmq"]');
     assert.equal(chosen(w,'quick'),'1');assert.equal(chosen(w,'focus'),'1');
     assert.equal(w.document.querySelector('[data-quiz-set="3"]'),null);
-    click(w,'.tb-tile[data-exam="cre"]');assert.equal(w.document.querySelector('[data-quiz-set]'),null);
+    click(w,'.tb-tile[data-exam="cre"]');assert.equal(w.document.querySelector('[data-quiz-set="3"]').textContent.trim(),'Set 3');assert.equal(w.document.querySelector('[data-quiz-set="1"]'),null);
     assert.deepEqual(h.errors,[]);
   } finally {await h.close();}
 });

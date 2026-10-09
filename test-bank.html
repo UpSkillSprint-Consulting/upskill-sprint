@@ -492,6 +492,8 @@
 <script src="/test-bank-mbb-set3-batch7-ui.js"></script>
 <script src="/test-bank-cssgb-set1.js"></script>
 <script src="/test-bank-cssgb-set2.js"></script>
+<script src="/test-bank-cre-set3.js"></script>
+<script src="/assets/js/math.js"></script>
 <script>
 (function(){
   'use strict';
@@ -501,6 +503,7 @@
   var MBB_SET3=window.MBB_SET3||[];
   var CSSGB_SET1=window.CSSGB_SET1||[];
   var CSSGB_SET2=window.CSSGB_SET2||[];
+  var CRE_SET3=window.CRE_SET3||[];
   var DM={
     mgmt:{name:'Management & Leadership',short:'Mgmt',color:'#2c8fa6'},
     qsys:{name:'The Quality System',short:'System',color:'#0e8f86'},
@@ -2534,8 +2537,10 @@
     cmq:{badge:'CMQ',bc:'#2c7f92',body:'ASQ Manager of Quality / Org. Excellence',title:'Manager of Quality — Final Exam Simulation',setName:'Exam Set 1',questions:150,minutes:270,pass:70,
       bank:CMQ_SET1,sets:{1:CMQ_SET1},
       bok:[d('leadership',28,[s('cmq-lead','I. Leadership','/lessons.html','Browse lessons',28)]),d('strategy',23,[s('cmq-strategy','II. Strategic Plan Development & Deployment','/lessons.html','Browse lessons',23)]),d('management',26,[s('cmq-management','III. Management Elements & Methods','/lessons.html','Browse lessons',26)]),d('tools',31,[s('cmq-tools','IV. Quality Management Tools','/lessons.html','Browse lessons',31)]),d('customer',22,[s('cmq-customer','V. Customer-Focused Organizations','/lessons.html','Browse lessons',22)]),d('supply',19,[s('cmq-supply','VI. Supply Chain Management','/lessons.html','Browse lessons',19)]),d('training',16,[s('cmq-training','VII. Training & Development','/lessons.html','Browse lessons',16)])]},
-    cre:{badge:'CRE',bc:'#b07016',body:'ASQ Certified Reliability Engineer',title:'Reliability Engineer — Final Exam Simulation',questions:150,minutes:270,pass:70,
-      bok:[d('enterprise',14,['Reliability management','Strategy','Ethics']),d('quant',16,['Probability & statistics','Distributions','Confidence intervals']),d('design',22,['Reliability in design','FMEA','Redundancy & derating']),d('analyze',16,['Reliability modeling','Life predictions','Fault tree analysis']),d('rtest',16,['Reliability testing','Accelerated life testing','Test planning']),d('maint',16,['Maintainability','Availability','Data collection & use'])]}
+    cre:{badge:'CRE',bc:'#b07016',body:'ASQ Certified Reliability Engineer',title:'Reliability Engineer — Final Exam Simulation',setName:'Set 3',questions:150,minutes:270,pass:70,
+      bank:CRE_SET3,sets:{3:CRE_SET3},fullExamQuestionsBySet:{3:10},
+      formatNote:'Set 3 batch 1 is live: 10 original questions. The full CRE simulation is planned at 150 questions. Sets 1 and 2 are separate and are not in this release.',
+      bok:[d('enterprise',29,[s('cre-lead','I. Reliability Fundamentals','/lessons.html','Browse lessons',29)]),d('quant',25,[s('cre-risk','II. Risk Management','/lessons.html','Browse lessons',25)]),d('analyze',35,[s('cre-stats','III. Probability and Statistics','/lessons.html','Browse lessons',35)]),d('rtest',35,[s('cre-model','IV. Planning, Testing, and Modeling','/lessons.html','Browse lessons',35)]),d('maint',26,[s('cre-life','V. Lifecycle Reliability','/lessons.html','Browse lessons',26)])]}
   };
   var GROUPS=[['Six Sigma',['cssbb','mbb','cssgb']],['Quality',['cqe','cqa','cmq']],['Reliability',['cre']]];
   var current='cssbb', view='browse', session=null;
@@ -4719,6 +4724,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     if(view==='quiz'){host.innerHTML=quizHTML();wireQuiz();}
     else if(view==='results'){host.innerHTML=resultsHTML();wireResults();}
     else{host.innerHTML=overviewHTML();wireOverview();}
+    if(window.UpskillMath&&typeof window.UpskillMath.typeset==='function')window.UpskillMath.typeset([host]);
     if(view==='browse')renderAnonymousRecoveryPrompt();
   }
 

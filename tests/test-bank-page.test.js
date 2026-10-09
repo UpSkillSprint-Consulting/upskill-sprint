@@ -67,11 +67,12 @@ test('the rail lists all seven certifications', async () => {
   CERTS.forEach(c => assert.ok(badges.includes(c), `rail includes ${c}`));
 });
 
-test('only CQA and CRE remain Coming soon; CSSBB, MBB, CSSGB, CQE, and CMQ are live', async () => {
+test('only CQA remains Coming soon; CSSBB, MBB, CSSGB, CQE, CMQ, and CRE are live', async () => {
   const { window } = await loadPage();
   const tiles = Array.from(window.document.querySelectorAll('.tb-tile'));
   const soon = tiles.filter(t => /Coming soon/.test(t.textContent));
-  assert.equal(soon.length, 2, 'two exams still coming soon');
+  assert.equal(soon.length, 1, 'only CQA is still coming soon');
+  assert.equal(soon[0].dataset.exam, 'cqa');
   const cssbb = tiles.find(t => t.dataset.exam === 'cssbb');
   assert.doesNotMatch(cssbb.textContent, /Coming soon/, 'CSSBB is live, not coming soon');
   assert.match(cssbb.textContent, /3 exam sets/i, "tile advertises the set count");
@@ -89,6 +90,9 @@ test('only CQA and CRE remain Coming soon; CSSBB, MBB, CSSGB, CQE, and CMQ are l
   assert.doesNotMatch(cssgb.textContent, /Coming soon/, 'CSSGB is live now');
   assert.match(cssgb.textContent, /110 questions/i, 'CSSGB tile advertises the complete computer-based simulation count');
   assert.match(cssgb.textContent, /2 exam sets/i, 'CSSGB tile advertises both complete exam sets');
+  const cre = tiles.find(t => t.dataset.exam === 'cre');
+  assert.doesNotMatch(cre.textContent, /Coming soon/, 'CRE Set 3 is live now');
+  assert.match(cre.textContent, /Set 3/i, 'CRE tile advertises Set 3');
 });
 
 test('CSSBB is backed by the full 165-question bank across all nine ASQ areas', async () => {
