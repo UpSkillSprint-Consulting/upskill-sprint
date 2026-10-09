@@ -10,21 +10,22 @@ const read = file => fs.readFileSync(path.resolve(__dirname, '..', file), 'utf8'
 const bank = () => {const ctx = {window: {}}; vm.runInNewContext(read('test-bank-cre-set2.js'), ctx); return ctx.window;};
 const tick = () => new Promise(resolve => setTimeout(resolve, 60));
 
-test('batch contract: stable IDs, current BoK weights, complete feedback, twenty-eight exhibits, valid lesson anchors', () => {
+test('batch contract: stable IDs, current BoK weights, complete feedback, thirty-four exhibits, valid lesson anchors', () => {
   const {CRE_SET2: qs, registerCRESet2} = bank();
-  assert.equal(qs.length, 50);
+  assert.equal(qs.length, 60);
   const exam = {bok: [], bank: []}, dm = {};
   registerCRESet2(exam, dm);
   assert.deepEqual(Array.from(exam.bok, d => d.weight), [29,25,35,35,26]);
   assert.equal(exam.questions, 165); assert.equal(exam.minutes, 258);
-  assert.equal(qs.filter(q => q.chart).length, 28);
-  assert.equal(qs.filter(q => q.chart?.creKind).length, 13);
-  assert.equal(qs.filter(q => q.explorer).length, 10);
-  assert.deepEqual(Array.from(exam.bok, d => qs.filter(q => q.sub === d.domain).length), [10,8,12,11,9]);
-  assert.deepEqual([0,1,2,3].map(key => qs.filter(q => q.answer === key).length), [13,12,12,13]);
+  assert.equal(qs.filter(q => q.chart).length, 34);
+  assert.equal(qs.filter(q => q.chart?.creKind).length, 16);
+  assert.equal(qs.filter(q => q.explorer).length, 12);
+  assert.deepEqual(Array.from(exam.bok, d => qs.filter(q => q.sub === d.domain).length), [12,10,14,14,10]);
+  assert.deepEqual([0,1,2,3].map(key => qs.filter(q => q.answer === key).length), [15,15,15,15]);
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,20))).digest('hex'), '488de3d62f6ba40533c7f4bbfa30ccba24492571571d06c08cdd8de328b29efc', 'Batches 1–2 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,30))).digest('hex'), '1d58917f68fcb88dd4fe42568d6e50394789e0cab74c16719108b1ff3841921b', 'Batches 1–3 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,40))).digest('hex'), '673070d6340dfe526539b3be6fbaaf14cf4b0ebfd26ea0ed9a6d707808b9c070', 'Batches 1–4 content is unchanged');
+  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,50))).digest('hex'), '459d6748c2fa8f96f2f4737e0d42ad6f0c2cfb7f4c73574c947417c1007b280c', 'Batches 1–5 content is unchanged');
   const released = JSON.stringify(qs.slice(0,10));
   assert.equal(createHash('sha256').update(released).digest('hex'), '2c2657dfb7ae76f3c0b9385c7b1be36e122e143a0372e4de82fabb097b50f6f1', 'released Batch 1 content is unchanged');
   for (const [i,q] of qs.entries()) {
@@ -56,7 +57,7 @@ test('registering Set 2 preserves concurrent Set 1 and Set 3 question banks', ()
   assert.equal(exam.sets[1], first); assert.equal(exam.bank, first);
   assert.equal(JSON.stringify(first), before);
   assert.equal(exam.sets[3], third); assert.equal(JSON.stringify(third), thirdBefore);
-  assert.equal(exam.sets[2].length, 50);
+  assert.equal(exam.sets[2].length, 60);
 });
 
 test('independent calculations verify numeric keys and distractors', () => {
@@ -268,6 +269,55 @@ test('Batch 5 checks criticality counts, probability-plot coordinates, precision
   assert.match(answer(50),/200 h/);
 });
 
+
+test('Batch 6 independently checks contingency inference, capability, degradation regression, voting states, and constrained design choices', () => {
+  const qs=bank().CRE_SET2, answer=n=>qs[n-1].options[qs[n-1].answer];
+  // Squared pooled two-proportion z gives an independent route to the 2x2 Pearson statistic.
+  const rows=qs[54].chart.rows.slice(0,2),total=rows.reduce((sum,r)=>sum+r[3],0),failures=rows.reduce((sum,r)=>sum+r[1],0),pooled=failures/total;
+  const difference=rows[1][1]/rows[1][3]-rows[0][1]/rows[0][3];
+  const statistic=difference**2/(pooled*(1-pooled)*(1/rows[0][3]+1/rows[1][3]));
+  assert.equal(answer(55),statistic.toFixed(2)+'; reject independence.');
+  assert.equal(qs[54].options[0],(statistic/2).toFixed(2)+'; fail to reject independence.');
+  assert.equal(qs[54].options[2],(2*100/30).toFixed(2)+'; reject independence.');
+  rows.forEach(row=>{assert.equal(row[3]*pooled,30);assert.equal(row[3]*(1-pooled),170);});
+  // For one degree of freedom, integrate both normal tails to verify the supplied chi-square critical value.
+  const lower=Math.sqrt(6.635),steps=20000,dx=(10-lower)/steps;let tail=0;
+  for(let i=0;i<steps;i++){const z=lower+(i+.5)*dx;tail+=2*Math.exp(-z*z/2)/Math.sqrt(2*Math.PI)*dx;}
+  assert.ok(Math.abs(tail-.01)<.000002);
+  // Read the actual study summary and distinguish centered indices from spread-only indices.
+  const values=qs[55].chart.rows.map(r=>r[1]),[lsl,usl,mean,within,overall]=values;
+  const near=Math.min(usl-mean,mean-lsl),cpk=near/(3*within),ppk=near/(3*overall);
+  assert.equal(answer(56),cpk.toFixed(2)+' and '+ppk.toFixed(2));
+  assert.equal(qs[55].options[1],((usl-lsl)/(6*within)).toFixed(2)+' and '+((usl-lsl)/(6*overall)).toFixed(2));
+  assert.equal(mean-3*within,97);assert.equal(mean+3*within,115);assert.equal(mean-3*overall,91);assert.equal(mean+3*overall,121);
+  // Fit by covariance/variance using all three observations, then invert the fitted trend.
+  const data=Array.from(qs[56].chart.rows,([t,y])=>({t,y:Number(y)}));
+  const tMean=data.reduce((s,p)=>s+p.t,0)/data.length,yMean=data.reduce((s,p)=>s+p.y,0)/data.length;
+  const slope=data.reduce((s,p)=>s+(p.t-tMean)*(p.y-yMean),0)/data.reduce((s,p)=>s+(p.t-tMean)**2,0),intercept=yMean-slope*tMean;
+  data.forEach(p=>assert.ok(Math.abs(intercept+slope*p.t-p.y)<1e-12));
+  const life=(.6-intercept)/slope;assert.equal(answer(57),Math.round(life).toLocaleString('en-US')+' h');
+  assert.equal(qs[56].options[0],Math.round(life-600)+' h');
+  assert.equal(qs[56].options[1],Math.round(.6/slope).toLocaleString('en-US')+' h');
+  assert.equal(qs[56].options[3],Math.round(600*.6/.28).toLocaleString('en-US')+' h');
+  // Enumerate all 16 combinations of three sensor outcomes and the voter outcome.
+  const results=[0,0,0];let sensorOnly=0;
+  for(let mask=0;mask<16;mask++){
+    const states=[0,1,2,3].map(i=>!!(mask&(1<<i))),rates=[.9,.9,.9,.98];
+    const probability=states.reduce((p,up,i)=>p*(up?rates[i]:1-rates[i]),1),count=states.slice(0,3).filter(Boolean).length;
+    if(count>=2)sensorOnly+=probability;
+    for(let k=1;k<=3;k++)if(states[3]&&count>=k)results[k-1]+=probability;
+  }
+  assert.equal(answer(58),results[1].toFixed(5));
+  assert.equal(qs[57].options[1],results[2].toFixed(5));assert.equal(qs[57].options[2],results[0].toFixed(5));assert.equal(qs[57].options[3],sensorOnly.toFixed(5));
+  // Search all nine version pairs; the best feasible design must beat every other feasible pair.
+  const versions=Array.from(qs[59].chart.rows,([name,r,cost,mass])=>({name:name.split(' ')[0],r:Number(r),cost,mass})),pairs=[];
+  for(const a of versions.filter(v=>v.name.startsWith('A')))for(const b of versions.filter(v=>v.name.startsWith('B')))pairs.push({name:a.name+' with '+b.name,r:a.r*b.r,cost:a.cost+b.cost,mass:a.mass+b.mass});
+  const feasible=pairs.filter(p=>p.cost<=10000&&p.mass<=3).sort((a,b)=>b.r-a.r);
+  assert.equal(pairs.length,9);assert.equal(feasible.length,6);assert.equal(answer(60),feasible[0].name);assert.equal(feasible[0].r.toFixed(4),'0.9120');
+  assert.equal(pairs.find(p=>p.name===qs[59].options[0]).mass,4);assert.equal(pairs.find(p=>p.name===qs[59].options[2]).cost,11000);
+  assert.ok(feasible[0].r>pairs.find(p=>p.name===qs[59].options[3]).r);
+});
+
 async function harness(){
   const edge=(await import('data:text/javascript;base64,'+Buffer.from(read('netlify/edge-functions/test-bank-mobile-picker.js')).toString('base64'))).default;
   let html=await (await edge(new Request('https://upskillsprint.com/test-bank?exam=cre'),{next:async()=>new Response(read('test-bank.html'),{headers:{'content-type':'text/html'}})})).text();
@@ -294,32 +344,33 @@ function click(w,selector){const el=w.document.querySelector(selector);assert.ok
 function start(w,mode){click(w,'.tb-tile[data-exam="cre"]');click(w,'#tb-overview [data-mode="'+mode+'"]');return w.__TB.getFeedbackSnapshot();}
 function submit(w){const n=w.__TB.getFeedbackSnapshot().records.length;click(w,'[data-goto="'+(n-1)+'"]');click(w,'[data-submit]');}
 
-test('production player uses Set 2, correct pace, twenty-eight exhibits, review tools, and immutable score',async()=>{
+test('production player uses Set 2, correct pace, thirty-four exhibits, review tools, and immutable score',async()=>{
   const h=await harness(),{w}=h;
   try{
     click(w,'.tb-tile[data-exam="cre"]');
     assert.ok(w.document.querySelector('[data-set="1"]').disabled);
-    assert.match(w.document.querySelector('#tb-overview').textContent,/50 of 150/);
+    assert.match(w.document.querySelector('#tb-overview').textContent,/60 of 150/);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,10),938);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,20),1876);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,30),2815);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,40),3753);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,50),4691);
+    assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,60),5629);
     click(w,'#tb-overview [data-mode="full"]');
     const snapshot=w.__TB.getFeedbackSnapshot();
-    assert.equal(snapshot.records.length,50);
+    assert.equal(snapshot.records.length,60);
     assert.ok(snapshot.records.every(r=>/^cre:set-2:/.test(r.question.qid)));
     assert.equal(w.document.querySelector('.cre2-explorer'),null);
     assert.equal(w.document.querySelector('.tb-explanation'),null);
     snapshot.records.forEach((r,i)=>{click(w,'[data-goto="'+i+'"]');click(w,'[data-opt="'+r.question.answer+'"]');});
     submit(w);await tick();
     const score=w.document.querySelector('[data-score-result]').textContent;
-    assert.match(score,/50\/50/);assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet,'2');
+    assert.match(score,/60\/60/);assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet,'2');
     click(w,'[data-open-review="all"]');await tick();
-    assert.equal(w.document.querySelectorAll('.tb-review-card').length,50);
-    assert.equal(w.document.querySelectorAll('.tb-review-card .cre2-exhibit').length,28);
-    assert.equal(w.document.querySelectorAll('.cre2-explorer').length,10);
-    assert.equal(w.document.querySelectorAll('.cre2-source strong').length,100);
+    assert.equal(w.document.querySelectorAll('.tb-review-card').length,60);
+    assert.equal(w.document.querySelectorAll('.tb-review-card .cre2-exhibit').length,34);
+    assert.equal(w.document.querySelectorAll('.cre2-explorer').length,12);
+    assert.equal(w.document.querySelectorAll('.cre2-source strong').length,120);
     for(const card of w.document.querySelectorAll('.tb-review-card'))assert.ok(h.typesetRoots.includes(card));
     const slider=w.document.querySelector('[data-cre-explorer="weibull"] input');
     slider.value='1500';slider.dispatchEvent(new w.Event('input',{bubbles:true}));
@@ -383,6 +434,23 @@ test('production player uses Set 2, correct pace, twenty-eight exhibits, review 
     }
     cost.closest('details').querySelector('button').click();assert.equal(cost.value,'1000');
     assert.match(cost.closest('details').querySelector('output').textContent,/200 h or failure: \$1.451.*Lowest among these candidates: 200 h or failure/);
+    const count=w.document.querySelector('[data-cre-explorer="chi-square-count"] input');
+    assert.equal(count.closest('details').open,false);
+    for(const [value,statistic,decision] of [['0','21.0526','Reject'],['20','0.0000','Fail to reject'],['60','25.0000','Reject']]){
+      count.value=value;count.dispatchEvent(new w.Event('input',{bubbles:true}));
+      assert.ok(count.closest('details').querySelector('output').textContent.includes('Chi-square: '+statistic+'. At 1%: '+decision+' independence.'));
+    }
+    count.closest('details').querySelector('button').click();assert.equal(count.value,'40');
+    assert.match(count.closest('details').querySelector('output').textContent,/30.0 failures and 170.0 survivors.*7.8431.*Reject independence/);
+    const required=w.document.querySelector('[data-cre-explorer="voting-required"] select');
+    assert.equal(required.closest('details').open,false);
+    for(const [value,reliability] of [['1','0.97902'],['3','0.71442']]){
+      required.value=value;required.dispatchEvent(new w.Event('change',{bubbles:true}));
+      assert.ok(required.closest('details').querySelector('output').textContent.includes('system reliability '+reliability));
+      assert.match(required.closest('details').querySelector('svg').textContent,new RegExp('at least '+value+' of 3 required'));
+    }
+    required.closest('details').querySelector('button').click();assert.equal(required.value,'2');
+    assert.match(required.closest('details').querySelector('output').textContent,/0.97200.*0.95256/);
     assert.equal(JSON.stringify(w.CRE_SET2),baseline);
     assert.equal(w.document.querySelector('[data-score-result]').textContent,score);
     // The concurrently merged Set 3 stays selectable and uses only its own bank.
@@ -408,7 +476,7 @@ test('quick and focused modes select available Set 2; retry math renders without
     assert.equal(w.document.querySelector('.tb-retry-panel .cre2-explorer'),null);
     click(w,'[data-back]');
     click(w,'#tb-overview [data-mode="focus"]');
-    assert.equal(w.__TB.getFeedbackSnapshot().records.length,10);
+    assert.equal(w.__TB.getFeedbackSnapshot().records.length,12);
     assert.ok(w.__TB.getFeedbackSnapshot().records.every(r=>r.question.qid.startsWith('cre:set-2:')));
     assert.deepEqual(h.errors,[]);
   }finally{h.close();}
