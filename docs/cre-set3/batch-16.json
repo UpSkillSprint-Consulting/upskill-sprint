@@ -1,0 +1,461 @@
+{
+  "examId": "cre",
+  "set": 3,
+  "batch": 16,
+  "items": "cre:set-3:151 through cre:set-3:160",
+  "note": "CRE Set 3 items beyond the original 150. Not copied from Set 2. Each display equation is on its own line.",
+  "questions": [
+    {
+      "qid": "cre:set-3:151",
+      "set": 3,
+      "sub": "III.A.3",
+      "bok": "Probability distributions",
+      "cognitive": "Analyze",
+      "stem": "Life is exponential with mean \\(\\theta\\). Use \\(e^{-0.4}=0.6703\\).\n\\[\nR(t)=\\exp(-t/\\theta)\n\\]\nWhat is the reliability at 200 hours?",
+      "options": [
+        "0.3297",
+        "0.4000",
+        "0.6703",
+        "500 hours"
+      ],
+      "answer": 2,
+      "why": "Divide the age by the mean, then use the given exponential.\n\\[\nt/\\theta=200/500=0.4\n\\]\n\\[\nR(200)=0.6703\n\\]\n0.3297 is the unreliability. 0.4000 is the time ratio. 500 hours is the mean. <b>C. 0.6703</b>",
+      "traps": {
+        "A": "Subtracts the reliability from 1.",
+        "B": "Reports the time ratio.",
+        "D": "Reports the mean life."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Exponential reliability",
+        "altText": "The mean life is 500 hours. The reliability is asked at 200 hours.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Mean life",
+            "500 h"
+          ],
+          [
+            "Age",
+            "200 h"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:152",
+      "set": 3,
+      "sub": "IV.C.1",
+      "bok": "Reliability block diagrams",
+      "cognitive": "Evaluate",
+      "stem": "Three identical units are in active parallel. Any one unit can carry the function. Each has mission reliability \\(R\\).\n\\[\nR_s=1-(1-R)^{3}\n\\]\nWhat is the mission reliability of the group?",
+      "options": [
+        "0.064",
+        "0.216",
+        "0.600",
+        "0.936"
+      ],
+      "answer": 3,
+      "why": "The group fails only when all three units fail.\n\\[\n(1-0.60)^{3}=0.064\n\\]\n\\[\nR_s=1-0.064=0.936\n\\]\n0.064 is the unreliability. 0.216 requires all three to survive. 0.600 is one unit. <b>D. 0.936</b>",
+      "traps": {
+        "A": "Reports the probability that all three fail.",
+        "B": "Multiplies the three reliabilities.",
+        "C": "Uses one unit."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Three-unit active parallel",
+        "altText": "Three identical independent units each have mission reliability 0.60. Any one can carry the function.",
+        "columns": [
+          "Unit",
+          "Mission reliability"
+        ],
+        "rows": [
+          [
+            "1",
+            "0.60"
+          ],
+          [
+            "2",
+            "0.60"
+          ],
+          [
+            "3",
+            "0.60"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:153",
+      "set": 3,
+      "sub": "IV.B.1",
+      "bok": "Accelerated life tests",
+      "cognitive": "Analyze",
+      "stem": "Each unit runs for the laboratory time below. Multiply by the acceleration factor before estimating the use-condition mean life. There are \\(r\\) failures.\n\\[\nT_u=nt(AF)\n\\]\n\\[\n\\hat\\theta=\\frac{T_u}{r}\n\\]\nWhat is the use-condition mean life?",
+      "options": [
+        "50 hours",
+        "100 hours",
+        "500 hours",
+        "1,500 hours"
+      ],
+      "answer": 2,
+      "why": "Convert the laboratory exposure first.\n\\[\nT_u=6(50)(5)=1500\n\\]\n\\[\n\\hat\\theta=1500/3=500\n\\]\n50 hours is the laboratory time on one unit. 100 hours divides the laboratory time by the failures and ignores the acceleration. 1,500 hours is the equivalent time. <b>C. 500 hours</b>",
+      "traps": {
+        "A": "Reports the laboratory time.",
+        "B": "Ignores the acceleration factor.",
+        "D": "Stops at the equivalent time."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Accelerated exposure with failures",
+        "altText": "Six units each ran 50 hours. The acceleration factor is 5. Three failures occurred.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Units",
+            "6"
+          ],
+          [
+            "Hours on each unit",
+            "50"
+          ],
+          [
+            "Acceleration factor",
+            "5"
+          ],
+          [
+            "Failures",
+            "3"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:154",
+      "set": 3,
+      "sub": "III.A.5",
+      "bok": "Statistical inference",
+      "cognitive": "Apply",
+      "stem": "The sample size for a mean uses the normal factor \\(z\\), the standard deviation \\(s\\), and the margin \\(E\\).\n\\[\nn=\\left(\\frac{zs}{E}\\right)^{2}\n\\]\nWhat sample size does the formula give?",
+      "options": [
+        "8",
+        "16",
+        "32",
+        "64"
+      ],
+      "answer": 3,
+      "why": "Divide, then square. Do not stop at the ratio.\n\\[\nzs/E=2(8)/2=8\n\\]\n\\[\nn=8^{2}=64\n\\]\n8 is the ratio before squaring. 16 is twice that ratio. 32 is half of the required sample. <b>D. 64</b>",
+      "traps": {
+        "A": "Stops before squaring.",
+        "B": "Doubles the ratio.",
+        "C": "Uses half of the squared ratio."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Sample size for a mean",
+        "altText": "The normal factor z is 2. The standard deviation is 8. The margin E is 2.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "z",
+            "2"
+          ],
+          [
+            "Standard deviation",
+            "8"
+          ],
+          [
+            "Margin",
+            "2"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:155",
+      "set": 3,
+      "sub": "III.A.6",
+      "bok": "Statistical process control",
+      "cognitive": "Apply",
+      "stem": "The chart rule in use is that eight consecutive points on one side of the center line are a special-cause signal, even when every point is inside the control limits. What should the team do with the last eight points?",
+      "options": [
+        "Keep running. Every point is inside the control limits.",
+        "Investigate. Eight points in a row are above the center line.",
+        "Recalculate the limits from these eight points before deciding.",
+        "Wait for a point outside the limits. A run on one side is not a signal."
+      ],
+      "answer": 1,
+      "why": "The stated rule does not require a point outside the limits. All eight plotted points are above the center, so the rule has been met. Rebuilding the limits from the same eight points would hide the run. <b>B. Investigate. Eight points in a row are above the center line.</b>",
+      "traps": {
+        "A": "Treats inside-the-limits as proof of control.",
+        "C": "Uses the suspect points to redraw the limits.",
+        "D": "Drops the stated run rule."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Last eight chart points",
+        "altText": "The center line is 10.0. The control limits are 9.0 and 11.0. The last eight points are 10.2, 10.4, 10.1, 10.5, 10.3, 10.6, 10.2, and 10.4.",
+        "columns": [
+          "Point",
+          "Value"
+        ],
+        "rows": [
+          [
+            "1",
+            "10.2"
+          ],
+          [
+            "2",
+            "10.4"
+          ],
+          [
+            "3",
+            "10.1"
+          ],
+          [
+            "4",
+            "10.5"
+          ],
+          [
+            "5",
+            "10.3"
+          ],
+          [
+            "6",
+            "10.6"
+          ],
+          [
+            "7",
+            "10.2"
+          ],
+          [
+            "8",
+            "10.4"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:156",
+      "set": 3,
+      "sub": "IV.A.1",
+      "bok": "Reliability test strategies",
+      "cognitive": "Evaluate",
+      "stem": "Cumulative failures in a Crow-AMSAA model scale with total time to the power \\(\\beta\\). Use \\(\\sqrt{2}=1.414\\).\n\\[\nN(2T)/N(T)=2^{\\beta}\n\\]\nBy what factor does the cumulative failure count grow when the total time doubles?",
+      "options": [
+        "0.500",
+        "1.414",
+        "2.000",
+        "4.000"
+      ],
+      "answer": 1,
+      "why": "Raise 2 to the growth parameter. Doubling the time does not double the cumulative count when \\(\\beta\\) is not 1.\n\\[\n2^{0.5}=1.414\n\\]\n0.500 is \\(\\beta\\). 2.000 would be correct for \\(\\beta=1\\). 4.000 squares the doubling. <b>B. 1.414</b>",
+      "traps": {
+        "A": "Reports the growth parameter.",
+        "C": "Assumes cumulative failures grow in proportion to time.",
+        "D": "Squares the time ratio."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Crow-AMSAA growth parameter",
+        "altText": "Beta is 0.5. Compare the cumulative failure count at time 2T with the count at time T.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "beta",
+            "0.5"
+          ],
+          [
+            "Time ratio",
+            "2"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:157",
+      "set": 3,
+      "sub": "II.A.2",
+      "bok": "Risk assessment and prioritization",
+      "cognitive": "Analyze",
+      "stem": "Each unit has the same expected failures per year. The fleet size is \\(n\\).\n\\[\nE=nf\n\\]\nHow many failures are expected from the fleet in one year?",
+      "options": [
+        "0.02",
+        "0.60",
+        "30",
+        "1,500"
+      ],
+      "answer": 1,
+      "why": "Multiply the fleet size by the per-unit frequency.\n\\[\nE=30(0.02)=0.60\n\\]\n0.02 is one unit. 30 is the fleet size. 1,500 divides the fleet size by the per-unit frequency. <b>B. 0.60</b>",
+      "traps": {
+        "A": "Reports the rate for one unit.",
+        "C": "Reports the number of units.",
+        "D": "Divides the fleet size by the per-unit frequency."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Fleet failure frequency",
+        "altText": "Thirty units each have an expected 0.02 failures per year.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Units",
+            "30"
+          ],
+          [
+            "Failures per unit per year",
+            "0.02"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:158",
+      "set": 3,
+      "sub": "V.A.4",
+      "bok": "Reliability strategies",
+      "cognitive": "Apply",
+      "stem": "Two elements are in series. Element 1 already has reliability \\(R_1\\). The system requirement is \\(R_s\\).\n\\[\nR_2=\\frac{R_s}{R_1}\n\\]\nWhat reliability is required of element 2, to three decimal places?",
+      "options": [
+        "0.855",
+        "0.925",
+        "0.947",
+        "0.950"
+      ],
+      "answer": 2,
+      "why": "Divide the system requirement by the reliability already achieved. Do not multiply.\n\\[\nR_2=0.90/0.95=0.947\n\\]\n0.855 is the product of the two numbers in the table. 0.925 is their average. 0.950 copies element 1 onto element 2. <b>C. 0.947</b>",
+      "traps": {
+        "A": "Multiplies the system requirement by the known element.",
+        "B": "Averages the two given reliabilities.",
+        "D": "Assigns element 1's reliability to element 2."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Series allocation",
+        "altText": "The system reliability requirement is 0.90. Element 1 will have reliability 0.95. Element 2 must make up the rest.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "System requirement",
+            "0.90"
+          ],
+          [
+            "Element 1 reliability",
+            "0.95"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:159",
+      "set": 3,
+      "sub": "I.B.1",
+      "bok": "Reliability, maintainability, and availability",
+      "cognitive": "Apply",
+      "stem": "Operational availability uses calendar time, including logistics delay. Uptime is the operating time in the table.\n\\[\nA_o=\\frac{\\text{uptime}}{\\text{calendar time}}\n\\]\nWhat is the operational availability?",
+      "options": [
+        "0.025",
+        "0.900",
+        "0.973",
+        "36"
+      ],
+      "answer": 1,
+      "why": "Divide uptime by the full calendar time. Logistics delay stays in the denominator.\n\\[\nA_o=7200/8000=0.900\n\\]\n0.025 is active repair divided by calendar time. 0.973 removes the logistics delay. 36 divides uptime by active repair. <b>B. 0.900</b>",
+      "traps": {
+        "A": "Divides repair time by calendar time.",
+        "C": "Computes inherent availability.",
+        "D": "Divides uptime by repair time."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "One-period operating log",
+        "altText": "Uptime is 7,200 hours. Active repair is 200 hours. Logistics delay is 600 hours. Calendar time is 8,000 hours.",
+        "columns": [
+          "Element",
+          "Hours"
+        ],
+        "rows": [
+          [
+            "Uptime",
+            "7,200"
+          ],
+          [
+            "Active repair",
+            "200"
+          ],
+          [
+            "Logistics delay",
+            "600"
+          ],
+          [
+            "Calendar time",
+            "8,000"
+          ]
+        ]
+      }
+    },
+    {
+      "qid": "cre:set-3:160",
+      "set": 3,
+      "sub": "II.B.4",
+      "bok": "Fault tree analysis",
+      "cognitive": "Understand",
+      "stem": "Under the rare-event approximation, the top-event probability is the sum of the minimal-cut probabilities. Which cut set should be reduced first?",
+      "options": [
+        "Cut set A. Its probability, 0.040, is the largest term.",
+        "Cut set B. A middle term is the best first reduction.",
+        "Cut set C. The smallest cut set is the easiest to remove.",
+        "None. Reduce the sum, 0.063, rather than one cut set."
+      ],
+      "answer": 0,
+      "why": "The largest term contributes the most to the sum, so it is the first reduction.\n\\[\nQ\\approx 0.040+0.015+0.008=0.063\n\\]\nRemoving A takes out more of that sum than removing B or C. The sum is the result, not a substitute for choosing a cut set. <b>A. Cut set A. Its probability, 0.040, is the largest term.</b>",
+      "traps": {
+        "B": "Skips the largest contributor.",
+        "C": "Starts with the smallest contributor.",
+        "D": "Refuses to rank the cut sets."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Minimal-cut probabilities",
+        "altText": "Cut set A has probability 0.040, cut set B has probability 0.015, and cut set C has probability 0.008. The rare-event approximation adds them.",
+        "columns": [
+          "Cut set",
+          "Probability"
+        ],
+        "rows": [
+          [
+            "A",
+            "0.040"
+          ],
+          [
+            "B",
+            "0.015"
+          ],
+          [
+            "C",
+            "0.008"
+          ]
+        ]
+      }
+    }
+  ]
+}

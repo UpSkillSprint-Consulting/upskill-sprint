@@ -893,6 +893,154 @@
       assumptions: ['Exactly one listed version of each required subsystem must be selected, and both success events are independent.', 'Costs and masses are incremental, additive, and limited as stated; no unlisted interaction or failure mechanism is introduced.'],
       handbook: {chapter: 11, section: 'Reliability Optimization; Reliability Optimization Process'},
       lessonGap: 'Use the cited handbook section and evaluate feasible subsystem combinations rather than ranking upgrades in isolation.'
+    },
+    {
+      number: 61, qid: 'cre:set-2:061', sub: 'cre-fundamentals', bok: 'I.A.1',
+      topic: 'Business value of reliability engineering', cognitive: 'Understand', difficulty: 'Foundational', estimatedMinutes: 1,
+      industry: 'Commercial equipment', quantitative: false,
+      stem: 'A manufacturer is evaluating a reliability program for leased sorting equipment. Customers report that interruptions disrupt their operations even when repairs are covered by the lease. Which statement BEST explains the business value of reliability engineering in this situation?',
+      options: ['Reducing service interruptions can support customer retention and lifecycle cost objectives, beyond reducing repair expense.', 'The program should be valued by repair expense alone because the lease already pays for customer support.', 'The program should be valued by factory acceptance yield because that directly measures performance throughout the lease.', 'The main benefit is a longer published warranty, which by itself demonstrates improved field reliability.'], answer: 0,
+      why: '<p>Reliability concerns successful performance over the required time and conditions. Interruptions affect the customer even when repair charges are covered, so their consequences can include lost operating time, reduced confidence, and renewal decisions.</p><p>A reliability program can help identify and reduce these interruptions while supporting lifecycle cost and customer objectives. These are potential benefits to evaluate and monitor, not a guarantee that every proposed project will produce a positive return.</p>',
+      optionRationales: ['This recognizes the operational and customer consequences of failures as well as direct repair costs.', 'Paying for support does not remove the customer’s disruption or its possible effect on retention.', 'Factory acceptance yield describes initial conformance; it does not directly measure performance throughout the lease.', 'A warranty changes commercial commitments. Its length alone is not evidence that the equipment fails less often.'],
+      keyPoint: 'The value of reliability includes sustained customer function and lifecycle consequences, not only repair bills.',
+      trap: 'Covered repair costs do not make a service interruption consequence-free.',
+      assumptions: ['Service interruptions prevent the required sorting function.', 'No numerical return on investment is claimed from the information provided.'],
+      handbook: {chapter: 1, section: 'Benefits of Reliability Engineering'},
+      lessonGap: 'A dedicated reliability business-value lesson is planned; use the cited handbook section and the explanation above.'
+    },
+    {
+      number: 62, qid: 'cre:set-2:062', sub: 'cre-fundamentals', bok: 'I.B.3',
+      topic: 'CAPA beyond immediate containment', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Electronics assembly', quantitative: false,
+      stem: 'A confirmed investigation links premature adhesive-bond failures to selection of an obsolete curing recipe. Affected inventory has been contained and failed units replaced. The obsolete recipe is still selectable. Which proposed CAPA action BEST addresses recurrence at its confirmed source?',
+      options: ['Continue replacing failures under warranty and close the action when the current replacement backlog reaches zero.', 'Inspect every finished assembly for visible bond defects and treat a passing inspection as proof of lifetime performance.', 'Validate a revision-controlled recipe-selection control, implement it through change control, and verify sustained effectiveness.', 'Send the correct recipe to operators by email and use the number of acknowledgment replies as the effectiveness measure.'], answer: 2,
+      why: '<p>Containment and replacement address affected units, but the confirmed cause can still recur while the obsolete recipe remains selectable. A validated selection control addresses the process condition that produced the failures.</p><p>Implementation must preserve the approved configuration and be followed by effectiveness checks appropriate to the failure mechanism and operating exposure. Closure should depend on evidence that the action works, not on replacement counts or message acknowledgments alone.</p>',
+      optionRationales: ['Clearing the backlog does not remove the recipe-selection condition that caused the failures.', 'Inspection may support containment, but visible conformance alone does not demonstrate bond life or eliminate the cause.', 'This addresses the confirmed recurrence path and includes controlled implementation and verification of effectiveness.', 'Communication can support the action, but acknowledgments establish receipt rather than effective prevention of the error.'],
+      keyPoint: 'A complete CAPA links the confirmed cause to an implemented action and evidence of sustained effectiveness.',
+      trap: 'Completing containment activities is not the same as demonstrating that recurrence has been addressed.',
+      assumptions: ['The causal link has been established; this is not a request to skip investigation.', 'Any selection-control change requires validation before release.'],
+      handbook: {chapter: 2, section: 'Corrective and Preventative Action (CAPA)'},
+      lessonGap: 'A dedicated reliability CAPA lesson is planned; use the cited handbook section and the decision reasoning above.'
+    },
+    {
+      number: 63, qid: 'cre:set-2:063', sub: 'cre-risk', bok: 'II.B.1',
+      topic: 'Minimal cut sets and Boolean absorption', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Control systems', quantitative: false,
+      stem: 'In the fault tree below, both appearances of A denote the SAME basic event. A cut set is a set of basic events whose joint occurrence causes T; it is minimal if none of its proper subsets also causes T. Which option lists ALL and ONLY the minimal cut sets?',
+      options: ['{A, B} and {A, C}', '{A}, {B}, and {C}', '{A} and {A, B, C}', '{A} and {B, C}'], answer: 3,
+      chart: {type: 'data-table', creKind: 'minimal-cuts', title: 'Two OR branches feeding an AND gate', columns: ['Node', 'Failure logic'], rows: [['Top event T', 'Left branch AND right branch'], ['Left branch', 'A OR B'], ['Right branch', 'A OR C'], ['Repeated A', 'One physical event in both branches']], description: 'T equals (A OR B) AND (A OR C). Each branch is an OR gate; the top gate is AND. A denotes one shared event.'},
+      why: tex`<p>Distribute the two branch expressions, then remove repeated events and combinations already covered by a smaller sufficient set.</p><p>\[\begin{aligned}T&=(A\cup B)\cap(A\cup C)\\&=A\cup(B\cap C)\end{aligned}\]</p><p>A alone makes both OR branches true. If A does not occur, both B and C are required. Thus the minimal cut sets are <strong>{A}</strong> and <strong>{B, C}</strong>. The three-event set is sufficient but is not minimal.</p><p>This is a logical result; no event probabilities or independence assumption are needed.</p>`,
+      optionRationales: ['Both listed sets contain the sufficient subset {A}, so neither is minimal; the sufficient set {B, C} is also omitted.', 'B alone cannot activate the right branch, and C alone cannot activate the left branch.', 'The set {A, B, C} contains the sufficient subset {A}; it is not minimal, and {B, C} is omitted.', 'A alone activates both branches; without A, B and C together are necessary and sufficient.'],
+      keyPoint: 'Minimal means that no event can be removed from that sufficient set; minimal sets need not have equal sizes.',
+      trap: 'A sufficient event combination is not necessarily a minimal cut set.',
+      assumptions: ['The displayed AND/OR logic is complete and uses occurrence of the named basic events.', 'The two A labels refer to the same event, not independent copies.'],
+      handbook: {chapter: 4, section: 'Fault Tree Analysis (FTA); AND and OR Gates'},
+      lessonGap: 'A dedicated minimal-cut-set lesson is planned; use the cited handbook section and the Boolean reduction above.'
+    },
+    {
+      number: 64, qid: 'cre:set-2:064', sub: 'cre-risk', bok: 'II.C',
+      topic: 'Financial risk transfer versus technical risk reduction', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Equipment services', quantitative: false,
+      stem: 'A hypothetical service agreement transfers specified repair charges from an equipment owner to a service provider. For this assessment, the agreement causes no change in failure probability, restoration time, or consequences of loss of function. What is the MOST appropriate update to the owner’s risk record?',
+      options: ['Reduce the technical failure probability because the owner no longer pays the specified repair charges.', 'Record the transferred financial exposure while retaining the unchanged technical risk and its monitoring requirements.', 'Close the equipment failure risk because a different organization now bears the specified repair charges.', 'Reduce the assessed loss-of-function severity by the same percentage as the reduction in the owner’s repair spending.'], answer: 1,
+      why: '<p>The stated change reallocates specified costs. It provides no mechanism or evidence for reducing the equipment’s failure probability, restoration time, or loss-of-function consequences.</p><p>The risk record should distinguish the financial exposure transferred from the technical risk that remains. Any residual financial exposure and the continuing technical controls and monitoring should be retained according to the agreed scope. This question uses the stated hypothetical terms; it makes no claim about the effect of any real contract.</p>',
+      optionRationales: ['A change in who pays is not a change in the physical probability of failure under the stated conditions.', 'This separates the specified transfer of cost from the unchanged equipment performance and consequences.', 'A continuing loss-of-function risk does not disappear from the owner’s operation merely because repair charges are transferred.', 'The technical severity is explicitly unchanged; a financial percentage cannot be used to rescale it.'],
+      keyPoint: 'Identify exactly which consequence a risk treatment changes and reassess the risks that remain.',
+      trap: 'Transferring an expense does not automatically reduce a technical failure risk.',
+      assumptions: ['The stipulated transfer applies only to specified repair charges.', 'There is no associated redesign, maintenance improvement, or change in restoration performance.'],
+      handbook: {chapter: 5, section: 'Risk Mitigation; Risk Treatment'},
+      lessonGap: 'A dedicated reliability risk-treatment lesson is planned; use the cited handbook section and the stated scenario.'
+    },
+    {
+      number: 65, qid: 'cre:set-2:065', sub: 'cre-statistics', bok: 'III.A.7',
+      topic: 'One-sided t confidence bound for a mean', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Mechanical testing', quantitative: true,
+      stem: 'Ten independently and randomly selected components are tested to failure under identical conditions. All lifetimes are observed. A normal lifetime model is appropriate, with unknown population standard deviation. The sample mean is 1,200 h and the sample standard deviation is 180 h. Using the supplied critical values, what is the one-sided 95% lower confidence bound for the population MEAN lifetime?',
+      options: ['1,106.4 h', '1,071.2 h', '1,095.7 h', '870.1 h'], answer: 2,
+      chart: {type: 'data-table', title: 'Critical values: left-tail percentile convention', columns: ['Distribution', 'Degrees of freedom', 'Left-tail probability', 'Critical value'], rows: [['Student t', 9, '0.950', '1.833'], ['Student t', 9, '0.975', '2.262'], ['Standard normal', 'Not applicable', '0.950', '1.645']]},
+      why: tex`<p>The population standard deviation is unknown, so use Student’s t with nine degrees of freedom and the sample standard error. A one-sided 95% lower bound uses the 0.95 percentile, not the 0.975 percentile used for a two-sided 95% interval.</p><p>\[\begin{aligned}L&=\bar{x}-t_{0.95,9}\frac{s}{\sqrt{n}}\\&=1200-1.833\frac{180}{\sqrt{10}}\\&\approx1095.7\ \mathrm{h}\end{aligned}\]</p><p>Here, L is the lower bound, the sample mean is \(\bar{x}\), s is the sample standard deviation, and n is the sample size. The bound concerns the population mean; it does not establish that 95% of individual lifetimes exceed this value. Its confidence level describes repeated-sampling coverage under the model.</p>`,
+      optionRationales: ['1,106.4 h substitutes the normal critical value even though the population standard deviation is unknown.', '1,071.2 h uses the 0.975 t percentile, giving the lower endpoint of a two-sided 95% interval instead.', '1,095.7 h uses the one-sided t percentile with nine degrees of freedom and the standard error of the sample mean.', '870.1 h multiplies the t critical value by the sample standard deviation without dividing by the square root of the sample size.'],
+      keyPoint: 'Choose both the correct reference distribution and the correct tail probability for the requested confidence statement.',
+      trap: 'A confidence bound on a mean is not a lower tolerance bound on individual lifetimes.',
+      assumptions: ['The observations are independent, complete, and representative of the stated normal population.', 'The supplied rounded critical values are used; population standard deviation is unknown.'],
+      handbook: {chapter: 6, section: 'Student’s t and F; Confidence and Tolerance Intervals'},
+      lessonGap: 'A dedicated one-sided mean-lifetime confidence lesson is planned; use the cited handbook sections and the worked solution.'
+    },
+    {
+      number: 66, qid: 'cre:set-2:066', sub: 'cre-statistics', bok: 'III.B.4',
+      topic: 'Pareto prioritization by recorded downtime', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Packaging operations', quantitative: true,
+      stem: 'The table summarizes all loss-of-function events on one line last quarter. Events do not overlap, and each listed mean is the arithmetic mean downtime per event for that category. The team will rank categories by TOTAL recorded downtime, then take the smallest leading group covering at least 75% of downtime. Which group meets this rule, and what percentage does it cover?',
+      options: ['Gearbox and drive faults; 81.8%', 'Sensor and label faults; 18.2%', 'Gearbox and sensor faults; 64.3%', 'Drive and sensor faults; 45.5%'], answer: 0,
+      chart: {type: 'data-table', title: 'Complete quarterly interruption summary', columns: ['Category', 'Number of events', 'Mean downtime per event (h)'], rows: [['Sensor faults', 20, '1.0'], ['Drive faults', 9, '5.0'], ['Gearbox faults', 3, '24.0'], ['Label faults', 12, '0.5']]},
+      why: tex`<p>Multiply each count by its mean downtime before ranking. The recorded totals are gearbox 72 h, drive 45 h, sensor 20 h, and label 6 h, for 143 h overall.</p><p>\[\begin{aligned}D_{\mathrm{total}}&=20(1)+9(5)+3(24)+12(0.5)\\&=143\ \mathrm{h}\\\frac{72+45}{143}\times100\%&\approx81.8\%\end{aligned}\]</p><p>D denotes recorded downtime. The largest category alone contributes only 50.3%, so the first two categories are the smallest leading group that reaches 75%. This is a descriptive priority for investigation, not a claim that eliminating every recorded hour is feasible or economically optimal.</p>`,
+      optionRationales: ['Gearbox and drive faults are the first two categories in the downtime ranking and together cover 117 of 143 hours.', 'These are the two most frequent categories, but their combined downtime is only 26 of 143 hours.', 'Gearbox and sensor faults cover 92 of 143 hours; they omit the second-ranked downtime category and fall short of 75%.', 'Drive and sensor faults cover 65 of 143 hours and omit the largest downtime contributor.'],
+      keyPoint: 'A Pareto ranking must use the impact measure specified by the improvement objective.',
+      trap: 'The most frequent failure category need not cause the most downtime.',
+      assumptions: ['The records are complete, each event has exactly one category, and intervals do not overlap.', 'The means are exact for this exercise; priorities describe the recorded quarter rather than a forecast.'],
+      handbook: {chapter: 7, section: 'Data Summary and Reporting; Bad Actor Analysis'},
+      lessonGap: 'A dedicated downtime-Pareto lesson is planned; use the cited handbook section and the worked ranking.'
+    },
+    {
+      number: 67, qid: 'cre:set-2:067', sub: 'cre-testing', bok: 'IV.C.3',
+      topic: 'Inverse-power fatigue-life interpolation', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2.5,
+      industry: 'Metal components', quantitative: true,
+      stem: tex`A fatigue study models median cycles to failure as \(N_{50}(S)=K S^{-m}\), where S is stress amplitude and K and m are positive constants. The two fitted median values below follow that relationship exactly for this exercise. The same fatigue mechanism and all other conditions apply from 60 to 120 MPa. What median life does the model predict at 80 MPa?`,
+      options: ['45,333 cycles', '12,000 cycles', '151,704 cycles', '27,000 cycles'], answer: 3,
+      chart: {type: 'data-table', creKind: 'fatigue-model', title: 'Fitted fatigue medians on logarithmic axes', columns: ['Stress amplitude (MPa)', 'Fitted median cycles to failure'], rows: [[60, 64000], [120, 8000]], description: 'Stress amplitude is on the horizontal logarithmic axis and median cycles to failure on the vertical logarithmic axis. The fitted points are 60 MPa with 64,000 cycles and 120 MPa with 8,000 cycles. They are joined according to the stipulated inverse-power model; 80 MPa lies between them.'},
+      why: tex`<p>Use the ratio of the two fitted medians to identify the stress exponent, then interpolate with the inverse-power model.</p><p>\[\begin{aligned}N_{50}(S)&=K S^{-m}\\\frac{64000}{8000}&=\left(\frac{120}{60}\right)^m\\8&=2^m\quad\Rightarrow\quad m=3\\N_{50}(80)&=64000\left(\frac{60}{80}\right)^3\\&=27000\ \text{cycles}\end{aligned}\]</p><p>S is stress amplitude, m is the fitted exponent, and K is the model constant. This is a fitted population median at the specified stress, not a minimum life or a confidence bound. Interpolation is justified here only by the explicit model and unchanged conditions.</p>`,
+      optionRationales: ['45,333 cycles interpolates linearly on the untransformed stress and life scales instead of using the stipulated power relationship.', '12,000 cycles assumes an inverse first-power relationship anchored at 120 MPa, ignoring the exponent implied by both points.', '151,704 cycles reverses the stress ratio and predicts longer life at a higher stress than 60 MPa.', '27,000 cycles uses the exponent of three established by the two fitted medians and the correct stress ratio.'],
+      keyPoint: 'A straight relation on log–log axes is a power relationship on the original scales.',
+      trap: 'Neither linear interpolation on raw scales nor reversing the acceleration ratio preserves the fitted fatigue model.',
+      assumptions: ['The two medians and inverse-power relationship are exact inputs for this exercise; parameter uncertainty is not estimated.', 'Stress ratio, frequency, environment, and fatigue mechanism remain unchanged within 60–120 MPa.'],
+      handbook: {chapter: 10, section: 'Failure Models; S-N Curve Models; Basquin Relationship'},
+      lessonGap: 'A dedicated fatigue S-N modeling lesson is planned; use the cited handbook section and the worked solution.',
+      explorer: 'fatigue-stress'
+    },
+    {
+      number: 68, qid: 'cre:set-2:068', sub: 'cre-testing', bok: 'IV.C.1',
+      topic: 'Cold standby with imperfect transfer', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2.5,
+      industry: 'Remote monitoring', quantitative: true,
+      stem: 'A monitoring unit starts with one module active and an identical spare in cold standby. Each module has an independent exponential operating lifetime with failure rate 0.001 per hour; the spare cannot fail while idle. If the active module fails, detection and transfer succeed with probability 0.90, independently of both module lifetimes. Successful transfer is instantaneous and does not interrupt the required function. There is no repair or further spare. What is the probability of completing a 200-hour mission?',
+      options: ['0.98248', '0.96610', '0.96714', '0.88423'], answer: 1,
+      chart: {type: 'data-table', creKind: 'cold-standby', title: 'One active module and one cold spare', columns: ['Model element', 'Condition'], rows: [['Module A', 'Active at mission start; failure rate 0.001 per hour'], ['Module B', 'No idle failures; rate 0.001 per operating hour after activation'], ['Detection and transfer', 'One attempt after A fails; success probability 0.90'], ['Mission', '200 h; no repair; no other failure mechanisms']], description: 'A operates first. If A fails before 200 hours, the system continues only if the single detection-and-transfer attempt succeeds and B survives the remaining mission. If A survives, transfer is not demanded.'},
+      why: tex`<p>There are two disjoint successful paths: A lasts for the entire mission, or A fails during the mission and a successful transfer is followed by B surviving the remaining time.</p><p>\[\begin{aligned}R(t)&=e^{-\lambda t}+c\int_0^t\lambda e^{-\lambda u}e^{-\lambda(t-u)}\,du\\&=e^{-\lambda t}(1+c\lambda t)\\R(200)&=e^{-0.2}[1+0.90(0.2)]\\&\approx0.96610\end{aligned}\]</p><p>Here, \(c\) is detection-and-transfer success probability, \(\lambda\) is the operating failure rate, \(t\) is mission duration, and \(u\) is A’s failure time. The transfer probability applies only to the second success path because no transfer is needed when A survives.</p>`,
+      optionRationales: ['0.98248 assumes perfect transfer and uses the cold-standby result with transfer probability equal to one.', '0.96610 combines survival without a transfer and survival after one successful transfer to a fresh cold spare.', '0.96714 treats both modules as active from time zero in an ideal parallel system, which is a different model.', '0.88423 multiplies the entire perfect-standby reliability by 0.90, penalizing even missions where transfer is never demanded.'],
+      keyPoint: 'Apply transfer coverage only to mission paths that actually require a transfer.',
+      trap: 'Cold standby is neither active parallel redundancy nor a switch that must succeed on every mission.',
+      assumptions: ['Idle failure, common-cause failure, transfer delay, and other mechanisms are excluded as stated.', 'The spare starts its independent exponential operating life only on successful activation.'],
+      handbook: {chapter: 10, section: 'Reliability Block Diagrams and Models; Standby Systems'},
+      lessonGap: 'A dedicated cold-standby reliability lesson is planned; use the cited handbook section and the worked solution.',
+      explorer: 'standby-coverage'
+    },
+    {
+      number: 69, qid: 'cre:set-2:069', sub: 'cre-lifecycle', bok: 'V.A.5',
+      topic: 'Human factors in a service interface', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Instrumentation', quantitative: false,
+      stem: 'During realistic service trials, trained technicians wearing the required gloves repeatedly interchange two visually similar instrument connectors. The instructions are correct, but the connectors accept either position and the distinguishing text is difficult to read in the required working posture. Which proposal MOST directly addresses the observed human-factors failure mode?',
+      options: ['Retain the interface and add a refresher presentation, using training attendance as the principal measure of success.', 'Retain the interface and replace the connector text with color alone, using a desk review to confirm distinction.', 'Evaluate a keyed, distinguishable interface and verify correct use with representative technicians under the actual service conditions.', 'Retain the interface and accept the trial results because the components meet their individual reliability specifications.'], answer: 2,
+      why: '<p>The trials identify an interaction between the service interface and actual user conditions. An interface that allows interchange and is difficult to distinguish makes the error possible even when technicians have been trained.</p><p>A keyed, distinguishable design directly targets that error path. Representative-user trials with the required gloves, posture, and other service conditions are needed to evaluate the change and any new difficulties. Training and clear instructions still support the design, but attendance or component specifications alone do not verify usability.</p>',
+      optionRationales: ['Training can help, but attendance does not demonstrate that the observed interface-induced interchange is prevented.', 'Color alone may be inaccessible or unreliable under service lighting, and a desk review does not reproduce the observed use conditions.', 'This connects the design change to the observed error mechanism and evaluates it in the intended user and task context.', 'Individual component reliability does not establish reliable human interaction with the assembled service interface.'],
+      keyPoint: 'Human reliability depends on the interaction of users, tasks, interfaces, and the operating environment.',
+      trap: 'An error made by a trained person is not automatically evidence that more training is the best design response.',
+      assumptions: ['The stated glove and posture conditions are legitimate service requirements.', 'Any proposed interface change must be evaluated for compatibility and unintended effects before release.'],
+      handbook: {chapter: 11, section: 'Human Factors; Human Performance Reliability'},
+      lessonGap: 'A dedicated reliability human-factors lesson is planned; use the cited handbook section and the scenario analysis.'
+    },
+    {
+      number: 70, qid: 'cre:set-2:070', sub: 'cre-lifecycle', bok: 'V.C.3',
+      topic: 'Mean repair duration versus labor hours', cognitive: 'Apply', difficulty: 'Challenging', estimatedMinutes: 2.5,
+      industry: 'Industrial maintenance', quantitative: true,
+      stem: 'Corrective repairs fall into the two mutually exclusive classes below: 75% are Class A and 25% are Class B. For Class B, jobs X and Y start together after isolation; final verification waits for BOTH to finish. Crews are separate, fully available, and work for the entire stated task durations. All times are active maintenance; there are no logistics delays. What are the mean elapsed repair time and mean labor hours per repair, respectively?',
+      options: ['2.75 h and 4.50 person-hours', '3.25 h and 4.50 person-hours', '4.50 h and 2.75 person-hours', '3.50 h and 6.00 person-hours'], answer: 0,
+      chart: {type: 'data-table', creKind: 'repair-workflow', title: 'Repair classes and precedence', columns: ['Repair class', 'Task', 'Duration (h)', 'Technicians', 'Predecessor'], rows: [['A: 75%', 'Isolate', '0.5', 1, 'None'], ['A: 75%', 'Replace', '1.0', 2, 'Isolate'], ['A: 75%', 'Verify', '0.5', 1, 'Replace'], ['B: 25%', 'Isolate', '1.0', 1, 'None'], ['B: 25%', 'Job X', '2.0', 2, 'Isolate'], ['B: 25%', 'Job Y', '3.0', 1, 'Isolate'], ['B: 25%', 'Verify', '1.0', 1, 'Both X and Y']], description: 'Class A occurs in 75% of repairs: isolation 0.5 h with one technician, replacement 1 h with two technicians, then verification 0.5 h with one technician. Class B occurs in 25%: isolation 1 h with one technician, parallel jobs X for 2 h with two technicians and Y for 3 h with one technician, then verification 1 h with one technician after both jobs finish.'},
+      why: tex`<p>Elapsed time follows task precedence. Labor hours sum each task duration multiplied by its technician count, including work performed in parallel.</p><p>\[\begin{aligned}T_A&=0.5+1+0.5=2\ \mathrm{h}\\H_A&=0.5(1)+1(2)+0.5(1)=3\ \text{person-hours}\\T_B&=1+\max(2,3)+1=5\ \mathrm{h}\\H_B&=1(1)+2(2)+3(1)+1(1)=9\ \text{person-hours}\end{aligned}\]</p><p>Weight both measures by the repair-class probabilities.</p><p>\[\begin{aligned}\operatorname{E}[T]&=0.75(2)+0.25(5)=2.75\ \mathrm{h}\\\operatorname{E}[H]&=0.75(3)+0.25(9)=4.50\ \text{person-hours}\end{aligned}\]</p><p>T denotes elapsed active repair time and H denotes labor consumption. Waiting for job Y to finish determines Class B completion, but the idle technician time after job X ends is not charged as active labor under the stated task definition.</p>`,
+      optionRationales: ['This uses the parallel-task completion time for elapsed duration, sums all active crew effort, and weights by the repair mix.', '3.25 h treats Class B jobs X and Y as sequential while calculating labor hours correctly.', 'This exchanges elapsed time and labor consumption; they are different measures with different units.', 'These are unweighted averages of the two classes, incorrectly treating 75% and 25% occurrence as equally likely.'],
+      keyPoint: 'Parallel work affects elapsed repair duration differently from total labor consumption.',
+      trap: 'Summing all task durations or averaging repair classes equally can misstate mean time to repair.',
+      assumptions: ['The repair classes and task durations are the complete model; all required resources are available.', 'Labor consumption counts active time on the listed tasks only, not paid waiting or standby time.'],
+      handbook: {chapter: 13, section: 'Corrective Maintenance Analysis; Fault Isolation Time; Repair/Replace Time'},
+      lessonGap: 'A dedicated maintenance-workflow and labor-analysis lesson is planned; use the cited handbook section and the worked solution.'
     }
   ];
   questions.forEach(q => {q.set = 2; q.batch = Math.ceil(q.number / 10); q.sourceDocument = 'The ASQ Certified Reliability Engineer Handbook, 4th edition (2025)'; q.original = true;});
@@ -905,7 +1053,7 @@
     exam.sets = Object.assign({}, existing, {1: first, 2: questions});
     if (!exam.bank || !exam.bank.length) exam.bank = questions;
     exam.defaultSet = first.length ? '1' : '2';
-    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–6 · Q001–060'}});
+    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–7 · Q001–070'}});
     exam.fullExamQuestionsBySet = Object.assign({}, exam.fullExamQuestionsBySet, {2: 150});
     // Actual CBT pace: 165 displayed items in 258 minutes; this bank targets 150 core items.
     exam.questions = 165; exam.minutes = 258;

@@ -242,7 +242,7 @@
         "73.9%"
       ],
       "answer": 3,
-      "why": "Planned time is \\(480-40=440\\) min and operating time is \\(440-60=380\\) min. Ideal output is \\(120\\times(380/60)=760\\) pieces.\n\\[\n\\text{Availability}=\\frac{380}{440}=0.864\n\\]\n\\[\n\\text{Performance}=\\frac{684}{760}=0.900\n\\]\n\\[\n\\text{Quality}=\\frac{650}{684}=0.950\n\\]\n\\[\n\\mathrm{OEE}=0.864\\times 0.900\\times 0.950=0.739\\ (73.9\\%).\n\\]\nThe other choices are the three factors reported alone. <b>D. 73.9%</b>",
+      "why": "Planned time is \\(480-40=440\\) min and operating time is \\(440-60=380\\) min. Ideal output is \\(120\\times(380/60)=760\\) pieces.\n\\[\n\\text{Availability}=\\frac{380}{440}=0.864\n\\]\n\\[\n\\text{Performance}=\\frac{684}{760}=0.900\n\\]\n\\[\n\\text{Quality}=\\frac{650}{684}=0.950\n\\]\n\\[\n\\mathrm{OEE}=0.864\\times 0.900\\times 0.950=0.739\n\\]\nThat product is 73.9 percent. The other choices are the three factors reported alone. <b>D. 73.9%</b>",
       "traps": {
         "A": "Reports quality only.",
         "B": "Reports performance only.",
@@ -290,7 +290,7 @@
       "sub": "I.A.9",
       "bok": "Performance monitoring",
       "cognitive": "Analyze",
-      "stem": "Cumulative failure rate is plotted against cumulative test time on log-log paper. The points below fall on a straight line. The Duane model is\n\\[\n\\log_{10}\\!\\left(\\frac{n(T)}{T}\\right)=-\\alpha\\log_{10}(T)+b.\n\\]\nWhat is \\(\\alpha\\), and what does it mean?",
+      "stem": "Cumulative failure rate is plotted against cumulative test time on log-log paper. The points below fall on a straight line. The Duane model is\n\\[\n\\log_{10}\\left(\\frac{n(T)}{T}\\right)=-\\alpha\\log_{10}(T)+b.\n\\]\nWhat is \\(\\alpha\\), and what does it mean?",
       "options": [
         "\\(\\alpha=0\\). There is no reliability growth.",
         "\\(\\alpha=0.50\\). Reliability is improving. Failures are occurring farther apart.",

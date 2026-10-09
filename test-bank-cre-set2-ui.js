@@ -258,9 +258,62 @@
     return svg('Chi-square count exploration','Line B has '+count+' failures out of 200. Line A has 20 failures out of 200. The uncorrected Pearson statistic is '+chiSquareCount(count).toFixed(4)+'. Reject independence when the statistic exceeds 6.635. The curve reaches zero when both lines have 20 failures.',680,392,s);
   }
   const votingProbability=k=>[0,1,2,3].filter(n=>n>=k).reduce((sum,n)=>sum+[1,3,3,1][n]*Math.pow(.9,n)*Math.pow(.1,3-n),0);
+  function minimalCuts(c) {
+    let s=box(250,18,160,40,'Top event T')+line(330,58,330,76)+box(292,76,76,34,'AND');
+    s+=line(330,110,330,130)+line(165,130,495,130)+line(165,130,165,151)+line(495,130,495,151);
+    s+=box(129,151,72,34,'OR')+box(459,151,72,34,'OR');
+    for(const [cx,a,b] of [[165,85,245],[495,415,575]])s+=line(cx,185,cx,207)+line(a,207,b,207)+line(a,207,a,230)+line(b,207,b,230);
+    for(const [x,label] of [[85,'A'],[245,'B'],[415,'A'],[575,'C']])s+='<circle cx="'+x+'" cy="257" r="27"/>'+text(x,262,label);
+    s+=text(330,321,'Both A symbols denote the same basic event.')+text(330,348,'Find sufficient sets that contain no smaller sufficient subset.');
+    return svg(c.title,c.description,660,370,s);
+  }
+  const fatigueMedian=stress=>64000*Math.pow(60/stress,3);
+  function fatigueModel(c,stress) {
+    const x=v=>86+Math.log(v/60)/Math.log(2)*520,y=v=>284-Math.log(v/8000)/Math.log(8)*216;let s='';
+    for(const v of [8000,16000,32000,64000])s+=line(86,y(v),606,y(v),'class="cre2-grid"')+text(47,y(v)+5,v.toLocaleString('en-US'));
+    for(const v of [60,70,80,100,120])s+=line(x(v),284,x(v),290)+text(x(v),311,String(v));
+    s+=line(86,68,86,284)+line(86,284,606,284)+text(330,22,'Median cycles to failure (logarithmic scale)');
+    s+=line(x(60),y(64000),x(120),y(8000),'class="cre2-curve"');
+    s+='<circle cx="'+x(60)+'" cy="'+y(64000)+'" r="5"/><rect x="'+(x(120)-5)+'" y="'+(y(8000)-5)+'" width="10" height="10"/>';
+    s+=text(192,51,'60 MPa; 64,000 cycles')+text(504,51,'120 MPa; 8,000 cycles');
+    if(stress!==undefined)s+=line(x(stress),68,x(stress),284,'class="cre2-mission"')+'<circle cx="'+x(stress)+'" cy="'+y(fatigueMedian(stress))+'" r="7"/>';
+    s+=text(346,345,'Stress amplitude (MPa; logarithmic scale)')+text(330,375,stress===undefined?'Stipulated inverse-power fit; no uncertainty bounds shown.':'Selected stress: '+stress+' MPa; other test conditions fixed.');
+    return svg(stress===undefined?c.title:'Fatigue-stress exploration',stress===undefined?c.description:'At '+stress+' MPa, the fitted median is '+Math.round(fatigueMedian(stress)).toLocaleString('en-US')+' cycles. Both axes are logarithmic; this is a median, not a minimum-life guarantee.',660,398,s);
+  }
+  function coldStandby(c) {
+    let s=box(195,18,270,48,'A active; B idle and protected');
+    s+=line(330,66,330,88)+line(150,88,510,88)+line(150,88,150,119)+line(510,88,510,119);
+    s+=box(40,119,220,50,'A survives all 200 hours')+box(400,119,220,50,'A fails before 200 hours');
+    s+=line(150,169,150,199)+line(150,235,150,305)+box(60,305,180,50,'Mission succeeds');
+    s+=line(510,169,510,204)+box(391,204,238,50,'Transfer success: 90%');
+    s+=line(510,254,510,262)+line(510,294,510,305)+box(391,305,238,50,'B must finish the mission');
+    s+=text(150,225,'No transfer needed')+text(510,287,'If transfer succeeds')+text(330,395,'Failed transfer or failure of active B ends the mission.')+text(330,422,'B accumulates operating time only after activation.');
+    return svg(c.title,c.description,660,445,s);
+  }
+  const standbyReliability=coverage=>Math.exp(-.2)*(1+.2*coverage);
+  function standbyPlot(coverage) {
+    const x=c=>82+c*526,y=r=>278-(r-.8)/.2*218;let s='';
+    for(const r of [.8,.85,.9,.95,1])s+=line(82,y(r),608,y(r),'class="cre2-grid"')+text(46,y(r)+5,r.toFixed(2));
+    for(const c of [0,.2,.4,.6,.8,1])s+=line(x(c),278,x(c),284)+text(x(c),308,(100*c).toFixed(0)+'%');
+    s+=line(82,60,82,278)+line(82,278,608,278)+text(265,25,'200-hour system reliability');
+    s+=line(x(0),y(standbyReliability(0)),x(1),y(standbyReliability(1)),'class="cre2-curve"')+line(x(coverage),60,x(coverage),278,'class="cre2-mission"')+'<circle cx="'+x(coverage)+'" cy="'+y(standbyReliability(coverage))+'" r="6"/>';
+    s+=text(344,341,'Detection-and-transfer success probability')+text(330,372,'Vertical scale starts at 0.80; module lifetimes stay fixed.');
+    return svg('Cold-standby transfer exploration','At transfer success '+(100*coverage).toFixed(0)+' percent, system reliability is '+standbyReliability(coverage).toFixed(5)+'. At zero coverage it equals the reliability of A alone; perfect coverage gives 0.98248. The vertical scale starts at 0.80.',660,395,s);
+  }
+  function repairWorkflow(c) {
+    const x=t=>146+t*92;let s=text(330,25,'Class B only: 25% of repairs');
+    for(let t=0;t<=5;t++)s+=line(x(t),62,x(t),69)+text(x(t),51,String(t));
+    s+=line(x(0),69,x(5),69);
+    for(const [label,start,end,y,crew] of [['Isolate',0,1,100,1],['Job X',1,3,164,2],['Job Y',1,4,228,1],['Verify',4,5,292,1]]){
+      s+=text(69,y+27,label)+box(x(start),y,(end-start)*92,42,crew+(crew===1?' tech':' techs'));
+    }
+    s+=line(x(1),142,x(1),270,'stroke-dasharray="4 4"')+line(x(4),206,x(4),334,'stroke-dasharray="4 4"');
+    s+=text(330,369,'Elapsed active-maintenance time (hours)')+text(330,397,'X and Y start together; verification waits for both.')+text(330,423,'Task crews are separate; Class A details are in the table.');
+    return svg(c.title,c.description,660,447,s);
+  }
   function exhibit(q) {
     const c=q.chart;if(!c)return '';
-    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):c.creKind==='p-diagram'?pDiagram(c):c.creKind==='conditional-life'?conditionalLife(c):c.creKind==='derating'?derating(c):c.creKind==='weibull-probability'?weibullProbability(c):c.creKind==='mission-profile'?missionProfile(c):c.creKind==='capability-spread'?capabilitySpread(c):c.creKind==='degradation-trend'?degradationTrend(c):c.creKind==='voting-system'?votingSystem(c):'';
+    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):c.creKind==='p-diagram'?pDiagram(c):c.creKind==='conditional-life'?conditionalLife(c):c.creKind==='derating'?derating(c):c.creKind==='weibull-probability'?weibullProbability(c):c.creKind==='mission-profile'?missionProfile(c):c.creKind==='capability-spread'?capabilitySpread(c):c.creKind==='degradation-trend'?degradationTrend(c):c.creKind==='voting-system'?votingSystem(c):c.creKind==='minimal-cuts'?minimalCuts(c):c.creKind==='fatigue-model'?fatigueModel(c):c.creKind==='cold-standby'?coldStandby(c):c.creKind==='repair-workflow'?repairWorkflow(c):'';
     return '<section class="cre2-exhibit" aria-label="Question evidence">'+
       (diagram?'<p class="cre2-caption">'+esc(c.title)+'</p>'+diagram+'<details class="cre2-alternative"><summary>Read the diagram description and data table</summary>'+(c.description?'<p>'+esc(c.description)+'</p>':'')+table(c)+'</details>':table(c))+
       '<p class="cre2-scroll-note">On a narrow screen, swipe or scroll within the exhibit to read it at full size.</p></section>';
@@ -291,6 +344,8 @@
     if(q.explorer==='replacement-failure-cost')return header+'<label for="'+id+'">Total failure-replacement cost (dollars)</label><input id="'+id+'" type="range" min="500" max="4000" step="100" value="1000"><p>Scheduled replacement stays at $200. The lifetime model, expected cycle lengths, and four candidate policies remain fixed. This compares only those candidates, not every possible replacement age.</p><div data-cre-explorer-plot>'+replacementPlot(1000)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to $1,000</button></details>';
     if(q.explorer==='chi-square-count')return header+'<label for="'+id+'">Line B failures out of 200 completed missions</label><input id="'+id+'" type="range" min="0" max="60" step="5" value="40"><p>Line A stays at 20 failures out of 200. The remaining units in each line are survivors. Use the same independent-sample model, uncorrected statistic, and 1% significance level.</p><div data-cre-explorer-plot>'+chiSquarePlot(40)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 40 Line B failures</button></details>';
     if(q.explorer==='voting-required')return header+'<label for="'+id+'">Minimum number of successful sensors required</label><select id="'+id+'"><option value="1">1 of 3</option><option value="2" selected>2 of 3 (question baseline)</option><option value="3">3 of 3</option></select><p>All sensor reliabilities remain 0.90; the required voter remains 0.98. Independence and all other assumptions stay fixed.</p><div data-cre-explorer-plot>'+votingSystem(q.chart,2)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 2 required sensors</button></details>';
+    if(q.explorer==='fatigue-stress')return header+'<label for="'+id+'">Stress amplitude (MPa)</label><input id="'+id+'" type="range" min="60" max="120" step="5" value="80"><p>The fitted exponent stays at three. Explore only the stated 60–120 MPa interval with unchanged stress ratio, frequency, environment, and failure mechanism. Results are medians, not guaranteed lives.</p><div data-cre-explorer-plot>'+fatigueModel(q.chart,80)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 80 MPa</button></details>';
+    if(q.explorer==='standby-coverage')return header+'<label for="'+id+'">Detection-and-transfer success probability</label><select id="'+id+'"><option value="0">0%</option><option value="0.5">50%</option><option value="0.9" selected>90% (question baseline)</option><option value="1">100%</option></select><p>The mission stays at 200 hours and both operating failure rates at 0.001 per hour. Idle failures and transfer delays remain excluded.</p><div data-cre-explorer-plot>'+standbyPlot(.9)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 90%</button></details>';
     return '';
   }
   function updateExplorer(el,q) {
@@ -340,6 +395,13 @@
       const group=votingProbability(value);
       out.textContent='At least '+value+' of 3 sensors required. Sensor-group reliability: '+group.toFixed(5)+'. Including the required voter: system reliability '+(group*.98).toFixed(5)+'.';
       el.querySelector('[data-cre-explorer-plot]').innerHTML=votingSystem(q.chart,value);
+    } else if(q.explorer==='fatigue-stress') {
+      out.textContent='Stress amplitude: '+value+' MPa. Fitted median life: '+Math.round(fatigueMedian(value)).toLocaleString('en-US')+' cycles. This is a model median, not a lower confidence or tolerance bound.';
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=fatigueModel(q.chart,value);
+    } else if(q.explorer==='standby-coverage') {
+      const primary=Math.exp(-.2),standby=value*.2*primary;
+      out.textContent='Transfer success: '+(100*value).toFixed(0)+'%. Success without transfer: '+primary.toFixed(5)+'. Additional success via the spare: '+standby.toFixed(5)+'. Total mission reliability: '+standbyReliability(value).toFixed(5)+'.';
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=standbyPlot(value);
     }
   }
   let mathQueue=Promise.resolve();
@@ -371,7 +433,7 @@
           const control=el.querySelector('input,select');
           control.addEventListener('input',()=>updateExplorer(el,q));
           control.addEventListener('change',()=>updateExplorer(el,q));
-          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85','sequential-failures':'4','derating-temperature':'100','mission-high-duration':'2','replacement-failure-cost':'1000','chi-square-count':'40','voting-required':'2'};
+          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85','sequential-failures':'4','derating-temperature':'100','mission-high-duration':'2','replacement-failure-cost':'1000','chi-square-count':'40','voting-required':'2','fatigue-stress':'80','standby-coverage':'0.9'};
           el.querySelector('[data-cre-reset]').addEventListener('click',()=>{control.value=defaults[q.explorer];updateExplorer(el,q);});
           updateExplorer(el,q);
         }

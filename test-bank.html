@@ -208,6 +208,8 @@
   .tb-q-chart-quad-hi .tb-chart-target-dot{fill:#6656b5}
   .tb-q-chart-quad-hi .tb-chart-box{fill:color-mix(in srgb,#6656b5 28%,var(--card));stroke:#6656b5}
   .tb-q-data-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+  .tb-q-table-title{margin:0 0 8px;font-size:13px;font-weight:700;color:var(--ink);line-height:1.35}
+  .tb-stem mjx-container[display="true"],.tb-explanation-copy mjx-container[display="true"]{display:block;margin:.65em 0;overflow-x:auto;max-width:100%}
   .tb-q-data-table th{background:var(--card);color:var(--ink);font-weight:700;text-align:center;padding:9px 12px;border-bottom:2px solid var(--line);border-right:1px solid var(--line);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase}
   .tb-q-data-table th:last-child{border-right:none}
   .tb-q-data-table td{padding:8px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);color:var(--ink);text-align:center}
@@ -2543,8 +2545,8 @@
       bank:CMQ_SET1,sets:{1:CMQ_SET1},
       bok:[d('leadership',28,[s('cmq-lead','I. Leadership','/lessons.html','Browse lessons',28)]),d('strategy',23,[s('cmq-strategy','II. Strategic Plan Development & Deployment','/lessons.html','Browse lessons',23)]),d('management',26,[s('cmq-management','III. Management Elements & Methods','/lessons.html','Browse lessons',26)]),d('tools',31,[s('cmq-tools','IV. Quality Management Tools','/lessons.html','Browse lessons',31)]),d('customer',22,[s('cmq-customer','V. Customer-Focused Organizations','/lessons.html','Browse lessons',22)]),d('supply',19,[s('cmq-supply','VI. Supply Chain Management','/lessons.html','Browse lessons',19)]),d('training',16,[s('cmq-training','VII. Training & Development','/lessons.html','Browse lessons',16)])]},
     cre:{badge:'CRE',bc:'#b07016',body:'ASQ Certified Reliability Engineer',title:'Reliability Engineer — Final Exam Simulation',questions:150,minutes:270,pass:70,
-      bank:[],sets:{3:CRE_SET3},fullExamQuestionsBySet:{3:10},
-      formatNote:'Set 3 batch 1 contains 10 of 150 planned original practice questions (Q001–010). Its Full Exam uses those 10 items.',
+      bank:[],sets:{3:CRE_SET3},fullExamQuestionsBySet:{3:160},
+      formatNote:'Set 3 contains 160 original practice questions (Batch 16: Q151–160). Its Full Exam uses all 160.',
       bok:[d('enterprise',29,[s('cre-lead','I. Reliability Fundamentals','/lessons.html','Browse lessons',29)]),d('quant',25,[s('cre-risk','II. Risk Management','/lessons.html','Browse lessons',25)]),d('analyze',35,[s('cre-stats','III. Probability and Statistics','/lessons.html','Browse lessons',35)]),d('rtest',35,[s('cre-model','IV. Planning, Testing, and Modeling','/lessons.html','Browse lessons',35)]),d('maint',26,[s('cre-life','V. Lifecycle Reliability','/lessons.html','Browse lessons',26)])]}
   };
   if(window.registerCRESet2)window.registerCRESet2(EXAMS.cre,DM);
@@ -3035,7 +3037,9 @@
   }
   function chartDataTable(spec){
     var cols=spec.columns, rows=spec.rows;
-    var html='<table class="tb-q-data-table"><thead><tr>'+cols.map(function(c){return '<th>'+esc(c)+'</th>';}).join('')+'</tr></thead><tbody>';
+    var html='';
+    if(spec.title)html+='<p class="tb-q-table-title">'+esc(spec.title)+'</p>';
+    html+='<table class="tb-q-data-table"><thead><tr>'+cols.map(function(c){return '<th>'+esc(c)+'</th>';}).join('')+'</tr></thead><tbody>';
     rows.forEach(function(r){
       html+='<tr>'+r.map(function(cell,i){return '<td'+(i===0?'':' class="tb-q-num"')+'>'+esc(cell)+'</td>';}).join('')+'</tr>';
     });
@@ -3553,6 +3557,8 @@
     else if(chart.type==='mixture-simplex')inner=chartMixtureSimplex(chart);
     else return '';
     var eyebrow=CHART_EYEBROWS[chart.type];
+    if(chart.type==='data-table'&&chart.title)eyebrow='';
+    else if(chart.title&&(chart.type==='activity-network'||chart.type==='risk-matrix'))eyebrow=chart.title;
     var wrapClass='tb-q-chart-wrap'+(CHART_COMPACT[chart.type]?' tb-q-chart-wrap-compact':'');
     return '<div class="'+wrapClass+'">'+(eyebrow?'<span class="tb-q-chart-eyebrow">'+esc(eyebrow)+'</span>':'')+inner+'</div>';
   }
@@ -3644,7 +3650,7 @@
   function fullExamCount(e){return Math.min(activeBank(e).length,fullExamTarget(e));}
   function formatNoteFor(e){
     var plan=setPlan(e,selectedSet),available=activeBank(e).length;
-    if(current==='cre'&&selectedSet==='2')return 'Set 2 currently contains '+available+' of 150 planned original practice questions (Batches 1–6: Q001–060). This is a partial practice set. The completed 150-question core will follow the five-domain ASQ blueprint. The official computer exam displays 165 questions, including 15 unscored items, in 258 minutes; this practice session uses the same average pace.';
+    if(current==='cre'&&selectedSet==='2')return 'Set 2 currently contains '+available+' of 150 planned original practice questions (Batches 1–7: Q001–070). This is a partial practice set. The completed 150-question core will follow the five-domain ASQ blueprint. The official computer exam displays 165 questions, including 15 unscored items, in 258 minutes; this practice session uses the same average pace.';
     if(current==='mbb'&&selectedSet==='3')return 'Set 3 contains '+available+' original practice questions. Its Full Exam uses all '+available+' items at a practice pace of 90 seconds per question. This analytics-heavy practice bank is not a replica of the official ASQ examination format or domain weighting.';
     if(plan)return 'Set 2 currently contains '+available+' of the planned '+plan.target+' original questions ('+plan.label+'). Every completed, validated batch will be added here. The current Full Exam serves all '+available+' available questions.';
     if(current==='mbb'&&selectedSet==='mix')return 'Mixed practice combines the 100-question supplied simulation with '+e.sets[2].length+' validated original Set 2 questions. The Mixed Full Exam remains a 100-question sitting at the same per-question pace.';
@@ -3843,6 +3849,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var questionId=window.__TBQuestionRegistry&&typeof window.__TBQuestionRegistry.idFor==='function'?window.__TBQuestionRegistry.idFor(current,q):(q.qid||q.questionId||q.id||'');
     var stem='<div class="'+(review?'tb-review-stem':'tb-stem')+'" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>';
     if(/^cre:set-2:/.test(q.qid||''))return stem+(q.chart&&q.chart.description?'<p>'+esc(q.chart.description)+'</p>':'')+renderQuestionChart(q.chart);
+    if(/^cre:set-3:/.test(q.qid||''))return stem+renderQuestionChart(q.chart);
     return ui?stem+ui.conditions(q)+renderQuestionChart(q.chart):renderQuestionChart(q.chart)+stem;
   }
 
