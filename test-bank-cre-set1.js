@@ -8,6 +8,7 @@
  * Batch 5 of 15: IV.A.1–IV.A.2 (test strategy, HALT, attribute data) and IV.B.1–IV.B.6 (reliability testing).
  * Batch 6 of 15: IV.B.1–IV.B.6 (accelerated, screening, demonstration, degradation, software) and IV.C.1–IV.C.2.
  * Batch 7 of 15: IV.C.1–IV.C.5 (block diagrams, physics of failure, failure models, prediction, prototyping).
+ * Batch 8 of 15: II.A.1–II.A.3 (identification) and II.B.1–II.B.3, II.B.5 (FTA, FMEA/FMECA, common cause, risk matrix).
  *
  * Every calculated answer is recomputed independently in tests/test-bank-cre-set1.test.js.
  * Notation follows The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting &
@@ -6316,6 +6317,848 @@
         "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
         "chapter": "Chapter 10 - Reliability Modeling",
         "section": "Design prototyping — rapid prototyping technologies",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b08-q71",
+    "set": 1,
+    "batch": 8,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "A. Identification",
+      "code": "II.A.1",
+      "topic": "Building a P-diagram"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, classification",
+    "quantitative": false,
+    "stem": "A team builds a P-diagram for a solenoid flow-control valve before its design FMEA. Their classification of six items is shown. Which entry is misclassified?",
+    "chart": {
+      "type": "data-table",
+      "title": "P-diagram entries: solenoid flow-control valve",
+      "columns": [
+        "Item",
+        "Team’s classification"
+      ],
+      "rows": [
+        [
+          "Commanded flow setpoint",
+          "Input signal"
+        ],
+        [
+          "Spring stiffness",
+          "Control factor"
+        ],
+        [
+          "Seal material",
+          "Control factor"
+        ],
+        [
+          "Upstream fluid contamination",
+          "Noise factor"
+        ],
+        [
+          "Ambient temperature at the customer site",
+          "Control factor"
+        ],
+        [
+          "Seal leakage",
+          "Error state"
+        ]
+      ]
+    },
+    "options": [
+      "Spring stiffness as a control factor",
+      "Upstream fluid contamination as a noise factor",
+      "Ambient temperature at the customer site as a control factor",
+      "Seal leakage as an error state"
+    ],
+    "answer": 2,
+    "why": "<p>A P-diagram separates the input signal, the control factors the designer sets, the noise factors the designer cannot control (or chooses not to), the ideal output and the error states. The designer cannot set the temperature at a customer site, so it is a noise factor; the design must be robust to it. Treating it as controlled would hide a requirement, which is exactly what a P-diagram is meant to surface.</p><p><b>C. Ambient temperature at the customer site as a control factor</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 3, Risk Management Techniques — P-diagrams.</span></p>",
+    "optionRationales": [
+      "Spring stiffness is a design parameter the engineer chooses, so it is a control factor.",
+      "Contamination in the customer’s fluid is outside the designer’s control, so it is noise.",
+      "Correct. Customer-site temperature is noise; the designer can only make the valve robust to it.",
+      "Leakage is an unintended output of the valve, which is an error state."
+    ],
+    "keyPoint": "P-diagram: control factors are set by the designer; noise factors are not; error states are unintended outputs. Misclassifying noise as control hides requirements.",
+    "trap": "Treating a use-environment condition as a design control.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "P-diagram",
+      "noise factor",
+      "control factor",
+      "error state",
+      "robust design"
+    ],
+    "sourceSection": "Chapter 3 - Risk Identification",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 3 - Risk Identification",
+        "section": "Risk management techniques — P-diagrams",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b08-q72",
+    "set": 1,
+    "batch": 8,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "A. Identification",
+      "code": "II.A.2",
+      "topic": "Quantitative versus semi-quantitative risk ranking"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, calculation, decision",
+    "quantitative": true,
+    "stem": "A program ranks four risks with a five-by-five likelihood–severity score and also has quantitative estimates of annual probability and cost. Which risk has the largest expected annual loss, and what does the comparison show?",
+    "chart": {
+      "type": "data-table",
+      "title": "Risk register: ordinal scores and quantitative estimates",
+      "columns": [
+        "Risk",
+        "Annual probability",
+        "Cost if it occurs",
+        "Likelihood score",
+        "Severity score",
+        "Score product"
+      ],
+      "rows": [
+        [
+          "R1",
+          "0.30",
+          "$40,000",
+          "5",
+          "2",
+          "10"
+        ],
+        [
+          "R2",
+          "0.02",
+          "$2,000,000",
+          "2",
+          "5",
+          "10"
+        ],
+        [
+          "R3",
+          "0.10",
+          "$150,000",
+          "4",
+          "3",
+          "12"
+        ],
+        [
+          "R4",
+          "0.005",
+          "$600,000",
+          "1",
+          "4",
+          "4"
+        ]
+      ]
+    },
+    "options": [
+      "R2: its expected loss is the largest, though its score of 10 ranks below R3’s 12.",
+      "R3: its score product of 12 is the highest, so its expected loss is the largest.",
+      "R1: it is the most likely risk by far, so its expected loss is the largest.",
+      "R1 and R2: their equal scores of 10 mean their expected losses are equal."
+    ],
+    "answer": 0,
+    "why": "<p>Expected annual loss is probability times consequence:</p><p>\\[\\begin{aligned}L_1 &= 0.30(40000) = 12000 \\\\ L_2 &= 0.02(2000000) = 40000 \\\\ L_3 &= 0.10(150000) = 15000 \\\\ L_4 &= 0.005(600000) = 3000\\end{aligned}\\]</p><p>where \\(L_i\\) is the expected annual loss of risk \\(i\\) in dollars. R2 dominates, yet its score product (10) ranks below R3 (12) and ties R1. Ordinal scales compress consequences that differ by a factor of 50 into a few points, and multiplying ordinal ranks does not give a quantity. Semi-quantitative scores are useful for screening, but quantitative estimates should decide close or high-consequence cases.</p><p><b>A. R2; ordinal scores can misrank risks.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 3, Risk Assessment — qualitative, quantitative and semi-quantitative methods; risk ranking; probabilistic risk assessment.</span></p>",
+    "optionRationales": [
+      "Correct. \\(0.02 \\times 2000000 = 40000\\) dollars a year, the largest of the four.",
+      "R3’s expected loss is \\(0.10 \\times 150000 = 15000\\) dollars, well below R2’s. A higher ordinal product does not mean a higher expected loss.",
+      "Likelihood alone ignores consequence: R1’s expected loss is \\(0.30 \\times 40000 = 12000\\) dollars.",
+      "Equal ordinal products do not mean equal risks: R1 and R2 differ by more than a factor of three in expected loss."
+    ],
+    "keyPoint": "Expected loss is \\(p \\times C\\). Ordinal likelihood and severity scores are screening tools, and their product can misrank risks.",
+    "trap": "Treating the product of ordinal ranks as a measure of risk.",
+    "formula": "\\(L = p \\times C\\)",
+    "assumptions": [
+      "The probability and cost estimates are credible."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "risk assessment",
+      "expected loss",
+      "semi-quantitative",
+      "risk ranking",
+      "probabilistic risk assessment"
+    ],
+    "sourceSection": "Chapter 3 - Risk Identification",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 3 - Risk Identification",
+        "section": "Risk assessment",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b08-q73",
+    "set": 1,
+    "batch": 8,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "A. Identification",
+      "code": "II.A.3",
+      "topic": "Classifying types of risk"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Understand",
+    "questionType": "Scenario judgment",
+    "quantitative": false,
+    "stem": "A reliability model for a pump overstated its mean life because one supplier’s data were entered in cycles while the model expected hours, and no one checked the units. Which type of risk does this represent?",
+    "chart": null,
+    "options": [
+      "Operational (technical) risk",
+      "Strategic (reputation) risk",
+      "Financial risk",
+      "Analytical risk"
+    ],
+    "answer": 3,
+    "why": "<p>Analytical risk is the risk of losses from faulty analysis: incorrect computations, wrong methods or unit-conversion errors. The remedy is procedural: checks on computations, objective review of results and the right analytical competencies.</p><p><b>D. Analytical risk</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 3, Types of Risk — analytical risks.</span></p>",
+    "optionRationales": [
+      "Operational risks arise in running the product or project, such as technical, schedule, safety and environmental risks. This error was in the analysis.",
+      "A reputation impact might follow, but the risk itself arose from a flawed calculation.",
+      "Financial losses may result, but the source of the risk is the analysis.",
+      "Correct. A unit mix-up that corrupts a model is an analytical risk."
+    ],
+    "keyPoint": "Analytical risk comes from errors in analysis, such as wrong units, formulas or methods, and is controlled by review and verification of the analysis itself.",
+    "trap": "Classifying a risk by its consequence rather than its source.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "types of risk",
+      "analytical risk",
+      "operational risk",
+      "strategic risk"
+    ],
+    "sourceSection": "Chapter 3 - Risk Identification",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 3 - Risk Identification",
+        "section": "Types of risk — analytical risks",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b08-q74",
+    "set": 1,
+    "batch": 8,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.1",
+      "topic": "Fault tree evaluation with AND, OR and voting gates"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "The fault tree shown models loss of cooling on a test rig. Basic events are independent, with the probabilities shown for one mission. What is the probability of the top event?",
+    "chart": {
+      "type": "cre-fault-tree",
+      "title": "Loss of cooling",
+      "altText": "Fault tree. Top event \"Loss of cooling\" is an OR gate with three inputs: \"No pumping\", \"Control fault\" and the basic event \"Valve stuck closed\" with probability 0.004. \"No pumping\" is an AND gate of \"Pump A fails\" (0.05) and \"Pump B fails\" (0.05). \"Control fault\" is a 2-out-of-3 voting gate of three sensor failures, each 0.02.",
+      "root": {
+        "label": "Loss of cooling",
+        "gate": "OR",
+        "children": [
+          {
+            "label": "No pumping",
+            "gate": "AND",
+            "children": [
+              {
+                "label": "Pump A fails",
+                "p": "0.05"
+              },
+              {
+                "label": "Pump B fails",
+                "p": "0.05"
+              }
+            ]
+          },
+          {
+            "label": "Control fault",
+            "gate": "VOTE",
+            "k": 2,
+            "children": [
+              {
+                "label": "Sensor 1 fails",
+                "p": "0.02"
+              },
+              {
+                "label": "Sensor 2 fails",
+                "p": "0.02"
+              },
+              {
+                "label": "Sensor 3 fails",
+                "p": "0.02"
+              }
+            ]
+          },
+          {
+            "label": "Valve stuck closed",
+            "p": "0.004"
+          }
+        ]
+      }
+    },
+    "options": [
+      "0.0065",
+      "0.0077",
+      "0.065",
+      "0.102"
+    ],
+    "answer": 1,
+    "why": "<p>Evaluate each gate from the bottom up, then combine the OR gate through its complement:</p><p>\\[\\begin{aligned}P_{\\text{AND}} &= 0.05^{2} = 0.0025 \\\\ P_{2/3} &= 3(0.02)^{2}(0.98) \\\\ &\\quad + 0.02^{3} \\\\ &= 0.001184 \\\\ P_{\\text{top}} &= 1 - \\textstyle\\prod(1 - P_i) \\\\ &= 1 - 0.99233 \\\\ &= 0.0077\\end{aligned}\\]</p><p>where \\(P_{\\text{AND}}\\) is the probability that both pumps fail, \\(P_{2/3}\\) that at least two of three sensors fail, \\(P_i\\) the three OR-gate inputs (so \\(\\prod(1 - P_i) = 0.9975 \\times 0.998816 \\times 0.996\\)) and \\(P_{\\text{top}}\\) the top event. The rare-event sum (\\(0.0025 + 0.001184 + 0.004 = 0.0077\\)) agrees because the inputs are small.</p><p><b>B. 0.0077</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Fault Tree Analysis — AND and OR gates; voting OR gates.</span></p>",
+    "optionRationales": [
+      "Treats the voting gate as an AND gate (all three sensors), which gives \\(0.02^{3}\\) and drops most of the control-fault probability.",
+      "Correct. \\(1 - (0.9975)(0.998816)(0.996) = 0.0077\\).",
+      "Treats the voting gate as an OR gate (any one sensor): \\(1 - 0.98^{3} = 0.0588\\).",
+      "Treats the pump AND gate as an OR gate: \\(1 - 0.95^{2} = 0.0975\\)."
+    ],
+    "keyPoint": "AND: multiply probabilities; OR: \\(1 - \\prod(1 - p_i)\\); a k-of-n voting gate uses the binomial sum from \\(k\\) to \\(n\\).",
+    "trap": "Reading a voting gate as AND or OR, or swapping AND and OR.",
+    "formula": "\\(P_{\\text{AND}} = \\prod p_i\\); \\(P_{\\text{OR}} = 1 - \\prod(1 - p_i)\\); \\(P_{k/n} = \\sum_{i=k}^{n}\\binom{n}{i}p^{i}(1 - p)^{n-i}\\)",
+    "assumptions": [
+      "Independent basic events; no event appears twice in the tree."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "fault tree analysis",
+      "AND gate",
+      "OR gate",
+      "voting gate",
+      "top event"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "Fault tree analysis — voting OR gates",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b08-q75",
+    "set": 1,
+    "batch": 8,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.1",
+      "topic": "Repeated events and minimal cut sets in a fault tree"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "Two redundant pump trains each fail if their pump fails or if the shared power bus fails. The fault tree shown lists \"Shared power bus fails\" under both trains; it is the same physical event. With the probabilities shown, what is the probability of losing both trains?",
+    "chart": {
+      "type": "cre-fault-tree",
+      "title": "Loss of both pump trains",
+      "altText": "Fault tree. Top event \"Loss of both trains\" is an AND gate of \"Train A fails\" and \"Train B fails\". Each train is an OR gate of its own pump failure (0.05) and \"Shared power bus fails\" (0.01). The shared power bus event appears under both trains and is the same event.",
+      "root": {
+        "label": "Loss of both trains",
+        "gate": "AND",
+        "children": [
+          {
+            "label": "Train A fails",
+            "gate": "OR",
+            "children": [
+              {
+                "label": "Pump A fails",
+                "p": "0.05"
+              },
+              {
+                "label": "Shared power bus fails",
+                "p": "0.01"
+              }
+            ]
+          },
+          {
+            "label": "Train B fails",
+            "gate": "OR",
+            "children": [
+              {
+                "label": "Pump B fails",
+                "p": "0.05"
+              },
+              {
+                "label": "Shared power bus fails",
+                "p": "0.01"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "options": [
+      "0.0025",
+      "0.0035",
+      "0.0125",
+      "0.0595"
+    ],
+    "answer": 2,
+    "why": "<p>A repeated event makes the two trains dependent, so the gate probabilities cannot simply be multiplied. Reduce the tree to its minimal cut sets first:</p><p>\\[\\begin{aligned}T &= (A + S)(B + S) \\\\ &= AB + S \\\\ P(T) &= P(S) \\\\ &\\quad + P(A)P(B)\\,q_S \\\\ &= 0.01 + 0.0025(0.99) \\\\ &= 0.0125\\end{aligned}\\]</p><p>where \\(A\\) and \\(B\\) are the pump failures, \\(S\\) the shared bus failure, \\(q_S = 1 - P(S) = 0.99\\) and \\(T\\) the top event; the minimal cut sets are \\(\\{S\\}\\) and \\(\\{A, B\\}\\). The single-event cut set \\(\\{S\\}\\) dominates: the shared bus defeats the redundancy.</p><p><b>C. 0.0125</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Fault Tree Analysis; Common Mode Failure Analysis (one cause defeating redundant elements).</span></p>",
+    "optionRationales": [
+      "Ignores the shared bus: \\(0.05^{2} = 0.0025\\).",
+      "Multiplies the two train probabilities as if independent: \\(0.0595^{2} = 0.0035\\). The repeated event \\(S\\) is counted as two separate events.",
+      "Correct. Minimal cut sets \\(\\{S\\}\\) and \\(\\{A, B\\}\\) give \\(0.01 + 0.0025(0.99) = 0.0125\\).",
+      "\\(0.05 + 0.01 - 0.0005 = 0.0595\\) is the probability of losing one train, not both."
+    ],
+    "keyPoint": "When an event appears more than once in a fault tree, find the minimal cut sets (Boolean reduction) before calculating; multiplying gate probabilities double-counts it.",
+    "trap": "Treating a repeated basic event as independent copies.",
+    "formula": "\\((A + S)(B + S) = AB + S\\); \\(P = P(S) + P(A)P(B)[1 - P(S)]\\)",
+    "assumptions": [
+      "Pump failures and the bus failure are independent of each other."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "fault tree analysis",
+      "minimal cut sets",
+      "repeated event",
+      "common cause",
+      "Boolean reduction"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "Fault tree analysis; common mode failure analysis",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b08-q76",
+    "set": 1,
+    "batch": 8,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.2",
+      "topic": "Prioritizing FMEA actions: severity versus RPN"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, decision",
+    "quantitative": false,
+    "stem": "A design FMEA for a vehicle brake module produced the ratings shown (1–10 scales). Company procedure follows action-priority logic: severity is considered first, then occurrence, then detection, rather than ranking by RPN. Which failure mode should receive action first?",
+    "chart": {
+      "type": "data-table",
+      "title": "Design FMEA excerpt: brake module",
+      "columns": [
+        "Failure mode",
+        "Effect",
+        "Severity",
+        "Occurrence",
+        "Detection",
+        "RPN"
+      ],
+      "rows": [
+        [
+          "M1: Cover rattles",
+          "Noise noticed by most customers",
+          "5",
+          "7",
+          "9",
+          "315"
+        ],
+        [
+          "M2: Brake line chafes through",
+          "Loss of braking without warning",
+          "10",
+          "4",
+          "6",
+          "240"
+        ],
+        [
+          "M3: Connector corrodes",
+          "Intermittent warning lamp",
+          "6",
+          "6",
+          "6",
+          "216"
+        ],
+        [
+          "M4: Label fades",
+          "Regulatory marking illegible",
+          "9",
+          "2",
+          "6",
+          "108"
+        ]
+      ]
+    },
+    "options": [
+      "M1, because it has the highest RPN (315).",
+      "M2, because it has the highest severity, with an occurrence of 4.",
+      "M3, because it has the highest severity times occurrence after M2.",
+      "M4, because a regulatory effect outranks a safety effect."
+    ],
+    "answer": 1,
+    "why": "<p>RPN multiplies three ordinal ranks, so a low-severity mode with poor detection can outscore a safety-critical one. Severity 9–10 entries, failures to meet safety or regulatory requirements, must be addressed first; action-priority logic gives a severity-10 mode high priority at any occurrence above the most remote. M2 combines the maximum severity with an occurrence of 4 and weak detection, so it comes first; M1, the RPN leader, is a quality annoyance.</p><p><b>B. M2: severity 10 comes first, not the RPN leader.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Failure Mode and Effects Analysis — severity ranking (Table 4.2); Fault Tree Analysis — action priority.</span></p>",
+    "optionRationales": [
+      "RPN hides severity: a noise complaint at 315 must not outrank loss of braking at 240.",
+      "Correct. Severity 10 without warning, at occurrence 4, demands action first.",
+      "Severity is considered before occurrence, and M3’s severity of 6 is far below M2’s 10; its severity-times-occurrence product (36) is also below M2’s (40).",
+      "Severity 10 (safety without warning) ranks above 9 (regulatory with warning), and M4 also has the lowest occurrence."
+    ],
+    "keyPoint": "Prioritize by severity first, using action-priority logic, not RPN alone: safety and regulatory effects (9–10) come first.",
+    "trap": "Ranking FMEA actions by RPN alone.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "FMEA",
+      "RPN",
+      "action priority",
+      "severity",
+      "design FMEA"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "Failure mode and effects analysis — severity ranking",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b08-q77",
+    "set": 1,
+    "batch": 8,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.2",
+      "topic": "Choosing the right type of FMEA"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Scenario judgment",
+    "quantitative": false,
+    "stem": "At the concept stage of a new aircraft cabin feature, only high-level requirements exist; no design, bill of materials or process has been chosen. The team wants to start an FMEA now. Which approach is appropriate?",
+    "chart": null,
+    "options": [
+      "Start a design FMEA, rating occurrence and detection from similar products so that a full RPN is available now.",
+      "Start a functional FMEA on the requirements, rating severity now and leaving causes and occurrence for later.",
+      "Wait until design freeze, when the design is stable enough to support a complete design FMEA.",
+      "Start a process FMEA, because the assembly steps will drive most of the feature’s failure modes."
+    ],
+    "answer": 1,
+    "why": "<p>A functional (system) FMEA works from high-level requirements before any design exists: each failure mode is the failure to meet a requirement, and its effects and severity can be ranked. Causes, occurrence and detection depend on the design solution, so they cannot be assessed yet. Its value is shaping requirements early, when changes are cheap.</p><p><b>B. Functional (system) FMEA on the requirements.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Failure Mode and Effects Analysis — types of FMEAs (functional/system FMEA, Table 4.1).</span></p>",
+    "optionRationales": [
+      "A design FMEA starts when the bill of materials is ready. Rating causes for a design that does not exist produces numbers without meaning.",
+      "Correct. It analyzes failure to meet each requirement and ranks severity, deferring cause, occurrence and detection.",
+      "Starting an FMEA after design freeze is a warned-against mistake: the findings arrive too late to change the design cheaply.",
+      "A process FMEA needs a process flow; none exists at the concept stage."
+    ],
+    "keyPoint": "Functional FMEA at concept (requirements, effects, severity); design FMEA when the BOM exists; process FMEA once the process flow exists.",
+    "trap": "Forcing a full design FMEA, or waiting until design freeze.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "FMEA",
+      "functional FMEA",
+      "design FMEA",
+      "process FMEA",
+      "concept stage"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "Failure mode and effects analysis — types of FMEAs",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b08-q78",
+    "set": 1,
+    "batch": 8,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.2",
+      "topic": "FMECA criticality numbers"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "An FMECA in the MIL-STD-1629A style covers a hydraulic actuator with part failure rate \\(\\lambda_p = 40\\) per \\(10^{6}\\) h and a 500-hour mission. Using the mode data shown, what is the item criticality number for severity category I (catastrophic)?",
+    "chart": {
+      "type": "data-table",
+      "title": "Actuator FMECA data",
+      "columns": [
+        "Failure mode",
+        "Severity category",
+        "Mode ratio \\(\\alpha\\)",
+        "Loss probability \\(\\beta\\)"
+      ],
+      "rows": [
+        [
+          "External leak",
+          "III (marginal)",
+          "0.50",
+          "0.10"
+        ],
+        [
+          "Seizure",
+          "I (catastrophic)",
+          "0.30",
+          "1.0"
+        ],
+        [
+          "Slow response",
+          "I (catastrophic)",
+          "0.20",
+          "0.50"
+        ]
+      ]
+    },
+    "options": [
+      "0.008",
+      "0.009",
+      "0.010",
+      "0.020"
+    ],
+    "answer": 0,
+    "why": "<p>Each mode’s criticality number is the product of the loss probability, mode ratio, part failure rate and time; the item criticality for a category sums its modes:</p><p>\\[\\begin{aligned}C_m &= \\beta\\,\\alpha\\,\\lambda_p\\,t \\\\ \\lambda_p t &= (40 \\times 10^{-6})(500) \\\\ &= 0.02 \\\\ C_{\\text{seize}} &= 1.0(0.30)(0.02) \\\\ &= 0.006 \\\\ C_{\\text{slow}} &= 0.50(0.20)(0.02) \\\\ &= 0.002 \\\\ C_r(\\text{I}) &= 0.006 + 0.002 \\\\ &= 0.008\\end{aligned}\\]</p><p>where \\(C_m\\) is a mode criticality number, \\(\\beta\\) the probability that the mode causes the stated loss, \\(\\alpha\\) the fraction of the part’s failures in that mode and \\(C_r(\\text{I})\\) the item criticality for category I. The external leak belongs to category III and is reported separately.</p><p><b>A. 0.008</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, FMECA (criticality as severity and probability of occurrence); MIL-STD-1629A criticality numbers.</span></p>",
+    "optionRationales": [
+      "Correct. \\(0.006 + 0.002 = 0.008\\).",
+      "Adds the category III leak (0.001). Item criticality is summed within a severity category.",
+      "Leaves out the loss probability \\(\\beta\\): \\((0.30 + 0.20)(0.02)\\).",
+      "Leaves out both \\(\\alpha\\) and \\(\\beta\\), using \\(\\lambda_p t = 0.02\\) for the whole item."
+    ],
+    "keyPoint": "FMECA: \\(C_m = \\beta\\alpha\\lambda_p t\\) for each mode; item criticality sums the modes within one severity category.",
+    "trap": "Mixing severity categories or dropping a factor.",
+    "formula": "\\(C_m = \\beta\\alpha\\lambda_p t\\); \\(C_r = \\sum C_m\\) within a severity category",
+    "assumptions": [
+      "Constant part failure rate."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "FMECA",
+      "criticality number",
+      "mode ratio",
+      "severity category",
+      "MIL-STD-1629"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "Failure mode and effects analysis — FMECA",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b08-q79",
+    "set": 1,
+    "batch": 8,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.3",
+      "topic": "Common cause failure in redundant systems"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Calculation",
+    "quantitative": true,
+    "stem": "Two identical redundant pumps each have a probability of failing on demand of 0.02. Experience shows that 10% of pump failures come from a common cause that disables both pumps at once (a \\(\\beta\\)-factor model with \\(\\beta = 0.10\\)). What is the probability that both pumps fail on demand?",
+    "chart": null,
+    "options": [
+      "0.00040",
+      "0.00200",
+      "0.00232",
+      "0.0396"
+    ],
+    "answer": 2,
+    "why": "<p>Split each pump’s failure probability into an independent part and a common cause part. The system fails if both pumps fail independently or if the common cause occurs:</p><p>\\[\\begin{aligned}Q_{\\text{ind}} &= (1 - \\beta)Q = 0.018 \\\\ Q_{\\text{ccf}} &= \\beta Q = 0.002 \\\\ Q_{\\text{sys}} &= Q_{\\text{ind}}^{2} + Q_{\\text{ccf}} \\\\ &= 0.000324 + 0.002 \\\\ &= 0.00232\\end{aligned}\\]</p><p>where \\(Q\\) is each pump’s failure-on-demand probability and \\(\\beta\\) the common cause fraction. The common cause term is six times the independent term: a small \\(\\beta\\) erodes most of the benefit of redundancy. Separation, diversity and protection against the shared cause are the remedies.</p><p><b>C. 0.00232</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Common Mode Failure Analysis (one cause defeating redundant elements); beta-factor model (IEC 61508-6).</span></p>",
+    "optionRationales": [
+      "Assumes fully independent pumps: \\(0.02^{2} = 0.0004\\). That ignores the common cause, which dominates.",
+      "Keeps only the common cause term, \\(\\beta Q = 0.002\\), and drops the independent double failure.",
+      "Correct. \\(0.018^{2} + 0.002 = 0.00232\\).",
+      "Treats the pumps as if in series: \\(1 - 0.98^{2}\\). Either pump can still meet the demand."
+    ],
+    "keyPoint": "Common cause failures defeat redundancy: with a \\(\\beta\\)-factor model, \\(Q_{\\text{sys}} \\approx [(1 - \\beta)Q]^{2} + \\beta Q\\), usually dominated by \\(\\beta Q\\).",
+    "trap": "Assuming redundant units fail independently.",
+    "formula": "\\(Q_{\\text{sys}} = [(1 - \\beta)Q]^{2} + \\beta Q\\)",
+    "assumptions": [
+      "Identical pumps; the \\(\\beta\\)-factor model applies."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "common cause failure",
+      "beta factor",
+      "redundancy",
+      "common mode failure"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "Common mode failure analysis",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b08-q80",
+    "set": 1,
+    "batch": 8,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.5",
+      "topic": "Reading a risk assessment matrix"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, decision",
+    "quantitative": false,
+    "stem": "A program uses the risk assessment matrix shown (MIL-STD-882E style). Four hazards have been assessed: H1 catastrophic and remote; H2 marginal and frequent; H3 critical and occasional; H4 critical and probable. Which hazard has the highest risk level and should be addressed first?",
+    "chart": {
+      "type": "data-table",
+      "title": "Risk assessment matrix",
+      "columns": [
+        "Probability",
+        "Catastrophic (1)",
+        "Critical (2)",
+        "Marginal (3)",
+        "Negligible (4)"
+      ],
+      "rows": [
+        [
+          "A: Frequent",
+          "High",
+          "High",
+          "Serious",
+          "Medium"
+        ],
+        [
+          "B: Probable",
+          "High",
+          "High",
+          "Serious",
+          "Medium"
+        ],
+        [
+          "C: Occasional",
+          "High",
+          "Serious",
+          "Medium",
+          "Low"
+        ],
+        [
+          "D: Remote",
+          "Serious",
+          "Medium",
+          "Medium",
+          "Low"
+        ],
+        [
+          "E: Improbable",
+          "Medium",
+          "Medium",
+          "Medium",
+          "Low"
+        ]
+      ]
+    },
+    "options": [
+      "H1, because catastrophic severity places it in the High region.",
+      "H2, because it is the most frequent hazard.",
+      "H3, because critical severity at an occasional rate is the middle of the matrix.",
+      "H4, because critical severity at a probable rate falls in the High region."
+    ],
+    "answer": 3,
+    "why": "<p>The matrix combines severity and probability; neither alone sets the risk level. Reading the cells: H1 (catastrophic, remote) is Serious; H2 (marginal, frequent) is Serious; H3 (critical, occasional) is Serious; H4 (critical, probable) is High. H4 is the only High risk, so it is addressed first.</p><p><b>D. H4: High risk.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Risk Matrix; Hazard Analysis (risk matrix with scoring).</span></p>",
+    "optionRationales": [
+      "Catastrophic severity at a remote probability is Serious in this matrix, below High.",
+      "A frequent marginal hazard is Serious, not High.",
+      "Critical and occasional is Serious.",
+      "Correct. Critical and probable is the only High cell among the four."
+    ],
+    "keyPoint": "A risk matrix ranks hazards by the combination of severity and likelihood; read the cell, not either axis alone.",
+    "trap": "Ranking by severity alone or by likelihood alone.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "risk matrix",
+      "hazard analysis",
+      "MIL-STD-882E",
+      "severity",
+      "probability"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "Risk matrix",
         "example": null
       }
     ]

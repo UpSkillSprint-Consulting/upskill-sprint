@@ -17,6 +17,8 @@
  *   cre-rbd           reliability block diagram: stages in series, blocks in parallel within a
  *                     stage, with an optional note per stage (e.g. "2 of 3 required");
  *                     layout:"bridge" draws the five-block bridge (A–B top, C–D bottom, E across)
+ *   cre-fault-tree    top-down fault tree: events with OR, AND or k-of-n voting gates; basic
+ *                     events drawn as circles with their probabilities
  */
 (function(global){
   'use strict';
@@ -73,7 +75,13 @@
       '.cre-rbd-wire{stroke:var(--muted);stroke-width:1.4;fill:none}',
       '.cre-rbd-node{fill:var(--ink)}',
       '.cre-rbd-note{fill:var(--muted);font-size:10.5px;font-weight:700}',
-      '.cre-rbd-stage{fill:var(--ink);font-size:10.5px;font-weight:700}'
+      '.cre-rbd-stage{fill:var(--ink);font-size:10.5px;font-weight:700}',
+      '.cre-ft-event rect{fill:var(--card);stroke:var(--ink);stroke-width:1.2}',
+      '.cre-ft-event text,.cre-ft-basic text{fill:var(--ink);font-size:10.5px}',
+      '.cre-ft-basic circle{fill:color-mix(in srgb,#b8791b 16%,var(--card));stroke:var(--ink);stroke-width:1.2}',
+      '.cre-ft-gate{fill:color-mix(in srgb,#6656b5 22%,var(--card));stroke:#6656b5;stroke-width:1.4}',
+      '.cre-ft-gate-text{fill:var(--ink);font-size:9.5px;font-weight:700}',
+      '.cre-ft-p{fill:var(--ink);font-size:10px;font-weight:700}'
     ].join('\n');
     document.head.appendChild(style);
   }
@@ -355,7 +363,49 @@
     return wrap(spec.eyebrow||'Reliability block diagram',svg,true);
   }
 
-  var RENDERERS={'cre-prob-tree':probTree,'cre-weibull-plot':weibullPlot,'cre-lognormal-plot':lognormalPlot,'cre-xy-plot':xyPlot,'cre-box-plot':boxPlot,'cre-rbd':rbd};
+  /* ---------- fault tree ---------- */
+  function faultTree(spec){
+    var root=spec.root;
+    if(!root||!Array.isArray(root.children)||!root.children.length)return '';
+    var leafW=104,levelH=96,top=40,leaves=[],depth=0;
+    function walk(n,d){n.__d=d;depth=Math.max(depth,d);var kids=Array.isArray(n.children)?n.children:[];
+      if(!kids.length){n.__i=leaves.length;leaves.push(n);return;}kids.forEach(function(k){walk(k,d+1);});}
+    walk(root,0);
+    var w=Math.max(520,leaves.length*leafW+24),h=top+depth*levelH+86,off=(w-leaves.length*leafW)/2;
+    function place(n){var kids=Array.isArray(n.children)?n.children:[];
+      if(kids.length){kids.forEach(place);n.__x=kids.reduce(function(a,k){return a+k.__x;},0)/kids.length;}
+      else n.__x=off+n.__i*leafW+leafW/2;
+      n.__y=top+n.__d*levelH;}
+    place(root);
+    var parts=[];
+    function lines(txt,max){var words=String(txt||'').split(' '),out=[],cur='';
+      words.forEach(function(wd){if((cur+' '+wd).trim().length>max&&cur){out.push(cur);cur=wd;}else cur=(cur+' '+wd).trim();});if(cur)out.push(cur);return out.slice(0,3);}
+    function draw(n){
+      var kids=Array.isArray(n.children)?n.children:[];
+      if(kids.length){
+        var bw=96,bh=34,x=n.__x,y=n.__y,gy=y+bh/2+22;
+        var gl=n.gate==='AND'?'AND':n.gate==='VOTE'?(n.k+'/'+kids.length):'OR';
+        kids.forEach(function(k){parts.push('<path class="cre-edge" d="M'+x+' '+(gy+10)+' V'+(gy+22)+' H'+k.__x.toFixed(1)+' V'+(k.__y-(k.children&&k.children.length?17:22))+'"></path>');draw(k);});
+        parts.push('<path class="cre-edge" d="M'+x+' '+(y+bh/2)+' V'+(gy-10)+'"></path>');
+        var label=n.label+' ('+(n.gate==='AND'?'AND gate: all inputs must occur':n.gate==='VOTE'?'voting gate: any '+n.k+' of '+kids.length+' inputs':'OR gate: any input')+')';
+        parts.push('<g class="cre-ft-event" role="img" tabindex="0" aria-label="'+esc(label)+'"><title>'+esc(label)+'</title><rect x="'+(x-bw/2)+'" y="'+(y-bh/2)+'" width="'+bw+'" height="'+bh+'" rx="4"></rect>'+
+          lines(n.label,16).map(function(l,i,a){return '<text x="'+x+'" y="'+(y+4+(i-(a.length-1)/2)*12).toFixed(1)+'" text-anchor="middle">'+esc(l)+'</text>';}).join('')+'</g>');
+        parts.push('<rect class="cre-ft-gate" x="'+(x-20)+'" y="'+(gy-10)+'" width="40" height="20" rx="'+(n.gate==='AND'?3:10)+'"></rect><text class="cre-ft-gate-text" x="'+x+'" y="'+(gy+3.5)+'" text-anchor="middle">'+esc(gl)+'</text>');
+      } else {
+        var cx=n.__x,cy=n.__y,label2=n.label+(n.p!=null?', probability '+n.p:'');
+        parts.push('<g class="cre-ft-basic" role="img" tabindex="0" aria-label="'+esc(label2)+'"><title>'+esc(label2)+'</title><circle cx="'+cx.toFixed(1)+'" cy="'+cy+'" r="22"></circle>'+
+          (n.p!=null?'<text class="cre-ft-p" x="'+cx.toFixed(1)+'" y="'+(cy+4)+'" text-anchor="middle">'+esc(n.p)+'</text>':'')+
+          lines(n.label,15).map(function(l,i){return '<text x="'+cx.toFixed(1)+'" y="'+(cy+38+i*12)+'" text-anchor="middle">'+esc(l)+'</text>';}).join('')+'</g>');
+      }
+    }
+    draw(root);
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart cre-chart cre-chart-wide" style="max-width:'+w+'px" role="img" aria-label="'+esc(spec.altText||spec.title||'Fault tree')+'">'+
+      '<title>'+esc(spec.title||'Fault tree')+'</title><desc>'+esc(spec.altText||'')+'</desc>'+
+      '<text class="cre-title" x="12" y="16">'+esc(spec.title||'')+'</text>'+parts.join('')+'</svg>';
+    return wrap(spec.eyebrow||'Fault tree',svg,true);
+  }
+
+  var RENDERERS={'cre-prob-tree':probTree,'cre-weibull-plot':weibullPlot,'cre-lognormal-plot':lognormalPlot,'cre-xy-plot':xyPlot,'cre-box-plot':boxPlot,'cre-rbd':rbd,'cre-fault-tree':faultTree};
   function render(chart){
     if(!chart||typeof chart.type!=='string'||!RENDERERS[chart.type])return '';
     ensureStyle();

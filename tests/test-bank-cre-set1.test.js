@@ -40,10 +40,12 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-const BATCHES = [1, 2, 3, 4, 5, 6, 7];
-const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/ };
+const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8];
+const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/ };
 // BoK domain → engine area (the five shared CRE domains)
-const DOMAIN_SUB = { III: 'cre-statistics', IV: 'cre-testing' };
+const DOMAIN_SUB = { II: 'cre-risk', III: 'cre-statistics', IV: 'cre-testing' };
+// Focused Quiz opens on the first BoK area (in exam order) that the opening set covers
+const FIRST_POPULATED = ['cre-fundamentals', 'cre-risk', 'cre-statistics', 'cre-testing', 'cre-lifecycle'].find((id) => BANK.some((q) => q.sub === id));
 
 test('CRE Set 1 has ten well-formed, uniquely identified questions per released batch', () => {
   assert.equal(BANK.length, BATCHES.length * 10);
@@ -120,6 +122,14 @@ test('batch 7 completes Domain IV at 35 and covers every IV.C topic', () => {
   const ivc = BANK.filter((q) => q.bok.code.startsWith('IV.C'));
   assert.equal(ivc.length, 12);
   assert.equal([...new Set(ivc.map((q) => q.bok.code))].sort().join(), 'IV.C.1,IV.C.2,IV.C.3,IV.C.4,IV.C.5');
+});
+
+test('batch 8 opens Domain II with three II.A and seven II.B items', () => {
+  const rows = BANK.filter((q) => q.batch === 8);
+  assert.ok(rows.every((q) => q.sub === 'cre-risk'));
+  assert.equal(rows.filter((q) => q.bok.code.startsWith('II.A')).length, 3);
+  assert.equal([...new Set(rows.filter((q) => q.bok.code.startsWith('II.A')).map((q) => q.bok.code))].sort().join(), 'II.A.1,II.A.2,II.A.3');
+  assert.equal(rows.filter((q) => q.bok.code.startsWith('II.B')).length, 7);
 });
 
 test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22', () => {
@@ -838,6 +848,80 @@ test('Q69 digital twin is biased by a consistent factor (about 0.87)', () => {
   assert.match(q.options[q.answer], /about 13% below prediction/);
 });
 
+const money = (s) => Number(String(s).replace(/[^0-9.]/g, ''));
+
+test('Q71 the only misclassified P-diagram entry is a customer-site condition marked as control', () => {
+  const q = byId('cre:set-1:b08-q71');
+  const bad = [...q.chart.rows].filter(([item, cls]) => /customer site/.test(item) && cls !== 'Noise factor');
+  assert.equal(bad.length, 1);
+  assert.ok(q.options[q.answer].startsWith(bad[0][0]));
+});
+
+test('Q72 expected annual loss ranks R2 first although its ordinal score does not', () => {
+  const q = byId('cre:set-1:b08-q72');
+  const rows = [...q.chart.rows].map(([r, p, c, l, sev, prod]) => ({ r, loss: Number(p) * money(c), score: Number(prod), l: Number(l), sev: Number(sev) }));
+  rows.forEach((x) => assert.equal(x.l * x.sev, x.score, `${x.r} score product`));
+  const byLoss = rows.slice().sort((a, b) => b.loss - a.loss), byScore = rows.slice().sort((a, b) => b.score - a.score);
+  assert.equal(byLoss[0].r, 'R2'); assert.equal(byLoss[0].loss, 40000);
+  assert.notEqual(byScore[0].r, 'R2', 'the ordinal score misranks it');
+  assert.match(q.options[q.answer], /^R2: its expected loss is the largest/);
+});
+
+const evalTree = (n) => {
+  if (!n.children || !n.children.length) return Number(n.p);
+  const ps = n.children.map(evalTree);
+  if (n.gate === 'AND') return ps.reduce((a, b) => a * b, 1);
+  if (n.gate === 'VOTE') { const p = ps[0], m = ps.length; let s = 0; for (let i = n.k; i <= m; i++) s += comb(m, i) * p ** i * (1 - p) ** (m - i); return s; }
+  return 1 - ps.reduce((a, b) => a * (1 - b), 1);
+};
+
+test('Q74 fault tree with AND, OR and 2-of-3 voting gates', () => {
+  const q = byId('cre:set-1:b08-q74');
+  assertKeyed(q, evalTree(q.chart.root), 0.00006);
+});
+
+test('Q75 repeated shared-bus event: minimal cut sets, not independent multiplication', () => {
+  const q = byId('cre:set-1:b08-q75');
+  const [ta, tb] = q.chart.root.children;
+  const s = Number(ta.children[1].p), a = Number(ta.children[0].p), b = Number(tb.children[0].p);
+  assert.equal(ta.children[1].label, tb.children[1].label, 'the same event appears under both trains');
+  const exact = s + (1 - s) * a * b, naive = evalTree(q.chart.root);
+  assertKeyed(q, exact, 0.00006);
+  assert.ok(q.options.includes(naive.toFixed(4)), 'the independent-multiplication trap is offered');
+});
+
+test('Q76 the severity-10 mode is not the RPN leader', () => {
+  const q = byId('cre:set-1:b08-q76');
+  const rows = [...q.chart.rows].map(([m, , sev, o, d, rpn]) => ({ m, sev: Number(sev), o: Number(o), rpn: Number(rpn), d: Number(d) }));
+  rows.forEach((r) => assert.equal(r.sev * r.o * r.d, r.rpn, `${r.m} RPN`));
+  const top = rows.reduce((a, b) => (b.sev > a.sev ? b : a));
+  assert.equal(top.sev, 10);
+  assert.notEqual(rows.reduce((a, b) => (b.rpn > a.rpn ? b : a)).m, top.m);
+  assert.ok(q.options[q.answer].startsWith(top.m.split(':')[0]));
+});
+
+test('Q78 FMECA category I item criticality', () => {
+  const q = byId('cre:set-1:b08-q78');
+  const lt = 40e-6 * 500;
+  const cat1 = [...q.chart.rows].filter((r) => /^I \(/.test(r[1])).reduce((a, r) => a + Number(r[3]) * Number(r[2]) * lt, 0);
+  assertKeyed(q, cat1, 0.0002);
+});
+
+test('Q79 beta-factor common cause dominates the redundant pair', () => {
+  const q = byId('cre:set-1:b08-q79');
+  const Q = 0.02, beta = 0.10;
+  assertKeyed(q, ((1 - beta) * Q) ** 2 + beta * Q, 0.00002);
+});
+
+test('Q80 only H4 falls in a High cell of the risk matrix', () => {
+  const q = byId('cre:set-1:b08-q80');
+  const cols = { catastrophic: 1, critical: 2, marginal: 3 }, rows = { frequent: 0, probable: 1, occasional: 2, remote: 3 };
+  const cell = (sev, prob) => q.chart.rows[rows[prob]][cols[sev]];
+  const levels = { H1: cell('catastrophic', 'remote'), H2: cell('marginal', 'frequent'), H3: cell('critical', 'occasional'), H4: cell('critical', 'probable') };
+  assert.equal(Object.entries(levels).filter(([, v]) => v === 'High').map(([k]) => k).join(), 'H4');
+  assert.ok(q.options[q.answer].startsWith('H4'));
+});
+
 /* ---------- 3. production delivery ---------- */
 
 async function productionHtml() {
@@ -906,7 +990,7 @@ test('CRE is live with the 2025 BoK, and Focused Quiz defaults to a populated ar
     assert.match(overview.textContent, new RegExp(`Batch ${BATCHES.length} of 15`));
     const area = overview.querySelector('[data-focusdom]');
     assert.ok(area, 'Focused Quiz area picker renders');
-    assert.equal(area.value, 'cre-statistics', 'defaults to the area that has questions');
+    assert.equal(area.value, FIRST_POPULATED, 'defaults to the first area that has questions');
     assert.deepEqual(errors, []);
   } finally { dom.window.close(); }
 });
@@ -916,8 +1000,8 @@ test('an area a released set does not cover is announced, never silently switche
   try {
     click(window, window.document.querySelector('.tb-tile[data-exam="cre"]'));
     const overview = window.document.getElementById('tb-overview');
-    // Set 1 opens on the area it covers (Domain III).
-    assert.equal(overview.querySelector('[data-focusdom]').value, 'cre-statistics');
+    // Set 1 opens on the first area it covers.
+    assert.equal(overview.querySelector('[data-focusdom]').value, FIRST_POPULATED);
     // Set 1 has no Domain I items yet: keep the learner's choice and explain.
     const area = overview.querySelector('[data-focusdom]');
     area.value = 'cre-fundamentals';
@@ -968,6 +1052,12 @@ test('a full CRE sitting renders every visual and scores a perfect paper as 100%
         assert.ok(svg, `${q.qid} draws the box plots`);
         assert.equal(svg.querySelectorAll('rect.tb-chart-box').length, q.chart.groups.length);
         assert.equal(svg.querySelectorAll('circle.tb-chart-outlier').length, q.chart.groups.reduce((a, g) => a + (g.outliers || []).length, 0));
+      } else if (q.chart && q.chart.type === 'cre-fault-tree') {
+        const svg = quiz.querySelector('svg.cre-chart');
+        assert.ok(svg, `${q.qid} draws the fault tree`);
+        const leaves = (n) => (n.children && n.children.length ? n.children.reduce((a, k) => a + leaves(k), 0) : 1);
+        assert.equal(svg.querySelectorAll('.cre-ft-basic').length, leaves(q.chart.root));
+        assert.ok(svg.querySelectorAll('.cre-ft-gate').length >= 1);
       } else if (q.chart && q.chart.type === 'cre-rbd') {
         const svg = quiz.querySelector('svg.cre-chart');
         assert.ok(svg, `${q.qid} draws the block diagram`);
