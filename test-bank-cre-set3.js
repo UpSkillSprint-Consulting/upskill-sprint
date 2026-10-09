@@ -194,7 +194,7 @@
       "73.9%"
     ],
     "answer": 3,
-    "why": "Planned time is \\(480-40=440\\) min and operating time is \\(440-60=380\\) min. Ideal output is \\(120\\times(380/60)=760\\) pieces.\n\\[\n\\text{Availability}=\\frac{380}{440}=0.864\n\\]\n\\[\n\\text{Performance}=\\frac{684}{760}=0.900\n\\]\n\\[\n\\text{Quality}=\\frac{650}{684}=0.950\n\\]\n\\[\n\\mathrm{OEE}=0.864\\times 0.900\\times 0.950=0.739\\ (73.9\\%).\n\\]\nThe other choices are the three factors reported alone. <b>D. 73.9%</b>",
+    "why": "Planned time is \\(480-40=440\\) min and operating time is \\(440-60=380\\) min. Ideal output is \\(120\\times(380/60)=760\\) pieces.\n\\[\n\\text{Availability}=\\frac{380}{440}=0.864\n\\]\n\\[\n\\text{Performance}=\\frac{684}{760}=0.900\n\\]\n\\[\n\\text{Quality}=\\frac{650}{684}=0.950\n\\]\n\\[\n\\mathrm{OEE}=0.864\\times 0.900\\times 0.950=0.739\n\\]\nThat product is 73.9 percent. The other choices are the three factors reported alone. <b>D. 73.9%</b>",
     "set": 3,
     "qid": "cre:set-3:009",
     "bok": "I.A.9",
@@ -237,7 +237,7 @@
   },
   {
     "sub": "cre-lead",
-    "stem": "Cumulative failure rate is plotted against cumulative test time on log-log paper. The points below fall on a straight line. The Duane model is\n\\[\n\\log_{10}\\!\\left(\\frac{n(T)}{T}\\right)=-\\alpha\\log_{10}(T)+b.\n\\]\nWhat is \\(\\alpha\\), and what does it mean?",
+    "stem": "Cumulative failure rate is plotted against cumulative test time on log-log paper. The points below fall on a straight line. The Duane model is\n\\[\n\\log_{10}\\left(\\frac{n(T)}{T}\\right)=-\\alpha\\log_{10}(T)+b.\n\\]\nWhat is \\(\\alpha\\), and what does it mean?",
     "options": [
       "\\(\\alpha=0\\). There is no reliability growth.",
       "\\(\\alpha=0.50\\). Reliability is improving. Failures are occurring farther apart.",
@@ -826,7 +826,30 @@
     "set": 3,
     "qid": "cre:set-3:028",
     "bok": "II.B.3",
-    "cognitive": "Understand"
+    "cognitive": "Understand",
+    "chart": {
+      "type": "data-table",
+      "title": "Shared-supply pumps",
+      "altText": "Two pumps are in active parallel. Each has failure probability 0.01. Both stop if the shared water supply is lost.",
+      "columns": [
+        "Element",
+        "Failure probability"
+      ],
+      "rows": [
+        [
+          "Pump 1",
+          "0.01"
+        ],
+        [
+          "Pump 2",
+          "0.01"
+        ],
+        [
+          "Shared water supply",
+          "Stops both pumps"
+        ]
+      ]
+    }
   },
   {
     "sub": "cre-risk",
@@ -1057,7 +1080,26 @@
     "set": 3,
     "qid": "cre:set-3:035",
     "bok": "III.A.3",
-    "cognitive": "Analyze"
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Sensor failures in one year",
+      "altText": "Failures occur independently at an average rate of 2 per year. e to the -2 is 0.1353.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Average failures per year",
+          "2"
+        ],
+        [
+          "e to the -2",
+          "0.1353"
+        ]
+      ]
+    }
   },
   {
     "sub": "cre-stats",
@@ -1073,7 +1115,30 @@
     "set": 3,
     "qid": "cre:set-3:036",
     "bok": "III.A.4",
-    "cognitive": "Evaluate"
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Density and reliability at 100 hours",
+      "altText": "At 100 hours the probability density is 0.004 per hour and the reliability is 0.80.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Age",
+          "100 h"
+        ],
+        [
+          "Probability density",
+          "0.004 per hour"
+        ],
+        [
+          "Reliability",
+          "0.80"
+        ]
+      ]
+    }
   },
   {
     "sub": "cre-stats",
@@ -1089,7 +1154,30 @@
     "set": 3,
     "qid": "cre:set-3:037",
     "bok": "III.A.5",
-    "cognitive": "Apply"
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Zero-failure demonstration",
+      "altText": "The exponential mean-life target is 500 hours. Confidence is 0.90, so zero failures are allowed. The natural log of 0.10 is -2.3026.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Target mean life",
+          "500 h"
+        ],
+        [
+          "Confidence",
+          "0.90"
+        ],
+        [
+          "Natural log of 0.10",
+          "-2.3026"
+        ]
+      ]
+    }
   },
   {
     "sub": "cre-stats",

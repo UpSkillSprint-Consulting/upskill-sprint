@@ -193,6 +193,25 @@
         "A": "Reports the probability of zero failures.",
         "C": "Treats the Poisson mean as the probability.",
         "D": "Stops at the probability of exactly one failure."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Sensor failures in one year",
+        "altText": "Failures occur independently at an average rate of 2 per year. e to the -2 is 0.1353.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Average failures per year",
+            "2"
+          ],
+          [
+            "e to the -2",
+            "0.1353"
+          ]
+        ]
       }
     },
     {
@@ -214,6 +233,29 @@
         "A": "Multiplies the density by the reliability.",
         "B": "Uses the density as the hazard.",
         "D": "Uses the unreliability."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Density and reliability at 100 hours",
+        "altText": "At 100 hours the probability density is 0.004 per hour and the reliability is 0.80.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Age",
+            "100 h"
+          ],
+          [
+            "Probability density",
+            "0.004 per hour"
+          ],
+          [
+            "Reliability",
+            "0.80"
+          ]
+        ]
       }
     },
     {
@@ -235,6 +277,29 @@
         "A": "Takes 90 percent of the target life.",
         "B": "Uses the target life as the test time.",
         "D": "Doubles the required total time."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Zero-failure demonstration",
+        "altText": "The exponential mean-life target is 500 hours. Confidence is 0.90, so zero failures are allowed. The natural log of 0.10 is -2.3026.",
+        "columns": [
+          "Quantity",
+          "Value"
+        ],
+        "rows": [
+          [
+            "Target mean life",
+            "500 h"
+          ],
+          [
+            "Confidence",
+            "0.90"
+          ],
+          [
+            "Natural log of 0.10",
+            "-2.3026"
+          ]
+        ]
       }
     },
     {

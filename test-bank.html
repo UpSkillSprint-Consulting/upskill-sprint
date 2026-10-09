@@ -208,6 +208,8 @@
   .tb-q-chart-quad-hi .tb-chart-target-dot{fill:#6656b5}
   .tb-q-chart-quad-hi .tb-chart-box{fill:color-mix(in srgb,#6656b5 28%,var(--card));stroke:#6656b5}
   .tb-q-data-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+  .tb-q-table-title{margin:0 0 8px;font-size:13px;font-weight:700;color:var(--ink);line-height:1.35}
+  .tb-stem mjx-container[display="true"],.tb-explanation-copy mjx-container[display="true"]{display:block;margin:.65em 0;overflow-x:auto;max-width:100%}
   .tb-q-data-table th{background:var(--card);color:var(--ink);font-weight:700;text-align:center;padding:9px 12px;border-bottom:2px solid var(--line);border-right:1px solid var(--line);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase}
   .tb-q-data-table th:last-child{border-right:none}
   .tb-q-data-table td{padding:8px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);color:var(--ink);text-align:center}
@@ -3035,7 +3037,9 @@
   }
   function chartDataTable(spec){
     var cols=spec.columns, rows=spec.rows;
-    var html='<table class="tb-q-data-table"><thead><tr>'+cols.map(function(c){return '<th>'+esc(c)+'</th>';}).join('')+'</tr></thead><tbody>';
+    var html='';
+    if(spec.title)html+='<p class="tb-q-table-title">'+esc(spec.title)+'</p>';
+    html+='<table class="tb-q-data-table"><thead><tr>'+cols.map(function(c){return '<th>'+esc(c)+'</th>';}).join('')+'</tr></thead><tbody>';
     rows.forEach(function(r){
       html+='<tr>'+r.map(function(cell,i){return '<td'+(i===0?'':' class="tb-q-num"')+'>'+esc(cell)+'</td>';}).join('')+'</tr>';
     });
@@ -3553,6 +3557,8 @@
     else if(chart.type==='mixture-simplex')inner=chartMixtureSimplex(chart);
     else return '';
     var eyebrow=CHART_EYEBROWS[chart.type];
+    if(chart.type==='data-table'&&chart.title)eyebrow='';
+    else if(chart.title&&(chart.type==='activity-network'||chart.type==='risk-matrix'))eyebrow=chart.title;
     var wrapClass='tb-q-chart-wrap'+(CHART_COMPACT[chart.type]?' tb-q-chart-wrap-compact':'');
     return '<div class="'+wrapClass+'">'+(eyebrow?'<span class="tb-q-chart-eyebrow">'+esc(eyebrow)+'</span>':'')+inner+'</div>';
   }
@@ -3843,6 +3849,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var questionId=window.__TBQuestionRegistry&&typeof window.__TBQuestionRegistry.idFor==='function'?window.__TBQuestionRegistry.idFor(current,q):(q.qid||q.questionId||q.id||'');
     var stem='<div class="'+(review?'tb-review-stem':'tb-stem')+'" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>';
     if(/^cre:set-2:/.test(q.qid||''))return stem+(q.chart&&q.chart.description?'<p>'+esc(q.chart.description)+'</p>':'')+renderQuestionChart(q.chart);
+    if(/^cre:set-3:/.test(q.qid||''))return stem+renderQuestionChart(q.chart);
     return ui?stem+ui.conditions(q)+renderQuestionChart(q.chart):renderQuestionChart(q.chart)+stem;
   }
 

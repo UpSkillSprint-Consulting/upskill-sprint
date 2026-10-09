@@ -262,6 +262,29 @@
         "A": "Assumes independence that the shared supply removes.",
         "C": "Limits common cause to identical part numbers.",
         "D": "Treats redundancy as proof that a shared dependency does not matter."
+      },
+      "chart": {
+        "type": "data-table",
+        "title": "Shared-supply pumps",
+        "altText": "Two pumps are in active parallel. Each has failure probability 0.01. Both stop if the shared water supply is lost.",
+        "columns": [
+          "Element",
+          "Failure probability"
+        ],
+        "rows": [
+          [
+            "Pump 1",
+            "0.01"
+          ],
+          [
+            "Pump 2",
+            "0.01"
+          ],
+          [
+            "Shared water supply",
+            "Stops both pumps"
+          ]
+        ]
       }
     },
     {
