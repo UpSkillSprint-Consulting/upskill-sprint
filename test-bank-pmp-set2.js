@@ -437,7 +437,7 @@
       answer: 2,
       why: '<p>People are using an integration that may be affected, and they have not been told. A perfect statement next week is too late for today. The project manager tells the users what is known, what is not, and when they will hear more. Broadcasting the post as proven fact, or shutting the integration forever, either overclaims or overreacts.</p><p><strong>Exam tip:</strong> On a live external incident, communicate the knowns and the unknowns now. Do not wait for perfect wording, and do not invent certainty.</p>',
       optionRationales: [
-        'A week of silence leaves today users inside a possible incident.',
+        'A week of silence leaves the people using the integration today inside a possible incident.',
         'The vendor said the incident may touch you. Repeating it as confirmed fact overstates what you know.',
         'Users hear the current facts, the gaps, and the time of the next update.',
         'A permanent shutdown is a response you have not assessed. It is not a substitute for the message.'
@@ -447,7 +447,7 @@
     },
     {
       qid: 'pmp:set-2:099',
-      sub: 'pmp-process',
+      sub: 'pmp-business',
       ecoTask: 'Plan and manage risk',
       approach: 'Predictive',
       stem: 'To protect a date, the plan is to crash a safety-critical install with night overtime. That response is not yet started. The crash would put a tired crew on the install, and nothing about fatigue is on the risk register. The scheduler says the original date risk is the only one that needs a line. What should you do?',

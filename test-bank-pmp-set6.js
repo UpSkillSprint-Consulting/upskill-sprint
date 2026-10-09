@@ -265,6 +265,52 @@
 
   global.PMP_SET6 = questions;
 
+  /* The written keys cluster on C in the later batches. Move each correct
+     choice, with its rationale, onto a seeded spread so A–D are even and a
+     student cannot pass by marking C. Wrong choices keep their order. */
+  function balanceAnswerKeys(list) {
+    var bag = [];
+    var i;
+    for (i = 0; i < list.length; i++) bag.push(i % 4);
+    var state = 56681;
+    function rnd() {
+      state = (Math.imul(state, 1664525) + 1013904223) >>> 0;
+      return state / 4294967296;
+    }
+    for (i = bag.length - 1; i > 0; i--) {
+      var j = Math.floor(rnd() * (i + 1));
+      var swap = bag[i];
+      bag[i] = bag[j];
+      bag[j] = swap;
+    }
+    for (i = 3; i < bag.length; i++) {
+      if (bag[i] === bag[i - 1] && bag[i] === bag[i - 2] && bag[i] === bag[i - 3]) {
+        for (var k = i + 1; k < bag.length; k++) {
+          if (bag[k] !== bag[i]) {
+            var tmp = bag[i];
+            bag[i] = bag[k];
+            bag[k] = tmp;
+            break;
+          }
+        }
+      }
+    }
+    list.forEach(function (q, index) {
+      if (!q || typeof q.answer !== 'number' || !Array.isArray(q.options) || q.options.length !== 4) return;
+      var target = bag[index];
+      if (q.answer === target || target < 0 || target > 3) return;
+      var options = q.options.slice();
+      var rationales = (q.optionRationales || []).slice();
+      var correct = options.splice(q.answer, 1)[0];
+      var rationale = rationales.splice(q.answer, 1)[0];
+      options.splice(target, 0, correct);
+      rationales.splice(target, 0, rationale);
+      q.options = options;
+      q.optionRationales = rationales;
+      q.answer = target;
+    });
+  }
+
   global.registerPMPSet6 = function (exam) {
     if (!exam) return;
     var existing = exam.sets || {};
@@ -284,6 +330,7 @@
     add(existing[4]);
     add(existing[5]);
     add(questions);
+    balanceAnswerKeys(merged);
     exam.sets = {1: merged, 2: [], 3: []};
     exam.bank = merged;
     exam.plannedSets = ['1', '2', '3'];

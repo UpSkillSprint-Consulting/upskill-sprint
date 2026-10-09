@@ -60,7 +60,7 @@
     {
       qid: 'pmp:set-1:003',
       sub: 'pmp-people',
-      ecoTask: 'Lead the team',
+      ecoTask: 'Lead the project team',
       approach: 'Agile',
       stem: 'Cycle time on your adaptive team has climbed for three sprints. In refinement, the team waits for you to approve library choices, test data, and story splits. None of those choices cross a compliance or architecture guardrail. The team says they are waiting because, last quarter, a different project manager overturned a similar decision in the sprint review. What should you do?',
       options: [
@@ -83,7 +83,7 @@
     {
       qid: 'pmp:set-1:004',
       sub: 'pmp-process',
-      ecoTask: 'Plan and manage project compliance and the delivery approach',
+      ecoTask: 'Develop an integrated plan and plan delivery',
       approach: 'Hybrid',
       stem: 'You are recommending a delivery approach for a hospital patient-portal project. Clinical-safety and privacy requirements are fixed by regulation and must be verified before go-live. The patient-facing screens are still changing as nurses trial the workflow. Funding is approved. The sponsor wants a usable portal in three months, not a single release at the end of a long design phase. What should you recommend?',
       options: [
@@ -190,7 +190,7 @@
     {
       qid: 'pmp:set-1:008',
       sub: 'pmp-business',
-      ecoTask: 'Manage project changes',
+      ecoTask: 'Manage and control changes',
       approach: 'Predictive',
       stem: 'A predictive medical-device project has an approved change-control procedure and a change control board. A hospital liaison asks you to add a training video. She says it will raise satisfaction scores. The request would touch the training baseline and may move a regulatory submission date. She wants the team to start today so her committee sees action. What should you do?',
       options: [
@@ -236,7 +236,7 @@
     {
       qid: 'pmp:set-1:010',
       sub: 'pmp-business',
-      ecoTask: 'Support organizational change and project governance',
+      ecoTask: 'Define and establish project governance',
       approach: 'Hybrid',
       stem: 'The PMO is piloting a tool that drafts status narratives and risk statements from project artifacts. Your hybrid team wants to use it on the customer-data workstream. Governance has not yet published a rule for this tool. A coordinator offers to paste the drafts into the sponsor pack this afternoon so the report goes out on time. What should you do?',
       options: [
@@ -614,7 +614,7 @@
     {
       qid: 'pmp:set-1:026',
       sub: 'pmp-business',
-      ecoTask: 'Manage project changes',
+      ecoTask: 'Manage and control changes',
       approach: 'Predictive',
       stem: 'The charter says the program will roll out to the sites. The scope baseline names two sites. A director says adding a third site is only a clarification of the charter, not a change. Work at the third site has not started. What should you do?',
       options: [

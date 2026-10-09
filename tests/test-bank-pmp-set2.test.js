@@ -33,7 +33,7 @@ test('PMP Set 2 is twenty original items, Q081-Q100, and does not replace Set 1'
     counts[q.sub] = (counts[q.sub] || 0) + 1;
     approaches[q.approach] = (approaches[q.approach] || 0) + 1;
   });
-  assert.deepEqual(counts, {'pmp-people': 6, 'pmp-process': 8, 'pmp-business': 6});
+  assert.deepEqual(counts, {'pmp-people': 6, 'pmp-process': 7, 'pmp-business': 7});
   assert.deepEqual(approaches, {Predictive: 8, Agile: 5, Hybrid: 7});
   assert.equal(qs[0].chart.type, 'data-table');
   assert.equal(qs[16].chart.type, 'data-table');
