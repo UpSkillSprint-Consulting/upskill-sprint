@@ -470,8 +470,8 @@ The five Set 2 subtopic identifiers are `cre-fundamentals`, `cre-risk`, `cre-sta
 
 ## Validation
 
-- Twenty-one Set 2-specific tests check complete question metadata, current domain allocations, valid lesson anchors, Set 1/Set 3 preservation, independent numeric answers, production edge inclusion, all modes, pacing, scoring, review tools, reveal/retry math requests, and presentation fallback.
-- SHA-256 assertions lock the first ten, twenty, thirty, forty, fifty, sixty, seventy, eighty, ninety, one hundred, one hundred ten, one hundred twenty, one hundred thirty, and one hundred forty questions to their prior versions, including options, feedback, references, and metadata. New questions carry batch number 15 and stable appended IDs.
+- Twenty-four Set 2-specific tests check complete question metadata, current domain allocations, valid lesson anchors, Set 1/Set 3 preservation, independent numeric answers, production edge inclusion, all modes, pacing, scoring, review tools, reveal/retry math requests, and presentation fallback.
+- SHA-256 assertions retain all historical batch locks and add a full 150-item baseline lock. The user-requested final audit permits only the exact 41 option edits and Q026 explanation correction recorded in `docs/audits/cre-set2-final-audit-revisions.json`; tests validate the revised values and reverse those specific fields in a copy before checking the baseline hashes. IDs, keys, mappings, numerical data, and all other fields remain locked.
 - The production-player test completes all one hundred fifty items, verifies the eighty-eight exhibits/thirty review tools, changes and resets both new controls, and checks unchanged question data and scores. A full 150-item practice session uses 14,073 seconds; default Quick draws twenty items, and focused Fundamentals draws twenty from twenty-nine available questions.
 - Existing current-attempt review and student-audit suites cover other active certifications and modes. The Chromium/WebKit directory audit exercises all one hundred fifty Set 2 items and all thirty review tools at desktop/mobile widths in light/dark themes, including page overflow and immutable scores.
 - Browser fixtures block external requests, so those audits do not establish actual MathJax glyph rendering. Local jsdom verifies typesetting requests, not glyph layout. SVG geometry is rendered separately for visual inspection. Preview/auth limitations and final CI results are recorded in the PR.
@@ -480,3 +480,7 @@ The five Set 2 subtopic identifiers are `cre-fundamentals`, `cre-risk`, `cre-sta
 ## Completed-core maintenance gate
 
 The planned 150-question core is complete. Any later expansion or revision must preserve released IDs, document its effect on blueprint coverage, and avoid unintended duplication. Independently solve every numerical key and distractor, confirm one best answer and all necessary assumptions, use visuals only when they supply evidence or aid reasoning, verify the complete learner flow, and update this ledger before release. Candidate feedback should inform later difficulty calibration.
+
+## Final student audit
+
+All 150 items, 88 exhibits, and 30 review tools received a final review. The audit corrected HTML loss in Q026, removed label crowding in Q018/Q033 and the Q037 review plot, and shortened 41 keyed options to reduce a systematic answer-length clue. No keys, numeric results, domain allocations, or question counts changed. Details, exact revision accounting, regression coverage, and limits are in [the final student audit](audits/cre-set2-final-student-audit.md). Historical batch-review statements above describe their original checks; the explicit final-audit correction ledger governs the subsequent authorized revisions.

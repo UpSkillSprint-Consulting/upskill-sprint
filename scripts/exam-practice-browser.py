@@ -368,12 +368,23 @@ def main():
                         exhibits += page.locator('.cre2-exhibit').count()
                         qid = page.locator('[data-cre-question]').get_attribute('data-cre-question')
                         assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2'), f'{qid} overflows at {width}px in {theme} theme'
+                        clipped_labels = page.locator('.cre2-diagram').evaluate_all('''svgs => svgs.flatMap(svg => {
+                            const v = svg.viewBox.baseVal;
+                            return [...svg.querySelectorAll('text')].filter(text => {
+                                const b = text.getBBox();
+                                return b.x < v.x - 2 || b.y < v.y - 2 || b.x + b.width > v.x + v.width + 2 || b.y + b.height > v.y + v.height + 2;
+                            }).map(text => text.textContent);
+                        })''')
+                        assert not clipped_labels, f'{qid} clips SVG labels at {width}px in {theme}: {clipped_labels}'
                     assert exhibits == 88, f'Expected 88 exhibits, found {exhibits}'
                     page.locator('[data-submit]').click()
                     page.locator('[data-open-review="all"]').click()
                     expect(page.locator('.tb-review-card')).to_have_count(150)
                     expect(page.locator('.tb-review-card .cre2-exhibit')).to_have_count(88)
                     expect(page.locator('.cre2-explorer')).to_have_count(30)
+                    censoring = page.locator('.tb-review-card').filter(has=page.locator('[data-cre-question="cre:set-2:026"]'))
+                    expect(censoring).to_contain_text('That is interval censoring. Recording either')
+                    expect(censoring.locator('.tb-explanation')).to_contain_text(r'120\lt T_X\le160')
                     original_score = page.locator('[data-score-result]').text_content()
                     sample = page.locator('[data-cre-explorer="sample-size"]')
                     sample.locator('summary').click()

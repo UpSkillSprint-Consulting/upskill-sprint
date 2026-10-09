@@ -72,9 +72,10 @@
     s+=text(232,23,'Cumulative MTBF (hours; log scale)')+text(340,352,'Total test exposure (unit-hours; log scale)');
     s+=line(left,y(200),right,y(200),'stroke-dasharray="6 5"')+text(177,y(200)-10,'Target: 200 h');
     s+=line(x(1000),y(100),x(8000),y(100*Math.pow(8,.4)),'class="cre2-curve"');
-    s+='<circle cx="'+x(1000)+'" cy="'+y(100)+'" r="5"/>'+text(183,276,'Current test point');
-    s+=text(427,201,'Solid line: conditional forecast');
-    return svg(c.title,c.description,650,375,s);
+    s+='<circle cx="'+x(1000)+'" cy="'+y(100)+'" r="5"/>';
+    s+='<circle cx="70" cy="389" r="5"/>'+text(170,394,'Current test point');
+    s+=line(333,389,367,389,'class="cre2-curve"')+text(475,394,'Conditional forecast');
+    return svg(c.title,c.description,650,418,s);
   }
   function eventTree(c) {
     const hArrow=(x1,y,x2)=>line(x1,y,x2,y)+'<polyline points="'+(x2-7)+','+(y-5)+' '+x2+','+y+' '+(x2-7)+','+(y+5)+'"/>';
@@ -130,7 +131,7 @@
     const arrow=(x1,y1,x2,y2)=>line(x1,y1,x2,y2)+(y1===y2?'<polyline points="'+(x2-7)+','+(y2-5)+' '+x2+','+y2+' '+(x2-7)+','+(y2+5)+'"/>':'<polyline points="'+(x2-5)+','+(y2+(y2>y1?-7:7))+' '+x2+','+y2+' '+(x2+5)+','+(y2+(y2>y1?-7:7))+'"/>');
     let s='<rect x="217" y="20" width="286" height="70" rx="7"/>'+text(360,45,'Control factors')+text(360,69,'Impeller clearance; controller gain');
     s+=arrow(360,90,360,148)+box(265,148,190,74,'Pump controller');
-    s+='<rect x="12" y="148" width="184" height="74" rx="7"/>'+text(104,175,'Signal input')+text(104,199,'Required flow command')+arrow(196,185,265,185);
+    s+='<rect x="12" y="148" width="184" height="74" rx="7"/>'+text(104,169,'Signal input')+text(104,191,'Required flow')+text(104,212,'command')+arrow(196,185,265,185);
     s+=arrow(455,185,524,185)+'<rect x="524" y="148" width="184" height="74" rx="7"/>'+text(616,173,'Intended response')+text(616,196,'Flow tracks command');
     s+='<rect x="211" y="288" width="298" height="75" rx="7"/>'+text(360,311,'Noise factors')+text(360,334,'Viscosity; supply-voltage variation')+arrow(360,288,360,222);
     s+=line(455,205,482,205)+line(482,205,482,261)+arrow(482,261,524,261);
@@ -170,10 +171,11 @@
     for(let r=0;r<=8;r++)s+=line(x(r),278,x(r),284)+text(x(r),307,String(r));
     s+=line(72,54,72,278)+line(72,278,618,278)+text(268,25,'Natural logarithm of the likelihood ratio');
     s+=line(72,y(-Math.log(9)),618,y(-Math.log(9)),'stroke-dasharray="7 4"')+line(72,y(Math.log(9)),618,y(Math.log(9)),'stroke-dasharray="2 4"');
-    s+=text(248,y(-Math.log(9))-10,'Accept at or below −2.197')+text(437,y(Math.log(9))-10,'Reject at or above +2.197');
     s+=line(x(0),y(logRatio(0)),x(8),y(logRatio(8)),'class="cre2-curve"')+'<circle cx="'+x(failures)+'" cy="'+y(logRatio(failures))+'" r="6"/>';
     s+=text(345,338,'Hypothetical cumulative failures at 2,500 unit-hours')+text(335,365,'Between boundaries: continue. This is not a test trajectory.');
-    return svg('Sequential-test boundary exploration','At fixed exposure of 2,500 unit-hours, the log likelihood ratio increases linearly with the hypothetical failure count. Accept at or below minus log 9, reject at or above log 9, otherwise continue. Selected failures: '+failures+'. Selected log ratio: '+logRatio(failures).toFixed(3)+'.',660,388,s);
+    s+=line(123,395,156,395,'stroke-dasharray="7 4"')+text(337,400,'Accept at or below −2.197');
+    s+=line(123,424,156,424,'stroke-dasharray="2 4"')+text(337,429,'Reject at or above +2.197');
+    return svg('Sequential-test boundary exploration','At fixed exposure of 2,500 unit-hours, the log likelihood ratio increases linearly with the hypothetical failure count. Accept at or below minus log 9, reject at or above log 9, otherwise continue. Selected failures: '+failures+'. Selected log ratio: '+logRatio(failures).toFixed(3)+'.',660,450,s);
   }
   function weibullProbability(c) {
     const x=v=>80+(v-5.8)/1.1*525,y=v=>287-(v+2)/2.5*230;let s='';

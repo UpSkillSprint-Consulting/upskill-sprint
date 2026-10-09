@@ -9,9 +9,93 @@ const {JSDOM, VirtualConsole} = require('jsdom');
 const read = file => fs.readFileSync(path.resolve(__dirname, '..', file), 'utf8');
 const bank = () => {const ctx = {window: {}}; vm.runInNewContext(read('test-bank-cre-set2.js'), ctx); return ctx.window;};
 const tick = () => new Promise(resolve => setTimeout(resolve, 60));
+// The final student audit explicitly revises only the fields in this ledger.
+// Reversing those exact edits preserves every historical batch hash below.
+function preAuditSnapshot(qs) {
+  const snapshot = JSON.parse(JSON.stringify(qs));
+  const {revisions} = JSON.parse(read('docs/audits/cre-set2-final-audit-revisions.json'));
+  const seen = new Set();
+  for (const r of revisions) {
+    assert.ok(['options','why'].includes(r.field));
+    const id = [r.number,r.field,r.option].join(':');
+    assert.ok(!seen.has(id)); seen.add(id);
+    const q = snapshot[r.number-1];
+    if (r.field === 'options') {
+      assert.equal(q.options[r.option], r.after, id + ' matches the reviewed correction');
+      q.options[r.option] = r.before;
+    } else {
+      assert.equal(q.why, r.after, id + ' matches the reviewed correction');
+      q.why = r.before;
+    }
+  }
+  assert.equal(createHash('sha256').update(JSON.stringify(snapshot)).digest('hex'), 'c9a3b4b1d687f6d41c0a33742874b844687e4ca3b17a486a30451397f75f7a3c', 'all 150 baseline objects remain locked except the exact documented edits');
+  return snapshot;
+}
+
+test('final audit: all explanation formulas and prose survive HTML insertion', () => {
+  const dom = new JSDOM('<main></main>'), root = dom.window.document.querySelector('main');
+  try {
+    for (const q of bank().CRE_SET2) {
+      root.innerHTML = q.why;
+      for (const el of root.querySelectorAll('*')) assert.ok(['P','STRONG','EM','B','UL','OL','LI','BR'].includes(el.tagName), q.qid + ': unexpected HTML element ' + el.tagName);
+      const formulas = q.why.match(/\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]/g) || [];
+      for (const formula of formulas) assert.ok(root.textContent.includes(formula), q.qid + ': formula lost during HTML parsing: ' + formula);
+    }
+    root.innerHTML = bank().CRE_SET2[25].why;
+    assert.match(root.textContent, /That is interval censoring\. Recording either/);
+  } finally { dom.window.close(); }
+});
+
+test('final audit: graph annotations stay outside data lines and parameter labels fit their boxes', () => {
+  const dom = new JSDOM('<main></main>', {runScripts:'outside-only'}), w = dom.window;
+  try {
+    w.eval(read('test-bank-cre-set2.js')); w.eval(read('test-bank-cre-set2-ui.js'));
+    const root = w.document.querySelector('main');
+    root.innerHTML = w.__CRESet2UI.exhibit(w.CRE_SET2[17]);
+    for (const label of ['Current test point','Conditional forecast']) {
+      const el = Array.from(root.querySelectorAll('svg text')).find(t => t.textContent === label);
+      assert.ok(el && Number(el.getAttribute('y')) > 365, label + ' belongs in the separate legend');
+    }
+    root.innerHTML = w.__CRESet2UI.exhibit(w.CRE_SET2[32]);
+    assert.ok(!Array.from(root.querySelectorAll('svg text')).some(t => t.textContent === 'Required flow command'), 'wrap the signal label rather than touching the border');
+    root.innerHTML = '<article class="tb-review-card"><div data-cre-question="cre:set-2:037"></div><div class="tb-explanation"></div></article>';
+    w.document.dispatchEvent(new w.CustomEvent('tb:review-rendered',{detail:{root}}));
+    for (const el of root.querySelectorAll('svg text')) if (/^(Accept|Reject) at/.test(el.textContent)) assert.ok(Number(el.getAttribute('y')) > 365, 'decision-boundary labels must clear the likelihood line');
+  } finally { w.close(); }
+});
+
+test('final audit: all review controls produce finite, accessible results at boundaries and reset without changing the bank', () => {
+  const dom = new JSDOM('<main></main>', {runScripts:'outside-only'}), w = dom.window;
+  try {
+    w.eval(read('test-bank-cre-set2.js')); w.eval(read('test-bank-cre-set2-ui.js'));
+    const baseline = JSON.stringify(w.CRE_SET2), root = w.document.querySelector('main');
+    for (const q of w.CRE_SET2.filter(q => q.explorer)) {
+      root.innerHTML = '<article class="tb-review-card"><div data-cre-question="'+q.qid+'"></div><div class="tb-explanation"></div></article>';
+      w.document.dispatchEvent(new w.CustomEvent('tb:review-rendered',{detail:{root}}));
+      const details = root.querySelector('details'), control = details.querySelector('select,input');
+      assert.equal(details.open, false, q.qid + ' exploration starts collapsed');
+      const initial = control.value, output = details.querySelector('output'), initialOutput = output.textContent;
+      const values = control.tagName === 'SELECT' ? Array.from(control.options, o => o.value) : [control.min, initial, control.max];
+      for (const value of values) {
+        control.value = value; control.dispatchEvent(new w.Event(control.tagName === 'SELECT' ? 'change' : 'input', {bubbles:true}));
+        assert.ok(output.textContent.trim(), q.qid + ': nonempty result');
+        assert.doesNotMatch(output.textContent, /NaN|Infinity|undefined/, q.qid);
+        for (const svg of details.querySelectorAll('svg')) {
+          assert.ok(svg.querySelector('title')?.textContent && svg.querySelector('desc')?.textContent, q.qid + ': accessible plot');
+          assert.doesNotMatch(svg.outerHTML, /NaN|Infinity|undefined/, q.qid + ': finite plot geometry');
+        }
+        assert.equal(JSON.stringify(w.CRE_SET2), baseline, q.qid + ': exploration preserves question data');
+      }
+      details.querySelector('[data-cre-reset]').click();
+      assert.equal(control.value, initial, q.qid + ': reset value');
+      assert.equal(output.textContent, initialOutput, q.qid + ': reset result');
+    }
+  } finally { w.close(); }
+});
 
 test('batch contract: stable IDs, current BoK weights, complete feedback, eighty-eight exhibits, valid lesson anchors', () => {
   const {CRE_SET2: qs, registerCRESet2} = bank();
+  const releasedQs = preAuditSnapshot(qs);
   assert.equal(qs.length, 150);
   const exam = {bok: [], bank: []}, dm = {};
   registerCRESet2(exam, dm);
@@ -22,21 +106,21 @@ test('batch contract: stable IDs, current BoK weights, complete feedback, eighty
   assert.equal(qs.filter(q => q.explorer).length, 30);
   assert.deepEqual(Array.from(exam.bok, d => qs.filter(q => q.sub === d.domain).length), [29,25,35,35,26]);
   assert.deepEqual([0,1,2,3].map(key => qs.filter(q => q.answer === key).length), [37,38,37,38]);
-  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,20))).digest('hex'), '488de3d62f6ba40533c7f4bbfa30ccba24492571571d06c08cdd8de328b29efc', 'Batches 1–2 content is unchanged');
-  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,30))).digest('hex'), '1d58917f68fcb88dd4fe42568d6e50394789e0cab74c16719108b1ff3841921b', 'Batches 1–3 content is unchanged');
-  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,40))).digest('hex'), '673070d6340dfe526539b3be6fbaaf14cf4b0ebfd26ea0ed9a6d707808b9c070', 'Batches 1–4 content is unchanged');
-  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,50))).digest('hex'), '459d6748c2fa8f96f2f4737e0d42ad6f0c2cfb7f4c73574c947417c1007b280c', 'Batches 1–5 content is unchanged');
-  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,60))).digest('hex'), '0a514798a814ec13ce0d7b8e993da2a44c4aedb370d1211f1002eae3ea7c8d6e', 'Batches 1–6 content is unchanged');
-  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,70))).digest('hex'), '26de7da93287a6dc411fce15f3a62364d611f677e49a2f043fec26c207bb8db8', 'Batches 1–7 content is unchanged');
-  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,100))).digest('hex'), '861b65a47721a56a80f3e230b46bcae420448de656a1d22dbceefc7c9ad7c961', 'Batches 1–10 content is unchanged');
-  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,110))).digest('hex'), 'b1d8f74c16af70f2efa1e6d6b8d4d90f0457d49a351225d1ebec86c59d706af4', 'Batches 1–11 content is unchanged');
-  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,120))).digest('hex'), '0abf3a2b710b5d0928718160c1626c71cac986cb23bd5c0523343d785b09b588', 'Batches 1–12 content is unchanged');
-  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,130))).digest('hex'), 'f13d2e43b0431b0150e8393b508a569cf5db93f53624a133425dda16c664764e', 'Batches 1–13 content is unchanged');
-  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,140))).digest('hex'), '6de2b1654e0e8618eabbfeb1a2077dcde1bf774b52ba9277253575898e4934ca', 'Batches 1–14 content is unchanged');
-  const released = JSON.stringify(qs.slice(0,10));
-  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,90))).digest('hex'), '3aa3b10d998f5c30c1b0befb8e15d0c3548f9aeeb9f6573495d0b2facc20fbfa', 'Batches 1–9 content is unchanged');
-  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,80))).digest('hex'), '0306b7d9d873b1efcdf7c169be1d620e547b7e91611c32501156443557421bb6', 'Batches 1–8 content is unchanged');
-  assert.equal(createHash('sha256').update(released).digest('hex'), '2c2657dfb7ae76f3c0b9385c7b1be36e122e143a0372e4de82fabb097b50f6f1', 'released Batch 1 content is unchanged');
+  assert.equal(createHash('sha256').update(JSON.stringify(releasedQs.slice(0,20))).digest('hex'), '488de3d62f6ba40533c7f4bbfa30ccba24492571571d06c08cdd8de328b29efc', 'Batches 1–2 content is unchanged except exact documented final-audit edits');
+  assert.equal(createHash('sha256').update(JSON.stringify(releasedQs.slice(0,30))).digest('hex'), '1d58917f68fcb88dd4fe42568d6e50394789e0cab74c16719108b1ff3841921b', 'Batches 1–3 content is unchanged except exact documented final-audit edits');
+  assert.equal(createHash('sha256').update(JSON.stringify(releasedQs.slice(0,40))).digest('hex'), '673070d6340dfe526539b3be6fbaaf14cf4b0ebfd26ea0ed9a6d707808b9c070', 'Batches 1–4 content is unchanged except exact documented final-audit edits');
+  assert.equal(createHash('sha256').update(JSON.stringify(releasedQs.slice(0,50))).digest('hex'), '459d6748c2fa8f96f2f4737e0d42ad6f0c2cfb7f4c73574c947417c1007b280c', 'Batches 1–5 content is unchanged except exact documented final-audit edits');
+  assert.equal(createHash('sha256').update(JSON.stringify(releasedQs.slice(0,60))).digest('hex'), '0a514798a814ec13ce0d7b8e993da2a44c4aedb370d1211f1002eae3ea7c8d6e', 'Batches 1–6 content is unchanged except exact documented final-audit edits');
+  assert.equal(createHash('sha256').update(JSON.stringify(releasedQs.slice(0,70))).digest('hex'), '26de7da93287a6dc411fce15f3a62364d611f677e49a2f043fec26c207bb8db8', 'Batches 1–7 content is unchanged except exact documented final-audit edits');
+  assert.equal(createHash('sha256').update(JSON.stringify(releasedQs.slice(0,100))).digest('hex'), '861b65a47721a56a80f3e230b46bcae420448de656a1d22dbceefc7c9ad7c961', 'Batches 1–10 content is unchanged except exact documented final-audit edits');
+  assert.equal(createHash('sha256').update(JSON.stringify(releasedQs.slice(0,110))).digest('hex'), 'b1d8f74c16af70f2efa1e6d6b8d4d90f0457d49a351225d1ebec86c59d706af4', 'Batches 1–11 content is unchanged except exact documented final-audit edits');
+  assert.equal(createHash('sha256').update(JSON.stringify(releasedQs.slice(0,120))).digest('hex'), '0abf3a2b710b5d0928718160c1626c71cac986cb23bd5c0523343d785b09b588', 'Batches 1–12 content is unchanged except exact documented final-audit edits');
+  assert.equal(createHash('sha256').update(JSON.stringify(releasedQs.slice(0,130))).digest('hex'), 'f13d2e43b0431b0150e8393b508a569cf5db93f53624a133425dda16c664764e', 'Batches 1–13 content is unchanged except exact documented final-audit edits');
+  assert.equal(createHash('sha256').update(JSON.stringify(releasedQs.slice(0,140))).digest('hex'), '6de2b1654e0e8618eabbfeb1a2077dcde1bf774b52ba9277253575898e4934ca', 'Batches 1–14 content is unchanged except exact documented final-audit edits');
+  const released = JSON.stringify(releasedQs.slice(0,10));
+  assert.equal(createHash('sha256').update(JSON.stringify(releasedQs.slice(0,90))).digest('hex'), '3aa3b10d998f5c30c1b0befb8e15d0c3548f9aeeb9f6573495d0b2facc20fbfa', 'Batches 1–9 content is unchanged except exact documented final-audit edits');
+  assert.equal(createHash('sha256').update(JSON.stringify(releasedQs.slice(0,80))).digest('hex'), '0306b7d9d873b1efcdf7c169be1d620e547b7e91611c32501156443557421bb6', 'Batches 1–8 content is unchanged except exact documented final-audit edits');
+  assert.equal(createHash('sha256').update(released).digest('hex'), '2c2657dfb7ae76f3c0b9385c7b1be36e122e143a0372e4de82fabb097b50f6f1', 'released Batch 1 content is unchanged except exact documented final-audit edits');
   for (const [i,q] of qs.entries()) {
     assert.equal(q.qid, 'cre:set-2:' + String(i+1).padStart(3,'0'));
     assert.equal(q.batch, Math.ceil(q.number / 10));
@@ -577,6 +661,9 @@ test('production player uses Set 2, correct pace, eighty-eight exhibits, review 
     assert.equal(w.document.querySelectorAll('.tb-review-card .cre2-exhibit').length,88);
     assert.equal(w.document.querySelectorAll('.cre2-explorer').length,30);
     assert.equal(w.document.querySelectorAll('.cre2-source strong').length,300);
+    const censoringCard = w.document.querySelector('[data-cre-question="cre:set-2:026"]').closest('.tb-review-card');
+    assert.match(censoringCard.querySelector('.tb-explanation').textContent, /That is interval censoring\. Recording either/);
+    assert.ok(censoringCard.querySelector('.tb-explanation').textContent.includes('120\\lt T_X\\le160'));
     for(const card of w.document.querySelectorAll('.tb-review-card'))assert.ok(h.typesetRoots.includes(card));
     const slider=w.document.querySelector('[data-cre-explorer="weibull"] input');
     slider.value='1500';slider.dispatchEvent(new w.Event('input',{bubbles:true}));
@@ -793,18 +880,23 @@ test('quick and focused modes select available Set 2; retry math renders without
   }finally{h.close();}
 });
 
-test('answer reveal typesets new working and records the revealed item as incorrect',async()=>{
+test('answer reveal preserves the censoring inequality and records the revealed item as incorrect',async()=>{
   const h=await harness(),{w}=h;
   try{
-    const snap=start(w,'quick');
-    const i=snap.records.findIndex(r=>r.question.quantitative && r.question.why.includes('\\['));
-    assert.ok(i>=0, 'the quick selection includes a question with worked mathematics');
+    click(w,'.tb-tile[data-exam="cre"]');useSet2(w,'full');
+    click(w,'[data-timing-kind="full"][data-timed="0"]');
+    click(w,'#tb-overview [data-mode="full"]');
+    const snap=w.__TB.getFeedbackSnapshot();
+    const i=snap.records.findIndex(r=>r.question.qid==='cre:set-2:026');
+    assert.ok(i>=0);
     click(w,'[data-goto="'+i+'"]');click(w,'[data-reveal]');await tick();
     const working=w.document.querySelector('#tb-revealed-answer');
     assert.ok(working);assert.ok(h.typesetRoots.includes(working));
+    assert.match(working.textContent, /That is interval censoring\. Recording either/);
+    assert.ok(working.textContent.includes('120\\lt T_X\\le160'));
     assert.equal(working.querySelector('.cre2-explorer'),null);
     submit(w);await tick();
-    assert.match(w.document.querySelector('[data-score-result]').textContent,/0\/20/);
+    assert.match(w.document.querySelector('[data-score-result]').textContent,/0\/150/);
     assert.match(w.document.querySelector('[data-score-result]').textContent,/1 revealed/);
     assert.deepEqual(h.errors,[]);
   }finally{h.close();}
