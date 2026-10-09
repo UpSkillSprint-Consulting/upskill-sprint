@@ -79,7 +79,8 @@ test('the test bank keeps the PMP script, registers the exam, and the edge funct
   assert.match(html, /if\(window\.registerPMPSet3\)window\.registerPMPSet3\(EXAMS\.pmp\)/);
   assert.match(html, /if\(window\.registerPMPSet4\)window\.registerPMPSet4\(EXAMS\.pmp\)/);
   assert.match(html, /if\(window\.registerPMPSet5\)window\.registerPMPSet5\(EXAMS\.pmp\)/);
-  assert.equal(html.split('<script src="/test-bank-pmp-set4.js"></script>').length - 1, 1);
+  assert.match(html, /if\(window\.registerPMPSet6\)window\.registerPMPSet6\(EXAMS\.pmp\)/);
+  assert.equal(html.split('<script src="/test-bank-pmp-set6.js"></script>').length - 1, 1);
   assert.equal(html.split('<script src="/test-bank-pmp-set5.js"></script>').length - 1, 1);
   assert.equal(html.split('<script src="/test-bank-pmp-set2.js"></script>').length - 1, 1);
   assert.match(html, /\['Project Management',\['pmp'\]\]/);
@@ -111,6 +112,10 @@ test('opening PMP shows Set 1 in the catalog and does not start an attempt', asy
     .replace(
       '<script src="/test-bank-pmp-set5.js"></script>',
       '<script>' + read('test-bank-pmp-set5.js').replace(/<\/script/gi, '<\\/script') + '</script>'
+    )
+    .replace(
+      '<script src="/test-bank-pmp-set6.js"></script>',
+      '<script>' + read('test-bank-pmp-set6.js').replace(/<\/script/gi, '<\\/script') + '</script>'
     );
   const dom = new JSDOM(html, {
     url: 'https://upskillsprint.com/test-bank?exam=pmp',
@@ -124,9 +129,9 @@ test('opening PMP shows Set 1 in the catalog and does not start an attempt', asy
   assert.equal(doc.querySelector('.tb-tile.active').dataset.exam, 'pmp');
   assert.equal(doc.querySelector('.tb-quiz'), null);
   const overview = doc.getElementById('tb-overview').textContent;
-  assert.match(overview, /Set 5 \(Q151-Q170\)/);
-  assert.equal(doc.querySelector('[data-set="5"]').disabled, false);
-  assert.match(doc.querySelector('[data-set="5"]').textContent, /Q151-Q170/);
+  assert.match(overview, /Sets 2 through 6 cover Q081-Q180/);
+  assert.equal(doc.querySelector('[data-set="6"]').disabled, false);
+  assert.match(doc.querySelector('[data-set="6"]').textContent, /Q171-Q180/);
   assert.equal(doc.querySelector('[data-set="1"]:not([disabled])').textContent.includes('Set 1'), true);
   assert.equal(doc.querySelector('[data-set="2"]').disabled, false);
   assert.match(doc.querySelector('[data-set="2"]').textContent, /Q081-Q100/);
