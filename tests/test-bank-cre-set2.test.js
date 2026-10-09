@@ -10,18 +10,18 @@ const read = file => fs.readFileSync(path.resolve(__dirname, '..', file), 'utf8'
 const bank = () => {const ctx = {window: {}}; vm.runInNewContext(read('test-bank-cre-set2.js'), ctx); return ctx.window;};
 const tick = () => new Promise(resolve => setTimeout(resolve, 60));
 
-test('batch contract: stable IDs, current BoK weights, complete feedback, fifty-one exhibits, valid lesson anchors', () => {
+test('batch contract: stable IDs, current BoK weights, complete feedback, fifty-six exhibits, valid lesson anchors', () => {
   const {CRE_SET2: qs, registerCRESet2} = bank();
-  assert.equal(qs.length, 90);
+  assert.equal(qs.length, 100);
   const exam = {bok: [], bank: []}, dm = {};
   registerCRESet2(exam, dm);
   assert.deepEqual(Array.from(exam.bok, d => d.weight), [29,25,35,35,26]);
   assert.equal(exam.questions, 165); assert.equal(exam.minutes, 258);
-  assert.equal(qs.filter(q => q.chart).length, 51);
-  assert.equal(qs.filter(q => q.chart?.creKind).length, 27);
-  assert.equal(qs.filter(q => q.explorer).length, 18);
-  assert.deepEqual(Array.from(exam.bok, d => qs.filter(q => q.sub === d.domain).length), [17,15,21,21,16]);
-  assert.deepEqual([0,1,2,3].map(key => qs.filter(q => q.answer === key).length), [22,23,22,23]);
+  assert.equal(qs.filter(q => q.chart).length, 56);
+  assert.equal(qs.filter(q => q.chart?.creKind).length, 30);
+  assert.equal(qs.filter(q => q.explorer).length, 20);
+  assert.deepEqual(Array.from(exam.bok, d => qs.filter(q => q.sub === d.domain).length), [19,17,23,24,17]);
+  assert.deepEqual([0,1,2,3].map(key => qs.filter(q => q.answer === key).length), [25,25,25,25]);
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,20))).digest('hex'), '488de3d62f6ba40533c7f4bbfa30ccba24492571571d06c08cdd8de328b29efc', 'Batches 1–2 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,30))).digest('hex'), '1d58917f68fcb88dd4fe42568d6e50394789e0cab74c16719108b1ff3841921b', 'Batches 1–3 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,40))).digest('hex'), '673070d6340dfe526539b3be6fbaaf14cf4b0ebfd26ea0ed9a6d707808b9c070', 'Batches 1–4 content is unchanged');
@@ -29,6 +29,7 @@ test('batch contract: stable IDs, current BoK weights, complete feedback, fifty-
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,60))).digest('hex'), '0a514798a814ec13ce0d7b8e993da2a44c4aedb370d1211f1002eae3ea7c8d6e', 'Batches 1–6 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,70))).digest('hex'), '26de7da93287a6dc411fce15f3a62364d611f677e49a2f043fec26c207bb8db8', 'Batches 1–7 content is unchanged');
   const released = JSON.stringify(qs.slice(0,10));
+  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,90))).digest('hex'), '3aa3b10d998f5c30c1b0befb8e15d0c3548f9aeeb9f6573495d0b2facc20fbfa', 'Batches 1–9 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,80))).digest('hex'), '0306b7d9d873b1efcdf7c169be1d620e547b7e91611c32501156443557421bb6', 'Batches 1–8 content is unchanged');
   assert.equal(createHash('sha256').update(released).digest('hex'), '2c2657dfb7ae76f3c0b9385c7b1be36e122e143a0372e4de82fabb097b50f6f1', 'released Batch 1 content is unchanged');
   for (const [i,q] of qs.entries()) {
@@ -60,7 +61,7 @@ test('registering Set 2 preserves concurrent Set 1 and Set 3 question banks', ()
   assert.equal(exam.sets[1], first); assert.equal(exam.bank, first);
   assert.equal(JSON.stringify(first), before);
   assert.equal(exam.sets[3], third); assert.equal(JSON.stringify(third), thirdBefore);
-  assert.equal(exam.sets[2].length, 90);
+  assert.equal(exam.sets[2].length, 100);
 });
 
 test('independent calculations verify numeric keys and distractors', () => {
@@ -426,7 +427,7 @@ test('Batch 8 keys agree with density integration, residual, exposure, diagnosti
 
 test('Batch 9 independently checks finite sampling, proportional hazards, fatigue history, covariance, and proof-test averaging', () => {
   const qs=bank().CRE_SET2,answer=n=>qs[n-1].options[qs[n-1].answer];
-  const newBatch=Array.from(qs.slice(80));
+  const newBatch=Array.from(qs.slice(80,90));
   assert.equal(newBatch.filter(q=>q.quantitative).length,5);
   assert.deepEqual(['Foundational','Moderate','Challenging'].map(d=>newBatch.filter(q=>q.difficulty===d).length),[1,6,3]);
   // Enumerate all unordered pairs rather than reuse the complement calculation.
@@ -474,6 +475,37 @@ test('Batch 9 independently checks finite sampling, proportional hazards, fatigu
   }
 });
 
+test('Batch 10 independently verifies risk costs, binomial counts, load-sharing states, and block adjustment', () => {
+  const qs=bank().CRE_SET2,answer=n=>qs[n-1].options[qs[n-1].answer],batch=Array.from(qs.slice(90));
+  assert.equal(batch.filter(q=>q.quantitative).length,4);
+  assert.deepEqual(['Foundational','Moderate','Challenging'].map(d=>batch.filter(q=>q.difficulty===d).length),[1,7,2]);
+  const downtime=qs[90].chart.rows.map(([,wait,repair])=>wait+repair);
+  assert.deepEqual(Array.from(downtime),[20,19,6]);
+  // Enumerate 100 equally weighted annual outcomes, including certain control cost in every outcome.
+  const costs=qs[93].chart.rows.map(([name,c,p,loss])=>{let sum=0;for(let i=0;i<100;i++)sum+=c+(i<Number(p)*100?loss:0);return [name,sum/100];});
+  assert.deepEqual(Array.from(costs,x=>x[1]),[16000,9000,10000,11000]);
+  assert.equal(answer(94),costs.reduce((best,row)=>row[1]<best[1]?row:best)[0]);
+  // Enumerate all 256 binary outcome sequences rather than reusing the binomial formula.
+  let exact=0,atLeastTwo=0,atLeastOne=0,total=0;
+  for(let mask=0;mask<256;mask++){let count=0,p=1;for(let j=0;j<8;j++){const fail=Boolean(mask&(1<<j));count+=fail;p*=fail?.1:.9;}total+=p;if(count===2)exact+=p;if(count>=2)atLeastTwo+=p;if(count>=1)atLeastOne+=p;}
+  assert.ok(Math.abs(total-1)<1e-12);assert.equal(answer(96),exact.toFixed(4));
+  assert.equal(qs[95].options[1],(.1**2*.9**6).toFixed(4));assert.equal(qs[95].options[2],atLeastTwo.toFixed(4));assert.equal(qs[95].options[3],atLeastOne.toFixed(4));
+  // Propagate the probability of each state with small time steps; retain the equal-rate case.
+  function propagate(m){let two=1,one=0,none=0;const dt=.001;for(let i=0;i<100000;i++){const first=two*.002*dt,last=one*m*.001*dt;two-=first;one+=first-last;none+=last;}assert.ok(Math.abs(two+one+none-1)<1e-10);return two+one;}
+  assert.equal(answer(99),propagate(4).toFixed(4));
+  for(const [m,expected] of [[1,'0.9909'],[2,'0.9825'],[4,'0.9671'],[6,'0.9537']])assert.equal(propagate(m).toFixed(4),expected);
+  assert.equal(qs[98].options[0],propagate(1).toFixed(4));assert.equal(qs[98].options[2],Math.exp(-.2).toFixed(4));assert.equal(qs[98].options[3],Math.exp(-.4).toFixed(4));
+  // Fit intercept, B indicator, and Block 2 indicator to all eight observations by normal-equation elimination.
+  const obs=[];for(const [block,treatment,values,count] of qs[99].chart.rows){const ys=values.split(',').map(Number);assert.equal(ys.length,count);for(const y of ys)obs.push({x:[1,Number(treatment==='B'),Number(block==='2')],y});}
+  const matrix=Array.from({length:3},(_,i)=>[...Array.from({length:3},(_,j)=>obs.reduce((s,o)=>s+o.x[i]*o.x[j],0)),obs.reduce((s,o)=>s+o.x[i]*o.y,0)]);
+  for(let i=0;i<3;i++){const pivot=matrix[i][i];for(let j=i;j<4;j++)matrix[i][j]/=pivot;for(let k=0;k<3;k++)if(k!==i){const factor=matrix[k][i];for(let j=i;j<4;j++)matrix[k][j]-=factor*matrix[i][j];}}
+  assert.ok(Math.abs(matrix[1][3]-6)<1e-10);assert.equal(answer(100),'+'+matrix[1][3].toFixed(0));
+  const mean=group=>group.reduce((s,o)=>s+o.y,0)/group.length;
+  assert.equal(mean(obs.filter(o=>o.x[1]))-mean(obs.filter(o=>!o.x[1])),16);
+  assert.ok(Math.abs(matrix[2][3]-20)<1e-10);
+  for(const q of batch)for(const value of [q.stem,q.why,...q.options])assert.doesNotMatch(value.replace(/\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]/g,''),/\\[()[\]]/);
+});
+
 async function harness(){
   const edge=(await import('data:text/javascript;base64,'+Buffer.from(read('netlify/edge-functions/test-bank-mobile-picker.js')).toString('base64'))).default;
   let html=await (await edge(new Request('https://upskillsprint.com/test-bank?exam=cre'),{next:async()=>new Response(read('test-bank.html'),{headers:{'content-type':'text/html'}})})).text();
@@ -497,15 +529,18 @@ async function harness(){
   return {w,errors,typesetRoots,close:()=>{w.__TBCurrentAttemptReview?.destroy?.();closeFrames();w.close();}};
 }
 function click(w,selector){const el=w.document.querySelector(selector);assert.ok(el,'control exists: '+selector);el.click();return el;}
-function start(w,mode){click(w,'.tb-tile[data-exam="cre"]');click(w,'#tb-overview [data-mode="'+mode+'"]');return w.__TB.getFeedbackSnapshot();}
+// CRE Set 1 is the default now that it is released, so these Set 2 journeys select Set 2 explicitly.
+function useSet2(w,mode){click(w,mode==='full'?'[data-set="2"]':'[data-quiz-set-kind="'+(mode==='focus'?'focus':'quick')+'"][data-quiz-set="2"]');}
+function start(w,mode){click(w,'.tb-tile[data-exam="cre"]');useSet2(w,mode);click(w,'#tb-overview [data-mode="'+mode+'"]');return w.__TB.getFeedbackSnapshot();}
 function submit(w){const n=w.__TB.getFeedbackSnapshot().records.length;click(w,'[data-goto="'+(n-1)+'"]');click(w,'[data-submit]');}
 
-test('production player uses Set 2, correct pace, fifty-one exhibits, review tools, and immutable score',async()=>{
+test('production player uses Set 2, correct pace, fifty-six exhibits, review tools, and immutable score',async()=>{
   const h=await harness(),{w}=h;
   try{
     click(w,'.tb-tile[data-exam="cre"]');
-    assert.ok(w.document.querySelector('[data-set="1"]').disabled);
-    assert.match(w.document.querySelector('#tb-overview').textContent,/90 of 150/);
+    assert.equal(w.document.querySelector('[data-set="1"]').disabled,false);
+    useSet2(w,'full');
+    assert.match(w.document.querySelector('#tb-overview').textContent,/100 of 150/);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,10),938);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,20),1876);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,30),2815);
@@ -515,21 +550,22 @@ test('production player uses Set 2, correct pace, fifty-one exhibits, review too
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,70),6567);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,80),7505);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,90),8444);
+    assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,100),9382);
     click(w,'#tb-overview [data-mode="full"]');
     const snapshot=w.__TB.getFeedbackSnapshot();
-    assert.equal(snapshot.records.length,90);
+    assert.equal(snapshot.records.length,100);
     assert.ok(snapshot.records.every(r=>/^cre:set-2:/.test(r.question.qid)));
     assert.equal(w.document.querySelector('.cre2-explorer'),null);
     assert.equal(w.document.querySelector('.tb-explanation'),null);
     snapshot.records.forEach((r,i)=>{click(w,'[data-goto="'+i+'"]');click(w,'[data-opt="'+r.question.answer+'"]');});
     submit(w);await tick();
     const score=w.document.querySelector('[data-score-result]').textContent;
-    assert.match(score,/90\/90/);assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet,'2');
+    assert.match(score,/100\/100/);assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet,'2');
     click(w,'[data-open-review="all"]');await tick();
-    assert.equal(w.document.querySelectorAll('.tb-review-card').length,90);
-    assert.equal(w.document.querySelectorAll('.tb-review-card .cre2-exhibit').length,51);
-    assert.equal(w.document.querySelectorAll('.cre2-explorer').length,18);
-    assert.equal(w.document.querySelectorAll('.cre2-source strong').length,180);
+    assert.equal(w.document.querySelectorAll('.tb-review-card').length,100);
+    assert.equal(w.document.querySelectorAll('.tb-review-card .cre2-exhibit').length,56);
+    assert.equal(w.document.querySelectorAll('.cre2-explorer').length,20);
+    assert.equal(w.document.querySelectorAll('.cre2-source strong').length,200);
     for(const card of w.document.querySelectorAll('.tb-review-card'))assert.ok(h.typesetRoots.includes(card));
     const slider=w.document.querySelector('[data-cre-explorer="weibull"] input');
     slider.value='1500';slider.dispatchEvent(new w.Event('input',{bubbles:true}));
@@ -661,6 +697,14 @@ test('production player uses Set 2, correct pace, fifty-one exhibits, review too
     }
     proof.closest('details').querySelector('button').click();assert.equal(proof.value,'500');
     assert.match(proof.closest('details').querySelector('output').textContent,/0.4983%.*0.9950%/);
+    const shared=w.document.querySelector('[data-cre-explorer="load-sharing-rate"] select');
+    assert.equal(shared.closest('details').open,false);
+    for(const [value,expected] of [['1','0.9909'],['2','0.9825'],['6','0.9537']]){shared.value=value;shared.dispatchEvent(new w.Event('change',{bubbles:true}));assert.ok(shared.closest('details').querySelector('output').textContent.includes('System reliability at 100 h: '+expected));}
+    shared.closest('details').querySelector('button').click();assert.equal(shared.value,'4');assert.match(shared.closest('details').querySelector('output').textContent,/0.9671/);
+    const shift=w.document.querySelector('[data-cre-explorer="block-shift"] input');
+    assert.equal(shift.closest('details').open,false);
+    for(const [value,expected] of [['0','6.0'],['40','26.0']]){shift.value=value;shift.dispatchEvent(new w.Event('input',{bubbles:true}));const out=shift.closest('details').querySelector('output').textContent;assert.ok(out.includes('Block-adjusted B minus A: +6.0'));assert.ok(out.includes('Unadjusted B minus A: +'+expected));}
+    shift.closest('details').querySelector('button').click();assert.equal(shift.value,'20');assert.match(shift.closest('details').querySelector('output').textContent,/Unadjusted B minus A: \+16.0/);
     assert.equal(JSON.stringify(w.CRE_SET2),baseline);
     assert.equal(w.document.querySelector('[data-score-result]').textContent,score);
     // The concurrently merged Set 3 stays selectable and uses only its own bank.
@@ -670,6 +714,10 @@ test('production player uses Set 2, correct pace, fifty-one exhibits, review too
     assert.equal(third.records.length,165);
     assert.ok(third.records.every(r=>r.question.qid.startsWith('cre:set-3:')));
     assert.equal(JSON.stringify(w.CRE_SET3),thirdBefore);
+    submit(w);await tick();
+    click(w,'[data-back]');click(w,'[data-set="1"]');click(w,'#tb-overview [data-mode="full"]');
+    const first=w.__TB.getFeedbackSnapshot();
+    assert.equal(first.records.length,30);assert.ok(first.records.every(r=>r.question.qid.startsWith('cre:set-1:')));
     assert.deepEqual(h.errors,[]);
   }finally{h.close();}
 });
@@ -685,8 +733,10 @@ test('quick and focused modes select available Set 2; retry math renders without
     assert.ok(h.typesetRoots.includes(feedback));
     assert.equal(w.document.querySelector('.tb-retry-panel .cre2-explorer'),null);
     click(w,'[data-back]');
+    useSet2(w,'focus');
+    const area=w.document.querySelector('[data-focusdom]');area.value='cre-fundamentals';area.dispatchEvent(new w.Event('change',{bubbles:true}));
     click(w,'#tb-overview [data-mode="focus"]');
-    assert.equal(w.__TB.getFeedbackSnapshot().records.length,17);
+    assert.equal(w.__TB.getFeedbackSnapshot().records.length,19);
     assert.ok(w.__TB.getFeedbackSnapshot().records.every(r=>r.question.qid.startsWith('cre:set-2:')));
     assert.deepEqual(h.errors,[]);
   }finally{h.close();}

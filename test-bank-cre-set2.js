@@ -1336,6 +1336,153 @@
       handbook: {chapter: 13, section: 'Preventive Maintenance (PM) Analysis'},
       lessonGap: 'A dedicated hidden-failure proof-testing lesson is planned; the exact probability model and averaging assumptions are stated here.',
       explorer: 'proof-test-interval'
+    },
+    {
+      number: 91, qid: 'cre:set-2:091', sub: 'cre-fundamentals', bok: 'I.B.6',
+      topic: 'Maintainability investment versus logistics delay', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Production equipment service', quantitative: false,
+      stem: 'A machine loses production throughout both waiting and active repair. Two service proposals have the SAME annual cost and leave failure frequency, repair quality, safety, and all other costs unchanged. Use the mean downtime components shown. Which proposal offers the greater reduction in expected production downtime?',
+      options: ['Proposal P, because only active repair time affects operational availability.', 'Neither proposal, because availability cannot improve unless failure frequency decreases.', 'Proposal Q, because its reduction in waiting time removes more total downtime per failure.', 'Both proposals give the same benefit because they cost the same amount.'], answer: 2,
+      chart: {type:'data-table', creKind:'maintenance-delay', title:'Mean downtime per failure — sequential components', columns:['Service arrangement','Waiting for parts/service (h)','Active repair (h)'], rows:[['Current',18,2],['Proposal P',18,1],['Proposal Q',4,2]], description:'Waiting and active repair occur sequentially, and production is stopped during both. Current downtime comprises 18 waiting hours followed by two repair hours. P changes only active repair to one hour. Q changes only waiting to four hours.'},
+      why: tex`<p>The relevant outcome is total production downtime, which includes both waiting and active repair. The proposals cost the same, so compare the downtime they remove.</p><p>\[\begin{aligned}d_{\mathrm{current}}&=18+2=20\,\mathrm h\\d_P&=18+1=19\,\mathrm h\\d_Q&=4+2=6\,\mathrm h\end{aligned}\]</p><p>Here \(d\) is mean downtime per failure. P saves one hour per failure; Q saves fourteen. With unchanged failure frequency, Q gives the greater expected downtime reduction. Faster hands-on repair is useful, but it is not the only way to improve operational availability.</p>`,
+      optionRationales:['Operational availability includes logistics delays when they keep the equipment unavailable; active repair is not the whole interruption.', 'Shorter downtime can improve operational availability even if the rate of failure remains unchanged.', 'Q removes fourteen hours per failure, compared with one hour for P, at the same stated annual cost.', 'Equal expenditure does not imply equal benefit; the proposals reduce different amounts of production downtime.'],
+      keyPoint:'Compare maintainability investments using the downtime and costs relevant to the operational objective.',
+      trap:'A large percentage reduction in a small repair component can have less value than reducing a dominant waiting component.',
+      assumptions:['The listed mean waiting and repair components are sequential and exhaust the production interruption.', 'The two proposals have equal annual costs and no other differences relevant to this comparison.'],
+      handbook:{chapter:2,section:'Economics of Product Maintainability and Availability'},
+      lessonGap:'A dedicated maintainability-economics lesson is planned; use the handbook section and the total-downtime comparison.'
+    },
+    {
+      number:92,qid:'cre:set-2:092',sub:'cre-fundamentals',bok:'I.B.7',
+      topic:'Financial and nonfinancial costs of poor reliability',cognitive:'Understand',difficulty:'Foundational',estimatedMinutes:1,
+      industry:'Industrial product support',quantitative:false,
+      stem:'A product manager reports warranty reimbursements as the entire cost of poor reliability. Repeated field failures have also caused customer production interruptions, emergency support work, and loss of confidence in the supplier. What is the BEST assessment of the report?',
+      options:['It omits relevant operational and reputational consequences; assess these alongside direct warranty costs, avoiding double counting.', 'It is complete because only costs appearing in a warranty account can result from poor reliability.', 'Every customer interruption should be assigned the full annual value of the customer’s business, regardless of evidence.', 'Reputational effects must be excluded because they are harder to measure than reimbursements.'],answer:0,
+      why:'<p>Poor reliability can create costs beyond warranty reimbursements: disrupted operations, emergency service, lost opportunities, and reduced customer trust. Some consequences can be estimated financially; others should be documented qualitatively when a defensible monetary estimate is unavailable.</p><p>A broader assessment should identify the affected parties and evidence, state uncertainty, and avoid counting the same consequence twice. It should not invent a monetary value simply to make every consequence appear precise.</p>',
+      optionRationales:['This recognizes direct and indirect consequences while retaining an evidence-based approach to valuation.', 'The accounting category used to record a reimbursement does not define the full impact of a failure.', 'Assigning a customer’s entire annual business value to each interruption would be unsupported and could grossly double count loss.', 'Difficulty of measurement does not make an operational or reputational consequence irrelevant.'],
+      keyPoint:'The cost of poor reliability includes financial and nonfinancial consequences beyond warranty payments.',
+      trap:'An easily measured accounting cost is not necessarily the complete business impact.',
+      assumptions:['The additional consequences are reported observations, not hypothetical claims of a particular monetary loss.'],
+      handbook:{chapter:2,section:'Cost of Poor Reliability'},
+      lessonGap:'A dedicated cost-of-poor-reliability lesson is planned; use the handbook section and the scope distinction above.'
+    },
+    {
+      number:93,qid:'cre:set-2:093',sub:'cre-risk',bok:'II.B.2',
+      topic:'Functional FMEA before component selection',cognitive:'Evaluate',difficulty:'Moderate',estimatedMinutes:1.5,
+      industry:'New dispensing-system development',quantitative:false,
+      stem:'During concept development, a team knows that a system must meter a specified dose and stop flow on command. The component architecture and manufacturing process have not been selected. It wants a bottom-up assessment of how these required functions could fail and what effects would follow. Which approach BEST fits the information available?',
+      options:['A process FMEA limited to assembly operations that have not yet been defined.', 'A parts-level FMECA populated with assumed component rates and criticalities presented as established data.', 'Postpone all FMEA work until field warranty failures identify the component architecture.', 'A functional FMEA covering loss, excess, insufficiency, or mistiming of the required functions and their effects.'],answer:3,
+      why:'<p>A functional FMEA can begin with required functions and examine their possible failures and effects before detailed parts are selected. It can help refine requirements and compare concepts.</p><p>At this stage, the team should identify knowledge gaps and update the analysis as the architecture develops. It should not invent component failure rates, manufacturing operations, or detection effectiveness to make a premature detailed analysis look complete.</p>',
+      optionRationales:['A process FMEA needs a defined process or process steps; it does not best match this function-level concept question.', 'Unselected components and unsupported rates do not justify an apparently quantitative criticality assessment.', 'Function-level failure analysis can inform the design now; waiting for warranty failures would miss that opportunity.', 'This analyzes failure of the known functions without requiring an already selected component or process design.'],
+      keyPoint:'Choose the FMEA scope to match the design information and decision stage.',
+      trap:'FMEA does not always have to begin with a completed bill of materials.',
+      assumptions:['The objective is a bottom-up analysis of known functions, rather than a deductive analysis of one specified top event.'],
+      handbook:{chapter:4,section:'Failure Mode and Effects Analysis; Functional FMEA'},
+      lessonGap:'A dedicated FMEA-scope lesson is planned; use the handbook section and the distinction between functions, designs, and processes.'
+    },
+    {
+      number:94,qid:'cre:set-2:094',sub:'cre-risk',bok:'II.A.2',
+      topic:'Expected annual cost of financial risk controls',cognitive:'Analyze',difficulty:'Moderate',estimatedMinutes:2,
+      industry:'Non-safety production loss',quantitative:true,
+      stem:'A business must select exactly one of the alternatives shown for a purely financial production-loss risk. At most one loss event can occur during the year. Annual control costs are paid whether or not an event occurs. The decision rule is to minimize expected total annual cost: control cost plus event loss. Treat all inputs as known; all mandatory requirements are already met, and there are no other consequences or costs. Which alternative should be selected?',
+      options:['No control','Control P','Control Q','Control R'],answer:1,
+      chart:{type:'data-table',title:'Mutually exclusive control alternatives — annual planning inputs',columns:['Alternative','Annual control cost ($)','Probability of one loss event','Loss if event occurs ($)'],rows:[['No control',0,'0.08',200000],['Control P',3000,'0.03',200000],['Control Q',6000,'0.08',50000],['Control R',7000,'0.04',100000]]},
+      why:tex`<p>For each alternative, add the certain control expenditure to the expected event loss.</p><p>\[\begin{aligned}E[C]&=C_{\mathrm{control}}+pL\\E[C_{\mathrm{none}}]&=0+0.08(200000)=16000\\E[C_P]&=3000+0.03(200000)=9000\\E[C_Q]&=6000+0.08(50000)=10000\\E[C_R]&=7000+0.04(100000)=11000\end{aligned}\]</p><p>Here \(C\) is total annual cost, \(C_{\mathrm{control}}\) is control expenditure, \(p\) is annual event probability, and \(L\) is the loss conditional on that event. P has the lowest expected total, $9,000. Q has the smallest conditional loss, but its larger control cost makes its total higher. This is the stated risk-neutral financial comparison, not a safety-risk acceptance rule or a guarantee of realized annual cost.</p>`,
+      optionRationales:['No control avoids the certain expenditure but leaves expected event loss of $16,000, the largest total.', 'P combines $3,000 control cost with $6,000 expected event loss, giving the unique minimum of $9,000.', 'Q gives $4,000 expected event loss plus $6,000 control cost; minimizing severity alone misses its $10,000 total.', 'R gives $4,000 expected event loss plus $7,000 control cost, totaling $11,000.'],
+      keyPoint:'A financial risk-control decision can require combining event probability, event consequence, and control expenditure.',
+      trap:'The smallest conditional loss or smallest upfront expenditure need not minimize expected total cost.',
+      assumptions:['The alternatives are mutually exclusive and cannot be combined.', 'The stated objective is expected financial cost; mandatory constraints and nonfinancial consequences do not differ.'],
+      handbook:{chapter:3,section:'Risk Assessment'},
+      lessonGap:'A dedicated quantitative-risk decision lesson is planned; use the supplied rule and the handbook risk-assessment section.'
+    },
+    {
+      number:95,qid:'cre:set-2:095',sub:'cre-statistics',bok:'III.B.3',
+      topic:'Capturing brief failures and the exposure denominator',cognitive:'Evaluate',difficulty:'Moderate',estimatedMinutes:1.5,
+      industry:'Automated equipment monitoring',quantitative:false,
+      stem:'A controller can lose its required function for about 200 milliseconds and recover automatically. A once-per-minute status snapshot misses most events. The study needs event frequency per operating hour and the operating conditions immediately before each event. Which collection plan BEST meets these objectives?',
+      options:['Retain one-minute snapshots and count every missing event as proof of successful operation.', 'Collect operator recollections at month end and use calendar hours as the exposure denominator for every machine.', 'Validate an event-triggered logger with adequate time resolution, a pre-event buffer, synchronized timestamps, event identifiers, and measured operating exposure.', 'Record only triggered failure waveforms and report their count as an event rate without collecting operating exposure.'],answer:2,
+      why:'<p>The collection system must detect the short interruption and preserve the preceding conditions. A validated trigger and suitable time resolution address detection; a pre-event buffer preserves context; synchronized timestamps and event identifiers support alignment and deduplication.</p><p>Operating exposure supplies the denominator needed for a rate per operating hour. Validate the logging system against known events and account for lost records or logger downtime rather than interpreting missing data as successful operation.</p>',
+      optionRationales:['A sampling interval much longer than the failure can miss events; absence from snapshots is not evidence that none occurred.', 'Recall can miss brief automatic recoveries, and calendar hours do not equal operating exposure when equipment is stopped.', 'This addresses detection, preceding conditions, time alignment, unique events, and the correct exposure denominator.', 'Waveforms can support diagnosis, but a count alone cannot establish a rate per operating hour without exposure.'],
+      keyPoint:'Choose collection resolution and context fields to match the event and the intended metric.',
+      trap:'More failure records do not create a valid failure rate unless their exposure and completeness are known.',
+      assumptions:['The study can instrument the required-function signal and validate detection of interruptions of the stated duration.', 'Repeated records for one interruption are not counted as independent events.'],
+      handbook:{chapter:7,section:'Data Collection Methods'},
+      lessonGap:'A dedicated event-data collection lesson is planned; use the handbook section and the measurement-plan reasoning above.'
+    },
+    {
+      number:96,qid:'cre:set-2:096',sub:'cre-statistics',bok:'III.A.3',
+      topic:'Exactly two failures in independent mission tests',cognitive:'Apply',difficulty:'Moderate',estimatedMinutes:2,
+      industry:'Mission qualification planning',quantitative:true,
+      stem:'Eight independently selected devices each undergo one identical mission. Each device has a known failure probability of 0.10 for that mission, and outcomes are independent. What is the probability that EXACTLY two of the eight devices fail?',
+      options:['0.1488','0.0053','0.1869','0.5695'],answer:0,
+      why:tex`<p>Let \(X\) be the number of failed devices. The fixed number of independent trials and common failure probability give a binomial distribution. Any of the 28 distinct pairs can be the two failures.</p><p>\[\begin{aligned}P(X=2)&=\binom{8}{2}(0.10)^2(0.90)^6\\&=28(0.01)(0.531441)\\&=0.14880348\approx0.1488\end{aligned}\]</p><p>The probability of one particular pair failing while the other six survive is only about 0.0053. Exactly two excludes outcomes with three or more failures; it is not the same as at least two.</p>`,
+      optionRationales:['0.1488 includes all 28 mutually exclusive choices of which two devices fail.', '0.0053 counts only one specified pair of failed devices and omits the other 27 possible pairs.', '0.1869 is the probability of at least two failures, including outcomes with three or more.', '0.5695 is the probability of at least one failure, rather than exactly two.'],
+      keyPoint:'An exact binomial count includes every arrangement having that count, and no other counts.',
+      trap:'Multiplying two failure probabilities and six survival probabilities represents only one arrangement.',
+      assumptions:['Each device contributes one binary mission outcome with the same fixed failure probability.', 'The independence assumption is stated; no shared environment or common-cause dependence is added.'],
+      handbook:{chapter:6,section:'Probability Distributions; Binomial Distribution'},
+      lessonGap:'A dedicated mission-count probability lesson is planned; use the handbook distribution section and the calculation above.'
+    },
+    {
+      number:97,qid:'cre:set-2:097',sub:'cre-testing',bok:'IV.A.3',
+      topic:'Consequence-specific acceptance criteria',cognitive:'Understand',difficulty:'Moderate',estimatedMinutes:1.5,
+      industry:'Product qualification',quantitative:false,
+      stem:'Before a qualification test, the team approves the two separate acceptance conditions shown. The test records four display-blemish events and one loss-of-protective-function event. A summary reports five events and recommends acceptance because the allowed blemish count is five. Which conclusion is correct under the approved plan?',
+      options:['Accept, because combining all event categories produces a total no greater than five.', 'Accept if the single critical event is less than 1% of all recorded operating cycles.', 'Remove the critical event from the reliability assessment because it belongs only in the safety report.', 'Do not accept: the zero-critical-event condition is violated even though the blemish condition is met.'],answer:3,
+      chart:{type:'data-table',title:'Preapproved qualification acceptance conditions',columns:['Event category','Acceptance condition','Observed count'],rows:[['Display blemish with no functional effect','No more than five events',4],['Loss of required protective function','Zero events',1]],description:'Both category-specific acceptance conditions must be met. The critical-function criterion is separate from the display-blemish limit.'},
+      why:'<p>The plan requires both conditions. Four blemishes meet the blemish limit, but one loss of protective function violates the zero-event condition. Combining categories discards the consequence distinction that the acceptance plan intentionally preserves.</p><p>The result requires investigation and the agreed corrective/requalification process. It does not by itself estimate a population critical-failure rate, prove an unsafe rate, or justify changing a criterion after observing the result.</p>',
+      optionRationales:['The limit of five belongs only to the blemish category; pooling events cannot replace the two approved conditions.', 'No cycle-based percentage exception is included in the plan; introducing one after the test changes the rule.', 'A safety-relevant loss of required function remains relevant to this explicitly stated qualification criterion.', 'The critical-event requirement fails independently of the passing blemish count, so the combined plan is not met.'],
+      keyPoint:'Reliability acceptance criteria must retain distinctions between failure consequences.',
+      trap:'A pooled event count can hide a violation of a separate critical-function requirement.',
+      assumptions:['Both conditions were approved before testing and must be met; event classification is confirmed.', 'These are hypothetical qualification rules, not universal numerical acceptance limits.'],
+      handbook:{chapter:8,section:'Failure Consequence'},
+      lessonGap:'A dedicated consequence-based test-planning lesson is planned; use the handbook section and the explicit acceptance rules.'
+    },
+    {
+      number:98,qid:'cre:set-2:098',sub:'cre-testing',bok:'IV.B.5',
+      topic:'Software failures and operational usage',cognitive:'Understand',difficulty:'Moderate',estimatedMinutes:1.5,
+      industry:'Embedded software',quantitative:false,
+      stem:'An unchanged software version has operated reliably for months. A new usage pattern now repeatedly activates a rarely used command sequence, exposing a latent logic defect. Hardware condition is unchanged. Which interpretation BEST explains the increase in observed failures?',
+      options:['Elapsed calendar age has physically worn out the software instructions, as it would a bearing.', 'An unchanged software version must have the same failure frequency under every possible usage profile.', 'The changed usage profile is activating an existing defect more often; failure behavior depends on both the software and the conditions of execution.', 'Automatically reinstalling the identical version necessarily removes the underlying logic defect.'],answer:2,
+      why:'<p>Software does not physically wear in the same way as a mechanical part. A latent defect may remain unobserved until an input, state, or command sequence activates it. Changing the frequency of those conditions can change observed failure behavior even when the code is unchanged.</p><p>The investigation should reproduce the triggering conditions, analyze the defect, and verify any correction against relevant usage and regression tests. Reinstalling identical code might reset some state, but it does not necessarily remove a logic defect in that code.</p>',
+      optionRationales:['The stated mechanism is activation of a latent logic defect, not physical wear of software instructions.', 'Software failure behavior depends on the execution environment and input/state distribution as well as the version.', 'This explains how unchanged code can fail more often when its defect-triggering conditions become more common.', 'Reinstalling the same code does not necessarily change its erroneous logic and cannot guarantee permanent correction.'],
+      keyPoint:'Software reliability is conditional on the software version and its operational environment and usage.',
+      trap:'Unchanged code does not imply unchanged reliability under a changed operational profile.',
+      assumptions:['A latent logic defect and its triggering command sequence have been identified.', 'The question does not exclude state-dependent software problems; it distinguishes them from physical wear of instructions.'],
+      handbook:{chapter:9,section:'Software/Firmware Reliability; Software Design Reliability'},
+      lessonGap:'A dedicated software-reliability lesson is planned; use the handbook section and the operational-profile distinction.'
+    },
+    {
+      number:99,qid:'cre:set-2:099',sub:'cre-testing',bok:'IV.C.1',
+      topic:'Load-sharing redundancy with state-dependent failure rates',cognitive:'Analyze',difficulty:'Challenging',estimatedMinutes:3,
+      industry:'Parallel load-sharing equipment',quantitative:true,
+      stem:tex`Two identical units share a load and both start working. Each has constant failure rate \(\lambda=0.001\,\mathrm h^{-1}\) while both work. After the first failure, the survivor can carry the full load, but its constant failure rate becomes \(\mu=0.004\,\mathrm h^{-1}\). Transfer is perfect; there is no repair or common-cause failure. The system works while at least one unit works. For this model, you may use \(P_2(t)=e^{-at}\) and \(P_1(t)=\frac{a}{b-a}(e^{-at}-e^{-bt})\), where \(a=2\lambda\), \(b=\mu\), and the subscript is the number of working units. What is system reliability at 100 h?`,
+      options:['0.9909','0.9671','0.8187','0.6703'],answer:1,
+      chart:{type:'data-table',creKind:'load-sharing',title:'Number of working units and transition rates',columns:['Transition','Total transition rate (per hour)','System state after transition'],rows:[['Two working → one working','0.002','Still operating'],['One working → none working','0.004','Failed']],description:'A three-state model begins with two working units. The total rate to one working unit is 0.002 per hour. The surviving unit then fails at 0.004 per hour. Both the two-working and one-working states satisfy the system function; no state has a repair transition.'},
+      why:tex`<p>Add the mutually exclusive probabilities of two and one working units. The total rate of the first failure is twice the per-unit rate while both operate.</p><p>\[\begin{aligned}P_2(100)&=e^{-0.002(100)}\approx0.818731\\P_1(100)&=\frac{0.002}{0.004-0.002}(e^{-0.2}-e^{-0.4})\\&\approx0.148411\\R(100)&=P_2(100)+P_1(100)\\&\approx0.967142\approx0.9671\end{aligned}\]</p><p>Here \(R\) is system reliability. The ordinary independent parallel formula would give about 0.9909 if the surviving unit retained its original rate. It is not valid for the specified rate increase. Requiring both units to survive would instead give only 0.8187.</p>`,
+      optionRationales:['0.9909 uses the ordinary independent parallel formula with the original rate throughout and ignores the survivor’s increased load.', '0.9671 includes both operating states with the specified first-failure and survivor failure rates.', '0.8187 is only the probability that both units survive; it excludes successful one-unit operation.', '0.6703 is survival of a single unit exposed to the higher rate for the entire mission, a different model.'],
+      keyPoint:'Load sharing can change failure rates after a component fails, so a fixed-rate independent parallel formula may be inappropriate.',
+      trap:'Redundancy describes success logic; it does not by itself establish independence or unchanged component hazards.',
+      assumptions:['Conditional on the working state, failure transitions are memoryless with the stated constant rates.', 'Both units initially work; the survivor supports the full function immediately and no repairs occur during the mission.'],
+      handbook:{chapter:10,section:'Reliability Block Diagrams and Models; Load-Sharing Systems'},
+      lessonGap:'A dedicated load-sharing lesson is planned; the state-probability formulas are supplied explicitly for this model.',
+      explorer:'load-sharing-rate'
+    },
+    {
+      number:100,qid:'cre:set-2:100',sub:'cre-lifecycle',bok:'V.A.3',
+      topic:'Block-adjusted treatment contrast with unequal allocation',cognitive:'Analyze',difficulty:'Challenging',estimatedMinutes:3,
+      industry:'Fatigue-process experiment',quantitative:true,
+      stem:'A fatigue experiment compares processes A and B in two planned material blocks. Specimens were assigned randomly within each block using the unequal counts shown. Analyze an additive treatment-plus-block model with a common B-minus-A effect and no treatment-by-block interaction. Use the equally weighted mean of the two within-block B-minus-A differences. What estimated process effect results, in thousands of cycles?',
+      options:['+6','+16','+20','−6'],answer:0,
+      chart:{type:'data-table',creKind:'blocked-contrast',title:'Fatigue lives by treatment and material block',columns:['Material block','Process','Individual lives (thousands of cycles)','Specimen count'],rows:[['1','A','98, 100, 102',3],['1','B','106',1],['2','A','120',1],['2','B','124, 126, 128',3]],description:'Block 1 has A mean 100 and B mean 106, with counts three and one. Block 2 has A mean 120 and B mean 126, with counts one and three. Points in the plot show cell means, not individual observations. The table supplies all individual lives.'},
+      why:tex`<p>Compare treatments within the same material block before averaging. Each within-block difference is six thousand cycles.</p><p>\[\begin{aligned}\widehat{\Delta}_1&=106-100=6\\\widehat{\Delta}_2&=126-120=6\\\widehat{\Delta}&=\frac{6+6}{2}=6\end{aligned}\]</p><p>Here the estimated contrast is B minus A. Ignoring blocks gives pooled means of 121 for B and 105 for A, a difference of 16. B has more specimens in the higher-response block, so that pooled difference mixes the treatment and block effects. The stated adjusted estimate is +6; it does not, without an uncertainty analysis, establish statistical significance or a guaranteed life improvement.</p>`,
+      optionRationales:['+6 is the equally weighted average of the two within-block B-minus-A differences, as requested.', '+16 subtracts the pooled treatment means and ignores the unequal treatment allocation across different material blocks.', '+20 is the block-to-block shift in cell means, not the B-minus-A process effect within a block.', '−6 reverses the requested contrast and calculates A minus B instead.'],
+      keyPoint:'With unequal treatment allocation across blocks, a pooled treatment comparison can mix treatment and block effects.',
+      trap:'Randomization within blocks does not make an analysis that ignores those blocks appropriate.',
+      assumptions:['The specified additive model has a common treatment effect and no treatment-by-block interaction.', 'The requested estimator weights the two within-block differences equally; no significance test or confidence claim is requested.'],
+      handbook:{chapter:11,section:'Design of Experiments; Blocking'},
+      lessonGap:'A dedicated blocked-experiment analysis lesson is planned; use the handbook section and the explicitly defined contrast.',
+      explorer:'block-shift'
     }
   ];
   questions.forEach(q => {q.set = 2; q.batch = Math.ceil(q.number / 10); q.sourceDocument = 'The ASQ Certified Reliability Engineer Handbook, 4th edition (2025)'; q.original = true;});
@@ -1348,7 +1495,7 @@
     exam.sets = Object.assign({}, existing, {1: first, 2: questions});
     if (!exam.bank || !exam.bank.length) exam.bank = questions;
     exam.defaultSet = first.length ? '1' : '2';
-    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–9 · Q001–090'}});
+    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–10 · Q001–100'}});
     exam.fullExamQuestionsBySet = Object.assign({}, exam.fullExamQuestionsBySet, {2: 150});
     // Actual CBT pace: 165 displayed items in 258 minutes; this bank targets 150 core items.
     exam.questions = 165; exam.minutes = 258;

@@ -1,6 +1,6 @@
 # CRE Set 2 — original practice bank
 
-Batches 1–9 provide Q001–090, ninety of a planned 150 core questions. Batch 9 appends Q081–090 without changing the first eighty items. Sets 1 and 3 are managed separately. These are original practice items informed by the supplied handbook and the public ASQ Body of Knowledge, not reproduced or purported past ASQ examination items. Difficulty labels are editorial targets; equivalence to the live examination has not been established through candidate-response data.
+Batches 1–10 provide Q001–100, one hundred of a planned 150 core questions. Batch 10 appends Q091–100 without changing the first ninety items. Sets 1 and 3 are managed separately. These are original practice items informed by the supplied handbook and the public ASQ Body of Knowledge, not reproduced or purported past ASQ examination items. Difficulty labels are editorial targets; equivalence to the live examination has not been established through candidate-response data.
 
 ## Authoritative blueprint
 
@@ -8,18 +8,18 @@ Batches 1–9 provide Q001–090, ninety of a planned 150 core questions. Batch 
 - [ASQ published 2025 CRE Body of Knowledge](https://www.asq.org/cert/resource/pdf/certification/2025-CRE-BoK.pdf): domain allocations 29, 25, 35, 35, 26. The PDF's internal footer says “2024 CRE BoK”; use its published topic codes and allocations.
 - Karen Hulting and Mary McShane-Vaughn, editors, *The ASQ Certified Reliability Engineer Handbook*, fourth edition (2025), user-supplied EPUB. Technical concepts checked in Chapters 1–13. No text, figures, or book files are copied into the site.
 
-The supplied handbook appendix lists older allocations (25/25/35/35/30) and nests maintainability under V.B. The published ASQ PDF takes precedence for the bank blueprint; maintainability is V.C. A 10-item timed practice session is 938 seconds (15:38), proportional to 258 minutes / 165 displayed questions. A 20-item session is 1,876 seconds (31:16); a 30-item session is 2,815 seconds (46:55); a 40-item session is 3,753 seconds (62:33); a 50-item session is 4,691 seconds (78:11); a 60-item session is 5,629 seconds (93:49); a 70-item session is 6,567 seconds (109:27); an 80-item session is 7,505 seconds (125:05); a 90-item session is 8,444 seconds (140:44). A completed 150-item core is not a full 165-item CBT replica.
+The supplied handbook appendix lists older allocations (25/25/35/35/30) and nests maintainability under V.B. The published ASQ PDF takes precedence for the bank blueprint; maintainability is V.C. A 10-item timed practice session is 938 seconds (15:38), proportional to 258 minutes / 165 displayed questions. A 20-item session is 1,876 seconds (31:16); a 30-item session is 2,815 seconds (46:55); a 40-item session is 3,753 seconds (62:33); a 50-item session is 4,691 seconds (78:11); a 60-item session is 5,629 seconds (93:49); a 70-item session is 6,567 seconds (109:27); an 80-item session is 7,505 seconds (125:05); a 90-item session is 8,444 seconds (140:44); a 100-item session is 9,382 seconds (156:22). A completed 150-item core is not a full 165-item CBT replica.
 
-| Official domain | Final core target | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 | Batch 9 | Authored | Remaining |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| I. Reliability Fundamentals | 29 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | 2 | 17 | 12 |
-| II. Risk Management | 25 | 2 | 1 | 2 | 2 | 1 | 2 | 2 | 1 | 2 | 15 | 10 |
-| III. Probability and Statistics for Reliability | 35 | 2 | 3 | 2 | 2 | 3 | 2 | 2 | 3 | 2 | 21 | 14 |
-| IV. Reliability Planning, Testing, and Modeling | 35 | 2 | 3 | 2 | 2 | 2 | 3 | 2 | 3 | 2 | 21 | 14 |
-| V. Lifecycle Reliability | 26 | 2 | 1 | 2 | 2 | 2 | 1 | 2 | 2 | 2 | 16 | 10 |
-| Total | 150 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 90 | 60 |
+| Official domain | Final core target | Batch 1 | Batch 2 | Batch 3 | Batch 4 | Batch 5 | Batch 6 | Batch 7 | Batch 8 | Batch 9 | Batch 10 | Authored | Remaining |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| I. Reliability Fundamentals | 29 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | 2 | 2 | 19 | 10 |
+| II. Risk Management | 25 | 2 | 1 | 2 | 2 | 1 | 2 | 2 | 1 | 2 | 2 | 17 | 8 |
+| III. Probability and Statistics for Reliability | 35 | 2 | 3 | 2 | 2 | 3 | 2 | 2 | 3 | 2 | 2 | 23 | 12 |
+| IV. Reliability Planning, Testing, and Modeling | 35 | 2 | 3 | 2 | 2 | 2 | 3 | 2 | 3 | 2 | 3 | 24 | 11 |
+| V. Lifecycle Reliability | 26 | 2 | 1 | 2 | 2 | 2 | 1 | 2 | 2 | 2 | 1 | 17 | 9 |
+| Total | 150 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 10 | 100 | 50 |
 
-The cumulative 17/15/21/21/16 mix closely follows the official blueprint at ninety questions. Later batches must fill the remaining allocations rather than repeat an equal-domain quota throughout. Authored counts describe the branch; release status is controlled by the pull request and merge.
+The cumulative 19/17/23/24/17 mix closely follows the official blueprint at one hundred questions. Later batches must fill the remaining allocations rather than repeat an equal-domain quota throughout. Authored counts describe the branch; release status is controlled by the pull request and merge.
 
 ## Batch 1 ledger
 
@@ -271,30 +271,60 @@ Batch 9 adds five exhibits: two table-only and three figures. Totals are 51 exhi
 - Q090 integrates unavailability over uniformly distributed demand times, confirming 0.4983% average versus 0.9950% immediately before the test. The four review intervals are independently checked. Perfect detection, instantaneous restoration, hidden failures, and independent demand timing are explicit. This is a supplemental idealized application of Chapter 13 preventive maintenance; [Brissaud and Luiz's PFD modeling paper](https://arxiv.org/abs/1501.06487) provides background, while the exact expression is derived from the stated model. No real equipment interval is recommended.
 - All original 80 items remain hash-locked. The two new controls are collapsed and review-only, with reset, keyboard, live-output, and immutable-score checks. SVG geometry receives separate visual inspection; automated player checks verify shared math-renderer requests and paired delimiters, not actual MathJax glyph layout.
 
+## Batch 10 ledger
+
+| ID | BoK | Principal skill | Evidence | Difficulty target | Key | Handbook chapter |
+|---|---|---|---|---|---|---|
+| 091 | I.B.6 | Choose a maintainability investment using total downtime | Waiting/repair timeline and data table | Moderate | C | 2 |
+| 092 | I.B.7 | Recognize broader costs of poor reliability | Warranty/operational consequence scenario | Foundational | A | 2 |
+| 093 | II.B.2 | Select functional FMEA before component selection | Concept-stage scenario | Moderate | D | 4 |
+| 094 | II.A.2 | Compare expected annual risk-control costs | Cost/probability/consequence table | Moderate | B: Control P | 3 |
+| 095 | III.B.3 | Capture short events, preceding conditions, and exposure | Monitoring-plan scenario | Moderate | C | 7 |
+| 096 | III.A.3 | Count exactly two failures in eight missions | Binomial calculation | Moderate | A: 0.1488 | 6 |
+| 097 | IV.A.3 | Retain consequence-specific acceptance criteria | Criteria/results table | Moderate | D | 8 |
+| 098 | IV.B.5 | Explain software failure under changed usage | Latent-defect scenario | Moderate | C | 9 |
+| 099 | IV.C.1 | Include load-dependent survivor failure rates | Three-state transition diagram | Challenging | B: 0.9671 | 10 |
+| 100 | V.A.3 | Adjust a treatment contrast for material blocks | Cell-mean plot and individual data | Challenging | A: +6 thousand cycles | 11 |
+
+Batch 10 adds five exhibits (two table-only, three figures) and two completed-review explorations. Totals are 56 exhibits (26 table-only, 30 figures) and 20 review tools. The 100 answer positions are balanced at 25 each. This batch contains four quantitative and six decision/interpretation questions; editorial difficulty targets are one foundational, seven moderate, and two challenging.
+
+## Batch 10 technical review
+
+- Q091 compares sequential downtime components at equal annual cost, without asserting a numerical availability change from unspecified uptime. Q092 includes indirect and nonfinancial consequences without inventing monetary values or double counting. Both map to previously uncovered Fundamentals topics.
+- Q093 starts with functions before the component architecture exists, consistent with the handbook's functional FMEA treatment. Q095 specifies short-event detection, a pre-event buffer, clock alignment, unique events, and operating exposure rather than treating calendar time or absent snapshots as valid evidence.
+- Q094 enumerates 100 equally weighted annual outcomes for each alternative. Certain control costs apply in every outcome, yielding expected totals $16,000/$9,000/$10,000/$11,000. This is an expressly risk-neutral financial comparison with mandatory requirements already met, not a safety acceptance rule.
+- Q096 enumerates all 256 binary mission-outcome sequences, confirming exactly-two probability 0.1488 and the fixed-pair/at-least-two/at-least-one distractors. [NIST's binomial distribution reference](https://www.itl.nist.gov/div898/handbook/eda/section3/eda366i.htm) supports the probability model.
+- Q097 applies both preapproved category-specific criteria. It does not infer a population critical-failure rate from one event or change acceptance criteria retrospectively.
+- Q098 distinguishes defect activation from physical wear while retaining state-dependent software failure possibilities. [NASA Software Safety Guidebook, NASA-GB-8719.13](https://s3vi.ndc.nasa.gov/ssri-kb/static/resources/nasa-gb-8719.13.pdf), section 10.5 and footnote 7, distinguishes physical wear from memory leaks and other program errors. The item concerns an identified latent logic defect, not a universal constant software failure rate.
+- Q099 supplies the state-probability formulas for the stated load-sharing model. Independent three-state time stepping checks the answer, all numerical distractors, and the review control's four rates, including equal transition rates. The ordinary independent parallel result is recovered only when the original per-unit rate is retained. Chapter 10's Load-Sharing Systems discussion supports why changed load can change the survivor's failure rate.
+- Q100 fits an intercept, treatment indicator, and block indicator to all eight observations using independent linear-equation elimination: adjusted treatment contrast +6, block contrast +20, versus pooled treatment difference +16. The estimator and no-interaction assumption are explicit. [NIST randomized-block guidance](https://www.itl.nist.gov/div898/handbook/pri/section3/pri332.htm) supports accounting for nuisance blocks; its balanced-design marginal-mean formulas are not used for this unequal-allocation example. No significance or confidence claim is made.
+- The two new controls remain collapsed and review-only, with endpoint, equal-rate, reset, keyboard, and immutable-score checks. New SVG figures and review plots were rendered and inspected; shared renderer requests are checked separately from authenticated MathJax glyph layout.
+- Latest main's Set 1 integration is preserved: 30 Set 1 and 165 Set 3 items remain selectable beside 100 Set 2 items, giving 295 available questions across sets. The Set 1 test fixture now uses replacement callbacks so literal dollar-sign sequences in existing Set 2 scripts are not interpreted as string-replacement operators. Set 1 and Set 3 question data and their presentation code are unchanged. Focused tests explicitly choose their intended domain instead of assuming the default from an absent Set 1.
+
 ## Learning and examination behavior
 
-- Four-option single-best-answer items in the existing Full, Quick, and Focused modes. Set 2 is the available default while Set 1 is absent; empty Set 1 cannot be selected. The partial release is clearly identified.
-- The exam directory lists CRE as available with the explicit label “Set 2: 90 questions available.” CQA remains the single coming-soon certification.
-- Completed-attempt review adds eighteen optional explorations: Weibull mission duration, zero-failure confidence/sample size, diagnostic prevalence/predictive value, acceptance threshold/producer risk, p-chart sample size, Arrhenius test temperature, sequential-test failure count, component-derating temperature, mission high-stress duration, failure-replacement cost, contingency-table failure count, required voting channels, fatigue stress amplitude, standby transfer coverage, surviving-unit age, predictive-inspection spacing, proportional hazard ratio, and proof-test interval. All start collapsed. These never alter the original item, answer key, or score, and are absent from the live question and retry interfaces.
+- Four-option single-best-answer items in the existing Full, Quick, and Focused modes. Set 1 is now the default; students can explicitly choose Set 2 in each mode. The partial release is clearly identified.
+- The exam directory lists CRE as available with the explicit label “Sets 1–3: 295 questions available.” CQA remains the single coming-soon certification.
+- Completed-attempt review adds twenty optional explorations: Weibull mission duration, zero-failure confidence/sample size, diagnostic prevalence/predictive value, acceptance threshold/producer risk, p-chart sample size, Arrhenius test temperature, sequential-test failure count, component-derating temperature, mission high-stress duration, failure-replacement cost, contingency-table failure count, required voting channels, fatigue stress amplitude, standby transfer coverage, surviving-unit age, predictive-inspection spacing, proportional hazard ratio, proof-test interval, load-sharing survivor rate, and material-block shift. All start collapsed. These never alter the original item, answer key, or score, and are absent from the live question and retry interfaces.
 - Existing answer reveal and retry behavior remains in place. Revealed answers count as incorrect in the original score; corrections do not rewrite that score.
 - Mathematical working uses the shared pinned MathJax renderer. Equations are typeset in live reveal, completed review, and retry feedback.
 - SVG figures use text labels and solid/dashed lines rather than color-only distinctions. Captions, descriptions, data alternatives, table headers, keyboard-focusable scroll regions, and live explorer outputs support accessible use. Exhibits scroll internally on narrow screens.
 
 ## Integration contract
 
-`test-bank-cre-set2.js` owns Set 2 and stable `cre:set-2:001` through `cre:set-2:090` IDs. Append future questions without renumbering released IDs. `registerCRESet2` merges Set 2 into `EXAMS.cre` and preserves existing Set 1 arrays/content. It never assigns the Set 2 array to Set 1. Set 1's integration should use its own file and call order that preserves this registration.
+`test-bank-cre-set2.js` owns Set 2 and stable `cre:set-2:001` through `cre:set-2:100` IDs. Append future questions without renumbering released IDs. `registerCRESet2` merges Set 2 into `EXAMS.cre` and preserves existing Set 1 arrays/content. It never assigns the Set 2 array to Set 1. Set 1's integration should use its own file and call order that preserves this registration.
 
 The five Set 2 subtopic identifiers are `cre-fundamentals`, `cre-risk`, `cre-statistics`, `cre-testing`, and `cre-lifecycle`. If Set 1 uses more granular identifiers, merge these as aliases into matching official domains; do not double the blueprint weight. The production edge must retain the CRE data and UI scripts. The presentation module is scoped to the CRE Set 2 ID prefix; a text/table fallback preserves diagram logic if that module is unavailable.
 
 ## Validation
 
-- Fifteen CRE-specific tests check complete question metadata, current domain allocations, valid lesson anchors, Set 1/Set 3 preservation, independent numeric answers, production edge inclusion, all modes, pacing, scoring, review tools, reveal/retry math requests, and presentation fallback.
-- SHA-256 assertions lock the first ten, twenty, thirty, forty, fifty, sixty, seventy, and eighty questions to their prior versions, including options, feedback, references, and metadata. New questions carry batch number 9 and stable appended IDs.
-- The production-player test completes all ninety items, verifies the fifty-one exhibits/eighteen review tools, changes and resets both new controls, and checks unchanged question data and scores. A full 90-item practice session uses 8,444 seconds; default Quick draws twenty items, and focused Fundamentals contains seventeen questions.
-- Existing current-attempt review and student-audit suites cover other active certifications and modes. The Chromium/WebKit directory audit exercises all ninety CRE items and all eighteen review tools at desktop/mobile widths in light/dark themes, including page overflow and immutable scores.
+- Sixteen Set 2-specific tests check complete question metadata, current domain allocations, valid lesson anchors, Set 1/Set 3 preservation, independent numeric answers, production edge inclusion, all modes, pacing, scoring, review tools, reveal/retry math requests, and presentation fallback.
+- SHA-256 assertions lock the first ten, twenty, thirty, forty, fifty, sixty, seventy, eighty, and ninety questions to their prior versions, including options, feedback, references, and metadata. New questions carry batch number 10 and stable appended IDs.
+- The production-player test completes all one hundred items, verifies the fifty-six exhibits/twenty review tools, changes and resets both new controls, and checks unchanged question data and scores. A full 100-item practice session uses 9,382 seconds; default Quick draws twenty items, and focused Fundamentals contains nineteen questions.
+- Existing current-attempt review and student-audit suites cover other active certifications and modes. The Chromium/WebKit directory audit exercises all one hundred Set 2 items and all twenty review tools at desktop/mobile widths in light/dark themes, including page overflow and immutable scores.
 - Browser fixtures block external requests, so those audits do not establish actual MathJax glyph rendering. Local jsdom verifies typesetting requests, not glyph layout. SVG geometry is rendered separately for visual inspection. Preview/auth limitations and final CI results are recorded in the PR.
 - Run the scoped CRE, directory, current-attempt review, reveal, stateless-result, CQE regression, and student suites plus `npm run build:site`. Exclude generated build changes from the PR.
 
 ## Next batch gate
 
-Choose the next ten items against the remaining blueprint; avoid repeating the existing ninety items’ principal skills. Independently solve every numerical key and distractor, confirm one best answer and all necessary assumptions, use visuals only when they supply evidence or aid reasoning, verify the complete learner flow, and update this ledger before release. Candidate feedback should inform later difficulty calibration.
+Choose the next ten items against the remaining blueprint; avoid repeating the existing one hundred items’ principal skills. Independently solve every numerical key and distractor, confirm one best answer and all necessary assumptions, use visuals only when they supply evidence or aid reasoning, verify the complete learner flow, and update this ledger before release. Candidate feedback should inform later difficulty calibration.

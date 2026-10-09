@@ -420,9 +420,47 @@
     s+=text(345,350,'Elapsed time (hours)')+text(345,385,'Dashed drops: perfect proof test and immediate restoration.')+text(345,413,showAverage?'Dash-dot line: average unavailability within each interval.':'Open circles: just before testing; filled circles: immediately afterward.');
     return svg(c.title,'Hidden-failure probability rises during each '+interval+'-hour interval to '+(100*end).toFixed(4)+' percent immediately before testing, then resets to zero. '+(showAverage?'The horizontal dash-dot line marks the interval average of '+(100*hiddenAverage(interval)).toFixed(4)+' percent.':''),700,438,s);
   }
+  const rect=(x,y,w,h,extra='')=>'<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" '+extra+'/>';
+  function maintenanceDelay(c) {
+    const x=h=>153+h*23;let s=text(355,28,'Production is stopped during waiting and active repair');
+    c.rows.forEach(([name,wait,repair],i)=>{const y=72+i*75;s+=text(75,y+23,name)+rect(x(0),y,wait*23,38,'rx="0"')+rect(x(wait),y,repair*23,38,'rx="0" stroke-dasharray="5 3"')+text(x(wait/2),y+24,wait+' h waiting');s+=text(560,y+57,repair+' h repair (dashed)');});
+    for(const h of [0,5,10,15,20])s+=line(x(h),320,x(h),326)+text(x(h),350,String(h));
+    s+=line(x(0),320,x(20),320)+text(355,388,'Mean hours after failure — common time scale');
+    return svg(c.title,c.description,700,415,s);
+  }
+  function loadSharingDiagram(c) {
+    let s=rect(55,100,150,80)+rect(275,100,150,80)+rect(495,100,150,80);
+    s+=text(130,128,'Two working')+text(130,153,'Operating')+text(350,128,'One working')+text(350,153,'Operating')+text(570,128,'None working')+text(570,153,'Failed');
+    s+=line(205,140,275,140)+line(268,135,275,140)+line(268,145,275,140)+line(425,140,495,140)+line(488,135,495,140)+line(488,145,495,140);
+    s+=text(240,85,'0.002 / h')+text(460,85,'0.004 / h')+text(350,35,'Transitions after load-sharing failures')+text(350,226,'Start with both units working; arrows show total transition rates.')+text(350,257,'Perfect transfer; no repairs or common-cause failures.');
+    return svg(c.title,c.description,700,286,s);
+  }
+  const loadSharingReliability=(t,multiplier)=>{
+    const a=.002,b=.001*multiplier,p2=Math.exp(-a*t),delta=b-a;
+    return p2+(Math.abs(delta)<1e-12?a*t*p2:a*p2*(-Math.expm1(-delta*t))/delta);
+  };
+  function loadSharingPlot(multiplier) {
+    const x=t=>75+t/300*540,y=r=>288-(r-.7)/.3*210;let s='';
+    for(const r of [.7,.8,.9,1])s+=line(75,y(r),615,y(r),'class="cre2-grid"')+text(40,y(r)+5,r.toFixed(1));
+    for(const t of [0,100,200,300])s+=line(x(t),288,x(t),294)+text(x(t),320,String(t));
+    for(const [m,dash] of [[1,' stroke-dasharray="8 5"'],[multiplier,'']])s+='<polyline class="cre2-curve" points="'+Array.from({length:151},(_,i)=>x(i*2).toFixed(2)+','+y(loadSharingReliability(i*2,m)).toFixed(2)).join(' ')+'"'+dash+'/>';
+    s+=line(75,78,75,288)+line(75,288,615,288)+text(350,29,'System reliability with state-dependent survivor rate')+text(350,57,'Solid: selected rate. Dashed: original rate retained.')+text(350,355,'Mission duration (hours)')+text(350,390,'Rate per unit while both work stays at 0.001 per hour.');
+    return svg('Load-sharing reliability','The survivor rate is '+(.001*multiplier).toFixed(3)+' per hour. At 100 hours system reliability is '+loadSharingReliability(100,multiplier).toFixed(4)+'. The dashed reference retains the original rate after a failure.',700,420,s);
+  }
+  function blockedContrast(c, shift=20) {
+    const y=v=>305-(v-90)/60*220,xA=195,xB=505;let s='';
+    for(const v of [90,100,110,120,130,140,150])s+=line(75,y(v),620,y(v),'class="cre2-grid"')+text(43,y(v)+5,String(v));
+    for(const [base,dash] of [[100,''],[100+shift,'stroke-dasharray="8 5"']]){
+      s+=line(xA,y(base),xB,y(base+6),dash)+'<circle cx="'+xA+'" cy="'+y(base)+'" r="5"/><circle cx="'+xB+'" cy="'+y(base+6)+'" r="5"/>';
+    }
+    s+=line(75,85,75,305)+line(75,305,620,305)+text(xA,336,'Process A')+text(xB,336,'Process B')+text(350,27,'Cell mean fatigue life (thousands of cycles)');
+    s+=line(150,53,180,53)+text(300,58,'Block 1: A n=3; B n=1')+line(150,75,180,75,'stroke-dasharray="8 5"')+text(300,80,'Block 2: A n=1; B n=3');
+    s+=text(350,371,'Each line compares the two processes within one material block.')+text(350,400,shift===0?'At zero block shift the two lines coincide.':'Points are cell means; see the table for individual observations.');
+    return svg(c.title,'Block 1 means are 100 and 106. Block 2 means are '+(100+shift)+' and '+(106+shift)+'. Within each block B minus A is six thousand cycles. Specimen counts are three A and one B in block 1, and one A and three B in block 2.',700,427,s);
+  }
   function exhibit(q) {
     const c=q.chart;if(!c)return '';
-    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):c.creKind==='p-diagram'?pDiagram(c):c.creKind==='conditional-life'?conditionalLife(c):c.creKind==='derating'?derating(c):c.creKind==='weibull-probability'?weibullProbability(c):c.creKind==='mission-profile'?missionProfile(c):c.creKind==='capability-spread'?capabilitySpread(c):c.creKind==='degradation-trend'?degradationTrend(c):c.creKind==='voting-system'?votingSystem(c):c.creKind==='minimal-cuts'?minimalCuts(c):c.creKind==='fatigue-model'?fatigueModel(c):c.creKind==='cold-standby'?coldStandby(c):c.creKind==='repair-workflow'?repairWorkflow(c):c.creKind==='lifetime-density'?lifetimeDensity(c):c.creKind==='thermal-exposure'?thermalExposure(c):c.creKind==='diagnostic-coverage'?diagnosticCoverage(c):c.creKind==='inspection-window'?inspectionWindow(c):c.creKind==='fatigue-block'?fatigueBlock(c):c.creKind==='correlated-interference'?correlatedInterference(c):c.creKind==='proof-test-cycle'?proofTestCycle(c):'';
+    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):c.creKind==='p-diagram'?pDiagram(c):c.creKind==='conditional-life'?conditionalLife(c):c.creKind==='derating'?derating(c):c.creKind==='weibull-probability'?weibullProbability(c):c.creKind==='mission-profile'?missionProfile(c):c.creKind==='capability-spread'?capabilitySpread(c):c.creKind==='degradation-trend'?degradationTrend(c):c.creKind==='voting-system'?votingSystem(c):c.creKind==='minimal-cuts'?minimalCuts(c):c.creKind==='fatigue-model'?fatigueModel(c):c.creKind==='cold-standby'?coldStandby(c):c.creKind==='repair-workflow'?repairWorkflow(c):c.creKind==='lifetime-density'?lifetimeDensity(c):c.creKind==='thermal-exposure'?thermalExposure(c):c.creKind==='diagnostic-coverage'?diagnosticCoverage(c):c.creKind==='inspection-window'?inspectionWindow(c):c.creKind==='fatigue-block'?fatigueBlock(c):c.creKind==='correlated-interference'?correlatedInterference(c):c.creKind==='proof-test-cycle'?proofTestCycle(c):c.creKind==='maintenance-delay'?maintenanceDelay(c):c.creKind==='load-sharing'?loadSharingDiagram(c):c.creKind==='blocked-contrast'?blockedContrast(c):'';
     return '<section class="cre2-exhibit" aria-label="Question evidence">'+
       (diagram?'<p class="cre2-caption">'+esc(c.title)+'</p>'+diagram+'<details class="cre2-alternative"><summary>Read the diagram description and data table</summary>'+(c.description?'<p>'+esc(c.description)+'</p>':'')+table(c)+'</details>':table(c))+
       '<p class="cre2-scroll-note">On a narrow screen, swipe or scroll within the exhibit to read it at full size.</p></section>';
@@ -459,6 +497,8 @@
     if(q.explorer==='inspection-interval')return header+'<label for="'+id+'">Time between inspections (days)</label><input id="'+id+'" type="range" min="4" max="20" step="2" value="10"><p>The detectable-to-failure interval stays at 14 days and the complete response at 6 days. Detection is perfect; condition appearance has uniform phase. This explores only the stated hypothetical failure mode.</p><div data-cre-explorer-plot>'+inspectionPlot(10)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 10 days</button></details>';
     if(q.explorer==='cox-hazard-ratio')return header+'<label for="'+id+'">Hazard ratio: B relative to A</label><input id="'+id+'" type="range" min="0.25" max="2" step="0.25" value="0.5"><p>The reference survival at 1,000 h remains 0.80. Proportionality holds throughout the interval and other covariates stay fixed. These are hypothetical model predictions, not causal estimates or confidence bounds.</p><div data-cre-explorer-plot>'+coxPlot(.5)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to hazard ratio 0.50</button></details>';
     if(q.explorer==='proof-test-interval')return header+'<label for="'+id+'">Time between proof tests (hours)</label><select id="'+id+'"><option value="250">250 h</option><option value="500" selected>500 h (question baseline)</option><option value="1000">1,000 h</option><option value="2000">2,000 h</option></select><p>The hidden-failure rate stays at 0.000020 per hour. Tests and restoration remain perfect and instantaneous; demands remain independent and uniform. These assumptions are for exploration, not selection of a real-system test interval.</p><div data-cre-explorer-plot>'+proofTestCycle(q.chart,500,true)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 500 hours</button></details>';
+    if(q.explorer==='load-sharing-rate')return header+'<label for="'+id+'">Survivor failure rate after the first failure (per hour)</label><select id="'+id+'"><option value="1">0.001 — original rate retained</option><option value="2">0.002</option><option value="4" selected>0.004 — question baseline</option><option value="6">0.006</option></select><p>Each unit’s rate while both work remains 0.001 per hour. Perfect transfer, the stated memoryless model, and no repair remain fixed. The equal-transition-rate case is evaluated by its continuous limit.</p><div data-cre-explorer-plot>'+loadSharingPlot(4)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 0.004 per hour</button></details>';
+    if(q.explorer==='block-shift')return header+'<label for="'+id+'">Added Block 2 life relative to Block 1 (thousands of cycles)</label><input id="'+id+'" type="range" min="0" max="40" step="5" value="20"><p>Both Block 2 cell means shift together. The within-block B-minus-A effect stays at six, and specimen counts remain A/B = 3/1 in Block 1 and 1/3 in Block 2. This explores point estimates only, without a significance or uncertainty claim.</p><div data-cre-explorer-plot>'+blockedContrast(q.chart,20)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to a 20-thousand-cycle block shift</button></details>';
     return '';
   }
   function updateExplorer(el,q) {
@@ -530,6 +570,13 @@
       const end=-Math.expm1(-.00002*value),average=hiddenAverage(value);
       out.textContent='Proof-test interval: '+value.toLocaleString('en-US')+' h. Average hidden-failure unavailability: '+(100*average).toFixed(4)+'%. Immediately before testing: '+(100*end).toFixed(4)+'%. Rare-event average approximation: '+(100*.00002*value/2).toFixed(4)+'%.';
       el.querySelector('[data-cre-explorer-plot]').innerHTML=proofTestCycle(q.chart,value,true);
+    } else if(q.explorer==='load-sharing-rate') {
+      out.textContent='Survivor rate: '+(.001*value).toFixed(3)+' per hour. System reliability at 100 h: '+loadSharingReliability(100,value).toFixed(4)+'. Original-rate parallel reference: '+loadSharingReliability(100,1).toFixed(4)+'.';
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=loadSharingPlot(value);
+    } else if(q.explorer==='block-shift') {
+      const pooledA=100+value/4,pooledB=106+3*value/4;
+      out.textContent='Block shift: '+value+' thousand cycles. Block-adjusted B minus A: +6.0 thousand cycles. Pooled A mean: '+pooledA.toFixed(1)+'. Pooled B mean: '+pooledB.toFixed(1)+'. Unadjusted B minus A: +'+(pooledB-pooledA).toFixed(1)+' thousand cycles.';
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=blockedContrast(q.chart,value);
     }
   }
   let mathQueue=Promise.resolve();
@@ -561,7 +608,7 @@
           const control=el.querySelector('input,select');
           control.addEventListener('input',()=>updateExplorer(el,q));
           control.addEventListener('change',()=>updateExplorer(el,q));
-          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85','sequential-failures':'4','derating-temperature':'100','mission-high-duration':'2','replacement-failure-cost':'1000','chi-square-count':'40','voting-required':'2','fatigue-stress':'80','standby-coverage':'0.9','density-age':'1500','inspection-interval':'10','cox-hazard-ratio':'0.5','proof-test-interval':'500'};
+          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85','sequential-failures':'4','derating-temperature':'100','mission-high-duration':'2','replacement-failure-cost':'1000','chi-square-count':'40','voting-required':'2','fatigue-stress':'80','standby-coverage':'0.9','density-age':'1500','inspection-interval':'10','cox-hazard-ratio':'0.5','proof-test-interval':'500','load-sharing-rate':'4','block-shift':'20'};
           el.querySelector('[data-cre-reset]').addEventListener('click',()=>{control.value=defaults[q.explorer];updateExplorer(el,q);});
           updateExplorer(el,q);
         }
