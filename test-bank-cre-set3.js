@@ -1523,6 +1523,289 @@
         ]
       ]
     }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "The life model is Arrhenius. \\(T_u\\) and \\(T_s\\) are the use and stress temperatures in kelvin, and \\(E_a/k\\) is given.\n\\[\nAF=\\exp[(E_a/k)(1/T_u-1/T_s)]\n\\]\nWhat is the acceleration factor, to the nearest whole number?",
+    "options": [
+      "0.039",
+      "3.3",
+      "26",
+      "80"
+    ],
+    "answer": 2,
+    "why": "Use kelvin. Do not subtract the temperatures, and do not stop at the exponent.\n\\[\n1/313-1/393=0.0006504\n\\]\n\\[\n(E_a/k)(0.0006504)=3.252\n\\]\n\\[\nAF=\\exp(3.252)=25.8\n\\]\nThe nearest whole number is 26. 0.039 inverts the two temperatures. 3.3 is the exponent. 80 is the temperature difference. <b>C. 26</b>",
+    "set": 3,
+    "qid": "cre:set-3:051",
+    "bok": "IV.B.1",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Arrhenius test conditions",
+      "altText": "Use temperature is 40°C, which is 313 K. Stress temperature is 120°C, which is 393 K. Ea/k is 5,000 K.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Use temperature",
+          "313 K"
+        ],
+        [
+          "Stress temperature",
+          "393 K"
+        ],
+        [
+          "Ea/k",
+          "5,000 K"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "Every production unit is run for 30 minutes above the specification but inside the destruct limit found earlier. No life estimate is calculated. Units that fail are removed. Which description fits?",
+    "options": [
+      "An accelerated life test used to extrapolate field life.",
+      "A stress screen used to precipitate defects, not to estimate life.",
+      "A use-level demonstration that the reliability requirement has been met.",
+      "A degradation test continued until a wear threshold is reached."
+    ],
+    "answer": 1,
+    "why": "A production screen stresses units enough to precipitate latent defects and then removes the failures. It is not run to a wear threshold, it is not an extrapolation of field life, and a 30-minute screen with no accept-on-reliability rule is not a demonstration. <b>B. A stress screen used to precipitate defects, not to estimate life.</b>",
+    "set": 3,
+    "qid": "cre:set-3:052",
+    "bok": "IV.B.2",
+    "cognitive": "Evaluate"
+  },
+  {
+    "sub": "cre-model",
+    "stem": "The contract requires a demonstration that mission reliability meets a pre-stated value under a pre-stated accept rule. The lab instead runs units until the first interesting failure, then stops to redesign. Which statement is best?",
+    "options": [
+      "The run is the contracted demonstration because a failure was observed.",
+      "The run can be useful development testing, but it is not the contracted demonstration.",
+      "Stopping at the first failure increases the demonstrated reliability.",
+      "A demonstration does not need an accept rule if the contract names a reliability value."
+    ],
+    "answer": 1,
+    "why": "A demonstration uses the stated requirement and the stated accept rule. Stopping at the first failure to redesign is a discovery test. It may be the right development activity, but it does not become the contracted demonstration, and the early stop does not raise the demonstrated reliability. <b>B. The run can be useful development testing, but it is not the contracted demonstration.</b>",
+    "set": 3,
+    "qid": "cre:set-3:053",
+    "bok": "IV.B.3",
+    "cognitive": "Evaluate"
+  },
+  {
+    "sub": "cre-model",
+    "stem": "Wear starts at zero and increases at a constant rate. Failure is the first time the wear reaches the threshold. \\(d\\) is the wear added in each block of \\(t_0\\) hours.\n\\[\nt=t_0\\frac{D}{d}\n\\]\nWhat is the time to the failure threshold?",
+    "options": [
+      "200 hours",
+      "1,250 hours",
+      "5,000 hours",
+      "20,000 hours"
+    ],
+    "answer": 2,
+    "why": "Divide the threshold by the wear per block, then multiply by the block length.\n\\[\nt=1000\\times\\frac{0.25}{0.05}=5000\n\\]\n200 hours inverts the threshold and the wear per block. 20,000 hours multiplies the block length by the reciprocal of the wear ratio in the wrong direction. <b>C. 5,000 hours</b>",
+    "set": 3,
+    "qid": "cre:set-3:054",
+    "bok": "IV.B.4",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Wear measurements",
+      "altText": "Wear increases by 0.05 mm in every 1,000 hours. The failure threshold is 0.25 mm. Wear starts at zero.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Block length",
+          "1,000 h"
+        ],
+        [
+          "Wear per block",
+          "0.05 mm"
+        ],
+        [
+          "Failure threshold",
+          "0.25 mm"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "A parts-count model assigns one exponential failure rate to a controller and treats the firmware as if it were another hardware part. The same input sequence is then rerun 100 times with no new result. Which limitation is most important?",
+    "options": [
+      "The model is appropriate. Firmware faults occur at a constant hazard like a random hardware part.",
+      "Repeating one input sequence 100 times is 100 independent firmware trials.",
+      "A parts-count rate does not describe a design fault in firmware, and repeating one path is not a new sample of faults.",
+      "Firmware can be ignored because only mechanical parts have failure mechanisms."
+    ],
+    "answer": 2,
+    "why": "A firmware fault is a design fault. It is not established by putting the firmware into a parts-count model, and it does not become 100 independent trials because the same path was repeated. Software still has failure mechanisms, but they are not the same as a constant hardware hazard. <b>C. A parts-count rate does not describe a design fault in firmware, and repeating one path is not a new sample of faults.</b>",
+    "set": 3,
+    "qid": "cre:set-3:055",
+    "bok": "IV.B.5",
+    "cognitive": "Understand"
+  },
+  {
+    "sub": "cre-model",
+    "stem": "Three identical units are independent. The function works if at least two of the three work. Each unit has mission reliability \\(R\\).\n\\[\nR_{2/3}=3R^{2}(1-R)+R^{3}\n\\]\nWhat is the mission reliability of the function?",
+    "options": [
+      "0.729",
+      "0.900",
+      "0.972",
+      "0.999"
+    ],
+    "answer": 2,
+    "why": "At least two surviving is not the same as all three, and it is not the same as any one.\n\\[\nR_{2/3}=3(0.90)^{2}(0.10)+(0.90)^{3}\n\\]\n\\[\nR_{2/3}=0.243+0.729=0.972\n\\]\n0.729 requires all three. 0.900 is one unit. 0.999 is the reliability if any one of the three were enough. <b>C. 0.972</b>",
+    "set": 3,
+    "qid": "cre:set-3:056",
+    "bok": "IV.C.1",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Two-out-of-three function",
+      "altText": "Three identical independent units each have mission reliability 0.90. The function requires at least two of the three.",
+      "columns": [
+        "Unit",
+        "Mission reliability",
+        "Requirement"
+      ],
+      "rows": [
+        [
+          "1",
+          "0.90",
+          "At least two units"
+        ],
+        [
+          "2",
+          "0.90",
+          "At least two units"
+        ],
+        [
+          "3",
+          "0.90",
+          "At least two units"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "A polymer seal is held at a constant tensile load at 90°C. There is no cyclic load. Over time it takes a permanent set and no longer seals. Which mechanism fits?",
+    "options": [
+      "High-cycle fatigue, because the load is mechanical.",
+      "Creep, because a constant load at elevated temperature produced a permanent set.",
+      "Corrosion, because the temperature is above room temperature.",
+      "Electrostatic discharge, because the set appeared without a fracture."
+    ],
+    "answer": 1,
+    "why": "Creep is time-dependent deformation under a sustained load, often faster at elevated temperature. Fatigue needs repeated loading, which is not in the evidence. Temperature by itself is not corrosion, and a permanent set is not an electrostatic-discharge mechanism. <b>B. Creep, because a constant load at elevated temperature produced a permanent set.</b>",
+    "set": 3,
+    "qid": "cre:set-3:057",
+    "bok": "IV.C.2",
+    "cognitive": "Apply"
+  },
+  {
+    "sub": "cre-model",
+    "stem": "Thermal-cycle life follows the stated Coffin-Manson relation. \\(N\\) is cycles to the failure criterion and \\(b\\) is the given exponent.\n\\[\nN_2=N_1\\left(\\frac{\\Delta T_1}{\\Delta T_2}\\right)^{b}\n\\]\nHow many cycles to failure are expected at the larger temperature range?",
+    "options": [
+      "2,000",
+      "4,000",
+      "8,000",
+      "32,000"
+    ],
+    "answer": 0,
+    "why": "The larger temperature range shortens life by the square of the range ratio.\n\\[\nN_2=8000\\left(\\frac{40}{80}\\right)^{2}\n\\]\n\\[\nN_2=8000(0.25)=2000\n\\]\n4,000 uses the ratio once. 8,000 ignores the change in range. 32,000 inverts the ratio and squares it. <b>A. 2,000</b>",
+    "set": 3,
+    "qid": "cre:set-3:058",
+    "bok": "IV.C.3",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Thermal-cycle model",
+      "altText": "At a temperature range of 40°C the life is 8,000 cycles. The new range is 80°C. The exponent b is 2.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Life at 40°C",
+          "8,000 cycles"
+        ],
+        [
+          "New temperature range",
+          "80°C"
+        ],
+        [
+          "Exponent b",
+          "2"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "A parts-count prediction gives 2.0 failures per million hours at its reference condition. The product will operate hotter than that reference. No stress data and no test data are available. Which use of the prediction is appropriate?",
+    "options": [
+      "Use 2.0 as the use-condition failure rate. Parts count already includes any hotter environment.",
+      "Do not use 2.0 as the hot-use failure rate. Parts count does not account for the higher stress.",
+      "Run a Monte Carlo simulation on the value 2.0. The simulation supplies the missing temperature effect.",
+      "Prefer parts count over part-stress analysis whenever the use temperature is unknown."
+    ],
+    "answer": 1,
+    "why": "A parts-count prediction is tied to its reference condition. It does not by itself adjust for a hotter use. Resampling the same 2.0 in a Monte Carlo run does not add the missing temperature, and an unknown use temperature is a reason not to treat the reference number as the answer. <b>B. Do not use 2.0 as the hot-use failure rate. Parts count does not account for the higher stress.</b>",
+    "set": 3,
+    "qid": "cre:set-3:059",
+    "bok": "IV.C.4",
+    "cognitive": "Understand"
+  },
+  {
+    "sub": "cre-model",
+    "stem": "A damage model predicts 2,000 hours to the crack threshold. Three prototypes were run on the same mission profile and were not used to adjust the model. Which use of the result is appropriate?",
+    "options": [
+      "Use 2,000 hours. A damage model outranks a prototype.",
+      "Use 800 hours. The prototype average is correlated with the model because both mention a crack.",
+      "Do not use 2,000 hours as the demonstrated life. The model has not been shown to agree with the prototypes.",
+      "Use 1,400 hours, the average of 2,000 and 800. Averaging creates the correlation."
+    ],
+    "answer": 2,
+    "why": "A prototype result can check a damage model only after the two are shown to agree. Here the prototypes crack much earlier and the model was not adjusted, so 2,000 hours is not a demonstrated life. Averaging the model with the prototype mean, or treating a shared word as correlation, does not create that agreement. <b>C. Do not use 2,000 hours as the demonstrated life. The model has not been shown to agree with the prototypes.</b>",
+    "set": 3,
+    "qid": "cre:set-3:060",
+    "bok": "IV.C.5",
+    "cognitive": "Understand",
+    "chart": {
+      "type": "data-table",
+      "title": "Prototype crack times",
+      "altText": "The damage model predicts 2,000 hours. The three prototypes cracked at 700, 800, and 900 hours on the same mission profile. The model was not adjusted.",
+      "columns": [
+        "Source",
+        "Time to crack"
+      ],
+      "rows": [
+        [
+          "Damage model",
+          "2,000 h"
+        ],
+        [
+          "Prototype 1",
+          "700 h"
+        ],
+        [
+          "Prototype 2",
+          "800 h"
+        ],
+        [
+          "Prototype 3",
+          "900 h"
+        ]
+      ]
+    }
   }
 ];
 })(typeof window!=='undefined'?window:globalThis);
