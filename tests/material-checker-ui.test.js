@@ -219,6 +219,26 @@ test('standalone checker exposes professional LaTeX for displayed equations', ()
   assert.match(checkerCss, /\.math-inline[,{]/);
 });
 
+test('shared equation renderer maps engineering expressions to professional LaTeX', () => {
+  const dom = new JSDOM('<!doctype html><body data-tool-page="material-specification-compliance-checker"><main></main></body>', {
+    runScripts: 'outside-only',
+    pretendToBeVisual: true
+  });
+  const {window} = dom;
+  // Prevent the test from attempting a CDN request; the mapping function is
+  // deterministic and does not require MathJax itself.
+  window.setTimeout = () => 0;
+  window.eval(source('tools/material-math-renderer.js'));
+  window.document.dispatchEvent(new window.Event('DOMContentLoaded'));
+  const formula = window.UpSkillMaterialMath.formulaForText;
+  assert.match(formula('CEIIW = C + Mn/6 + (Cr + Mo + V)/5 + (Ni + Cu)/15'), /\\mathrm\{CE\}_\{\\mathrm\{IIW\}\} = C \+ \\frac\{\\mathrm\{Mn\}\}\{6\}/);
+  assert.match(formula('Pcm = C + Si/30 + (Mn + Cu + Cr)/20 + Ni/60 + Mo/15 + V/10 + 5B'), /P_\{\\mathrm\{cm\}\} = C \+ \\frac\{\\mathrm\{Si\}\}\{30\}/);
+  assert.match(formula('e = C · (A_xc^0.2 / U^0.9), C = 1'), /e_\{\\min\} = C\\,\\frac\{A_\{\\mathrm\{xc\}\}\^\{0\.2\}\}\{U\^\{0\.9\}\}/);
+  assert.equal(formula('P = 2·S·t/D'), 'P = \\frac{2St}{D}');
+  assert.match(formula('Sub-size requirement = Full-size requirement × Stored factor'), /\\text\{Sub-size requirement\}/);
+  assert.equal(formula('Yield strength / tensile strength'), '\\frac{R_{\\mathrm{e}}}{R_{\\mathrm{m}}}');
+});
+
 for (const route of ['/tools/material-specification-compliance-checker', '/tools/material-specification-compliance-checker.html']) {
   test('arrow cleanup preserves the shared checker header on ' + route, async () => {
     const dom=await createChecker(route); const {window}=dom;
