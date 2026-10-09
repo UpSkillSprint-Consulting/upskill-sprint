@@ -22,10 +22,11 @@ AUTH = """(() => {
 })();"""
 PREPARE = """() => {
  const s=__TB.getFeedbackSnapshot();
- if(s.records.length<4)throw Error('Expected at least four actual bank questions');
+ if(s.records.length<2)throw Error('Expected at least two actual bank questions');
+ const small=s.records.length<4;
  s.records.forEach((r,i)=>{
    document.querySelector(`[data-goto="${i}"]`).click();
-   if(i!==3)document.querySelector(`[data-opt="${i===1||i===2?(r.question.answer+1)%r.question.options.length:r.question.answer}"]`).click();
+   if(i!==(small?1:3))document.querySelector(`[data-opt="${(small?i===0:i===1||i===2)?(r.question.answer+1)%r.question.options.length:r.question.answer}"]`).click();
    if(i===0||i===1)document.querySelector('[data-flag]').click();
  });
  return s;
@@ -61,7 +62,7 @@ def main():
         page.on('pageerror',lambda e:report['errors'].append(str(e)))
         page.goto(args.url,wait_until='domcontentloaded')
         page.wait_for_selector('body.auth-ready.access-ready')
-        catalog=page.evaluate("()=>Object.entries(__TB.EXAMS).filter(([id,e])=>e.bank?.length).map(([id,e])=>({id,sets:Object.keys(e.sets||{1:e.bank})}))")
+        catalog=page.evaluate("()=>Object.entries(__TB.EXAMS).filter(([id,e])=>e.bank?.length).map(([id,e])=>({id,sets:Object.keys(e.sets||{1:e.bank}).filter(set=>(e.sets?.[set]||e.bank).length)}))")
         assert {'cmq','cqe','cssbb','cssgb','mbb'}.issubset({e['id'] for e in catalog})
         report['catalog']=catalog
         def record(name,fn):
@@ -107,14 +108,19 @@ def main():
             page.set_viewport_size({'width':390 if timed else 1440,'height':900 if timed else 1000})
             page.evaluate('(theme)=>document.documentElement.dataset.theme=theme','dark' if timed else 'light')
             start(exam,bank,mode,timed);before=page.evaluate(PREPARE);total=len(before['records'])
+            small = total < 4
+            selected_index, unanswered_index = (0, 1) if small else (1, 3)
+            missed_indices = [0, 1] if small else [1, 2, 3]
+            missed_count = len(missed_indices)
+            selected_question = before['records'][selected_index]['question']
             if timed:
                 expect(page.locator('[data-reveal]')).to_have_count(0)
                 assert page.evaluate('()=>__TB.revealCurrentAnswer()') is False
             else:
                 # Cover reveal in every set/mixed pool and session type, both
                 # after a correct selection and before any selection.
-                page.locator('[data-goto="1"]').click()
-                page.locator(f'[data-opt="{before["records"][1]["question"]["answer"]}"]').click()
+                page.locator(f'[data-goto="{selected_index}"]').click()
+                page.locator(f'[data-opt="{selected_question["answer"]}"]').click()
                 page.locator('[data-reveal]').focus();page.keyboard.press('Space')
                 expect(page.locator('#tb-revealed-answer')).to_be_focused()
                 page.evaluate("()=>window.auditReveal=document.querySelector('#tb-revealed-answer')")
@@ -122,39 +128,43 @@ def main():
                 expect(flag).to_be_focused();expect(flag).to_have_attribute('aria-pressed','false')
                 page.keyboard.press('Space');expect(flag).to_have_attribute('aria-pressed','true')
                 assert page.evaluate("()=>auditReveal===document.querySelector('#tb-revealed-answer')")
-                page.locator('[data-goto="3"]').click();page.locator('[data-reveal]').click()
+                page.locator(f'[data-goto="{unanswered_index}"]').click();page.locator('[data-reveal]').click()
                 expect(page.locator('.tb-navcell.revealed')).to_have_count(2)
-                page.locator('[data-goto="1"]').click()
-                expect(page.locator(f'[data-opt="{before["records"][1]["question"]["answer"]}"]')).to_have_attribute('aria-pressed','true')
+                page.locator(f'[data-goto="{selected_index}"]').click()
+                expect(page.locator(f'[data-opt="{selected_question["answer"]}"]')).to_have_attribute('aria-pressed','true')
             finish()
             assert before['setId']==bank, (exam,mode,bank,before['setId'])
             valid=page.evaluate("""({exam,bank,mode})=>{const e=__TB.EXAMS[exam],s=__TB.getFeedbackSnapshot();const rows=bank==='mix'?Object.values(e.sets||{1:e.bank}).flat():(e.sets?.[bank]||e.bank);const signature=q=>JSON.stringify([q.qid||q.id||null,q.stem,q.options]);const allowed=new Set(rows.map(signature));return s.records.every(r=>allowed.has(signature(r.question)));}""",{'exam':exam,'bank':bank,'mode':mode})
             assert valid, 'A delivered question is outside the selected test set'
             original=page.evaluate('()=>JSON.stringify(__TB.getFeedbackSnapshot())')
             score=page.locator('[data-score-result]').inner_text()
-            assert f'({total-3}/{total})' in score,score
+            assert f'({total-missed_count}/{total})' in score,score
             page.locator('[data-open-review="all"]').click()
             expect(page.locator('.tb-review-card')).to_have_count(total)
             expect(page.locator('.tb-review-navcell')).to_have_count(total)
             no_overflow()
             expect(page.locator('.tb-review-navcell.revealed')).to_have_count(0 if timed else 2)
-            for filt,n in [('incorrect',2 if timed else 3),('unanswered',1 if timed else 0),('correct',total-3),('flagged',2),('missed',3)]+([] if timed else [('revealed',2)]):
+            for filt,n in [('incorrect',missed_count-1 if timed else missed_count),('unanswered',1 if timed else 0),('correct',total-missed_count),('flagged',2),('missed',missed_count)]+([] if timed else [('revealed',2)]):
                 page.locator(f'[data-review-tab="{filt}"]').click()
                 expect(page.locator('.tb-review-card')).to_have_count(n)
                 expect(page.locator(f'[data-review-tab="{filt}"]')).to_have_attribute('aria-pressed','true')
-            page.locator('[data-review-goto="1"]').click()
+            page.locator(f'[data-review-goto="{selected_index}"]').click()
             expect(page.locator('.tb-review-card')).to_have_count(1)
             expect(page.locator('.tb-review-option.is-wrong')).to_have_count(1 if timed else 0)
             expect(page.locator('.tb-review-option.is-correct')).to_have_count(1)
             bounds=page.evaluate("()=>({card:document.querySelector('.tb-review-card').getBoundingClientRect().top,header:document.querySelector('header.site').getBoundingClientRect().bottom})")
             assert bounds['card']>=bounds['header']-1,bounds
             links=page.locator('.tb-review-card .tb-review-lesson')
-            expect(links).to_have_count(1);expect(links).to_have_attribute('target','_blank')
-            assert 'noopener' in links.get_attribute('rel')
+            if selected_question.get('lessonGap'):
+                expect(links).to_have_count(0)
+                expect(page.locator('.tb-review-card .cre2-source').first).to_contain_text('ASQ CRE Handbook')
+            else:
+                expect(links).to_have_count(1);expect(links).to_have_attribute('target','_blank')
+                assert 'noopener' in links.get_attribute('rel')
             page.locator('[data-retry-missed]').click()
             expect(page.locator('[data-retry-check]')).to_be_disabled()
             expect(page.locator('.tb-retry-feedback')).to_have_count(0)
-            for i,r in enumerate(before['records'][1:4]):
+            for i,r in enumerate([before['records'][index] for index in missed_indices]):
                 q=r['question'];option=(q['answer']+1)%len(q['options']) if i==0 else q['answer']
                 button=page.locator(f'[data-retry-opt="{option}"]');button.focus();page.keyboard.press('Space')
                 expect(button).to_be_focused();expect(button).to_have_attribute('aria-pressed','true')
@@ -162,12 +172,12 @@ def main():
                 expect(page.locator('.tb-retry-feedback')).to_be_focused()
                 assert page.locator('[data-retry-opt]:not(:disabled)').count()==0
                 page.locator('[data-retry-next]').click()
-            assert '2 of 3' in page.locator('.tb-correction-count').inner_text()
+            assert f'{missed_count-1} of {missed_count}' in page.locator('.tb-correction-count').inner_text()
             page.locator('[data-retry-remaining]').click();assert '1 of 1' in page.locator('.tb-retry-head').inner_text()
-            page.locator(f'[data-retry-opt="{before["records"][1]["question"]["answer"]}"]').click()
+            page.locator(f'[data-retry-opt="{selected_question["answer"]}"]').click()
             page.locator('[data-retry-check]').click();page.locator('[data-retry-next]').click()
             expect(page.locator('#tb-retry-panel h3')).to_have_text('All missed questions corrected.')
-            page.locator('[data-retry-return]').click();expect(page.locator('.tb-review-card')).to_have_count(3)
+            page.locator('[data-retry-return]').click();expect(page.locator('.tb-review-card')).to_have_count(missed_count)
             assert page.locator('[data-score-result]').inner_text()==score
             assert page.evaluate('()=>JSON.stringify(__TB.getFeedbackSnapshot())')==original
             storage_clean();page.locator('[data-back]').click();expect(page.locator('#tb-feedback-loop')).to_have_count(0)

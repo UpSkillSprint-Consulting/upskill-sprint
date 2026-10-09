@@ -1,0 +1,35 @@
+/* Scoped to original CRE Set 2 exhibits and review explanations. */
+.cre-set2-question,.cre2-exhibit{min-width:0;max-width:100%;color:var(--ink);line-height:1.65}
+.cre2-item-label{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:.035em;margin:0 0 9px}
+.cre2-exhibit{margin:20px 0}
+.cre2-caption{font-weight:650;margin:8px 0}
+.cre2-scroll{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink)}
+.cre2-scroll:focus-visible,.cre2-explorer :is(input,select,button,summary):focus-visible,.cre2-alternative summary:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+.cre2-scroll table{width:100%;border-collapse:collapse;font-size:15px;line-height:1.55;background:var(--card);color:var(--ink)}
+.cre2-scroll table:has(th:nth-child(3)){min-width:520px}
+.cre2-scroll table:has(th:nth-child(5)){min-width:630px}
+.cre2-scroll caption{padding:12px 14px;text-align:left;font-weight:650;color:var(--ink)}
+.cre2-scroll th,.cre2-scroll td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;white-space:normal;color:var(--ink);font-variant-numeric:tabular-nums}
+.cre2-scroll thead{background:var(--tint);color:var(--ink)}
+.cre2-scroll th[scope="row"]{font-weight:550}
+.cre2-scroll .cre2-diagram{display:block;max-width:none!important;min-width:620px;height:auto;margin:0 auto;color:var(--ink);background:var(--card)}
+.cre2-diagram :is(line,polyline){fill:none;stroke:currentColor;stroke-width:2}
+.cre2-diagram :is(rect,circle){fill:var(--card);stroke:currentColor;stroke-width:2}
+.cre2-diagram text{fill:currentColor;font:15px "Work Sans",Arial,sans-serif;stroke:none}
+.cre2-diagram .cre2-grid{stroke:var(--line);stroke-width:1}
+.cre2-diagram .cre2-curve{stroke-width:2.5}
+.cre2-diagram .cre2-mission{stroke:var(--teal);stroke-dasharray:3 4;stroke-width:2}
+.cre2-alternative,.cre2-explorer{margin-top:14px;border:1px solid var(--line);border-radius:9px;padding:12px;background:var(--card);color:var(--ink)}
+.cre2-alternative summary,.cre2-explorer summary{cursor:pointer;font-weight:650;min-height:28px}
+.cre2-alternative[open] summary,.cre2-explorer[open] summary{margin-bottom:12px}
+.cre2-scroll-note,.cre2-source{font-size:13px;line-height:1.6;color:var(--ink);margin:10px 0}
+.cre2-explorer label{display:block;font-weight:600;margin:12px 0 6px}
+.cre2-explorer input[type="range"]{display:block;width:100%;min-height:44px;accent-color:var(--teal)}
+.cre2-explorer select,.cre2-explorer button{min-height:44px;font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--ink)}
+.cre2-explorer output{display:block;padding:12px;margin:10px 0;line-height:1.6;background:var(--tint);color:var(--ink);border-left:3px solid var(--teal)}
+.tb-quiz:has(.cre-set2-question) .tb-opt{min-height:48px;line-height:1.6}
+.tb-quiz:has(.cre-set2-question) .tb-qtag{color:var(--ink)!important}
+.tb-review-card:has(.cre-set2-question) .tb-explanation-copy{font-size:15px;line-height:1.7;color:var(--ink)}
+.tb-review-card:has(.cre-set2-question) .tb-review-lesson{text-decoration:underline}
+:is(.tb-quiz,.tb-review-card,.tb-retry-panel):has(.cre-set2-question) mjx-container[display="true"]{max-width:100%;overflow-x:auto;overflow-y:hidden;padding:8px 0;color:var(--ink)}
+@media(max-width:560px){.cre2-scroll table{font-size:14px}.cre2-scroll th,.cre2-scroll td{padding:10px}.cre2-explorer{padding:10px}.cre2-exhibit{margin:15px 0}}

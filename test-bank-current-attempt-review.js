@@ -84,6 +84,7 @@
     return {domainName: 'Body of Knowledge', subName: question.sub || 'General review', lesson: '/lessons', lessonName: 'Browse related lessons'};
   }
   function reference(question, meta = topic(question)) {
+    if (window.__CRESet2UI?.isQuestion(question)) return safeHtml(window.__CRESet2UI.reference(question));
     const source = Array.isArray(question.auditSources) && question.auditSources.find(s => s?.title && safeHref(s.url));
     const href = safeHref(source ? source.url : meta.lesson || '/lessons');
     return href ? `<a class="tb-review-lesson tb-review-reference" href="${esc(href)}" target="_blank" rel="noopener noreferrer">${esc(source ? 'Reference: ' + source.title : 'Study: ' + meta.lessonName)} <span class="tb-review-newtab">(opens in a new tab)</span></a>` : '';
