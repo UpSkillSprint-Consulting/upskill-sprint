@@ -17,7 +17,6 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="test-bank-mbb-batch1-review.css">
 <link rel="stylesheet" href="/test-bank-cre-set2.css">
-<script defer src="/assets/js/math.js"></script>
   <script src="/test-bank-mbb-batch2-ui.js"></script>
 <script src="/test-bank-mbb-batch3-ui.js"></script>
 <script src="/test-bank-mbb-batch4-ui.js"></script>
@@ -4740,14 +4739,16 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     if(view==='quiz'){host.innerHTML=quizHTML();wireQuiz();}
     else if(view==='results'){host.innerHTML=resultsHTML();wireResults();}
     else{host.innerHTML=overviewHTML();wireOverview();}
-    if(window.UpskillMath&&typeof window.UpskillMath.typeset==='function')window.UpskillMath.typeset([host]);
+    typesetMath(host);
     if(view==='browse')renderAnonymousRecoveryPrompt();
   }
-  document.addEventListener('tb:review-rendered',function(event){
-    var root=event.detail&&event.detail.root;
+  function typesetMath(root){
     if(!root||!window.UpskillMath||typeof window.UpskillMath.typeset!=='function')return;
     var job=window.UpskillMath.typeset([root]);
     if(job&&typeof job.catch==='function')job.catch(function(){});
+  }
+  document.addEventListener('tb:review-rendered',function(event){
+    typesetMath(event.detail&&event.detail.root);
   });
 
   /* Account hydration and an answer write can happen without a DOM mutation.
