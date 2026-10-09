@@ -152,7 +152,7 @@ test('Z245 specimen-area input explains the governing elongation equation and ba
   loadAudited(window,'Z245');
   const area=window.document.querySelector('[data-standard-key="nominalAreaMM2"]');
   assert.ok(area);
-  assert.match(area.closest('.standard-field').textContent,/e = 1940 × A\^0\.2 \/ U\^0\.9/);
+  assert.match(area.closest('.standard-field').textContent,/e_\{\\min\} = \\frac\{1940\\,A\^\{0\.2\}\}\{U\^\{0\.9\}\}/);
   assert.match(area.closest('.standard-field').textContent,/specified minimum TS.*50 mm basis/);
 });
 
@@ -208,6 +208,15 @@ test('standalone checker keeps phone forms single-column and long workspaces hor
 test('standalone checker uses a readable light-theme palette', () => {
   const checkerCss = source('tools/material-specification-compliance-checker.css');
   assert.match(checkerCss, /html\[data-theme=light\] body\[data-tool-page="material-specification-compliance-checker"\]\{[\s\S]*?--muted:#475569[\s\S]*?--teal:#0e6675[\s\S]*?--teal-dark:#075865/);
+});
+
+test('standalone checker exposes professional LaTeX for displayed equations', () => {
+  const html = source('tools/material-specification-compliance-checker.html');
+  const standardInputs = source('tools/material-checker-standard-inputs.js');
+  const checkerCss = source('tools/material-specification-compliance-checker.css');
+  assert.match(html, /<script defer src="\/tools\/material-math-renderer\.js"><\/script>/);
+  assert.match(standardInputs, /\\\\\(e_\{\\\\min\} = \\\\frac/);
+  assert.match(checkerCss, /\.math-inline[,{]/);
 });
 
 for (const route of ['/tools/material-specification-compliance-checker', '/tools/material-specification-compliance-checker.html']) {
