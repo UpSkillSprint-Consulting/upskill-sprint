@@ -41,6 +41,7 @@ Six exhibits: three tables and three diagrams/charts. All ten items have four an
 ## Learning and examination behavior
 
 - Four-option single-best-answer items in the existing Full, Quick, and Focused modes. Set 2 is the available default while Set 1 is absent; empty Set 1 cannot be selected. The partial release is clearly identified.
+- The exam directory lists CRE as available with the explicit label “Set 2: 10 questions available.” CQA remains the single coming-soon certification.
 - Completed-attempt review adds two optional explorations: Weibull mission duration and zero-failure confidence/sample size. These never alter the original item, answer key, or score, and are absent from the live question and retry interfaces.
 - Existing answer reveal and retry behavior remains in place. Revealed answers count as incorrect in the original score; corrections do not rewrite that score.
 - Mathematical working uses the shared pinned MathJax renderer. Equations are typeset in live reveal, completed review, and retry feedback.
@@ -57,6 +58,7 @@ The five Set 2 subtopic identifiers are `cre-fundamentals`, `cre-risk`, `cre-sta
 - Seven new tests check question metadata, valid lesson anchors, Set 1 preservation, independent numeric answers, production edge inclusion, all modes, pacing, scoring, review tools, reveal/retry math requests, and a presentation-module fallback.
 - Numeric checks use full Boolean-state enumeration for the shared-event fault tree and series–parallel system, sequential risk sets for Kaplan–Meier, integer search for the minimum zero-failure sample, and numerical integration for the normal tail. Distractor calculations and FMEA RPNs are also checked.
 - The current-attempt review suite covers every active certification and mode. Its fixture now handles a two-question focused batch with one incorrect and one unanswered item; larger banks retain the existing three-missed-item coverage.
+- Availability and reveal tests are updated for a released CRE Set 2, an empty Set 1, and two-question focused quizzes. The existing Chromium/WebKit directory audit now exercises all ten CRE questions, six exhibits, both review explorers, immutable scores, and page overflow at desktop/mobile widths in light/dark themes. It continues to block external requests, so it does not establish actual MathJax glyph rendering.
 - Required stateless-result and CQE regression checks pass (17 tests). CRE plus current-attempt review checks pass (29 tests including nested certification/mode cases).
 - `npm run build:site` passes, including stateless architecture validation. Generated changes are excluded from this PR.
 - A real browser cannot access the local development server in this environment. Local jsdom tests validate DOM behavior and math-renderer calls, not rendered MathJax glyphs or visual layout. Deploy-preview visual verification is recorded in the PR.

@@ -64,7 +64,7 @@ function start(w, exam, mode, timed = false, bank = null) {
   }
   assert.ok(w.document.querySelector('.tb-quiz'), `${exam}/${mode} starts`);
   const data = w.__TB.getFeedbackSnapshot();
-  assert.ok(data.records.length >= 3, 'at least three questions for correction coverage');
+  assert.ok(data.records.length >= 2, 'at least two questions for reveal coverage, including a small released batch');
   return data;
 }
 function select(w, index, option) {
@@ -151,14 +151,14 @@ test('untimed reveal applies to every delivered exam and session type', async pa
       assert.ok(d.querySelector('#tb-revealed-answer'));
       d.querySelector('[data-goto="1"]').click();
       assert.equal(d.querySelector(`[data-opt="${second.answer}"]`).getAttribute('aria-pressed'),'true','selected option remains accessible on return');
-      const third = original.records[2].question;
-      select(w, 2, third.answer);
+      const third = original.records[2]?.question;
+      if(third)select(w, 2, third.answer);
       await finish(w);
       const completed = w.__TB.getFeedbackSnapshot();
-      assert.equal(completed.grading.correct, 1);
+      assert.equal(completed.grading.correct, third ? 1 : 0);
       assert.equal(completed.grading.incorrect, 2);
       assert.equal(completed.grading.revealed, 2);
-      assert.equal(completed.grading.unanswered, original.records.length - 3);
+      assert.equal(completed.grading.unanswered, Math.max(0, original.records.length - 3));
       assert.match(score(w), /2 revealed \(counted as incorrect\)/);
       click(w, '[data-open-review="all"]');
       assert.equal(d.querySelectorAll('.tb-review-card.revealed').length, 2);
@@ -271,7 +271,7 @@ test('revealing and flagging preserve the real MBB interactive question',async()
 });
 test('every current test set and mixed pool inherits reveal grading',async parent=>{
   const catalog=await harness();
-  const exams=Object.entries(catalog.w.__TB.EXAMS).filter(([,e])=>e.bank?.length).map(([id,e])=>({id,sets:Object.keys(e.sets||{1:e.bank})}));
+  const exams=Object.entries(catalog.w.__TB.EXAMS).filter(([,e])=>e.bank?.length).map(([id,e])=>({id,sets:Object.keys(e.sets||{1:e.bank}).filter(set=>(e.sets?.[set]||e.bank).length)}));
   await catalog.close();
   for(const exam of exams) await parent.test(exam.id,async()=>{
     const h=await harness(),w=h.w;

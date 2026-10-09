@@ -67,7 +67,7 @@ test('the public exam page describes current certification availability and Test
     ['Certified Reliability Engineer', 'CRE'],
     ['Certified Quality Auditor', 'CQA']
   ]);
-  assert.equal(section.querySelector('.category-count').textContent, '5 available · 2 coming soon');
+  assert.equal(section.querySelector('.category-count').textContent, '6 available · 1 coming soon');
   assert.match(section.textContent,/timed or untimed/);
   assert.equal(section.querySelector('.exam-certifications').getAttribute('aria-label'),'Certification availability');
   assert.match(section.textContent, /Premium account or higher/);
@@ -75,11 +75,12 @@ test('the public exam page describes current certification availability and Test
   assert.ok(section.querySelector('a[href="/test-bank"]'));
   assert.deepEqual(Array.from(section.querySelectorAll('.exam-certifications a'), a=>a.getAttribute('href')),
     ['/test-bank?exam=cssbb','/test-bank?exam=mbb','/test-bank?exam=cqe','/test-bank?exam=cmq','/test-bank?exam=cssgb','/test-bank?exam=cre','/test-bank?exam=cqa']);
-  assert.equal(section.querySelectorAll('.exam-coming-soon .exam-card').length, 2);
+  assert.equal(section.querySelectorAll('.exam-coming-soon .exam-card').length, 1);
   assert.equal(section.querySelector('.exam-coming-soon h2').textContent, 'Coming soon');
   for (const card of cards) {
     const upcoming = Boolean(card.closest('.exam-coming-soon'));
-    assert.equal(card.querySelector('.exam-status').textContent, upcoming ? 'Coming soon' : 'Available now');
+    const cre = card.getAttribute('href') === '/test-bank?exam=cre';
+    assert.equal(card.querySelector('.exam-status').textContent, upcoming ? 'Coming soon' : cre ? 'Set 2: 10 questions available' : 'Available now');
     assert.match(card.querySelector('.exam-card-action').textContent, upcoming ? /View exam details/ : /Start practicing/);
     assert.equal(card.querySelectorAll('a, button, input, select').length, 0, 'one keyboard stop per card, no nested controls');
     assert.equal(card.firstElementChild.tagName, 'H3', 'the full name comes before the acronym');
