@@ -4729,6 +4729,12 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     if(window.UpskillMath&&typeof window.UpskillMath.typeset==='function')window.UpskillMath.typeset([host]);
     if(view==='browse')renderAnonymousRecoveryPrompt();
   }
+  document.addEventListener('tb:review-rendered',function(event){
+    var root=event.detail&&event.detail.root;
+    if(!root||!window.UpskillMath||typeof window.UpskillMath.typeset!=='function')return;
+    var job=window.UpskillMath.typeset([root]);
+    if(job&&typeof job.catch==='function')job.catch(function(){});
+  });
 
   /* Account hydration and an answer write can happen without a DOM mutation.
      Repaint the browse view so readiness tags and the New-only control reflect
