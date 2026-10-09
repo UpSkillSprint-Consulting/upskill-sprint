@@ -15,9 +15,9 @@ function loadBank() {
   return ctx.window;
 }
 
-test('PMP Set 1 is ten original single-answer items across the July 2026 domains', () => {
+test('PMP Set 1 is twenty original single-answer items across the July 2026 domains', () => {
   const {PMP_SET1: qs, registerPMPSet1} = loadBank();
-  assert.equal(qs.length, 10);
+  assert.equal(qs.length, 20);
   const counts = {};
   qs.forEach((q, i) => {
     assert.equal(q.qid, 'pmp:set-1:' + String(i + 1).padStart(3, '0'));
@@ -32,9 +32,11 @@ test('PMP Set 1 is ten original single-answer items across the July 2026 domains
     assert.doesNotMatch(q.stem + q.options.join(' '), / [\u2013\u2014] /);
     counts[q.sub] = (counts[q.sub] || 0) + 1;
   });
-  assert.deepEqual(counts, {'pmp-people': 3, 'pmp-process': 4, 'pmp-business': 3});
+  assert.deepEqual(counts, {'pmp-people': 7, 'pmp-process': 8, 'pmp-business': 5});
   assert.equal(qs[6].chart.type, 'data-table');
   assert.equal(qs[6].chart.rows.length, 8);
+  assert.equal(qs[13].chart.type, 'data-table');
+  assert.equal(qs.filter(q => q.batch === 2).length, 10);
   const exam = {bok: [], bank: []}, dm = {};
   registerPMPSet1(exam, dm);
   assert.equal(exam.bank, qs);
@@ -92,7 +94,7 @@ test('opening PMP shows Set 1 in the catalog and does not start an attempt', asy
   assert.match(overview, /33%/);
   assert.match(overview, /41%/);
   assert.match(overview, /26%/);
-  assert.equal(dom.window.__TB.EXAMS.pmp.bank.length, 10);
+  assert.equal(dom.window.__TB.EXAMS.pmp.bank.length, 20);
   assert.deepEqual(errors, []);
   dom.window.close();
 });

@@ -1,6 +1,6 @@
 /*
  * PMI PMP Exam Set 1 — original practice questions.
- * Batch 1 of 18 (Q001–Q010). Written to the July 2026 Exam Content Outline
+ * Batch 1-2 of 18 (Q001-Q020). Written to the July 2026 Exam Content Outline
  * (People, Process, Business Environment) and the PMBOK Guide 8th Edition
  * performance domains. No PMI item, handbook passage, or figure is copied.
  * UpSkill Sprint is not affiliated with the Project Management Institute.
@@ -255,12 +255,252 @@
       ],
       keyPoint: 'Verify a generated draft against the artifacts, and confirm the use is allowed, before anyone relies on it.',
       trap: 'A draft is not a status report, and an ungoverned tool on customer data is not automatically either approved or banned.'
+    },
+    {
+      qid: 'pmp:set-1:011',
+      sub: 'pmp-people',
+      ecoTask: 'Develop a common vision',
+      approach: 'Agile',
+      stem: 'An adaptive warehouse team is three sprints in. The stories match their titles, but the warehouse lead says the app still will not cut the Sunday overtime named in the business case. The product owner calls the vision "a modern app" and asks you to stop reopening it so velocity can stay high. What should you do?',
+      options: [
+        'Tell the warehouse lead the vision is already set, and check the overtime outcome after release.',
+        'Replace the vision with the overtime target and drop any story that does not mention overtime.',
+        'Bring the product owner and the warehouse lead back to the business-case outcome, confirm one current vision the team can repeat, and check the next stories against it.',
+        'Hang a vision poster in the team room and leave the backlog unchanged.'
+      ],
+      answer: 2,
+      why: '<p>The team is finishing titled stories, but the people who share the outcome do not share a vision. A current vision is the overtime result in the business case, said in a way both the product owner and the warehouse lead will repeat. The next stories are then checked against that, not against a slogan. Freezing the slogan, swapping it for a single metric, or posting it on the wall without looking at the backlog leaves the misunderstanding in place.</p><p><strong>Exam tip:</strong> When delivery and the named outcome have split, repair the shared vision before you protect velocity or rewrite the backlog alone.</p>',
+      optionRationales: [
+        'Declaring the vision closed avoids the misunderstanding. The overtime outcome is already evidence that the vision is not shared.',
+        'One metric may be part of the vision. Replacing the vision and cutting stories before the conversation is a private rewrite, not a shared one.',
+        'The vision is made current with the people who must share it, then the upcoming work is checked against that outcome.',
+        'A poster does not fix a vision the product owner and the warehouse lead describe differently, and it does not change the stories.'
+      ],
+      keyPoint: 'A shared vision is current, repeatable by the people who share the outcome, and visible in the next work.',
+      trap: 'Velocity and a slogan are not a vision when the business-case outcome is still missed.'
+    },
+    {
+      qid: 'pmp:set-1:012',
+      sub: 'pmp-people',
+      ecoTask: 'Lead the project team',
+      approach: 'Predictive',
+      stem: 'On a predictive lab renovation, the commissioning lead and the facilities lead both plan to sign the same acceptance package. Each has given the crew a different definition of ready. The gate review is in six days. The sponsor says to let them sort it out. What should you do?',
+      options: [
+        'Leave the two leads to settle the signature so you do not take sides.',
+        'Sign the package yourself so the gate is not blocked by a role dispute.',
+        'Ask the sponsor for a ruling before anyone discusses what ready means.',
+        'Name who owns the acceptance decision, state what ready means for this gate, and confirm both leads will work to that before the review.'
+      ],
+      answer: 3,
+      why: '<p>The crew is hearing two definitions of ready because the role and the expectation were never set. Leadership here is to name the owner, state the gate criteria, and confirm both leads will use them. Leaving the dispute alone, taking the signature yourself, or sending it upstairs before the criteria are clear all avoid that work.</p><p><strong>Exam tip:</strong> When two roles claim the same decision, set the expectation and the owner. Do not hope the conflict sorts itself out before a gate.</p>',
+      optionRationales: [
+        'Waiting keeps both definitions in force. The crew still cannot tell which ready to build to.',
+        'Signing it yourself removes the dispute from view and takes a decision the role split was supposed to own.',
+        'The sponsor was asked to stay out. A ruling before the criteria are stated asks for authority instead of clarity.',
+        'The owner, the meaning of ready, and a check that both leads will use it are the expectations the gate needs.'
+      ],
+      keyPoint: 'Set the role and the meaning of ready before a gate, instead of leaving two leaders to improvise.',
+      trap: 'A sponsor who says to let them sort it out is not a reason to leave the crew with two definitions of done.'
+    },
+    {
+      qid: 'pmp:set-1:013',
+      sub: 'pmp-people',
+      ecoTask: 'Help ensure knowledge transfer',
+      approach: 'Predictive',
+      stem: 'The only engineer who has configured the plant historian is leaving in three weeks. Cutover depends on that configuration. She has not had time to write notes. Her manager offers to backfill the role after she leaves. What should you do first?',
+      options: [
+        'Wait for the backfill and hold a lessons-learned meeting after cutover.',
+        'Name the configuration knowledge cutover needs, schedule time to capture it in a form the remaining team can use, and confirm someone else can perform the steps before she leaves.',
+        'Ask her to stay on call for questions after her last day, with no capture planned.',
+        'Have a junior engineer watch her for one hour and treat that as enough for cutover.'
+      ],
+      answer: 1,
+      why: '<p>The critical knowledge is the historian configuration, and it is about to walk out. The first move is to name that knowledge, capture it while she is still here, and prove someone else can do the steps. A later lessons-learned meeting, an informal on-call promise, or one hour of watching do not transfer the work the cutover depends on.</p><p><strong>Exam tip:</strong> When one person holds knowledge the project still needs, transfer it before they leave. Do not wait for a backfill or a closing retrospective.</p>',
+      optionRationales: [
+        'Lessons learned after cutover cannot configure the historian if the person who knows it is already gone.',
+        'Critical knowledge is named, captured in a usable form, and checked by having someone else perform it before the expert leaves.',
+        'An on-call favor is not a transfer. The project still has no one who has performed the steps.',
+        'Watching for an hour does not show that the junior engineer can run the configuration at cutover.'
+      ],
+      keyPoint: 'Transfer the knowledge the work still needs, and prove someone else can use it, before the expert leaves.',
+      trap: 'A promised backfill after the expert leaves is not a knowledge transfer.'
+    },
+    {
+      qid: 'pmp:set-1:014',
+      sub: 'pmp-people',
+      ecoTask: 'Plan and manage communication',
+      approach: 'Hybrid',
+      stem: 'Your hybrid portal team is still planning a 29 May release. The exhibit shows three decisions and where they sit. The sponsor asks why the team is not listening. What should you do?',
+      options: [
+        'Put each decision where the team already works, confirm the team can restate it, and close that gap before you add another meeting.',
+        'Send the full steering pack to every team member so nothing is missed.',
+        'Tell the sponsor the team should have read the email you were copied on.',
+        'Add a daily all-hands until release so a decision cannot be missed.'
+      ],
+      answer: 0,
+      chart: {
+        type: 'data-table',
+        title: 'Where decisions sit',
+        columns: ['Decision', 'Recorded in', 'What the team is using'],
+        rows: [
+          ['Release date moved to 12 June', 'Sponsor email to you, two days ago', 'Sprint board still shows 29 May'],
+          ['Old API retired', 'Architecture notes, not linked', 'Team chat still links the old API guide'],
+          ['Support hours cut', 'Steering decision log', 'Not mentioned in the team channel']
+        ]
+      },
+      why: '<p>The team is not ignoring the sponsor. The decisions live in email, unlinked notes, and a log the team does not use, while the board and the chat still show the old facts. Communication works when the decision is in the place the team already looks, and when someone checks that they can restate it. A larger pack, a blame note, or another meeting does not fix a path the team is not on.</p><p><strong>Exam tip:</strong> Read where the decision was stored and where the team actually looks. Close that gap before you add a channel.</p>',
+      optionRationales: [
+        'The decisions move to the board and the channel the team already uses, and a restatement check confirms they landed.',
+        'More volume in a pack the team does not work from repeats the same miss at a larger size.',
+        'The team was never the audience of that email. Blaming them skips the path that failed.',
+        'A new daily meeting adds time. It does not correct the board and the chat that still carry the old date and the old API.'
+      ],
+      keyPoint: 'A decision is communicated when it is in the place the team uses and they can restate it.',
+      trap: 'Do not add a meeting or a bigger pack when the working board still shows the old decision.'
+    },
+    {
+      qid: 'pmp:set-1:015',
+      sub: 'pmp-process',
+      ecoTask: 'Develop and manage project scope',
+      approach: 'Hybrid',
+      stem: 'On a hybrid clinic-scheduling release, the agreed goal is that caregivers can book a follow-up without calling the desk. Nurses are also asking the team to rebuild the billing screen while they are in that code. The product owner has been saying yes in the hallway. The release is already full. What should you do?',
+      options: [
+        'Absorb the billing screen so the nurses stay supportive.',
+        'Freeze the backlog and refuse every request until next quarter.',
+        'Show the booking goal and the full capacity with the product owner, and treat the billing screen as a scope decision with an impact, not as a hallway yes.',
+        'Split the billing screen into the current sprint without changing the goal, so the request looks small.'
+      ],
+      answer: 2,
+      why: '<p>The release goal is booking, and the capacity is already spoken for. A hallway yes is not an agreement on scope. The project manager makes the goal and the limit visible with the product owner and puts the billing screen through a real scope decision. Absorbing it, freezing every request, or slicing it into the sprint without changing the goal all hide the same overrun.</p><p><strong>Exam tip:</strong> When new work arrives against a full release, return to the agreed scope and the capacity. Do not treat a hallway yes as a baseline change.</p>',
+      optionRationales: [
+        'Taking the screen in without a decision spends the capacity the booking goal still needs.',
+        'A blanket freeze skips analysis. Some requests may fit later. This one still needs an impact look, not a reflex no.',
+        'The agreed goal and the capacity stay visible, and the new screen is decided as scope rather than absorbed in the hallway.',
+        'A smaller slice is still new scope. Putting it in the sprint without touching the goal pretends the release grew for free.'
+      ],
+      keyPoint: 'Scope changes against a full release need an explicit decision, not a hallway yes.',
+      trap: 'Splitting a new request into the current sprint does not make it part of the agreed goal.'
+    },
+    {
+      qid: 'pmp:set-1:016',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and optimize quality',
+      approach: 'Predictive',
+      stem: 'A predictive bridge repair checks weld quality only at the final inspection, after the deck is closed. Two earlier spans were reopened because defects were found too late. The superintendent wants the same inspection so the crew is not slowed down. What should you do?',
+      options: [
+        'Keep the final inspection only. Rework is already priced in the contract.',
+        'Add more inspectors at the final gate so defects are caught faster at the end.',
+        'Skip inspection on the next span to recover the days lost to rework.',
+        'Move the agreed checks to the point where a weld can still be fixed, and keep the final inspection as confirmation rather than the first look.'
+      ],
+      answer: 3,
+      why: '<p>Defects are being built in and found only after the deck has to be reopened. Quality belongs at the point the weld can still be corrected. The final inspection can remain as confirmation. More people at the same late gate, skipping the check, or accepting rework as the plan all leave the first look too late.</p><p><strong>Exam tip:</strong> If defects are found only after the work is closed up, move the check earlier. Do not staff the late gate more heavily and call that a quality plan.</p>',
+      optionRationales: [
+        'Pricing the rework accepts the defect. It does not keep the weld right the first time.',
+        'More inspectors at the final gate still find the defect after the deck is closed.',
+        'Dropping the check removes the only detection the project has and hides the late-find problem.',
+        'The check moves to where the weld can be fixed, and the final inspection confirms rather than discovers.'
+      ],
+      keyPoint: 'Put the quality check where the defect can still be fixed, not only at the final gate.',
+      trap: 'Adding inspectors at the end does not fix a check that happens after the work is closed up.'
+    },
+    {
+      qid: 'pmp:set-1:017',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and manage resources',
+      approach: 'Agile',
+      stem: 'Two agile squads both need the only security reviewer next sprint. Each squad put a security story at the top. The reviewer can finish one squad, not both. The engineering manager tells you to let the squads fight it out. What should you do?',
+      options: [
+        'Assign the reviewer to both squads at half time and expect both stories to finish.',
+        'Make the single-reviewer limit visible, and with the squads decide which security outcome goes first and what the other squad will do instead.',
+        'Hire a second reviewer today and start that person in this sprint.',
+        'Drop security from both squads so the argument ends.'
+      ],
+      answer: 1,
+      why: '<p>There is one reviewer and two top stories. Pretending the person can be in both squads, hiring someone who cannot start this sprint, or deleting the security work all dodge the constraint. The limit has to be visible, and the squads have to choose which outcome uses the reviewer and what the other squad will do with the sprint.</p><p><strong>Exam tip:</strong> When one person is the constraint, show the limit and choose. Do not split them in half on paper or tell the teams to compete.</p>',
+      optionRationales: [
+        'Half time in two squads still leaves both stories short of a full review. The limit is hidden, not solved.',
+        'The constraint is named, the first outcome is chosen with the squads, and the other squad gets a real plan.',
+        'A hire started today is not capacity in this sprint. The decision still has to be made for the work already queued.',
+        'Removing security from both squads avoids the choice and drops a top outcome without a reason tied to value.'
+      ],
+      keyPoint: 'A single constrained person is planned by making the limit visible and choosing what waits.',
+      trap: 'Splitting one reviewer across two squads on paper does not create a second reviewer.'
+    },
+    {
+      qid: 'pmp:set-1:018',
+      sub: 'pmp-process',
+      ecoTask: 'Develop an integrated plan and plan delivery',
+      approach: 'Hybrid',
+      stem: 'A hybrid payroll rollout is sequencing work from a plan that still shows the tax-file dependency as optional. Yesterday compliance said the file is mandatory before any pilot paycheck. The copy on the team wall was not updated. A developer asks whether to start the pilot anyway, because the wall plan says the dependency is optional. What should you do?',
+      options: [
+        'Follow the wall plan. Changing it now will confuse the team.',
+        'Start the pilot and update the plan after the first paycheck.',
+        'Correct the plan the team is using, show the mandatory dependency, and resequence the pilot before anyone builds on the old assumption.',
+        'Tell the developer to ignore plans and ask compliance before every task.'
+      ],
+      answer: 2,
+      why: '<p>The integrated plan the team is using is wrong, and the next paycheck depends on it. The project manager corrects that plan, makes the dependency mandatory, and resequences the pilot before work starts from the optional assumption. Keeping the old wall, starting and fixing later, or throwing out plans entirely all leave the team without one current plan.</p><p><strong>Exam tip:</strong> When the plan in use contradicts a new dependency, update the plan the team actually follows before the work continues.</p>',
+      optionRationales: [
+        'The wall plan is the stale one. Protecting it protects the wrong sequence.',
+        'A pilot paycheck that needed the file first is the defect. Updating the plan afterward records the miss. It does not prevent it.',
+        'The working plan is corrected, the dependency is visible, and the pilot is resequenced before the old assumption is built.',
+        'Sending every task to compliance removes the plan instead of repairing it. The team still needs one current sequence.'
+      ],
+      keyPoint: 'Keep the plan the team uses current when a dependency changes, then resequence before they build on the old one.',
+      trap: 'The copy on the wall is not the plan if it still shows a mandatory dependency as optional.'
+    },
+    {
+      qid: 'pmp:set-1:019',
+      sub: 'pmp-business',
+      ecoTask: 'Remove impediments and manage issues',
+      approach: 'Agile',
+      stem: 'The team has been blocked for four days on a test account that only the identity group can issue. They have been using personal logins as a workaround. The identity group says the request is in the queue. The sprint goal needs that account. You are asked whether the workaround is good enough. What should you do?',
+      options: [
+        'Leave the workaround in place. The queue will clear on its own.',
+        'Stop the sprint until the identity group volunteers to help.',
+        'Log the delay as a lesson learned and continue with personal logins.',
+        'Treat the missing account as an impediment, show its effect on the goal, and work with the identity group on a specific unblock rather than normalizing the workaround.'
+      ],
+      answer: 3,
+      why: '<p>A four-day block on the sprint goal is an impediment, and the personal logins have started to look normal. The response is to show the effect and get a specific unblock from the group that owns access. Waiting on the queue, stopping the whole sprint, or filing a lesson while the workaround continues all leave the goal blocked.</p><p><strong>Exam tip:</strong> A workaround that hides a blocker is not a fix. Surface the impediment and go after the unblock the goal needs.</p>',
+      optionRationales: [
+        'Hope that the queue moves does not change a block that has already lasted four days.',
+        'Stopping all work is broader than the impediment. The rest of the sprint may still be able to move.',
+        'A lesson learned does not issue the account. Continuing on personal logins makes the issue invisible.',
+        'The impact on the goal is visible, and the owner of the account is engaged for a real unblock instead of a standing workaround.'
+      ],
+      keyPoint: 'Do not let a workaround become the plan. Name the impediment and pursue the unblock.',
+      trap: 'Personal logins that keep the board moving can hide a goal that is still blocked.'
+    },
+    {
+      qid: 'pmp:set-1:020',
+      sub: 'pmp-business',
+      ecoTask: 'Plan and manage risk',
+      approach: 'Predictive',
+      stem: 'On a predictive data-center move, a technician says the freight elevator is booked by another project on the only weekend the racks can move. Nothing about this is in the risk register. The move lead says the team will deal with it if the other project runs long. The clash is not confirmed, but the weekend cannot move without a permit change. What should you do?',
+      options: [
+        'Add contingency days to the move and leave the register unchanged.',
+        'Record the elevator clash as a risk, assess how likely it is and what it does to the permitted weekend, and choose a response before that weekend is locked.',
+        'Ask the sponsor to cancel the other project booking today.',
+        'Wait until the other project confirms it will run long, so you do not raise a false risk.'
+      ],
+      answer: 1,
+      why: '<p>An uncertain clash on the only permitted weekend is a risk, even though it is not confirmed. It belongs in the register, with a look at probability and effect, and a response chosen while there is still time. Padding the schedule without a risk, cancelling another project immediately, or waiting for the clash to become certain all skip that analysis.</p><p><strong>Exam tip:</strong> If it might happen and it would hurt a date you cannot easily move, record it and respond while it is still a risk. Do not wait for it to become an issue.</p>',
+      optionRationales: [
+        'Extra days without a named risk hide the elevator. The permit constraint may not be solved by slack that was never assessed.',
+        'The uncertainty is recorded, its effect on the permitted weekend is assessed, and a response is chosen before the window locks.',
+        'Cancelling the other booking is a response chosen before anyone has assessed the clash. It may be unnecessary or unavailable.',
+        'Waiting until the clash is certain turns the risk into an issue on a weekend that needs a permit to move.'
+      ],
+      keyPoint: 'An unconfirmed clash on a date you cannot move is still a risk. Record it and respond before it is certain.',
+      trap: 'Waiting for proof that the other project will run long converts a risk into an issue too late.'
     }
   ];
 
   questions.forEach(function (q, index) {
     q.set = 1;
-    q.batch = 1;
+    q.batch = index < 10 ? 1 : 2;
     q.original = true;
     q.sourceDocument = 'Original UpSkill Sprint item. July 2026 PMP Exam Content Outline and PMBOK Guide 8th Edition used as references only. Not a PMI item.';
     if (q.qid !== 'pmp:set-1:' + String(index + 1).padStart(3, '0')) {
@@ -278,7 +518,7 @@
     exam.plannedSets = ['1', '2', '3'];
     exam.setName = 'Set 1 live · Sets 2–3 soon';
     exam.setPlans = Object.assign({}, exam.setPlans, {
-      1: {target: 180, label: 'Batch 1: Q001-Q010'},
+      1: {target: 180, label: 'Batches 1-2: Q001-Q020'},
       2: {target: 10, label: 'Not yet written'},
       3: {target: 10, label: 'Not yet written'}
     });
