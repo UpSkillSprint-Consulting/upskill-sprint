@@ -185,7 +185,7 @@ def main():
                     expect(card.locator('.exam-status')).to_have_text('Coming soon')
                     expect(card.locator('.exam-card-action')).to_contain_text('View exam details')
                 cre = page.locator('.exam-card[href="/test-bank?exam=cre"]')
-                expect(cre.locator('.exam-status')).to_have_text('Sets 1–3: 305 questions available')
+                expect(cre.locator('.exam-status')).to_have_text('Sets 1–3: 315 questions available')
                 expect(cre.locator('.exam-card-action')).to_contain_text('Start practicing')
                 expect(page.locator('.exam-intro')).to_contain_text('untimed')
                 expect(page.locator('.exam-actions a[href="/test-bank"]')).to_be_visible()
@@ -358,21 +358,21 @@ def main():
                     expect(page.locator('[data-set="2"]')).to_have_attribute('aria-pressed', 'true')
                     page.locator('[data-timing-kind="full"][data-timed="0"]').click()
                     page.locator('[data-mode="full"]').click()
-                    expect(page.locator('[data-goto]')).to_have_count(110)
+                    expect(page.locator('[data-goto]')).to_have_count(120)
                     exhibits = 0
-                    for i in range(110):
+                    for i in range(120):
                         page.locator(f'[data-goto="{i}"]').click()
                         expect(page.locator('[data-cre-question]')).to_have_count(1)
                         expect(page.locator('.cre2-explorer')).to_have_count(0)
                         exhibits += page.locator('.cre2-exhibit').count()
                         qid = page.locator('[data-cre-question]').get_attribute('data-cre-question')
                         assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2'), f'{qid} overflows at {width}px in {theme} theme'
-                    assert exhibits == 61, f'Expected 61 exhibits, found {exhibits}'
+                    assert exhibits == 67, f'Expected 67 exhibits, found {exhibits}'
                     page.locator('[data-submit]').click()
                     page.locator('[data-open-review="all"]').click()
-                    expect(page.locator('.tb-review-card')).to_have_count(110)
-                    expect(page.locator('.tb-review-card .cre2-exhibit')).to_have_count(61)
-                    expect(page.locator('.cre2-explorer')).to_have_count(22)
+                    expect(page.locator('.tb-review-card')).to_have_count(120)
+                    expect(page.locator('.tb-review-card .cre2-exhibit')).to_have_count(67)
+                    expect(page.locator('.cre2-explorer')).to_have_count(24)
                     original_score = page.locator('[data-score-result]').text_content()
                     sample = page.locator('[data-cre-explorer="sample-size"]')
                     sample.locator('summary').click()
@@ -607,9 +607,27 @@ def main():
                     thermal.locator('[data-cre-reset]').click()
                     expect(thermal.locator('input')).to_have_value('60')
                     expect(thermal.locator('output')).to_contain_text('20,250 cycles')
+                    intervention = page.locator('[data-cre-explorer="fault-intervention"]')
+                    expect(intervention).not_to_have_attribute('open', '')
+                    intervention.locator('summary').click()
+                    for event, probability, reduction in [('2', '0.0980', '0.0180'), ('3', '0.0880', '0.0280')]:
+                        intervention.locator('select').select_option(event)
+                        expect(intervention.locator('output')).to_contain_text('Top-event probability: ' + probability)
+                        expect(intervention.locator('output')).to_contain_text('Absolute reduction from 0.1160: ' + reduction)
+                    intervention.locator('[data-cre-reset]').click()
+                    expect(intervention.locator('select')).to_have_value('1')
+                    expect(intervention.locator('output')).to_contain_text('Top-event probability: 0.0580')
+                    histogram = page.locator('[data-cre-explorer="histogram-scale"]')
+                    expect(histogram).not_to_have_attribute('open', '')
+                    histogram.locator('summary').click()
+                    histogram.locator('select').select_option('0')
+                    expect(histogram.locator('output')).to_contain_text('1,200, 3,600, 9,000 count-hours')
+                    histogram.locator('[data-cre-reset]').click()
+                    expect(histogram.locator('select')).to_have_value('1')
+                    expect(histogram.locator('output')).to_contain_text('Bar areas: 0.20, 0.30, 0.50; total area: 1.00')
                     assert page.locator('[data-score-result]').text_content() == original_score, 'Explorers changed the original score'
                     assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2'), f'CRE review overflows at {width}px in {theme} theme'
-                    blocks.scroll_into_view_if_needed()
+                    histogram.scroll_into_view_if_needed()
                     page.screenshot(path=str(out / f'cre-set2-{width}-{theme}.png'), full_page=False)
 
             record('cre-set2-evidence-and-review', cre_set2_review)

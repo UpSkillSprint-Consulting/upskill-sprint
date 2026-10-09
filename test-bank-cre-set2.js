@@ -2000,6 +2000,550 @@
         "section": "Parts Standardization and System Simplification"
       },
       "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 111,
+      "qid": "cre:set-2:111",
+      "sub": "cre-fundamentals",
+      "bok": "I.A.5",
+      "topic": "Requirement changes and verification traceability",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "After a reliability test plan is approved, a customer doubles the required mission duration while keeping the target survival probability unchanged. The design and test teams have not yet assessed the change. Which project action is most appropriate before claiming that the existing plan verifies the revised requirement?",
+      "options": [
+        "Keep the test unchanged and update only the requirement number on its report.",
+        "Treat the change as a documentation issue because the target probability is unchanged.",
+        "Assess the design and test impact, approve any changes, and update the requirement-to-verification links.",
+        "Repeat the old test twice and automatically treat the two results as proof of the longer mission."
+      ],
+      "answer": 2,
+      "why": "<p>The mission duration is part of the reliability requirement. Maintaining the same survival target over a longer mission can affect design margins, sample size, exposure, acceptance rules, and schedule.</p><p>Use the project’s change-control process to assess the impact, approve the revised baseline, and maintain traceability from the customer requirement through design and verification evidence. Two tests of separate shorter missions do not automatically establish survival through one longer mission.</p>",
+      "optionRationales": [
+        "Changing a report identifier does not establish that the test verifies the revised mission.",
+        "Duration affects the requirement even when the probability target remains unchanged.",
+        "This checks technical and project impacts while keeping requirements and evidence traceable.",
+        "Combining shorter tests requires a justified model and plan; two repetitions are not automatically equivalent to one longer mission."
+      ],
+      "keyPoint": "A requirement change needs an impact assessment and matching verification evidence.",
+      "trap": "The probability target alone does not define a mission-reliability requirement.",
+      "assumptions": [
+        "The mission-duration change has not yet been technically assessed.",
+        "No approved model establishes equivalence between the old plan and the revised requirement."
+      ],
+      "handbook": {
+        "chapter": 1,
+        "section": "Project Management in Reliability Engineering; Requirements Management"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 112,
+      "qid": "cre:set-2:112",
+      "sub": "cre-fundamentals",
+      "bok": "I.B.1",
+      "topic": "Inherent availability excludes logistics delay",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A repairable unit has the long-run mean times below. No preventive maintenance occurs. What is its steady-state inherent availability, using active corrective repair time and excluding logistics delay?",
+      "options": [
+        "99.17%",
+        "96.77%",
+        "97.56%",
+        "0.83%"
+      ],
+      "answer": 0,
+      "why": "<p>Inherent availability uses the mean operating time between failures and the mean active corrective repair time. Let \\(A_i\\) denote this availability.</p><p>\\[A_i=\\frac{\\mathrm{MTBF}}{\\mathrm{MTBF}+\\mathrm{MTTR}}=\\frac{480}{480+4}\\approx0.991736\\]</p><p>The result is 99.17%. Including the twelve-hour logistics delay instead gives 96.77% on the stated all-corrective-downtime basis. That delay matters operationally, but it is excluded from the requested inherent metric. Availability is not the probability of completing a specified mission without a failure.</p>",
+      "optionRationales": [
+        "99.17% uses operating time and active corrective repair time, as required.",
+        "96.77% includes the logistics delay as well as active repair.",
+        "97.56% includes logistics delay but omits the active corrective repair itself.",
+        "0.83% is inherent unavailability, the complement of the requested availability."
+      ],
+      "keyPoint": "Choose the availability definition before deciding which downtime belongs in the denominator.",
+      "trap": "Operational delays can materially affect service even though inherent availability excludes them.",
+      "assumptions": [
+        "The stated means are representative of steady operation and successive restoration cycles.",
+        "Active corrective repair time includes the work needed to restore function; there is no preventive maintenance."
+      ],
+      "handbook": {
+        "chapter": 2,
+        "section": "Basic Reliability Terminology; Availability"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Long-run mean time per corrective restoration cycle",
+        "columns": [
+          "Time category",
+          "Mean hours"
+        ],
+        "rows": [
+          [
+            "Operating time between failures",
+            480
+          ],
+          [
+            "Active corrective repair",
+            4
+          ],
+          [
+            "Logistics delay",
+            12
+          ]
+        ],
+        "description": "Each average cycle contains 480 operating hours, four hours of active corrective repair, and twelve hours of logistics delay."
+      }
+    },
+    {
+      "number": 113,
+      "qid": "cre:set-2:113",
+      "sub": "cre-risk",
+      "bok": "II.B.2",
+      "topic": "Use FMEA and the user task sequence",
+      "cognitive": "Evaluate",
+      "difficulty": "Foundational",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A portable instrument passes component and assembly tests, but field users sometimes fit a replacement cartridge backward and skip the required initialization step. The team wants an FMEA organized around actual setup, operation, and servicing tasks, including the effects experienced by users. Which approach best matches that scope?",
+      "options": [
+        "A parts-count prediction organized only by component failure rates.",
+        "A manufacturing-process FMEA limited to the factory assembly line.",
+        "A quantitative FMECA limited to hardware failure-mode fractions.",
+        "A use FMEA developed with representative users and task sequences."
+      ],
+      "answer": 3,
+      "why": "<p>A use FMEA examines potential failures from the user’s perspective across operating and servicing tasks. Representative users, task sequences, foreseeable errors, and their effects belong in that analysis.</p><p>Factory-process or component-focused analyses can contribute useful information, but neither replaces an analysis of the specified use sequence. The team should investigate interface, instruction, and task-design contributors rather than merely labeling the event as user error.</p>",
+      "optionRationales": [
+        "Parts-count prediction does not analyze the task sequence or foreseeable interaction errors.",
+        "Factory assembly scope omits the field setup and servicing activities described.",
+        "Hardware mode fractions do not by themselves capture the user task sequence and its effects.",
+        "Use FMEA directly matches the intended analysis of setup, operation, and servicing from the user’s perspective."
+      ],
+      "keyPoint": "Match the FMEA scope to the process or interaction being assessed.",
+      "trap": "A product can meet component specifications while its use sequence still creates failure opportunities.",
+      "assumptions": [
+        "The requested analysis concerns field use rather than manufacturing operations.",
+        "Representative users and the relevant tasks can be included in the assessment."
+      ],
+      "handbook": {
+        "chapter": 4,
+        "section": "Failure Mode and Effects Analysis; Use FMEA"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 114,
+      "qid": "cre:set-2:114",
+      "sub": "cre-risk",
+      "bok": "II.B.1",
+      "topic": "Compare fault-tree interventions by top-event reduction",
+      "cognitive": "Analyze",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A top event occurs when event A occurs together with at least one of events B or C, as shown. Basic events are independent over the same mission, with probabilities 0.20, 0.30, and 0.40 respectively. Three equally costly interventions each halve exactly one basic-event probability; all other probabilities, independence, and consequences remain unchanged. Which intervention gives the largest reduction in top-event probability?",
+      "options": [
+        "Halve B, from 0.30 to 0.15.",
+        "Halve A, from 0.20 to 0.10.",
+        "Halve C, from 0.40 to 0.20.",
+        "All three interventions give the same reduction."
+      ],
+      "answer": 1,
+      "why": "<p>The top event requires A, so use its probability together with the inclusive OR of B and C.</p><p>\\[\\begin{aligned}P(T)&=p_A(p_B+p_C-p_Bp_C)\\\\&=0.20(0.30+0.40-0.12)=0.116\\end{aligned}\\]</p><p>Here \\(T\\) is the top event and \\(p_A,p_B,p_C\\) are the basic-event probabilities. Halving A, B, or C gives top-event probabilities of 0.058, 0.098, and 0.088 respectively. Their absolute reductions are 0.058, 0.018, and 0.028. Halving A therefore gives the largest reduction, even though A originally has the smallest basic-event probability.</p>",
+      "optionRationales": [
+        "Halving B reduces the top-event probability by 0.018, less than halving A.",
+        "Halving A reduces the entire top-event probability by half, an absolute reduction of 0.058.",
+        "Halving C gives a reduction of 0.028; the largest basic-event probability need not offer the largest system-level benefit.",
+        "The gates give the events different contributions to the top event, so equal fractional changes have different effects."
+      ],
+      "keyPoint": "Prioritize an intervention using its effect on the top event, not just the size of a basic-event probability.",
+      "trap": "An OR gate is inclusive: both B and C can occur on the same mission.",
+      "assumptions": [
+        "The three basic events remain independent after each single intervention.",
+        "Costs and consequences are equal, so the requested ranking is solely by top-event probability reduction."
+      ],
+      "handbook": {
+        "chapter": 4,
+        "section": "Fault Tree Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Top event: A together with B or C",
+        "columns": [
+          "Basic event",
+          "Mission probability"
+        ],
+        "rows": [
+          [
+            "A",
+            "0.20"
+          ],
+          [
+            "B",
+            "0.30"
+          ],
+          [
+            "C",
+            "0.40"
+          ]
+        ],
+        "description": "An AND gate combines event A with an OR gate containing B and C. Basic events are independent, with probabilities 0.20, 0.30, and 0.40.",
+        "creKind": "intervention-tree"
+      },
+      "explorer": "fault-intervention"
+    },
+    {
+      "number": 115,
+      "qid": "cre:set-2:115",
+      "sub": "cre-statistics",
+      "bok": "III.A.7",
+      "topic": "Upper confidence bound on a normal standard deviation",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A random sample of \\(n=16\\) complete repair times from a normal population has sample standard deviation \\(s=2.00\\) h, calculated with denominator \\(n-1\\). Assuming independent observations and normality, what is the one-sided 95% upper confidence bound on the population standard deviation \\(\\sigma\\)? The table defines chi-square values by LEFT-tail cumulative probability.",
+      "options": [
+        "1.55 h",
+        "8.26 h",
+        "2.87 h",
+        "0.50 h"
+      ],
+      "answer": 2,
+      "why": "<p>For normal data, \\((n-1)s^2/\\sigma^2\\) has a chi-square distribution with \\(n-1=15\\) degrees of freedom. An upper bound on \\(\\sigma\\) uses the lower 5% chi-square value.</p><p>\\[\\sigma_U=\\sqrt{\\frac{(n-1)s^2}{\\chi^2_{0.05,15}}}=\\sqrt{\\frac{15(2.00)^2}{7.261}}\\approx2.87\\,\\mathrm h\\]</p><p>Here \\(\\sigma_U\\) is the upper confidence bound and the chi-square subscript denotes left-tail probability. The result bounds a population standard deviation, not a mean, a repair-time percentile, or an individual repair time.</p>",
+      "optionRationales": [
+        "1.55 h uses the upper-tail critical value and produces a lower confidence bound on the standard deviation.",
+        "8.26 is the upper bound on variance before taking the square root; its units would be squared hours.",
+        "2.87 h uses the lower chi-square critical value and takes the square root to return to standard-deviation units.",
+        "0.50 h is the estimated standard error of the sample mean, not a confidence bound on population spread."
+      ],
+      "keyPoint": "The direction of a variance bound reverses the choice of chi-square denominator.",
+      "trap": "A variance bound must be square-rooted when the requested parameter is standard deviation.",
+      "assumptions": [
+        "The sample is independent, complete, and drawn from a normal population.",
+        "The supplied quantiles use left-tail probabilities, and the bound is one-sided rather than two-sided."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Confidence and Tolerance Intervals"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Chi-square quantiles: LEFT-tail probability",
+        "columns": [
+          "Degrees of freedom",
+          "Left-tail probability",
+          "Chi-square value"
+        ],
+        "rows": [
+          [
+            15,
+            "0.05",
+            "7.261"
+          ],
+          [
+            15,
+            "0.95",
+            "24.996"
+          ]
+        ],
+        "description": "For fifteen degrees of freedom, the left-tail 5% chi-square quantile is 7.261 and the left-tail 95% quantile is 24.996."
+      }
+    },
+    {
+      "number": 116,
+      "qid": "cre:set-2:116",
+      "sub": "cre-statistics",
+      "bok": "III.B.4",
+      "topic": "Histogram area with unequal bin widths",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A complete sample contains 60 failure times, grouped into the unequal-width intervals shown. The draft histogram uses raw counts as heights and actual interval widths on the horizontal axis. The analyst wants bar AREA to equal each interval’s fraction of the sample. Which correction is appropriate?",
+      "options": [
+        "Divide each count by 60 and by that interval’s width.",
+        "Divide each count by 60 but keep the unequal interval widths.",
+        "Make all bars equally wide while retaining the numerical time-axis scale.",
+        "Use cumulative counts as heights in the original intervals."
+      ],
+      "answer": 0,
+      "why": "<p>For a density histogram, divide the interval count by both the total sample size and interval width. If \\(c_i\\) is the count, \\(w_i\\) the width, and \\(h_i\\) the height:</p><p>\\[h_i=\\frac{c_i}{60w_i},\\qquad h_iw_i=\\frac{c_i}{60}\\]</p><p>The heights are 0.002000, 0.001500, and approximately 0.001667 per hour. The corresponding areas are 0.20, 0.30, and 0.50, which sum to one. Raw count heights exaggerate the area of wider bins. These are unconditional lifetime-density estimates, not conditional hazard rates.</p>",
+      "optionRationales": [
+        "This normalization makes each bar area equal its observed sample fraction despite unequal widths.",
+        "Dividing only by sample size makes heights equal fractions, but unequal widths still distort their areas.",
+        "Equal graphical widths would misrepresent the stated numerical time scale and interval boundaries.",
+        "Cumulative heights represent a different summary and do not give each interval’s sample fraction by area."
+      ],
+      "keyPoint": "For unequal-width density histograms, probability is represented by area.",
+      "trap": "Lifetime density and hazard rate have different denominators and interpretations.",
+      "assumptions": [
+        "All sixty failure times are complete observations and no censoring adjustment is needed.",
+        "The specified goal is probability area on a numerical time axis, not a categorical frequency bar chart."
+      ],
+      "handbook": {
+        "chapter": 7,
+        "section": "Data Summary and Reporting"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Draft histogram and grouped complete lifetimes",
+        "columns": [
+          "Interval (hours)",
+          "Width (hours)",
+          "Failure count"
+        ],
+        "rows": [
+          [
+            "0 to less than 100",
+            100,
+            12
+          ],
+          [
+            "100 to less than 300",
+            200,
+            18
+          ],
+          [
+            "300 to 600",
+            300,
+            30
+          ]
+        ],
+        "description": "The draft bars have numerical widths 100, 200, and 300 hours and raw-count heights 12, 18, and 30. This draft does not represent sample fractions by area.",
+        "creKind": "unequal-histogram"
+      },
+      "explorer": "histogram-scale"
+    },
+    {
+      "number": 117,
+      "qid": "cre:set-2:117",
+      "sub": "cre-testing",
+      "bok": "IV.A.1",
+      "topic": "Future failure-free interval under a power-law NHPP",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 3,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A repairable system’s failure counts follow a specified nonhomogeneous Poisson process with independent increments and mean cumulative count \\(M(t)=0.02\\sqrt{t}\\), where \\(t\\) is the numerical total operating time in hours. Treat this model as known and valid over the planned interval; repairs do not reset the model’s time origin. At total operating time 10,000 h, what is the probability of no failures during the NEXT 12,500 operating hours?",
+      "options": [
+        "0.0498",
+        "0.2865",
+        "0.0821",
+        "0.3679"
+      ],
+      "answer": 3,
+      "why": "<p>The interval ends at total time 22,500 h. Use the increase in expected cumulative count, not the count from time zero.</p><p>\\[\\begin{aligned}\\Delta M&=M(22500)-M(10000)\\\\&=0.02(150-100)=1\\\\P(\\text{no interval failures})&=e^{-\\Delta M}=e^{-1}\\approx0.3679\\end{aligned}\\]</p><p>The starting instantaneous event intensity is 0.0001 per operating hour, but it declines over this interval. Holding that initial intensity constant gives 0.2865, a different approximation. Independent increments and known model parameters make the stated interval probability independent of earlier realized counts.</p>",
+      "optionRationales": [
+        "0.0498 uses the cumulative mean of three events from time zero to 22,500 h rather than the next interval.",
+        "0.2865 freezes the instantaneous intensity at its starting value for all 12,500 h.",
+        "0.0821 freezes the historical cumulative-average rate of two events per 10,000 h.",
+        "0.3679 uses the Poisson mean increment of one event over the requested interval."
+      ],
+      "keyPoint": "For an NHPP, future interval counts depend on the increment of the mean cumulative function.",
+      "trap": "A repairable-system growth process is not a sequence of identical exponential lifetimes.",
+      "assumptions": [
+        "The NHPP model and its parameters are taken as known; no forecast-uncertainty bound is requested.",
+        "Total operating time continues across repairs, and the specified model remains valid over the next interval."
+      ],
+      "handbook": {
+        "chapter": 8,
+        "section": "Reliability Test Strategies; Reliability Growth Models"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Expected cumulative failures under the specified model",
+        "columns": [
+          "Total operating time (hours)",
+          "Expected cumulative count"
+        ],
+        "rows": [
+          [
+            0,
+            "0.0"
+          ],
+          [
+            2500,
+            "1.0"
+          ],
+          [
+            10000,
+            "2.0"
+          ],
+          [
+            22500,
+            "3.0"
+          ]
+        ],
+        "description": "The model cumulative mean rises from two at 10,000 operating hours to three at 22,500 hours. The highlighted interval is the next 12,500 hours. The curve is a model expectation, not a step plot of observed failures.",
+        "creKind": "nhpp-interval"
+      }
+    },
+    {
+      "number": 118,
+      "qid": "cre:set-2:118",
+      "sub": "cre-testing",
+      "bok": "IV.C.2",
+      "topic": "Galvanic mechanism in a wet dissimilar-metal joint",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "An aluminum housing is electrically connected to a dissimilar-metal fastener and repeatedly wetted by a conductive salt solution. Corrosion concentrates near the joint. In a controlled comparison, electrically isolating the metals greatly reduces the attack while wet exposure remains the same. Which mechanism is most consistent with this evidence?",
+      "options": [
+        "Creep caused by sustained high-temperature mechanical loading.",
+        "Fatigue caused solely by repeated mechanical stress cycles.",
+        "Galvanic corrosion involving dissimilar metals and an electrolyte.",
+        "Dry adhesive wear caused by sliding surfaces in direct contact."
+      ],
+      "answer": 2,
+      "why": "<p>Dissimilar metals, an electrically conductive path, and an electrolyte can form a galvanic couple. Preferential attack near the joint and the reduction after electrical isolation support that explanation.</p><p>The observations do not establish a complete service-life model or exclude every secondary mechanism. The alternatives require thermal, cyclic mechanical, or sliding-contact evidence not supplied here.</p>",
+      "optionRationales": [
+        "The case gives electrochemical exposure evidence, not elevated-temperature deformation evidence.",
+        "The controlled electrical-isolation result is not explained by mechanical cycling alone.",
+        "This mechanism matches the dissimilar metals, conductive solution, electrical path, and isolation comparison.",
+        "Dry sliding wear does not match the wet electrochemical conditions and lack of stated sliding."
+      ],
+      "keyPoint": "Connect the observed failure pattern to the conditions required by the proposed mechanism.",
+      "trap": "A visible corrosion location alone is weaker evidence than a controlled change to a mechanism-relevant condition.",
+      "assumptions": [
+        "The isolation comparison preserves wet exposure and other relevant conditions.",
+        "The question asks for the most consistent mechanism, not a quantitative corrosion-rate prediction."
+      ],
+      "handbook": {
+        "chapter": 10,
+        "section": "Physics of Failure and Failure Mechanisms; Corrosion"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 119,
+      "qid": "cre:set-2:119",
+      "sub": "cre-lifecycle",
+      "bok": "V.A.3",
+      "topic": "Experimental replication versus within-run subsampling",
+      "cognitive": "Analyze",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A thermal-aging experiment randomly assigns four independently prepared chamber runs to two temperatures, with two runs per temperature. Each run uses six new boards exposed together. Each board is measured twice. The analyst proposes treating all 24 readings per temperature as independent temperature replicates. Which statement is correct?",
+      "options": [
+        "Each reading is an independent temperature replicate because it has its own recorded value.",
+        "The chamber run is the temperature experimental unit; boards and repeated readings do not create additional independent run replicates.",
+        "Each board is an independent temperature replicate because boards have distinct serial numbers.",
+        "No temperature comparison is possible unless every board is measured only once."
+      ],
+      "answer": 1,
+      "why": "<p>Temperature is assigned to a whole chamber run, so that run is the experimental unit for the temperature effect. There are two independently prepared run replicates at each temperature.</p><p>Boards provide within-run observations, and repeated measurements provide information at a still lower level. They should not be treated as independent temperature assignments. Analysis must reflect the run structure; useful within-run information need not be discarded. This identification does not establish that two runs per level give adequate power for a particular effect.</p>",
+      "optionRationales": [
+        "Distinct data rows do not create independent experimental assignments.",
+        "This identifies the level at which temperature was randomized and preserves the nested observation structure.",
+        "Serial numbers distinguish boards but do not remove their shared run conditions or change the assignment level.",
+        "Repeated readings can be retained and modeled appropriately; their existence does not forbid a temperature comparison."
+      ],
+      "keyPoint": "Count independent treatment assignments when identifying experimental replication.",
+      "trap": "More observations within a run cannot substitute for independent run replication.",
+      "assumptions": [
+        "Each run is independently prepared with new boards and temperatures are randomized at the run level.",
+        "There are no separately randomized board-level temperatures within a run."
+      ],
+      "handbook": {
+        "chapter": 11,
+        "section": "Design of Experiments; Replication and Randomization"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Realized randomized run assignments",
+        "columns": [
+          "Run",
+          "Temperature (°C)",
+          "New boards",
+          "Readings per board"
+        ],
+        "rows": [
+          [
+            "R1",
+            120,
+            6,
+            2
+          ],
+          [
+            "R2",
+            80,
+            6,
+            2
+          ],
+          [
+            "R3",
+            80,
+            6,
+            2
+          ],
+          [
+            "R4",
+            120,
+            6,
+            2
+          ]
+        ],
+        "description": "Four independent runs receive two temperatures, two runs per temperature. Each run contains six new boards, each measured twice. This yields twenty-four readings per temperature but only two run-level assignments per temperature."
+      }
+    },
+    {
+      "number": 120,
+      "qid": "cre:set-2:120",
+      "sub": "cre-lifecycle",
+      "bok": "V.C.3",
+      "topic": "Verified restoration in corrective-maintenance timing",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A service team replaces a failed measurement module in four minutes. Required alignment and checkout then take 26 more minutes; the instrument cannot perform its specified measurement function until they pass. A proposed dashboard would report only the four-minute swap as the complete active corrective repair time. Which treatment is most appropriate?",
+      "options": [
+        "Include the required alignment and checkout in active corrective repair time, while retaining separate phase times for improvement.",
+        "Report only the swap because the replacement hardware is physically installed.",
+        "Classify the required alignment and checkout as logistics waiting even while technicians perform them.",
+        "Stop timing at power-on, regardless of whether the specified measurement function has been restored."
+      ],
+      "answer": 0,
+      "why": "<p>The component swap is one phase of restoration. Required alignment and checkout are active corrective work when the instrument cannot meet its function until they pass.</p><p>Record the full active restoration duration and retain phase-level data to identify improvement opportunities. Changing the metric boundary to omit required work makes the dashboard appear better without restoring the service sooner. Genuine waiting time should be classified separately under the chosen metric definition.</p>",
+      "optionRationales": [
+        "This measures completed functional restoration and still identifies where corrective time is spent.",
+        "Physical installation is not completion when alignment and checkout are required to restore the specified function.",
+        "Active alignment and verification work are not logistics waiting merely because they follow replacement.",
+        "Power-on is an incomplete endpoint when the required measurement function is not yet verified."
+      ],
+      "keyPoint": "Define the repair endpoint by restored required function, then retain phase detail.",
+      "trap": "A shorter reported repair time is not an improvement if required restoration work was omitted.",
+      "assumptions": [
+        "Alignment and checkout are required corrective activities, not optional later enhancements.",
+        "The instrument remains unavailable for its specified function until those activities pass."
+      ],
+      "handbook": {
+        "chapter": 13,
+        "section": "Corrective Maintenance Analysis; Alignment and Checkout"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
     }
   ];
   questions.forEach(q => {q.set = 2; q.batch = Math.ceil(q.number / 10); q.sourceDocument = 'The ASQ Certified Reliability Engineer Handbook, 4th edition (2025)'; q.original = true;});
@@ -2012,7 +2556,7 @@
     exam.sets = Object.assign({}, existing, {1: first, 2: questions});
     if (!exam.bank || !exam.bank.length) exam.bank = questions;
     exam.defaultSet = first.length ? '1' : '2';
-    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–11 · Q001–110'}});
+    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–12 · Q001–120'}});
     exam.fullExamQuestionsBySet = Object.assign({}, exam.fullExamQuestionsBySet, {2: 150});
     // Actual CBT pace: 165 displayed items in 258 minutes; this bank targets 150 core items.
     exam.questions = 165; exam.minutes = 258;
