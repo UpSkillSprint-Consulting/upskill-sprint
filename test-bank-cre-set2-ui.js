@@ -126,9 +126,58 @@
     s+=text(338,322,'Test temperature (°C); use temperature fixed at 55 °C')+text(327,349,'Model exploration assumes the same mechanism across this range.');
     return svg('Arrhenius temperature exploration','Activation energy 0.70 eV; use temperature 55 degrees Celsius. At test temperature '+temperature+' degrees Celsius, the life-ratio acceleration factor is '+acceleration(temperature).toFixed(2)+'. The curve increases with test temperature.',665,370,s);
   }
+  function pDiagram(c) {
+    const arrow=(x1,y1,x2,y2)=>line(x1,y1,x2,y2)+(y1===y2?'<polyline points="'+(x2-7)+','+(y2-5)+' '+x2+','+y2+' '+(x2-7)+','+(y2+5)+'"/>':'<polyline points="'+(x2-5)+','+(y2+(y2>y1?-7:7))+' '+x2+','+y2+' '+(x2+5)+','+(y2+(y2>y1?-7:7))+'"/>');
+    let s='<rect x="217" y="20" width="286" height="70" rx="7"/>'+text(360,45,'Control factors')+text(360,69,'Impeller clearance; controller gain');
+    s+=arrow(360,90,360,148)+box(265,148,190,74,'Pump controller');
+    s+='<rect x="12" y="148" width="184" height="74" rx="7"/>'+text(104,175,'Signal input')+text(104,199,'Required flow command')+arrow(196,185,265,185);
+    s+=arrow(455,185,524,185)+'<rect x="524" y="148" width="184" height="74" rx="7"/>'+text(616,173,'Intended response')+text(616,196,'Flow tracks command');
+    s+='<rect x="211" y="288" width="298" height="75" rx="7"/>'+text(360,311,'Noise factors')+text(360,334,'Viscosity; supply-voltage variation')+arrow(360,288,360,222);
+    s+=line(455,205,482,205)+line(482,205,482,261)+arrow(482,261,524,261);
+    s+='<rect x="524" y="235" width="184" height="78" rx="7"/>'+text(616,256,'Error states')+text(616,279,'Flow deficit;')+text(616,301,'excessive overshoot');
+    s+=text(360,393,'Roles refer to intended field use, not laboratory controllability.');
+    return svg(c.title,c.description,720,415,s);
+  }
+  function conditionalLife(c) {
+    const x=t=>70+t/1200*550,y=r=>280-r*225;let s='';
+    for(const r of [0,.2,.4,.6,.8,1])s+=line(70,y(r),620,y(r),'class="cre2-grid"')+text(42,y(r)+5,r.toFixed(1));
+    for(const t of [0,200,400,600,800,1000,1200])s+=line(x(t),280,x(t),286)+text(x(t),310,String(t));
+    s+=line(70,55,70,280)+line(70,280,620,280)+text(243,25,'Survival probability measured from new');
+    const points=Array.from({length:121},(_,i)=>{const t=i*10;return x(t).toFixed(2)+','+y(Math.exp(-((t/1000)**2))).toFixed(2);}).join(' ');
+    s+='<polyline class="cre2-curve" points="'+points+'"/>';
+    s+=line(x(800),55,x(800),280,'stroke-dasharray="7 4"')+line(x(1000),55,x(1000),280,'stroke-dasharray="2 4"');
+    s+='<circle cx="'+x(800)+'" cy="'+y(Math.exp(-.64))+'" r="5"/><rect x="'+(x(1000)-5)+'" y="'+(y(Math.exp(-1))-5)+'" width="10" height="10"/>';
+    s+=text(345,341,'Total operating age (hours)')+text(330,370,'Dashed / circle: mission start at 800 h')+text(330,395,'Dotted / square: mission end at 1,000 h');
+    return svg(c.title,c.description,660,415,s);
+  }
+  const ratedPower=t=>2*Math.max(0,Math.min(1,(155-t)/85));
+  function derating(c,temperature=100,review=false) {
+    const x=t=>74+(t-25)/130*544,y=p=>279-p/2.2*226;let s='';
+    for(const p of [0,.5,1,1.5,2])s+=line(74,y(p),618,y(p),'class="cre2-grid"')+text(43,y(p)+5,p.toFixed(1));
+    for(const t of [25,50,70,100,125,155])s+=line(x(t),279,x(t),285)+text(x(t),308,String(t));
+    s+=line(74,53,74,279)+line(74,279,618,279)+text(207,24,'Continuous power (watts)');
+    const points=f=>[25,70,155].map(t=>x(t)+','+y(f*ratedPower(t))).join(' ');
+    s+='<polyline class="cre2-curve" points="'+points(1)+'"/>'+line(x(temperature),53,x(temperature),279,'class="cre2-mission"')+'<circle cx="'+x(temperature)+'" cy="'+y(ratedPower(temperature))+'" r="5"/>';
+    if(review)s+='<polyline points="'+points(.6)+'" stroke-dasharray="8 5"/><rect x="'+(x(temperature)-4)+'" y="'+(y(.6*ratedPower(temperature))-4)+'" width="8" height="8"/>';
+    s+=text(345,340,'Ambient temperature (°C); specified mounting conditions')+text(335,369,'Solid / circle: manufacturer rating');
+    s+=text(335,396,review?'Dashed / square: 60% company power limit':'Company limit has not yet been applied to this curve.');
+    const description=review?'At '+temperature+' degrees Celsius, manufacturer power rating is '+ratedPower(temperature).toFixed(4)+' watts and the company power limit is '+(.6*ratedPower(temperature)).toFixed(4)+' watts. The separate 10-volt constraint is also enforced in the output.':c.description;
+    return svg(review?'Temperature-derating exploration':c.title,description,660,417,s);
+  }
+  function sequentialPlot(failures) {
+    const x=r=>72+r/8*546,y=l=>278-(l+3)/7*224,logRatio=r=>r*Math.log(2)-2.5;let s='';
+    for(const l of [-3,-2,-1,0,1,2,3,4])s+=line(72,y(l),618,y(l),'class="cre2-grid"')+text(43,y(l)+5,String(l));
+    for(let r=0;r<=8;r++)s+=line(x(r),278,x(r),284)+text(x(r),307,String(r));
+    s+=line(72,54,72,278)+line(72,278,618,278)+text(268,25,'Natural logarithm of the likelihood ratio');
+    s+=line(72,y(-Math.log(9)),618,y(-Math.log(9)),'stroke-dasharray="7 4"')+line(72,y(Math.log(9)),618,y(Math.log(9)),'stroke-dasharray="2 4"');
+    s+=text(248,y(-Math.log(9))-10,'Accept at or below −2.197')+text(437,y(Math.log(9))-10,'Reject at or above +2.197');
+    s+=line(x(0),y(logRatio(0)),x(8),y(logRatio(8)),'class="cre2-curve"')+'<circle cx="'+x(failures)+'" cy="'+y(logRatio(failures))+'" r="6"/>';
+    s+=text(345,338,'Hypothetical cumulative failures at 2,500 unit-hours')+text(335,365,'Between boundaries: continue. This is not a test trajectory.');
+    return svg('Sequential-test boundary exploration','At fixed exposure of 2,500 unit-hours, the log likelihood ratio increases linearly with the hypothetical failure count. Accept at or below minus log 9, reject at or above log 9, otherwise continue. Selected failures: '+failures+'. Selected log ratio: '+logRatio(failures).toFixed(3)+'.',660,388,s);
+  }
   function exhibit(q) {
     const c=q.chart;if(!c)return '';
-    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):'';
+    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):c.creKind==='p-diagram'?pDiagram(c):c.creKind==='conditional-life'?conditionalLife(c):c.creKind==='derating'?derating(c):'';
     return '<section class="cre2-exhibit" aria-label="Question evidence">'+
       (diagram?'<p class="cre2-caption">'+esc(c.title)+'</p>'+diagram+'<details class="cre2-alternative"><summary>Read the diagram description and data table</summary>'+(c.description?'<p>'+esc(c.description)+'</p>':'')+table(c)+'</details>':table(c))+
       '<p class="cre2-scroll-note">On a narrow screen, swipe or scroll within the exhibit to read it at full size.</p></section>';
@@ -153,6 +202,8 @@
     if(q.explorer==='acceptance-risk')return header+'<label for="'+id+'">Maximum failures permitted for acceptance</label><select id="'+id+'"><option value="0">0 failures</option><option value="1" selected>1 failure (question baseline)</option><option value="2">2 failures</option></select><p>The sample stays at 20 independent completed missions; true mission reliability stays at the good-quality reference of 0.95. Changing this control changes the hypothetical acceptance rule.</p><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 1 failure</button></details>';
     if(q.explorer==='p-chart-sample')return header+'<label for="'+id+'">Week 2 sample size at the same 4.5% observed proportion</label><select id="'+id+'"><option value="200">200 units; 9 nonconforming</option><option value="400" selected>400 units; 18 nonconforming (question baseline)</option><option value="800">800 units; 36 nonconforming</option></select><p>The established baseline stays at 2.0%; the other weeks remain unchanged.</p><div data-cre-explorer-plot>'+pChart(q.chart,400)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 400 units</button></details>';
     if(q.explorer==='arrhenius-temperature')return header+'<label for="'+id+'">Test temperature (°C)</label><input id="'+id+'" type="range" min="60" max="110" step="5" value="85"><p>Use temperature stays at 55 °C and activation energy at 0.70 eV. This hypothetical exploration assumes the model remains valid; it does not authorize a higher test stress.</p><div data-cre-explorer-plot>'+arrheniusPlot(85)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 85 °C</button></details>';
+    if(q.explorer==='sequential-failures')return header+'<label for="'+id+'">Hypothetical cumulative failure count</label><input id="'+id+'" type="range" min="0" max="8" step="1" value="4"><p>Total exposure stays at 2,500 unit-hours. This classifies separate hypothetical states, not a continuing test path. A real test stops at its first boundary or approved truncation limit.</p><div data-cre-explorer-plot>'+sequentialPlot(4)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 4 failures</button></details>';
+    if(q.explorer==='derating-temperature')return header+'<label for="'+id+'">Applicable ambient temperature (°C)</label><input id="'+id+'" type="range" min="30" max="150" step="5" value="100"><p>Resistance stays at 100 Ω, the company power limit at 60% of the local manufacturer rating, and the independent voltage limit at 10.0 V RMS. The stated mounting conditions still apply.</p><div data-cre-explorer-plot>'+derating(q.chart,100,true)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 100 °C</button></details>';
     return '';
   }
   function updateExplorer(el,q) {
@@ -178,6 +229,14 @@
     } else if(q.explorer==='arrhenius-temperature') {
       out.textContent='Test temperature: '+value+' °C = '+(value+273.15).toFixed(2)+' K. Acceleration factor: '+acceleration(value).toFixed(2)+'. Under this model, 100 hours at test temperature corresponds to '+(100*acceleration(value)).toFixed(1)+' equivalent hours at 55 °C.';
       el.querySelector('[data-cre-explorer-plot]').innerHTML=arrheniusPlot(value);
+    } else if(q.explorer==='sequential-failures') {
+      const ratio=Math.pow(2,value)*Math.exp(-2.5),decision=ratio<=1/9?'Accept':ratio>=9?'Reject':'Continue';
+      out.textContent=value+' failures at 2,500 unit-hours. Likelihood ratio: '+ratio.toFixed(4)+'. Decision for this hypothetical state: '+decision+'. Boundaries remain one ninth and nine.';
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=sequentialPlot(value);
+    } else if(q.explorer==='derating-temperature') {
+      const rated=ratedPower(value),allowed=.6*rated,powerVoltage=Math.sqrt(100*allowed),voltage=Math.min(10,powerVoltage);
+      out.textContent='Ambient: '+value+' °C. Manufacturer rating: '+rated.toFixed(4)+' W. Company power limit: '+allowed.toFixed(4)+' W. Maximum RMS voltage: '+voltage.toFixed(2)+' V. Governing constraint: '+(powerVoltage<10?'temperature-dependent power limit.':'independent 10.0 V working-voltage limit.');
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=derating(q.chart,value,true);
     }
   }
   let mathQueue=Promise.resolve();
@@ -209,7 +268,7 @@
           const control=el.querySelector('input,select');
           control.addEventListener('input',()=>updateExplorer(el,q));
           control.addEventListener('change',()=>updateExplorer(el,q));
-          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85'};
+          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85','sequential-failures':'4','derating-temperature':'100'};
           el.querySelector('[data-cre-reset]').addEventListener('click',()=>{control.value=defaults[q.explorer];updateExplorer(el,q);});
           updateExplorer(el,q);
         }
