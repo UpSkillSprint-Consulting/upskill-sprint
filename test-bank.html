@@ -502,6 +502,7 @@
 <script src="/test-bank-cre-set2.js"></script>
 <script src="/test-bank-cre-set2-ui.js"></script>
 <script src="/test-bank-cre-set3.js"></script>
+<script src="/test-bank-pmp-set1.js"></script>
 <script src="/assets/js/math.js"></script>
 <script>
 (function(){
@@ -548,7 +549,10 @@
     'cre-risk':{name:'Risk Management',short:'Risk',color:'#a24b8c'},
     'cre-statistics':{name:'Probability and Statistics for Reliability',short:'Statistics',color:'#3b6fb0'},
     'cre-testing':{name:'Reliability Planning, Testing, and Modeling',short:'Testing & Models',color:'#b8791b'},
-    'cre-lifecycle':{name:'Lifecycle Reliability',short:'Lifecycle',color:'#0e8f86'}
+    'cre-lifecycle':{name:'Lifecycle Reliability',short:'Lifecycle',color:'#0e8f86'},
+    'pmp-people':{name:'People',short:'People',color:'#1a5276'},
+    'pmp-process':{name:'Process',short:'Process',color:'#0e6b7a'},
+    'pmp-business':{name:'Business Environment',short:'Business',color:'#8a5a12'}
   };
   function d(domain,weight,subs){return {domain:domain,weight:weight,subs:subs};}
   function s(id,name,lesson,lessonName,w){return {id:id,name:name,lesson:lesson,lessonName:lessonName,w:w};}
@@ -2558,14 +2562,21 @@
          their finer BoK code (e.g. III.A.2) in q.bok. */
       bank:CRE_SET1,sets:{1:CRE_SET1,3:CRE_SET3},setPlans:{1:{target:150,label:'Batch 3 of 15'}},fullExamQuestionsBySet:{1:150,3:165},
       formatNote:'Set 3 contains 165 original practice questions (Batch 17: Q161–165). Its Full Exam uses all 165.',
-      bok:[d('cre-fundamentals',29,[s('cre-fundamentals','I. Reliability Fundamentals','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',29)]),d('cre-risk',25,[s('cre-risk','II. Risk Management','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',25)]),d('cre-statistics',35,[s('cre-statistics','III. Probability and Statistics for Reliability','/lessons/statistics/probability-basics-the-language-of-chance','Probability Basics',35)]),d('cre-testing',35,[s('cre-testing','IV. Reliability Planning, Testing, and Modeling','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',35)]),d('cre-lifecycle',26,[s('cre-lifecycle','V. Lifecycle Reliability','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',26)])]}
+      bok:[d('cre-fundamentals',29,[s('cre-fundamentals','I. Reliability Fundamentals','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',29)]),d('cre-risk',25,[s('cre-risk','II. Risk Management','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',25)]),d('cre-statistics',35,[s('cre-statistics','III. Probability and Statistics for Reliability','/lessons/statistics/probability-basics-the-language-of-chance','Probability Basics',35)]),d('cre-testing',35,[s('cre-testing','IV. Reliability Planning, Testing, and Modeling','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',35)]),d('cre-lifecycle',26,[s('cre-lifecycle','V. Lifecycle Reliability','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',26)])]},
+    pmp:{badge:'PMP',bc:'#1a5276',body:'PMI Project Management Professional (PMP)',title:'PMP — Exam Simulation',setName:'Set 1 · 10 of 180',questions:180,minutes:240,pass:70,
+      /* July 2026 PMP ECO: People 33, Process 41, Business Environment 26. Official sitting is 180 items in 240 minutes.
+         registerPMPSet1() loads the original Set 1 bank. Not affiliated with PMI. */
+      bank:[],sets:{},setPlans:{1:{target:180,label:'Batch 1: Q001-Q010'}},fullExamQuestionsBySet:{1:180},
+      formatNote:'Original practice questions for the July 2026 PMP Exam Content Outline. Not affiliated with PMI.',
+      bok:[d('pmp-people',33,[s('pmp-people','People','/lessons','Browse lessons',33)]),d('pmp-process',41,[s('pmp-process','Process','/lessons','Browse lessons',41)]),d('pmp-business',26,[s('pmp-business','Business Environment','/lessons','Browse lessons',26)])]}
   };
   if(window.registerCRESet2)window.registerCRESet2(EXAMS.cre,DM);
+  if(window.registerPMPSet1)window.registerPMPSet1(EXAMS.pmp,DM);
   [['cre-fundamentals','cre-lead'],['cre-statistics','cre-stats'],['cre-testing','cre-model'],['cre-lifecycle','cre-life']].forEach(function(pair){
     var domain=EXAMS.cre.bok.find(function(d){return d.subs.some(function(s){return s.id===pair[0];});});
     if(domain&&!domain.subs.some(function(s){return s.id===pair[1];}))domain.subs.push({id:pair[1],name:domain.subs[0].name,w:0,lesson:domain.subs[0].lesson,lessonName:domain.subs[0].lessonName});
   });
-  var GROUPS=[['Six Sigma',['cssbb','mbb','cssgb']],['Quality',['cqe','cqa','cmq']],['Reliability',['cre']]];
+  var GROUPS=[['Six Sigma',['cssbb','mbb','cssgb']],['Quality',['cqe','cqa','cmq']],['Reliability',['cre']],['Project Management',['pmp']]];
   var current='cssbb', view='browse', session=null;
   var selectedSet='1'; /* Full Exam selection; Quick and Focused keep their own mode choices. */
   var diagTimed=true, timerId=null, calcExpr='';
@@ -3664,6 +3675,7 @@
   function formatNoteFor(e){
     var plan=setPlan(e,selectedSet),available=activeBank(e).length;
     if(current==='cre'&&selectedSet==='2')return 'Set 2 currently contains '+available+' of 150 planned original practice questions (Batch 1: Q001–010). This is a partial practice set. The completed 150-question core will follow the five-domain ASQ blueprint. The official computer exam displays 165 questions, including 15 unscored items, in 258 minutes; this practice session uses the same average pace.';
+    if(current==='pmp')return 'Set 1 contains '+available+' of 180 planned original practice questions (Batch 1: Q001-Q010). The official PMP exam displays 180 questions in 240 minutes. This sitting serves the questions written so far, at that same average pace. These items are original. UpSkill Sprint is not affiliated with PMI.';
     if(current==='mbb'&&selectedSet==='3')return 'Set 3 contains '+available+' original practice questions. Its Full Exam uses all '+available+' items at a practice pace of 90 seconds per question. This analytics-heavy practice bank is not a replica of the official ASQ examination format or domain weighting.';
     if(plan)return setLabel(selectedSet)+' currently contains '+available+' of the planned '+plan.target+' original questions ('+plan.label+'). Every completed, validated batch will be added here. The current Full Exam serves all '+available+' available questions.';
     if(current==='mbb'&&selectedSet==='mix')return 'Mixed practice combines the 100-question supplied simulation with '+e.sets[2].length+' validated original Set 2 questions. The Mixed Full Exam remains a 100-question sitting at the same per-question pace.';
@@ -3863,6 +3875,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var stem='<div class="'+(review?'tb-review-stem':'tb-stem')+'" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>';
     if(/^cre:set-2:/.test(q.qid||''))return stem+(q.chart&&q.chart.description?'<p>'+esc(q.chart.description)+'</p>':'')+renderQuestionChart(q.chart);
     if(/^cre:set-3:/.test(q.qid||''))return stem+renderQuestionChart(q.chart);
+    if(/^pmp:/.test(q.qid||''))return stem+renderQuestionChart(q.chart);
     return ui?stem+ui.conditions(q)+renderQuestionChart(q.chart):renderQuestionChart(q.chart)+stem;
   }
 

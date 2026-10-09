@@ -14,15 +14,17 @@ const mbbSet2Script = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set2.js'), 
 const mbbSet3Script = fs.readFileSync(path.join(ROOT, 'test-bank-mbb-set3.js'), 'utf8');
 const cssgbScript = fs.readFileSync(path.join(ROOT, 'test-bank-cssgb-set1.js'), 'utf8');
 const cssgbSet2Script = fs.readFileSync(path.join(ROOT, 'test-bank-cssgb-set2.js'), 'utf8');
+const pmpScript = fs.readFileSync(path.join(ROOT, 'test-bank-pmp-set1.js'), 'utf8');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
   .replace('<script src="/test-bank-cmq-set1.js"></script>', `<script>${cmqScript}</script>`)
   .replace('<script src="/test-bank-mbb-set1.js"></script>', `<script>${mbbScript}</script>`)
   .replace('<script src="/test-bank-mbb-set2.js"></script>', `<script>${mbbSet2Script}</script>`)
   .replace('<script src="/test-bank-mbb-set3.js"></script>', `<script>${mbbSet3Script}</script>`)
   .replace('<script src="/test-bank-cssgb-set1.js"></script>', `<script>${cssgbScript}</script>`)
-  .replace('<script src="/test-bank-cssgb-set2.js"></script>', `<script>${cssgbSet2Script}</script>`);
+  .replace('<script src="/test-bank-cssgb-set2.js"></script>', `<script>${cssgbSet2Script}</script>`)
+  .replace('<script src="/test-bank-pmp-set1.js"></script>', `<script>${pmpScript}</script>`);
 
-const CERTS = ['CSSBB', 'MBB', 'CSSGB', 'CQE', 'CQA', 'CMQ', 'CRE'];
+const CERTS = ['CSSBB', 'MBB', 'CSSGB', 'CQE', 'CQA', 'CMQ', 'CRE', 'PMP'];
 
 let _windows = [];
 afterEach(() => { _windows.splice(0).forEach(w => { try { w.close(); } catch (e) {} }); });
@@ -59,10 +61,10 @@ test('uses the standard site shell (header, mobile nav, footer)', async () => {
 
 /* ---------- the certification picker (right rail) ---------- */
 
-test('the rail lists all seven certifications', async () => {
+test('the rail lists all eight certifications', async () => {
   const { window } = await loadPage();
   const tiles = Array.from(window.document.querySelectorAll('.tb-tile'));
-  assert.equal(tiles.length, 7);
+  assert.equal(tiles.length, 8);
   const badges = tiles.map(t => t.querySelector('.tb-badge').textContent);
   CERTS.forEach(c => assert.ok(badges.includes(c), `rail includes ${c}`));
 });
@@ -93,6 +95,11 @@ test('only CQA remains Coming soon; CSSBB, MBB, CSSGB, CQE, CMQ, and CRE are liv
   const cre = tiles.find(t => t.dataset.exam === 'cre');
   assert.doesNotMatch(cre.textContent, /Coming soon/, 'CRE Set 3 is live now');
   assert.match(cre.textContent, /Set 3/i, 'CRE tile advertises Set 3');
+  const pmp = tiles.find(t => t.dataset.exam === 'pmp');
+  assert.doesNotMatch(pmp.textContent, /Coming soon/, 'PMP Set 1 is live now');
+  assert.match(pmp.textContent, /180 questions/i, 'PMP tile advertises the official exam length');
+  assert.match(pmp.textContent, /Set 1/i, 'PMP tile advertises Set 1');
+  assert.equal(window.__TB.EXAMS.pmp.bank.length, 10, 'PMP Set 1 is loaded');
 });
 
 test('CSSBB is backed by the full 165-question bank across all nine ASQ areas', async () => {
