@@ -14,6 +14,8 @@
  *   cre-xy-plot       linear x–y plot with explicit round ticks and labelled points;
  *                     a series with line:false is a scatter, dashed:true a fitted/reference line
  *   cre-box-plot      horizontal box-and-whisker plots by group, with outliers
+ *   cre-rbd           reliability block diagram: stages in series, blocks in parallel within a
+ *                     stage, with an optional note per stage (e.g. "2 of 3 required")
  */
 (function(global){
   'use strict';
@@ -63,7 +65,14 @@
       ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] mjx-container[display="true"]:focus-visible{outline:2px solid var(--teal);outline-offset:2px}',
       /* Wide exhibit tables: the deciding columns may start off-screen on a phone, so say so. */
       '@media (max-width:600px){:is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-chart-wrap:has(table.tb-q-data-table th:nth-child(4))::before{content:"Swipe sideways to see every column.";display:block;margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(--muted)}}',
-      ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-chart-wrap[data-cre-table]:focus-visible{outline:2px solid var(--teal);outline-offset:2px}'
+      ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-chart-wrap[data-cre-table]:focus-visible{outline:2px solid var(--teal);outline-offset:2px}',
+      '.cre-rbd-block rect{fill:color-mix(in srgb,#2c8fa6 14%,var(--card));stroke:var(--ink);stroke-width:1.2}',
+      '.cre-rbd-block text{fill:var(--ink);font-size:11px}',
+      '.cre-rbd-block .cre-rbd-r{font-weight:700}',
+      '.cre-rbd-wire{stroke:var(--muted);stroke-width:1.4;fill:none}',
+      '.cre-rbd-node{fill:var(--ink)}',
+      '.cre-rbd-note{fill:var(--muted);font-size:10.5px;font-weight:700}',
+      '.cre-rbd-stage{fill:var(--ink);font-size:10.5px;font-weight:700}'
     ].join('\n');
     document.head.appendChild(style);
   }
@@ -279,7 +288,43 @@
     return wrap(spec.eyebrow||'Box plots',s,true);
   }
 
-  var RENDERERS={'cre-prob-tree':probTree,'cre-weibull-plot':weibullPlot,'cre-lognormal-plot':lognormalPlot,'cre-xy-plot':xyPlot,'cre-box-plot':boxPlot};
+  /* ---------- reliability block diagram ---------- */
+  function rbd(spec){
+    var stages=(spec.stages||[]).filter(function(st){return Array.isArray(st.blocks)&&st.blocks.length;});
+    if(!stages.length)return '';
+    var bw=96,bh=38,vgap=12,colGap=46,pad=34,top=46;
+    var maxN=Math.max.apply(null,stages.map(function(st){return st.blocks.length;}));
+    var bodyH=maxN*bh+(maxN-1)*vgap,mid=top+bodyH/2;
+    var w=pad*2+stages.length*(bw+28)+(stages.length-1)*colGap,h=top+bodyH+52;
+    var parts=[],x=pad;
+    parts.push('<circle class="cre-rbd-node" cx="'+(pad-14)+'" cy="'+mid+'" r="4"></circle><path class="cre-rbd-wire" d="M'+(pad-14)+' '+mid+' H'+x+'"></path>');
+    stages.forEach(function(st,si){
+      var n=st.blocks.length,stackH=n*bh+(n-1)*vgap,y0=mid-stackH/2,inX=x,bx=x+14,outX=bx+bw+14;
+      st.blocks.forEach(function(b,i){
+        var by=y0+i*(bh+vgap),cy=by+bh/2,label=(b.label||'')+(b.r!=null?', reliability '+b.r:'');
+        if(n>1)parts.push('<path class="cre-rbd-wire" d="M'+inX+' '+cy.toFixed(1)+' H'+bx+' M'+(bx+bw)+' '+cy.toFixed(1)+' H'+outX+'"></path>');
+        parts.push('<g class="cre-rbd-block" role="img" tabindex="0" aria-label="'+esc(label)+'"><title>'+esc(label)+'</title><rect x="'+bx+'" y="'+by.toFixed(1)+'" width="'+bw+'" height="'+bh+'" rx="5"></rect>'+
+          '<text x="'+(bx+bw/2)+'" y="'+(by+15).toFixed(1)+'" text-anchor="middle">'+esc(b.label||'')+'</text>'+
+          (b.r!=null?'<text class="cre-rbd-r" x="'+(bx+bw/2)+'" y="'+(by+30).toFixed(1)+'" text-anchor="middle">'+esc(b.r)+'</text>':'')+'</g>');
+      });
+      if(n>1){
+        var ya=(y0+bh/2).toFixed(1),yb=(y0+stackH-bh/2).toFixed(1);
+        parts.push('<path class="cre-rbd-wire" d="M'+inX+' '+ya+' V'+yb+' M'+outX+' '+ya+' V'+yb+'"></path>');
+      } else parts.push('<path class="cre-rbd-wire" d="M'+inX+' '+mid+' H'+bx+' M'+(bx+bw)+' '+mid+' H'+outX+'"></path>');
+      if(st.label)parts.push('<text class="cre-rbd-stage" x="'+(bx+bw/2)+'" y="'+(top-12)+'" text-anchor="middle">'+esc(st.label)+'</text>');
+      if(st.note)parts.push('<text class="cre-rbd-note" x="'+(bx+bw/2)+'" y="'+(top+bodyH+20)+'" text-anchor="middle">'+esc(st.note)+'</text>');
+      x=outX;
+      if(si<stages.length-1){parts.push('<path class="cre-rbd-wire" d="M'+x+' '+mid+' H'+(x+colGap)+'"></path>');x+=colGap;}
+    });
+    parts.push('<path class="cre-rbd-wire" d="M'+x+' '+mid+' H'+(x+14)+'"></path><circle class="cre-rbd-node" cx="'+(x+14)+'" cy="'+mid+'" r="4"></circle>');
+    w=x+pad;
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart cre-chart cre-chart-wide" style="max-width:'+w+'px" role="img" aria-label="'+esc(spec.altText||spec.title||'Reliability block diagram')+'">'+
+      '<title>'+esc(spec.title||'Reliability block diagram')+'</title><desc>'+esc(spec.altText||'')+'</desc>'+
+      '<text class="cre-title" x="'+pad+'" y="16">'+esc(spec.title||'')+'</text>'+parts.join('')+'</svg>';
+    return wrap(spec.eyebrow||'Reliability block diagram',svg,true);
+  }
+
+  var RENDERERS={'cre-prob-tree':probTree,'cre-weibull-plot':weibullPlot,'cre-lognormal-plot':lognormalPlot,'cre-xy-plot':xyPlot,'cre-box-plot':boxPlot,'cre-rbd':rbd};
   function render(chart){
     if(!chart||typeof chart.type!=='string'||!RENDERERS[chart.type])return '';
     ensureStyle();

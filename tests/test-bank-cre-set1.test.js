@@ -40,8 +40,8 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-const BATCHES = [1, 2, 3, 4, 5];
-const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/ };
+const BATCHES = [1, 2, 3, 4, 5, 6];
+const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/ };
 // BoK domain → engine area (the five shared CRE domains)
 const DOMAIN_SUB = { III: 'cre-statistics', IV: 'cre-testing' };
 
@@ -104,6 +104,15 @@ test('batch 5 adds three IV.A items and covers every IV.B testing topic', () => 
   assert.ok(rows.every((q) => q.sub === 'cre-testing'));
   assert.equal(rows.filter((q) => q.bok.code.startsWith('IV.A')).length, 3);
   assert.deepEqual([...new Set(rows.filter((q) => q.bok.code.startsWith('IV.B')).map((q) => q.bok.code))].sort(), ['IV.B.1', 'IV.B.2', 'IV.B.3', 'IV.B.4', 'IV.B.5', 'IV.B.6']);
+});
+
+test('batch 6 brings IV.B to 15 items, covers IV.B again, and opens IV.C', () => {
+  const rows = BANK.filter((q) => q.batch === 6);
+  assert.ok(rows.every((q) => q.sub === 'cre-testing'));
+  assert.equal(rows.filter((q) => q.bok.code.startsWith('IV.B')).length, 8);
+  assert.equal(BANK.filter((q) => q.bok.code.startsWith('IV.B')).length, 15);
+  assert.equal([...new Set(rows.filter((q) => q.bok.code.startsWith('IV.B')).map((q) => q.bok.code))].sort().join(), 'IV.B.1,IV.B.2,IV.B.3,IV.B.4,IV.B.5,IV.B.6');
+  assert.equal(rows.filter((q) => q.bok.code.startsWith('IV.C')).map((q) => q.bok.code).sort().join(), 'IV.C.1,IV.C.2');
 });
 
 test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22', () => {
@@ -663,6 +672,98 @@ test('Q50 each firmware activity is labelled with its software test method', () 
   assert.equal(q.options[q.answer], '1 white-box; 2 operational profile; 3 fault injection; 4 regression');
 });
 
+const K_B = 8.617333e-5;
+const arr = (ea, tUseC, tTestC) => Math.exp((ea / K_B) * (1 / (tUseC + 273.15) - 1 / (tTestC + 273.15)));
+
+test('Q51 Arrhenius–Peck acceleration converts 1,000 test hours to 6.3 field years', () => {
+  const q = byId('cre:set-1:b06-q51');
+  const row = (k) => [...q.chart.rows].find((r) => r[0] === k);
+  const [uT, sT] = row('Temperature').slice(1).map(n_), [uH, sH] = row('Relative humidity').slice(1).map(n_);
+  const ea = n_(row('Activation energy')[1]), m = Number(row('Humidity exponent (Peck)')[1].replace('−', '-'));
+  const AF = (uH / sH) ** m * arr(ea, uT, sT);
+  assert.ok(Math.abs(AF - 55.1) < 0.1);
+  assertKeyed(q, AF * 1000 / 8760, 0.05);
+  assert.ok(q.options.includes(`${(arr(ea, uT, sT) * 1000 / 8760).toFixed(1)} years`), 'Arrhenius-only trap');
+});
+
+test('Q52 activation energy from two temperatures, then B10 at 40 °C', () => {
+  const q = byId('cre:set-1:b06-q52');
+  const [[t1, l1], [t2, l2]] = [...q.chart.rows].map((r) => [n_(r[0]), n_(r[1])]);
+  assert.equal(q.chart.rows[0][2], q.chart.rows[1][2], 'same mechanism');
+  assert.equal(q.chart.rows[0][3], q.chart.rows[1][3], 'same Weibull shape');
+  const ea = K_B * Math.log(l2 / l1) / (1 / (t2 + 273.15) - 1 / (t1 + 273.15));
+  assert.ok(Math.abs(ea - 0.639) < 0.001);
+  const L40 = l2 * arr(ea, 40, t2);
+  assert.ok(Math.abs(L40 - 94000) < 150);
+  assert.equal(q.options[q.answer], 'About 94,000 h');
+});
+
+test('Q53 conditional field failures after burn-in', () => {
+  const q = byId('cre:set-1:b06-q53');
+  const plan = tableOf(q);
+  const beta = Number(plan['Weibull shape \\(\\beta\\)']), eta = n_(plan['Weibull scale \\(\\eta\\)']);
+  const R = (t) => Math.exp(-((t / eta) ** beta));
+  assertKeyed(q, (1 - R(2168) / R(168)) * 100, 0.06);
+  assert.ok(q.options.includes(`${((1 - R(2000)) * 100).toFixed(1)}%`), 'no-burn-in trap');
+});
+
+test('Q54 sequential test: continue now, accept after about 4,900 more hours', () => {
+  const q = byId('cre:set-1:b06-q54');
+  const lnD = Math.log(4000 / 2000), slope = (1 / 2000 - 1 / 4000) / lnD, a = Math.log(0.9 / 0.1) / lnD;
+  assert.ok(Math.abs(slope - 3.607e-4) < 1e-7 && Math.abs(a - 3.17) < 0.005, 'stem lines match the plan');
+  const acc = -a + slope * 15000, rej = a + slope * 15000;
+  assert.ok(4 > acc && 4 < rej, 'continue region');
+  const more = (4 + a) / slope - 15000;
+  assert.ok(Math.abs(more - 4880) < 15);
+  assert.match(q.options[q.answer], /^Continue testing; accept if no further failure occurs in about 4,900 more hours/);
+  const [rej0] = q.chart.series[0].points; assert.ok(Math.abs(rej0[1] - a) < 0.01);
+});
+
+test('Q55 IEC 61124 plan B.6 for D = 2 at 10% risks', () => {
+  const q = byId('cre:set-1:b06-q55');
+  const plan = [...q.chart.rows].find((r) => Number(r[3]) === 2500 / 1250 && r[1] === '10' && r[2] === '10');
+  assert.equal(plan[0], 'B.6');
+  const T = Number(plan[4]) * 2500;
+  assert.ok(Math.abs(T - 23675) < 0.5);
+  assert.equal(q.options[q.answer], `23,675 h with up to ${plan[5]} failures; about ${(Math.round(T / 12 / 10) * 10).toLocaleString('en-US')} h per unit.`);
+});
+
+test('Q56 exponential lumen decay projected to L70', () => {
+  const q = byId('cre:set-1:b06-q56');
+  const alpha = -Math.log(0.96) / 6000;
+  assertKeyed(q, -Math.log(0.70) / alpha, 60);
+});
+
+test('Q57 Jelinski–Moranda intensity and faults still to fix', () => {
+  const q = byId('cre:set-1:b06-q57');
+  const vals = [...q.chart.rows].map((r) => parseFloat(r[1]));
+  const [N, phi, k, target] = vals;
+  const lambda = phi * (N - k), more = Math.round((N - target / phi) - k);
+  assert.ok(Math.abs(lambda - 0.009) < 1e-9 && more === 10);
+  assert.equal(q.options[q.answer], `${lambda.toFixed(3)} per CPU-hour; ${more} more faults.`);
+});
+
+test('Q59 series system with a 2-of-3 and a 1-of-2 stage', () => {
+  const q = byId('cre:set-1:b06-q59');
+  const stageR = (st) => {
+    const r = Number(st.blocks[0].r), n = st.blocks.length, kk = st.note ? Number(st.note.match(/^(\d+) of/)[1]) : n;
+    let sum = 0; for (let i = kk; i <= n; i++) sum += comb(n, i) * r ** i * (1 - r) ** (n - i); return sum;
+  };
+  assertKeyed(q, q.chart.stages.reduce((a, st) => a * stageR(st), 1), 0.0006);
+});
+
+test('Q58 and Q60 evidence supports the keys', () => {
+  const q58 = byId('cre:set-1:b06-q58');
+  assert.match(q58.stem, /At every power-up.*checks its own memory/);
+  assert.equal(q58.options[q58.answer], 'Built-in testing');
+  const q60 = byId('cre:set-1:b06-q60');
+  const obs = Object.fromEntries([...q60.chart.rows]);
+  assert.match(obs['Operating temperature'], /no thermal cycling/);
+  assert.match(obs['Bolts and flanges'], /No cracks.*no visible pitting/);
+  assert.match(obs['Bolt length'], /Unchanged/);
+  assert.match(q60.options[q60.answer], /^Creep under constant strain/);
+});
+
 /* ---------- 3. production delivery ---------- */
 
 async function productionHtml() {
@@ -793,6 +894,11 @@ test('a full CRE sitting renders every visual and scores a perfect paper as 100%
         assert.ok(svg, `${q.qid} draws the box plots`);
         assert.equal(svg.querySelectorAll('rect.tb-chart-box').length, q.chart.groups.length);
         assert.equal(svg.querySelectorAll('circle.tb-chart-outlier').length, q.chart.groups.reduce((a, g) => a + (g.outliers || []).length, 0));
+      } else if (q.chart && q.chart.type === 'cre-rbd') {
+        const svg = quiz.querySelector('svg.cre-chart');
+        assert.ok(svg, `${q.qid} draws the block diagram`);
+        assert.equal(svg.querySelectorAll('.cre-rbd-block').length, q.chart.stages.reduce((a, st) => a + st.blocks.length, 0));
+        q.chart.stages.filter((st) => st.note).forEach((st) => assert.ok(svg.textContent.includes(st.note), `${q.qid} shows ${st.note}`));
       } else if (q.chart && q.chart.type === 'cre-xy-plot') {
         const svg = quiz.querySelector('svg.cre-chart');
         assert.ok(svg, `${q.qid} draws the x-y plot`);

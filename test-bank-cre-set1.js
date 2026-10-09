@@ -6,6 +6,7 @@
  * Batch 3 of 15: III.B.1–III.B.6 (data management).
  * Batch 4 of 15: III remainder (III.A.1, A.3, A.7; III.B.4) and IV.A.1–IV.A.5 (reliability planning).
  * Batch 5 of 15: IV.A.1–IV.A.2 (test strategy, HALT, attribute data) and IV.B.1–IV.B.6 (reliability testing).
+ * Batch 6 of 15: IV.B.1–IV.B.6 (accelerated, screening, demonstration, degradation, software) and IV.C.1–IV.C.2.
  *
  * Every calculated answer is recomputed independently in tests/test-bank-cre-set1.test.js.
  * Notation follows The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting &
@@ -4693,6 +4694,865 @@
         "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
         "chapter": "Chapter 9 - Reliability Testing",
         "section": "Software testing",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b06-q51",
+    "set": 1,
+    "batch": 6,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.1",
+      "topic": "Temperature–humidity acceleration (Arrhenius–Peck)"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "An outdoor controller is qualified with a temperature–humidity test using the conditions shown. Using the Arrhenius–Peck model, how many years of field life does 1,000 hours of testing represent?",
+    "chart": {
+      "type": "data-table",
+      "title": "Temperature–humidity test conditions",
+      "columns": [
+        "Item",
+        "Field",
+        "Test"
+      ],
+      "rows": [
+        [
+          "Temperature",
+          "40 °C",
+          "85 °C"
+        ],
+        [
+          "Relative humidity",
+          "70%",
+          "85%"
+        ],
+        [
+          "Activation energy",
+          "0.75 eV",
+          "0.75 eV"
+        ],
+        [
+          "Humidity exponent (Peck)",
+          "−2.66",
+          "−2.66"
+        ],
+        [
+          "Field operation",
+          "24 h per day, all year",
+          "—"
+        ]
+      ]
+    },
+    "options": [
+      "2.2 years",
+      "3.8 years",
+      "4.6 years",
+      "6.3 years"
+    ],
+    "answer": 3,
+    "why": "<p>The Arrhenius–Peck acceleration factor is the product of a humidity term and a temperature term:</p><p>\\[\\begin{aligned}\\text{AF}_H &= (70/85)^{-2.66} \\\\ &= 1.68 \\\\ \\text{AF}_T &= e^{(E_A/k)\\Delta} \\\\ &= e^{8703(0.000401)} \\\\ &= 32.9 \\\\ \\text{AF} &= 1.68 \\times 32.9 \\\\ &= 55.1\\end{aligned}\\]</p><p>where \\(\\text{AF}_H\\) is the humidity term (field over test relative humidity, raised to the Peck exponent), \\(\\text{AF}_T\\) the Arrhenius term, \\(E_A = 0.75\\) eV, \\(k = 8.617 \\times 10^{-5}\\) eV/K, \\(T_U = 313.15\\) K and \\(T_S = 358.15\\) K, so \\(8703 = 0.75/k\\) and \\(\\Delta = 1/T_U - 1/T_S = 0.000401\\). Then:</p><p>\\[\\begin{aligned}t_{\\text{field}} &= 55.1 \\times 1000 \\\\ &= 55100 \\text{ h} \\\\ &= 55100/8760 \\\\ &= 6.3 \\text{ years}\\end{aligned}\\]</p><p>where \\(t_{\\text{field}}\\) is the equivalent field time and 8,760 is the number of hours in a year of continuous operation.</p><p><b>D. 6.3 years</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Accelerated Life Tests — multiple-stress tests, Arrhenius–Peck model (Equation 9.3, Example 9.3).</span></p>",
+    "optionRationales": [
+      "Inverts the humidity term (\\(1/1.68\\)), so humidity appears to slow the test down: \\(32.9/1.68 \\times 1000/8760 = 2.2\\) years.",
+      "Uses the Arrhenius term alone (\\(\\text{AF} = 32.9\\)) and ignores the extra humidity in the test.",
+      "Multiplies by the plain humidity ratio \\(85/70 = 1.21\\) instead of raising it to the Peck exponent.",
+      "Correct. \\(\\text{AF} = 1.68 \\times 32.9 = 55.1\\), so 1,000 h equals about 6.3 years."
+    ],
+    "keyPoint": "Arrhenius–Peck: \\(\\text{AF} = (\\text{RH}_{\\text{use}}/\\text{RH}_{\\text{test}})^{-2.66} \\times \\exp[(E_A/k)(1/T_U - 1/T_S)]\\), with temperatures in kelvin.",
+    "trap": "Dropping or inverting the humidity term, or using the plain humidity ratio without the exponent.",
+    "formula": "\\(\\text{AF} = (\\text{RH}_U/\\text{RH}_S)^{-2.66}\\exp[(E_A/k)(1/T_U - 1/T_S)]\\)",
+    "assumptions": [
+      "The same failure mechanism operates in the field and in the test."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "Peck model",
+      "temperature-humidity",
+      "acceleration factor",
+      "Arrhenius",
+      "multiple-stress test"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Accelerated life tests — multiple-stress tests",
+        "example": "Example 9.3"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b06-q52",
+    "set": 1,
+    "batch": 6,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.1",
+      "topic": "Activation energy from two stress levels, then extrapolation"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "Capacitors were life-tested at two temperatures. Failure analysis confirmed the same failure mechanism at both, and the Weibull shapes were equal. Assuming the Arrhenius model, estimate the B10 life at the 40 °C use temperature.",
+    "chart": {
+      "type": "data-table",
+      "title": "Two-temperature life test: capacitors",
+      "columns": [
+        "Test temperature",
+        "B10 life (h)",
+        "Failure mechanism",
+        "Weibull shape"
+      ],
+      "rows": [
+        [
+          "125 °C",
+          "600",
+          "Dielectric breakdown",
+          "1.8"
+        ],
+        [
+          "85 °C",
+          "4,800",
+          "Dielectric breakdown",
+          "1.8"
+        ]
+      ]
+    },
+    "options": [
+      "About 38,400 h",
+      "About 49,800 h",
+      "About 94,000 h",
+      "About 108,600 h"
+    ],
+    "answer": 2,
+    "why": "<p>The ratio of lives at the two test temperatures gives the activation energy:</p><p>\\[\\begin{aligned}\\text{AF}_1 &= 4800/600 = 8 \\\\ \\Delta_1 &= 1/T_{85} - 1/T_{125} \\\\ &= 0.0002805 \\\\ E_A &= k \\ln 8/\\Delta_1 \\\\ &= 0.639 \\text{ eV}\\end{aligned}\\]</p><p>where \\(\\text{AF}_1\\) is the acceleration factor between the two test temperatures, \\(T_{85} = 358.15\\) K, \\(T_{125} = 398.15\\) K and \\(k = 8.617 \\times 10^{-5}\\) eV/K. Then extrapolate from 85 °C to the 313.15 K use temperature:</p><p>\\[\\begin{aligned}\\Delta_2 &= 1/313.15 - 1/358.15 \\\\ &= 0.000401 \\\\ \\text{AF}_2 &= e^{(E_A/k)\\Delta_2} \\\\ &= e^{7413(0.000401)} \\\\ &= 19.6 \\\\ L_{40} &= 4800(19.6) \\\\ &= 94000 \\text{ h}\\end{aligned}\\]</p><p>where \\(7413 = 0.639/k\\), \\(\\text{AF}_2\\) is the acceleration factor between 40 °C and 85 °C and \\(L_{40}\\) the B10 life at use. Equal shapes and the same mechanism are what justify applying one acceleration factor to every percentile.</p><p><b>C. About 94,000 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Accelerated Life Tests — Arrhenius model (Equation 9.1); verifying the acceleration factor with several stress levels.</span></p>",
+    "optionRationales": [
+      "Applies the same factor of 8 once more for the step from 85 °C down to 40 °C (\\(4800 \\times 8\\)). The acceleration factor depends on the change in \\(1/T\\) in kelvin, which differs between the two steps.",
+      "Assumes the same factor of 8 for every 40 °C step (\\(8^{45/40}\\)). Equal steps in Celsius do not give equal factors; the factor depends on \\(1/T\\) in kelvin.",
+      "Correct. \\(E_A = 0.639\\) eV and \\(\\text{AF} = 19.6\\), so \\(L_{40} = 94000\\) h.",
+      "Uses the rule of thumb that life doubles every 10 °C (\\(2^{4.5} = 22.6\\)). The test data define the activation energy, so the rule is not needed and overstates the life."
+    ],
+    "keyPoint": "With the same mechanism at two stress levels, estimate the activation energy from the data, then extrapolate in 1/T (kelvin).",
+    "trap": "Extrapolating linearly or in equal Celsius steps, or falling back on the 10 °C rule when data give the activation energy.",
+    "formula": "\\(E_A = k\\ln(L_1/L_2)/(1/T_1 - 1/T_2)\\); \\(L_U = L_S\\exp[(E_A/k)(1/T_U - 1/T_S)]\\)",
+    "assumptions": [
+      "The Arrhenius model holds from 40 °C to 125 °C for this mechanism."
+    ],
+    "estimatedMinutes": 6,
+    "keywords": [
+      "activation energy",
+      "Arrhenius",
+      "acceleration factor",
+      "extrapolation",
+      "B10 life"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Accelerated life tests — Arrhenius model",
+        "example": "Example 9.1"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b06-q53",
+    "set": 1,
+    "batch": 6,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.2",
+      "topic": "Effect of burn-in on early field failures"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A module population has early-life failures described by a Weibull distribution with the parameters shown. Every module will receive a 168-hour burn-in, and only survivors ship. What fraction of shipped modules is expected to fail in their first 2,000 hours of service?",
+    "chart": {
+      "type": "data-table",
+      "title": "Burn-in planning data",
+      "columns": [
+        "Item",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Weibull shape \\(\\beta\\)",
+          "0.4"
+        ],
+        [
+          "Weibull scale \\(\\eta\\)",
+          "50,000 h"
+        ],
+        [
+          "Burn-in",
+          "168 h at use conditions"
+        ],
+        [
+          "Field period of interest",
+          "First 2,000 h of service"
+        ]
+      ]
+    },
+    "options": [
+      "9.7%",
+      "15.1%",
+      "16.7%",
+      "24.1%"
+    ],
+    "answer": 2,
+    "why": "<p>Shipped modules have already survived 168 h, so the field failure fraction is a conditional probability:</p><p>\\[\\begin{aligned}R(t) &= e^{-(t/\\eta)^{\\beta}} \\\\ R(168) &= e^{-(0.00336)^{0.4}} \\\\ &= 0.9026 \\\\ R(2168) &= e^{-(0.04336)^{0.4}} \\\\ &= 0.7520 \\\\ F &= 1 - \\frac{R(2168)}{R(168)} \\\\ &= 1 - 0.8332 \\\\ &= 16.7\\%\\end{aligned}\\]</p><p>where \\(R(t)\\) is the reliability at age \\(t\\) in hours and \\(F\\) the fraction of shipped modules failing in their first 2,000 h. Without burn-in, \\(1 - R(2000) = 24.1\\%\\) would fail, so the burn-in removes about a third of early field failures at the cost of a 9.7% burn-in fallout.</p><p><b>C. 16.7%</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Stress Screening (burn-in and the early-failure part of the bathtub curve); Ch. 6, Probability Functions (conditional reliability).</span></p>",
+    "optionRationales": [
+      "\\(1 - R(168) = 9.7\\%\\) is the fraction that fails during burn-in, not in service.",
+      "Takes \\(F(2168) - F(168) = 0.248 - 0.097\\) without dividing by \\(R(168)\\). That is the fraction of all built modules failing in service; for shipped modules it must be conditioned on surviving burn-in.",
+      "Correct. \\(1 - R(2168)/R(168) = 16.7\\%\\).",
+      "\\(1 - R(2000) = 24.1\\%\\) ignores the burn-in entirely."
+    ],
+    "keyPoint": "After burn-in, field reliability is conditional: \\(R(t \\mid t_b) = R(t_b + t)/R(t_b)\\). A decreasing hazard (\\(\\beta \\lt 1\\)) is what makes burn-in worthwhile.",
+    "trap": "Ignoring the burn-in, forgetting to divide by the burn-in survival, or quoting burn-in fallout as field failures.",
+    "formula": "\\(F = 1 - R(t_b + t)/R(t_b)\\), \\(R(t) = e^{-(t/\\eta)^{\\beta}}\\)",
+    "assumptions": [
+      "Burn-in at use conditions ages modules exactly as field service would."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "burn-in",
+      "infant mortality",
+      "conditional reliability",
+      "Weibull",
+      "stress screening"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Stress screening",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b06-q54",
+    "set": 1,
+    "batch": 6,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.3",
+      "topic": "Reading a sequential (PRST) demonstration test"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "A probability ratio sequential test (PRST) has an acceptable MTBF of 4,000 h, a rejectable MTBF of 2,000 h and \\(\\alpha = \\beta = 0.10\\). Its decision lines are \\(r = \\pm 3.17 + 3.607 \\times 10^{-4}\\,T\\), where \\(r\\) is the number of failures and \\(T\\) the cumulative test hours. After 15,000 hours there have been 4 failures. What is the decision now, and if testing continues without another failure, about how many more hours are needed to accept?",
+    "chart": {
+      "type": "cre-xy-plot",
+      "title": "Sequential test plan: decision lines",
+      "eyebrow": "Sequential test (PRST)",
+      "legend": true,
+      "altText": "Number of failures against cumulative test hours from 0 to 30,000. The reject line rises from 3.2 failures at 0 hours to 14 failures at 30,000 hours. The accept line rises from 0 failures at about 8,800 hours to 7.7 failures at 30,000 hours. The region between the lines is continue testing. A marker shows the current result: 4 failures at 15,000 hours, between the lines.",
+      "xTicks": [
+        0,
+        5000,
+        10000,
+        15000,
+        20000,
+        25000,
+        30000
+      ],
+      "yTicks": [
+        0,
+        2,
+        4,
+        6,
+        8,
+        10,
+        12,
+        14
+      ],
+      "series": [
+        {
+          "label": "Reject line",
+          "points": [
+            [
+              0,
+              3.17
+            ],
+            [
+              30000,
+              13.99
+            ]
+          ],
+          "showPoints": false
+        },
+        {
+          "label": "Accept line",
+          "dashed": true,
+          "points": [
+            [
+              8789,
+              0
+            ],
+            [
+              30000,
+              7.65
+            ]
+          ],
+          "showPoints": false
+        }
+      ],
+      "markers": [
+        {
+          "x": 15000,
+          "y": 4,
+          "label": "Now: 4 failures at 15,000 h"
+        }
+      ],
+      "xLabel": "Cumulative test time (h)",
+      "yLabel": "Number of failures"
+    },
+    "options": [
+      "Continue testing; accept if no further failure occurs in about 4,900 more hours.",
+      "Accept now: the point estimate, \\(15000/4 = 3750\\) h, is much closer to 4,000 h than to 2,000 h.",
+      "Reject now: four failures is already more than the plan’s accept number at 15,000 h.",
+      "Continue testing; accept if no further failure occurs in about 19,900 more hours."
+    ],
+    "answer": 0,
+    "why": "<p>At 15,000 h the two lines bound the decision:</p><p>\\[\\begin{aligned}s &= 3.607 \\times 10^{-4} \\\\ r_{\\text{acc}} &= -3.17 + 15000s \\\\ &= 2.24 \\\\ r_{\\text{rej}} &= 3.17 + 15000s \\\\ &= 8.58\\end{aligned}\\]</p><p>where \\(s\\) is the slope of both lines, and \\(r_{\\text{acc}}\\) and \\(r_{\\text{rej}}\\) are the accept and reject boundaries. Accept needs \\(r \\le 2.24\\) and reject needs \\(r \\ge 8.58\\); with \\(r = 4\\), the result lies between the lines, so testing continues. With no more failures, acceptance comes when the accept line reaches 4:</p><p>\\[\\begin{aligned}4 &= -3.17 + sT \\\\ T &= 7.17/s \\\\ &= 19880 \\text{ h} \\\\ \\Delta T &= 19880 - 15000 \\\\ &= 4880 \\text{ h}\\end{aligned}\\]</p><p>where \\(T\\) is the cumulative time at which 4 failures meets the accept line and \\(\\Delta T\\) the additional time. The slope comes from \\((1/m_1 - 1/m_0)/\\ln(m_0/m_1)\\) and the intercepts from \\(\\ln[(1 - \\beta)/\\alpha]/\\ln(m_0/m_1)\\).</p><p><b>A. Continue; accept after about 4,900 more failure-free hours.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Qualification/Demonstration Testing — sequential test plans (PRST), Figure 9.9.</span></p>",
+    "optionRationales": [
+      "Correct. 4 failures is between the lines at 15,000 h; the accept line reaches 4 at about 19,900 h.",
+      "A sequential test decides only from its boundaries. A point estimate does not account for the agreed risks.",
+      "Exceeding the accept boundary means continue, not reject. Rejection needs the reject line, about 8.6 failures at 15,000 h.",
+      "19,880 h is the total cumulative time at which 4 failures meets the accept line. 15,000 h have already run, so only about 4,900 more are needed."
+    ],
+    "keyPoint": "A sequential test has three regions: accept below the accept line, reject above the reject line, continue between them.",
+    "trap": "Deciding from a point estimate, or treating \"above the accept line\" as reject.",
+    "formula": "\\(r = \\pm\\frac{\\ln[(1 - \\beta)/\\alpha]}{\\ln(m_0/m_1)} + \\frac{1/m_1 - 1/m_0}{\\ln(m_0/m_1)}\\,T\\)",
+    "assumptions": [
+      "Constant failure rate; \\(\\alpha = \\beta\\), so the two intercepts are equal and opposite."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "sequential test",
+      "PRST",
+      "reliability demonstration",
+      "accept line",
+      "reject line"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Qualification/demonstration testing — sequential test plans",
+        "example": "Figure 9.9"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b06-q55",
+    "set": 1,
+    "batch": 6,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.3",
+      "topic": "Choosing a fixed-time plan from IEC 61124"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A supplier must demonstrate an acceptable MTBF of 2,500 h against a rejectable MTBF of 1,250 h, with producer’s and consumer’s risks of 10% each. Twelve units will run on a replacement test. Using the excerpt of fixed-time plans shown, what are the required cumulative test time, the allowable number of failures, and the calendar time per unit?",
+    "chart": {
+      "type": "data-table",
+      "title": "Fixed-time test plans (excerpt, IEC 61124)",
+      "columns": [
+        "Plan",
+        "\\(\\alpha\\) (%)",
+        "\\(\\beta\\) (%)",
+        "Discrimination ratio \\(D\\)",
+        "Test time \\(T/m_0\\)",
+        "Allowable failures \\(c\\)"
+      ],
+      "rows": [
+        [
+          "B.5",
+          "10",
+          "10",
+          "1.5",
+          "32.14",
+          "39"
+        ],
+        [
+          "B.6",
+          "10",
+          "10",
+          "2",
+          "9.47",
+          "13"
+        ],
+        [
+          "B.7",
+          "10",
+          "10",
+          "3",
+          "3.10",
+          "5"
+        ],
+        [
+          "B.8",
+          "10",
+          "10",
+          "5",
+          "1.08",
+          "2"
+        ]
+      ]
+    },
+    "options": [
+      "23,675 h with up to 13 failures; about 1,970 h per unit.",
+      "11,838 h with up to 13 failures; about 990 h per unit.",
+      "7,750 h with up to 5 failures; about 650 h per unit.",
+      "80,350 h with up to 39 failures; about 6,700 h per unit."
+    ],
+    "answer": 0,
+    "why": "<p>The discrimination ratio is \\(m_0/m_1 = 2500/1250 = 2\\), so with 10% risks the plan is B.6:</p><p>\\[\\begin{aligned}T &= 9.47\\,m_0 = 9.47(2500) \\\\ &= 23675 \\text{ h} \\\\ t &= 23675/12 = 1973 \\text{ h}\\end{aligned}\\]</p><p>where \\(T\\) is the cumulative test time, \\(m_0\\) the acceptable MTBF and \\(t\\) the calendar time per position for 12 units on a replacement test. The plan accepts with 13 or fewer failures.</p><p><b>A. 23,675 h, 13 failures, about 1,970 h per unit.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Qualification/Demonstration Testing — fixed-time test plans (Table 9.1, Example 9.6).</span></p>",
+    "optionRationales": [
+      "Correct. Plan B.6: \\(T = 9.47 \\times 2500\\), \\(c = 13\\), and \\(23675/12 = 1973\\) h.",
+      "Multiplies the factor by the rejectable MTBF (\\(9.47 \\times 1250\\)). The table expresses test time in multiples of \\(m_0\\).",
+      "Uses plan B.7, which is for a discrimination ratio of 3: \\(3.10 \\times 2500\\).",
+      "Uses plan B.5, which is for a discrimination ratio of 1.5."
+    ],
+    "keyPoint": "Pick the plan by risks and discrimination ratio \\(D = m_0/m_1\\); test time is \\(T = (T/m_0) \\times m_0\\). A smaller \\(D\\) needs far more test time.",
+    "trap": "Multiplying by the rejectable MTBF, or choosing the plan for the wrong discrimination ratio.",
+    "formula": "\\(D = m_0/m_1\\); \\(T = (T/m_0)\\,m_0\\); time per unit \\(= T/n\\)",
+    "assumptions": [
+      "Constant failure rate; failed units are replaced at once."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "fixed-time test",
+      "IEC 61124",
+      "discrimination ratio",
+      "compliance test",
+      "MTBF demonstration"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Qualification/demonstration testing — fixed-time test plans",
+        "example": "Example 9.6"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b06-q56",
+    "set": 1,
+    "batch": 6,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.4",
+      "topic": "Extrapolating a degradation path to a failure threshold"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Calculation",
+    "quantitative": true,
+    "stem": "An LED luminaire fails when its light output falls to 70% of initial output (L70). After 6,000 hours of testing, the output is 96% of initial. Light output for this design is known to follow an exponential decay, \\(\\Phi(t) = e^{-\\alpha t}\\). What is the projected L70 life?",
+    "chart": null,
+    "options": [
+      "45,000 h",
+      "52,400 h",
+      "101,900 h",
+      "177,000 h"
+    ],
+    "answer": 1,
+    "why": "<p>Fit the decay rate from the 6,000-hour reading, then solve for the time at 70%:</p><p>\\[\\begin{aligned}\\alpha &= \\frac{-\\ln 0.96}{6000} \\\\ &= 6.80 \\times 10^{-6} \\text{ per h} \\\\ t_{70} &= \\frac{-\\ln 0.70}{\\alpha} \\\\ &= \\frac{0.3567}{6.80 \\times 10^{-6}} \\\\ &= 52400 \\text{ h}\\end{aligned}\\]</p><p>where \\(\\Phi(t)\\) is the fraction of initial light output at time \\(t\\), \\(\\alpha\\) the decay rate and \\(t_{70}\\) the projected L70 life.</p><p><b>B. 52,400 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Degradation (wear-to-failure) testing — linear, exponential and power-law degradation models.</span></p>",
+    "optionRationales": [
+      "Extrapolates linearly (4% lost per 6,000 h, so 30% at 45,000 h). The stated model is exponential, whose loss per hour slows as output falls.",
+      "Correct. \\(\\alpha = 6.80 \\times 10^{-6}\\) per hour and \\(t_{70} = 52400\\) h.",
+      "Solves for half the initial output (\\(-\\ln 0.50/\\alpha\\), the L50 life) instead of 70%.",
+      "Solves for output falling to 30% (\\(-\\ln 0.30/\\alpha\\)) instead of to 70%."
+    ],
+    "keyPoint": "Degradation testing projects a measured characteristic to its failure threshold with the agreed degradation model, without waiting for failures.",
+    "trap": "Using a straight line when the model is exponential, or misreading the threshold.",
+    "formula": "\\(\\Phi(t) = e^{-\\alpha t}\\); \\(t_{70} = -\\ln 0.70/\\alpha\\)",
+    "assumptions": [
+      "The exponential decay model holds to 70% output."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "degradation testing",
+      "LED lumen maintenance",
+      "L70",
+      "exponential model",
+      "extrapolation"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Degradation",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b06-q57",
+    "set": 1,
+    "batch": 6,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.5",
+      "topic": "Jelinski–Moranda software reliability model"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A Jelinski–Moranda model was fitted to failure data from system testing of navigation software. Using the estimates shown, what is the current failure intensity, and how many more faults must be found and fixed to reach the target?",
+    "chart": {
+      "type": "data-table",
+      "title": "Jelinski–Moranda model estimates",
+      "columns": [
+        "Item",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Estimated initial faults \\(N\\)",
+          "80"
+        ],
+        [
+          "Failure intensity per remaining fault \\(\\phi\\)",
+          "0.0005 per CPU-hour"
+        ],
+        [
+          "Faults found and fixed so far",
+          "62"
+        ],
+        [
+          "Target failure intensity",
+          "0.004 per CPU-hour"
+        ]
+      ]
+    },
+    "options": [
+      "0.031 per CPU-hour; 10 more faults.",
+      "0.009 per CPU-hour; 10 more faults.",
+      "0.009 per CPU-hour; 8 more faults.",
+      "0.040 per CPU-hour; 72 more faults."
+    ],
+    "answer": 1,
+    "why": "<p>In the Jelinski–Moranda model each remaining fault contributes the same failure intensity \\(\\phi\\):</p><p>\\[\\begin{aligned}\\lambda &= \\phi(N - k) \\\\ &= 0.0005(80 - 62) \\\\ &= 0.009 \\\\ N - k^{*} &\\le 0.004/0.0005 \\\\ &= 8 \\\\ k^{*} - k &= 72 - 62 \\\\ &= 10\\end{aligned}\\]</p><p>where \\(\\lambda\\) is the current failure intensity in failures per CPU-hour, \\(k\\) the number of faults fixed so far and \\(k^{*}\\) the number that must be fixed for no more than 8 faults to remain. The result relies on the model’s assumptions, notably that every fix is perfect and introduces no new faults.</p><p><b>B. 0.009 per CPU-hour; 10 more faults.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Software/Firmware Reliability — software reliability prediction (Jelinski–Moranda model and its assumptions).</span></p>",
+    "optionRationales": [
+      "Multiplies \\(\\phi\\) by the 62 faults already fixed. Only the remaining faults can still cause failures.",
+      "Correct. \\(\\lambda = 0.0005 \\times 18 = 0.009\\); 8 faults may remain, so 10 more must be fixed.",
+      "Eight is the number of faults that may remain at the target, not the number still to be fixed.",
+      "Uses all 80 initial faults for the current intensity and the remaining count (\\(80 - 8\\)) as the work left."
+    ],
+    "keyPoint": "Jelinski–Moranda: failure intensity is proportional to the number of remaining faults, \\(\\lambda = \\phi(N - k)\\), assuming perfect fixes.",
+    "trap": "Using faults found or initial faults instead of remaining faults.",
+    "formula": "\\(\\lambda = \\phi(N - k)\\); faults to fix \\(= (N - \\lambda^{*}/\\phi) - k\\)",
+    "assumptions": [
+      "Jelinski–Moranda assumptions hold: equal fault contributions, random independent failures, negligible and perfect fixes."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "software reliability",
+      "Jelinski-Moranda",
+      "failure intensity",
+      "reliability growth",
+      "remaining faults"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Software/firmware reliability — software reliability prediction",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b06-q58",
+    "set": 1,
+    "batch": 6,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.6",
+      "topic": "Built-in testing"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Understand",
+    "questionType": "Concept",
+    "quantitative": false,
+    "stem": "At every power-up, a ventilator’s firmware checks its own memory, verifies its sensors against reference values, and alerts the clinician if any check fails. Which type of software testing is this?",
+    "chart": null,
+    "options": [
+      "Regression testing",
+      "White-box testing",
+      "Beta testing",
+      "Built-in testing"
+    ],
+    "answer": 3,
+    "why": "<p>Built-in testing is self-test logic designed into the product. It runs in operation, such as at power-up or periodically, and reports faults so that the system or user can respond. The other choices are activities performed by testers during development or release.</p><p><b>D. Built-in testing</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Software Testing — built-in testing.</span></p>",
+    "optionRationales": [
+      "Regression testing reruns earlier tests after a change, during development.",
+      "White-box testing is designed from the code structure by testers, not run by the product in service.",
+      "Beta testing puts pre-release software in customers’ hands to find faults before release.",
+      "Correct. Self-checks built into the product and run in operation are built-in testing."
+    ],
+    "keyPoint": "Built-in testing is self-test the product performs on itself in operation; the others are development or release test activities.",
+    "trap": "Confusing a product feature (BIT) with a development test method.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "built-in testing",
+      "BIT",
+      "software testing",
+      "self-test"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Software testing — built-in testing",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b06-q59",
+    "set": 1,
+    "batch": 6,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "C. Modeling",
+      "code": "IV.C.1",
+      "topic": "Series system with k-out-of-n and parallel stages"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A pump monitoring system works only if its power supply works, at least two of its three identical sensors work, and at least one of its two controllers works. Components fail independently, with the mission reliabilities shown. What is the system reliability?",
+    "chart": {
+      "type": "cre-rbd",
+      "title": "Pump monitoring system",
+      "altText": "Reliability block diagram with three stages in series. Stage 1: one power supply, reliability 0.99. Stage 2: three sensors in parallel, each 0.95, with at least 2 of 3 required. Stage 3: two controllers in parallel, each 0.97, with at least 1 of 2 required.",
+      "stages": [
+        {
+          "label": "Power",
+          "blocks": [
+            {
+              "label": "Power supply",
+              "r": "0.99"
+            }
+          ]
+        },
+        {
+          "label": "Sensors",
+          "note": "2 of 3 required",
+          "blocks": [
+            {
+              "label": "Sensor A",
+              "r": "0.95"
+            },
+            {
+              "label": "Sensor B",
+              "r": "0.95"
+            },
+            {
+              "label": "Sensor C",
+              "r": "0.95"
+            }
+          ]
+        },
+        {
+          "label": "Controllers",
+          "note": "1 of 2 required",
+          "blocks": [
+            {
+              "label": "Controller 1",
+              "r": "0.97"
+            },
+            {
+              "label": "Controller 2",
+              "r": "0.97"
+            }
+          ]
+        }
+      ]
+    },
+    "options": [
+      "0.848",
+      "0.925",
+      "0.982",
+      "0.989"
+    ],
+    "answer": 2,
+    "why": "<p>Evaluate each stage, then multiply the stages in series:</p><p>\\[\\begin{aligned}R_S &= 3(0.95)^{2}(0.05) \\\\ &\\quad + 0.95^{3} \\\\ &= 0.1354 + 0.8574 \\\\ &= 0.9928 \\\\ R_C &= 1 - 0.03^{2} \\\\ &= 0.9991 \\\\ R &= 0.99(0.9928)(0.9991) \\\\ &= 0.982\\end{aligned}\\]</p><p>where the two terms of \\(R_S\\) are the probabilities that exactly two or all three sensors work, \\(R_S\\) is the reliability of the 2-out-of-3 sensor stage, \\(R_C\\) that of the 1-out-of-2 controller stage and \\(R\\) the system reliability.</p><p><b>C. 0.982</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Reliability Block Diagrams and Models — series, parallel and k-out-of-n systems (Equation 10.3, Example 10.4).</span></p>",
+    "optionRationales": [
+      "Treats the sensors as a series stage (\\(0.95^{3}\\)), requiring all three.",
+      "Treats the two controllers as a series stage (\\(0.97^{2}\\)), requiring both.",
+      "Correct. \\(0.99 \\times 0.9928 \\times 0.9991 = 0.982\\).",
+      "Treats the sensors as simple parallel (\\(1 - 0.05^{3}\\)), requiring only one of three."
+    ],
+    "keyPoint": "Build the system from its success logic: series stages multiply; a k-out-of-n stage uses the binomial sum; a 1-out-of-n stage is simple parallel.",
+    "trap": "Treating a k-out-of-n stage as simple parallel or as series.",
+    "formula": "\\(R_{k/n} = \\sum_{i=k}^{n}\\binom{n}{i}R^{i}(1 - R)^{n-i}\\); series \\(R = \\prod R_j\\)",
+    "assumptions": [
+      "Independent failures; identical sensors."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "reliability block diagram",
+      "k-out-of-n",
+      "series system",
+      "parallel system",
+      "redundancy"
+    ],
+    "sourceSection": "Chapter 10 - Reliability Modeling",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 10 - Reliability Modeling",
+        "section": "Reliability block diagrams and models — k-out-of-n system",
+        "example": "Example 10.4"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b06-q60",
+    "set": 1,
+    "batch": 6,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "C. Modeling",
+      "code": "IV.C.2",
+      "topic": "Identifying a failure mechanism from evidence"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, diagnosis",
+    "quantitative": false,
+    "stem": "Bolted flange joints on a hot-oil line leak after several months of service. The investigation findings are shown. Which failure mechanism best explains the leaks?",
+    "chart": {
+      "type": "data-table",
+      "title": "Flange joint investigation",
+      "columns": [
+        "Finding",
+        "Observation"
+      ],
+      "rows": [
+        [
+          "Operating temperature",
+          "Steady 320 °C, no thermal cycling"
+        ],
+        [
+          "Bolt torque at audit",
+          "About 40% below the installation value on every leaking joint"
+        ],
+        [
+          "Bolts and flanges",
+          "No cracks, no fracture surfaces, no visible pitting or wall loss"
+        ],
+        [
+          "Bolt length",
+          "Unchanged within measurement resolution"
+        ],
+        [
+          "Identical joints on a 60 °C water line in the same unit",
+          "No torque loss, no leaks"
+        ]
+      ]
+    },
+    "options": [
+      "Fatigue cracking of the bolts from cyclic thermal loading.",
+      "Creep under constant strain (stress relaxation) of the hot bolted joints.",
+      "General corrosion of the bolts, reducing their load-bearing area.",
+      "Brittle fracture of the flange from a sudden overload."
+    ],
+    "answer": 1,
+    "why": "<p>The joints are held at a fixed deformation (the bolts are tightened to a set stretch) and kept hot for months. With no cracks, no wall loss and no length change, the only change is a steady loss of clamping force, and only at high temperature. That is creep under constant strain, also called stress relaxation: the material relaxes while its deformation stays fixed, as in a bolt that gradually loosens. The identical joints on the 60 °C line, which keep their torque, confirm that temperature drives the mechanism.</p><p><b>B. Creep under constant strain (stress relaxation).</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Physics of Failure and Failure Mechanisms — creep (creep under constant strain).</span></p>",
+    "optionRationales": [
+      "Fatigue needs cyclic stress and leaves cracks; the line runs at a steady temperature and no cracks were found.",
+      "Correct. Clamping force falls at fixed deformation and high temperature, with no fracture or wall loss.",
+      "No pitting or wall loss was found, and corrosion would not depend so strongly on the joint temperature here.",
+      "A brittle fracture would leave a broken part. Nothing fractured."
+    ],
+    "keyPoint": "Creep can occur at constant stress (growing deformation) or at constant strain (relaxing stress); loosening bolted joints at high temperature are the classic constant-strain case.",
+    "trap": "Assuming every loss of clamping force means fatigue or corrosion without matching the evidence.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "physics of failure",
+      "creep",
+      "stress relaxation",
+      "bolted joint",
+      "failure mechanism"
+    ],
+    "sourceSection": "Chapter 10 - Reliability Modeling",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 10 - Reliability Modeling",
+        "section": "Physics of failure and failure mechanisms — creep",
         "example": null
       }
     ]
