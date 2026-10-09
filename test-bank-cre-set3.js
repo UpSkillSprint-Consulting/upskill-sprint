@@ -2974,6 +2974,400 @@
         ]
       ]
     }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "Life is Weibull. The hazard function is\n\\[\nh(t)=(\\beta/\\eta)(t/\\eta)^{\\beta-1}\n\\]\nWhat is the hazard rate at 500 hours?",
+    "options": [
+      "0.0005 per hour",
+      "0.0010 per hour",
+      "0.0020 per hour",
+      "0.5000 per hour"
+    ],
+    "answer": 1,
+    "why": "Use the shape minus one, not the shape, as the time exponent.\n\\[\nt/\\eta=500/1000=0.5\n\\]\n\\[\nh(500)=(2/1000)(0.5)=0.0010\n\\]\n0.0005 multiplies by \\((t/\\eta)^{\\beta}\\). 0.0020 stops at \\(\\beta/\\eta\\). 0.5000 is the time ratio. <b>B. 0.0010 per hour</b>",
+    "set": 3,
+    "qid": "cre:set-3:091",
+    "bok": "III.A.4",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Weibull hazard inputs",
+      "altText": "Shape beta is 2. Characteristic life eta is 1,000 hours. The hazard is asked at 500 hours.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Shape, beta",
+          "2"
+        ],
+        [
+          "Characteristic life",
+          "1,000 h"
+        ],
+        [
+          "Age",
+          "500 h"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "Strength is normal with the parameters below. A unit fails if strength is below the lower specification. The standard-normal tail probabilities are given.\n\\[\nz=(L-\\mu)/\\sigma\n\\]\nWhat fraction of units fall below the specification?",
+    "options": [
+      "0.0228",
+      "0.0505",
+      "0.9772",
+      "2.00"
+    ],
+    "answer": 0,
+    "why": "The standardized distance is \\(-2.00\\), so the fraction failed is the lower-tail probability at that value.\n\\[\nz=(180-200)/10=-2.00\n\\]\nThe table gives that tail as 0.0228. 0.0505 is the tail at \\(-1.64\\). 0.9772 is the fraction above the specification. 2.00 is the standardized distance, not a proportion. <b>A. 0.0228</b>",
+    "set": 3,
+    "qid": "cre:set-3:092",
+    "bok": "III.A.3",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Strength and normal tails",
+      "altText": "Mean strength is 200, standard deviation is 10, and the lower specification is 180. The lower-tail probability at z = -2.00 is 0.0228. The lower-tail probability at z = -1.64 is 0.0505.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Mean strength",
+          "200"
+        ],
+        [
+          "Standard deviation",
+          "10"
+        ],
+        [
+          "Lower specification",
+          "180"
+        ],
+        [
+          "P(Z ≤ -2.00)",
+          "0.0228"
+        ],
+        [
+          "P(Z ≤ -1.64)",
+          "0.0505"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "A repairable unit has the mean lives below. Inherent availability excludes logistics delay.\n\\[\nA_i=\\frac{MTBF}{MTBF+MTTR}\n\\]\nWhat is the inherent availability?",
+    "options": [
+      "0.0417",
+      "0.9583",
+      "0.9600",
+      "24"
+    ],
+    "answer": 2,
+    "why": "Add the mean repair time to the mean time between failures, then divide.\n\\[\nA_i=\\frac{480}{480+20}=0.9600\n\\]\n0.0417 divides repair time by the mean time between failures. 0.9583 subtracts that ratio from 1. 24 divides the two means in the other order. <b>C. 0.9600</b>",
+    "set": 3,
+    "qid": "cre:set-3:093",
+    "bok": "I.B.1",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Inherent availability inputs",
+      "altText": "Mean time between failures is 480 hours. Mean time to repair is 20 hours. Logistics delay is excluded.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "MTBF",
+          "480 h"
+        ],
+        [
+          "MTTR",
+          "20 h"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "Field records give a total unit time \\(T\\) and a failure count \\(r\\). The times are complete. The point estimate of MTBF is\n\\[\n\\hat\\theta=\\frac{T}{r}\n\\]\nWhat is that estimate?",
+    "options": [
+      "0.002 hours",
+      "250 hours",
+      "500 hours",
+      "2,500 hours"
+    ],
+    "answer": 2,
+    "why": "Divide the total unit time by the number of failures.\n\\[\n\\hat\\theta=\\frac{2500}{5}=500\n\\]\n0.002 hours is the failure rate, \\(r/T\\). 250 hours divides by twice the failure count. 2,500 hours is the total time. <b>C. 500 hours</b>",
+    "set": 3,
+    "qid": "cre:set-3:094",
+    "bok": "III.B.1",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Field exposure",
+      "altText": "Total unit time is 2,500 hours. Five failures were observed. There is no censoring in this total.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Total unit time",
+          "2,500 h"
+        ],
+        [
+          "Failures",
+          "5"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "Path A is two independent units in series. Path B is a third independent unit. The function works if either path works.\n\\[\nR_A=R_1 R_2\n\\]\n\\[\nR=1-(1-R_A)(1-R_B)\n\\]\nWhat is the mission reliability?",
+    "options": [
+      "0.648",
+      "0.810",
+      "0.962",
+      "0.998"
+    ],
+    "answer": 2,
+    "why": "Reduce the series path first, then combine the two paths in parallel.\n\\[\nR_A=(0.90)(0.90)=0.81\n\\]\n\\[\nR=1-(1-0.81)(1-0.80)=0.962\n\\]\n0.648 multiplies all three reliabilities. 0.810 stops at Path A. 0.998 treats all three units as one parallel group. <b>C. 0.962</b>",
+    "set": 3,
+    "qid": "cre:set-3:095",
+    "bok": "IV.C.1",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Two-path block diagram",
+      "altText": "Path A has unit 1 and unit 2 in series, each with mission reliability 0.90. Path B is unit 3 with mission reliability 0.80. Either path can carry the function.",
+      "columns": [
+        "Unit",
+        "Path",
+        "Mission reliability"
+      ],
+      "rows": [
+        [
+          "1",
+          "A, series",
+          "0.90"
+        ],
+        [
+          "2",
+          "A, series",
+          "0.90"
+        ],
+        [
+          "3",
+          "B",
+          "0.80"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "One unit operates and an identical unit is in cold standby. The switch works with probability \\(p\\) when it is needed. Use \\(e^{-1}=0.3679\\). At the mission age, \\(\\lambda t=1\\).\n\\[\nR(t)=e^{-\\lambda t}(1+p\\lambda t)\n\\]\nWhat is the mission reliability?",
+    "options": [
+      "0.3679",
+      "0.6004",
+      "0.6990",
+      "0.7358"
+    ],
+    "answer": 2,
+    "why": "The switch probability multiplies only the standby term.\n\\[\nR(t)=0.3679(1+0.9)=0.6990\n\\]\n0.3679 ignores the standby. 0.6004 is an active parallel pair. 0.7358 treats the switch as perfect. <b>C. 0.6990</b>",
+    "set": 3,
+    "qid": "cre:set-3:096",
+    "bok": "IV.C.1",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Cold standby with an imperfect switch",
+      "altText": "Lambda t is 1. The switch succeeds with probability 0.90. The spare does not fail while waiting.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "lambda t",
+          "1"
+        ],
+        [
+          "Switch success probability",
+          "0.90"
+        ],
+        [
+          "Standby mode",
+          "Cold"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "High-cycle fatigue follows the stated S-N relation. \\(N\\) is cycles to the failure criterion, \\(S\\) is stress amplitude, and \\(b\\) is the given exponent.\n\\[\nN_2=N_1\\left(\\frac{S_1}{S_2}\\right)^{b}\n\\]\nHow many cycles are expected at the higher stress?",
+    "options": [
+      "625",
+      "1,250",
+      "2,500",
+      "40,000"
+    ],
+    "answer": 0,
+    "why": "The stress doubled, and the life uses the cube of that ratio.\n\\[\nN_2=5000\\left(\\frac{80}{160}\\right)^{3}\n\\]\n\\[\nN_2=5000(0.125)=625\n\\]\n1,250 squares the ratio. 2,500 uses the ratio once. 40,000 inverts the ratio and cubes it. <b>A. 625</b>",
+    "set": 3,
+    "qid": "cre:set-3:097",
+    "bok": "IV.C.3",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "S-N fatigue model",
+      "altText": "At a stress amplitude of 80 MPa the life is 5,000 cycles. The new amplitude is 160 MPa. The exponent b is 3.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Life at 80 MPa",
+          "5,000 cycles"
+        ],
+        [
+          "New stress amplitude",
+          "160 MPa"
+        ],
+        [
+          "Exponent b",
+          "3"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-risk",
+    "stem": "Two redundant channels use the beta-factor model. \\(q\\) is the failure probability of one channel and \\(\\beta\\) is the common-cause fraction.\n\\[\nQ=(1-\\beta)q^{2}+\\beta q\n\\]\nWhat is the probability that both channels are lost?",
+    "options": [
+      "0.00225",
+      "0.00250",
+      "0.00500",
+      "0.00725"
+    ],
+    "answer": 3,
+    "why": "Add the independent double failure to the common-cause term.\n\\[\n(1-\\beta)q^{2}=0.9(0.05)^{2}=0.00225\n\\]\n\\[\n\\beta q=0.1(0.05)=0.00500\n\\]\n\\[\nQ=0.00225+0.00500=0.00725\n\\]\n0.00250 is \\(q^{2}\\) with no beta split. 0.00500 is only the common-cause term. <b>D. 0.00725</b>",
+    "set": 3,
+    "qid": "cre:set-3:098",
+    "bok": "II.B.3",
+    "cognitive": "Understand",
+    "chart": {
+      "type": "data-table",
+      "title": "Beta-factor inputs",
+      "altText": "Each channel has failure probability 0.05. The common-cause fraction beta is 0.10. The model is for loss of both channels.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Channel failure probability",
+          "0.05"
+        ],
+        [
+          "Beta",
+          "0.10"
+        ],
+        [
+          "Channels",
+          "2"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "A Crow-AMSAA model gives the cumulative failure count, not the instantaneous intensity.\n\\[\nN(T)=\\lambda T^{\\beta}\n\\]\nHow many failures are expected by 100 hours?",
+    "options": [
+      "0.04",
+      "0.80",
+      "8",
+      "80"
+    ],
+    "answer": 2,
+    "why": "Raise the total time to beta, then multiply by the scale. Do not use the instantaneous formula.\n\\[\n100^{0.5}=10\n\\]\n\\[\nN(100)=0.8(10)=8\n\\]\n0.04 is \\(\\lambda\\beta T^{\\beta-1}\\). 0.80 is the scale. 80 multiplies the scale by the total time. <b>C. 8</b>",
+    "set": 3,
+    "qid": "cre:set-3:099",
+    "bok": "IV.A.1",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Crow-AMSAA cumulative model",
+      "altText": "Lambda is 0.8, beta is 0.5, and the total time is 100 hours. The question asks for the cumulative failure count.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "lambda",
+          "0.8"
+        ],
+        [
+          "beta",
+          "0.5"
+        ],
+        [
+          "Total time",
+          "100 h"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-life",
+    "stem": "A series system has unreliability budget \\(Q_s\\). Element unreliability is apportioned in proportion to the weights \\(w_i\\). \\(W\\) is the sum of the weights.\n\\[\nQ_i=Q_s\\frac{w_i}{W}\n\\]\nWhat reliability is required for the element of weight 3?",
+    "options": [
+      "0.9000",
+      "0.9400",
+      "0.9667",
+      "0.9800"
+    ],
+    "answer": 1,
+    "why": "Give that element three fifths of the unreliability budget, then convert to reliability.\n\\[\nQ_3=0.10(3/5)=0.06\n\\]\n\\[\nR_3=1-0.06=0.94\n\\]\n0.9000 copies the system reliability onto the element. 0.9667 splits the budget into three equal parts and ignores the weights. 0.9800 is the reliability of a weight-1 element. <b>B. 0.9400</b>",
+    "set": 3,
+    "qid": "cre:set-3:100",
+    "bok": "V.A.4",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Weighted unreliability budget",
+      "altText": "The system unreliability budget is 0.10. Three series elements have weights 1, 1, and 3.",
+      "columns": [
+        "Element",
+        "Weight"
+      ],
+      "rows": [
+        [
+          "1",
+          "1"
+        ],
+        [
+          "2",
+          "1"
+        ],
+        [
+          "3",
+          "3"
+        ]
+      ]
+    }
   }
 ];
 })(typeof window!=='undefined'?window:globalThis);
