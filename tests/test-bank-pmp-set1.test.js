@@ -15,9 +15,9 @@ function loadBank() {
   return ctx.window;
 }
 
-test('PMP Set 1 is thirty original single-answer items across the July 2026 domains', () => {
+test('PMP Set 1 is forty original single-answer items across the July 2026 domains', () => {
   const {PMP_SET1: qs, registerPMPSet1} = loadBank();
-  assert.equal(qs.length, 30);
+  assert.equal(qs.length, 40);
   const counts = {};
   const approaches = {};
   qs.forEach((q, i) => {
@@ -34,15 +34,18 @@ test('PMP Set 1 is thirty original single-answer items across the July 2026 doma
     counts[q.sub] = (counts[q.sub] || 0) + 1;
     approaches[q.approach] = (approaches[q.approach] || 0) + 1;
   });
-  assert.deepEqual(counts, {'pmp-people': 10, 'pmp-process': 12, 'pmp-business': 8});
-  assert.deepEqual(approaches, {Predictive: 12, Agile: 7, Hybrid: 11});
+  assert.deepEqual(counts, {'pmp-people': 13, 'pmp-process': 16, 'pmp-business': 11});
+  assert.deepEqual(approaches, {Predictive: 16, Agile: 10, Hybrid: 14});
   assert.equal(qs[6].chart.type, 'data-table');
   assert.equal(qs[6].chart.rows.length, 8);
   assert.equal(qs[13].chart.type, 'data-table');
   assert.equal(qs[26].chart.type, 'data-table');
   assert.equal(qs[26].chart.rows.length, 4);
+  assert.equal(qs[33].chart.type, 'data-table');
+  assert.equal(qs[33].chart.rows.length, 6);
   assert.equal(qs.filter(q => q.batch === 2).length, 10);
   assert.equal(qs.filter(q => q.batch === 3).length, 10);
+  assert.equal(qs.filter(q => q.batch === 4).length, 10);
   const exam = {bok: [], bank: []}, dm = {};
   registerPMPSet1(exam, dm);
   assert.equal(exam.bank, qs);
@@ -100,7 +103,7 @@ test('opening PMP shows Set 1 in the catalog and does not start an attempt', asy
   assert.match(overview, /33%/);
   assert.match(overview, /41%/);
   assert.match(overview, /26%/);
-  assert.equal(dom.window.__TB.EXAMS.pmp.bank.length, 30);
+  assert.equal(dom.window.__TB.EXAMS.pmp.bank.length, 40);
   assert.deepEqual(errors, []);
   dom.window.close();
 });

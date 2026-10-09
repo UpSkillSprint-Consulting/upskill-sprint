@@ -1,6 +1,6 @@
 /*
  * PMI PMP Exam Set 1 — original practice questions.
- * Batch 1-3 of 18 (Q001-Q030). Written to the July 2026 Exam Content Outline
+ * Batch 1-4 of 18 (Q001-Q040). Written to the July 2026 Exam Content Outline
  * (People, Process, Business Environment) and the PMBOK Guide 8th Edition
  * performance domains. No PMI item, handbook passage, or figure is copied.
  * UpSkill Sprint is not affiliated with the Project Management Institute.
@@ -736,12 +736,255 @@
       ],
       keyPoint: 'Hold the unbaselined work and take the sponsor through the change path instead of building from a side conversation.',
       trap: 'Rank does not turn a verbal add into baseline scope.'
+    },
+    {
+      qid: 'pmp:set-1:031',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and manage finance',
+      approach: 'Predictive',
+      stem: 'A predictive facilities upgrade has a contingency reserve for a known equipment-delay risk. That delay is now happening. A lead asks you to charge the overtime to management reserve instead, so the contingency line stays untouched on the status chart. What should you do?',
+      options: [
+        'Charge management reserve. Keeping the contingency line full shows control.',
+        'Draw the contingency that was set aside for this delay, record the use, and leave management reserve for work that was not identified.',
+        'Cut the remaining tests to pay for the overtime so neither reserve moves.',
+        'Ask the crew to absorb the overtime and leave both reserves unrecorded.'
+      ],
+      answer: 1,
+      why: '<p>The delay is the identified risk the contingency was built for. That reserve should be drawn and recorded. Management reserve is for uncertainty that was not identified, and it is not a place to hide a known draw so the chart still looks full. Cutting tests or absorbing the cost off the books hides both the risk and the quality impact.</p><p><strong>Exam tip:</strong> Use contingency for the identified risk it covers. Do not move a known draw into management reserve to protect a status line.</p>',
+      optionRationales: [
+        'An untouched contingency line is not control if the risk it was for is being paid from the wrong reserve.',
+        'The known delay uses its contingency, the draw is visible, and management reserve stays for unidentified work.',
+        'Cutting tests to avoid a reserve draw trades quality for a cleaner chart.',
+        'Unrecorded overtime hides the cost of a risk that was supposed to be managed in the open.'
+      ],
+      keyPoint: 'A known risk draws its contingency. Management reserve is not a hiding place for that draw.',
+      trap: 'Protecting the contingency line by charging management reserve misstates both reserves.'
+    },
+    {
+      qid: 'pmp:set-1:032',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and optimize quality',
+      approach: 'Predictive',
+      stem: 'A predictive device release is over the cost forecast. The proposal is to cancel the design reviews and rely on the final test cycle to catch defects. Those reviews are the prevention in the quality plan. What should you do?',
+      options: [
+        'Cancel the reviews. The final test finds the same defects with fewer meetings.',
+        'Drop the reviews and add inspectors only at the final test so the forecast improves this month.',
+        'Keep the reviews. Show the forecast savings against the failure cost of finding those defects later, and do not cut prevention only to improve the cost line.',
+        'Stop the final test as well, so prevention and appraisal both leave the cost.'
+      ],
+      answer: 2,
+      why: '<p>The reviews are prevention. Canceling them to repair a forecast moves the cost into later failure, which is usually larger and harder to undo. The project manager keeps the planned prevention and makes that tradeoff visible. Adding only end-of-line inspectors, or dropping testing too, does not replace the review that stops the defect earlier.</p><p><strong>Exam tip:</strong> Do not cut prevention to make a cost forecast look better. Compare the savings with the failure cost before you change the quality plan.</p>',
+      optionRationales: [
+        'A later test is not the same as a review that keeps the defect out of the build.',
+        'More people at the final test still find the defect after the design work is done, and the forecast is the wrong reason to drop prevention.',
+        'Prevention stays, and the cost choice is shown as failure cost versus a short-term forecast gain.',
+        'Removing both prevention and the final test leaves defects with no planned detection at all.'
+      ],
+      keyPoint: 'Keep prevention in place unless the failure cost truly justifies the cut. A forecast line is not that justification.',
+      trap: 'Saving review time now often buys a larger failure cost later.'
+    },
+    {
+      qid: 'pmp:set-1:033',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and manage finance',
+      approach: 'Agile',
+      stem: 'An agile product team finished the month under its funding limit. Two people want to pull three unprioritized screens into the sprint because the money is already available. Those screens are not in the release goal. Contingency in the funding plan covers an integration risk that has not closed. What should you do?',
+      options: [
+        'Leave the unused funding in place for the risk it covers. Do not treat a quiet month as approval to add screens outside the goal.',
+        'Add the screens. Money unspent this month is waste if the team has capacity.',
+        'Move the integration contingency into the feature backlog so the budget looks fully used.',
+        'Ask the sponsor to cut the funding limit to exactly what was spent this month.'
+      ],
+      answer: 0,
+      why: '<p>Underspending a month does not convert risk contingency into new scope. The integration risk is still open, and the screens are outside the release goal. The project manager leaves the funding for that uncertainty and refuses the quiet add. Filling the budget, restating contingency as features, or shrinking the limit to the spend all erase a reserve the plan still needs.</p><p><strong>Exam tip:</strong> Unused money is not a backlog. Keep contingency on the uncertainty it covers, and do not gold-plate because the month looks quiet.</p>',
+      optionRationales: [
+        'The reserve stays on the open risk, and screens outside the goal are not pulled in to use up funding.',
+        'Capacity plus leftover money is not a reason to add work the release did not accept.',
+        'Relabeling contingency as features spends the reserve before the risk has closed.',
+        'Cutting the limit to this month of spend removes the cover for a risk that is still open.'
+      ],
+      keyPoint: 'A quiet month does not authorize new scope, and it does not spend contingency that still covers an open risk.',
+      trap: 'Using leftover funding so the budget looks fully used is gold-plating, not financial control.'
+    },
+    {
+      qid: 'pmp:set-1:034',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and manage finance',
+      approach: 'Predictive',
+      stem: 'The sponsor looks at the exhibit and says the project is under budget because 174 has been spent out of 400. The sponsor asks you to report it that way. What should you do?',
+      options: [
+        'Report under budget. Actual cost is below the total budget.',
+        'Rebaseline the budget to 174 so the report matches the spend.',
+        'Crash the remaining work so the schedule index recovers before you mention cost.',
+        'Report that completed work cost more than it earned and is behind the plan, and forecast from those indexes rather than from budget minus spend.'
+      ],
+      answer: 3,
+      chart: {
+        type: 'data-table',
+        title: 'Cost and schedule snapshot',
+        columns: ['Measure', 'Figure'],
+        rows: [
+          ['Budget at completion', '400'],
+          ['Planned value', '200'],
+          ['Earned value', '160'],
+          ['Actual cost', '174'],
+          ['Cost performance index', '0.92'],
+          ['Schedule performance index', '0.80']
+        ]
+      },
+      why: '<p>Actual cost below the total budget only means money is left. The work finished so far earned 160 and cost 174, so it is over budget, and it earned less than the 200 that was planned, so it is behind. The indexes say the same thing. The report has to say that and forecast from it. Calling the project under budget, rebasing to the spend, or crashing before you state the status all hide the exhibit.</p><p><strong>Exam tip:</strong> Compare earned value with actual cost and with planned value. Money left in the budget is not proof that the project is under budget.</p>',
+      optionRationales: [
+        '174 of 400 only shows funds remaining. The completed work already cost more than it earned.',
+        'Rewriting the budget to the spend erases the variance instead of reporting it.',
+        'Crashing may be a later choice. It is not a substitute for telling the sponsor what the indexes say.',
+        'Status matches the snapshot: over budget and behind for the work done, with the forecast based on that performance.'
+      ],
+      keyPoint: 'Under budget means the work performed cost less than it earned, not that spend is still below the total budget.',
+      trap: 'Actual cost below the budget at completion is the most common false comfort in a cost report.'
+    },
+    {
+      qid: 'pmp:set-1:035',
+      sub: 'pmp-people',
+      ecoTask: 'Lead the project team',
+      approach: 'Agile',
+      stem: 'A demo is tomorrow. Three stories match the demo script but miss the definition of done: error handling and the operations guide are unfinished. The product owner asks you to mark them done so the review looks complete. Operations inherits the product next month. What should you do?',
+      options: [
+        'Mark them done. The demo script is what the review will see.',
+        'Change the definition of done so the missing work is no longer required.',
+        'Keep the stories not done, show the gap at the review, and finish the work operations will inherit before you call it complete.',
+        'Move the unfinished work into a later project so this team can close clean.'
+      ],
+      answer: 2,
+      why: '<p>Done is the agreement the team and operations share. A story that demos but cannot be run or supported is not done, and marking it done pushes the cost onto the people who inherit it. The project manager keeps the definition, shows the gap, and finishes the handling and the guide. Editing done, or parking the work on a future project, makes the review look complete by moving the debt.</p><p><strong>Exam tip:</strong> Do not trade the definition of done for a cleaner demo. The people who inherit the product live with what you call finished.</p>',
+      optionRationales: [
+        'A demo script is not the definition of done. The review would be looking at unfinished work labeled complete.',
+        'Lowering done to fit the demo removes the quality bar instead of meeting it.',
+        'The gap stays visible, and the unfinished handling and guide are completed before the work is called done.',
+        'A later project may never be funded. Operations would still inherit a product the team called done.'
+      ],
+      keyPoint: 'A demo does not make work done. Finish what the inheriting team needs before you call it complete.',
+      trap: 'Marking stories done for the review transfers quality debt to operations.'
+    },
+    {
+      qid: 'pmp:set-1:036',
+      sub: 'pmp-people',
+      ecoTask: 'Manage stakeholder expectations',
+      approach: 'Hybrid',
+      stem: 'The sponsor wants the cheaper build so the project stays inside the capital limit. The operating team will pay the energy cost for ten years, and that cost is higher with the cheaper build. The benefits case assumed the efficient option. The sponsor and the operating lead have not looked at the same numbers. What should you do?',
+      options: [
+        'Choose the cheaper build. The project is accountable for capital, not for the years after handover.',
+        'Put both parties on the life-cycle comparison, including the capital limit and the ten-year cost, and get that decision made before the design is locked.',
+        'Choose the efficient build and tell the sponsor about the capital gap only after the purchase is placed.',
+        'Specify a middle design that matches neither estimate so both sides can claim a compromise.'
+      ],
+      answer: 1,
+      why: '<p>The sponsor is optimizing the project budget. The operating lead will live with the energy cost, and the benefits case assumed the efficient option. Those expectations are not aligned until both see capital and ten-year cost together and decide. Picking the cheap build alone, buying the efficient one in secret, or inventing a middle option that was never estimated all lock a decision the two owners have not shared.</p><p><strong>Exam tip:</strong> When project cost and the cost after handover point different ways, put both decision makers on the life-cycle numbers before the design is fixed.</p>',
+      optionRationales: [
+        'Capital is real, and so is the ten-year cost the benefits case already assumed. One side does not get to ignore the other.',
+        'Both owners see the same comparison, and the design waits until that choice is actually made.',
+        'Placing the purchase first removes the sponsor from a capital decision they still own.',
+        'A design nobody estimated is not a compromise. It is a third option with no cost basis.'
+      ],
+      keyPoint: 'Align the sponsor and the operator on life-cycle cost before you lock a cheaper build.',
+      trap: 'Coming in under the capital limit can still be the wrong decision if the years after handover were part of the benefits case.'
+    },
+    {
+      qid: 'pmp:set-1:037',
+      sub: 'pmp-business',
+      ecoTask: 'Continuous improvement',
+      approach: 'Agile',
+      stem: 'A defect in the payment rules reached production. A manager wants a 40-item checklist on every story, including stories that do not touch payment. The team can point to the missing test that would have caught this defect. What should you do?',
+      options: [
+        'Add the 40-item checklist. A longer list means better quality.',
+        'Discipline the person who merged the change, and leave the test gap as it is.',
+        'Stop releasing until every past story is rechecked against the new list.',
+        'Add the missing payment test where that defect can still be caught, and do not put a blanket list on stories that do not touch payment.'
+      ],
+      answer: 3,
+      why: '<p>The team already knows the gap: a payment test that was not there. Improvement is to put that test where this class of defect gets caught. A 40-item list on unrelated stories adds cost without aiming at the failure. Blame, or a full stop to recheck history against a new list, does not fix the missing test.</p><p><strong>Exam tip:</strong> Improve the step that let the defect through. Do not answer one miss with a checklist the whole backlog has to carry.</p>',
+      optionRationales: [
+        'Length is not aim. Most of the 40 items would not have caught a payment-rule defect.',
+        'Blame does not add the test, so the next change can miss the same way.',
+        'Rechecking every old story against a broad list delays delivery and still may not install the missing test.',
+        'The specific test is added at the point of catch, and unrelated stories are not loaded with the whole list.'
+      ],
+      keyPoint: 'Fix the missing control that fits the defect. Do not tax every story with a blanket checklist.',
+      trap: 'A longer checklist feels like rigor and often misses the one test that mattered.'
+    },
+    {
+      qid: 'pmp:set-1:038',
+      sub: 'pmp-business',
+      ecoTask: 'Define and establish project governance',
+      approach: 'Predictive',
+      stem: 'Contingency was approved for identified risks, and you may draw it for those risks. Management reserve stays with the sponsor. A director asks you to approve contingency today for a new lobby display that was never a risk and is not in the baseline. What should you do?',
+      options: [
+        'Refuse the contingency draw. Record the display as a change and send it through the path that can authorize new scope and money.',
+        'Approve the draw. A director request is the same thing as an identified risk.',
+        'Spend management reserve yourself so the contingency percentage stays high.',
+        'Have the team build the display in unrecorded overtime so no reserve is touched.'
+      ],
+      answer: 0,
+      why: '<p>You are allowed to use contingency for identified risks, not for a new display. That request is scope and money the baseline does not contain, so it belongs on the change path that can authorize both. Treating a director ask as a risk, spending management reserve on your own, or hiding the work in overtime all step outside the authority that was set.</p><p><strong>Exam tip:</strong> Know which reserve you may spend and what it is for. New scope is a change, even when a director wants it today.</p>',
+      optionRationales: [
+        'Contingency stays on identified risks, and the display goes to the authority that can approve new scope.',
+        'A request is not a risk response. The display was never in the risk set the reserve covers.',
+        'Management reserve is the sponsor reserve. Using it yourself breaks the split you were given.',
+        'Unrecorded overtime still spends the organization and still adds scope nobody authorized.'
+      ],
+      keyPoint: 'Contingency authority does not extend to new scope. Send that request through change control.',
+      trap: 'A senior ask is not an identified risk, and it does not unlock a reserve you were not given.'
+    },
+    {
+      qid: 'pmp:set-1:039',
+      sub: 'pmp-people',
+      ecoTask: 'Help ensure knowledge transfer',
+      approach: 'Hybrid',
+      stem: 'A hybrid rollout meets the build acceptance tests. The operating team has not run a supervised shift, and the only work instructions sit in the project chat. The contract lets you close when acceptance is signed. The operating lead asks you to close this week. What should you do?',
+      options: [
+        'Close this week. The contract test is the finish line.',
+        'Close, then hold a lessons-learned meeting and mail the slides to operations.',
+        'Before you close, confirm the operating team can run a shift from instructions they will still have. Do not treat a signed test as the handover.',
+        'Leave one developer on call with no scheduled time and no written instructions.'
+      ],
+      answer: 2,
+      why: '<p>Acceptance shows the build met the test. It does not show that operations can run the work after the project team leaves. The instructions in chat will not be the system of record. Close waits until a supervised shift works from instructions the operating team keeps. A contract signature, a later slide deck, or an informal on-call favor all end the project before the knowledge has moved.</p><p><strong>Exam tip:</strong> A passed test is not a handover. Transfer the ability to run the work before you close, even when the contract would let you sign.</p>',
+      optionRationales: [
+        'The contract allows close. It does not prove the operating team can run the next shift.',
+        'Lessons learned after close are not instructions, and the team that knows the work may already be gone.',
+        'Someone in operations runs the shift from durable instructions before the project calls itself finished.',
+        'An unnamed on-call favor disappears with the developer. It is not a transfer.'
+      ],
+      keyPoint: 'Do not close on a signed test if the people who must run the work cannot yet do it.',
+      trap: 'Contract acceptance can be earlier than a real handover. The exam wants the handover.'
+    },
+    {
+      qid: 'pmp:set-1:040',
+      sub: 'pmp-business',
+      ecoTask: 'Support organizational change',
+      approach: 'Hybrid',
+      stem: 'The new scheduling process is live, and the project team is about to disband. Supervisors are still using the old paper book because the new step takes longer. The sponsor says adoption is an operations problem now. The benefits case depends on people actually using the new process. What should you do?',
+      options: [
+        'Disband. The system is live, so the change is complete.',
+        'Stay with the supervisors long enough to remove the barrier to the new process, and do not close the change while the paper book is still the way work gets done.',
+        'Send a policy memo that forbids the paper book, then disband the same day.',
+        'Turn the new process off so the paper book is official again and the conflict ends.'
+      ],
+      answer: 1,
+      why: '<p>Go-live is not adoption. The benefits case fails if the paper book remains the real process. The project manager stays with the barrier, the extra step the supervisors are avoiding, instead of declaring the change done. A memo with no support, or switching the new process off, either abandons the benefit or abandons the change.</p><p><strong>Exam tip:</strong> If the benefit depends on people using the new way, the change is not finished while the old way is still how the work gets done.</p>',
+      optionRationales: [
+        'A live system that nobody uses does not deliver the benefit the case named.',
+        'The extra step is handled with the supervisors, and close waits until the new process is the one in use.',
+        'A same-day ban does not remove the reason they kept the book, and the team that could help is already gone.',
+        'Turning the process off ends the conflict by giving up the benefit.'
+      ],
+      keyPoint: 'Support the change until the new way is actually in use. Go-live is not the benefit.',
+      trap: 'Handing adoption to operations on day one, while the old book is still the real system, strands the benefit.'
     }
   ];
 
   questions.forEach(function (q, index) {
     q.set = 1;
-    q.batch = index < 10 ? 1 : index < 20 ? 2 : 3;
+    q.batch = index < 10 ? 1 : index < 20 ? 2 : index < 30 ? 3 : 4;
     q.original = true;
     q.sourceDocument = 'Original UpSkill Sprint item. July 2026 PMP Exam Content Outline and PMBOK Guide 8th Edition used as references only. Not a PMI item.';
     if (q.qid !== 'pmp:set-1:' + String(index + 1).padStart(3, '0')) {
@@ -759,7 +1002,7 @@
     exam.plannedSets = ['1', '2', '3'];
     exam.setName = 'Set 1 live · Sets 2–3 soon';
     exam.setPlans = Object.assign({}, exam.setPlans, {
-      1: {target: 180, label: 'Batches 1-3: Q001-Q030'},
+      1: {target: 180, label: 'Batches 1-4: Q001-Q040'},
       2: {target: 10, label: 'Not yet written'},
       3: {target: 10, label: 'Not yet written'}
     });

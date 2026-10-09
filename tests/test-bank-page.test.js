@@ -99,7 +99,7 @@ test('only CQA remains Coming soon; CSSBB, MBB, CSSGB, CQE, CMQ, and CRE are liv
   assert.doesNotMatch(pmp.textContent, /Coming soon/, 'PMP Set 1 is live now');
   assert.match(pmp.textContent, /180 questions/i, 'PMP tile advertises the official exam length');
   assert.match(pmp.textContent, /Set 1/i, 'PMP tile advertises Set 1');
-  assert.equal(window.__TB.EXAMS.pmp.bank.length, 30, 'PMP Set 1 is loaded');
+  assert.equal(window.__TB.EXAMS.pmp.bank.length, 40, 'PMP Set 1 is loaded');
 });
 
 test('CSSBB is backed by the full 165-question bank across all nine ASQ areas', async () => {
