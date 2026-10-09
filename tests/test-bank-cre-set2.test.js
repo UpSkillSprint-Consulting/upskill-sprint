@@ -111,14 +111,17 @@ async function harness(){
   return {w,errors,typesetRoots,close:()=>{w.__TBCurrentAttemptReview?.destroy?.();closeFrames();w.close();}};
 }
 function click(w,selector){const el=w.document.querySelector(selector);assert.ok(el,'control exists: '+selector);el.click();return el;}
-function start(w,mode){click(w,'.tb-tile[data-exam="cre"]');click(w,'#tb-overview [data-mode="'+mode+'"]');return w.__TB.getFeedbackSnapshot();}
+// CRE Set 1 is the default now that it is released, so these Set 2 journeys select Set 2 explicitly.
+function useSet2(w,mode){click(w,mode==='full'?'[data-set="2"]':'[data-quiz-set-kind="'+(mode==='focus'?'focus':'quick')+'"][data-quiz-set="2"]');}
+function start(w,mode){click(w,'.tb-tile[data-exam="cre"]');useSet2(w,mode);click(w,'#tb-overview [data-mode="'+mode+'"]');return w.__TB.getFeedbackSnapshot();}
 function submit(w){const n=w.__TB.getFeedbackSnapshot().records.length;click(w,'[data-goto="'+(n-1)+'"]');click(w,'[data-submit]');}
 
 test('production player uses Set 2, correct pace, six exhibits, review tools, and immutable score',async()=>{
   const h=await harness(),{w}=h;
   try{
     click(w,'.tb-tile[data-exam="cre"]');
-    assert.ok(w.document.querySelector('[data-set="1"]').disabled);
+    assert.equal(w.document.querySelector('[data-set="1"]').disabled,false);
+    useSet2(w,'full');
     assert.match(w.document.querySelector('#tb-overview').textContent,/10 of 150/);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,10),938);
     click(w,'#tb-overview [data-mode="full"]');
@@ -160,6 +163,7 @@ test('quick and focused modes select available Set 2; retry math renders without
     assert.ok(h.typesetRoots.includes(feedback));
     assert.equal(w.document.querySelector('.tb-retry-panel .cre2-explorer'),null);
     click(w,'[data-back]');
+    useSet2(w,'focus');
     click(w,'#tb-overview [data-mode="focus"]');
     assert.equal(w.__TB.getFeedbackSnapshot().records.length,2);
     assert.ok(w.__TB.getFeedbackSnapshot().records.every(r=>r.question.qid.startsWith('cre:set-2:')));

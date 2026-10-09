@@ -91,6 +91,13 @@ def main():
             if sets.count():sets.click()
             if mode!='full':page.locator(f'[data-count="{mode}"][data-n="10"]').click()
             page.locator(f'[data-timing-kind="{mode}"][data-timed="{int(timed)}"]').click()
+            # A partially released set (e.g. a CRE batch) may not cover the default area; like a
+            # learner, choose an area that has questions. The page never switches it silently.
+            if mode=='focus' and page.locator('[data-mode="focus"]').is_disabled():
+                area=page.locator('#tb-overview [data-focusdom]')
+                for value in area.locator('option').evaluate_all('options=>options.map(o=>o.value)'):
+                    area.select_option(value)
+                    if not page.locator('[data-mode="focus"]').is_disabled():break
             page.locator(f'[data-mode="{mode}"]').click();expect(page.locator('.tb-quiz')).to_be_visible()
             expect(page.locator('#tb-feedback-loop')).to_have_count(0)
         def finish():
