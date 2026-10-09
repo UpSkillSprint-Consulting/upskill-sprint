@@ -133,11 +133,11 @@ test('opening PMP shows Set 1 in the catalog and does not start an attempt', asy
   assert.equal(doc.querySelector('[data-set="4"]'), null);
   assert.equal(doc.querySelector('[data-set="5"]'), null);
   assert.equal(doc.querySelector('[data-set="6"]'), null);
-  assert.match(doc.querySelector('[data-set="1"]:not([disabled])').textContent, /180 of 180/);
+  assert.equal(doc.querySelector('[data-set="1"] .tb-sets').textContent, '180');
   assert.equal(doc.querySelector('[data-set="2"]').disabled, true);
-  assert.match(doc.querySelector('[data-set="2"]').textContent, /Held for Claude/);
+  assert.equal(doc.querySelector('[data-set="2"] .tb-sets').textContent, '0');
   assert.equal(doc.querySelector('[data-set="3"]').disabled, true);
-  assert.match(doc.querySelector('[data-set="3"]').textContent, /Held for GPT/);
+  assert.equal(doc.querySelector('[data-set="3"] .tb-sets').textContent, '0');
   assert.equal(doc.querySelector('[data-quiz-set-kind="quick"][data-quiz-set="2"]').disabled, true);
   assert.equal(doc.querySelector('[data-quiz-set-kind="focus"][data-quiz-set="3"]').disabled, true);
   assert.equal(doc.querySelector('[data-quiz-set-kind="quick"][data-quiz-set="1"]').disabled, false);

@@ -3712,10 +3712,13 @@
     availableSetIds(e).forEach(function(id){if(ids.indexOf(id)<0)ids.push(id);});
     ids.sort(function(a,b){return Number(a)-Number(b);});
     var populated=ids.filter(function(id){return setQuestionCount(e,id)>0;});
-    function sub(setId,count){var plan=setPlan(e,setId);return plan?(count+' of '+plan.target+' · '+plan.label):(count+' questions');}
+    function sub(setId,count){
+      if(current==='pmp')return String(count);
+      var plan=setPlan(e,setId);return plan?(count+' of '+plan.target+' · '+plan.label):(count+' questions');
+    }
     function b(v,l,subtext,empty){
       var plan=setPlan(e,v);
-      var detail=empty?(plan&&plan.label?plan.label:'Not yet available'):subtext;
+      var detail=(current==='pmp'&&v!=='mix')?subtext:(empty?(plan&&plan.label?plan.label:'Not yet available'):subtext);
       return '<button type="button" class="tb-setbtn'+(selectedSet===v&&!empty?' on':'')+'" data-set="'+v+'" aria-pressed="'+(selectedSet===v&&!empty)+'"'+(empty?' disabled':'')+'><span class="tb-setl">'+l+'</span><span class="tb-sets">'+detail+'</span></button>';
     }
     var pooled=populated.reduce(function(sum,id){return sum+setQuestionCount(e,id);},0);
