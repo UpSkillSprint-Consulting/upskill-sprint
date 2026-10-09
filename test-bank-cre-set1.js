@@ -7,6 +7,7 @@
  * Batch 4 of 15: III remainder (III.A.1, A.3, A.7; III.B.4) and IV.A.1–IV.A.5 (reliability planning).
  * Batch 5 of 15: IV.A.1–IV.A.2 (test strategy, HALT, attribute data) and IV.B.1–IV.B.6 (reliability testing).
  * Batch 6 of 15: IV.B.1–IV.B.6 (accelerated, screening, demonstration, degradation, software) and IV.C.1–IV.C.2.
+ * Batch 7 of 15: IV.C.1–IV.C.5 (block diagrams, physics of failure, failure models, prediction, prototyping).
  *
  * Every calculated answer is recomputed independently in tests/test-bank-cre-set1.test.js.
  * Notation follows The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting &
@@ -5553,6 +5554,768 @@
         "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
         "chapter": "Chapter 10 - Reliability Modeling",
         "section": "Physics of failure and failure mechanisms — creep",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b07-q61",
+    "set": 1,
+    "batch": 7,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "C. Modeling",
+      "code": "IV.C.1",
+      "topic": "Bridge system reliability by decomposition"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "A cooling loop has two pump-and-valve paths with a crossover line between them, forming the bridge shown. Coolant reaches the outlet if any working route connects inlet to outlet. Components fail independently with the mission reliabilities shown. What is the system reliability?",
+    "chart": {
+      "type": "cre-rbd",
+      "layout": "bridge",
+      "title": "Cooling loop: bridge configuration",
+      "altText": "Bridge reliability block diagram. Top path: Pump A (0.90) then Valve B (0.70). Bottom path: Pump C (0.70) then Valve D (0.90). Crossover E (0.80) connects the point between A and B to the point between C and D.",
+      "bridge": {
+        "A": {
+          "label": "Pump A",
+          "r": "0.90"
+        },
+        "B": {
+          "label": "Valve B",
+          "r": "0.70"
+        },
+        "C": {
+          "label": "Pump C",
+          "r": "0.70"
+        },
+        "D": {
+          "label": "Valve D",
+          "r": "0.90"
+        },
+        "E": {
+          "label": "Crossover E",
+          "r": "0.80"
+        }
+      }
+    },
+    "options": [
+      "0.691",
+      "0.863",
+      "0.925",
+      "0.941"
+    ],
+    "answer": 2,
+    "why": "<p>A bridge has no series–parallel equivalent, so condition on the crossover E. If E works, the two pumps act in parallel and feed the two valves in parallel; if E fails, the system is two separate paths in parallel:</p><p>\\[\\begin{aligned}R_1 &= [1 - (0.10)(0.30)]^{2} \\\\ &= 0.97^{2} = 0.9409 \\\\ R_0 &= 1 - (1 - 0.63)^{2} \\\\ &= 0.8631 \\\\ R &= 0.80R_1 + 0.20R_0 \\\\ &= 0.7527 + 0.1726 \\\\ &= 0.925\\end{aligned}\\]</p><p>where \\(R_1\\) is the system reliability given E works, \\(R_0\\) given E fails, \\(0.10\\) and \\(0.30\\) are the failure probabilities of the two pumps (and, in the same pairing, of the two valves), and \\(0.63 = 0.90 \\times 0.70\\) is the reliability of each pump-and-valve path.</p><p><b>C. 0.925</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Reliability Block Diagrams and Models — bridge system; computation of reliability systems (conditioning on a component).</span></p>",
+    "optionRationales": [
+      "Puts E in series with the two separate paths: \\(0.80 \\times 0.8631\\). E is a redundant crossover, not a required element.",
+      "Ignores the crossover: \\(1 - (1 - 0.63)^{2} = 0.863\\). E adds routes and raises reliability.",
+      "Correct. \\(0.80(0.9409) + 0.20(0.8631) = 0.925\\).",
+      "Assumes E never fails: \\(R_1 = 0.941\\). E works only with probability 0.80."
+    ],
+    "keyPoint": "Solve a bridge by conditioning on the bridging element: \\(R = R_E R_{\\text{system} \\mid E} + (1 - R_E) R_{\\text{system} \\mid \\bar{E}}\\).",
+    "trap": "Ignoring the crossover, assuming it never fails, or placing it in series.",
+    "formula": "\\(R = R_E\\,R(\\text{E works}) + (1 - R_E)\\,R(\\text{E fails})\\)",
+    "assumptions": [
+      "Independent component failures; the crossover can carry flow in either direction."
+    ],
+    "estimatedMinutes": 6,
+    "keywords": [
+      "bridge system",
+      "reliability block diagram",
+      "decomposition",
+      "conditional probability",
+      "redundancy"
+    ],
+    "sourceSection": "Chapter 10 - Reliability Modeling",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 10 - Reliability Modeling",
+        "section": "Reliability block diagrams and models — bridge system",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b07-q62",
+    "set": 1,
+    "batch": 7,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "C. Modeling",
+      "code": "IV.C.1",
+      "topic": "Cold standby with an imperfect switch"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A booster station runs one pump, with an identical second pump in cold standby. Each pump has a constant failure rate of 1 per 2,000 h while running and does not fail while idle. The switch is needed only once, when the running pump fails, and the switchover then succeeds with probability 0.95. What is the probability that the station runs through a 1,000-hour mission?",
+    "chart": {
+      "type": "cre-rbd",
+      "title": "Booster station",
+      "altText": "Reliability block diagram with one stage of two pumps in parallel: Pump 1 operating and Pump 2 in cold standby, with a note that switchover reliability is 0.95.",
+      "stages": [
+        {
+          "label": "Pumps",
+          "note": "Cold standby; switchover reliability 0.95",
+          "blocks": [
+            {
+              "label": "Pump 1 (running)",
+              "r": "rate 1 per 2,000 h"
+            },
+            {
+              "label": "Pump 2 (standby)",
+              "r": "rate 1 per 2,000 h"
+            }
+          ]
+        }
+      ]
+    },
+    "options": [
+      "0.845",
+      "0.864",
+      "0.895",
+      "0.910"
+    ],
+    "answer": 2,
+    "why": "<p>With exponential pumps, the station survives if the first pump lasts the mission, or if it fails, the switch works and the standby pump lasts the rest:</p><p>\\[\\begin{aligned}\\lambda t &= 1000/2000 = 0.5 \\\\ R &= e^{-\\lambda t}(1 + R_{sw}\\lambda t) \\\\ &= 0.6065(1 + 0.95 \\times 0.5) \\\\ &= 0.6065(1.475) \\\\ &= 0.895\\end{aligned}\\]</p><p>where \\(\\lambda\\) is each pump’s failure rate, \\(t\\) the mission time and \\(R_{sw}\\) the switchover reliability. The term \\(R_{sw}\\lambda t\\,e^{-\\lambda t}\\) is the probability that exactly one running failure occurs and the switch succeeds.</p><p><b>C. 0.895</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Reliability Block Diagrams and Models — standby systems (cold, warm and hot standby).</span></p>",
+    "optionRationales": [
+      "Treats the pumps as hot parallel: \\(1 - (1 - e^{-0.5})^{2} = 0.845\\). A cold standby pump does not age while idle, so it is better than hot redundancy.",
+      "Multiplies the perfect-switch result by the switch reliability (\\(0.95 \\times 0.910\\)), as if the switch had to work even when no switchover is needed.",
+      "Correct. \\(e^{-0.5}(1 + 0.95 \\times 0.5) = 0.895\\).",
+      "Assumes a perfect switch: \\(e^{-0.5}(1 + 0.5) = 0.910\\)."
+    ],
+    "keyPoint": "Cold standby (exponential, two units): \\(R = e^{-\\lambda t}(1 + R_{sw}\\lambda t)\\). The switch matters only when a switchover is needed.",
+    "trap": "Treating cold standby as hot parallel, ignoring the switch, or putting the switch in series.",
+    "formula": "\\(R = e^{-\\lambda t}(1 + R_{sw}\\lambda t)\\)",
+    "assumptions": [
+      "Identical pumps; no failures while idle; one switchover attempt."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "standby redundancy",
+      "cold standby",
+      "switch reliability",
+      "exponential",
+      "redundancy"
+    ],
+    "sourceSection": "Chapter 10 - Reliability Modeling",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 10 - Reliability Modeling",
+        "section": "Reliability block diagrams and models — standby systems",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b07-q63",
+    "set": 1,
+    "batch": 7,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "C. Modeling",
+      "code": "IV.C.3",
+      "topic": "Competing failure modes and conditional mission reliability"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A gearbox fails from either of two independent modes, shown in the table. A gearbox that has already run 3,000 hours without failure is assigned a 5,000-hour mission. What is the probability that it completes the mission?",
+    "chart": {
+      "type": "data-table",
+      "title": "Gearbox failure modes",
+      "columns": [
+        "Mode",
+        "Life distribution",
+        "Parameters"
+      ],
+      "rows": [
+        [
+          "Gear tooth wear-out",
+          "Weibull",
+          "\\(\\beta = 3\\), \\(\\eta = 8000\\) h"
+        ],
+        [
+          "Random bearing seizure",
+          "Exponential",
+          "\\(\\lambda = 2 \\times 10^{-5}\\) per h"
+        ]
+      ]
+    },
+    "options": [
+      "0.313",
+      "0.351",
+      "0.388",
+      "0.709"
+    ],
+    "answer": 1,
+    "why": "<p>Independent competing modes act like components in series, so their cumulative hazards add. For a unit already at 3,000 h, use the hazard accumulated between 3,000 h and 8,000 h:</p><p>\\[\\begin{aligned}\\Delta H_W &= 1^{3} - 0.375^{3} \\\\ &= 1 - 0.0527 \\\\ &= 0.9473 \\\\ \\Delta H_E &= \\lambda(5000) \\\\ &= 0.10 \\\\ R &= e^{-(0.9473 + 0.10)} \\\\ &= 0.351\\end{aligned}\\]</p><p>where \\(\\Delta H_W\\) is the wear-out cumulative hazard over the mission, using \\(8000/\\eta = 1\\) and \\(3000/\\eta = 0.375\\); \\(\\Delta H_E\\) is the random-mode hazard with \\(\\lambda = 2 \\times 10^{-5}\\) per hour; and \\(R\\) is the conditional mission reliability.</p><p><b>B. 0.351</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Failure Models — failure distributions without additional factors (competing failure causes as a series system); Ch. 6, conditional reliability.</span></p>",
+    "optionRationales": [
+      "\\(R(8000) = e^{-(1 + 0.16)} = 0.313\\) is the probability that a new gearbox reaches 8,000 h; it ignores the 3,000 h already survived.",
+      "Correct. \\(e^{-(0.9473 + 0.10)} = 0.351\\).",
+      "Drops the random mode: \\(e^{-0.9473} = 0.388\\). Both modes act during the mission.",
+      "Treats the gearbox as new for a 5,000 h mission: \\(e^{-(0.244 + 0.10)} = 0.709\\). With wear-out, age matters."
+    ],
+    "keyPoint": "Competing independent modes multiply reliabilities (add hazards). With a wear-out mode, mission reliability depends on age, so condition on the time already survived.",
+    "trap": "Treating a worn unit as new, or dropping a mode.",
+    "formula": "\\(R(t \\mid t_0) = \\exp\\{-[H_W(t) - H_W(t_0)] - \\lambda(t - t_0)\\}\\)",
+    "assumptions": [
+      "The two modes are independent."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "competing failure modes",
+      "series system",
+      "conditional reliability",
+      "Weibull",
+      "exponential"
+    ],
+    "sourceSection": "Chapter 10 - Reliability Modeling",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 10 - Reliability Modeling",
+        "section": "Failure models — failure distributions without additional factors",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b07-q64",
+    "set": 1,
+    "batch": 7,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "C. Modeling",
+      "code": "IV.C.3",
+      "topic": "Eyring versus Arrhenius acceleration factor"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Calculation",
+    "quantitative": true,
+    "stem": "A metallization failure mechanism has a quasi-activation energy of 0.90 eV. Devices run at a 55 °C junction temperature in use and will be tested at 125 °C. Using the Eyring model with temperature exponent \\(m = 1\\), what is the acceleration factor?",
+    "chart": null,
+    "options": [
+      "222",
+      "269",
+      "327",
+      "612"
+    ],
+    "answer": 2,
+    "why": "<p>The Eyring factor is the Arrhenius factor multiplied by the ratio of absolute temperatures raised to \\(m\\):</p><p>\\[\\begin{aligned}\\text{AF}_{Ar} &= e^{(E_a/k)(1/T_U - 1/T_S)} \\\\ &= e^{10444(0.0005357)} \\\\ &= 269 \\\\ \\text{AF}_{Ey} &= \\left(\\frac{T_S}{T_U}\\right)^{m}\\text{AF}_{Ar} \\\\ &= \\frac{398.15}{328.15}(269) \\\\ &= 327\\end{aligned}\\]</p><p>where \\(T_U = 328.15\\) K and \\(T_S = 398.15\\) K, \\(E_a = 0.90\\) eV, \\(k = 8.617 \\times 10^{-5}\\) eV/K, \\(10444 = 0.90/k\\) and \\(0.0005357 = 1/T_U - 1/T_S\\). The Eyring factor here is about 21% larger than the Arrhenius factor.</p><p><b>C. 327</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Failure Models — Eyring model and its relationship to the Arrhenius acceleration factor (Equation 10.10, Example 10.8).</span></p>",
+    "optionRationales": [
+      "Inverts the temperature ratio (\\(T_U/T_S\\)), which lowers instead of raises the factor.",
+      "The Arrhenius factor alone. The Eyring model adds the \\((T_S/T_U)^{m}\\) term.",
+      "Correct. \\(1.213 \\times 269 = 327\\).",
+      "Uses Celsius temperatures in the ratio (\\(125/55 = 2.27\\)). Both Eyring terms need absolute temperature."
+    ],
+    "keyPoint": "Eyring: \\(\\text{AF}_{Ey} = (T_S/T_U)^{m}\\,\\text{AF}_{Ar}\\), with temperatures in kelvin; for \\(m\\) near 0 it reduces to Arrhenius.",
+    "trap": "Inverting the temperature ratio, using Celsius in the ratio, or stopping at the Arrhenius factor.",
+    "formula": "\\(\\text{AF}_{Ey} = (T_S/T_U)^{m}\\exp[(E_a/k)(1/T_U - 1/T_S)]\\)",
+    "assumptions": [],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "Eyring model",
+      "Arrhenius",
+      "acceleration factor",
+      "activation energy"
+    ],
+    "sourceSection": "Chapter 10 - Reliability Modeling",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 10 - Reliability Modeling",
+        "section": "Failure models — Eyring model",
+        "example": "Example 10.8"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b07-q65",
+    "set": 1,
+    "batch": 7,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "C. Modeling",
+      "code": "IV.C.3",
+      "topic": "Coffin–Manson thermal cycling: fitting the exponent and extrapolating"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "Solder joints were thermally cycled at two temperature ranges until half had failed. In service, the joints see a 40 °C swing twice a day. Using the Coffin–Manson thermal cycling model fitted to the two test levels, how many years until half of the joints fail in service?",
+    "chart": {
+      "type": "data-table",
+      "title": "Thermal cycling test results",
+      "columns": [
+        "Temperature swing \\(\\Delta T\\)",
+        "Median cycles to failure"
+      ],
+      "rows": [
+        [
+          "140 °C",
+          "1,200"
+        ],
+        [
+          "100 °C",
+          "2,750"
+        ],
+        [
+          "Field: 40 °C, twice a day",
+          "?"
+        ]
+      ]
+    },
+    "options": [
+      "20.1 years",
+      "36.0 years",
+      "72.1 years",
+      "82.6 years"
+    ],
+    "answer": 1,
+    "why": "<p>Coffin–Manson for thermal cycling is a power law in the temperature range, \\(N = a\\,\\Delta T^{-b}\\). Fit \\(b\\) from the two test levels, then extrapolate to 40 °C:</p><p>\\[\\begin{aligned}b &= \\frac{\\ln(2750/1200)}{\\ln(140/100)} \\\\ &= \\frac{0.8293}{0.3365} = 2.465 \\\\ N_{40} &= 1200\\left(\\frac{140}{40}\\right)^{2.465} \\\\ &= 1200(21.9) \\\\ &= 26300 \\text{ cycles} \\\\ t &= \\frac{26300}{2 \\times 365} \\\\ &= 36.0 \\text{ years}\\end{aligned}\\]</p><p>where \\(N\\) is the median number of cycles to failure, \\(\\Delta T\\) the temperature range, \\(b\\) the fitted exponent and \\(t\\) the median life in years at two cycles a day.</p><p><b>B. 36.0 years</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Failure Models — Coffin–Manson thermal cycling relationship (Example 10.9).</span></p>",
+    "optionRationales": [
+      "Assumes a textbook exponent of 2 instead of fitting it: \\(1200(3.5)^{2}/730 = 20.1\\) years.",
+      "Correct. \\(b = 2.465\\), \\(N_{40} = 26300\\) cycles, so 36.0 years at two cycles a day.",
+      "Uses one cycle a day instead of two.",
+      "Applies the 140-to-40 ratio to the 100 °C life: \\(2750(3.5)^{2.465}/730\\). The ratio must start from the level whose life is used."
+    ],
+    "keyPoint": "Coffin–Manson thermal cycling: \\(N = a\\,\\Delta T^{-b}\\). Fit \\(b\\) from at least two stress ranges, then scale from one test level with its own ratio.",
+    "trap": "Assuming an exponent, pairing a life with the wrong ratio, or misconverting cycles to calendar time.",
+    "formula": "\\(b = \\ln(N_2/N_1)/\\ln(\\Delta T_1/\\Delta T_2)\\); \\(N_U = N_1(\\Delta T_1/\\Delta T_U)^{b}\\)",
+    "assumptions": [
+      "The same fatigue mechanism operates from 40 °C to 140 °C ranges; dwell and ramp effects are ignored."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "Coffin-Manson",
+      "thermal cycling",
+      "solder fatigue",
+      "power law",
+      "extrapolation"
+    ],
+    "sourceSection": "Chapter 10 - Reliability Modeling",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 10 - Reliability Modeling",
+        "section": "Failure models — Coffin-Manson model",
+        "example": "Example 10.9"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b07-q66",
+    "set": 1,
+    "batch": 7,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "C. Modeling",
+      "code": "IV.C.2",
+      "topic": "Corrosion growth under a varying temperature profile"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A buried steel tank wall corrodes at a constant rate at any fixed temperature (zero-order kinetics), with the rate following the Arrhenius relationship. Using the data shown, how many years until the corrosion depth reaches the allowable limit?",
+    "chart": {
+      "type": "data-table",
+      "title": "Tank corrosion data",
+      "columns": [
+        "Item",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Allowable corrosion depth",
+          "0.50 mm"
+        ],
+        [
+          "Corrosion rate at 20 °C",
+          "0.010 mm per year"
+        ],
+        [
+          "Activation energy",
+          "0.40 eV"
+        ],
+        [
+          "Soil temperature",
+          "5 °C for half of each year, 35 °C for the other half (annual mean 20 °C)"
+        ]
+      ]
+    },
+    "options": [
+      "23.1 years",
+      "38.7 years",
+      "50.0 years",
+      "117.4 years"
+    ],
+    "answer": 1,
+    "why": "<p>Because the rate depends exponentially on temperature, find the rate in each half-year, then add the depth grown in each:</p><p>\\[\\begin{aligned}r_5 &= 0.010\\,e^{4642\\Delta_5} \\\\ &= 0.010\\,e^{-0.854} \\\\ &= 0.00426 \\\\ r_{35} &= 0.010\\,e^{4642\\Delta_{35}} \\\\ &= 0.010\\,e^{0.771} \\\\ &= 0.0216 \\\\ r_{\\text{yr}} &= (0.00426 + 0.0216)/2 \\\\ &= 0.01294 \\\\ t &= 0.50/0.01294 \\\\ &= 38.7\\end{aligned}\\]</p><p>where \\(r_T\\) is the corrosion rate in mm per year at temperature \\(T\\) °C, \\(\\Delta_T = 1/293.15 - 1/(T + 273.15)\\), \\(4642 = 0.40/8.617 \\times 10^{-5}\\), \\(r_{\\text{yr}}\\) the average annual rate and \\(t\\) the life in years. The warm half-year does most of the damage.</p><p><b>B. 38.7 years</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Physics of Failure and Failure Mechanisms — corrosion (zero-order kinetics with an Arrhenius rate, combined across temperature intervals).</span></p>",
+    "optionRationales": [
+      "Uses the 35 °C rate for the whole year.",
+      "Correct. The average annual rate is 0.01294 mm, so \\(0.50/0.01294 = 38.7\\) years.",
+      "Uses the rate at the mean temperature (20 °C). Because the rate is exponential in temperature, the warm half-year adds more than the cold half-year saves, so the mean temperature overstates the life.",
+      "Uses the 5 °C rate for the whole year."
+    ],
+    "keyPoint": "With an Arrhenius rate, compute damage in each temperature interval and add it; the rate at the average temperature understates the damage.",
+    "trap": "Evaluating an exponential rate at the average temperature.",
+    "formula": "\\(r(T) = r_0\\exp[(E_a/k)(1/T_0 - 1/T)]\\); depth \\(= \\sum r(T_i)\\,\\Delta t_i\\)",
+    "assumptions": [
+      "Zero-order (linear-in-time) corrosion at each temperature; uniform attack."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "corrosion",
+      "physics of failure",
+      "Arrhenius",
+      "temperature profile",
+      "damage accumulation"
+    ],
+    "sourceSection": "Chapter 10 - Reliability Modeling",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 10 - Reliability Modeling",
+        "section": "Physics of failure — corrosion",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b07-q67",
+    "set": 1,
+    "batch": 7,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "C. Modeling",
+      "code": "IV.C.4",
+      "topic": "Parts count reliability prediction"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A controller board is predicted with a MIL-HDBK-217-style parts count method, using the base failure rates and \\(\\pi\\) factors shown (\\(\\pi_R = 1\\) for every part). Assuming a series model, what is the predicted MTBF of the board?",
+    "chart": {
+      "type": "data-table",
+      "title": "Controller board parts list",
+      "columns": [
+        "Part",
+        "Quantity",
+        "Base rate \\(\\lambda_b\\) (per \\(10^{6}\\) h)",
+        "\\(\\pi_E\\)",
+        "\\(\\pi_Q\\)"
+      ],
+      "rows": [
+        [
+          "Microcontroller",
+          "1",
+          "0.050",
+          "4",
+          "2"
+        ],
+        [
+          "Ceramic capacitor",
+          "24",
+          "0.0020",
+          "4",
+          "1"
+        ],
+        [
+          "Film resistor",
+          "40",
+          "0.0012",
+          "4",
+          "1"
+        ],
+        [
+          "Connector",
+          "2",
+          "0.030",
+          "4",
+          "1.5"
+        ],
+        [
+          "Power MOSFET",
+          "4",
+          "0.012",
+          "4",
+          "2"
+        ]
+      ]
+    },
+    "options": [
+      "About 654,000 h",
+      "About 984,000 h",
+      "About 1,452,000 h",
+      "About 3,937,000 h"
+    ],
+    "answer": 0,
+    "why": "<p>Each part’s predicted rate is \\(\\lambda_p = \\lambda_b\\pi_E\\pi_Q\\pi_R\\); multiply by the quantity and add, since the series model counts every part:</p><p>\\[\\begin{aligned}\\lambda &= 0.400 + 0.192 \\\\ &\\quad + 0.192 + 0.360 \\\\ &\\quad + 0.384 \\\\ &= 1.528 \\\\ \\text{MTBF} &= 10^{6}/1.528 \\\\ &= 654000 \\text{ h}\\end{aligned}\\]</p><p>where \\(\\lambda\\) is the board failure rate per \\(10^{6}\\) h and the five terms are the microcontroller (\\(1 \\times 0.050 \\times 4 \\times 2\\)), capacitors (\\(24 \\times 0.0020 \\times 4\\)), resistors (\\(40 \\times 0.0012 \\times 4\\)), connectors (\\(2 \\times 0.030 \\times 4 \\times 1.5\\)) and MOSFETs (\\(4 \\times 0.012 \\times 4 \\times 2\\)). A parts count result is a prediction for comparing designs and finding weak links, not a reliability estimate.</p><p><b>A. About 654,000 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Reliability Prediction Methods — part count predictions and part stress analysis (Examples 10.15–10.16).</span></p>",
+    "optionRationales": [
+      "Correct. \\(\\lambda = 1.528\\) per \\(10^{6}\\) h, so MTBF is about 654,000 h.",
+      "Leaves out the quality factors \\(\\pi_Q\\).",
+      "Counts each part type once instead of multiplying by its quantity.",
+      "Uses the base rates alone, without quantities or \\(\\pi\\) factors."
+    ],
+    "keyPoint": "Parts count: \\(\\lambda_{\\text{board}} = \\sum n_i\\lambda_{b,i}\\pi_E\\pi_Q\\pi_R\\) under a series, constant-failure-rate model. It is a prediction, not an estimate from data.",
+    "trap": "Forgetting quantities or adjustment factors.",
+    "formula": "\\(\\lambda = \\sum n_i\\,\\lambda_{b,i}\\,\\pi_{E,i}\\,\\pi_{Q,i}\\,\\pi_{R,i}\\); \\(\\text{MTBF} = 1/\\lambda\\)",
+    "assumptions": [
+      "Series model with constant failure rates (the method’s assumptions, which the Handbook cautions are simplistic)."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "parts count",
+      "MIL-HDBK-217",
+      "reliability prediction",
+      "pi factors",
+      "MTBF"
+    ],
+    "sourceSection": "Chapter 10 - Reliability Modeling",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 10 - Reliability Modeling",
+        "section": "Reliability prediction methods — part count predictions",
+        "example": "Example 10.16"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b07-q68",
+    "set": 1,
+    "batch": 7,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "C. Modeling",
+      "code": "IV.C.4",
+      "topic": "Simulating a failure time by inverse transform"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Calculation",
+    "quantitative": true,
+    "stem": "A Monte Carlo model of a conveyor draws idler-bearing failure times from a Weibull distribution with \\(\\beta = 2\\) and \\(\\eta = 5000\\) h. For one trial the random number from Uniform(0, 1) is \\(u = 0.75\\). Using the inverse transform method and setting the cumulative failure probability \\(F(t)\\) equal to \\(u\\), what failure time is simulated?",
+    "chart": null,
+    "options": [
+      "5,890 h",
+      "6,930 h",
+      "9,610 h",
+      "10,000 h"
+    ],
+    "answer": 0,
+    "why": "<p>Set the Weibull CDF equal to the random number and solve for time:</p><p>\\[\\begin{aligned}u &= 1 - e^{-(t/\\eta)^{\\beta}} \\\\ t &= \\eta[-\\ln(1 - u)]^{1/\\beta} \\\\ &= 5000(1.386)^{0.5} \\\\ &= 5890 \\text{ h}\\end{aligned}\\]</p><p>where \\(u\\) is the uniform random number, \\(t\\) the simulated failure time, \\(\\eta\\) the scale and \\(\\beta\\) the shape. Repeating the draw many times builds the failure time distribution used in the system simulation.</p><p><b>A. 5,890 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Reliability Prediction Methods — simulating failure time with a known distribution (inverse transform, Example 10.11).</span></p>",
+    "optionRationales": [
+      "Correct. \\(5000(1.386)^{0.5} = 5890\\) h.",
+      "Drops the shape parameter (\\(\\beta = 1\\)): \\(5000 \\ln 4 = 6930\\) h.",
+      "Raises to the power \\(\\beta\\) instead of \\(1/\\beta\\): \\(5000(1.386)^{2}\\).",
+      "Skips the logarithm: \\(5000[1/(1 - u)]^{1/\\beta} = 5000(2)\\)."
+    ],
+    "keyPoint": "Inverse transform: draw \\(u\\), then \\(t = F^{-1}(u)\\); for Weibull, \\(t = \\eta[-\\ln(1 - u)]^{1/\\beta}\\).",
+    "trap": "Dropping the shape parameter, using the wrong exponent, or skipping the logarithm.",
+    "formula": "\\(t = \\eta[-\\ln(1 - u)]^{1/\\beta}\\)",
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "Monte Carlo simulation",
+      "inverse transform",
+      "Weibull",
+      "reliability prediction"
+    ],
+    "sourceSection": "Chapter 10 - Reliability Modeling",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 10 - Reliability Modeling",
+        "section": "Reliability prediction methods — simulating failure time",
+        "example": "Example 10.11"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b07-q69",
+    "set": 1,
+    "batch": 7,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "C. Modeling",
+      "code": "IV.C.5",
+      "topic": "Correlating a digital model with prototype tests"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, decision",
+    "quantitative": false,
+    "stem": "A digital twin predicts the fatigue life of a pump housing. Physical prototypes were built and tested at the same five design points. Based on the results shown, which conclusion is best?",
+    "chart": {
+      "type": "data-table",
+      "title": "Digital twin versus physical prototype (fatigue life, h)",
+      "columns": [
+        "Design point",
+        "Digital prediction",
+        "Physical test",
+        "Physical / digital"
+      ],
+      "rows": [
+        [
+          "1",
+          "1,200",
+          "1,050",
+          "0.875"
+        ],
+        [
+          "2",
+          "1,800",
+          "1,560",
+          "0.867"
+        ],
+        [
+          "3",
+          "2,500",
+          "2,180",
+          "0.872"
+        ],
+        [
+          "4",
+          "3,100",
+          "2,700",
+          "0.871"
+        ],
+        [
+          "5",
+          "4,000",
+          "3,480",
+          "0.870"
+        ]
+      ]
+    },
+    "options": [
+      "The correlation is almost perfect, so the model can replace prototype testing as it stands.",
+      "Each prediction differs from its test result, so the model should be set aside in favor of testing alone.",
+      "Average the digital and physical lives at each point and report the averages as the life estimate.",
+      "Physical life is consistently about 13% below prediction, so calibrate the model and keep verifying it."
+    ],
+    "answer": 3,
+    "why": "<p>The physical-to-digital ratio is about 0.87 at every point, so the two sets are almost perfectly correlated: the model captures how design changes affect life. But physical life is consistently about 13% below the prediction. A model with a stable, systematic bias is useful once calibrated (for example, scaled by about 0.87), and the calibration should keep being checked as designs move away from the tested points. High correlation alone does not show accuracy.</p><p><b>D. Calibrate the model for its consistent 13% optimism.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Design Prototyping — correlation of physical prototypes and digital models (digital twins).</span></p>",
+    "optionRationales": [
+      "Correlation measures agreement in pattern, not in level. Uncalibrated, the model would overstate life.",
+      "The errors are systematic, not random, which is exactly what calibration can correct.",
+      "Averaging keeps half of the known bias and has no physical basis.",
+      "Correct. The trend is right and the bias is consistent, so the model can be calibrated."
+    ],
+    "keyPoint": "Compare digital and physical results for both pattern (correlation) and level (bias). Correct a consistent bias by calibration and keep verifying.",
+    "trap": "Treating high correlation as proof of accuracy, or discarding a model whose error is systematic.",
+    "formula": null,
+    "assumptions": [
+      "The five design points span the range in which the model will be used."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "digital twin",
+      "prototyping",
+      "model validation",
+      "calibration",
+      "correlation"
+    ],
+    "sourceSection": "Chapter 10 - Reliability Modeling",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 10 - Reliability Modeling",
+        "section": "Design prototyping — correlation of physical prototypes and digital models",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b07-q70",
+    "set": 1,
+    "batch": 7,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "C. Modeling",
+      "code": "IV.C.5",
+      "topic": "Limits of rapid prototypes for reliability testing"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Understand",
+    "questionType": "Concept",
+    "quantitative": false,
+    "stem": "A team plans to fatigue-test 3D-printed (fused deposition modeling) copies of an injection-molded nylon bracket to estimate the production bracket’s fatigue life. What is the main limitation?",
+    "chart": null,
+    "options": [
+      "Printed parts cost too much to make enough samples for a meaningful fatigue test.",
+      "Printed parts may not hold the bracket’s tolerances closely enough to fit the test fixture.",
+      "The results will represent production as long as the parts are printed at 100% infill.",
+      "Printed layers give a different internal structure and strength from the molded part, so fatigue results may not transfer."
+    ],
+    "answer": 3,
+    "why": "<p>Additive manufacturing produces a different internal structure from extruded or molded material: layered, often with voids and direction-dependent strength. Rapid prototypes are valuable for checking form, fit and some failure modes, but test results tied to material structure, such as fatigue life, may not represent the production part.</p><p><b>D. Layered structure differs from the molded part, so fatigue results may not transfer.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Design Prototyping — rapid prototyping technologies; prototyping advantages and limitations.</span></p>",
+    "optionRationales": [
+      "Fast, low-cost samples are one of the main advantages of rapid prototyping, not its limitation.",
+      "Fit to the fixture is easy to check and correct; it does not undermine the fatigue result the way a different material structure does.",
+      "Solid infill removes some voids, but the part is still built in layers with weaker bonds between them, so fatigue behavior can still differ from a molded part.",
+      "Correct. The material structure differs, so structure-dependent results may not transfer."
+    ],
+    "keyPoint": "Rapid prototypes speed up design learning, but results that depend on material structure must be confirmed on production-representative parts.",
+    "trap": "Assuming a printed part behaves like the production part.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "rapid prototyping",
+      "3D printing",
+      "fused deposition modeling",
+      "prototype limitations"
+    ],
+    "sourceSection": "Chapter 10 - Reliability Modeling",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 10 - Reliability Modeling",
+        "section": "Design prototyping — rapid prototyping technologies",
         "example": null
       }
     ]

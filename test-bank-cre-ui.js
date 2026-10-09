@@ -15,7 +15,8 @@
  *                     a series with line:false is a scatter, dashed:true a fitted/reference line
  *   cre-box-plot      horizontal box-and-whisker plots by group, with outliers
  *   cre-rbd           reliability block diagram: stages in series, blocks in parallel within a
- *                     stage, with an optional note per stage (e.g. "2 of 3 required")
+ *                     stage, with an optional note per stage (e.g. "2 of 3 required");
+ *                     layout:"bridge" draws the five-block bridge (A–B top, C–D bottom, E across)
  */
 (function(global){
   'use strict';
@@ -289,10 +290,36 @@
   }
 
   /* ---------- reliability block diagram ---------- */
+  function bridgeRbd(spec){
+    var b=spec.bridge||{},names=['A','B','C','D','E'];
+    if(!names.every(function(n){return b[n];}))return '';
+    var bw=92,bh=36,w=520,h=250,yT=62,yB=188,yM=(yT+yB)/2,xIn=51,xOut=w-51,xJ=260,parts=[];
+    function block(n,cx,cy){
+      var d=b[n],label=(d.label||n)+(d.r!=null?', reliability '+d.r:'');
+      parts.push('<g class="cre-rbd-block" role="img" tabindex="0" aria-label="'+esc(label)+'"><title>'+esc(label)+'</title><rect x="'+(cx-bw/2)+'" y="'+(cy-bh/2)+'" width="'+bw+'" height="'+bh+'" rx="5"></rect>'+
+        '<text x="'+cx+'" y="'+(cy-3)+'" text-anchor="middle">'+esc(d.label||n)+'</text>'+(d.r!=null?'<text class="cre-rbd-r" x="'+cx+'" y="'+(cy+12)+'" text-anchor="middle">'+esc(d.r)+'</text>':'')+'</g>');
+    }
+    var xL=155,xR=365;
+    parts.push('<path class="cre-rbd-wire" d="M'+xIn+' '+yM+' H'+(xIn+24)+' V'+yT+' H'+(xL-bw/2)+' M'+(xIn+24)+' '+yM+' V'+yB+' H'+(xL-bw/2)+'"></path>');
+    parts.push('<path class="cre-rbd-wire" d="M'+(xL+bw/2)+' '+yT+' H'+(xR-bw/2)+' M'+(xL+bw/2)+' '+yB+' H'+(xR-bw/2)+'"></path>');
+    parts.push('<path class="cre-rbd-wire" d="M'+xJ+' '+yT+' V'+(yM-bh/2)+' M'+xJ+' '+(yM+bh/2)+' V'+yB+'"></path>');
+    parts.push('<circle class="cre-rbd-node" cx="'+xJ+'" cy="'+yT+'" r="3"></circle><circle class="cre-rbd-node" cx="'+xJ+'" cy="'+yB+'" r="3"></circle>');
+    parts.push('<path class="cre-rbd-wire" d="M'+(xR+bw/2)+' '+yT+' H'+(xOut-24)+' V'+yB+' H'+(xR+bw/2)+' M'+(xOut-24)+' '+yM+' H'+xOut+'"></path>');
+    parts.push('<circle class="cre-rbd-node" cx="'+xIn+'" cy="'+yM+'" r="4"></circle><circle class="cre-rbd-node" cx="'+xOut+'" cy="'+yM+'" r="4"></circle>');
+    block('A',xL,yT);block('B',xR,yT);block('C',xL,yB);block('D',xR,yB);block('E',xJ,yM);
+    if(spec.note)parts.push('<text class="cre-rbd-note" x="'+(w/2)+'" y="'+(h-10)+'" text-anchor="middle">'+esc(spec.note)+'</text>');
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart cre-chart cre-chart-wide" style="max-width:'+w+'px" role="img" aria-label="'+esc(spec.altText||spec.title||'Bridge reliability block diagram')+'">'+
+      '<title>'+esc(spec.title||'Bridge system')+'</title><desc>'+esc(spec.altText||'')+'</desc>'+
+      '<text class="cre-title" x="'+xIn+'" y="18">'+esc(spec.title||'')+'</text>'+parts.join('')+'</svg>';
+    return wrap(spec.eyebrow||'Reliability block diagram',svg,true);
+  }
   function rbd(spec){
+    if(spec.layout==='bridge')return bridgeRbd(spec);
     var stages=(spec.stages||[]).filter(function(st){return Array.isArray(st.blocks)&&st.blocks.length;});
     if(!stages.length)return '';
-    var bw=96,bh=38,vgap=12,colGap=46,pad=34,top=46;
+    // size blocks to their longest label so text never spills out of a box
+    var longest=0;stages.forEach(function(st){st.blocks.forEach(function(b){longest=Math.max(longest,String(b.label||'').length,String(b.r==null?'':b.r).length);});});
+    var bw=Math.max(96,Math.round(6.2*longest+20)),bh=38,vgap=12,colGap=46,pad=34,top=46;
     var maxN=Math.max.apply(null,stages.map(function(st){return st.blocks.length;}));
     var bodyH=maxN*bh+(maxN-1)*vgap,mid=top+bodyH/2;
     var w=pad*2+stages.length*(bw+28)+(stages.length-1)*colGap,h=top+bodyH+52;
@@ -317,10 +344,14 @@
       if(si<stages.length-1){parts.push('<path class="cre-rbd-wire" d="M'+x+' '+mid+' H'+(x+colGap)+'"></path>');x+=colGap;}
     });
     parts.push('<path class="cre-rbd-wire" d="M'+x+' '+mid+' H'+(x+14)+'"></path><circle class="cre-rbd-node" cx="'+(x+14)+'" cy="'+mid+'" r="4"></circle>');
-    w=x+pad;
+    // .cre-chart-wide has a 520px minimum: centre narrow diagrams on a 520-unit canvas instead of
+    // letting the browser scale them up (which enlarges text and clips long stage notes)
+    var contentW=x+pad,longNote=0;stages.forEach(function(st){longNote=Math.max(longNote,String(st.note||'').length);});
+    w=Math.max(contentW,520,Math.round(6*longNote+2*pad));
+    var shift=Math.round((w-contentW)/2);
     var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart cre-chart cre-chart-wide" style="max-width:'+w+'px" role="img" aria-label="'+esc(spec.altText||spec.title||'Reliability block diagram')+'">'+
       '<title>'+esc(spec.title||'Reliability block diagram')+'</title><desc>'+esc(spec.altText||'')+'</desc>'+
-      '<text class="cre-title" x="'+pad+'" y="16">'+esc(spec.title||'')+'</text>'+parts.join('')+'</svg>';
+      '<text class="cre-title" x="'+pad+'" y="16">'+esc(spec.title||'')+'</text><g transform="translate('+shift+',0)">'+parts.join('')+'</g></svg>';
     return wrap(spec.eyebrow||'Reliability block diagram',svg,true);
   }
 

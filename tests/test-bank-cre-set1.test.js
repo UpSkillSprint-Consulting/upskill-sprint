@@ -40,8 +40,8 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-const BATCHES = [1, 2, 3, 4, 5, 6];
-const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/ };
+const BATCHES = [1, 2, 3, 4, 5, 6, 7];
+const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/ };
 // BoK domain → engine area (the five shared CRE domains)
 const DOMAIN_SUB = { III: 'cre-statistics', IV: 'cre-testing' };
 
@@ -113,6 +113,13 @@ test('batch 6 brings IV.B to 15 items, covers IV.B again, and opens IV.C', () =>
   assert.equal(BANK.filter((q) => q.bok.code.startsWith('IV.B')).length, 15);
   assert.equal([...new Set(rows.filter((q) => q.bok.code.startsWith('IV.B')).map((q) => q.bok.code))].sort().join(), 'IV.B.1,IV.B.2,IV.B.3,IV.B.4,IV.B.5,IV.B.6');
   assert.equal(rows.filter((q) => q.bok.code.startsWith('IV.C')).map((q) => q.bok.code).sort().join(), 'IV.C.1,IV.C.2');
+});
+
+test('batch 7 completes Domain IV at 35 and covers every IV.C topic', () => {
+  assert.equal(BANK.filter((q) => q.sub === 'cre-testing').length, 35, 'Domain IV is complete');
+  const ivc = BANK.filter((q) => q.bok.code.startsWith('IV.C'));
+  assert.equal(ivc.length, 12);
+  assert.equal([...new Set(ivc.map((q) => q.bok.code))].sort().join(), 'IV.C.1,IV.C.2,IV.C.3,IV.C.4,IV.C.5');
 });
 
 test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22', () => {
@@ -764,6 +771,73 @@ test('Q58 and Q60 evidence supports the keys', () => {
   assert.match(q60.options[q60.answer], /^Creep under constant strain/);
 });
 
+test('Q61 bridge reliability by conditioning on the crossover', () => {
+  const q = byId('cre:set-1:b07-q61');
+  const r = Object.fromEntries(Object.entries(q.chart.bridge).map(([k, v]) => [k, Number(v.r)]));
+  const par = (a, b) => 1 - (1 - a) * (1 - b);
+  const works = par(r.A, r.C) * par(r.B, r.D), fails = par(r.A * r.B, r.C * r.D);
+  const R = r.E * works + (1 - r.E) * fails;
+  assertKeyed(q, R, 0.0006);
+  // the three traps are each at least 0.015 away
+  [works, fails, r.E * fails].forEach((v) => assert.ok(Math.abs(v - R) > 0.015));
+});
+
+test('Q62 two-unit cold standby with switch reliability 0.95', () => {
+  const q = byId('cre:set-1:b07-q62');
+  const lt = 1000 / 2000;
+  assertKeyed(q, Math.exp(-lt) * (1 + 0.95 * lt), 0.0006);
+  assert.ok(q.options.includes((Math.exp(-lt) * (1 + lt)).toFixed(3)), 'perfect-switch trap');
+});
+
+test('Q63 competing modes, conditional on 3,000 h survived', () => {
+  const q = byId('cre:set-1:b07-q63');
+  const H = (t) => (t / 8000) ** 3 + 2e-5 * t;
+  assertKeyed(q, Math.exp(-(H(8000) - H(3000))), 0.0006);
+});
+
+test('Q64 Eyring factor = (Ts/Tu) × Arrhenius factor', () => {
+  const q = byId('cre:set-1:b07-q64');
+  const Tu = 328.15, Ts = 398.15, ar = Math.exp((0.90 / 8.617e-5) * (1 / Tu - 1 / Ts));
+  assertKeyed(q, (Ts / Tu) * ar, 0.6);
+  assert.ok(q.options.includes(String(Math.round(ar))), 'Arrhenius-only trap');
+});
+
+test('Q65 Coffin–Manson exponent from two ranges, extrapolated to 40 °C', () => {
+  const q = byId('cre:set-1:b07-q65');
+  const [[d1, n1], [d2, n2]] = [...q.chart.rows].slice(0, 2).map((r) => [n_(r[0]), n_(r[1])]);
+  const b = Math.log(n2 / n1) / Math.log(d1 / d2);
+  assert.ok(Math.abs(b - 2.465) < 0.001);
+  assertKeyed(q, n1 * (d1 / 40) ** b / 730, 0.05);
+});
+
+test('Q66 corrosion depth summed over the warm and cold half-years', () => {
+  const q = byId('cre:set-1:b07-q66');
+  const rate = (c) => 0.010 * Math.exp((0.40 / 8.617e-5) * (1 / 293.15 - 1 / (c + 273.15)));
+  const life = 0.50 / (0.5 * rate(5) + 0.5 * rate(35));
+  assertKeyed(q, life, 0.05);
+  assert.ok(q.options.includes('50.0 years'), 'mean-temperature trap');
+});
+
+test('Q67 parts count: quantities times pi-adjusted base rates', () => {
+  const q = byId('cre:set-1:b07-q67');
+  const lam = [...q.chart.rows].reduce((a, [, n, lb, pe, pq]) => a + Number(n) * Number(lb) * Number(pe) * Number(pq), 0);
+  assert.ok(Math.abs(lam - 1.528) < 1e-9);
+  assert.equal(q.options[q.answer], `About ${(Math.round(1e6 / lam / 1000) * 1000).toLocaleString('en-US')} h`);
+});
+
+test('Q68 Weibull inverse-transform draw', () => {
+  const q = byId('cre:set-1:b07-q68');
+  assertKeyed(q, 5000 * (-Math.log(1 - 0.75)) ** 0.5, 6);
+});
+
+test('Q69 digital twin is biased by a consistent factor (about 0.87)', () => {
+  const q = byId('cre:set-1:b07-q69');
+  const ratios = [...q.chart.rows].map((r) => n_(r[2]) / n_(r[1]));
+  q.chart.rows.forEach((r, i) => assert.ok(Math.abs(Number(r[3]) - ratios[i]) < 0.0006, 'ratio column matches'));
+  assert.ok(Math.max(...ratios) - Math.min(...ratios) < 0.01 && Math.abs(1 - ratios.reduce((a, b) => a + b) / ratios.length - 0.13) < 0.005);
+  assert.match(q.options[q.answer], /about 13% below prediction/);
+});
+
 /* ---------- 3. production delivery ---------- */
 
 async function productionHtml() {
@@ -897,8 +971,9 @@ test('a full CRE sitting renders every visual and scores a perfect paper as 100%
       } else if (q.chart && q.chart.type === 'cre-rbd') {
         const svg = quiz.querySelector('svg.cre-chart');
         assert.ok(svg, `${q.qid} draws the block diagram`);
-        assert.equal(svg.querySelectorAll('.cre-rbd-block').length, q.chart.stages.reduce((a, st) => a + st.blocks.length, 0));
-        q.chart.stages.filter((st) => st.note).forEach((st) => assert.ok(svg.textContent.includes(st.note), `${q.qid} shows ${st.note}`));
+        const blocks = q.chart.layout === 'bridge' ? 5 : q.chart.stages.reduce((a, st) => a + st.blocks.length, 0);
+        assert.equal(svg.querySelectorAll('.cre-rbd-block').length, blocks);
+        (q.chart.stages || []).filter((st) => st.note).forEach((st) => assert.ok(svg.textContent.includes(st.note), `${q.qid} shows ${st.note}`));
       } else if (q.chart && q.chart.type === 'cre-xy-plot') {
         const svg = quiz.querySelector('svg.cre-chart');
         assert.ok(svg, `${q.qid} draws the x-y plot`);
