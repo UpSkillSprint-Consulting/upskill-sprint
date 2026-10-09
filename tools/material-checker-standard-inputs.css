@@ -27,3 +27,11 @@
 @media(max-width:800px){#standardInputs .standard-fields{grid-template-columns:repeat(2,minmax(0,1fr))}#standardInputs .standard-evidence{grid-template-columns:1fr 1fr}#standardInputs .standard-evidence>div{grid-column:1/-1}#panels .standard-actual-row{grid-template-columns:1fr 1fr}#panels .standard-actual-row>.row-field:first-child,#panels .standard-actual-note{grid-column:1/-1}}
 @media(max-width:520px){#standardInputs .standard-heading{display:block}#standardInputs .standard-heading button{margin-top:1rem}#standardInputs .standard-fields,#standardInputs .standard-evidence{grid-template-columns:1fr}#standardInputs .standard-specimens>div{gap:.5rem}}
 @media print{#standardInputs details{display:block}#standardInputs details>*{display:block}#standardInputs button{display:none}}
+
+@media screen and (max-width:640px){
+  #panels .standard-actual-row{grid-template-columns:1fr}
+  #panels .standard-actual-row>.row-field:first-child,#panels .standard-actual-note{grid-column:1/-1}
+}
+@media screen and (max-width:520px){
+  #standardInputs .standard-edition-alert button{display:block;width:100%;margin:.75rem 0 0}
+}
