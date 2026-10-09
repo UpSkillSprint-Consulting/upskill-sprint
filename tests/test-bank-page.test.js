@@ -16,6 +16,7 @@ const cssgbScript = fs.readFileSync(path.join(ROOT, 'test-bank-cssgb-set1.js'), 
 const cssgbSet2Script = fs.readFileSync(path.join(ROOT, 'test-bank-cssgb-set2.js'), 'utf8');
 const pmpScript = fs.readFileSync(path.join(ROOT, 'test-bank-pmp-set1.js'), 'utf8');
 const pmpSet2Script = fs.readFileSync(path.join(ROOT, 'test-bank-pmp-set2.js'), 'utf8');
+const pmpSet3Script = fs.readFileSync(path.join(ROOT, 'test-bank-pmp-set3.js'), 'utf8');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
   .replace('<script src="/test-bank-cmq-set1.js"></script>', `<script>${cmqScript}</script>`)
   .replace('<script src="/test-bank-mbb-set1.js"></script>', `<script>${mbbScript}</script>`)
@@ -24,7 +25,8 @@ const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8')
   .replace('<script src="/test-bank-cssgb-set1.js"></script>', `<script>${cssgbScript}</script>`)
   .replace('<script src="/test-bank-cssgb-set2.js"></script>', `<script>${cssgbSet2Script}</script>`)
   .replace('<script src="/test-bank-pmp-set1.js"></script>', `<script>${pmpScript}</script>`)
-  .replace('<script src="/test-bank-pmp-set2.js"></script>', `<script>${pmpSet2Script}</script>`);
+  .replace('<script src="/test-bank-pmp-set2.js"></script>', `<script>${pmpSet2Script}</script>`)
+  .replace('<script src="/test-bank-pmp-set3.js"></script>', `<script>${pmpSet3Script}</script>`);
 
 const CERTS = ['CSSBB', 'MBB', 'CSSGB', 'CQE', 'CQA', 'CMQ', 'CRE', 'PMP'];
 

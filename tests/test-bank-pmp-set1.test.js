@@ -76,6 +76,8 @@ test('the test bank keeps the PMP script, registers the exam, and the edge funct
   assert.equal(html.split('<script src="/test-bank-pmp-set1.js"></script>').length - 1, 1);
   assert.match(html, /if\(window\.registerPMPSet1\)window\.registerPMPSet1\(EXAMS\.pmp,DM\)/);
   assert.match(html, /if\(window\.registerPMPSet2\)window\.registerPMPSet2\(EXAMS\.pmp\)/);
+  assert.match(html, /if\(window\.registerPMPSet3\)window\.registerPMPSet3\(EXAMS\.pmp\)/);
+  assert.equal(html.split('<script src="/test-bank-pmp-set3.js"></script>').length - 1, 1);
   assert.equal(html.split('<script src="/test-bank-pmp-set2.js"></script>').length - 1, 1);
   assert.match(html, /\['Project Management',\['pmp'\]\]/);
   assert.match(edge, /pmp/);
@@ -94,6 +96,10 @@ test('opening PMP shows Set 1 in the catalog and does not start an attempt', asy
     .replace(
       '<script src="/test-bank-pmp-set2.js"></script>',
       '<script>' + read('test-bank-pmp-set2.js').replace(/<\/script/gi, '<\\/script') + '</script>'
+    )
+    .replace(
+      '<script src="/test-bank-pmp-set3.js"></script>',
+      '<script>' + read('test-bank-pmp-set3.js').replace(/<\/script/gi, '<\\/script') + '</script>'
     );
   const dom = new JSDOM(html, {
     url: 'https://upskillsprint.com/test-bank?exam=pmp',
@@ -107,15 +113,14 @@ test('opening PMP shows Set 1 in the catalog and does not start an attempt', asy
   assert.equal(doc.querySelector('.tb-tile.active').dataset.exam, 'pmp');
   assert.equal(doc.querySelector('.tb-quiz'), null);
   const overview = doc.getElementById('tb-overview').textContent;
-  assert.match(overview, /Set 2 is available separately/);
-  assert.match(overview, /Set 3 is listed/);
+  assert.match(overview, /Set 2 \(Q081-Q100\) and Set 3 \(Q101-Q130\)/);
   assert.equal(doc.querySelector('[data-set="1"]:not([disabled])').textContent.includes('Set 1'), true);
   assert.equal(doc.querySelector('[data-set="2"]').disabled, false);
   assert.match(doc.querySelector('[data-set="2"]').textContent, /Q081-Q100/);
-  assert.equal(doc.querySelector('[data-set="3"]').disabled, true);
-  assert.match(doc.querySelector('[data-set="3"]').textContent, /Not yet available/);
+  assert.equal(doc.querySelector('[data-set="3"]').disabled, false);
+  assert.match(doc.querySelector('[data-set="3"]').textContent, /Q101-Q130/);
   assert.equal(doc.querySelector('[data-quiz-set-kind="quick"][data-quiz-set="2"]').disabled, false);
-  assert.equal(doc.querySelector('[data-quiz-set-kind="focus"][data-quiz-set="3"]').disabled, true);
+  assert.equal(doc.querySelector('[data-quiz-set-kind="focus"][data-quiz-set="3"]').disabled, false);
   assert.equal(doc.querySelector('[data-quiz-set-kind="quick"][data-quiz-set="1"]').disabled, false);
   assert.match(overview, /not affiliated with PMI/i);
   assert.match(overview, /People/);
