@@ -192,6 +192,20 @@ test('shared header styling shields navigation from standalone tool typography',
   assert.ok(links.findIndex(l=>l.getAttribute('href')==='/assets/tool-site-header.css') > links.findIndex(l=>l.getAttribute('href')==='/tools/material-specification-compliance-checker.css'));
 });
 
+
+test('standalone checker keeps phone forms single-column and long workspaces horizontally contained', () => {
+  const checkerCss = source('tools/material-specification-compliance-checker.css');
+  const platformCss = source('tools/material-checker-platform.css');
+  const standardCss = source('tools/material-checker-standard-inputs.css');
+  const html = source('tools/material-specification-compliance-checker.html');
+  assert.match(html, /<meta name="viewport" content="width=device-width,initial-scale=1">/);
+  assert.match(checkerCss, /@media screen and \\(max-width:640px\\)[\\s\\S]*?\\.tabs\\{scrollbar-width:none;overscroll-behavior-inline:contain/);
+  assert.match(checkerCss, /@media screen and \\(max-width:640px\\)[\\s\\S]*?\\.panel-head \\.btn\\{width:100%\\}/);
+  assert.match(platformCss, /@media screen and \\(max-width:640px\\)[\\s\\S]*?\\.mc-table-wrap\\{overscroll-behavior-inline:contain/);
+  assert.match(standardCss, /@media screen and \\(max-width:640px\\)[\\s\\S]*?#panels \\.standard-actual-row\\{grid-template-columns:1fr\\}/);
+  assert.match(standardCss, /@media screen and \\(max-width:520px\\)[\\s\\S]*?standard-edition-alert button\\{display:block;width:100%/);
+});
+
 for (const route of ['/tools/material-specification-compliance-checker', '/tools/material-specification-compliance-checker.html']) {
   test('arrow cleanup preserves the shared checker header on ' + route, async () => {
     const dom=await createChecker(route); const {window}=dom;
