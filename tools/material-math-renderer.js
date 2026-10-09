@@ -234,8 +234,16 @@
 
   let typesetQueued = false;
   let typesetting = false;
+  let typesetAgain = false;
   async function typeset(root) {
-    if (typesetting || !root) return;
+    if (!root) return;
+    if (typesetting) {
+      // Dynamic calculators can rerender while MathJax is loading or
+      // typesetting. Remember that mutation so the new equations are not
+      // stranded as raw TeX after the first pass.
+      typesetAgain = true;
+      return;
+    }
     typesetting = true;
     try {
       const math = await loadMathJax();
@@ -246,6 +254,10 @@
       root.dataset.mathRenderer = 'fallback';
     } finally {
       typesetting = false;
+      if (typesetAgain) {
+        typesetAgain = false;
+        schedule(root);
+      }
     }
   }
 
