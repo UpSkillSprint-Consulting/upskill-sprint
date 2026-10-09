@@ -4150,6 +4150,412 @@
         ]
       ]
     }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "A stable fraction-nonconforming chart uses the center \\(\\bar p\\) and the sample size \\(n\\).\n\\[\nUCL=\\bar p+3\\sqrt{\\bar p(1-\\bar p)/n}\n\\]\nWhat is the upper control limit?",
+    "options": [
+      "0.02",
+      "0.04",
+      "0.06",
+      "0.10"
+    ],
+    "answer": 3,
+    "why": "Take the square root before multiplying by 3.\n\\[\n\\bar p(1-\\bar p)/n=0.0004\n\\]\n\\[\n\\sqrt{0.0004}=0.02\n\\]\n\\[\nUCL=0.04+3(0.02)=0.10\n\\]\n0.02 is the standard deviation of the fraction. 0.04 is the center. 0.06 is only the three-standard-deviation distance. <b>D. 0.10</b>",
+    "set": 3,
+    "qid": "cre:set-3:121",
+    "bok": "III.A.6",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Fraction nonconforming",
+      "altText": "The average fraction nonconforming is 0.04. Each sample contains 96 units.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Average fraction",
+          "0.04"
+        ],
+        [
+          "Sample size",
+          "96"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "Life is exponential with mean \\(\\theta\\). Use \\(-\\ln 0.90=0.10536\\).\n\\[\nt=-\\theta\\ln R\n\\]\nWhat mission time keeps the reliability at 0.90, to one decimal place?",
+    "options": [
+      "105.4 hours",
+      "900 hours",
+      "1,000 hours",
+      "2,302.6 hours"
+    ],
+    "answer": 0,
+    "why": "Multiply the mean by the positive logarithm of the reliability. Do not multiply the mean by 0.90.\n\\[\nt=1000(0.10536)=105.4\n\\]\n900 hours is 90 percent of the mean. 1,000 hours is the mean. 2,302.6 hours uses \\(-\\ln 0.10\\) instead of \\(-\\ln 0.90\\). <b>A. 105.4 hours</b>",
+    "set": 3,
+    "qid": "cre:set-3:122",
+    "bok": "III.A.3",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Exponential mission time",
+      "altText": "The mean life is 1,000 hours. The required reliability is 0.90.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Mean life",
+          "1,000 h"
+        ],
+        [
+          "Required reliability",
+          "0.90"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "A lot of 6 units contains 2 defectives. Two units are drawn at random without replacement.\n\\[\nP=(4/6)(3/5)\n\\]\nWhat is the probability that both drawn units are good?",
+    "options": [
+      "0.067",
+      "0.400",
+      "0.444",
+      "0.667"
+    ],
+    "answer": 1,
+    "why": "The second draw has one fewer good unit and one fewer unit in the lot.\n\\[\nP=(4/6)(3/5)=0.400\n\\]\n0.067 is the probability that both draws are defective. 0.444 replaces each unit and squares 4/6. 0.667 is the probability that the first draw is good. <b>B. 0.400</b>",
+    "set": 3,
+    "qid": "cre:set-3:123",
+    "bok": "III.A.2",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Lot draw",
+      "altText": "The lot has 6 units, of which 4 are good and 2 are defective. Two units are drawn without replacement.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Lot size",
+          "6"
+        ],
+        [
+          "Good units",
+          "4"
+        ],
+        [
+          "Defective units",
+          "2"
+        ],
+        [
+          "Draw",
+          "2"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "A failure-terminated test has the total time \\(T\\) and failure count \\(r\\) below. The claim is that the mean life is at least \\(\\theta_0\\). Reject that claim only if\n\\[\nX=2T/\\theta_0\n\\]\nis below the lower-tail critical value in the table. What is the correct decision?",
+    "options": [
+      "Reject the claim. 1.60 is below 2.733.",
+      "Do not reject the claim. 1.60 is below 15.507.",
+      "Do not reject the claim. The observed mean, 20 hours, is the test statistic.",
+      "Reject the claim because 8 degrees of freedom exceed 4 failures."
+    ],
+    "answer": 0,
+    "why": "Use the lower tail. A short total time makes \\(X\\) small.\n\\[\nX=2(80)/100=1.60\n\\]\n1.60 is below 2.733, so the claim is rejected. 15.507 is the upper-tail value and is not the stated rule. The observed mean of 20 hours is not the test statistic. <b>A. Reject the claim. 1.60 is below 2.733.</b>",
+    "set": 3,
+    "qid": "cre:set-3:124",
+    "bok": "III.A.5",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Failure-terminated life test",
+      "altText": "Total time on test is 80 hours and 4 failures were observed. The claimed mean life is at least 100 hours. For 8 degrees of freedom, the lower 5 percent critical value is 2.733 and the upper 5 percent critical value is 15.507.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Total time",
+          "80 h"
+        ],
+        [
+          "Failures",
+          "4"
+        ],
+        [
+          "Claimed mean life",
+          "100 h"
+        ],
+        [
+          "Lower critical value",
+          "2.733"
+        ],
+        [
+          "Upper critical value",
+          "15.507"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "Two independent units are in active parallel. That pair is in series with a third independent unit. Either parallel unit can carry the first function, and the third unit is required.\n\\[\nR_p=1-(1-R)^{2}\n\\]\nWhat is the mission reliability of the system?",
+    "options": [
+      "0.576",
+      "0.800",
+      "0.864",
+      "0.960"
+    ],
+    "answer": 2,
+    "why": "Reduce the parallel pair, then multiply by the series unit.\n\\[\nR_p=1-(0.20)^{2}=0.96\n\\]\n\\[\nR=0.96(0.90)=0.864\n\\]\n0.576 multiplies all three reliabilities. 0.800 is one parallel unit. 0.960 stops before the series unit. <b>C. 0.864</b>",
+    "set": 3,
+    "qid": "cre:set-3:125",
+    "bok": "IV.C.1",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Parallel pair in series",
+      "altText": "Units 1 and 2 are in active parallel and each has mission reliability 0.80. Unit 3 is in series with that pair and has mission reliability 0.90.",
+      "columns": [
+        "Unit",
+        "Connection",
+        "Mission reliability"
+      ],
+      "rows": [
+        [
+          "1",
+          "Parallel",
+          "0.80"
+        ],
+        [
+          "2",
+          "Parallel",
+          "0.80"
+        ],
+        [
+          "3",
+          "Series",
+          "0.90"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-risk",
+    "stem": "Three minimal cut sets are rare and are treated as disjoint by the approximation below. \\(q_i\\) is the probability of cut set \\(i\\).\n\\[\nQ\\approx q_1+q_2+q_3\n\\]\nWhat is the approximate top-event probability?",
+    "options": [
+      "0.0000008",
+      "0.0200",
+      "0.0340",
+      "0.9900"
+    ],
+    "answer": 2,
+    "why": "Add the three cut-set probabilities. Do not multiply them.\n\\[\nQ\\approx 0.020+0.010+0.004=0.034\n\\]\n0.0000008 is the product of the three probabilities. 0.0200 is only the largest cut set. 0.9900 is one minus the largest cut set. <b>C. 0.0340</b>",
+    "set": 3,
+    "qid": "cre:set-3:126",
+    "bok": "II.B.4",
+    "cognitive": "Understand",
+    "chart": {
+      "type": "data-table",
+      "title": "Minimal cut sets",
+      "altText": "The three minimal cut sets have probabilities 0.020, 0.010, and 0.004. Use the rare-event sum.",
+      "columns": [
+        "Cut set",
+        "Probability"
+      ],
+      "rows": [
+        [
+          "1",
+          "0.020"
+        ],
+        [
+          "2",
+          "0.010"
+        ],
+        [
+          "3",
+          "0.004"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "A program spends a stated fraction of operating time in each mode. The failure intensity in a mode is \\(\\lambda_i\\), and the time fraction is \\(p_i\\).\n\\[\n\\lambda=p_1\\lambda_1+p_2\\lambda_2\n\\]\nWhat is the operational failure intensity?",
+    "options": [
+      "0.002",
+      "0.004",
+      "0.012",
+      "0.014"
+    ],
+    "answer": 1,
+    "why": "Weight each mode intensity by its time fraction.\n\\[\n\\lambda=0.80(0.002)+0.20(0.012)=0.004\n\\]\n0.002 is the quieter mode. 0.012 is the noisier mode. 0.014 adds the intensities and ignores the time fractions. <b>B. 0.004</b>",
+    "set": 3,
+    "qid": "cre:set-3:127",
+    "bok": "IV.B.5",
+    "cognitive": "Understand",
+    "chart": {
+      "type": "data-table",
+      "title": "Operational profile",
+      "altText": "Mode A is used 80 percent of the time and has failure intensity 0.002 per hour. Mode B is used 20 percent of the time and has failure intensity 0.012 per hour.",
+      "columns": [
+        "Mode",
+        "Time fraction",
+        "Failure intensity"
+      ],
+      "rows": [
+        [
+          "A",
+          "0.80",
+          "0.002 per hour"
+        ],
+        [
+          "B",
+          "0.20",
+          "0.012 per hour"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-life",
+    "stem": "The interaction in this two-level design is the average response on the same-sign runs minus the average response on the opposite-sign runs.\n\\[\nAB=\\bar y_{same}-\\bar y_{opposite}\n\\]\nSame-sign runs are \\(A-B-\\) and \\(A+B+\\). What is the interaction?",
+    "options": [
+      "2",
+      "4",
+      "6",
+      "8"
+    ],
+    "answer": 0,
+    "why": "Average each pair, then subtract.\n\\[\n\\bar y_{same}=(8+18)/2=13\n\\]\n\\[\n\\bar y_{opposite}=(12+10)/2=11\n\\]\n\\[\nAB=13-11=2\n\\]\n4 is the main effect of B. 6 is the main effect of A. 8 is one response, not an effect. <b>A. 2</b>",
+    "set": 3,
+    "qid": "cre:set-3:128",
+    "bok": "V.A.3",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Two-level responses",
+      "altText": "The response is 8 when both factors are low, 12 when only A is high, 10 when only B is high, and 18 when both are high.",
+      "columns": [
+        "A",
+        "B",
+        "Response"
+      ],
+      "rows": [
+        [
+          "−",
+          "−",
+          "8"
+        ],
+        [
+          "+",
+          "−",
+          "12"
+        ],
+        [
+          "−",
+          "+",
+          "10"
+        ],
+        [
+          "+",
+          "+",
+          "18"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "Life is Weibull with shape below 1. The hazard is\n\\[\nh(t)=(\\beta/\\eta)(t/\\eta)^{\\beta-1}\n\\]\nWhat is the hazard at 25 hours?",
+    "options": [
+      "0.005 per hour",
+      "0.010 per hour",
+      "0.020 per hour",
+      "0.250 per hour"
+    ],
+    "answer": 1,
+    "why": "A shape below 1 makes the time term larger at a young age.\n\\[\n(25/100)^{-0.5}=2\n\\]\n\\[\nh(25)=(0.5/100)(2)=0.010\n\\]\n0.005 is the hazard at 100 hours. 0.020 drops the division by eta. 0.250 is the time ratio. The hazard at 25 hours is higher than the hazard at 100 hours, so this hazard is decreasing. <b>B. 0.010 per hour</b>",
+    "set": 3,
+    "qid": "cre:set-3:129",
+    "bok": "III.A.4",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Decreasing Weibull hazard",
+      "altText": "Shape beta is 0.5. Characteristic life eta is 100 hours. The hazard is asked at 25 hours.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Shape, beta",
+          "0.5"
+        ],
+        [
+          "Characteristic life",
+          "100 h"
+        ],
+        [
+          "Age",
+          "25 h"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "A warranty reserve uses the shipment size \\(n\\), the warranty reliability \\(R\\), and the cost \\(c\\) of one claim.\n\\[\nE=n(1-R)c\n\\]\nWhat reserve covers the expected claims?",
+    "options": [
+      "75 dollars",
+      "192 dollars",
+      "600 dollars",
+      "15,000 dollars"
+    ],
+    "answer": 2,
+    "why": "The expected number of claims is the shipment times the unreliability.\n\\[\nn(1-R)=200(0.04)=8\n\\]\n\\[\nE=8(75)=600\n\\]\n75 dollars is one claim. 192 dollars multiplies the shipment by the reliability and treats that product as dollars. 15,000 dollars multiplies the shipment by the cost of one claim and ignores the reliability. <b>C. 600 dollars</b>",
+    "set": 3,
+    "qid": "cre:set-3:130",
+    "bok": "I.B.6",
+    "cognitive": "Understand",
+    "chart": {
+      "type": "data-table",
+      "title": "Warranty reserve",
+      "altText": "Two hundred units are shipped. Warranty reliability is 0.96. Each claim costs 75 dollars.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Units shipped",
+          "200"
+        ],
+        [
+          "Warranty reliability",
+          "0.96"
+        ],
+        [
+          "Cost per claim",
+          "$75"
+        ]
+      ]
+    }
   }
 ];
 })(typeof window!=='undefined'?window:globalThis);
