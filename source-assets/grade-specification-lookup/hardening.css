@@ -307,3 +307,10 @@ html[data-theme="light"] .grade-spec-tool-page .limit.diff{
 }
 html[data-theme="light"] .grade-spec-tool-page .overlay-mark,
 html[data-theme="light"] .grade-spec-tool-page .snapshot-note{color:#7a4300}
+
+/* Professional TeX output remains readable on narrow screens and in print. */
+.grade-spec-tool-page .math-inline,.grade-spec-tool-page .math-display{font-family:Georgia,"Times New Roman",serif;color:inherit}
+.grade-spec-tool-page .math-inline{white-space:nowrap}
+.grade-spec-tool-page .math-display{display:block;max-width:100%;overflow-x:auto;overflow-y:hidden;margin:.45rem 0}
+.grade-spec-tool-page .math-inline mjx-container,.grade-spec-tool-page .math-display mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}
+@media print{.grade-spec-tool-page .math-display{overflow:visible}}
