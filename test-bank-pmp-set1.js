@@ -272,11 +272,16 @@
 
   global.registerPMPSet1 = function (exam, domainMetadata) {
     if (!exam) return;
-    exam.sets = Object.assign({}, exam.sets, {1: questions});
+    exam.sets = Object.assign({2: [], 3: []}, exam.sets, {1: questions});
     exam.bank = questions;
     exam.defaultSet = '1';
-    exam.setName = 'Set 1 · 10 of 180';
-    exam.setPlans = Object.assign({}, exam.setPlans, {1: {target: 180, label: 'Batch 1: Q001-Q010'}});
+    exam.plannedSets = ['1', '2', '3'];
+    exam.setName = 'Set 1 live · Sets 2–3 soon';
+    exam.setPlans = Object.assign({}, exam.setPlans, {
+      1: {target: 180, label: 'Batch 1: Q001-Q010'},
+      2: {target: 10, label: 'Not yet written'},
+      3: {target: 10, label: 'Not yet written'}
+    });
     exam.fullExamQuestionsBySet = Object.assign({}, exam.fullExamQuestionsBySet, {1: 180});
     exam.questions = 180;
     exam.minutes = 240;

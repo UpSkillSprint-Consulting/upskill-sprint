@@ -278,6 +278,8 @@
   .tb-setl{font-weight:700;font-size:14px}
   .tb-sets{font-size:11.5px;color:var(--muted)}
   .tb-setbtn.on .tb-sets{color:var(--teal)}
+  .tb-setbtn:disabled{cursor:not-allowed;opacity:.72;background:var(--card)}
+  .tb-setbtn:disabled:hover{border-color:var(--line)}
   .tb-setnote{font-size:12.5px;color:var(--muted);margin:10px 0 0}
   .tb-soon.sample{color:#0e7566;background:rgba(43,183,173,.16);box-shadow:none;animation:none}
   .tb-soon.sample::before{background:#0e7566}
@@ -2566,7 +2568,7 @@
     pmp:{badge:'PMP',bc:'#1a5276',body:'PMI Project Management Professional (PMP)',title:'PMP — Exam Simulation',setName:'Set 1 · 10 of 180',questions:180,minutes:240,pass:70,
       /* July 2026 PMP ECO: People 33, Process 41, Business Environment 26. Official sitting is 180 items in 240 minutes.
          registerPMPSet1() loads the original Set 1 bank. Not affiliated with PMI. */
-      bank:[],sets:{},setPlans:{1:{target:180,label:'Batch 1: Q001-Q010'}},fullExamQuestionsBySet:{1:180},
+      bank:[],sets:{2:[],3:[]},plannedSets:['1','2','3'],setPlans:{1:{target:180,label:'Batch 1: Q001-Q010'},2:{target:10,label:'Not yet written'},3:{target:10,label:'Not yet written'}},fullExamQuestionsBySet:{1:180},
       formatNote:'Original practice questions for the July 2026 PMP Exam Content Outline. Not affiliated with PMI.',
       bok:[d('pmp-people',33,[s('pmp-people','People','/lessons','Browse lessons',33)]),d('pmp-process',41,[s('pmp-process','Process','/lessons','Browse lessons',41)]),d('pmp-business',26,[s('pmp-business','Business Environment','/lessons','Browse lessons',26)])]}
   };
@@ -3675,7 +3677,7 @@
   function formatNoteFor(e){
     var plan=setPlan(e,selectedSet),available=activeBank(e).length;
     if(current==='cre'&&selectedSet==='2')return 'Set 2 currently contains '+available+' of 150 planned original practice questions (Batch 1: Q001–010). This is a partial practice set. The completed 150-question core will follow the five-domain ASQ blueprint. The official computer exam displays 165 questions, including 15 unscored items, in 258 minutes; this practice session uses the same average pace.';
-    if(current==='pmp')return 'Set 1 contains '+available+' of 180 planned original practice questions (Batch 1: Q001-Q010). The official PMP exam displays 180 questions in 240 minutes. This sitting serves the questions written so far, at that same average pace. These items are original. UpSkill Sprint is not affiliated with PMI.';
+    if(current==='pmp')return 'Set 1 contains '+available+' of 180 planned original practice questions (Batch 1: Q001-Q010). Sets 2 and 3 are listed below and are not written yet. The official PMP exam displays 180 questions in 240 minutes. This sitting serves the questions written so far, at that same average pace. These items are original. UpSkill Sprint is not affiliated with PMI.';
     if(current==='mbb'&&selectedSet==='3')return 'Set 3 contains '+available+' original practice questions. Its Full Exam uses all '+available+' items at a practice pace of 90 seconds per question. This analytics-heavy practice bank is not a replica of the official ASQ examination format or domain weighting.';
     if(plan)return setLabel(selectedSet)+' currently contains '+available+' of the planned '+plan.target+' original questions ('+plan.label+'). Every completed, validated batch will be added here. The current Full Exam serves all '+available+' available questions.';
     if(current==='mbb'&&selectedSet==='mix')return 'Mixed practice combines the 100-question supplied simulation with '+e.sets[2].length+' validated original Set 2 questions. The Mixed Full Exam remains a 100-question sitting at the same per-question pace.';
@@ -3687,7 +3689,31 @@
     if(current==='mbb')return 'uses the same 90-second-per-question pace as Set 1.';
     return 'mirrors the real exam.';
   }
+  function plannedSetIds(e){
+    return e&&Array.isArray(e.plannedSets)?e.plannedSets.map(String).filter(function(id){return /^\d+$/.test(id);}):[];
+  }
+  function setQuestionCount(e,id){return e&&e.sets&&Array.isArray(e.sets[id])?e.sets[id].length:0;}
+  function plannedSetSelectorHTML(e){
+    var ids=plannedSetIds(e).slice();
+    availableSetIds(e).forEach(function(id){if(ids.indexOf(id)<0)ids.push(id);});
+    ids.sort(function(a,b){return Number(a)-Number(b);});
+    var populated=ids.filter(function(id){return setQuestionCount(e,id)>0;});
+    function sub(setId,count){var plan=setPlan(e,setId);return plan?(count+' of '+plan.target+' · '+plan.label):(count+' questions');}
+    function b(v,l,subtext,empty){
+      return '<button type="button" class="tb-setbtn'+(selectedSet===v&&!empty?' on':'')+'" data-set="'+v+'" aria-pressed="'+(selectedSet===v&&!empty)+'"'+(empty?' disabled':'')+'><span class="tb-setl">'+l+'</span><span class="tb-sets">'+(empty?'Not yet available':subtext)+'</span></button>';
+    }
+    var pooled=populated.reduce(function(sum,id){return sum+setQuestionCount(e,id);},0);
+    var buttons=ids.map(function(id){var count=setQuestionCount(e,id);return b(id,'Set '+id,sub(id,count),count===0);}).join('')+b('mix','Mixed',pooled+' pooled',populated.length<2);
+    var note=selectedSet==='mix'?'The Full Exam draws questions from all available sets.':'The Full Exam draws only from '+setLabel()+' questions.';
+    var plan=setPlan(e,selectedSet),available=activeBank(e).length,currentFullCount=fullExamCount(e);
+    if(plan&&setQuestionCount(e,selectedSet))note+=' This validated release contains '+available+' of '+plan.target+' planned questions.';
+    note+=' Empty sets stay on this list so the next batches have a place to land.';
+    return '<div class="tb-setpick"><div class="tb-setpick-lab">Full Exam test set</div>'+
+      '<div class="tb-setseg" role="group" aria-label="Choose Full Exam question set">'+buttons+
+      '</div><p class="tb-setnote">'+note+' A Full Exam currently serves '+currentFullCount+' question'+(currentFullCount===1?'':'s')+'. Quick and Focused quizzes have their own test-set buttons below.</p></div>';
+  }
   function setSelectorHTML(e){
+    if(plannedSetIds(e).length>1)return plannedSetSelectorHTML(e);
     if(!hasTwoSets(e))return '';
     var n1=e.sets[1].length,n2=e.sets[2].length,n3=e.sets[3]?e.sets[3].length:0;
     function sub(setId,count){var plan=setPlan(e,setId);return plan?(count+' of '+plan.target+' · '+plan.label):(count+' questions');}
@@ -3951,19 +3977,29 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var ids=availableSetIds(e);
     if(!ids.length)return '';
     var selected=kind==='quick'?mode.quickSet:mode.focusSet;
-    var choices=ids.length>1?ids.concat('mix'):ids;
+    var choices;
+    if(plannedSetIds(e).length>1){
+      choices=plannedSetIds(e).slice();
+      ids.forEach(function(id){if(choices.indexOf(id)<0)choices.push(id);});
+      choices.sort(function(a,b){return Number(a)-Number(b);});
+      if(ids.length>1)choices.push('mix');
+    }else choices=ids.length>1?ids.concat('mix'):ids;
     if(choices.indexOf(selected)<0)selected=ids[0];
     if(kind==='quick')mode.quickSet=selected;else mode.focusSet=selected;
     var label=kind==='quick'?'Quick Quiz':'Focused Quiz';
     return '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Test set</span><div class="tb-fieldrow-value">'+
       '<div class="tb-quiz-set-choices" role="group" aria-label="'+label+' test set" data-quiz-set-group="'+kind+'">'+
-      choices.map(function(id){return '<button type="button" class="tb-count'+(selected===id?' on':'')+'" data-quiz-set-kind="'+kind+'" data-quiz-set="'+id+'" aria-pressed="'+(selected===id)+'" title="'+activeBank(e,id).length+' available questions">'+(id==='mix'?'Mixed':'Set '+id)+'</button>';}).join('')+
+      choices.map(function(id){
+        var empty=id!=='mix'&&setQuestionCount(e,id)===0;
+        var title=empty?'Not yet available':((id==='mix'?activeBank(e,'mix').length:setQuestionCount(e,id))+' available questions');
+        return '<button type="button" class="tb-count'+(selected===id?' on':'')+'" data-quiz-set-kind="'+kind+'" data-quiz-set="'+id+'" aria-pressed="'+(selected===id)+'"'+(empty?' disabled':'')+' title="'+esc(title)+'">'+(id==='mix'?'Mixed':'Set '+id)+'</button>';
+      }).join('')+
       '</div></div></div>';
   }
   function wireQuizSetKeyboard(group){
     group.addEventListener('keydown',function(event){
       if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].indexOf(event.key)<0)return;
-      var buttons=Array.prototype.slice.call(group.querySelectorAll('[data-quiz-set]'));
+      var buttons=Array.prototype.slice.call(group.querySelectorAll('[data-quiz-set]:not([disabled])'));
       var index=buttons.indexOf(event.target);if(index<0)return;
       event.preventDefault();
       var next=event.key==='Home'?0:event.key==='End'?buttons.length-1:

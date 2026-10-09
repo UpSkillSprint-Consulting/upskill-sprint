@@ -42,6 +42,9 @@ test('PMP Set 1 is ten original single-answer items across the July 2026 domains
   assert.equal(exam.questions, 180);
   assert.equal(exam.minutes, 240);
   assert.deepEqual(Array.from(exam.bok, d => d.weight), [33, 41, 26]);
+  assert.deepEqual(Array.from(exam.plannedSets), ['1', '2', '3']);
+  assert.equal(exam.sets[2].length, 0);
+  assert.equal(exam.sets[3].length, 0);
   assert.equal(dm['pmp-people'].name, 'People');
 });
 
@@ -75,7 +78,15 @@ test('opening PMP shows Set 1 in the catalog and does not start an attempt', asy
   assert.equal(doc.querySelector('.tb-tile.active').dataset.exam, 'pmp');
   assert.equal(doc.querySelector('.tb-quiz'), null);
   const overview = doc.getElementById('tb-overview').textContent;
-  assert.match(overview, /10 of 180/);
+  assert.match(overview, /Sets 2 and 3 are listed/);
+  assert.equal(doc.querySelector('[data-set="1"]:not([disabled])').textContent.includes('Set 1'), true);
+  assert.equal(doc.querySelector('[data-set="2"]').disabled, true);
+  assert.equal(doc.querySelector('[data-set="3"]').disabled, true);
+  assert.match(doc.querySelector('[data-set="2"]').textContent, /Not yet available/);
+  assert.match(doc.querySelector('[data-set="3"]').textContent, /Not yet available/);
+  assert.equal(doc.querySelector('[data-quiz-set-kind="quick"][data-quiz-set="2"]').disabled, true);
+  assert.equal(doc.querySelector('[data-quiz-set-kind="focus"][data-quiz-set="3"]').disabled, true);
+  assert.equal(doc.querySelector('[data-quiz-set-kind="quick"][data-quiz-set="1"]').disabled, false);
   assert.match(overview, /not affiliated with PMI/i);
   assert.match(overview, /People/);
   assert.match(overview, /33%/);
