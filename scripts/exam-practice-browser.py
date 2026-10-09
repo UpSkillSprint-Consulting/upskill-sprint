@@ -185,7 +185,7 @@ def main():
                     expect(card.locator('.exam-status')).to_have_text('Coming soon')
                     expect(card.locator('.exam-card-action')).to_contain_text('View exam details')
                 cre = page.locator('.exam-card[href="/test-bank?exam=cre"]')
-                expect(cre.locator('.exam-status')).to_have_text('Sets 1–3: 325 questions available')
+                expect(cre.locator('.exam-status')).to_have_text('Sets 1–3: 335 questions available')
                 expect(cre.locator('.exam-card-action')).to_contain_text('Start practicing')
                 expect(page.locator('.exam-intro')).to_contain_text('untimed')
                 expect(page.locator('.exam-actions a[href="/test-bank"]')).to_be_visible()
@@ -358,21 +358,21 @@ def main():
                     expect(page.locator('[data-set="2"]')).to_have_attribute('aria-pressed', 'true')
                     page.locator('[data-timing-kind="full"][data-timed="0"]').click()
                     page.locator('[data-mode="full"]').click()
-                    expect(page.locator('[data-goto]')).to_have_count(130)
+                    expect(page.locator('[data-goto]')).to_have_count(140)
                     exhibits = 0
-                    for i in range(130):
+                    for i in range(140):
                         page.locator(f'[data-goto="{i}"]').click()
                         expect(page.locator('[data-cre-question]')).to_have_count(1)
                         expect(page.locator('.cre2-explorer')).to_have_count(0)
                         exhibits += page.locator('.cre2-exhibit').count()
                         qid = page.locator('[data-cre-question]').get_attribute('data-cre-question')
                         assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2'), f'{qid} overflows at {width}px in {theme} theme'
-                    assert exhibits == 74, f'Expected 74 exhibits, found {exhibits}'
+                    assert exhibits == 80, f'Expected 80 exhibits, found {exhibits}'
                     page.locator('[data-submit]').click()
                     page.locator('[data-open-review="all"]').click()
-                    expect(page.locator('.tb-review-card')).to_have_count(130)
-                    expect(page.locator('.tb-review-card .cre2-exhibit')).to_have_count(74)
-                    expect(page.locator('.cre2-explorer')).to_have_count(26)
+                    expect(page.locator('.tb-review-card')).to_have_count(140)
+                    expect(page.locator('.tb-review-card .cre2-exhibit')).to_have_count(80)
+                    expect(page.locator('.cre2-explorer')).to_have_count(28)
                     original_score = page.locator('[data-score-result]').text_content()
                     sample = page.locator('[data-cre-explorer="sample-size"]')
                     sample.locator('summary').click()
@@ -643,9 +643,29 @@ def main():
                     bridge.locator('[data-cre-reset]').click()
                     expect(bridge.locator('select')).to_have_value('0.80')
                     expect(bridge.locator('output')).to_contain_text('Network reliability: 0.97686')
+                    mixture = page.locator('[data-cre-explorer="fleet-mixture"]')
+                    assert not mixture.evaluate('(el)=>el.open'), 'Fleet-mixture tool must start collapsed'
+                    mixture.locator('summary').click()
+                    for value, estimate in [('0.10', '2.8%'), ('0.50', '6.0%'), ('0.80', '8.4%')]:
+                        mixture.locator('select').select_option(value)
+                        expect(mixture.locator('output')).to_contain_text('Weighted mission failure estimate: ' + estimate)
+                        expect(mixture.locator('output')).to_contain_text('pooled sample estimate: 6.0%')
+                    mixture.locator('[data-cre-reset]').click()
+                    expect(mixture.locator('select')).to_have_value('0.20')
+                    expect(mixture.locator('output')).to_contain_text('Weighted mission failure estimate: 3.6%')
+                    soa = page.locator('[data-cre-explorer="soa-duration"]')
+                    assert not soa.evaluate('(el)=>el.open'), 'SOA tool must start collapsed'
+                    soa.locator('summary').click()
+                    soa.locator('select').select_option('1')
+                    expect(soa.locator('output')).to_contain_text('inside the supplied single-pulse SOA')
+                    expect(soa.locator('svg')).to_contain_text('Review scenario: one 10 ms rectangular pulse')
+                    soa.locator('[data-cre-reset]').click()
+                    expect(soa.locator('select')).to_have_value('0')
+                    expect(soa.locator('output')).to_contain_text('outside the supplied DC SOA')
+                    expect(soa.locator('svg')).to_contain_text('Review scenario: continuous DC operation')
                     assert page.locator('[data-score-result]').text_content() == original_score, 'Explorers changed the original score'
                     assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2'), f'CRE review overflows at {width}px in {theme} theme'
-                    bridge.scroll_into_view_if_needed()
+                    soa.scroll_into_view_if_needed()
                     page.screenshot(path=str(out / f'cre-set2-{width}-{theme}.png'), full_page=False)
 
             record('cre-set2-evidence-and-review', cre_set2_review)

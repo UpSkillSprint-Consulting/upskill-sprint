@@ -3124,6 +3124,553 @@
         "section": "Maintenance Strategies; Equipment Warranties"
       },
       "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 131,
+      "qid": "cre:set-2:131",
+      "sub": "cre-fundamentals",
+      "bok": "I.A.9",
+      "topic": "Distinguish program activity from reliability performance",
+      "cognitive": "Understand",
+      "difficulty": "Foundational",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A reliability dashboard shows that all scheduled design reviews were completed and that the number of open action items fell by half. Management asks whether these measures demonstrate that the product now meets its field-reliability objective. Which response is most appropriate?",
+      "options": [
+        "They show program activity and progress; comparable product-performance evidence is also needed to assess the reliability objective.",
+        "They demonstrate the objective because completing all reviews is equivalent to passing a reliability demonstration.",
+        "They demonstrate improvement if each closed action is counted as one prevented field failure.",
+        "They cannot contribute to performance monitoring because only field failures are useful indicators."
+      ],
+      "answer": 0,
+      "why": "<p>Review completion and action status can show whether planned work is progressing. They do not directly measure mission success, failure frequency, or another specified product-reliability outcome.</p><p>Use these indicators alongside relevant test and field evidence, with consistent failure definitions, configuration, exposure, and use conditions. A balanced monitoring system connects work performed to the reliability objectives that work is intended to support.</p>",
+      "optionRationales": [
+        "This retains useful program indicators while recognizing the need for evidence of product performance.",
+        "A completed review is an activity milestone, not a statistical or engineering demonstration of a reliability requirement.",
+        "A closed action may address many failures, none, or an unverified cause; the counts are not interchangeable.",
+        "Activity and process indicators can provide early warning and accountability even though they do not prove field reliability."
+      ],
+      "keyPoint": "Monitor both execution of the reliability program and the product outcomes it is intended to improve.",
+      "trap": "A completed activity is not automatically a demonstrated reliability result.",
+      "assumptions": [
+        "The dashboard contains no test results or exposure-normalized field-performance evidence.",
+        "The question concerns whether the displayed activity indicators alone demonstrate the objective."
+      ],
+      "handbook": {
+        "chapter": 1,
+        "section": "Performance Monitoring; Uses of Performance Indicators"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 132,
+      "qid": "cre:set-2:132",
+      "sub": "cre-fundamentals",
+      "bok": "I.B.4",
+      "topic": "Investigate the system behind a repeated human error",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "Three trained technicians at different sites omitted the same seal during assembly. All followed the current controlled instruction, whose reassembly diagram does not show the seal. A draft 5 Whys report ends with “technician inattention” and proposes retraining. Which next step best strengthens the root-cause investigation?",
+      "options": [
+        "Close the investigation because a human action immediately preceded each failure.",
+        "Replace 5 Whys with a fishbone diagram and accept every listed cause without verification.",
+        "Investigate how the instruction and its review process allowed the omission, then test the suspected causal path before choosing permanent action.",
+        "Declare the missing diagram detail the sole root cause and close the case without checking actual assembly practice."
+      ],
+      "answer": 2,
+      "why": "<p>The repeated omission by trained technicians, together with a deficient controlled diagram, supports investigation of the work system rather than stopping at an unsupported personal explanation.</p><p>Check what technicians actually saw and did, how the instruction was created and approved, and whether the proposed explanation reproduces the omission or its prevention under representative conditions. The diagram is a plausible causal factor, not proof that no other causes exist. Select and verify corrective action after the causal evidence is established.</p>",
+      "optionRationales": [
+        "A preceding action identifies a point in the sequence but does not explain the conditions that made recurrence possible.",
+        "A different diagram can organize hypotheses; it does not convert untested hypotheses into verified causes.",
+        "This follows the evidence beyond the immediate act and tests the process-level explanation before permanent action.",
+        "The missing detail is relevant evidence, but assuming it is the sole cause skips causal verification and other contributors."
+      ],
+      "keyPoint": "A useful root-cause analysis tests the conditions that made the error possible and repeatable.",
+      "trap": "Stopping at “human error” can turn a recurring system problem into repeated retraining.",
+      "assumptions": [
+        "Training completion and use of the stated instruction have been confirmed.",
+        "The deficient diagram is an observed fact; its causal role has not yet been experimentally or otherwise adequately verified."
+      ],
+      "handbook": {
+        "chapter": 2,
+        "section": "Root Cause Analysis; 5 Why Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 133,
+      "qid": "cre:set-2:133",
+      "sub": "cre-risk",
+      "bok": "II.C",
+      "topic": "Assess overall residual risk before release",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A product team has verified each planned risk control. Every individual residual-risk entry is below its approved acceptance threshold. The release procedure also requires an overall residual-risk assessment, which has not been completed. Several hazards can occur during the same mission and some controls share a power source. What is the best next action?",
+      "options": [
+        "Release the product because passing every individual threshold necessarily establishes acceptable overall risk.",
+        "Add all ordinal risk-matrix scores and accept the product if the sum is numerically small.",
+        "Assume all hazards are independent because their controls passed separate verification tests.",
+        "Evaluate the combined residual risk and relevant interactions against the overall acceptance criteria, then document the authorized disposition."
+      ],
+      "answer": 3,
+      "why": "<p>Individual acceptance is necessary under the stated procedure, but it does not replace the required overall assessment. Shared controls, simultaneous hazards, and failure cascades can affect the combined result.</p><p>Use a model appropriate to the hazards and available evidence, examine dependence, and compare the result with the established overall criteria. Document the decision through the assigned risk-acceptance process. A separate control test verifies that control under its test conditions; it does not establish independence between all hazardous scenarios.</p>",
+      "optionRationales": [
+        "Acceptable individual entries do not prove that their aggregate consequences or interactions are acceptable.",
+        "Ordinal matrix scores are ranking categories, not automatically additive probabilities or expected losses.",
+        "Separate verification does not remove the dependence introduced by a shared power source.",
+        "This completes the explicitly required assessment and addresses interactions before the release disposition."
+      ],
+      "keyPoint": "Assess overall residual risk as well as the acceptability of individual residual risks.",
+      "trap": "Several individually acceptable risks do not automatically form an acceptable combined system.",
+      "assumptions": [
+        "Both individual and overall acceptance criteria were established before this release review.",
+        "The shared power source and concurrent mission hazards have not yet been evaluated in the overall residual-risk assessment."
+      ],
+      "handbook": {
+        "chapter": 5,
+        "section": "Overall Residual Risk Assessment"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 134,
+      "qid": "cre:set-2:134",
+      "sub": "cre-statistics",
+      "bok": "III.A.7",
+      "topic": "Confidence interval from matched repair trials",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "Five independently selected technician–fixture pairs each perform the same standardized repair using an old and a revised procedure. Procedure order is randomized within each pair; assume no learning or carryover effect. Times are shown below. Assume the population of paired differences is normal with unknown variance. Defining reduction as old time minus revised time, which is the two-sided 95% confidence interval for the mean reduction? Use \\(t_{0.975,4}=2.776\\).",
+      "options": [
+        "2.07 to 9.93 min",
+        "−2.78 to 14.78 min",
+        "4.24 to 7.76 min",
+        "−9.93 to −2.07 min"
+      ],
+      "answer": 0,
+      "why": "<p>Preserve the pairing. The five reductions are 2, 4, 6, 8, and 10 min. Their mean is 6 min, and their sample variance is 10 square minutes.</p><p>\\[\\begin{aligned}\\bar d&=6,\\qquad s_d=\\sqrt{10}\\\\\\mathrm{SE}(\\bar d)&=\\frac{s_d}{\\sqrt{5}}=\\sqrt{2}\\\\\\bar d\\pm t_{0.975,4}\\mathrm{SE}(\\bar d)&=6\\pm2.776\\sqrt{2}\\\\&\\approx[2.07,\\ 9.93]\\ \\text{min}\\end{aligned}\\]</p><p>The interval estimates a population mean reduction under the assumptions. It is not a range containing 95% of individual repair-time reductions. Variation between fixtures is handled by analyzing within-pair differences.</p>",
+      "optionRationales": [
+        "This uses the five paired differences, their sample standard deviation, and four degrees of freedom.",
+        "This uses the standard deviation of individual differences as though it were the standard error of their mean.",
+        "This divides the sample standard deviation by five instead of by the square root of five.",
+        "This reverses the defined subtraction and estimates revised time minus old time."
+      ],
+      "keyPoint": "For matched observations, construct the interval from the within-pair differences.",
+      "trap": "Use the standard error of the mean difference, not the spread of individual differences.",
+      "assumptions": [
+        "Pairs are independent and representative; paired differences are normally distributed.",
+        "Order is randomized within pairs and learning, carryover, and other period effects are absent."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Confidence and Tolerance Intervals; Paired Mean Differences"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Matched repair-time trials",
+        "columns": [
+          "Pair",
+          "Old procedure (min)",
+          "Revised procedure (min)"
+        ],
+        "rows": [
+          [
+            "A",
+            24,
+            22
+          ],
+          [
+            "B",
+            42,
+            38
+          ],
+          [
+            "C",
+            56,
+            50
+          ],
+          [
+            "D",
+            78,
+            70
+          ],
+          [
+            "E",
+            100,
+            90
+          ]
+        ],
+        "description": "Each line connects the two observations for the same pair. Old and revised times are A: 24 and 22; B: 42 and 38; C: 56 and 50; D: 78 and 70; E: 100 and 90 minutes.",
+        "creKind": "paired-repair"
+      }
+    },
+    {
+      "number": 135,
+      "qid": "cre:set-2:135",
+      "sub": "cre-statistics",
+      "bok": "III.B.1",
+      "topic": "Weight reliability evidence to the target fleet",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A target fleet contains 8,000 light-duty and 2,000 heavy-duty units. Investigators randomly sample 100 units from each duty group and observe every sampled unit for the same 1,000-hour mission, with no censoring. The table records whether each unit fails at least once. Assuming the samples represent their respective groups, what point estimate of the target fleet’s 1,000-hour failure proportion correctly accounts for its duty mix?",
+      "options": [
+        "6.0%",
+        "8.4%",
+        "3.6%",
+        "12.0%"
+      ],
+      "answer": 2,
+      "why": "<p>The sample deliberately gives heavy-duty units more weight than they have in the fleet. Estimate each group separately and combine using fleet proportions.</p><p>\\[\\begin{aligned}\\widehat p_L&=2/100=0.02\\\\\\widehat p_H&=10/100=0.10\\\\\\widehat p_{\\text{fleet}}&=0.80(0.02)+0.20(0.10)\\\\&=0.036=3.6\\%\\end{aligned}\\]</p><p>Equivalently, the estimated numbers of failed units are 160 light-duty and 200 heavy-duty, totaling 360 out of 10,000. Pooling the 12 sample failures over 200 sampled units instead estimates the sample’s 50/50 mixture.</p>",
+      "optionRationales": [
+        "6.0% pools the equal-sized samples and describes their 50/50 mix rather than the target fleet’s 80/20 mix.",
+        "8.4% reverses the fleet weights, assigning 80% to the heavy-duty group.",
+        "3.6% weights each group’s estimated failure proportion by that group’s share of the target fleet.",
+        "12.0% adds the group percentages without weighting them by any population proportions."
+      ],
+      "keyPoint": "Weight group-specific estimates to the population the reliability claim describes.",
+      "trap": "A balanced sample does not imply a balanced target population.",
+      "assumptions": [
+        "Sampling is random and representative within each duty group, with complete mission outcomes.",
+        "The fleet counts are known; no transfer to a different duty mix or a longer mission is claimed."
+      ],
+      "handbook": {
+        "chapter": 7,
+        "section": "Sources and Uses of Reliability Data; Normalizing Datasets"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Fleet composition and mission sample",
+        "columns": [
+          "Duty group",
+          "Fleet units",
+          "Sampled units",
+          "Sampled units failing"
+        ],
+        "rows": [
+          [
+            "Light",
+            8000,
+            100,
+            2
+          ],
+          [
+            "Heavy",
+            2000,
+            100,
+            10
+          ]
+        ],
+        "description": "The target fleet is 80 percent light-duty and 20 percent heavy-duty; the sample is 50 percent of each. Two of 100 sampled light-duty units and ten of 100 sampled heavy-duty units fail during the same mission.",
+        "creKind": "fleet-mixture"
+      },
+      "explorer": "fleet-mixture"
+    },
+    {
+      "number": 136,
+      "qid": "cre:set-2:136",
+      "sub": "cre-statistics",
+      "bok": "III.A.4",
+      "topic": "Probability that a specified mode causes the first failure",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A new, nonrepairable unit is subject to two independent exponential failure mechanisms, A and B, with constant rates shown below. The unit is removed permanently when the first mechanism fails. What is the probability that mechanism A causes the unit’s first failure within 1,000 h?",
+      "options": [
+        "0.1813",
+        "0.1728",
+        "0.2592",
+        "0.6667"
+      ],
+      "answer": 1,
+      "why": "<p>For A to cause the observed failure at time \\(u\\), the unit must have survived both mechanisms until then. Multiply the total survival probability by A’s failure rate and integrate.</p><p>\\[\\begin{aligned}P(A\\text{ first by }t)&=\\int_0^t\\lambda_A e^{-(\\lambda_A+\\lambda_B)u}\\,du\\\\&=\\frac{\\lambda_A}{\\lambda_A+\\lambda_B}\\left(1-e^{-(\\lambda_A+\\lambda_B)t}\\right)\\\\&=\\frac{2}{3}(1-e^{-0.3})\\\\&\\approx0.1728\\end{aligned}\\]</p><p>The 0.1813 isolated-mode probability includes latent A failures that would occur after B had already removed the unit. The ratio 2/3 is the share attributable to A among first failures under this constant-rate model, not the unconditional chance of an A failure within this finite mission.</p>",
+      "optionRationales": [
+        "0.1813 is the probability A would fail by 1,000 h if B did not remove the unit first.",
+        "0.1728 accounts for survival against both mechanisms before an A-caused first failure.",
+        "0.2592 is the probability of a first failure from either mechanism during the mission.",
+        "0.6667 is the constant-rate cause share among failures and omits the probability of surviving the mission."
+      ],
+      "keyPoint": "A cause-specific cumulative incidence counts failures from that cause before competing causes remove the unit.",
+      "trap": "An isolated failure-mode CDF and an observed first-failure probability answer different questions.",
+      "assumptions": [
+        "Latent times to A and B are independent exponentials with the stated constant rates.",
+        "The first mechanism failure ends observation and operation; there are no repairs or additional failure modes."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Probability Functions; Hazard and Cumulative Distribution Functions"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Competing mechanism rates",
+        "columns": [
+          "Mechanism",
+          "Constant failure rate (per hour)"
+        ],
+        "rows": [
+          [
+            "A",
+            "0.0002"
+          ],
+          [
+            "B",
+            "0.0001"
+          ]
+        ],
+        "description": "A has failure rate 0.0002 per hour and B has failure rate 0.0001 per hour. Their independent latent lifetimes compete to cause the first unit failure."
+      }
+    },
+    {
+      "number": 137,
+      "qid": "cre:set-2:137",
+      "sub": "cre-testing",
+      "bok": "IV.A.2",
+      "topic": "Match simultaneous environmental stresses to use conditions",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A powered controller will operate in high humidity while electrical bias is continuously applied. The completed tests in the table used fresh representative specimens. The team proposes release on the basis that both humidity and powered operation have already been tested. Which conclusion best addresses the intended use condition?",
+      "options": [
+        "The evidence is sufficient because the two completed tests cover the same total number of stress factors.",
+        "The evidence is sufficient if the durations of the two completed tests are added together.",
+        "A second unpowered humidity exposure alone will establish performance with simultaneous electrical bias.",
+        "The simultaneous humid-and-powered condition remains untested; develop a justified combined-condition test addressing relevant mechanisms and requirements."
+      ],
+      "answer": 3,
+      "why": "<p>The completed tests cover high humidity without bias and powered operation in dry conditions. Neither reproduces the simultaneous condition required in service.</p><p>Environmental factors and operating stresses can interact. A combined-condition test should use justified levels, duration, failure criteria, and instrumentation appropriate to the intended use and plausible mechanisms. The missing condition is an evidence gap; the table does not prove that a particular interaction or failure will occur.</p>",
+      "optionRationales": [
+        "Testing each factor separately does not automatically establish behavior when the factors act together.",
+        "Adding durations cannot recreate a simultaneous stress interaction that was absent from both tests.",
+        "Repeating the same unpowered condition leaves the powered high-humidity condition unexamined.",
+        "This identifies the untested service combination and connects the next test to its physical mechanisms and requirements."
+      ],
+      "keyPoint": "Test coverage must include relevant combinations of environment and operating state.",
+      "trap": "Separate successful exposures do not necessarily demonstrate combined-condition performance.",
+      "assumptions": [
+        "High humidity and applied electrical bias occur together in the intended use profile.",
+        "No prior validated model or other evidence establishes performance for that combined condition."
+      ],
+      "handbook": {
+        "chapter": 8,
+        "section": "Environmental Factors and Use Conditions; Multiple Stress Factors"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Completed environmental test coverage",
+        "columns": [
+          "Condition",
+          "Electrical state",
+          "Outcome"
+        ],
+        "rows": [
+          [
+            "High humidity",
+            "Unpowered",
+            "Passed specified test"
+          ],
+          [
+            "Dry environment",
+            "Powered",
+            "Passed specified test"
+          ],
+          [
+            "High humidity",
+            "Powered",
+            "Not tested"
+          ]
+        ],
+        "description": "High-humidity unpowered and dry powered tests passed. The service condition of high humidity with power applied has not been tested."
+      }
+    },
+    {
+      "number": 138,
+      "qid": "cre:set-2:138",
+      "sub": "cre-testing",
+      "bok": "IV.B.6",
+      "topic": "Regression testing after a shared software change",
+      "cognitive": "Understand",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A firmware patch corrects a sensor-conversion defect in a shared library. The original defect test now passes. The same library also supplies values to alarm and shutdown functions that were not directly edited. Which testing activity most directly checks whether the patch has unintentionally changed previously correct behavior?",
+      "options": [
+        "Run regression tests selected through change-impact analysis, including affected alarm and shutdown behavior, alongside the defect-confirmation test.",
+        "Repeat only the original defect test until it passes a larger number of times.",
+        "Repeat the unchanged hardware environmental qualification as the sole evidence of firmware integrity.",
+        "Skip the alarm and shutdown tests because their source files were not edited."
+      ],
+      "answer": 0,
+      "why": "<p>Confirming the reported defect is fixed answers one question. Regression testing checks whether the change has disturbed behavior that previously worked.</p><p>Change-impact analysis should trace the shared library to its callers, interfaces, boundary conditions, and safety-related outputs when selecting the regression scope. Unedited functions can still change behavior because an input or dependency has changed. Passing selected tests supports only the exercised requirements and conditions; it does not prove the absence of all software faults.</p>",
+      "optionRationales": [
+        "This explicitly checks previously correct behavior that can be affected through the changed shared dependency.",
+        "Repeating one defect case does not exercise the other behavior reached through the library.",
+        "An unchanged hardware qualification does not directly test the firmware behaviors affected by the patch.",
+        "A source file can remain unchanged while a modified dependency changes its behavior."
+      ],
+      "keyPoint": "Regression scope follows change impact through dependencies, not just the list of edited files.",
+      "trap": "A successful defect retest does not show that all previously correct behavior remains intact.",
+      "assumptions": [
+        "The shared library is used by the stated alarm and shutdown functions.",
+        "A controlled test baseline and requirement-linked regression cases are available."
+      ],
+      "handbook": {
+        "chapter": 9,
+        "section": "Software Testing; Regression Testing"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 139,
+      "qid": "cre:set-2:139",
+      "sub": "cre-lifecycle",
+      "bok": "V.B.1",
+      "topic": "Use the SOA boundary for the actual operating duration",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A hypothetical MOSFET has separate absolute maximum ratings of 100 V and 12 A. The supplied safe operating area (SOA) boundaries apply at a maintained mounting-base temperature of 25 °C. A design requires continuous linear-mode operation at 40 V and 4 A. Based on these supplied limits, which conclusion is correct?",
+      "options": [
+        "The operating point is acceptable because 40 V and 4 A are each below their separate absolute maximum ratings.",
+        "The operating point is outside the DC SOA because the permitted continuous current at 40 V is only 1.5 A.",
+        "The operating point is acceptable because it is below the 5 A boundary for a single 10 ms pulse at 40 V.",
+        "The operating point is outside both shown SOA boundaries because any linear-mode operation is prohibited."
+      ],
+      "answer": 1,
+      "why": "<p>Use the boundary for the actual duration. At 40 V, the DC boundary is 1.5 A, so the required 4 A exceeds it.</p><p>\\[I_{\\text{required}}=4\\ \\text{A}>I_{\\text{DC limit}}(40\\ \\text{V})=1.5\\ \\text{A}\\]</p><p>The single 10 ms boundary permits 5 A at that voltage, but it does not authorize continuous operation or an arbitrary repetitive pulse train. Separate maximum voltage and current ratings do not establish that those stresses may be applied simultaneously. A different device or operating design is required for this stated continuous point.</p>",
+      "optionRationales": [
+        "Separate absolute maxima do not replace the simultaneous voltage-current constraints in the SOA.",
+        "This uses the continuous-operation boundary and compares the required 4 A with the stated 1.5 A limit.",
+        "A single-pulse allowance does not establish a continuous-operation allowance.",
+        "The point is below the stated single 10 ms boundary, and linear operation is allowed within the applicable SOA."
+      ],
+      "keyPoint": "Match the SOA curve to voltage, current, pulse duration, and temperature together.",
+      "trap": "A short-pulse curve cannot be used as a DC rating.",
+      "assumptions": [
+        "The curves are hypothetical exercise data, not ratings for a named commercial component.",
+        "Mounting-base temperature is maintained at 25 °C; no additional derating rule or other constraint changes the supplied exercise limits."
+      ],
+      "handbook": {
+        "chapter": 12,
+        "section": "Materials and Component Selection; Safe Operating Area"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Hypothetical SOA at a 25 °C mounting base",
+        "columns": [
+          "Drain–source voltage (V)",
+          "DC limit (A)",
+          "Single 10 ms rectangular-pulse limit (A)"
+        ],
+        "rows": [
+          [
+            20,
+            3,
+            10
+          ],
+          [
+            40,
+            1.5,
+            5
+          ],
+          [
+            80,
+            0.75,
+            2.5
+          ]
+        ],
+        "description": "Within the plotted 20 to 80 V range, the hypothetical DC boundary is 60 divided by voltage in amperes and the single 10 millisecond pulse boundary is 200 divided by voltage. At 40 V these give 1.5 and 5 amperes. The required operating point is 40 V, 4 A continuously.",
+        "creKind": "soa-duration"
+      },
+      "explorer": "soa-duration"
+    },
+    {
+      "number": 140,
+      "qid": "cre:set-2:140",
+      "sub": "cre-lifecycle",
+      "bok": "V.C.3",
+      "topic": "Set a corrective-maintenance target using failure frequency",
+      "cognitive": "Apply",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A repairable series system has the subsystem failure rates and mean active corrective-maintenance durations in the table. Each event is caused by exactly one subsystem, stops the system, and requires only that subsystem’s restoration. The system target is a mean active corrective-maintenance duration of at most 3.5 h per failure. Only C’s duration can change; all failure rates and the durations of A and B remain fixed. What is the largest allowable mean duration for C?",
+      "options": [
+        "3.50 h",
+        "4.77 h",
+        "4.20 h",
+        "5.50 h"
+      ],
+      "answer": 2,
+      "why": "<p>Weight each subsystem’s active restoration duration by its fraction of system failures. The common rate factor cancels.</p><p>\\[\\begin{aligned}\\overline T_{\\text{corrective}}&=\\frac{2(1)+3(4)+5t_C}{2+3+5}\\\\&=\\frac{14+5t_C}{10}\\le3.5\\\\t_C&\\le\\frac{35-14}{5}=4.20\\ \\text{h}\\end{aligned}\\]</p><p>The current weighted mean is 4.4 h. Reducing only C from 6 h to 4.2 h achieves the 3.5 h system target. A proportional allocation of the system improvement across all subsystems would be a different design constraint.</p>",
+      "optionRationales": [
+        "3.50 h would meet the system target but is stricter than the largest allowable duration for C.",
+        "4.77 h scales C by 3.5/4.4 as though A and B were improved proportionally too; with A and B fixed, it misses the target.",
+        "4.20 h makes the failure-frequency-weighted system mean exactly 3.5 h.",
+        "5.50 h solves an unweighted average of three subsystem durations, ignoring their unequal failure frequencies."
+      ],
+      "keyPoint": "System mean corrective-maintenance time is weighted by the frequencies of the failure types being repaired.",
+      "trap": "A simple average or proportional allocation can violate constraints on which subsystems may change.",
+      "assumptions": [
+        "Subsystem failures occur at the stated constant rates per operating hour, with no common-cause or simultaneous events.",
+        "The durations include all active corrective tasks; logistics and administrative waiting are excluded, and improvements do not change failure rates."
+      ],
+      "handbook": {
+        "chapter": 13,
+        "section": "Maintenance Strategies; MTTR Allocation and Corrective Maintenance Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Failure rates and active restoration durations",
+        "columns": [
+          "Subsystem",
+          "Failures per 100,000 operating hours",
+          "Current mean active duration (h)"
+        ],
+        "rows": [
+          [
+            "A",
+            2,
+            1
+          ],
+          [
+            "B",
+            3,
+            4
+          ],
+          [
+            "C",
+            5,
+            6
+          ]
+        ],
+        "description": "Subsystem A has rate two per 100,000 operating hours and duration one hour; B has rate three and duration four hours; C has rate five and duration six hours. Only C’s duration can change."
+      }
     }
   ];
   questions.forEach(q => {q.set = 2; q.batch = Math.ceil(q.number / 10); q.sourceDocument = 'The ASQ Certified Reliability Engineer Handbook, 4th edition (2025)'; q.original = true;});
@@ -3136,7 +3683,7 @@
     exam.sets = Object.assign({}, existing, {1: first, 2: questions});
     if (!exam.bank || !exam.bank.length) exam.bank = questions;
     exam.defaultSet = first.length ? '1' : '2';
-    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–13 · Q001–130'}});
+    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–14 · Q001–140'}});
     exam.fullExamQuestionsBySet = Object.assign({}, exam.fullExamQuestionsBySet, {2: 150});
     // Actual CBT pace: 165 displayed items in 258 minutes; this bank targets 150 core items.
     exam.questions = 165; exam.minutes = 258;
