@@ -1,6 +1,8 @@
 /*
  * ASQ CRE Exam Set 1 — original questions written to the 2025 CRE Body of Knowledge.
  * Batch 1 of 15: III.A.1–III.A.3 (basic statistics, probability, distributions).
+ * Batch 2 of 15: III.A.4–III.A.7 (probability functions, sampling plans, SPC/capability,
+ *                confidence and tolerance intervals).
  *
  * Every calculated answer is recomputed independently in tests/test-bank-cre-set1.test.js.
  * Notation follows The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting &
@@ -9,273 +11,1780 @@
  */
 (function(global){
   'use strict';
-  var HB='The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)';
-  var III_A={domain:'III. Probability and Statistics for Reliability',subdomain:'A. Basic Concepts'};
-  function bok(code,topic){return {domain:III_A.domain,subdomain:III_A.subdomain,code:code,topic:topic};}
-  function src(section,example){return [{id:'S1',document:HB,chapter:'Chapter 6 - Probability and Statistics for Reliability, Basic Concepts',section:section,example:example}];}
-
+  // Every formula, symbol and variable is LaTeX: inline \( … \), display \[ … \] (docs/LESSON_CREATION_GUIDE.md §22).
+  // The engine typesets the quiz view, revealed answers, review cards and retry feedback via window.UpskillMath.
   global.CRE_SET1=[
   {
-    qid:'cre:set-1:b01-q01',set:1,batch:1,sub:'cre-statistics',
-    bok:bok('III.A.1','Sampling distribution of the mean and the central limit theorem'),
-    difficulty:'Easy',cognitive:'Apply',questionType:'Calculation and concept',quantitative:true,
-    stem:'Fatigue-test lives of a welded bracket are strongly right-skewed, with a population standard deviation of 18,000 cycles. An engineer will report the mean life of n = 36 randomly selected specimens. Which statement correctly describes the sampling distribution of that sample mean?',
-    options:[
-      'It is centered on the population mean, has a standard error of 3,000 cycles, and is approximately normal.',
-      'It is centered on the population mean, has a standard error of 18,000 cycles, and is right-skewed like the population.',
-      'It is centered on the population mean, has a standard error of 500 cycles, and is approximately normal.',
-      'It is centered on the population mean, has a standard error of 3,000 cycles, and stays right-skewed because the central limit theorem requires a normal population.'
+    "qid": "cre:set-1:b01-q01",
+    "set": 1,
+    "batch": 1,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.1",
+      "topic": "Sampling distribution of the mean and the central limit theorem"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Apply",
+    "questionType": "Calculation and concept",
+    "quantitative": true,
+    "stem": "Fatigue-test lives of a welded bracket are strongly right-skewed, with a population standard deviation of \\(\\sigma = 18000\\) cycles. An engineer will report the mean life \\(\\bar{x}\\) of \\(n = 36\\) randomly selected specimens. Which statement correctly describes the sampling distribution of \\(\\bar{x}\\)?",
+    "options": [
+      "It is centered on \\(\\mu\\), has a standard error of 3,000 cycles, and is approximately normal.",
+      "It is centered on \\(\\mu\\), has a standard error of 18,000 cycles, and is right-skewed like the population.",
+      "It is centered on \\(\\mu\\), has a standard error of 500 cycles, and is approximately normal.",
+      "It is centered on \\(\\mu\\), has a standard error of 3,000 cycles, and stays right-skewed because the central limit theorem requires a normal population."
     ],
-    answer:0,
-    why:'The central limit theorem says the distribution of sample means approaches a normal shape as n grows, whatever the shape of the population, and n = 36 is usually large enough. Its spread is the standard error σ/√n = 18,000/√36 = 18,000/6 = 3,000 cycles. Individual lives stay skewed; only the means become approximately normal. <b>A. Centered on μ, standard error 3,000 cycles, approximately normal.</b> <span class="tb-source-ref">Source: CRE Handbook (4th ed.), Ch. 6, Basic Statistics — expectation and the central limit theorem.</span>',
-    optionRationales:[
-      'Correct. σ/√n = 18,000/6 = 3,000 cycles, and the CLT makes the mean approximately normal for n = 36.',
-      'This is the spread and shape of individual lives (the population), not of the sample mean.',
-      'Divides by n instead of √n: 18,000/36 = 500. The standard error uses the square root of the sample size.',
-      'The CLT does not need a normal population; that independence from the parent shape is the whole point of the theorem.'
+    "answer": 0,
+    "why": "<p>The central limit theorem says the distribution of sample means approaches a normal shape as \\(n\\) grows, whatever the shape of the population, and \\(n = 36\\) is usually large enough. Its spread is the standard error:</p><p>\\[\\begin{aligned}\\sigma_{\\bar{x}} &= \\frac{\\sigma}{\\sqrt{n}} \\\\ &= \\frac{18000}{\\sqrt{36}} \\\\ &= 3000 \\text{ cycles}\\end{aligned}\\]</p><p>where \\(\\sigma\\) is the population standard deviation, \\(n\\) is the sample size and \\(\\mu\\) is the population mean. Individual lives stay skewed; only the means become approximately normal.</p><p><b>A. Centered on \\(\\mu\\), standard error 3,000 cycles, approximately normal.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Basic Statistics — expectation and the central limit theorem.</span></p>",
+    "optionRationales": [
+      "Correct. \\(\\sigma/\\sqrt{n} = 18000/6 = 3000\\) cycles, and the central limit theorem makes \\(\\bar{x}\\) approximately normal for \\(n = 36\\).",
+      "This is the spread and shape of individual lives (the population), not of \\(\\bar{x}\\).",
+      "Divides by \\(n\\) instead of \\(\\sqrt{n}\\): \\(18000/36 = 500\\). The standard error uses the square root of the sample size.",
+      "The central limit theorem does not need a normal population; that independence from the parent shape is the whole point of the theorem."
     ],
-    keyPoint:'Standard error = σ/√n, and sample means are approximately normal for large n whatever the population shape.',
-    trap:'Dividing by n instead of √n, or assuming the means keep the population\'s skew.',
-    formula:'SE(x̄) = σ/√n = 18,000/√36 = 3,000 cycles',
-    assumptions:['Specimens are a simple random sample from one population.','n = 36 is large enough for the central limit theorem to apply.'],
-    estimatedMinutes:1,keywords:['central limit theorem','standard error','sampling distribution','population versus sample'],
-    sourceDocument:HB,sourceSection:'Chapter 6 - Basic Statistics',sources:src('Basic Statistics — the central limit theorem',null)
+    "keyPoint": "The standard error is \\(\\sigma_{\\bar{x}} = \\sigma/\\sqrt{n}\\), and sample means are approximately normal for large \\(n\\) whatever the population shape.",
+    "trap": "Dividing by \\(n\\) instead of \\(\\sqrt{n}\\), or assuming the means keep the population’s skew.",
+    "formula": "\\(\\sigma_{\\bar{x}} = \\sigma/\\sqrt{n} = 18000/\\sqrt{36} = 3000\\) cycles",
+    "assumptions": [
+      "Specimens are a simple random sample from one population.",
+      "n = 36 is large enough for the central limit theorem to apply."
+    ],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "central limit theorem",
+      "standard error",
+      "sampling distribution",
+      "population versus sample"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Basic Statistics",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Basic Statistics — the central limit theorem",
+        "example": null
+      }
+    ]
   },
   {
-    qid:'cre:set-1:b01-q02',set:1,batch:1,sub:'cre-statistics',
-    bok:bok('III.A.2','Conditional probability and independence from a contingency table'),
-    difficulty:'Medium',cognitive:'Analyze',questionType:'Visual evidence interpretation, calculation',quantitative:true,
-    stem:'The table summarizes the confirmed failure mode of 400 field returns of a valve actuator built at two plants. A newly returned unit is found to have corrosion. What is the probability that it was built at the South plant, and what does that result show about plant and failure mode?',
-    chart:{type:'data-table',title:'Field returns by plant and confirmed failure mode',
-      columns:['Plant','Seal leak','Corrosion','Electrical','Total'],
-      rows:[['North','90','30','80','200'],['South','60','70','70','200'],['Total','150','100','150','400']]},
-    options:[
-      '0.175; plant and failure mode are independent because each plant shipped half of the returns.',
-      '0.35; plant and failure mode are dependent because corrosion makes up 35% of South returns.',
-      '0.70; plant and failure mode are dependent because P(South | Corrosion) differs from P(South).',
-      '0.70; plant and failure mode are independent because both plants returned exactly 200 units.'
+    "qid": "cre:set-1:b01-q02",
+    "set": 1,
+    "batch": 1,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.2",
+      "topic": "Conditional probability and independence from a contingency table"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "The table summarizes the confirmed failure mode of 400 field returns of a valve actuator built at two plants. A newly returned unit is found to have corrosion. What is the probability that it was built at the South plant, and what does that result show about plant and failure mode?",
+    "chart": {
+      "type": "data-table",
+      "title": "Field returns by plant and confirmed failure mode",
+      "columns": [
+        "Plant",
+        "Seal leak",
+        "Corrosion",
+        "Electrical",
+        "Total"
+      ],
+      "rows": [
+        [
+          "North",
+          "90",
+          "30",
+          "80",
+          "200"
+        ],
+        [
+          "South",
+          "60",
+          "70",
+          "70",
+          "200"
+        ],
+        [
+          "Total",
+          "150",
+          "100",
+          "150",
+          "400"
+        ]
+      ]
+    },
+    "options": [
+      "0.175; plant and failure mode are independent because each plant shipped half of the returns.",
+      "0.35; plant and failure mode are dependent because corrosion makes up 35% of South returns.",
+      "0.70; plant and failure mode are dependent because \\(\\Pr(\\text{South} \\mid \\text{Corrosion})\\) differs from \\(\\Pr(\\text{South})\\).",
+      "0.70; plant and failure mode are independent because both plants returned exactly 200 units."
     ],
-    answer:2,
-    why:'Condition on the corrosion column: P(South | Corrosion) = 70/100 = 0.70. With no information about the failure mode, P(South) = 200/400 = 0.50. Because knowing the mode changes the probability (0.70 ≠ 0.50), the events are dependent; corrosion is concentrated at the South plant. Equal plant totals only mean the marginal probabilities are equal; they say nothing about independence. <b>C. 0.70; dependent because P(South | Corrosion) ≠ P(South).</b> <span class="tb-source-ref">Source: CRE Handbook (4th ed.), Ch. 6, Basic Probability Concepts, Equation 6.11 and Examples 6.25–6.26 (conditional probability with a contingency table).</span>',
-    optionRationales:[
-      '70/400 = 0.175 is the joint probability P(South and Corrosion), not the conditional probability asked for.',
-      '70/200 = 0.35 reverses the condition: it is P(Corrosion | South), not P(South | Corrosion).',
-      'Correct. 70/100 = 0.70, which differs from the marginal P(South) = 0.50, so the events are dependent.',
-      'The probability is right but the conclusion is wrong. Equal marginal totals do not show independence; compare the conditional with the marginal.'
+    "answer": 2,
+    "why": "<p>Condition on the corrosion column:</p><p>\\[\\begin{aligned}\\Pr(S \\mid C) &= \\frac{\\Pr(S \\cap C)}{\\Pr(C)} \\\\ &= \\frac{70/400}{100/400} \\\\ &= 0.70\\end{aligned}\\]</p><p>where \\(S\\) is \"built at the South plant\", \\(C\\) is \"corrosion\", \\(\\Pr(A \\mid B)\\) is the probability of \\(A\\) given \\(B\\) and \\(\\cap\\) means both events occur. With no information about the failure mode, \\(\\Pr(S) = 200/400 = 0.50\\). Because knowing the mode changes the probability (\\(0.70 \\ne 0.50\\)), the events are dependent: corrosion is concentrated at the South plant. Equal plant totals only mean the marginal probabilities are equal; they say nothing about independence.</p><p><b>C. 0.70; dependent because \\(\\Pr(\\text{South} \\mid \\text{Corrosion}) \\ne \\Pr(\\text{South})\\).</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Basic Probability Concepts, Equation 6.11 and Examples 6.25–6.26 (conditional probability with a contingency table).</span></p>",
+    "optionRationales": [
+      "\\(70/400 = 0.175\\) is the joint probability \\(\\Pr(\\text{South} \\cap \\text{Corrosion})\\), not the conditional probability asked for.",
+      "\\(70/200 = 0.35\\) reverses the condition: it is \\(\\Pr(\\text{Corrosion} \\mid \\text{South})\\), not \\(\\Pr(\\text{South} \\mid \\text{Corrosion})\\).",
+      "Correct. \\(70/100 = 0.70\\), which differs from the marginal \\(\\Pr(\\text{South}) = 0.50\\), so the events are dependent.",
+      "The probability is right but the conclusion is wrong. Equal marginal totals do not show independence; compare the conditional with the marginal."
     ],
-    keyPoint:'Independence holds only if P(A | B) = P(A). Compare the conditional probability with the unconditional one.',
-    trap:'Using the joint cell over the grand total, or conditioning on the wrong event.',
-    formula:'P(South | Corr) = P(South ∩ Corr)/P(Corr) = (70/400)/(100/400) = 0.70; P(South) = 0.50',
-    assumptions:['Each return has exactly one confirmed failure mode.'],
-    estimatedMinutes:2,keywords:['conditional probability','independence','contingency table','joint probability'],
-    sourceDocument:HB,sourceSection:'Chapter 6 - Basic Probability Concepts',sources:src('Basic Probability Concepts — conditional probability','Examples 6.25–6.26')
+    "keyPoint": "Independence holds only if \\(\\Pr(A \\mid B) = \\Pr(A)\\). Compare the conditional probability with the unconditional one.",
+    "trap": "Using the joint cell over the grand total, or conditioning on the wrong event.",
+    "formula": "\\(\\Pr(\\text{South} \\mid \\text{Corr}) = \\Pr(\\text{South} \\cap \\text{Corr})/\\Pr(\\text{Corr}) = 0.70\\); \\(\\Pr(\\text{South}) = 0.50\\)",
+    "assumptions": [
+      "Each return has exactly one confirmed failure mode."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "conditional probability",
+      "independence",
+      "contingency table",
+      "joint probability"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Basic Probability Concepts",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Basic Probability Concepts — conditional probability",
+        "example": "Examples 6.25–6.26"
+      }
+    ]
   },
   {
-    qid:'cre:set-1:b01-q03',set:1,batch:1,sub:'cre-statistics',
-    bok:bok('III.A.2','Bayes’ theorem with a probability tree: escapes from a two-stage screen'),
-    difficulty:'Very Hard',cognitive:'Analyze',questionType:'Visual evidence interpretation, multi-step calculation',quantitative:true,
-    stem:'Incoming power modules are screened as shown in the probability tree. Any module rejected by Screen 1 is retested by Screen 2. For a module of a given true condition, the two screen results are independent, and Screen 2 has the same detection and false-reject probabilities as Screen 1. Only modules rejected by both screens are scrapped; all others ship. What is the expected latent-defect level among shipped modules, in defective parts per million (ppm)?',
-    chart:{type:'cre-prob-tree',title:'Two-stage screen for a latent defect',
-      altText:'Probability tree. A module carries the latent defect with probability 0.03 or is good with probability 0.97. A defective module is rejected by Screen 1 with probability 0.92 and passes with 0.08; if rejected, Screen 2 rejects it with 0.92 and passes it with 0.08. A good module is rejected by Screen 1 with probability 0.04 and passes with 0.96; if rejected, Screen 2 rejects it with 0.04 and passes it with 0.96. Modules rejected twice are scrapped; all others ship.',
-      root:'Module',
-      children:[
-        {label:'Latent defect',p:'0.03',children:[
-          {label:'Screen 1 reject',p:'0.92',children:[{label:'Screen 2 reject',p:'0.92',outcome:'Scrap'},{label:'Screen 2 pass',p:'0.08',outcome:'Ship'}]},
-          {label:'Screen 1 pass',p:'0.08',outcome:'Ship'}]},
-        {label:'Good',p:'0.97',children:[
-          {label:'Screen 1 reject',p:'0.04',children:[{label:'Screen 2 reject',p:'0.04',outcome:'Scrap'},{label:'Screen 2 pass',p:'0.96',outcome:'Ship'}]},
-          {label:'Screen 1 pass',p:'0.96',outcome:'Ship'}]}
-      ]},
-    options:['2,400 ppm','2,466 ppm','4,608 ppm','4,736 ppm'],
-    answer:3,
-    why:'A defective module ships on two paths: it passes Screen 1 (0.03 × 0.08 = 0.002400), or it is rejected by Screen 1 and then passed by Screen 2 (0.03 × 0.92 × 0.08 = 0.002208). Together, P(Defect and Ship) = 0.004608. Equivalently, 0.03 − 0.03 × 0.92² = 0.03 − 0.025392. Every module that is not scrapped ships: P(Ship) = 1 − (0.03 × 0.92² + 0.97 × 0.04²) = 1 − (0.025392 + 0.001552) = 0.973056. Bayes’ theorem: P(Defect | Ship) = 0.004608/0.973056 = 0.004736, or about 4,736 ppm. As an expected-frequency check, per 10,000 modules about 46.1 defective modules ship among 9,730.6 shipped. <b>D. 4,736 ppm</b> <span class="tb-source-ref">Source: CRE Handbook (4th ed.), Ch. 6, Basic Probability Concepts, Equations 6.11–6.12 and Examples 6.30–6.32 (tree diagrams and expected frequencies).</span>',
-    optionRationales:[
-      'Counts only defective modules that escape Screen 1 (0.03 × 0.08). It misses the defective modules that Screen 2 passes, and it does not divide by the probability of shipping.',
-      'Divides the Screen 1 escape path alone by P(Ship). It still misses the defective modules rescued by Screen 2.',
-      'P(Defect and Ship) = 0.004608 is a joint probability over all modules. The question asks for the level among shipped modules, so divide by P(Ship) = 0.973.',
-      'Correct. 0.004608/0.973056 = 0.004736, or about 4,736 ppm.'
+    "qid": "cre:set-1:b01-q03",
+    "set": 1,
+    "batch": 1,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.2",
+      "topic": "Bayes’ theorem with a probability tree: escapes from a two-stage screen"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "Incoming power modules are screened as shown in the probability tree. Any module rejected by Screen 1 is retested by Screen 2. For a module of a given true condition, the two screen results are independent, and Screen 2 has the same detection and false-reject probabilities as Screen 1. Only modules rejected by both screens are scrapped; all others ship. What is the expected latent-defect level among shipped modules, in defective parts per million (ppm)?",
+    "chart": {
+      "type": "cre-prob-tree",
+      "title": "Two-stage screen for a latent defect",
+      "altText": "Probability tree. A module carries the latent defect with probability 0.03 or is good with probability 0.97. A defective module is rejected by Screen 1 with probability 0.92 and passes with 0.08; if rejected, Screen 2 rejects it with 0.92 and passes it with 0.08. A good module is rejected by Screen 1 with probability 0.04 and passes with 0.96; if rejected, Screen 2 rejects it with 0.04 and passes it with 0.96. Modules rejected twice are scrapped; all others ship.",
+      "root": "Module",
+      "children": [
+        {
+          "label": "Latent defect",
+          "p": "0.03",
+          "children": [
+            {
+              "label": "Screen 1 reject",
+              "p": "0.92",
+              "children": [
+                {
+                  "label": "Screen 2 reject",
+                  "p": "0.92",
+                  "outcome": "Scrap"
+                },
+                {
+                  "label": "Screen 2 pass",
+                  "p": "0.08",
+                  "outcome": "Ship"
+                }
+              ]
+            },
+            {
+              "label": "Screen 1 pass",
+              "p": "0.08",
+              "outcome": "Ship"
+            }
+          ]
+        },
+        {
+          "label": "Good",
+          "p": "0.97",
+          "children": [
+            {
+              "label": "Screen 1 reject",
+              "p": "0.04",
+              "children": [
+                {
+                  "label": "Screen 2 reject",
+                  "p": "0.04",
+                  "outcome": "Scrap"
+                },
+                {
+                  "label": "Screen 2 pass",
+                  "p": "0.96",
+                  "outcome": "Ship"
+                }
+              ]
+            },
+            {
+              "label": "Screen 1 pass",
+              "p": "0.96",
+              "outcome": "Ship"
+            }
+          ]
+        }
+      ]
+    },
+    "options": [
+      "2,400 ppm",
+      "2,466 ppm",
+      "4,608 ppm",
+      "4,736 ppm"
     ],
-    keyPoint:'Outgoing quality is a conditional probability: add every path where a defective unit ships, then divide by the total probability of shipping.',
-    trap:'Missing the defective units that the second screen passes back, or forgetting to normalize by the shipped population.',
-    formula:'P(D | Ship) = [P(D) − P(D)·d²]/[1 − P(D)·d² − P(G)·f²] = 0.004608/0.973056 = 0.004736 (d = 0.92, f = 0.04)',
-    assumptions:['Screen results are conditionally independent given the module’s true condition.','A module rejected by Screen 1 and passed by Screen 2 ships.'],
-    estimatedMinutes:4,keywords:['Bayes theorem','probability tree','expected frequency tree','outgoing quality','screening escapes'],
-    sourceDocument:HB,sourceSection:'Chapter 6 - Basic Probability Concepts',sources:src('Basic Probability Concepts — tree diagrams','Examples 6.30–6.32')
+    "answer": 3,
+    "why": "<p>A defective module ships on two paths: it passes Screen 1, or Screen 1 rejects it and Screen 2 passes it. Every module that is not scrapped ships. Bayes’ theorem then gives the defect level among shipped modules:</p><p>The two defective ship paths contribute \\(0.03 \\times 0.08 = 0.0024\\) and \\(0.03 \\times 0.92 \\times 0.08 = 0.002208\\). The scrapped fractions are \\(0.03 \\times 0.92^2 = 0.025392\\) (defective) and \\(0.97 \\times 0.04^2 = 0.001552\\) (good), \\(0.026944\\) in total.</p><p>\\[\\begin{aligned}\\Pr(D \\cap S) &= 0.004608 \\\\ \\Pr(S) &= 1 - 0.026944 \\\\ &= 0.973056 \\\\ \\Pr(D \\mid S) &= \\frac{0.004608}{0.973056} \\\\ &= 0.004736\\end{aligned}\\]</p><p>where \\(D\\) is the event that a module carries the latent defect and \\(S\\) is the event that it ships. \\(0.004736 \\times 10^{6} \\approx 4736\\) ppm. As an expected-frequency check, per 10,000 modules about 46.1 defective modules ship among 9,730.6 shipped.</p><p><b>D. 4,736 ppm</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Basic Probability Concepts, Equations 6.11–6.12 and Examples 6.30–6.32 (tree diagrams and expected frequencies).</span></p>",
+    "optionRationales": [
+      "Counts only defective modules that escape Screen 1, \\(0.03 \\times 0.08 = 0.0024\\). It misses the defective modules that Screen 2 passes and does not divide by \\(\\Pr(\\text{Ship})\\).",
+      "Divides the Screen 1 escape path alone by \\(\\Pr(\\text{Ship})\\): \\(0.0024/0.973 \\approx 0.002466\\). It still misses the defective modules passed by Screen 2.",
+      "\\(\\Pr(D \\cap \\text{Ship}) = 0.004608\\) is a joint probability over all modules. The question asks for the level among shipped modules, so divide by \\(\\Pr(\\text{Ship}) = 0.973\\).",
+      "Correct. \\(0.004608/0.973056 = 0.004736\\), or about 4,736 ppm."
+    ],
+    "keyPoint": "Outgoing quality is a conditional probability, \\(\\Pr(D \\mid \\text{Ship})\\): add every path where a defective unit ships, then divide by the total probability of shipping.",
+    "trap": "Missing the defective units that the second screen passes back, or forgetting to normalize by the shipped population.",
+    "formula": "\\(\\Pr(D \\mid \\text{Ship}) = \\dfrac{\\Pr(D)(1 - d^2)}{1 - \\Pr(D)d^2 - \\Pr(G)f^2}\\), with detection \\(d = 0.92\\) and false-reject \\(f = 0.04\\)",
+    "assumptions": [
+      "Screen results are conditionally independent given the module’s true condition.",
+      "A module rejected by Screen 1 and passed by Screen 2 ships."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "Bayes theorem",
+      "probability tree",
+      "expected frequency tree",
+      "outgoing quality",
+      "screening escapes"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Basic Probability Concepts",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Basic Probability Concepts — tree diagrams",
+        "example": "Examples 6.30–6.32"
+      }
+    ]
   },
   {
-    qid:'cre:set-1:b01-q04',set:1,batch:1,sub:'cre-statistics',
-    bok:bok('III.A.3','Poisson distribution for spares provisioning'),
-    difficulty:'Hard',cognitive:'Analyze',questionType:'Visual evidence interpretation, calculation',quantitative:true,
-    stem:'A remote compressor station is resupplied only at the interval shown in the planning sheet. Seal failures occur at a constant rate, and each failed seal is replaced immediately from on-site stock. Using the Poisson distribution, what is the minimum number of spare seals to stock so that the probability that a seal fails when no spare is left (failures before resupply exceed the stock) is no more than 5%?',
-    chart:{type:'data-table',title:'Station spares planning sheet',
-      columns:['Item','Value'],
-      rows:[['Compressors running continuously','4'],['Seals per compressor','1'],['Seal MTBF (constant failure rate)','2,400 h'],['Mean time to replace a seal','6 h'],['Resupply interval','2,100 h'],['Required protection against stock-out','95%']]},
-    options:['3','4','7','8'],
-    answer:2,
-    why:'The expected number of seal failures across the station is λt = (4 seals × 2,100 h)/2,400 h = 3.5. The 6 h replacement time is not needed. Stock s spares so that P(X ≤ s) ≥ 0.95. From the cumulative Poisson table at λ = 3.5: P(X ≤ 6) = 0.9347, which is short of 0.95, and P(X ≤ 7) = 0.9733, which meets it. So s = 7. <b>C. 7</b> <span class="tb-source-ref">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Examples 6.39–6.40 (Poisson); Appendix C.2, Cumulative Poisson Distribution Table.</span>',
-    optionRationales:[
-      'Uses one compressor (λt = 2,100/2,400 = 0.875) instead of all four seals in service.',
-      'Stocks the expected number of failures, rounded up. With λt = 3.5, four spares give only P(X ≤ 4) = 0.725 protection.',
-      'Correct. P(X ≤ 6) = 0.935 < 0.95 and P(X ≤ 7) = 0.973 ≥ 0.95.',
-      'Off by one: requires P(X ≤ s − 1) ≥ 0.95. With s spares, up to s failures can be covered, so the condition is P(X ≤ s) ≥ 0.95.'
+    "qid": "cre:set-1:b01-q04",
+    "set": 1,
+    "batch": 1,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.3",
+      "topic": "Poisson distribution for spares provisioning"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A remote compressor station is resupplied only at the interval shown in the planning sheet. Seal failures occur at a constant rate, and each failed seal is replaced immediately from on-site stock. Using the Poisson distribution, what is the minimum number of spare seals to stock so that the probability that a seal fails when no spare is left (failures before resupply exceed the stock) is no more than 5%?",
+    "chart": {
+      "type": "data-table",
+      "title": "Station spares planning sheet",
+      "columns": [
+        "Item",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Compressors running continuously",
+          "4"
+        ],
+        [
+          "Seals per compressor",
+          "1"
+        ],
+        [
+          "Seal MTBF (constant failure rate)",
+          "2,400 h"
+        ],
+        [
+          "Mean time to replace a seal",
+          "6 h"
+        ],
+        [
+          "Resupply interval",
+          "2,100 h"
+        ],
+        [
+          "Required protection against stock-out",
+          "95%"
+        ]
+      ]
+    },
+    "options": [
+      "3",
+      "4",
+      "7",
+      "8"
     ],
-    keyPoint:'For spares, find the smallest s with cumulative Poisson P(X ≤ s) at or above the required protection level, using the combined expected failures of every unit in service.',
-    trap:'Using one unit\'s failure rate, or stocking only the mean number of failures.',
-    formula:'λt = n·t/MTBF = 4 × 2,100/2,400 = 3.5;  choose the smallest s with P(X ≤ s | 3.5) ≥ 0.95 → s = 7',
-    assumptions:['Failures follow a homogeneous Poisson process.','Replacement seals have the same constant failure rate.','Replacement time is negligible relative to the interval.'],
-    estimatedMinutes:3,keywords:['Poisson distribution','spares provisioning','constant failure rate','cumulative Poisson table'],
-    sourceDocument:HB,sourceSection:'Chapter 6 - Probability Distributions',sources:src('Probability Distributions — Poisson','Examples 6.39–6.40; Appendix C.2')
+    "answer": 2,
+    "why": "<p>The expected number of seal failures across the station during the resupply interval is</p><p>\\[\\begin{aligned}\\lambda t &= \\frac{n\\,t}{\\text{MTBF}} \\\\ &= \\frac{4(2100)}{2400} = 3.5\\end{aligned}\\]</p><p>where \\(n\\) is the number of seals in service, \\(t\\) is the resupply interval and \\(\\lambda\\) is each seal’s failure rate. The 6 h replacement time is not needed. Stock \\(s\\) spares so that \\(\\Pr(X \\le s) \\ge 0.95\\), where \\(X\\) is the Poisson number of failures. From the cumulative Poisson table at \\(\\lambda t = 3.5\\): \\(\\Pr(X \\le 6) = 0.9347\\), short of 0.95, and \\(\\Pr(X \\le 7) = 0.9733\\), which meets it. So \\(s = 7\\).</p><p><b>C. 7</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Examples 6.39–6.40 (Poisson); Appendix C.2, Cumulative Poisson Distribution Table.</span></p>",
+    "optionRationales": [
+      "Uses one compressor, \\(\\lambda t = 2100/2400 = 0.875\\), instead of all four seals in service.",
+      "Stocks the expected number of failures, rounded up. With \\(\\lambda t = 3.5\\), four spares give only \\(\\Pr(X \\le 4) = 0.725\\).",
+      "Correct. \\(\\Pr(X \\le 6) = 0.935 \\lt 0.95\\) and \\(\\Pr(X \\le 7) = 0.973 \\ge 0.95\\).",
+      "Off by one: requires \\(\\Pr(X \\le s - 1) \\ge 0.95\\). With \\(s\\) spares, up to \\(s\\) failures can be covered, so the condition is \\(\\Pr(X \\le s) \\ge 0.95\\)."
+    ],
+    "keyPoint": "For spares, find the smallest \\(s\\) with cumulative Poisson \\(\\Pr(X \\le s)\\) at or above the required protection, using the combined expected failures \\(\\lambda t\\) of every unit in service.",
+    "trap": "Using one unit’s failure rate, or stocking only the mean number of failures.",
+    "formula": "\\(\\lambda t = n t/\\text{MTBF} = 3.5\\); smallest \\(s\\) with \\(\\Pr(X \\le s \\mid 3.5) \\ge 0.95\\) is \\(s = 7\\)",
+    "assumptions": [
+      "Failures follow a homogeneous Poisson process.",
+      "Replacement seals have the same constant failure rate.",
+      "Replacement time is negligible relative to the interval."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "Poisson distribution",
+      "spares provisioning",
+      "constant failure rate",
+      "cumulative Poisson table"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Probability Distributions",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Probability Distributions — Poisson",
+        "example": "Examples 6.39–6.40; Appendix C.2"
+      }
+    ]
   },
   {
-    qid:'cre:set-1:b01-q05',set:1,batch:1,sub:'cre-statistics',
-    bok:bok('III.A.3','Binomial distribution for an at-least-k-of-n requirement'),
-    difficulty:'Medium',cognitive:'Apply',questionType:'Calculation',quantitative:true,
-    stem:'A pipeline leak-detection array uses 12 identical sensors that fail independently. The safety case is met if at least 10 sensors are still working at the end of a one-year inspection interval. Each sensor has a one-year reliability of 0.95. What is the probability that the array meets the safety case at the end of the interval?',
-    options:['0.0988','0.5987','0.8816','0.9804'],
-    answer:3,
-    why:'The number of working sensors X is binomial with n = 12 and p = 0.95. P(X ≥ 10) = P(10) + P(11) + P(12). P(12) = 0.95¹² = 0.5404. P(11) = 12 × 0.95¹¹ × 0.05 = 0.3413. P(10) = 66 × 0.95¹⁰ × 0.05² = 0.0988. Sum = 0.9804. <b>D. 0.9804</b> <span class="tb-source-ref">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Examples 6.33–6.34 (binomial); Appendix B.2, Cumulative Binomial Distribution Table.</span>',
-    optionRationales:[
-      'This is P(X = 10) only. "At least 10" also includes 11 and 12 working sensors.',
-      '0.95¹⁰ treats the 10 sensors as a fixed series set and ignores that any 10 of the 12 will do.',
-      'This is P(X ≥ 11). It drops the case where exactly 10 sensors survive.',
-      'Correct. P(10) + P(11) + P(12) = 0.0988 + 0.3413 + 0.5404 = 0.9804.'
+    "qid": "cre:set-1:b01-q05",
+    "set": 1,
+    "batch": 1,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.3",
+      "topic": "Binomial distribution for an at-least-k-of-n requirement"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Calculation",
+    "quantitative": true,
+    "stem": "A pipeline leak-detection array uses 12 identical sensors that fail independently. The safety case is met if at least 10 sensors are still working at the end of a one-year inspection interval. Each sensor has a one-year reliability of 0.95. What is the probability that the array meets the safety case at the end of the interval?",
+    "options": [
+      "0.0988",
+      "0.5987",
+      "0.8816",
+      "0.9804"
     ],
-    keyPoint:'"At least k of n" is a cumulative binomial: sum P(X = j) from j = k to n.',
-    trap:'Taking only the single term P(X = k), or treating the k sensors as a series system.',
-    formula:'P(X ≥ 10) = Σ C(12,j)(0.95)^j(0.05)^(12−j), j = 10, 11, 12',
-    assumptions:['Sensor failures are independent.','All sensors share the same one-year reliability.'],
-    estimatedMinutes:3,keywords:['binomial distribution','k-out-of-n','independent trials','cumulative probability'],
-    sourceDocument:HB,sourceSection:'Chapter 6 - Probability Distributions',sources:src('Probability Distributions — binomial','Examples 6.33–6.34; Appendix B.2')
+    "answer": 3,
+    "why": "<p>The number of working sensors \\(X\\) is binomial with \\(n = 12\\) and \\(p = 0.95\\):</p><p>\\[\\Pr(X = x) = \\binom{12}{x} p^{x} q^{12-x}\\]</p><p>where \\(p = 0.95\\) is each sensor’s one-year reliability, \\(q = 1 - p\\) and \\(\\binom{12}{x}\\) counts the ways to choose which \\(x\\) sensors work. \"At least 10\" adds three terms:</p><p>\\[\\begin{aligned}\\Pr(10) &= 0.0988 \\\\ \\Pr(11) &= 0.3413 \\\\ \\Pr(12) &= 0.5404 \\\\ \\Pr(X \\ge 10) &= 0.9804\\end{aligned}\\]</p><p><b>D. 0.9804</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Examples 6.33–6.34 (binomial); Appendix B.2, Cumulative Binomial Distribution Table.</span></p>",
+    "optionRationales": [
+      "This is \\(\\Pr(X = 10)\\) only. \"At least 10\" also includes 11 and 12 working sensors.",
+      "\\(0.95^{10} = 0.5987\\) treats 10 particular sensors as a series system and ignores that any 10 of the 12 will do.",
+      "This is \\(\\Pr(X \\ge 11)\\). It drops the case where exactly 10 sensors survive.",
+      "Correct. \\(\\Pr(10) + \\Pr(11) + \\Pr(12) = 0.0988 + 0.3413 + 0.5404 = 0.9804\\)."
+    ],
+    "keyPoint": "\"At least \\(k\\) of \\(n\\)\" is a cumulative binomial: sum \\(\\Pr(X = x)\\) from \\(x = k\\) to \\(n\\).",
+    "trap": "Taking only the single term \\(\\Pr(X = k)\\), or treating the \\(k\\) sensors as a series system.",
+    "formula": "\\(\\Pr(X \\ge 10) = \\sum_{x=10}^{12} \\binom{12}{x}(0.95)^{x}(0.05)^{12-x}\\)",
+    "assumptions": [
+      "Sensor failures are independent.",
+      "All sensors share the same one-year reliability."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "binomial distribution",
+      "k-out-of-n",
+      "independent trials",
+      "cumulative probability"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Probability Distributions",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Probability Distributions — binomial",
+        "example": "Examples 6.33–6.34; Appendix B.2"
+      }
+    ]
   },
   {
-    qid:'cre:set-1:b01-q06',set:1,batch:1,sub:'cre-statistics',
-    bok:bok('III.A.3','Weibull conditional reliability for a fleet already in service'),
-    difficulty:'Hard',cognitive:'Analyze',questionType:'Software output interpretation, calculation',quantitative:true,
-    stem:'Life data for a gearbox bearing were fitted with the two-parameter Weibull model shown in the output. Forty bearings in the field have each run 500 hours without failure. How many of these 40 bearings are expected to fail during their next 500 hours of operation?',
-    chart:{type:'data-table',title:'Distribution Analysis: Bearing life (h) — Weibull, least squares estimates',
-      columns:['Parameter','Estimate'],
-      rows:[['Shape (β)','1.8'],['Scale (η)','2,000 h'],['Mean (MTTF)','1,778.6 h'],['B10 life','572.9 h'],['Failures / suspensions','14 / 6']]},
-    options:['6.8','7.4','8.8','10.0'],
-    answer:1,
-    why:'These bearings have already survived 500 h, so use conditional reliability: R(500 more | 500) = R(1,000)/R(500). With β = 1.8 and η = 2,000 h: R(1,000) = exp[−(0.5)^1.8] = exp(−0.2872) = 0.7504, and R(500) = exp[−(0.25)^1.8] = exp(−0.0825) = 0.9209. So R(500 more | 500) = 0.7504/0.9209 = 0.8149. The conditional probability of failure is 1 − 0.8149 = 0.1851, and the expected number of failures is 40 × 0.1851 = 7.4 bearings. Because β > 1 the hazard increases with age, so these used bearings are about 2.3 times as likely to fail in the next 500 h as new ones (0.185 versus 0.079). <b>B. 7.4</b> <span class="tb-source-ref">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Examples 6.42–6.44 (Weibull calculations).</span>',
-    optionRationales:[
-      '40 × [F(1,000) − F(500)] = 40 × (0.9209 − 0.7504) = 6.8 is the unconditional chance that a new bearing fails between 500 h and 1,000 h. These bearings are known to have survived 500 h, so divide by R(500).',
-      'Correct. 40 × [1 − R(1,000)/R(500)] = 40 × 0.1851 = 7.4.',
-      '40 × [1 − exp(−500/2,000)] treats the scale η as an exponential MTBF. The output shows wear-out (β = 1.8), so the exponential model does not apply.',
-      '40 × [1 − R(1,000)] uses the unconditional probability of failing by 1,000 h. That includes failures in the first 500 h, which these bearings have already survived.'
+    "qid": "cre:set-1:b01-q06",
+    "set": 1,
+    "batch": 1,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.3",
+      "topic": "Weibull conditional reliability for a fleet already in service"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Software output interpretation, calculation",
+    "quantitative": true,
+    "stem": "Life data for a gearbox bearing were fitted with the two-parameter Weibull model shown in the output. Forty bearings in the field have each run 500 hours without failure. How many of these 40 bearings are expected to fail during their next 500 hours of operation?",
+    "chart": {
+      "type": "data-table",
+      "title": "Distribution Analysis: Bearing life (h) — Weibull, least squares estimates",
+      "columns": [
+        "Parameter",
+        "Estimate"
+      ],
+      "rows": [
+        [
+          "Shape \\(\\beta\\)",
+          "1.8"
+        ],
+        [
+          "Scale \\(\\eta\\)",
+          "2,000 h"
+        ],
+        [
+          "Mean (MTTF)",
+          "1,778.6 h"
+        ],
+        [
+          "B10 life",
+          "572.9 h"
+        ],
+        [
+          "Failures / suspensions",
+          "14 / 6"
+        ]
+      ]
+    },
+    "options": [
+      "6.8",
+      "7.4",
+      "8.8",
+      "10.0"
     ],
-    keyPoint:'For units already in service, use conditional reliability R(T + t)/R(T). Only the exponential (β = 1) is memoryless.',
-    trap:'Using the unconditional window F(1,000) − F(500) without dividing by R(500), or treating η as an exponential MTBF.',
-    formula:'E[failures] = N × [1 − R(T + t)/R(T)] = 40 × [1 − exp(−(1,000/2,000)^1.8)/exp(−(500/2,000)^1.8)] = 7.4',
-    assumptions:['The two-parameter Weibull fit is adequate.','Field use matches the test conditions.','Failed bearings are not replaced during the 500 h window.'],
-    estimatedMinutes:3,keywords:['Weibull','conditional reliability','wear-out','memoryless property'],
-    sourceDocument:HB,sourceSection:'Chapter 6 - Probability Distributions',sources:src('Probability Distributions — Weibull','Examples 6.42–6.44')
+    "answer": 1,
+    "why": "<p>These bearings have already survived 500 h, so use conditional reliability with the fitted \\(\\beta = 1.8\\) and \\(\\eta = 2000\\):</p><p>\\[\\begin{aligned}R(t) &= e^{-(t/\\eta)^{\\beta}} \\\\ R(1000) &= e^{-0.2872} = 0.7504 \\\\ R(500) &= e^{-0.0825} = 0.9209 \\\\ R_c &= R(1000)/R(500) \\\\ &= 0.8149 \\\\ N_f &= 40(1 - R_c) \\\\ &= 7.4\\end{aligned}\\]</p><p>where \\(\\beta\\) is the Weibull shape, \\(\\eta\\) is the scale (characteristic life), \\(R(t)\\) is reliability at age \\(t\\), \\(R_c\\) is the conditional reliability for the next 500 h and \\(N_f\\) is the expected number of the 40 bearings that fail. Because \\(\\beta \\gt 1\\) the hazard rises with age, so these used bearings are about 2.3 times as likely to fail in the next 500 h as new ones (0.185 versus 0.079).</p><p><b>B. 7.4</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Examples 6.42–6.44 (Weibull calculations).</span></p>",
+    "optionRationales": [
+      "\\(40[F(1000) - F(500)] = 40(0.9209 - 0.7504) = 6.8\\) is the unconditional chance that a new bearing fails between 500 h and 1,000 h. These bearings are known to have survived 500 h, so divide by \\(R(500)\\).",
+      "Correct. \\(40[1 - R(1000)/R(500)] = 40(0.1851) = 7.4\\).",
+      "\\(40[1 - e^{-500/2000}] = 8.8\\) treats the scale \\(\\eta\\) as an exponential MTBF. The output shows wear-out (\\(\\beta = 1.8\\)), so the exponential model does not apply.",
+      "\\(40[1 - R(1000)] = 10.0\\) uses the unconditional probability of failing by 1,000 h. That includes failures in the first 500 h, which these bearings have already survived."
+    ],
+    "keyPoint": "For units already in service, use conditional reliability \\(R(T + t)/R(T)\\). Only the exponential (\\(\\beta = 1\\)) is memoryless.",
+    "trap": "Using the unconditional window \\(F(1000) - F(500)\\) without dividing by \\(R(500)\\), or treating \\(\\eta\\) as an exponential MTBF.",
+    "formula": "\\(E[\\text{failures}] = N\\left[1 - R(T + t)/R(T)\\right]\\), with \\(R(t) = \\exp[-(t/\\eta)^{\\beta}]\\)",
+    "assumptions": [
+      "The two-parameter Weibull fit is adequate.",
+      "Field use matches the test conditions.",
+      "Failed bearings are not replaced during the 500 h window."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "Weibull",
+      "conditional reliability",
+      "wear-out",
+      "memoryless property"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Probability Distributions",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Probability Distributions — Weibull",
+        "example": "Examples 6.42–6.44"
+      }
+    ]
   },
   {
-    qid:'cre:set-1:b01-q07',set:1,batch:1,sub:'cre-statistics',
-    bok:bok('III.A.3','Lognormal percentile (B10 life)'),
-    difficulty:'Medium',cognitive:'Apply',questionType:'Calculation',quantitative:true,
-    stem:'Cycles to failure of a solder joint in thermal cycling are lognormally distributed. The fitted parameters of ln(cycles) are μ = 8.987 and σ = 0.60. What is the B10 life, the number of cycles by which 10% of joints are expected to fail?',
-    options:['2,980 cycles','3,710 cycles','7,998 cycles','17,260 cycles'],
-    answer:1,
-    why:'For a lognormal, ln(T) is normal with mean μ and standard deviation σ. The 10th percentile of ln(T) is μ + z₀.₁₀σ, where z₀.₁₀ = −1.2816. So ln(B10) = 8.987 − 1.2816 × 0.60 = 8.218 and B10 = e^8.218 ≈ 3,710 cycles. (Using z = 1.28 from the table gives the same rounded value.) <b>B. 3,710 cycles</b> <span class="tb-source-ref">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Examples 6.47–6.48 (lognormal); Appendix D, Cumulative Standard Normal Table.</span>',
-    optionRationales:[
-      'Uses z = 1.645, which gives the 5th percentile (B5 life), not the 10th.',
-      'Correct. exp(8.987 − 1.2816 × 0.60) ≈ 3,710 cycles.',
-      'e^μ is the median life (B50), not the B10 life.',
-      'Adds 1.2816σ instead of subtracting it, which gives the 90th percentile (the life by which 90% fail).'
+    "qid": "cre:set-1:b01-q07",
+    "set": 1,
+    "batch": 1,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.3",
+      "topic": "Lognormal percentile (B10 life)"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Calculation",
+    "quantitative": true,
+    "stem": "Cycles to failure of a solder joint in thermal cycling are lognormally distributed. The fitted parameters of \\(\\ln(\\text{cycles})\\) are \\(\\mu = 8.987\\) and \\(\\sigma = 0.60\\). What is the B10 life, the number of cycles by which 10% of joints are expected to fail?",
+    "options": [
+      "2,980 cycles",
+      "3,710 cycles",
+      "7,998 cycles",
+      "17,260 cycles"
     ],
-    keyPoint:'Lognormal percentiles: work on the ln scale with the normal z value, then exponentiate.',
-    trap:'Using the 5% z value, or adding zσ for a lower-tail percentile.',
-    formula:'B10 = exp(μ − 1.2816σ) = exp(8.987 − 0.769) ≈ 3,710 cycles',
-    assumptions:['The lognormal model fits the solder-joint data.'],
-    estimatedMinutes:2,keywords:['lognormal','B10 life','percentile','thermal cycling'],
-    sourceDocument:HB,sourceSection:'Chapter 6 - Probability Distributions',sources:src('Probability Distributions — lognormal','Examples 6.47–6.48; Appendix D')
+    "answer": 1,
+    "why": "<p>For a lognormal, \\(\\ln T\\) is normal with mean \\(\\mu\\) and standard deviation \\(\\sigma\\). The 10th percentile of \\(\\ln T\\) uses \\(z_{0.10} = -1.2816\\):</p><p>\\[\\begin{aligned}y &= \\mu + z_{0.10}\\,\\sigma \\\\ &= 8.987 - 0.769 \\\\ &= 8.218 \\\\ \\text{B10} &= e^{y} \\approx 3710\\end{aligned}\\]</p><p>where \\(T\\) is cycles to failure, \\(y = \\ln(\\text{B10})\\), \\(z_{0.10}\\) is the standard normal value with 10% below it, \\(1.2816 \\times 0.60 = 0.769\\), and B10 is in cycles. Using \\(z = 1.28\\) from the table gives the same rounded value.</p><p><b>B. 3,710 cycles</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Examples 6.47–6.48 (lognormal); Appendix D, Cumulative Standard Normal Table.</span></p>",
+    "optionRationales": [
+      "Uses \\(z = 1.645\\), which gives the 5th percentile (B5 life), not the 10th.",
+      "Correct. \\(\\exp(8.987 - 1.2816 \\times 0.60) \\approx 3710\\) cycles.",
+      "\\(e^{\\mu} \\approx 7998\\) is the median life (B50), not the B10 life.",
+      "Adds \\(1.2816\\sigma\\) instead of subtracting it, which gives the 90th percentile."
+    ],
+    "keyPoint": "Lognormal percentiles: work on the \\(\\ln\\) scale with the normal \\(z\\) value, then exponentiate.",
+    "trap": "Using the 5% \\(z\\) value, or adding \\(z\\sigma\\) for a lower-tail percentile.",
+    "formula": "\\(\\text{B10} = \\exp(\\mu - 1.2816\\,\\sigma) \\approx 3710\\) cycles",
+    "assumptions": [
+      "The lognormal model fits the solder-joint data."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "lognormal",
+      "B10 life",
+      "percentile",
+      "thermal cycling"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Probability Distributions",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Probability Distributions — lognormal",
+        "example": "Examples 6.47–6.48; Appendix D"
+      }
+    ]
   },
   {
-    qid:'cre:set-1:b01-q08',set:1,batch:1,sub:'cre-statistics',
-    bok:bok('III.A.1','Nonparametric Kaplan-Meier estimate with suspensions'),
-    difficulty:'Hard',cognitive:'Analyze',questionType:'Visual evidence interpretation, calculation',quantitative:true,
-    stem:'Ten prototype pumps were run on a test stand. Some were removed early for unrelated reasons (suspensions), and the test ended at 800 hours. Using the Kaplan-Meier (product-limit) method, what is the estimated reliability at 750 hours?',
-    chart:{type:'data-table',title:'Prototype pump test log (n = 10)',
-      columns:['Unit','Hours','Status'],
-      rows:[['P‑07','150','Failed'],['P‑02','230','Suspended (removed for fixture rework)'],['P‑09','310','Failed'],['P‑04','400','Failed'],['P‑01','480','Suspended (removed for teardown study)'],['P‑10','560','Failed'],['P‑05','600','Suspended (stand power loss)'],['P‑03','720','Failed'],['P‑06','800','Survived to end of test'],['P‑08','800','Survived to end of test']]},
-    options:['0.20','0.36','0.405','0.50'],
-    answer:1,
-    why:'Kaplan-Meier multiplies (n − d)/n at each failure time, where n is the number still at risk just before that time. Suspended units leave the risk set without counting as failures. 150 h: 10 at risk, R = 9/10 = 0.900. The 230 h suspension leaves 8. 310 h: R = 0.900 × 7/8 = 0.7875. 400 h: R = 0.7875 × 6/7 = 0.675. The 480 h suspension leaves 5. 560 h: R = 0.675 × 4/5 = 0.540. The 600 h suspension leaves 3. 720 h: R = 0.540 × 2/3 = 0.360. No other events occur before 750 h, so R(750) = 0.36. <b>B. 0.36</b> <span class="tb-source-ref">Source: CRE Handbook (4th ed.), Ch. 6, Basic Statistics (parametric versus nonparametric) and Examples 6.59–6.62 (Kaplan-Meier).</span>',
-    optionRationales:[
-      'Counts every suspension as a failure: 1 − 8/10 = 0.20. That understates reliability badly.',
-      'Correct. 0.9 × 7/8 × 6/7 × 4/5 × 2/3 = 0.36.',
-      'Misses the 600 h suspension, leaving 4 at risk at 720 h: 0.54 × 3/4 = 0.405.',
-      '1 − 5/10 = 0.50 keeps the suspended units in the denominator as if they had been observed to 750 h.'
+    "qid": "cre:set-1:b01-q08",
+    "set": 1,
+    "batch": 1,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.1",
+      "topic": "Nonparametric Kaplan-Meier estimate with suspensions"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "Ten prototype pumps were run on a test stand. Some were removed early for unrelated reasons (suspensions), and the test ended at 800 hours. Using the Kaplan-Meier (product-limit) method, what is the estimated reliability at 750 hours?",
+    "chart": {
+      "type": "data-table",
+      "title": "Prototype pump test log (n = 10)",
+      "columns": [
+        "Unit",
+        "Hours",
+        "Status"
+      ],
+      "rows": [
+        [
+          "P‑07",
+          "150",
+          "Failed"
+        ],
+        [
+          "P‑02",
+          "230",
+          "Suspended (removed for fixture rework)"
+        ],
+        [
+          "P‑09",
+          "310",
+          "Failed"
+        ],
+        [
+          "P‑04",
+          "400",
+          "Failed"
+        ],
+        [
+          "P‑01",
+          "480",
+          "Suspended (removed for teardown study)"
+        ],
+        [
+          "P‑10",
+          "560",
+          "Failed"
+        ],
+        [
+          "P‑05",
+          "600",
+          "Suspended (stand power loss)"
+        ],
+        [
+          "P‑03",
+          "720",
+          "Failed"
+        ],
+        [
+          "P‑06",
+          "800",
+          "Survived to end of test"
+        ],
+        [
+          "P‑08",
+          "800",
+          "Survived to end of test"
+        ]
+      ]
+    },
+    "options": [
+      "0.20",
+      "0.36",
+      "0.405",
+      "0.50"
     ],
-    keyPoint:'In Kaplan-Meier, suspensions shrink the risk set but never count as failures.',
-    trap:'Treating suspensions as failures, or as survivors to the evaluation time.',
-    formula:'R̂(t) = Π over failure times tᵢ ≤ t of (nᵢ − dᵢ)/nᵢ',
-    assumptions:['Suspensions are unrelated to the pump failure mechanism (non-informative censoring).'],
-    estimatedMinutes:4,keywords:['Kaplan-Meier','product-limit estimator','censored data','suspensions','nonparametric'],
-    sourceDocument:HB,sourceSection:'Chapter 6 - Basic Statistics; Kaplan-Meier',sources:src('Kaplan-Meier analysis','Examples 6.59–6.62')
+    "answer": 1,
+    "why": "<p>Kaplan-Meier multiplies \\((n_i - d_i)/n_i\\) at each failure time, where \\(n_i\\) is the number still at risk just before failure time \\(t_i\\) and \\(d_i\\) is the number failing then. Suspended units leave the risk set without counting as failures:</p><p>\\[\\begin{aligned}\\hat{R}(150) &= 9/10 = 0.9 \\\\ \\hat{R}(310) &= 0.9(7/8) = 0.7875 \\\\ \\hat{R}(400) &= \\cdots(6/7) = 0.675 \\\\ \\hat{R}(560) &= \\cdots(4/5) = 0.54 \\\\ \\hat{R}(720) &= \\cdots(2/3) = 0.36\\end{aligned}\\]</p><p>Each \\(\\cdots\\) is the estimate on the line above. The suspensions at 230 h, 480 h and 600 h each reduce the risk set by one. No other events occur before 750 h, so \\(\\hat{R}(750) = 0.36\\).</p><p><b>B. 0.36</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Basic Statistics (parametric versus nonparametric) and Examples 6.59–6.62 (Kaplan-Meier).</span></p>",
+    "optionRationales": [
+      "Counts every suspension as a failure: \\(1 - 8/10 = 0.20\\). That understates reliability badly.",
+      "Correct. \\(0.9 \\times \\tfrac{7}{8} \\times \\tfrac{6}{7} \\times \\tfrac{4}{5} \\times \\tfrac{2}{3} = 0.36\\).",
+      "Misses the 600 h suspension, leaving 4 at risk at 720 h: \\(0.54 \\times 3/4 = 0.405\\).",
+      "\\(1 - 5/10 = 0.50\\) keeps the suspended units in the denominator as if they had been observed to 750 h."
+    ],
+    "keyPoint": "In Kaplan-Meier, suspensions shrink the risk set but never count as failures.",
+    "trap": "Treating suspensions as failures, or as survivors to the evaluation time.",
+    "formula": "\\(\\hat{R}(t) = \\prod_{t_i \\le t} \\dfrac{n_i - d_i}{n_i}\\)",
+    "assumptions": [
+      "Suspensions are unrelated to the pump failure mechanism (non-informative censoring)."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "Kaplan-Meier",
+      "product-limit estimator",
+      "censored data",
+      "suspensions",
+      "nonparametric"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Basic Statistics; Kaplan-Meier",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Kaplan-Meier analysis",
+        "example": "Examples 6.59–6.62"
+      }
+    ]
   },
   {
-    qid:'cre:set-1:b01-q09',set:1,batch:1,sub:'cre-statistics',
-    bok:bok('III.A.3','Chi-square goodness of fit to a Poisson model'),
-    difficulty:'Very Hard',cognitive:'Evaluate',questionType:'Visual evidence interpretation, hypothesis test',quantitative:true,
-    stem:'An engineer wants to check whether solder voids per circuit board follow a Poisson distribution before using that model for reliability predictions. The counts for 100 boards are shown (no board had more than 5 voids), and the Poisson mean is estimated from these same data. Expected cell counts must be at least 5. Which statement correctly reports the chi-square goodness-of-fit test at α = 0.05?',
-    chart:{type:'data-table',title:'Solder voids per board (n = 100 boards)',
-      columns:['Voids per board','0','1','2','3','4','5'],
-      rows:[['Number of boards','27','46','13','9','4','1']]},
-    options:[
-      'χ² = 6.81 with 3 degrees of freedom (critical value 7.815): fail to reject the Poisson model.',
-      'χ² = 7.28 with 3 degrees of freedom (critical value 7.815): fail to reject the Poisson model.',
-      'χ² = 8.55 with 3 degrees of freedom (critical value 7.815): reject the Poisson model.',
-      'χ² = 6.81 with 2 degrees of freedom (critical value 5.991): reject the Poisson model.'
+    "qid": "cre:set-1:b01-q09",
+    "set": 1,
+    "batch": 1,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.3",
+      "topic": "Chi-square goodness of fit to a Poisson model"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, hypothesis test",
+    "quantitative": true,
+    "stem": "An engineer wants to check whether solder voids per circuit board follow a Poisson distribution before using that model for reliability predictions. The counts for 100 boards are shown (no board had more than 5 voids), and the Poisson mean is estimated from these same data. Expected cell counts must be at least 5. Which statement correctly reports the chi-square goodness-of-fit test at \\(\\alpha = 0.05\\)?",
+    "chart": {
+      "type": "data-table",
+      "title": "Solder voids per board (n = 100 boards)",
+      "columns": [
+        "Voids per board",
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "rows": [
+        [
+          "Number of boards",
+          "27",
+          "46",
+          "13",
+          "9",
+          "4",
+          "1"
+        ]
+      ]
+    },
+    "options": [
+      "\\(\\chi^2 = 6.81\\) with 3 degrees of freedom (critical value 7.815): fail to reject the Poisson model.",
+      "\\(\\chi^2 = 7.28\\) with 3 degrees of freedom (critical value 7.815): fail to reject the Poisson model.",
+      "\\(\\chi^2 = 8.55\\) with 3 degrees of freedom (critical value 7.815): reject the Poisson model.",
+      "\\(\\chi^2 = 6.81\\) with 2 degrees of freedom (critical value 5.991): reject the Poisson model."
     ],
-    answer:3,
-    why:'Step 1, estimate λ: (0×27 + 1×46 + 2×13 + 3×9 + 4×4 + 5×1)/100 = 120/100 = 1.2. Step 2, expected counts: 100 × P(X = k | 1.2) gives 30.12, 36.14, 21.69 and 8.67 for 0 to 3 voids, and only 3.38 for 4 or more. Because 3.38 < 5, pool into a "3 or more" cell (observed 14, expected 12.05). Step 3, χ² = Σ(O − E)²/E = 0.323 + 2.688 + 3.479 + 0.315 = 6.81. Step 4, df = k − 1 − m = 4 cells − 1 − 1 estimated parameter = 2, so the critical value is χ²₀.₀₅,₂ = 5.991. Since 6.81 > 5.991, reject the Poisson model (p ≈ 0.033). <b>D. χ² = 6.81 with 2 df: reject.</b> <span class="tb-source-ref">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Example 6.51 (chi-square goodness of fit) and Appendix G, Chi-Square Distribution Table.</span>',
-    optionRationales:[
-      'The statistic is right but the df is wrong. Estimating λ from the same data costs one more degree of freedom: df = 4 − 1 − 1 = 2, not 3.',
-      'Does not pool the "4 or more" cell, whose expected count is 3.38 (below 5). That gives 5 cells and a different statistic.',
-      'Divides by the observed counts instead of the expected counts: Σ(O − E)²/O = 8.55. The test statistic always uses E in the denominator.',
-      'Correct. With pooled cells χ² = 6.81 > 5.991, the critical value for 2 df.'
+    "answer": 3,
+    "why": "<p>Step 1, estimate the Poisson mean from the counts:</p><p>Counting voids board by board gives 120 voids on 100 boards:</p><p>\\[\\hat{\\lambda} = \\frac{120}{100} = 1.2\\]</p><p>Step 2, expected counts \\(E = 100\\Pr(X = k \\mid 1.2)\\) are 30.12, 36.14, 21.69 and 8.67 for 0 to 3 voids, and only 3.38 for 4 or more. Because 3.38 is below 5, pool into a \"3 or more\" cell (observed 14, expected 12.05). Step 3 and Step 4:</p><p>\\[\\begin{aligned}\\chi^2 &= \\sum \\frac{(O - E)^2}{E} \\\\ &= 6.81 \\\\ \\nu &= k - 1 - m = 2 \\\\ \\chi^2_{0.05,\\,2} &= 5.991\\end{aligned}\\]</p><p>The four cell contributions are 0.323, 2.688, 3.479 and 0.315, where \\(O\\) and \\(E\\) are observed and expected counts, \\(k\\) is the number of cells after pooling, \\(m\\) is the number of parameters estimated from the data and \\(\\nu\\) is the degrees of freedom. Since \\(6.81 \\gt 5.991\\), reject the Poisson model (\\(p \\approx 0.033\\)).</p><p><b>D. \\(\\chi^2 = 6.81\\) with 2 df: reject.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Example 6.51 (chi-square goodness of fit) and Appendix G, Chi-Square Distribution Table.</span></p>",
+    "optionRationales": [
+      "The statistic is right but the degrees of freedom are wrong. Estimating \\(\\lambda\\) from the same data costs one more: \\(\\nu = 4 - 1 - 1 = 2\\), not 3.",
+      "Does not pool the \"4 or more\" cell, whose expected count is 3.38 (below 5). That gives 5 cells and a different statistic.",
+      "Divides by the observed counts instead of the expected counts: \\(\\sum (O - E)^2/O = 8.55\\). The statistic always uses \\(E\\) in the denominator.",
+      "Correct. With pooled cells \\(\\chi^2 = 6.81 \\gt 5.991\\), the critical value for 2 degrees of freedom."
     ],
-    keyPoint:'Goodness-of-fit df = cells − 1 − number of parameters estimated from the data; pool cells until every expected count is at least 5.',
-    trap:'Forgetting to subtract a degree of freedom for the estimated mean, which flips the decision here.',
-    formula:'χ² = Σ (O − E)²/E;  df = k − 1 − m',
-    assumptions:['Boards are independent.','The expected-count rule of at least 5 per cell is applied before computing the statistic.'],
-    estimatedMinutes:6,keywords:['chi-square goodness of fit','Poisson','degrees of freedom','pooling cells','estimated parameter'],
-    sourceDocument:HB,sourceSection:'Chapter 6 - Probability Distributions',sources:src('Probability Distributions — chi-square goodness of fit','Example 6.51; Appendix G')
+    "keyPoint": "Goodness-of-fit degrees of freedom are \\(k - 1 - m\\); pool cells until every expected count is at least 5.",
+    "trap": "Forgetting to subtract a degree of freedom for the estimated mean, which flips the decision here.",
+    "formula": "\\(\\chi^2 = \\sum (O - E)^2/E\\), \\(\\nu = k - 1 - m\\)",
+    "assumptions": [
+      "Boards are independent.",
+      "The expected-count rule of at least 5 per cell is applied before computing the statistic."
+    ],
+    "estimatedMinutes": 6,
+    "keywords": [
+      "chi-square goodness of fit",
+      "Poisson",
+      "degrees of freedom",
+      "pooling cells",
+      "estimated parameter"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Probability Distributions",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Probability Distributions — chi-square goodness of fit",
+        "example": "Example 6.51; Appendix G"
+      }
+    ]
   },
   {
-    qid:'cre:set-1:b01-q10',set:1,batch:1,sub:'cre-statistics',
-    bok:bok('III.A.3','Reading a Weibull probability plot and interpreting the shape parameter'),
-    difficulty:'Hard',cognitive:'Evaluate',questionType:'Visual evidence interpretation, decision',quantitative:true,
-    stem:'Ten failure times of a new electronic control unit are plotted on Weibull probability paper with the fitted line shown. Reading the fitted line, which conclusion and action are most appropriate?',
-    chart:{type:'cre-weibull-plot',title:'Weibull probability plot — control unit failures (n = 10, median ranks)',
-      altText:'Weibull probability plot with time in hours on a log scale from 1 to 10,000 and unreliability from 1% to 99%. Ten points at 5.4 h (6.7%), 27.4 h (16.3%), 99.4 h (26.0%), 180 h (35.6%), 383 h (45.2%), 568 h (54.8%), 1,154 h (64.4%), 1,728 h (74.0%), 3,412 h (83.7%) and 7,063 h (93.3%) fall close to a straight fitted line. The line crosses 10% unreliability at about 11 hours and the 63.2% reference line at 1,000 hours.',
-      xTicks:[1,10,100,1000,10000],yTicks:[1,5,10,20,30,50,63.2,80,90,99],
-      points:[[5.4,6.7],[27.4,16.3],[99.4,26.0],[180,35.6],[383,45.2],[568,54.8],[1154,64.4],[1728,74.0],[3412,83.7],[7063,93.3]],
-      line:{beta:0.5,eta:1000},
-      xLabel:'Time to failure (hours, log scale)',yLabel:'Unreliability F(t), %'},
-    options:[
-      'β ≈ 0.5: the hazard rate is decreasing (early-life failures). Fixed-interval preventive replacement would not help; investigate manufacturing escapes and consider burn-in or ESS.',
-      'β ≈ 1.15: the hazard rate is nearly constant. Failures are random, so run the units to failure and keep spares.',
-      'β ≈ 0.5: the hazard rate is decreasing. Lengthen the preventive replacement interval so units are replaced less often but still before they fail.',
-      'β ≈ 2.0: the hazard rate is increasing (wear-out). Set a preventive replacement interval at the B10 life read from the plot.'
+    "qid": "cre:set-1:b01-q10",
+    "set": 1,
+    "batch": 1,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.3",
+      "topic": "Reading a Weibull probability plot and interpreting the shape parameter"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, decision",
+    "quantitative": true,
+    "stem": "Ten failure times of a new electronic control unit are plotted on Weibull probability paper with the fitted line shown. Reading the fitted line, which conclusion and action are most appropriate?",
+    "chart": {
+      "type": "cre-weibull-plot",
+      "title": "Weibull probability plot — control unit failures (n = 10, median ranks)",
+      "altText": "Weibull probability plot with time in hours on a log scale from 1 to 10,000 and unreliability from 1% to 99%. Ten points at 5.4 h (6.7%), 27.4 h (16.3%), 99.4 h (26.0%), 180 h (35.6%), 383 h (45.2%), 568 h (54.8%), 1,154 h (64.4%), 1,728 h (74.0%), 3,412 h (83.7%) and 7,063 h (93.3%) fall close to a straight fitted line. The line crosses 10% unreliability at about 11 hours and the 63.2% reference line at 1,000 hours.",
+      "xTicks": [
+        1,
+        10,
+        100,
+        1000,
+        10000
+      ],
+      "yTicks": [
+        1,
+        5,
+        10,
+        20,
+        30,
+        50,
+        63.2,
+        80,
+        90,
+        99
+      ],
+      "points": [
+        [
+          5.4,
+          6.7
+        ],
+        [
+          27.4,
+          16.3
+        ],
+        [
+          99.4,
+          26
+        ],
+        [
+          180,
+          35.6
+        ],
+        [
+          383,
+          45.2
+        ],
+        [
+          568,
+          54.8
+        ],
+        [
+          1154,
+          64.4
+        ],
+        [
+          1728,
+          74
+        ],
+        [
+          3412,
+          83.7
+        ],
+        [
+          7063,
+          93.3
+        ]
+      ],
+      "line": {
+        "beta": 0.5,
+        "eta": 1000
+      },
+      "xLabel": "Time to failure (hours, log scale)",
+      "yLabel": "Unreliability (%)"
+    },
+    "options": [
+      "\\(\\beta \\approx 0.5\\): the hazard rate is decreasing (early-life failures). Fixed-interval preventive replacement would not help; investigate manufacturing escapes and consider burn-in or ESS.",
+      "\\(\\beta \\approx 1.15\\): the hazard rate is nearly constant. Failures are random, so run the units to failure and keep spares.",
+      "\\(\\beta \\approx 0.5\\): the hazard rate is decreasing. Lengthen the preventive replacement interval so units are replaced less often but still before they fail.",
+      "\\(\\beta \\approx 2.0\\): the hazard rate is increasing (wear-out). Set a preventive replacement interval at the B10 life read from the plot."
     ],
-    answer:0,
-    why:'On Weibull paper, the slope of the fitted line is β. Read two points from the line: it crosses the dashed 63.2% line at η ≈ 1,000 h and the 10% line at about 11 h. Then: β = [ln(−ln(1 − 0.632)) − ln(−ln(1 − 0.10))]/[ln(1,000) − ln(11)] = [0 − (−2.250)]/(6.908 − 2.398) = 2.250/4.51 ≈ 0.50. When β < 1 the hazard rate decreases with age, which signals infant mortality from defects that escaped manufacturing. Replacing a unit early swaps it for a new one with a higher hazard, so time-based preventive replacement makes things worse. The right response is to find and remove the defect source and, until then, screen with burn-in or ESS. <b>A. β ≈ 0.5, decreasing hazard: investigate escapes and consider burn-in or ESS.</b> <span class="tb-source-ref">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions (Weibull) and Examples 6.54–6.57 (distribution identification).</span>',
-    optionRationales:[
-      'Correct. The slope is about 0.5, so β < 1 and the hazard is decreasing; preventive replacement would only add early failures.',
-      'Mixes logarithm bases: the y-axis is ln(−ln(1 − F)) but log₁₀ was used on the time axis, giving 2.25/1.955 ≈ 1.15.',
-      'The slope and hazard are read correctly, but the action is wrong. With β < 1 a replacement unit has a higher hazard than the one it replaces, so any time-based replacement adds failures; it also leaves the escape source in place.',
-      'A slope of 2 would be a steep line. This line rises only about 2.25 units on the ln scale across two decades of time.'
+    "answer": 0,
+    "why": "<p>On Weibull paper the slope of the fitted line is \\(\\beta\\). Read two points from the line: it crosses the dashed 63.2% line at \\(\\eta \\approx 1000\\) h and the 10% line at about 11 h. Then</p><p>\\[\\begin{aligned}y &= \\ln[-\\ln(1 - F)] \\\\ \\beta &= \\frac{y_2 - y_1}{\\ln t_2 - \\ln t_1} \\\\ &= \\frac{0 - (-2.250)}{6.908 - 2.398} \\\\ &\\approx 0.50\\end{aligned}\\]</p><p>where \\(F_1 = 0.10\\) at \\(t_1 = 11\\) h and \\(F_2 = 0.632\\) at \\(t_2 = 1000\\) h, and \\(y\\) is the vertical Weibull-paper scale. When \\(\\beta \\lt 1\\) the hazard rate decreases with age, which signals infant mortality from defects that escaped manufacturing. Replacing a unit early swaps it for a new one with a higher hazard, so time-based preventive replacement makes things worse. The right response is to find and remove the defect source and, until then, screen with burn-in or ESS.</p><p><b>A. \\(\\beta \\approx 0.5\\), decreasing hazard: investigate escapes and consider burn-in or ESS.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions (Weibull) and Examples 6.54–6.57 (distribution identification).</span></p>",
+    "optionRationales": [
+      "Correct. The slope is about 0.5, so \\(\\beta \\lt 1\\) and the hazard is decreasing; preventive replacement would only add early failures.",
+      "Mixes logarithm bases: the vertical axis is \\(\\ln[-\\ln(1 - F)]\\) but \\(\\log_{10}\\) was used on the time axis, giving \\(2.25/1.955 \\approx 1.15\\).",
+      "The slope and hazard are read correctly, but the action is wrong. With \\(\\beta \\lt 1\\) a replacement unit has a higher hazard than the one it replaces, so any time-based replacement adds failures; it also leaves the escape source in place.",
+      "A slope of 2 would be a steep line. This line rises only about 2.25 units on the \\(\\ln\\) scale across two decades of time."
     ],
-    keyPoint:'β is the slope on Weibull paper: below 1 means a decreasing hazard (infant mortality), 1 means constant, above 1 means wear-out.',
-    trap:'Using log₁₀ for time while the y-axis uses natural logs, or keeping any time-based replacement when β < 1.',
-    formula:'β = [ln(−ln(1 − F₂)) − ln(−ln(1 − F₁))]/[ln t₂ − ln t₁]',
-    assumptions:['A single failure mode is present.','The points follow the fitted straight line without curvature.'],
-    estimatedMinutes:4,keywords:['Weibull probability plot','shape parameter','infant mortality','burn-in','bathtub curve'],
-    sourceDocument:HB,sourceSection:'Chapter 6 - Probability Distributions',sources:src('Probability Distributions — Weibull; distribution identification','Examples 6.54–6.57')
+    "keyPoint": "\\(\\beta\\) is the slope on Weibull paper: \\(\\beta \\lt 1\\) means a decreasing hazard (infant mortality), \\(\\beta = 1\\) constant, \\(\\beta \\gt 1\\) wear-out.",
+    "trap": "Using \\(\\log_{10}\\) for time while the vertical axis uses natural logs, or keeping any time-based replacement when \\(\\beta \\lt 1\\).",
+    "formula": "\\(\\beta = \\dfrac{\\ln[-\\ln(1 - F_2)] - \\ln[-\\ln(1 - F_1)]}{\\ln t_2 - \\ln t_1}\\)",
+    "assumptions": [
+      "A single failure mode is present.",
+      "The points follow the fitted straight line without curvature."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "Weibull probability plot",
+      "shape parameter",
+      "infant mortality",
+      "burn-in",
+      "bathtub curve"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Probability Distributions",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Probability Distributions — Weibull; distribution identification",
+        "example": "Examples 6.54–6.57"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b02-q11",
+    "set": 1,
+    "batch": 2,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.4",
+      "topic": "Reliability from a hazard function (cumulative hazard)"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "Field data for a hydraulic seal give the hazard function shown. The hazard rate is constant until 1,000 hours and then rises linearly. What is the reliability of a new seal at 1,500 hours?",
+    "chart": {
+      "type": "cre-xy-plot",
+      "eyebrow": "Hazard function",
+      "title": "Hydraulic seal hazard rate",
+      "altText": "Hazard rate in failures per 10,000 hours against operating time from 0 to 2,000 hours. The rate is constant at 4 from 0 to 1,000 hours, then rises in a straight line to 14 at 1,500 hours and 24 at 2,000 hours.",
+      "xTicks": [
+        0,
+        250,
+        500,
+        750,
+        1000,
+        1250,
+        1500,
+        1750,
+        2000
+      ],
+      "yTicks": [
+        0,
+        5,
+        10,
+        15,
+        20,
+        25
+      ],
+      "series": [
+        {
+          "label": "h(t)",
+          "points": [
+            [
+              0,
+              4
+            ],
+            [
+              1000,
+              4
+            ],
+            [
+              1500,
+              14
+            ],
+            [
+              2000,
+              24
+            ]
+          ]
+        }
+      ],
+      "markers": [
+        {
+          "x": 1000,
+          "y": 4,
+          "label": "4 per 10,000 h"
+        },
+        {
+          "x": 1500,
+          "y": 14,
+          "label": "14 per 10,000 h"
+        }
+      ],
+      "xLabel": "Operating time (hours)",
+      "yLabel": "Hazard rate (failures per 10,000 h)"
+    },
+    "options": [
+      "0.122",
+      "0.150",
+      "0.427",
+      "0.549"
+    ],
+    "answer": 2,
+    "why": "<p>Reliability depends on the cumulative hazard \\(H(t)\\), the area under the hazard curve:</p><p>\\[\\begin{aligned}R(t) &= e^{-H(t)} \\\\ H(t) &= \\int_0^{t} h(u)\\,du \\\\ A_1 &= 0.0004(1000) \\\\ &= 0.40 \\\\ A_2 &= 500(0.0009) \\\\ &= 0.45 \\\\ H(1500) &= 0.85 \\\\ R(1500) &= e^{-0.85} \\\\ &= 0.427\\end{aligned}\\]</p><p>where \\(h(t)\\) is the hazard rate per hour read from the plot (4 and 14 failures per 10,000 h at 1,000 h and 1,500 h). \\(A_1\\) is the rectangle from 0 to 1,000 h; \\(A_2\\) is the trapezoid from 1,000 to 1,500 h, whose average height is \\((0.0004 + 0.0014)/2 = 0.0009\\) per hour.</p><p><b>C. 0.427</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Functions (hazard and cumulative hazard).</span></p>",
+    "optionRationales": [
+      "Multiplies the hazard at 1,500 h by the whole 1,500 h: \\(e^{-0.0014 \\times 1500} = 0.122\\). That applies the end-point rate from time zero.",
+      "\\(1 - H = 1 - 0.85 = 0.150\\) uses the small-\\(H\\) approximation \\(R \\approx 1 - H\\), which fails badly when \\(H\\) is not small.",
+      "Correct. \\(H(1500) = 0.40 + 0.45 = 0.85\\), so \\(R = e^{-0.85} = 0.427\\).",
+      "\\(e^{-0.0004 \\times 1500} = 0.549\\) ignores the wear-out ramp after 1,000 h."
+    ],
+    "keyPoint": "\\(R(t) = \\exp\\left[-\\int_0^{t} h(u)\\,du\\right]\\). Use the area under the hazard curve, not the hazard at the end point.",
+    "trap": "Multiplying the end-point hazard by total time, or using \\(R \\approx 1 - H\\) when \\(H\\) is large.",
+    "formula": "\\(R(t) = \\exp[-H(t)]\\), \\(H(1500) = 0.85\\)",
+    "assumptions": [
+      "The hazard function shown applies to a new seal from time zero."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "hazard function",
+      "cumulative hazard",
+      "reliability function",
+      "wear-out"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Probability Functions",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Probability Functions — hazard and cumulative hazard",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b02-q12",
+    "set": 1,
+    "batch": 2,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.4",
+      "topic": "Hazard rate from PDF and CDF output; distinguishing f(t) from h(t)"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Software output interpretation, calculation",
+    "quantitative": true,
+    "stem": "A life-data package reports the probability density \\(f(t)\\) and cumulative distribution \\(F(t)\\) shown for a pump impeller. A colleague notes that \\(f(t)\\) peaks near 600 hours and concludes that the impeller’s failure rate falls after that. What is the hazard rate at 800 hours, and which conclusion about the failure rate is correct?",
+    "chart": {
+      "type": "data-table",
+      "title": "Distribution Analysis: Impeller life — table of probabilities",
+      "columns": [
+        "Time (h)",
+        "PDF \\(f(t)\\)",
+        "CDF \\(F(t)\\)"
+      ],
+      "rows": [
+        [
+          "200",
+          "0.000565",
+          "0.0733"
+        ],
+        [
+          "400",
+          "0.000733",
+          "0.2061"
+        ],
+        [
+          "600",
+          "0.000757",
+          "0.3570"
+        ],
+        [
+          "800",
+          "0.000695",
+          "0.5033"
+        ],
+        [
+          "1,000",
+          "0.000589",
+          "0.6321"
+        ]
+      ]
+    },
+    "options": [
+      "\\(h(800) \\approx 6.95 \\times 10^{-4}\\) per hour; the failure rate is decreasing because \\(f(t)\\) falls after 600 h.",
+      "\\(h(800) \\approx 1.40 \\times 10^{-3}\\) per hour; the failure rate is increasing (wear-out), because \\(f(t)/[1 - F(t)]\\) rises at every time in the table.",
+      "\\(h(800) \\approx 1.40 \\times 10^{-3}\\) per hour; the failure rate is decreasing because \\(f(t)\\) falls after 600 h.",
+      "\\(h(800) \\approx 6.29 \\times 10^{-4}\\) per hour; the failure rate is roughly constant because \\(F(t)/t\\) changes little after 600 h."
+    ],
+    "answer": 1,
+    "why": "<p>The hazard rate is the failure density divided by the fraction still surviving:</p><p>\\[\\begin{aligned}h(t) &= \\frac{f(t)}{1 - F(t)} \\\\ h(800) &= \\frac{0.000695}{0.4967} \\\\ &= 1.40 \\times 10^{-3}\\end{aligned}\\]</p><p>where \\(f(t)\\) is the probability density, \\(F(t)\\) the cumulative fraction failed, \\(R(t) = 1 - F(t)\\) the reliability and \\(h(t)\\) is per hour. Across the table \\(h(t) = 0.61, 0.92, 1.18, 1.40\\) and \\(1.60 \\times 10^{-3}\\) per hour, so the failure rate keeps increasing. \\(f(t)\\) falls after 600 h only because fewer units remain to fail; the survivors are failing at a rising rate.</p><p><b>B. \\(1.40 \\times 10^{-3}\\) per hour, increasing.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Functions (PDF, CDF and hazard function).</span></p>",
+    "optionRationales": [
+      "Reads \\(f(800)\\) as the hazard rate. The PDF is the unconditional failure density; the hazard is conditional on survival.",
+      "Correct. \\(h(t) = f(t)/[1 - F(t)]\\) rises from \\(6.1 \\times 10^{-4}\\) to \\(1.60 \\times 10^{-3}\\) per hour across the table.",
+      "The hazard value is right, but the trend is taken from \\(f(t)\\) instead of \\(h(t)\\).",
+      "\\(F(800)/800 = 6.29 \\times 10^{-4}\\) is an average fraction failed per hour, not the instantaneous hazard rate."
+    ],
+    "keyPoint": "\\(h(t) = f(t)/R(t)\\). A falling PDF does not mean a falling failure rate.",
+    "trap": "Reading the trend of the PDF as the trend of the hazard rate.",
+    "formula": "\\(h(t) = f(t)/[1 - F(t)]\\)",
+    "assumptions": [
+      "The fitted distribution describes impeller life."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "hazard function",
+      "probability density function",
+      "cumulative distribution function",
+      "wear-out"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Probability Functions",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Probability Functions — PDF, CDF and hazard",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b02-q13",
+    "set": 1,
+    "batch": 2,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.5",
+      "topic": "Zero-failure Weibull demonstration with test-time extension"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A zero-failure reliability demonstration is planned using the requirements in the table. Prior life data show that the failure mechanism follows a Weibull distribution with the shape parameter given. What is the minimum number of units that must complete the test with no failures?",
+    "chart": {
+      "type": "data-table",
+      "title": "Demonstration test plan — actuator",
+      "columns": [
+        "Item",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Required reliability",
+          "0.95 at 2,000 h"
+        ],
+        [
+          "Required confidence",
+          "90%"
+        ],
+        [
+          "Known Weibull shape \\(\\beta\\)",
+          "1.5"
+        ],
+        [
+          "Test time available per unit",
+          "3,000 h"
+        ],
+        [
+          "Test stations available",
+          "12"
+        ],
+        [
+          "Cost per test unit",
+          "$1,850"
+        ]
+      ]
+    },
+    "options": [
+      "24",
+      "25",
+      "30",
+      "45"
+    ],
+    "answer": 1,
+    "why": "<p>For a zero-failure Weibull test with known \\(\\beta\\), testing each unit for \\(k\\) times the mission time gives</p><p>\\[\\begin{aligned}k &= 3000/2000 = 1.5 \\\\ n &= \\frac{\\ln(1 - C)}{k^{\\beta}\\,\\ln R} \\\\ &= \\frac{\\ln 0.10}{1.5^{1.5}\\,\\ln 0.95} \\\\ &= 24.4\\end{aligned}\\]</p><p>where \\(C\\) is the required confidence, \\(R\\) the required reliability at the mission time, \\(\\beta\\) the Weibull shape and \\(k\\) the ratio of test time to mission time. Round up: 25 units. The number of stations and the unit cost affect scheduling and budget, not the sample size.</p><p><b>B. 25</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Sampling Plans for Statistics and Reliability Testing, Examples 6.64–6.66.</span></p>",
+    "optionRationales": [
+      "\\(24.4\\) rounded down. A demonstration sample size is always rounded up, or the confidence falls short of 90%.",
+      "Correct. \\(n = \\ln(0.10)/(1.5^{1.5}\\ln 0.95) = 24.4\\), so 25 units.",
+      "Uses \\(k\\) instead of \\(k^{\\beta}\\): \\(\\ln(0.10)/(1.5 \\ln 0.95) = 29.9\\). That ignores how wear-out makes extra test time count for more.",
+      "Ignores the extended test time and tests at the mission time: \\(\\ln(0.10)/\\ln(0.95) = 44.9\\)."
+    ],
+    "keyPoint": "Extending test time by a factor \\(k\\) reduces the zero-failure sample size by a factor \\(k^{\\beta}\\) when \\(\\beta\\) is known.",
+    "trap": "Scaling by \\(k\\) instead of \\(k^{\\beta}\\), or rounding the sample size down.",
+    "formula": "\\(n = \\ln(1 - C)/[k^{\\beta}\\ln R]\\), \\(k = t_{\\text{test}}/t_{\\text{mission}}\\)",
+    "assumptions": [
+      "β is known and the same at test and use conditions.",
+      "Units are tested at use conditions (no acceleration)."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "reliability demonstration",
+      "zero-failure test",
+      "success run",
+      "Weibull",
+      "test time extension"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Sampling Plans for Statistics and Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Sampling plans — zero-failure and extended-time tests",
+        "example": "Examples 6.64–6.66"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b02-q14",
+    "set": 1,
+    "batch": 2,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.5",
+      "topic": "Binomial demonstration plan that allows one failure"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Calculation",
+    "quantitative": true,
+    "stem": "A customer requires a demonstration that a relay has reliability of at least 0.90 for one mission, at 90% confidence. The test plan will accept the relay design if no more than one unit fails. Using the binomial distribution, what is the minimum number of relays that must be tested?",
+    "options": [
+      "22",
+      "23",
+      "37",
+      "38"
+    ],
+    "answer": 3,
+    "why": "<p>With \\(c = 1\\) allowed failure, choose the smallest \\(n\\) for which a design that only just fails the requirement (\\(R = 0.90\\), so \\(p = 0.10\\)) would still pass with probability no more than \\(1 - C = 0.10\\):</p><p>\\[\\begin{aligned}P_n &= q^{n} + n\\,p\\,q^{n-1} \\\\ P_{37} &= 0.1036 \\\\ P_{38} &= 0.0953\\end{aligned}\\]</p><p>where \\(P_n = \\Pr(X \\le 1)\\) when \\(n\\) relays are tested, \\(X\\) is the number of failures, \\(p = 1 - R = 0.10\\), \\(q = 0.90\\) and \\(C\\) is the confidence. At \\(n = 37\\) the probability (0.1036) is above 0.10; at \\(n = 38\\) it (0.0953) meets the limit.</p><p><b>D. 38</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Sampling Plans for Statistics and Reliability Testing (Examples 6.64–6.66) and Confidence Intervals (Example 6.84, lower confidence limit for reliability with failures).</span></p>",
+    "optionRationales": [
+      "The zero-failure plan: \\(\\ln(0.10)/\\ln(0.90) = 21.9\\), so 22. Allowing a failure needs more units, not the same number.",
+      "Adds one unit to the zero-failure size for the allowed failure. The binomial probability must be recalculated instead.",
+      "The chi-square (Poisson) approximation, \\(\\chi^2_{0.10,\\,4}/(2 \\times 0.1054) = 36.9\\), rounds to 37. The exact binomial calculation asked for gives \\(\\Pr(X \\le 1) = 0.104\\) at \\(n = 37\\), which is above 0.10.",
+      "Correct. \\(\\Pr(X \\le 1 \\mid 38, 0.10) = 0.095 \\le 0.10\\), while \\(n = 37\\) gives 0.104."
+    ],
+    "keyPoint": "For an allowed-failure plan, find the smallest \\(n\\) with \\(\\Pr(X \\le c \\mid n, 1 - R) \\le 1 - C\\).",
+    "trap": "Adding \\(c\\) to the zero-failure sample size, or using the Poisson approximation when the binomial is specified.",
+    "formula": "\\(\\sum_{x=0}^{c} \\binom{n}{x}(1 - R)^{x}R^{\\,n-x} \\le 1 - C\\)",
+    "assumptions": [
+      "Each relay is an independent pass/fail trial with the same reliability."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "binomial",
+      "success run",
+      "allowed failures",
+      "reliability demonstration",
+      "confidence"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Sampling Plans for Statistics and Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Sampling plans — binomial demonstration with failures",
+        "example": "Examples 6.64–6.66, 6.84"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b02-q15",
+    "set": 1,
+    "batch": 2,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.6",
+      "topic": "Long-term capability (Ppk) and expected nonconformance"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Software output interpretation, calculation",
+    "quantitative": true,
+    "stem": "A capability study on the diameter of a bearing journal produced the output shown. Undersized journals are the reliability concern, because they loosen and fret in service. Based on long-term (overall) performance, what proportion of journals is expected to fall below the lower specification limit?",
+    "chart": {
+      "type": "data-table",
+      "title": "Process Capability Report: Journal diameter (mm)",
+      "columns": [
+        "Statistic",
+        "Value"
+      ],
+      "rows": [
+        [
+          "LSL",
+          "24.950"
+        ],
+        [
+          "USL",
+          "25.100"
+        ],
+        [
+          "Sample mean",
+          "25.012"
+        ],
+        [
+          "StDev (within)",
+          "0.0140"
+        ],
+        [
+          "StDev (overall)",
+          "0.0227"
+        ],
+        [
+          "\\(C_p\\) / \\(C_{pk}\\)",
+          "1.79 / 1.48"
+        ],
+        [
+          "\\(P_p\\) / \\(P_{pk}\\)",
+          "1.10 / 0.91"
+        ]
+      ]
+    },
+    "options": [
+      "5 ppm",
+      "53 ppm",
+      "3,150 ppm",
+      "3,210 ppm"
+    ],
+    "answer": 2,
+    "why": "<p>Long-term performance uses the overall standard deviation:</p><p>\\[\\begin{aligned}z_L &= \\frac{\\bar{x} - \\text{LSL}}{\\sigma_o} \\\\ &= \\frac{25.012 - 24.950}{0.0227} \\\\ &= 2.73 \\\\ p_L &= \\Phi(-2.73) = 0.00316\\end{aligned}\\]</p><p>where \\(\\bar{x}\\) is the process mean, \\(\\sigma_o\\) the overall standard deviation, \\(\\Phi\\) the standard normal CDF and \\(p_L\\) the fraction below the LSL. This matches \\(P_{pk} = z_L/3 = 0.91\\). The answer is about 3,150 ppm. The large gap between \\(C_{pk} = 1.48\\) and \\(P_{pk} = 0.91\\) shows the process drifts between subgroups, so the within-subgroup figure badly understates the undersize risk.</p><p><b>C. 3,150 ppm</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Statistical Process Control and Capability Studies, Example 6.80; Appendix D.</span></p>",
+    "optionRationales": [
+      "Uses the within-subgroup standard deviation (\\(z = 4.43\\)), which describes short-term potential, not long-term performance.",
+      "This is the expected fraction above the USL (\\(z = 3.88\\)). The concern is undersized journals.",
+      "Correct. \\(z_L = 0.062/0.0227 = 2.73\\) and \\(\\Phi(-2.73) \\approx 0.00316\\).",
+      "Adds both tails (3,155 + 53 ppm). Only the lower tail is asked for."
+    ],
+    "keyPoint": "\\(P_p\\) and \\(P_{pk}\\) use the overall standard deviation and predict long-term nonconformance; on the side of interest \\(z = 3P_{pk}\\).",
+    "trap": "Using the within-subgroup \\(\\sigma\\) for long-term prediction, or reporting both tails when one is asked.",
+    "formula": "\\(z_L = (\\bar{x} - \\text{LSL})/\\sigma_{\\text{overall}} = 3P_{pk}\\); fraction below LSL \\(= \\Phi(-z_L)\\)",
+    "assumptions": [
+      "Diameter is approximately normal.",
+      "The study period represents long-term variation."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "process capability",
+      "Ppk",
+      "Cpk",
+      "nonconformance",
+      "ppm"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Statistical Process Control and Capability Studies",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "SPC and capability studies — Cp, Cpk, Pp, Ppk",
+        "example": "Example 6.80; Appendix D"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b02-q16",
+    "set": 1,
+    "batch": 2,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.6",
+      "topic": "Control chart selection with varying subgroup sizes"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A final-inspection station records the proportion of circuit cards with one or more nonconformities. The number of cards inspected changes from day to day. Using the week shown as the baseline, which control chart and Tuesday control limit should be used, and is Tuesday’s result a signal?",
+    "chart": {
+      "type": "data-table",
+      "title": "Final inspection — circuit cards",
+      "columns": [
+        "Day",
+        "Cards inspected",
+        "Nonconforming cards",
+        "Total nonconformities"
+      ],
+      "rows": [
+        [
+          "Mon",
+          "120",
+          "5",
+          "7"
+        ],
+        [
+          "Tue",
+          "100",
+          "9",
+          "14"
+        ],
+        [
+          "Wed",
+          "200",
+          "7",
+          "10"
+        ],
+        [
+          "Thu",
+          "180",
+          "6",
+          "9"
+        ],
+        [
+          "Fri",
+          "150",
+          "5",
+          "8"
+        ],
+        [
+          "Sat",
+          "250",
+          "8",
+          "12"
+        ]
+      ]
+    },
+    "options": [
+      "\\(np\\) chart; UCL \\(\\approx 14.3\\) nonconforming cards; Tuesday (9) is not a signal.",
+      "\\(p\\) chart using the average subgroup size; UCL \\(\\approx 0.086\\); Tuesday (0.090) is a signal.",
+      "\\(u\\) chart of nonconformities per card; UCL \\(\\approx 0.134\\); Tuesday (0.140) is a signal.",
+      "\\(p\\) chart with limits for each day’s subgroup size; Tuesday UCL \\(\\approx 0.099\\); Tuesday (0.090) is not a signal."
+    ],
+    "answer": 3,
+    "why": "<p>The characteristic is the proportion of nonconforming cards, an attribute, and the subgroup size varies, so a \\(p\\) chart with limits computed for each subgroup is the right choice:</p><p>\\[\\begin{aligned}\\bar{p} &= 40/1000 = 0.040 \\\\ \\sigma_i &= \\sqrt{\\bar{p}\\,\\bar{q}/n_i} \\\\ &= \\sqrt{0.0384/100} \\\\ &= 0.0196 \\\\ \\text{UCL}_i &= \\bar{p} + 3\\sigma_i \\\\ &= 0.040 + 0.059 \\\\ &= 0.099\\end{aligned}\\]</p><p>where \\(\\bar{p}\\) is the baseline proportion nonconforming, \\(\\bar{q} = 1 - \\bar{p} = 0.960\\), \\(n_i = 100\\) is the number of cards inspected on Tuesday and \\(\\sigma_i\\) is the standard error of that day’s proportion. Tuesday’s proportion is \\(9/100 = 0.090\\), below the limit, so it is not a signal. Using the average subgroup size (166.7) gives a tighter 0.086 limit and a false alarm for the smallest subgroup.</p><p><b>D. \\(p\\) chart with limits for each day’s subgroup size; not a signal.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Statistical Process Control, Examples 6.76–6.79 (p, np, c and u charts).</span></p>",
+    "optionRationales": [
+      "An \\(np\\) chart needs a constant subgroup size; with sizes from 100 to 250, a single count limit is not valid.",
+      "Average-\\(n\\) limits are only an approximation when sizes are similar. Tuesday’s subgroup is 40% smaller than average, and the shortcut produces a false signal.",
+      "A \\(u\\) chart tracks nonconformities per unit. The characteristic asked for is nonconforming cards, which is a \\(p\\)-chart problem.",
+      "Correct. \\(\\bar{p} = 0.040\\); \\(\\text{UCL}(n = 100) = 0.099\\); 0.090 is inside the limits."
+    ],
+    "keyPoint": "Nonconforming units with varying \\(n\\): use a \\(p\\) chart with limits recomputed for each subgroup size.",
+    "trap": "Using \\(np\\) (requires constant \\(n\\)), using an average \\(n\\) with widely varying sizes, or charting defects instead of defectives.",
+    "formula": "\\(\\text{UCL}_i = \\bar{p} + 3\\sqrt{\\bar{p}(1 - \\bar{p})/n_i}\\)",
+    "assumptions": [
+      "The baseline week is in statistical control."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "p chart",
+      "variable subgroup size",
+      "attribute control chart",
+      "np chart",
+      "u chart"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Statistical Process Control",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "SPC — attribute control charts",
+        "example": "Examples 6.76–6.79"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b02-q17",
+    "set": 1,
+    "batch": 2,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.7",
+      "topic": "Chi-square lower confidence bound on MTBF, time-terminated test"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "Eight power supplies were tested at use conditions. Each failed unit was repaired immediately and returned to test, and the test ended on a pre-planned date. Assuming a constant failure rate, what is the one-sided 90% lower confidence bound on MTBF?",
+    "chart": {
+      "type": "data-table",
+      "title": "Power supply test summary",
+      "columns": [
+        "Position",
+        "Hours on test",
+        "Failures"
+      ],
+      "rows": [
+        [
+          "PS-1",
+          "1,800",
+          "1"
+        ],
+        [
+          "PS-2",
+          "1,500",
+          "0"
+        ],
+        [
+          "PS-3",
+          "1,500",
+          "0"
+        ],
+        [
+          "PS-4",
+          "1,400",
+          "1"
+        ],
+        [
+          "PS-5",
+          "1,600",
+          "0"
+        ],
+        [
+          "PS-6",
+          "1,500",
+          "0"
+        ],
+        [
+          "PS-7",
+          "1,200",
+          "1"
+        ],
+        [
+          "PS-8",
+          "1,500",
+          "0"
+        ]
+      ]
+    },
+    "options": [
+      "1,548 h",
+      "1,796 h",
+      "2,255 h",
+      "4,000 h"
+    ],
+    "answer": 1,
+    "why": "<p>Total test time is \\(T = 12000\\) h with \\(r = 3\\) failures, so the point estimate is \\(T/r = 4000\\) h. The test was time-terminated (it stopped on a date, not at a failure), so the lower bound uses \\(2r + 2 = 8\\) degrees of freedom:</p><p>\\[\\begin{aligned}\\text{MTBF}_L &= \\frac{2T}{\\chi^2_{\\alpha,\\,2r+2}} \\\\ &= \\frac{24000}{\\chi^2_{0.10,\\,8}} \\\\ &= \\frac{24000}{13.362} \\\\ &= 1796\\end{aligned}\\]</p><p>where \\(T\\) is the total time on test, \\(r\\) the number of failures, \\(\\alpha = 0.10\\) for a one-sided 90% bound and the result is in hours.</p><p><b>B. 1,796 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals, Example 6.95 (confidence interval for an exponential mean); Appendix G.</span></p>",
+    "optionRationales": [
+      "Uses \\(\\chi^2_{0.05,\\,8} = 15.507\\), the lower limit of a two-sided 90% interval, not a one-sided 90% bound.",
+      "Correct. \\(24000/\\chi^2_{0.10,\\,8} = 24000/13.362 = 1796\\) h.",
+      "Uses \\(2r = 6\\) degrees of freedom (\\(\\chi^2 = 10.645\\)), the failure-terminated formula. This test ended at a planned time.",
+      "\\(T/r = 4000\\) h is the point estimate, not a confidence bound."
+    ],
+    "keyPoint": "Time-terminated: \\(\\text{MTBF}_L = 2T/\\chi^2_{\\alpha,\\,2r+2}\\). Failure-terminated: use \\(2r\\) degrees of freedom.",
+    "trap": "Using \\(2r\\) degrees of freedom on a time-terminated test, or the two-sided chi-square value for a one-sided bound.",
+    "formula": "\\(\\text{MTBF}_L = 2T/\\chi^2_{\\alpha,\\,2r+2}\\)",
+    "assumptions": [
+      "Constant failure rate.",
+      "Repairs restore units to as-good-as-new condition."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "MTBF",
+      "chi-square",
+      "confidence bound",
+      "time-terminated test",
+      "exponential"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Confidence and Tolerance Intervals",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Confidence intervals — exponential mean",
+        "example": "Example 6.95; Appendix G"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b02-q18",
+    "set": 1,
+    "batch": 2,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.7",
+      "topic": "One-sided normal tolerance bound versus confidence bound"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, calculation, decision",
+    "quantitative": true,
+    "stem": "A random sample of 20 pipe-body tensile tests gives a mean yield strength of 74.6 ksi and a standard deviation of 2.1 ksi, and the data are approximately normal. The specified minimum yield strength is 68 ksi. A customer asks for 95% confidence that at least 99% of production meets the minimum. Using the factors shown, which statement is correct?",
+    "chart": {
+      "type": "data-table",
+      "title": "One-sided normal tolerance factors (95% confidence)",
+      "columns": [
+        "Sample size \\(n\\)",
+        "\\(k\\) for 95% coverage",
+        "\\(k\\) for 99% coverage"
+      ],
+      "rows": [
+        [
+          "15",
+          "2.566",
+          "3.520"
+        ],
+        [
+          "20",
+          "2.396",
+          "3.295"
+        ],
+        [
+          "25",
+          "2.292",
+          "3.158"
+        ],
+        [
+          "30",
+          "2.220",
+          "3.064"
+        ]
+      ]
+    },
+    "options": [
+      "The lower tolerance bound is 67.7 ksi, so the data do not show, with 95% confidence, that 99% of production exceeds 68 ksi.",
+      "The lower bound \\(\\bar{x} - 3s\\) is 68.3 ksi, so at least 99.87% of production exceeds 68 ksi, which meets the requirement.",
+      "The lower bound \\(\\bar{x} - 2.326s\\) is 69.7 ksi, so 99% of production exceeds 68 ksi, which meets the requirement.",
+      "The 95% lower confidence bound on the mean is 73.8 ksi, which is well above 68 ksi, so the requirement is met."
+    ],
+    "answer": 0,
+    "why": "<p>The requirement is about the population (99% coverage) with 95% confidence, so it calls for a one-sided tolerance bound:</p><p>\\[\\begin{aligned}L &= \\bar{x} - k\\,s \\\\ &= 74.6 - 3.295(2.1) \\\\ &= 74.6 - 6.92 = 67.7 \\text{ ksi}\\end{aligned}\\]</p><p>where \\(\\bar{x}\\) is the sample mean, \\(s\\) the sample standard deviation and \\(k = 3.295\\) the factor for \\(n = 20\\), 99% coverage and 95% confidence. That is below 68 ksi, so the sample does not demonstrate the requirement. A larger sample (smaller \\(k\\)) or less variation would be needed.</p><p><b>A. 67.7 ksi; not demonstrated.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals, Example 6.88 (confidence interval versus tolerance interval); Appendix I.1.</span></p>",
+    "optionRationales": [
+      "Correct. \\(74.6 - 3.295(2.1) = 67.7\\) ksi, which is below 68 ksi.",
+      "\\(\\bar{x} - 3s\\) treats the sample estimates as the true \\(\\mu\\) and \\(\\sigma\\) and ignores sampling uncertainty. It is not tied to a stated confidence level.",
+      "\\(z_{0.01} = 2.326\\) gives the 1st percentile only if \\(\\mu\\) and \\(\\sigma\\) were known. With \\(n = 20\\), the tolerance factor 3.295 must be used.",
+      "A confidence bound on the mean says where the average is, not where 99% of individual pipes are."
+    ],
+    "keyPoint": "Coverage of individuals with confidence needs a tolerance bound, \\(\\bar{x} - k\\,s\\), not a confidence bound on the mean or a \\(z\\)-based percentile.",
+    "trap": "Using a confidence interval for the mean, or \\(z\\) instead of the tolerance factor \\(k\\), which inflates the apparent margin.",
+    "formula": "\\(L = \\bar{x} - k(n, p, \\gamma)\\,s = 67.7\\) ksi",
+    "assumptions": [
+      "Yield strength is normally distributed.",
+      "The 20 tests are a random sample of production."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "tolerance interval",
+      "tolerance factor",
+      "confidence interval",
+      "yield strength",
+      "coverage"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Confidence and Tolerance Intervals",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Confidence and tolerance intervals — normal",
+        "example": "Example 6.88; Appendix I.1"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b02-q19",
+    "set": 1,
+    "batch": 2,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.7",
+      "topic": "Using a lower confidence bound on Weibull reliability"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Software output interpretation, decision",
+    "quantitative": true,
+    "stem": "A program must show that a valve actuator has reliability of at least 0.90 at 1,000 hours, with 95% confidence. A Weibull analysis of test data produced the survival table shown. Which conclusion is correct?",
+    "chart": {
+      "type": "data-table",
+      "title": "Distribution Analysis: Actuator — table of survival probabilities (Weibull)",
+      "columns": [
+        "Time (h)",
+        "Reliability estimate",
+        "95% lower bound (one-sided)"
+      ],
+      "rows": [
+        [
+          "500",
+          "0.981",
+          "0.952"
+        ],
+        [
+          "750",
+          "0.958",
+          "0.912"
+        ],
+        [
+          "1,000",
+          "0.927",
+          "0.874"
+        ],
+        [
+          "1,250",
+          "0.889",
+          "0.826"
+        ]
+      ]
+    },
+    "options": [
+      "The requirement is not demonstrated at 1,000 h, because the 95% lower bound is 0.874. The data support \\(R \\ge 0.90\\) at 95% confidence only up to about 750 h.",
+      "The requirement is demonstrated, because the reliability estimate at 1,000 h (0.927) exceeds 0.90.",
+      "The requirement is not demonstrated, because the lower bound shows that 12.6% of actuators will fail by 1,000 h.",
+      "The data cannot be judged against the requirement, because confidence bounds on reliability need a zero-failure test."
+    ],
+    "answer": 0,
+    "why": "<p>A requirement stated \"with 95% confidence\" is met only if the one-sided 95% lower confidence bound reaches the target:</p><p>\\[\\begin{aligned}R_L(1000) &= 0.874 \\lt 0.90 \\\\ R_L(750) &= 0.912 \\ge 0.90\\end{aligned}\\]</p><p>where \\(R_L(t)\\) is the one-sided 95% lower confidence bound on reliability at time \\(t\\). The requirement is not demonstrated at 1,000 h even though the point estimate is 0.927. Closing the gap needs more test units or more test time to narrow the interval.</p><p><b>A. Not demonstrated at 1,000 h; supported only to about 750 h.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals (Weibull, normal and lognormal intervals), Examples 6.83–6.84.</span></p>",
+    "optionRationales": [
+      "Correct. \\(R_L(1000) = 0.874 \\lt 0.90\\), while \\(R_L(750) = 0.912\\).",
+      "A point estimate carries no confidence statement. The requirement explicitly asks for 95% confidence.",
+      "The bound is a statement of confidence about the true reliability, not a prediction that exactly 12.6% will fail.",
+      "Confidence bounds can be calculated from data with failures; a zero-failure test is only one way to demonstrate reliability."
+    ],
+    "keyPoint": "Compare the requirement with the lower confidence bound at the required confidence, not with the point estimate.",
+    "trap": "Accepting on the point estimate, or reading the confidence bound as a predicted failure fraction.",
+    "formula": "Demonstrated if \\(R_L(t;\\,95\\%) \\ge R_{\\text{required}}\\)",
+    "assumptions": [
+      "The Weibull model fits the test data.",
+      "Test conditions represent use conditions."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "confidence bound",
+      "reliability demonstration",
+      "Weibull",
+      "point estimate"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Confidence and Tolerance Intervals",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Confidence intervals for reliability",
+        "example": "Examples 6.83–6.84"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b02-q20",
+    "set": 1,
+    "batch": 2,
+    "sub": "cre-statistics",
+    "bok": {
+      "domain": "III. Probability and Statistics for Reliability",
+      "subdomain": "A. Basic Concepts",
+      "code": "III.A.5",
+      "topic": "Representative and randomized sampling for a life test"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Apply",
+    "questionType": "Scenario judgment",
+    "quantitative": false,
+    "stem": "A plastic pump housing is molded in a three-cavity tool on two shifts, using resin from two approved suppliers. Thirty housings will be selected for an accelerated life test that will support a field reliability claim. Which sampling approach is most appropriate?",
+    "options": [
+      "Select housings at random within each combination of cavity, shift and resin supplier, roughly in proportion to production.",
+      "Use the first 30 housings molded after tool qualification, because they are closest to nominal dimensions.",
+      "Use housings from the cavity with the best dimensional capability, to reduce noise in the test results.",
+      "Use 30 housings from one shift and one resin lot, so that the test isolates the design from process variation."
+    ],
+    "answer": 0,
+    "why": "<p>A field reliability claim must represent every source of variation the field will see. Stratifying by cavity, shift and resin supplier, then selecting at random within each stratum, keeps the sample representative and lets differences between strata show up. Each of the other plans picks a convenient or best-case subset and would bias the life estimate upward.</p><p><b>A. Random selection within each cavity, shift and resin combination.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Sampling Plans for Statistics and Reliability Testing (representative and randomized sampling).</span></p>",
+    "optionRationales": [
+      "Correct. Stratified random sampling covers the production variation that the reliability claim must include.",
+      "Early, freshly qualified parts are a best-case convenience sample, not a picture of steady production.",
+      "Choosing the best cavity biases the result upward and hides cavity-to-cavity effects.",
+      "Removing process variation from the sample also removes it from the claim, which then no longer describes field units."
+    ],
+    "keyPoint": "Sample across every production stratum the claim covers, and randomize within each stratum.",
+    "trap": "Picking convenient or best-case parts for a reliability claim.",
+    "formula": null,
+    "assumptions": [
+      "All cavities, shifts and resin suppliers supply field units."
+    ],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "representative sampling",
+      "stratified random sampling",
+      "life test planning",
+      "bias"
+    ],
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "sourceSection": "Chapter 6 - Sampling Plans for Statistics and Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 6 - Probability and Statistics for Reliability, Basic Concepts",
+        "section": "Sampling plans — representative and randomized sampling",
+        "example": null
+      }
+    ]
   }
-  ];
+];
 })(window);

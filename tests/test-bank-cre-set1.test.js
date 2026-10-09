@@ -40,17 +40,22 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-test('CRE Set 1 batch 1 has ten well-formed, uniquely identified questions', () => {
-  assert.equal(BANK.length, 10);
+const BATCHES = [1, 2];
+
+test('CRE Set 1 has ten well-formed, uniquely identified questions per released batch', () => {
+  assert.equal(BANK.length, BATCHES.length * 10);
   const ids = new Set();
   for (const q of BANK) {
-    assert.match(q.qid, /^cre:set-1:b01-q\d{2}$/);
+    const m = q.qid.match(/^cre:set-1:b(\d{2})-q(\d{2})$/);
+    assert.ok(m, `${q.qid} id format`);
+    assert.equal(Number(m[1]), q.batch, `${q.qid} id carries its batch`);
+    assert.equal(Number(m[2]), BANK.indexOf(q) + 1, `${q.qid} numbering is sequential and never renumbered`);
     assert.ok(!ids.has(q.qid), `duplicate ${q.qid}`);
     ids.add(q.qid);
     assert.equal(q.set, 1);
-    assert.equal(q.batch, 1);
+    assert.ok(BATCHES.includes(q.batch));
     assert.equal(q.sub, 'cre-statistics', `${q.qid} belongs to domain III`);
-    assert.match(q.bok.code, /^III\.A\.[1-3]$/);
+    assert.match(q.bok.code, q.batch === 1 ? /^III\.A\.[1-3]$/ : /^III\.A\.[4-7]$/);
     assert.equal(q.options.length, 4, `${q.qid} has four options`);
     assert.equal(new Set(q.options).size, 4, `${q.qid} options are distinct`);
     assert.ok(Number.isInteger(q.answer) && q.answer >= 0 && q.answer < 4, `${q.qid} answer index`);
@@ -62,20 +67,52 @@ test('CRE Set 1 batch 1 has ten well-formed, uniquely identified questions', () 
     assert.doesNotMatch(q.stem, /[<>]/, `${q.qid} stem is plain text (the engine escapes it)`);
     q.options.forEach((o) => assert.doesNotMatch(o, /all of the above|none of the above/i));
     assert.ok(['Easy', 'Medium', 'Hard', 'Very Hard'].includes(q.difficulty));
-    assert.ok(q.keyPoint && q.trap && q.formula, `${q.qid} has teaching fields`);
+    assert.ok(q.keyPoint && q.trap, `${q.qid} has teaching fields`);
+    if (q.quantitative) assert.ok(q.formula, `${q.qid} quantitative items show their formula`);
   }
 });
 
-test('batch 1 follows the planned difficulty mix, visual quota and balanced answer key', () => {
-  const count = (d) => BANK.filter((q) => q.difficulty === d).length;
-  assert.equal(count('Easy'), 1);
-  assert.equal(count('Medium'), 3);
-  assert.equal(count('Hard'), 4);
-  assert.equal(count('Very Hard'), 2);
-  assert.ok(BANK.filter((q) => q.chart).length >= 4, 'at least four questions carry a visual');
-  const letters = [0, 0, 0, 0];
-  BANK.forEach((q) => letters[q.answer]++);
-  assert.ok(Math.max(...letters) <= 3 && Math.min(...letters) >= 2, `answer positions are balanced: ${letters}`);
+for (const batch of BATCHES) {
+  test(`batch ${batch} follows the planned difficulty mix, visual quota and balanced answer key`, () => {
+    const rows = BANK.filter((q) => q.batch === batch);
+    assert.equal(rows.length, 10);
+    const count = (d) => rows.filter((q) => q.difficulty === d).length;
+    assert.equal(count('Easy'), 1);
+    assert.equal(count('Medium'), 3);
+    assert.equal(count('Hard'), 4);
+    assert.equal(count('Very Hard'), 2);
+    assert.ok(rows.filter((q) => q.chart).length >= 4, 'at least four questions carry a visual');
+    const letters = [0, 0, 0, 0];
+    rows.forEach((q) => letters[q.answer]++);
+    assert.ok(Math.max(...letters) <= 3 && Math.min(...letters) >= 2, `answer positions are balanced: ${letters}`);
+  });
+}
+
+test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22', () => {
+  // Plain-text math outside \( … \) or \[ … \] is not allowed: Greek letters, operators, superscripts,
+  // x^2 / sqrt / sigma spellings, f(t)-style functions, single-letter assignments and capability indices.
+  const MATH = /[α-ωΑ-Ω√×≈≤≥≠±∑∏∫∩∪Φ²³⁻⁰¹⁴⁵⁶⁷⁸⁹₀-₉̄̂]|\b(sqrt|sigma|mu|lambda|beta|eta|alpha|x-bar|p-hat)\b|\^|<=|>=|\b[A-Za-z]\(t\)|(?<![\w.-])[a-zA-Z]\s?[=<>]\s?[\d.]|\b(Cp|Cpk|Pp|Ppk)\b/;
+  const outsideMath = (s) => String(s).replace(/\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]/g, ' ');
+  for (const q of BANK) {
+    const fields = [q.stem, q.why.replace(/<span class="tb-source-ref">[\s\S]*?<\/span>/, ''), q.keyPoint, q.trap, q.formula || '',
+      ...q.options, ...q.optionRationales, ...((q.chart && q.chart.type === 'data-table') ? [...q.chart.columns, ...q.chart.rows.flat()] : [])];
+    for (const field of fields) {
+      const text = outsideMath(field);
+      const hit = text.match(MATH);
+      assert.equal(hit, null, `${q.qid}: plain-text math "${hit && hit[0]}" in: ${String(field).slice(0, 90)}`);
+      assert.doesNotMatch(String(field), /\$\$?[^$]+\$/, `${q.qid}: $ is never a math delimiter`);
+      // delimiters must pair up
+      assert.equal((String(field).match(/\\\(/g) || []).length, (String(field).match(/\\\)/g) || []).length, `${q.qid}: unbalanced \\( \\)`);
+      assert.equal((String(field).match(/\\\[/g) || []).length, (String(field).match(/\\\]/g) || []).length, `${q.qid}: unbalanced \\[ \\]`);
+      // raw < or > inside math could be read as HTML by the sanitizer; use \lt and \gt
+      for (const m of String(field).matchAll(/\\\(([\s\S]*?)\\\)|\\\[([\s\S]*?)\\\]/g)) assert.doesNotMatch(m[1] ?? m[2], /[<>]/, `${q.qid}: use \\lt / \\gt inside math`);
+    }
+    // explanations with a worked calculation show it as display math, with a "where" sentence defining variables
+    if (q.quantitative) {
+      assert.match(q.why, /\\\[/, `${q.qid}: worked calculation is display math`);
+      assert.match(q.why, /<p>where |[.,] where |Here, /i, `${q.qid}: variables are defined after the formula`);
+    }
+  }
 });
 
 test('numeric options are listed in ascending order', () => {
@@ -103,6 +140,12 @@ function normInv(p) {
   if (p > 1 - lo) return -normInv(1 - p);
   const q = p - 0.5, r = q * q;
   return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
+}
+function normCdf(z) {
+  // W. J. Cody-style erf approximation via the complementary series (|error| < 1.5e-7)
+  const t = 1 / (1 + 0.3275911 * Math.abs(z) / Math.SQRT2);
+  const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-z * z / 2);
+  return z >= 0 ? (1 + y) / 2 : (1 - y) / 2;
 }
 // Upper 5% chi-square critical values (Appendix G).
 const CHI2_05 = { 2: 5.991, 3: 7.815, 4: 9.488 };
@@ -167,8 +210,8 @@ test('Q5 at-least-10-of-12 binomial', () => {
 test('Q6 expected fleet failures use Weibull conditional reliability from the output', () => {
   const q = byId('cre:set-1:b01-q06');
   const table = Object.fromEntries(q.chart.rows);
-  const beta = Number(table['Shape (β)']);
-  const eta = Number(table['Scale (η)'].replace(/[^0-9.]/g, ''));
+  const beta = Number(table['Shape \\(\\beta\\)']);
+  const eta = Number(table['Scale \\(\\eta\\)'].replace(/[^0-9.]/g, ''));
   const R = (t) => Math.exp(-((t / eta) ** beta));
   assertKeyed(q, 40 * (1 - R(1000) / R(500)), 0.05);
   // the displayed MTTF and B10 agree with β and η (Γ(1 + 1/1.8) = 0.889287)
@@ -209,7 +252,7 @@ test('Q9 chi-square goodness of fit: pooled statistic, df = k − 1 − m, decis
   assert.equal(df, 2);
   assert.ok(chi > CHI2_05[2] && chi < CHI2_05[3], 'the df choice decides the outcome, as intended');
   const keyed = q.options[q.answer];
-  assert.match(keyed, new RegExp('χ² = ' + chi.toFixed(2).replace('.', '\\.') + ' with 2 degrees of freedom'));
+  assert.ok(keyed.startsWith('\\(\\chi^2 = ' + chi.toFixed(2) + '\\) with 2 degrees of freedom'), keyed);
   assert.match(keyed, /reject the Poisson model/);
   assert.doesNotMatch(keyed, /fail to reject/);
 });
@@ -221,9 +264,102 @@ test('Q10 Weibull slope from the plotted line is about 0.5', () => {
   const slope = (Math.log(-Math.log(1 - 0.632)) - Math.log(-Math.log(0.9))) / (Math.log(1000) - Math.log(t10));
   assert.ok(Math.abs(slope - 0.5) < 0.01);
   assert.ok(Math.abs(t10 - 11.1) < 0.1, 'stem quotes the 10% crossing at about 11 h');
-  assert.match(q.options[q.answer], /^β ≈ 0\.5: the hazard rate is decreasing/);
+  assert.ok(q.options[q.answer].startsWith('\\(\\beta \\approx 0.5\\): the hazard rate is decreasing (early-life failures)'));
   // plotted points are median ranks for n = 10
   q.chart.points.forEach(([, f], i) => assert.ok(Math.abs(f - 100 * (i + 1 - 0.3) / 10.4) < 0.06));
+});
+
+const tableOf = (q) => Object.fromEntries(q.chart.rows.map(([k, v]) => [k, v]));
+const n_ = (s) => Number(String(s).replace(/[^0-9.\-]/g, ''));
+
+test('Q11 reliability from the plotted hazard function (area under h)', () => {
+  const q = byId('cre:set-1:b02-q11');
+  const pts = q.chart.series[0].points.map(([t, h]) => [t, h / 1e4]);
+  let H = 0;
+  for (let i = 1; i < pts.length && pts[i - 1][0] < 1500; i++) {
+    const [t0, h0] = pts[i - 1], [t1, h1] = pts[i];
+    const tEnd = Math.min(t1, 1500), hEnd = h0 + (h1 - h0) * (tEnd - t0) / (t1 - t0);
+    H += (tEnd - t0) * (h0 + hEnd) / 2;
+  }
+  assert.ok(Math.abs(H - 0.85) < 1e-9);
+  assertKeyed(q, Math.exp(-H), 0.0006);
+});
+
+test('Q12 hazard = f/(1 − F) from the output, and it increases across the table', () => {
+  const q = byId('cre:set-1:b02-q12');
+  const hz = q.chart.rows.map(([, f, F]) => Number(f) / (1 - Number(F)));
+  hz.slice(1).forEach((h, i) => assert.ok(h > hz[i], 'hazard increases'));
+  const at800 = hz[3];
+  assert.ok(Math.abs(at800 - 1.40e-3) < 0.005e-3);
+  assert.ok(q.options[q.answer].startsWith('\\(h(800) \\approx 1.40 \\times 10^{-3}\\) per hour; the failure rate is increasing'));
+  // the table is a genuine Weibull(β = 1.6, η = 1000) to the printed precision
+  q.chart.rows.forEach(([t, f, F]) => {
+    const x = n_(t) / 1000, R = Math.exp(-(x ** 1.6));
+    assert.ok(Math.abs(1 - R - Number(F)) < 0.00006 && Math.abs(1.6 / 1000 * x ** 0.6 * R - Number(f)) < 0.0000006);
+  });
+});
+
+test('Q13 zero-failure Weibull sample size with test-time extension', () => {
+  const q = byId('cre:set-1:b02-q13');
+  const plan = tableOf(q);
+  const beta = Number(plan['Known Weibull shape \\(\\beta\\)']), k = n_(plan['Test time available per unit']) / 2000;
+  const n = Math.log(1 - 0.90) / (k ** beta * Math.log(0.95));
+  assertKeyed(q, Math.ceil(n), 0.01);
+});
+
+test('Q14 binomial plan with one allowed failure', () => {
+  const q = byId('cre:set-1:b02-q14');
+  const accept = (n) => 0.9 ** n + n * 0.1 * 0.9 ** (n - 1);
+  let n = 2;
+  while (accept(n) > 0.10) n++;
+  assertKeyed(q, n, 0.01);
+  assert.ok(accept(n - 1) > 0.10);
+});
+
+test('Q15 long-term fraction below LSL uses the overall sigma', () => {
+  const q = byId('cre:set-1:b02-q15');
+  const r = tableOf(q);
+  const z = (Number(r['Sample mean']) - Number(r.LSL)) / Number(r['StDev (overall)']);
+  const ppm = (1 - normCdf(z)) * 1e6;
+  assert.ok(Math.abs(ppm - 3150) < 15, `ppm ${ppm}`);
+  assertKeyed(q, ppm, 15);
+  assert.ok(Math.abs(z / 3 - 0.91) < 0.005, 'Ppk shown agrees with the data');
+});
+
+test('Q16 p chart with per-subgroup limits; Tuesday is inside', () => {
+  const q = byId('cre:set-1:b02-q16');
+  const rows = q.chart.rows.map(([d, n, np]) => ({ d, n: Number(n), np: Number(np) }));
+  const pbar = rows.reduce((a, r) => a + r.np, 0) / rows.reduce((a, r) => a + r.n, 0);
+  const tue = rows.find((r) => r.d === 'Tue');
+  const ucl = pbar + 3 * Math.sqrt(pbar * (1 - pbar) / tue.n);
+  assert.ok(Math.abs(ucl - 0.099) < 0.0005);
+  assert.ok(tue.np / tue.n < ucl);
+  assert.match(q.options[q.answer], /^\\\(p\\\) chart with limits for each day.*not a signal/);
+});
+
+test('Q17 time-terminated chi-square MTBF lower bound from the test summary', () => {
+  const q = byId('cre:set-1:b02-q17');
+  const T = q.chart.rows.reduce((a, r) => a + n_(r[1]), 0), r = q.chart.rows.reduce((a, row) => a + Number(row[2]), 0);
+  assert.equal(T, 12000); assert.equal(r, 3);
+  assertKeyed(q, 2 * T / 13.362, 1); // χ²(0.10; 2r + 2 = 8) = 13.362, Appendix G
+});
+
+test('Q18 one-sided tolerance bound with the tabled factor', () => {
+  const q = byId('cre:set-1:b02-q18');
+  const k = Number(q.chart.rows.find((r) => r[0] === '20')[2]);
+  const L = 74.6 - k * 2.1;
+  assert.ok(Math.abs(L - 67.7) < 0.05 && L < 68);
+  assert.match(q.options[q.answer], /^The lower tolerance bound is 67\.7 ksi, so the data do not show/);
+});
+
+test('Q19 requirement judged on the one-sided lower bound, not the estimate', () => {
+  const q = byId('cre:set-1:b02-q19');
+  const rows = q.chart.rows.map(([t, est, lo]) => ({ t: n_(t), est: Number(est), lo: Number(lo) }));
+  const at1000 = rows.find((r) => r.t === 1000);
+  assert.ok(at1000.est >= 0.90 && at1000.lo < 0.90);
+  const longest = Math.max(...rows.filter((r) => r.lo >= 0.90).map((r) => r.t));
+  assert.equal(longest, 750);
+  assert.match(q.options[q.answer], /not demonstrated at 1,000 h.*750 h/);
 });
 
 /* ---------- 3. production delivery ---------- */
@@ -274,14 +410,14 @@ test('CRE is live with the 2025 BoK, and Focused Quiz defaults to a populated ar
   const { dom, window, errors } = await openCre();
   try {
     const exam = window.__TB.EXAMS.cre;
-    assert.equal(exam.bank.length, 10);
+    assert.equal(exam.bank.length, BANK.length);
     assert.equal(exam.minutes, 258);
     assert.equal(JSON.stringify(exam.bok.map((d) => d.weight)), '[29,25,35,35,26]');
     const subs = new Set(exam.bok.flatMap((d) => d.subs.map((s) => s.id)));
     BANK.forEach((q) => assert.ok(subs.has(q.sub)));
     // Sets 1-3 share one five-domain BoK: every question in every set maps to a domain.
     assert.equal(exam.bok.length, 5, 'registerCRESet2 must not add duplicate domains');
-    assert.equal(exam.sets[1].length, 10);
+    assert.equal(exam.sets[1].length, BANK.length);
     assert.ok(exam.sets[2].length > 0 && exam.sets[3].length > 0, 'Sets 2 and 3 remain available');
     for (const id of ['1', '2', '3']) {
       for (const q of exam.sets[id]) {
@@ -290,7 +426,8 @@ test('CRE is live with the 2025 BoK, and Focused Quiz defaults to a populated ar
     }
     click(window, window.document.querySelector('.tb-tile[data-exam="cre"]'));
     const overview = window.document.getElementById('tb-overview');
-    assert.match(overview.textContent, /Set 1 currently contains 10 of the planned 150/);
+    assert.match(overview.textContent, new RegExp(`Set 1 currently contains ${BANK.length} of the planned 150`));
+    assert.match(overview.textContent, new RegExp(`Batch ${BATCHES.length} of 15`));
     const area = overview.querySelector('[data-focusdom]');
     assert.ok(area, 'Focused Quiz area picker renders');
     assert.equal(area.value, 'cre-statistics', 'defaults to the area that has questions');
@@ -327,7 +464,7 @@ test('a full CRE sitting renders every visual and scores a perfect paper as 100%
     click(window, overview.querySelector('[data-mode="full"]'));
     assert.ok(overview.querySelector('.tb-quiz'), 'full exam opens');
     const records = window.__TB.getFeedbackSnapshot().records;
-    assert.equal(records.length, 10);
+    assert.equal(records.length, BANK.length);
     for (let i = 0; i < records.length; i++) {
       const q = records[i].question;
       const quiz = overview.querySelector('.tb-quiz');
@@ -342,6 +479,11 @@ test('a full CRE sitting renders every visual and scores a perfect paper as 100%
         assert.equal(svg.querySelectorAll('circle.tb-chart-dot').length, 10, 'ten plotted failures');
         assert.ok(svg.querySelector('path.tb-chart-line'), 'fitted line drawn');
         assert.ok(svg.querySelector('.cre-ref'), '63.2% reference line drawn');
+      } else if (q.chart && q.chart.type === 'cre-xy-plot') {
+        const svg = quiz.querySelector('svg.cre-chart');
+        assert.ok(svg, `${q.qid} draws the x-y plot`);
+        assert.equal(svg.querySelectorAll('path.tb-chart-line').length, q.chart.series.length);
+        q.chart.yTicks.forEach((v) => assert.ok(svg.textContent.includes(String(v)), `${q.qid} y tick ${v}`));
       } else if (q.chart && q.chart.type === 'data-table') {
         const table = quiz.querySelector('table.tb-q-data-table');
         assert.ok(table, `${q.qid} renders its data table`);
@@ -355,7 +497,30 @@ test('a full CRE sitting renders every visual and scores a perfect paper as 100%
     click(window, overview.querySelector('[data-submit]'));
     const result = overview.querySelector('[data-score-result]');
     assert.ok(result, 'result screen renders');
-    assert.match(result.textContent, /\(10\/10\)/);
+    assert.match(result.textContent, new RegExp(`\\(${BANK.length}/${BANK.length}\\)`));
+    assert.deepEqual(errors, []);
+  } finally { dom.window.close(); }
+});
+
+test('typeset display math in Set 1 becomes a full-size, keyboard-scrollable region', async () => {
+  const { dom, window, errors } = await openCre();
+  try {
+    click(window, window.document.querySelector('.tb-tile[data-exam="cre"]'));
+    click(window, window.document.querySelector('#tb-overview [data-mode="full"]'));
+    const quiz = window.document.querySelector('.tb-quiz');
+    assert.match(quiz.dataset.questionId, /^cre:set-1:/);
+    // Simulate MathJax inserting a display equation after the engine renders.
+    const math = window.document.createElement('mjx-container');
+    math.setAttribute('display', 'true');
+    math.appendChild(window.document.createElementNS('http://www.w3.org/2000/svg', 'svg'));
+    quiz.appendChild(math);
+    await new Promise((resolve) => window.setTimeout(resolve, 0));
+    assert.equal(math.getAttribute('role'), 'region');
+    assert.equal(math.tabIndex, 0);
+    assert.match(math.getAttribute('aria-label'), /scroll sideways/);
+    // The no-shrink rule must outrank #tb-feedback-loop svg { max-width: 100% } (an ID selector).
+    const css = window.document.getElementById('cre-visuals-style').textContent;
+    assert.match(css, /:is\(#tb-overview,#tb-feedback-loop,body\) [^{]*mjx-container\[display="true"\] > svg\{max-width:none\}/);
     assert.deepEqual(errors, []);
   } finally { dom.window.close(); }
 });

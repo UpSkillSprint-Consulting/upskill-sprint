@@ -185,7 +185,7 @@ def main():
                     expect(card.locator('.exam-status')).to_have_text('Coming soon')
                     expect(card.locator('.exam-card-action')).to_contain_text('View exam details')
                 cre = page.locator('.exam-card[href="/test-bank?exam=cre"]')
-                expect(cre.locator('.exam-status')).to_have_text('Sets 1–3: 30 questions available')
+                expect(cre.locator('.exam-status')).to_have_text('Sets 1–3: 40 questions available')
                 expect(cre.locator('.exam-card-action')).to_contain_text('Start practicing')
                 expect(page.locator('.exam-intro')).to_contain_text('untimed')
                 expect(page.locator('.exam-actions a[href="/test-bank"]')).to_be_visible()

@@ -10,6 +10,7 @@
  * Types:
  *   cre-prob-tree     probability / event tree with branch probabilities and outcomes
  *   cre-weibull-plot  Weibull probability paper with data points and a fitted line
+ *   cre-xy-plot       linear x–y plot with explicit round ticks and labelled points
  */
 (function(global){
   'use strict';
@@ -50,7 +51,13 @@
       '.cre-tick{fill:var(--muted);font-size:9.5px}',
       '.cre-title{fill:var(--ink);font-size:11.5px;font-weight:700}',
       '.cre-marker{fill:var(--ink);font-size:10px;font-weight:700;paint-order:stroke;stroke:var(--tint);stroke-width:4px;stroke-linejoin:round}',
-      '.cre-ref{stroke:var(--muted);stroke-width:1.1;stroke-dasharray:5 4}'
+      '.cre-ref{stroke:var(--muted);stroke-width:1.1;stroke-dasharray:5 4}',
+      /* Display math in CRE Set 1 (guide §22.3): keep equations full size; if a line is wider than a
+         phone card, scroll it inside a focusable region instead of shrinking the SVG. */
+      ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] mjx-container[display="true"]{max-width:100%;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;padding:4px 0;color:var(--ink)}',
+      /* scoped under the page IDs so it outranks #tb-feedback-loop svg{max-width:100%} without !important */
+      ':is(#tb-overview,#tb-feedback-loop,body) :is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] mjx-container[display="true"] > svg{max-width:none}',
+      ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] mjx-container[display="true"]:focus-visible{outline:2px solid var(--teal);outline-offset:2px}'
     ].join('\n');
     document.head.appendChild(style);
   }
@@ -166,7 +173,41 @@
     return wrap('Weibull probability plot',s,true);
   }
 
-  var RENDERERS={'cre-prob-tree':probTree,'cre-weibull-plot':weibullPlot};
+  /* ---------- linear x–y plot with explicit round ticks ---------- */
+  function xyPlot(spec){
+    var xTicks=(spec.xTicks||[]).map(num).filter(function(v){return v!=null;});
+    var yTicks=(spec.yTicks||[]).map(num).filter(function(v){return v!=null;});
+    var series=(spec.series||[]).filter(function(s){return Array.isArray(s.points)&&s.points.length;});
+    if(xTicks.length<2||yTicks.length<2||!series.length)return '';
+    var w=580,h=330,left=62,right=24,top=34,bottom=54;
+    var xMin=Math.min.apply(null,xTicks),xMax=Math.max.apply(null,xTicks),yMin=Math.min.apply(null,yTicks),yMax=Math.max.apply(null,yTicks);
+    function px(v){return left+(Number(v)-xMin)/(xMax-xMin)*(w-left-right);}
+    function py(v){return top+(yMax-Number(v))/(yMax-yMin)*(h-top-bottom);}
+    var s='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart cre-chart cre-chart-wide" role="img" aria-label="'+esc(spec.altText||spec.title||'Plot')+'">'+
+      '<title>'+esc(spec.title||'Plot')+'</title><desc>'+esc(spec.altText||'')+'</desc>'+
+      '<text class="cre-title" x="'+left+'" y="18">'+esc(spec.title||'')+'</text>';
+    xTicks.forEach(function(t){var x=px(t).toFixed(1);s+='<line class="tb-chart-grid" x1="'+x+'" y1="'+top+'" x2="'+x+'" y2="'+(h-bottom)+'"></line><text class="cre-tick" x="'+x+'" y="'+(h-bottom+16)+'" text-anchor="middle">'+esc(fmt(t))+'</text>';});
+    yTicks.forEach(function(t){var y=py(t).toFixed(1);s+='<line class="tb-chart-grid" x1="'+left+'" y1="'+y+'" x2="'+(w-right)+'" y2="'+y+'"></line><text class="cre-tick" x="'+(left-6)+'" y="'+(Number(y)+3)+'" text-anchor="end">'+esc(fmt(t))+'</text>';});
+    series.forEach(function(item){
+      var d=item.points.map(function(p,i){return (i?'L':'M')+px(p[0]).toFixed(1)+' '+py(p[1]).toFixed(1);}).join(' ');
+      s+='<path class="tb-chart-line" fill="none" d="'+d+'"'+(item.dashed?' stroke-dasharray="7 4"':'')+'></path>';
+      if(item.showPoints!==false)item.points.forEach(function(p){
+        var label=(item.label?item.label+': ':'')+fmt(p[0])+', '+p[1];
+        s+='<circle class="tb-chart-dot" cx="'+px(p[0]).toFixed(1)+'" cy="'+py(p[1]).toFixed(1)+'" r="3.5" tabindex="0" role="img" aria-label="'+esc(label)+'"><title>'+esc(label)+'</title></circle>';
+      });
+    });
+    (spec.markers||[]).forEach(function(mk){
+      if(num(mk.x)==null||num(mk.y)==null)return;
+      var mx=px(mk.x),my=py(mk.y),anchor=mx>w-160?'end':'start',dx=anchor==='end'?-9:9;
+      s+='<circle cx="'+mx.toFixed(1)+'" cy="'+my.toFixed(1)+'" r="6" fill="none" stroke="var(--ink)" stroke-width="1.6"></circle>'+
+        '<text class="cre-marker" x="'+(mx+dx).toFixed(1)+'" y="'+(my-9).toFixed(1)+'" text-anchor="'+anchor+'">'+esc(mk.label||'')+'</text>';
+    });
+    s+='<text class="cre-axis-label" x="'+((left+w-right)/2)+'" y="'+(h-12)+'" text-anchor="middle">'+esc(spec.xLabel||'')+'</text>'+
+      '<text class="cre-axis-label" x="15" y="'+((top+h-bottom)/2)+'" text-anchor="middle" transform="rotate(-90 15 '+((top+h-bottom)/2)+')">'+esc(spec.yLabel||'')+'</text></svg>';
+    return wrap(spec.eyebrow||'Plot',s,true);
+  }
+
+  var RENDERERS={'cre-prob-tree':probTree,'cre-weibull-plot':weibullPlot,'cre-xy-plot':xyPlot};
   function render(chart){
     if(!chart||typeof chart.type!=='string'||!RENDERERS[chart.type])return '';
     ensureStyle();
@@ -176,5 +217,24 @@
     if(!html&&chart.altText)html='<div class="tb-q-chart-wrap cre-visual cre-fallback"><span class="tb-q-chart-eyebrow">'+esc(chart.title||'Question visual')+'</span><p>'+esc(chart.altText)+'</p></div>';
     return html;
   }
-  global.__CREVisuals={render:render,types:Object.keys(RENDERERS)};
+  /* Make each typeset display equation in a CRE Set 1 question a labelled, keyboard-scrollable
+     region (MathJax inserts the containers after the engine renders, so watch for them). */
+  var SCOPE=':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] mjx-container[display="true"]';
+  function labelMath(root){
+    if(!root||!root.querySelectorAll)return;
+    var list=root.matches&&root.matches(SCOPE)?[root]:root.querySelectorAll(SCOPE);
+    Array.prototype.forEach.call(list,function(el){
+      if(el.hasAttribute('data-cre-math'))return;
+      el.setAttribute('data-cre-math','');el.tabIndex=0;el.setAttribute('role','region');
+      el.setAttribute('aria-label','Worked equation; scroll sideways if it is wider than the screen');
+    });
+  }
+  if(typeof document!=='undefined'){
+    ensureStyle();
+    if(typeof MutationObserver==='function'&&document.body){
+      new MutationObserver(function(records){records.forEach(function(r){Array.prototype.forEach.call(r.addedNodes,function(n){if(n.nodeType===1)labelMath(n);});});})
+        .observe(document.body,{childList:true,subtree:true});
+    }
+  }
+  global.__CREVisuals={render:render,types:Object.keys(RENDERERS),labelMath:labelMath};
 })(window);
