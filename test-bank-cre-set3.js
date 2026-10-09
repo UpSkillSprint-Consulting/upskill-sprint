@@ -4556,6 +4556,392 @@
         ]
       ]
     }
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "A constant failure rate is given as a percent per 1,000 hours. That statement means 0.05 failures per unit per 1,000 hours.\n\\[\n\\lambda=\\frac{0.05}{1000}\n\\]\n\\[\nMTTF=\\frac{1}{\\lambda}\n\\]\nWhat is the MTTF?",
+    "options": [
+      "200 hours",
+      "20,000 hours",
+      "50,000 hours",
+      "1,000 hours"
+    ],
+    "answer": 1,
+    "why": "Convert the percent to a count, divide by 1,000 hours, and invert.\n\\[\n\\lambda=0.00005\n\\]\n\\[\nMTTF=\\frac{1}{0.00005}=20000\n\\]\n200 hours treats the 5 as a count of failures rather than 5 percent. 1,000 hours is the time base. 50,000 hours uses 2 percent instead of 5 percent. <b>B. 20,000 hours</b>",
+    "set": 3,
+    "qid": "cre:set-3:131",
+    "bok": "I.B.1",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Failure rate statement",
+      "altText": "The constant failure rate is 5 percent per 1,000 hours.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Failure rate",
+          "5 percent per 1,000 h"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "In one life-table interval, \\(d\\) units fail out of \\(n\\) units that entered the interval. The interval width is \\(\\Delta t\\).\n\\[\nh=\\frac{d}{n\\Delta t}\n\\]\nWhat is the interval hazard rate?",
+    "options": [
+      "0.0500 per hour",
+      "0.0005 per hour",
+      "0.0050 per hour",
+      "10 failures"
+    ],
+    "answer": 1,
+    "why": "Divide the failures by the number entering, then divide by the interval width.\n\\[\nd/n=10/200=0.05\n\\]\n\\[\nh=0.05/100=0.0005\n\\]\n0.0500 is the conditional probability of failure in the interval, not a rate per hour. 0.0050 divides by 10 hours. 10 is the failure count. <b>B. 0.0005 per hour</b>",
+    "set": 3,
+    "qid": "cre:set-3:132",
+    "bok": "III.A.4",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Life-table interval",
+      "altText": "Two hundred units entered the interval. Ten failed. The interval is 100 hours wide.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Units entering",
+          "200"
+        ],
+        [
+          "Failures",
+          "10"
+        ],
+        [
+          "Interval width",
+          "100 h"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "A normal strength distribution has both tails outside the specification. The tail probabilities are given.\n\\[\np=p_L+p_U\n\\]\nWhat fraction of units is nonconforming?",
+    "options": [
+      "0.0062",
+      "0.0228",
+      "0.0290",
+      "0.9710"
+    ],
+    "answer": 2,
+    "why": "Add the two tails. The conforming fraction is not the nonconforming fraction.\n\\[\np=0.0228+0.0062=0.0290\n\\]\n0.0062 and 0.0228 are single tails. 0.9710 is the fraction inside the limits. <b>C. 0.0290</b>",
+    "set": 3,
+    "qid": "cre:set-3:133",
+    "bok": "III.A.3",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Specification tails",
+      "altText": "The lower-tail probability is 0.0228. The upper-tail probability is 0.0062.",
+      "columns": [
+        "Tail",
+        "Probability"
+      ],
+      "rows": [
+        [
+          "Below the lower limit",
+          "0.0228"
+        ],
+        [
+          "Above the upper limit",
+          "0.0062"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "The sample size for a proportion uses the stated normal factor \\(z\\), the planning proportion \\(p\\), and the margin \\(E\\).\n\\[\nn=\\frac{z^{2}p(1-p)}{E^{2}}\n\\]\nWhat sample size does the formula give?",
+    "options": [
+      "400",
+      "100",
+      "25",
+      "10"
+    ],
+    "answer": 1,
+    "why": "Square the factor, multiply by \\(p(1-p)\\), and divide by the squared margin.\n\\[\nz^{2}p(1-p)=4(0.25)=1\n\\]\n\\[\nn=1/(0.10)^{2}=100\n\\]\n400 omits \\(p(1-p)\\). 25 stops before dividing by \\(E^{2}\\). 10 divides \\(z\\) by \\(E\\). <b>B. 100</b>",
+    "set": 3,
+    "qid": "cre:set-3:134",
+    "bok": "III.A.5",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Proportion sample size",
+      "altText": "The normal factor z is 2. The planning proportion is 0.50. The margin E is 0.10.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "z",
+          "2"
+        ],
+        [
+          "Planning proportion",
+          "0.50"
+        ],
+        [
+          "Margin",
+          "0.10"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "One unit operates. Two identical units are in cold standby, the switches are perfect, and a standby unit does not fail while waiting. Use \\(e^{-1}=0.3679\\). At the mission age, \\(\\lambda t=1\\).\n\\[\nR=e^{-\\lambda t}\\left(1+\\lambda t+\\frac{(\\lambda t)^{2}}{2}\\right)\n\\]\nWhat is the mission reliability, to four decimal places?",
+    "options": [
+      "0.9198",
+      "0.7358",
+      "0.3679",
+      "0.0802"
+    ],
+    "answer": 0,
+    "why": "Two spares add the squared term. One spare stops at \\(1+\\lambda t\\).\n\\[\n1+1+1/2=2.5\n\\]\n\\[\nR=0.3679(2.5)=0.9198\n\\]\n0.7358 is the reliability with one spare. 0.3679 is the operating unit alone. 0.0802 is one minus the two-spare reliability. <b>A. 0.9198</b>",
+    "set": 3,
+    "qid": "cre:set-3:135",
+    "bok": "IV.C.1",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Two cold spares",
+      "altText": "Lambda t is 1. Both spares are cold, and both switches are perfect.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "lambda t",
+          "1"
+        ],
+        [
+          "Cold spares",
+          "2"
+        ],
+        [
+          "Switches",
+          "Perfect"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-risk",
+    "stem": "The top event occurs only if three independent basic events occur. Their probabilities are \\(q_1\\), \\(q_2\\), and \\(q_3\\).\n\\[\nQ=q_1 q_2 q_3\n\\]\nWhat is the top-event probability?",
+    "options": [
+      "0.350",
+      "0.050",
+      "0.001",
+      "0.999"
+    ],
+    "answer": 2,
+    "why": "An AND gate multiplies independent event probabilities.\n\\[\nQ=(0.05)(0.04)(0.50)=0.001\n\\]\n0.350 adds the three probabilities. 0.050 is the largest input. 0.999 subtracts that input from 1. <b>C. 0.001</b>",
+    "set": 3,
+    "qid": "cre:set-3:136",
+    "bok": "II.B.4",
+    "cognitive": "Understand",
+    "chart": {
+      "type": "data-table",
+      "title": "AND gate",
+      "altText": "Three independent basic events have probabilities 0.05, 0.04, and 0.50. All three must occur.",
+      "columns": [
+        "Basic event",
+        "Probability"
+      ],
+      "rows": [
+        [
+          "1",
+          "0.05"
+        ],
+        [
+          "2",
+          "0.04"
+        ],
+        [
+          "3",
+          "0.50"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-risk",
+    "stem": "A dangerous failure rate is \\(\\lambda_D\\). Diagnostic coverage \\(DC\\) is the fraction of those failures that the diagnostics detect. The undetected dangerous rate is\n\\[\n\\lambda_{DU}=\\lambda_D(1-DC)\n\\]\nWhat is \\(\\lambda_{DU}\\)?",
+    "options": [
+      "0.0009 per hour",
+      "0.0010 per hour",
+      "0.9000",
+      "0.0001 per hour"
+    ],
+    "answer": 3,
+    "why": "Coverage removes the detected fraction. The undetected fraction is \\(1-DC\\).\n\\[\n1-DC=0.10\n\\]\n\\[\n\\lambda_{DU}=0.001(0.10)=0.0001\n\\]\n0.0009 is the detected portion. 0.0010 ignores the diagnostics. 0.9000 is the coverage, not a rate. <b>D. 0.0001 per hour</b>",
+    "set": 3,
+    "qid": "cre:set-3:137",
+    "bok": "II.C",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Diagnostic coverage",
+      "altText": "The dangerous failure rate is 0.001 per hour. The diagnostics detect 90 percent of those failures.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Dangerous failure rate",
+          "0.001 per hour"
+        ],
+        [
+          "Diagnostic coverage",
+          "0.90"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-life",
+    "stem": "A device is rated \\(P_{rated}\\) at the base temperature. Above that temperature, the allowable power falls by the stated slope. The application is at the temperature in the table.\n\\[\nP_{allow}=P_{rated}-s\\Delta T\n\\]\nWhich conclusion follows?",
+    "options": [
+      "Acceptable. The applied power is below the 2.00 W rating.",
+      "Acceptable. The derating removes only 0.50 W.",
+      "Not acceptable. The derated limit is 1.50 W, and 1.80 W is above it.",
+      "Not acceptable. Any temperature above 70 degrees C is forbidden."
+    ],
+    "answer": 2,
+    "why": "Subtract the temperature penalty from the rating, then compare the application with that limit.\n\\[\n\\Delta T=95-70=25\n\\]\n\\[\nP_{allow}=2.00-0.02(25)=1.50\n\\]\nThe applied 1.80 W is below the nameplate rating and above the derated limit. The slope is a reduction, not a ban on every higher temperature. <b>C. Not acceptable. The derated limit is 1.50 W, and 1.80 W is above it.</b>",
+    "set": 3,
+    "qid": "cre:set-3:138",
+    "bok": "V.B.1",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Power derating",
+      "altText": "The device is rated 2.00 W at 70 degrees C. Above 70 degrees C the allowable power falls by 0.02 W per degree C. The application is 1.80 W at 95 degrees C.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Rated power",
+          "2.00 W"
+        ],
+        [
+          "Base temperature",
+          "70 degrees C"
+        ],
+        [
+          "Slope",
+          "0.02 W per degree C"
+        ],
+        [
+          "Applied power",
+          "1.80 W"
+        ],
+        [
+          "Application temperature",
+          "95 degrees C"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "Three suppliers ship the shares below. A unit comes from one supplier at random. The supplier reliabilities are \\(R_i\\).\n\\[\nR=p_1 R_1+p_2 R_2+p_3 R_3\n\\]\nWhat is the reliability of a randomly received unit?",
+    "options": [
+      "0.980",
+      "0.920",
+      "0.893",
+      "0.800"
+    ],
+    "answer": 1,
+    "why": "Weight each supplier by its share of the shipments.\n\\[\nR=0.50(0.98)+0.30(0.90)+0.20(0.80)\n\\]\n\\[\nR=0.490+0.270+0.160=0.920\n\\]\n0.980 is the best supplier. 0.800 is the worst. 0.893 averages the three reliabilities and ignores the shares. <b>B. 0.920</b>",
+    "set": 3,
+    "qid": "cre:set-3:139",
+    "bok": "I.A.10",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Supplier mix",
+      "altText": "Supplier A ships half of the units at reliability 0.98. Supplier B ships 30 percent at reliability 0.90. Supplier C ships 20 percent at reliability 0.80.",
+      "columns": [
+        "Supplier",
+        "Share",
+        "Reliability"
+      ],
+      "rows": [
+        [
+          "A",
+          "0.50",
+          "0.98"
+        ],
+        [
+          "B",
+          "0.30",
+          "0.90"
+        ],
+        [
+          "C",
+          "0.20",
+          "0.80"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-life",
+    "stem": "The reorder point covers expected demand during the lead time plus the stated safety stock. Weekly demand is \\(d\\), lead time is \\(L\\) weeks, and safety stock is \\(S\\).\n\\[\nROP=dL+S\n\\]\nWhat is the reorder point?",
+    "options": [
+      "16 units",
+      "12 units",
+      "6 units",
+      "4 units"
+    ],
+    "answer": 0,
+    "why": "Multiply the weekly demand by the lead time, then add the safety stock.\n\\[\ndL=6(2)=12\n\\]\n\\[\nROP=12+4=16\n\\]\n12 units omits the safety stock. 6 units is one week of demand. 4 units is only the safety stock. <b>A. 16 units</b>",
+    "set": 3,
+    "qid": "cre:set-3:140",
+    "bok": "V.C.1",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Spare reorder point",
+      "altText": "Demand is 6 units per week. The replenishment lead time is 2 weeks. Safety stock is 4 units.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Weekly demand",
+          "6 units"
+        ],
+        [
+          "Lead time",
+          "2 weeks"
+        ],
+        [
+          "Safety stock",
+          "4 units"
+        ]
+      ]
+    }
   }
 ];
 })(typeof window!=='undefined'?window:globalThis);
