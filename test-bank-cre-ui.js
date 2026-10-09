@@ -10,7 +10,10 @@
  * Types:
  *   cre-prob-tree     probability / event tree with branch probabilities and outcomes
  *   cre-weibull-plot  Weibull probability paper with data points and a fitted line
- *   cre-xy-plot       linear x–y plot with explicit round ticks and labelled points
+ *   cre-lognormal-plot lognormal probability paper (log time, normal-quantile scale)
+ *   cre-xy-plot       linear x–y plot with explicit round ticks and labelled points;
+ *                     a series with line:false is a scatter, dashed:true a fitted/reference line
+ *   cre-box-plot      horizontal box-and-whisker plots by group, with outliers
  */
 (function(global){
   'use strict';
@@ -128,31 +131,53 @@
     return wrap('Probability tree',svg,true);
   }
 
-  /* ---------- Weibull probability plot ---------- */
+  /* ---------- probability paper (Weibull or lognormal) ---------- */
   function weibullY(fPercent){var f=Number(fPercent)/100;return Math.log(-Math.log(1-f));}
-  function weibullPlot(spec){
+  // Standard normal quantile (Acklam's rational approximation, |error| < 1.2e-9).
+  function normInv(p){
+    var a=[-39.69683028665376,220.9460984245205,-275.9285104469687,138.357751867269,-30.66479806614716,2.506628277459239],
+        b=[-54.47609879822406,161.5858368580409,-155.6989798598866,66.80131188771972,-13.28068155288572],
+        c=[-0.007784894002430293,-0.3223964580411365,-2.400758277161838,-2.549732539343734,4.374664141464968,2.938163982698783],
+        d=[0.007784695709041462,0.3224671290700398,2.445134137142996,3.754408661907416],q,r;
+    if(p<0.02425){q=Math.sqrt(-2*Math.log(p));return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
+    if(p>1-0.02425)return -normInv(1-p);
+    q=p-0.5;r=q*q;
+    return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+  }
+  function lognormalY(fPercent){return normInv(Number(fPercent)/100);}
+  function weibullPlot(spec){return probabilityPaper(spec,'weibull');}
+  function lognormalPlot(spec){return probabilityPaper(spec,'lognormal');}
+  function probabilityPaper(spec,paper){
+    var logn=paper==='lognormal',yOf=logn?lognormalY:weibullY,name=logn?'Lognormal probability plot':'Weibull probability plot';
     var xTicks=(spec.xTicks||[]).map(num).filter(function(v){return v>0;});
     var yTicks=(spec.yTicks||[]).map(num).filter(function(v){return v>0&&v<100;});
     var points=(spec.points||[]).filter(function(p){return Array.isArray(p)&&num(p[0])>0&&num(p[1])>0&&num(p[1])<100;});
     if(xTicks.length<2||yTicks.length<2||!points.length)return '';
     var w=580,h=360,left=58,right=24,top=34,bottom=54;
     var xMin=Math.log10(Math.min.apply(null,xTicks)),xMax=Math.log10(Math.max.apply(null,xTicks));
-    var yMin=weibullY(Math.min.apply(null,yTicks)),yMax=weibullY(Math.max.apply(null,yTicks));
+    var yMin=yOf(Math.min.apply(null,yTicks)),yMax=yOf(Math.max.apply(null,yTicks));
     function px(t){return left+(Math.log10(t)-xMin)/(xMax-xMin)*(w-left-right);}
-    function py(f){return top+(yMax-weibullY(f))/(yMax-yMin)*(h-top-bottom);}
-    var s='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart cre-chart cre-chart-wide" role="img" aria-label="'+esc(spec.altText||spec.title||'Weibull probability plot')+'">'+
-      '<title>'+esc(spec.title||'Weibull probability plot')+'</title><desc>'+esc(spec.altText||'')+'</desc>'+
-      '<text class="cre-title" x="'+left+'" y="18">'+esc(spec.title||'Weibull probability plot')+'</text>';
+    function py(f){return top+(yMax-yOf(f))/(yMax-yMin)*(h-top-bottom);}
+    var s='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart cre-chart cre-chart-wide" role="img" aria-label="'+esc(spec.altText||spec.title||name)+'">'+
+      '<title>'+esc(spec.title||name)+'</title><desc>'+esc(spec.altText||'')+'</desc>'+
+      '<text class="cre-title" x="'+left+'" y="18">'+esc(spec.title||name)+'</text>';
     // minor decade grid (2-9 within each decade)
     for(var d=Math.floor(xMin);d<xMax;d++){
       for(var m=2;m<=9;m++){var t=m*Math.pow(10,d);if(Math.log10(t)>xMax)break;s+='<line class="tb-chart-grid" style="opacity:.35" x1="'+px(t).toFixed(1)+'" y1="'+top+'" x2="'+px(t).toFixed(1)+'" y2="'+(h-bottom)+'"></line>';}
     }
     xTicks.forEach(function(t){var x=px(t).toFixed(1);s+='<line class="tb-chart-grid" x1="'+x+'" y1="'+top+'" x2="'+x+'" y2="'+(h-bottom)+'"></line><text class="cre-tick" x="'+x+'" y="'+(h-bottom+16)+'" text-anchor="middle">'+esc(fmt(t))+'</text>';});
     yTicks.forEach(function(f){
-      var y=py(f).toFixed(1),ref=Math.abs(f-63.2)<0.05;
+      var y=py(f).toFixed(1),ref=Math.abs(f-(logn?50:63.2))<0.05;
       s+='<line class="'+(ref?'cre-ref':'tb-chart-grid')+'" x1="'+left+'" y1="'+y+'" x2="'+(w-right)+'" y2="'+y+'"></line><text class="cre-tick" x="'+(left-6)+'" y="'+(Number(y)+3)+'" text-anchor="end">'+esc(f)+'</text>';
     });
-    if(spec.line&&num(spec.line.beta)>0&&num(spec.line.eta)>0){
+    if(logn&&spec.line&&num(spec.line.median)>0&&num(spec.line.sigma)>0){
+      // a lognormal fit is a straight line on this paper: draw it between the plotted probability limits
+      var med=num(spec.line.median),sg=num(spec.line.sigma),pLo=Math.min.apply(null,yTicks),pHi=Math.max.apply(null,yTicks);
+      var tLo=Math.max(Math.pow(10,xMin),med*Math.exp(sg*normInv(pLo/100))),tHi=Math.min(Math.pow(10,xMax),med*Math.exp(sg*normInv(pHi/100)));
+      function fLog(t){return 100*(0.5*(1+erf(Math.log(t/med)/(sg*Math.SQRT2))));}
+      s+='<path class="tb-chart-line" fill="none" d="M'+px(tLo).toFixed(1)+' '+py(fLog(tLo)).toFixed(1)+' L'+px(tHi).toFixed(1)+' '+py(fLog(tHi)).toFixed(1)+'"></path>';
+    }
+    if(!logn&&spec.line&&num(spec.line.beta)>0&&num(spec.line.eta)>0){
       var b=num(spec.line.beta),eta=num(spec.line.eta);
       var t0=Math.pow(10,xMin),t1=Math.pow(10,xMax);
       function fAt(t){return 100*(1-Math.exp(-Math.pow(t/eta,b)));}
@@ -173,8 +198,11 @@
     });
     s+='<text class="cre-axis-label" x="'+((left+w-right)/2)+'" y="'+(h-12)+'" text-anchor="middle">'+esc(spec.xLabel||'Time (log scale)')+'</text>'+
       '<text class="cre-axis-label" x="15" y="'+((top+h-bottom)/2)+'" text-anchor="middle" transform="rotate(-90 15 '+((top+h-bottom)/2)+')">'+esc(spec.yLabel||'Unreliability, %')+'</text></svg>';
-    return wrap('Weibull probability plot',s,true);
+    return wrap(name,s,true);
   }
+  // Abramowitz–Stegun 7.1.26 (|error| < 1.5e-7), used only to place the fitted lognormal line.
+  function erf(x){var sgn=x<0?-1:1;x=Math.abs(x);var t=1/(1+0.3275911*x);
+    return sgn*(1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x));}
 
   /* ---------- linear x–y plot with explicit round ticks ---------- */
   function xyPlot(spec){
@@ -193,12 +221,22 @@
     yTicks.forEach(function(t){var y=py(t).toFixed(1);s+='<line class="tb-chart-grid" x1="'+left+'" y1="'+y+'" x2="'+(w-right)+'" y2="'+y+'"></line><text class="cre-tick" x="'+(left-6)+'" y="'+(Number(y)+3)+'" text-anchor="end">'+esc(fmt(t))+'</text>';});
     series.forEach(function(item){
       var d=item.points.map(function(p,i){return (i?'L':'M')+px(p[0]).toFixed(1)+' '+py(p[1]).toFixed(1);}).join(' ');
-      s+='<path class="tb-chart-line" fill="none" d="'+d+'"'+(item.dashed?' stroke-dasharray="7 4"':'')+'></path>';
+      if(item.line!==false)s+='<path class="tb-chart-line" fill="none" d="'+d+'"'+(item.dashed?' stroke-dasharray="7 4" style="opacity:.75"':'')+'></path>';
       if(item.showPoints!==false)item.points.forEach(function(p){
         var label=(item.label?item.label+': ':'')+fmt(p[0])+', '+p[1];
         s+='<circle class="tb-chart-dot" cx="'+px(p[0]).toFixed(1)+'" cy="'+py(p[1]).toFixed(1)+'" r="3.5" tabindex="0" role="img" aria-label="'+esc(label)+'"><title>'+esc(label)+'</title></circle>';
       });
     });
+    if(spec.legend){
+      var lx=left+8,ly=top+12;
+      series.forEach(function(item,i){
+        if(!item.label)return;
+        var yy=ly+i*16;
+        s+=(item.line===false?'<circle class="tb-chart-dot" cx="'+(lx+9)+'" cy="'+yy+'" r="3.5"></circle>':
+          '<line class="tb-chart-line" x1="'+lx+'" y1="'+yy+'" x2="'+(lx+18)+'" y2="'+yy+'"'+(item.dashed?' stroke-dasharray="7 4" style="opacity:.75"':'')+'></line>')+
+          '<text class="cre-marker" x="'+(lx+24)+'" y="'+(yy+3.5)+'">'+esc(item.label)+'</text>';
+      });
+    }
     (spec.markers||[]).forEach(function(mk){
       if(num(mk.x)==null||num(mk.y)==null)return;
       var mx=px(mk.x),my=py(mk.y),anchor=mx>w-160?'end':'start',dx=anchor==='end'?-9:9;
@@ -210,7 +248,38 @@
     return wrap(spec.eyebrow||'Plot',s,true);
   }
 
-  var RENDERERS={'cre-prob-tree':probTree,'cre-weibull-plot':weibullPlot,'cre-xy-plot':xyPlot};
+  /* ---------- box-and-whisker plots (horizontal, one row per group) ---------- */
+  function boxPlot(spec){
+    var xTicks=(spec.xTicks||[]).map(num).filter(function(v){return v!=null;});
+    var groups=(spec.groups||[]).filter(function(g){return ['min','q1','median','q3','max'].every(function(k){return num(g[k])!=null;});});
+    if(xTicks.length<2||!groups.length)return '';
+    var rowH=56,w=580,left=92,right=24,top=34,bottom=50,h=top+groups.length*rowH+bottom;
+    var xMin=Math.min.apply(null,xTicks),xMax=Math.max.apply(null,xTicks);
+    function px(v){return left+(Number(v)-xMin)/(xMax-xMin)*(w-left-right);}
+    var s='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart cre-chart cre-chart-wide" role="img" aria-label="'+esc(spec.altText||spec.title||'Box plots')+'">'+
+      '<title>'+esc(spec.title||'Box plots')+'</title><desc>'+esc(spec.altText||'')+'</desc>'+
+      '<text class="cre-title" x="'+left+'" y="18">'+esc(spec.title||'')+'</text>';
+    xTicks.forEach(function(t){var x=px(t).toFixed(1);s+='<line class="tb-chart-grid" x1="'+x+'" y1="'+top+'" x2="'+x+'" y2="'+(h-bottom)+'"></line><text class="cre-tick" x="'+x+'" y="'+(h-bottom+16)+'" text-anchor="middle">'+esc(fmt(t))+'</text>';});
+    (spec.refLines||[]).forEach(function(r){if(num(r.x)==null)return;var x=px(r.x).toFixed(1);
+      s+='<line class="cre-ref" x1="'+x+'" y1="'+(top-4)+'" x2="'+x+'" y2="'+(h-bottom)+'"></line><text class="cre-marker" x="'+(Number(x)+5)+'" y="'+(top+6)+'">'+esc(r.label||'')+'</text>';});
+    groups.forEach(function(g,i){
+      var cy=top+i*rowH+rowH/2,bh=22,label=g.label+': minimum '+fmt(g.min)+', first quartile '+fmt(g.q1)+', median '+fmt(g.median)+', third quartile '+fmt(g.q3)+', maximum '+fmt(g.max)+((g.outliers||[]).length?', outliers '+g.outliers.map(fmt).join(', '):'');
+      s+='<g role="img" tabindex="0" aria-label="'+esc(label)+'"><title>'+esc(label)+'</title>'+
+        '<text class="cre-tick" style="font-size:11px;fill:var(--ink)" x="'+(left-10)+'" y="'+(cy+4)+'" text-anchor="end">'+esc(g.label)+'</text>'+
+        '<line class="tb-chart-whisker" x1="'+px(g.min).toFixed(1)+'" y1="'+cy+'" x2="'+px(g.q1).toFixed(1)+'" y2="'+cy+'"></line>'+
+        '<line class="tb-chart-whisker" x1="'+px(g.q3).toFixed(1)+'" y1="'+cy+'" x2="'+px(g.max).toFixed(1)+'" y2="'+cy+'"></line>'+
+        '<line class="tb-chart-whisker" x1="'+px(g.min).toFixed(1)+'" y1="'+(cy-7)+'" x2="'+px(g.min).toFixed(1)+'" y2="'+(cy+7)+'"></line>'+
+        '<line class="tb-chart-whisker" x1="'+px(g.max).toFixed(1)+'" y1="'+(cy-7)+'" x2="'+px(g.max).toFixed(1)+'" y2="'+(cy+7)+'"></line>'+
+        '<rect class="tb-chart-box" x="'+px(g.q1).toFixed(1)+'" y="'+(cy-bh/2)+'" width="'+(px(g.q3)-px(g.q1)).toFixed(1)+'" height="'+bh+'"></rect>'+
+        '<line class="tb-chart-median" x1="'+px(g.median).toFixed(1)+'" y1="'+(cy-bh/2)+'" x2="'+px(g.median).toFixed(1)+'" y2="'+(cy+bh/2)+'"></line>';
+      (g.outliers||[]).forEach(function(o){if(num(o)!=null)s+='<circle class="tb-chart-outlier" cx="'+px(o).toFixed(1)+'" cy="'+cy+'" r="4.5"></circle>';});
+      s+='</g>';
+    });
+    s+='<text class="cre-axis-label" x="'+((left+w-right)/2)+'" y="'+(h-12)+'" text-anchor="middle">'+esc(spec.xLabel||'')+'</text></svg>';
+    return wrap(spec.eyebrow||'Box plots',s,true);
+  }
+
+  var RENDERERS={'cre-prob-tree':probTree,'cre-weibull-plot':weibullPlot,'cre-lognormal-plot':lognormalPlot,'cre-xy-plot':xyPlot,'cre-box-plot':boxPlot};
   function render(chart){
     if(!chart||typeof chart.type!=='string'||!RENDERERS[chart.type])return '';
     ensureStyle();
