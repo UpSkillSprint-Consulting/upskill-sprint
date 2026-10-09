@@ -10,20 +10,21 @@ const read = file => fs.readFileSync(path.resolve(__dirname, '..', file), 'utf8'
 const bank = () => {const ctx = {window: {}}; vm.runInNewContext(read('test-bank-cre-set2.js'), ctx); return ctx.window;};
 const tick = () => new Promise(resolve => setTimeout(resolve, 60));
 
-test('batch contract: stable IDs, current BoK weights, complete feedback, twenty-two exhibits, valid lesson anchors', () => {
+test('batch contract: stable IDs, current BoK weights, complete feedback, twenty-eight exhibits, valid lesson anchors', () => {
   const {CRE_SET2: qs, registerCRESet2} = bank();
-  assert.equal(qs.length, 40);
+  assert.equal(qs.length, 50);
   const exam = {bok: [], bank: []}, dm = {};
   registerCRESet2(exam, dm);
   assert.deepEqual(Array.from(exam.bok, d => d.weight), [29,25,35,35,26]);
   assert.equal(exam.questions, 165); assert.equal(exam.minutes, 258);
-  assert.equal(qs.filter(q => q.chart).length, 22);
-  assert.equal(qs.filter(q => q.chart?.creKind).length, 11);
-  assert.equal(qs.filter(q => q.explorer).length, 8);
-  assert.deepEqual(Array.from(exam.bok, d => qs.filter(q => q.sub === d.domain).length), [8,7,9,9,7]);
-  assert.deepEqual([0,1,2,3].map(key => qs.filter(q => q.answer === key).length), [10,10,10,10]);
+  assert.equal(qs.filter(q => q.chart).length, 28);
+  assert.equal(qs.filter(q => q.chart?.creKind).length, 13);
+  assert.equal(qs.filter(q => q.explorer).length, 10);
+  assert.deepEqual(Array.from(exam.bok, d => qs.filter(q => q.sub === d.domain).length), [10,8,12,11,9]);
+  assert.deepEqual([0,1,2,3].map(key => qs.filter(q => q.answer === key).length), [13,12,12,13]);
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,20))).digest('hex'), '488de3d62f6ba40533c7f4bbfa30ccba24492571571d06c08cdd8de328b29efc', 'Batches 1–2 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,30))).digest('hex'), '1d58917f68fcb88dd4fe42568d6e50394789e0cab74c16719108b1ff3841921b', 'Batches 1–3 content is unchanged');
+  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,40))).digest('hex'), '673070d6340dfe526539b3be6fbaaf14cf4b0ebfd26ea0ed9a6d707808b9c070', 'Batches 1–4 content is unchanged');
   const released = JSON.stringify(qs.slice(0,10));
   assert.equal(createHash('sha256').update(released).digest('hex'), '2c2657dfb7ae76f3c0b9385c7b1be36e122e143a0372e4de82fabb097b50f6f1', 'released Batch 1 content is unchanged');
   for (const [i,q] of qs.entries()) {
@@ -55,7 +56,7 @@ test('registering Set 2 preserves concurrent Set 1 and Set 3 question banks', ()
   assert.equal(exam.sets[1], first); assert.equal(exam.bank, first);
   assert.equal(JSON.stringify(first), before);
   assert.equal(exam.sets[3], third); assert.equal(JSON.stringify(third), thirdBefore);
-  assert.equal(exam.sets[2].length, 40);
+  assert.equal(exam.sets[2].length, 50);
 });
 
 test('independent calculations verify numeric keys and distractors', () => {
@@ -219,6 +220,54 @@ test('Batch 4 keys agree with cash-flow totals, integrated hazard, likelihood ma
   assert.ok(10*10/100>allowed);assert.ok(8.81*8.81/100<=allowed);
 });
 
+
+test('Batch 5 checks criticality counts, probability-plot coordinates, precision, phased survival, aliasing, and renewal costs', () => {
+  const qs=bank().CRE_SET2, answer=n=>qs[n-1].options[qs[n-1].answer];
+  // Expected critical-effect counts in 1,000 missions of 1,000 hours each.
+  const effects=qs[42].chart.rows.map(([name,failures,fraction,conditional])=>({name,count:failures*Number(fraction)*Number(conditional)}));
+  const highest=effects.reduce((a,b)=>a.count>b.count?a:b);
+  assert.equal(highest.name,'Fan / bearing seizure');assert.equal(highest.count,9);
+  assert.match(answer(43),/Fan bearing seizure/);
+  assert.deepEqual(Array.from(effects,e=>Number((e.count/1000).toFixed(4))),[.0064,.009,.003,.004]);
+  // Recover shape from the ratio of cumulative hazards, independent of reading plotted coordinates.
+  const points=qs[43].chart.rows.map(([,t,f,x,y])=>({t,f:Number(f),x:Number(x),y:Number(String(y).replace('−','-'))}));
+  points.forEach(p=>{assert.ok(Math.abs(Math.log(p.t)-p.x)<.000006);assert.ok(Math.abs(Math.log(-Math.log(1-p.f))-p.y)<.00002);});
+  const shape=Math.log(Math.log(1-points[1].f)/Math.log(1-points[0].f))/Math.log(points[1].t/points[0].t);
+  assert.ok(Math.abs(shape-2)<.00002);assert.match(answer(44),/2.0; increasing/);
+  // Search integer n by the interval's standard error, not by rounding a supplied result.
+  const width=n=>1.96*40/Math.sqrt(n);let n=1;while(width(n)>10)n++;
+  assert.equal(answer(46),n+' specimens');assert.ok(width(n-1)>10&&width(n)<=10);
+  assert.equal(qs[45].options[0],Math.floor((1.96*40/10)**2)+' specimens');
+  assert.equal(qs[45].options[1],Math.ceil((1.645*40/10)**2)+' specimens');
+  assert.equal(qs[45].options[2],Math.ceil((1.96*40/5)**2)+' specimens');
+  // Multiply conditional survival across 10,000 small exposure intervals.
+  let survival=1;for(let i=0;i<10000;i++)survival*=Math.exp(-(i<2000?.003:.0005)*.001);
+  assert.equal(answer(47),survival.toFixed(5));
+  assert.equal(qs[46].options[0],Math.exp(-(.003+.0005)/2*10).toFixed(5));
+  assert.equal(qs[46].options[2],(1-survival).toFixed(5));
+  assert.equal(qs[46].options[3],Math.exp(-.003*10).toFixed(5));
+  // Enumerate actual design rows: all-factor reversal repeats the fraction; D-only reversal complements it.
+  const rows=Array.from(qs[48].chart.rows, row=>Array.from(row.slice(1),v=>Number(v.replace('−','-'))));
+  const original=new Set(rows.map(r=>r.join(','))),complement=rows.map(([a,b,c,d])=>[a,b,c,-d]);
+  for(const [a,b,c,d] of rows){assert.equal(a*b*c,d);assert.equal(a*b,c*d);assert.ok(original.has([-a,-b,-c,-d].join(',')));}
+  for(const [a,b,c,d] of complement){assert.equal(a*b,-c*d);assert.ok(!original.has([a,b,c,d].join(',')));}
+  const full=[...rows,...complement];assert.equal(new Set(full.map(r=>r.join(','))).size,16);
+  assert.equal(full.reduce((sum,[a,b,c,d])=>sum+(a*b)*(c*d),0),0);
+  assert.match(answer(49),/reverse only D/);
+  // A concrete lifetime distribution independently demonstrates that all supplied policy moments are compatible.
+  const lives=[{p:.02,t:50},{p:.08,t:150},{p:.20,t:260},{p:.70,t:435/.7}];
+  const policies=[100,200,300,Infinity].map((age,i)=>{
+    const time=lives.reduce((sum,l)=>sum+l.p*Math.min(age,l.t),0);
+    const cost=lives.reduce((sum,l)=>sum+l.p*(l.t<age?1000:200),0);
+    assert.ok(Math.abs(time-qs[49].chart.rows[i][2])<1e-10);
+    if(Number.isFinite(age))assert.ok(Math.abs(lives.filter(l=>l.t>=age).reduce((sum,l)=>sum+l.p,0)-Number(qs[49].chart.rows[i][1]))<1e-10);
+    return {age,rate:cost/time};
+  });
+  assert.equal(policies.reduce((a,b)=>a.rate<b.rate?a:b).age,200);
+  assert.deepEqual(policies.map(p=>p.rate.toFixed(3)),['2.182','1.451','1.600','2.000']);
+  assert.match(answer(50),/200 h/);
+});
+
 async function harness(){
   const edge=(await import('data:text/javascript;base64,'+Buffer.from(read('netlify/edge-functions/test-bank-mobile-picker.js')).toString('base64'))).default;
   let html=await (await edge(new Request('https://upskillsprint.com/test-bank?exam=cre'),{next:async()=>new Response(read('test-bank.html'),{headers:{'content-type':'text/html'}})})).text();
@@ -245,31 +294,32 @@ function click(w,selector){const el=w.document.querySelector(selector);assert.ok
 function start(w,mode){click(w,'.tb-tile[data-exam="cre"]');click(w,'#tb-overview [data-mode="'+mode+'"]');return w.__TB.getFeedbackSnapshot();}
 function submit(w){const n=w.__TB.getFeedbackSnapshot().records.length;click(w,'[data-goto="'+(n-1)+'"]');click(w,'[data-submit]');}
 
-test('production player uses Set 2, correct pace, twenty-two exhibits, review tools, and immutable score',async()=>{
+test('production player uses Set 2, correct pace, twenty-eight exhibits, review tools, and immutable score',async()=>{
   const h=await harness(),{w}=h;
   try{
     click(w,'.tb-tile[data-exam="cre"]');
     assert.ok(w.document.querySelector('[data-set="1"]').disabled);
-    assert.match(w.document.querySelector('#tb-overview').textContent,/40 of 150/);
+    assert.match(w.document.querySelector('#tb-overview').textContent,/50 of 150/);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,10),938);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,20),1876);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,30),2815);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,40),3753);
+    assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,50),4691);
     click(w,'#tb-overview [data-mode="full"]');
     const snapshot=w.__TB.getFeedbackSnapshot();
-    assert.equal(snapshot.records.length,40);
+    assert.equal(snapshot.records.length,50);
     assert.ok(snapshot.records.every(r=>/^cre:set-2:/.test(r.question.qid)));
     assert.equal(w.document.querySelector('.cre2-explorer'),null);
     assert.equal(w.document.querySelector('.tb-explanation'),null);
     snapshot.records.forEach((r,i)=>{click(w,'[data-goto="'+i+'"]');click(w,'[data-opt="'+r.question.answer+'"]');});
     submit(w);await tick();
     const score=w.document.querySelector('[data-score-result]').textContent;
-    assert.match(score,/40\/40/);assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet,'2');
+    assert.match(score,/50\/50/);assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet,'2');
     click(w,'[data-open-review="all"]');await tick();
-    assert.equal(w.document.querySelectorAll('.tb-review-card').length,40);
-    assert.equal(w.document.querySelectorAll('.tb-review-card .cre2-exhibit').length,22);
-    assert.equal(w.document.querySelectorAll('.cre2-explorer').length,8);
-    assert.equal(w.document.querySelectorAll('.cre2-source strong').length,80);
+    assert.equal(w.document.querySelectorAll('.tb-review-card').length,50);
+    assert.equal(w.document.querySelectorAll('.tb-review-card .cre2-exhibit').length,28);
+    assert.equal(w.document.querySelectorAll('.cre2-explorer').length,10);
+    assert.equal(w.document.querySelectorAll('.cre2-source strong').length,100);
     for(const card of w.document.querySelectorAll('.tb-review-card'))assert.ok(h.typesetRoots.includes(card));
     const slider=w.document.querySelector('[data-cre-explorer="weibull"] input');
     slider.value='1500';slider.dispatchEvent(new w.Event('input',{bubbles:true}));
@@ -317,6 +367,22 @@ test('production player uses Set 2, correct pace, twenty-two exhibits, review to
     assert.match(ambient.closest('details').querySelector('output').textContent,/2.66 V.*temperature-dependent/);
     ambient.closest('details').querySelector('button').click();assert.equal(ambient.value,'100');
     assert.match(ambient.closest('details').querySelector('output').textContent,/0.7765 W.*8.81 V/);
+    const high=w.document.querySelector('[data-cre-explorer="mission-high-duration"] input');
+    assert.equal(high.closest('details').open,false);
+    high.value='0';high.dispatchEvent(new w.Event('input',{bubbles:true}));
+    assert.match(high.closest('details').querySelector('output').textContent,/0 h; low stress: 10 h.*0.99501/);
+    high.value='10';high.dispatchEvent(new w.Event('input',{bubbles:true}));
+    assert.match(high.closest('details').querySelector('output').textContent,/10 h; low stress: 0 h.*0.97045/);
+    high.closest('details').querySelector('button').click();assert.equal(high.value,'2');
+    assert.match(high.closest('details').querySelector('output').textContent,/0.99005/);
+    const cost=w.document.querySelector('[data-cre-explorer="replacement-failure-cost"] input');
+    assert.equal(cost.closest('details').open,false);
+    for(const [value,best] of [['500','Failure only'],['600','300 h or failure'],['4000','100 h or failure']]){
+      cost.value=value;cost.dispatchEvent(new w.Event('input',{bubbles:true}));
+      assert.ok(cost.closest('details').querySelector('output').textContent.endsWith('Lowest among these candidates: '+best+'.'));
+    }
+    cost.closest('details').querySelector('button').click();assert.equal(cost.value,'1000');
+    assert.match(cost.closest('details').querySelector('output').textContent,/200 h or failure: \$1.451.*Lowest among these candidates: 200 h or failure/);
     assert.equal(JSON.stringify(w.CRE_SET2),baseline);
     assert.equal(w.document.querySelector('[data-score-result]').textContent,score);
     // The concurrently merged Set 3 stays selectable and uses only its own bank.
@@ -342,7 +408,7 @@ test('quick and focused modes select available Set 2; retry math renders without
     assert.equal(w.document.querySelector('.tb-retry-panel .cre2-explorer'),null);
     click(w,'[data-back]');
     click(w,'#tb-overview [data-mode="focus"]');
-    assert.equal(w.__TB.getFeedbackSnapshot().records.length,8);
+    assert.equal(w.__TB.getFeedbackSnapshot().records.length,10);
     assert.ok(w.__TB.getFeedbackSnapshot().records.every(r=>r.question.qid.startsWith('cre:set-2:')));
     assert.deepEqual(h.errors,[]);
   }finally{h.close();}

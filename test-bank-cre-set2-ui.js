@@ -175,9 +175,45 @@
     s+=text(345,338,'Hypothetical cumulative failures at 2,500 unit-hours')+text(335,365,'Between boundaries: continue. This is not a test trajectory.');
     return svg('Sequential-test boundary exploration','At fixed exposure of 2,500 unit-hours, the log likelihood ratio increases linearly with the hypothetical failure count. Accept at or below minus log 9, reject at or above log 9, otherwise continue. Selected failures: '+failures+'. Selected log ratio: '+logRatio(failures).toFixed(3)+'.',660,388,s);
   }
+  function weibullProbability(c) {
+    const x=v=>80+(v-5.8)/1.1*525,y=v=>287-(v+2)/2.5*230;let s='';
+    for(const v of [-2,-1.5,-1,-.5,0,.5])s+=line(80,y(v),605,y(v),'class="cre2-grid"')+text(46,y(v)+5,v.toFixed(1));
+    for(const v of [5.8,6.0,6.2,6.4,6.6,6.8])s+=line(x(v),287,x(v),293)+text(x(v),316,v.toFixed(1));
+    s+=line(80,57,80,287)+line(80,287,605,287)+text(322,24,'Vertical coordinate: transformed cumulative probability');
+    s+=line(x(5.8),y(2*(5.8-Math.log(800))),x(6.9),y(2*(6.9-Math.log(800))),'class="cre2-curve"');
+    const px=x(Math.log(400)),py=y(-Math.log(4)),qx=x(Math.log(800)),qy=y(0);
+    s+='<circle cx="'+px+'" cy="'+py+'" r="5"/><rect x="'+(qx-5)+'" y="'+(qy-5)+'" width="10" height="10"/>';
+    s+=text(px+118,py+29,'P: (5.99146, −1.38629)')+text(qx-131,qy-15,'Q: (6.68461, 0.00000)');
+    s+=text(342,349,'Horizontal coordinate: natural log of life in hours')+text(330,378,'Use the axis transformations stated in the question.');
+    return svg(c.title,c.description,660,400,s);
+  }
+  function missionProfile(c,high=2) {
+    const x=t=>82+t/10*526,y=rate=>274-rate/.0035*217;let s='';
+    for(const rate of [0,.001,.002,.003])s+=line(82,y(rate),608,y(rate),'class="cre2-grid"')+text(45,y(rate)+5,rate.toFixed(3));
+    for(const t of [0,2,4,6,8,10])s+=line(x(t),274,x(t),280)+text(x(t),304,String(t));
+    s+=line(82,57,82,274)+line(82,274,608,274)+text(237,25,'Conditional hazard (per operating hour)');
+    if(high>0)s+=line(x(0),y(.003),x(high),y(.003),'class="cre2-curve"');
+    if(high<10)s+=line(x(high),y(.0005),x(10),y(.0005),'class="cre2-curve"');
+    if(high>0&&high<10)s+=line(x(high),y(.003),x(high),y(.0005),'stroke-dasharray="6 4"');
+    s+=text(345,334,'Elapsed operating time (hours)')+text(330,363,'High-stress duration: '+high+' h; low-stress duration: '+(10-high)+' h')+text(330,389,'No additional startup, transition, or repair event.');
+    return svg(c.title,'The first '+high+' hours have conditional hazard 0.003 per hour. The remaining '+(10-high)+' hours have conditional hazard 0.0005 per hour. Total mission duration is ten hours.',660,412,s);
+  }
+  const replacementPolicies=cost=>[
+    {name:'100 h or failure',rate:(200*.98+cost*.02)/99},
+    {name:'200 h or failure',rate:(200*.90+cost*.10)/193},
+    {name:'300 h or failure',rate:(200*.70+cost*.30)/275},
+    {name:'Failure only',rate:cost/500}
+  ];
+  function replacementPlot(cost) {
+    const policies=replacementPolicies(cost),x=v=>151+v/8*435;let s='';
+    for(const v of [0,2,4,6,8])s+=line(x(v),48,x(v),291,'class="cre2-grid"')+text(x(v),316,String(v));
+    policies.forEach((p,i)=>{const y=63+i*60;s+=text(75,y+23,p.name)+'<rect x="151" y="'+y+'" width="'+(x(p.rate)-151)+'" height="32" rx="3"/>'+text(646,y+23,p.rate.toFixed(3));});
+    s+=text(357,25,'Expected replacement cost per operating hour')+line(151,291,586,291)+text(370,348,'Dollars per operating hour; four supplied candidate policies');
+    return svg('Replacement-policy cost exploration',policies.map(p=>p.name+': '+p.rate.toFixed(3)+' dollars per operating hour.').join(' '),710,371,s);
+  }
   function exhibit(q) {
     const c=q.chart;if(!c)return '';
-    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):c.creKind==='p-diagram'?pDiagram(c):c.creKind==='conditional-life'?conditionalLife(c):c.creKind==='derating'?derating(c):'';
+    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):c.creKind==='p-diagram'?pDiagram(c):c.creKind==='conditional-life'?conditionalLife(c):c.creKind==='derating'?derating(c):c.creKind==='weibull-probability'?weibullProbability(c):c.creKind==='mission-profile'?missionProfile(c):'';
     return '<section class="cre2-exhibit" aria-label="Question evidence">'+
       (diagram?'<p class="cre2-caption">'+esc(c.title)+'</p>'+diagram+'<details class="cre2-alternative"><summary>Read the diagram description and data table</summary>'+(c.description?'<p>'+esc(c.description)+'</p>':'')+table(c)+'</details>':table(c))+
       '<p class="cre2-scroll-note">On a narrow screen, swipe or scroll within the exhibit to read it at full size.</p></section>';
@@ -204,6 +240,8 @@
     if(q.explorer==='arrhenius-temperature')return header+'<label for="'+id+'">Test temperature (°C)</label><input id="'+id+'" type="range" min="60" max="110" step="5" value="85"><p>Use temperature stays at 55 °C and activation energy at 0.70 eV. This hypothetical exploration assumes the model remains valid; it does not authorize a higher test stress.</p><div data-cre-explorer-plot>'+arrheniusPlot(85)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 85 °C</button></details>';
     if(q.explorer==='sequential-failures')return header+'<label for="'+id+'">Hypothetical cumulative failure count</label><input id="'+id+'" type="range" min="0" max="8" step="1" value="4"><p>Total exposure stays at 2,500 unit-hours. This classifies separate hypothetical states, not a continuing test path. A real test stops at its first boundary or approved truncation limit.</p><div data-cre-explorer-plot>'+sequentialPlot(4)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 4 failures</button></details>';
     if(q.explorer==='derating-temperature')return header+'<label for="'+id+'">Applicable ambient temperature (°C)</label><input id="'+id+'" type="range" min="30" max="150" step="5" value="100"><p>Resistance stays at 100 Ω, the company power limit at 60% of the local manufacturer rating, and the independent voltage limit at 10.0 V RMS. The stated mounting conditions still apply.</p><div data-cre-explorer-plot>'+derating(q.chart,100,true)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 100 °C</button></details>';
+    if(q.explorer==='mission-high-duration')return header+'<label for="'+id+'">High-stress duration within the 10-hour mission (hours)</label><input id="'+id+'" type="range" min="0" max="10" step="1" value="2"><p>The remaining hours use the low-stress rate. Both conditional hazards stay fixed; no extra startup or transition failure is added.</p><div data-cre-explorer-plot>'+missionProfile(q.chart,2)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 2 high-stress hours</button></details>';
+    if(q.explorer==='replacement-failure-cost')return header+'<label for="'+id+'">Total failure-replacement cost (dollars)</label><input id="'+id+'" type="range" min="500" max="4000" step="100" value="1000"><p>Scheduled replacement stays at $200. The lifetime model, expected cycle lengths, and four candidate policies remain fixed. This compares only those candidates, not every possible replacement age.</p><div data-cre-explorer-plot>'+replacementPlot(1000)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to $1,000</button></details>';
     return '';
   }
   function updateExplorer(el,q) {
@@ -237,6 +275,14 @@
       const rated=ratedPower(value),allowed=.6*rated,powerVoltage=Math.sqrt(100*allowed),voltage=Math.min(10,powerVoltage);
       out.textContent='Ambient: '+value+' °C. Manufacturer rating: '+rated.toFixed(4)+' W. Company power limit: '+allowed.toFixed(4)+' W. Maximum RMS voltage: '+voltage.toFixed(2)+' V. Governing constraint: '+(powerVoltage<10?'temperature-dependent power limit.':'independent 10.0 V working-voltage limit.');
       el.querySelector('[data-cre-explorer-plot]').innerHTML=derating(q.chart,value,true);
+    } else if(q.explorer==='mission-high-duration') {
+      const hazard=.003*value+.0005*(10-value);
+      out.textContent='High stress: '+value+' h; low stress: '+(10-value)+' h. Accumulated hazard: '+hazard.toFixed(4)+'. Mission survival probability: '+Math.exp(-hazard).toFixed(5)+'.';
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=missionProfile(q.chart,value);
+    } else if(q.explorer==='replacement-failure-cost') {
+      const policies=replacementPolicies(value),best=policies.reduce((a,b)=>a.rate<b.rate?a:b);
+      out.textContent='Failure-replacement cost: $'+value.toLocaleString('en-US')+'. '+policies.map(p=>p.name+': $'+p.rate.toFixed(3)+' per operating hour.').join(' ')+' Lowest among these candidates: '+best.name+'.';
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=replacementPlot(value);
     }
   }
   let mathQueue=Promise.resolve();
@@ -268,7 +314,7 @@
           const control=el.querySelector('input,select');
           control.addEventListener('input',()=>updateExplorer(el,q));
           control.addEventListener('change',()=>updateExplorer(el,q));
-          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85','sequential-failures':'4','derating-temperature':'100'};
+          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85','sequential-failures':'4','derating-temperature':'100','mission-high-duration':'2','replacement-failure-cost':'1000'};
           el.querySelector('[data-cre-reset]').addEventListener('click',()=>{control.value=defaults[q.explorer];updateExplorer(el,q);});
           updateExplorer(el,q);
         }
