@@ -3671,6 +3671,624 @@
         ],
         "description": "Subsystem A has rate two per 100,000 operating hours and duration one hour; B has rate three and duration four hours; C has rate five and duration six hours. Only C’s duration can change."
       }
+    },
+    {
+      "number": 141,
+      "qid": "cre:set-2:141",
+      "sub": "cre-fundamentals",
+      "bok": "I.B.1",
+      "topic": "Interpret the phases of a bathtub hazard curve",
+      "cognitive": "Apply",
+      "difficulty": "Foundational",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "The figure shows a hypothetical population hazard rate versus operating age under constant use conditions. Which interpretation of its three regions is correct?",
+      "options": [
+        "Region I represents wear-out because it begins at the highest hazard rate.",
+        "Region II is an approximately constant-hazard phase; it does not mean every unit has the same fixed lifetime.",
+        "Region II has no failures because its curve has zero slope.",
+        "Region III indicates improving reliability because its hazard rate rises with age."
+      ],
+      "answer": 1,
+      "why": "<p>The traditional bathtub pattern has decreasing hazard in Region I, approximately constant hazard in Region II, and increasing hazard in Region III. These are commonly associated with early-life failures, a stable operating phase, and wear-out, respectively.</p><p>A flat positive hazard is not zero hazard and does not imply a fixed individual lifetime. The plotted curve is a stated population model for this exercise; it does not establish that every product follows a bathtub pattern or identify a particular physical failure mechanism.</p>",
+      "optionRationales": [
+        "The direction of the hazard trend matters: Region I decreases with age, unlike the usual increasing-hazard wear-out region.",
+        "A constant positive conditional failure rate describes the flat region without asserting identical unit lifetimes.",
+        "Zero slope means the rate is not changing; it does not make the positive rate itself zero.",
+        "Increasing hazard means the instantaneous failure rate among survivors is rising, not that reliability is improving."
+      ],
+      "keyPoint": "Read the height and direction of a hazard curve separately.",
+      "trap": "A flat hazard curve represents a constant rate, not failure-free operation.",
+      "assumptions": [
+        "The vertical axis is population hazard, not cumulative failure probability or reliability.",
+        "The figure is a hypothetical model under fixed use conditions, not a universal pattern for all products."
+      ],
+      "handbook": {
+        "chapter": 2,
+        "section": "Basic Reliability Terminology; Bathtub Curve"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Hypothetical population hazard by age",
+        "columns": [
+          "Operating age (h)",
+          "Hazard (per 1,000 h)"
+        ],
+        "rows": [
+          [
+            0,
+            2.0
+          ],
+          [
+            500,
+            0.65
+          ],
+          [
+            1000,
+            0.2
+          ],
+          [
+            2500,
+            0.2
+          ],
+          [
+            4000,
+            0.2
+          ],
+          [
+            5000,
+            0.65
+          ],
+          [
+            6000,
+            2.0
+          ]
+        ],
+        "description": "Region I spans zero to 1,000 hours and has decreasing hazard. Region II spans 1,000 to 4,000 hours at a positive constant hazard of 0.2 per 1,000 hours. Region III spans 4,000 to 6,000 hours with increasing hazard.",
+        "creKind": "bathtub-regions"
+      }
+    },
+    {
+      "number": 142,
+      "qid": "cre:set-2:142",
+      "sub": "cre-fundamentals",
+      "bok": "I.A.5",
+      "topic": "Account for a shared resource in a test schedule",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "The draft Gantt chart respects task precedence but ignores resource capacity. Tests A and B both require the same chamber exclusively for their full durations and cannot be interrupted. Only one chamber is available. Task C has independent resources, and report D can start only after A, B, and C finish. All tasks are ready at day 0 except for the stated dependencies; setup time is zero. What is the earliest possible completion time after correcting the schedule?",
+      "options": [
+        "7 days",
+        "14 days",
+        "10 days",
+        "9 days"
+      ],
+      "answer": 3,
+      "why": "<p>The chamber must process A and B sequentially, requiring 4 + 3 = 7 days in either order. C can run concurrently and finishes in 5 days. D then requires 2 days after every predecessor finishes.</p><p>\\[T_{\\min}=\\max(4+3,5)+2=9\\ \\text{days}\\]</p><p>A feasible schedule is A on days 0–4, B on 4–7, C on 0–5, and D on 7–9. The draft 7-day result is a precedence-only lower bound that cannot be executed with one chamber.</p>",
+      "optionRationales": [
+        "7 days follows the overlapping draft and ignores the chamber conflict between A and B.",
+        "14 days serializes all four tasks even though C can run independently of the chamber work.",
+        "10 days is feasible if B is unnecessarily delayed until C finishes at day 5, but it is not the earliest completion.",
+        "9 days both respects the shared chamber and uses the permitted overlap with C."
+      ],
+      "keyPoint": "A precedence-feasible schedule may still be infeasible when resource capacity is included.",
+      "trap": "Do not treat parallel Gantt bars as proof that the required resources are available.",
+      "assumptions": [
+        "Task durations are deterministic elapsed days with continuous resource availability.",
+        "No resource is constrained except the single chamber; A and B are nonpreemptive and have no setup or transfer delay."
+      ],
+      "handbook": {
+        "chapter": 1,
+        "section": "Project Management in Reliability Engineering; Gantt Charts and Resources"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Unconstrained draft schedule",
+        "columns": [
+          "Task",
+          "Duration (days)",
+          "Predecessors",
+          "Resource",
+          "Draft start (day)"
+        ],
+        "rows": [
+          [
+            "A",
+            4,
+            "None",
+            "Shared chamber",
+            0
+          ],
+          [
+            "B",
+            3,
+            "None",
+            "Shared chamber",
+            0
+          ],
+          [
+            "C",
+            5,
+            "None",
+            "Independent resources",
+            0
+          ],
+          [
+            "D",
+            2,
+            "A, B, C",
+            "Report resources",
+            5
+          ]
+        ],
+        "description": "The draft puts A on days zero to four, B on zero to three, C on zero to five, and D on five to seven. A and B overlap despite requiring the same exclusive chamber. The question asks for the corrected earliest finish.",
+        "creKind": "resource-gantt"
+      }
+    },
+    {
+      "number": 143,
+      "qid": "cre:set-2:143",
+      "sub": "cre-risk",
+      "bok": "II.B.2",
+      "topic": "Select process FMEA for a manufacturing control problem",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "An approved controller design uses the correct firmware image and a keyed connector. During production, operators can select an obsolete firmware file or omit the seal before closing the enclosure. A team must systematically examine each manufacturing step, its potential failure modes and effects, and the prevention and detection controls at that step. Which analysis best matches this scope?",
+      "options": [
+        "A use FMEA focused on customer operation after delivery.",
+        "A component design FMEA confined to circuit and material design.",
+        "A process FMEA covering programming, assembly, verification, and their controls.",
+        "A system FMECA confined to ranking in-service hardware failure rates."
+      ],
+      "answer": 2,
+      "why": "<p>The stated focus is how the manufacturing process can produce a nonconforming controller even when the approved design is suitable. A process FMEA examines the process steps, potential failures, their causes and effects, and the controls that prevent or detect them.</p><p>Link the analysis to programming-file control, seal installation, and verification. Findings may also reveal design or use issues that need separate follow-up, but those complementary analyses do not replace the process-focused assessment requested here.</p>",
+      "optionRationales": [
+        "A use FMEA addresses use-related risks, rather than the manufacturing steps specified in this scenario.",
+        "A component design assessment does not by itself evaluate production file selection and assembly omissions.",
+        "A process FMEA directly matches the step-by-step manufacturing scope and its prevention and detection controls.",
+        "An in-service failure-rate ranking omits the process-step causes and controls that the team must evaluate."
+      ],
+      "keyPoint": "Choose the FMEA scope to match where the failures can be introduced and controlled.",
+      "trap": "An approved product design does not ensure a failure-free manufacturing process.",
+      "assumptions": [
+        "The immediate assessment scope is production programming and assembly, not a demonstrated defect in the approved design.",
+        "Other lifecycle analyses may remain necessary; the question asks which technique best fits this specific scope."
+      ],
+      "handbook": {
+        "chapter": 4,
+        "section": "Failure Mode and Effects Analysis; Process FMEA"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 144,
+      "qid": "cre:set-2:144",
+      "sub": "cre-risk",
+      "bok": "II.C",
+      "topic": "Distinguish prevention from consequence mitigation",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A bow-tie risk assessment defines its top event precisely as the first loss of chemical containment from a transfer line. The two controls below have the stated functions. Which treatment of their risk-reduction credit is most appropriate?",
+      "options": [
+        "Credit inspection and replacement against the likelihood of the initial loss; assess automatic isolation against release duration or consequence after that loss.",
+        "Credit automatic isolation as preventing the first loss because it acts without operator intervention.",
+        "Multiply both control reliabilities directly into the initial-loss frequency, regardless of where they act.",
+        "Discard automatic isolation because a control that acts after the top event cannot reduce risk."
+      ],
+      "answer": 0,
+      "why": "<p>Barrier classification is relative to the defined top event. Inspection and replacement can act before the first loss by addressing deterioration. The detector and isolation valve act only after a release begins, so their stated function is to limit its duration or consequences.</p><p>Evaluate each barrier’s actual performance and dependencies in the appropriate part of the risk model. Automation alone does not move a post-release control to the prevention side, and a mitigation barrier can be valuable even though it does not prevent the initial loss.</p>",
+      "optionRationales": [
+        "This assigns credit to the stage where each stated control acts and preserves the distinction between event likelihood and consequence.",
+        "Automatic action does not prevent an event that must already have occurred to trigger detection.",
+        "The controls act on different parts of the scenario; multiplying them into one initial frequency misrepresents their functions.",
+        "A post-event barrier can limit escalation, duration, exposure, or severity and therefore reduce risk."
+      ],
+      "keyPoint": "Allocate barrier credit relative to an explicitly defined top event.",
+      "trap": "Preventing an initial event and limiting what follows it are different risk-control functions.",
+      "assumptions": [
+        "The top event is the first loss of containment, not the later injury or total released quantity.",
+        "The detector responds to an existing release; no anticipatory detection function is claimed."
+      ],
+      "handbook": {
+        "chapter": 5,
+        "section": "Risk Control Plans; Bow-Tie Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Controls relative to the first loss of containment",
+        "columns": [
+          "Control",
+          "Stated function"
+        ],
+        "rows": [
+          [
+            "Inspection and replacement",
+            "Find and replace deteriorated pipe before a leak begins."
+          ],
+          [
+            "Release detection and automatic isolation",
+            "Detect an existing leak and stop further feed to limit release duration."
+          ]
+        ],
+        "description": "Inspection and replacement acts before an initial leak. Release detection and automatic isolation requires a leak to have begun and then stops further feed."
+      }
+    },
+    {
+      "number": 145,
+      "qid": "cre:set-2:145",
+      "sub": "cre-statistics",
+      "bok": "III.B.2",
+      "topic": "Recognize delayed entry separately from censoring",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A field study enrolls only units still functioning when observation begins. Units that failed before enrollment are absent from the study. The table records attained operating ages since first use, not time since enrollment. For an analysis of lifetime from first use, which description and treatment of these records is appropriate?",
+      "options": [
+        "All three lifetimes are complete because their enrollment ages are known.",
+        "The records have delayed entry (left truncation); retain entry ages, and treat C’s functioning exit as right censoring.",
+        "A and B are left-censored at enrollment because they were already old when first observed.",
+        "Reset every enrollment age to zero and interpret the resulting follow-up distribution as lifetime from first use without further assumptions."
+      ],
+      "answer": 1,
+      "why": "<p>Eligibility required survival to each entry age. Earlier failures are absent rather than recorded with an unknown failure time: this is left truncation, also called delayed entry.</p><p>Preserve attained entry and exit ages so an appropriate survival analysis can form risk sets from units actually under observation at each age. A and B have observed post-entry failures; C is right-censored at age 2,000 h. An analysis must also justify its entry/censoring assumptions. Follow-up time alone describes a different time origin and does not automatically recover the lifetime distribution from first use.</p>",
+      "optionRationales": [
+        "C’s eventual failure time is unknown, and selection excluded units that failed before their possible entry ages.",
+        "This distinguishes survival-conditioned entry from the unknown future failure time of the functioning unit C.",
+        "Left censoring would mean a known failure occurred before an observation bound; A and B were functioning at entry.",
+        "Changing the time origin loses attained-age information and does not undo selection of survivors."
+      ],
+      "keyPoint": "Delayed entry excludes earlier failures from the sample; right censoring limits observation after entry.",
+      "trap": "Knowing a survivor’s age does not turn a survivor-selected sample into a cohort followed from new.",
+      "assumptions": [
+        "The listed entry ages and exact failure or censoring ages are known.",
+        "The question classifies the observation scheme; it does not claim that these three records alone identify the full lifetime distribution."
+      ],
+      "handbook": {
+        "chapter": 7,
+        "section": "Types of Reliability Data; Censoring and Survival Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Attained ages in a survivor-enrolled field study",
+        "columns": [
+          "Unit",
+          "Age at entry (h)",
+          "Age at exit (h)",
+          "Exit status"
+        ],
+        "rows": [
+          [
+            "A",
+            1000,
+            1500,
+            "Failure"
+          ],
+          [
+            "B",
+            1200,
+            1800,
+            "Failure"
+          ],
+          [
+            "C",
+            800,
+            2000,
+            "Still functioning; study ends"
+          ]
+        ],
+        "description": "A enters at age 1,000 hours and fails at 1,500. B enters at 1,200 and fails at 1,800. C enters at 800 and remains functioning when observation ends at age 2,000. Pre-entry failures are absent from the study."
+      }
+    },
+    {
+      "number": 146,
+      "qid": "cre:set-2:146",
+      "sub": "cre-statistics",
+      "bok": "III.A.3",
+      "topic": "Use the arithmetic mean of a lognormal repair model",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "Active repair duration \\(T\\) follows a lognormal population model. The model specifies \\(Y=\\ln(T/(1\\ \\text{h}))\\) as normal with mean \\(\\mu=\\ln 2\\) and standard deviation \\(\\sigma=0.60\\). What mean active duration should be used when estimating the long-run total active time per repair?",
+      "options": [
+        "2.00 h",
+        "2.70 h",
+        "2.87 h",
+        "2.39 h"
+      ],
+      "answer": 3,
+      "why": "<p>The exponentiated log mean is the median, not the arithmetic mean. For this zero-location lognormal model:</p><p>\\[\\begin{aligned}E[T]&=(1\\ \\text{h})\\exp\\left(\\mu+\\frac{\\sigma^2}{2}\\right)\\\\&=2\\exp\\left(\\frac{0.60^2}{2}\\right)\\ \\text{h}\\\\&=2e^{0.18}\\ \\text{h}\\approx2.39\\ \\text{h}\\end{aligned}\\]</p><p>The right tail raises the arithmetic mean above the 2 h median. Use this mean for expected aggregate active time under the stated model. It is neither a repair-time percentile nor a confidence bound, and it excludes waiting that is not part of the modeled active duration.</p>",
+      "optionRationales": [
+        "2.00 h is the model median obtained by exponentiating the mean log duration.",
+        "2.70 h uses sigma divided by two instead of sigma squared divided by two in the exponent.",
+        "2.87 h uses the full log variance in the exponent and omits its factor of one-half.",
+        "2.39 h is the arithmetic population mean, including the lognormal right-tail contribution."
+      ],
+      "keyPoint": "For a lognormal model, exponentiating the log mean gives the median; the arithmetic mean also depends on log variance.",
+      "trap": "A typical repair duration and the mean needed for aggregate time planning need not be equal.",
+      "assumptions": [
+        "The model has no additive location shift; sigma is the standard deviation on the natural-log scale.",
+        "Population parameters are treated as specified, and only active repair duration is included."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Probability Distributions; Lognormal Distribution"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 147,
+      "qid": "cre:set-2:147",
+      "sub": "cre-testing",
+      "bok": "IV.B.3",
+      "topic": "Use the stopping rule in a reliability confidence bound",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "Four independent nonrepairable specimens with identically exponential lifetimes start together. The plan specifies in advance that the test ends at the third failure, with no replacements. Failures occur at 100, 300, and 700 h; the remaining specimen is censored at 700 h. What is the exact one-sided 90% lower confidence bound on population MTTF for this failure-terminated plan? In the table, \\(\\chi^2_{p,\\nu}\\) denotes the lower-tail \\(p\\) quantile with \\(\\nu\\) degrees of freedom.",
+      "options": [
+        "600.0 h",
+        "338.2 h",
+        "269.4 h",
+        "285.9 h"
+      ],
+      "answer": 1,
+      "why": "<p>Total observed exposure is 1,800 unit-hours. Because the stopping rule fixes the failure count at three, this is Type II censoring. The exponential pivot uses twice that fixed count.</p><p>\\[\\begin{aligned}T_{\\text{total}}&=100+300+700+700=1800\\ \\text{h}\\\\\\nu&=2r=6\\\\L_{0.90}&=\\frac{2T_{\\text{total}}}{\\chi^2_{0.90,6}}\\\\&=\\frac{3600}{10.645}\\approx338.2\\ \\text{h}\\end{aligned}\\]</p><p>The point estimate is 600 h. It is not a 90% lower bound. A fixed-time test has a different stopping rule and must not be silently substituted; a two-sided 90% interval also uses a different lower-bound tail probability.</p>",
+      "optionRationales": [
+        "600.0 h is total exposure divided by failures, the point estimate rather than the requested confidence bound.",
+        "338.2 h uses six degrees of freedom and the 0.90 chi-square quantile for this one-sided failure-terminated result.",
+        "269.4 h uses eight degrees of freedom, importing the time-terminated lower-bound convention.",
+        "285.9 h uses the 0.95 quantile for six degrees of freedom, giving a different confidence level or a two-sided 90% interval endpoint."
+      ],
+      "keyPoint": "The planned stopping rule determines the pivot and degrees of freedom for the confidence calculation.",
+      "trap": "Failure-terminated and time-terminated tests do not automatically use the same confidence-bound formula.",
+      "assumptions": [
+        "The third-failure stopping rule was fixed in advance and has no additional time cutoff.",
+        "The exponential population model is correct; failure times are exact and there are no withdrawals before termination."
+      ],
+      "handbook": {
+        "chapter": 9,
+        "section": "Qualification and Demonstration Testing; Failure-Terminated Tests"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Selected lower-tail chi-square quantiles",
+        "columns": [
+          "Degrees of freedom",
+          "p = 0.90",
+          "p = 0.95"
+        ],
+        "rows": [
+          [
+            6,
+            "10.645",
+            "12.592"
+          ],
+          [
+            8,
+            "13.362",
+            "15.507"
+          ]
+        ],
+        "description": "For six degrees of freedom the 0.90 and 0.95 quantiles are 10.645 and 12.592. For eight degrees they are 13.362 and 15.507."
+      }
+    },
+    {
+      "number": 148,
+      "qid": "cre:set-2:148",
+      "sub": "cre-testing",
+      "bok": "IV.A.1",
+      "topic": "Separate development growth evidence from final-design demonstration",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A test–analyze–fix program accumulates the data shown. The Revision B seal change specifically targets the failure mechanism observed on Revision A. A report proposes pooling both revisions to claim the final design has an exponential MTTF of 1,250 h. What is the most appropriate review conclusion?",
+      "options": [
+        "Accept the pooled final-design estimate because all exposure came from the same product name.",
+        "Claim infinite population MTTF for Revision B because no B failures occurred.",
+        "Preserve the configuration-specific development evidence and use a justified final-configuration analysis or demonstration plan for the final-design claim.",
+        "Delete Revision A’s failures from the report and attach its exposure to Revision B."
+      ],
+      "answer": 2,
+      "why": "<p>The seal intervention is intended to change the failure behavior, so pooling both configurations under one unchanged-rate model requires justification that has not been supplied. The 1,250 h quotient describes the pooled counts and exposure, not automatically the final configuration.</p><p>Retain configuration and failure-mechanism traceability, evaluate the growth evidence, and state what the Revision B exposure can support under an appropriate model and test plan. Zero B failures can support a finite lower confidence bound when a suitable plan and assumptions apply; they do not prove an infinite population mean.</p>",
+      "optionRationales": [
+        "A common product name does not establish identical failure behavior across an intentional mechanism-related change.",
+        "Zero observed failures do not prove that the population failure rate is exactly zero.",
+        "This preserves the learning history while requiring evidence appropriate to the configuration named in the reliability claim.",
+        "Reassigning exposure and removing failures would misrepresent which configuration generated the observations."
+      ],
+      "keyPoint": "A final-design reliability claim must correspond to the configuration and model that generated its supporting evidence.",
+      "trap": "Development exposure across fixes is not automatically interchangeable with final-configuration demonstration exposure.",
+      "assumptions": [
+        "The change addresses the observed failure mechanism, and no validated common-rate or growth-to-final model has been supplied.",
+        "Exposure records are accurate; the concern is the inferential claim, not whether development data should be retained."
+      ],
+      "handbook": {
+        "chapter": 8,
+        "section": "Reliability Test Strategies; Test, Analyze, and Fix"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Configuration-specific development results",
+        "columns": [
+          "Configuration",
+          "Observed exposure (unit-hours)",
+          "Observed failures"
+        ],
+        "rows": [
+          [
+            "Revision A: original seal",
+            2000,
+            4
+          ],
+          [
+            "Revision B: changed seal",
+            3000,
+            0
+          ]
+        ],
+        "description": "Revision A contributes 2,000 unit-hours and four failures. Revision B contributes 3,000 unit-hours with no observed failures after a seal change targeting the earlier mechanism."
+      }
+    },
+    {
+      "number": 149,
+      "qid": "cre:set-2:149",
+      "sub": "cre-testing",
+      "bok": "IV.C.1",
+      "topic": "Account for failure of a spare while it is on standby",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 3,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A system begins with one operating unit and one warm-standby spare, both functioning. An operating unit has constant failure rate \\(\\lambda=0.0005\\ \\text{h}^{-1}\\); while on standby, the spare has rate \\(\\delta=0.0001\\ \\text{h}^{-1}\\). If the operating unit fails while the spare is still good, transfer is perfect and instantaneous and the spare then uses rate \\(\\lambda\\). A standby failure does not interrupt the operating unit. All mechanisms are independent and exponential; no repair or common-cause failure occurs. What is the probability of uninterrupted service for 1,000 h?",
+      "options": [
+        "0.8951",
+        "0.9098",
+        "0.8452",
+        "0.5488"
+      ],
+      "answer": 0,
+      "why": "<p>Service succeeds if the original unit survives the mission, or if it fails at time \\(u\\) while the spare is still good and the transferred spare survives the remaining time. These cases are disjoint.</p><p>\\[\\begin{aligned}R(t)&=e^{-\\lambda t}+\\int_0^t\\lambda e^{-(\\lambda+\\delta)u}e^{-\\lambda(t-u)}\\,du\\\\&=e^{-\\lambda t}\\left[1+\\frac{\\lambda}{\\delta}(1-e^{-\\delta t})\\right]\\\\R(1000)&=e^{-0.5}\\left[1+5(1-e^{-0.1})\\right]\\\\&\\approx0.8951\\end{aligned}\\]</p><p>Equivalently, sum the probabilities of the two functioning states in the diagram. With zero standby failure rate the ideal cold-standby result is 0.9098; if the standby rate equals the active rate, the result becomes the corresponding independent two-unit parallel value of 0.8452.</p>",
+      "optionRationales": [
+        "0.8951 includes both survival of the original active unit and successful transfer after it fails while the spare is still good.",
+        "0.9098 assumes the spare cannot fail while waiting and therefore overstates this system’s reliability.",
+        "0.8452 exposes both units to the full active failure rate throughout the mission, rather than the specified lower standby rate.",
+        "0.5488 is the probability both original units remain good in their initial modes; it omits successful operation after one unit fails."
+      ],
+      "keyPoint": "A standby model must distinguish failure while waiting from failure after activation.",
+      "trap": "Perfect transfer does not make a standby spare immune to failure before it is needed.",
+      "assumptions": [
+        "Switching succeeds without interruption whenever a functioning spare is available.",
+        "The last functioning active unit always has rate 0.0005 per hour; there is no repair, aging memory, or common cause."
+      ],
+      "handbook": {
+        "chapter": 10,
+        "section": "Reliability Block Diagrams and Models; Standby Systems"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "States of the warm-standby system",
+        "columns": [
+          "State",
+          "Meaning",
+          "Outgoing transition rate (per hour)"
+        ],
+        "rows": [
+          [
+            "2 good",
+            "One active unit and one good standby spare",
+            "To 1 good: 0.0006"
+          ],
+          [
+            "1 good",
+            "One active unit; the other unit has failed",
+            "To failed: 0.0005"
+          ],
+          [
+            "Failed",
+            "No functioning unit",
+            "Absorbing state; no repair"
+          ]
+        ],
+        "description": "The system starts with two good units, one active and one standby. Failure of either first unit leads to one good active unit at total rate 0.0006 per hour. Failure of the last good unit leads to system failure at 0.0005 per hour. Both the two-good and one-good states provide service.",
+        "creKind": "warm-standby"
+      },
+      "explorer": "standby-dormancy"
+    },
+    {
+      "number": 150,
+      "qid": "cre:set-2:150",
+      "sub": "cre-lifecycle",
+      "bok": "V.A.3",
+      "topic": "Test an interaction using replicated factorial ANOVA",
+      "cognitive": "Analyze",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A randomized two-factor reliability experiment uses two fixed levels of A, two fixed levels of B, and three independent specimens at each of the four combinations. Every specimen’s failure life is observed. The fitted model includes A, B, and their interaction; normal, independent, equal-variance errors are assumed. The sums of squares are shown. At \\(\\alpha=0.05\\), what interaction F statistic and decision follow? Use the upper-tail critical value \\(F_{0.95;1,8}=5.318\\).",
+      "options": [
+        "F = 2.00; fail to reject no interaction.",
+        "F = 0.0625; fail to reject no interaction.",
+        "F = 16.00; fail to reject no interaction.",
+        "F = 16.00; reject no interaction."
+      ],
+      "answer": 3,
+      "why": "<p>There are 12 independent observations and four fitted cell means. Interaction has one degree of freedom; error has eight.</p><p>\\[\\begin{aligned}\\nu_{AB}&=(2-1)(2-1)=1\\\\\\nu_E&=2(2)(3-1)=8\\\\MS_E&=\\frac{24}{8}=3\\\\F_{AB}&=\\frac{MS_{AB}}{MS_E}=\\frac{48/1}{3}=16\\end{aligned}\\]</p><p>Because 16 exceeds 5.318, reject the no-interaction hypothesis at the stated level. The result supports an A-by-B interaction among the tested levels. Examine cell means or an interaction plot before choosing settings; this ANOVA table alone does not identify the best combination or establish practical effect size.</p>",
+      "optionRationales": [
+        "2.00 divides interaction sum of squares by error sum of squares without converting each to its mean square.",
+        "0.0625 reverses the required ratio, dividing error mean square by interaction mean square.",
+        "The statistic is correct, but it exceeds the upper-tail critical value and therefore requires rejection.",
+        "This uses the replicated-design error degrees of freedom and the correct upper-tail comparison."
+      ],
+      "keyPoint": "Use mean squares and the error degrees of freedom from the actual experimental replication.",
+      "trap": "A ratio of sums of squares is not generally an F statistic.",
+      "assumptions": [
+        "The factors are fixed; specimens are independent experimental units with randomized allocation and complete failure-life observations.",
+        "The full two-factor model and stated error assumptions apply; no blocking, repeated measures, or censoring is present."
+      ],
+      "handbook": {
+        "chapter": 11,
+        "section": "Design of Experiments; Factorial ANOVA and Interaction"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Replicated factorial ANOVA sums of squares",
+        "columns": [
+          "Source",
+          "Sum of squares (squared response units)"
+        ],
+        "rows": [
+          [
+            "A",
+            12
+          ],
+          [
+            "B",
+            27
+          ],
+          [
+            "A × B",
+            48
+          ],
+          [
+            "Error",
+            24
+          ],
+          [
+            "Total",
+            111
+          ]
+        ],
+        "description": "The sums of squares are 12 for A, 27 for B, 48 for the A-by-B interaction, and 24 for error; their total is 111. There are twelve observations, three at each of four treatment combinations."
+      },
+      "explorer": "anova-error"
     }
   ];
   questions.forEach(q => {q.set = 2; q.batch = Math.ceil(q.number / 10); q.sourceDocument = 'The ASQ Certified Reliability Engineer Handbook, 4th edition (2025)'; q.original = true;});
@@ -3683,7 +4301,7 @@
     exam.sets = Object.assign({}, existing, {1: first, 2: questions});
     if (!exam.bank || !exam.bank.length) exam.bank = questions;
     exam.defaultSet = first.length ? '1' : '2';
-    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–14 · Q001–140'}});
+    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Core complete · Q001–150'}});
     exam.fullExamQuestionsBySet = Object.assign({}, exam.fullExamQuestionsBySet, {2: 150});
     // Actual CBT pace: 165 displayed items in 258 minutes; this bank targets 150 core items.
     exam.questions = 165; exam.minutes = 258;

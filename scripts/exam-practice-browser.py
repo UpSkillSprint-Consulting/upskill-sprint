@@ -185,7 +185,7 @@ def main():
                     expect(card.locator('.exam-status')).to_have_text('Coming soon')
                     expect(card.locator('.exam-card-action')).to_contain_text('View exam details')
                 cre = page.locator('.exam-card[href="/test-bank?exam=cre"]')
-                expect(cre.locator('.exam-status')).to_have_text('Sets 1–3: 335 questions available')
+                expect(cre.locator('.exam-status')).to_have_text('Sets 1–3: 345 questions available')
                 expect(cre.locator('.exam-card-action')).to_contain_text('Start practicing')
                 expect(page.locator('.exam-intro')).to_contain_text('untimed')
                 expect(page.locator('.exam-actions a[href="/test-bank"]')).to_be_visible()
@@ -356,23 +356,24 @@ def main():
                     page.evaluate('(theme)=>document.documentElement.setAttribute("data-theme",theme)', theme)
                     page.locator('[data-set="2"]').click()
                     expect(page.locator('[data-set="2"]')).to_have_attribute('aria-pressed', 'true')
+                    expect(page.locator('#tb-overview')).to_contain_text('150-question Set 2 core is complete')
                     page.locator('[data-timing-kind="full"][data-timed="0"]').click()
                     page.locator('[data-mode="full"]').click()
-                    expect(page.locator('[data-goto]')).to_have_count(140)
+                    expect(page.locator('[data-goto]')).to_have_count(150)
                     exhibits = 0
-                    for i in range(140):
+                    for i in range(150):
                         page.locator(f'[data-goto="{i}"]').click()
                         expect(page.locator('[data-cre-question]')).to_have_count(1)
                         expect(page.locator('.cre2-explorer')).to_have_count(0)
                         exhibits += page.locator('.cre2-exhibit').count()
                         qid = page.locator('[data-cre-question]').get_attribute('data-cre-question')
                         assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2'), f'{qid} overflows at {width}px in {theme} theme'
-                    assert exhibits == 80, f'Expected 80 exhibits, found {exhibits}'
+                    assert exhibits == 88, f'Expected 88 exhibits, found {exhibits}'
                     page.locator('[data-submit]').click()
                     page.locator('[data-open-review="all"]').click()
-                    expect(page.locator('.tb-review-card')).to_have_count(140)
-                    expect(page.locator('.tb-review-card .cre2-exhibit')).to_have_count(80)
-                    expect(page.locator('.cre2-explorer')).to_have_count(28)
+                    expect(page.locator('.tb-review-card')).to_have_count(150)
+                    expect(page.locator('.tb-review-card .cre2-exhibit')).to_have_count(88)
+                    expect(page.locator('.cre2-explorer')).to_have_count(30)
                     original_score = page.locator('[data-score-result]').text_content()
                     sample = page.locator('[data-cre-explorer="sample-size"]')
                     sample.locator('summary').click()
@@ -663,9 +664,29 @@ def main():
                     expect(soa.locator('select')).to_have_value('0')
                     expect(soa.locator('output')).to_contain_text('outside the supplied DC SOA')
                     expect(soa.locator('svg')).to_contain_text('Review scenario: continuous DC operation')
+                    dormancy = page.locator('[data-cre-explorer="standby-dormancy"]')
+                    assert not dormancy.evaluate('(el)=>el.open'), 'Standby tool must start collapsed'
+                    dormancy.locator('summary').click()
+                    for value, reliability in [('0', '0.9098'), ('3', '0.8685'), ('5', '0.8452')]:
+                        dormancy.locator('select').select_option(value)
+                        expect(dormancy.locator('output')).to_contain_text('Mission reliability: ' + reliability)
+                    dormancy.locator('[data-cre-reset]').click()
+                    expect(dormancy.locator('select')).to_have_value('1')
+                    expect(dormancy.locator('output')).to_contain_text('Mission reliability: 0.8951')
+                    anova = page.locator('[data-cre-explorer="anova-error"]')
+                    assert not anova.evaluate('(el)=>el.open'), 'ANOVA tool must start collapsed'
+                    anova.locator('summary').click()
+                    for value, f, decision in [('12', '32.00', 'Reject no interaction.'), ('80', '4.80', 'Fail to reject no interaction'), ('120', '3.20', 'Fail to reject no interaction')]:
+                        anova.locator('select').select_option(value)
+                        expect(anova.locator('output')).to_contain_text('Interaction F: ' + f)
+                        expect(anova.locator('output')).to_contain_text(decision)
+                        expect(anova.locator('svg')).to_contain_text('F = ' + f)
+                    anova.locator('[data-cre-reset]').click()
+                    expect(anova.locator('select')).to_have_value('24')
+                    expect(anova.locator('output')).to_contain_text('Interaction F: 16.00')
                     assert page.locator('[data-score-result]').text_content() == original_score, 'Explorers changed the original score'
                     assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2'), f'CRE review overflows at {width}px in {theme} theme'
-                    soa.scroll_into_view_if_needed()
+                    anova.scroll_into_view_if_needed()
                     page.screenshot(path=str(out / f'cre-set2-{width}-{theme}.png'), full_page=False)
 
             record('cre-set2-evidence-and-review', cre_set2_review)

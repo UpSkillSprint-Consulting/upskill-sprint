@@ -10,18 +10,18 @@ const read = file => fs.readFileSync(path.resolve(__dirname, '..', file), 'utf8'
 const bank = () => {const ctx = {window: {}}; vm.runInNewContext(read('test-bank-cre-set2.js'), ctx); return ctx.window;};
 const tick = () => new Promise(resolve => setTimeout(resolve, 60));
 
-test('batch contract: stable IDs, current BoK weights, complete feedback, eighty exhibits, valid lesson anchors', () => {
+test('batch contract: stable IDs, current BoK weights, complete feedback, eighty-eight exhibits, valid lesson anchors', () => {
   const {CRE_SET2: qs, registerCRESet2} = bank();
-  assert.equal(qs.length, 140);
+  assert.equal(qs.length, 150);
   const exam = {bok: [], bank: []}, dm = {};
   registerCRESet2(exam, dm);
   assert.deepEqual(Array.from(exam.bok, d => d.weight), [29,25,35,35,26]);
   assert.equal(exam.questions, 165); assert.equal(exam.minutes, 258);
-  assert.equal(qs.filter(q => q.chart).length, 80);
-  assert.equal(qs.filter(q => q.chart?.creKind).length, 42);
-  assert.equal(qs.filter(q => q.explorer).length, 28);
-  assert.deepEqual(Array.from(exam.bok, d => qs.filter(q => q.sub === d.domain).length), [27,23,33,32,25]);
-  assert.deepEqual([0,1,2,3].map(key => qs.filter(q => q.answer === key).length), [35,35,35,35]);
+  assert.equal(qs.filter(q => q.chart).length, 88);
+  assert.equal(qs.filter(q => q.chart?.creKind).length, 45);
+  assert.equal(qs.filter(q => q.explorer).length, 30);
+  assert.deepEqual(Array.from(exam.bok, d => qs.filter(q => q.sub === d.domain).length), [29,25,35,35,26]);
+  assert.deepEqual([0,1,2,3].map(key => qs.filter(q => q.answer === key).length), [37,38,37,38]);
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,20))).digest('hex'), '488de3d62f6ba40533c7f4bbfa30ccba24492571571d06c08cdd8de328b29efc', 'Batches 1–2 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,30))).digest('hex'), '1d58917f68fcb88dd4fe42568d6e50394789e0cab74c16719108b1ff3841921b', 'Batches 1–3 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,40))).digest('hex'), '673070d6340dfe526539b3be6fbaaf14cf4b0ebfd26ea0ed9a6d707808b9c070', 'Batches 1–4 content is unchanged');
@@ -32,6 +32,7 @@ test('batch contract: stable IDs, current BoK weights, complete feedback, eighty
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,110))).digest('hex'), 'b1d8f74c16af70f2efa1e6d6b8d4d90f0457d49a351225d1ebec86c59d706af4', 'Batches 1–11 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,120))).digest('hex'), '0abf3a2b710b5d0928718160c1626c71cac986cb23bd5c0523343d785b09b588', 'Batches 1–12 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,130))).digest('hex'), 'f13d2e43b0431b0150e8393b508a569cf5db93f53624a133425dda16c664764e', 'Batches 1–13 content is unchanged');
+  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,140))).digest('hex'), '6de2b1654e0e8618eabbfeb1a2077dcde1bf774b52ba9277253575898e4934ca', 'Batches 1–14 content is unchanged');
   const released = JSON.stringify(qs.slice(0,10));
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,90))).digest('hex'), '3aa3b10d998f5c30c1b0befb8e15d0c3548f9aeeb9f6573495d0b2facc20fbfa', 'Batches 1–9 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,80))).digest('hex'), '0306b7d9d873b1efcdf7c169be1d620e547b7e91611c32501156443557421bb6', 'Batches 1–8 content is unchanged');
@@ -65,7 +66,7 @@ test('registering Set 2 preserves concurrent Set 1 and Set 3 question banks', ()
   assert.equal(exam.sets[1], first); assert.equal(exam.bank, first);
   assert.equal(JSON.stringify(first), before);
   assert.equal(exam.sets[3], third); assert.equal(JSON.stringify(third), thirdBefore);
-  assert.equal(exam.sets[2].length, 140);
+  assert.equal(exam.sets[2].length, 150);
 });
 
 test('independent calculations verify numeric keys and distractors', () => {
@@ -538,13 +539,14 @@ function useSet2(w,mode){click(w,mode==='full'?'[data-set="2"]':'[data-quiz-set-
 function start(w,mode){click(w,'.tb-tile[data-exam="cre"]');useSet2(w,mode);click(w,'#tb-overview [data-mode="'+mode+'"]');return w.__TB.getFeedbackSnapshot();}
 function submit(w){const n=w.__TB.getFeedbackSnapshot().records.length;click(w,'[data-goto="'+(n-1)+'"]');click(w,'[data-submit]');}
 
-test('production player uses Set 2, correct pace, eighty exhibits, review tools, and immutable score',async()=>{
+test('production player uses Set 2, correct pace, eighty-eight exhibits, review tools, and immutable score',async()=>{
   const h=await harness(),{w}=h;
   try{
     click(w,'.tb-tile[data-exam="cre"]');
     assert.equal(w.document.querySelector('[data-set="1"]').disabled,false);
     useSet2(w,'full');
-    assert.match(w.document.querySelector('#tb-overview').textContent,/140 of 150/);
+    assert.match(w.document.querySelector('#tb-overview').textContent,/150-question Set 2 core is complete/);
+    assert.doesNotMatch(w.document.querySelector('#tb-overview').textContent,/This is a partial practice set/);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,10),938);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,20),1876);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,30),2815);
@@ -559,21 +561,22 @@ test('production player uses Set 2, correct pace, eighty exhibits, review tools,
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,120),11258);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,130),12196);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,140),13135);
+    assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,150),14073);
     click(w,'#tb-overview [data-mode="full"]');
     const snapshot=w.__TB.getFeedbackSnapshot();
-    assert.equal(snapshot.records.length,140);
+    assert.equal(snapshot.records.length,150);
     assert.ok(snapshot.records.every(r=>/^cre:set-2:/.test(r.question.qid)));
     assert.equal(w.document.querySelector('.cre2-explorer'),null);
     assert.equal(w.document.querySelector('.tb-explanation'),null);
     snapshot.records.forEach((r,i)=>{click(w,'[data-goto="'+i+'"]');click(w,'[data-opt="'+r.question.answer+'"]');});
     submit(w);await tick();
     const score=w.document.querySelector('[data-score-result]').textContent;
-    assert.match(score,/140\/140/);assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet,'2');
+    assert.match(score,/150\/150/);assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet,'2');
     click(w,'[data-open-review="all"]');await tick();
-    assert.equal(w.document.querySelectorAll('.tb-review-card').length,140);
-    assert.equal(w.document.querySelectorAll('.tb-review-card .cre2-exhibit').length,80);
-    assert.equal(w.document.querySelectorAll('.cre2-explorer').length,28);
-    assert.equal(w.document.querySelectorAll('.cre2-source strong').length,280);
+    assert.equal(w.document.querySelectorAll('.tb-review-card').length,150);
+    assert.equal(w.document.querySelectorAll('.tb-review-card .cre2-exhibit').length,88);
+    assert.equal(w.document.querySelectorAll('.cre2-explorer').length,30);
+    assert.equal(w.document.querySelectorAll('.cre2-source strong').length,300);
     for(const card of w.document.querySelectorAll('.tb-review-card'))assert.ok(h.typesetRoots.includes(card));
     const slider=w.document.querySelector('[data-cre-explorer="weibull"] input');
     slider.value='1500';slider.dispatchEvent(new w.Event('input',{bubbles:true}));
@@ -745,6 +748,14 @@ test('production player uses Set 2, correct pace, eighty exhibits, review tools,
     assert.equal(soa.closest('details').open,false);
     soa.value='1';soa.dispatchEvent(new w.Event('change',{bubbles:true}));assert.match(soa.closest('details').querySelector('output').textContent,/below the 5.0 A.*inside the supplied single-pulse SOA/);assert.match(soa.closest('details').querySelector('svg').textContent,/Review scenario: one 10 ms rectangular pulse/);
     soa.closest('details').querySelector('button').click();assert.equal(soa.value,'0');assert.match(soa.closest('details').querySelector('output').textContent,/exceeds the 1.5 A.*outside the supplied DC SOA/);assert.match(soa.closest('details').querySelector('svg').textContent,/Review scenario: continuous DC operation/);
+    const dormancy=w.document.querySelector('[data-cre-explorer="standby-dormancy"] select');
+    assert.equal(dormancy.closest('details').open,false);
+    for(const [value,reliability] of [['0','0.9098'],['3','0.8685'],['5','0.8452']]){dormancy.value=value;dormancy.dispatchEvent(new w.Event('change',{bubbles:true}));assert.ok(dormancy.closest('details').querySelector('output').textContent.includes('Mission reliability: '+reliability));}
+    dormancy.closest('details').querySelector('button').click();assert.equal(dormancy.value,'1');assert.match(dormancy.closest('details').querySelector('output').textContent,/Mission reliability: 0.8951/);
+    const anova=w.document.querySelector('[data-cre-explorer="anova-error"] select');
+    assert.equal(anova.closest('details').open,false);
+    for(const [value,mse,f,decision] of [['12','1.50','32.00','Reject no interaction.'],['80','10.00','4.80','Fail to reject no interaction'],['120','15.00','3.20','Fail to reject no interaction']]){anova.value=value;anova.dispatchEvent(new w.Event('change',{bubbles:true}));const out=anova.closest('details').querySelector('output').textContent;assert.ok(out.includes('Error mean square: '+mse+'. Interaction F: '+f));assert.ok(out.includes(decision));assert.ok(anova.closest('details').querySelector('svg').textContent.includes('F = '+f));}
+    anova.closest('details').querySelector('button').click();assert.equal(anova.value,'24');assert.match(anova.closest('details').querySelector('output').textContent,/Interaction F: 16.00.*Reject no interaction/);
     assert.equal(JSON.stringify(w.CRE_SET2),baseline);
     assert.equal(w.document.querySelector('[data-score-result]').textContent,score);
     // The concurrently merged Set 3 stays selectable and uses only its own bank.
@@ -957,4 +968,39 @@ test('Batch 14 verifies matched-pair intervals, population weights, competing in
   assert.equal(qs[139].options[0],'3.50 h');assert.ok(meanRepair(3.5)<3.5);
   assert.equal(qs[139].options[1],(6*3.5/meanRepair(6)).toFixed(2)+' h');assert.ok(meanRepair(6*3.5/meanRepair(6))>3.5);
   assert.equal(qs[139].options[3],(3*3.5-1-4).toFixed(2)+' h');assert.ok(meanRepair(5.5)>3.5);
+});
+
+
+test('Batch 15 verifies resource constraints, lognormal expectation, failure-terminated confidence, standby states, and replicated ANOVA',()=>{
+  const qs=bank().CRE_SET2,answer=n=>qs[n-1].options[qs[n-1].answer],batch=Array.from(qs.slice(140,150));
+  assert.equal(batch.filter(q=>q.quantitative).length,5);
+  assert.deepEqual(['Foundational','Moderate','Challenging'].map(d=>batch.filter(q=>q.difficulty===d).length),[1,6,3]);
+  // Enumerate feasible integer-day starts; the chamber must never serve A and B together.
+  let finish=Infinity;
+  for(let a=0;a<=10;a++)for(let b=0;b<=10;b++)for(let c=0;c<=10;c++)for(let d=0;d<=12;d++){
+    if(a+4>b&&b+3>a)continue;
+    if(d<a+4||d<b+3||d<c+5)continue;
+    finish=Math.min(finish,d+2);
+  }
+  assert.equal(answer(142),finish+' days');assert.equal(finish,9);
+  assert.equal(qs[141].options[0],(Math.max(4,3,5)+2)+' days');assert.equal(qs[141].options[1],(4+3+5+2)+' days');assert.equal(qs[141].options[2],(5+3+2)+' days');
+  // Integrate the lifetime as a function of a standard-normal variate, not the closed-form mean.
+  let expectedLife=0;const dz=20/100000;for(let i=0;i<100000;i++){const z=-10+(i+.5)*dz;expectedLife+=2*Math.exp(.6*z)*Math.exp(-z*z/2)/Math.sqrt(2*Math.PI)*dz;}
+  assert.equal(answer(146),expectedLife.toFixed(2)+' h');assert.equal(qs[145].options[0],'2.00 h');assert.equal(qs[145].options[1],(2*Math.exp(.6/2)).toFixed(2)+' h');assert.equal(qs[145].options[2],(2*Math.exp(.6**2)).toFixed(2)+' h');
+  // Invert the integer-shape gamma CDF to check every supplied chi-square quantile.
+  const chiCDF=(x,df)=>{let term=1,sum=1;for(let k=1;k<df/2;k++){term*=x/2/k;sum+=term;}return 1-Math.exp(-x/2)*sum;};
+  for(const [df,q90,q95] of qs[146].chart.rows)for(const [p,q] of [[.9,Number(q90)],[.95,Number(q95)]]){let lo=0,hi=40;for(let k=0;k<60;k++){const mid=(lo+hi)/2;if(chiCDF(mid,df)<p)lo=mid;else hi=mid;}assert.ok(Math.abs((lo+hi)/2-q)<.00051);}
+  const exposure=4*100+3*(300-100)+2*(700-300);assert.equal(exposure,1800);
+  assert.equal(answer(147),(2*exposure/10.645).toFixed(1)+' h');assert.equal(qs[146].options[0],(exposure/3).toFixed(1)+' h');assert.equal(qs[146].options[2],(2*exposure/13.362).toFixed(1)+' h');assert.equal(qs[146].options[3],(2*exposure/12.592).toFixed(1)+' h');
+  // Solve the two transient state equations numerically using RK4, including both standby-rate endpoints.
+  const stateReliability=delta=>{const dt=.25,rate=.0005+delta,derivative=([p2,p1])=>[-rate*p2,rate*p2-.0005*p1],advance=(s,k,h)=>s.map((p,i)=>p+h*k[i]);let state=[1,0];for(let i=0;i<4000;i++){const k1=derivative(state),k2=derivative(advance(state,k1,dt/2)),k3=derivative(advance(state,k2,dt/2)),k4=derivative(advance(state,k3,dt));state=state.map((p,j)=>p+dt*(k1[j]+2*k2[j]+2*k3[j]+k4[j])/6);}return state[0]+state[1];};
+  assert.equal(answer(149),stateReliability(.0001).toFixed(4));assert.equal(qs[148].options[1],stateReliability(0).toFixed(4));assert.equal(qs[148].options[2],stateReliability(.0005).toFixed(4));assert.equal(qs[148].options[3],Math.exp(-.6).toFixed(4));assert.equal(stateReliability(.0003).toFixed(4),'0.8685');
+  // Reconstruct an original balanced 12-observation dataset whose ANOVA matches the supplied summary.
+  const data=[];for(const a of [-1,1])for(const b of [-1,1])for(const residual of [-Math.sqrt(3),0,Math.sqrt(3)])data.push({a,b,y:100+a+1.5*b+2*a*b+residual});
+  const mean=rows=>rows.reduce((sum,r)=>sum+r.y,0)/rows.length,grand=mean(data),aMean=a=>mean(data.filter(r=>r.a===a)),bMean=b=>mean(data.filter(r=>r.b===b)),cell=(a,b)=>mean(data.filter(r=>r.a===a&&r.b===b));
+  let ssA=0,ssB=0,ssAB=0,ssE=0,ssT=0;for(const r of data){ssA+=(aMean(r.a)-grand)**2;ssB+=(bMean(r.b)-grand)**2;ssAB+=(cell(r.a,r.b)-aMean(r.a)-bMean(r.b)+grand)**2;ssE+=(r.y-cell(r.a,r.b))**2;ssT+=(r.y-grand)**2;}
+  assert.deepEqual([ssA,ssB,ssAB,ssE,ssT].map(Math.round),[12,27,48,24,111]);assert.ok(Math.abs(ssA+ssB+ssAB+ssE-ssT)<1e-9);
+  const errorDf=data.length-4,f=ssAB/(ssE/errorDf);assert.equal(errorDf,8);assert.equal(answer(150),'F = '+f.toFixed(2)+'; reject no interaction.');assert.ok(f>5.318);
+  // F(1,8) is squared t(8); integrate the t density to validate the 5% upper-tail critical value.
+  const limit=Math.sqrt(5.318),dx=limit/20000;let mass=0;for(let i=0;i<20000;i++){const x=(i+.5)*dx;mass+=2*(1.09375/Math.sqrt(8))*(1+x*x/8)**(-4.5)*dx;}assert.ok(Math.abs(mass-.95)<.00001);
 });
