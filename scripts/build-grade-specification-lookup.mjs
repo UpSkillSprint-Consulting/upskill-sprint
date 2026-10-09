@@ -64,7 +64,8 @@ html[data-theme="light"] .brand small,html[data-theme="light"] .field label,html
 html[data-theme="light"] .hero-main,html[data-theme="light"] .hero-side{background:linear-gradient(135deg,#fff,#edf5fb)}html[data-theme="light"] .mark{background:linear-gradient(145deg,rgba(14,116,144,.12),rgba(217,119,6,.08));color:#0e6675}html[data-theme="light"] .badge,html[data-theme="light"] .badge-demo,html[data-theme="light"] .status,html[data-theme="light"] .clause{background:#f3f7fb;color:#30465f;border-color:var(--line)}
 @media(max-width:1080px){.grade-spec-tool-page .top-shell,.grade-spec-guide-page .topbar{top:64px}}@media(max-width:760px){header.site.grade-sitebar{padding:12px 16px}.grade-spec-tool-page .top-shell,.grade-spec-guide-page .topbar{top:60px}.grade-spec-tool-page .top-shell{position:relative;top:auto;box-shadow:none;backdrop-filter:none}.grade-spec-tool-page .phase2-shell{scroll-margin-top:78px}.uss-tool-back{padding-left:12px;padding-right:12px}.grade-sitebar .brand span{font-size:15px}}@media(max-width:430px){.grade-sitebar .brand span{display:none}}@media print{header.site.grade-sitebar,nav.mobile-nav,.mnav-check,.uss-skip-link,.uss-tool-back,.theme-control{display:none!important}.grade-spec-tool-page .top-shell,.grade-spec-guide-page .topbar{top:0}}
 </style>
-<link rel="stylesheet" href="/assets/tool-site-header.css">`;
+<link rel="stylesheet" href="/assets/tool-site-header.css">
+<script defer src="/tools/material-math-renderer.js"></script>`;
 
 // The guide is a public page, so it uses the shared site chrome (footer and nav normalisation).
 const guideSiteChrome = '\n<script src="/site-sections.js"></script>';
@@ -109,6 +110,39 @@ function replaceRequired(value, search, replacement, label) {
     throw new Error(`Material Specification Lookup build failed: ${label} insertion point was not found.`);
   }
   return value.replace(search, replacement);
+}
+
+function professionalizeGuideEquations(guide) {
+  const inline = (tex) => `\\(${tex}\\)`;
+  return guide
+    .replace(
+      '<div class="formula">tMin &lt; thickness ≤ tMax</div>',
+      `<div class="formula">${inline(String.raw`t_{\min} < t \le t_{\max}`)}</div>`
+    )
+    .replace(
+      '<div class="formula">CEIIW = C + Mn/6 + (Cr + Mo + V)/5 + (Ni + Cu)/15</div>',
+      `<div class="formula">${inline(String.raw`\mathrm{CE}_{\mathrm{IIW}} = C + \frac{\mathrm{Mn}}{6} + \frac{\mathrm{Cr}+\mathrm{Mo}+V}{5} + \frac{\mathrm{Ni}+\mathrm{Cu}}{15}`)}</div>`
+    )
+    .replace(
+      '<div class="formula" style="margin-top:8px">Pcm = C + Si/30 + (Mn + Cu + Cr)/20 + Ni/60 + Mo/15 + V/10 + 5B</div>',
+      `<div class="formula" style="margin-top:8px">${inline(String.raw`P_{\mathrm{cm}} = C + \frac{\mathrm{Si}}{30} + \frac{\mathrm{Mn}+\mathrm{Cu}+\mathrm{Cr}}{20} + \frac{\mathrm{Ni}}{60} + \frac{\mathrm{Mo}}{15} + \frac{V}{10} + 5B`)}</div>`
+    )
+    .replace(
+      '<div class="formula">Sub-size requirement = Full-size requirement × Stored factor</div>',
+      `<div class="formula">${inline(String.raw`\text{Sub-size requirement} = \text{Full-size requirement} \times \text{stored factor}`)}</div>`
+    )
+    .replace(
+      '<div class="formula">e_min = C × A^0.2 / U^0.9</div>',
+      `<div class="formula">${inline(String.raw`e_{\min} = \frac{C\,A^{0.2}}{U^{0.9}}`)}</div>`
+    )
+    .replace(
+      '<div class="formula">P = 2 × S × t / D</div>',
+      `<div class="formula">${inline(String.raw`P = \frac{2St}{D}`)}</div>`
+    )
+    .replace(
+      '<div class="value">27 J × 0.50 = 13.5 J required for the sub-size specimen</div>',
+      `<div class="value">${inline(String.raw`27\,\mathrm{J} \times 0.50 = 13.5\,\mathrm{J}`)} required for the sub-size specimen</div>`
+    );
 }
 
 function prepareApplication(originalHtml, hardeningScript, hardeningStyles, auditedSources, auditedContext) {
@@ -178,7 +212,7 @@ function prepareGuide(originalHtml, guideNotice) {
       'Reverse lookup searches all grade records using the entered thickness and minimum performance requirements.',
       'Reverse lookup searches grade records using the entered material thickness, product-form filter, and minimum performance requirements. The temperature criterion is applied even when no CVN energy criterion is entered.'
     );
-  return relevelGuideCardHeadings(guide);
+  return relevelGuideCardHeadings(professionalizeGuideEquations(guide));
 }
 
 // The guide's mini-card titles are h4s that sit directly under an h2, which skips a
