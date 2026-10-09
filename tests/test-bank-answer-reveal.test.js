@@ -54,6 +54,16 @@ function start(w, exam, mode, timed = false, bank = null) {
   const actual = mode === 'focused' ? 'focus' : mode;
   if(bank != null) w.document.querySelector(actual==='full'?`[data-set="${bank}"]`:`[data-quiz-set-kind="${actual}"][data-quiz-set="${bank}"]`)?.click();
   w.document.querySelector(`[data-timing-kind="${actual}"][data-timed="${timed ? 1 : 0}"]`)?.click();
+  // Partially released sets (e.g. CRE batches) may not cover the default area. A learner then
+  // picks an area that has questions; the page never switches it for them.
+  const area = actual === 'focus' && w.document.querySelector('#tb-overview [data-focusdom]');
+  if (area && w.document.querySelector('#tb-overview [data-mode="focus"]')?.disabled) {
+    for (const option of Array.from(area.options)) {
+      w.document.querySelector('#tb-overview [data-focusdom]').value = option.value;
+      w.document.querySelector('#tb-overview [data-focusdom]').dispatchEvent(new w.Event('change', { bubbles: true }));
+      if (!w.document.querySelector('#tb-overview [data-mode="focus"]').disabled) break;
+    }
+  }
   const native = w.document.querySelector(`#tb-overview [data-mode="${actual}"]`);
   if (native) native.click();
   else {

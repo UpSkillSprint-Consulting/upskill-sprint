@@ -121,9 +121,10 @@ test('Full, Quick and Focused selections remain independent across other control
     assert.equal(chosen(w,'quick'),'1');assert.equal(chosen(w,'focus'),'1');
     assert.equal(w.document.querySelector('[data-quiz-set="3"]'),null);
     click(w,'.tb-tile[data-exam="cre"]');
-    assert.equal(chosen(w,'quick'),'2');assert.equal(chosen(w,'focus'),'2');
+    // CRE Set 1 is released in batches and is now the default; Set 3 stays selectable.
+    assert.equal(chosen(w,'quick'),'1');assert.equal(chosen(w,'focus'),'1');
+    assert.equal(w.document.querySelector('[data-quiz-set="1"]').textContent.trim(),'Set 1');
     assert.equal(w.document.querySelector('[data-quiz-set="3"]').textContent.trim(),'Set 3');
-    assert.equal(w.document.querySelector('[data-quiz-set="1"]'),null);
     click(w,'.tb-tile[data-exam="cqa"]');assert.equal(w.document.querySelector('[data-quiz-set]'),null);
     assert.deepEqual(h.errors,[]);
   } finally {await h.close();}
