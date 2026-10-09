@@ -15,9 +15,9 @@ function loadBank() {
   return ctx.window;
 }
 
-test('PMP Set 1 is sixty original single-answer items across the July 2026 domains', () => {
+test('PMP Set 1 is eighty original single-answer items across the July 2026 domains', () => {
   const {PMP_SET1: qs, registerPMPSet1} = loadBank();
-  assert.equal(qs.length, 60);
+  assert.equal(qs.length, 80);
   const counts = {};
   const approaches = {};
   qs.forEach((q, i) => {
@@ -34,8 +34,8 @@ test('PMP Set 1 is sixty original single-answer items across the July 2026 domai
     counts[q.sub] = (counts[q.sub] || 0) + 1;
     approaches[q.approach] = (approaches[q.approach] || 0) + 1;
   });
-  assert.deepEqual(counts, {'pmp-people': 20, 'pmp-process': 25, 'pmp-business': 15});
-  assert.deepEqual(approaches, {Predictive: 24, Agile: 15, Hybrid: 21});
+  assert.deepEqual(counts, {'pmp-people': 26, 'pmp-process': 33, 'pmp-business': 21});
+  assert.deepEqual(approaches, {Predictive: 32, Agile: 20, Hybrid: 28});
   assert.equal(qs[6].chart.type, 'data-table');
   assert.equal(qs[6].chart.rows.length, 8);
   assert.equal(qs[13].chart.type, 'data-table');
@@ -47,12 +47,16 @@ test('PMP Set 1 is sixty original single-answer items across the July 2026 domai
   assert.equal(qs[45].chart.rows.length, 4);
   assert.equal(qs[50].chart.type, 'data-table');
   assert.equal(qs[50].chart.rows.length, 4);
+  assert.equal(qs[69].chart.type, 'data-table');
+  assert.equal(qs[69].chart.rows.length, 4);
+  assert.equal(qs[72].chart.type, 'data-table');
+  assert.equal(qs[72].chart.rows.length, 4);
   assert.equal(qs.filter(q => q.batch === 2).length, 10);
-  assert.equal(qs.filter(q => q.batch === 3).length, 10);
-  assert.equal(qs.filter(q => q.batch === 4).length, 10);
   assert.equal(qs.filter(q => q.batch === 5).length, 10);
   assert.equal(qs.filter(q => q.batch === 6).length, 10);
-  assert.equal(qs.slice(50).every(q => q.stem.includes('Northline')), true);
+  assert.equal(qs.filter(q => q.batch === 7).length, 10);
+  assert.equal(qs.filter(q => q.batch === 8).length, 10);
+  assert.equal(qs.slice(50, 60).every(q => q.stem.includes('Northline')), true);
   const exam = {bok: [], bank: []}, dm = {};
   registerPMPSet1(exam, dm);
   assert.equal(exam.bank, qs);
@@ -110,7 +114,7 @@ test('opening PMP shows Set 1 in the catalog and does not start an attempt', asy
   assert.match(overview, /33%/);
   assert.match(overview, /41%/);
   assert.match(overview, /26%/);
-  assert.equal(dom.window.__TB.EXAMS.pmp.bank.length, 60);
+  assert.equal(dom.window.__TB.EXAMS.pmp.bank.length, 80);
   assert.deepEqual(errors, []);
   dom.window.close();
 });

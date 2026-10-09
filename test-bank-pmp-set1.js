@@ -1,6 +1,6 @@
 /*
  * PMI PMP Exam Set 1 — original practice questions.
- * Batch 1-6 of 18 (Q001-Q060). Written to the July 2026 Exam Content Outline
+ * Batch 1-8 of 18 (Q001-Q080). Written to the July 2026 Exam Content Outline
  * (People, Process, Business Environment) and the PMBOK Guide 8th Edition
  * performance domains. No PMI item, handbook passage, or figure is copied.
  * UpSkill Sprint is not affiliated with the Project Management Institute.
@@ -1461,12 +1461,494 @@
       ],
       keyPoint: 'Lead the team through hypercare and the open failure before you commit them to the next phase.',
       trap: 'A celebration and a fast kickoff can abandon the people who just took the system live.'
+    },
+    {
+      qid: 'pmp:set-1:061',
+      sub: 'pmp-business',
+      ecoTask: 'Define and establish project governance',
+      approach: 'Predictive',
+      stem: 'Your governance rule says any safety-related defect is escalated the same day, no matter how small the repair looks. A lead found a guard that does not meet the code and wants to hold it for the weekly steering pack because the fix is only a few hours. What should you do?',
+      options: [
+        'Hold it for the weekly pack. A few hours does not justify a same-day escalation.',
+        'Fix the guard with no record so the pack stays short.',
+        'Escalate it the same day, as the rule requires, and do not wait for the weekly pack because the repair looks small.',
+        'Ask the crew to work around the guard until the next planned outage.'
+      ],
+      answer: 2,
+      why: '<p>The rule is about safety, not about how long the repair takes. A guard that misses the code is escalated the same day. Waiting for a weekly pack, fixing it off the record, or working around it all treat a safety threshold as optional.</p><p><strong>Exam tip:</strong> When a governance rule sets a same-day safety escalation, the size of the repair does not delay it.</p>',
+      optionRationales: [
+        'A short repair is still a safety defect. The weekly pack is the wrong clock.',
+        'An unrecorded fix hides the defect from the people the rule told you to tell.',
+        'The escalation happens the same day, and the small repair is not used as a reason to wait.',
+        'A workaround leaves a guard that does not meet the code in service.'
+      ],
+      keyPoint: 'A same-day safety rule is followed even when the repair looks small.',
+      trap: 'A few hours of work is not a reason to hold a safety defect for the weekly meeting.'
+    },
+    {
+      qid: 'pmp:set-1:062',
+      sub: 'pmp-business',
+      ecoTask: 'Plan and manage project compliance',
+      approach: 'Hybrid',
+      stem: 'A hybrid pilot may not use production data until the validation packet for this release is signed. The packet from last year is signed. The packet for this release is two days from signature. The pilot window is this afternoon, and a teammate wants to reuse the old packet so the window is not missed. What should you do?',
+      options: [
+        'Reuse the old packet. The system is almost the same as last year.',
+        'Do not start the pilot. Keep production data out until this release packet is signed, and tell the sponsor the window has to move.',
+        'Backdate this release packet so the file matches this afternoon.',
+        'Load production data for the pilot and delete it if the signer objects.'
+      ],
+      answer: 1,
+      why: '<p>The rule is about this release, not about a packet that signed a different one. Reusing last year, backdating, or loading data and hoping all put production data into a pilot that is not yet allowed. The project manager holds the pilot and tells the sponsor the window moves with the signature.</p><p><strong>Exam tip:</strong> A signed packet from an earlier release does not authorize this one. Do not borrow it to save a window.</p>',
+      optionRationales: [
+        'Almost the same is not this release. The old signature does not cover the pilot in front of you.',
+        'Production data stays out, and the sponsor hears that the window follows the signature.',
+        'A backdated packet is a false record. It does not create a real signature.',
+        'Loading the data before the objection is the breach the rule was written to prevent.'
+      ],
+      keyPoint: 'Do not start a regulated pilot on a prior signature or a packet that is not signed yet.',
+      trap: 'Saving the window by reusing last year packet is a compliance miss, not flexibility.'
+    },
+    {
+      qid: 'pmp:set-1:063',
+      sub: 'pmp-people',
+      ecoTask: 'Lead the project team',
+      approach: 'Predictive',
+      stem: 'A supplier offers you event tickets while their bid is still being scored. Your company rule says no gifts from a bidder during a live procurement. The supplier says the tickets are for the relationship, not for the bid. What should you do?',
+      options: [
+        'Decline the tickets, record the offer the way the rule requires, and keep the scoring fair.',
+        'Accept the tickets and disclose them after the award so the relationship stays warm.',
+        'Let a teammate accept them, since the tickets were not offered in your name.',
+        'Disqualify the supplier on the spot without telling the evaluation lead.'
+      ],
+      answer: 0,
+      why: '<p>A gift during a live scoring is the situation the rule names, whatever the supplier calls it. The project manager declines, records the offer as required, and leaves the scoring unbiased. Accepting now and talking later, passing the tickets to someone else, or disqualifying the bidder with no process all miss the rule.</p><p><strong>Exam tip:</strong> Decline a gift from a bidder while the bid is open. The label on the gift does not change the rule.</p>',
+      optionRationales: [
+        'The tickets are refused, the offer is recorded, and the score is not influenced by them.',
+        'Disclosure after the award does not undo a gift taken while the score was open.',
+        'A teammate accepting the tickets is still an acceptance during a live procurement.',
+        'The rule is about the gift. Disqualifying the supplier with no process is a different decision you do not make alone in the hallway.'
+      ],
+      keyPoint: 'No gifts from a bidder during scoring. Decline and record, then score as if the offer was never a favor.',
+      trap: 'Calling a gift a relationship does not take it outside a procurement gift rule.'
+    },
+    {
+      qid: 'pmp:set-1:064',
+      sub: 'pmp-people',
+      ecoTask: 'Lead the project team',
+      approach: 'Agile',
+      stem: 'An agile manager has been praising a developer for a perfect burndown. You find that three stories were marked done without the agreed tests. The developer says the manager told them the chart could not show red before the steering review. What should you do?',
+      options: [
+        'Leave the stories marked done until after the review, then add the tests.',
+        'Change the definition of done so the stories match the chart.',
+        'Remove the developer from the team for the false status.',
+        'Correct the story status, finish or reopen the missing tests, and address the pressure with the manager instead of hiding the chart.'
+      ],
+      answer: 3,
+      why: '<p>The chart is wrong because someone was told it could not show red. The project manager corrects the status, puts the tests back in front of done, and deals with the pressure that caused the false mark. Hiding it until after steering, lowering done, or blaming only the developer leaves the pressure in place.</p><p><strong>Exam tip:</strong> A false done is corrected in the open. Do not protect a burndown, and do not punish the person while ignoring the manager who demanded the green chart.</p>',
+      optionRationales: [
+        'Waiting until after the review shows steering a chart you already know is false.',
+        'Changing done to fit the chart removes the tests instead of running them.',
+        'Removing the developer ignores the instruction that created the false status.',
+        'The status is corrected, the tests are real again, and the manager hears that the chart cannot be ordered green.'
+      ],
+      keyPoint: 'Correct false done and the pressure behind it. Do not carry a green chart you know is wrong.',
+      trap: 'A perfect burndown that skipped the tests is a leadership problem, not a reason to stay quiet until steering.'
+    },
+    {
+      qid: 'pmp:set-1:065',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and optimize quality',
+      approach: 'Predictive',
+      stem: 'An inspector records a nonconformance on a weld that misses the specification. The area supervisor asks you to call it an observation instead, so the customer scorecard stays green. The weld does not meet the spec. What should you do?',
+      options: [
+        'Call it an observation. The scorecard is what the customer will remember.',
+        'Wait to see whether the customer notices the weld.',
+        'Record the nonconformance as written, and do not relabel it to protect the scorecard.',
+        'Tell the inspector to be more practical and rewrite the note with no defect named.'
+      ],
+      answer: 2,
+      why: '<p>The weld misses the spec, so the record is a nonconformance. Relabeling it to keep a scorecard green hides a defect the quality plan exists to catch. Waiting for the customer, or pressing the inspector to soften the note, does the same thing with a delay.</p><p><strong>Exam tip:</strong> Do not rename a nonconformance to protect a scorecard. The specification, not the color of the report, decides the class.</p>',
+      optionRationales: [
+        'A green scorecard that hides a missed spec is not quality performance.',
+        'Hoping the customer misses it leaves a known defect in the work.',
+        'The record matches the spec, and the scorecard is not allowed to rename it.',
+        'Pressuring the inspector to drop the defect name falsifies the inspection.'
+      ],
+      keyPoint: 'Classify the weld by the specification, not by the scorecard you wish you had.',
+      trap: 'An observation is not a softer word for a weld that misses the spec.'
+    },
+    {
+      qid: 'pmp:set-1:066',
+      sub: 'pmp-business',
+      ecoTask: 'Define and establish project governance',
+      approach: 'Hybrid',
+      stem: 'You may approve a change that is both 5 days or less and 10,000 dollars or less. A request is 4 days and 12,000 dollars. A colleague says you can approve it because the schedule impact is inside your limit. What should you do?',
+      options: [
+        'Approve it. The schedule is inside the limit, so the cost can run over.',
+        'Send it to the board. Your authority stops when either limit is passed, and this cost is over the line.',
+        'Split the cost into two requests of 6,000 dollars so each one fits your limit.',
+        'Reject the request with no review because it missed your cost limit.'
+      ],
+      answer: 1,
+      why: '<p>The authority is both limits, not whichever one looks fine. Four days would fit, and 12,000 dollars does not, so you do not approve it. Splitting the cost to sneak under the line is the same evasion. A flat rejection with no review also skips the board that now owns the decision.</p><p><strong>Exam tip:</strong> When two thresholds both have to be met, missing either one sends the change up. Do not approve on the limit you happened to pass.</p>',
+      optionRationales: [
+        'The schedule limit does not cancel the cost limit. Both have to be inside your authority.',
+        'The cost is over the line, so the board decides. You do not approve a partial fit.',
+        'Two smaller requests are still one 12,000 dollar change cut up to avoid the board.',
+        'The request still needs a decision. Sending it nowhere is not the same as sending it to the board.'
+      ],
+      keyPoint: 'Dual limits are both real. Over on cost means the board, even when the days would have fit.',
+      trap: 'Passing one threshold does not give you authority the other threshold took away.'
+    },
+    {
+      qid: 'pmp:set-1:067',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and manage procurement',
+      approach: 'Predictive',
+      stem: 'The site contract requires the vendor to hold current liability insurance. The certificate expired six days ago. The vendor says the renewal is in process and asks to keep the crew on site today because the crane is already booked. What should you do?',
+      options: [
+        'Do not let the uncovered crew keep working. Confirm the contract requirement and keep them off that work until the insurance is current.',
+        'Let them work today. A renewal in process is the same as coverage.',
+        'Ignore the certificate. The crane booking would otherwise be wasted.',
+        'Pay a standby day and skip the insurance check so the booking is preserved.'
+      ],
+      answer: 0,
+      why: '<p>The contract requires current insurance, and the certificate is expired. A renewal in process is not coverage. The project manager keeps the crew off the work until the insurance is current, even if the crane is booked. Letting them stay, or paying to ignore the gap, puts the site outside the contract.</p><p><strong>Exam tip:</strong> An expired certificate is not saved by a renewal story or a booked crane. Stop the uncovered work and confirm the clause.</p>',
+      optionRationales: [
+        'The crew stays off the work until coverage is current, and the contract is what you check rather than the vendor story.',
+        'In process is not a current certificate. The contract asked for coverage, not a promise.',
+        'A wasted booking is cheaper than uncovered work the contract forbids.',
+        'Standby pay does not replace the insurance check the contract requires.'
+      ],
+      keyPoint: 'Do not keep a vendor on site when the required insurance has expired.',
+      trap: 'A booked crane and a renewal in process do not extend an expired certificate.'
+    },
+    {
+      qid: 'pmp:set-1:068',
+      sub: 'pmp-people',
+      ecoTask: 'Engage stakeholders',
+      approach: 'Hybrid',
+      stem: 'A scoring panel is comparing two finalists for a support contract. You learn that one panel member owns a stake in one finalist and did not mention it. That person is also the only one who has used the tool. What should you do?',
+      options: [
+        'Keep them on the panel. The experience matters more than the stake.',
+        'Leave them on the panel and ignore their score.',
+        'Cancel the procurement so the conflict cannot affect the result.',
+        'Disclose the conflict, remove that person from scoring, and continue with panel members who do not have a stake.'
+      ],
+      answer: 3,
+      why: '<p>An undisclosed stake in a finalist is a conflict on a scoring panel. Experience does not erase it. The project manager discloses it, takes that person off the score, and finishes with people who do not have the interest. Keeping them, quietly dropping only the number, or cancelling the whole buy all avoid a clean evaluation.</p><p><strong>Exam tip:</strong> Remove the conflicted scorer and disclose it. Do not keep the only expert on the panel because the score would be harder without them.</p>',
+      optionRationales: [
+        'Useful experience does not make an undisclosed stake acceptable on a scoring panel.',
+        'Leaving them in the room and ignoring a score still leaves the conflict inside the evaluation.',
+        'Cancelling the buy is larger than the fix. The panel can continue without the conflicted member.',
+        'The stake is disclosed, that person stops scoring, and the remaining panel has no stake in a finalist.'
+      ],
+      keyPoint: 'A scorer with a stake in a finalist comes off the panel, in the open, even if they know the tool best.',
+      trap: 'The only expert is still the wrong scorer when they own part of a finalist.'
+    },
+    {
+      qid: 'pmp:set-1:069',
+      sub: 'pmp-business',
+      ecoTask: 'Plan and manage project compliance',
+      approach: 'Agile',
+      stem: 'A privacy rule says production customer records must not be copied into the test tool. A developer already loaded 200 records to make a demo faster and plans to delete them after the demo this afternoon. What should you do?',
+      options: [
+        'Let the demo happen, then delete the records.',
+        'Delete the records yourself and tell no one, so the demo stays on time.',
+        'Stop the use now, contain the copied records, and report it through the privacy path before the demo.',
+        'Ask the developer to anonymize the records after the demo if anyone asks.'
+      ],
+      answer: 2,
+      why: '<p>The records are already where the rule says they must not be. Waiting for the demo, deleting them in secret, or anonymizing later if asked all leave a known breach in place. The project manager stops the use, contains the copy, and reports it on the privacy path before anyone presents those records.</p><p><strong>Exam tip:</strong> A privacy breach is contained and reported when you learn it. Do not wait for a demo, and do not erase it quietly.</p>',
+      optionRationales: [
+        'The demo would use records that are already outside the rule. Afterward is too late.',
+        'A quiet delete hides the breach from the path that is supposed to handle it.',
+        'Use stops, the copy is contained, and the privacy path hears it before the demo.',
+        'Anonymizing later, and only if asked, is not containment and not a report.'
+      ],
+      keyPoint: 'Stop and report a forbidden copy of production records. Do not finish the demo first.',
+      trap: 'Deleting the evidence after the demo is not the same as following the privacy rule.'
+    },
+    {
+      qid: 'pmp:set-1:070',
+      sub: 'pmp-process',
+      ecoTask: 'Evaluate and manage project status',
+      approach: 'Predictive',
+      stem: 'Steering uses the exhibit as the official open-item list. A lead asks you to present the draft anyway so the meeting stays positive. What should you do?',
+      options: [
+        'Present the draft. The budget variance and the vendor risk are enough for one meeting.',
+        'Correct the draft so every open item the rule requires is shown with its real status, then present that version.',
+        'Move the missing exception and the training gap into a file steering does not open.',
+        'Cancel steering until next month so the draft can stay as it is.'
+      ],
+      answer: 1,
+      chart: {
+        type: 'data-table',
+        title: 'Steering open items',
+        columns: ['Item', 'Rule', 'Draft slide'],
+        rows: [
+          ['Validation exception VE-14', 'Must be shown while it is open', 'Left off the slide'],
+          ['Night-shift training gap', 'Must be shown while it is open', 'Listed as closed'],
+          ['Budget variance', 'Show if over 5 percent', 'Shown, and it is over the line'],
+          ['Vendor delay risk', 'Show while it is open', 'Shown']
+        ]
+      },
+      why: '<p>The draft drops an open validation exception and marks an open training gap as closed. Steering is supposed to see both. The project manager corrects the slide and then presents it. A positive meeting, a hidden file, or a cancelled forum all keep the real status out of the room.</p><p><strong>Exam tip:</strong> Read the exhibit against the rule column. Do not present a slide that omits an open item or marks one closed when it is not.</p>',
+      optionRationales: [
+        'Two honest rows do not make up for an omitted exception and a gap marked closed.',
+        'VE-14 is put back, the training gap is shown as open, and that is the slide steering sees.',
+        'A file nobody opens is the same as leaving the items off the list.',
+        'Cancelling the meeting protects the draft and delays the decisions those items need.'
+      ],
+      keyPoint: 'The steering list shows open items as open. Do not edit it to keep the meeting pleasant.',
+      trap: 'A positive draft that hides an exception is a false status report.'
+    },
+    {
+      qid: 'pmp:set-1:071',
+      sub: 'pmp-business',
+      ecoTask: 'Manage and control changes',
+      approach: 'Predictive',
+      stem: 'A crew finds that a platform guard does not meet the safety code. Making the site safe will take this afternoon. Changing the design baseline will take about eight days and is outside your approval limit. The supervisor wants to rebuild the guard to a new design now and file the change after the outage. What should you do?',
+      options: [
+        'Make the site safe now, and send the design baseline change through the board before that new design becomes the approved build.',
+        'Leave the guard as it is until the board meets next week.',
+        'Rebuild to the new design now and skip the board, because safety work is exempt from change control.',
+        'Stop every task on the project, including work that does not touch the platform, until the board writes an approval.'
+      ],
+      answer: 0,
+      why: '<p>An unsafe guard is corrected now. That does not make the new design the baseline. The design change is outside your limit, so it goes to the board before it is the approved build. Leaving the hazard until next week, skipping the board, or stopping the whole project all confuse a safety response with a baseline change.</p><p><strong>Exam tip:</strong> Make the site safe immediately. Still take the baseline change through the board. Safety is not a reason to skip change control, and change control is not a reason to leave a hazard in place.</p>',
+      optionRationales: [
+        'The hazard is removed this afternoon, and the new design waits for the board before it becomes the baseline.',
+        'Waiting a week leaves a guard that does not meet the code.',
+        'Safety authorizes the immediate protection. It does not authorize an unapproved design as the new baseline.',
+        'Stopping unrelated work is wider than the hazard and still does not make the site safe today.'
+      ],
+      keyPoint: 'Protect the site now, and put the design change through the board before it becomes the baseline.',
+      trap: 'Do not choose between an unsafe site and an unapproved baseline. Do the safe act now and the change control for the design.'
+    },
+    {
+      qid: 'pmp:set-1:072',
+      sub: 'pmp-process',
+      ecoTask: 'Develop and manage project scope',
+      approach: 'Agile',
+      stem: 'Between sprints, a product owner wants to move a support-reduction story above a cosmetic story. There is no signed baseline. The cosmetic story was higher only because it was written first. A teammate says any reorder needs a change request. What should you do?',
+      options: [
+        'Open a change request. Every order change is a baseline change.',
+        'Refuse the reorder. The first written order is the commitment.',
+        'Freeze the backlog until a steering meeting votes on the cosmetic story.',
+        'Let the product owner reorder the backlog. This is adaptation, not a change to a baseline.'
+      ],
+      answer: 3,
+      why: '<p>There is no baseline, and the sprint has not started. Reordering the backlog is how an adaptive team points the next sprint at the better outcome. A change request, a frozen first draft, or a steering vote on a cosmetic story all treat a backlog like a signed scope.</p><p><strong>Exam tip:</strong> If there is no baseline and you are between sprints, the product owner may reorder. Do not send that through change control.</p>',
+      optionRationales: [
+        'A change request is for baselined scope. This backlog was never signed.',
+        'Written first is not a commitment. The owner can put the support story first.',
+        'Steering does not need to vote on a cosmetic sequence the product owner can change.',
+        'The product owner reorders, and the next sprint follows the new order.'
+      ],
+      keyPoint: 'Reorder the backlog between sprints when nothing was baselined. That is not a change request.',
+      trap: 'Not every sequence change belongs on a change board. No baseline means the backlog can move.'
+    },
+    {
+      qid: 'pmp:set-1:073',
+      sub: 'pmp-process',
+      ecoTask: 'Develop and manage project scope',
+      approach: 'Hybrid',
+      stem: 'Four requests arrived this morning. The exhibit shows where each one lives. A coordinator wants all four sent to the change board so the project has one path. What should you do?',
+      options: [
+        'Send all four to the board. One path is simpler to audit.',
+        'Let the product owner accept all four, including the checksum rule.',
+        'Send the baseline items to the change board, and let the product owner reorder the backlog items. Do not force one path onto both.',
+        'Reject all four until the next quarterly baseline.'
+      ],
+      answer: 2,
+      chart: {
+        type: 'data-table',
+        title: 'Four requests this morning',
+        columns: ['Request', 'Where it lives', 'Rule'],
+        rows: [
+          ['Headline color on the public page', 'Adaptive backlog', 'Product owner may reorder'],
+          ['Validation script for the drug interface', 'Signed baseline', 'Change board'],
+          ['Nurse tip text', 'Adaptive backlog', 'Product owner may reorder'],
+          ['Barcode checksum rule', 'Signed baseline', 'Change board']
+        ]
+      },
+      why: '<p>The exhibit already splits the paths. Headline color and nurse tip text are backlog items the product owner may reorder. The validation script and the checksum rule are on the signed baseline and go to the board. One path for all four either clogs the board or lets a baseline rule skip it.</p><p><strong>Exam tip:</strong> Read where the work lives. Hybrid change control uses the board for the baseline and the backlog for the rest. Do not collapse them.</p>',
+      optionRationales: [
+        'Sending backlog color and tip text to the board adds delay the rule does not require.',
+        'The product owner does not get to accept a checksum rule or a validation script that sits on the baseline.',
+        'Baseline requests go to the board. Backlog requests stay with the product owner.',
+        'A quarterly freeze blocks both the adaptive work and the baseline decisions that are due now.'
+      ],
+      keyPoint: 'Use the change board for baselined work and the product owner for backlog work. Do not force one path.',
+      trap: 'One path feels tidy and sends either too much to the board or too little.'
+    },
+    {
+      qid: 'pmp:set-1:074',
+      sub: 'pmp-people',
+      ecoTask: 'Align stakeholder expectations',
+      approach: 'Hybrid',
+      stem: 'Your governance note says the change board decides signed baseline scope, and the product owner reorders the adaptive backlog. The sponsor believes every reorder needs the board. The team has stopped adjusting the backlog and is waiting a week for each small sequence change. What should you do?',
+      options: [
+        'Abolish the change board so the team can move.',
+        'Show the sponsor the rule, return reorder authority on the backlog to the product owner, and keep baseline changes on the board.',
+        'Ignore the sponsor and tell the team to do whatever is fastest.',
+        'Send every backlog reorder to the board so the sponsor feels included.'
+      ],
+      answer: 1,
+      why: '<p>The sponsor and the note disagree, and the team has frozen work the note allows. The project manager shows the sponsor the actual rule, gives the backlog back to the product owner, and leaves baseline changes on the board. Abolishing the board, ignoring the sponsor, or feeding every reorder to the board all throw away half of the agreement.</p><p><strong>Exam tip:</strong> When a sponsor invents a heavier rule than the one you published, correct the expectation. Do not either abolish control or obey the heavier myth.</p>',
+      optionRationales: [
+        'The board still owns baseline scope. Removing it fixes the delay by dropping the control you need.',
+        'The sponsor sees the published split, the backlog moves again, and baseline changes stay on the board.',
+        'Ignoring the sponsor leaves the disagreement in place and surprises them at the next baseline change.',
+        'Sending backlog reorders to the board is the delay the team is already suffering.'
+      ],
+      keyPoint: 'Align the sponsor to the published split: board for baseline, product owner for the backlog.',
+      trap: 'Waiting a week for every small reorder means the team is following the sponsor myth, not the rule.'
+    },
+    {
+      qid: 'pmp:set-1:075',
+      sub: 'pmp-process',
+      ecoTask: 'Develop an integrated plan and plan delivery',
+      approach: 'Predictive',
+      stem: 'The change board approved a two-week move of the interface date and the matching cost. The approval is in the log. The schedule the crew is using and the cost baseline still show the old date and the old budget. Work tomorrow will follow those old dates. What should you do?',
+      options: [
+        'Update the schedule and the cost baseline the crew uses before tomorrow work starts, so the approved change is the plan.',
+        'Leave the log as the only record. Tell the crew verbally if they ask.',
+        'Reopen the decision because the baselines were not updated the same day.',
+        'Tell the crew to ignore dates until the next monthly report.'
+      ],
+      answer: 0,
+      why: '<p>An approval that never reaches the schedule and the cost baseline is not yet the plan. Tomorrow the crew will build the old date. The project manager updates those baselines before that work starts. A verbal aside, a reopened decision, or a month of ignored dates all leave the approved change outside the work.</p><p><strong>Exam tip:</strong> After the board approves a change, update the plan people will actually use. A line in the log is not integration.</p>',
+      optionRationales: [
+        'The crew schedule and the cost baseline match the approval before the next day of work.',
+        'Waiting for someone to ask leaves tomorrow on the old date.',
+        'The decision is already made. Reopening it because the paperwork lagged is not required.',
+        'Ignoring dates until the monthly report builds a month of the wrong plan.'
+      ],
+      keyPoint: 'Integrate an approved change into the schedule and cost baseline before the crew keeps building the old one.',
+      trap: 'A change log entry is not the plan if the crew schedule still shows the old date.'
+    },
+    {
+      qid: 'pmp:set-1:076',
+      sub: 'pmp-business',
+      ecoTask: 'Manage and control changes',
+      approach: 'Hybrid',
+      stem: 'Mid-sprint, a director asks to replace the sprint goal with a new welcome-screen layout. The layout is backlog work, not signed baseline scope. The sprint goal was committed two days ago and is still the right goal. What should you do?',
+      options: [
+        'Swap the goal today. A director request outranks a sprint commitment.',
+        'Send the layout to the change board before anyone can discuss it.',
+        'Cancel the sprint so the layout can start on a clean board.',
+        'Capture the layout for the product owner to order later. Do not replace the committed sprint goal mid-sprint.'
+      ],
+      answer: 3,
+      why: '<p>The layout is not baseline scope, so the change board is the wrong door. It is also not a reason to throw out a sprint goal that is still valid. The project manager captures it and lets the product owner order it for a later sprint. Swapping today, or cancelling the sprint, gives a director request more power than the commitment.</p><p><strong>Exam tip:</strong> Backlog work does not go to the change board, and it does not kick out a live sprint goal. Park it and order it next.</p>',
+      optionRationales: [
+        'Rank does not replace a sprint goal that is still the right commitment.',
+        'The layout is not baselined. The board is the wrong control for it.',
+        'Cancelling the sprint is larger than a layout request the next sprint can hold.',
+        'The request is captured, the current goal stays, and the product owner orders the layout later.'
+      ],
+      keyPoint: 'Do not replace a committed sprint goal mid-sprint with backlog work, and do not send that work to the change board.',
+      trap: 'A director asking mid-sprint is neither an emergency baseline change nor a reason to break the goal.'
+    },
+    {
+      qid: 'pmp:set-1:077',
+      sub: 'pmp-process',
+      ecoTask: 'Ensure value-based delivery',
+      approach: 'Agile',
+      stem: 'Over three sprints the product owner has accepted many small stories that each looked harmless. The release goal, a working refill request, has not started. The board is full of color, font, and icon stories. The product owner wants to accept one more icon story because it is small. What should you do?',
+      options: [
+        'Accept the icon story. Small work should not need a review.',
+        'Freeze every new story for the rest of the release.',
+        'Show the product owner that the accepted stories have crowded out the refill goal, and decide the icon against that goal rather than against its size.',
+        'Add the icon story and move the refill goal to a later release without saying so.'
+      ],
+      answer: 2,
+      why: '<p>Each icon was small. Together they have kept the refill request from starting. The next yes has to be judged against that goal, not against the size of one story. A freeze of everything, or a silent slip of the goal, either stops adaptation or hides the drift.</p><p><strong>Exam tip:</strong> When small accepts have crowded out the goal, stop judging the next story by its size. Put the goal back in the decision.</p>',
+      optionRationales: [
+        'Small is how the refill goal got crowded out. One more icon continues that pattern.',
+        'A total freeze blocks useful change along with the icon. The goal needs a decision, not a ban.',
+        'The product owner sees the crowded goal, and the icon is accepted or not because of that goal.',
+        'Moving the goal in silence makes the icons the release without a decision.'
+      ],
+      keyPoint: 'Judge the next small story against the release goal, not against how small it looks.',
+      trap: 'Harmless one at a time is how a release fills with icons and never starts the goal.'
+    },
+    {
+      qid: 'pmp:set-1:078',
+      sub: 'pmp-people',
+      ecoTask: 'Manage stakeholder expectations',
+      approach: 'Predictive',
+      stem: 'The change board rejected a customer request to add a second loading dock. The customer says the dock was already paid for because they described it on a call, and they want the crew to start anyway. The signed baseline has one dock. What should you do?',
+      options: [
+        'Start the second dock. The relationship is worth more than the rejection.',
+        'Explain the rejection, confirm the baseline still has one dock, and tell them a new request can be submitted if they have new information. Do not start the work.',
+        'Hide the rejection and hope the customer forgets the call.',
+        'Ask the crew to pour a partial foundation so the customer sees progress without a full approval.'
+      ],
+      answer: 1,
+      why: '<p>The board said no, and the baseline has one dock. A call is not payment and not an approval. The project manager explains the decision, restates the baseline, and leaves a door open for a new request with new information. Starting, hiding the no, or pouring a partial foundation all build rejected scope.</p><p><strong>Exam tip:</strong> After a rejection, restate the baseline and do not start the work to keep the peace. A new request is allowed. The rejected one is not quietly built.</p>',
+      optionRationales: [
+        'The relationship does not overturn a board rejection or add a dock to the baseline.',
+        'The customer hears the no, the one-dock baseline, and the proper way to ask again. The crew does not start.',
+        'Hiding the rejection leaves the customer expecting a dock the project will not build.',
+        'A partial foundation is the rejected dock started under another name.'
+      ],
+      keyPoint: 'A rejected change stays rejected. Explain it, hold the baseline, and do not build it to soothe the customer.',
+      trap: 'Described on a call is not the same as paid for, and it is not a reason to ignore the board.'
+    },
+    {
+      qid: 'pmp:set-1:079',
+      sub: 'pmp-process',
+      ecoTask: 'Develop and manage project scope',
+      approach: 'Hybrid',
+      stem: 'Last week the change board rejected a request to change the barcode checksum rule. This sprint the team started that change anyway, as a story, so the work would be done if the board later reverses itself. What should you do?',
+      options: [
+        'Take the story out of the sprint. A rejection stands until there is a new decision, and rejected baseline work is not started in advance.',
+        'Let it finish. Stopping now would waste the hours already spent.',
+        'Rename the story as a spike so it no longer looks like the rejected change.',
+        'Ask the board to ratify the work after it is complete so the file matches the build.'
+      ],
+      answer: 0,
+      why: '<p>The board already said no. Building the checksum change so a reversal would be convenient is still building rejected baseline scope. The story comes out. Sunk hours, a new name, or a request to ratify it afterward all try to make the rejection optional.</p><p><strong>Exam tip:</strong> Do not start rejected baseline work in case the board changes its mind. Take it out until there is a new decision.</p>',
+      optionRationales: [
+        'The story leaves the sprint, and the checksum rule stays as the board left it.',
+        'Hours already spent are not a reason to finish work the board rejected.',
+        'Renaming it a spike does not change the checksum rule the team is editing.',
+        'Asking for ratification after the build tries to force the board to bless a decision it already refused.'
+      ],
+      keyPoint: 'Rejected baseline work stays out of the sprint until the board makes a new decision.',
+      trap: 'Building ahead of a hoped-for reversal is how a no becomes the product.'
+    },
+    {
+      qid: 'pmp:set-1:080',
+      sub: 'pmp-people',
+      ecoTask: 'Lead the project team',
+      approach: 'Agile',
+      stem: 'The change board is taking three weeks to answer baseline questions. To keep moving, the team has a private list of baseline changes they build at night and do not show on the board. The list includes two items the board has not seen. What should you do?',
+      options: [
+        'Praise the night work. The delay is the board problem, and the team found a way through it.',
+        'Move the private list onto the official board and mark the items already done.',
+        'Stop the off-book work, make the three-week delay visible, and deal with that delay through the governance path instead of building unseen changes.',
+        'Disband the change board because three weeks is inconvenient.'
+      ],
+      answer: 2,
+      why: '<p>The board is slow, and that delay should be visible. It is not a license to build baseline changes at night. The project manager stops the off-book list and takes the cycle time to the governance path that can shorten it. Praise, a retroactive done mark, or disbanding the board all either hide the changes or throw out the control.</p><p><strong>Exam tip:</strong> A slow change board is an impediment to surface, not a reason to keep a second hidden backlog of baseline work.</p>',
+      optionRationales: [
+        'Praise locks in unseen baseline changes and teaches the team to route around the board.',
+        'Marking unseen work done presents the board with a result it never decided.',
+        'The night work stops, the delay is visible, and the path for baseline changes is repaired instead of bypassed.',
+        'Removing the board because it is slow drops the control instead of fixing the cycle time.'
+      ],
+      keyPoint: 'Stop hidden baseline work. Make the board delay visible and fix it through governance.',
+      trap: 'Night work that the board has not seen is not initiative. It is scope with no decision.'
     }
   ];
 
   questions.forEach(function (q, index) {
     q.set = 1;
-    q.batch = index < 10 ? 1 : index < 20 ? 2 : index < 30 ? 3 : index < 40 ? 4 : index < 50 ? 5 : 6;
+    q.batch = index < 10 ? 1 : index < 20 ? 2 : index < 30 ? 3 : index < 40 ? 4 : index < 50 ? 5 : index < 60 ? 6 : index < 70 ? 7 : 8;
     q.original = true;
     q.sourceDocument = 'Original UpSkill Sprint item. July 2026 PMP Exam Content Outline and PMBOK Guide 8th Edition used as references only. Not a PMI item.';
     if (q.qid !== 'pmp:set-1:' + String(index + 1).padStart(3, '0')) {
@@ -1484,7 +1966,7 @@
     exam.plannedSets = ['1', '2', '3'];
     exam.setName = 'Set 1 live · Sets 2–3 soon';
     exam.setPlans = Object.assign({}, exam.setPlans, {
-      1: {target: 180, label: 'Batches 1-6: Q001-Q060'},
+      1: {target: 180, label: 'Batches 1-8: Q001-Q080'},
       2: {target: 10, label: 'Not yet written'},
       3: {target: 10, label: 'Not yet written'}
     });

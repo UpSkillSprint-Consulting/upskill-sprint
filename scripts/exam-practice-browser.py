@@ -189,7 +189,7 @@ def main():
                 expect(cre.locator('.exam-card-action')).to_contain_text('Start practicing')
                 pmp = page.locator('.exam-card[href="/test-bank?exam=pmp"]')
                 expect(pmp.locator('h3')).to_have_text('Project Management Professional')
-                expect(pmp.locator('.exam-status')).to_have_text('Set 1: 60 questions · Sets 2–3 coming')
+                expect(pmp.locator('.exam-status')).to_have_text('Set 1: 80 questions · Sets 2–3 coming')
                 expect(pmp.locator('.exam-card-action')).to_contain_text('Start practicing')
                 expect(page.locator('.exam-intro')).to_contain_text('untimed')
                 expect(page.locator('.exam-actions a[href="/test-bank"]')).to_be_visible()

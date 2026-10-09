@@ -81,7 +81,7 @@ test('the public exam page describes current certification availability and Test
   for (const card of cards) {
     const upcoming = Boolean(card.closest('.exam-coming-soon'));
     const href = card.getAttribute('href');
-    const expectedStatus = upcoming ? 'Coming soon' : href === '/test-bank?exam=cre' ? 'Sets 1–3: 205 questions available' : href === '/test-bank?exam=pmp' ? 'Set 1: 60 questions · Sets 2–3 coming' : 'Available now';
+    const expectedStatus = upcoming ? 'Coming soon' : href === '/test-bank?exam=cre' ? 'Sets 1–3: 205 questions available' : href === '/test-bank?exam=pmp' ? 'Set 1: 80 questions · Sets 2–3 coming' : 'Available now';
     assert.equal(card.querySelector('.exam-status').textContent, expectedStatus);
     assert.match(card.querySelector('.exam-card-action').textContent, upcoming ? /View exam details/ : /Start practicing/);
     assert.equal(card.querySelectorAll('a, button, input, select').length, 0, 'one keyboard stop per card, no nested controls');
