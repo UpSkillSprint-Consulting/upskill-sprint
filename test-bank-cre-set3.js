@@ -277,6 +277,337 @@
         ]
       ]
     }
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "A repairable fleet log is below. Every restoration followed a failure. A critical failure is a restoration that also caused loss of the mission. Operating time is \\(T\\), the number of restorations is \\(n\\), and the number of critical failures is \\(n_c\\).\n\\[\n\\mathrm{MTBF}=\\frac{T}{n}\n\\]\n\\[\n\\mathrm{MTBCF}=\\frac{T}{n_c}\n\\]\nWhat is the mean time between critical failures?",
+    "options": [
+      "300 hours",
+      "400 hours",
+      "1,200 hours",
+      "4,800 hours"
+    ],
+    "answer": 2,
+    "why": "Critical failures are the mission losses, not every restoration.\n\\[\n\\mathrm{MTBF}=\\frac{4800}{16}=300\\ \\mathrm{h}\n\\]\n\\[\n\\mathrm{MTBCF}=\\frac{4800}{4}=1200\\ \\mathrm{h}\n\\]\n400 hours uses only the 12 restorations that did not lose the mission. 4,800 hours is the operating time with no failure count in the denominator. <b>C. 1,200 hours</b>",
+    "set": 3,
+    "qid": "cre:set-3:011",
+    "bok": "I.B.1",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Fleet operating log",
+      "altText": "Operating time 4,800 hours. Restorations 16. Critical failures, meaning mission loss, 4.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Operating time T",
+          "4,800 h"
+        ],
+        [
+          "Restorations n",
+          "16"
+        ],
+        [
+          "Critical failures n_c",
+          "4"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "A repairable compressor was required for the whole period in the record. \\(T_u\\) is uptime, \\(T_c\\) is active corrective repair, \\(T_p\\) is active preventive maintenance, and \\(T_d\\) is logistics plus administrative delay.\n\\[\nA_i=\\frac{T_u}{T_u+T_c}\n\\]\n\\[\nA_a=\\frac{T_u}{T_u+T_c+T_p}\n\\]\n\\[\nA_o=\\frac{T_u}{T_u+T_c+T_p+T_d}\n\\]\nWhat is the achieved availability, in percent to two decimal places?",
+    "options": [
+      "95.51%",
+      "93.41%",
+      "85.00%",
+      "86.73%"
+    ],
+    "answer": 1,
+    "why": "Achieved availability keeps active preventive time and excludes delay.\n\\[\nA_i=\\frac{1700}{1700+80}=0.9551\n\\]\n\\[\nA_a=\\frac{1700}{1700+80+40}=0.9341\n\\]\n\\[\nA_o=\\frac{1700}{2000}=0.8500\n\\]\n95.51% is inherent availability. 85.00% is operational availability. 86.73% drops preventive time but keeps the delay. <b>B. 93.41%</b>",
+    "set": 3,
+    "qid": "cre:set-3:012",
+    "bok": "I.B.1",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Compressor time record",
+      "altText": "Uptime 1,700 hours. Active corrective repair 80 hours. Active preventive maintenance 40 hours. Logistics and administrative delay 180 hours. The four categories sum to the 2,000-hour required period.",
+      "columns": [
+        "Time category",
+        "Hours"
+      ],
+      "rows": [
+        [
+          "Uptime",
+          "1,700"
+        ],
+        [
+          "Active corrective repair",
+          "80"
+        ],
+        [
+          "Active preventive maintenance",
+          "40"
+        ],
+        [
+          "Logistics and administrative delay",
+          "180"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "The life-test summary below estimates the hazard in each age interval. Failed units are removed. Exposure is the unit-time lived in that interval. Which statement best applies the bathtub curve to these results?",
+    "options": [
+      "From 100 h to 500 h the hazard is flat and lowest. Replacing a survivor only to make it younger does not lower that hazard.",
+      "From 0 h to 100 h is useful life, so age replacement should begin at time zero.",
+      "From 500 h to 800 h is useful life, because the hazard has returned to the early-life value.",
+      "The hazard rises across the whole test, so every survivor should be replaced at 100 h."
+    ],
+    "answer": 0,
+    "why": "The early interval has a high hazard, the middle interval is flat at the lowest value, and the last interval rises again. That is infant mortality, useful life, then wear-out. Inside the flat interval, age by itself does not change the hazard, so replacement only to reduce age is not supported. The last interval is not useful life merely because its hazard matches the first interval. <b>A. From 100 h to 500 h the hazard is flat and lowest. Replacing a survivor only to make it younger does not lower that hazard.</b>",
+    "set": 3,
+    "qid": "cre:set-3:013",
+    "bok": "I.B.1",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Hazard by age interval",
+      "altText": "From 0 to 100 hours, 20 failures in 1,000 unit-hours, hazard 0.020 per hour. From 100 to 500 hours, 8 failures in 4,000 unit-hours, hazard 0.002 per hour. From 500 to 800 hours, 24 failures in 1,200 unit-hours, hazard 0.020 per hour.",
+      "columns": [
+        "Age interval (h)",
+        "Failures",
+        "Exposure (unit-h)",
+        "Hazard (per h)"
+      ],
+      "rows": [
+        [
+          "0–100",
+          "20",
+          "1,000",
+          "0.020"
+        ],
+        [
+          "100–500",
+          "8",
+          "4,000",
+          "0.002"
+        ],
+        [
+          "500–800",
+          "24",
+          "1,200",
+          "0.020"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "A battery life requirement was copied from a 25°C laboratory specification. The customer's use profile is a daily outdoor cycle from −10°C to 45°C, and its environmental, social, and governance policy limits unplanned service trips. Which statement is the best use of those drivers?",
+    "options": [
+      "Keep the laboratory specification. A controlled test is a stricter requirement than field use.",
+      "Raise the life number by 10% and leave the test temperature at 25°C. The percentage increase covers the climate.",
+      "Treat the governance policy as a purchasing slogan. It does not change a reliability requirement.",
+      "Restate the requirement for the outdoor cycle and for the limit on unplanned trips. The laboratory temperature is not the use condition."
+    ],
+    "answer": 3,
+    "why": "Customer use, safety, liability, regulation, and governance policy are drivers of the requirement. A laboratory temperature that the product will not see is not a substitute for the use profile, and a round-number increase does not represent that profile. The service-trip limit is a real constraint on unplanned maintenance, not a slogan. <b>D. Restate the requirement for the outdoor cycle and for the limit on unplanned trips. The laboratory temperature is not the use condition.</b>",
+    "set": 3,
+    "qid": "cre:set-3:014",
+    "bok": "I.B.2",
+    "cognitive": "Understand"
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "A pump-trip CAPA was proposed for closure using the record below. Which evaluation is best?",
+    "options": [
+      "Effective. The monthly trip count fell after the firmware was installed on the laboratory unit.",
+      "Not effective yet. The closure count changed the failure definition, and the action was not confirmed on the production configuration.",
+      "Effective. A firmware change is preventive, so a before-and-after count is unnecessary.",
+      "Cannot be judged until the count rises for three more months. A changed definition does not affect effectiveness."
+    ],
+    "answer": 1,
+    "why": "Effectiveness has to be judged against the failure definition used when the action was opened, on the configuration that is actually shipped. A lower count under a narrower definition, checked only on a laboratory unit, does not show that the action worked. Waiting for the count to rise adds delay without repairing that evidence. <b>B. Not effective yet. The closure count changed the failure definition, and the action was not confirmed on the production configuration.</b>",
+    "set": 3,
+    "qid": "cre:set-3:015",
+    "bok": "I.B.3",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "CAPA closure record",
+      "altText": "The action was opened on any trip that removes the pump from service. Firmware 4.2 was installed on the laboratory unit. Closure uses trips longer than 10 minutes. Production is still on firmware 4.1.",
+      "columns": [
+        "Item",
+        "What was recorded"
+      ],
+      "rows": [
+        [
+          "Definition at opening",
+          "Any trip that removes the pump from service"
+        ],
+        [
+          "Action installed",
+          "Firmware 4.2 on the laboratory unit"
+        ],
+        [
+          "Closure count",
+          "Trips longer than 10 minutes"
+        ],
+        [
+          "Configuration checked",
+          "Laboratory unit only; production remains on 4.1"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "The investigation record below was confirmed on three units built to the same instruction. Which conclusion is best supported?",
+    "options": [
+      "The root cause is operator error, because a person assembled each unit.",
+      "The supported cause is a missing assembly check that let a blocked cooling passage reach test.",
+      "The seal material is defective, because the lip wore through.",
+      "Replace the seal and close the file. The trip itself has been contained."
+    ],
+    "answer": 1,
+    "why": "The chain does not stop at the worn seal or at the person who assembled the unit. The same missing passage check explains the blocked cooling, the high shaft temperature, the worn lip, and the trip, and it was confirmed on three units. Replacing the seal removes the damaged part. It does not remove the cause the record supports. <b>B. The supported cause is a missing assembly check that let a blocked cooling passage reach test.</b>",
+    "set": 3,
+    "qid": "cre:set-3:016",
+    "bok": "I.B.4",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Confirmed 5-why record",
+      "altText": "The pump tripped because the seal leaked. The lip was worn. The shaft ran above the seal temperature limit. The cooling passage was blocked. The assembly instruction did not require a passage check. The same blocked passage was found on three units built to that instruction.",
+      "columns": [
+        "Step",
+        "Confirmed statement"
+      ],
+      "rows": [
+        [
+          "1",
+          "The pump tripped because seal leakage exceeded the trip limit."
+        ],
+        [
+          "2",
+          "The seal lip was worn through."
+        ],
+        [
+          "3",
+          "The shaft ran above the seal temperature limit."
+        ],
+        [
+          "4",
+          "The cooling passage was blocked."
+        ],
+        [
+          "5",
+          "The assembly instruction did not require a passage check."
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "A firmware defect can be corrected in one hour during design review. The same defect, if it ships, requires a field update, requalification, and unscheduled downtime. Which statement best applies phase containment?",
+    "options": [
+      "Finding that defect in design review avoids the field cost. The defect itself does not become cheaper to correct after release.",
+      "The growth stage is the cheapest place to find it, because more units are available for comparison.",
+      "Decline is the right stage for the fix, because few units remain in service.",
+      "A one-hour design fix and a field update have the same reliability cost. Only the labor rate changes."
+    ],
+    "answer": 0,
+    "why": "Lifecycle cost includes scheduled and unscheduled maintenance, life, and the phase in which a defect is contained. The same firmware defect is more expensive after release because of the update, the requalification, and the downtime. More units in the field, or fewer units late in life, do not make that escape cheaper. <b>A. Finding that defect in design review avoids the field cost. The defect itself does not become cheaper to correct after release.</b>",
+    "set": 3,
+    "qid": "cre:set-3:017",
+    "bok": "I.B.5",
+    "cognitive": "Understand"
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "Annual cost uses the inputs below. \\(C_{\\mathrm{kit}}\\) is the spare-kit cost, \\(c_d\\) is the cost of downtime, \\(T_p\\) is planned downtime, and \\(T_u\\) is unplanned downtime.\n\\[\nC=C_{\\mathrm{kit}}+c_d(T_p+T_u)\n\\]\nWhich strategy has the lower annual cost, and what is that cost?",
+    "options": [
+      "Preventive maintenance, $64,000",
+      "Preventive maintenance, $72,000",
+      "Run to failure, $160,000",
+      "Preventive maintenance, $48,000"
+    ],
+    "answer": 1,
+    "why": "Charge the kit and both kinds of downtime.\n\\[\nC_{\\mathrm{PM}}=8000+2000(20+12)=72000\n\\]\n\\[\nC_{\\mathrm{RTF}}=2000(80)=160000\n\\]\n$64,000 drops the kit. $48,000 drops the unplanned hours. Run to failure costs more than preventive maintenance. <b>B. Preventive maintenance, $72,000</b>",
+    "set": 3,
+    "qid": "cre:set-3:018",
+    "bok": "I.B.6",
+    "cognitive": "Understand",
+    "chart": {
+      "type": "data-table",
+      "title": "Annual maintenance comparison",
+      "altText": "Downtime costs $2,000 per hour. Preventive maintenance has an $8,000 spare kit, 20 hours planned downtime, and 2 failures of 6 hours each. Run to failure has no kit, no planned downtime, and 8 failures of 10 hours each.",
+      "columns": [
+        "Input",
+        "Preventive maintenance",
+        "Run to failure"
+      ],
+      "rows": [
+        [
+          "Spare kit",
+          "$8,000",
+          "$0"
+        ],
+        [
+          "Planned downtime",
+          "20 h",
+          "0 h"
+        ],
+        [
+          "Unplanned downtime",
+          "2 × 6 h = 12 h",
+          "8 × 10 h = 80 h"
+        ],
+        [
+          "Downtime cost",
+          "$2,000/h",
+          "$2,000/h"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "A field program adds $40,000 to the warranty reserve. After one mission-critical outage, a hospital also removes the supplier from its approved bid list. Which statement best describes the cost of poor reliability?",
+    "options": [
+      "The cost is $40,000. A bid-list decision is a purchasing preference, not a reliability cost.",
+      "The cost is zero until a second outage occurs. One event is an anecdote.",
+      "The cost includes the warranty reserve and the loss of credibility and future business.",
+      "The cost is the hospital's downtime only. The warranty reserve is an accounting entry, not a reliability cost."
+    ],
+    "answer": 2,
+    "why": "Poor reliability creates financial cost and non-financial cost. The reserve is real money. Removal from the bid list is a loss of credibility and of future business, which the body of knowledge includes with availability and reputation. One confirmed mission-critical outage is enough to count. It does not have to be repeated before it is a cost. <b>C. The cost includes the warranty reserve and the loss of credibility and future business.</b>",
+    "set": 3,
+    "qid": "cre:set-3:019",
+    "bok": "I.B.7",
+    "cognitive": "Understand"
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "A program cuts reliability-test time and unit cost, and it still claims the original demonstrated life. No requirement, use condition, or test stress has changed. Which statement best applies the cost, time, and quality relationship?",
+    "options": [
+      "The cut is acceptable. Reliability sits outside cost and schedule, so those two can fall without changing the demonstrated life.",
+      "The cut improves all three corners at once. Less test time is evidence of a more reliable design.",
+      "Raise the life claim by the same percentage as the cost cut. The triangle requires the claim to move with cost.",
+      "Time and cost were reduced while the life claim was held constant. The demonstrated life is no longer supported by the test that was removed."
+    ],
+    "answer": 3,
+    "why": "Cost, time, and the achieved reliability result constrain one another. Removing test time and cost while keeping the same life claim does not create new evidence. It leaves the claim unsupported. Reliability is not a fourth item sitting outside that trade, and a shorter test is not itself proof of a better design. <b>D. Time and cost were reduced while the life claim was held constant. The demonstrated life is no longer supported by the test that was removed.</b>",
+    "set": 3,
+    "qid": "cre:set-3:020",
+    "bok": "I.C.1",
+    "cognitive": "Understand"
   }
 ];
 })(typeof window!=='undefined'?window:globalThis);
