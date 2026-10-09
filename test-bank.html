@@ -508,6 +508,7 @@
 <script src="/test-bank-pmp-set2.js"></script>
 <script src="/test-bank-pmp-set3.js"></script>
 <script src="/test-bank-pmp-set4.js"></script>
+<script src="/test-bank-pmp-set5.js"></script>
 <script src="/assets/js/math.js"></script>
 <script>
 (function(){
@@ -2568,10 +2569,10 @@
       bank:CRE_SET1,sets:{1:CRE_SET1,3:CRE_SET3},setPlans:{1:{target:150,label:'Batch 3 of 15'}},fullExamQuestionsBySet:{1:150,3:165},
       formatNote:'Set 3 contains 165 original practice questions (Batch 17: Q161–165). Its Full Exam uses all 165.',
       bok:[d('cre-fundamentals',29,[s('cre-fundamentals','I. Reliability Fundamentals','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',29)]),d('cre-risk',25,[s('cre-risk','II. Risk Management','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',25)]),d('cre-statistics',35,[s('cre-statistics','III. Probability and Statistics for Reliability','/lessons/statistics/probability-basics-the-language-of-chance','Probability Basics',35)]),d('cre-testing',35,[s('cre-testing','IV. Reliability Planning, Testing, and Modeling','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',35)]),d('cre-lifecycle',26,[s('cre-lifecycle','V. Lifecycle Reliability','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',26)])]},
-    pmp:{badge:'PMP',bc:'#1a5276',body:'PMI Project Management Professional (PMP)',title:'PMP — Exam Simulation',setName:'Set 1: Q001-Q080 · Set 2: Q081-Q100 · Set 3: Q101-Q130 · Set 4: Q131-Q150',questions:180,minutes:240,pass:70,
+    pmp:{badge:'PMP',bc:'#1a5276',body:'PMI Project Management Professional (PMP)',title:'PMP — Exam Simulation',setName:'Set 1: Q001-Q080 · Set 2: Q081-Q100 · Set 3: Q101-Q130 · Set 4: Q131-Q150 · Set 5: Q151-Q170',questions:180,minutes:240,pass:70,
       /* July 2026 PMP ECO: People 33, Process 41, Business Environment 26. Official sitting is 180 items in 240 minutes.
-         registerPMPSet1() loads Set 1. registerPMPSet2() loads Q081-Q100. registerPMPSet3() loads Q101-Q130. registerPMPSet4() loads Q131-Q150. Not affiliated with PMI. */
-      bank:[],sets:{2:[],3:[],4:[]},plannedSets:['1','2','3','4'],setPlans:{1:{target:180,label:'Batches 1-8: Q001-Q080'},2:{target:10,label:'Not yet written'},3:{target:10,label:'Not yet written'},4:{target:20,label:'Q131-Q150'}},fullExamQuestionsBySet:{1:180},
+         registerPMPSet1() loads Set 1. registerPMPSet2() loads Q081-Q100. registerPMPSet3() loads Q101-Q130. registerPMPSet4() loads Q131-Q150. registerPMPSet5() loads Q151-Q170. Not affiliated with PMI. */
+      bank:[],sets:{2:[],3:[],4:[],5:[]},plannedSets:['1','2','3','4','5'],setPlans:{1:{target:180,label:'Batches 1-8: Q001-Q080'},2:{target:10,label:'Not yet written'},3:{target:10,label:'Not yet written'},4:{target:20,label:'Q131-Q150'},5:{target:20,label:'Q151-Q170'}},fullExamQuestionsBySet:{1:180},
       formatNote:'Original practice questions for the July 2026 PMP Exam Content Outline. Not affiliated with PMI.',
       bok:[d('pmp-people',33,[s('pmp-people','People','/lessons','Browse lessons',33)]),d('pmp-process',41,[s('pmp-process','Process','/lessons','Browse lessons',41)]),d('pmp-business',26,[s('pmp-business','Business Environment','/lessons','Browse lessons',26)])]}
   };
@@ -2580,6 +2581,7 @@
   if(window.registerPMPSet2)window.registerPMPSet2(EXAMS.pmp);
   if(window.registerPMPSet3)window.registerPMPSet3(EXAMS.pmp);
   if(window.registerPMPSet4)window.registerPMPSet4(EXAMS.pmp);
+  if(window.registerPMPSet5)window.registerPMPSet5(EXAMS.pmp);
   [['cre-fundamentals','cre-lead'],['cre-statistics','cre-stats'],['cre-testing','cre-model'],['cre-lifecycle','cre-life']].forEach(function(pair){
     var domain=EXAMS.cre.bok.find(function(d){return d.subs.some(function(s){return s.id===pair[0];});});
     if(domain&&!domain.subs.some(function(s){return s.id===pair[1];}))domain.subs.push({id:pair[1],name:domain.subs[0].name,w:0,lesson:domain.subs[0].lesson,lessonName:domain.subs[0].lessonName});
@@ -3683,10 +3685,11 @@
   function formatNoteFor(e){
     var plan=setPlan(e,selectedSet),available=activeBank(e).length;
     if(current==='cre'&&selectedSet==='2')return 'Set 2 currently contains '+available+' of 150 planned original practice questions (Batch 1: Q001–010). This is a partial practice set. The completed 150-question core will follow the five-domain ASQ blueprint. The official computer exam displays 165 questions, including 15 unscored items, in 258 minutes; this practice session uses the same average pace.';
+    if(current==='pmp'&&selectedSet==='5')return 'Set 5 contains '+available+' original practice questions (Q151-Q170): benefits and transition, then decisions made with incomplete information. These items are original. UpSkill Sprint is not affiliated with PMI.';
     if(current==='pmp'&&selectedSet==='4')return 'Set 4 contains '+available+' original practice questions (Q131-Q150): people under pressure, and how the delivery approach is chosen. These items are original. UpSkill Sprint is not affiliated with PMI.';
     if(current==='pmp'&&selectedSet==='3')return 'Set 3 contains '+available+' original practice questions (Q101-Q130): stakeholders and value, the Harbor compliance case, and a mixed sitting. These items are original. UpSkill Sprint is not affiliated with PMI.';
     if(current==='pmp'&&selectedSet==='2')return 'Set 2 contains '+available+' original practice questions (Q081-Q100): risk, issues, impediments, and external change. The other sets are available separately. These items are original. UpSkill Sprint is not affiliated with PMI.';
-    if(current==='pmp')return 'Set 1 contains '+available+' of 180 planned original practice questions (Batches 1-8: Q001-Q080). Set 2 (Q081-Q100), Set 3 (Q101-Q130), and Set 4 (Q131-Q150) are available separately. The official PMP exam displays 180 questions in 240 minutes. This sitting serves the questions written so far, at that same average pace. These items are original. UpSkill Sprint is not affiliated with PMI.';
+    if(current==='pmp')return 'Set 1 contains '+available+' of 180 planned original practice questions (Batches 1-8: Q001-Q080). Set 2 (Q081-Q100), Set 3 (Q101-Q130), Set 4 (Q131-Q150), and Set 5 (Q151-Q170) are available separately. The official PMP exam displays 180 questions in 240 minutes. This sitting serves the questions written so far, at that same average pace. These items are original. UpSkill Sprint is not affiliated with PMI.';
     if(current==='mbb'&&selectedSet==='3')return 'Set 3 contains '+available+' original practice questions. Its Full Exam uses all '+available+' items at a practice pace of 90 seconds per question. This analytics-heavy practice bank is not a replica of the official ASQ examination format or domain weighting.';
     if(plan)return setLabel(selectedSet)+' currently contains '+available+' of the planned '+plan.target+' original questions ('+plan.label+'). Every completed, validated batch will be added here. The current Full Exam serves all '+available+' available questions.';
     if(current==='mbb'&&selectedSet==='mix')return 'Mixed practice combines the 100-question supplied simulation with '+e.sets[2].length+' validated original Set 2 questions. The Mixed Full Exam remains a 100-question sitting at the same per-question pace.';
