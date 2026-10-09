@@ -695,6 +695,53 @@ def main():
                     anova.locator('[data-cre-reset]').click()
                     expect(anova.locator('select')).to_have_value('24')
                     expect(anova.locator('output')).to_contain_text('Interaction F: 16.00')
+                    # Inspect every selectable value, including intermediate slider positions.
+                    # Endpoint-only checks missed a marker crossing the Weibull legend.
+                    geometry = page.locator('.cre2-explorer').evaluate_all('''tools => {
+                        const errors = []; let states = 0;
+                        const overlaps = (a,b) => Math.min(a.x+a.width,b.x+b.width)-Math.max(a.x,b.x)>1 && Math.min(a.y+a.height,b.y+b.height)-Math.max(a.y,b.y)>1;
+                        for (const tool of tools) {
+                            tool.open = true;
+                            const control = tool.querySelector('select,input'), reset = tool.querySelector('[data-cre-reset]');
+                            reset.click();
+                            const initial = control.value, initialOutput = tool.querySelector('output').textContent;
+                            const values = control.tagName === 'SELECT' ? [...control.options].map(o=>o.value)
+                                : Array.from({length:1+(+control.max- +control.min)/+control.step},(_,i)=>String(+control.min+i*+control.step));
+                            for (const value of values) {
+                                control.value = value;
+                                control.dispatchEvent(new Event(control.tagName === 'SELECT' ? 'change' : 'input',{bubbles:true}));
+                                states++;
+                                const id = tool.dataset.creExplorer+' at '+value;
+                                for (const svg of tool.querySelectorAll('svg')) {
+                                    const v = svg.viewBox.baseVal, labels = [...svg.querySelectorAll('text')].map(el=>({el,b:el.getBBox()}));
+                                    for (const {el,b} of labels) {
+                                        if (b.x<v.x-2 || b.y<v.y-2 || b.x+b.width>v.x+v.width+2 || b.y+b.height>v.y+v.height+2) errors.push(id+': clipped '+el.textContent);
+                                    }
+                                    for (let i=0;i<labels.length;i++) for (let j=i+1;j<labels.length;j++) {
+                                        if (overlaps(labels[i].b,labels[j].b)) errors.push(id+': overlapping labels '+labels[i].el.textContent+' / '+labels[j].el.textContent);
+                                    }
+                                    const kind = tool.dataset.creExplorer;
+                                    const marker = kind === 'weibull' ? svg.querySelector('line.cre2-mission') : kind === 'anova-error' ? svg.querySelector('line[stroke-dasharray]') : null;
+                                    if (marker) for (const {el,b} of labels.filter(({el}) => kind === 'weibull' ? /^[AB]: shape/.test(el.textContent) : /^F = /.test(el.textContent))) {
+                                        const x = +marker.getAttribute('x1'), top = +marker.getAttribute('y1'), bottom = +marker.getAttribute('y2');
+                                        if (x>=b.x-2 && x<=b.x+b.width+2 && bottom>=b.y-2 && top<=b.y+b.height+2) errors.push(id+': marker crosses '+el.textContent);
+                                    }
+                                }
+                            }
+                            reset.click();
+                            if (control.value !== initial || tool.querySelector('output').textContent !== initialOutput) errors.push(tool.dataset.creExplorer+': reset mismatch');
+                        }
+                        return {states,errors};
+                    }''')
+                    assert geometry['states'] == 249, geometry
+                    assert not geometry['errors'], f'CRE review geometry at {width}px in {theme}: {geometry["errors"]}'
+                    if width == 390:
+                        scroll = curve.locator('[data-cre-explorer-plot] .cre2-scroll')
+                        scroll.evaluate('(el)=>{el.scrollLeft=0}')
+                        scroll.focus()
+                        scroll.press('ArrowRight')
+                        page.wait_for_function('()=>document.querySelector("[data-cre-explorer=weibull] [data-cre-explorer-plot] .cre2-scroll").scrollLeft>0')
+                        expect(scroll).to_be_focused()
                     assert page.locator('[data-score-result]').text_content() == original_score, 'Explorers changed the original score'
                     assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2'), f'CRE review overflows at {width}px in {theme} theme'
                     anova.scroll_into_view_if_needed()

@@ -34,7 +34,7 @@
     return svg(c.title,c.description,620,330,s);
   }
   function weibull(c, mission) {
-    const w=640,h=345,left=64,right=610,top=30,bottom=267;
+    const w=640,h=414,left=64,right=610,top=30,bottom=267;
     const x=t=>left+t/2000*(right-left), y=r=>bottom-r*(bottom-top);
     let s='';
     for(let v=0;v<=10;v+=2){const r=v/10;s+=line(left,y(r),right,y(r),'class="cre2-grid"')+text(38,y(r)+5,r.toFixed(1));}
@@ -44,8 +44,8 @@
       const points=Array.from({length:101},(_,j)=>{const t=j*20;return x(t).toFixed(2)+','+y(Math.exp(-Math.pow(t/c.eta,b))).toFixed(2);}).join(' ');
       s+='<polyline class="cre2-curve" points="'+points+'"'+(i?' stroke-dasharray="8 5"':'')+'/>';
     });
-    s+=line(368,43,401,43)+text(474,48,'A: shape 1 (solid)');
-    s+=line(368,69,401,69,'stroke-dasharray="8 5"')+text(474,74,'B: shape 2 (dashed)');
+    s+=line(190,360,224,360)+text(350,365,'A: shape 1 (solid)');
+    s+=line(190,386,224,386,'stroke-dasharray="8 5"')+text(350,391,'B: shape 2 (dashed)');
     if(Number.isFinite(mission))s+=line(x(mission),top,x(mission),bottom,'class="cre2-mission"');
     return svg(c.title,'Two Weibull reliability curves: A has shape 1 and B shape 2; both have characteristic life 1,000 hours. Exact values at selected times are in the accompanying table.',w,h,s);
   }
@@ -614,7 +614,7 @@
   function anovaErrorPlot(errorSS=24) {
     const f=48/(errorSS/8),critical=5.318,x=v=>85+v/35*550;let s=text(350,27,'Interaction F versus the fixed 5% critical value');
     for(const v of [0,5,10,15,20,25,30,35])s+=line(x(v),67,x(v),226,'class="cre2-grid"')+text(x(v),254,v);
-    s+=line(85,226,635,226)+line(x(critical),67,x(critical),226,'stroke-dasharray="7 4"')+line(x(0),153,x(f),153,'class="cre2-curve"')+'<circle cx="'+x(f)+'" cy="153" r="6"/>'+text(x(f),129,'F = '+f.toFixed(2));
+    s+=line(85,226,635,226)+line(x(critical),67,x(critical),226,'stroke-dasharray="7 4"')+line(x(0),153,x(f),153,'class="cre2-curve"')+'<circle cx="'+x(f)+'" cy="153" r="6"/>'+text(x(f),52,'F = '+f.toFixed(2));
     s+=text(x(critical),285,'Critical: 5.318')+text(350,319,'Error SS = '+errorSS+'; error df = 8; interaction SS = 48.');
     return svg('Interaction test sensitivity','With error sum of squares '+errorSS+' and eight error degrees of freedom, interaction F is '+f.toFixed(2)+'. The fixed upper-tail critical value is 5.318.',700,345,s);
   }

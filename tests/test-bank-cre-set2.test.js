@@ -9,10 +9,26 @@ const {JSDOM, VirtualConsole} = require('jsdom');
 const read = file => fs.readFileSync(path.resolve(__dirname, '..', file), 'utf8');
 const bank = () => {const ctx = {window: {}}; vm.runInNewContext(read('test-bank-cre-set2.js'), ctx); return ctx.window;};
 const tick = () => new Promise(resolve => setTimeout(resolve, 60));
-// The final student audit explicitly revises only the fields in this ledger.
+// Each student audit explicitly revises only fields in its exact-value ledger.
 // Reversing those exact edits preserves every historical batch hash below.
 function preAuditSnapshot(qs) {
   const snapshot = JSON.parse(JSON.stringify(qs));
+  const secondAudit = JSON.parse(read('docs/audits/cre-set2-audit-round2-revisions.json'));
+  const secondSeen = new Set();
+  for (const r of secondAudit.revisions) {
+    assert.ok(['stem','options','why'].includes(r.field));
+    const id = [r.number,r.field,r.option].join(':');
+    assert.ok(!secondSeen.has(id)); secondSeen.add(id);
+    const q = snapshot[r.number-1];
+    if (r.field === 'options') {
+      assert.equal(q.options[r.option], r.after, id + ' matches the second audit');
+      q.options[r.option] = r.before;
+    } else {
+      assert.equal(q[r.field], r.after, id + ' matches the second audit');
+      q[r.field] = r.before;
+    }
+  }
+  assert.equal(createHash('sha256').update(JSON.stringify(snapshot)).digest('hex'), secondAudit.baselineItemsSha256, 'second audit preserves every unlisted field');
   const {revisions} = JSON.parse(read('docs/audits/cre-set2-final-audit-revisions.json'));
   const seen = new Set();
   for (const r of revisions) {
@@ -64,7 +80,33 @@ test('final audit: graph annotations stay outside data lines and parameter label
   } finally { w.close(); }
 });
 
-test('final audit: all review controls produce finite, accessible results at boundaries and reset without changing the bank', () => {
+for (const [number, labelPattern] of [[6, /^[AB]: shape/], [150, /^F = /]]) {
+  test('second audit: Q'+number+' review annotations clear vertical markers at every setting', () => {
+    const dom = new JSDOM('<main></main>', {runScripts:'outside-only'}), w = dom.window;
+    try {
+      w.eval(read('test-bank-cre-set2.js')); w.eval(read('test-bank-cre-set2-ui.js'));
+      const q = w.CRE_SET2[number-1], root = w.document.querySelector('main');
+      root.innerHTML = '<article class="tb-review-card"><div data-cre-question="'+q.qid+'"></div><div class="tb-explanation"></div></article>';
+      w.document.dispatchEvent(new w.CustomEvent('tb:review-rendered',{detail:{root}}));
+      const control = root.querySelector('select,input');
+      const values = control.tagName === 'SELECT' ? Array.from(control.options, o => o.value)
+        : Array.from({length:1+(Number(control.max)-Number(control.min))/Number(control.step)}, (_,i) => String(Number(control.min)+i*Number(control.step)));
+      for (const value of values) {
+        control.value = value; control.dispatchEvent(new w.Event(control.tagName === 'SELECT' ? 'change' : 'input', {bubbles:true}));
+        const marker = root.querySelector(number === 6 ? 'line.cre2-mission' : 'line[stroke-dasharray]');
+        const top = Number(marker.getAttribute('y1')), bottom = Number(marker.getAttribute('y2'));
+        const labels = Array.from(root.querySelectorAll('svg text')).filter(t => labelPattern.test(t.textContent));
+        assert.equal(labels.length, number === 6 ? 2 : 1);
+        for (const label of labels) {
+          const baseline = Number(label.getAttribute('y'));
+          assert.ok(baseline + 4 < top || baseline - 16 > bottom, q.qid+' at '+value+': annotations must stay outside the marker sweep');
+        }
+      }
+    } finally { w.close(); }
+  });
+}
+
+test('final audit: all review controls produce finite, accessible results at every setting and reset without changing the bank', () => {
   const dom = new JSDOM('<main></main>', {runScripts:'outside-only'}), w = dom.window;
   try {
     w.eval(read('test-bank-cre-set2.js')); w.eval(read('test-bank-cre-set2-ui.js'));
@@ -75,7 +117,8 @@ test('final audit: all review controls produce finite, accessible results at bou
       const details = root.querySelector('details'), control = details.querySelector('select,input');
       assert.equal(details.open, false, q.qid + ' exploration starts collapsed');
       const initial = control.value, output = details.querySelector('output'), initialOutput = output.textContent;
-      const values = control.tagName === 'SELECT' ? Array.from(control.options, o => o.value) : [control.min, initial, control.max];
+      const values = control.tagName === 'SELECT' ? Array.from(control.options, o => o.value)
+        : Array.from({length:1+(Number(control.max)-Number(control.min))/Number(control.step)}, (_,i) => String(Number(control.min)+i*Number(control.step)));
       for (const value of values) {
         control.value = value; control.dispatchEvent(new w.Event(control.tagName === 'SELECT' ? 'change' : 'input', {bubbles:true}));
         assert.ok(output.textContent.trim(), q.qid + ': nonempty result');
