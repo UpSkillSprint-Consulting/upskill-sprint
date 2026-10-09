@@ -1,6 +1,6 @@
 /*
  * PMI PMP Exam Set 1 — original practice questions.
- * Batch 1-2 of 18 (Q001-Q020). Written to the July 2026 Exam Content Outline
+ * Batch 1-3 of 18 (Q001-Q030). Written to the July 2026 Exam Content Outline
  * (People, Process, Business Environment) and the PMBOK Guide 8th Edition
  * performance domains. No PMI item, handbook passage, or figure is copied.
  * UpSkill Sprint is not affiliated with the Project Management Institute.
@@ -495,12 +495,253 @@
       ],
       keyPoint: 'An unconfirmed clash on a date you cannot move is still a risk. Record it and respond before it is certain.',
       trap: 'Waiting for proof that the other project will run long converts a risk into an issue too late.'
+    },
+    {
+      qid: 'pmp:set-1:021',
+      sub: 'pmp-process',
+      ecoTask: 'Develop and manage project scope',
+      approach: 'Hybrid',
+      stem: 'A hybrid pharmacy project keeps the regulated dispensing rules on a signed scope baseline. Patient reminder wording is adaptive and can be reordered. A pharmacist asks the team to add a second interaction check while they are editing the dispensing rules. What should you do?',
+      options: [
+        'Add the check to the current sprint. A hybrid project does not use a scope baseline.',
+        'Freeze reminder wording as well, so nothing moves until the next baseline review.',
+        'Keep the signed dispensing baseline in place, assess the interaction check as a scope change with its impact, and leave reminder wording free to reorder.',
+        'Move the check into the reminder backlog so it does not have to face the baseline.'
+      ],
+      answer: 2,
+      why: '<p>Hybrid does not mean the regulated baseline is optional. The interaction check changes the signed dispensing scope, so it needs an impact look and a real decision. Reminder wording can still be reordered because that stream was planned to be adaptive. Treating the whole project as open, freezing the adaptive stream, or hiding the check in the reminder backlog all blur the boundary that was supposed to stay fixed.</p><p><strong>Exam tip:</strong> In a hybrid plan, protect the part that was baselined and keep the adaptive part free. Do not let one request flatten both.</p>',
+      optionRationales: [
+        'The dispensing rules were placed on a baseline for a reason. Hybrid does not erase that boundary.',
+        'Reminder wording was meant to move. Freezing it punishes the adaptive stream for a change that belongs in the baseline.',
+        'The fixed scope stays fixed until the check is assessed, and the adaptive wording stays free to reorder.',
+        'Renaming the check as reminder work hides a baseline change. It does not assess it.'
+      ],
+      keyPoint: 'A hybrid boundary stays fixed on the baselined work and flexible only where the plan said it could move.',
+      trap: 'Do not treat a hybrid project as fully adaptive, or fully frozen, because one request arrived.'
+    },
+    {
+      qid: 'pmp:set-1:022',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and manage schedule',
+      approach: 'Predictive',
+      stem: 'A predictive site package shows a finish-to-start from permit approval to excavation. The permit is not approved. The crew is on site, and the weather window closes in four days. The contractor asks to excavate at risk so the crew is not idle. What should you do?',
+      options: [
+        'Authorize the excavation. An idle crew costs more than waiting on a permit.',
+        'Keep the permit as a predecessor. Find other authorized work for the crew, and do not start excavation until the permit is approved.',
+        'Delete the permit link so the schedule shows the crew starting today.',
+        'Rebaseline the weather window to next month and send the crew home with no other work identified.'
+      ],
+      answer: 1,
+      why: '<p>The permit is a hard predecessor, not spare time. Starting excavation at risk breaks the sequence the package requires. The useful move is to keep that link and look for other work the crew is already allowed to do. Authorizing the dig, deleting the link, or sending the crew away without a look at authorized work all treat the constraint as optional.</p><p><strong>Exam tip:</strong> A mandatory dependency stays in the sequence. Idle resources are a problem to place on allowed work, not a reason to skip the predecessor.</p>',
+      optionRationales: [
+        'Cost of an idle crew does not authorize work the permit has not allowed.',
+        'The predecessor stays, and the crew is pointed at work the current approvals already cover.',
+        'Deleting the link makes the schedule false. It does not approve the excavation.',
+        'Moving the baseline and idling the crew skips both the constraint and any work that is already allowed.'
+      ],
+      keyPoint: 'Do not break a mandatory predecessor to keep a crew busy.',
+      trap: 'At-risk work that skips a permit is not schedule recovery.'
+    },
+    {
+      qid: 'pmp:set-1:023',
+      sub: 'pmp-process',
+      ecoTask: 'Develop an integrated plan and plan delivery',
+      approach: 'Hybrid',
+      stem: 'A hybrid clinic build has equipment cabinets on a 14-week predictive lead time. The scheduling software can be demonstrated on a simulator and does not need a cabinet. The integrated plan still blocks every software demo until the first cabinet arrives. A developer asks whether to wait, because that is what the plan says. What should you do?',
+      options: [
+        'Convert the cabinet order into an agile backlog so both streams can demo next week.',
+        'Wait for the cabinet. One integrated plan should force every stream onto the same sequence.',
+        'Keep the cabinet lead time fixed, update the plan so software that does not need a cabinet can proceed, and do not demo anything that pretends the cabinet is on site.',
+        'Remove the cabinets from the plan so the software date looks earlier.'
+      ],
+      answer: 2,
+      why: '<p>The integrated plan is wrong where it ties independent software to a physical lead time. The cabinet sequence stays predictive because the lead time is real. Software that can be shown on a simulator should be released from that hold, and the plan the team uses should say so. Making the cabinets agile, waiting for a dependency that does not exist, or deleting the cabinets all abandon the distinction the hybrid plan needs.</p><p><strong>Exam tip:</strong> Hybrid planning keeps the fixed sequence where a constraint requires it, and lets independent work move. Update the plan the team is following.</p>',
+      optionRationales: [
+        'A 14-week lead does not become a backlog item because the software can move faster.',
+        'One plan can hold two sequences. Forcing the software to wait invents a dependency.',
+        'The cabinet stays on its lead time, and software that does not need it is replanned so the team can proceed honestly.',
+        'Removing the cabinets makes the date look better and leaves the clinic without the equipment.'
+      ],
+      keyPoint: 'Fix the integrated plan so fixed lead times and independent work are not locked together.',
+      trap: 'Waiting because the plan says so is wrong when the plan ties together work that is not dependent.'
+    },
+    {
+      qid: 'pmp:set-1:024',
+      sub: 'pmp-people',
+      ecoTask: 'Align stakeholder expectations',
+      approach: 'Hybrid',
+      stem: 'Operations wants the old intake form retired in this release. Compliance wants the form kept until an audit six weeks from now. The release can finish one of those outcomes, not both. Each group believes the other already agreed. What should you do?',
+      options: [
+        'Bring both groups to the same boundary, show what this release can hold, and record one decision on whether the form stays through the audit.',
+        'Retire the form now. Operations uses it every day, so that need wins.',
+        'Keep the form and wait until after the audit to tell operations.',
+        'Commit to both outcomes and cut the test cycle so they fit.'
+      ],
+      answer: 0,
+      why: '<p>The two groups are planning different boundaries, and each thinks the choice is already made. Alignment is one conversation, one capacity picture, and one recorded decision. Picking a side in private, hiding the decision, or promising both by cutting tests leaves the expectation split.</p><p><strong>Exam tip:</strong> When two stakeholders describe different scope, put them on the same limit and record the choice. Do not assume agreement that was never made.</p>',
+      optionRationales: [
+        'Both parties see the same limit, and the release boundary is decided once and written down.',
+        'Daily use is a real interest. Deciding it alone does not align compliance, and it may break the audit need.',
+        'Silence keeps operations planning a retirement the release will not deliver.',
+        'Cutting tests to fake capacity hides the fact that the release cannot hold both outcomes.'
+      ],
+      keyPoint: 'Align the people who disagree on a boundary before the release pretends both outcomes fit.',
+      trap: 'A belief that the other group already agreed is not an agreement.'
+    },
+    {
+      qid: 'pmp:set-1:025',
+      sub: 'pmp-people',
+      ecoTask: 'Lead the project team',
+      approach: 'Agile',
+      stem: 'One agile squad is about to commit a release. Two product owners have each handed the squad a different must-ship list. The lists overlap on only half the items. The squad asks which list to build. What should you do?',
+      options: [
+        'Tell the squad to merge both lists and absorb the extra items.',
+        'Let the squad pick the shorter list so the date is safe.',
+        'Send both lists to the sponsor before anyone compares them with capacity.',
+        'Get the two owners to one ordered boundary, show the capacity, and have the squad commit only after that boundary is clear.'
+      ],
+      answer: 3,
+      why: '<p>The squad cannot commit to two definitions of the release. Leadership here is to get one ordered boundary from the people who own the outcome, with capacity visible, before the squad locks a commitment. Merging the lists, letting the squad choose in private, or escalating before the owners have faced the limit all leave the team without a single target.</p><p><strong>Exam tip:</strong> When two owners set two boundaries, do not make the team guess. Settle one list against capacity, then commit.</p>',
+      optionRationales: [
+        'A merged list is a larger promise, not a decision. The overlap problem is still unsolved.',
+        'The shorter list may drop an outcome an owner still expects. The squad should not have to invent the boundary.',
+        'The sponsor may help later. The first step is the two owners and the capacity, not an escalation that skips that talk.',
+        'One boundary, visible capacity, and a commitment after that point give the squad a target they can actually meet.'
+      ],
+      keyPoint: 'A squad should commit to one boundary the owners share, not to two competing lists.',
+      trap: 'Letting the team pick, or merging both lists, hides the fact that the owners have not agreed.'
+    },
+    {
+      qid: 'pmp:set-1:026',
+      sub: 'pmp-business',
+      ecoTask: 'Manage project changes',
+      approach: 'Predictive',
+      stem: 'The charter says the program will roll out to the sites. The scope baseline names two sites. A director says adding a third site is only a clarification of the charter, not a change. Work at the third site has not started. What should you do?',
+      options: [
+        'Add the third site. The word sites in the charter already authorized it.',
+        'Record the third site as a change, assess the schedule and cost impact, and use the agreed change path before any work starts there.',
+        'Start mobilization at the third site and correct the baseline at the next monthly report.',
+        'Reject the request with no analysis because the baseline already lists two sites.'
+      ],
+      answer: 1,
+      why: '<p>A vague charter word is not a blank check. The baseline names two sites, so a third site is a change. It needs an impact assessment and the agreed path before work starts. Treating it as already authorized, starting it quietly, or refusing it with no look all skip that control.</p><p><strong>Exam tip:</strong> If the baseline does not name it, a clarification that adds it is a change. Assess it before the work begins.</p>',
+      optionRationales: [
+        'Sites in the charter did not list this site. The baseline is the scope the team is authorized to build.',
+        'The addition is recorded, its effect is assessed, and the change path runs before mobilization.',
+        'Starting first and editing the baseline later bypasses the control that exists to catch this.',
+        'A flat no without an impact look is as incomplete as a silent yes. The request still deserves an assessment.'
+      ],
+      keyPoint: 'Work beyond the named baseline is a change, even when someone calls it a clarification.',
+      trap: 'A broad word in the charter does not authorize a site the baseline left out.'
+    },
+    {
+      qid: 'pmp:set-1:027',
+      sub: 'pmp-process',
+      ecoTask: 'Plan and manage schedule',
+      approach: 'Predictive',
+      stem: 'A predictive tower repair is at the point shown in the exhibit. The enclosure crew is free on day 36 and asks to start then, ahead of the plan. What should you do?',
+      options: [
+        'Start enclosure on day 36 so the idle crew is used.',
+        'Move the inspection to day 36 and enclose right after it, even though the permit names days 40 to 42.',
+        'Skip the inspection. The foundation was already accepted.',
+        'Keep enclosure after the inspection window. Use the idle crew on steel or other open work the sequence already allows.'
+      ],
+      answer: 3,
+      chart: {
+        type: 'data-table',
+        title: 'Sequence before enclosure',
+        columns: ['Work', 'Status', 'Constraint'],
+        rows: [
+          ['Foundation acceptance', 'Done on day 20', 'Weather window for that work is closed'],
+          ['Steel erection', 'Not started. Planned day 21', 'Needs foundation acceptance, which is done'],
+          ['Inspection', 'Not started', 'Allowed only on days 40 to 42. Must finish before enclosure. Permit window cannot move'],
+          ['Enclosure', 'Planned day 45', 'Crew is idle and wants to start on day 36']
+        ]
+      },
+      why: '<p>The exhibit says the inspection can happen only on days 40 to 42, and enclosure comes after that inspection. Starting enclosure on day 36 builds work the inspection may have to open. The crew can go to steel, which is already allowed because the foundation is accepted. Moving the permit window or skipping the inspection breaks a constraint to fill idle time.</p><p><strong>Exam tip:</strong> Read the constraint column before you use an idle crew. Sequence beats a free resource when the permit window cannot move.</p>',
+      optionRationales: [
+        'Using the crew early puts enclosure ahead of an inspection that has not happened.',
+        'The permit window is days 40 to 42. Moving it because the crew is free does not change the permit.',
+        'Foundation acceptance is not the inspection the enclosure is waiting on.',
+        'Enclosure stays behind the inspection, and the crew is used on steel, which the sequence already allows.'
+      ],
+      keyPoint: 'Do not pull work forward of a permit window just because a crew is idle.',
+      trap: 'An early start that jumps the inspection is not use of float. The inspection has not happened.'
+    },
+    {
+      qid: 'pmp:set-1:028',
+      sub: 'pmp-business',
+      ecoTask: 'Define and establish project governance',
+      approach: 'Hybrid',
+      stem: 'The steering rule says any scope change of more than 5 days goes to the board. A request needs 9 days. A teammate splits it into two requests of 4 days so each one stays under the line. What should you do?',
+      options: [
+        'Submit the change as one 9-day request. Do not split it to stay under the board threshold.',
+        'File the two 4-day requests. Each one meets the written rule.',
+        'Approve both pieces yourself. The split makes them too small for the board.',
+        'Drop the request with no record so the threshold is never tested.'
+      ],
+      answer: 0,
+      why: '<p>The rule exists so the board sees scope that moves the timeline by more than 5 days. Splitting a 9-day request is a way around that rule, not compliance with it. The whole change goes to the board. Filing the pieces, approving them locally, or dropping the record all avoid the governance that was set.</p><p><strong>Exam tip:</strong> Do not slice a change to duck a threshold. The decision rights follow the real size of the change.</p>',
+      optionRationales: [
+        'The board sees the 9-day effect the rule was written to catch.',
+        'Two forms do not make a 9-day change into two allowed ones. The split is the evasion.',
+        'Local approval takes a decision the threshold reserved for the board.',
+        'No record means the change can still happen with no decision at all.'
+      ],
+      keyPoint: 'Governance thresholds apply to the real change, not to pieces cut up to avoid the board.',
+      trap: 'Meeting the number on each form while hiding the total is not following the rule.'
+    },
+    {
+      qid: 'pmp:set-1:029',
+      sub: 'pmp-business',
+      ecoTask: 'Evaluate and address external business environment changes',
+      approach: 'Hybrid',
+      stem: 'A partner says their interface test window moved from 1 June to 15 June. That window is the fixed boundary of the release. The team wants to fill the gap with three internal screens that were below the line, and then treat the partner date as flexible from now on. What should you do?',
+      options: [
+        'Add the screens. The partner gave you free time.',
+        'Tell the partner the original 1 June date still stands, and ignore the notice.',
+        'Assess the moved window, update the fixed boundary to 15 June, and decide the screens on their own merit. Do not turn one moved date into open scope.',
+        'Slip an internal status date and leave the partner notice out of the plan.'
+      ],
+      answer: 2,
+      why: '<p>The partner moved a real external constraint. The response is to assess that move, put the new window into the plan as the boundary, and look at the screens as a separate scope choice. Filling the gap automatically, pretending the old date still holds, or hiding the notice all miss the change that actually arrived.</p><p><strong>Exam tip:</strong> An outside date that moves is assessed and recorded. Spare time is not automatic permission to add work, and it does not make the boundary optional forever.</p>',
+      optionRationales: [
+        'The gap is not free scope. The screens were below the line and still need their own decision.',
+        'Ignoring a partner notice leaves the plan on a date the other party has already left.',
+        'The new window becomes the boundary, and the screens are accepted or not on merit rather than by default.',
+        'An internal slip that omits the partner notice means the team is planning to a fact the plan does not hold.'
+      ],
+      keyPoint: 'Update the fixed boundary when an external window moves, and do not spend the gap as new scope by default.',
+      trap: 'A delay from a partner is not a blank check to pull below-the-line work into the release.'
+    },
+    {
+      qid: 'pmp:set-1:030',
+      sub: 'pmp-people',
+      ecoTask: 'Manage stakeholder expectations',
+      approach: 'Predictive',
+      stem: 'A sponsor told the field crew to add a floor of network drops that is not in the scope baseline. The change path says requests come through you before work starts. The crew asks whether to follow the sponsor. What should you do?',
+      options: [
+        'Let the crew proceed. A sponsor instruction outranks the baseline.',
+        'Stop the extra drops, confirm the crew did the right thing by asking, and take the sponsor request through the change path before that work starts.',
+        'Add the drops to the baseline tonight with no impact review, so the crew can start in the morning.',
+        'Tell the crew to ignore the sponsor and do not record the request.'
+      ],
+      answer: 1,
+      why: '<p>The sponsor created an expectation the baseline does not contain. The crew was right to stop and ask. The project manager holds the work, keeps the relationship intact, and runs the request through the change path so the sponsor sees the impact before the drops are built. Obeying on the spot, editing the baseline with no review, or dismissing the sponsor all fail that expectation.</p><p><strong>Exam tip:</strong> A side instruction is still a change. Protect the crew for checking, and put the requester through the path you already agreed.</p>',
+      optionRationales: [
+        'Sponsor authority does not skip the baseline. Unchecked work becomes scope the project did not accept.',
+        'The work stays stopped, the crew is backed for asking, and the sponsor request is assessed before it starts.',
+        'Writing it into the baseline overnight skips the impact the change path exists to show.',
+        'Ignoring the sponsor with no record leaves the expectation in place and the request invisible.'
+      ],
+      keyPoint: 'Hold the unbaselined work and take the sponsor through the change path instead of building from a side conversation.',
+      trap: 'Rank does not turn a verbal add into baseline scope.'
     }
   ];
 
   questions.forEach(function (q, index) {
     q.set = 1;
-    q.batch = index < 10 ? 1 : 2;
+    q.batch = index < 10 ? 1 : index < 20 ? 2 : 3;
     q.original = true;
     q.sourceDocument = 'Original UpSkill Sprint item. July 2026 PMP Exam Content Outline and PMBOK Guide 8th Edition used as references only. Not a PMI item.';
     if (q.qid !== 'pmp:set-1:' + String(index + 1).padStart(3, '0')) {
@@ -518,7 +759,7 @@
     exam.plannedSets = ['1', '2', '3'];
     exam.setName = 'Set 1 live · Sets 2–3 soon';
     exam.setPlans = Object.assign({}, exam.setPlans, {
-      1: {target: 180, label: 'Batches 1-2: Q001-Q020'},
+      1: {target: 180, label: 'Batches 1-3: Q001-Q030'},
       2: {target: 10, label: 'Not yet written'},
       3: {target: 10, label: 'Not yet written'}
     });
