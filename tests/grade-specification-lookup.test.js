@@ -234,6 +234,36 @@ test('compliance inputs use a prominent drawer that is collapsed by default acro
   assert.equal(drawer.open, false);
 });
 
+test('phone layout rules keep lookup and compliance workspaces usable without page overflow', () => {
+  const application = readFileSync(applicationPath, 'utf8');
+  assert.match(application, /\.grade-spec-tool-page \.table-wrap\{max-width:100%;overflow-x:auto/);
+  assert.match(application, /@media\(max-width:760px\)[\s\S]*?\.grade-spec-tool-page \.top-shell\{position:relative;top:auto/);
+  assert.match(application, /@media\(max-width:760px\)[\s\S]*?\.grade-spec-tool-page \.result-stack\{position:static;max-height:none;overflow:visible/);
+  assert.match(application, /@media\(max-width:700px\)[\s\S]*?\.grade-spec-tool-page \.p2-grid,\.grade-spec-tool-page \.p2-grid\.three,\.grade-spec-tool-page \.p2-grid\.four,\.grade-spec-tool-page \.p2-grid\.five\{grid-template-columns:1fr}/);
+  assert.match(application, /\.grade-spec-tool-page \.p2-field input,[\s\S]*?min-height:44px;font-size:16px/);
+  assert.match(application, /@media\(max-width:430px\)[\s\S]*?\.grade-spec-tool-page \.control-grid\{grid-template-columns:1fr}/);
+  assert.match(application, /\.grade-spec-tool-page \.tool-tab\{min-height:46px/);
+});
+
+test('light theme keeps lookup controls, metadata, and diagnostics readable', () => {
+  const application = readFileSync(applicationPath, 'utf8');
+  assert.match(application, /html\[data-theme="light"\] \.grade-spec-tool-page \.unit-group button\.active,[\s\S]*?background:#0e6675[\s\S]*?color:#fff/);
+  assert.match(application, /html\[data-theme="light"\] \.grade-spec-tool-page \.meta-pill,[\s\S]*?background:#eef4fa[\s\S]*?color:#30465f/);
+  assert.match(application, /html\[data-theme="light"\] \.grade-spec-tool-page \.count\.error\{[\s\S]*?background:#fde8e7[\s\S]*?color:#a61b1b/);
+  assert.match(application, /html\[data-theme="light"\] \.grade-spec-tool-page \.count\.warn\{[\s\S]*?background:#fff3d6[\s\S]*?color:#7a4300/);
+  assert.match(application, /html\[data-theme="light"\] \.grade-spec-tool-page\{[\s\S]*?--muted:#475569[\s\S]*?--teal:#0e6675/);
+});
+
+test('lookup and guide equations use the shared professional LaTeX renderer', () => {
+  const application = readFileSync(applicationPath, 'utf8');
+  const guide = readFileSync(guidePath, 'utf8');
+  assert.match(application, /<script defer src="\/tools\/material-math-renderer\.js"><\/script>/);
+  assert.match(guide, /\\\(\\mathrm\{CE\}_\{\\mathrm\{IIW\}\} = C \+ \\frac\{\\mathrm\{Mn\}\}\{6\}/);
+  assert.match(guide, /\\\(e_\{\\min\} = \\frac\{C\\,A\^\{0\.2\}\}\{U\^\{0\.9\}\}\\\)/);
+  assert.doesNotMatch(guide, /<div class="formula">CEIIW = C \+ Mn\/6/);
+  assert.doesNotMatch(guide, /<div class="formula">e_min = C × A\^0\.2 \/ U\^0\.9/);
+});
+
 test('user guide documents incomplete, invalid, form-filter, and temperature behavior', () => {
   const guide = readFileSync(guidePath, 'utf8');
   assert.match(guide, /INCOMPLETE/);

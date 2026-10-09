@@ -103,3 +103,214 @@ html[data-theme="light"] .grade-spec-tool-page .featured-input-drawer{background
 .snapshot-details{margin-top:14px;border-top:1px solid var(--line);padding-top:12px}.snapshot-details>summary{cursor:pointer;color:var(--text);font-size:14px;font-weight:600}.snapshot-details-open{display:none}.snapshot-details[open] .snapshot-details-closed{display:none}.snapshot-details[open] .snapshot-details-open{display:inline}.snapshot-details-body{padding-top:2px}
 .snapshot-formula{margin:14px 0;padding:14px;border:1px solid var(--line);border-radius:10px;background:var(--panel2)}.snapshot-formula>strong{display:block;margin-bottom:8px}.snapshot-formula .formula{display:block;font-size:18px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--text)}.snapshot-formula p{margin:9px 0 0;color:var(--muted);font-size:13px;line-height:1.55}
 @media print{.standard-context-controls{display:none}.standard-catalog>ul,.snapshot-details-body{display:block!important}.standard-catalog li{break-inside:avoid}.snapshot-details>summary{display:none}}
+/* Mobile layout hardening: keep the tool readable and operable at phone widths. */
+.grade-spec-tool-page .table-wrap{max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
+.grade-spec-tool-page .table-wrap>table{max-width:none}
+@media(max-width:760px){
+  .grade-spec-tool-page .tool-tabs{scroll-snap-type:x proximity;scrollbar-width:none;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
+  .grade-spec-tool-page .tool-tabs::-webkit-scrollbar{display:none}
+  .grade-spec-tool-page .tool-tab{min-height:46px;padding:13px 14px;scroll-snap-align:start}
+  .grade-spec-tool-page .anchor-bar{scrollbar-width:none;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
+  .grade-spec-tool-page .anchor-bar::-webkit-scrollbar{display:none}
+  .grade-spec-tool-page .anchor-bar a{display:inline-flex;align-items:center;min-height:44px;padding-top:10px;padding-bottom:10px}
+  .grade-spec-tool-page .result-stack{position:static;max-height:none;overflow:visible;padding-right:0}
+}
+@media(max-width:700px){
+  .grade-spec-tool-page .tool-panel{padding:12px}
+  .grade-spec-tool-page .p2-grid,.grade-spec-tool-page .p2-grid.three,.grade-spec-tool-page .p2-grid.four,.grade-spec-tool-page .p2-grid.five{grid-template-columns:1fr}
+  .grade-spec-tool-page .p2-section-head{flex-direction:column}
+  .grade-spec-tool-page .p2-actions{width:100%;gap:8px}
+  .grade-spec-tool-page .p2-actions .btn{min-height:44px;flex:1 1 140px}
+  .grade-spec-tool-page .p2-field input,.grade-spec-tool-page .p2-field select,.grade-spec-tool-page .paste-card textarea,.grade-spec-tool-page .field input,.grade-spec-tool-page .field select{min-height:44px;font-size:16px}
+  .grade-spec-tool-page .p2-card{padding:12px}
+  .grade-spec-tool-page .check-report-head .verdict{width:100%;min-width:0}
+}
+@media(max-width:430px){
+  .grade-spec-tool-page .control-grid{grid-template-columns:1fr}
+  .grade-spec-tool-page .page{padding-left:12px;padding-right:12px}
+  .grade-spec-tool-page .tool-panel{padding:10px}
+  .grade-spec-tool-page .p2-actions .btn{flex-basis:100%}
+  .grade-spec-tool-page .featured-input-summary{gap:10px}
+  .grade-spec-tool-page .featured-input-icon{width:38px;height:38px;font-size:20px}
+  .grade-spec-tool-page .featured-input-copy small{font-size:11px}
+}
+
+/* Light-theme contrast hardening. The lookup application ships with a dark
+   internal palette; these rules replace the dark-only surfaces and pale-on-
+   pale status colours when the shared site theme is light. */
+html[data-theme="light"] .grade-spec-tool-page{
+  --bg:#f3f7fb;
+  --panel:#fff;
+  --panel2:#eef4fa;
+  --line:#b8c7d6;
+  --text:#172033;
+  --muted:#475569;
+  --teal:#0e6675;
+  --amber:#8a4b00;
+  --red:#a61b1b;
+}
+html[data-theme="light"] .grade-spec-tool-page .btn.primary,
+html[data-theme="light"] .grade-spec-tool-page .toggle-btn.active,
+html[data-theme="light"] .grade-spec-tool-page .chip.active,
+html[data-theme="light"] .grade-spec-tool-page .unit-group button.active,
+html[data-theme="light"] .grade-spec-tool-page .tool-tab.active,
+html[data-theme="light"] .grade-spec-tool-page .chemistry-analysis-button.active{
+  background:#0e6675;
+  border-color:#0e6675;
+  color:#fff;
+}
+html[data-theme="light"] .grade-spec-tool-page .btn.amber{
+  background:#fff3d6;
+  border-color:#c98a1c;
+  color:#7a4300;
+}
+html[data-theme="light"] .grade-spec-tool-page .unit-group button{
+  background:#fff;
+  color:#475569;
+}
+html[data-theme="light"] .grade-spec-tool-page .unit-group button:hover,
+html[data-theme="light"] .grade-spec-tool-page .unit-group button:focus-visible{
+  background:#eef4fa;
+  color:#172033;
+}
+html[data-theme="light"] .grade-spec-tool-page .meta-pill,
+html[data-theme="light"] .grade-spec-tool-page .form-chip{
+  background:#eef4fa;
+  border-color:#b8c7d6;
+  color:#30465f;
+}
+html[data-theme="light"] .grade-spec-tool-page .form-chip.inactive{
+  opacity:1;
+  color:#475569;
+}
+html[data-theme="light"] .grade-spec-tool-page .field label,
+html[data-theme="light"] .grade-spec-tool-page .p2-field>span,
+html[data-theme="light"] .grade-spec-tool-page .metric-label,
+html[data-theme="light"] .grade-spec-tool-page .overlay-label,
+html[data-theme="light"] .grade-spec-tool-page .grade-header .meta,
+html[data-theme="light"] .grade-spec-tool-page .verify,
+html[data-theme="light"] .grade-spec-tool-page .import-note,
+html[data-theme="light"] .grade-spec-tool-page .report-disclaimer{
+  color:#475569;
+}
+html[data-theme="light"] .grade-spec-tool-page .p2-card,
+html[data-theme="light"] .grade-spec-tool-page .p2-card p,
+html[data-theme="light"] .grade-spec-tool-page .p2-empty,
+html[data-theme="light"] .grade-spec-tool-page .calc-result,
+html[data-theme="light"] .grade-spec-tool-page .check-report,
+html[data-theme="light"] .grade-spec-tool-page .diagnostics,
+html[data-theme="light"] .grade-spec-tool-page .diag-shell,
+html[data-theme="light"] .grade-spec-tool-page .toast{
+  background:#fff;
+  color:#172033;
+  border-color:#b8c7d6;
+}
+html[data-theme="light"] .grade-spec-tool-page .p2-field input,
+html[data-theme="light"] .grade-spec-tool-page .p2-field select,
+html[data-theme="light"] .grade-spec-tool-page .paste-card textarea{
+  background:#fff;
+  color:#172033;
+  border-color:#9fb1c4;
+}
+html[data-theme="light"] .grade-spec-tool-page .p2-empty{
+  background:#f6f9fc;
+  color:#475569;
+}
+html[data-theme="light"] .grade-spec-tool-page .check-report-head{
+  background:linear-gradient(135deg,#f6f9fc,#eef4fa);
+  border-color:#b8c7d6;
+}
+html[data-theme="light"] .grade-spec-tool-page .verdict.pass,
+html[data-theme="light"] .grade-spec-tool-page .status-pill.pass{
+  background:#e8f7ee;
+  border-color:#55a875;
+  color:#166534;
+}
+html[data-theme="light"] .grade-spec-tool-page .verdict.pass-with-warnings,
+html[data-theme="light"] .grade-spec-tool-page .status-pill.warn,
+html[data-theme="light"] .grade-spec-tool-page .status-pill.pass-with-warnings{
+  background:#fff3d6;
+  border-color:#c98a1c;
+  color:#7a4300;
+}
+html[data-theme="light"] .grade-spec-tool-page .verdict.fail,
+html[data-theme="light"] .grade-spec-tool-page .status-pill.fail{
+  background:#fde8e7;
+  border-color:#d86666;
+  color:#a61b1b;
+}
+html[data-theme="light"] .grade-spec-tool-page .status-pill.info,
+html[data-theme="light"] .grade-spec-tool-page .status-pill.na{
+  background:#e9f0ff;
+  border-color:#8aa7d6;
+  color:#1e3a8a;
+}
+html[data-theme="light"] .grade-spec-tool-page .input-warning,
+html[data-theme="light"] .grade-spec-tool-page .unverified-list{
+  background:#fff8e7;
+  border-color:#d6a744;
+  color:#5b4200;
+}
+html[data-theme="light"] .grade-spec-tool-page .unverified-list ul{color:#5b4200}
+html[data-theme="light"] .grade-spec-tool-page .report-disclaimer{
+  background:#f6f9fc;
+  border-color:#b8c7d6;
+}
+html[data-theme="light"] .grade-spec-tool-page .status-fail{background:#fff1f0}
+html[data-theme="light"] .grade-spec-tool-page .status-warn{background:#fff8e7}
+html[data-theme="light"] .grade-spec-tool-page .badge.min{
+  background:#e8f7ee;
+  border-color:#8bc8a0;
+  color:#166534;
+}
+html[data-theme="light"] .grade-spec-tool-page .badge.max{
+  background:#fff3d6;
+  border-color:#d6a744;
+  color:#7a4300;
+}
+html[data-theme="light"] .grade-spec-tool-page .badge.set{
+  background:#e9f0ff;
+  border-color:#8aa7d6;
+  color:#1e3a8a;
+}
+html[data-theme="light"] .grade-spec-tool-page .clause{
+  background:#f3f7fb;
+  border-color:#b8c7d6;
+  color:#30465f;
+}
+html[data-theme="light"] .grade-spec-tool-page .num{color:#172033}
+html[data-theme="light"] .grade-spec-tool-page .diag-toggle{
+  background:#fff;
+  color:#172033;
+}
+html[data-theme="light"] .grade-spec-tool-page .diag-body{background:#f6f9fc;color:#172033}
+html[data-theme="light"] .grade-spec-tool-page .count.error{
+  background:#fde8e7;
+  border:1px solid #d86666;
+  color:#a61b1b;
+}
+html[data-theme="light"] .grade-spec-tool-page .count.warn{
+  background:#fff3d6;
+  border:1px solid #d6a744;
+  color:#7a4300;
+}
+html[data-theme="light"] .grade-spec-tool-page .diag-item.error{color:#a61b1b}
+html[data-theme="light"] .grade-spec-tool-page .diag-item.warning{color:#7a4300}
+html[data-theme="light"] .grade-spec-tool-page .self-tests{color:#166534}
+html[data-theme="light"] .grade-spec-tool-page .note{background:#f6fbfb;color:#172033}
+html[data-theme="light"] .grade-spec-tool-page .note-topic{color:#0e6675}
+html[data-theme="light"] .grade-spec-tool-page .footnotes{color:#334155}
+html[data-theme="light"] .grade-spec-tool-page .limit.overlay,
+html[data-theme="light"] .grade-spec-tool-page .limit.diff{
+  background:#fff8e7;
+  outline-color:#d6a744;
+}
+html[data-theme="light"] .grade-spec-tool-page .overlay-mark,
+html[data-theme="light"] .grade-spec-tool-page .snapshot-note{color:#7a4300}
+
+/* Professional TeX output remains readable on narrow screens and in print. */
+.grade-spec-tool-page .math-inline,.grade-spec-tool-page .math-display{font-family:Georgia,"Times New Roman",serif;color:inherit}
+.grade-spec-tool-page .math-inline{white-space:nowrap}
+.grade-spec-tool-page .math-display{display:block;max-width:100%;overflow-x:auto;overflow-y:hidden;margin:.45rem 0}
+.grade-spec-tool-page .math-inline mjx-container,.grade-spec-tool-page .math-display mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}
+@media print{.grade-spec-tool-page .math-display{overflow:visible}}

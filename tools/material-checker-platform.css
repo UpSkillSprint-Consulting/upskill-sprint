@@ -26,3 +26,9 @@ html[data-theme="dark"] body[data-tool-page="material-specification-compliance-c
 .mc-badge.invalid,.mc-badge.invalid-input{background:var(--mc-fail-bg);color:var(--mc-fail)}
 .mc-badge.pass-with-warnings{background:var(--mc-warn-bg);color:var(--mc-warn)}
 .mc-gap-item.is-invalid{border-left:4px solid var(--mc-fail)}
+@media screen and (max-width:640px){
+  .mc-platform-tabs{scrollbar-width:none;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;padding-inline:5px}
+  .mc-platform-tabs::-webkit-scrollbar{display:none}
+  .mc-subcard{padding:16px}
+  .mc-table-wrap{overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
+}

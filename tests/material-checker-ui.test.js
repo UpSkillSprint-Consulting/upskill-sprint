@@ -152,7 +152,7 @@ test('Z245 specimen-area input explains the governing elongation equation and ba
   loadAudited(window,'Z245');
   const area=window.document.querySelector('[data-standard-key="nominalAreaMM2"]');
   assert.ok(area);
-  assert.match(area.closest('.standard-field').textContent,/e = 1940 × A\^0\.2 \/ U\^0\.9/);
+  assert.match(area.closest('.standard-field').textContent,/e_\{\\min\} = \\frac\{1940\\,A\^\{0\.2\}\}\{U\^\{0\.9\}\}/);
   assert.match(area.closest('.standard-field').textContent,/specified minimum TS.*50 mm basis/);
 });
 
@@ -190,6 +190,53 @@ test('shared header styling shields navigation from standalone tool typography',
   assert.equal(header.querySelector('nav.desktop-nav [aria-current="page"]').textContent,'Engineering Tools');
   const links=Array.from(window.document.querySelectorAll('link[rel="stylesheet"]'));
   assert.ok(links.findIndex(l=>l.getAttribute('href')==='/assets/tool-site-header.css') > links.findIndex(l=>l.getAttribute('href')==='/tools/material-specification-compliance-checker.css'));
+});
+
+test('standalone checker keeps phone forms single-column and long workspaces horizontally contained', () => {
+  const checkerCss = source('tools/material-specification-compliance-checker.css');
+  const platformCss = source('tools/material-checker-platform.css');
+  const standardCss = source('tools/material-checker-standard-inputs.css');
+  const html = source('tools/material-specification-compliance-checker.html');
+  assert.match(html, /<meta name="viewport" content="width=device-width,initial-scale=1">/);
+  assert.match(checkerCss, /@media screen and \(max-width:640px\)[\s\S]*?\.tabs\{scrollbar-width:none;overscroll-behavior-inline:contain/);
+  assert.match(checkerCss, /@media screen and \(max-width:640px\)[\s\S]*?\.panel-head \.btn\{width:100%\}/);
+  assert.match(platformCss, /@media screen and \(max-width:640px\)[\s\S]*?\.mc-table-wrap\{overscroll-behavior-inline:contain/);
+  assert.match(standardCss, /@media screen and \(max-width:640px\)[\s\S]*?#panels \.standard-actual-row\{grid-template-columns:1fr}/);
+  assert.match(standardCss, /@media screen and \(max-width:520px\)[\s\S]*?standard-edition-alert button\{display:block;width:100%/);
+});
+
+test('standalone checker uses a readable light-theme palette', () => {
+  const checkerCss = source('tools/material-specification-compliance-checker.css');
+  assert.match(checkerCss, /html\[data-theme=light\] body\[data-tool-page="material-specification-compliance-checker"\]\{[\s\S]*?--muted:#475569[\s\S]*?--teal:#0e6675[\s\S]*?--teal-dark:#075865/);
+});
+
+test('standalone checker exposes professional LaTeX for displayed equations', () => {
+  const html = source('tools/material-specification-compliance-checker.html');
+  const standardInputs = source('tools/material-checker-standard-inputs.js');
+  const checkerCss = source('tools/material-specification-compliance-checker.css');
+  assert.match(html, /<script defer src="\/tools\/material-math-renderer\.js"><\/script>/);
+  assert.match(standardInputs, /\\\\\(e_\{\\\\min\} = \\\\frac/);
+  assert.match(checkerCss, /\.math-inline[,{]/);
+});
+
+test('shared equation renderer maps engineering expressions to professional LaTeX', () => {
+  const dom = new JSDOM('<!doctype html><body data-tool-page="material-specification-compliance-checker"><main></main></body>', {
+    runScripts: 'outside-only',
+    pretendToBeVisual: true
+  });
+  const {window} = dom;
+  // Prevent the test from attempting a CDN request; the mapping function is
+  // deterministic and does not require MathJax itself.
+  window.setTimeout = () => 0;
+  window.eval(source('tools/material-math-renderer.js'));
+  window.document.dispatchEvent(new window.Event('DOMContentLoaded'));
+  const formula = window.UpSkillMaterialMath.formulaForText;
+  assert.match(formula('CEIIW = C + Mn/6 + (Cr + Mo + V)/5 + (Ni + Cu)/15'), /\\mathrm\{CE\}_\{\\mathrm\{IIW\}\} = C \+ \\frac\{\\mathrm\{Mn\}\}\{6\}/);
+  assert.match(formula('Pcm = C + Si/30 + (Mn + Cu + Cr)/20 + Ni/60 + Mo/15 + V/10 + 5B'), /P_\{\\mathrm\{cm\}\} = C \+ \\frac\{\\mathrm\{Si\}\}\{30\}/);
+  assert.match(formula('e = C · (A_xc^0.2 / U^0.9), C = 1'), /e_\{\\min\} = C\\,\\frac\{A_\{\\mathrm\{xc\}\}\^\{0\.2\}\}\{U\^\{0\.9\}\}/);
+  assert.equal(formula('P = 2·S·t/D'), 'P = \\frac{2St}{D}');
+  assert.match(formula('Sub-size requirement = Full-size requirement × Stored factor'), /\\text\{Sub-size requirement\}/);
+  assert.equal(formula('Yield strength / tensile strength'), '\\frac{R_{\\mathrm{e}}}{R_{\\mathrm{m}}}');
 });
 
 for (const route of ['/tools/material-specification-compliance-checker', '/tools/material-specification-compliance-checker.html']) {
