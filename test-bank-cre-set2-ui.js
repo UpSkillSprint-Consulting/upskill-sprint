@@ -369,9 +369,60 @@
     s+=text(345,347,'Inspection spacing (days)')+text(345,380,'Fixed 14-day progression and 6-day response; uniform phase.');
     return svg('Inspection spacing and timely intervention','With '+interval+' days between inspections, the modeled probability of timely completed intervention is '+(100*timelyIntervention(interval)).toFixed(1)+' percent. The curve is 100 percent through eight days and declines for longer intervals.',660,405,s);
   }
+  function fatigueBlock(c) {
+    const x=n=>78+n/5000*540;
+    let s=text(350,30,'Apply H first, then L; repeat until the damage threshold.');
+    s+=line(78,260,618,260)+line(78,68,78,260);
+    s+=line(x(0),108,x(1000),108,'class="cre2-curve"')+line(x(1000),108,x(1000),197)+line(x(1000),197,x(5000),197,'class="cre2-curve"');
+    s+=text(43,113,'H')+text(43,202,'L')+text(132,83,'1,000 cycles')+text(402,172,'4,000 cycles');
+    for(const n of [0,1000,2000,3000,4000,5000])s+=line(x(n),260,x(n),266)+text(x(n),291,n.toLocaleString('en-US'));
+    s+=text(350,327,'Cycles within one repeated block')+text(350,362,'Constant-amplitude model life: H = 10,000; L = 20,000 cycles.')+text(350,390,'Load-level positions are schematic; horizontal cycle spacing is to scale.');
+    return svg(c.title,c.description,700,415,s);
+  }
+  function correlatedInterference(c) {
+    const x=v=>75+(v-60)/100*555,y=f=>291-f/.045*210;
+    let s='';
+    for(const f of [0,.01,.02,.03,.04])s+=line(75,y(f),630,y(f),'class="cre2-grid"')+text(43,y(f)+5,f.toFixed(2));
+    for(const v of [60,80,100,120,140,160])s+=line(x(v),291,x(v),297)+text(x(v),321,String(v));
+    s+=line(75,81,75,291)+line(75,291,630,291)+text(350,57,'Marginal probability density, per MPa');
+    s+=line(97,23,132,23)+text(218,28,'Stress Y')+line(384,23,419,23,'stroke-dasharray="8 5"')+text(516,28,'Strength X');
+    for(const [mean,dash] of [[100,''],[120,' stroke-dasharray="8 5"']]){
+      const points=Array.from({length:201},(_,i)=>{const value=60+i/2,f=Math.exp(-.5*((value-mean)/10)**2)/(10*Math.sqrt(2*Math.PI));return x(value).toFixed(2)+','+y(f).toFixed(2);}).join(' ');
+      s+='<polyline class="cre2-curve" points="'+points+'"'+dash+'/>';
+    }
+    s+=text(350,358,'Stress or strength (MPa)')+text(350,392,'Both standard deviations: 10 MPa. Paired correlation: +0.50.');
+    return svg(c.title,c.description,700,417,s);
+  }
+  const coxSurvival=ratio=>Math.pow(.8,ratio);
+  function coxPlot(ratio) {
+    const x=r=>78+(r-.25)/1.75*530,y=p=>280-p*210;let s='';
+    for(const p of [0,.2,.4,.6,.8,1])s+=line(78,y(p),608,y(p),'class="cre2-grid"')+text(43,y(p)+5,p.toFixed(1));
+    for(const r of [.25,.5,1,1.5,2])s+=line(x(r),280,x(r),286)+text(x(r),309,r.toFixed(2));
+    s+=line(78,70,78,280)+line(78,280,608,280)+text(340,30,'Predicted survival at 1,000 hours');
+    const points=Array.from({length:141},(_,i)=>{const r=.25+i/80;return x(r).toFixed(2)+','+y(coxSurvival(r)).toFixed(2);}).join(' ');
+    s+='<polyline class="cre2-curve" points="'+points+'"/>'+line(x(ratio),70,x(ratio),280,'class="cre2-mission"')+'<circle cx="'+x(ratio)+'" cy="'+y(coxSurvival(ratio))+'" r="5"/>';
+    s+=text(345,347,'Hazard ratio relative to configuration A')+text(345,380,'Reference survival stays at 0.80; proportional hazards is assumed.');
+    return svg('Hazard ratio and model-predicted survival','At hazard ratio '+ratio.toFixed(2)+', survival at 1,000 hours is '+coxSurvival(ratio).toFixed(4)+'. The reference survival is 0.80 and all other covariates remain fixed.',670,405,s);
+  }
+  const hiddenAverage=interval=>1+Math.expm1(-.00002*interval)/(.00002*interval);
+  function proofTestCycle(c, interval=500, showAverage=false) {
+    const end=-Math.expm1(-.00002*interval),ceiling=Math.ceil(end*100*2)/200;
+    const x=t=>78+t/(2*interval)*548,y=p=>284-p/ceiling*210;let s='';
+    for(let i=0;i<=4;i++){const p=i*ceiling/4;s+=line(78,y(p),626,y(p),'class="cre2-grid"')+text(42,y(p)+5,(100*p).toFixed(2)+'%');}
+    for(let i=0;i<=4;i++){const t=i*interval/2;s+=line(x(t),284,x(t),290)+text(x(t),316,t.toLocaleString('en-US'));}
+    s+=line(78,74,78,284)+line(78,284,626,284)+text(345,29,'Probability of an undetected failed state');
+    for(let cycle=0;cycle<2;cycle++){
+      const points=Array.from({length:101},(_,i)=>{const age=i*interval/100;return x(cycle*interval+age).toFixed(2)+','+y(-Math.expm1(-.00002*age)).toFixed(2);}).join(' ');
+      s+='<polyline class="cre2-curve" points="'+points+'"/>'+line(x((cycle+1)*interval),y(end),x((cycle+1)*interval),284,'stroke-dasharray="5 4"');
+      s+='<circle cx="'+x((cycle+1)*interval)+'" cy="'+y(end)+'" r="4"/><circle cx="'+x((cycle+1)*interval)+'" cy="284" r="4" style="fill:currentColor"/>';
+    }
+    if(showAverage)s+=line(78,y(hiddenAverage(interval)),626,y(hiddenAverage(interval)),'stroke-dasharray="10 3 2 3"');
+    s+=text(345,350,'Elapsed time (hours)')+text(345,385,'Dashed drops: perfect proof test and immediate restoration.')+text(345,413,showAverage?'Dash-dot line: average unavailability within each interval.':'Open circles: just before testing; filled circles: immediately afterward.');
+    return svg(c.title,'Hidden-failure probability rises during each '+interval+'-hour interval to '+(100*end).toFixed(4)+' percent immediately before testing, then resets to zero. '+(showAverage?'The horizontal dash-dot line marks the interval average of '+(100*hiddenAverage(interval)).toFixed(4)+' percent.':''),700,438,s);
+  }
   function exhibit(q) {
     const c=q.chart;if(!c)return '';
-    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):c.creKind==='p-diagram'?pDiagram(c):c.creKind==='conditional-life'?conditionalLife(c):c.creKind==='derating'?derating(c):c.creKind==='weibull-probability'?weibullProbability(c):c.creKind==='mission-profile'?missionProfile(c):c.creKind==='capability-spread'?capabilitySpread(c):c.creKind==='degradation-trend'?degradationTrend(c):c.creKind==='voting-system'?votingSystem(c):c.creKind==='minimal-cuts'?minimalCuts(c):c.creKind==='fatigue-model'?fatigueModel(c):c.creKind==='cold-standby'?coldStandby(c):c.creKind==='repair-workflow'?repairWorkflow(c):c.creKind==='lifetime-density'?lifetimeDensity(c):c.creKind==='thermal-exposure'?thermalExposure(c):c.creKind==='diagnostic-coverage'?diagnosticCoverage(c):c.creKind==='inspection-window'?inspectionWindow(c):'';
+    const diagram = c.creKind==='fault-tree'?faultTree(c):c.creKind==='rbd'?rbd(c):c.creKind==='weibull'?weibull(c):c.creKind==='cpm'?cpm(c):c.creKind==='duane'?duane(c):c.creKind==='event-tree'?eventTree(c):c.creKind==='p-chart'?pChart(c):c.creKind==='interaction'?interaction(c):c.creKind==='p-diagram'?pDiagram(c):c.creKind==='conditional-life'?conditionalLife(c):c.creKind==='derating'?derating(c):c.creKind==='weibull-probability'?weibullProbability(c):c.creKind==='mission-profile'?missionProfile(c):c.creKind==='capability-spread'?capabilitySpread(c):c.creKind==='degradation-trend'?degradationTrend(c):c.creKind==='voting-system'?votingSystem(c):c.creKind==='minimal-cuts'?minimalCuts(c):c.creKind==='fatigue-model'?fatigueModel(c):c.creKind==='cold-standby'?coldStandby(c):c.creKind==='repair-workflow'?repairWorkflow(c):c.creKind==='lifetime-density'?lifetimeDensity(c):c.creKind==='thermal-exposure'?thermalExposure(c):c.creKind==='diagnostic-coverage'?diagnosticCoverage(c):c.creKind==='inspection-window'?inspectionWindow(c):c.creKind==='fatigue-block'?fatigueBlock(c):c.creKind==='correlated-interference'?correlatedInterference(c):c.creKind==='proof-test-cycle'?proofTestCycle(c):'';
     return '<section class="cre2-exhibit" aria-label="Question evidence">'+
       (diagram?'<p class="cre2-caption">'+esc(c.title)+'</p>'+diagram+'<details class="cre2-alternative"><summary>Read the diagram description and data table</summary>'+(c.description?'<p>'+esc(c.description)+'</p>':'')+table(c)+'</details>':table(c))+
       '<p class="cre2-scroll-note">On a narrow screen, swipe or scroll within the exhibit to read it at full size.</p></section>';
@@ -406,6 +457,8 @@
     if(q.explorer==='standby-coverage')return header+'<label for="'+id+'">Detection-and-transfer success probability</label><select id="'+id+'"><option value="0">0%</option><option value="0.5">50%</option><option value="0.9" selected>90% (question baseline)</option><option value="1">100%</option></select><p>The mission stays at 200 hours and both operating failure rates at 0.001 per hour. Idle failures and transfer delays remain excluded.</p><div data-cre-explorer-plot>'+standbyPlot(.9)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 90%</button></details>';
     if(q.explorer==='density-age')return header+'<label for="'+id+'">Surviving unit’s age (hours)</label><input id="'+id+'" type="range" min="200" max="1800" step="100" value="1500"><p>The specified density model stays fixed. The shaded area gives cumulative failure probability; hazard conditions on the remaining survivors.</p><div data-cre-explorer-plot>'+lifetimeDensity(q.chart,1500)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 1,500 hours</button></details>';
     if(q.explorer==='inspection-interval')return header+'<label for="'+id+'">Time between inspections (days)</label><input id="'+id+'" type="range" min="4" max="20" step="2" value="10"><p>The detectable-to-failure interval stays at 14 days and the complete response at 6 days. Detection is perfect; condition appearance has uniform phase. This explores only the stated hypothetical failure mode.</p><div data-cre-explorer-plot>'+inspectionPlot(10)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 10 days</button></details>';
+    if(q.explorer==='cox-hazard-ratio')return header+'<label for="'+id+'">Hazard ratio: B relative to A</label><input id="'+id+'" type="range" min="0.25" max="2" step="0.25" value="0.5"><p>The reference survival at 1,000 h remains 0.80. Proportionality holds throughout the interval and other covariates stay fixed. These are hypothetical model predictions, not causal estimates or confidence bounds.</p><div data-cre-explorer-plot>'+coxPlot(.5)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to hazard ratio 0.50</button></details>';
+    if(q.explorer==='proof-test-interval')return header+'<label for="'+id+'">Time between proof tests (hours)</label><select id="'+id+'"><option value="250">250 h</option><option value="500" selected>500 h (question baseline)</option><option value="1000">1,000 h</option><option value="2000">2,000 h</option></select><p>The hidden-failure rate stays at 0.000020 per hour. Tests and restoration remain perfect and instantaneous; demands remain independent and uniform. These assumptions are for exploration, not selection of a real-system test interval.</p><div data-cre-explorer-plot>'+proofTestCycle(q.chart,500,true)+'</div><output for="'+id+'" role="status" aria-live="polite"></output><button type="button" data-cre-reset>Reset to 500 hours</button></details>';
     return '';
   }
   function updateExplorer(el,q) {
@@ -469,6 +522,14 @@
     } else if(q.explorer==='inspection-interval') {
       out.textContent='Inspection spacing: '+value+' days. Detection delay is uniform from 0 to '+value+' days. Completion must occur before day 14, so detection must occur before day 8. Probability of timely completed intervention: '+(100*timelyIntervention(value)).toFixed(1)+'%.';
       el.querySelector('[data-cre-explorer-plot]').innerHTML=inspectionPlot(value);
+    } else if(q.explorer==='cox-hazard-ratio') {
+      const survival=coxSurvival(value);
+      out.textContent='Hazard ratio: '+value.toFixed(2)+'. Predicted survival at 1,000 h: '+survival.toFixed(4)+'. Cumulative failure probability: '+(1-survival).toFixed(4)+'. The hazard ratio scales cumulative hazard, not cumulative failure probability.';
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=coxPlot(value);
+    } else if(q.explorer==='proof-test-interval') {
+      const end=-Math.expm1(-.00002*value),average=hiddenAverage(value);
+      out.textContent='Proof-test interval: '+value.toLocaleString('en-US')+' h. Average hidden-failure unavailability: '+(100*average).toFixed(4)+'%. Immediately before testing: '+(100*end).toFixed(4)+'%. Rare-event average approximation: '+(100*.00002*value/2).toFixed(4)+'%.';
+      el.querySelector('[data-cre-explorer-plot]').innerHTML=proofTestCycle(q.chart,value,true);
     }
   }
   let mathQueue=Promise.resolve();
@@ -500,7 +561,7 @@
           const control=el.querySelector('input,select');
           control.addEventListener('input',()=>updateExplorer(el,q));
           control.addEventListener('change',()=>updateExplorer(el,q));
-          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85','sequential-failures':'4','derating-temperature':'100','mission-high-duration':'2','replacement-failure-cost':'1000','chi-square-count':'40','voting-required':'2','fatigue-stress':'80','standby-coverage':'0.9','density-age':'1500','inspection-interval':'10'};
+          const defaults={'weibull':'500','sample-size':'0.95','alarm-prevalence':'0.02','acceptance-risk':'1','p-chart-sample':'400','arrhenius-temperature':'85','sequential-failures':'4','derating-temperature':'100','mission-high-duration':'2','replacement-failure-cost':'1000','chi-square-count':'40','voting-required':'2','fatigue-stress':'80','standby-coverage':'0.9','density-age':'1500','inspection-interval':'10','cox-hazard-ratio':'0.5','proof-test-interval':'500'};
           el.querySelector('[data-cre-reset]').addEventListener('click',()=>{control.value=defaults[q.explorer];updateExplorer(el,q);});
           updateExplorer(el,q);
         }

@@ -10,18 +10,18 @@ const read = file => fs.readFileSync(path.resolve(__dirname, '..', file), 'utf8'
 const bank = () => {const ctx = {window: {}}; vm.runInNewContext(read('test-bank-cre-set2.js'), ctx); return ctx.window;};
 const tick = () => new Promise(resolve => setTimeout(resolve, 60));
 
-test('batch contract: stable IDs, current BoK weights, complete feedback, forty-six exhibits, valid lesson anchors', () => {
+test('batch contract: stable IDs, current BoK weights, complete feedback, fifty-one exhibits, valid lesson anchors', () => {
   const {CRE_SET2: qs, registerCRESet2} = bank();
-  assert.equal(qs.length, 80);
+  assert.equal(qs.length, 90);
   const exam = {bok: [], bank: []}, dm = {};
   registerCRESet2(exam, dm);
   assert.deepEqual(Array.from(exam.bok, d => d.weight), [29,25,35,35,26]);
   assert.equal(exam.questions, 165); assert.equal(exam.minutes, 258);
-  assert.equal(qs.filter(q => q.chart).length, 46);
-  assert.equal(qs.filter(q => q.chart?.creKind).length, 24);
-  assert.equal(qs.filter(q => q.explorer).length, 16);
-  assert.deepEqual(Array.from(exam.bok, d => qs.filter(q => q.sub === d.domain).length), [15,13,19,19,14]);
-  assert.deepEqual([0,1,2,3].map(key => qs.filter(q => q.answer === key).length), [20,20,20,20]);
+  assert.equal(qs.filter(q => q.chart).length, 51);
+  assert.equal(qs.filter(q => q.chart?.creKind).length, 27);
+  assert.equal(qs.filter(q => q.explorer).length, 18);
+  assert.deepEqual(Array.from(exam.bok, d => qs.filter(q => q.sub === d.domain).length), [17,15,21,21,16]);
+  assert.deepEqual([0,1,2,3].map(key => qs.filter(q => q.answer === key).length), [22,23,22,23]);
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,20))).digest('hex'), '488de3d62f6ba40533c7f4bbfa30ccba24492571571d06c08cdd8de328b29efc', 'Batches 1–2 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,30))).digest('hex'), '1d58917f68fcb88dd4fe42568d6e50394789e0cab74c16719108b1ff3841921b', 'Batches 1–3 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,40))).digest('hex'), '673070d6340dfe526539b3be6fbaaf14cf4b0ebfd26ea0ed9a6d707808b9c070', 'Batches 1–4 content is unchanged');
@@ -29,6 +29,7 @@ test('batch contract: stable IDs, current BoK weights, complete feedback, forty-
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,60))).digest('hex'), '0a514798a814ec13ce0d7b8e993da2a44c4aedb370d1211f1002eae3ea7c8d6e', 'Batches 1–6 content is unchanged');
   assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,70))).digest('hex'), '26de7da93287a6dc411fce15f3a62364d611f677e49a2f043fec26c207bb8db8', 'Batches 1–7 content is unchanged');
   const released = JSON.stringify(qs.slice(0,10));
+  assert.equal(createHash('sha256').update(JSON.stringify(qs.slice(0,80))).digest('hex'), '0306b7d9d873b1efcdf7c169be1d620e547b7e91611c32501156443557421bb6', 'Batches 1–8 content is unchanged');
   assert.equal(createHash('sha256').update(released).digest('hex'), '2c2657dfb7ae76f3c0b9385c7b1be36e122e143a0372e4de82fabb097b50f6f1', 'released Batch 1 content is unchanged');
   for (const [i,q] of qs.entries()) {
     assert.equal(q.qid, 'cre:set-2:' + String(i+1).padStart(3,'0'));
@@ -59,7 +60,7 @@ test('registering Set 2 preserves concurrent Set 1 and Set 3 question banks', ()
   assert.equal(exam.sets[1], first); assert.equal(exam.bank, first);
   assert.equal(JSON.stringify(first), before);
   assert.equal(exam.sets[3], third); assert.equal(JSON.stringify(third), thirdBefore);
-  assert.equal(exam.sets[2].length, 80);
+  assert.equal(exam.sets[2].length, 90);
 });
 
 test('independent calculations verify numeric keys and distractors', () => {
@@ -423,6 +424,56 @@ test('Batch 8 keys agree with density integration, residual, exposure, diagnosti
   assert.equal(qs[79].options[0],((10-6)/10*100)+'%');assert.equal(qs[79].options[1],(6/10*100)+'%');
 });
 
+test('Batch 9 independently checks finite sampling, proportional hazards, fatigue history, covariance, and proof-test averaging', () => {
+  const qs=bank().CRE_SET2,answer=n=>qs[n-1].options[qs[n-1].answer];
+  const newBatch=Array.from(qs.slice(80));
+  assert.equal(newBatch.filter(q=>q.quantitative).length,5);
+  assert.deepEqual(['Foundational','Moderate','Challenging'].map(d=>newBatch.filter(q=>q.difficulty===d).length),[1,6,3]);
+  // Enumerate all unordered pairs rather than reuse the complement calculation.
+  let pairs=0,anyFailure=0,bothFailed=0;
+  for(let a=0;a<20;a++)for(let b=a+1;b<20;b++){pairs++;if(a<4||b<4)anyFailure++;if(a<4&&b<4)bothFailed++;}
+  assert.equal(pairs,190);assert.equal(anyFailure,70);
+  assert.equal(answer(85),(anyFailure/pairs).toFixed(4));
+  assert.equal(qs[84].options[2],(bothFailed/pairs).toFixed(4));
+  assert.equal(qs[84].options[0],(1-.8*.8).toFixed(4));assert.equal(qs[84].options[1],(.2+.2).toFixed(4));
+  // Propagate survival through a nonconstant baseline hazard using small conditional failure steps.
+  const dt=.01,a=-2*Math.log(.8)/1000000;let ra=1,rb=1;
+  for(let i=0;i<100000;i++){const hazard=a*(i+.5)*dt;ra*=1-hazard*dt;rb*=1-.5*hazard*dt;}
+  assert.equal(ra.toFixed(4),'0.8000');assert.equal(answer(86),rb.toFixed(4));
+  assert.equal(qs[85].options[0],(1-.5*(1-.8)).toFixed(4));
+  assert.equal(qs[85].options[2],(.5*.8).toFixed(4));assert.equal(qs[85].options[3],(.8*.8).toFixed(4));
+  // Count integer damage units cycle by cycle: H adds two and L one, with a 20,000-unit threshold.
+  let damage=0,cycles=0;
+  while(damage<20000){const within=cycles%5000;damage+=within<1000?2:1;cycles++;}
+  assert.equal(cycles,16000);assert.equal(answer(87),cycles.toLocaleString('en-US')+' cycles');
+  assert.equal(qs[86].options[0],(3*5000).toLocaleString('en-US')+' cycles');
+  assert.equal(qs[86].options[1],Math.round(5000/.3).toLocaleString('en-US')+' cycles');
+  assert.equal(qs[86].options[3],(4*5000).toLocaleString('en-US')+' cycles');
+  // Construct the paired normals from independent latent variables and integrate the resulting failure tail.
+  // X=120+10Z1; Y=100+10(rho Z1+sqrt(1-rho^2)Z2).
+  const rho=.5,marginSD=10*Math.sqrt((1-rho)**2+(1-rho*rho));
+  assert.equal(marginSD,10);
+  const normalCDF=z=>{const lo=-10,n=40000,step=(z-lo)/n;let area=0;for(let i=0;i<n;i++){const x=lo+(i+.5)*step;area+=Math.exp(-x*x/2)/Math.sqrt(2*Math.PI)*step;}return area;};
+  const pf=normalCDF(-20/marginSD);
+  assert.equal(answer(89),(100*pf).toFixed(2)+'%');
+  assert.equal(qs[88].options[0],(100*normalCDF(-20/Math.sqrt(200))).toFixed(2)+'%');
+  assert.equal(qs[88].options[2],(100*normalCDF(-20/Math.sqrt(300))).toFixed(2)+'%');
+  assert.equal(qs[88].options[3],(100*(1-pf)).toFixed(2)+'%');
+  for(const [label,p] of qs[88].chart.rows.slice(3)){const z=Number(label.match(/z = ([0-9.]+)/)[1]);assert.equal(normalCDF(z).toFixed(4),p);}
+  // Integrate unavailability over equally likely demand times, independently of the closed-form average.
+  const average=interval=>{const n=100000;let sum=0;for(let i=0;i<n;i++){const t=(i+.5)*interval/n;sum+=1-Math.exp(-.00002*t);}return sum/n;};
+  assert.equal(answer(90),(100*average(500)).toFixed(2)+'%');
+  assert.equal(qs[89].options[0],(100*(1-Math.exp(-.01))).toFixed(2)+'%');
+  assert.equal(qs[89].options[1],(100*.00002).toFixed(3)+'%');
+  assert.equal(qs[89].options[2],(100*(1-average(500))).toFixed(2)+'%');
+  for(const [interval,expected] of [[250,'0.2496'],[500,'0.4983'],[1000,'0.9934'],[2000,'1.9736']])assert.equal((100*average(interval)).toFixed(4),expected);
+  // Every math-bearing string uses paired delimiters; the shared renderer is exercised in the player test.
+  for(const q of newBatch)for(const value of [q.stem,q.why,...q.options]){
+    const residual=value.replace(/\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]/g,'');
+    assert.doesNotMatch(residual,/\\[()[\]]/);
+  }
+});
+
 async function harness(){
   const edge=(await import('data:text/javascript;base64,'+Buffer.from(read('netlify/edge-functions/test-bank-mobile-picker.js')).toString('base64'))).default;
   let html=await (await edge(new Request('https://upskillsprint.com/test-bank?exam=cre'),{next:async()=>new Response(read('test-bank.html'),{headers:{'content-type':'text/html'}})})).text();
@@ -449,12 +500,12 @@ function click(w,selector){const el=w.document.querySelector(selector);assert.ok
 function start(w,mode){click(w,'.tb-tile[data-exam="cre"]');click(w,'#tb-overview [data-mode="'+mode+'"]');return w.__TB.getFeedbackSnapshot();}
 function submit(w){const n=w.__TB.getFeedbackSnapshot().records.length;click(w,'[data-goto="'+(n-1)+'"]');click(w,'[data-submit]');}
 
-test('production player uses Set 2, correct pace, forty-six exhibits, review tools, and immutable score',async()=>{
+test('production player uses Set 2, correct pace, fifty-one exhibits, review tools, and immutable score',async()=>{
   const h=await harness(),{w}=h;
   try{
     click(w,'.tb-tile[data-exam="cre"]');
     assert.ok(w.document.querySelector('[data-set="1"]').disabled);
-    assert.match(w.document.querySelector('#tb-overview').textContent,/80 of 150/);
+    assert.match(w.document.querySelector('#tb-overview').textContent,/90 of 150/);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,10),938);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,20),1876);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,30),2815);
@@ -463,21 +514,22 @@ test('production player uses Set 2, correct pace, forty-six exhibits, review too
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,60),5629);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,70),6567);
     assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,80),7505);
+    assert.equal(w.__TB.quizDurationSeconds(w.__TB.EXAMS.cre,90),8444);
     click(w,'#tb-overview [data-mode="full"]');
     const snapshot=w.__TB.getFeedbackSnapshot();
-    assert.equal(snapshot.records.length,80);
+    assert.equal(snapshot.records.length,90);
     assert.ok(snapshot.records.every(r=>/^cre:set-2:/.test(r.question.qid)));
     assert.equal(w.document.querySelector('.cre2-explorer'),null);
     assert.equal(w.document.querySelector('.tb-explanation'),null);
     snapshot.records.forEach((r,i)=>{click(w,'[data-goto="'+i+'"]');click(w,'[data-opt="'+r.question.answer+'"]');});
     submit(w);await tick();
     const score=w.document.querySelector('[data-score-result]').textContent;
-    assert.match(score,/80\/80/);assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet,'2');
+    assert.match(score,/90\/90/);assert.equal(w.document.querySelector('[data-score-result]').dataset.sessionSet,'2');
     click(w,'[data-open-review="all"]');await tick();
-    assert.equal(w.document.querySelectorAll('.tb-review-card').length,80);
-    assert.equal(w.document.querySelectorAll('.tb-review-card .cre2-exhibit').length,46);
-    assert.equal(w.document.querySelectorAll('.cre2-explorer').length,16);
-    assert.equal(w.document.querySelectorAll('.cre2-source strong').length,160);
+    assert.equal(w.document.querySelectorAll('.tb-review-card').length,90);
+    assert.equal(w.document.querySelectorAll('.tb-review-card .cre2-exhibit').length,51);
+    assert.equal(w.document.querySelectorAll('.cre2-explorer').length,18);
+    assert.equal(w.document.querySelectorAll('.cre2-source strong').length,180);
     for(const card of w.document.querySelectorAll('.tb-review-card'))assert.ok(h.typesetRoots.includes(card));
     const slider=w.document.querySelector('[data-cre-explorer="weibull"] input');
     slider.value='1500';slider.dispatchEvent(new w.Event('input',{bubbles:true}));
@@ -591,6 +643,24 @@ test('production player uses Set 2, correct pace, forty-six exhibits, review too
     }
     interval.closest('details').querySelector('button').click();assert.equal(interval.value,'10');
     assert.match(interval.closest('details').querySelector('output').textContent,/80.0%/);
+    const ratio=w.document.querySelector('[data-cre-explorer="cox-hazard-ratio"] input');
+    assert.equal(ratio.closest('details').open,false);
+    for(const [value,survival,failure] of [['0.25','0.9457','0.0543'],['1','0.8000','0.2000'],['2','0.6400','0.3600']]){
+      ratio.value=value;ratio.dispatchEvent(new w.Event('input',{bubbles:true}));
+      const output=ratio.closest('details').querySelector('output').textContent;
+      assert.ok(output.includes('Predicted survival at 1,000 h: '+survival));assert.ok(output.includes('Cumulative failure probability: '+failure));
+    }
+    ratio.closest('details').querySelector('button').click();assert.equal(ratio.value,'0.5');
+    assert.match(ratio.closest('details').querySelector('output').textContent,/0.8944.*0.1056/);
+    const proof=w.document.querySelector('[data-cre-explorer="proof-test-interval"] select');
+    assert.equal(proof.closest('details').open,false);
+    for(const [value,average,end] of [['250','0.2496','0.4988'],['1000','0.9934','1.9801'],['2000','1.9736','3.9211']]){
+      proof.value=value;proof.dispatchEvent(new w.Event('change',{bubbles:true}));
+      const output=proof.closest('details').querySelector('output').textContent;
+      assert.ok(output.includes('Average hidden-failure unavailability: '+average+'%'));assert.ok(output.includes('Immediately before testing: '+end+'%'));
+    }
+    proof.closest('details').querySelector('button').click();assert.equal(proof.value,'500');
+    assert.match(proof.closest('details').querySelector('output').textContent,/0.4983%.*0.9950%/);
     assert.equal(JSON.stringify(w.CRE_SET2),baseline);
     assert.equal(w.document.querySelector('[data-score-result]').textContent,score);
     // The concurrently merged Set 3 stays selectable and uses only its own bank.
@@ -616,7 +686,7 @@ test('quick and focused modes select available Set 2; retry math renders without
     assert.equal(w.document.querySelector('.tb-retry-panel .cre2-explorer'),null);
     click(w,'[data-back]');
     click(w,'#tb-overview [data-mode="focus"]');
-    assert.equal(w.__TB.getFeedbackSnapshot().records.length,15);
+    assert.equal(w.__TB.getFeedbackSnapshot().records.length,17);
     assert.ok(w.__TB.getFeedbackSnapshot().records.every(r=>r.question.qid.startsWith('cre:set-2:')));
     assert.deepEqual(h.errors,[]);
   }finally{h.close();}

@@ -185,7 +185,7 @@ def main():
                     expect(card.locator('.exam-status')).to_have_text('Coming soon')
                     expect(card.locator('.exam-card-action')).to_contain_text('View exam details')
                 cre = page.locator('.exam-card[href="/test-bank?exam=cre"]')
-                expect(cre.locator('.exam-status')).to_have_text('Set 2: 80 questions available')
+                expect(cre.locator('.exam-status')).to_have_text('Set 2: 90 questions available')
                 expect(cre.locator('.exam-card-action')).to_contain_text('Start practicing')
                 expect(page.locator('.exam-intro')).to_contain_text('untimed')
                 expect(page.locator('.exam-actions a[href="/test-bank"]')).to_be_visible()
@@ -356,21 +356,21 @@ def main():
                     expect(page.locator('[data-set="2"]')).to_have_attribute('aria-pressed', 'true')
                     page.locator('[data-timing-kind="full"][data-timed="0"]').click()
                     page.locator('[data-mode="full"]').click()
-                    expect(page.locator('[data-goto]')).to_have_count(80)
+                    expect(page.locator('[data-goto]')).to_have_count(90)
                     exhibits = 0
-                    for i in range(80):
+                    for i in range(90):
                         page.locator(f'[data-goto="{i}"]').click()
                         expect(page.locator('[data-cre-question]')).to_have_count(1)
                         expect(page.locator('.cre2-explorer')).to_have_count(0)
                         exhibits += page.locator('.cre2-exhibit').count()
                         qid = page.locator('[data-cre-question]').get_attribute('data-cre-question')
                         assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2'), f'{qid} overflows at {width}px in {theme} theme'
-                    assert exhibits == 46, f'Expected 46 exhibits, found {exhibits}'
+                    assert exhibits == 51, f'Expected 51 exhibits, found {exhibits}'
                     page.locator('[data-submit]').click()
                     page.locator('[data-open-review="all"]').click()
-                    expect(page.locator('.tb-review-card')).to_have_count(80)
-                    expect(page.locator('.tb-review-card .cre2-exhibit')).to_have_count(46)
-                    expect(page.locator('.cre2-explorer')).to_have_count(16)
+                    expect(page.locator('.tb-review-card')).to_have_count(90)
+                    expect(page.locator('.tb-review-card .cre2-exhibit')).to_have_count(51)
+                    expect(page.locator('.cre2-explorer')).to_have_count(18)
                     original_score = page.locator('[data-score-result]').text_content()
                     sample = page.locator('[data-cre-explorer="sample-size"]')
                     sample.locator('summary').click()
@@ -541,9 +541,30 @@ def main():
                     inspection.locator('[data-cre-reset]').click()
                     expect(spacing).to_have_value('10')
                     expect(inspection.locator('output')).to_contain_text('80.0%')
+                    cox = page.locator('[data-cre-explorer="cox-hazard-ratio"]')
+                    expect(cox).not_to_have_attribute('open', '')
+                    cox.locator('summary').click()
+                    ratio = cox.locator('input')
+                    ratio.focus()
+                    ratio.press('Home')
+                    expect(cox.locator('output')).to_contain_text('Predicted survival at 1,000 h: 0.9457')
+                    ratio.press('End')
+                    expect(cox.locator('output')).to_contain_text('Predicted survival at 1,000 h: 0.6400')
+                    cox.locator('[data-cre-reset]').click()
+                    expect(ratio).to_have_value('0.5')
+                    expect(cox.locator('output')).to_contain_text('0.8944')
+                    proof = page.locator('[data-cre-explorer="proof-test-interval"]')
+                    expect(proof).not_to_have_attribute('open', '')
+                    proof.locator('summary').click()
+                    for value, average in [('250', '0.2496'), ('1000', '0.9934'), ('2000', '1.9736')]:
+                        proof.locator('select').select_option(value)
+                        expect(proof.locator('output')).to_contain_text('Average hidden-failure unavailability: ' + average + '%')
+                    proof.locator('[data-cre-reset]').click()
+                    expect(proof.locator('select')).to_have_value('500')
+                    expect(proof.locator('output')).to_contain_text('0.4983%')
                     assert page.locator('[data-score-result]').text_content() == original_score, 'Explorers changed the original score'
                     assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2'), f'CRE review overflows at {width}px in {theme} theme'
-                    inspection.scroll_into_view_if_needed()
+                    proof.scroll_into_view_if_needed()
                     page.screenshot(path=str(out / f'cre-set2-{width}-{theme}.png'), full_page=False)
 
             record('cre-set2-evidence-and-review', cre_set2_review)

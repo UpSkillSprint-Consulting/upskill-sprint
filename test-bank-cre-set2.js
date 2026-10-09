@@ -1189,6 +1189,153 @@
       handbook: {chapter: 13, section: 'Maintenance Strategies; Predictive and Reliability Centered Maintenance'},
       lessonGap: 'A dedicated predictive-maintenance timing lesson is planned; use the handbook section and the detection-delay calculation.',
       explorer: 'inspection-interval'
+    },
+    {
+      number: 81, qid: 'cre:set-2:081', sub: 'cre-fundamentals', bok: 'I.A.4',
+      topic: 'Reliability engineering before architecture commitment', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Industrial equipment development', quantitative: false,
+      stem: 'A team is selecting the architecture for equipment that customers will operate outdoors and repair at remote locations. The concept review is next week, but detailed drawings and prototypes do not yet exist. Which contribution BEST represents the reliability engineer’s role at this stage?',
+      options: ['Wait for a prototype failure so that reliability work begins only after a physical defect is available to investigate.', 'Bring intended-use, environmental, and service-access assumptions into the concept review and identify their reliability and lifecycle-cost implications.', 'Approve the architecture from the proposed components’ catalog ratings, leaving system interactions for final acceptance testing.', 'Take over all design decisions because the reliability engineer alone is accountable for every product requirement.'], answer: 1,
+      why: '<p>Concept decisions can constrain later reliability, testability, and service access. The reliability engineer can contribute before detailed hardware exists by clarifying intended conditions, identifying important failure and maintenance concerns, and making their consequences visible in the architecture decision.</p><p>This is a collaborative engineering role. Predictions at this stage should identify assumptions and uncertainty; they do not replace subsequent design analysis, verification, or validation, and they do not give the reliability engineer unilateral design authority.</p>',
+      optionRationales: ['Waiting for a physical failure forfeits the opportunity to influence architecture while changes are still comparatively flexible.', 'This brings reliability and maintainability consequences into the decision before the architecture is committed.', 'Individual catalog ratings do not establish system performance under the proposed environment, interfaces, and service conditions.', 'Reliability engineering supports cross-functional decisions; the role does not imply sole authority over every requirement.'],
+      keyPoint: 'Reliability engineering informs early design choices as well as later testing and field improvement.',
+      trap: 'Lack of a prototype does not mean that meaningful reliability work must wait.',
+      assumptions: ['The architecture decision remains open, and intended use and service constraints can still influence it.', 'The reliability engineer contributes evidence and recommendations within the team’s normal decision authority.'],
+      handbook: {chapter: 1, section: 'Reliability Engineer Role and Responsibilities in the Product Lifecycle'},
+      lessonGap: 'A dedicated lifecycle-role lesson is planned; use the cited handbook section and the concept-review reasoning above.'
+    },
+    {
+      number: 82, qid: 'cre:set-2:082', sub: 'cre-fundamentals', bok: 'I.B.8',
+      topic: 'Cost, time, and quality tradeoffs', cognitive: 'Understand', difficulty: 'Foundational', estimatedMinutes: 1,
+      industry: 'Product development', quantitative: false,
+      stem: 'A sponsor asks a project to shorten development by six weeks while retaining the existing budget, scope, and reliability acceptance requirements. No change to the work method has yet been evaluated. Which statement BEST reflects the quality triangle?',
+      options: ['Reducing calendar duration necessarily reduces the development cost by the same percentage.', 'The team can preserve the same reliability evidence by deleting tests as long as the acceptance target is unchanged.', 'Cost, schedule, and quality are independent, so a change to one does not require reviewing the others.', 'The proposed schedule change requires evaluation of resource, scope, and quality implications; unchanged outcomes cannot simply be assumed.'], answer: 3,
+      why: '<p>The quality triangle highlights relationships among cost, time, and quality. A shorter schedule can alter staffing, sequencing, scope, or the opportunity to establish reliability evidence. The proposal therefore needs a feasible plan and an explicit assessment of its consequences.</p><p>This does not mean that improvement in all three dimensions is impossible. A better method may improve several outcomes, but that benefit must be demonstrated rather than assumed. Leaving a target unchanged does not preserve the evidence needed to show that it has been met.</p>',
+      optionRationales: ['Calendar duration and total resource cost are different quantities; acceleration can increase rather than reduce cost.', 'An unchanged acceptance target does not make omitted evidence equivalent to the original test program.', 'The triangle specifically draws attention to interactions among the three dimensions.', 'This calls for a supported tradeoff assessment without assuming that every requested constraint can remain unchanged.'],
+      keyPoint: 'Assess cost, time, and quality together when changing a reliability program’s plan.',
+      trap: 'A shorter schedule is a request to assess feasibility, not evidence that the same result is already achievable.',
+      assumptions: ['No validated productivity improvement or alternative verification method has yet been established.', 'The statement concerns planning implications, not a claim that simultaneous improvement is impossible.'],
+      handbook: {chapter: 2, section: 'Quality Triangle'},
+      lessonGap: 'A dedicated reliability quality-triangle lesson is planned; use the handbook section and the planning distinction above.'
+    },
+    {
+      number: 83, qid: 'cre:set-2:083', sub: 'cre-risk', bok: 'II.A.3',
+      topic: 'Cybersecurity-induced loss of required function', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Connected industrial controls', quantitative: false,
+      stem: 'A previously local-only controller is redesigned to allow remote configuration changes through a network service. The hardware is unchanged. The reliability forecast counts only random component failures, although an unauthorized configuration change could disable the required control function. What is the MOST important gap in the risk assessment?',
+      options: ['A cybersecurity-related path to loss of function is missing; assess the new access and configuration threats, their consequences, and relevant controls.', 'The hardware failure rates should automatically be doubled whenever a network connection is added.', 'No new reliability-related risk exists because an unauthorized change is intentional rather than a random hardware failure.', 'A successful authorized configuration update is sufficient evidence that unauthorized changes cannot affect operation.'], answer: 0,
+      why: '<p>The change introduces a route by which required function could be lost without a random hardware failure. The risk assessment should examine the relevant threats, access and configuration controls, consequences, and recovery needs for the new operating context.</p><p>There is no basis for an arbitrary hardware-rate multiplier or a numerical attack frequency from the information given. Functional testing of an authorized update also does not establish that unauthorized changes are prevented. Reliability and cybersecurity analyses address different initiating mechanisms but can share a loss-of-function consequence.</p>',
+      optionRationales: ['This identifies the omitted initiating mechanism and directs assessment toward the changed system boundary and controls.', 'An arbitrary multiplier does not model the new threat path or establish the effectiveness of access controls.', 'Intentional or malicious causes can still produce operational loss of required function and belong in the wider risk assessment.', 'An authorized-use test does not verify the absence or control of unauthorized-use paths.'],
+      keyPoint: 'A reliability risk assessment must consider relevant loss-of-function mechanisms beyond random hardware failures.',
+      trap: 'Unchanged hardware does not imply an unchanged risk profile after connectivity or control authority changes.',
+      assumptions: ['The new service can change parameters that affect the required function.', 'No attack frequency, control effectiveness, or specific vulnerability is inferred without evidence.'],
+      handbook: {chapter: 3, section: 'Types of Risk; Risk Management Techniques'},
+      lessonGap: 'A dedicated cybersecurity-and-reliability risk lesson is planned; use the handbook sections and the system-boundary reasoning above.'
+    },
+    {
+      number: 84, qid: 'cre:set-2:084', sub: 'cre-risk', bok: 'II.C',
+      topic: 'ALARP and the need to assess further risk reduction', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Engineering risk management', quantitative: false,
+      stem: 'For this hypothetical assessment, a company’s approved policy requires an ALARP demonstration for risks below its intolerable boundary but above its broadly acceptable region. A team places a risk in that intermediate region and proposes closure solely because it is below the intolerable boundary. Several further controls have been identified but not assessed. What is the BEST response?',
+      options: ['Close the assessment because crossing below the intolerable boundary automatically demonstrates ALARP.', 'Require every technically imaginable measure regardless of feasibility or the sacrifice involved, because ALARP means zero residual risk.', 'Assess the further controls and document reasonably practicable risk reduction; being below the intolerable boundary alone does not demonstrate ALARP.', 'Reject every additional control whose estimated cost is even slightly greater than its estimated benefit, using ordinary financial break-even as the sole criterion.'], answer: 2,
+      why: '<p>The stated policy requires more than placement below an upper boundary. The team must assess the identified controls, implement reasonably practicable measures, and justify its treatment of further reduction. ALARP does not mean zero risk.</p><p>The ALARP concept weighs risk reduction against the sacrifice in money, time, or effort using gross disproportion, not ordinary financial break-even alone. Relevant good practice and applicable requirements still matter. This item applies the stated hypothetical policy; it does not establish a legal threshold or determine compliance for an actual installation.</p>',
+      optionRationales: ['The policy expressly requires an ALARP demonstration in this region; the boundary comparison alone is insufficient.', 'ALARP includes reasonable practicability and does not promise elimination of every residual risk.', 'This addresses the missing assessment and justification of additional reasonably practicable controls.', 'Ordinary cost-benefit break-even does not represent the gross-disproportion concept or all relevant requirements.'],
+      keyPoint: 'A tolerability classification and a demonstration of reasonably practicable risk reduction are not the same decision.',
+      trap: 'Being below an intolerable boundary does not automatically establish that further risk reduction is unnecessary.',
+      assumptions: ['The company policy and intermediate-region classification are given; no numerical regulatory limit is implied.', 'The available further controls have not yet been evaluated, so the item does not prejudge which must be implemented.'],
+      handbook: {chapter: 5, section: 'Risk Mitigation; ALARP, ALARA, and ALAP'},
+      lessonGap: 'A dedicated ALARP reasoning lesson is planned; use the handbook section and the limits stated in this hypothetical assessment.'
+    },
+    {
+      number: 85, qid: 'cre:set-2:085', sub: 'cre-statistics', bok: 'III.A.2',
+      topic: 'Sampling without replacement from a finite lot', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Spare-part screening', quantitative: true,
+      stem: 'A sealed lot contains exactly 20 modules: four would fail a specified functional test and sixteen would pass. Two DISTINCT modules are selected uniformly at random without replacement. What is the probability that at least one selected module would fail the test?',
+      options: ['0.3600', '0.4000', '0.0316', '0.3684'], answer: 3,
+      chart: {type: 'data-table', title: 'Known finite-lot composition and sampling rule', columns: ['Property', 'Value'], rows: [['Total modules', 20], ['Would fail the specified test', 4], ['Would pass the specified test', 16], ['Number selected', 2], ['Sampling rule', 'Uniform random selection; no replacement']]},
+      why: tex`<p>Use the complement of selecting two passing modules. After the first passing module is selected, 15 passing modules remain among 19 total modules.</p><p>\[\begin{aligned}P(\text{at least one failure})&=1-\frac{16}{20}\frac{15}{19}\\&=\frac{7}{19}\approx0.3684\end{aligned}\]</p><p>The two selections are dependent because the first changes the composition available for the second. This is a sampling probability conditional on the known lot composition, not an estimate of an unknown population failure rate.</p>`,
+      optionRationales: ['0.3600 treats the selections as independent draws with replacement, keeping a 0.80 pass probability for both.', '0.4000 adds two marginal failure probabilities without subtracting the overlap when both selected modules fail.', '0.0316 is the probability that both selected modules fail, not that at least one fails.', '0.3684 correctly updates the remaining lot composition and takes the complement of two passing selections.'],
+      keyPoint: 'Sampling without replacement generally makes successive selections dependent.',
+      trap: 'Random selection does not by itself imply independence between draws.',
+      assumptions: ['The lot composition is exact, fixed, and known for this exercise.', 'Every unordered pair of distinct modules is equally likely to be selected.'],
+      handbook: {chapter: 6, section: 'Basic Probability Concepts; Conditional Probability'},
+      lessonGap: 'A dedicated finite-lot probability lesson is planned; use the handbook section and the conditional calculation above.'
+    },
+    {
+      number: 86, qid: 'cre:set-2:086', sub: 'cre-statistics', bok: 'III.B.2',
+      topic: 'Survival prediction under proportional hazards', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2.5,
+      industry: 'Field lifetime analysis', quantitative: true,
+      stem: 'A valid Cox proportional-hazards model compares configuration B with reference configuration A, holding all other covariates fixed. B’s hazard is one half of A’s hazard at EVERY age through 1,000 h. The model’s survival probability for A at 1,000 h is 0.80. Treat the model values as fixed. What survival probability does the model predict for B at 1,000 h?',
+      options: ['0.9000', '0.8944', '0.4000', '0.6400'], answer: 1,
+      chart: {type: 'data-table', title: 'Proportional-hazards model inputs', columns: ['Quantity', 'Value'], rows: [['Reference survival at 1,000 h', '0.80'], ['Hazard ratio: B relative to A', '0.50'], ['Other covariates', 'Held at the same values'], ['Proportionality interval', 'All ages from 0 to 1,000 h']]},
+      why: tex`<p>A constant hazard ratio scales cumulative hazard, not cumulative failure probability. Since survival is the exponential of negative cumulative hazard:</p><p>\[\begin{aligned}H_B(t)&=0.50H_A(t)\\R_B(t)&=e^{-H_B(t)}=[R_A(t)]^{0.50}\\R_B(1000)&=0.80^{0.50}\approx0.8944\end{aligned}\]</p><p>Here H denotes cumulative hazard and R denotes survival. Halving the 20% cumulative failure probability would give 0.90, but that is not the proportional-hazards relationship. No exponential baseline lifetime or causal effect of changing configuration is established by this calculation.</p>`,
+      optionRationales: ['0.9000 halves the cumulative failure probability; the model instead multiplies the hazard at every age.', '0.8944 follows from scaling cumulative hazard by 0.50 and transforming back to survival.', '0.4000 multiplies survival itself by the hazard ratio, incorrectly predicting worse survival for the lower-hazard configuration.', '0.6400 squares reference survival, corresponding to a hazard ratio of two rather than one half.'],
+      keyPoint: 'With a constant hazard ratio r, survival under proportional hazards is reference survival raised to r.',
+      trap: 'A hazard ratio is not generally a cumulative risk ratio.',
+      assumptions: ['Proportional hazards holds over the entire stated age interval, with time-fixed covariates and the same reference profile.', 'The supplied model values are treated as known; parameter uncertainty and causal interpretation are outside this calculation.'],
+      handbook: {chapter: 7, section: 'Types of Data; Survival Analysis; Cox Proportional Hazard Model'},
+      lessonGap: 'A dedicated proportional-hazards interpretation lesson is planned; use the handbook section and the cumulative-hazard derivation.',
+      explorer: 'cox-hazard-ratio'
+    },
+    {
+      number: 87, qid: 'cre:set-2:087', sub: 'cre-testing', bok: 'IV.C.3',
+      topic: 'Cumulative fatigue damage within a repeated load block', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 3,
+      industry: 'Mechanical fatigue modeling', quantitative: true,
+      stem: tex`An initially undamaged component follows the repeated load block shown below, always H first and then L. For this exercise, use the stated linear cumulative-damage model \(D=\sum_i n_i/N_i\), where \(n_i\) is the number of cycles actually applied at level i and \(N_i\) is its specified constant-amplitude life. The modeled failure threshold is the FIRST instant D reaches 1. Ignore load-interaction effects. How many total applied cycles occur when this threshold is first reached?`,
+      options: ['15,000 cycles', '16,667 cycles', '16,000 cycles', '20,000 cycles'], answer: 2,
+      chart: {type: 'data-table', creKind: 'fatigue-block', title: 'One repeated load block: H followed by L', columns: ['Order', 'Load level', 'Applied cycles per block', 'Constant-amplitude model life N (cycles)'], rows: [[1, 'H', 1000, 10000], [2, 'L', 4000, 20000]], description: 'Each 5,000-cycle block begins with 1,000 cycles at high level H and continues with 4,000 cycles at low level L. Repeat that order until the model threshold is reached. The constant-amplitude model lives are 10,000 cycles at H and 20,000 cycles at L.'},
+      why: tex`<p>A complete block contributes 0.10 damage at H and 0.20 at L. Three complete blocks therefore apply 15,000 cycles and leave damage at 0.90.</p><p>\[\begin{aligned}D_{\mathrm{block}}&=\frac{1000}{10000}+\frac{4000}{20000}=0.30\\D_{\mathrm{after\ 3\ blocks}}&=0.90\\n_{H,\mathrm{remaining}}&=(1-0.90)(10000)=1000\\n_{\mathrm{total}}&=3(5000)+1000=16000\end{aligned}\]</p><p>The threshold is reached at the end of H in the fourth block, before any of that block’s L cycles. Averaging damage per cycle over a whole block incorrectly spreads the final partial block across both levels. This is a prediction from the supplied simplified rule, not a guaranteed physical fatigue life.</p>`,
+      optionRationales: ['After 15,000 cycles, only three full blocks have been applied and damage is 0.90, below the threshold.', '16,667 cycles uses the average damage per cycle of a complete block; it ignores which level is applied in the final partial block.', '16,000 cycles includes three full blocks plus the next 1,000 H cycles, which bring damage exactly to one.', '20,000 cycles rounds up to four complete blocks, continuing past the first threshold crossing.'],
+      keyPoint: 'Apply a cumulative-damage threshold to the actual loading history, including the final partial block.',
+      trap: 'A full-block average need not locate the first threshold crossing within a block.',
+      assumptions: ['The supplied constant-amplitude lives and damage threshold define a deterministic practice model.', 'Damage starts at zero, adds linearly, and has no recovery or load-interaction correction; loading stops at the first threshold crossing.'],
+      handbook: {chapter: 10, section: 'Failure Models; S-N Curves'},
+      lessonGap: 'A dedicated cumulative-fatigue lesson is planned; the linear damage rule is supplied explicitly here as an application of S-N life inputs.'
+    },
+    {
+      number: 88, qid: 'cre:set-2:088', sub: 'cre-testing', bok: 'IV.C.5',
+      topic: 'Prototype evidence and digital-model validation', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Electromechanical design', quantitative: false,
+      stem: 'A team tunes a digital model’s parameters until its predictions closely match the same prototype measurements used for tuning. It then claims that this agreement independently validates predictions for a substantially different duty cycle that has not been tested. Which statement BEST describes the limitation?',
+      options: ['Agreement with calibration data is not independent validation; evidence relevant to the new duty cycle is still needed.', 'A close calibration fit establishes accurate predictions for every duty cycle supported by the model’s software.', 'Increasing the number of simulated runs replaces the need for physical evidence under the new duty cycle.', 'A digital model cannot support reliability decisions, even when independent relevant validation data are available.'], answer: 0,
+      why: '<p>The prototype measurements were used to adjust the model. Agreement with those same measurements is evidence of calibration fit, not an independent check of predictive performance.</p><p>The new duty cycle may change important stresses or mechanisms. Independent observations relevant to that use, together with assessment of model assumptions and uncertainty, are needed to support the expanded claim. A digital model can be useful within a supported range; neither a close fit nor more simulation runs makes its validity unlimited.</p>',
+      optionRationales: ['This distinguishes calibration from independent validation and identifies the unsupported change in intended use.', 'Software capability to run a duty cycle does not establish that its physical predictions are valid there.', 'More runs of the same model do not supply independent physical validation evidence.', 'A model with relevant independent evidence can inform reliability decisions; categorical rejection is unwarranted.'],
+      keyPoint: 'Validation evidence must be independent of calibration and relevant to the model’s intended use.',
+      trap: 'Matching the data used to tune a model is not independent proof of extrapolative accuracy.',
+      assumptions: ['The same prototype data were used for tuning and for the claimed validation.', 'No independent evidence for the substantially different duty cycle has been supplied.'],
+      handbook: {chapter: 10, section: 'Design Prototyping'},
+      lessonGap: 'A dedicated prototype-and-digital-model validation lesson is planned; use the handbook section and the evidence distinction above.'
+    },
+    {
+      number: 89, qid: 'cre:set-2:089', sub: 'cre-lifecycle', bok: 'V.A.2',
+      topic: 'Correlated normal stress-strength interference', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 3,
+      industry: 'Structural component assessment', quantitative: true,
+      stem: 'For the same randomly selected component under a specified load event, strength X and applied stress Y are JOINTLY normal. Strength has mean 120 MPa and standard deviation 10 MPa; stress has mean 100 MPa and standard deviation 10 MPa. Their within-component correlation is +0.50. Failure occurs when Y exceeds X. Using the supplied standard-normal cumulative probabilities, what is the failure probability?',
+      options: ['7.86%', '2.28%', '12.41%', '97.72%'], answer: 1,
+      chart: {type: 'data-table', creKind: 'correlated-interference', title: 'Marginal distributions and within-component correlation', columns: ['Quantity', 'Value'], rows: [['Strength mean and standard deviation', '120 MPa; 10 MPa'], ['Stress mean and standard deviation', '100 MPa; 10 MPa'], ['Correlation of paired strength and stress', '+0.50'], ['Standard normal CDF at z = 2.0000', '0.9772'], ['Standard normal CDF at z = 1.414214', '0.9214'], ['Standard normal CDF at z = 1.1547', '0.8759']], description: 'Two normal marginal density curves have equal standard deviations of 10 MPa. The stress curve is centered at 100 MPa and the strength curve at 120 MPa. The within-component correlation is positive 0.50; marginal curves alone do not depict the joint distribution.'},
+      why: tex`<p>Let the margin be \(M=X-Y\). Joint normality makes M normal. The covariance term must be included when calculating its variance.</p><p>\[\begin{aligned}\mu_M&=120-100=20\ \mathrm{MPa}\\\sigma_M^2&=10^2+10^2-2(0.50)(10)(10)\\&=100\ \mathrm{MPa}^2\\P(Y>X)&=P(M<0)=\Phi(-2)\\&\approx1-0.9772=0.0228=2.28\%\end{aligned}\]</p><p>Positive correlation reduces the variance of this difference relative to the independent case. With the stated positive mean margin, that reduces the modeled lower-tail failure probability. This conclusion depends on the specified joint distribution, not merely on the overlap visible between the marginal curves.</p>`,
+      optionRationales: ['7.86% omits covariance and treats stress and strength as independent, giving a margin standard deviation of about 14.14 MPa.', '2.28% includes the positive covariance with a minus sign in the variance of the difference and evaluates the failure tail.', '12.41% adds the covariance term instead of subtracting it, giving a margin standard deviation of about 17.32 MPa.', '97.72% is the complementary success probability, not the requested failure probability.'],
+      keyPoint: 'For correlated stress and strength, use the covariance term in the distribution of their difference.',
+      trap: 'Normal marginal distributions alone do not justify an independence assumption or a jointly normal model.',
+      assumptions: ['Joint normality and the stated paired correlation are given, rather than inferred from the two marginal curves.', 'The parameters apply to the same component/load-event pairing; other failure modes and parameter uncertainty are excluded.'],
+      handbook: {chapter: 11, section: 'Stress-Strength Analysis'},
+      lessonGap: 'A dedicated correlated stress-strength lesson is planned; use the handbook section and the margin-variance calculation above.'
+    },
+    {
+      number: 90, qid: 'cre:set-2:090', sub: 'cre-lifecycle', bok: 'V.C.2',
+      topic: 'Average hidden-failure unavailability between proof tests', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 2.5,
+      industry: 'Standby function maintenance', quantitative: true,
+      stem: tex`A single standby function is known to work immediately after each proof test. It develops a hidden failure at a constant rate \(\lambda=0.000020\ \mathrm{h}^{-1}\) and then remains unavailable until the next test. Perfect proof tests and complete restoration occur every 500 h and take negligible time. A demand is independent of failures and occurs uniformly within a test interval. What is the CLOSEST probability that the function is unavailable at that demand?`,
+      options: ['1.00%', '0.002%', '99.50%', '0.50%'], answer: 3,
+      chart: {type: 'data-table', creKind: 'proof-test-cycle', title: 'Hidden-failure probability between perfect proof tests', columns: ['Quantity', 'Value'], rows: [['Hidden-failure rate', '0.000020 per hour'], ['Proof-test interval', '500 h'], ['State immediately after each test and restoration', 'Available'], ['Undetected failed state', 'Persists until next proof test'], ['Test coverage and restoration', 'Complete; negligible duration'], ['Demand timing', 'Independent; uniform within the interval']], description: 'Within each 500-hour interval, hidden-failure probability rises as one minus exp(−0.000020 times age since the last test). It resets to zero immediately after the perfect proof test and restoration. The plotted curves show two intervals; the requested quantity averages over the uniformly located demand, not just the end of an interval.'},
+      why: tex`<p>At age t since the last test, hidden-failure probability is \(1-e^{-\lambda t}\). Average this over the possible demand times, rather than using only the probability just before a proof test.</p><p>\[\begin{aligned}\overline{Q}&=\frac{1}{T}\int_0^T(1-e^{-\lambda t})\,dt\\&=1-\frac{1-e^{-\lambda T}}{\lambda T}\\&=1-\frac{1-e^{-0.01}}{0.01}\\&\approx0.004983=0.4983\%\end{aligned}\]</p><p>Thus 0.50% is closest. Here T is the proof-test interval and the bar denotes a time average. For this small value of \(\lambda T\), the approximation \(\overline{Q}\approx\lambda T/2\) also gives 0.50%. The pre-test value is about 1.00%, roughly twice the average. These idealized assumptions are not a proof-test prescription for an actual system.</p>`,
+      optionRationales: ['1.00% approximates the probability just before the next proof test, not the average over possible demand times.', '0.002% treats a per-hour failure rate as though it were the requested dimensionless average probability.', '99.50% is the approximate average availability, the complement of the requested unavailability.', '0.50% is closest to the time-averaged hidden-failure probability of 0.4983% under the stated model.'],
+      keyPoint: 'For uniformly timed independent demands, average hidden-failure probability over the entire proof-test interval.',
+      trap: 'End-of-interval failure probability and average unavailability are different quantities.',
+      assumptions: ['The single function starts each interval available; failures are exponential, hidden, and not repaired before the next proof test.', 'Proof testing finds every relevant failure and restoration is complete and instantaneous; no test-induced failure or downtime is added.'],
+      handbook: {chapter: 13, section: 'Preventive Maintenance (PM) Analysis'},
+      lessonGap: 'A dedicated hidden-failure proof-testing lesson is planned; the exact probability model and averaging assumptions are stated here.',
+      explorer: 'proof-test-interval'
     }
   ];
   questions.forEach(q => {q.set = 2; q.batch = Math.ceil(q.number / 10); q.sourceDocument = 'The ASQ Certified Reliability Engineer Handbook, 4th edition (2025)'; q.original = true;});
@@ -1201,7 +1348,7 @@
     exam.sets = Object.assign({}, existing, {1: first, 2: questions});
     if (!exam.bank || !exam.bank.length) exam.bank = questions;
     exam.defaultSet = first.length ? '1' : '2';
-    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–8 · Q001–080'}});
+    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batches 1–9 · Q001–090'}});
     exam.fullExamQuestionsBySet = Object.assign({}, exam.fullExamQuestionsBySet, {2: 150});
     // Actual CBT pace: 165 displayed items in 258 minutes; this bank targets 150 core items.
     exam.questions = 165; exam.minutes = 258;
