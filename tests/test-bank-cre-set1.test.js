@@ -40,8 +40,8 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-const BATCHES = [1, 2, 3, 4];
-const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/ };
+const BATCHES = [1, 2, 3, 4, 5];
+const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/ };
 // BoK domain → engine area (the five shared CRE domains)
 const DOMAIN_SUB = { III: 'cre-statistics', IV: 'cre-testing' };
 
@@ -97,6 +97,13 @@ test('batch 4 completes Domain III at 35 questions and covers every IV.A plannin
   assert.equal(rows.filter((q) => q.sub === 'cre-statistics').length, 5);
   assert.equal(BANK.filter((q) => q.sub === 'cre-statistics').length, 35, 'Domain III is complete');
   assert.deepEqual([...new Set(rows.filter((q) => q.sub === 'cre-testing').map((q) => q.bok.code))].sort(), ['IV.A.1', 'IV.A.2', 'IV.A.3', 'IV.A.4', 'IV.A.5']);
+});
+
+test('batch 5 adds three IV.A items and covers every IV.B testing topic', () => {
+  const rows = BANK.filter((q) => q.batch === 5);
+  assert.ok(rows.every((q) => q.sub === 'cre-testing'));
+  assert.equal(rows.filter((q) => q.bok.code.startsWith('IV.A')).length, 3);
+  assert.deepEqual([...new Set(rows.filter((q) => q.bok.code.startsWith('IV.B')).map((q) => q.bok.code))].sort(), ['IV.B.1', 'IV.B.2', 'IV.B.3', 'IV.B.4', 'IV.B.5', 'IV.B.6']);
 });
 
 test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22', () => {
@@ -574,6 +581,86 @@ test('Q40 B10 = 2 years with beta = 1.5 implies an MTTF of 8.1 years', () => {
   const gamma = (z) => { const g = 7, c = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313, -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7]; z -= 1; let x = c[0]; for (let i = 1; i < g + 2; i++) x += c[i] / (z + i); const t = z + g + 0.5; return Math.sqrt(2 * Math.PI) * t ** (z + 0.5) * Math.exp(-t) * x; };
   assertKeyed(q, eta * gamma(1 + 1 / beta), 0.05);
   assert.ok(q.options.includes(`${(2 / -Math.log(0.9)).toFixed(1)} years`), 'exponential trap is offered');
+});
+
+test('Q42 the smallest HALT operating margin is cold', () => {
+  const q = byId('cre:set-1:b05-q42');
+  const num = (s) => Number(String(s).replace('−', '-').replace(/[^0-9.\-]/g, ''));
+  const margin = (r) => Math.abs(num(r[2]) - num(r[1])) / Math.abs(num(r[1]));
+  const rows = [...q.chart.rows];
+  const cold = rows.find((r) => r[0] === 'Cold step');
+  assert.equal(Math.abs(num(cold[2]) - num(cold[1])), 5);
+  rows.filter((r) => r !== cold).forEach((r) => assert.ok(Math.abs(num(r[2]) - num(r[1])) >= 25, `${r[0]} has a wide margin`));
+  rows.forEach((r) => { if (r !== cold) assert.ok(margin(r) > margin(cold)); });
+  assert.match(q.options[q.answer], /^Cold is the weak link/);
+});
+
+test('Q43 binomial upper bound on p interpolated from the table gives R ≥ 0.876', () => {
+  const q = byId('cre:set-1:b05-q43');
+  const binomLE1 = (n, p) => (1 - p) ** n + n * p * (1 - p) ** (n - 1);
+  [...q.chart.rows].forEach(([p, v]) => assert.ok(Math.abs(binomLE1(30, Number(p)) - Number(v)) < 0.0006, `table row p = ${p}`));
+  let lo = 0.01, hi = 0.5;
+  for (let i = 0; i < 60; i++) { const mid = (lo + hi) / 2; if (binomLE1(30, mid) > 0.10) lo = mid; else hi = mid; }
+  assert.ok(Math.abs(1 - lo - 0.876) < 0.001);
+  assert.ok(q.options[q.answer].startsWith('Reliability at 500 cycles is at least about 0.876.'));
+  assert.ok(q.options.some((o) => o.includes((0.1 ** (1 / 30)).toFixed(3))), 'zero-failure trap');
+});
+
+test('Q44 Arrhenius AF in kelvin and the zero-failure chi-square MTBF bound', () => {
+  const q = byId('cre:set-1:b05-q44');
+  const plan = tableOf(q);
+  const c2k = (s) => n_(s) + 273.15;
+  const AF = Math.exp((n_(plan['Activation energy']) / 8.617e-5) * (1 / c2k(plan['Use temperature']) - 1 / c2k(plan['Test temperature'])));
+  assert.ok(Math.abs(AF - 77.7) < 0.1);
+  const Teq = AF * n_(plan['Units on test']) * 1000;
+  const L = 2 * Teq / 4.605; // χ²(0.10; 2r + 2 = 2), Appendix G
+  assert.ok(Math.abs(L - 675000) < 1000);
+  assert.equal(q.options[q.answer], 'About 675,000 h');
+});
+
+test('Q45 power-law exponent from the two same-mode levels only', () => {
+  const q = byId('cre:set-1:b05-q45');
+  const rows = [...q.chart.rows].map(([v, l, mode]) => ({ v: n_(v), l: n_(l), mode }));
+  const same = rows.filter((r) => r.mode === rows[0].mode);
+  assert.equal(same.length, 2, 'the highest stress changes failure mode');
+  const b = Math.log(same[0].l / same[1].l) / Math.log(same[1].v / same[0].v);
+  const L24 = same[0].l * (same[0].v / 24) ** b;
+  assert.ok(Math.abs(L24 - 12136) < 5);
+  assert.equal(q.options[q.answer], `About ${(Math.round(L24 / 100) * 100).toLocaleString('en-US')} h`);
+});
+
+test('Q47 producer and consumer risks from the Poisson OC curve', () => {
+  const q = byId('cre:set-1:b05-q47');
+  const accept = (mu) => [0, 1, 2].reduce((a, x) => a + Math.exp(-mu) * mu ** x / factorial(x), 0);
+  const alpha = 1 - accept(12000 / 6000), beta = accept(12000 / 2000);
+  assert.ok(Math.abs(alpha - 0.323) < 0.001 && Math.abs(beta - 0.062) < 0.001);
+  q.chart.series[0].points.forEach(([m, pa]) => assert.ok(Math.abs(accept(12000 / m) - pa) < 0.0006, `OC point at ${m}`));
+  assert.match(q.options[q.answer], /^Producer’s risk about 0\.32 and consumer’s risk about 0\.06\./);
+});
+
+test('Q48 linear-through-origin pseudo-failure times: two pads fail inside 40,000 km', () => {
+  const q = byId('cre:set-1:b05-q48');
+  const d = [5, 10, 15];
+  const lives = [...q.chart.rows].map(([pad, ...w]) => ({ pad, life: 8 / (w.reduce((a, x, i) => a + d[i] * Number(x), 0) / 350) }));
+  const failing = lives.filter((p) => p.life < 40).map((p) => p.pad).join();
+  assert.equal(failing, 'Pad 3,Pad 5');
+  assertKeyed(q, 2, 0.01);
+});
+
+test('Q49 availability counts every outage minute', () => {
+  const q = byId('cre:set-1:b05-q49');
+  const outage = [...q.chart.rows].reduce((a, r) => a + n_(r[2]), 0);
+  assertKeyed(q, (1 - outage / 43200) * 100, 0.005);
+});
+
+test('Q50 each firmware activity is labelled with its software test method', () => {
+  const q = byId('cre:set-1:b05-q50');
+  const rows = [...q.chart.rows];
+  assert.match(rows[0][1], /source code.*every branch/);
+  assert.match(rows[1][1], /how often.*estimate field failure intensity/);
+  assert.match(rows[2][1], /corrupts/);
+  assert.match(rows[3][1], /Reruns the full existing test suite/);
+  assert.equal(q.options[q.answer], '1 white-box; 2 operational profile; 3 fault injection; 4 regression');
 });
 
 /* ---------- 3. production delivery ---------- */

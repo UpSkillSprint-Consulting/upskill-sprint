@@ -5,6 +5,7 @@
  *                confidence and tolerance intervals).
  * Batch 3 of 15: III.B.1–III.B.6 (data management).
  * Batch 4 of 15: III remainder (III.A.1, A.3, A.7; III.B.4) and IV.A.1–IV.A.5 (reliability planning).
+ * Batch 5 of 15: IV.A.1–IV.A.2 (test strategy, HALT, attribute data) and IV.B.1–IV.B.6 (reliability testing).
  *
  * Every calculated answer is recomputed independently in tests/test-bank-cre-set1.test.js.
  * Notation follows The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting &
@@ -3794,6 +3795,904 @@
         "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
         "chapter": "Chapter 8 - Reliability Planning",
         "section": "Failure criteria",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b05-q41",
+    "set": 1,
+    "batch": 5,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "A. Planning",
+      "code": "IV.A.1",
+      "topic": "Classifying reliability tests by development phase"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Analyze",
+    "questionType": "Scenario judgment",
+    "quantitative": false,
+    "stem": "A motor drive is in full production. Each month, a sample from that month’s build is life-tested, and that month’s lots are released for shipment only if the sample passes. Using the Handbook’s classification of reliability tests by product phase, which category of test is this?",
+    "chart": null,
+    "options": [
+      "Product development test",
+      "Reliability performance (qualification) test",
+      "Reliability verification test",
+      "Reliability acceptance test"
+    ],
+    "answer": 3,
+    "why": "<p>The Handbook classifies reliability tests by the phase in which they run. Reliability acceptance tests are run during production to show that the design’s reliability parameters have been maintained, so that current production can ship. That is exactly this monthly sample-and-release test.</p><p><b>D. Reliability acceptance test</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 8, Reliability Test Strategies (product development, performance, acceptance and verification tests).</span></p>",
+    "optionRationales": [
+      "Product development tests run on prototypes to cause failures and improve the design, not to release production lots.",
+      "A performance (qualification) test runs once the design is complete, to show that it meets requirements under stated conditions. It does not release monthly production.",
+      "A verification (compliance) test formally demonstrates a stated parameter, such as MTBF at a given confidence, against acceptable and rejectable values. It is not a monthly gate on releasing production lots.",
+      "Correct. It runs during production and confirms that the qualified reliability is maintained before lots ship."
+    ],
+    "keyPoint": "Development tests improve the design; performance tests qualify it; acceptance tests confirm that production maintains it; verification tests formally demonstrate a parameter.",
+    "trap": "Confusing a production acceptance test with a formal verification (compliance) test.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "test strategy",
+      "reliability acceptance test",
+      "qualification test",
+      "verification test",
+      "product development test"
+    ],
+    "sourceSection": "Chapter 8 - Reliability Planning",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 8 - Reliability Planning",
+        "section": "Reliability test strategies",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b05-q42",
+    "set": 1,
+    "batch": 5,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "A. Planning",
+      "code": "IV.A.2",
+      "topic": "Interpreting HALT operating and destruct limits"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, decision",
+    "quantitative": false,
+    "stem": "Early prototypes of an outdoor sensor hub completed HALT. The results are summarized below. Which conclusion is correct?",
+    "chart": {
+      "type": "data-table",
+      "title": "HALT results: outdoor sensor hub prototype",
+      "columns": [
+        "Stress",
+        "Design specification",
+        "Operating limit found",
+        "Destruct limit found"
+      ],
+      "rows": [
+        [
+          "Cold step",
+          "−20 °C",
+          "−25 °C",
+          "−40 °C"
+        ],
+        [
+          "Hot step",
+          "+70 °C",
+          "+105 °C",
+          "+130 °C"
+        ],
+        [
+          "Random vibration",
+          "5 Grms",
+          "30 Grms",
+          "45 Grms"
+        ],
+        [
+          "Rapid thermal transitions",
+          "15 °C per minute",
+          "60 °C per minute",
+          "Not reached"
+        ]
+      ]
+    },
+    "options": [
+      "The hub’s MTBF can be estimated from the step at which each stress first caused a failure, scaled back to the specification.",
+      "Cold is the weak link: the unit stops operating only 5 °C beyond its specification, so find the root cause and improve the design.",
+      "Vibration is the weak link, because its 45 Grms destruct limit is the smallest number in the table.",
+      "Every operating limit lies beyond its specification, so the design is robust and no change is needed."
+    ],
+    "answer": 1,
+    "why": "<p>HALT pushes stress beyond the design limits to find the weakest link and widen the margins before release. The margin that matters is how far each operating limit lies beyond its specification: hot has 35 °C, vibration 25 Grms, thermal transitions 45 °C per minute, but cold only 5 °C. Field temperatures in the tail of the distribution could reach that, so cold is the weak link to root-cause and fix. HALT records stress levels, not times to failure, and its failures are not typical of use, so it cannot give MTBF or failure rate.</p><p><b>B. Cold is the weak link; fix it, and do not estimate reliability from HALT.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, HALT Tests; Ch. 8, Highly Accelerated Life Test (HALT).</span></p>",
+    "optionRationales": [
+      "HALT records stress levels, not times to failure, and its failure modes are not typical of use, so MTBF cannot be calculated from it.",
+      "Correct. The cold margin (5 °C) is far smaller than the others, and HALT results are for improvement, not estimation.",
+      "Limits in different units cannot be compared by their raw numbers. Vibration’s operating limit is six times its specification, a wide margin.",
+      "Passing the specification is not the goal of HALT. A 5 °C cold margin leaves little protection against stresses in the tail of the field distribution."
+    ],
+    "keyPoint": "Read HALT results as margins between the specification and the operating and destruct limits. Fix the smallest margin; never estimate reliability from HALT.",
+    "trap": "Calculating MTBF from HALT, or comparing limits in different units by their raw numbers.",
+    "formula": null,
+    "assumptions": [
+      "Failures at each limit were confirmed by failure analysis."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "HALT",
+      "operating limit",
+      "destruct limit",
+      "design margin",
+      "environmental stress"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "HALT tests",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b05-q43",
+    "set": 1,
+    "batch": 5,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "A. Planning",
+      "code": "IV.A.1",
+      "topic": "Pass/fail (attribute) test data and a binomial reliability bound"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "Thirty relays were cycled 500 times together in an environmental chamber. The relays were not monitored individually; when the test ended, one relay had failed. Using the table, what can be stated with 90% confidence about relay reliability at 500 cycles?",
+    "chart": {
+      "type": "data-table",
+      "title": "Cumulative binomial probabilities for 30 relays with at most one failure",
+      "columns": [
+        "Failure probability \\(p\\)",
+        "\\(\\Pr(X \\le 1)\\)"
+      ],
+      "rows": [
+        [
+          "0.08",
+          "0.296"
+        ],
+        [
+          "0.10",
+          "0.184"
+        ],
+        [
+          "0.12",
+          "0.110"
+        ],
+        [
+          "0.13",
+          "0.084"
+        ],
+        [
+          "0.14",
+          "0.064"
+        ]
+      ]
+    },
+    "options": [
+      "Reliability at 500 cycles is at least about 0.876.",
+      "Reliability at 500 cycles is at least 0.926, from the zero-failure result \\(0.10^{1/30}\\).",
+      "Reliability at 500 cycles is 0.967, so a 0.95 requirement has been demonstrated with 90% confidence.",
+      "MTBF is at least about 3,860 cycles, from the chi-square bound on 15,000 relay-cycles with one failure."
+    ],
+    "answer": 0,
+    "why": "<p>Without individual monitoring, nobody knows when the relay failed, only that it failed within 500 cycles. That is attribute (pass/fail) data, so reliability at the test length comes from the binomial distribution. The one-sided 90% upper bound on the failure probability is the \\(p\\) at which one or fewer failures has probability 0.10. Interpolate in the table between \\(p = 0.12\\) (0.110) and \\(p = 0.13\\) (0.084), where 0.010 is the distance from 0.110 down to 0.100 and 0.026 the drop across the interval:</p><p>\\[\\begin{aligned}p_U &\\approx 0.12 + 0.01\\left(\\frac{0.010}{0.026}\\right) \\\\ &= 0.124 \\\\ R_L &= 1 - p_U = 0.876\\end{aligned}\\]</p><p>where \\(p_U\\) is the upper confidence bound on the probability that a relay fails within 500 cycles and \\(R_L\\) the lower bound on reliability at 500 cycles. The point estimate is \\(29/30 = 0.967\\), but with 90% confidence only about 0.876 is demonstrated.</p><p><b>A. At least about 0.876, a binomial bound on pass/fail data.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 8, Reliability Test Strategies (attribute and variables data; one-shot and chamber testing); Ch. 6, Confidence Intervals for proportions.</span></p>",
+    "optionRationales": [
+      "Correct. Pass/fail data give a binomial bound: \\(p_U \\approx 0.124\\), so \\(R_L \\approx 0.876\\).",
+      "The zero-failure formula applies only when no unit fails. Here one relay failed.",
+      "\\(29/30 = 0.967\\) is a point estimate with no confidence attached; its 90% lower bound is about 0.876, below 0.95.",
+      "A chi-square MTBF bound needs time-to-failure data. The failure time is unknown, so only pass/fail data at 500 cycles exist."
+    ],
+    "keyPoint": "When failure times are unknown, the test gives attribute data: bound reliability at the test length with the binomial, not an MTBF.",
+    "trap": "Treating chamber pass/fail results as time data, or quoting the point estimate as if it carried confidence.",
+    "formula": "Find \\(p_U\\) with \\(\\Pr(X \\le c \\mid n, p_U) = 1 - C\\); \\(R_L = 1 - p_U\\)",
+    "assumptions": [
+      "The 30 relays are a random sample, and failures are independent."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "attribute data",
+      "pass/fail test",
+      "binomial",
+      "confidence bound",
+      "reliability demonstration"
+    ],
+    "sourceSection": "Chapter 8 - Reliability Planning",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 8 - Reliability Planning",
+        "section": "Reliability test strategies — attribute and variables data",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b05-q44",
+    "set": 1,
+    "batch": 5,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.1",
+      "topic": "Arrhenius acceleration and a zero-failure MTBF bound"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "A power-supply controller was tested at high temperature using the plan shown, with no failures. Assume the Arrhenius model applies, the failure mechanism is the same at both temperatures, and the failure rate is constant. What is the one-sided 90% lower confidence bound on MTBF at the use temperature?",
+    "chart": {
+      "type": "data-table",
+      "title": "Accelerated life test summary",
+      "columns": [
+        "Item",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Use temperature",
+          "55 °C"
+        ],
+        [
+          "Test temperature",
+          "125 °C"
+        ],
+        [
+          "Activation energy",
+          "0.70 eV"
+        ],
+        [
+          "Boltzmann constant",
+          "\\(8.617 \\times 10^{-5}\\) eV/K"
+        ],
+        [
+          "Units on test",
+          "20"
+        ],
+        [
+          "Test duration",
+          "1,000 h each, time-terminated"
+        ],
+        [
+          "Failures",
+          "0"
+        ]
+      ]
+    },
+    "options": [
+      "About 337,000 h",
+      "About 518,000 h",
+      "About 675,000 h",
+      "About 1,550,000 h"
+    ],
+    "answer": 2,
+    "why": "<p>First find the acceleration factor, using absolute temperatures:</p><p>\\[\\begin{aligned}T_U &= 328.15 \\text{ K} \\\\ T_S &= 398.15 \\text{ K} \\\\ \\text{AF} &= e^{(E_A/k)(1/T_U - 1/T_S)} \\\\ &= e^{8123(0.000536)} \\\\ &= 77.7\\end{aligned}\\]</p><p>where \\(T_U\\) and \\(T_S\\) are the use and test temperatures in kelvin, \\(E_A\\) is the activation energy, \\(k\\) is Boltzmann’s constant, \\(8123 = 0.70/8.617 \\times 10^{-5}\\) and \\(0.000536 = 1/328.15 - 1/398.15\\). Then convert test time to equivalent use time and apply the chi-square bound for a time-terminated test with \\(r = 0\\):</p><p>\\[\\begin{aligned}T_{eq} &= 77.7 \\times 20 \\times 1000 \\\\ &= 1.554 \\times 10^{6} \\text{ h} \\\\ \\text{MTBF}_L &= \\frac{2T_{eq}}{\\chi^2_{0.10,\\,2}} \\\\ &= \\frac{3.107 \\times 10^{6}}{4.605} \\\\ &= 675000 \\text{ h}\\end{aligned}\\]</p><p>where \\(T_{eq}\\) is the equivalent unit-hours at use conditions, and \\(\\chi^2_{0.10,\\,2} = 4.605\\) uses \\(2r + 2 = 2\\) degrees of freedom.</p><p><b>C. About 675,000 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Accelerated Life Tests — the Arrhenius model (Equation 9.1); Ch. 6, Intervals Using the Exponential Distribution.</span></p>",
+    "optionRationales": [
+      "Drops the 2 in \\(2T_{eq}\\): \\(1.554 \\times 10^{6}/4.605\\).",
+      "Uses \\(\\chi^2_{0.05,\\,2} = 5.991\\), the value for a two-sided 90% interval, instead of the one-sided 4.605.",
+      "Correct. \\(\\text{AF} = 77.7\\), \\(T_{eq} = 1.554 \\times 10^{6}\\) h, and \\(2T_{eq}/4.605 = 675000\\) h.",
+      "Reports the equivalent unit-hours, \\(T_{eq} = 1.554 \\times 10^{6}\\) h, as the bound. With zero failures there is no point estimate, and a 90% bound needs the chi-square factor \\(2/4.605\\)."
+    ],
+    "keyPoint": "Arrhenius needs kelvin and the stated activation energy. Multiply test time by AF and units, then bound MTBF with \\(\\chi^2_{\\alpha,\\,2r+2}\\).",
+    "trap": "Quoting equivalent test time as the MTBF bound, dropping the factor 2, or using the two-sided chi-square value.",
+    "formula": "\\(\\text{AF} = \\exp[(E_A/k)(1/T_U - 1/T_S)]\\); \\(\\text{MTBF}_L = 2\\,\\text{AF}\\,n\\,t/\\chi^2_{\\alpha,\\,2r+2}\\)",
+    "assumptions": [
+      "The Arrhenius model holds with the stated activation energy.",
+      "The failure rate is constant at use conditions."
+    ],
+    "estimatedMinutes": 6,
+    "keywords": [
+      "accelerated life test",
+      "Arrhenius",
+      "acceleration factor",
+      "chi-square",
+      "zero-failure test"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Accelerated life tests — Arrhenius model",
+        "example": "Example 9.1"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b05-q45",
+    "set": 1,
+    "batch": 5,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.1",
+      "topic": "Inverse power law with a change of failure mode"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "Motor windings rated for 24 V were life-tested at three higher voltages. The B10 life and the failure mode confirmed by failure analysis are shown. Using the inverse power law, what is the estimated B10 life at the rated 24 V?",
+    "chart": {
+      "type": "data-table",
+      "title": "Voltage-accelerated life test: motor windings",
+      "columns": [
+        "Test voltage",
+        "B10 life (h)",
+        "Failure mode confirmed by analysis"
+      ],
+      "rows": [
+        [
+          "36 V",
+          "2,400",
+          "Insulation breakdown"
+        ],
+        [
+          "48 V",
+          "760",
+          "Insulation breakdown"
+        ],
+        [
+          "60 V",
+          "90",
+          "Connector arcing"
+        ]
+      ]
+    },
+    "options": [
+      "About 3,600 h",
+      "About 12,100 h",
+      "About 32,500 h",
+      "About 38,400 h"
+    ],
+    "answer": 1,
+    "why": "<p>Acceleration is valid only while the failure mode stays the same. The 60 V results show a new mode (connector arcing), so they must be excluded, and the exponent comes from the two insulation-breakdown levels:</p><p>\\[\\begin{aligned}\\frac{L_{36}}{L_{48}} &= \\left(\\frac{48}{36}\\right)^{b} \\\\ b &= \\frac{\\ln(2400/760)}{\\ln(48/36)} \\\\ &= \\frac{1.150}{0.288} = 4.0 \\\\ L_{24} &= 2400\\left(\\frac{36}{24}\\right)^{4.0} \\\\ &= 2400(5.06) \\\\ &= 12100 \\text{ h}\\end{aligned}\\]</p><p>where \\(L_V\\) is the B10 life at voltage \\(V\\) and \\(b\\) is the power-law exponent. The 60 V failures belong to a separate distribution and need their own analysis.</p><p><b>B. About 12,100 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Accelerated Life Tests — the power law model (Equation 9.2) and the requirement that failure modes stay the same.</span></p>",
+    "optionRationales": [
+      "Assumes life is inversely proportional to voltage (\\(b = 1\\)): \\(2400(36/24) = 3600\\) h. The data give \\(b = 4.0\\).",
+      "Correct. \\(b = 4.0\\) from the 36 V and 48 V insulation failures, so \\(L_{24} = 2400(1.5)^{4} = 12100\\) h.",
+      "Fits \\(b\\) from the 36 V and 60 V points (\\(b = 6.43\\)), mixing two failure modes.",
+      "Applies the 48-to-24 V ratio to the 36 V life: \\(2400(48/24)^{4} = 38400\\) h. The ratio must start from the voltage whose life is used."
+    ],
+    "keyPoint": "Accelerate only within one failure mode: drop stress levels where analysis shows a new mechanism, then fit the model to the rest.",
+    "trap": "Including a stress level with a different failure mode, or pairing a life with the wrong stress ratio.",
+    "formula": "\\(L_U/L_S = (V_S/V_U)^{b}\\); \\(b = \\ln(L_1/L_2)/\\ln(V_2/V_1)\\)",
+    "assumptions": [
+      "The power-law exponent is constant from 24 V to 48 V."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "inverse power law",
+      "accelerated life test",
+      "failure mode",
+      "acceleration factor",
+      "B10 life"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Accelerated life tests — power law model",
+        "example": "Example 9.2"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b05-q46",
+    "set": 1,
+    "batch": 5,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.2",
+      "topic": "Prerequisites for HASS"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Scenario judgment",
+    "quantitative": false,
+    "stem": "A new controller went straight from design to production without HALT. Solder-paste height has a \\(C_{pk}\\) of 0.85, and field returns show early-life solder failures. Management proposes highly accelerated stress screening (HASS) of every unit at stresses beyond the design specification to remove the weak units. What should the reliability engineer recommend?",
+    "chart": null,
+    "options": [
+      "Proceed with HASS on every unit, because a screen beyond the specification will remove the units made defective by the low process capability.",
+      "Replace HASS with a highly accelerated stress audit (HASA) on a sample of units, which costs less than screening every unit.",
+      "Run HALT and bring the solder process into capability before starting HASS, using a conventional ESS within design limits meanwhile.",
+      "Run HASS at stresses below the field environment, so that the screen cannot damage any good units."
+    ],
+    "answer": 2,
+    "why": "<p>HASS stresses can exceed the design specification, so it is safe only when HALT has shown the design has margin beyond those stresses; otherwise the screen can damage or weaken good units. HASS is also meant to detect a shift in a process already shown to be capable and in control, not to compensate for an incapable one: with a \\(C_{pk}\\) of 0.85, the defects must be fixed at the source. Meanwhile, a conventional ESS within design limits can catch early-life failures.</p><p><b>C. Run HALT and fix the process before HASS; use ESS meanwhile.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Stress Screening — environmental stress screening and highly accelerated stress screening (HASS, HASA).</span></p>",
+    "optionRationales": [
+      "HASS cannot make an incapable process acceptable, and without HALT its stresses may damage good units.",
+      "HASA is a sampling audit used after a HASS program has shown the process is in control. It would let early failures escape from an incapable process.",
+      "Correct. HALT first, a capable process, then HASS; ESS within limits protects customers in the meantime.",
+      "A screen below field stress does not precipitate latent defects that field stress would reveal, so it would remove few weak units."
+    ],
+    "keyPoint": "HASS requires a HALT-proven design and a capable, in-control process. It detects process shifts; it does not fix an incapable process.",
+    "trap": "Using screening to inspect quality into an incapable process.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "HASS",
+      "HALT",
+      "ESS",
+      "HASA",
+      "process capability"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Stress screening — HASS",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b05-q47",
+    "set": 1,
+    "batch": 5,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.3",
+      "topic": "Producer’s and consumer’s risks of a fixed-time test"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A customer proposes a fixed-time compliance test: accumulate 12,000 unit-hours and accept if two or fewer failures occur. The acceptable MTBF is 6,000 h and the rejectable MTBF is 2,000 h. The plan’s operating characteristic (OC) curve is shown. What are the producer’s and consumer’s risks, and how should the plan be judged?",
+    "chart": {
+      "type": "cre-xy-plot",
+      "title": "OC curve: 12,000 unit-hours, accept on two or fewer failures",
+      "eyebrow": "Operating characteristic curve",
+      "altText": "Probability of accepting against true MTBF from 1,000 to 10,000 hours. The curve rises from almost 0 at 1,000 hours, through about 0.06 at 2,000 hours and about 0.5 at 4,500 hours, to about 0.68 at 6,000 hours and 0.88 at 10,000 hours. Markers show the rejectable MTBF (2,000 h) and the acceptable MTBF (6,000 h).",
+      "xTicks": [
+        0,
+        2000,
+        4000,
+        6000,
+        8000,
+        10000
+      ],
+      "yTicks": [
+        0,
+        0.2,
+        0.4,
+        0.6,
+        0.8,
+        1
+      ],
+      "series": [
+        {
+          "label": "Probability of acceptance",
+          "points": [
+            [
+              1000,
+              0.001
+            ],
+            [
+              1500,
+              0.014
+            ],
+            [
+              2000,
+              0.062
+            ],
+            [
+              2500,
+              0.143
+            ],
+            [
+              3000,
+              0.238
+            ],
+            [
+              3500,
+              0.334
+            ],
+            [
+              4000,
+              0.423
+            ],
+            [
+              4500,
+              0.502
+            ],
+            [
+              5000,
+              0.57
+            ],
+            [
+              5500,
+              0.628
+            ],
+            [
+              6000,
+              0.677
+            ],
+            [
+              6500,
+              0.718
+            ],
+            [
+              7000,
+              0.753
+            ],
+            [
+              7500,
+              0.783
+            ],
+            [
+              8000,
+              0.809
+            ],
+            [
+              8500,
+              0.831
+            ],
+            [
+              9000,
+              0.849
+            ],
+            [
+              9500,
+              0.866
+            ],
+            [
+              10000,
+              0.879
+            ]
+          ],
+          "showPoints": false
+        }
+      ],
+      "markers": [
+        {
+          "x": 2000,
+          "y": 0.062,
+          "label": "Rejectable MTBF"
+        },
+        {
+          "x": 6000,
+          "y": 0.677,
+          "label": "Acceptable MTBF"
+        }
+      ],
+      "xLabel": "True MTBF (h)",
+      "yLabel": "Probability of acceptance"
+    },
+    "options": [
+      "Producer’s risk about 0.06 and consumer’s risk about 0.32. The plan favors the producer.",
+      "Producer’s risk about 0.68 and consumer’s risk about 0.06. The plan is too strict for the producer.",
+      "Producer’s risk about 0.32 and consumer’s risk about 0.94. The plan protects neither party.",
+      "Producer’s risk about 0.32 and consumer’s risk about 0.06. The plan protects the customer but is unfair to the producer."
+    ],
+    "answer": 3,
+    "why": "<p>With a constant failure rate, the number of failures in the test is Poisson with mean \\(T/m\\). Evaluate the acceptance probability at the two MTBF values:</p><p>\\[\\begin{aligned}\\mu_0 &= 12000/6000 = 2 \\\\ P_0 &= \\Pr(X \\le 2 \\mid \\mu_0) \\\\ &= 0.677 \\\\ \\alpha &= 1 - P_0 = 0.32 \\\\ \\mu_1 &= 12000/2000 = 6 \\\\ \\beta &= \\Pr(X \\le 2 \\mid \\mu_1) \\\\ &= 0.062\\end{aligned}\\]</p><p>where \\(\\mu_0\\) and \\(\\mu_1\\) are the expected numbers of failures at the acceptable and rejectable MTBF, \\(P_0\\) is the probability of accepting at the acceptable MTBF, \\(\\alpha\\) is the producer’s risk (rejecting a design that meets the acceptable MTBF) and \\(\\beta\\) the consumer’s risk (accepting one at the rejectable MTBF). A plan with \\(\\alpha\\) about 0.32 is too short: with a discrimination ratio of 3, a plan such as 9,300 h for a 3,000 h requirement with five allowed failures (IEC 61124 B.7) holds both risks near 0.10.</p><p><b>D. Producer’s risk about 0.32, consumer’s risk about 0.06; lengthen the test.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Qualification/Demonstration Testing — OC curves, fixed-time test plans (Example 9.5, Table 9.1).</span></p>",
+    "optionRationales": [
+      "Swaps the two risks. The producer’s risk is evaluated at the acceptable MTBF, the consumer’s at the rejectable MTBF.",
+      "Reads the acceptance probability at the acceptable MTBF (0.68) as the producer’s risk. The producer’s risk is the probability of rejecting there: \\(1 - 0.677 = 0.32\\).",
+      "Reports the probability of rejecting at the rejectable MTBF (0.94) as the consumer’s risk. The consumer’s risk is the probability of accepting there, 0.06.",
+      "Correct. \\(\\alpha = 1 - 0.677 = 0.32\\) and \\(\\beta = 0.062\\); the plan is lopsided against the producer."
+    ],
+    "keyPoint": "Producer’s risk: probability of rejecting at the acceptable value. Consumer’s risk: probability of accepting at the rejectable value. Both come from the OC curve.",
+    "trap": "Swapping the risks, or reading the probability of rejection where the probability of acceptance is needed.",
+    "formula": "\\(\\alpha = 1 - \\Pr(X \\le c \\mid T/m_0)\\), \\(\\beta = \\Pr(X \\le c \\mid T/m_1)\\)",
+    "assumptions": [
+      "Constant failure rate (exponential times between failures)."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "OC curve",
+      "producer’s risk",
+      "consumer’s risk",
+      "fixed-time test",
+      "discrimination ratio"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Qualification/demonstration testing — fixed-time test plans",
+        "example": "Example 9.5"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b05-q48",
+    "set": 1,
+    "batch": 5,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.4",
+      "topic": "Degradation data: pseudo-failure times"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "Five brake pads were measured for wear on a road-load rig. A pad fails when its wear reaches 8.0 mm. The established wear model for this material is a straight line through the origin, fitted to each pad’s three readings. How many pads are projected to reach the failure threshold before the 40,000 km warranty?",
+    "chart": {
+      "type": "data-table",
+      "title": "Pad wear (mm) by distance",
+      "columns": [
+        "Pad",
+        "5,000 km",
+        "10,000 km",
+        "15,000 km"
+      ],
+      "rows": [
+        [
+          "Pad 1",
+          "0.75",
+          "1.55",
+          "2.30"
+        ],
+        [
+          "Pad 2",
+          "0.80",
+          "1.70",
+          "2.80"
+        ],
+        [
+          "Pad 3",
+          "0.95",
+          "2.05",
+          "3.20"
+        ],
+        [
+          "Pad 4",
+          "0.65",
+          "1.30",
+          "1.95"
+        ],
+        [
+          "Pad 5",
+          "1.15",
+          "2.30",
+          "3.45"
+        ]
+      ]
+    },
+    "options": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    "answer": 2,
+    "why": "<p>For a line through the origin, the least-squares slope is the sum of distance times wear divided by the sum of squared distances. With distances in thousands of km:</p><p>\\[\\begin{aligned}\\hat{s} &= \\frac{\\sum d_i w_i}{\\sum d_i^{2}} \\\\ &= \\frac{5w_1 + 10w_2 + 15w_3}{350} \\\\ L &= 8.0/\\hat{s}\\end{aligned}\\]</p><p>where \\(d_i\\) is the distance, \\(w_i\\) the wear at that distance, \\(\\hat{s}\\) the wear rate in mm per 1,000 km and \\(L\\) the projected distance to 8.0 mm. The projected lives are about 52,100 km (Pad 1), 44,400 km (Pad 2), 38,200 km (Pad 3), 61,500 km (Pad 4) and 34,800 km (Pad 5). Pads 3 and 5 reach 8.0 mm before 40,000 km.</p><p>\\[\\begin{aligned}\\hat{s}_3 &= \\frac{4.75 + 20.5 + 48.0}{350} \\\\ &= 0.209 \\\\ L_3 &= 8.0/0.209 \\\\ &= 38200 \\text{ km}\\end{aligned}\\]</p><p>where \\(\\hat{s}_3\\) and \\(L_3\\) are the wear rate and projected life of Pad 3, the closest call.</p><p><b>C. 2</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Degradation (wear-to-failure) testing — extrapolating to a failure threshold with a linear model.</span></p>",
+    "optionRationales": [
+      "No pad has reached 8.0 mm yet, but degradation testing projects each pad’s path to the threshold instead of waiting for failures.",
+      "Uses only the first reading for Pad 3 (\\(0.95/5 = 0.19\\), so 42,100 km). The model is fitted to all three readings.",
+      "Correct. Pads 3 (38,200 km) and 5 (34,800 km) are projected to fail within the warranty.",
+      "Projects Pad 2 from its last interval alone, where wear was fastest, giving 38,600 km. The stated model uses all three readings."
+    ],
+    "keyPoint": "Degradation testing turns wear paths into pseudo-failure times by extrapolating each unit to the failure threshold with the agreed model.",
+    "trap": "Waiting for actual failures, or projecting from one interval instead of the fitted model.",
+    "formula": "\\(\\hat{s} = \\sum d_i w_i/\\sum d_i^{2}\\); \\(L = w_{\\text{fail}}/\\hat{s}\\)",
+    "assumptions": [
+      "Rig kilometres equal field kilometres.",
+      "Wear stays linear through the origin up to 8.0 mm."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "degradation testing",
+      "wear-to-failure",
+      "pseudo-failure time",
+      "linear model",
+      "failure threshold"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Degradation",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b05-q49",
+    "set": 1,
+    "batch": 5,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.5",
+      "topic": "Software availability from outage minutes"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A cloud scheduling service ran for a 30-day month (43,200 minutes) with the outages shown. Using the Handbook’s post-release availability metric, what was the availability for the month?",
+    "chart": {
+      "type": "data-table",
+      "title": "Service outages this month",
+      "columns": [
+        "Outage",
+        "Cause",
+        "Duration (min)"
+      ],
+      "rows": [
+        [
+          "1",
+          "Memory leak after an update",
+          "60"
+        ],
+        [
+          "2",
+          "Database connection pool exhausted",
+          "45"
+        ],
+        [
+          "3",
+          "Unhandled exception in the booking API",
+          "25"
+        ]
+      ]
+    },
+    "options": [
+      "99.10%",
+      "99.70%",
+      "99.76%",
+      "99.86%"
+    ],
+    "answer": 1,
+    "why": "<p>Availability compares outage time with total operating time:</p><p>\\[\\begin{aligned}A &= \\left(1 - \\frac{t_o}{t_p}\\right) \\times 100\\% \\\\ &= \\left(1 - \\frac{130}{43200}\\right) \\times 100\\% \\\\ &= 99.70\\%\\end{aligned}\\]</p><p>where \\(A\\) is the availability for the month, \\(t_o = 60 + 45 + 25 = 130\\) is the total outage time in minutes and \\(t_p = 43200\\) is the operating time in minutes.</p><p><b>B. 99.70%</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Software/Firmware Reliability — software design reliability (availability metric, Figure 9.10).</span></p>",
+    "optionRationales": [
+      "Counts only business hours as operating time (\\(30 \\times 8 \\times 60 = 14400\\) minutes). The service ran around the clock, so the month has 43,200 operating minutes.",
+      "Correct. \\(1 - 130/43200 = 0.9970\\).",
+      "Counts only the two outages longer than 30 minutes (105 minutes). Every outage counts against availability.",
+      "Uses only the longest outage (60 minutes)."
+    ],
+    "keyPoint": "Software availability is \\(A = (1 - t_{\\text{outage}}/t_{\\text{operation}}) \\times 100\\%\\), counting every outage.",
+    "trap": "Leaving out short outages or rounding durations.",
+    "formula": "\\(A = (1 - t_{\\text{outage}}/t_{\\text{operation}}) \\times 100\\%\\)",
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "software availability",
+      "outage",
+      "software reliability metrics"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Software/firmware reliability — software design reliability",
+        "example": "Figure 9.10"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b05-q50",
+    "set": 1,
+    "batch": 5,
+    "sub": "cre-testing",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "IV. Reliability Planning, Testing, and Modeling",
+      "subdomain": "B. Testing",
+      "code": "IV.B.6",
+      "topic": "Matching software test methods to their purpose"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, classification",
+    "quantitative": false,
+    "stem": "The test plan for infusion-pump firmware includes the four activities shown. Which set of labels is correct?",
+    "chart": {
+      "type": "data-table",
+      "title": "Firmware test activities",
+      "columns": [
+        "Activity",
+        "What the team does"
+      ],
+      "rows": [
+        [
+          "1",
+          "Writes tests from the source code so that every branch of the dose-limit routine executes"
+        ],
+        [
+          "2",
+          "Runs tests weighted by how often nurses use each function, and uses the results to estimate field failure intensity"
+        ],
+        [
+          "3",
+          "Deliberately corrupts pressure-sensor inputs to confirm that the error handler alarms and stops the pump"
+        ],
+        [
+          "4",
+          "Reruns the full existing test suite after every defect fix"
+        ]
+      ]
+    },
+    "options": [
+      "1 white-box; 2 operational profile; 3 fault injection; 4 regression",
+      "1 black-box; 2 operational profile; 3 stress testing; 4 regression",
+      "1 white-box; 2 black-box; 3 fault injection; 4 verification",
+      "1 gray-box; 2 performance testing; 3 built-in testing; 4 regression"
+    ],
+    "answer": 0,
+    "why": "<p>White-box tests are designed from knowledge of the internal structure, aiming to cover all paths and branches. Operational profile testing exercises the software as users actually use it; because the remaining faults are met at random in use, its results support a quantitative reliability estimate. Fault-injection testing deliberately introduces faults or bad inputs to check error handling. Regression testing reruns earlier tests after a change to confirm that nothing that worked has been broken.</p><p><b>A. 1 white-box; 2 operational profile; 3 fault injection; 4 regression</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Software Testing (white-box, black-box, gray-box, operational profile, fault-injection, regression testing).</span></p>",
+    "optionRationales": [
+      "Correct. Each activity matches its method.",
+      "Activity 1 uses knowledge of the code, so it is white-box, not black-box; activity 3 injects faults rather than raising load.",
+      "Activity 2 is black-box in a broad sense, but weighting by use to estimate field failure intensity is specifically operational profile testing; rerunning the suite after a fix is regression testing.",
+      "Gray-box testing focuses on interfaces during integration, and built-in testing is self-test logic inside the product, not a test the team runs."
+    ],
+    "keyPoint": "White-box covers code paths; operational profile testing mirrors real use and supports reliability estimates; fault injection tests error handling; regression testing protects working functions after changes.",
+    "trap": "Calling any test of external behavior black-box, or confusing fault injection with stress testing.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "software testing",
+      "white-box",
+      "operational profile",
+      "fault injection",
+      "regression testing"
+    ],
+    "sourceSection": "Chapter 9 - Reliability Testing",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 9 - Reliability Testing",
+        "section": "Software testing",
         "example": null
       }
     ]
