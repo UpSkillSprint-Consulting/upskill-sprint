@@ -34,3 +34,7 @@ The two new annotation regressions were run against the previous presentation co
 The Set 2 suite now contains 26 tests. The scoped suites, broader student regressions, site build, and hosted Chromium/WebKit audits are required before this update is marked ready; exact results and the tested commit are recorded in the PR.
 
 The public preview and fixture-based student journeys are checked separately. Browser fixtures block external MathJax, so source preservation and typesetting requests are verified, but authenticated-page MathJax glyph layout remains unverified. This is the same access/rendering limit documented in the first audit. No claim of a live ASQ difficulty calibration or a comprehensive assistive-technology certification is made.
+
+## Concurrent catalog integration
+
+After all checks passed on `c37afc9ea73b89162ecd07921bb07bd7f727c8eb`, PR #277 added PMP to main at `f49ffef993a7f28952d18ff6bd0e5a53c70be346`. This introduced two merge conflicts in the shared exam overview and directory assertions. The integration retains both the completed CRE core and the new PMP catalog entry, including CRE's 345-question total. PMP source files are preserved exactly from main. The scoped tests, broader student regressions, PMP registration checks, site build, and hosted browser jobs are rerun on the combined tree; final results are recorded in the PR.
