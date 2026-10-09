@@ -5830,6 +5830,192 @@
         ]
       ]
     }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "Life follows a Weibull distribution with shape \\(\\beta\\) and characteristic life \\(\\eta\\). Use \\(e^{-0.125}=0.8825\\).\n\\[\nR(t)=\\exp\\left[-(t/\\eta)^{\\beta}\\right]\n\\]\nWhat is the reliability at 150 hours?",
+    "options": [
+      "0.125",
+      "0.500",
+      "0.8825",
+      "0.1175"
+    ],
+    "answer": 2,
+    "why": "Cube the time ratio, then use the given exponential. Do not stop at the ratio.\n\\[\n(150/300)^{3}=0.125\n\\]\n\\[\nR(150)=\\exp(-0.125)=0.8825\n\\]\n0.125 is the Weibull exponent. 0.500 is the time ratio. 0.1175 is the unreliability. <b>C. 0.8825</b>",
+    "set": 3,
+    "qid": "cre:set-3:161",
+    "bok": "III.A.3",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Weibull life",
+      "altText": "The shape is 3 and the characteristic life is 300 hours. Reliability is asked at 150 hours.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Shape, beta",
+          "3"
+        ],
+        [
+          "Characteristic life",
+          "300 h"
+        ],
+        [
+          "Age",
+          "150 h"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "Two different units are in active parallel. Either unit can carry the function, and the units fail independently.\n\\[\nR_s=1-(1-R_1)(1-R_2)\n\\]\nWhat is the mission reliability of the pair?",
+    "options": [
+      "0.450",
+      "0.675",
+      "0.750",
+      "0.900"
+    ],
+    "answer": 3,
+    "why": "The pair fails only when both units fail.\n\\[\n(1-0.75)(1-0.60)=0.100\n\\]\n\\[\nR_s=1-0.100=0.900\n\\]\n0.450 is the product of the two reliabilities. 0.675 is their average. 0.750 is the stronger unit alone. <b>D. 0.900</b>",
+    "set": 3,
+    "qid": "cre:set-3:162",
+    "bok": "IV.C.1",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Two-unit active parallel",
+      "altText": "Unit 1 has mission reliability 0.75. Unit 2 has mission reliability 0.60. Either unit can carry the function.",
+      "columns": [
+        "Unit",
+        "Mission reliability"
+      ],
+      "rows": [
+        [
+          "1",
+          "0.75"
+        ],
+        [
+          "2",
+          "0.60"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "Five independent trials each have failure probability \\(p\\). The count of failures is binomial.\n\\[\nP(X=2)=\\binom{5}{2}p^{2}(1-p)^{3}\n\\]\nWhat is the probability of exactly two failures?",
+    "options": [
+      "0.0205",
+      "0.2048",
+      "0.3277",
+      "0.8000"
+    ],
+    "answer": 1,
+    "why": "Include the number of ways to place the two failures.\n\\[\n\\binom{5}{2}=10\n\\]\n\\[\nP(X=2)=10(0.20)^{2}(0.80)^{3}=0.2048\n\\]\n0.0205 is one specific sequence. 0.3277 is the probability of zero failures. 0.8000 is the probability that one trial succeeds. <b>B. 0.2048</b>",
+    "set": 3,
+    "qid": "cre:set-3:163",
+    "bok": "III.A.3",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Five independent trials",
+      "altText": "Each trial has failure probability 0.20. The trials are independent.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Trials",
+          "5"
+        ],
+        [
+          "Failure probability",
+          "0.20"
+        ],
+        [
+          "Failures of interest",
+          "2"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "Users split between two operating modes. The failure intensity of the product is the weighted average of the mode intensities.\n\\[\n\\lambda=0.70\\lambda_A+0.30\\lambda_B\n\\]\nWhat is the failure intensity?",
+    "options": [
+      "0.019 per hour",
+      "0.010 per hour",
+      "0.025 per hour",
+      "0.040 per hour"
+    ],
+    "answer": 0,
+    "why": "Weight each mode by its share of use.\n\\[\n0.70(0.010)=0.007\n\\]\n\\[\n0.30(0.040)=0.012\n\\]\n\\[\n\\lambda=0.007+0.012=0.019\n\\]\n0.010 is mode A alone. 0.025 is the unweighted average. 0.040 is mode B alone. <b>A. 0.019 per hour</b>",
+    "set": 3,
+    "qid": "cre:set-3:164",
+    "bok": "IV.B.5",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Operational profile",
+      "altText": "Seventy percent of use is in mode A, where the failure intensity is 0.010 per hour. Thirty percent is in mode B, where it is 0.040 per hour.",
+      "columns": [
+        "Mode",
+        "Share of use",
+        "Failure intensity"
+      ],
+      "rows": [
+        [
+          "A",
+          "0.70",
+          "0.010 per hour"
+        ],
+        [
+          "B",
+          "0.30",
+          "0.040 per hour"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-life",
+    "stem": "A series system has a failure-rate goal \\(\\lambda_s\\). The goal is split equally across \\(m\\) elements.\n\\[\n\\lambda_i=\\frac{\\lambda_s}{m}\n\\]\nWhat failure rate is allocated to each element?",
+    "options": [
+      "0.0003 per hour",
+      "0.0012 per hour",
+      "0.0048 per hour",
+      "4 per hour"
+    ],
+    "answer": 0,
+    "why": "Divide the system goal by the number of elements. Do not multiply.\n\\[\n\\lambda_i=0.0012/4=0.0003\n\\]\n0.0012 is the system goal. 0.0048 multiplies the goal by 4. 4 is the element count. <b>A. 0.0003 per hour</b>",
+    "set": 3,
+    "qid": "cre:set-3:165",
+    "bok": "V.A.4",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Equal failure-rate allocation",
+      "altText": "The series system failure-rate goal is 0.0012 per hour. It is split equally across 4 elements.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "System failure-rate goal",
+          "0.0012 per hour"
+        ],
+        [
+          "Series elements",
+          "4"
+        ]
+      ]
+    }
   }
 ];
 })(typeof window!=='undefined'?window:globalThis);
