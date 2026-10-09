@@ -4942,6 +4942,404 @@
         ]
       ]
     }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "Five units are on a fixed-time test. Failed units are not replaced. Suspended units count only to the censoring time. The point estimate uses total unit time and the failure count.\n\\[\n\\hat\\theta=\\frac{T}{r}\n\\]\nWhat is the estimated mean life?",
+    "options": [
+      "50 hours",
+      "80 hours",
+      "170 hours",
+      "340 hours"
+    ],
+    "answer": 2,
+    "why": "Add the failure times and the time on every suspended unit. Then divide by the number of failures.\n\\[\nT=30+70+3(80)=340\n\\]\n\\[\n\\hat\\theta=340/2=170\n\\]\n50 hours averages only the two failure times. 80 hours is the censoring time. 340 hours is the total time before dividing by the failures. <b>C. 170 hours</b>",
+    "set": 3,
+    "qid": "cre:set-3:141",
+    "bok": "III.B.1",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Censored life test",
+      "altText": "Two units failed at 30 hours and 70 hours. The other three were still operating when the test stopped at 80 hours.",
+      "columns": [
+        "Unit",
+        "Result",
+        "Time counted"
+      ],
+      "rows": [
+        [
+          "1",
+          "Failed",
+          "30 h"
+        ],
+        [
+          "2",
+          "Failed",
+          "70 h"
+        ],
+        [
+          "3",
+          "Suspended",
+          "80 h"
+        ],
+        [
+          "4",
+          "Suspended",
+          "80 h"
+        ],
+        [
+          "5",
+          "Suspended",
+          "80 h"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "A sampling plan accepts a lot only when a sample of 5 contains no defectives. The lot fraction defective is 0.20, and units are independent.\n\\[\nP_a=(1-p)^{n}\n\\]\nWhat is the probability of acceptance, to four decimal places?",
+    "options": [
+      "0.2000",
+      "0.3277",
+      "0.6723",
+      "0.8000"
+    ],
+    "answer": 1,
+    "why": "Acceptance requires five good units.\n\\[\nP_a=(0.80)^{5}=0.3277\n\\]\n0.2000 is the lot fraction defective. 0.6723 is the probability of finding at least one defective. 0.8000 is the probability that one unit is good. <b>B. 0.3277</b>",
+    "set": 3,
+    "qid": "cre:set-3:142",
+    "bok": "III.A.5",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Zero-defect sampling plan",
+      "altText": "The sample size is 5. The lot is accepted only when the sample has zero defectives. The lot fraction defective is 0.20.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Sample size",
+          "5"
+        ],
+        [
+          "Acceptance number",
+          "0"
+        ],
+        [
+          "Lot fraction defective",
+          "0.20"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-stats",
+    "stem": "Process performance \\(P_p\\) uses the specification width and the process standard deviation. It does not use the process mean.\n\\[\nP_p=\\frac{USL-LSL}{6\\sigma}\n\\]\nWhat is \\(P_p\\)?",
+    "options": [
+      "1.33",
+      "2.00",
+      "4.00",
+      "12.0"
+    ],
+    "answer": 1,
+    "why": "Use the full specification width in the numerator and six standard deviations in the denominator.\n\\[\nP_p=\\frac{130-70}{6(5)}=2.00\n\\]\n1.33 is \\(C_{pk}\\), which uses the nearer specification and three standard deviations. 4.00 uses three standard deviations in the \\(P_p\\) denominator. 12.0 divides the width by one standard deviation. <b>B. 2.00</b>",
+    "set": 3,
+    "qid": "cre:set-3:143",
+    "bok": "III.A.6",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Specification and process spread",
+      "altText": "The lower specification is 70, the upper specification is 130, the process mean is 90, and the process standard deviation is 5.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "LSL",
+          "70"
+        ],
+        [
+          "USL",
+          "130"
+        ],
+        [
+          "Mean",
+          "90"
+        ],
+        [
+          "Standard deviation",
+          "5"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "Three identical units are independent. The function works if at least two units work. Each unit has mission reliability \\(R\\).\n\\[\nR_{2/3}=3R^{2}(1-R)+R^{3}\n\\]\nWhat is the mission reliability of the function?",
+    "options": [
+      "0.384",
+      "0.512",
+      "0.800",
+      "0.896"
+    ],
+    "answer": 3,
+    "why": "At least two includes exactly two and all three.\n\\[\n3(0.80)^{2}(0.20)=0.384\n\\]\n\\[\n(0.80)^{3}=0.512\n\\]\n\\[\nR_{2/3}=0.384+0.512=0.896\n\\]\n0.384 is exactly two survivors. 0.512 is all three. 0.800 is one unit. <b>D. 0.896</b>",
+    "set": 3,
+    "qid": "cre:set-3:144",
+    "bok": "IV.C.1",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Two-out-of-three function",
+      "altText": "Three identical independent units each have mission reliability 0.80. At least two must work.",
+      "columns": [
+        "Unit",
+        "Mission reliability",
+        "Requirement"
+      ],
+      "rows": [
+        [
+          "1",
+          "0.80",
+          "At least two"
+        ],
+        [
+          "2",
+          "0.80",
+          "At least two"
+        ],
+        [
+          "3",
+          "0.80",
+          "At least two"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-risk",
+    "stem": "The team does not rank these two open modes by the product of the ratings. Its stated rule is that severity 9 or 10 is High action priority even when that product is smaller. Which mode is first under that rule?",
+    "options": [
+      "Mode A. Severity 9 is High under the stated rule.",
+      "Mode B. Its product, 120, is larger.",
+      "Mode B. Occurrence 6 is the largest single rating in the table.",
+      "Neither. Both detection ratings are below 6."
+    ],
+    "answer": 0,
+    "why": "The stated rule puts severity 9 ahead of a larger product.\n\\[\nRPN_A=9\\times 2\\times 2=36\n\\]\n\\[\nRPN_B=5\\times 6\\times 4=120\n\\]\nMode B would be first if the team ranked by the product. It does not. Detection below 6 is not the stated rule. <b>A. Mode A. Severity 9 is High under the stated rule.</b>",
+    "set": 3,
+    "qid": "cre:set-3:145",
+    "bok": "II.B.2",
+    "cognitive": "Evaluate",
+    "chart": {
+      "type": "data-table",
+      "title": "Action-priority comparison",
+      "altText": "Mode A has severity 9, occurrence 2, and detection 2. Mode B has severity 5, occurrence 6, and detection 4. Severity 9 or 10 is High action priority.",
+      "columns": [
+        "Mode",
+        "Severity",
+        "Occurrence",
+        "Detection"
+      ],
+      "rows": [
+        [
+          "A",
+          "9",
+          "2",
+          "2"
+        ],
+        [
+          "B",
+          "5",
+          "6",
+          "4"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-model",
+    "stem": "Fault density is the number of discovered faults divided by the size of the code, in thousands of lines.\n\\[\nD=\\frac{N}{K}\n\\]\nWhat is the fault density?",
+    "options": [
+      "0.5 per thousand lines",
+      "2 per thousand lines",
+      "12 faults",
+      "24 thousand lines"
+    ],
+    "answer": 0,
+    "why": "Divide the fault count by the code size. Do not invert the ratio.\n\\[\nD=12/24=0.5\n\\]\n2 inverts the ratio. 12 is the fault count. 24 is the code size. <b>A. 0.5 per thousand lines</b>",
+    "set": 3,
+    "qid": "cre:set-3:146",
+    "bok": "IV.B.5",
+    "cognitive": "Understand",
+    "chart": {
+      "type": "data-table",
+      "title": "Discovered software faults",
+      "altText": "The test found 12 faults in 24 thousand lines of code.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Faults discovered",
+          "12"
+        ],
+        [
+          "Code size",
+          "24 thousand lines"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-risk",
+    "stem": "One unit has a constant mean time between failures. It operates \\(H\\) hours per year.\n\\[\nf=\\frac{H}{\\theta}\n\\]\nHow many failures are expected per year?",
+    "options": [
+      "0.02",
+      "0.08",
+      "12.5",
+      "50,000"
+    ],
+    "answer": 1,
+    "why": "Divide the annual operating hours by the mean time between failures.\n\\[\nf=4000/50000=0.08\n\\]\n0.02 would be correct for 1,000 operating hours. 12.5 inverts the ratio. 50,000 hours is the mean time between failures. <b>B. 0.08</b>",
+    "set": 3,
+    "qid": "cre:set-3:147",
+    "bok": "II.A.2",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Annual exposure",
+      "altText": "The mean time between failures is 50,000 hours. The unit operates 4,000 hours per year.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "MTBF",
+          "50,000 h"
+        ],
+        [
+          "Operating hours per year",
+          "4,000"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-life",
+    "stem": "The required factor of safety is \\(n\\). The calculated stress is \\(\\sigma\\). The material allowable must satisfy\n\\[\nS_{req}=n\\sigma\n\\]\nWhat allowable strength is required?",
+    "options": [
+      "75 MPa",
+      "150 MPa",
+      "300 MPa",
+      "2"
+    ],
+    "answer": 2,
+    "why": "Multiply the calculated stress by the required factor. Do not divide.\n\\[\nS_{req}=2(150)=300\n\\]\n75 MPa divides the stress by the factor. 150 MPa is the calculated stress. 2 is the factor, not a strength. <b>C. 300 MPa</b>",
+    "set": 3,
+    "qid": "cre:set-3:148",
+    "bok": "V.A.7",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Required strength",
+      "altText": "The calculated stress is 150 MPa. The required factor of safety is 2.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Calculated stress",
+          "150 MPa"
+        ],
+        [
+          "Required factor",
+          "2"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-life",
+    "stem": "A two-level fractional factorial uses \\(k\\) factors and \\(p\\) generators.\n\\[\nN=2^{k-p}\n\\]\nHow many runs are in this half fraction?",
+    "options": [
+      "4",
+      "8",
+      "15",
+      "16"
+    ],
+    "answer": 1,
+    "why": "A half fraction of four two-level factors uses one generator.\n\\[\nk-p=4-1=3\n\\]\n\\[\nN=2^{3}=8\n\\]\n4 is the number of factors. 15 is one less than the full factorial. 16 is the full \\(2^{4}\\) design. <b>B. 8</b>",
+    "set": 3,
+    "qid": "cre:set-3:149",
+    "bok": "V.A.3",
+    "cognitive": "Analyze",
+    "chart": {
+      "type": "data-table",
+      "title": "Half fraction of four factors",
+      "altText": "There are 4 two-level factors. The design is a half fraction, so p is 1.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Factors, k",
+          "4"
+        ],
+        [
+          "Generators, p",
+          "1"
+        ],
+        [
+          "Fraction",
+          "1/2"
+        ]
+      ]
+    }
+  },
+  {
+    "sub": "cre-lead",
+    "stem": "A repairable unit must meet availability \\(A\\). Its mean time between failures is fixed. The longest mean repair time that still meets the availability is\n\\[\nMTTR=\\frac{MTBF(1-A)}{A}\n\\]\nWhat is that maximum mean repair time?",
+    "options": [
+      "10 hours",
+      "9.5 hours",
+      "180 hours",
+      "200 hours"
+    ],
+    "answer": 0,
+    "why": "Put the unavailability in the numerator and divide by the availability.\n\\[\nMTBF(1-A)=190(0.05)=9.5\n\\]\n\\[\nMTTR=9.5/0.95=10\n\\]\n9.5 hours stops before dividing by \\(A\\). 180 hours subtracts that 10-hour repair limit from the 190-hour mean life. 200 hours adds the 10-hour repair to the 190-hour mean life. <b>A. 10 hours</b>",
+    "set": 3,
+    "qid": "cre:set-3:150",
+    "bok": "I.B.1",
+    "cognitive": "Apply",
+    "chart": {
+      "type": "data-table",
+      "title": "Availability requirement",
+      "altText": "The required availability is 0.95. The mean time between failures is 190 hours.",
+      "columns": [
+        "Quantity",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Required availability",
+          "0.95"
+        ],
+        [
+          "MTBF",
+          "190 h"
+        ]
+      ]
+    }
   }
 ];
 })(typeof window!=='undefined'?window:globalThis);
