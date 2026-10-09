@@ -25,3 +25,10 @@ html[data-theme=light] body[data-tool-page="material-specification-compliance-ch
   .table-wrap{overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
   .back a{width:100%;justify-content:center}
 }
+
+/* Professional TeX output remains readable on narrow screens and in print. */
+.math-inline,.math-display{font-family:Georgia,"Times New Roman",serif;color:inherit}
+.math-inline{white-space:nowrap}
+.math-display{display:block;max-width:100%;overflow-x:auto;overflow-y:hidden;margin:.45rem 0}
+.math-inline mjx-container,.math-display mjx-container{max-width:100%;overflow-x:auto;overflow-y:hidden}
+@media print{.math-display{overflow:visible}}
