@@ -9,6 +9,7 @@
  * Batch 6 of 15: IV.B.1–IV.B.6 (accelerated, screening, demonstration, degradation, software) and IV.C.1–IV.C.2.
  * Batch 7 of 15: IV.C.1–IV.C.5 (block diagrams, physics of failure, failure models, prediction, prototyping).
  * Batch 8 of 15: II.A.1–II.A.3 (identification) and II.B.1–II.B.3, II.B.5 (FTA, FMEA/FMECA, common cause, risk matrix).
+ * Batch 9 of 15: II.A.1–II.A.3 (PRA, risk evaluation, risk types) and II.B.1–II.B.6 (FTA, FHA, FMEA, common cause, design trade-offs).
  *
  * Every calculated answer is recomputed independently in tests/test-bank-cre-set1.test.js.
  * Notation follows The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting &
@@ -7159,6 +7160,790 @@
         "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
         "chapter": "Chapter 4 - Risk Analysis",
         "section": "Risk matrix",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b09-q81",
+    "set": 1,
+    "batch": 9,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "A. Identification",
+      "code": "II.A.2",
+      "topic": "Probabilistic risk assessment with an event tree"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "A probabilistic risk assessment for a boiler uses the event tree shown. Loss of feedwater occurs 0.5 times per year. The tree shows the cost of each damage outcome. What is the expected annual loss from loss-of-feedwater events?",
+    "chart": {
+      "type": "cre-prob-tree",
+      "title": "Event tree: loss of feedwater (0.5 per year)",
+      "altText": "Event tree starting from loss of feedwater, 0.5 times per year. The standby pump starts with probability 0.98 (no damage) or fails with probability 0.02. If it fails, the operator recovers with probability 0.90 (no damage) or fails with probability 0.10. If the operator fails, the relief valve opens with probability 0.99 (minor damage, $50,000) or fails with probability 0.01 (severe damage, $5,000,000).",
+      "root": "Feedwater loss",
+      "children": [
+        {
+          "label": "Pump starts",
+          "p": "0.98",
+          "outcome": "No damage"
+        },
+        {
+          "label": "Pump fails",
+          "p": "0.02",
+          "children": [
+            {
+              "label": "Operator recovers",
+              "p": "0.90",
+              "outcome": "No damage"
+            },
+            {
+              "label": "Operator fails",
+              "p": "0.10",
+              "children": [
+                {
+                  "label": "Relief opens",
+                  "p": "0.99",
+                  "outcome": "Minor $50k"
+                },
+                {
+                  "label": "Relief fails",
+                  "p": "0.01",
+                  "outcome": "Severe $5M"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "options": [
+      "About $50",
+      "About $100",
+      "About $199",
+      "About $995"
+    ],
+    "answer": 1,
+    "why": "<p>Each damage sequence’s frequency is the initiating-event frequency times the branch probabilities along its path; the expected loss weights each by its cost:</p><p>\\[\\begin{aligned}f_m &= 0.5(0.02)(0.10)(0.99) \\\\ &= 9.9 \\times 10^{-4} \\\\ f_s &= 0.5(0.02)(0.10)(0.01) \\\\ &= 1.0 \\times 10^{-5} \\\\ L &= 9.9 \\times 10^{-4}(50000) \\\\ &\\quad + 10^{-5}(5000000) \\\\ &= 49.5 + 50.0 \\\\ &= 99.5\\end{aligned}\\]</p><p>where \\(f_m\\) and \\(f_s\\) are the minor and severe sequence frequencies per year and \\(L\\) the expected annual loss in dollars. The rare severe sequence contributes as much expected loss as the far more frequent minor one, which is why PRA characterizes risk by both severity and probability.</p><p><b>B. About $100</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 3, Risk Assessment — probabilistic risk assessment (event trees, severity and probability, NUREG/CR-2300).</span></p>",
+    "optionRationales": [
+      "Counts only the severe sequence ($50); the minor sequence adds almost as much again.",
+      "Correct. \\(49.5 + 50.0 = 99.5\\) dollars a year.",
+      "Leaves out the initiating-event frequency of 0.5 per year, which doubles the answer.",
+      "Leaves out the operator recovery branch, as if every pump failure led to damage."
+    ],
+    "keyPoint": "Event-tree PRA: each sequence frequency is the initiating frequency multiplied by its branch probabilities; expected loss is the sum of each frequency multiplied by its consequence.",
+    "trap": "Dropping the initiating frequency or a mitigating branch, or counting only the worst outcome.",
+    "formula": "\\(f_j = f_{IE}\\prod p_{\\text{branch}}\\); \\(L = \\sum f_j C_j\\)",
+    "assumptions": [
+      "Branch events are independent."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "probabilistic risk assessment",
+      "event tree",
+      "expected loss",
+      "initiating event"
+    ],
+    "sourceSection": "Chapter 3 - Risk Identification",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 3 - Risk Identification",
+        "section": "Risk assessment — probabilistic risk assessment",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b09-q82",
+    "set": 1,
+    "batch": 9,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "A. Identification",
+      "code": "II.A.1",
+      "topic": "Steps of a risk management framework"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Understand",
+    "questionType": "Concept",
+    "quantitative": false,
+    "stem": "In a risk management framework such as ISO 31000, which step compares the analyzed risks against the organization’s risk criteria to decide which need treatment and in what priority?",
+    "chart": null,
+    "options": [
+      "Risk identification",
+      "Risk analysis",
+      "Risk evaluation",
+      "Risk treatment"
+    ],
+    "answer": 2,
+    "why": "<p>ISO 31000 runs from identification (finding risks) to analysis (understanding their likelihood and consequences) to evaluation (comparing them with risk criteria to decide which need treatment and their priority), then treatment (selecting and applying controls), with monitoring and review throughout.</p><p><b>C. Risk evaluation</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 3, Risk Management Techniques; Ch. 5, Risk Treatment (ISO 31000 framework).</span></p>",
+    "optionRationales": [
+      "Identification finds and describes risks; it does not rank them against criteria.",
+      "Analysis estimates likelihood and consequence; deciding what needs treatment comes next.",
+      "Correct. Evaluation compares analyzed risk with the criteria and sets priorities for treatment.",
+      "Treatment selects and implements controls after evaluation has decided what to treat."
+    ],
+    "keyPoint": "ISO 31000 sequence: identify, analyze, evaluate (decide and prioritize), treat, with monitoring and review throughout.",
+    "trap": "Confusing analysis (how big is the risk?) with evaluation (does it need treatment?).",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "ISO 31000",
+      "risk evaluation",
+      "risk management framework"
+    ],
+    "sourceSection": "Chapter 3 - Risk Identification",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 3 - Risk Identification",
+        "section": "Risk management techniques",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b09-q83",
+    "set": 1,
+    "batch": 9,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "A. Identification",
+      "code": "II.A.3",
+      "topic": "Classifying operational, strategic, financial and cybersecurity risks"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, classification",
+    "quantitative": false,
+    "stem": "A reliability risk register for a connected heat pump contains the four entries shown. Which classification of the four entries is correct?",
+    "chart": {
+      "type": "data-table",
+      "title": "Risk register excerpt",
+      "columns": [
+        "Entry",
+        "Description"
+      ],
+      "rows": [
+        [
+          "1",
+          "A late supplier delivery could push the qualification test back three months"
+        ],
+        [
+          "2",
+          "The over-the-air firmware channel does not authenticate updates"
+        ],
+        [
+          "3",
+          "A proposed refrigerant regulation could make the current design non-compliant"
+        ],
+        [
+          "4",
+          "The warranty reserve may be too small for the predicted failure rate"
+        ]
+      ]
+    },
+    "options": [
+      "1 strategic; 2 operational; 3 cybersecurity; 4 financial",
+      "1 operational; 2 strategic; 3 financial; 4 cybersecurity",
+      "1 financial; 2 cybersecurity; 3 operational; 4 strategic",
+      "1 operational; 2 cybersecurity; 3 strategic; 4 financial"
+    ],
+    "answer": 3,
+    "why": "<p>Operational risks include technical, scheduling, safety and environmental risks, so a schedule slip is operational. An unauthenticated update channel is a cybersecurity risk, and it bears directly on reliability because a malicious or corrupt update can disable the product. Regulatory compliance is a strategic risk, along with brand, reputation and stakeholder risks. An under-funded warranty reserve is a financial risk.</p><p><b>D. 1 operational; 2 cybersecurity; 3 strategic; 4 financial</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 3, Types of Risk — operational, strategic, financial and cybersecurity risks.</span></p>",
+    "optionRationales": [
+      "A schedule slip is operational, and an unauthenticated update channel is a cybersecurity risk, not an operational one.",
+      "Firmware authentication is cybersecurity; regulatory change is strategic, not financial.",
+      "A schedule slip is operational, and a regulation change is strategic.",
+      "Correct. Each entry matches its type."
+    ],
+    "keyPoint": "Operational: technical, schedule, safety, environmental. Strategic: brand, reputation, stakeholder, regulatory compliance. Plus financial, cybersecurity and analytical risks.",
+    "trap": "Classifying by consequence (cost) rather than by the kind of risk.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "types of risk",
+      "operational risk",
+      "strategic risk",
+      "cybersecurity risk",
+      "financial risk"
+    ],
+    "sourceSection": "Chapter 3 - Risk Identification",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 3 - Risk Identification",
+        "section": "Types of risk",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b09-q84",
+    "set": 1,
+    "batch": 9,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.4",
+      "topic": "Functional hazard analysis"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, decision",
+    "quantitative": false,
+    "stem": "A functional hazard analysis (FHA) for a brake-by-wire system examines the function \"decelerate the vehicle on driver demand.\" The failure conditions listed so far are shown. Following MIL-STD-882E Task 208, what should the team add?",
+    "chart": {
+      "type": "data-table",
+      "title": "FHA worksheet excerpt: decelerate on driver demand",
+      "columns": [
+        "Failure condition",
+        "Effect",
+        "Severity"
+      ],
+      "rows": [
+        [
+          "Loss of function: no braking on demand",
+          "Collision",
+          "Catastrophic"
+        ],
+        [
+          "Degraded function: braking at reduced deceleration",
+          "Longer stopping distance",
+          "Critical"
+        ],
+        [
+          "Malfunction: braking without driver demand",
+          "Rear-end collision risk",
+          "Critical"
+        ]
+      ]
+    },
+    "options": [
+      "A detection rating for each failure condition, so that each row has a full risk priority number.",
+      "The part numbers and suppliers of each brake actuator, so that each hazard traces to a component.",
+      "Functioning out of time or out of sequence, such as braking that applies late or releases too early, so that every functional failure condition is covered.",
+      "Occurrence ratings copied from the design FMEA, so that the FHA shows likelihood."
+    ],
+    "answer": 2,
+    "why": "<p>An FHA is a top-down examination of system functions, run before a detailed design exists. For each function, MIL-STD-882E Task 208 asks about loss of function, degraded function, malfunction, and functioning out of time or out of sequence. The worksheet covers the first three; mistimed braking (applying late or releasing early) is missing. Hazard analysis classifies severity and likelihood but does not use a detection rating as an FMEA does.</p><p><b>C. Functioning out of time or out of sequence.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Hazard Analysis — functional hazard analysis (MIL-STD-882E Task 208).</span></p>",
+    "optionRationales": [
+      "Hazard analysis, unlike FMEA, does not use detection ratings.",
+      "An FHA works at the function level, before component choices; part numbers belong in later, design-level analyses.",
+      "Correct. Out-of-time or out-of-sequence functioning is the fourth failure-condition category.",
+      "The FHA precedes and feeds the design FMEA; it does not borrow its ratings, and those ratings may not exist yet."
+    ],
+    "keyPoint": "FHA: for each function, consider loss, degradation, malfunction, and out-of-time or out-of-sequence operation; classify by severity, without detection ratings.",
+    "trap": "Turning a hazard analysis into an FMEA with detection ratings, or descending to parts too early.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "hazard analysis",
+      "functional hazard analysis",
+      "MIL-STD-882E",
+      "failure conditions"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "Hazard analysis — functional hazard analysis",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b09-q85",
+    "set": 1,
+    "batch": 9,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.3",
+      "topic": "Reducing common cause failure in a redundant pair"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Calculation, decision",
+    "quantitative": true,
+    "stem": "A safety trip uses two identical pressure transmitters, either of which can trip the system. Each has a probability of failing on demand of 0.01, and a \\(\\beta\\)-factor of 0.10 applies: 10% of failures are common cause and fail both. Which single change gives the lowest probability that the trip fails on demand?",
+    "chart": null,
+    "options": [
+      "Add a third identical transmitter in the same location, so that any one of three can trip; the common cause fraction stays at 0.10.",
+      "Replace one transmitter with a different sensing technology on a separate impulse line, cutting the common cause fraction to 0.01.",
+      "Buy a premium model for both positions, halving each transmitter’s failure probability to 0.005; the common cause fraction stays at 0.10.",
+      "Calibrate twice as often, which halves the independent failures only; the common cause failures are unchanged."
+    ],
+    "answer": 1,
+    "why": "<p>With a \\(\\beta\\)-factor model, \\(Q_{\\text{sys}} = [(1 - \\beta)Q]^{n} + \\beta Q\\) for \\(n\\) redundant units, any one of which suffices. Compare the four options with the present \\(0.009^{2} + 0.001 = 0.00108\\):</p><p>\\[\\begin{aligned}Q_A &= 0.009^{3} + 0.001 \\\\ &= 0.00100 \\\\ Q_B &= 0.0099^{2} + 0.0001 \\\\ &= 0.00020 \\\\ Q_C &= 0.0045^{2} + 0.0005 \\\\ &= 0.00052 \\\\ Q_D &= 0.0045^{2} + 0.001 \\\\ &= 0.00102\\end{aligned}\\]</p><p>where \\(Q\\) is each transmitter’s failure-on-demand probability and \\(\\beta\\) the common cause fraction. The common cause term \\(\\beta Q\\) dominates, so adding identical redundancy or reducing independent failures barely helps. Diversity and separation attack \\(\\beta\\) itself.</p><p><b>B. Diverse technology on a separate impulse line.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Common Mode Failure Analysis (shared causes defeating redundancy; separation and diversity); beta-factor model (IEC 61508-6).</span></p>",
+    "optionRationales": [
+      "A third identical unit shrinks only the already tiny independent term; \\(\\beta Q = 0.001\\) remains, so \\(Q_{\\text{sys}} \\approx 0.00100\\).",
+      "Correct. Reducing \\(\\beta\\) to 0.01 cuts the dominant term tenfold: \\(Q_{\\text{sys}} \\approx 0.00020\\).",
+      "Halving \\(Q\\) also halves \\(\\beta Q\\), giving 0.00052, which helps but is less than diversity.",
+      "The common cause term is untouched, so \\(Q_{\\text{sys}} \\approx 0.00102\\)."
+    ],
+    "keyPoint": "When common cause dominates, more identical redundancy does little; diversity and physical separation reduce the common cause fraction itself.",
+    "trap": "Adding identical redundancy to fix a common cause problem.",
+    "formula": "\\(Q_{\\text{sys}} = [(1 - \\beta)Q]^{n} + \\beta Q\\)",
+    "assumptions": [
+      "The \\(\\beta\\)-factor model applies; other failure modes are unchanged."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "common cause failure",
+      "beta factor",
+      "diversity",
+      "separation",
+      "redundancy"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "Common mode failure analysis",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b09-q86",
+    "set": 1,
+    "batch": 9,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.1",
+      "topic": "Success tree as the dual of a fault tree"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "The fault tree shown models loss of pumping. The team converts it to a success tree (STA) to show what must work. In the success tree, which gate combines the two pump trains, and what is the probability of system success?",
+    "chart": {
+      "type": "cre-fault-tree",
+      "title": "Loss of pumping",
+      "altText": "Fault tree. Top event \"Loss of pumping\" is an OR gate of \"Controller fails\" (0.005) and \"Both trains fail\". \"Both trains fail\" is an AND gate of \"Train A fails\" and \"Train B fails\". Each train fails is an OR gate of its pump failing (0.05) and its valve failing (0.02).",
+      "root": {
+        "label": "Loss of pumping",
+        "gate": "OR",
+        "children": [
+          {
+            "label": "Controller fails",
+            "p": "0.005"
+          },
+          {
+            "label": "Both trains fail",
+            "gate": "AND",
+            "children": [
+              {
+                "label": "Train A fails",
+                "gate": "OR",
+                "children": [
+                  {
+                    "label": "Pump A fails",
+                    "p": "0.05"
+                  },
+                  {
+                    "label": "Valve A fails",
+                    "p": "0.02"
+                  }
+                ]
+              },
+              {
+                "label": "Train B fails",
+                "gate": "OR",
+                "children": [
+                  {
+                    "label": "Pump B fails",
+                    "p": "0.05"
+                  },
+                  {
+                    "label": "Valve B fails",
+                    "p": "0.02"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "options": [
+      "An OR gate; system success 0.990.",
+      "An AND gate; system success 0.862.",
+      "An AND gate; system success 0.990.",
+      "An OR gate; system success 0.995."
+    ],
+    "answer": 0,
+    "why": "<p>A success tree is the logical dual of the fault tree: each OR gate becomes an AND gate and each AND gate becomes an OR gate, with events replaced by their successes. \"Both trains fail\" (AND) becomes \"at least one train works\" (OR), and each train works only if its pump AND valve work:</p><p>\\[\\begin{aligned}R_{\\text{train}} &= 0.95(0.98) = 0.931 \\\\ R_{\\text{trains}} &= 1 - (1 - 0.931)^{2} \\\\ &= 0.99524 \\\\ R &= 0.995(0.99524) \\\\ &= 0.990\\end{aligned}\\]</p><p>where \\(R_{\\text{train}}\\) is the probability that one train works, \\(R_{\\text{trains}}\\) that at least one works and \\(R\\) the system success probability, which equals one minus the fault tree’s top-event probability.</p><p><b>A. An OR gate; 0.990.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Fault Tree Analysis — success tree analysis (STA).</span></p>",
+    "optionRationales": [
+      "Correct. The trains combine through an OR gate, and \\(R = 0.995 \\times 0.99524 = 0.990\\).",
+      "Copies the fault tree’s AND gate into the success tree, which requires both trains to work: \\(0.995 \\times 0.931^{2} = 0.862\\).",
+      "The probability is right, but the gate is not: needing both trains to work would be an AND gate and would give 0.862.",
+      "Leaves out the controller, which must work in every success path: \\(R_{\\text{trains}} = 0.995\\)."
+    ],
+    "keyPoint": "Success tree = dual of the fault tree: OR ↔ AND, failures ↔ successes; its top probability is one minus the fault tree’s.",
+    "trap": "Keeping the fault tree’s gates when converting, or dropping a series element.",
+    "formula": "\\(R = R_C[1 - (1 - R_P R_V)^{2}]\\)",
+    "assumptions": [
+      "Independent basic events."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "success tree analysis",
+      "fault tree analysis",
+      "duality",
+      "system reliability"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "Fault tree analysis — success tree analysis",
+        "example": "Example 4.3"
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b09-q87",
+    "set": 1,
+    "batch": 9,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.2",
+      "topic": "Use FMEA from the user’s perspective"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Analyze",
+    "questionType": "Scenario judgment",
+    "quantitative": false,
+    "stem": "A team prepares a use FMEA (UFMEA) for a home dialysis machine from its operating instructions. Which entry is written correctly as a UFMEA failure mode?",
+    "chart": null,
+    "options": [
+      "The blood pump motor bearing wears out early.",
+      "The user does not clamp the line before disconnecting it.",
+      "The supplier ships tubing with wall thickness out of tolerance.",
+      "A software timer overflows after 49 days of continuous operation."
+    ],
+    "answer": 1,
+    "why": "<p>A UFMEA looks at the system from the user’s side: each step of the operating instructions is a requirement, and each failure mode is a failure to meet it, such as skipping or misperforming a step. It is essentially a process FMEA for the user’s process, and it surfaces foreseeable misuse. The other entries belong in design, supplier process and software FMEAs.</p><p><b>B. The user does not clamp the line before disconnecting it.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Failure Mode and Effects Analysis — types of FMEAs (use FMEA).</span></p>",
+    "optionRationales": [
+      "Bearing wear is a design FMEA failure mode.",
+      "Correct. It is a failure to perform an operating step, from the user’s point of view.",
+      "Out-of-tolerance supplied tubing is a process or supplier FMEA item.",
+      "A timer overflow is a software FMEA item."
+    ],
+    "keyPoint": "UFMEA failure modes are failures to meet the user’s operating steps; they reveal foreseeable misuse.",
+    "trap": "Listing design, process or software failure modes in a use FMEA.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "use FMEA",
+      "UFMEA",
+      "foreseeable misuse",
+      "FMEA types"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "Failure mode and effects analysis — use FMEA",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b09-q88",
+    "set": 1,
+    "batch": 9,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.6",
+      "topic": "Choosing a mistake-proofing control"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Scenario judgment",
+    "quantitative": false,
+    "stem": "Field returns show that technicians sometimes swap the supply and return hoses on a coolant module, which overheats the unit. The hoses already carry color-coded tags, and the step is in the work instructions. Which control most effectively prevents the error?",
+    "chart": null,
+    "options": [
+      "Retrain the technicians and add a sign-off line for the hose step to the work instructions.",
+      "Replace the color tags with larger, high-contrast labels and add a photo of the correct hookup.",
+      "Add an end-of-line flow test that detects swapped hoses before the unit ships.",
+      "Fit the supply and return lines with different connector sizes so that each hose fits only its own port."
+    ],
+    "answer": 3,
+    "why": "<p>The best mistake-proofing designs the error out: a physical barrier makes the wrong connection impossible. Training and sign-offs rely on attention, and enhanced visual reminders have already proved insufficient, since color tags exist and errors persist. A flow test detects the error after it is made and does not protect field connections made during service.</p><p><b>D. Keyed connectors that fit only their own ports.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, System Safety — human error and mistake-proofing (physical barriers, visual reminders, automation, standardizing).</span></p>",
+    "optionRationales": [
+      "Training and sign-offs depend on attention, the same weakness that lets the error happen now.",
+      "A stronger visual reminder still relies on the technician noticing; visual cues are already in place and have not stopped the error.",
+      "Detection after the fact catches factory errors but not hose swaps made during field service.",
+      "Correct. A physical barrier makes the wrong connection impossible."
+    ],
+    "keyPoint": "Mistake-proofing hierarchy: prevent the error by design (physical barriers) before relying on reminders, procedures or detection.",
+    "trap": "Choosing training or inspection when the error can be designed out.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "mistake-proofing",
+      "poka-yoke",
+      "human error",
+      "system safety"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "System safety — human error and mistake-proofing",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b09-q89",
+    "set": 1,
+    "batch": 9,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.6",
+      "topic": "Weighted tradeoff analysis of design concepts"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, calculation, decision",
+    "quantitative": true,
+    "stem": "Three concepts for a pump housing are compared with the current design in a weighted Pugh matrix (better = +1, same = 0, worse = −1). Which concept should the tradeoff analysis select?",
+    "chart": {
+      "type": "data-table",
+      "title": "Weighted Pugh matrix against the current design",
+      "columns": [
+        "Criterion",
+        "Weight",
+        "Concept A",
+        "Concept B",
+        "Concept C"
+      ],
+      "rows": [
+        [
+          "Reliability",
+          "9",
+          "+1",
+          "−1",
+          "+1"
+        ],
+        [
+          "Safety",
+          "9",
+          "+1",
+          "0",
+          "−1"
+        ],
+        [
+          "Cost",
+          "3",
+          "−1",
+          "+1",
+          "+1"
+        ],
+        [
+          "Mass",
+          "2",
+          "−1",
+          "+1",
+          "0"
+        ],
+        [
+          "Maintainability",
+          "3",
+          "−1",
+          "+1",
+          "+1"
+        ],
+        [
+          "Producibility",
+          "2",
+          "0",
+          "+1",
+          "−1"
+        ]
+      ]
+    },
+    "options": [
+      "Concept A: its weighted total is the highest, because it improves the two most heavily weighted criteria.",
+      "Concept B: it has the most improvements and the fewest losses against the current design.",
+      "Concept C: its weighted total is positive, and it improves reliability, cost and maintainability.",
+      "Keep the current design, because no concept is better on every criterion."
+    ],
+    "answer": 0,
+    "why": "<p>Multiply each rating by its criterion weight and add:</p><p>\\[\\begin{aligned}S_A &= 9 + 9 - 3 - 2 - 3 + 0 \\\\ &= 10 \\\\ S_B &= -9 + 0 + 3 + 2 + 3 + 2 \\\\ &= 1 \\\\ S_C &= 9 - 9 + 3 + 0 + 3 - 2 \\\\ &= 4\\end{aligned}\\]</p><p>where \\(S\\) is a concept’s weighted total against the current design. Concept B has the most pluses (4) but loses on reliability, the heaviest criterion; Concept C gains reliability but loses safety. Concept A wins once the agreed weights are applied. Its weaker points (cost, mass, maintainability) are candidates for borrowing features from B, as the Pugh method encourages.</p><p><b>A. Concept A (+10).</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, System Safety — tradeoff analysis; Concept Down-Select (Pugh method).</span></p>",
+    "optionRationales": [
+      "Correct. Weighted totals are A +10, C +4, B +1.",
+      "Counting pluses ignores the weights; B is worse on reliability, which carries weight 9.",
+      "C’s total (+4) is positive but below A’s, and it gives up safety, a weight-9 criterion.",
+      "A Pugh analysis rarely finds a concept better on every criterion; the weighted totals decide."
+    ],
+    "keyPoint": "Tradeoff analysis: agree the weights first, then compare weighted totals, not counts of pluses and minuses.",
+    "trap": "Counting pluses and minuses without weights, or demanding a concept that wins every criterion.",
+    "formula": "\\(S = \\sum w_i r_i\\)",
+    "assumptions": [
+      "The weights were agreed by the team before scoring."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "tradeoff analysis",
+      "Pugh matrix",
+      "weighted criteria",
+      "concept selection"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "System safety — tradeoff analysis; concept down-select (Pugh)",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b09-q90",
+    "set": 1,
+    "batch": 9,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "B. Analysis",
+      "code": "II.B.1",
+      "topic": "Prioritizing fault tree improvements by cut-set contribution"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "The fault tree shown has three minimal cut sets. Each of four proposed improvements costs about the same. Which improvement reduces the top-event probability the most?",
+    "chart": {
+      "type": "cre-fault-tree",
+      "title": "Top event: process upset",
+      "altText": "Fault tree. Top event \"Process upset\" is an OR gate of three inputs: an AND gate of A (0.3) and B (0.2); the single basic event C (0.05); and an AND gate of D (0.4) and E (0.3).",
+      "root": {
+        "label": "Process upset",
+        "gate": "OR",
+        "children": [
+          {
+            "label": "A and B",
+            "gate": "AND",
+            "children": [
+              {
+                "label": "A",
+                "p": "0.3"
+              },
+              {
+                "label": "B",
+                "p": "0.2"
+              }
+            ]
+          },
+          {
+            "label": "C",
+            "p": "0.05"
+          },
+          {
+            "label": "D and E",
+            "gate": "AND",
+            "children": [
+              {
+                "label": "D",
+                "p": "0.4"
+              },
+              {
+                "label": "E",
+                "p": "0.3"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "options": [
+      "Eliminate event C, the only single-point failure.",
+      "Reduce the probability of B from 0.2 to 0.05.",
+      "Halve the probability of D, from 0.4 to 0.2.",
+      "Halve the probability of A, from 0.3 to 0.15."
+    ],
+    "answer": 2,
+    "why": "<p>The top event is the union of the cut sets {A, B}, {C} and {D, E}, with probabilities 0.06, 0.05 and 0.12:</p><p>\\[\\begin{aligned}P_0 &= 1 - 0.94(0.95)(0.88) \\\\ &= 0.2142 \\\\ P_{\\bar{C}} &= 1 - 0.94(0.88) \\\\ &= 0.1728 \\\\ P_{B} &= 1 - 0.985(0.95)(0.88) \\\\ &= 0.1765 \\\\ P_{D} &= 1 - 0.94(0.95)(0.94) \\\\ &= 0.1606 \\\\ P_{A} &= 1 - 0.97(0.95)(0.88) \\\\ &= 0.1891\\end{aligned}\\]</p><p>where \\(P_0\\) is the present top-event probability and the others are the results of each change. Halving D removes 0.054, the most, because {D, E} is the largest cut set (0.12). Eliminating the single-point event C removes only 0.041: being a single-point failure does not make it the biggest contributor here.</p><p><b>C. Halve the probability of D.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Fault Tree Analysis — action priority (prioritizing actions by probability of failure).</span></p>",
+    "optionRationales": [
+      "Eliminating C gives 0.1728, a reduction of 0.041. Its cut set (0.05) is smaller than {D, E} (0.12).",
+      "Reducing B to 0.05 gives 0.1765, a reduction of 0.038.",
+      "Correct. Halving D gives 0.1606, a reduction of 0.054, the largest.",
+      "Halving A gives 0.1891, a reduction of 0.025."
+    ],
+    "keyPoint": "Prioritize fault tree actions by how much each cut set contributes to the top event, not by whether an event is a single-point failure.",
+    "trap": "Assuming a single-point failure is always the top priority.",
+    "formula": "\\(P_{\\text{top}} = 1 - \\prod_{j}(1 - P_{\\text{cut } j})\\) for independent cut sets with no shared events",
+    "assumptions": [
+      "Independent basic events; no event appears in more than one cut set."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "fault tree analysis",
+      "minimal cut sets",
+      "action priority",
+      "importance"
+    ],
+    "sourceSection": "Chapter 4 - Risk Analysis",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 4 - Risk Analysis",
+        "section": "Fault tree analysis — action priority",
         "example": null
       }
     ]

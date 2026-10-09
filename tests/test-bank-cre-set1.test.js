@@ -40,8 +40,8 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8];
-const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/ };
+const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/, 9: /^II\.(A\.[1-3]|B\.[1-6])$/ };
 // BoK domain → engine area (the five shared CRE domains)
 const DOMAIN_SUB = { II: 'cre-risk', III: 'cre-statistics', IV: 'cre-testing' };
 // Focused Quiz opens on the first BoK area (in exam order) that the opening set covers
@@ -130,6 +130,17 @@ test('batch 8 opens Domain II with three II.A and seven II.B items', () => {
   assert.equal(rows.filter((q) => q.bok.code.startsWith('II.A')).length, 3);
   assert.equal([...new Set(rows.filter((q) => q.bok.code.startsWith('II.A')).map((q) => q.bok.code))].sort().join(), 'II.A.1,II.A.2,II.A.3');
   assert.equal(rows.filter((q) => q.bok.code.startsWith('II.B')).length, 7);
+});
+
+test('batch 9 brings Domain II to 20 with three II.A and seven II.B items', () => {
+  const rows = BANK.filter((q) => q.batch === 9);
+  assert.ok(rows.every((q) => q.sub === 'cre-risk'));
+  assert.equal(rows.filter((q) => q.bok.code.startsWith('II.A')).length, 3);
+  assert.equal([...new Set(rows.filter((q) => q.bok.code.startsWith('II.A')).map((q) => q.bok.code))].sort().join(), 'II.A.1,II.A.2,II.A.3');
+  assert.equal(rows.filter((q) => q.bok.code.startsWith('II.B')).length, 7);
+  assert.equal(BANK.filter((q) => q.sub === 'cre-risk').length, 20);
+  const iib = new Set(BANK.filter((q) => q.bok.code.startsWith('II.B')).map((q) => q.bok.code));
+  assert.equal([...iib].sort().join(), 'II.B.1,II.B.2,II.B.3,II.B.4,II.B.5,II.B.6', 'every II.B topic is covered');
 });
 
 test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22', () => {
@@ -922,6 +933,77 @@ test('Q80 only H4 falls in a High cell of the risk matrix', () => {
   assert.ok(q.options[q.answer].startsWith('H4'));
 });
 
+test('Q81 event-tree expected loss sums frequency times consequence over damage sequences', () => {
+  const q = byId('cre:set-1:b09-q81');
+  const ie = Number(q.chart.title.match(/\(([\d.]+) per year\)/)[1]);
+  const cost = (o) => (/^No /.test(o) ? 0 : money(o) * (/M$/.test(o) ? 1e6 : /k$/.test(o) ? 1e3 : 1));
+  const loss = (n, f) => (n.outcome ? f * cost(n.outcome) : [...n.children].reduce((a, c) => a + loss(c, f * Number(c.p)), 0));
+  const tree = { children: q.chart.children };
+  const exact = loss(tree, ie);
+  const [, pumpFails] = q.chart.children, [, opFails] = pumpFails.children;
+  const noRecovery = ie * Number(pumpFails.p) * loss(opFails, 1);
+  assert.equal(Math.round(exact * 10) / 10, 99.5);
+  assert.equal(q.options[q.answer], 'About $100');
+  assert.ok(q.options.includes(`About $${Math.round(exact / ie)}`), 'missing-initiating-frequency trap is offered');
+  assert.ok(q.options.includes(`About $${Math.round(noRecovery)}`), 'missing-recovery-branch trap is offered');
+});
+
+test('Q83 risk register entries map to operational, cybersecurity, strategic and financial', () => {
+  const q = byId('cre:set-1:b09-q83');
+  const [r1, r2, r3, r4] = [...q.chart.rows].map((r) => r[1]);
+  assert.match(r1, /supplier delivery/); assert.match(r2, /authenticate/); assert.match(r3, /regulation/); assert.match(r4, /warranty reserve/);
+  assert.equal(q.options[q.answer], '1 operational; 2 cybersecurity; 3 strategic; 4 financial');
+});
+
+test('Q84 FHA worksheet lacks only the out-of-time-or-sequence condition', () => {
+  const q = byId('cre:set-1:b09-q84');
+  const have = [...q.chart.rows].map((r) => r[0].split(':')[0]).join('|');
+  assert.equal(have, 'Loss of function|Degraded function|Malfunction');
+  assert.match(q.options[q.answer], /^Functioning out of time or out of sequence/);
+});
+
+test('Q85 beta-factor: diversity beats identical redundancy and better parts', () => {
+  const q = byId('cre:set-1:b09-q85');
+  const sys = (Q, beta, n) => ((1 - beta) * Q) ** n + beta * Q;
+  const r = { A: sys(0.01, 0.10, 3), B: sys(0.01, 0.01, 2), C: sys(0.005, 0.10, 2), D: ((1 - 0.10) * 0.01 / 2) ** 2 + 0.10 * 0.01 };
+  assert.equal(Math.round(sys(0.01, 0.10, 2) * 1e5), 108, 'present design 0.00108');
+  assert.deepEqual(Object.fromEntries(Object.entries(r).map(([k, v]) => [k, Math.round(v * 1e5)])), { A: 100, B: 20, C: 52, D: 102 });
+  const best = Object.entries(r).reduce((a, b) => (b[1] < a[1] ? b : a))[0];
+  assert.equal('ABCD'[q.answer], best);
+});
+
+test('Q86 success tree of the pumping fault tree: OR at the top becomes AND inside, success 0.990', () => {
+  const q = byId('cre:set-1:b09-q86');
+  const success = 1 - evalTree(q.chart.root);
+  assert.equal(Math.round(success * 1000) / 1000, 0.990);
+  assert.equal(q.chart.root.children[1].gate, 'AND', '"both trains fail" is an AND gate');
+  assert.equal(q.options[q.answer], 'An OR gate; system success 0.990.');
+});
+
+test('Q89 weighted Pugh totals: A +10, B +1, C +4', () => {
+  const q = byId('cre:set-1:b09-q89');
+  const v = (s) => Number(String(s).replace('−', '-'));
+  const tot = [2, 3, 4].map((c) => [...q.chart.rows].reduce((a, r) => a + v(r[1]) * v(r[c]), 0));
+  assert.deepEqual(tot, [10, 1, 4]);
+  const plus = [2, 3, 4].map((c) => [...q.chart.rows].filter((r) => v(r[c]) > 0).length);
+  assert.equal(plus.indexOf(Math.max(...plus)), 1, 'B has the most pluses (the trap)');
+  assert.match(q.options[q.answer], /^Concept A: its weighted total is the highest/);
+  assert.ok(q.options.every((o) => !/[+−-]\d/.test(o)), 'no option gives away a computed total');
+});
+
+test('Q90 halving D gives the largest reduction in top-event probability', () => {
+  const q = byId('cre:set-1:b09-q90');
+  const clone = () => JSON.parse(JSON.stringify(q.chart.root));
+  const leaf = (t, name) => { const st = [t]; while (st.length) { const n = st.pop(); if (n.label === name) return n; (n.children || []).forEach((c) => st.push(c)); } };
+  const base = evalTree(clone());
+  const change = (name, p) => { const t = clone(); leaf(t, name).p = String(p); return evalTree(t); };
+  const out = { A: change('C', 0), B: change('B', 0.05), C: change('D', 0.2), D: change('A', 0.15) };
+  assert.equal(Math.round(base * 1e4), 2142);
+  assert.deepEqual(Object.fromEntries(Object.entries(out).map(([k, x]) => [k, Math.round(x * 1e4)])), { A: 1728, B: 1765, C: 1606, D: 1891 });
+  const best = Object.entries(out).reduce((a, b) => (b[1] < a[1] ? b : a))[0];
+  assert.equal('ABCD'[q.answer], best);
+});
+
 /* ---------- 3. production delivery ---------- */
 
 async function productionHtml() {
@@ -1034,8 +1116,11 @@ test('a full CRE sitting renders every visual and scores a perfect paper as 100%
       if (q.chart && q.chart.type === 'cre-prob-tree') {
         const svg = quiz.querySelector('svg.cre-chart');
         assert.ok(svg, `${q.qid} draws the probability tree`);
-        ['0.03', '0.97', '0.92', '0.04', 'Scrap', 'Ship'].forEach((t) => assert.ok(svg.textContent.includes(t), `${q.qid} tree shows ${t}`));
-        assert.equal(svg.querySelectorAll('.cre-out').length, 6, 'six terminal outcomes');
+        const ps = [], outs = [];
+        const walk = (n) => { if (n.p) ps.push(n.p); if (n.outcome) outs.push(n.outcome); (n.children || []).forEach(walk); };
+        [...q.chart.children].forEach(walk);
+        [...ps, ...outs].forEach((t) => assert.ok(svg.textContent.includes(t), `${q.qid} tree shows ${t}`));
+        assert.equal(svg.querySelectorAll('.cre-out').length, outs.length, 'one mark per terminal outcome');
       } else if (q.chart && q.chart.type === 'cre-weibull-plot') {
         const svg = quiz.querySelector('svg.cre-chart');
         assert.ok(svg, `${q.qid} draws Weibull paper`);

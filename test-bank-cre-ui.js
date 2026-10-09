@@ -105,8 +105,10 @@
     var root={label:spec.root||'Start',children:children};
     walk(root,0);
     var rowH=46,top=40,left=12,boxH=26;
-    var colW=[64].concat(new Array(maxDepth).fill(108));
-    var gap=34,outW=58;
+    // Root column widens to fit its label (about 6.2 px per character at the tree's font size).
+    var colW=[Math.max(64,Math.round(6.2*String(root.label).length+16))].concat(new Array(maxDepth).fill(108));
+    var maxOut=0;leaves.forEach(function(l){maxOut=Math.max(maxOut,String(l.outcome||'').length);});
+    var gap=34,outW=Math.max(58,Math.round(6.6*maxOut+18));
     var colX=[];var x=left;
     colW.forEach(function(w,i){colX.push(x);x+=w+gap;});
     var outX=x;
@@ -135,7 +137,7 @@
       });
       parts.push(box(node));
       if(!kids.length&&node.outcome){
-        var bx=colX[d]+colW[d],y=node.__y,kind=/scrap|fail|reject/i.test(node.outcome)?'scrap':'ship';
+        var bx=colX[d]+colW[d],y=node.__y,kind=/scrap|fail|reject|damage|loss|severe|minor/i.test(node.outcome)&&!/^no /i.test(node.outcome)?'scrap':'ship';
         parts.push('<path class="cre-edge-tail" d="M'+bx+' '+y.toFixed(1)+' H'+outX+'"></path>');
         parts.push('<g class="cre-out cre-out-'+kind+'"><rect x="'+outX+'" y="'+(y-11).toFixed(1)+'" width="'+outW+'" height="22" rx="11"></rect>'+
           '<text x="'+(outX+outW/2)+'" y="'+(y+4).toFixed(1)+'" text-anchor="middle">'+esc(node.outcome)+'</text></g>');
