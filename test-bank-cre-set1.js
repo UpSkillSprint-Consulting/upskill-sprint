@@ -585,7 +585,7 @@
     "stem": "Ten prototype pumps were run on a test stand. Some were removed early for unrelated reasons (suspensions), and the test ended at 800 hours. Using the Kaplan-Meier (product-limit) method, what is the estimated reliability at 750 hours?",
     "chart": {
       "type": "data-table",
-      "title": "Prototype pump test log (n = 10)",
+      "title": "Prototype pump test log (10 units)",
       "columns": [
         "Unit",
         "Hours",
@@ -702,7 +702,7 @@
     "stem": "An engineer wants to check whether solder voids per circuit board follow a Poisson distribution before using that model for reliability predictions. The counts for 100 boards are shown (no board had more than 5 voids), and the Poisson mean is estimated from these same data. Expected cell counts must be at least 5. Which statement correctly reports the chi-square goodness-of-fit test at \\(\\alpha = 0.05\\)?",
     "chart": {
       "type": "data-table",
-      "title": "Solder voids per board (n = 100 boards)",
+      "title": "Solder voids per board (100 boards)",
       "columns": [
         "Voids per board",
         "0",
@@ -783,7 +783,7 @@
     "stem": "Ten failure times of a new electronic control unit are plotted on Weibull probability paper with the fitted line shown. Reading the fitted line, which conclusion and action are most appropriate?",
     "chart": {
       "type": "cre-weibull-plot",
-      "title": "Weibull probability plot — control unit failures (n = 10, median ranks)",
+      "title": "Weibull probability plot — control unit failures (10 units, median ranks)",
       "altText": "Weibull probability plot with time in hours on a log scale from 1 to 10,000 and unreliability from 1% to 99%. Ten points at 5.4 h (6.7%), 27.4 h (16.3%), 99.4 h (26.0%), 180 h (35.6%), 383 h (45.2%), 568 h (54.8%), 1,154 h (64.4%), 1,728 h (74.0%), 3,412 h (83.7%) and 7,063 h (93.3%) fall close to a straight fitted line. The line crosses 10% unreliability at about 11 hours and the 63.2% reference line at 1,000 hours.",
       "xTicks": [
         1,

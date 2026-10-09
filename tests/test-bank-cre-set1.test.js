@@ -96,7 +96,7 @@ test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22
   const outsideMath = (s) => String(s).replace(/\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]/g, ' ');
   for (const q of BANK) {
     const fields = [q.stem, q.why.replace(/<span class="tb-source-ref">[\s\S]*?<\/span>/, ''), q.keyPoint, q.trap, q.formula || '',
-      ...q.options, ...q.optionRationales, ...((q.chart && q.chart.type === 'data-table') ? [...q.chart.columns, ...q.chart.rows.flat()] : [])];
+      ...q.options, ...q.optionRationales, ...((q.chart && q.chart.type === 'data-table') ? [q.chart.title || '', ...q.chart.columns, ...q.chart.rows.flat()] : [])];
     for (const field of fields) {
       const text = outsideMath(field);
       const hit = text.match(MATH);
@@ -498,15 +498,18 @@ test('an area a released set does not cover is announced, never silently switche
   try {
     click(window, window.document.querySelector('.tb-tile[data-exam="cre"]'));
     const overview = window.document.getElementById('tb-overview');
+    // Set 1 opens on the area it covers (Domain III).
     assert.equal(overview.querySelector('[data-focusdom]').value, 'cre-statistics');
-    // Set 3 batch 1 has no Domain III items: keep the learner's area and explain.
-    click(window, overview.querySelector('[data-quiz-set-kind="focus"][data-quiz-set="3"]'));
-    assert.equal(overview.querySelector('[data-focusdom]').value, 'cre-statistics');
-    assert.equal(overview.querySelector('[data-mode="focus"]').disabled, true);
-    assert.match(overview.textContent, /No questions are available in .*Probability and Statistics for Reliability.*Choose another area or test set/);
+    // Set 1 has no Domain I items yet: keep the learner's choice and explain.
     const area = overview.querySelector('[data-focusdom]');
     area.value = 'cre-fundamentals';
     area.dispatchEvent(new window.Event('change', { bubbles: true }));
+    assert.equal(overview.querySelector('[data-focusdom]').value, 'cre-fundamentals');
+    assert.equal(overview.querySelector('[data-mode="focus"]').disabled, true);
+    assert.match(overview.textContent, /No questions are available in .*Reliability Fundamentals.*Choose another area or test set/);
+    // Another set that covers the area makes it available, without changing the area.
+    click(window, overview.querySelector('[data-quiz-set-kind="focus"][data-quiz-set="3"]'));
+    assert.equal(overview.querySelector('[data-focusdom]').value, 'cre-fundamentals');
     click(window, overview.querySelector('[data-mode="focus"]'));
     const records = window.__TB.getFeedbackSnapshot().records;
     assert.ok(records.length > 0 && records.every((r) => r.question.qid.startsWith('cre:set-3:')));
