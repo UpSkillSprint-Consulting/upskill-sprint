@@ -168,7 +168,7 @@
   .tb-quizprog{font-size:12.5px;color:var(--muted);margin-top:2px}
   .tb-progress{height:6px;background:var(--tint);border:1px solid var(--line);border-radius:99px;overflow:hidden;margin-bottom:18px}
   .tb-progress>span{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--teal-dark))}
-  .tb-qtag{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:99px;margin-bottom:16px}
+  .tb-qtag{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:99px;margin-bottom:16px;max-width:100%;line-height:1.35;overflow-wrap:anywhere}
   .tb-qtag i{width:8px;height:8px;border-radius:2px}
   .tb-stem{font-size:17px;line-height:1.55;color:var(--ink);font-weight:600;margin-bottom:18px}
   .tb-stem mjx-container,.tb-review-stem mjx-container,.tb-explanation mjx-container{font-weight:400;color:var(--ink)}
@@ -212,7 +212,8 @@
   .tb-stem mjx-container[display="true"],.tb-explanation-copy mjx-container[display="true"]{display:block;margin:.65em 0;overflow-x:auto;max-width:100%}
   .tb-q-data-table th{background:var(--card);color:var(--ink);font-weight:700;text-align:center;padding:9px 12px;border-bottom:2px solid var(--line);border-right:1px solid var(--line);font-size:10.5px;letter-spacing:.04em;text-transform:uppercase}
   .tb-q-data-table th:last-child{border-right:none}
-  .tb-q-data-table td{padding:8px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);color:var(--ink);text-align:center}
+  .tb-q-data-table td{padding:8px 12px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);color:var(--ink);text-align:center;overflow-wrap:anywhere}
+  .tb-q-data-table td.tb-q-text,.tb-q-data-table th.tb-q-text{text-align:left}
   .tb-q-data-table td:last-child{border-right:none}
   .tb-q-data-table tr:last-child td{border-bottom:none}
   .tb-q-data-table tr:nth-child(even) td{background:color-mix(in srgb,var(--tint) 55%,var(--card))}
@@ -232,6 +233,9 @@
   .tb-opt.sel .k{background:var(--teal);color:#fff;border-color:transparent}
   .tb-quizfoot{display:flex;align-items:center;gap:14px;justify-content:space-between;margin-top:18px;flex-wrap:wrap}
   .tb-nav{display:flex;flex-wrap:wrap;gap:6px}
+  .tb-nav-long{flex:1 1 240px;min-width:min(100%,240px);max-height:156px;overflow:auto;padding:8px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+  .tb-nav-long .tb-navcell{width:36px;height:36px;font-size:11px;padding:0}
+  .tb-nav-long .tb-navcell::before{content:'';font-size:0;line-height:0}
   .tb-navcell{position:relative;display:grid;place-items:center;flex-shrink:0;width:44px;height:48px;padding:4px;border-radius:8px;border:1px solid currentColor;background:color-mix(in srgb,var(--status-neutral) 7%,var(--card));color:var(--status-neutral);font:inherit;font-size:12px;font-weight:600;cursor:pointer}
   .tb-navcell::before{content:'○';font-size:16px;line-height:16px}
   .tb-navcell.done{background:#0e7490;color:#fff;border-color:var(--status-answered)}
@@ -278,6 +282,8 @@
   .tb-setl{font-weight:700;font-size:14px}
   .tb-sets{font-size:11.5px;color:var(--muted)}
   .tb-setbtn.on .tb-sets{color:var(--teal)}
+  .tb-setbtn:disabled{cursor:not-allowed;opacity:.72;background:var(--card)}
+  .tb-setbtn:disabled:hover{border-color:var(--line)}
   .tb-setnote{font-size:12.5px;color:var(--muted);margin:10px 0 0}
   .tb-soon.sample{color:#0e7566;background:rgba(43,183,173,.16);box-shadow:none;animation:none}
   .tb-soon.sample::before{background:#0e7566}
@@ -502,6 +508,12 @@
 <script src="/test-bank-cre-set2.js"></script>
 <script src="/test-bank-cre-set2-ui.js"></script>
 <script src="/test-bank-cre-set3.js"></script>
+<script src="/test-bank-pmp-set1.js"></script>
+<script src="/test-bank-pmp-set2.js"></script>
+<script src="/test-bank-pmp-set3.js"></script>
+<script src="/test-bank-pmp-set4.js"></script>
+<script src="/test-bank-pmp-set5.js"></script>
+<script src="/test-bank-pmp-set6.js"></script>
 <script src="/assets/js/math.js"></script>
 <script>
 (function(){
@@ -548,7 +560,10 @@
     'cre-risk':{name:'Risk Management',short:'Risk',color:'#a24b8c'},
     'cre-statistics':{name:'Probability and Statistics for Reliability',short:'Statistics',color:'#3b6fb0'},
     'cre-testing':{name:'Reliability Planning, Testing, and Modeling',short:'Testing & Models',color:'#b8791b'},
-    'cre-lifecycle':{name:'Lifecycle Reliability',short:'Lifecycle',color:'#0e8f86'}
+    'cre-lifecycle':{name:'Lifecycle Reliability',short:'Lifecycle',color:'#0e8f86'},
+    'pmp-people':{name:'People',short:'People',color:'#1a5276'},
+    'pmp-process':{name:'Process',short:'Process',color:'#0e6b7a'},
+    'pmp-business':{name:'Business Environment',short:'Business',color:'#8a5a12'}
   };
   function d(domain,weight,subs){return {domain:domain,weight:weight,subs:subs};}
   function s(id,name,lesson,lessonName,w){return {id:id,name:name,lesson:lesson,lessonName:lessonName,w:w};}
@@ -2558,14 +2573,26 @@
          their finer BoK code (e.g. III.A.2) in q.bok. */
       bank:CRE_SET1,sets:{1:CRE_SET1,3:CRE_SET3},setPlans:{1:{target:150,label:'Batch 3 of 15'}},fullExamQuestionsBySet:{1:150,3:165},
       formatNote:'Set 3 contains 165 original practice questions (Batch 17: Q161–165). Its Full Exam uses all 165.',
-      bok:[d('cre-fundamentals',29,[s('cre-fundamentals','I. Reliability Fundamentals','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',29)]),d('cre-risk',25,[s('cre-risk','II. Risk Management','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',25)]),d('cre-statistics',35,[s('cre-statistics','III. Probability and Statistics for Reliability','/lessons/statistics/probability-basics-the-language-of-chance','Probability Basics',35)]),d('cre-testing',35,[s('cre-testing','IV. Reliability Planning, Testing, and Modeling','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',35)]),d('cre-lifecycle',26,[s('cre-lifecycle','V. Lifecycle Reliability','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',26)])]}
+      bok:[d('cre-fundamentals',29,[s('cre-fundamentals','I. Reliability Fundamentals','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',29)]),d('cre-risk',25,[s('cre-risk','II. Risk Management','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',25)]),d('cre-statistics',35,[s('cre-statistics','III. Probability and Statistics for Reliability','/lessons/statistics/probability-basics-the-language-of-chance','Probability Basics',35)]),d('cre-testing',35,[s('cre-testing','IV. Reliability Planning, Testing, and Modeling','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',35)]),d('cre-lifecycle',26,[s('cre-lifecycle','V. Lifecycle Reliability','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',26)])]},
+    pmp:{badge:'PMP',bc:'#1a5276',body:'PMI Project Management Professional (PMP)',title:'PMP — Exam Simulation',setName:'Set 1',questions:180,minutes:240,pass:70,
+      /* July 2026 PMP ECO: People 33, Process 41, Business Environment 26. Official sitting is 180 items in 240 minutes.
+         registerPMPSet1() through registerPMPSet6() load Q001-Q180 into Set 1. Sets 2 and 3 stay empty. Sets 4, 5, and 6 are not on the picker. Not affiliated with PMI. */
+      bank:[],sets:{2:[],3:[]},plannedSets:['1','2','3'],setPlans:{1:{target:180,label:'Q001-Q180'},2:{target:0,label:'Held for Claude'},3:{target:0,label:'Held for GPT'}},fullExamQuestionsBySet:{1:180},
+      formatNote:'Original practice questions for the July 2026 PMP Exam Content Outline. Not affiliated with PMI.',
+      bok:[d('pmp-people',33,[s('pmp-people','People','/lessons','Browse lessons',33)]),d('pmp-process',41,[s('pmp-process','Process','/lessons','Browse lessons',41)]),d('pmp-business',26,[s('pmp-business','Business Environment','/lessons','Browse lessons',26)])]}
   };
   if(window.registerCRESet2)window.registerCRESet2(EXAMS.cre,DM);
+  if(window.registerPMPSet1)window.registerPMPSet1(EXAMS.pmp,DM);
+  if(window.registerPMPSet2)window.registerPMPSet2(EXAMS.pmp);
+  if(window.registerPMPSet3)window.registerPMPSet3(EXAMS.pmp);
+  if(window.registerPMPSet4)window.registerPMPSet4(EXAMS.pmp);
+  if(window.registerPMPSet5)window.registerPMPSet5(EXAMS.pmp);
+  if(window.registerPMPSet6)window.registerPMPSet6(EXAMS.pmp);
   [['cre-fundamentals','cre-lead'],['cre-statistics','cre-stats'],['cre-testing','cre-model'],['cre-lifecycle','cre-life']].forEach(function(pair){
     var domain=EXAMS.cre.bok.find(function(d){return d.subs.some(function(s){return s.id===pair[0];});});
     if(domain&&!domain.subs.some(function(s){return s.id===pair[1];}))domain.subs.push({id:pair[1],name:domain.subs[0].name,w:0,lesson:domain.subs[0].lesson,lessonName:domain.subs[0].lessonName});
   });
-  var GROUPS=[['Six Sigma',['cssbb','mbb','cssgb']],['Quality',['cqe','cqa','cmq']],['Reliability',['cre']]];
+  var GROUPS=[['Six Sigma',['cssbb','mbb','cssgb']],['Quality',['cqe','cqa','cmq']],['Reliability',['cre']],['Project Management',['pmp']]];
   var current='cssbb', view='browse', session=null;
   var selectedSet='1'; /* Full Exam selection; Quick and Focused keep their own mode choices. */
   var diagTimed=true, timerId=null, calcExpr='';
@@ -3052,7 +3079,7 @@
     if(spec.title)html+='<p class="tb-q-table-title">'+esc(spec.title)+'</p>';
     html+='<table class="tb-q-data-table"><thead><tr>'+cols.map(function(c){return '<th>'+esc(c)+'</th>';}).join('')+'</tr></thead><tbody>';
     rows.forEach(function(r){
-      html+='<tr>'+r.map(function(cell,i){return '<td'+(i===0?'':' class="tb-q-num"')+'>'+esc(cell)+'</td>';}).join('')+'</tr>';
+      html+='<tr>'+r.map(function(cell){var text=/[A-Za-z]{3,}/.test(String(cell));return '<td class="'+(text?'tb-q-text':'tb-q-num')+'">'+esc(cell)+'</td>';}).join('')+'</tr>';
     });
     html+='</tbody></table>';
     if(spec.whatIf){
@@ -3664,6 +3691,7 @@
   function formatNoteFor(e){
     var plan=setPlan(e,selectedSet),available=activeBank(e).length;
     if(current==='cre'&&selectedSet==='2')return 'Set 2 currently contains '+available+' of 150 planned original practice questions (Batch 1: Q001–010). This is a partial practice set. The completed 150-question core will follow the five-domain ASQ blueprint. The official computer exam displays 165 questions, including 15 unscored items, in 258 minutes; this practice session uses the same average pace.';
+    if(current==='pmp')return 'Set 1 contains all '+available+' original practice questions (Q001-Q180). Sets 2 and 3 are empty and held for later banks. There is no Set 4, 5, or 6. The official PMP exam displays 180 questions in 240 minutes. This sitting serves Set 1 at that same average pace. These items are original. UpSkill Sprint is not affiliated with PMI.';
     if(current==='mbb'&&selectedSet==='3')return 'Set 3 contains '+available+' original practice questions. Its Full Exam uses all '+available+' items at a practice pace of 90 seconds per question. This analytics-heavy practice bank is not a replica of the official ASQ examination format or domain weighting.';
     if(plan)return setLabel(selectedSet)+' currently contains '+available+' of the planned '+plan.target+' original questions ('+plan.label+'). Every completed, validated batch will be added here. The current Full Exam serves all '+available+' available questions.';
     if(current==='mbb'&&selectedSet==='mix')return 'Mixed practice combines the 100-question supplied simulation with '+e.sets[2].length+' validated original Set 2 questions. The Mixed Full Exam remains a 100-question sitting at the same per-question pace.';
@@ -3675,7 +3703,36 @@
     if(current==='mbb')return 'uses the same 90-second-per-question pace as Set 1.';
     return 'mirrors the real exam.';
   }
+  function plannedSetIds(e){
+    return e&&Array.isArray(e.plannedSets)?e.plannedSets.map(String).filter(function(id){return /^\d+$/.test(id);}):[];
+  }
+  function setQuestionCount(e,id){return e&&e.sets&&Array.isArray(e.sets[id])?e.sets[id].length:0;}
+  function plannedSetSelectorHTML(e){
+    var ids=plannedSetIds(e).slice();
+    availableSetIds(e).forEach(function(id){if(ids.indexOf(id)<0)ids.push(id);});
+    ids.sort(function(a,b){return Number(a)-Number(b);});
+    var populated=ids.filter(function(id){return setQuestionCount(e,id)>0;});
+    function sub(setId,count){
+      if(current==='pmp')return String(count);
+      var plan=setPlan(e,setId);return plan?(count+' of '+plan.target+' · '+plan.label):(count+' questions');
+    }
+    function b(v,l,subtext,empty){
+      var plan=setPlan(e,v);
+      var detail=(current==='pmp'&&v!=='mix')?subtext:(empty?(plan&&plan.label?plan.label:'Not yet available'):subtext);
+      return '<button type="button" class="tb-setbtn'+(selectedSet===v&&!empty?' on':'')+'" data-set="'+v+'" aria-pressed="'+(selectedSet===v&&!empty)+'"'+(empty?' disabled':'')+'><span class="tb-setl">'+l+'</span><span class="tb-sets">'+detail+'</span></button>';
+    }
+    var pooled=populated.reduce(function(sum,id){return sum+setQuestionCount(e,id);},0);
+    var buttons=ids.map(function(id){var count=setQuestionCount(e,id);return b(id,'Set '+id,sub(id,count),count===0);}).join('')+b('mix','Mixed',pooled+' pooled',populated.length<2);
+    var note=selectedSet==='mix'?'The Full Exam draws questions from all available sets.':'The Full Exam draws only from '+setLabel()+' questions.';
+    var plan=setPlan(e,selectedSet),available=activeBank(e).length,currentFullCount=fullExamCount(e);
+    if(plan&&setQuestionCount(e,selectedSet))note+=' This validated release contains '+available+' of '+plan.target+' planned questions.';
+    note+=' Empty sets stay on this list so the next batches have a place to land.';
+    return '<div class="tb-setpick"><div class="tb-setpick-lab">Full Exam test set</div>'+
+      '<div class="tb-setseg" role="group" aria-label="Choose Full Exam question set">'+buttons+
+      '</div><p class="tb-setnote">'+note+' A Full Exam currently serves '+currentFullCount+' question'+(currentFullCount===1?'':'s')+'. Quick and Focused quizzes have their own test-set buttons below.</p></div>';
+  }
   function setSelectorHTML(e){
+    if(plannedSetIds(e).length>1)return plannedSetSelectorHTML(e);
     if(!hasTwoSets(e))return '';
     var n1=e.sets[1].length,n2=e.sets[2].length,n3=e.sets[3]?e.sets[3].length:0;
     function sub(setId,count){var plan=setPlan(e,setId);return plan?(count+' of '+plan.target+' · '+plan.label):(count+' questions');}
@@ -3863,6 +3920,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var stem='<div class="'+(review?'tb-review-stem':'tb-stem')+'" data-question-id="'+esc(questionId)+'">'+esc(q.stem)+'</div>';
     if(/^cre:set-2:/.test(q.qid||''))return stem+(q.chart&&q.chart.description?'<p>'+esc(q.chart.description)+'</p>':'')+renderQuestionChart(q.chart);
     if(/^cre:set-3:/.test(q.qid||''))return stem+renderQuestionChart(q.chart);
+    if(/^pmp:/.test(q.qid||''))return stem+renderQuestionChart(q.chart);
     return ui?stem+ui.conditions(q)+renderQuestionChart(q.chart):renderQuestionChart(q.chart)+stem;
   }
 
@@ -3938,19 +3996,29 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var ids=availableSetIds(e);
     if(!ids.length)return '';
     var selected=kind==='quick'?mode.quickSet:mode.focusSet;
-    var choices=ids.length>1?ids.concat('mix'):ids;
+    var choices;
+    if(plannedSetIds(e).length>1){
+      choices=plannedSetIds(e).slice();
+      ids.forEach(function(id){if(choices.indexOf(id)<0)choices.push(id);});
+      choices.sort(function(a,b){return Number(a)-Number(b);});
+      if(ids.length>1)choices.push('mix');
+    }else choices=ids.length>1?ids.concat('mix'):ids;
     if(choices.indexOf(selected)<0)selected=ids[0];
     if(kind==='quick')mode.quickSet=selected;else mode.focusSet=selected;
     var label=kind==='quick'?'Quick Quiz':'Focused Quiz';
     return '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Test set</span><div class="tb-fieldrow-value">'+
       '<div class="tb-quiz-set-choices" role="group" aria-label="'+label+' test set" data-quiz-set-group="'+kind+'">'+
-      choices.map(function(id){return '<button type="button" class="tb-count'+(selected===id?' on':'')+'" data-quiz-set-kind="'+kind+'" data-quiz-set="'+id+'" aria-pressed="'+(selected===id)+'" title="'+activeBank(e,id).length+' available questions">'+(id==='mix'?'Mixed':'Set '+id)+'</button>';}).join('')+
+      choices.map(function(id){
+        var empty=id!=='mix'&&setQuestionCount(e,id)===0;
+        var title=empty?'Not yet available':((id==='mix'?activeBank(e,'mix').length:setQuestionCount(e,id))+' available questions');
+        return '<button type="button" class="tb-count'+(selected===id?' on':'')+'" data-quiz-set-kind="'+kind+'" data-quiz-set="'+id+'" aria-pressed="'+(selected===id)+'"'+(empty?' disabled':'')+' title="'+esc(title)+'">'+(id==='mix'?'Mixed':'Set '+id)+'</button>';
+      }).join('')+
       '</div></div></div>';
   }
   function wireQuizSetKeyboard(group){
     group.addEventListener('keydown',function(event){
       if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].indexOf(event.key)<0)return;
-      var buttons=Array.prototype.slice.call(group.querySelectorAll('[data-quiz-set]'));
+      var buttons=Array.prototype.slice.call(group.querySelectorAll('[data-quiz-set]:not([disabled])'));
       var index=buttons.indexOf(event.target);if(index<0)return;
       event.preventDefault();
       var next=event.key==='Home'?0:event.key==='End'?buttons.length-1:
@@ -4565,6 +4633,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var flagged=0;for(var fk in session.flags){if(session.flags[fk])flagged++;}
     var dm=domainOf(e,q.sub);var col=DM[dm].color;
     var subName='';e.bok.forEach(function(bd){bd.subs.forEach(function(x){if(x.id===q.sub)subName=x.name;});});
+    var topic=q.ecoTask&&q.ecoTask!==subName?q.ecoTask:subName;
     var revealed=isAnswerRevealed(session.i),revealedTotal=revealCount();
     var nav=session.items.map(function(_,i){return '<button type="button" class="tb-navcell'+(session.answers[i]!=null||isAnswerRevealed(i)?' done':'')+(i===session.i?' cur':'')+(session.flags[i]?' flag':'')+(isAnswerRevealed(i)?' revealed':'')+'" data-goto="'+i+'" aria-current="'+(i===session.i?'step':'false')+'" aria-label="Question '+(i+1)+(isAnswerRevealed(i)?'':session.answers[i]!=null?', answered, awaiting grading':', unanswered')+(session.flags[i]?', flagged':'')+(isAnswerRevealed(i)?', answer revealed, counted as incorrect':'')+'">'+(i+1)+'</button>';}).join('');
     var opts=q.options.map(function(o,i){return '<button type="button" class="tb-opt'+(session.answers[session.i]===i?' sel':'')+(revealed&&i===q.answer?' reveal-correct':'')+'" data-opt="'+i+'" aria-pressed="'+(session.answers[session.i]===i)+'"'+(revealed?' disabled':'')+'><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o)+'</span></button>';}).join('');
@@ -4581,9 +4650,9 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       '<div class="tb-quizprog">Question '+(session.i+1)+' of '+n+' &middot; '+answered+' answered'+(revealedTotal?' &middot; '+revealedTotal+' revealed':'')+(flagged?' &middot; '+flagged+' flagged':'')+'</div></div>'+toolbar+'</div>'+
       (!session.timed?'<p id="tb-reveal-hint" class="tb-reveal-hint">'+(validRevealKey(q)?'Revealing an answer counts that question as incorrect.':'Answer reveal is unavailable because this question needs an answer-key review.')+'</p>':'')+
       '<div class="tb-progress"><span style="width:'+(completedQuestionCount()/n*100)+'%"></span></div>'+
-      '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(subName)+'</div>'+
+      '<div class="tb-qtag" style="background:'+col+'22;color:'+col+'"><i style="background:'+col+'"></i>'+esc(DM[dm].name)+' &middot; '+esc(topic)+'</div>'+
       renderQuestionContent(q,false)+opts+revealedAnswerHTML(q)+
-      '<div class="tb-quizfoot"><div class="tb-nav">'+nav+'</div>'+
+      '<div class="tb-quizfoot"><div class="tb-nav'+(n>40?' tb-nav-long':'')+'">'+nav+'</div>'+
         (session.i<n-1?'<button type="button" class="btn btn-teal" data-next>Next &rarr;</button>':'<button type="button" class="btn btn-teal" data-submit>See my results</button>')+'</div>'+
       '<div class="tb-status-key" aria-label="Question status legend"><span>○ Slate grey: unanswered</span><span>● Teal: answered, awaiting grading</span><span><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg> Blue: revealed (counts as incorrect)</span><span>⚑ Orange: flagged for review</span><span>Outline: current question</span></div>'+
       '<div class="tb-quizback"><button type="button" class="tb-backsim" data-backsim>&larr; Back to Exam Simulator</button></div></div>';

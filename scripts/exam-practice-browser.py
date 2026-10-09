@@ -176,7 +176,7 @@ def main():
             def learner_directory():
                 directory()
                 nav_state('Exam Practice & Quizzes')
-                expect(page.locator('.exam-card')).to_have_count(7)
+                expect(page.locator('.exam-card')).to_have_count(8)
                 expect(page.locator('.exam-coming-soon .exam-card')).to_have_count(1)
                 expect(page.locator('.exam-card[href="/test-bank?exam=mbb"] h3')).to_have_text('Certified Six Sigma Master Black Belt')
                 for certification in ['cqa']:
@@ -187,6 +187,10 @@ def main():
                 cre = page.locator('.exam-card[href="/test-bank?exam=cre"]')
                 expect(cre.locator('.exam-status')).to_have_text('Sets 1–3: 205 questions available')
                 expect(cre.locator('.exam-card-action')).to_contain_text('Start practicing')
+                pmp = page.locator('.exam-card[href="/test-bank?exam=pmp"]')
+                expect(pmp.locator('h3')).to_have_text('Project Management Professional')
+                expect(pmp.locator('.exam-status')).to_have_text('Set 1: 180 questions')
+                expect(pmp.locator('.exam-card-action')).to_contain_text('Start practicing')
                 expect(page.locator('.exam-intro')).to_contain_text('untimed')
                 expect(page.locator('.exam-actions a[href="/test-bank"]')).to_be_visible()
                 expect(page.locator('footer a[href="/exam-practice"]')).to_be_visible()
