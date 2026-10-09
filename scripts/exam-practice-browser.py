@@ -363,8 +363,9 @@ def main():
                         expect(page.locator('[data-cre-question]')).to_have_count(1)
                         expect(page.locator('.cre2-explorer')).to_have_count(0)
                         exhibits += page.locator('.cre2-exhibit').count()
-                        assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2')
-                    assert exhibits == 11
+                        qid = page.locator('[data-cre-question]').get_attribute('data-cre-question')
+                        assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2'), f'{qid} overflows at {width}px in {theme} theme'
+                    assert exhibits == 11, f'Expected 11 exhibits, found {exhibits}'
                     page.locator('[data-submit]').click()
                     page.locator('[data-open-review="all"]').click()
                     expect(page.locator('.tb-review-card')).to_have_count(20)
@@ -401,8 +402,8 @@ def main():
                     risk.locator('[data-cre-reset]').click()
                     expect(risk.locator('select')).to_have_value('1')
                     expect(risk.locator('output')).to_contain_text('26.4%')
-                    assert page.locator('[data-score-result]').text_content() == original_score
-                    assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2')
+                    assert page.locator('[data-score-result]').text_content() == original_score, 'Explorers changed the original score'
+                    assert page.evaluate('()=>document.documentElement.scrollWidth<=innerWidth+2'), f'CRE review overflows at {width}px in {theme} theme'
                     curve.scroll_into_view_if_needed()
                     page.screenshot(path=str(out / f'cre-set2-{width}-{theme}.png'), full_page=False)
 
