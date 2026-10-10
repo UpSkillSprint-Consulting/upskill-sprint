@@ -14,6 +14,7 @@
  * Batch 11 of 15: I.A.1, I.A.3, I.A.4, I.A.6, I.A.9 (leadership foundations) and I.B.1–I.B.4 (terminology, requirements, CAPA, RCA).
  * Batch 12 of 15: I.B.1, I.B.3–I.B.10 (lifecycle cost, maintainability economics, cost of poor reliability, quality triangle, DMAIC, systems integration).
  * Batch 13 of 15: I.A.5, I.A.7, I.B.1, I.B.2 (Domain I complete) and V.A.1–V.A.5 (verification, stress-strength, DOE, optimization, human factors).
+ * Batch 14 of 15: V.A.3, V.A.6, V.A.7 (DOE, testability, FEA), V.B.1–V.B.2 (derating, COTS, RCM) and V.C.1–V.C.2 (spares, repair or replace, proof testing).
  *
  * Every calculated answer is recomputed independently in tests/test-bank-cre-set1.test.js.
  * Notation follows The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting &
@@ -10822,6 +10823,719 @@
         "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
         "chapter": "Chapter 11 - Reliability Design Techniques",
         "section": "Human factors",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b14-q131",
+    "set": 1,
+    "batch": 14,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.3",
+      "topic": "Aliasing and resolution in a half fraction"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation",
+    "quantitative": false,
+    "stem": "The table shows a \\(2^{4-1}\\) fractional factorial design built with the generator \\(D = ABC\\). With which effect is the AB interaction aliased, and what is the resolution of the design?",
+    "chart": {
+      "type": "data-table",
+      "title": "Half-fraction design matrix",
+      "columns": [
+        "Run",
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "rows": [
+        [
+          "1",
+          "−1",
+          "−1",
+          "−1",
+          "−1"
+        ],
+        [
+          "2",
+          "+1",
+          "−1",
+          "−1",
+          "+1"
+        ],
+        [
+          "3",
+          "−1",
+          "+1",
+          "−1",
+          "+1"
+        ],
+        [
+          "4",
+          "+1",
+          "+1",
+          "−1",
+          "−1"
+        ],
+        [
+          "5",
+          "−1",
+          "−1",
+          "+1",
+          "+1"
+        ],
+        [
+          "6",
+          "+1",
+          "−1",
+          "+1",
+          "−1"
+        ],
+        [
+          "7",
+          "−1",
+          "+1",
+          "+1",
+          "−1"
+        ],
+        [
+          "8",
+          "+1",
+          "+1",
+          "+1",
+          "+1"
+        ]
+      ]
+    },
+    "options": [
+      "CD; resolution IV",
+      "D; resolution III",
+      "ABCD; resolution IV",
+      "BC; resolution III"
+    ],
+    "answer": 0,
+    "why": "<p>The generator \\(D = ABC\\) gives the defining relation \\(I = ABCD\\). Multiplying AB by the defining word gives its alias: \\(AB \\times ABCD = A^{2}B^{2}CD = CD\\). The shortest word in the defining relation has four letters, so the design is resolution IV: main effects are aliased only with three-factor interactions, and two-factor interactions are aliased in pairs (AB with CD, AC with BD, AD with BC). In the table, the product of columns A and B matches the product of columns C and D in every run.</p><p><b>A. CD; resolution IV.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design of Experiments — Two-Level Fractional Factorial Experiments; Confounding; Resolution.</span></p>",
+    "optionRationales": [
+      "Correct. \\(I = ABCD\\), so AB = CD, and the four-letter word makes the design resolution IV.",
+      "D is aliased with ABC, a three-factor interaction, not with AB.",
+      "ABCD is the defining word (the identity column), not an alias of AB.",
+      "BC is aliased with AD here; the shortest defining word has four letters, so the design is resolution IV, not III."
+    ],
+    "keyPoint": "Find aliases by multiplying an effect by the defining relation; resolution is the length of the shortest defining word.",
+    "trap": "Assuming two-factor interactions are clear in a resolution IV design.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "fractional factorial",
+      "aliasing",
+      "confounding",
+      "resolution"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Design of experiments — fractional factorial designs; confounding; resolution",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b14-q132",
+    "set": 1,
+    "batch": 14,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.3",
+      "topic": "Blocking on a nuisance factor"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Scenario",
+    "quantitative": false,
+    "stem": "A \\(2^{4}\\) experiment on a forming process needs 16 runs. Each steel coil supplies material for only 8 runs, and coils differ in hardness. How should the team run the experiment?",
+    "chart": null,
+    "options": [
+      "Randomize all 16 runs across the two coils and ignore which coil each run used.",
+      "Run each coil as a block of 8, confounding ABCD with blocks, and randomize within each block.",
+      "Run every high-A run on coil 1 and every low-A run on coil 2, randomizing the run order within each coil.",
+      "Treat the coil as a fifth factor and double the experiment to 32 runs so that every combination is covered."
+    ],
+    "answer": 1,
+    "why": "<p>A block is a planned grouping of runs that removes a known nuisance source, here the coil, from the comparison of factor effects. Splitting the 16 runs into two blocks of 8 and confounding the highest-order interaction (ABCD, usually negligible) with the block difference keeps all main effects and two-factor interactions clear of the coil effect. Randomization then happens within each block.</p><p><b>B. Two blocks of 8, ABCD confounded with blocks, randomized within blocks.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design of Experiments — Blocking; Randomization.</span></p>",
+    "optionRationales": [
+      "Ignoring the coil leaves its hardness difference in the error term, which inflates noise and can bias effects.",
+      "Correct. Blocking on the coil removes its effect, at the cost of only the ABCD interaction.",
+      "This confounds factor A completely with the coil, so the A effect cannot be separated from the hardness difference.",
+      "Doubling the runs is unnecessary; a nuisance variable is handled by blocking, not by studying it as a factor."
+    ],
+    "keyPoint": "Block on known nuisance sources, confound the least important effect with blocks, and randomize within blocks.",
+    "trap": "Aligning a factor with the nuisance source, which confounds that factor.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "blocking",
+      "randomization",
+      "2^k factorial",
+      "nuisance factor"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Design of experiments — blocking",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b14-q133",
+    "set": 1,
+    "batch": 14,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.6",
+      "topic": "Fault detection and fault isolation capability"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A design-for-testability review injects faults into a controller to check its built-in test (BIT). Using the table, what are the fault detection capability (the share of injected faults detected) and the fault isolation capability (the share of detected faults isolated to one module)?",
+    "chart": {
+      "type": "data-table",
+      "title": "BIT fault-injection results",
+      "columns": [
+        "Item",
+        "Count"
+      ],
+      "rows": [
+        [
+          "Faults injected",
+          "200"
+        ],
+        [
+          "Faults detected by BIT",
+          "184"
+        ],
+        [
+          "Detected faults isolated to one replaceable module",
+          "161"
+        ]
+      ]
+    },
+    "options": [
+      "Detection 0.920; isolation 0.805",
+      "Detection 0.875; isolation 0.920",
+      "Detection 0.920; isolation 0.875",
+      "Detection 0.805; isolation 0.875"
+    ],
+    "answer": 2,
+    "why": "<p>Detection compares detected faults with all faults; isolation compares isolated faults with the faults that were detected:</p><p>\\[\\begin{aligned}\\text{FD} &= \\frac{184}{200} = 0.920 \\\\ \\text{FI} &= \\frac{161}{184} = 0.875\\end{aligned}\\]</p><p>where FD is the fault detection capability and FI the fault isolation capability. A fault must be detected before it can be isolated, so isolation is measured against the detected faults.</p><p><b>C. Detection 0.920; isolation 0.875.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design for X — design for testability (fault detection and fault isolation capability).</span></p>",
+    "optionRationales": [
+      "Divides the isolated faults by all injected faults (0.805), not by the detected faults.",
+      "The two measures are swapped.",
+      "Correct. \\(184/200 = 0.920\\) and \\(161/184 = 0.875\\).",
+      "Uses the isolated share of all faults as detection."
+    ],
+    "keyPoint": "Fault detection is detected over total faults; fault isolation is isolated over detected faults.",
+    "trap": "Measuring isolation against all faults instead of the detected ones.",
+    "formula": "\\(\\text{FD} = N_d/N\\); \\(\\text{FI} = N_i/N_d\\)",
+    "assumptions": [
+      "Injected faults are representative of field faults."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "design for testability",
+      "built-in test",
+      "fault detection",
+      "fault isolation"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Design for X — testability",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b14-q134",
+    "set": 1,
+    "batch": 14,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.7",
+      "topic": "Using FEA results in design for reliability"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Scenario, calculation",
+    "quantitative": true,
+    "stem": "A finite element analysis (FEA) of a cast bracket under the maximum service load shows a peak stress of 210 MPa at a sharp internal corner. The alloy’s fatigue strength at \\(10^{7}\\) cycles is 240 MPa, and the design rule requires a factor of safety of at least 1.5 against it. What should the design-for-reliability team do?",
+    "chart": null,
+    "options": [
+      "Release the design, because the peak stress is below the fatigue strength, so the bracket will not fatigue.",
+      "Redesign the corner, for example with a larger fillet, to bring peak stress to 160 MPa or less, then verify by test.",
+      "Accept the design, because the factor of safety is 1.14 and FEA peak stresses at sharp corners depend on the mesh.",
+      "Change to an alloy with a fatigue strength of 300 MPa and keep the corner as it is."
+    ],
+    "answer": 1,
+    "why": "<p>Compare the FEA result with the design rule:</p><p>\\[\\begin{aligned}\\text{FoS} &= \\frac{240}{210} = 1.14 \\\\ \\sigma_{\\max} &= \\frac{240}{1.5} = 160 \\text{ MPa}\\end{aligned}\\]</p><p>where FoS is the factor of safety against the fatigue strength and \\(\\sigma_{\\max}\\) the highest peak stress the rule allows. A factor of 1.14 falls short of 1.5, so the corner must be redesigned before prototypes are built, which is when FEA gives the most value. Model results are then confirmed with measurements, such as strain gauges.</p><p><b>B. Redesign to at most 160 MPa, then confirm by test.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design for Reliability (FEA to assess and optimize robustness early).</span></p>",
+    "optionRationales": [
+      "A factor of 1.14 does not meet the required 1.5, and scatter in fatigue strength makes the small margin risky.",
+      "Correct. \\(240/1.5 = 160\\) MPa is the allowable peak stress.",
+      "Mesh sensitivity is a reason to refine the model and verify it by test, not to accept a factor of 1.14 against a required 1.5.",
+      "The stronger alloy allows \\(300/1.5 = 200\\) MPa, still below the 210 MPa peak, so the corner must change anyway."
+    ],
+    "keyPoint": "Use FEA early to find and fix stress concentrations against the design margin, then verify the model by test.",
+    "trap": "Treating any stress below the fatigue strength as safe without the required margin.",
+    "formula": "\\(\\text{FoS} = S_f/\\sigma_{\\text{peak}}\\)",
+    "assumptions": [
+      "The FEA load case is the maximum service load; the fatigue strength is for the cast alloy at the service stress ratio."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "design for reliability",
+      "finite element analysis",
+      "factor of safety",
+      "fatigue"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Design for reliability",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b14-q135",
+    "set": 1,
+    "batch": 14,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "B. Parts and Systems Development",
+      "code": "V.B.1",
+      "topic": "Selecting a component rating by derating level"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A capacitor in an avionics flight-control unit sees 35 V in service. The company’s derating rules are in the table, and Level B applies to avionics and safety-related uses. What is the lowest standard voltage rating that complies?",
+    "chart": {
+      "type": "data-table",
+      "title": "Capacitor voltage derating rules",
+      "columns": [
+        "Derating level",
+        "Maximum applied voltage"
+      ],
+      "rows": [
+        [
+          "Level A (general use)",
+          "70% of rated voltage"
+        ],
+        [
+          "Level B (avionics, safety-related, long life)",
+          "50% of rated voltage"
+        ]
+      ]
+    },
+    "options": [
+      "50 V",
+      "63 V",
+      "80 V",
+      "100 V"
+    ],
+    "answer": 2,
+    "why": "<p>Level B limits applied voltage to half the rating, so the rating must be at least:</p><p>\\[V_r \\ge \\frac{35}{0.50} = 70 \\text{ V}\\]</p><p>where \\(V_r\\) is the rated voltage. The lowest standard rating at or above 70 V is 80 V. Derating widens the margin between applied stress and the part’s limit, which slows degradation and extends life.</p><p><b>C. 80 V</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 12, Materials, Components, Equipment, and Software Selection Techniques — Derating (Level A and Level B).</span></p>",
+    "optionRationales": [
+      "Meets Level A (\\(35/0.70 = 50\\) V) but not Level B, which avionics requires.",
+      "A 63 V part would run at 56% of its rating, above the 50% limit.",
+      "Correct. \\(35/0.50 = 70\\) V, so 80 V is the lowest compliant rating.",
+      "Complies, but it is not the lowest rating that meets the rule."
+    ],
+    "keyPoint": "Derating level depends on the application; safety-related and avionics uses call for the stricter level.",
+    "trap": "Applying the general-use derating level to a safety-related application.",
+    "formula": "\\(V_r \\ge V_{\\text{applied}}/k\\)",
+    "assumptions": [
+      "Available ratings are 50, 63, 80 and 100 V; voltage is the governing derating parameter."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "derating",
+      "component selection",
+      "avionics",
+      "voltage rating"
+    ],
+    "sourceSection": "Chapter 12 - Parts and Systems Development",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 12 - Parts and Systems Development",
+        "section": "Materials, components, equipment, and software selection techniques — derating",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b14-q136",
+    "set": 1,
+    "batch": 14,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "B. Parts and Systems Development",
+      "code": "V.B.1",
+      "topic": "Selecting COTS software for test equipment"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Scenario",
+    "quantitative": false,
+    "stem": "A reliability lab plans to buy commercial off-the-shelf (COTS) control software for its thermal chambers instead of developing its own. What should the lab still require?",
+    "chart": null,
+    "options": [
+      "Acceptance based on the supplier’s published feature list and user ratings.",
+      "Access to the full source code, so that the lab can verify every routine itself.",
+      "A fixed-price contract for the supplier to customize the software for each test procedure.",
+      "Evidence of supplier capability, and verification that the software meets the lab’s requirements."
+    ],
+    "answer": 3,
+    "why": "<p>COTS software brings lower cost, faster availability and validation by a specialized supplier. But test-equipment software affects the reliability results it produces, so the lab must still check that the supplier is certified or can show evidence of its capability and maturity, and that the package meets the lab’s own requirements (for example, through trial copies and pilot testing).</p><p><b>D. Supplier capability evidence and fit to the lab’s requirements.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 12, Materials, Components, Equipment, and Software Selection Techniques — COTS Products; Software Selection.</span></p>",
+    "optionRationales": [
+      "A feature list and ratings do not show the supplier’s maturity or that the software meets the lab’s own requirements.",
+      "Verifying every routine in-house throws away the benefit of using a validated COTS product.",
+      "COTS means using the product as is; per-test customization defeats the purpose.",
+      "Correct. Check the supplier’s capability and the software’s fit to requirements before relying on it."
+    ],
+    "keyPoint": "COTS saves time and cost, but supplier capability and fit to requirements must still be shown.",
+    "trap": "Assuming COTS needs no evaluation.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "COTS",
+      "software selection",
+      "test equipment"
+    ],
+    "sourceSection": "Chapter 12 - Parts and Systems Development",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 12 - Parts and Systems Development",
+        "section": "Materials, components, equipment, and software selection techniques — COTS",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b14-q137",
+    "set": 1,
+    "batch": 14,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "B. Parts and Systems Development",
+      "code": "V.B.2",
+      "topic": "The RCM sequence of questions"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Understand",
+    "questionType": "Concept",
+    "quantitative": false,
+    "stem": "Following SAE JA1011, a reliability-centered maintenance (RCM) team has listed an asset’s functions and its functional failures. Which question does the team answer next?",
+    "chart": null,
+    "options": [
+      "What are the failure modes?",
+      "What are the failure consequences?",
+      "What happens when each failure occurs?",
+      "What must be done if no task applies?"
+    ],
+    "answer": 0,
+    "why": "<p>SAE JA1011 sets seven questions in order: functions, functional failures, failure modes, failure effects, failure consequences, proactive (preventive) tasks, and what to do if no suitable task can be found. After functional failures come the failure modes that cause them.</p><p><b>A. What are the failure modes?</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 12, Parts Standardization and System Simplification — Reliability Centered Maintenance (SAE JA1011).</span></p>",
+    "optionRationales": [
+      "Correct. Failure modes follow functional failures.",
+      "Consequences come after modes and effects.",
+      "This is the failure effects question, which comes after the failure modes.",
+      "This is the last question, used when no proactive task fits."
+    ],
+    "keyPoint": "RCM: functions, functional failures, modes, effects, consequences, tasks, default actions.",
+    "trap": "Jumping to maintenance tasks before analyzing failure modes and consequences.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "reliability-centered maintenance",
+      "RCM",
+      "SAE JA1011"
+    ],
+    "sourceSection": "Chapter 12 - Parts and Systems Development",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 12 - Parts and Systems Development",
+        "section": "Reliability centered maintenance",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b14-q138",
+    "set": 1,
+    "batch": 14,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "C. Maintainability",
+      "code": "V.C.1",
+      "topic": "Spare parts for scheduled and corrective replacement"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "The table describes a fleet of pumps. Each pump is replaced every 6,000 operating hours as the manufacturer requires, and between replacements its failure rate is constant. Corrective replacements do not change the scheduled replacement times. How many spares should be stocked for the 3-year period to cover the scheduled replacements and, with at least 95% probability, the corrective replacements?",
+    "chart": {
+      "type": "data-table",
+      "title": "Pump fleet",
+      "columns": [
+        "Item",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Pumps in service",
+          "10"
+        ],
+        [
+          "Operating hours per pump per year",
+          "4,000"
+        ],
+        [
+          "Planning period",
+          "3 years"
+        ],
+        [
+          "Failure rate",
+          "50 per million hours"
+        ],
+        [
+          "Scheduled replacement interval",
+          "6,000 operating hours"
+        ],
+        [
+          "Scheduled replacements per pump in the period",
+          "2"
+        ]
+      ]
+    },
+    "options": [
+      "10",
+      "26",
+      "29",
+      "30"
+    ],
+    "answer": 3,
+    "why": "<p>Fleet operating time is \\(10 \\times 4000 \\times 3 = 120000\\) h. Count scheduled replacements, then find the corrective spares from the cumulative Poisson distribution:</p><p>\\[\\begin{aligned}n_s &= \\frac{120000}{6000} = 20 \\\\ \\mu &= \\frac{50(120000)}{10^{6}} = 6 \\\\ P_{9} &= 0.916 \\\\ P_{10} &= 0.957\\end{aligned}\\]</p><p>where \\(n_s\\) is the number of scheduled replacements, \\(\\mu = \\lambda t\\) the expected number of failures and \\(P_r = P(X \\le r)\\) the cumulative Poisson probability of \\(r\\) or fewer failures. Ten corrective spares give at least 95% protection, so stock \\(20 + 10 = 30\\).</p><p><b>D. 30</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 13, Maintenance Strategies — Spare Parts Analysis (cumulative Poisson).</span></p>",
+    "optionRationales": [
+      "Counts only the corrective spares and leaves out the 20 scheduled replacements.",
+      "Stocks only the expected 6 failures; that covers corrective demand only about 61% of the time.",
+      "Nine corrective spares give only \\(P(X \\le 9) = 0.916\\), below 95%.",
+      "Correct. 20 scheduled plus 10 corrective, since \\(P(X \\le 10) = 0.957\\)."
+    ],
+    "keyPoint": "Spares = scheduled replacements plus the Poisson quantile of corrective demand at the required protection level.",
+    "trap": "Stocking the mean number of failures instead of a protection-level quantile.",
+    "formula": "\\(P(X \\le r) = \\sum_{k=0}^{r} \\dfrac{(\\lambda t)^{k} e^{-\\lambda t}}{k!}\\)",
+    "assumptions": [
+      "Constant failure rate between replacements; failed pumps are replaced, not repaired."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "spare parts",
+      "Poisson",
+      "protection level",
+      "maintenance planning"
+    ],
+    "sourceSection": "Chapter 13 - Maintainability",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 13 - Maintainability",
+        "section": "Maintenance strategies — spare parts analysis",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b14-q139",
+    "set": 1,
+    "batch": 14,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "C. Maintainability",
+      "code": "V.C.1",
+      "topic": "Repair or replace"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, calculation, decision",
+    "quantitative": true,
+    "stem": "A failed motor can be repaired or replaced. The plant needs it for 4 more years, each failure costs 1,800 dollars, and there is no salvage value; ignore the time value of money. Using the table, which choice costs less over the 4 years?",
+    "chart": {
+      "type": "data-table",
+      "title": "Repair or replace a motor",
+      "columns": [
+        "Item",
+        "Repair",
+        "Replace"
+      ],
+      "rows": [
+        [
+          "Up-front cost (dollars)",
+          "2,400",
+          "7,000"
+        ],
+        [
+          "Failures per year",
+          "0.5",
+          "0.1"
+        ],
+        [
+          "Energy cost (dollars per year)",
+          "3,000",
+          "2,400"
+        ]
+      ]
+    },
+    "options": [
+      "Repair, because its up-front cost is 4,600 dollars lower",
+      "Replace, at about 17,300 dollars against about 18,000 for repair",
+      "Repair, at about 6,000 dollars against about 7,700 for replacement",
+      "Replace, at about 9,600 dollars against about 12,000 for repair"
+    ],
+    "answer": 1,
+    "why": "<p>Add the up-front cost, the expected failure cost and the energy cost over 4 years:</p><p>\\[\\begin{aligned}C_R &= 2400 + 4(0.5)(1800) \\\\ &\\quad + 4(3000) = 18000 \\\\ C_N &= 7000 + 4(0.1)(1800) \\\\ &\\quad + 4(2400) = 17320\\end{aligned}\\]</p><p>where \\(C_R\\) is the 4-year cost of repairing and \\(C_N\\) of replacing, in dollars. The cheaper repair loses once its higher failure rate and energy use are counted.</p><p><b>B. Replace, about 17,300 against 18,000.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 13, Maintenance Strategies (repair-or-replace decisions using failure and cost data).</span></p>",
+    "optionRationales": [
+      "Compares up-front cost only and ignores 4 years of failures and energy.",
+      "Correct. Replacement costs 17,320 dollars against 18,000 for repair.",
+      "Leaves out energy cost, which reverses the decision.",
+      "Compares energy cost only; the decision is right, but the costs are not the full 4-year totals."
+    ],
+    "keyPoint": "Repair-or-replace decisions compare total cost over the remaining need, including failures and operating costs.",
+    "trap": "Deciding on up-front cost alone.",
+    "formula": "\\(C = C_0 + T\\lambda c_f + T c_e\\)",
+    "assumptions": [
+      "Constant failure rates; no discounting; failure cost covers repair and downtime."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "repair or replace",
+      "lifecycle cost",
+      "maintenance strategy"
+    ],
+    "sourceSection": "Chapter 13 - Maintainability",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 13 - Maintainability",
+        "section": "Maintenance strategies",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b14-q140",
+    "set": 1,
+    "batch": 14,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "C. Maintainability",
+      "code": "V.C.2",
+      "topic": "Optimum proof-test interval for a hidden failure"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Analyze",
+    "questionType": "Calculation, optimization",
+    "quantitative": true,
+    "stem": "A standby relief valve has a hidden (undetected) failure rate of \\(10^{-5}\\) per hour. Between proof tests, a hidden failure leaves the valve unavailable for, on average, half the test interval. Each proof test also takes the valve out of service for 4 hours. Which test interval minimizes the average unavailability, and what is the minimum?",
+    "chart": null,
+    "options": [
+      "About 450 h, giving about 0.0112",
+      "About 630 h, giving about 0.0095",
+      "About 890 h, giving about 0.0089",
+      "About 1,790 h, giving about 0.0112"
+    ],
+    "answer": 2,
+    "why": "<p>Add the hidden-failure term and the test-downtime term, then set the derivative to zero:</p><p>\\[\\begin{aligned}U(\\tau) &= \\frac{\\lambda\\tau}{2} + \\frac{4}{\\tau} \\\\ \\tau^{*} &= \\sqrt{\\frac{8}{\\lambda}} = \\sqrt{800000} \\\\ &= 894 \\text{ h} \\\\ U(\\tau^{*}) &= 0.00447 + 0.00447 \\\\ &= 0.0089\\end{aligned}\\]</p><p>where \\(U\\) is the average unavailability, \\(\\tau\\) the test interval in hours and \\(\\lambda\\) the hidden failure rate. Testing more often cuts hidden downtime but adds test downtime; at the optimum the two terms are equal.</p><p><b>C. About 890 h, 0.0089.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 13, Preventive Maintenance (PM) Analysis (optimum PM intervals; tradeoff between maintenance and failure).</span></p>",
+    "optionRationales": [
+      "Uses \\(\\sqrt{2/\\lambda}\\); testing this often makes test downtime dominate.",
+      "Uses \\(\\sqrt{4/\\lambda}\\), which leaves out the factor of 2 from the half-interval term.",
+      "Correct. \\(\\sqrt{8/\\lambda} = 894\\) h, where the two terms are equal.",
+      "Twice the optimum interval; hidden-failure downtime now dominates."
+    ],
+    "keyPoint": "The optimum test interval balances downtime from undetected failures against downtime from the tests themselves.",
+    "trap": "Choosing the interval from the hidden-failure term alone and ignoring test downtime.",
+    "formula": "\\(\\tau^{*} = \\sqrt{2T_t/\\lambda}\\) for \\(U = \\lambda\\tau/2 + T_t/\\tau\\)",
+    "assumptions": [
+      "\\(\\lambda\\tau\\) is small; tests are perfect and restore the valve to as-good-as-new."
+    ],
+    "estimatedMinutes": 6,
+    "keywords": [
+      "proof test interval",
+      "hidden failure",
+      "unavailability",
+      "PM optimization"
+    ],
+    "sourceSection": "Chapter 13 - Maintainability",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 13 - Maintainability",
+        "section": "Preventive maintenance (PM) analysis",
         "example": null
       }
     ]

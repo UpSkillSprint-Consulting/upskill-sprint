@@ -40,8 +40,8 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/, 9: /^II\.(A\.[1-3]|B\.[1-6])$/, 10: /^(II\.C|I\.A\.[1-9])$/, 11: /^I\.(A\.[1-9]|B\.([1-9]|10))$/, 12: /^I\.B\.([1-9]|10)$/, 13: /^(I\.(A\.[1-9]|B\.([1-9]|10))|V\.A\.[1-7])$/ };
+const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/, 9: /^II\.(A\.[1-3]|B\.[1-6])$/, 10: /^(II\.C|I\.A\.[1-9])$/, 11: /^I\.(A\.[1-9]|B\.([1-9]|10))$/, 12: /^I\.B\.([1-9]|10)$/, 13: /^(I\.(A\.[1-9]|B\.([1-9]|10))|V\.A\.[1-7])$/, 14: /^V\.(A\.[1-7]|B\.[12]|C\.[1-3])$/ };
 // BoK domain → engine area (the five shared CRE domains)
 const DOMAIN_SUB = { I: 'cre-fundamentals', II: 'cre-risk', III: 'cre-statistics', IV: 'cre-testing', V: 'cre-lifecycle' };
 // Focused Quiz opens on the first BoK area (in exam order) that the opening set covers
@@ -179,6 +179,16 @@ test('batch 13 completes Domain I at 29 and opens Domain V with six V.A items', 
   assert.equal(va.length, 6);
   assert.ok(va.every((q) => q.bok.code.startsWith('V.A') && q.bok.domain === 'V. Lifecycle Reliability' && q.bok.subdomain === 'A. Reliability Design Techniques'));
   assert.equal([...new Set(va.map((q) => q.bok.code))].sort().join(), 'V.A.1,V.A.2,V.A.3,V.A.4,V.A.5');
+});
+
+test('batch 14 adds ten Domain V items across V.A, V.B and V.C', () => {
+  const rows = BANK.filter((q) => q.batch === 14);
+  assert.ok(rows.every((q) => q.sub === 'cre-lifecycle' && q.bok.domain === 'V. Lifecycle Reliability'));
+  const by = (p) => rows.filter((q) => q.bok.code.startsWith(p)).length;
+  assert.deepEqual([by('V.A'), by('V.B'), by('V.C')], [4, 3, 3]);
+  const sub = { 'V.A': 'A. Reliability Design Techniques', 'V.B': 'B. Parts and Systems Development', 'V.C': 'C. Maintainability' };
+  rows.forEach((q) => assert.equal(q.bok.subdomain, sub[q.bok.code.slice(0, 3)]));
+  assert.equal(BANK.filter((q) => q.sub === 'cre-lifecycle').length, 16);
 });
 
 test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22', () => {
@@ -1295,6 +1305,69 @@ test('Q129 cheapest option that meets 0.86', () => {
   assert.deepEqual(ok.map((o) => o.i), [0, 3]);
   assert.ok(options[2].r < 0.85, 'C falls short');
   assert.equal(ok.reduce((a, b) => (b.c < a.c ? b : a)).i, q.answer);
+});
+
+test('Q131 the half fraction with D = ABC aliases AB with CD (resolution IV)', () => {
+  const q = byId('cre:set-1:b14-q131');
+  const v = (s) => (s === '+1' ? 1 : -1);
+  const rows = [...q.chart.rows].map((r) => r.slice(1).map(v));
+  rows.forEach(([a, b, c, d]) => { assert.equal(d, a * b * c, 'D = ABC'); assert.equal(a * b, c * d, 'AB = CD'); });
+  assert.equal(new Set(rows.map((r) => r.join())).size, 8);
+  assert.equal(q.options[q.answer], 'CD; resolution IV');
+});
+
+test('Q133 detection over all faults, isolation over detected faults', () => {
+  const q = byId('cre:set-1:b14-q133');
+  const [n, nd, ni] = [...q.chart.rows].map((r) => Number(r[1]));
+  assert.equal(q.options[q.answer], `Detection ${(nd / n).toFixed(3)}; isolation ${(ni / nd).toFixed(3)}`);
+  assert.ok(q.options.some((o) => o.includes((ni / n).toFixed(3))), 'isolation-over-all trap');
+});
+
+test('Q134 FEA peak stress against the required factor of safety', () => {
+  const q = byId('cre:set-1:b14-q134');
+  assert.ok(240 / 210 < 1.5);
+  assert.equal(240 / 1.5, 160);
+  assert.match(q.options[q.answer], /160 MPa or less/);
+});
+
+test('Q135 Level B derating picks the 80 V rating', () => {
+  const q = byId('cre:set-1:b14-q135');
+  const need = 35 / 0.5;
+  const ok = [50, 63, 80, 100].filter((v) => v >= need);
+  assert.equal(q.options[q.answer], `${ok[0]} V`);
+  assert.equal(`${[50, 63, 80, 100].find((v) => v >= 35 / 0.7)} V`, q.options[0], 'Level A trap');
+});
+
+test('Q138 spares: 20 scheduled plus the 95% Poisson quantile', () => {
+  const q = byId('cre:set-1:b14-q138');
+  const d = Object.fromEntries([...q.chart.rows].map(([k, v]) => [k, n_(v)]));
+  const hours = d['Pumps in service'] * d['Operating hours per pump per year'] * d['Planning period'];
+  const sched = hours / d['Scheduled replacement interval'];
+  const mu = d['Failure rate'] * hours / 1e6;
+  let r = 0; while (poissonCdf(r, mu) < 0.95) r++;
+  assert.equal(sched, 20); assert.equal(mu, 6); assert.equal(r, 10);
+  assert.equal(q.options[q.answer], String(sched + r));
+  assert.ok(q.options.includes(String(sched + r - 1)) && q.options.includes(String(sched + mu)) && q.options.includes(String(r)));
+});
+
+test('Q139 four-year cost favors replacement', () => {
+  const q = byId('cre:set-1:b14-q139');
+  const [up, rate, energy] = [...q.chart.rows].map((r) => [n_(r[1]), n_(r[2])]);
+  const [repair, replace] = [0, 1].map((i) => up[i] + 4 * rate[i] * 1800 + 4 * energy[i]);
+  assert.equal(repair, 18000); assert.equal(replace, 17320);
+  assert.match(q.options[q.answer], /^Replace, at about 17,300 dollars against about 18,000/);
+});
+
+test('Q140 optimum proof-test interval balances the two downtime terms', () => {
+  const q = byId('cre:set-1:b14-q140');
+  const lam = 1e-5, U = (t) => lam * t / 2 + 4 / t;
+  const tStar = Math.sqrt(8 / lam);
+  let best = 1; for (let t = 1; t < 5000; t++) if (U(t) < U(best)) best = t;
+  assert.ok(Math.abs(best - tStar) <= 1);
+  assert.equal(Math.round(U(tStar) * 10000) / 10000, 0.0089);
+  assert.match(q.options[q.answer], /^About 890 h, giving about 0\.0089$/);
+  [Math.sqrt(2 / lam), Math.sqrt(4 / lam), 2 * tStar].forEach((t) => assert.ok(U(t) > U(tStar)));
+  assert.equal(Math.round(U(2 * tStar) * 10000) / 10000, Math.round(U(tStar / 2) * 10000) / 10000, 'mirror distractors share 0.0112');
 });
 
 /* ---------- 3. production delivery ---------- */
