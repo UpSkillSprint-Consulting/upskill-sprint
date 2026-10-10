@@ -40,10 +40,10 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/, 9: /^II\.(A\.[1-3]|B\.[1-6])$/ };
+const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/, 9: /^II\.(A\.[1-3]|B\.[1-6])$/, 10: /^(II\.C|I\.A\.[1-9])$/ };
 // BoK domain → engine area (the five shared CRE domains)
-const DOMAIN_SUB = { II: 'cre-risk', III: 'cre-statistics', IV: 'cre-testing' };
+const DOMAIN_SUB = { I: 'cre-fundamentals', II: 'cre-risk', III: 'cre-statistics', IV: 'cre-testing' };
 // Focused Quiz opens on the first BoK area (in exam order) that the opening set covers
 const FIRST_POPULATED = ['cre-fundamentals', 'cre-risk', 'cre-statistics', 'cre-testing', 'cre-lifecycle'].find((id) => BANK.some((q) => q.sub === id));
 
@@ -51,7 +51,7 @@ test('CRE Set 1 has ten well-formed, uniquely identified questions per released 
   assert.equal(BANK.length, BATCHES.length * 10);
   const ids = new Set();
   for (const q of BANK) {
-    const m = q.qid.match(/^cre:set-1:b(\d{2})-q(\d{2})$/);
+    const m = q.qid.match(/^cre:set-1:b(\d{2})-q(\d{2,3})$/);
     assert.ok(m, `${q.qid} id format`);
     assert.equal(Number(m[1]), q.batch, `${q.qid} id carries its batch`);
     assert.equal(Number(m[2]), BANK.indexOf(q) + 1, `${q.qid} numbering is sequential and never renumbered`);
@@ -138,9 +138,19 @@ test('batch 9 brings Domain II to 20 with three II.A and seven II.B items', () =
   assert.equal(rows.filter((q) => q.bok.code.startsWith('II.A')).length, 3);
   assert.equal([...new Set(rows.filter((q) => q.bok.code.startsWith('II.A')).map((q) => q.bok.code))].sort().join(), 'II.A.1,II.A.2,II.A.3');
   assert.equal(rows.filter((q) => q.bok.code.startsWith('II.B')).length, 7);
-  assert.equal(BANK.filter((q) => q.sub === 'cre-risk').length, 20);
+  assert.equal(BANK.filter((q) => q.sub === 'cre-risk' && q.batch <= 9).length, 20);
   const iib = new Set(BANK.filter((q) => q.bok.code.startsWith('II.B')).map((q) => q.bok.code));
   assert.equal([...iib].sort().join(), 'II.B.1,II.B.2,II.B.3,II.B.4,II.B.5,II.B.6', 'every II.B topic is covered');
+});
+
+test('batch 10 completes Domain II at 25 with five II.C items and opens Domain I with five I.A items', () => {
+  const rows = BANK.filter((q) => q.batch === 10);
+  assert.equal(rows.filter((q) => q.bok.code === 'II.C' && q.sub === 'cre-risk').length, 5);
+  assert.equal(BANK.filter((q) => q.sub === 'cre-risk').length, 25, 'Domain II is complete');
+  assert.equal([...new Set(BANK.filter((q) => q.sub === 'cre-risk').map((q) => q.bok.code.slice(0, 4)))].sort().join(), 'II.A,II.B,II.C');
+  const ia = rows.filter((q) => q.bok.code.startsWith('I.A'));
+  assert.equal(ia.length, 5);
+  assert.ok(ia.every((q) => q.sub === 'cre-fundamentals' && q.bok.domain === 'I. Reliability Fundamentals'));
 });
 
 test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22', () => {
@@ -1004,6 +1014,81 @@ test('Q90 halving D gives the largest reduction in top-event probability', () =>
   assert.equal('ABCD'[q.answer], best);
 });
 
+test('Q91 the four responses map to transfer, terminate, treat and tolerate', () => {
+  const q = byId('cre:set-1:b10-q91');
+  const d = Object.fromEntries([...q.chart.rows].map(([k, v]) => [k, v]));
+  assert.match(d['1'], /carries the warranty liability/); assert.match(d['2'], /needs no shaft seal/);
+  assert.match(d['3'], /elastomer compound/); assert.match(d['4'], /take no action/);
+  assert.equal(q.options[q.answer], '1 transfer; 2 terminate; 3 treat; 4 tolerate');
+});
+
+test('Q93 ALARP disproportion factor of 3 over a 5-year life requires M1 and M3', () => {
+  const q = byId('cre:set-1:b10-q93');
+  const ratio = [...q.chart.rows].map(([m, c, dl]) => [m.split(':')[0], money(c) / (5 * money(dl))]);
+  assert.deepEqual(ratio.map(([, r]) => Math.round(r * 100) / 100), [0.4, 4, 2.5, 3.33]);
+  const required = ratio.filter(([, r]) => r <= 3).map(([m]) => m);
+  assert.equal(q.options[q.answer], required.join(' and '));
+  assert.ok(q.options.includes('M1 only'), 'the break-even trap is offered');
+});
+
+test('Q94 overall residual risk exceeds its criterion although each hazard passes', () => {
+  const q = byId('cre:set-1:b10-q94');
+  const rates = [...q.chart.rows].map((r) => Number(r[1]));
+  assert.ok(rates.every((x) => x <= 200), 'each hazard passes the individual criterion');
+  const total = rates.reduce((a, b) => a + b, 0);
+  assert.equal(total, 600);
+  const unitYearsM = 20000 * 10 / 1e6;
+  assert.equal(Math.round(total * unitYearsM), 120);
+  assert.ok(total > 500);
+  assert.match(q.options[q.answer], /^About 120 events; do not release, because the five hazards together exceed the limit of 500/);
+  assert.ok(q.options.some((o) => o.startsWith(`About ${Math.round(Math.max(...rates) * unitYearsM)} `)), 'largest-hazard trap');
+  assert.ok(q.options.some((o) => o.startsWith(`About ${Math.round(total / rates.length * unitYearsM)} `)), 'average trap');
+});
+
+test('Q95 mitigated loss rate counts uncovered outages plus the secondary risk', () => {
+  const q = byId('cre:set-1:b10-q95');
+  const [works, fails] = q.chart.children;
+  const lossPerOutage = Number(fails.p) + Number(works.p) * Number(works.children[1].p);
+  const outages = Number(q.chart.title.match(/\((\d+) per year\)/)[1]);
+  const f = outages * lossPerOutage + 0.5;
+  assertKeyed(q, f, 0.0005);
+  assert.ok(q.options.includes((outages * lossPerOutage).toFixed(3)), 'secondary-risk-ignored trap');
+});
+
+test('Q97 critical path moves to A-D-E-H at 132 days after the slip and the crash', () => {
+  const q = byId('cre:set-1:b10-q97');
+  const acts = Object.fromEntries([...q.chart.rows].map(([id, , pre, d]) => [id, { pre: pre === '—' ? [] : pre.split(', '), d: Number(d) }]));
+  const longest = (dur) => {
+    const ef = {};
+    const go = (id) => ef[id] ?? (ef[id] = Math.max(0, ...acts[id].pre.map(go)) + dur[id]);
+    Object.keys(acts).forEach(go);
+    return Math.max(...Object.values(ef));
+  };
+  const base = Object.fromEntries(Object.entries(acts).map(([k, v]) => [k, v.d]));
+  assert.equal(longest(base), 135, 'planned duration');
+  const now = { ...base, D: base.D + 15, E: base.E - 8 };
+  assert.equal(longest(now), 132);
+  const path = (ids, dur) => ids.split('').reduce((a, k) => a + dur[k], 0);
+  assert.equal(path('ADEH', now), 132); assert.equal(path('BCEH', now), 127);
+  assert.equal(path('BCEH', base) - path('ADEH', base), 10, 'D had 10 days of total slack');
+  assert.equal(q.options[q.answer], '132 days; A–D–E–H becomes the critical path.');
+});
+
+test('Q100 OEE is availability times performance times quality', () => {
+  const q = byId('cre:set-1:b10-q100');
+  const d = Object.fromEntries([...q.chart.rows].map(([k, v]) => [k, n_(v)]));
+  const planned = d['Shift length'] - d['Scheduled breaks'];
+  const operating = planned - d['Changeover'] - d['Breakdown'];
+  const total = d['Total pieces produced'], good = d['Good pieces'], rate = d['Ideal production rate'];
+  const A = operating / planned, P = total / operating / rate, Q = good / total;
+  const pct = (x) => `${(x * 100).toFixed(1)}%`;
+  assert.equal(q.options[q.answer], pct(A * P * Q));
+  assert.ok(q.options.includes(pct(A * P)), 'quality-omitted trap');
+  assert.ok(q.options.includes(pct(A * (total / planned / rate) * Q)), 'planned-time trap');
+  const shift = d['Shift length'], op2 = shift - d['Changeover'] - d['Breakdown'];
+  assert.ok(q.options.includes(pct((op2 / shift) * (total / op2 / rate) * Q)), 'breaks-not-removed trap');
+});
+
 /* ---------- 3. production delivery ---------- */
 
 async function productionHtml() {
@@ -1084,16 +1169,16 @@ test('an area a released set does not cover is announced, never silently switche
     const overview = window.document.getElementById('tb-overview');
     // Set 1 opens on the first area it covers.
     assert.equal(overview.querySelector('[data-focusdom]').value, FIRST_POPULATED);
-    // Set 1 has no Domain I items yet: keep the learner's choice and explain.
+    // Set 1 has no Domain V items yet: keep the learner's choice and explain.
     const area = overview.querySelector('[data-focusdom]');
-    area.value = 'cre-fundamentals';
+    area.value = 'cre-lifecycle';
     area.dispatchEvent(new window.Event('change', { bubbles: true }));
-    assert.equal(overview.querySelector('[data-focusdom]').value, 'cre-fundamentals');
+    assert.equal(overview.querySelector('[data-focusdom]').value, 'cre-lifecycle');
     assert.equal(overview.querySelector('[data-mode="focus"]').disabled, true);
-    assert.match(overview.textContent, /No questions are available in .*Reliability Fundamentals.*Choose another area or test set/);
+    assert.match(overview.textContent, /No questions are available in .*Lifecycle Reliability.*Choose another area or test set/);
     // Another set that covers the area makes it available, without changing the area.
     click(window, overview.querySelector('[data-quiz-set-kind="focus"][data-quiz-set="3"]'));
-    assert.equal(overview.querySelector('[data-focusdom]').value, 'cre-fundamentals');
+    assert.equal(overview.querySelector('[data-focusdom]').value, 'cre-lifecycle');
     click(window, overview.querySelector('[data-mode="focus"]'));
     const records = window.__TB.getFeedbackSnapshot().records;
     assert.ok(records.length > 0 && records.every((r) => r.question.qid.startsWith('cre:set-3:')));

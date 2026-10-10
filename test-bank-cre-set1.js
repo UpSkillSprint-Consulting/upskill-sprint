@@ -10,6 +10,7 @@
  * Batch 7 of 15: IV.C.1–IV.C.5 (block diagrams, physics of failure, failure models, prediction, prototyping).
  * Batch 8 of 15: II.A.1–II.A.3 (identification) and II.B.1–II.B.3, II.B.5 (FTA, FMEA/FMECA, common cause, risk matrix).
  * Batch 9 of 15: II.A.1–II.A.3 (PRA, risk evaluation, risk types) and II.B.1–II.B.6 (FTA, FHA, FMEA, common cause, design trade-offs).
+ * Batch 10 of 15: II.C (mitigation: 4 Ts, ALARP/ALARA/ALAP, residual and secondary risk) and I.A.2, I.A.5, I.A.7–I.A.9 (leadership foundations).
  *
  * Every calculated answer is recomputed independently in tests/test-bank-cre-set1.test.js.
  * Notation follows The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting &
@@ -7944,6 +7945,767 @@
         "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
         "chapter": "Chapter 4 - Risk Analysis",
         "section": "Fault tree analysis — action priority",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b10-q91",
+    "set": 1,
+    "batch": 10,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "C. Mitigation",
+      "code": "II.C",
+      "topic": "Risk mitigation strategies (the 4 Ts)"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, classification",
+    "quantitative": false,
+    "stem": "A pump maker has found that its shaft seals can harden and leak in cold climates. The table lists four responses the team is considering. Which classification of the responses is correct?",
+    "chart": {
+      "type": "data-table",
+      "title": "Responses to the seal-hardening risk",
+      "columns": [
+        "Response",
+        "Description"
+      ],
+      "rows": [
+        [
+          "1",
+          "Buy the seal as a complete module from a specialist supplier, who carries the warranty liability for it"
+        ],
+        [
+          "2",
+          "Change to a magnetic drive, which needs no shaft seal at all"
+        ],
+        [
+          "3",
+          "Change the elastomer compound and add a cold-soak test to qualification"
+        ],
+        [
+          "4",
+          "For the indoor-only model, record the risk and take no action, because those units never see cold temperatures"
+        ]
+      ]
+    },
+    "options": [
+      "1 transfer; 2 terminate; 3 treat; 4 tolerate",
+      "1 treat; 2 terminate; 3 transfer; 4 tolerate",
+      "1 transfer; 2 treat; 3 terminate; 4 tolerate",
+      "1 tolerate; 2 terminate; 3 treat; 4 transfer"
+    ],
+    "answer": 0,
+    "why": "<p>The four mitigation strategies are tolerate, terminate, treat and transfer. Shifting the liability to the specialist supplier transfers the risk (1). Removing the seal removes the failure mode completely, which terminates the risk (2). A better compound and a qualification test reduce the risk without removing it, which treats it (3). Accepting a low-priority risk for a model that never sees the cold condition tolerates it, freeing resources for higher-priority risks (4).</p><p><b>A. 1 transfer; 2 terminate; 3 treat; 4 tolerate.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 5, Strategies to Minimize Risk (the 4 Ts).</span></p>",
+    "optionRationales": [
+      "Correct. Supplier liability is transfer, removing the seal is terminate, the new compound is treat, and accepting the indoor risk is tolerate.",
+      "Response 1 does not reduce the risk; it moves the liability to another party, which is transfer. Response 3 reduces the risk, which is treat.",
+      "Response 2 removes the failure mode entirely, so it terminates the risk; response 3 only reduces it, so it treats the risk.",
+      "Response 1 shifts liability to the supplier (transfer), and response 4 accepts the risk (tolerate); these two are swapped."
+    ],
+    "keyPoint": "Terminate removes the risk, treat reduces it, transfer shifts it to another party, and tolerate accepts it.",
+    "trap": "Calling any design change \"treat\": a change that removes the failure mode completely terminates the risk.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "risk mitigation",
+      "4 Ts",
+      "tolerate",
+      "terminate",
+      "treat",
+      "transfer"
+    ],
+    "sourceSection": "Chapter 5 - Risk Mitigation",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 5 - Risk Mitigation",
+        "section": "Strategies to minimize risk",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b10-q92",
+    "set": 1,
+    "batch": 10,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "C. Mitigation",
+      "code": "II.C",
+      "topic": "ALARP, ALARA and ALAP"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Understand",
+    "questionType": "Concept",
+    "quantitative": false,
+    "stem": "An industrial radiography crew inspects pipeline welds with a gamma source. Their exposures are already below the regulatory limit, but the site plan still requires them to cut exposure further by limiting time near the source, using shielding and increasing distance, as U.S. radiation-protection rules require. Which risk-reduction principle does the plan apply?",
+    "chart": null,
+    "options": [
+      "As low as reasonably practicable (ALARP)",
+      "As low as reasonably achievable (ALARA)",
+      "As low as possible (ALAP)",
+      "Risk tolerance at the regulatory limit"
+    ],
+    "answer": 1,
+    "why": "<p>ALARA is the principle used in radiation safety. It minimizes exposure that brings the person no direct benefit, using three factors: time, shielding and distance. ALARP is the general cost-balanced principle, and ALAP requires reduction as far as possible regardless of cost, as in medical device and aerospace risk management.</p><p><b>B. As low as reasonably achievable (ALARA).</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 5, Requirements to Reduce Risk: ALARP, ALAP, and ALARA.</span></p>",
+    "optionRationales": [
+      "ALARP balances risk reduction against cost and practicality in general use; radiation protection uses its own principle.",
+      "Correct. ALARA governs radiation exposure, using time, shielding and distance.",
+      "ALAP requires reduction as far as possible regardless of cost; it is the standard for catastrophic risks such as in medical devices and aerospace.",
+      "The plan does not stop at the regulatory limit; it keeps reducing exposure below it."
+    ],
+    "keyPoint": "ALARA: radiation safety (time, shielding, distance). ALARP: cost-balanced reduction. ALAP: as far as possible, regardless of cost.",
+    "trap": "Choosing ALARP because the plan sounds reasonable; radiation exposure has its own named principle.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "ALARA",
+      "ALARP",
+      "ALAP",
+      "radiation safety"
+    ],
+    "sourceSection": "Chapter 5 - Risk Mitigation",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 5 - Risk Mitigation",
+        "section": "Requirements to reduce risk: ALARP, ALAP, and ALARA",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b10-q93",
+    "set": 1,
+    "batch": 10,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "C. Mitigation",
+      "code": "II.C",
+      "topic": "Applying ALARP with a disproportion test"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, calculation, decision",
+    "quantitative": true,
+    "stem": "A plant applies ALARP with this rule: a risk-reduction measure must be implemented unless its cost is more than three times its benefit. The benefit is the reduction in expected loss over the 5-year life of the line. Using the table, which measures must be implemented?",
+    "chart": {
+      "type": "data-table",
+      "title": "Candidate risk-reduction measures",
+      "columns": [
+        "Measure",
+        "Cost (dollars)",
+        "Reduction in expected loss (dollars per year)"
+      ],
+      "rows": [
+        [
+          "M1: interlock on the access door",
+          "40,000",
+          "20,000"
+        ],
+        [
+          "M2: full enclosure of the line",
+          "600,000",
+          "30,000"
+        ],
+        [
+          "M3: second independent pressure relief",
+          "250,000",
+          "20,000"
+        ],
+        [
+          "M4: automatic fire suppression",
+          "400,000",
+          "24,000"
+        ]
+      ]
+    },
+    "options": [
+      "M1 only",
+      "M1 and M3",
+      "M1, M3 and M4",
+      "All four measures"
+    ],
+    "answer": 1,
+    "why": "<p>Compare each measure’s cost with its benefit over the 5-year life:</p><p>\\[\\begin{aligned}r_1 &= \\frac{40000}{5(20000)} = 0.40 \\\\ r_2 &= \\frac{600000}{5(30000)} = 4.00 \\\\ r_3 &= \\frac{250000}{5(20000)} = 2.50 \\\\ r_4 &= \\frac{400000}{5(24000)} = 3.33\\end{aligned}\\]</p><p>where \\(r\\) is a measure’s cost divided by its benefit. Under the rule, a measure is required unless \\(r \\gt 3\\), so M1 and M3 are required. M3 costs more than it saves, but ALARP does not stop at break-even; it stops only when the cost is grossly disproportionate to the benefit. M2 and M4 exceed the factor of 3.</p><p><b>B. M1 and M3.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 5, Requirements to Reduce Risk: ALARP (cost of further reduction disproportionate to the benefit).</span></p>",
+    "optionRationales": [
+      "A simple cost-benefit test keeps only M1. The plant’s ALARP rule also requires M3, whose cost is 2.5 times its benefit.",
+      "Correct. \\(r_1 = 0.40\\) and \\(r_3 = 2.50\\) are within the factor of 3; M2 (4.00) and M4 (3.33) are not.",
+      "M4’s cost is 3.33 times its benefit, beyond the plant’s factor of 3.",
+      "Implementing everything regardless of cost is ALAP, not ALARP."
+    ],
+    "keyPoint": "ALARP requires risk reduction until the cost becomes disproportionate to the benefit, not merely until cost exceeds benefit.",
+    "trap": "Treating ALARP as a break-even test and rejecting every measure that costs more than it saves.",
+    "formula": "\\(r = \\dfrac{C}{T\\,\\Delta L}\\); implement unless \\(r \\gt 3\\)",
+    "assumptions": [
+      "Benefits are not discounted; the 5-year life applies to every measure."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "ALARP",
+      "disproportion",
+      "cost-benefit",
+      "risk reduction"
+    ],
+    "sourceSection": "Chapter 5 - Risk Mitigation",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 5 - Risk Mitigation",
+        "section": "Requirements to reduce risk: ALARP, ALAP, and ALARA",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b10-q94",
+    "set": 1,
+    "batch": 10,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "C. Mitigation",
+      "code": "II.C",
+      "topic": "Overall residual risk across a fleet"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, calculation, decision",
+    "quantitative": true,
+    "stem": "A home appliance has five residual hazards after mitigation. Company criteria limit each hazard to 200 harm events per million unit-years and the overall residual risk to 500. The appliance is planned for 20,000 units with a 10-year life. How many harm events should be expected across the fleet’s life, and what should the team decide?",
+    "chart": {
+      "type": "data-table",
+      "title": "Residual risk after mitigation",
+      "columns": [
+        "Hazard",
+        "Harm events per million unit-years"
+      ],
+      "rows": [
+        [
+          "H1: burn from hot surface",
+          "150"
+        ],
+        [
+          "H2: shock during cleaning",
+          "80"
+        ],
+        [
+          "H3: pinch at the lid hinge",
+          "120"
+        ],
+        [
+          "H4: tip-over",
+          "60"
+        ],
+        [
+          "H5: battery thermal event",
+          "190"
+        ]
+      ]
+    },
+    "options": [
+      "About 24 events; release, because the average hazard rate is within the individual criterion.",
+      "About 38 events; release, because the largest hazard rate is within the individual criterion.",
+      "About 120 events; release, because each of the five hazards is within its limit of 200.",
+      "About 120 events; do not release, because the five hazards together exceed the limit of 500."
+    ],
+    "answer": 3,
+    "why": "<p>Each hazard is acceptable on its own, but overall residual risk is the sum of all of them:</p><p>\\[\\begin{aligned}\\lambda &= 150 + 80 + 120 \\\\ &\\quad + 60 + 190 \\\\ &= 600 \\\\ E &= \\lambda N t \\\\ &= 600(0.02)(10) = 120\\end{aligned}\\]</p><p>where \\(\\lambda\\) is the overall residual rate in harm events per million unit-years, \\(N\\) the fleet size in millions of units (0.02), \\(t\\) the life in years and \\(E\\) the expected number of harm events over the fleet’s life. An overall rate of 600 exceeds the criterion of 500, so the overall residual risk is unacceptable even though every hazard passes alone. The team should reduce or decouple individual risks (H5 and H1 are the largest) before release.</p><p><b>D. About 120 events; do not release yet.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 5, Residual Risk — Overall Residual Risk Assessment.</span></p>",
+    "optionRationales": [
+      "The average rate (120) times 0.2 million unit-years gives 24, but the hazards add; they do not average.",
+      "Using only the largest hazard (190) gives 38 and ignores the other four.",
+      "The total of 120 events is right, but passing each individual criterion does not make the overall risk acceptable: 600 exceeds 500.",
+      "Correct. The overall rate of 600 per million unit-years exceeds 500, and about 120 harm events are expected."
+    ],
+    "keyPoint": "Individually acceptable residual risks can add up to an unacceptable overall residual risk; assess the total before release.",
+    "trap": "Releasing because every hazard passes its individual criterion.",
+    "formula": "\\(E = \\lambda N t\\), with \\(\\lambda = \\sum_i \\lambda_i\\)",
+    "assumptions": [
+      "Rates are constant over the product life; the hazards occur independently."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "residual risk",
+      "overall residual risk",
+      "risk acceptance",
+      "fleet exposure"
+    ],
+    "sourceSection": "Chapter 5 - Risk Mitigation",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 5 - Risk Mitigation",
+        "section": "Residual risk — overall residual risk assessment",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b10-q95",
+    "set": 1,
+    "batch": 10,
+    "sub": "cre-risk",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "II. Risk Management",
+      "subdomain": "C. Mitigation",
+      "code": "II.C",
+      "topic": "Secondary risk introduced by a risk control"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "Grid power fails at a site about 4 times a year, and each outage stops a critical controller. The team adds a standby generator with an automatic transfer switch; the event tree shows what happens in an outage. The new switch also introduces a secondary risk: about 0.5 times a year it transfers spuriously while the grid is healthy, which drops the controller. How many losses of the critical function per year should be expected with the mitigation in place?",
+    "chart": {
+      "type": "cre-prob-tree",
+      "title": "Event tree per grid outage (4 per year)",
+      "altText": "Event tree for one grid outage. The transfer switch works with probability 0.98 or fails with probability 0.02 (loss of function). If it works, the generator starts with probability 0.95 (no loss) or fails to start with probability 0.05 (loss of function).",
+      "root": "Grid outage",
+      "children": [
+        {
+          "label": "Transfer works",
+          "p": "0.98",
+          "children": [
+            {
+              "label": "Generator starts",
+              "p": "0.95",
+              "outcome": "No loss"
+            },
+            {
+              "label": "Generator fails",
+              "p": "0.05",
+              "outcome": "Loss of function"
+            }
+          ]
+        },
+        {
+          "label": "Transfer fails",
+          "p": "0.02",
+          "outcome": "Loss of function"
+        }
+      ]
+    },
+    "options": [
+      "0.276",
+      "0.500",
+      "0.776",
+      "4.500"
+    ],
+    "answer": 2,
+    "why": "<p>Count losses from outages that the mitigation fails to cover, then add the losses the mitigation itself creates:</p><p>\\[\\begin{aligned}f_o &= 4[0.02 + 0.98(0.05)] \\\\ &= 4(0.069) = 0.276 \\\\ f &= f_o + f_s \\\\ &= 0.276 + 0.500 = 0.776\\end{aligned}\\]</p><p>where \\(f_o\\) is the yearly rate of outages that still drop the controller, \\(f_s\\) the yearly rate of spurious transfers and \\(f\\) the total. The mitigation cuts losses from 4 to about 0.78 a year, but the secondary risk now makes up almost two-thirds of what remains, so it must be assessed and controlled too.</p><p><b>C. 0.776</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 5, Secondary Risk (risks introduced by a risk control; the backup generator and transfer switch).</span></p>",
+    "optionRationales": [
+      "Counts only the outages the mitigation fails to cover and ignores the secondary risk the switch introduces.",
+      "Counts only the spurious transfers and ignores outages the switch or generator fails to cover.",
+      "Correct. \\(0.276 + 0.500 = 0.776\\) losses a year.",
+      "Adds the spurious transfers to the original 4 outages, as if the mitigation did nothing."
+    ],
+    "keyPoint": "Every risk control can introduce secondary risks; include them when judging whether the mitigated risk is acceptable.",
+    "trap": "Crediting the mitigation without counting the new failure modes it introduces.",
+    "formula": "\\(f = f_{\\text{outage}}[q_s + (1 - q_s)q_g] + f_s\\)",
+    "assumptions": [
+      "Switch and generator failures are independent; spurious transfers are independent of outages."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "secondary risk",
+      "risk control",
+      "event tree",
+      "transfer switch"
+    ],
+    "sourceSection": "Chapter 5 - Risk Mitigation",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 5 - Risk Mitigation",
+        "section": "Secondary risk",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b10-q96",
+    "set": 1,
+    "batch": 10,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "A. Leadership Foundations",
+      "code": "I.A.2",
+      "topic": "Distinguishing quality from reliability"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Understand",
+    "questionType": "Scenario",
+    "quantitative": false,
+    "stem": "Every connector in a lot passed 100% final inspection for dimensions and contact resistance. After 18 months at humid coastal sites, 6% of them show contact resistance above the limit. Which statement best describes this problem?",
+    "chart": null,
+    "options": [
+      "It is a reliability problem: the connectors met their requirements when shipped but did not keep that performance over time in the use environment.",
+      "It is a quality problem: final inspection must have let nonconforming connectors through at shipment, so the inspection method needs correcting.",
+      "It is outside the scope of quality and reliability engineering, because the degradation occurred after the connectors left the plant.",
+      "It shows that the inspection sample was too small, and inspecting more connectors before shipment would prevent these failures."
+    ],
+    "answer": 0,
+    "why": "<p>Quality describes how well an item performs its function at a point in time, such as at shipment. Reliability describes how well it keeps that performance over time and through its use conditions. These connectors conformed when shipped (inspection was 100%, not a sample) and degraded in humid service, so this is a reliability problem: the fix is in design or materials, verified by environmental life testing, not in more inspection.</p><p><b>A. A reliability problem.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Interrelationship of Safety, Quality, and Reliability.</span></p>",
+    "optionRationales": [
+      "Correct. The connectors conformed at shipment; they lost performance over time in service, which is reliability.",
+      "Inspection was 100% and found every connector conforming; nothing suggests nonconforming parts shipped.",
+      "Performance in the use environment over the product’s life is exactly what reliability engineering addresses.",
+      "Inspection was already 100%, and no inspection at shipment can detect degradation that has not yet happened."
+    ],
+    "keyPoint": "Quality is performance at a point in time; reliability is keeping that performance over time and through use conditions.",
+    "trap": "Blaming outgoing inspection for failures that develop in service.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "quality versus reliability",
+      "field degradation",
+      "use environment"
+    ],
+    "sourceSection": "Chapter 1 - Leadership Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 1 - Leadership Foundations",
+        "section": "Interrelationship of safety, quality, and reliability",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b10-q97",
+    "set": 1,
+    "batch": 10,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "A. Leadership Foundations",
+      "code": "I.A.5",
+      "topic": "Critical path after a slip and a crash"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "The table shows a reliability test program, planned to finish in 135 days. Fixture build (D) now slips by 15 days. To recover, the team crashes the accelerated life test (E) by 8 days by testing at a higher approved stress. What is the new project duration, and which path is critical?",
+    "chart": {
+      "type": "data-table",
+      "title": "Reliability test program activities",
+      "columns": [
+        "Activity",
+        "Description",
+        "Predecessors",
+        "Duration (days)"
+      ],
+      "rows": [
+        [
+          "A",
+          "Design and order test fixtures",
+          "—",
+          "30"
+        ],
+        [
+          "B",
+          "Write test protocols",
+          "—",
+          "20"
+        ],
+        [
+          "C",
+          "HALT on prototypes",
+          "B",
+          "45"
+        ],
+        [
+          "D",
+          "Build and approve fixtures",
+          "A",
+          "25"
+        ],
+        [
+          "E",
+          "Accelerated life test",
+          "C, D",
+          "60"
+        ],
+        [
+          "F",
+          "Field-use survey",
+          "B",
+          "15"
+        ],
+        [
+          "G",
+          "Reliability growth test",
+          "D, F",
+          "35"
+        ],
+        [
+          "H",
+          "Final report",
+          "E, G",
+          "10"
+        ]
+      ]
+    },
+    "options": [
+      "132 days; B–C–E–H is still the critical path.",
+      "135 days; the slip is absorbed by slack in D, so the crash saves no time.",
+      "132 days; A–D–E–H becomes the critical path.",
+      "142 days; the 15-day slip and the 8-day crash both pass straight to the end date."
+    ],
+    "answer": 2,
+    "why": "<p>Recompute every start-to-finish path with D at 40 days and E at 52 days:</p><p>\\[\\begin{aligned}L_{ADEH} &= 30 + 40 + 52 + 10 \\\\ &= 132 \\\\ L_{BCEH} &= 20 + 45 + 52 + 10 \\\\ &= 127 \\\\ L_{ADGH} &= 30 + 40 + 35 + 10 \\\\ &= 115 \\\\ L_{BFGH} &= 20 + 15 + 35 + 10 \\\\ &= 80\\end{aligned}\\]</p><p>where \\(L\\) is a path’s length in days. Before the changes, B–C–E–H (135 days) was critical and D had 10 days of total slack (A–D–E–H was 125 days). The 15-day slip uses that slack and moves A–D–E–H to 140 days, and crashing E, which lies on both of the longest paths, shortens both by 8 days. A–D–E–H, at 132 days, becomes the critical path, and the project now finishes 3 days earlier than planned.</p><p><b>C. 132 days; A–D–E–H becomes critical.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Project Management in Reliability Engineering — The Critical Path Method (total slack; crashing).</span></p>",
+    "optionRationales": [
+      "The duration is right, but B–C–E–H is now 127 days; A–D–E–H (132) is the longest path.",
+      "D had only 10 days of slack, so a 15-day slip cannot be fully absorbed, and the crash does shorten the project.",
+      "Correct. A–D–E–H is the longest path at 132 days.",
+      "Adds the slip in full, ignoring D’s 10 days of slack: 135 + 15 − 8 = 142."
+    ],
+    "keyPoint": "A slip longer than an activity’s total slack can move the critical path; recompute all paths after any change.",
+    "trap": "Adding a delay straight to the end date, or assuming the critical path never changes.",
+    "formula": "\\(L = \\sum_{j \\in \\text{path}} d_j\\); the critical path is the longest \\(L\\)",
+    "assumptions": [
+      "Durations are fixed; no other activity changes."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "critical path method",
+      "total slack",
+      "crashing",
+      "reliability test planning"
+    ],
+    "sourceSection": "Chapter 1 - Leadership Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 1 - Leadership Foundations",
+        "section": "Project management in reliability engineering — the critical path method",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b10-q98",
+    "set": 1,
+    "batch": 10,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "A. Leadership Foundations",
+      "code": "I.A.7",
+      "topic": "Protecting a former employer’s confidential data"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Scenario",
+    "quantitative": false,
+    "stem": "A reliability engineer has just joined a new employer. She still has life-test data for a bearing that her former employer developed, and no confidentiality agreement was ever signed. Her new manager asks her to use those data to set the warranty for a similar bearing. What should she do?",
+    "chart": null,
+    "options": [
+      "Use the data, because without a signed confidentiality agreement the former employer has no claim on them.",
+      "Use the data after removing the former employer’s name, and record the source internally for traceability.",
+      "Use only the fitted Weibull parameters, because summary statistics are not the former employer’s proprietary data.",
+      "Decline unless the former employer releases the data in writing; use public or newly generated data instead."
+    ],
+    "answer": 3,
+    "why": "<p>The ASQ Code of Ethics (C.1) requires protecting the integrity of confidential information. Even without a confidentiality agreement, the engineer must act as if one were in place, and a signed release from the former employer is the practical safeguard. Removing the name or using only fitted parameters still uses the confidential results.</p><p><b>D. Decline unless released in writing; use public or new data.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Ethics in Reliability Engineering (ASQ Code of Ethics C.1).</span></p>",
+    "optionRationales": [
+      "The code applies even without a signed agreement: she must act as if one were in place.",
+      "Hiding the source does not change the fact that confidential information is being used.",
+      "Distribution parameters fitted to the confidential tests are themselves confidential results.",
+      "Correct. Without a written release she must not use the data; public or newly generated data are proper sources."
+    ],
+    "keyPoint": "Treat a former employer’s or client’s information as confidential even when no agreement was signed.",
+    "trap": "Assuming there is no obligation because no confidentiality agreement exists.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "ethics",
+      "ASQ Code of Ethics",
+      "confidential information"
+    ],
+    "sourceSection": "Chapter 1 - Leadership Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 1 - Leadership Foundations",
+        "section": "Ethics in reliability engineering",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b10-q99",
+    "set": 1,
+    "batch": 10,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "A. Leadership Foundations",
+      "code": "I.A.8",
+      "topic": "Choosing a supplier reliability arrangement"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Scenario",
+    "quantitative": false,
+    "stem": "A sensor supplier has design control of the sensor module it supplies and a long, trusted record with the customer. The supply chain is short. Which reliability arrangement and assessment approach best fit this supplier?",
+    "chart": null,
+    "options": [
+      "The customer does the reliability engineering for the module and requires the supplier to meet its specifications.",
+      "The supplier does the reliability engineering for its module and reports for agreement; the customer verifies it during quality audits.",
+      "An independent third party does the reliability analysis for the module, and both parties accept its findings.",
+      "The customer repeats the supplier’s reliability tests on each new module design before approving it."
+    ],
+    "answer": 1,
+    "why": "<p>When the supplier has design control, it normally takes responsibility for reliability engineering and reports its analysis and decisions to the customer for agreement, with responsibilities such as warranty sharing set out in the contract. For a supplier with a long, trusted record, the customer verifies those reliability functions at quality audits, with at least one auditor who knows reliability engineering. Full customer testing suits suppliers without a favorable history, and third parties are more common when the supply chain is long or complex.</p><p><b>B. Supplier-led reliability engineering, verified by the customer at quality audits.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Supplier Reliability Assessments (the three arrangements; assessments for trusted and new suppliers).</span></p>",
+    "optionRationales": [
+      "Customer-led reliability with conformance only fits a customer with full design responsibility for minor parts, not a supplier with design control.",
+      "Correct. Design control places reliability engineering with the supplier, and a trusted record supports verification at audits.",
+      "Third-party involvement is more common with long or complex supply chains; this chain is short.",
+      "Customer testing of the supplier’s products suits a supplier without a strong favorable history; this supplier has a long, trusted record."
+    ],
+    "keyPoint": "Match the supplier arrangement to who holds design control, and the assessment depth to the supplier’s history.",
+    "trap": "Applying one assessment approach to every supplier regardless of design control and track record.",
+    "formula": null,
+    "assumptions": [
+      "The contract states the agreed responsibilities."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "supplier reliability",
+      "design control",
+      "supplier assessment",
+      "quality audit"
+    ],
+    "sourceSection": "Chapter 1 - Leadership Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 1 - Leadership Foundations",
+        "section": "Supplier reliability assessments",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b10-q100",
+    "set": 1,
+    "batch": 10,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "A. Leadership Foundations",
+      "code": "I.A.9",
+      "topic": "Overall equipment effectiveness (OEE)"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "Use the shift record to find the machine’s overall equipment effectiveness (OEE) for the shift.",
+    "chart": {
+      "type": "data-table",
+      "title": "Shift record",
+      "columns": [
+        "Item",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Shift length",
+          "480 min"
+        ],
+        [
+          "Scheduled breaks",
+          "30 min"
+        ],
+        [
+          "Changeover",
+          "25 min"
+        ],
+        [
+          "Breakdown",
+          "35 min"
+        ],
+        [
+          "Ideal production rate",
+          "4 pieces per minute"
+        ],
+        [
+          "Total pieces produced",
+          "1,404"
+        ],
+        [
+          "Good pieces",
+          "1,320"
+        ]
+      ]
+    },
+    "options": [
+      "63.6%",
+      "68.8%",
+      "73.3%",
+      "78.0%"
+    ],
+    "answer": 2,
+    "why": "<p>Planned production time excludes the breaks; operating time also excludes the changeover and the breakdown:</p><p>\\[\\begin{aligned}A &= \\frac{450 - 60}{450} = 0.8667 \\\\ P_f &= \\frac{1404/390}{4} = 0.9000 \\\\ Q &= \\frac{1320}{1404} = 0.9402 \\\\ \\text{OEE} &= A \\, P_f \\, Q \\\\ &= 0.733\\end{aligned}\\]</p><p>where \\(A\\) is availability, \\(P_f\\) performance (actual rate over ideal rate) and \\(Q\\) quality (good pieces over total pieces). Performance uses all pieces produced and the actual operating time; the scrap is counted once, in quality.</p><p><b>C. 73.3%</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Performance Monitoring — Overall Equipment Effectiveness Monitoring.</span></p>",
+    "optionRationales": [
+      "Uses the 450-minute planned time instead of the 390-minute operating time for performance, counting the downtime twice.",
+      "Leaves the 30 minutes of breaks in planned production time, so availability and performance are based on 480 and 420 minutes.",
+      "Correct. \\(0.8667 \\times 0.9000 \\times 0.9402 = 0.733\\).",
+      "Stops at availability times performance and leaves out quality."
+    ],
+    "keyPoint": "OEE is availability times performance times quality, with each loss counted once.",
+    "trap": "Counting downtime or scrap in two factors.",
+    "formula": "\\(\\text{OEE} = A \\times P_f \\times Q\\)",
+    "assumptions": [
+      "Changeover and breakdown are the only downtime; breaks are not planned production time."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "OEE",
+      "availability",
+      "performance",
+      "quality",
+      "performance monitoring"
+    ],
+    "sourceSection": "Chapter 1 - Leadership Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 1 - Leadership Foundations",
+        "section": "Performance monitoring — overall equipment effectiveness monitoring",
         "example": null
       }
     ]
