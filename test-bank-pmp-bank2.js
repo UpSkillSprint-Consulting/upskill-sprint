@@ -7167,6 +7167,500 @@
       "instruction": "Select ONE answer."
     }
   ]
+},
+{
+  "number": 15,
+  "sourcePage": "https://github.com/UpSkillSprint-Consulting/upskill-sprint/blob/codex/pmp-set2-batches01-05/docs/pmp-set2-batch15.md",
+  "questions": [
+    {
+      "n": 141,
+      "id": "pmp-set2-141",
+      "domain": "Process",
+      "task": 3,
+      "approach": "Hybrid",
+      "difficulty": "Challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "A hybrid energy-management project has installed meters through a planned construction phase and is releasing optimization features iteratively. The business case targets a sustained reduction in energy used per unit of comparable production. The dashboard tracks meters installed and features released, but no one has agreed the reference operating conditions or who will evaluate savings after handover. What should the project manager prioritize?",
+      "options": [
+        [
+          "A",
+          "Declare the benefit achieved when the planned meters and optimization features have been accepted."
+        ],
+        [
+          "B",
+          "Work with the sponsor and operations to establish comparable baseline conditions, outcome measures, a benefits owner, and a measurement schedule."
+        ],
+        [
+          "C",
+          "Use the first month’s total electricity bill as the sole measure of project success."
+        ],
+        [
+          "D",
+          "Add more optimization features before defining the measurement approach so the benefit will be easier to demonstrate."
+        ]
+      ],
+      "correct": [
+        "B"
+      ],
+      "explanation": "The delivery measures show outputs, not the targeted sustained outcome. A benefits measurement system needs a meaningful reference, suitable metrics, ownership, and timing. Establishing these with the receiving organization makes it possible to assess the intended benefit after delivery and interpret changes in operating conditions.",
+      "rationales": {
+        "A": "Acceptance of equipment and features does not by itself demonstrate sustained energy improvement.",
+        "B": "This closes the gaps in measuring and sustaining the business-case outcome.",
+        "C": "A bill is affected by tariffs and production conditions and is not the stated energy-intensity outcome.",
+        "D": "Additional features do not resolve missing benefit definitions and may add investment without evidence of value."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide: benefits management plan and business case, pp. 115–116 (PDF pp. 220–221).",
+        "PMBOK Guide, Eighth Edition, The Standard for Project Management §3.4: Focus on Value, pp. 40–42 (PDF pp. 63–65)."
+      ],
+      "difficultyReason": "The candidate must distinguish delivery evidence from benefit evidence and connect measurement design with operational accountability.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 142,
+      "id": "pmp-set2-142",
+      "domain": "People",
+      "task": 4,
+      "approach": "Predictive",
+      "difficulty": "Challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "A predictive facility project proposes consolidating deliveries to reduce fuel consumption. The proposed route passes a residential area early in the morning. The logistics contractor and sponsor support the change, but residents and a nearby care facility were not included in the stakeholder analysis. No route decision has been approved. What should the project manager do next?",
+      "options": [
+        [
+          "A",
+          "Proceed with the preferred route because the sponsor and contractor represent the parties responsible for delivery performance."
+        ],
+        [
+          "B",
+          "Send residents a notice explaining the fuel reduction after the route is approved."
+        ],
+        [
+          "C",
+          "Reject consolidation immediately because any local inconvenience makes a sustainability initiative unacceptable."
+        ],
+        [
+          "D",
+          "Include the affected groups in the stakeholder analysis, understand their concerns, and assess route and timing alternatives before the decision."
+        ]
+      ],
+      "correct": [
+        "D"
+      ],
+      "explanation": "The proposal creates potential impacts for stakeholders who were omitted. Including them and exploring their needs allows the decision to account for environmental, operational, and social effects. The project manager should neither assume sponsor support represents all affected parties nor decide that the proposal must fail before evaluating alternatives.",
+      "rationales": {
+        "A": "Those parties do not represent the interests of every affected group.",
+        "B": "Notification after approval denies the affected groups a timely opportunity to inform the choice.",
+        "C": "A possible impact calls for analysis and alternatives, not an unsupported blanket rejection.",
+        "D": "This expands engagement to the relevant affected groups while keeping feasible trade-offs open."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, The Standard for Project Management §3.7: Integrate Sustainability Within All Project Areas, pp. 48–52 (PDF pp. 71–75).",
+        "PMBOK Guide, Eighth Edition, Guide §2.5.2.3–2.5.2.6: communication and stakeholder engagement, pp. 72–73 (PDF pp. 177–178)."
+      ],
+      "difficultyReason": "The candidate must recognize missing stakeholders despite strong internal support and choose engagement before commitment.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 143,
+      "id": "pmp-set2-143",
+      "domain": "Process",
+      "task": 2,
+      "approach": "Agile",
+      "difficulty": "Challenging",
+      "format": "multiple",
+      "caseId": null,
+      "stem": "An agile product team has a high-priority backlog item reading, “Make the customer portal sustainable.” The product owner agrees that reducing operating energy is the intended outcome, while the existing response-time commitment must still be met. Developers interpret the item differently and cannot determine whether it is done. Which TWO refinements are most useful before selecting the item for delivery?",
+      "options": [
+        [
+          "A",
+          "Define an observable energy-use target under agreed workload conditions while retaining the required response time."
+        ],
+        [
+          "B",
+          "Replace the item with “Use the newest hosting platform” and treat platform migration as proof of sustainability."
+        ],
+        [
+          "C",
+          "Clarify the behavior or service boundary being changed and agree the evidence used to verify the requirement with relevant stakeholders."
+        ],
+        [
+          "D",
+          "Estimate the item first and allow each developer to decide independently what sustainable means during implementation."
+        ],
+        [
+          "E",
+          "Add every possible environmental improvement to the item so no later sustainability work is needed."
+        ]
+      ],
+      "correct": [
+        "A",
+        "C"
+      ],
+      "explanation": "The team needs a sufficiently clear scope boundary and verifiable outcomes. A target under agreed conditions makes energy performance assessable without sacrificing the existing service constraint; agreement on scope and evidence gives developers a common understanding. A technology choice or an unrestricted expansion of work does not establish the required outcome.",
+      "rationales": {
+        "A": "This turns the intended outcome into a measurable requirement and preserves the stated service constraint.",
+        "B": "A newer platform is a solution choice, not evidence of lower energy use under the required conditions.",
+        "C": "This establishes what the item covers and how stakeholders will assess conformance.",
+        "D": "An estimate does not resolve conflicting interpretations or provide shared acceptance evidence.",
+        "E": "An unbounded item obscures priorities and prevents a usable definition of the intended work."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, The Standard for Project Management §3.7: Integrate Sustainability Within All Project Areas, pp. 48–52 (PDF pp. 71–75).",
+        "PMBOK Guide, Eighth Edition, Guide §2.2: scope and requirements, pp. 39–45 (PDF pp. 144–150)."
+      ],
+      "difficultyReason": "The candidate must select complementary scope and verification refinements while preserving an existing constraint.",
+      "instruction": "Select TWO answers."
+    },
+    {
+      "n": 144,
+      "id": "pmp-set2-144",
+      "domain": "Business Environment",
+      "task": 8,
+      "approach": "Predictive",
+      "difficulty": "Challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "A predictive heat-recovery project was approved partly because of a utility incentive. Before the next major equipment commitment, the utility announces that this project is no longer eligible. The delivery team is on schedule, and 35% of the budget has already been spent. The sponsor retains authority to continue, change, or stop the investment. What should the project manager do?",
+      "options": [
+        [
+          "A",
+          "Update the remaining costs, benefits, and alternatives with the loss of the incentive and take a recommendation to the sponsor before the commitment."
+        ],
+        [
+          "B",
+          "Continue as planned because spending 35% of the budget establishes that the project must be completed."
+        ],
+        [
+          "C",
+          "Cancel the project immediately because the loss of any original benefit automatically invalidates approval."
+        ],
+        [
+          "D",
+          "Keep the original incentive in the forecast until the next scheduled annual business-case review."
+        ]
+      ],
+      "correct": [
+        "A"
+      ],
+      "explanation": "The external change may alter business viability and should inform the imminent commitment. The project manager should provide a current assessment and recommendation to the authorized decision maker. Prior expenditure does not prove that further investment is worthwhile, and the change does not itself establish that cancellation is best.",
+      "rationales": {
+        "A": "This evaluates the external change in time to inform the next consequential decision through the proper authority.",
+        "B": "Prior spending is not a sufficient justification for future spending.",
+        "C": "The remaining value and alternatives have not yet been evaluated, and the sponsor holds the decision authority.",
+        "D": "Deferring the update would knowingly base a new commitment on an invalid assumption."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide: benefits management plan and business case, pp. 115–116 (PDF pp. 220–221).",
+        "PMBOK Guide, Eighth Edition, The Standard for Project Management §3.4: Focus on Value, pp. 40–42 (PDF pp. 63–65)."
+      ],
+      "difficultyReason": "The candidate must respond to an external change before commitment while separating sunk expenditure from future viability and respecting authority.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 145,
+      "id": "pmp-set2-145",
+      "domain": "Process",
+      "task": 6,
+      "approach": "Predictive",
+      "difficulty": "Very challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "A predictive equipment project is selecting one of four technically acceptable packages. The approved rule is to choose the lowest five-year total present-value cost among packages with forecast five-year emissions no greater than 100 tonnes. All packages are affordable and their estimates use the same service duty, horizon, and discount basis. The values shown are already present values; do not discount again. A prior $40,000 study cost is unrecoverable and identical for every option. Which recommendation applies the rule correctly?",
+      "options": [
+        [
+          "A",
+          "Advanced, at $170,000, because its disposal credit gives the lowest total present-value cost."
+        ],
+        [
+          "B",
+          "Reused, at $190,000, because it has the lowest purchase cost among packages meeting the emissions limit."
+        ],
+        [
+          "C",
+          "Efficient, at $180,000, because it has the lowest total present-value cost among packages meeting the emissions limit."
+        ],
+        [
+          "D",
+          "Standard, at $180,000, because its lower purchase cost offsets its higher operating and end-of-life costs."
+        ]
+      ],
+      "correct": [
+        "C"
+      ],
+      "explanation": "The five-year totals are Standard $180,000, Efficient $180,000, Reused $190,000, and Advanced $170,000. Standard and Advanced exceed the 100-tonne limit, leaving Efficient and Reused. Efficient has the lower qualifying total. The common unrecoverable study cost does not change this forward-looking comparison, and the supplied amounts must not be discounted a second time.",
+      "rationales": {
+        "A": "Advanced has the lowest cost but exceeds the mandatory emissions limit.",
+        "B": "Reused meets the limit, but minimizing purchase cost alone is not the approved rule.",
+        "C": "Efficient meets the limit and has the lower total cost of the two qualifying packages.",
+        "D": "Standard exceeds the limit; its purchase-cost advantage does not make it eligible."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, The Standard for Project Management §3.7: Integrate Sustainability Within All Project Areas, pp. 48–52 (PDF pp. 71–75).",
+        "PMBOK Guide, Eighth Edition, Guide §2.4: finance planning and analysis, pp. 63–65 (PDF pp. 168–170)."
+      ],
+      "difficultyReason": "The candidate must screen eligibility before comparing life-cycle cost, treat a disposal credit correctly, and avoid both double discounting and a sunk-cost distraction.",
+      "instruction": "Select ONE answer.",
+      "quantitative": true,
+      "exhibit": {
+        "headers": [
+          "Package",
+          "Five-year estimates"
+        ],
+        "rows": [
+          [
+            "Standard",
+            "Purchase $80,000; operation $90,000; disposal cost $10,000; emissions 115 tonnes."
+          ],
+          [
+            "Efficient",
+            "Purchase $120,000; operation $55,000; disposal cost $5,000; emissions 85 tonnes."
+          ],
+          [
+            "Reused",
+            "Purchase $100,000; operation $70,000; disposal cost $20,000; emissions 95 tonnes."
+          ],
+          [
+            "Advanced",
+            "Purchase $150,000; operation $35,000; disposal credit $15,000; emissions 105 tonnes."
+          ]
+        ]
+      }
+    },
+    {
+      "n": 146,
+      "id": "pmp-set2-146",
+      "domain": "People",
+      "task": 1,
+      "approach": "Hybrid",
+      "difficulty": "Moderate",
+      "format": "single",
+      "caseId": null,
+      "stem": "A hybrid public-service project combines a planned building upgrade with iterative service redesign. Facilities staff describe success as a low-energy building; service staff describe it as accessible, reliable service. Both outcomes are included in the approved business case, but the teams now talk as if they are competing project purposes. What should the project manager do first?",
+      "options": [
+        [
+          "A",
+          "Ask the facilities team to own the project vision because the building work has the larger budget."
+        ],
+        [
+          "B",
+          "Remove the energy objective so that the service team’s purpose becomes the single measure of success."
+        ],
+        [
+          "C",
+          "Let each team retain its own purpose and reconcile any conflicts only at final acceptance."
+        ],
+        [
+          "D",
+          "Bring the teams together to connect both outcomes to a shared project vision and explain how their work contributes to it."
+        ]
+      ],
+      "correct": [
+        "D"
+      ],
+      "explanation": "The approved purpose includes both outcomes. The project manager should develop a shared understanding of how the work contributes to that purpose instead of allowing separate workstreams to redefine success. This creates a basis for later trade-offs without removing an approved objective.",
+      "rationales": {
+        "A": "Budget size does not determine which approved outcome defines the project’s purpose.",
+        "B": "An approved objective should not be removed simply to avoid discussing alignment.",
+        "C": "Deferring alignment allows conflicting priorities to persist throughout delivery.",
+        "D": "This re-establishes a common vision around the approved outcomes."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, The Standard for Project Management §3.4: Focus on Value, pp. 40–42 (PDF pp. 63–65).",
+        "PMBOK Guide, Eighth Edition, The Standard for Project Management §3.7: Integrate Sustainability Within All Project Areas, pp. 48–52 (PDF pp. 71–75)."
+      ],
+      "difficultyReason": "The scenario states that both outcomes are approved, so the appropriate first step is restoring a common vision.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 147,
+      "id": "pmp-set2-147",
+      "domain": "Business Environment",
+      "task": 5,
+      "approach": "Agile",
+      "difficulty": "Challenging",
+      "format": "multiple",
+      "caseId": null,
+      "stem": "An agile team is piloting reusable delivery containers. The forecast benefit assumes customers return each container enough times to offset its production and washing impacts. Actual return rates and washing resource use are not yet known. The product owner wants evidence before expanding the pilot. Which TWO actions best manage the uncertainty?",
+      "options": [
+        [
+          "A",
+          "Treat reuse as environmentally beneficial by definition and expand immediately."
+        ],
+        [
+          "B",
+          "Document the key return-rate and washing assumptions, identify exposure if they fail, and agree monitoring triggers for reconsidering expansion."
+        ],
+        [
+          "C",
+          "Measure only how many reusable containers are distributed, because that is fully within the team’s control."
+        ],
+        [
+          "D",
+          "Replace all uncertain estimates with the most optimistic supplier values so the forecast is consistent."
+        ],
+        [
+          "E",
+          "Run a bounded pilot that measures return cycles and washing impacts with relevant operational expertise, then reassess the benefit forecast."
+        ]
+      ],
+      "correct": [
+        "B",
+        "E"
+      ],
+      "explanation": "The benefit depends on uncertain life-cycle conditions. Making those assumptions and response triggers explicit provides a risk-management basis; a bounded pilot supplies evidence to revise the assessment. Distribution volume alone is an output measure and cannot establish repeated use or the associated environmental result.",
+      "rationales": {
+        "A": "Reuse is not sufficient evidence that production and washing impacts will be offset under actual conditions.",
+        "B": "This identifies the uncertainty, its consequences, and when the team should reconsider its response.",
+        "C": "Distribution count does not test the conditions that determine the forecast benefit.",
+        "D": "Optimistic values conceal uncertainty rather than manage it.",
+        "E": "This obtains relevant evidence in a limited exposure before committing to expansion."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, The Standard for Project Management §3.7: Integrate Sustainability Within All Project Areas, pp. 48–52 (PDF pp. 71–75).",
+        "PMBOK Guide, Eighth Edition, Guide §2.7: risk analysis and responses, pp. 96–97 (PDF pp. 201–202)."
+      ],
+      "difficultyReason": "The candidate must combine explicit risk assumptions and triggers with evidence-gathering that tests the actual benefit mechanism.",
+      "instruction": "Select TWO answers."
+    },
+    {
+      "n": 148,
+      "id": "pmp-set2-148",
+      "domain": "People",
+      "task": 6,
+      "approach": "Agile",
+      "difficulty": "Challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "An agile service project introduces digital renewal forms to reduce paper and improve completion rates. In the pilot, paper use falls as expected, but users who rely on assisted service abandon renewals more often. The agreed outcome includes maintaining access for these users. Their representatives report that the new support instructions are confusing. What should the project manager do next?",
+      "options": [
+        [
+          "A",
+          "Declare the pilot successful because the paper-reduction target was met."
+        ],
+        [
+          "B",
+          "Review the affected users’ experience with their representatives and the product owner, adapt support through the backlog, and monitor whether access recovers."
+        ],
+        [
+          "C",
+          "Remove assisted-service users from the reported completion measure so the pilot can be compared with digital-only usage."
+        ],
+        [
+          "D",
+          "Restore every old process permanently without investigating the specific support problem."
+        ]
+      ],
+      "correct": [
+        "B"
+      ],
+      "explanation": "The pilot has not maintained an agreed customer outcome for a specific group. The project manager should respond to that feedback, work with the product owner on a targeted adaptation, and check its effect. Environmental improvement does not replace the promised service access, and the evidence points to a problem that can be investigated rather than an automatic need to abandon every change.",
+      "rationales": {
+        "A": "Meeting one target does not establish success against the separate access expectation.",
+        "B": "This responds to actual customer experience and maintains a feedback loop for the agreed outcome.",
+        "C": "Excluding the affected users hides the unmet expectation.",
+        "D": "A permanent wholesale reversal is premature before examining and testing the reported support issue."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide §2.5.2.3–2.5.2.6: communication and stakeholder engagement, pp. 72–73 (PDF pp. 177–178).",
+        "PMBOK Guide, Eighth Edition, The Standard for Project Management §3.7: Integrate Sustainability Within All Project Areas, pp. 48–52 (PDF pp. 71–75)."
+      ],
+      "difficultyReason": "The candidate must maintain an agreed customer expectation while responding proportionately to evidence from iterative delivery.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 149,
+      "id": "pmp-set2-149",
+      "domain": "People",
+      "task": 8,
+      "approach": "Predictive",
+      "difficulty": "Moderate",
+      "format": "single",
+      "caseId": null,
+      "stem": "A predictive process-improvement project reports monthly energy results. Before the change, the operation produced 10,000 units using 100 MWh. This month it produced 15,000 comparable units using 120 MWh. The sponsor asks for both energy intensity and total energy use. Which report accurately presents the observed results without claiming the project caused them?",
+      "options": [
+        [
+          "A",
+          "Total energy use fell by 20%, showing that both requested measures improved."
+        ],
+        [
+          "B",
+          "Energy intensity increased by 20% because total energy use increased from 100 MWh to 120 MWh."
+        ],
+        [
+          "C",
+          "Energy per unit fell by 20%, while total energy use rose by 20%; the figures alone do not isolate the project’s contribution."
+        ],
+        [
+          "D",
+          "The project saved 30 MWh, so report this as a verified reduction in actual total energy use."
+        ]
+      ],
+      "correct": [
+        "C"
+      ],
+      "explanation": "Energy intensity changed from 10 kWh per unit to 8 kWh per unit, a 20% decrease. Actual total use rose from 100 MWh to 120 MWh, a 20% increase. A projection of prior intensity at current output would be 150 MWh, but its 30 MWh difference from actual use is not a decrease in actual total use and is not, by itself, proof of project attribution.",
+      "rationales": {
+        "A": "Actual total use increased; this reverses the direction of the observed change.",
+        "B": "Intensity includes production volume, which rose faster than total energy use.",
+        "C": "This reports both requested measures accurately and avoids an unsupported causal claim.",
+        "D": "This confuses an output-adjusted comparison with actual total-use reduction and asserts attribution without sufficient evidence."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide §2.5.2.3–2.5.2.6: communication and stakeholder engagement, pp. 72–73 (PDF pp. 177–178).",
+        "PMBOK Guide, Eighth Edition, Guide: benefits management plan and business case, pp. 115–116 (PDF pp. 220–221)."
+      ],
+      "difficultyReason": "The candidate performs simple normalization and reports two explicitly requested measures without overstating what they show.",
+      "instruction": "Select ONE answer.",
+      "quantitative": true
+    },
+    {
+      "n": 150,
+      "id": "pmp-set2-150",
+      "domain": "Process",
+      "task": 10,
+      "approach": "Hybrid",
+      "difficulty": "Very challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "A hybrid water-efficiency project has accepted its equipment and final software release. Its closure plan requires accepted deliverables, operational readiness, and a funded handover of benefits monitoring; achieving the forecast annual saving is not a closure condition because it requires twelve months of operation. Operators are trained. An operations manager has agreed to own benefit reporting, but the staff time and meter-maintenance budget needed for it have not been authorized. The sponsor proposes closing now because the owner is named, while another stakeholder insists the project must remain open until the annual benefit is proven. What should the project manager recommend?",
+      "options": [
+        [
+          "A",
+          "Resolve and verify the missing monitoring resources through the authorized handover process, then close when the stated conditions are met and track benefits in operations."
+        ],
+        [
+          "B",
+          "Close immediately because a named benefits owner satisfies the remaining handover requirement."
+        ],
+        [
+          "C",
+          "Keep the entire delivery team assigned for twelve months until the forecast saving is demonstrated."
+        ],
+        [
+          "D",
+          "Declare the annual saving realized when the equipment is accepted so both stakeholders can approve closure."
+        ]
+      ],
+      "correct": [
+        "A"
+      ],
+      "explanation": "The stated conditions separate project closure from later benefits realization, but require a funded monitoring handover. Naming an owner without the needed resources leaves that condition unmet. The project manager should resolve this specific gap and verify readiness, then close under the agreed criteria while operational benefit tracking continues. Neither automatic closure nor retaining the whole delivery team for the benefit horizon follows the stated plan.",
+      "rationales": {
+        "A": "This satisfies the actual handover gap while preserving the distinction between delivery closure and later benefit verification.",
+        "B": "A named owner does not supply the unapproved staff time or maintenance funding required by the closure plan.",
+        "C": "The plan does not require realized annual savings before closure; holding the full team for twelve months adds an unsupported condition.",
+        "D": "Accepted outputs do not prove a future annual saving."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide: benefits management plan and business case, pp. 115–116 (PDF pp. 220–221).",
+        "PMBOK Guide, Eighth Edition, Guide §2.1.6.9: close project or phase, pp. 31–32 (PDF pp. 136–137)."
+      ],
+      "difficultyReason": "The candidate must reject two competing but incomplete closure arguments, identify an unmet funding condition, and separate the project horizon from the benefits horizon.",
+      "instruction": "Select ONE answer."
+    }
+  ]
 }
 ];
   global.PMP_BANK2_SOURCE = batches;
