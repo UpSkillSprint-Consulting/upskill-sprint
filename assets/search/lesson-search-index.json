@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 52,
   "contentLessonCount": 51,
-  "sectionCount": 2162,
+  "sectionCount": 2158,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -29498,80 +29498,25 @@
           "breadcrumb": [
             "Reliability Formula Encyclopedia"
           ],
-          "text": "Search the numbered equations in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn. They are grouped into the five scored CRE sections. Each card is an original study note for that equation, not a copy of the handbook text. Risk management is included because it is a scored section, even though those chapters do not number an equation. Search formulas 0 formulas I. Fundamentals II. Risk III. Probability IV. Planning V. Lifecycle",
-          "excerpt": "Search the numbered equations in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn. They are grouped into the five scored CRE sections. Each card is an original study note for that equation, not a copy of the handbook text. Risk…",
+          "text": "",
+          "excerpt": "Reliability Formula Encyclopedia",
           "kinds": [
             "section",
             "formula"
           ]
         },
         {
-          "id": "lesson-section-i-reliability-fundamentals",
-          "heading": "I. Reliability Fundamentals",
+          "id": "scope-heading",
+          "heading": "Scope summary",
           "breadcrumb": [
             "Reliability Formula Encyclopedia",
-            "I. Reliability Fundamentals"
+            "Scope summary"
           ],
-          "text": "Numbered measures of life, failure rate, repair, and availability from Chapters 1 and 2.",
-          "excerpt": "Numbered measures of life, failure rate, repair, and availability from Chapters 1 and 2.",
+          "text": "Search the numbered equations in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn. They are grouped into the five scored CRE sections. Each card is an original study note, not a copy of the handbook text. I. Fundamentals Life, failure rate, repair, and availability. II. Risk management No numbered equation in Chapters 3 to 5. III. Probability Data, probability, regression, and life functions. IV. Planning and modeling Accelerated tests and reliability models. V. Lifecycle Demonstration, availability, and spare parts. Every numbered equation in that handbook is one card. A worked example that the book does not number is not a separate card. Risk management stays visible because it is a scored section. 0 formulas No formulas match the selected filters.",
+          "excerpt": "Search the numbered equations in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn. They are grouped into the five scored CRE sections. Each card is an original study note, not a copy of the handbook text. I. Fundamentals Life,…",
           "kinds": [
             "section",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-ii-risk-management",
-          "heading": "II. Risk Management",
-          "breadcrumb": [
-            "Reliability Formula Encyclopedia",
-            "II. Risk Management"
-          ],
-          "text": "Chapters 3, 4, and 5 describe hazard analysis, FMEA, fault trees, and control selection. This edition does not assign equation numbers in those chapters. When a risk study needs a probability, a rate, or an availability, use the numbered formula in the matching section.",
-          "excerpt": "Chapters 3, 4, and 5 describe hazard analysis, FMEA, fault trees, and control selection. This edition does not assign equation numbers in those chapters. When a risk study needs a probability, a rate, or an availability, use the numbered formula in the…",
-          "kinds": [
-            "section",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-iii-probability-and-statistics-for-reliability",
-          "heading": "III. Probability and Statistics for Reliability",
-          "breadcrumb": [
-            "Reliability Formula Encyclopedia",
-            "III. Probability and Statistics for Reliability"
-          ],
-          "text": "Numbered formulas for data, probability, regression, and life functions from Chapters 6 and 7.",
-          "excerpt": "Numbered formulas for data, probability, regression, and life functions from Chapters 6 and 7.",
-          "kinds": [
-            "section",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-iv-reliability-planning-testing-and-modeling",
-          "heading": "IV. Reliability Planning, Testing, and Modeling",
-          "breadcrumb": [
-            "Reliability Formula Encyclopedia",
-            "IV. Reliability Planning, Testing, and Modeling"
-          ],
-          "text": "Numbered formulas for accelerated tests and reliability models from Chapters 9 and 10.",
-          "excerpt": "Numbered formulas for accelerated tests and reliability models from Chapters 9 and 10.",
-          "kinds": [
-            "section",
-            "formula"
-          ]
-        },
-        {
-          "id": "lesson-section-v-lifecycle-reliability",
-          "heading": "V. Lifecycle Reliability",
-          "breadcrumb": [
-            "Reliability Formula Encyclopedia",
-            "V. Lifecycle Reliability"
-          ],
-          "text": "Numbered formulas for demonstration, safety margin, availability, and spare parts from Chapters 11, 12, and 13.",
-          "excerpt": "Numbered formulas for demonstration, safety margin, availability, and spare parts from Chapters 11, 12, and 13.",
-          "kinds": [
-            "section",
+            "example",
             "formula"
           ]
         }

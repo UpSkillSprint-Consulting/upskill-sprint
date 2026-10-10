@@ -63,10 +63,10 @@ test('lesson is Public, registered in Quality Engineering, and has its access SQ
   dom.window.close();
 });
 
-test('canonical chrome, quiz blocks and page structure follow the lesson guide', () => {
+test('canonical chrome and encyclopedia structure follow the lesson guide, with no quiz', () => {
   const { dom, d } = setup();
   const guide = fs.readFileSync(path.join(root, 'docs/LESSON_CREATION_GUIDE.md'), 'utf8');
-  for (const section of ['### 4.1 Header', '### 4.2 Footer', '### 7.1 Quiz styles', '### 7.3 Quiz grader']) {
+  for (const section of ['### 4.1 Header', '### 4.2 Footer']) {
     const block = guide.slice(guide.indexOf(section)).match(/```html\n([\s\S]*?)\n```/)[1];
     assert.ok(html.includes(block), `must use exact ${section}`);
   }
@@ -76,6 +76,13 @@ test('canonical chrome, quiz blocks and page structure follow the lesson guide',
   assert.equal(d.querySelectorAll('main').length, 1);
   assert.equal(d.querySelectorAll('h1').length, 1);
   assert.equal(d.querySelector('main#lesson-content h1').textContent, title);
+  assert.equal(d.querySelector('#lesson-content').dataset.creEncyclopedia, 'true');
+  assert.ok(d.querySelector('.toolbar'));
+  assert.ok(d.querySelector('#sectionFilter'));
+  assert.ok(d.querySelector('#familyFilter'));
+  assert.equal(d.querySelectorAll('.phase-section').length, 5);
+  assert.ok(!html.includes('quiz-submit'));
+  assert.ok(!html.includes('Check your understanding'));
   assert.ok(!html.includes('Skip to lesson content'));
   assert.ok(!html.includes('Want to save your progress and quiz scores for this lesson?'));
   assert.equal(d.querySelector('section[aria-label="Return to lesson category"] a').getAttribute('href'), '/lessons#quality-engineering');
@@ -91,9 +98,8 @@ test('canonical chrome, quiz blocks and page structure follow the lesson guide',
     assert.ok(level <= previous + 1, heading.textContent);
     previous = level;
   }
-  const search = d.getElementById('formula-search');
-  assert.ok(d.querySelector('label[for="formula-search"]'));
-  for (const region of d.querySelectorAll('.cre-eq')) {
+  assert.equal(d.getElementById('searchInput').getAttribute('aria-label'), 'Search formulas');
+  for (const region of d.querySelectorAll('.formula-box')) {
     assert.equal(region.getAttribute('tabindex'), '0');
     assert.equal(region.getAttribute('role'), 'region');
     assert.ok(region.getAttribute('aria-label'));
@@ -104,30 +110,30 @@ test('canonical chrome, quiz blocks and page structure follow the lesson guide',
   dom.window.close();
 });
 
-test('search filters the numbered handbook formulas and the quiz reports a score', () => {
-  const { dom, w, d } = setup('#search=arrhenius');
-  const visible = () => Array.from(d.querySelectorAll('[data-formula]')).filter((card) => !card.hidden);
-  assert.ok(d.querySelectorAll('[data-formula]').length >= 60);
+test('search, section, and family filters work like the formula encyclopedia', () => {
+  const { dom, w, d } = setup('#search=arrhenius&from=lesson-search');
+  const visible = () => Array.from(d.querySelectorAll('[data-formula-id]')).filter((card) => !card.hidden);
+  assert.ok(d.querySelectorAll('[data-formula-id]').length >= 60);
+  assert.equal(d.getElementById('searchInput').value, 'arrhenius');
   assert.ok(visible().length >= 3);
   assert.ok(visible().every((card) => card.dataset.haystack.includes('arrhenius')));
-  assert.equal(d.querySelector('[data-section="II. Risk Management"] [data-formula]'), null);
+  assert.equal(d.querySelector('[data-section="II. Risk Management"] [data-formula-id]'), null);
   assert.match(d.querySelector('[data-section="II. Risk Management"]').textContent, /does not assign equation numbers/);
   w.filterCreFormulas('series-system');
   assert.equal(visible().length, 1);
-  assert.equal(visible()[0].dataset.formula, 'CRE-10.1');
-  const series = d.querySelector('[data-formula="CRE-10.1"] .cre-eq').textContent;
-  assert.match(series, /\\prod/);
-  assert.match(d.querySelector('[data-formula="CRE-2.14"] .cre-eq').textContent, /e\^\{-\\lambda t\}/);
-
-  const events = [];
-  d.addEventListener('upskill-quiz-result', (event) => events.push(event.detail));
-  d.getElementById('quiz-submit').click();
-  assert.equal(events[0].score, 0);
-  assert.equal(events[0].total, 4);
-  for (const [name, value] of [['q1', 'b'], ['q2', 'a'], ['q3', 'c'], ['q4', 'b']]) {
-    d.querySelector(`input[name="${name}"][value="${value}"]`).checked = true;
-  }
-  d.getElementById('quiz-submit').click();
-  assert.equal(events[1].score, 4);
+  assert.equal(visible()[0].dataset.formulaId, 'CRE-10.1');
+  assert.match(visible()[0].querySelector('.formula-box').textContent, /\\prod/);
+  assert.match(d.querySelector('[data-formula-id="CRE-2.14"] .formula-box').textContent, /e\^\{-\\lambda t\}/);
+  d.getElementById('sectionFilter').value = 'I. Reliability Fundamentals';
+  d.getElementById('sectionFilter').dispatchEvent(new w.Event('change'));
+  assert.equal(visible().length, 0);
+  d.getElementById('resetBtn').click();
+  assert.equal(visible().length, d.querySelectorAll('[data-formula-id]').length);
+  d.getElementById('familyFilter').value = 'Probability';
+  d.getElementById('familyFilter').dispatchEvent(new w.Event('change'));
+  assert.ok(visible().length > 0);
+  assert.ok(visible().every((card) => card.querySelector('.card-family').textContent === 'Probability'));
+  d.getElementById('expandBtn').click();
+  assert.ok(Array.from(d.querySelectorAll('details')).every((details) => details.open));
   dom.window.close();
 });
