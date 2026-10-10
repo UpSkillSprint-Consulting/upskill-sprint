@@ -1,4 +1,4 @@
-/* PMP Set 2: original authored batches 1–5 (Q001–Q050), July 2026 ECO.
+/* PMP Set 2: original authored batches 1–6 (Q001–Q060), July 2026 ECO.
  * Legacy files named test-bank-pmp-set1.js through set6.js all populate Set 1.
  * Keep this bank separate. No PMI exam items or book passages are reproduced.
  */
@@ -2585,6 +2585,464 @@
           "PMBOK Guide, Eighth Edition, Guide §2.3.2.3, pp. 53–55 (PDF pp. 158–160), including contractor and supplier schedule-status reviews; Schedule network analysis, p. 197 (PDF p. 302)."
         ],
         "difficultyReason": "Prioritizes supplier intervention using milestone exposure after float, rather than lateness alone, and locates the correct cell."
+      }
+    ]
+  },
+  {
+    "number": 6,
+    "sourcePage": "https://chatgpt.com/space/page_99b8b6cccbe08191b31a4c90d0e4f351",
+    "caseStudy": {
+      "id": "C06",
+      "title": "Distributed repair-dispatch team",
+      "markdown": "A Scrum team is developing a repair-dispatch application. Its Developers work in two regions with one hour of normal working-time overlap. The project manager supports the team and coordinates shared resources. Use the following record for Questions 051–053. Answer each independently; do not assume that an action selected for another question has occurred.\n\n| Project information | Team record |\n|---|---|\n| Proposed Sprint Goal | Enable dispatchers to locate a suitable crew and assign an urgent repair. |\n| Goal-critical mapping work | Crew lookup needs 4 specialist hours; repair assignment needs 6 specialist hours. Both are necessary for the goal. |\n| Optional mapping work | A weekly export needs 5 specialist hours. It is useful but is not necessary for the proposed goal. All three items are currently proposed for the Sprint. |\n| Specialist calendar | One mapping specialist has 18 hours allocated to this project during the Sprint. This total includes a separate, mandatory 6-hour platform-release commitment that cannot move. No other qualified specialist is available during the Sprint. |\n| Estimation assumptions | The listed specialist estimates include the relevant completion and verification work. Their hours do not overlap. Other capacity is sufficient at planning; the stated mapping specialist work cannot be reassigned this Sprint. |\n| Distributed working | Technical clarifications are agreed in regional chats, but the other region sometimes starts from an earlier interpretation. Both regions can access a common work board. There is no agreed record or acknowledgement process for these decisions. |"
+    },
+    "questions": [
+      {
+        "n": 51,
+        "domain": "Process",
+        "task": 4,
+        "approach": "Agile",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C06",
+        "quantitative": true,
+        "stem": "During Sprint Planning, the team assesses the three proposed items. Based only on the specialist constraint in the record, which assessment should inform its forecast?",
+        "options": [
+          [
+            "A",
+            "All three items fit, leaving 3 specialist hours available for unexpected mapping work."
+          ],
+          [
+            "B",
+            "The goal-critical items are short of 2 specialist hours, so even a reduced forecast needs more capacity."
+          ],
+          [
+            "C",
+            "The goal-critical items fit, but including the weekly export exceeds available specialist capacity by 3 hours."
+          ],
+          [
+            "D",
+            "The goal-critical items fit, and the weekly export fits if its 5 hours are spread across the Sprint."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "The separate platform commitment leaves 12 of the specialist's 18 hours for the proposed items. Crew lookup and repair assignment need 10 hours together, leaving 2 hours. Adding the 5-hour export would require 15 hours, exceeding the available 12 by 3. This is an input to the team's forecast, not a guarantee of delivery or an instruction for the project manager to select the Sprint work.",
+        "rationales": {
+          "A": "This compares the 15 proposed hours with the full 18 and overlooks the separate, immovable 6-hour commitment.",
+          "B": "The two goal-critical items need 10 hours, which is 2 fewer than the 12 available; there is no 2-hour shortfall.",
+          "C": "Correct. It accounts for the resource calendar and distinguishes the goal-critical work from the optional item.",
+          "D": "Spreading work changes when hours are used, but does not create the 3 additional hours needed. No other qualified capacity is available."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.6.2.2, p. 82 (PDF p. 187), and §2.6.2.3, pp. 82–84 (PDF pp. 187–189)."
+        ],
+        "difficultyReason": "Combines a resource calendar, a commitment already included in that calendar, and essential versus optional demand without assuming interchangeable skills.",
+        "id": "pmp-set2-051",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 52,
+        "domain": "People",
+        "task": 8,
+        "approach": "Agile",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C06",
+        "stem": "The regional clarification problem is producing rework. Moving all discussions into the one-hour overlap would delay work, and team members in both regions want to retain their normal working hours. What should the project manager facilitate first?",
+        "options": [
+          [
+            "A",
+            "Agree a shared decision record linked to work items, a receiving-team acknowledgement, and an overlap slot for unresolved questions."
+          ],
+          [
+            "B",
+            "Record each regional discussion and ask the other region to watch the recordings before it begins related development work."
+          ],
+          [
+            "C",
+            "Assign one regional lead to approve all technical clarifications before either region can continue affected development work."
+          ],
+          [
+            "D",
+            "Use the overlap period for a daily manager briefing, then let each region maintain its own detailed implementation notes."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "The evidence points to inconsistent interpretations and missing feedback across a handoff. A common decision record provides a current reference; acknowledgement checks that the receiving team understands it; the overlap period can resolve ambiguity. The team should agree these practices and check whether rework falls, rather than assume that a new channel alone fixes communication.",
+        "rationales": {
+          "A": "Correct. It combines an accessible record, a feedback loop, and focused synchronous clarification within the stated working-time constraints.",
+          "B": "Recordings can provide context, but requiring everyone to reconstruct the operative decision from discussions creates delay and does not establish a clear acknowledgement loop.",
+          "C": "A central approval queue changes technical authority and introduces a bottleneck without addressing how both regions share and confirm the current interpretation.",
+          "D": "A manager briefing may summarize status, but separate detailed notes preserve the source of conflicting interpretations."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.5.2.3, p. 72 (PDF p. 177), §2.5.2.7, p. 74 (PDF p. 179), and Communication technology, p. 156 (PDF p. 261)."
+        ],
+        "difficultyReason": "Selects a communication and feedback design that fits limited overlap, instead of treating more meetings, recordings, or centralized approval as the solution.",
+        "id": "pmp-set2-052",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 53,
+        "domain": "People",
+        "task": 3,
+        "approach": "Agile",
+        "difficulty": "Very challenging",
+        "format": "single",
+        "caseId": "C06",
+        "stem": "Independently of the planning calculation, assume the Sprint is under way when an unexpected absence reduces general development capacity. The Developers and Product Owner confirm that the Sprint Goal remains valuable and achievable to the existing Definition of Done if the optional export is deferred. The sponsor asks the project manager to assign each Developer a revised daily task list. What is the best response?",
+        "options": [
+          [
+            "A",
+            "Ask the sponsor to confirm the feature priority, then issue daily assignments that protect the original forecast."
+          ],
+          [
+            "B",
+            "Ask the Product Owner to cancel the Sprint so the team can start a new Sprint with a smaller commitment."
+          ],
+          [
+            "C",
+            "Have the Developers retain the selected items and propose temporary completion criteria for the Product Owner's approval."
+          ],
+          [
+            "D",
+            "Support the Developers and Product Owner in renegotiating scope while the Developers adapt their plan to achieve the Sprint Goal."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "The goal is still useful and achievable at the required quality. The project manager can help remove impediments while the Developers adapt their work plan and negotiate the selected scope with the Product Owner. An original item forecast does not justify managerial task assignment or reduced completion standards. Cancellation is not indicated by the stated facts.",
+        "rationales": {
+          "A": "It treats the forecast as a fixed task commitment and transfers detailed planning from the self-managing Developers to the project manager.",
+          "B": "The problem is reduced capacity, while the goal remains valuable and achievable. Restarting the Sprint is an unnecessary response; the Product Owner's cancellation authority does not make cancellation the best choice.",
+          "C": "It protects the selected item list by changing the quality threshold. The case explicitly says the existing Definition of Done can be met by deferring optional scope.",
+          "D": "Correct. It preserves the goal, quality, and team accountabilities while adapting the scope and plan to new information."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.6.2.4, pp. 84–86 (PDF pp. 189–191).",
+          "The Scrum Guide (2020), Scrum Team, The Sprint, and Sprint Backlog: https://scrumguides.org/scrum-guide.html"
+        ],
+        "difficultyReason": "Separates the Sprint Goal from the item forecast and reconciles sponsor pressure with self-management, Product Owner scope decisions, and unchanged quality.",
+        "id": "pmp-set2-053",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 54,
+        "domain": "Process",
+        "task": 4,
+        "approach": "Predictive",
+        "difficulty": "Moderate",
+        "format": "single",
+        "stem": "A project is scheduled to perform acceptance measurements with a calibrated test unit next Monday. The approved resource plan lists the unit, but the equipment custodian reports that its mandatory calibration will now finish on Tuesday. A second suitable unit may be available from another department. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Keep Monday's booking because the resource plan already assigns the test unit to this project."
+          ],
+          [
+            "B",
+            "Confirm the second unit's calibration status and availability with its custodian, then coordinate a feasible allocation and schedule."
+          ],
+          [
+            "C",
+            "Move acceptance to Wednesday and update the forecast before checking whether the second unit is available."
+          ],
+          [
+            "D",
+            "Ask the team to complete Monday's measurements with the original unit and repeat a sample after calibration."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "A planned assignment does not establish actual availability or suitability. The project manager should verify the alternative unit's condition and calendar, coordinate its allocation, and assess any resulting plan changes. The facts do not yet establish that acceptance must slip, and they do not permit use of equipment awaiting mandatory calibration.",
+        "rationales": {
+          "A": "It relies on a document despite current evidence that the assigned physical resource will be unavailable.",
+          "B": "Correct. It checks actual availability and fitness for use before committing to a resource or schedule response.",
+          "C": "A delay may prove necessary, but imposing one before checking a suitable alternative bypasses a practical recovery option.",
+          "D": "Repeating a sample later does not satisfy the stated requirement to use a calibrated unit for acceptance measurements."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.6.2.5, p. 87 (PDF p. 192), and §2.6.2.3, pp. 82–84 (PDF pp. 187–189)."
+        ],
+        "difficultyReason": "Distinguishes planned assignment from actual availability of a physical resource and selects the immediate verification step.",
+        "id": "pmp-set2-054",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 55,
+        "domain": "People",
+        "task": 2,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "stem": "Two projects need the same commissioning engineer during the same shutdown. Their project managers have jointly checked sequencing, substitutes, and external support; none can satisfy both commitments. The engineer's functional manager cannot resolve the business priority. The approved governance plan gives that decision to the portfolio resource owner. The shutdown decision is due tomorrow. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Continue negotiating a split allocation with the other project manager until they reach agreement."
+          ],
+          [
+            "B",
+            "Ask the functional manager to assign the engineer to whichever project reserved the time first."
+          ],
+          [
+            "C",
+            "Present the competing impacts and explored options jointly to the portfolio resource owner for a timely priority decision."
+          ],
+          [
+            "D",
+            "Arrange for the two sponsors to give the engineer separate instructions based on their preferred business outcomes."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "Collaboration has already established a genuine allocation conflict that the project managers and functional manager lack authority to resolve. A joint, evidence-based escalation to the named decision maker is proportionate and time-sensitive. After the decision, the affected teams can coordinate the resulting commitments and communicate impacts.",
+        "rationales": {
+          "A": "A split has already been assessed through sequencing and cannot meet both commitments. Repeating negotiation risks missing the decision deadline.",
+          "B": "Reservation order is not the stated business-priority rule, and the functional manager lacks the relevant decision authority.",
+          "C": "Correct. It respects the completed collaborative work, supplies decision-relevant evidence, and uses the explicitly assigned authority.",
+          "D": "Separate directions create competing instructions for the engineer and bypass the designated resource-priority decision maker."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide Conflict management, p. 156 (PDF p. 261), and §2.6.2.3, pp. 82–84 (PDF pp. 187–189)."
+        ],
+        "difficultyReason": "Recognizes when collaborative resolution has reached an authority boundary and escalation is appropriate, rather than treating escalation as always undesirable.",
+        "id": "pmp-set2-055",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 56,
+        "domain": "Business Environment",
+        "task": 2,
+        "approach": "Hybrid",
+        "difficulty": "Very challenging",
+        "format": "multiple",
+        "stem": "An equipment-upgrade project combines planned installation gates with iterative configuration work. Its mandatory testing procedure permits independent Method B tests only after a current Method B qualification is verified and recorded. The assigned employee holds Method A qualification only; a supervisor's waiver or retrospective endorsement is not permitted. A supplier reports that a Method B-qualified contractor is available for Wednesday's gate. The contractor's premium would exceed the project manager's spending authority; an authorized approver can review a request today. Which TWO actions should the project manager take before authorizing the contractor's independent testing?",
+        "options": [
+          [
+            "A",
+            "Accept the supplier's general company accreditation as the contractor's qualification evidence and verify individual records after the gate."
+          ],
+          [
+            "B",
+            "Verify the contractor's current Method B qualification and record the required authorization for the assigned testing work."
+          ],
+          [
+            "C",
+            "Request the sponsor's acceptance of the qualification risk so the Method A-qualified employee can preserve the gate date."
+          ],
+          [
+            "D",
+            "Book the contractor under the existing labor budget and report the additional cost in the next scheduled financial review."
+          ],
+          [
+            "E",
+            "Assess the premium and schedule implications, and obtain the required spending approval before committing to the contractor."
+          ]
+        ],
+        "correct": [
+          "B",
+          "E"
+        ],
+        "explanation": "The potential replacement must satisfy two independent conditions: documented qualification for the actual testing method and authorized funding for the resource commitment. Supplier accreditation is not individual Method B evidence. The deadline does not permit a qualification waiver or a spending commitment outside the project manager's authority. If either condition cannot be met in time, the gate consequences must be managed through the approved process.",
+        "rationales": {
+          "A": "Company accreditation does not meet the explicit requirement to verify and record the individual's current Method B qualification before independent work.",
+          "B": "Correct. It establishes compliance with the stated personnel-qualification prerequisite for the actual method and assignment.",
+          "C": "The sponsor's risk acceptance cannot substitute for a waiver that the mandatory procedure expressly disallows.",
+          "D": "The premium exceeds the project manager's authority; retrospective reporting does not provide advance approval for the commitment.",
+          "E": "Correct. It addresses the resource decision's cost and schedule effects while obtaining the required authorization before spending."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.6.2.3, pp. 82–84 (PDF pp. 187–189), especially the conditions for using alternative resources; §2.1.6.2, pp. 18–19 (PDF pp. 123–124)."
+        ],
+        "difficultyReason": "Applies separate competency-evidence and spending-authority requirements to an attractive deadline-preserving substitute; neither assurance alone is sufficient.",
+        "id": "pmp-set2-056",
+        "instruction": "Select TWO answers."
+      },
+      {
+        "n": 57,
+        "domain": "People",
+        "task": 6,
+        "approach": "Hybrid",
+        "difficulty": "Moderate",
+        "format": "single",
+        "stem": "During a staged customer-service rollout, development proceeds iteratively and branch transitions follow fixed dates. The customer support team rotates specialists weekly. Response-time targets are being met, but customer satisfaction has fallen because customers repeatedly explain their unresolved cases to a new person. Customers have requested a consistent contact. What should the project manager do?",
+        "options": [
+          [
+            "A",
+            "Reconfirm the response-time targets with customers and keep the rotation because the agreed target is being met."
+          ],
+          [
+            "B",
+            "Assign one specialist to every case permanently before checking workload or arranging absence cover."
+          ],
+          [
+            "C",
+            "Add more frequent response-time reporting so customers can see that the support team is meeting its commitments."
+          ],
+          [
+            "D",
+            "Agree a continuity arrangement with customers and the support lead, assign case ownership and cover, and monitor satisfaction."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "Feedback identifies continuity as an unmet expectation that the response-time measure does not capture. The project manager should work with customers and the resource owner on feasible case ownership and coverage, then check whether satisfaction improves. A consistent point of responsibility can be arranged without assuming one individual can handle every case indefinitely.",
+        "rationales": {
+          "A": "Meeting one performance target does not resolve the specific expectation revealed by customer feedback.",
+          "B": "It recognizes the continuity issue but makes an untested staffing promise and creates an avoidable coverage risk.",
+          "C": "More reporting of the existing measure does not address repeated explanations or ownership of unresolved cases.",
+          "D": "Correct. It uses the customer's stated need to agree a practical service adjustment and a feedback measure."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.5.1, p. 69 (PDF p. 174), and §2.5.2.4, pp. 72–74 (PDF pp. 177–179)."
+        ],
+        "difficultyReason": "Responds to explicit customer feedback beyond a satisfied service metric while preserving feasible resource coverage.",
+        "id": "pmp-set2-057",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 58,
+        "domain": "Process",
+        "task": 3,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "single",
+        "stem": "A freight company is rolling out an application in iterations within a fixed terminal-transition plan. Its benefit target is reduced truck waiting time. Two terminals have accepted the software, but cannot use it until a workflow coach completes supervisor preparation. The only available coach can either prepare these terminals next week or help a third terminal produce a nonessential demonstration. All mandatory controls are already satisfied, and both allocations are within the approved plan. What should the project manager recommend?",
+        "options": [
+          [
+            "A",
+            "Support the third-terminal demonstration because it increases the number of terminals reporting delivery progress."
+          ],
+          [
+            "B",
+            "Prepare the first two terminals for operational use, with the benefits owner tracking waiting-time changes after activation."
+          ],
+          [
+            "C",
+            "Split the coach's time equally among all three terminals so that each location receives the same share of resources."
+          ],
+          [
+            "D",
+            "Wait until all three terminals are software-ready so that coaching and benefit measurement can begin together."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "The scarce resource should address the remaining condition that prevents usable, accepted capability from producing the intended outcome. Preparing the first two terminals allows benefits to begin earlier, while the benefits owner checks actual waiting-time results. Software acceptance and the number of demonstrations are outputs, not evidence that the waiting-time benefit has been realized.",
+        "rationales": {
+          "A": "It favors visible delivery activity over the stated operational outcome; a nonessential demonstration does not unlock use at the two ready terminals.",
+          "B": "Correct. It directs capacity toward realizing an incremental benefit and includes measurement of the actual outcome.",
+          "C": "Equal allocation is not justified by the value objective and may leave every terminal short of the preparation needed for use.",
+          "D": "The case gives no dependency requiring a simultaneous rollout. Waiting postpones benefits that the first two terminals could realize sooner."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, The Standard §2.1.1, pp. 15–16 (PDF pp. 38–39), and §2.1.2, pp. 16–17 (PDF pp. 39–40); Guide §2.4.1, p. 59 (PDF p. 164)."
+        ],
+        "difficultyReason": "Prioritizes a nonsoftware resource that enables benefits after acceptance, rather than maximizing visible outputs or distributing capacity evenly.",
+        "id": "pmp-set2-058",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 59,
+        "domain": "Business Environment",
+        "task": 8,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "stem": "A laboratory-expansion project's staffing estimate assumes specialist recruitment takes three weeks at current market rates. Before recruitment starts, two credible agencies report that several regional projects are hiring the same specialists; current lead times are six to eight weeks and rates are rising. No offer or supplier contract has been signed. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Validate the market evidence with recruitment and procurement leads, assess cost and schedule exposure, and recommend any required plan changes."
+          ],
+          [
+            "B",
+            "Preserve the three-week assumption until an actual vacancy remains unfilled, then record a project issue."
+          ],
+          [
+            "C",
+            "Replace the approved staffing budget with the highest quoted market rate and notify the sponsor in the next report."
+          ],
+          [
+            "D",
+            "Direct the engineering lead to absorb recruitment delay through shorter installation durations before revisiting the staffing assumptions."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "External labor-market conditions have challenged a planning assumption before a missed commitment occurs. The project manager should validate the evidence, assess the effect on resource availability, cost, and schedule, and use the resulting analysis to recommend responses through the project's decision process. Current evidence warrants analysis; it does not itself authorize a new baseline or justify assumed productivity gains.",
+        "rationales": {
+          "A": "Correct. It connects an external change to the relevant project assumptions and impact assessment before choosing or authorizing a response.",
+          "B": "It postpones preventive action despite credible evidence that the existing assumption may no longer hold.",
+          "C": "It substitutes a single worst quote for an impact assessment and changes the budget without the required decision process.",
+          "D": "It assumes that unrelated work can be accelerated sufficiently, without validating the resource or schedule consequences."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, The Standard §2.2, p. 17 (PDF p. 40); Guide §2.6.2.3, pp. 82–84 (PDF pp. 187–189), and §2.1.6.7, pp. 26–28 (PDF pp. 131–133)."
+        ],
+        "difficultyReason": "Distinguishes an external change invalidating a planning assumption from an already-realized staffing issue, and separates impact assessment from baseline authorization.",
+        "id": "pmp-set2-059",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 60,
+        "domain": "Process",
+        "task": 1,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "multiple",
+        "stem": "Before approval of an integrated project plan, a functional manager emails that 'four engineers will support the project.' The draft schedule assumes all four are available full time during the same six-week period, while the draft cost estimate assumes half-time support. The functional manager also supplies engineers to another project, and dates and skill assignments have not been confirmed. Which TWO actions should the project manager take before seeking approval?",
+        "options": [
+          [
+            "A",
+            "Confirm the named skills or roles, dated capacity, and competing assignments with the functional manager and affected planners."
+          ],
+          [
+            "B",
+            "Use the schedule's full-time assumption as the commitment because it is more conservative than the cost estimate."
+          ],
+          [
+            "C",
+            "Retain the conflicting estimates as separate departmental views and reconcile them during execution reporting."
+          ],
+          [
+            "D",
+            "Reconcile the agreed resource assumptions across the schedule, cost estimate, and resource plan, then review the resulting integrated plan."
+          ],
+          [
+            "E",
+            "Replace both estimates with a three-quarter-time allocation so the resource assumption is consistent across documents."
+          ]
+        ],
+        "correct": [
+          "A",
+          "D"
+        ],
+        "explanation": "The first need is a credible, time-specific resource commitment, including the required skills and any competing allocation. The schedule, cost, and resource components must then use compatible assumptions so the plan can be assessed as a whole. Mathematical consistency alone does not establish availability: averaging unsupported estimates or selecting one without confirmation would create a coherent-looking but unreliable plan.",
+        "rationales": {
+          "A": "Correct. It replaces an ambiguous headcount statement with the availability and capability information needed for defensible planning.",
+          "B": "A larger capacity assumption is not conservative for schedule feasibility, and neither draft creates a commitment by the functional manager.",
+          "C": "Approval of an integrated plan should not knowingly preserve a material, unresolved resource inconsistency that affects both time and cost.",
+          "D": "Correct. It aligns the interdependent plan components around confirmed assumptions before the approval decision.",
+          "E": "An average is not evidence of actual resource availability or skill coverage; consistency cannot replace validation."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.1.6.2, pp. 18–19 (PDF pp. 123–124), and §2.6.2.2, p. 82 (PDF p. 187)."
+        ],
+        "difficultyReason": "Separates confirming a resource commitment from aligning plan components, and rejects both unsupported averaging and internally inconsistent approval.",
+        "id": "pmp-set2-060",
+        "instruction": "Select TWO answers."
       }
     ]
   }

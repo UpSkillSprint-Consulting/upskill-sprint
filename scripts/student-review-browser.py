@@ -21,12 +21,33 @@ AUTH = """(() => {
    from:()=>Object.create(readQuery)})};
 })();"""
 PREPARE = """() => {
+ const selectAnswer=(q,code)=>{
+   if(q.bankId!=='pmp-bank2-2026'||q.format==='single'){
+     document.querySelector(`[data-opt="${code}"]`).click();return;
+   }
+   const change=(selector,value,checkbox=false)=>{
+     const el=document.querySelector(selector);
+     if(checkbox)el.checked=value;else el.value=value;
+     el.dispatchEvent(new Event('change',{bubbles:true}));
+   };
+   if(q.format==='multiple')q.choices.forEach(([key],i)=>change(`[data-pmp-choice="${key}"]`,!!(code&(1<<i)),true));
+   else if(q.format==='matching'){
+     const base=q.choices.length+1;
+     q.prompts.forEach(([row])=>{const digit=code%base;code=Math.floor(code/base);change(`[data-pmp-select="${row}"]`,digit?q.choices[digit-1][0]:'');});
+   }else if(q.format==='dropdown')change('[data-pmp-select]',q.choices[code][0]);
+   else document.querySelector(`[data-pmp-cell="${q.choices[code][0]}"]`).click();
+ };
  const s=__TB.getFeedbackSnapshot();
  if(s.records.length<2)throw Error('Expected at least two actual bank questions');
  const small=s.records.length<4;
  s.records.forEach((r,i)=>{
    document.querySelector(`[data-goto="${i}"]`).click();
-   if(i!==(small?1:3))document.querySelector(`[data-opt="${(small?i===0:i===1||i===2)?(r.question.answer+1)%r.question.options.length:r.question.answer}"]`).click();
+   if(i!==(small?1:3)){
+     const q=r.question,wrong=small?i===0:i===1||i===2;
+     let code=wrong?(q.answer+1)%q.options.length:q.answer;
+     if(wrong&&q.bankId==='pmp-bank2-2026'&&['multiple','matching'].includes(q.format)&&code===0)code=1;
+     selectAnswer(q,code);
+   }
    if(i===0||i===1)document.querySelector('[data-flag]').click();
  });
  return s;
@@ -37,6 +58,7 @@ def main():
     parser.add_argument('--url',default='http://127.0.0.1:8765/test-bank')
     parser.add_argument('--browser',choices=['chromium','webkit'],default='chromium')
     parser.add_argument('--executable')
+    parser.add_argument('--exam',help='Limit the session matrix to one exam; default checks every exam')
     parser.add_argument('--out',default='student-audit-evidence')
     args=parser.parse_args()
     out=Path(args.out);out.mkdir(parents=True,exist_ok=True)
@@ -111,6 +133,30 @@ def main():
         def storage_clean():
             keys=page.evaluate("()=>[...Object.keys(localStorage),...Object.keys(sessionStorage)].filter(k=>/^(tb-|test-bank|upskill-test-bank)/i.test(k))")
             assert not keys,keys
+        def interactive_question(q):
+            return q.get('bankId')=='pmp-bank2-2026' and q.get('format')!='single'
+        def choose_response(q,code,retry=False):
+            root=page.locator('#tb-retry-panel') if retry else page
+            if not interactive_question(q):
+                button=root.locator(f'[data-{"retry-opt" if retry else "opt"}="{code}"]')
+                button.focus();page.keyboard.press('Space')
+                expect(button).to_be_focused();expect(button).to_have_attribute('aria-pressed','true')
+            elif q['format']=='multiple':
+                for i,(key,_) in enumerate(q['choices']):
+                    control=root.locator(f'[data-pmp-choice="{key}"]');checked=bool(code & (1<<i))
+                    if control.is_checked()!=checked:control.focus();page.keyboard.press('Space')
+                    assert control.is_checked()==checked
+            elif q['format']=='matching':
+                base=len(q['choices'])+1
+                for row,_ in q['prompts']:
+                    digit=code%base;code//=base;value=q['choices'][digit-1][0] if digit else ''
+                    control=root.locator(f'[data-pmp-select="{row}"]');control.select_option(value);expect(control).to_have_value(value)
+            elif q['format']=='dropdown':
+                value=q['choices'][code][0];control=root.locator('[data-pmp-select]')
+                control.select_option(value);expect(control).to_have_value(value)
+            else:
+                button=root.locator(f'[data-pmp-cell="{q["choices"][code][0]}"]')
+                button.focus();page.keyboard.press('Space');expect(button).to_have_attribute('aria-pressed','true')
         def student_flow(exam,bank,mode,timed):
             page.set_viewport_size({'width':390 if timed else 1440,'height':900 if timed else 1000})
             page.evaluate('(theme)=>document.documentElement.dataset.theme=theme','dark' if timed else 'light')
@@ -127,7 +173,7 @@ def main():
                 # Cover reveal in every set/mixed pool and session type, both
                 # after a correct selection and before any selection.
                 page.locator(f'[data-goto="{selected_index}"]').click()
-                page.locator(f'[data-opt="{selected_question["answer"]}"]').click()
+                choose_response(selected_question,selected_question['answer'])
                 page.locator('[data-reveal]').focus();page.keyboard.press('Space')
                 expect(page.locator('#tb-revealed-answer')).to_be_focused()
                 page.evaluate("()=>window.auditReveal=document.querySelector('#tb-revealed-answer')")
@@ -138,7 +184,10 @@ def main():
                 page.locator(f'[data-goto="{unanswered_index}"]').click();page.locator('[data-reveal]').click()
                 expect(page.locator('.tb-navcell.revealed')).to_have_count(2)
                 page.locator(f'[data-goto="{selected_index}"]').click()
-                expect(page.locator(f'[data-opt="{selected_question["answer"]}"]')).to_have_attribute('aria-pressed','true')
+                assert page.evaluate('(i)=>__TB.getFeedbackSnapshot().records[i].selected',selected_index)==selected_question['answer']
+                if interactive_question(selected_question):
+                    expect(page.locator('.pmp2-answers :is(input,select,button):not(:disabled)')).to_have_count(0)
+                else:expect(page.locator(f'[data-opt="{selected_question["answer"]}"]')).to_have_attribute('aria-pressed','true')
             finish()
             assert before['setId']==bank, (exam,mode,bank,before['setId'])
             valid=page.evaluate("""({exam,bank,mode})=>{const e=__TB.EXAMS[exam],s=__TB.getFeedbackSnapshot();const rows=bank==='mix'?Object.values(e.sets||{1:e.bank}).flat():(e.sets?.[bank]||e.bank);const signature=q=>JSON.stringify([q.qid||q.id||null,q.stem,q.options]);const allowed=new Set(rows.map(signature));return s.records.every(r=>allowed.has(signature(r.question)));}""",{'exam':exam,'bank':bank,'mode':mode})
@@ -157,8 +206,16 @@ def main():
                 expect(page.locator(f'[data-review-tab="{filt}"]')).to_have_attribute('aria-pressed','true')
             page.locator(f'[data-review-goto="{selected_index}"]').click()
             expect(page.locator('.tb-review-card')).to_have_count(1)
-            expect(page.locator('.tb-review-option.is-wrong')).to_have_count(1 if timed else 0)
-            expect(page.locator('.tb-review-option.is-correct')).to_have_count(1)
+            if interactive_question(selected_question):
+                review=page.locator('.tb-review-options')
+                if selected_question['format']=='matching':
+                    expect(review.get_by_text('Correct response',exact=True)).to_have_count(1)
+                    expect(review.locator('table').first.locator('tbody tr')).to_have_count(len(selected_question['prompts']))
+                else:assert review.inner_text().count('(Correct answer)')==len(selected_question['correct'])
+                for _,text in selected_question['choices']:expect(review).to_contain_text(text)
+            else:
+                expect(page.locator('.tb-review-option.is-wrong')).to_have_count(1 if timed else 0)
+                expect(page.locator('.tb-review-option.is-correct')).to_have_count(1)
             bounds=page.evaluate("()=>({card:document.querySelector('.tb-review-card').getBoundingClientRect().top,header:document.querySelector('header.site').getBoundingClientRect().bottom})")
             assert bounds['card']>=bounds['header']-1,bounds
             links=page.locator('.tb-review-card .tb-review-lesson')
@@ -173,15 +230,15 @@ def main():
             expect(page.locator('.tb-retry-feedback')).to_have_count(0)
             for i,r in enumerate([before['records'][index] for index in missed_indices]):
                 q=r['question'];option=(q['answer']+1)%len(q['options']) if i==0 else q['answer']
-                button=page.locator(f'[data-retry-opt="{option}"]');button.focus();page.keyboard.press('Space')
-                expect(button).to_be_focused();expect(button).to_have_attribute('aria-pressed','true')
+                if i==0 and interactive_question(q) and q['format'] in ['multiple','matching'] and option==0:option=1
+                choose_response(q,option,retry=True)
                 page.locator('[data-retry-check]').focus();page.keyboard.press('Enter')
                 expect(page.locator('.tb-retry-feedback')).to_be_focused()
-                assert page.locator('[data-retry-opt]:not(:disabled)').count()==0
+                expect(page.locator('#tb-retry-panel :is([data-retry-opt],.pmp2-answers input,.pmp2-answers select,.pmp2-answers button):not(:disabled)')).to_have_count(0)
                 page.locator('[data-retry-next]').click()
             assert f'{missed_count-1} of {missed_count}' in page.locator('.tb-correction-count').inner_text()
             page.locator('[data-retry-remaining]').click();assert '1 of 1' in page.locator('.tb-retry-head').inner_text()
-            page.locator(f'[data-retry-opt="{selected_question["answer"]}"]').click()
+            choose_response(selected_question,selected_question['answer'],retry=True)
             page.locator('[data-retry-check]').click();page.locator('[data-retry-next]').click()
             expect(page.locator('#tb-retry-panel h3')).to_have_text('All missed questions corrected.')
             page.locator('[data-retry-return]').click();expect(page.locator('.tb-review-card')).to_have_count(missed_count)
@@ -189,6 +246,7 @@ def main():
             assert page.evaluate('()=>JSON.stringify(__TB.getFeedbackSnapshot())')==original
             storage_clean();page.locator('[data-back]').click();expect(page.locator('#tb-feedback-loop')).to_have_count(0)
         for exam in catalog:
+            if args.exam and exam['id']!=args.exam:continue
             banks=exam['sets']+(['mix'] if len(exam['sets'])>1 else [])
             for bank in banks:
                 for mode in ['full','quick','focus']:
