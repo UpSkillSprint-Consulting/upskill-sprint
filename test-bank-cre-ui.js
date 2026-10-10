@@ -69,6 +69,15 @@
       /* Wide exhibit tables: the deciding columns may start off-screen on a phone, so say so. */
       '@media (max-width:600px){:is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-chart-wrap:has(table.tb-q-data-table th:nth-child(4))::before{content:"Swipe sideways to see every column.";display:block;margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(--muted)}}',
       ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-chart-wrap[data-cre-table]:focus-visible{outline:2px solid var(--teal);outline-offset:2px}',
+      /* Exhibit tables: never break a word or a number mid-token to fit a phone. The engine default
+         (overflow-wrap:anywhere) lets the table shrink to the card and split "$2,000,000" one digit per
+         line; with normal wrapping the table keeps its min-content width and the wrapper scrolls instead. */
+      ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-data-table :is(th,td){overflow-wrap:normal;word-break:normal;hyphens:manual}',
+      ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-data-table td.tb-q-num{white-space:nowrap}',
+      /* Dark theme: the engine's #6656b5 plot line is 2.96:1 on the dark tint (2.21:1 when dashed at
+         75% opacity), under the WCAG 1.4.11 3:1 floor for graphics. #9a8cf0 gives 6.14:1 solid, 4.04:1 dashed. */
+      'html[data-theme="dark"] :is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-chart-line{stroke:#9a8cf0}',
+      'html[data-theme="dark"] :is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-chart-dot{fill:#9a8cf0}',
       '.cre-rbd-block rect{fill:color-mix(in srgb,#2c8fa6 14%,var(--card));stroke:var(--ink);stroke-width:1.2}',
       '.cre-rbd-block text{fill:var(--ink);font-size:11px}',
       '.cre-rbd-block .cre-rbd-r{font-weight:700}',

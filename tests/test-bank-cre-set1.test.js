@@ -469,7 +469,7 @@ test('Q17 additional unit-hours to reach a 2,000 h MTBF lower bound (time-termin
   assert.ok(2 * T / 13.362 < 2000, 'not yet demonstrated');
   const more = 2000 * 13.362 / 2 - T; // χ²(0.10; 2r + 2 = 8) = 13.362, Appendix G
   assert.ok(Math.abs(more - 1362) < 1);
-  assert.match(q.options[q.answer], /^About 1,360 h more/);
+  assert.match(q.options[q.answer], /^About 1,360 unit-hours more/);
 });
 
 test('Q18 tolerance bound: not demonstrated at n = 20; smallest tabled n that passes is 30', () => {
@@ -630,7 +630,7 @@ test('Q35 the zero readings flatten the fit: r ≈ 0.01 with them, strong withou
   assert.equal(pts.filter((p) => p[1] === 0).length, 8);
   assert.ok(Math.abs(r(pts) - 0.01) < 0.005, 'the stem quotes the AI tool correctly');
   assert.ok(r(pts.filter((p) => p[1] > 0)) > 0.95);
-  assert.match(q.options[q.answer], /sensor or logger dropouts/);
+  assert.match(q.options[q.answer], /^Check the eight 0\.0 readings against the logger records as suspected dropouts/);
 });
 
 test('Q36 Duane projection to an instantaneous MTBF of 2,500 h', () => {
@@ -1253,7 +1253,7 @@ test('Q121 sterilizer days: two loads of 100 cycles at 4.5 h, whole cycles in an
   const q = byId('cre:set-1:b13-q121');
   const d = Object.fromEntries([...q.chart.rows].map(([k, v]) => [k, n_(v)]));
   const loads = Math.ceil(d['Units on test'] / d['Sterilizer capacity']);
-  const cycles = loads * d['Cycles required per unit'], ct = d['Cycle time, including functional check'], day = d['Sterilizer availability'];
+  const cycles = loads * d['Cycles required per unit'], ct = d['Cycle time per load, including 0.5 h functional check'], day = d['Sterilizer availability'];
   const byHours = Math.ceil(cycles * ct / day), byWholeCycles = Math.ceil(cycles / Math.floor(day / ct));
   assert.equal(byHours, byWholeCycles, 'continuous and whole-cycle schedules agree');
   assert.equal(q.options[q.answer], `${byHours} days`);

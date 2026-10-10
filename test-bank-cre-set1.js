@@ -140,7 +140,7 @@
       "0.70; plant and failure mode are independent because both plants returned exactly 200 units."
     ],
     "answer": 2,
-    "why": "<p>Condition on the corrosion column:</p><p>\\[\\begin{aligned}\\Pr(S \\mid C) &= \\frac{\\Pr(S \\cap C)}{\\Pr(C)} \\\\ &= \\frac{70/400}{100/400} \\\\ &= 0.70\\end{aligned}\\]</p><p>where \\(S\\) is \"built at the South plant\", \\(C\\) is \"corrosion\", \\(\\Pr(A \\mid B)\\) is the probability of \\(A\\) given \\(B\\) and \\(\\cap\\) means both events occur. With no information about the failure mode, \\(\\Pr(S) = 200/400 = 0.50\\). Because knowing the mode changes the probability (\\(0.70 \\ne 0.50\\)), the events are dependent: corrosion is concentrated at the South plant. Equal plant totals only mean the marginal probabilities are equal; they say nothing about independence.</p><p><b>C. 0.70; dependent because \\(\\Pr(\\text{South} \\mid \\text{Corrosion}) \\ne \\Pr(\\text{South})\\).</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Basic Probability Concepts, Equation 6.11 and Examples 6.25–6.26 (conditional probability with a contingency table).</span></p>",
+    "why": "<p>Condition on the corrosion column:</p><p>\\[\\begin{aligned}\\Pr(S \\mid C) &= \\frac{\\Pr(S \\cap C)}{\\Pr(C)} \\\\ &= \\frac{70/400}{100/400} \\\\ &= 0.70\\end{aligned}\\]</p><p>where \\(S\\) is “built at the South plant”, \\(C\\) is “corrosion”, \\(\\Pr(A \\mid B)\\) is the probability of \\(A\\) given \\(B\\) and \\(\\cap\\) means both events occur. With no information about the failure mode, \\(\\Pr(S) = 200/400 = 0.50\\). Because knowing the mode changes the probability (\\(0.70 \\ne 0.50\\)), the events are dependent: corrosion is concentrated at the South plant. Equal plant totals only mean the marginal probabilities are equal; they say nothing about independence.</p><p><b>C. 0.70; dependent because \\(\\Pr(\\text{South} \\mid \\text{Corrosion}) \\ne \\Pr(\\text{South})\\).</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Basic Probability Concepts, Equation 6.11 and Examples 6.25–6.26 (conditional probability with a contingency table).</span></p>",
     "optionRationales": [
       "\\(70/400 = 0.175\\) is the joint probability \\(\\Pr(\\text{South} \\cap \\text{Corrosion})\\), not the conditional probability asked for.",
       "\\(70/200 = 0.35\\) reverses the condition: it is \\(\\Pr(\\text{Corrosion} \\mid \\text{South})\\), not \\(\\Pr(\\text{South} \\mid \\text{Corrosion})\\).",
@@ -348,7 +348,7 @@
       "8"
     ],
     "answer": 2,
-    "why": "<p>The expected number of seal failures across the station during the resupply interval is</p><p>\\[\\begin{aligned}\\lambda t &= \\frac{n\\,t}{\\text{MTBF}} \\\\ &= \\frac{4(2100)}{2400} = 3.5\\end{aligned}\\]</p><p>where \\(n\\) is the number of seals in service, \\(t\\) is the resupply interval and \\(\\lambda\\) is each seal’s failure rate. The 6 h replacement time is not needed. Stock \\(s\\) spares so that \\(\\Pr(X \\le s) \\ge 0.95\\), where \\(X\\) is the Poisson number of failures. From the cumulative Poisson table at \\(\\lambda t = 3.5\\): \\(\\Pr(X \\le 6) = 0.9347\\), short of 0.95, and \\(\\Pr(X \\le 7) = 0.9733\\), which meets it. So \\(s = 7\\).</p><p><b>C. 7</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Examples 6.39–6.40 (Poisson); Appendix C.2, Cumulative Poisson Distribution Table.</span></p>",
+    "why": "<p>The expected number of seal failures across the station during the resupply interval is</p><p>\\[\\begin{aligned}\\lambda t &= \\frac{n\\,t}{\\text{MTBF}} \\\\ &= \\frac{4(2100)}{2400} = 3.5\\end{aligned}\\]</p><p>where \\(n\\) is the number of seals in service, \\(t\\) is the resupply interval and \\(\\lambda = n/\\text{MTBF}\\) is the combined failure rate of the seals in service. The 6 h replacement time is not needed. Stock \\(s\\) spares so that \\(\\Pr(X \\le s) \\ge 0.95\\), where \\(X\\) is the Poisson number of failures. From the cumulative Poisson table at \\(\\lambda t = 3.5\\): \\(\\Pr(X \\le 6) = 0.9347\\), short of 0.95, and \\(\\Pr(X \\le 7) = 0.9733\\), which meets it. So \\(s = 7\\).</p><p><b>C. 7</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Examples 6.39–6.40 (Poisson); Appendix C.2, Cumulative Poisson Distribution Table.</span></p>",
     "optionRationales": [
       "Uses one compressor, \\(\\lambda t = 2100/2400 = 0.875\\), instead of all four seals in service.",
       "Stocks the expected number of failures, rounded up. With \\(\\lambda t = 3.5\\), four spares give only \\(\\Pr(X \\le 4) = 0.725\\).",
@@ -405,14 +405,14 @@
       "0.9804"
     ],
     "answer": 3,
-    "why": "<p>The number of working sensors \\(X\\) is binomial with \\(n = 12\\) and \\(p = 0.95\\):</p><p>\\[\\Pr(X = x) = \\binom{12}{x} p^{x} q^{12-x}\\]</p><p>where \\(p = 0.95\\) is each sensor’s one-year reliability, \\(q = 1 - p\\) and \\(\\binom{12}{x}\\) counts the ways to choose which \\(x\\) sensors work. \"At least 10\" adds three terms:</p><p>\\[\\begin{aligned}\\Pr(10) &= 0.0988 \\\\ \\Pr(11) &= 0.3413 \\\\ \\Pr(12) &= 0.5404 \\\\ \\Pr(X \\ge 10) &= 0.9804\\end{aligned}\\]</p><p><b>D. 0.9804</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Examples 6.33–6.34 (binomial); Appendix B.2, Cumulative Binomial Distribution Table.</span></p>",
+    "why": "<p>The number of working sensors \\(X\\) is binomial with \\(n = 12\\) and \\(p = 0.95\\):</p><p>\\[\\Pr(X = x) = \\binom{12}{x} p^{x} q^{12-x}\\]</p><p>where \\(p = 0.95\\) is each sensor’s one-year reliability, \\(q = 1 - p\\) and \\(\\binom{12}{x}\\) counts the ways to choose which \\(x\\) sensors work. “At least 10” adds three terms:</p><p>\\[\\begin{aligned}\\Pr(10) &= 0.0988 \\\\ \\Pr(11) &= 0.3413 \\\\ \\Pr(12) &= 0.5404 \\\\ \\Pr(X \\ge 10) &= 0.9804\\end{aligned}\\]</p><p><b>D. 0.9804</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Examples 6.33–6.34 (binomial); Appendix B.2, Cumulative Binomial Distribution Table.</span></p>",
     "optionRationales": [
-      "This is \\(\\Pr(X = 10)\\) only. \"At least 10\" also includes 11 and 12 working sensors.",
+      "This is \\(\\Pr(X = 10)\\) only. “At least 10” also includes 11 and 12 working sensors.",
       "\\(0.95^{10} = 0.5987\\) treats 10 particular sensors as a series system and ignores that any 10 of the 12 will do.",
       "This is \\(\\Pr(X \\ge 11)\\). It drops the case where exactly 10 sensors survive.",
       "Correct. \\(\\Pr(10) + \\Pr(11) + \\Pr(12) = 0.0988 + 0.3413 + 0.5404 = 0.9804\\)."
     ],
-    "keyPoint": "\"At least \\(k\\) of \\(n\\)\" is a cumulative binomial: sum \\(\\Pr(X = x)\\) from \\(x = k\\) to \\(n\\).",
+    "keyPoint": "“At least \\(k\\) of \\(n\\)” is a cumulative binomial: sum \\(\\Pr(X = x)\\) from \\(x = k\\) to \\(n\\).",
     "trap": "Taking only the single term \\(\\Pr(X = k)\\), or treating the \\(k\\) sensors as a series system.",
     "formula": "\\(\\Pr(X \\ge 10) = \\sum_{x=10}^{12} \\binom{12}{x}(0.95)^{x}(0.05)^{12-x}\\)",
     "assumptions": [
@@ -493,7 +493,7 @@
     "answer": 1,
     "why": "<p>These bearings have already survived 500 h, so use conditional reliability with the fitted \\(\\beta = 1.8\\) and \\(\\eta = 2000\\):</p><p>\\[\\begin{aligned}R(t) &= e^{-(t/\\eta)^{\\beta}} \\\\ R(1000) &= e^{-0.2872} = 0.7504 \\\\ R(500) &= e^{-0.0825} = 0.9209 \\\\ R_c &= R(1000)/R(500) \\\\ &= 0.8149 \\\\ N_f &= 40(1 - R_c) \\\\ &= 7.4\\end{aligned}\\]</p><p>where \\(\\beta\\) is the Weibull shape, \\(\\eta\\) is the scale (characteristic life), \\(R(t)\\) is reliability at age \\(t\\), \\(R_c\\) is the conditional reliability for the next 500 h and \\(N_f\\) is the expected number of the 40 bearings that fail. Because \\(\\beta \\gt 1\\) the hazard rises with age, so these used bearings are about 2.3 times as likely to fail in the next 500 h as new ones (0.185 versus 0.079).</p><p><b>B. 7.4</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Examples 6.42–6.44 (Weibull calculations).</span></p>",
     "optionRationales": [
-      "\\(40[F(1000) - F(500)] = 40(0.9209 - 0.7504) = 6.8\\) is the unconditional chance that a new bearing fails between 500 h and 1,000 h. These bearings are known to have survived 500 h, so divide by \\(R(500)\\).",
+      "\\(40[R(500) - R(1000)] = 40(0.9209 - 0.7504) = 6.8\\) is the unconditional chance that a new bearing fails between 500 h and 1,000 h. These bearings are known to have survived 500 h, so divide by \\(R(500)\\).",
       "Correct. \\(40[1 - R(1000)/R(500)] = 40(0.1851) = 7.4\\).",
       "\\(40[1 - e^{-500/2000}] = 8.8\\) treats the scale \\(\\eta\\) as an exponential MTBF. The output shows wear-out (\\(\\beta = 1.8\\)), so the exponential model does not apply.",
       "\\(40[1 - R(1000)] = 10.0\\) uses the unconditional probability of failing by 1,000 h. That includes failures in the first 500 h, which these bearings have already survived."
@@ -606,52 +606,52 @@
       ],
       "rows": [
         [
-          "P‑07",
+          "P-07",
           "150",
           "Failed"
         ],
         [
-          "P‑02",
+          "P-02",
           "230",
           "Suspended (removed for fixture rework)"
         ],
         [
-          "P‑09",
+          "P-09",
           "310",
           "Failed"
         ],
         [
-          "P‑04",
+          "P-04",
           "400",
           "Failed"
         ],
         [
-          "P‑01",
+          "P-01",
           "480",
           "Suspended (removed for teardown study)"
         ],
         [
-          "P‑10",
+          "P-10",
           "560",
           "Failed"
         ],
         [
-          "P‑05",
+          "P-05",
           "600",
           "Suspended (stand power loss)"
         ],
         [
-          "P‑03",
+          "P-03",
           "720",
           "Failed"
         ],
         [
-          "P‑06",
+          "P-06",
           "800",
           "Survived to end of test"
         ],
         [
-          "P‑08",
+          "P-08",
           "800",
           "Survived to end of test"
         ]
@@ -744,11 +744,11 @@
       "\\(\\chi^2 = 6.81\\) with 2 degrees of freedom (critical value 5.991): reject the Poisson model."
     ],
     "answer": 3,
-    "why": "<p>Step 1, estimate the Poisson mean from the counts:</p><p>Counting voids board by board gives 120 voids on 100 boards:</p><p>\\[\\hat{\\lambda} = \\frac{120}{100} = 1.2\\]</p><p>Step 2, expected counts \\(E = 100\\Pr(X = k \\mid 1.2)\\) are 30.12, 36.14, 21.69 and 8.67 for 0 to 3 voids, and only 3.38 for 4 or more. Because 3.38 is below 5, pool into a \"3 or more\" cell (observed 14, expected 12.05). Step 3 and Step 4:</p><p>\\[\\begin{aligned}\\chi^2 &= \\sum \\frac{(O - E)^2}{E} \\\\ &= 6.81 \\\\ \\nu &= k - 1 - m = 2 \\\\ \\chi^2_{0.05,\\,2} &= 5.991\\end{aligned}\\]</p><p>The four cell contributions are 0.323, 2.688, 3.479 and 0.315, where \\(O\\) and \\(E\\) are observed and expected counts, \\(k\\) is the number of cells after pooling, \\(m\\) is the number of parameters estimated from the data and \\(\\nu\\) is the degrees of freedom. Since \\(6.81 \\gt 5.991\\), reject the Poisson model (\\(p \\approx 0.033\\)).</p><p><b>D. \\(\\chi^2 = 6.81\\) with 2 df: reject.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Example 6.51 (chi-square goodness of fit) and Appendix G, Chi-Square Distribution Table.</span></p>",
+    "why": "<p>Step 1: estimate the Poisson mean from the counts.</p><p>Counting voids board by board gives 120 voids on 100 boards:</p><p>\\[\\hat{\\lambda} = \\frac{120}{100} = 1.2\\]</p><p>Step 2: the expected counts \\(E = 100\\Pr(X = k \\mid 1.2)\\) are 30.12, 36.14, 21.69 and 8.67 for 0 to 3 voids, and only 3.38 for 4 or more. Because 3.38 is below 5, pool into a “3 or more” cell (observed 14, expected 12.05). Steps 3 and 4: compute the statistic and compare it with the critical value:</p><p>\\[\\begin{aligned}\\chi^2 &= \\sum \\frac{(O - E)^2}{E} \\\\ &= 6.81 \\\\ \\nu &= k - 1 - m = 2 \\\\ \\chi^2_{0.05,\\,2} &= 5.991\\end{aligned}\\]</p><p>The four cell contributions are 0.323, 2.688, 3.479 and 0.315, where \\(O\\) and \\(E\\) are observed and expected counts, \\(k\\) is the number of cells after pooling, \\(m\\) is the number of parameters estimated from the data and \\(\\nu\\) is the degrees of freedom. Since \\(6.81 \\gt 5.991\\), reject the Poisson model (\\(p \\approx 0.033\\)).</p><p><b>D. \\(\\chi^2 = 6.81\\) with 2 df: reject.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions, Example 6.51 (chi-square goodness of fit) and Appendix G, Chi-Square Distribution Table.</span></p>",
     "optionRationales": [
       "The statistic is right but the degrees of freedom are wrong. Estimating \\(\\lambda\\) from the same data costs one more: \\(\\nu = 4 - 1 - 1 = 2\\), not 3.",
-      "Does not pool the \"4 or more\" cell, whose expected count is 3.38 (below 5). That gives 5 cells and a different statistic.",
-      "Divides by the observed counts instead of the expected counts: \\(\\sum (O - E)^2/O = 8.55\\). The statistic always uses \\(E\\) in the denominator.",
+      "Does not pool the “4 or more” cell, whose expected count is 3.38 (below 5). That gives 5 cells and a different statistic.",
+      "Divides by the observed counts instead of the expected counts: \\(\\sum (O - E)^2/O = 8.55\\). The statistic always uses \\(E\\) in the denominator, and pooling leaves 2 degrees of freedom, not 3.",
       "Correct. With pooled cells \\(\\chi^2 = 6.81 \\gt 5.991\\), the critical value for 2 degrees of freedom."
     ],
     "keyPoint": "Goodness-of-fit degrees of freedom are \\(k - 1 - m\\); pool cells until every expected count is at least 5.",
@@ -867,7 +867,7 @@
       "yLabel": "Unreliability (%)"
     },
     "options": [
-      "\\(\\beta \\approx 0.5\\): the hazard rate is decreasing (early-life failures). Fixed-interval preventive replacement would not help; investigate manufacturing escapes and consider burn-in or ESS.",
+      "\\(\\beta \\approx 0.5\\): the hazard rate is decreasing (early-life failures). Preventive replacement would not help; investigate manufacturing escapes and consider burn-in.",
       "\\(\\beta \\approx 1.15\\): the hazard rate is nearly constant. Failures are random, so run the units to failure and keep spares.",
       "\\(\\beta \\approx 0.5\\): the hazard rate is decreasing. Lengthen the preventive replacement interval so units are replaced less often but still before they fail.",
       "\\(\\beta \\approx 2.0\\): the hazard rate is increasing (wear-out). Set a preventive replacement interval at the B10 life read from the plot."
@@ -876,7 +876,7 @@
     "why": "<p>On Weibull paper the slope of the fitted line is \\(\\beta\\). Read two points from the line: it crosses the dashed 63.2% line at \\(\\eta \\approx 1000\\) h and the 10% line at about 11 h. Then</p><p>\\[\\begin{aligned}y &= \\ln[-\\ln(1 - F)] \\\\ \\beta &= \\frac{y_2 - y_1}{\\ln t_2 - \\ln t_1} \\\\ &= \\frac{0 - (-2.250)}{6.908 - 2.398} \\\\ &\\approx 0.50\\end{aligned}\\]</p><p>where \\(F_1 = 0.10\\) at \\(t_1 = 11\\) h and \\(F_2 = 0.632\\) at \\(t_2 = 1000\\) h, and \\(y\\) is the vertical Weibull-paper scale. When \\(\\beta \\lt 1\\) the hazard rate decreases with age, which signals infant mortality from defects that escaped manufacturing. Replacing a unit early swaps it for a new one with a higher hazard, so time-based preventive replacement makes things worse. The right response is to find and remove the defect source and, until then, screen with burn-in or ESS.</p><p><b>A. \\(\\beta \\approx 0.5\\), decreasing hazard: investigate escapes and consider burn-in or ESS.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Probability Distributions (Weibull) and Examples 6.54–6.57 (distribution identification).</span></p>",
     "optionRationales": [
       "Correct. The slope is about 0.5, so \\(\\beta \\lt 1\\) and the hazard is decreasing; preventive replacement would only add early failures.",
-      "Mixes logarithm bases: the vertical axis is \\(\\ln[-\\ln(1 - F)]\\) but \\(\\log_{10}\\) was used on the time axis, giving \\(2.25/1.955 \\approx 1.15\\).",
+      "Mixes logarithm bases: the vertical axis is \\(\\ln[-\\ln(1 - F)]\\) but \\(\\log_{10}\\) was used on the time axis, giving \\(2.25/1.959 \\approx 1.15\\).",
       "The slope and hazard are read correctly, but the action is wrong. With \\(\\beta \\lt 1\\) a replacement unit has a higher hazard than the one it replaces, so any time-based replacement adds failures; it also leaves the escape source in place.",
       "A slope of 2 would be a steep line. This line rises only about 2.25 units on the \\(\\ln\\) scale across two decades of time."
     ],
@@ -1079,7 +1079,7 @@
     },
     "options": [
       "\\(h(800) \\approx 6.95 \\times 10^{-4}\\) per hour; the failure rate is decreasing because \\(f(t)\\) falls after 600 h.",
-      "\\(h(800) \\approx 1.40 \\times 10^{-3}\\) per hour; the failure rate is increasing (wear-out), because \\(f(t)/[1 - F(t)]\\) rises at every time in the table.",
+      "\\(h(800) \\approx 1.40 \\times 10^{-3}\\) per hour; the failure rate is increasing because \\(f(t)/[1 - F(t)]\\) rises across the table.",
       "\\(h(800) \\approx 1.40 \\times 10^{-3}\\) per hour; the failure rate is decreasing because \\(f(t)\\) falls after 600 h.",
       "\\(h(800) \\approx 6.29 \\times 10^{-4}\\) per hour; the failure rate is roughly constant because \\(F(t)/t\\) changes little after 600 h."
     ],
@@ -1131,7 +1131,7 @@
     "cognitive": "Apply",
     "questionType": "Visual evidence interpretation, calculation",
     "quantitative": true,
-    "stem": "A zero-failure reliability demonstration is planned using the requirements in the table. Each test station holds one unit, and all units must start together. Prior life data show that the failure mechanism follows a Weibull distribution with the shape parameter given. How long must each unit run, with no failures, to demonstrate the requirement?",
+    "stem": "A zero-failure reliability demonstration is planned using the requirements in the table. Each test station holds one unit, and all units must start together. Prior life data show that the failure mechanism follows a Weibull distribution with the shape parameter given. If all 12 stations are used, how long must each unit run, with no failures, to demonstrate the requirement?",
     "chart": {
       "type": "data-table",
       "title": "Demonstration test plan — actuator",
@@ -1163,16 +1163,16 @@
       ]
     },
     "options": [
-      "7,480 h",
       "4,820 h",
+      "7,480 h",
       "8,000 h",
       "14,470 h"
     ],
-    "answer": 1,
-    "why": "<p>For a zero-failure Weibull test with known \\(\\beta\\), testing \\(n\\) units for \\(k\\) times the mission time demonstrates the requirement when \\(n\\,k^{\\beta}\\ln R \\le \\ln(1 - C)\\). Fix \\(n = 12\\) and solve for \\(k\\):</p><p>\\[\\begin{aligned}k^{\\beta} &= \\frac{\\ln(1 - C)}{n\\,\\ln R} \\\\ &= \\frac{\\ln 0.10}{12\\,\\ln 0.95} \\\\ &= 3.741 \\\\ k &= 3.741^{1/1.5} \\\\ &= 2.410 \\\\ t_{\\text{test}} &= 2.410(2000) \\\\ &= 4820 \\text{ h}\\end{aligned}\\]</p><p>where \\(C\\) is the required confidence, \\(R\\) the required reliability at the mission time of 2,000 h, \\(\\beta\\) the Weibull shape, \\(n\\) the number of units on test and \\(k = t_{\\text{test}}/t_{\\text{mission}}\\). Because the mechanism wears out (\\(\\beta \\gt 1\\)), each extra hour of test counts for more than the last, so the time needed grows more slowly than the 3.741 ratio.</p><p><b>B. 4,820 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Sampling Plans for Statistics and Reliability Testing, Examples 6.64–6.66.</span></p>",
+    "answer": 0,
+    "why": "<p>For a zero-failure Weibull test with known \\(\\beta\\), testing \\(n\\) units for \\(k\\) times the mission time demonstrates the requirement when \\(n\\,k^{\\beta}\\ln R \\le \\ln(1 - C)\\). Fix \\(n = 12\\) and solve for \\(k\\):</p><p>\\[\\begin{aligned}k^{\\beta} &= \\frac{\\ln(1 - C)}{n\\,\\ln R} \\\\ &= \\frac{\\ln 0.10}{12\\,\\ln 0.95} \\\\ &= 3.741 \\\\ k &= 3.741^{1/1.5} \\\\ &= 2.410 \\\\ t_{\\text{test}} &= 2.410(2000) \\\\ &= 4820 \\text{ h}\\end{aligned}\\]</p><p>where \\(C\\) is the required confidence, \\(R\\) the required reliability at the mission time of 2,000 h, \\(\\beta\\) the Weibull shape, \\(n\\) the number of units on test and \\(k = t_{\\text{test}}/t_{\\text{mission}}\\). Because the mechanism wears out (\\(\\beta \\gt 1\\)), each extra hour of test counts for more than the last, so the time needed grows more slowly than the 3.741 ratio.</p><p><b>A. 4,820 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Sampling Plans for Statistics and Reliability Testing, Examples 6.64–6.66.</span></p>",
     "optionRationales": [
-      "Uses \\(k = 3.741\\) directly, as if \\(\\beta = 1\\): \\(3.741 \\times 2000 = 7480\\) h. That ignores the wear-out shape.",
       "Correct. \\(k^{1.5} = \\ln 0.10/(12 \\ln 0.95) = 3.741\\), so \\(k = 2.410\\) and \\(t = 4820\\) h.",
+      "Uses \\(k = 3.741\\) directly, as if \\(\\beta = 1\\): \\(3.741 \\times 2000 = 7480\\) h. That ignores the wear-out shape.",
       "Runs the 45-unit mission-time plan (\\(\\ln 0.10/\\ln 0.95 = 44.9\\)) as four successive groups of 12 for 2,000 h each. Units that start later do not share the same test conditions, and the stem requires one simultaneous run.",
       "Raises the ratio to the power \\(\\beta\\) instead of \\(1/\\beta\\): \\(3.741^{1.5} \\times 2000 = 14470\\) h."
     ],
@@ -1226,7 +1226,7 @@
       "\\(c = 0\\): 22 relays, accepted with probability 0.51. \\(c = 1\\): 38 relays, accepted with probability 0.68."
     ],
     "answer": 3,
-    "why": "<p>Each plan needs the smallest \\(n\\) for which a design that only just fails the requirement (\\(p = 0.10\\)) passes with probability no more than \\(1 - C = 0.10\\):</p><p>\\[\\begin{aligned}0.90^{n} &\\le 0.10 \\\\ n &\\ge \\frac{\\ln 0.10}{\\ln 0.90} \\\\ &= 21.9 \\Rightarrow 22\\end{aligned}\\]</p><p>for the zero-failure plan. For the \\(c = 1\\) plan:</p><p>\\[\\begin{aligned}P_n &= q^{n} + n\\,p\\,q^{n-1} \\\\ P_{37} &= 0.1036 \\\\ P_{38} &= 0.0953\\end{aligned}\\]</p><p>where \\(p = 1 - R = 0.10\\), \\(q = 0.90\\) and \\(P_n = \\Pr(X \\le 1)\\) with \\(n\\) relays on test, so 38 relays are needed. Then evaluate each plan at the true reliability 0.97 (\\(p_1 = 0.03\\)):</p><p>\\[\\begin{aligned}A_0 &= 0.97^{22} \\\\ &= 0.51 \\\\ A_1 &= 0.97^{38} \\\\ &\\quad + 38(0.03)(0.97)^{37} \\\\ &= 0.314 + 0.369 \\\\ &= 0.68\\end{aligned}\\]</p><p>where \\(p_1\\) is the true failure probability per mission and \\(A_0\\) and \\(A_1\\) are the probabilities that the \\(c = 0\\) and \\(c = 1\\) plans accept the design. Both plans give the customer the same protection, but the zero-failure plan rejects a genuinely good (0.97) design about half the time. Allowing one failure costs 16 more relays and raises the chance of accepting it to about two in three.</p><p><b>D. 22 relays at 0.51; 38 relays at 0.68.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Sampling Plans for Statistics and Reliability Testing (Examples 6.64–6.66) and Confidence Intervals (Example 6.84).</span></p>",
+    "why": "<p>Each plan needs the smallest \\(n\\) for which a design exactly at the requirement (\\(R = 0.90\\), \\(p = 0.10\\)) passes with probability no more than \\(1 - C = 0.10\\):</p><p>\\[\\begin{aligned}0.90^{n} &\\le 0.10 \\\\ n &\\ge \\frac{\\ln 0.10}{\\ln 0.90} \\\\ &= 21.9 \\Rightarrow 22\\end{aligned}\\]</p><p>for the zero-failure plan. For the \\(c = 1\\) plan:</p><p>\\[\\begin{aligned}P_n &= q^{n} + n\\,p\\,q^{n-1} \\\\ P_{37} &= 0.1036 \\\\ P_{38} &= 0.0953\\end{aligned}\\]</p><p>where \\(p = 1 - R = 0.10\\), \\(q = 0.90\\) and \\(P_n = \\Pr(X \\le 1)\\) with \\(n\\) relays on test, so 38 relays are needed. Then evaluate each plan at the true reliability 0.97 (\\(p_1 = 0.03\\)):</p><p>\\[\\begin{aligned}A_0 &= 0.97^{22} \\\\ &= 0.51 \\\\ A_1 &= 0.97^{38} \\\\ &\\quad + 38(0.03)(0.97)^{37} \\\\ &= 0.314 + 0.369 \\\\ &= 0.68\\end{aligned}\\]</p><p>where \\(p_1\\) is the true failure probability per mission and \\(A_0\\) and \\(A_1\\) are the probabilities that the \\(c = 0\\) and \\(c = 1\\) plans accept the design. Both plans give the customer the same protection, but the zero-failure plan rejects a genuinely good (0.97) design about half the time. Allowing one failure costs 16 more relays and raises the chance of accepting it to about two in three.</p><p><b>D. 22 relays at 0.51; 38 relays at 0.68.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Sampling Plans for Statistics and Reliability Testing (Examples 6.64–6.66) and Confidence Intervals (Example 6.84).</span></p>",
     "optionRationales": [
       "Uses the chi-square (Poisson) approximation for the \\(c = 1\\) size: \\(\\chi^2_{0.10,\\,4}/(2 \\times 0.1054) = 36.9\\), so 37. The exact binomial calculation asked for gives \\(\\Pr(X \\le 1) = 0.104 \\gt 0.10\\) at \\(n = 37\\).",
       "Counts only the zero-failure outcome for the \\(c = 1\\) plan: \\(0.97^{38} = 0.31\\). The plan also accepts when exactly one relay fails.",
@@ -1321,7 +1321,7 @@
       "3,210 ppm"
     ],
     "answer": 2,
-    "why": "<p>Long-term performance uses the overall standard deviation:</p><p>\\[\\begin{aligned}z_L &= \\frac{\\bar{x} - \\text{LSL}}{\\sigma_o} \\\\ &= \\frac{25.012 - 24.950}{0.0227} \\\\ &= 2.73 \\\\ p_L &= \\Phi(-2.73) = 0.00316\\end{aligned}\\]</p><p>where \\(\\bar{x}\\) is the process mean, \\(\\sigma_o\\) the overall standard deviation, \\(\\Phi\\) the standard normal CDF and \\(p_L\\) the fraction below the LSL. This matches \\(P_{pk} = z_L/3 = 0.91\\). The answer is about 3,155 ppm. The large gap between \\(C_{pk} = 1.48\\) and \\(P_{pk} = 0.91\\) shows the process drifts between subgroups, so the within-subgroup figure badly understates the undersize risk.</p><p><b>C. 3,155 ppm</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Statistical Process Control and Capability Studies, Example 6.80; Appendix D.</span></p>",
+    "why": "<p>Long-term performance uses the overall standard deviation:</p><p>\\[\\begin{aligned}z_L &= \\frac{\\bar{x} - \\text{LSL}}{\\sigma_o} \\\\ &= \\frac{25.012 - 24.950}{0.0227} \\\\ &= 2.731 \\\\ p_L &= \\Phi(-2.731) = 0.003155\\end{aligned}\\]</p><p>where \\(\\bar{x}\\) is the process mean, \\(\\sigma_o\\) the overall standard deviation, \\(\\Phi\\) the standard normal CDF and \\(p_L\\) the fraction below the LSL. This matches \\(P_{pk} = z_L/3 = 0.91\\). The answer is about 3,155 ppm. The large gap between \\(C_{pk} = 1.48\\) and \\(P_{pk} = 0.91\\) shows the process drifts between subgroups, so the within-subgroup figure badly understates the undersize risk.</p><p><b>C. 3,155 ppm</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Statistical Process Control and Capability Studies, Example 6.80; Appendix D.</span></p>",
     "optionRationales": [
       "Uses the within-subgroup standard deviation (\\(z = 4.43\\)), which describes short-term potential, not long-term performance.",
       "This is the expected fraction above the USL (\\(z = 3.88\\)). The concern is undersized journals.",
@@ -1423,13 +1423,13 @@
       "\\(np\\) chart with \\(\\bar{n} = 167\\); UCL \\(\\approx 14.3\\) nonconforming cards; only Wednesday (17) signals.",
       "\\(p\\) chart using the average subgroup size; UCL \\(\\approx 0.086\\); only Tuesday (0.090) signals.",
       "\\(u\\) chart of nonconformities per card; only Tuesday (0.140, above its 0.134 limit) signals.",
-      "\\(p\\) chart with limits for each day’s subgroup size; only Wednesday (0.085, above its 0.082 limit) signals. Tuesday (0.090) is inside its 0.099 limit."
+      "\\(p\\) chart with limits for each day’s subgroup size; only Wednesday (0.085, above its 0.082 limit) signals."
     ],
     "answer": 3,
     "why": "<p>The characteristic is the proportion of nonconforming cards, an attribute, and the subgroup size varies from 100 to 250, so a \\(p\\) chart with limits computed for each subgroup is the right choice:</p><p>\\[\\begin{aligned}\\bar{p} &= 40/1000 = 0.040 \\\\ \\text{UCL}_i &= \\bar{p} + 3\\sqrt{\\bar{p}\\,\\bar{q}/n_i} \\\\ \\text{UCL}_{\\text{Tue}} &= 0.040 + 0.059 \\\\ &= 0.099 \\\\ \\text{UCL}_{\\text{Wed}} &= 0.040 + 0.042 \\\\ &= 0.082\\end{aligned}\\]</p><p>where \\(\\bar{p}\\) is the baseline proportion nonconforming, \\(\\bar{q} = 1 - \\bar{p} = 0.960\\) and \\(n_i\\) is the number of cards inspected that day (100 on Tuesday, 200 on Wednesday). Tuesday’s proportion is \\(9/100 = 0.090\\), below its limit. Wednesday’s is \\(17/200 = 0.085\\), above its tighter limit, so Wednesday is the only signal. A single average-\\(n\\) limit (0.086) reverses both conclusions: it flags the small Tuesday sample and misses the large Wednesday one.</p><p><b>D. \\(p\\) chart with per-day limits; only Wednesday signals.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Statistical Process Control, Examples 6.76–6.79 (p, np, c and u charts).</span></p>",
     "optionRationales": [
       "An \\(np\\) chart needs a constant subgroup size. With sizes from 100 to 250, a count limit built on the average size is not valid, even though it happens to flag Wednesday here.",
-      "Average-\\(n\\) limits are only an approximation when subgroup sizes are similar. Here the shortcut flags small-sample Tuesday (0.090 is inside its own 0.099 limit) and misses Wednesday (0.085 against its own 0.082 limit).",
+      "Average-\\(n\\) limits are an acceptable approximation only when subgroup sizes are similar. Here the shortcut flags small-sample Tuesday (0.090 is inside its own 0.099 limit) and misses Wednesday (0.085 against its own 0.082 limit).",
       "A \\(u\\) chart tracks nonconformities per card. The characteristic is nonconforming cards, which is a \\(p\\)-chart problem.",
       "Correct. \\(\\bar{p} = 0.040\\); \\(\\text{UCL}_{\\text{Tue}} = 0.099\\) and \\(\\text{UCL}_{\\text{Wed}} = 0.082\\); only Wednesday is above its limit."
     ],
@@ -1528,17 +1528,17 @@
     },
     "options": [
       "None: the current 90% lower bound (2,255 h) already exceeds 2,000 h.",
-      "About 1,360 h more.",
-      "About 3,510 h more.",
-      "About 14,720 h more."
+      "About 1,360 unit-hours more.",
+      "About 3,510 unit-hours more.",
+      "About 14,720 unit-hours more."
     ],
     "answer": 1,
-    "why": "<p>Total test time so far is \\(T = 12000\\) h with \\(r = 3\\) failures. The test is time-terminated (it stops on a date, not at a failure), so the lower bound uses \\(2r + 2 = 8\\) degrees of freedom. The current bound is \\(24000/13.362 = 1796\\) h, short of the requirement. Solve for the total time needed:</p><p>\\[\\begin{aligned}\\frac{2T}{\\chi^2_{0.10,\\,8}} &\\ge 2000 \\\\ T_{\\text{req}} &= \\frac{2000(13.362)}{2} \\\\ &= 13362 \\text{ h} \\\\ \\Delta T &= 13362 - 12000 \\\\ &= 1362 \\text{ h}\\end{aligned}\\]</p><p>where \\(\\Delta T\\) is the additional unit-hours needed, \\(T\\) is the total unit-hours on test, \\(r\\) the number of failures and \\(\\alpha = 0.10\\) for a one-sided 90% bound. With no further failures, about 1,360 more unit-hours (for example, 170 more hours on each of the eight positions) meets the requirement.</p><p><b>B. About 1,360 h more.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals, Example 6.95 (confidence interval for an exponential mean); Appendix G.</span></p>",
+    "why": "<p>Total test time so far is \\(T = 12000\\) h with \\(r = 3\\) failures. The test is time-terminated (it stops on a date, not at a failure), so the lower bound uses \\(2r + 2 = 8\\) degrees of freedom. The current bound is \\(24000/13.362 = 1796\\) h, short of the requirement. Solve for the total time needed:</p><p>\\[\\begin{aligned}\\frac{2T}{\\chi^2_{0.10,\\,8}} &\\ge 2000 \\\\ T_{\\text{req}} &= \\frac{2000(13.362)}{2} \\\\ &= 13362 \\text{ h} \\\\ \\Delta T &= 13362 - 12000 \\\\ &= 1362 \\text{ h}\\end{aligned}\\]</p><p>where \\(\\Delta T\\) is the additional unit-hours needed, \\(T\\) is the total unit-hours on test, \\(r\\) the number of failures and \\(\\alpha = 0.10\\) for a one-sided 90% bound. With no further failures, at least 1,362 more unit-hours (for example, 171 more hours on each of the eight positions) meet the requirement.</p><p><b>B. About 1,360 unit-hours more.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals, Example 6.95 (confidence interval for an exponential mean); Appendix G.</span></p>",
     "optionRationales": [
       "Uses \\(2r = 6\\) degrees of freedom (\\(\\chi^2 = 10.645\\)), the failure-terminated formula: \\(24000/10.645 = 2255\\) h. This test ends at a planned time, so 8 degrees of freedom apply.",
       "Correct. \\(T_{\\text{req}} = 2000 \\times 13.362/2 = 13362\\) h, which is 1,362 h more than the 12,000 h already run.",
-      "Uses \\(\\chi^2_{0.05,\\,8} = 15.507\\), the value for a two-sided 90% interval: \\(T_{\\text{req}} = 15507\\) h.",
-      "Drops the factor 2 in \\(2T\\): \\(T_{\\text{req}} = 2000 \\times 13.362 = 26724\\) h."
+      "Uses \\(\\chi^2_{0.05,\\,8} = 15.507\\), the value for a two-sided 90% interval: \\(T_{\\text{req}} = 15507\\) h, or about 3,510 more unit-hours.",
+      "Drops the factor 2 in \\(2T\\): \\(T_{\\text{req}} = 2000 \\times 13.362 = 26724\\) h, or about 14,720 more unit-hours."
     ],
     "keyPoint": "Time-terminated: \\(\\text{MTBF}_L = 2T/\\chi^2_{\\alpha,\\,2r+2}\\). To plan more testing, solve for \\(T\\) with the planned number of failures.",
     "trap": "Using \\(2r\\) degrees of freedom on a time-terminated test, the two-sided chi-square value, or dropping the 2 in \\(2T\\).",
@@ -1711,7 +1711,7 @@
       "Not demonstrated: the requirement is judged at the next tabulated time, 1,000 h, where the lower bound (0.874) shows that 12.6% of actuators will fail."
     ],
     "answer": 0,
-    "why": "<p>A requirement stated \"with 95% confidence\" is met only if the one-sided 95% lower confidence bound reaches the target at the required time. Interpolate the lower bound between 750 h and 1,000 h:</p><p>\\[\\begin{aligned}R_L(900) &\\approx 0.912 - 0.023 \\\\ &= 0.889 \\lt 0.90 \\\\ t^{*} &\\approx 750 + 79 \\\\ &= 829 \\text{ h}\\end{aligned}\\]</p><p>where \\(0.023 = (150/250)(0.912 - 0.874)\\) is the fall in the bound over the first 150 h of the 750 to 1,000 h step, \\(79 = 250(0.012/0.038)\\) is the time taken for the bound to fall the further 0.012 to 0.90, \\(R_L(t)\\) is the one-sided 95% lower confidence bound on reliability at time \\(t\\) and \\(t^{*}\\) is the time at which it falls to 0.90. The requirement is not demonstrated at 900 h, even though the point estimate there is about 0.94. More units or more test time would narrow the interval.</p><p><b>A. Not demonstrated at 900 h; supported only to about 830 h.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals (Weibull, normal and lognormal intervals), Examples 6.83–6.84.</span></p>",
+    "why": "<p>A requirement stated “with 95% confidence” is met only if the one-sided 95% lower confidence bound reaches the target at the required time. Interpolate the lower bound between 750 h and 1,000 h:</p><p>\\[\\begin{aligned}R_L(900) &\\approx 0.912 - 0.023 \\\\ &= 0.889 \\lt 0.90 \\\\ t^{*} &\\approx 750 + 79 \\\\ &= 829 \\text{ h}\\end{aligned}\\]</p><p>where \\(0.023 = (150/250)(0.912 - 0.874)\\) is the fall in the bound over the first 150 h of the 750 to 1,000 h step, \\(79 = 250(0.012/0.038)\\) is the time taken for the bound to fall the further 0.012 to 0.90, \\(R_L(t)\\) is the one-sided 95% lower confidence bound on reliability at time \\(t\\) and \\(t^{*}\\) is the time at which it falls to 0.90. The requirement is not demonstrated at 900 h, even though the point estimate there is about 0.94. More units or more test time would narrow the interval.</p><p><b>A. Not demonstrated at 900 h; supported only to about 830 h.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals (Weibull, normal and lognormal intervals), Examples 6.83–6.84.</span></p>",
     "optionRationales": [
       "Correct. \\(R_L(900) \\approx 0.889 \\lt 0.90\\); the bound crosses 0.90 at about 830 h.",
       "A point estimate carries no confidence statement. The requirement explicitly asks for 95% confidence.",
@@ -1762,16 +1762,16 @@
     "quantitative": false,
     "stem": "A plastic pump housing is molded in a three-cavity tool on two shifts, using resin from two approved suppliers. Thirty housings will be selected for an accelerated life test that will support a field reliability claim. Which sampling approach is most appropriate?",
     "options": [
-      "Select housings at random within each combination of cavity, shift and resin supplier, roughly in proportion to production.",
       "Use the first 30 housings molded after tool qualification, because they are closest to nominal dimensions.",
+      "Select housings at random within each combination of cavity, shift and resin supplier, roughly in proportion to production.",
       "Use housings from the cavity with the best dimensional capability, to reduce noise in the test results.",
       "Use 30 housings from one shift and one resin lot, so that the test isolates the design from process variation."
     ],
-    "answer": 0,
-    "why": "<p>A field reliability claim must represent every source of variation the field will see. Stratifying by cavity, shift and resin supplier, then selecting at random within each stratum, keeps the sample representative and lets differences between strata show up. Each of the other plans picks a convenient or best-case subset and would bias the life estimate upward.</p><p><b>A. Random selection within each cavity, shift and resin combination.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Sampling Plans for Statistics and Reliability Testing (representative and randomized sampling).</span></p>",
+    "answer": 1,
+    "why": "<p>A field reliability claim must represent every source of variation the field will see. Stratifying by cavity, shift and resin supplier, then selecting at random within each stratum, keeps the sample representative and lets differences between strata show up. Each of the other plans picks a convenient, best-case or narrow subset, so the life estimate would be biased (usually optimistically) and would understate unit-to-unit variation.</p><p><b>B. Random selection within each cavity, shift and resin combination.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Sampling Plans for Statistics and Reliability Testing (representative and randomized sampling).</span></p>",
     "optionRationales": [
-      "Correct. Stratified random sampling covers the production variation that the reliability claim must include.",
       "Early, freshly qualified parts are a best-case convenience sample, not a picture of steady production.",
+      "Correct. Stratified random sampling covers the production variation that the reliability claim must include.",
       "Choosing the best cavity biases the result upward and hides cavity-to-cavity effects.",
       "Removing process variation from the sample also removes it from the claim, which then no longer describes field units."
     ],
@@ -1935,7 +1935,7 @@
       "Infant mortality ends at month 12, so the low rate after that is the true constant failure rate."
     ],
     "answer": 1,
-    "why": "<p>The drop happens at exactly the age where warranty coverage ends, for every production lot, so it reflects the data source, not the product. Failures after month 12 are no longer claimed, so warranty data are effectively censored at 12 months. The rising rate from month 7 to month 12 is the real signal: it points to an emerging wear-out mechanism. Service records, parts sales, telemetry or a field follow-up study are needed to see late-life behavior.</p><p><b>B. Coverage ends, so claims stop; gather post-warranty data before judging late life.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Sources and Uses of Reliability Data — warranty data and field service data.</span></p>",
+    "why": "<p>The drop happens at exactly the age where warranty coverage ends, so it reflects the data source, not the product. Failures after month 12 are no longer claimed, so warranty data are effectively censored at 12 months. The rising rate from month 7 to month 12 is the real signal: it points to an emerging wear-out mechanism. Service records, parts sales, telemetry or a field follow-up study are needed to see late-life behavior.</p><p><b>B. Coverage ends, so claims stop; gather post-warranty data before judging late life.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Sources and Uses of Reliability Data — warranty data and field service data.</span></p>",
     "optionRationales": [
       "The rate was rising, not falling, from month 7 to month 12. Nothing in the product changes at month 13; only the reporting does.",
       "Correct. The cliff coincides with the end of coverage, and the pre-cliff trend points to wear-out.",
@@ -1983,7 +1983,7 @@
     "cognitive": "Analyze",
     "questionType": "Visual evidence interpretation, calculation",
     "quantitative": true,
-    "stem": "Two product lines of a pump controller are compared using field returns and operating hours from IoT telemetry. Returns diagnosed as \"no fault found\" (NFF) are not failures. Which line has the higher field failure rate, and is the difference statistically significant at the 5% level?",
+    "stem": "Two product lines of a pump controller are compared using field returns and operating hours from IoT telemetry. Returns diagnosed as “no fault found” (NFF) are not failures. Which line has the higher field failure rate, and is the difference statistically significant at the 5% level?",
     "chart": {
       "type": "data-table",
       "title": "Field data by product line",
@@ -2026,7 +2026,7 @@
       "Overlap of two separate 95% intervals is a much stricter test than a direct comparison. The direct test of the difference gives \\(z = 2.53\\), \\(p \\approx 0.01\\)."
     ],
     "keyPoint": "Normalize field failures by exposure, exclude NFF, and compare rates with a direct test; overlapping confidence intervals do not prove equality.",
-    "trap": "Using fraction failed, counting NFF returns, or reading overlapping confidence intervals as \"no difference\".",
+    "trap": "Using fraction failed, counting NFF returns, or reading overlapping confidence intervals as “no difference”.",
     "formula": "\\(\\lambda = r/T\\); \\(z = (r_B - r\\pi_0)/\\sqrt{r\\pi_0(1 - \\pi_0)}\\), \\(\\pi_0 = T_B/(T_A + T_B)\\)",
     "assumptions": [
       "Telemetry hours are accurate and failures follow a roughly constant rate over the exposure observed.",
@@ -2197,7 +2197,7 @@
       "Coating hazard ratio 0.33 to 0.75; above about 80 °C."
     ],
     "answer": 1,
-    "why": "<p>Cox model confidence intervals are built on the coefficient scale and then exponentiated:</p><p>\\[\\begin{aligned}\\hat{\\beta} &= -0.693 \\pm 0.412 \\\\ &= (-1.105,\\; -0.281) \\\\ e^{-1.105} &= 0.33 \\\\ e^{-0.281} &= 0.75\\end{aligned}\\]</p><p>where \\(\\hat{\\beta} = -0.693\\) is the coating coefficient and \\(0.412 = 1.96 \\times 0.210\\) is \\(z_{0.025}\\) times its standard error. Exponentiating the two ends gives the hazard-ratio interval, 0.33 to 0.75. The interval excludes 1, so the coating benefit is significant. Covariate effects add on the log-hazard scale, so the new coating breaks even when the temperature term cancels it, \\(-0.693 + 0.405\\,x = 0\\):</p><p>\\[\\begin{aligned}0.405\\,x &= 0.693 \\\\ x &= 1.71 \\\\ T &= 60 + 10x \\\\ &= 77 \\text{ °C}\\end{aligned}\\]</p><p>where \\(x\\) is the number of 10 °C steps above 60 °C and \\(T\\) the break-even operating temperature. Above about 77 °C, the extra temperature more than offsets the coating’s halving of the hazard.</p><p><b>B. 0.33 to 0.75; above about 77 °C.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Types of Data — data analysis tools (survival analysis and the Cox proportional hazards model).</span></p>",
+    "why": "<p>Cox model confidence intervals are built on the coefficient scale and then exponentiated:</p><p>\\[\\begin{aligned}\\text{CI} &= -0.693 \\pm 0.412 \\\\ &= (-1.105,\\; -0.281) \\\\ e^{-1.105} &= 0.33 \\\\ e^{-0.281} &= 0.75\\end{aligned}\\]</p><p>where CI is the 95% confidence interval for the coating coefficient, \\(\\hat{\\beta} = -0.693\\) is its estimate and \\(0.412 = 1.96 \\times 0.210\\) is \\(z_{0.025}\\) times its standard error. Exponentiating the two ends gives the hazard-ratio interval, 0.33 to 0.75. The interval excludes 1, so the coating benefit is significant. Covariate effects add on the log-hazard scale, so the new coating breaks even when the temperature term cancels it, \\(-0.693 + 0.405\\,x = 0\\):</p><p>\\[\\begin{aligned}0.405\\,x &= 0.693 \\\\ x &= 1.71 \\\\ T &= 60 + 10x \\\\ &= 77 \\text{ °C}\\end{aligned}\\]</p><p>where \\(x\\) is the number of 10 °C steps above 60 °C and \\(T\\) the break-even operating temperature. Above about 77 °C, the extra temperature more than offsets the coating’s halving of the hazard.</p><p><b>B. 0.33 to 0.75; above about 77 °C.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Types of Data — data analysis tools (survival analysis and the Cox proportional hazards model).</span></p>",
     "optionRationales": [
       "Assumes one 10 °C step (a 50% increase) cancels the coating’s 50% reduction. On the hazard scale that gives \\(0.5 \\times 1.5 = 0.75\\), not 1.",
       "Correct. \\(\\exp(-0.693 \\pm 1.96 \\times 0.210) = (0.33, 0.75)\\), and \\(0.693/0.405 = 1.71\\) steps, so about 77 °C.",
@@ -2249,15 +2249,15 @@
     "stem": "An engineer computes an Arrhenius acceleration factor between a 125 °C test and 55 °C use. A colleague asks why the temperatures must be converted to kelvin first. Which statement gives the correct reason?",
     "options": [
       "Kelvin values are larger numbers, which reduces rounding error in the exponent.",
-      "The Boltzmann constant is published only in SI units, so any SI temperature unit would work.",
+      "The Boltzmann constant is stated per kelvin, so converting only keeps units consistent; Celsius would give the same result.",
       "Celsius is an ordinal scale, so even differences between Celsius temperatures are not meaningful.",
-      "Celsius is an interval scale with an arbitrary zero, so ratios of Celsius temperatures are meaningless; the Arrhenius model needs absolute temperature on a ratio scale."
+      "Celsius has an arbitrary zero, and the Arrhenius model needs absolute temperature on a ratio scale."
     ],
     "answer": 3,
     "why": "<p>Celsius has an arbitrary zero, so it is an interval scale: differences are meaningful but ratios and reciprocals are not. The Arrhenius model uses \\(1/T\\), which needs absolute temperature, a ratio scale with a true zero: \\(T_{\\text{K}} = T_{^{\\circ}\\text{C}} + 273.15\\).</p><p><b>D. Celsius is an interval scale; the model needs a ratio scale (kelvin).</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Types of Data — measurement scales (Table 7.4).</span></p>",
     "optionRationales": [
       "Rounding is not the issue; a model using \\(1/T\\) in Celsius gives wrong answers, not imprecise ones.",
-      "Celsius is also an SI-derived unit. The issue is the zero point, not the unit system.",
+      "A kelvin and a Celsius degree are the same size, so unit consistency is not the issue; the zero point is, and \\(1/T\\) in Celsius gives a different, wrong acceleration factor.",
       "Celsius is interval, not ordinal: differences such as 10 °C are meaningful.",
       "Correct. Ratios and reciprocals of temperature need an absolute (ratio-scale) temperature."
     ],
@@ -2536,12 +2536,12 @@
       "18.26%"
     ],
     "answer": 2,
-    "why": "<p>Read each row along its diagonal to convert claim months into months in service. Then, for each month in service, divide the claims by the units still at risk from every cohort that has reached that age:</p><p>Month 1: all four cohorts are at risk (4,000 units) and 80 + 90 + 70 + 100 = 340 fail. Month 2: only the January to March cohorts have reached it; 920 + 910 + 930 = 2,760 are still at risk and 50 + 45 + 55 = 150 fail. Month 3: only January and February; 870 + 865 = 1,735 at risk and 40 + 35 = 75 fail.</p><p>\\[\\begin{aligned}h_1 &= 340/4000 = 0.0850 \\\\ h_2 &= 150/2760 = 0.0543 \\\\ h_3 &= 75/1735 = 0.0432\\end{aligned}\\]</p><p>\\[\\begin{aligned}F(3) &= 1 - \\prod_{j=1}^{3}(1 - h_j) \\\\ &= 1 - 0.8279 \\\\ &= 0.1721\\end{aligned}\\]</p><p>where \\(h_j\\) is the conditional probability of failing in month \\(j\\) of service, given survival to its start, \\(F(3)\\) is the probability of failing within three months, and \\(0.915 \\times 0.9457 \\times 0.9568 = 0.8279\\). The April cohort contributes only to \\(h_1\\), and the March cohort only to \\(h_1\\) and \\(h_2\\).</p><p><b>C. 17.21%</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Types of Data — data analysis tools (Nevada chart analysis, survival analysis, Table 7.6).</span></p>",
+    "why": "<p>In each row, the diagonal cell is month 1 in service and each cell to its right is one month older; this converts claim months into months in service. Then, for each month in service, divide the claims by the units still at risk from every cohort that has reached that age:</p><p>Month 1: all four cohorts are at risk (4,000 units) and 80 + 90 + 70 + 100 = 340 fail. Month 2: only the January to March cohorts have reached it; 920 + 910 + 930 = 2,760 are still at risk and 50 + 45 + 55 = 150 fail. Month 3: only January and February; 870 + 865 = 1,735 at risk and 40 + 35 = 75 fail.</p><p>\\[\\begin{aligned}h_1 &= 340/4000 = 0.0850 \\\\ h_2 &= 150/2760 = 0.0543 \\\\ h_3 &= 75/1735 = 0.0432\\end{aligned}\\]</p><p>\\[\\begin{aligned}F(3) &= 1 - \\prod_{j=1}^{3}(1 - h_j) \\\\ &= 1 - 0.8279 \\\\ &= 0.1721\\end{aligned}\\]</p><p>where \\(h_j\\) is the conditional probability of failing in month \\(j\\) of service, given survival to its start, \\(F(3)\\) is the probability of failing within three months, and \\(0.915 \\times 0.9457 \\times 0.9568 = 0.8279\\). The April cohort contributes only to \\(h_1\\), and the March cohort only to \\(h_1\\) and \\(h_2\\).</p><p><b>C. 17.21%</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Types of Data — data analysis tools (Nevada chart analysis, survival analysis, Table 7.6).</span></p>",
     "optionRationales": [
       "\\(595/4000\\): all claims over all units, mixing cohorts that have had one to four months of exposure.",
       "Uses units shipped as each denominator (\\(150/3000\\), \\(75/2000\\)) instead of the units still at risk.",
       "Correct. \\(1 - (0.915)(0.9457)(0.9568) = 0.1721\\).",
-      "Adds the monthly hazards (\\(0.0850 + 0.0543 + 0.0432\\)). Conditional probabilities must be combined through survival, not summed."
+      "Adds the monthly hazards: \\(0.08500 + 0.05435 + 0.04323 = 0.1826\\). Conditional probabilities must be combined through survival, not summed."
     ],
     "keyPoint": "Turn a Nevada chart into age-based hazards with the correct risk set at each age, then multiply survival probabilities.",
     "trap": "Dividing by units shipped instead of units at risk, mixing exposure ages, or summing conditional probabilities.",
@@ -2693,7 +2693,7 @@
       "Close reports only after effectiveness is verified with data, and reopen FR-214 and FR-219 for root-cause analysis: connector replacement is remedial and lot quarantine is containment."
     ],
     "answer": 3,
-    "why": "<p>Two separate weaknesses show in the table. First, the closure rule: every recurring report closed at implementation, while the only report verified in the field (FR-222) has not recurred. Second, the actions themselves: FR-214 has no root cause and only replaced parts (a remedial action), and FR-219 quarantined one lot (containment), which protects against that lot but not against the next one. FR-211 has a plausible root cause, but three recurrences show the action is not effective. Verification before closure would have caught this.</p><p><b>D. Verify effectiveness before closure, and reopen the reports whose actions were remedial or containment only.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Failure Reporting, Analysis, and Corrective Action System (FRACAS), Example 7.7.</span></p>",
+    "why": "<p>Two separate weaknesses show in the table. First, the closure rule: every recurring report was closed at implementation, while the only report verified in the field (FR-222) has not recurred. Second, the actions themselves: FR-214 has no root cause and only replaced parts (a remedial action), and FR-219 quarantined one lot (containment), which protects against that lot but not against the next one. FR-211 has a plausible root cause, but three recurrences show the action is not effective, so the new closure rule also reopens it; verification before closure would have caught this.</p><p><b>D. Verify effectiveness before closure, and reopen the reports whose actions were remedial or containment only.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Failure Reporting, Analysis, and Corrective Action System (FRACAS), Example 7.7.</span></p>",
     "optionRationales": [
       "More reports do not stop recurrence; the loop is not being closed on the reports already raised.",
       "Verification would expose the problem but not fix it. FR-214 and FR-219 record no root-cause correction, so a 30-day check would simply fail.",
@@ -3134,7 +3134,7 @@
       "xLabel": "Cycles to failure (thousands)"
     },
     "options": [
-      "Supplier C: its first quartile is above 40,000 cycles, and its shortest life (38,000 cycles) is the longest of the three, with no outliers.",
+      "Supplier C: its first quartile is above 40,000 cycles, and its minimum life (38,000 cycles) is the highest of the three, with no outliers.",
       "Supplier B: it has the highest median and third quartile, so its bearings give the longest life on average.",
       "Supplier B: its first quartile (44,000 cycles) is above Supplier C’s (43,000 cycles), so more of its bearings exceed 40,000 cycles.",
       "Either B or C: both first quartiles exceed 40,000 cycles, and a box plot cannot show early failures."
@@ -3372,8 +3372,8 @@
               0.0
             ],
             [
-              7910,
-              4.5
+              7620,
+              4.7
             ],
             [
               7960,
@@ -3403,11 +3403,11 @@
     "options": [
       "Accept the result: a correlation this close to zero shows vibration is not a useful wear indicator for these bearings.",
       "Remove the readings that lie more than two standard deviations from the fitted line, then refit, so that the AI model is not distorted by noise.",
-      "Treat the eight 0.0 readings as suspected sensor or logger dropouts, confirm them against the logger records, exclude them with the reason documented, and then refit.",
+      "Check the eight 0.0 readings against the logger records as suspected dropouts, exclude them with a documented reason, and refit.",
       "Log-transform the vibration readings to reduce the influence of the extreme values, then let the AI tool refit the relationship."
     ],
     "answer": 2,
-    "why": "<p>A running bearing cannot have zero vibration, and eight readings of exactly 0.0 clustered in one period of operating hours point to a data-collection fault, not physics. Those points sit at the highest operating hours, where true vibration is highest, so they flatten the fitted line and pull the correlation to almost zero. The other 32 readings rise steadily with hours. Data integrity must be checked before any analysis, human or AI, is trusted: confirm the dropouts in the logger records, exclude them with a documented reason, and refit. The Handbook also notes that AI methods need large, clean training sets and are not appropriate for every situation.</p><p><b>C. Treat the zeros as suspected dropouts, confirm, exclude with documentation, refit.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Data Summary and Reporting — data usability and data analysis (accuracy, integrity, AI); data visualization techniques (scatter plots).</span></p>",
+    "why": "<p>A running bearing cannot have zero vibration, and eight readings of exactly 0.0 clustered in one period of operating hours point to a data-collection fault, not physics. Those points sit near the top of the operating-hours range, where true vibration is highest, so they flatten the fitted line and pull the correlation to almost zero. The other 32 readings rise steadily with hours. Data integrity must be checked before any analysis, human or AI, is trusted: confirm the dropouts in the logger records, exclude them with a documented reason, and refit. The Handbook also notes that AI methods need large, clean training sets and are not appropriate for every situation.</p><p><b>C. Treat the zeros as suspected dropouts, confirm, exclude with documentation, refit.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 7, Data Summary and Reporting — data usability and data analysis (accuracy, integrity, AI); data visualization techniques (scatter plots).</span></p>",
     "optionRationales": [
       "The correlation is computed on corrupted data. The scatter plot shows a strong upward pattern once the impossible zeros are set aside.",
       "The zeros are far from the true trend but close to the flat, distorted line, so a residual rule based on that line keeps them and may remove good readings instead.",
@@ -3415,7 +3415,7 @@
       "The logarithm of 0.0 is undefined, and a transformation would hide a data-integrity problem rather than fix it."
     ],
     "keyPoint": "Assess accuracy and integrity before analysis. Physically impossible values are data faults to investigate, not outliers to trim or transform.",
-    "trap": "Trusting an AI summary statistic without plotting the data, or \"cleaning\" with a rule built on the distorted fit.",
+    "trap": "Trusting an AI summary statistic without plotting the data, or “cleaning” with a rule built on the distorted fit.",
     "formula": null,
     "assumptions": [
       "The pumps ran continuously while the readings were taken."
@@ -3494,7 +3494,7 @@
       "Uses the exponent \\(1/(1 - b)\\) instead of \\(1/b\\). Cumulative failures grow as \\(T^{1 - b}\\), but cumulative MTBF grows as \\(T^{b}\\), so projecting MTBF needs \\(1/b\\).",
       "Correct. \\(b = 0.369\\), the target cumulative MTBF is 1,577 h, \\(T = 84500\\) h, so about 39,500 more hours.",
       "84,500 h is the total cumulative test time needed. The 45,000 h already run count toward it, so only about 39,500 more hours are needed.",
-      "Sets the cumulative MTBF, rather than the instantaneous MTBF, equal to 2,500 h: \\(45000(2)^{2.71}\\). The current MTBF is higher than the cumulative by the factor \\(1/(1 - b)\\)."
+      "Sets the cumulative MTBF, rather than the instantaneous MTBF, equal to 2,500 h: \\(45000(2)^{2.71} - 45000 = 249000\\) h. The current MTBF is higher than the cumulative by the factor \\(1/(1 - b)\\)."
     ],
     "keyPoint": "Duane: \\(\\theta_C \\propto T^{b}\\) and the instantaneous MTBF is \\(\\theta_C/(1 - b)\\). Convert the target before projecting the test time.",
     "trap": "Confusing cumulative with instantaneous MTBF, or extrapolating growth linearly.",
@@ -3537,7 +3537,7 @@
     "cognitive": "Evaluate",
     "questionType": "Visual evidence interpretation, decision",
     "quantitative": false,
-    "stem": "A reliability test plan for a vehicle-mounted electronic module is summarized below. In service, the module sees road vibration and daily temperature cycling at the same time. Which revision to the plan is most needed before testing begins?",
+    "stem": "A reliability test plan for a vehicle-mounted electronic module is summarized below. In service, the module sees both road vibration and daily temperature cycling. Which revision to the plan is most needed before testing begins?",
     "chart": {
       "type": "data-table",
       "title": "Module test plan",
@@ -3576,9 +3576,9 @@
       "Apply thermal cycling and vibration at the same time, and recalibrate the chamber instruments before the test starts."
     ],
     "answer": 3,
-    "why": "<p>The test environment should reflect how the stresses act in use. The field applies vibration and temperature cycling at the same time, and their combined effect (for example, on solder joints) can differ from applying them one after the other, where the order itself changes the result. A combined-environment test (CERT) removes that problem. Separately, results are only valid if the test equipment is accurate: instruments 18 months past their calibration interval must be recalibrated before the test, not after.</p><p><b>D. Combine thermal cycling and vibration, and recalibrate first.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 8, Test Environment (combined environmental reliability testing, calibration); Environmental Factors and Use Conditions.</span></p>",
+    "why": "<p>The test environment should reflect how the stresses act in use. The field applies vibration and temperature cycling at the same time, and their combined effect (for example, on solder joints) can differ from applying them one after the other, where the order itself changes the result. A combined environmental reliability test (CERT) removes that problem. Separately, results are only valid if the test equipment is accurate: instruments 18 months past their calibration interval must be recalibrated before the test, not after.</p><p><b>D. Combine thermal cycling and vibration, and recalibrate first.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 8, Test Environment (combined environmental reliability testing, calibration); Environmental Factors and Use Conditions.</span></p>",
     "optionRationales": [
-      "Any sequential order still separates stresses that act together in the field, and a longer humidity test does not address either real gap.",
+      "Any sequential order still separates stresses that act together in the field, and a longer humidity test does not address the combined-stress or calibration gap.",
       "Recalibration fixes one gap, but running the stresses one after the other still misses failures caused by their combined effect in service.",
       "Dropping vibration removes a field stress altogether; the plan should match the use environment, not a general rule about electronics.",
       "Correct. It matches the combined field environment and makes the measurements trustworthy before testing starts."
@@ -3777,11 +3777,11 @@
       "19.0 years"
     ],
     "answer": 2,
-    "why": "<p>The requirement fixes the 10th percentile (B10) at 2 years. Solve for the scale \\(\\eta\\), then convert to the mean:</p><p>\\[\\begin{aligned}t_{10} &= \\eta\\,(-\\ln 0.90)^{1/\\beta} \\\\ 2 &= \\eta\\,(0.10536)^{0.667} \\\\ \\eta &= 2/0.2228 = 8.98 \\\\ \\text{MTTF} &= \\eta\\,\\Gamma\\left(1 + \\frac{1}{\\beta}\\right) \\\\ &= 8.98(0.9027) \\\\ &= 8.1 \\text{ years}\\end{aligned}\\]</p><p>where \\(t_{10}\\) is the B10 life, \\(\\eta\\) the Weibull scale, \\(\\beta\\) the shape and \\(\\Gamma\\) the gamma function. A requirement on a low percentile becomes a much longer mean when life varies widely, which is why failure criteria should be stated as a percentile, not as a mean.</p><p><b>C. 8.1 years</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 8, Failure Criteria (time requirements, lower percentile versus mean life).</span></p>",
+    "why": "<p>The requirement fixes the 10th percentile (B10) at 2 years. Solve for the scale \\(\\eta\\), then convert to the mean:</p><p>\\[\\begin{aligned}t_{10} &= \\eta\\,(-\\ln 0.90)^{1/\\beta} \\\\ 2 &= \\eta\\,(0.10536)^{2/3} \\\\ \\eta &= 2/0.2231 = 8.97 \\\\ \\text{MTTF} &= \\eta\\,\\Gamma\\left(1 + \\frac{1}{\\beta}\\right) \\\\ &= 8.97(0.9027) \\\\ &= 8.1 \\text{ years}\\end{aligned}\\]</p><p>where \\(t_{10}\\) is the B10 life, \\(\\eta\\) the Weibull scale, \\(\\beta\\) the shape and \\(\\Gamma\\) the gamma function. A requirement on a low percentile becomes a much longer mean when life varies widely, which is why failure criteria should be stated as a percentile, not as a mean.</p><p><b>C. 8.1 years</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 8, Failure Criteria (time requirements, lower percentile versus mean life).</span></p>",
     "optionRationales": [
       "Treats the 2-year warranty as the characteristic life \\(\\eta\\): \\(2\\,\\Gamma(1.667) = 1.8\\) years. At \\(\\eta\\), 63.2% of units have failed, far more than 10%.",
-      "Treats the median life as the mean: \\(8.98(\\ln 2)^{0.667} = 7.0\\) years. For \\(\\beta = 1.5\\) the mean is longer than the median.",
-      "Correct. \\(\\eta = 8.98\\) years and \\(\\text{MTTF} = 8.98\\,\\Gamma(1.667) = 8.1\\) years.",
+      "Treats the median life as the mean: \\(8.97(\\ln 2)^{0.667} = 7.0\\) years. For \\(\\beta = 1.5\\) the mean is longer than the median.",
+      "Correct. \\(\\eta = 8.97\\) years and \\(\\text{MTTF} = 8.97\\,\\Gamma(1.667) = 8.1\\) years.",
       "Assumes an exponential life: \\(2/(-\\ln 0.90) = 19.0\\) years. The wear-out shape (\\(\\beta = 1.5\\)) concentrates failures later, so the mean needed is far shorter."
     ],
     "keyPoint": "State failure criteria as a low percentile tied to the warranty. The equivalent mean depends strongly on the distribution shape.",
@@ -4104,7 +4104,7 @@
       "About 1,550,000 h"
     ],
     "answer": 2,
-    "why": "<p>First find the acceleration factor, using absolute temperatures:</p><p>\\[\\begin{aligned}T_U &= 328.15 \\text{ K} \\\\ T_S &= 398.15 \\text{ K} \\\\ \\text{AF} &= e^{(E_A/k)(1/T_U - 1/T_S)} \\\\ &= e^{8123(0.000536)} \\\\ &= 77.7\\end{aligned}\\]</p><p>where \\(T_U\\) and \\(T_S\\) are the use and test temperatures in kelvin, \\(E_A\\) is the activation energy, \\(k\\) is Boltzmann’s constant, \\(8123 = 0.70/8.617 \\times 10^{-5}\\) and \\(0.000536 = 1/328.15 - 1/398.15\\). Then convert test time to equivalent use time and apply the chi-square bound for a time-terminated test with \\(r = 0\\):</p><p>\\[\\begin{aligned}T_{eq} &= 77.7 \\times 20 \\times 1000 \\\\ &= 1.554 \\times 10^{6} \\text{ h} \\\\ \\text{MTBF}_L &= \\frac{2T_{eq}}{\\chi^2_{0.10,\\,2}} \\\\ &= \\frac{3.107 \\times 10^{6}}{4.605} \\\\ &= 675000 \\text{ h}\\end{aligned}\\]</p><p>where \\(T_{eq}\\) is the equivalent unit-hours at use conditions, and \\(\\chi^2_{0.10,\\,2} = 4.605\\) uses \\(2r + 2 = 2\\) degrees of freedom.</p><p><b>C. About 675,000 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Accelerated Life Tests — the Arrhenius model (Equation 9.1); Ch. 6, Intervals Using the Exponential Distribution.</span></p>",
+    "why": "<p>First find the acceleration factor, using absolute temperatures:</p><p>\\[\\begin{aligned}T_U &= 328.15 \\text{ K} \\\\ T_S &= 398.15 \\text{ K} \\\\ \\text{AF} &= e^{(E_A/k)(1/T_U - 1/T_S)} \\\\ &= e^{8123(0.000536)} \\\\ &= 77.7\\end{aligned}\\]</p><p>where \\(T_U\\) and \\(T_S\\) are the use and test temperatures in kelvin, \\(E_A\\) is the activation energy, \\(k\\) is Boltzmann’s constant, \\(8123 = 0.70/(8.617 \\times 10^{-5})\\) and \\(0.000536 = 1/328.15 - 1/398.15\\). Then convert test time to equivalent use time and apply the chi-square bound for a time-terminated test with \\(r = 0\\):</p><p>\\[\\begin{aligned}T_{eq} &= 77.7 \\times 20 \\times 1000 \\\\ &= 1.554 \\times 10^{6} \\text{ h} \\\\ \\text{MTBF}_L &= \\frac{2T_{eq}}{\\chi^2_{0.10,\\,2}} \\\\ &= \\frac{3.107 \\times 10^{6}}{4.605} \\\\ &= 675000 \\text{ h}\\end{aligned}\\]</p><p>where \\(T_{eq}\\) is the equivalent unit-hours at use conditions, and \\(\\chi^2_{0.10,\\,2} = 4.605\\) uses \\(2r + 2 = 2\\) degrees of freedom.</p><p><b>C. About 675,000 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Accelerated Life Tests — the Arrhenius model (Equation 9.1); Ch. 6, Intervals Using the Exponential Distribution.</span></p>",
     "optionRationales": [
       "Drops the 2 in \\(2T_{eq}\\): \\(1.554 \\times 10^{6}/4.605\\).",
       "Uses \\(\\chi^2_{0.05,\\,2} = 5.991\\), the value for a two-sided 90% interval, instead of the one-sided 4.605.",
@@ -4187,10 +4187,10 @@
       "About 38,400 h"
     ],
     "answer": 1,
-    "why": "<p>Acceleration is valid only while the failure mode stays the same. The 60 V results show a new mode (connector arcing), so they must be excluded, and the exponent comes from the two insulation-breakdown levels:</p><p>\\[\\begin{aligned}\\frac{L_{36}}{L_{48}} &= \\left(\\frac{48}{36}\\right)^{b} \\\\ b &= \\frac{\\ln(2400/760)}{\\ln(48/36)} \\\\ &= \\frac{1.150}{0.288} = 4.0 \\\\ L_{24} &= 2400\\left(\\frac{36}{24}\\right)^{4.0} \\\\ &= 2400(5.06) \\\\ &= 12100 \\text{ h}\\end{aligned}\\]</p><p>where \\(L_V\\) is the B10 life at voltage \\(V\\) and \\(b\\) is the power-law exponent. The 60 V failures belong to a separate distribution and need their own analysis.</p><p><b>B. About 12,100 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Accelerated Life Tests — the power law model (Equation 9.2) and the requirement that failure modes stay the same.</span></p>",
+    "why": "<p>Acceleration is valid only while the failure mode stays the same. The 60 V results show a new mode (connector arcing), so they must be excluded, and the exponent comes from the two insulation-breakdown levels:</p><p>\\[\\begin{aligned}\\frac{L_{36}}{L_{48}} &= \\left(\\frac{48}{36}\\right)^{b} \\\\ b &= \\frac{\\ln(2400/760)}{\\ln(48/36)} \\\\ &= \\frac{1.150}{0.2877} = 3.997 \\\\ L_{24} &= 2400\\left(\\frac{36}{24}\\right)^{3.997} \\\\ &= 2400(5.057) \\\\ &= 12100 \\text{ h}\\end{aligned}\\]</p><p>where \\(L_V\\) is the B10 life at voltage \\(V\\) and \\(b\\) is the power-law exponent. The 60 V failures belong to a separate distribution and need their own analysis.</p><p><b>B. About 12,100 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Accelerated Life Tests — the power law model (Equation 9.2) and the requirement that failure modes stay the same.</span></p>",
     "optionRationales": [
       "Assumes life is inversely proportional to voltage (\\(b = 1\\)): \\(2400(36/24) = 3600\\) h. The data give \\(b = 4.0\\).",
-      "Correct. \\(b = 4.0\\) from the 36 V and 48 V insulation failures, so \\(L_{24} = 2400(1.5)^{4} = 12100\\) h.",
+      "Correct. \\(b = 3.997 \\approx 4.0\\) from the 36 V and 48 V insulation failures, so \\(L_{24} = 2400(1.5)^{3.997} = 12100\\) h.",
       "Fits \\(b\\) from the 36 V and 60 V points (\\(b = 6.43\\)), mixing two failure modes.",
       "Applies the 48-to-24 V ratio to the 36 V life: \\(2400(48/24)^{4} = 38400\\) h. The ratio must start from the voltage whose life is used."
     ],
@@ -4415,10 +4415,10 @@
       "Producer’s risk about 0.06 and consumer’s risk about 0.32. The plan favors the producer.",
       "Producer’s risk about 0.68 and consumer’s risk about 0.06. The plan is too strict for the producer.",
       "Producer’s risk about 0.32 and consumer’s risk about 0.94. The plan protects neither party.",
-      "Producer’s risk about 0.32 and consumer’s risk about 0.06. The plan protects the customer but is unfair to the producer."
+      "Producer’s risk about 0.32 and consumer’s risk about 0.06. The plan favors the customer."
     ],
     "answer": 3,
-    "why": "<p>With a constant failure rate, the number of failures in the test is Poisson with mean \\(T/m\\). Evaluate the acceptance probability at the two MTBF values:</p><p>\\[\\begin{aligned}\\mu_0 &= 12000/6000 = 2 \\\\ P_0 &= \\Pr(X \\le 2 \\mid \\mu_0) \\\\ &= 0.677 \\\\ \\alpha &= 1 - P_0 = 0.32 \\\\ \\mu_1 &= 12000/2000 = 6 \\\\ \\beta &= \\Pr(X \\le 2 \\mid \\mu_1) \\\\ &= 0.062\\end{aligned}\\]</p><p>where \\(\\mu_0\\) and \\(\\mu_1\\) are the expected numbers of failures at the acceptable and rejectable MTBF, \\(P_0\\) is the probability of accepting at the acceptable MTBF, \\(\\alpha\\) is the producer’s risk (rejecting a design that meets the acceptable MTBF) and \\(\\beta\\) the consumer’s risk (accepting one at the rejectable MTBF). A plan with \\(\\alpha\\) about 0.32 is too short: with a discrimination ratio of 3, a plan such as 9,300 h for a 3,000 h requirement with five allowed failures (IEC 61124 B.7) holds both risks near 0.10.</p><p><b>D. Producer’s risk about 0.32, consumer’s risk about 0.06; lengthen the test.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Qualification/Demonstration Testing — OC curves, fixed-time test plans (Example 9.5, Table 9.1).</span></p>",
+    "why": "<p>With a constant failure rate, the number of failures in the test is Poisson with mean \\(T/m\\). Evaluate the acceptance probability at the two MTBF values:</p><p>\\[\\begin{aligned}\\mu_0 &= 12000/6000 = 2 \\\\ P_0 &= \\Pr(X \\le 2 \\mid \\mu_0) \\\\ &= 0.677 \\\\ \\alpha &= 1 - P_0 = 0.32 \\\\ \\mu_1 &= 12000/2000 = 6 \\\\ \\beta &= \\Pr(X \\le 2 \\mid \\mu_1) \\\\ &= 0.062\\end{aligned}\\]</p><p>where \\(\\mu_0\\) and \\(\\mu_1\\) are the expected numbers of failures at the acceptable and rejectable MTBF, \\(P_0\\) is the probability of accepting at the acceptable MTBF, \\(\\alpha\\) is the producer’s risk (rejecting a design that meets the acceptable MTBF) and \\(\\beta\\) the consumer’s risk (accepting one at the rejectable MTBF). A plan with \\(\\alpha\\) about 0.32 is too short: with a discrimination ratio of 3, a fixed-time plan of \\(3.10\\,m_0 = 18600\\) h accepting on five or fewer failures (IEC 61124 plan B.7) holds both risks near 0.10.</p><p><b>D. Producer’s risk about 0.32, consumer’s risk about 0.06; lengthen the test.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Qualification/Demonstration Testing — OC curves, fixed-time test plans (Example 9.5, Table 9.1).</span></p>",
     "optionRationales": [
       "Swaps the two risks. The producer’s risk is evaluated at the acceptable MTBF, the consumer’s at the rejectable MTBF.",
       "Reads the acceptance probability at the acceptable MTBF (0.68) as the producer’s risk. The producer’s risk is the probability of rejecting there: \\(1 - 0.677 = 0.32\\).",
@@ -4516,10 +4516,10 @@
       "3"
     ],
     "answer": 2,
-    "why": "<p>For a line through the origin, the least-squares slope is the sum of distance times wear divided by the sum of squared distances. With distances in thousands of km:</p><p>\\[\\begin{aligned}\\hat{s} &= \\frac{\\sum d_i w_i}{\\sum d_i^{2}} \\\\ &= \\frac{5w_1 + 10w_2 + 15w_3}{350} \\\\ L &= 8.0/\\hat{s}\\end{aligned}\\]</p><p>where \\(d_i\\) is the distance, \\(w_i\\) the wear at that distance, \\(\\hat{s}\\) the wear rate in mm per 1,000 km and \\(L\\) the projected distance to 8.0 mm. The projected lives are about 52,100 km (Pad 1), 44,400 km (Pad 2), 38,200 km (Pad 3), 61,500 km (Pad 4) and 34,800 km (Pad 5). Pads 3 and 5 reach 8.0 mm before 40,000 km.</p><p>\\[\\begin{aligned}\\hat{s}_3 &= \\frac{4.75 + 20.5 + 48.0}{350} \\\\ &= 0.209 \\\\ L_3 &= 8.0/0.209 \\\\ &= 38200 \\text{ km}\\end{aligned}\\]</p><p>where \\(\\hat{s}_3\\) and \\(L_3\\) are the wear rate and projected life of Pad 3, the closest call.</p><p><b>C. 2</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Degradation (wear-to-failure) testing — extrapolating to a failure threshold with a linear model.</span></p>",
+    "why": "<p>For a line through the origin, the least-squares slope is the sum of distance times wear divided by the sum of squared distances. With distances in thousands of km:</p><p>\\[\\begin{aligned}\\hat{s} &= \\frac{\\sum d_i w_i}{\\sum d_i^{2}} \\\\ &= \\frac{5w_1 + 10w_2 + 15w_3}{350} \\\\ L &= 8.0/\\hat{s}\\end{aligned}\\]</p><p>where \\(d_i\\) is the distance, \\(w_i\\) the wear at that distance, \\(\\hat{s}\\) the wear rate in mm per 1,000 km and \\(L\\) the projected distance to 8.0 mm. The projected lives are about 52,100 km (Pad 1), 44,400 km (Pad 2), 38,200 km (Pad 3), 61,500 km (Pad 4) and 34,800 km (Pad 5). Pads 3 and 5 reach 8.0 mm before 40,000 km.</p><p>\\[\\begin{aligned}\\hat{s}_3 &= \\frac{4.75 + 20.5 + 48.0}{350} \\\\ &= 0.2093 \\\\ L_3 &= 8.0/0.2093 \\\\ &= 38.2\\end{aligned}\\]</p><p>where \\(\\hat{s}_3\\) and \\(L_3\\) are the wear rate and projected life (thousand km) of Pad 3, the closest call.</p><p><b>C. 2</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Degradation (wear-to-failure) testing — extrapolating to a failure threshold with a linear model.</span></p>",
     "optionRationales": [
       "No pad has reached 8.0 mm yet, but degradation testing projects each pad’s path to the threshold instead of waiting for failures.",
-      "Uses only the first reading for Pad 3 (\\(0.95/5 = 0.19\\), so 42,100 km). The model is fitted to all three readings.",
+      "Uses only each pad’s first reading, which moves Pad 3 to 42,100 km (\\(0.95/5 = 0.19\\)) and leaves only Pad 5 inside the warranty. The model is fitted to all three readings.",
       "Correct. Pads 3 (38,200 km) and 5 (34,800 km) are projected to fail within the warranty.",
       "Projects Pad 2 from its last interval alone, where wear was fastest, giving 38,600 km. The stated model uses all three readings."
     ],
@@ -4604,10 +4604,10 @@
       "Counts only business hours as operating time (\\(30 \\times 8 \\times 60 = 14400\\) minutes). The service ran around the clock, so the month has 43,200 operating minutes.",
       "Correct. \\(1 - 130/43200 = 0.9970\\).",
       "Counts only the two outages longer than 30 minutes (105 minutes). Every outage counts against availability.",
-      "Uses only the longest outage (60 minutes)."
+      "Uses only the longest outage (60 minutes). Every outage counts against availability, so all 130 minutes must be included."
     ],
     "keyPoint": "Software availability is \\(A = (1 - t_{\\text{outage}}/t_{\\text{operation}}) \\times 100\\%\\), counting every outage.",
-    "trap": "Leaving out short outages or rounding durations.",
+    "trap": "Leaving out short outages, or counting only business hours as operating time.",
     "formula": "\\(A = (1 - t_{\\text{outage}}/t_{\\text{operation}}) \\times 100\\%\\)",
     "assumptions": [],
     "estimatedMinutes": 1,
@@ -4682,7 +4682,7 @@
       "Correct. Each activity matches its method.",
       "Activity 1 uses knowledge of the code, so it is white-box, not black-box; activity 3 injects faults rather than raising load.",
       "Activity 2 is black-box in a broad sense, but weighting by use to estimate field failure intensity is specifically operational profile testing; rerunning the suite after a fix is regression testing.",
-      "Gray-box testing focuses on interfaces during integration, and built-in testing is self-test logic inside the product, not a test the team runs."
+      "Gray-box testing focuses on interfaces during integration; activity 2 estimates field failure intensity from use-weighted tests, which is operational profile testing, not performance testing; and built-in testing is self-test logic inside the product, not a test the team runs."
     ],
     "keyPoint": "White-box covers code paths; operational profile testing mirrors real use and supports reliability estimates; fault injection tests error handling; regression testing protects working functions after changes.",
     "trap": "Calling any test of external behavior black-box, or confusing fault injection with stress testing.",
@@ -5051,7 +5051,7 @@
       "Continue testing; accept if no further failure occurs in about 19,900 more hours."
     ],
     "answer": 0,
-    "why": "<p>At 15,000 h the two lines bound the decision:</p><p>\\[\\begin{aligned}s &= 3.607 \\times 10^{-4} \\\\ r_{\\text{acc}} &= -3.17 + 15000s \\\\ &= 2.24 \\\\ r_{\\text{rej}} &= 3.17 + 15000s \\\\ &= 8.58\\end{aligned}\\]</p><p>where \\(s\\) is the slope of both lines, and \\(r_{\\text{acc}}\\) and \\(r_{\\text{rej}}\\) are the accept and reject boundaries. Accept needs \\(r \\le 2.24\\) and reject needs \\(r \\ge 8.58\\); with \\(r = 4\\), the result lies between the lines, so testing continues. With no more failures, acceptance comes when the accept line reaches 4:</p><p>\\[\\begin{aligned}4 &= -3.17 + sT \\\\ T &= 7.17/s \\\\ &= 19880 \\text{ h} \\\\ \\Delta T &= 19880 - 15000 \\\\ &= 4880 \\text{ h}\\end{aligned}\\]</p><p>where \\(T\\) is the cumulative time at which 4 failures meets the accept line and \\(\\Delta T\\) the additional time. The slope comes from \\((1/m_1 - 1/m_0)/\\ln(m_0/m_1)\\) and the intercepts from \\(\\ln[(1 - \\beta)/\\alpha]/\\ln(m_0/m_1)\\).</p><p><b>A. Continue; accept after about 4,900 more failure-free hours.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Qualification/Demonstration Testing — sequential test plans (PRST), Figure 9.9.</span></p>",
+    "why": "<p>At 15,000 h the two lines bound the decision:</p><p>\\[\\begin{aligned}s &= 3.607 \\times 10^{-4} \\\\ r_{\\text{acc}} &= -3.17 + 15000s \\\\ &= 2.24 \\\\ r_{\\text{rej}} &= 3.17 + 15000s \\\\ &= 8.58\\end{aligned}\\]</p><p>where \\(s\\) is the slope of both lines, and \\(r_{\\text{acc}}\\) and \\(r_{\\text{rej}}\\) are the accept and reject boundaries. Accept needs \\(r \\le 2.24\\) and reject needs \\(r \\ge 8.58\\); with \\(r = 4\\), the result lies between the lines, so testing continues. With no more failures, acceptance comes when the accept line reaches 4:</p><p>\\[\\begin{aligned}4 &= -3.17 + sT \\\\ T &= 7.17/s \\\\ &= 19880 \\text{ h} \\\\ \\Delta T &= 19880 - 15000 \\\\ &= 4880 \\text{ h}\\end{aligned}\\]</p><p>where \\(T\\) is the cumulative time at which 4 failures meets the accept line and \\(\\Delta T\\) the additional time. The slope comes from \\((1/m_1 - 1/m_0)/\\ln(m_0/m_1)\\) and the intercepts from \\(\\ln[(1 - \\beta)/\\alpha]/\\ln(m_0/m_1)\\) for reject and \\(\\ln[\\beta/(1 - \\alpha)]/\\ln(m_0/m_1)\\) for accept, which are equal and opposite here because \\(\\alpha = \\beta\\).</p><p><b>A. Continue; accept after about 4,900 more failure-free hours.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Qualification/Demonstration Testing — sequential test plans (PRST), Figure 9.9.</span></p>",
     "optionRationales": [
       "Correct. 4 failures is between the lines at 15,000 h; the accept line reaches 4 at about 19,900 h.",
       "A sequential test decides only from its boundaries. A point estimate does not account for the agreed risks.",
@@ -5059,7 +5059,7 @@
       "19,880 h is the total cumulative time at which 4 failures meets the accept line. 15,000 h have already run, so only about 4,900 more are needed."
     ],
     "keyPoint": "A sequential test has three regions: accept below the accept line, reject above the reject line, continue between them.",
-    "trap": "Deciding from a point estimate, or treating \"above the accept line\" as reject.",
+    "trap": "Deciding from a point estimate, or treating “above the accept line” as reject.",
     "formula": "\\(r = \\pm\\frac{\\ln[(1 - \\beta)/\\alpha]}{\\ln(m_0/m_1)} + \\frac{1/m_1 - 1/m_0}{\\ln(m_0/m_1)}\\,T\\)",
     "assumptions": [
       "Constant failure rate; \\(\\alpha = \\beta\\), so the two intercepts are equal and opposite."
@@ -5153,7 +5153,7 @@
       "80,350 h with up to 39 failures; about 6,700 h per unit."
     ],
     "answer": 0,
-    "why": "<p>The discrimination ratio is \\(m_0/m_1 = 2500/1250 = 2\\), so with 10% risks the plan is B.6:</p><p>\\[\\begin{aligned}T &= 9.47\\,m_0 = 9.47(2500) \\\\ &= 23675 \\text{ h} \\\\ t &= 23675/12 = 1973 \\text{ h}\\end{aligned}\\]</p><p>where \\(T\\) is the cumulative test time, \\(m_0\\) the acceptable MTBF and \\(t\\) the calendar time per position for 12 units on a replacement test. The plan accepts with 13 or fewer failures.</p><p><b>A. 23,675 h, 13 failures, about 1,970 h per unit.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Qualification/Demonstration Testing — fixed-time test plans (Table 9.1, Example 9.6).</span></p>",
+    "why": "<p>The discrimination ratio is \\(m_0/m_1 = 2500/1250 = 2\\), so with 10% risks the plan is B.6:</p><p>\\[\\begin{aligned}T &= 9.47\\,m_0 = 9.47(2500) \\\\ &= 23675 \\text{ h} \\\\ t &= 23675/12 = 1973 \\text{ h}\\end{aligned}\\]</p><p>where \\(T\\) is the cumulative test time, \\(m_0\\) the acceptable MTBF and \\(t\\) the calendar time per unit (test position) for 12 units on a replacement test. The plan accepts with 13 or fewer failures.</p><p><b>A. 23,675 h, 13 failures, about 1,970 h per unit.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Qualification/Demonstration Testing — fixed-time test plans (Table 9.1, Example 9.6).</span></p>",
     "optionRationales": [
       "Correct. Plan B.6: \\(T = 9.47 \\times 2500\\), \\(c = 13\\), and \\(23675/12 = 1973\\) h.",
       "Multiplies the factor by the rejectable MTBF (\\(9.47 \\times 1250\\)). The table expresses test time in multiples of \\(m_0\\).",
@@ -5531,7 +5531,7 @@
     },
     "options": [
       "Fatigue cracking of the bolts from cyclic thermal loading.",
-      "Creep under constant strain (stress relaxation) of the hot bolted joints.",
+      "Creep under constant strain (stress relaxation) of the bolts.",
       "General corrosion of the bolts, reducing their load-bearing area.",
       "Brittle fracture of the flange from a sudden overload."
     ],
@@ -5540,7 +5540,7 @@
     "optionRationales": [
       "Fatigue needs cyclic stress and leaves cracks; the line runs at a steady temperature and no cracks were found.",
       "Correct. Clamping force falls at fixed deformation and high temperature, with no fracture or wall loss.",
-      "No pitting or wall loss was found, and corrosion would not depend so strongly on the joint temperature here.",
+      "No pitting or wall loss was found, so the bolts have lost no load-bearing area that could explain the drop in clamping force.",
       "A brittle fracture would leave a broken part. Nothing fractured."
     ],
     "keyPoint": "Creep can occur at constant stress (growing deformation) or at constant strain (relaxing stress); loosening bolted joints at high temperature are the classic constant-strain case.",
@@ -5695,9 +5695,9 @@
       "0.910"
     ],
     "answer": 2,
-    "why": "<p>With exponential pumps, the station survives if the first pump lasts the mission, or if it fails, the switch works and the standby pump lasts the rest:</p><p>\\[\\begin{aligned}\\lambda t &= 1000/2000 = 0.5 \\\\ R &= e^{-\\lambda t}(1 + R_{sw}\\lambda t) \\\\ &= 0.6065(1 + 0.95 \\times 0.5) \\\\ &= 0.6065(1.475) \\\\ &= 0.895\\end{aligned}\\]</p><p>where \\(\\lambda\\) is each pump’s failure rate, \\(t\\) the mission time and \\(R_{sw}\\) the switchover reliability. The term \\(R_{sw}\\lambda t\\,e^{-\\lambda t}\\) is the probability that exactly one running failure occurs and the switch succeeds.</p><p><b>C. 0.895</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Reliability Block Diagrams and Models — standby systems (cold, warm and hot standby).</span></p>",
+    "why": "<p>With exponential pumps, the station survives if the first pump lasts the mission or, if it fails, the switch works and the standby pump lasts the rest:</p><p>\\[\\begin{aligned}\\lambda t &= 1000/2000 = 0.5 \\\\ R &= e^{-\\lambda t}(1 + R_{sw}\\lambda t) \\\\ &= 0.6065(1 + 0.95 \\times 0.5) \\\\ &= 0.6065(1.475) \\\\ &= 0.895\\end{aligned}\\]</p><p>where \\(\\lambda\\) is each pump’s failure rate, \\(t\\) the mission time and \\(R_{sw}\\) the switchover reliability. The term \\(R_{sw}\\lambda t\\,e^{-\\lambda t}\\) is the probability that exactly one running failure occurs and the switch succeeds.</p><p><b>C. 0.895</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Reliability Block Diagrams and Models — standby systems (cold, warm and hot standby).</span></p>",
     "optionRationales": [
-      "Treats the pumps as hot parallel: \\(1 - (1 - e^{-0.5})^{2} = 0.845\\). A cold standby pump does not age while idle, so it is better than hot redundancy.",
+      "Treats the pumps as hot parallel: \\(1 - (1 - e^{-0.5})^{2} = 0.845\\). A cold standby pump cannot fail while idle, so here it beats hot redundancy even with the imperfect switch.",
       "Multiplies the perfect-switch result by the switch reliability (\\(0.95 \\times 0.910\\)), as if the switch had to work even when no switchover is needed.",
       "Correct. \\(e^{-0.5}(1 + 0.95 \\times 0.5) = 0.895\\).",
       "Assumes a perfect switch: \\(e^{-0.5}(1 + 0.5) = 0.910\\)."
@@ -5836,7 +5836,7 @@
       "Correct. \\(1.213 \\times 269 = 327\\).",
       "Uses Celsius temperatures in the ratio (\\(125/55 = 2.27\\)). Both Eyring terms need absolute temperature."
     ],
-    "keyPoint": "Eyring: \\(\\text{AF}_{Ey} = (T_S/T_U)^{m}\\,\\text{AF}_{Ar}\\), with temperatures in kelvin; for \\(m\\) near 0 it reduces to Arrhenius.",
+    "keyPoint": "Eyring: \\(\\text{AF}_{Ey} = (T_S/T_U)^{m}\\,\\text{AF}_{Ar}\\), with temperatures in kelvin; with \\(m = 0\\) it reduces to Arrhenius.",
     "trap": "Inverting the temperature ratio, using Celsius in the ratio, or stopping at the Arrhenius factor.",
     "formula": "\\(\\text{AF}_{Ey} = (T_S/T_U)^{m}\\exp[(E_a/k)(1/T_U - 1/T_S)]\\)",
     "assumptions": [],
@@ -5986,10 +5986,10 @@
       "117.4 years"
     ],
     "answer": 1,
-    "why": "<p>Because the rate depends exponentially on temperature, find the rate in each half-year, then add the depth grown in each:</p><p>\\[\\begin{aligned}r_5 &= 0.010\\,e^{4642\\Delta_5} \\\\ &= 0.010\\,e^{-0.854} \\\\ &= 0.00426 \\\\ r_{35} &= 0.010\\,e^{4642\\Delta_{35}} \\\\ &= 0.010\\,e^{0.771} \\\\ &= 0.0216 \\\\ r_{\\text{yr}} &= (0.00426 + 0.0216)/2 \\\\ &= 0.01294 \\\\ t &= 0.50/0.01294 \\\\ &= 38.7\\end{aligned}\\]</p><p>where \\(r_T\\) is the corrosion rate in mm per year at temperature \\(T\\) °C, \\(\\Delta_T = 1/293.15 - 1/(T + 273.15)\\), \\(4642 = 0.40/8.617 \\times 10^{-5}\\), \\(r_{\\text{yr}}\\) the average annual rate and \\(t\\) the life in years. The warm half-year does most of the damage.</p><p><b>B. 38.7 years</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Physics of Failure and Failure Mechanisms — corrosion (zero-order kinetics with an Arrhenius rate, combined across temperature intervals).</span></p>",
+    "why": "<p>Because the rate depends exponentially on temperature, find the rate in each half-year, then add the depth grown in each:</p><p>\\[\\begin{aligned}r_5 &= 0.010\\,e^{4642\\Delta_5} \\\\ &= 0.010\\,e^{-0.854} \\\\ &= 0.00426 \\\\ r_{35} &= 0.010\\,e^{4642\\Delta_{35}} \\\\ &= 0.010\\,e^{0.771} \\\\ &= 0.0216 \\\\ r_{\\text{yr}} &= (0.00426 + 0.0216)/2 \\\\ &= 0.01294 \\\\ t &= 0.50/0.01294 \\\\ &= 38.7\\end{aligned}\\]</p><p>where \\(r_T\\) is the corrosion rate in mm per year at temperature \\(T\\) °C, \\(\\Delta_T = 1/293.15 - 1/(T + 273.15)\\), \\(4642 = 0.40/(8.617 \\times 10^{-5})\\), \\(r_{\\text{yr}}\\) the average annual rate and \\(t\\) the life in years. The warm half-year does most of the damage.</p><p><b>B. 38.7 years</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Physics of Failure and Failure Mechanisms — corrosion (zero-order kinetics with an Arrhenius rate, combined across temperature intervals).</span></p>",
     "optionRationales": [
       "Uses the 35 °C rate for the whole year.",
-      "Correct. The average annual rate is 0.01294 mm, so \\(0.50/0.01294 = 38.7\\) years.",
+      "Correct. The average rate is 0.01294 mm per year, so \\(0.50/0.01294 = 38.7\\) years.",
       "Uses the rate at the mean temperature (20 °C). Because the rate is exponential in temperature, the warm half-year adds more than the cold half-year saves, so the mean temperature overstates the life.",
       "Uses the 5 °C rate for the whole year."
     ],
@@ -6034,7 +6034,7 @@
     "cognitive": "Apply",
     "questionType": "Visual evidence interpretation, calculation",
     "quantitative": true,
-    "stem": "A controller board is predicted with a MIL-HDBK-217-style parts count method, using the base failure rates and \\(\\pi\\) factors shown (\\(\\pi_R = 1\\) for every part). Assuming a series model, what is the predicted MTBF of the board?",
+    "stem": "The failure rate of a controller board is predicted with a MIL-HDBK-217-style parts count method, using the base failure rates and \\(\\pi\\) factors shown (\\(\\pi_R = 1\\) for every part). Assuming a series model, what is the predicted MTBF of the board?",
     "chart": {
       "type": "data-table",
       "title": "Controller board parts list",
@@ -6090,12 +6090,12 @@
       "About 3,937,000 h"
     ],
     "answer": 0,
-    "why": "<p>Each part’s predicted rate is \\(\\lambda_p = \\lambda_b\\pi_E\\pi_Q\\pi_R\\); multiply by the quantity and add, since the series model counts every part:</p><p>\\[\\begin{aligned}\\lambda &= 0.400 + 0.192 \\\\ &\\quad + 0.192 + 0.360 \\\\ &\\quad + 0.384 \\\\ &= 1.528 \\\\ \\text{MTBF} &= 10^{6}/1.528 \\\\ &= 654000 \\text{ h}\\end{aligned}\\]</p><p>where \\(\\lambda\\) is the board failure rate per \\(10^{6}\\) h and the five terms are the microcontroller (\\(1 \\times 0.050 \\times 4 \\times 2\\)), capacitors (\\(24 \\times 0.0020 \\times 4\\)), resistors (\\(40 \\times 0.0012 \\times 4\\)), connectors (\\(2 \\times 0.030 \\times 4 \\times 1.5\\)) and MOSFETs (\\(4 \\times 0.012 \\times 4 \\times 2\\)). A parts count result is a prediction for comparing designs and finding weak links, not a reliability estimate.</p><p><b>A. About 654,000 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Reliability Prediction Methods — part count predictions and part stress analysis (Examples 10.15–10.16).</span></p>",
+    "why": "<p>Each part’s predicted rate is \\(\\lambda_p = \\lambda_b\\pi_E\\pi_Q\\pi_R\\); multiply by the quantity and add, since the series model counts every part:</p><p>\\[\\begin{aligned}\\lambda &= 0.400 + 0.192 \\\\ &\\quad + 0.192 + 0.360 \\\\ &\\quad + 0.384 \\\\ &= 1.528 \\\\ \\text{MTBF} &= 10^{6}/1.528 \\\\ &= 654000 \\text{ h}\\end{aligned}\\]</p><p>where \\(\\lambda\\) is the board failure rate per \\(10^{6}\\) h and the five terms are the microcontroller (\\(1 \\times 0.050 \\times 4 \\times 2\\)), capacitors (\\(24 \\times 0.0020 \\times 4\\)), resistors (\\(40 \\times 0.0012 \\times 4\\)), connectors (\\(2 \\times 0.030 \\times 4 \\times 1.5\\)) and MOSFETs (\\(4 \\times 0.012 \\times 4 \\times 2\\)). A parts count result is a prediction for comparing designs and finding weak links, not an estimate from test or field data.</p><p><b>A. About 654,000 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Reliability Prediction Methods — part count predictions and part stress analysis (Examples 10.15–10.16).</span></p>",
     "optionRationales": [
       "Correct. \\(\\lambda = 1.528\\) per \\(10^{6}\\) h, so MTBF is about 654,000 h.",
       "Leaves out the quality factors \\(\\pi_Q\\).",
       "Counts each part type once instead of multiplying by its quantity.",
-      "Uses the base rates alone, without quantities or \\(\\pi\\) factors."
+      "Multiplies the base rates by the quantities but leaves out all \\(\\pi\\) factors: \\(\\lambda = 0.254\\) per \\(10^{6}\\) h."
     ],
     "keyPoint": "Parts count: \\(\\lambda_{\\text{board}} = \\sum n_i\\lambda_{b,i}\\pi_E\\pi_Q\\pi_R\\) under a series, constant-failure-rate model. It is a prediction, not an estimate from data.",
     "trap": "Forgetting quantities or adjustment factors.",
@@ -6296,7 +6296,7 @@
       "Printed parts cost too much to make enough samples for a meaningful fatigue test.",
       "Printed parts may not hold the bracket’s tolerances closely enough to fit the test fixture.",
       "The results will represent production as long as the parts are printed at 100% infill.",
-      "Printed layers give a different internal structure and strength from the molded part, so fatigue results may not transfer."
+      "Printed layers give the part a different internal structure, so fatigue results may not transfer."
     ],
     "answer": 3,
     "why": "<p>Additive manufacturing produces a different internal structure from extruded or molded material: layered, often with voids and direction-dependent strength. Rapid prototypes are valuable for checking form, fit and some failure modes, but test results tied to material structure, such as fatigue life, may not represent the production part.</p><p><b>D. Layered structure differs from the molded part, so fatigue results may not transfer.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Design Prototyping — rapid prototyping technologies; prototyping advantages and limitations.</span></p>",
@@ -6592,7 +6592,7 @@
     "chart": {
       "type": "cre-fault-tree",
       "title": "Loss of cooling",
-      "altText": "Fault tree. Top event \"Loss of cooling\" is an OR gate with three inputs: \"No pumping\", \"Control fault\" and the basic event \"Valve stuck closed\" with probability 0.004. \"No pumping\" is an AND gate of \"Pump A fails\" (0.05) and \"Pump B fails\" (0.05). \"Control fault\" is a 2-out-of-3 voting gate of three sensor failures, each 0.02.",
+      "altText": "Fault tree. Top event “Loss of cooling” is an OR gate with three inputs: “No pumping”, “Control fault” and the basic event “Valve stuck closed” with probability 0.004. “No pumping” is an AND gate of “Pump A fails” (0.05) and “Pump B fails” (0.05). “Control fault” is a 2-out-of-3 voting gate of three sensor failures, each 0.02.",
       "root": {
         "label": "Loss of cooling",
         "gate": "OR",
@@ -6646,10 +6646,10 @@
     "answer": 1,
     "why": "<p>Evaluate each gate from the bottom up, then combine the OR gate through its complement:</p><p>\\[\\begin{aligned}P_{\\text{AND}} &= 0.05^{2} = 0.0025 \\\\ P_{2/3} &= 3(0.02)^{2}(0.98) \\\\ &\\quad + 0.02^{3} \\\\ &= 0.001184 \\\\ P_{\\text{top}} &= 1 - \\textstyle\\prod(1 - P_i) \\\\ &= 1 - 0.99233 \\\\ &= 0.0077\\end{aligned}\\]</p><p>where \\(P_{\\text{AND}}\\) is the probability that both pumps fail, \\(P_{2/3}\\) that at least two of three sensors fail, \\(P_i\\) the three OR-gate inputs (so \\(\\prod(1 - P_i) = 0.9975 \\times 0.998816 \\times 0.996\\)) and \\(P_{\\text{top}}\\) the top event. The rare-event sum (\\(0.0025 + 0.001184 + 0.004 = 0.0077\\)) agrees because the inputs are small.</p><p><b>B. 0.0077</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Fault Tree Analysis — AND and OR gates; voting OR gates.</span></p>",
     "optionRationales": [
-      "Treats the voting gate as an AND gate (all three sensors), which gives \\(0.02^{3}\\) and drops most of the control-fault probability.",
+      "Treats the voting gate as an AND gate (all three sensors), which gives \\(0.02^{3}\\) and drops most of the control-fault probability; the top event falls to 0.0065.",
       "Correct. \\(1 - (0.9975)(0.998816)(0.996) = 0.0077\\).",
-      "Treats the voting gate as an OR gate (any one sensor): \\(1 - 0.98^{3} = 0.0588\\).",
-      "Treats the pump AND gate as an OR gate: \\(1 - 0.95^{2} = 0.0975\\)."
+      "Treats the voting gate as an OR gate (any one sensor): \\(1 - 0.98^{3} = 0.0588\\), which raises the top event to 0.065.",
+      "Treats the pump AND gate as an OR gate: \\(1 - 0.95^{2} = 0.0975\\), which raises the top event to 0.102."
     ],
     "keyPoint": "AND: multiply probabilities; OR: \\(1 - \\prod(1 - p_i)\\); a k-of-n voting gate uses the binomial sum from \\(k\\) to \\(n\\).",
     "trap": "Reading a voting gate as AND or OR, or swapping AND and OR.",
@@ -6692,11 +6692,11 @@
     "cognitive": "Evaluate",
     "questionType": "Visual evidence interpretation, multi-step calculation",
     "quantitative": true,
-    "stem": "Two redundant pump trains each fail if their pump fails or if the shared power bus fails. The fault tree shown lists \"Shared power bus fails\" under both trains; it is the same physical event. With the probabilities shown, what is the probability of losing both trains?",
+    "stem": "Two redundant pump trains each fail if their pump fails or if the shared power bus fails. The fault tree shown lists “Shared power bus fails” under both trains; it is the same physical event. With the probabilities shown, what is the probability of losing both trains?",
     "chart": {
       "type": "cre-fault-tree",
       "title": "Loss of both pump trains",
-      "altText": "Fault tree. Top event \"Loss of both trains\" is an AND gate of \"Train A fails\" and \"Train B fails\". Each train is an OR gate of its own pump failure (0.05) and \"Shared power bus fails\" (0.01). The shared power bus event appears under both trains and is the same event.",
+      "altText": "Fault tree. Top event “Loss of both trains” is an AND gate of “Train A fails” and “Train B fails”. Each train is an OR gate of its own pump failure (0.05) and “Shared power bus fails” (0.01). The shared power bus event appears under both trains and is the same event.",
       "root": {
         "label": "Loss of both trains",
         "gate": "AND",
@@ -6841,7 +6841,7 @@
       "M4, because a regulatory effect outranks a safety effect."
     ],
     "answer": 1,
-    "why": "<p>RPN multiplies three ordinal ranks, so a low-severity mode with poor detection can outscore a safety-critical one. Severity 9–10 entries, failures to meet safety or regulatory requirements, must be addressed first; action-priority logic gives a severity-10 mode high priority at any occurrence above the most remote. M2 combines the maximum severity with an occurrence of 4 and weak detection, so it comes first; M1, the RPN leader, is a quality annoyance.</p><p><b>B. M2: severity 10 comes first, not the RPN leader.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Failure Mode and Effects Analysis — severity ranking (Table 4.2); Fault Tree Analysis — action priority.</span></p>",
+    "why": "<p>RPN multiplies three ordinal ranks, so a low-severity mode with poor detection can outscore a safety-critical one. Severity 9–10 entries, failures to meet safety or regulatory requirements, must be addressed first; action-priority logic (as in the AIAG–VDA table) rates a severity 9–10 mode as High priority whenever occurrence is 4 or more, unless detection is almost certain. M2 combines the maximum severity with an occurrence of 4 and weak detection, so it comes first; M1, the RPN leader, is a quality annoyance.</p><p><b>B. M2: severity 10 comes first, not the RPN leader.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Failure Mode and Effects Analysis — severity ranking (Table 4.2); Fault Tree Analysis — action priority.</span></p>",
     "optionRationales": [
       "RPN hides severity: a noise complaint at 315 must not outrank loss of braking at 240.",
       "Correct. Severity 10 without warning, at occurrence 4, demands action first.",
@@ -6900,7 +6900,7 @@
     "optionRationales": [
       "Correct. It analyzes failure to meet each requirement and ranks severity, deferring cause, occurrence and detection.",
       "A design FMEA starts when the bill of materials is ready. Rating causes for a design that does not exist produces numbers without meaning.",
-      "Starting an FMEA after design freeze is a warned-against mistake: the findings arrive too late to change the design cheaply.",
+      "Starting an FMEA after design freeze is a well-known mistake: the findings arrive too late to change the design cheaply.",
       "A process FMEA needs a process flow; none exists at the concept stage."
     ],
     "keyPoint": "Functional FMEA at concept (requirements, effects, severity); design FMEA when the BOM exists; process FMEA once the process flow exists.",
@@ -7414,7 +7414,7 @@
     "cognitive": "Evaluate",
     "questionType": "Visual evidence interpretation, decision",
     "quantitative": false,
-    "stem": "A functional hazard analysis (FHA) for a brake-by-wire system examines the function \"decelerate the vehicle on driver demand.\" The failure conditions listed so far are shown. Following MIL-STD-882E Task 208, what should the team add?",
+    "stem": "A functional hazard analysis (FHA) for a brake-by-wire system examines the function “decelerate the vehicle on driver demand.” The failure conditions listed so far are shown. Following MIL-STD-882E Task 208, what should the team add?",
     "chart": {
       "type": "data-table",
       "title": "FHA worksheet excerpt: decelerate on driver demand",
@@ -7444,7 +7444,7 @@
     "options": [
       "A detection rating for each failure condition, so that each row has a full risk priority number.",
       "The part numbers and suppliers of each brake actuator, so that each hazard traces to a component.",
-      "Functioning out of time or out of sequence, such as braking that applies late or releases too early, so that every functional failure condition is covered.",
+      "Functioning out of time or out of sequence, so that every functional failure condition is covered.",
       "Occurrence ratings copied from the design FMEA, so that the FHA shows likelihood."
     ],
     "answer": 2,
@@ -7506,7 +7506,7 @@
     "optionRationales": [
       "A third identical unit shrinks only the already tiny independent term; \\(\\beta Q = 0.001\\) remains, so \\(Q_{\\text{sys}} \\approx 0.00100\\).",
       "Correct. Reducing \\(\\beta\\) to 0.01 cuts the dominant term tenfold: \\(Q_{\\text{sys}} \\approx 0.00020\\).",
-      "Halving \\(Q\\) also halves \\(\\beta Q\\), giving 0.00052, which helps but is less than diversity.",
+      "Halving \\(Q\\) also halves \\(\\beta Q\\), giving 0.00052, which helps, but less than diversity does.",
       "The common cause term is untouched, so \\(Q_{\\text{sys}} \\approx 0.00102\\)."
     ],
     "keyPoint": "When common cause dominates, more identical redundancy does little; diversity and physical separation reduce the common cause fraction itself.",
@@ -7554,7 +7554,7 @@
     "chart": {
       "type": "cre-fault-tree",
       "title": "Loss of pumping",
-      "altText": "Fault tree. Top event \"Loss of pumping\" is an OR gate of \"Controller fails\" (0.005) and \"Both trains fail\". \"Both trains fail\" is an AND gate of \"Train A fails\" and \"Train B fails\". Each train fails is an OR gate of its pump failing (0.05) and its valve failing (0.02).",
+      "altText": "Fault tree. Top event “Loss of pumping” is an OR gate of “Controller fails” (0.005) and “Both trains fail”. “Both trains fail” is an AND gate of “Train A fails” and “Train B fails”. Each train fails is an OR gate of its pump failing (0.05) and its valve failing (0.02).",
       "root": {
         "label": "Loss of pumping",
         "gate": "OR",
@@ -7607,7 +7607,7 @@
       "An OR gate; system success 0.995."
     ],
     "answer": 0,
-    "why": "<p>A success tree is the logical dual of the fault tree: each OR gate becomes an AND gate and each AND gate becomes an OR gate, with events replaced by their successes. \"Both trains fail\" (AND) becomes \"at least one train works\" (OR), and each train works only if its pump AND valve work:</p><p>\\[\\begin{aligned}R_{\\text{train}} &= 0.95(0.98) = 0.931 \\\\ R_{\\text{trains}} &= 1 - (1 - 0.931)^{2} \\\\ &= 0.99524 \\\\ R &= 0.995(0.99524) \\\\ &= 0.990\\end{aligned}\\]</p><p>where \\(R_{\\text{train}}\\) is the probability that one train works, \\(R_{\\text{trains}}\\) that at least one works and \\(R\\) the system success probability, which equals one minus the fault tree’s top-event probability.</p><p><b>A. An OR gate; 0.990.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Fault Tree Analysis — success tree analysis (STA).</span></p>",
+    "why": "<p>A success tree is the logical dual of the fault tree: each OR gate becomes an AND gate and each AND gate becomes an OR gate, with events replaced by their successes. “Both trains fail” (AND) becomes “at least one train works” (OR), and each train works only if its pump AND valve work:</p><p>\\[\\begin{aligned}R_{\\text{train}} &= 0.95(0.98) = 0.931 \\\\ R_{\\text{trains}} &= 1 - (1 - 0.931)^{2} \\\\ &= 0.99524 \\\\ R &= 0.995(0.99524) \\\\ &= 0.990\\end{aligned}\\]</p><p>where \\(R_{\\text{train}}\\) is the probability that one train works, \\(R_{\\text{trains}}\\) that at least one works and \\(R\\) the system success probability, which equals one minus the fault tree’s top-event probability.</p><p><b>A. An OR gate; 0.990.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Fault Tree Analysis — success tree analysis (STA).</span></p>",
     "optionRationales": [
       "Correct. The trains combine through an OR gate, and \\(R = 0.995 \\times 0.99524 = 0.990\\).",
       "Copies the fault tree’s AND gate into the success tree, which requires both trains to work: \\(0.995 \\times 0.931^{2} = 0.862\\).",
@@ -7708,7 +7708,7 @@
     "cognitive": "Evaluate",
     "questionType": "Scenario judgment",
     "quantitative": false,
-    "stem": "Field returns show that technicians sometimes swap the supply and return hoses on a coolant module, which overheats the unit. The hoses already carry color-coded tags, and the step is in the work instructions. Which control most effectively prevents the error?",
+    "stem": "Field returns show that technicians, both on the assembly line and during field service, sometimes swap the supply and return hoses on a coolant module, which overheats the unit. The hoses already carry color-coded tags, and the step is in the work instructions. Which control most effectively prevents the error?",
     "chart": null,
     "options": [
       "Retrain the technicians and add a sign-off line for the hose step to the work instructions.",
@@ -7876,7 +7876,7 @@
     "chart": {
       "type": "cre-fault-tree",
       "title": "Top event: process upset",
-      "altText": "Fault tree. Top event \"Process upset\" is an OR gate of three inputs: an AND gate of A (0.3) and B (0.2); the single basic event C (0.05); and an AND gate of D (0.4) and E (0.3).",
+      "altText": "Fault tree. Top event “Process upset” is an OR gate of three inputs: an AND gate of A (0.3) and B (0.2); the single basic event C (0.05); and an AND gate of D (0.4) and E (0.3).",
       "root": {
         "label": "Process upset",
         "gate": "OR",
@@ -7918,14 +7918,14 @@
     },
     "options": [
       "Eliminate event C, the only single-point failure.",
-      "Reduce the probability of B from 0.2 to 0.05.",
-      "Halve the probability of D, from 0.4 to 0.2.",
-      "Halve the probability of A, from 0.3 to 0.15."
+      "Reduce the probability of event B from 0.2 to 0.05.",
+      "Halve the probability of event D, from 0.4 to 0.2.",
+      "Halve the probability of event A, from 0.3 to 0.15."
     ],
     "answer": 2,
-    "why": "<p>The top event is the union of the cut sets {A, B}, {C} and {D, E}, with probabilities 0.06, 0.05 and 0.12:</p><p>\\[\\begin{aligned}P_0 &= 1 - 0.94(0.95)(0.88) \\\\ &= 0.2142 \\\\ P_{\\bar{C}} &= 1 - 0.94(0.88) \\\\ &= 0.1728 \\\\ P_{B} &= 1 - 0.985(0.95)(0.88) \\\\ &= 0.1765 \\\\ P_{D} &= 1 - 0.94(0.95)(0.94) \\\\ &= 0.1606 \\\\ P_{A} &= 1 - 0.97(0.95)(0.88) \\\\ &= 0.1891\\end{aligned}\\]</p><p>where \\(P_0\\) is the present top-event probability and the others are the results of each change. Halving D removes 0.054, the most, because {D, E} is the largest cut set (0.12). Eliminating the single-point event C removes only 0.041: being a single-point failure does not make it the biggest contributor here.</p><p><b>C. Halve the probability of D.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Fault Tree Analysis — action priority (prioritizing actions by probability of failure).</span></p>",
+    "why": "<p>The top event is the union of the cut sets {A, B}, {C} and {D, E}, with probabilities 0.06, 0.05 and 0.12:</p><p>\\[\\begin{aligned}P_0 &= 1 - 0.94(0.95)(0.88) \\\\ &= 0.2142 \\\\ P_{\\bar{C}} &= 1 - 0.94(0.88) \\\\ &= 0.1728 \\\\ P_{B} &= 1 - 0.985(0.95)(0.88) \\\\ &= 0.1765 \\\\ P_{D} &= 1 - 0.94(0.95)(0.94) \\\\ &= 0.1606 \\\\ P_{A} &= 1 - 0.97(0.95)(0.88) \\\\ &= 0.1891\\end{aligned}\\]</p><p>where \\(P_0\\) is the present top-event probability and the others are the results of each change. Halving D removes 0.054, the most, because {D, E} is the most probable cut set (0.12). Eliminating the single-point event C removes only 0.041: being a single-point failure does not make it the biggest contributor here.</p><p><b>C. Halve the probability of D.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Fault Tree Analysis — action priority (prioritizing actions by probability of failure).</span></p>",
     "optionRationales": [
-      "Eliminating C gives 0.1728, a reduction of 0.041. Its cut set (0.05) is smaller than {D, E} (0.12).",
+      "Eliminating C gives 0.1728, a reduction of 0.041. Its cut set probability (0.05) is below that of {D, E} (0.12).",
       "Reducing B to 0.05 gives 0.1765, a reduction of 0.038.",
       "Correct. Halving D gives 0.1606, a reduction of 0.054, the largest.",
       "Halving A gives 0.1891, a reduction of 0.025."
@@ -8012,7 +8012,7 @@
       "Response 1 shifts liability to the supplier (transfer), and response 4 accepts the risk (tolerate); these two are swapped."
     ],
     "keyPoint": "Terminate removes the risk, treat reduces it, transfer shifts it to another party, and tolerate accepts it.",
-    "trap": "Calling any design change \"treat\": a change that removes the failure mode completely terminates the risk.",
+    "trap": "Calling any design change “treat”: a change that removes the failure mode completely terminates the risk.",
     "formula": null,
     "assumptions": [],
     "estimatedMinutes": 2,
@@ -8191,7 +8191,7 @@
     "cognitive": "Evaluate",
     "questionType": "Visual evidence interpretation, calculation, decision",
     "quantitative": true,
-    "stem": "A home appliance has five residual hazards after mitigation. Company criteria limit each hazard to 200 harm events per million unit-years and the overall residual risk to 500. The appliance is planned for 20,000 units with a 10-year life. How many harm events should be expected across the fleet’s life, and what should the team decide?",
+    "stem": "A home appliance has five residual hazards after mitigation. Company criteria limit each hazard to 200 harm events per million unit-years and the overall residual risk to 500 per million unit-years. The appliance is planned for 20,000 units with a 10-year life. How many harm events should be expected across the fleet’s life, and what should the team decide?",
     "chart": {
       "type": "data-table",
       "title": "Residual risk after mitigation",
@@ -8229,7 +8229,7 @@
       "About 120 events; do not release, because the five hazards together exceed the limit of 500."
     ],
     "answer": 3,
-    "why": "<p>Each hazard is acceptable on its own, but overall residual risk is the sum of all of them:</p><p>\\[\\begin{aligned}\\lambda &= 150 + 80 + 120 \\\\ &\\quad + 60 + 190 \\\\ &= 600 \\\\ E &= \\lambda N t \\\\ &= 600(0.02)(10) = 120\\end{aligned}\\]</p><p>where \\(\\lambda\\) is the overall residual rate in harm events per million unit-years, \\(N\\) the fleet size in millions of units (0.02), \\(t\\) the life in years and \\(E\\) the expected number of harm events over the fleet’s life. An overall rate of 600 exceeds the criterion of 500, so the overall residual risk is unacceptable even though every hazard passes alone. The team should reduce or decouple individual risks (H5 and H1 are the largest) before release.</p><p><b>D. About 120 events; do not release yet.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 5, Residual Risk — Overall Residual Risk Assessment.</span></p>",
+    "why": "<p>Each hazard is acceptable on its own, but overall residual risk is the sum of all of them:</p><p>\\[\\begin{aligned}\\lambda &= 150 + 80 + 120 \\\\ &\\quad + 60 + 190 \\\\ &= 600 \\\\ E &= \\lambda N t \\\\ &= 600(0.02)(10) = 120\\end{aligned}\\]</p><p>where \\(\\lambda\\) is the overall residual rate in harm events per million unit-years, \\(N\\) the fleet size in millions of units (0.02), \\(t\\) the life in years and \\(E\\) the expected number of harm events over the fleet’s life. An overall rate of 600 exceeds the criterion of 500, so the overall residual risk is unacceptable even though every hazard passes alone. The team should reduce individual risks (H5 and H1 are the largest) until the total is within 500 before release.</p><p><b>D. About 120 events; do not release yet.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 5, Residual Risk — Overall Residual Risk Assessment.</span></p>",
     "optionRationales": [
       "The average rate (120) times 0.2 million unit-years gives 24, but the hazards add; they do not average.",
       "Using only the largest hazard (190) gives 38 and ignores the other four.",
@@ -8786,13 +8786,13 @@
     "stem": "To meet a launch date, a program manager proposes cutting the reliability growth test from 12 weeks to 6. The reliability engineer’s growth projection shows the MTBF target is unlikely to be met at 6 weeks. As the reliability champion, what should the engineer do?",
     "chart": null,
     "options": [
-      "Accept the cut without comment, because schedule decisions belong to program management alone.",
+      "Accept the cut without comment, because schedule decisions belong to program management.",
       "Refuse to sign the program plan until the full 12-week test is restored.",
       "Report the proposal directly to the customer, so that the customer can overrule the program manager.",
-      "Explain the reliability, safety and business risks of each option clearly, so management can make an informed decision."
+      "Explain the reliability, safety and business risks of each option so management can decide."
     ],
     "answer": 3,
-    "why": "<p>A reliability champion influences decisions through clear, cross-functional communication: explaining in plain terms the reliability and safety risks and the business consequences of a management decision, so that managers can make an informed choice. Staying silent fails that duty, refusing to sign or going around the manager replaces influence with obstruction.</p><p><b>D. Explain the risks of each option so management can decide.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Reliability Engineer Leadership Responsibilities (the reliability champion).</span></p>",
+    "why": "<p>A reliability champion influences decisions through clear, cross-functional communication: explaining in plain terms the reliability and safety risks and the business consequences of a management decision, so that managers can make an informed choice. Staying silent fails that duty; refusing to sign or going around the manager replaces influence with obstruction.</p><p><b>D. Explain the risks of each option so management can decide.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Reliability Engineer Leadership Responsibilities (the reliability champion).</span></p>",
     "optionRationales": [
       "Silence leaves management deciding without the reliability evidence the engineer holds.",
       "A unilateral refusal obstructs rather than informs; the engineer’s role is to make the risk clear.",
@@ -8843,7 +8843,7 @@
       "Removing the filter-access panel for routine cleaning exposes live mains terminals.",
       "The sealed enclosure lets the internal capacitors run hotter than their rating assumes.",
       "If the building’s supply voltage surges, the unit may receive more than its rated voltage.",
-      "Users may stack shipping cartons higher than the stacking height that was tested."
+      "Warehouse staff may stack shipping cartons higher than the tested stacking height."
     ],
     "answer": 0,
     "why": "<p>In design reviews, the reliability engineer asks several distinct questions, including which aspects of the product could cause safety hazards even though it has not failed. Routine maintenance that exposes energized conductors is such a hazard: nothing has failed, yet the user is exposed. The other concerns are different categories: a design that compromises component reliability (hot capacitors), a malfunction elsewhere in the system (supply surge) and foreseeable misuse (over-stacking).</p><p><b>A. Live terminals exposed during routine cleaning.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Reliability Engineer Role and Responsibilities in the Product Lifecycle.</span></p>",
@@ -8905,7 +8905,7 @@
       "Yearly replacement meets the target (\\(R = 0.995\\)) but replaces fans twice as often as needed.",
       "Correct. \\(R(2) = 0.964\\) meets 0.95; 3 years would not.",
       "\\(R(3) = 0.882\\), below the 0.95 requirement.",
-      "At \\(t = \\eta\\), only \\(e^{-1} = 0.368\\) of fans survive; \\(\\eta\\) is the 63rd percentile, not a safe interval."
+      "At \\(t = \\eta\\), only \\(e^{-1} = 0.368\\) of fans survive; \\(\\eta\\) is the 63.2nd percentile, not a safe interval."
     ],
     "keyPoint": "Components that wear out before the product does are replaced on a schedule set from their life distribution.",
     "trap": "Using the characteristic life as the replacement interval.",
@@ -9181,7 +9181,7 @@
       "This is operational availability: it includes the 140 h of logistics and administrative delay.",
       "Correct. \\(A_a = 400/404.2 = 0.9896\\).",
       "This is inherent availability: corrective maintenance only, with MTBF of 1,000 h and MTTR of 6 h.",
-      "Uses MTBF (1,000 h) where achieved availability needs MTBM (400 h), so preventive actions are left out of uptime between actions."
+      "Uses MTBF (1,000 h) where achieved availability needs MTBM (400 h), so the 12 preventive actions are left out of the maintenance frequency: \\(1000/1004.2\\)."
     ],
     "keyPoint": "Inherent: corrective only. Achieved: corrective plus preventive active time. Operational: all downtime, including delays.",
     "trap": "Mixing MTBF with total maintenance time, or including logistics delay in achieved availability.",
@@ -9366,7 +9366,7 @@
       "The result is inconclusive, because proportions from before and after a change cannot be compared without a control chart."
     ],
     "answer": 2,
-    "why": "<p>Test each defect type separately with a two-proportion test; aggregating the types hides opposite changes:</p><p>\\[\\begin{aligned}\\bar{p}_c &= \\frac{30 + 8}{4000} = 0.0095 \\\\ \\text{SE}^{2} &= 0.0095(0.9905)(0.001) \\\\ \\text{SE} &= 0.00307 \\\\ z_c &= \\frac{0.015 - 0.004}{0.00307} \\\\ &= 3.59 \\\\ z_v &= \\frac{0.014 - 0.005}{0.00307} \\\\ &= 2.93\\end{aligned}\\]</p><p>where \\(\\bar{p}\\) is the pooled proportion, SE the standard error and \\(z\\) the test statistic; both values of \\(z\\) exceed 1.96. The pooled void proportion is also 0.0095, so voids have the same standard error. Cracks fell, so the action worked on its target. Voids rose significantly at the same time, a possible secondary effect of the parameter change, which must be investigated before the CAPA is closed. The total, \\(z = 0.46\\), shows neither change.</p><p><b>C. Cracks fell, voids rose; investigate before closing.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Corrective and Preventative Action (testing effectiveness; avoid aggregating defect types).</span></p>",
+    "why": "<p>Test each defect type separately with a two-proportion test; aggregating the types hides opposite changes:</p><p>\\[\\begin{aligned}\\bar{p}_c &= \\frac{30 + 8}{4000} = 0.0095 \\\\ \\text{SE}^{2} &= 0.0095(0.9905)(0.001) \\\\ \\text{SE} &= 0.00307 \\\\ z_c &= \\frac{0.015 - 0.004}{0.00307} \\\\ &= 3.59 \\\\ z_v &= \\frac{0.014 - 0.005}{0.00307} \\\\ &= 2.93\\end{aligned}\\]</p><p>where \\(\\bar{p}\\) is the pooled proportion, SE the standard error and \\(z\\) the test statistic, taken as the larger proportion minus the smaller (cracks fell, voids rose); both values exceed 1.96. The pooled void proportion is also 0.0095, so voids have the same standard error. Cracks fell, so the action worked on its target. Voids rose significantly at the same time, a possible secondary effect of the parameter change, which must be investigated before the CAPA is closed. The total, \\(z = 0.46\\), shows neither change.</p><p><b>C. Cracks fell, voids rose; investigate before closing.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Corrective and Preventative Action (testing effectiveness; avoid aggregating defect types).</span></p>",
     "optionRationales": [
       "Aggregating the defect types hides a significant fall in cracks and a significant rise in voids.",
       "Cracks did fall, but the significant rise in voids must be explained before the CAPA is closed.",
@@ -9451,7 +9451,7 @@
       "People blaming: ask why the process let the torque step be skipped, which leads to engineered controls."
     ],
     "answer": 3,
-    "why": "<p>Stopping at \"the technician skipped a step\" blames a person. People-blaming limits the fixes to retraining or replacing someone and leaves the process unchanged, so another technician can repeat the error. The next why asks how the process allowed the step to be skipped: for example, no torque tool, no verification sign-off or no step in the work instruction. That leads to engineered or system controls. The number of whys is not fixed; the chain must reach a cause the organization can remove.</p><p><b>D. People blaming; ask why the process allowed the skip.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Root Cause Analysis (pitfalls: lack of solution, proving oneself right, people blaming; 5 Whys).</span></p>",
+    "why": "<p>Stopping at “the technician skipped a step” blames a person. People-blaming limits the fixes to retraining or replacing someone and leaves the process unchanged, so another technician can repeat the error. The next why asks how the process allowed the step to be skipped: for example, no torque tool, no verification sign-off or no step in the work instruction. That leads to engineered or system controls. The number of whys is not fixed; the chain must reach a cause the organization can remove.</p><p><b>D. People blaming; ask why the process allowed the skip.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Root Cause Analysis (pitfalls: lack of solution, proving oneself right, people blaming; 5 Whys).</span></p>",
     "optionRationales": [
       "The chain does not start from a preset solution; it stops at a person, which is a different pitfall.",
       "Retraining one person does not stop another from making the same error; the process still allows it.",
@@ -9459,7 +9459,7 @@
       "Correct. The analysis stops at a person, so the process cause is never found."
     ],
     "keyPoint": "Root cause analysis that ends at human error should ask why the system allowed the error.",
-    "trap": "Accepting \"operator error\" and retraining as the root cause and permanent fix.",
+    "trap": "Accepting “operator error” and retraining as the root cause and permanent fix.",
     "formula": null,
     "assumptions": [],
     "estimatedMinutes": 2,
@@ -9668,7 +9668,7 @@
       "Strategy 1, 0.9975"
     ],
     "answer": 0,
-    "why": "<p>Achieved availability counts all maintenance actions, corrective and preventive, with their active time:</p><p>\\[\\begin{aligned}M_1 &= \\frac{1000}{1 + 4} = 200 \\\\ A_1 &= \\frac{200}{200 + 2.5} \\\\ &= 0.9877 \\\\ M_2 &= \\frac{1000}{3 + 0.5} = 286 \\\\ A_2 &= \\frac{286}{286 + 6} \\\\ &= 0.9794\\end{aligned}\\]</p><p>where \\(M\\) is the mean time between maintenance actions (MTBMA, failures plus PM) in hours and \\(A\\) the achieved availability. Strategy 2 has fewer maintenance actions, but each is longer, and unplanned repairs take more than twice as long as PM, so Strategy 1 is available more of the time.</p><p><b>A. Strategy 1, 0.9877.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Economics of Product Maintainability and Availability (MTBMA and achieved availability).</span></p>",
+    "why": "<p>Achieved availability counts all maintenance actions, corrective and preventive, with their active time:</p><p>\\[\\begin{aligned}M_1 &= \\frac{1000}{1 + 4} = 200 \\\\ A_1 &= \\frac{200}{200 + 2.5} \\\\ &= 0.9877 \\\\ M_2 &= \\frac{1000}{3 + 0.5} = 286 \\\\ A_2 &= \\frac{286}{286 + 6} \\\\ &= 0.9794\\end{aligned}\\]</p><p>where \\(M\\) is the mean time between maintenance actions (MTBMA, failures plus PM) in hours and \\(A\\) the achieved availability. Strategy 2 has fewer maintenance actions, but each takes 6.0 h on average, against 2.5 h for Strategy 1’s mostly planned PM, so Strategy 1 is available more of the time.</p><p><b>A. Strategy 1, 0.9877.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Economics of Product Maintainability and Availability (MTBMA and achieved availability).</span></p>",
     "optionRationales": [
       "Correct. More frequent but shorter maintenance actions give the higher achieved availability.",
       "This is Strategy 2’s achieved availability, which is lower than Strategy 1’s.",
@@ -9677,7 +9677,7 @@
     ],
     "keyPoint": "Achieved availability trades how often maintenance occurs against how long each action takes.",
     "trap": "Choosing the strategy with fewer maintenance actions without weighing their duration.",
-    "formula": "\\(A = \\dfrac{\\text{MTBMA}}{\\text{MTBMA} + \\text{MAMT}}\\), with \\(\\text{MTBMA} = \\dfrac{1}{\\lambda + \\mu}\\)",
+    "formula": "\\(A = \\dfrac{\\text{MTBMA}}{\\text{MTBMA} + \\text{MAMT}}\\), with \\(\\text{MTBMA} = \\dfrac{1}{\\lambda + f_{\\text{PM}}}\\), where \\(\\lambda\\) is the failure rate, \\(f_{\\text{PM}}\\) the PM rate and MAMT the mean active maintenance time",
     "assumptions": [
       "Constant failure and PM rates; logistic and administrative delays excluded."
     ],
@@ -9726,7 +9726,7 @@
     "answer": 3,
     "why": "<p>Replacement units consume production capacity without adding customer value, just like rework. When demand exceeds supply, every replacement displaces a unit that could have been sold, so the lost margin is a real cost. It does not appear in the warranty report but can be quantified. Reputation damage is a cost too, but it is very hard to quantify.</p><p><b>D. Lost margin on displaced sales.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Cost of Poor Reliability — Quantifiable Nonfinancial Costs.</span></p>",
     "optionRationales": [
-      "Reputation is a real cost of poor reliability but is described as nonquantifiable in practice.",
+      "Reputation is a real cost of poor reliability, but it is very hard to quantify in practice.",
       "Parts and labor for each replacement are already counted in the warranty report.",
       "Freight is already counted in the warranty report.",
       "Correct. Capacity used for replacements is lost sales when the plant is sold out, a cost that can be quantified."
@@ -9902,13 +9902,13 @@
     "cognitive": "Analyze",
     "questionType": "Scenario",
     "quantitative": false,
-    "stem": "A medical cart’s battery pack, charger and motor controller each passed their own qualification tests. In the first system-level runs, heat from the charger raised the battery pack above its rated temperature, halving its cycle life. What does this show, and what should the reliability engineer do?",
+    "stem": "A medical cart’s battery pack, charger and motor controller each passed their own qualification tests. In the first system-level runs, heat from the charger raised the battery pack above its rated temperature, enough to halve its expected cycle life. What does this show, and what should the reliability engineer do?",
     "chart": null,
     "options": [
       "The battery’s qualification was inadequate; requalify the battery on its own at a higher temperature.",
       "The charger is defective; replace it with a charger that passed a stricter stand-alone test.",
       "The battery’s thermal margin is too narrow; specify a higher-temperature cell and keep the current layout.",
-      "Qualified parts can still interact; add combined-environment testing and fix the layout or cooling."
+      "Qualified parts can still interact; add integrated system-level testing and fix the layout or cooling."
     ],
     "answer": 3,
     "why": "<p>Systems engineering integrates the elements so the whole operates as one, then runs and evaluates the system against its requirements. Each component met its own requirements; the failure comes from their interaction (the charger heating the battery). That is found only by integrated, system-level testing, and it is fixed at the system level, through layout, airflow or thermal isolation.</p><p><b>D. Qualified parts can interact; test them together and fix layout or cooling.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Systems Engineering and Integration.</span></p>",
@@ -9967,9 +9967,9 @@
     "answer": 1,
     "why": "<p>B10 life is the time by which 10% of units have failed, so \\(R(t) = 0.90\\):</p><p>\\[\\begin{aligned}e^{-t/\\theta} &= 0.90 \\\\ t &= -\\theta \\ln 0.90 \\\\ &= 50000(0.10536) \\\\ &= 5268 \\text{ h}\\end{aligned}\\]</p><p>where \\(\\theta\\) is the MTBF. With a constant failure rate, about 63% of units fail before the MTBF, so the MTBF is far longer than the B10 life.</p><p><b>B. 5,268 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Basic Reliability Terminology (BX life; reliability with a constant failure rate).</span></p>",
     "optionRationales": [
-      "Takes 10% of the MTBF, which only approximates the exact value.",
+      "Takes 10% of the MTBF, the linear approximation \\(1 - t/\\theta \\approx e^{-t/\\theta}\\), which understates the exact value.",
       "Correct. \\(t = -50000 \\ln 0.90 = 5268\\) h.",
-      "Takes 90% of the MTBF, as if reliability fell linearly to zero at the MTBF.",
+      "Takes 90% of the MTBF, confusing 90% reliability with 90% of the MTBF; by then \\(1 - e^{-0.9} \\approx 59\\%\\) of units have failed.",
       "The MTBF is not a life most units reach: only about 37% survive to it."
     ],
     "keyPoint": "BX life solves \\(R(t) = 1 - X/100\\); with a constant failure rate, \\(t = -\\theta \\ln R\\).",
@@ -10165,7 +10165,7 @@
           "6 units per cycle"
         ],
         [
-          "Cycle time, including functional check",
+          "Cycle time per load, including 0.5 h functional check",
           "4.5 h"
         ],
         [
@@ -10478,10 +10478,10 @@
       "Cut the mean stress to 290 MPa"
     ],
     "answer": 2,
-    "why": "<p>Failure occurs when strength minus stress is negative. Compute \\(z = \\mu_D/\\sigma_D\\) for each change (now \\(120/50 = 2.40\\)):</p><p>\\[\\begin{aligned}z_A &= \\frac{140}{50} = 2.80 \\\\ z_B &= \\frac{120}{\\sqrt{40^{2} + 15^{2}}} = 2.81 \\\\ z_C &= \\frac{120}{\\sqrt{30^{2} + 30^{2}}} = 2.83 \\\\ z_D &= \\frac{130}{50} = 2.60\\end{aligned}\\]</p><p>where \\(\\mu_D\\) is the mean and \\(\\sigma_D\\) the standard deviation of strength minus stress. The probability of failure is \\(\\Phi(-z)\\): about 0.0026, 0.0025, 0.0023 and 0.0047. The largest variance is the stress’s, so cutting it shrinks \\(\\sigma_D\\) most; the largest \\(z\\) gives the lowest probability.</p><p><b>C. Cut the stress standard deviation to 30 MPa.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Stress–Strength Analysis for Normal Distributions (four ways to improve reliability).</span></p>",
+    "why": "<p>Failure occurs when strength minus stress is negative. Compute \\(z = \\mu_D/\\sigma_D\\) for each change (now \\(120/50 = 2.40\\)):</p><p>\\[\\begin{aligned}z_A &= \\frac{140}{50} = 2.80 \\\\ z_B &= \\frac{120}{\\sqrt{40^{2} + 15^{2}}} = 2.81 \\\\ z_C &= \\frac{120}{\\sqrt{30^{2} + 30^{2}}} = 2.83 \\\\ z_D &= \\frac{130}{50} = 2.60\\end{aligned}\\]</p><p>where \\(\\mu_D\\) is the mean and \\(\\sigma_D\\) the standard deviation of strength minus stress. The probability of failure is \\(\\Phi(-z)\\): about 0.0026, 0.0025, 0.0023 and 0.0047. Cutting the stress SD from 40 to 30 removes 700 MPa\\(^{2}\\) of variance, slightly more than the 675 MPa\\(^{2}\\) removed by halving the strength SD, so it shrinks \\(\\sigma_D\\) most; the largest \\(z\\) gives the lowest probability.</p><p><b>C. Cut the stress standard deviation to 30 MPa.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Stress–Strength Analysis for Normal Distributions (four ways to improve reliability).</span></p>",
     "optionRationales": [
       "Raising the mean strength by 20 gives \\(z = 2.80\\), slightly less than cutting the stress variation.",
-      "Halving the strength variation gives \\(z = 2.81\\); the stress variation is the larger term in \\(\\sigma_D\\).",
+      "Halving the strength SD removes 675 MPa\\(^{2}\\) of variance, slightly less than the 700 MPa\\(^{2}\\) removed in option C, so \\(z = 2.81\\).",
       "Correct. \\(\\sigma_D\\) falls to 42.4 and \\(z\\) rises to 2.83, the largest.",
       "Lowering the mean stress by 10 gives only \\(z = 2.60\\)."
     ],
@@ -10568,7 +10568,7 @@
     ],
     "keyPoint": "A safety factor compares means; interference analysis adds the variation and gives a probability.",
     "trap": "Treating equal safety factors as equal reliability.",
-    "formula": "\\(z = \\dfrac{\\mu_Y - \\mu_X}{\\sqrt{\\sigma_X^{2} + \\sigma_Y^{2}}}\\)",
+    "formula": "\\(z = \\dfrac{\\mu_{\\text{strength}} - \\mu_{\\text{stress}}}{\\sqrt{\\sigma_{\\text{stress}}^{2} + \\sigma_{\\text{strength}}^{2}}}\\)",
     "assumptions": [
       "Stress and strength are independent and normally distributed."
     ],
@@ -10659,7 +10659,7 @@
       "This is the regression coefficient, which is half the effect.",
       "Correct. \\((43 + 63)/2 - (49 + 47)/2 = 5.0\\).",
       "This is the main effect of B (time), not the interaction.",
-      "Adds the diagonal totals without averaging: 106 minus 96."
+      "Subtracts the diagonal sums without dividing by 2: 106 minus 96."
     ],
     "keyPoint": "An effect is the difference of two averages; its coded coefficient is half the effect.",
     "trap": "Confusing an effect with its regression coefficient.",
@@ -10803,7 +10803,7 @@
     "optionRationales": [
       "Rare defects on an automated line point to too little stimulation, not too much demand.",
       "Missed rare events are a work-design problem; retraining does not restore vigilance.",
-      "More breaks reduce challenge further; a monotonous task with rare signals needs more stimulation, not less.",
+      "Nothing points to time pressure; rare defects on a monotonous automated line signal too little stimulation, which breaks alone do not fix.",
       "Correct. Underload reduces vigilance; varied work restores it."
     ],
     "keyPoint": "Human performance is best at moderate stress; both overload and underload degrade it.",
@@ -11153,7 +11153,7 @@
     "cognitive": "Apply",
     "questionType": "Visual evidence interpretation, calculation",
     "quantitative": true,
-    "stem": "A capacitor in an avionics flight-control unit sees 35 V in service. The company’s derating rules are in the table, and Level B applies to avionics and safety-related uses. What is the lowest standard voltage rating that complies?",
+    "stem": "A capacitor in an avionics flight-control unit sees 35 V in service. The company’s derating rules are in the table, and Level B applies to avionics and safety-related uses. Which is the lowest of these standard voltage ratings that complies?",
     "chart": {
       "type": "data-table",
       "title": "Capacitor voltage derating rules",
@@ -11421,7 +11421,7 @@
     "cognitive": "Evaluate",
     "questionType": "Visual evidence interpretation, calculation, decision",
     "quantitative": true,
-    "stem": "A failed motor can be repaired or replaced. The plant needs it for 4 more years, each failure costs 1,800 dollars, and there is no salvage value; ignore the time value of money. Using the table, which choice costs less over the 4 years?",
+    "stem": "A failed motor can be repaired or replaced. The plant needs it for 4 more years, each failure costs 1,800 dollars, and there is no salvage value; ignore the time value of money. Using the table, which choice costs less over the 4 years, and what are the two 4-year totals?",
     "chart": {
       "type": "data-table",
       "title": "Repair or replace a motor",
@@ -11512,7 +11512,7 @@
     "answer": 2,
     "why": "<p>Add the hidden-failure term and the test-downtime term, then set the derivative to zero:</p><p>\\[\\begin{aligned}U(\\tau) &= \\frac{\\lambda\\tau}{2} + \\frac{4}{\\tau} \\\\ \\tau^{*} &= \\sqrt{\\frac{8}{\\lambda}} = \\sqrt{800000} \\\\ &= 894 \\text{ h} \\\\ U(\\tau^{*}) &= 0.00447 + 0.00447 \\\\ &= 0.0089\\end{aligned}\\]</p><p>where \\(U\\) is the average unavailability, \\(\\tau\\) the test interval in hours and \\(\\lambda\\) the hidden failure rate. Testing more often cuts hidden downtime but adds test downtime; at the optimum the two terms are equal.</p><p><b>C. About 890 h, 0.0089.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 13, Preventive Maintenance (PM) Analysis (optimum PM intervals; tradeoff between maintenance and failure).</span></p>",
     "optionRationales": [
-      "Uses \\(\\sqrt{2/\\lambda}\\); testing this often makes test downtime dominate.",
+      "Uses \\(\\sqrt{2/\\lambda}\\), as if each test took 1 h instead of 4; testing this often makes test downtime dominate.",
       "Uses \\(\\sqrt{4/\\lambda}\\), which leaves out the factor of 2 from the half-interval term.",
       "Correct. \\(\\sqrt{8/\\lambda} = 894\\) h, where the two terms are equal.",
       "Twice the optimum interval; hidden-failure downtime now dominates."
@@ -11644,7 +11644,7 @@
       "columns": [
         "Item",
         "Skilled + helper",
-        "Two general"
+        "Two general technicians"
       ],
       "rows": [
         [
@@ -11843,7 +11843,7 @@
       ]
     },
     "options": [
-      "Replace the bearing at a fixed age well before 20,000 h, and run the controller board to failure, because only the bearing’s failure rate increases.",
+      "Replace the bearing at a fixed age and run the controller board to failure, because only the bearing wears out.",
       "Replace both at fixed ages, because scheduled replacement lowers failures whatever a component’s failure pattern.",
       "Replace the controller board at a fixed age and run the bearing to failure, because electronics fail randomly.",
       "Run both to failure, because scheduled replacement can introduce maintenance-induced failures."
@@ -11904,7 +11904,7 @@
         "Supplier",
         "Specimens",
         "Mean (N)",
-        "Sample variance"
+        "Sample variance (\\(\\text{N}^{2}\\))"
       ],
       "rows": [
         [
@@ -11936,7 +11936,7 @@
     "answer": 2,
     "why": "<p>Compare the variation between supplier means with the variation within suppliers:</p><p>\\[\\begin{aligned}\\text{SS}_{tr} &= 5[(-4)^{2} + 0^{2} + 4^{2}] \\\\ &= 160 \\\\ \\text{MS}_{tr} &= 160/2 = 80 \\\\ \\text{MS}_{E} &= \\frac{7 + 8 + 9}{3} = 8 \\\\ F &= 80/8 = 10.0\\end{aligned}\\]</p><p>where the grand mean is 46, \\(\\text{SS}_{tr}\\) and \\(\\text{MS}_{tr}\\) are the treatment sum of squares and mean square (2 degrees of freedom), and \\(\\text{MS}_{E}\\) is the error mean square: the pooled within-supplier variance, with 12 degrees of freedom. Since \\(10.0 \\gt 3.89\\), at least one supplier’s mean differs.</p><p><b>C. \\(F = 10.0\\); significant.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design of Experiments — One-Way Analysis of Variance.</span></p>",
     "optionRationales": [
-      "Divides the treatment sum of squares by the error sum of squares (160/96), with no degrees of freedom.",
+      "Divides the treatment sum of squares by the error sum of squares (160/96) without dividing either by its degrees of freedom.",
       "Uses the sum of the three variances (24) as the error mean square instead of their average.",
       "Correct. \\(80/8 = 10.0\\), which exceeds 3.89.",
       "Divides the treatment sum of squares (160) by the error mean square without dividing by its 2 degrees of freedom."
@@ -11988,7 +11988,7 @@
       "columns": [
         "Quantity",
         "Median (MPa)",
-        "Standard deviation of ln"
+        "Standard deviation of ln(value)"
       ],
       "rows": [
         [
@@ -12115,7 +12115,7 @@
       "Each fastener becomes more reliable, because it is bought in larger quantities.",
       "New parts need less qualification, because standard parts already have field history.",
       "The design gains redundancy, because identical parts can back each other up in service.",
-      "Fewer part types reduce assembly and service errors, because technicians handle familiar parts and spares are easier to stock."
+      "Fewer part types cut assembly and service errors, because spares and tools are simpler to manage."
     ],
     "answer": 3,
     "why": "<p>Standardization and simplification reduce the variety of parts and materials. That makes products easier and cheaper to assemble, reduces the chance of using the wrong part, and improves maintainability through easier access to standard spare and repair parts and fewer special tools.</p><p><b>D. Simpler assembly and service, easier spares.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 12, Parts Standardization and System Simplification.</span></p>",
