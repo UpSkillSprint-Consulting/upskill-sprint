@@ -1,4 +1,4 @@
-/* PMP Set 2: original authored batches 1–6 (Q001–Q060), July 2026 ECO.
+/* PMP Set 2: original authored batches 1–7 (Q001–Q070), July 2026 ECO.
  * Legacy files named test-bank-pmp-set1.js through set6.js all populate Set 1.
  * Keep this bank separate. No PMI exam items or book passages are reproduced.
  */
@@ -3043,6 +3043,514 @@
         "difficultyReason": "Separates confirming a resource commitment from aligning plan components, and rejects both unsupported averaging and internally inconsistent approval.",
         "id": "pmp-set2-060",
         "instruction": "Select TWO answers."
+      }
+    ]
+  },
+  {
+    "number": 7,
+    "sourcePage": "https://chatgpt.com/space/page_72fe21a439f48191800eb85489c54275",
+    "caseStudy": {
+      "id": "C07",
+      "title": "Water-treatment instrumentation renewal",
+      "markdown": "A utility is renewing treatment-plant instrumentation under a predictive delivery plan. The steering group is reviewing the end-of-Month-4 financial position. All amounts below use the same currency. Use this record for Questions 061–063. Answer each independently; do not assume that another question's proposed action has occurred.\n\n| Project information | Financial record |\n|---|---|\n| Budget at completion (BAC) | $900,000 for the authorized work; the cost baseline has not changed. |\n| Planned value (PV) | $450,000 of budgeted work was scheduled to be complete by the status date. |\n| Earned value (EV) | $360,000 of budgeted work is complete under the agreed progress-measurement rules. |\n| Actual cost (AC) | $400,000 incurred for the work performed through the same status date; verified accruals are included. |\n| Forecast assumption | Investigation indicates that current cumulative cost efficiency will continue for the remaining authorized work. Schedule recovery will not independently increase the remaining cost. No new bottom-up estimate is available. |\n| Sponsor's interpretation | Because incurred cost is below planned value, the sponsor believes the project has produced savings that can be reassigned. |\n| Next-month cash position | The approved funding-release calendar makes $150,000 available next month. The validated cash-flow plan requires $180,000 next month. These cash figures are separate from cumulative AC and EV. |\n| Authority and commitments | Only the financing committee may change funding-release dates or limits. The project manager may propose feasible resequencing but cannot change contractual payment terms or assume additional cash is authorized. No funding-calendar revision has been approved. |"
+    },
+    "questions": [
+      {
+        "n": 61,
+        "domain": "Process",
+        "task": 6,
+        "approach": "Predictive",
+        "difficulty": "Very challenging",
+        "format": "dropdown",
+        "caseId": "C07",
+        "quantitative": true,
+        "stem": "Complete the steering brief: Using the stated continuing-cost-efficiency assumption, the estimate at completion (EAC) is [select the statement that also correctly interprets the to-complete performance index needed to meet the original BAC].",
+        "options": [
+          [
+            "A",
+            "$940,000; a TCPI of 1.08 is needed to meet BAC, with future work performed at the original planned cost rate."
+          ],
+          [
+            "B",
+            "$1,000,000; a TCPI of 0.90 is needed to meet BAC, so maintaining current cost efficiency is sufficient."
+          ],
+          [
+            "C",
+            "$1,150,000; a TCPI of 1.08 is needed to meet BAC, using both current cost and schedule efficiency in the forecast."
+          ],
+          [
+            "D",
+            "$1,000,000; a TCPI of 1.08 is needed to meet BAC, requiring better remaining-work cost efficiency than the current 0.90."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "Current cost efficiency is 0.90: divide earned value of $360,000 by actual cost of $400,000. Continuing that efficiency gives an EAC of $1,000,000 by dividing BAC of $900,000 by 0.90. To finish within the original BAC, $540,000 of remaining budgeted work would have to be accomplished with $500,000 left to spend, giving a TCPI of 1.08. That required future efficiency is higher than the achieved 0.90. The calculation identifies a performance gap; it does not establish that the improvement is achievable.",
+        "rationales": {
+          "A": "$940,000 adds the remaining budgeted work at its original rate to actual cost. That assumes future cost efficiency of 1.00, contrary to the stated continuing-efficiency assumption.",
+          "B": "The EAC is correct, but 0.90 is the efficiency required to meet the $1,000,000 forecast, not the original $900,000 BAC.",
+          "C": "$1,150,000 results from applying both CPI and SPI to remaining work. The case does not support an additional schedule-efficiency effect on cost.",
+          "D": "Correct. It applies the stated forecast assumption and separately calculates the efficiency needed to achieve the original budget target."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide Table 5-1, pp. 208–210 (PDF pp. 313–315), and To-complete performance index, p. 206 (PDF p. 311)."
+        ],
+        "difficultyReason": "Selects the correct forecast model, calculates a separate target-based efficiency requirement, and avoids confusing forecast feasibility with authorization or guaranteed recovery.",
+        "id": "pmp-set2-061",
+        "instruction": "Select ONE statement from the drop-down."
+      },
+      {
+        "n": 62,
+        "domain": "People",
+        "task": 5,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C07",
+        "stem": "The sponsor asks finance to prepare a transfer of the apparent savings. The engineering lead objects that completed work is below plan, and both stakeholders say the other's report is misleading. What should the project manager do first?",
+        "options": [
+          [
+            "A",
+            "Facilitate a common interpretation of planned work, earned progress, and incurred cost, then agree the evidence needed before treating any amount as available savings."
+          ],
+          [
+            "B",
+            "Use the finance report for funding decisions and the engineering report for delivery decisions, allowing each stakeholder to retain a separate definition of savings."
+          ],
+          [
+            "C",
+            "Ask the engineering lead to revise the progress expectation to match actual spending so the two reports communicate a consistent position."
+          ],
+          [
+            "D",
+            "Send the full earned-value worksheet to both stakeholders and defer the discussion until the next monthly reporting cycle."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "The disagreement concerns what the financial figures mean for a proposed decision. Spending less than the budgeted value of scheduled work does not establish savings when less work has been earned. The project manager should align stakeholder expectations and definitions using the same status-date evidence, and agree the decision criteria before anyone relies on the apparent underspend. A report can be arithmetically accurate yet misinterpreted.",
+        "rationales": {
+          "A": "Correct. It addresses the misunderstanding directly and creates shared expectations about the evidence needed for a resource-allocation decision.",
+          "B": "Separate reporting views may be useful, but incompatible definitions of savings leave the funding decision unresolved.",
+          "C": "Changing the expectation to match actual spending would hide the difference between planned and accomplished work instead of explaining it.",
+          "D": "Additional data without a timely discussion does not resolve the identified misunderstanding before the requested transfer is considered."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.5.1, p. 69 (PDF p. 174), §2.5.2.4, pp. 72–74 (PDF pp. 177–179), and Earned value analysis, p. 169 (PDF p. 274)."
+        ],
+        "difficultyReason": "Distinguishes stakeholder alignment from merely distributing accurate figures when different interpretations could lead to an unsupported financial decision.",
+        "id": "pmp-set2-062",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 63,
+        "domain": "Business Environment",
+        "task": 1,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "multiple",
+        "caseId": "C07",
+        "stem": "The team has identified next month's cash shortfall before new commitments are made. The sponsor argues that the remaining annual budget is enough to proceed. Which TWO actions should the project manager take?",
+        "options": [
+          [
+            "A",
+            "Authorize the planned commitments against the remaining BAC and treat the monthly funding limit as a reporting issue."
+          ],
+          [
+            "B",
+            "Instruct suppliers to accept payment in the following month while retaining the current delivery commitments."
+          ],
+          [
+            "C",
+            "Present the validated cash profile and the delivery implications of feasible funding or work-sequencing alternatives to the financing committee."
+          ],
+          [
+            "D",
+            "Use the next-month cash allowance as a replacement BAC so the financial report cannot show spending above authorization."
+          ],
+          [
+            "E",
+            "Keep new commitments within the current funding rules until the authorized funding revision or a compliant work plan is agreed."
+          ]
+        ],
+        "correct": [
+          "C",
+          "E"
+        ],
+        "explanation": "An authorized total budget and cash available in a particular period are different constraints. The monthly shortfall requires a decision using the stated funding authority and a feasible time-phased plan. The project manager should provide the committee with the relevant alternatives and impacts, while respecting current commitment limits. Supplier payment terms cannot be changed unilaterally, and changing a reported budget does not create cash.",
+        "rationales": {
+          "A": "Remaining BAC is not permission to exceed the approved funding-release limit for a particular month.",
+          "B": "The case explicitly excludes unilateral changes to contractual payment terms; such an instruction does not resolve the governed funding decision.",
+          "C": "Correct. It provides the assigned decision maker with the time-phased funding need and consequences of the available alternatives.",
+          "D": "A monthly cash allowance is not the budget for all authorized project work. Replacing BAC would corrupt the performance basis rather than resolve funding.",
+          "E": "Correct. It preserves the current authority boundary while the funding or sequencing decision is made."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.4.2.3, p. 64 (PDF p. 169), and Funding limit reconciliation, p. 171 (PDF p. 276)."
+        ],
+        "difficultyReason": "Applies a funding-release authority separately from the total budget and preserves contractual constraints while preparing a decision.",
+        "id": "pmp-set2-063",
+        "instruction": "Select TWO answers."
+      },
+      {
+        "n": 64,
+        "domain": "Process",
+        "task": 6,
+        "approach": "Agile",
+        "difficulty": "Challenging",
+        "format": "single",
+        "quantitative": true,
+        "stem": "An agile team costs $30,000 per two-week iteration, billed only in whole iterations. The project has incurred $120,000 so far and has a $225,000 funding cap. There are 24 comparable items remaining. For a planning scenario, the team agrees to use its recent range of 6–8 completed items per iteration, with unchanged staffing, item mix, and Definition of Done. No other project costs apply. Which forecast and response are best supported?",
+        "options": [
+          [
+            "A",
+            "Forecast $90,000 more and a $210,000 total; commit to completing the remaining scope within the cap using the fastest observed rate."
+          ],
+          [
+            "B",
+            "Forecast a total project cost of $90,000–$120,000; approve the remaining scope because the range is below the funding cap."
+          ],
+          [
+            "C",
+            "Forecast about $102,900 more using 3.43 iterations at the midpoint rate; commit to the cap because the resulting total is about $222,900."
+          ],
+          [
+            "D",
+            "Use a $90,000–$120,000 remaining-cost scenario range, or $210,000–$240,000 total; review funding or scope options because the slower scenario exceeds the cap."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "At 8 completed items per iteration, 24 items need 3 iterations; at 6, they need 4. The corresponding remaining cost is $90,000–$120,000, and adding the $120,000 already incurred gives $210,000–$240,000. The slower scenario exceeds the funding cap. This is a conditional planning range, not a statistical confidence interval or a guaranteed bound. The team should revisit it as delivery evidence changes and address the funding exposure before it is realized.",
+        "rationales": {
+          "A": "The optimistic endpoint is a valid scenario but is insufficient evidence for an unconditional commitment.",
+          "B": "It omits the $120,000 already incurred when comparing the forecast with the total funding cap.",
+          "C": "The midpoint rate implies more than 3 iterations, but the scenario permits only whole-iteration billing. A fractional-iteration cost is not an available purchasing option.",
+          "D": "Correct. It accounts for the remaining work, whole-iteration cost, incurred cost, and the cap without claiming that the historical range guarantees future results."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.4.3, pp. 65–66 (PDF pp. 170–171), Agile release planning, p. 146 (PDF p. 251), and Basis of estimates, p. 115 (PDF p. 220)."
+        ],
+        "difficultyReason": "Combines throughput scenarios with whole-iteration costs and incurred expenditure, then interprets exposure to a funding cap without false precision.",
+        "id": "pmp-set2-064",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 65,
+        "domain": "People",
+        "task": 7,
+        "approach": "Agile",
+        "difficulty": "Moderate",
+        "format": "matching",
+        "stem": "An agile project's cost analyst is rotating to another team. Match each knowledge-continuity need to the MOST directly suitable action. Use each action at most once; one action will remain unused.",
+        "prompts": [
+          [
+            "1",
+            "The analyst makes supplier-estimate adjustments using experience that is not explained in the current worksheet."
+          ],
+          [
+            "2",
+            "Several copies of the forecast model exist, and the team cannot identify the approved version or its assumptions."
+          ],
+          [
+            "3",
+            "Estimators on several teams encounter recurring specialist questions and need an ongoing way to exchange practical experience."
+          ],
+          [
+            "4",
+            "The replacement has completed training, but the project manager needs evidence that the replacement can independently produce and reconcile the next forecast."
+          ]
+        ],
+        "options": [
+          [
+            "A",
+            "Have the replacement perform a complete forecast cycle and explain the reconciliation, with feedback on any gaps."
+          ],
+          [
+            "B",
+            "Establish an accessible, version-controlled source for the approved model, its assumptions, and supporting records."
+          ],
+          [
+            "C",
+            "Send the full archive to the replacement and treat the delivery receipt as evidence of readiness."
+          ],
+          [
+            "D",
+            "Discuss worked examples with the outgoing analyst to surface the reasoning behind the adjustments and capture the context."
+          ],
+          [
+            "E",
+            "Establish a recurring community-of-practice discussion where estimators compare cases and seek advice."
+          ]
+        ],
+        "correct": {
+          "1": "D",
+          "2": "B",
+          "3": "E",
+          "4": "A"
+        },
+        "explanation": "The needs differ: eliciting experience-based reasoning, controlling explicit information, sustaining peer exchange, and verifying practical capability. A useful handover matches the method to the knowledge gap. Transmitting files can support a handover, but a receipt alone does not show understanding or readiness.",
+        "rationales": {
+          "A": "Need 4. Demonstrated performance provides evidence that the replacement can apply the knowledge independently.",
+          "B": "Need 2. A controlled and accessible reference establishes which explicit model and assumptions should be used.",
+          "C": "Unused. A delivered archive does not resolve missing reasoning, conflicting versions, continuing expert support, or demonstrated competence.",
+          "D": "Need 1. Worked examples and dialogue help expose experience-based judgments that are difficult to transfer through unexplained figures.",
+          "E": "Need 3. An ongoing peer forum supports exchange of contextual knowledge across teams beyond a single handover."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.1.6.6, pp. 24–26 (PDF pp. 129–131), and §2.6.2.4.1, p. 84 (PDF p. 189).",
+          "PMBOK Guide, Eighth Edition, Guide Information management, p. 173 (PDF p. 278), and Knowledge management, p. 176 (PDF p. 281)."
+        ],
+        "difficultyReason": "Matches four distinct knowledge needs to practical transfer or verification mechanisms rather than treating all handover as document distribution.",
+        "id": "pmp-set2-065",
+        "instruction": "Match each row. Use each response at most once; one response is unused."
+      },
+      {
+        "n": 66,
+        "domain": "Business Environment",
+        "task": 5,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "single",
+        "stem": "A hybrid fare-collection project maintains contingency outside its cost baseline but within its total project budget. Its approved financial procedure requires a reserve-release request and a formal baseline update before committing contingency-funded response costs. A previously identified supplier-retest risk has now triggered, and its documented response remains suitable. The reserve is sufficient. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Request management reserve because any cost outside the baseline must be treated as an unforeseen event."
+          ],
+          [
+            "B",
+            "Confirm the trigger and response with the risk owner, then follow the specified reserve-release and baseline-update steps before committing the response cost."
+          ],
+          [
+            "C",
+            "Start the documented response and charge its costs to an unrelated work package until the next reserve review."
+          ],
+          [
+            "D",
+            "Commit the response cost immediately because inclusion of contingency in the total project budget provides all necessary spending authority."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "This is an identified risk with a planned response, but the scenario also states how its contingency must be released and incorporated into the baseline. The project manager should use that procedure with the risk owner. The location of contingency in the budget structure does not, by itself, make the event unknown or authorize expenditure. PMBOK 8 describes alternative reserve arrangements; this item's decision follows the arrangement explicitly given.",
+        "rationales": {
+          "A": "Whether a risk was identified is not determined solely by whether its reserve sits inside the cost baseline. The case identifies a known risk and a contingency response.",
+          "B": "Correct. It connects the activated risk response to the stated reserve and authorization process.",
+          "C": "Charging an unrelated work package obscures the response cost and bypasses the required release and baseline steps.",
+          "D": "Availability in the total budget does not override the explicit requirement for release and a baseline update before commitment."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.4.1, pp. 60–61 (PDF pp. 165–166), including the alternative budget-buildup arrangements in Figure 2-25; §2.1.6.8.1, p. 29 (PDF p. 134)."
+        ],
+        "difficultyReason": "Distinguishes risk classification, reserve location, and spending authority under an explicitly stated budget structure.",
+        "id": "pmp-set2-066",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 67,
+        "domain": "Process",
+        "task": 6,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "stem": "A planner proposes estimating a new sensor installation by multiplying its quantity by the previous project's total cost per sensor. The earlier project qualified for a large-volume discount and spread a one-time mobilization charge across its units. The new order is below the discount threshold and requires confined-space access arrangements that the earlier project did not need. The current quantities and access requirements are known. How should the project manager improve the estimate?",
+        "options": [
+          [
+            "A",
+            "Retain the historical unit rate because the sensor model is unchanged and capture the other differences as general risks."
+          ],
+          [
+            "B",
+            "Average the historical unit rate with an expert's percentage uplift and use the midpoint as the approved estimate basis."
+          ],
+          [
+            "C",
+            "Separate fixed and quantity-driven costs, validate current rates and access-work estimates, and document the changed assumptions."
+          ],
+          [
+            "D",
+            "Carry forward the previous project's total cost as a conservative allowance instead of examining the different cost drivers."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "Historical costs are useful when the relationship and relevant conditions remain applicable. The new estimate must account for the lost discount, fixed mobilization cost, and required access work. Separating these drivers and documenting the basis makes the estimate traceable and avoids both linear scaling of fixed costs and omission of known work. Contingency does not replace estimating a known requirement.",
+        "rationales": {
+          "A": "Identical equipment does not make the installation economics identical. The differences are known cost drivers, not merely unspecified uncertainty.",
+          "B": "An average and an unvalidated uplift do not establish that the discount, fixed charge, and access requirements have been treated correctly.",
+          "C": "Correct. It uses historical information selectively while validating the current relationship between quantities, conditions, and costs.",
+          "D": "A prior total is not automatically conservative for a different scope and working environment; it may conceal material omissions or unjustified excess."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.4.2.2, pp. 62–63 (PDF pp. 167–168); Analogous estimating, pp. 146–147 (PDF pp. 251–252); Parametric estimating, p. 184 (PDF p. 289); Basis of estimates, p. 115 (PDF p. 220)."
+        ],
+        "difficultyReason": "Evaluates the validity of an estimating relationship using fixed costs, scale effects, and known scope differences instead of mechanically transferring a historical rate.",
+        "id": "pmp-set2-067",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 68,
+        "domain": "People",
+        "task": 1,
+        "approach": "Agile",
+        "difficulty": "Moderate",
+        "format": "single",
+        "stem": "An agile team is improving a public appointment-booking service within a fixed quarterly budget. In a planning discussion, developers describe success as minimizing hosting cost, service representatives describe it as reducing abandoned bookings, and the product owner describes it as demonstrating a larger number of features. Team members are working diligently but disagree about trade-offs. What should the project manager facilitate first?",
+        "options": [
+          [
+            "A",
+            "A ranking of individuals by their preferred success measure so the highest-performing group's measure can become the project goal."
+          ],
+          [
+            "B",
+            "A shared, current vision of the intended service outcome and financial constraints, with agreement on how trade-offs will support that vision."
+          ],
+          [
+            "C",
+            "Separate team targets for cost, booking completion, and feature count, leaving each discipline to optimize its own target."
+          ],
+          [
+            "D",
+            "A revised reporting template that combines all three measures without requiring agreement on which outcome the project exists to achieve."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "The team lacks a shared interpretation of success. Facilitating agreement on the service outcome and the budget constraint gives members a common basis for decisions. Cost, completion, and delivery measures can all be useful, but a dashboard or separate local targets do not by themselves align the team's purpose.",
+        "rationales": {
+          "A": "The project's purpose should follow stakeholder needs and agreed objectives, not the status or individual performance of the group proposing a metric.",
+          "B": "Correct. It develops a common vision and connects practical trade-offs to that vision within the stated financial boundary.",
+          "C": "Independent local optimization preserves the disagreement and can cause one discipline's result to undermine the intended project outcome.",
+          "D": "Combining measures improves visibility but leaves their meaning and priority unresolved."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.6.2.4.1, p. 84 (PDF p. 189), and §2.6.2.4.2, p. 86 (PDF p. 191).",
+          "PMBOK Guide, Eighth Edition, Guide Leadership—Establishing and maintaining vision, p. 176 (PDF p. 281)."
+        ],
+        "difficultyReason": "Recognizes a shared-vision gap behind conflicting success measures and chooses alignment before local optimization.",
+        "id": "pmp-set2-068",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 69,
+        "domain": "Process",
+        "task": 9,
+        "approach": "Hybrid",
+        "difficulty": "Very challenging",
+        "format": "single",
+        "stem": "A hybrid equipment-and-software project is preparing a monthly cost-efficiency report. For the equipment work package below, the analyst concludes that performance is favorable and recommends releasing its remaining funds. Which response is best supported before relying on that conclusion?",
+        "exhibit": {
+          "headers": [
+            "Evidence at the same status date",
+            "Record"
+          ],
+          "rows": [
+            [
+              "Progress-measurement rule",
+              "The $100,000 work-package budget earns 30% on design acceptance and 70% on final equipment acceptance; no other progress credit is permitted."
+            ],
+            [
+              "Accepted progress",
+              "Design is accepted. Equipment assembly is complete, but required final tests and acceptance are still outstanding."
+            ],
+            [
+              "Cost-recognition rule",
+              "Actual cost includes verified costs incurred for work performed, whether paid or not."
+            ],
+            [
+              "Cost records",
+              "$20,000 has been paid. An additional $60,000 of work already performed is verified as incurred and is not yet invoiced. There is no overlap between the two amounts."
+            ],
+            [
+              "Draft report",
+              "The analyst credits the entire $100,000 as earned value and records only the $20,000 paid as actual cost."
+            ]
+          ]
+        },
+        "options": [
+          [
+            "A",
+            "Reconcile earned credit with the acceptance milestones and include verified incurred costs before evaluating performance or recommending release of funds."
+          ],
+          [
+            "B",
+            "Keep the full earned value because assembly is complete, but add the verified uninvoiced cost before evaluating performance."
+          ],
+          [
+            "C",
+            "Reduce earned credit to the accepted design milestone, but retain cash paid as actual cost until the supplier issues the invoice."
+          ],
+          [
+            "D",
+            "Retain both draft values until final acceptance and the supplier invoice occur in the same reporting period."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "Two independent measurement errors invalidate the conclusion. Under the agreed rule, only the design milestone has earned credit; assembly completion does not substitute for final acceptance. Actual cost must include both paid and verified incurred-but-uninvoiced work under the stated recognition policy. After reconciliation, the figures are $30,000 earned value and $80,000 actual cost, so the draft's favorable-cost claim is not supported. These are status-date cost-performance measures, not a complete forecast of the final work-package outcome.",
+        "rationales": {
+          "A": "Correct. It addresses both the earned-credit rule and the incurred-cost basis before drawing a financial conclusion.",
+          "B": "It corrects the cost omission but still awards credit for an acceptance milestone that has not occurred.",
+          "C": "It corrects earned value but retains a cash-only measure that conflicts with the explicitly stated actual-cost rule.",
+          "D": "Waiting for coincident acceptance and invoicing preserves known errors and is unnecessary because both the measurement rule and incurred-cost evidence are available."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide Earned value analysis, p. 169 (PDF p. 274), Table 5-1, p. 207 (PDF p. 312), and §2.1.6.7–2.1.6.7.1, pp. 26–28 (PDF pp. 131–133)."
+        ],
+        "difficultyReason": "Reconciles progress acceptance and cost recognition across separate evidence records; correcting only one error still produces an unreliable assessment.",
+        "id": "pmp-set2-069",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 70,
+        "domain": "Business Environment",
+        "task": 3,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "single",
+        "stem": "A hybrid facility-modernization project develops its control application iteratively while equipment follows an approved design baseline. A proposed equipment substitution would lower the purchase price and preserve immediate functional performance, but increase expected energy and maintenance costs. The approved business case includes those operating costs, and equipment substitutions require the change authority's decision. The sponsor asks the project manager to accept the lower price as a project saving. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Accept the substitution after confirming functional equivalence because operating costs belong to the future operations budget."
+          ],
+          [
+            "B",
+            "Record the purchase-price reduction as a realized saving and ask operations to assess the additional costs after installation."
+          ],
+          [
+            "C",
+            "Assess purchase, integration, operating-cost, and benefit impacts with finance and operations, then submit the substitution for the required change decision."
+          ],
+          [
+            "D",
+            "Reject the substitution without further analysis because an increase in operating cost always outweighs a lower purchase price."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "A lower acquisition price does not establish a net benefit when operating costs form part of the approved business case. The project manager should evaluate the relevant life-cycle effects and affected interfaces with finance and operations, then use the designated change process. Analysis could support either acceptance or rejection; the facts do not justify either outcome before the trade-off is assessed.",
+        "rationales": {
+          "A": "It excludes costs that the case explicitly includes in the business case and bypasses the required substitution decision.",
+          "B": "It labels an unapproved proposal as a realized saving and delays assessment until the decision becomes harder to reverse.",
+          "C": "Correct. It assesses the change against the full stated value basis and brings the resulting evidence to the authorized decision maker.",
+          "D": "The higher operating cost matters, but it does not establish the net result without considering its amount, timing, and other impacts."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.4.1, pp. 59–61 (PDF pp. 164–166), including life-cycle cost considerations; §2.1.6.8–2.1.6.8.1, pp. 28–29 (PDF pp. 133–134)."
+        ],
+        "difficultyReason": "Assesses a proposed capital saving across project and operating budgets before applying the change authority, avoiding both automatic acceptance and automatic rejection.",
+        "id": "pmp-set2-070",
+        "instruction": "Select ONE answer."
       }
     ]
   }
