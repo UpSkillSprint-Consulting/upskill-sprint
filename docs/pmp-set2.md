@@ -1,10 +1,10 @@
-# PMP Set 2: batches 1–10
+# PMP Set 2: batches 1–11
 
-This change integrates 100 original questions (001–100) into the
+This change integrates 110 original questions (001–110) into the
 existing PMP Set 2 slot. The planned bank remains 180 questions, delivered in
-18 batches of ten. Questions 101–180 are not included. The picker shows **100**;
+18 batches of ten. Questions 111–180 are not included. The picker shows **110**;
 the overview identifies this as a partial set. A timed full sitting uses all
-100 available questions at 80 seconds per question (133 minutes 20 seconds).
+110 available questions at 80 seconds per question (146 minutes 40 seconds).
 
 These are original practice questions aligned with the July 2026 PMP Exam
 Content Outline and the PMBOK Guide, Eighth Edition. They are not recalled
@@ -15,20 +15,20 @@ unscored items. An answer reveal counts as incorrect.
 
 | Coverage | Included | Planned across 180 |
 |---|---:|---:|
-| People | 33 | 59 |
-| Process | 41 | 74 |
-| Business Environment | 26 | 47 |
-| Predictive | 40 | 72 |
-| Agile | 30 | 54 |
-| Hybrid | 30 | 54 |
-| Single answer | 73 | 132 |
-| Multiple answer | 13 | 24 |
-| Matching | 7 | 12 |
+| People | 36 | 59 |
+| Process | 45 | 74 |
+| Business Environment | 29 | 47 |
+| Predictive | 44 | 72 |
+| Agile | 33 | 54 |
+| Hybrid | 33 | 54 |
+| Single answer | 80 | 132 |
+| Multiple answer | 14 | 24 |
+| Matching | 8 | 12 |
 | Drop-down | 4 | 6 |
-| Hotspot | 3 | 6 |
+| Hotspot | 4 | 6 |
 
-There are ten shared cases, each supporting the first three questions in its
-batch. The complete case is shown with each associated question, including in
+Batches 1–10 each have a shared case supporting their first three questions.
+Batch 11 uses standalone items. The complete case accompanies each related question in
 randomized quizzes and review. Each question is independent of earlier answers.
 The planned 30 shared-case questions are now complete; later batches use standalone items.
 
@@ -46,6 +46,7 @@ The planned 30 shared-case questions are now complete; later batches use standal
 | 8 | 071–080 | [Batch 8 review document](pmp-set2-batch8.md) |
 | 9 | 081–090 | [Batch 9 review document](pmp-set2-batch9.md) |
 | 10 | 091–100 | [Batch 10 review document](pmp-set2-batch10.md) |
+| 11 | 101–110 | [Batch 11 review document](pmp-set2-batch11.md) |
 
 The source data retains every question's author ID, ECO task, approach,
 difficulty, answer key, option rationales, and page references. Text-only
@@ -68,7 +69,7 @@ and renders its cases, controls, source references, and response rationales.
 **Legacy naming matters:** `test-bank-pmp-set1.js` through `set6.js` all populate
 the existing 180-question Set 1. Some legacy questions also retain
 `pmp:set-2:*` IDs. The new renderer checks `bankId: pmp-bank2-2026`, not that
-prefix. The new IDs `pmp:set-2:original-001` through `original-100` use a namespace
+prefix. The new IDs `pmp:set-2:original-001` through `original-110` use a namespace
 that remains distinct from legacy IDs as this bank grows to 180 questions. Existing Set 1 content and keys are preserved.
 
 The shared engine grades integer option indices. Multiple selections are
@@ -89,7 +90,7 @@ persistence behavior is changed; exam state remains in the current tab.
 
 `tests/test-bank-pmp-bank2.test.js` checks:
 
-- All 100 IDs and independently transcribed answer keys, coverage counts, cases,
+- All 110 IDs and independently transcribed answer keys, coverage counts, cases,
   references, and every authored response rationale.
 - Every encoded multiple-answer/matching state, including partial input,
   exact-match scoring, and revealed-answer scoring.
@@ -104,7 +105,9 @@ checks of the new shared cases, all four used response formats, and the standalo
 financial-evidence table. Batch 8 checks the shared case, cumulative-completion hotspot,
 matching, multiple-answer and test-selection items. Batch 9 checks the new
 shared case, both multiple-answer items, and the cost-of-quality exhibit, plus 90-card review. Batch 10 checks the procurement case, multiple-answer,
-drop-down, matching, and integrated-plan items, plus 100-card review.
+drop-down, matching, and integrated-plan items, plus 100-card review. Batch 11 checks standalone content, the requirement-readiness
+hotspot, compliance multi-select, planning-artifact matching, and funding calculation,
+plus 110-card review.
 Axe reports zero WCAG A/AA violations in the new question and answer components
 for the tested states. The local fixture isolates authentication; it does not
 verify a real account login. Deploy-preview verification remains a separate gate.
@@ -115,13 +118,13 @@ assumed every question exposed a single-choice button, which caused the Set 2
 and mixed-pool CI flows to fail before grading. `--exam pmp` limits local
 reruns to the affected exam matrix; CI still checks every exam by default.
 
-## Coverage audit at Question 100
+## Coverage audit at Question 110
 
 All 26 ECO tasks are represented. Domain totals remain within one question of a
-proportional 100-question allocation. Development approaches are exactly 40%
+proportional 110-question allocation. Development approaches are exactly 40%
 predictive, 30% agile, and 30% hybrid; difficulty remains 20% moderate, 60%
-challenging, and 20% very challenging. Single-answer keys are A 19, B 18, C 18,
-and D 18. There are 30 shared-case questions.
+challenging, and 20% very challenging. Single-answer keys are A 20, B 20, C 20,
+and D 20. There are 30 shared-case questions.
 
 Batch 7 adds two calculation-driven items and an evidence-reconciliation item.
 Independent checks: Q061 has CPI 0.90, EAC $1,000,000, and TCPI to meet BAC 1.08;
@@ -152,6 +155,12 @@ dispute resolution, external pricing changes, and integrated make-or-buy plannin
 Independent checks: Q091 selects eligible D at 88.6 over eligible B at 86.8.
 Q100 gives both alternatives the same earliest testing window, weeks 7–8.
 
+Batch 11 adds conflict-of-interest safeguards, honest readiness reporting,
+requirement verification criteria, psychological safety, trial authorization,
+governance artifacts, confidentiality expectations, staged funding, delegated
+escalation, and termination closure. Q108 has $15,000 remaining commitment
+authority and needs at least $7,000 more for the proposed package.
+
 The task allocations below preserve the 180-question plan. They are internal
 coverage targets, not PMI quotas for individual tasks.
 
@@ -159,30 +168,30 @@ coverage targets, not PMI quotas for individual tasks.
 |---|---:|---:|---:|
 | People | 1 | 3 | 3 |
 | People | 2 | 6 | 2 |
-| People | 3 | 6 | 4 |
+| People | 3 | 7 | 3 |
 | People | 4 | 4 | 5 |
-| People | 5 | 4 | 3 |
+| People | 5 | 5 | 2 |
 | People | 6 | 3 | 4 |
 | People | 7 | 3 | 2 |
-| People | 8 | 4 | 3 |
-| Process | 1 | 5 | 4 |
-| Process | 2 | 4 | 5 |
+| People | 8 | 5 | 2 |
+| Process | 1 | 6 | 3 |
+| Process | 2 | 5 | 4 |
 | Process | 3 | 4 | 5 |
 | Process | 4 | 3 | 3 |
 | Process | 5 | 5 | 2 |
-| Process | 6 | 5 | 3 |
+| Process | 6 | 6 | 2 |
 | Process | 7 | 4 | 3 |
 | Process | 8 | 5 | 3 |
 | Process | 9 | 4 | 2 |
-| Process | 10 | 2 | 3 |
-| Business Environment | 1 | 4 | 2 |
-| Business Environment | 2 | 4 | 3 |
+| Process | 10 | 3 | 2 |
+| Business Environment | 1 | 5 | 1 |
+| Business Environment | 2 | 5 | 2 |
 | Business Environment | 3 | 4 | 3 |
-| Business Environment | 4 | 2 | 4 |
+| Business Environment | 4 | 3 | 3 |
 | Business Environment | 5 | 4 | 4 |
 | Business Environment | 6 | 3 | 1 |
 | Business Environment | 7 | 2 | 3 |
 | Business Environment | 8 | 3 | 1 |
 
-Next: Batch 11, Questions 101–110, covering governance, ethics, and compliance.
-There are 80 questions left to author.
+Next: Batch 12, Questions 111–120, covering agile delivery, feedback, and value.
+There are 70 questions left to author.
