@@ -13,6 +13,7 @@
  * Batch 10 of 15: II.C (mitigation: 4 Ts, ALARP/ALARA/ALAP, residual and secondary risk) and I.A.2, I.A.5, I.A.7–I.A.9 (leadership foundations).
  * Batch 11 of 15: I.A.1, I.A.3, I.A.4, I.A.6, I.A.9 (leadership foundations) and I.B.1–I.B.4 (terminology, requirements, CAPA, RCA).
  * Batch 12 of 15: I.B.1, I.B.3–I.B.10 (lifecycle cost, maintainability economics, cost of poor reliability, quality triangle, DMAIC, systems integration).
+ * Batch 13 of 15: I.A.5, I.A.7, I.B.1, I.B.2 (Domain I complete) and V.A.1–V.A.5 (verification, stress-strength, DOE, optimization, human factors).
  *
  * Every calculated answer is recomputed independently in tests/test-bank-cre-set1.test.js.
  * Notation follows The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting &
@@ -10124,6 +10125,703 @@
         "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
         "chapter": "Chapter 2 - Reliability Foundations",
         "section": "Corrective and preventative action (CAPA)",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b13-q121",
+    "set": 1,
+    "batch": 13,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "A. Leadership Foundations",
+      "code": "I.A.5",
+      "topic": "Scheduling a reprocessing test in the Gantt chart"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A reusable surgical instrument must survive 100 reprocessing cycles, and the test plan is summarized in the table. How many sterilizer days should the program Gantt chart allow for this test?",
+    "chart": {
+      "type": "data-table",
+      "title": "Reprocessing test plan",
+      "columns": [
+        "Item",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Units on test",
+          "12"
+        ],
+        [
+          "Sterilizer capacity",
+          "6 units per cycle"
+        ],
+        [
+          "Cycle time, including functional check",
+          "4.5 h"
+        ],
+        [
+          "Cycles required per unit",
+          "100"
+        ],
+        [
+          "Sterilizer availability",
+          "18 h per day"
+        ]
+      ]
+    },
+    "options": [
+      "25 days",
+      "38 days",
+      "45 days",
+      "50 days"
+    ],
+    "answer": 3,
+    "why": "<p>Twelve units need two sterilizer loads, and each load must complete 100 cycles:</p><p>\\[\\begin{aligned}T &= 2 \\times 100 \\times 4.5 \\\\ &= 900 \\text{ h} \\\\ d &= \\frac{900}{18} = 50 \\text{ days}\\end{aligned}\\]</p><p>where \\(T\\) is the sterilizer time in hours and \\(d\\) the number of 18-hour sterilizer days. Exactly 4 whole cycles fit in each day, so 200 cycles also take 50 days when counted cycle by cycle. Reprocessing time like this often puts a reliability test on the critical path, which is why it must be in the plan from the start.</p><p><b>D. 50 days</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Project Management in Reliability Engineering — Reliability Engineering Gantt Chart Considerations (test duration, fixtures and environments).</span></p>",
+    "optionRationales": [
+      "Schedules only one load of 6 units, not all 12.",
+      "Assumes the sterilizer runs 24 h a day instead of the 18 h available.",
+      "Leaves out the 0.5 h functional check in each cycle: 800 h over 18-hour days.",
+      "Correct. \\(2 \\times 100 \\times 4.5 = 900\\) h, or 50 eighteen-hour days."
+    ],
+    "keyPoint": "Reliability test duration depends on fixture or chamber capacity, cycle time and checks; plan it early because it is often on the critical path.",
+    "trap": "Leaving out capacity limits or per-cycle checks when estimating test duration.",
+    "formula": "\\(d = \\left\\lceil \\dfrac{L \\, c \\, t}{h} \\right\\rceil\\)",
+    "assumptions": [
+      "Loads run one after another; no downtime of the sterilizer."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "Gantt chart",
+      "test duration",
+      "reliability test planning"
+    ],
+    "sourceSection": "Chapter 1 - Leadership Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 1 - Leadership Foundations",
+        "section": "Project management in reliability engineering — Gantt chart considerations",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b13-q122",
+    "set": 1,
+    "batch": 13,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.1",
+      "topic": "Maintainability as a function of time"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Calculation",
+    "quantitative": true,
+    "stem": "Repair times for a controller are exponentially distributed with a mean time to repair (MTTR) of 2 hours. Within how many hours are 95% of repairs completed?",
+    "chart": null,
+    "options": [
+      "1.9 h",
+      "2.0 h",
+      "6.0 h",
+      "40 h"
+    ],
+    "answer": 2,
+    "why": "<p>Maintainability \\(M(t)\\) is the probability that a repair is completed within time \\(t\\). Set it to 0.95 and solve:</p><p>\\[\\begin{aligned}M(t) &= 1 - e^{-t/\\text{MTTR}} = 0.95 \\\\ t &= -2 \\ln 0.05 \\\\ &= 5.99 \\text{ h}\\end{aligned}\\]</p><p>where \\(t\\) is the repair time and MTTR the mean time to repair. With exponential repair times, the 95th percentile is about three times the mean.</p><p><b>C. 6.0 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Basic Reliability Terminology — Maintainability (maintainability as a function of time).</span></p>",
+    "optionRationales": [
+      "Takes 95% of the MTTR, which treats a percentile as a fraction of the mean.",
+      "The MTTR is the mean; only about 63% of exponential repairs finish within it.",
+      "Correct. \\(t = -2\\ln 0.05 = 5.99\\) h.",
+      "Divides the MTTR by 0.05 instead of using the exponential function."
+    ],
+    "keyPoint": "Maintainability \\(M(t)\\) is a probability of completing repair within \\(t\\); high percentiles lie well above the MTTR.",
+    "trap": "Treating the MTTR as the time within which most repairs finish.",
+    "formula": "\\(M(t) = 1 - e^{-t/\\text{MTTR}}\\)",
+    "assumptions": [
+      "Repair times are exponentially distributed."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "maintainability",
+      "MTTR",
+      "exponential repair time"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Basic reliability terminology — maintainability",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b13-q123",
+    "set": 1,
+    "batch": 13,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.2",
+      "topic": "Categories of reliability acceptance criteria"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Understand",
+    "questionType": "Concept",
+    "quantitative": false,
+    "stem": "A requirement says: “After 72 hours of storage at −40 °C, the pump shall start and deliver its rated flow.” What kind of reliability requirement does the −40 °C storage temperature set?",
+    "chart": null,
+    "options": [
+      "A functional requirement",
+      "An environmental requirement",
+      "A time requirement",
+      "A probability of success requirement"
+    ],
+    "answer": 1,
+    "why": "<p>Reliability acceptance criteria fall into three categories: functional requirements (such as a minimum flow rate), environmental requirements (such as temperature, radiation or pH) and time requirements (such as the failure rate during useful life). The storage temperature is an environmental condition; the rated flow is the functional part of the same requirement.</p><p><b>B. An environmental requirement.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Drivers of Reliability Requirements and Targets (functional, environmental and time requirements).</span></p>",
+    "optionRationales": [
+      "The rated flow is functional, but the storage condition is environmental.",
+      "Correct. Temperature during storage is an environmental requirement.",
+      "The 72 hours set the exposure, but the condition being specified is the temperature.",
+      "No probability is stated; the requirement sets conditions, not a reliability level."
+    ],
+    "keyPoint": "Acceptance criteria are functional, environmental or time requirements; one requirement can combine them.",
+    "trap": "Classifying a whole requirement by its functional output.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "reliability requirements",
+      "environmental requirement",
+      "acceptance criteria"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Drivers of reliability requirements and targets",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b13-q124",
+    "set": 1,
+    "batch": 13,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "A. Leadership Foundations",
+      "code": "I.A.7",
+      "topic": "Reporting an inconclusive result honestly"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Scenario",
+    "quantitative": false,
+    "stem": "A comparison of a new and an old seal shows the new seal’s mean life is 8% longer, but the two-sample test gives \\(p = 0.20\\). The product manager asks for the report to say the new seal “is proven to last longer.” What should the reliability engineer report?",
+    "chart": null,
+    "options": [
+      "The 8% observed gain with its p-value, stating that the test did not show a significant difference at the 5% level.",
+      "That the new seal is proven to last longer, because its sample mean life is higher than the old seal’s.",
+      "That the new seal and the old seal have equal mean life, because the test found no significant difference.",
+      "That the new seal lasts longer, because an 8% gain matters in practice even though \\(p = 0.20\\)."
+    ],
+    "answer": 0,
+    "why": "<p>The ASQ Code of Ethics requires being truthful and transparent. A reliability engineer presents both the good and the bad news and discloses the significance level when hypothesis tests support conclusions. An 8% difference with a p-value of 0.20 is not statistically demonstrated, so the report states what was observed and that it was not significant; it can also recommend a larger test.</p><p><b>A. The gain with its p-value; not significant at 5%.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Ethics in Reliability Engineering (ASQ Code of Ethics A.2: truthful and transparent; disclose significance levels).</span></p>",
+    "optionRationales": [
+      "Correct. Report the observation and its significance honestly.",
+      "A higher sample mean with a p-value of 0.20 does not prove a difference.",
+      "Failing to find a difference does not prove the lives are equal; the observed gain must be reported too.",
+      "Practical importance does not make an unproven difference proven; the uncertainty must be disclosed."
+    ],
+    "keyPoint": "Report results with their significance level, including the bad news.",
+    "trap": "Claiming proof from a sample difference that is not statistically significant.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "ethics",
+      "significance level",
+      "transparent reporting"
+    ],
+    "sourceSection": "Chapter 1 - Leadership Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 1 - Leadership Foundations",
+        "section": "Ethics in reliability engineering",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b13-q125",
+    "set": 1,
+    "batch": 13,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.1",
+      "topic": "Sample size for zero-failure design verification"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Calculation",
+    "quantitative": true,
+    "stem": "A design verification test for a medium-risk requirement uses 90% confidence and 95% reliability, with zero failures allowed. What is the minimum sample size?",
+    "chart": null,
+    "options": [
+      "20",
+      "29",
+      "45",
+      "299"
+    ],
+    "answer": 2,
+    "why": "<p>For a zero-failure attribute test, the sample size comes from the binomial distribution:</p><p>\\[\\begin{aligned}n &= \\frac{\\ln(1 - C)}{\\ln R} \\\\ &= \\frac{\\ln 0.10}{\\ln 0.95} \\\\ &= 44.9 \\rightarrow 45\\end{aligned}\\]</p><p>where \\(C\\) is the confidence level and \\(R\\) the reliability to be shown; round up. If all 45 units pass, the team can claim 95% reliability with 90% confidence.</p><p><b>C. 45</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design Evaluation Techniques — Design Verification (sample size for zero-failure acceptance testing).</span></p>",
+    "optionRationales": [
+      "Uses \\(1/(1 - R) = 20\\), which ignores the confidence level.",
+      "Swaps confidence and reliability: \\(\\ln 0.05/\\ln 0.90 = 28.4\\).",
+      "Correct. \\(\\ln 0.10/\\ln 0.95 = 44.9\\), rounded up to 45.",
+      "This is the sample size for a high-risk requirement at 95% confidence and 99% reliability."
+    ],
+    "keyPoint": "Higher risk calls for higher confidence and reliability, which drive the zero-failure sample size up quickly.",
+    "trap": "Swapping confidence and reliability in the formula.",
+    "formula": "\\(n = \\dfrac{\\ln(1 - C)}{\\ln R}\\)",
+    "assumptions": [
+      "Units are independent; zero failures are allowed."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "design verification",
+      "success testing",
+      "sample size",
+      "confidence",
+      "reliability"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Design evaluation techniques — design verification",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b13-q126",
+    "set": 1,
+    "batch": 13,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.2",
+      "topic": "Choosing the best stress–strength improvement"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, multi-step calculation, decision",
+    "quantitative": true,
+    "stem": "Stress on a bracket and its strength are independent and normally distributed, as in the table. Which single change gives the lowest probability of failure?",
+    "chart": {
+      "type": "data-table",
+      "title": "Bracket stress and strength (MPa)",
+      "columns": [
+        "Quantity",
+        "Mean",
+        "Standard deviation"
+      ],
+      "rows": [
+        [
+          "Stress",
+          "300",
+          "40"
+        ],
+        [
+          "Strength",
+          "420",
+          "30"
+        ]
+      ]
+    },
+    "options": [
+      "Raise the mean strength to 440 MPa",
+      "Cut the strength standard deviation to 15 MPa",
+      "Cut the stress standard deviation to 30 MPa",
+      "Cut the mean stress to 290 MPa"
+    ],
+    "answer": 2,
+    "why": "<p>Failure occurs when strength minus stress is negative. Compute \\(z = \\mu_D/\\sigma_D\\) for each change (now \\(120/50 = 2.40\\)):</p><p>\\[\\begin{aligned}z_A &= \\frac{140}{50} = 2.80 \\\\ z_B &= \\frac{120}{\\sqrt{40^{2} + 15^{2}}} = 2.81 \\\\ z_C &= \\frac{120}{\\sqrt{30^{2} + 30^{2}}} = 2.83 \\\\ z_D &= \\frac{130}{50} = 2.60\\end{aligned}\\]</p><p>where \\(\\mu_D\\) is the mean and \\(\\sigma_D\\) the standard deviation of strength minus stress. The probability of failure is \\(\\Phi(-z)\\): about 0.0026, 0.0025, 0.0023 and 0.0047. The largest variance is the stress’s, so cutting it shrinks \\(\\sigma_D\\) most; the largest \\(z\\) gives the lowest probability.</p><p><b>C. Cut the stress standard deviation to 30 MPa.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Stress–Strength Analysis for Normal Distributions (four ways to improve reliability).</span></p>",
+    "optionRationales": [
+      "Raising the mean strength by 20 gives \\(z = 2.80\\), slightly less than cutting the stress variation.",
+      "Halving the strength variation gives \\(z = 2.81\\); the stress variation is the larger term in \\(\\sigma_D\\).",
+      "Correct. \\(\\sigma_D\\) falls to 42.4 and \\(z\\) rises to 2.83, the largest.",
+      "Lowering the mean stress by 10 gives only \\(z = 2.60\\)."
+    ],
+    "keyPoint": "Reduce the largest source of variance first: shrinking the dominant spread can beat shifting a mean.",
+    "trap": "Assuming that raising strength is always the most effective change.",
+    "formula": "\\(P_f = \\Phi\\left(-\\dfrac{\\mu_Y - \\mu_X}{\\sqrt{\\sigma_X^{2} + \\sigma_Y^{2}}}\\right)\\)",
+    "assumptions": [
+      "Stress and strength are independent and normally distributed."
+    ],
+    "estimatedMinutes": 6,
+    "keywords": [
+      "stress-strength interference",
+      "normal distribution",
+      "variance reduction"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Stress–strength analysis for normal distributions",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b13-q127",
+    "set": 1,
+    "batch": 13,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.2",
+      "topic": "Equal safety factors, different risks"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "Two shaft designs have the same factor of safety, 1.5, based on mean strength and mean stress. Stress and strength are independent and normally distributed, as in the table. What is the probability of failure for Design Y, and what does it show?",
+    "chart": {
+      "type": "data-table",
+      "title": "Shaft designs (MPa)",
+      "columns": [
+        "Design",
+        "Stress mean",
+        "Stress SD",
+        "Strength mean",
+        "Strength SD"
+      ],
+      "rows": [
+        [
+          "X",
+          "300",
+          "30",
+          "450",
+          "20"
+        ],
+        [
+          "Y",
+          "300",
+          "60",
+          "450",
+          "60"
+        ]
+      ]
+    },
+    "options": [
+      "About 0.039 for Design X as well, because designs with equal safety factors have equal interference.",
+      "About 0.039; Design Y’s larger variation gives far more interference than Design X.",
+      "About 0.00002, the same as Design X, because their safety factors are equal.",
+      "About 0.0062, using only the variation in strength."
+    ],
+    "answer": 1,
+    "why": "<p>Use the distribution of strength minus stress for Design Y:</p><p>\\[\\begin{aligned}\\sigma_D &= \\sqrt{60^{2} + 60^{2}} = 84.9 \\\\ z &= \\frac{450 - 300}{84.9} = 1.768 \\\\ P_f &= \\Phi(-1.768) = 0.039\\end{aligned}\\]</p><p>where \\(\\sigma_D\\) is the standard deviation of strength minus stress and \\(z\\) the number of standard deviations between zero and its mean. For Design X, \\(z = 150/36.1 = 4.16\\) and \\(P_f \\approx 0.00002\\). The safety factor uses means only and has no direct link to probability; stress–strength interference shows the risk.</p><p><b>B. About 0.039.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Stress–Strength Analysis (factor of safety versus interference).</span></p>",
+    "optionRationales": [
+      "Equal safety factors do not mean equal interference: Design X’s probability is about 0.00002.",
+      "Correct. \\(z = 1.768\\), so \\(P_f = 0.039\\), more than 2,000 times Design X’s risk.",
+      "That is Design X’s probability; Design Y’s larger variation gives far more interference.",
+      "Leaves out the stress variation: \\(150/60 = 2.5\\) gives 0.0062."
+    ],
+    "keyPoint": "A safety factor compares means; interference analysis adds the variation and gives a probability.",
+    "trap": "Treating equal safety factors as equal reliability.",
+    "formula": "\\(z = \\dfrac{\\mu_Y - \\mu_X}{\\sqrt{\\sigma_X^{2} + \\sigma_Y^{2}}}\\)",
+    "assumptions": [
+      "Stress and strength are independent and normally distributed."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "factor of safety",
+      "stress-strength interference",
+      "variation"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Stress–strength analysis",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b13-q128",
+    "set": 1,
+    "batch": 13,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.3",
+      "topic": "Interaction effect in a replicated two-level factorial design"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A replicated \\(2^{2}\\) experiment studies cure temperature (A) and cure time (B) on the peel strength of a bonded joint. Using the table, what is the AB interaction effect?",
+    "chart": {
+      "type": "data-table",
+      "title": "Peel strength (N), two replicates",
+      "columns": [
+        "Run",
+        "Temperature (A)",
+        "Time (B)",
+        "Replicate 1",
+        "Replicate 2"
+      ],
+      "rows": [
+        [
+          "1",
+          "Low",
+          "Low",
+          "42",
+          "44"
+        ],
+        [
+          "2",
+          "High",
+          "Low",
+          "50",
+          "48"
+        ],
+        [
+          "3",
+          "Low",
+          "High",
+          "46",
+          "48"
+        ],
+        [
+          "4",
+          "High",
+          "High",
+          "64",
+          "62"
+        ]
+      ]
+    },
+    "options": [
+      "2.5",
+      "5.0",
+      "9.0",
+      "10.0"
+    ],
+    "answer": 1,
+    "why": "<p>Average each run, then compare the runs where A and B are at the same level with those where they differ:</p><p>\\[\\begin{aligned}\\bar{y} &= 43,\\ 49,\\ 47,\\ 63 \\\\ AB &= \\frac{43 + 63}{2} - \\frac{49 + 47}{2} \\\\ &= 53 - 48 = 5.0\\end{aligned}\\]</p><p>where \\(\\bar{y}\\) is the run average and \\(AB\\) the interaction effect. The coefficient in the coded regression model is half the effect, 2.5. For comparison, the main effects are \\(A = 11\\) and \\(B = 9\\): longer cure time helps much more at high temperature (+14) than at low temperature (+4).</p><p><b>B. 5.0</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design of Experiments — 2^k Full-Factorial Designs and Interaction Effect.</span></p>",
+    "optionRationales": [
+      "This is the regression coefficient, which is half the effect.",
+      "Correct. \\((43 + 63)/2 - (49 + 47)/2 = 5.0\\).",
+      "This is the main effect of B (time), not the interaction.",
+      "Adds the diagonal totals without averaging: 106 minus 96."
+    ],
+    "keyPoint": "An effect is the difference of two averages; its coded coefficient is half the effect.",
+    "trap": "Confusing an effect with its regression coefficient.",
+    "formula": "\\(AB = \\bar{y}_{AB = +} - \\bar{y}_{AB = -}\\)",
+    "assumptions": [
+      "Runs were randomized; the two replicates are true replicates."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "design of experiments",
+      "2^k factorial",
+      "interaction effect",
+      "coefficient"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Design of experiments — 2^k full-factorial designs",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b13-q129",
+    "set": 1,
+    "batch": 13,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.4",
+      "topic": "Meeting a reliability goal at the lowest cost"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, multi-step calculation, decision",
+    "quantitative": true,
+    "stem": "The block diagram shows a three-stage process with a reliability goal of 0.86. Which single improvement meets the goal at the lowest cost?",
+    "chart": {
+      "type": "cre-rbd",
+      "title": "Three-stage process",
+      "altText": "Reliability block diagram with three stages in series: Stage 1 reliability 0.95, Stage 2 reliability 0.90, Stage 3 reliability 0.92.",
+      "stages": [
+        {
+          "label": "Stage 1",
+          "blocks": [
+            {
+              "label": "Stage 1 unit",
+              "r": "0.95"
+            }
+          ]
+        },
+        {
+          "label": "Stage 2",
+          "blocks": [
+            {
+              "label": "Stage 2 unit",
+              "r": "0.90"
+            }
+          ]
+        },
+        {
+          "label": "Stage 3",
+          "blocks": [
+            {
+              "label": "Stage 3 unit",
+              "r": "0.92"
+            }
+          ]
+        }
+      ]
+    },
+    "options": [
+      "Add a redundant stage 2 unit in parallel, for 3,000 dollars",
+      "Upgrade the stage 3 unit to 0.98, for 2,000 dollars",
+      "Add a redundant stage 3 unit in parallel, for 2,500 dollars",
+      "Upgrade stage 1 to 0.99 and stage 3 to 0.98, for 3,500 dollars"
+    ],
+    "answer": 0,
+    "why": "<p>The present system reliability is \\(0.95(0.90)(0.92) = 0.787\\). Evaluate each option:</p><p>\\[\\begin{aligned}R_A &= 0.95(1 - 0.10^{2})(0.92) \\\\ &= 0.865 \\\\ R_B &= 0.95(0.90)(0.98) \\\\ &= 0.838 \\\\ R_C &= 0.95(0.90)(1 - 0.08^{2}) \\\\ &= 0.8495 \\\\ R_D &= 0.99(0.90)(0.98) \\\\ &= 0.873\\end{aligned}\\]</p><p>where \\(R\\) is the system reliability. Options A and D meet 0.86; B and C (0.8495) fall short. Of the two that meet the goal, A costs less. Improving the weakest stage first usually gives the largest gain.</p><p><b>A. Redundant stage 2 unit, 3,000 dollars.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Reliability Optimization (model, estimate reliability and cost, optimize).</span></p>",
+    "optionRationales": [
+      "Correct. 0.865 meets the goal, and it is cheaper than D.",
+      "Only 0.838: stage 2, the weakest, still limits the system.",
+      "0.8495 falls short of 0.86, although it is cheaper.",
+      "Meets the goal at 0.873 but costs 500 dollars more than A."
+    ],
+    "keyPoint": "Optimize by modeling the system, estimating each option’s reliability and cost, then choosing the cheapest option that meets the goal.",
+    "trap": "Choosing the cheapest option without checking that it meets the goal.",
+    "formula": "\\(R_{\\text{sys}} = \\prod_i R_i\\), with \\(R_{\\text{parallel}} = 1 - (1 - R)^{2}\\)",
+    "assumptions": [
+      "Stages are independent; a redundant unit is identical and either unit suffices."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "reliability optimization",
+      "redundancy",
+      "series system",
+      "cost"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Reliability optimization",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b13-q130",
+    "set": 1,
+    "batch": 13,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.5",
+      "topic": "Human performance and job underload"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Understand",
+    "questionType": "Scenario",
+    "quantitative": false,
+    "stem": "An inspector watches a highly automated line on which a defect appears about once a week. Audits show she misses more defects than inspectors on other lines. Which explanation and response best fit human-factors principles?",
+    "chart": null,
+    "options": [
+      "Overload: the automated line runs faster than the others, so slow it to cut the units she must scan each minute.",
+      "Lack of skill: retrain her until her detection rate matches that of the other inspectors.",
+      "Stress: she is under time pressure, so add an extra break to each shift.",
+      "Underload: the task gives too little stimulation, so add task variety or rotation to sustain attention."
+    ],
+    "answer": 3,
+    "why": "<p>Human performance peaks at a moderate level of stress. Job underload, work that gives too little meaningful stimulation, lowers performance just as overload does. Rare defects on a monotonous task produce vigilance losses, so the fix is in the work design: task variety, rotation or automated support, not blaming or retraining the person.</p><p><b>D. Underload; add variety or rotation.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Human Factors (stress and performance; work overload and underload).</span></p>",
+    "optionRationales": [
+      "Rare defects on an automated line point to too little stimulation, not too much demand.",
+      "Missed rare events are a work-design problem; retraining does not restore vigilance.",
+      "More breaks reduce challenge further; a monotonous task with rare signals needs more stimulation, not less.",
+      "Correct. Underload reduces vigilance; varied work restores it."
+    ],
+    "keyPoint": "Human performance is best at moderate stress; both overload and underload degrade it.",
+    "trap": "Assuming that lower stress always means better performance.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "human factors",
+      "underload",
+      "vigilance",
+      "human reliability"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Human factors",
         "example": null
       }
     ]

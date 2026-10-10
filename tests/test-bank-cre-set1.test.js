@@ -40,10 +40,10 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/, 9: /^II\.(A\.[1-3]|B\.[1-6])$/, 10: /^(II\.C|I\.A\.[1-9])$/, 11: /^I\.(A\.[1-9]|B\.([1-9]|10))$/, 12: /^I\.B\.([1-9]|10)$/ };
+const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/, 9: /^II\.(A\.[1-3]|B\.[1-6])$/, 10: /^(II\.C|I\.A\.[1-9])$/, 11: /^I\.(A\.[1-9]|B\.([1-9]|10))$/, 12: /^I\.B\.([1-9]|10)$/, 13: /^(I\.(A\.[1-9]|B\.([1-9]|10))|V\.A\.[1-7])$/ };
 // BoK domain → engine area (the five shared CRE domains)
-const DOMAIN_SUB = { I: 'cre-fundamentals', II: 'cre-risk', III: 'cre-statistics', IV: 'cre-testing' };
+const DOMAIN_SUB = { I: 'cre-fundamentals', II: 'cre-risk', III: 'cre-statistics', IV: 'cre-testing', V: 'cre-lifecycle' };
 // Focused Quiz opens on the first BoK area (in exam order) that the opening set covers
 const FIRST_POPULATED = ['cre-fundamentals', 'cre-risk', 'cre-statistics', 'cre-testing', 'cre-lifecycle'].find((id) => BANK.some((q) => q.sub === id));
 
@@ -168,7 +168,17 @@ test('batch 12 adds ten I.B items and covers every I.B topic', () => {
   assert.ok(rows.every((q) => q.sub === 'cre-fundamentals' && q.bok.code.startsWith('I.B')));
   const ib = new Set(BANK.filter((q) => q.bok.code.startsWith('I.B')).map((q) => q.bok.code));
   assert.equal([...ib].sort((a, b) => Number(a.split('.')[2]) - Number(b.split('.')[2])).join(), 'I.B.1,I.B.2,I.B.3,I.B.4,I.B.5,I.B.6,I.B.7,I.B.8,I.B.9,I.B.10', 'every I.B topic is covered');
-  assert.equal(BANK.filter((q) => q.sub === 'cre-fundamentals').length, 25);
+  assert.equal(BANK.filter((q) => q.sub === 'cre-fundamentals' && q.batch <= 12).length, 25);
+});
+
+test('batch 13 completes Domain I at 29 and opens Domain V with six V.A items', () => {
+  const rows = BANK.filter((q) => q.batch === 13);
+  assert.equal(rows.filter((q) => q.sub === 'cre-fundamentals').length, 4);
+  assert.equal(BANK.filter((q) => q.sub === 'cre-fundamentals').length, 29, 'Domain I is complete');
+  const va = rows.filter((q) => q.sub === 'cre-lifecycle');
+  assert.equal(va.length, 6);
+  assert.ok(va.every((q) => q.bok.code.startsWith('V.A') && q.bok.domain === 'V. Lifecycle Reliability' && q.bok.subdomain === 'A. Reliability Design Techniques'));
+  assert.equal([...new Set(va.map((q) => q.bok.code))].sort().join(), 'V.A.1,V.A.2,V.A.3,V.A.4,V.A.5');
 });
 
 test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22', () => {
@@ -1219,6 +1229,74 @@ test('Q116 and Q119 exhibits match their keys', () => {
   assert.match(q119.options[q119.answer], /^D4 escape point/);
 });
 
+test('Q121 sterilizer days: two loads of 100 cycles at 4.5 h, whole cycles in an 18 h day', () => {
+  const q = byId('cre:set-1:b13-q121');
+  const d = Object.fromEntries([...q.chart.rows].map(([k, v]) => [k, n_(v)]));
+  const loads = Math.ceil(d['Units on test'] / d['Sterilizer capacity']);
+  const cycles = loads * d['Cycles required per unit'], ct = d['Cycle time, including functional check'], day = d['Sterilizer availability'];
+  const byHours = Math.ceil(cycles * ct / day), byWholeCycles = Math.ceil(cycles / Math.floor(day / ct));
+  assert.equal(byHours, byWholeCycles, 'continuous and whole-cycle schedules agree');
+  assert.equal(q.options[q.answer], `${byHours} days`);
+  assert.ok(q.options.includes(`${Math.ceil(cycles / 2 * ct / day)} days`), 'one load');
+  assert.ok(q.options.includes(`${Math.ceil(cycles * ct / 24)} days`), 'round-the-clock');
+  assert.ok(q.options.includes(`${Math.ceil(cycles * 4 / day)} days`), 'no functional check');
+});
+
+test('Q122 exponential maintainability: 95% of repairs within 6.0 h', () => {
+  const q = byId('cre:set-1:b13-q122');
+  assertKeyed(q, -2 * Math.log(0.05), 0.05);
+});
+
+test('Q125 zero-failure sample size at 90% confidence and 95% reliability', () => {
+  const q = byId('cre:set-1:b13-q125');
+  const n = (c, r) => Math.ceil(Math.log(1 - c) / Math.log(r));
+  assertKeyed(q, n(0.9, 0.95), 0);
+  assert.ok(q.options.includes(String(n(0.95, 0.9))), 'swapped trap');
+  assert.ok(q.options.includes(String(n(0.95, 0.99))), 'high-risk plan');
+});
+
+test('Q126 cutting the dominant stress variation gives the largest z', () => {
+  const q = byId('cre:set-1:b13-q126');
+  const [[, mx, sx], [, my, sy]] = [...q.chart.rows].map((r) => r.map(Number));
+  const z = (Mx, Sx, My, Sy) => (My - Mx) / Math.sqrt(Sx ** 2 + Sy ** 2);
+  const opts = [z(mx, sx, 440, sy), z(mx, sx, my, 15), z(mx, 30, my, sy), z(290, sx, my, sy)];
+  assert.equal(z(mx, sx, my, sy), 2.4);
+  assert.deepEqual(opts.map((v) => Math.round(v * 100) / 100), [2.8, 2.81, 2.83, 2.6]);
+  assert.equal(opts.indexOf(Math.max(...opts)), q.answer);
+});
+
+test('Q127 equal safety factors, very different interference', () => {
+  const q = byId('cre:set-1:b13-q127');
+  const rows = [...q.chart.rows].map((r) => r.slice(1).map(Number));
+  rows.forEach(([mx, , my]) => assert.equal(my / mx, 1.5));
+  const pf = ([mx, sx, my, sy]) => normCdf(-(my - mx) / Math.sqrt(sx ** 2 + sy ** 2));
+  assert.equal(Math.round(pf(rows[1]) * 1000) / 1000, 0.039);
+  assert.ok(pf(rows[0]) < 0.00003);
+  assert.match(q.options[q.answer], /^About 0\.039/);
+  assert.ok(q.options.some((o) => o.startsWith(`About ${normCdf(-150 / 60).toFixed(4)}`)), 'strength-only trap');
+});
+
+test('Q128 interaction effect of the replicated 2x2 experiment', () => {
+  const q = byId('cre:set-1:b13-q128');
+  const avg = [...q.chart.rows].map((r) => (Number(r[3]) + Number(r[4])) / 2);
+  const [ll, hl, lh, hh] = avg;
+  const ab = (ll + hh) / 2 - (hl + lh) / 2;
+  assertKeyed(q, ab, 0.05);
+  assert.ok(q.options.includes((ab / 2).toFixed(1)), 'coefficient trap');
+  assert.ok(q.options.includes(((lh + hh) / 2 - (ll + hl) / 2).toFixed(1)), 'main effect B trap');
+});
+
+test('Q129 cheapest option that meets 0.86', () => {
+  const q = byId('cre:set-1:b13-q129');
+  const [r1, r2, r3] = [...q.chart.stages].map((s) => Number(s.blocks[0].r));
+  const par = (r) => 1 - (1 - r) ** 2;
+  const options = [{ r: r1 * par(r2) * r3, c: 3000 }, { r: r1 * r2 * 0.98, c: 2000 }, { r: r1 * r2 * par(r3), c: 2500 }, { r: 0.99 * r2 * 0.98, c: 3500 }];
+  const ok = options.map((o, i) => ({ ...o, i })).filter((o) => o.r >= 0.86);
+  assert.deepEqual(ok.map((o) => o.i), [0, 3]);
+  assert.ok(options[2].r < 0.85, 'C falls short');
+  assert.equal(ok.reduce((a, b) => (b.c < a.c ? b : a)).i, q.answer);
+});
+
 /* ---------- 3. production delivery ---------- */
 
 async function productionHtml() {
@@ -1292,26 +1370,27 @@ test('CRE is live with the 2025 BoK, and Focused Quiz defaults to a populated ar
   } finally { dom.window.close(); }
 });
 
-test('an area a released set does not cover is announced, never silently switched', async () => {
+test('Set 1 now covers every BoK area, so each Focused Quiz area can start', async () => {
   const { dom, window, errors } = await openCre();
   try {
     click(window, window.document.querySelector('.tb-tile[data-exam="cre"]'));
     const overview = window.document.getElementById('tb-overview');
-    // Set 1 opens on the first area it covers.
     assert.equal(overview.querySelector('[data-focusdom]').value, FIRST_POPULATED);
-    // Set 1 has no Domain V items yet: keep the learner's choice and explain.
+    for (const id of ['cre-fundamentals', 'cre-risk', 'cre-statistics', 'cre-testing', 'cre-lifecycle']) {
+      assert.ok(BANK.some((q) => q.sub === id), `Set 1 has ${id} questions`);
+      const area = overview.querySelector('[data-focusdom]');
+      area.value = id;
+      area.dispatchEvent(new window.Event('change', { bubbles: true }));
+      assert.equal(overview.querySelector('[data-focusdom]').value, id);
+      assert.equal(overview.querySelector('[data-mode="focus"]').disabled, false, `${id} can start`);
+      assert.doesNotMatch(overview.textContent, /No questions are available in/);
+    }
     const area = overview.querySelector('[data-focusdom]');
     area.value = 'cre-lifecycle';
     area.dispatchEvent(new window.Event('change', { bubbles: true }));
-    assert.equal(overview.querySelector('[data-focusdom]').value, 'cre-lifecycle');
-    assert.equal(overview.querySelector('[data-mode="focus"]').disabled, true);
-    assert.match(overview.textContent, /No questions are available in .*Lifecycle Reliability.*Choose another area or test set/);
-    // Another set that covers the area makes it available, without changing the area.
-    click(window, overview.querySelector('[data-quiz-set-kind="focus"][data-quiz-set="3"]'));
-    assert.equal(overview.querySelector('[data-focusdom]').value, 'cre-lifecycle');
     click(window, overview.querySelector('[data-mode="focus"]'));
     const records = window.__TB.getFeedbackSnapshot().records;
-    assert.ok(records.length > 0 && records.every((r) => r.question.qid.startsWith('cre:set-3:')));
+    assert.ok(records.length > 0 && records.every((r) => r.question.sub === 'cre-lifecycle' && r.question.qid.startsWith('cre:set-1:')));
     assert.deepEqual(errors, []);
   } finally { dom.window.close(); }
 });
