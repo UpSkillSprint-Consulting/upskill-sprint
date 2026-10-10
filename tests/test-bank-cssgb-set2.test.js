@@ -278,9 +278,9 @@ test('CSSGB exposes the full 506-question Set 2 pool and routes a quick quiz cor
   assert.deepEqual(errors, []);
   const selectors = Array.from(overview.querySelectorAll('.tb-setpick [data-set]'));
   assert.deepEqual(selectors.map(button => button.dataset.set), ['1', '2', 'mix']);
-  assert.match(selectors[0].textContent, /110 questions/);
-  assert.match(selectors[1].textContent, /506 questions/);
-  assert.match(selectors[2].textContent, /616 pooled/);
+  assert.equal(selectors[0].querySelector('.tb-sets').textContent, '110');
+  assert.equal(selectors[1].querySelector('.tb-sets').textContent, '506');
+  assert.equal(selectors[2].querySelector('.tb-sets').textContent, '616');
   click(window, overview.querySelector('[data-set="2"]'));
   const rerendered = window.document.getElementById('tb-overview');
   assert.ok(rerendered.querySelector('[data-set="2"].on'));
