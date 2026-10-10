@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- UPSKILLSPRINT_LESSON_META
+{
+  "title": "Reliability Formula Encyclopedia",
+  "slug": "cre-formula-encyclopedia",
+  "category": "Quality Engineering",
+  "category_slug": "quality-engineering",
+  "level": "Advanced",
+  "lesson_type": "General",
+  "estimated_minutes": 35,
+  "interactive": true,
+  "card_title": "Reliability Formula Encyclopedia",
+  "card_description": "Search the numbered CRE handbook formulas, grouped into the five scored sections from fundamentals through lifecycle reliability.",
+  "search_keywords": [
+    "cre",
+    "reliability",
+    "formula",
+    "weibull",
+    "availability",
+    "arrhenius",
+    "mtbf",
+    "asq cre"
+  ],
+  "suggested_github_path": "lessons/quality-engineering/cre-formula-encyclopedia.html",
+  "access_level": "public"
+}
+-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reliability Formula Encyclopedia | UpSkill Sprint</title>
+  <meta name="description" content="Search the numbered CRE handbook formulas, grouped into the five scored sections from fundamentals through lifecycle reliability.">
+  <link rel="canonical" href="https://upskillsprint.com/lessons/quality-engineering/cre-formula-encyclopedia">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Reliability Formula Encyclopedia | UpSkill Sprint">
+  <meta property="og:description" content="Search the numbered CRE handbook formulas, grouped into the five scored sections from fundamentals through lifecycle reliability.">
+  <meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">
+  <meta property="og:url" content="https://upskillsprint.com/lessons/quality-engineering/cre-formula-encyclopedia">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/lessons-theme.css">
+  <script src="/theme.js"></script>
+  <script src="/site-sections.js"></script>
+  <script defer src="/assets/js/math.js"></script>
+  
+<style id="cre-formula-encyclopedia-layout">
+.cre-wrap{max-width:980px;margin:0 auto;padding:28px 20px 8px}
+.cre-wrap h1{font-size:clamp(1.7rem,3vw,2.2rem);line-height:1.2;margin:0 0 10px}
+.cre-lead{margin:0 0 18px;max-width:72ch}
+.cre-tools{display:grid;gap:12px;margin:0 0 18px}
+.cre-tools label{font-weight:700}
+.cre-tools input{width:100%;font:inherit;padding:11px 12px;border:1px solid var(--lesson-cre-fe-line);border-radius:10px;background:var(--lesson-cre-fe-card);color:var(--lesson-cre-fe-ink)}
+.cre-nav{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.cre-nav a{display:inline-block;padding:7px 10px;border-radius:999px;border:1px solid var(--lesson-cre-fe-line);color:var(--lesson-cre-fe-ink);text-decoration:underline;background:var(--lesson-cre-fe-card)}
+.cre-count{margin:0;font-weight:700}
+.cre-section{margin:28px 0;min-width:0}
+.cre-section h2{margin:0 0 6px;font-size:1.35rem}
+.cre-section>p{margin:0 0 12px;max-width:75ch}
+.cre-cards{display:grid;gap:12px;min-width:0}
+.cre-card{border:1px solid var(--lesson-cre-fe-line);border-radius:14px;background:var(--lesson-cre-fe-card);color:var(--lesson-cre-fe-ink);padding:14px 14px 12px;min-width:0;max-width:100%}
+.cre-card h3{margin:0;font-size:1.05rem}
+.cre-kicker{margin:0 0 4px;font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--lesson-cre-fe-accent)}
+.cre-eq{margin:10px 0;padding:8px 10px;overflow-x:auto;max-width:100%;border-radius:10px;background:var(--lesson-cre-fe-eq);color:var(--lesson-cre-fe-ink)}
+.cre-card p{margin:6px 0}
+.cre-label{font-weight:700}
+:root{--lesson-cre-fe-ink:#182230;--lesson-cre-fe-card:#fff;--lesson-cre-fe-line:#d5deea;--lesson-cre-fe-eq:#f4f7fb;--lesson-cre-fe-accent:#0f6b78}
+</style>
+
+  <style id="uss-quiz-style">
+.quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
+.quiz-section .lesson-kicker{text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;color:#0f6b78;font-weight:700;margin:0 0 4px}
+.quiz{border:1px solid #d7e0e8;border-radius:14px;padding:18px;background:#fff}
+.quiz-question{margin:16px 0;padding:14px;border:1px solid #d7e0e8;border-radius:10px}
+.quiz-question legend{font-weight:600;padding:0 4px}
+.quiz-option{display:block;width:100%;margin:8px 0;padding:9px 11px;border:1px solid #d7e0e8;border-radius:8px;cursor:pointer;font-size:15px}
+.quiz-option input{margin-right:9px}
+.quiz-question.is-correct{border-color:#2d6a4f;background:#f5fbf7}
+.quiz-question.is-incorrect{border-color:#a32d2d;background:#fdf6f6}
+.quiz-feedback{display:none;margin-top:10px;padding:10px;border-radius:8px;font-size:14.5px}
+.quiz-feedback.show{display:block}
+.quiz-feedback.good{background:#eef8f2;border-left:4px solid #2d6a4f}
+.quiz-feedback.bad{background:#fff1f1;border-left:4px solid #a32d2d}
+.quiz-feedback.warn{background:#fff8e6;border-left:4px solid #c79224}
+.quiz-actions{margin-top:16px}
+.quiz-actions button{background:#0f6b78;color:#fff;border:0;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.quiz-result{display:none;margin-top:16px;padding:12px 14px;border-radius:10px;background:#eef5fb;border-left:4px solid #1f4e78;font-size:15px}
+.quiz-result.show{display:block}
+html[data-theme="dark"] .quiz{background:#131f2c;border-color:#243546}
+html[data-theme="dark"] .quiz-question{background:#15212e;border-color:#243546}
+html[data-theme="dark"] .quiz-option{background:#111c28;border-color:#2b3b4c;color:#e7eef4}
+html[data-theme="dark"] .quiz-question.is-correct{background:#13291f;border-color:#3fa27a}
+html[data-theme="dark"] .quiz-question.is-incorrect{background:#2c1717;border-color:#e06a6a}
+html[data-theme="dark"] .quiz-feedback.good{background:#13291f}
+html[data-theme="dark"] .quiz-feedback.bad{background:#2c1717}
+html[data-theme="dark"] .quiz-feedback.warn{background:#2a2413}
+html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd5;color:#e7eef4}
+</style>
+</head>
+<body data-lesson-page="true" data-category="quality-engineering" data-level="advanced" data-interactive="true" data-lesson-type="general">
+<input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
+<header class="site lesson-sitebar">
+  <a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation"><a href="/start-here">Start Here</a><a href="/lessons" aria-current="page">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></nav>
+  <div class="header-actions">
+    <label for="mnav-check" class="mobile-menu-btn" aria-label="Open menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></label>
+    <div class="theme-control" aria-label="Colour theme"><svg class="theme-icon theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg><button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode" title="Switch to dark mode"><span class="sr-only">Toggle dark and light mode</span></button><svg class="theme-icon theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+  </div>
+</header>
+<main id="lesson-content">
+  <div class="cre-wrap">
+    <h1>Reliability Formula Encyclopedia</h1>
+    <p class="cre-lead">Search the numbered equations in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn. They are grouped into the five scored CRE sections. Each card is an original study note for that equation, not a copy of the handbook text. Risk management is included because it is a scored section, even though those chapters do not number an equation.</p>
+    <form class="cre-tools" role="search" action="#formula-search">
+      <label for="formula-search">Search formulas</label>
+      <input id="formula-search" type="search" name="search" placeholder="Try availability, Arrhenius, or series" autocomplete="off">
+      <p id="formula-count" class="cre-count" role="status" aria-live="polite">0 formulas</p>
+      <ul class="cre-nav"><li><a href="#section-i-reliability-fundamentals">I. Fundamentals</a></li><li><a href="#section-ii-risk-management">II. Risk</a></li><li><a href="#section-iii-probability-and-statistics-for-reliability">III. Probability</a></li><li><a href="#section-iv-reliability-planning-testing-and-modeling">IV. Planning</a></li><li><a href="#section-v-lifecycle-reliability">V. Lifecycle</a></li></ul>
+    </form>
+    <section class="cre-section" id="section-i-reliability-fundamentals" data-section="I. Reliability Fundamentals"><h2>I. Reliability Fundamentals</h2><p data-section-note="true">Numbered measures of life, failure rate, repair, and availability from Chapters 1 and 2.</p><div class="cre-cards" data-card-host="I. Reliability Fundamentals"></div></section><section class="cre-section" id="section-ii-risk-management" data-section="II. Risk Management"><h2>II. Risk Management</h2><p data-section-note="true">Chapters 3, 4, and 5 describe hazard analysis, FMEA, fault trees, and control selection. This edition does not assign equation numbers in those chapters. When a risk study needs a probability, a rate, or an availability, use the numbered formula in the matching section.</p><div class="cre-cards" data-card-host="II. Risk Management"></div></section><section class="cre-section" id="section-iii-probability-and-statistics-for-reliability" data-section="III. Probability and Statistics for Reliability"><h2>III. Probability and Statistics for Reliability</h2><p data-section-note="true">Numbered formulas for data, probability, regression, and life functions from Chapters 6 and 7.</p><div class="cre-cards" data-card-host="III. Probability and Statistics for Reliability"></div></section><section class="cre-section" id="section-iv-reliability-planning-testing-and-modeling" data-section="IV. Reliability Planning, Testing, and Modeling"><h2>IV. Reliability Planning, Testing, and Modeling</h2><p data-section-note="true">Numbered formulas for accelerated tests and reliability models from Chapters 9 and 10.</p><div class="cre-cards" data-card-host="IV. Reliability Planning, Testing, and Modeling"></div></section><section class="cre-section" id="section-v-lifecycle-reliability" data-section="V. Lifecycle Reliability"><h2>V. Lifecycle Reliability</h2><p data-section-note="true">Numbered formulas for demonstration, safety margin, availability, and spare parts from Chapters 11, 12, and 13.</p><div class="cre-cards" data-card-host="V. Lifecycle Reliability"></div></section>
+  </div>
+  
+
+
+</main>
+<section class="quiz-section" id="quiz" aria-labelledby="quiz-heading">
+  <p class="lesson-kicker">Knowledge check</p>
+  <h2 id="quiz-heading">Check your understanding</h2>
+  <div class="quiz">
+    <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
+    <form id="quiz-form">
+      <fieldset class="quiz-question" data-answer="b" data-explanation="A constant failure rate gives the exponential reliability, e to the power of negative lambda t.">
+        <legend>1. For a constant failure rate, which expression is the reliability at time \(t\)?</legend>
+        <label class="quiz-option"><input type="radio" name="q1" value="a" aria-label="lambda times t"> \(\lambda t\)</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="b" aria-label="e to the power of negative lambda t"> \(e^{-\lambda t}\)</label>
+        <label class="quiz-option"><input type="radio" name="q1" value="c" aria-label="one divided by lambda t"> \(1/(\lambda t)\)</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="a" data-explanation="A series system works only when every element works, so the reliabilities multiply.">
+        <legend>2. What is the reliability of an independent series system?</legend>
+        <label class="quiz-option"><input type="radio" name="q2" value="a"> The product of the element reliabilities</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="b"> One minus the product of the element reliabilities</label>
+        <label class="quiz-option"><input type="radio" name="q2" value="c"> The sum of the element reliabilities</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="c" data-explanation="Operational availability keeps all downtime, including logistics delay, in the denominator with uptime.">
+        <legend>3. Which times does operational availability use?</legend>
+        <label class="quiz-option"><input type="radio" name="q3" value="a"> MTBF and active repair time only</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="b"> Strength and stress</label>
+        <label class="quiz-option"><input type="radio" name="q3" value="c"> Uptime and all downtime</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Adding both events counts their overlap twice, so the general addition rule subtracts the intersection.">
+        <legend>4. The general addition rule subtracts which term?</legend>
+        <label class="quiz-option"><input type="radio" name="q4" value="a"> The complement of A</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="b"> The probability of the intersection</label>
+        <label class="quiz-option"><input type="radio" name="q4" value="c"> The sample size</label>
+        <div class="quiz-feedback"></div>
+      </fieldset>
+      <div class="quiz-actions"><button type="button" id="quiz-submit">Submit answers</button></div>
+      <div class="quiz-result" id="quiz-result" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<section aria-label="Return to lesson category" style="max-width:900px;margin:26px auto;padding:0 20px;text-align:left">
+  <a href="/lessons#quality-engineering" style="color:#1f4e78;font-weight:600;text-decoration:none">&larr; Back to Quality Engineering lessons</a>
+</section>
+<footer class="site"><div class="wrap"><div class="footer-grid"><div><div class="brand" style="margin-bottom:14px"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:#cbd5e1;max-width:260px;margin:0">Practical learning for quality, data, process improvement, and business problem-solving.</p></div><div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div><div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#statistics">Statistics</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel &amp; SQL</a><a href="/lessons#project-management">Project Management</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div><div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:#cbd5e1;margin:0">Saskatchewan, Canada</p></div></div></div><div class="footer-bottom"><span>&copy; 2026 UpSkill Sprint Consulting</span><div><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a></div></div></footer>
+<script id="cre-formula-data" type="application/json">[{"id": "CRE-2.1", "num": "2.1", "title": "Reliability at time t", "section": "I. Reliability Fundamentals", "family": "Life and failure measures", "latex": "R(t)=\\Pr(X>t)=1-\\Pr(X\\le t)", "use": "Reliability at time t is the probability that life exceeds t.", "trap": "Do not report the probability of failure, Pr(X at or below t), as the reliability."}, {"id": "CRE-2.2", "num": "2.2", "title": "Empirical reliability at time t", "section": "I. Reliability Fundamentals", "family": "Life and failure measures", "latex": "R(t)=\\frac{\\text{units functioning at the end of the period}}{\\text{units functioning at the start of the test}}", "use": "Use the count still functioning divided by the count that started the test.", "trap": "Do not put the failed units in the numerator."}, {"id": "CRE-2.3", "num": "2.3", "title": "Mean time to failure", "section": "I. Reliability Fundamentals", "family": "Life and failure measures", "latex": "\\mathrm{MTTF}=\\theta=\\frac{\\sum t_i}{n}", "use": "For complete failure times, the mean is the total of the times divided by the number of items.", "trap": "Do not divide by the number of survivors."}, {"id": "CRE-2.4", "num": "2.4", "title": "Mean time between failures", "section": "I. Reliability Fundamentals", "family": "Life and failure measures", "latex": "\\mathrm{MTBF}=\\frac{nm}{r}", "use": "n items each exposed for m hours, with r failures, give total time nm divided by r.", "trap": "Do not divide by the number of items when the question asks for time per failure."}, {"id": "CRE-2.5", "num": "2.5", "title": "Mean cycles between failures", "section": "I. Reliability Fundamentals", "family": "Life and failure measures", "latex": "\\mathrm{MCBF}=\\frac{nc}{r}", "use": "The same total-exposure idea, counted in cycles instead of hours.", "trap": "Do not leave the answer in hours when the exposure is in cycles."}, {"id": "CRE-2.6", "num": "2.6", "title": "Mean time between critical failures", "section": "I. Reliability Fundamentals", "family": "Life and failure measures", "latex": "\\mathrm{MTBCF}=\\frac{nc}{C}", "use": "The denominator is the count of critical failures, not every failure.", "trap": "Using all failures in the denominator gives MTBF, not the critical-failure measure."}, {"id": "CRE-2.7", "num": "2.7", "title": "Constant failure rate", "section": "I. Reliability Fundamentals", "family": "Life and failure measures", "latex": "\\lambda=\\frac{1}{\\mathrm{MTBF}}=\\frac{1}{\\mathrm{MTTF}}", "use": "Under a constant rate, the rate is the reciprocal of the mean life.", "trap": "Do not multiply the mean by the rate and call that \\(\\lambda\\)."}, {"id": "CRE-2.8", "num": "2.8", "title": "Mean time to repair", "section": "I. Reliability Fundamentals", "family": "Availability", "latex": "\\mathrm{MTTR}=\\frac{\\text{total repair time}}{\\text{number of repair operations}}", "use": "Average the observed repair times. This is a repair measure, not a life measure.", "trap": "Do not put operating hours in the numerator."}, {"id": "CRE-2.9", "num": "2.9", "title": "MTBF at a constant failure rate", "section": "I. Reliability Fundamentals", "family": "Life and failure measures", "latex": "\\mathrm{MTBF}=\\frac{1}{\\lambda}", "use": "Invert a constant failure rate to get the mean time between failures.", "trap": "The rate itself is not a time."}, {"id": "CRE-2.10", "num": "2.10", "title": "MTTF at a constant failure rate", "section": "I. Reliability Fundamentals", "family": "Life and failure measures", "latex": "\\mathrm{MTTF}=\\frac{1}{\\lambda}", "use": "The same reciprocal applies to a nonrepairable item's mean time to failure.", "trap": "Do not use this reciprocal when the hazard changes with age."}, {"id": "CRE-2.11", "num": "2.11", "title": "Mean downtime", "section": "I. Reliability Fundamentals", "family": "Availability", "latex": "\\mathrm{MDT}=\\frac{\\text{total downtime}}{\\text{number of downtime occurrences}}", "use": "Downtime includes more than active repair when the record says so.", "trap": "MTTR is the repair portion. Do not substitute it when the question asks for downtime."}, {"id": "CRE-2.12", "num": "2.12", "title": "Availability over an interval", "section": "I. Reliability Fundamentals", "family": "Availability", "latex": "A=\\frac{\\text{time the unit is capable of use}}{\\text{length of the interval}}", "use": "Compare capable time with the full interval named in the question.", "trap": "Do not omit scheduled or logistics time if the interval includes it."}, {"id": "CRE-2.13", "num": "2.13", "title": "Availability, general formula", "section": "I. Reliability Fundamentals", "family": "Availability", "latex": "A=\\frac{\\text{average uptime}}{\\text{average uptime}+\\text{average downtime}}", "use": "Availability is uptime divided by uptime plus downtime.", "trap": "Leaving downtime out of the denominator produces 1."}, {"id": "CRE-2.14", "num": "2.14", "title": "Reliability at time t, constant failure rate", "section": "I. Reliability Fundamentals", "family": "Life and failure measures", "latex": "R(t)=e^{-\\lambda t}", "use": "A constant failure rate gives an exponential reliability.", "trap": "The exponent is negative. A positive exponent is greater than 1 and cannot be a reliability."}, {"id": "CRE-2.15", "num": "2.15", "title": "Availability from MTBF and MTTR", "section": "I. Reliability Fundamentals", "family": "Availability", "latex": "A=\\frac{\\mathrm{MTBF}}{\\mathrm{MTBF}+\\mathrm{MTTR}}", "use": "Use this when the only times given are the mean life and the mean repair.", "trap": "Do not put MTTR in the numerator."}, {"id": "CRE-2.16", "num": "2.16", "title": "Mean time between maintenance actions", "section": "I. Reliability Fundamentals", "family": "Availability", "latex": "\\mathrm{MTBMA}=\\frac{1}{\\lambda+\\mu}", "use": "\\(\\lambda\\) is the failure rate and \\(\\mu\\) is the preventive maintenance rate. Both remove the item from service.", "trap": "Using only \\(\\lambda\\) ignores the maintenance actions."}, {"id": "CRE-2.17", "num": "2.17", "title": "Availability from maintenance actions", "section": "I. Reliability Fundamentals", "family": "Availability", "latex": "A=\\frac{\\mathrm{MTBMA}}{\\mathrm{MTBMA}+\\mathrm{MAMT}}", "use": "MAMT is the mean active maintenance time that goes with MTBMA.", "trap": "Do not replace MAMT with MTTR unless the problem says they are the same."}, {"id": "CRE-6.1", "num": "6.1", "title": "Sample mean", "section": "III. Probability and Statistics for Reliability", "family": "Descriptive statistics and regression", "latex": "\\bar{X}=\\frac{1}{n}\\sum_{i=1}^{n} X_i", "use": "Add the observations and divide by how many there are.", "trap": "The divisor is n, not n minus 1. That correction belongs to the sample variance."}, {"id": "CRE-6.2", "num": "6.2", "title": "Pearson sample correlation", "section": "III. Probability and Statistics for Reliability", "family": "Descriptive statistics and regression", "latex": "r=\\frac{\\mathrm{Cov}(X,Y)}{s_x s_y}=\\frac{SS_{xy}}{\\sqrt{SS_{xx}\\,SS_{yy}}}", "use": "Scale the sample covariance by the two sample standard deviations. The same ratio is the corrected sum of products over the square root of the two corrected sums of squares.", "trap": "A correlation is not a slope. The slope still has the units of Y per unit of X."}, {"id": "CRE-6.3", "num": "6.3", "title": "Simple linear regression model", "section": "III. Probability and Statistics for Reliability", "family": "Descriptive statistics and regression", "latex": "y=\\beta_0+\\beta_1 x+\\varepsilon", "use": "The model is a straight line plus a random error. The \\(\\beta\\) values are unknown constants.", "trap": "Do not replace the error with the residual. The residual is what remains after fitting."}, {"id": "CRE-6.4", "num": "6.4", "title": "Fitted regression equation", "section": "III. Probability and Statistics for Reliability", "family": "Descriptive statistics and regression", "latex": "\\hat{y}=b_0+b_1 x", "use": "The fitted equation uses the estimated intercept and slope.", "trap": "A hat on y means a prediction, not an observed point."}, {"id": "CRE-6.5", "num": "6.5", "title": "Estimated intercept and slope", "section": "III. Probability and Statistics for Reliability", "family": "Descriptive statistics and regression", "latex": "\\begin{aligned} b_0&=\\bar{y}-b_1\\bar{x}\\\\ b_1&=\\frac{SS_{xy}}{SS_{xx}} \\end{aligned}", "use": "Estimate the slope from the corrected sums of squares, then the intercept from the means.", "trap": "Swapping the sums of squares inverts the slope."}, {"id": "CRE-6.6", "num": "6.6", "title": "Estimated residuals", "section": "III. Probability and Statistics for Reliability", "family": "Descriptive statistics and regression", "latex": "e_i=y_i-\\hat{y}_i", "use": "A residual is the observed response minus the fitted response.", "trap": "The reverse subtraction changes the sign of every residual."}, {"id": "CRE-6.7", "num": "6.7", "title": "Test statistic for the slope", "section": "III. Probability and Statistics for Reliability", "family": "Descriptive statistics and regression", "latex": "t^{*}=\\frac{b_1-\\beta_1}{s_{b_1}}", "use": "Compare the estimated slope with the hypothesized slope, in standard-error units.", "trap": "The usual null value of \\(\\beta_1\\) is 0, but only when the question says the slope is zero."}, {"id": "CRE-6.8", "num": "6.8", "title": "Relative frequency", "section": "III. Probability and Statistics for Reliability", "family": "Probability", "latex": "\\Pr(A)=\\frac{a}{n}", "use": "a is the number of times A occurred and n is the number of trials.", "trap": "This is an estimate of the probability, not a proof that the probability equals a over n."}, {"id": "CRE-6.9", "num": "6.9", "title": "Complement rule", "section": "III. Probability and Statistics for Reliability", "family": "Probability", "latex": "\\Pr(\\bar{A})=1-\\Pr(A)", "use": "An event and its complement use up the whole probability.", "trap": "Do not subtract from the number of trials. Subtract from 1."}, {"id": "CRE-6.10", "num": "6.10", "title": "General addition rule", "section": "III. Probability and Statistics for Reliability", "family": "Probability", "latex": "\\Pr(A\\cup B)=\\Pr(A)+\\Pr(B)-\\Pr(A\\cap B)", "use": "Add the two events, then subtract the overlap that was counted twice. The handbook's note after Equation 6.10 describes that overlap.", "trap": "Leaving the intersection in the sum double-counts the outcomes that are in both events."}, {"id": "CRE-6.11", "num": "6.11", "title": "Conditional probability", "section": "III. Probability and Statistics for Reliability", "family": "Probability", "latex": "\\Pr(A\\mid B)=\\frac{\\Pr(A\\cap B)}{\\Pr(B)}", "use": "Restrict the denominator to the event that is known to have happened.", "trap": "Dividing by Pr(A) instead of Pr(B) answers a different conditional probability."}, {"id": "CRE-6.12", "num": "6.12", "title": "Probability of an intersection", "section": "III. Probability and Statistics for Reliability", "family": "Probability", "latex": "\\Pr(A\\cap B)=\\Pr(B\\mid A)\\Pr(A)=\\Pr(A\\mid B)\\Pr(B)", "use": "The joint probability is either order: the probability of one event times the probability of the other given the first.", "trap": "Multiplying the two marginal probabilities is allowed only when the events are independent."}, {"id": "CRE-6.13", "num": "6.13", "title": "Permutation formula", "section": "III. Probability and Statistics for Reliability", "family": "Probability", "latex": "{}_{n}P_{r}=\\frac{n!}{(n-r)!}", "use": "Use a permutation when the order of the r selected items matters.", "trap": "Dividing by r factorial as well is the combination, not the permutation."}, {"id": "CRE-6.14", "num": "6.14", "title": "Combination formula", "section": "III. Probability and Statistics for Reliability", "family": "Probability", "latex": "{}_{n}C_{r}=\\binom{n}{r}=\\frac{n!}{r!(n-r)!}", "use": "Use a combination when the order of the r selected items does not matter.", "trap": "Stopping after the permutation counts the same group more than once."}, {"id": "CRE-7.1", "num": "7.1", "title": "Normalizing with a z transformation", "section": "III. Probability and Statistics for Reliability", "family": "Data and life functions", "latex": "\\hat{z}_i=\\frac{x_i-\\bar{x}}{s}", "use": "The handbook writes a hat on z. Subtract the sample mean and divide by the sample standard deviation.", "trap": "The handbook warns that this scaling does not make a non-normal sample normal."}, {"id": "CRE-7.2", "num": "7.2", "title": "Hazard over a time period", "section": "III. Probability and Statistics for Reliability", "family": "Data and life functions", "latex": "\\lambda(t)=\\frac{\\text{fraction of failures during the period}}{\\text{length of the period}}", "use": "The period hazard is the failure fraction divided by the length of that period.", "trap": "Do not divide by the number of units that had already failed before the period."}, {"id": "CRE-7.3", "num": "7.3", "title": "Reliability function from survivors", "section": "III. Probability and Statistics for Reliability", "family": "Data and life functions", "latex": "R(t)=\\frac{\\text{number surviving at the end of the period}}{\\text{number of units tested}}", "use": "This is the empirical survivor fraction at the end of the period.", "trap": "The numerator is the survivors, not the failures."}, {"id": "CRE-9.1", "num": "9.1", "title": "Arrhenius acceleration factor", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "Accelerated testing", "latex": "A_F=\\exp\\left[\\left(\\frac{E_A}{K}\\right)\\left(\\frac{1}{T_U}-\\frac{1}{T_S}\\right)\\right]", "use": "Temperatures are absolute. Use temperature is the cooler use condition and stress temperature is the hotter test.", "trap": "Reversing the two temperatures changes the sign and makes the factor smaller than 1."}, {"id": "CRE-9.2", "num": "9.2", "title": "Power-law life model", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "Accelerated testing", "latex": "\\frac{\\text{life at rated stress}}{\\text{life at accelerated stress}}=\\left(\\frac{\\text{accelerated stress}}{\\text{rated stress}}\\right)^{b}", "use": "Life shortens as stress rises when the exponent b is positive.", "trap": "Do not invert only one of the two ratios."}, {"id": "CRE-9.3", "num": "9.3", "title": "Arrhenius-Peck model", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "Accelerated testing", "latex": "A_F=\\left(\\frac{\\text{humidity}_{\\mathrm{low}}}{\\text{humidity}_{\\mathrm{high}}}\\right)^{-2.66}\\times\\exp\\left[\\left(\\frac{E_a}{K}\\right)\\left(\\frac{1}{T_1}-\\frac{1}{T_2}\\right)\\right]", "use": "Humidity and temperature both accelerate. The handbook writes the humidity power as minus 2.66.", "trap": "Dropping the humidity ratio leaves an ordinary Arrhenius factor."}, {"id": "CRE-9.4", "num": "9.4", "title": "Seeded-defect ratio", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "Accelerated testing", "latex": "\\frac{\\text{found unknown defects}}{\\text{found known defects}}=\\frac{\\text{unfound unknown defects}}{\\text{unfound known defects}}", "use": "Known seeded defects estimate how many unknown defects remain.", "trap": "Do not treat the number found as the number that were there."}, {"id": "CRE-10.1", "num": "10.1", "title": "Series-system reliability", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "System and life models", "latex": "R_{\\mathrm{system}}=\\prod_{i=1}^{n} R_i", "use": "Every element must work. Multiply the independent reliabilities.", "trap": "Adding the reliabilities is not a series system."}, {"id": "CRE-10.2", "num": "10.2", "title": "Parallel-system reliability", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "System and life models", "latex": "R_{\\mathrm{system}}=1-\\prod_{i=1}^{n}(1-R_i)", "use": "The system fails only when every element fails.", "trap": "The product of the reliabilities is the series answer, not the parallel answer."}, {"id": "CRE-10.3", "num": "10.3", "title": "K-out-of-N reliability", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "System and life models", "latex": "R_{\\mathrm{system}}=\\sum_{i=k}^{n}\\binom{n}{i} R^{i}(1-R)^{n-i}", "use": "At least k of n identical independent elements must work.", "trap": "Stopping at exactly k misses the cases with more than k survivors."}, {"id": "CRE-10.4", "num": "10.4", "title": "Arrhenius life model", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "System and life models", "latex": "P(T\\le t)=\\Phi\\left(t;\\mu=\\beta_0+\\frac{E_A}{KT},\\sigma\\right)", "use": "The location depends on absolute temperature through the Arrhenius term.", "trap": "Temperature in Celsius does not belong in the denominator."}, {"id": "CRE-10.5", "num": "10.5", "title": "Arrhenius model, alternate form", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "System and life models", "latex": "t_p(T)=A_0\\exp\\left[\\frac{E_A}{KT}\\right]", "use": "This writes a percentile life directly as a function of absolute temperature.", "trap": "The exponential is greater at a lower temperature, so a hotter test has a shorter life."}, {"id": "CRE-10.6", "num": "10.6", "title": "Arrhenius acceleration factor from percentile life", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "System and life models", "latex": "AF(T)=\\frac{t_p(T_U)}{t_p(T_S)}=\\exp\\left[\\frac{E_A}{K}\\left(\\frac{1}{T_U}-\\frac{1}{T_S}\\right)\\right]", "use": "The factor is use life divided by stress life.", "trap": "Dividing in the other order estimates how much the test is slower, not faster."}, {"id": "CRE-10.7", "num": "10.7", "title": "Inverse-power acceleration factor", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "System and life models", "latex": "AF(V)=\\frac{V^{b}}{V_U^{b}}", "use": "The handbook's alternate voltage form is the stress voltage to the power b, divided by the use voltage to that power.", "trap": "Forgetting the exponent treats life as proportional to voltage."}, {"id": "CRE-10.8", "num": "10.8", "title": "Eyring model, temperature and one stress", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "System and life models", "latex": "t_f=AT^{\\alpha}\\exp\\left[\\frac{\\Delta H}{kT}+\\left(B+\\frac{C}{T}\\right)S_1\\right]", "use": "Temperature appears both as a power and inside the exponential, and S1 is the added stress.", "trap": "Setting the stress term to zero does not remove the temperature power."}, {"id": "CRE-10.9", "num": "10.9", "title": "Expanded Eyring model", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "System and life models", "latex": "t_f=AT^{\\alpha}\\exp\\left[\\frac{\\Delta H}{kT}+\\left(B+\\frac{C}{T}\\right)S_1+\\left(D+\\frac{E}{T}\\right)S_2\\right]", "use": "A second stress adds one more term of the same form.", "trap": "Do not add the two stresses before multiplying by their own coefficients."}, {"id": "CRE-10.10", "num": "10.10", "title": "Eyring factor relative to Arrhenius", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "System and life models", "latex": "AF_{\\mathrm{Ey}}=\\left(\\frac{\\mathrm{Temp}_{K}}{\\mathrm{Temp}_{U,K}}\\right)^{m} AF_{\\mathrm{Ar}}", "use": "Both temperatures are in kelvin. The Eyring factor is the Arrhenius factor times a power of that temperature ratio.", "trap": "The power is not a second activation energy. Over ordinary temperature ranges the handbook often drops it and keeps Arrhenius."}, {"id": "CRE-10.11", "num": "10.11", "title": "Reliability, proportional hazards model", "section": "IV. Reliability Planning, Testing, and Modeling", "family": "System and life models", "latex": "R(t)=e^{-\\lambda(x)\\, t}", "use": "After the stresses are folded into the failure rate \\(\\lambda(x)\\), reliability at time \\(t\\) is \\(e^{-\\lambda(x) t}\\).", "trap": "Do not leave the stresses out of the rate. \\(\\lambda(x)\\) already carries them, and this is not a series-product formula."}, {"id": "CRE-11.1", "num": "11.1", "title": "Sample size for a zero-failure test", "section": "V. Lifecycle Reliability", "family": "Design and demonstration", "latex": "n=\\frac{\\ln(1-\\text{confidence})}{\\ln(\\text{reliability})}", "use": "Both the confidence complement and the reliability are below 1, so both logarithms are negative and the sample size is positive.", "trap": "Using the confidence itself, instead of one minus the confidence, changes the numerator."}, {"id": "CRE-11.2", "num": "11.2", "title": "Sample size for a continuous distribution", "section": "V. Lifecycle Reliability", "family": "Design and demonstration", "latex": "n=\\left(\\frac{Z\\sigma}{E}\\right)^{2}", "use": "\\(Z\\) is the normal factor, \\(\\sigma\\) is the standard deviation, and \\(E\\) is the margin.", "trap": "The ratio is squared. Stopping before the square understates the sample."}, {"id": "CRE-11.3", "num": "11.3", "title": "Factor of safety", "section": "V. Lifecycle Reliability", "family": "Design and demonstration", "latex": "\\text{factor of safety}=\\frac{\\text{strength}}{\\text{stress}}", "use": "Divide the strength by the stress applied.", "trap": "A factor below 1 means the stress is larger than the strength."}, {"id": "CRE-11.4", "num": "11.4", "title": "Margin of safety", "section": "V. Lifecycle Reliability", "family": "Design and demonstration", "latex": "\\text{margin of safety}=\\frac{\\text{strength}}{\\text{stress}}-1", "use": "The margin is the factor of safety minus 1.", "trap": "Reporting the factor of safety itself overstates the margin by 1."}, {"id": "CRE-12.1", "num": "12.1", "title": "Availability from MTBF and MTTR", "section": "V. Lifecycle Reliability", "family": "Maintainability and spares", "latex": "A=\\frac{\\mathrm{MTBF}}{\\mathrm{MTBF}+\\mathrm{MTTR}}", "use": "The handbook's worked example divides MTBF by MTBF plus MTTR.", "trap": "The title mentions MTTF. Use the mean the problem actually gives, and keep the repair time in the denominator."}, {"id": "CRE-13.1", "num": "13.1", "title": "Inherent availability", "section": "V. Lifecycle Reliability", "family": "Maintainability and spares", "latex": "A_i=\\frac{\\mathrm{MTBF}}{\\mathrm{MTBF}+\\mathrm{MTTR}}", "use": "Inherent availability uses active repair time only.", "trap": "Logistics delay does not belong in this denominator."}, {"id": "CRE-13.2", "num": "13.2", "title": "Achieved availability", "section": "V. Lifecycle Reliability", "family": "Maintainability and spares", "latex": "A_a=\\frac{\\mathrm{MTBM}}{\\mathrm{MTBM}+\\mathrm{MMT}}", "use": "Achieved availability uses the mean time between maintenance and the mean maintenance time.", "trap": "MTBF and MTTR answer the inherent question, not this one."}, {"id": "CRE-13.3", "num": "13.3", "title": "Operational availability", "section": "V. Lifecycle Reliability", "family": "Maintainability and spares", "latex": "A_o=\\frac{\\text{uptime}}{\\text{uptime}+\\text{downtime}}", "use": "Operational availability keeps every delay that is part of downtime.", "trap": "Removing logistics delay turns the result into an inherent or achieved measure."}, {"id": "CRE-13.4", "num": "13.4", "title": "MTBF from an operating record", "section": "V. Lifecycle Reliability", "family": "Maintainability and spares", "latex": "\\mathrm{MTBF}=\\frac{\\text{operating hours}}{\\text{failures}}", "use": "Divide the operating hours by the number of failures in that record.", "trap": "Calendar hours are too large when the item was not operating the whole time."}, {"id": "CRE-13.5", "num": "13.5", "title": "MTBF from the failure rate", "section": "V. Lifecycle Reliability", "family": "Maintainability and spares", "latex": "\\mathrm{MTBF}=\\frac{1}{\\lambda}", "use": "Invert the constant failure rate.", "trap": "The failure rate is not already a mean time."}, {"id": "CRE-13.6", "num": "13.6", "title": "System mean repair time", "section": "V. Lifecycle Reliability", "family": "Maintainability and spares", "latex": "\\mathrm{MTTR}_{\\mathrm{system}}=\\frac{\\sum_{i=1}^{n}\\lambda_i t_i}{\\sum_{i=1}^{n}\\lambda_i}", "use": "Weight each element's repair time by its failure rate.", "trap": "A plain average treats a rare failure as equal to a frequent one."}, {"id": "CRE-13.7", "num": "13.7", "title": "Moving average for spare parts", "section": "V. Lifecycle Reliability", "family": "Maintainability and spares", "latex": "R_t=\\frac{X_{t-1}+X_{t-2}+\\cdots+X_{t-n}}{n}", "use": "The forecast is the average of the last n demands.", "trap": "The current period is not in the average. The newest demand used is the previous period."}, {"id": "CRE-13.8", "num": "13.8", "title": "Weighted moving average for spare parts", "section": "V. Lifecycle Reliability", "family": "Maintainability and spares", "latex": "R_t=\\frac{nX_{t-1}+(n-1)X_{t-2}+\\cdots+X_{t-n}}{n+(n-1)+\\cdots+1}", "use": "More recent demands get the larger weights, and the weights in the denominator sum to the same total.", "trap": "Using n as the denominator ignores the smaller weights."}, {"id": "CRE-13.9", "num": "13.9", "title": "Single exponential smoothing for spare parts", "section": "V. Lifecycle Reliability", "family": "Maintainability and spares", "latex": "R_t=\\alpha X_{t-1}+(1-\\alpha)R_{t-1}", "use": "\\(\\alpha\\) is the smoothing weight, usually 0.1 to 0.4. A larger \\(\\alpha\\) follows recent demand more closely.", "trap": "\\(\\alpha\\) is not the failure rate."}]</script>
+
+<script>
+(function () {
+  'use strict';
+  var data = JSON.parse(document.getElementById('cre-formula-data').textContent);
+  var hosts = {};
+  Array.prototype.forEach.call(document.querySelectorAll('[data-card-host]'), function (host) {
+    hosts[host.getAttribute('data-card-host')] = host;
+  });
+  function el(tag, className, text) {
+    var node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+  data.forEach(function (item) {
+    var card = el('article', 'cre-card');
+    card.dataset.formula = item.id;
+    card.dataset.haystack = [item.id, item.num, item.title, item.section, item.family, item.latex, item.use, item.trap].join(' ').toLowerCase();
+    var title = el('h3', '', item.title);
+    title.id = 'formula-title-' + item.id.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    card.setAttribute('aria-labelledby', title.id);
+    card.appendChild(el('p', 'cre-kicker', 'Equation ' + item.num + ' · ' + item.family));
+    card.appendChild(title);
+    var region = el('div', 'cre-eq');
+    region.tabIndex = 0;
+    region.setAttribute('role', 'region');
+    region.setAttribute('aria-label', 'Equation ' + item.num + ', ' + item.title + '. Scroll horizontally if needed.');
+    region.textContent = '\\[' + item.latex + '\\]';
+    card.appendChild(region);
+    var use = el('p');
+    use.appendChild(el('span', 'cre-label', 'Use. '));
+    use.appendChild(document.createTextNode(item.use));
+    var trap = el('p');
+    trap.appendChild(el('span', 'cre-label', 'Exam trap. '));
+    trap.appendChild(document.createTextNode(item.trap));
+    card.appendChild(use);
+    card.appendChild(trap);
+    hosts[item.section].appendChild(card);
+  });
+  var input = document.getElementById('formula-search');
+  var count = document.getElementById('formula-count');
+  function filterCreFormulas(query) {
+    query = String(query || '').trim().toLowerCase();
+    var shown = 0;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-formula]'), function (card) {
+      var match = !query || card.dataset.haystack.indexOf(query) !== -1;
+      card.hidden = !match;
+      if (match) shown += 1;
+    });
+    count.textContent = shown + (shown === 1 ? ' formula' : ' formulas');
+  }
+  window.filterCreFormulas = filterCreFormulas;
+  input.addEventListener('input', function () { filterCreFormulas(input.value); });
+  var hash = new URLSearchParams(String(location.hash || '').replace(/^#/, ''));
+  if (hash.get('search')) {
+    input.value = hash.get('search');
+    filterCreFormulas(input.value);
+  } else {
+    filterCreFormulas('');
+  }
+  function typesetCards() {
+    if (!window.UpskillMath) return;
+    window.UpskillMath.typeset([document.getElementById('lesson-content'), document.getElementById('quiz')].filter(Boolean));
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', typesetCards);
+  else typesetCards();
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('quiz-form');
+  if (!form) return;
+  var btn = document.getElementById('quiz-submit');
+  var result = document.getElementById('quiz-result');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var questions = Array.prototype.slice.call(form.querySelectorAll('.quiz-question'));
+    var total = questions.length, score = 0, unanswered = 0;
+    questions.forEach(function (q) {
+      var chosen = q.querySelector('input[type="radio"]:checked');
+      var fb = q.querySelector('.quiz-feedback');
+      q.classList.remove('is-correct', 'is-incorrect');
+      if (!chosen) { unanswered++; if (fb) { fb.className = 'quiz-feedback show warn'; fb.textContent = 'Select an answer to see feedback.'; } return; }
+      var correct = chosen.value === q.getAttribute('data-answer');
+      if (correct) score++;
+      q.classList.add(correct ? 'is-correct' : 'is-incorrect');
+      if (fb) { fb.className = 'quiz-feedback show ' + (correct ? 'good' : 'bad'); fb.innerHTML = (correct ? '<strong>Correct.</strong> ' : '<strong>Not quite.</strong> ') + (q.getAttribute('data-explanation') || ''); }
+    });
+    if (result) { result.className = 'quiz-result show'; result.innerHTML = '<strong>Score: ' + score + ' / ' + total + '</strong>' + (unanswered ? ' \u2014 ' + unanswered + ' unanswered' : ''); }
+    document.dispatchEvent(new CustomEvent('upskill-quiz-result', { detail: { score: score, total: total } }));
+  });
+})();
+</script>
+
+<style id="cre-formula-encyclopedia-dark-overrides">
+html[data-theme="dark"]{--lesson-cre-fe-ink:#e7eef4;--lesson-cre-fe-card:#15212e;--lesson-cre-fe-line:#31445a;--lesson-cre-fe-eq:#101c2b;--lesson-cre-fe-accent:#7dd3fc}
+html[data-theme="dark"] .quiz-section .lesson-kicker{color:#7dd3fc}
+html[data-theme="dark"] [aria-label="Return to lesson category"] a{color:#7dd3fc !important}
+</style>
+
+</body>
+</html>
