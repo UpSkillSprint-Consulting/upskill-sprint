@@ -135,5 +135,12 @@ test('search, section, and family filters work like the formula encyclopedia', (
   assert.ok(visible().every((card) => card.querySelector('.card-family').textContent === 'Probability'));
   d.getElementById('expandBtn').click();
   assert.ok(Array.from(d.querySelectorAll('details')).every((details) => details.open));
+  const weibull = d.querySelector('[data-formula-id="CRE-WEI"] .formula-box').textContent;
+  assert.match(weibull, /\\eta/);
+  assert.match(weibull, /\\Gamma/);
+  assert.match(d.querySelector('[data-formula-id="CRE-BIN"] .formula-box').textContent, /\\binom\{n\}\{x\}/);
+  assert.match(d.querySelector('[data-formula-id="CRE-HUM"] .formula-box').textContent, /\\exp\\left\[-\\int/);
+  assert.match(d.querySelector('[data-formula-id="CRE-LOGN"] .formula-box').textContent, /x\\sqrt\{2\\pi\\sigma\^\{2\}\}/);
+  assert.equal(d.querySelector('[data-formula-id="CRE-10.11"] .card-title').textContent, 'Reliability, proportional hazards model');
   dom.window.close();
 });

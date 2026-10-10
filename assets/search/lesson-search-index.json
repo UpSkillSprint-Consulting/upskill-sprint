@@ -29473,7 +29473,7 @@
       "id": "quality-engineering--cre-formula-encyclopedia",
       "path": "/lessons/quality-engineering/cre-formula-encyclopedia",
       "title": "Reliability Formula Encyclopedia",
-      "description": "Search the numbered CRE handbook formulas, grouped into the five scored sections from fundamentals through lifecycle reliability.",
+      "description": "Search CRE handbook formulas, numbered and unnumbered, across the five scored sections from fundamentals through lifecycle reliability.",
       "topic": "quality-engineering",
       "level": "advanced",
       "minutes": 35,
@@ -29487,7 +29487,7 @@
         "arrhenius",
         "mtbf",
         "asq cre",
-        "cre formula encyclopedia reliability availability arrhenius mtbf mttr series parallel hazard sample size spare parts quality engineering advanced interactive"
+        "cre formula encyclopedia reliability availability arrhenius mtbf mttr series parallel hazard weibull binomial exponential oee sample size spare parts quality engineering advanced interactive"
       ],
       "placeholder": false,
       "contentAvailable": true,
@@ -29512,7 +29512,7 @@
             "Reliability Formula Encyclopedia",
             "Scope summary"
           ],
-          "text": "Search the numbered equations in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn. They are grouped into the five scored CRE sections. Each card is an original study note, not a copy of the handbook text. I. Fundamentals Life, failure rate, repair, and availability. II. Risk management No numbered equation in Chapters 3 to 5. III. Probability Data, probability, regression, and life functions. IV. Planning and modeling Accelerated tests and reliability models. V. Lifecycle Demonstration, availability, and spare parts. Every numbered equation in that handbook is one card. A worked example that the book does not number is not a separate card. Risk management stays visible because it is a scored section. 0 formulas No formulas match the selected filters.",
+          "text": "Search the numbered equations in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn. They are grouped into the five scored CRE sections. Each card is an original study note, not a copy of the handbook text. I. Fundamentals Life, failure rate, repair, and availability. II. Risk management No numbered equation in Chapters 3 to 5. III. Probability Data, probability, regression, and life functions. IV. Planning and modeling Accelerated tests and reliability models. V. Lifecycle Demonstration, availability, and spare parts. Every numbered equation is one card, and so is each governing formula the handbook displays without a number. A worked numerical substitution is not a separate card. Risk management stays visible because it is a scored section, and Chapters 3 to 5 still have no equation. 0 formulas No formulas match the selected filters.",
           "excerpt": "Search the numbered equations in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn. They are grouped into the five scored CRE sections. Each card is an original study note, not a copy of the handbook text. I. Fundamentals Life,…",
           "kinds": [
             "section",
