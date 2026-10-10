@@ -898,7 +898,7 @@ test('production player uses Set 2, correct pace, eighty-eight exhibits, review 
     submit(w);await tick();
     click(w,'[data-back]');click(w,'[data-set="1"]');click(w,'#tb-overview [data-mode="full"]');
     const first=w.__TB.getFeedbackSnapshot();
-    assert.equal(first.records.length,30);assert.ok(first.records.every(r=>r.question.qid.startsWith('cre:set-1:')));
+    assert.equal(first.records.length,w.CRE_SET1.length,'Set 1 Full Exam serves every released Set 1 question');assert.ok(first.records.every(r=>r.question.qid.startsWith('cre:set-1:')));
     assert.deepEqual(h.errors,[]);
   }finally{h.close();}
 });

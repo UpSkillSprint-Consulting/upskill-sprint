@@ -2571,7 +2571,7 @@
       /* 2025 CRE BoK, five domains weighted 29/25/35/35/26 (ASQ 2025 BoK map). Domain IDs are shared by
          Sets 1–3; registerCRESet2() (test-bank-cre-set2.js) merges Set 2 and sets the CBT pace. Questions keep
          their finer BoK code (e.g. III.A.2) in q.bok. */
-      bank:CRE_SET1,sets:{1:CRE_SET1,3:CRE_SET3},setPlans:{1:{target:150,label:'Batch 3 of 15'}},fullExamQuestionsBySet:{1:150,3:165},
+      bank:CRE_SET1,sets:{1:CRE_SET1,3:CRE_SET3},fullExamQuestionsBySet:{1:150,3:165},
       formatNote:'Set 3 contains 165 original practice questions (Batch 17: Q161–165). Its Full Exam uses all 165.',
       bok:[d('cre-fundamentals',29,[s('cre-fundamentals','I. Reliability Fundamentals','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',29)]),d('cre-risk',25,[s('cre-risk','II. Risk Management','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',25)]),d('cre-statistics',35,[s('cre-statistics','III. Probability and Statistics for Reliability','/lessons/statistics/probability-basics-the-language-of-chance','Probability Basics',35)]),d('cre-testing',35,[s('cre-testing','IV. Reliability Planning, Testing, and Modeling','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',35)]),d('cre-lifecycle',26,[s('cre-lifecycle','V. Lifecycle Reliability','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',26)])]},
     pmp:{badge:'PMP',bc:'#1a5276',body:'PMI Project Management Professional (PMP)',title:'PMP — Exam Simulation',setName:'Set 1',questions:180,minutes:240,pass:70,
@@ -3690,6 +3690,7 @@
   function fullExamCount(e){return Math.min(activeBank(e).length,fullExamTarget(e));}
   function formatNoteFor(e){
     var plan=setPlan(e,selectedSet),available=activeBank(e).length;
+    if(current==='cre'&&selectedSet==='1'&&available>=150)return 'The 150-question Set 1 is complete (Q001–Q150) and follows the five-domain ASQ blueprint. The official computer exam displays 165 questions, including 15 unscored items, in 258 minutes; this practice session uses the same average pace.';
     if(current==='cre'&&selectedSet==='2')return (available>=150?'The 150-question Set 2 core is complete (Q001–150) and follows the five-domain ASQ blueprint. ':'Set 2 currently contains '+available+' of 150 planned original practice questions. This is a partial practice set. ')+'The official computer exam displays 165 questions, including 15 unscored items, in 258 minutes; this practice session uses the same average pace.';
     if(current==='pmp')return 'Set 1 contains all '+available+' original practice questions (Q001-Q180). Sets 2 and 3 are empty and held for later banks. There is no Set 4, 5, or 6. The official PMP exam displays 180 questions in 240 minutes. This sitting serves Set 1 at that same average pace. These items are original. UpSkill Sprint is not affiliated with PMI.';
 
