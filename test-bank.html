@@ -3713,17 +3713,11 @@
     availableSetIds(e).forEach(function(id){if(ids.indexOf(id)<0)ids.push(id);});
     ids.sort(function(a,b){return Number(a)-Number(b);});
     var populated=ids.filter(function(id){return setQuestionCount(e,id)>0;});
-    function sub(setId,count){
-      if(current==='pmp')return String(count);
-      var plan=setPlan(e,setId);return plan?(count+' of '+plan.target+' · '+plan.label):(count+' questions');
-    }
-    function b(v,l,subtext,empty){
-      var plan=setPlan(e,v);
-      var detail=(current==='pmp'&&v!=='mix')?subtext:(empty?(plan&&plan.label?plan.label:'Not yet available'):subtext);
-      return '<button type="button" class="tb-setbtn'+(selectedSet===v&&!empty?' on':'')+'" data-set="'+v+'" aria-pressed="'+(selectedSet===v&&!empty)+'"'+(empty?' disabled':'')+'><span class="tb-setl">'+l+'</span><span class="tb-sets">'+detail+'</span></button>';
+    function b(v,l,count,empty){
+      return '<button type="button" class="tb-setbtn'+(selectedSet===v&&!empty?' on':'')+'" data-set="'+v+'" aria-pressed="'+(selectedSet===v&&!empty)+'"'+(empty?' disabled':'')+'><span class="tb-setl">'+l+'</span><span class="tb-sets">'+count+'</span></button>';
     }
     var pooled=populated.reduce(function(sum,id){return sum+setQuestionCount(e,id);},0);
-    var buttons=ids.map(function(id){var count=setQuestionCount(e,id);return b(id,'Set '+id,sub(id,count),count===0);}).join('')+b('mix','Mixed',pooled+' pooled',populated.length<2);
+    var buttons=ids.map(function(id){var count=setQuestionCount(e,id);return b(id,'Set '+id,count,count===0);}).join('')+b('mix','Mixed',pooled,populated.length<2);
     var note=selectedSet==='mix'?'The Full Exam draws questions from all available sets.':'The Full Exam draws only from '+setLabel()+' questions.';
     var plan=setPlan(e,selectedSet),available=activeBank(e).length,currentFullCount=fullExamCount(e);
     if(plan&&setQuestionCount(e,selectedSet))note+=' This validated release contains '+available+' of '+plan.target+' planned questions.';
@@ -3736,14 +3730,13 @@
     if(plannedSetIds(e).length>1)return plannedSetSelectorHTML(e);
     if(!hasTwoSets(e))return '';
     var n1=e.sets[1].length,n2=e.sets[2].length,n3=e.sets[3]?e.sets[3].length:0;
-    function sub(setId,count){var plan=setPlan(e,setId);return plan?(count+' of '+plan.target+' · '+plan.label):(count+' questions');}
-    function b(v,l,sub){var empty=v!=='mix'&&(!e.sets[v]||!e.sets[v].length);return '<button type="button" class="tb-setbtn'+(selectedSet===v?' on':'')+'" data-set="'+v+'" aria-pressed="'+(selectedSet===v)+'"'+(empty?' disabled':'')+'><span class="tb-setl">'+l+'</span><span class="tb-sets">'+(empty?'Not yet available':sub)+'</span></button>';}
+    function b(v,l,count){var empty=v!=='mix'&&(!e.sets[v]||!e.sets[v].length);return '<button type="button" class="tb-setbtn'+(selectedSet===v?' on':'')+'" data-set="'+v+'" aria-pressed="'+(selectedSet===v)+'"'+(empty?' disabled':'')+'><span class="tb-setl">'+l+'</span><span class="tb-sets">'+count+'</span></button>';}
     var note=selectedSet==='mix'?'The Full Exam draws questions from all available sets.':'The Full Exam draws only from '+setLabel()+' questions.';
     var plan=setPlan(e,selectedSet),available=activeBank(e).length,currentFullCount=fullExamCount(e);
     if(plan)note+=' This validated release contains '+available+' of '+plan.target+' planned questions.';
     return '<div class="tb-setpick"><div class="tb-setpick-lab">Full Exam test set</div>'+
       '<div class="tb-setseg" role="group" aria-label="Choose Full Exam question set">'+
-        b('1','Set 1',sub('1',n1))+b('2','Set 2',sub('2',n2))+(n3?b('3','Set 3',sub('3',n3)):'')+b('mix','Mixed',(n1+n2+n3)+' pooled')+
+        b('1','Set 1',n1)+b('2','Set 2',n2)+(n3?b('3','Set 3',n3):'')+b('mix','Mixed',n1+n2+n3)+
       '</div><p class="tb-setnote">'+note+' A Full Exam currently serves '+currentFullCount+' question'+(currentFullCount===1?'':'s')+'. Quick and Focused quizzes have their own test-set buttons below.</p></div>';
   }
 
