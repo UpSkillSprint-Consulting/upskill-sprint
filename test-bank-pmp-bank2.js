@@ -170,7 +170,7 @@
         "options": [
           [
             "A",
-            "Meet with the director to understand the operational concerns, assess the stakeholder's influence and needs, and update the engagement approach."
+            "Meet with the director to assess operational concerns and influence, then adapt the engagement approach."
           ],
           [
             "B",
@@ -222,7 +222,7 @@
           ],
           [
             "C",
-            "Facilitate a review of user examples and a simple prototype, then help the product owner clarify and order testable backlog items."
+            "Use examples and a prototype to help the product owner clarify and prioritize testable backlog items."
           ],
           [
             "D",
@@ -463,7 +463,7 @@
         "options": [
           [
             "A",
-            "Authorize the logistics lead to activate the agreed response, update the risk information, and monitor the result."
+            "Authorize the logistics lead's agreed response, documenting the activation and monitoring its effect."
           ],
           [
             "B",
@@ -667,7 +667,7 @@
           ],
           [
             "D",
-            "Bring sales and the product owner together to reconcile the customer's expectation with the forecast and agree an accurate update."
+            "Align sales and the product owner on correcting the customer's expectation using the current forecast."
           ]
         ],
         "correct": [
@@ -922,7 +922,7 @@
           ],
           [
             "C",
-            "Keep the feature incomplete, make the unmet quality requirement visible, and return the work to the backlog for consideration."
+            "Keep the unmet quality requirement visible and return the incomplete feature to the backlog for consideration."
           ],
           [
             "D",
@@ -1072,7 +1072,7 @@
           ],
           [
             "D",
-            "Facilitate a discussion with the team and product owner connecting the agreed outcome to the recent results and the purpose of upcoming work."
+            "Discuss the recent results with the team and product owner to reconnect upcoming work with the dealer outcome."
           ]
         ],
         "correct": [
@@ -1108,7 +1108,7 @@
           ],
           [
             "B",
-            "Assign the configuration to the specialist and regression execution to the qualified analyst, coordinating the work within their availability."
+            "Assign configuration to the specialist and regression to the qualified analyst, coordinating their availability."
           ],
           [
             "C",
@@ -1148,7 +1148,7 @@
         "options": [
           [
             "A",
-            "Reestablish respectful discussion, help the developers agree on outcome-based comparison criteria, and use the funded prototype session with both dealer groups."
+            "Restore respectful discussion and agree comparison criteria, then test both designs with both dealer groups in the funded session."
           ],
           [
             "B",
@@ -1200,7 +1200,7 @@
           ],
           [
             "C",
-            "Discuss the setback privately, ask the engineer to work through options and decision limits, and agree on a short follow-up."
+            "Privately coach the engineer through the setback, options, and decision limits, with a short follow-up."
           ],
           [
             "D",
@@ -1343,7 +1343,7 @@
           ],
           [
             "D",
-            "Pair the backups with the specialist on representative exceptions, make the reasoning explicit, and have the backups resolve further cases with feedback."
+            "Have backups practice representative exceptions with the specialist, explaining the reasoning and checking their independent application."
           ]
         ],
         "correct": [
@@ -1375,7 +1375,7 @@
         "options": [
           [
             "A",
-            "Schedule B on Days 1–2 and A on Days 3–5, then coordinate the revised assignments with the affected stakeholders."
+            "Coordinate B on Days 1–2 and A on Days 3–5 within the engineer's availability."
           ],
           [
             "B",
@@ -1423,7 +1423,7 @@
           ],
           [
             "B",
-            "Assess the discontinuation's effect on operating benefits, feasible alternatives, cost, and schedule with the relevant owners, then bring the findings to the sponsor."
+            "Assess the operating and delivery impacts and feasible alternatives with relevant owners before recommending a sponsor decision."
           ],
           [
             "C",
@@ -1605,7 +1605,7 @@
           ],
           [
             "D",
-            "Explore the night-shift tasks and difficulties, assess the effect on intended use, and agree how to evaluate and respond to the feedback."
+            "Investigate the night-shift difficulties and their effect on intended use, then agree how to respond."
           ]
         ],
         "correct": [
@@ -1637,7 +1637,7 @@
         "options": [
           [
             "A",
-            "Keep the unapproved feature out of deployment authorization, assess its full impacts, and obtain the board's decision on including it or restoring the approved configuration."
+            "Withhold deployment of the addition; assess retention and removal impacts for the board's decision."
           ],
           [
             "B",
@@ -1768,7 +1768,7 @@
           ],
           [
             "B",
-            "Facilitate agreement on launch outcomes and prioritization criteria, using each request's consequences and dependencies to make the trade-offs explicit."
+            "Agree launch outcomes and prioritization criteria with stakeholders, examining consequences and dependencies to resolve trade-offs."
           ],
           [
             "C",
@@ -1866,7 +1866,7 @@
           ],
           [
             "C",
-            "Agree on practical feedback arrangements with the night-shift representatives and connect their input to the product owner's refinement decisions."
+            "Agree accessible feedback arrangements with night-shift representatives and involve the product owner in using their input."
           ],
           [
             "D",
@@ -2149,7 +2149,7 @@
           ],
           [
             "C",
-            "Explain what each indicator measures and report the linked readiness forecast, key assumptions, and decisions needed for cutover."
+            "Distinguish local status from integrated readiness, reporting the cutover forecast, assumptions, and decisions needed."
           ],
           [
             "D",
@@ -2184,7 +2184,7 @@
         "options": [
           [
             "A",
-            "Work with branch staff and operations leaders to clarify future decision rights and exception paths, then rehearse representative local situations and gather feedback."
+            "Clarify decision rights and exception paths with branch staff and operations leaders, then rehearse local situations and gather feedback."
           ],
           [
             "B",
@@ -2240,7 +2240,7 @@
           ],
           [
             "D",
-            "Review capacity and delivery problems with the team and product owner, then present sustainable scope and date trade-offs to the sponsor."
+            "Assess capacity with the team and product owner, then present sustainable scope and date alternatives to the sponsor."
           ]
         ],
         "correct": [
@@ -2280,7 +2280,7 @@
           ],
           [
             "C",
-            "Plan Zone 1 in detail and maintain bounded Zone 2 planning packages, with explicit assumptions, interfaces, and a scheduled elaboration point."
+            "Detail Zone 1 and retain bounded Zone 2 planning packages, with interfaces, assumptions, and an elaboration date."
           ],
           [
             "D",
@@ -2366,7 +2366,7 @@
         "options": [
           [
             "A",
-            "Capture the trial's conditions and results, work with the process owner to update applicable planning guidance, and help the other team adapt and monitor the practice."
+            "Share the trial evidence with the process owner and other team to adapt planning guidance and monitor adoption."
           ],
           [
             "B",
@@ -2485,7 +2485,7 @@
           ],
           [
             "D",
-            "Restore the agreed discussion rules and facilitate a respectful review of the work and assumptions behind the estimates."
+            "Restore the discussion rules and examine the required validation work and estimating assumptions together."
           ]
         ],
         "correct": [
@@ -2746,7 +2746,7 @@
           ],
           [
             "B",
-            "Confirm the second unit's calibration status and availability with its custodian, then coordinate a feasible allocation and schedule."
+            "Verify the alternative unit's calibration and availability, then coordinate its allocation and any schedule adjustments."
           ],
           [
             "C",
@@ -2793,7 +2793,7 @@
           ],
           [
             "C",
-            "Present the competing impacts and explored options jointly to the portfolio resource owner for a timely priority decision."
+            "Jointly present the competing impacts and evaluated options to the portfolio resource owner for tomorrow's decision."
           ],
           [
             "D",
@@ -2889,7 +2889,7 @@
           ],
           [
             "D",
-            "Agree a continuity arrangement with customers and the support lead, assign case ownership and cover, and monitor satisfaction."
+            "Agree case ownership and absence cover with customers and the support lead, then monitor satisfaction."
           ]
         ],
         "correct": [
@@ -2963,7 +2963,7 @@
         "options": [
           [
             "A",
-            "Validate the market evidence with recruitment and procurement leads, assess cost and schedule exposure, and recommend any required plan changes."
+            "Validate current recruitment conditions with recruitment and procurement leads, assess exposure, and recommend necessary plan changes."
           ],
           [
             "B",
@@ -3112,7 +3112,7 @@
         "options": [
           [
             "A",
-            "Facilitate a common interpretation of planned work, earned progress, and incurred cost, then agree the evidence needed before treating any amount as available savings."
+            "Reconcile the meaning of planned work, earned progress, and costs together before agreeing whether savings are available."
           ],
           [
             "B",
@@ -3323,7 +3323,7 @@
           ],
           [
             "B",
-            "Confirm the trigger and response with the risk owner, then follow the specified reserve-release and baseline-update steps before committing the response cost."
+            "Confirm the response with the risk owner and obtain reserve release and baseline approval before committing costs."
           ],
           [
             "C",
@@ -3409,7 +3409,7 @@
           ],
           [
             "B",
-            "A shared, current vision of the intended service outcome and financial constraints, with agreement on how trade-offs will support that vision."
+            "A shared vision of the service outcome and budget constraint, providing a common basis for the team's trade-offs."
           ],
           [
             "C",
@@ -3528,7 +3528,7 @@
           ],
           [
             "C",
-            "Assess purchase, integration, operating-cost, and benefit impacts with finance and operations, then submit the substitution for the required change decision."
+            "Evaluate life-cycle and integration impacts with finance and operations, then request the authorized substitution decision."
           ],
           [
             "D",
@@ -3623,7 +3623,7 @@
           ],
           [
             "B",
-            "Facilitate a joint review of the interruption scenario and evidence, calibrate impact to the agreed service objective, and then reassess the rating."
+            "Review the scenario together, calibrate impact against the agreed service objective, and reassess the risk using shared evidence."
           ],
           [
             "C",
@@ -3663,7 +3663,7 @@
         "options": [
           [
             "A",
-            "Represent the shared authorization and both readiness paths in a joint model, validate their dependencies, and reassess the pilot-date forecast."
+            "Model the common authorization and both workstreams jointly, validating dependencies before revising the pilot forecast."
           ],
           [
             "B",
@@ -3909,7 +3909,7 @@
           ],
           [
             "D",
-            "Welcome early concerns without blame, assess them together, and explicitly agree capable owners and support for the selected follow-up actions."
+            "Assess early concerns without blame and agree capable response owners, necessary support, and accountable follow-up with the team."
           ]
         ],
         "correct": [
@@ -4064,7 +4064,7 @@
         "options": [
           [
             "A",
-            "Show the relevant forecast range and assumptions, explain the integration exposure and response, and state when the forecast will be reviewed for the campaign decision."
+            "Report the forecast range, assumptions, integration response, and next review point relevant to the campaign decision."
           ],
           [
             "B",
@@ -4177,7 +4177,7 @@
           ],
           [
             "D",
-          "Review field workflows with users and the product owner, assess the quality–usability trade-off, and agree a response and feedback check."
+          "Investigate field workflows with users and the product owner, agree a quality–usability response, and check its effects."
           ]
         ],
         "correct": [
@@ -4269,7 +4269,7 @@
           ],
           [
             "C",
-            "Present the verified deliverable and evidence to the designated acceptance authority, and assess the additional station through the agreed change process."
+            "Seek the facilities director's acceptance using the verified evidence, and assess the station request through change control."
           ],
           [
             "D",
@@ -4357,7 +4357,7 @@
           ],
           [
             "C",
-          "Work through boundary examples together, document the experienced reviewer's cues, and verify independent classifications against the agreed interpretation."
+          "Discuss boundary examples and decision cues together, then check independent classifications against the agreed interpretation."
           ],
           [
             "D",
@@ -4666,7 +4666,7 @@
           ],
           [
             "C",
-            "Have procurement issue a common requirement clarification to all bidders, protect the proprietary design, and provide an appropriate common response period."
+            "Issue a procurement-led clarification to all bidders, protecting proprietary details and allowing common response time."
           ],
           [
             "D",
@@ -4801,7 +4801,7 @@
           ],
           [
             "B",
-            "Facilitate a shared outcome discussion and agree a common vision and observable success measures within the existing agreement."
+            "Agree the intended outcome and shared success measures with buyer and supplier within the existing agreement."
           ],
           [
             "C",
@@ -4912,7 +4912,7 @@
         "options": [
           [
             "A",
-            "Clarify the authority boundary and route the additional capacity and funding request through the authorized decision process before a supplier commitment is made."
+            "Clarify the spending boundary and obtain the authorized capacity and funding decision before the supplier proceeds."
           ],
           [
             "B",
@@ -4970,7 +4970,7 @@
           ],
           [
             "D",
-            "Bring the parties and authorized procurement representative together to examine the dated records and obligations, negotiate the issue, and continue undisputed work as agreed."
+            "Jointly examine records with procurement, negotiate under the agreement, and continue undisputed work."
           ]
         ],
         "correct": [
@@ -5011,7 +5011,7 @@
           ],
           [
             "C",
-            "Assess usage and value impacts with the product owner and sponsor, compare feasible responses before renewal, and route any resulting investment or backlog changes through the appropriate decisions."
+            "Assess renewal impacts and alternatives with the product owner and sponsor, then seek appropriate investment or backlog decisions."
           ],
           [
             "D",
@@ -5048,7 +5048,7 @@
         "options": [
           [
             "A",
-            "Evaluate both routes in an integrated plan, including data-cleansing ownership, total costs and testing capacity; the earlier supplier handoff alone does not advance the stated release window."
+            "Assess both routes' total costs, cleansing responsibilities, and shared testing constraint before committing to a release forecast."
           ],
           [
             "B",
@@ -5143,7 +5143,7 @@
         "options": [
           [
             "A",
-            "Report the forecast approval delay and its launch impact using the agreed status criteria, including the assumptions, recovery options, and decision needed."
+            "Report the approval delay against the readiness criteria, explaining launch implications, recovery options, and the decision required."
           ],
           [
             "B",
@@ -5276,7 +5276,7 @@
           ],
           [
             "D",
-            "Restore respectful discussion, invite the tester to explain the evidence, and reinforce the team’s expectation that concerns can be raised without ridicule."
+            "Restore respectful discussion and invite the tester's evidence, reinforcing that team members can raise concerns without ridicule."
           ]
         ],
         "correct": [
@@ -5436,7 +5436,7 @@
           ],
           [
             "B",
-            "Bring the reviewer and information owner together to agree a sufficient evidence route within the protocol, such as de-identified records supported by the designated internal review."
+            "Agree sufficient evidence within the protocol with the reviewer and information owner, using the permitted review routes."
           ],
           [
             "C",
@@ -5485,7 +5485,7 @@
           ],
           [
             "C",
-            "Only $15,000 remains within the released authority; seek authorization for at least $7,000 more before committing the full package."
+            "Only $15,000 of released authority remains; obtain at least $7,000 additional authorization before committing the package."
           ],
           [
             "D",
@@ -5535,7 +5535,7 @@
           ],
           [
             "D",
-            "Record and communicate the testing impact, route the request to the authorized delegate under the escalation rule, and follow up until the blockage is resolved."
+            "Escalate the testing impact to the authorized delegate now and track the decision until resolved."
           ]
         ],
         "correct": [
@@ -5575,7 +5575,7 @@
           ],
           [
             "C",
-            "Plan and perform the authorized closure: settle or transfer obligations through the proper owners, record the termination and results, archive required records, and transfer retained designs."
+            "Complete controlled closure, settling or transferring obligations through authorized owners and preserving retained designs and required records."
           ],
           [
             "D",
@@ -5682,7 +5682,7 @@
         "options": [
           [
             "A",
-            "Arrange accessible, task-based feedback with representative remote operators before the design decision, using their shift availability and operating conditions."
+            "Gather task-based feedback from representative remote operators before design freeze, accommodating their shifts and connectivity."
           ],
           [
             "B",
@@ -5791,7 +5791,7 @@
           ],
           [
             "D",
-            "Discuss the lesson with the pilot team, capture its context and evidence, and assess whether it applies to the rollout."
+            "Recover the pilot lesson's context and evidence through discussion, then assess its applicability to this rollout."
           ]
         ],
         "correct": [
@@ -5827,7 +5827,7 @@
           ],
           [
             "B",
-            "Model the feedback incorporation and verification work with its resources and dependencies, assess the milestone impact, and route any required baseline change through the agreed process."
+            "Integrate feedback and drawing verification into the schedule, assess impacts, and seek any required baseline approval."
           ],
           [
             "C",
@@ -5983,7 +5983,7 @@
           ],
           [
             "B",
-            "Reconnect the team and key stakeholders to the revised purpose, translating it into shared outcome measures and practical decision criteria."
+            "Translate the revised purpose into shared outcome measures and design criteria with the team and stakeholders."
           ],
           [
             "C",
@@ -6083,7 +6083,7 @@
           ],
           [
             "C",
-            "Present the evidence and applicability limits to the process owner, coordinate an authorized template update, and establish follow-up checks on its use and effects."
+            "Present the evidence and limitations to the process owner, obtain an authorized template update, and monitor its effects."
           ],
           [
             "D",
@@ -6138,7 +6138,7 @@
           ],
           [
             "D",
-            "Bring the size-critical prototype test before the fabrication decision, agree the physical interface and acceptance evidence jointly, and keep independent software details iterative."
+            "Test the size-critical prototype in week 3 and jointly agree the physical interface and evidence, keeping independent details iterative."
           ]
         ],
         "correct": [
@@ -6176,7 +6176,7 @@
           ],
           [
             "B",
-            "Facilitate agreement on the handover conditions and responsibilities using the actual inspection needs, then document the agreed boundary."
+            "Agree and document inspection-ready handover conditions and responsibilities with both leads."
           ],
           [
             "C",
@@ -6262,7 +6262,7 @@
         "options": [
           [
             "A",
-            "Clarify the complete connection requirement with both projects and the accountable sponsor, assign its scope ownership, and assess the required plan and approval changes."
+            "Agree connection scope and ownership across both projects with the sponsor, then assess and authorize plan changes."
           ],
           [
             "B",
@@ -6372,7 +6372,7 @@
           ],
           [
             "D",
-            "Explain that the point totals are not directly comparable and report shared release outcomes, integration evidence, and dependencies alongside each team’s own trend."
+            "Explain the incompatible point scales and report shared outcomes and integration dependencies alongside each team's own trend."
           ]
         ],
         "correct": [
@@ -6414,7 +6414,7 @@
           ],
           [
             "C",
-            "Restore the team’s delegated method decisions, agree useful progress and exception checks, and provide support when needed."
+            "Restore delegated method decisions, agreeing progress and exception checks and offering support as needed."
           ],
           [
             "D",
@@ -6591,7 +6591,7 @@
         "options": [
           [
             "A",
-            "Verify and process the accepted equipment amount under the agreement, keep the unaccepted configuration amount subject to its acceptance condition, and agree corrective work and verification."
+            "Process the accepted equipment payment; retain configuration's acceptance condition and coordinate corrective work with verification."
           ],
           [
             "B",
@@ -6687,7 +6687,7 @@
       "options": [
         [
           "A",
-          "Meet the affected supervisors, compare their concerns with the source notes, and agree how corrected concerns and their responses will stay visible."
+          "Review the source notes with affected supervisors and agree a visible record of their concerns and responses."
         ],
         [
           "B",
@@ -6907,7 +6907,7 @@
         ],
         [
           "B",
-          "Prevent implementation, return the change to the authorized decision body, and correct the workflow so recommendations cannot bypass approval authority."
+          "Block implementation, restore the authorized approval process, and correct the automation's decision boundary."
         ],
         [
           "C",
@@ -6956,7 +6956,7 @@
         ],
         [
           "C",
-          "The overall increase does not establish improvement: both category rates fell, so investigate and compare performance with a consistent request mix before expanding."
+          "Both category rates fell; investigate the changed mix and compare like-for-like quality before deciding on expansion."
         ],
         [
           "D",
@@ -7146,7 +7146,7 @@
         ],
         [
           "D",
-          "Record and assess the potential unequal-impact risk with relevant experts and affected stakeholders, investigate the data and outcomes, and agree safeguards and release criteria."
+          "Investigate potential unequal impacts with experts and affected stakeholders, then establish safeguards and release criteria."
         ]
       ],
       "correct": [
@@ -7189,7 +7189,7 @@
         ],
         [
           "B",
-          "Work with the sponsor and operations to establish comparable baseline conditions, outcome measures, a benefits owner, and a measurement schedule."
+          "Agree comparable baselines, outcome measures, benefit ownership, and measurement timing with the sponsor and operations."
         ],
         [
           "C",
@@ -7242,7 +7242,7 @@
         ],
         [
           "D",
-          "Include the affected groups in the stakeholder analysis, understand their concerns, and assess route and timing alternatives before the decision."
+          "Engage the overlooked groups and assess their concerns when comparing route and timing alternatives."
         ]
       ],
       "correct": [
@@ -7326,7 +7326,7 @@
       "options": [
         [
           "A",
-          "Update the remaining costs, benefits, and alternatives with the loss of the incentive and take a recommendation to the sponsor before the commitment."
+          "Reassess remaining value and alternatives without the incentive, then recommend a sponsor decision before committing."
         ],
         [
           "B",
@@ -7379,7 +7379,7 @@
         ],
         [
           "C",
-          "Efficient, at $180,000, because it has the lowest total present-value cost among packages meeting the emissions limit."
+          "Efficient: $180,000, the lowest five-year present-value cost among packages within the emissions limit."
         ],
         [
           "D",
@@ -7453,7 +7453,7 @@
         ],
         [
           "D",
-          "Bring the teams together to connect both outcomes to a shared project vision and explain how their work contributes to it."
+          "Reconnect both teams to the approved shared vision and explain how their outcomes contribute to it."
         ]
       ],
       "correct": [
@@ -7541,7 +7541,7 @@
         ],
         [
           "B",
-          "Review the affected users’ experience with their representatives and the product owner, adapt support through the backlog, and monitor whether access recovers."
+          "Investigate with users and the product owner, adapt support through the backlog, and monitor access."
         ],
         [
           "C",
@@ -7590,7 +7590,7 @@
         ],
         [
           "C",
-          "Energy per unit fell by 20%, while total energy use rose by 20%; the figures alone do not isolate the project’s contribution."
+          "Energy intensity fell 20%; total use rose 20%. These observations do not establish project attribution."
         ],
         [
           "D",
@@ -7628,7 +7628,7 @@
       "options": [
         [
           "A",
-          "Resolve and verify the missing monitoring resources through the authorized handover process, then close when the stated conditions are met and track benefits in operations."
+          "Secure and verify monitoring resources, then close under the stated conditions with benefits tracked in operations."
         ],
         [
           "B",
@@ -7675,7 +7675,7 @@
       "difficulty": "Very challenging",
       "format": "single",
       "caseId": null,
-      "stem": "A hybrid project must complete a planned equipment installation before an iterative software trial. The site’s shared lifting equipment has become unavailable. The project manager can authorize resequencing that preserves safety and approved scope, but only the portfolio director can allocate a replacement shared crane. A safe resequencing option preserves two days of work; the replacement must be confirmed within one day to protect the installation window. The director’s normal review is in four days. What should the project manager do?",
+      "stem": "A hybrid project must complete a planned equipment installation before an iterative software trial. The site’s shared lifting equipment has become unavailable. The project manager can authorize resequencing that preserves safety and approved scope, but only the portfolio director can allocate a replacement shared crane. A safe resequencing option preserves two days of work; the replacement must be confirmed within one day to protect the installation window. The director’s normal review is in four days, but the governance plan permits urgent requests between reviews. What should the project manager do?",
       "options": [
         [
           "A",
@@ -7687,7 +7687,7 @@
         ],
         [
           "C",
-          "Start the authorized resequencing and escalate the crane decision now through the urgent route with impact, options, and the one-day decision deadline."
+          "Start authorized resequencing and seek the urgent crane decision with impact, options, and the one-day deadline."
         ],
         [
           "D",
@@ -7728,7 +7728,7 @@
         ],
         [
           "B",
-          "Facilitate a discussion of the actual test dependencies, time needs, and shared release objective to agree a workable allocation."
+          "Discuss dependencies, test durations, and the shared release objective with both teams to agree allocation."
         ],
         [
           "C",
@@ -7921,11 +7921,11 @@
       "difficulty": "Challenging",
       "format": "single",
       "caseId": null,
-      "stem": "An agile team has six completed changes waiting for security review after an external review service becomes unavailable. The team’s agreement limits this queue to three. Two developers are qualified to perform the required review independently of the changes they authored, and the product owner can defer starting new features. What should the project manager support?",
+      "stem": "An agile team has six changes with coding complete awaiting security review after an external review service becomes unavailable. The team’s agreement limits this queue to three. Two developers are qualified to perform the required review independently of the changes they authored, and the product owner can defer starting new features. What should the project manager support?",
       "options": [
         [
           "A",
-          "Work with the team and product owner to reduce new starts and temporarily direct qualified capacity to independent reviews of the waiting changes."
+          "Help the team reduce new starts and allocate qualified, independent reviewers to waiting changes."
         ],
         [
           "B",
@@ -7977,7 +7977,7 @@
         ],
         [
           "C",
-          "Coordinate the required notice with procurement, assess delivery impact, and verify the alternative’s suitability and availability for an authorized decision."
+          "Coordinate the contractual notice with procurement while evaluating delivery impacts and verifying the alternative."
         ],
         [
           "D",
@@ -8098,7 +8098,7 @@
         ],
         [
           "D",
-          "Explain the impact and uncertainty, validate the temporary option with the team, and agree an evidence-based revised commitment and follow-up with the customer."
+          "Explain the uncertainty, verify the temporary option, and agree a realistic customer commitment and follow-up."
         ]
       ],
       "correct": [
@@ -8135,7 +8135,7 @@
         ],
         [
           "B",
-          "Show the approved baseline, the current forecast and variance, and the conditional recovery scenario with its assumptions and required funding decision."
+          "Distinguish the baseline and current forecast from the conditional recovery date and its funding decision."
         ],
         [
           "C",
@@ -8182,7 +8182,7 @@
       "options": [
         [
           "A",
-          "Pair the developer with operations staff for realistic recovery exercises, discuss the decision cues, and have operations demonstrate the response."
+          "Pair operations with the developer on recovery exercises, discuss cues, and verify independent performance."
         ],
         [
           "B",
@@ -8234,7 +8234,7 @@
         ],
         [
           "C",
-          "Initiate the approved rollback and replan the cutover because the correction cannot be verified before the latest safe rollback decision."
+          "Begin approved rollback and replan; the correction cannot be verified before the safe rollback deadline."
         ],
         [
           "D",
@@ -8276,7 +8276,7 @@
         ],
         [
           "B",
-          "Complete formal closure under the agreed procedure and record the continuing warranty responsibilities and support route in the handover."
+          "Close under the agreed procedure, preserving the warranty owners, obligations, and support route in the handover."
         ],
         [
           "C",
@@ -8329,7 +8329,7 @@
         ],
         [
           "D",
-          "Confirm the custodian, required access and retention controls, and successful retrieval before retiring the workspace."
+          "Verify custodianship, retention, authorized access, and retrieval before retiring the original workspace."
         ]
       ],
       "correct": [
@@ -8417,7 +8417,7 @@
         ],
         [
           "B",
-          "Use the feedback to prioritize a coordinated trial of the agreed queue-based working practice with supervisors and users, then measure adoption and the intended outcome."
+          "Trial the queue-based practice with supervisors and users, measuring adoption and the intended outcome."
         ],
         [
           "C",
@@ -8458,7 +8458,7 @@
       "options": [
         [
           "A",
-          "Recognize contributions, provide useful performance feedback, and coordinate clear transition information with the functional managers."
+          "Recognize contributions, provide performance feedback, and coordinate assignment information with functional managers."
         ],
         [
           "B",
@@ -8715,7 +8715,7 @@
         ],
         [
           "D",
-          "The five-week plan requires both accelerations at $35,000; seek authorization for the extra $5,000 or agreement on a later finish before committing."
+          "Both accelerations cost $35,000; obtain another $5,000 or agree a later finish before committing."
         ]
       ],
       "correct": [
@@ -8785,7 +8785,7 @@
         ],
         [
           "B",
-          "Re-establish the shared vision around the agreed urgent-case outcome and connect backlog decisions to it."
+          "Align the team's vision and backlog decisions with the agreed urgent-case outcome."
         ],
         [
           "C",
@@ -8930,7 +8930,7 @@
         ],
         [
           "C",
-          "Engage the regional team to assess workload and service impacts, then include those findings in the recovery decision."
+          "Assess workload and service impacts with the regional team before deciding on recovery."
         ],
         [
           "D",
@@ -8971,7 +8971,7 @@
         ],
         [
           "B",
-          "Distinguish the failure to meet the agreed cancellation requirement from the new bulk feature, then assess correction and prioritize the proposed addition transparently."
+          "Separate correction of the agreed requirement from the proposed bulk feature, then evaluate and prioritize them transparently."
         ],
         [
           "C",
@@ -9073,7 +9073,7 @@
         ],
         [
           "D",
-          "Review the unmet expectation with customers and the responsible service team, agree corrective action, and track time to a useful response."
+          "Agree corrective action with customers and the service team, measuring time to useful guidance."
         ]
       ],
       "correct": [
@@ -9114,7 +9114,7 @@
         ],
         [
           "C",
-          "Assign and coordinate restoration of test access today, then verify readiness while tracking the other items appropriately."
+          "Restore test access today and verify readiness, while tracking the controlled defect and future risk."
         ],
         [
           "D",
@@ -9151,7 +9151,7 @@
       "options": [
         [
           "A",
-          "The focused release, with $30,000 forecast incremental net value compared with $10,000 for the broader release, followed by monitoring of the benefit assumptions."
+          "Recommend the focused release: $30,000 incremental net value versus $10,000, with benefit assumptions monitored."
         ],
         [
           "B",

@@ -47,7 +47,7 @@ A predictive equipment project will freeze its operator-panel design in three we
 
 Select ONE answer.
 
-- **A.** Arrange accessible, task-based feedback with representative remote operators before the design decision, using their shift availability and operating conditions.
+- **A.** Gather task-based feedback from representative remote operators before design freeze, accommodating their shifts and connectivity.
 - **B.** Treat the trainers’ approval as representative because they are more available and understand the training material.
 - **C.** Wait until installation to ask remote operators for feedback so the planned design freeze is not disturbed.
 - **D.** Send the same invitation again and record nonattendance as agreement with the proposed design.
@@ -104,7 +104,7 @@ Select ONE answer.
 - **A.** Apply the recommendation unchanged because publication in the repository establishes universal applicability.
 - **B.** Ignore the repository and recreate every part of the pilot because written lessons cannot be useful.
 - **C.** Ask only for the final checklist file and assume its intended use will be clear from its format.
-- **D.** Discuss the lesson with the pilot team, capture its context and evidence, and assess whether it applies to the rollout.
+- **D.** Recover the pilot lesson's context and evidence through discussion, then assess its applicability to this rollout.
 
 #### Answer and explanation
 
@@ -128,7 +128,7 @@ A predictive fabrication project’s schedule shows a customer mock-up review on
 Select ONE answer.
 
 - **A.** Keep Monday’s fabrication start because holding the review satisfies the schedule milestone.
-- **B.** Model the feedback incorporation and verification work with its resources and dependencies, assess the milestone impact, and route any required baseline change through the agreed process.
+- **B.** Integrate feedback and drawing verification into the schedule, assess impacts, and seek any required baseline approval.
 - **C.** Start fabrication from the current drawings and apply the customer’s interface decisions after the affected parts have been made.
 - **D.** Move the review to the project closing phase so the fabrication baseline remains achievable.
 
@@ -212,7 +212,7 @@ A predictive public-service project’s sponsor has formally approved a revised 
 Select ONE answer.
 
 - **A.** Continue using the former objective until all detailed designs have been completed, to avoid confusing the team.
-- **B.** Reconnect the team and key stakeholders to the revised purpose, translating it into shared outcome measures and practical decision criteria.
+- **B.** Translate the revised purpose into shared outcome measures and design criteria with the team and stakeholders.
 - **C.** Ask each department to create its own interpretation of success and reconcile them only at final acceptance.
 - **D.** Treat the revised charter’s distribution as sufficient evidence that the team has adopted the new objective.
 
@@ -267,7 +267,7 @@ Select ONE answer.
 
 - **A.** Leave the finding in the team’s retrospective notes because organizational templates should change only after every project is closed.
 - **B.** Instruct every project to stop following the standard immediately, without consulting its owner or explaining the tested conditions.
-- **C.** Present the evidence and applicability limits to the process owner, coordinate an authorized template update, and establish follow-up checks on its use and effects.
+- **C.** Present the evidence and limitations to the process owner, obtain an authorized template update, and monitor its effects.
 - **D.** Delete the old records and circulate only the successful result so future teams will not question the improvement.
 
 #### Answer and explanation

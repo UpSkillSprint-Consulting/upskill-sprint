@@ -60,7 +60,7 @@ The two leads argue that the other's impact rating is wrong and ask the project 
 Select ONE answer.
 
 - **A.** Use the application lead's high rating because choosing the most conservative opinion is the most reliable way to resolve risk disputes.
-- **B.** Facilitate a joint review of the interruption scenario and evidence, calibrate impact to the agreed service objective, and then reassess the rating.
+- **B.** Review the scenario together, calibrate impact against the agreed service objective, and reassess the risk using shared evidence.
 - **C.** Average the two ratings and document that compromise as the team's agreed impact assessment.
 - **D.** Ask each lead to retain a separate rating and let the sponsor choose whichever rating supports the preferred pilot date.
 
@@ -85,7 +85,7 @@ The sponsor wants to use the analyst's 81% combined-readiness figure to authoriz
 
 Select ONE answer.
 
-- **A.** Represent the shared authorization and both readiness paths in a joint model, validate their dependencies, and reassess the pilot-date forecast.
+- **A.** Model the common authorization and both workstreams jointly, validating dependencies before revising the pilot forecast.
 - **B.** Accept 81% because multiplying two readiness probabilities always gives the probability that both workstreams will be ready.
 - **C.** Replace 81% with 90% because a shared authorization makes all remaining workstream uncertainty identical.
 - **D.** Increase the number of trials in the two separate models and keep multiplying their marginal readiness percentages.
@@ -208,7 +208,7 @@ Select ONE answer.
 - **A.** Require each person to submit two new risks per iteration and compare individual submission counts.
 - **B.** Allow concerns only after the person raising them has produced a fully costed response.
 - **C.** Assign all risk responses to the team leader so that team members no longer need to own any follow-up.
-- **D.** Welcome early concerns without blame, assess them together, and explicitly agree capable owners and support for the selected follow-up actions.
+- **D.** Assess early concerns without blame and agree capable response owners, necessary support, and accountable follow-up with the team.
 
 #### Answer and explanation
 
@@ -292,7 +292,7 @@ An agile project's sponsor needs to decide whether to book a launch campaign. Th
 
 Select ONE answer.
 
-- **A.** Show the relevant forecast range and assumptions, explain the integration exposure and response, and state when the forecast will be reviewed for the campaign decision.
+- **A.** Report the forecast range, assumptions, integration response, and next review point relevant to the campaign decision.
 - **B.** Keep the green milestone and put the uncertainty only in the technical risk register, which the sponsor can request.
 - **C.** Replace the most likely date with the latest modeled date and describe that date as guaranteed.
 - **D.** Send all model outputs without interpretation so the sponsor can independently infer which uncertainty affects the campaign.

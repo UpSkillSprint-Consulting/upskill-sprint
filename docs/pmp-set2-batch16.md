@@ -12,13 +12,13 @@ Ten original practice questions on issues, escalation, and external disruption. 
 
 Business Environment Task 4 · Hybrid · Very challenging · single
 
-A hybrid project must complete a planned equipment installation before an iterative software trial. The site’s shared lifting equipment has become unavailable. The project manager can authorize resequencing that preserves safety and approved scope, but only the portfolio director can allocate a replacement shared crane. A safe resequencing option preserves two days of work; the replacement must be confirmed within one day to protect the installation window. The director’s normal review is in four days. What should the project manager do?
+A hybrid project must complete a planned equipment installation before an iterative software trial. The site’s shared lifting equipment has become unavailable. The project manager can authorize resequencing that preserves safety and approved scope, but only the portfolio director can allocate a replacement shared crane. A safe resequencing option preserves two days of work; the replacement must be confirmed within one day to protect the installation window. The director’s normal review is in four days, but the governance plan permits urgent requests between reviews. What should the project manager do?
 
 Select ONE answer.
 
 - **A.** Use the two-day resequencing option and wait for the normal portfolio review before requesting the replacement.
 - **B.** Promise the replacement crane to the installation team now and obtain the director’s approval after the work is protected.
-- **C.** Start the authorized resequencing and escalate the crane decision now through the urgent route with impact, options, and the one-day decision deadline.
+- **C.** Start authorized resequencing and seek the urgent crane decision with impact, options, and the one-day deadline.
 - **D.** Suspend all project work until the director has decided which equipment to allocate.
 
 #### Answer and explanation
@@ -43,7 +43,7 @@ Two agile teams share an integration environment. After an external service outa
 Select ONE answer.
 
 - **A.** Give the environment to the team with the higher velocity because it will probably finish more work.
-- **B.** Facilitate a discussion of the actual test dependencies, time needs, and shared release objective to agree a workable allocation.
+- **B.** Discuss dependencies, test durations, and the shared release objective with both teams to agree allocation.
 - **C.** Tell both teams to keep their reservations and let the environment administrator choose at the start time.
 - **D.** Escalate the personalities involved to their functional managers before examining the scheduling conflict.
 
@@ -149,11 +149,11 @@ Select TWO answers.
 
 Process Task 4 · Agile · Challenging · single
 
-An agile team has six completed changes waiting for security review after an external review service becomes unavailable. The team’s agreement limits this queue to three. Two developers are qualified to perform the required review independently of the changes they authored, and the product owner can defer starting new features. What should the project manager support?
+An agile team has six changes with coding complete awaiting security review after an external review service becomes unavailable. The team’s agreement limits this queue to three. Two developers are qualified to perform the required review independently of the changes they authored, and the product owner can defer starting new features. What should the project manager support?
 
 Select ONE answer.
 
-- **A.** Work with the team and product owner to reduce new starts and temporarily direct qualified capacity to independent reviews of the waiting changes.
+- **A.** Help the team reduce new starts and allocate qualified, independent reviewers to waiting changes.
 - **B.** Start additional features so every developer remains fully utilized while the review queue waits.
 - **C.** Remove the review requirement until the external service returns so the queue falls immediately.
 - **D.** Assign every developer to review their own changes because that avoids coordination time.
@@ -181,7 +181,7 @@ Select ONE answer.
 
 - **A.** Order the alternative immediately and assume the missed date voids the original contract.
 - **B.** Wait until the original supplier volunteers a firm date before informing procurement.
-- **C.** Coordinate the required notice with procurement, assess delivery impact, and verify the alternative’s suitability and availability for an authorized decision.
+- **C.** Coordinate the contractual notice with procurement while evaluating delivery impacts and verifying the alternative.
 - **D.** Tell the original supplier that it must pay any alternative-supplier price, regardless of the contract terms.
 
 #### Answer and explanation
@@ -241,7 +241,7 @@ Select ONE answer.
 - **A.** Promise the temporary configuration for the event to maintain confidence, then ask the team to make it work.
 - **B.** Tell the customer the original commitment remains unchanged until the temporary configuration fails testing.
 - **C.** Announce that all customer outcomes must move to the new hardware date without considering the stated minimum capability.
-- **D.** Explain the impact and uncertainty, validate the temporary option with the team, and agree an evidence-based revised commitment and follow-up with the customer.
+- **D.** Explain the uncertainty, verify the temporary option, and agree a realistic customer commitment and follow-up.
 
 #### Answer and explanation
 
@@ -265,7 +265,7 @@ A predictive project’s approved finish baseline is 30 November. A supply inter
 Select ONE answer.
 
 - **A.** Show 5 December as the committed finish because reporting a recovery target encourages the team to achieve it.
-- **B.** Show the approved baseline, the current forecast and variance, and the conditional recovery scenario with its assumptions and required funding decision.
+- **B.** Distinguish the baseline and current forecast from the conditional recovery date and its funding decision.
 - **C.** Replace the baseline with 12 December so the report no longer shows an unfavorable variance.
 - **D.** Report only the completed work percentage until the recovery funding decision is made.
 

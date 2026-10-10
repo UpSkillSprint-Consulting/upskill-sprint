@@ -196,20 +196,34 @@ test('production player serves 180 Set 2 questions, keeps Set 1 intact, navigate
   } finally {p.close();}
 });
 
-test('untimed reveal locks interactive inputs and records a correct prior response as incorrect', async () => {
+test('all 180 untimed reveals show rationales once, lock responses, and count as incorrect', async () => {
   const p=await player();
   try{
     click(p.doc,'[data-exam="pmp"]');click(p.doc,'[data-set="2"]');
     click(p.doc,'[data-timing-kind="full"][data-timed="0"]');
     click(p.doc,'[data-mode="full"]');
     assert.ok(p.doc.querySelector('[data-reveal]'),'untimed mode exposes reveal');
-    const q=go(p,8);answer(p,q);
-    click(p.doc,'[data-reveal]');
-    assert.ok([...p.doc.querySelectorAll('.pmp2-answers select')].every(el=>el.disabled));
-    assert.match(p.doc.querySelector('#tb-revealed-answer').textContent,/1 → E; 2 → B; 3 → D; 4 → A/);
+    for(const record of p.w.__TB.getFeedbackSnapshot().records){
+      const q=go(p,record.question.n);answer(p,q);
+      click(p.doc,'[data-reveal]');
+      const reveal=p.doc.querySelector('#tb-revealed-answer');
+      assert.equal(reveal.querySelectorAll('.tb-review-rationales').length,1,'Q'+q.n+' has exactly one rationale group');
+      const entries=[...reveal.querySelectorAll('.tb-review-rationales p')];
+      assert.equal(entries.length,q.choices.length,'Q'+q.n+' covers every authored response');
+      q.choices.forEach(([key],i)=>assert.equal(entries[i].textContent,key+'. '+q.rationales[key].replace(/\*\*([^*]+)\*\*/g,'$1')));
+      assert.ok([...p.doc.querySelectorAll('[data-opt],.pmp2-answers input,.pmp2-answers select,.pmp2-answers button')].every(el=>el.disabled),'Q'+q.n+' locks all response controls');
+    }
+    const presentation=p.w.__TBFeedbackPresentation;
+    p.w.__TBFeedbackPresentation=null;
+    go(p,8);
+    assert.equal(p.doc.querySelectorAll('#tb-revealed-answer .tb-review-rationales').length,1,'fallback retains exactly one rationale group');
+    p.w.__TBFeedbackPresentation=presentation;
     click(p.doc,'[data-goto="179"]');click(p.doc,'[data-submit]');await tick();
     assert.equal(p.doc.querySelector('[data-score-result]').dataset.scorePercent,'0');
-    assert.equal(p.w.__TB.getFeedbackSnapshot().records.find(r=>r.question.n===8).revealed,true);
+    assert.ok(p.w.__TB.getFeedbackSnapshot().records.every(r=>r.revealed));
+    click(p.doc,'[data-open-review="all"]');
+    assert.equal(p.doc.querySelectorAll('.tb-review-card').length,180);
+    p.doc.querySelectorAll('.tb-review-card').forEach(card=>assert.equal(card.querySelectorAll('.tb-review-rationales').length,1));
     assert.deepEqual(p.errors,[]);
   }finally{p.close();}
 });

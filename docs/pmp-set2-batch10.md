@@ -61,7 +61,7 @@ Select ONE answer.
 
 **A.** Send the technical answer only to the bidder that identified the ambiguity, so its initiative is rewarded.
 **B.** Circulate the complete question and proprietary sketch to all bidders to provide identical information.
-**C.** Have procurement issue a common requirement clarification to all bidders, protect the proprietary design, and provide an appropriate common response period.
+**C.** Issue a procurement-led clarification to all bidders, protecting proprietary details and allowing common response time.
 **D.** Wait until after the deadline and interpret each proposal against the clarified requirement without reopening communication.
 
 #### Answer and explanation
@@ -140,7 +140,7 @@ An agile supplier team celebrates completed features, while the buyer’s operat
 Select ONE answer.
 
 **A.** Increase the supplier’s feature target so that a larger output will establish the intended benefit.
-**B.** Facilitate a shared outcome discussion and agree a common vision and observable success measures within the existing agreement.
+**B.** Agree the intended outcome and shared success measures with buyer and supplier within the existing agreement.
 **C.** Replace the agreed payment model with a benefits-only arrangement at the next team meeting.
 **D.** Ask operations to stop discussing outcomes until the supplier has finished all planned features.
 
@@ -198,7 +198,7 @@ An agile supplier agreement allows the product owner to exchange backlog items w
 
 Select ONE answer.
 
-**A.** Clarify the authority boundary and route the additional capacity and funding request through the authorized decision process before a supplier commitment is made.
+**A.** Clarify the spending boundary and obtain the authorized capacity and funding decision before the supplier proceeds.
 **B.** Treat the promise as authorized because backlog ownership includes all supplier spending needed to deliver the backlog.
 **C.** Ask the supplier to start the extra specialists and offset the invoice by removing backlog items later.
 **D.** Prohibit further backlog exchanges until every future iteration has a fixed scope.
@@ -227,7 +227,7 @@ Select ONE answer.
 **A.** Reject the supplier’s claim because the buyer team believes the information was available.
 **B.** Accept the supplier’s requested extension immediately to protect the relationship.
 **C.** Stop all supplier work until the disagreement has been resolved through the final escalation level.
-**D.** Bring the parties and authorized procurement representative together to examine the dated records and obligations, negotiate the issue, and continue undisputed work as agreed.
+**D.** Jointly examine records with procurement, negotiate under the agreement, and continue undisputed work.
 
 #### Answer and explanation
 
@@ -252,7 +252,7 @@ Select ONE answer.
 
 **A.** Report a current contract breach and demand that the provider retain the existing price indefinitely.
 **B.** Wait until the first renewal invoice arrives so that the team can work with actual rather than forecast costs.
-**C.** Assess usage and value impacts with the product owner and sponsor, compare feasible responses before renewal, and route any resulting investment or backlog changes through the appropriate decisions.
+**C.** Assess renewal impacts and alternatives with the product owner and sponsor, then seek appropriate investment or backlog decisions.
 **D.** Remove every high-transaction feature immediately without assessing its customer value or contractual alternatives.
 
 #### Answer and explanation
@@ -276,7 +276,7 @@ A hybrid project must release an integrated service at the end of week 8. A supp
 
 Select ONE answer.
 
-**A.** Evaluate both routes in an integrated plan, including data-cleansing ownership, total costs and testing capacity; the earlier supplier handoff alone does not advance the stated release window.
+**A.** Assess both routes' total costs, cleansing responsibilities, and shared testing constraint before committing to a release forecast.
 **B.** Buy immediately because the supplier’s week-4 handoff guarantees a release two weeks earlier than an internal build.
 **C.** Choose the internal build immediately because equal test-team availability proves it must have the lower total cost.
 **D.** Accept the supplier offer and remove internal testing from the plan because earlier delivery provides sufficient schedule assurance.

@@ -42,7 +42,7 @@ A predictive project’s approved dashboard reports forecast readiness for its l
 
 Select ONE answer.
 
-- **A.** Report the forecast approval delay and its launch impact using the agreed status criteria, including the assumptions, recovery options, and decision needed.
+- **A.** Report the approval delay against the readiness criteria, explaining launch implications, recovery options, and the decision required.
 - **B.** Keep the overall status green and mention the approval only in a separate file that dashboard recipients are not expected to read.
 - **C.** Remove the approval from the dashboard until its actual decision date is known.
 - **D.** Delay the report until a recovery option has been approved so that no unresolved concern is communicated.
@@ -104,7 +104,7 @@ Select ONE answer.
 - **A.** Ask the tester to withdraw the concern unless they can immediately prove the decision was wrong.
 - **B.** End the retrospective and send the entire matter to the sponsor before hearing the concern.
 - **C.** Accept the senior engineer’s judgment because experience establishes decision authority in a self-managing team.
-- **D.** Restore respectful discussion, invite the tester to explain the evidence, and reinforce the team’s expectation that concerns can be raised without ridicule.
+- **D.** Restore respectful discussion and invite the tester's evidence, reinforcing that team members can raise concerns without ridicule.
 
 #### Answer and explanation
 
@@ -189,7 +189,7 @@ A hybrid project’s external assurance reviewer requests raw employee feedback 
 Select ONE answer.
 
 - **A.** Send the raw comments privately because an assurance purpose overrides the agreed information-access limits.
-- **B.** Bring the reviewer and information owner together to agree a sufficient evidence route within the protocol, such as de-identified records supported by the designated internal review.
+- **B.** Agree sufficient evidence within the protocol with the reviewer and information owner, using the permitted review routes.
 - **C.** Refuse all assurance access and close the finding because employees were promised confidentiality.
 - **D.** Send a high-level summary and mark the finding verified without checking whether it meets the reviewer’s evidence need.
 
@@ -216,7 +216,7 @@ Select ONE answer.
 
 - **A.** There is $65,000 available because only paid costs count, so the manager may commit the $22,000 now.
 - **B.** There is $95,000 available within the total budget, so no staged-funding decision is needed.
-- **C.** Only $15,000 remains within the released authority; seek authorization for at least $7,000 more before committing the full package.
+- **C.** Only $15,000 of released authority remains; obtain at least $7,000 additional authorization before committing the package.
 - **D.** The project has exceeded its total budget by $7,000 and must report a realized cost overrun.
 
 #### Answer and explanation
@@ -243,7 +243,7 @@ Select ONE answer.
 - **A.** Wait for the primary approver to return because only that person can exercise the delegated authority.
 - **B.** Ask a developer to bypass the access control temporarily and document the exception after testing.
 - **C.** Send the request directly to the executive board without using the named delegate or explaining the impact.
-- **D.** Record and communicate the testing impact, route the request to the authorized delegate under the escalation rule, and follow up until the blockage is resolved.
+- **D.** Escalate the testing impact to the authorized delegate now and track the decision until resolved.
 
 #### Answer and explanation
 
@@ -268,7 +268,7 @@ Select ONE answer.
 
 - **A.** Release everyone immediately and treat the board’s termination decision as completion of all closure activities.
 - **B.** Continue building the original deliverables so that the project can qualify for administrative closure.
-- **C.** Plan and perform the authorized closure: settle or transfer obligations through the proper owners, record the termination and results, archive required records, and transfer retained designs.
+- **C.** Complete controlled closure, settling or transferring obligations through authorized owners and preserving retained designs and required records.
 - **D.** Keep the project open indefinitely because an unsuccessful project cannot be formally closed.
 
 #### Answer and explanation

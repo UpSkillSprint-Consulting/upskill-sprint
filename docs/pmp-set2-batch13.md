@@ -19,7 +19,7 @@ Select ONE answer.
 - **A.** Freeze all software requirements at the end of week 4, including colors and navigation, so both streams use the same planning method.
 - **B.** Let fabrication select the opening now and ask the software team to fit its preferred design into the resulting cabinet after week 6.
 - **C.** Move all fabrication work after the week-6 software review and report that the approved installation window remains unchanged.
-- **D.** Bring the size-critical prototype test before the fabrication decision, agree the physical interface and acceptance evidence jointly, and keep independent software details iterative.
+- **D.** Test the size-critical prototype in week 3 and jointly agree the physical interface and evidence, keeping independent details iterative.
 
 #### Answer and explanation
 
@@ -43,7 +43,7 @@ On a predictive commissioning project, the installation lead and operations lead
 Select ONE answer.
 
 - **A.** Assign preparation to the installation lead because installation occurs earlier in the schedule.
-- **B.** Facilitate agreement on the handover conditions and responsibilities using the actual inspection needs, then document the agreed boundary.
+- **B.** Agree and document inspection-ready handover conditions and responsibilities with both leads.
 - **C.** Ask the sponsor to select a lead without discussing the different interpretations with the teams.
 - **D.** Require the two leads to alternate responsibility at each inspection to share the burden equally.
 
@@ -94,7 +94,7 @@ Two predictive projects will deliver a usable laboratory. One supplies the build
 
 Select ONE answer.
 
-- **A.** Clarify the complete connection requirement with both projects and the accountable sponsor, assign its scope ownership, and assess the required plan and approval changes.
+- **A.** Agree connection scope and ownership across both projects with the sponsor, then assess and authorize plan changes.
 - **B.** Remove the exhaust requirement from the joint readiness checklist because it does not appear in either work breakdown structure.
 - **C.** Ask whichever team finishes first to install the duct using spare capacity, without revising the scope records.
 - **D.** Wait until both projects request final acceptance, when responsibility can be assigned using their remaining budgets.
@@ -151,7 +151,7 @@ Select ONE answer.
 - **A.** Confirm the comparison because story points represent the same amount of effort across teams.
 - **B.** Convert each team’s points to staff hours using a single assumed rate and publish the comparison as an objective measure.
 - **C.** Stop providing release information because different local estimation scales make all reporting impossible.
-- **D.** Explain that the point totals are not directly comparable and report shared release outcomes, integration evidence, and dependencies alongside each team’s own trend.
+- **D.** Explain the incompatible point scales and report shared outcomes and integration dependencies alongside each team's own trend.
 
 #### Answer and explanation
 
@@ -176,7 +176,7 @@ Select ONE answer.
 
 - **A.** Continue approving every step until the team proves it can work without any oversight at all.
 - **B.** Remove all standards and progress reviews so the team can work without constraints.
-- **C.** Restore the team’s delegated method decisions, agree useful progress and exception checks, and provide support when needed.
+- **C.** Restore delegated method decisions, agreeing progress and exception checks and offering support as needed.
 - **D.** Transfer all technical choices to the sponsor so the project manager is no longer the bottleneck.
 
 #### Answer and explanation
@@ -266,7 +266,7 @@ A hybrid project has a fixed supplier agreement for an equipment package and ite
 
 Select ONE answer.
 
-- **A.** Verify and process the accepted equipment amount under the agreement, keep the unaccepted configuration amount subject to its acceptance condition, and agree corrective work and verification.
+- **A.** Process the accepted equipment payment; retain configuration's acceptance condition and coordinate corrective work with verification.
 - **B.** Pay 95% of the combined value because the supplier’s completion percentage overrides the separate acceptance conditions.
 - **C.** Reject every payment until the entire project closes, despite the agreement’s separate payment provisions.
 - **D.** Accept the configuration provisionally because iterative work cannot have enforceable completion criteria.

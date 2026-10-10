@@ -16,7 +16,7 @@ An agile team is handing a service to an operations team. The runbook is complet
 
 Select ONE answer.
 
-- **A.** Pair the developer with operations staff for realistic recovery exercises, discuss the decision cues, and have operations demonstrate the response.
+- **A.** Pair operations with the developer on recovery exercises, discuss cues, and verify independent performance.
 - **B.** Ask the developer to upload the runbook again and treat the upload as completed knowledge transfer.
 - **C.** Give operations the developer’s personal contact details as the main recovery arrangement after departure.
 - **D.** Postpone all knowledge transfer until the next unusual recovery case occurs in production.
@@ -44,7 +44,7 @@ Select ONE answer.
 
 - **A.** Try the correction and verification because their successful completion at minute 80 is within the outage limit.
 - **B.** Try the correction and decide on rollback at minute 65, before spending time on verification.
-- **C.** Initiate the approved rollback and replan the cutover because the correction cannot be verified before the latest safe rollback decision.
+- **C.** Begin approved rollback and replan; the correction cannot be verified before the safe rollback deadline.
 - **D.** Extend the outage to minute 130 now because the correction might still succeed.
 
 #### Answer and explanation
@@ -69,7 +69,7 @@ A predictive installation project has signed acceptance, completed financial rec
 Select ONE answer.
 
 - **A.** Keep the entire project open until the warranty ends, regardless of the approved closure procedure.
-- **B.** Complete formal closure under the agreed procedure and record the continuing warranty responsibilities and support route in the handover.
+- **B.** Close under the agreed procedure, preserving the warranty owners, obligations, and support route in the handover.
 - **C.** Close the project and remove the warranty obligations from the handover because the delivery work is finished.
 - **D.** Request a second installation acceptance solely to convert the warranty into completed project work.
 
@@ -97,7 +97,7 @@ Select ONE answer.
 - **A.** Retire the workspace immediately because the existence of an archive copy proves compliance.
 - **B.** Email unrestricted copies to every stakeholder so the records will always be accessible.
 - **C.** Leave the project workspace active indefinitely and omit formal custodianship.
-- **D.** Confirm the custodian, required access and retention controls, and successful retrieval before retiring the workspace.
+- **D.** Verify custodianship, retention, authorized access, and retrieval before retiring the original workspace.
 
 #### Answer and explanation
 
@@ -149,7 +149,7 @@ An agile project’s first release is accepted and technically usable. The benef
 Select ONE answer.
 
 - **A.** Prioritize dashboard colors because accepted software means the operating benefit has already been realized.
-- **B.** Use the feedback to prioritize a coordinated trial of the agreed queue-based working practice with supervisors and users, then measure adoption and the intended outcome.
+- **B.** Trial the queue-based practice with supervisors and users, measuring adoption and the intended outcome.
 - **C.** Stop collecting benefit evidence until all requested cosmetic enhancements are complete.
 - **D.** Require caseworkers to use both systems permanently without assessing the added effort or conflicting assignments.
 
@@ -174,7 +174,7 @@ An agile project is winding down after its final release. Several team members a
 
 Select ONE answer.
 
-- **A.** Recognize contributions, provide useful performance feedback, and coordinate clear transition information with the functional managers.
+- **A.** Recognize contributions, provide performance feedback, and coordinate assignment information with functional managers.
 - **B.** Promise each team member a preferred next assignment to maintain morale.
 - **C.** Avoid discussing reassignment because the final product has already been released.
 - **D.** Keep everyone allocated to the closed project until each person independently finds a new role.

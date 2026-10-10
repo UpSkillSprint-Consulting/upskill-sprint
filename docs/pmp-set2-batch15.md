@@ -17,7 +17,7 @@ A hybrid energy-management project has installed meters through a planned constr
 Select ONE answer.
 
 - **A.** Declare the benefit achieved when the planned meters and optimization features have been accepted.
-- **B.** Work with the sponsor and operations to establish comparable baseline conditions, outcome measures, a benefits owner, and a measurement schedule.
+- **B.** Agree comparable baselines, outcome measures, benefit ownership, and measurement timing with the sponsor and operations.
 - **C.** Use the first month’s total electricity bill as the sole measure of project success.
 - **D.** Add more optimization features before defining the measurement approach so the benefit will be easier to demonstrate.
 
@@ -45,7 +45,7 @@ Select ONE answer.
 - **A.** Proceed with the preferred route because the sponsor and contractor represent the parties responsible for delivery performance.
 - **B.** Send residents a notice explaining the fuel reduction after the route is approved.
 - **C.** Reject consolidation immediately because any local inconvenience makes a sustainability initiative unacceptable.
-- **D.** Include the affected groups in the stakeholder analysis, understand their concerns, and assess route and timing alternatives before the decision.
+- **D.** Engage the overlooked groups and assess their concerns when comparing route and timing alternatives.
 
 #### Answer and explanation
 
@@ -96,7 +96,7 @@ A predictive heat-recovery project was approved partly because of a utility ince
 
 Select ONE answer.
 
-- **A.** Update the remaining costs, benefits, and alternatives with the loss of the incentive and take a recommendation to the sponsor before the commitment.
+- **A.** Reassess remaining value and alternatives without the incentive, then recommend a sponsor decision before committing.
 - **B.** Continue as planned because spending 35% of the budget establishes that the project must be completed.
 - **C.** Cancel the project immediately because the loss of any original benefit automatically invalidates approval.
 - **D.** Keep the original incentive in the forecast until the next scheduled annual business-case review.
@@ -131,7 +131,7 @@ Select ONE answer.
 
 - **A.** Advanced, at $170,000, because its disposal credit gives the lowest total present-value cost.
 - **B.** Reused, at $190,000, because it has the lowest purchase cost among packages meeting the emissions limit.
-- **C.** Efficient, at $180,000, because it has the lowest total present-value cost among packages meeting the emissions limit.
+- **C.** Efficient: $180,000, the lowest five-year present-value cost among packages within the emissions limit.
 - **D.** Standard, at $180,000, because its lower purchase cost offsets its higher operating and end-of-life costs.
 
 #### Answer and explanation
@@ -158,7 +158,7 @@ Select ONE answer.
 - **A.** Ask the facilities team to own the project vision because the building work has the larger budget.
 - **B.** Remove the energy objective so that the service team’s purpose becomes the single measure of success.
 - **C.** Let each team retain its own purpose and reconcile any conflicts only at final acceptance.
-- **D.** Bring the teams together to connect both outcomes to a shared project vision and explain how their work contributes to it.
+- **D.** Reconnect both teams to the approved shared vision and explain how their outcomes contribute to it.
 
 #### Answer and explanation
 
@@ -210,7 +210,7 @@ An agile service project introduces digital renewal forms to reduce paper and im
 Select ONE answer.
 
 - **A.** Declare the pilot successful because the paper-reduction target was met.
-- **B.** Review the affected users’ experience with their representatives and the product owner, adapt support through the backlog, and monitor whether access recovers.
+- **B.** Investigate with users and the product owner, adapt support through the backlog, and monitor access.
 - **C.** Remove assisted-service users from the reported completion measure so the pilot can be compared with digital-only usage.
 - **D.** Restore every old process permanently without investigating the specific support problem.
 
@@ -237,7 +237,7 @@ Select ONE answer.
 
 - **A.** Total energy use fell by 20%, showing that both requested measures improved.
 - **B.** Energy intensity increased by 20% because total energy use increased from 100 MWh to 120 MWh.
-- **C.** Energy per unit fell by 20%, while total energy use rose by 20%; the figures alone do not isolate the project’s contribution.
+- **C.** Energy intensity fell 20%; total use rose 20%. These observations do not establish project attribution.
 - **D.** The project saved 30 MWh, so report this as a verified reduction in actual total energy use.
 
 #### Answer and explanation
@@ -261,7 +261,7 @@ A hybrid water-efficiency project has accepted its equipment and final software 
 
 Select ONE answer.
 
-- **A.** Resolve and verify the missing monitoring resources through the authorized handover process, then close when the stated conditions are met and track benefits in operations.
+- **A.** Secure and verify monitoring resources, then close under the stated conditions with benefits tracked in operations.
 - **B.** Close immediately because a named benefits owner satisfies the remaining handover requirement.
 - **C.** Keep the entire delivery team assigned for twelve months until the forecast saving is demonstrated.
 - **D.** Declare the annual saving realized when the equipment is accepted so both stakeholders can approve closure.

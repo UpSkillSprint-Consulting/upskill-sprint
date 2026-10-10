@@ -28,7 +28,7 @@ Select ONE answer.
 - **A.** Accelerating data preparation alone meets five weeks for $20,000, leaving $10,000 unused.
 - **B.** Accelerating equipment delivery alone meets five weeks for $15,000, leaving $15,000 unused.
 - **C.** Keep both streams unchanged and start validation before equipment arrives to meet five weeks within budget.
-- **D.** The five-week plan requires both accelerations at $35,000; seek authorization for the extra $5,000 or agreement on a later finish before committing.
+- **D.** Both accelerations cost $35,000; obtain another $5,000 or agree a later finish before committing.
 
 #### Answer and explanation
 
@@ -52,7 +52,7 @@ An agile team is recovering a delayed service project. Its original vision empha
 Select ONE answer.
 
 - **A.** Keep the old vision until the project closes so historical planning remains consistent.
-- **B.** Re-establish the shared vision around the agreed urgent-case outcome and connect backlog decisions to it.
+- **B.** Align the team's vision and backlog decisions with the agreed urgent-case outcome.
 - **C.** Require the team to maximize both channel count and speed without discussing trade-offs.
 - **D.** Ask each developer to choose whichever objective best fits their current work.
 
@@ -133,7 +133,7 @@ Select ONE answer.
 
 - **A.** Exclude the regional team because it cannot authorize project funding.
 - **B.** Ask the sponsor to decide using project cost alone and inform operations afterward.
-- **C.** Engage the regional team to assess workload and service impacts, then include those findings in the recovery decision.
+- **C.** Assess workload and service impacts with the regional team before deciding on recovery.
 - **D.** Give the regional team unilateral authority to reject every recovery option.
 
 #### Answer and explanation
@@ -158,7 +158,7 @@ During an agile release review, users raise two requests. The accepted scope say
 Select ONE answer.
 
 - **A.** Treat both requests as optional new features because they were raised at the same review.
-- **B.** Distinguish the failure to meet the agreed cancellation requirement from the new bulk feature, then assess correction and prioritize the proposed addition transparently.
+- **B.** Separate correction of the agreed requirement from the proposed bulk feature, then evaluate and prioritize them transparently.
 - **C.** Treat both as mandatory defect corrections because a customer requested them.
 - **D.** Mark the cancellation requirement complete and use all capacity on the bulk feature because it serves more requests.
 
@@ -214,7 +214,7 @@ Select ONE answer.
 - **A.** Report success because an automatic message was delivered in less than four hours.
 - **B.** Change the metric to acknowledgement speed without discussing it with the customer.
 - **C.** Explain that customers should lower their expectations now that the product is live.
-- **D.** Review the unmet expectation with customers and the responsible service team, agree corrective action, and track time to a useful response.
+- **D.** Agree corrective action with customers and the service team, measuring time to useful guidance.
 
 #### Answer and explanation
 
@@ -239,7 +239,7 @@ Select ONE answer.
 
 - **A.** The report-format defect, because it can probably be closed fastest.
 - **B.** The possible supplier delay, because every risk should be resolved before an existing issue.
-- **C.** Assign and coordinate restoration of test access today, then verify readiness while tracking the other items appropriately.
+- **C.** Restore test access today and verify readiness, while tracking the controlled defect and future risk.
 - **D.** Wait for all three items to become urgent so one coordinated escalation can address them.
 
 #### Answer and explanation
@@ -263,7 +263,7 @@ A hybrid project has already spent $140,000, which cannot be recovered. The spon
 
 Select ONE answer.
 
-- **A.** The focused release, with $30,000 forecast incremental net value compared with $10,000 for the broader release, followed by monitoring of the benefit assumptions.
+- **A.** Recommend the focused release: $30,000 incremental net value versus $10,000, with benefit assumptions monitored.
 - **B.** The broader release because $100,000 is the larger gross benefit, regardless of remaining cost.
 - **C.** The broader release because the $140,000 already spent must be recovered through the largest possible scope.
 - **D.** Reject both options because including the unrecoverable $140,000 makes each remaining option appear negative.

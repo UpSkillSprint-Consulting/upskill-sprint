@@ -57,7 +57,7 @@ Select ONE answer.
 - **A.** Close the feedback because conformance of the submitted requests establishes that both user groups' expectations have been met.
 - **B.** Remove the additional detail immediately, before checking which completeness checks depend on it.
 - **C.** Ask desk users to approve the next iteration's design on behalf of both groups because they support the checklist.
-- **D.** Review field workflows with users and the product owner, assess the quality–usability trade-off, and agree a response and feedback check.
+- **D.** Investigate field workflows with users and the product owner, agree a quality–usability response, and check its effects.
 
 #### Answer and explanation
 
@@ -110,7 +110,7 @@ Select ONE answer.
 
 - **A.** Record formal acceptance using the user representative's email and add the station to maintain customer satisfaction.
 - **B.** Keep the completed deliverable open until the extra station is installed, treating every customer request as an existing acceptance criterion.
-- **C.** Present the verified deliverable and evidence to the designated acceptance authority, and assess the additional station through the agreed change process.
+- **C.** Seek the facilities director's acceptance using the verified evidence, and assess the station request through change control.
 - **D.** Ask quality assurance to replace the customer's acceptance decision because inspections have already demonstrated conformance.
 
 #### Answer and explanation
@@ -162,7 +162,7 @@ Select ONE answer.
 
 - **A.** Send the same procedure again and require each reviewer to confirm that it has been read.
 - **B.** Let each reviewer retain a personal interpretation until enough customer complaints identify the better method.
-- **C.** Work through boundary examples together, document the experienced reviewer's cues, and verify independent classifications against the agreed interpretation.
+- **C.** Discuss boundary examples and decision cues together, then check independent classifications against the agreed interpretation.
 - **D.** Route every borderline example permanently to the experienced reviewer without developing the other reviewers' judgment.
 
 #### Answer and explanation

@@ -42,7 +42,7 @@ An agile team uses an AI summary of consultation notes to identify stakeholder c
 
 Select ONE answer.
 
-- **A.** Meet the affected supervisors, compare their concerns with the source notes, and agree how corrected concerns and their responses will stay visible.
+- **A.** Review the source notes with affected supervisors and agree a visible record of their concerns and responses.
 - **B.** Ask the analyst to improve the summary prompt and circulate a replacement before contacting the supervisors.
 - **C.** Ask the operations director to confirm support on behalf of all shifts so the team can continue the current engagement plan.
 - **D.** Treat the supervisors’ withdrawal as resistance and add more demonstrations of the workflow’s benefits.
@@ -156,7 +156,7 @@ A predictive capital project uses AI to rank proposed changes. The governance pl
 Select ONE answer.
 
 - **A.** Keep the approval because the ranking criteria were agreed when the tool was selected.
-- **B.** Prevent implementation, return the change to the authorized decision body, and correct the workflow so recommendations cannot bypass approval authority.
+- **B.** Block implementation, restore the authorized approval process, and correct the automation's decision boundary.
 - **C.** Ask the tool supplier to co-sign the approval, making the supplier accountable for the recommendation.
 - **D.** Raise the automatic approval threshold and process this change under the new threshold.
 
@@ -190,7 +190,7 @@ Select ONE answer.
 
 - **A.** The higher overall success rate establishes improved quality, so expand the assistant to all request types.
 - **B.** The pilot proves the assistant causes worse quality because both category rates are lower.
-- **C.** The overall increase does not establish improvement: both category rates fell, so investigate and compare performance with a consistent request mix before expanding.
+- **C.** Both category rates fell; investigate the changed mix and compare like-for-like quality before deciding on expansion.
 - **D.** Average the two overall success rates and use that result as the assistant’s expected quality after rollout.
 
 #### Answer and explanation
@@ -276,7 +276,7 @@ Select ONE answer.
 - **A.** Remove language-group information from the dashboard and proceed because staff retain final decision authority.
 - **B.** Declare the tool discriminatory and permanently abandon it without examining the source data or outcomes.
 - **C.** Proceed with the rollout because a difference in flagging rates does not by itself prove bias.
-- **D.** Record and assess the potential unequal-impact risk with relevant experts and affected stakeholders, investigate the data and outcomes, and agree safeguards and release criteria.
+- **D.** Investigate potential unequal impacts with experts and affected stakeholders, then establish safeguards and release criteria.
 
 #### Answer and explanation
 

@@ -4612,9 +4612,10 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     else{
       var text=document.createElement('template');text.innerHTML=q.why||'';
       explanation='<p>'+esc(text.content.textContent||'An explanation is not available for this question yet.')+'</p>';
+      if(window.__PMPSet2UI&&window.__PMPSet2UI.isQuestion(q))explanation+=window.__PMPSet2UI.rationales(q);
     }
     var answerText=window.__PMPSet2UI&&window.__PMPSet2UI.isQuestion(q)?window.__PMPSet2UI.responseLabel(q,q.answer):String.fromCharCode(65+q.answer)+'. '+q.options[q.answer];
-    return '<section id="tb-revealed-answer" class="tb-revealed-answer" tabindex="-1" aria-labelledby="tb-revealed-title"><h3 id="tb-revealed-title">Answer revealed — counted as incorrect</h3><p><strong>Correct answer: '+esc(answerText)+'</strong></p>'+explanation+(window.__PMPSet2UI&&window.__PMPSet2UI.isQuestion(q)?window.__PMPSet2UI.rationales(q):'')+'</section>';
+    return '<section id="tb-revealed-answer" class="tb-revealed-answer" tabindex="-1" aria-labelledby="tb-revealed-title"><h3 id="tb-revealed-title">Answer revealed — counted as incorrect</h3><p><strong>Correct answer: '+esc(answerText)+'</strong></p>'+explanation+'</section>';
   }
   function revealCurrentAnswer(){
     if(!session||session.completed||session.timed||isAnswerRevealed(session.i)||!validRevealKey(session.items[session.i].q))return false;
