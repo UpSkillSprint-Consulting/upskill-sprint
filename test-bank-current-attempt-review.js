@@ -96,6 +96,7 @@
     return `<div class="tb-review-stem">${esc(question.stem)}</div>`;
   }
   function rationales(question) {
+    if (window.__PMPSet2UI?.isQuestion(question)) return window.__PMPSet2UI.rationales(question);
     for (const prefix of ['__MBBSet3Batch', '__MBBBatch']) {
       for (let i = 1; i <= 7; i++) {
         const helper = window[prefix + i + 'UI'];
@@ -116,13 +117,14 @@
     return `<div class="tb-explanation"><div class="tb-explanation-title">${validKey(question) ? 'Why this is correct' : 'Answer key needs review'}</div><div class="tb-explanation-copy">${safeHtml(question.why) || 'An explanation is not available for this question yet.'}</div>${rationales(question)}${question.keyPoint ? `<p><strong>Key learning point:</strong> ${safeHtml(question.keyPoint)}</p>` : ''}${question.trap ? `<p><strong>Exam trap:</strong> ${safeHtml(question.trap)}</p>` : ''}</div>`;
   }
   function answer(question, index) {
+    if (window.__PMPSet2UI?.isQuestion(question)) return window.__PMPSet2UI.responseLabel(question, index);
     return index == null ? 'Not answered' : `${String.fromCharCode(65 + index)}. ${question.options[index] ?? 'Answer unavailable'}`;
   }
   function card(record) {
     const q = record.question, state = status(record), meta = topic(q);
     return `<article class="tb-review-card${record.revealed ? ' revealed' : ''}" data-review-status="${state}" data-question-id="${esc(record.questionId || q.qid || q.id || record.index)}" tabindex="-1">
       <div class="tb-review-card-head"><div><strong>Question ${record.index + 1}</strong><div class="tb-review-topic">${esc(meta.domainName)} &rsaquo; ${esc(meta.subName)}</div></div><div class="tb-review-badges">${q.set != null ? `<span class="tb-review-setbadge">Set ${esc(q.set)}</span>` : ''}<span class="tb-review-status ${record.revealed ? 'revealed' : state}">${record.revealed ? 'Answer revealed — counted as incorrect' : labels[state]}</span>${record.flagged ? '<span class="tb-review-status flagged">Flagged</span>' : ''}</div></div>
-      ${content(q)}<div class="tb-review-options">${q.options.map((opt, i) => `<div class="tb-review-option${validKey(q) && i === q.answer ? ' is-correct' : ''}${record.selected === i && i !== q.answer ? ' is-wrong' : ''}"><span class="tb-answer-letter">${String.fromCharCode(65 + i)}</span><span class="tb-answer-copy">${esc(opt)}</span><span class="tb-answer-tags">${record.selected === i ? '<span class="tb-answer-tag">Your answer</span>' : ''}${validKey(q) && i === q.answer ? '<span class="tb-answer-tag">Correct answer</span>' : ''}</span></div>`).join('')}</div>
+      ${content(q)}<div class="tb-review-options">${window.__PMPSet2UI?.isInteractive(q) ? window.__PMPSet2UI.reviewOptions(q, record.selected) : q.options.map((opt, i) => `<div class="tb-review-option${validKey(q) && i === q.answer ? ' is-correct' : ''}${record.selected === i && i !== q.answer ? ' is-wrong' : ''}"><span class="tb-answer-letter">${String.fromCharCode(65 + i)}</span><span class="tb-answer-copy">${esc(opt)}</span><span class="tb-answer-tags">${record.selected === i ? '<span class="tb-answer-tag">Your answer</span>' : ''}${validKey(q) && i === q.answer ? '<span class="tb-answer-tag">Correct answer</span>' : ''}</span></div>`).join('')}</div>
       <div class="tb-answer-compare"><div><span>Your answer</span><strong>${esc(answer(q, record.selected))}</strong></div><div><span>Correct answer</span><strong>${validKey(q) ? esc(answer(q, q.answer)) : 'Answer key unavailable'}</strong></div></div>${explanation(q)}${reference(q, meta)}</article>`;
   }
   function focus(element, scroll = true) {
@@ -174,7 +176,7 @@
   }
   function selectRetryOption(index) {
     const question = retry.items[retry.index].question;
-    if (!Number.isInteger(index) || index < 0 || index >= question.options.length) return;
+    if (index != null && (!Number.isInteger(index) || index < 0 || index >= question.options.length)) return;
     retry.answers[retry.index] = index;
     const panel = document.getElementById('tb-retry-panel');
     // Preserve the visual DOM: selecting an answer must not reset sliders,
@@ -184,13 +186,14 @@
       button.classList.toggle('selected', selected);
       button.setAttribute('aria-pressed', String(selected));
     });
-    panel.querySelector('[data-retry-check]').disabled = false;
+    panel.querySelector('[data-retry-check]').disabled = index == null;
   }
   function checkRetryAnswer() {
     retry.checked[retry.index] = true;
     const question = retry.items[retry.index].question;
     const selected = retry.answers[retry.index];
     const panel = document.getElementById('tb-retry-panel');
+    if (window.__PMPSet2UI?.isInteractive(question)) window.__PMPSet2UI.update(panel, question, selected, true);
     panel.querySelectorAll('[data-retry-opt]').forEach(button => {
       const index = Number(button.dataset.retryOpt);
       button.disabled = true;
@@ -215,7 +218,11 @@
       const r = retry.items[retry.index], q = r.question, meta = topic(q);
       const selected = retry.answers[retry.index], checked = !!retry.checked[retry.index];
       const correct = selected === q.answer;
-      panel.innerHTML = `<div class="tb-retry-head"><div><div class="tb-diag-kick">Correction quiz</div><h3>Retry missed questions</h3></div><span>${retry.index + 1} of ${retry.items.length}</span></div><p class="tb-review-topic">Original question ${r.index + 1} &middot; ${esc(meta.domainName)} &rsaquo; ${esc(meta.subName)}</p>${content(q)}<div class="tb-retry-options">${q.options.map((opt, i) => `<button type="button" class="tb-retry-option${selected === i ? ' selected' : ''}${checked && i === q.answer ? ' correct' : ''}${checked && selected === i && !correct ? ' wrong' : ''}" data-retry-opt="${i}" aria-pressed="${selected === i}"${checked ? ' disabled' : ''}><span class="tb-answer-letter">${String.fromCharCode(65 + i)}</span><span>${esc(opt)}</span></button>`).join('')}</div><div class="tb-retry-feedback-area">${checked ? retryFeedback(q, selected) : ''}</div><div class="tb-retry-actions">${retryActions(checked)}</div>`;
+      panel.innerHTML = `<div class="tb-retry-head"><div><div class="tb-diag-kick">Correction quiz</div><h3>Retry missed questions</h3></div><span>${retry.index + 1} of ${retry.items.length}</span></div><p class="tb-review-topic">Original question ${r.index + 1} &middot; ${esc(meta.domainName)} &rsaquo; ${esc(meta.subName)}</p>${content(q)}<div class="tb-retry-options">${window.__PMPSet2UI?.isInteractive(q) ? window.__PMPSet2UI.renderAnswers(q, selected, checked) : q.options.map((opt, i) => `<button type="button" class="tb-retry-option${selected === i ? ' selected' : ''}${checked && i === q.answer ? ' correct' : ''}${checked && selected === i && !correct ? ' wrong' : ''}" data-retry-opt="${i}" aria-pressed="${selected === i}"${checked ? ' disabled' : ''}><span class="tb-answer-letter">${String.fromCharCode(65 + i)}</span><span>${esc(opt)}</span></button>`).join('')}</div><div class="tb-retry-feedback-area">${checked ? retryFeedback(q, selected) : ''}</div><div class="tb-retry-actions">${retryActions(checked)}</div>`;
+    }
+    if (!retry.complete) {
+      const q = retry.items[retry.index].question;
+      if (window.__PMPSet2UI?.isInteractive(q)) window.__PMPSet2UI.wire(panel, q, () => retry.answers[retry.index], selectRetryOption);
     }
     notify(panel);
     const target = panel.querySelector(focusSelector || 'h3');
