@@ -7,6 +7,8 @@
 .pmp2-table th,.pmp2-table td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top;min-width:95px}
 .pmp2-table th{font-weight:700}.pmp2-answers fieldset{border:0;padding:0;margin:16px 0;min-width:0}
 .pmp2-answers .pmp2-table{min-width:600px}
+.pmp2-answers .pmp2-table-compact{min-width:0;table-layout:fixed}
+.pmp2-answers .pmp2-table-compact th,.pmp2-answers .pmp2-table-compact td{min-width:0}
 .pmp2-answers legend{font-weight:700;margin-bottom:12px}
 .pmp2-choice,.pmp2-match{display:flex;gap:12px;padding:12px;border:1px solid var(--line);border-radius:8px;margin:10px 0;background:var(--card);color:var(--ink);line-height:1.6}
 .pmp2-choice{align-items:flex-start;cursor:pointer}.pmp2-choice input{margin-top:5px;min-width:20px;min-height:20px;accent-color:var(--teal)}

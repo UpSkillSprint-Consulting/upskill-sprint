@@ -89,9 +89,9 @@
     if (q.format === 'hotspot') {
       const headers = q.exhibit.headers;
       const rows = q.exhibit.rows;
-      body = '<p>' + (q.hotspotType === 'engagement' ? 'C = current; D = desired. Select ONE current marker.' : 'Select ONE forecast receipt cell.') + '</p><div class="pmp2-scroll" role="region" aria-label="Selectable question evidence" tabindex="0"><table class="pmp2-table"><thead><tr>' + headers.map(h => '<th scope="col">' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' + rows.map((row, r) => '<tr>' + row.map((cell, col) => {
+      body = '<p>' + esc(q.hotspotInstruction || (q.hotspotType === 'engagement' ? 'C = current; D = desired. Select ONE current marker.' : 'Select ONE forecast receipt cell.')) + '</p><div class="pmp2-scroll" role="region" aria-label="Selectable question evidence" tabindex="0"><table class="pmp2-table' + (headers.length <= 3 ? ' pmp2-table-compact' : '') + '"><thead><tr>' + headers.map(h => '<th scope="col">' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' + rows.map((row, r) => '<tr>' + row.map((cell, col) => {
         if (col === 0) return '<th scope="row">' + esc(cell) + '</th>';
-        const target = q.hotspotType === 'engagement' ? cell.includes('C') : col === 2;
+        const target = q.hotspotType === 'engagement' ? cell.includes('C') : col === (q.hotspotColumn ?? 2);
         return '<td>' + (target ? '<button type="button" class="pmp2-cell" data-pmp-cell="' + q.choices[r][0] + '" aria-label="' + esc(q.choices[r][1]) + '" aria-pressed="' + (value === q.choices[r][0]) + '">' + esc(cell.replace(/ \[[A-D]\]/g, '')) + '</button>' : esc(cell)) + '</td>';
       }).join('') + '</tr>').join('') + '</tbody></table></div>';
     }
@@ -142,7 +142,7 @@
   global.PMP_BANK2 = questions;
   global.registerPMPBank2 = function (exam) {
     exam.sets[2] = questions;
-    exam.setPlans[2] = {target:180, label:'Q001–Q070'};
+    exam.setPlans[2] = {target:180, label:'Q001–Q080'};
     exam.fullExamQuestionsBySet[2] = 180;
   };
   global.__PMPSet2UI = Object.freeze({isQuestion,isInteractive,render,renderAnswers,wire,update,encode,decode,responseLabel,reviewOptions,rationales});
