@@ -40,8 +40,8 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/, 9: /^II\.(A\.[1-3]|B\.[1-6])$/, 10: /^(II\.C|I\.A\.[1-9])$/, 11: /^I\.(A\.[1-9]|B\.([1-9]|10))$/, 12: /^I\.B\.([1-9]|10)$/, 13: /^(I\.(A\.[1-9]|B\.([1-9]|10))|V\.A\.[1-7])$/, 14: /^V\.(A\.[1-7]|B\.[12]|C\.[1-3])$/ };
+const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/, 9: /^II\.(A\.[1-3]|B\.[1-6])$/, 10: /^(II\.C|I\.A\.[1-9])$/, 11: /^I\.(A\.[1-9]|B\.([1-9]|10))$/, 12: /^I\.B\.([1-9]|10)$/, 13: /^(I\.(A\.[1-9]|B\.([1-9]|10))|V\.A\.[1-7])$/, 14: /^V\.(A\.[1-7]|B\.[12]|C\.[1-3])$/, 15: /^V\.(A\.[1-7]|B\.[12]|C\.[1-3])$/ };
 // BoK domain → engine area (the five shared CRE domains)
 const DOMAIN_SUB = { I: 'cre-fundamentals', II: 'cre-risk', III: 'cre-statistics', IV: 'cre-testing', V: 'cre-lifecycle' };
 // Focused Quiz opens on the first BoK area (in exam order) that the opening set covers
@@ -188,7 +188,17 @@ test('batch 14 adds ten Domain V items across V.A, V.B and V.C', () => {
   assert.deepEqual([by('V.A'), by('V.B'), by('V.C')], [4, 3, 3]);
   const sub = { 'V.A': 'A. Reliability Design Techniques', 'V.B': 'B. Parts and Systems Development', 'V.C': 'C. Maintainability' };
   rows.forEach((q) => assert.equal(q.bok.subdomain, sub[q.bok.code.slice(0, 3)]));
-  assert.equal(BANK.filter((q) => q.sub === 'cre-lifecycle').length, 16);
+  assert.equal(BANK.filter((q) => q.sub === 'cre-lifecycle' && q.batch <= 14).length, 16);
+});
+
+test('batch 15 completes Set 1 at 150 on the published 2025 CRE blueprint', () => {
+  assert.equal(BANK.length, 150);
+  const counts = Object.fromEntries(['cre-fundamentals', 'cre-risk', 'cre-statistics', 'cre-testing', 'cre-lifecycle'].map((id) => [id, BANK.filter((q) => q.sub === id).length]));
+  assert.deepEqual(counts, { 'cre-fundamentals': 29, 'cre-risk': 25, 'cre-statistics': 35, 'cre-testing': 35, 'cre-lifecycle': 26 });
+  const codes = new Set(BANK.map((q) => q.bok.code));
+  ['V.A.1', 'V.A.2', 'V.A.3', 'V.A.4', 'V.A.5', 'V.A.6', 'V.A.7', 'V.B.1', 'V.B.2', 'V.C.1', 'V.C.2', 'V.C.3'].forEach((c) => assert.ok(codes.has(c), `${c} is covered`));
+  const all = BANK.reduce((a, q) => { a[q.answer]++; return a; }, [0, 0, 0, 0]);
+  assert.ok(Math.max(...all) - Math.min(...all) <= 3, `overall answer key is balanced: ${all}`);
 });
 
 test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22', () => {
@@ -1370,6 +1380,62 @@ test('Q140 optimum proof-test interval balances the two downtime terms', () => {
   assert.equal(Math.round(U(2 * tStar) * 10000) / 10000, Math.round(U(tStar / 2) * 10000) / 10000, 'mirror distractors share 0.0112');
 });
 
+test('Q141 MTTR allocation weights by failure rate', () => {
+  const q = byId('cre:set-1:b15-q141');
+  const rows = [...q.chart.rows].map((r) => r.slice(1).map(Number));
+  const lam = rows.reduce((a, [l]) => a + l, 0);
+  const t = rows.reduce((a, [l, m]) => a + l * m, 0) / lam;
+  assert.equal(t, 81);
+  assertKeyed(q, rows[1][1] / t * 60, 0.5);
+  assert.ok(q.options.includes(`${rows[1][1] / (rows.reduce((a, [, m]) => a + m, 0) / 3) * 60} min`), 'unweighted-average trap');
+});
+
+test('Q142 the skilled crew saves 1,050 dollars once downtime is counted', () => {
+  const q = byId('cre:set-1:b15-q142');
+  const [rate, iso, rep] = [...q.chart.rows].map((r) => [Number(r[1]), Number(r[2])]);
+  const total = (i) => (iso[i] + rep[i]) * (rate[i] + 300);
+  assert.equal(total(1) - total(0), 1050);
+  assert.equal(q.options[q.answer], `${(total(1) - total(0)).toLocaleString('en-US')} dollars`);
+  assert.ok(q.options.includes(`${(iso[1] + rep[1]) * rate[1] - (iso[0] + rep[0]) * rate[0]} dollars`), 'labor-only trap');
+});
+
+test('Q145 age replacement only for the wear-out part', () => {
+  const q = byId('cre:set-1:b15-q145');
+  const beta = [...q.chart.rows].map((r) => Number(r[1].match(/\\beta = ([\d.]+)/)[1]));
+  assert.deepEqual(beta, [1, 3.2]);
+  assert.match(q.options[q.answer], /^Replace the bearing at a fixed age/);
+});
+
+test('Q146 one-way ANOVA F statistic', () => {
+  const q = byId('cre:set-1:b15-q146');
+  const rows = [...q.chart.rows].map((r) => r.slice(1).map(Number));
+  const N = rows.reduce((a, [n]) => a + n, 0), k = rows.length;
+  const grand = rows.reduce((a, [n, m]) => a + n * m, 0) / N;
+  const ssTr = rows.reduce((a, [n, m]) => a + n * (m - grand) ** 2, 0);
+  const ssE = rows.reduce((a, [n, , v]) => a + (n - 1) * v, 0);
+  const F = (ssTr / (k - 1)) / (ssE / (N - k));
+  assert.equal(F, 10);
+  assert.ok(F > 3.89);
+  assert.match(q.options[q.answer], /F = 10\.0\\\); significant/);
+});
+
+test('Q147 lognormal interference probability of failure', () => {
+  const q = byId('cre:set-1:b15-q147');
+  const [[, ms, ss], [, my, sy]] = [...q.chart.rows].map((r) => r.map(Number));
+  const z = Math.log(my / ms) / Math.sqrt(ss ** 2 + sy ** 2);
+  assertKeyed(q, normCdf(-z), 0.0006);
+  assert.ok(q.options.includes(normCdf(-Math.log(my / ms) / ss).toFixed(3)), 'stress-only trap');
+  assert.ok(q.options.includes(normCdf(-Math.log(my / ms) / (ss + sy)).toFixed(3)), 'added-SD trap');
+});
+
+test('Q150 cascading the system target by failure-rate weight', () => {
+  const q = byId('cre:set-1:b15-q150');
+  const w = 500 / (200 + 300 + 500);
+  assertKeyed(q, 0.9 ** w, 0.00005);
+  assert.ok(q.options.includes((0.9 ** (1 / 3)).toFixed(4)), 'equal-apportionment trap');
+  assert.ok(q.options.includes(Math.exp(-500e-6 * 100).toFixed(4)), 'prediction trap');
+});
+
 /* ---------- 3. production delivery ---------- */
 
 async function productionHtml() {
@@ -1434,8 +1500,9 @@ test('CRE is live with the 2025 BoK, and Focused Quiz defaults to a populated ar
     }
     click(window, window.document.querySelector('.tb-tile[data-exam="cre"]'));
     const overview = window.document.getElementById('tb-overview');
-    assert.match(overview.textContent, new RegExp(`Set 1 currently contains ${BANK.length} of the planned 150`));
-    assert.match(overview.textContent, new RegExp(`Batch ${BATCHES.length} of 15`));
+    assert.equal(BANK.length, 150);
+    assert.match(overview.textContent, /The 150-question Set 1 is complete \(Q001–Q150\) and follows the five-domain ASQ blueprint/);
+    assert.doesNotMatch(overview.textContent, /Set 1 currently contains|of 15\)|planned questions/);
     const area = overview.querySelector('[data-focusdom]');
     assert.ok(area, 'Focused Quiz area picker renders');
     assert.equal(area.value, FIRST_POPULATED, 'defaults to the first area that has questions');

@@ -15,6 +15,7 @@
  * Batch 12 of 15: I.B.1, I.B.3–I.B.10 (lifecycle cost, maintainability economics, cost of poor reliability, quality triangle, DMAIC, systems integration).
  * Batch 13 of 15: I.A.5, I.A.7, I.B.1, I.B.2 (Domain I complete) and V.A.1–V.A.5 (verification, stress-strength, DOE, optimization, human factors).
  * Batch 14 of 15: V.A.3, V.A.6, V.A.7 (DOE, testability, FEA), V.B.1–V.B.2 (derating, COTS, RCM) and V.C.1–V.C.2 (spares, repair or replace, proof testing).
+ * Batch 15 of 15: V.A.1–V.A.3, V.A.7 (evaluation types, lognormal interference, ANOVA, cascading targets), V.B.2 and V.C.1–V.C.3 (warranties, PM, MTTR allocation, crews). Set 1 complete at 150.
  *
  * Every calculated answer is recomputed independently in tests/test-bank-cre-set1.test.js.
  * Notation follows The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting &
@@ -3917,16 +3918,16 @@
       ]
     },
     "options": [
-      "The hub’s MTBF can be estimated from the step at which each stress first caused a failure, scaled back to the specification.",
       "Cold is the weak link: the unit stops operating only 5 °C beyond its specification, so find the root cause and improve the design.",
+      "The hub’s MTBF can be estimated from the step at which each stress first caused a failure, scaled back to the specification.",
       "Vibration is the weak link, because its 45 Grms destruct limit is the smallest number in the table.",
       "Every operating limit lies beyond its specification, so the design is robust and no change is needed."
     ],
-    "answer": 1,
-    "why": "<p>HALT pushes stress beyond the design limits to find the weakest link and widen the margins before release. The margin that matters is how far each operating limit lies beyond its specification: hot has 35 °C, vibration 25 Grms, thermal transitions 45 °C per minute, but cold only 5 °C. Field temperatures in the tail of the distribution could reach that, so cold is the weak link to root-cause and fix. HALT records stress levels, not times to failure, and its failures are not typical of use, so it cannot give MTBF or failure rate.</p><p><b>B. Cold is the weak link; fix it, and do not estimate reliability from HALT.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, HALT Tests; Ch. 8, Highly Accelerated Life Test (HALT).</span></p>",
+    "answer": 0,
+    "why": "<p>HALT pushes stress beyond the design limits to find the weakest link and widen the margins before release. The margin that matters is how far each operating limit lies beyond its specification: hot has 35 °C, vibration 25 Grms, thermal transitions 45 °C per minute, but cold only 5 °C. Field temperatures in the tail of the distribution could reach that, so cold is the weak link to root-cause and fix. HALT records stress levels, not times to failure, and its failures are not typical of use, so it cannot give MTBF or failure rate.</p><p><b>A. Cold is the weak link; fix it, and do not estimate reliability from HALT.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, HALT Tests; Ch. 8, Highly Accelerated Life Test (HALT).</span></p>",
     "optionRationales": [
-      "HALT records stress levels, not times to failure, and its failure modes are not typical of use, so MTBF cannot be calculated from it.",
       "Correct. The cold margin (5 °C) is far smaller than the others, and HALT results are for improvement, not estimation.",
+      "HALT records stress levels, not times to failure, and its failure modes are not typical of use, so MTBF cannot be calculated from it.",
       "Limits in different units cannot be compared by their raw numbers. Vibration’s operating limit is six times its specification, a wide margin.",
       "Passing the specification is not the goal of HALT. A 5 °C cold margin leaves little protection against stresses in the tail of the field distribution."
     ],
@@ -4239,16 +4240,16 @@
     "options": [
       "Proceed with HASS on every unit, because a screen beyond the specification will remove the units made defective by the low process capability.",
       "Replace HASS with a highly accelerated stress audit (HASA) on a sample of units, which costs less than screening every unit.",
-      "Run HALT and bring the solder process into capability before starting HASS, using a conventional ESS within design limits meanwhile.",
-      "Run HASS at stresses below the field environment, so that the screen cannot damage any good units."
+      "Run HASS at stresses below the field environment, so that the screen cannot damage any good units.",
+      "Run HALT and bring the solder process into capability before starting HASS, using a conventional ESS within design limits meanwhile."
     ],
-    "answer": 2,
-    "why": "<p>HASS stresses can exceed the design specification, so it is safe only when HALT has shown the design has margin beyond those stresses; otherwise the screen can damage or weaken good units. HASS is also meant to detect a shift in a process already shown to be capable and in control, not to compensate for an incapable one: with a \\(C_{pk}\\) of 0.85, the defects must be fixed at the source. Meanwhile, a conventional ESS within design limits can catch early-life failures.</p><p><b>C. Run HALT and fix the process before HASS; use ESS meanwhile.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Stress Screening — environmental stress screening and highly accelerated stress screening (HASS, HASA).</span></p>",
+    "answer": 3,
+    "why": "<p>HASS stresses can exceed the design specification, so it is safe only when HALT has shown the design has margin beyond those stresses; otherwise the screen can damage or weaken good units. HASS is also meant to detect a shift in a process already shown to be capable and in control, not to compensate for an incapable one: with a \\(C_{pk}\\) of 0.85, the defects must be fixed at the source. Meanwhile, a conventional ESS within design limits can catch early-life failures.</p><p><b>D. Run HALT and fix the process before HASS; use ESS meanwhile.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Stress Screening — environmental stress screening and highly accelerated stress screening (HASS, HASA).</span></p>",
     "optionRationales": [
       "HASS cannot make an incapable process acceptable, and without HALT its stresses may damage good units.",
       "HASA is a sampling audit used after a HASS program has shown the process is in control. It would let early failures escape from an incapable process.",
-      "Correct. HALT first, a capable process, then HASS; ESS within limits protects customers in the meantime.",
-      "A screen below field stress does not precipitate latent defects that field stress would reveal, so it would remove few weak units."
+      "A screen below field stress does not precipitate latent defects that field stress would reveal, so it would remove few weak units.",
+      "Correct. HALT first, a capable process, then HASS; ESS within limits protects customers in the meantime."
     ],
     "keyPoint": "HASS requires a HALT-proven design and a capable, in-control process. It detects process shifts; it does not fix an incapable process.",
     "trap": "Using screening to inspect quality into an incapable process.",
@@ -6381,16 +6382,16 @@
     "options": [
       "Spring stiffness as a control factor",
       "Upstream fluid contamination as a noise factor",
-      "Ambient temperature at the customer site as a control factor",
-      "Seal leakage as an error state"
+      "Seal leakage as an error state",
+      "Ambient temperature at the customer site as a control factor"
     ],
-    "answer": 2,
-    "why": "<p>A P-diagram separates the input signal, the control factors the designer sets, the noise factors the designer cannot control (or chooses not to), the ideal output and the error states. The designer cannot set the temperature at a customer site, so it is a noise factor; the design must be robust to it. Treating it as controlled would hide a requirement, which is exactly what a P-diagram is meant to surface.</p><p><b>C. Ambient temperature at the customer site as a control factor</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 3, Risk Management Techniques — P-diagrams.</span></p>",
+    "answer": 3,
+    "why": "<p>A P-diagram separates the input signal, the control factors the designer sets, the noise factors the designer cannot control (or chooses not to), the ideal output and the error states. The designer cannot set the temperature at a customer site, so it is a noise factor; the design must be robust to it. Treating it as controlled would hide a requirement, which is exactly what a P-diagram is meant to surface.</p><p><b>D. Ambient temperature at the customer site as a control factor</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 3, Risk Management Techniques — P-diagrams.</span></p>",
     "optionRationales": [
       "Spring stiffness is a design parameter the engineer chooses, so it is a control factor.",
       "Contamination in the customer’s fluid is outside the designer’s control, so it is noise.",
-      "Correct. Customer-site temperature is noise; the designer can only make the valve robust to it.",
-      "Leakage is an unintended output of the valve, which is an error state."
+      "Leakage is an unintended output of the valve, which is an error state.",
+      "Correct. Customer-site temperature is noise; the designer can only make the valve robust to it."
     ],
     "keyPoint": "P-diagram: control factors are set by the designer; noise factors are not; error states are unintended outputs. Misclassifying noise as control hides requirements.",
     "trap": "Treating a use-environment condition as a design control.",
@@ -6889,16 +6890,16 @@
     "stem": "At the concept stage of a new aircraft cabin feature, only high-level requirements exist; no design, bill of materials or process has been chosen. The team wants to start an FMEA now. Which approach is appropriate?",
     "chart": null,
     "options": [
-      "Start a design FMEA, rating occurrence and detection from similar products so that a full RPN is available now.",
       "Start a functional FMEA on the requirements, rating severity now and leaving causes and occurrence for later.",
+      "Start a design FMEA, rating occurrence and detection from similar products so that a full RPN is available now.",
       "Wait until design freeze, when the design is stable enough to support a complete design FMEA.",
       "Start a process FMEA, because the assembly steps will drive most of the feature’s failure modes."
     ],
-    "answer": 1,
-    "why": "<p>A functional (system) FMEA works from high-level requirements before any design exists: each failure mode is the failure to meet a requirement, and its effects and severity can be ranked. Causes, occurrence and detection depend on the design solution, so they cannot be assessed yet. Its value is shaping requirements early, when changes are cheap.</p><p><b>B. Functional (system) FMEA on the requirements.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Failure Mode and Effects Analysis — types of FMEAs (functional/system FMEA, Table 4.1).</span></p>",
+    "answer": 0,
+    "why": "<p>A functional (system) FMEA works from high-level requirements before any design exists: each failure mode is the failure to meet a requirement, and its effects and severity can be ranked. Causes, occurrence and detection depend on the design solution, so they cannot be assessed yet. Its value is shaping requirements early, when changes are cheap.</p><p><b>A. Functional (system) FMEA on the requirements.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Failure Mode and Effects Analysis — types of FMEAs (functional/system FMEA, Table 4.1).</span></p>",
     "optionRationales": [
-      "A design FMEA starts when the bill of materials is ready. Rating causes for a design that does not exist produces numbers without meaning.",
       "Correct. It analyzes failure to meet each requirement and ranks severity, deferring cause, occurrence and detection.",
+      "A design FMEA starts when the bill of materials is ready. Rating causes for a design that does not exist produces numbers without meaning.",
       "Starting an FMEA after design freeze is a warned-against mistake: the findings arrive too late to change the design cheaply.",
       "A process FMEA needs a process flow; none exists at the concept stage."
     ],
@@ -7285,16 +7286,16 @@
     "options": [
       "Risk identification",
       "Risk analysis",
-      "Risk evaluation",
-      "Risk treatment"
+      "Risk treatment",
+      "Risk evaluation"
     ],
-    "answer": 2,
-    "why": "<p>ISO 31000 runs from identification (finding risks) to analysis (understanding their likelihood and consequences) to evaluation (comparing them with risk criteria to decide which need treatment and their priority), then treatment (selecting and applying controls), with monitoring and review throughout.</p><p><b>C. Risk evaluation</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 3, Risk Management Techniques; Ch. 5, Risk Treatment (ISO 31000 framework).</span></p>",
+    "answer": 3,
+    "why": "<p>ISO 31000 runs from identification (finding risks) to analysis (understanding their likelihood and consequences) to evaluation (comparing them with risk criteria to decide which need treatment and their priority), then treatment (selecting and applying controls), with monitoring and review throughout.</p><p><b>D. Risk evaluation</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 3, Risk Management Techniques; Ch. 5, Risk Treatment (ISO 31000 framework).</span></p>",
     "optionRationales": [
       "Identification finds and describes risks; it does not rank them against criteria.",
       "Analysis estimates likelihood and consequence; deciding what needs treatment comes next.",
-      "Correct. Evaluation compares analyzed risk with the criteria and sets priorities for treatment.",
-      "Treatment selects and implements controls after evaluation has decided what to treat."
+      "Treatment selects and implements controls after evaluation has decided what to treat.",
+      "Correct. Evaluation compares analyzed risk with the criteria and sets priorities for treatment."
     ],
     "keyPoint": "ISO 31000 sequence: identify, analyze, evaluate (decide and prioritize), treat, with monitoring and review throughout.",
     "trap": "Confusing analysis (how big is the risk?) with evaluation (does it need treatment?).",
@@ -7656,16 +7657,16 @@
     "stem": "A team prepares a use FMEA (UFMEA) for a home dialysis machine from its operating instructions. Which entry is written correctly as a UFMEA failure mode?",
     "chart": null,
     "options": [
-      "The blood pump motor bearing wears out early.",
       "The user does not clamp the line before disconnecting it.",
+      "The blood pump motor bearing wears out early.",
       "The supplier ships tubing with wall thickness out of tolerance.",
       "A software timer overflows after 49 days of continuous operation."
     ],
-    "answer": 1,
-    "why": "<p>A UFMEA looks at the system from the user’s side: each step of the operating instructions is a requirement, and each failure mode is a failure to meet it, such as skipping or misperforming a step. It is essentially a process FMEA for the user’s process, and it surfaces foreseeable misuse. The other entries belong in design, supplier process and software FMEAs.</p><p><b>B. The user does not clamp the line before disconnecting it.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Failure Mode and Effects Analysis — types of FMEAs (use FMEA).</span></p>",
+    "answer": 0,
+    "why": "<p>A UFMEA looks at the system from the user’s side: each step of the operating instructions is a requirement, and each failure mode is a failure to meet it, such as skipping or misperforming a step. It is essentially a process FMEA for the user’s process, and it surfaces foreseeable misuse. The other entries belong in design, supplier process and software FMEAs.</p><p><b>A. The user does not clamp the line before disconnecting it.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 4, Failure Mode and Effects Analysis — types of FMEAs (use FMEA).</span></p>",
     "optionRationales": [
-      "Bearing wear is a design FMEA failure mode.",
       "Correct. It is a failure to perform an operating step, from the user’s point of view.",
+      "Bearing wear is a design FMEA failure mode.",
       "Out-of-tolerance supplied tubing is a process or supplier FMEA item.",
       "A timer overflow is a software FMEA item."
     ],
@@ -8787,16 +8788,16 @@
     "options": [
       "Accept the cut without comment, because schedule decisions belong to program management alone.",
       "Refuse to sign the program plan until the full 12-week test is restored.",
-      "Explain the reliability, safety and business risks of each option clearly, so management can make an informed decision.",
-      "Report the proposal directly to the customer, so that the customer can overrule the program manager."
+      "Report the proposal directly to the customer, so that the customer can overrule the program manager.",
+      "Explain the reliability, safety and business risks of each option clearly, so management can make an informed decision."
     ],
-    "answer": 2,
-    "why": "<p>A reliability champion influences decisions through clear, cross-functional communication: explaining in plain terms the reliability and safety risks and the business consequences of a management decision, so that managers can make an informed choice. Staying silent fails that duty, refusing to sign or going around the manager replaces influence with obstruction.</p><p><b>C. Explain the risks of each option so management can decide.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Reliability Engineer Leadership Responsibilities (the reliability champion).</span></p>",
+    "answer": 3,
+    "why": "<p>A reliability champion influences decisions through clear, cross-functional communication: explaining in plain terms the reliability and safety risks and the business consequences of a management decision, so that managers can make an informed choice. Staying silent fails that duty, refusing to sign or going around the manager replaces influence with obstruction.</p><p><b>D. Explain the risks of each option so management can decide.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Reliability Engineer Leadership Responsibilities (the reliability champion).</span></p>",
     "optionRationales": [
       "Silence leaves management deciding without the reliability evidence the engineer holds.",
       "A unilateral refusal obstructs rather than informs; the engineer’s role is to make the risk clear.",
-      "Correct. The champion makes the risks and consequences clear so the decision is an informed one.",
-      "Going around the program manager to the customer breaks the program’s decision process."
+      "Going around the program manager to the customer breaks the program’s decision process.",
+      "Correct. The champion makes the risks and consequences clear so the decision is an informed one."
     ],
     "keyPoint": "A reliability champion informs and influences decisions; management decides with the risks made clear.",
     "trap": "Confusing championing reliability with refusing or escalating.",
@@ -9280,16 +9281,16 @@
     "stem": "A company’s environmental, social and governance (ESG) policy commits to cutting the electronic waste its products create. Which change to the reliability requirements for its next handheld meter best aligns with this policy?",
     "chart": null,
     "options": [
-      "Shorten the warranty from three years to one, so that the requirement matches only the expected early-failure period.",
       "Raise the design-life target and require a user-replaceable battery with a stated service interval.",
+      "Shorten the warranty from three years to one, so that the requirement matches only the expected early-failure period.",
       "Add a burn-in step to production, so that early failures are caught before the meters are shipped.",
       "Reduce the size of the reliability demonstration sample, so that fewer test units are scrapped."
     ],
-    "answer": 1,
-    "why": "<p>Customer expectations, standards, safety, liability and regulations set reliability targets, and the company’s ESG policies should shape how those targets are set. Less electronic waste means products last longer in service: a longer design life and a replaceable wear item (the battery) keep meters in use instead of discarded.</p><p><b>B. Longer design life and a user-replaceable battery.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Drivers of Reliability Requirements and Targets (ESG policies).</span></p>",
+    "answer": 0,
+    "why": "<p>Customer expectations, standards, safety, liability and regulations set reliability targets, and the company’s ESG policies should shape how those targets are set. Less electronic waste means products last longer in service: a longer design life and a replaceable wear item (the battery) keep meters in use instead of discarded.</p><p><b>A. Longer design life and a user-replaceable battery.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Drivers of Reliability Requirements and Targets (ESG policies).</span></p>",
     "optionRationales": [
-      "A shorter warranty does nothing to keep products in service longer.",
       "Correct. Longer life and a replaceable wear item keep products in use and out of the waste stream.",
+      "A shorter warranty does nothing to keep products in service longer.",
       "Burn-in moves early failures in-house but does not extend product life; it can even add scrap.",
       "A smaller test sample saves a few units but weakens the evidence and does not affect field life."
     ],
@@ -9771,16 +9772,16 @@
     "stem": "Management cuts a development program’s schedule by a third while holding its budget fixed. According to the quality triangle, what should the reliability engineer warn is most likely to suffer?",
     "chart": null,
     "options": [
-      "Nothing, if the program is managed well enough to absorb the change.",
       "Quality, including reliability, because time has been cut and cost is held.",
+      "Nothing, if the program is managed well enough to absorb the change.",
       "The budget, because cost usually gives way first when a schedule is cut.",
       "The schedule, because the program will drift back to its original length."
     ],
-    "answer": 1,
-    "why": "<p>The quality triangle links cost, time and quality: investing in one element costs another (“faster, better, cheaper: pick any two”). With time cut and cost held, quality, including reliability testing and design margin, is what gives. Good project management can reduce the tradeoff but does not remove it.</p><p><b>B. Quality, including reliability.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Quality Triangle.</span></p>",
+    "answer": 0,
+    "why": "<p>The quality triangle links cost, time and quality: investing in one element costs another (“faster, better, cheaper: pick any two”). With time cut and cost held, quality, including reliability testing and design margin, is what gives. Good project management can reduce the tradeoff but does not remove it.</p><p><b>A. Quality, including reliability.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Quality Triangle.</span></p>",
     "optionRationales": [
-      "Effective project management narrows the tradeoff; it does not eliminate it.",
       "Correct. With time cut and cost fixed, quality and reliability are the element at risk.",
+      "Effective project management narrows the tradeoff; it does not eliminate it.",
       "The budget is held fixed in this scenario, so cost is not what gives.",
       "The schedule has been cut by decision; the triangle predicts the effect on the remaining element."
     ],
@@ -10041,16 +10042,16 @@
     "options": [
       "D3 containment: sorting stock and in-transit shafts does not isolate the problem from customers.",
       "D4 root cause: reproducing the defect in a trial does not count as verifying the cause.",
-      "D4 escape point: the team has not found why final inspection let soft shafts ship.",
-      "D5 permanent correction: replacing the controller is a containment action, not a correction."
+      "D5 permanent correction: replacing the controller is a containment action, not a correction.",
+      "D4 escape point: the team has not found why final inspection let soft shafts ship."
     ],
-    "answer": 2,
-    "why": "<p>D4 requires two things: the verified root cause and the escape point, the reason the problem was not caught when it occurred. The team verified the cause (furnace drift, reproduced in a trial) but has not asked why final inspection let soft shafts reach customers. Without that, a future process problem could escape the same way.</p><p><b>C. D4 escape point.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Root Cause Analysis — 8D (D4: determine, identify and verify root causes and escape points).</span></p>",
+    "answer": 3,
+    "why": "<p>D4 requires two things: the verified root cause and the escape point, the reason the problem was not caught when it occurred. The team verified the cause (furnace drift, reproduced in a trial) but has not asked why final inspection let soft shafts reach customers. Without that, a future process problem could escape the same way.</p><p><b>D. D4 escape point.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Root Cause Analysis — 8D (D4: determine, identify and verify root causes and escape points).</span></p>",
     "optionRationales": [
       "Sorting all stock and in-transit parts is the interim containment that D3 calls for.",
       "Turning the cause on and off in a trial is strong verification of a root cause.",
-      "Correct. D4 also requires the escape point: why the defect was not detected.",
-      "Replacing the drifting controller removes the cause, and trial lots confirm it, which is what D5 asks."
+      "Replacing the drifting controller removes the cause, and trial lots confirm it, which is what D5 asks.",
+      "Correct. D4 also requires the escape point: why the defect was not detected."
     ],
     "keyPoint": "8D D4 needs both the verified root cause and the escape point.",
     "trap": "Stopping at the root cause without asking how the defect escaped detection.",
@@ -10968,16 +10969,16 @@
     "stem": "A \\(2^{4}\\) experiment on a forming process needs 16 runs. Each steel coil supplies material for only 8 runs, and coils differ in hardness. How should the team run the experiment?",
     "chart": null,
     "options": [
-      "Randomize all 16 runs across the two coils and ignore which coil each run used.",
       "Run each coil as a block of 8, confounding ABCD with blocks, and randomize within each block.",
+      "Randomize all 16 runs across the two coils and ignore which coil each run used.",
       "Run every high-A run on coil 1 and every low-A run on coil 2, randomizing the run order within each coil.",
       "Treat the coil as a fifth factor and double the experiment to 32 runs so that every combination is covered."
     ],
-    "answer": 1,
-    "why": "<p>A block is a planned grouping of runs that removes a known nuisance source, here the coil, from the comparison of factor effects. Splitting the 16 runs into two blocks of 8 and confounding the highest-order interaction (ABCD, usually negligible) with the block difference keeps all main effects and two-factor interactions clear of the coil effect. Randomization then happens within each block.</p><p><b>B. Two blocks of 8, ABCD confounded with blocks, randomized within blocks.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design of Experiments — Blocking; Randomization.</span></p>",
+    "answer": 0,
+    "why": "<p>A block is a planned grouping of runs that removes a known nuisance source, here the coil, from the comparison of factor effects. Splitting the 16 runs into two blocks of 8 and confounding the highest-order interaction (ABCD, usually negligible) with the block difference keeps all main effects and two-factor interactions clear of the coil effect. Randomization then happens within each block.</p><p><b>A. Two blocks of 8, ABCD confounded with blocks, randomized within blocks.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design of Experiments — Blocking; Randomization.</span></p>",
     "optionRationales": [
-      "Ignoring the coil leaves its hardness difference in the error term, which inflates noise and can bias effects.",
       "Correct. Blocking on the coil removes its effect, at the cost of only the ABCD interaction.",
+      "Ignoring the coil leaves its hardness difference in the error term, which inflates noise and can bias effects.",
       "This confounds factor A completely with the coil, so the A effect cannot be separated from the hardness difference.",
       "Doubling the runs is unnecessary; a nuisance variable is handled by blocking, not by studying it as a factor."
     ],
@@ -11045,16 +11046,16 @@
     "options": [
       "Detection 0.920; isolation 0.805",
       "Detection 0.875; isolation 0.920",
-      "Detection 0.920; isolation 0.875",
-      "Detection 0.805; isolation 0.875"
+      "Detection 0.805; isolation 0.875",
+      "Detection 0.920; isolation 0.875"
     ],
-    "answer": 2,
-    "why": "<p>Detection compares detected faults with all faults; isolation compares isolated faults with the faults that were detected:</p><p>\\[\\begin{aligned}\\text{FD} &= \\frac{184}{200} = 0.920 \\\\ \\text{FI} &= \\frac{161}{184} = 0.875\\end{aligned}\\]</p><p>where FD is the fault detection capability and FI the fault isolation capability. A fault must be detected before it can be isolated, so isolation is measured against the detected faults.</p><p><b>C. Detection 0.920; isolation 0.875.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design for X — design for testability (fault detection and fault isolation capability).</span></p>",
+    "answer": 3,
+    "why": "<p>Detection compares detected faults with all faults; isolation compares isolated faults with the faults that were detected:</p><p>\\[\\begin{aligned}\\text{FD} &= \\frac{184}{200} = 0.920 \\\\ \\text{FI} &= \\frac{161}{184} = 0.875\\end{aligned}\\]</p><p>where FD is the fault detection capability and FI the fault isolation capability. A fault must be detected before it can be isolated, so isolation is measured against the detected faults.</p><p><b>D. Detection 0.920; isolation 0.875.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design for X — design for testability (fault detection and fault isolation capability).</span></p>",
     "optionRationales": [
       "Divides the isolated faults by all injected faults (0.805), not by the detected faults.",
       "The two measures are swapped.",
-      "Correct. \\(184/200 = 0.920\\) and \\(161/184 = 0.875\\).",
-      "Uses the isolated share of all faults as detection."
+      "Uses the isolated share of all faults as detection.",
+      "Correct. \\(184/200 = 0.920\\) and \\(161/184 = 0.875\\)."
     ],
     "keyPoint": "Fault detection is detected over total faults; fault isolation is isolated over detected faults.",
     "trap": "Measuring isolation against all faults instead of the detected ones.",
@@ -11536,6 +11537,667 @@
         "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
         "chapter": "Chapter 13 - Maintainability",
         "section": "Preventive maintenance (PM) analysis",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b15-q141",
+    "set": 1,
+    "batch": 15,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "C. Maintainability",
+      "code": "V.C.3",
+      "topic": "Allocating an MTTR requirement to subsystems"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "A series system must have a mean time to repair (MTTR) of no more than 60 minutes. Its three subsystems are in the table. If the requirement is allocated in proportion to each subsystem’s current MTTR, what MTTR should subsystem 2 be designed to?",
+    "chart": {
+      "type": "data-table",
+      "title": "Subsystem failure rates and repair times",
+      "columns": [
+        "Subsystem",
+        "Failures per million h",
+        "MTTR (min)"
+      ],
+      "rows": [
+        [
+          "1",
+          "20",
+          "120"
+        ],
+        [
+          "2",
+          "50",
+          "60"
+        ],
+        [
+          "3",
+          "30",
+          "90"
+        ]
+      ]
+    },
+    "options": [
+      "40 min",
+      "44 min",
+      "60 min",
+      "81 min"
+    ],
+    "answer": 1,
+    "why": "<p>System MTTR is the failure-rate-weighted average of the subsystem MTTRs; then each subsystem is scaled by the same ratio:</p><p>\\[\\begin{aligned}t &= \\frac{2400 + 3000 + 2700}{100} \\\\ &= 81 \\text{ min} \\\\ t_2^{*} &= \\frac{t_2}{t} \\times t^{*} \\\\ &= \\frac{60}{81}(60) = 44.4 \\text{ min}\\end{aligned}\\]</p><p>where the numerator sums each subsystem’s failure rate times its MTTR, \\(t\\) is the current system MTTR, \\(t^{*}\\) the requirement and \\(t_2\\) subsystem 2’s current MTTR. Weighting by failure rate matters because subsystem 2 fails most often, so its repairs dominate the system MTTR.</p><p><b>B. 44 min</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 13, Maintenance Strategies — MTTR Allocation.</span></p>",
+    "optionRationales": [
+      "Uses the simple average of the three MTTRs (90 min) instead of the failure-rate-weighted 81 min.",
+      "Correct. \\(60 \\times 60/81 = 44.4\\) min.",
+      "This is the system requirement, which subsystem 2 already meets, but the system as a whole does not.",
+      "This is the current system MTTR, which is what must be reduced."
+    ],
+    "keyPoint": "System MTTR is weighted by failure rate; allocation scales every subsystem MTTR by the requirement over the current system value.",
+    "trap": "Averaging subsystem MTTRs without weighting them by failure rate.",
+    "formula": "\\(t = \\dfrac{\\sum \\lambda_i t_i}{\\sum \\lambda_i}\\); \\(t_i^{*} = \\dfrac{t_i}{t} t^{*}\\)",
+    "assumptions": [
+      "Series system; constant failure rates."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "MTTR allocation",
+      "maintainability",
+      "corrective maintenance"
+    ],
+    "sourceSection": "Chapter 13 - Maintainability",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 13 - Maintainability",
+        "section": "Maintenance strategies — MTTR allocation",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b15-q142",
+    "set": 1,
+    "batch": 15,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "C. Maintainability",
+      "code": "V.C.3",
+      "topic": "Crew skill and the cost of a corrective repair"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "A critical compressor has failed, and every hour it is down costs 300 dollars in lost production. Two crews could do the repair, as in the table. How much less does the repair cost in total (labor plus downtime) with the crew that includes the skilled technician?",
+    "chart": {
+      "type": "data-table",
+      "title": "Repair crew options",
+      "columns": [
+        "Item",
+        "Skilled + helper",
+        "Two general"
+      ],
+      "rows": [
+        [
+          "Crew labor cost (dollars per h)",
+          "120",
+          "90"
+        ],
+        [
+          "Fault isolation time (h)",
+          "1.5",
+          "3"
+        ],
+        [
+          "Repair time (h)",
+          "2.5",
+          "4"
+        ]
+      ]
+    },
+    "options": [
+      "150 dollars",
+      "900 dollars",
+      "1,050 dollars",
+      "2,730 dollars"
+    ],
+    "answer": 2,
+    "why": "<p>Each crew works for its isolation time plus its repair time, and the compressor is down for that whole time:</p><p>\\[\\begin{aligned}C_S &= 4(120 + 300) \\\\ &= 1680 \\\\ C_G &= 7(90 + 300) \\\\ &= 2730 \\\\ C_G - C_S &= 1050\\end{aligned}\\]</p><p>where \\(C_S\\) and \\(C_G\\) are the total repair costs in dollars for the skilled and general crews. The skilled crew costs more per hour but isolates the fault twice as fast, and downtime dominates the total.</p><p><b>C. 1,050 dollars</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 13, Corrective Maintenance Analysis — Crew Hours and Skill Level.</span></p>",
+    "optionRationales": [
+      "Compares labor only (480 against 630) and leaves out the downtime cost.",
+      "Compares downtime only (3 fewer hours at 300 dollars).",
+      "Correct. \\(2730 - 1680 = 1050\\) dollars.",
+      "This is the general crew’s total cost, not the difference."
+    ],
+    "keyPoint": "Choose repair crews on total cost, including downtime; skill shortens fault isolation, often the longest step.",
+    "trap": "Comparing labor rates alone.",
+    "formula": "\\(C = (t_i + t_r)(c_l + c_d)\\)",
+    "assumptions": [
+      "Downtime equals isolation plus repair time; no other delays."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "corrective maintenance",
+      "crew skill level",
+      "downtime cost"
+    ],
+    "sourceSection": "Chapter 13 - Maintainability",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 13 - Maintainability",
+        "section": "Corrective maintenance analysis — crew hours and skill level",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b15-q143",
+    "set": 1,
+    "batch": 15,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "C. Maintainability",
+      "code": "V.C.3",
+      "topic": "What built-in test shortens"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Understand",
+    "questionType": "Concept",
+    "quantitative": false,
+    "stem": "A redesign adds built-in test (BIT) that displays which module has failed. Which part of corrective maintenance time does it mainly reduce?",
+    "chart": null,
+    "options": [
+      "Fault localization and isolation",
+      "Interchange of the failed module",
+      "Alignment and final checkout",
+      "Logistics and administrative delay"
+    ],
+    "answer": 0,
+    "why": "<p>Active corrective maintenance runs through localization, isolation, disassembly, interchange, reassembly, alignment and checkout. BIT tells the technician where the fault is, so it shortens the first two steps, which are often the longest and most variable. It does not speed up the physical work or waiting for parts.</p><p><b>A. Fault localization and isolation.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 13, Corrective Maintenance Analysis — Fault Isolation Time (built-in testing).</span></p>",
+    "optionRationales": [
+      "Correct. BIT points to the failed module, cutting the time to find and confirm the fault.",
+      "Swapping the module takes the same time once it is found.",
+      "Alignment and checkout follow the repair and are unchanged by BIT.",
+      "Waiting for parts or approvals is inactive time that BIT does not affect."
+    ],
+    "keyPoint": "BIT shortens fault isolation; designs for maintainability target each step of the repair sequence.",
+    "trap": "Expecting a diagnostic feature to shorten the physical repair.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "built-in test",
+      "fault isolation",
+      "corrective maintenance"
+    ],
+    "sourceSection": "Chapter 13 - Maintainability",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 13 - Maintainability",
+        "section": "Corrective maintenance analysis — fault isolation time",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b15-q144",
+    "set": 1,
+    "batch": 15,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "C. Maintainability",
+      "code": "V.C.1",
+      "topic": "Keeping an equipment warranty valid"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Scenario",
+    "quantitative": false,
+    "stem": "A plant’s new extruder is covered by the standard manufacturer warranty. Which action is most likely to void the warranty?",
+    "chart": null,
+    "options": [
+      "Following the prescribed preventive maintenance schedule and logging each task",
+      "Reporting a drive fault to the supplier on the day it occurs",
+      "Notifying the supplier and scheduling the warranty repair with them for the next planned shutdown",
+      "Having in-house technicians replace a failed drive board without the supplier"
+    ],
+    "answer": 3,
+    "why": "<p>A standard warranty usually excludes unauthorized repairs, along with wear and tear, misuse and neglect. Following the maintenance schedule, documenting work, reporting faults promptly and scheduling warranty work during planned downtime are all recommended practices. An in-house repair the warranty does not allow can void it.</p><p><b>D. In-house repair without the supplier.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 13, Equipment Warranties — Warranty Types; Best Practices for Warranty Use.</span></p>",
+    "optionRationales": [
+      "Following the prescribed schedule and keeping records protects the warranty.",
+      "Prompt reporting is a warranty best practice and keeps the claim eligible.",
+      "Scheduling warranty work in planned downtime is recommended to limit disruption.",
+      "Correct. Unauthorized repairs are a common warranty exclusion."
+    ],
+    "keyPoint": "Know a warranty’s terms and exclusions; unauthorized repairs and missed maintenance can void it.",
+    "trap": "Assuming any quick fix is acceptable while equipment is under warranty.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "equipment warranty",
+      "maintenance strategy",
+      "unauthorized repair"
+    ],
+    "sourceSection": "Chapter 13 - Maintainability",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 13 - Maintainability",
+        "section": "Equipment warranties",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b15-q145",
+    "set": 1,
+    "batch": 15,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "C. Maintainability",
+      "code": "V.C.2",
+      "topic": "When age-based replacement is effective"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, decision",
+    "quantitative": false,
+    "stem": "Two components of a packaging machine have the life distributions in the table. Which preventive maintenance policy fits?",
+    "chart": {
+      "type": "data-table",
+      "title": "Component life distributions",
+      "columns": [
+        "Component",
+        "Life distribution"
+      ],
+      "rows": [
+        [
+          "Controller board",
+          "Weibull, \\(\\beta = 1.0\\), \\(\\eta = 60000\\) h"
+        ],
+        [
+          "Gearbox bearing",
+          "Weibull, \\(\\beta = 3.2\\), \\(\\eta = 20000\\) h"
+        ]
+      ]
+    },
+    "options": [
+      "Replace the bearing at a fixed age well before 20,000 h, and run the controller board to failure, because only the bearing’s failure rate increases.",
+      "Replace both at fixed ages, because scheduled replacement lowers failures whatever a component’s failure pattern.",
+      "Replace the controller board at a fixed age and run the bearing to failure, because electronics fail randomly.",
+      "Run both to failure, because scheduled replacement can introduce maintenance-induced failures."
+    ],
+    "answer": 0,
+    "why": "<p>Age-based replacement helps only when the hazard rises with age. The bearing, with \\(\\beta = 3.2\\), wears out, so replacing it before wear-out sharply cuts failures. The controller board, with \\(\\beta = 1.0\\), has a constant failure rate: a new board is no less likely to fail than an old one, so age replacement adds cost and the risk of maintenance-induced failures without reducing failures. Condition monitoring or running it to failure fits better.</p><p><b>A. Replace the bearing by age; run the board to failure.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 13, Preventive Maintenance (PM) Analysis (PM pays off for increasing failure rates; PM does not reduce a constant failure rate).</span></p>",
+    "optionRationales": [
+      "Correct. Replace the wearing-out bearing; age replacement cannot help a constant-rate part.",
+      "Replacing a constant-rate part early does not reduce its failures and may add maintenance-induced ones.",
+      "This reverses the logic: the bearing wears out, while the board fails at a constant rate.",
+      "Maintenance-induced failures are a real risk, but the bearing’s wear-out makes its replacement worthwhile."
+    ],
+    "keyPoint": "Schedule replacement for parts with increasing hazard (\\(\\beta \\gt 1\\)); it does not help when the failure rate is constant.",
+    "trap": "Applying age replacement to a part with a constant failure rate.",
+    "formula": null,
+    "assumptions": [
+      "Replacement restores a part to as-good-as-new."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "preventive maintenance",
+      "age replacement",
+      "Weibull shape",
+      "constant failure rate"
+    ],
+    "sourceSection": "Chapter 13 - Maintainability",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 13 - Maintainability",
+        "section": "Preventive maintenance (PM) analysis",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b15-q146",
+    "set": 1,
+    "batch": 15,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.3",
+      "topic": "One-way ANOVA across suppliers"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation, hypothesis test",
+    "quantitative": true,
+    "stem": "Bond strength (N) of an adhesive from three suppliers is tested with five specimens each, summarized in the table. What is the one-way ANOVA F statistic, and is there a significant difference at the 5% level? (\\(F_{0.05,2,12} = 3.89\\).)",
+    "chart": {
+      "type": "data-table",
+      "title": "Bond strength by supplier",
+      "columns": [
+        "Supplier",
+        "Specimens",
+        "Mean (N)",
+        "Sample variance"
+      ],
+      "rows": [
+        [
+          "A",
+          "5",
+          "42",
+          "7"
+        ],
+        [
+          "B",
+          "5",
+          "46",
+          "8"
+        ],
+        [
+          "C",
+          "5",
+          "50",
+          "9"
+        ]
+      ]
+    },
+    "options": [
+      "\\(F = 1.67\\); not significant",
+      "\\(F = 3.33\\); not significant",
+      "\\(F = 10.0\\); significant",
+      "\\(F = 20.0\\); significant"
+    ],
+    "answer": 2,
+    "why": "<p>Compare the variation between supplier means with the variation within suppliers:</p><p>\\[\\begin{aligned}\\text{SS}_{tr} &= 5[(-4)^{2} + 0^{2} + 4^{2}] \\\\ &= 160 \\\\ \\text{MS}_{tr} &= 160/2 = 80 \\\\ \\text{MS}_{E} &= \\frac{7 + 8 + 9}{3} = 8 \\\\ F &= 80/8 = 10.0\\end{aligned}\\]</p><p>where the grand mean is 46, \\(\\text{SS}_{tr}\\) and \\(\\text{MS}_{tr}\\) are the treatment sum of squares and mean square (2 degrees of freedom), and \\(\\text{MS}_{E}\\) is the error mean square: the pooled within-supplier variance, with 12 degrees of freedom. Since \\(10.0 \\gt 3.89\\), at least one supplier’s mean differs.</p><p><b>C. \\(F = 10.0\\); significant.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design of Experiments — One-Way Analysis of Variance.</span></p>",
+    "optionRationales": [
+      "Divides the treatment sum of squares by the error sum of squares (160/96), with no degrees of freedom.",
+      "Uses the sum of the three variances (24) as the error mean square instead of their average.",
+      "Correct. \\(80/8 = 10.0\\), which exceeds 3.89.",
+      "Divides the treatment sum of squares (160) by the error mean square without dividing by its 2 degrees of freedom."
+    ],
+    "keyPoint": "F is the treatment mean square over the error mean square; with equal sample sizes, the error mean square is the average within-group variance.",
+    "trap": "Using sums of squares instead of mean squares.",
+    "formula": "\\(F = \\dfrac{\\text{SS}_{tr}/(k - 1)}{\\text{SS}_E/(N - k)}\\)",
+    "assumptions": [
+      "Independent, normally distributed responses with equal variances."
+    ],
+    "estimatedMinutes": 6,
+    "keywords": [
+      "ANOVA",
+      "F test",
+      "design of experiments",
+      "supplier comparison"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Design of experiments — one-way analysis of variance",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b15-q147",
+    "set": 1,
+    "batch": 15,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.2",
+      "topic": "Lognormal stress–strength interference"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, calculation",
+    "quantitative": true,
+    "stem": "The stress on a weld and its strength are independent and lognormally distributed, as in the table. What is the probability of failure?",
+    "chart": {
+      "type": "data-table",
+      "title": "Weld stress and strength (lognormal)",
+      "columns": [
+        "Quantity",
+        "Median (MPa)",
+        "Standard deviation of ln"
+      ],
+      "rows": [
+        [
+          "Stress",
+          "300",
+          "0.15"
+        ],
+        [
+          "Strength",
+          "400",
+          "0.10"
+        ]
+      ]
+    },
+    "options": [
+      "0.028",
+      "0.055",
+      "0.125",
+      "0.945"
+    ],
+    "answer": 1,
+    "why": "<p>For lognormal stress and strength, the log of their ratio is normal:</p><p>\\[\\begin{aligned}z &= \\frac{\\ln(400/300)}{\\sqrt{0.15^{2} + 0.10^{2}}} \\\\ &= \\frac{0.2877}{0.1803} = 1.60 \\\\ P_f &= \\Phi(-1.60) = 0.055\\end{aligned}\\]</p><p>where \\(z\\) is the number of log-scale standard deviations between the medians and \\(P_f\\) the probability that stress exceeds strength.</p><p><b>B. 0.055</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Stress–Strength Analysis for Lognormal Distributions.</span></p>",
+    "optionRationales": [
+      "Uses only the stress spread (\\(0.2877/0.15 = 1.92\\)).",
+      "Correct. \\(z = 1.60\\), so \\(P_f = 0.055\\).",
+      "Adds the standard deviations (0.25) instead of combining their squares.",
+      "This is the reliability, not the probability of failure."
+    ],
+    "keyPoint": "Lognormal interference: z is the log of the median ratio over the root-sum-square of the log standard deviations.",
+    "trap": "Adding standard deviations instead of variances.",
+    "formula": "\\(P_f = 1 - \\Phi\\left(\\dfrac{\\ln(m_Y/m_X)}{\\sqrt{s_X^{2} + s_Y^{2}}}\\right)\\)",
+    "assumptions": [
+      "Stress and strength are independent and lognormal."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "stress-strength interference",
+      "lognormal",
+      "probability of failure"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Stress–strength analysis for lognormal distributions",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b15-q148",
+    "set": 1,
+    "batch": 15,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.1",
+      "topic": "Types of reliability evaluation during production"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Understand",
+    "questionType": "Concept",
+    "quantitative": false,
+    "stem": "After production approval, a sample of units is pulled each month and tested to confirm that output still meets the reliability requirement. Which type of evaluation is this?",
+    "chart": null,
+    "options": [
+      "Environmental stress screening",
+      "Reliability development (growth) testing",
+      "Production reliability acceptance testing",
+      "Reliability qualification (demonstration) testing"
+    ],
+    "answer": 2,
+    "why": "<p>Four types of evaluation are used across the lifecycle: environmental stress screening exposes units to severe stresses to find weak components; reliability growth tests show the effect of corrective actions during development; reliability qualification (demonstration) tests on a production sample serve as the basis for production approval; and production reliability acceptance tests run periodically during production to confirm that output still meets the requirement.</p><p><b>C. Production reliability acceptance testing.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design Evaluation Techniques — Post-Production (types of evaluation).</span></p>",
+    "optionRationales": [
+      "Screening stresses units to precipitate weak components; it does not verify a reliability requirement.",
+      "Growth testing tracks the effect of design fixes during development.",
+      "Correct. Periodic testing of production output against the requirement is acceptance testing.",
+      "Qualification testing is the basis for production approval, which has already happened here."
+    ],
+    "keyPoint": "Qualification tests approve production; acceptance tests keep confirming it periodically.",
+    "trap": "Confusing one-time qualification with periodic acceptance testing.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "reliability acceptance test",
+      "qualification test",
+      "design evaluation"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Design evaluation techniques — post-production",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b15-q149",
+    "set": 1,
+    "batch": 15,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "B. Parts and Systems Development",
+      "code": "V.B.2",
+      "topic": "Benefits of parts standardization"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Understand",
+    "questionType": "Concept",
+    "quantitative": false,
+    "stem": "A design team standardizes on one fastener size and one connector family across a product line. What is the main reliability and maintainability benefit?",
+    "chart": null,
+    "options": [
+      "Each fastener becomes more reliable, because it is bought in larger quantities.",
+      "New parts need less qualification, because standard parts already have field history.",
+      "The design gains redundancy, because identical parts can back each other up in service.",
+      "Fewer part types reduce assembly and service errors, because technicians handle familiar parts and spares are easier to stock."
+    ],
+    "answer": 3,
+    "why": "<p>Standardization and simplification reduce the variety of parts and materials. That makes products easier and cheaper to assemble, reduces the chance of using the wrong part, and improves maintainability through easier access to standard spare and repair parts and fewer special tools.</p><p><b>D. Simpler assembly and service, easier spares.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 12, Parts Standardization and System Simplification.</span></p>",
+    "optionRationales": [
+      "Buying in volume can lower cost, but it does not make each part more reliable.",
+      "Field history in one use does not qualify a part for a new application and its stresses.",
+      "Using the same part in many places does not create redundancy.",
+      "Correct. Fewer part types mean simpler assembly and service and easier spares."
+    ],
+    "keyPoint": "Standardization and simplification cut variety, which simplifies assembly, maintenance and spares.",
+    "trap": "Assuming a standard part is qualified for every application.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "standardization",
+      "simplification",
+      "maintainability",
+      "spares"
+    ],
+    "sourceSection": "Chapter 12 - Parts and Systems Development",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 12 - Parts and Systems Development",
+        "section": "Parts standardization and system simplification",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b15-q150",
+    "set": 1,
+    "batch": 15,
+    "sub": "cre-lifecycle",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "V. Lifecycle Reliability",
+      "subdomain": "A. Reliability Design Techniques",
+      "code": "V.A.7",
+      "topic": "Cascading a system reliability target"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Calculation",
+    "quantitative": true,
+    "stem": "In a design-for-reliability program, a system target of 0.90 for a 100-hour mission is cascaded to three series subsystems in proportion to their predicted failure rates: 200, 300 and 500 per million hours. What reliability target should subsystem 3 receive?",
+    "chart": null,
+    "options": [
+      "0.9000",
+      "0.9487",
+      "0.9512",
+      "0.9655"
+    ],
+    "answer": 1,
+    "why": "<p>Convert the system target to an allowed failure rate, give subsystem 3 its share (500 of 1,000), and convert back:</p><p>\\[\\begin{aligned}\\lambda^{*} &= \\frac{-\\ln 0.90}{100} = 0.0010536 \\\\ \\lambda_3^{*} &= 0.5(0.0010536) \\\\ &= 0.0005268 \\\\ R_3^{*} &= e^{-0.0005268(100)} \\\\ &= 0.9487\\end{aligned}\\]</p><p>where \\(\\lambda^{*}\\) is the allowed system failure rate per hour and \\(\\lambda_3^{*}\\) and \\(R_3^{*}\\) are subsystem 3’s allocated failure rate and reliability target. Subsystems with higher predicted failure rates get the looser targets; equal apportionment would give each \\(0.90^{1/3} = 0.9655\\).</p><p><b>B. 0.9487</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 11, Design for Reliability — Step 2: Cascade Reliability Targets.</span></p>",
+    "optionRationales": [
+      "This is the system target; each series subsystem must be more reliable than the system.",
+      "Correct. \\(e^{-0.05268} = 0.9487\\).",
+      "This is subsystem 3’s predicted reliability, \\(e^{-0.05}\\), not its allocated target.",
+      "Equal apportionment ignores the predicted failure rates."
+    ],
+    "keyPoint": "Cascade targets by weighting with predicted failure rates; the subsystem targets multiply back to the system target.",
+    "trap": "Splitting a series target equally, or confusing the prediction with the allocation.",
+    "formula": "\\(R_i^{*} = (R_s^{*})^{w_i}\\), with \\(w_i = \\lambda_i / \\sum \\lambda_j\\)",
+    "assumptions": [
+      "Series subsystems with constant failure rates."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "design for reliability",
+      "reliability allocation",
+      "cascading targets"
+    ],
+    "sourceSection": "Chapter 11 - Reliability Design Techniques",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 11 - Reliability Design Techniques",
+        "section": "Design for reliability — cascade reliability targets",
         "example": null
       }
     ]
