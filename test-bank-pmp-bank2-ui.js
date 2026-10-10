@@ -3,7 +3,10 @@
   const esc = value => String(value == null ? '' : value).replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
   const inline = value => esc(value).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   function table(headers, rows) {
-    return '<div class="pmp2-scroll" role="region" aria-label="Question evidence table" tabindex="0"><table class="pmp2-table"><thead><tr>' + headers.map(h => '<th scope="col">' + inline(h) + '</th>').join('') + '</tr></thead><tbody>' + rows.map(row => '<tr>' + row.map((v, i) => i ? '<td>' + inline(v) + '</td>' : '<th scope="row">' + inline(v) + '</th>').join('') + '</tr>').join('') + '</tbody></table></div>';
+    return scrollHint(headers) + '<div class="pmp2-scroll" role="region" aria-label="Question evidence table" tabindex="0"><table class="pmp2-table"><thead><tr>' + headers.map(h => '<th scope="col">' + inline(h) + '</th>').join('') + '</tr></thead><tbody>' + rows.map(row => '<tr>' + row.map((v, i) => i ? '<td>' + inline(v) + '</td>' : '<th scope="row">' + inline(v) + '</th>').join('') + '</tr>').join('') + '</tbody></table></div>';
+  }
+  function scrollHint(headers) {
+    return headers.length > 3 ? '<p class="pmp2-scroll-hint">Swipe or scroll the table horizontally to see all columns.</p>' : '';
   }
   function markdown(value) {
     return String(value || '').split(/\n\n+/).filter(Boolean).map(block => {
@@ -78,7 +81,14 @@
     return html + '</div>';
   }
   function select(q, value, row) {
-    return '<select data-pmp-select="' + esc(row || '') + '"><option value="">Choose a response</option>' + q.choices.map(choice => '<option value="' + choice[0] + '"' + (choice[0] === value ? ' selected' : '') + '>' + choice[0] + '. ' + esc(choice[1]) + '</option>').join('') + '</select>';
+    return '<select data-pmp-select="' + esc(row || '') + '"><option value="">Choose a response</option>' + q.choices.map(choice => '<option value="' + choice[0] + '"' + (choice[0] === value ? ' selected' : '') + '>' + choice[0] + '. ' + esc(choice[1]) + '</option>').join('') + '</select><span class="pmp2-selected-text" aria-hidden="true">' + esc(selectedText(q, value)) + '</span>';
+  }
+  function selectedText(q, value) {
+    const choice = q.choices.find(choice => choice[0] === value);
+    return choice ? 'Selected: ' + choice[0] + '. ' + choice[1] : 'No response selected.';
+  }
+  function responseBank(q) {
+    return '<div class="pmp2-response-bank"><p><strong>Available responses</strong></p><p>Read the full responses here, then choose the corresponding letter below.</p><ul>' + q.choices.map(choice => '<li><strong>' + esc(choice[0]) + '.</strong> ' + esc(choice[1]) + '</li>').join('') + '</ul></div>';
   }
   function renderAnswers(q, selected, locked) {
     const value = decode(q, selected);
@@ -89,13 +99,13 @@
     if (q.format === 'hotspot') {
       const headers = q.exhibit.headers;
       const rows = q.exhibit.rows;
-      body = '<p>' + esc(q.hotspotInstruction || (q.hotspotType === 'engagement' ? 'C = current; D = desired. Select ONE current marker.' : 'Select ONE forecast receipt cell.')) + '</p><div class="pmp2-scroll" role="region" aria-label="Selectable question evidence" tabindex="0"><table class="pmp2-table' + (headers.length <= 3 ? ' pmp2-table-compact' : '') + '"><thead><tr>' + headers.map(h => '<th scope="col">' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' + rows.map((row, r) => '<tr>' + row.map((cell, col) => {
+      body = '<p>' + esc(q.hotspotInstruction || (q.hotspotType === 'engagement' ? 'C = current; D = desired. Select ONE current marker.' : 'Select ONE forecast receipt cell.')) + '</p>' + scrollHint(headers) + '<div class="pmp2-scroll" role="region" aria-label="Selectable question evidence" tabindex="0"><table class="pmp2-table' + (headers.length <= 3 ? ' pmp2-table-compact' : '') + '"><thead><tr>' + headers.map(h => '<th scope="col">' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' + rows.map((row, r) => '<tr>' + row.map((cell, col) => {
         if (col === 0) return '<th scope="row">' + esc(cell) + '</th>';
         const target = q.hotspotType === 'engagement' ? cell.includes('C') : col === (q.hotspotColumn ?? 2);
         return '<td>' + (target ? '<button type="button" class="pmp2-cell" data-pmp-cell="' + q.choices[r][0] + '" aria-label="' + esc(q.choices[r][1]) + '" aria-pressed="' + (value === q.choices[r][0]) + '">' + esc(cell.replace(/ \[[A-D]\]/g, '')) + '</button>' : esc(cell)) + '</td>';
       }).join('') + '</tr>').join('') + '</tbody></table></div>';
     }
-    return '<div class="pmp2-answers" data-pmp-locked="' + !!locked + '">' + body + '<p class="pmp2-selection" role="status" aria-live="polite">' + esc(responseLabel(q, selected)) + '</p></div>';
+    return '<div class="pmp2-answers" data-pmp-locked="' + !!locked + '">' + ((q.format === 'matching' || q.format === 'dropdown') ? responseBank(q) : '') + body + '<p class="pmp2-selection" role="status" aria-live="polite">' + esc(responseLabel(q, selected)) + '</p></div>';
   }
   function update(root, q, selected, locked) {
     const wrap = root.querySelector('.pmp2-answers');
@@ -105,7 +115,10 @@
     wrap.querySelectorAll('input,select,button').forEach(control => {
       control.disabled = !!locked;
       if (control.dataset.pmpChoice) control.checked = value.includes(control.dataset.pmpChoice);
-      if (control.hasAttribute('data-pmp-select')) control.value = q.format === 'matching' ? value[control.dataset.pmpSelect] : value;
+      if (control.hasAttribute('data-pmp-select')) {
+        control.value = q.format === 'matching' ? value[control.dataset.pmpSelect] : value;
+        control.nextElementSibling.textContent = selectedText(q, control.value);
+      }
       if (control.dataset.pmpCell) control.setAttribute('aria-pressed', String(control.dataset.pmpCell === value));
     });
     wrap.querySelector('.pmp2-selection').textContent = responseLabel(q, selected);

@@ -1,4 +1,4 @@
-/* PMP Set 2: original authored batches 1–7 (Q001–Q070), July 2026 ECO.
+/* PMP Set 2: original authored batches 1–18 (Q001–Q180), July 2026 ECO.
  * Legacy files named test-bank-pmp-set1.js through set6.js all populate Set 1.
  * Keep this bank separate. No PMI exam items or book passages are reproduced.
  */
@@ -440,7 +440,7 @@
         "explanation": "Completion is controlled by the longest remaining path. Shortening B by two days gives a 16-day first path, but the other path would still take 17 days. Reducing C by one day also brings that path to 16 days. The combined cost is $6,000, within the stated authority.\n\n| Option | A–B–D after recovery | A–C–D after recovery | Project duration | Cost | Meets both conditions |\n|---|---:|---:|---:|---:|---|\n| A | 16 days | 17 days | 17 days | $4,000 | No |\n| B | 16 days | 16 days | 16 days | $6,000 | Yes |\n| C | 16 days | 16 days | 16 days | $8,000 | No |\n| D | 17 days | 16 days | 17 days | $4,000 | No |",
         "rationales": {
           "A": "The paths become 16 and 17 days. The project still finishes in 17 days, even though its original critical path has been shortened sufficiently.",
-          "B": "The paths become 16 and 16 days, and the cost is 2 × $2,000 + $2,000 = $6,000. Both conditions are satisfied.",
+          "B": "The paths become 16 and 16 days. The recovery cost, in dollars, is \\[2\\times2000+2000=6000.\\] Both conditions are satisfied.",
           "C": "The paths become 16 and 16 days, but $8,000 exceeds the existing $6,000 authority. The question does not authorize assuming additional approval.",
           "D": "The paths become 17 and 16 days. The lower cost does not compensate for missing the deadline."
         },
@@ -1254,12 +1254,12 @@
         "correct": [
           "C"
         ],
-        "explanation": "The validated remaining-work estimate is the strongest stated basis for the forecast: EAC = actual cost + bottom-up estimate to complete = $360,000 + $315,000 = $675,000. That is $75,000 above the $600,000 budget. A forecast reports expected reality; it does not by itself authorize a revised baseline or additional funding.",
+        "explanation": "The validated remaining-work estimate is the strongest stated basis for the forecast. Estimate at completion (EAC) equals actual cost (AC) plus the bottom-up estimate to complete (ETC). In dollars:\n\n\\[\\begin{aligned}\\mathrm{EAC}&=\\mathrm{AC}+\\mathrm{ETC}\\\\&=360000+315000\\\\&=675000.\\end{aligned}\\]\n\nThat is $75,000 above the $600,000 budget. A forecast reports expected reality; it does not by itself authorize a revised baseline or additional funding.",
         "rationales": {
           "A": "An approved baseline and a current forecast serve different purposes. Waiting for approval before reporting the forecast hides the expected variance.",
-          "B": "$360,000 + ($600,000 − $300,000) = $660,000 assumes remaining work can be done for $300,000 and ignores the validated $315,000 estimate.",
+          "B": "The remaining budgeted work is $300,000. Adding that amount to actual cost gives, in dollars, \\[\\begin{aligned}360000+300000&=660000.\\end{aligned}\\] This ignores the validated $315,000 estimate for the remaining work.",
           "C": "Correct. It uses the full remaining estimate once, reports the variance, and preserves the distinction between forecasting and change authorization.",
-          "D": "CPI = $300,000 / $360,000 = 0.8333; BAC / CPI = $720,000. That extrapolation assumes continuing cost efficiency, whereas the scenario identifies a resolved one-time cause and a validated new estimate."
+          "D": "Using earned value (EV), actual cost (AC), and budget at completion (BAC), the cumulative cost performance index (CPI) and extrapolated estimate at completion (EAC) are \\[\\begin{aligned}\\mathrm{CPI}&=\\frac{\\mathrm{EV}}{\\mathrm{AC}}=\\frac{300000}{360000}\\\\&\\approx0.8333,\\\\\\mathrm{EAC}&=\\frac{\\mathrm{BAC}}{\\mathrm{CPI}}=720000.\\end{aligned}\\] The forecast is $720,000 using the unrounded CPI. That extrapolation assumes continuing cost efficiency, whereas the scenario identifies a resolved one-time cause and a validated new estimate."
         },
         "references": [
           "PMBOK Guide, Eighth Edition, Guide, Earned Value Analysis, Table 5-1, p. 209 (PDF p. 314); Bottom-up estimating, p. 149 (PDF p. 254); §2.1.6.7, p. 26 (PDF p. 131)."
@@ -1739,7 +1739,7 @@
         "correct": [
           "D"
         ],
-        "explanation": "F + A + N uses 3 + 5 + 2 = 10 effort units and delivers 0 + 90 + 16 = 106 benefit points. It includes the prerequisite and has higher benefit than the feasible S + G + N package, which yields 100 points. The decision must evaluate feasible combinations, not a feature's benefit in isolation.",
+        "explanation": "Package F, A, and N uses the following effort units and benefit points:\n\n\\[\\begin{aligned}\\text{Effort}&=3+5+2=10,\\\\\\text{Benefit}&=0+90+16=106.\\end{aligned}\\]\n\nIt includes the prerequisite and has higher benefit than the feasible S, G, and N package, which yields 100 points. The decision must evaluate feasible combinations, not a feature’s benefit in isolation.",
         "rationales": {
           "A": "The listed items use 9 units but omit A's prerequisite. Adding F would bring the package to 12 units, above capacity.",
           "B": "This package is feasible at 9 units and 100 points, but it delivers fewer points than D.",
@@ -2576,10 +2576,10 @@
         "interactionNote": "Text adaptation: identify the supplier letter and forecast-receipt cell. In the intended website interaction, the four marked forecast cells are selectable; selecting the supplier's other cells does not answer the target.",
         "explanation": "Subtract available float from the forecast receipt delay, with a minimum impact of zero. Supplier B is 3 working days late with no float, so its path projects a 3-day release delay. Supplier A projects a 1-day impact; C and D remain within float. B therefore drives the greatest release delay, even though D has the largest raw delivery slip.",
         "rationales": {
-          "A": "Receipt delay is 13 − 8 = 5 days. After 4 days of float, projected release impact is 1 day, less than B's.",
-          "B": "Correct. Receipt delay is 13 − 10 = 3 days. With zero float, all 3 days affect the release.",
-          "C": "Receipt delay is 9 − 7 = 2 days, within 3 days of float; projected release impact is zero.",
-          "D": "Receipt delay is 11 − 5 = 6 days, within 8 days of float. The largest delivery slip is not the largest release impact."
+          "A": "Receipt delay, in working days, is \\[13-8=5.\\] After 4 days of float, projected release impact is 1 day, less than B’s.",
+          "B": "Correct. Receipt delay, in working days, is \\[13-10=3.\\] With zero float, all 3 days affect the release.",
+          "C": "Receipt delay, in working days, is \\[9-7=2.\\] This is within 3 days of float; projected release impact is zero.",
+          "D": "Receipt delay, in working days, is \\[11-5=6.\\] This is within 8 days of float. The largest delivery slip is not the largest release impact."
         },
         "references": [
           "PMBOK Guide, Eighth Edition, Guide §2.3.2.3, pp. 53–55 (PDF pp. 158–160), including contractor and supplier schedule-status reviews; Schedule network analysis, p. 197 (PDF p. 302)."
@@ -4630,7 +4630,7 @@
         "correct": [
           "D"
         ],
-        "explanation": "Apply eligibility before ranking. A fails the response-time gate and C exceeds the budget ceiling. Eligible B scores 0.60 × 86 + 0.40 × 88 = 86.8; eligible D scores 0.60 × 91 + 0.40 × 85 = 88.6. D therefore wins. The procedure does not authorize substituting lowest price for the published weighted criteria.",
+        "explanation": "Apply eligibility before ranking. A fails the response-time gate and C exceeds the budget ceiling. The eligible weighted scores are:\n\n\\[\\begin{aligned}\\text{Bid B}&=0.60\\times86+0.40\\times88\\\\&=86.8,\\\\\\text{Bid D}&=0.60\\times91+0.40\\times85\\\\&=88.6.\\end{aligned}\\]\n\nD therefore wins. The procedure does not authorize substituting lowest price for the published weighted criteria.",
         "rationales": {
           "A": "The calculation is correct, but A is ineligible because its eight-hour response exceeds four hours.",
           "B": "B is eligible, but lowest price does not determine the winner once the gates are satisfied.",
@@ -8880,7 +8880,7 @@
         ],
         [
           "B",
-          "Use the junior: forty preparation hours remove the full forty-hour senior capacity gap."
+          "Use the junior: the twenty-hour reduction in review demand closes the initial capacity gap, so all required review fits."
         ],
         [
           "C",
@@ -8897,7 +8897,7 @@
       "explanation": "The senior initially has 40 hours left after mandatory work. Contractor onboarding reduces this to 36, and 24 contractor hours give 60 hours of qualified review. With the junior, review demand falls from 60 to 40 hours, but eight mentoring hours leave only 32 senior hours for it, producing an eight-hour shortfall. The stated mentoring requirement cannot be ignored.",
       "rationales": {
         "A": "This accounts for both added capacity and the senior time required to obtain it.",
-        "B": "The junior saves 20 review hours, not 40; mentoring also consumes senior capacity.",
+        "B": "The twenty-hour reduction closes the initial demand gap only before mentoring is counted. Eight mentoring hours leave 32 senior review hours for 40 hours of remaining review.",
         "C": "Forty of the 80 hours are already committed to immovable work.",
         "D": "Omitting the required mentoring makes the proposed plan inconsistent with the supplied conditions."
       },

@@ -213,3 +213,33 @@ test('untimed reveal locks interactive inputs and records a correct prior respon
     assert.deepEqual(p.errors,[]);
   }finally{p.close();}
 });
+
+
+test('long matching and dropdown choices stay readable through selection, clearing, and reveal locking', () => {
+  const {PMP_BANK2: questions, __PMPSet2UI: ui} = load();
+  for (const q of questions.filter(q => ['matching', 'dropdown'].includes(q.format))) {
+    const dom = new JSDOM(ui.renderAnswers(q, null, false));
+    try {
+      const root = dom.window.document;
+      const choices = [...root.querySelectorAll('.pmp2-response-bank li')];
+      assert.equal(choices.length, q.choices.length);
+      q.choices.forEach(([key, text], i) => assert.equal(choices[i].textContent, key + '. ' + text));
+      let selected = null;
+      ui.wire(root, q, () => selected, code => { selected = code; });
+      const controls = [...root.querySelectorAll('select')];
+      for (const control of controls) {
+        change(dom.window, control, q.choices[0][0]);
+        assert.equal(control.nextElementSibling.textContent, 'Selected: ' + q.choices[0][0] + '. ' + q.choices[0][1]);
+        change(dom.window, control, '');
+        assert.equal(control.nextElementSibling.textContent, 'No response selected.');
+      }
+      assert.equal(selected, null);
+      ui.update(root, q, q.answer, true);
+      controls.forEach(control => {
+        assert.equal(control.disabled, true);
+        const text = q.choices.find(([key]) => key === control.value)[1];
+        assert.equal(control.nextElementSibling.textContent, 'Selected: ' + control.value + '. ' + text);
+      });
+    } finally { dom.window.close(); }
+  }
+});

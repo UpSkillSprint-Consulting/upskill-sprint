@@ -36,7 +36,11 @@ Select ONE answer.
 
 #### Answer and explanation
 
-**Correct answer: D.** Apply eligibility before ranking. A fails the response-time gate and C exceeds the budget ceiling. Eligible B scores 0.60 × 86 + 0.40 × 88 = 86.8; eligible D scores 0.60 × 91 + 0.40 × 85 = 88.6. D therefore wins. The procedure does not authorize substituting lowest price for the published weighted criteria.
+**Correct answer: D.** Apply eligibility before ranking. A fails the response-time gate and C exceeds the budget ceiling. The eligible weighted scores are:
+
+\[\begin{aligned}\text{Bid B}&=0.60\times86+0.40\times88\\&=86.8,\\\text{Bid D}&=0.60\times91+0.40\times85\\&=88.6.\end{aligned}\]
+
+D therefore wins. The procedure does not authorize substituting lowest price for the published weighted criteria.
 
 **A.** The calculation is correct, but A is ineligible because its eight-hour response exceeds four hours.
 **B.** B is eligible, but lowest price does not determine the winner once the gates are satisfied.

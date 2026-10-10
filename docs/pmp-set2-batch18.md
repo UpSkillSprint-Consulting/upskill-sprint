@@ -106,7 +106,7 @@ A predictive recovery plan needs 60 hours of qualified technical review in the n
 Select ONE answer.
 
 - **A.** Use the contractor: the senior provides 36 review hours after onboarding, and the contractor provides 24, meeting 60.
-- **B.** Use the junior: forty preparation hours remove the full forty-hour senior capacity gap.
+- **B.** Use the junior: the twenty-hour reduction in review demand closes the initial capacity gap, so all required review fits.
 - **C.** Use the senior alone: 80 available hours exceed the 60 hours of review required.
 - **D.** Use the junior and omit mentoring because preparation is not part of formal review.
 
@@ -115,7 +115,7 @@ Select ONE answer.
 **Correct answer: A.** The senior initially has 40 hours left after mandatory work. Contractor onboarding reduces this to 36, and 24 contractor hours give 60 hours of qualified review. With the junior, review demand falls from 60 to 40 hours, but eight mentoring hours leave only 32 senior hours for it, producing an eight-hour shortfall. The stated mentoring requirement cannot be ignored.
 
 - **A.** This accounts for both added capacity and the senior time required to obtain it.
-- **B.** The junior saves 20 review hours, not 40; mentoring also consumes senior capacity.
+- **B.** The twenty-hour reduction closes the initial demand gap only before mentoring is counted. Eight mentoring hours leave 32 senior review hours for 40 hours of remaining review.
 - **C.** Forty of the 80 hours are already committed to immovable work.
 - **D.** Omitting the required mentoring makes the proposed plan inconsistent with the supplied conditions.
 
