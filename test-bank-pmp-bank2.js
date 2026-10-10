@@ -7661,6 +7661,509 @@
       "instruction": "Select ONE answer."
     }
   ]
+},
+{
+  "number": 16,
+  "sourcePage": "https://github.com/UpSkillSprint-Consulting/upskill-sprint/blob/codex/pmp-set2-batches01-05/docs/pmp-set2-batch16.md",
+  "questions": [
+    {
+      "n": 151,
+      "id": "pmp-set2-151",
+      "domain": "Business Environment",
+      "task": 4,
+      "approach": "Hybrid",
+      "difficulty": "Very challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "A hybrid project must complete a planned equipment installation before an iterative software trial. The site’s shared lifting equipment has become unavailable. The project manager can authorize resequencing that preserves safety and approved scope, but only the portfolio director can allocate a replacement shared crane. A safe resequencing option preserves two days of work; the replacement must be confirmed within one day to protect the installation window. The director’s normal review is in four days. What should the project manager do?",
+      "options": [
+        [
+          "A",
+          "Use the two-day resequencing option and wait for the normal portfolio review before requesting the replacement."
+        ],
+        [
+          "B",
+          "Promise the replacement crane to the installation team now and obtain the director’s approval after the work is protected."
+        ],
+        [
+          "C",
+          "Start the authorized resequencing and escalate the crane decision now through the urgent route with impact, options, and the one-day decision deadline."
+        ],
+        [
+          "D",
+          "Suspend all project work until the director has decided which equipment to allocate."
+        ]
+      ],
+      "correct": [
+        "C"
+      ],
+      "explanation": "The project manager can contain part of the disruption within existing authority, but that action does not remove the earlier deadline for the cross-project resource decision. Acting on the safe option and seeking an urgent authorized decision in parallel protects available work without claiming authority to allocate the crane. Escalation should make the decision needed and its timing explicit.",
+      "rationales": {
+        "A": "The four-day review occurs after the one-day decision deadline; temporary containment does not buy four days.",
+        "B": "The project manager lacks the stated authority to promise the shared crane.",
+        "C": "This combines authorized containment with timely escalation of the decision outside project authority.",
+        "D": "The scenario provides useful safe work that can proceed without that decision."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide §2.1.3–2.1.4: governance mechanisms and escalation, pp. 13 (PDF pp. 118).",
+        "PMBOK Guide, Eighth Edition, Guide Section 4: issue log, pp. 123 (PDF pp. 228)."
+      ],
+      "difficultyReason": "The candidate must distinguish a containment duration from a decision deadline and coordinate two actions governed by different authorities.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 152,
+      "id": "pmp-set2-152",
+      "domain": "People",
+      "task": 2,
+      "approach": "Agile",
+      "difficulty": "Challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "Two agile teams share an integration environment. After an external service outage compresses their test windows, each team reserves the environment for the same afternoon. Both need it to verify a release dependency, and neither has authority over the other. The teams begin arguing about whose sprint commitment matters more. What should the project manager do first?",
+      "options": [
+        [
+          "A",
+          "Give the environment to the team with the higher velocity because it will probably finish more work."
+        ],
+        [
+          "B",
+          "Facilitate a discussion of the actual test dependencies, time needs, and shared release objective to agree a workable allocation."
+        ],
+        [
+          "C",
+          "Tell both teams to keep their reservations and let the environment administrator choose at the start time."
+        ],
+        [
+          "D",
+          "Escalate the personalities involved to their functional managers before examining the scheduling conflict."
+        ]
+      ],
+      "correct": [
+        "B"
+      ],
+      "explanation": "The immediate conflict concerns a scarce shared resource under changed conditions. A facilitated discussion of dependencies and needs provides a basis for agreement around the shared outcome. Neither velocity nor an arbitrary last-minute choice establishes the best allocation, and the scenario does not yet justify treating the conflict as a personnel issue.",
+      "rationales": {
+        "A": "Team velocity is not a fair or sufficient measure of the urgency of these integration tests.",
+        "B": "This addresses the substantive conflict and seeks a shared, workable agreement.",
+        "C": "Leaving conflicting reservations intact defers the problem until the resource is needed.",
+        "D": "Escalating individuals before analyzing the resource conflict misses its stated source."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide §2.5.2.3–2.5.2.6: stakeholder engagement and communication, pp. 72–73 (PDF pp. 177–178).",
+        "PMBOK Guide, Eighth Edition, Guide §2.6.2.4: team leadership and development, pp. 84–86 (PDF pp. 189–191)."
+      ],
+      "difficultyReason": "The candidate must resolve a resource-driven conflict using shared dependencies rather than apparent team productivity or hierarchy.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 153,
+      "id": "pmp-set2-153",
+      "domain": "Process",
+      "task": 8,
+      "approach": "Predictive",
+      "difficulty": "Very challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "After a delivery disruption, a predictive project has two independent remaining paths that both must finish before handover. Path P takes 12 working days; path Q takes 11. The required handover is in 10 working days. The approved recovery budget is $9,000. The only available acceleration actions are listed; reductions are additive within a path and do not affect the other path. Resources for the actions are available, and scope and quality remain unchanged. Which action set meets the date within budget?",
+      "options": [
+        [
+          "A",
+          "Accelerate P by two days for $6,000; leave Q unchanged."
+        ],
+        [
+          "B",
+          "Accelerate P by one day and Q by one day for a combined $5,000."
+        ],
+        [
+          "C",
+          "Accelerate Q by two days for $4,000; leave P unchanged."
+        ],
+        [
+          "D",
+          "Accelerate P by two days and Q by one day for a combined $8,000."
+        ]
+      ],
+      "correct": [
+        "D"
+      ],
+      "explanation": "Handover waits for both paths. P must fall from 12 to 10 days, and Q from 11 to 10. The combined cost is $6,000 plus $2,000, or $8,000, within the $9,000 limit. Shortening only the initially longest path leaves Q at 11 days, so it does not achieve the required finish.",
+      "rationales": {
+        "A": "P reaches 10 days but Q remains at 11, leaving handover one day late.",
+        "B": "P remains at 11 days, so the combined work still misses the date.",
+        "C": "P remains at 12 days; shortening Q alone does not change the handover date.",
+        "D": "Both paths reach 10 days and the $8,000 cost is within budget."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide Section 5: schedule compression, pp. 196–197 (PDF pp. 301–302).",
+        "PMBOK Guide, Eighth Edition, Guide §2.3: schedule sequencing and estimates, pp. 51–53 (PDF pp. 156–158)."
+      ],
+      "difficultyReason": "The candidate must reassess the controlling path after compression and satisfy both the finish constraint and the recovery budget.",
+      "instruction": "Select ONE answer.",
+      "quantitative": true,
+      "exhibit": {
+        "headers": [
+          "Path",
+          "Available acceleration"
+        ],
+        "rows": [
+          [
+            "P — 12 days",
+            "Up to 2 days shorter; $3,000 for each day removed."
+          ],
+          [
+            "Q — 11 days",
+            "Up to 2 days shorter; $2,000 for each day removed."
+          ]
+        ]
+      }
+    },
+    {
+      "n": 154,
+      "id": "pmp-set2-154",
+      "domain": "Business Environment",
+      "task": 3,
+      "approach": "Predictive",
+      "difficulty": "Moderate",
+      "format": "dropdown",
+      "caseId": null,
+      "stem": "An authorized emergency change board approves a replacement component after the specified part becomes unavailable. The approval includes revised verification requirements and an installation date. The project manager has confirmed that the decision is valid under the change procedure. Before the installation team proceeds, the project manager should _____.",
+      "options": [
+        [
+          "A",
+          "communicate the approved decision and update the affected controlled plans and work instructions so the team uses the revised requirements"
+        ],
+        [
+          "B",
+          "ask each engineer to decide which version of the specification to follow"
+        ],
+        [
+          "C",
+          "retain the old instructions until project closure to preserve a record of the original baseline"
+        ],
+        [
+          "D",
+          "send the replacement directly to installation and treat verification as optional because the change was urgent"
+        ]
+      ],
+      "correct": [
+        "A"
+      ],
+      "explanation": "An approved change must be translated into the current controlled information and communicated to those implementing it. The original baseline can remain in the historical record while the team works from the approved revision. Urgency does not remove the verification requirements stated in the approval.",
+      "rationales": {
+        "A": "This makes the authorized change usable and consistent across implementation and verification.",
+        "B": "Individual interpretation does not substitute for controlled implementation of the approved change.",
+        "C": "Preserving history does not justify giving the team obsolete instructions.",
+        "D": "The approval expressly includes verification; the emergency does not waive it."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide §2.1.6.8: assess and implement changes, pp. 28–30 (PDF pp. 133–135)."
+      ],
+      "difficultyReason": "The authorization is already established, so the candidate applies the next implementation and communication steps.",
+      "instruction": "Select the best completion."
+    },
+    {
+      "n": 155,
+      "id": "pmp-set2-155",
+      "domain": "People",
+      "task": 4,
+      "approach": "Hybrid",
+      "difficulty": "Challenging",
+      "format": "multiple",
+      "caseId": null,
+      "stem": "A hybrid project’s planned site work is delayed by a regional transport interruption. A software pilot can continue remotely, but the delay changes access arrangements for a tenant and the availability of a commissioning specialist shared with another project. The current engagement plan covers the sponsor and delivery team only. Which TWO actions should the project manager take to support a workable recovery decision?",
+      "options": [
+        [
+          "A",
+          "Wait to contact the tenant until a revised date has been committed internally."
+        ],
+        [
+          "B",
+          "Identify the newly affected stakeholders and assess their constraints, influence, and information needs."
+        ],
+        [
+          "C",
+          "Send the same detailed technical schedule to everyone and treat distribution as completed engagement."
+        ],
+        [
+          "D",
+          "Let the software team set the site date because its work can continue."
+        ],
+        [
+          "E",
+          "Engage the tenant and the specialist’s resource owner early to assess feasible access and allocation options with the delivery leads."
+        ]
+      ],
+      "correct": [
+        "B",
+        "E"
+      ],
+      "explanation": "The disruption changes who is affected and whose participation is needed to make recovery feasible. Updating the stakeholder analysis and involving the relevant parties before commitment exposes constraints that an internal schedule alone cannot resolve. Communication should enable a decision, not merely distribute information.",
+      "rationales": {
+        "A": "A date committed without understanding access constraints may be infeasible.",
+        "B": "This updates the engagement basis to reflect the changed situation.",
+        "C": "Identical information distribution does not establish that the right stakeholders can inform the decision.",
+        "D": "The software team does not control tenant access or the shared specialist’s allocation.",
+        "E": "This brings the parties who control key recovery constraints into the decision early."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide §2.5.2.3–2.5.2.6: stakeholder engagement and communication, pp. 72–73 (PDF pp. 177–178)."
+      ],
+      "difficultyReason": "The candidate must identify changed stakeholder needs and select active involvement of the people who control recovery constraints.",
+      "instruction": "Select TWO answers."
+    },
+    {
+      "n": 156,
+      "id": "pmp-set2-156",
+      "domain": "Process",
+      "task": 4,
+      "approach": "Agile",
+      "difficulty": "Challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "An agile team has six completed changes waiting for security review after an external review service becomes unavailable. The team’s agreement limits this queue to three. Two developers are qualified to perform the required review independently of the changes they authored, and the product owner can defer starting new features. What should the project manager support?",
+      "options": [
+        [
+          "A",
+          "Work with the team and product owner to reduce new starts and temporarily direct qualified capacity to independent reviews of the waiting changes."
+        ],
+        [
+          "B",
+          "Start additional features so every developer remains fully utilized while the review queue waits."
+        ],
+        [
+          "C",
+          "Remove the review requirement until the external service returns so the queue falls immediately."
+        ],
+        [
+          "D",
+          "Assign every developer to review their own changes because that avoids coordination time."
+        ]
+      ],
+      "correct": [
+        "A"
+      ],
+      "explanation": "The bottleneck is qualified review capacity, not lack of development work. The scenario provides a compliant internal resource option and the ability to control new starts. Temporarily adjusting allocation can reduce the queue while retaining the required independent review. Maximizing new development would add work ahead of an already constrained step.",
+      "rationales": {
+        "A": "This addresses the actual capacity constraint while preserving reviewer qualifications and independence.",
+        "B": "More new work would tend to increase the backlog at the constrained review step.",
+        "C": "The outage does not authorize removal of the stated review requirement.",
+        "D": "Self-review violates the independence condition provided in the scenario."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide §2.6: resource management, pp. 83–86 (PDF pp. 188–191)."
+      ],
+      "difficultyReason": "The candidate must optimize flow under a capacity disruption while preserving explicit qualification and independence constraints.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 157,
+      "id": "pmp-set2-157",
+      "domain": "Process",
+      "task": 5,
+      "approach": "Predictive",
+      "difficulty": "Challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "A supplier on a predictive project misses a confirmed delivery and says it cannot provide a reliable recovery date. The contract requires a formal notice and a three-day opportunity to present a recovery plan before the buyer may use the stated replacement remedy. The procurement manager controls notices and replacement orders. An alternative supplier may have stock, but compatibility is unverified. What should the project manager do next?",
+      "options": [
+        [
+          "A",
+          "Order the alternative immediately and assume the missed date voids the original contract."
+        ],
+        [
+          "B",
+          "Wait until the original supplier volunteers a firm date before informing procurement."
+        ],
+        [
+          "C",
+          "Coordinate the required notice with procurement, assess delivery impact, and verify the alternative’s suitability and availability for an authorized decision."
+        ],
+        [
+          "D",
+          "Tell the original supplier that it must pay any alternative-supplier price, regardless of the contract terms."
+        ]
+      ],
+      "correct": [
+        "C"
+      ],
+      "explanation": "The missed delivery is an issue requiring action under the stated agreement. The project manager can coordinate the contractual process and investigate a feasible alternative in parallel, without prematurely exercising a remedy or committing an unverified replacement. The procurement manager retains the stated ordering and notice authority.",
+      "rationales": {
+        "A": "The missed date does not automatically waive the specified remedy conditions or ordering authority.",
+        "B": "Waiting passively delays both the contractual response and assessment of recovery options.",
+        "C": "This follows the contractual path while developing reliable evidence for the recovery decision.",
+        "D": "The scenario does not establish such an unlimited cost-recovery right."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide Appendix X4: procurement contracts and claims, pp. 247–254 (PDF pp. 352–359).",
+        "PMBOK Guide, Eighth Edition, Guide Section 4: issue log, pp. 123 (PDF pp. 228)."
+      ],
+      "difficultyReason": "The candidate must separate preparation of recovery options from authority to exercise a contractual remedy.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 158,
+      "id": "pmp-set2-158",
+      "domain": "Business Environment",
+      "task": 4,
+      "approach": "Agile",
+      "difficulty": "Moderate",
+      "format": "matching",
+      "caseId": null,
+      "stem": "An agile project reviews four impediment situations. Match each to the most direct management response. The team’s agreed practice is to assign an owner and track actual impediments until their resolution is verified.",
+      "options": [
+        [
+          "A",
+          "Escalate the unresolved decision to the authority that can resolve the cross-team conflict."
+        ],
+        [
+          "B",
+          "Verify the fix and affected work, then update the issue’s resolution status."
+        ],
+        [
+          "C",
+          "Record and assess the uncertain event as a risk with an appropriate response approach."
+        ],
+        [
+          "D",
+          "Record the active impediment, assign an owner, and act to restore progress."
+        ],
+        [
+          "E",
+          "Close the item because it has been discussed in the daily meeting."
+        ]
+      ],
+      "correct": {
+        "1": "D",
+        "2": "A",
+        "3": "B",
+        "4": "C"
+      },
+      "explanation": "An event that has already blocked work needs active issue management. A decision outside the team’s authority needs escalation. A reported fix needs verification before closure. A possible future event remains a risk while uncertain. Discussion alone is not evidence that any impediment has been resolved.",
+      "rationales": {
+        "A": "A fits situation 2: the designated higher authority can resolve the resource conflict.",
+        "B": "B fits situation 3: verification is needed before declaring the impediment resolved.",
+        "C": "C fits situation 4: the event has not happened and its occurrence remains uncertain.",
+        "D": "D fits situation 1: current blocked work needs an owner and a response.",
+        "E": "E is unused: a meeting discussion does not establish resolution."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide Section 4: issue log, pp. 123 (PDF pp. 228).",
+        "PMBOK Guide, Eighth Edition, Guide §2.1.3–2.1.4: governance mechanisms and escalation, pp. 13 (PDF pp. 118).",
+        "PMBOK Guide, Eighth Edition, Guide §2.7: risk management, pp. 96–97 (PDF pp. 201–202)."
+      ],
+      "difficultyReason": "The candidate classifies four explicitly described states and applies the corresponding issue or risk response.",
+      "instruction": "Match each situation to its most direct management response. Use each choice at most once; one choice is unused.",
+      "prompts": [
+        [
+          "1",
+          "The test service is down now and today’s validation work cannot proceed."
+        ],
+        [
+          "2",
+          "Two teams need an indivisible shared resource; attempts to agree have failed, and the portfolio lead holds allocation authority."
+        ],
+        [
+          "3",
+          "An owner reports that access has been restored, but the affected team has not yet checked it."
+        ],
+        [
+          "4",
+          "A provider warns that a possible strike next month could interrupt service; no interruption has occurred."
+        ]
+      ]
+    },
+    {
+      "n": 159,
+      "id": "pmp-set2-159",
+      "domain": "People",
+      "task": 6,
+      "approach": "Hybrid",
+      "difficulty": "Challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "A hybrid implementation’s hardware delivery is delayed. The customer still needs an agreed minimum operating capability for a training event, while later software enhancements can be deferred. The team believes a temporary configuration could support the minimum capability, but it has not yet been verified. What should the project manager do when discussing expectations with the customer?",
+      "options": [
+        [
+          "A",
+          "Promise the temporary configuration for the event to maintain confidence, then ask the team to make it work."
+        ],
+        [
+          "B",
+          "Tell the customer the original commitment remains unchanged until the temporary configuration fails testing."
+        ],
+        [
+          "C",
+          "Announce that all customer outcomes must move to the new hardware date without considering the stated minimum capability."
+        ],
+        [
+          "D",
+          "Explain the impact and uncertainty, validate the temporary option with the team, and agree an evidence-based revised commitment and follow-up with the customer."
+        ]
+      ],
+      "correct": [
+        "D"
+      ],
+      "explanation": "The customer’s minimum outcome may still be achievable, but the proposed route is not yet proven. The project manager should be transparent about the disruption and uncertainty, investigate the relevant option, and establish a realistic commitment with the customer. Neither unsupported reassurance nor blanket postponement manages the stated expectation well.",
+      "rationales": {
+        "A": "An unverified option does not support a firm promise.",
+        "B": "Withholding the known impact prevents the customer from planning around material uncertainty.",
+        "C": "The scenario identifies a potentially valuable alternative that should be assessed before dismissing the minimum outcome.",
+        "D": "This maintains the customer outcome as the focus while making commitments depend on verified feasibility."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide §2.5.2.3–2.5.2.6: stakeholder engagement and communication, pp. 72–73 (PDF pp. 177–178).",
+        "PMBOK Guide, Eighth Edition, Guide §2.1.6.8: assess and implement changes, pp. 28–30 (PDF pp. 133–135)."
+      ],
+      "difficultyReason": "The candidate must preserve the customer’s priority outcome without presenting an untested workaround as a commitment.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 160,
+      "id": "pmp-set2-160",
+      "domain": "Process",
+      "task": 9,
+      "approach": "Predictive",
+      "difficulty": "Challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "A predictive project’s approved finish baseline is 30 November. A supply interruption moves the current forecast to 12 December. The team has identified a recovery option that could finish on 5 December, but its funding is not yet approved. At the status review, the sponsor asks for the most useful representation of the project’s position. What should the project manager report?",
+      "options": [
+        [
+          "A",
+          "Show 5 December as the committed finish because reporting a recovery target encourages the team to achieve it."
+        ],
+        [
+          "B",
+          "Show the approved baseline, the current forecast and variance, and the conditional recovery scenario with its assumptions and required funding decision."
+        ],
+        [
+          "C",
+          "Replace the baseline with 12 December so the report no longer shows an unfavorable variance."
+        ],
+        [
+          "D",
+          "Report only the completed work percentage until the recovery funding decision is made."
+        ]
+      ],
+      "correct": [
+        "B"
+      ],
+      "explanation": "The status should distinguish the reference commitment, the current evidence-based forecast, and an option that depends on a future decision. This gives the sponsor an accurate view of performance and the action needed to change it. An unapproved recovery scenario is not yet a commitment, and replacing the baseline to hide variance undermines reporting.",
+      "rationales": {
+        "A": "The recovery date depends on funding that has not been authorized.",
+        "B": "This separates actual status from conditional recovery and identifies the decision needed.",
+        "C": "A baseline should not be replaced merely to remove unfavorable variance.",
+        "D": "Completed-work percentage alone omits the known finish impact and the decision the sponsor needs to consider."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide §2.1.6.7: monitor and control project performance, pp. 26–28 (PDF pp. 131–133).",
+        "PMBOK Guide, Eighth Edition, Guide §2.1.6.8: assess and implement changes, pp. 28–30 (PDF pp. 133–135)."
+      ],
+      "difficultyReason": "The candidate must distinguish baseline, forecast, and a conditional recovery scenario while retaining decision-useful variance reporting.",
+      "instruction": "Select ONE answer."
+    }
+  ]
 }
 ];
   global.PMP_BANK2_SOURCE = batches;
