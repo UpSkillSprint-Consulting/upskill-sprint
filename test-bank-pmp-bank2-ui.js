@@ -142,7 +142,7 @@
   global.PMP_BANK2 = questions;
   global.registerPMPBank2 = function (exam) {
     exam.sets[2] = questions;
-    exam.setPlans[2] = {target:180, label:'Q001–Q160'};
+    exam.setPlans[2] = {target:180, label:'Q001–Q170'};
     exam.fullExamQuestionsBySet[2] = 180;
   };
   global.__PMPSet2UI = Object.freeze({isQuestion,isInteractive,render,renderAnswers,wire,update,encode,decode,responseLabel,reviewOptions,rationales});

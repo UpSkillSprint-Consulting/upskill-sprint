@@ -1,10 +1,10 @@
-# PMP Set 2: batches 1–16
+# PMP Set 2: batches 1–17
 
-This change integrates 160 original questions (001–160) into the
+This change integrates 170 original questions (001–170) into the
 existing PMP Set 2 slot. The planned bank remains 180 questions, delivered in
-18 batches of ten. Questions 161–180 are not included. The picker shows **160**;
+18 batches of ten. Questions 171–180 are not included. The picker shows **170**;
 the overview identifies this as a partial set. A timed full sitting uses all
-160 available questions at 80 seconds per question (213 minutes 20 seconds).
+170 available questions at 80 seconds per question (226 minutes 40 seconds).
 
 These are original practice questions aligned with the July 2026 PMP Exam
 Content Outline and the PMBOK Guide, Eighth Edition. They are not recalled
@@ -15,20 +15,20 @@ unscored items. An answer reveal counts as incorrect.
 
 | Coverage | Included | Planned across 180 |
 |---|---:|---:|
-| People | 53 | 59 |
-| Process | 65 | 74 |
-| Business Environment | 42 | 47 |
-| Predictive | 64 | 72 |
-| Agile | 48 | 54 |
-| Hybrid | 48 | 54 |
-| Single answer | 117 | 132 |
-| Multiple answer | 21 | 24 |
-| Matching | 11 | 12 |
+| People | 56 | 59 |
+| Process | 70 | 74 |
+| Business Environment | 44 | 47 |
+| Predictive | 68 | 72 |
+| Agile | 51 | 54 |
+| Hybrid | 51 | 54 |
+| Single answer | 124 | 132 |
+| Multiple answer | 22 | 24 |
+| Matching | 12 | 12 |
 | Drop-down | 6 | 6 |
-| Hotspot | 5 | 6 |
+| Hotspot | 6 | 6 |
 
 Batches 1–10 each have a shared case supporting their first three questions.
-Batches 11–16 use standalone items. The complete case accompanies each related question in
+Batches 11–17 use standalone items. The complete case accompanies each related question in
 randomized quizzes and review. Each question is independent of earlier answers.
 The planned 30 shared-case questions are now complete; later batches use standalone items.
 
@@ -52,6 +52,7 @@ The planned 30 shared-case questions are now complete; later batches use standal
 | 14 | 131–140 | [Batch 14 review document](pmp-set2-batch14.md) |
 | 15 | 141–150 | [Batch 15 review document](pmp-set2-batch15.md) |
 | 16 | 151–160 | [Batch 16 review document](pmp-set2-batch16.md) |
+| 17 | 161–170 | [Batch 17 review document](pmp-set2-batch17.md) |
 
 The source data retains every question's author ID, ECO task, approach,
 difficulty, answer key, option rationales, and page references. Text-only
@@ -74,7 +75,7 @@ and renders its cases, controls, source references, and response rationales.
 **Legacy naming matters:** `test-bank-pmp-set1.js` through `set6.js` all populate
 the existing 180-question Set 1. Some legacy questions also retain
 `pmp:set-2:*` IDs. The new renderer checks `bankId: pmp-bank2-2026`, not that
-prefix. The new IDs `pmp:set-2:original-001` through `original-160` use a namespace
+prefix. The new IDs `pmp:set-2:original-001` through `original-170` use a namespace
 that remains distinct from legacy IDs as this bank grows to 180 questions. Existing Set 1 content and keys are preserved.
 
 The shared engine grades integer option indices. Multiple selections are
@@ -95,7 +96,7 @@ persistence behavior is changed; exam state remains in the current tab.
 
 `tests/test-bank-pmp-bank2.test.js` checks:
 
-- All 160 IDs and independently transcribed answer keys, coverage counts, cases,
+- All 170 IDs and independently transcribed answer keys, coverage counts, cases,
   references, and every authored response rationale.
 - Every encoded multiple-answer/matching state, including partial input,
   exact-match scoring, and revealed-answer scoring.
@@ -119,7 +120,9 @@ the requirements hotspot, multiple-answer, subgroup-metric exhibit, planning mat
 and risk-response item, plus 140-card review. Batch 15 checks both multiple-answer
 items, the life-cycle-cost exhibit, energy reporting, and benefits handover, plus
 150-card review. Batch 16 checks the two-path schedule exhibit, drop-down,
-multiple-answer, matching, and recovery-status item, plus 160-card review.
+multiple-answer, matching, and recovery-status item, plus 160-card review. Batch 17 checks cutover timing,
+support-expectation multi-select, organizational-change matching, the acceptance
+hotspot, and cost/cash reconciliation, plus 170-card review.
 Axe reports zero WCAG A/AA violations in the new question and answer components
 for the tested states. The local fixture isolates authentication; it does not
 verify a real account login. Deploy-preview verification remains a separate gate.
@@ -130,13 +133,13 @@ assumed every question exposed a single-choice button, which caused the Set 2
 and mixed-pool CI flows to fail before grading. `--exam pmp` limits local
 reruns to the affected exam matrix; CI still checks every exam by default.
 
-## Coverage audit at Question 160
+## Coverage audit at Question 170
 
 All 26 ECO tasks are represented. Domain totals remain within one question of a
-proportional 160-question allocation. Development approaches are exactly 40%
+proportional 170-question allocation. Development approaches are exactly 40%
 predictive, 30% agile, and 30% hybrid; difficulty remains 20% moderate, 60%
-challenging, and 20% very challenging. Single-answer keys are A 29, B 29, C 29,
-and D 30. There are 30 shared-case questions.
+challenging, and 20% very challenging. Single-answer keys are A 31, B 31, C 31,
+and D 31. There are 30 shared-case questions.
 
 Batch 7 adds two calculation-driven items and an evidence-reconciliation item.
 Independent checks: Q061 has CPI 0.90, EAC $1,000,000, and TCPI to meet BAC 1.08;
@@ -204,6 +207,12 @@ engagement, compliant resource reallocation, supplier-remedy coordination, issue
 state assessment, revised customer commitments, and transparent recovery reporting.
 Q153 needs P shortened by two days and Q by one day, costing $8,000.
 
+Batch 17 adds practical knowledge transfer, cutover rollback timing, continuing
+warranty obligations, archive retrieval controls, support expectations, benefit-enabling
+work practices, team demobilization, organizational transition changes, acceptance
+evidence, and closing cost/cash reconciliation. Q162 requires preserving the minute-40
+rollback decision limit. Q170 forecasts $470,000 final cost and $80,000 remaining cash.
+
 The task allocations below preserve the 180-question plan. They are internal
 coverage targets, not PMI quotas for individual tasks.
 
@@ -211,30 +220,30 @@ coverage targets, not PMI quotas for individual tasks.
 |---|---:|---:|---:|
 | People | 1 | 5 | 1 |
 | People | 2 | 8 | 0 |
-| People | 3 | 9 | 1 |
+| People | 3 | 10 | 0 |
 | People | 4 | 8 | 1 |
-| People | 5 | 6 | 1 |
+| People | 5 | 7 | 0 |
 | People | 6 | 6 | 1 |
-| People | 7 | 4 | 1 |
+| People | 7 | 5 | 0 |
 | People | 8 | 7 | 0 |
 | Process | 1 | 8 | 1 |
 | Process | 2 | 8 | 1 |
-| Process | 3 | 7 | 2 |
+| Process | 3 | 8 | 1 |
 | Process | 4 | 5 | 1 |
 | Process | 5 | 7 | 0 |
-| Process | 6 | 7 | 1 |
-| Process | 7 | 6 | 1 |
-| Process | 8 | 7 | 1 |
+| Process | 6 | 8 | 0 |
+| Process | 7 | 7 | 0 |
+| Process | 8 | 8 | 0 |
 | Process | 9 | 6 | 0 |
-| Process | 10 | 4 | 1 |
+| Process | 10 | 5 | 0 |
 | Business Environment | 1 | 6 | 0 |
-| Business Environment | 2 | 6 | 1 |
+| Business Environment | 2 | 7 | 0 |
 | Business Environment | 3 | 6 | 1 |
 | Business Environment | 4 | 5 | 1 |
 | Business Environment | 5 | 7 | 1 |
 | Business Environment | 6 | 4 | 0 |
-| Business Environment | 7 | 4 | 1 |
+| Business Environment | 7 | 5 | 0 |
 | Business Environment | 8 | 4 | 0 |
 
-Next: Batch 17, Questions 161–170, covering closure, transition, and knowledge transfer.
-There are 20 questions left to author.
+Next: Batch 18, Questions 171–180, covering integrated recovery and competing priorities.
+There are 10 questions left to author.
