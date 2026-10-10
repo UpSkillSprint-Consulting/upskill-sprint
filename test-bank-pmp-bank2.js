@@ -1,0 +1,2593 @@
+/* PMP Set 2: original authored batches 1–5 (Q001–Q050), July 2026 ECO.
+ * Legacy files named test-bank-pmp-set1.js through set6.js all populate Set 1.
+ * Keep this bank separate. No PMI exam items or book passages are reproduced.
+ */
+(function (global) {
+  'use strict';
+  const batches = [
+  {
+    "number": 1,
+    "sourcePage": "https://chatgpt.com/space/page_0e2a409c9f048191b07c90bf37e5cf23",
+    "caseStudy": {
+      "id": "C01",
+      "title": "Packaging line modernization",
+      "markdown": "A manufacturer is installing barcode-verification equipment and an operator application on two packaging lines. Equipment work follows an approved predictive plan; the application team uses two-week iterations. The project is in Week 4. Use the project brief below for Questions 001–003. Treat each question independently; do not assume that an action from another question has occurred.\n\n| Project information | Approved brief |\n|---|---|\n| Intended outcome | Reduce incorrectly routed cartons by 40% within six weeks of go-live. |\n| Integration milestone | End-to-end testing must finish by the end of Week 8 to support the approved Week 10 commissioning window. |\n| Technical baseline | The equipment configuration and application interface use approved message schema V2. |\n| Team responsibilities | The equipment lead owns equipment readiness. The product owner orders application work. The application team chooses how to implement it. The project manager coordinates the overall project. |\n| Responsibility gap | The responsibility matrix does not name an accountable owner for end-to-end test preparation and coordination. |\n| Decision boundaries | The product owner may reorder application work within approved boundaries. Changes to the equipment interface, commissioning baseline, or cost baseline require change control board approval. |"
+    },
+    "questions": [
+      {
+        "n": 1,
+        "id": "pmp-set2-001",
+        "domain": "People",
+        "task": 3,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C01",
+        "instruction": "Select ONE answer.",
+        "stem": "Two integration rehearsals have failed because neither team prepared the combined test data and equipment configuration. Both teams demonstrate that their own components pass their local tests. Each lead says the other team should coordinate the next rehearsal. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Ask the change control board to assign ownership of all remaining integration activities."
+          ],
+          [
+            "B",
+            "Bring the teams together to agree one accountable test owner, clarify handoffs, and update their responsibilities."
+          ],
+          [
+            "C",
+            "Give the equipment lead authority to set the application team's priorities until integration succeeds."
+          ],
+          [
+            "D",
+            "Take over all integration-test coordination personally and retain that responsibility through commissioning."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "The exhibit identifies a gap between component responsibility and end-to-end accountability. The project manager should help the teams establish clear ownership and workable handoffs while preserving their existing decision rights.",
+        "rationales": {
+          "A": "The board controls specified changes; the facts do not require it to resolve this team-level responsibility gap. Escalation would delay an action within project management's remit.",
+          "B": "Jointly agreeing an accountable owner and explicit handoffs addresses the cause of the failures and makes the arrangement sustainable.",
+          "C": "Equipment expertise does not confer authority over application priorities. This transfers an unrelated decision right without resolving all integration responsibilities.",
+          "D": "Taking over could help with an immediate rehearsal, but retaining all coordination through commissioning concentrates dependency on the project manager instead of establishing team ownership."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.6.2.4.1, p. 84 (PDF p. 189): roles, responsibilities, and team operations.",
+          "PMBOK 8, Guide §5, p. 194 (PDF p. 299): responsibility assignment matrix.",
+          "PMBOK 8, Standard §3.8, pp. 53–54 (PDF pp. 76–77): an empowered culture."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 2,
+        "id": "pmp-set2-002",
+        "domain": "Process",
+        "task": 1,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C01",
+        "instruction": "Select ONE answer.",
+        "stem": "The application team's current release forecast puts its V2 integration capability at the end of Week 9 because several operator-screen improvements are ordered ahead of it. The equipment team remains on schedule for Week 8 testing. The application team says the V2 work might be split into smaller usable increments, but the teams have not examined this together. What is the best next planning action?",
+        "options": [
+          [
+            "A",
+            "Convert the application work to a detailed predictive schedule and freeze its remaining requirements."
+          ],
+          [
+            "B",
+            "Keep the local plans and require daily progress reports until the application team recovers the gap."
+          ],
+          [
+            "C",
+            "Move integration testing to Week 9 and use the commissioning preparation period to absorb the difference."
+          ],
+          [
+            "D",
+            "Jointly examine an earlier usable V2 increment and align both teams' plans to the shared testing milestone."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "The local forecasts conflict at a shared dependency. Coordinated planning can test whether a usable integration increment can be delivered sooner without imposing one development approach on both teams. If a viable plan cannot meet the approved milestone, the resulting evidence supports a change decision.",
+        "rationales": {
+          "A": "A predictive schedule does not by itself solve the dependency, and freezing all requirements discards the tailored hybrid approach without justification.",
+          "B": "More frequent reporting may expose the gap, but it does not change work ordering, increment scope, or the dependency plan.",
+          "C": "Moving a baselined milestone assumes that preparation time can be consumed safely and bypasses the stated decision process.",
+          "D": "This uses the available possibility of smaller increments to reconcile the plans, while retaining appropriate approaches and testing the forecast against the shared milestone."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.1.6.2, pp. 18–19 (PDF pp. 123–124): integrated and aligned project plans.",
+          "PMBOK 8, Guide §3.3.1–3.4.1, pp. 104–105 (PDF pp. 209–210): tailoring development approaches and integration."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 3,
+        "id": "pmp-set2-003",
+        "domain": "Business Environment",
+        "task": 3,
+        "approach": "Hybrid",
+        "difficulty": "Very challenging",
+        "format": "multiple",
+        "caseId": "C01",
+        "instruction": "Select TWO answers.",
+        "stem": "Operations requests a feature that would reduce manual carton checks. The product owner proposes exchanging two application backlog items of equal estimated size to make room. Technical review confirms that the feature also changes message schema V2, requires $18,000 of equipment reconfiguration, and adds three days of integrated testing. Its effect on the commissioning window has not been assessed. Which TWO actions should the project manager take before authorizing implementation?",
+        "options": [
+          [
+            "A",
+            "Approve the exchange through the product owner because replacing equally sized backlog items preserves the team's planned workload."
+          ],
+          [
+            "B",
+            "Evaluate the combined business value and impacts on equipment, testing, risk, and commissioning with the affected parties."
+          ],
+          [
+            "C",
+            "Authorize application development now and submit only the equipment reconfiguration cost for approval before the equipment team proceeds."
+          ],
+          [
+            "D",
+            "Keep all current work unchanged and defer the feature until after commissioning because its interface is already baselined."
+          ],
+          [
+            "E",
+            "Obtain the change control board's decision on the assessed request before implementing changes to the approved interface."
+          ]
+        ],
+        "correct": [
+          "B",
+          "E"
+        ],
+        "explanation": "Equal application estimates do not account for impacts outside that backlog. This request crosses an explicit decision boundary. It needs an integrated assessment and a decision by the authority named in the project brief; its potential value should be considered rather than rejected automatically.",
+        "rationales": {
+          "A": "Equal estimated size does not establish equal total cost, risk, timing, or business value. Equipment and test impacts are already known.",
+          "B": "The assessment must include both workstreams and the intended outcome so that the authorized decision maker can compare credible options.",
+          "C": "Beginning the application portion commits work to an unapproved interface change and can create rework or pressure to approve the remainder.",
+          "D": "A baseline provides control, not a permanent prohibition on change. Deferral should follow an informed decision, not an automatic rule.",
+          "E": "The case explicitly reserves interface and baseline changes for the board. Product-owner backlog authority does not replace that authority."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.1.6.8, pp. 28–30 (PDF pp. 133–135): assessing and implementing changes across predictive and adaptive approaches."
+        ],
+        "exhibitMarkdown": "",
+        "requiredSelections": 2
+      },
+      {
+        "n": 4,
+        "id": "pmp-set2-004",
+        "domain": "People",
+        "task": 4,
+        "approach": "Predictive",
+        "difficulty": "Moderate",
+        "format": "single",
+        "caseId": null,
+        "instruction": "Select ONE answer.",
+        "stem": "During a clinic refurbishment project, a newly appointed facilities director says the approved layout does not provide enough maintenance access and refuses to support the planned handover. The director was not included in earlier design workshops. The sponsor believes the contractor already represented the facilities team's needs. What should the project manager do first?",
+        "options": [
+          [
+            "A",
+            "Meet with the director to understand the operational concerns, assess the stakeholder's influence and needs, and update the engagement approach."
+          ],
+          [
+            "B",
+            "Add the requested access changes to the contractor's scope so that the director will support handover."
+          ],
+          [
+            "C",
+            "Send the approved workshop minutes and ask the director to accept the decisions made before the appointment."
+          ],
+          [
+            "D",
+            "Ask the sponsor to resolve the director's objection before the project team discusses the layout further."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "A stakeholder with relevant operational interests was missed. The first useful action is direct engagement and analysis of the concern. The resulting information can then support technical assessment and, if needed, a controlled change.",
+        "rationales": {
+          "A": "This establishes what the concern means for operations and gives the project a basis for appropriate engagement and subsequent decisions.",
+          "B": "Agreement to change scope is premature before clarifying the need, assessing impacts, and obtaining any required approval.",
+          "C": "Prior approval does not demonstrate that the director's operational needs were understood or addressed.",
+          "D": "The facts show no failed engagement attempt or authority problem requiring the sponsor to intervene first."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.5.2.1–2.5.2.4, pp. 71–72 (PDF pp. 176–177): stakeholder identification, engagement planning, and engagement management."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 5,
+        "id": "pmp-set2-005",
+        "domain": "Process",
+        "task": 2,
+        "approach": "Agile",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "instruction": "Select ONE answer.",
+        "stem": "A project manager supports a Scrum Team building a customer onboarding service. Before Sprint Planning, finance asks for identity verification before an applicant can save a draft; customer support asks to let applicants save first so they can retrieve missing information. The product owner confirms that both goals matter, but the intended user workflow and acceptance criteria remain unclear. No mandatory rule settles the sequence. What should the project manager do next to help the team prepare the work?",
+        "options": [
+          [
+            "A",
+            "Ask the product owner to choose a workflow now and let the team settle its acceptance criteria during implementation."
+          ],
+          [
+            "B",
+            "Split the requests into separate backlog items and schedule both, letting users choose their preferred workflow after release."
+          ],
+          [
+            "C",
+            "Facilitate a review of user examples and a simple prototype, then help the product owner clarify and order testable backlog items."
+          ],
+          [
+            "D",
+            "Have the team estimate both requests and implement the cheaper workflow first, reviewing the other after the Sprint."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "The problem is an unresolved need and workflow, not simply a shortage of estimates. Concrete examples and a prototype can expose the distinction between saving a draft and completing verification. Clarified acceptance criteria support informed backlog ordering and selection.",
+        "rationales": {
+          "A": "The product owner can make priority decisions, but asking for an immediate choice leaves the stated uncertainty unresolved and shifts avoidable discovery into implementation.",
+          "B": "Separate items do not resolve conflicting behavior in the same workflow. Committing to both before clarifying the need may create rework.",
+          "C": "This develops a shared understanding and testable requirements while keeping backlog ordering with the product owner.",
+          "D": "Implementation cost alone does not determine whether a workflow meets the business and user needs."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.2.2.2–2.2.2.3, pp. 40–41 (PDF pp. 145–146): eliciting requirements and defining scope.",
+          "PMBOK 8, Guide §4 (Backlog), p. 114 (PDF p. 219): product and iteration backlogs.",
+          "Scrum Guide 2020, Product Owner and Sprint Planning: https://scrumguides.org/scrum-guide.html"
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 6,
+        "id": "pmp-set2-006",
+        "domain": "Business Environment",
+        "task": 1,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "instruction": "Select ONE answer.",
+        "stem": "A project recovery plan requires an $18,000 supplier-expediting charge and $18,000 of additional testing; both are necessary to achieve the recovery. The governance plan lets the project manager approve changes with a total impact up to $25,000. Larger changes require the investment committee, which accepts urgent written requests between meetings. The sponsor offers $36,000 from the business unit and asks the project manager to approve the two charges separately today. The impact assessment is complete. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Approve each charge separately because both individual commitments are below the delegated limit."
+          ],
+          [
+            "B",
+            "Obtain the sponsor's written funding commitment and place the orders, reporting the combined change at the next meeting."
+          ],
+          [
+            "C",
+            "Hold the recovery plan until the committee's next scheduled meeting because the delegated limit is exceeded."
+          ],
+          [
+            "D",
+            "Submit the combined $36,000 change through the urgent committee process before committing the expenditure."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "The two charges are one interdependent recovery change. The total exceeds the stated delegation, and available funding does not change that delegation. An established urgent route allows a timely decision without dividing the request to avoid the threshold.",
+        "rationales": {
+          "A": "Separating the purchase amounts does not change the total impact of the integrated change or its approval requirement.",
+          "B": "A funding commitment establishes a potential source of money; the case does not grant the sponsor authority to replace the committee's approval.",
+          "C": "Waiting for the regular meeting ignores the available urgent process and could unnecessarily delay recovery.",
+          "D": "This respects the specified authority and uses the available mechanism for an expedited decision."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.1.2–2.1.4, pp. 11–13 (PDF pp. 116–118): governance models, escalation, and investment control.",
+          "PMBOK 8, Guide §2.1.6.8.1, pp. 29–30 (PDF pp. 134–135): designated change authority."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 7,
+        "id": "pmp-set2-007",
+        "domain": "Process",
+        "task": 3,
+        "approach": "Agile",
+        "difficulty": "Challenging",
+        "format": "dropdown",
+        "caseId": null,
+        "instruction": "Select ONE value for the drop-down.",
+        "stem": "An agile project's current product goal is to increase the proportion of new customers who complete account activation within seven days from 50% to 70%. User observation and support records identify recovery from a failed identity-document upload on mobile as the largest confirmed barrier. The product owner can prioritize one of the following increments for the next Sprint. The team confirms that each fits its capacity and can meet the Definition of Done; none changes the required security checks. Complete the statement: To test the strongest current opportunity for improving the product goal, prioritize [select one].",
+        "options": [
+          [
+            "A",
+            "an internal case-routing dashboard that reduces the time agents spend assigning support tickets"
+          ],
+          [
+            "B",
+            "mobile upload recovery that preserves progress and measures subsequent account-activation completion"
+          ],
+          [
+            "C",
+            "a desktop-dashboard performance improvement that reduces page-loading time for active customers"
+          ],
+          [
+            "D",
+            "an automated document-status email that tells applicants their upload failed and repeats the current upload instructions"
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "The chosen increment should address the confirmed barrier and measure its effect on the desired outcome. Mobile recovery provides a usable intervention; activation completion shows whether it produces value beyond a feature being delivered.",
+        "rationales": {
+          "A": "Faster ticket assignment may help support operations, but it does not directly remove the largest identified barrier in the activation journey.",
+          "B": "This addresses the observed failure point and links the increment to measurement of the product goal.",
+          "C": "Better performance for already-active customers serves a different outcome from activation of new customers.",
+          "D": "Failure notification could improve awareness, but repeating the existing instructions does not repair the confirmed recovery difficulty."
+        },
+        "references": [
+          "PMBOK 8, Standard §3.4–3.4.2, pp. 40–42 (PDF pp. 63–65): outcomes, value, and feedback.",
+          "PMBOK 8, Guide §4 (Backlog), p. 114 (PDF p. 219): product backlog."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 8,
+        "id": "pmp-set2-008",
+        "domain": "People",
+        "task": 2,
+        "approach": "Agile",
+        "difficulty": "Moderate",
+        "format": "matching",
+        "caseId": null,
+        "instruction": "Match all four situations. Use each response at most once.",
+        "stem": "An agile delivery lead encounters four independent situations. Match each situation to the most appropriate immediate conflict response. Use each response at most once; one response will remain unused.",
+        "options": [
+          [
+            "A",
+            "Smooth or accommodate"
+          ],
+          [
+            "B",
+            "Compromise or reconcile"
+          ],
+          [
+            "C",
+            "Withdraw or avoid"
+          ],
+          [
+            "D",
+            "Force or direct"
+          ],
+          [
+            "E",
+            "Collaborate or problem-solve"
+          ]
+        ],
+        "correct": {
+          "1": "E",
+          "2": "B",
+          "3": "D",
+          "4": "A"
+        },
+        "explanation": "Conflict responses should fit the urgency, consequence, relationship, and opportunity for a durable solution. Collaboration is valuable but is not the best immediate response in every situation.",
+        "rationales": {
+          "A": "Situation 4: yielding an immaterial preference preserves the relationship without sacrificing a project need. No reciprocal concession is required.",
+          "B": "Situation 2: splitting the constrained resource gives each party part of what it requested and an acceptable reduced result.",
+          "C": "Unused: none of the situations gives a sound reason to postpone or disengage. The first needs constructive resolution, the second has an immediate workable settlement, and the third requires intervention.",
+          "D": "Situation 3: explicit authority and immediate danger make stopping the activity the appropriate first response. Collaborative review can follow after the unsafe situation is controlled.",
+          "E": "Situation 1: jointly exploring the valid constraints can produce a durable solution that addresses both perspectives."
+        },
+        "references": [
+          "PMBOK 8, Guide §5, pp. 156–157 (PDF pp. 261–262): conflict management and context-dependent response techniques."
+        ],
+        "prompts": [
+          [
+            "1",
+            "Two specialists disagree about a long-term test-data approach. Both identify valid constraints, and there is time to develop a solution that addresses both."
+          ],
+          [
+            "2",
+            "Two teams need the same demonstration environment today. Each requests four hours, only four hours remain, and both confirm that two hours would allow an acceptable reduced demonstration."
+          ],
+          [
+            "3",
+            "During an equipment prototype demonstration, a team member begins a prohibited unsafe action while others debate what to do. The delivery lead has explicit authority to stop the demonstration immediately."
+          ],
+          [
+            "4",
+            "A customer strongly prefers one of two equally acceptable, low-impact screen labels. The delivery lead has no material reason to insist on the other label and wants to preserve goodwill."
+          ]
+        ]
+      },
+      {
+        "n": 9,
+        "id": "pmp-set2-009",
+        "domain": "Process",
+        "task": 8,
+        "approach": "Predictive",
+        "difficulty": "Very challenging",
+        "format": "single",
+        "caseId": null,
+        "instruction": "Select ONE answer.",
+        "stem": "A project must finish its remaining work within 16 working days. The updated schedule has two paths to completion: A–B–D takes 18 days, and A–C–D takes 17 days. Only the following reductions are feasible: B can be shortened by up to 2 days at $2,000 per day; C by up to 1 day at $2,000 per day; and D by up to 1 day at $6,000 per day. Shortening D affects both paths. The estimates have been validated, and separate specialists can perform the reductions without resource conflicts. Activity A cannot be shortened, and mandatory dependencies prohibit overlapping activities. The project manager has authority to spend up to $6,000 on these recovery actions. Which plan meets the deadline within that authority?",
+        "options": [
+          [
+            "A",
+            "Shorten B by 2 days, for an additional cost of $4,000."
+          ],
+          [
+            "B",
+            "Shorten B by 2 days and C by 1 day, for an additional cost of $6,000."
+          ],
+          [
+            "C",
+            "Shorten B by 1 day and D by 1 day, for an additional cost of $8,000."
+          ],
+          [
+            "D",
+            "Shorten B by 1 day and C by 1 day, for an additional cost of $4,000."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "Completion is controlled by the longest remaining path. Shortening B by two days gives a 16-day first path, but the other path would still take 17 days. Reducing C by one day also brings that path to 16 days. The combined cost is $6,000, within the stated authority.\n\n| Option | A–B–D after recovery | A–C–D after recovery | Project duration | Cost | Meets both conditions |\n|---|---:|---:|---:|---:|---|\n| A | 16 days | 17 days | 17 days | $4,000 | No |\n| B | 16 days | 16 days | 16 days | $6,000 | Yes |\n| C | 16 days | 16 days | 16 days | $8,000 | No |\n| D | 17 days | 16 days | 17 days | $4,000 | No |",
+        "rationales": {
+          "A": "The paths become 16 and 17 days. The project still finishes in 17 days, even though its original critical path has been shortened sufficiently.",
+          "B": "The paths become 16 and 16 days, and the cost is 2 × $2,000 + $2,000 = $6,000. Both conditions are satisfied.",
+          "C": "The paths become 16 and 16 days, but $8,000 exceeds the existing $6,000 authority. The question does not authorize assuming additional approval.",
+          "D": "The paths become 17 and 16 days. The lower cost does not compensate for missing the deadline."
+        },
+        "references": [
+          "PMBOK 8, Guide §5, pp. 196–197 (PDF pp. 301–302): schedule compression and iterative schedule network analysis."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 10,
+        "id": "pmp-set2-010",
+        "domain": "Business Environment",
+        "task": 5,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "instruction": "Select ONE answer.",
+        "stem": "A project has an approved contingency response for a critical pump delivery: if shipment is not confirmed by 14 days before the required delivery date, the logistics lead will activate a qualified alternate supplier. The response reserves $9,000 and authorizes the project manager to release those funds when the trigger occurs. Shipment was not confirmed at the trigger date. The logistics lead has verified that the plan's assumptions remain valid and the alternate can meet the requirement for $8,500 if instructed today. The original supplier says confirmation may arrive tomorrow. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Authorize the logistics lead to activate the agreed response, update the risk information, and monitor the result."
+          ],
+          [
+            "B",
+            "Wait for the required delivery date to be missed before using the contingency funds."
+          ],
+          [
+            "C",
+            "Request fresh sponsor approval for the $8,500 before allowing the logistics lead to act."
+          ],
+          [
+            "D",
+            "Repeat the full quantitative risk analysis and choose between suppliers after it is complete."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "The defined trigger has occurred, the relevant assumptions have been checked, and the response remains feasible within its approved authority and reserve. The project manager should enable timely execution and monitor the resulting exposure.",
+        "rationales": {
+          "A": "This follows the agreed trigger, owner, funding, and authority while retaining monitoring and documentation.",
+          "B": "The trigger was deliberately set before actual delivery failure. Waiting until the impact occurs defeats the timing of the planned response.",
+          "C": "The case already grants the required authority. A new approval cycle is unnecessary unless a relevant limit or condition has changed.",
+          "D": "There is no stated change that warrants delaying the validated response for a full new analysis; delay could lose the viable alternate."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.7.2.4–2.7.2.6, pp. 96–99 (PDF pp. 201–204): planning, implementing, and monitoring risk responses.",
+          "PMBOK 8, Guide §5, corrected p. 157: contingent response strategies. Apply PMI second-printing errata, PDF pp. 1 and 5: https://www.pmi.org/-/media/pmi/documents/public/pdf/pmbok-standards/pg8-errata---second-printing.pdf"
+        ],
+        "exhibitMarkdown": ""
+      }
+    ]
+  },
+  {
+    "number": 2,
+    "sourcePage": "https://chatgpt.com/space/page_34e0ea7833088191a53eed9453741709",
+    "caseStudy": {
+      "id": "C02",
+      "title": "Passenger service rollout",
+      "markdown": "A regional transport operator is rolling out a standardized passenger-assistance process at three terminals using a predictive implementation plan. The next milestone is an operational rehearsal. Use the approved brief and Friday's verified staff-assessment results for Questions 011–013. Answer each question independently.\n\n| Project information | Approved brief |\n|---|---|\n| Outcome | Reduce the time passengers wait for assistance while maintaining service quality. |\n| Rehearsal entry criteria | At least 75% of all assigned staff must have passed the practical assessment, and at least 60% must have passed at each terminal. Both conditions are required. |\n| Evidence rule | Count each assigned person once. Attendance, message delivery, and a manager's acknowledgement do not count as a practical-assessment pass. |\n| Current communication | A weekly procedure update is emailed to terminal managers for distribution. Frontline staff work different shifts and have access to shared workstations. |\n| Organizational context | Terminal managers control shift assignments and coaching time. Their current performance measures emphasize short individual transaction times. |\n\n**Friday staff assessment results**\n\n| Terminal | Assigned staff | Staff who passed |\n|---|---:|---:|\n| North | 10 | 10 |\n| Central | 30 | 15 |\n| South | 60 | 45 |"
+    },
+    "questions": [
+      {
+        "n": 11,
+        "id": "pmp-set2-011",
+        "domain": "People",
+        "task": 8,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C02",
+        "instruction": "**Select ONE answer.**",
+        "stem": "All three terminal managers acknowledge receiving the latest procedure update. A walkthrough then finds that several late-shift staff are using an obsolete procedure. The staff explain that they did not see the update and assumed their local supervisor would brief them. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Issue the same update daily and use the managers' delivery acknowledgements as the communication measure."
+          ],
+          [
+            "B",
+            "Ask managers to post the document at each workstation and treat publication as confirmation that staff understand it."
+          ],
+          [
+            "C",
+            "Agree a shift-accessible briefing and current-document route with the managers, then verify understanding through staff feedback."
+          ],
+          [
+            "D",
+            "Escalate the late-shift staff's noncompliance to the sponsor and request enforcement of the emailed procedure."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "A delivered message has not reached the people who need to apply it. The project manager should tailor the channel and timing to the shifts, clarify distribution responsibility, and check whether staff understand the current procedure. This communication check complements, rather than replaces, the practical assessment.",
+        "rationales": {
+          "A": "Increasing frequency on the same route does not resolve the access and ownership gap, and a manager's acknowledgement does not establish staff understanding.",
+          "B": "Accessible documentation helps, but publication alone still does not show that the intended recipients received and understood the change.",
+          "C": "This addresses both access and the missing feedback loop while working with the managers who control the local communication arrangements.",
+          "D": "The facts indicate a communication failure, not an informed refusal to comply. Immediate enforcement would leave that cause unresolved."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.5.2.3–2.5.2.7, pp. 72–74 (PDF pp. 177–179): planning, managing, and monitoring communications.",
+          "PMBOK 8, Guide §2.5.3.1, p. 77 (PDF p. 182): tailoring methods and detail to stakeholder needs."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 12,
+        "id": "pmp-set2-012",
+        "domain": "Process",
+        "task": 9,
+        "approach": "Predictive",
+        "difficulty": "Very challenging",
+        "format": "single",
+        "caseId": "C02",
+        "instruction": "**Select ONE answer.**",
+        "stem": "The sponsor asks for the overall practical-assessment pass rate and whether the project currently meets the staff-readiness criteria for the rehearsal. Using the approved criteria and Friday's results, which report is accurate?",
+        "options": [
+          [
+            "A",
+            "The overall pass rate is 70%; readiness is not met because the overall threshold and Central's terminal threshold are both missed."
+          ],
+          [
+            "B",
+            "The overall pass rate is 75%; readiness is met because the average of the three terminal percentages meets the overall threshold."
+          ],
+          [
+            "C",
+            "The overall pass rate is 70%; readiness is met because most assigned staff have passed and every terminal has some qualified staff."
+          ],
+          [
+            "D",
+            "The overall pass rate is 75%; readiness is not met because Central alone fails the terminal threshold."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "There are 70 passes among 100 assigned staff, so the overall pass rate is 70%. Terminal rates are North 100%, Central 50%, and South 75%. The project misses the 75% overall requirement, and Central also misses its 60% requirement. Averaging terminal percentages equally would incorrectly give a ten-person terminal the same weight as a sixty-person terminal.",
+        "rationales": {
+          "A": "This uses the person-based denominator and applies both mandatory readiness conditions.",
+          "B": "The equal-weight average is 75%, but the approved metric counts people. It also overlooks Central's separate mandatory threshold.",
+          "C": "The 70% calculation is right, but neither a simple majority nor the presence of some qualified staff is the approved entry criterion.",
+          "D": "The conclusion that readiness is not met is right, but the overall percentage is wrong and it understates the number of failed conditions."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.1.6.7, p. 26 (PDF p. 131): evaluating performance against the plan and communicating status.",
+          "PMBOK 8, Guide §2.1.3, p. 13 (PDF p. 118): meaningful metrics and feedback for governance."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 13,
+        "id": "pmp-set2-013",
+        "domain": "Business Environment",
+        "task": 7,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C02",
+        "instruction": "**Select ONE answer.**",
+        "stem": "Interviews show that staff can explain why the new assistance process is needed. However, managers release few staff for coached practice because it temporarily increases transaction times, which worsens their current performance results. Managers ask staff to revert to the faster old process during busy periods. What is the most effective next action for the project manager?",
+        "options": [
+          [
+            "A",
+            "Increase the frequency of benefit presentations so that managers and staff become more aware of the rollout's purpose."
+          ],
+          [
+            "B",
+            "Work with the sponsor and operations leaders to reconcile transition capacity and performance expectations with the new process."
+          ],
+          [
+            "C",
+            "Ask staff to complete the remaining practice outside their shifts so that existing terminal performance measures remain unaffected."
+          ],
+          [
+            "D",
+            "Retain both procedures indefinitely and allow each manager to choose whichever produces the best local transaction-time result."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "The obstacle is a conflict between the organizational measures, available practice time, and the intended change. Awareness already exists. Operations leaders and the sponsor need to help create feasible transition arrangements and consistent expectations; the project manager should not unilaterally change line-management measures.",
+        "rationales": {
+          "A": "The interviews establish understanding of the purpose. More awareness messages do not address the incentive and capacity barriers.",
+          "B": "This engages the people who can adjust organizational conditions that are undermining adoption and aligns local behavior with the intended outcome.",
+          "C": "Moving practice outside shifts assumes availability and authority that are not stated, and it leaves the conflicting performance expectations in place.",
+          "D": "Indefinite local choice undermines the standardized rollout and preserves the cause of inconsistent adoption."
+        },
+        "references": [
+          "PMBOK 8, Guide §3.4.2, pp. 106–107 (PDF pp. 211–212): alignment with organizational context and cross-group tailoring.",
+          "PMBOK 8, Guide §3.4.3.3, p. 109 (PDF p. 214): culture, support, trust, and empowerment.",
+          "PMBOK 8, Standard §3.8.1, p. 54 (PDF p. 77): processes, organizational structures, and team agreements."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 14,
+        "id": "pmp-set2-014",
+        "domain": "People",
+        "task": 5,
+        "approach": "Agile",
+        "difficulty": "Moderate",
+        "format": "single",
+        "caseId": null,
+        "instruction": "**Select ONE answer.**",
+        "stem": "An agile team's roadmap forecasts a customer feature in six to eight weeks. A sales representative has described the earliest date to a customer as a firm commitment, and the customer is planning a promotion around it. No contractual delivery date has been agreed. The forecast and its assumptions have not changed. What should the project manager do first?",
+        "options": [
+          [
+            "A",
+            "Replace the forecast range with an eight-week date so that the customer receives a single conservative commitment."
+          ],
+          [
+            "B",
+            "Ask the team to work additional hours until the feature can be guaranteed within six weeks."
+          ],
+          [
+            "C",
+            "Leave the roadmap unchanged and address the misunderstanding only if the six-week date becomes unattainable."
+          ],
+          [
+            "D",
+            "Bring sales and the product owner together to reconcile the customer's expectation with the forecast and agree an accurate update."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "A forecast has been communicated as a commitment. The immediate task is to align the people responsible for the product and customer relationship on what is supported by the evidence, then correct the expectation promptly.",
+        "rationales": {
+          "A": "The end of a forecast range is not automatically a guaranteed date. A unilateral wording change also avoids the necessary expectation discussion.",
+          "B": "Extra hours do not establish a credible guarantee and impose a solution before the uncertainty and customer options have been discussed.",
+          "C": "The mismatch is already known and affects customer planning. Delaying the conversation can magnify its consequences.",
+          "D": "This directly addresses the misunderstanding with the relevant decision makers and supports a clear, timely customer message."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.5.1–2.5.2.4, pp. 68–72 (PDF pp. 173–177): stakeholder expectations and engagement.",
+          "PMBOK 8, Guide §2.5.2.3, p. 72 (PDF p. 177): aligned communication planning."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 15,
+        "id": "pmp-set2-015",
+        "domain": "Process",
+        "task": 5,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "instruction": "**Select ONE answer.**",
+        "stem": "A hybrid project combines a contracted equipment installation with an iteratively developed analytics service. The contract administrator confirms that the supplier's current equipment milestone meets every agreed acceptance criterion. The contract requires that accepted milestone to be paid independently of any newly requested work. During a demonstration, a business stakeholder asks the supplier for additional training reports and urges the project manager to hold the milestone payment until they are included. What should the project manager do?",
+        "options": [
+          [
+            "A",
+            "Hold the milestone payment and use it to negotiate the additional reports within the existing price."
+          ],
+          [
+            "B",
+            "Coordinate acceptance and payment under the current agreement, and address the new reports through the authorized contract-change process."
+          ],
+          [
+            "C",
+            "Reclassify the missing reports as quality defects so the supplier must provide them before the milestone is accepted."
+          ],
+          [
+            "D",
+            "Ask the product owner to put the reports into the software backlog and inform the supplier that this updates its obligations."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "The current obligation and the new request must be handled according to the agreement stated in the question. Stakeholder feedback can identify useful additional work, but it does not retroactively redefine a supplier's accepted milestone or authorize contract changes.",
+        "rationales": {
+          "A": "Withholding payment for unrelated new work contradicts the stated agreement and creates avoidable supplier conflict.",
+          "B": "This fulfills the existing agreement while providing an appropriate route to evaluate and negotiate the additional request.",
+          "C": "The contract administrator has confirmed compliance with all existing criteria. A new request is not evidence that those criteria were breached.",
+          "D": "Product backlog ordering can guide the software work, but it does not itself amend the separate supplier agreement."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.1.6.3, pp. 19–21 (PDF pp. 124–126): sourcing decisions and agreements.",
+          "PMBOK 8, Appendix X4 §X4.8, p. 250 (PDF p. 355): contracts as the basis of financial arrangements and relationships.",
+          "PMBOK 8, Appendix X4 §X4.9.1, p. 253 (PDF p. 358): understanding contract terms and preventing disputes."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 16,
+        "id": "pmp-set2-016",
+        "domain": "Business Environment",
+        "task": 2,
+        "approach": "Hybrid",
+        "difficulty": "Very challenging",
+        "format": "multiple",
+        "caseId": null,
+        "instruction": "**Select TWO answers.**",
+        "stem": "A hybrid public-service project must publish a multilingual summary of stakeholder workshops tomorrow. The team proposes using an external AI service approved by the organization only for public information. The workshop notes contain names, small-community locations, and sensitive individual circumstances. A team member offers to remove names before uploading them. A trial translation of a public sample also changes a mandatory instruction into an optional suggestion. Which TWO actions should the project manager take before proceeding?",
+        "options": [
+          [
+            "A",
+            "Remove names and upload the remaining notes because direct identifiers are the only information restricted by the tool's approval."
+          ],
+          [
+            "B",
+            "Confirm permitted data use with the responsible data and security owners and use only input authorized for the selected environment."
+          ],
+          [
+            "C",
+            "Obtain the vendor's standard confidentiality promise and treat it as permission to process the workshop notes in the service."
+          ],
+          [
+            "D",
+            "Arrange qualified review of critical meaning and required instructions against the approved source before publishing the translated summary."
+          ],
+          [
+            "E",
+            "Publish the AI translation with a general accuracy disclaimer so that stakeholders can report any important errors afterward."
+          ]
+        ],
+        "correct": [
+          "B",
+          "D"
+        ],
+        "explanation": "There are two separate issues: whether the input may be processed in the proposed environment, and whether the output faithfully communicates the approved information. Removing names does not establish that the remaining material is public or non-identifying. The observed translation error also requires validation before release.",
+        "rationales": {
+          "A": "Locations and individual circumstances may still identify people or remain sensitive. The service's approval does not extend automatically to the modified notes.",
+          "B": "This applies the organization's data-use boundaries and permits an appropriate choice of authorized content and processing environment.",
+          "C": "A vendor promise does not replace the organization's approval or establish that the proposed use is permitted.",
+          "D": "A reviewer must verify substantive meaning, particularly required instructions, rather than relying on fluency or the AI output's confident wording.",
+          "E": "A disclaimer does not correct the known risk of materially changing instructions and shifts detection of preventable errors to recipients."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.5.3, p. 75 (PDF p. 180): security and ethics when using AI for stakeholder communications.",
+          "PMBOK 8, Appendix X3 §X3.3, pp. 239 and 243–244 (PDF pp. 344 and 348–349): privacy, accountability, validation, and organizational AI policies."
+        ],
+        "exhibitMarkdown": "",
+        "requiredSelections": 2
+      },
+      {
+        "n": 17,
+        "id": "pmp-set2-017",
+        "domain": "Process",
+        "task": 10,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "instruction": "**Select ONE answer.**",
+        "stem": "A hybrid project has delivered new laboratory equipment and an application configured through several iterations. The customer has accepted the deliverables. The transition plan also requires an operations owner, a tested recovery procedure, and demonstrated ability of the support team to use it. The owner is named and the procedure is documented, but support staff have not demonstrated recovery. A sponsor asks the project manager to close the project now because the expected benefits will be tracked by operations over the next year. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Arrange and verify the remaining recovery exercise, then confirm transition readiness and complete the applicable closure activities."
+          ],
+          [
+            "B",
+            "Close immediately because customer acceptance establishes that every project and operational exit criterion has been satisfied."
+          ],
+          [
+            "C",
+            "Keep the full project team assigned until all benefits have been measured over the following year."
+          ],
+          [
+            "D",
+            "Transfer the untested procedure to the named owner and record the recovery exercise as an optional operational improvement."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "Customer acceptance and operational readiness are related but separate conditions in this project. One required transition activity remains. Completing it supports closure without unnecessarily retaining the project until all future benefits are realized.",
+        "rationales": {
+          "A": "This closes the specific readiness gap and then allows a controlled transition and project closure.",
+          "B": "Acceptance does not override the additional exit criteria stated in the transition plan.",
+          "C": "Benefits can be monitored after transition by their designated owners. The facts do not justify retaining the full team for a year.",
+          "D": "Assigning an owner and transferring documentation do not demonstrate the capability expressly required by the plan."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.1.6.9, pp. 31–32 (PDF pp. 136–137): exit criteria, knowledge transfer, and transition to operations.",
+          "PMBOK 8, Standard §3.4, pp. 40–41 (PDF pp. 63–64): value may be realized after project completion."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 18,
+        "id": "pmp-set2-018",
+        "domain": "Business Environment",
+        "task": 6,
+        "approach": "Agile",
+        "difficulty": "Moderate",
+        "format": "matching",
+        "caseId": null,
+        "instruction": "**Matching.**",
+        "stem": "An agile team uses retrospectives to improve its delivery process. Match each independent situation to the best next improvement action. Use each response at most once; one response will remain unused.",
+        "options": [
+          [
+            "A",
+            "Run a bounded trial with an owner and an explicit success measure."
+          ],
+          [
+            "B",
+            "Reassess the changed conditions and adapt or retest the improvement."
+          ],
+          [
+            "C",
+            "Seek a policy exception before experimenting outside a mandatory control."
+          ],
+          [
+            "D",
+            "Examine the recurring problem's evidence and underlying causes with the team."
+          ],
+          [
+            "E",
+            "Embed the validated practice and share the results and relevant context."
+          ]
+        ],
+        "correct": {
+          "1": "D",
+          "2": "A",
+          "3": "E",
+          "4": "B"
+        },
+        "explanation": "An improvement cycle connects evidence, a selected experiment, measured results, and continued adaptation. Recording a lesson is useful when it changes decisions or practice and remains sensitive to context.",
+        "rationales": {
+          "A": "Situation 2: the cause is understood but the proposed solution is untested, so a controlled experiment can establish whether it works.",
+          "B": "Situation 4: changed work may invalidate earlier assumptions. The team should review the new conditions rather than protect an obsolete solution.",
+          "C": "Unused: no situation proposes breaching a mandatory control. In Situation 2 the trial is expressly permitted within existing rules.",
+          "D": "Situation 1: selecting a countermeasure before examining the disputed cause risks treating the wrong problem.",
+          "E": "Situation 3: evidence supports retaining the practice and sharing its conditions and results, without assuming that every other team must adopt it unchanged."
+        },
+        "references": [
+          "PMBOK 8, Guide §3.4.4, p. 109 (PDF p. 214): ongoing improvement through inspection and adaptation.",
+          "PMBOK 8, Guide §4, p. 123 (PDF p. 228): lessons learned and organizational reuse.",
+          "PMBOK 8, Guide §5, p. 194 (PDF p. 299): retrospectives."
+        ],
+        "prompts": [
+          [
+            "1",
+            "The same handoff delay has occurred in three iterations. People disagree about its cause, and the team has not examined the underlying workflow evidence."
+          ],
+          [
+            "2",
+            "The team has validated the cause of a delay and identified two feasible countermeasures, but neither has been tried. It can safely test one within existing rules."
+          ],
+          [
+            "3",
+            "A process trial has met its agreed success measure for three iterations without unwanted side effects. The team wants to retain the improvement and help similar teams learn from it."
+          ],
+          [
+            "4",
+            "A previously effective improvement no longer meets its success measure after the work mix changes. The assumptions supporting the original solution may no longer hold."
+          ]
+        ]
+      },
+      {
+        "n": 19,
+        "id": "pmp-set2-019",
+        "domain": "Process",
+        "task": 7,
+        "approach": "Agile",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "instruction": "**Select ONE answer.**",
+        "stem": "At the end of a Sprint, a reporting feature passes all of its functional acceptance examples. However, it fails the response-time check in the team's current Definition of Done, which incorporates a mandatory organizational quality standard. The product owner likes the feature and asks the team to mark it Done for a customer announcement while placing the performance work in the next Sprint. What is the best response?",
+        "options": [
+          [
+            "A",
+            "Mark the feature Done because the product owner's approval takes priority over a technical completion check."
+          ],
+          [
+            "B",
+            "Mark it Done with a performance exception and count the remaining work only against the next Sprint."
+          ],
+          [
+            "C",
+            "Keep the feature incomplete, make the unmet quality requirement visible, and return the work to the backlog for consideration."
+          ],
+          [
+            "D",
+            "Lower the Definition of Done for this Sprint and restore the response-time requirement after the announcement."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "Passing functional examples does not satisfy an unmet Definition of Done. The mandatory quality check remains applicable, and the incomplete work must be represented transparently. Backlog consideration does not automatically commit the next Sprint to a particular solution.",
+        "rationales": {
+          "A": "Product-owner preference does not remove the applicable completion and quality requirements.",
+          "B": "Adding an exception label while recording the feature as Done misrepresents its state and moves unfinished quality work out of the reported item.",
+          "C": "This preserves the quality requirement and an accurate account of completed work while allowing the remaining work to be ordered appropriately.",
+          "D": "A temporary reduction would conflict with the mandatory organizational standard and would not make the feature meet the existing quality requirement."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.2.2.5, p. 42 (PDF p. 147): measuring deliverables against quality requirements.",
+          "Scrum Guide 2020, Increment and Definition of Done: [official guide](https://scrumguides.org/scrum-guide.html)."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 20,
+        "id": "pmp-set2-020",
+        "domain": "People",
+        "task": 4,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "hotspot",
+        "caseId": null,
+        "instruction": "**Hotspot. Select ONE current marker.**",
+        "stem": "A predictive facilities project has one targeted stakeholder meeting available today before a readiness decision in three days. Use the role information and engagement matrix below. Select the CURRENT engagement marker of the stakeholder whose engagement gap most directly threatens that near-term decision.",
+        "options": [
+          [
+            "A",
+            "R1 — Supportive (Executive sponsor)"
+          ],
+          [
+            "B",
+            "R2 — Resistant (Operations manager)"
+          ],
+          [
+            "C",
+            "R3 — Neutral (User advisory chair)"
+          ],
+          [
+            "D",
+            "R4 — Supportive (Data owner)"
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "The operations manager has both an engagement gap and an immediate, necessary role in the readiness decision. The meeting should explore the operating concerns and seek an evidence-based resolution. Resistance is a signal to understand the concern, not proof that the stakeholder is unreasonable.",
+        "rationales": {
+          "A": "The sponsor has a gap from supportive to leading, but is already supportive and has no stated decision due in three days. Seniority alone does not make this meeting the highest priority.",
+          "B": "The current resistance is linked to unresolved concerns that block a required near-term endorsement. This makes the marked cell the appropriate target.",
+          "C": "The chair has a gap, but its influence concerns a later advisory review rather than the immediate readiness decision.",
+          "D": "The data owner has a near-term role, but current and desired engagement already match and the stated handover evidence is supported."
+        },
+        "references": [
+          "PMBOK 8, Guide §2.5.2.1–2.5.2.2, p. 71 (PDF p. 176): engagement based on stakeholder impact and needs.",
+          "PMBOK 8, Guide §5, p. 200 (PDF p. 305): current and desired engagement assessment."
+        ],
+        "exhibitMarkdown": "| Row | Stakeholder | Role and timing |\n|---|---|---|\n| R1 | Executive sponsor | Supports the business case; the next sponsor funding decision is in four weeks. |\n| R2 | Operations manager | Must endorse operational readiness in three days; unresolved operating concerns currently prevent endorsement. |\n| R3 | User advisory chair | Provides recommendations for a later usability review; has no approval role in the upcoming decision. |\n| R4 | Data owner | Must confirm the data handover in three days; has reviewed the evidence and supports the proposed handover. |",
+        "hotspotType": "engagement",
+        "exhibit": {
+  "headers": [
+    "Stakeholder",
+    "Unaware",
+    "Resistant",
+    "Neutral",
+    "Supportive",
+    "Leading"
+  ],
+  "rows": [
+    [
+      "R1 — Executive sponsor",
+      "—",
+      "—",
+      "—",
+      "C",
+      "D"
+    ],
+    [
+      "R2 — Operations manager",
+      "—",
+      "C",
+      "—",
+      "D",
+      "—"
+    ],
+    [
+      "R3 — User advisory chair",
+      "—",
+      "—",
+      "C",
+      "D",
+      "—"
+    ],
+    [
+      "R4 — Data owner",
+      "—",
+      "—",
+      "—",
+      "C / D",
+      "—"
+    ]
+  ]
+}
+      }
+    ]
+  },
+  {
+    "number": 3,
+    "sourcePage": "https://chatgpt.com/space/page_0213866ed09c8191819e96bbc95dc1ab",
+    "caseStudy": {
+      "id": "C03",
+      "title": "Dealer returns portal",
+      "markdown": "An agile team is improving a manufacturer's dealer returns portal in two-week iterations. The product owner and dealer representatives have agreed on the product outcome. The team controls how it organizes its work. Use the following exhibit for Questions 021–023. Treat each question independently; do not assume an answer to one question has already been implemented.\n\n| Evidence | Details |\n|---|---|\n| Agreed outcome | Raise the proportion of return requests accepted without a request for missing information from 52% to 80%. |\n| Recent results | Completed backlog items rose from 12 in the previous iteration to 18 in the latest iteration. Requests accepted without clarification rose from 52% to 53%. Team members describe success mainly as finishing more items. |\n| Next iteration's work | Rules configuration requires 3 specialist-days. Regression execution requires 3 person-days and can be done by the specialist or a trained analyst. These estimates include all necessary preparation; no additional review effort is required. |\n| People available | The specialist has 4 days available. An analyst already qualified to execute the regression tests has 4 days available. Other developers have spare capacity but are not qualified for either activity. Both activities can be scheduled within the iteration using these availability windows. |\n| Design disagreement | One experienced developer favors a guided form to reduce omissions; another favors an editable grid to preserve experienced dealers' speed. Dealer observations show that new and experienced users have different difficulties. Neither design has been tested with both groups. The disagreement is becoming personal. |\n| Experiment allowance | A one-day prototype comparison is already funded and does not consume the specialist or analyst capacity above. There is no emergency requiring an immediate design decision. |"
+    },
+    "questions": [
+      {
+        "n": 21,
+        "id": "pmp-set2-021",
+        "domain": "People",
+        "task": 1,
+        "approach": "Agile",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C03",
+        "instruction": "**Use Case C03.** **Select ONE answer.**",
+        "stem": "At the iteration review, team members point to the increase in completed items as evidence that the project is succeeding. The product owner is concerned about the dealer outcome. What should the project leader do next to restore a shared understanding of success?",
+        "options": [
+          [
+            "A",
+            "Ask the product owner to replace the outcome target with an item-completion target that the team can directly control."
+          ],
+          [
+            "B",
+            "Coach the team to increase completed items again before discussing whether the dealer outcome is improving."
+          ],
+          [
+            "C",
+            "Ask the product owner to retain the outcome target but let the team continue defining success solely by completed items."
+          ],
+          [
+            "D",
+            "Facilitate a discussion with the team and product owner connecting the agreed outcome to the recent results and the purpose of upcoming work."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "The exhibit shows a gap between the agreed purpose and the team's working definition of success. A shared discussion makes that misunderstanding explicit and connects delivery choices to the dealer outcome. More completed items can be useful delivery information, but it does not establish that the intended outcome has improved.",
+        "rationales": {
+          "A": "This changes the definition of success to fit a convenient activity measure without evidence that the dealer need has changed.",
+          "B": "Additional throughput could repeat the same mismatch. The existing result is sufficient reason to discuss the purpose now.",
+          "C": "Separate definitions preserve the misunderstanding. The team needs to understand how its work contributes to the shared outcome.",
+          "D": "Correct. It uses the actual results to reconnect the team and product owner around the agreed purpose before drawing conclusions about the next work."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.6.2.4.1, p. 84 and §2.6.2.4.2, p. 86 (PDF pp. 189 and 191). The Standard for Project Management, §3.4, pp. 40–42 (PDF pp. 63–65)."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 22,
+        "id": "pmp-set2-022",
+        "domain": "Process",
+        "task": 4,
+        "approach": "Agile",
+        "difficulty": "Moderate",
+        "format": "single",
+        "caseId": "C03",
+        "instruction": "**Use Case C03.** **Select ONE answer.**",
+        "stem": "During planning, the team initially proposes giving both listed activities to the specialist because that person performed them in the previous iteration. Which allocation should the project leader help the team evaluate first to complete both activities within the stated capacity?",
+        "options": [
+          [
+            "A",
+            "Assign both activities to the specialist and plan to absorb the additional effort through the specialist's unused capacity."
+          ],
+          [
+            "B",
+            "Assign the configuration to the specialist and regression execution to the qualified analyst, coordinating the work within their availability."
+          ],
+          [
+            "C",
+            "Assign configuration to developers with spare capacity and leave regression execution with the specialist."
+          ],
+          [
+            "D",
+            "Assign regression execution to the specialist and defer configuration, preserving the previous division of responsibilities."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "The specialist cannot perform six days of work within four available days. The qualified analyst can perform the three days of regression execution, leaving three of the specialist's four days for configuration. This uses demonstrated competence and actual availability while preserving both activities.",
+        "rationales": {
+          "A": "The specialist has only one day left after configuration, not the three days needed for regression execution.",
+          "B": "Correct. Both assignments fit the stated skill and capacity constraints; the team should coordinate their sequence and availability.",
+          "C": "Spare time is not a substitute for the configuration competence required in the exhibit.",
+          "D": "Deferral is unnecessary when the available qualified analyst enables both activities to fit."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §§2.6.2.2–2.6.2.3, pp. 82–84 (PDF pp. 187–189)."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 23,
+        "id": "pmp-set2-023",
+        "domain": "People",
+        "task": 2,
+        "approach": "Agile",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C03",
+        "instruction": "**Use Case C03.** **Select ONE answer.**",
+        "stem": "The two developers ask the project leader to settle the design disagreement. Given the exhibit, which response best addresses both the conflict and the delivery decision?",
+        "options": [
+          [
+            "A",
+            "Reestablish respectful discussion, help the developers agree on outcome-based comparison criteria, and use the funded prototype session with both dealer groups."
+          ],
+          [
+            "B",
+            "Choose the guided form because reducing omissions is the stated outcome, then ask the other developer to support the decision."
+          ],
+          [
+            "C",
+            "Combine half of each proposed design so both developers can see their preferred approach represented."
+          ],
+          [
+            "D",
+            "Ask the product owner to choose between the untested designs immediately, then coach the developers to accept the choice."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "The disagreement contains potentially useful information about different users, but its personal tone must be addressed. The available experiment makes a collaborative, evidence-based comparison feasible. A facilitated comparison can evaluate completeness and usability without treating seniority, compromise, or escalation as a substitute for evidence.",
+        "rationales": {
+          "A": "Correct. It addresses conduct and turns competing positions into a test of shared criteria using the time and resources already available.",
+          "B": "The desired outcome does not prove that the guided form is the better design for both user groups.",
+          "C": "Splitting the design by preference can introduce complexity without resolving which elements serve users.",
+          "D": "A forced choice bypasses a feasible learning opportunity and leaves the source of the disagreement unresolved."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide, Conflict management, pp. 156–157 (PDF pp. 261–262), and Resources tailoring considerations, p. 89 (PDF p. 194)."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 24,
+        "id": "pmp-set2-024",
+        "domain": "People",
+        "task": 3,
+        "approach": "Predictive",
+        "difficulty": "Moderate",
+        "format": "single",
+        "caseId": null,
+        "instruction": "**Select ONE answer.**",
+        "stem": "On a predictive equipment-installation project, an engineer has successfully led several comparable work packages. After one recent coordination error, the engineer asks the project manager to approve every routine sequencing decision. The engineer still has the required authority and skills, and there is no immediate safety or delivery threat. What is the best initial response?",
+        "options": [
+          [
+            "A",
+            "Provide a detailed sequence for the next work package so the engineer can rebuild confidence by following it."
+          ],
+          [
+            "B",
+            "Tell the engineer to resume independent decisions immediately and discuss confidence at the next performance review."
+          ],
+          [
+            "C",
+            "Discuss the setback privately, ask the engineer to work through options and decision limits, and agree on a short follow-up."
+          ],
+          [
+            "D",
+            "Introduce temporary approval of every decision until the engineer completes another work package without error."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "The facts point to a confidence setback rather than missing technical competence or authority. Coaching helps the engineer reason through the problem and resume appropriate independence, with a proportionate follow-up. The leadership response should fit the person's demonstrated ability and current needs.",
+        "rationales": {
+          "A": "Supplying the solution may be useful for someone lacking capability, but here it reinforces dependence without first exploring the setback.",
+          "B": "It reasserts autonomy without providing support for the immediate difficulty.",
+          "C": "Correct. Questions, clear decision limits, and follow-up support independent problem solving without taking over routine work.",
+          "D": "Universal approval adds control where the stated need is confidence and can make the dependency more persistent."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.6.2.4, p. 84 (PDF p. 189), and Coaching and mentoring, p. 151 (PDF p. 256)."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 25,
+        "id": "pmp-set2-025",
+        "domain": "Process",
+        "task": 6,
+        "approach": "Predictive",
+        "difficulty": "Very challenging",
+        "format": "single",
+        "caseId": null,
+        "instruction": "**Select ONE answer.**",
+        "stem": "A predictive implementation project has a budget at completion of $600,000, earned value of $300,000, and actual cost of $360,000. An investigation confirms that the $60,000 overrun came from a one-time onboarding problem that has been resolved. The team has now validated a bottom-up estimate of $315,000 for ALL remaining authorized work, including the remaining coaching and testing. The current cost baseline has not been changed. Which completion-cost forecast and response are best supported?",
+        "options": [
+          [
+            "A",
+            "Forecast $600,000 and retain it until the governing body approves a higher cost baseline."
+          ],
+          [
+            "B",
+            "Forecast $660,000 by adding the remaining budgeted work to actual cost, and report a $60,000 expected overrun."
+          ],
+          [
+            "C",
+            "Forecast $675,000, report the $75,000 difference from the current budget, and route any proposed baseline or funding changes through governance."
+          ],
+          [
+            "D",
+            "Forecast $720,000 using the cumulative cost performance index, and report a $120,000 expected overrun."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "The validated remaining-work estimate is the strongest stated basis for the forecast: EAC = actual cost + bottom-up estimate to complete = $360,000 + $315,000 = $675,000. That is $75,000 above the $600,000 budget. A forecast reports expected reality; it does not by itself authorize a revised baseline or additional funding.",
+        "rationales": {
+          "A": "An approved baseline and a current forecast serve different purposes. Waiting for approval before reporting the forecast hides the expected variance.",
+          "B": "$360,000 + ($600,000 − $300,000) = $660,000 assumes remaining work can be done for $300,000 and ignores the validated $315,000 estimate.",
+          "C": "Correct. It uses the full remaining estimate once, reports the variance, and preserves the distinction between forecasting and change authorization.",
+          "D": "CPI = $300,000 / $360,000 = 0.8333; BAC / CPI = $720,000. That extrapolation assumes continuing cost efficiency, whereas the scenario identifies a resolved one-time cause and a validated new estimate."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide, Earned Value Analysis, Table 5-1, p. 209 (PDF p. 314); Bottom-up estimating, p. 149 (PDF p. 254); §2.1.6.7, p. 26 (PDF p. 131)."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 26,
+        "id": "pmp-set2-026",
+        "domain": "Business Environment",
+        "task": 4,
+        "approach": "Hybrid",
+        "difficulty": "Very challenging",
+        "format": "multiple",
+        "caseId": null,
+        "instruction": "**Select TWO answers.**",
+        "stem": "A hybrid project has a fixed deployment milestone and iterative software development. A shared identity service is already unavailable, blocking end-to-end testing. Two coordination attempts have failed because its owner is prioritizing another project. The agreed escalation rule requires a program-level decision after two days of unresolved cross-project blockage; three days have passed. The team can use an approved mock service, within the current budget, to continue some functional tests, but this cannot validate real authentication or replace final end-to-end testing. Which TWO actions should the project manager take now?",
+        "options": [
+          [
+            "A",
+            "Escalate the documented impact and priority trade-off to the program decision maker, requesting an accountable owner and a restoration commitment."
+          ],
+          [
+            "B",
+            "Record the dependency only as a future risk, since the deployment milestone has not yet been missed."
+          ],
+          [
+            "C",
+            "Pause all software work until the identity service is available, preserving the planned sequence of testing."
+          ],
+          [
+            "D",
+            "Use successful mock-service tests to close the impediment and remove real-service testing from the deployment forecast."
+          ],
+          [
+            "E",
+            "Use the mock service for the permitted tests while keeping the dependency open, tracking restoration and the remaining real-service validation."
+          ]
+        ],
+        "correct": [
+          "A",
+          "E"
+        ],
+        "explanation": "This is an active issue, and the agreed escalation threshold has been reached after local attempts failed. The project manager should seek the cross-project priority decision from the person authorized to make it. The approved mock can reduce the impact meanwhile, but it cannot resolve or prove the real integration dependency.",
+        "rationales": {
+          "A": "Correct. It uses the established escalation path with decision-relevant facts and seeks concrete ownership and timing.",
+          "B": "The blockage has already occurred. Treating it only as a possible future event understates its current effect.",
+          "C": "The stated approved workaround allows useful testing to continue; stopping all work adds avoidable delay.",
+          "D": "A mock tests only the permitted functional behavior. Closing the issue or removing required real-service testing would misrepresent readiness.",
+          "E": "Correct. It combines partial mitigation with continued issue tracking and preserves the remaining validation obligation."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §§2.1.2–2.1.4, pp. 11–13 (PDF pp. 116–118); §2.1.6.7, p. 26 (PDF p. 131); Issue log, p. 123 (PDF p. 228). PMP Examination Content Outline, July 2026, Business Environment Task 4, p. 11."
+        ],
+        "exhibitMarkdown": "",
+        "requiredSelections": 2
+      },
+      {
+        "n": 27,
+        "id": "pmp-set2-027",
+        "domain": "People",
+        "task": 7,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "instruction": "**Select ONE answer.**",
+        "stem": "A hybrid modernization project uses planned data-conversion milestones and iteratively developed interfaces. Its most experienced conversion specialist will leave in nine working days. Two backups can execute the documented routine steps, but the specialist resolves unusual records using judgment that is absent from the checklist. Several exception types are expected at the next milestone. What should the project manager prioritize during the remaining overlap?",
+        "options": [
+          [
+            "A",
+            "Ask the specialist to finish the difficult conversions while the backups maintain throughput on routine records."
+          ],
+          [
+            "B",
+            "Record a demonstration of one routine conversion and have the backups acknowledge that they understand the recording."
+          ],
+          [
+            "C",
+            "Ask the specialist to expand the checklist, then use a written recall test to confirm that the backups remember the steps."
+          ],
+          [
+            "D",
+            "Pair the backups with the specialist on representative exceptions, make the reasoning explicit, and have the backups resolve further cases with feedback."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "The missing capability is context-dependent judgment, not familiarity with routine steps. Working through representative exceptions exposes the specialist's reasoning. Having backups then apply it provides evidence of transfer and reveals remaining gaps while the specialist is still available. Useful rules and examples should be captured as part of that work.",
+        "rationales": {
+          "A": "It can improve immediate throughput while leaving the critical capability concentrated in the departing person.",
+          "B": "A routine demonstration and acknowledgment do not address the exception-handling gap.",
+          "C": "Additional documentation can help, but recalling steps does not show that the backups can interpret unfamiliar exceptions.",
+          "D": "Correct. Interaction, explicit reasoning, practice, and feedback address the tacit knowledge needed for the upcoming milestone."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.1.6.6, pp. 25–26 (PDF pp. 130–131), and §2.6.2.4.1, p. 84 (PDF p. 189)."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 28,
+        "id": "pmp-set2-028",
+        "domain": "Process",
+        "task": 8,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "instruction": "**Select ONE answer.**",
+        "stem": "A predictive commissioning project has one qualified engineer available for one full activity at a time. Activity A requires three consecutive working days and must finish by the end of Day 5 for an external review on the morning of Day 6. Activity B requires two consecutive working days and must finish by the end of Day 2. Both can start on Day 1, have no dependency on each other, and currently appear as starting on Day 1. All numbered days are working days. Moving A within Days 1–5 is within its approved float and the project manager's scheduling authority. Which response resolves the resource conflict without additional cost or a missed commitment?",
+        "options": [
+          [
+            "A",
+            "Schedule B on Days 1–2 and A on Days 3–5, then coordinate the revised assignments with the affected stakeholders."
+          ],
+          [
+            "B",
+            "Schedule A on Days 1–3 and B on Days 4–5 because the longer activity should be protected first."
+          ],
+          [
+            "C",
+            "Keep both Day 1 starts and allocate half of each day to each activity, retaining the original durations."
+          ],
+          [
+            "D",
+            "Request a second engineer immediately because simultaneous early starts cannot be changed without rebaselining."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "B has the earlier binding completion requirement. Completing B on Days 1–2 leaves three consecutive days for A on Days 3–5, preserving the Day 6 review. This uses the available scheduling flexibility to resolve overallocation without changing the stated commitments or adding resources.",
+        "rationales": {
+          "A": "Correct. It meets both durations and deadlines with one engineer and uses A's permitted float.",
+          "B": "B would finish three working days after its required Day 2 completion.",
+          "C": "The engineer cannot perform both full-time efforts at once. Splitting effort while retaining the same elapsed durations is not supported.",
+          "D": "The scenario explicitly permits moving A within its float, so an extra engineer or rebaseline is unnecessary."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide, Resource optimization technique, pp. 193–194 (PDF pp. 298–299)."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 29,
+        "id": "pmp-set2-029",
+        "domain": "Business Environment",
+        "task": 8,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "instruction": "**Select ONE answer.**",
+        "stem": "A predictive service-platform project is on schedule for deployment in eight months. Its business case assumes three years of operation. A technology provider now confirms that a required interface will be discontinued in nine months. The project team notes that the interface will still work at deployment and proposes continuing unchanged. What should the project manager do first?",
+        "options": [
+          [
+            "A",
+            "Continue the approved plan and let operations evaluate a replacement after the project transfers the platform."
+          ],
+          [
+            "B",
+            "Assess the discontinuation's effect on operating benefits, feasible alternatives, cost, and schedule with the relevant owners, then bring the findings to the sponsor."
+          ],
+          [
+            "C",
+            "Direct the team to replace the interface immediately with the newest available technology before assessing the effect on the baseline."
+          ],
+          [
+            "D",
+            "Request project cancellation because the original technology assumption has changed."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "A deployment date alone does not establish that the project will deliver the expected operating value. The confirmed external change undermines a key life-cycle assumption. The project manager should assess its effects and feasible responses with those responsible for delivery and operation before recommending a governance decision.",
+        "rationales": {
+          "A": "The business case depends on operation beyond the interface's remaining life; deferring the impact assessment ignores a known threat to that value.",
+          "B": "Correct. It investigates the external change across the operating and delivery horizons and provides a basis for an informed decision.",
+          "C": "A replacement may be appropriate, but selecting and implementing it before assessing impacts and obtaining required authorization is premature.",
+          "D": "Cancellation is one possible outcome of reassessment, not a conclusion supported solely by the announcement."
+        },
+        "references": [
+          "The Standard for Project Management, §2.2.1.2, p. 19 (PDF p. 42), and §3.4, pp. 40–42 (PDF pp. 63–65). PMBOK Guide, Eighth Edition, Guide §2.1.6.7, p. 26 (PDF p. 131). PMP Examination Content Outline, July 2026, Business Environment Task 8, p. 12."
+        ],
+        "exhibitMarkdown": ""
+      },
+      {
+        "n": 30,
+        "id": "pmp-set2-030",
+        "domain": "Process",
+        "task": 7,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "multiple",
+        "caseId": null,
+        "instruction": "**Select TWO answers.**",
+        "stem": "A hybrid rollout combines scheduled field installations with iterative configuration work. Final checks repeatedly find missing configuration fields, causing rework and installation delays. The team has confirmed that the fields and checking method are clear, but preparers skip checks because recognition is based only on records submitted. Failed records are currently contained and cannot be installed. Which TWO changes best address the recurring causes while maintaining the existing quality requirements?",
+        "options": [
+          [
+            "A",
+            "Make the final inspector permanently responsible for correcting missing fields while leaving the preparation workflow and recognition unchanged."
+          ],
+          [
+            "B",
+            "Work with the team and functional manager to include the agreed checks in the preparation workflow and recognize first-pass quality alongside output."
+          ],
+          [
+            "C",
+            "Give preparers a refresher on the unchanged field definitions while retaining the submission-only recognition measure."
+          ],
+          [
+            "D",
+            "Move all preparation to the highest-output team member, using the existing submission count as evidence of capability."
+          ],
+          [
+            "E",
+            "Trial required-field validation at entry, verify that it catches the known omissions, and monitor first-pass results and rework before broader adoption."
+          ]
+        ],
+        "correct": [
+          "B",
+          "E"
+        ],
+        "explanation": "The known causes concern how work is performed and rewarded, not an unclear specification. Integrating checks and aligning recognition supports the desired behavior. Testing validation at entry adds prevention close to the source of the defect, and measuring the result checks whether the change actually improves quality. Existing containment remains necessary while improvements are evaluated.",
+        "rationales": {
+          "A": "This transfers rework to inspection and preserves the conditions producing the defects. It may contain errors but is not the best lasting response to the stated causes.",
+          "B": "Correct. It connects normal work and recognition to conformance rather than rewarding submission volume alone.",
+          "C": "Training is useful when knowledge is missing. Here definitions and methods are understood; unchanged incentives leave the identified behavior driver in place.",
+          "D": "The throughput measure does not establish first-pass quality, and concentrating work does not address the skipped checks.",
+          "E": "Correct. It evaluates a preventive control against the actual defect pattern and measures its effect before scaling it."
+        },
+        "references": [
+          "The Standard for Project Management, §3.5 and §3.5.1, pp. 43–44 (PDF pp. 66–67). PMBOK Guide, Eighth Edition, Guide §2.6.2.4.2, p. 86 (PDF p. 191)."
+        ],
+        "exhibitMarkdown": "",
+        "requiredSelections": 2
+      }
+    ]
+  },
+  {
+    "number": 4,
+    "sourcePage": "https://chatgpt.com/space/page_021f1aa2f6b08191a3e966dc7148089d",
+    "caseStudy": {
+      "id": "C04",
+      "title": "Distribution-center sorting upgrade",
+      "intro": "A distribution center is completing a predictive upgrade to its carton-sorting line. Use the acceptance and decision record below for Questions 031–033. Each question is independent; do not assume that any answer to an earlier question has been implemented.",
+      "exhibit": [
+        [
+          "Approved requirement R1",
+          "Process at least 240 cartons per hour using the specified carton mix. The witnessed test achieved 252 cartons per hour."
+        ],
+        [
+          "Approved requirement R2",
+          "Retain fault records for 60 days and retrieve records throughout that period. The submitted verification report demonstrates retrieval only for records from the most recent 7 days; it contains no evidence for older records."
+        ],
+        [
+          "Approved requirement R3",
+          "Provide the specified supervisor dashboard and operating instructions. These have been delivered and verified against their documented criteria."
+        ],
+        [
+          "User feedback",
+          "During a usability trial, several night-shift supervisors found it difficult to locate the correct fault-recovery instruction. Their tasks and search difficulties have not yet been investigated. A day-shift representative considers the instructions adequate."
+        ],
+        [
+          "Configuration finding",
+          "An engineer added automatic weekly diagnostic emails, which are absent from the approved scope. The feature is in the release candidate but has not been deployed. The engineer reports no extra development cost; effects on support, recipient management, and the approved configuration have not been assessed."
+        ],
+        [
+          "Decision rules",
+          "The operations director formally accepts deliverables after the agreed requirements are demonstrated. The change control board authorizes scope additions. Zero incremental development cost does not exempt an addition from review. The project manager coordinates assessment and recommendations."
+        ]
+      ]
+    },
+    "questions": [
+      {
+        "n": 31,
+        "id": "pmp-set2-031",
+        "domain": "Process",
+        "task": 2,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C04",
+        "stem": "The vendor describes R2 as complete because the log-retention setting is configured to 60 days. Before presenting R2 for acceptance, what should the project manager do?",
+        "options": [
+          [
+            "A",
+            "Present R2 for acceptance using the configuration setting as the missing evidence, since the recent-record retrieval test succeeded."
+          ],
+          [
+            "B",
+            "Ask the change control board to authorize a new 60-day retrieval requirement before requesting any additional verification."
+          ],
+          [
+            "C",
+            "Record the verification gap and arrange appropriate evidence against the existing 60-day retention and retrieval requirement."
+          ],
+          [
+            "D",
+            "Approve R2 provisionally and plan to collect any missing evidence after operations starts using the line."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "The approved requirement already covers the full retention period. The current report demonstrates only a narrower portion of it. A setting alone does not demonstrate retention and retrieval across the specified period. The team should obtain suitable verification evidence under its agreed test approach before claiming that R2 is satisfied.",
+        "rationales": {
+          "A": "The setting shows intended configuration, while the report does not demonstrate the required behavior for older records.",
+          "B": "The 60-day requirement is already approved. Treating its verification as a new scope request misclassifies the gap.",
+          "C": "Correct. It preserves the approved requirement and addresses the missing evidence without assuming the function has necessarily failed.",
+          "D": "The case provides no authority for provisional acceptance in place of the required evidence."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §§2.2.2.5–2.2.2.6, pp. 42–44 (PDF pp. 147–149); Requirements traceability matrix, p. 131 (PDF p. 236)."
+        ],
+        "difficultyReason": "Distinguishes an unverified requirement from a new requirement or a demonstrated defect."
+      },
+      {
+        "n": 32,
+        "id": "pmp-set2-032",
+        "domain": "People",
+        "task": 6,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C04",
+        "stem": "The day-shift representative asks the project manager to close the night-shift feedback because R3 has met its documented criteria. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Close the feedback using the verification result and reopen it only if the operations director rejects the delivered instructions."
+          ],
+          [
+            "B",
+            "Commit to redesigning the instructions for night-shift use before confirming which tasks are causing difficulty."
+          ],
+          [
+            "C",
+            "Collect a majority vote from supervisors and use it to decide whether the night-shift concern warrants investigation."
+          ],
+          [
+            "D",
+            "Explore the night-shift tasks and difficulties, assess the effect on intended use, and agree how to evaluate and respond to the feedback."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "Conformance to documented criteria does not eliminate the need to monitor users' expectations and satisfaction. The project manager should investigate the specific use difficulty and its effect. That evidence can distinguish a clarification, training need, defect, or proposed enhancement before deciding on a response and any necessary authorization.",
+        "rationales": {
+          "A": "Formal criteria matter, but using them to dismiss uninvestigated user feedback can leave an important operational need unaddressed.",
+          "B": "A redesign is a premature solution. The cause and the appropriate response have not been established.",
+          "C": "The frequency of votes does not establish whether a particular shift can perform its necessary tasks effectively.",
+          "D": "Correct. It follows up on actual user experience while avoiding an unsupported commitment to new work."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.5.1, pp. 68–69 (PDF pp. 173–174), and §2.5.2.4, p. 72 (PDF p. 177).",
+          "PMP Examination Content Outline, July 2026, People Task 6, p. 7."
+        ],
+        "difficultyReason": "Distinguishes satisfaction monitoring from acceptance evidence and from an automatic scope commitment."
+      },
+      {
+        "n": 33,
+        "id": "pmp-set2-033",
+        "domain": "Business Environment",
+        "task": 3,
+        "approach": "Predictive",
+        "difficulty": "Very challenging",
+        "format": "single",
+        "caseId": "C04",
+        "stem": "The sponsor likes the diagnostic-email addition and asks the project manager to include it in deployment because the engineer reports no extra development cost. Which response best follows the case's decision rules?",
+        "options": [
+          [
+            "A",
+            "Keep the unapproved feature out of deployment authorization, assess its full impacts, and obtain the board's decision on including it or restoring the approved configuration."
+          ],
+          [
+            "B",
+            "Include the feature using the sponsor's preference as acceptance, then ask support staff to address recipient management after deployment."
+          ],
+          [
+            "C",
+            "Remove the feature immediately and declare the restored release ready without checking whether its removal affects the verified configuration."
+          ],
+          [
+            "D",
+            "Include the feature after a functional email test, then update the scope record to document the configuration that was deployed."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "The sponsor's preference and the reported development cost do not replace the authority rule. The addition can create support and configuration consequences, and removing it may also require controlled work and verification. The project manager should prevent unapproved deployment, assess the disposition options, and obtain the required decision before promoting the release.",
+        "rationales": {
+          "A": "Correct. It respects the stated authority while addressing the consequences of both retention and removal.",
+          "B": "The sponsor has not been given authority to bypass the board; support implications should inform the decision rather than be deferred.",
+          "C": "Restoring the baseline may be appropriate, but declaring readiness without checking the resulting configuration is unsupported.",
+          "D": "A functional test does not authorize new scope. Updating records after deployment would not substitute for the required prior decision."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.1.6.8, pp. 28–30 (PDF pp. 133–135), and Change control tools, p. 151 (PDF p. 256)."
+        ],
+        "difficultyReason": "Integrates authorization, configuration status, life-cycle impacts, and the verification implications of an apparently free addition."
+      },
+      {
+        "n": 34,
+        "id": "pmp-set2-034",
+        "domain": "Process",
+        "task": 3,
+        "approach": "Agile",
+        "difficulty": "Very challenging",
+        "format": "single",
+        "caseId": null,
+        "quantitative": true,
+        "stem": "An agile product team has capacity for 10 effort units before its next release. The product owner and stakeholders have agreed on the benefit points below. Benefits are additive and count only for fully completed, usable items. F has no standalone benefit but is a prerequisite for A. The same team estimated every item and confirmed that any package within 10 units can be sequenced within the release, including F before A. There are no mandatory items or other dependencies, and risk is comparable. Which package offers the highest total benefit among the choices while respecting these constraints?",
+        "exhibit": {
+          "headers": [
+            "Item",
+            "Effort units",
+            "Benefit points",
+            "Dependency"
+          ],
+          "rows": [
+            [
+              "F: Shared foundation",
+              "3",
+              "0",
+              "None"
+            ],
+            [
+              "A: Automated reconciliation",
+              "5",
+              "90",
+              "F must also be completed"
+            ],
+            [
+              "S: Search improvement",
+              "4",
+              "48",
+              "None"
+            ],
+            [
+              "G: Guided entry",
+              "3",
+              "36",
+              "None"
+            ],
+            [
+              "N: Notifications",
+              "2",
+              "16",
+              "None"
+            ]
+          ]
+        },
+        "options": [
+          [
+            "A",
+            "A and S"
+          ],
+          [
+            "B",
+            "S, G, and N"
+          ],
+          [
+            "C",
+            "F, A, and G"
+          ],
+          [
+            "D",
+            "F, A, and N"
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "F + A + N uses 3 + 5 + 2 = 10 effort units and delivers 0 + 90 + 16 = 106 benefit points. It includes the prerequisite and has higher benefit than the feasible S + G + N package, which yields 100 points. The decision must evaluate feasible combinations, not a feature's benefit in isolation.",
+        "rationales": {
+          "A": "The listed items use 9 units but omit A's prerequisite. Adding F would bring the package to 12 units, above capacity.",
+          "B": "This package is feasible at 9 units and 100 points, but it delivers fewer points than D.",
+          "C": "This package includes the prerequisite and yields 126 points, but its 11 units exceed capacity.",
+          "D": "Correct. It respects the dependency and capacity and has the highest benefit among the feasible choices."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide, Backlog management, p. 149 (PDF p. 254), and Prioritization/ranking, p. 187 (PDF p. 292)."
+        ],
+        "difficultyReason": "Requires comparing combined benefits and capacity while recognizing that a prerequisite with no standalone benefit remains essential."
+      },
+      {
+        "n": 35,
+        "id": "pmp-set2-035",
+        "domain": "People",
+        "task": 5,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "stem": "A hybrid rollout has a fixed equipment installation date and an iteratively delivered operator application. Operations, maintenance, and finance have each labeled all of their application requests 'must have.' The team has shown that the requests cannot all fit before installation. No safety, compliance, or contractual requirement is disputed, but the stakeholders have not agreed what business consequences justify a launch requirement. What should the project manager do first?",
+        "options": [
+          [
+            "A",
+            "Ask the team to select the requests with the smallest estimates and present the resulting launch scope for endorsement."
+          ],
+          [
+            "B",
+            "Facilitate agreement on launch outcomes and prioritization criteria, using each request's consequences and dependencies to make the trade-offs explicit."
+          ],
+          [
+            "C",
+            "Allocate one-third of the available capacity to each department so every group receives an equal share."
+          ],
+          [
+            "D",
+            "Ask the sponsor to choose a department whose entire list will take priority before clarifying the launch consequences."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "The stakeholders are using the same priority label without a common decision basis. They need an agreed understanding of the launch outcomes and what happens if a request is deferred. Explicit criteria and dependencies support meaningful trade-offs; unresolved decisions can then go to the appropriate authority with useful evidence.",
+        "rationales": {
+          "A": "Effort is relevant, but selecting easy work first does not establish whether it supports the required launch outcomes.",
+          "B": "Correct. It aligns expectations before treating competing labels as a usable priority order.",
+          "C": "Equal capacity shares can look fair while overlooking different business consequences and cross-department dependencies.",
+          "D": "The sponsor may need to resolve a remaining trade-off, but selecting an entire department's list before clarifying consequences is premature."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.5.2.4, p. 72 (PDF p. 177); §§2.2.2.2–2.2.2.3, pp. 40–41 (PDF pp. 145–146); Prioritization/ranking, p. 187 (PDF p. 292)."
+        ],
+        "difficultyReason": "Requires aligning the basis for prioritization before choosing work, dividing capacity, or escalating a poorly framed decision."
+      },
+      {
+        "n": 36,
+        "id": "pmp-set2-036",
+        "domain": "Business Environment",
+        "task": 2,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "multiple",
+        "caseId": null,
+        "requiredSelections": 2,
+        "stem": "A hybrid customer-service modernization uses a planned data migration and iterative application releases. Its approved organizational policy requires case content to be deleted after 24 months, while a minimal consent-audit record must be retained for seven years without retaining the case content. A backlog item says 'retain all customer records for seven years.' Before this item is approved for implementation, which TWO actions should the project manager coordinate?",
+        "options": [
+          [
+            "A",
+            "Work with the policy owner and team to distinguish the record types and define testable retention and deletion requirements for each."
+          ],
+          [
+            "B",
+            "Use seven years for both record types because selecting the longer period is the more conservative compliance approach."
+          ],
+          [
+            "C",
+            "Include evidence of case-content deletion and permitted audit-record retention in the acceptance tests, traced to the approved policy."
+          ],
+          [
+            "D",
+            "Apply 24-month deletion to every customer-related record because minimizing retained data satisfies both objectives."
+          ],
+          [
+            "E",
+            "Accept the backlog wording and let the migration supplier's standard retention configuration determine the detailed behavior."
+          ]
+        ],
+        "correct": [
+          "A",
+          "C"
+        ],
+        "explanation": "The policy specifies different behavior for two kinds of record. The broad backlog wording obscures that distinction and could lead to noncompliance. Requirements should make the distinction explicit, and verification should demonstrate both required behaviors. This question uses the stated organizational policy; it does not rely on an unstated jurisdiction's law.",
+        "rationales": {
+          "A": "Correct. It translates the existing policy into precise requirements with the responsible owner involved.",
+          "B": "Longer retention is not automatically safer. It would contradict the case-content deletion requirement.",
+          "C": "Correct. Traceable acceptance evidence is needed for both deletion and the restricted audit record's continued retention.",
+          "D": "Deleting the audit record after 24 months would contradict the stated seven-year requirement.",
+          "E": "A supplier default does not demonstrate compliance with the specific organizational policy."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §§2.2.2.2–2.2.2.3, pp. 40–41 (PDF pp. 145–146), and Requirements traceability matrix, p. 131 (PDF p. 236).",
+          "PMP Examination Content Outline, July 2026, Business Environment Task 2, p. 11."
+        ],
+        "difficultyReason": "Requires satisfying two different information obligations through both precise requirements and verification."
+      },
+      {
+        "n": 37,
+        "id": "pmp-set2-037",
+        "domain": "People",
+        "task": 4,
+        "approach": "Agile",
+        "difficulty": "Moderate",
+        "format": "single",
+        "caseId": null,
+        "stem": "An agile team is developing a scheduling application for staff on several shifts. The product owner invites user representatives to each review, but night-shift representatives rarely attend because the meeting occurs during their protected rest period. They later raise workflow needs that the day-shift representatives did not identify. What should the project leader do?",
+        "options": [
+          [
+            "A",
+            "Keep the review arrangements unchanged because every user group already receives the same invitation."
+          ],
+          [
+            "B",
+            "Ask day-shift representatives to approve requirements for all shifts so feedback can be consolidated quickly."
+          ],
+          [
+            "C",
+            "Agree on practical feedback arrangements with the night-shift representatives and connect their input to the product owner's refinement decisions."
+          ],
+          [
+            "D",
+            "Defer the night-shift input until a final all-staff acceptance event to avoid disrupting the iteration cadence."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "An invitation does not create effective participation when the timing predictably excludes a user group. The leader should work with that group on practical engagement, such as accessible review timing or additional feedback channels, and ensure the product owner can use the findings. The scenario does not require changing the duration of iterations.",
+        "rationales": {
+          "A": "Equal invitations do not address the observed barrier to meaningful participation.",
+          "B": "The scenario already shows that the other shift's representatives do not capture all affected users' needs.",
+          "C": "Correct. It removes the participation barrier and connects stakeholder engagement to requirements decisions.",
+          "D": "Waiting until final acceptance loses opportunities to learn and adapt before substantial work is completed."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.5.2.4, p. 72 (PDF p. 177), and Stakeholders tailoring considerations, p. 77 (PDF p. 182)."
+        ],
+        "difficultyReason": "Applies stakeholder engagement to a clear and documented participation barrier."
+      },
+      {
+        "n": 38,
+        "id": "pmp-set2-038",
+        "domain": "Process",
+        "task": 2,
+        "approach": "Predictive",
+        "difficulty": "Moderate",
+        "format": "matching",
+        "caseId": null,
+        "stem": "A predictive project team is organizing its scope information. Match each need to the MOST directly suitable artifact. Use each artifact at most once; one artifact will remain unused.",
+        "prompts": [
+          [
+            "1",
+            "Document the project's major deliverables, boundaries, assumptions, and explicit exclusions."
+          ],
+          [
+            "2",
+            "Record the detailed work description, responsible organization, and acceptance criteria for work package 2.3."
+          ],
+          [
+            "3",
+            "Show the hierarchical decomposition of the project's total scope into deliverables and work packages."
+          ],
+          [
+            "4",
+            "Link each requirement to its business origin, the deliverable that satisfies it, and its verification coverage."
+          ]
+        ],
+        "options": [
+          [
+            "A",
+            "WBS dictionary"
+          ],
+          [
+            "B",
+            "Requirements traceability matrix"
+          ],
+          [
+            "C",
+            "Risk register"
+          ],
+          [
+            "D",
+            "Project scope statement"
+          ],
+          [
+            "E",
+            "Work breakdown structure (WBS)"
+          ]
+        ],
+        "correct": {
+          "1": "D",
+          "2": "A",
+          "3": "E",
+          "4": "B"
+        },
+        "explanation": "These artifacts serve related but distinct needs: the scope statement sets boundaries; the WBS structures the work; its dictionary adds component-level detail; and traceability links requirements to their origin, delivery, and verification.",
+        "rationales": {
+          "A": "Need 2. The dictionary supplies detail about a named WBS component; the hierarchy alone does not provide all of that detail.",
+          "B": "Need 4. The traceability matrix connects requirements to their source and the evidence and deliverables that address them.",
+          "C": "Unused. The risk register records identified uncertainty and related risk information, rather than providing these scope structures or requirement links.",
+          "D": "Need 1. The scope statement provides the project boundaries, deliverables, assumptions, constraints, and exclusions.",
+          "E": "Need 3. The WBS is the hierarchical decomposition of total project scope; it is distinct from its supporting dictionary."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.2.1, p. 38 (PDF p. 143); §2.2.2.4, p. 42 (PDF p. 147); Project scope statement, p. 128 (PDF p. 233); Requirements traceability matrix, p. 131 (PDF p. 236); WBS dictionary, p. 140 (PDF p. 245)."
+        ],
+        "difficultyReason": "Applies the distinct purposes of four related scope artifacts to practical information needs."
+      },
+      {
+        "n": 39,
+        "id": "pmp-set2-039",
+        "domain": "Business Environment",
+        "task": 5,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "stem": "A hybrid inspection project plans a fixed hardware installation while developing label-recognition software iteratively. The design assumes that the selected camera and software can read glossy labels under the site's actual lighting. This has not been tested. A nonreturnable camera order must be placed in two weeks, and a representative trial can be completed in three working days before that commitment. The trial is within the project's approved risk-response allowance. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Place the order now to protect the installation date and use a later software iteration to address any recognition problems."
+          ],
+          [
+            "B",
+            "Assign ownership of the uncertainty and conduct the representative trial before ordering, using the result to confirm or revise the response."
+          ],
+          [
+            "C",
+            "Cancel the camera-based requirement because an untested assumption should not remain in the project's scope."
+          ],
+          [
+            "D",
+            "Keep the assumption in the risk register and defer action until the first integrated installation test provides real evidence."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "The uncertainty threatens a requirement and is about to become harder to address because of the nonreturnable purchase. A timely representative trial can reduce that uncertainty before commitment. Assigning ownership and using the result to choose the next action makes the risk response active rather than merely documented.",
+        "rationales": {
+          "A": "Later software work may not remedy a camera or lighting limitation, and the purchase would narrow the available responses.",
+          "B": "Correct. It uses the available response capacity to test the critical assumption before the irreversible procurement commitment.",
+          "C": "Uncertainty warrants assessment and a proportionate response, not automatic elimination of the requirement.",
+          "D": "Recording a risk is insufficient when a feasible early action can materially reduce exposure before commitment."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §§2.7.2.2–2.7.2.4, p. 96 (PDF p. 201), and §§2.7.2.5–2.7.2.6, p. 98 (PDF p. 203)."
+        ],
+        "difficultyReason": "Requires timing a response around an approaching commitment and distinguishing uncertainty reduction from later correction."
+      },
+      {
+        "n": 40,
+        "id": "pmp-set2-040",
+        "domain": "Process",
+        "task": 9,
+        "approach": "Agile",
+        "difficulty": "Challenging",
+        "format": "dropdown",
+        "caseId": null,
+        "stem": "An agile team's burnup record shows a steady rate of completed work over four iterations. The total estimated work in the targeted release has increased each iteration because the product owner has added newly discovered requirements. The team's estimation scale and completion criteria have stayed consistent. A sponsor says that the widening gap proves the team has become less productive. Complete the statement with the BEST response.\n\nThe project leader should explain that [SELECT ONE RESPONSE].",
+        "options": [
+          [
+            "A",
+            "the widening gap proves lower productivity, so the team should increase its estimate of how much it can finish next iteration"
+          ],
+          [
+            "B",
+            "the steady completion rate guarantees the original release date, so the new requirements do not affect the forecast"
+          ],
+          [
+            "C",
+            "the scope increase invalidates all prior completion data, so a forecast must wait until the backlog stops changing"
+          ],
+          [
+            "D",
+            "completion throughput is steady while release scope is growing, so the forecast and scope trade-offs should be reviewed with the product owner"
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "The record separates completed work from the amount targeted for the release. A growing gap can arise from added scope even when completion throughput remains steady. The project leader should make both trends visible and support a current forecast and scope discussion. The evidence does not, by itself, prove a decline in productivity or guarantee a date.",
+        "rationales": {
+          "A": "The conclusion ignores the stated stable completion rate and added release scope; simply increasing a forecast does not create capacity.",
+          "B": "Additional targeted work can affect completion timing even if the team's throughput is unchanged.",
+          "C": "Changing scope does not make observed completion data useless. Forecasts can be updated with explicit scope assumptions and uncertainty.",
+          "D": "Correct. It distinguishes the two trends and connects the evidence to a release decision without promising a fixed outcome."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide, Burnup chart, p. 150 (PDF p. 255); Visual controls, pp. 213–214 (PDF pp. 318–319); §2.1.6.7, p. 26 (PDF p. 131)."
+        ],
+        "difficultyReason": "Interprets completion and scope trends separately instead of attributing a widening gap to team performance alone."
+      }
+    ]
+  },
+  {
+    "number": 5,
+    "sourcePage": "https://chatgpt.com/space/page_a61f085abd8c8191abb78dd02d3b2d1e",
+    "caseStudy": {
+      "id": "C05",
+      "title": "Library service transition",
+      "intro": "A library network is replacing its lending-service platform. Data migration and cutover follow a predictive plan; the application is developed iteratively. All numbered days below are working days. A full-day activity starts on the next working day after all its predecessors finish. Use this record for Questions 041–043, answering each independently.",
+      "exhibit": [
+        [
+          "Application",
+          "The integration-ready application is forecast to be available at the end of Day 6. Its workstream reports green against that commitment."
+        ],
+        [
+          "Data extract",
+          "The approved source extract is forecast to be available at the end of Day 8. Its workstream reports green against that commitment."
+        ],
+        [
+          "Conversion validation",
+          "Requires 2 full working days after the source extract is available. It cannot overlap extraction. Resources are available when required."
+        ],
+        [
+          "Integrated rehearsal",
+          "Requires 2 full working days after BOTH conversion validation and application readiness. It cannot overlap either prerequisite. Resources are available when required."
+        ],
+        [
+          "Cutover calendar",
+          "Cutover may start only at the beginning of Day 11 or Day 16. The rehearsal must be complete by the end of the preceding working day. Day 11 is the approved target; no other window is available in this period."
+        ],
+        [
+          "Reporting",
+          "The sponsor sees separate green workstream indicators and assumes the Day 11 cutover is on track. The summary does not show the links between the workstreams and cutover."
+        ],
+        [
+          "Organizational transition",
+          "Awareness presentations are complete. Experienced branch staff understand the service benefits but worry that centralized exception handling will remove their ability to resolve local patron problems. New decision rights and exception-escalation arrangements have not been agreed."
+        ]
+      ]
+    },
+    "questions": [
+      {
+        "n": 41,
+        "id": "pmp-set2-041",
+        "domain": "Process",
+        "task": 8,
+        "approach": "Hybrid",
+        "difficulty": "Very challenging",
+        "format": "single",
+        "caseId": "C05",
+        "quantitative": true,
+        "stem": "The sponsor offers to accelerate application readiness from the end of Day 6 to the end of Day 4. No other duration, dependency, or cutover rule would change. Which assessment is correct?",
+        "options": [
+          [
+            "A",
+            "Acceleration enables Day 11 cutover because the application would be ready two working days earlier."
+          ],
+          [
+            "B",
+            "The rehearsal still finishes at the end of Day 12, making Day 16 the earliest available cutover window."
+          ],
+          [
+            "C",
+            "The rehearsal can finish at the end of Day 10, so Day 11 remains feasible without accelerating the application."
+          ],
+          [
+            "D",
+            "The rehearsal finishes at the end of Day 12, allowing cutover to start on Day 13."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "The extract is ready at the end of Day 8. Conversion validation therefore occupies Days 9–10. The rehearsal then occupies Days 11–12 because it must follow validation and application readiness. Moving application readiness to Day 4 does not change the controlling data sequence. Day 11 is too early, and Day 16 is the next permitted window.",
+        "rationales": {
+          "A": "It accelerates a prerequisite that is already ready before conversion validation finishes; the controlling sequence is unchanged.",
+          "B": "Correct. It respects both finish-to-start relationships and the allowed cutover calendar.",
+          "C": "This would overlap the rehearsal with conversion validation, which the case explicitly prohibits.",
+          "D": "Day 13 follows the rehearsal, but it is not an available cutover window."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.3.2.2, pp. 49–53 (PDF pp. 154–158), and §2.3.3.1, p. 55 (PDF p. 160)."
+        ],
+        "difficultyReason": "Combines converging dependencies, full-day counting, a restricted calendar, and the effect of accelerating a noncontrolling prerequisite."
+      },
+      {
+        "n": 42,
+        "id": "pmp-set2-042",
+        "domain": "People",
+        "task": 8,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C05",
+        "stem": "The sponsor asks why the workstream indicators can be green while the cutover may be at risk. What should the project manager do to improve the status communication?",
+        "options": [
+          [
+            "A",
+            "Replace every workstream indicator with the worst indicator so all stakeholders receive a consistent color."
+          ],
+          [
+            "B",
+            "Keep the existing summary and add more frequent emails from each workstream using its current reporting basis."
+          ],
+          [
+            "C",
+            "Explain what each indicator measures and report the linked readiness forecast, key assumptions, and decisions needed for cutover."
+          ],
+          [
+            "D",
+            "Keep the summary green until a workstream misses its own commitment, then explain the cutover consequences."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "The workstreams may be meeting their own commitments while the integrated plan does not support cutover. Effective reporting should distinguish local progress from readiness of the combined service and make the dependencies and forecast visible. More reports with the same missing connections would not resolve the misunderstanding.",
+        "rationales": {
+          "A": "A common color alone removes useful distinctions without explaining the dependency problem or the decision required.",
+          "B": "Greater frequency does not correct an inadequate basis for the sponsor's interpretation.",
+          "C": "Correct. It aligns the information with the sponsor's release decision while preserving meaningful workstream detail.",
+          "D": "The integrated forecast can reveal a problem before any local commitment is missed; waiting would delay useful communication."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §§2.5.2.3–2.5.2.5, pp. 72–73 (PDF pp. 177–178), and §2.1.6.7, p. 26 (PDF p. 131)."
+        ],
+        "difficultyReason": "Distinguishes accurate local status from an accurate integrated message and rejects frequency or color consistency as sufficient fixes."
+      },
+      {
+        "n": 43,
+        "id": "pmp-set2-043",
+        "domain": "Business Environment",
+        "task": 7,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C05",
+        "stem": "The sponsor proposes repeating the awareness presentation to address branch staff's reluctance to adopt the new service. Which action would best address the concern documented in the case?",
+        "options": [
+          [
+            "A",
+            "Work with branch staff and operations leaders to clarify future decision rights and exception paths, then rehearse representative local situations and gather feedback."
+          ],
+          [
+            "B",
+            "Repeat the benefits presentation and measure attendance to determine whether the branches are ready to adopt the service."
+          ],
+          [
+            "C",
+            "Ask the application team to add unrestricted local overrides before the operations model is agreed."
+          ],
+          [
+            "D",
+            "Wait until after cutover to define exception handling, when staff will have experience with the live service."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "Staff already understand the benefits. Their concern is how the organizational change affects their ability to do their work. Clarifying responsibilities and escalation paths with affected staff, then trying realistic situations, addresses that concern and provides evidence of adoption readiness. Neither a presentation nor an unapproved technical workaround resolves the operating-model gap.",
+        "rationales": {
+          "A": "Correct. It addresses the actual change in authority and work practices through involvement, clarity, and practical feedback.",
+          "B": "Attendance measures exposure to communication, not whether the unresolved role concern has been addressed.",
+          "C": "An unrestricted override assumes a solution and could conflict with the operating model before it is defined.",
+          "D": "Deferring the arrangement until live operation exposes staff and patrons to avoidable uncertainty at transition."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.5.2.4, p. 72 (PDF p. 177); §2.6.2.4.1, p. 84 (PDF p. 189); §3.4.3.3, p. 109 (PDF p. 214).",
+          "PMP Examination Content Outline, July 2026, Business Environment Task 7, p. 12."
+        ],
+        "difficultyReason": "Diagnoses an organizational-role concern rather than treating every adoption problem as a lack of awareness."
+      },
+      {
+        "n": 44,
+        "id": "pmp-set2-044",
+        "domain": "People",
+        "task": 3,
+        "approach": "Agile",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "stem": "A Scrum team has met recent release forecasts by working several consecutive weekends. Escaped defects and unplanned absences are now increasing. A business sponsor asks the project leader to make weekend work the standard approach for the next three months so that every requested feature can retain its current target date. What is the best response?",
+        "options": [
+          [
+            "A",
+            "Commit to the requested dates and add recognition awards so the team remains motivated during the extended workload."
+          ],
+          [
+            "B",
+            "Keep the feature commitments and extend each Sprint until all selected work is finished."
+          ],
+          [
+            "C",
+            "Immediately hire several contractors and assume their arrival will restore the original forecast without further review."
+          ],
+          [
+            "D",
+            "Review capacity and delivery problems with the team and product owner, then present sustainable scope and date trade-offs to the sponsor."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "The current approach is showing adverse delivery and team effects. The leader should represent that evidence, help the team address its impediments, and support an achievable forecast and priority discussion. Neither motivation alone nor assumed capacity from new staff establishes a sustainable plan. Scrum also uses fixed-length Sprints.",
+        "rationales": {
+          "A": "Recognition does not resolve the demonstrated capacity, quality, and absence problems.",
+          "B": "Extending Sprints to finish selected work undermines the fixed timebox and avoids the underlying planning issue.",
+          "C": "Additional people may help, but their skills, availability, onboarding, and coordination effects must be assessed rather than assumed.",
+          "D": "Correct. It combines support for the team with evidence-based decisions about value, capacity, and timing."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.6.2.4, p. 84 (PDF p. 189), and duration-estimating considerations, p. 53 (PDF p. 158).",
+          "The Scrum Guide, November 2020, Scrum Team and The Sprint sections: https://scrumguides.org/scrum-guide.html"
+        ],
+        "difficultyReason": "Balances delivery commitments, sustainable work, quality, and the uncertainty of adding resources."
+      },
+      {
+        "n": 45,
+        "id": "pmp-set2-045",
+        "domain": "Process",
+        "task": 1,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "stem": "A predictive facilities project has approved scope and funding for two zones. Zone 1's design is complete and its work is ready to start. Zone 2's detailed design will be available in six weeks, before any Zone 2 purchase or construction commitment is required. Its high-level scope, milestone constraints, estimated resource needs, and interfaces with Zone 1 are known. A planner insists that every Zone 2 activity must be detailed now because the project is predictive. What should the project manager do?",
+        "options": [
+          [
+            "A",
+            "Delay Zone 1 until both zones can be planned at the same level of detail."
+          ],
+          [
+            "B",
+            "Populate Zone 2 with detailed activities copied from Zone 1 and treat their dates as equally reliable."
+          ],
+          [
+            "C",
+            "Plan Zone 1 in detail and maintain bounded Zone 2 planning packages, with explicit assumptions, interfaces, and a scheduled elaboration point."
+          ],
+          [
+            "D",
+            "Remove Zone 2 from the integrated plan until its detailed design is available."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "Predictive delivery can use rolling wave planning. Near-term work can be detailed while later work remains at a higher level until better information is available. Zone 2 still belongs in the integrated plan, including its constraints, resource expectations, interfaces, and the point at which detail must be established before commitments.",
+        "rationales": {
+          "A": "There is no stated dependency requiring ready Zone 1 work to wait for all Zone 2 detail.",
+          "B": "Copied detail can create false precision and unsupported commitments when the design is not yet known.",
+          "C": "Correct. It progressively elaborates the plan while retaining integration and decision control.",
+          "D": "Omitting the zone would hide known scope, constraints, and resource and interface demands."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide, Rolling wave planning, p. 196 (PDF p. 301); §2.3.2.2, pp. 49–53 (PDF pp. 154–158)."
+        ],
+        "difficultyReason": "Applies progressive elaboration within a predictive approach without abandoning the integrated plan or inventing precision."
+      },
+      {
+        "n": 46,
+        "id": "pmp-set2-046",
+        "domain": "Business Environment",
+        "task": 1,
+        "approach": "Predictive",
+        "difficulty": "Very challenging",
+        "format": "multiple",
+        "caseId": null,
+        "requiredSelections": 2,
+        "stem": "A predictive project's milestone is forecast to finish four weeks later than its approved baseline. The steering committee has authority to change that baseline; it has not yet considered the proposed revision. Before an investment review, the sponsor asks the project manager to replace the baseline dates in the status dashboard so the project appears on time. The sponsor says the committee will probably approve the revision next week. Which TWO actions should the project manager take?",
+        "options": [
+          [
+            "A",
+            "Show the approved baseline, current forecast, variance, and proposed recovery or revision transparently in the review information."
+          ],
+          [
+            "B",
+            "Use the proposed dates as the baseline now, retaining the original dates only in a private working file."
+          ],
+          [
+            "C",
+            "Remove the milestone from the dashboard until the committee decides, avoiding an unfavorable provisional interpretation."
+          ],
+          [
+            "D",
+            "Explain the approval boundary and submit the proposed revision with its impacts through the steering committee's documented decision process."
+          ],
+          [
+            "E",
+            "Describe the revision as approved in principle because the sponsor expects the authorized decision to follow shortly."
+          ]
+        ],
+        "correct": [
+          "A",
+          "D"
+        ],
+        "explanation": "Decision makers need an accurate picture of performance and the status of proposed decisions. The current forecast should be reported even though it differs from the baseline. Expected future approval does not provide present authority to change the comparison basis or describe the revision as approved. The project manager should make the position transparent and use the specified decision process.",
+        "rationales": {
+          "A": "Correct. It communicates current evidence without concealing the variance or confusing a proposal with an approved baseline.",
+          "B": "Keeping a private original does not correct the misleading presentation or supply the missing authority.",
+          "C": "Suppressing the milestone removes material decision information that is already known.",
+          "D": "Correct. It respects the stated allocation of authority and gives the committee an explicit, documented decision to make.",
+          "E": "An expectation of approval is not an approval; this wording would misrepresent the decision's status."
+        },
+        "references": [
+          "The Standard for Project Management, §3.6, pp. 46–47 (PDF pp. 69–70).",
+          "PMBOK Guide, Eighth Edition, Guide §2.6.3, p. 89 (PDF p. 194); §2.1.6.8.1, pp. 29–30 (PDF pp. 134–135)."
+        ],
+        "difficultyReason": "Combines pressure from a sponsor, reporting integrity, approval authority, and the distinction among baseline, forecast, and proposal."
+      },
+      {
+        "n": 47,
+        "id": "pmp-set2-047",
+        "domain": "Business Environment",
+        "task": 6,
+        "approach": "Agile",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "stem": "An agile team has repeatedly lost release time because required security reviews were requested only after features were otherwise complete. A trial in the last two iterations identified review needs during refinement, named a coordinator, and booked review capacity earlier. Evidence shows reduced waiting without weakening the review standard. Another team is about to begin similar work. What should the project leader do next?",
+        "options": [
+          [
+            "A",
+            "Capture the trial's conditions and results, work with the process owner to update applicable planning guidance, and help the other team adapt and monitor the practice."
+          ],
+          [
+            "B",
+            "Archive the retrospective notes and let the other team search for them if it encounters the same delay."
+          ],
+          [
+            "C",
+            "Require every project in the organization to use the trial unchanged because it succeeded for two iterations."
+          ],
+          [
+            "D",
+            "Keep the improved practice within the original team until its project closes, when lessons learned are formally collected."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "The team has evidence of a useful improvement that another team can apply now. The next step is to preserve the context and results, incorporate the learning into relevant organizational guidance through its owner, and support appropriate adaptation. The trial supports learning and wider evaluation, not a claim that one method fits every project.",
+        "rationales": {
+          "A": "Correct. It turns the trial into usable organizational learning while retaining context and checking results in the next setting.",
+          "B": "Passive storage alone is less effective when a relevant team and an imminent need are already known.",
+          "C": "The limited trial does not establish universal suitability, and adoption should respect the process owner's authority and project context.",
+          "D": "Lessons can be captured and used throughout a project; waiting would miss the current opportunity."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide, Lessons learned register and Lessons learned updates, p. 123 (PDF p. 228); §3.4.4, p. 109 (PDF p. 214)."
+        ],
+        "difficultyReason": "Distinguishes organizational uptake of an evidenced improvement from passive documentation or unjustified universal rollout."
+      },
+      {
+        "n": 48,
+        "id": "pmp-set2-048",
+        "domain": "Process",
+        "task": 8,
+        "approach": "Predictive",
+        "difficulty": "Moderate",
+        "format": "matching",
+        "caseId": null,
+        "stem": "A predictive project is checking the logic in its schedule. For each row, use the explicitly named predecessor and successor to select the relationship that represents the stated constraint. Assume zero lag. Use each relationship once.",
+        "prompts": [
+          [
+            "1",
+            "Predecessor: assemble a test fixture. Successor: calibrate that fixture. Calibration cannot START until assembly has FINISHED."
+          ],
+          [
+            "2",
+            "Predecessor: start the data-extraction activity. Successor: start the extraction-monitoring activity. Monitoring cannot START before extraction has STARTED."
+          ],
+          [
+            "3",
+            "Predecessor: complete translation of the manual. Successor: complete editorial review. Review can overlap translation but cannot FINISH before translation has FINISHED."
+          ],
+          [
+            "4",
+            "Predecessor: begin the new support service. Successor: end the temporary support service. Temporary support cannot FINISH until the new service has STARTED."
+          ]
+        ],
+        "options": [
+          [
+            "A",
+            "Finish-to-finish (FF)"
+          ],
+          [
+            "B",
+            "Start-to-finish (SF)"
+          ],
+          [
+            "C",
+            "Finish-to-start (FS)"
+          ],
+          [
+            "D",
+            "Start-to-start (SS)"
+          ]
+        ],
+        "correct": {
+          "1": "C",
+          "2": "D",
+          "3": "A",
+          "4": "B"
+        },
+        "explanation": "Relationship names identify the constrained predecessor event first and the successor event second. The arrow's predecessor/successor roles are supplied explicitly; they should not be inferred from which service began operating earlier. In row 4, the start of the new service constrains the finish of temporary support.",
+        "rationales": {
+          "A": "Row 3. Editorial review cannot finish until translation finishes, although the activities may overlap.",
+          "B": "Row 4. The successor's finish is constrained by the predecessor's start. This follows PMI's corrected start-to-finish definition.",
+          "C": "Row 1. The successor cannot start until its predecessor finishes.",
+          "D": "Row 2. The successor cannot start before its predecessor starts. A zero-lag SS link allows a simultaneous start but does not itself require one."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide, Precedence diagramming method, p. 185 (PDF p. 290), read with PMI's Second Printing Errata, p. 1 and corrected p. 185 reproduced on errata PDF p. 4."
+        ],
+        "difficultyReason": "Applies four dependency types with explicitly identified predecessor and successor activities."
+      },
+      {
+        "n": 49,
+        "id": "pmp-set2-049",
+        "domain": "People",
+        "task": 2,
+        "approach": "Agile",
+        "difficulty": "Moderate",
+        "format": "single",
+        "caseId": null,
+        "stem": "During release planning, a senior architect repeatedly interrupts testers who say the estimate omits necessary validation work. The team's agreement requires everyone to be heard before a decision. The discussion is becoming personal, and no emergency requires an immediate commitment. What should the project leader do first?",
+        "options": [
+          [
+            "A",
+            "Average the architect's and testers' estimates to produce a compromise that allows planning to continue."
+          ],
+          [
+            "B",
+            "Use the architect's estimate because the most senior technical specialist should settle the disagreement."
+          ],
+          [
+            "C",
+            "Accept the lower estimate temporarily and ask the testers to demonstrate the gap after development begins."
+          ],
+          [
+            "D",
+            "Restore the agreed discussion rules and facilitate a respectful review of the work and assumptions behind the estimates."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "The leader should address the violation of the team's discussion rules and create space to examine the substantive disagreement. An average or a seniority-based choice would not establish whether required validation work is included. The absence of an emergency supports a collaborative response.",
+        "rationales": {
+          "A": "Averaging can conceal different assumptions and omitted work; it does not resolve the conduct issue.",
+          "B": "Seniority does not replace the team's agreement or evidence about required work.",
+          "C": "This delays examination of a known concern until correcting it may be more costly.",
+          "D": "Correct. It addresses the immediate behavior and enables an informed resolution of the estimate disagreement."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide, Conflict management, pp. 156–157 (PDF pp. 261–262), and Resources tailoring considerations, p. 89 (PDF p. 194)."
+        ],
+        "difficultyReason": "Applies team ground rules and collaborative conflict management to a clear, nonemergency situation."
+      },
+      {
+        "n": 50,
+        "id": "pmp-set2-050",
+        "domain": "Process",
+        "task": 5,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "hotspot",
+        "caseId": null,
+        "quantitative": true,
+        "stem": "A predictive installation project is choosing which supplier requires the most urgent recovery discussion to protect the common release milestone. The table shows independently verified receipt forecasts. Each receipt feeds a separate path to that same milestone. Available float is the delay each receipt can absorb from its contracted date before delaying the release; downstream durations are unchanged, and there are no shared-resource constraints or hidden dependencies. Other supplier risks are comparable. Select the FORECAST RECEIPT cell for the supplier with the greatest projected release delay beyond its available float.",
+        "exhibit": {
+          "headers": [
+            "Supplier and item",
+            "Contracted receipt",
+            "Forecast receipt — selectable cell",
+            "Available float"
+          ],
+          "rows": [
+            [
+              "A — Field sensors",
+              "End of Day 8",
+              "End of Day 13 [A]",
+              "4 working days"
+            ],
+            [
+              "B — Gateway controllers",
+              "End of Day 10",
+              "End of Day 13 [B]",
+              "0 working days"
+            ],
+            [
+              "C — Mounting frames",
+              "End of Day 7",
+              "End of Day 9 [C]",
+              "3 working days"
+            ],
+            [
+              "D — Operating manuals",
+              "End of Day 5",
+              "End of Day 11 [D]",
+              "8 working days"
+            ]
+          ]
+        },
+        "options": [
+          [
+            "A",
+            "Supplier A, forecast receipt: end of Day 13"
+          ],
+          [
+            "B",
+            "Supplier B, forecast receipt: end of Day 13"
+          ],
+          [
+            "C",
+            "Supplier C, forecast receipt: end of Day 9"
+          ],
+          [
+            "D",
+            "Supplier D, forecast receipt: end of Day 11"
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "hotspotTarget": {
+          "row": "B",
+          "column": "forecast_receipt"
+        },
+        "interactionNote": "Text adaptation: identify the supplier letter and forecast-receipt cell. In the intended website interaction, the four marked forecast cells are selectable; selecting the supplier's other cells does not answer the target.",
+        "explanation": "Subtract available float from the forecast receipt delay, with a minimum impact of zero. Supplier B is 3 working days late with no float, so its path projects a 3-day release delay. Supplier A projects a 1-day impact; C and D remain within float. B therefore drives the greatest release delay, even though D has the largest raw delivery slip.",
+        "rationales": {
+          "A": "Receipt delay is 13 − 8 = 5 days. After 4 days of float, projected release impact is 1 day, less than B's.",
+          "B": "Correct. Receipt delay is 13 − 10 = 3 days. With zero float, all 3 days affect the release.",
+          "C": "Receipt delay is 9 − 7 = 2 days, within 3 days of float; projected release impact is zero.",
+          "D": "Receipt delay is 11 − 5 = 6 days, within 8 days of float. The largest delivery slip is not the largest release impact."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.3.2.3, pp. 53–55 (PDF pp. 158–160), including contractor and supplier schedule-status reviews; Schedule network analysis, p. 197 (PDF p. 302)."
+        ],
+        "difficultyReason": "Prioritizes supplier intervention using milestone exposure after float, rather than lateness alone, and locates the correct cell."
+      }
+    ]
+  }
+];
+  global.PMP_BANK2_SOURCE = batches;
+})(typeof window !== 'undefined' ? window : globalThis);

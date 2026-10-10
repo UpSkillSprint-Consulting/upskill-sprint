@@ -1,0 +1,19 @@
+.pmp2-question,.pmp2-answers{color:var(--ink);min-width:0;overflow-wrap:anywhere}
+.pmp2-number{font-size:13px;font-weight:700;color:var(--muted)}
+.pmp2-case{border:1px solid var(--line);border-radius:10px;padding:16px;margin:12px 0 20px;background:var(--card);color:var(--ink)}
+.pmp2-case h3{font-size:20px;margin:0 0 10px}.pmp2-case p,.pmp2-question p{line-height:1.6}
+.pmp2-scroll{overflow-x:auto;max-width:100%;margin:14px 0}
+.pmp2-table{border-collapse:collapse;width:100%;font-size:14px;background:var(--card);color:var(--ink)}
+.pmp2-table th,.pmp2-table td{border:1px solid var(--line);padding:10px;text-align:left;vertical-align:top;min-width:95px}
+.pmp2-table th{font-weight:700}.pmp2-answers fieldset{border:0;padding:0;margin:16px 0;min-width:0}
+.pmp2-answers .pmp2-table{min-width:600px}
+.pmp2-answers legend{font-weight:700;margin-bottom:12px}
+.pmp2-choice,.pmp2-match{display:flex;gap:12px;padding:12px;border:1px solid var(--line);border-radius:8px;margin:10px 0;background:var(--card);color:var(--ink);line-height:1.6}
+.pmp2-choice{align-items:flex-start;cursor:pointer}.pmp2-choice input{margin-top:5px;min-width:20px;min-height:20px;accent-color:var(--teal)}
+.pmp2-match{flex-direction:column}.pmp2-match select{width:100%;max-width:100%;min-height:48px;font:inherit;padding:10px;border:1px solid var(--line);border-radius:6px;background:var(--card);color:var(--ink)}
+.pmp2-cell{min-width:48px;min-height:48px;padding:10px;border:2px solid var(--teal);border-radius:6px;background:var(--card);color:var(--ink);font:inherit;cursor:pointer}
+.pmp2-cell[aria-pressed=true],.pmp2-choice:has(input:checked){outline:3px solid var(--teal);outline-offset:1px}
+.pmp2-answers :focus-visible,.pmp2-scroll:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+.pmp2-selection{padding:10px;background:var(--card);color:var(--ink);border-left:3px solid var(--teal);line-height:1.6}
+.pmp2-references{margin-top:14px}.pmp2-references li{margin:8px 0;overflow-wrap:anywhere}
+@media(max-width:600px){.pmp2-case{padding:10px}.pmp2-table th,.pmp2-table td{padding:8px}.pmp2-match select{font-size:16px}}
