@@ -1027,12 +1027,12 @@ async function openCre() {
   const virtualConsole = new VirtualConsole();
   virtualConsole.on('jsdomError', (error) => errors.push(error.message));
   const html = (await productionHtml())
-    .replace('<script src="/test-bank-memory-learning.js"></script>', `<script>${MEMORY_SOURCE}</script>`)
-    .replace('<script src="/test-bank-cre-set1.js"></script>', `<script>${CRE_SET1_SOURCE}</script>`)
-    .replace('<script src="/test-bank-cre-ui.js"></script>', `<script>${CRE_UI_SOURCE}</script>`)
-    .replace('<script src="/test-bank-cre-set2.js"></script>', `<script>${CRE_SET2_SOURCE}</script>`)
-    .replace('<script src="/test-bank-cre-set2-ui.js"></script>', `<script>${CRE_SET2_UI_SOURCE}</script>`)
-    .replace('<script src="/test-bank-cre-set3.js"></script>', `<script>${CRE_SET3_SOURCE}</script>`);
+    .replace('<script src="/test-bank-memory-learning.js"></script>', () => `<script>${MEMORY_SOURCE}</script>`)
+    .replace('<script src="/test-bank-cre-set1.js"></script>', () => `<script>${CRE_SET1_SOURCE}</script>`)
+    .replace('<script src="/test-bank-cre-ui.js"></script>', () => `<script>${CRE_UI_SOURCE}</script>`)
+    .replace('<script src="/test-bank-cre-set2.js"></script>', () => `<script>${CRE_SET2_SOURCE}</script>`)
+    .replace('<script src="/test-bank-cre-set2-ui.js"></script>', () => `<script>${CRE_SET2_UI_SOURCE}</script>`)
+    .replace('<script src="/test-bank-cre-set3.js"></script>', () => `<script>${CRE_SET3_SOURCE}</script>`);
   const dom = new JSDOM(html, {
     url: 'https://upskillsprint.com/test-bank?exam=cre',
     runScripts: 'dangerously',

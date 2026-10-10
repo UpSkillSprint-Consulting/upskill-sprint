@@ -65,22 +65,25 @@ test('the public exam page describes current certification availability and Test
     ['Certified Manager of Quality/Organizational Excellence', 'CMQ/OE'],
     ['Certified Six Sigma Green Belt', 'CSSGB'],
     ['Certified Reliability Engineer', 'CRE'],
+    ['Project Management Professional', 'PMP'],
     ['Certified Quality Auditor', 'CQA']
   ]);
-  assert.equal(section.querySelector('.category-count').textContent, '6 available · 1 coming soon');
+  assert.equal(section.querySelector('.category-count').textContent, '7 available · 1 coming soon');
   assert.match(section.textContent,/timed or untimed/);
   assert.equal(section.querySelector('.exam-certifications').getAttribute('aria-label'),'Certification availability');
   assert.match(section.textContent, /Premium account or higher/);
   assert.equal((section.textContent.match(/Premium/g) || []).length, 1, 'access requirement is stated once');
   assert.ok(section.querySelector('a[href="/test-bank"]'));
   assert.deepEqual(Array.from(section.querySelectorAll('.exam-certifications a'), a=>a.getAttribute('href')),
-    ['/test-bank?exam=cssbb','/test-bank?exam=mbb','/test-bank?exam=cqe','/test-bank?exam=cmq','/test-bank?exam=cssgb','/test-bank?exam=cre','/test-bank?exam=cqa']);
+    ['/test-bank?exam=cssbb','/test-bank?exam=mbb','/test-bank?exam=cqe','/test-bank?exam=cmq','/test-bank?exam=cssgb','/test-bank?exam=cre','/test-bank?exam=pmp','/test-bank?exam=cqa']);
   assert.equal(section.querySelectorAll('.exam-coming-soon .exam-card').length, 1);
   assert.equal(section.querySelector('.exam-coming-soon h2').textContent, 'Coming soon');
   for (const card of cards) {
     const upcoming = Boolean(card.closest('.exam-coming-soon'));
-    const cre = card.getAttribute('href') === '/test-bank?exam=cre';
-    assert.equal(card.querySelector('.exam-status').textContent, upcoming ? 'Coming soon' : cre ? 'Sets 1–3: 265 questions available' : 'Available now');
+    const href = card.getAttribute('href');
+    const expectedStatus = upcoming ? 'Coming soon' : href === '/test-bank?exam=cre' ? 'Sets 1–3: 405 questions available' : href === '/test-bank?exam=pmp' ? 'Set 1: 180 questions' : 'Available now';
+    assert.equal(card.querySelector('.exam-status').textContent, expectedStatus);
+
     assert.match(card.querySelector('.exam-card-action').textContent, upcoming ? /View exam details/ : /Start practicing/);
     assert.equal(card.querySelectorAll('a, button, input, select').length, 0, 'one keyboard stop per card, no nested controls');
     assert.equal(card.firstElementChild.tagName, 'H3', 'the full name comes before the acronym');
@@ -186,7 +189,7 @@ test('lesson topic and interactive filters still operate without the removed exa
   assert.deepEqual(errors, []);
 });
 test('certification links open the corresponding simulator overview without starting an attempt',async t=>{
-  for(const id of ['cssbb','mbb','cqe','cre','cqa','cmq','cssgb']){
+  for(const id of ['cssbb','mbb','cqe','cre','cqa','cmq','cssgb','pmp']){
     const {window}=await loadPage(t,'test-bank.html',`https://upskillsprint.com/test-bank?exam=${id}`);
     assert.equal(window.document.querySelector('.tb-tile.active').dataset.exam,id);
     assert.equal(window.document.querySelector('.tb-quiz'),null,'links do not start an exam');

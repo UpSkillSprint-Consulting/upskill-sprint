@@ -28,7 +28,7 @@
       topic: 'Ethical reporting of a failed demonstration', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1,
       industry: 'Medical devices', quantitative: false,
       stem: 'A reliability demonstration has an approved failure criterion: any loss of the required function is a failure. One device briefly loses that function, then passes a retest. The project manager asks the reliability engineer to exclude the original event because a planned firmware update is expected to prevent recurrence. Which response is MOST appropriate?',
-      options: ['Replace the original result with the successful retest, retaining the original only in laboratory notes.', 'Change the failure criterion retrospectively for every unit so the final analysis uses one consistent definition.', 'Report the original failure and retest separately, investigate the event, and evaluate the update through approved change and verification processes.', 'Keep the original event out of the reliability estimate until enough similar events occur to establish statistical significance.'], answer: 2,
+      options: ['Replace the original result with the successful retest, retaining the original only in laboratory notes.', 'Change the failure criterion retrospectively for every unit so the final analysis uses one consistent definition.', 'Report both results, investigate the failure, and assess the update through approved change and verification processes.', 'Keep the original event out of the reliability estimate until enough similar events occur to establish statistical significance.'], answer: 2,
       why: '<p>The event meets the approved criterion and remains a failure in the original demonstration. A successful retest does not erase the event, and an expected firmware benefit is not verified evidence.</p><p>The engineer should preserve traceability, report the failure and retest accurately, investigate the cause, and assess the proposed change through the approved process. Any further demonstration must identify the configuration and acceptance criteria it actually evaluated.</p>',
       optionRationales: ['Retaining an event in private notes does not make a misleading demonstration result acceptable.', 'A consistent retrospective change can still bias acceptance. Criteria must not be changed merely to make observed failures disappear.', 'This preserves the original evidence and separates demonstrated performance from an unverified corrective action.', 'Statistical significance is not a prerequisite for recording an event that meets an approved failure criterion.'],
       keyPoint: 'Report observed evidence against the approved criteria and distinguish proposed corrections from verified results.',
@@ -147,7 +147,7 @@
       topic: 'When age-based preventive replacement is ineffective', cognitive: 'Apply', difficulty: 'Foundational', estimatedMinutes: 1,
       industry: 'Plant maintenance', quantitative: false,
       stem: 'Field evidence supports a constant failure hazard for a replaceable electronic module over its entire planned service life. Replacement restores it to as-new condition but requires planned downtime. There are no age-related failure modes, hidden failures, or mandated replacement intervals. A proposal recommends replacement every 500 operating hours solely to reduce the module’s age-related failure risk. Which conclusion is BEST supported?',
-      options: ['Adopt the interval because every surviving module becomes less reliable per operating hour as it ages.', 'Do not justify the interval by age reduction; compare corrective or condition-based strategies using consequences, detectability, and downtime.', 'Adopt the interval because an as-new module has zero instantaneous failure hazard immediately after installation.', 'Reject all preventive and predictive tasks because an exponential lifetime means maintenance cannot improve any aspect of system performance.'], answer: 1,
+      options: ['Adopt the interval because every surviving module becomes less reliable per operating hour as it ages.', 'Reject age reduction as the sole rationale; compare other strategies using failure consequences, detectability, and downtime.', 'Adopt the interval because an as-new module has zero instantaneous failure hazard immediately after installation.', 'Reject all preventive and predictive tasks because an exponential lifetime means maintenance cannot improve any aspect of system performance.'], answer: 1,
       why: tex`<p>Constant hazard means that surviving age does not increase the failure risk over an additional equal operating interval. For an exponential lifetime,</p><p>\[\Pr(T>t+s\mid T>t)=\exp(-\lambda s)\]</p><p>where \(T\) is lifetime, \(t\) is the current surviving age, \(s\) is an additional operating interval, and \(\lambda\) is the constant hazard. The expression does not depend on age \(t\). Replacing the module solely to make it younger does not lower that hazard and adds planned downtime. Other maintenance decisions still require assessment of consequences, detection opportunities, and system effects.</p>`,
       optionRationales: ['This assumes increasing hazard, contrary to the evidence in the question.', 'This rejects the unsupported age-reduction rationale while retaining a consequence-based assessment of maintenance alternatives.', 'An as-new item governed by a positive constant hazard still has that hazard immediately after installation.', 'This overgeneralizes. Inspection, detection, restoration, and other system-level maintenance benefits are not ruled out by the lifetime model.'],
       keyPoint: 'Age-based replacement needs an age-dependent mechanism or another justified requirement.',
@@ -155,9 +155,4143 @@
       assumptions: ['Constant hazard is supported throughout the planned service life.', 'The proposed replacement has no separate regulatory, safety, or hidden-failure justification.'],
       handbook: {chapter: 13, section: 'Preventive Maintenance (PM) Analysis'},
       studyReference: {title: 'Failure hazard and the bathtub curve', url: reliabilityLesson + '#sec-bathtub'}
+    },
+    {
+      number: 11, qid: 'cre:set-2:011', sub: 'cre-fundamentals', bok: 'I.A.5',
+      topic: 'Critical path and available float', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Product development', quantitative: true,
+      stem: 'The network shows a reliability demonstration project. All dependencies are finish-to-start with no lag. Activities may run in parallel, and resources are unconstrained. Activity C takes two days longer than its planned duration; all other durations remain as shown. What is the revised total project duration?',
+      options: ['17 days', '16 days', '18 days', '15 days'], answer: 0,
+      chart: {type: 'data-table', creKind: 'cpm', title: 'Planned activity network — durations in days', columns: ['ID', 'Activity', 'Planned duration (days)', 'Predecessors'], rows: [['A', 'Requirements', 3, 'None'], ['B', 'Design', 6, 'A'], ['C', 'Fixture design', 4, 'A'], ['D', 'Prototype', 4, 'B'], ['E', 'Fixture build', 5, 'C'], ['F', 'Demonstration', 3, 'D and E']], description: 'A branches to B and C. B precedes D; C precedes E. Both D and E must finish before F starts. Planned paths A–B–D–F and A–C–E–F take 16 and 15 days, respectively. The figure and table show the original plan; the question changes C from four to six days.'},
+      why: tex`<p>The original paths take \(3+6+4+3=16\) and \(3+4+5+3=15\) days. Activity C therefore has one day of total float. Its two-day overrun consumes that float and delays project completion by one day.</p><p>With C increased to six days, D finishes on day 13 and E on day 14. F must wait for both:</p><p>\[T_{\mathrm{project}}=\max(13,14)+3=17\text{ days}\]</p>`,
+      optionRationales: ['17 days recognizes that the two-day overrun uses one day of float before extending the project by one day.', '16 days assumes that C has enough float to absorb the entire two-day overrun; its original float is only one day.', '18 days adds the full overrun to the original 16-day project and ignores the available float.', '15 days is the original duration of the shorter path, not the revised completion time for the whole network.'],
+      keyPoint: 'Recalculate the longest path after a delay; the critical path can change.',
+      trap: 'A noncritical activity can become critical when its delay exceeds its float.',
+      assumptions: ['Durations are deterministic; the project begins at time zero.', 'All listed predecessors must finish, with no lags or resource constraints.'],
+      handbook: {chapter: 1, section: 'Project Management in Reliability Engineering; Critical Path Method'},
+      lessonGap: 'Use the cited handbook section and the forward-pass solution above; a dedicated reliability project-scheduling lesson is planned.'
+    },
+    {
+      number: 12, qid: 'cre:set-2:012', sub: 'cre-fundamentals', bok: 'I.A.8',
+      topic: 'Supplier change and reliability qualification', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Industrial electronics', quantitative: false,
+      stem: 'A supplier proposes changing both the encapsulant and manufacturing site for a qualified sensor. The electrical data sheet is unchanged, and the supplier cites the existing design’s aggregate MTBF. The application exposes the sensor to repeated thermal cycles. Which action BEST supports a reliability-based approval decision?',
+      options: ['Approve the change because unchanged electrical specifications establish unchanged field reliability.', 'Approve after a small sample passes room-temperature functional inspection, without further change assessment.', 'Apply a standard 20% reduction to the old MTBF and approve if the reduced value exceeds the requirement.', 'Assess change impacts and relevant failure mechanisms; require targeted requalification against agreed criteria.'], answer: 3,
+      why: '<p>Changes to material and manufacturing location can affect interfaces, residual stress, process control, and thermomechanical failure mechanisms without changing room-temperature electrical specifications. Evidence from the old configuration does not automatically qualify the new configuration.</p><p>A defensible decision links the changes to the application’s stresses, examines relevant supplier and process evidence, and defines targeted requalification and acceptance criteria. The testing should address the identified risks rather than rely on an arbitrary MTBF adjustment.</p>',
+      optionRationales: ['Electrical specification equivalence does not establish equivalent lifetime behavior under thermal cycling.', 'Functional inspection can find immediate nonconformities but does not assess the changed configuration’s relevant wear-out mechanisms.', 'An arbitrary derating percentage provides no demonstrated connection between the changes and the application’s failure mechanisms.', 'This connects qualification evidence to the changed material, process, configuration, and actual use environment.'],
+      keyPoint: 'Qualify supplier changes using mechanism- and application-relevant evidence.',
+      trap: 'An unchanged data sheet is not evidence that a changed product has unchanged reliability.',
+      assumptions: ['The changes require customer reliability approval.', 'The cited MTBF does not include evidence from the proposed configuration.'],
+      handbook: {chapter: 1, section: 'Supplier Reliability Assessments'},
+      lessonGap: 'A dedicated supplier reliability qualification lesson is planned; use the cited handbook section and the decision explanation above.'
+    },
+    {
+      number: 13, qid: 'cre:set-2:013', sub: 'cre-risk', bok: 'II.B.3',
+      topic: 'Shared causes in redundant channels', cognitive: 'Understand', difficulty: 'Foundational', estimatedMinutes: 1,
+      industry: 'Industrial controls', quantitative: false,
+      stem: 'Two redundant controllers have separate processors but receive power from one common regulator. A regulator transient has been shown to disable both controllers at once. Which interpretation is MOST accurate?',
+      options: ['The controller failures are independent because the processors are physically separate.', 'The regulator provides a common cause of controller loss, so independence cannot be assumed for their overall failure events.', 'A third identical controller on the same regulator would eliminate the observed shared vulnerability.', 'The simultaneous failures prove that the regulator output is statistically in control because the cause is common.'], answer: 1,
+      why: '<p>One initiating event can disable both channels. Their overall loss events therefore share a cause and cannot be treated as independent merely because the processors are separate.</p><p>Adding another channel to the same vulnerable supply does not remove this cause. Common-cause failure in reliability analysis also must not be confused with common-cause variation in statistical process control; the observed event establishes neither process stability nor acceptable performance.</p>',
+      optionRationales: ['Physical separation of processors does not remove their dependence on the shared regulator.', 'A single regulator event can cause multiple channel losses, creating dependence between the overall failure events.', 'The additional controller would remain exposed to the same disabling supply event.', 'Common-cause failure is not evidence of statistical control; that conclusion requires appropriate time-ordered process analysis.'],
+      keyPoint: 'Assess shared causes before assuming independence in a redundant architecture.',
+      trap: 'Redundant channels can retain a shared vulnerability through a common support function.',
+      assumptions: ['The stated regulator event disables all controllers supplied by it.', 'The interpretation concerns overall channel loss, including supply-induced loss.'],
+      handbook: {chapter: 4, section: 'Common Mode Failure Analysis'},
+      lessonGap: 'A dedicated common-cause failure lesson is planned; use the cited handbook section and the shared-supply example above.'
+    },
+    {
+      number: 14, qid: 'cre:set-2:014', sub: 'cre-statistics', bok: 'III.A.2',
+      topic: 'Fault probability after a diagnostic alarm', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Condition monitoring', quantitative: true,
+      stem: 'The table describes a diagnostic system in its current operating population. Fault status has been independently verified, and the stated probabilities may be treated as known. For a randomly selected unit that produces an alarm, what is the probability that the unit actually has the fault?',
+      options: ['2.0%', '90.0%', '26.9%', '95.0%'], answer: 2,
+      chart: {type: 'data-table', title: 'Population and conditional alarm probabilities', columns: ['Actual state', 'Proportion of population', 'Probability of alarm GIVEN this state'], rows: [['Fault present', '0.02', '0.90'], ['Fault absent', '0.98', '0.05']]},
+      why: tex`<p>Let F mean fault present and A mean alarm. The required conditional probability reverses the conditioning in the sensitivity value. Count both true and false alarms in the denominator:</p><p>\[\Pr(F\mid A)=\frac{\Pr(A\mid F)\Pr(F)}{\Pr(A\mid F)\Pr(F)+\Pr(A\mid F^c)\Pr(F^c)}=\frac{0.90(0.02)}{0.90(0.02)+0.05(0.98)}\approx0.2687\]</p><p>For an equivalent population of 10,000 units, 180 faulty units and 490 healthy units would alarm: \(180/670\approx26.9\%\). A high sensitivity alone does not make most alarms true when the fault is uncommon.</p>`,
+      optionRationales: ['2.0% is the fault prevalence before observing the alarm; it ignores the new diagnostic evidence.', '90.0% is the probability of an alarm given a fault, not the probability of a fault given an alarm.', '26.9% divides the joint probability of a true alarm by the probability of any alarm.', '95.0% is specificity, the probability of no alarm given no fault; it is not the requested positive predictive value.'],
+      keyPoint: 'The meaning of an alarm depends on prevalence as well as sensitivity and false-alarm probability.',
+      trap: 'Reversing a conditional probability without accounting for base rates gives the wrong result.',
+      assumptions: ['The two actual states are mutually exclusive and exhaustive.', 'The diagnostic probabilities and prevalence apply to the same current population.'],
+      handbook: {chapter: 6, section: 'Basic Probability Concepts; conditional probability'},
+      lessonGap: 'Use the cited handbook section and the conditional-probability calculation above; a dedicated diagnostic predictive-value lesson is planned.',
+      explorer: 'alarm-prevalence'
+    },
+    {
+      number: 15, qid: 'cre:set-2:015', sub: 'cre-statistics', bok: 'III.A.7',
+      topic: 'One-sided exponential MTBF confidence bound', cognitive: 'Apply', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Component qualification', quantitative: true,
+      stem: 'A constant-hazard life test ends at a preplanned total exposure of 2,400 unit-hours. Four failures occur; failed units are immediately replaced by independent equivalent units. Using the supplied chi-square values, what is the one-sided 90% LOWER confidence bound on MTBF? In the table, p is the LEFT-tail probability: P(chi-square ≤ listed value) = p.',
+      options: ['600.0 h', '300.2 h', '359.2 h', '262.2 h'], answer: 1,
+      chart: {type: 'data-table', title: 'Chi-square quantiles — left-tail probabilities', columns: ['Degrees of freedom', 'p = 0.90', 'p = 0.95'], rows: [[8, '13.362', '15.507'], [10, '15.987', '18.307']]},
+      why: tex`<p>This is a time-terminated test, not a test stopped at the fourth failure. With total exposure \(T=2400\) unit-hours and \(r=4\) failures, the conventional exact one-sided lower bound uses \(2r+2=10\) degrees of freedom. Using the explicitly defined left-tail quantile convention,</p><p>\[\theta_L=\frac{2T}{\chi^2_{2r+2,\,0.90}}=\frac{4800}{15.987}\approx300.2\,\mathrm h\]</p><p>The point estimate is \(T/r=600\) hours. The lower bound reflects sampling uncertainty and is intentionally below that estimate. Its confidence level describes the repeated-sampling coverage of the procedure, not a probability assigned to a fixed unknown MTBF.</p>`,
+      optionRationales: ['600.0 hours is the maximum-likelihood point estimate, 2,400 divided by four; it is not a lower confidence bound.', '300.2 hours uses 2r + 2 degrees of freedom and the 90th left-tail percentile for the time-terminated test.', '359.2 hours uses eight degrees of freedom, appropriate to a different termination rule, and therefore uses the wrong quantile here.', '262.2 hours uses the 95th rather than the 90th left-tail percentile with ten degrees of freedom.'],
+      keyPoint: 'The test termination rule determines the confidence-bound degrees of freedom.',
+      trap: 'Check both the censoring/termination rule and the table’s tail convention before choosing a chi-square value.',
+      assumptions: ['Independent exponential lifetimes with a common constant failure rate; replacement preserves that rate.', 'The total exposure is fixed in advance and includes all operating time of original and replacement units.'],
+      handbook: {chapter: 6, section: 'Confidence and Tolerance Intervals; confidence limits for the exponential mean'},
+      lessonGap: 'A dedicated reliability confidence-bound lesson is planned; use the cited handbook section and the termination-rule distinction above.'
+    },
+    {
+      number: 16, qid: 'cre:set-2:016', sub: 'cre-statistics', bok: 'III.B.6',
+      topic: 'Evidence for FRACAS closure', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Field service', quantitative: false,
+      stem: 'A FRACAS investigation identifies an intermittent connector failure and implements a revised locking feature. The change order is complete, but effectiveness has not yet been verified. Which action BEST supports technical closure of the FRACAS record?',
+      options: ['Verify effectiveness against relevant predefined criteria; document traceability, authorized closure, and recurrence monitoring.', 'Close the record because completion of the engineering change order establishes that the failure mechanism has been eliminated.', 'Close the record because no customer complaint arrived during the first day after release, regardless of the exposure accumulated.', 'Close the record after scrapping the returned units because removing the failed items eliminates the cause in the installed population.'], answer: 0,
+      why: '<p>FRACAS is a closed-loop process. Implementing a change is a milestone, but technical closure needs evidence that the action addresses the identified cause and meets defined effectiveness criteria.</p><p>The record should connect the original events, investigation, affected configuration, corrective action, verification results, and closure decision. Recurrence monitoring helps detect an ineffective action or a remaining mechanism after release.</p>',
+      optionRationales: ['This preserves the evidence chain and distinguishes implementation from verified effectiveness before authorized closure.', 'An administrative change-order milestone does not itself demonstrate that the corrected design works under relevant conditions.', 'An uneventful day with unspecified exposure is insufficient evidence of effectiveness against predefined reliability criteria.', 'Scrapping returned units removes those examples, but does not correct the mechanism in other affected units.'],
+      keyPoint: 'Close the corrective-action loop with verified effectiveness and traceable evidence.',
+      trap: 'An implemented action is not automatically an effective action.',
+      assumptions: ['A valid root-cause investigation supports the proposed revision.', 'The organization requires technical verification before authorized FRACAS closure.'],
+      handbook: {chapter: 7, section: 'Failure Reporting, Analysis, and Corrective Action System (FRACAS)'},
+      lessonGap: 'A dedicated FRACAS lesson is planned; use the cited handbook section and the closure criteria above.'
+    },
+    {
+      number: 17, qid: 'cre:set-2:017', sub: 'cre-testing', bok: 'IV.B.1',
+      topic: 'Pooling accelerated exposure for use-condition MTBF', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Electronic components', quantitative: true,
+      stem: tex`Independent units undergo three constant-stress accelerated life tests. All groups follow an exponential model with the same failure mechanism. Validated acceleration factors are treated as known and satisfy \(\lambda_{\mathrm{stress}}=AF\,\lambda_{\mathrm{use}}\). The table includes ALL accumulated exposure, including failed and surviving units. What is the pooled maximum-likelihood estimate of use-condition MTBF?`,
+      options: ['218.8 h', '583.3 h', '2,000 h', '6,000 h'], answer: 2,
+      chart: {type: 'data-table', title: 'Accelerated life-test results', columns: ['Group', 'Temperature', 'Acceleration factor', 'Total exposure (unit-h)', 'Failures'], rows: [['A', '65 °C', 2, 1000, 2], ['B', '75 °C', 4, 500, 1], ['C', '85 °C', 8, 250, 0]]},
+      why: tex`<p>For this exponential model, each stress-group exposure contributes \(AF_i T_i\) equivalent use-condition unit-hours. Pool that exposure and divide by the total observed failures:</p><p>\[T_{\mathrm{equiv}}=2(1000)+4(500)+8(250)=6000\text{ unit-hours}\]</p><p>\[\widehat\theta_{\mathrm{use}}=\frac{T_{\mathrm{equiv}}}{\sum r_i}=\frac{6000}{3}=2000\,\mathrm h\]</p><p>Group C still contributes exposure even though it has no failures. This is a point estimate conditional on the validated acceleration model, not a confidence bound or a guaranteed service life.</p>`,
+      optionRationales: ['218.8 hours divides each exposure by its acceleration factor, reversing the stated stress-to-use relationship.', '583.3 hours divides the unadjusted 1,750 unit-hours by three and ignores acceleration.', '2,000 hours uses all 6,000 equivalent use-condition unit-hours and all three failures.', '6,000 hours is the equivalent total exposure; it still must be divided by the number of failures to estimate MTBF.'],
+      keyPoint: 'Convert exposure to a common use-condition basis before pooling accelerated test results.',
+      trap: 'Zero-failure groups contribute exposure; they must not be discarded.',
+      assumptions: ['Known constant acceleration factors, a common exponential mechanism, and independent units.', 'All failures belong to the modeled mechanism; withdrawals are noninformative.'],
+      handbook: {chapter: 9, section: 'Accelerated Life Tests; acceleration factors and equivalent test time'},
+      lessonGap: 'A dedicated accelerated life-testing lesson is planned; use the cited handbook section and the pooled-exposure calculation above.'
+    },
+    {
+      number: 18, qid: 'cre:set-2:018', sub: 'cre-testing', bok: 'IV.A.1',
+      topic: 'Duane reliability-growth planning', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Development testing', quantitative: true,
+      stem: tex`A test–analyze–fix program has reached 1,000 cumulative unit-test-hours with a cumulative MTBF of 100 hours. Its planning model is \(\theta_c(T)=100(T/1000)^{0.40}\) hours, where T is total cumulative unit-test-hours. Assuming the fitted growth rate continues through effective corrective actions, approximately how much TOTAL cumulative test exposure is forecast to reach a CUMULATIVE MTBF of 200 hours?`,
+      options: ['2,000 unit-hours', '4,657 unit-hours', '1,577 unit-hours', '5,657 unit-hours'], answer: 3,
+      chart: {type: 'data-table', creKind: 'duane', title: 'Conditional Duane growth forecast — logarithmic axes', columns: ['Total test exposure (unit-h)', 'Forecast cumulative MTBF (h)'], rows: [[1000, '100.00'], [2000, '131.95'], [4000, '174.11'], [8000, '229.74']], description: 'A straight forecast line on log–log axes follows cumulative MTBF = 100 × (T/1000)^0.40. It starts at the current point of 1,000 unit-hours and 100 hours cumulative MTBF. The horizontal target is 200 hours. Points beyond the current exposure are model forecasts, not additional observed test results.'},
+      why: tex`<p>Set the cumulative model equal to the cumulative target and solve for total exposure:</p><p>\[200=100\left(\frac{T}{1000}\right)^{0.40}\quad\Rightarrow\quad T=1000\left(\frac{200}{100}\right)^{1/0.40}\approx5656.9\text{ unit-hours}\]</p><p>The answer is about <strong>5,657 total unit-hours</strong>, or 4,657 additional unit-hours beyond the current test point. The forecast assumes that the test–analyze–fix process continues to deliver the fitted improvement. Simply accumulating time without effective changes does not ensure growth. The model is not a confidence bound.</p>`,
+      optionRationales: ['2,000 unit-hours assumes that doubling test time doubles cumulative MTBF; the model’s growth exponent is only 0.40.', '4,657 unit-hours is the additional exposure beyond the current 1,000, but the question asks for total cumulative exposure.', '1,577 unit-hours confuses the instantaneous and cumulative Duane MTBF targets. At that exposure, cumulative MTBF is about 120 hours, not 200.', '5,657 unit-hours solves the supplied cumulative growth equation for the total exposure required by the forecast.'],
+      keyPoint: 'Keep cumulative and instantaneous growth metrics distinct, and distinguish total exposure from additional exposure.',
+      trap: 'A growth-model projection is conditional on continuing effective corrective action.',
+      assumptions: ['The supplied cumulative Duane model remains applicable over the forecast range.', 'The target concerns cumulative MTBF, not instantaneous MTBF or a confidence bound.'],
+      handbook: {chapter: 8, section: 'Reliability Test Strategies; reliability growth testing and the Duane model'},
+      lessonGap: 'A dedicated reliability-growth planning lesson is planned; use the cited handbook section and the model inversion above.'
+    },
+    {
+      number: 19, qid: 'cre:set-2:019', sub: 'cre-testing', bok: 'IV.B.3',
+      topic: 'Producer risk of a fixed-trial demonstration', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Product qualification', quantitative: true,
+      stem: 'A fixed-trial reliability demonstration tests 20 independent units for one complete mission each. Accept the design if no more than one unit fails; otherwise reject it. At the designated good-quality reference point, true mission reliability is 0.95. What is the producer’s risk at that reference point?',
+      options: ['26.4%', '73.6%', '64.2%', '5.0%'], answer: 0,
+      why: tex`<p>Producer’s risk is rejection probability at the designated good-quality reference. If X is the number of failures, then \(X\sim\operatorname{Binomial}(20,0.05)\). Acceptance covers zero or one failure:</p><p>\[\Pr(\text{accept})=0.95^{20}+20(0.05)(0.95^{19})\approx0.73584\]</p><p>\[\alpha=\Pr(X\ge2\mid R=0.95)=1-0.73584\approx0.26416=26.4\%\]</p><p>A 5% individual mission failure probability is not the same as a 5% probability of rejecting a design under this sampling rule.</p>`,
+      optionRationales: ['26.4% is the probability of two or more failures, which triggers rejection at the stated good-quality reference.', '73.6% is the probability of acceptance at that reference, the complement of producer’s risk.', '64.2% is the probability of at least one failure; this plan permits one failure, so that is not the rejection event.', '5.0% is the probability that one unit fails its mission, not the risk of rejecting the design after all 20 trials.'],
+      keyPoint: 'Define the rejection event and the reference quality before calculating producer’s risk.',
+      trap: 'Acceptance probability, individual failure probability, and producer’s risk are different quantities.',
+      assumptions: ['All 20 missions are completed, independent, and have the same success probability.', 'Reliability 0.95 is explicitly the good-quality reference for this plan.'],
+      handbook: {chapter: 9, section: 'Qualification/Demonstration Testing; operating characteristic curves and fixed-trial plans'},
+      lessonGap: 'A dedicated reliability acceptance-risk lesson is planned; use the cited handbook section and the binomial calculation above.',
+      explorer: 'acceptance-risk'
+    },
+    {
+      number: 20, qid: 'cre:set-2:020', sub: 'cre-lifecycle', bok: 'V.C.3',
+      topic: 'Lognormal corrective-repair percentile', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Maintenance planning', quantitative: true,
+      stem: 'Active corrective-repair time follows a lognormal distribution with median 2.00 hours and natural-log standard deviation 0.50 (time expressed in hours). Treat these population parameters as known. Logistics and administrative waiting are excluded. Using the standard normal 90th percentile z = 1.2816, within approximately how many hours will 90% of these active repairs be completed?',
+      options: ['2.00 h', '2.27 h', '4.55 h', '3.80 h'], answer: 3,
+      why: tex`<p>For a lognormal repair time, the median is \(\exp(\mu)=2\) hours, where \(\mu\) is the mean of the natural log of time expressed in hours. The percentile transforms back from the normal log-time scale:</p><p>\[t_{0.90}=\exp\!\left[\ln(2)+1.2816(0.50)\right]=2\exp(0.6408)\approx3.80\,\mathrm h\]</p><p>The mean active repair time, \(2\exp(0.50^2/2)\approx2.27\) hours, is a different quantity. The requested percentile does not include logistics or administrative delays.</p>`,
+      optionRationales: ['2.00 hours is the median, within which 50%, not 90%, of the modeled repairs are completed.', '2.27 hours is the mean of this lognormal repair-time distribution, not its 90th percentile.', '4.55 hours is approximately the 95th percentile, using z = 1.6449 instead of the supplied 90th-percentile value.', '3.80 hours transforms the supplied normal percentile back to the repair-time scale with the stated median and log standard deviation.'],
+      keyPoint: 'A maintainability percentile answers a completion-time question that the mean repair time does not.',
+      trap: 'The lognormal median, mean, and upper percentiles differ; match the statistic to the requirement.',
+      assumptions: ['The stated lognormal model and population parameters apply to active corrective repairs.', 'The requested duration excludes all waiting outside active repair.'],
+      handbook: {chapter: 13, section: 'Maintenance Strategies; Corrective Maintenance Analysis'},
+      lessonGap: 'A dedicated repair-time distribution lesson is planned; use the cited handbook section and the lognormal percentile calculation above.'
+    },
+    {
+      number: 21, qid: 'cre:set-2:021', sub: 'cre-fundamentals', bok: 'I.B.2',
+      topic: 'A measurable mission-reliability requirement', cognitive: 'Understand', difficulty: 'Foundational', estimatedMinutes: 1,
+      industry: 'Mobile equipment', quantitative: false,
+      stem: 'A customer needs an unattended pump to maintain its specified flow throughout an eight-hour mission under a defined temperature and vibration profile. Any interruption of required flow is a mission failure. The required probability of mission success is at least 0.99. Which statement most directly expresses the customer’s mission-reliability requirement?',
+      options: ['Average operating time between failures shall be at least eight hours.', 'At least 99% of pumps shall pass the incoming electrical inspection.', 'The probability of maintaining the specified flow without interruption for the full eight-hour mission under the stated use profile shall be at least 0.99.', 'The pump shall carry an eight-hour replacement warranty after delivery.'], answer: 2,
+      why: '<p>A mission-reliability requirement connects the required function, duration, use conditions, and acceptable probability of success. The third statement contains all four and uses the customer’s explicit failure criterion.</p><p>A mean time between failures is an average, not a probability of completing a particular mission. Incoming inspection addresses initial conformance, and a warranty defines a commercial obligation. Neither substitutes for mission reliability. A separate verification plan would specify how compliance is to be demonstrated and with what statistical confidence.</p>',
+      optionRationales: ['An eight-hour average does not imply a 99% probability of completing an eight-hour mission without failure.', 'Passing initial inspection does not establish uninterrupted performance throughout the customer’s use profile.', 'This specifies the required function, mission duration, environmental profile, and minimum probability of mission success.', 'A replacement warranty does not establish the probability of uninterrupted operation during the mission.'],
+      keyPoint: 'State reliability as success of a defined function over a defined duration and use profile.',
+      trap: 'An average life, inspection yield, or warranty period is not a mission-success probability.',
+      assumptions: ['The customer requires uninterrupted flow; recovery after interruption does not erase mission failure.', 'The temperature and vibration profile is defined in the referenced use specification.'],
+      handbook: {chapter: 2, section: 'Drivers of Reliability Requirements and Targets'},
+      studyReference: {title: 'Reliability as success over time and conditions', url: reliabilityLesson + '#sec-intro'}
+    },
+    {
+      number: 22, qid: 'cre:set-2:022', sub: 'cre-fundamentals', bok: 'I.B.4',
+      topic: 'Interpreting evidence in a root-cause investigation', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Mechanical assembly', quantitative: false,
+      stem: 'Housing cracks were first noticed after a new material lot entered production. Investigators then ran the randomized comparison below, with 20 independently assembled specimens per condition and the same cycling exposure. Which conclusion and next action are BEST supported by these results?',
+      options: ['Investigate the torque mechanism across both lots and verify a controlled correction against the fracture evidence.', 'Declare the new material lot the sole root cause because its elevated-torque group has the largest failure count.', 'Conclude that torque has no effect because some specimens survive the elevated-torque condition.', 'Close the investigation by returning to the previous lot; its normal-torque group had no observed cracks.'], answer: 0,
+      chart: {type: 'data-table', title: 'Controlled comparison — cracked housings / specimens tested', columns: ['Material lot', 'Normal assembly torque', 'Elevated assembly torque'], rows: [['Previous lot', '0 / 20', '8 / 20'], ['New lot', '1 / 20', '9 / 20']]},
+      why: '<p>The elevated-torque condition has substantially more cracks within each material lot. That repeated pattern makes the torque-related mechanism a stronger investigation priority than blaming the new lot solely because the field timing coincided with its introduction.</p><p>The table does not establish that torque is the only cause or identify the physical fracture mechanism. Fracture examination and a controlled corrective-action verification should test that explanation. Returning to the previous lot would retain the observed elevated-torque vulnerability.</p>',
+      optionRationales: ['This follows the within-lot evidence while requiring mechanism confirmation and a verified corrective action before closure.', 'A largest cell count is not proof of a sole cause; the previous lot also has eight failures under elevated torque.', 'A factor can increase failure probability without causing every exposed specimen to fail.', 'The previous lot also fails at elevated torque, so changing lots alone does not address the demonstrated vulnerability.'],
+      keyPoint: 'Use controlled contrasts to prioritize a causal explanation, then verify the mechanism and correction.',
+      trap: 'A change that coincides with field failures is not automatically their root cause.',
+      assumptions: ['Test order is randomized and specimens are independent.', 'Apart from the stated factors, test conditions and failure criteria are comparable across groups.'],
+      handbook: {chapter: 2, section: 'Root Cause Analysis'},
+      lessonGap: 'Use the cited handbook section and the evidence-based investigation above; a dedicated reliability root-cause lesson is planned.'
+    },
+    {
+      number: 23, qid: 'cre:set-2:023', sub: 'cre-risk', bok: 'II.A.2',
+      topic: 'Conditional event-tree release frequency', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Process protection', quantitative: true,
+      stem: 'A hazardous demand occurs at a mean frequency of 0.40 per year. Both safeguards are called on each demand, and a release occurs only if they both fail along the event-tree path shown. A fails on 10% of demands. GIVEN that A has failed on a demand, B fails with probability 0.25. B’s overall failure probability across all demands is 0.05, but A and B are not assumed independent. What is the mean annual release frequency?',
+      options: ['0.002 per year', '0.100 per year', '0.140 per year', '0.010 per year'], answer: 3,
+      chart: {type: 'data-table', creKind: 'event-tree', title: 'Demand event tree — probabilities are conditional on reaching each branch', columns: ['Branch', 'Conditional probability', 'Outcome / next step'], rows: [['A succeeds, given a demand', '0.90', 'No release'], ['A fails, given a demand', '0.10', 'Proceed to B'], ['B succeeds, given A failed on a demand', '0.75', 'No release'], ['B fails, given A failed on a demand', '0.25', 'Release']], description: 'The initiating-demand frequency is 0.40 per year. A success leads to no release. A failure leads to the B branches: B success gives no release and B failure gives release. Only the path A fails, then B fails causes a release. B branch probabilities are conditional on A already having failed.'},
+      why: tex`<p>Multiply the initiating-event frequency by the conditional probabilities along the release path. The event tree already supplies B’s failure probability under the condition that matters:</p><p>\[\nu_{\mathrm{release}}=\nu_{\mathrm{demand}}\Pr(A_f\mid D)\Pr(B_f\mid A_f,D)=0.40(0.10)(0.25)=0.010\text{ per year}\]</p><p>Here D denotes a demand, and the subscript f denotes failure. Substituting B’s overall 0.05 probability would incorrectly assume independence. The result is an expected event frequency; it is not itself an exact probability of at least one release in a year.</p>`,
+      optionRationales: ['0.002 per year substitutes B’s overall failure probability for the conditional probability on the release path.', '0.100 per year multiplies 0.40 by 0.25 but omits the requirement that A must first fail.', '0.140 per year adds the two failure probabilities before multiplying by demand frequency, although both failures are required.', '0.010 per year multiplies demand frequency by the correctly conditioned probabilities along the release path.'],
+      keyPoint: 'Use the conditional probability for each reached event-tree branch.',
+      trap: 'An overall safeguard failure probability cannot replace a conditional branch probability when failures are dependent.',
+      assumptions: ['The stated conditional probabilities apply to the same demand population.', 'The release event requires both failures; successful action by either safeguard prevents release.'],
+      handbook: {chapter: 3, section: 'Risk Assessment; probabilistic risk assessment and event trees'},
+      lessonGap: 'A dedicated event-tree risk lesson is planned; use the cited handbook section and the conditional path calculation above.'
+    },
+    {
+      number: 24, qid: 'cre:set-2:024', sub: 'cre-risk', bok: 'II.C',
+      topic: 'Secondary risks introduced by a mitigation', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Industrial equipment', quantitative: false,
+      stem: 'A redesigned enclosure prevents access to a moving mechanism and meets the project’s access-protection criterion. Thermal testing then shows that the enclosure traps heat, creating a previously absent failure mode in a safety-related controller. What is the MOST appropriate risk-management action before release?',
+      options: ['Close the risk record because the enclosure has passed the original access-protection criterion.', 'Reassess the thermal risk, revise controls as needed, and verify acceptance of both risks.', 'Remove the enclosure and substitute a warning label without reassessing the original access hazard.', 'Treat the controller failures solely as warranty costs because they were introduced by a safety improvement.'], answer: 1,
+      why: '<p>A mitigation can introduce secondary risks. Passing the original protection test does not establish that the modified system’s overall risk is acceptable.</p><p>The thermal failure mode must enter the risk assessment. The team should evaluate consequences and likelihood, choose appropriate design changes or controls, and verify their effectiveness while confirming that the original access protection remains effective. The release decision should use the resulting residual risks, not the original test result alone.</p>',
+      optionRationales: ['The original criterion does not address the newly identified safety-related failure mode.', 'This includes secondary risk in the assessment and requires verification of the combined control strategy.', 'Removing a demonstrated protection without reassessment could restore an unacceptable original hazard.', 'A controller’s safety-related consequences cannot be reduced to warranty cost simply because a mitigation introduced them.'],
+      keyPoint: 'Evaluate risks created by a mitigation as well as the risk it was designed to reduce.',
+      trap: 'A successful local risk control can create a new system-level vulnerability.',
+      assumptions: ['The thermal failure mode is supported by valid test evidence.', 'The project’s risk-acceptance criteria apply to both original and introduced hazards.'],
+      handbook: {chapter: 5, section: 'Risk Treatment; Secondary Risk'},
+      lessonGap: 'A dedicated risk-mitigation lesson is planned; use the cited handbook section and the secondary-risk decision above.'
+    },
+    {
+      number: 25, qid: 'cre:set-2:025', sub: 'cre-statistics', bok: 'III.A.6',
+      topic: 'Variable-sample-size p-chart limits', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Production screening', quantitative: true,
+      stem: 'An established in-control baseline nonconforming proportion is 0.020. Each week, an independent random sample is classified conforming/nonconforming. Use the conventional three-sigma p-chart limits, recalculated for each sample size, with negative lower limits set to zero. Under the single-point-beyond-a-control-limit rule only, which week signals an unusually HIGH nonconforming proportion?',
+      options: ['Week 1', 'Week 2', 'Week 3', 'Week 4'], answer: 1,
+      chart: {type: 'data-table', creKind: 'p-chart', title: 'Weekly screening results and variable p-chart limits', columns: ['Week', 'Sample size', 'Nonconforming units', 'Observed proportion'], rows: [[1, 100, 6, '0.0600'], [2, 400, 18, '0.0450'], [3, 900, 29, '0.0322'], [4, 400, 14, '0.0350']], description: 'The center line is 2.0%. Upper three-sigma limits for weeks 1–4 are 6.2%, 4.1%, 3.4%, and 4.1%. Lower limits are 0%, 0%, 0.6%, and 0%. Observed proportions are 6.0%, 4.5%, approximately 3.22%, and 3.5%. Solid segments and circles show observed proportions; dashed segments and squares show the upper limits; dotted segments show lower limits.'},
+      why: tex`<p>The standard error depends on each week’s sample size. For a fixed baseline \(\bar p=0.020\),</p><p>\[UCL_i=\bar p+3\sqrt{\frac{\bar p(1-\bar p)}{n_i}}\]</p><p>The four upper limits are 0.062, 0.041, 0.034, and 0.041. Only Week 2 is above its own limit: \(18/400=0.045>0.041\). Week 1 has the highest observed proportion, but its smaller sample gives a wider limit. Week 3 has the largest count, but its proportion remains below its limit.</p><p>A signal calls for investigation; it does not by itself identify a physical root cause or prove that a reliability requirement has been met or missed.</p>`,
+      optionRationales: ['Week 1 has the highest observed proportion, 0.060, but that is below its 0.062 upper limit for n = 100.', 'Week 2 has proportion 0.045, exceeding its 0.041 upper limit for n = 400.', 'Week 3 has the most nonconforming units, but 29/900 is approximately 0.0322, below its 0.034 upper limit.', 'Week 4 has proportion 0.035, below its 0.041 upper limit for n = 400.'],
+      keyPoint: 'Changing sample size changes p-chart limits even when the baseline proportion stays fixed.',
+      trap: 'Neither the largest failure count nor the largest observed proportion necessarily gives the strongest control-chart signal.',
+      assumptions: ['Independent binomial classifications and an established baseline common to all four weeks.', 'Use the stated conventional three-sigma approximation, not exact binomial limits or supplementary run rules.'],
+      handbook: {chapter: 6, section: 'Statistical Process Control; attributes control charts'},
+      studyReference: {title: 'Control chart selection and attributes charts', url: '/lessons/power-bi-excel-sql/minitab-control-chart-selection-analysis#lesson-content'},
+      explorer: 'p-chart-sample'
+    },
+    {
+      number: 26, qid: 'cre:set-2:026', sub: 'cre-statistics', bok: 'III.B.2',
+      topic: 'Interval-censored and right-censored records', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Life testing', quantitative: false,
+      stem: 'Unit X is functioning at its 120-hour inspection and is found failed at its 160-hour inspection. Its actual failure time is not recorded. Unit Y is still functioning when observation ends at 200 hours. Inspections identify status correctly, failures are irreversible, and inspection/end times are unrelated to unit condition. How should these two records be represented in a lifetime analysis?',
+      options: ['X: exact failure at 140 h; Y: exact failure at 200 h.', 'X: exact failure at 160 h; Y: omit it because it has not failed.', 'X: interval-censored failure in (120, 160] h; Y: right-censored at 200 h.', 'X: right-censored at 120 h; Y: left-censored at 200 h.'], answer: 2,
+      why: tex`<p>X’s failure is known to have occurred after 120 hours and no later than 160 hours: \(120\lt T_X\le160\). That is interval censoring. Recording either the interval midpoint or the detection time as an exact failure invents timing information.</p><p>Y establishes only that \(T_Y>200\) hours, so its observation is right-censored at 200 hours. It still contributes survival information. Select a method that supports the actual censoring types rather than forcing interval observations into an exact-time/right-censored format.</p>`,
+      optionRationales: ['The midpoint is not an observed failure time, and the functioning unit did not fail at the observation endpoint.', 'Detection at 160 hours does not identify the failure instant; deleting the surviving unit discards valid lifetime information.', 'This preserves the observed failure interval for X and the lower bound on lifetime for Y without inventing events.', 'X is known to fail by 160 hours, so right censoring at 120 loses information; Y is known to survive beyond, not fail before, 200 hours.'],
+      keyPoint: 'Store what the observation establishes about lifetime, including interval bounds and censoring status.',
+      trap: 'Failure-detection time and actual failure time need not be the same.',
+      assumptions: ['Inspection status is accurate and a failed unit cannot recover between inspections.', 'Observation schedules are noninformative with respect to individual condition.'],
+      handbook: {chapter: 7, section: 'Types of Data; censored and complete reliability data'},
+      lessonGap: 'A dedicated censoring-types lesson is planned; use the cited handbook section and the observation intervals above.'
+    },
+    {
+      number: 27, qid: 'cre:set-2:027', sub: 'cre-testing', bok: 'IV.B.2',
+      topic: 'Developing a production stress screen', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Electronics manufacturing', quantitative: false,
+      stem: 'Development HALT identified useful operating and destruct limits, and the design weaknesses were corrected. A production team proposes applying the destruct-limit stress to every saleable unit as its HASS screen. Which response is BEST?',
+      options: ['Use the destruct-limit stress because any surviving unit has demonstrated its full service life.', 'Adopt the screen if a small pilot has no immediate functional failures; no other validation is needed.', 'Avoid all production screening because accelerated stresses cannot reveal manufacturing defects.', 'Validate a production screen for defect detection and a non-damaging margin for conforming units.'], answer: 3,
+      why: '<p>HALT explores design margins, including conditions that can cause destruction. A production screen has a different purpose: reveal relevant latent manufacturing weaknesses while preserving conforming units for service.</p><p>The screen should use development knowledge to select stress levels and duration, then demonstrate detection effectiveness and that conforming units are not damaged or unduly life-consumed. A brief functional pass alone does not rule out latent damage. Neither HALT nor HASS, by itself, establishes a numerical field-life guarantee.</p>',
+      optionRationales: ['Survival at a destruct-limit condition neither ensures freedom from damage nor demonstrates full service life.', 'Immediate functional survival alone does not establish adequate detection or absence of latent screen-induced damage.', 'Properly developed screens can expose manufacturing weaknesses; the issue is their purpose and validated stress margin.', 'This distinguishes margin discovery from production screening and requires evidence of both useful detection and protection of conforming units.'],
+      keyPoint: 'A saleable-unit stress screen needs demonstrated detection capability and a justified non-damaging margin.',
+      trap: 'A development destruct limit is not automatically an acceptable production-screen setting.',
+      assumptions: ['The corrected design’s margins have been re-established for the production configuration.', 'Units passing the proposed screen are intended for customer shipment.'],
+      handbook: {chapter: 9, section: 'Stress Screening; Highly Accelerated Stress Screening'},
+      lessonGap: 'A dedicated ESS/HASS lesson is planned; use the cited handbook section and the screen-validation decision above.'
+    },
+    {
+      number: 28, qid: 'cre:set-2:028', sub: 'cre-testing', bok: 'IV.C.3',
+      topic: 'Arrhenius acceleration using absolute temperature', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Temperature-accelerated testing', quantitative: true,
+      stem: tex`A validated single-mechanism Arrhenius model has activation energy \(E_a=0.70\,\mathrm{eV}\). Use temperature is 55 °C and test temperature is 85 °C. Use \(k=8.617333262\times10^{-5}\,\mathrm{eV/K}\) and \(T(\mathrm K)=T(^{\circ}\mathrm C)+273.15\). What is the approximate acceleration factor, defined here as life at use temperature divided by life at test temperature?`,
+      options: ['7.95', '0.126', '1.55', '1.09'], answer: 0,
+      why: tex`<p>The model uses absolute temperature and the same activation energy at both conditions. With \(T_u=328.15\,\mathrm K\) and \(T_s=358.15\,\mathrm K\),</p><p>\[\begin{aligned}AF&=\frac{L_u}{L_s}=\exp\!\left[\frac{E_a}{k}\left(\frac1{T_u}-\frac1{T_s}\right)\right]\\&=\exp\!\left[\frac{0.70}{8.617333262\times10^{-5}}\left(\frac1{328.15}-\frac1{358.15}\right)\right]\\&\approx7.9528\end{aligned}\]</p><p>For this model, characteristic life at 55 °C is approximately 7.95 times that at 85 °C. The higher test temperature produces an acceleration factor greater than one under the stated definition. This conclusion depends on the validated mechanism and model; a temperature increase alone does not establish model validity.</p>`,
+      optionRationales: ['7.95 uses the Arrhenius reciprocal-temperature difference in kelvin with the stated life-ratio direction.', '0.126 is approximately the reciprocal factor, obtained by reversing the life ratio or the temperature difference.', '1.55 is approximately 85/55, a ratio of Celsius temperatures that does not represent Arrhenius acceleration.', '1.09 is approximately 358.15/328.15; even in kelvin, a simple temperature ratio is not the Arrhenius factor.'],
+      keyPoint: 'Use kelvin and define the direction of the acceleration factor before evaluating an Arrhenius model.',
+      trap: 'Converting to kelvin is necessary but does not turn the model into a simple temperature ratio.',
+      assumptions: ['The same thermally activated failure mechanism and activation energy apply at both temperatures.', 'The life-ratio Arrhenius model is validated over the stated range.'],
+      handbook: {chapter: 10, section: 'Failure Models; Arrhenius model'},
+      lessonGap: 'A dedicated physics-of-failure model lesson is planned; use the cited handbook section and the Arrhenius calculation above.',
+      explorer: 'arrhenius-temperature'
+    },
+    {
+      number: 29, qid: 'cre:set-2:029', sub: 'cre-lifecycle', bok: 'V.A.3',
+      topic: 'Two-factor interaction effect versus coefficient', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Design experimentation', quantitative: true,
+      stem: 'A randomized, equally replicated full two-factor experiment measures time to failure. The plot and table give the cell means in hours; all lifetimes are observed to failure. Code each factor level as −1 (low) or +1 (high). Using the standard factorial-effect convention—mean response at AB = +1 minus mean response at AB = −1—what is the estimated AB interaction EFFECT?',
+      options: ['−500 h', '−250 h', '0 h', '+500 h'], answer: 0,
+      chart: {type: 'data-table', creKind: 'interaction', title: 'Mean time to failure — interaction plot', columns: ['A level', 'B level', 'Mean time to failure (h)'], rows: [['Low (−1)', 'Low (−1)', 1000], ['High (+1)', 'Low (−1)', 1500], ['Low (−1)', 'High (+1)', 1400], ['High (+1)', 'High (+1)', 900]], description: 'Horizontal axis: factor A, low to high. Vertical axis: mean time to failure in hours. The B-low solid line rises from 1,000 to 1,500 hours; the B-high dashed line falls from 1,400 to 900 hours. The lines cross. These are cell means; the figure does not show within-cell variability.'},
+      why: tex`<p>The product AB is positive at the low/low and high/high combinations. It is negative at high/low and low/high. Therefore,</p><p>\[\widehat{\mathrm{effect}}_{AB}=\frac{1000+900}{2}-\frac{1500+1400}{2}=950-1450=-500\,\mathrm h\]</p><p>In a regression using −1/+1 coding, the AB coefficient would be half the effect, −250 hours. The average A main effect is zero, but changing A increases mean life at B-low and decreases it at B-high. Statistical significance cannot be determined from the cell means alone.</p>`,
+      optionRationales: ['−500 hours uses the positive-product cell mean minus the negative-product cell mean, matching the requested effect convention.', '−250 hours is the coded regression coefficient, which is half the factorial effect for −1/+1 coding.', 'Zero hours is the average main effect of A; it does not describe the AB interaction.', '+500 hours reverses the positive-product and negative-product groups and therefore reverses the interaction sign.'],
+      keyPoint: 'Distinguish a factorial effect from its coded regression coefficient, and do not let averaging conceal interaction.',
+      trap: 'A zero average main effect does not mean a factor has no effect at either setting of the other factor.',
+      assumptions: ['A complete, equally replicated two-factor design with independent specimens and randomized run order.', 'The question asks for an effect estimate, not a significance test or confidence interval.'],
+      handbook: {chapter: 11, section: 'Design of Experiments; factorial effects and interactions'},
+      studyReference: {title: 'Factorial effects and interactions', url: '/lessons/introduction-to-design-of-experiment-doe#lesson-content'}
+    },
+    {
+      number: 30, qid: 'cre:set-2:030', sub: 'cre-lifecycle', bok: 'V.C.1',
+      topic: 'Spare-stock coverage during a fixed lead time', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Fleet maintenance', quantitative: true,
+      stem: 'Replacement demand across a fleet follows a homogeneous Poisson process with mean rate 0.10 units per calendar day. A replenishment arrives exactly 45 days from now; no replenishment or repaired return is available before then. Each demand consumes one spare. What is the MINIMUM starting stock that gives at least a 95% probability of satisfying every demand during these 45 days? The table gives cumulative probabilities P(N ≤ s).',
+      options: ['7 spares', '6 spares', '10 spares', '8 spares'], answer: 3,
+      chart: {type: 'data-table', title: 'Poisson cumulative lookup — probability demand does not exceed stock', columns: ['Stock s', 'Mean demand 3.0', 'Mean demand 4.5', 'Mean demand 6.0'], rows: [[6, '0.96649', '0.83105', '0.60630'], [7, '0.98810', '0.91341', '0.74398'], [8, '0.99620', '0.95974', '0.84724'], [9, '0.99890', '0.98291', '0.91608'], [10, '0.99971', '0.99333', '0.95738']]},
+      why: tex`<p>First convert demand rate to expected demand over the entire lead time:</p><p>\[\mu=\lambda L=0.10(45)=4.5\text{ units},\qquad N\sim\operatorname{Poisson}(4.5)\]</p><p>Choose the smallest integer stock s with \(\Pr(N\le s)\ge0.95\). The correct table column gives \(\Pr(N\le7)=0.91341\) and \(\Pr(N\le8)=0.95974\), so <strong>eight spares</strong> is the minimum. The stockout probability is about 4.03%.</p><p>This is the probability of no shortage over the fixed interval, not the fraction of individual demands filled immediately and not a guarantee against every possible demand count.</p>`,
+      optionRationales: ['Seven spares cover only about 91.34% of the modeled lead-time demand outcomes, below the stated target.', 'Six spares meet 95% for mean demand 3.0, corresponding to only 30 days at this rate, not the required 45 days.', 'Ten spares would meet the target but are not the minimum; they are the minimum shown for mean demand 6.0, or a 60-day interval.', 'Eight spares provide approximately 95.97% no-shortage probability, whereas seven provide only 91.34%.'],
+      keyPoint: 'Size stock against the demand distribution over the complete replenishment lead time.',
+      trap: 'A lead-time stock-coverage probability is different from a unit fill rate or the expected demand count.',
+      assumptions: ['Constant aggregate demand rate and independent Poisson increments over the stated calendar interval.', 'Every stocked spare is usable and interchangeable; there are no other stock withdrawals or returns.'],
+      handbook: {chapter: 13, section: 'Maintenance Strategies; spare parts analysis and forecasting'},
+      lessonGap: 'A dedicated spare-parts planning lesson is planned; use the cited handbook section and the lead-time demand calculation above.'
+    },
+    {
+      number: 31, qid: 'cre:set-2:031', sub: 'cre-fundamentals', bok: 'I.A.2',
+      topic: 'Initial conformance versus reliability over time', cognitive: 'Understand', difficulty: 'Foundational', estimatedMinutes: 1,
+      industry: 'Industrial instruments', quantitative: false,
+      stem: 'Every instrument in a shipment passes its specified calibration and functional checks before dispatch. Several instruments later drift outside the required accuracy during normal service, before the specified mission ends. Which statement BEST distinguishes the evidence provided by these two observations?',
+      options: ['The dispatch results establish mission reliability; the later drift affects only the maintenance budget.', 'The dispatch results establish conformance at that inspection, while the service drift concerns retention of the required function over time.', 'Passing the dispatch checks establishes that the instruments will remain safe, even when their indicated values later become inaccurate.', 'The later drift proves that the original calibration measurements were invalid, regardless of the records or measurement system.'], answer: 1,
+      why: '<p>Dispatch inspection supplies evidence about conformance at a particular time. Reliability concerns maintaining the required function for a specified duration under specified conditions. The later loss of required accuracy is therefore relevant reliability evidence even when the initial checks were valid.</p><p>Quality, reliability, and safety are related, but one successful inspection does not establish lifetime performance or safety. The consequences of an inaccurate indication must be assessed separately.</p>',
+      optionRationales: ['Initial checks do not establish the probability of completing the entire specified mission without loss of function.', 'This separates evidence of initial conformance from evidence about continued performance during service.', 'Safety depends on failure consequences and controls; a dispatch pass cannot guarantee safety after accuracy is lost.', 'A valid initial calibration can be followed by degradation. Later drift alone does not invalidate the earlier measurements.'],
+      keyPoint: 'Initial conformance and continued performance over time are different claims requiring different evidence.',
+      trap: 'Do not treat a passing acceptance inspection as proof of mission reliability or safety.',
+      assumptions: ['The dispatch measurements are valid and the subsequent drift is confirmed.', 'The instruments experienced the specified normal service conditions.'],
+      handbook: {chapter: 1, section: 'Interrelationship of Safety, Quality, and Reliability'},
+      lessonGap: 'Use the cited handbook section to distinguish initial conformance, continued function, and failure consequences.'
+    },
+    {
+      number: 32, qid: 'cre:set-2:032', sub: 'cre-fundamentals', bok: 'I.A.6',
+      topic: 'Reliability-constrained lifecycle cost decision', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Equipment procurement', quantitative: true,
+      stem: 'A purchasing decision requires mission reliability of at least 0.980 under the same specified use conditions. Treat the validated planning estimates in the table as fixed for this comparison. Among eligible designs, select the lowest expected five-year cost: purchase cost plus five years of annual service cost. Service costs include all relevant maintenance and downtime costs. Ignore discounting and residual value; all other costs and requirements are identical. Which design should be selected?',
+      options: ['Design A', 'Design B', 'Design C', 'Design D'], answer: 2,
+      chart: {type: 'data-table', title: 'Five-year equipment decision inputs', columns: ['Design', 'Mission reliability', 'Purchase cost ($)', 'Expected annual service cost ($/year)'], rows: [['A', '0.975', 80000, 14000], ['B', '0.985', 100000, 12000], ['C', '0.990', 125000, 5000], ['D', '0.988', 115000, 9000]]},
+      why: tex`<p>Apply the reliability requirement before comparing costs. Design A is ineligible because its mission reliability is below 0.980.</p><p>For each eligible design, let \(C_0\) be purchase cost, \(C_a\) annual expected service cost, and \(C_5\) the five-year expected total:</p><p>\[\begin{aligned}C_5&=C_0+5C_a\\C_{5,B}&=100000+5(12000)=160000\\C_{5,C}&=125000+5(5000)=150000\\C_{5,D}&=115000+5(9000)=160000\end{aligned}\]</p><p><strong>Design C</strong> has the lowest eligible expected total, $150,000. Its higher purchase price is offset by the service-cost estimate. Expected cost is a planning comparison, not a guarantee of each unit's actual cost.</p>`,
+      optionRationales: ['A totals $150,000 but fails the mandatory reliability threshold; low expected cost does not make it eligible.', 'B has the lowest purchase price among eligible designs, but its five-year total is $160,000.', 'C meets the reliability threshold and has the lowest eligible five-year expected total, $150,000.', 'D meets the threshold, but its five-year expected total is $160,000, above C.'],
+      keyPoint: 'Screen mandatory requirements first, then compare relevant lifecycle costs over the stated horizon.',
+      trap: 'The lowest acquisition price is not necessarily the lowest lifecycle cost.',
+      assumptions: ['Mission definitions and operating conditions are comparable across designs.', 'Annual expected service costs remain constant for five years and are not already included in purchase cost.'],
+      handbook: {chapter: 1, section: 'Function of Reliability in Engineering'},
+      lessonGap: 'Use the cited handbook section and the explicit five-year cost comparison; financial discounting is intentionally excluded from this scenario.'
+    },
+    {
+      number: 33, qid: 'cre:set-2:033', sub: 'cre-risk', bok: 'II.A.1',
+      topic: 'Parameter diagram and robustness to noise', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Fluid-control equipment', quantitative: false,
+      stem: 'The parameter diagram describes a pump controller. Field supply voltage and fluid viscosity vary within specified ranges and cannot be held constant by the customer. The development laboratory can reproduce those variations. Which investigation BEST uses this diagram to reduce the risk of flow deficit and excessive overshoot across the intended operating range?',
+      options: ['Compare clearance and gain settings across representative noise conditions and required flow commands.', 'Hold viscosity and voltage at nominal values and compare command levels only; passing these runs establishes robustness to the field variations.', 'Treat delivered flow as an adjustable design factor and set it to the target before each test, eliminating the need to measure response error.', 'Remove voltage and viscosity from the risk analysis because their field variation is outside the customer’s direct control.'], answer: 0,
+      chart: {type: 'data-table', creKind: 'p-diagram', title: 'Pump-controller parameter diagram', columns: ['Role', 'Elements'], rows: [['Signal input', 'Required flow command'], ['Control factors', 'Impeller clearance; controller gain'], ['Noise factors', 'Fluid viscosity; supply-voltage variation'], ['Intended response', 'Delivered flow tracks the command'], ['Error states', 'Flow deficit; excessive overshoot']], description: 'The flow command enters the pump controller. Impeller clearance and controller gain are design control factors. Fluid viscosity and supply-voltage variation are field noise factors. The intended response is delivered flow tracking the command; error states include flow deficit and excessive overshoot.'},
+      why: '<p>The design team can choose the control-factor settings and investigate how those settings affect performance when field noise varies. A representative test deliberately varies viscosity and supply voltage in the laboratory while exercising the required commands and measuring the flow response.</p><p>A factor can be controlled during an experiment and still be a noise factor in the intended field application. Holding noise at nominal conditions supplies little evidence about robustness across its specified range.</p>',
+      optionRationales: ['This tests whether selectable design settings reduce sensitivity to the relevant field noise while preserving the commanded function.', 'Nominal-condition testing alone does not establish response robustness when viscosity and supply voltage vary.', 'Delivered flow is the response to measure, not an independently set design input that makes response error disappear.', 'Uncontrolled field variation is a reason to analyze noise sensitivity, not a reason to omit those factors.'],
+      keyPoint: 'Use control factors to improve functional performance across relevant noise conditions.',
+      trap: 'Laboratory control of a noise factor does not change its role in the field parameter diagram.',
+      assumptions: ['Noise ranges represent intended use and can be reproduced safely in the laboratory.', 'The investigation must preserve the specified flow-command range.'],
+      handbook: {chapter: 3, section: 'Risk Management Techniques; parameter diagrams'},
+      lessonGap: 'A dedicated reliability parameter-diagram lesson is planned; use the diagram roles and the robustness reasoning above.'
+    },
+    {
+      number: 34, qid: 'cre:set-2:034', sub: 'cre-risk', bok: 'II.A.3',
+      topic: 'Analytical risk from an unvalidated lifetime model', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 1.5,
+      industry: 'Asset planning', quantitative: false,
+      stem: 'A team observes many recently installed seals for their first six months. It fits a constant-hazard model and reports a narrow confidence interval for predicted five-year reliability. Materials evidence suggests a wear-out mechanism may become active after two years, and no older-unit data were used. Which statement BEST identifies the principal analytical risk in the five-year claim?',
+      options: ['The large number of young seals makes model-form uncertainty negligible, even though the suspected wear-out period was not observed.', 'The confidence level is the only concern; increasing it will automatically include any future change in the failure mechanism.', 'Any field dataset is unsuitable for reliability modeling, so the numerical analysis should be replaced entirely by expert opinion.', 'The interval addresses parameter uncertainty but may omit error from extrapolating the unvalidated aging model.'], answer: 3,
+      why: '<p>A confidence interval is conditional on the model and sampling assumptions used to construct it. More early-life observations can improve precision for that observed regime without validating a constant hazard through an unobserved wear-out period.</p><p>The five-year claim is exposed to model-form and extrapolation risk. Relevant actions include examining the mechanism evidence, obtaining suitable older-age or mechanism-representative data, and assessing plausible aging models. Merely increasing the nominal confidence level does not automatically incorporate a missing failure mechanism.</p>',
+      optionRationales: ['A large sample improves precision within the sampled conditions; it does not establish validity outside the observed age regime.', 'A wider confidence interval under the same model does not automatically cover structural errors or unmodeled mechanisms.', 'Field data can be highly useful when their ages, conditions, failure definitions, and limitations are considered.', 'This distinguishes uncertainty in fitted parameters from uncertainty about whether the assumed lifetime model applies to the forecast horizon.'],
+      keyPoint: 'Numerical precision within a model does not establish the model’s validity for long-term extrapolation.',
+      trap: 'A narrow confidence interval can coexist with a poorly supported engineering forecast.',
+      assumptions: ['The reported interval accounts for fitted-parameter uncertainty under the stated constant-hazard model.', 'The suspected wear-out mechanism is not represented in that model or observed in the available ages.'],
+      handbook: {chapter: 3, section: 'Types of Risk; Analytical Risks'},
+      lessonGap: 'Use the cited handbook section to assess model applicability separately from computational accuracy and statistical precision.'
+    },
+    {
+      number: 35, qid: 'cre:set-2:035', sub: 'cre-statistics', bok: 'III.A.4',
+      topic: 'Conditional reliability of an aging component', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Rotating equipment', quantitative: true,
+      stem: tex`An unrepaired component has survived 800 operating hours. Its lifetime \(X\) follows the known two-parameter Weibull model \(R(t)=\exp\!\left[-\left(\frac{t}{1000}\right)^2\right]\), with time in hours. The graph shows reliability measured from new. What is the probability that this surviving component completes the NEXT 200 operating hours without failure?`,
+      options: ['0.3679', '0.9608', '0.6977', '0.1594'], answer: 2,
+      chart: {type: 'data-table', creKind: 'conditional-life', title: 'Weibull survival measured from new', columns: ['Age (h)', 'Reliability from new'], rows: [[0, '1.00000'], [200, '0.96079'], [400, '0.85214'], [600, '0.69768'], [800, '0.52729'], [1000, '0.36788'], [1200, '0.23693']], description: 'Reliability from new decreases with age. The component is known to have reached age 800 hours; the next mission ends at age 1,000 hours. The graph marks these two ages. The plotted heights are unconditional survival probabilities, not the answer to the conditional question.'},
+      why: tex`<p>Condition on membership in the group that survived to age 800. Because survival beyond 1,000 hours implies survival beyond 800 hours,</p><p>\[\begin{aligned}\Pr(X>1000\mid X>800)&=\frac{R(1000)}{R(800)}\\&=\frac{e^{-1}}{e^{-0.64}}\\&=e^{-0.36}\approx0.6977\end{aligned}\]</p><p>The model has increasing hazard. Therefore, a 200-hour mission starting at age 800 does not have the same reliability as a 200-hour mission starting from new. Use the unrounded model values in the ratio.</p>`,
+      optionRationales: ['0.3679 is survival to 1,000 hours from new, before conditioning on the component having already survived 800 hours.', '0.9608 is survival through the first 200 hours from new and incorrectly treats this aging model as memoryless.', '0.6977 divides survival to the mission end by survival to the known starting age.', '0.1594 is the unconditional probability of failure between ages 800 and 1,000, not conditional mission survival.'],
+      keyPoint: 'For a surviving unrepaired item, divide reliability at the mission end by reliability at its current age.',
+      trap: 'Only a memoryless lifetime model permits ignoring the survived age; this Weibull model is not memoryless.',
+      assumptions: ['The stated Weibull population parameters are known and apply throughout the next mission.', 'The component has not been renewed or repaired, and operating conditions do not change.'],
+      handbook: {chapter: 6, section: 'Reliability Functions; conditional reliability'},
+      studyReference: {title: 'Reliability and hazard functions', url: reliabilityLesson + '#sec-calc-ref'}
+    },
+    {
+      number: 36, qid: 'cre:set-2:036', sub: 'cre-statistics', bok: 'III.B.1',
+      topic: 'Comparable ages in field-reliability cohorts', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Warranty analysis', quantitative: false,
+      stem: 'Two design cohorts have the verified first functional failures shown below. Reporting is complete, usage conditions are comparable, and each unit’s installation date, failure date or last observation date is available. Management attributes the smaller raw failure percentage for the new design to a reliability improvement. Which analysis would BEST support a fair comparison with the data currently available?',
+      options: ['Compare 2% with 8% directly because equal cohort sizes eliminate differences in observation time.', 'Compare survival at a common attained age using event and censoring records; extend follow-up for longer-term claims.', 'Multiply the new design’s three-month failure percentage by eight and treat the result as its measured 24-month failure percentage.', 'Pool both designs into one failure percentage because combining the cohorts removes the effect of different ages.'], answer: 1,
+      chart: {type: 'data-table', title: 'Field cohorts at the reporting date', columns: ['Design cohort', 'Units installed together', 'Maximum follow-up', 'Units with first failure'], rows: [['Previous design', 1000, '24 months', 80], ['New design', 1000, '3 months', 20]]},
+      why: '<p>The cohorts have different opportunities to accumulate failures. Equal denominators do not make an eightfold difference in follow-up disappear.</p><p>The unit-level records allow a comparison of survival to the same attained age, with proper handling of any censoring. Both cohorts can inform a three-month comparison. The new cohort does not yet establish its own 24-month survival; extending a percentage linearly would impose an unsupported lifetime assumption. Uncertainty and comparability of service conditions should also be assessed before attributing differences to design.</p>',
+      optionRationales: ['Equal numbers installed do not equalize age or accumulated exposure to failures.', 'This aligns the time horizon and uses available survival information without treating censored or unobserved future outcomes as known.', 'A scaled early failure percentage is a model-based extrapolation, not a measured later-age percentage.', 'Pooling hides the design contrast and does not correct unequal follow-up.'],
+      keyPoint: 'Compare field reliability at comparable ages and conditions before attributing differences to design.',
+      trap: 'A newer cohort can have fewer recorded failures simply because it has been observed for less time.',
+      assumptions: ['Both designs use the same verified failure definition and complete reporting process.', 'The records support an age-based comparison; the new cohort has no 24-month outcomes yet.'],
+      handbook: {chapter: 7, section: 'Sources and Uses of Reliability Data; field and warranty data'},
+      lessonGap: 'A dedicated field-cohort comparison lesson is planned; use the cited handbook section and the common-age comparison above.'
+    },
+    {
+      number: 37, qid: 'cre:set-2:037', sub: 'cre-testing', bok: 'IV.B.3',
+      topic: 'Sequential exponential-test decision', cognitive: 'Evaluate', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Reliability qualification', quantitative: true,
+      stem: tex`An approved sequential exponential test compares acceptable MTBF 1,000 h with rejectable MTBF 500 h. Its likelihood ratio is \(\Lambda=2^r\exp\!\left(-\frac{T}{1000}\right)\), where \(r\) is cumulative failures and \(T\) is total accumulated operating exposure in unit-hours. The approved rule is: accept at \(\Lambda\le\frac19\), reject at \(\Lambda\ge9\), otherwise continue. At the current review, \(r=4\) and \(T=2500\) unit-hours. No earlier stopping boundary or truncation limit has been reached. What decision follows this plan?`,
+      options: ['Accept, because four failures are fewer than the rejectable model’s expected five failures at this exposure.', 'Reject, because the observed MTBF is below the acceptable MTBF of 1,000 hours.', 'Accept, because total exposure exceeds twice the acceptable MTBF.', 'Continue, because the likelihood ratio is approximately 1.313, between the two stopping boundaries.'], answer: 3,
+      chart: {type: 'data-table', title: 'Approved sequential plan at the current review', columns: ['Plan quantity', 'Value'], rows: [['Acceptable MTBF', '1,000 h'], ['Rejectable MTBF', '500 h'], ['Cumulative failures', 4], ['Total operating exposure', '2,500 unit-hours'], ['Acceptance boundary', 'Likelihood ratio at or below one ninth'], ['Rejection boundary', 'Likelihood ratio at or above 9']]},
+      why: tex`<p>Apply the approved sequential rule rather than comparing only a point estimate or the number of failures with an expected count.</p><p>\[\begin{aligned}\Lambda&=2^4\exp\!\left(-\frac{2500}{1000}\right)\\&=16e^{-2.5}\approx1.3134\end{aligned}\]</p><p>Since \(\frac19<1.3134<9\), the correct decision is <strong>continue testing</strong>. The observed MTBF \(\frac Tr=625\,\mathrm h\) lies between the two design values, but that point estimate is not the stopping rule.</p><p>The ratio compares the likelihood under the rejectable model with that under the acceptable model. It is not a posterior probability and may exceed one. A real sequential test stops at its first applicable boundary or approved truncation rule.</p>`,
+      optionRationales: ['Being below the rejectable model’s expected count is not the plan’s acceptance criterion.', 'A point estimate below the acceptable MTBF does not alone satisfy the rejection boundary.', 'A multiple of the acceptable MTBF is not the approved stopping rule and ignores the observed failures.', 'The calculated ratio lies strictly between the specified limits, so neither terminal decision is authorized yet.'],
+      keyPoint: 'A sequential-test decision depends on the specified likelihood boundaries and accumulated evidence.',
+      trap: 'Do not substitute a point-estimate comparison for an approved sequential acceptance rule.',
+      assumptions: ['Independent exponential lifetimes with the two stated constant failure rates and valid accumulated exposure.', 'No prior terminal decision has occurred; the displayed boundaries define this practice plan and are not claimed to reproduce a named standard.'],
+      handbook: {chapter: 9, section: 'Qualification / Demonstration Testing; sequential testing'},
+      lessonGap: 'A dedicated sequential reliability-test lesson is planned; use the stated plan and the completed-review boundary explorer.',
+      explorer: 'sequential-failures'
+    },
+    {
+      number: 38, qid: 'cre:set-2:038', sub: 'cre-testing', bok: 'IV.C.2',
+      topic: 'Creep under sustained elevated-temperature load', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Thermal-process equipment', quantitative: false,
+      stem: 'A metallic furnace support progressively develops permanent elongation over thousands of hours under nearly constant tensile load at elevated temperature. The applied stress is below the material’s short-term yield strength at that temperature. Records show no significant load cycling, and examination finds no material loss from corrosion. Which mechanism and follow-up are MOST consistent with this evidence?',
+      options: ['Creep; evaluate time-dependent strain and rupture behavior at the relevant stress and temperature.', 'High-cycle fatigue; estimate life mainly from the number of alternating-stress cycles.', 'Immediate tensile overload; disregard time at temperature because the short-term yield comparison is sufficient.', 'Uniform corrosion; predict the elongation mainly from a measured wall-thickness loss rate.'], answer: 0,
+      why: '<p>Creep is time-dependent permanent deformation under sustained stress and is especially relevant at elevated temperature. A short-term tensile or yield test does not establish resistance to thousands of hours of such exposure.</p><p>The appropriate investigation considers the material, service stress, temperature, accumulated strain, and applicable creep-rupture evidence. The stated absence of significant cycling and corrosion loss weakens the proposed fatigue and corrosion explanations.</p>',
+      optionRationales: ['Sustained elevated-temperature loading and progressive permanent strain are consistent with creep and call for time-dependent material evidence.', 'The scenario does not supply the alternating loading required to make high-cycle fatigue the best explanation.', 'The deformation develops over time, so a short-term yield comparison alone misses the indicated mechanism.', 'No material loss is observed; a corrosion-thinning model does not explain the stated evidence best.'],
+      keyPoint: 'Match the failure model to the physical loading history, environment, and observed damage.',
+      trap: 'Stress below short-term yield strength does not guarantee resistance to long-term creep.',
+      assumptions: ['The reported load, temperature, and damage observations are representative.', 'The question identifies the best-supported mechanism, not a complete remaining-life prediction.'],
+      handbook: {chapter: 10, section: 'Physics of Failure and Failure Mechanisms'},
+      lessonGap: 'Use the cited handbook section to connect observed damage and service conditions to a physically appropriate failure mechanism.'
+    },
+    {
+      number: 39, qid: 'cre:set-2:039', sub: 'cre-lifecycle', bok: 'V.A.1',
+      topic: 'Design validation under intended use', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Industrial controls', quantitative: false,
+      stem: 'A final-design portable controller passes bench checks against every documented electrical, timing, and enclosure requirement. In a representative intended-use trial, operators wearing the required protective gloves repeatedly select the wrong control and fail to complete the intended task. Glove use was omitted from the design inputs. Which conclusion and next step are MOST appropriate?',
+      options: ['Design validation is complete because the bench checks passed; classify the trial results only as an operator-training issue.', 'Repeat the same bench checks on a larger sample; this alone will resolve whether the intended user can operate the controls.', 'Validation exposed an unmet need; revise the inputs and design, then repeat relevant verification and use validation.', 'Replace the failed task criterion with compliance to the existing electrical requirements, because those requirements were already approved.'], answer: 2,
+      why: '<p>Verification asks whether the design meets its specified inputs. Validation asks whether the resulting product meets user needs and intended use. A design can pass the first set of checks while the inputs themselves omit an important use condition.</p><p>The representative glove-use trial reveals such a gap. The team should trace the user need into revised requirements, make the appropriate design changes, verify those changes, and validate performance with intended users and conditions. Training alone is not established as an adequate correction by the evidence provided.</p>',
+      optionRationales: ['Passing checks against incomplete design inputs does not establish successful intended use.', 'Repeating the same checks cannot address the omitted glove-use need without relevant requirements and evaluation.', 'This distinguishes conformance to documented inputs from fitness for intended use and closes the requirements-to-validation loop.', 'Changing the success criterion to omit the user need would conceal the validation failure rather than correct it.'],
+      keyPoint: 'Verification of design inputs does not replace validation of user needs in intended conditions.',
+      trap: 'A complete pass against an incomplete specification can still produce a product that fails its intended task.',
+      assumptions: ['Required glove use and the tested operators are representative of intended use.', 'The bench tests correctly evaluated the documented inputs.'],
+      handbook: {chapter: 11, section: 'Design Evaluation Techniques; Design Verification and Validation'},
+      lessonGap: 'Use the cited handbook section and distinguish the documented-input check from the intended-use trial.'
+    },
+    {
+      number: 40, qid: 'cre:set-2:040', sub: 'cre-lifecycle', bok: 'V.B.1',
+      topic: 'Temperature derating with power and voltage constraints', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Electronic component selection', quantitative: true,
+      stem: tex`A 100 Ω resistor has the manufacturer power-rating curve shown: 2.00 W through 70 °C, then a straight-line decrease to 0 W at 155 °C. The applicable ambient temperature is 100 °C under the specified mounting conditions. Company policy permits continuous dissipation no greater than 60% of the manufacturer rating AT THAT TEMPERATURE. An independent working-voltage limit is 10.0 V RMS. Ignore resistance tolerance and other limits. Using \(P=V_{\mathrm{RMS}}^2/R\), what is the approximate maximum permitted continuous RMS voltage?`,
+      options: ['11.38 V', '8.81 V', '10.00 V', '10.95 V'], answer: 1,
+      chart: {type: 'data-table', creKind: 'derating', title: 'Manufacturer continuous-power rating versus ambient temperature', columns: ['Ambient temperature (°C)', 'Manufacturer rated power (W)', 'Curve definition'], rows: [[25, '2.00', 'Constant through 70 °C'], [70, '2.00', 'Start of linear reduction'], [155, '0.00', 'End of linear reduction']], description: 'Manufacturer rated power is 2 watts at or below 70 degrees Celsius, then decreases linearly to zero at 155 degrees Celsius. A vertical guide marks the 100-degree operating temperature. The plotted curve is the manufacturer rating before applying the company’s 60-percent limit.'},
+      why: tex`<p>First interpolate the manufacturer rating at the actual ambient temperature, then apply the company limit.</p><p>\[\begin{aligned}P_{\mathrm{rated}}(100)&=2\left(\frac{155-100}{155-70}\right)\\&\approx1.29412\,\mathrm W\\P_{\mathrm{allowed}}&=0.60(1.29412)\approx0.77647\,\mathrm W\\V_{\mathrm{power}}&=\sqrt{P_{\mathrm{allowed}}R}\\&=\sqrt{0.77647(100)}\approx8.8118\,\mathrm V\end{aligned}\]</p><p>Here, \(R\) is resistance and the two \(P\) values are rated and policy-allowed power at 100 °C. Enforce both constraints: \(V_{\max}=\min(V_{\mathrm{power}},10.0\,\mathrm V)\). Thus the approximate limit is <strong>8.81 V RMS</strong>. A practical selection must not round upward beyond the unrounded limit.</p>`,
+      optionRationales: ['11.38 V comes from the manufacturer power rating at 100 °C without the additional 60% policy limit; it also exceeds the independent voltage limit.', '8.81 V applies the temperature curve, then the 60% policy limit, and remains below the independent 10.0 V limit.', '10.00 V considers only the independent voltage limit and would dissipate 1.00 W, above the allowed power at 100 °C.', '10.95 V applies 60% to the 2 W rating at 70 °C rather than the lower rating at 100 °C, and also exceeds the voltage limit.'],
+      keyPoint: 'Apply derating at the actual environmental condition, then enforce every independent component limit.',
+      trap: 'A room-temperature rating and a working-voltage limit do not replace the temperature-dependent power constraint.',
+      assumptions: ['The supplied curve applies to the stated mounting and ambient conditions.', 'The resistor is ideal at 100 Ω; the 60% policy means 60% remains usable, not a 60% reduction.'],
+      handbook: {chapter: 12, section: 'Materials, Components, Equipment, and Software Selection Techniques; Derating'},
+      lessonGap: 'A dedicated component-derating lesson is planned; use the supplied rating curve and the completed-review temperature explorer.',
+      explorer: 'derating-temperature'
+    },
+    {
+      number: 41, qid: 'cre:set-2:041', sub: 'cre-fundamentals', bok: 'I.A.3',
+      topic: 'Reliability leadership across functions', cognitive: 'Understand', difficulty: 'Foundational', estimatedMinutes: 1.5,
+      industry: 'Product development', quantitative: false,
+      stem: 'During product planning, design engineering defines success as completing a short demonstration, service expects five years of field operation, and purchasing compares suppliers only on unit price. Each function believes its approach supports the program. Which action BEST describes the reliability engineer’s leadership responsibility?',
+      options: ['Let each function retain its own success definition and reconcile the measures only after launch.', 'Set the program’s commercial priorities unilaterally and require every function to adopt them.', 'Limit involvement to calculating reliability once the design and suppliers have been selected.', 'Align mission definitions and lifecycle tradeoffs with program objectives through agreement among accountable functions.'], answer: 3,
+      why: '<p>A reliability champion connects technical evidence with program objectives and facilitates communication across functions. The immediate need is a shared understanding of the intended mission, conditions, failure criteria, and reliability requirements.</p><p>That common basis allows design, service, purchasing, and program leadership to assess lifecycle consequences and make accountable tradeoffs. The reliability engineer influences and supports those decisions; the role does not imply unilateral ownership of every commercial priority.</p>',
+      optionRationales: ['Incompatible definitions prevent a meaningful comparison of evidence and postpone discovery of gaps.', 'Reliability leadership includes influence and coordination, not automatic authority over all commercial decisions.', 'Waiting until key decisions are fixed removes opportunities to address reliability early in development.', 'A common mission and evidence basis links functional decisions to agreed objectives while preserving accountable ownership.'],
+      keyPoint: 'Reliability leadership makes requirements, evidence, and tradeoffs understandable across functions.',
+      trap: 'Technical expertise alone does not replace shared requirements or clear decision ownership.',
+      assumptions: ['The program has not yet agreed on common reliability requirements.', 'The reliability engineer supports a cross-functional program with designated decision owners.'],
+      handbook: {chapter: 1, section: 'Reliability Engineer Leadership Responsibilities'},
+      lessonGap: 'Use the cited handbook section to distinguish reliability advocacy and facilitation from unilateral program authority.'
+    },
+    {
+      number: 42, qid: 'cre:set-2:042', sub: 'cre-fundamentals', bok: 'I.B.10',
+      topic: 'Reliability at component interfaces', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Automated inspection equipment', quantitative: false,
+      stem: 'A sensor meets its requirement to publish a new measurement 20 times per second. A controller meets its own requirement to poll 50 times per second, but its software treats every unchanged measurement timestamp as a sensor failure. The integrated machine therefore reports repeated failures even though both components pass their individual acceptance tests. Which systems-engineering principle BEST explains the needed correction?',
+      options: ['Passing both component acceptance tests establishes system reliability; suppress all repeated-timestamp alarms.', 'Define compatible interface timing and data-freshness behavior from system needs, then verify the integrated interaction.', 'Increase the sensor’s standalone test duration without changing either component’s interface requirements.', 'Select the component with the lower quoted MTBF and replace it; interface behavior is independent of reliability.'], answer: 1,
+      why: '<p>System behavior depends on interactions as well as individual component performance. A controller may legitimately read the same sensor update more than once; the interface must define when data is considered fresh, stale, missing, or invalid in the intended application.</p><p>Agree compatible timing, timestamp interpretation, and fault-response requirements, then verify end-to-end behavior. The system’s actual freshness needs determine whether the sensor, controller, or both need changes. Blindly suppressing alarms could hide a genuine loss of updates.</p>',
+      optionRationales: ['Individual conformance does not establish interface compatibility, and suppressing every alarm could hide real faults.', 'Compatible interface requirements and integrated verification address the actual mismatch described.', 'Longer standalone testing against unchanged requirements does not resolve conflicting interface assumptions.', 'Quoted MTBF does not diagnose a deterministic timing mismatch between otherwise conforming components.'],
+      keyPoint: 'A system can fail through incompatible interactions even when its components satisfy their individual specifications.',
+      trap: 'Component acceptance is not a substitute for integrated behavior requirements and verification.',
+      assumptions: ['The stated timing behavior is repeatable and both components meet their separate specifications.', 'System-level data-freshness needs must govern the final interface design.'],
+      handbook: {chapter: 2, section: 'Systems Engineering and Integration'},
+      lessonGap: 'Use the cited handbook section to examine reliability at interfaces and interactions between components.'
+    },
+    {
+      number: 43, qid: 'cre:set-2:043', sub: 'cre-risk', bok: 'II.B.2',
+      topic: 'Quantitative FMECA mode criticality', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Thermal-control system', quantitative: true,
+      stem: tex`A FMECA compares four failure modes whose listed system effects have the SAME severity classification. The approved ranking index is \(C_m=\lambda_p\alpha\beta t\), where \(\lambda_p\) is the component failure rate, \(\alpha\) is the fraction of its failures in the listed mode, and \(\beta\) is the conditional probability of the listed effect given that mode. Each component operates for \(t=1000\) h. Using the table, which mode has the HIGHEST index and therefore the highest priority within this severity class?`,
+      options: ['Fan bearing seizure', 'Pump seal leakage', 'Sensor output frozen', 'Valve stuck closed'], answer: 0,
+      chart: {type: 'data-table', title: 'FMECA inputs for one common severity class', columns: ['Component / mode', 'Component failures per million h', 'Mode fraction', 'Conditional effect probability'], rows: [['Pump / seal leakage', 40, '0.20', '0.80'], ['Fan / bearing seizure', 20, '0.50', '0.90'], ['Valve / stuck closed', 30, '0.10', '1.00'], ['Sensor / output frozen', 10, '0.80', '0.50']]},
+      why: tex`<p>Use the complete mode-and-effect index, converting the rate from failures per million hours to failures per hour.</p><p>\[\begin{aligned}C_{\mathrm{pump}}&=(40\times10^{-6})(0.20)(0.80)(1000)=0.0064\\C_{\mathrm{fan}}&=(20\times10^{-6})(0.50)(0.90)(1000)=0.0090\\C_{\mathrm{valve}}&=(30\times10^{-6})(0.10)(1.00)(1000)=0.0030\\C_{\mathrm{sensor}}&=(10\times10^{-6})(0.80)(0.50)(1000)=0.0040\end{aligned}\]</p><p><strong>Fan bearing seizure</strong> ranks first. The largest raw component rate, mode fraction, or conditional effect probability alone does not determine the ranking. This is the specified criticality index, not an exact mission failure probability. Severity is held equal; this calculation does not justify overriding a more severe hazard.</p>`,
+      optionRationales: ['The fan has the largest complete index, 0.0090, after accounting for its mode fraction and conditional effect probability.', 'The pump has the largest raw component rate but its complete index is only 0.0064.', 'The sensor has the largest mode fraction, but the lower component rate and effect probability give an index of 0.0040.', 'A conditional effect probability of one does not make the valve highest; its small mode fraction gives an index of 0.0030.'],
+      keyPoint: 'Quantitative criticality combines component rate, mode fraction, effect probability, and exposure within the severity context.',
+      trap: 'Ranking on one input can select a different mode from ranking on the specified criticality index.',
+      assumptions: ['All listed effects share one severity classification and all components have the same 1,000-hour exposure.', 'The supplied rates and conditional factors are applicable and the stated index is the approved ranking rule.'],
+      handbook: {chapter: 4, section: 'Failure Mode and Effects Analysis; FMECA'},
+      lessonGap: 'The handbook provides the FMECA context; the quantitative ranking rule and every required input are supplied in this question.'
+    },
+    {
+      number: 44, qid: 'cre:set-2:044', sub: 'cre-statistics', bok: 'III.A.3',
+      topic: 'Read Weibull probability-plot slope', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Bearing life testing', quantitative: true,
+      stem: tex`A two-parameter Weibull model is appropriate for a bearing population. The displayed fitted line uses horizontal coordinate \(x=\ln(t/(1\,\mathrm h))\) and vertical coordinate \(y=\ln[-\ln(1-F(t))]\), where \(F(t)\) is cumulative failure probability. Two points ON THE FITTED LINE are labeled; they are not individual observed failures. Which shape parameter and hazard trend are implied by this line?`,
+      options: ['Shape approximately 0.5; decreasing hazard.', 'Shape approximately 1.0; constant hazard.', 'Shape approximately 2.0; increasing hazard.', 'Shape approximately 4.0; increasing hazard.'], answer: 2,
+      chart: {type: 'data-table', creKind: 'weibull-probability', title: 'Weibull fitted line in explicitly transformed coordinates', columns: ['Point', 'Life (h)', 'Cumulative failure probability', 'Horizontal coordinate x', 'Vertical coordinate y'], rows: [['P', 400, '0.22120', '5.99146', '−1.38629'], ['Q', 800, '0.63212', '6.68461', '0.00000']], description: 'Horizontal coordinate is the natural logarithm of life in hours. Vertical coordinate is the natural logarithm of minus the natural logarithm of survival probability. The fitted line passes through P at (5.99146, −1.38629) and Q at (6.68461, 0). Use the explicit axis orientation in the stem.'},
+      why: tex`<p>For these axes, transforming the Weibull cumulative distribution gives a straight line whose slope is the shape parameter.</p><p>\[\begin{aligned}y&=\beta x-\beta\ln\!\left(\frac{\eta}{1\,\mathrm h}\right)\\\beta&=\frac{0-(-1.38629)}{6.68461-5.99146}\\&\approx2.00\end{aligned}\]</p><p>A shape greater than one implies an <strong>increasing hazard</strong>. The point with vertical coordinate zero also gives the characteristic life, approximately 800 h. Reading the reciprocal slope would apply to reversed axes, not to the axes defined here. The stated model suitability is an assumption, not a conclusion that can be established from these two fitted-line points.</p>`,
+      optionRationales: ['Approximately 0.5 is the reciprocal slope; the explicitly defined axes make the vertical-over-horizontal slope the shape.', 'A constant hazard would require shape one, which is inconsistent with the supplied fitted-line coordinates.', 'The vertical change divided by the horizontal change is approximately two, so the Weibull hazard increases with age.', 'Approximately four is the ratio of cumulative hazards; shape is the logarithm of that ratio divided by the logarithm of the time ratio.'],
+      keyPoint: 'Identify the probability-plot transformations before interpreting a slope as a distribution parameter.',
+      trap: 'Axis orientation matters: a slope and its reciprocal are not interchangeable.',
+      assumptions: ['The two-parameter Weibull model is appropriate and the displayed points lie on its fitted line.', 'Natural logarithms and hours are used consistently; displayed coordinates are rounded.'],
+      handbook: {chapter: 6, section: 'Probability Distributions; Weibull distribution and probability plotting'},
+      lessonGap: 'Use the supplied transformed axes and the cited handbook discussion of the Weibull distribution.'
+    },
+    {
+      number: 45, qid: 'cre:set-2:045', sub: 'cre-statistics', bok: 'III.A.7',
+      topic: 'Confidence bounds versus population tolerance bounds', cognitive: 'Evaluate', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Connector durability', quantitative: false,
+      stem: 'A qualification requirement is to demonstrate, with 95% confidence, that at least 99% of the population survives 500 hours. An analyst reports the two valid one-sided lower bounds in the table from representative life data. Assume the analysis model and both reported bounds are valid. Which conclusion is BEST supported?',
+      options: ['The requirement is not demonstrated by these bounds; population nonconformance is not established either.', 'The requirement is demonstrated because the 95% lower confidence bound for mean life exceeds 500 h.', 'The population is proven nonconforming because the lower tolerance bound is below 500 h.', 'The requirement is demonstrated because the tolerance calculation establishes 99% confidence that 95% of lives exceed 430 h.'], answer: 0,
+      chart: {type: 'data-table', title: 'Two different lower bounds from the same life study', columns: ['Reported statistic', 'Confidence level', 'Population content', 'Lower bound'], rows: [['Lower confidence bound for population mean life', '95%', 'Not a population-content statement', '510 h'], ['Lower statistical tolerance bound for individual lives', '95%', 'At least 99% above the bound', '430 h']]},
+      why: '<p>The requirement concerns a proportion of individual lifetimes, not the population mean. The relevant statistic is therefore the lower tolerance bound with 99% population content and 95% confidence.</p><p>That bound is 430 h, below the required 500 h. It supports a weaker life threshold and does not establish the required claim. The mean-life bound of 510 h cannot replace a lower-tail population guarantee. Failing to demonstrate conformity with this lower bound also does not prove nonconformity; the true lower-tail life could still meet the requirement.</p><p>Confidence describes the coverage performance of the statistical procedure, while population content describes the fraction of lifetimes covered. Their roles cannot be exchanged.</p>',
+      optionRationales: ['The applicable population-content bound is too low to demonstrate the claim, while a lower bound below the target is not proof that the true population value is below it.', 'A bound on mean life does not establish that 99% of individual lives exceed the threshold.', 'A conservative lower bound below the threshold is insufficient for demonstration but does not itself prove actual nonconformity.', 'This swaps the stated confidence and population-content percentages and still uses a threshold below the required 500 hours.'],
+      keyPoint: 'Match the statistical bound to the required parameter or population fraction.',
+      trap: 'A confidence bound on the mean is not a tolerance bound on individual lifetimes.',
+      assumptions: ['The representative-data model and both bounds are valid as reported.', 'Only the displayed bounds are available; no separate evidence establishes nonconformity.'],
+      handbook: {chapter: 6, section: 'Confidence and Tolerance Intervals'},
+      lessonGap: 'Use the cited handbook section to distinguish parameter confidence from population coverage.'
+    },
+    {
+      number: 46, qid: 'cre:set-2:046', sub: 'cre-statistics', bok: 'III.A.5',
+      topic: 'Sample size for mean tensile strength', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Material strength qualification', quantitative: true,
+      stem: tex`A reliability team will estimate the mean tensile strength of a material using independent, representative specimens. Strength is normally distributed with KNOWN population standard deviation \(\sigma=40\,\mathrm{MPa}\). The two-sided 95% confidence interval for the mean must have a half-width no greater than 10 MPa. Use \(z_{0.975}=1.96\); ignore finite-population correction. What is the MINIMUM whole-number sample size?`,
+      options: ['61 specimens', '44 specimens', '246 specimens', '62 specimens'], answer: 3,
+      why: tex`<p>With known population standard deviation, the two-sided normal-mean confidence interval has half-width \(E=z_{0.975}\sigma/\sqrt n\). Rearrange the precision requirement and round upward.</p><p>\[\begin{aligned}n&\ge\left(\frac{z_{0.975}\sigma}{E}\right)^2\\&=\left(\frac{1.96(40)}{10}\right)^2\\&=61.4656\\n_{\min}&=62\end{aligned}\]</p><p>At 61 specimens, the half-width is approximately 10.038 MPa; at 62, it is approximately 9.957 MPa. Rounding to the nearest integer would fail the requirement. This is precision planning for a mean, not a zero-failure reliability demonstration or a hypothesis-test power calculation.</p>`,
+      optionRationales: ['Rounding 61.4656 downward leaves a half-width slightly greater than 10 MPa.', '44 follows from using the one-sided 95% normal critical value of about 1.645, not the specified two-sided interval.', '246 treats 10 MPa as the full width and uses a 5 MPa half-width, exceeding the sample required here.', 'Rounding the precision calculation upward gives 62, the smallest integer that meets the half-width limit.'],
+      keyPoint: 'Use the correct confidence critical value, distinguish half-width from full width, and round sample size upward.',
+      trap: 'The nearest integer can be too small when a maximum estimation error is specified.',
+      assumptions: ['The population standard deviation is known, not estimated from the planned sample.', 'Specimens are independent and representative of a normal strength population; finite-population correction is unnecessary.'],
+      handbook: {chapter: 6, section: 'Sampling Plans for Statistics and Reliability Testing; Sample Size Determination'},
+      lessonGap: 'Use the cited handbook discussion of sample-size planning and confidence-interval precision.'
+    },
+    {
+      number: 47, qid: 'cre:set-2:047', sub: 'cre-testing', bok: 'IV.A.2',
+      topic: 'Reliability across a phased use profile', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Portable monitoring equipment', quantitative: true,
+      stem: tex`A new, nonrepairable monitoring unit must survive a 10-hour mission. During the first 2 h its constant conditional hazard is \(0.003\,\mathrm{h}^{-1}\); during the remaining 8 h it is \(0.0005\,\mathrm{h}^{-1}\). These phase-specific hazards apply to units surviving to each phase, with no additional startup or transition failure and no repair. What is the probability of completing the entire mission without failure?`,
+      options: ['0.98265', '0.99005', '0.00995', '0.97045'], answer: 1,
+      chart: {type: 'data-table', creKind: 'mission-profile', title: 'Conditional hazard over the 10-hour operating mission', columns: ['Mission phase', 'Operating interval (h)', 'Duration (h)', 'Conditional hazard (per h)'], rows: [['High stress', '0 to 2', 2, '0.0030'], ['Low stress', '2 to 10', 8, '0.0005']], description: 'A step plot shows conditional hazard 0.003 per hour from mission time zero to two hours, then 0.0005 per hour from two to ten hours. Rates are conditional on survival; there is no extra failure at the transition.'},
+      why: tex`<p>Mission survival is the product of the conditional phase survivals, or equivalently the exponential of minus accumulated hazard.</p><p>\[\begin{aligned}R_{\mathrm{mission}}&=e^{-0.003(2)}e^{-0.0005(8)}\\&=e^{-[0.006+0.004]}\\&=e^{-0.010}\approx0.99005\end{aligned}\]</p><p>The duration-weighted average hazard is \(0.001\,\mathrm{h}^{-1}\). An unweighted average of the two rates incorrectly assigns equal exposure to the phases. The failure probability is the complement, approximately 0.00995. Multiplying these conditional survivals does not require assuming independent events for the same unit’s two survival intervals.</p>`,
+      optionRationales: ['0.98265 uses the unweighted average of the two hazards over all ten hours, ignoring their unequal durations.', '0.99005 accounts for two hours at the high hazard and eight hours at the low hazard.', '0.00995 is the probability of failing during the mission, not of completing it successfully.', '0.97045 applies the high-stress hazard for all ten hours rather than only the first two.'],
+      keyPoint: 'Accumulate hazard using the actual duration and conditions of each mission phase.',
+      trap: 'A simple average of phase hazards is valid only when the corresponding exposure durations are equal.',
+      assumptions: ['The stipulated phase hazards remain valid conditional on survival, with no additional carryover effect beyond this model.', 'The unit is new and nonrepairable; no startup or transition failure is added.'],
+      handbook: {chapter: 8, section: 'Environmental Factors and Use Conditions; mission profiles (hazard relationship in Chapter 6)'},
+      lessonGap: 'Use the phase profile and completed-review exposure explorer to connect use conditions with accumulated mission hazard.',
+      explorer: 'mission-high-duration'
+    },
+    {
+      number: 48, qid: 'cre:set-2:048', sub: 'cre-testing', bok: 'IV.B.6',
+      topic: 'Software testing against an operational profile', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Industrial monitoring software', quantitative: false,
+      stem: 'A software team executes an equal number of scripted tests for every user function and reports the overall fraction of failed test cases as the expected field failure probability per demand. Field users invoke the functions at very different frequencies and with different input mixes from those scripts. Which testing principle BEST addresses the reliability-estimation gap?',
+      options: ['Passing every code-coverage target is sufficient to make the pooled scripted-test failure fraction representative of field use.', 'Run only the most common function because rare demands have no effect on software reliability.', 'Estimate field reliability using a representative operational profile; retain separate coverage and critical-scenario tests.', 'Increase repetitions of the same equally weighted scripts; a larger sample automatically corrects the field-use mismatch.'], answer: 2,
+      why: '<p>An operational profile describes how the software is expected to be used, including the demand and input mix. Reliability evidence intended to represent field demands should use that profile, through representative sampling or a justified profile-weighted analysis.</p><p>Equal script counts can support functional or structural coverage objectives, but their pooled failure fraction need not represent field use. More repetitions reduce sampling variation around that test mix without correcting its mismatch. Rare critical scenarios still require appropriate targeted testing; operational frequency is not a reason to ignore their consequences.</p>',
+      optionRationales: ['Code coverage and representative use are different testing objectives; coverage alone does not establish a field failure probability.', 'Rare demands still contribute to reliability and may have critical consequences that require targeted testing.', 'This aligns reliability estimation with the intended use mix while preserving other necessary testing objectives.', 'A larger sample of an unrepresentative demand mix does not automatically remove the representativeness problem.'],
+      keyPoint: 'Software reliability estimates depend on the demands and inputs used to exercise the software.',
+      trap: 'More testing and broader coverage do not, by themselves, make the test-use mix representative of field use.',
+      assumptions: ['The target is failure probability per field demand for a defined software version and environment.', 'A credible operational profile can be developed and critical-scenario testing has a distinct purpose.'],
+      handbook: {chapter: 9, section: 'Software Testing; Operational Profile Testing'},
+      lessonGap: 'Use the cited handbook section to distinguish operational-profile reliability testing from structural coverage and fault injection.'
+    },
+    {
+      number: 49, qid: 'cre:set-2:049', sub: 'cre-lifecycle', bok: 'V.A.3',
+      topic: 'Resolve two-factor aliasing in a half fraction', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2.5,
+      industry: 'Seal-life design experiment', quantitative: false,
+      stem: tex`A seal-life experiment uses the eight-run \(2^{4-1}\) fraction shown, with factors coded \(-1,+1\), generator \(D=ABC\), and defining relation \(I=ABCD\). An estimated contrast in the \(AB\) column is large enough to merit investigation, but neither \(AB\) nor \(CD\) can be assumed negligible. Which interpretation and additional eight-run design will separate those two interactions when combined with the original data?`,
+      options: ['The AB contrast estimates AB alone; repeat the same eight combinations to remove its alias with CD.', 'AB is aliased with CD; reverse all four factor signs in every original run to obtain the complementary fraction.', 'AB is aliased with AC; add the fraction D = −ABC to separate those two interactions.', 'AB is aliased with CD; keep the original A, B, C combinations and reverse only D to add the fraction D = −ABC.'], answer: 3,
+      chart: {type: 'data-table', title: 'Original half fraction: D is the product of A, B, and C', columns: ['Design row', 'A', 'B', 'C', 'D'], rows: [[1,'−1','−1','−1','−1'],[2,'+1','−1','−1','+1'],[3,'−1','+1','−1','+1'],[4,'+1','+1','−1','−1'],[5,'−1','−1','+1','+1'],[6,'+1','−1','+1','−1'],[7,'−1','+1','+1','−1'],[8,'+1','+1','+1','+1']]},
+      why: tex`<p>Multiply the defining relation by \(AB\). Since each coded factor squared equals one, \(AB(ABCD)=CD\), so the original columns satisfy \(AB=CD\). Their separate contributions cannot be identified from this fraction alone.</p><p>Reversing only \(D\) creates \(I=-ABCD\), where \(AB=-CD\). Combining the complementary fractions gives the full sixteen-run design and permits separate estimation of the two interactions.</p><p>Reversing <em>all four</em> signs leaves \(ABCD\) positive because there are four sign reversals. It merely reproduces the original fraction in a different row order. Replication improves precision but does not remove this structural alias. Randomize execution as appropriate and account for any between-stage changes.</p>`,
+      optionRationales: ['The original AB and CD columns are identical; repeating them does not create the information needed to distinguish their effects.', 'Reversing all four factors preserves the positive ABCD product and repeats the same fraction rather than its complement.', 'The defining relation aliases AB with CD, not with AC; the proposed interpretation is incorrect.', 'Changing only D changes the sign of the defining relation, producing the complementary fraction that separates AB and CD in the combined design.'],
+      keyPoint: 'Choose an augmentation that changes the relevant alias relationship, not merely the run order or replication count.',
+      trap: 'An all-factor sign reversal does not produce the opposite fraction when the defining word has an even number of factors.',
+      assumptions: ['Factors use consistent ±1 coding and the response is comparable across the two stages.', 'The rows specify treatment combinations, not execution order; stage effects are handled in the analysis.'],
+      handbook: {chapter: 11, section: 'Design of Experiments; Two-Level Fractional Factorial Experiments, Confounding, and Resolution'},
+      lessonGap: 'Use the cited handbook topics and the explicit defining relation to derive the alias before choosing the augmentation.'
+    },
+    {
+      number: 50, qid: 'cre:set-2:050', sub: 'cre-lifecycle', bok: 'V.C.2',
+      topic: 'Compare age-replacement cost rates', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 2.5,
+      industry: 'Packaging-machine wear parts', quantitative: true,
+      stem: tex`A wear part is replaced on failure or at scheduled operating age \(T\), whichever occurs first. Each replacement restores an independent as-good-as-new cycle. A scheduled replacement costs $200; a failure replacement costs $1,000 TOTAL. Replacement downtime is negligible and no other costs apply. The table supplies valid survival probabilities and EXPECTED operating cycle lengths under each candidate policy. Which of these four policies minimizes long-run expected replacement cost per operating hour?`,
+      options: ['Replace at 200 h or failure, whichever occurs first.', 'Replace at 100 h or failure, whichever occurs first.', 'Replace at 300 h or failure, whichever occurs first.', 'Replace only on failure; perform no age-based replacement.'], answer: 0,
+      chart: {type: 'data-table', title: 'Candidate replacement policies under the same lifetime model', columns: ['Policy', 'Probability of reaching scheduled age', 'Expected operating cycle length (h)'], rows: [['100 h or failure', '0.98', 99], ['200 h or failure', '0.90', 193], ['300 h or failure', '0.70', 275], ['Failure only', 'Not applicable', 500]]},
+      why: tex`<p>Divide expected cost per replacement cycle by expected operating time per cycle. A cycle ends either in scheduled replacement or in failure, not in both.</p><p>\[g(T)=\frac{200R(T)+1000[1-R(T)]}{\operatorname{E}[\min(X,T)]}\]</p><p>Here, \(X\) is life from new and the denominator is supplied in the table. The candidate cost rates are:</p><p>\[\begin{aligned}g(100)&=\frac{200(0.98)+1000(0.02)}{99}\approx2.182\\g(200)&=\frac{200(0.90)+1000(0.10)}{193}\approx1.451\\g(300)&=\frac{200(0.70)+1000(0.30)}{275}=1.600\\g(\mathrm{failure\ only})&=\frac{1000}{500}=2.000\end{aligned}\]</p><p>All rates are dollars per operating hour. <strong>200 h or failure</strong> is least costly among the four evaluated policies. The scheduled age is not the expected cycle length because some parts fail earlier. The result does not establish an optimum over every possible replacement age.</p>`,
+      optionRationales: ['The expected rate is approximately $1.451 per operating hour, the smallest of the four supplied candidates.', 'This policy has the lowest failure probability per cycle but a higher replacement frequency, giving approximately $2.182 per operating hour.', 'The longer expected cycle does not offset its higher failure-replacement contribution; its cost rate is $1.600 per operating hour.', 'Avoiding scheduled replacements gives $2.000 per operating hour, above the best candidate age-replacement rate.'],
+      keyPoint: 'Compare maintenance policies using expected cost per expected cycle time under consistent renewal assumptions.',
+      trap: 'The fewest failures per cycle or the longest scheduled interval need not minimize cost per operating hour.',
+      assumptions: ['All supplied policy values come from the same valid lifetime model; replacements restore independent as-good-as-new cycles.', 'Costs are total mutually exclusive replacement costs; downtime is negligible and only the four candidates are compared.'],
+      handbook: {chapter: 13, section: 'Maintenance Strategies; cost-based replacement planning'},
+      lessonGap: 'Use the supplied expected cycle lengths and the completed-review cost explorer to compare the four candidate maintenance policies.',
+      explorer: 'replacement-failure-cost'
+    },
+    {
+      number: 51, qid: 'cre:set-2:051', sub: 'cre-fundamentals', bok: 'I.B.5',
+      topic: 'Reliability activities across lifecycle stages', cognitive: 'Understand', difficulty: 'Foundational', estimatedMinutes: 1.5,
+      industry: 'Industrial equipment development', quantitative: false,
+      stem: 'A new equipment program is still choosing its architecture. A manager proposes postponing reliability work until qualification because meaningful field-failure data do not yet exist. Which response BEST reflects product lifecycle engineering?',
+      options: ['Qualification is the appropriate starting point; earlier work cannot inform reliability without field-failure records.', 'Start with mission and mechanism reviews to guide architecture, then refine evidence through development and field monitoring.', 'A successful design-stage prediction completes the reliability program, so later production and field monitoring are unnecessary.', 'The same reliability activity should be repeated unchanged at every stage because the available evidence and change costs are constant.'], answer: 1,
+      why: '<p>Reliability engineering begins before field data are available. Intended use, lessons from comparable products, physical mechanisms, and preliminary models can inform requirements and architecture while changes are still relatively practical.</p><p>The emphasis then evolves: development testing exposes weaknesses, qualification evaluates specified claims, and production and field monitoring reveal performance in use. Early predictions carry uncertainty and require updating; they do not replace later evidence. The cost and feasibility of a design change generally depend on when it is discovered.</p>',
+      optionRationales: ['Waiting until qualification loses opportunities to address architectural weaknesses before design commitments become expensive to change.', 'This uses the evidence appropriate to each lifecycle stage and updates reliability understanding as the product matures.', 'A prediction is conditional on its model and inputs and does not eliminate the need to verify or monitor actual performance.', 'Evidence, objectives, and change costs evolve across the lifecycle, so the appropriate activities also change.'],
+      keyPoint: 'Reliability work evolves from early requirements and design influence to testing and field feedback.',
+      trap: 'The absence of field-failure data is not a reason to postpone all reliability engineering.',
+      assumptions: ['The architecture is not yet fixed and relevant use information and engineering knowledge are available.', 'No early prediction is treated as demonstrated field performance.'],
+      handbook: {chapter: 2, section: 'Product Lifecycle Engineering Stages'},
+      lessonGap: 'Use the cited handbook section to connect reliability activities and the cost of change to each lifecycle stage.'
+    },
+    {
+      number: 52, qid: 'cre:set-2:052', sub: 'cre-fundamentals', bok: 'I.B.9',
+      topic: 'DMAIC measurement foundations for reliability improvement', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Pump warranty improvement', quantitative: false,
+      stem: 'A DMAIC project has an agreed charter to reduce premature pump returns. Two service centers record “failure” differently: one counts confirmed loss of function, while the other also counts preventive replacements. Operating exposure is inconsistently recorded. Which activity BEST fits the Measure phase before comparing center performance?',
+      options: ['Choose a new seal material and begin rolling it out because the project’s improvement objective is already agreed.', 'Use the current return counts to rank centers; the common word “failure” makes the records comparable.', 'Finalize a control plan around the existing counts before resolving how the centers classify returns.', 'Standardize failure and exposure definitions, verify data capture, and establish a comparable baseline.'], answer: 3,
+      why: '<p>The Measure phase establishes a credible description of current performance. Counts cannot support a fair reliability comparison when the event definition and operating exposure differ between sources.</p><p>Define what counts as a functional failure, how preventive replacements and censoring are recorded, and which exposure measure applies. Check that the reporting process implements those definitions consistently, then build a baseline. Cause analysis, solution selection, and sustained control depend on that measurement foundation.</p>',
+      optionRationales: ['Selecting and implementing a solution is premature before establishing a trustworthy baseline and assessing causes.', 'Identical labels do not make different event definitions and exposure records comparable.', 'A control plan based on inconsistent measurements would preserve the ambiguity instead of resolving it.', 'Operational definitions and verified data capture establish the comparable baseline needed for subsequent analysis.'],
+      keyPoint: 'DMAIC reliability improvement depends on consistent event definitions and exposure measurement.',
+      trap: 'A large set of inconsistent records does not become a valid baseline merely because every record is labeled a failure.',
+      assumptions: ['The project charter and scope are agreed, but the measurement process has not yet been validated.', 'A preventive replacement without loss of function is distinct from the project’s functional-failure outcome.'],
+      handbook: {chapter: 2, section: 'Six Sigma Methodologies'},
+      lessonGap: 'Use the cited handbook section to distinguish measurement-system preparation from cause analysis, improvement, and control.'
+    },
+    {
+      number: 53, qid: 'cre:set-2:053', sub: 'cre-risk', bok: 'II.B.4',
+      topic: 'Hazards during intended operation', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Material-handling equipment', quantitative: false,
+      stem: 'A component-focused failure review finds no hardware failure needed for an operator’s normal loading reach to intersect a moving pinch point. Every component can function as specified while this exposure exists. Which statement BEST describes the role of hazard analysis in the design review?',
+      options: ['Exclude the exposure because hazard analysis applies only after a component has failed.', 'Treat successful component qualification as sufficient evidence that normal operation cannot create a hazard.', 'Analyze hazardous conditions and human interaction, then translate needed controls into design requirements.', 'Wait for an injury or near miss before documenting the exposure, because otherwise its existence is unverified.'], answer: 2,
+      why: '<p>A hazard is a condition or circumstance with the potential for an undesirable consequence. It need not begin with a failed component. System geometry, energy, access, operating tasks, and human interaction can create hazardous conditions during otherwise intended operation.</p><p>Hazard analysis helps identify such conditions early, assess their consequences and likelihood, and trace appropriate control requirements into design and verification. A component-focused failure review is useful evidence, but it is not a complete demonstration that all operating situations are safe.</p>',
+      optionRationales: ['Hazards can exist during normal operation, so requiring a prior component failure would exclude the stated exposure.', 'Qualification against component specifications does not establish that the integrated operator task is free of hazards.', 'This includes the observed task and energy exposure and uses the analysis to inform design requirements.', 'The documented geometry and intended task already justify analysis; an injury or near miss is not a prerequisite.'],
+      keyPoint: 'Hazard analysis considers harmful system conditions, including those that require no component failure.',
+      trap: 'A system can operate as designed and still expose a user to a hazard.',
+      assumptions: ['The reported operator task and reach envelope are representative of intended use.', 'The question concerns the scope of analysis, not selection of a specific protective measure or regulatory compliance claim.'],
+      handbook: {chapter: 4, section: 'Hazard Analysis'},
+      lessonGap: 'Use the cited handbook section to distinguish identifying hazardous conditions from cataloging component failures.'
+    },
+    {
+      number: 54, qid: 'cre:set-2:054', sub: 'cre-risk', bok: 'II.B.5',
+      topic: 'Interpret ordinal risk categories', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Equipment risk review', quantitative: false,
+      stem: 'A preliminary risk register uses ordinal category codes: larger codes mean greater severity or likelihood, but the codes are NOT monetary losses or probabilities. An analyst multiplies the two codes in each row and says the equal products prove that hazards A and B have equal expected loss. No approved prioritization rule has yet been applied. Which conclusion is justified?',
+      options: ['Equal code products do not establish equal risk; apply approved category-based priority and escalation rules.', 'Both products equal four, so the two hazards necessarily have the same expected loss over a common period.', 'Hazard A necessarily has twice the expected loss of B because its severity code is twice as large.', 'Hazard B necessarily occurs twice as often as A because its likelihood code is twice as large.'], answer: 0,
+      chart: {type: 'data-table', title: 'Ordinal categories in the preliminary register', columns: ['Hazard', 'Severity category', 'Likelihood category', 'Product of category codes'], rows: [['A', '4 — Major', '1 — Rare', 4], ['B', '2 — Moderate', '2 — Occasional', 4]]},
+      why: '<p>Ordinal codes express order, not a calibrated ratio of consequence or probability. A severity code of four is not necessarily twice the consequence of a code of two, and a likelihood code of two is not necessarily twice the probability of a code of one.</p><p>Equal numerical products therefore do not establish equal expected loss. A defined risk matrix or scoring framework can still support prioritization, but its category definitions, decision rules, escalation criteria, and uncertainty must be understood. Calculating expected loss would require suitable quantitative consequence and probability inputs.</p>',
+      optionRationales: ['This recognizes the limited meaning of ordinal codes while retaining a defined risk framework for prioritization.', 'Equal products of category labels do not demonstrate equal probability-weighted consequences.', 'The severity labels are not a ratio scale, and expected loss also depends on likelihood and the consequence measure.', 'The likelihood labels are not calibrated probabilities or occurrence frequencies, so their ratio has no such guaranteed meaning.'],
+      keyPoint: 'Risk-category arithmetic is not automatically a quantitative estimate of expected loss.',
+      trap: 'Numbers assigned to ordered categories do not automatically have meaningful ratios.',
+      assumptions: ['The supplied categories are ordinal and no ratio calibration is implied.', 'The question does not prohibit approved scoring systems; it tests the unsupported expected-loss interpretation.'],
+      handbook: {chapter: 4, section: 'Risk Matrix'},
+      lessonGap: 'Use the cited handbook discussion of risk matrices together with the explicit ordinal-scale limitation in this question.'
+    },
+    {
+      number: 55, qid: 'cre:set-2:055', sub: 'cre-statistics', bok: 'III.A.1',
+      topic: 'Chi-square comparison of mission outcomes', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2.5,
+      industry: 'Actuator assembly lines', quantitative: true,
+      stem: tex`Independent random samples of 200 actuators from each assembly line complete the same 500-hour mission under the same conditions. Each unit is classified once as failed during the mission or survived it; there is no early withdrawal. Test whether line and outcome are independent using Pearson’s chi-square statistic WITHOUT continuity correction. Use significance level \(\alpha=0.01\) and the upper-tail critical value 6.635 for one degree of freedom. Which statistic and decision are correct?`,
+      options: ['3.92; fail to reject independence.', '7.84; reject independence.', '6.67; reject independence.', '7.84; fail to reject independence.'], answer: 1,
+      chart: {type: 'data-table', title: 'Completed mission outcomes by assembly line', columns: ['Assembly line', 'Failed', 'Survived', 'Total'], rows: [['A', 20, 180, 200], ['B', 40, 160, 200], ['Total', 60, 340, 400]]},
+      why: tex`<p>Under independence, each expected count is its row total multiplied by its column total and divided by the grand total. For EACH line, expected failures are \(\frac{200(60)}{400}=30\) and expected survivors are \(\frac{200(340)}{400}=170\).</p><p>\[\begin{aligned}\chi^2&=\sum_{i,j}\frac{(O_{ij}-E_{ij})^2}{E_{ij}}\\&=2\left(\frac{10^2}{30}\right)+2\left(\frac{10^2}{170}\right)\\&\approx7.8431\end{aligned}\]</p><p>Here, \(O_{ij}\) and \(E_{ij}\) are observed and expected cell counts. The degrees of freedom are \((2-1)(2-1)=1\). Since 7.8431 exceeds 6.635, <strong>reject independence at the 1% level</strong>. All expected counts exceed five. The observed failure proportions are 10% and 20%; the test supports an association under the stated sampling assumptions, not proof that the assembly line itself is the causal mechanism.</p>`,
+      optionRationales: ['3.92 includes only one line’s two cell contributions and omits the equally important contributions from the other line.', '7.84 includes all four cells and exceeds the supplied one-degree-of-freedom critical value, so independence is rejected.', '6.67 includes both failed-cell contributions but omits the two survived-cell contributions.', 'The statistic is approximately 7.84, but an upper-tail test rejects when it exceeds 6.635; this decision reverses that rule.'],
+      keyPoint: 'A contingency-table test compares every observed cell with its count expected under independence.',
+      trap: 'Do not omit the survived cells or treat a significant association as proof of a physical cause.',
+      assumptions: ['Units are independently and randomly sampled, mission definitions and exposure are comparable, and each unit contributes one outcome.', 'Pearson’s uncorrected chi-square approximation and the supplied 1% critical value are specified for this analysis.'],
+      handbook: {chapter: 6, section: 'Basic Statistics and Statistical Inference; Chi-Squared distribution and contingency tables'},
+      lessonGap: 'Use the supplied outcome table and completed-review count explorer to connect expected counts with the chi-square decision.',
+      explorer: 'chi-square-count'
+    },
+    {
+      number: 56, qid: 'cre:set-2:056', sub: 'cre-statistics', bok: 'III.A.6',
+      topic: 'Within-subgroup versus overall capability indices', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Valve-spring manufacturing', quantitative: true,
+      stem: tex`A valve spring must exert 80 to 120 N at its specified test deflection. The study mean is 106 N, the estimated within-subgroup standard deviation is 3 N, and the overall standard deviation is 5 N. Using \(C_{pk}\) with the WITHIN estimate and \(P_{pk}\) with the OVERALL estimate, what are the two indices, respectively? Treat the supplied estimates as given; no yield or field-life prediction is requested.`,
+      options: ['1.56 and 1.56', '2.22 and 1.33', '0.93 and 1.56', '1.56 and 0.93'], answer: 3,
+      chart: {type: 'data-table', creKind: 'capability-spread', title: 'Spring-force study: mean and two measures of spread', columns: ['Quantity', 'Value (N)'], rows: [['Lower specification limit', 80], ['Upper specification limit', 120], ['Mean', 106], ['Within-subgroup standard deviation', 3], ['Overall standard deviation', 5]], description: 'Specification lines are at 80 and 120 newtons. Both comparison intervals are centered at the study mean of 106 newtons. The mean plus or minus three within-subgroup standard deviations spans 97 to 115 newtons; the mean plus or minus three overall standard deviations spans 91 to 121 newtons. These are spread comparisons, not confidence intervals or observed minimum and maximum values.'},
+      why: tex`<p>The mean is closer to the upper specification limit: 14 N below the upper limit versus 26 N above the lower limit. Use the smaller standardized distance with the appropriate standard deviation.</p><p>\[\begin{aligned}C_{pk}&=\min\!\left(\frac{120-106}{3(3)},\frac{106-80}{3(3)}\right)\\&=\frac{14}{9}\approx1.56\\P_{pk}&=\min\!\left(\frac{120-106}{3(5)},\frac{106-80}{3(5)}\right)\\&=\frac{14}{15}\approx0.93\end{aligned}\]</p><p>The smaller overall index reflects the larger overall spread. The difference warrants examination of between-subgroup variation and study conditions; it does not identify a cause by itself. Capability estimates describe the measured characteristic relative to specifications. They are not, by themselves, a mission reliability claim, and predictive interpretation requires appropriate stability and distribution assumptions.</p>`,
+      optionRationales: ['This uses the within-subgroup standard deviation for both indices and ignores the supplied larger overall variation.', 'These are the uncentered spread ratios Cp and Pp; they omit the mean’s closer proximity to the upper specification limit.', 'This reverses the within-subgroup and overall standard deviations used for Cpk and Ppk.', 'The nearer upper limit and the distinct standard deviation estimates give approximately 1.56 and 0.93 in the requested order.'],
+      keyPoint: 'Use the correct variation estimate and the nearer specification limit when calculating Cpk and Ppk.',
+      trap: 'Cp/Pp ignore centering, while substituting one standard deviation for both indices conceals different sources of variation.',
+      assumptions: ['The specification limits, study mean, and within/overall variation estimates are valid inputs for the requested descriptive calculations.', 'The displayed three-standard-deviation intervals are not confidence bounds or an asserted coverage guarantee.'],
+      handbook: {chapter: 6, section: 'Statistical Process Control and Capability Studies; Process Capability and Reliability'},
+      lessonGap: 'Use the cited handbook section and distinguish the within-subgroup spread from the overall spread in the evidence diagram.'
+    },
+    {
+      number: 57, qid: 'cre:set-2:057', sub: 'cre-testing', bok: 'IV.B.4',
+      topic: 'Linear degradation threshold forecast', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Precision slide wear testing', quantitative: true,
+      stem: 'A slide is considered failed when its clearance first reaches 0.60 mm. Its measured clearances are shown. For this point-estimate calculation, assume a straight-line degradation trend fitted to these measurements remains valid until the threshold, with negligible measurement and parameter uncertainty. What is the predicted TOTAL operating age at failure, measured from the start of operation?',
+      options: ['800 h', '1,500 h', '1,400 h', '1,286 h'], answer: 2,
+      chart: {type: 'data-table', creKind: 'degradation-trend', title: 'Measured clearance and the specified failure threshold', columns: ['Total operating age (h)', 'Measured clearance (mm)'], rows: [[200, '0.12'], [400, '0.20'], [600, '0.28']], description: 'The three measured points are 200 hours and 0.12 millimeters, 400 hours and 0.20 millimeters, and 600 hours and 0.28 millimeters. A solid fitted segment joins the measured points. A dashed horizontal line marks the failure threshold of 0.60 millimeters. No threshold-crossing time has been observed or plotted.'},
+      why: tex`<p>Use the change in clearance per change in operating time, then retain the fitted intercept.</p><p>\[\begin{aligned}b&=\frac{0.28-0.12}{600-200}=0.0004\,\mathrm{mm}\,\mathrm h^{-1}\\a&=0.12-0.0004(200)=0.04\,\mathrm{mm}\\t_f&=\frac{0.60-a}{b}=1400\,\mathrm h\end{aligned}\]</p><p>Thus the predicted <strong>total operating age is 1,400 h</strong>. From the last observation at 600 h, the additional predicted time is 800 h. Using the threshold divided by slope alone incorrectly assumes zero initial clearance. This is a conditional point forecast for this slide; it is not a demonstrated population reliability or a confidence bound on life.</p>`,
+      optionRationales: ['800 h is the additional predicted time after the 600-hour observation, not the total operating age requested.', '1,500 h divides the threshold by the slope and incorrectly forces the fitted initial clearance to zero.', '1,400 h includes the fitted 0.04 mm intercept and gives the total age when clearance reaches 0.60 mm.', 'Approximately 1,286 h scales 600 hours by the threshold-to-current-clearance ratio, again imposing a line through the origin.'],
+      keyPoint: 'A degradation-to-threshold forecast must preserve the fitted intercept and distinguish total age from remaining time.',
+      trap: 'A measured performance characteristic need not start at zero even when operating age does.',
+      assumptions: ['The specified linear model is assumed valid through the failure threshold for this calculation.', 'Clearance increases monotonically, the threshold is fixed, and uncertainty is neglected only for the stated point estimate.'],
+      handbook: {chapter: 9, section: 'Degradation (Wear-to-Failure) Testing'},
+      lessonGap: 'Use the cited handbook testing concept and the explicit linear-model assumptions to distinguish a degradation forecast from an observed failure time.'
+    },
+    {
+      number: 58, qid: 'cre:set-2:058', sub: 'cre-testing', bok: 'IV.C.1',
+      topic: 'Two-out-of-three voting with an imperfect voter', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Redundant measurement system', quantitative: true,
+      stem: 'A nonrepairable measurement system succeeds on its mission only if at least two of its three active sensors operate correctly AND the voter operates correctly. Each sensor has mission reliability 0.90; the voter has mission reliability 0.98. All four success/failure events are independent. Ignore shared-cause failures and any other failure paths. What is the system mission reliability?',
+      options: ['0.95256', '0.71442', '0.97902', '0.97200'], answer: 0,
+      chart: {type: 'data-table', creKind: 'voting-system', title: 'Two-out-of-three sensor group followed by the required voter', columns: ['Element / rule', 'Mission reliability or success condition'], rows: [['Sensor A', '0.90'], ['Sensor B', '0.90'], ['Sensor C', '0.90'], ['Voter', '0.98'], ['System success', 'At least two sensors operate correctly AND the voter operates correctly']], description: 'The sensor group is explicitly two-out-of-three: at least two of A, B, and C must succeed. Each sensor reliability is 0.90. A separate required voter with reliability 0.98 follows this group. All four component outcomes are independent and there is no repair.'},
+      why: tex`<p>The sensor group succeeds with exactly two successful sensors or all three. There are three distinct ways for exactly two to succeed.</p><p>\[\begin{aligned}R_{\mathrm{group}}&=\binom32(0.90)^2(0.10)+(0.90)^3\\&=0.243+0.729=0.972\\R_{\mathrm{system}}&=R_{\mathrm{group}}(0.98)\\&=0.95256\end{aligned}\]</p><p>The voter is another required element, so its reliability multiplies the sensor-group reliability under the stated independence assumption. Treating the group as all-three-required or at-least-one-required models different success criteria. The calculation does not include common-cause failure, voter coverage limitations, or other effects excluded by the question.</p>`,
+      optionRationales: ['0.95256 includes both acceptable sensor-count outcomes and the required voter.', '0.71442 requires all three sensors plus the voter, which is stricter than the stated two-out-of-three success rule.', '0.97902 accepts just one successful sensor plus the voter, which is less demanding than the stated rule.', '0.97200 is the sensor-group reliability alone and omits failure of the required voter.'],
+      keyPoint: 'Model the stated k-out-of-n success rule, then include every other required system element.',
+      trap: 'Parallel-looking hardware does not automatically mean that one working channel is sufficient.',
+      assumptions: ['All sensors are active and independent, with identical 0.90 mission reliabilities.', 'The voter is independent and required; no repair, shared cause, or additional coverage limitation is modeled.'],
+      handbook: {chapter: 10, section: 'Reliability Block Diagrams and Models; K out of N redundancy'},
+      lessonGap: 'Use the explicit success logic and completed-review voting-rule explorer to compare one-, two-, and three-out-of-three requirements.',
+      explorer: 'voting-required'
+    },
+    {
+      number: 59, qid: 'cre:set-2:059', sub: 'cre-testing', bok: 'IV.C.4',
+      topic: 'Repair-duration assumptions in a Markov model', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Repairable inspection equipment', quantitative: false,
+      stem: 'An analyst uses a two-state, time-homogeneous continuous-time Markov model with constant failure and repair transition rates. The up-state exponential failure model is supported, but actual repair durations are tightly concentrated around three hours. The required output is the probability of being operational during the first two hours after a failure. Which modeling response is MOST appropriate?',
+      options: ['Match the three-hour mean repair time; this alone guarantees correct short-term restoration probabilities for any repair-time distribution.', 'Use smaller numerical time steps in the unchanged two-state model; this automatically converts exponential repairs into nearly fixed-duration repairs.', 'Check the non-exponential repair behavior and use an appropriate repair-duration model or validated expanded repair-state approximation for the transient prediction.', 'Remove all repair transitions because Markov-based reliability models cannot represent restoration after failure.'], answer: 2,
+      why: '<p>In the stated two-state model, a constant repair transition rate implies an exponential, memoryless repair duration. Matching its mean to three hours does not reproduce the timing of repairs concentrated near three hours. The distinction matters when predicting recovery soon after a failure.</p><p>Represent the repair-duration evidence directly, for example with a suitable semi-Markov or simulation model, or approximate it using a validated sequence of repair phases in an expanded Markov model. Smaller solution time steps improve numerical resolution; they do not change the assumed duration distribution. This limitation concerns the requested transient prediction, not a claim that every long-run average based on mean times must be wrong.</p>',
+      optionRationales: ['Different repair-time distributions can share the same mean while giving very different probabilities of early restoration.', 'Numerical refinement solves the same model more accurately; it does not replace its exponential repair assumption.', 'This checks the assumption that matters for early recovery and allows a model or validated approximation that represents repair duration.', 'Markov models can represent repair and restoration; the issue is whether the chosen state structure and duration assumptions are adequate.'],
+      keyPoint: 'A mean repair time alone does not determine transient restoration behavior.',
+      trap: 'Changing a solver’s time step cannot correct an inappropriate state-duration assumption.',
+      assumptions: ['The proposed model has only up and down states and constant transition rates.', 'The reported repair-duration shape is credible and the objective is transient operational probability after a failure.'],
+      handbook: {chapter: 10, section: 'Reliability Prediction Methods; Markov Analysis'},
+      lessonGap: 'Use the cited handbook modeling topic and distinguish the assumptions of a two-state model from those of an expanded state model.'
+    },
+    {
+      number: 60, qid: 'cre:set-2:060', sub: 'cre-lifecycle', bok: 'V.A.4',
+      topic: 'Reliability optimization under cost and mass constraints', cognitive: 'Apply', difficulty: 'Challenging', estimatedMinutes: 2.5,
+      industry: 'Portable instrument design', quantitative: true,
+      stem: 'An instrument requires independent subsystems A AND B to succeed. Select exactly one version of each subsystem from the table. Incremental cost may not exceed $10,000 and added mass may not exceed 3 kg relative to the base design. All listed reliabilities apply to the same mission, and upgrades introduce no additional failure paths. Which configuration gives the HIGHEST system reliability while satisfying BOTH constraints?',
+      options: ['A2 with B1', 'A1 with B1', 'A1 with B2', 'A0 with B2'], answer: 1,
+      chart: {type: 'data-table', title: 'Available subsystem versions and incremental resource requirements', columns: ['Version', 'Mission reliability', 'Incremental cost ($)', 'Added mass (kg)'], rows: [['A0 — base', '0.90', 0, 0], ['A1', '0.95', 3000, 1], ['A2', '0.97', 6000, 3], ['B0 — base', '0.92', 0, 0], ['B1', '0.96', 4000, 1], ['B2', '0.99', 8000, 2]]},
+      why: tex`<p>For independent required subsystems, system reliability is the product of the selected A and B reliabilities. Check cost and mass before comparing feasible products.</p><p>With A0, the best feasible B version is B2. With A1, B2 exceeds the cost budget, so B1 is best. With A2, B1 and B2 exceed the mass limit, leaving B0. Thus the best feasible result for each A choice is:</p><p>\[\begin{aligned}R(A_0,B_2)&=0.90(0.99)=0.8910\\R(A_1,B_1)&=0.95(0.96)=0.9120\\R(A_2,B_0)&=0.97(0.92)=0.8924\end{aligned}\]</p><p><strong>A1 with B1</strong> is the best feasible configuration. It costs an additional $7,000 and adds 2 kg. A2 with B1 meets the cost budget but adds 4 kg. A1 with B2 meets the mass limit but costs $11,000. Buying the highest-reliability B alone leaves a weaker A and does not maximize the system product.</p>`,
+      optionRationales: ['A2 with B1 has reliability 0.9312 and costs $10,000, but its added mass is 4 kg, exceeding the 3 kg limit.', 'A1 with B1 is feasible at $7,000 and 2 kg and has the highest reliability, 0.9120, among all feasible pairs.', 'A1 with B2 has reliability 0.9405 and adds 3 kg, but its $11,000 cost exceeds the budget.', 'A0 with B2 is feasible at $8,000 and 2 kg, but its reliability of 0.8910 is below the best feasible system product.'],
+      keyPoint: 'Reliability optimization compares system-level performance only after enforcing every resource constraint.',
+      trap: 'The best individual component or highest unconstrained product need not form the best feasible system.',
+      assumptions: ['Exactly one listed version of each required subsystem must be selected, and both success events are independent.', 'Costs and masses are incremental, additive, and limited as stated; no unlisted interaction or failure mechanism is introduced.'],
+      handbook: {chapter: 11, section: 'Reliability Optimization; Reliability Optimization Process'},
+      lessonGap: 'Use the cited handbook section and evaluate feasible subsystem combinations rather than ranking upgrades in isolation.'
+    },
+    {
+      number: 61, qid: 'cre:set-2:061', sub: 'cre-fundamentals', bok: 'I.A.1',
+      topic: 'Business value of reliability engineering', cognitive: 'Understand', difficulty: 'Foundational', estimatedMinutes: 1,
+      industry: 'Commercial equipment', quantitative: false,
+      stem: 'A manufacturer is evaluating a reliability program for leased sorting equipment. Customers report that interruptions disrupt their operations even when repairs are covered by the lease. Which statement BEST explains the business value of reliability engineering in this situation?',
+      options: ['Reducing service interruptions can support customer retention and lifecycle cost objectives, beyond reducing repair expense.', 'The program should be valued by repair expense alone because the lease already pays for customer support.', 'The program should be valued by factory acceptance yield because that directly measures performance throughout the lease.', 'The main benefit is a longer published warranty, which by itself demonstrates improved field reliability.'], answer: 0,
+      why: '<p>Reliability concerns successful performance over the required time and conditions. Interruptions affect the customer even when repair charges are covered, so their consequences can include lost operating time, reduced confidence, and renewal decisions.</p><p>A reliability program can help identify and reduce these interruptions while supporting lifecycle cost and customer objectives. These are potential benefits to evaluate and monitor, not a guarantee that every proposed project will produce a positive return.</p>',
+      optionRationales: ['This recognizes the operational and customer consequences of failures as well as direct repair costs.', 'Paying for support does not remove the customer’s disruption or its possible effect on retention.', 'Factory acceptance yield describes initial conformance; it does not directly measure performance throughout the lease.', 'A warranty changes commercial commitments. Its length alone is not evidence that the equipment fails less often.'],
+      keyPoint: 'The value of reliability includes sustained customer function and lifecycle consequences, not only repair bills.',
+      trap: 'Covered repair costs do not make a service interruption consequence-free.',
+      assumptions: ['Service interruptions prevent the required sorting function.', 'No numerical return on investment is claimed from the information provided.'],
+      handbook: {chapter: 1, section: 'Benefits of Reliability Engineering'},
+      lessonGap: 'A dedicated reliability business-value lesson is planned; use the cited handbook section and the explanation above.'
+    },
+    {
+      number: 62, qid: 'cre:set-2:062', sub: 'cre-fundamentals', bok: 'I.B.3',
+      topic: 'CAPA beyond immediate containment', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Electronics assembly', quantitative: false,
+      stem: 'A confirmed investigation links premature adhesive-bond failures to selection of an obsolete curing recipe. Affected inventory has been contained and failed units replaced. The obsolete recipe is still selectable. Which proposed CAPA action BEST addresses recurrence at its confirmed source?',
+      options: ['Continue replacing failures under warranty and close the action when the current replacement backlog reaches zero.', 'Inspect every finished assembly for visible bond defects and treat a passing inspection as proof of lifetime performance.', 'Validate a revision-controlled recipe-selection control, implement it through change control, and verify sustained effectiveness.', 'Send the correct recipe to operators by email and use the number of acknowledgment replies as the effectiveness measure.'], answer: 2,
+      why: '<p>Containment and replacement address affected units, but the confirmed cause can still recur while the obsolete recipe remains selectable. A validated selection control addresses the process condition that produced the failures.</p><p>Implementation must preserve the approved configuration and be followed by effectiveness checks appropriate to the failure mechanism and operating exposure. Closure should depend on evidence that the action works, not on replacement counts or message acknowledgments alone.</p>',
+      optionRationales: ['Clearing the backlog does not remove the recipe-selection condition that caused the failures.', 'Inspection may support containment, but visible conformance alone does not demonstrate bond life or eliminate the cause.', 'This addresses the confirmed recurrence path and includes controlled implementation and verification of effectiveness.', 'Communication can support the action, but acknowledgments establish receipt rather than effective prevention of the error.'],
+      keyPoint: 'A complete CAPA links the confirmed cause to an implemented action and evidence of sustained effectiveness.',
+      trap: 'Completing containment activities is not the same as demonstrating that recurrence has been addressed.',
+      assumptions: ['The causal link has been established; this is not a request to skip investigation.', 'Any selection-control change requires validation before release.'],
+      handbook: {chapter: 2, section: 'Corrective and Preventative Action (CAPA)'},
+      lessonGap: 'A dedicated reliability CAPA lesson is planned; use the cited handbook section and the decision reasoning above.'
+    },
+    {
+      number: 63, qid: 'cre:set-2:063', sub: 'cre-risk', bok: 'II.B.1',
+      topic: 'Minimal cut sets and Boolean absorption', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Control systems', quantitative: false,
+      stem: 'In the fault tree below, both appearances of A denote the SAME basic event. A cut set is a set of basic events whose joint occurrence causes T; it is minimal if none of its proper subsets also causes T. Which option lists ALL and ONLY the minimal cut sets?',
+      options: ['{A, B} and {A, C}', '{A}, {B}, and {C}', '{A} and {A, B, C}', '{A} and {B, C}'], answer: 3,
+      chart: {type: 'data-table', creKind: 'minimal-cuts', title: 'Two OR branches feeding an AND gate', columns: ['Node', 'Failure logic'], rows: [['Top event T', 'Left branch AND right branch'], ['Left branch', 'A OR B'], ['Right branch', 'A OR C'], ['Repeated A', 'One physical event in both branches']], description: 'T equals (A OR B) AND (A OR C). Each branch is an OR gate; the top gate is AND. A denotes one shared event.'},
+      why: tex`<p>Distribute the two branch expressions, then remove repeated events and combinations already covered by a smaller sufficient set.</p><p>\[\begin{aligned}T&=(A\cup B)\cap(A\cup C)\\&=A\cup(B\cap C)\end{aligned}\]</p><p>A alone makes both OR branches true. If A does not occur, both B and C are required. Thus the minimal cut sets are <strong>{A}</strong> and <strong>{B, C}</strong>. The three-event set is sufficient but is not minimal.</p><p>This is a logical result; no event probabilities or independence assumption are needed.</p>`,
+      optionRationales: ['Both listed sets contain the sufficient subset {A}, so neither is minimal; the sufficient set {B, C} is also omitted.', 'B alone cannot activate the right branch, and C alone cannot activate the left branch.', 'The set {A, B, C} contains the sufficient subset {A}; it is not minimal, and {B, C} is omitted.', 'A alone activates both branches; without A, B and C together are necessary and sufficient.'],
+      keyPoint: 'Minimal means that no event can be removed from that sufficient set; minimal sets need not have equal sizes.',
+      trap: 'A sufficient event combination is not necessarily a minimal cut set.',
+      assumptions: ['The displayed AND/OR logic is complete and uses occurrence of the named basic events.', 'The two A labels refer to the same event, not independent copies.'],
+      handbook: {chapter: 4, section: 'Fault Tree Analysis (FTA); AND and OR Gates'},
+      lessonGap: 'A dedicated minimal-cut-set lesson is planned; use the cited handbook section and the Boolean reduction above.'
+    },
+    {
+      number: 64, qid: 'cre:set-2:064', sub: 'cre-risk', bok: 'II.C',
+      topic: 'Financial risk transfer versus technical risk reduction', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Equipment services', quantitative: false,
+      stem: 'A hypothetical service agreement transfers specified repair charges from an equipment owner to a service provider. For this assessment, the agreement causes no change in failure probability, restoration time, or consequences of loss of function. What is the MOST appropriate update to the owner’s risk record?',
+      options: ['Reduce the technical failure probability because the owner no longer pays the specified repair charges.', 'Record the transferred financial exposure while retaining the unchanged technical risk and its monitoring requirements.', 'Close the equipment failure risk because a different organization now bears the specified repair charges.', 'Reduce the assessed loss-of-function severity by the same percentage as the reduction in the owner’s repair spending.'], answer: 1,
+      why: '<p>The stated change reallocates specified costs. It provides no mechanism or evidence for reducing the equipment’s failure probability, restoration time, or loss-of-function consequences.</p><p>The risk record should distinguish the financial exposure transferred from the technical risk that remains. Any residual financial exposure and the continuing technical controls and monitoring should be retained according to the agreed scope. This question uses the stated hypothetical terms; it makes no claim about the effect of any real contract.</p>',
+      optionRationales: ['A change in who pays is not a change in the physical probability of failure under the stated conditions.', 'This separates the specified transfer of cost from the unchanged equipment performance and consequences.', 'A continuing loss-of-function risk does not disappear from the owner’s operation merely because repair charges are transferred.', 'The technical severity is explicitly unchanged; a financial percentage cannot be used to rescale it.'],
+      keyPoint: 'Identify exactly which consequence a risk treatment changes and reassess the risks that remain.',
+      trap: 'Transferring an expense does not automatically reduce a technical failure risk.',
+      assumptions: ['The stipulated transfer applies only to specified repair charges.', 'There is no associated redesign, maintenance improvement, or change in restoration performance.'],
+      handbook: {chapter: 5, section: 'Risk Mitigation; Risk Treatment'},
+      lessonGap: 'A dedicated reliability risk-treatment lesson is planned; use the cited handbook section and the stated scenario.'
+    },
+    {
+      number: 65, qid: 'cre:set-2:065', sub: 'cre-statistics', bok: 'III.A.7',
+      topic: 'One-sided t confidence bound for a mean', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Mechanical testing', quantitative: true,
+      stem: 'Ten independently and randomly selected components are tested to failure under identical conditions. All lifetimes are observed. A normal lifetime model is appropriate, with unknown population standard deviation. The sample mean is 1,200 h and the sample standard deviation is 180 h. Using the supplied critical values, what is the one-sided 95% lower confidence bound for the population MEAN lifetime?',
+      options: ['1,106.4 h', '1,071.2 h', '1,095.7 h', '870.1 h'], answer: 2,
+      chart: {type: 'data-table', title: 'Critical values: left-tail percentile convention', columns: ['Distribution', 'Degrees of freedom', 'Left-tail probability', 'Critical value'], rows: [['Student t', 9, '0.950', '1.833'], ['Student t', 9, '0.975', '2.262'], ['Standard normal', 'Not applicable', '0.950', '1.645']]},
+      why: tex`<p>The population standard deviation is unknown, so use Student’s t with nine degrees of freedom and the sample standard error. A one-sided 95% lower bound uses the 0.95 percentile, not the 0.975 percentile used for a two-sided 95% interval.</p><p>\[\begin{aligned}L&=\bar{x}-t_{0.95,9}\frac{s}{\sqrt{n}}\\&=1200-1.833\frac{180}{\sqrt{10}}\\&\approx1095.7\ \mathrm{h}\end{aligned}\]</p><p>Here, L is the lower bound, the sample mean is \(\bar{x}\), s is the sample standard deviation, and n is the sample size. The bound concerns the population mean; it does not establish that 95% of individual lifetimes exceed this value. Its confidence level describes repeated-sampling coverage under the model.</p>`,
+      optionRationales: ['1,106.4 h substitutes the normal critical value even though the population standard deviation is unknown.', '1,071.2 h uses the 0.975 t percentile, giving the lower endpoint of a two-sided 95% interval instead.', '1,095.7 h uses the one-sided t percentile with nine degrees of freedom and the standard error of the sample mean.', '870.1 h multiplies the t critical value by the sample standard deviation without dividing by the square root of the sample size.'],
+      keyPoint: 'Choose both the correct reference distribution and the correct tail probability for the requested confidence statement.',
+      trap: 'A confidence bound on a mean is not a lower tolerance bound on individual lifetimes.',
+      assumptions: ['The observations are independent, complete, and representative of the stated normal population.', 'The supplied rounded critical values are used; population standard deviation is unknown.'],
+      handbook: {chapter: 6, section: 'Student’s t and F; Confidence and Tolerance Intervals'},
+      lessonGap: 'A dedicated one-sided mean-lifetime confidence lesson is planned; use the cited handbook sections and the worked solution.'
+    },
+    {
+      number: 66, qid: 'cre:set-2:066', sub: 'cre-statistics', bok: 'III.B.4',
+      topic: 'Pareto prioritization by recorded downtime', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Packaging operations', quantitative: true,
+      stem: 'The table summarizes all loss-of-function events on one line last quarter. Events do not overlap, and each listed mean is the arithmetic mean downtime per event for that category. The team will rank categories by TOTAL recorded downtime, then take the smallest leading group covering at least 75% of downtime. Which group meets this rule, and what percentage does it cover?',
+      options: ['Gearbox and drive faults; 81.8%', 'Sensor and label faults; 18.2%', 'Gearbox and sensor faults; 64.3%', 'Drive and sensor faults; 45.5%'], answer: 0,
+      chart: {type: 'data-table', title: 'Complete quarterly interruption summary', columns: ['Category', 'Number of events', 'Mean downtime per event (h)'], rows: [['Sensor faults', 20, '1.0'], ['Drive faults', 9, '5.0'], ['Gearbox faults', 3, '24.0'], ['Label faults', 12, '0.5']]},
+      why: tex`<p>Multiply each count by its mean downtime before ranking. The recorded totals are gearbox 72 h, drive 45 h, sensor 20 h, and label 6 h, for 143 h overall.</p><p>\[\begin{aligned}D_{\mathrm{total}}&=20(1)+9(5)+3(24)+12(0.5)\\&=143\ \mathrm{h}\\\frac{72+45}{143}\times100\%&\approx81.8\%\end{aligned}\]</p><p>D denotes recorded downtime. The largest category alone contributes only 50.3%, so the first two categories are the smallest leading group that reaches 75%. This is a descriptive priority for investigation, not a claim that eliminating every recorded hour is feasible or economically optimal.</p>`,
+      optionRationales: ['Gearbox and drive faults are the first two categories in the downtime ranking and together cover 117 of 143 hours.', 'These are the two most frequent categories, but their combined downtime is only 26 of 143 hours.', 'Gearbox and sensor faults cover 92 of 143 hours; they omit the second-ranked downtime category and fall short of 75%.', 'Drive and sensor faults cover 65 of 143 hours and omit the largest downtime contributor.'],
+      keyPoint: 'A Pareto ranking must use the impact measure specified by the improvement objective.',
+      trap: 'The most frequent failure category need not cause the most downtime.',
+      assumptions: ['The records are complete, each event has exactly one category, and intervals do not overlap.', 'The means are exact for this exercise; priorities describe the recorded quarter rather than a forecast.'],
+      handbook: {chapter: 7, section: 'Data Summary and Reporting; Bad Actor Analysis'},
+      lessonGap: 'A dedicated downtime-Pareto lesson is planned; use the cited handbook section and the worked ranking.'
+    },
+    {
+      number: 67, qid: 'cre:set-2:067', sub: 'cre-testing', bok: 'IV.C.3',
+      topic: 'Inverse-power fatigue-life interpolation', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2.5,
+      industry: 'Metal components', quantitative: true,
+      stem: tex`A fatigue study models median cycles to failure as \(N_{50}(S)=K S^{-m}\), where S is stress amplitude and K and m are positive constants. The two fitted median values below follow that relationship exactly for this exercise. The same fatigue mechanism and all other conditions apply from 60 to 120 MPa. What median life does the model predict at 80 MPa?`,
+      options: ['45,333 cycles', '12,000 cycles', '151,704 cycles', '27,000 cycles'], answer: 3,
+      chart: {type: 'data-table', creKind: 'fatigue-model', title: 'Fitted fatigue medians on logarithmic axes', columns: ['Stress amplitude (MPa)', 'Fitted median cycles to failure'], rows: [[60, 64000], [120, 8000]], description: 'Stress amplitude is on the horizontal logarithmic axis and median cycles to failure on the vertical logarithmic axis. The fitted points are 60 MPa with 64,000 cycles and 120 MPa with 8,000 cycles. They are joined according to the stipulated inverse-power model; 80 MPa lies between them.'},
+      why: tex`<p>Use the ratio of the two fitted medians to identify the stress exponent, then interpolate with the inverse-power model.</p><p>\[\begin{aligned}N_{50}(S)&=K S^{-m}\\\frac{64000}{8000}&=\left(\frac{120}{60}\right)^m\\8&=2^m\quad\Rightarrow\quad m=3\\N_{50}(80)&=64000\left(\frac{60}{80}\right)^3\\&=27000\ \text{cycles}\end{aligned}\]</p><p>S is stress amplitude, m is the fitted exponent, and K is the model constant. This is a fitted population median at the specified stress, not a minimum life or a confidence bound. Interpolation is justified here only by the explicit model and unchanged conditions.</p>`,
+      optionRationales: ['45,333 cycles interpolates linearly on the untransformed stress and life scales instead of using the stipulated power relationship.', '12,000 cycles assumes an inverse first-power relationship anchored at 120 MPa, ignoring the exponent implied by both points.', '151,704 cycles reverses the stress ratio and predicts longer life at a higher stress than 60 MPa.', '27,000 cycles uses the exponent of three established by the two fitted medians and the correct stress ratio.'],
+      keyPoint: 'A straight relation on log–log axes is a power relationship on the original scales.',
+      trap: 'Neither linear interpolation on raw scales nor reversing the acceleration ratio preserves the fitted fatigue model.',
+      assumptions: ['The two medians and inverse-power relationship are exact inputs for this exercise; parameter uncertainty is not estimated.', 'Stress ratio, frequency, environment, and fatigue mechanism remain unchanged within 60–120 MPa.'],
+      handbook: {chapter: 10, section: 'Failure Models; S-N Curve Models; Basquin Relationship'},
+      lessonGap: 'A dedicated fatigue S-N modeling lesson is planned; use the cited handbook section and the worked solution.',
+      explorer: 'fatigue-stress'
+    },
+    {
+      number: 68, qid: 'cre:set-2:068', sub: 'cre-testing', bok: 'IV.C.1',
+      topic: 'Cold standby with imperfect transfer', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2.5,
+      industry: 'Remote monitoring', quantitative: true,
+      stem: 'A monitoring unit starts with one module active and an identical spare in cold standby. Each module has an independent exponential operating lifetime with failure rate 0.001 per hour; the spare cannot fail while idle. If the active module fails, detection and transfer succeed with probability 0.90, independently of both module lifetimes. Successful transfer is instantaneous and does not interrupt the required function. There is no repair or further spare. What is the probability of completing a 200-hour mission?',
+      options: ['0.98248', '0.96610', '0.96714', '0.88423'], answer: 1,
+      chart: {type: 'data-table', creKind: 'cold-standby', title: 'One active module and one cold spare', columns: ['Model element', 'Condition'], rows: [['Module A', 'Active at mission start; failure rate 0.001 per hour'], ['Module B', 'No idle failures; rate 0.001 per operating hour after activation'], ['Detection and transfer', 'One attempt after A fails; success probability 0.90'], ['Mission', '200 h; no repair; no other failure mechanisms']], description: 'A operates first. If A fails before 200 hours, the system continues only if the single detection-and-transfer attempt succeeds and B survives the remaining mission. If A survives, transfer is not demanded.'},
+      why: tex`<p>There are two disjoint successful paths: A lasts for the entire mission, or A fails during the mission and a successful transfer is followed by B surviving the remaining time.</p><p>\[\begin{aligned}R(t)&=e^{-\lambda t}+c\int_0^t\lambda e^{-\lambda u}e^{-\lambda(t-u)}\,du\\&=e^{-\lambda t}(1+c\lambda t)\\R(200)&=e^{-0.2}[1+0.90(0.2)]\\&\approx0.96610\end{aligned}\]</p><p>Here, \(c\) is detection-and-transfer success probability, \(\lambda\) is the operating failure rate, \(t\) is mission duration, and \(u\) is A’s failure time. The transfer probability applies only to the second success path because no transfer is needed when A survives.</p>`,
+      optionRationales: ['0.98248 assumes perfect transfer and uses the cold-standby result with transfer probability equal to one.', '0.96610 combines survival without a transfer and survival after one successful transfer to a fresh cold spare.', '0.96714 treats both modules as active from time zero in an ideal parallel system, which is a different model.', '0.88423 multiplies the entire perfect-standby reliability by 0.90, penalizing even missions where transfer is never demanded.'],
+      keyPoint: 'Apply transfer coverage only to mission paths that actually require a transfer.',
+      trap: 'Cold standby is neither active parallel redundancy nor a switch that must succeed on every mission.',
+      assumptions: ['Idle failure, common-cause failure, transfer delay, and other mechanisms are excluded as stated.', 'The spare starts its independent exponential operating life only on successful activation.'],
+      handbook: {chapter: 10, section: 'Reliability Block Diagrams and Models; Standby Systems'},
+      lessonGap: 'A dedicated cold-standby reliability lesson is planned; use the cited handbook section and the worked solution.',
+      explorer: 'standby-coverage'
+    },
+    {
+      number: 69, qid: 'cre:set-2:069', sub: 'cre-lifecycle', bok: 'V.A.5',
+      topic: 'Human factors in a service interface', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Instrumentation', quantitative: false,
+      stem: 'During realistic service trials, trained technicians wearing the required gloves repeatedly interchange two visually similar instrument connectors. The instructions are correct, but the connectors accept either position and the distinguishing text is difficult to read in the required working posture. Which proposal MOST directly addresses the observed human-factors failure mode?',
+      options: ['Retain the interface and add a refresher presentation, using training attendance as the principal measure of success.', 'Retain the interface and replace the connector text with color alone, using a desk review to confirm distinction.', 'Evaluate a keyed, distinguishable interface and verify correct use with representative technicians under the actual service conditions.', 'Retain the interface and accept the trial results because the components meet their individual reliability specifications.'], answer: 2,
+      why: '<p>The trials identify an interaction between the service interface and actual user conditions. An interface that allows interchange and is difficult to distinguish makes the error possible even when technicians have been trained.</p><p>A keyed, distinguishable design directly targets that error path. Representative-user trials with the required gloves, posture, and other service conditions are needed to evaluate the change and any new difficulties. Training and clear instructions still support the design, but attendance or component specifications alone do not verify usability.</p>',
+      optionRationales: ['Training can help, but attendance does not demonstrate that the observed interface-induced interchange is prevented.', 'Color alone may be inaccessible or unreliable under service lighting, and a desk review does not reproduce the observed use conditions.', 'This connects the design change to the observed error mechanism and evaluates it in the intended user and task context.', 'Individual component reliability does not establish reliable human interaction with the assembled service interface.'],
+      keyPoint: 'Human reliability depends on the interaction of users, tasks, interfaces, and the operating environment.',
+      trap: 'An error made by a trained person is not automatically evidence that more training is the best design response.',
+      assumptions: ['The stated glove and posture conditions are legitimate service requirements.', 'Any proposed interface change must be evaluated for compatibility and unintended effects before release.'],
+      handbook: {chapter: 11, section: 'Human Factors; Human Performance Reliability'},
+      lessonGap: 'A dedicated reliability human-factors lesson is planned; use the cited handbook section and the scenario analysis.'
+    },
+    {
+      number: 70, qid: 'cre:set-2:070', sub: 'cre-lifecycle', bok: 'V.C.3',
+      topic: 'Mean repair duration versus labor hours', cognitive: 'Apply', difficulty: 'Challenging', estimatedMinutes: 2.5,
+      industry: 'Industrial maintenance', quantitative: true,
+      stem: 'Corrective repairs fall into the two mutually exclusive classes below: 75% are Class A and 25% are Class B. For Class B, jobs X and Y start together after isolation; final verification waits for BOTH to finish. Crews are separate, fully available, and work for the entire stated task durations. All times are active maintenance; there are no logistics delays. What are the mean elapsed repair time and mean labor hours per repair, respectively?',
+      options: ['2.75 h and 4.50 person-hours', '3.25 h and 4.50 person-hours', '4.50 h and 2.75 person-hours', '3.50 h and 6.00 person-hours'], answer: 0,
+      chart: {type: 'data-table', creKind: 'repair-workflow', title: 'Repair classes and precedence', columns: ['Repair class', 'Task', 'Duration (h)', 'Technicians', 'Predecessor'], rows: [['A: 75%', 'Isolate', '0.5', 1, 'None'], ['A: 75%', 'Replace', '1.0', 2, 'Isolate'], ['A: 75%', 'Verify', '0.5', 1, 'Replace'], ['B: 25%', 'Isolate', '1.0', 1, 'None'], ['B: 25%', 'Job X', '2.0', 2, 'Isolate'], ['B: 25%', 'Job Y', '3.0', 1, 'Isolate'], ['B: 25%', 'Verify', '1.0', 1, 'Both X and Y']], description: 'Class A occurs in 75% of repairs: isolation 0.5 h with one technician, replacement 1 h with two technicians, then verification 0.5 h with one technician. Class B occurs in 25%: isolation 1 h with one technician, parallel jobs X for 2 h with two technicians and Y for 3 h with one technician, then verification 1 h with one technician after both jobs finish.'},
+      why: tex`<p>Elapsed time follows task precedence. Labor hours sum each task duration multiplied by its technician count, including work performed in parallel.</p><p>\[\begin{aligned}T_A&=0.5+1+0.5=2\ \mathrm{h}\\H_A&=0.5(1)+1(2)+0.5(1)=3\ \text{person-hours}\\T_B&=1+\max(2,3)+1=5\ \mathrm{h}\\H_B&=1(1)+2(2)+3(1)+1(1)=9\ \text{person-hours}\end{aligned}\]</p><p>Weight both measures by the repair-class probabilities.</p><p>\[\begin{aligned}\operatorname{E}[T]&=0.75(2)+0.25(5)=2.75\ \mathrm{h}\\\operatorname{E}[H]&=0.75(3)+0.25(9)=4.50\ \text{person-hours}\end{aligned}\]</p><p>T denotes elapsed active repair time and H denotes labor consumption. Waiting for job Y to finish determines Class B completion, but the idle technician time after job X ends is not charged as active labor under the stated task definition.</p>`,
+      optionRationales: ['This uses the parallel-task completion time for elapsed duration, sums all active crew effort, and weights by the repair mix.', '3.25 h treats Class B jobs X and Y as sequential while calculating labor hours correctly.', 'This exchanges elapsed time and labor consumption; they are different measures with different units.', 'These are unweighted averages of the two classes, incorrectly treating 75% and 25% occurrence as equally likely.'],
+      keyPoint: 'Parallel work affects elapsed repair duration differently from total labor consumption.',
+      trap: 'Summing all task durations or averaging repair classes equally can misstate mean time to repair.',
+      assumptions: ['The repair classes and task durations are the complete model; all required resources are available.', 'Labor consumption counts active time on the listed tasks only, not paid waiting or standby time.'],
+      handbook: {chapter: 13, section: 'Corrective Maintenance Analysis; Fault Isolation Time; Repair/Replace Time'},
+      lessonGap: 'A dedicated maintenance-workflow and labor-analysis lesson is planned; use the cited handbook section and the worked solution.'
+    },
+    {
+      number: 71, qid: 'cre:set-2:071', sub: 'cre-fundamentals', bok: 'I.A.9',
+      topic: 'OEE and reliability performance monitoring', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Packaging operations', quantitative: false,
+      stem: 'A line’s performance dashboard shows the two periods below. OEE is availability × performance × quality; the definitions and measurement methods are unchanged. Management claims that the higher OEE proves fewer loss-of-function failures per operating hour. Which conclusion is BEST supported by these records?',
+      options: ['Failure occurrence per operating hour improved because any OEE increase necessarily includes a reduction in failure frequency.', 'OEE improved, but the observed failure frequency per operating hour is unchanged; continue monitoring reliability separately.', 'The unchanged availability factor proves that individual failures took exactly the same time to repair in both periods.', 'The higher performance factor establishes that the line will complete its next required mission without interruption.'], answer: 1,
+      chart: {type: 'data-table', title: 'Two comparable monitoring periods', columns: ['Metric', 'Period 1', 'Period 2'], rows: [['Availability factor', '80%', '80%'], ['Performance factor', '80%', '90%'], ['Quality factor', '95%', '95%'], ['Reported OEE', '60.8%', '68.4%'], ['Operating exposure', '6,000 h', '6,000 h'], ['Loss-of-function failures', 12, 12]]},
+      why: tex`<p>The OEE change comes from the performance factor. The recorded loss-of-function count and operating exposure are unchanged, so the observed failure frequency is unchanged.</p><p>\[\frac{12}{6000}=0.002\ \text{failures per operating hour}\]</p><p>OEE combines several operating outcomes and is useful for performance monitoring. It does not replace failure-mode, exposure, restoration, and mission-reliability measures. These records describe two observed periods; they do not establish identical underlying failure rates or guarantee the next mission.</p>`,
+      optionRationales: ['An OEE improvement can come from performance or quality without a reduction in failure occurrence.', 'Both periods record 12 failures over 6,000 operating hours; the improved composite metric does not change that observation.', 'Aggregate availability does not reveal each repair duration, and availability losses need not consist solely of corrective repairs.', 'A performance-factor improvement is not a probability statement or guarantee about the next mission.'],
+      keyPoint: 'Select monitoring measures that directly address the reliability claim being made.',
+      trap: 'Improvement in a composite operating metric is not automatically improvement in every reliability measure.',
+      assumptions: ['Failure definitions, exposure accounting, and dashboard definitions are consistent between periods.', 'The conclusion is descriptive; no statistical equality of underlying rates is asserted.'],
+      handbook: {chapter: 1, section: 'Performance Monitoring; Uses of Performance Indicators'},
+      lessonGap: 'A dedicated reliability performance-monitoring lesson is planned; use the handbook section and the metric comparison above.'
+    },
+    {
+      number: 72, qid: 'cre:set-2:072', sub: 'cre-risk', bok: 'II.B.6',
+      topic: 'Integrating evidence in a system safety decision', cognitive: 'Evaluate', difficulty: 'Challenging', estimatedMinutes: 2,
+      industry: 'Automated handling equipment', quantitative: false,
+      stem: 'A customer reports unexpected motion when power returns after an interruption. The event caused no injury, but exposed an operator to a potential crushing hazard. Controller logs show that a prior motion command remained stored; design review confirms that power restoration can execute that command without a new start action. Individual components meet their specifications, and no similar event appears in the warranty database. Existing operating restrictions are being maintained while the team selects the next engineering action. Which action is MOST appropriate?',
+      options: ['Close the report as an operating anomaly because no injury occurred and all components meet their specifications.', 'Estimate an acceptably low hazard rate from the absence of warranty claims and retain the present restart behavior.', 'Add a warning to the manual and close the hazard when the revised manual is distributed to affected customers.', 'Evaluate a restart-inhibit design that requires a deliberate new start action, assess its system effects, and verify risk reduction before closure.'], answer: 3,
+      why: '<p>The report, controller record, and design logic identify a credible system-level hazard path even though individual components conform. Lack of injury or warranty claims does not invalidate that evidence or supply the exposure and detection information needed for a hazard-rate estimate.</p><p>A restart-inhibit change directly addresses the identified path. Its effects on required functions, other operating modes, and new hazards must be assessed, then the risk reduction verified under representative conditions before closure. The stated interim restrictions remain part of the current risk controls; a proposed design is not evidence of successful implementation.</p>',
+      optionRationales: ['Conforming components can interact in a hazardous way, and a near miss still provides relevant safety evidence.', 'An empty warranty record without suitable exposure and reporting information cannot establish an acceptably low hazard rate.', 'A warning alone does not remove the confirmed automatic-restart path, and distribution is not verification of risk reduction.', 'This uses the combined evidence to target the hazard mechanism while requiring system assessment and verification.'],
+      keyPoint: 'System safety decisions integrate field reports, design logic, and operational evidence, including near misses.',
+      trap: 'Absence of injury or warranty claims is not proof that a demonstrated hazard is controlled.',
+      assumptions: ['The described restart path is confirmed; the question concerns the next engineering action under existing interim controls.', 'Any modification must preserve required functions and undergo a system safety assessment and verification.'],
+      handbook: {chapter: 4, section: 'System Safety'},
+      lessonGap: 'A dedicated system-safety evidence lesson is planned; use the handbook section and the decision reasoning above.'
+    },
+    {
+      number: 73, qid: 'cre:set-2:073', sub: 'cre-statistics', bok: 'III.A.4',
+      topic: 'Distinguishing density from hazard', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 2.5,
+      industry: 'Component life modeling', quantitative: true,
+      stem: tex`A hypothetical continuous lifetime model has density \(f(t)=t/(2{,}000{,}000\ \mathrm{h}^{2})\) for \(0<t<2000\ \mathrm{h}\), and zero elsewhere. The plot shows this fully specified model. What is the instantaneous hazard at an age of 1,500 h, conditional on survival to that age?`,
+      options: [tex`\(0.000750\ \mathrm{h}^{-1}\)`, tex`\(0.001333\ \mathrm{h}^{-1}\)`, tex`\(0.000375\ \mathrm{h}^{-1}\)`, tex`\(0.001714\ \mathrm{h}^{-1}\)`], answer: 3,
+      chart: {type: 'data-table', creKind: 'lifetime-density', title: 'Specified lifetime probability density', columns: ['Age t (h)', 'Density f(t), per hour'], rows: [[0, '0.000000'], [500, '0.000250'], [1000, '0.000500'], [1500, '0.000750'], ['2000, left-hand limit', '0.001000']], description: 'The density rises linearly from zero at age zero to a left-hand limit of 0.001 per hour at 2,000 hours. It is zero outside that interval. A vertical marker identifies age 1,500 hours; the area to its left represents cumulative failure probability.'},
+      why: tex`<p>The triangular area to age 1,500 h gives cumulative failure probability, while the remaining area gives survival. Hazard divides the density by the surviving fraction.</p><p>\[\begin{aligned}F(1500)&=\tfrac12(1500)(0.000750)=0.5625\\R(1500)&=1-0.5625=0.4375\\h(1500)&=\frac{f(1500)}{R(1500)}\\&=\frac{0.000750}{0.4375}\approx0.001714\ \mathrm{h}^{-1}\end{aligned}\]</p><p>Here F is the lifetime CDF, R is survival probability, and h is instantaneous hazard. Hazard is a conditional rate, not the probability of failure at that exact instant or over an arbitrary finite interval.</p>`,
+      optionRationales: ['0.000750 per hour is the density height; it does not condition on survival to the stated age.', '0.001333 per hour divides density by cumulative failure probability rather than by survival probability.', '0.000375 per hour divides cumulative failure probability by age; that average is not the instantaneous conditional hazard.', '0.001714 per hour divides the density by the surviving fraction, 0.4375.'],
+      keyPoint: 'For a continuous lifetime, instantaneous hazard equals density divided by survival probability.',
+      trap: 'A PDF height and a hazard can share units while representing different quantities.',
+      assumptions: ['This is a specified mathematical lifetime model, not an empirical fit or a claim about a particular product.', 'Times are in hours, all units are unrepaired, and the density integrates to one.'],
+      handbook: {chapter: 6, section: 'Probability Functions'},
+      lessonGap: 'A dedicated density-versus-hazard lesson is planned; use the handbook section and the worked area calculation.',
+      explorer: 'density-age'
+    },
+    {
+      number: 74, qid: 'cre:set-2:074', sub: 'cre-statistics', bok: 'III.A.3',
+      topic: 'Goodness of fit for a fully specified lifetime model', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 3,
+      industry: 'Life-test analysis', quantitative: true,
+      stem: tex`A test records 100 independent, complete lifetimes. Before collecting these data, an exponential lifetime model with mean exactly 1,000 h is specified as the null hypothesis; no parameter is estimated from this sample. Five fixed bins each have null probability 0.20. Use Pearson’s chi-square goodness-of-fit test at 5% significance. The 95th percentiles are \(\chi^2_{0.95,3}=7.815\) and \(\chi^2_{0.95,4}=9.488\). Which statistic, degrees of freedom, and decision are correct?`,
+      options: ['8.50; 3 degrees of freedom; reject the specified model', '8.50; 4 degrees of freedom; fail to reject the specified model', '8.50; 4 degrees of freedom; reject the specified model', '1.70; 4 degrees of freedom; fail to reject the specified model'], answer: 1,
+      chart: {type: 'data-table', title: 'Observed counts in prespecified model-quantile bins', columns: ['Lifetime bin (h; boundaries rounded for display)', 'Observed count', 'Expected count'], rows: [['0 to 223.14', 10, 20], ['223.14 to 510.83', 19, 20], ['510.83 to 916.29', 22, 20], ['916.29 to 1609.44', 21, 20], ['1609.44 and above', 28, 20]]},
+      why: tex`<p>Use the sum of the five squared residuals divided by their expected counts. The fixed sample total removes one degree of freedom; no additional degree of freedom is spent fitting a parameter to these observations.</p><p>\[\begin{aligned}\chi^2&=\frac{(10-20)^2+(19-20)^2}{20}\\&\quad+\frac{(22-20)^2+(21-20)^2+(28-20)^2}{20}\\&=8.50\\\nu&=5-1-0=4\end{aligned}\]</p><p>Since 8.50 is below 9.488, fail to reject the specified model at 5%. This is not proof that the exponential model or its mean is correct. All expected counts are 20, supporting the usual chi-square approximation. Exact model quantiles define the bins; their displayed rounding does not change the supplied expected counts.</p>`,
+      optionRationales: ['Three degrees of freedom would deduct a parameter fitted from this sample; the mean is fixed in the null hypothesis.', 'The statistic is 8.50 with four degrees of freedom, below the supplied 5% rejection threshold of 9.488.', 'The statistic and degrees of freedom are correct, but 8.50 does not exceed the appropriate critical value.', '1.70 averages the five contributions; Pearson’s statistic is their sum, 8.50.'],
+      keyPoint: 'Goodness-of-fit degrees of freedom depend on parameters estimated from the tested sample, not merely on parameters present in the model.',
+      trap: 'Failing to reject a model does not demonstrate that it is true.',
+      assumptions: ['The sample size, null model, and bins were fixed before observing these independent complete lifetimes.', 'Use the exact supplied bin probabilities and expected counts; displayed boundaries are rounded.'],
+      handbook: {chapter: 6, section: 'Probability Distributions; Chi-Square Distribution; Goodness of Fit'},
+      lessonGap: 'A dedicated lifetime goodness-of-fit lesson is planned; use the handbook sections and the worked test above.'
+    },
+    {
+      number: 75, qid: 'cre:set-2:075', sub: 'cre-statistics', bok: 'III.B.5',
+      topic: 'Nondestructive examination of package delamination', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Microelectronics', quantitative: false,
+      stem: 'A failure investigation suspects separation at an internal mold-compound interface in a plastic electronic package. The immediate objective is to map possible internal delamination while preserving the package for later analysis. A validated acoustic inspection method is available for this package geometry and material. Which method is BEST suited to this initial objective?',
+      options: ['C-mode scanning acoustic microscopy of the intact package', 'Scanning electron microscopy of a polished destructive cross-section', 'A tensile pull test continued until the internal interface separates', 'An external visual inspection used as the sole test for internal separation'], answer: 0,
+      why: '<p>C-mode scanning acoustic microscopy uses internal acoustic reflections to examine interfaces and can map delamination without cutting open a compatible package. The scenario explicitly establishes that a suitable method is available for the material and geometry.</p><p>Cross-section microscopy and mechanical tests can contribute to later investigation but do not preserve the package as required. An acoustic indication is evidence to correlate with construction, electrical behavior, and other findings; it does not by itself prove the failure’s root cause or functional consequence.</p>',
+      optionRationales: ['This matches both the internal-interface target and the requirement to preserve the package, given the stated method capability.', 'Cross-section SEM may reveal interface detail, but preparing the specified section destroys the intact package.', 'A pull-to-separation test changes the interface and cannot satisfy the initial nondestructive mapping objective.', 'External visual inspection alone cannot map the suspected separation at an internal interface.'],
+      keyPoint: 'Match the failure-analysis method to the suspected feature, access, method capability, and need to preserve evidence.',
+      trap: 'Finding an internal indication and establishing the causal failure mechanism are separate steps.',
+      assumptions: ['The acoustic method is suitable and validated for the specified package.', 'The immediate task is nondestructive mapping, not final root-cause confirmation.'],
+      handbook: {chapter: 7, section: 'Failure Analysis Methods'},
+      lessonGap: 'A dedicated electronic-package failure-analysis lesson is planned; use the handbook section and the method-selection reasoning above.'
+    },
+    {
+      number: 76, qid: 'cre:set-2:076', sub: 'cre-testing', bok: 'IV.A.5',
+      topic: 'Qualifying exposure from measured product temperature', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Thermal qualification', quantitative: true,
+      stem: 'An approved test plan requires the monitored product location to remain continuously within 85 ± 2 °C for at least 60 minutes while the product operates. The chamber and product traces are shown below. A qualified continuous measurement confirms that the product first enters the allowed band at minute 40 and never leaves it through minute 90. All other requirements are satisfied and no functional failure occurs. At minute 90, which exposure assessment is correct?',
+      options: ['The required exposure is complete because the chamber has been at 85 °C since minute 10.', 'The required exposure is complete because the product has operated for 90 minutes since test start.', 'Only 50 qualifying minutes have accumulated; continue through at least minute 100 while maintaining the specified conditions.', 'Only 40 qualifying minutes have accumulated; continue through at least minute 110 because the product first reaches exactly 85 °C at minute 50.'], answer: 2,
+      chart: {type: 'data-table', creKind: 'thermal-exposure', title: 'Chamber air and monitored product temperature', columns: ['Elapsed time (min)', 'Chamber air (°C)', 'Product location (°C)'], rows: [[0,25,25],[10,85,50],[20,85,65],[30,85,78],[40,85,83],[50,85,85],[90,85,85]], description: 'The chamber reaches 85 degrees Celsius at minute 10. The product first reaches the lower allowed limit of 83 degrees at minute 40 and reaches 85 degrees at minute 50. Continuous monitoring confirms that it stays within 83–87 degrees from minute 40 through minute 90. The traces join selected logged points; qualifying entry is established by the continuous record.'},
+      why: tex`<p>The approved exposure is based on the monitored product location, not chamber air or elapsed test time. Entry into the permitted band starts the qualifying interval; reaching the exact nominal temperature is not required.</p><p>\[\begin{aligned}t_{\mathrm{qualified}}&=90-40=50\ \mathrm{min}\\t_{\mathrm{earliest\ completion}}&=40+60=100\ \mathrm{min}\end{aligned}\]</p><p>Ten further uninterrupted minutes under the specified conditions are needed. Absence of a functional failure does not replace the missing exposure. This applies the stated plan; it does not establish a universal thermal-soak rule.</p>`,
+      optionRationales: ['This uses 80 minutes of chamber exposure, although the requirement applies to the product location.', 'Warm-up time outside the permitted product-temperature band does not count toward the required dwell.', 'The qualified continuous interval starts at minute 40, giving 50 minutes at the current assessment and completion at minute 100 if conditions continue.', 'The plan permits 83–87 °C, so the interval begins at 83 °C rather than waiting for exactly 85 °C.'],
+      keyPoint: 'Verify that the test article experiences the specified exposure; fixture or chamber settings alone are insufficient.',
+      trap: 'A passing functional observation cannot compensate for an incomplete qualifying test duration.',
+      assumptions: ['The continuous product-temperature record and its band-entry time are established; selected plotted points are only a summary.', 'Measurement capability is qualified, the boundaries are inclusive, and other test requirements remain satisfied.'],
+      handbook: {chapter: 8, section: 'Test Environment'},
+      lessonGap: 'A dedicated test-capability and exposure lesson is planned; use the handbook section and the qualifying-time calculation.'
+    },
+    {
+      number: 77, qid: 'cre:set-2:077', sub: 'cre-testing', bok: 'IV.C.4',
+      topic: 'Dependence in Monte Carlo reliability inputs', cognitive: 'Understand', difficulty: 'Foundational', estimatedMinutes: 1.5,
+      industry: 'Thermal system modeling', quantitative: false,
+      stem: 'A Monte Carlo model generates cooling-water temperature and ambient temperature independently from their measured marginal distributions. Field data show that the two temperatures often rise together, and their combined values affect the failure condition. What input-model issue should be addressed before relying on the predicted reliability?',
+      options: ['Replace both temperature distributions by their means so that the simulation cannot generate extreme combinations.', 'Represent the supported dependence between the inputs as well as their marginal distributions.', 'Increase only the number of simulation trials because a larger trial count automatically reproduces the measured dependence.', 'Sort one simulated temperature upward and the other downward to impose perfect negative dependence.'], answer: 1,
+      why: '<p>Marginal distributions describe each input separately. They do not specify how two inputs occur together. Independent draws impose a joint model that can misrepresent the combinations driving the stated failure condition.</p><p>The input model should represent dependence supported by suitable data and engineering understanding. More trials reduce simulation sampling variability under the chosen model; they do not correct an unsupported independence assumption. The direction and size of the reliability error cannot be determined from the prompt alone.</p>',
+      optionRationales: ['Replacing distributions by means removes variability and does not reproduce the relevant joint behavior.', 'This addresses how the two input temperatures occur together, which matters to the combined failure condition.', 'More independent draws converge more precisely to the independence model rather than creating the missing dependence.', 'Perfect negative dependence is unsupported and conflicts with the described tendency for temperatures to rise together.'],
+      keyPoint: 'A Monte Carlo reliability prediction depends on the joint input model, not only the number of trials.',
+      trap: 'Simulation precision cannot repair a structurally incorrect input assumption.',
+      assumptions: ['The field dependence is relevant to the modeled operating conditions.', 'No numerical change in predicted reliability is inferred without a specified joint distribution and failure rule.'],
+      handbook: {chapter: 10, section: 'Reliability Prediction Methods; Monte Carlo Simulation'},
+      lessonGap: 'A dedicated Monte Carlo input-model lesson is planned; use the handbook section and the distinction between model error and simulation variability.'
+    },
+    {
+      number: 78, qid: 'cre:set-2:078', sub: 'cre-testing', bok: 'IV.A.4',
+      topic: 'Applying an operational failure criterion', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Industrial control equipment', quantitative: false,
+      stem: 'Before a reliability demonstration, the approved requirement defines success as delivering the required output throughout an eight-hour mission without operator intervention. An uncommanded reset or an operator action needed to restore output is explicitly a mission failure. One unit stops delivering output after three hours and resumes after the operator cycles power. It then completes the remaining five hours and later passes a repeated mission. How should the ORIGINAL mission be classified?',
+      options: ['A failed mission, with the interruption and recovery action retained in the test record', 'A successful mission because the unit eventually accumulated eight hours of operation', 'A successful mission because the later repeat shows the unit can satisfy the requirement', 'A censored mission because operation resumed before a permanent hardware failure was confirmed'], answer: 0,
+      why: '<p>The original mission meets the failure criterion: required output was lost and operator intervention was necessary. Physical destruction or a permanent hardware defect is not required by the stated definition.</p><p>The recovery action and later repeat provide additional evidence, but they do not change what occurred in the original mission. Record both outcomes under their correct missions and investigate the interruption according to the test plan. Censoring cannot be used to remove an observed qualifying failure.</p>',
+      optionRationales: ['This applies the predefined operational criterion and preserves the event and recovery evidence.', 'The requirement is an uninterrupted mission without intervention, not an accumulated operating-time total.', 'A later success does not erase the observed failure in the original mission.', 'A qualifying failure has been observed; its classification does not depend on finding permanent hardware damage.'],
+      keyPoint: 'Define and apply failure using the required function and mission conditions, including recovery restrictions.',
+      trap: 'A recoverable interruption can still be a reliability failure under the approved criterion.',
+      assumptions: ['The stated failure definition was approved before testing and applies to every mission.', 'The question classifies the original mission, not the overall acceptance decision for an unspecified test plan.'],
+      handbook: {chapter: 8, section: 'Failure Criteria'},
+      lessonGap: 'A dedicated operational failure-criteria lesson is planned; use the handbook section and the classification reasoning above.'
+    },
+    {
+      number: 79, qid: 'cre:set-2:079', sub: 'cre-lifecycle', bok: 'V.A.6',
+      topic: 'Diagnostic coverage needed for maintainability', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 2.5,
+      industry: 'Modular instrumentation', quantitative: true,
+      stem: tex`A design-for-testability feature correctly isolates the failed module with probability \(c\). The two exclusive diagnostic paths are shown below. Each path’s stated time is its TOTAL diagnostic duration, including the initial diagnostic attempt. Every repair then requires another 0.50 h for module replacement and verification. There are no other delays. What is the minimum value of \(c\) needed to keep mean total corrective-maintenance time at or below 1.00 h?`,
+      options: ['80%', '85%', '90%', '95%'], answer: 2,
+      chart: {type: 'data-table', creKind: 'diagnostic-coverage', title: 'Diagnostic paths before replacement and verification', columns: ['Path', 'Probability', 'Total diagnostic duration (h)', 'Subsequent replacement and verification (h)'], rows: [['Correct initial module isolation', 'c', '0.25', '0.50'], ['Further fault isolation required', '1 − c', '2.75', '0.50']], description: 'At diagnosis, one of two exclusive paths occurs: correct initial module isolation with probability c takes 0.25 hour in total; further isolation with probability 1 minus c takes 2.75 hours in total. Either path is followed by 0.50 hour of replacement and verification.'},
+      why: tex`<p>Both paths lead to the same replacement and verification time. Weight their total diagnostic durations by their probabilities, then add the common half hour.</p><p>\[\begin{aligned}E[T]&=0.25c+2.75(1-c)+0.50\\&=(3.25-2.50c)\ \mathrm{h}\\3.25-2.50c&\le1.00\\c&\ge0.90\end{aligned}\]</p><p>Thus 90% is the minimum coverage. At 80%, 85%, 90%, and 95%, the respective mean times are 1.250, 1.125, 1.000, and 0.875 h. A 95% design also meets the requirement, but exceeds the minimum requested.</p>`,
+      optionRationales: ['80% gives a mean of 1.250 h, which exceeds the one-hour requirement.', '85% gives a mean of 1.125 h, which still exceeds the requirement.', '90% gives exactly 1.000 h and is the minimum feasible coverage under the stated model.', '95% gives 0.875 h and meets the requirement, but it is not the minimum required coverage.'],
+      keyPoint: 'Translate a maintainability target into a testability requirement using the probabilities and durations of the diagnostic paths.',
+      trap: 'Do not omit common repair time or add the initial attempt again when a path duration already includes it.',
+      assumptions: ['The diagnostic paths are exhaustive and exclusive; all faults are eventually correctly isolated and restored.', 'Changing coverage leaves the stated conditional path durations and subsequent repair time unchanged.'],
+      handbook: {chapter: 11, section: 'Design for X (DFX); Design for Testability'},
+      lessonGap: 'A dedicated diagnostic-coverage design lesson is planned; use the handbook section and the requirement calculation.'
+    },
+    {
+      number: 80, qid: 'cre:set-2:080', sub: 'cre-lifecycle', bok: 'V.C.1',
+      topic: 'Inspection interval and timely predictive intervention', cognitive: 'Apply', difficulty: 'Challenging', estimatedMinutes: 3,
+      industry: 'Condition-based maintenance', quantitative: true,
+      stem: 'For one specified degradation mode, a detectable condition appears exactly 14 days before functional failure if no intervention occurs. Inspections are instantaneous and scheduled every 10 days; an inspection detects the condition with certainty once it has appeared. Its appearance is uniformly distributed between consecutive inspections. Intervention takes exactly 6 days from detection to completion, including all logistics, and must finish before functional failure. What is the probability that this policy detects the condition in time to COMPLETE intervention before failure?',
+      options: ['40%', '60%', '100%', '80%'], answer: 3,
+      chart: {type: 'data-table', creKind: 'inspection-window', title: 'Detection opportunity and intervention timing', columns: ['Quantity', 'Specified value'], rows: [['Detectable condition P to functional failure F', '14 days'], ['Time between inspections', '10 days'], ['Detection to completed intervention', '6 days'], ['Timing of condition appearance', 'Uniform within an inspection interval'], ['Detection once condition is present', 'Certain at the next inspection']], description: 'Two timing strips show the inputs without fixing when condition P appears. The first runs from P at day zero to F at day 14. The second shows successive inspections 10 days apart. After detection at an inspection, intervention requires 6 more days. The phase of P relative to inspections is uniform.'},
+      why: tex`<p>Detection alone is insufficient: six days must remain for intervention. Let D be the delay from the condition’s appearance to the next inspection. Uniform phase and fixed ten-day spacing give a uniform D from zero to ten days.</p><p>\[\begin{aligned}D+6&<14\quad\Longrightarrow\quad D<8\\P(\text{timely completion})&=\frac{8}{10}=0.80\end{aligned}\]</p><p>The strict boundary has zero probability in this continuous model. Although every condition would be detected before day 14, 20% are detected too late to finish the stated intervention. This is a conditional result for the specified degradation mode and model, not overall equipment reliability or a general inspection-interval rule.</p>`,
+      optionRationales: ['40% subtracts the six-day intervention duration from the ten-day inspection interval; the available degradation window is 14 days.', '60% is the intervention duration divided by the inspection interval, not the probability of sufficient remaining time.', 'Every next inspection occurs before functional failure, but some leave fewer than six days to complete intervention.', 'The next inspection must occur within eight days of condition appearance; this covers 80% of the uniform ten-day delay interval.'],
+      keyPoint: 'A predictive-maintenance interval must allow time for detection AND completion of the response.',
+      trap: 'Detecting degradation before functional failure does not necessarily leave enough time to prevent that failure.',
+      assumptions: ['The 14-day progression and six-day response are fixed for this hypothetical mode; detection is perfect and inspections occur as scheduled.', 'Condition appearance has uniform phase relative to inspections; completed intervention prevents this particular failure mode.'],
+      handbook: {chapter: 13, section: 'Maintenance Strategies; Predictive and Reliability Centered Maintenance'},
+      lessonGap: 'A dedicated predictive-maintenance timing lesson is planned; use the handbook section and the detection-delay calculation.',
+      explorer: 'inspection-interval'
+    },
+    {
+      number: 81, qid: 'cre:set-2:081', sub: 'cre-fundamentals', bok: 'I.A.4',
+      topic: 'Reliability engineering before architecture commitment', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Industrial equipment development', quantitative: false,
+      stem: 'A team is selecting the architecture for equipment that customers will operate outdoors and repair at remote locations. The concept review is next week, but detailed drawings and prototypes do not yet exist. Which contribution BEST represents the reliability engineer’s role at this stage?',
+      options: ['Wait for a prototype failure so that reliability work begins only after a physical defect is available to investigate.', 'Bring intended-use, environmental, and service-access assumptions into the concept review and identify their reliability and lifecycle-cost implications.', 'Approve the architecture from the proposed components’ catalog ratings, leaving system interactions for final acceptance testing.', 'Take over all design decisions because the reliability engineer alone is accountable for every product requirement.'], answer: 1,
+      why: '<p>Concept decisions can constrain later reliability, testability, and service access. The reliability engineer can contribute before detailed hardware exists by clarifying intended conditions, identifying important failure and maintenance concerns, and making their consequences visible in the architecture decision.</p><p>This is a collaborative engineering role. Predictions at this stage should identify assumptions and uncertainty; they do not replace subsequent design analysis, verification, or validation, and they do not give the reliability engineer unilateral design authority.</p>',
+      optionRationales: ['Waiting for a physical failure forfeits the opportunity to influence architecture while changes are still comparatively flexible.', 'This brings reliability and maintainability consequences into the decision before the architecture is committed.', 'Individual catalog ratings do not establish system performance under the proposed environment, interfaces, and service conditions.', 'Reliability engineering supports cross-functional decisions; the role does not imply sole authority over every requirement.'],
+      keyPoint: 'Reliability engineering informs early design choices as well as later testing and field improvement.',
+      trap: 'Lack of a prototype does not mean that meaningful reliability work must wait.',
+      assumptions: ['The architecture decision remains open, and intended use and service constraints can still influence it.', 'The reliability engineer contributes evidence and recommendations within the team’s normal decision authority.'],
+      handbook: {chapter: 1, section: 'Reliability Engineer Role and Responsibilities in the Product Lifecycle'},
+      lessonGap: 'A dedicated lifecycle-role lesson is planned; use the cited handbook section and the concept-review reasoning above.'
+    },
+    {
+      number: 82, qid: 'cre:set-2:082', sub: 'cre-fundamentals', bok: 'I.B.8',
+      topic: 'Cost, time, and quality tradeoffs', cognitive: 'Understand', difficulty: 'Foundational', estimatedMinutes: 1,
+      industry: 'Product development', quantitative: false,
+      stem: 'A sponsor asks a project to shorten development by six weeks while retaining the existing budget, scope, and reliability acceptance requirements. No change to the work method has yet been evaluated. Which statement BEST reflects the quality triangle?',
+      options: ['Reducing calendar duration necessarily reduces the development cost by the same percentage.', 'The team can preserve the same reliability evidence by deleting tests as long as the acceptance target is unchanged.', 'Cost, schedule, and quality are independent, so a change to one does not require reviewing the others.', 'The proposed schedule change requires evaluation of resource, scope, and quality implications; unchanged outcomes cannot simply be assumed.'], answer: 3,
+      why: '<p>The quality triangle highlights relationships among cost, time, and quality. A shorter schedule can alter staffing, sequencing, scope, or the opportunity to establish reliability evidence. The proposal therefore needs a feasible plan and an explicit assessment of its consequences.</p><p>This does not mean that improvement in all three dimensions is impossible. A better method may improve several outcomes, but that benefit must be demonstrated rather than assumed. Leaving a target unchanged does not preserve the evidence needed to show that it has been met.</p>',
+      optionRationales: ['Calendar duration and total resource cost are different quantities; acceleration can increase rather than reduce cost.', 'An unchanged acceptance target does not make omitted evidence equivalent to the original test program.', 'The triangle specifically draws attention to interactions among the three dimensions.', 'This calls for a supported tradeoff assessment without assuming that every requested constraint can remain unchanged.'],
+      keyPoint: 'Assess cost, time, and quality together when changing a reliability program’s plan.',
+      trap: 'A shorter schedule is a request to assess feasibility, not evidence that the same result is already achievable.',
+      assumptions: ['No validated productivity improvement or alternative verification method has yet been established.', 'The statement concerns planning implications, not a claim that simultaneous improvement is impossible.'],
+      handbook: {chapter: 2, section: 'Quality Triangle'},
+      lessonGap: 'A dedicated reliability quality-triangle lesson is planned; use the handbook section and the planning distinction above.'
+    },
+    {
+      number: 83, qid: 'cre:set-2:083', sub: 'cre-risk', bok: 'II.A.3',
+      topic: 'Cybersecurity-induced loss of required function', cognitive: 'Analyze', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Connected industrial controls', quantitative: false,
+      stem: 'A previously local-only controller is redesigned to allow remote configuration changes through a network service. The hardware is unchanged. The reliability forecast counts only random component failures, although an unauthorized configuration change could disable the required control function. What is the MOST important gap in the risk assessment?',
+      options: ['A cybersecurity-related path to loss of function is missing; assess the new access and configuration threats, their consequences, and relevant controls.', 'The hardware failure rates should automatically be doubled whenever a network connection is added.', 'No new reliability-related risk exists because an unauthorized change is intentional rather than a random hardware failure.', 'A successful authorized configuration update is sufficient evidence that unauthorized changes cannot affect operation.'], answer: 0,
+      why: '<p>The change introduces a route by which required function could be lost without a random hardware failure. The risk assessment should examine the relevant threats, access and configuration controls, consequences, and recovery needs for the new operating context.</p><p>There is no basis for an arbitrary hardware-rate multiplier or a numerical attack frequency from the information given. Functional testing of an authorized update also does not establish that unauthorized changes are prevented. Reliability and cybersecurity analyses address different initiating mechanisms but can share a loss-of-function consequence.</p>',
+      optionRationales: ['This identifies the omitted initiating mechanism and directs assessment toward the changed system boundary and controls.', 'An arbitrary multiplier does not model the new threat path or establish the effectiveness of access controls.', 'Intentional or malicious causes can still produce operational loss of required function and belong in the wider risk assessment.', 'An authorized-use test does not verify the absence or control of unauthorized-use paths.'],
+      keyPoint: 'A reliability risk assessment must consider relevant loss-of-function mechanisms beyond random hardware failures.',
+      trap: 'Unchanged hardware does not imply an unchanged risk profile after connectivity or control authority changes.',
+      assumptions: ['The new service can change parameters that affect the required function.', 'No attack frequency, control effectiveness, or specific vulnerability is inferred without evidence.'],
+      handbook: {chapter: 3, section: 'Types of Risk; Risk Management Techniques'},
+      lessonGap: 'A dedicated cybersecurity-and-reliability risk lesson is planned; use the handbook sections and the system-boundary reasoning above.'
+    },
+    {
+      number: 84, qid: 'cre:set-2:084', sub: 'cre-risk', bok: 'II.C',
+      topic: 'ALARP and the need to assess further risk reduction', cognitive: 'Evaluate', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Engineering risk management', quantitative: false,
+      stem: 'For this hypothetical assessment, a company’s approved policy requires an ALARP demonstration for risks below its intolerable boundary but above its broadly acceptable region. A team places a risk in that intermediate region and proposes closure solely because it is below the intolerable boundary. Several further controls have been identified but not assessed. What is the BEST response?',
+      options: ['Close the assessment because crossing below the intolerable boundary automatically demonstrates ALARP.', 'Require every technically imaginable measure regardless of feasibility or the sacrifice involved, because ALARP means zero residual risk.', 'Assess the further controls and document reasonably practicable risk reduction; being below the intolerable boundary alone does not demonstrate ALARP.', 'Reject every additional control whose estimated cost is even slightly greater than its estimated benefit, using ordinary financial break-even as the sole criterion.'], answer: 2,
+      why: '<p>The stated policy requires more than placement below an upper boundary. The team must assess the identified controls, implement reasonably practicable measures, and justify its treatment of further reduction. ALARP does not mean zero risk.</p><p>The ALARP concept weighs risk reduction against the sacrifice in money, time, or effort using gross disproportion, not ordinary financial break-even alone. Relevant good practice and applicable requirements still matter. This item applies the stated hypothetical policy; it does not establish a legal threshold or determine compliance for an actual installation.</p>',
+      optionRationales: ['The policy expressly requires an ALARP demonstration in this region; the boundary comparison alone is insufficient.', 'ALARP includes reasonable practicability and does not promise elimination of every residual risk.', 'This addresses the missing assessment and justification of additional reasonably practicable controls.', 'Ordinary cost-benefit break-even does not represent the gross-disproportion concept or all relevant requirements.'],
+      keyPoint: 'A tolerability classification and a demonstration of reasonably practicable risk reduction are not the same decision.',
+      trap: 'Being below an intolerable boundary does not automatically establish that further risk reduction is unnecessary.',
+      assumptions: ['The company policy and intermediate-region classification are given; no numerical regulatory limit is implied.', 'The available further controls have not yet been evaluated, so the item does not prejudge which must be implemented.'],
+      handbook: {chapter: 5, section: 'Risk Mitigation; ALARP, ALARA, and ALAP'},
+      lessonGap: 'A dedicated ALARP reasoning lesson is planned; use the handbook section and the limits stated in this hypothetical assessment.'
+    },
+    {
+      number: 85, qid: 'cre:set-2:085', sub: 'cre-statistics', bok: 'III.A.2',
+      topic: 'Sampling without replacement from a finite lot', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 2,
+      industry: 'Spare-part screening', quantitative: true,
+      stem: 'A sealed lot contains exactly 20 modules: four would fail a specified functional test and sixteen would pass. Two DISTINCT modules are selected uniformly at random without replacement. What is the probability that at least one selected module would fail the test?',
+      options: ['0.3600', '0.4000', '0.0316', '0.3684'], answer: 3,
+      chart: {type: 'data-table', title: 'Known finite-lot composition and sampling rule', columns: ['Property', 'Value'], rows: [['Total modules', 20], ['Would fail the specified test', 4], ['Would pass the specified test', 16], ['Number selected', 2], ['Sampling rule', 'Uniform random selection; no replacement']]},
+      why: tex`<p>Use the complement of selecting two passing modules. After the first passing module is selected, 15 passing modules remain among 19 total modules.</p><p>\[\begin{aligned}P(\text{at least one failure})&=1-\frac{16}{20}\frac{15}{19}\\&=\frac{7}{19}\approx0.3684\end{aligned}\]</p><p>The two selections are dependent because the first changes the composition available for the second. This is a sampling probability conditional on the known lot composition, not an estimate of an unknown population failure rate.</p>`,
+      optionRationales: ['0.3600 treats the selections as independent draws with replacement, keeping a 0.80 pass probability for both.', '0.4000 adds two marginal failure probabilities without subtracting the overlap when both selected modules fail.', '0.0316 is the probability that both selected modules fail, not that at least one fails.', '0.3684 correctly updates the remaining lot composition and takes the complement of two passing selections.'],
+      keyPoint: 'Sampling without replacement generally makes successive selections dependent.',
+      trap: 'Random selection does not by itself imply independence between draws.',
+      assumptions: ['The lot composition is exact, fixed, and known for this exercise.', 'Every unordered pair of distinct modules is equally likely to be selected.'],
+      handbook: {chapter: 6, section: 'Basic Probability Concepts; Conditional Probability'},
+      lessonGap: 'A dedicated finite-lot probability lesson is planned; use the handbook section and the conditional calculation above.'
+    },
+    {
+      number: 86, qid: 'cre:set-2:086', sub: 'cre-statistics', bok: 'III.B.2',
+      topic: 'Survival prediction under proportional hazards', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 2.5,
+      industry: 'Field lifetime analysis', quantitative: true,
+      stem: 'A valid Cox proportional-hazards model compares configuration B with reference configuration A, holding all other covariates fixed. B’s hazard is one half of A’s hazard at EVERY age through 1,000 h. The model’s survival probability for A at 1,000 h is 0.80. Treat the model values as fixed. What survival probability does the model predict for B at 1,000 h?',
+      options: ['0.9000', '0.8944', '0.4000', '0.6400'], answer: 1,
+      chart: {type: 'data-table', title: 'Proportional-hazards model inputs', columns: ['Quantity', 'Value'], rows: [['Reference survival at 1,000 h', '0.80'], ['Hazard ratio: B relative to A', '0.50'], ['Other covariates', 'Held at the same values'], ['Proportionality interval', 'All ages from 0 to 1,000 h']]},
+      why: tex`<p>A constant hazard ratio scales cumulative hazard, not cumulative failure probability. Since survival is the exponential of negative cumulative hazard:</p><p>\[\begin{aligned}H_B(t)&=0.50H_A(t)\\R_B(t)&=e^{-H_B(t)}=[R_A(t)]^{0.50}\\R_B(1000)&=0.80^{0.50}\approx0.8944\end{aligned}\]</p><p>Here H denotes cumulative hazard and R denotes survival. Halving the 20% cumulative failure probability would give 0.90, but that is not the proportional-hazards relationship. No exponential baseline lifetime or causal effect of changing configuration is established by this calculation.</p>`,
+      optionRationales: ['0.9000 halves the cumulative failure probability; the model instead multiplies the hazard at every age.', '0.8944 follows from scaling cumulative hazard by 0.50 and transforming back to survival.', '0.4000 multiplies survival itself by the hazard ratio, incorrectly predicting worse survival for the lower-hazard configuration.', '0.6400 squares reference survival, corresponding to a hazard ratio of two rather than one half.'],
+      keyPoint: 'With a constant hazard ratio r, survival under proportional hazards is reference survival raised to r.',
+      trap: 'A hazard ratio is not generally a cumulative risk ratio.',
+      assumptions: ['Proportional hazards holds over the entire stated age interval, with time-fixed covariates and the same reference profile.', 'The supplied model values are treated as known; parameter uncertainty and causal interpretation are outside this calculation.'],
+      handbook: {chapter: 7, section: 'Types of Data; Survival Analysis; Cox Proportional Hazard Model'},
+      lessonGap: 'A dedicated proportional-hazards interpretation lesson is planned; use the handbook section and the cumulative-hazard derivation.',
+      explorer: 'cox-hazard-ratio'
+    },
+    {
+      number: 87, qid: 'cre:set-2:087', sub: 'cre-testing', bok: 'IV.C.3',
+      topic: 'Cumulative fatigue damage within a repeated load block', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 3,
+      industry: 'Mechanical fatigue modeling', quantitative: true,
+      stem: tex`An initially undamaged component follows the repeated load block shown below, always H first and then L. For this exercise, use the stated linear cumulative-damage model \(D=\sum_i n_i/N_i\), where \(n_i\) is the number of cycles actually applied at level i and \(N_i\) is its specified constant-amplitude life. The modeled failure threshold is the FIRST instant D reaches 1. Ignore load-interaction effects. How many total applied cycles occur when this threshold is first reached?`,
+      options: ['15,000 cycles', '16,667 cycles', '16,000 cycles', '20,000 cycles'], answer: 2,
+      chart: {type: 'data-table', creKind: 'fatigue-block', title: 'One repeated load block: H followed by L', columns: ['Order', 'Load level', 'Applied cycles per block', 'Constant-amplitude model life N (cycles)'], rows: [[1, 'H', 1000, 10000], [2, 'L', 4000, 20000]], description: 'Each 5,000-cycle block begins with 1,000 cycles at high level H and continues with 4,000 cycles at low level L. Repeat that order until the model threshold is reached. The constant-amplitude model lives are 10,000 cycles at H and 20,000 cycles at L.'},
+      why: tex`<p>A complete block contributes 0.10 damage at H and 0.20 at L. Three complete blocks therefore apply 15,000 cycles and leave damage at 0.90.</p><p>\[\begin{aligned}D_{\mathrm{block}}&=\frac{1000}{10000}+\frac{4000}{20000}=0.30\\D_{\mathrm{after\ 3\ blocks}}&=0.90\\n_{H,\mathrm{remaining}}&=(1-0.90)(10000)=1000\\n_{\mathrm{total}}&=3(5000)+1000=16000\end{aligned}\]</p><p>The threshold is reached at the end of H in the fourth block, before any of that block’s L cycles. Averaging damage per cycle over a whole block incorrectly spreads the final partial block across both levels. This is a prediction from the supplied simplified rule, not a guaranteed physical fatigue life.</p>`,
+      optionRationales: ['After 15,000 cycles, only three full blocks have been applied and damage is 0.90, below the threshold.', '16,667 cycles uses the average damage per cycle of a complete block; it ignores which level is applied in the final partial block.', '16,000 cycles includes three full blocks plus the next 1,000 H cycles, which bring damage exactly to one.', '20,000 cycles rounds up to four complete blocks, continuing past the first threshold crossing.'],
+      keyPoint: 'Apply a cumulative-damage threshold to the actual loading history, including the final partial block.',
+      trap: 'A full-block average need not locate the first threshold crossing within a block.',
+      assumptions: ['The supplied constant-amplitude lives and damage threshold define a deterministic practice model.', 'Damage starts at zero, adds linearly, and has no recovery or load-interaction correction; loading stops at the first threshold crossing.'],
+      handbook: {chapter: 10, section: 'Failure Models; S-N Curves'},
+      lessonGap: 'A dedicated cumulative-fatigue lesson is planned; the linear damage rule is supplied explicitly here as an application of S-N life inputs.'
+    },
+    {
+      number: 88, qid: 'cre:set-2:088', sub: 'cre-testing', bok: 'IV.C.5',
+      topic: 'Prototype evidence and digital-model validation', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Electromechanical design', quantitative: false,
+      stem: 'A team tunes a digital model’s parameters until its predictions closely match the same prototype measurements used for tuning. It then claims that this agreement independently validates predictions for a substantially different duty cycle that has not been tested. Which statement BEST describes the limitation?',
+      options: ['Agreement with calibration data is not independent validation; evidence relevant to the new duty cycle is still needed.', 'A close calibration fit establishes accurate predictions for every duty cycle supported by the model’s software.', 'Increasing the number of simulated runs replaces the need for physical evidence under the new duty cycle.', 'A digital model cannot support reliability decisions, even when independent relevant validation data are available.'], answer: 0,
+      why: '<p>The prototype measurements were used to adjust the model. Agreement with those same measurements is evidence of calibration fit, not an independent check of predictive performance.</p><p>The new duty cycle may change important stresses or mechanisms. Independent observations relevant to that use, together with assessment of model assumptions and uncertainty, are needed to support the expanded claim. A digital model can be useful within a supported range; neither a close fit nor more simulation runs makes its validity unlimited.</p>',
+      optionRationales: ['This distinguishes calibration from independent validation and identifies the unsupported change in intended use.', 'Software capability to run a duty cycle does not establish that its physical predictions are valid there.', 'More runs of the same model do not supply independent physical validation evidence.', 'A model with relevant independent evidence can inform reliability decisions; categorical rejection is unwarranted.'],
+      keyPoint: 'Validation evidence must be independent of calibration and relevant to the model’s intended use.',
+      trap: 'Matching the data used to tune a model is not independent proof of extrapolative accuracy.',
+      assumptions: ['The same prototype data were used for tuning and for the claimed validation.', 'No independent evidence for the substantially different duty cycle has been supplied.'],
+      handbook: {chapter: 10, section: 'Design Prototyping'},
+      lessonGap: 'A dedicated prototype-and-digital-model validation lesson is planned; use the handbook section and the evidence distinction above.'
+    },
+    {
+      number: 89, qid: 'cre:set-2:089', sub: 'cre-lifecycle', bok: 'V.A.2',
+      topic: 'Correlated normal stress-strength interference', cognitive: 'Analyze', difficulty: 'Challenging', estimatedMinutes: 3,
+      industry: 'Structural component assessment', quantitative: true,
+      stem: 'For the same randomly selected component under a specified load event, strength X and applied stress Y are JOINTLY normal. Strength has mean 120 MPa and standard deviation 10 MPa; stress has mean 100 MPa and standard deviation 10 MPa. Their within-component correlation is +0.50. Failure occurs when Y exceeds X. Using the supplied standard-normal cumulative probabilities, what is the failure probability?',
+      options: ['7.86%', '2.28%', '12.41%', '97.72%'], answer: 1,
+      chart: {type: 'data-table', creKind: 'correlated-interference', title: 'Marginal distributions and within-component correlation', columns: ['Quantity', 'Value'], rows: [['Strength mean and standard deviation', '120 MPa; 10 MPa'], ['Stress mean and standard deviation', '100 MPa; 10 MPa'], ['Correlation of paired strength and stress', '+0.50'], ['Standard normal CDF at z = 2.0000', '0.9772'], ['Standard normal CDF at z = 1.414214', '0.9214'], ['Standard normal CDF at z = 1.1547', '0.8759']], description: 'Two normal marginal density curves have equal standard deviations of 10 MPa. The stress curve is centered at 100 MPa and the strength curve at 120 MPa. The within-component correlation is positive 0.50; marginal curves alone do not depict the joint distribution.'},
+      why: tex`<p>Let the margin be \(M=X-Y\). Joint normality makes M normal. The covariance term must be included when calculating its variance.</p><p>\[\begin{aligned}\mu_M&=120-100=20\ \mathrm{MPa}\\\sigma_M^2&=10^2+10^2-2(0.50)(10)(10)\\&=100\ \mathrm{MPa}^2\\P(Y>X)&=P(M<0)=\Phi(-2)\\&\approx1-0.9772=0.0228=2.28\%\end{aligned}\]</p><p>Positive correlation reduces the variance of this difference relative to the independent case. With the stated positive mean margin, that reduces the modeled lower-tail failure probability. This conclusion depends on the specified joint distribution, not merely on the overlap visible between the marginal curves.</p>`,
+      optionRationales: ['7.86% omits covariance and treats stress and strength as independent, giving a margin standard deviation of about 14.14 MPa.', '2.28% includes the positive covariance with a minus sign in the variance of the difference and evaluates the failure tail.', '12.41% adds the covariance term instead of subtracting it, giving a margin standard deviation of about 17.32 MPa.', '97.72% is the complementary success probability, not the requested failure probability.'],
+      keyPoint: 'For correlated stress and strength, use the covariance term in the distribution of their difference.',
+      trap: 'Normal marginal distributions alone do not justify an independence assumption or a jointly normal model.',
+      assumptions: ['Joint normality and the stated paired correlation are given, rather than inferred from the two marginal curves.', 'The parameters apply to the same component/load-event pairing; other failure modes and parameter uncertainty are excluded.'],
+      handbook: {chapter: 11, section: 'Stress-Strength Analysis'},
+      lessonGap: 'A dedicated correlated stress-strength lesson is planned; use the handbook section and the margin-variance calculation above.'
+    },
+    {
+      number: 90, qid: 'cre:set-2:090', sub: 'cre-lifecycle', bok: 'V.C.2',
+      topic: 'Average hidden-failure unavailability between proof tests', cognitive: 'Apply', difficulty: 'Moderate', estimatedMinutes: 2.5,
+      industry: 'Standby function maintenance', quantitative: true,
+      stem: tex`A single standby function is known to work immediately after each proof test. It develops a hidden failure at a constant rate \(\lambda=0.000020\ \mathrm{h}^{-1}\) and then remains unavailable until the next test. Perfect proof tests and complete restoration occur every 500 h and take negligible time. A demand is independent of failures and occurs uniformly within a test interval. What is the CLOSEST probability that the function is unavailable at that demand?`,
+      options: ['1.00%', '0.002%', '99.50%', '0.50%'], answer: 3,
+      chart: {type: 'data-table', creKind: 'proof-test-cycle', title: 'Hidden-failure probability between perfect proof tests', columns: ['Quantity', 'Value'], rows: [['Hidden-failure rate', '0.000020 per hour'], ['Proof-test interval', '500 h'], ['State immediately after each test and restoration', 'Available'], ['Undetected failed state', 'Persists until next proof test'], ['Test coverage and restoration', 'Complete; negligible duration'], ['Demand timing', 'Independent; uniform within the interval']], description: 'Within each 500-hour interval, hidden-failure probability rises as one minus exp(−0.000020 times age since the last test). It resets to zero immediately after the perfect proof test and restoration. The plotted curves show two intervals; the requested quantity averages over the uniformly located demand, not just the end of an interval.'},
+      why: tex`<p>At age t since the last test, hidden-failure probability is \(1-e^{-\lambda t}\). Average this over the possible demand times, rather than using only the probability just before a proof test.</p><p>\[\begin{aligned}\overline{Q}&=\frac{1}{T}\int_0^T(1-e^{-\lambda t})\,dt\\&=1-\frac{1-e^{-\lambda T}}{\lambda T}\\&=1-\frac{1-e^{-0.01}}{0.01}\\&\approx0.004983=0.4983\%\end{aligned}\]</p><p>Thus 0.50% is closest. Here T is the proof-test interval and the bar denotes a time average. For this small value of \(\lambda T\), the approximation \(\overline{Q}\approx\lambda T/2\) also gives 0.50%. The pre-test value is about 1.00%, roughly twice the average. These idealized assumptions are not a proof-test prescription for an actual system.</p>`,
+      optionRationales: ['1.00% approximates the probability just before the next proof test, not the average over possible demand times.', '0.002% treats a per-hour failure rate as though it were the requested dimensionless average probability.', '99.50% is the approximate average availability, the complement of the requested unavailability.', '0.50% is closest to the time-averaged hidden-failure probability of 0.4983% under the stated model.'],
+      keyPoint: 'For uniformly timed independent demands, average hidden-failure probability over the entire proof-test interval.',
+      trap: 'End-of-interval failure probability and average unavailability are different quantities.',
+      assumptions: ['The single function starts each interval available; failures are exponential, hidden, and not repaired before the next proof test.', 'Proof testing finds every relevant failure and restoration is complete and instantaneous; no test-induced failure or downtime is added.'],
+      handbook: {chapter: 13, section: 'Preventive Maintenance (PM) Analysis'},
+      lessonGap: 'A dedicated hidden-failure proof-testing lesson is planned; the exact probability model and averaging assumptions are stated here.',
+      explorer: 'proof-test-interval'
+    },
+    {
+      number: 91, qid: 'cre:set-2:091', sub: 'cre-fundamentals', bok: 'I.B.6',
+      topic: 'Maintainability investment versus logistics delay', cognitive: 'Understand', difficulty: 'Moderate', estimatedMinutes: 1.5,
+      industry: 'Production equipment service', quantitative: false,
+      stem: 'A machine loses production throughout both waiting and active repair. Two service proposals have the SAME annual cost and leave failure frequency, repair quality, safety, and all other costs unchanged. Use the mean downtime components shown. Which proposal offers the greater reduction in expected production downtime?',
+      options: ['Proposal P, because only active repair time affects operational availability.', 'Neither proposal, because availability cannot improve unless failure frequency decreases.', 'Proposal Q, because its reduction in waiting time removes more total downtime per failure.', 'Both proposals give the same benefit because they cost the same amount.'], answer: 2,
+      chart: {type:'data-table', creKind:'maintenance-delay', title:'Mean downtime per failure — sequential components', columns:['Service arrangement','Waiting for parts/service (h)','Active repair (h)'], rows:[['Current',18,2],['Proposal P',18,1],['Proposal Q',4,2]], description:'Waiting and active repair occur sequentially, and production is stopped during both. Current downtime comprises 18 waiting hours followed by two repair hours. P changes only active repair to one hour. Q changes only waiting to four hours.'},
+      why: tex`<p>The relevant outcome is total production downtime, which includes both waiting and active repair. The proposals cost the same, so compare the downtime they remove.</p><p>\[\begin{aligned}d_{\mathrm{current}}&=18+2=20\,\mathrm h\\d_P&=18+1=19\,\mathrm h\\d_Q&=4+2=6\,\mathrm h\end{aligned}\]</p><p>Here \(d\) is mean downtime per failure. P saves one hour per failure; Q saves fourteen. With unchanged failure frequency, Q gives the greater expected downtime reduction. Faster hands-on repair is useful, but it is not the only way to improve operational availability.</p>`,
+      optionRationales:['Operational availability includes logistics delays when they keep the equipment unavailable; active repair is not the whole interruption.', 'Shorter downtime can improve operational availability even if the rate of failure remains unchanged.', 'Q removes fourteen hours per failure, compared with one hour for P, at the same stated annual cost.', 'Equal expenditure does not imply equal benefit; the proposals reduce different amounts of production downtime.'],
+      keyPoint:'Compare maintainability investments using the downtime and costs relevant to the operational objective.',
+      trap:'A large percentage reduction in a small repair component can have less value than reducing a dominant waiting component.',
+      assumptions:['The listed mean waiting and repair components are sequential and exhaust the production interruption.', 'The two proposals have equal annual costs and no other differences relevant to this comparison.'],
+      handbook:{chapter:2,section:'Economics of Product Maintainability and Availability'},
+      lessonGap:'A dedicated maintainability-economics lesson is planned; use the handbook section and the total-downtime comparison.'
+    },
+    {
+      number:92,qid:'cre:set-2:092',sub:'cre-fundamentals',bok:'I.B.7',
+      topic:'Financial and nonfinancial costs of poor reliability',cognitive:'Understand',difficulty:'Foundational',estimatedMinutes:1,
+      industry:'Industrial product support',quantitative:false,
+      stem:'A product manager reports warranty reimbursements as the entire cost of poor reliability. Repeated field failures have also caused customer production interruptions, emergency support work, and loss of confidence in the supplier. What is the BEST assessment of the report?',
+      options:['It omits relevant operational and reputational consequences; assess these alongside direct warranty costs, avoiding double counting.', 'It is complete because only costs appearing in a warranty account can result from poor reliability.', 'Every customer interruption should be assigned the full annual value of the customer’s business, regardless of evidence.', 'Reputational effects must be excluded because they are harder to measure than reimbursements.'],answer:0,
+      why:'<p>Poor reliability can create costs beyond warranty reimbursements: disrupted operations, emergency service, lost opportunities, and reduced customer trust. Some consequences can be estimated financially; others should be documented qualitatively when a defensible monetary estimate is unavailable.</p><p>A broader assessment should identify the affected parties and evidence, state uncertainty, and avoid counting the same consequence twice. It should not invent a monetary value simply to make every consequence appear precise.</p>',
+      optionRationales:['This recognizes direct and indirect consequences while retaining an evidence-based approach to valuation.', 'The accounting category used to record a reimbursement does not define the full impact of a failure.', 'Assigning a customer’s entire annual business value to each interruption would be unsupported and could grossly double count loss.', 'Difficulty of measurement does not make an operational or reputational consequence irrelevant.'],
+      keyPoint:'The cost of poor reliability includes financial and nonfinancial consequences beyond warranty payments.',
+      trap:'An easily measured accounting cost is not necessarily the complete business impact.',
+      assumptions:['The additional consequences are reported observations, not hypothetical claims of a particular monetary loss.'],
+      handbook:{chapter:2,section:'Cost of Poor Reliability'},
+      lessonGap:'A dedicated cost-of-poor-reliability lesson is planned; use the handbook section and the scope distinction above.'
+    },
+    {
+      number:93,qid:'cre:set-2:093',sub:'cre-risk',bok:'II.B.2',
+      topic:'Functional FMEA before component selection',cognitive:'Evaluate',difficulty:'Moderate',estimatedMinutes:1.5,
+      industry:'New dispensing-system development',quantitative:false,
+      stem:'During concept development, a team knows that a system must meter a specified dose and stop flow on command. The component architecture and manufacturing process have not been selected. It wants a bottom-up assessment of how these required functions could fail and what effects would follow. Which approach BEST fits the information available?',
+      options:['A process FMEA limited to assembly operations that have not yet been defined.', 'A parts-level FMECA populated with assumed component rates and criticalities presented as established data.', 'Postpone all FMEA work until field warranty failures identify the component architecture.', 'A functional FMEA covering loss, excess, insufficiency, or mistiming of the required functions and their effects.'],answer:3,
+      why:'<p>A functional FMEA can begin with required functions and examine their possible failures and effects before detailed parts are selected. It can help refine requirements and compare concepts.</p><p>At this stage, the team should identify knowledge gaps and update the analysis as the architecture develops. It should not invent component failure rates, manufacturing operations, or detection effectiveness to make a premature detailed analysis look complete.</p>',
+      optionRationales:['A process FMEA needs a defined process or process steps; it does not best match this function-level concept question.', 'Unselected components and unsupported rates do not justify an apparently quantitative criticality assessment.', 'Function-level failure analysis can inform the design now; waiting for warranty failures would miss that opportunity.', 'This analyzes failure of the known functions without requiring an already selected component or process design.'],
+      keyPoint:'Choose the FMEA scope to match the design information and decision stage.',
+      trap:'FMEA does not always have to begin with a completed bill of materials.',
+      assumptions:['The objective is a bottom-up analysis of known functions, rather than a deductive analysis of one specified top event.'],
+      handbook:{chapter:4,section:'Failure Mode and Effects Analysis; Functional FMEA'},
+      lessonGap:'A dedicated FMEA-scope lesson is planned; use the handbook section and the distinction between functions, designs, and processes.'
+    },
+    {
+      number:94,qid:'cre:set-2:094',sub:'cre-risk',bok:'II.A.2',
+      topic:'Expected annual cost of financial risk controls',cognitive:'Analyze',difficulty:'Moderate',estimatedMinutes:2,
+      industry:'Non-safety production loss',quantitative:true,
+      stem:'A business must select exactly one of the alternatives shown for a purely financial production-loss risk. At most one loss event can occur during the year. Annual control costs are paid whether or not an event occurs. The decision rule is to minimize expected total annual cost: control cost plus event loss. Treat all inputs as known; all mandatory requirements are already met, and there are no other consequences or costs. Which alternative should be selected?',
+      options:['No control','Control P','Control Q','Control R'],answer:1,
+      chart:{type:'data-table',title:'Mutually exclusive control alternatives — annual planning inputs',columns:['Alternative','Annual control cost ($)','Probability of one loss event','Loss if event occurs ($)'],rows:[['No control',0,'0.08',200000],['Control P',3000,'0.03',200000],['Control Q',6000,'0.08',50000],['Control R',7000,'0.04',100000]]},
+      why:tex`<p>For each alternative, add the certain control expenditure to the expected event loss.</p><p>\[\begin{aligned}E[C]&=C_{\mathrm{control}}+pL\\E[C_{\mathrm{none}}]&=0+0.08(200000)=16000\\E[C_P]&=3000+0.03(200000)=9000\\E[C_Q]&=6000+0.08(50000)=10000\\E[C_R]&=7000+0.04(100000)=11000\end{aligned}\]</p><p>Here \(C\) is total annual cost, \(C_{\mathrm{control}}\) is control expenditure, \(p\) is annual event probability, and \(L\) is the loss conditional on that event. P has the lowest expected total, $9,000. Q has the smallest conditional loss, but its larger control cost makes its total higher. This is the stated risk-neutral financial comparison, not a safety-risk acceptance rule or a guarantee of realized annual cost.</p>`,
+      optionRationales:['No control avoids the certain expenditure but leaves expected event loss of $16,000, the largest total.', 'P combines $3,000 control cost with $6,000 expected event loss, giving the unique minimum of $9,000.', 'Q gives $4,000 expected event loss plus $6,000 control cost; minimizing severity alone misses its $10,000 total.', 'R gives $4,000 expected event loss plus $7,000 control cost, totaling $11,000.'],
+      keyPoint:'A financial risk-control decision can require combining event probability, event consequence, and control expenditure.',
+      trap:'The smallest conditional loss or smallest upfront expenditure need not minimize expected total cost.',
+      assumptions:['The alternatives are mutually exclusive and cannot be combined.', 'The stated objective is expected financial cost; mandatory constraints and nonfinancial consequences do not differ.'],
+      handbook:{chapter:3,section:'Risk Assessment'},
+      lessonGap:'A dedicated quantitative-risk decision lesson is planned; use the supplied rule and the handbook risk-assessment section.'
+    },
+    {
+      number:95,qid:'cre:set-2:095',sub:'cre-statistics',bok:'III.B.3',
+      topic:'Capturing brief failures and the exposure denominator',cognitive:'Evaluate',difficulty:'Moderate',estimatedMinutes:1.5,
+      industry:'Automated equipment monitoring',quantitative:false,
+      stem:'A controller can lose its required function for about 200 milliseconds and recover automatically. A once-per-minute status snapshot misses most events. The study needs event frequency per operating hour and the operating conditions immediately before each event. Which collection plan BEST meets these objectives?',
+      options:['Retain one-minute snapshots and count every missing event as proof of successful operation.', 'Collect operator recollections at month end and use calendar hours as the exposure denominator for every machine.', 'Validate an event-triggered logger with adequate time resolution, a pre-event buffer, synchronized timestamps, event identifiers, and measured operating exposure.', 'Record only triggered failure waveforms and report their count as an event rate without collecting operating exposure.'],answer:2,
+      why:'<p>The collection system must detect the short interruption and preserve the preceding conditions. A validated trigger and suitable time resolution address detection; a pre-event buffer preserves context; synchronized timestamps and event identifiers support alignment and deduplication.</p><p>Operating exposure supplies the denominator needed for a rate per operating hour. Validate the logging system against known events and account for lost records or logger downtime rather than interpreting missing data as successful operation.</p>',
+      optionRationales:['A sampling interval much longer than the failure can miss events; absence from snapshots is not evidence that none occurred.', 'Recall can miss brief automatic recoveries, and calendar hours do not equal operating exposure when equipment is stopped.', 'This addresses detection, preceding conditions, time alignment, unique events, and the correct exposure denominator.', 'Waveforms can support diagnosis, but a count alone cannot establish a rate per operating hour without exposure.'],
+      keyPoint:'Choose collection resolution and context fields to match the event and the intended metric.',
+      trap:'More failure records do not create a valid failure rate unless their exposure and completeness are known.',
+      assumptions:['The study can instrument the required-function signal and validate detection of interruptions of the stated duration.', 'Repeated records for one interruption are not counted as independent events.'],
+      handbook:{chapter:7,section:'Data Collection Methods'},
+      lessonGap:'A dedicated event-data collection lesson is planned; use the handbook section and the measurement-plan reasoning above.'
+    },
+    {
+      number:96,qid:'cre:set-2:096',sub:'cre-statistics',bok:'III.A.3',
+      topic:'Exactly two failures in independent mission tests',cognitive:'Apply',difficulty:'Moderate',estimatedMinutes:2,
+      industry:'Mission qualification planning',quantitative:true,
+      stem:'Eight independently selected devices each undergo one identical mission. Each device has a known failure probability of 0.10 for that mission, and outcomes are independent. What is the probability that EXACTLY two of the eight devices fail?',
+      options:['0.1488','0.0053','0.1869','0.5695'],answer:0,
+      why:tex`<p>Let \(X\) be the number of failed devices. The fixed number of independent trials and common failure probability give a binomial distribution. Any of the 28 distinct pairs can be the two failures.</p><p>\[\begin{aligned}P(X=2)&=\binom{8}{2}(0.10)^2(0.90)^6\\&=28(0.01)(0.531441)\\&=0.14880348\approx0.1488\end{aligned}\]</p><p>The probability of one particular pair failing while the other six survive is only about 0.0053. Exactly two excludes outcomes with three or more failures; it is not the same as at least two.</p>`,
+      optionRationales:['0.1488 includes all 28 mutually exclusive choices of which two devices fail.', '0.0053 counts only one specified pair of failed devices and omits the other 27 possible pairs.', '0.1869 is the probability of at least two failures, including outcomes with three or more.', '0.5695 is the probability of at least one failure, rather than exactly two.'],
+      keyPoint:'An exact binomial count includes every arrangement having that count, and no other counts.',
+      trap:'Multiplying two failure probabilities and six survival probabilities represents only one arrangement.',
+      assumptions:['Each device contributes one binary mission outcome with the same fixed failure probability.', 'The independence assumption is stated; no shared environment or common-cause dependence is added.'],
+      handbook:{chapter:6,section:'Probability Distributions; Binomial Distribution'},
+      lessonGap:'A dedicated mission-count probability lesson is planned; use the handbook distribution section and the calculation above.'
+    },
+    {
+      number:97,qid:'cre:set-2:097',sub:'cre-testing',bok:'IV.A.3',
+      topic:'Consequence-specific acceptance criteria',cognitive:'Understand',difficulty:'Moderate',estimatedMinutes:1.5,
+      industry:'Product qualification',quantitative:false,
+      stem:'Before a qualification test, the team approves the two separate acceptance conditions shown. The test records four display-blemish events and one loss-of-protective-function event. A summary reports five events and recommends acceptance because the allowed blemish count is five. Which conclusion is correct under the approved plan?',
+      options:['Accept, because combining all event categories produces a total no greater than five.', 'Accept if the single critical event is less than 1% of all recorded operating cycles.', 'Remove the critical event from the reliability assessment because it belongs only in the safety report.', 'Do not accept: the zero-critical-event condition is violated even though the blemish condition is met.'],answer:3,
+      chart:{type:'data-table',title:'Preapproved qualification acceptance conditions',columns:['Event category','Acceptance condition','Observed count'],rows:[['Display blemish with no functional effect','No more than five events',4],['Loss of required protective function','Zero events',1]],description:'Both category-specific acceptance conditions must be met. The critical-function criterion is separate from the display-blemish limit.'},
+      why:'<p>The plan requires both conditions. Four blemishes meet the blemish limit, but one loss of protective function violates the zero-event condition. Combining categories discards the consequence distinction that the acceptance plan intentionally preserves.</p><p>The result requires investigation and the agreed corrective/requalification process. It does not by itself estimate a population critical-failure rate, prove an unsafe rate, or justify changing a criterion after observing the result.</p>',
+      optionRationales:['The limit of five belongs only to the blemish category; pooling events cannot replace the two approved conditions.', 'No cycle-based percentage exception is included in the plan; introducing one after the test changes the rule.', 'A safety-relevant loss of required function remains relevant to this explicitly stated qualification criterion.', 'The critical-event requirement fails independently of the passing blemish count, so the combined plan is not met.'],
+      keyPoint:'Reliability acceptance criteria must retain distinctions between failure consequences.',
+      trap:'A pooled event count can hide a violation of a separate critical-function requirement.',
+      assumptions:['Both conditions were approved before testing and must be met; event classification is confirmed.', 'These are hypothetical qualification rules, not universal numerical acceptance limits.'],
+      handbook:{chapter:8,section:'Failure Consequence'},
+      lessonGap:'A dedicated consequence-based test-planning lesson is planned; use the handbook section and the explicit acceptance rules.'
+    },
+    {
+      number:98,qid:'cre:set-2:098',sub:'cre-testing',bok:'IV.B.5',
+      topic:'Software failures and operational usage',cognitive:'Understand',difficulty:'Moderate',estimatedMinutes:1.5,
+      industry:'Embedded software',quantitative:false,
+      stem:'An unchanged software version has operated reliably for months. A new usage pattern now repeatedly activates a rarely used command sequence, exposing a latent logic defect. Hardware condition is unchanged. Which interpretation BEST explains the increase in observed failures?',
+      options:['Elapsed calendar age has physically worn out the software instructions, as it would a bearing.', 'An unchanged software version must have the same failure frequency under every possible usage profile.', 'The new usage profile activates a latent defect more often; software failure behavior depends on execution conditions.', 'Automatically reinstalling the identical version necessarily removes the underlying logic defect.'],answer:2,
+      why:'<p>Software does not physically wear in the same way as a mechanical part. A latent defect may remain unobserved until an input, state, or command sequence activates it. Changing the frequency of those conditions can change observed failure behavior even when the code is unchanged.</p><p>The investigation should reproduce the triggering conditions, analyze the defect, and verify any correction against relevant usage and regression tests. Reinstalling identical code might reset some state, but it does not necessarily remove a logic defect in that code.</p>',
+      optionRationales:['The stated mechanism is activation of a latent logic defect, not physical wear of software instructions.', 'Software failure behavior depends on the execution environment and input/state distribution as well as the version.', 'This explains how unchanged code can fail more often when its defect-triggering conditions become more common.', 'Reinstalling the same code does not necessarily change its erroneous logic and cannot guarantee permanent correction.'],
+      keyPoint:'Software reliability is conditional on the software version and its operational environment and usage.',
+      trap:'Unchanged code does not imply unchanged reliability under a changed operational profile.',
+      assumptions:['A latent logic defect and its triggering command sequence have been identified.', 'The question does not exclude state-dependent software problems; it distinguishes them from physical wear of instructions.'],
+      handbook:{chapter:9,section:'Software/Firmware Reliability; Software Design Reliability'},
+      lessonGap:'A dedicated software-reliability lesson is planned; use the handbook section and the operational-profile distinction.'
+    },
+    {
+      number:99,qid:'cre:set-2:099',sub:'cre-testing',bok:'IV.C.1',
+      topic:'Load-sharing redundancy with state-dependent failure rates',cognitive:'Analyze',difficulty:'Challenging',estimatedMinutes:3,
+      industry:'Parallel load-sharing equipment',quantitative:true,
+      stem:tex`Two identical units share a load and both start working. Each has constant failure rate \(\lambda=0.001\,\mathrm h^{-1}\) while both work. After the first failure, the survivor can carry the full load, but its constant failure rate becomes \(\mu=0.004\,\mathrm h^{-1}\). Transfer is perfect; there is no repair or common-cause failure. The system works while at least one unit works. For this model, you may use \(P_2(t)=e^{-at}\) and \(P_1(t)=\frac{a}{b-a}(e^{-at}-e^{-bt})\), where \(a=2\lambda\), \(b=\mu\), and the subscript is the number of working units. What is system reliability at 100 h?`,
+      options:['0.9909','0.9671','0.8187','0.6703'],answer:1,
+      chart:{type:'data-table',creKind:'load-sharing',title:'Number of working units and transition rates',columns:['Transition','Total transition rate (per hour)','System state after transition'],rows:[['Two working → one working','0.002','Still operating'],['One working → none working','0.004','Failed']],description:'A three-state model begins with two working units. The total rate to one working unit is 0.002 per hour. The surviving unit then fails at 0.004 per hour. Both the two-working and one-working states satisfy the system function; no state has a repair transition.'},
+      why:tex`<p>Add the mutually exclusive probabilities of two and one working units. The total rate of the first failure is twice the per-unit rate while both operate.</p><p>\[\begin{aligned}P_2(100)&=e^{-0.002(100)}\approx0.818731\\P_1(100)&=\frac{0.002}{0.004-0.002}(e^{-0.2}-e^{-0.4})\\&\approx0.148411\\R(100)&=P_2(100)+P_1(100)\\&\approx0.967142\approx0.9671\end{aligned}\]</p><p>Here \(R\) is system reliability. The ordinary independent parallel formula would give about 0.9909 if the surviving unit retained its original rate. It is not valid for the specified rate increase. Requiring both units to survive would instead give only 0.8187.</p>`,
+      optionRationales:['0.9909 uses the ordinary independent parallel formula with the original rate throughout and ignores the survivor’s increased load.', '0.9671 includes both operating states with the specified first-failure and survivor failure rates.', '0.8187 is only the probability that both units survive; it excludes successful one-unit operation.', '0.6703 is survival of a single unit exposed to the higher rate for the entire mission, a different model.'],
+      keyPoint:'Load sharing can change failure rates after a component fails, so a fixed-rate independent parallel formula may be inappropriate.',
+      trap:'Redundancy describes success logic; it does not by itself establish independence or unchanged component hazards.',
+      assumptions:['Conditional on the working state, failure transitions are memoryless with the stated constant rates.', 'Both units initially work; the survivor supports the full function immediately and no repairs occur during the mission.'],
+      handbook:{chapter:10,section:'Reliability Block Diagrams and Models; Load-Sharing Systems'},
+      lessonGap:'A dedicated load-sharing lesson is planned; the state-probability formulas are supplied explicitly for this model.',
+      explorer:'load-sharing-rate'
+    },
+    {
+      number:100,qid:'cre:set-2:100',sub:'cre-lifecycle',bok:'V.A.3',
+      topic:'Block-adjusted treatment contrast with unequal allocation',cognitive:'Analyze',difficulty:'Challenging',estimatedMinutes:3,
+      industry:'Fatigue-process experiment',quantitative:true,
+      stem:'A fatigue experiment compares processes A and B in two planned material blocks. Specimens were assigned randomly within each block using the unequal counts shown. Analyze an additive treatment-plus-block model with a common B-minus-A effect and no treatment-by-block interaction. Use the equally weighted mean of the two within-block B-minus-A differences. What estimated process effect results, in thousands of cycles?',
+      options:['+6','+16','+20','−6'],answer:0,
+      chart:{type:'data-table',creKind:'blocked-contrast',title:'Fatigue lives by treatment and material block',columns:['Material block','Process','Individual lives (thousands of cycles)','Specimen count'],rows:[['1','A','98, 100, 102',3],['1','B','106',1],['2','A','120',1],['2','B','124, 126, 128',3]],description:'Block 1 has A mean 100 and B mean 106, with counts three and one. Block 2 has A mean 120 and B mean 126, with counts one and three. Points in the plot show cell means, not individual observations. The table supplies all individual lives.'},
+      why:tex`<p>Compare treatments within the same material block before averaging. Each within-block difference is six thousand cycles.</p><p>\[\begin{aligned}\widehat{\Delta}_1&=106-100=6\\\widehat{\Delta}_2&=126-120=6\\\widehat{\Delta}&=\frac{6+6}{2}=6\end{aligned}\]</p><p>Here the estimated contrast is B minus A. Ignoring blocks gives pooled means of 121 for B and 105 for A, a difference of 16. B has more specimens in the higher-response block, so that pooled difference mixes the treatment and block effects. The stated adjusted estimate is +6; it does not, without an uncertainty analysis, establish statistical significance or a guaranteed life improvement.</p>`,
+      optionRationales:['+6 is the equally weighted average of the two within-block B-minus-A differences, as requested.', '+16 subtracts the pooled treatment means and ignores the unequal treatment allocation across different material blocks.', '+20 is the block-to-block shift in cell means, not the B-minus-A process effect within a block.', '−6 reverses the requested contrast and calculates A minus B instead.'],
+      keyPoint:'With unequal treatment allocation across blocks, a pooled treatment comparison can mix treatment and block effects.',
+      trap:'Randomization within blocks does not make an analysis that ignores those blocks appropriate.',
+      assumptions:['The specified additive model has a common treatment effect and no treatment-by-block interaction.', 'The requested estimator weights the two within-block differences equally; no significance test or confidence claim is requested.'],
+      handbook:{chapter:11,section:'Design of Experiments; Blocking'},
+      lessonGap:'A dedicated blocked-experiment analysis lesson is planned; use the handbook section and the explicitly defined contrast.',
+      explorer:'block-shift'
+    },
+    {
+      "number": 101,
+      "qid": "cre:set-2:101",
+      "sub": "cre-fundamentals",
+      "bok": "I.B.1",
+      "topic": "Critical-failure metric and the exposure denominator",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A repairable fleet accumulates 24,000 operating unit-hours, excluding all downtime. Its validated log contains 12 distinct failures, classified as shown. Using total operating exposure divided by the number of critical failures, what is the observed mean time between critical failures (MTBCF)? Do not count scheduled maintenance as a failure.",
+      "options": [
+        "2,000 h",
+        "6,000 h",
+        "3,000 h",
+        "1,500 h"
+      ],
+      "answer": 1,
+      "why": "<p>Use only critical failures in the denominator, with the same operating-exposure basis.</p><p>\\[\\widehat{\\mathrm{MTBCF}}=\\frac{24{,}000}{4}=6{,}000\\,\\mathrm h\\]</p><p>Dividing by all twelve failures gives the observed MTBF of 2,000 h. The eight noncritical failures remain important, but they do not belong in this metric’s denominator. This exposure-based estimate is not a guarantee of any individual failure-free interval.</p>",
+      "optionRationales": [
+        "2,000 h divides exposure by all twelve failures and estimates MTBF, not MTBCF.",
+        "6,000 h uses the four critical failures and the stated operating exposure.",
+        "3,000 h divides exposure by the eight noncritical failures instead.",
+        "1,500 h adds the four maintenance visits to the twelve failures."
+      ],
+      "keyPoint": "Name the failure class and exposure basis before calculating a reliability metric.",
+      "trap": "A critical-failure measure does not use every maintenance event.",
+      "assumptions": [
+        "The twelve failures are distinct and the two failure classes do not overlap.",
+        "The requested metric uses operating unit-hours; scheduled visits are not failures."
+      ],
+      "handbook": {
+        "chapter": 2,
+        "section": "Basic Reliability Terminology"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Validated event classifications",
+        "columns": [
+          "Event class",
+          "Count"
+        ],
+        "rows": [
+          [
+            "Critical failures",
+            4
+          ],
+          [
+            "Noncritical failures",
+            8
+          ],
+          [
+            "Scheduled maintenance visits",
+            4
+          ]
+        ],
+        "description": "Four critical failures, eight noncritical failures, and four scheduled maintenance visits were recorded. Only the first two categories are failures.",
+        "creKind": "event-counts"
+      }
+    },
+    {
+      "number": 102,
+      "qid": "cre:set-2:102",
+      "sub": "cre-fundamentals",
+      "bok": "I.A.8",
+      "topic": "Supplier evidence applicable to the intended mission",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A supplier proposes using its published MTBF claim to approve a controller for outdoor service with daily power cycling. The evidence summary is shown. Which action best supports a defensible supplier assessment before accepting that claim for this application?",
+      "options": [
+        "Approve the claim because the total test exposure exceeds one million hours.",
+        "Reject the supplier because any test with a failure proves the design unsuitable.",
+        "Combine both studies into one MTBF without distinguishing revisions or environments.",
+        "Check traceable configuration and life-data records against the use profile; identify qualification gaps."
+      ],
+      "answer": 3,
+      "why": "<p>The large exposure total mainly describes an older revision in a different environment. The smaller study is closer to the intended application but does not by itself establish compliance with the required mission reliability.</p><p>Request auditable records and compare hardware/software configuration, loading, cycling, environment, failure definitions, and observation times with the intended mission. Assess whether transfer of evidence is justified and plan targeted qualification for uncovered conditions. Neither automatic approval nor automatic rejection follows from these summaries alone.</p>",
+      "optionRationales": [
+        "Large exposure under another configuration and environment does not establish applicability to outdoor cycling.",
+        "A recorded failure must be analyzed against requirements and the test plan; its existence alone is not an automatic rejection rule.",
+        "Pooling assumes comparable populations and conditions that have not been established.",
+        "Traceability and an applicability assessment identify whether the evidence supports the intended application and where more evidence is needed."
+      ],
+      "keyPoint": "Supplier reliability evidence must match the supplied configuration and intended use.",
+      "trap": "A precise-looking MTBF can be irrelevant to the mission you need to support.",
+      "assumptions": [
+        "No approved rule permits unconditional transfer from the old revision.",
+        "The summaries are incomplete evidence, not acceptance-test results with a stated decision boundary."
+      ],
+      "handbook": {
+        "chapter": 1,
+        "section": "Supplier Reliability Assessments"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Evidence supplied for the proposed controller",
+        "columns": [
+          "Study",
+          "Revision",
+          "Exposure (unit-hours)",
+          "Conditions",
+          "Failures"
+        ],
+        "rows": [
+          [
+            "Published claim",
+            "Previous",
+            "1,200,000",
+            "Indoor; continuously powered",
+            0
+          ],
+          [
+            "Engineering trial",
+            "Proposed",
+            "8,000",
+            "Outdoor; daily cycling",
+            2
+          ]
+        ],
+        "description": "Most exposure comes from a previous revision under continuous indoor power. The proposed revision has much less exposure under outdoor daily cycling."
+      }
+    },
+    {
+      "number": 103,
+      "qid": "cre:set-2:103",
+      "sub": "cre-risk",
+      "bok": "II.A.1",
+      "topic": "Risk controls dependent on an unverified response assumption",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A risk register credits an operator response to an alarm as the main control against equipment damage. Field interviews show that the alarm is often suppressed during startup, and no record demonstrates that an operator can respond within the available time. Which update is most appropriate?",
+      "options": [
+        "Retain the credited reduction because the alarm appears in the design drawing.",
+        "Remove the risk entry because the potential damage has not yet occurred.",
+        "Reassess alarm availability and response capability, assign ownership, and verify the control.",
+        "Lower the severity rating because operators have received general safety training."
+      ],
+      "answer": 2,
+      "why": "<p>A documented alarm is not evidence that the control is available and effective in the relevant operating state. Reassess the credited reduction using startup conditions, suppression behavior, and demonstrated response capability. Assign responsibility for resolving the gap and verifying the selected control.</p><p>The underlying consequence does not become less severe merely because training exists. Absence of a past loss also does not demonstrate adequate control.</p>",
+      "optionRationales": [
+        "A design drawing does not verify alarm availability or timely response under actual startup conditions.",
+        "No recorded loss is insufficient grounds to remove a credible risk from the register.",
+        "This replaces an unsupported control assumption with evidence and an accountable verification action.",
+        "Training alone does not change the stated consequence and does not demonstrate timely response."
+      ],
+      "keyPoint": "Risk registers should reflect verified control performance in the relevant operating states.",
+      "trap": "Documented controls and effective controls are not necessarily the same.",
+      "assumptions": [
+        "The alarm response is the credited primary risk reduction.",
+        "No independent control or demonstrated response time is supplied."
+      ],
+      "handbook": {
+        "chapter": 3,
+        "section": "Risk Management Techniques"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 104,
+      "qid": "cre:set-2:104",
+      "sub": "cre-statistics",
+      "bok": "III.A.6",
+      "topic": "Exposure-adjusted Poisson event-rate chart",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A stable repairable process has a baseline of \\(u_0=2\\) interruptions per 1,000 operating hours. Counts are modeled as independent Poisson events proportional to exposure. Use the specified three-sigma upper limit \\(\\mathrm{UCL}_i=2+3\\sqrt{2/E_i}\\), where \\(E_i\\) is exposure in thousands of hours; compare it with \\(u_i=c_i/E_i\\), where \\(c_i\\) is the interruption count. Under the single-point-above-UCL rule only, which period signals?",
+      "options": [
+        "Period 1 only",
+        "Period 2 only",
+        "Period 3 only",
+        "Periods 1 and 3"
+      ],
+      "answer": 0,
+      "why": "<p>Normalize each count by its exposure, then use the limit for that exposure. This is an exposure-based \\(u\\)-chart calculation.</p><p>\\[\\begin{aligned}u_1&=8,&\\mathrm{UCL}_1&=6.243\\\\u_2&=6,&\\mathrm{UCL}_2&=8.000\\\\u_3&=4.5,&\\mathrm{UCL}_3&=5.000\\\\u_4&=2,&\\mathrm{UCL}_4&=6.243\\end{aligned}\\]</p><p>All values are events per 1,000 operating hours. Only Period 1 exceeds its limit. Period 3 has the largest raw count, but it also has twice Period 1’s exposure. These conventional three-sigma limits are not exact Poisson-tail probability limits, particularly at small expected counts.</p>",
+      "optionRationales": [
+        "Period 1 is the only rate above its exposure-specific upper limit.",
+        "Period 2 has a rate of six but an upper limit of eight events per 1,000 hours.",
+        "Period 3 has the largest count, but its rate of 4.5 is below its limit of five.",
+        "Period 3 is incorrectly flagged if its longer exposure is ignored."
+      ],
+      "keyPoint": "Changing exposure changes both the observed event rate and its control limit.",
+      "trap": "The largest raw event count need not be the strongest rate signal.",
+      "assumptions": [
+        "The historical baseline is fixed; these four periods are not used to estimate it.",
+        "Only the specified upper single-point rule applies, with independent Poisson counts and proportional exposure."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Statistical Process Control"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Interruptions and operating exposure",
+        "columns": [
+          "Period",
+          "Operating hours",
+          "Interruptions"
+        ],
+        "rows": [
+          [
+            1,
+            1000,
+            8
+          ],
+          [
+            2,
+            500,
+            3
+          ],
+          [
+            3,
+            2000,
+            9
+          ],
+          [
+            4,
+            1000,
+            2
+          ]
+        ],
+        "description": "Observed rates for Periods 1 to 4 are 8, 6, 4.5, and 2 events per 1,000 hours. Dashed upper limits are 6.243, 8, 5, and 6.243. The baseline is two.",
+        "creKind": "exposure-chart"
+      },
+      "explorer": "event-exposure"
+    },
+    {
+      "number": 105,
+      "qid": "cre:set-2:105",
+      "sub": "cre-statistics",
+      "bok": "III.A.3",
+      "topic": "Lognormal B10 life versus median and mean",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "Lifetime \\(T\\) follows a known two-parameter lognormal distribution with median 2,000 h and standard deviation of natural log lifetime \\(\\sigma=0.40\\). The standard-normal 10th percentile is \\(z_{0.10}=-1.2816\\). What is the B10 life, meaning the time by which 10% of units fail, rounded to the nearest hour?",
+      "options": [
+        "3,339 h",
+        "1,198 h",
+        "2,000 h",
+        "2,167 h"
+      ],
+      "answer": 1,
+      "why": "<p>Convert the lower normal percentile back from log time. Let \\(t_{0.10}\\) denote B10 life.</p><p>\\[\\begin{aligned}\\ln t_{0.10}&=\\ln(2000)+0.40(-1.2816)\\\\t_{0.10}&=2000e^{-0.51264}\\\\&\\approx1{,}198\\,\\mathrm h\\end{aligned}\\]</p><p>At this time, survival is 90%. The median is 2,000 h; the mean is approximately 2,167 h. Neither is the lower 10th percentile. The result is a model percentile, not a confidence bound.</p>",
+      "optionRationales": [
+        "3,339 h uses the positive normal percentile and approximates B90, when 90% have failed.",
+        "1,198 h transforms the negative 10th-percentile normal value back to lifetime.",
+        "2,000 h is the median, when half the population has failed.",
+        "2,167 h is the lognormal mean, not its lower tenth percentile."
+      ],
+      "keyPoint": "B10 denotes 10% cumulative failures, hence 90% survival.",
+      "trap": "A 90%-survival life is a lower lifetime percentile, not the 90th failure percentile.",
+      "assumptions": [
+        "The lognormal parameters are known and there is no location shift.",
+        "Natural logarithms are used; parameter-estimation uncertainty is not requested."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Probability Distributions; Lognormal Distribution"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 106,
+      "qid": "cre:set-2:106",
+      "sub": "cre-statistics",
+      "bok": "III.B.2",
+      "topic": "Informative withdrawal in survival data",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A bearing study removes units from service as soon as vibration rises, before the functional-failure threshold is reached. The analyst right-censors these units and applies an ordinary Kaplan–Meier estimate. Elevated vibration is strongly associated with impending failure. Which concern is most justified?",
+      "options": [
+        "All withdrawn units should be entered as exact functional failures at their withdrawal times.",
+        "Kaplan–Meier automatically eliminates bias from every withdrawal mechanism.",
+        "The problem disappears if withdrawal times are rounded to complete days.",
+        "Assess potentially informative withdrawal with a justified analysis or sensitivity study."
+      ],
+      "answer": 3,
+      "why": "<p>The observation ends earlier for units whose condition suggests higher failure risk. The usual noninformative-censoring assumption is therefore doubtful, so an ordinary Kaplan–Meier curve may overstate survival of the original population.</p><p>Retain the actual withdrawal times and reasons, examine the relationship with failure risk, and assess suitable modeling or sensitivity analyses. Withdrawal is not the defined functional failure, so inventing an exact failure time at withdrawal changes the endpoint.</p>",
+      "optionRationales": [
+        "Withdrawal on a precursor is not an observed crossing of the defined functional-failure threshold.",
+        "Kaplan–Meier needs an appropriate censoring assumption; it does not correct every selection mechanism.",
+        "Rounding observation times does not remove the dependence between withdrawal and impending failure.",
+        "This identifies the selection mechanism without fabricating failures or assuming a universal correction."
+      ],
+      "keyPoint": "Censoring methods require attention to why observations ended.",
+      "trap": "Recording a censoring time correctly does not by itself make censoring noninformative.",
+      "assumptions": [
+        "Functional failure and the vibration withdrawal trigger are different defined endpoints.",
+        "No model accounting for the risk-related withdrawal mechanism has been applied."
+      ],
+      "handbook": {
+        "chapter": 7,
+        "section": "Types of Data; Censored Data"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 107,
+      "qid": "cre:set-2:107",
+      "sub": "cre-testing",
+      "bok": "IV.C.3",
+      "topic": "Thermal-cycle life with a controlled maximum temperature",
+      "cognitive": "Analyze",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A validated simplified Coffin–Manson model for one solder-fatigue mechanism is \\(N_{50}=C(\\Delta T)^{-2}\\), where \\(N_{50}\\) is median cycles to failure, \\(\\Delta T\\) is cycle temperature range, and \\(C\\) is constant. Maximum temperature, cycling frequency, dwell conditions, and construction are held fixed; the model is valid over the ranges shown. Median life is 9,000 cycles in Profile A. What median life does the model predict in Profile B?",
+      "options": [
+        "4,000 cycles",
+        "13,500 cycles",
+        "20,250 cycles",
+        "9,000 cycles"
+      ],
+      "answer": 2,
+      "why": "<p>The cycle range falls from 90 °C to 60 °C while the other specified factors remain fixed. Temperature differences have the same numerical values in kelvins and degrees Celsius.</p><p>\\[\\begin{aligned}\\Delta T_A&=100-10=90\\,{}^\\circ\\mathrm C\\\\\\Delta T_B&=100-40=60\\,{}^\\circ\\mathrm C\\\\N_{50,B}&=9000\\left(\\frac{90}{60}\\right)^2\\\\&=20{,}250\\text{ cycles}\\end{aligned}\\]</p><p>The lower excursion reduces thermal-cycle fatigue under the stated model. This is a median-cycle prediction, not a minimum life or a guarantee. Holding maximum temperature and cycling conditions fixed is important when using this simplified range-only relation.</p>",
+      "optionRationales": [
+        "4,000 cycles reverses the range ratio and predicts shorter life for the smaller excursion.",
+        "13,500 cycles uses a first-power ratio and omits the specified exponent of two.",
+        "20,250 cycles uses the squared inverse range ratio with the other model factors fixed.",
+        "9,000 cycles treats equal maximum temperatures as equal fatigue loading and ignores the different ranges."
+      ],
+      "keyPoint": "Use temperature range for the cyclic model and absolute temperature for models that explicitly require it.",
+      "trap": "The maximum temperature alone does not describe a thermal cycle.",
+      "assumptions": [
+        "The same solder-fatigue mechanism and exponent apply to both profiles.",
+        "The stated simplified model is validated for these profiles; no unmodeled frequency or dwell effect is introduced."
+      ],
+      "handbook": {
+        "chapter": 10,
+        "section": "Failure Models; Coffin–Manson Model"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Thermal-cycle endpoints; frequency and dwell fixed",
+        "columns": [
+          "Profile",
+          "Minimum (°C)",
+          "Maximum (°C)"
+        ],
+        "rows": [
+          [
+            "A",
+            10,
+            100
+          ],
+          [
+            "B",
+            40,
+            100
+          ]
+        ],
+        "description": "Profile A ranges from 10 to 100 degrees Celsius; Profile B ranges from 40 to 100. Their maxima match but their ranges are 90 and 60 degrees Celsius. The figure shows endpoints, not a time waveform.",
+        "creKind": "thermal-range"
+      },
+      "explorer": "thermal-range"
+    },
+    {
+      "number": 108,
+      "qid": "cre:set-2:108",
+      "sub": "cre-testing",
+      "bok": "IV.B.6",
+      "topic": "What fault-injection testing establishes",
+      "cognitive": "Understand",
+      "difficulty": "Foundational",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A team injects corrupted sensor messages and communication timeouts into a controller. In the selected tests, it enters the specified safe state and logs the fault. Which conclusion is best supported?",
+      "options": [
+        "The tested detection and recovery responses behaved as specified for the injected conditions.",
+        "The field failure rate equals the fraction of injected faults that were detected.",
+        "The tests prove that untested faults cannot cause unsafe behavior.",
+        "No regression testing is needed after the fault-handling code is changed."
+      ],
+      "answer": 0,
+      "why": "<p>Fault injection can challenge detection, containment, and recovery behavior under selected faults. These tests support the specified responses for the conditions exercised.</p><p>Deliberately injected cases do not constitute a representative field-frequency sample. They do not establish an unconditional field failure rate or prove coverage of every untested fault. Changes to fault-handling code still need appropriate verification and regression testing.</p>",
+      "optionRationales": [
+        "This stays within the evidence: the selected faults produced the required responses under test.",
+        "A test detection fraction is not a field failure rate without an appropriate occurrence model and representative evidence.",
+        "Testing selected faults does not prove the absence of unsafe behavior for every untested fault.",
+        "Changes can affect existing behavior, so regression testing remains relevant."
+      ],
+      "keyPoint": "Fault injection evaluates behavior under selected faults; field reliability needs additional evidence.",
+      "trap": "A demanding fault test is not automatically a statistically representative mission test.",
+      "assumptions": [
+        "Injected faults and their expected responses were defined before the tests.",
+        "No representative field fault-frequency model was supplied."
+      ],
+      "handbook": {
+        "chapter": 9,
+        "section": "Software Testing; Fault-Injection Testing"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 109,
+      "qid": "cre:set-2:109",
+      "sub": "cre-lifecycle",
+      "bok": "V.A.7",
+      "topic": "FEA evidence for a cyclic-duty reliability requirement",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A bracket must meet a specified fatigue-life requirement under a repeated load spectrum. A design review presents the FEA summary below and recommends release. Which additional work most directly addresses the evidence gap?",
+      "options": [
+        "Release because a static yield factor above one proves the required fatigue life.",
+        "Validate a suitable cyclic-fatigue analysis using credible inputs and relevant evidence.",
+        "Divide the static yield factor by the required cycle count to obtain failure probability.",
+        "Replace the material’s fatigue data with its tensile yield strength in every life calculation."
+      ],
+      "answer": 1,
+      "why": "<p>The static analysis addresses yielding for one modeled load case. It does not establish fatigue life under repeated loading. Use the mission load spectrum, relevant stress or strain response, appropriate fatigue data and model, and justified boundary conditions; validate the prediction against suitable evidence.</p><p>Mesh convergence for a static displacement result is useful numerical evidence but does not by itself validate cyclic loading, the fatigue model, or its uncertainty.</p>",
+      "optionRationales": [
+        "Avoiding yielding in a static case is not proof of compliance with a cyclic fatigue-life requirement.",
+        "This connects the structural calculation to the actual failure mechanism, mission loading, and validation need.",
+        "A safety factor divided by cycles is not a defined failure-probability model.",
+        "Yield strength and fatigue behavior are different properties and cannot be universally substituted."
+      ],
+      "keyPoint": "DfR analysis should connect the design model to the required function, failure mechanism, and mission.",
+      "trap": "A converged numerical result can still answer the wrong reliability question.",
+      "assumptions": [
+        "The specified requirement concerns fatigue over repeated loading.",
+        "No fatigue analysis or validated life evidence has been supplied."
+      ],
+      "handbook": {
+        "chapter": 11,
+        "section": "Design for Reliability; Finite Element Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Evidence presented at design review",
+        "columns": [
+          "Item",
+          "Reported evidence"
+        ],
+        "rows": [
+          [
+            "Load model",
+            "One static maximum-load case"
+          ],
+          [
+            "Static yield factor",
+            "1.8"
+          ],
+          [
+            "Numerical check",
+            "Displacement changes less than 1% on mesh refinement"
+          ],
+          [
+            "Fatigue-life assessment",
+            "Not performed"
+          ]
+        ],
+        "description": "The review contains a static load case, yield factor 1.8, a displacement convergence check, and no fatigue-life assessment."
+      }
+    },
+    {
+      "number": 110,
+      "qid": "cre:set-2:110",
+      "sub": "cre-lifecycle",
+      "bok": "V.B.2",
+      "topic": "Parts standardization constrained by mission requirements",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A manufacturer wants one seal compound across a product family to reduce inventory and maintenance errors. The proposed compound is qualified for four services but swells unacceptably in the fifth service’s fluid. Which decision best applies standardization to reliability?",
+      "options": [
+        "Use the common compound everywhere because fewer part numbers always improve reliability.",
+        "Keep the common compound and compensate only by shortening the inventory reorder interval.",
+        "Reject all standardization benefits and require a unique seal for every product.",
+        "Standardize compatible services; qualify an alternative for the fifth and prevent mix-ups."
+      ],
+      "answer": 3,
+      "why": "<p>Standardization can simplify procurement, assembly, and maintenance, but the common part must still meet each application’s requirements. Use the qualified compound in compatible services and maintain or qualify an appropriate alternative for the incompatible fluid.</p><p>Clear identification and selection controls address the remaining mix-up risk. Neither forcing an unsuitable part into every application nor abandoning all commonality is justified.</p>",
+      "optionRationales": [
+        "Fewer part numbers do not compensate for a demonstrated material incompatibility.",
+        "Inventory replenishment timing does not correct swelling in the operating fluid.",
+        "The four compatible services can still benefit from suitable common parts.",
+        "This preserves useful commonality while meeting application requirements and controlling selection errors."
+      ],
+      "keyPoint": "Standardize within verified application limits.",
+      "trap": "Simplification is valuable only when required performance is preserved.",
+      "assumptions": [
+        "The swelling violates the fifth service’s acceptance requirements.",
+        "No evidence shows that inventory changes correct the material incompatibility."
+      ],
+      "handbook": {
+        "chapter": 12,
+        "section": "Parts Standardization and System Simplification"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 111,
+      "qid": "cre:set-2:111",
+      "sub": "cre-fundamentals",
+      "bok": "I.A.5",
+      "topic": "Requirement changes and verification traceability",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "After a reliability test plan is approved, a customer doubles the required mission duration while keeping the target survival probability unchanged. The design and test teams have not yet assessed the change. Which project action is most appropriate before claiming that the existing plan verifies the revised requirement?",
+      "options": [
+        "Keep the test unchanged and update only the requirement number on its report.",
+        "Treat the change as a documentation issue because the target probability is unchanged.",
+        "Assess and approve design/test changes, then update verification traceability.",
+        "Repeat the old test twice and automatically treat the two results as proof of the longer mission."
+      ],
+      "answer": 2,
+      "why": "<p>The mission duration is part of the reliability requirement. Maintaining the same survival target over a longer mission can affect design margins, sample size, exposure, acceptance rules, and schedule.</p><p>Use the project’s change-control process to assess the impact, approve the revised baseline, and maintain traceability from the customer requirement through design and verification evidence. Two tests of separate shorter missions do not automatically establish survival through one longer mission.</p>",
+      "optionRationales": [
+        "Changing a report identifier does not establish that the test verifies the revised mission.",
+        "Duration affects the requirement even when the probability target remains unchanged.",
+        "This checks technical and project impacts while keeping requirements and evidence traceable.",
+        "Combining shorter tests requires a justified model and plan; two repetitions are not automatically equivalent to one longer mission."
+      ],
+      "keyPoint": "A requirement change needs an impact assessment and matching verification evidence.",
+      "trap": "The probability target alone does not define a mission-reliability requirement.",
+      "assumptions": [
+        "The mission-duration change has not yet been technically assessed.",
+        "No approved model establishes equivalence between the old plan and the revised requirement."
+      ],
+      "handbook": {
+        "chapter": 1,
+        "section": "Project Management in Reliability Engineering; Requirements Management"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 112,
+      "qid": "cre:set-2:112",
+      "sub": "cre-fundamentals",
+      "bok": "I.B.1",
+      "topic": "Inherent availability excludes logistics delay",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A repairable unit has the long-run mean times below. No preventive maintenance occurs. What is its steady-state inherent availability, using active corrective repair time and excluding logistics delay?",
+      "options": [
+        "99.17%",
+        "96.77%",
+        "97.56%",
+        "0.83%"
+      ],
+      "answer": 0,
+      "why": "<p>Inherent availability uses the mean operating time between failures and the mean active corrective repair time. Let \\(A_i\\) denote this availability.</p><p>\\[A_i=\\frac{\\mathrm{MTBF}}{\\mathrm{MTBF}+\\mathrm{MTTR}}=\\frac{480}{480+4}\\approx0.991736\\]</p><p>The result is 99.17%. Including the twelve-hour logistics delay instead gives 96.77% on the stated all-corrective-downtime basis. That delay matters operationally, but it is excluded from the requested inherent metric. Availability is not the probability of completing a specified mission without a failure.</p>",
+      "optionRationales": [
+        "99.17% uses operating time and active corrective repair time, as required.",
+        "96.77% includes the logistics delay as well as active repair.",
+        "97.56% includes logistics delay but omits the active corrective repair itself.",
+        "0.83% is inherent unavailability, the complement of the requested availability."
+      ],
+      "keyPoint": "Choose the availability definition before deciding which downtime belongs in the denominator.",
+      "trap": "Operational delays can materially affect service even though inherent availability excludes them.",
+      "assumptions": [
+        "The stated means are representative of steady operation and successive restoration cycles.",
+        "Active corrective repair time includes the work needed to restore function; there is no preventive maintenance."
+      ],
+      "handbook": {
+        "chapter": 2,
+        "section": "Basic Reliability Terminology; Availability"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Long-run mean time per corrective restoration cycle",
+        "columns": [
+          "Time category",
+          "Mean hours"
+        ],
+        "rows": [
+          [
+            "Operating time between failures",
+            480
+          ],
+          [
+            "Active corrective repair",
+            4
+          ],
+          [
+            "Logistics delay",
+            12
+          ]
+        ],
+        "description": "Each average cycle contains 480 operating hours, four hours of active corrective repair, and twelve hours of logistics delay."
+      }
+    },
+    {
+      "number": 113,
+      "qid": "cre:set-2:113",
+      "sub": "cre-risk",
+      "bok": "II.B.2",
+      "topic": "Use FMEA and the user task sequence",
+      "cognitive": "Evaluate",
+      "difficulty": "Foundational",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A portable instrument passes component and assembly tests, but field users sometimes fit a replacement cartridge backward and skip the required initialization step. The team wants an FMEA organized around actual setup, operation, and servicing tasks, including the effects experienced by users. Which approach best matches that scope?",
+      "options": [
+        "A parts-count prediction organized only by component failure rates.",
+        "A manufacturing-process FMEA limited to the factory assembly line.",
+        "A quantitative FMECA limited to hardware failure-mode fractions.",
+        "A use FMEA developed with representative users and task sequences."
+      ],
+      "answer": 3,
+      "why": "<p>A use FMEA examines potential failures from the user’s perspective across operating and servicing tasks. Representative users, task sequences, foreseeable errors, and their effects belong in that analysis.</p><p>Factory-process or component-focused analyses can contribute useful information, but neither replaces an analysis of the specified use sequence. The team should investigate interface, instruction, and task-design contributors rather than merely labeling the event as user error.</p>",
+      "optionRationales": [
+        "Parts-count prediction does not analyze the task sequence or foreseeable interaction errors.",
+        "Factory assembly scope omits the field setup and servicing activities described.",
+        "Hardware mode fractions do not by themselves capture the user task sequence and its effects.",
+        "Use FMEA directly matches the intended analysis of setup, operation, and servicing from the user’s perspective."
+      ],
+      "keyPoint": "Match the FMEA scope to the process or interaction being assessed.",
+      "trap": "A product can meet component specifications while its use sequence still creates failure opportunities.",
+      "assumptions": [
+        "The requested analysis concerns field use rather than manufacturing operations.",
+        "Representative users and the relevant tasks can be included in the assessment."
+      ],
+      "handbook": {
+        "chapter": 4,
+        "section": "Failure Mode and Effects Analysis; Use FMEA"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 114,
+      "qid": "cre:set-2:114",
+      "sub": "cre-risk",
+      "bok": "II.B.1",
+      "topic": "Compare fault-tree interventions by top-event reduction",
+      "cognitive": "Analyze",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A top event occurs when event A occurs together with at least one of events B or C, as shown. Basic events are independent over the same mission, with probabilities 0.20, 0.30, and 0.40 respectively. Three equally costly interventions each halve exactly one basic-event probability; all other probabilities, independence, and consequences remain unchanged. Which intervention gives the largest reduction in top-event probability?",
+      "options": [
+        "Halve B, from 0.30 to 0.15.",
+        "Halve A, from 0.20 to 0.10.",
+        "Halve C, from 0.40 to 0.20.",
+        "All three interventions give the same reduction."
+      ],
+      "answer": 1,
+      "why": "<p>The top event requires A, so use its probability together with the inclusive OR of B and C.</p><p>\\[\\begin{aligned}P(T)&=p_A(p_B+p_C-p_Bp_C)\\\\&=0.20(0.30+0.40-0.12)=0.116\\end{aligned}\\]</p><p>Here \\(T\\) is the top event and \\(p_A,p_B,p_C\\) are the basic-event probabilities. Halving A, B, or C gives top-event probabilities of 0.058, 0.098, and 0.088 respectively. Their absolute reductions are 0.058, 0.018, and 0.028. Halving A therefore gives the largest reduction, even though A originally has the smallest basic-event probability.</p>",
+      "optionRationales": [
+        "Halving B reduces the top-event probability by 0.018, less than halving A.",
+        "Halving A reduces the entire top-event probability by half, an absolute reduction of 0.058.",
+        "Halving C gives a reduction of 0.028; the largest basic-event probability need not offer the largest system-level benefit.",
+        "The gates give the events different contributions to the top event, so equal fractional changes have different effects."
+      ],
+      "keyPoint": "Prioritize an intervention using its effect on the top event, not just the size of a basic-event probability.",
+      "trap": "An OR gate is inclusive: both B and C can occur on the same mission.",
+      "assumptions": [
+        "The three basic events remain independent after each single intervention.",
+        "Costs and consequences are equal, so the requested ranking is solely by top-event probability reduction."
+      ],
+      "handbook": {
+        "chapter": 4,
+        "section": "Fault Tree Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Top event: A together with B or C",
+        "columns": [
+          "Basic event",
+          "Mission probability"
+        ],
+        "rows": [
+          [
+            "A",
+            "0.20"
+          ],
+          [
+            "B",
+            "0.30"
+          ],
+          [
+            "C",
+            "0.40"
+          ]
+        ],
+        "description": "An AND gate combines event A with an OR gate containing B and C. Basic events are independent, with probabilities 0.20, 0.30, and 0.40.",
+        "creKind": "intervention-tree"
+      },
+      "explorer": "fault-intervention"
+    },
+    {
+      "number": 115,
+      "qid": "cre:set-2:115",
+      "sub": "cre-statistics",
+      "bok": "III.A.7",
+      "topic": "Upper confidence bound on a normal standard deviation",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A random sample of \\(n=16\\) complete repair times from a normal population has sample standard deviation \\(s=2.00\\) h, calculated with denominator \\(n-1\\). Assuming independent observations and normality, what is the one-sided 95% upper confidence bound on the population standard deviation \\(\\sigma\\)? The table defines chi-square values by LEFT-tail cumulative probability.",
+      "options": [
+        "1.55 h",
+        "8.26 h",
+        "2.87 h",
+        "0.50 h"
+      ],
+      "answer": 2,
+      "why": "<p>For normal data, \\((n-1)s^2/\\sigma^2\\) has a chi-square distribution with \\(n-1=15\\) degrees of freedom. An upper bound on \\(\\sigma\\) uses the lower 5% chi-square value.</p><p>\\[\\sigma_U=\\sqrt{\\frac{(n-1)s^2}{\\chi^2_{0.05,15}}}=\\sqrt{\\frac{15(2.00)^2}{7.261}}\\approx2.87\\,\\mathrm h\\]</p><p>Here \\(\\sigma_U\\) is the upper confidence bound and the chi-square subscript denotes left-tail probability. The result bounds a population standard deviation, not a mean, a repair-time percentile, or an individual repair time.</p>",
+      "optionRationales": [
+        "1.55 h uses the upper-tail critical value and produces a lower confidence bound on the standard deviation.",
+        "8.26 is the upper bound on variance before taking the square root; its units would be squared hours.",
+        "2.87 h uses the lower chi-square critical value and takes the square root to return to standard-deviation units.",
+        "0.50 h is the estimated standard error of the sample mean, not a confidence bound on population spread."
+      ],
+      "keyPoint": "The direction of a variance bound reverses the choice of chi-square denominator.",
+      "trap": "A variance bound must be square-rooted when the requested parameter is standard deviation.",
+      "assumptions": [
+        "The sample is independent, complete, and drawn from a normal population.",
+        "The supplied quantiles use left-tail probabilities, and the bound is one-sided rather than two-sided."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Confidence and Tolerance Intervals"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Chi-square quantiles: LEFT-tail probability",
+        "columns": [
+          "Degrees of freedom",
+          "Left-tail probability",
+          "Chi-square value"
+        ],
+        "rows": [
+          [
+            15,
+            "0.05",
+            "7.261"
+          ],
+          [
+            15,
+            "0.95",
+            "24.996"
+          ]
+        ],
+        "description": "For fifteen degrees of freedom, the left-tail 5% chi-square quantile is 7.261 and the left-tail 95% quantile is 24.996."
+      }
+    },
+    {
+      "number": 116,
+      "qid": "cre:set-2:116",
+      "sub": "cre-statistics",
+      "bok": "III.B.4",
+      "topic": "Histogram area with unequal bin widths",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A complete sample contains 60 failure times, grouped into the unequal-width intervals shown. The draft histogram uses raw counts as heights and actual interval widths on the horizontal axis. The analyst wants bar AREA to equal each interval’s fraction of the sample. Which correction is appropriate?",
+      "options": [
+        "Divide each count by 60 and by that interval’s width.",
+        "Divide each count by 60 but keep the unequal interval widths.",
+        "Make all bars equally wide while retaining the numerical time-axis scale.",
+        "Use cumulative counts as heights in the original intervals."
+      ],
+      "answer": 0,
+      "why": "<p>For a density histogram, divide the interval count by both the total sample size and interval width. If \\(c_i\\) is the count, \\(w_i\\) the width, and \\(h_i\\) the height:</p><p>\\[h_i=\\frac{c_i}{60w_i},\\qquad h_iw_i=\\frac{c_i}{60}\\]</p><p>The heights are 0.002000, 0.001500, and approximately 0.001667 per hour. The corresponding areas are 0.20, 0.30, and 0.50, which sum to one. Raw count heights exaggerate the area of wider bins. These are unconditional lifetime-density estimates, not conditional hazard rates.</p>",
+      "optionRationales": [
+        "This normalization makes each bar area equal its observed sample fraction despite unequal widths.",
+        "Dividing only by sample size makes heights equal fractions, but unequal widths still distort their areas.",
+        "Equal graphical widths would misrepresent the stated numerical time scale and interval boundaries.",
+        "Cumulative heights represent a different summary and do not give each interval’s sample fraction by area."
+      ],
+      "keyPoint": "For unequal-width density histograms, probability is represented by area.",
+      "trap": "Lifetime density and hazard rate have different denominators and interpretations.",
+      "assumptions": [
+        "All sixty failure times are complete observations and no censoring adjustment is needed.",
+        "The specified goal is probability area on a numerical time axis, not a categorical frequency bar chart."
+      ],
+      "handbook": {
+        "chapter": 7,
+        "section": "Data Summary and Reporting"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Draft histogram and grouped complete lifetimes",
+        "columns": [
+          "Interval (hours)",
+          "Width (hours)",
+          "Failure count"
+        ],
+        "rows": [
+          [
+            "0 to less than 100",
+            100,
+            12
+          ],
+          [
+            "100 to less than 300",
+            200,
+            18
+          ],
+          [
+            "300 to 600",
+            300,
+            30
+          ]
+        ],
+        "description": "The draft bars have numerical widths 100, 200, and 300 hours and raw-count heights 12, 18, and 30. This draft does not represent sample fractions by area.",
+        "creKind": "unequal-histogram"
+      },
+      "explorer": "histogram-scale"
+    },
+    {
+      "number": 117,
+      "qid": "cre:set-2:117",
+      "sub": "cre-testing",
+      "bok": "IV.A.1",
+      "topic": "Future failure-free interval under a power-law NHPP",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 3,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A repairable system’s failure counts follow a specified nonhomogeneous Poisson process with independent increments and mean cumulative count \\(M(t)=0.02\\sqrt{t}\\), where \\(t\\) is the numerical total operating time in hours. Treat this model as known and valid over the planned interval; repairs do not reset the model’s time origin. At total operating time 10,000 h, what is the probability of no failures during the NEXT 12,500 operating hours?",
+      "options": [
+        "0.0498",
+        "0.2865",
+        "0.0821",
+        "0.3679"
+      ],
+      "answer": 3,
+      "why": "<p>The interval ends at total time 22,500 h. Use the increase in expected cumulative count, not the count from time zero.</p><p>\\[\\begin{aligned}\\Delta M&=M(22500)-M(10000)\\\\&=0.02(150-100)=1\\\\P(\\text{no interval failures})&=e^{-\\Delta M}=e^{-1}\\approx0.3679\\end{aligned}\\]</p><p>The starting instantaneous event intensity is 0.0001 per operating hour, but it declines over this interval. Holding that initial intensity constant gives 0.2865, a different approximation. Independent increments and known model parameters make the stated interval probability independent of earlier realized counts.</p>",
+      "optionRationales": [
+        "0.0498 uses the cumulative mean of three events from time zero to 22,500 h rather than the next interval.",
+        "0.2865 freezes the instantaneous intensity at its starting value for all 12,500 h.",
+        "0.0821 freezes the historical cumulative-average rate of two events per 10,000 h.",
+        "0.3679 uses the Poisson mean increment of one event over the requested interval."
+      ],
+      "keyPoint": "For an NHPP, future interval counts depend on the increment of the mean cumulative function.",
+      "trap": "A repairable-system growth process is not a sequence of identical exponential lifetimes.",
+      "assumptions": [
+        "The NHPP model and its parameters are taken as known; no forecast-uncertainty bound is requested.",
+        "Total operating time continues across repairs, and the specified model remains valid over the next interval."
+      ],
+      "handbook": {
+        "chapter": 8,
+        "section": "Reliability Test Strategies; Reliability Growth Models"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Expected cumulative failures under the specified model",
+        "columns": [
+          "Total operating time (hours)",
+          "Expected cumulative count"
+        ],
+        "rows": [
+          [
+            0,
+            "0.0"
+          ],
+          [
+            2500,
+            "1.0"
+          ],
+          [
+            10000,
+            "2.0"
+          ],
+          [
+            22500,
+            "3.0"
+          ]
+        ],
+        "description": "The model cumulative mean rises from two at 10,000 operating hours to three at 22,500 hours. The highlighted interval is the next 12,500 hours. The curve is a model expectation, not a step plot of observed failures.",
+        "creKind": "nhpp-interval"
+      }
+    },
+    {
+      "number": 118,
+      "qid": "cre:set-2:118",
+      "sub": "cre-testing",
+      "bok": "IV.C.2",
+      "topic": "Galvanic mechanism in a wet dissimilar-metal joint",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "An aluminum housing is electrically connected to a dissimilar-metal fastener and repeatedly wetted by a conductive salt solution. Corrosion concentrates near the joint. In a controlled comparison, electrically isolating the metals greatly reduces the attack while wet exposure remains the same. Which mechanism is most consistent with this evidence?",
+      "options": [
+        "Creep caused by sustained high-temperature mechanical loading.",
+        "Fatigue caused solely by repeated mechanical stress cycles.",
+        "Galvanic corrosion involving dissimilar metals and an electrolyte.",
+        "Dry adhesive wear caused by sliding surfaces in direct contact."
+      ],
+      "answer": 2,
+      "why": "<p>Dissimilar metals, an electrically conductive path, and an electrolyte can form a galvanic couple. Preferential attack near the joint and the reduction after electrical isolation support that explanation.</p><p>The observations do not establish a complete service-life model or exclude every secondary mechanism. The alternatives require thermal, cyclic mechanical, or sliding-contact evidence not supplied here.</p>",
+      "optionRationales": [
+        "The case gives electrochemical exposure evidence, not elevated-temperature deformation evidence.",
+        "The controlled electrical-isolation result is not explained by mechanical cycling alone.",
+        "This mechanism matches the dissimilar metals, conductive solution, electrical path, and isolation comparison.",
+        "Dry sliding wear does not match the wet electrochemical conditions and lack of stated sliding."
+      ],
+      "keyPoint": "Connect the observed failure pattern to the conditions required by the proposed mechanism.",
+      "trap": "A visible corrosion location alone is weaker evidence than a controlled change to a mechanism-relevant condition.",
+      "assumptions": [
+        "The isolation comparison preserves wet exposure and other relevant conditions.",
+        "The question asks for the most consistent mechanism, not a quantitative corrosion-rate prediction."
+      ],
+      "handbook": {
+        "chapter": 10,
+        "section": "Physics of Failure and Failure Mechanisms; Corrosion"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 119,
+      "qid": "cre:set-2:119",
+      "sub": "cre-lifecycle",
+      "bok": "V.A.3",
+      "topic": "Experimental replication versus within-run subsampling",
+      "cognitive": "Analyze",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A thermal-aging experiment randomly assigns four independently prepared chamber runs to two temperatures, with two runs per temperature. Each run uses six new boards exposed together. Each board is measured twice. The analyst proposes treating all 24 readings per temperature as independent temperature replicates. Which statement is correct?",
+      "options": [
+        "Each reading is an independent temperature replicate because it has its own recorded value.",
+        "Only the independently assigned chamber runs replicate temperature; boards and readings are subsamples.",
+        "Each board is an independent temperature replicate because boards have distinct serial numbers.",
+        "No temperature comparison is possible unless every board is measured only once."
+      ],
+      "answer": 1,
+      "why": "<p>Temperature is assigned to a whole chamber run, so that run is the experimental unit for the temperature effect. There are two independently prepared run replicates at each temperature.</p><p>Boards provide within-run observations, and repeated measurements provide information at a still lower level. They should not be treated as independent temperature assignments. Analysis must reflect the run structure; useful within-run information need not be discarded. This identification does not establish that two runs per level give adequate power for a particular effect.</p>",
+      "optionRationales": [
+        "Distinct data rows do not create independent experimental assignments.",
+        "This identifies the level at which temperature was randomized and preserves the nested observation structure.",
+        "Serial numbers distinguish boards but do not remove their shared run conditions or change the assignment level.",
+        "Repeated readings can be retained and modeled appropriately; their existence does not forbid a temperature comparison."
+      ],
+      "keyPoint": "Count independent treatment assignments when identifying experimental replication.",
+      "trap": "More observations within a run cannot substitute for independent run replication.",
+      "assumptions": [
+        "Each run is independently prepared with new boards and temperatures are randomized at the run level.",
+        "There are no separately randomized board-level temperatures within a run."
+      ],
+      "handbook": {
+        "chapter": 11,
+        "section": "Design of Experiments; Replication and Randomization"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Realized randomized run assignments",
+        "columns": [
+          "Run",
+          "Temperature (°C)",
+          "New boards",
+          "Readings per board"
+        ],
+        "rows": [
+          [
+            "R1",
+            120,
+            6,
+            2
+          ],
+          [
+            "R2",
+            80,
+            6,
+            2
+          ],
+          [
+            "R3",
+            80,
+            6,
+            2
+          ],
+          [
+            "R4",
+            120,
+            6,
+            2
+          ]
+        ],
+        "description": "Four independent runs receive two temperatures, two runs per temperature. Each run contains six new boards, each measured twice. This yields twenty-four readings per temperature but only two run-level assignments per temperature."
+      }
+    },
+    {
+      "number": 120,
+      "qid": "cre:set-2:120",
+      "sub": "cre-lifecycle",
+      "bok": "V.C.3",
+      "topic": "Verified restoration in corrective-maintenance timing",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A service team replaces a failed measurement module in four minutes. Required alignment and checkout then take 26 more minutes; the instrument cannot perform its specified measurement function until they pass. A proposed dashboard would report only the four-minute swap as the complete active corrective repair time. Which treatment is most appropriate?",
+      "options": [
+        "Count all 30 minutes as active corrective repair; retain the phase times for improvement.",
+        "Report only the swap because the replacement hardware is physically installed.",
+        "Classify the required alignment and checkout as logistics waiting even while technicians perform them.",
+        "Stop timing at power-on, regardless of whether the specified measurement function has been restored."
+      ],
+      "answer": 0,
+      "why": "<p>The component swap is one phase of restoration. Required alignment and checkout are active corrective work when the instrument cannot meet its function until they pass.</p><p>Record the full active restoration duration and retain phase-level data to identify improvement opportunities. Changing the metric boundary to omit required work makes the dashboard appear better without restoring the service sooner. Genuine waiting time should be classified separately under the chosen metric definition.</p>",
+      "optionRationales": [
+        "This measures completed functional restoration and still identifies where corrective time is spent.",
+        "Physical installation is not completion when alignment and checkout are required to restore the specified function.",
+        "Active alignment and verification work are not logistics waiting merely because they follow replacement.",
+        "Power-on is an incomplete endpoint when the required measurement function is not yet verified."
+      ],
+      "keyPoint": "Define the repair endpoint by restored required function, then retain phase detail.",
+      "trap": "A shorter reported repair time is not an improvement if required restoration work was omitted.",
+      "assumptions": [
+        "Alignment and checkout are required corrective activities, not optional later enhancements.",
+        "The instrument remains unavailable for its specified function until those activities pass."
+      ],
+      "handbook": {
+        "chapter": 13,
+        "section": "Corrective Maintenance Analysis; Alignment and Checkout"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 121,
+      "qid": "cre:set-2:121",
+      "sub": "cre-fundamentals",
+      "bok": "I.A.7",
+      "topic": "Disclosing an interest in a supplier decision",
+      "cognitive": "Evaluate",
+      "difficulty": "Foundational",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "An engineer is assigned to lead the reliability assessment of two suppliers. The engineer privately owns a substantial financial interest in one supplier and believes the test results favor that supplier. The interest has not been disclosed. What is the most appropriate next step?",
+      "options": [
+        "Complete the recommendation and disclose the interest only if the other supplier objects.",
+        "Reject the supplier automatically, regardless of its technical evidence.",
+        "Continue as sole decision maker because numerical results cannot be biased.",
+        "Disclose the interest and arrange objective review with the conflict managed."
+      ],
+      "answer": 3,
+      "why": "<p>A financial interest can impair, or reasonably appear to impair, an evaluator’s independence. Disclose it before proceeding with the recommendation and use the organization’s process to manage the conflict, such as assigning an independent qualified evaluator.</p><p>Neither hiding the interest nor automatically penalizing the supplier provides an objective technical assessment. Preserve the evidence and protect confidential supplier information throughout the review.</p>",
+      "optionRationales": [
+        "Waiting for an objection prevents the organization from managing the known conflict before the decision.",
+        "Automatic rejection substitutes a different bias for an objective assessment of the supplier.",
+        "Numerical data do not remove judgment from test selection, interpretation, and recommendations.",
+        "Prompt disclosure and appropriate independent review protect both objectivity and the integrity of the decision."
+      ],
+      "keyPoint": "Disclose real or perceived conflicts before they compromise a professional decision.",
+      "trap": "Confidence in your own impartiality does not replace disclosure.",
+      "assumptions": [
+        "The financial interest is substantial and relevant to the decision.",
+        "No disclosure or independent conflict-management process has yet occurred."
+      ],
+      "handbook": {
+        "chapter": 1,
+        "section": "Ethics in Reliability Engineering"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 122,
+      "qid": "cre:set-2:122",
+      "sub": "cre-fundamentals",
+      "bok": "I.B.1",
+      "topic": "Achieved availability with unequal maintenance frequencies",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A maintenance record contains 480 operating hours, four corrective actions, and eight preventive actions. The table gives the mean active duration of each action type. An additional 84 hours of logistics and administrative waiting are recorded separately. All time categories are nonoverlapping. What achieved availability is estimated from this record, including active corrective and preventive maintenance but excluding waiting?",
+      "options": [
+        "80.00%",
+        "93.02%",
+        "95.24%",
+        "91.43%"
+      ],
+      "answer": 1,
+      "why": "<p>Weight each active duration by its action count. Corrective work totals 24 h and preventive work totals 12 h. Achieved availability includes both.</p><p>\\[A_a=\\frac{480}{480+4(6)+8(1.5)}=\\frac{480}{516}\\approx0.930233\\]</p><p>Equivalently, mean operating time between maintenance actions is 40 h, and mean active maintenance duration is 3 h. The 84 waiting hours are excluded from this metric, though they remain important to operational availability. An unweighted average of the two action-type means would give the wrong maintenance duration.</p>",
+      "optionRationales": [
+        "80.00% includes the 84 waiting hours and estimates operational availability over the complete record.",
+        "93.02% includes 36 active maintenance hours and correctly weights the two action types.",
+        "95.24% excludes preventive work, using only the 24 active corrective hours.",
+        "91.43% gives the two action-type means equal weight, although preventive actions occur twice as often."
+      ],
+      "keyPoint": "Achieved availability includes active preventive and corrective maintenance; frequency-weight the durations.",
+      "trap": "An average of category averages is wrong when the category frequencies differ.",
+      "assumptions": [
+        "Each recorded active action makes the unit unavailable for its required function.",
+        "There is no unrecorded downtime or overlapping maintenance; the estimate describes this record."
+      ],
+      "handbook": {
+        "chapter": 2,
+        "section": "Basic Reliability Terminology; Achieved Availability"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Active maintenance record",
+        "columns": [
+          "Action type",
+          "Number of actions",
+          "Mean active hours per action"
+        ],
+        "rows": [
+          [
+            "Corrective",
+            4,
+            6
+          ],
+          [
+            "Preventive",
+            8,
+            1.5
+          ]
+        ],
+        "description": "Four corrective actions average six hours; eight preventive actions average one and a half hours. Operating time is 480 hours and separate waiting time is 84 hours."
+      }
+    },
+    {
+      "number": 123,
+      "qid": "cre:set-2:123",
+      "sub": "cre-risk",
+      "bok": "II.A.2",
+      "topic": "Conditioning a redundant-system risk on a common shock",
+      "cognitive": "Analyze",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A mission requires at least one of two channels to work. A common shock occurs with probability 0.02 and makes both channels fail. If no shock occurs, each channel fails with probability 0.10, independently of the other channel conditional on no shock. These cases account for all failures. What is the probability of losing both channels during the mission?",
+      "options": [
+        "0.013924",
+        "0.030000",
+        "0.029800",
+        "0.000200"
+      ],
+      "answer": 2,
+      "why": "<p>Partition the missions into shock and no-shock cases. Let \\(S\\) denote the shock and \\(L\\) loss of both channels.</p><p>\\[\\begin{aligned}P(L)&=P(S)P(L\\mid S)\\\\&\\quad+P(S^c)P(L\\mid S^c)\\\\&=0.02(1)+0.98(0.10)(0.10)\\\\&=0.029800\\end{aligned}\\]</p><p>Each channel’s marginal failure probability is 0.118. Multiplying these marginals is invalid because the shared shock makes the channels dependent. The independence statement applies only within the no-shock case.</p>",
+      "optionRationales": [
+        "0.013924 multiplies the two marginal probabilities of 0.118, ignoring dependence induced by the common shock.",
+        "0.030000 adds 0.02 and 0.01 without weighting the conditional no-shock failure probability by 0.98.",
+        "0.029800 adds the two mutually exclusive mission cases with their proper weights.",
+        "0.000200 incorrectly requires a shock and both independent no-shock failures simultaneously."
+      ],
+      "keyPoint": "Conditional independence in one operating state does not establish unconditional independence.",
+      "trap": "A shared shock must be included once, through a complete partition of mission conditions.",
+      "assumptions": [
+        "The shock probability and conditional channel probabilities are known for the same mission.",
+        "The shock always defeats both channels; no repairs or other failure paths occur."
+      ],
+      "handbook": {
+        "chapter": 3,
+        "section": "Risk Assessment; Probabilistic Risk Assessment"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Partition of mission conditions",
+        "columns": [
+          "Mission condition",
+          "Probability of condition",
+          "Conditional probability of losing both"
+        ],
+        "rows": [
+          [
+            "Common shock",
+            "0.02",
+            "1.00"
+          ],
+          [
+            "No common shock",
+            "0.98",
+            "\\(0.10 \\times 0.10\\)"
+          ]
+        ],
+        "description": "Missions split into common shock with probability 0.02 and no shock with probability 0.98. Shock causes certain loss of both channels; without shock both independently fail with probability 0.10 each.",
+        "creKind": "common-shock"
+      },
+      "explorer": "common-shock"
+    },
+    {
+      "number": 124,
+      "qid": "cre:set-2:124",
+      "sub": "cre-risk",
+      "bok": "II.B.6",
+      "topic": "A safety function must address all hazardous energy",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A design review considers maintenance access to a clamping machine. Opening a guard reliably removes electrical drive power, but a pneumatic accumulator can still move the clamp with injurious force. The intended maintenance task places a hand in the clamp area. Which design-review conclusion is best supported?",
+      "options": [
+        "Address stored pneumatic energy and verify a safe condition for the maintenance task.",
+        "The guard is sufficient because its electrical interruption reliability is already demonstrated.",
+        "A higher motor reliability target will resolve the remaining maintenance-access hazard.",
+        "The hazard can be closed because no unintended clamp motion has yet been reported in service."
+      ],
+      "answer": 0,
+      "why": "<p>The electrical guard controls one source of motion, but stored pneumatic energy leaves a credible hazardous path during the intended task. The review must consider all relevant energy sources and the state required for safe access.</p><p>Develop and verify an appropriate means of controlling that stored energy, including foreseeable control failures, before closing the hazard. A successful component test or a lack of reported injuries does not demonstrate that the complete access safety function is adequate.</p>",
+      "optionRationales": [
+        "This addresses the demonstrated hazardous path and requires evidence that the intended task can be performed in the required safe condition.",
+        "Removing electrical power does not remove the pneumatic energy described in the scenario.",
+        "Motor reliability does not control motion driven by a separate stored-energy source.",
+        "Absence of reported events is not evidence that a known, physically credible hazardous path is controlled."
+      ],
+      "keyPoint": "Evaluate the complete safety function against the task and all relevant hazardous energy sources.",
+      "trap": "High reliability of one protective component does not establish system safety.",
+      "assumptions": [
+        "Stored pneumatic energy can cause the stated movement after electrical isolation.",
+        "No separate verified control currently prevents that movement during access."
+      ],
+      "handbook": {
+        "chapter": 4,
+        "section": "System Safety; Hazard Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 125,
+      "qid": "cre:set-2:125",
+      "sub": "cre-statistics",
+      "bok": "III.A.3",
+      "topic": "Exponential estimation with right-censored specimens",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "Five new, nonrepairable specimens start a life test together. Failed specimens are removed without replacement; the planned test ends at 600 h. Exact failure and censoring times are shown. Assume independent exponential lifetimes with a common unknown mean and noninformative administrative censoring. What is the maximum-likelihood estimate of mean time to failure?",
+      "options": [
+        "266.7 h",
+        "400.0 h",
+        "1,000.0 h",
+        "666.7 h"
+      ],
+      "answer": 3,
+      "why": "<p>Every specimen contributes its observed time at risk. The two survivors contribute 600 h each, without adding failures.</p><p>\\[\\begin{aligned}T&=100+200+500+600+600\\\\&=2000\\ \\text{unit-hours}\\\\\\widehat{\\mathrm{MTTF}}&=\\frac{T}{r}=\\frac{2000}{3}\\approx666.7\\ \\text{h}\\end{aligned}\\]</p><p>Here \\(T\\) is total observed exposure and \\(r\\) is the failure count. The likelihood for failure rate \\(\\lambda\\) is proportional to \\(\\lambda^3 e^{-2000\\lambda}\\), maximized at 0.0015 per hour. The estimate can exceed the 600-hour test cutoff: it is a model-based population mean, not the mean of the observed failure times.</p>",
+      "optionRationales": [
+        "266.7 h averages only the three failure times and discards survival information from the censored specimens.",
+        "400.0 h divides total observed time by all five specimens, incorrectly counting censoring as failure.",
+        "1,000.0 h assigns 600 h to every specimen, including units already removed after failure.",
+        "666.7 h uses all valid exposure and divides by the three actual failures under the stated exponential model."
+      ],
+      "keyPoint": "Right-censored specimens contribute exposure, but they do not contribute a failure count.",
+      "trap": "The average of observed failures alone is not the censored-data exponential MLE.",
+      "assumptions": [
+        "Lifetimes are independent and identically exponential; the fixed cutoff is unrelated to individual condition.",
+        "Failure times are exact, with no replacements, repairs, or additional exposure after failure."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Probability Distributions; Exponential Distribution and Censored Data"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Five-specimen life-test record",
+        "columns": [
+          "Specimen",
+          "Observed time (hours)",
+          "Status"
+        ],
+        "rows": [
+          [
+            "A",
+            100,
+            "Failure"
+          ],
+          [
+            "B",
+            200,
+            "Failure"
+          ],
+          [
+            "C",
+            500,
+            "Failure"
+          ],
+          [
+            "D",
+            600,
+            "Right-censored"
+          ],
+          [
+            "E",
+            600,
+            "Right-censored"
+          ]
+        ],
+        "description": "Five timelines start at zero. A, B, and C end in failures at 100, 200, and 500 hours. D and E survive to the fixed 600-hour cutoff, when they are right-censored.",
+        "creKind": "censored-exposure"
+      }
+    },
+    {
+      "number": 126,
+      "qid": "cre:set-2:126",
+      "sub": "cre-statistics",
+      "bok": "III.A.6",
+      "topic": "Apply a specified EWMA signal rule",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A stable baseline for an individual leakage measurement has mean 10.00 mL/min and standard deviation 1.00 mL/min. The approved EWMA plan initializes \\(z_0=10.00\\), uses \\(z_t=0.20x_t+0.80z_{t-1}\\), and applies fixed asymptotic three-sigma limits of 9.00 and 11.00 mL/min from the first observation. Only a point outside these limits signals. For the measurements below, which is the first EWMA signal?",
+      "options": [
+        "Observation 1",
+        "Observation 3",
+        "Observation 2",
+        "No signal through observation 3"
+      ],
+      "answer": 1,
+      "why": "<p>Apply the recursion in time order. Here \\(x_t\\) is the current measurement and \\(z_t\\) the EWMA statistic.</p><p>\\[\\begin{aligned}z_1&=0.20(12)+0.80(10)=10.40\\\\z_2&=0.20(12)+0.80(10.40)=10.72\\\\z_3&=0.20(13)+0.80(10.72)=11.176\\end{aligned}\\]</p><p>Only the third EWMA exceeds the specified 11.00 limit. The fixed limits are consistent with the asymptotic EWMA standard deviation:</p><p>\\[\\sigma_z=1\\sqrt{\\frac{0.20}{2-0.20}}=\\frac{1}{3}\\ \\text{mL/min}\\]</p><p>The plan deliberately specifies fixed limits; do not substitute time-varying startup limits or the limits for individual measurements. A signal calls for investigation and does not by itself identify its cause.</p>",
+      "optionRationales": [
+        "The first raw measurement exceeds 11.00, but the first EWMA is 10.40 and does not signal.",
+        "The third EWMA is 11.176, the first value outside the stated fixed limits.",
+        "The second EWMA is 10.72, still inside the stated limits.",
+        "Using individual-measurement limits of 7.00 and 13.00 would miss the EWMA signal and applies a different chart."
+      ],
+      "keyPoint": "Compare the specified chart statistic with its own approved limits.",
+      "trap": "Do not compare a raw measurement with an EWMA limit or silently switch startup conventions.",
+      "assumptions": [
+        "The stable baseline measurements are independent; the given plan and fixed limits are approved.",
+        "No supplementary run rules or time-varying startup limits apply."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Statistical Process Control and Capability Studies; EWMA extension verified against NIST"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Ordered leakage measurements",
+        "columns": [
+          "Observation",
+          "Leakage (mL/min)"
+        ],
+        "rows": [
+          [
+            1,
+            12
+          ],
+          [
+            2,
+            12
+          ],
+          [
+            3,
+            13
+          ]
+        ],
+        "description": "Leakage measurements in order are 12, 12, and 13 milliliters per minute. The EWMA starts at 10 and the fixed limits are 9 and 11."
+      }
+    },
+    {
+      "number": 127,
+      "qid": "cre:set-2:127",
+      "sub": "cre-testing",
+      "bok": "IV.B.1",
+      "topic": "Recognize a mechanism change in accelerated life testing",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A team plans to extrapolate field life using one temperature-acceleration model for seal oxidation. Failure analysis finds the same oxidation mechanism at 80 °C and 100 °C. At 140 °C, a material transition instead produces rapid extrusion; the transition is not reached in the intended field environment. What is the best next action before a field-life claim?",
+      "options": [
+        "Reassess mechanism-specific stress ranges; fit the field model without pooling extrusion as oxidation.",
+        "Pool all failures because a higher stress must provide a more accurate acceleration factor.",
+        "Keep the 140 °C times but relabel extrusion as oxidation to preserve one model.",
+        "Discard the entire test because finding any new mechanism makes all lower-stress observations invalid."
+      ],
+      "answer": 0,
+      "why": "<p>Acceleration should shorten the time to the relevant mechanism without changing what fails. The 140 °C group shows a different mechanism associated with a transition outside the intended field range.</p><p>Retain the original records and reassess the usable stress range, failure classifications, and extrapolation model. The lower-stress evidence may remain useful, subject to its own adequacy. Whether and how observations enter a mechanism-specific censored analysis requires a justified competing-risk and censoring treatment; they must not simply be relabeled or silently removed.</p>",
+      "optionRationales": [
+        "This preserves the evidence while checking that the acceleration model actually represents the field-relevant mechanism.",
+        "More severe stress does not improve extrapolation when it introduces a different mechanism.",
+        "Relabeling a physically identified failure mode would misrepresent the evidence.",
+        "A high-stress mechanism change does not automatically invalidate correctly obtained lower-stress data."
+      ],
+      "keyPoint": "Validate mechanism continuity before extrapolating accelerated life to service conditions.",
+      "trap": "A shorter test life is not necessarily a faster version of the same field mechanism.",
+      "assumptions": [
+        "Failure analysis supports the stated mechanism assignments and material transition.",
+        "The intended use environment does not reach that transition; no validated cross-mechanism model is available."
+      ],
+      "handbook": {
+        "chapter": 9,
+        "section": "Accelerated Life Tests; Stress Selection and Failure Mechanisms"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Failure-analysis summary by test temperature",
+        "columns": [
+          "Temperature (°C)",
+          "Observed mechanism",
+          "Relation to intended field conditions"
+        ],
+        "rows": [
+          [
+            80,
+            "Oxidation",
+            "Field-relevant mechanism"
+          ],
+          [
+            100,
+            "Oxidation",
+            "Field-relevant mechanism"
+          ],
+          [
+            140,
+            "Extrusion after material transition",
+            "Transition not reached in intended field environment"
+          ]
+        ],
+        "description": "Oxidation occurs at 80 and 100 degrees Celsius. At 140 degrees Celsius a material transition introduces extrusion, a different mechanism."
+      }
+    },
+    {
+      "number": 128,
+      "qid": "cre:set-2:128",
+      "sub": "cre-testing",
+      "bok": "IV.C.1",
+      "topic": "Reliability of a bridge network",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 3,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A communication network succeeds if any working, bidirectional path connects S to T. The five links are independent over the mission. The four outer links each have reliability 0.90; the bridge link E has reliability 0.80. Nodes are perfect, failed links are open, and no repair or capacity limitation applies. What is the mission reliability of the network shown?",
+      "options": [
+        "0.96390",
+        "0.98010",
+        "0.99553",
+        "0.97686"
+      ],
+      "answer": 3,
+      "why": "<p>Condition on bridge E. When E works, U and V are connected: at least one left link and at least one right link must work. When E fails, only the two outer series paths remain.</p><p>\\[\\begin{aligned}R_{\\text{E works}}&=[1-(1-0.90)^2]^2\\\\&=0.98010\\\\R_{\\text{E fails}}&=1-(1-0.90^2)^2\\\\&=0.96390\\\\R&=0.80(0.98010)+0.20(0.96390)\\\\&=0.97686\\end{aligned}\\]</p><p>Here \\(R\\) is network mission reliability. The component sets used on the left and right are disjoint after conditioning. The four individual S-to-T paths overlap in the original network, so their success events cannot be treated as independent.</p>",
+      "optionRationales": [
+        "0.96390 ignores the working bridge and is the reliability when E is always failed.",
+        "0.98010 assumes the bridge is perfect instead of having reliability 0.80.",
+        "0.99553 treats the four overlapping paths as independent, greatly overstating redundancy.",
+        "0.97686 weights the two bridge states by their actual probabilities and accounts for shared links."
+      ],
+      "keyPoint": "Condition on a suitable bridge component to reduce a non-series-parallel network.",
+      "trap": "Independent links do not make overlapping network paths independent.",
+      "assumptions": [
+        "All links are bidirectional and independent; all four nodes are perfect.",
+        "Any connected path is sufficient; there are no throughput, repair, or switching constraints."
+      ],
+      "handbook": {
+        "chapter": 10,
+        "section": "Reliability Block Diagrams and Models; Network Reliability"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Bidirectional bridge network",
+        "columns": [
+          "Link",
+          "Endpoints",
+          "Mission reliability"
+        ],
+        "rows": [
+          [
+            "A",
+            "S–U",
+            "0.90"
+          ],
+          [
+            "B",
+            "U–T",
+            "0.90"
+          ],
+          [
+            "C",
+            "S–V",
+            "0.90"
+          ],
+          [
+            "D",
+            "V–T",
+            "0.90"
+          ],
+          [
+            "E",
+            "U–V",
+            "0.80"
+          ]
+        ],
+        "description": "Nodes S and T are the terminals, with U above V between them. Outer links A, B, C, D connect S–U, U–T, S–V, V–T respectively; bridge E connects U–V. Every link is bidirectional.",
+        "creKind": "bridge-network"
+      },
+      "explorer": "bridge-reliability"
+    },
+    {
+      "number": 129,
+      "qid": "cre:set-2:129",
+      "sub": "cre-lifecycle",
+      "bok": "V.A.3",
+      "topic": "Separate centering and noise sensitivity in design selection",
+      "cognitive": "Analyze",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A balanced experiment evaluates three control settings at two equally weighted noise conditions. The table contains mean response at each condition. The selection rule requires the average across the two conditions to be from 49 through 51 N inclusive, then chooses the eligible setting with the smallest high-minus-low response range. Using only this stated screening rule, which setting should proceed to confirmation testing?",
+      "options": [
+        "Setting A, because its average is exactly 50 N.",
+        "Setting C, because its response range is smallest.",
+        "Setting B, which has the smallest range among eligible settings.",
+        "No setting, because every observed condition mean must lie between 49 and 51 N."
+      ],
+      "answer": 2,
+      "why": "<p>Apply the average constraint before comparing sensitivity to the noise condition.</p><p>\\[\\begin{array}{c|cc}\\text{Setting}&\\text{Average (N)}&\\text{Range (N)}\\\\\\hline A&50&10\\\\B&51&4\\\\C&48&2\\end{array}\\]</p><p>A and B satisfy the inclusive average requirement. B has the smaller range, so it proceeds to confirmation. C is less sensitive to these two conditions but misses the required average. The rule does not require every individual condition mean to be within the average band.</p><p>This screen does not establish statistical significance, a tolerance interval, or robustness across untested noise conditions. Confirmation must address those claims as needed.</p>",
+      "optionRationales": [
+        "A is eligible, but exact centering does not override the rule to minimize range among eligible settings.",
+        "C has the smallest range, but its 48 N average violates the eligibility requirement.",
+        "B has an eligible average of 51 N and a 4 N range, lower than eligible A’s 10 N.",
+        "This imposes an individual-condition criterion that is not part of the stated average-based rule."
+      ],
+      "keyPoint": "Check the target constraint before choosing the least noise-sensitive design.",
+      "trap": "Small variation can coexist with an unacceptable average.",
+      "assumptions": [
+        "Noise conditions are equally weighted, and the displayed cell means come from a balanced experiment.",
+        "Only the stated deterministic screening rule is requested; uncertainty and untested conditions remain for confirmation."
+      ],
+      "handbook": {
+        "chapter": 11,
+        "section": "Design of Experiments; Robustness and Interpretation"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Mean force at two noise conditions",
+        "columns": [
+          "Control setting",
+          "Low-noise condition mean (N)",
+          "High-noise condition mean (N)"
+        ],
+        "rows": [
+          [
+            "A",
+            45,
+            55
+          ],
+          [
+            "B",
+            49,
+            53
+          ],
+          [
+            "C",
+            47,
+            49
+          ]
+        ],
+        "description": "A has responses 45 and 55 N, B has 49 and 53 N, and C has 47 and 49 N. Average eligibility is 49 through 51 N inclusive."
+      }
+    },
+    {
+      "number": 130,
+      "qid": "cre:set-2:130",
+      "sub": "cre-lifecycle",
+      "bok": "V.C.1",
+      "topic": "Maintenance planning under explicit warranty conditions",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A covered drive fails and is safely taken out of service. Its written warranty requires prompt notification, maintenance records, and supplier authorization before the enclosure is opened. An approved spare can restore production while the failed drive is held for assessment. Which maintenance plan best preserves the available options?",
+      "options": [
+        "Open the failed drive immediately and seek authorization after identifying the fault.",
+        "Use the spare, notify the supplier promptly, preserve records, and obtain authorization before opening the drive.",
+        "Leave production stopped until the claim is settled, because using an approved spare necessarily cancels the warranty.",
+        "Discard the maintenance history and treat the warranty as a guarantee that the failure could not have occurred."
+      ],
+      "answer": 1,
+      "why": "<p>The stated terms define the relevant decision. Use the approved spare to restore service, retain the failed unit and maintenance evidence, notify the supplier promptly, and obtain its authorization before opening the covered enclosure.</p><p>This separates service restoration from the warranty assessment. A warranty allocates responsibilities under its terms; it is not proof that a unit cannot fail. Coverage and repair timing should be confirmed rather than assumed. This answer applies to the explicit hypothetical terms, not to an unstated legal rule.</p>",
+      "optionRationales": [
+        "Opening the enclosure before authorization conflicts with the explicit condition and can compromise the claim assessment.",
+        "This restores service through an approved option while preserving the evidence and following the stated notification and authorization conditions.",
+        "The scenario permits an approved spare and states no requirement to keep production stopped during claim assessment.",
+        "Discarding records conflicts with the terms; a warranty does not establish failure-free performance."
+      ],
+      "keyPoint": "Plan restoration and warranty handling together using the actual stated conditions.",
+      "trap": "A warranty does not eliminate the need for maintenance records, spare planning, or failure analysis.",
+      "assumptions": [
+        "The failed unit is safely out of service, and an approved compatible spare is available.",
+        "The stated written terms govern this exercise; no emergency requires opening the covered unit before authorization."
+      ],
+      "handbook": {
+        "chapter": 13,
+        "section": "Maintenance Strategies; Equipment Warranties"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 131,
+      "qid": "cre:set-2:131",
+      "sub": "cre-fundamentals",
+      "bok": "I.A.9",
+      "topic": "Distinguish program activity from reliability performance",
+      "cognitive": "Understand",
+      "difficulty": "Foundational",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A reliability dashboard shows that all scheduled design reviews were completed and that the number of open action items fell by half. Management asks whether these measures demonstrate that the product now meets its field-reliability objective. Which response is most appropriate?",
+      "options": [
+        "These indicate program progress; product-performance evidence is still needed.",
+        "They demonstrate the objective because completing all reviews is equivalent to passing a reliability demonstration.",
+        "They demonstrate improvement if each closed action is counted as one prevented field failure.",
+        "They cannot contribute to performance monitoring because only field failures are useful indicators."
+      ],
+      "answer": 0,
+      "why": "<p>Review completion and action status can show whether planned work is progressing. They do not directly measure mission success, failure frequency, or another specified product-reliability outcome.</p><p>Use these indicators alongside relevant test and field evidence, with consistent failure definitions, configuration, exposure, and use conditions. A balanced monitoring system connects work performed to the reliability objectives that work is intended to support.</p>",
+      "optionRationales": [
+        "This retains useful program indicators while recognizing the need for evidence of product performance.",
+        "A completed review is an activity milestone, not a statistical or engineering demonstration of a reliability requirement.",
+        "A closed action may address many failures, none, or an unverified cause; the counts are not interchangeable.",
+        "Activity and process indicators can provide early warning and accountability even though they do not prove field reliability."
+      ],
+      "keyPoint": "Monitor both execution of the reliability program and the product outcomes it is intended to improve.",
+      "trap": "A completed activity is not automatically a demonstrated reliability result.",
+      "assumptions": [
+        "The dashboard contains no test results or exposure-normalized field-performance evidence.",
+        "The question concerns whether the displayed activity indicators alone demonstrate the objective."
+      ],
+      "handbook": {
+        "chapter": 1,
+        "section": "Performance Monitoring; Uses of Performance Indicators"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 132,
+      "qid": "cre:set-2:132",
+      "sub": "cre-fundamentals",
+      "bok": "I.B.4",
+      "topic": "Investigate the system behind a repeated human error",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "Three trained technicians at different sites omitted the same seal during assembly. All followed the current controlled instruction, whose reassembly diagram does not show the seal. A draft 5 Whys report ends with “technician inattention” and proposes retraining. Which next step best strengthens the root-cause investigation?",
+      "options": [
+        "Close the investigation because a human action immediately preceded each failure.",
+        "Replace 5 Whys with a fishbone diagram and accept every listed cause without verification.",
+        "Test whether the instruction and its review process contributed to the repeated omission.",
+        "Declare the missing diagram detail the sole root cause and close the case without checking actual assembly practice."
+      ],
+      "answer": 2,
+      "why": "<p>The repeated omission by trained technicians, together with a deficient controlled diagram, supports investigation of the work system rather than stopping at an unsupported personal explanation.</p><p>Check what technicians actually saw and did, how the instruction was created and approved, and whether the proposed explanation reproduces the omission or its prevention under representative conditions. The diagram is a plausible causal factor, not proof that no other causes exist. Select and verify corrective action after the causal evidence is established.</p>",
+      "optionRationales": [
+        "A preceding action identifies a point in the sequence but does not explain the conditions that made recurrence possible.",
+        "A different diagram can organize hypotheses; it does not convert untested hypotheses into verified causes.",
+        "This follows the evidence beyond the immediate act and tests the process-level explanation before permanent action.",
+        "The missing detail is relevant evidence, but assuming it is the sole cause skips causal verification and other contributors."
+      ],
+      "keyPoint": "A useful root-cause analysis tests the conditions that made the error possible and repeatable.",
+      "trap": "Stopping at “human error” can turn a recurring system problem into repeated retraining.",
+      "assumptions": [
+        "Training completion and use of the stated instruction have been confirmed.",
+        "The deficient diagram is an observed fact; its causal role has not yet been experimentally or otherwise adequately verified."
+      ],
+      "handbook": {
+        "chapter": 2,
+        "section": "Root Cause Analysis; 5 Why Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 133,
+      "qid": "cre:set-2:133",
+      "sub": "cre-risk",
+      "bok": "II.C",
+      "topic": "Assess overall residual risk before release",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A product team has verified each planned risk control. Every individual residual-risk entry is below its approved acceptance threshold. The release procedure also requires an overall residual-risk assessment, which has not been completed. Several hazards can occur during the same mission and some controls share a power source. What is the best next action?",
+      "options": [
+        "Release the product because passing every individual threshold necessarily establishes acceptable overall risk.",
+        "Add all ordinal risk-matrix scores and accept the product if the sum is numerically small.",
+        "Assume all hazards are independent because their controls passed separate verification tests.",
+        "Assess combined residual risk and shared-control interactions before authorized disposition."
+      ],
+      "answer": 3,
+      "why": "<p>Individual acceptance is necessary under the stated procedure, but it does not replace the required overall assessment. Shared controls, simultaneous hazards, and failure cascades can affect the combined result.</p><p>Use a model appropriate to the hazards and available evidence, examine dependence, and compare the result with the established overall criteria. Document the decision through the assigned risk-acceptance process. A separate control test verifies that control under its test conditions; it does not establish independence between all hazardous scenarios.</p>",
+      "optionRationales": [
+        "Acceptable individual entries do not prove that their aggregate consequences or interactions are acceptable.",
+        "Ordinal matrix scores are ranking categories, not automatically additive probabilities or expected losses.",
+        "Separate verification does not remove the dependence introduced by a shared power source.",
+        "This completes the explicitly required assessment and addresses interactions before the release disposition."
+      ],
+      "keyPoint": "Assess overall residual risk as well as the acceptability of individual residual risks.",
+      "trap": "Several individually acceptable risks do not automatically form an acceptable combined system.",
+      "assumptions": [
+        "Both individual and overall acceptance criteria were established before this release review.",
+        "The shared power source and concurrent mission hazards have not yet been evaluated in the overall residual-risk assessment."
+      ],
+      "handbook": {
+        "chapter": 5,
+        "section": "Overall Residual Risk Assessment"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 134,
+      "qid": "cre:set-2:134",
+      "sub": "cre-statistics",
+      "bok": "III.A.7",
+      "topic": "Confidence interval from matched repair trials",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "Five independently selected technician–fixture pairs each perform the same standardized repair using an old and a revised procedure. Procedure order is randomized within each pair; assume no learning or carryover effect. Times are shown below. Assume the population of paired differences is normal with unknown variance. Defining reduction as old time minus revised time, which is the two-sided 95% confidence interval for the mean reduction? Use \\(t_{0.975,4}=2.776\\).",
+      "options": [
+        "2.07 to 9.93 min",
+        "−2.78 to 14.78 min",
+        "4.24 to 7.76 min",
+        "−9.93 to −2.07 min"
+      ],
+      "answer": 0,
+      "why": "<p>Preserve the pairing. The five reductions are 2, 4, 6, 8, and 10 min. Their mean is 6 min, and their sample variance is 10 square minutes.</p><p>\\[\\begin{aligned}\\bar d&=6,\\qquad s_d=\\sqrt{10}\\\\\\mathrm{SE}(\\bar d)&=\\frac{s_d}{\\sqrt{5}}=\\sqrt{2}\\\\\\bar d\\pm t_{0.975,4}\\mathrm{SE}(\\bar d)&=6\\pm2.776\\sqrt{2}\\\\&\\approx[2.07,\\ 9.93]\\ \\text{min}\\end{aligned}\\]</p><p>The interval estimates a population mean reduction under the assumptions. It is not a range containing 95% of individual repair-time reductions. Variation between fixtures is handled by analyzing within-pair differences.</p>",
+      "optionRationales": [
+        "This uses the five paired differences, their sample standard deviation, and four degrees of freedom.",
+        "This uses the standard deviation of individual differences as though it were the standard error of their mean.",
+        "This divides the sample standard deviation by five instead of by the square root of five.",
+        "This reverses the defined subtraction and estimates revised time minus old time."
+      ],
+      "keyPoint": "For matched observations, construct the interval from the within-pair differences.",
+      "trap": "Use the standard error of the mean difference, not the spread of individual differences.",
+      "assumptions": [
+        "Pairs are independent and representative; paired differences are normally distributed.",
+        "Order is randomized within pairs and learning, carryover, and other period effects are absent."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Confidence and Tolerance Intervals; Paired Mean Differences"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Matched repair-time trials",
+        "columns": [
+          "Pair",
+          "Old procedure (min)",
+          "Revised procedure (min)"
+        ],
+        "rows": [
+          [
+            "A",
+            24,
+            22
+          ],
+          [
+            "B",
+            42,
+            38
+          ],
+          [
+            "C",
+            56,
+            50
+          ],
+          [
+            "D",
+            78,
+            70
+          ],
+          [
+            "E",
+            100,
+            90
+          ]
+        ],
+        "description": "Each line connects the two observations for the same pair. Old and revised times are A: 24 and 22; B: 42 and 38; C: 56 and 50; D: 78 and 70; E: 100 and 90 minutes.",
+        "creKind": "paired-repair"
+      }
+    },
+    {
+      "number": 135,
+      "qid": "cre:set-2:135",
+      "sub": "cre-statistics",
+      "bok": "III.B.1",
+      "topic": "Weight reliability evidence to the target fleet",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A target fleet contains 8,000 light-duty and 2,000 heavy-duty units. Investigators randomly sample 100 units from each duty group and observe every sampled unit for the same 1,000-hour mission, with no censoring. The table records whether each unit fails at least once. Assuming the samples represent their respective groups, what point estimate of the target fleet’s 1,000-hour failure proportion correctly accounts for its duty mix?",
+      "options": [
+        "6.0%",
+        "8.4%",
+        "3.6%",
+        "12.0%"
+      ],
+      "answer": 2,
+      "why": "<p>The sample deliberately gives heavy-duty units more weight than they have in the fleet. Estimate each group separately and combine using fleet proportions.</p><p>\\[\\begin{aligned}\\widehat p_L&=2/100=0.02\\\\\\widehat p_H&=10/100=0.10\\\\\\widehat p_{\\text{fleet}}&=0.80(0.02)+0.20(0.10)\\\\&=0.036=3.6\\%\\end{aligned}\\]</p><p>Equivalently, the estimated numbers of failed units are 160 light-duty and 200 heavy-duty, totaling 360 out of 10,000. Pooling the 12 sample failures over 200 sampled units instead estimates the sample’s 50/50 mixture.</p>",
+      "optionRationales": [
+        "6.0% pools the equal-sized samples and describes their 50/50 mix rather than the target fleet’s 80/20 mix.",
+        "8.4% reverses the fleet weights, assigning 80% to the heavy-duty group.",
+        "3.6% weights each group’s estimated failure proportion by that group’s share of the target fleet.",
+        "12.0% adds the group percentages without weighting them by any population proportions."
+      ],
+      "keyPoint": "Weight group-specific estimates to the population the reliability claim describes.",
+      "trap": "A balanced sample does not imply a balanced target population.",
+      "assumptions": [
+        "Sampling is random and representative within each duty group, with complete mission outcomes.",
+        "The fleet counts are known; no transfer to a different duty mix or a longer mission is claimed."
+      ],
+      "handbook": {
+        "chapter": 7,
+        "section": "Sources and Uses of Reliability Data; Normalizing Datasets"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Fleet composition and mission sample",
+        "columns": [
+          "Duty group",
+          "Fleet units",
+          "Sampled units",
+          "Sampled units failing"
+        ],
+        "rows": [
+          [
+            "Light",
+            8000,
+            100,
+            2
+          ],
+          [
+            "Heavy",
+            2000,
+            100,
+            10
+          ]
+        ],
+        "description": "The target fleet is 80 percent light-duty and 20 percent heavy-duty; the sample is 50 percent of each. Two of 100 sampled light-duty units and ten of 100 sampled heavy-duty units fail during the same mission.",
+        "creKind": "fleet-mixture"
+      },
+      "explorer": "fleet-mixture"
+    },
+    {
+      "number": 136,
+      "qid": "cre:set-2:136",
+      "sub": "cre-statistics",
+      "bok": "III.A.4",
+      "topic": "Probability that a specified mode causes the first failure",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A new, nonrepairable unit is subject to two independent exponential failure mechanisms, A and B, with constant rates shown below. The unit is removed permanently when the first mechanism fails. What is the probability that mechanism A causes the unit’s first failure within 1,000 h?",
+      "options": [
+        "0.1813",
+        "0.1728",
+        "0.2592",
+        "0.6667"
+      ],
+      "answer": 1,
+      "why": "<p>For A to cause the observed failure at time \\(u\\), the unit must have survived both mechanisms until then. Multiply the total survival probability by A’s failure rate and integrate.</p><p>\\[\\begin{aligned}P(A\\text{ first by }t)&=\\int_0^t\\lambda_A e^{-(\\lambda_A+\\lambda_B)u}\\,du\\\\&=\\frac{\\lambda_A}{\\lambda_A+\\lambda_B}\\left(1-e^{-(\\lambda_A+\\lambda_B)t}\\right)\\\\&=\\frac{2}{3}(1-e^{-0.3})\\\\&\\approx0.1728\\end{aligned}\\]</p><p>The 0.1813 isolated-mode probability includes latent A failures that would occur after B had already removed the unit. The ratio 2/3 is the share attributable to A among first failures under this constant-rate model, not the unconditional chance of an A failure within this finite mission.</p>",
+      "optionRationales": [
+        "0.1813 is the probability A would fail by 1,000 h if B did not remove the unit first.",
+        "0.1728 accounts for survival against both mechanisms before an A-caused first failure.",
+        "0.2592 is the probability of a first failure from either mechanism during the mission.",
+        "0.6667 is the constant-rate cause share among failures and omits the probability of surviving the mission."
+      ],
+      "keyPoint": "A cause-specific cumulative incidence counts failures from that cause before competing causes remove the unit.",
+      "trap": "An isolated failure-mode CDF and an observed first-failure probability answer different questions.",
+      "assumptions": [
+        "Latent times to A and B are independent exponentials with the stated constant rates.",
+        "The first mechanism failure ends observation and operation; there are no repairs or additional failure modes."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Probability Functions; Hazard and Cumulative Distribution Functions"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Competing mechanism rates",
+        "columns": [
+          "Mechanism",
+          "Constant failure rate (per hour)"
+        ],
+        "rows": [
+          [
+            "A",
+            "0.0002"
+          ],
+          [
+            "B",
+            "0.0001"
+          ]
+        ],
+        "description": "A has failure rate 0.0002 per hour and B has failure rate 0.0001 per hour. Their independent latent lifetimes compete to cause the first unit failure."
+      }
+    },
+    {
+      "number": 137,
+      "qid": "cre:set-2:137",
+      "sub": "cre-testing",
+      "bok": "IV.A.2",
+      "topic": "Match simultaneous environmental stresses to use conditions",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A powered controller will operate in high humidity while electrical bias is continuously applied. The completed tests in the table used fresh representative specimens. The team proposes release on the basis that both humidity and powered operation have already been tested. Which conclusion best addresses the intended use condition?",
+      "options": [
+        "The evidence is sufficient because the two completed tests cover the same total number of stress factors.",
+        "The evidence is sufficient if the durations of the two completed tests are added together.",
+        "A second unpowered humidity exposure alone will establish performance with simultaneous electrical bias.",
+        "Develop a justified combined humidity-and-bias test for the intended use condition."
+      ],
+      "answer": 3,
+      "why": "<p>The completed tests cover high humidity without bias and powered operation in dry conditions. Neither reproduces the simultaneous condition required in service.</p><p>Environmental factors and operating stresses can interact. A combined-condition test should use justified levels, duration, failure criteria, and instrumentation appropriate to the intended use and plausible mechanisms. The missing condition is an evidence gap; the table does not prove that a particular interaction or failure will occur.</p>",
+      "optionRationales": [
+        "Testing each factor separately does not automatically establish behavior when the factors act together.",
+        "Adding durations cannot recreate a simultaneous stress interaction that was absent from both tests.",
+        "Repeating the same unpowered condition leaves the powered high-humidity condition unexamined.",
+        "This identifies the untested service combination and connects the next test to its physical mechanisms and requirements."
+      ],
+      "keyPoint": "Test coverage must include relevant combinations of environment and operating state.",
+      "trap": "Separate successful exposures do not necessarily demonstrate combined-condition performance.",
+      "assumptions": [
+        "High humidity and applied electrical bias occur together in the intended use profile.",
+        "No prior validated model or other evidence establishes performance for that combined condition."
+      ],
+      "handbook": {
+        "chapter": 8,
+        "section": "Environmental Factors and Use Conditions; Multiple Stress Factors"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Completed environmental test coverage",
+        "columns": [
+          "Condition",
+          "Electrical state",
+          "Outcome"
+        ],
+        "rows": [
+          [
+            "High humidity",
+            "Unpowered",
+            "Passed specified test"
+          ],
+          [
+            "Dry environment",
+            "Powered",
+            "Passed specified test"
+          ],
+          [
+            "High humidity",
+            "Powered",
+            "Not tested"
+          ]
+        ],
+        "description": "High-humidity unpowered and dry powered tests passed. The service condition of high humidity with power applied has not been tested."
+      }
+    },
+    {
+      "number": 138,
+      "qid": "cre:set-2:138",
+      "sub": "cre-testing",
+      "bok": "IV.B.6",
+      "topic": "Regression testing after a shared software change",
+      "cognitive": "Understand",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A firmware patch corrects a sensor-conversion defect in a shared library. The original defect test now passes. The same library also supplies values to alarm and shutdown functions that were not directly edited. Which testing activity most directly checks whether the patch has unintentionally changed previously correct behavior?",
+      "options": [
+        "Use change-impact analysis to select regression tests, including alarm and shutdown behavior.",
+        "Repeat only the original defect test until it passes a larger number of times.",
+        "Repeat the unchanged hardware environmental qualification as the sole evidence of firmware integrity.",
+        "Skip the alarm and shutdown tests because their source files were not edited."
+      ],
+      "answer": 0,
+      "why": "<p>Confirming the reported defect is fixed answers one question. Regression testing checks whether the change has disturbed behavior that previously worked.</p><p>Change-impact analysis should trace the shared library to its callers, interfaces, boundary conditions, and safety-related outputs when selecting the regression scope. Unedited functions can still change behavior because an input or dependency has changed. Passing selected tests supports only the exercised requirements and conditions; it does not prove the absence of all software faults.</p>",
+      "optionRationales": [
+        "This explicitly checks previously correct behavior that can be affected through the changed shared dependency.",
+        "Repeating one defect case does not exercise the other behavior reached through the library.",
+        "An unchanged hardware qualification does not directly test the firmware behaviors affected by the patch.",
+        "A source file can remain unchanged while a modified dependency changes its behavior."
+      ],
+      "keyPoint": "Regression scope follows change impact through dependencies, not just the list of edited files.",
+      "trap": "A successful defect retest does not show that all previously correct behavior remains intact.",
+      "assumptions": [
+        "The shared library is used by the stated alarm and shutdown functions.",
+        "A controlled test baseline and requirement-linked regression cases are available."
+      ],
+      "handbook": {
+        "chapter": 9,
+        "section": "Software Testing; Regression Testing"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 139,
+      "qid": "cre:set-2:139",
+      "sub": "cre-lifecycle",
+      "bok": "V.B.1",
+      "topic": "Use the SOA boundary for the actual operating duration",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A hypothetical MOSFET has separate absolute maximum ratings of 100 V and 12 A. The supplied safe operating area (SOA) boundaries apply at a maintained mounting-base temperature of 25 °C. A design requires continuous linear-mode operation at 40 V and 4 A. Based on these supplied limits, which conclusion is correct?",
+      "options": [
+        "The operating point is acceptable because 40 V and 4 A are each below their separate absolute maximum ratings.",
+        "The operating point is outside the DC SOA because the permitted continuous current at 40 V is only 1.5 A.",
+        "The operating point is acceptable because it is below the 5 A boundary for a single 10 ms pulse at 40 V.",
+        "The operating point is outside both shown SOA boundaries because any linear-mode operation is prohibited."
+      ],
+      "answer": 1,
+      "why": "<p>Use the boundary for the actual duration. At 40 V, the DC boundary is 1.5 A, so the required 4 A exceeds it.</p><p>\\[I_{\\text{required}}=4\\ \\text{A}>I_{\\text{DC limit}}(40\\ \\text{V})=1.5\\ \\text{A}\\]</p><p>The single 10 ms boundary permits 5 A at that voltage, but it does not authorize continuous operation or an arbitrary repetitive pulse train. Separate maximum voltage and current ratings do not establish that those stresses may be applied simultaneously. A different device or operating design is required for this stated continuous point.</p>",
+      "optionRationales": [
+        "Separate absolute maxima do not replace the simultaneous voltage-current constraints in the SOA.",
+        "This uses the continuous-operation boundary and compares the required 4 A with the stated 1.5 A limit.",
+        "A single-pulse allowance does not establish a continuous-operation allowance.",
+        "The point is below the stated single 10 ms boundary, and linear operation is allowed within the applicable SOA."
+      ],
+      "keyPoint": "Match the SOA curve to voltage, current, pulse duration, and temperature together.",
+      "trap": "A short-pulse curve cannot be used as a DC rating.",
+      "assumptions": [
+        "The curves are hypothetical exercise data, not ratings for a named commercial component.",
+        "Mounting-base temperature is maintained at 25 °C; no additional derating rule or other constraint changes the supplied exercise limits."
+      ],
+      "handbook": {
+        "chapter": 12,
+        "section": "Materials and Component Selection; Safe Operating Area"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Hypothetical SOA at a 25 °C mounting base",
+        "columns": [
+          "Drain–source voltage (V)",
+          "DC limit (A)",
+          "Single 10 ms rectangular-pulse limit (A)"
+        ],
+        "rows": [
+          [
+            20,
+            3,
+            10
+          ],
+          [
+            40,
+            1.5,
+            5
+          ],
+          [
+            80,
+            0.75,
+            2.5
+          ]
+        ],
+        "description": "Within the plotted 20 to 80 V range, the hypothetical DC boundary is 60 divided by voltage in amperes and the single 10 millisecond pulse boundary is 200 divided by voltage. At 40 V these give 1.5 and 5 amperes. The required operating point is 40 V, 4 A continuously.",
+        "creKind": "soa-duration"
+      },
+      "explorer": "soa-duration"
+    },
+    {
+      "number": 140,
+      "qid": "cre:set-2:140",
+      "sub": "cre-lifecycle",
+      "bok": "V.C.3",
+      "topic": "Set a corrective-maintenance target using failure frequency",
+      "cognitive": "Apply",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A repairable series system has the subsystem failure rates and mean active corrective-maintenance durations in the table. Each event is caused by exactly one subsystem, stops the system, and requires only that subsystem’s restoration. The system target is a mean active corrective-maintenance duration of at most 3.5 h per failure. Only C’s duration can change; all failure rates and the durations of A and B remain fixed. What is the largest allowable mean duration for C?",
+      "options": [
+        "3.50 h",
+        "4.77 h",
+        "4.20 h",
+        "5.50 h"
+      ],
+      "answer": 2,
+      "why": "<p>Weight each subsystem’s active restoration duration by its fraction of system failures. The common rate factor cancels.</p><p>\\[\\begin{aligned}\\overline T_{\\text{corrective}}&=\\frac{2(1)+3(4)+5t_C}{2+3+5}\\\\&=\\frac{14+5t_C}{10}\\le3.5\\\\t_C&\\le\\frac{35-14}{5}=4.20\\ \\text{h}\\end{aligned}\\]</p><p>The current weighted mean is 4.4 h. Reducing only C from 6 h to 4.2 h achieves the 3.5 h system target. A proportional allocation of the system improvement across all subsystems would be a different design constraint.</p>",
+      "optionRationales": [
+        "3.50 h would meet the system target but is stricter than the largest allowable duration for C.",
+        "4.77 h scales C by 3.5/4.4 as though A and B were improved proportionally too; with A and B fixed, it misses the target.",
+        "4.20 h makes the failure-frequency-weighted system mean exactly 3.5 h.",
+        "5.50 h solves an unweighted average of three subsystem durations, ignoring their unequal failure frequencies."
+      ],
+      "keyPoint": "System mean corrective-maintenance time is weighted by the frequencies of the failure types being repaired.",
+      "trap": "A simple average or proportional allocation can violate constraints on which subsystems may change.",
+      "assumptions": [
+        "Subsystem failures occur at the stated constant rates per operating hour, with no common-cause or simultaneous events.",
+        "The durations include all active corrective tasks; logistics and administrative waiting are excluded, and improvements do not change failure rates."
+      ],
+      "handbook": {
+        "chapter": 13,
+        "section": "Maintenance Strategies; MTTR Allocation and Corrective Maintenance Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Failure rates and active restoration durations",
+        "columns": [
+          "Subsystem",
+          "Failures per 100,000 operating hours",
+          "Current mean active duration (h)"
+        ],
+        "rows": [
+          [
+            "A",
+            2,
+            1
+          ],
+          [
+            "B",
+            3,
+            4
+          ],
+          [
+            "C",
+            5,
+            6
+          ]
+        ],
+        "description": "Subsystem A has rate two per 100,000 operating hours and duration one hour; B has rate three and duration four hours; C has rate five and duration six hours. Only C’s duration can change."
+      }
+    },
+    {
+      "number": 141,
+      "qid": "cre:set-2:141",
+      "sub": "cre-fundamentals",
+      "bok": "I.B.1",
+      "topic": "Interpret the phases of a bathtub hazard curve",
+      "cognitive": "Apply",
+      "difficulty": "Foundational",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "The figure shows a hypothetical population hazard rate versus operating age under constant use conditions. Which interpretation of its three regions is correct?",
+      "options": [
+        "Region I represents wear-out because it begins at the highest hazard rate.",
+        "Region II has approximately constant hazard, not a common fixed lifetime.",
+        "Region II has no failures because its curve has zero slope.",
+        "Region III indicates improving reliability because its hazard rate rises with age."
+      ],
+      "answer": 1,
+      "why": "<p>The traditional bathtub pattern has decreasing hazard in Region I, approximately constant hazard in Region II, and increasing hazard in Region III. These are commonly associated with early-life failures, a stable operating phase, and wear-out, respectively.</p><p>A flat positive hazard is not zero hazard and does not imply a fixed individual lifetime. The plotted curve is a stated population model for this exercise; it does not establish that every product follows a bathtub pattern or identify a particular physical failure mechanism.</p>",
+      "optionRationales": [
+        "The direction of the hazard trend matters: Region I decreases with age, unlike the usual increasing-hazard wear-out region.",
+        "A constant positive conditional failure rate describes the flat region without asserting identical unit lifetimes.",
+        "Zero slope means the rate is not changing; it does not make the positive rate itself zero.",
+        "Increasing hazard means the instantaneous failure rate among survivors is rising, not that reliability is improving."
+      ],
+      "keyPoint": "Read the height and direction of a hazard curve separately.",
+      "trap": "A flat hazard curve represents a constant rate, not failure-free operation.",
+      "assumptions": [
+        "The vertical axis is population hazard, not cumulative failure probability or reliability.",
+        "The figure is a hypothetical model under fixed use conditions, not a universal pattern for all products."
+      ],
+      "handbook": {
+        "chapter": 2,
+        "section": "Basic Reliability Terminology; Bathtub Curve"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Hypothetical population hazard by age",
+        "columns": [
+          "Operating age (h)",
+          "Hazard (per 1,000 h)"
+        ],
+        "rows": [
+          [
+            0,
+            2.0
+          ],
+          [
+            500,
+            0.65
+          ],
+          [
+            1000,
+            0.2
+          ],
+          [
+            2500,
+            0.2
+          ],
+          [
+            4000,
+            0.2
+          ],
+          [
+            5000,
+            0.65
+          ],
+          [
+            6000,
+            2.0
+          ]
+        ],
+        "description": "Region I spans zero to 1,000 hours and has decreasing hazard. Region II spans 1,000 to 4,000 hours at a positive constant hazard of 0.2 per 1,000 hours. Region III spans 4,000 to 6,000 hours with increasing hazard.",
+        "creKind": "bathtub-regions"
+      }
+    },
+    {
+      "number": 142,
+      "qid": "cre:set-2:142",
+      "sub": "cre-fundamentals",
+      "bok": "I.A.5",
+      "topic": "Account for a shared resource in a test schedule",
+      "cognitive": "Apply",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "The draft Gantt chart respects task precedence but ignores resource capacity. Tests A and B both require the same chamber exclusively for their full durations and cannot be interrupted. Only one chamber is available. Task C has independent resources, and report D can start only after A, B, and C finish. All tasks are ready at day 0 except for the stated dependencies; setup time is zero. What is the earliest possible completion time after correcting the schedule?",
+      "options": [
+        "7 days",
+        "14 days",
+        "10 days",
+        "9 days"
+      ],
+      "answer": 3,
+      "why": "<p>The chamber must process A and B sequentially, requiring 4 + 3 = 7 days in either order. C can run concurrently and finishes in 5 days. D then requires 2 days after every predecessor finishes.</p><p>\\[T_{\\min}=\\max(4+3,5)+2=9\\ \\text{days}\\]</p><p>A feasible schedule is A on days 0–4, B on 4–7, C on 0–5, and D on 7–9. The draft 7-day result is a precedence-only lower bound that cannot be executed with one chamber.</p>",
+      "optionRationales": [
+        "7 days follows the overlapping draft and ignores the chamber conflict between A and B.",
+        "14 days serializes all four tasks even though C can run independently of the chamber work.",
+        "10 days is feasible if B is unnecessarily delayed until C finishes at day 5, but it is not the earliest completion.",
+        "9 days both respects the shared chamber and uses the permitted overlap with C."
+      ],
+      "keyPoint": "A precedence-feasible schedule may still be infeasible when resource capacity is included.",
+      "trap": "Do not treat parallel Gantt bars as proof that the required resources are available.",
+      "assumptions": [
+        "Task durations are deterministic elapsed days with continuous resource availability.",
+        "No resource is constrained except the single chamber; A and B are nonpreemptive and have no setup or transfer delay."
+      ],
+      "handbook": {
+        "chapter": 1,
+        "section": "Project Management in Reliability Engineering; Gantt Charts and Resources"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Unconstrained draft schedule",
+        "columns": [
+          "Task",
+          "Duration (days)",
+          "Predecessors",
+          "Resource",
+          "Draft start (day)"
+        ],
+        "rows": [
+          [
+            "A",
+            4,
+            "None",
+            "Shared chamber",
+            0
+          ],
+          [
+            "B",
+            3,
+            "None",
+            "Shared chamber",
+            0
+          ],
+          [
+            "C",
+            5,
+            "None",
+            "Independent resources",
+            0
+          ],
+          [
+            "D",
+            2,
+            "A, B, C",
+            "Report resources",
+            5
+          ]
+        ],
+        "description": "The draft puts A on days zero to four, B on zero to three, C on zero to five, and D on five to seven. A and B overlap despite requiring the same exclusive chamber. The question asks for the corrected earliest finish.",
+        "creKind": "resource-gantt"
+      }
+    },
+    {
+      "number": 143,
+      "qid": "cre:set-2:143",
+      "sub": "cre-risk",
+      "bok": "II.B.2",
+      "topic": "Select process FMEA for a manufacturing control problem",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "An approved controller design uses the correct firmware image and a keyed connector. During production, operators can select an obsolete firmware file or omit the seal before closing the enclosure. A team must systematically examine each manufacturing step, its potential failure modes and effects, and the prevention and detection controls at that step. Which analysis best matches this scope?",
+      "options": [
+        "A use FMEA focused on customer operation after delivery.",
+        "A component design FMEA confined to circuit and material design.",
+        "A process FMEA of the manufacturing steps and their controls.",
+        "A system FMECA confined to ranking in-service hardware failure rates."
+      ],
+      "answer": 2,
+      "why": "<p>The stated focus is how the manufacturing process can produce a nonconforming controller even when the approved design is suitable. A process FMEA examines the process steps, potential failures, their causes and effects, and the controls that prevent or detect them.</p><p>Link the analysis to programming-file control, seal installation, and verification. Findings may also reveal design or use issues that need separate follow-up, but those complementary analyses do not replace the process-focused assessment requested here.</p>",
+      "optionRationales": [
+        "A use FMEA addresses use-related risks, rather than the manufacturing steps specified in this scenario.",
+        "A component design assessment does not by itself evaluate production file selection and assembly omissions.",
+        "A process FMEA directly matches the step-by-step manufacturing scope and its prevention and detection controls.",
+        "An in-service failure-rate ranking omits the process-step causes and controls that the team must evaluate."
+      ],
+      "keyPoint": "Choose the FMEA scope to match where the failures can be introduced and controlled.",
+      "trap": "An approved product design does not ensure a failure-free manufacturing process.",
+      "assumptions": [
+        "The immediate assessment scope is production programming and assembly, not a demonstrated defect in the approved design.",
+        "Other lifecycle analyses may remain necessary; the question asks which technique best fits this specific scope."
+      ],
+      "handbook": {
+        "chapter": 4,
+        "section": "Failure Mode and Effects Analysis; Process FMEA"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 144,
+      "qid": "cre:set-2:144",
+      "sub": "cre-risk",
+      "bok": "II.C",
+      "topic": "Distinguish prevention from consequence mitigation",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A bow-tie risk assessment defines its top event precisely as the first loss of chemical containment from a transfer line. The two controls below have the stated functions. Which treatment of their risk-reduction credit is most appropriate?",
+      "options": [
+        "Credit inspection/replacement for prevention and isolation for post-loss duration or consequence.",
+        "Credit automatic isolation as preventing the first loss because it acts without operator intervention.",
+        "Multiply both control reliabilities directly into the initial-loss frequency, regardless of where they act.",
+        "Discard automatic isolation because a control that acts after the top event cannot reduce risk."
+      ],
+      "answer": 0,
+      "why": "<p>Barrier classification is relative to the defined top event. Inspection and replacement can act before the first loss by addressing deterioration. The detector and isolation valve act only after a release begins, so their stated function is to limit its duration or consequences.</p><p>Evaluate each barrier’s actual performance and dependencies in the appropriate part of the risk model. Automation alone does not move a post-release control to the prevention side, and a mitigation barrier can be valuable even though it does not prevent the initial loss.</p>",
+      "optionRationales": [
+        "This assigns credit to the stage where each stated control acts and preserves the distinction between event likelihood and consequence.",
+        "Automatic action does not prevent an event that must already have occurred to trigger detection.",
+        "The controls act on different parts of the scenario; multiplying them into one initial frequency misrepresents their functions.",
+        "A post-event barrier can limit escalation, duration, exposure, or severity and therefore reduce risk."
+      ],
+      "keyPoint": "Allocate barrier credit relative to an explicitly defined top event.",
+      "trap": "Preventing an initial event and limiting what follows it are different risk-control functions.",
+      "assumptions": [
+        "The top event is the first loss of containment, not the later injury or total released quantity.",
+        "The detector responds to an existing release; no anticipatory detection function is claimed."
+      ],
+      "handbook": {
+        "chapter": 5,
+        "section": "Risk Control Plans; Bow-Tie Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Controls relative to the first loss of containment",
+        "columns": [
+          "Control",
+          "Stated function"
+        ],
+        "rows": [
+          [
+            "Inspection and replacement",
+            "Find and replace deteriorated pipe before a leak begins."
+          ],
+          [
+            "Release detection and automatic isolation",
+            "Detect an existing leak and stop further feed to limit release duration."
+          ]
+        ],
+        "description": "Inspection and replacement acts before an initial leak. Release detection and automatic isolation requires a leak to have begun and then stops further feed."
+      }
+    },
+    {
+      "number": 145,
+      "qid": "cre:set-2:145",
+      "sub": "cre-statistics",
+      "bok": "III.B.2",
+      "topic": "Recognize delayed entry separately from censoring",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A field study enrolls only units still functioning when observation begins. Units that failed before enrollment are absent from the study. The table records attained operating ages since first use, not time since enrollment. For an analysis of lifetime from first use, which description and treatment of these records is appropriate?",
+      "options": [
+        "All three lifetimes are complete because their enrollment ages are known.",
+        "The records have delayed entry (left truncation); retain entry ages, and treat C’s functioning exit as right censoring.",
+        "A and B are left-censored at enrollment because they were already old when first observed.",
+        "Reset every enrollment age to zero and interpret the resulting follow-up distribution as lifetime from first use without further assumptions."
+      ],
+      "answer": 1,
+      "why": "<p>Eligibility required survival to each entry age. Earlier failures are absent rather than recorded with an unknown failure time: this is left truncation, also called delayed entry.</p><p>Preserve attained entry and exit ages so an appropriate survival analysis can form risk sets from units actually under observation at each age. A and B have observed post-entry failures; C is right-censored at age 2,000 h. An analysis must also justify its entry/censoring assumptions. Follow-up time alone describes a different time origin and does not automatically recover the lifetime distribution from first use.</p>",
+      "optionRationales": [
+        "C’s eventual failure time is unknown, and selection excluded units that failed before their possible entry ages.",
+        "This distinguishes survival-conditioned entry from the unknown future failure time of the functioning unit C.",
+        "Left censoring would mean a known failure occurred before an observation bound; A and B were functioning at entry.",
+        "Changing the time origin loses attained-age information and does not undo selection of survivors."
+      ],
+      "keyPoint": "Delayed entry excludes earlier failures from the sample; right censoring limits observation after entry.",
+      "trap": "Knowing a survivor’s age does not turn a survivor-selected sample into a cohort followed from new.",
+      "assumptions": [
+        "The listed entry ages and exact failure or censoring ages are known.",
+        "The question classifies the observation scheme; it does not claim that these three records alone identify the full lifetime distribution."
+      ],
+      "handbook": {
+        "chapter": 7,
+        "section": "Types of Reliability Data; Censoring and Survival Analysis"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Attained ages in a survivor-enrolled field study",
+        "columns": [
+          "Unit",
+          "Age at entry (h)",
+          "Age at exit (h)",
+          "Exit status"
+        ],
+        "rows": [
+          [
+            "A",
+            1000,
+            1500,
+            "Failure"
+          ],
+          [
+            "B",
+            1200,
+            1800,
+            "Failure"
+          ],
+          [
+            "C",
+            800,
+            2000,
+            "Still functioning; study ends"
+          ]
+        ],
+        "description": "A enters at age 1,000 hours and fails at 1,500. B enters at 1,200 and fails at 1,800. C enters at 800 and remains functioning when observation ends at age 2,000. Pre-entry failures are absent from the study."
+      }
+    },
+    {
+      "number": 146,
+      "qid": "cre:set-2:146",
+      "sub": "cre-statistics",
+      "bok": "III.A.3",
+      "topic": "Use the arithmetic mean of a lognormal repair model",
+      "cognitive": "Analyze",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "Active repair duration \\(T\\) follows a lognormal population model. The model specifies \\(Y=\\ln(T/(1\\ \\text{h}))\\) as normal with mean \\(\\mu=\\ln 2\\) and standard deviation \\(\\sigma=0.60\\). What mean active duration should be used when estimating the long-run total active time per repair?",
+      "options": [
+        "2.00 h",
+        "2.70 h",
+        "2.87 h",
+        "2.39 h"
+      ],
+      "answer": 3,
+      "why": "<p>The exponentiated log mean is the median, not the arithmetic mean. For this zero-location lognormal model:</p><p>\\[\\begin{aligned}E[T]&=(1\\ \\text{h})\\exp\\left(\\mu+\\frac{\\sigma^2}{2}\\right)\\\\&=2\\exp\\left(\\frac{0.60^2}{2}\\right)\\ \\text{h}\\\\&=2e^{0.18}\\ \\text{h}\\approx2.39\\ \\text{h}\\end{aligned}\\]</p><p>The right tail raises the arithmetic mean above the 2 h median. Use this mean for expected aggregate active time under the stated model. It is neither a repair-time percentile nor a confidence bound, and it excludes waiting that is not part of the modeled active duration.</p>",
+      "optionRationales": [
+        "2.00 h is the model median obtained by exponentiating the mean log duration.",
+        "2.70 h uses sigma divided by two instead of sigma squared divided by two in the exponent.",
+        "2.87 h uses the full log variance in the exponent and omits its factor of one-half.",
+        "2.39 h is the arithmetic population mean, including the lognormal right-tail contribution."
+      ],
+      "keyPoint": "For a lognormal model, exponentiating the log mean gives the median; the arithmetic mean also depends on log variance.",
+      "trap": "A typical repair duration and the mean needed for aggregate time planning need not be equal.",
+      "assumptions": [
+        "The model has no additive location shift; sigma is the standard deviation on the natural-log scale.",
+        "Population parameters are treated as specified, and only active repair duration is included."
+      ],
+      "handbook": {
+        "chapter": 6,
+        "section": "Probability Distributions; Lognormal Distribution"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned."
+    },
+    {
+      "number": 147,
+      "qid": "cre:set-2:147",
+      "sub": "cre-testing",
+      "bok": "IV.B.3",
+      "topic": "Use the stopping rule in a reliability confidence bound",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "Four independent nonrepairable specimens with identically exponential lifetimes start together. The plan specifies in advance that the test ends at the third failure, with no replacements. Failures occur at 100, 300, and 700 h; the remaining specimen is censored at 700 h. What is the exact one-sided 90% lower confidence bound on population MTTF for this failure-terminated plan? In the table, \\(\\chi^2_{p,\\nu}\\) denotes the lower-tail \\(p\\) quantile with \\(\\nu\\) degrees of freedom.",
+      "options": [
+        "600.0 h",
+        "338.2 h",
+        "269.4 h",
+        "285.9 h"
+      ],
+      "answer": 1,
+      "why": "<p>Total observed exposure is 1,800 unit-hours. Because the stopping rule fixes the failure count at three, this is Type II censoring. The exponential pivot uses twice that fixed count.</p><p>\\[\\begin{aligned}T_{\\text{total}}&=100+300+700+700=1800\\ \\text{h}\\\\\\nu&=2r=6\\\\L_{0.90}&=\\frac{2T_{\\text{total}}}{\\chi^2_{0.90,6}}\\\\&=\\frac{3600}{10.645}\\approx338.2\\ \\text{h}\\end{aligned}\\]</p><p>The point estimate is 600 h. It is not a 90% lower bound. A fixed-time test has a different stopping rule and must not be silently substituted; a two-sided 90% interval also uses a different lower-bound tail probability.</p>",
+      "optionRationales": [
+        "600.0 h is total exposure divided by failures, the point estimate rather than the requested confidence bound.",
+        "338.2 h uses six degrees of freedom and the 0.90 chi-square quantile for this one-sided failure-terminated result.",
+        "269.4 h uses eight degrees of freedom, importing the time-terminated lower-bound convention.",
+        "285.9 h uses the 0.95 quantile for six degrees of freedom, giving a different confidence level or a two-sided 90% interval endpoint."
+      ],
+      "keyPoint": "The planned stopping rule determines the pivot and degrees of freedom for the confidence calculation.",
+      "trap": "Failure-terminated and time-terminated tests do not automatically use the same confidence-bound formula.",
+      "assumptions": [
+        "The third-failure stopping rule was fixed in advance and has no additional time cutoff.",
+        "The exponential population model is correct; failure times are exact and there are no withdrawals before termination."
+      ],
+      "handbook": {
+        "chapter": 9,
+        "section": "Qualification and Demonstration Testing; Failure-Terminated Tests"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Selected lower-tail chi-square quantiles",
+        "columns": [
+          "Degrees of freedom",
+          "p = 0.90",
+          "p = 0.95"
+        ],
+        "rows": [
+          [
+            6,
+            "10.645",
+            "12.592"
+          ],
+          [
+            8,
+            "13.362",
+            "15.507"
+          ]
+        ],
+        "description": "For six degrees of freedom the 0.90 and 0.95 quantiles are 10.645 and 12.592. For eight degrees they are 13.362 and 15.507."
+      }
+    },
+    {
+      "number": 148,
+      "qid": "cre:set-2:148",
+      "sub": "cre-testing",
+      "bok": "IV.A.1",
+      "topic": "Separate development growth evidence from final-design demonstration",
+      "cognitive": "Evaluate",
+      "difficulty": "Moderate",
+      "estimatedMinutes": 1.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": false,
+      "stem": "A test–analyze–fix program accumulates the data shown. The Revision B seal change specifically targets the failure mechanism observed on Revision A. A report proposes pooling both revisions to claim the final design has an exponential MTTF of 1,250 h. What is the most appropriate review conclusion?",
+      "options": [
+        "Accept the pooled final-design estimate because all exposure came from the same product name.",
+        "Claim infinite population MTTF for Revision B because no B failures occurred.",
+        "Keep revision-specific evidence; justify the final-design claim with a final-configuration analysis or demonstration.",
+        "Delete Revision A’s failures from the report and attach its exposure to Revision B."
+      ],
+      "answer": 2,
+      "why": "<p>The seal intervention is intended to change the failure behavior, so pooling both configurations under one unchanged-rate model requires justification that has not been supplied. The 1,250 h quotient describes the pooled counts and exposure, not automatically the final configuration.</p><p>Retain configuration and failure-mechanism traceability, evaluate the growth evidence, and state what the Revision B exposure can support under an appropriate model and test plan. Zero B failures can support a finite lower confidence bound when a suitable plan and assumptions apply; they do not prove an infinite population mean.</p>",
+      "optionRationales": [
+        "A common product name does not establish identical failure behavior across an intentional mechanism-related change.",
+        "Zero observed failures do not prove that the population failure rate is exactly zero.",
+        "This preserves the learning history while requiring evidence appropriate to the configuration named in the reliability claim.",
+        "Reassigning exposure and removing failures would misrepresent which configuration generated the observations."
+      ],
+      "keyPoint": "A final-design reliability claim must correspond to the configuration and model that generated its supporting evidence.",
+      "trap": "Development exposure across fixes is not automatically interchangeable with final-configuration demonstration exposure.",
+      "assumptions": [
+        "The change addresses the observed failure mechanism, and no validated common-rate or growth-to-final model has been supplied.",
+        "Exposure records are accurate; the concern is the inferential claim, not whether development data should be retained."
+      ],
+      "handbook": {
+        "chapter": 8,
+        "section": "Reliability Test Strategies; Test, Analyze, and Fix"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Configuration-specific development results",
+        "columns": [
+          "Configuration",
+          "Observed exposure (unit-hours)",
+          "Observed failures"
+        ],
+        "rows": [
+          [
+            "Revision A: original seal",
+            2000,
+            4
+          ],
+          [
+            "Revision B: changed seal",
+            3000,
+            0
+          ]
+        ],
+        "description": "Revision A contributes 2,000 unit-hours and four failures. Revision B contributes 3,000 unit-hours with no observed failures after a seal change targeting the earlier mechanism."
+      }
+    },
+    {
+      "number": 149,
+      "qid": "cre:set-2:149",
+      "sub": "cre-testing",
+      "bok": "IV.C.1",
+      "topic": "Account for failure of a spare while it is on standby",
+      "cognitive": "Evaluate",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 3,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A system begins with one operating unit and one warm-standby spare, both functioning. An operating unit has constant failure rate \\(\\lambda=0.0005\\ \\text{h}^{-1}\\); while on standby, the spare has rate \\(\\delta=0.0001\\ \\text{h}^{-1}\\). If the operating unit fails while the spare is still good, transfer is perfect and instantaneous and the spare then uses rate \\(\\lambda\\). A standby failure does not interrupt the operating unit. All mechanisms are independent and exponential; no repair or common-cause failure occurs. What is the probability of uninterrupted service for 1,000 h?",
+      "options": [
+        "0.8951",
+        "0.9098",
+        "0.8452",
+        "0.5488"
+      ],
+      "answer": 0,
+      "why": "<p>Service succeeds if the original unit survives the mission, or if it fails at time \\(u\\) while the spare is still good and the transferred spare survives the remaining time. These cases are disjoint.</p><p>\\[\\begin{aligned}R(t)&=e^{-\\lambda t}+\\int_0^t\\lambda e^{-(\\lambda+\\delta)u}e^{-\\lambda(t-u)}\\,du\\\\&=e^{-\\lambda t}\\left[1+\\frac{\\lambda}{\\delta}(1-e^{-\\delta t})\\right]\\\\R(1000)&=e^{-0.5}\\left[1+5(1-e^{-0.1})\\right]\\\\&\\approx0.8951\\end{aligned}\\]</p><p>Equivalently, sum the probabilities of the two functioning states in the diagram. With zero standby failure rate the ideal cold-standby result is 0.9098; if the standby rate equals the active rate, the result becomes the corresponding independent two-unit parallel value of 0.8452.</p>",
+      "optionRationales": [
+        "0.8951 includes both survival of the original active unit and successful transfer after it fails while the spare is still good.",
+        "0.9098 assumes the spare cannot fail while waiting and therefore overstates this system’s reliability.",
+        "0.8452 exposes both units to the full active failure rate throughout the mission, rather than the specified lower standby rate.",
+        "0.5488 is the probability both original units remain good in their initial modes; it omits successful operation after one unit fails."
+      ],
+      "keyPoint": "A standby model must distinguish failure while waiting from failure after activation.",
+      "trap": "Perfect transfer does not make a standby spare immune to failure before it is needed.",
+      "assumptions": [
+        "Switching succeeds without interruption whenever a functioning spare is available.",
+        "The last functioning active unit always has rate 0.0005 per hour; there is no repair, aging memory, or common cause."
+      ],
+      "handbook": {
+        "chapter": 10,
+        "section": "Reliability Block Diagrams and Models; Standby Systems"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "States of the warm-standby system",
+        "columns": [
+          "State",
+          "Meaning",
+          "Outgoing transition rate (per hour)"
+        ],
+        "rows": [
+          [
+            "2 good",
+            "One active unit and one good standby spare",
+            "To 1 good: 0.0006"
+          ],
+          [
+            "1 good",
+            "One active unit; the other unit has failed",
+            "To failed: 0.0005"
+          ],
+          [
+            "Failed",
+            "No functioning unit",
+            "Absorbing state; no repair"
+          ]
+        ],
+        "description": "The system starts with two good units, one active and one standby. Failure of either first unit leads to one good active unit at total rate 0.0006 per hour. Failure of the last good unit leads to system failure at 0.0005 per hour. Both the two-good and one-good states provide service.",
+        "creKind": "warm-standby"
+      },
+      "explorer": "standby-dormancy"
+    },
+    {
+      "number": 150,
+      "qid": "cre:set-2:150",
+      "sub": "cre-lifecycle",
+      "bok": "V.A.3",
+      "topic": "Test an interaction using replicated factorial ANOVA",
+      "cognitive": "Analyze",
+      "difficulty": "Challenging",
+      "estimatedMinutes": 2.5,
+      "industry": "Reliability engineering practice",
+      "quantitative": true,
+      "stem": "A randomized two-factor reliability experiment uses two fixed levels of A, two fixed levels of B, and three independent specimens at each of the four combinations. Every specimen’s failure life is observed. The fitted model includes A, B, and their interaction; normal, independent, equal-variance errors are assumed. The sums of squares are shown. At \\(\\alpha=0.05\\), what interaction F statistic and decision follow? Use the upper-tail critical value \\(F_{0.95;1,8}=5.318\\).",
+      "options": [
+        "F = 2.00; fail to reject no interaction.",
+        "F = 0.0625; fail to reject no interaction.",
+        "F = 16.00; fail to reject no interaction.",
+        "F = 16.00; reject no interaction."
+      ],
+      "answer": 3,
+      "why": "<p>There are 12 independent observations and four fitted cell means. Interaction has one degree of freedom; error has eight.</p><p>\\[\\begin{aligned}\\nu_{AB}&=(2-1)(2-1)=1\\\\\\nu_E&=2(2)(3-1)=8\\\\MS_E&=\\frac{24}{8}=3\\\\F_{AB}&=\\frac{MS_{AB}}{MS_E}=\\frac{48/1}{3}=16\\end{aligned}\\]</p><p>Because 16 exceeds 5.318, reject the no-interaction hypothesis at the stated level. The result supports an A-by-B interaction among the tested levels. Examine cell means or an interaction plot before choosing settings; this ANOVA table alone does not identify the best combination or establish practical effect size.</p>",
+      "optionRationales": [
+        "2.00 divides interaction sum of squares by error sum of squares without converting each to its mean square.",
+        "0.0625 reverses the required ratio, dividing error mean square by interaction mean square.",
+        "The statistic is correct, but it exceeds the upper-tail critical value and therefore requires rejection.",
+        "This uses the replicated-design error degrees of freedom and the correct upper-tail comparison."
+      ],
+      "keyPoint": "Use mean squares and the error degrees of freedom from the actual experimental replication.",
+      "trap": "A ratio of sums of squares is not generally an F statistic.",
+      "assumptions": [
+        "The factors are fixed; specimens are independent experimental units with randomized allocation and complete failure-life observations.",
+        "The full two-factor model and stated error assumptions apply; no blocking, repeated measures, or censoring is present."
+      ],
+      "handbook": {
+        "chapter": 11,
+        "section": "Design of Experiments; Factorial ANOVA and Interaction"
+      },
+      "lessonGap": "Use the mapped handbook section; a dedicated lesson for this application is planned.",
+      "chart": {
+        "type": "data-table",
+        "title": "Replicated factorial ANOVA sums of squares",
+        "columns": [
+          "Source",
+          "Sum of squares (squared response units)"
+        ],
+        "rows": [
+          [
+            "A",
+            12
+          ],
+          [
+            "B",
+            27
+          ],
+          [
+            "A × B",
+            48
+          ],
+          [
+            "Error",
+            24
+          ],
+          [
+            "Total",
+            111
+          ]
+        ],
+        "description": "The sums of squares are 12 for A, 27 for B, 48 for the A-by-B interaction, and 24 for error; their total is 111. There are twelve observations, three at each of four treatment combinations."
+      },
+      "explorer": "anova-error"
     }
   ];
-  questions.forEach(q => {q.set = 2; q.batch = 1; q.sourceDocument = 'The ASQ Certified Reliability Engineer Handbook, 4th edition (2025)'; q.original = true;});
+  questions.forEach(q => {q.set = 2; q.batch = Math.ceil(q.number / 10); q.sourceDocument = 'The ASQ Certified Reliability Engineer Handbook, 4th edition (2025)'; q.original = true;});
   global.CRE_SET2 = questions;
 
   // Merge only our set into the live definition. Existing Set 1 data is preserved.
@@ -167,7 +4301,7 @@
     exam.sets = Object.assign({}, existing, {1: first, 2: questions});
     if (!exam.bank || !exam.bank.length) exam.bank = questions;
     exam.defaultSet = first.length ? '1' : '2';
-    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Batch 1 · Q001–010'}});
+    exam.setPlans = Object.assign({}, exam.setPlans, {2: {target: 150, label: 'Core complete · Q001–150'}});
     exam.fullExamQuestionsBySet = Object.assign({}, exam.fullExamQuestionsBySet, {2: 150});
     // Actual CBT pace: 165 displayed items in 258 minutes; this bank targets 150 core items.
     exam.questions = 165; exam.minutes = 258;
