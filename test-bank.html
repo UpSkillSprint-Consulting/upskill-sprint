@@ -384,6 +384,7 @@
     .tb-tinfo{gap:0} .tb-tn{white-space:nowrap;font-size:13px}
   }
 </style>
+<link rel="stylesheet" href="/test-bank-pmp-bank2.css">
 </head>
 <body data-require-auth data-required-access="premium" data-access-resource="exam:/test-bank">
   <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
@@ -514,6 +515,8 @@
 <script src="/test-bank-pmp-set4.js"></script>
 <script src="/test-bank-pmp-set5.js"></script>
 <script src="/test-bank-pmp-set6.js"></script>
+<script src="/test-bank-pmp-bank2.js"></script>
+<script src="/test-bank-pmp-bank2-ui.js"></script>
 <script src="/assets/js/math.js"></script>
 <script>
 (function(){
@@ -2576,7 +2579,7 @@
       bok:[d('cre-fundamentals',29,[s('cre-fundamentals','I. Reliability Fundamentals','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',29)]),d('cre-risk',25,[s('cre-risk','II. Risk Management','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',25)]),d('cre-statistics',35,[s('cre-statistics','III. Probability and Statistics for Reliability','/lessons/statistics/probability-basics-the-language-of-chance','Probability Basics',35)]),d('cre-testing',35,[s('cre-testing','IV. Reliability Planning, Testing, and Modeling','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',35)]),d('cre-lifecycle',26,[s('cre-lifecycle','V. Lifecycle Reliability','/lessons/quality-engineering/introduction-to-reliability-and-maintainability','Reliability and Maintainability',26)])]},
     pmp:{badge:'PMP',bc:'#1a5276',body:'PMI Project Management Professional (PMP)',title:'PMP — Exam Simulation',setName:'Set 1',questions:180,minutes:240,pass:70,
       /* July 2026 PMP ECO: People 33, Process 41, Business Environment 26. Official sitting is 180 items in 240 minutes.
-         registerPMPSet1() through registerPMPSet6() load Q001-Q180 into Set 1. Sets 2 and 3 stay empty. Sets 4, 5, and 6 are not on the picker. Not affiliated with PMI. */
+         registerPMPSet1() through registerPMPSet6() load Q001-Q180 into Set 1. registerPMPBank2() adds the separate Set 2 bank. Set 3 stays empty. Not affiliated with PMI. */
       bank:[],sets:{2:[],3:[]},plannedSets:['1','2','3'],setPlans:{1:{target:180,label:'Q001-Q180'},2:{target:0,label:'Held for Claude'},3:{target:0,label:'Held for GPT'}},fullExamQuestionsBySet:{1:180},
       formatNote:'Original practice questions for the July 2026 PMP Exam Content Outline. Not affiliated with PMI.',
       bok:[d('pmp-people',33,[s('pmp-people','People','/lessons','Browse lessons',33)]),d('pmp-process',41,[s('pmp-process','Process','/lessons','Browse lessons',41)]),d('pmp-business',26,[s('pmp-business','Business Environment','/lessons','Browse lessons',26)])]}
@@ -2588,6 +2591,7 @@
   if(window.registerPMPSet4)window.registerPMPSet4(EXAMS.pmp);
   if(window.registerPMPSet5)window.registerPMPSet5(EXAMS.pmp);
   if(window.registerPMPSet6)window.registerPMPSet6(EXAMS.pmp);
+  if(window.registerPMPBank2)window.registerPMPBank2(EXAMS.pmp);
   [['cre-fundamentals','cre-lead'],['cre-statistics','cre-stats'],['cre-testing','cre-model'],['cre-lifecycle','cre-life']].forEach(function(pair){
     var domain=EXAMS.cre.bok.find(function(d){return d.subs.some(function(s){return s.id===pair[0];});});
     if(domain&&!domain.subs.some(function(s){return s.id===pair[1];}))domain.subs.push({id:pair[1],name:domain.subs[0].name,w:0,lesson:domain.subs[0].lesson,lessonName:domain.subs[0].lessonName});
@@ -3691,7 +3695,7 @@
   function formatNoteFor(e){
     var plan=setPlan(e,selectedSet),available=activeBank(e).length;
     if(current==='cre'&&selectedSet==='2')return (available>=150?'The 150-question Set 2 core is complete (Q001–150) and follows the five-domain ASQ blueprint. ':'Set 2 currently contains '+available+' of 150 planned original practice questions. This is a partial practice set. ')+'The official computer exam displays 165 questions, including 15 unscored items, in 258 minutes; this practice session uses the same average pace.';
-    if(current==='pmp')return 'Set 1 contains all '+available+' original practice questions (Q001-Q180). Sets 2 and 3 are empty and held for later banks. There is no Set 4, 5, or 6. The official PMP exam displays 180 questions in 240 minutes. This sitting serves Set 1 at that same average pace. These items are original. UpSkill Sprint is not affiliated with PMI.';
+    if(current==='pmp')return (selectedSet==='2'?(available>=180?'Set 2 contains all 180 original practice questions (Q001–Q180). ':'Set 2 currently contains '+available+' of 180 planned original practice questions. This is a partial practice set. '):selectedSet==='mix'?'Mixed practice draws from the available PMP sets. ':'Set 1 contains all '+available+' original practice questions (Q001-Q180). ')+'The July 2026 PMP exam displays 180 questions in 240 minutes. This sitting uses the same average pace. Each practice item earns one point only for a completely correct response. Set 3 is empty. UpSkill Sprint is not affiliated with PMI.';
 
     if(current==='mbb'&&selectedSet==='3')return 'Set 3 contains '+available+' original practice questions. Its Full Exam uses all '+available+' items at a practice pace of 90 seconds per question. This analytics-heavy practice bank is not a replica of the official ASQ examination format or domain weighting.';
     if(plan)return setLabel(selectedSet)+' currently contains '+available+' of the planned '+plan.target+' original questions ('+plan.label+'). Every completed, validated batch will be added here. The current Full Exam serves all '+available+' available questions.';
@@ -3894,6 +3898,7 @@
     return '';
   }
   function renderQuestionContent(q,review){
+    if(window.__PMPSet2UI&&window.__PMPSet2UI.isQuestion(q))return window.__PMPSet2UI.render(q,review);
     if(!q)return '';
     if(window.__CRESet2UI&&window.__CRESet2UI.isQuestion(q))return window.__CRESet2UI.render(q,review);
     if(window.__MBBSet3Batch3UI&&window.__MBBSet3Batch3UI.isQuestion(q))return window.__MBBSet3Batch3UI.render(q,review);
@@ -4608,7 +4613,8 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       var text=document.createElement('template');text.innerHTML=q.why||'';
       explanation='<p>'+esc(text.content.textContent||'An explanation is not available for this question yet.')+'</p>';
     }
-    return '<section id="tb-revealed-answer" class="tb-revealed-answer" tabindex="-1" aria-labelledby="tb-revealed-title"><h3 id="tb-revealed-title">Answer revealed — counted as incorrect</h3><p><strong>Correct answer: '+String.fromCharCode(65+q.answer)+'. '+esc(q.options[q.answer])+'</strong></p>'+explanation+'</section>';
+    var answerText=window.__PMPSet2UI&&window.__PMPSet2UI.isQuestion(q)?window.__PMPSet2UI.responseLabel(q,q.answer):String.fromCharCode(65+q.answer)+'. '+q.options[q.answer];
+    return '<section id="tb-revealed-answer" class="tb-revealed-answer" tabindex="-1" aria-labelledby="tb-revealed-title"><h3 id="tb-revealed-title">Answer revealed — counted as incorrect</h3><p><strong>Correct answer: '+esc(answerText)+'</strong></p>'+explanation+(window.__PMPSet2UI&&window.__PMPSet2UI.isQuestion(q)?window.__PMPSet2UI.rationales(q):'')+'</section>';
   }
   function revealCurrentAnswer(){
     if(!session||session.completed||session.timed||isAnswerRevealed(session.i)||!validRevealKey(session.items[session.i].q))return false;
@@ -4630,7 +4636,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var topic=q.ecoTask&&q.ecoTask!==subName?q.ecoTask:subName;
     var revealed=isAnswerRevealed(session.i),revealedTotal=revealCount();
     var nav=session.items.map(function(_,i){return '<button type="button" class="tb-navcell'+(session.answers[i]!=null||isAnswerRevealed(i)?' done':'')+(i===session.i?' cur':'')+(session.flags[i]?' flag':'')+(isAnswerRevealed(i)?' revealed':'')+'" data-goto="'+i+'" aria-current="'+(i===session.i?'step':'false')+'" aria-label="Question '+(i+1)+(isAnswerRevealed(i)?'':session.answers[i]!=null?', answered, awaiting grading':', unanswered')+(session.flags[i]?', flagged':'')+(isAnswerRevealed(i)?', answer revealed, counted as incorrect':'')+'">'+(i+1)+'</button>';}).join('');
-    var opts=q.options.map(function(o,i){return '<button type="button" class="tb-opt'+(session.answers[session.i]===i?' sel':'')+(revealed&&i===q.answer?' reveal-correct':'')+'" data-opt="'+i+'" aria-pressed="'+(session.answers[session.i]===i)+'"'+(revealed?' disabled':'')+'><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o)+'</span></button>';}).join('');
+    var opts=window.__PMPSet2UI&&window.__PMPSet2UI.isInteractive(q)?window.__PMPSet2UI.renderAnswers(q,session.answers[session.i],revealed):q.options.map(function(o,i){return '<button type="button" class="tb-opt'+(session.answers[session.i]===i?' sel':'')+(revealed&&i===q.answer?' reveal-correct':'')+'" data-opt="'+i+'" aria-pressed="'+(session.answers[session.i]===i)+'"'+(revealed?' disabled':'')+'><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o)+'</span></button>';}).join('');
     var timer=session.timed?'<span class="tb-timer" id="tb-timer">'+fmtClock((session.endsAt-Date.now())/1000)+'</span>':'<span class="tb-timer untimed">Untimed</span>';
     var toolbar='<div class="tb-toolbar">'+timer+
       '<button type="button" class="tb-tbtn'+(session.flags[session.i]?' on':'')+'" data-flag aria-pressed="'+!!session.flags[session.i]+'">\u2691 '+(session.flags[session.i]?'Flagged':'Flag')+'</button>'+
@@ -4656,6 +4662,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var answered=Object.keys(session.answers).length,n=session.items.length;
     var flagged=Object.keys(session.flags).filter(function(key){return session.flags[key];}).length;
     var revealed=isAnswerRevealed(session.i),q=session.items[session.i].q;
+    if(window.__PMPSet2UI&&window.__PMPSet2UI.isInteractive(q))window.__PMPSet2UI.update(quiz,q,session.answers[session.i],revealed);
     Array.prototype.forEach.call(quiz.querySelectorAll('[data-opt]'),function(button){
       var selected=+button.dataset.opt===session.answers[session.i];
       button.classList.toggle('sel',selected);button.setAttribute('aria-pressed',String(selected));
@@ -4692,22 +4699,28 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
       var update=function(){var value=Number(slider.value),committed=Number(slider.dataset.committed||0),container=slider.closest('.tb-chart-whatif');if(!container)return;var shown=container.querySelector('[data-tb-whatif-value]'),remaining=container.querySelector('[data-tb-whatif-remaining]');if(shown)shown.textContent=String(value);if(remaining)remaining.textContent=String(value-committed);};
       slider.addEventListener('input',update);update();
     });
-    Array.prototype.forEach.call(host.querySelectorAll('[data-opt]'),function(b){b.addEventListener('click',function(){
-      if(session.completed||isAnswerRevealed(session.i))return;
+    function saveChoice(selected){
+      if(session.completed||isAnswerRevealed(session.i))return false;
       // A failed timeout save must not let a learner revise expired answers.
       if(session.timed&&session.endsAt<=Date.now()){submitQuiz('timed-out');return;}
-      var index=session.i,selected=+b.dataset.opt,question=session.items[index].q;
+      var index=session.i,question=session.items[index].q;
       /* Persist the current choice before repainting. It remains a draft until
          final submission, so changing it cannot manufacture learning attempts. */
       var learning=window.__TBLearning;
       if(!learning||typeof learning.recordDraft!=='function'||!session.id){showLearningStorageNotice('Your answer could not be saved because study-record storage is unavailable. Please wait a moment and try again.');return;}
       var saved=learning.recordDraft({examId:current,sessionId:session.id,mode:session.kind,timed:session.timed,index:index,question:question,selected:selected});
       if(!saved||saved.saved===false||!writeAheadConfirmed(learning)){showLearningStorageNotice('That choice could not be saved safely. Your previous saved choice is unchanged; free browser storage and try again.');return;}
-      session.answers[index]=selected;
+      if(selected==null)delete session.answers[index];else session.answers[index]=selected;
       // Saving a choice is not navigation. Keep the focused button and any
       // interactive evidence alive; replacing the whole quiz here detaches the
       // event target and races the next mobile pointer/keyboard action.
       updateQuizAnswerState(host);
+      return true;
+    }
+    var pmpQuestion=session.items[session.i].q;
+    if(window.__PMPSet2UI&&window.__PMPSet2UI.isInteractive(pmpQuestion))window.__PMPSet2UI.wire(host,pmpQuestion,function(){return session.answers[session.i];},saveChoice);
+    Array.prototype.forEach.call(host.querySelectorAll('[data-opt]'),function(b){b.addEventListener('click',function(){
+      if(!saveChoice(+b.dataset.opt))return;
       b.focus({preventScroll:true});
     });});
     Array.prototype.forEach.call(host.querySelectorAll('[data-goto]'),function(b){b.addEventListener('click',function(){session.i=+b.dataset.goto;renderMain();});});
