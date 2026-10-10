@@ -4589,6 +4589,498 @@
         "instruction": "Select ONE answer."
       }
     ]
+  },
+  {
+    "number": 10,
+    "sourcePage": "https://github.com/UpSkillSprint-Consulting/upskill-sprint/blob/codex/pmp-set2-batches01-05/docs/pmp-set2-batch10.md",
+    "caseStudy": {
+      "id": "C10",
+      "title": "Condition-monitoring procurement",
+      "markdown": "A predictive project is procuring condition-monitoring equipment. The published selection procedure first excludes any bid exceeding $150,000 or a guaranteed support-response time of four hours. Neither gate may be negotiated away at this selection stage. All other mandatory requirements are met. Among eligible bids, the highest weighted score wins: 60% technical score plus 40% service score. Scores are on a 0–100 scale; price is a gate, not another weighted criterion. Treat each question independently.\n\n| Bid | Price and guaranteed response | Technical and service scores |\n|---|---|---|\n| A | $118,000; 8 hours | Technical 92; service 90 |\n| B | $145,000; 4 hours | Technical 86; service 88 |\n| C | $152,000; 2 hours | Technical 96; service 96 |\n| D | $149,000; 3 hours | Technical 91; service 85 |\n\nProcurement controls bidder communications. After award, the project change authority approves baseline changes, while only the designated procurement officer may amend the contract. The project manager holds neither authority."
+    },
+    "questions": [
+      {
+        "n": 91,
+        "id": "pmp-set2-091",
+        "domain": "Process",
+        "task": 5,
+        "approach": "Predictive",
+        "difficulty": "Very challenging",
+        "format": "single",
+        "caseId": "C10",
+        "stem": "Which bid should the project manager recommend under the published selection procedure?",
+        "options": [
+          [
+            "A",
+            "Bid A: its weighted score of 91.2 exceeds those of B and D, and it has the lowest price."
+          ],
+          [
+            "B",
+            "Bid B: it passes both gates and is the least expensive eligible bid."
+          ],
+          [
+            "C",
+            "Bid C: its weighted score of 96 is the highest of all four bids."
+          ],
+          [
+            "D",
+            "Bid D: it passes both gates and has the highest eligible weighted score, 88.6."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "Apply eligibility before ranking. A fails the response-time gate and C exceeds the budget ceiling. Eligible B scores 0.60 × 86 + 0.40 × 88 = 86.8; eligible D scores 0.60 × 91 + 0.40 × 85 = 88.6. D therefore wins. The procedure does not authorize substituting lowest price for the published weighted criteria.",
+        "rationales": {
+          "A": "The calculation is correct, but A is ineligible because its eight-hour response exceeds four hours.",
+          "B": "B is eligible, but lowest price does not determine the winner once the gates are satisfied.",
+          "C": "C is ineligible because its price exceeds the ceiling, regardless of its superior weighted score.",
+          "D": "Correct. D meets both mandatory gates and outranks the other eligible bid."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide X4.5–X4.7: bid processes and source-selection criteria, pp. 248–250 (PDF pp. 353–355).",
+          "PMBOK Guide, Eighth Edition, Guide Multicriteria decision analysis, pp. 183 (PDF pp. 288)."
+        ],
+        "difficultyReason": "Applies two mandatory gates before calculation and resists both the highest unqualified score and the lowest eligible price.",
+        "instruction": "Select ONE answer.",
+        "quantitative": true
+      },
+      {
+        "n": 92,
+        "id": "pmp-set2-092",
+        "domain": "People",
+        "task": 4,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": "C10",
+        "stem": "Independently, consider the period before the bid deadline. One bidder submits a proprietary design sketch with a question that exposes an ambiguity in a requirement. The technical team confirms that the clarification could materially affect every bid. What should the project manager arrange?",
+        "options": [
+          [
+            "A",
+            "Send the technical answer only to the bidder that identified the ambiguity, so its initiative is rewarded."
+          ],
+          [
+            "B",
+            "Circulate the complete question and proprietary sketch to all bidders to provide identical information."
+          ],
+          [
+            "C",
+            "Have procurement issue a common requirement clarification to all bidders, protect the proprietary design, and provide an appropriate common response period."
+          ],
+          [
+            "D",
+            "Wait until after the deadline and interpret each proposal against the clarified requirement without reopening communication."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "Fair engagement requires that all bidders receive the material requirement clarification through the controlled procurement channel. Equal access to the clarified requirement does not require disclosing one bidder’s proprietary design. Procurement should also consider the time bidders need to respond consistently.",
+        "rationales": {
+          "A": "This creates unequal access to information that affects proposal preparation.",
+          "B": "It shares relevant information but unnecessarily exposes confidential design content.",
+          "C": "Correct. It balances equal access, confidentiality, and sufficient response time.",
+          "D": "It allows proposals to be prepared against different understandings and assessed against a later interpretation."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide X4.5–X4.7: bid processes and source-selection criteria, pp. 248–250 (PDF pp. 353–355)."
+        ],
+        "difficultyReason": "Balances transparency with protection of proprietary information, rather than treating either as an absolute override.",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 93,
+        "id": "pmp-set2-093",
+        "domain": "Business Environment",
+        "task": 3,
+        "approach": "Predictive",
+        "difficulty": "Challenging",
+        "format": "multiple",
+        "caseId": "C10",
+        "stem": "Independently, assume an authorized contract is now in place. The sponsor requests a remote-alarm feature outside the statement of work. The supplier offers to add it at no charge, but it would change cybersecurity testing, integration work, and acceptance criteria. Which TWO actions should the project manager coordinate before the added work begins?",
+        "options": [
+          [
+            "A",
+            "Authorize the work from the sponsor’s email because there is no increase in the supplier’s price."
+          ],
+          [
+            "B",
+            "Assess the integrated impacts and submit the proposed baseline changes to the project’s change authority."
+          ],
+          [
+            "C",
+            "Treat the supplier’s offer as a contract amendment once the project change authority approves the revised baseline."
+          ],
+          [
+            "D",
+            "Ask the supplier to begin the feature while the project team documents the change retrospectively."
+          ],
+          [
+            "E",
+            "Have the authorized procurement officer formalize the contract change, consistent with the approved project decision."
+          ]
+        ],
+        "correct": [
+          "B",
+          "E"
+        ],
+        "explanation": "A zero-price offer can still alter scope, risks, dependencies, and acceptance obligations. The project needs an integrated change decision and an authorized contract amendment. These are distinct authorities in the case. The project manager coordinates both before authorizing implementation through the appropriate channel.",
+        "rationales": {
+          "A": "The sponsor’s request and zero price do not satisfy either stated approval process.",
+          "B": "Correct. It evaluates the full project impact and obtains the required baseline decision.",
+          "C": "Project change approval does not itself amend the supplier’s contractual obligations.",
+          "D": "Starting first bypasses the required decisions and exposes the project to unapproved work.",
+          "E": "Correct. The designated officer must formalize the supplier obligations after the project decision is approved."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.1.6.8: integrated change control, pp. 28–29 (PDF pp. 133–134).",
+          "PMBOK Guide, Eighth Edition, Guide Negotiation: procurement negotiation and signing authority, pp. 183 (PDF pp. 288)."
+        ],
+        "difficultyReason": "Distinguishes project baseline authority from contract authority when a free offer still changes delivery obligations.",
+        "instruction": "Select TWO answers."
+      },
+      {
+        "n": 94,
+        "id": "pmp-set2-094",
+        "domain": "Process",
+        "task": 10,
+        "approach": "Predictive",
+        "difficulty": "Moderate",
+        "format": "dropdown",
+        "caseId": null,
+        "stem": "A predictive project’s equipment has been formally accepted. The final invoice has not been reconciled, and warranty records and support ownership have not been transferred. The organization requires these actions before administrative contract closure; it does not require waiting for the warranty period to expire. The project manager should _____.",
+        "options": [
+          [
+            "A",
+            "close the contract now and leave all remaining activities to the supplier"
+          ],
+          [
+            "B",
+            "coordinate invoice reconciliation and transfer of warranty records and support responsibility, then complete authorized closure"
+          ],
+          [
+            "C",
+            "hold the project open until every warranty period expires even if the required transfers are complete"
+          ],
+          [
+            "D",
+            "repeat technical acceptance instead of completing the outstanding administrative activities"
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "Physical acceptance is one closure condition. The stated procedure also requires financial reconciliation and an explicit handover of continuing support responsibilities and records. Completing those actions enables administrative closure without inventing a requirement to keep the project open throughout the warranty period.",
+        "rationales": {
+          "A": "It leaves required financial and transition activities incomplete.",
+          "B": "Correct. It completes the stated administrative conditions and establishes ownership of continuing obligations.",
+          "C": "The scenario explicitly excludes that additional closure requirement.",
+          "D": "Repeating acceptance does not resolve invoice reconciliation or support handover."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.1.6.9–2.1.6.9.1: project and contract closure, pp. 31–32 (PDF pp. 136–137)."
+        ],
+        "difficultyReason": "Distinguishes acceptance of the deliverable from completion of the stated closure conditions.",
+        "instruction": "Select the best completion."
+      },
+      {
+        "n": 95,
+        "id": "pmp-set2-095",
+        "domain": "People",
+        "task": 1,
+        "approach": "Agile",
+        "difficulty": "Moderate",
+        "format": "single",
+        "caseId": null,
+        "stem": "An agile supplier team celebrates completed features, while the buyer’s operations team expects shorter customer handover times. Both are meeting their local activity targets, but team members cannot explain how the delivered features support the intended outcome. Existing contract terms allow the teams to agree shared working measures without changing payment or scope. What should the project manager do first?",
+        "options": [
+          [
+            "A",
+            "Increase the supplier’s feature target so that a larger output will establish the intended benefit."
+          ],
+          [
+            "B",
+            "Facilitate a shared outcome discussion and agree a common vision and observable success measures within the existing agreement."
+          ],
+          [
+            "C",
+            "Replace the agreed payment model with a benefits-only arrangement at the next team meeting."
+          ],
+          [
+            "D",
+            "Ask operations to stop discussing outcomes until the supplier has finished all planned features."
+          ]
+        ],
+        "correct": [
+          "B"
+        ],
+        "explanation": "The immediate gap is a shared understanding of success. Bringing the buyer and supplier together around the intended customer outcome helps connect delivery choices to value. The scenario permits shared working measures, so this action does not require the project manager to invent new commercial authority.",
+        "rationales": {
+          "A": "More output does not establish that the teams understand or achieve the intended outcome.",
+          "B": "Correct. It creates a common direction and a way to assess progress toward that direction.",
+          "C": "Changing payment terms exceeds the working agreement described and does not first resolve the shared-vision gap.",
+          "D": "It postpones feedback that is needed to guide adaptive delivery."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.6: team leadership and shared vision, pp. 84–86 (PDF pp. 189–191).",
+          "PMBOK Guide, Eighth Edition, Guide X4.8.1–X4.8.2: fundamental contract models and adaptive arrangements, pp. 251–252 (PDF pp. 356–357)."
+        ],
+        "difficultyReason": "Identifies a shared-vision gap from conflicting local definitions of success.",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 96,
+        "id": "pmp-set2-096",
+        "domain": "Process",
+        "task": 5,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "matching",
+        "caseId": null,
+        "stem": "A hybrid program has four procurement packages with different uncertainty and payment needs. Match each stated need to the most suitable arrangement. Use the terms according to their fundamental payment and risk characteristics.",
+        "options": [
+          [
+            "A",
+            "Cost-reimbursable contract"
+          ],
+          [
+            "B",
+            "Target-cost contract"
+          ],
+          [
+            "C",
+            "Fixed-price contract"
+          ],
+          [
+            "D",
+            "Outcome-based payment arrangement"
+          ],
+          [
+            "E",
+            "Time-and-materials contract"
+          ]
+        ],
+        "correct": {
+          "1": "C",
+          "2": "A",
+          "3": "E",
+          "4": "B"
+        },
+        "explanation": "Package 1 calls for a predetermined total price and seller exposure to estimation overruns: fixed price. Package 2 reimburses allowable costs plus a fee under high uncertainty: cost reimbursable. Package 3 pays actual hours at fixed rates and materials: time and materials, with controls on exposure. Package 4 explicitly shares savings and overruns against a target: target cost. No package makes payment conditional on an observed business outcome.",
+        "rationales": {
+          "A": "Matches 2. The buyer accepts allowable-cost exposure and pays the agreed fee while scope is uncertain.",
+          "B": "Matches 4. The distinguishing feature is the agreed sharing of savings and overruns against a target cost.",
+          "C": "Matches 1. The seller agrees to the defined work for a predetermined total price.",
+          "D": "Unused. None of the stated needs ties payment to achievement of an observable business outcome.",
+          "E": "Matches 3. Payment follows actual labor time at agreed rates and materials, requiring monitoring against the cap."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide X4.8.1–X4.8.2: fundamental contract models and adaptive arrangements, pp. 251–252 (PDF pp. 356–357)."
+        ],
+        "difficultyReason": "Separates price certainty, reimbursed-cost exposure, hourly payment, and shared target-cost risk without equating agile work with a single contract type.",
+        "instruction": "Match each procurement need to the most suitable arrangement. Use each choice at most once; one choice is unused.",
+        "prompts": [
+          [
+            "1",
+            "Defined equipment installation: predetermined total price; seller bears estimation cost overruns for the agreed scope."
+          ],
+          [
+            "2",
+            "Uncertain research: reimburse allowable actual costs plus an agreed fee; buyer accepts the cost exposure."
+          ],
+          [
+            "3",
+            "Temporary specialists: pay actual hours at fixed hourly rates and material costs, monitored against an agreed cap."
+          ],
+          [
+            "4",
+            "Integration package: agree a target cost and share savings and overruns using a negotiated formula."
+          ]
+        ]
+      },
+      {
+        "n": 97,
+        "id": "pmp-set2-097",
+        "domain": "Business Environment",
+        "task": 1,
+        "approach": "Agile",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "stem": "An agile supplier agreement allows the product owner to exchange backlog items within purchased capacity. Only the procurement officer may commit additional supplier spending. To meet a new stakeholder request, the product owner promises the supplier two extra specialists beyond the approved capacity and budget. The supplier has not started that work. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Clarify the authority boundary and route the additional capacity and funding request through the authorized decision process before a supplier commitment is made."
+          ],
+          [
+            "B",
+            "Treat the promise as authorized because backlog ownership includes all supplier spending needed to deliver the backlog."
+          ],
+          [
+            "C",
+            "Ask the supplier to start the extra specialists and offset the invoice by removing backlog items later."
+          ],
+          [
+            "D",
+            "Prohibit further backlog exchanges until every future iteration has a fixed scope."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "Adaptive prioritization operates within agreed governance. The product owner can exchange work within purchased capacity, but the scenario expressly reserves additional spending commitments to procurement. The project manager should clarify the boundary and seek the necessary decision before the supplier proceeds; permitted work within the current agreement can continue.",
+        "rationales": {
+          "A": "Correct. It respects adaptive prioritization while applying the stated commercial and funding authority.",
+          "B": "The stated delegation covers backlog exchanges, not additional commitments.",
+          "C": "It incurs exposure before the authorized decision and assumes later exchanges will offset a separate capacity purchase.",
+          "D": "It unnecessarily removes flexibility already permitted by the agreement."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.1.3–2.1.4: effective governance and investment decisions, pp. 13 (PDF pp. 118).",
+          "PMBOK Guide, Eighth Edition, Guide Negotiation: procurement negotiation and signing authority, pp. 183 (PDF pp. 288).",
+          "PMBOK Guide, Eighth Edition, Guide X4.8.1–X4.8.2: fundamental contract models and adaptive arrangements, pp. 251–252 (PDF pp. 356–357)."
+        ],
+        "difficultyReason": "Distinguishes delegated backlog decisions from a separate financial commitment without abandoning adaptive delivery.",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 98,
+        "id": "pmp-set2-098",
+        "domain": "People",
+        "task": 2,
+        "approach": "Hybrid",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "stem": "A hybrid project’s supplier says late buyer interface information caused a milestone delay; the buyer team says the supplier failed to use information already provided. Neither side has reviewed the dated records together. The agreement requires an initial joint negotiation and allows undisputed work to continue during that process. What should the project manager do first?",
+        "options": [
+          [
+            "A",
+            "Reject the supplier’s claim because the buyer team believes the information was available."
+          ],
+          [
+            "B",
+            "Accept the supplier’s requested extension immediately to protect the relationship."
+          ],
+          [
+            "C",
+            "Stop all supplier work until the disagreement has been resolved through the final escalation level."
+          ],
+          [
+            "D",
+            "Bring the parties and authorized procurement representative together to examine the dated records and obligations, negotiate the issue, and continue undisputed work as agreed."
+          ]
+        ],
+        "correct": [
+          "D"
+        ],
+        "explanation": "The disagreement contains disputed facts and contractual responsibilities. A joint review of records gives the authorized parties a basis for negotiation without prejudging entitlement. The stated agreement provides both the initial resolution route and permission to continue undisputed work, so neither automatic concession nor blanket stoppage is justified.",
+        "rationales": {
+          "A": "It substitutes one team’s assertion for a shared review of evidence and obligations.",
+          "B": "Maintaining a relationship does not require conceding an unassessed claim.",
+          "C": "It bypasses the initial negotiation process and disrupts work the agreement permits to continue.",
+          "D": "Correct. It combines evidence-based conflict resolution, appropriate authority, and the stated continuity provisions."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide X4.9.1–X4.9.2: claims, records, negotiation, and dispute resolution, pp. 253–254 (PDF pp. 358–359).",
+          "PMBOK Guide, Eighth Edition, Guide Negotiation: procurement negotiation and signing authority, pp. 183 (PDF pp. 288)."
+        ],
+        "difficultyReason": "Handles a supplier conflict without assuming either party’s account is proven or escalating beyond the agreed initial process.",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 99,
+        "id": "pmp-set2-099",
+        "domain": "Business Environment",
+        "task": 8,
+        "approach": "Agile",
+        "difficulty": "Challenging",
+        "format": "single",
+        "caseId": null,
+        "stem": "A provider used by an agile product announces that, at renewal in six months, its subscription will change to per-transaction pricing. The current contract remains valid and is not breached. Forecast usage under the product roadmap could make operating costs substantially higher than the business case assumed. What should the project manager do next?",
+        "options": [
+          [
+            "A",
+            "Report a current contract breach and demand that the provider retain the existing price indefinitely."
+          ],
+          [
+            "B",
+            "Wait until the first renewal invoice arrives so that the team can work with actual rather than forecast costs."
+          ],
+          [
+            "C",
+            "Assess usage and value impacts with the product owner and sponsor, compare feasible responses before renewal, and route any resulting investment or backlog changes through the appropriate decisions."
+          ],
+          [
+            "D",
+            "Remove every high-transaction feature immediately without assessing its customer value or contractual alternatives."
+          ]
+        ],
+        "correct": [
+          "C"
+        ],
+        "explanation": "The external pricing change threatens future value, even though current contract performance is unaffected. The remaining six months provide time to examine usage assumptions, alternatives, switching implications, and roadmap trade-offs. Authorized decisions can then adapt investment and delivery plans before the exposure becomes unavoidable.",
+        "rationales": {
+          "A": "The scenario states there is no current breach and gives no right to indefinite renewal pricing.",
+          "B": "It wastes the available planning horizon and may leave too little time to respond.",
+          "C": "Correct. It assesses the external change and enables timely, authorized adaptation based on value and alternatives.",
+          "D": "It assumes the correct response before evaluating benefits, costs, and available options."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide §2.1.3–2.1.4: effective governance and investment decisions, pp. 13 (PDF pp. 118).",
+          "PMBOK Guide, Eighth Edition, Guide X4.3: make-or-buy analysis and lifecycle considerations, pp. 247 (PDF pp. 352)."
+        ],
+        "difficultyReason": "Recognizes a future business-case threat without misclassifying it as a present contractual failure.",
+        "instruction": "Select ONE answer."
+      },
+      {
+        "n": 100,
+        "id": "pmp-set2-100",
+        "domain": "Process",
+        "task": 1,
+        "approach": "Hybrid",
+        "difficulty": "Very challenging",
+        "format": "single",
+        "caseId": null,
+        "stem": "A hybrid project must release an integrated service at the end of week 8. A supplier offers an adapter ready at the end of week 4; the internal team can build it by the end of week 6. Both routes still require two weeks of end-to-end integration and security testing, performed only by the internal integration team. That team is unavailable until the start of week 7. The supplier quote also excludes data cleansing, whose effort and owner have not been estimated. The sponsor says buying guarantees an earlier release. What should the project manager recommend?",
+        "options": [
+          [
+            "A",
+            "Evaluate both routes in an integrated plan, including data-cleansing ownership, total costs and testing capacity; the earlier supplier handoff alone does not advance the stated release window."
+          ],
+          [
+            "B",
+            "Buy immediately because the supplier’s week-4 handoff guarantees a release two weeks earlier than an internal build."
+          ],
+          [
+            "C",
+            "Choose the internal build immediately because equal test-team availability proves it must have the lower total cost."
+          ],
+          [
+            "D",
+            "Accept the supplier offer and remove internal testing from the plan because earlier delivery provides sufficient schedule assurance."
+          ]
+        ],
+        "correct": [
+          "A"
+        ],
+        "explanation": "Under the stated availability, either route reaches the same earliest two-week testing window: weeks 7–8. A week-4 component handoff therefore does not itself produce an earlier integrated release. The unestimated data-cleansing work could further affect feasibility, cost, and responsibilities. An integrated make-or-buy assessment is needed before commitment; the facts establish neither a cheaper internal route nor permission to omit testing.",
+        "rationales": {
+          "A": "Correct. It distinguishes component availability from release readiness and resolves missing work and resource assumptions before commitment.",
+          "B": "It ignores the shared testing-resource constraint and the supplier’s excluded work.",
+          "C": "Equal timing for one resource does not establish total cost or overall feasibility.",
+          "D": "Earlier component delivery does not replace the stated integration and security testing requirement."
+        },
+        "references": [
+          "PMBOK Guide, Eighth Edition, Guide X4.3–X4.4: make-or-buy analysis and procurement strategy, pp. 247 (PDF pp. 352).",
+          "PMBOK Guide, Eighth Edition, Guide resource availability and its effects on project plans, p. 84 (PDF p. 189)."
+        ],
+        "difficultyReason": "Reconciles delivery dates with a shared constrained resource and excluded scope, while distinguishing a disproven schedule claim from an unsupported buy-or-build conclusion.",
+        "instruction": "Select ONE answer."
+      }
+    ]
   }
 ];
   global.PMP_BANK2_SOURCE = batches;

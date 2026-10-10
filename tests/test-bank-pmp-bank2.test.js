@@ -15,13 +15,13 @@ const load = () => {
 };
 const count = (list, key) => list.reduce((out, q) => (out[q[key]] = (out[q[key]] || 0) + 1, out), {});
 
-test('Set 2 retains all 90 authored IDs, sources, cases, allocations, and independently checked keys', () => {
+test('Set 2 retains all 100 authored IDs, sources, cases, allocations, and independently checked keys', () => {
   const {PMP_BANK2: questions, PMP_BANK2_SOURCE: batches, __PMPSet2UI: ui} = load();
-  assert.equal(questions.length, 90);
-  assert.deepEqual(count(questions, 'domain'), {People:30, Process:37, 'Business Environment':23});
-  assert.deepEqual(count(questions, 'approach'), {Hybrid:27, Predictive:36, Agile:27});
-  assert.deepEqual(count(questions, 'format'), {single:66, multiple:12, dropdown:3, matching:6, hotspot:3});
-  assert.deepEqual(count(questions, 'difficulty'), {Challenging:54, 'Very challenging':18, Moderate:18});
+  assert.equal(questions.length, 100);
+  assert.deepEqual(count(questions, 'domain'), {People:33, Process:41, 'Business Environment':26});
+  assert.deepEqual(count(questions, 'approach'), {Hybrid:30, Predictive:40, Agile:30});
+  assert.deepEqual(count(questions, 'format'), {single:73, multiple:13, dropdown:4, matching:7, hotspot:3});
+  assert.deepEqual(count(questions, 'difficulty'), {Challenging:60, 'Very challenging':20, Moderate:20});
   const keys = ['B','D','B and E','A','C','D','B','1 → E; 2 → B; 3 → D; 4 → A','B','A',
     'C','A','B','D','B','B and D','A','1 → D; 2 → A; 3 → E; 4 → B','C','B',
     'D','B','A','C','C','A and E','D','A','B','B and E',
@@ -30,7 +30,8 @@ test('Set 2 retains all 90 authored IDs, sources, cases, allocations, and indepe
     'C','A','D','B','C','B and E','D','B','A','A and D',
     'D','A','C and E','D','1 → D; 2 → B; 3 → E; 4 → A','B','C','B','A','C',
     'D','B','A','D','1 → C; 2 → E; 3 → A; 4 → B','C','D','A and D','B','A',
-    'B','D','A and C','C','A','C','D','B and D','B','A'];
+    'B','D','A and C','C','A','C','D','B and D','B','A',
+    'D','C','B and E','B','B','1 → C; 2 → A; 3 → E; 4 → B','A','D','C','A'];
   questions.forEach((q, i) => {
     assert.equal(q.qid, 'pmp:set-2:original-' + String(i + 1).padStart(3, '0'));
     assert.equal(q.authorId, 'pmp-set2-' + String(i + 1).padStart(3, '0'));
@@ -57,7 +58,7 @@ test('Set 2 retains all 90 authored IDs, sources, cases, allocations, and indepe
     assert.ok(cells.every(cell => cell.closest('td').cellIndex === 1));
     assert.equal(cells[3].getAttribute('aria-label'), 'Day 29 — 860 of 1,000 trials completed');
   } finally { hotspot.window.close(); }
-  assert.deepEqual(count(questions.filter(q => q.format === 'single').map(q => ({key:ui.decode(q, q.answer)})), 'key'), {B:17,D:16,A:17,C:16});
+  assert.deepEqual(count(questions.filter(q => q.format === 'single').map(q => ({key:ui.decode(q, q.answer)})), 'key'), {B:18,D:18,A:19,C:18});
 });
 
 test('multiple and matching response codes preserve every partial state and award no partial credit', () => {
@@ -113,7 +114,7 @@ function answer(p,q,response=q.correct,root=p.doc) {
   else click(root,'[data-pmp-cell="'+response[0]+'"]');
 }
 
-test('production player serves 90 Set 2 questions, keeps Set 1 intact, navigates, scores, reveals and retries all formats', async () => {
+test('production player serves 100 Set 2 questions, keeps Set 1 intact, navigates, scores, reveals and retries all formats', async () => {
   const p=await player();
   try {
     click(p.doc,'[data-exam="pmp"]');
@@ -122,15 +123,15 @@ test('production player serves 90 Set 2 questions, keeps Set 1 intact, navigates
     const legacyIds=new Set(p.w.__TB.EXAMS.pmp.sets[1].map(q=>q.qid));
     for(let n=1;n<=180;n++)assert.ok(!legacyIds.has('pmp:set-2:original-'+String(n).padStart(3,'0')),'future Set 2 IDs must remain separate from Set 1');
     assert.equal(p.doc.querySelector('[data-set="1"] .tb-sets').textContent,'180');
-    assert.equal(p.doc.querySelector('[data-set="2"] .tb-sets').textContent,'90');
+    assert.equal(p.doc.querySelector('[data-set="2"] .tb-sets').textContent,'100');
     assert.equal(p.doc.querySelector('[data-set="3"]').disabled,true);
     click(p.doc,'[data-set="2"]');
     assert.match(p.doc.getElementById('tb-overview').textContent,/partial practice set/);
     click(p.doc,'[data-mode="full"]');
     let snap=p.w.__TB.getFeedbackSnapshot();
-    assert.equal(snap.records.length,90);
+    assert.equal(snap.records.length,100);
     assert.equal(snap.setId,'2');
-    assert.equal(new Set(snap.records.map(r=>r.question.qid)).size,90);
+    assert.equal(new Set(snap.records.map(r=>r.question.qid)).size,100);
     assert.ok(snap.records.every(r=>r.question.set===2));
     const q3=go(p,3);
     answer(p,q3,['B']);
@@ -147,12 +148,12 @@ test('production player serves 90 Set 2 questions, keeps Set 1 intact, navigates
     // Deliberately miss one question of every response format for the retry path.
     const missed=new Set([1,3,7,8,20]);
     for(const record of snap.records){const q=go(p,record.question.n);if(!missed.has(q.n))answer(p,q);}
-    click(p.doc,'[data-goto="89"]');click(p.doc,'[data-submit]');
+    click(p.doc,'[data-goto="99"]');click(p.doc,'[data-submit]');
     await tick();
     const score=p.doc.querySelector('[data-score-result]');
-    assert.ok(score);assert.ok(Math.abs(Number(score.dataset.scorePercent) - 100 * 85 / 90) < 0.01);
+    assert.ok(score);assert.ok(Math.abs(Number(score.dataset.scorePercent) - 100 * 95 / 100) < 0.01);
     click(p.doc,'[data-open-review="all"]');
-    assert.equal(p.doc.querySelectorAll('.tb-review-card').length,90);
+    assert.equal(p.doc.querySelectorAll('.tb-review-card').length,100);
     const review8=p.doc.querySelector('.tb-review-card[data-question-id="pmp:set-2:original-008"]');
     assert.match(review8.textContent,/1 → E; 2 → B; 3 → D; 4 → A/);
     assert.ok(review8.querySelectorAll('td').length<50,'review shows authored rows, not encoded state options');
@@ -168,7 +169,7 @@ test('production player serves 90 Set 2 questions, keeps Set 1 intact, navigates
       click(panel,'[data-retry-next]');
     }
     assert.match(p.doc.querySelector('#tb-retry-panel').textContent,/5 of 5/);
-    assert.ok(Math.abs(Number(score.dataset.scorePercent) - 100 * 85 / 90) < 0.01,'correction does not change original score');
+    assert.ok(Math.abs(Number(score.dataset.scorePercent) - 100 * 95 / 100) < 0.01,'correction does not change original score');
     assert.deepEqual(p.errors,[]);
   } finally {p.close();}
 });
@@ -184,7 +185,7 @@ test('untimed reveal locks interactive inputs and records a correct prior respon
     click(p.doc,'[data-reveal]');
     assert.ok([...p.doc.querySelectorAll('.pmp2-answers select')].every(el=>el.disabled));
     assert.match(p.doc.querySelector('#tb-revealed-answer').textContent,/1 → E; 2 → B; 3 → D; 4 → A/);
-    click(p.doc,'[data-goto="89"]');click(p.doc,'[data-submit]');await tick();
+    click(p.doc,'[data-goto="99"]');click(p.doc,'[data-submit]');await tick();
     assert.equal(p.doc.querySelector('[data-score-result]').dataset.scorePercent,'0');
     assert.equal(p.w.__TB.getFeedbackSnapshot().records.find(r=>r.question.n===8).revealed,true);
     assert.deepEqual(p.errors,[]);
