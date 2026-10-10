@@ -636,6 +636,7 @@
     if (active && active.getAttribute('data-exam')) return active.getAttribute('data-exam');
     var title = document.getElementById('tb-herotitle');
     var text = normalize(title && title.textContent);
+    if (text.indexOf('reliability engineer') >= 0) return 'cre';
     if (text.indexOf('quality engineer') >= 0) return 'cqe';
     return '';
   }
@@ -761,7 +762,14 @@
     var host = document.getElementById('tb-reflist');
     var drawer = document.getElementById('tb-formulas');
     if (!host || !drawer || drawer.hidden) return;
-    if (activeExamId() !== 'cqe') return;
+    var examId = activeExamId();
+    if (examId === 'cre') {
+      if (window.__TB_CRE_FORMULAS && typeof window.__TB_CRE_FORMULAS.renderContextualPane === 'function') {
+        window.__TB_CRE_FORMULAS.renderContextualPane(query);
+      }
+      return;
+    }
+    if (examId !== 'cqe') return;
 
     var context = getContext();
     var sectionId = SECTION_META[context.sectionId] ? context.sectionId : 'quant';

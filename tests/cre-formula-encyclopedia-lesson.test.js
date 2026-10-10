@@ -144,3 +144,14 @@ test('search, section, and family filters work like the formula encyclopedia', (
   assert.equal(d.querySelector('[data-formula-id="CRE-10.11"] .card-title').textContent, 'Reliability, proportional hazards model');
   dom.window.close();
 });
+
+test('a formula hash opens that card without also opening numbered neighbors', () => {
+  const { dom, w, d } = setup('#formula=CRE-10.1');
+  const visible = () => Array.from(d.querySelectorAll('[data-formula-id]')).filter((card) => !card.hidden);
+  assert.equal(visible().length, 1);
+  assert.equal(visible()[0].dataset.formulaId, 'CRE-10.1');
+  d.getElementById('searchInput').value = 'parallel';
+  d.getElementById('searchInput').dispatchEvent(new w.Event('input'));
+  assert.ok(visible().length > 1);
+  dom.window.close();
+});
