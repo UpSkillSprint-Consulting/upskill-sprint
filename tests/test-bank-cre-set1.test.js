@@ -40,8 +40,8 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/, 9: /^II\.(A\.[1-3]|B\.[1-6])$/, 10: /^(II\.C|I\.A\.[1-9])$/, 11: /^I\.(A\.[1-9]|B\.([1-9]|10))$/ };
+const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/, 9: /^II\.(A\.[1-3]|B\.[1-6])$/, 10: /^(II\.C|I\.A\.[1-9])$/, 11: /^I\.(A\.[1-9]|B\.([1-9]|10))$/, 12: /^I\.B\.([1-9]|10)$/ };
 // BoK domain → engine area (the five shared CRE domains)
 const DOMAIN_SUB = { I: 'cre-fundamentals', II: 'cre-risk', III: 'cre-statistics', IV: 'cre-testing' };
 // Focused Quiz opens on the first BoK area (in exam order) that the opening set covers
@@ -160,7 +160,15 @@ test('batch 11 completes the I.A topics and opens I.B', () => {
   assert.equal(rows.filter((q) => q.bok.code.startsWith('I.B')).length, 5);
   const ia = new Set(BANK.filter((q) => q.bok.code.startsWith('I.A')).map((q) => q.bok.code));
   assert.equal([...ia].sort().join(), 'I.A.1,I.A.2,I.A.3,I.A.4,I.A.5,I.A.6,I.A.7,I.A.8,I.A.9', 'every I.A topic is covered');
-  assert.equal(BANK.filter((q) => q.sub === 'cre-fundamentals').length, 15);
+  assert.equal(BANK.filter((q) => q.sub === 'cre-fundamentals' && q.batch <= 11).length, 15);
+});
+
+test('batch 12 adds ten I.B items and covers every I.B topic', () => {
+  const rows = BANK.filter((q) => q.batch === 12);
+  assert.ok(rows.every((q) => q.sub === 'cre-fundamentals' && q.bok.code.startsWith('I.B')));
+  const ib = new Set(BANK.filter((q) => q.bok.code.startsWith('I.B')).map((q) => q.bok.code));
+  assert.equal([...ib].sort((a, b) => Number(a.split('.')[2]) - Number(b.split('.')[2])).join(), 'I.B.1,I.B.2,I.B.3,I.B.4,I.B.5,I.B.6,I.B.7,I.B.8,I.B.9,I.B.10', 'every I.B topic is covered');
+  assert.equal(BANK.filter((q) => q.sub === 'cre-fundamentals').length, 25);
 });
 
 test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22', () => {
@@ -1159,6 +1167,56 @@ test('Q110 the 5 Why chain stops at a person', () => {
   assert.match(last, /technician/i);
   assert.match(q.chart.rows[q.chart.rows.length - 1][1], /retrain/);
   assert.match(q.options[q.answer], /^People blaming/);
+});
+
+test('Q111 lifecycle cost favors the pump that is dearest to buy', () => {
+  const q = byId('cre:set-1:b12-q111');
+  const life = 6000 * 10;
+  const pumps = [...q.chart.rows].map(([id, price, mtbf, mttr]) => ({ id, price: n_(price), mtbf: n_(mtbf), mttr: n_(mttr) }));
+  const lcc = (p, down = true) => p.price + (life / p.mtbf) * (800 + (down ? 200 * p.mttr : 0));
+  const costs = Object.fromEntries(pumps.map((p) => [p.id, lcc(p)]));
+  assert.deepEqual(costs, { A: 25000, B: 12500, C: 11400 });
+  const best = pumps.reduce((a, b) => (lcc(b) < lcc(a) ? b : a));
+  assert.equal(best.id, 'C');
+  assert.match(q.options[q.answer], /^Pump C, with the lowest lifecycle cost at about \$11,400/);
+  const noDown = pumps.reduce((a, b) => (lcc(b, false) < lcc(a, false) ? b : a));
+  assert.equal(noDown.id, 'B', 'leaving out downtime picks B (the trap)');
+  assert.ok(q.options.some((o) => o.includes(`$${lcc(noDown, false).toLocaleString('en-US')}`)));
+});
+
+test('Q113 achieved availability: frequent short PM beats run-to-failure', () => {
+  const q = byId('cre:set-1:b12-q113');
+  const [lam, pm, mamt] = [...q.chart.rows].map((r) => [Number(r[1]), Number(r[2])]);
+  const A = [0, 1].map((i) => { const M = 1000 / (lam[i] + pm[i]); return M / (M + mamt[i]); });
+  assert.equal(A[0].toFixed(4), '0.9877');
+  assert.equal(A[1].toFixed(4), '0.9794');
+  assert.ok(A[0] > A[1]);
+  assert.equal(q.options[q.answer], `Strategy 1, ${A[0].toFixed(4)}`);
+});
+
+test('Q118 B10 life with a constant failure rate', () => {
+  const q = byId('cre:set-1:b12-q118');
+  assertKeyed(q, -50000 * Math.log(0.9), 1);
+});
+
+test('Q120 Poisson probability of 4 or fewer failures at the old rate', () => {
+  const q = byId('cre:set-1:b12-q120');
+  const mu = 24000 * 18 / 36000;
+  assert.equal(mu, 12);
+  assertKeyed(q, poissonCdf(4, mu), 0.00005);
+  assert.ok(q.options.includes(poissonCdf(3, mu).toFixed(4)), 'P(X ≤ 3) trap');
+  assert.ok(q.options.includes(poissonPmf(4, mu).toFixed(4)), 'P(X = 4) trap');
+  assert.ok(q.options.includes((1 - poissonCdf(3, mu)).toFixed(4)), 'wrong-tail trap');
+});
+
+test('Q116 and Q119 exhibits match their keys', () => {
+  const q116 = byId('cre:set-1:b12-q116');
+  assert.match(q116.chart.rows[0][1], /Weibull model to field returns/);
+  assert.match(q116.chart.rows[1][1], /measurement system and establish the baseline/);
+  assert.equal(q116.options[q116.answer], '1 Analyze; 2 Measure; 3 Improve; 4 Control');
+  const q119 = byId('cre:set-1:b12-q119');
+  assert.ok(!q119.chart.rows.some((r) => /escape|inspection/i.test(r[1])), 'no escape point is recorded');
+  assert.match(q119.options[q119.answer], /^D4 escape point/);
 });
 
 /* ---------- 3. production delivery ---------- */

@@ -12,6 +12,7 @@
  * Batch 9 of 15: II.A.1–II.A.3 (PRA, risk evaluation, risk types) and II.B.1–II.B.6 (FTA, FHA, FMEA, common cause, design trade-offs).
  * Batch 10 of 15: II.C (mitigation: 4 Ts, ALARP/ALARA/ALAP, residual and secondary risk) and I.A.2, I.A.5, I.A.7–I.A.9 (leadership foundations).
  * Batch 11 of 15: I.A.1, I.A.3, I.A.4, I.A.6, I.A.9 (leadership foundations) and I.B.1–I.B.4 (terminology, requirements, CAPA, RCA).
+ * Batch 12 of 15: I.B.1, I.B.3–I.B.10 (lifecycle cost, maintainability economics, cost of poor reliability, quality triangle, DMAIC, systems integration).
  *
  * Every calculated answer is recomputed independently in tests/test-bank-cre-set1.test.js.
  * Notation follows The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting &
@@ -9472,6 +9473,657 @@
         "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
         "chapter": "Chapter 2 - Reliability Foundations",
         "section": "Root cause analysis — five whys",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b12-q111",
+    "set": 1,
+    "batch": 12,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.5",
+      "topic": "Lifecycle cost of pump options"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, multi-step calculation, decision",
+    "quantitative": true,
+    "stem": "A plant will run a pump 6,000 hours a year for 10 years. Each failure costs 800 dollars in parts and labor plus 200 dollars per hour of downtime while the pump is repaired. Using the table, which pump has the lowest lifecycle cost?",
+    "chart": {
+      "type": "data-table",
+      "title": "Pump options",
+      "columns": [
+        "Pump",
+        "Price ($)",
+        "MTBF (h)",
+        "MTTR (h)"
+      ],
+      "rows": [
+        [
+          "A",
+          "4,000",
+          "8,000",
+          "10"
+        ],
+        [
+          "B",
+          "6,500",
+          "20,000",
+          "6"
+        ],
+        [
+          "C",
+          "9,000",
+          "40,000",
+          "4"
+        ]
+      ]
+    },
+    "options": [
+      "Pump A, with the lowest purchase price at $4,000",
+      "Pump B, with the lowest lifecycle cost at about $8,900",
+      "Pump C, with the lowest lifecycle cost at about $11,400",
+      "Pump B, with the lowest lifecycle cost at about $12,500"
+    ],
+    "answer": 2,
+    "why": "<p>Over 60,000 operating hours, add each pump’s purchase price to its expected failures times the cost of each failure:</p><p>\\[\\begin{aligned}C_A &= 4000 + 7.5(2800) \\\\ &= 25000 \\\\ C_B &= 6500 + 3(2000) \\\\ &= 12500 \\\\ C_C &= 9000 + 1.5(1600) \\\\ &= 11400\\end{aligned}\\]</p><p>where \\(C\\) is the lifecycle cost in dollars; the expected failures are \\(60000/\\text{MTBF}\\), and each failure costs 800 dollars plus 200 dollars times the MTTR (2,800, 2,000 and 1,600 dollars for A, B and C). The most expensive pump to buy is the cheapest to own, because it fails least often and is repaired fastest.</p><p><b>C. Pump C, about $11,400.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Product Lifecycle Engineering Stages (lifecycle cost; “pay me now or pay me later”).</span></p>",
+    "optionRationales": [
+      "Purchase price is only part of lifecycle cost; Pump A’s failures add about 21,000 dollars over 10 years.",
+      "Leaves out downtime cost: 6,500 plus 3 failures at 800 dollars gives 8,900, which favors B.",
+      "Correct. 9,000 plus 1.5 failures at 1,600 dollars each gives 11,400, the lowest.",
+      "This is Pump B’s correct lifecycle cost, but Pump C’s is lower."
+    ],
+    "keyPoint": "Choose on lifecycle cost (purchase plus failure and downtime costs over the life), not on purchase price.",
+    "trap": "Leaving out downtime cost, which depends on maintainability (MTTR).",
+    "formula": "\\(C = P_0 + \\dfrac{L}{\\text{MTBF}}(c_r + c_d \\, \\text{MTTR})\\)",
+    "assumptions": [
+      "Constant failure rates; no discounting; operating costs other than failures are the same for all three pumps."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "lifecycle cost",
+      "MTBF",
+      "MTTR",
+      "downtime cost"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Product lifecycle engineering stages",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b12-q112",
+    "set": 1,
+    "batch": 12,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.5",
+      "topic": "Software reliability: fault containment"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Understand",
+    "questionType": "Concept",
+    "quantitative": false,
+    "stem": "Flight-control software computes each command with two independently written algorithms on separate processors, compares the results and rejects any output on which they disagree. Which phase of the software reliability effort does this technique belong to?",
+    "chart": null,
+    "options": [
+      "Fault containment through redundancy",
+      "Error prevention through requirements",
+      "Fault detection and removal during testing before release",
+      "Reliability growth testing after release"
+    ],
+    "answer": 0,
+    "why": "<p>The software reliability effort has three general phases: error prevention, fault detection and removal, and fault containment through redundancy. Computing a value with alternate, independently written algorithms and comparing the results detects and contains faults automatically while the software runs, which is the containment phase. The diversity matters: identical code on two processors would repeat the same software fault and catch only hardware faults. Error prevention works through solid requirements before coding, and fault detection and removal happens in testing.</p><p><b>A. Fault containment through redundancy.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Product Lifecycle Engineering Stages — Reliability Engineering for Software Products.</span></p>",
+    "optionRationales": [
+      "Correct. Comparing results from diverse, redundant computations contains faults at run time.",
+      "Error prevention happens before coding, mainly through clear, complete requirements.",
+      "Detection and removal finds and fixes faults in testing; this technique acts during operation.",
+      "Growth testing tracks fault removal over time; it is not a run-time protection."
+    ],
+    "keyPoint": "Software reliability: prevent errors (requirements), detect and remove faults (testing), contain faults (redundancy at run time).",
+    "trap": "Calling any fault-detecting technique part of testing.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "software reliability",
+      "fault containment",
+      "redundancy"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Reliability engineering for software products",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b12-q113",
+    "set": 1,
+    "batch": 12,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.6",
+      "topic": "Maintenance strategy and achieved availability"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, calculation, decision",
+    "quantitative": true,
+    "stem": "Two maintenance strategies are proposed for a packaging line. Strategy 1 adds frequent preventive maintenance (PM); Strategy 2 runs mostly to failure. Using the table, which strategy gives the higher achieved availability, and what is it?",
+    "chart": {
+      "type": "data-table",
+      "title": "Maintenance strategies 1 and 2",
+      "columns": [
+        "Item",
+        "1",
+        "2"
+      ],
+      "rows": [
+        [
+          "Failures per 1,000 h",
+          "1",
+          "3"
+        ],
+        [
+          "PM actions per 1,000 h",
+          "4",
+          "0.5"
+        ],
+        [
+          "Mean active maintenance time (h)",
+          "2.5",
+          "6.0"
+        ]
+      ]
+    },
+    "options": [
+      "Strategy 1, 0.9877",
+      "Strategy 2, 0.9794",
+      "Strategy 2, because its mean time between maintenance actions (286 h) is longer",
+      "Strategy 1, 0.9975"
+    ],
+    "answer": 0,
+    "why": "<p>Achieved availability counts all maintenance actions, corrective and preventive, with their active time:</p><p>\\[\\begin{aligned}M_1 &= \\frac{1000}{1 + 4} = 200 \\\\ A_1 &= \\frac{200}{200 + 2.5} \\\\ &= 0.9877 \\\\ M_2 &= \\frac{1000}{3 + 0.5} = 286 \\\\ A_2 &= \\frac{286}{286 + 6} \\\\ &= 0.9794\\end{aligned}\\]</p><p>where \\(M\\) is the mean time between maintenance actions (MTBMA, failures plus PM) in hours and \\(A\\) the achieved availability. Strategy 2 has fewer maintenance actions, but each is longer, and unplanned repairs take more than twice as long as PM, so Strategy 1 is available more of the time.</p><p><b>A. Strategy 1, 0.9877.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Economics of Product Maintainability and Availability (MTBMA and achieved availability).</span></p>",
+    "optionRationales": [
+      "Correct. More frequent but shorter maintenance actions give the higher achieved availability.",
+      "This is Strategy 2’s achieved availability, which is lower than Strategy 1’s.",
+      "A longer MTBMA does not guarantee higher availability; Strategy 2’s longer active maintenance time outweighs it.",
+      "Uses MTBF alone (1,000 h) and leaves out the PM actions, overstating availability: \\(1000/1002.5\\)."
+    ],
+    "keyPoint": "Achieved availability trades how often maintenance occurs against how long each action takes.",
+    "trap": "Choosing the strategy with fewer maintenance actions without weighing their duration.",
+    "formula": "\\(A = \\dfrac{\\text{MTBMA}}{\\text{MTBMA} + \\text{MAMT}}\\), with \\(\\text{MTBMA} = \\dfrac{1}{\\lambda + \\mu}\\)",
+    "assumptions": [
+      "Constant failure and PM rates; logistic and administrative delays excluded."
+    ],
+    "estimatedMinutes": 4,
+    "keywords": [
+      "achieved availability",
+      "MTBMA",
+      "preventive maintenance",
+      "maintainability economics"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Economics of product maintainability and availability",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b12-q114",
+    "set": 1,
+    "batch": 12,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.7",
+      "topic": "Quantifiable nonfinancial costs of poor reliability"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Understand",
+    "questionType": "Scenario",
+    "quantitative": false,
+    "stem": "A plant sells everything it can make. Each month, 300 of its 10,000 units of capacity go to warranty replacements. The warranty report counts parts, labor and freight for each claim. Which cost of poor reliability does the report miss, even though it could be quantified?",
+    "chart": null,
+    "options": [
+      "The harm to the brand’s reputation among buyers who never file a claim.",
+      "The materials and labor used to build each replacement unit.",
+      "The freight cost of shipping the replacement units to customers.",
+      "The margin lost on 300 sales a month that the replacement units displace."
+    ],
+    "answer": 3,
+    "why": "<p>Replacement units consume production capacity without adding customer value, just like rework. When demand exceeds supply, every replacement displaces a unit that could have been sold, so the lost margin is a real cost. It does not appear in the warranty report but can be quantified. Reputation damage is a cost too, but it is very hard to quantify.</p><p><b>D. Lost margin on displaced sales.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Cost of Poor Reliability — Quantifiable Nonfinancial Costs.</span></p>",
+    "optionRationales": [
+      "Reputation is a real cost of poor reliability but is described as nonquantifiable in practice.",
+      "Parts and labor for each replacement are already counted in the warranty report.",
+      "Freight is already counted in the warranty report.",
+      "Correct. Capacity used for replacements is lost sales when the plant is sold out, a cost that can be quantified."
+    ],
+    "keyPoint": "Poor reliability costs more than warranty claims: replacements consume capacity, and reputation suffers.",
+    "trap": "Treating the warranty report as the full cost of poor reliability.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "cost of poor reliability",
+      "warranty",
+      "capacity",
+      "lost sales"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Cost of poor reliability",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b12-q115",
+    "set": 1,
+    "batch": 12,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.8",
+      "topic": "The quality triangle"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Understand",
+    "questionType": "Concept",
+    "quantitative": false,
+    "stem": "Management cuts a development program’s schedule by a third while holding its budget fixed. According to the quality triangle, what should the reliability engineer warn is most likely to suffer?",
+    "chart": null,
+    "options": [
+      "Nothing, if the program is managed well enough to absorb the change.",
+      "Quality, including reliability, because time has been cut and cost is held.",
+      "The budget, because cost usually gives way first when a schedule is cut.",
+      "The schedule, because the program will drift back to its original length."
+    ],
+    "answer": 1,
+    "why": "<p>The quality triangle links cost, time and quality: investing in one element costs another (“faster, better, cheaper: pick any two”). With time cut and cost held, quality, including reliability testing and design margin, is what gives. Good project management can reduce the tradeoff but does not remove it.</p><p><b>B. Quality, including reliability.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Quality Triangle.</span></p>",
+    "optionRationales": [
+      "Effective project management narrows the tradeoff; it does not eliminate it.",
+      "Correct. With time cut and cost fixed, quality and reliability are the element at risk.",
+      "The budget is held fixed in this scenario, so cost is not what gives.",
+      "The schedule has been cut by decision; the triangle predicts the effect on the remaining element."
+    ],
+    "keyPoint": "Cost, time and quality trade off: fix two, and the third absorbs the change.",
+    "trap": "Assuming better management can deliver all three at once.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "quality triangle",
+      "cost",
+      "time",
+      "quality"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Quality triangle",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b12-q116",
+    "set": 1,
+    "batch": 12,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.9",
+      "topic": "Reliability work within DMAIC"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, classification",
+    "quantitative": false,
+    "stem": "A Six Sigma project aims to extend the life of a pump seal. The table lists four of its reliability activities. Which DMAIC phases do they belong to?",
+    "chart": {
+      "type": "data-table",
+      "title": "Reliability activities in the seal project",
+      "columns": [
+        "Activity",
+        "Description"
+      ],
+      "rows": [
+        [
+          "1",
+          "Fit a Weibull model to field returns to find which failure mode dominates"
+        ],
+        [
+          "2",
+          "Confirm the life-test rig’s measurement system and establish the baseline B10 life"
+        ],
+        [
+          "3",
+          "Run an accelerated life test on the redesigned seal to confirm the life gain"
+        ],
+        [
+          "4",
+          "Add B10 life to the control plan, with periodic ongoing reliability tests"
+        ]
+      ]
+    },
+    "options": [
+      "1 Measure; 2 Analyze; 3 Improve; 4 Control",
+      "1 Analyze; 2 Measure; 3 Improve; 4 Control",
+      "1 Analyze; 2 Define; 3 Improve; 4 Control",
+      "1 Improve; 2 Measure; 3 Analyze; 4 Control"
+    ],
+    "answer": 1,
+    "why": "<p>Measure establishes a trustworthy baseline, which includes validating the measurement system (activity 2). Analyze finds the causes, here the dominant failure mode in field data (activity 1). Improve develops and confirms the solution (activity 3), and Control sustains it through the control plan and ongoing testing (activity 4).</p><p><b>B. 1 Analyze; 2 Measure; 3 Improve; 4 Control.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Six Sigma Methodologies (DMAIC).</span></p>",
+    "optionRationales": [
+      "Finding the dominant failure mode is analysis of causes; establishing the baseline is measurement.",
+      "Correct. Baseline and measurement system are Measure; failure-mode analysis is Analyze; confirmation is Improve; the control plan is Control.",
+      "Validating the measurement system and setting the baseline belong to Measure, not Define.",
+      "Confirming the redesign’s life gain is Improve; finding the failure mode is Analyze."
+    ],
+    "keyPoint": "Reliability tools fit DMAIC: baseline life in Measure, failure analysis in Analyze, life confirmation in Improve, ongoing testing in Control.",
+    "trap": "Placing any data analysis in Measure.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "Six Sigma",
+      "DMAIC",
+      "B10 life",
+      "control plan"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Six Sigma methodologies",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b12-q117",
+    "set": 1,
+    "batch": 12,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.10",
+      "topic": "Integration failures between qualified components"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Scenario",
+    "quantitative": false,
+    "stem": "A medical cart’s battery pack, charger and motor controller each passed their own qualification tests. In the first system-level runs, heat from the charger raised the battery pack above its rated temperature, halving its cycle life. What does this show, and what should the reliability engineer do?",
+    "chart": null,
+    "options": [
+      "The battery’s qualification was inadequate; requalify the battery on its own at a higher temperature.",
+      "The charger is defective; replace it with a charger that passed a stricter stand-alone test.",
+      "The battery’s thermal margin is too narrow; specify a higher-temperature cell and keep the current layout.",
+      "Qualified parts can still interact; add combined-environment testing and fix the layout or cooling."
+    ],
+    "answer": 3,
+    "why": "<p>Systems engineering integrates the elements so the whole operates as one, then runs and evaluates the system against its requirements. Each component met its own requirements; the failure comes from their interaction (the charger heating the battery). That is found only by integrated, system-level testing, and it is fixed at the system level, through layout, airflow or thermal isolation.</p><p><b>D. Qualified parts can interact; test them together and fix layout or cooling.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Systems Engineering and Integration.</span></p>",
+    "optionRationales": [
+      "The battery met its own rating; the problem is the environment the system creates around it.",
+      "The charger works as specified; a stricter stand-alone test would not reveal an interaction.",
+      "A tougher cell treats one symptom but leaves the interaction in place; the layout still overheats the pack.",
+      "Correct. The failure is an interaction, so it is found and fixed at the system level."
+    ],
+    "keyPoint": "Component qualification does not prove system reliability; interfaces and interactions need integrated testing.",
+    "trap": "Blaming a component that met its own requirements.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "systems engineering",
+      "integration",
+      "interaction",
+      "system-level testing"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Systems engineering and integration",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b12-q118",
+    "set": 1,
+    "batch": 12,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.1",
+      "topic": "B10 life with a constant failure rate"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Calculation",
+    "quantitative": true,
+    "stem": "A pressure sensor has a constant failure rate and an MTBF of 50,000 hours. What is its B10 life?",
+    "chart": null,
+    "options": [
+      "5,000 h",
+      "5,268 h",
+      "45,000 h",
+      "50,000 h"
+    ],
+    "answer": 1,
+    "why": "<p>B10 life is the time by which 10% of units have failed, so \\(R(t) = 0.90\\):</p><p>\\[\\begin{aligned}e^{-t/\\theta} &= 0.90 \\\\ t &= -\\theta \\ln 0.90 \\\\ &= 50000(0.10536) \\\\ &= 5268 \\text{ h}\\end{aligned}\\]</p><p>where \\(\\theta\\) is the MTBF. With a constant failure rate, about 63% of units fail before the MTBF, so the MTBF is far longer than the B10 life.</p><p><b>B. 5,268 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Basic Reliability Terminology (BX life; reliability with a constant failure rate).</span></p>",
+    "optionRationales": [
+      "Takes 10% of the MTBF, which only approximates the exact value.",
+      "Correct. \\(t = -50000 \\ln 0.90 = 5268\\) h.",
+      "Takes 90% of the MTBF, as if reliability fell linearly to zero at the MTBF.",
+      "The MTBF is not a life most units reach: only about 37% survive to it."
+    ],
+    "keyPoint": "BX life solves \\(R(t) = 1 - X/100\\); with a constant failure rate, \\(t = -\\theta \\ln R\\).",
+    "trap": "Treating the MTBF as a typical life, or scaling it linearly.",
+    "formula": "\\(R(t) = e^{-t/\\theta}\\)",
+    "assumptions": [
+      "Constant failure rate (exponential life)."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "B10 life",
+      "MTBF",
+      "exponential",
+      "constant failure rate"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Basic reliability terminology",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b12-q119",
+    "set": 1,
+    "batch": 12,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.4",
+      "topic": "Escape point in an 8D"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation",
+    "quantitative": false,
+    "stem": "The table shows part of an 8D record for soft drive shafts returned from the field. Which 8D requirement has the team not yet met?",
+    "chart": {
+      "type": "data-table",
+      "title": "8D record: soft drive shafts",
+      "columns": [
+        "Step",
+        "Record"
+      ],
+      "rows": [
+        [
+          "D2",
+          "Hardness below specification on shafts returned from the field; 1.2% of March production affected"
+        ],
+        [
+          "D3",
+          "All shafts in stock and in transit sorted with a hardness check"
+        ],
+        [
+          "D4",
+          "Root cause verified: quench furnace temperature drift, reproduced in a trial run"
+        ],
+        [
+          "D5",
+          "Furnace controller replaced; trial lots meet hardness on every shaft"
+        ]
+      ]
+    },
+    "options": [
+      "D3 containment: sorting stock and in-transit shafts does not isolate the problem from customers.",
+      "D4 root cause: reproducing the defect in a trial does not count as verifying the cause.",
+      "D4 escape point: the team has not found why final inspection let soft shafts ship.",
+      "D5 permanent correction: replacing the controller is a containment action, not a correction."
+    ],
+    "answer": 2,
+    "why": "<p>D4 requires two things: the verified root cause and the escape point, the reason the problem was not caught when it occurred. The team verified the cause (furnace drift, reproduced in a trial) but has not asked why final inspection let soft shafts reach customers. Without that, a future process problem could escape the same way.</p><p><b>C. D4 escape point.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Root Cause Analysis — 8D (D4: determine, identify and verify root causes and escape points).</span></p>",
+    "optionRationales": [
+      "Sorting all stock and in-transit parts is the interim containment that D3 calls for.",
+      "Turning the cause on and off in a trial is strong verification of a root cause.",
+      "Correct. D4 also requires the escape point: why the defect was not detected.",
+      "Replacing the drifting controller removes the cause, and trial lots confirm it, which is what D5 asks."
+    ],
+    "keyPoint": "8D D4 needs both the verified root cause and the escape point.",
+    "trap": "Stopping at the root cause without asking how the defect escaped detection.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "8D",
+      "escape point",
+      "root cause analysis",
+      "containment"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Root cause analysis — 8D",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b12-q120",
+    "set": 1,
+    "batch": 12,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.3",
+      "topic": "Testing CAPA effectiveness with a Poisson model"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Calculation, hypothesis test",
+    "quantitative": true,
+    "stem": "Before a corrective and preventive action (CAPA), a fan model logged 18 failures in 36,000 unit-hours of testing. After the CAPA, 24,000 unit-hours produced 4 failures. If the CAPA had no effect and the failure rate were still constant at its old value, what is the probability of 4 or fewer failures in the new test?",
+    "chart": null,
+    "options": [
+      "0.0023",
+      "0.0053",
+      "0.0076",
+      "0.9977"
+    ],
+    "answer": 2,
+    "why": "<p>Under the old failure rate, the expected number of failures in the new test is:</p><p>\\[\\begin{aligned}\\mu &= 24000 \\times \\frac{18}{36000} \\\\ &= 12 \\\\ P(X \\le 4) &= \\sum_{k=0}^{4}\\frac{e^{-12}12^{k}}{k!} \\\\ &= 1237e^{-12} \\\\ &= 0.0076\\end{aligned}\\]</p><p>where \\(\\mu\\) is the expected Poisson count and \\(X\\) the number of failures. Four or fewer failures would happen less than 1% of the time if nothing had changed, so the evidence supports an effective CAPA. Turning the action off and on and seeing the effect follow is the strongest confirmation.</p><p><b>C. 0.0076</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Corrective and Preventative Action (testing effectiveness with before-and-after data).</span></p>",
+    "optionRationales": [
+      "This is \\(P(X \\le 3)\\); “4 or fewer” must include \\(X = 4\\).",
+      "This is \\(P(X = 4)\\) alone; “4 or fewer” sums \\(X = 0\\) to 4.",
+      "Correct. \\(1237e^{-12} = 0.0076\\).",
+      "This is \\(P(X \\ge 4)\\), the wrong tail."
+    ],
+    "keyPoint": "Judge a CAPA by asking how likely the after-data would be if nothing had changed.",
+    "trap": "Using a single Poisson term or the wrong tail.",
+    "formula": "\\(P(X \\le c) = \\sum_{k=0}^{c} \\dfrac{e^{-\\mu}\\mu^{k}}{k!}\\)",
+    "assumptions": [
+      "Failures follow a Poisson process with a constant rate in each period."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "CAPA",
+      "effectiveness",
+      "Poisson",
+      "hypothesis test"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Corrective and preventative action (CAPA)",
         "example": null
       }
     ]
