@@ -1,9 +1,9 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 51,
-  "contentLessonCount": 50,
-  "sectionCount": 2156,
+  "lessonCount": 52,
+  "contentLessonCount": 51,
+  "sectionCount": 2158,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -29461,6 +29461,59 @@
           ],
           "text": "Non-repairable vs. repairable — same underlying calculus, different vocabulary. Concept Non-repairable system Repairable system Core time metric TTF (Time To Failure) TBF (Time Between Failures) Central tendency MTTF = ∫R(t)dt MTBF Rate function h(x) — hazard rate ρ(t) — ROCOF \"Survives to x\" probability R(x) = 1 − F(x) not generally defined — use ρ(t) trend instead Repair-time metric n/a — item is scrapped MTTR, M(t) Combined figure of merit R(x) alone Availability A = MTBF/(MTBF+MTTR) Typical distribution Weibull (β shape) Exponential (constant ρ) or NHPP power-law (trending ρ) Example in your world bearing sent to scrap, weld coupon, fuse mill stand, reheat furnace, pump, CNC line Bottom line: the same differentiation/integration relationship that links f, F, R, and h for a single non-repairable item reappears — in a modified, process-level form — once you move to repairable equipment: M(t) is a CDF over repair time, ρ(t) is a rate function like h(x) but for a renewal/counting process rather than a static distribution, and Availability is the ratio that finally lets you compare \"how often it breaks\" against \"how fast it gets fixed\" on one scale. That's the full lesson. ↑ Back to contents to revisit any section, or scroll back up to the interactive panels and try your own numbers.",
           "excerpt": "Non-repairable vs. repairable — same underlying calculus, different vocabulary. Concept Non-repairable system Repairable system Core time metric TTF (Time To Failure) TBF (Time Between Failures) Central tendency MTTF = ∫R(t)dt MTBF Rate function h(x) — hazard…",
+          "kinds": [
+            "section",
+            "example",
+            "formula"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "quality-engineering--cre-formula-encyclopedia",
+      "path": "/lessons/quality-engineering/cre-formula-encyclopedia",
+      "title": "Reliability Formula Encyclopedia",
+      "description": "Search CRE handbook formulas, numbered and unnumbered, across the five scored sections from fundamentals through lifecycle reliability.",
+      "topic": "quality-engineering",
+      "level": "advanced",
+      "minutes": 35,
+      "interactive": true,
+      "keywords": [
+        "cre",
+        "reliability",
+        "formula",
+        "weibull",
+        "availability",
+        "arrhenius",
+        "mtbf",
+        "asq cre",
+        "cre formula encyclopedia reliability availability arrhenius mtbf mttr series parallel hazard weibull binomial exponential oee sample size spare parts quality engineering advanced interactive"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "lesson-section-reliability-formula-encyclopedia",
+          "heading": "Reliability Formula Encyclopedia",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia"
+          ],
+          "text": "",
+          "excerpt": "Reliability Formula Encyclopedia",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "scope-heading",
+          "heading": "Scope summary",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "Scope summary"
+          ],
+          "text": "Search the numbered equations in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn. They are grouped into the five scored CRE sections. Each card is an original study note, not a copy of the handbook text. I. Fundamentals Life, failure rate, repair, and availability. II. Risk management No numbered equation in Chapters 3 to 5. III. Probability Data, probability, regression, and life functions. IV. Planning and modeling Accelerated tests and reliability models. V. Lifecycle Demonstration, availability, and spare parts. Every numbered equation is one card, and so is each governing formula the handbook displays without a number. A worked numerical substitution is not a separate card. Risk management stays visible because it is a scored section, and Chapters 3 to 5 still have no equation. 0 formulas No formulas match the selected filters.",
+          "excerpt": "Search the numbered equations in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn. They are grouped into the five scored CRE sections. Each card is an original study note, not a copy of the handbook text. I. Fundamentals Life,…",
           "kinds": [
             "section",
             "example",
