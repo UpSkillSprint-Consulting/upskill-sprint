@@ -1,0 +1,29 @@
+{
+  "scope": "Second user-requested student audit of CRE Set 2, questions 001–150",
+  "baselineHead": "1eb966b3f09fd4e782a70a78aea1731e2e591288",
+  "baselineItemsSha256": "9fc4c712d3e112a151f67cf35ef0f59a0c2161832c68b5c52e9425c2bf262b17",
+  "revisions": [
+    {
+      "number": 21,
+      "field": "stem",
+      "before": "A customer needs an unattended pump to maintain its specified flow throughout an eight-hour mission under a defined temperature and vibration profile. Any interruption of required flow is a mission failure. Which statement most directly expresses the customer’s mission-reliability requirement?",
+      "after": "A customer needs an unattended pump to maintain its specified flow throughout an eight-hour mission under a defined temperature and vibration profile. Any interruption of required flow is a mission failure. The required probability of mission success is at least 0.99. Which statement most directly expresses the customer’s mission-reliability requirement?",
+      "reason": "State the customer’s quantitative success target in the scenario so the keyed requirement does not introduce an unstated target."
+    },
+    {
+      "number": 130,
+      "field": "options",
+      "option": 1,
+      "before": "Use the approved spare, preserve records, and promptly seek supplier authorization before opening the failed drive.",
+      "after": "Use the spare, notify the supplier promptly, preserve records, and obtain authorization before opening the drive.",
+      "reason": "Distinguish obtaining required authorization from merely requesting it; retain prompt notification and evidence preservation."
+    },
+    {
+      "number": 130,
+      "field": "why",
+      "before": "<p>The stated terms define the relevant decision. Use the approved spare to restore service, retain the failed unit and maintenance evidence, and contact the supplier before opening the covered enclosure.</p><p>This separates service restoration from the warranty assessment. A warranty allocates responsibilities under its terms; it is not proof that a unit cannot fail. Coverage and repair timing should be confirmed rather than assumed. This answer applies to the explicit hypothetical terms, not to an unstated legal rule.</p>",
+      "after": "<p>The stated terms define the relevant decision. Use the approved spare to restore service, retain the failed unit and maintenance evidence, notify the supplier promptly, and obtain its authorization before opening the covered enclosure.</p><p>This separates service restoration from the warranty assessment. A warranty allocates responsibilities under its terms; it is not proof that a unit cannot fail. Coverage and repair timing should be confirmed rather than assumed. This answer applies to the explicit hypothetical terms, not to an unstated legal rule.</p>",
+      "reason": "Make the explanation apply the same explicit authorization condition as the stem and revised answer."
+    }
+  ]
+}

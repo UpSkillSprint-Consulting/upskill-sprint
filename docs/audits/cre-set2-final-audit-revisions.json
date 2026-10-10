@@ -1,0 +1,341 @@
+{
+  "scope": "User-requested final student audit of CRE Set 2, questions 001–150",
+  "baselineHead": "722c026434d55fb2b6436d2b2fbdefbd9c708970",
+  "revisions": [
+    {
+      "number": 2,
+      "field": "options",
+      "option": 2,
+      "before": "Report the original failure and retest separately, investigate the event, and evaluate the update through approved change and verification processes.",
+      "after": "Report both results, investigate the failure, and assess the update through approved change and verification processes.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 10,
+      "field": "options",
+      "option": 1,
+      "before": "Do not justify the interval by age reduction; compare corrective or condition-based strategies using consequences, detectability, and downtime.",
+      "after": "Reject age reduction as the sole rationale; compare other strategies using failure consequences, detectability, and downtime.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 12,
+      "field": "options",
+      "option": 3,
+      "before": "Require a traceable change-impact assessment, evidence for relevant failure mechanisms and use conditions, and targeted requalification against agreed acceptance criteria.",
+      "after": "Assess change impacts and relevant failure mechanisms; require targeted requalification against agreed criteria.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 16,
+      "field": "options",
+      "option": 0,
+      "before": "Maintain traceability from the failures through root cause and the revision, verify effectiveness against predefined criteria under relevant conditions, and document authorized closure and recurrence monitoring.",
+      "after": "Verify effectiveness against relevant predefined criteria; document traceability, authorized closure, and recurrence monitoring.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 22,
+      "field": "options",
+      "option": 0,
+      "before": "Prioritize the assembly-torque mechanism across both lots, examine the fracture evidence, and verify whether a controlled torque correction prevents recurrence.",
+      "after": "Investigate the torque mechanism across both lots and verify a controlled correction against the fracture evidence.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 24,
+      "field": "options",
+      "option": 1,
+      "before": "Assess the introduced thermal risk, revise the design or controls as needed, and verify that both the original and introduced risks meet the acceptance criteria.",
+      "after": "Reassess the thermal risk, revise controls as needed, and verify acceptance of both risks.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 27,
+      "field": "options",
+      "option": 3,
+      "before": "Develop a screen that detects relevant manufacturing weaknesses, and verify its effectiveness and non-damaging margin for conforming units before production release.",
+      "after": "Validate a production screen for defect detection and a non-damaging margin for conforming units.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 33,
+      "field": "options",
+      "option": 0,
+      "before": "Compare impeller-clearance and controller-gain settings across representative viscosity and voltage conditions, checking response to the required flow commands.",
+      "after": "Compare clearance and gain settings across representative noise conditions and required flow commands.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 34,
+      "field": "options",
+      "option": 3,
+      "before": "The interval can reflect parameter uncertainty within the constant-hazard model while omitting error from extrapolating an unvalidated model into a different aging regime.",
+      "after": "The interval addresses parameter uncertainty but may omit error from extrapolating the unvalidated aging model.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 36,
+      "field": "options",
+      "option": 1,
+      "before": "Compare survival at a common attained age, such as three months, using the unit-level event and censoring records; continue follow-up for longer-term claims.",
+      "after": "Compare survival at a common attained age using event and censoring records; extend follow-up for longer-term claims.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 39,
+      "field": "options",
+      "option": 2,
+      "before": "Verification supports the documented inputs, but validation exposed an unmet user need; revise the requirements and design, then repeat relevant verification and intended-use validation.",
+      "after": "Validation exposed an unmet need; revise the inputs and design, then repeat relevant verification and use validation.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 41,
+      "field": "options",
+      "option": 3,
+      "before": "Facilitate a shared mission and failure definition, connect reliability evidence and lifecycle tradeoffs to program objectives, and obtain agreement from accountable decision owners.",
+      "after": "Align mission definitions and lifecycle tradeoffs with program objectives through agreement among accountable functions.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 45,
+      "field": "options",
+      "option": 0,
+      "before": "These bounds do not demonstrate the requirement: the relevant 99%-content tolerance bound is below 500 h, but that alone does not prove the population fails the requirement.",
+      "after": "The requirement is not demonstrated by these bounds; population nonconformance is not established either.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 48,
+      "field": "options",
+      "option": 2,
+      "before": "Use a representative operational profile for demands and inputs when estimating field reliability, while retaining separate coverage and critical-scenario tests for their own objectives.",
+      "after": "Estimate field reliability using a representative operational profile; retain separate coverage and critical-scenario tests.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 51,
+      "field": "options",
+      "option": 1,
+      "before": "Early mission requirements and failure-mechanism reviews can influence architecture; development tests and later field monitoring then refine the evidence throughout the lifecycle.",
+      "after": "Start with mission and mechanism reviews to guide architecture, then refine evidence through development and field monitoring.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 52,
+      "field": "options",
+      "option": 3,
+      "before": "Agree operational failure and exposure definitions, verify consistent data capture and classification, and establish a comparable baseline.",
+      "after": "Standardize failure and exposure definitions, verify data capture, and establish a comparable baseline.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 53,
+      "field": "options",
+      "option": 2,
+      "before": "Examine hazardous conditions and human interaction during intended and foreseeable use, then feed the resulting control requirements into the design.",
+      "after": "Analyze hazardous conditions and human interaction, then translate needed controls into design requirements.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 54,
+      "field": "options",
+      "option": 0,
+      "before": "The products alone do not establish equal risk; interpret the defined categories using the organization’s approved priority and escalation rules.",
+      "after": "Equal code products do not establish equal risk; apply approved category-based priority and escalation rules.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 98,
+      "field": "options",
+      "option": 2,
+      "before": "The changed usage profile is activating an existing defect more often; failure behavior depends on both the software and the conditions of execution.",
+      "after": "The new usage profile activates a latent defect more often; software failure behavior depends on execution conditions.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 102,
+      "field": "options",
+      "option": 3,
+      "before": "Obtain traceable configuration, failure, censoring, and use-profile records, then assess applicability and any qualification gaps.",
+      "after": "Check traceable configuration and life-data records against the use profile; identify qualification gaps.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 103,
+      "field": "options",
+      "option": 2,
+      "before": "Reassess risk using actual alarm availability and response capability, assign an owner, and verify a suitable control.",
+      "after": "Reassess alarm availability and response capability, assign ownership, and verify the control.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 106,
+      "field": "options",
+      "option": 3,
+      "before": "Withdrawal may be informative; assess the censoring mechanism and use a justified analysis or sensitivity study.",
+      "after": "Assess potentially informative withdrawal with a justified analysis or sensitivity study.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 109,
+      "field": "options",
+      "option": 1,
+      "before": "Evaluate the cyclic stress/strain response with a suitable fatigue model, credible inputs, and validation against relevant evidence.",
+      "after": "Validate a suitable cyclic-fatigue analysis using credible inputs and relevant evidence.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 110,
+      "field": "options",
+      "option": 3,
+      "before": "Standardize where the compound meets requirements, retain or qualify a suitable alternative for the incompatible service, and prevent mix-ups.",
+      "after": "Standardize compatible services; qualify an alternative for the fifth and prevent mix-ups.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 111,
+      "field": "options",
+      "option": 2,
+      "before": "Assess the design and test impact, approve any changes, and update the requirement-to-verification links.",
+      "after": "Assess and approve design/test changes, then update verification traceability.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 119,
+      "field": "options",
+      "option": 1,
+      "before": "The chamber run is the temperature experimental unit; boards and repeated readings do not create additional independent run replicates.",
+      "after": "Only the independently assigned chamber runs replicate temperature; boards and readings are subsamples.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 120,
+      "field": "options",
+      "option": 0,
+      "before": "Include the required alignment and checkout in active corrective repair time, while retaining separate phase times for improvement.",
+      "after": "Count all 30 minutes as active corrective repair; retain the phase times for improvement.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 121,
+      "field": "options",
+      "option": 3,
+      "before": "Disclose the interest promptly and arrange an objective review with the conflict appropriately managed.",
+      "after": "Disclose the interest and arrange objective review with the conflict managed.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 124,
+      "field": "options",
+      "option": 0,
+      "before": "The access safety function is incomplete; address stored pneumatic energy and verify the safe condition for the maintenance task.",
+      "after": "Address stored pneumatic energy and verify a safe condition for the maintenance task.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 127,
+      "field": "options",
+      "option": 0,
+      "before": "Reassess the stress range and mechanism-specific evidence before fitting a field-life model; do not pool extrusion failures as oxidation failures.",
+      "after": "Reassess mechanism-specific stress ranges; fit the field model without pooling extrusion as oxidation.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 129,
+      "field": "options",
+      "option": 2,
+      "before": "Setting B, because it meets the average requirement and has the smallest eligible range.",
+      "after": "Setting B, which has the smallest range among eligible settings.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 130,
+      "field": "options",
+      "option": 1,
+      "before": "Restore production with the approved spare, preserve records, and notify the supplier before authorizing work on the covered drive.",
+      "after": "Use the approved spare, preserve records, and promptly seek supplier authorization before opening the failed drive.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 131,
+      "field": "options",
+      "option": 0,
+      "before": "They show program activity and progress; comparable product-performance evidence is also needed to assess the reliability objective.",
+      "after": "These indicate program progress; product-performance evidence is still needed.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 132,
+      "field": "options",
+      "option": 2,
+      "before": "Investigate how the instruction and its review process allowed the omission, then test the suspected causal path before choosing permanent action.",
+      "after": "Test whether the instruction and its review process contributed to the repeated omission.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 133,
+      "field": "options",
+      "option": 3,
+      "before": "Evaluate the combined residual risk and relevant interactions against the overall acceptance criteria, then document the authorized disposition.",
+      "after": "Assess combined residual risk and shared-control interactions before authorized disposition.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 137,
+      "field": "options",
+      "option": 3,
+      "before": "The simultaneous humid-and-powered condition remains untested; develop a justified combined-condition test addressing relevant mechanisms and requirements.",
+      "after": "Develop a justified combined humidity-and-bias test for the intended use condition.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 138,
+      "field": "options",
+      "option": 0,
+      "before": "Run regression tests selected through change-impact analysis, including affected alarm and shutdown behavior, alongside the defect-confirmation test.",
+      "after": "Use change-impact analysis to select regression tests, including alarm and shutdown behavior.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 141,
+      "field": "options",
+      "option": 1,
+      "before": "Region II is an approximately constant-hazard phase; it does not mean every unit has the same fixed lifetime.",
+      "after": "Region II has approximately constant hazard, not a common fixed lifetime.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 143,
+      "field": "options",
+      "option": 2,
+      "before": "A process FMEA covering programming, assembly, verification, and their controls.",
+      "after": "A process FMEA of the manufacturing steps and their controls.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 144,
+      "field": "options",
+      "option": 0,
+      "before": "Credit inspection and replacement against the likelihood of the initial loss; assess automatic isolation against release duration or consequence after that loss.",
+      "after": "Credit inspection/replacement for prevention and isolation for post-loss duration or consequence.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 148,
+      "field": "options",
+      "option": 2,
+      "before": "Preserve the configuration-specific development evidence and use a justified final-configuration analysis or demonstration plan for the final-design claim.",
+      "after": "Keep revision-specific evidence; justify the final-design claim with a final-configuration analysis or demonstration.",
+      "reason": "Remove excess explanatory wording that made the keyed choice conspicuously long; preserve the engineering decision."
+    },
+    {
+      "number": 26,
+      "field": "why",
+      "before": "<p>X’s failure is known to have occurred after 120 hours and no later than 160 hours: \\(120<T_X\\le160\\). That is interval censoring. Recording either the interval midpoint or the detection time as an exact failure invents timing information.</p><p>Y establishes only that \\(T_Y>200\\) hours, so its observation is right-censored at 200 hours. It still contributes survival information. Select a method that supports the actual censoring types rather than forcing interval observations into an exact-time/right-censored format.</p>",
+      "after": "<p>X’s failure is known to have occurred after 120 hours and no later than 160 hours: \\(120\\lt T_X\\le160\\). That is interval censoring. Recording either the interval midpoint or the detection time as an exact failure invents timing information.</p><p>Y establishes only that \\(T_Y>200\\) hours, so its observation is right-censored at 200 hours. It still contributes survival information. Select a method that supports the actual censoring types rather than forcing interval observations into an exact-time/right-censored format.</p>",
+      "reason": "Use the TeX less-than command so HTML parsing cannot swallow the inequality and following explanation."
+    }
+  ]
+}

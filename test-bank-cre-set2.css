@@ -1,5 +1,7 @@
 /* Scoped to original CRE Set 2 exhibits and review explanations. */
 .cre-set2-question,.cre2-exhibit{min-width:0;max-width:100%;color:var(--ink);line-height:1.65}
+/* Keep readable fallback text inside the card if the math renderer cannot load. */
+.cre-set2-question :is(.tb-stem,.tb-review-stem){overflow-wrap:anywhere}
 .cre2-item-label{font-size:12px;font-weight:700;color:var(--ink);letter-spacing:.035em;margin:0 0 9px}
 .cre2-exhibit{margin:20px 0}
 .cre2-caption{font-weight:650;margin:8px 0}
