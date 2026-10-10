@@ -6624,7 +6624,550 @@
         "instruction": "Select ONE answer."
       }
     ]
-  }
+  },
+{
+  "number": 14,
+  "sourcePage": "https://github.com/UpSkillSprint-Consulting/upskill-sprint/blob/codex/pmp-set2-batches01-05/docs/pmp-set2-batch14.md",
+  "questions": [
+    {
+      "n": 131,
+      "id": "pmp-set2-131",
+      "domain": "Process",
+      "task": 7,
+      "approach": "Predictive",
+      "difficulty": "Very challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "A planned service-center implementation includes an AI assistant that drafts routing recommendations for staff approval. The agreed acceptance plan requires at least 90% correct recommendations for each of two request categories on an independent sample representative of launch work. A supplier reports 96% overall accuracy. Its test used only common requests, and the same labeled examples were used to tune the assistant. Staff review will remain mandatory after launch. The sponsor asks whether this evidence is enough to accept the assistant. What should the project manager recommend?",
+      "options": [
+        [
+          "A",
+          "Accept the assistant because mandatory staff review compensates for any gap in the supplier’s test evidence."
+        ],
+        [
+          "B",
+          "Request a larger test using the same labeled examples and accept if overall accuracy remains above 90%."
+        ],
+        [
+          "C",
+          "Obtain independent, representative evidence for both categories against the agreed criteria before recommending acceptance."
+        ],
+        [
+          "D",
+          "Accept the common-request function now and treat evidence for the second category as a routine post-launch improvement."
+        ]
+      ],
+      "correct": [
+        "C"
+      ],
+      "explanation": "The reported result does not establish either independence or category-level conformance. Reusing tuning examples can overstate performance, and an omitted category has no demonstrated result. Human review is a useful operational control, but the stated acceptance criteria still apply. Representative independent testing is the next evidence needed; acceptance is not yet supported.",
+      "rationales": {
+        "A": "Human oversight does not itself demonstrate that the agreed acceptance conditions were met.",
+        "B": "Increasing the quantity of reused, one-category examples does not correct independence or coverage.",
+        "C": "This addresses both evidence defects and applies the agreed criteria without inventing a replacement threshold.",
+        "D": "No separate partial acceptance authority or reduced launch scope is stated; the missing evidence cannot simply be deferred."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide Appendix X3.1.1 and X3.3: AI adoption, review, bias, privacy, and accountability, pp. 238–239 (PDF pp. 343–344).",
+        "PMBOK Guide, Eighth Edition, Guide §2.1.6.5: quality assurance and control, pp. 23–24 (PDF pp. 128–129)."
+      ],
+      "difficultyReason": "The candidate must distinguish an operational safeguard from acceptance evidence and identify two independent defects in an attractive aggregate result.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 132,
+      "id": "pmp-set2-132",
+      "domain": "People",
+      "task": 4,
+      "approach": "Agile",
+      "difficulty": "Challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "An agile team uses an AI summary of consultation notes to identify stakeholder concerns. The summary says warehouse supervisors support a new picking workflow. At the next review, night-shift supervisors say their concerns about staffing and training are missing and stop participating. The original notes are available. What should the project manager do first?",
+      "options": [
+        [
+          "A",
+          "Meet the affected supervisors, compare their concerns with the source notes, and agree how corrected concerns and their responses will stay visible."
+        ],
+        [
+          "B",
+          "Ask the analyst to improve the summary prompt and circulate a replacement before contacting the supervisors."
+        ],
+        [
+          "C",
+          "Ask the operations director to confirm support on behalf of all shifts so the team can continue the current engagement plan."
+        ],
+        [
+          "D",
+          "Treat the supervisors’ withdrawal as resistance and add more demonstrations of the workflow’s benefits."
+        ]
+      ],
+      "correct": [
+        "A"
+      ],
+      "explanation": "The immediate problem is loss of trust after stakeholders were misrepresented. Listening to the affected group and checking the primary record restores an evidence-based dialogue. A visible correction and feedback path support continuing engagement; prompt improvements may follow but cannot substitute for it.",
+      "rationales": {
+        "A": "This combines direct engagement, verification, and a feedback mechanism for the concerns that were lost.",
+        "B": "A technical correction without involving the affected stakeholders may repeat the omission and leaves the trust problem unresolved.",
+        "C": "A senior representative’s general support does not erase a distinct shift’s needs or repair its misrepresentation.",
+        "D": "The evidence points to omitted concerns, so persuasion before understanding them misdiagnoses the problem."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide Appendix X3.1.1 and X3.3: AI adoption, review, bias, privacy, and accountability, pp. 238–239 (PDF pp. 343–344).",
+        "PMBOK Guide, Eighth Edition, Guide §2.5.2.3–2.5.2.6: communication and stakeholder engagement, pp. 72–73 (PDF pp. 177–178)."
+      ],
+      "difficultyReason": "The scenario requires choosing the first relationship-building action over plausible tooling and sponsorship responses.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 133,
+      "id": "pmp-set2-133",
+      "domain": "Business Environment",
+      "task": 2,
+      "approach": "Predictive",
+      "difficulty": "Moderate",
+      "format": "single",
+      "caseId": null,
+      "stem": "A project analyst wants to upload identifiable customer complaint records to a public AI service to prepare a lessons-learned summary. The organization’s stated policy permits this data only in approved environments; the public service is not approved. An approved internal tool is available. No data has been uploaded. What should the project manager do?",
+      "options": [
+        [
+          "A",
+          "Permit the upload if the analyst deletes the public conversation after generating the summary."
+        ],
+        [
+          "B",
+          "Permit the upload after replacing customer names, without checking the remaining identifying fields."
+        ],
+        [
+          "C",
+          "Ask the sponsor to authorize the upload because the summary is needed for the planned closure date."
+        ],
+        [
+          "D",
+          "Use the approved environment and follow the organization’s data-handling requirements for the summary."
+        ]
+      ],
+      "correct": [
+        "D"
+      ],
+      "explanation": "The scenario supplies a clear policy and a compliant available route. Using that route preserves the task’s purpose while respecting the stated restriction. Deleting a conversation or removing only names does not establish compliance, and the sponsor is not described as having exception authority.",
+      "rationales": {
+        "A": "Deletion afterward does not make an unauthorized disclosure compliant.",
+        "B": "Other fields may remain identifying; this option assumes a transformation is sufficient without checking the policy.",
+        "C": "Schedule pressure does not establish authority to override the stated data restriction.",
+        "D": "This directly satisfies the given policy while enabling the planned analysis."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide Appendix X3.1.1 and X3.3: AI adoption, review, bias, privacy, and accountability, pp. 238–239 (PDF pp. 343–344)."
+      ],
+      "difficultyReason": "The candidate applies an explicit organizational restriction with a readily available compliant alternative.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 134,
+      "id": "pmp-set2-134",
+      "domain": "Process",
+      "task": 2,
+      "approach": "Hybrid",
+      "difficulty": "Challenging",
+      "format": "hotspot",
+      "caseId": null,
+      "stem": "A hybrid project uses signed requirements for a physical inspection station and an iterative backlog for its reporting software. An AI assistant has converted workshop notes into proposed scope statements. The review rule is explicit: a statement presented as agreed scope must have a traceable stakeholder decision supporting its meaning; an inference may remain labeled as a proposal. Select the evidence cell that shows a statement improperly presented as agreed scope.",
+      "options": [
+        [
+          "A",
+          "A — Paper report: agreed scope; signed decision R-21 requires one printed report per inspection."
+        ],
+        [
+          "B",
+          "B — Automatic rejection: agreed scope; note N-8 requests a warning, but contains no decision authorizing automatic rejection."
+        ],
+        [
+          "C",
+          "C — Offline export: proposal awaiting review; the assistant inferred a possible need from workshop discussion."
+        ],
+        [
+          "D",
+          "D — Operator confirmation: agreed scope; approved clarification R-24 requires operator confirmation before submission."
+        ]
+      ],
+      "correct": [
+        "B"
+      ],
+      "explanation": "Row B converts a request for a warning into an agreed automatic-rejection requirement without a supporting decision. That changes the meaning and may expand scope. The team should validate the interpretation with the relevant stakeholders before presenting it as agreed scope. Row C is explicitly a proposal, which the review rule permits.",
+      "rationales": {
+        "A": "The stated signed requirement supports the proposed meaning and status.",
+        "B": "The cited note does not authorize the stronger automatic-rejection behavior; its agreed status is unsupported.",
+        "C": "An inference is allowed to remain a clearly labeled proposal pending stakeholder review.",
+        "D": "The approved clarification provides traceable support for the statement."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide Appendix X3.1.1 and X3.3: AI adoption, review, bias, privacy, and accountability, pp. 238–239 (PDF pp. 343–344).",
+        "PMBOK Guide, Eighth Edition, Guide §2.2: scope and requirements, pp. 39–45 (PDF pp. 144–150)."
+      ],
+      "difficultyReason": "The candidate must compare the meaning of the source with the status of the generated requirement, distinguishing an unsupported commitment from a legitimate proposal.",
+      "instruction": "Select ONE evidence cell.",
+      "exhibit": {
+        "headers": [
+          "Generated statement",
+          "Decision evidence"
+        ],
+        "rows": [
+          [
+            "A — Paper report; agreed scope",
+            "Signed R-21 requires one printed report per inspection."
+          ],
+          [
+            "B — Automatic rejection; agreed scope",
+            "N-8 requests a warning; no automatic-rejection decision."
+          ],
+          [
+            "C — Offline export; proposal awaiting review",
+            "Inferred from discussion; not presented as agreed scope."
+          ],
+          [
+            "D — Operator confirmation; agreed scope",
+            "Approved R-24 requires confirmation before submission."
+          ]
+        ]
+      },
+      "hotspotType": "requirements",
+      "hotspotColumn": 1,
+      "hotspotInstruction": "Select the evidence cell for the unsupported agreed scope statement.",
+      "hotspotTarget": {
+        "row": "B",
+        "column": 1
+      }
+    },
+    {
+      "n": 135,
+      "id": "pmp-set2-135",
+      "domain": "People",
+      "task": 5,
+      "approach": "Hybrid",
+      "difficulty": "Challenging",
+      "format": "multiple",
+      "caseId": null,
+      "stem": "A hybrid project is introducing an AI drafting assistant through iterative pilots before a planned organization-wide rollout. Sales leaders expect it to send customer offers automatically; service managers expect every offer to be reviewed by an employee. Both groups approved the broad goal of faster response, but no agreement defines automation boundaries or acceptable errors. Before the pilot’s success criteria are finalized, which TWO actions should the project manager take?",
+      "options": [
+        [
+          "A",
+          "Facilitate a discussion of each group’s intended outcomes, concerns, and assumptions about how offers will be produced."
+        ],
+        [
+          "B",
+          "Use the vendor’s default settings as the shared operating model because they already support automatic sending."
+        ],
+        [
+          "C",
+          "Agree observable pilot outcomes and human decision boundaries with the relevant stakeholders and decision owners."
+        ],
+        [
+          "D",
+          "Ask both groups to sign the existing goal statement again so their approval can be used to settle later disputes."
+        ],
+        [
+          "E",
+          "Commit to automatic sending for the pilot and use complaints afterward to determine whether expectations differed."
+        ]
+      ],
+      "correct": [
+        "A",
+        "C"
+      ],
+      "explanation": "The broad goal hides incompatible expectations. First make those assumptions explicit, then establish an agreed operating boundary and observable success criteria. These actions allow a pilot to test a shared expectation rather than unintentionally choose one stakeholder group’s interpretation.",
+      "rationales": {
+        "A": "This reveals the distinct expectations that the broad goal failed to reconcile.",
+        "B": "A vendor default is not a stakeholder agreement or authorization for the proposed operating model.",
+        "C": "This translates aligned expectations into assessable outcomes and accountable decisions.",
+        "D": "Reconfirming ambiguous wording leaves the underlying disagreement intact.",
+        "E": "This chooses one interpretation before agreement and makes customers bear the consequences of that ambiguity."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide Appendix X3.1.1 and X3.3: AI adoption, review, bias, privacy, and accountability, pp. 238–239 (PDF pp. 343–344).",
+        "PMBOK Guide, Eighth Edition, Guide §2.5.2.3–2.5.2.6: communication and stakeholder engagement, pp. 72–73 (PDF pp. 177–178)."
+      ],
+      "difficultyReason": "Two complementary actions are required: discover the incompatible assumptions and convert agreement into testable boundaries.",
+      "instruction": "Select TWO answers."
+    },
+    {
+      "n": 136,
+      "id": "pmp-set2-136",
+      "domain": "Business Environment",
+      "task": 1,
+      "approach": "Predictive",
+      "difficulty": "Challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "A predictive capital project uses AI to rank proposed changes. The governance plan assigns approval of budget increases to the change control board. The project manager finds that a highly ranked change was approved automatically because the team configured a score threshold as an approval rule. No work has begun. What is the best response?",
+      "options": [
+        [
+          "A",
+          "Keep the approval because the ranking criteria were agreed when the tool was selected."
+        ],
+        [
+          "B",
+          "Prevent implementation, return the change to the authorized decision body, and correct the workflow so recommendations cannot bypass approval authority."
+        ],
+        [
+          "C",
+          "Ask the tool supplier to co-sign the approval, making the supplier accountable for the recommendation."
+        ],
+        [
+          "D",
+          "Raise the automatic approval threshold and process this change under the new threshold."
+        ]
+      ],
+      "correct": [
+        "B"
+      ],
+      "explanation": "Agreement on ranking criteria does not delegate approval authority. The configured workflow has crossed the governance boundary. Preventing implementation and restoring the authorized decision process addresses this change; correcting the workflow addresses recurrence. People retain the accountability assigned by governance.",
+      "rationales": {
+        "A": "Criteria for comparing changes are distinct from authority to commit the project to them.",
+        "B": "This restores both the immediate decision path and the control that should enforce it.",
+        "C": "The supplier is not the decision body named in the governance plan.",
+        "D": "Changing a score threshold does not create delegated authority and does not repair this unauthorized approval."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide Appendix X3.1.1 and X3.3: AI adoption, review, bias, privacy, and accountability, pp. 238–239 (PDF pp. 343–344).",
+        "PMBOK Guide, Eighth Edition, Guide §2.1: project governance, pp. 11–13 (PDF pp. 116–118)."
+      ],
+      "difficultyReason": "The candidate separates automated decision support from decision authority and selects a response that repairs both the instance and the process.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 137,
+      "id": "pmp-set2-137",
+      "domain": "Process",
+      "task": 9,
+      "approach": "Agile",
+      "difficulty": "Very challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "An agile team pilots an AI assistant for resolving service requests. The sponsor wants to know whether resolution quality improved. The same definition of a correct resolution was used before and during the pilot, and each request was independently checked. The table shows all checked requests. The pilot’s overall success rate is higher, but the share of simple requests also changed substantially. Which conclusion should the project manager present?",
+      "options": [
+        [
+          "A",
+          "The higher overall success rate establishes improved quality, so expand the assistant to all request types."
+        ],
+        [
+          "B",
+          "The pilot proves the assistant causes worse quality because both category rates are lower."
+        ],
+        [
+          "C",
+          "The overall increase does not establish improvement: both category rates fell, so investigate and compare performance with a consistent request mix before expanding."
+        ],
+        [
+          "D",
+          "Average the two overall success rates and use that result as the assistant’s expected quality after rollout."
+        ]
+      ],
+      "correct": [
+        "C"
+      ],
+      "explanation": "Before the pilot, the category rates were 90% for simple requests and 60% for complex requests; during it, they were 80% and 50%. Overall performance rose from about 62.7% to 77.3% because the pilot contained many more simple requests. Neither the pooled increase nor this observational comparison establishes a causal effect. The team needs to investigate category performance and compare like-for-like populations before claiming improvement or expanding.",
+      "rationales": {
+        "A": "The pooled result is affected by the changed mix and hides deterioration within both categories.",
+        "B": "The category results warrant concern, but these observations alone do not isolate the assistant as the cause.",
+        "C": "This recognizes the mix effect, reports the unfavorable category evidence, and calls for a defensible comparison.",
+        "D": "Averaging pooled results ignores both the changed mix and the cause of the observed difference."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide Appendix X3.1.1 and X3.3: AI adoption, review, bias, privacy, and accountability, pp. 238–239 (PDF pp. 343–344).",
+        "PMBOK Guide, Eighth Edition, Guide §2.1.6.7: monitor and control project performance, pp. 26–28 (PDF pp. 131–133)."
+      ],
+      "difficultyReason": "The candidate must reconcile a favorable aggregate with unfavorable subgroup results and avoid both a false improvement claim and an unsupported causal conclusion.",
+      "instruction": "Select ONE answer.",
+      "quantitative": true,
+      "exhibit": {
+        "headers": [
+          "Request category and period",
+          "Correct resolutions / requests checked"
+        ],
+        "rows": [
+          [
+            "Simple — before pilot",
+            "90 / 100"
+          ],
+          [
+            "Complex — before pilot",
+            "600 / 1,000"
+          ],
+          [
+            "Simple — during pilot",
+            "800 / 1,000"
+          ],
+          [
+            "Complex — during pilot",
+            "50 / 100"
+          ]
+        ]
+      }
+    },
+    {
+      "n": 138,
+      "id": "pmp-set2-138",
+      "domain": "People",
+      "task": 3,
+      "approach": "Agile",
+      "difficulty": "Moderate",
+      "format": "single",
+      "caseId": null,
+      "stem": "An agile team is piloting an AI assistant for routine analysis. Several experienced analysts say they do not understand how their responsibilities will change and are avoiding the pilot. The organization has not made staffing decisions, and the project manager cannot guarantee future roles. What should the project manager do first?",
+      "options": [
+        [
+          "A",
+          "Discuss the analysts’ concerns and expected work changes, then identify learning and participation opportunities with them."
+        ],
+        [
+          "B",
+          "Promise that no role will change so the analysts feel safe participating in the pilot."
+        ],
+        [
+          "C",
+          "Exclude the reluctant analysts and let the tool supplier decide how their future work should be performed."
+        ],
+        [
+          "D",
+          "Make use of the assistant an individual performance target before discussing the concerns."
+        ]
+      ],
+      "correct": [
+        "A"
+      ],
+      "explanation": "The project manager should understand the team’s concerns and support people through changing work. An honest discussion can identify capability gaps and useful opportunities to participate in the pilot. This supports leadership and development without making staffing promises beyond the project manager’s authority.",
+      "rationales": {
+        "A": "This combines listening, realistic communication, and collaborative skill development.",
+        "B": "The project manager cannot truthfully guarantee future roles under the stated conditions.",
+        "C": "Excluding experienced team members loses their knowledge and does not address their concerns; the supplier has no stated staffing authority.",
+        "D": "An imposed usage target does not establish readiness or resolve uncertainty about responsibilities."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide Appendix X3.1.1 and X3.3: AI adoption, review, bias, privacy, and accountability, pp. 238–239 (PDF pp. 343–344).",
+        "PMBOK Guide, Eighth Edition, Guide §2.6.2.4: team leadership and development, pp. 84–86 (PDF pp. 189–191)."
+      ],
+      "difficultyReason": "The candidate selects an honest, supportive leadership response to explicitly stated uncertainty about changing work.",
+      "instruction": "Select ONE answer."
+    },
+    {
+      "n": 139,
+      "id": "pmp-set2-139",
+      "domain": "Process",
+      "task": 1,
+      "approach": "Hybrid",
+      "difficulty": "Challenging",
+      "format": "matching",
+      "caseId": null,
+      "stem": "A hybrid project is adding AI-assisted document review to a planned approval process. The project manager is integrating the workstream plans before a pilot. Match each identified gap with the response that most directly closes it. Responses describe planning actions, not evidence that approval has already occurred.",
+      "options": [
+        [
+          "A",
+          "Plan representative source-data checks and assign responsibility for correcting defects."
+        ],
+        [
+          "B",
+          "Add a launch announcement to the communications calendar."
+        ],
+        [
+          "C",
+          "Define a named human decision owner and the route for uncertain or contested recommendations."
+        ],
+        [
+          "D",
+          "Estimate manual-review capacity and plan a fallback when the assistant is unavailable or its output is unusable."
+        ],
+        [
+          "E",
+          "Link the pilot’s start to the approved-data availability milestone and assess the effect of a delay."
+        ]
+      ],
+      "correct": {
+        "1": "E",
+        "2": "C",
+        "3": "A",
+        "4": "D"
+      },
+      "explanation": "The four gaps concern a dependency, decision responsibility, input quality, and operating capacity. Each response addresses the corresponding missing element in the integrated plan. A launch announcement communicates a date but closes none of these four gaps.",
+      "rationales": {
+        "A": "A addresses gap 3: unreliable input needs planned checks and ownership of corrections.",
+        "B": "B is unused: an announcement does not establish dependencies, decision authority, reliable inputs, or fallback capacity.",
+        "C": "C addresses gap 2: contested recommendations need accountable human decisions and a resolution path.",
+        "D": "D addresses gap 4: the fallback workload must be resourced and planned.",
+        "E": "E addresses gap 1: the pilot depends on access to approved data, so the dependency and delay effects must be integrated."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide Appendix X3.1.1 and X3.3: AI adoption, review, bias, privacy, and accountability, pp. 238–239 (PDF pp. 343–344).",
+        "PMBOK Guide, Eighth Edition, Guide §2.1.6.2: integrate and align project plans, pp. 18–19 (PDF pp. 123–124)."
+      ],
+      "difficultyReason": "The candidate must distinguish four interacting planning controls and match each to the actual gap, rather than choosing a generic readiness activity.",
+      "instruction": "Match each planning gap to its most direct response. Use each choice at most once; one choice is unused.",
+      "prompts": [
+        [
+          "1",
+          "The pilot is scheduled before approval of the data it needs, but the schedules show no dependency."
+        ],
+        [
+          "2",
+          "No role has authority to resolve disputed AI recommendations."
+        ],
+        [
+          "3",
+          "Duplicate and outdated source records have been found, but no validation or correction work is planned."
+        ],
+        [
+          "4",
+          "Staff must review documents manually during an outage, but the plan contains no capacity for that work."
+        ]
+      ]
+    },
+    {
+      "n": 140,
+      "id": "pmp-set2-140",
+      "domain": "Business Environment",
+      "task": 5,
+      "approach": "Predictive",
+      "difficulty": "Challenging",
+      "format": "single",
+      "caseId": null,
+      "stem": "A predictive benefits-application project will use AI to recommend which requests staff review first. A pilot shows that requests from one language group are flagged for extra review much more often. The team has not determined whether the difference reflects legitimate request characteristics, data limitations, or bias. All groups are within launch scope. Staff retain final decisions, but extra review can still delay service. What should the project manager recommend before rollout?",
+      "options": [
+        [
+          "A",
+          "Remove language-group information from the dashboard and proceed because staff retain final decision authority."
+        ],
+        [
+          "B",
+          "Declare the tool discriminatory and permanently abandon it without examining the source data or outcomes."
+        ],
+        [
+          "C",
+          "Proceed with the rollout because a difference in flagging rates does not by itself prove bias."
+        ],
+        [
+          "D",
+          "Record and assess the potential unequal-impact risk with relevant experts and affected stakeholders, investigate the data and outcomes, and agree safeguards and release criteria."
+        ]
+      ],
+      "correct": [
+        "D"
+      ],
+      "explanation": "The observed difference is a risk signal requiring investigation, not proof of a specific cause. Human final decisions do not eliminate harm from unequal delays. The project should assess the exposure, examine relevant evidence, involve appropriate perspectives, and define safeguards and release conditions before extending use.",
+      "rationales": {
+        "A": "Hiding the comparison removes useful risk evidence; staff approval does not remove the delay effect.",
+        "B": "The evidence warrants investigation and control, but does not yet establish the cause or justify an irreversible conclusion.",
+        "C": "Lack of proof of bias is not evidence that the observed exposure is acceptable.",
+        "D": "This responds proportionately to the signal and creates an evidence-based path to a release decision."
+      },
+      "references": [
+        "PMBOK Guide, Eighth Edition, Guide Appendix X3.1.1 and X3.3: AI adoption, review, bias, privacy, and accountability, pp. 238–239 (PDF pp. 343–344).",
+        "PMBOK Guide, Eighth Edition, Guide §2.7: risk analysis and responses, pp. 96–97 (PDF pp. 201–202)."
+      ],
+      "difficultyReason": "The candidate must respond to a meaningful risk signal without treating it either as proven causation or as harmless uncertainty.",
+      "instruction": "Select ONE answer."
+    }
+  ]
+}
 ];
   global.PMP_BANK2_SOURCE = batches;
 })(typeof window !== 'undefined' ? window : globalThis);
