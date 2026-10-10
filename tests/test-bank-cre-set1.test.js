@@ -40,8 +40,8 @@ const optionNumber = (text) => Number(String(text).replace(/[^0-9.\-]/g, ''));
 
 /* ---------- 1. data integrity ---------- */
 
-const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/, 9: /^II\.(A\.[1-3]|B\.[1-6])$/, 10: /^(II\.C|I\.A\.[1-9])$/ };
+const BATCHES = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+const BATCH_CODES = { 1: /^III\.A\.[1-3]$/, 2: /^III\.A\.[4-7]$/, 3: /^III\.B\.[1-6]$/, 4: /^(III\.A\.[1-7]|III\.B\.[1-6]|IV\.A\.[1-5])$/, 5: /^IV\.(A\.[1-5]|B\.[1-6])$/, 6: /^IV\.(B\.[1-6]|C\.[1-5])$/, 7: /^IV\.C\.[1-5]$/, 8: /^II\.(A\.[1-3]|B\.[1-6])$/, 9: /^II\.(A\.[1-3]|B\.[1-6])$/, 10: /^(II\.C|I\.A\.[1-9])$/, 11: /^I\.(A\.[1-9]|B\.([1-9]|10))$/ };
 // BoK domain → engine area (the five shared CRE domains)
 const DOMAIN_SUB = { I: 'cre-fundamentals', II: 'cre-risk', III: 'cre-statistics', IV: 'cre-testing' };
 // Focused Quiz opens on the first BoK area (in exam order) that the opening set covers
@@ -151,6 +151,16 @@ test('batch 10 completes Domain II at 25 with five II.C items and opens Domain I
   const ia = rows.filter((q) => q.bok.code.startsWith('I.A'));
   assert.equal(ia.length, 5);
   assert.ok(ia.every((q) => q.sub === 'cre-fundamentals' && q.bok.domain === 'I. Reliability Fundamentals'));
+});
+
+test('batch 11 completes the I.A topics and opens I.B', () => {
+  const rows = BANK.filter((q) => q.batch === 11);
+  assert.ok(rows.every((q) => q.sub === 'cre-fundamentals'));
+  assert.equal(rows.filter((q) => q.bok.code.startsWith('I.A')).length, 5);
+  assert.equal(rows.filter((q) => q.bok.code.startsWith('I.B')).length, 5);
+  const ia = new Set(BANK.filter((q) => q.bok.code.startsWith('I.A')).map((q) => q.bok.code));
+  assert.equal([...ia].sort().join(), 'I.A.1,I.A.2,I.A.3,I.A.4,I.A.5,I.A.6,I.A.7,I.A.8,I.A.9', 'every I.A topic is covered');
+  assert.equal(BANK.filter((q) => q.sub === 'cre-fundamentals').length, 15);
 });
 
 test('every formula, symbol and variable is LaTeX per LESSON_CREATION_GUIDE §22', () => {
@@ -1087,6 +1097,68 @@ test('Q100 OEE is availability times performance times quality', () => {
   assert.ok(q.options.includes(pct(A * (total / planned / rate) * Q)), 'planned-time trap');
   const shift = d['Shift length'], op2 = shift - d['Changeover'] - d['Breakdown'];
   assert.ok(q.options.includes(pct((op2 / shift) * (total / op2 / rate) * Q)), 'breaks-not-removed trap');
+});
+
+test('Q104 Weibull replacement interval: longest whole year with reliability of at least 0.95', () => {
+  const q = byId('cre:set-1:b11-q104');
+  const R = (t) => Math.exp(-((t / 6) ** 3));
+  const tStar = 6 * (-Math.log(0.95)) ** (1 / 3);
+  assert.equal(Math.round(tStar * 100) / 100, 2.23);
+  const years = Math.floor(tStar);
+  assert.ok(R(years) >= 0.95 && R(years + 1) < 0.95);
+  assert.equal(q.options[q.answer], `Every ${years} years`);
+});
+
+test('Q105 FRACAS backlog: 13 open reports need about 6 more weeks at the closure rate', () => {
+  const q = byId('cre:set-1:b11-q105');
+  const [opened, closed] = [...q.chart.series].map((s) => [...s.points].map((p) => p[1]));
+  const open12 = opened[11] - closed[11];
+  const rate = (closed[11] - closed[5]) / 6;
+  assert.equal(open12, 13);
+  assert.equal(rate, 2);
+  assert.ok(open12 / rate > 14 - 12, 'backlog cannot clear before the gate');
+  assert.equal(opened[11] - opened[7], 3, 'arrivals are leveling off');
+  assert.ok((open12 - (opened[5] - closed[5])) / 6 > -1, 'backlog shrinks by less than 1 a week');
+  assert.match(q.options[q.answer], /^New reports are leveling off, but 13 remain open and the backlog shrinks by less than 1 a week/);
+});
+
+test('Q106 achieved availability uses MTBM and active corrective plus preventive time', () => {
+  const q = byId('cre:set-1:b11-q106');
+  const d = Object.fromEntries([...q.chart.rows].map(([k, v]) => [k, n_(v)]));
+  const T = d['Operating time'], f = d['Corrective repairs (failures)'], cm = d['Active corrective repair time, total'];
+  const pm = d['Preventive maintenance actions'], pmt = d['Active preventive maintenance time, total'], delay = d['Logistics and administrative delay, total'];
+  const mtbm = T / (f + pm), mbar = (cm + pmt) / (f + pm);
+  const Aa = mtbm / (mtbm + mbar), Ai = (T / f) / (T / f + cm / f), Ao = mtbm / (mtbm + (cm + pmt + delay) / (f + pm));
+  const wrong = (T / f) / (T / f + mbar);
+  assertKeyed(q, Aa, 0.00005);
+  [Ai, Ao, wrong].forEach((v) => assert.ok(q.options.includes(v.toFixed(4)), `trap ${v.toFixed(4)} offered`));
+});
+
+test('Q107 MTBCF counts critical failures over total unit-hours', () => {
+  const q = byId('cre:set-1:b11-q107');
+  assertKeyed(q, 12 * 2000 / 3, 0.5);
+  assert.ok(q.options.includes(`${Math.round(12 * 2000 / 9).toLocaleString('en-US')} h`), 'MTBF trap');
+});
+
+test('Q109 CAPA test by defect type: cracks fall and voids rise, both significantly', () => {
+  const q = byId('cre:set-1:b11-q109');
+  const rows = Object.fromEntries([...q.chart.rows].map(([k, a, b]) => [k, [Number(a), Number(b)]]));
+  const z = ([a, b], n = 2000) => { const p = (a + b) / (2 * n); return (a / n - b / n) / Math.sqrt(p * (1 - p) * (2 / n)); };
+  const zc = z(rows.Cracks), zv = z(rows.Voids), zt = z(rows.Total);
+  assert.equal(rows.Cracks[0] + rows.Voids[0], rows.Total[0]);
+  assert.equal(Math.round(zc * 100) / 100, 3.59);
+  assert.equal(Math.round(-zv * 100) / 100, 2.93);
+  assert.equal(Math.round(zt * 100) / 100, 0.46);
+  assert.ok(zc > 1.96 && -zv > 1.96 && Math.abs(zt) < 1.96);
+  assert.match(q.options[q.answer], /^Cracks fell significantly/);
+});
+
+test('Q110 the 5 Why chain stops at a person', () => {
+  const q = byId('cre:set-1:b11-q110');
+  const last = q.chart.rows[q.chart.rows.length - 2][1];
+  assert.match(last, /technician/i);
+  assert.match(q.chart.rows[q.chart.rows.length - 1][1], /retrain/);
+  assert.match(q.options[q.answer], /^People blaming/);
 });
 
 /* ---------- 3. production delivery ---------- */

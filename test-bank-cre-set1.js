@@ -11,6 +11,7 @@
  * Batch 8 of 15: II.A.1–II.A.3 (identification) and II.B.1–II.B.3, II.B.5 (FTA, FMEA/FMECA, common cause, risk matrix).
  * Batch 9 of 15: II.A.1–II.A.3 (PRA, risk evaluation, risk types) and II.B.1–II.B.6 (FTA, FHA, FMEA, common cause, design trade-offs).
  * Batch 10 of 15: II.C (mitigation: 4 Ts, ALARP/ALARA/ALAP, residual and secondary risk) and I.A.2, I.A.5, I.A.7–I.A.9 (leadership foundations).
+ * Batch 11 of 15: I.A.1, I.A.3, I.A.4, I.A.6, I.A.9 (leadership foundations) and I.B.1–I.B.4 (terminology, requirements, CAPA, RCA).
  *
  * Every calculated answer is recomputed independently in tests/test-bank-cre-set1.test.js.
  * Notation follows The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting &
@@ -8706,6 +8707,771 @@
         "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
         "chapter": "Chapter 1 - Leadership Foundations",
         "section": "Performance monitoring — overall equipment effectiveness monitoring",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b11-q101",
+    "set": 1,
+    "batch": 11,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "A. Leadership Foundations",
+      "code": "I.A.1",
+      "topic": "Value of early reliability engineering"
+    },
+    "difficulty": "Easy",
+    "cognitive": "Understand",
+    "questionType": "Concept",
+    "quantitative": false,
+    "stem": "Why should reliability engineering be involved at the start of new product development, rather than after the first prototypes have been tested?",
+    "chart": null,
+    "options": [
+      "Reliability targets are best written after failure data from prototype testing are available.",
+      "Involving reliability early removes the need for reliability testing later in the program.",
+      "Reliability engineering is mainly a field-support function, so early involvement is optional.",
+      "Design decisions that achieve the reliability goals can be made earlier, when changes cost less."
+    ],
+    "answer": 3,
+    "why": "<p>Understanding reliability needs at the start of development lets the team make the design decisions that achieve the reliability goals early, when they are cheapest to change. Design for reliability practices applied early cost far less than redesign after prototypes or field failures reveal problems.</p><p><b>D. Decisions are made earlier, when changes cost less.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Benefits of Reliability Engineering.</span></p>",
+    "optionRationales": [
+      "Reliability targets come from customer needs, standards and safety; they are set before prototypes exist.",
+      "Early involvement focuses testing; it does not remove the need to verify reliability.",
+      "Reliability engineering shapes design from the start; it is not mainly a field-support role.",
+      "Correct. Early reliability input makes design choices when they are cheapest to change."
+    ],
+    "keyPoint": "Reliability is cheapest to design in early; late changes cost more and delay launch.",
+    "trap": "Treating reliability as a test or field activity that can wait for prototypes.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 1,
+    "keywords": [
+      "benefits of reliability engineering",
+      "design for reliability"
+    ],
+    "sourceSection": "Chapter 1 - Leadership Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 1 - Leadership Foundations",
+        "section": "Benefits of reliability engineering",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b11-q102",
+    "set": 1,
+    "batch": 11,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "A. Leadership Foundations",
+      "code": "I.A.3",
+      "topic": "Acting as the reliability champion"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Evaluate",
+    "questionType": "Scenario",
+    "quantitative": false,
+    "stem": "To meet a launch date, a program manager proposes cutting the reliability growth test from 12 weeks to 6. The reliability engineer’s growth projection shows the MTBF target is unlikely to be met at 6 weeks. As the reliability champion, what should the engineer do?",
+    "chart": null,
+    "options": [
+      "Accept the cut without comment, because schedule decisions belong to program management alone.",
+      "Refuse to sign the program plan until the full 12-week test is restored.",
+      "Explain the reliability, safety and business risks of each option clearly, so management can make an informed decision.",
+      "Report the proposal directly to the customer, so that the customer can overrule the program manager."
+    ],
+    "answer": 2,
+    "why": "<p>A reliability champion influences decisions through clear, cross-functional communication: explaining in plain terms the reliability and safety risks and the business consequences of a management decision, so that managers can make an informed choice. Staying silent fails that duty, refusing to sign or going around the manager replaces influence with obstruction.</p><p><b>C. Explain the risks of each option so management can decide.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Reliability Engineer Leadership Responsibilities (the reliability champion).</span></p>",
+    "optionRationales": [
+      "Silence leaves management deciding without the reliability evidence the engineer holds.",
+      "A unilateral refusal obstructs rather than informs; the engineer’s role is to make the risk clear.",
+      "Correct. The champion makes the risks and consequences clear so the decision is an informed one.",
+      "Going around the program manager to the customer breaks the program’s decision process."
+    ],
+    "keyPoint": "A reliability champion informs and influences decisions; management decides with the risks made clear.",
+    "trap": "Confusing championing reliability with refusing or escalating.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "reliability champion",
+      "leadership",
+      "communication",
+      "growth testing"
+    ],
+    "sourceSection": "Chapter 1 - Leadership Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 1 - Leadership Foundations",
+        "section": "Reliability engineer leadership responsibilities",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b11-q103",
+    "set": 1,
+    "batch": 11,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "A. Leadership Foundations",
+      "code": "I.A.4",
+      "topic": "Raising safety concerns in a design review"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Scenario, classification",
+    "quantitative": false,
+    "stem": "In a design review of a bench-top air purifier, the reliability engineer lists four concerns. Which one is a safety hazard that exists even when the product has not failed?",
+    "chart": null,
+    "options": [
+      "Removing the filter-access panel for routine cleaning exposes live mains terminals.",
+      "The sealed enclosure lets the internal capacitors run hotter than their rating assumes.",
+      "If the building’s supply voltage surges, the unit may receive more than its rated voltage.",
+      "Users may stack shipping cartons higher than the stacking height that was tested."
+    ],
+    "answer": 0,
+    "why": "<p>In design reviews, the reliability engineer asks several distinct questions, including which aspects of the product could cause safety hazards even though it has not failed. Routine maintenance that exposes energized conductors is such a hazard: nothing has failed, yet the user is exposed. The other concerns are different categories: a design that compromises component reliability (hot capacitors), a malfunction elsewhere in the system (supply surge) and foreseeable misuse (over-stacking).</p><p><b>A. Live terminals exposed during routine cleaning.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Reliability Engineer Role and Responsibilities in the Product Lifecycle.</span></p>",
+    "optionRationales": [
+      "Correct. The hazard exists during normal maintenance, with no failure at all.",
+      "This is a design that compromises component reliability; the hazard arises only when the capacitors fail early.",
+      "This is a malfunction elsewhere in the system acting on the product, not a hazard of the working product.",
+      "This is foreseeable misuse of shipping and storage, which leads to damage, not a hazard of the working product."
+    ],
+    "keyPoint": "Design reviews look for hazards without failure, misuse, disposal issues, external malfunctions and designs that compromise component reliability.",
+    "trap": "Assuming every safety concern starts with a failure.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "design review",
+      "safety",
+      "product lifecycle",
+      "misuse"
+    ],
+    "sourceSection": "Chapter 1 - Leadership Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 1 - Leadership Foundations",
+        "section": "Reliability engineer role and responsibilities in the product lifecycle",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b11-q104",
+    "set": 1,
+    "batch": 11,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "A. Leadership Foundations",
+      "code": "I.A.6",
+      "topic": "Scheduling replacement of a short-life component"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Apply",
+    "questionType": "Calculation, decision",
+    "quantitative": true,
+    "stem": "A controller has a 10-year design life, but its cooling fan wears out sooner: fan life follows a Weibull distribution with \\(\\beta = 3\\) and \\(\\eta = 6\\) years. Fans will be replaced at a fixed interval so that each fan’s reliability over the interval is at least 0.95. What is the longest whole-year replacement interval that meets this?",
+    "chart": null,
+    "options": [
+      "Every year",
+      "Every 2 years",
+      "Every 3 years",
+      "Every 6 years"
+    ],
+    "answer": 1,
+    "why": "<p>Solve the Weibull reliability function for the time at which reliability falls to 0.95:</p><p>\\[\\begin{aligned}t &= \\eta(-\\ln R)^{1/\\beta} \\\\ &= 6(-\\ln 0.95)^{1/3} \\\\ &= 6(0.0513)^{1/3} \\\\ &= 2.23 \\text{ years}\\end{aligned}\\]</p><p>where \\(t\\) is the replacement interval, \\(R\\) the required reliability, \\(\\eta\\) the scale and \\(\\beta\\) the shape. The longest whole-year interval is 2 years, where \\(R(2) = e^{-(2/6)^{3}} = 0.964\\). At 3 years, \\(R(3) = e^{-(3/6)^{3}} = 0.882\\), which is too low.</p><p><b>B. Every 2 years.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Function of Reliability in Engineering (replacing components with lives shorter than the product’s on a reliability-based schedule).</span></p>",
+    "optionRationales": [
+      "Yearly replacement meets the target (\\(R = 0.995\\)) but replaces fans twice as often as needed.",
+      "Correct. \\(R(2) = 0.964\\) meets 0.95; 3 years would not.",
+      "\\(R(3) = 0.882\\), below the 0.95 requirement.",
+      "At \\(t = \\eta\\), only \\(e^{-1} = 0.368\\) of fans survive; \\(\\eta\\) is the 63rd percentile, not a safe interval."
+    ],
+    "keyPoint": "Components that wear out before the product does are replaced on a schedule set from their life distribution.",
+    "trap": "Using the characteristic life as the replacement interval.",
+    "formula": "\\(R(t) = e^{-(t/\\eta)^{\\beta}}\\)",
+    "assumptions": [
+      "Replaced fans are as good as new; the Weibull parameters are known."
+    ],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "Weibull",
+      "replacement interval",
+      "wear-out",
+      "function of reliability"
+    ],
+    "sourceSection": "Chapter 1 - Leadership Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 1 - Leadership Foundations",
+        "section": "Function of reliability in engineering",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b11-q105",
+    "set": 1,
+    "batch": 11,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "A. Leadership Foundations",
+      "code": "I.A.9",
+      "topic": "Reading a FRACAS trend chart"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Analyze",
+    "questionType": "Visual evidence interpretation",
+    "quantitative": false,
+    "stem": "The chart tracks failure reports in a development program’s FRACAS (failure reporting, analysis and corrective action system). The design-freeze gate is at week 14. What does the chart show?",
+    "chart": {
+      "type": "cre-xy-plot",
+      "title": "Cumulative FRACAS reports by test week",
+      "eyebrow": "FRACAS trend",
+      "legend": true,
+      "altText": "Two cumulative lines against test weeks 1 to 12. Reports opened: 4, 9, 15, 20, 24, 27, 29, 31, 32, 33, 33, 34, rising quickly at first and leveling off. Reports closed: 0, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, rising by about 2 a week. At week 12, 34 reports have been opened and 21 closed.",
+      "xTicks": [
+        0,
+        2,
+        4,
+        6,
+        8,
+        10,
+        12
+      ],
+      "yTicks": [
+        0,
+        10,
+        20,
+        30,
+        40
+      ],
+      "series": [
+        {
+          "label": "Reports opened",
+          "points": [
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              3,
+              15
+            ],
+            [
+              4,
+              20
+            ],
+            [
+              5,
+              24
+            ],
+            [
+              6,
+              27
+            ],
+            [
+              7,
+              29
+            ],
+            [
+              8,
+              31
+            ],
+            [
+              9,
+              32
+            ],
+            [
+              10,
+              33
+            ],
+            [
+              11,
+              33
+            ],
+            [
+              12,
+              34
+            ]
+          ]
+        },
+        {
+          "label": "Reports closed",
+          "dashed": true,
+          "points": [
+            [
+              1,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              3
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              7,
+              11
+            ],
+            [
+              8,
+              13
+            ],
+            [
+              9,
+              15
+            ],
+            [
+              10,
+              17
+            ],
+            [
+              11,
+              19
+            ],
+            [
+              12,
+              21
+            ]
+          ]
+        }
+      ],
+      "xLabel": "Test week",
+      "yLabel": "Cumulative reports"
+    },
+    "options": [
+      "New reports are leveling off, but 13 remain open and the backlog shrinks by less than 1 a week, so the week-14 gate is at risk.",
+      "Reliability is getting worse, because the opened line is still above the closed line at week 12.",
+      "The program is ready for the week-14 gate, because closures have held steady at about 2 a week and the gap is closing fast.",
+      "The steady slope of the closed line proves the corrective actions work, so monitoring can stop at the gate."
+    ],
+    "answer": 0,
+    "why": "<p>The opened line flattens (only 3 new reports in the last 4 weeks), a sign that fixes are taking hold. But 34 opened minus 21 closed leaves 13 open reports. Closures run at about 2 a week while new reports still arrive, so the backlog shrinks by less than 1 a week (18 at week 6, 13 at week 12). Even at 2 closures a week with no new reports, clearing 13 would take 6 to 7 weeks, so the week-14 gate is at risk unless closure work is resourced. Closing a report also requires verifying the fix, so monitoring continues through and after the gate.</p><p><b>A. Reports leveling off; 13 still open and shrinking slowly; gate at risk.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 1, Performance Monitoring — performance monitoring phases (FRACAS open and closed trends; KPIs).</span></p>",
+    "optionRationales": [
+      "Correct. Arrivals are slowing, but the 13-report backlog is shrinking by less than 1 a week.",
+      "Cumulative opened is always at or above cumulative closed; the flattening opened line shows improvement, not decline.",
+      "The gap narrows by under a report a week; 13 open reports will not clear in 2 weeks.",
+      "Closing reports does not by itself prove effectiveness, and field and production monitoring continue after design freeze."
+    ],
+    "keyPoint": "Track both new failure reports and the open backlog: arrivals show growth, the backlog shows whether corrective action keeps pace.",
+    "trap": "Reading the cumulative opened line as a failure rate, or ignoring the open backlog.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 3,
+    "keywords": [
+      "FRACAS",
+      "performance monitoring",
+      "KPI",
+      "corrective action backlog"
+    ],
+    "sourceSection": "Chapter 1 - Leadership Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 1 - Leadership Foundations",
+        "section": "Performance monitoring — performance monitoring phases and expectations",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b11-q106",
+    "set": 1,
+    "batch": 11,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.1",
+      "topic": "Inherent, achieved and operational availability"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Apply",
+    "questionType": "Visual evidence interpretation, multi-step calculation",
+    "quantitative": true,
+    "stem": "The table summarizes a year of records for a compressor. What is its achieved availability?",
+    "chart": {
+      "type": "data-table",
+      "title": "Compressor records for one year",
+      "columns": [
+        "Item",
+        "Value"
+      ],
+      "rows": [
+        [
+          "Operating time",
+          "8,000 h"
+        ],
+        [
+          "Corrective repairs (failures)",
+          "8"
+        ],
+        [
+          "Active corrective repair time, total",
+          "48 h"
+        ],
+        [
+          "Preventive maintenance actions",
+          "12"
+        ],
+        [
+          "Active preventive maintenance time, total",
+          "36 h"
+        ],
+        [
+          "Logistics and administrative delay, total",
+          "140 h"
+        ]
+      ]
+    },
+    "options": [
+      "0.9728",
+      "0.9896",
+      "0.9940",
+      "0.9958"
+    ],
+    "answer": 1,
+    "why": "<p>Achieved availability counts all maintenance actions, corrective and preventive, but only their active time; it excludes logistics and administrative delay:</p><p>\\[\\begin{aligned}\\text{MTBM} &= \\frac{8000}{8 + 12} = 400 \\text{ h} \\\\ \\bar{M} &= \\frac{48 + 36}{20} = 4.2 \\text{ h} \\\\ A_a &= \\frac{400}{400 + 4.2} \\\\ &= 0.9896\\end{aligned}\\]</p><p>where MTBM is the mean time between maintenance actions and \\(\\bar{M}\\) the mean active maintenance time. For comparison, inherent availability uses failures only, \\(A_i = 1000/(1000 + 6) = 0.9940\\). Operational availability adds the delays, \\(A_o = 400/(400 + 11.2) = 0.9728\\).</p><p><b>B. 0.9896</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Basic Reliability Terminology (availability); Ch. 13, Maintainability (inherent, achieved and operational availability).</span></p>",
+    "optionRationales": [
+      "This is operational availability: it includes the 140 h of logistics and administrative delay.",
+      "Correct. \\(A_a = 400/404.2 = 0.9896\\).",
+      "This is inherent availability: corrective maintenance only, with MTBF of 1,000 h and MTTR of 6 h.",
+      "Uses MTBF (1,000 h) where achieved availability needs MTBM (400 h), so preventive actions are left out of uptime between actions."
+    ],
+    "keyPoint": "Inherent: corrective only. Achieved: corrective plus preventive active time. Operational: all downtime, including delays.",
+    "trap": "Mixing MTBF with total maintenance time, or including logistics delay in achieved availability.",
+    "formula": "\\(A_a = \\dfrac{\\text{MTBM}}{\\text{MTBM} + \\bar{M}}\\)",
+    "assumptions": [
+      "Times are totals for the year; delays occur only during maintenance actions."
+    ],
+    "estimatedMinutes": 5,
+    "keywords": [
+      "achieved availability",
+      "inherent availability",
+      "operational availability",
+      "MTBM"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Basic reliability terminology — availability",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b11-q107",
+    "set": 1,
+    "batch": 11,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.1",
+      "topic": "Mean time between critical failures"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Apply",
+    "questionType": "Calculation",
+    "quantitative": true,
+    "stem": "Twelve infusion pumps each run 2,000 hours on test. There are 9 failures, of which 3 are critical (they interrupt therapy). What is the mean time between critical failures (MTBCF)?",
+    "chart": null,
+    "options": [
+      "667 h",
+      "2,667 h",
+      "8,000 h",
+      "24,000 h"
+    ],
+    "answer": 2,
+    "why": "<p>Divide the total test time by the number of critical failures:</p><p>\\[\\begin{aligned}\\text{MTBCF} &= \\frac{nT}{C} \\\\ &= \\frac{12(2000)}{3} \\\\ &= 8000 \\text{ h}\\end{aligned}\\]</p><p>where \\(n\\) is the number of units, \\(T\\) the test hours per unit and \\(C\\) the number of critical failures. The MTBF from all 9 failures is \\(24000/9 = 2667\\) h.</p><p><b>C. 8,000 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Basic Reliability Terminology (MTBF and MTBCF).</span></p>",
+    "optionRationales": [
+      "Leaves out the number of units: 2,000 h divided by 3 critical failures.",
+      "This is the MTBF from all 9 failures, not just the critical ones.",
+      "Correct. \\(24000/3 = 8000\\) h.",
+      "This is the total test time, as if only one critical failure had occurred."
+    ],
+    "keyPoint": "MTBCF counts only critical failures over the total operating time.",
+    "trap": "Using all failures (MTBF) or one unit’s hours.",
+    "formula": "\\(\\text{MTBCF} = nT/C\\)",
+    "assumptions": [
+      "Constant failure rate; failed units are repaired and returned to test."
+    ],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "MTBCF",
+      "MTBF",
+      "critical failure"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Basic reliability terminology",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b11-q108",
+    "set": 1,
+    "batch": 11,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.2",
+      "topic": "Aligning reliability requirements with ESG policy"
+    },
+    "difficulty": "Medium",
+    "cognitive": "Understand",
+    "questionType": "Scenario",
+    "quantitative": false,
+    "stem": "A company’s environmental, social and governance (ESG) policy commits to cutting the electronic waste its products create. Which change to the reliability requirements for its next handheld meter best aligns with this policy?",
+    "chart": null,
+    "options": [
+      "Shorten the warranty from three years to one, so that the requirement matches only the expected early-failure period.",
+      "Raise the design-life target and require a user-replaceable battery with a stated service interval.",
+      "Add a burn-in step to production, so that early failures are caught before the meters are shipped.",
+      "Reduce the size of the reliability demonstration sample, so that fewer test units are scrapped."
+    ],
+    "answer": 1,
+    "why": "<p>Customer expectations, standards, safety, liability and regulations set reliability targets, and the company’s ESG policies should shape how those targets are set. Less electronic waste means products last longer in service: a longer design life and a replaceable wear item (the battery) keep meters in use instead of discarded.</p><p><b>B. Longer design life and a user-replaceable battery.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Drivers of Reliability Requirements and Targets (ESG policies).</span></p>",
+    "optionRationales": [
+      "A shorter warranty does nothing to keep products in service longer.",
+      "Correct. Longer life and a replaceable wear item keep products in use and out of the waste stream.",
+      "Burn-in moves early failures in-house but does not extend product life; it can even add scrap.",
+      "A smaller test sample saves a few units but weakens the evidence and does not affect field life."
+    ],
+    "keyPoint": "ESG policies shape reliability targets: longer, maintainable product life supports environmental commitments.",
+    "trap": "Choosing an action that reduces internal scrap but not product waste.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "reliability requirements",
+      "ESG",
+      "design life",
+      "maintainability"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Drivers of reliability requirements and targets",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b11-q109",
+    "set": 1,
+    "batch": 11,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.3",
+      "topic": "Judging CAPA effectiveness without aggregating defect types"
+    },
+    "difficulty": "Very Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation, hypothesis test, decision",
+    "quantitative": true,
+    "stem": "A corrective and preventive action (CAPA) changed a molding parameter to stop cracks. The table compares 2,000 units before and 2,000 after. At a 5% significance level, what should the team conclude?",
+    "chart": {
+      "type": "data-table",
+      "title": "Defects before and after the CAPA",
+      "columns": [
+        "Defect type",
+        "Before (2,000 units)",
+        "After (2,000 units)"
+      ],
+      "rows": [
+        [
+          "Cracks",
+          "30",
+          "8"
+        ],
+        [
+          "Voids",
+          "10",
+          "28"
+        ],
+        [
+          "Total",
+          "40",
+          "36"
+        ]
+      ]
+    },
+    "options": [
+      "The CAPA is not effective: total defects fell only from 2.0% to 1.8%, with \\(z = 0.46\\).",
+      "The CAPA is effective and can be closed: the crack rate fell significantly, with \\(z = 3.59\\).",
+      "Cracks fell significantly (\\(z = 3.59\\)), but voids rose significantly (\\(z = 2.93\\)), so investigate whether the change caused them.",
+      "The result is inconclusive, because proportions from before and after a change cannot be compared without a control chart."
+    ],
+    "answer": 2,
+    "why": "<p>Test each defect type separately with a two-proportion test; aggregating the types hides opposite changes:</p><p>\\[\\begin{aligned}\\bar{p}_c &= \\frac{30 + 8}{4000} = 0.0095 \\\\ \\text{SE}^{2} &= 0.0095(0.9905)(0.001) \\\\ \\text{SE} &= 0.00307 \\\\ z_c &= \\frac{0.015 - 0.004}{0.00307} \\\\ &= 3.59 \\\\ z_v &= \\frac{0.014 - 0.005}{0.00307} \\\\ &= 2.93\\end{aligned}\\]</p><p>where \\(\\bar{p}\\) is the pooled proportion, SE the standard error and \\(z\\) the test statistic; both values of \\(z\\) exceed 1.96. The pooled void proportion is also 0.0095, so voids have the same standard error. Cracks fell, so the action worked on its target. Voids rose significantly at the same time, a possible secondary effect of the parameter change, which must be investigated before the CAPA is closed. The total, \\(z = 0.46\\), shows neither change.</p><p><b>C. Cracks fell, voids rose; investigate before closing.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Corrective and Preventative Action (testing effectiveness; avoid aggregating defect types).</span></p>",
+    "optionRationales": [
+      "Aggregating the defect types hides a significant fall in cracks and a significant rise in voids.",
+      "Cracks did fall, but the significant rise in voids must be explained before the CAPA is closed.",
+      "Correct. \\(z_c = 3.59\\) and \\(z_v = 2.93\\) both exceed 1.96, in opposite directions.",
+      "A two-proportion hypothesis test is a standard way to compare before and after data; a control chart is not required."
+    ],
+    "keyPoint": "Judge CAPA effectiveness by defect type: aggregated rates can hide both the improvement and any new problem the action created.",
+    "trap": "Testing only the total defect rate.",
+    "formula": "\\(z = \\dfrac{\\hat{p}_1 - \\hat{p}_2}{\\sqrt{\\bar{p}(1 - \\bar{p})(1/n_1 + 1/n_2)}}\\)",
+    "assumptions": [
+      "Units are independent random samples from the process before and after the change."
+    ],
+    "estimatedMinutes": 6,
+    "keywords": [
+      "CAPA",
+      "effectiveness",
+      "two-proportion test",
+      "aggregation"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Corrective and preventative action (CAPA)",
+        "example": null
+      }
+    ]
+  },
+  {
+    "qid": "cre:set-1:b11-q110",
+    "set": 1,
+    "batch": 11,
+    "sub": "cre-fundamentals",
+    "sourceDocument": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+    "bok": {
+      "domain": "I. Reliability Fundamentals",
+      "subdomain": "B. Reliability Foundations",
+      "code": "I.B.4",
+      "topic": "Recognizing the people-blaming pitfall in a 5 Why analysis"
+    },
+    "difficulty": "Hard",
+    "cognitive": "Evaluate",
+    "questionType": "Visual evidence interpretation",
+    "quantitative": false,
+    "stem": "A maintenance team recorded the 5 Why analysis shown for a hose failure. What is wrong with it, and how should the analysis continue?",
+    "chart": {
+      "type": "data-table",
+      "title": "5 Why analysis: hose burst on press 4",
+      "columns": [
+        "Step",
+        "Statement"
+      ],
+      "rows": [
+        [
+          "What happened?",
+          "A hydraulic hose on press 4 burst during a cycle"
+        ],
+        [
+          "Why?",
+          "The hose fitting had backed off"
+        ],
+        [
+          "Why?",
+          "The fitting was not torqued to specification when the hose was last replaced"
+        ],
+        [
+          "Why?",
+          "The technician skipped the torque step"
+        ],
+        [
+          "Conclusion recorded",
+          "Technician error; retrain the technician"
+        ]
+      ]
+    },
+    "options": [
+      "Lack-of-solution pitfall: the team chose retraining before it began, so the analysis should restart from the burst.",
+      "Nothing is wrong: an analysis may stop before five whys, and retraining is a permanent preventive action.",
+      "It stops after three whys, and a valid 5 Why analysis must ask the question exactly five times.",
+      "People blaming: ask why the process let the torque step be skipped, which leads to engineered controls."
+    ],
+    "answer": 3,
+    "why": "<p>Stopping at \"the technician skipped a step\" blames a person. People-blaming limits the fixes to retraining or replacing someone and leaves the process unchanged, so another technician can repeat the error. The next why asks how the process allowed the step to be skipped: for example, no torque tool, no verification sign-off or no step in the work instruction. That leads to engineered or system controls. The number of whys is not fixed; the chain must reach a cause the organization can remove.</p><p><b>D. People blaming; ask why the process allowed the skip.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 2, Root Cause Analysis (pitfalls: lack of solution, proving oneself right, people blaming; 5 Whys).</span></p>",
+    "optionRationales": [
+      "The chain does not start from a preset solution; it stops at a person, which is a different pitfall.",
+      "Retraining one person does not stop another from making the same error; the process still allows it.",
+      "The 5 Whys is not limited to exactly five questions; it continues until it reaches a removable cause.",
+      "Correct. The analysis stops at a person, so the process cause is never found."
+    ],
+    "keyPoint": "Root cause analysis that ends at human error should ask why the system allowed the error.",
+    "trap": "Accepting \"operator error\" and retraining as the root cause and permanent fix.",
+    "formula": null,
+    "assumptions": [],
+    "estimatedMinutes": 2,
+    "keywords": [
+      "root cause analysis",
+      "5 Whys",
+      "people blaming",
+      "human error"
+    ],
+    "sourceSection": "Chapter 2 - Reliability Foundations",
+    "sources": [
+      {
+        "id": "S1",
+        "document": "The ASQ Certified Reliability Engineer Handbook, 4th ed. (Hulting & McShane-Vaughn, 2025)",
+        "chapter": "Chapter 2 - Reliability Foundations",
+        "section": "Root cause analysis — five whys",
         "example": null
       }
     ]
