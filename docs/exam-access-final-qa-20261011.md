@@ -27,10 +27,22 @@ All 28 focused administrator UI/transaction tests pass. The site build passes, a
 the mandatory public-content scan reports zero known findings across 623 files.
 Chromium/WebKit audit coverage now exercises the explicit modal and Escape cancellation.
 
-At this checkpoint, the request is still pending. Temporary approval, learner practice
-and revocation must be verified on the rebuilt preview before this journey is marked
-complete. Personal identifiers and screenshots are intentionally excluded from this
-public repository report.
+The rebuilt preview at code commit `5a903492717ae17fbba05088f84d6d5eec20b4fc`
+successfully saved the real Administrator's explicit approval. The hosted UI returned
+“Decision saved”, CSSBB “Access granted”, and “Request: approved”; the six other released
+certifications remained locked. The test grant expires on 2026-10-11 at 20:31 UTC
+(14:31 Saskatchewan time). Membership roles were not changed.
+
+The Administrator was signed out and the learner sign-in prompt was opened with a
+return to the exam directory. That secure prompt was declined, so practice and
+revocation remain unverified. The temporary grant was not manually revoked and will
+expire at the time above. Do not mark the full journey complete or retry the declined
+sign-in without a fresh user request. Personal identifiers and screenshots are
+intentionally excluded from this public repository report.
+
+The preview deployment and Exam access foundation CI passed for that code commit.
+Chromium/WebKit learner audits were still running at this checkpoint. The sections
+below retain the earlier QA evidence and must be read as historical snapshots.
 
 ## Follow-up after the second dummy-account request
 
@@ -55,9 +67,9 @@ public repository report.
   `second-pass-workflows` suite cannot run because it references the already removed
   `test-bank-account-sync.js`; the current stateless/access suites cover this change.
 
-The results below describe the earlier hosted QA. The configuration blocker is now
-addressed in code and must be verified on the rebuilt preview. Real non-admin learner
-journeys remain blocked by browser availability; automated fixtures do not satisfy them.
+The results below describe the earlier hosted QA. The configuration/browser blockers
+were subsequently resolved as recorded above. Automated fixtures do not satisfy the
+remaining hosted learner practice and revocation checks.
 
 ## Fixes made
 
@@ -114,21 +126,21 @@ queue/history access paths. See [foreign-key advisor guidance](https://supabase.
 
 ## Remaining hosted acceptance work
 
-1. Configure the matching Supabase URL and publishable/anon key in Netlify **Functions**
-   scope for the preview, then rebuild the preview. Variables in netlify.toml do not
-   supply Functions runtime values. No service-role key is needed. Site environment
-   editing is unavailable through the connected Netlify tools. Netlify browser sign-in
-   was attempted; both the post-sign-in observation and a fresh verification tab timed
-   out, leaving its authentication state unknown. No environment settings were changed.
+1. Complete real learner protected-delivery checks. The function now bundles the
+   same public configuration as sign-in; separate complete Functions overrides are
+   optional. The preview's anonymous/invalid-JWT/coming-soon denial checks passed.
 2. Use a designated non-administrator dummy account to exercise zero/one/multiple
    grants, request/cancel, approval/decline, renewal, expiry, revocation and cross-account
-   isolation. Do not revoke Administrator membership merely to manufacture a learner.
+   isolation. CSSBB request and temporary Administrator approval are now verified;
+   the remaining cases are not. Do not revoke Administrator membership merely to
+   manufacture a learner.
 3. Exercise every released bank's protected simulator modes, scoring/reveal/results,
    tab-return checks, direct URLs and CDN responses with real learner JWTs. Mocked
    browser coverage is not a substitute for these remaining hosted checks.
 4. Resolve public GitHub question sources/history and old immutable deployment exposure;
    review member-to-exam allocations before production activation.
 
-No production website deployment, user permission changes, notifications, credential
-changes or paid resources were created during this QA. The hosted additive schema
-installation above is the only persistent database change.
+No production website deployment, membership-role changes, notifications, credential
+changes or paid resources were created during this QA. In addition to the additive
+schema installation, the designated dummy learner now has one CSSBB request and one
+temporary CSSBB grant with the bounded decision history described above.
