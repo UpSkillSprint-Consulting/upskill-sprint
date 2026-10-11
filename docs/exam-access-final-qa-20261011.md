@@ -2,6 +2,36 @@
 
 Status: **partial hosted QA; not cleared for production**. PR #288 remains draft.
 
+## Live learner follow-up and confirmation repair
+
+The browser service is responsive in the resumed session. Secure sign-in succeeded
+for the designated non-admin dummy learner; the rendered account role was Registered
+member and My exams contained zero grants. A CSSBB access request was submitted and
+rendered as Request pending; practice stayed locked. After account switching, a
+verified Administrator found that same pending request by exact learner email.
+No other learner records were inspected.
+
+The existing native `window.confirm` step did not produce a saved decision in this
+browser session, including after a manual handoff. A fresh hosted account read still
+showed Locked / Request pending. This is evidence of an incomplete approval, not a
+successful grant or a database failure. Browser dialog inspection was restricted after
+secure credential delivery.
+
+Replaced that native prompt with an accessible on-page modal that displays the full
+learner/certification/expiry and requires a separate explicit confirmation. Cancel and
+Escape perform no write. Pending decisions retain the reviewed revisions and expiry,
+are invalidated by account changes, reject an expiry elapsed during review, and can
+be submitted only once. The original RPC authorization and revision checks remain.
+The dialog uses existing theme styles and adds no database storage or dependencies.
+All 28 focused administrator UI/transaction tests pass. The site build passes, and
+the mandatory public-content scan reports zero known findings across 623 files.
+Chromium/WebKit audit coverage now exercises the explicit modal and Escape cancellation.
+
+At this checkpoint, the request is still pending. Temporary approval, learner practice
+and revocation must be verified on the rebuilt preview before this journey is marked
+complete. Personal identifiers and screenshots are intentionally excluded from this
+public repository report.
+
 ## Follow-up after the second dummy-account request
 
 - Browser service calls and session recovery timed out before a sign-in page could

@@ -41,5 +41,11 @@
 <button id="exam-requests-next" type="button" class="btn" hidden>Next 25 requests</button>
 </aside></div>
 <details class="exam-admin-maintenance"><summary>History maintenance</summary><p>Remove up to 200 decisions older than 90 days. Current grants and requests stay in place. Recent history is also trimmed when decisions are saved.</p><button id="exam-history-prune" type="button" class="btn">Clean old history</button></details>
-</div><noscript>JavaScript is required to manage exam access.</noscript>
+</div>
+<dialog id="exam-decision-dialog" class="exam-admin-dialog" aria-labelledby="exam-decision-title" aria-describedby="exam-decision-summary">
+<h2 id="exam-decision-title">Review access decision</h2>
+<p id="exam-decision-summary"></p>
+<div class="exam-admin-actions"><button id="exam-decision-cancel" type="button" class="btn" autofocus>Cancel</button><button id="exam-decision-confirm" type="button" class="btn btn-teal">Confirm decision</button></div>
+</dialog>
+<noscript>JavaScript is required to manage exam access.</noscript>
 </main></body></html>

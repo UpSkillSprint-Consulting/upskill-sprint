@@ -2,7 +2,7 @@
   'use strict';
   const byId = id => document.getElementById(id);
   const labels = {locked:'Locked',granted:'Access granted',expired:'Expired',revoked:'Revoked',administrator:'Administrator access',coming_soon:'Coming soon',retired:'Retired'};
-  let auth, account = null, selected = null, cursor = null, epoch = 0, busy = false, ready = false, active = null;
+  let auth, account = null, selected = null, cursor = null, epoch = 0, busy = false, ready = false, active = null, decision = null;
   const message = text => { byId('exam-admin-status').textContent = text; };
   const dateText = value => value ? new Date(value).toLocaleString() : 'No expiry';
   function element(tag, text, className) {
@@ -11,6 +11,7 @@
     return node;
   }
   function clearAccount() {
+    closeDecision();
     account = selected = null; byId('exam-member').hidden = true; byId('exam-access-edit').hidden = true;
     byId('exam-member-title').textContent = ''; byId('exam-member-note').textContent = '';
     byId('exam-member-cards').replaceChildren(); byId('exam-member-history').replaceChildren();
@@ -52,6 +53,7 @@
     }
   }
   function chooseExam(key, focus = true) {
+    closeDecision();
     selected = account.exams.find(exam => exam.exam_key === key);
     if (!selected) return;
     document.querySelectorAll('.exam-admin-card').forEach(card => card.setAttribute('aria-pressed', String(card.dataset.exam === key)));
@@ -114,8 +116,27 @@
   byId('exam-member-reload').addEventListener('click', () => {
     if (account) run({operation:'account',target_id:account.user_id}, renderAccount, 'Account refreshed. Choose an exam.');
   });
+  function closeDecision() {
+    decision = null;
+    const dialog = byId('exam-decision-dialog');
+    if (dialog.open) dialog.close();
+    byId('exam-decision-summary').textContent = '';
+  }
+  byId('exam-decision-cancel').addEventListener('click', closeDecision);
+  byId('exam-decision-dialog').addEventListener('cancel', event => { event.preventDefault(); closeDecision(); });
+  byId('exam-decision-confirm').addEventListener('click', () => {
+    const current = decision;
+    if (!current) return;
+    closeDecision();
+    if (!ready || busy || current.epoch !== epoch || !account || !selected ||
+      current.args.target_id !== account.user_id || current.args.requested_exam_key !== selected.exam_key ||
+      current.args.expected_grant_revision !== selected.grant_revision || current.args.expected_request_revision !== selected.request_revision) return;
+    if (current.args.expiry && new Date(current.args.expiry) <= new Date()) { message('Choose a future expiry and review the decision again.'); return; }
+    run(current.args, data => { renderAccount(data,current.args.requested_exam_key); clearQueue(); },
+      'Decision saved. Access is checked on the next protected request.');
+  });
   byId('exam-access-edit').addEventListener('submit', event => {
-    event.preventDefault(); if (!account || !selected || busy || !ready) return;
+    event.preventDefault(); if (!account || !selected || busy || !ready || decision) return;
     const operation = event.submitter && event.submitter.dataset.operation;
     if (!['grant','approve','revoke','decline'].includes(operation) || event.submitter.disabled) return;
     const granting = operation === 'grant' || operation === 'approve';
@@ -123,13 +144,16 @@
     const expiry = granting && value ? new Date(value) : null;
     if (expiry && (!Number.isFinite(expiry.getTime()) || expiry <= new Date())) { message('Choose a future expiry or leave it empty.'); return; }
     const action = {grant:'Grant access',approve:'Approve request and grant access',revoke:'Revoke access',decline:'Decline request'}[operation];
-    if (!window.confirm(action + ' for ' + account.email + ' — ' + selected.badge + '?' +
+    byId('exam-decision-title').textContent = action + '?';
+    byId('exam-decision-summary').textContent = 'Learner: ' + account.email + '\nCertification: ' + selected.display_name + ' (' + selected.badge + ')' +
       (granting ? '\nExpiry: ' + (expiry ? expiry.toLocaleString() : 'No expiry') : '') +
-      (operation === 'decline' ? '\nThis does not revoke an existing grant.' : ''))) return;
-    const key = selected.exam_key;
-    run({operation,target_id:account.user_id,requested_exam_key:key,expiry:expiry ? expiry.toISOString() : null,
-      expected_grant_revision:selected.grant_revision,expected_request_revision:selected.request_revision},
-    data => { renderAccount(data,key); clearQueue(); }, 'Decision saved. Access is checked on the next protected request.');
+      (operation === 'decline' ? '\nThis does not revoke an existing grant.' : '') +
+      (operation === 'revoke' ? '\nThis blocks the learner’s next protected request. Material already loaded cannot be recalled.' : '');
+    byId('exam-decision-confirm').textContent = {grant:'Confirm grant',approve:'Confirm approval',revoke:'Confirm revocation',decline:'Confirm decline'}[operation];
+    decision = {epoch,args:{operation,target_id:account.user_id,requested_exam_key:selected.exam_key,expiry:expiry ? expiry.toISOString() : null,
+      expected_grant_revision:selected.grant_revision,expected_request_revision:selected.request_revision}};
+    byId('exam-decision-dialog').showModal();
+    byId('exam-decision-cancel').focus();
   });
   byId('exam-requests-refresh').addEventListener('click', () => run({operation:'requests'},renderQueue,'Requests refreshed.'));
   byId('exam-requests-next').addEventListener('click', () => { if (cursor) run({operation:'requests',...cursor},renderQueue,'Next request page loaded.'); });

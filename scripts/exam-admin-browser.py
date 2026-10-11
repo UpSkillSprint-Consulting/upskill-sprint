@@ -101,8 +101,21 @@ def main():
                     colors = button.evaluate('(el) => { const s=getComputedStyle(el); return [s.color,s.backgroundColor]; }')
                     assert contrast_ratio(*colors) >= 4.5, (theme, hovered, colors)
             page.screenshot(path=str(out / f'admin-{args.browser}-{width}-{theme}.png'), full_page=True)
-            page.on('dialog', lambda dialog: dialog.accept())
             page.locator('#exam-approve').click()
+            confirmation = page.get_by_role('dialog', name='Approve request and grant access?')
+            expect(confirmation).to_be_visible()
+            expect(confirmation).to_contain_text('learner@example.invalid')
+            expect(confirmation).to_contain_text('Project Management Professional (PMP)')
+            expect(confirmation).to_contain_text('Expiry: No expiry')
+            expect(page.locator('#exam-decision-cancel')).to_be_focused()
+            assert page.evaluate("adminAuditCalls.filter(c=>c.operation==='approve').length") == 0
+            page.keyboard.press('Escape')
+            expect(confirmation).to_be_hidden()
+            expect(page.locator('#exam-approve')).to_be_focused()
+            page.locator('#exam-approve').click()
+            assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'), 'Confirmation overflow'
+            page.screenshot(path=str(out / f'admin-confirm-{args.browser}-{width}-{theme}.png'))
+            page.get_by_role('button', name='Confirm approval', exact=True).click()
             expect(page.locator('#exam-edit-state')).to_contain_text('Access granted')
             assert page.evaluate("adminAuditCalls.filter(c=>c.operation==='approve').length") == 1
             page.evaluate('adminAuditSignOut()')
