@@ -269,7 +269,7 @@ test('a topic with no advanced lesson yields an empty, honest result', async () 
   selectLevel(window, 'advanced');
 
   const topic = window.document.getElementById('topic-filter');
-  topic.value = 'project-management';
+  topic.value = 'business-decision-making';
   topic.dispatchEvent(new window.Event('change'));
 
   assert.equal(visibleRows(window).length, 0, 'no lessons are shown');
