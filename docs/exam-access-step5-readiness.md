@@ -2,8 +2,8 @@
 
 Assessment date: 2026-10-11. Baseline: PR #288 at `85b0c1838e2f74ac3b6358e97505d0eb34dc6852`.
 
-**Updated release status: Step 2 is implemented in the draft branch. Release remains
-blocked by Steps 3–4, hosted configuration/schema, the member transition mapping,
+**Updated release status: Steps 2–3 are implemented in the draft branch. Release remains
+blocked by Step 4, hosted configuration/schema, the member transition mapping,
 public GitHub question source and old deployment exposure.**
 This is executable validation work, not a completed production cutover. Do not merge
 or deploy on the assumption that every exam is protected yet.
@@ -11,7 +11,9 @@ or deploy on the assumption that every exam is protected yet.
 The sections below record the original Step 5 assessment before Step 2. The current
 implementation and remaining boundaries are in `exam-access-step2-delivery.md`.
 Step 2's full build now passes the mandatory public-content scan with zero known
-findings; 70 focused tests pass. Hosted JWT/CDN/navigation validation is outstanding.
+findings; 93 focused tests pass including Step 3 admin operations. See
+`exam-access-step3-admin.md` for bounded retention, installation and admin verification.
+Hosted JWT/CDN/navigation validation is outstanding.
 
 ## Original assessment before Step 2
 
@@ -102,7 +104,7 @@ not an importer and performs no database writes.
 | Mobile, light and dark | New cards, locked/pending/expired states and admin controls remain readable and keyboard/touch accessible. |
 | Free-plan budget | Only compact permission/request rows and bounded change history; no question uploads, progress writes, polling or Realtime. |
 
-Complete Steps 3–4, resolve public source/old-deploy exposure, review the private allocation, apply only reviewed migrations,
+Complete Step 4, resolve public source/old-deploy exposure, review the private allocation, apply only reviewed migrations,
 run hosted advisors and the above journeys on the final deploy preview, then release.
 Do not roll back protected delivery to public question-bank files if a cutover fails.
 No production writes, migration applications, grants, emails, or deployments were

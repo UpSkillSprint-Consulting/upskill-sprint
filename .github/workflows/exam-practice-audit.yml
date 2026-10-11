@@ -15,6 +15,8 @@ on:
       - 'test-bank.html'
       - 'exam-access-loader.js'
       - 'exam-access.css'
+      - 'admin-exam-access.*'
+      - 'scripts/exam-admin-browser.py'
       - 'scripts/build-exam-delivery.mjs'
       - 'netlify/functions/exam-content.mjs'
       - 'netlify/edge-functions/test-bank-mobile-picker.js'
@@ -77,6 +79,7 @@ jobs:
           done
           set -o pipefail
           python -u scripts/exam-practice-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/browser.log
+          python -u scripts/exam-admin-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/admin-browser.log
       - name: Upload audit results and screenshots
         if: always()
         uses: actions/upload-artifact@v6
