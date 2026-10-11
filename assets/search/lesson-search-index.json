@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 52,
   "contentLessonCount": 51,
-  "sectionCount": 2158,
+  "sectionCount": 2280,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -29512,11 +29512,1841 @@
             "Reliability Formula Encyclopedia",
             "Scope summary"
           ],
-          "text": "Search the numbered equations in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn. They are grouped into the five scored CRE sections. Each card is an original study note, not a copy of the handbook text. I. Fundamentals Life, failure rate, repair, and availability. II. Risk management No numbered equation in Chapters 3 to 5. III. Probability Data, probability, regression, and life functions. IV. Planning and modeling Accelerated tests and reliability models. V. Lifecycle Demonstration, availability, and spare parts. Every numbered equation is one card, and so is each governing formula the handbook displays without a number. A worked numerical substitution is not a separate card. Risk management stays visible because it is a scored section, and Chapters 3 to 5 still have no equation. 0 formulas No formulas match the selected filters.",
-          "excerpt": "Search the numbered equations in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn. They are grouped into the five scored CRE sections. Each card is an original study note, not a copy of the handbook text. I. Fundamentals Life,…",
+          "text": "Search the formulas in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn, including the numbered equations and the governing displays that have no equation number. They are grouped into the five scored CRE sections. Each card is an original study note, not a copy of the handbook text. I. Fundamentals Life, failure rate, repair, and availability. II. Risk management No displayed equation in Chapters 3 to 5. III. Probability Data, probability, regression, and life functions. IV. Planning and modeling Accelerated tests and reliability models. V. Lifecycle Demonstration, availability, and spare parts. Every numbered equation is one card, and so is each governing formula the handbook displays without a number. A worked numerical substitution is not a separate card. Risk management stays visible because it is a scored section, and Chapters 3 to 5 still have no equation. 0 formulas No formulas match the selected filters.",
+          "excerpt": "Search the formulas in The ASQ Certified Reliability Engineer Handbook by Hulting and McShane-Vaughn, including the numbered equations and the governing displays that have no equation number. They are grouped into the five scored CRE sections. Each card is an…",
           "kinds": [
             "section",
             "example",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-1",
+          "heading": "Reliability at time t",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Life and failure measures"
+          ],
+          "text": "CRE-2.1 Equation 2.1 I. Reliability Fundamentals Life and failure measures R(t)=\\Pr(X>t)=1-\\Pr(X\\le t) Use: Reliability at time t is the probability that life exceeds t. Exam trap: Do not report the probability of failure, Pr(X at or below t), as the reliability. ASQ Certified Reliability Engineer Handbook, Equation 2.1.",
+          "excerpt": "CRE-2.1 Equation 2.1 I. Reliability Fundamentals Life and failure measures R(t)=\\Pr(X>t)=1-\\Pr(X\\le t) Use: Reliability at time t is the probability that life exceeds t. Exam trap: Do not report the probability of failure, Pr(X at or below t), as the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-2",
+          "heading": "Empirical reliability at time t",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Life and failure measures"
+          ],
+          "text": "CRE-2.2 Equation 2.2 I. Reliability Fundamentals Life and failure measures R(t)=\\frac{\\text{units functioning at the end of the period}}{\\text{units functioning at the start of the test}} Use: Use the count still functioning divided by the count that started the test. Exam trap: Do not put the failed units in the numerator. ASQ Certified Reliability Engineer Handbook, Equation 2.2.",
+          "excerpt": "CRE-2.2 Equation 2.2 I. Reliability Fundamentals Life and failure measures R(t)=\\frac{\\text{units functioning at the end of the period}}{\\text{units functioning at the start of the test}} Use: Use the count still functioning divided by the count that started…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-3",
+          "heading": "Mean time to failure",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Life and failure measures"
+          ],
+          "text": "CRE-2.3 Equation 2.3 I. Reliability Fundamentals Life and failure measures \\mathrm{MTTF}=\\theta=\\frac{\\sum t_i}{n} Use: For complete failure times, the mean is the total of the times divided by the number of items. Exam trap: Do not divide by the number of survivors. ASQ Certified Reliability Engineer Handbook, Equation 2.3.",
+          "excerpt": "CRE-2.3 Equation 2.3 I. Reliability Fundamentals Life and failure measures \\mathrm{MTTF}=\\theta=\\frac{\\sum t_i}{n} Use: For complete failure times, the mean is the total of the times divided by the number of items. Exam trap: Do not divide by the number of…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-4",
+          "heading": "Mean time between failures",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Life and failure measures"
+          ],
+          "text": "CRE-2.4 Equation 2.4 I. Reliability Fundamentals Life and failure measures \\mathrm{MTBF}=\\frac{nm}{r} Use: n items each exposed for m hours, with r failures, give total time nm divided by r. Exam trap: Do not divide by the number of items when the question asks for time per failure. ASQ Certified Reliability Engineer Handbook, Equation 2.4.",
+          "excerpt": "CRE-2.4 Equation 2.4 I. Reliability Fundamentals Life and failure measures \\mathrm{MTBF}=\\frac{nm}{r} Use: n items each exposed for m hours, with r failures, give total time nm divided by r. Exam trap: Do not divide by the number of items when the question…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-5",
+          "heading": "Mean cycles between failures",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Life and failure measures"
+          ],
+          "text": "CRE-2.5 Equation 2.5 I. Reliability Fundamentals Life and failure measures \\mathrm{MCBF}=\\frac{nc}{r} Use: The same total-exposure idea, counted in cycles instead of hours. Exam trap: Do not leave the answer in hours when the exposure is in cycles. ASQ Certified Reliability Engineer Handbook, Equation 2.5.",
+          "excerpt": "CRE-2.5 Equation 2.5 I. Reliability Fundamentals Life and failure measures \\mathrm{MCBF}=\\frac{nc}{r} Use: The same total-exposure idea, counted in cycles instead of hours. Exam trap: Do not leave the answer in hours when the exposure is in cycles. ASQ…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-6",
+          "heading": "Mean time between critical failures",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Life and failure measures"
+          ],
+          "text": "CRE-2.6 Equation 2.6 I. Reliability Fundamentals Life and failure measures \\mathrm{MTBCF}=\\frac{nc}{C} Use: The denominator is the count of critical failures, not every failure. Exam trap: Using all failures in the denominator gives MTBF, not the critical-failure measure. ASQ Certified Reliability Engineer Handbook, Equation 2.6.",
+          "excerpt": "CRE-2.6 Equation 2.6 I. Reliability Fundamentals Life and failure measures \\mathrm{MTBCF}=\\frac{nc}{C} Use: The denominator is the count of critical failures, not every failure. Exam trap: Using all failures in the denominator gives MTBF, not the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-7",
+          "heading": "Constant failure rate",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Life and failure measures"
+          ],
+          "text": "CRE-2.7 Equation 2.7 I. Reliability Fundamentals Life and failure measures \\lambda=\\frac{1}{\\mathrm{MTBF}}=\\frac{1}{\\mathrm{MTTF}} Use: Under a constant rate, the rate is the reciprocal of the mean life. Exam trap: Do not multiply the mean by the rate and call that \\(\\lambda\\). ASQ Certified Reliability Engineer Handbook, Equation 2.7.",
+          "excerpt": "CRE-2.7 Equation 2.7 I. Reliability Fundamentals Life and failure measures \\lambda=\\frac{1}{\\mathrm{MTBF}}=\\frac{1}{\\mathrm{MTTF}} Use: Under a constant rate, the rate is the reciprocal of the mean life. Exam trap: Do not multiply the mean by the rate and…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-8",
+          "heading": "Mean time to repair",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Availability"
+          ],
+          "text": "CRE-2.8 Equation 2.8 I. Reliability Fundamentals Availability \\mathrm{MTTR}=\\frac{\\text{total repair time}}{\\text{number of repair operations}} Use: Average the observed repair times. This is a repair measure, not a life measure. Exam trap: Do not put operating hours in the numerator. ASQ Certified Reliability Engineer Handbook, Equation 2.8.",
+          "excerpt": "CRE-2.8 Equation 2.8 I. Reliability Fundamentals Availability \\mathrm{MTTR}=\\frac{\\text{total repair time}}{\\text{number of repair operations}} Use: Average the observed repair times. This is a repair measure, not a life measure. Exam trap: Do not put…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-9",
+          "heading": "MTBF at a constant failure rate",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Life and failure measures"
+          ],
+          "text": "CRE-2.9 Equation 2.9 I. Reliability Fundamentals Life and failure measures \\mathrm{MTBF}=\\frac{1}{\\lambda} Use: Invert a constant failure rate to get the mean time between failures. Exam trap: The rate itself is not a time. ASQ Certified Reliability Engineer Handbook, Equation 2.9.",
+          "excerpt": "CRE-2.9 Equation 2.9 I. Reliability Fundamentals Life and failure measures \\mathrm{MTBF}=\\frac{1}{\\lambda} Use: Invert a constant failure rate to get the mean time between failures. Exam trap: The rate itself is not a time. ASQ Certified Reliability Engineer…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-10",
+          "heading": "MTTF at a constant failure rate",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Life and failure measures"
+          ],
+          "text": "CRE-2.10 Equation 2.10 I. Reliability Fundamentals Life and failure measures \\mathrm{MTTF}=\\frac{1}{\\lambda} Use: The same reciprocal applies to a nonrepairable item's mean time to failure. Exam trap: Do not use this reciprocal when the hazard changes with age. ASQ Certified Reliability Engineer Handbook, Equation 2.10.",
+          "excerpt": "CRE-2.10 Equation 2.10 I. Reliability Fundamentals Life and failure measures \\mathrm{MTTF}=\\frac{1}{\\lambda} Use: The same reciprocal applies to a nonrepairable item's mean time to failure. Exam trap: Do not use this reciprocal when the hazard changes with…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-11",
+          "heading": "Mean downtime",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Availability"
+          ],
+          "text": "CRE-2.11 Equation 2.11 I. Reliability Fundamentals Availability \\mathrm{MDT}=\\frac{\\text{total downtime}}{\\text{number of downtime occurrences}} Use: Downtime includes more than active repair when the record says so. Exam trap: MTTR is the repair portion. Do not substitute it when the question asks for downtime. ASQ Certified Reliability Engineer Handbook, Equation 2.11.",
+          "excerpt": "CRE-2.11 Equation 2.11 I. Reliability Fundamentals Availability \\mathrm{MDT}=\\frac{\\text{total downtime}}{\\text{number of downtime occurrences}} Use: Downtime includes more than active repair when the record says so. Exam trap: MTTR is the repair portion. Do…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-12",
+          "heading": "Availability over an interval",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Availability"
+          ],
+          "text": "CRE-2.12 Equation 2.12 I. Reliability Fundamentals Availability A=\\frac{\\text{time the unit is capable of use}}{\\text{length of the interval}} Use: Compare capable time with the full interval named in the question. Exam trap: Do not omit scheduled or logistics time if the interval includes it. ASQ Certified Reliability Engineer Handbook, Equation 2.12.",
+          "excerpt": "CRE-2.12 Equation 2.12 I. Reliability Fundamentals Availability A=\\frac{\\text{time the unit is capable of use}}{\\text{length of the interval}} Use: Compare capable time with the full interval named in the question. Exam trap: Do not omit scheduled or…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-13",
+          "heading": "Availability, general formula",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Availability"
+          ],
+          "text": "CRE-2.13 Equation 2.13 I. Reliability Fundamentals Availability A=\\frac{\\text{average uptime}}{\\text{average uptime}+\\text{average downtime}} Use: Availability is uptime divided by uptime plus downtime. Exam trap: Leaving downtime out of the denominator produces 1. ASQ Certified Reliability Engineer Handbook, Equation 2.13.",
+          "excerpt": "CRE-2.13 Equation 2.13 I. Reliability Fundamentals Availability A=\\frac{\\text{average uptime}}{\\text{average uptime}+\\text{average downtime}} Use: Availability is uptime divided by uptime plus downtime. Exam trap: Leaving downtime out of the denominator…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-14",
+          "heading": "Reliability at time t, constant failure rate",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Life and failure measures"
+          ],
+          "text": "CRE-2.14 Equation 2.14 I. Reliability Fundamentals Life and failure measures R(t)=e^{-\\lambda t} Use: A constant failure rate gives an exponential reliability. Exam trap: The exponent is negative. A positive exponent is greater than 1 and cannot be a reliability. ASQ Certified Reliability Engineer Handbook, Equation 2.14.",
+          "excerpt": "CRE-2.14 Equation 2.14 I. Reliability Fundamentals Life and failure measures R(t)=e^{-\\lambda t} Use: A constant failure rate gives an exponential reliability. Exam trap: The exponent is negative. A positive exponent is greater than 1 and cannot be a…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-15",
+          "heading": "Availability from MTBF and MTTR",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Availability"
+          ],
+          "text": "CRE-2.15 Equation 2.15 I. Reliability Fundamentals Availability A=\\frac{\\mathrm{MTBF}}{\\mathrm{MTBF}+\\mathrm{MTTR}} Use: Use this when the only times given are the mean life and the mean repair. Exam trap: Do not put MTTR in the numerator. ASQ Certified Reliability Engineer Handbook, Equation 2.15.",
+          "excerpt": "CRE-2.15 Equation 2.15 I. Reliability Fundamentals Availability A=\\frac{\\mathrm{MTBF}}{\\mathrm{MTBF}+\\mathrm{MTTR}} Use: Use this when the only times given are the mean life and the mean repair. Exam trap: Do not put MTTR in the numerator. ASQ Certified…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-16",
+          "heading": "Mean time between maintenance actions",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Availability"
+          ],
+          "text": "CRE-2.16 Equation 2.16 I. Reliability Fundamentals Availability \\mathrm{MTBMA}=\\frac{1}{\\lambda+\\mu} Use: \\(\\lambda\\) is the failure rate and \\(\\mu\\) is the preventive maintenance rate. Both remove the item from service. Exam trap: Using only \\(\\lambda\\) ignores the maintenance actions. ASQ Certified Reliability Engineer Handbook, Equation 2.16.",
+          "excerpt": "CRE-2.16 Equation 2.16 I. Reliability Fundamentals Availability \\mathrm{MTBMA}=\\frac{1}{\\lambda+\\mu} Use: \\(\\lambda\\) is the failure rate and \\(\\mu\\) is the preventive maintenance rate. Both remove the item from service. Exam trap: Using only \\(\\lambda\\)…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-2-17",
+          "heading": "Availability from maintenance actions",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Availability"
+          ],
+          "text": "CRE-2.17 Equation 2.17 I. Reliability Fundamentals Availability A=\\frac{\\mathrm{MTBMA}}{\\mathrm{MTBMA}+\\mathrm{MAMT}} Use: MAMT is the mean active maintenance time that goes with MTBMA. Exam trap: Do not replace MAMT with MTTR unless the problem says they are the same. ASQ Certified Reliability Engineer Handbook, Equation 2.17.",
+          "excerpt": "CRE-2.17 Equation 2.17 I. Reliability Fundamentals Availability A=\\frac{\\mathrm{MTBMA}}{\\mathrm{MTBMA}+\\mathrm{MAMT}} Use: MAMT is the mean active maintenance time that goes with MTBMA. Exam trap: Do not replace MAMT with MTTR unless the problem says they are…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-1",
+          "heading": "Sample mean",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-6.1 Equation 6.1 III. Probability and Statistics for Reliability Descriptive statistics and regression \\bar{X}=\\frac{1}{n}\\sum_{i=1}^{n} X_i Use: Add the observations and divide by how many there are. Exam trap: The divisor is n, not n minus 1. That correction belongs to the sample variance. ASQ Certified Reliability Engineer Handbook, Equation 6.1.",
+          "excerpt": "CRE-6.1 Equation 6.1 III. Probability and Statistics for Reliability Descriptive statistics and regression \\bar{X}=\\frac{1}{n}\\sum_{i=1}^{n} X_i Use: Add the observations and divide by how many there are. Exam trap: The divisor is n, not n minus 1. That…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-2",
+          "heading": "Pearson sample correlation",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-6.2 Equation 6.2 III. Probability and Statistics for Reliability Descriptive statistics and regression r=\\frac{\\mathrm{Cov}(X,Y)}{s_x s_y}=\\frac{SS_{xy}}{\\sqrt{SS_{xx}\\,SS_{yy}}} Use: Scale the sample covariance by the two sample standard deviations. The same ratio is the corrected sum of products over the square root of the two corrected sums of squares. Exam trap: A correlation is not a slope. The slope still has the units of Y per unit of X. ASQ Certified Reliability Engineer Handbook, Equation 6.2.",
+          "excerpt": "CRE-6.2 Equation 6.2 III. Probability and Statistics for Reliability Descriptive statistics and regression r=\\frac{\\mathrm{Cov}(X,Y)}{s_x s_y}=\\frac{SS_{xy}}{\\sqrt{SS_{xx}\\,SS_{yy}}} Use: Scale the sample covariance by the two sample standard deviations. The…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-3",
+          "heading": "Simple linear regression model",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-6.3 Equation 6.3 III. Probability and Statistics for Reliability Descriptive statistics and regression y=\\beta_0+\\beta_1 x+\\varepsilon Use: The model is a straight line plus a random error. The \\(\\beta\\) values are unknown constants. Exam trap: Do not replace the error with the residual. The residual is what remains after fitting. ASQ Certified Reliability Engineer Handbook, Equation 6.3.",
+          "excerpt": "CRE-6.3 Equation 6.3 III. Probability and Statistics for Reliability Descriptive statistics and regression y=\\beta_0+\\beta_1 x+\\varepsilon Use: The model is a straight line plus a random error. The \\(\\beta\\) values are unknown constants. Exam trap: Do not…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-4",
+          "heading": "Fitted regression equation",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-6.4 Equation 6.4 III. Probability and Statistics for Reliability Descriptive statistics and regression \\hat{y}=b_0+b_1 x Use: The fitted equation uses the estimated intercept and slope. Exam trap: A hat on y means a prediction, not an observed point. ASQ Certified Reliability Engineer Handbook, Equation 6.4.",
+          "excerpt": "CRE-6.4 Equation 6.4 III. Probability and Statistics for Reliability Descriptive statistics and regression \\hat{y}=b_0+b_1 x Use: The fitted equation uses the estimated intercept and slope. Exam trap: A hat on y means a prediction, not an observed point. ASQ…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-5",
+          "heading": "Estimated intercept and slope",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-6.5 Equation 6.5 III. Probability and Statistics for Reliability Descriptive statistics and regression \\begin{aligned} b_0&=\\bar{y}-b_1\\bar{x}\\\\ b_1&=\\frac{SS_{xy}}{SS_{xx}} \\end{aligned} Use: Estimate the slope from the corrected sums of squares, then the intercept from the means. Exam trap: Swapping the sums of squares inverts the slope. ASQ Certified Reliability Engineer Handbook, Equation 6.5.",
+          "excerpt": "CRE-6.5 Equation 6.5 III. Probability and Statistics for Reliability Descriptive statistics and regression \\begin{aligned} b_0&=\\bar{y}-b_1\\bar{x}\\\\ b_1&=\\frac{SS_{xy}}{SS_{xx}} \\end{aligned} Use: Estimate the slope from the corrected sums of squares, then…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-6",
+          "heading": "Estimated residuals",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-6.6 Equation 6.6 III. Probability and Statistics for Reliability Descriptive statistics and regression e_i=y_i-\\hat{y}_i Use: A residual is the observed response minus the fitted response. Exam trap: The reverse subtraction changes the sign of every residual. ASQ Certified Reliability Engineer Handbook, Equation 6.6.",
+          "excerpt": "CRE-6.6 Equation 6.6 III. Probability and Statistics for Reliability Descriptive statistics and regression e_i=y_i-\\hat{y}_i Use: A residual is the observed response minus the fitted response. Exam trap: The reverse subtraction changes the sign of every…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-7",
+          "heading": "Two-sided test statistic for the slope",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-6.7 Equation 6.7 III. Probability and Statistics for Reliability Descriptive statistics and regression \\begin{aligned} t^{*}&=\\frac{b_1-\\beta_1}{s_{b_1}}\\\\ s_{b_1}&=\\frac{s_e}{\\sqrt{SS_{xx}}}\\\\ s_e&=\\sqrt{\\frac{\\sum_{i=1}^{n}(y_i-\\hat{y}_i)^{2}}{n-2}}=\\sqrt{\\frac{SSE}{n-2}} \\end{aligned} Use: Compare the estimated slope with the hypothesized slope. The standard error uses the residual standard deviation and SS sub xx. Reject the null when the absolute value of t-star exceeds the two-sided critical value with n minus 2 degrees of freedom. Exam trap: The usual null value of beta sub 1 is 0, but only when the question says the slope is zero. The critical value uses alpha over 2 because the handbook states a two-sided rule. ASQ Certified Reliability Engineer Handbook, Equation 6.7.",
+          "excerpt": "CRE-6.7 Equation 6.7 III. Probability and Statistics for Reliability Descriptive statistics and regression \\begin{aligned} t^{*}&=\\frac{b_1-\\beta_1}{s_{b_1}}\\\\ s_{b_1}&=\\frac{s_e}{\\sqrt{SS_{xx}}}\\\\…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-8",
+          "heading": "Relative frequency",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-6.8 Equation 6.8 III. Probability and Statistics for Reliability Probability \\Pr(A)=\\frac{a}{n} Use: a is the number of times A occurred and n is the number of trials. Exam trap: This is an estimate of the probability, not a proof that the probability equals a over n. ASQ Certified Reliability Engineer Handbook, Equation 6.8.",
+          "excerpt": "CRE-6.8 Equation 6.8 III. Probability and Statistics for Reliability Probability \\Pr(A)=\\frac{a}{n} Use: a is the number of times A occurred and n is the number of trials. Exam trap: This is an estimate of the probability, not a proof that the probability…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-9",
+          "heading": "Complement rule",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-6.9 Equation 6.9 III. Probability and Statistics for Reliability Probability \\Pr(\\bar{A})=1-\\Pr(A) Use: An event and its complement use up the whole probability. Exam trap: Do not subtract from the number of trials. Subtract from 1. ASQ Certified Reliability Engineer Handbook, Equation 6.9.",
+          "excerpt": "CRE-6.9 Equation 6.9 III. Probability and Statistics for Reliability Probability \\Pr(\\bar{A})=1-\\Pr(A) Use: An event and its complement use up the whole probability. Exam trap: Do not subtract from the number of trials. Subtract from 1. ASQ Certified…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-10",
+          "heading": "General addition rule",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-6.10 Equation 6.10 III. Probability and Statistics for Reliability Probability \\Pr(A\\cup B)=\\Pr(A)+\\Pr(B)-\\Pr(A\\cap B) Use: Add the two events, then subtract the overlap that was counted twice. The handbook's note after Equation 6.10 describes that overlap. Exam trap: The printed Equation 6.10 shows the union symbol on both sides. The sentence after it says the overlap was counted twice, so subtract the intersection, not the union. ASQ Certified Reliability Engineer Handbook, Equation 6.10.",
+          "excerpt": "CRE-6.10 Equation 6.10 III. Probability and Statistics for Reliability Probability \\Pr(A\\cup B)=\\Pr(A)+\\Pr(B)-\\Pr(A\\cap B) Use: Add the two events, then subtract the overlap that was counted twice. The handbook's note after Equation 6.10 describes that…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-11",
+          "heading": "Conditional probability",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-6.11 Equation 6.11 III. Probability and Statistics for Reliability Probability \\Pr(A\\mid B)=\\frac{\\Pr(A\\cap B)}{\\Pr(B)} Use: Restrict the denominator to the event that is known to have happened. Exam trap: Dividing by Pr(A) instead of Pr(B) answers a different conditional probability. ASQ Certified Reliability Engineer Handbook, Equation 6.11.",
+          "excerpt": "CRE-6.11 Equation 6.11 III. Probability and Statistics for Reliability Probability \\Pr(A\\mid B)=\\frac{\\Pr(A\\cap B)}{\\Pr(B)} Use: Restrict the denominator to the event that is known to have happened. Exam trap: Dividing by Pr(A) instead of Pr(B) answers a…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-12",
+          "heading": "Probability of an intersection",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-6.12 Equation 6.12 III. Probability and Statistics for Reliability Probability \\Pr(A\\cap B)=\\Pr(B\\mid A)\\Pr(A)=\\Pr(A\\mid B)\\Pr(B) Use: The joint probability is either order: the probability of one event times the probability of the other given the first. Exam trap: Multiplying the two marginal probabilities is allowed only when the events are independent. ASQ Certified Reliability Engineer Handbook, Equation 6.12.",
+          "excerpt": "CRE-6.12 Equation 6.12 III. Probability and Statistics for Reliability Probability \\Pr(A\\cap B)=\\Pr(B\\mid A)\\Pr(A)=\\Pr(A\\mid B)\\Pr(B) Use: The joint probability is either order: the probability of one event times the probability of the other given the first.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-13",
+          "heading": "Permutation formula",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-6.13 Equation 6.13 III. Probability and Statistics for Reliability Probability {}_{n}P_{r}=\\frac{n!}{(n-r)!} Use: Use a permutation when the order of the r selected items matters. Exam trap: Dividing by r factorial as well is the combination, not the permutation. ASQ Certified Reliability Engineer Handbook, Equation 6.13.",
+          "excerpt": "CRE-6.13 Equation 6.13 III. Probability and Statistics for Reliability Probability {}_{n}P_{r}=\\frac{n!}{(n-r)!} Use: Use a permutation when the order of the r selected items matters. Exam trap: Dividing by r factorial as well is the combination, not the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-6-14",
+          "heading": "Combination formula",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-6.14 Equation 6.14 III. Probability and Statistics for Reliability Probability {}_{n}C_{r}=\\binom{n}{r}=\\frac{n!}{r!(n-r)!} Use: Use a combination when the order of the r selected items does not matter. Exam trap: Stopping after the permutation counts the same group more than once. ASQ Certified Reliability Engineer Handbook, Equation 6.14.",
+          "excerpt": "CRE-6.14 Equation 6.14 III. Probability and Statistics for Reliability Probability {}_{n}C_{r}=\\binom{n}{r}=\\frac{n!}{r!(n-r)!} Use: Use a combination when the order of the r selected items does not matter. Exam trap: Stopping after the permutation counts the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-7-1",
+          "heading": "Normalizing with a z transformation",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-7.1 Equation 7.1 III. Probability and Statistics for Reliability Data and life functions \\hat{z}_i=\\frac{x_i-\\bar{x}}{s} Use: The handbook writes a hat on z. Subtract the sample mean and divide by the sample standard deviation. Exam trap: The handbook warns that this scaling does not make a non-normal sample normal. ASQ Certified Reliability Engineer Handbook, Equation 7.1.",
+          "excerpt": "CRE-7.1 Equation 7.1 III. Probability and Statistics for Reliability Data and life functions \\hat{z}_i=\\frac{x_i-\\bar{x}}{s} Use: The handbook writes a hat on z. Subtract the sample mean and divide by the sample standard deviation. Exam trap: The handbook…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-7-2",
+          "heading": "Hazard over a time period",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-7.2 Equation 7.2 III. Probability and Statistics for Reliability Data and life functions \\lambda(t)=\\frac{\\text{fraction of failures during the period}}{\\text{length of the period}} Use: The period hazard is the failure fraction divided by the length of that period. Exam trap: Do not divide by the number of units that had already failed before the period. ASQ Certified Reliability Engineer Handbook, Equation 7.2.",
+          "excerpt": "CRE-7.2 Equation 7.2 III. Probability and Statistics for Reliability Data and life functions \\lambda(t)=\\frac{\\text{fraction of failures during the period}}{\\text{length of the period}} Use: The period hazard is the failure fraction divided by the length of…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-7-3",
+          "heading": "Reliability function from survivors",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-7.3 Equation 7.3 III. Probability and Statistics for Reliability Data and life functions R(t)=\\frac{\\text{number surviving at the end of the period}}{\\text{number of units tested}} Use: This is the empirical survivor fraction at the end of the period. Exam trap: The numerator is the survivors, not the failures. ASQ Certified Reliability Engineer Handbook, Equation 7.3.",
+          "excerpt": "CRE-7.3 Equation 7.3 III. Probability and Statistics for Reliability Data and life functions R(t)=\\frac{\\text{number surviving at the end of the period}}{\\text{number of units tested}} Use: This is the empirical survivor fraction at the end of the period.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-9-1",
+          "heading": "Arrhenius acceleration factor",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "Accelerated testing"
+          ],
+          "text": "CRE-9.1 Equation 9.1 IV. Reliability Planning, Testing, and Modeling Accelerated testing A_F=\\exp\\left[\\left(\\frac{E_A}{K}\\right)\\left(\\frac{1}{T_U}-\\frac{1}{T_S}\\right)\\right] Use: Temperatures are absolute. Use temperature is the cooler use condition and stress temperature is the hotter test. Exam trap: Reversing the two temperatures changes the sign and makes the factor smaller than 1. ASQ Certified Reliability Engineer Handbook, Equation 9.1.",
+          "excerpt": "CRE-9.1 Equation 9.1 IV. Reliability Planning, Testing, and Modeling Accelerated testing A_F=\\exp\\left[\\left(\\frac{E_A}{K}\\right)\\left(\\frac{1}{T_U}-\\frac{1}{T_S}\\right)\\right] Use: Temperatures are absolute. Use temperature is the cooler use condition and…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-9-2",
+          "heading": "Power-law life model",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "Accelerated testing"
+          ],
+          "text": "CRE-9.2 Equation 9.2 IV. Reliability Planning, Testing, and Modeling Accelerated testing \\frac{\\text{life at rated stress}}{\\text{life at accelerated stress}}=\\left(\\frac{\\text{accelerated stress}}{\\text{rated stress}}\\right)^{b} Use: Life shortens as stress rises when the exponent b is positive. Exam trap: Do not invert only one of the two ratios. ASQ Certified Reliability Engineer Handbook, Equation 9.2.",
+          "excerpt": "CRE-9.2 Equation 9.2 IV. Reliability Planning, Testing, and Modeling Accelerated testing \\frac{\\text{life at rated stress}}{\\text{life at accelerated stress}}=\\left(\\frac{\\text{accelerated stress}}{\\text{rated stress}}\\right)^{b} Use: Life shortens as stress…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-9-3",
+          "heading": "Arrhenius-Peck model",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "Accelerated testing"
+          ],
+          "text": "CRE-9.3 Equation 9.3 IV. Reliability Planning, Testing, and Modeling Accelerated testing A_F=\\left(\\frac{\\text{humidity}_{\\mathrm{low}}}{\\text{humidity}_{\\mathrm{high}}}\\right)^{-2.66}\\times\\exp\\left[\\left(\\frac{E_a}{K}\\right)\\left(\\frac{1}{T_1}-\\frac{1}{T_2}\\right)\\right] Use: Humidity and temperature both accelerate. The handbook writes the humidity power as minus 2.66. Exam trap: Dropping the humidity ratio leaves an ordinary Arrhenius factor. ASQ Certified Reliability Engineer Handbook, Equation 9.3.",
+          "excerpt": "CRE-9.3 Equation 9.3 IV. Reliability Planning, Testing, and Modeling Accelerated testing A_F=\\left(\\frac{\\text{humidity}_{\\mathrm{low}}}{\\text{humidity}_{\\mathrm{high}}}\\right)^{-2.66}\\times\\exp\\left[\\left(\\frac{E_a}{K}\\right)\\left(\\frac{1}{T_1}-\\frac{1}{T_2}\\…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-9-4",
+          "heading": "Seeded-defect ratio",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "Accelerated testing"
+          ],
+          "text": "CRE-9.4 Equation 9.4 IV. Reliability Planning, Testing, and Modeling Accelerated testing \\frac{\\text{found unknown defects}}{\\text{found known defects}}=\\frac{\\text{unfound unknown defects}}{\\text{unfound known defects}} Use: Known seeded defects estimate how many unknown defects remain. Exam trap: Do not treat the number found as the number that were there. ASQ Certified Reliability Engineer Handbook, Equation 9.4.",
+          "excerpt": "CRE-9.4 Equation 9.4 IV. Reliability Planning, Testing, and Modeling Accelerated testing \\frac{\\text{found unknown defects}}{\\text{found known defects}}=\\frac{\\text{unfound unknown defects}}{\\text{unfound known defects}} Use: Known seeded defects estimate how…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-10-1",
+          "heading": "Series-system reliability",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-10.1 Equation 10.1 IV. Reliability Planning, Testing, and Modeling System and life models R_{\\mathrm{system}}=\\prod_{i=1}^{n} R_i Use: Every element must work. Multiply the independent reliabilities. Exam trap: Adding the reliabilities is not a series system. ASQ Certified Reliability Engineer Handbook, Equation 10.1.",
+          "excerpt": "CRE-10.1 Equation 10.1 IV. Reliability Planning, Testing, and Modeling System and life models R_{\\mathrm{system}}=\\prod_{i=1}^{n} R_i Use: Every element must work. Multiply the independent reliabilities. Exam trap: Adding the reliabilities is not a series…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-10-2",
+          "heading": "Parallel-system reliability",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-10.2 Equation 10.2 IV. Reliability Planning, Testing, and Modeling System and life models R_{\\mathrm{system}}=1-\\prod_{i=1}^{n}(1-R_i) Use: The system fails only when every element fails. Exam trap: The product of the reliabilities is the series answer, not the parallel answer. ASQ Certified Reliability Engineer Handbook, Equation 10.2.",
+          "excerpt": "CRE-10.2 Equation 10.2 IV. Reliability Planning, Testing, and Modeling System and life models R_{\\mathrm{system}}=1-\\prod_{i=1}^{n}(1-R_i) Use: The system fails only when every element fails. Exam trap: The product of the reliabilities is the series answer,…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-10-3",
+          "heading": "K-out-of-N reliability",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-10.3 Equation 10.3 IV. Reliability Planning, Testing, and Modeling System and life models R_{\\mathrm{system}}=\\sum_{i=k}^{n}\\binom{n}{i} R^{i}(1-R)^{n-i} Use: At least k of n identical independent elements must work. Exam trap: Stopping at exactly k misses the cases with more than k survivors. ASQ Certified Reliability Engineer Handbook, Equation 10.3.",
+          "excerpt": "CRE-10.3 Equation 10.3 IV. Reliability Planning, Testing, and Modeling System and life models R_{\\mathrm{system}}=\\sum_{i=k}^{n}\\binom{n}{i} R^{i}(1-R)^{n-i} Use: At least k of n identical independent elements must work. Exam trap: Stopping at exactly k…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-10-4",
+          "heading": "Arrhenius life model",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-10.4 Equation 10.4 IV. Reliability Planning, Testing, and Modeling System and life models P(T\\le t)=\\Phi\\left(t;\\mu=\\beta_0+\\frac{E_A}{KT},\\sigma\\right) Use: The location depends on absolute temperature through the Arrhenius term. Exam trap: Temperature in Celsius does not belong in the denominator. ASQ Certified Reliability Engineer Handbook, Equation 10.4.",
+          "excerpt": "CRE-10.4 Equation 10.4 IV. Reliability Planning, Testing, and Modeling System and life models P(T\\le t)=\\Phi\\left(t;\\mu=\\beta_0+\\frac{E_A}{KT},\\sigma\\right) Use: The location depends on absolute temperature through the Arrhenius term. Exam trap: Temperature…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-10-5",
+          "heading": "Arrhenius model, alternate form",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-10.5 Equation 10.5 IV. Reliability Planning, Testing, and Modeling System and life models t_p(T)=A_0\\exp\\left[\\frac{E_A}{KT}\\right] Use: This writes a percentile life directly as a function of absolute temperature. Exam trap: The exponential is greater at a lower temperature, so a hotter test has a shorter life. ASQ Certified Reliability Engineer Handbook, Equation 10.5.",
+          "excerpt": "CRE-10.5 Equation 10.5 IV. Reliability Planning, Testing, and Modeling System and life models t_p(T)=A_0\\exp\\left[\\frac{E_A}{KT}\\right] Use: This writes a percentile life directly as a function of absolute temperature. Exam trap: The exponential is greater at…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-10-6",
+          "heading": "Arrhenius acceleration factor from percentile life",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-10.6 Equation 10.6 IV. Reliability Planning, Testing, and Modeling System and life models AF(T)=\\frac{t_p(T_U)}{t_p(T_S)}=\\exp\\left[\\frac{E_A}{K}\\left(\\frac{1}{T_U}-\\frac{1}{T_S}\\right)\\right] Use: The factor is use life divided by stress life. Exam trap: Dividing in the other order estimates how much the test is slower, not faster. ASQ Certified Reliability Engineer Handbook, Equation 10.6.",
+          "excerpt": "CRE-10.6 Equation 10.6 IV. Reliability Planning, Testing, and Modeling System and life models AF(T)=\\frac{t_p(T_U)}{t_p(T_S)}=\\exp\\left[\\frac{E_A}{K}\\left(\\frac{1}{T_U}-\\frac{1}{T_S}\\right)\\right] Use: The factor is use life divided by stress life. Exam trap:…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-10-7",
+          "heading": "Inverse-power acceleration factor",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-10.7 Equation 10.7 IV. Reliability Planning, Testing, and Modeling System and life models AF(V)=\\frac{V^{b}}{V_U^{b}} Use: The handbook's alternate voltage form is the stress voltage to the power b, divided by the use voltage to that power. Exam trap: Forgetting the exponent treats life as proportional to voltage. ASQ Certified Reliability Engineer Handbook, Equation 10.7.",
+          "excerpt": "CRE-10.7 Equation 10.7 IV. Reliability Planning, Testing, and Modeling System and life models AF(V)=\\frac{V^{b}}{V_U^{b}} Use: The handbook's alternate voltage form is the stress voltage to the power b, divided by the use voltage to that power. Exam trap:…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-10-8",
+          "heading": "Eyring model, temperature and one stress",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-10.8 Equation 10.8 IV. Reliability Planning, Testing, and Modeling System and life models t_f=AT^{\\alpha}\\exp\\left[\\frac{\\Delta H}{kT}+\\left(B+\\frac{C}{T}\\right)S_1\\right] Use: Temperature appears both as a power and inside the exponential, and S1 is the added stress. Exam trap: Setting the stress term to zero does not remove the temperature power. ASQ Certified Reliability Engineer Handbook, Equation 10.8.",
+          "excerpt": "CRE-10.8 Equation 10.8 IV. Reliability Planning, Testing, and Modeling System and life models t_f=AT^{\\alpha}\\exp\\left[\\frac{\\Delta H}{kT}+\\left(B+\\frac{C}{T}\\right)S_1\\right] Use: Temperature appears both as a power and inside the exponential, and S1 is the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-10-9",
+          "heading": "Expanded Eyring model",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-10.9 Equation 10.9 IV. Reliability Planning, Testing, and Modeling System and life models t_f=AT^{\\alpha}\\exp\\left[\\frac{\\Delta H}{kT}+\\left(B+\\frac{C}{T}\\right)S_1+\\left(D+\\frac{E}{T}\\right)S_2\\right] Use: A second stress adds one more term of the same form. Exam trap: Do not add the two stresses before multiplying by their own coefficients. ASQ Certified Reliability Engineer Handbook, Equation 10.9.",
+          "excerpt": "CRE-10.9 Equation 10.9 IV. Reliability Planning, Testing, and Modeling System and life models t_f=AT^{\\alpha}\\exp\\left[\\frac{\\Delta H}{kT}+\\left(B+\\frac{C}{T}\\right)S_1+\\left(D+\\frac{E}{T}\\right)S_2\\right] Use: A second stress adds one more term of the same…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-10-10",
+          "heading": "Eyring factor relative to Arrhenius",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-10.10 Equation 10.10 IV. Reliability Planning, Testing, and Modeling System and life models AF_{\\mathrm{Ey}}=\\left(\\frac{\\mathrm{Temp}_{K}}{\\mathrm{Temp}_{U,K}}\\right)^{m} AF_{\\mathrm{Ar}} Use: Both temperatures are in kelvin. The Eyring factor is the Arrhenius factor times a power of that temperature ratio. Exam trap: The power is not a second activation energy. Over ordinary temperature ranges the handbook often drops it and keeps Arrhenius. ASQ Certified Reliability Engineer Handbook, Equation 10.10.",
+          "excerpt": "CRE-10.10 Equation 10.10 IV. Reliability Planning, Testing, and Modeling System and life models AF_{\\mathrm{Ey}}=\\left(\\frac{\\mathrm{Temp}_{K}}{\\mathrm{Temp}_{U,K}}\\right)^{m} AF_{\\mathrm{Ar}} Use: Both temperatures are in kelvin. The Eyring factor is the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-10-11",
+          "heading": "Reliability, proportional hazards model",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-10.11 Equation 10.11 IV. Reliability Planning, Testing, and Modeling System and life models R(t)=e^{-\\lambda(x)\\, t} Use: After the stresses are folded into the failure rate \\(\\lambda(x)\\), reliability at time \\(t\\) is \\(e^{-\\lambda(x) t}\\). Exam trap: Do not leave the stresses out of the rate. \\(\\lambda(x)\\) already carries them, and this is not a series-product formula. ASQ Certified Reliability Engineer Handbook, Equation 10.11.",
+          "excerpt": "CRE-10.11 Equation 10.11 IV. Reliability Planning, Testing, and Modeling System and life models R(t)=e^{-\\lambda(x)\\, t} Use: After the stresses are folded into the failure rate \\(\\lambda(x)\\), reliability at time \\(t\\) is \\(e^{-\\lambda(x) t}\\). Exam trap: Do…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-11-1",
+          "heading": "Sample size for a zero-failure test",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Design and demonstration"
+          ],
+          "text": "CRE-11.1 Equation 11.1 V. Lifecycle Reliability Design and demonstration n=\\frac{\\ln(1-\\text{confidence})}{\\ln(\\text{reliability})} Use: Both the confidence complement and the reliability are below 1, so both logarithms are negative and the sample size is positive. Exam trap: Using the confidence itself, instead of one minus the confidence, changes the numerator. Chapter 8 writes the same exponential sample size as log of alpha over log of R, with alpha equal to one minus the confidence. ASQ Certified Reliability Engineer Handbook, Equation 11.1.",
+          "excerpt": "CRE-11.1 Equation 11.1 V. Lifecycle Reliability Design and demonstration n=\\frac{\\ln(1-\\text{confidence})}{\\ln(\\text{reliability})} Use: Both the confidence complement and the reliability are below 1, so both logarithms are negative and the sample size is…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-11-2",
+          "heading": "Sample size for a continuous distribution",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Design and demonstration"
+          ],
+          "text": "CRE-11.2 Equation 11.2 V. Lifecycle Reliability Design and demonstration n=\\left(\\frac{Z\\sigma}{E}\\right)^{2} Use: \\(Z\\) is the normal factor, \\(\\sigma\\) is the standard deviation, and \\(E\\) is the margin. Exam trap: The ratio is squared. Stopping before the square understates the sample. ASQ Certified Reliability Engineer Handbook, Equation 11.2.",
+          "excerpt": "CRE-11.2 Equation 11.2 V. Lifecycle Reliability Design and demonstration n=\\left(\\frac{Z\\sigma}{E}\\right)^{2} Use: \\(Z\\) is the normal factor, \\(\\sigma\\) is the standard deviation, and \\(E\\) is the margin. Exam trap: The ratio is squared. Stopping before the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-11-3",
+          "heading": "Factor of safety",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Design and demonstration"
+          ],
+          "text": "CRE-11.3 Equation 11.3 V. Lifecycle Reliability Design and demonstration \\text{factor of safety}=\\frac{\\text{strength}}{\\text{stress}} Use: Divide the strength by the stress applied. Exam trap: A factor below 1 means the stress is larger than the strength. ASQ Certified Reliability Engineer Handbook, Equation 11.3.",
+          "excerpt": "CRE-11.3 Equation 11.3 V. Lifecycle Reliability Design and demonstration \\text{factor of safety}=\\frac{\\text{strength}}{\\text{stress}} Use: Divide the strength by the stress applied. Exam trap: A factor below 1 means the stress is larger than the strength.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-11-4",
+          "heading": "Margin of safety",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Design and demonstration"
+          ],
+          "text": "CRE-11.4 Equation 11.4 V. Lifecycle Reliability Design and demonstration \\text{margin of safety}=\\frac{\\text{strength}}{\\text{stress}}-1 Use: The margin is the factor of safety minus 1. Exam trap: Reporting the factor of safety itself overstates the margin by 1. ASQ Certified Reliability Engineer Handbook, Equation 11.4.",
+          "excerpt": "CRE-11.4 Equation 11.4 V. Lifecycle Reliability Design and demonstration \\text{margin of safety}=\\frac{\\text{strength}}{\\text{stress}}-1 Use: The margin is the factor of safety minus 1. Exam trap: Reporting the factor of safety itself overstates the margin by…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-12-1",
+          "heading": "Availability from MTBF and MTTR",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-12.1 Equation 12.1 V. Lifecycle Reliability Maintainability and spares A=\\frac{\\mathrm{MTBF}}{\\mathrm{MTBF}+\\mathrm{MTTR}} Use: The handbook's worked example divides MTBF by MTBF plus MTTR. Exam trap: The title mentions MTTF. Use the mean the problem actually gives, and keep the repair time in the denominator. ASQ Certified Reliability Engineer Handbook, Equation 12.1.",
+          "excerpt": "CRE-12.1 Equation 12.1 V. Lifecycle Reliability Maintainability and spares A=\\frac{\\mathrm{MTBF}}{\\mathrm{MTBF}+\\mathrm{MTTR}} Use: The handbook's worked example divides MTBF by MTBF plus MTTR. Exam trap: The title mentions MTTF. Use the mean the problem…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-13-1",
+          "heading": "Inherent availability",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-13.1 Equation 13.1 V. Lifecycle Reliability Maintainability and spares A_i=\\frac{\\mathrm{MTBF}}{\\mathrm{MTBF}+\\mathrm{MTTR}} Use: Inherent availability uses active repair time only. Exam trap: Logistics delay does not belong in this denominator. ASQ Certified Reliability Engineer Handbook, Equation 13.1.",
+          "excerpt": "CRE-13.1 Equation 13.1 V. Lifecycle Reliability Maintainability and spares A_i=\\frac{\\mathrm{MTBF}}{\\mathrm{MTBF}+\\mathrm{MTTR}} Use: Inherent availability uses active repair time only. Exam trap: Logistics delay does not belong in this denominator. ASQ…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-13-2",
+          "heading": "Achieved availability",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-13.2 Equation 13.2 V. Lifecycle Reliability Maintainability and spares A_a=\\frac{\\mathrm{MTBM}}{\\mathrm{MTBM}+\\mathrm{MMT}} Use: Achieved availability uses the mean time between maintenance and the mean maintenance time. Exam trap: MTBF and MTTR answer the inherent question, not this one. ASQ Certified Reliability Engineer Handbook, Equation 13.2.",
+          "excerpt": "CRE-13.2 Equation 13.2 V. Lifecycle Reliability Maintainability and spares A_a=\\frac{\\mathrm{MTBM}}{\\mathrm{MTBM}+\\mathrm{MMT}} Use: Achieved availability uses the mean time between maintenance and the mean maintenance time. Exam trap: MTBF and MTTR answer…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-13-3",
+          "heading": "Operational availability",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-13.3 Equation 13.3 V. Lifecycle Reliability Maintainability and spares A_o=\\frac{\\text{uptime}}{\\text{uptime}+\\text{downtime}} Use: Operational availability keeps every delay that is part of downtime. Exam trap: Removing logistics delay turns the result into an inherent or achieved measure. ASQ Certified Reliability Engineer Handbook, Equation 13.3.",
+          "excerpt": "CRE-13.3 Equation 13.3 V. Lifecycle Reliability Maintainability and spares A_o=\\frac{\\text{uptime}}{\\text{uptime}+\\text{downtime}} Use: Operational availability keeps every delay that is part of downtime. Exam trap: Removing logistics delay turns the result…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-13-4",
+          "heading": "MTBF from an operating record",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-13.4 Equation 13.4 V. Lifecycle Reliability Maintainability and spares \\mathrm{MTBF}=\\frac{\\text{operating hours}}{\\text{failures}} Use: Divide the operating hours by the number of failures in that record. Exam trap: Calendar hours are too large when the item was not operating the whole time. ASQ Certified Reliability Engineer Handbook, Equation 13.4.",
+          "excerpt": "CRE-13.4 Equation 13.4 V. Lifecycle Reliability Maintainability and spares \\mathrm{MTBF}=\\frac{\\text{operating hours}}{\\text{failures}} Use: Divide the operating hours by the number of failures in that record. Exam trap: Calendar hours are too large when the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-13-5",
+          "heading": "MTBF from the failure rate",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-13.5 Equation 13.5 V. Lifecycle Reliability Maintainability and spares \\mathrm{MTBF}=\\frac{1}{\\lambda} Use: Invert the constant failure rate. Exam trap: The failure rate is not already a mean time. ASQ Certified Reliability Engineer Handbook, Equation 13.5.",
+          "excerpt": "CRE-13.5 Equation 13.5 V. Lifecycle Reliability Maintainability and spares \\mathrm{MTBF}=\\frac{1}{\\lambda} Use: Invert the constant failure rate. Exam trap: The failure rate is not already a mean time. ASQ Certified Reliability Engineer Handbook, Equation…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-13-6",
+          "heading": "System mean repair time",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-13.6 Equation 13.6 V. Lifecycle Reliability Maintainability and spares \\mathrm{MTTR}_{\\mathrm{system}}=\\frac{\\sum_{i=1}^{n}\\lambda_i t_i}{\\sum_{i=1}^{n}\\lambda_i} Use: Weight each element's repair time by its failure rate. Exam trap: A plain average treats a rare failure as equal to a frequent one. ASQ Certified Reliability Engineer Handbook, Equation 13.6.",
+          "excerpt": "CRE-13.6 Equation 13.6 V. Lifecycle Reliability Maintainability and spares \\mathrm{MTTR}_{\\mathrm{system}}=\\frac{\\sum_{i=1}^{n}\\lambda_i t_i}{\\sum_{i=1}^{n}\\lambda_i} Use: Weight each element's repair time by its failure rate. Exam trap: A plain average…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-13-7",
+          "heading": "Moving average for spare parts",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-13.7 Equation 13.7 V. Lifecycle Reliability Maintainability and spares R_t=\\frac{X_{t-1}+X_{t-2}+\\cdots+X_{t-n}}{n} Use: The forecast is the average of the last n demands. Exam trap: The current period is not in the average. The newest demand used is the previous period. ASQ Certified Reliability Engineer Handbook, Equation 13.7.",
+          "excerpt": "CRE-13.7 Equation 13.7 V. Lifecycle Reliability Maintainability and spares R_t=\\frac{X_{t-1}+X_{t-2}+\\cdots+X_{t-n}}{n} Use: The forecast is the average of the last n demands. Exam trap: The current period is not in the average. The newest demand used is the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-13-8",
+          "heading": "Weighted moving average for spare parts",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-13.8 Equation 13.8 V. Lifecycle Reliability Maintainability and spares R_t=\\frac{nX_{t-1}+(n-1)X_{t-2}+\\cdots+X_{t-n}}{n+(n-1)+\\cdots+1} Use: More recent demands get the larger weights, and the weights in the denominator sum to the same total. Exam trap: Using n as the denominator ignores the smaller weights. ASQ Certified Reliability Engineer Handbook, Equation 13.8.",
+          "excerpt": "CRE-13.8 Equation 13.8 V. Lifecycle Reliability Maintainability and spares R_t=\\frac{nX_{t-1}+(n-1)X_{t-2}+\\cdots+X_{t-n}}{n+(n-1)+\\cdots+1} Use: More recent demands get the larger weights, and the weights in the denominator sum to the same total. Exam trap:…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-13-9",
+          "heading": "Single exponential smoothing for spare parts",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-13.9 Equation 13.9 V. Lifecycle Reliability Maintainability and spares R_t=\\alpha X_{t-1}+(1-\\alpha)R_{t-1} Use: \\(\\alpha\\) is the smoothing weight, usually 0.1 to 0.4. A larger \\(\\alpha\\) follows recent demand more closely. Exam trap: \\(\\alpha\\) is not the failure rate. ASQ Certified Reliability Engineer Handbook, Equation 13.9.",
+          "excerpt": "CRE-13.9 Equation 13.9 V. Lifecycle Reliability Maintainability and spares R_t=\\alpha X_{t-1}+(1-\\alpha)R_{t-1} Use: \\(\\alpha\\) is the smoothing weight, usually 0.1 to 0.4. A larger \\(\\alpha\\) follows recent demand more closely. Exam trap: \\(\\alpha\\) is not…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-oee",
+          "heading": "Overall equipment effectiveness",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Life and failure measures"
+          ],
+          "text": "CRE-OEE OEE I. Reliability Fundamentals Life and failure measures \\begin{aligned} \\mathrm{OEE}&=\\mathrm{Availability}\\times\\mathrm{Performance}\\times\\mathrm{Quality}\\\\ \\mathrm{Availability}&=\\frac{\\text{actual operating time}}{\\text{planned production time}}\\\\ \\mathrm{Performance}&=\\frac{\\text{total pieces}/\\text{actual operating time}}{\\text{ideal pieces}/\\text{time period}}\\\\ \\mathrm{Quality}&=\\frac{\\text{good pieces}}{\\text{total pieces}} \\end{aligned} Use: OEE is the product of the three ratios. Planned production time is the shift less breaks. Actual operating time subtracts setup and maintenance downtime. Exam trap: Do not add the three ratios. A zero in any one of them makes OEE zero. ASQ Certified Reliability Engineer Handbook, Chapter 1 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-OEE OEE I. Reliability Fundamentals Life and failure measures \\begin{aligned} \\mathrm{OEE}&=\\mathrm{Availability}\\times\\mathrm{Performance}\\times\\mathrm{Quality}\\\\ \\mathrm{Availability}&=\\frac{\\text{actual operating time}}{\\text{planned production…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-duan",
+          "heading": "Duane cumulative-failure plot",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "I. Reliability Fundamentals",
+            "Life and failure measures"
+          ],
+          "text": "CRE-DUAN DUAN I. Reliability Fundamentals Life and failure measures \\log_{10}\\left(\\frac{n(T)}{T}\\right)=-\\alpha\\log_{10}(T)+b Use: On log-log paper the cumulative failure rate n(T)/T is a straight line in cumulative time T. Exam trap: n(T) is the cumulative failure count, not the instantaneous rate. The slope is negative when reliability is improving. ASQ Certified Reliability Engineer Handbook, Chapter 1 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-DUAN DUAN I. Reliability Fundamentals Life and failure measures \\log_{10}\\left(\\frac{n(T)}{T}\\right)=-\\alpha\\log_{10}(T)+b Use: On log-log paper the cumulative failure rate n(T)/T is a straight line in cumulative time T. Exam trap: n(T) is the cumulative…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-var",
+          "heading": "Sample variance and standard deviation",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-VAR VAR III. Probability and Statistics for Reliability Descriptive statistics and regression s^{2}=\\frac{1}{n-1}\\sum_{i=1}^{n}(x_i-\\bar{x})^{2},\\qquad s=\\sqrt{s^{2}} Use: The handbook's point estimate of variance divides by n minus 1. Exam trap: Equation 6.1 divides the mean by n. Using n here understates the variance. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-VAR VAR III. Probability and Statistics for Reliability Descriptive statistics and regression s^{2}=\\frac{1}{n-1}\\sum_{i=1}^{n}(x_i-\\bar{x})^{2},\\qquad s=\\sqrt{s^{2}} Use: The handbook's point estimate of variance divides by n minus 1. Exam trap: Equation…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-bin",
+          "heading": "Binomial distribution",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-BIN BIN III. Probability and Statistics for Reliability Probability \\begin{aligned} \\Pr(X=x\\mid n,p)&=\\binom{n}{x}p^{x}(1-p)^{n-x}\\\\ \\Pr(X\\le x\\mid n,p)&=\\sum_{k=0}^{x}\\binom{n}{k}p^{k}(1-p)^{n-k} \\end{aligned} Use: Use it for a fixed number of independent trials with the same success probability. Exam trap: The combination, not the permutation, is the coefficient. Order does not matter inside one count. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-BIN BIN III. Probability and Statistics for Reliability Probability \\begin{aligned} \\Pr(X=x\\mid n,p)&=\\binom{n}{x}p^{x}(1-p)^{n-x}\\\\ \\Pr(X\\le x\\mid n,p)&=\\sum_{k=0}^{x}\\binom{n}{k}p^{k}(1-p)^{n-k} \\end{aligned} Use: Use it for a fixed number of…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-nbin",
+          "heading": "Negative binomial distribution",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-NBIN NBIN III. Probability and Statistics for Reliability Probability \\begin{aligned} \\Pr(X=n\\mid r,p)&=\\binom{n-1}{r-1}p^{r}(1-p)^{n-r},\\quad n\\ge r\\\\ E(X)&=\\frac{r}{p} \\end{aligned} Use: X is the trial number on which the r-th event occurs. Exam trap: The binomial counts events in a fixed n. This distribution lets the number of trials vary. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-NBIN NBIN III. Probability and Statistics for Reliability Probability \\begin{aligned} \\Pr(X=n\\mid r,p)&=\\binom{n-1}{r-1}p^{r}(1-p)^{n-r},\\quad n\\ge r\\\\ E(X)&=\\frac{r}{p} \\end{aligned} Use: X is the trial number on which the r-th event occurs. Exam trap:…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-geo",
+          "heading": "Geometric distribution",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-GEO GEO III. Probability and Statistics for Reliability Probability \\Pr(X=n)=p(1-p)^{n-1},\\qquad E(X)=\\frac{1}{p} Use: The geometric is the negative binomial with r equal to 1: trials until the first event. Exam trap: The exponent is n minus 1, not n. The mean is 1/p, not p. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-GEO GEO III. Probability and Statistics for Reliability Probability \\Pr(X=n)=p(1-p)^{n-1},\\qquad E(X)=\\frac{1}{p} Use: The geometric is the negative binomial with r equal to 1: trials until the first event. Exam trap: The exponent is n minus 1, not n. The…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-hyp",
+          "heading": "Hypergeometric distribution",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-HYP HYP III. Probability and Statistics for Reliability Probability \\Pr(X=k\\mid N,K,n)=\\frac{\\binom{K}{k}\\binom{N-K}{n-k}}{\\binom{N}{n}} Use: A sample of n is drawn without replacement from N items, of which K are the type being counted. Exam trap: The binomial allows replacement. Without replacement, the probability changes after each draw. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-HYP HYP III. Probability and Statistics for Reliability Probability \\Pr(X=k\\mid N,K,n)=\\frac{\\binom{K}{k}\\binom{N-K}{n-k}}{\\binom{N}{n}} Use: A sample of n is drawn without replacement from N items, of which K are the type being counted. Exam trap: The…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-poi",
+          "heading": "Poisson distribution",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-POI POI III. Probability and Statistics for Reliability Probability \\begin{aligned} \\Pr(X=x\\mid\\lambda)&=\\frac{e^{-\\lambda}\\lambda^{x}}{x!}\\\\ \\Pr(X\\le x\\mid\\lambda)&=\\sum_{k=0}^{x}\\frac{e^{-\\lambda}\\lambda^{k}}{k!} \\end{aligned} Use: Use it for a count in a fixed window when the mean rate is constant. Exam trap: The mean is lambda, not the window length. Include lambda in both the power and the exponential. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-POI POI III. Probability and Statistics for Reliability Probability \\begin{aligned} \\Pr(X=x\\mid\\lambda)&=\\frac{e^{-\\lambda}\\lambda^{x}}{x!}\\\\ \\Pr(X\\le x\\mid\\lambda)&=\\sum_{k=0}^{x}\\frac{e^{-\\lambda}\\lambda^{k}}{k!} \\end{aligned} Use: Use it for a count in…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-exp",
+          "heading": "Exponential density and distribution",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-EXP EXP III. Probability and Statistics for Reliability Probability \\begin{aligned} f(t)&=\\lambda e^{-\\lambda t}\\\\ F(t)&=1-e^{-\\lambda t} \\end{aligned} Use: The density is the constant rate times the reliability. The cdf is one minus that reliability. Exam trap: Equation 2.14 is the reliability e to the minus lambda t. Do not report the density as a reliability. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-EXP EXP III. Probability and Statistics for Reliability Probability \\begin{aligned} f(t)&=\\lambda e^{-\\lambda t}\\\\ F(t)&=1-e^{-\\lambda t} \\end{aligned} Use: The density is the constant rate times the reliability. The cdf is one minus that reliability.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-wei",
+          "heading": "Weibull distribution",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-WEI WEI III. Probability and Statistics for Reliability Probability \\begin{aligned} f(t)&=\\frac{\\beta}{\\eta}\\left(\\frac{t}{\\eta}\\right)^{\\beta-1}\\exp\\left[-\\left(\\frac{t}{\\eta}\\right)^{\\beta}\\right]\\\\ F(t)&=1-\\exp\\left[-\\left(\\frac{t}{\\eta}\\right)^{\\beta}\\right]\\\\ R(t)&=\\exp\\left[-\\left(\\frac{t}{\\eta}\\right)^{\\beta}\\right]\\\\ E(X)&=\\eta\\,\\Gamma\\left(1+\\frac{1}{\\beta}\\right) \\\\ \\mathrm{SD}(X)&=\\eta\\sqrt{\\Gamma\\left(1+\\frac{2}{\\beta}\\right)-\\left[\\Gamma\\left(1+\\frac{1}{\\beta}\\right)\\right]^{2}} \\end{aligned} Use: Beta is the shape and eta is the scale. The mean multiplies the scale by a gamma value. The reference table also gives the standard deviation. It writes the gamma arguments as 2 over beta plus 1 and 1 over beta plus 1, which are the same values. Exam trap: At the characteristic life t equals eta, reliability is e to the minus 1, about 0.368, not 0.50. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-WEI WEI III. Probability and Statistics for Reliability Probability \\begin{aligned} f(t)&=\\frac{\\beta}{\\eta}\\left(\\frac{t}{\\eta}\\right)^{\\beta-1}\\exp\\left[-\\left(\\frac{t}{\\eta}\\right)^{\\beta}\\right]\\\\…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-nor",
+          "heading": "Normal distribution",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-NOR NOR III. Probability and Statistics for Reliability Probability \\begin{aligned} f(t)&=\\frac{1}{\\sigma\\sqrt{2\\pi}}\\exp\\left[-\\frac{1}{2}\\left(\\frac{t-\\mu}{\\sigma}\\right)^{2}\\right]\\\\ F(t)&=\\Phi\\left(\\frac{t-\\mu}{\\sigma}\\right)\\\\ Z&=\\frac{X-\\mu}{\\sigma} \\end{aligned} Use: Standardize before reading a normal table. The handbook's reference table writes the same density with the square completed in the exponent. Exam trap: One integral display puts x, rather than the upper limit, inside Phi. Use the limit you actually integrated to. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-NOR NOR III. Probability and Statistics for Reliability Probability \\begin{aligned} f(t)&=\\frac{1}{\\sigma\\sqrt{2\\pi}}\\exp\\left[-\\frac{1}{2}\\left(\\frac{t-\\mu}{\\sigma}\\right)^{2}\\right]\\\\ F(t)&=\\Phi\\left(\\frac{t-\\mu}{\\sigma}\\right)\\\\ Z&=\\frac{X-\\mu}{\\sigma}…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-logn",
+          "heading": "Lognormal distribution",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-LOGN LOGN III. Probability and Statistics for Reliability Probability \\begin{aligned} \\ln X&\\sim\\mathrm{Normal}(\\mu,\\sigma^{2})\\\\ f(x)&=\\frac{1}{x\\sqrt{2\\pi\\sigma^{2}}}\\exp\\left[-\\frac{(\\ln x-\\mu)^{2}}{2\\sigma^{2}}\\right]\\\\ E(X)&=\\exp\\left(\\mu+\\frac{\\sigma^{2}}{2}\\right)\\\\ \\mathrm{SD}(X)&=\\sqrt{\\exp(2\\mu+\\sigma^{2})\\left(\\exp(\\sigma^{2})-1\\right)} \\end{aligned} Use: Mu and sigma are the mean and standard deviation of the natural log, not of X. This is the reference-table density. Exam trap: A nearby display puts sigma squared in the denominator outside the square root. Use the reference-table form, with sigma inside the square root and x in front. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-LOGN LOGN III. Probability and Statistics for Reliability Probability \\begin{aligned} \\ln X&\\sim\\mathrm{Normal}(\\mu,\\sigma^{2})\\\\ f(x)&=\\frac{1}{x\\sqrt{2\\pi\\sigma^{2}}}\\exp\\left[-\\frac{(\\ln x-\\mu)^{2}}{2\\sigma^{2}}\\right]\\\\…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-haz",
+          "heading": "Hazard function",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-HAZ HAZ III. Probability and Statistics for Reliability Data and life functions h(t)=\\frac{f(t)}{R(t)} Use: The hazard is the density among the units still surviving. Exam trap: Do not divide the density by the cdf. The denominator is the reliability. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-HAZ HAZ III. Probability and Statistics for Reliability Data and life functions h(t)=\\frac{f(t)}{R(t)} Use: The hazard is the density among the units still surviving. Exam trap: Do not divide the density by the cdf. The denominator is the reliability. ASQ…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-hcu",
+          "heading": "Cumulative hazard",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-HCU HCU III. Probability and Statistics for Reliability Data and life functions H(t)=\\int_{0}^{t}h(x)\\,dx=-\\ln R(t) Use: The cumulative hazard is the area under the hazard, and it is also minus the log of reliability. Exam trap: Reliability is e to the minus H(t). Dropping the minus makes the result greater than 1. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-HCU HCU III. Probability and Statistics for Reliability Data and life functions H(t)=\\int_{0}^{t}h(x)\\,dx=-\\ln R(t) Use: The cumulative hazard is the area under the hazard, and it is also minus the log of reliability. Exam trap: Reliability is e to the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-cond",
+          "heading": "Conditional reliability",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-COND COND III. Probability and Statistics for Reliability Data and life functions R(t+M\\mid t)=\\frac{R(t+M)}{R(t)} Use: Given survival to t, the probability of surviving an additional mission of length M is the ratio of the two reliabilities. Exam trap: Do not multiply R(t) by R(M) unless the hazard is constant. That product is the exponential special case. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-COND COND III. Probability and Statistics for Reliability Data and life functions R(t+M\\mid t)=\\frac{R(t+M)}{R(t)} Use: Given survival to t, the probability of surviving an additional mission of length M is the ratio of the two reliabilities. Exam trap:…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-km",
+          "heading": "Kaplan-Meier reliability",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-KM KM III. Probability and Statistics for Reliability Data and life functions \\hat{R}(t)=\\prod_{i:\\,t_i\\le t}\\left(1-\\frac{r_i}{n_i}\\right) Use: At each failure time, multiply by one minus the failures in that step divided by the number still at risk. Exam trap: Censored units leave the risk set. They are not counted as failures in r sub i. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-KM KM III. Probability and Statistics for Reliability Data and life functions \\hat{R}(t)=\\prod_{i:\\,t_i\\le t}\\left(1-\\frac{r_i}{n_i}\\right) Use: At each failure time, multiply by one minus the failures in that step divided by the number still at risk.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-wpp",
+          "heading": "Weibull probability-plot line",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-WPP WPP III. Probability and Statistics for Reliability Data and life functions \\ln\\ln\\left(\\frac{1}{1-F(t)}\\right)=\\beta\\ln t-\\beta\\ln\\eta Use: A Weibull sample is a straight line when the vertical axis is the double log of one over one minus F. Exam trap: The slope is beta. Swapping the axes changes the slope to 1/beta. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-WPP WPP III. Probability and Statistics for Reliability Data and life functions \\ln\\ln\\left(\\frac{1}{1-F(t)}\\right)=\\beta\\ln t-\\beta\\ln\\eta Use: A Weibull sample is a straight line when the vertical axis is the double log of one over one minus F. Exam…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-chi",
+          "heading": "Chi-square relationship and Pearson statistic",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-CHI CHI III. Probability and Statistics for Reliability Descriptive statistics and regression \\begin{aligned} \\frac{(n-1)s^{2}}{\\sigma^{2}}&\\sim\\chi^{2}_{n-1}\\\\ X^{2}&=\\sum_{i=1}^{k}\\frac{(O_i-E_i)^{2}}{E_i} \\end{aligned} Use: The first line is the sampling distribution of the variance. The second compares observed and expected counts. Exam trap: Expected counts belong in the denominator. Squared differences divided by observed counts are a different statistic. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-CHI CHI III. Probability and Statistics for Reliability Descriptive statistics and regression \\begin{aligned} \\frac{(n-1)s^{2}}{\\sigma^{2}}&\\sim\\chi^{2}_{n-1}\\\\ X^{2}&=\\sum_{i=1}^{k}\\frac{(O_i-E_i)^{2}}{E_i} \\end{aligned} Use: The first line is the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-t1",
+          "heading": "One-sample t statistic",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-T1 T1 III. Probability and Statistics for Reliability Descriptive statistics and regression t^{*}=\\frac{\\hat{X}-\\mu_0}{\\hat{\\sigma}/\\sqrt{n}}\\sim t_{n-1} Use: Compare the sample mean with the hypothesized mean, in standard-error units. A paired test is this same statistic on the differences. Exam trap: The divisor is s over square root of n, not s itself. The degrees of freedom are n minus 1. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-T1 T1 III. Probability and Statistics for Reliability Descriptive statistics and regression t^{*}=\\frac{\\hat{X}-\\mu_0}{\\hat{\\sigma}/\\sqrt{n}}\\sim t_{n-1} Use: Compare the sample mean with the hypothesized mean, in standard-error units. A paired test is…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-frat",
+          "heading": "F ratio of two chi-square variables",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-FRAT FRAT III. Probability and Statistics for Reliability Descriptive statistics and regression F^{*}=\\frac{\\chi^{2}_{1}/\\nu_1}{\\chi^{2}_{2}/\\nu_2}\\sim F_{\\nu_1,\\nu_2} Use: An F for two variances is this ratio. Each chi-square is scaled by its own degrees of freedom. Exam trap: The larger sample variance is not automatically the numerator. The handbook puts the hypothesized direction in the numerator. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-FRAT FRAT III. Probability and Statistics for Reliability Descriptive statistics and regression F^{*}=\\frac{\\chi^{2}_{1}/\\nu_1}{\\chi^{2}_{2}/\\nu_2}\\sim F_{\\nu_1,\\nu_2} Use: An F for two variances is this ratio. Each chi-square is scaled by its own degrees…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-welch",
+          "heading": "Two-sample t, unequal variances",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-WELCH WEL III. Probability and Statistics for Reliability Descriptive statistics and regression \\begin{aligned} t^{*}&=\\frac{(\\hat{X}_1-\\hat{X}_2)-\\mu_0}{\\sqrt{s_1^{2}/n_1+s_2^{2}/n_2}}\\\\ \\nu&=\\frac{(s_1^{2}/n_1+s_2^{2}/n_2)^{2}}{(s_1^{2}/n_1)^{2}/(n_1-1)+(s_2^{2}/n_2)^{2}/(n_2-1)} \\end{aligned} Use: The handbook uses this Welch form, and the Satterthwaite degrees of freedom, when the two sigmas are not pooled. Exam trap: Do not use n1 plus n2 minus 2 with this standard error. Those degrees of freedom belong to the pooled test. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-WELCH WEL III. Probability and Statistics for Reliability Descriptive statistics and regression \\begin{aligned} t^{*}&=\\frac{(\\hat{X}_1-\\hat{X}_2)-\\mu_0}{\\sqrt{s_1^{2}/n_1+s_2^{2}/n_2}}\\\\…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-pool",
+          "heading": "Two-sample t, pooled variance",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-POOL POOL III. Probability and Statistics for Reliability Descriptive statistics and regression \\begin{aligned} s_p&=\\sqrt{\\frac{(n_1-1)s_1^{2}+(n_2-1)s_2^{2}}{n_1+n_2-2}}\\\\ t^{*}&=\\frac{(\\hat{X}_1-\\hat{X}_2)-\\mu_0}{s_p\\sqrt{1/n_1+1/n_2}} \\end{aligned} Use: Pool when the handbook says the variances may be combined. The degrees of freedom are n1 plus n2 minus 2. Exam trap: The pooled standard deviation is not the average of the two standard deviations. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-POOL POOL III. Probability and Statistics for Reliability Descriptive statistics and regression \\begin{aligned} s_p&=\\sqrt{\\frac{(n_1-1)s_1^{2}+(n_2-1)s_2^{2}}{n_1+n_2-2}}\\\\ t^{*}&=\\frac{(\\hat{X}_1-\\hat{X}_2)-\\mu_0}{s_p\\sqrt{1/n_1+1/n_2}} \\end{aligned}…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-zp",
+          "heading": "One-proportion z statistic",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-ZP ZP III. Probability and Statistics for Reliability Probability z^{*}=\\frac{\\hat{p}-p_0}{\\sqrt{\\hat{p}(1-\\hat{p})/n}} Use: The handbook's displayed proportion statistic puts the estimated proportion in the standard error. Exam trap: Some exams put the null proportion p0 under the square root instead. Read which standard error the question is using. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-ZP ZP III. Probability and Statistics for Reliability Probability z^{*}=\\frac{\\hat{p}-p_0}{\\sqrt{\\hat{p}(1-\\hat{p})/n}} Use: The handbook's displayed proportion statistic puts the estimated proportion in the standard error. Exam trap: Some exams put the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-fpc",
+          "heading": "Finite population correction",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-FPC FPC III. Probability and Statistics for Reliability Data and life functions \\mathrm{fpc}=\\sqrt{\\frac{N-n}{N-1}} Use: Multiply a standard error by this factor when the sample is a noticeable part of a finite population. Exam trap: The correction is less than 1. Using it when the population is effectively infinite shrinks the interval without a reason. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-FPC FPC III. Probability and Statistics for Reliability Data and life functions \\mathrm{fpc}=\\sqrt{\\frac{N-n}{N-1}} Use: Multiply a standard error by this factor when the sample is a noticeable part of a finite population. Exam trap: The correction is…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-r3",
+          "heading": "Rule of 3",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-R3 R3 III. Probability and Statistics for Reliability Data and life functions n\\approx\\frac{3}{p},\\qquad (0,\\ 3/n)\\ \\text{for a small proportion} Use: With no events expected, the sample size is about 3 divided by the proportion of interest. The matching approximate interval for a small p is 0 to 3/n. Exam trap: This is an approximation for a rare binomial event. Equation 11.1 is the exact zero-failure sample size. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-R3 R3 III. Probability and Statistics for Reliability Data and life functions n\\approx\\frac{3}{p},\\qquad (0,\\ 3/n)\\ \\text{for a small proportion} Use: With no events expected, the sample size is about 3 divided by the proportion of interest. The matching…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-rlb",
+          "heading": "Lower confidence bound on reliability",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-RLB RLB III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} R_L&=\\alpha^{1/n}\\\\ R_L&=\\frac{n-r}{(n-r)+(r+1)F_{\\alpha,\\nu_1,\\nu_2}}\\\\ \\nu_1&=2(r+1),\\qquad \\nu_2=2(n-r) \\end{aligned} Use: The first bound is the no-failure test. The second allows r failures and uses an F critical value. Exam trap: Alpha is the error rate, not the confidence. A 95 percent bound uses alpha equal to 0.05. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-RLB RLB III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} R_L&=\\alpha^{1/n}\\\\ R_L&=\\frac{n-r}{(n-r)+(r+1)F_{\\alpha,\\nu_1,\\nu_2}}\\\\ \\nu_1&=2(r+1),\\qquad \\nu_2=2(n-r) \\end{aligned} Use: The first bound is the no-failure…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-pcl",
+          "heading": "Exact interval for a proportion",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-PCL PCL III. Probability and Statistics for Reliability Probability \\frac{\\nu_1 F_{\\alpha,\\nu_1,\\nu_2}}{\\nu_2+\\nu_1 F_{\\alpha,\\nu_1,\\nu_2}} Use: The handbook's one-sided Clopper-Pearson limit has this form. For the upper limit, nu1 is 2(x+1) and nu2 is 2(n-x). For the lower limit, nu1 is 2x and nu2 is 2(n-x+1). A two-sided interval uses alpha over 2. Exam trap: The upper and lower limits do not use the same degrees of freedom. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-PCL PCL III. Probability and Statistics for Reliability Probability \\frac{\\nu_1 F_{\\alpha,\\nu_1,\\nu_2}}{\\nu_2+\\nu_1 F_{\\alpha,\\nu_1,\\nu_2}} Use: The handbook's one-sided Clopper-Pearson limit has this form. For the upper limit, nu1 is 2(x+1) and nu2 is…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-expm",
+          "heading": "Confidence limits for an exponential mean",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-EXPM EXPM III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} \\hat{\\theta}&=\\frac{T}{r}\\\\ \\theta_{L,\\ \\mathrm{time}}&=\\frac{2T}{\\chi^{2}_{\\alpha/2,\\ \\nu=2r+2}}\\\\ \\theta_{L,\\ \\mathrm{failure}}&=\\frac{2T}{\\chi^{2}_{\\alpha/2,\\ \\nu=2r}}\\\\ \\theta_U&=\\frac{2T}{\\chi^{2}_{1-\\alpha/2,\\ \\nu=2r}} \\end{aligned} Use: T is the total time on failed and unfailed units. A time-censored test ends at a chosen time and its lower limit uses 2r+2 degrees of freedom. A failure-censored test ends on a chosen failure and its lower limit uses 2r. The upper limit uses 2r for both. A one-sided limit uses alpha instead of alpha over 2. Exam trap: Swapping the chi-square tails swaps the lower and upper limits. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-EXPM EXPM III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} \\hat{\\theta}&=\\frac{T}{r}\\\\ \\theta_{L,\\ \\mathrm{time}}&=\\frac{2T}{\\chi^{2}_{\\alpha/2,\\ \\nu=2r+2}}\\\\ \\theta_{L,\\…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-cp",
+          "heading": "Process capability Cp",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-CP CP III. Probability and Statistics for Reliability Data and life functions C_p=\\frac{\\mathrm{USL}-\\mathrm{LSL}}{6\\sigma} Use: Cp compares the specification width with six standard deviations of a stable process. The handbook's general statement is engineering tolerance divided by natural tolerance. Exam trap: One worked display writes UCL minus LCL in this ratio. Those letters are control-chart limits. The specification width used with Cpk is USL minus LSL. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-CP CP III. Probability and Statistics for Reliability Data and life functions C_p=\\frac{\\mathrm{USL}-\\mathrm{LSL}}{6\\sigma} Use: Cp compares the specification width with six standard deviations of a stable process. The handbook's general statement is…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-cpk",
+          "heading": "Process capability Cpk",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-CPK CPK III. Probability and Statistics for Reliability Data and life functions C_{pk}=\\min\\left(\\frac{\\mu-\\mathrm{LSL}}{3\\sigma},\\frac{\\mathrm{USL}-\\mu}{3\\sigma}\\right) Use: Cpk uses the specification side that the mean is closer to. Exam trap: Cp ignores where the mean sits. Cpk is the smaller of the two one-sided ratios, so an off-center mean makes it smaller than Cp. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-CPK CPK III. Probability and Statistics for Reliability Data and life functions C_{pk}=\\min\\left(\\frac{\\mu-\\mathrm{LSL}}{3\\sigma},\\frac{\\mathrm{USL}-\\mu}{3\\sigma}\\right) Use: Cpk uses the specification side that the mean is closer to. Exam trap: Cp…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-tol",
+          "heading": "Statistical tolerance interval",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-TOL TOL III. Probability and Statistics for Reliability Data and life functions \\bar{x}\\pm K s Use: K is the handbook's normal tolerance factor for the stated confidence and population coverage. It is not a t critical value. Exam trap: A confidence interval estimates the mean. A tolerance interval is built to cover a proportion of the individual units. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-TOL TOL III. Probability and Statistics for Reliability Data and life functions \\bar{x}\\pm K s Use: K is the handbook's normal tolerance factor for the stated confidence and population coverage. It is not a t critical value. Exam trap: A confidence…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-xbar",
+          "heading": "X-bar and R chart limits",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-XBAR XBAR III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} \\mathrm{LCL}_{\\bar{X}}&=\\bar{\\bar{X}}-A_2\\bar{R}\\\\ \\mathrm{UCL}_{\\bar{X}}&=\\bar{\\bar{X}}+A_2\\bar{R}\\\\ \\mathrm{LCL}_{R}&=D_3\\bar{R}\\\\ \\mathrm{UCL}_{R}&=D_4\\bar{R} \\end{aligned} Use: Use the X-bar and R pair when the subgroup size is from 2 to 10. Exam trap: A2, D3, and D4 depend on the subgroup size. Do not reuse the constants from an individuals chart. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-XBAR XBAR III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} \\mathrm{LCL}_{\\bar{X}}&=\\bar{\\bar{X}}-A_2\\bar{R}\\\\ \\mathrm{UCL}_{\\bar{X}}&=\\bar{\\bar{X}}+A_2\\bar{R}\\\\ \\mathrm{LCL}_{R}&=D_3\\bar{R}\\\\…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-imr",
+          "heading": "Individuals and moving-range limits",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-IMR IMR III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} \\mathrm{LCL}_{X}&=\\bar{X}-E_2\\overline{mR}\\\\ \\mathrm{UCL}_{X}&=\\bar{X}+E_2\\overline{mR}\\\\ \\mathrm{LCL}_{mR}&=D_3\\overline{mR}\\\\ \\mathrm{UCL}_{mR}&=D_4\\overline{mR} \\end{aligned} Use: Use the individuals chart when each subgroup has one observation. Exam trap: The center of the individuals chart is a single bar, not the double bar used on an X-bar chart. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-IMR IMR III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} \\mathrm{LCL}_{X}&=\\bar{X}-E_2\\overline{mR}\\\\ \\mathrm{UCL}_{X}&=\\bar{X}+E_2\\overline{mR}\\\\ \\mathrm{LCL}_{mR}&=D_3\\overline{mR}\\\\…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-xbars",
+          "heading": "X-bar and s chart limits",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Data and life functions"
+          ],
+          "text": "CRE-XBARS XBARS III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} \\mathrm{LCL}_{\\bar{X}}&=\\bar{\\bar{X}}-A_3\\bar{s}\\\\ \\mathrm{UCL}_{\\bar{X}}&=\\bar{\\bar{X}}+A_3\\bar{s}\\\\ \\mathrm{LCL}_{s}&=B_3\\bar{s}\\\\ \\mathrm{UCL}_{s}&=B_4\\bar{s} \\end{aligned} Use: Use X-bar and s when the subgroup size is greater than 10. Exam trap: One table cell labels the upper X-bar limit as a limit for R-bar. The worked example, and the matching lower limit, put A3 on the X-bar chart. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-XBARS XBARS III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} \\mathrm{LCL}_{\\bar{X}}&=\\bar{\\bar{X}}-A_3\\bar{s}\\\\ \\mathrm{UCL}_{\\bar{X}}&=\\bar{\\bar{X}}+A_3\\bar{s}\\\\ \\mathrm{LCL}_{s}&=B_3\\bar{s}\\\\…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-pch",
+          "heading": "p chart limits",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-PCH PCH III. Probability and Statistics for Reliability Probability \\begin{aligned} p_i&=\\frac{D_i}{n_i}\\\\ \\mathrm{LCL}_{p}&=\\bar{p}-3\\sqrt{\\frac{\\bar{p}(1-\\bar{p})}{n_i}}\\\\ \\mathrm{UCL}_{p}&=\\bar{p}+3\\sqrt{\\frac{\\bar{p}(1-\\bar{p})}{n_i}} \\end{aligned} Use: The p chart plots the proportion defective. The limits change when the sample size changes. Exam trap: A negative calculated lower limit is plotted at zero. Do not extend it below zero. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-PCH PCH III. Probability and Statistics for Reliability Probability \\begin{aligned} p_i&=\\frac{D_i}{n_i}\\\\ \\mathrm{LCL}_{p}&=\\bar{p}-3\\sqrt{\\frac{\\bar{p}(1-\\bar{p})}{n_i}}\\\\ \\mathrm{UCL}_{p}&=\\bar{p}+3\\sqrt{\\frac{\\bar{p}(1-\\bar{p})}{n_i}} \\end{aligned}…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-npch",
+          "heading": "np chart limits",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-NPCH NPCH III. Probability and Statistics for Reliability Probability \\begin{aligned} \\mathrm{LCL}_{np}&=n\\bar{p}-3\\sqrt{n\\bar{p}(1-\\bar{p})}\\\\ \\mathrm{UCL}_{np}&=n\\bar{p}+3\\sqrt{n\\bar{p}(1-\\bar{p})} \\end{aligned} Use: The np chart plots the count defective when the sample size is constant. Exam trap: Do not use the np limits on a proportion. Divide by n first if the chart is a p chart. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-NPCH NPCH III. Probability and Statistics for Reliability Probability \\begin{aligned} \\mathrm{LCL}_{np}&=n\\bar{p}-3\\sqrt{n\\bar{p}(1-\\bar{p})}\\\\ \\mathrm{UCL}_{np}&=n\\bar{p}+3\\sqrt{n\\bar{p}(1-\\bar{p})} \\end{aligned} Use: The np chart plots the count…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-cch",
+          "heading": "c chart limits",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-CCH CCH III. Probability and Statistics for Reliability Probability \\mathrm{LCL}_{c}=\\bar{c}-3\\sqrt{\\bar{c}},\\qquad \\mathrm{UCL}_{c}=\\bar{c}+3\\sqrt{\\bar{c}} Use: The c chart counts defects on an inspection unit of constant size. Exam trap: If the opportunity size changes, the matching chart is the u chart, not the c chart. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-CCH CCH III. Probability and Statistics for Reliability Probability \\mathrm{LCL}_{c}=\\bar{c}-3\\sqrt{\\bar{c}},\\qquad \\mathrm{UCL}_{c}=\\bar{c}+3\\sqrt{\\bar{c}} Use: The c chart counts defects on an inspection unit of constant size. Exam trap: If the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-uch",
+          "heading": "u chart limits",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-UCH UCH III. Probability and Statistics for Reliability Probability \\begin{aligned} \\mathrm{LCL}_{u}&=\\bar{u}-3\\sqrt{\\frac{\\bar{u}}{n_i}}\\\\ \\mathrm{UCL}_{u}&=\\bar{u}+3\\sqrt{\\frac{\\bar{u}}{n_i}} \\end{aligned} Use: The u chart plots defects per unit when the area of opportunity can change. Exam trap: One table cell prints the upper-limit subscript as w. The lower limit and the formula are the u chart. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-UCH UCH III. Probability and Statistics for Reliability Probability \\begin{aligned} \\mathrm{LCL}_{u}&=\\bar{u}-3\\sqrt{\\frac{\\bar{u}}{n_i}}\\\\ \\mathrm{UCL}_{u}&=\\bar{u}+3\\sqrt{\\frac{\\bar{u}}{n_i}} \\end{aligned} Use: The u chart plots defects per unit when…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-grow",
+          "heading": "Reliability growth slope and instantaneous MTBF",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "Accelerated testing"
+          ],
+          "text": "CRE-GROW GROW IV. Reliability Planning, Testing, and Modeling Accelerated testing b=\\frac{\\log(\\theta_1/\\theta_0)}{\\log(T_1/T_0)},\\qquad \\theta=\\frac{\\theta_m}{1-b} Use: b is the growth slope between two cumulative times. Theta sub m is the cumulative MTBF, and theta is the instantaneous MTBF. Exam trap: The instantaneous value is larger than the cumulative MTBF while reliability is still growing. Do not report theta sub m as the current rate. ASQ Certified Reliability Engineer Handbook, Chapter 8 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-GROW GROW IV. Reliability Planning, Testing, and Modeling Accelerated testing b=\\frac{\\log(\\theta_1/\\theta_0)}{\\log(T_1/T_0)},\\qquad \\theta=\\frac{\\theta_m}{1-b} Use: b is the growth slope between two cumulative times. Theta sub m is the cumulative MTBF,…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-w0",
+          "heading": "Weibull zero-failure sample size",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "Accelerated testing"
+          ],
+          "text": "CRE-W0 W0 IV. Reliability Planning, Testing, and Modeling Accelerated testing n=\\frac{1}{k^{\\beta}}\\frac{\\log\\alpha}{\\log R} Use: k is the number of required lives the test runs, beta is the Weibull shape, alpha is one minus the confidence, and R is the reliability to demonstrate. Exam trap: Equation 11.1 is the exponential case. Leaving out 1 over k to the beta ignores a test that runs longer than one life. ASQ Certified Reliability Engineer Handbook, Chapter 8 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-W0 W0 IV. Reliability Planning, Testing, and Modeling Accelerated testing n=\\frac{1}{k^{\\beta}}\\frac{\\log\\alpha}{\\log R} Use: k is the number of required lives the test runs, beta is the Weibull shape, alpha is one minus the confidence, and R is the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-arate",
+          "heading": "Arrhenius reaction rate",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "Accelerated testing"
+          ],
+          "text": "CRE-ARATE ARATE IV. Reliability Planning, Testing, and Modeling Accelerated testing R=A\\exp\\left(-\\frac{E_A}{KT}\\right) Use: This R is the reaction rate at absolute temperature T. The acceleration factor is the ratio of two such rates. Exam trap: Do not read this R as reliability. Equation 9.1 is the acceleration factor, and a reliability cannot contain the positive constant A in front. ASQ Certified Reliability Engineer Handbook, Chapter 9 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-ARATE ARATE IV. Reliability Planning, Testing, and Modeling Accelerated testing R=A\\exp\\left(-\\frac{E_A}{KT}\\right) Use: This R is the reaction rate at absolute temperature T. The acceleration factor is the ratio of two such rates. Exam trap: Do not read…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-afdef",
+          "heading": "Acceleration factor as a rate ratio",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "Accelerated testing"
+          ],
+          "text": "CRE-AFDEF AFDEF IV. Reliability Planning, Testing, and Modeling Accelerated testing A_F=\\frac{R_S}{R_U} Use: The factor is the rate at the stress condition divided by the rate at the use condition. Equation 9.1 writes that ratio for the Arrhenius rate. Exam trap: Inverting the ratio produces a factor below 1 when the stress test is harsher. ASQ Certified Reliability Engineer Handbook, Chapter 9 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-AFDEF AFDEF IV. Reliability Planning, Testing, and Modeling Accelerated testing A_F=\\frac{R_S}{R_U} Use: The factor is the rate at the stress condition divided by the rate at the use condition. Equation 9.1 writes that ratio for the Arrhenius rate. Exam…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-ipl",
+          "heading": "Inverse-power life",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-IPL IPL IV. Reliability Planning, Testing, and Modeling System and life models L=\\frac{a}{V^{b}},\\qquad a>0,\\ b>0 Use: Life falls as voltage, or another stress V, rises. Equation 10.7 is the acceleration factor that follows from this life model. Exam trap: The stress belongs in the denominator. Putting it in the numerator makes life increase with stress. ASQ Certified Reliability Engineer Handbook, Chapter 10 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-IPL IPL IV. Reliability Planning, Testing, and Modeling System and life models L=\\frac{a}{V^{b}},\\qquad a>0,\\ b>0 Use: Life falls as voltage, or another stress V, rises. Equation 10.7 is the acceleration factor that follows from this life model. Exam…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-phaz",
+          "heading": "Proportional-hazards failure rate",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-PHAZ PHAZ IV. Reliability Planning, Testing, and Modeling System and life models \\lambda(x)=\\sum_{i=0}^{k}a_i x_i Use: The handbook's simplest proportional-hazards rate is a linear sum of the stresses. Equation 10.11 then gives reliability e to the minus lambda of x times t. Exam trap: Do not drop a stress that the model includes, and do not treat this sum itself as a reliability. ASQ Certified Reliability Engineer Handbook, Chapter 10 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-PHAZ PHAZ IV. Reliability Planning, Testing, and Modeling System and life models \\lambda(x)=\\sum_{i=0}^{k}a_i x_i Use: The handbook's simplest proportional-hazards rate is a linear sum of the stresses. Equation 10.11 then gives reliability e to the minus…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-bear",
+          "heading": "Ball-bearing multiplicative failure rate",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-BEAR BEAR IV. Reliability Planning, Testing, and Modeling System and life models \\lambda=\\lambda_b\\left(\\frac{L_a}{L_S}\\right)^{y}\\left(\\frac{A_C}{0.006}\\right)^{2.36}\\left(\\frac{v_0}{v_1}\\right)^{0.54}\\left(\\frac{C_1}{60}\\right)^{0.67}\\left(\\frac{M_b}{M_f}\\right)C_w Use: The handbook prints this product as a ball-bearing failure-rate model. The powers 2.36, 0.54, and 0.67 are part of that printed model. Exam trap: Those powers are not universal acceleration exponents. Do not reuse them for a voltage or temperature model. ASQ Certified Reliability Engineer Handbook, Chapter 10 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-BEAR BEAR IV. Reliability Planning, Testing, and Modeling System and life models \\lambda=\\lambda_b\\left(\\frac{L_a}{L_S}\\right)^{y}\\left(\\frac{A_C}{0.006}\\right)^{2.36}\\left(\\frac{v_0}{v_1}\\right)^{0.54}\\left(\\frac{C_1}{60}\\right)^{0.67}\\left(\\frac{M_b}{M_f…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-fat",
+          "heading": "Fatigue life distribution",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-FAT FAT IV. Reliability Planning, Testing, and Modeling System and life models P(N\\le n)=\\Phi\\left(n;\\ \\mu=\\frac{\\beta_0}{B}-\\frac{1}{B}\\log s,\\ \\sigma=\\frac{\\sigma_X}{B}\\right) Use: This is the handbook's normal distribution for fatigue life N at stress s. Exam trap: Equation 10.11 is the proportional-hazards reliability. It is not this fatigue formula. ASQ Certified Reliability Engineer Handbook, Chapter 10 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-FAT FAT IV. Reliability Planning, Testing, and Modeling System and life models P(N\\le n)=\\Phi\\left(n;\\ \\mu=\\frac{\\beta_0}{B}-\\frac{1}{B}\\log s,\\ \\sigma=\\frac{\\sigma_X}{B}\\right) Use: This is the handbook's normal distribution for fatigue life N at stress…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-winv",
+          "heading": "Weibull inverse for a simulated life",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-WINV WINV IV. Reliability Planning, Testing, and Modeling System and life models X_i=-\\eta\\left[\\ln(1-P_i)\\right]^{1/\\beta} Use: P sub i is a random probability. The handbook uses this inverse to turn that probability into a Weibull life. Exam trap: The sign in front of eta is negative because the log of a probability is negative. Dropping the sign produces a negative life. ASQ Certified Reliability Engineer Handbook, Chapter 10 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-WINV WINV IV. Reliability Planning, Testing, and Modeling System and life models X_i=-\\eta\\left[\\ln(1-P_i)\\right]^{1/\\beta} Use: P sub i is a random probability. The handbook uses this inverse to turn that probability into a Weibull life. Exam trap: The…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-dstep",
+          "heading": "System failure by conditioning",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-DSTEP DSTEP IV. Reliability Planning, Testing, and Modeling System and life models F_S=F_{S\\mid C_1}R_{C_1}+F_{S\\mid C_1^{c}}F_{C_1} Use: Condition on whether the chosen component works, then weight the two system-failure probabilities by that component's reliability and unreliability. Exam trap: This is not the parallel formula. The parallel formula is Equation 10.2. ASQ Certified Reliability Engineer Handbook, Chapter 10 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-DSTEP DSTEP IV. Reliability Planning, Testing, and Modeling System and life models F_S=F_{S\\mid C_1}R_{C_1}+F_{S\\mid C_1^{c}}F_{C_1} Use: Condition on whether the chosen component works, then weight the two system-failure probabilities by that component's…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-mark",
+          "heading": "Two-state repair transition matrix",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "IV. Reliability Planning, Testing, and Modeling",
+            "System and life models"
+          ],
+          "text": "CRE-MARK MARK IV. Reliability Planning, Testing, and Modeling System and life models T=\\begin{bmatrix} 1-P_{S-F} & P_{S-F}\\\\ P_{F-S} & 1-P_{F-S} \\end{bmatrix} Use: Rows are the state now and columns are the state next. S-F is the chance of going from success to failure. Exam trap: Each row sums to 1. Replacing a diagonal entry with the off-diagonal probability double-counts that row. ASQ Certified Reliability Engineer Handbook, Chapter 10 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-MARK MARK IV. Reliability Planning, Testing, and Modeling System and life models T=\\begin{bmatrix} 1-P_{S-F} & P_{S-F}\\\\ P_{F-S} & 1-P_{F-S} \\end{bmatrix} Use: Rows are the state now and columns are the state next. S-F is the chance of going from success…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-ssn",
+          "heading": "Normal stress-strength interference",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Design and demonstration"
+          ],
+          "text": "CRE-SSN SSN V. Lifecycle Reliability Design and demonstration \\begin{aligned} \\mu_D&=\\mu_Y-\\mu_X\\\\ \\sigma_D&=\\sqrt{\\sigma_Y^{2}+\\sigma_X^{2}}\\\\ \\Pr(\\mathrm{failure})&=\\Pr\\left(Z<\\frac{0-\\mu_D}{\\sigma_D}\\right) \\end{aligned} Use: Y is strength and X is stress. Failure is the event that their difference is negative. The handbook treats the two as independent normals. Exam trap: The standard deviation of the difference adds the variances, not the standard deviations. ASQ Certified Reliability Engineer Handbook, Chapter 11 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-SSN SSN V. Lifecycle Reliability Design and demonstration \\begin{aligned} \\mu_D&=\\mu_Y-\\mu_X\\\\ \\sigma_D&=\\sqrt{\\sigma_Y^{2}+\\sigma_X^{2}}\\\\ \\Pr(\\mathrm{failure})&=\\Pr\\left(Z<\\frac{0-\\mu_D}{\\sigma_D}\\right) \\end{aligned} Use: Y is strength and X is stress.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-ssex",
+          "heading": "Exponential stress-strength reliability",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Design and demonstration"
+          ],
+          "text": "CRE-SSEX SSEX V. Lifecycle Reliability Design and demonstration \\Pr(D>0)=\\frac{\\beta_Y}{\\beta_X+\\beta_Y} Use: For independent exponential stress and strength, reliability is the strength mean divided by the sum of the two means. Exam trap: Failure probability is the stress mean over that same sum, and that equals one minus this reliability. Do not subtract the strength mean itself. ASQ Certified Reliability Engineer Handbook, Chapter 11 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-SSEX SSEX V. Lifecycle Reliability Design and demonstration \\Pr(D>0)=\\frac{\\beta_Y}{\\beta_X+\\beta_Y} Use: For independent exponential stress and strength, reliability is the strength mean divided by the sum of the two means. Exam trap: Failure probability…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-ssln",
+          "heading": "Lognormal stress-strength reliability",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Design and demonstration"
+          ],
+          "text": "CRE-SSLN SSLN V. Lifecycle Reliability Design and demonstration \\begin{aligned} m_X&=e^{\\mu_X},\\qquad m_Y=e^{\\mu_Y}\\\\ \\Pr(D>0)&=\\Pr\\left(Z<\\frac{\\ln(m_Y/m_X)}{\\sqrt{s_X^{2}+s_Y^{2}}}\\right) \\end{aligned} Use: m is the median, e to the mu. s is the standard deviation on the log scale. Exam trap: Using the ordinary means of X and Y in the log ratio does not match this formula. ASQ Certified Reliability Engineer Handbook, Chapter 11 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-SSLN SSLN V. Lifecycle Reliability Design and demonstration \\begin{aligned} m_X&=e^{\\mu_X},\\qquad m_Y=e^{\\mu_Y}\\\\ \\Pr(D>0)&=\\Pr\\left(Z<\\frac{\\ln(m_Y/m_X)}{\\sqrt{s_X^{2}+s_Y^{2}}}\\right) \\end{aligned} Use: m is the median, e to the mu. s is the standard…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-sn",
+          "heading": "Taguchi signal-to-noise ratios",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Design and demonstration"
+          ],
+          "text": "CRE-SN SN V. Lifecycle Reliability Design and demonstration \\begin{aligned} \\text{larger is better: }& S/N_i=-10\\log\\left(\\frac{1}{n_j}\\sum_{j=1}^{n_j}\\frac{1}{y_{ij}^{2}}\\right)\\\\ \\text{smaller is better: }& S/N_i=-10\\log\\left(\\frac{1}{n_j}\\sum_{j=1}^{n_j}y_{ij}^{2}\\right)\\\\ \\text{nominal is best: }& S/N_i=10\\log\\left(\\frac{\\bar{y}_i^{2}}{s_i^{2}}\\right) \\end{aligned} Use: Pick the form from the direction of the response. The nominal form uses the square of the mean over the variance. Exam trap: The larger-is-better sum is of reciprocal squares. Using the raw squares is the smaller-is-better ratio. ASQ Certified Reliability Engineer Handbook, Chapter 11 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-SN SN V. Lifecycle Reliability Design and demonstration \\begin{aligned} \\text{larger is better: }& S/N_i=-10\\log\\left(\\frac{1}{n_j}\\sum_{j=1}^{n_j}\\frac{1}{y_{ij}^{2}}\\right)\\\\ \\text{smaller is better: }&…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-ano",
+          "heading": "ANOVA error sum of squares",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Design and demonstration"
+          ],
+          "text": "CRE-ANO ANO V. Lifecycle Reliability Design and demonstration \\begin{aligned} SS_E&=SS_T-SS_{\\mathrm{Treatments}}\\\\ SS_E&=SS_T-SS_A-SS_B-SS_{AB} \\end{aligned} Use: The first line is the one-factor design. The second is the two-factor design with interaction. Degrees of freedom subtract in the same pattern. Exam trap: A block design also subtracts the block sum of squares. Leaving a term out inflates the error. ASQ Certified Reliability Engineer Handbook, Chapter 11 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-ANO ANO V. Lifecycle Reliability Design and demonstration \\begin{aligned} SS_E&=SS_T-SS_{\\mathrm{Treatments}}\\\\ SS_E&=SS_T-SS_A-SS_B-SS_{AB} \\end{aligned} Use: The first line is the one-factor design. The second is the two-factor design with interaction.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-lam",
+          "heading": "Sum of constant element failure rates",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-LAM LAM V. Lifecycle Reliability Maintainability and spares \\lambda=\\sum_{i=1}^{n}\\lambda_i Use: When every element must work, the constant system rate is the sum of the element rates. Exam trap: Equation 10.1 multiplies reliabilities. Do not multiply the rates. ASQ Certified Reliability Engineer Handbook, Chapter 13 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-LAM LAM V. Lifecycle Reliability Maintainability and spares \\lambda=\\sum_{i=1}^{n}\\lambda_i Use: When every element must work, the constant system rate is the sum of the element rates. Exam trap: Equation 10.1 multiplies reliabilities. Do not multiply the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-alloc",
+          "heading": "Allocated repair time",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-ALLOC ALLC V. Lifecycle Reliability Maintainability and spares t_i^{*}=\\frac{t_i}{t}\\,t^{*} Use: The current repair time of element i is scaled by the ratio of the target system repair time t-star to the current system repair time t. Exam trap: Equation 13.6 builds the system repair time. This display allocates a new target back to the elements. ASQ Certified Reliability Engineer Handbook, Chapter 13 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-ALLOC ALLC V. Lifecycle Reliability Maintainability and spares t_i^{*}=\\frac{t_i}{t}\\,t^{*} Use: The current repair time of element i is scaled by the ratio of the target system repair time t-star to the current system repair time t. Exam trap: Equation…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-spr",
+          "heading": "Poisson demand for spare parts",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-SPR SPR V. Lifecycle Reliability Maintainability and spares \\Pr(r)=\\sum_{n=0}^{r}\\frac{(\\lambda t)^{n}e^{-\\lambda t}}{n!} Use: The mean number of demands in time t is lambda t. The sum is the probability of r or fewer demands. Exam trap: Lambda alone is not the Poisson mean unless the window length is 1. ASQ Certified Reliability Engineer Handbook, Chapter 13 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-SPR SPR V. Lifecycle Reliability Maintainability and spares \\Pr(r)=\\sum_{n=0}^{r}\\frac{(\\lambda t)^{n}e^{-\\lambda t}}{n!} Use: The mean number of demands in time t is lambda t. The sum is the probability of r or fewer demands. Exam trap: Lambda alone is…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-cro",
+          "heading": "Croston forecast for intermittent spares",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-CRO CRO V. Lifecycle Reliability Maintainability and spares \\begin{aligned} Z_{t+1}&=\\alpha X_t+(1-\\alpha)Z_t\\\\ P_{t+1}&=\\beta G_t+(1-\\beta)P_t\\\\ R_{t+1}&=\\frac{Z_t}{P_t} \\end{aligned} Use: Update the demand size Z and the interval P only when a demand occurs. If the latest demand is zero, the handbook leaves Z and P unchanged. The forecast divides size by interval. Exam trap: Equation 13.9 smooths every period. Croston's update waits for a nonzero demand. ASQ Certified Reliability Engineer Handbook, Chapter 13 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-CRO CRO V. Lifecycle Reliability Maintainability and spares \\begin{aligned} Z_{t+1}&=\\alpha X_t+(1-\\alpha)Z_t\\\\ P_{t+1}&=\\beta G_t+(1-\\beta)P_t\\\\ R_{t+1}&=\\frac{Z_t}{P_t} \\end{aligned} Use: Update the demand size Z and the interval P only when a demand…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-hum",
+          "heading": "Human performance reliability",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "V. Lifecycle Reliability",
+            "Maintainability and spares"
+          ],
+          "text": "CRE-HUM HUM V. Lifecycle Reliability Maintainability and spares R_e(t)=\\exp\\left[-\\int_{0}^{t}h_e(t)\\,dt\\right] Use: h sub e is the human error rate. Reliability follows the same identity as the cumulative hazard. Exam trap: The handbook display writes this exponential without the minus. Cumulative hazard earlier in the book is the integral of the hazard, and reliability is e to that integral with a minus. The printed plus sign would make reliability greater than 1. ASQ Certified Reliability Engineer Handbook, Chapter 12 human-performance display. The minus sign is required by the cumulative-hazard identity in Chapter 6. This note is original study guidance, not a copy of the handbook text.",
+          "excerpt": "CRE-HUM HUM V. Lifecycle Reliability Maintainability and spares R_e(t)=\\exp\\left[-\\int_{0}^{t}h_e(t)\\,dt\\right] Use: h sub e is the human error rate. Reliability follows the same identity as the cumulative hazard. Exam trap: The handbook display writes this…",
+          "kinds": [
+            "section",
             "formula"
           ]
         }
