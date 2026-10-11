@@ -6,7 +6,7 @@ import {TOOLS,assetTool} from '../content/tool-catalog.mjs';
 
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const storage=source=>source.replace(/\blocalStorage\b/g,'ToolLocalStorage').replace(/\bsessionStorage\b/g,'ToolSessionStorage')
-  .replace(/\blocation\.origin\b/g,'new URL(document.baseURI).origin');
+  .replace(/\b(?:window\.)?location\.(origin|pathname|search|hash)\b/g,'new URL(document.baseURI).$1');
 const escape=value=>value.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 function shell(key,tool) {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>${escape(tool.name)} | UpSkill Sprint</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/tool-access.css"><script src="/theme.js"></script><script src="/supabase-config.js"></script><script src="/vendor/supabase.js"></script><script src="/auth.js"></script><script defer src="/tool-access-loader.js"></script></head><body data-tool-shell="${key}"><section id="tool-access-status" class="tool-access-status" role="status" aria-live="polite"><p class="eyebrow">Engineering tools</p><h1>${escape(tool.name)}</h1><p>Checking your tool access…</p><a href="/engineering-tools#${tool.card}">Back to Engineering Tools</a></section><noscript>Enable JavaScript and sign in to open your assigned tools.</noscript><div id="tool-access-content"></div></body></html>`;

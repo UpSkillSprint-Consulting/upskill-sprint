@@ -38,9 +38,9 @@ Local migration `20261011200555_tool_access.sql` was applied once as hosted vers
 Installation verified three catalog rows, zero grants/requests and denied anonymous
 access. Existing membership and exam records were not changed.
 
-51 focused permission, delivery, directory and administrator tests pass, including
+52 focused permission, delivery, directory and administrator tests pass, including
 real local PostgreSQL/PGlite transactions, all three packages, revocation, expiry,
-account isolation and stale responses. Another 83 exam/membership regression tests
+account isolation, shared scenario URLs and stale responses. Another 83 exam/membership regression tests
 pass. The full site build passes: 576 public files have zero known exam-content
 findings, all three tool shells pass inspection, and private runtime files are absent.
 Compressed responses are approximately 204 KB, 621 KB and 419 KB respectively.

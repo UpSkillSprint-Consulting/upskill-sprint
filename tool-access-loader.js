@@ -72,7 +72,7 @@
       window.ToolLocalStorage=scoped(window.localStorage);window.ToolSessionStorage=scoped(window.sessionStorage);
       document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;var id=a.getAttribute('href').slice(1),target=document.getElementById(id);if(target){e.preventDefault();target.scrollIntoView();}});
     }());`;
-    const base=new URL(route,window.location.origin).href.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+    const base=window.location.href.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
     html=html.replace(/<head\b[^>]*>/i,tag=>tag+'<base href="'+base+'" target="_top"><script>'+bootstrap+'</script>');
     return html;
   }

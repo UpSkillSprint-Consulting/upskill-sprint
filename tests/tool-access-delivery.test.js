@@ -58,10 +58,10 @@ test('three public URLs contain only locked shells; runtime and lookup data are 
 });
 const tick=()=>new Promise(r=>setTimeout(r,10));
 async function until(fn){for(let i=0;i<300;i++){if(fn())return;await tick();}assert.ok(fn(),'Expected loader state within 3 seconds');}
-async function loader(key){
+async function loader(key,suffix=''){
   const html=await fs.readFile(path.join(ROOT,'public-site',TOOLS[key].page),'utf8');
   const envelope=JSON.parse(await fs.readFile(path.join(ROOT,'content/tool-delivery-generated',key+'.json'),'utf8'));
-  const dom=new JSDOM(html,{runScripts:'outside-only',url:'https://example.invalid'+TOOLS[key].route});
+  const dom=new JSDOM(html,{runScripts:'outside-only',url:'https://example.invalid'+TOOLS[key].route+suffix});
   const {window}=dom;let user=null,change,allow=true,sequence=0;const revoked=[];
   Object.assign(window,{Blob,Response,DecompressionStream,TextDecoder});
   window.URL.createObjectURL=()=>('blob:https://example.invalid/'+(++sequence));window.URL.revokeObjectURL=url=>revoked.push(url);
@@ -93,4 +93,20 @@ test('return-time revocation removes the frame and its blobs; account switches d
   const changed=await loader('steel_explorer');changed.session({id:'first'});await until(()=>changed.window.document.querySelector('iframe'));
   changed.session(null);assert.equal(changed.window.document.querySelector('iframe'),null);
   await until(()=>changed.window.document.querySelector('h1').textContent.includes('Sign in'));changed.dom.window.close();
+});
+test('protected Steel Explorer preserves shared scenario URLs inside its document',async()=>{
+  const scenario={name:'Shared steel scenario'};
+  const encoded=Buffer.from(JSON.stringify(scenario)).toString('base64');
+  const href='https://example.invalid'+TOOLS.steel_explorer.route+'#spx='+encoded;
+  const s=await loader('steel_explorer','#spx='+encoded);s.session({id:'learner'});
+  await until(()=>s.window.document.querySelector('iframe'));
+  const doc=new JSDOM(s.window.document.querySelector('iframe').srcdoc,{runScripts:'outside-only'});
+  assert.equal(doc.window.document.baseURI,href);
+  const envelope=JSON.parse(await fs.readFile(path.join(ROOT,'content/tool-delivery-generated/steel_explorer.json'),'utf8'));
+  const packet=JSON.parse(gunzipSync(Buffer.from(envelope.data,'base64')));
+  const app=packet.assets['/tools/steel-phase-explorer-app.js'].source;
+  doc.window.serializable=()=>scenario;
+  doc.window.eval(app.slice(app.indexOf('function shareUrl()'),app.indexOf('function copyLink()')));
+  assert.equal(doc.window.shareUrl(),href);
+  doc.window.close();s.dom.window.close();
 });
