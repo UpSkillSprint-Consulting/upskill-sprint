@@ -330,12 +330,12 @@
     {
       "id": "CRE-6.7",
       "section": "III. Probability and Statistics for Reliability",
-      "name": "Test statistic for the slope",
-      "formula": "t^(*)=(b₁-β₁)/(s_(b₁))",
-      "when": "Compare the estimated slope with the hypothesized slope, in standard-error units.",
-      "caution": "The usual null value of β₁ is 0, but only when the question says the slope is zero.",
+      "name": "Two-sided test statistic for the slope",
+      "formula": "t^(*) =(b₁-β₁)/(s_(b₁))\ns_(b₁) =(sₑ)/(√(SS_xx))\nsₑ =√((Σ_(i=1)^n(yᵢ-ŷᵢ)²)/(n-2))=√((SSE)/(n-2))",
+      "when": "Compare the estimated slope with the hypothesized slope. The standard error uses the residual standard deviation and SS sub xx. Reject the null when the absolute value of t-star exceeds the two-sided critical value with n minus 2 degrees of freedom.",
+      "caution": "The usual null value of beta sub 1 is 0, but only when the question says the slope is zero. The critical value uses alpha over 2 because the handbook states a two-sided rule.",
       "aliases": [
-        "Test statistic for the slope",
+        "Two-sided test statistic for the slope",
         "CRE-6.7"
       ]
     },
@@ -369,7 +369,7 @@
       "name": "General addition rule",
       "formula": "Pr(A∪ B)=Pr(A)+Pr(B)-Pr(A∩ B)",
       "when": "Add the two events, then subtract the overlap that was counted twice. The handbook's note after Equation 6.10 describes that overlap.",
-      "caution": "Leaving the intersection in the sum double-counts the outcomes that are in both events.",
+      "caution": "The printed Equation 6.10 shows the union symbol on both sides. The sentence after it says the overlap was counted twice, so subtract the intersection, not the union.",
       "aliases": [
         "General addition rule",
         "CRE-6.10",
@@ -981,8 +981,8 @@
       "id": "CRE-WEI",
       "section": "III. Probability and Statistics for Reliability",
       "name": "Weibull distribution",
-      "formula": "f(t) =(β)/(η)((t)/(η))^(β-1)exp[-((t)/(η))^(β)]\nF(t) =1-exp[-((t)/(η))^(β)]\nR(t) =exp[-((t)/(η))^(β)]\nE(X) =η Γ(1+(1)/(β))",
-      "when": "Beta is the shape and eta is the scale. The mean multiplies the scale by a gamma value.",
+      "formula": "f(t) =(β)/(η)((t)/(η))^(β-1)exp[-((t)/(η))^(β)]\nF(t) =1-exp[-((t)/(η))^(β)]\nR(t) =exp[-((t)/(η))^(β)]\nE(X) =η Γ(1+(1)/(β))\nSD(X) =η√(Γ(1+(2)/(β))-[Γ(1+(1)/(β))]²)",
+      "when": "Beta is the shape and eta is the scale. The mean multiplies the scale by a gamma value. The reference table also gives the standard deviation. It writes the gamma arguments as 2 over beta plus 1 and 1 over beta plus 1, which are the same values.",
       "caution": "At the characteristic life t equals eta, reliability is e to the minus 1, about 0.368, not 0.50.",
       "aliases": [
         "Weibull distribution",
@@ -1118,6 +1118,18 @@
       ]
     },
     {
+      "id": "CRE-MCI",
+      "section": "III. Probability and Statistics for Reliability",
+      "name": "Confidence interval for a mean",
+      "formula": "X̄ ± t_(α/2, n-1)√((σ̂²)/(n))\nLCL =X̄-t_(α, n-1)√((σ̂²)/(n))",
+      "when": "If sigma is known, the handbook sets sigma-hat equal to sigma and replaces t with z. Otherwise sigma-hat is the sample standard deviation s. A one-sided bound uses t with alpha, not alpha over 2, and n minus 1 degrees of freedom.",
+      "caution": "The standard error is the square root of sigma-hat squared over n. Leaving the square root off divides by n and makes the interval too narrow.",
+      "aliases": [
+        "Confidence interval for a mean",
+        "CRE-MCI"
+      ]
+    },
+    {
       "id": "CRE-FRAT",
       "section": "III. Probability and Statistics for Reliability",
       "name": "F ratio of two chi-square variables",
@@ -1163,9 +1175,9 @@
       "id": "CRE-ZP",
       "section": "III. Probability and Statistics for Reliability",
       "name": "One-proportion z statistic",
-      "formula": "z^(*)=(p̂-p₀)/(√(p̂(1-p̂)/n))",
-      "when": "The handbook's displayed proportion statistic puts the estimated proportion in the standard error.",
-      "caution": "Some exams put the null proportion p0 under the square root instead. Read which standard error the question is using.",
+      "formula": "z^(*) =(p̂-p₀)/(√(p̂(1-p̂)/n))\np̂_AC =(x+1)/(n+2)",
+      "when": "The handbook's displayed proportion statistic puts the estimated proportion in the standard error. The same table's Agresti-Caffo estimate adds one success and two trials before the proportion is formed.",
+      "caution": "Some exams put the null proportion p0 under the square root instead. Read which standard error the question is using. The Agresti-Caffo proportion is not the z statistic's numerator.",
       "aliases": [
         "One-proportion z statistic",
         "CRE-ZP",
@@ -1230,11 +1242,35 @@
       ]
     },
     {
+      "id": "CRE-PCI",
+      "section": "III. Probability and Statistics for Reliability",
+      "name": "Normal interval for a proportion",
+      "formula": "p̂ =(x)/(n)\np̂ ± z_(α/2)√((p̂(1-p̂))/(n))",
+      "when": "The handbook uses this Wald interval when x is at least 10 and n minus x is at least 10. A one-sided bound uses z with alpha instead of alpha over 2.",
+      "caution": "This is not the exact Clopper-Pearson interval. That limit uses an F value and different degrees of freedom on each side. The z statistic for a hypothesis test is a different card.",
+      "aliases": [
+        "Normal interval for a proportion",
+        "CRE-PCI"
+      ]
+    },
+    {
+      "id": "CRE-NPROP",
+      "section": "III. Probability and Statistics for Reliability",
+      "name": "Sample size for a proportion",
+      "formula": "n=((z_(α/2))/(E))²p̂(1-p̂)=(1)/(4)((z_(α/2))/(E))²",
+      "when": "E is the margin of error. If the proportion is unknown, the handbook uses p equal to 0.5 because p times one minus p is then 1/4, the largest value. A one-sided margin uses z with alpha. Equation 11.2 is the matching sample size for a mean.",
+      "caution": "Forgetting the square, or forgetting to multiply by p times one minus p, does not give this sample size. Do not reuse the mean formula, which has sigma in the numerator.",
+      "aliases": [
+        "Sample size for a proportion",
+        "CRE-NPROP"
+      ]
+    },
+    {
       "id": "CRE-EXPM",
       "section": "III. Probability and Statistics for Reliability",
       "name": "Confidence limits for an exponential mean",
-      "formula": "θ̂ =(T)/(r)\nθ_L =(2T)/(χ²_(α/2, ν))\nθ_U =(2T)/(χ²_(1-α/2, ν=2r))",
-      "when": "T is the total time on failed and unfailed units. The lower limit uses nu equal to 2r+2 when the test is time censored and nu equal to 2r when it is failure censored. The upper limit uses 2r for both. A one-sided limit uses alpha instead of alpha over 2.",
+      "formula": "θ̂ =(T)/(r)\nθ_(L, time) =(2T)/(χ²_(α/2, ν=2r+2))\nθ_(L, failure) =(2T)/(χ²_(α/2, ν=2r))\nθ_U =(2T)/(χ²_(1-α/2, ν=2r))",
+      "when": "T is the total time on failed and unfailed units. A time-censored test ends at a chosen time and its lower limit uses 2r+2 degrees of freedom. A failure-censored test ends on a chosen failure and its lower limit uses 2r. The upper limit uses 2r for both. A one-sided limit uses alpha instead of alpha over 2.",
       "caution": "Swapping the chi-square tails swaps the lower and upper limits.",
       "aliases": [
         "Confidence limits for an exponential mean",
@@ -1246,12 +1282,12 @@
     {
       "id": "CRE-CP",
       "section": "III. Probability and Statistics for Reliability",
-      "name": "Process capability Cp",
-      "formula": "Cₚ=(USL-LSL)/(6σ)",
-      "when": "Cp compares the specification width with six standard deviations of a stable process. The handbook's general statement is engineering tolerance divided by natural tolerance.",
-      "caution": "One worked display writes UCL minus LCL in this ratio. Those letters are control-chart limits. The specification width used with Cpk is USL minus LSL.",
+      "name": "Process capability and performance, Cp and Pp",
+      "formula": "Ĉₚ or P̂ₚ =(USL-LSL)/(6σ̂)\nσ̂ =(mR)/(1.128) (X-mR)\nσ̂ =(R̄)/(d₂) (X̄-R)\nσ̂ =(s̄)/(c₄) (X̄-s)",
+      "when": "The same width ratio is Cp with a short-term sigma and Pp with the overall standard deviation. The handbook estimates the short-term sigma from the chart in use: moving range over 1.128, R-bar over d2, or s-bar over c4. Performance uses the ordinary standard deviation of the whole data set.",
+      "caution": "One worked display writes UCL minus LCL in this ratio. Those letters are control-chart limits. The specification width is USL minus LSL. Do not put the short-term sigma into Pp.",
       "aliases": [
-        "Process capability Cp",
+        "Process capability and performance, Cp and Pp",
         "CRE-CP",
         "cp",
         "process capability"
@@ -1260,12 +1296,12 @@
     {
       "id": "CRE-CPK",
       "section": "III. Probability and Statistics for Reliability",
-      "name": "Process capability Cpk",
-      "formula": "C_pk=min((μ-LSL)/(3σ),(USL-μ)/(3σ))",
-      "when": "Cpk uses the specification side that the mean is closer to.",
-      "caution": "Cp ignores where the mean sits. Cpk is the smaller of the two one-sided ratios, so an off-center mean makes it smaller than Cp.",
+      "name": "Process capability and performance, Cpk and Ppk",
+      "formula": "Ĉ_pL or P̂_pL =(X̄-LSL)/(3σ̂)\nĈ_pU or P̂_pU =(USL-X̄)/(3σ̂)\nĈ_pk or P̂_pk =min(Ĉ_pL,Ĉ_pU)",
+      "when": "Cpk and Ppk are the smaller of the two one-sided ratios. Capability uses a short-term sigma. Performance uses the overall standard deviation. The handbook writes the same minimum for the Ppk pair.",
+      "caution": "Cp ignores where the mean sits. Cpk is smaller than Cp when the mean is off center. Do not report the short-term Cpk as Ppk.",
       "aliases": [
-        "Process capability Cpk",
+        "Process capability and performance, Cpk and Ppk",
         "CRE-CPK",
         "cpk",
         "process capability"
@@ -1565,7 +1601,7 @@
       "name": "Exponential stress-strength reliability",
       "formula": "Pr(D>0)=(β_Y)/(β_X+β_Y)",
       "when": "For independent exponential stress and strength, reliability is the strength mean divided by the sum of the two means.",
-      "caution": "The failure probability is the stress mean over that same sum, not one minus the strength mean.",
+      "caution": "Failure probability is the stress mean over that same sum, and that equals one minus this reliability. Do not subtract the strength mean itself.",
       "aliases": [
         "Exponential stress-strength reliability",
         "CRE-SSEX",
@@ -1664,9 +1700,9 @@
       "id": "CRE-CRO",
       "section": "V. Lifecycle Reliability",
       "name": "Croston forecast for intermittent spares",
-      "formula": "Z_(t+1) =α Xₜ+(1-α)Zₜ\nP_(t+1) =β Gₜ+(1-β)Pₜ\nR_(t+1) =(Zₜ)/(Pₜ)",
-      "when": "Update the demand size Z and the interval P only when a demand occurs. If the latest demand is zero, the handbook leaves Z and P unchanged. The forecast divides size by interval.",
-      "caution": "Equation 13.9 smooths every period. Croston's update waits for a nonzero demand.",
+      "formula": "Z_(t+1) =α Xₜ+(1-α)Zₜ\nP_(t+1) =β Gₜ+(1-β)Pₜ\nR_(t+1) =(Z_(t+1))/(P_(t+1))",
+      "when": "When demand is positive, smooth the size Z and the gap P, then divide those updated values. If the latest demand is zero, the handbook leaves Z, P, and the forecast unchanged. Example 13.8 uses alpha 0.2 and beta 0.3. After a demand of 16 with a gap of 2, the next size is 21.60 and the next gap is 1.30, and 21.60 divided by 1.30 is 16.62.",
+      "caution": "The printed forecast line writes Z sub t over P sub t. The example header and the week-4 result divide the values just updated. Equation 13.9 smooths every period. Croston waits for a nonzero demand.",
       "aliases": [
         "Croston forecast for intermittent spares",
         "CRE-CRO",
