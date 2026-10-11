@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import publicProject from '../../supabase-config.js';
 
 const EXAMS = new Set(['cssbb', 'mbb', 'cssgb', 'cqe', 'cmq', 'cre', 'pmp']);
 const HEADERS = {
@@ -14,8 +15,15 @@ const HEADERS = {
 const reply = (status, message) => new Response(JSON.stringify({ message }), { status, headers:HEADERS });
 
 export function settings() {
-  const url = typeof Netlify === 'undefined' ? '' : Netlify.env.get('SUPABASE_URL');
-  const key = typeof Netlify === 'undefined' ? '' : Netlify.env.get('SUPABASE_PUBLISHABLE_KEY') || Netlify.env.get('SUPABASE_ANON_KEY');
+  const read = name => typeof Netlify === 'undefined' ? undefined : Netlify.env.get(name);
+  const configuredUrl = read('SUPABASE_URL');
+  const configuredKey = read('SUPABASE_PUBLISHABLE_KEY') ?? read('SUPABASE_ANON_KEY');
+  // A complete Functions-scoped override wins. A partial/invalid override fails
+  // closed instead of combining credentials from two projects. Without an override,
+  // bundle the same public configuration that the site's sign-in client uses.
+  const overridden = configuredUrl != null || configuredKey != null;
+  const url = overridden ? configuredUrl : publicProject.url;
+  const key = overridden ? configuredKey : publicProject.anonKey;
   try {
     const parsed = new URL(url);
     if (parsed.protocol !== 'https:' || parsed.username || parsed.password || parsed.search || parsed.hash || parsed.pathname !== '/') return null;

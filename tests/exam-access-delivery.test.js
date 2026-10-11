@@ -36,6 +36,26 @@ test('runtime settings accept only HTTPS and publishable/anon keys, never a serv
   } finally { if(original===undefined)delete global.Netlify;else global.Netlify=original; }
 });
 
+test('bundled public configuration matches browser sign-in; incomplete overrides fail closed',async()=>{
+  const {settings} = await import('../netlify/functions/exam-content.mjs');
+  const original=global.Netlify;
+  const dom=new JSDOM('',{runScripts:'outside-only'});
+  try {
+    dom.window.eval(await fs.readFile(path.join(ROOT,'supabase-config.js'),'utf8'));
+    const browser=dom.window.UPSKILLSPRINT_SUPABASE_CONFIG;
+    delete global.Netlify;
+    assert.deepEqual(settings(),{url:browser.url,key:browser.anonKey});
+    global.Netlify={env:{get:()=>undefined}};
+    assert.deepEqual(settings(),{url:browser.url,key:browser.anonKey});
+    for(const values of [{SUPABASE_URL:'https://other.supabase.co'},{SUPABASE_PUBLISHABLE_KEY:'sb_publishable_other'},{SUPABASE_PUBLISHABLE_KEY:''},
+      {SUPABASE_URL:'',SUPABASE_PUBLISHABLE_KEY:'sb_publishable_other'},
+      {SUPABASE_URL:'https://other.supabase.co',SUPABASE_PUBLISHABLE_KEY:'sb_secret_never'}]) {
+      global.Netlify={env:{get:name=>values[name]}};
+      assert.equal(settings(),null);
+    }
+  } finally {dom.window.close();if(original===undefined)delete global.Netlify;else global.Netlify=original;}
+});
+
 function handler(decision = true, options = {}) {
   const calls = [], reads = [];
   const run = createHandler({

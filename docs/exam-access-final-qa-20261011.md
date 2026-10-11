@@ -2,6 +2,26 @@
 
 Status: **partial hosted QA; not cleared for production**. PR #288 remains draft.
 
+## Follow-up after the second dummy-account request
+
+- Browser service calls and session recovery timed out before a sign-in page could
+  be inspected. No second-account sign-in or credential entry was possible; the
+  existing administrator account was not reclassified or stripped of its role.
+- Removed the delivery configuration dependency on Netlify dashboard access. The
+  function bundles the existing public `supabase-config.js` used by browser sign-in.
+  Complete Functions-scoped overrides remain supported; partial/invalid overrides
+  fail closed. No privileged credentials or permission shortcuts are introduced.
+- Run 38162528580 passed WebKit. Chromium found six dark-theme button contrast
+  failures during a background fade. Directory button text/background now switch
+  together; hover movement and shadows remain. The contrast assertions are unchanged.
+- Delivery and browser authentication regression tests pass. An additional legacy
+  `second-pass-workflows` suite cannot run because it references the already removed
+  `test-bank-account-sync.js`; the current stateless/access suites cover this change.
+
+The results below describe the earlier hosted QA. The configuration blocker is now
+addressed in code and must be verified on the rebuilt preview. Real non-admin learner
+journeys remain blocked by browser availability; automated fixtures do not satisfy them.
+
 ## Fixes made
 
 - Installed the three reviewed additive migrations in hosted Supabase. The initial

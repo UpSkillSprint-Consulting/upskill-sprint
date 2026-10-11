@@ -3,7 +3,8 @@
 Implemented in the draft access branch; not activated in production. Steps 3–4 and
 the hosted additive schema are now installed/implemented; see
 `exam-access-final-qa-20261011.md`. Configure the function, review existing learner
-assignments and finish the hosted release checks before cutover.
+assignments and finish the hosted release checks before cutover. The function now
+bundles the site's public project configuration, so a dashboard override is optional.
 
 ## Request boundary
 
@@ -75,14 +76,22 @@ introduced. No new production database writes were performed for Step 2.
 
 ## Configuration and release blockers
 
-Set these Netlify environment variables with **Functions** scope, then redeploy:
+The function bundles `supabase-config.js`, the same public URL and publishable key
+used by browser sign-in. This configuration contains no user credential or privileged
+service key. Bundling keeps preview sign-in and delivery on the same project without
+requiring a duplicate dashboard configuration. Every delivery still validates the
+learner JWT and calls the exact per-exam authorization RPC.
+
+Optional overrides use these Netlify environment variables with **Functions** scope,
+followed by a redeploy. Supply the complete matching pair:
 
 - `SUPABASE_URL`: the same HTTPS project URL as `supabase-config.js`.
 - `SUPABASE_PUBLISHABLE_KEY`: that project's public publishable key. The existing
   legacy `SUPABASE_ANON_KEY` is accepted as an alternative, only with role `anon`.
 
-Never set a secret/service-role key for this endpoint. Missing or invalid settings
-return 503. All function responses set browser/CDN `no-store`, including errors;
+Never set a secret/service-role key for this endpoint. Partial or invalid overrides
+return 503; they never fall back or combine with the bundled configuration. All
+function responses set browser/CDN `no-store`, including errors;
 the shell's edge response also explicitly sets `no-store`. Tokens are sent only
 in the Authorization header, never in query strings, logs or package content.
 The auth library's existing session storage is unchanged; the loader adds no storage.
