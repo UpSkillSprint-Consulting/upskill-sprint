@@ -280,8 +280,10 @@
     card.appendChild(body);
     hosts[item.section].appendChild(card);
   });
+  var exactFormulaId = '';
   function applyFilters() {
     var query = searchInput.value.trim().toLowerCase();
+    var exact = exactFormulaId.toLowerCase();
     var sectionValue = sectionFilter.value;
     var familyValue = familyFilter.value;
     var shown = 0;
@@ -290,7 +292,7 @@
     Array.prototype.forEach.call(document.querySelectorAll('[data-formula-id]'), function (card) {
       var itemSection = card.parentNode.parentNode.dataset.section;
       var family = card.querySelector('.card-family').textContent;
-      var match = (!query || card.dataset.haystack.indexOf(query) !== -1) && (!sectionValue || itemSection === sectionValue) && (!familyValue || family === familyValue);
+      var match = (!exact || card.dataset.formulaId.toLowerCase() === exact) && (!query || exact || card.dataset.haystack.indexOf(query) !== -1) && (!sectionValue || itemSection === sectionValue) && (!familyValue || family === familyValue);
       card.hidden = !match;
       if (match) { shown += 1; counts[itemSection] += 1; }
     });
@@ -310,17 +312,22 @@
     resultCount.textContent = shown + (shown === 1 ? ' formula' : ' formulas') + ' shown of ' + data.length;
   }
   window.filterCreFormulas = function (query) {
+    exactFormulaId = '';
     searchInput.value = query || '';
     applyFilters();
   };
-  searchInput.addEventListener('input', applyFilters);
+  searchInput.addEventListener('input', function () {
+    exactFormulaId = '';
+    applyFilters();
+  });
   searchInput.addEventListener('search', applyFilters);
   searchInput.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') { event.preventDefault(); searchInput.value = ''; applyFilters(); }
+    if (event.key === 'Escape') { event.preventDefault(); exactFormulaId = ''; searchInput.value = ''; applyFilters(); }
   });
   sectionFilter.addEventListener('change', applyFilters);
   familyFilter.addEventListener('change', applyFilters);
   document.getElementById('resetBtn').addEventListener('click', function () {
+    exactFormulaId = '';
     searchInput.value = '';
     sectionFilter.value = '';
     familyFilter.value = '';
@@ -341,6 +348,7 @@
     if (!card) return;
     var sectionBlock = card.parentNode && card.parentNode.parentNode;
     if (card.hidden || (sectionBlock && sectionBlock.hidden)) {
+      exactFormulaId = '';
       searchInput.value = '';
       sectionFilter.value = '';
       familyFilter.value = '';
@@ -348,7 +356,10 @@
     }
   }
   var hash = new URLSearchParams(String(location.hash || '').replace(/^#/, ''));
-  if (hash.get('search')) searchInput.value = hash.get('search');
+  if (hash.get('formula')) {
+    exactFormulaId = hash.get('formula');
+    searchInput.value = hash.get('formula');
+  } else if (hash.get('search')) searchInput.value = hash.get('search');
   applyFilters();
   revealLinkedFormula();
   document.getElementById('lesson-content').addEventListener('upskill:lesson-search-reveal', function (event) {
