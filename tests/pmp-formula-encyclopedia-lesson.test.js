@@ -44,7 +44,7 @@ test('lesson is Public, registered in Project Management, and has its access SQL
   assert.equal(d.body.dataset.category, 'project-management');
   assert.equal(d.body.dataset.level, 'advanced');
   assert.equal(d.body.dataset.interactive, 'true');
-  assert.equal(d.body.hasAttribute('data-require-auth'), false);
+  assert.equal(d.getElementById('lesson-content').getAttribute('data-lesson-search-banner'), 'off');
 
   const sql = fs.readFileSync(path.join(root, 'supabase/public-pmp-formula-encyclopedia-access.sql'), 'utf8');
   assert.ok(sql.includes(`'lesson:${lessonPath}', 'public', '${title}'`));

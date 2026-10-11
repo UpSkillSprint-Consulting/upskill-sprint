@@ -293,7 +293,17 @@
     return '/lessons#search=' + encodeURIComponent(context.search);
   }
 
+  function bannerOptedOut(doc) {
+    return Boolean(doc.querySelector('[data-lesson-search-banner="off"]'));
+  }
+
   function ensureBanner(doc, context, target) {
+    if (bannerOptedOut(doc)) {
+      var optedOut = doc.getElementById(BANNER_ID);
+      if (optedOut) optedOut.remove();
+      return null;
+    }
+
     var shouldShow = context.parameterized && (
       context.from === 'lesson-search' || Boolean(context.search) || Boolean(context.section)
     );
