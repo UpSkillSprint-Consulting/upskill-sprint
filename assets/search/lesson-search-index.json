@@ -34111,11 +34111,10 @@
             "PMP Formula Encyclopedia",
             "Scope summary"
           ],
-          "text": "Search the formulas used on the PMP exam. They are grouped into the three scored domains. The guides print the earned-value, forecast, three-point, and EMV algebra. Nine other cards are the exam algebra the guides name and do not print. Each card is an original study note, not a copy of the guide. People No governing calculation in either guide. Process Earned value, forecasts, three-point estimates, float, PERT sigma, and communication channels. Business Environment Expected monetary value, plus NPV, ROI, IRR, payback, and BCR. People stays visible because it is a scored domain, and neither the 6th nor the 8th edition prints a calculation for it. One algebra is one card. A worked numerical example is not a card. PERT sigma, total float, free float, communication channels, NPV, ROI, IRR, payback, and BCR are cards because the exam uses them, even though the guides name those measures and do not print the algebra. PV, EV, AC, and BAC stay inputs inside the earned-value notes, not separate cards. 0 formulas No formulas match the selected filters.",
+          "text": "Search the formulas used on the PMP exam. They are grouped into the three scored domains. The guides print the earned-value, forecast, three-point, and EMV algebra. Nine other cards are the exam algebra the guides name and do not print. Each card is an original study note, not a copy of the guide. People No governing calculation in either guide. Process Earned value, forecasts, three-point estimates, float, PERT sigma, and communication channels. Business Environment Expected monetary value, plus NPV, ROI, IRR, payback, and BCR. 0 formulas No formulas match the selected filters.",
           "excerpt": "Search the formulas used on the PMP exam. They are grouped into the three scored domains. The guides print the earned-value, forecast, three-point, and EMV algebra. Nine other cards are the exam algebra the guides name and do not print. Each card is an…",
           "kinds": [
             "section",
-            "example",
             "formula"
           ]
         },

@@ -166,8 +166,9 @@ test('search, domain, and family filters keep an empty scored domain visible', (
   for (const id of ['PMP-PV', 'PMP-EV', 'PMP-AC', 'PMP-BAC']) {
     assert.equal(d.querySelector(`[data-formula-id="${id}"]`), null);
   }
-  assert.match(html, /NPV, ROI, IRR, payback, and BCR are cards/);
+  assert.match(html, /NPV, ROI, IRR, payback, and BCR are exam cards/);
   assert.doesNotMatch(html, /are not cards/);
+  assert.doesNotMatch(html, /People stays visible because it is a scored domain/);
   dom.window.close();
 });
 
