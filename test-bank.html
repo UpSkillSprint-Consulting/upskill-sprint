@@ -27,6 +27,7 @@
   <script src="/site-sections.js"></script>
   <script defer src="/test-bank-formulas.js"></script>
   <script defer src="/test-bank-cre-formulas.js"></script>
+  <script defer src="/test-bank-pmp-formulas.js"></script>
   <script defer src="/test-bank-tables.js"></script>
 <style>
   .tb-wrap{max-width:var(--maxw);margin:0 auto;padding:26px var(--pad) 80px}
@@ -4589,7 +4590,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     if(act==='back'){calcExpr=calcExpr.slice(0,-1);setDisp(calcExpr||'0');return;}
     if(act==='eq'){try{var r=calcEval(calcExpr);r=Math.round(r*1e10)/1e10;calcExpr=String(r);setDisp(r);}catch(e){setDisp('Error');calcExpr='';}return;}
     calcExpr+=el.getAttribute('data-k');setDisp(calcExpr);}
-  function renderRefs(query){var host=document.getElementById('tb-reflist');if(!host)return;var q=(query||'').toLowerCase();var groups=REFS[current]||[];
+  function renderRefs(query){if(current==='pmp'&&window.__TB_PMP_FORMULAS&&window.__TB_FORMULAS_TEST__){window.__TB_FORMULAS_TEST__.renderContextualPane(query);return;}var host=document.getElementById('tb-reflist');if(!host)return;var q=(query||'').toLowerCase();var groups=REFS[current]||[];
     var html=groups.map(function(g){var items=g.items.filter(function(it){return !q||(it.n+' '+it.f+' '+(it.note||'')).toLowerCase().indexOf(q)>=0;});if(!items.length)return '';
       return '<div class="tb-refgroup"><h4>'+esc(g.group)+'</h4>'+items.map(function(it){return '<div class="tb-refitem"><div class="tb-refn">'+esc(it.n)+'</div><div class="tb-reff">'+esc(it.f)+'</div>'+(it.note?'<div class="tb-refnote2">'+esc(it.note)+'</div>':'')+'</div>';}).join('')+'</div>';}).join('');
     host.innerHTML=html||'<p class="tb-refempty">No formula matches \u201c'+esc(query)+'\u201d.</p>';}
