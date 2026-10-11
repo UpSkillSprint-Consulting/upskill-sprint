@@ -73,15 +73,19 @@
   }
   function topic(question) {
     const engine = window.__TB;
+    // A question that carries its own BoK outline (e.g. CRE Set 1: {domain, subdomain, code, topic}) shows
+    // "III. Probability and Statistics for Reliability › A. Basic Concepts" instead of the area name twice.
+    const bok = question && question.bok;
+    const outline = bok && typeof bok === 'object' && bok.domain && bok.subdomain ? {domainName: bok.domain, subName: bok.subdomain} : null;
     for (const domain of engine?.EXAMS?.[completed?.examId]?.bok || []) {
       for (const sub of domain.subs || []) {
-        if (sub && typeof sub === 'object' && sub.id === question.sub) return {
+        if (sub && typeof sub === 'object' && sub.id === question.sub) return Object.assign({
           domainName: engine.DM?.[domain.domain]?.name || domain.domain,
           subName: sub.name || sub.id, lesson: sub.lesson || '/lessons', lessonName: sub.lessonName || 'Review the related lesson'
-        };
+        }, outline);
       }
     }
-    return {domainName: 'Body of Knowledge', subName: question.sub || 'General review', lesson: '/lessons', lessonName: 'Browse related lessons'};
+    return Object.assign({domainName: 'Body of Knowledge', subName: question.sub || 'General review', lesson: '/lessons', lessonName: 'Browse related lessons'}, outline);
   }
   function reference(question, meta = topic(question)) {
     if (window.__CRESet2UI?.isQuestion(question)) return safeHtml(window.__CRESet2UI.reference(question));

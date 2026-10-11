@@ -55,10 +55,10 @@
       '.cre-edge{stroke:var(--muted);stroke-width:1.4;fill:none}',
       '.cre-edge-tail{stroke:var(--muted);stroke-width:1.1;stroke-dasharray:3 3;fill:none}',
       '.cre-prob{fill:var(--ink);font-size:11px;font-weight:700;paint-order:stroke;stroke:var(--tint);stroke-width:4px;stroke-linejoin:round}',
-      '.cre-axis-label{fill:var(--muted);font-size:10px}',
-      '.cre-tick{fill:var(--muted);font-size:9.5px}',
-      '.cre-title{fill:var(--ink);font-size:11.5px;font-weight:700}',
-      '.cre-marker{fill:var(--ink);font-size:10px;font-weight:700;paint-order:stroke;stroke:var(--tint);stroke-width:4px;stroke-linejoin:round}',
+      '.cre-axis-label{fill:var(--muted);font-size:11.5px}',
+      '.cre-tick{fill:var(--muted);font-size:11px}',
+      '.cre-title{fill:var(--ink);font-size:12.5px;font-weight:700}',
+      '.cre-marker{fill:var(--ink);font-size:11px;font-weight:700;paint-order:stroke;stroke:var(--tint);stroke-width:4px;stroke-linejoin:round}',
       '.cre-ref{stroke:var(--muted);stroke-width:1.1;stroke-dasharray:5 4}',
       /* Display math in CRE Set 1 (guide §22.3): keep equations full size; if a line is wider than a
          phone card, scroll it inside a focusable region instead of shrinking the SVG. */
@@ -66,8 +66,17 @@
       /* scoped under the page IDs so it outranks #tb-feedback-loop svg{max-width:100%} without !important */
       ':is(#tb-overview,#tb-feedback-loop,body) :is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] mjx-container[display="true"] > svg{max-width:none}',
       ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] mjx-container[display="true"]:focus-visible{outline:2px solid var(--teal);outline-offset:2px}',
-      /* Wide exhibit tables: the deciding columns may start off-screen on a phone, so say so. */
-      '@media (max-width:600px){:is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-chart-wrap:has(table.tb-q-data-table th:nth-child(4))::before{content:"Swipe sideways to see every column.";display:block;margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(--muted)}}',
+      /* Wide exhibit tables: when a table is wider than its card (measured, see fitTable), the deciding
+         columns may start off-screen, so say so. */
+      ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-chart-wrap[data-cre-overflow]::before{content:"Swipe sideways to see every column.";display:block;margin:0 0 8px;font-size:12.5px;line-height:1.5;color:var(--muted)}',
+      /* Table headers: the engine sets them in small capitals, which turns units such as "h" and "min"
+         into "H" and "MIN". Keep the author's case so units read correctly. */
+      ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-data-table th{text-transform:none;letter-spacing:0;font-size:12px}',
+      /* Phones: tighter cells, and a floor on text columns so a short phrase is not stacked one word per line. */
+      '@media (max-width:600px){:is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-data-table :is(th,td){padding:7px 9px}'+
+        ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-data-table td.tb-q-text{min-width:7.5em}}',
+      /* The source line sits on its own line under the answer summary, so "D. 0.9804" never runs into "Source:". */
+      ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-source-ref{display:block;margin-top:6px}',
       ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-chart-wrap[data-cre-table]:focus-visible{outline:2px solid var(--teal);outline-offset:2px}',
       /* Exhibit tables: never break a word or a number mid-token to fit a phone. The engine default
          (overflow-wrap:anywhere) lets the table shrink to the card and split "$2,000,000" one digit per
@@ -78,6 +87,19 @@
          75% opacity), under the WCAG 1.4.11 3:1 floor for graphics. #9a8cf0 gives 6.14:1 solid, 4.04:1 dashed. */
       'html[data-theme="dark"] :is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-chart-line{stroke:#9a8cf0}',
       'html[data-theme="dark"] :is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-chart-dot{fill:#9a8cf0}',
+      'cre-nobr{display:inline;white-space:nowrap}',
+      /* A table only a few pixels too wide for a phone gets tighter cells instead of a scroll bar. */
+      ':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-chart-wrap[data-cre-tight] .tb-q-data-table :is(th,td){padding:6px 6px}',
+      /* Long header text gets a floor width so it is not stacked one word per line. */
+      '@media (max-width:600px){:is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] .tb-q-data-table th.cre-th-long{min-width:7em}}',
+      /* Phones: five nested boxes (page, pane, review panel, card, explanation) left a 207 px column
+         for worked solutions on a 390 px screen. Trim the side padding for CRE Set 1 sessions. */
+      '@media (max-width:600px){'+
+        '#tb-overview:has(:is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"]){padding-left:14px;padding-right:14px}'+
+        '#tb-feedback-loop:has(.tb-review-card[data-question-id^="cre:set-1:"]){padding-left:10px;padding-right:10px}'+
+        '.tb-review-card[data-question-id^="cre:set-1:"]{padding-left:12px;padding-right:12px}'+
+        '.tb-review-card[data-question-id^="cre:set-1:"] .tb-explanation{padding-left:12px;padding-right:12px}'+
+      '}',
       '.cre-rbd-block rect{fill:color-mix(in srgb,#2c8fa6 14%,var(--card));stroke:var(--ink);stroke-width:1.2}',
       '.cre-rbd-block text{fill:var(--ink);font-size:11px}',
       '.cre-rbd-block .cre-rbd-r{font-weight:700}',
@@ -117,7 +139,7 @@
     // Root column widens to fit its label (about 6.2 px per character at the tree's font size).
     var colW=[Math.max(64,Math.round(6.2*String(root.label).length+16))].concat(new Array(maxDepth).fill(108));
     var maxOut=0;leaves.forEach(function(l){maxOut=Math.max(maxOut,String(l.outcome||'').length);});
-    var gap=34,outW=Math.max(58,Math.round(6.6*maxOut+18));
+    var gap=40,outW=Math.max(58,Math.round(6.6*maxOut+18));
     var colX=[];var x=left;
     colW.forEach(function(w,i){colX.push(x);x+=w+gap;});
     var outX=x;
@@ -141,7 +163,9 @@
       kids.forEach(function(k){
         var x2=colX[k.__depth],y2=k.__y,mx=(x1+x2)/2;
         parts.push('<path class="cre-edge" d="M'+x1+' '+y1.toFixed(1)+' C'+mx+' '+y1.toFixed(1)+' '+mx+' '+y2.toFixed(1)+' '+x2+' '+y2.toFixed(1)+'"></path>');
-        if(k.p!=null)parts.push('<text class="cre-prob" x="'+mx+'" y="'+((y1+y2)/2-5).toFixed(1)+'" text-anchor="middle">'+esc(k.p)+'</text>');
+        // The curve enters the child box horizontally, so a label just left of the box clears it: above
+        // the line for a branch that rises, below it for one that falls.
+        if(k.p!=null)parts.push('<text class="cre-prob" x="'+(x2-4)+'" y="'+(y2>y1?y2+15:y2-7).toFixed(1)+'" text-anchor="end">'+esc(k.p)+'</text>');
         draw(k);
       });
       parts.push(box(node));
@@ -268,7 +292,7 @@
     }
     (spec.markers||[]).forEach(function(mk){
       if(num(mk.x)==null||num(mk.y)==null)return;
-      var mx=px(mk.x),my=py(mk.y),anchor=mx>w-160?'end':'start',dx=anchor==='end'?-9:9;
+      var mx=px(mk.x),my=py(mk.y),anchor=mk.anchor||(mx>w-160?'end':'start'),dx=anchor==='end'?-9:9;
       s+='<circle cx="'+mx.toFixed(1)+'" cy="'+my.toFixed(1)+'" r="6" fill="none" stroke="var(--ink)" stroke-width="1.6"></circle>'+
         '<text class="cre-marker" x="'+(mx+dx).toFixed(1)+'" y="'+(my-9).toFixed(1)+'" text-anchor="'+anchor+'">'+esc(mk.label||'')+'</text>';
     });
@@ -341,7 +365,8 @@
     var bw=Math.max(96,Math.round(6.2*longest+20)),bh=38,vgap=12,colGap=46,pad=34,top=46;
     var maxN=Math.max.apply(null,stages.map(function(st){return st.blocks.length;}));
     var bodyH=maxN*bh+(maxN-1)*vgap,mid=top+bodyH/2;
-    var w=pad*2+stages.length*(bw+28)+(stages.length-1)*colGap,h=top+bodyH+52;
+    var hasNote=stages.some(function(st){return !!st.note;});
+    var w=pad*2+stages.length*(bw+28)+(stages.length-1)*colGap,h=top+bodyH+(hasNote?40:16);
     var parts=[],x=pad;
     parts.push('<circle class="cre-rbd-node" cx="'+(pad-14)+'" cy="'+mid+'" r="4"></circle><path class="cre-rbd-wire" d="M'+(pad-14)+' '+mid+' H'+x+'"></path>');
     stages.forEach(function(st,si){
@@ -363,15 +388,17 @@
       if(si<stages.length-1){parts.push('<path class="cre-rbd-wire" d="M'+x+' '+mid+' H'+(x+colGap)+'"></path>');x+=colGap;}
     });
     parts.push('<path class="cre-rbd-wire" d="M'+x+' '+mid+' H'+(x+14)+'"></path><circle class="cre-rbd-node" cx="'+(x+14)+'" cy="'+mid+'" r="4"></circle>');
-    // .cre-chart-wide has a 520px minimum: centre narrow diagrams on a 520-unit canvas instead of
-    // letting the browser scale them up (which enlarges text and clips long stage notes)
+    // A diagram wider than a phone keeps the 520px minimum (.cre-chart-wide) and scrolls. A narrow one
+    // (a single stage, say) gets a canvas just wide enough for its blocks, notes and title, so it fits a
+    // phone without scrolling and is not stranded on a wide blank canvas.
     var contentW=x+pad,longNote=0;stages.forEach(function(st){longNote=Math.max(longNote,String(st.note||'').length);});
-    w=Math.max(contentW,520,Math.round(6*longNote+2*pad));
+    w=Math.max(contentW,Math.round(6*longNote+2*pad),Math.round(7*String(spec.title||'').length+2*pad));
+    var wide=w>400;if(wide)w=Math.max(w,520);
     var shift=Math.round((w-contentW)/2);
-    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart cre-chart cre-chart-wide" style="max-width:'+w+'px" role="img" aria-label="'+esc(spec.altText||spec.title||'Reliability block diagram')+'">'+
+    var svg='<svg viewBox="0 0 '+w+' '+h+'" class="tb-q-chart cre-chart'+(wide?' cre-chart-wide':'')+'" style="max-width:'+w+'px" role="img" aria-label="'+esc(spec.altText||spec.title||'Reliability block diagram')+'">'+
       '<title>'+esc(spec.title||'Reliability block diagram')+'</title><desc>'+esc(spec.altText||'')+'</desc>'+
       '<text class="cre-title" x="'+pad+'" y="16">'+esc(spec.title||'')+'</text><g transform="translate('+shift+',0)">'+parts.join('')+'</g></svg>';
-    return wrap(spec.eyebrow||'Reliability block diagram',svg,true);
+    return wrap(spec.eyebrow||'Reliability block diagram',svg,wide);
   }
 
   /* ---------- fault tree ---------- */
@@ -382,13 +409,19 @@
     function walk(n,d){n.__d=d;depth=Math.max(depth,d);var kids=Array.isArray(n.children)?n.children:[];
       if(!kids.length){n.__i=leaves.length;leaves.push(n);return;}kids.forEach(function(k){walk(k,d+1);});}
     walk(root,0);
-    var w=Math.max(520,leaves.length*leafW+24),h=top+depth*levelH+86,off=(w-leaves.length*leafW)/2;
+    var w=Math.max(520,leaves.length*leafW+24),off=(w-leaves.length*leafW)/2;
     function place(n){var kids=Array.isArray(n.children)?n.children:[];
       if(kids.length){kids.forEach(place);n.__x=kids.reduce(function(a,k){return a+k.__x;},0)/kids.length;}
       else n.__x=off+n.__i*leafW+leafW/2;
       n.__y=top+n.__d*levelH;}
     place(root);
     var parts=[];
+    // Height: the lowest basic event's circle and label lines, plus a small margin.
+    var bottom=top+46;
+    (function low(n){var kids=Array.isArray(n.children)?n.children:[];
+      if(kids.length){bottom=Math.max(bottom,n.__y+17+10);kids.forEach(low);}
+      else bottom=Math.max(bottom,n.__y+38+(lines(n.label,15).length-1)*12+12);})(root);
+    var h=Math.ceil(bottom);
     function lines(txt,max){var words=String(txt||'').split(' '),out=[],cur='';
       words.forEach(function(wd){if((cur+' '+wd).trim().length>max&&cur){out.push(cur);cur=wd;}else cur=(cur+' '+wd).trim();});if(cur)out.push(cur);return out.slice(0,3);}
     function draw(n){
@@ -434,8 +467,61 @@
     var list=root.matches&&root.matches(selector)?[root]:root.querySelectorAll(selector);
     Array.prototype.forEach.call(list,fn);
   }
+  /* Inline math is an atomic box, so the browser may break the line between it and the punctuation
+     around it, leaving "(" at the end of one line or "." at the start of the next. Glue an opening
+     bracket or quote before, and closing punctuation after, to the equation. */
+  var INLINE_SCOPE=':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"] mjx-container:not([display="true"])';
+  function glue(el){
+    var host=el.parentNode;
+    if(!host||host.nodeName==='CRE-NOBR')return;
+    var prev=el.previousSibling,next=el.nextSibling,lead=null,trail=null;
+    if(prev&&prev.nodeType===3)lead=prev.data.match(/[(\[“‘"']+$/);
+    // Closing punctuation, or the rest of a hyphenated term such as "\(p\)-value" or "\(k\)-of-".
+    if(next&&next.nodeType===3)trail=next.data.match(/^(?:[.,;:!?)\]”’%"']+|-[A-Za-z]+-?|[ \u00a0](?:h|s|K|V|°C|kV|mm|km|kg|ksi|MPa|ppm|Hz|min|eV)(?=$|[\s.,;:)])[.,;:)]*)/);
+    if(!lead&&!trail)return;
+    // A custom inline element, not a span: engine rules such as ".tb-review-answers span" style spans.
+    var span=document.createElement('cre-nobr');
+    host.insertBefore(span,el);
+    if(lead){prev.data=prev.data.slice(0,-lead[0].length);span.appendChild(document.createTextNode(lead[0]));}
+    span.appendChild(el);
+    if(trail){next.data=next.data.slice(trail[0].length);span.appendChild(document.createTextNode(trail[0]));}
+  }
+  /* Line breaks a student should never see: a number split from its unit ("480 / h"), a short
+     hyphenated term or ID split at the hyphen ("p- / value", "FR- / 219", "100- / hour"), a page
+     range split at its dash ("6.59– / 6.62"), "Strategy / 1", "C: / Occasional", "I / (catastrophic)",
+     "worse / = −1" and "{D, / E}". Text nodes in CRE Set 1 cards get no-break spaces (U+00A0) or a word
+     joiner (U+2060) at those points; the stored question text is unchanged. No regex lookbehind, so
+     older Safari can parse it. */
+  var CARD=':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"]',NB='\u00a0',WJ='\u2060';
+  var GLUE=[
+    [/(^|[^A-Za-z\d])(\d[\d,.]*[%²³]?) (?=(?:[^\s\d=+\-−×–]{1,4}|cycles|hours|units|years|days|weeks|months|dollars|failures|financial|operational|strategic|cybersecurity)(?:$|[\s.,;:)]))/g,'$1$2'+NB], // number + unit
+    [/\b(Ch\.|Fig\.|No\.) (\d)/g,'$1'+NB+'$2'],                // "Ch. 5"
+    [/\b([A-Z][a-z]+) (\d{1,3})(?=$|[\s,;:)]|\.(?!\d))/g,'$1'+NB+'$2'], // "Strategy 1", "Stage 2"
+    [/([\d\u0370-\u03ff]|\b[A-Za-z]{1,3})-(?=[A-Za-z\d])/g,'$1-'+WJ], // short or numeric hyphen compounds
+    [/-(\d)/g,'-'+WJ+'$1'],                                       // "FR-219"
+    [/–(\d)/g,'–'+WJ+'$1'],                                       // page and value ranges
+    [/\b([A-Z]):[ ]/g,'$1:'+NB],                                  // "C: Occasional"
+    [/\b([IVX]{1,4}) \(/g,'$1'+NB+'('],                           // "I (catastrophic)"
+    [/(\S) = ([−\-+]?\d)/g,'$1'+NB+'='+NB+'$2'],                 // "worse = −1"
+    [/\{([^{}\s]{1,4}), /g,'{$1,'+NB]                            // "{D, E}"
+  ];
+  function glueText(card){
+    var walker=document.createTreeWalker(card,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+      var p=n.parentNode;
+      return p&&p.closest&&!p.closest('mjx-container,svg,script,style,textarea,input')?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;}});
+    var n,todo=[];
+    while((n=walker.nextNode()))todo.push(n);
+    todo.forEach(function(node){
+      var s=node.data,o=s;
+      GLUE.forEach(function(g){s=s.replace(g[0],g[1]);});
+      if(s!==o)node.data=s;
+    });
+  }
   function labelMath(root){
     if(!root||!root.querySelectorAll)return;
+    each(root,INLINE_SCOPE,glue);
+    var card=root.closest?root.closest(CARD):null;
+    if(card)glueText(card);else each(root,CARD,glueText);
     each(root,SCOPE,function(el){
       if(el.hasAttribute('data-cre-math'))return;
       el.setAttribute('data-cre-math','');el.tabIndex=0;el.setAttribute('role','region');
@@ -443,11 +529,52 @@
     });
     // Exhibit tables scroll inside their wrapper; make that region reachable by keyboard.
     each(root,TABLE_SCOPE,function(el){
-      if(el.hasAttribute('data-cre-table')||!el.querySelector('table.tb-q-data-table'))return;
+      var table=el.querySelector('table.tb-q-data-table');
+      if(el.hasAttribute('data-cre-table')||!table)return;
       el.setAttribute('data-cre-table','');el.tabIndex=0;el.setAttribute('role','region');
       el.setAttribute('aria-label','Exhibit table; scroll sideways to see every column');
+      alignColumns(table);
+      fitTable(el);
+    });
+    // Math typeset inside a table after render changes its width, so measure that table again.
+    var host=root.closest?root.closest('.tb-q-chart-wrap[data-cre-table]'):null;
+    if(host)fitTable(host);
+  }
+  /* The engine aligns each cell on its own (text left, numbers centred), so a column that mixes
+     "140 °C" with "Field: 40 °C, twice a day" zigzags. Align a whole column as text if any cell is text. */
+  function alignColumns(table){
+    var rows=Array.prototype.slice.call(table.rows),width=0;
+    rows.forEach(function(r){width=Math.max(width,r.cells.length);});
+    for(var c=0;c<width;c++){
+      var cells=rows.map(function(r){return r.cells[c];}).filter(Boolean);
+      var body=cells.filter(function(td){return td.tagName==='TD';});
+      if(!body.some(function(td){return td.classList.contains('tb-q-text');}))continue;
+      cells.forEach(function(cell){cell.classList.remove('tb-q-num');cell.classList.add('tb-q-text');});
+    }
+    Array.prototype.forEach.call(table.querySelectorAll('th'),function(th){
+      if((th.textContent||'').trim().length>12)th.classList.add('cre-th-long');
     });
   }
+  // Flag a table wrapper whose table is wider than the card, so the swipe hint shows only when needed.
+  function fitTable(wrap){
+    if(!wrap)return;
+    // A table that overflows by a little fits once its cells are tightened; try that before scrolling.
+    wrap.removeAttribute('data-cre-tight');
+    var over=wrap.scrollWidth-wrap.clientWidth;
+    if(over>1&&over<=40){wrap.setAttribute('data-cre-tight','');over=wrap.scrollWidth-wrap.clientWidth;}
+    if(over>1)wrap.setAttribute('data-cre-overflow','');
+    else wrap.removeAttribute('data-cre-overflow');
+  }
+  // Re-measure after the viewport changes (rotation, window resize). A plain debounced resize listener,
+  // not a ResizeObserver: showing the hint changes the wrapper's height, which would re-trigger an observer.
+  // Only a width change can change overflow; ignore height-only resizes (mobile toolbars, screenshots).
+  var refit=null,lastWidth=typeof window!=='undefined'?window.innerWidth:0;
+  if(typeof window!=='undefined'&&window.addEventListener)window.addEventListener('resize',function(){
+    if(window.innerWidth===lastWidth)return;
+    lastWidth=window.innerWidth;
+    clearTimeout(refit);
+    refit=setTimeout(function(){Array.prototype.forEach.call(document.querySelectorAll('.tb-q-chart-wrap[data-cre-table]'),fitTable);},150);
+  });
   if(typeof document!=='undefined'){
     ensureStyle();
     if(typeof MutationObserver==='function'&&document.body){
@@ -455,5 +582,5 @@
         .observe(document.body,{childList:true,subtree:true});
     }
   }
-  global.__CREVisuals={render:render,types:Object.keys(RENDERERS),labelMath:labelMath};
+  global.__CREVisuals={render:render,types:Object.keys(RENDERERS),labelMath:labelMath,fitTable:fitTable};
 })(window);

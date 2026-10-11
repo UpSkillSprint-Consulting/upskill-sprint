@@ -550,12 +550,16 @@ test('Q28 life table from the Nevada chart (cohorts pooled by month in service)'
 
 test('Q23 and Q30 exhibits support their keys', () => {
   const q23 = byId('cre:set-1:b03-q23');
-  assert.match(q23.chart.rows.find((r) => r[0] === 'U5')[1], /Removed at 400 h/);
+  assert.match(q23.chart.rows.find((r) => r[0] === 'U5')[1], /Removed, still running, at 400 h/);
   assert.match(q23.chart.rows.find((r) => r[0] === 'U7')[1], /250 h inspection was skipped; found failed at 500 h/);
   assert.match(q23.options[q23.answer], /^U1 and U7 are left-censored.*U2 and U6 are interval-censored.*U4 and U5 are right-censored \(at 1,000 h and 400 h\)\.$/);
   const q30 = byId('cre:set-1:b03-q30');
   q30.chart.rows.forEach((r) => assert.equal(Number(r[5]) > 0, r[4] === 'Implementation', `${r[0]}: recurrence iff closed without verification`));
-  assert.match(q30.options[q30.answer], /remedial.*containment/);
+  // the key reopens every report that recurred, including FR-211, whose corrective action failed
+  const recurring = q30.chart.rows.filter((r) => Number(r[5]) > 0).map((r) => r[0]);
+  assert.equal(recurring.join(', '), 'FR-211, FR-214, FR-219');
+  assert.match(q30.options[q30.answer], /reopen the three recurring reports/);
+  recurring.forEach((id) => assert.ok(q30.options[q30.answer].includes(id), id));
 });
 
 test('Q31 Kaplan-Meier at 1,000 h with two suspensions; 5,000 h needs a parametric model', () => {
@@ -661,7 +665,7 @@ test('Q37 the plan separates field-combined stresses and runs on overdue calibra
 test('Q38 heavy-user life in cycles, then the extended zero-failure sample size', () => {
   const q = byId('cre:set-1:b04-q38');
   const plan = tableOf(q);
-  const perWeek = plan['Use at the 10th, 50th and 90th percentile user'].match(/\d+/g).map(Number);
+  const perWeek = plan['Usage at the 10th, 50th and 90th percentiles'].match(/\d+/g).map(Number);
   const weeks = n_(plan['Warranty life'].match(/\((\d+) weeks\)/)[1]);
   const beta = Number(plan['Known Weibull shape \\(\\beta\\)']), rig = n_(plan['Rig limit per latch']);
   const size = (cycles) => Math.ceil(Math.log(0.10) / ((rig / cycles) ** beta * Math.log(0.95)));
@@ -1089,8 +1093,14 @@ test('Q94 overall residual risk exceeds its criterion although each hazard passe
   assert.equal(Math.round(total * unitYearsM), 120);
   assert.ok(total > 500);
   assert.match(q.options[q.answer], /^About 120 events; do not release, because the five hazards together exceed the limit of 500/);
-  assert.ok(q.options.some((o) => o.startsWith(`About ${Math.round(Math.max(...rates) * unitYearsM)} `)), 'largest-hazard trap');
-  assert.ok(q.options.some((o) => o.startsWith(`About ${Math.round(total / rates.length * unitYearsM)} `)), 'average trap');
+  // 2 x 2 design: each count (average trap, correct total) appears with each decision, so no number cues the key
+  const avg = Math.round(total / rates.length * unitYearsM);
+  assert.equal(avg, 24, 'average trap');
+  for (const n of [avg, 120]) {
+    const withN = q.options.filter((o) => o.startsWith(`About ${n} events; `));
+    assert.equal(withN.length, 2, `${n} appears twice`);
+    assert.equal(withN.filter((o) => /; do not release/.test(o)).length, 1, `${n} with each decision`);
+  }
 });
 
 test('Q95 mitigated loss rate counts uncovered outages plus the secondary risk', () => {
@@ -1156,8 +1166,9 @@ test('Q105 FRACAS backlog: 13 open reports need about 6 more weeks at the closur
   assert.equal(rate, 2);
   assert.ok(open12 / rate > 14 - 12, 'backlog cannot clear before the gate');
   assert.equal(opened[11] - opened[7], 3, 'arrivals are leveling off');
-  assert.ok((open12 - (opened[5] - closed[5])) / 6 > -1, 'backlog shrinks by less than 1 a week');
-  assert.match(q.options[q.answer], /^New reports are leveling off, but 13 remain open and the backlog shrinks by less than 1 a week/);
+  const shrink = ((opened[7] - closed[7]) - open12) / 4;
+  assert.ok(shrink > 0.75 && shrink < 1.5, 'backlog shrinks by about 1 a week over weeks 8 to 12');
+  assert.match(q.options[q.answer], /^New reports are leveling off, but 13 remain open and the backlog shrinks by only about 1 a week/);
 });
 
 test('Q106 achieved availability uses MTBM and active corrective plus preventive time', () => {
@@ -1205,12 +1216,12 @@ test('Q111 lifecycle cost favors the pump that is dearest to buy', () => {
   const pumps = [...q.chart.rows].map(([id, price, mtbf, mttr]) => ({ id, price: n_(price), mtbf: n_(mtbf), mttr: n_(mttr) }));
   const lcc = (p, down = true) => p.price + (life / p.mtbf) * (800 + (down ? 200 * p.mttr : 0));
   const costs = Object.fromEntries(pumps.map((p) => [p.id, lcc(p)]));
-  assert.deepEqual(costs, { A: 25000, B: 12500, C: 11400 });
+  assert.deepEqual(costs, { P1: 25000, P2: 12500, P3: 11400 });
   const best = pumps.reduce((a, b) => (lcc(b) < lcc(a) ? b : a));
-  assert.equal(best.id, 'C');
-  assert.match(q.options[q.answer], /^Pump C, with the lowest lifecycle cost at about \$11,400/);
+  assert.equal(best.id, 'P3');
+  assert.match(q.options[q.answer], /^Pump P3, with the lowest lifecycle cost at about \$11,400/);
   const noDown = pumps.reduce((a, b) => (lcc(b, false) < lcc(a, false) ? b : a));
-  assert.equal(noDown.id, 'B', 'leaving out downtime picks B (the trap)');
+  assert.equal(noDown.id, 'P2', 'leaving out downtime picks P2 (the trap)');
   assert.ok(q.options.some((o) => o.includes(`$${lcc(noDown, false).toLocaleString('en-US')}`)));
 });
 
@@ -1253,7 +1264,7 @@ test('Q121 sterilizer days: two loads of 100 cycles at 4.5 h, whole cycles in an
   const q = byId('cre:set-1:b13-q121');
   const d = Object.fromEntries([...q.chart.rows].map(([k, v]) => [k, n_(v)]));
   const loads = Math.ceil(d['Units on test'] / d['Sterilizer capacity']);
-  const cycles = loads * d['Cycles required per unit'], ct = d['Cycle time per load, including 0.5 h functional check'], day = d['Sterilizer availability'];
+  const cycles = loads * d['Cycles required per unit'], ct = d['Sterilizer time per load, including 0.5 h functional check'], day = d['Sterilizer availability'];
   const byHours = Math.ceil(cycles * ct / day), byWholeCycles = Math.ceil(cycles / Math.floor(day / ct));
   assert.equal(byHours, byWholeCycles, 'continuous and whole-cycle schedules agree');
   assert.equal(q.options[q.answer], `${byHours} days`);
@@ -1634,7 +1645,21 @@ test('typeset display math in Set 1 becomes a full-size, keyboard-scrollable reg
     assert.equal(wrap.getAttribute('role'), 'region');
     assert.equal(wrap.tabIndex, 0);
     assert.match(wrap.getAttribute('aria-label'), /scroll sideways to see every column/);
-    assert.match(css, /max-width:600px[^}]*th:nth-child\(4\)\)::before\{content:"Swipe sideways to see every column\."/);
+    assert.match(css, /\.tb-q-chart-wrap\[data-cre-overflow\]::before\{content:"Swipe sideways to see every column\."/);
+    // The hint follows the measured overflow: jsdom has no layout, so stub the widths.
+    Object.defineProperty(wrap, 'scrollWidth', { configurable: true, value: 520 });
+    Object.defineProperty(wrap, 'clientWidth', { configurable: true, value: 300 });
+    window.__CREVisuals.fitTable(wrap);
+    assert.ok(wrap.hasAttribute('data-cre-overflow'), 'a table wider than its card shows the swipe hint');
+    Object.defineProperty(wrap, 'scrollWidth', { configurable: true, value: 300 });
+    window.__CREVisuals.fitTable(wrap);
+    assert.ok(!wrap.hasAttribute('data-cre-overflow'), 'a table that fits shows no hint');
+    // A column with any text cell is aligned as text throughout (Q30's last column is numeric only).
+    const columns = [...wrap.querySelectorAll('tr')].map((r) => [...r.cells].map((c) => c.className));
+    assert.ok(columns.every((r) => r[1] === 'tb-q-text'), 'failure-mode column aligned as text');
+    assert.ok(columns.slice(1).every((r) => r[5] === 'tb-q-num'), 'recurrence column stays numeric');
+    assert.match(css, /\.tb-q-data-table th\{text-transform:none/);
+    assert.match(css, /\.tb-source-ref\{display:block/);
     assert.deepEqual(errors, []);
   } finally { dom.window.close(); }
 });
@@ -1645,4 +1670,61 @@ test('a broken CRE visual falls back to its full text description', () => {
   const html = sandbox.window.__CREVisuals.render({ type: 'cre-weibull-plot', title: 'Plot', altText: 'Ten points near a line with slope 0.5.', xTicks: [], points: [] });
   assert.match(html, /Ten points near a line with slope 0\.5\./);
   assert.equal(sandbox.window.__CREVisuals.render({ type: 'cre-unknown' }), '');
+});
+
+test('a narrow reliability block diagram fits a phone instead of sitting on a wide blank canvas', () => {
+  const sandbox = { window: {} };
+  vm.runInNewContext(CRE_UI_SOURCE, sandbox);
+  const narrow = sandbox.window.__CREVisuals.render(byId('cre:set-1:b07-q62').chart);
+  const width = Number(narrow.match(/viewBox="0 0 (\d+) /)[1]);
+  assert.ok(width <= 400, `Q62 canvas is ${width} units`);
+  assert.doesNotMatch(narrow, /cre-chart-wide|Swipe sideways/);
+  const wide = sandbox.window.__CREVisuals.render(byId('cre:set-1:b06-q59').chart);
+  assert.match(wide, /cre-chart-wide/);
+  assert.ok(Number(wide.match(/viewBox="0 0 (\d+) /)[1]) >= 520);
+});
+
+test('second student audit: diagrams have no empty bands and tree labels clear their branches', () => {
+  const sandbox = { window: {} };
+  vm.runInNewContext(CRE_UI_SOURCE, sandbox);
+  const render = (id) => sandbox.window.__CREVisuals.render(byId(id).chart);
+  const viewBox = (svg) => svg.match(/viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/).slice(1).map(Number);
+  // Q129: a block diagram with no stage notes ends just below its blocks
+  const [, rbdH] = viewBox(render('cre:set-1:b13-q129'));
+  assert.ok(rbdH <= 46 + 38 + 16, `Q129 diagram is ${rbdH} units tall`);
+  // Q90: the fault tree ends just below its lowest basic-event labels (top 40, two levels of 96)
+  const [, ftH] = viewBox(render('cre:set-1:b09-q90'));
+  assert.ok(ftH <= 40 + 2 * 96 + 62, `Q90 fault tree is ${ftH} units tall`);
+  // Q3: each branch probability sits beside the child box (right-aligned), not on the curve's midpoint
+  const tree = render('cre:set-1:b01-q03');
+  const probs = [...tree.matchAll(/<text class="cre-prob" x="([\d.]+)"[^>]*text-anchor="(\w+)">/g)];
+  assert.equal(probs.length, 10);
+  probs.forEach((m) => assert.equal(m[2], 'end'));
+  // Q47: the "Rejectable MTBF" label sits left of its marker, clear of the rising curve
+  assert.match(render('cre:set-1:b05-q47'), /text-anchor="end">Rejectable MTBF</);
+});
+
+test('second student audit: phone line breaks keep numbers with units, short IDs and ranges together', () => {
+  const dom = new JSDOM('<!doctype html><body><div class="tb-review-card" data-question-id="cre:set-1:b01-q08"><p id="t">Suspensions at 480 h and 1,000 h; FR-219 and P-107; a p-value; Examples 6.59–6.62; Ch. 5; Strategy 1; C: Occasional; worse = −1; {D, E}</p></div><div class="tb-review-card" data-question-id="cre:set-2:001"><p id="other">at 480 h</p></div></body>', { runScripts: 'outside-only' });
+  dom.window.eval(CRE_UI_SOURCE);
+  dom.window.__CREVisuals.labelMath(dom.window.document.body);
+  const text = dom.window.document.getElementById('t').textContent;
+  for (const s of ['480\u00a0h', '1,000\u00a0h', 'FR-\u2060219', 'P-\u2060107', 'p-\u2060value', '6.59–\u20606.62', 'Ch.\u00a05', 'Strategy\u00a01', 'C:\u00a0Occasional', 'worse\u00a0=\u00a0−1', '{D,\u00a0E}']) {
+    assert.ok(text.includes(s), JSON.stringify(s));
+  }
+  // other sets are untouched, and the stored question text is never changed
+  assert.equal(dom.window.document.getElementById('other').textContent, 'at 480 h');
+  assert.ok(!/[\u00a0\u2060]/.test(CRE_SET1_SOURCE), 'question data stays plain');
+});
+
+test('second student audit: nested exponents are written as exp[] so they are not set at second-script size', () => {
+  for (const q of BANK) {
+    const text = [q.stem, q.why, q.keyPoint, q.trap, q.formula, ...q.options, ...q.optionRationales].join(' ');
+    for (const m of text.matchAll(/(?<![A-Za-z\\])e\^\{/g)) {
+      let i = m.index + 3, depth = 1;
+      while (depth) { depth += text[i] === '{' ? 1 : text[i] === '}' ? -1 : 0; i += 1; }
+      const exponent = text.slice(m.index + 3, i - 1);
+      assert.ok(!/[_^]/.test(exponent) && exponent.length <= 14, `${q.qid}: e^{${exponent}}`);
+    }
+  }
 });
