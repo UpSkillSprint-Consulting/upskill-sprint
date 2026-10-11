@@ -7,15 +7,10 @@ const path = require('node:path');
 const root = path.join(__dirname, '..');
 const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 
-/* The certification test bank (exam simulations, practice, quizzes) is gated
-   with the same soft sign-in gate as the engineering tools: it opts in via a
-   data-require-auth <body> attribute and relies on require-auth.js, which is
-   loaded site-wide by site-sections.js. The gate's behaviour itself is covered
-   by tests/require-auth-gate.test.js; these guard this page's opt-in. */
-
-test('the certification test bank opts into the sign-in gate', () => {
-  assert.match(read('test-bank.html'), /<body[^>]*\bdata-require-auth\b/,
-    'test-bank.html must carry data-require-auth');
+/* Source banks are authoring inputs. The build emits an empty public shell;
+   exam-access-delivery.test.js verifies the actual server protection. */
+test('the certification simulator opts into per-exam delivery', () => {
+  assert.match(read('test-bank.html'), /<body[^>]*data-exam-delivery="source"/);
 });
 
 test('the test bank loads the shared gate loader so the gate can run', () => {

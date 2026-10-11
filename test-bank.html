@@ -388,7 +388,7 @@
 </style>
 <link rel="stylesheet" href="/test-bank-pmp-bank2.css">
 </head>
-<body data-require-auth data-required-access="premium" data-access-resource="exam:/test-bank">
+<body data-exam-delivery="source" data-require-auth data-required-access="premium" data-access-resource="exam:/test-bank">
   <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
   <header class="site">
     <a href="index.html" class="brand">
@@ -2599,7 +2599,7 @@
     if(domain&&!domain.subs.some(function(s){return s.id===pair[1];}))domain.subs.push({id:pair[1],name:domain.subs[0].name,w:0,lesson:domain.subs[0].lesson,lessonName:domain.subs[0].lessonName});
   });
   var GROUPS=[['Six Sigma',['cssbb','mbb','cssgb']],['Quality',['cqe','cqa','cmq']],['Reliability',['cre']],['Project Management',['pmp']]];
-  var current='cssbb', view='browse', session=null;
+  var current=window.__ExamAccess?window.__ExamAccess.exam:'cssbb', view='browse', session=null;
   var selectedSet='1'; /* Full Exam selection; Quick and Focused keep their own mode choices. */
   var diagTimed=true, timerId=null, calcExpr='';
   var perfAnalyticsOpen=false; /* true once the user opens Performance Analytics; used to
@@ -3533,7 +3533,7 @@
     if(chart && chart.type==='source-image'){
       // Keep source figures intact in exams, review, retries and adaptive practice.
       // Only repository-owned assets are accepted; question data never injects HTML.
-      if(!/^\/test-bank-assets\/[a-zA-Z0-9/_-]+\.(png|webp|jpg)$/.test(chart.src||''))return '';
+      if(!(window.__ExamAccess?window.__ExamAccess.isAssetUrl(chart.src):/^\/test-bank-assets\/[a-zA-Z0-9/_-]+\.(png|webp|jpg)$/.test(chart.src||'')))return '';
       var imageWidth=Number(chart.width), imageHeight=Number(chart.height);
       if(!Number.isFinite(imageWidth)||!Number.isFinite(imageHeight)||imageWidth<=0||imageHeight<=0)return '';
       return '<figure class="tb-q-chart-wrap tb-source-figure">'+
@@ -3939,7 +3939,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     host.innerHTML=GROUPS.map(function(g){
       return '<div class="tb-group"><div class="gl">'+g[0]+'</div>'+g[1].map(function(id){
         var e=EXAMS[id];var st=loadState(id);var readinessValue=id===current&&currentSummary&&currentSummary.attempted?currentSummary.readiness:(st&&st.lastReadiness);
-        var tag=hasBank(e)?(readinessValue!=null?'<span class="tb-tag ready"><span class="d2"></span>'+readinessValue+'% ready</span>':'<span class="tb-tag live"><span class="d2"></span>'+esc(setsAvailLabel(e))+'</span>'):'<span class="tb-tag">Coming soon</span>';
+        var tag=window.__ExamAccess&&id!==current&&id!=='cqa'?'<span class="tb-tag">&#128274; Check exam access</span>':hasBank(e)?(readinessValue!=null?'<span class="tb-tag ready"><span class="d2"></span>'+readinessValue+'% ready</span>':'<span class="tb-tag live"><span class="d2"></span>'+esc(setsAvailLabel(e))+'</span>'):'<span class="tb-tag">Coming soon</span>';
         return '<button class="tb-tile'+(id===current?' active':'')+'" data-exam="'+id+'" aria-label="'+esc(e.body)+'">'+
           '<span class="tb-badge" style="background:'+e.bc+'">'+e.badge+'</span>'+
           '<span class="tb-tinfo"><span class="tb-tn">'+esc(e.body.replace('ASQ ',''))+'</span>'+
@@ -3948,7 +3948,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       }).join('')+'</div>';
     }).join('');
     Array.prototype.forEach.call(host.querySelectorAll('.tb-tile'),function(b){
-      b.addEventListener('click',function(){var previous=current;current=b.dataset.exam;view='browse';session=null;resetMode();renderRail();renderMain();try{document.dispatchEvent(new CustomEvent('tb:exam-changed',{detail:{examId:current,previousExamId:previous}}));}catch(e){}});
+      b.addEventListener('click',function(){if(window.__ExamAccess){if(b.dataset.exam!==current)window.location.assign('/test-bank?exam='+encodeURIComponent(b.dataset.exam));return;}var previous=current;current=b.dataset.exam;view='browse';session=null;resetMode();renderRail();renderMain();try{document.dispatchEvent(new CustomEvent('tb:exam-changed',{detail:{examId:current,previousExamId:previous}}));}catch(e){}});
     });
   }
 
@@ -4260,6 +4260,10 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
   }
   function diagCount(e){var b=activeBank(e);return Math.min(b.length,pickStratified(b,2).length);}
   function beginSession(e,items,kind,timed,limitSeconds,filter,setId){
+    var start=function(){return beginAuthorizedSession(e,items,kind,timed,limitSeconds,filter,setId);};
+    return window.__ExamAccess?window.__ExamAccess.start(start):start();
+  }
+  function beginAuthorizedSession(e,items,kind,timed,limitSeconds,filter,setId){
     if(!items||!items.length)return false;
     setId=filter?'mix':String(setId==null?(kind==='quick'?mode.quickSet:kind==='focus'?mode.focusSet:selectedSet):setId);
     buildTools();

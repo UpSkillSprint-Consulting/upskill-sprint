@@ -20,7 +20,7 @@ test('both startup writers and repeated cleanup preserve all administrator label
     const status = textNode(restricted ? 'Administrator' : 'Available');
     const action = textNode(restricted ? 'Administrator access' : 'Open tool');
     cards[id] = {status,action,classList:{add(){},remove(){}},
-      getAttribute:() => restricted ? 'administrator' : null,
+      getAttribute:() => restricted ? 'administrator' : null, hasAttribute:()=>false,
       setAttribute(){},querySelector:s => s === '.tool-status' ? status : s === '.tool-link' ? action : null};
   }
   const context = {normalizedCurrentPath:()=>'/engineering-tools',isEngineeringToolsPage:()=>true,

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Tool Access | UpSkill Sprint</title>
+<link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/admin-exam-access.css">
+<script src="/theme.js"></script><script src="/site-sections.js"></script>
+<script defer src="/admin-exam-access.js"></script>
+</head>
+<body data-site-chrome="minimal" data-access-scope="tool"><main class="exam-admin">
+<nav class="exam-admin-top" aria-label="Admin navigation"><a href="/engineering-tools">← Engineering tools</a>
+<button type="button" class="theme-toggle" data-theme-toggle="true" role="switch" aria-checked="false" aria-label="Switch to dark mode"><span class="sr-only">Toggle light and dark mode</span></button></nav>
+<p class="eyebrow">Administration</p><h1>Give accounts the right tools.</h1>
+<p class="exam-admin-intro">Manage each tool individually. Choose an account, review its tools, and grant access for as long as needed.</p>
+<p><a href="/admin-exam-access">Manage exam access</a></p>
+<p id="exam-admin-status" role="status" aria-live="polite">Checking administrator access…</p>
+<a id="exam-admin-signin" href="/sign-in.html?next=%2Fadmin-tool-access.html" hidden>Sign in as an administrator</a>
+<div id="exam-admin-controls" hidden>
+<div class="exam-admin-layout">
+<section class="exam-admin-panel" aria-labelledby="member-heading">
+<h2 id="member-heading">Account access</h2><p>Search using the account’s complete account email.</p>
+<form id="exam-member-search" class="exam-admin-search"><div><label for="exam-member-email">Account email</label>
+<input id="exam-member-email" type="email" required maxlength="254" autocomplete="off" placeholder="learner@example.com"></div>
+<button class="btn btn-teal">Find learner</button></form>
+<section id="exam-member" hidden aria-labelledby="exam-member-title">
+<div class="exam-admin-member"><div><h3 id="exam-member-title" tabindex="-1"></h3><p id="exam-member-note"></p></div><button id="exam-member-reload" type="button" class="btn">Reload account</button></div>
+<div id="exam-member-cards" class="exam-admin-cards"></div>
+<form id="exam-access-edit" hidden class="exam-admin-editor"><h3 id="exam-edit-title" tabindex="-1"></h3><p id="exam-edit-state"></p>
+<label for="exam-grant-expiry">Access expires (your local time)</label>
+<input id="exam-grant-expiry" type="datetime-local" aria-describedby="exam-expiry-help">
+<p id="exam-expiry-help">Leave empty for no expiry.</p><div class="exam-admin-actions">
+<button id="exam-grant" type="submit" class="btn btn-teal" data-operation="grant">Grant access</button>
+<button id="exam-approve" type="submit" class="btn btn-teal" data-operation="approve">Approve request</button>
+<button id="exam-revoke" type="submit" class="btn" data-operation="revoke">Revoke access</button>
+<button id="exam-decline" type="submit" class="btn" data-operation="decline">Decline request</button>
+</div><p class="exam-admin-help">Revocation blocks the next protected request. Material already loaded cannot be recalled.</p></form>
+<details class="exam-admin-history"><summary>Recent decisions</summary><p>Up to 20 recent changes from the last 90 days.</p><ul id="exam-member-history"></ul></details>
+</section></section>
+<aside class="exam-admin-panel" aria-labelledby="exam-requests-heading"><h2 id="exam-requests-heading">Access requests</h2><p>Review requests one account and tool at a time.</p>
+<button id="exam-requests-refresh" type="button" class="btn">Load requests</button>
+<p id="exam-requests-status" role="status">Requests load when you ask.</p><ul id="exam-request-list" class="exam-admin-requests"></ul>
+<button id="exam-requests-next" type="button" class="btn" hidden>Next 25 requests</button>
+</aside></div>
+<details class="exam-admin-maintenance"><summary>History maintenance</summary><p>Remove up to 200 decisions older than 90 days. Current grants and requests stay in place. Recent history is also trimmed when decisions are saved.</p><button id="exam-history-prune" type="button" class="btn">Clean old history</button></details>
+</div>
+<dialog id="exam-decision-dialog" class="exam-admin-dialog" aria-labelledby="exam-decision-title" aria-describedby="exam-decision-summary">
+<h2 id="exam-decision-title">Review access decision</h2>
+<p id="exam-decision-summary"></p>
+<div class="exam-admin-actions"><button id="exam-decision-cancel" type="button" class="btn" autofocus>Cancel</button><button id="exam-decision-confirm" type="button" class="btn btn-teal">Confirm decision</button></div>
+</dialog>
+<noscript>JavaScript is required to manage tool access.</noscript>
+</main></body></html>

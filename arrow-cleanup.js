@@ -308,7 +308,7 @@
 
     tools.forEach(function (tool) {
       const card = document.getElementById(tool.id);
-      if (!card) return;
+      if (!card || card.hasAttribute('data-tool')) return;
 
       card.setAttribute('href', tool.path);
       card.classList.remove('is-planned');

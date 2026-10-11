@@ -5,6 +5,8 @@ on:
   pull_request:
     paths:
       - 'exam-practice.html'
+      - 'exam-directory.*'
+      - 'scripts/exam-directory-browser.py'
       - 'tools/unit-converter.html'
       - 'lessons.html'
       - 'site-sections.js'
@@ -13,6 +15,12 @@ on:
       - 'auth.js'
       - 'access-control.js'
       - 'test-bank.html'
+      - 'exam-access-loader.js'
+      - 'exam-access.css'
+      - 'admin-exam-access.*'
+      - 'scripts/exam-admin-browser.py'
+      - 'scripts/build-exam-delivery.mjs'
+      - 'netlify/functions/exam-content.mjs'
       - 'netlify/edge-functions/test-bank-mobile-picker.js'
       - 'tests/exam-practice-section.test.js'
       - 'tests/premium-simulator-access.test.js'
@@ -60,7 +68,10 @@ jobs:
       - name: Audit learner journeys, layout, and contrast
         env:
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          EXAM_DELIVERY_PREVIEW: '1'
         run: |
+          node scripts/stage-public-site.mjs
+          node scripts/build-exam-delivery.mjs
           mkdir -p exam-practice-audit-evidence
           node scripts/student-review-server.mjs > exam-practice-audit-evidence/server.log 2>&1 &
           SERVER_PID=$!
@@ -69,7 +80,9 @@ jobs:
             curl -fsS http://127.0.0.1:8765/exam-practice -o /dev/null && break || sleep 1
           done
           set -o pipefail
+          python -u scripts/exam-directory-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/directory-browser.log
           python -u scripts/exam-practice-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/browser.log
+          python -u scripts/exam-admin-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/admin-browser.log
       - name: Upload audit results and screenshots
         if: always()
         uses: actions/upload-artifact@v6

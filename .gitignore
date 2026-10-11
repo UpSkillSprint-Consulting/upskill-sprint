@@ -4,6 +4,9 @@ node_modules/
 .segment03-results/
 public-site/
 .netlify/
+supabase/.temp/
+content/exam-delivery-generated/
+content/tool-delivery-generated/
 
 # OS / editor metadata that should never be committed
 .thumbnail

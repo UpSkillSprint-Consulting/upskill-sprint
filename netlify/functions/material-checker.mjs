@@ -64,7 +64,7 @@ export default async function materialChecker(request) {
     const token = bearerToken(request);
     const user = await authenticatedUser(token);
     if (!user) return json(401, {error: 'Authentication is required.'});
-    if (!(await canAccessChecker(token))) return json(403, {error: 'Administrator access to this tool is required.'});
+    if (!(await canAccessChecker(token))) return json(403, {error: 'Access to this tool is required. Ask an administrator to grant access.'});
 
     const namespace = 'user-' + user.id;
     const key = namespace + '/workspace.json';

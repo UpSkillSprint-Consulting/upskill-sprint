@@ -1,0 +1,51 @@
+name: Exam access foundation
+
+on:
+  pull_request:
+    paths:
+      - 'supabase/migrations/*exam_access*'
+      - 'supabase/access-levels.sql'
+      - 'supabase/premium-simulator-access.sql'
+      - 'tests/exam-access-foundation.test.js'
+      - 'tests/exam-access-release-audit.test.js'
+      - 'tests/exam-access-delivery.test.js'
+      - 'tests/exam-access-admin*.test.js'
+      - 'admin-exam-access.*'
+      - 'admin-access.html'
+      - 'profile.html'
+      - 'exam-access-loader.js'
+      - 'exam-access.css'
+      - 'exam-practice.html'
+      - 'exam-directory.*'
+      - 'tests/exam-directory.test.js'
+      - 'test-bank*'
+      - 'test-bank-assets/**'
+      - 'netlify/functions/exam-content.mjs'
+      - 'netlify/edge-functions/test-bank-mobile-picker.js'
+      - 'netlify.toml'
+      - 'scripts/build-exam-delivery.mjs'
+      - 'scripts/audit-exam-public-content.mjs'
+      - 'scripts/stage-public-site.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/exam-access-foundation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - name: Test local PostgreSQL permissions and existing membership behaviour
+        run: node --test tests/exam-access-foundation.test.js tests/exam-access-release-audit.test.js tests/exam-access-delivery.test.js tests/exam-access-admin.test.js tests/exam-access-admin-ui.test.js tests/exam-directory.test.js tests/access-levels.test.js tests/premium-simulator-access.test.js tests/owner-admin.test.js tests/test-bank-stateless-results.test.js tests/test-bank-gate.test.js
+      - name: Build site and reject public question banks
+        run: npm run build:site
