@@ -145,6 +145,18 @@ test('search crosses domains and a miss names the query', () => {
   dom.window.close();
 });
 
+test('formula text is escaped before it is written into the drawer', () => {
+  const dom = build({ sub: 'pmp-people', stem: 'What should you do?' });
+  const amp = String.fromCharCode(38);
+  const expected = amp + 'lt;b' + amp + 'gt;' + amp + 'amp;' + amp + 'quot;' + amp + '#39;';
+  assert.equal(dom.window.__TB_PMP_FORMULAS.esc('<b>&"\''), expected);
+  dom.window.__TB_PMP_FORMULAS.renderContextualPane('free float');
+  const card = dom.window.document.querySelector('[data-formula-id="PMP-FF"]');
+  assert.match(card.textContent, /activity's early finish/);
+  assert.equal(card.querySelector('b, img, script'), null);
+  dom.window.close();
+});
+
 test('leaving PMP restores the ASQ formula note', () => {
   const dom = build({ sub: 'pmp-process', stem: 'What should you do?' });
   dom.window.__TB_FORMULAS_TEST__.renderContextualPane('');

@@ -393,8 +393,11 @@
 
   function esc(value) {
     return String(value == null ? '' : value)
-      .replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>')
-      .replace(/"/g, '"').replace(/'/g, '&#39;');
+      .replace(/&/g, '\u0026amp;')
+      .replace(/</g, '\u0026lt;')
+      .replace(/>/g, '\u0026gt;')
+      .replace(/"/g, '\u0026quot;')
+      .replace(/'/g, '\u0026#39;');
   }
 
   function fold(value) {
@@ -593,7 +596,8 @@
     recommend: recommend,
     questionSection: questionSection,
     renderContextualPane: renderContextualPane,
-    installRefs: installRefs
+    installRefs: installRefs,
+    esc: esc
   };
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { initialize(0); }, { once: true });
