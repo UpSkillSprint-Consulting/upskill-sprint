@@ -25,7 +25,7 @@ FIXTURE = """(() => {
       request_status:exam_key==='pmp'?'pending':null,request_revision:exam_key==='pmp'?1:0,expires_at:null}))};
   window.adminAuditCalls=[];
   window.adminAuditSignOut=()=>{user=null;listener(null)};
-  window.UpskillAuth={isConfigured:()=>true,getUser:()=>user,onChange:fn=>{listener=fn;fn(user)},getClient:()=>({rpc:async(name,args)=>{
+  const rpc=async(name,args)=>{
     if(name!=='admin_manage_exam_access')throw Error('Unexpected RPC');
     window.adminAuditCalls.push(args);
     if(args.operation==='status')return {data:{administrator:true}};
@@ -36,7 +36,8 @@ FIXTURE = """(() => {
     }
     if(['search','account','approve'].includes(args.operation))return {data:JSON.parse(JSON.stringify(account))};
     throw Error('Unexpected operation: '+args.operation);
-  }})};
+  };
+  window.UpskillAuth={isConfigured:()=>true,getUser:()=>user,onChange:fn=>{listener=fn;fn(user)},getClient:()=>({rpc:(name,args)=>{const result=rpc(name,args);result.abortSignal=()=>result;return result;}})};
 })();"""
 
 

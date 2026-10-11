@@ -1,6 +1,7 @@
 # Step 3 — individual exam administration
 
-Implemented in draft PR #288. No hosted migration or member permissions were changed.
+Implemented in draft PR #288. Hosted migrations were subsequently installed during
+final QA; member permissions remain unchanged. See `exam-access-final-qa-20261011.md`.
 
 ## Admin workflow
 

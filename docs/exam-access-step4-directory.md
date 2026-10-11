@@ -1,6 +1,8 @@
 # Step 4 — learner exam directory
 
-Implemented in draft PR #288; hosted migrations and production activation remain pending.
+Implemented in draft PR #288. Hosted migrations were installed during the final QA;
+production activation remains pending. See `exam-access-final-qa-20261011.md` for the
+current evidence, hosted migration versions and remaining acceptance checks.
 
 ## Learner experience
 
@@ -66,15 +68,16 @@ also verifies full names, navigation, keyboard focus, contrast, breakpoint layou
 all granted certification links into the protected simulator. These are not hosted
 real-account tests.
 
-Apply only the reviewed additive migrations in this order:
+The reviewed additive migrations were installed in this order during final QA:
 
 1. `20261011110618_exam_access_foundation.sql`
 2. `20261011170659_exam_access_admin.sql`
 3. `20261011173139_exam_access_directory.sql`
 
-Do not replay the older destructive reset migration. Run hosted advisors after applying
-the reviewed schema; verify the directory/request APIs with designated real accounts.
+Do not replay these migrations or the older destructive reset migration. Hosted
+advisors were reviewed; see the final QA report for evidence and remaining real-account checks.
 Steps 1–4 now have draft implementations. Release still requires the reviewed member
 allocation, hosted configuration, final Step 5 account/CDN journeys and resolution of
 the documented public-source/old-deployment question exposure. No production grants,
-migrations, notifications or deployment were performed for this implementation.
+migrations, notifications or deployment were performed during the original Step 4
+implementation. The later final QA installed the additive schema as documented above.

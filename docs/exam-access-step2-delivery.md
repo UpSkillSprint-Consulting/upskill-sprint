@@ -1,8 +1,9 @@
 # Step 2 — per-certification delivery
 
-Implemented in the draft access branch; not activated in production. The Step 1
-migration remains unapplied. Complete Steps 3–4, configure the function, review
-existing learner assignments and finish the hosted release checks before cutover.
+Implemented in the draft access branch; not activated in production. Steps 3–4 and
+the hosted additive schema are now installed/implemented; see
+`exam-access-final-qa-20261011.md`. Configure the function, review existing learner
+assignments and finish the hosted release checks before cutover.
 
 ## Request boundary
 

@@ -2,8 +2,9 @@
 
 Assessment date: 2026-10-11. Baseline: PR #288 at `85b0c1838e2f74ac3b6358e97505d0eb34dc6852`.
 
-**Updated release status: Steps 1–4 are implemented in the draft branch. Release remains
-blocked by hosted configuration/schema, the member transition mapping,
+**Updated release status: Steps 1–4 are implemented in the draft branch. Hosted schema
+was installed during final QA; see `exam-access-final-qa-20261011.md`. Release remains
+blocked by hosted function configuration, real learner journeys, the member transition mapping,
 public GitHub question source and old deployment exposure.**
 This is executable validation work, not a completed production cutover. Do not merge
 or deploy on the assumption that every exam is protected yet.

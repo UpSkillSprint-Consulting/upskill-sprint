@@ -16,22 +16,23 @@ function screen(handler=async()=>({data:account()})) {
   const dom=new JSDOM(read('admin-exam-access.html'),{runScripts:'outside-only',url:'https://example.invalid/admin-exam-access.html'});
   const {window}=dom; let change; const calls=[],confirmations=[];
   window.confirm=text=>{confirmations.push(text);return true;};
-  window.UpskillAuth={isConfigured:()=>true,getUser:()=>({id:'admin'}),onChange:fn=>{change=fn;},getClient:()=>({rpc:async(name,args)=>{
+  window.UpskillAuth={isConfigured:()=>true,getUser:()=>({id:'admin'}),onChange:fn=>{change=fn;},getClient:()=>({rpc:(name,args)=>{
     assert.equal(name,'admin_manage_exam_access');calls.push(args);
-    if(args.operation==='status') return {data:{administrator:true}};
-    return handler(args);
+    const result=Promise.resolve(args.operation==='status'?{data:{administrator:true}}:handler(args));
+    result.abortSignal=signal=>{sSignals.push(signal);return result;};return result;
   }})};
+  const sSignals=[];
   window.eval(read('admin-exam-access.js'));
   const el=id=>window.document.getElementById(id);
   const submit=(id,button)=>el(id).dispatchEvent(new window.SubmitEvent('submit',{cancelable:true,submitter:button?el(button):null}));
-  return {dom,window,el,submit,calls,confirmations,change:user=>change(user),async search(){el('exam-member-email').value='learner@example.invalid';submit('exam-member-search');await flush();},async start(){change({id:'admin'});await flush();}};
+  return {dom,window,el,submit,calls,confirmations,signals:sSignals,change:user=>change(user),async search(){el('exam-member-email').value='learner@example.invalid';submit('exam-member-search');await flush();},async start(){change({id:'admin'});await flush();}};
 }
 test('signed-out and missing admin services never reveal controls; requests load explicitly',async()=>{
   const s=screen(); await s.start();
   assert.equal(s.el('exam-admin-controls').hidden,false); assert.equal(s.calls.length,1);
   s.change(null); assert.equal(s.el('exam-admin-controls').hidden,true);
   assert.match(s.el('exam-admin-status').textContent,/Sign in/); s.dom.window.close();
-  const denied=screen(); denied.window.UpskillAuth.getClient=()=>({rpc:async()=>({error:{message:'denied'}})});
+  const denied=screen(); denied.window.UpskillAuth.getClient=()=>({rpc:()=>({abortSignal:()=>Promise.resolve({error:{message:'denied',code:'42501'}})})});
   await denied.start(); assert.equal(denied.el('exam-admin-controls').hidden,true); denied.dom.window.close();
 });
 test('grant confirmation includes learner, exam and expiry and sends both revisions',async()=>{
@@ -88,4 +89,23 @@ test('untrusted email and history render as text; there is no polling or local a
   const s=screen(async()=>({data:account({email:payload})}));await s.start();await s.search();
   assert.equal(s.el('exam-member-title').textContent,payload);assert.equal(s.el('exam-member-title').children.length,0);
   assert.doesNotMatch(read('admin-exam-access.js'),/innerHTML|setInterval|localStorage|sessionStorage|\.channel\(/);s.dom.window.close();
+});
+test('an uncertain write times out, aborts, clears stale controls and permits a fresh lookup',async()=>{
+  const pending=deferred();const s=screen(args=>args.operation==='grant'?pending.promise:{data:account()});
+  await s.start();await s.search();s.window.document.querySelector('[data-exam=pmp]').click();
+  let expire;const setTimeout=s.window.setTimeout;
+  s.window.setTimeout=fn=>{expire=fn;return 1;};
+  s.submit('exam-access-edit','exam-grant');assert.equal(s.el('exam-admin-controls').inert,true);
+  expire();await flush();s.window.setTimeout=setTimeout;
+  assert.equal(s.signals.at(-1).aborted,true);assert.equal(s.el('exam-admin-controls').inert,false);
+  assert.equal(s.el('exam-member').hidden,true);assert.match(s.el('exam-admin-status').textContent,/unconfirmed.*Reload/);
+  await s.search();assert.equal(s.el('exam-member').hidden,false);
+  pending.resolve({data:account({email:'late@example.invalid'})});await flush();
+  assert.equal(s.el('exam-member-title').textContent,'learner@example.invalid');s.dom.window.close();
+});
+test('sign-out aborts an outstanding admin lookup and ignores its late response',async()=>{
+  const pending=deferred(),s=screen(()=>pending.promise);await s.start();await s.search();
+  const signal=s.signals.at(-1);s.change(null);assert.equal(signal.aborted,true);
+  pending.resolve({data:account()});await flush();assert.equal(s.el('exam-member').hidden,true);
+  assert.equal(s.el('exam-admin-controls').hidden,true);s.dom.window.close();
 });

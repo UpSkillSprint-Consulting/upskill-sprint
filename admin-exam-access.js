@@ -2,7 +2,7 @@
   'use strict';
   const byId = id => document.getElementById(id);
   const labels = {locked:'Locked',granted:'Access granted',expired:'Expired',revoked:'Revoked',administrator:'Administrator access',coming_soon:'Coming soon',retired:'Retired'};
-  let auth, account = null, selected = null, cursor = null, epoch = 0, busy = false, ready = false;
+  let auth, account = null, selected = null, cursor = null, epoch = 0, busy = false, ready = false, active = null;
   const message = text => { byId('exam-admin-status').textContent = text; };
   const dateText = value => value ? new Date(value).toLocaleString() : 'No expiry';
   function element(tag, text, className) {
@@ -25,9 +25,15 @@
     byId('exam-admin-controls').hidden = true;
   }
   async function call(args) {
-    const result = await auth.getClient().rpc('admin_manage_exam_access', args);
-    if (result.error) throw Object.assign(new Error(result.error.message || 'Unable to complete this request.'), {code:result.error.code});
-    return result.data;
+    const controller = new AbortController(); active = controller; let timer;
+    try {
+      const query = auth.getClient().rpc('admin_manage_exam_access', args).abortSignal(controller.signal);
+      const result = await Promise.race([query, new Promise((_, reject) => {
+        timer = setTimeout(() => { controller.abort(); reject(new Error('The request timed out. Its result is unconfirmed.')); }, 12000);
+      })]);
+      if (!result || result.error) throw Object.assign(new Error(result?.error?.message || 'Unable to complete this request.'), {code:result?.error?.code});
+      return result.data;
+    } finally { clearTimeout(timer); if (active === controller) active = null; }
   }
   async function run(args, render, success) {
     if (busy || !ready) return;
@@ -131,6 +137,7 @@
     message(data.removed + ' old history records removed.' + (data.removed === 200 ? ' Run again to check for more.' : ' Cleanup complete.'));
   }));
   function sessionChanged(user) {
+    if (active) active.abort(); active = null;
     const check = ++epoch; busy = false; byId('exam-admin-controls').inert = false; lock();
     byId('exam-admin-signin').hidden = !!user;
     if (!user) { message('Sign in with an administrator account.'); return; }
