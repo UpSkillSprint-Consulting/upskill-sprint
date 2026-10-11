@@ -75,7 +75,8 @@ def main():
                 expect(pending.locator('.tool-status')).to_have_attribute('data-state','pending')
                 pending.get_by_role('button',name='Cancel request',exact=True).click()
                 expect(pending.locator('.tool-status')).to_have_attribute('data-state','locked')
-                card.get_by_role('link',name='Open tool →').click()
+                # Shared site cleanup may remove the decorative trailing arrow.
+                card.get_by_role('link',name='Open tool').click()
                 expect(page.locator('#tool-workspace')).to_be_visible(timeout=30000)
                 frame=page.frame_locator('#tool-workspace')
                 if key=='material_checker':expect(frame.locator('#mcPlatform')).to_be_visible(timeout=15000)
