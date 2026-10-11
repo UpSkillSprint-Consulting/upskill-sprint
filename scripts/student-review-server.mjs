@@ -43,7 +43,8 @@ http.createServer(async (request, response) => {
     }
     let file = path.resolve(root, '.' + (route === '/' ? '/index.html' : route));
     if (!file.startsWith(root + path.sep)) { response.writeHead(403); return response.end(); }
-    if (!fs.existsSync(file) && fs.existsSync(file + '.html')) file += '.html';
+    // Match Netlify pretty URLs even when a same-named asset directory exists.
+    if (!path.extname(file) && fs.existsSync(file + '.html')) file += '.html';
     if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file=path.join(file,'index.html');
     if (!fs.existsSync(file) || !fs.statSync(file).isFile()) { response.writeHead(404); return response.end('Not found'); }
     response.writeHead(200, {'content-type': types[path.extname(file)] || 'application/octet-stream'});
