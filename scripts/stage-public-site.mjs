@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 // A separate publish directory keeps function source and grading keys off the CDN.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const excludedDirectories = new Set([
-  'netlify', 'node_modules', 'scripts', 'tests', 'docs', 'content', 'source-assets',
+  'netlify', 'supabase', 'node_modules', 'scripts', 'tests', 'docs', 'content', 'source-assets',
   'public-site', 'coverage', 'test-results', 'playwright-report'
 ]);
 // Authoring aids that live at the repo root but are not public pages.
