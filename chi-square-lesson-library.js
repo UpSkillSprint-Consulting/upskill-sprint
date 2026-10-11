@@ -493,6 +493,18 @@
       meta: '<span>Advanced</span><span>Interactive</span><span>45 min</span>',
       title: 'The Complete Quality Toolbox: All 14 Tools',
       description: 'Run an end-to-end quality investigation from process mapping and root-cause evidence through corrective-action planning and sustainment.'
+    },
+    {
+      marker: 'data-pmp-formula-encyclopedia',
+      sectionId: 'project-management',
+      path: '/lessons/project-management/pmp-formula-encyclopedia',
+      topic: 'project-management',
+      level: 'advanced',
+      interactive: 'true',
+      search: 'pmp formula encyclopedia earned value cpi spi eac tcpi vac pert beta triangular sigma float free float total float communication channels npv roi irr payback bcr emv expected monetary value pmbok project management advanced interactive',
+      meta: '<span>Advanced</span><span>Interactive</span><span>25 min</span>',
+      title: 'PMP Formula Encyclopedia',
+      description: 'Search the PMP formulas for earned value, forecasts, three-point estimates, float, channels, and project selection. People stays visible with no formula.'
     }
   ];
 

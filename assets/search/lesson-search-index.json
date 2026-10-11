@@ -1,9 +1,9 @@
 {
   "version": 1,
   "anchorAlgorithm": "lesson-section-v1",
-  "lessonCount": 52,
-  "contentLessonCount": 51,
-  "sectionCount": 2283,
+  "lessonCount": 53,
+  "contentLessonCount": 52,
+  "sectionCount": 2309,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -34060,6 +34060,422 @@
           "excerpt": "A negative result is useful. Document ruled-out branches, check power and range restriction, and return to the next plausible hypothesis instead of forcing a preferred conclusion. Return to lesson library",
           "kinds": [
             "section"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project-management--pmp-formula-encyclopedia",
+      "path": "/lessons/project-management/pmp-formula-encyclopedia",
+      "title": "PMP Formula Encyclopedia",
+      "description": "Search the PMP formulas for earned value, forecasts, three-point estimates, float, channels, and project selection. People stays visible with no formula.",
+      "topic": "project-management",
+      "level": "advanced",
+      "minutes": 25,
+      "interactive": true,
+      "keywords": [
+        "pmp",
+        "earned value",
+        "cpi",
+        "eac",
+        "tcpi",
+        "pert",
+        "float",
+        "npv",
+        "channels",
+        "payback",
+        "emv",
+        "pmbok",
+        "pmp formula encyclopedia earned value cpi spi eac tcpi vac pert beta triangular sigma float free float total float communication channels npv roi irr payback bcr emv expected monetary value pmbok project management advanced interactive"
+      ],
+      "placeholder": false,
+      "contentAvailable": true,
+      "sections": [
+        {
+          "id": "lesson-section-pmp-formula-encyclopedia",
+          "heading": "PMP Formula Encyclopedia",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia"
+          ],
+          "text": "",
+          "excerpt": "PMP Formula Encyclopedia",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "scope-heading",
+          "heading": "Scope summary",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Scope summary"
+          ],
+          "text": "Search the formulas used on the PMP exam. They are grouped into the three scored domains. The guides print the earned-value, forecast, three-point, and EMV algebra. Nine other cards are the exam algebra the guides name and do not print. Each card is an original study note, not a copy of the guide. People No governing calculation in either guide. Process Earned value, forecasts, three-point estimates, float, PERT sigma, and communication channels. Business Environment Expected monetary value, plus NPV, ROI, IRR, payback, and BCR. 0 formulas No formulas match the selected filters.",
+          "excerpt": "Search the formulas used on the PMP exam. They are grouped into the three scored domains. The guides print the earned-value, forecast, three-point, and EMV algebra. Nine other cards are the exam algebra the guides name and do not print. Each card is an…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-cv",
+          "heading": "Cost variance",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Earned value"
+          ],
+          "text": "PMP-CV CV Process Earned value CV=EV-AC Use: Subtract actual cost from earned value. Exam trap: A negative result means the work completed cost more than its budget. Reversing the subtraction flips the meaning. PMBOK Guide, 6th edition Table 7-1 and 8th edition Table 5-1. This note is original study guidance for that display, not a copy of the guide.",
+          "excerpt": "PMP-CV CV Process Earned value CV=EV-AC Use: Subtract actual cost from earned value. Exam trap: A negative result means the work completed cost more than its budget. Reversing the subtraction flips the meaning. PMBOK Guide, 6th edition Table 7-1 and 8th…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-sv",
+          "heading": "Schedule variance",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Earned value"
+          ],
+          "text": "PMP-SV SV Process Earned value SV=EV-PV Use: Subtract planned value from earned value. Exam trap: This variance is in the budget units of work, not in days. A negative result means less work is done than was planned by the data date. PMBOK Guide, 6th edition Table 7-1 and 8th edition Table 5-1. This note is original study guidance for that display, not a copy of the guide.",
+          "excerpt": "PMP-SV SV Process Earned value SV=EV-PV Use: Subtract planned value from earned value. Exam trap: This variance is in the budget units of work, not in days. A negative result means less work is done than was planned by the data date. PMBOK Guide, 6th edition…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-cpi",
+          "heading": "Cost performance index",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Earned value"
+          ],
+          "text": "PMP-CPI CPI Process Earned value CPI=\\frac{EV}{AC} Use: Divide earned value by actual cost. Exam trap: A result below 1 means the completed work cost more than its budget. Actual cost does not belong in the numerator. PMBOK Guide, 6th edition Table 7-1 and 8th edition Table 5-1. This note is original study guidance for that display, not a copy of the guide.",
+          "excerpt": "PMP-CPI CPI Process Earned value CPI=\\frac{EV}{AC} Use: Divide earned value by actual cost. Exam trap: A result below 1 means the completed work cost more than its budget. Actual cost does not belong in the numerator. PMBOK Guide, 6th edition Table 7-1 and…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-spi",
+          "heading": "Schedule performance index",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Earned value"
+          ],
+          "text": "PMP-SPI SPI Process Earned value SPI=\\frac{EV}{PV} Use: Divide earned value by planned value. Exam trap: A result below 1 means the project is behind the planned work. Planned value is the denominator, not actual cost. PMBOK Guide, 6th edition Table 7-1 and 8th edition Table 5-1. This note is original study guidance for that display, not a copy of the guide.",
+          "excerpt": "PMP-SPI SPI Process Earned value SPI=\\frac{EV}{PV} Use: Divide earned value by planned value. Exam trap: A result below 1 means the project is behind the planned work. Planned value is the denominator, not actual cost. PMBOK Guide, 6th edition Table 7-1 and…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-vac",
+          "heading": "Variance at completion",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Earned value"
+          ],
+          "text": "PMP-VAC VAC Process Earned value VAC=BAC-EAC Use: Subtract the estimate at completion from the budget at completion. Exam trap: A negative result means the forecast finishes over budget. Do not subtract the budget from the forecast. PMBOK Guide, 6th edition Table 7-1 and 8th edition Table 5-1. This note is original study guidance for that display, not a copy of the guide.",
+          "excerpt": "PMP-VAC VAC Process Earned value VAC=BAC-EAC Use: Subtract the estimate at completion from the budget at completion. Exam trap: A negative result means the forecast finishes over budget. Do not subtract the budget from the forecast. PMBOK Guide, 6th edition…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-eac-cpi",
+          "heading": "Estimate at completion, current cost efficiency",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Forecasting"
+          ],
+          "text": "PMP-EAC-CPI EAC Process Forecasting EAC=\\frac{BAC}{CPI} Use: Use this when the cost efficiency so far is expected to continue through the rest of the work. Exam trap: Do not add actual cost again. Dividing the budget by CPI already estimates the whole project. PMBOK Guide, 6th edition Table 7-1 and 8th edition Table 5-1. This note is original study guidance for that display, not a copy of the guide.",
+          "excerpt": "PMP-EAC-CPI EAC Process Forecasting EAC=\\frac{BAC}{CPI} Use: Use this when the cost efficiency so far is expected to continue through the rest of the work. Exam trap: Do not add actual cost again. Dividing the budget by CPI already estimates the whole…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-eac-budget",
+          "heading": "Estimate at completion, budgeted rate for remaining work",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Forecasting"
+          ],
+          "text": "PMP-EAC-BUDGET EAC Process Forecasting EAC=AC+BAC-EV Use: Use this when the remaining work is expected to proceed at the original budgeted rate. Exam trap: This is not the budget divided by CPI. That other form assumes the current cost efficiency continues. PMBOK Guide, 6th edition Table 7-1 and 8th edition Table 5-1. This note is original study guidance for that display, not a copy of the guide.",
+          "excerpt": "PMP-EAC-BUDGET EAC Process Forecasting EAC=AC+BAC-EV Use: Use this when the remaining work is expected to proceed at the original budgeted rate. Exam trap: This is not the budget divided by CPI. That other form assumes the current cost efficiency continues.…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-eac-bottom",
+          "heading": "Estimate at completion, bottom-up remaining work",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Forecasting"
+          ],
+          "text": "PMP-EAC-BOTTOM EAC Process Forecasting EAC=AC+\\text{bottom-up ETC} Use: Use this when the original plan is no longer valid and the remaining work is estimated again from the bottom up. Exam trap: Bottom-up ETC is a new estimate of what is left. It is not EAC minus AC taken from an older forecast, and a reestimate is not its own equation. PMBOK Guide, 6th edition Table 7-1 and 8th edition Table 5-1. This note is original study guidance for that display, not a copy of the guide.",
+          "excerpt": "PMP-EAC-BOTTOM EAC Process Forecasting EAC=AC+\\text{bottom-up ETC} Use: Use this when the original plan is no longer valid and the remaining work is estimated again from the bottom up. Exam trap: Bottom-up ETC is a new estimate of what is left. It is not EAC…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-eac-both",
+          "heading": "Estimate at completion, cost and schedule efficiency",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Forecasting"
+          ],
+          "text": "PMP-EAC-BOTH EAC Process Forecasting EAC=AC+\\frac{BAC-EV}{CPI\\times SPI} Use: Use this when both the cost efficiency and the schedule efficiency are expected to affect the remaining work. Exam trap: The denominator multiplies CPI by SPI. Adding the two indexes is a different number. PMBOK Guide, 6th edition Table 7-1 and 8th edition Table 5-1. This note is original study guidance for that display, not a copy of the guide.",
+          "excerpt": "PMP-EAC-BOTH EAC Process Forecasting EAC=AC+\\frac{BAC-EV}{CPI\\times SPI} Use: Use this when both the cost efficiency and the schedule efficiency are expected to affect the remaining work. Exam trap: The denominator multiplies CPI by SPI. Adding the two…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-etc",
+          "heading": "Estimate to complete",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Forecasting"
+          ],
+          "text": "PMP-ETC ETC Process Forecasting ETC=EAC-AC Use: Subtract actual cost from the estimate at completion you are using. Exam trap: ETC is the cost still to come. It is not the total at completion. PMBOK Guide, 6th edition Table 7-1 and 8th edition Table 5-1. This note is original study guidance for that display, not a copy of the guide.",
+          "excerpt": "PMP-ETC ETC Process Forecasting ETC=EAC-AC Use: Subtract actual cost from the estimate at completion you are using. Exam trap: ETC is the cost still to come. It is not the total at completion. PMBOK Guide, 6th edition Table 7-1 and 8th edition Table 5-1. This…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-tcpi-bac",
+          "heading": "To-complete performance index against the budget",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Forecasting"
+          ],
+          "text": "PMP-TCPI-BAC TCPI Process Forecasting TCPI=\\frac{BAC-EV}{BAC-AC} Use: This is the cost efficiency the remaining work must achieve to finish at the original budget. Exam trap: The denominator is the budget still unused, not the earned value. PMBOK Guide, 6th edition Table 7-1 and Section 7.4.2.3, and 8th edition Table 5-1. This note is original study guidance for that display, not a copy of the guide.",
+          "excerpt": "PMP-TCPI-BAC TCPI Process Forecasting TCPI=\\frac{BAC-EV}{BAC-AC} Use: This is the cost efficiency the remaining work must achieve to finish at the original budget. Exam trap: The denominator is the budget still unused, not the earned value. PMBOK Guide, 6th…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-tcpi-eac",
+          "heading": "To-complete performance index against the forecast",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Forecasting"
+          ],
+          "text": "PMP-TCPI-EAC TCPI Process Forecasting TCPI=\\frac{BAC-EV}{EAC-AC} Use: This is the cost efficiency the remaining work must achieve to finish at the current estimate at completion. Exam trap: Once the forecast replaces the budget as the goal, the denominator is EAC minus AC, not BAC minus AC. PMBOK Guide, 6th edition Table 7-1 and Section 7.4.2.3, and 8th edition Table 5-1. This note is original study guidance for that display, not a copy of the guide.",
+          "excerpt": "PMP-TCPI-EAC TCPI Process Forecasting TCPI=\\frac{BAC-EV}{EAC-AC} Use: This is the cost efficiency the remaining work must achieve to finish at the current estimate at completion. Exam trap: Once the forecast replaces the budget as the goal, the denominator is…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-tri",
+          "heading": "Triangular expected value",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Estimating"
+          ],
+          "text": "PMP-TRI TRI Process Estimating t_E=\\frac{t_O+t_M+t_P}{3} Use: Add the optimistic, most likely, and pessimistic values, then divide by 3. The guide prints this for duration and the same algebra for cost. Exam trap: Do not put a 4 on the most likely value. That weight belongs to the beta form. PMBOK Guide, 6th edition Section 6.4.2.4 for duration and Section 7.2 for cost, and the 8th edition three-point duration display. One card covers both because the algebra is the same. This note is original study guidance, not a copy of the guide.",
+          "excerpt": "PMP-TRI TRI Process Estimating t_E=\\frac{t_O+t_M+t_P}{3} Use: Add the optimistic, most likely, and pessimistic values, then divide by 3. The guide prints this for duration and the same algebra for cost. Exam trap: Do not put a 4 on the most likely value. That…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-beta",
+          "heading": "Beta expected value",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Estimating"
+          ],
+          "text": "PMP-BETA BETA Process Estimating c_E=\\frac{c_O+4c_M+c_P}{6} Use: The 6th edition prints this weighted average for a three-point cost estimate. The same weights are the expected-time form a duration question means by PERT. Exam trap: Dividing by 3 is the triangular card. The 4 belongs on the most likely estimate, not on the optimistic or pessimistic one. PMBOK Guide, 6th edition Section 7.2, beta distribution for cost. The 8th edition three-point display prints the triangular form and does not reprint this weighted form. This note is original study guidance, not a copy of the guide.",
+          "excerpt": "PMP-BETA BETA Process Estimating c_E=\\frac{c_O+4c_M+c_P}{6} Use: The 6th edition prints this weighted average for a three-point cost estimate. The same weights are the expected-time form a duration question means by PERT. Exam trap: Dividing by 3 is the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-sigma",
+          "heading": "PERT standard deviation",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Estimating"
+          ],
+          "text": "PMP-SIGMA σ Process Estimating Exam algebra \\sigma=\\frac{P-O}{6} Use: Subtract the optimistic estimate from the pessimistic estimate and divide by 6. Variance is that result squared. A path standard deviation is the square root of the sum of the activity variances. Exam trap: This is not the expected duration. The triangular and beta averages are other cards. Do not square the range before dividing by 6. The guides print the triangular and beta averages and name PERT. They do not print this standard-deviation line. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-SIGMA σ Process Estimating Exam algebra \\sigma=\\frac{P-O}{6} Use: Subtract the optimistic estimate from the pessimistic estimate and divide by 6. Variance is that result squared. A path standard deviation is the square root of the sum of the activity…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-tf",
+          "heading": "Total float",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Schedule"
+          ],
+          "text": "PMP-TF TF Process Schedule Exam algebra TF=LS-ES=LF-EF Use: Subtract the early start from the late start, or the early finish from the late finish. On the day-1 network, Activity B is 11 minus 6 and 15 minus 10, both 5 days. Exam trap: Total float is not free float. Free float looks only at the next activity. A negative result means the late date is already before the early date. The 8th edition says the difference between the late date and the early date is total float. Neither edition prints LS minus ES as a line of algebra. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-TF TF Process Schedule Exam algebra TF=LS-ES=LF-EF Use: Subtract the early start from the late start, or the early finish from the late finish. On the day-1 network, Activity B is 11 minus 6 and 15 minus 10, both 5 days. Exam trap: Total float is not free…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-ff",
+          "heading": "Free float",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Schedule"
+          ],
+          "text": "PMP-FF FF Process Schedule Exam algebra FF=ES_{\\text{successor}}-EF Use: Subtract this activity's early finish from the earliest early start of the activities that follow it. Exam trap: On a day-1 network, subtract one more day. Activity B finishes on day 10 and Activity D starts on day 16, so 16 minus 10 minus 1 is the figure's 5 days of free float. Late dates belong to total float, not this card. The network figures show Activity B's free float as 5 days. They do not print successor start minus early finish. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-FF FF Process Schedule Exam algebra FF=ES_{\\text{successor}}-EF Use: Subtract this activity's early finish from the earliest early start of the activities that follow it. Exam trap: On a day-1 network, subtract one more day. Activity B finishes on day 10…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-ch",
+          "heading": "Communication channels",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Communications"
+          ],
+          "text": "PMP-CH n Process Communications Exam algebra \\text{Channels}=\\frac{n(n-1)}{2} Use: n is the number of people. Six people make 6 times 5 divided by 2, which is 15 channels. Exam trap: Do not use n squared, and do not forget to divide by 2. Adding one person adds a channel to every existing person, not a single new line. 6th edition Section 10.1.2.2 and the 8th edition communication requirements name the count of channels and do not print this line. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-CH n Process Communications Exam algebra \\text{Channels}=\\frac{n(n-1)}{2} Use: n is the number of people. Six people make 6 times 5 divided by 2, which is 15 channels. Exam trap: Do not use n squared, and do not forget to divide by 2. Adding one person…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-emv",
+          "heading": "Expected monetary value",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Business Environment",
+            "Risk"
+          ],
+          "text": "PMP-EMV EMV Business Environment Risk \\mathrm{EMV}=\\sum(P\\times\\text{monetary outcome}) Use: A chance node is the sum of each probability times its monetary outcome. Subtract an investment that is not already inside those outcomes, the way the decision-tree figure does. Exam trap: Do not choose the branch with the largest single payoff. Weight every outcome by its probability before the branches are compared. PMBOK Guide, 6th edition Figure 11-15 and 8th edition Figure 5-5. The figure computes each chance node as probability times monetary outcome. This note is original study guidance, not a copy of the guide.",
+          "excerpt": "PMP-EMV EMV Business Environment Risk \\mathrm{EMV}=\\sum(P\\times\\text{monetary outcome}) Use: A chance node is the sum of each probability times its monetary outcome. Subtract an investment that is not already inside those outcomes, the way the decision-tree…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-npv",
+          "heading": "Net present value",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Business Environment",
+            "Selection"
+          ],
+          "text": "PMP-NPV NPV Business Environment Selection Exam algebra NPV=\\sum\\frac{CF_t}{(1+r)^t} Use: Discount each cash flow to today and add the results. A single present value is the future amount divided by (1 plus the rate) to the power of the period. When the question says to maximize value, the higher NPV wins. Exam trap: Do not compare undiscounted totals. A larger far-future payoff can lose once it is discounted. NPV is not the benefit-cost ratio. Both guides name net present value as a selection measure and do not print this algebra. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-NPV NPV Business Environment Selection Exam algebra NPV=\\sum\\frac{CF_t}{(1+r)^t} Use: Discount each cash flow to today and add the results. A single present value is the future amount divided by (1 plus the rate) to the power of the period. When the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-roi",
+          "heading": "Return on investment",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Business Environment",
+            "Selection"
+          ],
+          "text": "PMP-ROI ROI Business Environment Selection Exam algebra ROI=\\frac{\\text{benefit}-\\text{cost}}{\\text{cost}} Use: Subtract cost from benefit, then divide by cost. Exam trap: ROI is not benefits divided by costs. That quotient is the benefit-cost ratio. A result of 1 is not the same statement as a benefit-cost ratio of 1. The guides name return on investment and do not print this ratio. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-ROI ROI Business Environment Selection Exam algebra ROI=\\frac{\\text{benefit}-\\text{cost}}{\\text{cost}} Use: Subtract cost from benefit, then divide by cost. Exam trap: ROI is not benefits divided by costs. That quotient is the benefit-cost ratio. A result…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-irr",
+          "heading": "Internal rate of return",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Business Environment",
+            "Selection"
+          ],
+          "text": "PMP-IRR IRR Business Environment Selection Exam algebra 0=\\sum\\frac{CF_t}{(1+\\mathrm{IRR})^t} Use: IRR is the discount rate that makes net present value zero. Compare it with the hurdle rate in the question. A typical series of cash flows has no closed-form rearrangement. Exam trap: Do not treat IRR as profit divided by cost. That is return on investment. A higher IRR is not automatically the choice when the question says to maximize net present value. The guides name the internal rate of return and do not print a solving formula. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-IRR IRR Business Environment Selection Exam algebra 0=\\sum\\frac{CF_t}{(1+\\mathrm{IRR})^t} Use: IRR is the discount rate that makes net present value zero. Compare it with the hurdle rate in the question. A typical series of cash flows has no closed-form…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-pbp",
+          "heading": "Payback period",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Business Environment",
+            "Selection"
+          ],
+          "text": "PMP-PBP PB Business Environment Selection Exam algebra \\text{Payback}=\\frac{\\text{investment}}{\\text{annual net cash flow}} Use: When net cash flow is the same every year, divide the investment by that annual amount. When the cash flow changes by year, count the years until the investment is recovered. Exam trap: Payback ignores cash after the investment is recovered. It does not discount unless the question says discounted payback. The guides name payback and do not print this line. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-PBP PB Business Environment Selection Exam algebra \\text{Payback}=\\frac{\\text{investment}}{\\text{annual net cash flow}} Use: When net cash flow is the same every year, divide the investment by that annual amount. When the cash flow changes by year, count…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-bcr",
+          "heading": "Benefit-cost ratio",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Business Environment",
+            "Selection"
+          ],
+          "text": "PMP-BCR BCR Business Environment Selection Exam algebra BCR=\\frac{\\text{benefits}}{\\text{costs}} Use: Divide benefits by costs. A result above 1 means benefits exceed costs. Exam trap: Do not subtract cost from benefit before dividing. That subtraction is return on investment. A ratio of 1.2 is not a 120 percent return on investment. The 6th edition names the benefit-cost ratio. The 8th edition discusses cost-benefit analysis. Neither prints this quotient. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-BCR BCR Business Environment Selection Exam algebra BCR=\\frac{\\text{benefits}}{\\text{costs}} Use: Divide benefits by costs. A result above 1 means benefits exceed costs. Exam trap: Do not subtract cost from benefit before dividing. That subtraction is…",
+          "kinds": [
+            "section",
+            "formula"
           ]
         }
       ]

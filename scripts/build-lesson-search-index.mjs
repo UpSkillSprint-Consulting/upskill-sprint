@@ -619,11 +619,56 @@ function resolveCreFormulaEncyclopedia(rootDir, wrapperHtml) {
   return { html: wrapperHtml, extraSections: extractCreFormulaSections(wrapperHtml) };
 }
 
+function extractPmpFormulaSections(html) {
+  const match = html.match(/<script id="pmp-formula-data" type="application\/json">([\s\S]*?)<\/script>/);
+  if (!match) fail('PMP formula payload is missing');
+  let formulas;
+  try {
+    formulas = JSON.parse(match[1]);
+  } catch (error) {
+    fail(`Could not read PMP formula data: ${error.message}`);
+  }
+  if (!Array.isArray(formulas) || formulas.length === 0) {
+    fail('PMP formula payload contains no formulas');
+  }
+  return formulas.map((formula) => {
+    const text = normalizeSpace([
+      formula.id,
+      formula.num,
+      formula.section,
+      formula.family,
+      formula.tag || '',
+      formula.latex,
+      `Use: ${formula.use || ''}`,
+      `Exam trap: ${formula.trap || ''}`,
+      formula.source || ''
+    ].join(' '));
+    assertSectionTextWithinLimit(text, `PMP formula section ${formula.id}`);
+    return {
+      id: creFormulaAnchorId(formula.id),
+      heading: normalizeSpace(formula.title),
+      breadcrumb: [
+        'PMP Formula Encyclopedia',
+        normalizeSpace(formula.section),
+        normalizeSpace(formula.family)
+      ],
+      text,
+      excerpt: makeExcerpt(text),
+      kinds: ['section', 'formula']
+    };
+  });
+}
+
+function resolvePmpFormulaEncyclopedia(rootDir, wrapperHtml) {
+  return { html: wrapperHtml, extraSections: extractPmpFormulaSections(wrapperHtml) };
+}
+
 const SPECIAL_RESOLVERS = new Map([
   ['/lessons/statistics/chi-square-goodness-of-fit-test', (rootDir) => resolveChiSquare(rootDir)],
   ['/lessons/statistics/beyond-the-bell-the-normal-distribution-and-its-relatives', (rootDir) => resolveBeyondTheBell(rootDir)],
   ['/lessons/lean-six-sigma/dmaic-formula-encyclopedia', (rootDir) => resolveDmaic(rootDir)],
   ['/lessons/quality-engineering/cre-formula-encyclopedia', (rootDir, html) => resolveCreFormulaEncyclopedia(rootDir, html)],
+  ['/lessons/project-management/pmp-formula-encyclopedia', (rootDir, html) => resolvePmpFormulaEncyclopedia(rootDir, html)],
   ['/lessons/power-bi-excel-sql/minitab-control-chart-selection-analysis', (rootDir, html) => resolveMinitabControlCharts(rootDir, html)],
   ['/lessons/introduction-to-design-of-experiment-doe', (rootDir, html) => resolveDoe(rootDir, html)]
 ]);

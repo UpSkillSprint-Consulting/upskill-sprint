@@ -23,9 +23,10 @@ async function waitFor(window, predicate, timeout = 2000) {
   assert.fail('timed out waiting for lesson search context');
 }
 
-function browserFixture(hash, initialContent = '') {
+function browserFixture(hash, initialContent = '', options = {}) {
+  const bannerAttr = options.banner === 'off' ? ' data-lesson-search-banner="off"' : '';
   const dom = new JSDOM(
-    '<!doctype html><html><head></head><body data-lesson-page="true"><main id="lesson-content">' + initialContent + '</main></body></html>',
+    '<!doctype html><html><head></head><body data-lesson-page="true"><main id="lesson-content"' + bannerAttr + '>' + initialContent + '</main></body></html>',
     {
       url: 'https://upskillsprint.com/lessons/example' + hash,
       runScripts: 'dangerously',
@@ -127,6 +128,25 @@ test('parameterized search links wait for dynamic content, highlight safely, and
     banner.querySelector('a').getAttribute('href'),
     '/lessons#search=control%20limits'
   );
+  dom.window.LessonSearchContext.destroy();
+  dom.window.close();
+});
+
+test('a lesson can opt out of the search-match banner without losing the deep link', async () => {
+  const dom = browserFixture(
+    '#section=lesson-section-control-limits&search=control%20limits&from=lesson-search',
+    '',
+    { banner: 'off' }
+  );
+  const { document } = dom.window;
+  const section = document.createElement('section');
+  section.innerHTML = '<h2>Control limits</h2><p>Control limits distinguish common-cause variation.</p>';
+  document.getElementById('lesson-content').appendChild(section);
+  await waitFor(dom.window, () => section.querySelector('h2').getAttribute('data-test-scrolled') === 'true');
+
+  assert.equal(document.getElementById('lesson-search-context'), null);
+  assert.ok(section.querySelector('mark[data-lesson-search-highlight]'));
+  assert.equal(document.activeElement, section.querySelector('h2'));
   dom.window.LessonSearchContext.destroy();
   dom.window.close();
 });
