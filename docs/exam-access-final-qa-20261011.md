@@ -1,6 +1,7 @@
 # Exam access QA — 2026-10-11
 
-Status: **partial hosted QA; not cleared for production**. PR #288 remains draft.
+Status: **requested hosted CSSBB journey passed; broader release acceptance remains
+incomplete**. PR #288 remains draft and is not cleared for production.
 
 ## Live learner follow-up and confirmation repair
 
@@ -33,16 +34,37 @@ successfully saved the real Administrator's explicit approval. The hosted UI ret
 certifications remained locked. The test grant expires on 2026-10-11 at 20:31 UTC
 (14:31 Saskatchewan time). Membership roles were not changed.
 
-The Administrator was signed out and the learner sign-in prompt was opened with a
-return to the exam directory. That secure prompt was declined, so practice and
-revocation remain unverified. The temporary grant was not manually revoked and will
-expire at the time above. Do not mark the full journey complete or retry the declined
-sign-in without a fresh user request. Personal identifiers and screenshots are
-intentionally excluded from this public repository report.
+An initial follow-up secure learner prompt was declined. After the user explicitly
+resumed QA, secure sign-in succeeded for the same designated learner. The full
+requested request → approval → practice → revocation journey is now verified on the
+hosted preview at `471cddba84777f83f2699682635f5afd6b85dbe9`, whose application code
+matches the repair commit above.
 
-The preview deployment and Exam access foundation CI passed for that code commit.
-Chromium/WebKit learner audits were still running at this checkpoint. The sections
-below retain the earlier QA evidence and must be read as historical snapshots.
+| Hosted check | Observed result |
+| --- | --- |
+| Learner after approval | My exams contained exactly one certification, CSSBB, with access granted. The signed-in learner remained a Registered member. |
+| Protected practice | CSSBB Set 1 loaded through the protected simulator using the real learner session. |
+| Certification isolation | Selecting PMP showed “This exam is locked”; the CSSBB grant did not unlock PMP. |
+| Quick Quiz | Completed a 10-question untimed quiz with eight correct answers, one deliberate wrong answer and one revealed answer. Results showed 80% (8/10), two incorrect, zero unanswered and one revealed answer counted incorrect. |
+| Explanation and review | Reveal disabled the answer choices, displayed the correct answer/explanation and counted the question incorrect. Missed-question review showed the revealed and wrong answers with correct answers/explanations. Correct/revealed/missed counts matched. |
+| Administrator revocation | A separate secure Administrator session on the same immutable preview build looked up only the designated learner, reviewed the CSSBB revocation modal and confirmed it. The UI returned “Decision saved” and CSSBB “Revoked”; the original request remained approved. |
+| Next protected load | The existing learner session navigated directly to `/test-bank?exam=cssbb` and received “This exam is locked”; question content was unavailable. |
+| Learner directory after revocation | My exams returned to zero. CSSBB showed “Access revoked”, the review-request cooldown and no practice action; the other released certifications remained locked. The account menu confirmed the same designated learner. |
+
+The temporary grant was **manually revoked before its expiry**. Membership roles
+were not changed. Quiz state is confined to the current tab by design; no practice
+history was stored. Browser credential protection required an explicit new-document
+navigation after the administrator sign-in, so this hosted run verifies denial on a
+fresh protected load, not the in-place retake or tab-return paths. Those paths retain
+automated coverage and remain part of broader hosted acceptance. Personal identifiers
+and screenshots are intentionally excluded from this public repository report.
+
+The preview deployment and Exam access foundation CI passed on `471cddba84777f83f2699682635f5afd6b85dbe9`
+(foundation run `38169338976`). Chromium and WebKit both passed audit run
+`38169339012` on that same commit, including learner journeys, layout, contrast,
+legacy navigation and the explicit administrator modal. This final evidence update
+changes documentation only. The sections below retain earlier QA evidence and must
+be read as historical snapshots.
 
 ## Follow-up after the second dummy-account request
 
@@ -68,8 +90,8 @@ below retain the earlier QA evidence and must be read as historical snapshots.
   `test-bank-account-sync.js`; the current stateless/access suites cover this change.
 
 The results below describe the earlier hosted QA. The configuration/browser blockers
-were subsequently resolved as recorded above. Automated fixtures do not satisfy the
-remaining hosted learner practice and revocation checks.
+were subsequently resolved, and the requested hosted CSSBB journey was completed as
+recorded above. Automated fixtures do not satisfy all broader hosted acceptance cases.
 
 ## Fixes made
 
@@ -126,14 +148,14 @@ queue/history access paths. See [foreign-key advisor guidance](https://supabase.
 
 ## Remaining hosted acceptance work
 
-1. Complete real learner protected-delivery checks. The function now bundles the
-   same public configuration as sign-in; separate complete Functions overrides are
-   optional. The preview's anonymous/invalid-JWT/coming-soon denial checks passed.
-2. Use a designated non-administrator dummy account to exercise zero/one/multiple
-   grants, request/cancel, approval/decline, renewal, expiry, revocation and cross-account
-   isolation. CSSBB request and temporary Administrator approval are now verified;
-   the remaining cases are not. Do not revoke Administrator membership merely to
-   manufacture a learner.
+1. Extend real learner protected-delivery checks beyond the completed CSSBB journey.
+   The function bundles the same public configuration as sign-in; separate complete
+   Functions overrides are optional. Anonymous/invalid-JWT/coming-soon denial checks,
+   granted CSSBB delivery, ungranted PMP denial and revoked CSSBB denial passed.
+2. Complete multiple grants, request cancellation, decline, renewal, natural expiry
+   and cross-account isolation with designated non-administrator dummy accounts.
+   Zero/one grants, CSSBB request, temporary approval, practice and explicit revocation
+   are verified. Do not revoke Administrator membership merely to manufacture a learner.
 3. Exercise every released bank's protected simulator modes, scoring/reveal/results,
    tab-return checks, direct URLs and CDN responses with real learner JWTs. Mocked
    browser coverage is not a substitute for these remaining hosted checks.
@@ -142,5 +164,6 @@ queue/history access paths. See [foreign-key advisor guidance](https://supabase.
 
 No production website deployment, membership-role changes, notifications, credential
 changes or paid resources were created during this QA. In addition to the additive
-schema installation, the designated dummy learner now has one CSSBB request and one
-temporary CSSBB grant with the bounded decision history described above.
+schema installation, the designated dummy learner now has one approved CSSBB request
+and one revoked CSSBB grant with the bounded decision history described above. No
+active test grant remains for that learner.
