@@ -637,6 +637,7 @@ function extractPmpFormulaSections(html) {
       formula.num,
       formula.section,
       formula.family,
+      formula.tag || '',
       formula.latex,
       `Use: ${formula.use || ''}`,
       `Exam trap: ${formula.trap || ''}`,

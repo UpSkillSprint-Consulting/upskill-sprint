@@ -501,10 +501,10 @@
       topic: 'project-management',
       level: 'advanced',
       interactive: 'true',
-      search: 'pmp formula encyclopedia earned value cpi spi eac tcpi vac pert beta triangular emv expected monetary value pmbok project management advanced interactive',
+      search: 'pmp formula encyclopedia earned value cpi spi eac tcpi vac pert beta triangular sigma float free float total float communication channels npv roi irr payback bcr emv expected monetary value pmbok project management advanced interactive',
       meta: '<span>Advanced</span><span>Interactive</span><span>25 min</span>',
       title: 'PMP Formula Encyclopedia',
-      description: 'Search the earned value, forecast, three-point, and EMV formulas printed in the PMBOK Guide. The People domain stays visible even though it has no formula.'
+      description: 'Search the PMP formulas for earned value, forecasts, three-point estimates, float, channels, and project selection. People stays visible with no formula.'
     }
   ];
 

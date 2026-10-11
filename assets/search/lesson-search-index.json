@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 53,
   "contentLessonCount": 52,
-  "sectionCount": 2300,
+  "sectionCount": 2309,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -34068,7 +34068,7 @@
       "id": "project-management--pmp-formula-encyclopedia",
       "path": "/lessons/project-management/pmp-formula-encyclopedia",
       "title": "PMP Formula Encyclopedia",
-      "description": "Search the earned value, forecast, three-point, and EMV formulas printed in the PMBOK Guide. The People domain stays visible even though it has no formula.",
+      "description": "Search the PMP formulas for earned value, forecasts, three-point estimates, float, channels, and project selection. People stays visible with no formula.",
       "topic": "project-management",
       "level": "advanced",
       "minutes": 25,
@@ -34080,9 +34080,13 @@
         "eac",
         "tcpi",
         "pert",
+        "float",
+        "npv",
+        "channels",
+        "payback",
         "emv",
         "pmbok",
-        "pmp formula encyclopedia earned value cpi spi eac tcpi vac pert beta triangular emv expected monetary value pmbok project management advanced interactive"
+        "pmp formula encyclopedia earned value cpi spi eac tcpi vac pert beta triangular sigma float free float total float communication channels npv roi irr payback bcr emv expected monetary value pmbok project management advanced interactive"
       ],
       "placeholder": false,
       "contentAvailable": true,
@@ -34107,8 +34111,8 @@
             "PMP Formula Encyclopedia",
             "Scope summary"
           ],
-          "text": "Search the governing formulas the PMBOK Guide prints for the PMP exam. They are grouped into the three scored domains. Each card is an original study note, not a copy of the guide. People No governing calculation in either guide. Process Earned value, forecasts, and three-point estimates. Business Environment Expected monetary value from the decision tree. People stays visible because it is a scored domain, and neither the 6th nor the 8th edition prints a calculation for it. One algebra is one card. A worked numerical example is not a card. Named selection measures such as NPV, ROI, IRR, payback, and BCR are not printed as equations, so they are not cards. 0 formulas No formulas match the selected filters.",
-          "excerpt": "Search the governing formulas the PMBOK Guide prints for the PMP exam. They are grouped into the three scored domains. Each card is an original study note, not a copy of the guide. People No governing calculation in either guide. Process Earned value,…",
+          "text": "Search the formulas used on the PMP exam. They are grouped into the three scored domains. The guides print the earned-value, forecast, three-point, and EMV algebra. Nine other cards are the exam algebra the guides name and do not print. Each card is an original study note, not a copy of the guide. People No governing calculation in either guide. Process Earned value, forecasts, three-point estimates, float, PERT sigma, and communication channels. Business Environment Expected monetary value, plus NPV, ROI, IRR, payback, and BCR. People stays visible because it is a scored domain, and neither the 6th nor the 8th edition prints a calculation for it. One algebra is one card. A worked numerical example is not a card. PERT sigma, total float, free float, communication channels, NPV, ROI, IRR, payback, and BCR are cards because the exam uses them, even though the guides name those measures and do not print the algebra. PV, EV, AC, and BAC stay inputs inside the earned-value notes, not separate cards. 0 formulas No formulas match the selected filters.",
+          "excerpt": "Search the formulas used on the PMP exam. They are grouped into the three scored domains. The guides print the earned-value, forecast, three-point, and EMV algebra. Nine other cards are the exam algebra the guides name and do not print. Each card is an…",
           "kinds": [
             "section",
             "example",
@@ -34326,6 +34330,66 @@
           ]
         },
         {
+          "id": "formula-title-pmp-sigma",
+          "heading": "PERT standard deviation",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Estimating"
+          ],
+          "text": "PMP-SIGMA σ Process Estimating Exam algebra \\sigma=\\frac{P-O}{6} Use: Subtract the optimistic estimate from the pessimistic estimate and divide by 6. Variance is that result squared. A path standard deviation is the square root of the sum of the activity variances. Exam trap: This is not the expected duration. The triangular and beta averages are other cards. Do not square the range before dividing by 6. The guides print the triangular and beta averages and name PERT. They do not print this standard-deviation line. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-SIGMA σ Process Estimating Exam algebra \\sigma=\\frac{P-O}{6} Use: Subtract the optimistic estimate from the pessimistic estimate and divide by 6. Variance is that result squared. A path standard deviation is the square root of the sum of the activity…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-tf",
+          "heading": "Total float",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Schedule"
+          ],
+          "text": "PMP-TF TF Process Schedule Exam algebra TF=LS-ES=LF-EF Use: Subtract the early start from the late start, or the early finish from the late finish. On the day-1 network, Activity B is 11 minus 6 and 15 minus 10, both 5 days. Exam trap: Total float is not free float. Free float looks only at the next activity. A negative result means the late date is already before the early date. The 8th edition says the difference between the late date and the early date is total float. Neither edition prints LS minus ES as a line of algebra. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-TF TF Process Schedule Exam algebra TF=LS-ES=LF-EF Use: Subtract the early start from the late start, or the early finish from the late finish. On the day-1 network, Activity B is 11 minus 6 and 15 minus 10, both 5 days. Exam trap: Total float is not free…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-ff",
+          "heading": "Free float",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Schedule"
+          ],
+          "text": "PMP-FF FF Process Schedule Exam algebra FF=ES_{\\text{successor}}-EF Use: Subtract this activity's early finish from the earliest early start of the activities that follow it. Exam trap: On a day-1 network, subtract one more day. Activity B finishes on day 10 and Activity D starts on day 16, so 16 minus 10 minus 1 is the figure's 5 days of free float. Late dates belong to total float, not this card. The network figures show Activity B's free float as 5 days. They do not print successor start minus early finish. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-FF FF Process Schedule Exam algebra FF=ES_{\\text{successor}}-EF Use: Subtract this activity's early finish from the earliest early start of the activities that follow it. Exam trap: On a day-1 network, subtract one more day. Activity B finishes on day 10…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-ch",
+          "heading": "Communication channels",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Process",
+            "Communications"
+          ],
+          "text": "PMP-CH n Process Communications Exam algebra \\text{Channels}=\\frac{n(n-1)}{2} Use: n is the number of people. Six people make 6 times 5 divided by 2, which is 15 channels. Exam trap: Do not use n squared, and do not forget to divide by 2. Adding one person adds a channel to every existing person, not a single new line. 6th edition Section 10.1.2.2 and the 8th edition communication requirements name the count of channels and do not print this line. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-CH n Process Communications Exam algebra \\text{Channels}=\\frac{n(n-1)}{2} Use: n is the number of people. Six people make 6 times 5 divided by 2, which is 15 channels. Exam trap: Do not use n squared, and do not forget to divide by 2. Adding one person…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
           "id": "formula-title-pmp-emv",
           "heading": "Expected monetary value",
           "breadcrumb": [
@@ -34335,6 +34399,81 @@
           ],
           "text": "PMP-EMV EMV Business Environment Risk \\mathrm{EMV}=\\sum(P\\times\\text{monetary outcome}) Use: A chance node is the sum of each probability times its monetary outcome. Subtract an investment that is not already inside those outcomes, the way the decision-tree figure does. Exam trap: Do not choose the branch with the largest single payoff. Weight every outcome by its probability before the branches are compared. PMBOK Guide, 6th edition Figure 11-15 and 8th edition Figure 5-5. The figure computes each chance node as probability times monetary outcome. This note is original study guidance, not a copy of the guide.",
           "excerpt": "PMP-EMV EMV Business Environment Risk \\mathrm{EMV}=\\sum(P\\times\\text{monetary outcome}) Use: A chance node is the sum of each probability times its monetary outcome. Subtract an investment that is not already inside those outcomes, the way the decision-tree…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-npv",
+          "heading": "Net present value",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Business Environment",
+            "Selection"
+          ],
+          "text": "PMP-NPV NPV Business Environment Selection Exam algebra NPV=\\sum\\frac{CF_t}{(1+r)^t} Use: Discount each cash flow to today and add the results. A single present value is the future amount divided by (1 plus the rate) to the power of the period. When the question says to maximize value, the higher NPV wins. Exam trap: Do not compare undiscounted totals. A larger far-future payoff can lose once it is discounted. NPV is not the benefit-cost ratio. Both guides name net present value as a selection measure and do not print this algebra. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-NPV NPV Business Environment Selection Exam algebra NPV=\\sum\\frac{CF_t}{(1+r)^t} Use: Discount each cash flow to today and add the results. A single present value is the future amount divided by (1 plus the rate) to the power of the period. When the…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-roi",
+          "heading": "Return on investment",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Business Environment",
+            "Selection"
+          ],
+          "text": "PMP-ROI ROI Business Environment Selection Exam algebra ROI=\\frac{\\text{benefit}-\\text{cost}}{\\text{cost}} Use: Subtract cost from benefit, then divide by cost. Exam trap: ROI is not benefits divided by costs. That quotient is the benefit-cost ratio. A result of 1 is not the same statement as a benefit-cost ratio of 1. The guides name return on investment and do not print this ratio. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-ROI ROI Business Environment Selection Exam algebra ROI=\\frac{\\text{benefit}-\\text{cost}}{\\text{cost}} Use: Subtract cost from benefit, then divide by cost. Exam trap: ROI is not benefits divided by costs. That quotient is the benefit-cost ratio. A result…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-irr",
+          "heading": "Internal rate of return",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Business Environment",
+            "Selection"
+          ],
+          "text": "PMP-IRR IRR Business Environment Selection Exam algebra 0=\\sum\\frac{CF_t}{(1+\\mathrm{IRR})^t} Use: IRR is the discount rate that makes net present value zero. Compare it with the hurdle rate in the question. A typical series of cash flows has no closed-form rearrangement. Exam trap: Do not treat IRR as profit divided by cost. That is return on investment. A higher IRR is not automatically the choice when the question says to maximize net present value. The guides name the internal rate of return and do not print a solving formula. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-IRR IRR Business Environment Selection Exam algebra 0=\\sum\\frac{CF_t}{(1+\\mathrm{IRR})^t} Use: IRR is the discount rate that makes net present value zero. Compare it with the hurdle rate in the question. A typical series of cash flows has no closed-form…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-pbp",
+          "heading": "Payback period",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Business Environment",
+            "Selection"
+          ],
+          "text": "PMP-PBP PB Business Environment Selection Exam algebra \\text{Payback}=\\frac{\\text{investment}}{\\text{annual net cash flow}} Use: When net cash flow is the same every year, divide the investment by that annual amount. When the cash flow changes by year, count the years until the investment is recovered. Exam trap: Payback ignores cash after the investment is recovered. It does not discount unless the question says discounted payback. The guides name payback and do not print this line. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-PBP PB Business Environment Selection Exam algebra \\text{Payback}=\\frac{\\text{investment}}{\\text{annual net cash flow}} Use: When net cash flow is the same every year, divide the investment by that annual amount. When the cash flow changes by year, count…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-pmp-bcr",
+          "heading": "Benefit-cost ratio",
+          "breadcrumb": [
+            "PMP Formula Encyclopedia",
+            "Business Environment",
+            "Selection"
+          ],
+          "text": "PMP-BCR BCR Business Environment Selection Exam algebra BCR=\\frac{\\text{benefits}}{\\text{costs}} Use: Divide benefits by costs. A result above 1 means benefits exceed costs. Exam trap: Do not subtract cost from benefit before dividing. That subtraction is return on investment. A ratio of 1.2 is not a 120 percent return on investment. The 6th edition names the benefit-cost ratio. The 8th edition discusses cost-benefit analysis. Neither prints this quotient. This note is original exam guidance, not a copy of the guide.",
+          "excerpt": "PMP-BCR BCR Business Environment Selection Exam algebra BCR=\\frac{\\text{benefits}}{\\text{costs}} Use: Divide benefits by costs. A result above 1 means benefits exceed costs. Exam trap: Do not subtract cost from benefit before dividing. That subtraction is…",
           "kinds": [
             "section",
             "formula"

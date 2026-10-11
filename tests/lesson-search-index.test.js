@@ -203,7 +203,7 @@ test('the PMP formula encyclopedia indexes every card at the live anchor', () =>
     item.path === '/lessons/project-management/pmp-formula-encyclopedia');
   assert.ok(lesson);
   const formulas = lesson.sections.filter(section => section.id.startsWith('formula-title-pmp-'));
-  assert.equal(formulas.length, 15);
+  assert.equal(formulas.length, 24);
   const html = fs.readFileSync(path.join(ROOT,
     'lessons/project-management/pmp-formula-encyclopedia.html'), 'utf8');
   assert.match(html, /"search_content": "runtime"/);
@@ -221,6 +221,9 @@ test('the PMP formula encyclopedia indexes every card at the live anchor', () =>
   assert.match(joined, /Cost performance index/);
   assert.match(joined, /PMP-EAC-BOTH/);
   assert.match(joined, /Expected monetary value/);
+  assert.match(joined, /PERT standard deviation/);
+  assert.match(joined, /Net present value/);
+  assert.match(joined, /Communication channels/);
   const scope = lesson.sections.find(section => section.heading === 'Scope summary');
   assert.match(scope.text, /three scored domains/);
 });

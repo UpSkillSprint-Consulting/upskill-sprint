@@ -117,7 +117,7 @@ test('canonical chrome and encyclopedia structure follow the lesson guide, with 
 test('search, domain, and family filters keep an empty scored domain visible', () => {
   const { dom, w, d } = setup();
   const visible = () => Array.from(d.querySelectorAll('[data-formula-id]')).filter((card) => !card.hidden);
-  assert.equal(d.querySelectorAll('[data-formula-id]').length, 15);
+  assert.equal(d.querySelectorAll('[data-formula-id]').length, 24);
   assert.equal(d.querySelector('[data-section="People"] [data-formula-id]'), null);
   assert.equal(d.querySelector('[data-section="People"]').hidden, false);
   assert.match(d.querySelector('[data-section="People"]').textContent, /does not print a governing calculation|Neither the 6th nor the 8th edition prints a governing calculation/);
@@ -129,7 +129,7 @@ test('search, domain, and family filters keep an empty scored domain visible', (
   d.getElementById('sectionFilter').dispatchEvent(new w.Event('change'));
   assert.ok(visible().every((card) => card.closest('[data-section]').dataset.section === 'Process'));
   d.getElementById('resetBtn').click();
-  assert.equal(visible().length, 15);
+  assert.equal(visible().length, 24);
   assert.equal(d.querySelector('[data-section="People"]').hidden, false);
   d.getElementById('familyFilter').value = 'Forecasting';
   d.getElementById('familyFilter').dispatchEvent(new w.Event('change'));
@@ -148,6 +148,26 @@ test('search, domain, and family filters keep an empty scored domain visible', (
   assert.match(d.querySelector('[data-formula-id="PMP-EAC-BOTH"] .formula-box').textContent, /CPI\\times SPI/);
   assert.match(d.querySelector('[data-formula-id="PMP-BETA"] .formula-box').textContent, /4c_M/);
   assert.equal(d.querySelector('[data-formula-id="PMP-EMV"] .card-family').textContent, 'Risk');
+  assert.match(d.querySelector('[data-formula-id="PMP-SIGMA"] .formula-box').textContent, /\\frac\{P-O\}\{6\}/);
+  assert.equal(d.querySelector('[data-formula-id="PMP-SIGMA"] .card-family').textContent, 'Estimating');
+  assert.match(d.querySelector('[data-formula-id="PMP-TF"] .formula-box').textContent, /LS-ES=LF-EF/);
+  assert.match(d.querySelector('[data-formula-id="PMP-FF"] .formula-box').textContent, /ES_\{\\text\{successor\}\}-EF/);
+  assert.match(d.querySelector('[data-formula-id="PMP-CH"] .formula-box').textContent, /n\(n-1\)/);
+  assert.match(d.querySelector('[data-formula-id="PMP-NPV"] .formula-box').textContent, /CF_t/);
+  assert.equal(d.querySelector('[data-formula-id="PMP-NPV"]').closest('[data-section]').dataset.section, 'Business Environment');
+  assert.match(d.querySelector('[data-formula-id="PMP-ROI"] .formula-box').textContent, /benefit/);
+  assert.match(d.querySelector('[data-formula-id="PMP-IRR"] .formula-box').textContent, /IRR/);
+  assert.match(d.querySelector('[data-formula-id="PMP-PBP"] .formula-box').textContent, /Payback/);
+  assert.match(d.querySelector('[data-formula-id="PMP-BCR"] .formula-box').textContent, /benefits/);
+  for (const id of ['PMP-SIGMA', 'PMP-TF', 'PMP-FF', 'PMP-CH', 'PMP-NPV', 'PMP-ROI', 'PMP-IRR', 'PMP-PBP', 'PMP-BCR']) {
+    assert.equal(d.querySelector(`[data-formula-id="${id}"] .tag`).textContent, 'Exam algebra');
+  }
+  assert.equal(d.querySelector('[data-formula-id="PMP-CPI"] .tag').textContent, 'Guide display');
+  for (const id of ['PMP-PV', 'PMP-EV', 'PMP-AC', 'PMP-BAC']) {
+    assert.equal(d.querySelector(`[data-formula-id="${id}"]`), null);
+  }
+  assert.match(html, /NPV, ROI, IRR, payback, and BCR are cards/);
+  assert.doesNotMatch(html, /are not cards/);
   dom.window.close();
 });
 
@@ -164,7 +184,7 @@ test('a section deep link and a formula hash each open one card', () => {
   const emv = forced.d.getElementById('formula-title-pmp-emv').closest('[data-formula-id]');
   assert.equal(emv.hidden, false);
   assert.equal(forced.d.getElementById('searchInput').value, '');
-  assert.equal(forced.d.querySelectorAll('[data-formula-id]:not([hidden])').length, 15);
+  assert.equal(forced.d.querySelectorAll('[data-formula-id]:not([hidden])').length, 24);
   forced.dom.window.close();
 
   const hashed = setup('#formula=PMP-TCPI-BAC');
