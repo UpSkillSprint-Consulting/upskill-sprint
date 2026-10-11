@@ -33,3 +33,26 @@ test('Set 3 presentation cannot reuse the existing Set 2 batch 3 CSS namespace',
  assert.ok(!current.includes('mbb3-'));
  assert.ok(!legacy.includes('mbbs3b1-'));
 });
+test('a late question-arrival focus does not take focus from a revealed answer',()=>{
+ const {JSDOM}=require('jsdom');
+ for(let batch=1;batch<=7;batch++){
+  const source=fs.readFileSync(path.join(root,'test-bank-mbb-set3-batch'+batch+'-ui.js'),'utf8');
+  assert.match(source,/\[role="button"\],\[tabindex\]/);
+  const found=source.match(/mbb:set-3:d[0-9]+-[0-9]+/);
+  const qid=found?found[0]:'mbb:set-3:d1-'+source.match(/'([0-9]{3})'/)[1];
+  const dom=new JSDOM('<!doctype html><html><body><div id="host"></div></body></html>',{runScripts:'outside-only'});
+  const frames=[];
+  dom.window.requestAnimationFrame=fn=>frames.push(fn);
+  dom.window.eval(source);
+  const ui=dom.window['__MBBSet3Batch'+batch+'UI'];
+  const host=dom.window.document.getElementById('host');
+  host.innerHTML='<div class="tb-quiz" data-question-id="'+qid+'"><div class="tb-stem" tabindex="-1">Stem</div><button type="button" data-opt="0">A</button><section id="tb-revealed-answer" class="tb-revealed-answer" tabindex="-1">Revealed</section></div>';
+  ui.wire(host);
+  const revealed=dom.window.document.getElementById('tb-revealed-answer');
+  revealed.focus();
+  assert.equal(frames.length,1,'batch '+batch+' did not schedule arrival focus for '+qid);
+  frames[0]();
+  assert.equal(dom.window.document.activeElement,revealed,'batch '+batch);
+  dom.window.close();
+ }
+});
