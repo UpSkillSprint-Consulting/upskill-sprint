@@ -56,6 +56,31 @@ test('the exam page loads the CRE formula sheet from the encyclopedia', () => {
   dom.window.close();
 });
 
+test('CRE formula cards use handbook LaTeX for MathJax, not a plain-text stand-in', () => {
+  const dom = build({
+    sub: 'cre-statistics',
+    stem: 'Estimate the slope with a two-sided test statistic.',
+    options: ['A', 'B'],
+    why: 'The slope test is not the answer key.'
+  });
+  const typeset = [];
+  dom.window.UpskillMath = {
+    typeset: function (nodes) {
+      typeset.push(nodes[0]);
+      return Promise.resolve();
+    }
+  };
+  dom.window.__TB_CRE_FORMULAS.renderContextualPane('');
+  const card = dom.window.document.querySelector('[data-formula-id="CRE-6.7"] .tb-fmath');
+  assert.ok(card);
+  assert.match(card.textContent, /\\\[\\begin\{aligned\}/);
+  assert.match(card.textContent, /s_\{b_1\}/);
+  assert.doesNotMatch(card.textContent, /s_\(b/);
+  assert.equal(typeset.length, 1);
+  assert.equal(typeset[0].id, 'tb-reflist');
+  dom.window.close();
+});
+
 test('the open Kaplan-Meier question recommends that card and does not reveal the worked answer', () => {
   const question = {
     sub: 'cre-statistics',
