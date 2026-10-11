@@ -72,6 +72,9 @@ export async function buildExamDelivery(root = ROOT) {
   });
   if (runtimeCount !== 1) throw new Error('Expected exactly one simulator runtime.');
   shell = shell.replace('data-exam-delivery="source"', 'data-exam-delivery="shell"');
+  // The unshipped authoring page keeps its legacy gate for source-only QA.
+  // Production uses the permission endpoint and must not also require Premium.
+  shell = shell.replace(/(<body\b[^>]*)(>)/, tag => tag.replace(/ data-require-auth| data-required-access="[^"]*"| data-access-resource="[^"]*"/g, ''));
   if (!shell.includes('data-exam-delivery="shell"')) throw new Error('Missing exam shell marker.');
   shell = shell.replace('</head>', '<link rel="stylesheet" href="/exam-access.css">\n<script defer src="/exam-access-loader.js"></script>\n</head>');
   shell = shell.replace(/(<body[^>]*>)/, '$1\n<section id="exam-access-status" class="exam-access-status" role="status" aria-live="polite"><h1>Checking exam access</h1><p>Please wait while we check your account.</p></section><noscript><p>Enable JavaScript and sign in to open your assigned exams.</p></noscript>');

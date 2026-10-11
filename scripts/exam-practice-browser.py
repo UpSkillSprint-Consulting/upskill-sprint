@@ -1,9 +1,9 @@
 """Exam-directory learner audit for CI, using isolated account fixtures only.
 
-The repository HTML, styles, navigation, account menu, and access gate remain
-real. Only the Supabase transport is replaced with the same Premium fixture
-data used by student-review-browser.py. All account writes and external
-requests are blocked. Run against scripts/student-review-server.mjs.
+The public build, styles, navigation, account menu and exam endpoint remain
+real. Auth and the upstream permission transport use explicit, isolated grant
+fixtures; no real accounts are used. All writes and external requests are blocked.
+Run the server with EXAM_DELIVERY_PREVIEW=1 after building private exam packages.
 """
 import argparse
 import json
@@ -32,7 +32,7 @@ def account_fixture(premium):
         then(resolve,reject){return Promise.resolve({data:[],error:null}).then(resolve,reject)}};
       const client = {
         auth:{onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}}),
-          getSession:async()=>({data:{session:user ? {user} : null},error:null})},
+          getSession:async()=>({data:{session:user ? {user,access_token:"audit.granted.signature"} : null},error:null})},
         rpc:async name=>{
           if(name==='can_access_content')return {data:!!user,error:null};
           if(name==='current_access_level')return {data:user?'premium':'public',error:null};
@@ -87,7 +87,7 @@ def main():
     report = {
         'browser': args.browser,
         'revision': os.environ.get('PR_HEAD_SHA', 'local'),
-        'basis': 'Repository pages and real account menu; isolated signed-out/Premium Supabase fixtures; no real accounts',
+        'basis': 'Public build and real permission endpoint; signed-out/explicit-grant fixtures; upstream RPC mocked; no real accounts',
         'cases': [], 'errors': [], 'network_writes': [],
     }
 
@@ -97,7 +97,7 @@ def main():
     with sync_playwright() as pw:
         browser = getattr(pw, args.browser).launch(headless=True)
         for premium in [False, True]:
-            tier = 'premium' if premium else 'signed-out'
+            tier = 'assigned-exams' if premium else 'signed-out'
             context = browser.new_context(viewport={'width': 1536, 'height': 1000}, device_scale_factor=1)
 
             def route(request_route):
@@ -192,7 +192,7 @@ def main():
                 expect(pmp.locator('.exam-status')).to_have_text('Set 1: 180 questions')
                 expect(pmp.locator('.exam-card-action')).to_contain_text('Start practicing')
                 expect(page.locator('.exam-intro')).to_contain_text('untimed')
-                expect(page.locator('.exam-actions a[href="/test-bank"]')).to_be_visible()
+                expect(page.locator('.exam-actions a[href="#exam-certifications"]')).to_be_visible()
                 expect(page.locator('footer a[href="/exam-practice"]')).to_be_visible()
                 for card in page.locator('.exam-card').all():
                     expect(card).to_have_attribute('href', re.compile(r'^/test-bank\?exam=[^&#]+$'))
@@ -297,47 +297,39 @@ def main():
                     link = page.locator(f'.exam-certifications a[href="{chip["href"]}"]')
                     link.focus()
                     page.keyboard.press('Enter')
-                    if not premium:
-                        expect(page).to_have_url(re.compile(r'/sign-in(?:\.html)?\?next='))
-                        next_path = parse_qs(urlparse(page.url).query)['next'][0]
-                        assert next_path == chip['href'], (chip, next_path)
-                        continue
                     expect(page).to_have_url(base + chip['href'])
-                    page.wait_for_selector('body.auth-ready.access-ready')
+                    if exam_id == 'cqa':
+                        expect(page.locator('#exam-access-status')).to_contain_text('This exam is not available')
+                        assert page.evaluate('()=>!window.__TB')
+                        continue
+                    if not premium:
+                        expect(page.locator('#exam-access-status')).to_contain_text('Sign in to open this exam')
+                        target = page.locator('#exam-access-status a').first.get_attribute('href')
+                        assert parse_qs(urlparse(target).query)['next'][0] == chip['href']
+                        assert page.evaluate('()=>!window.__TB')
+                        continue
+                    page.wait_for_selector('body.exam-access-ready')
                     expect(page.locator('.tb-tile.active')).to_have_attribute('data-exam', exam_id)
-                    assert page.evaluate('(id)=>Object.hasOwn(__TB.EXAMS,id)', exam_id), chip
+                    assert page.evaluate('(id)=>Object.entries(__TB.EXAMS).every(([key,e])=>key===id||[e.bank,...Object.values(e.sets||{})].filter(Array.isArray).every(bank=>bank.length===0))', exam_id)
                     expect(page.locator('.tb-quiz')).to_have_count(0)
                     nav_state('Exam Practice & Quizzes')
-                    if 'coming soon' in chip['label'].lower():
-                        expect(page.locator('#tb-overview .tb-soon')).to_have_text('Coming soon')
-                    else:
-                        expect(page.locator('#tb-overview [data-mode="full"]')).to_be_visible()
+                    expect(page.locator('#tb-overview [data-mode="full"]')).to_be_visible()
 
             record('each-certification-link-selects-its-exam', certification_links)
 
             def simulator_journey():
                 page.set_viewport_size({'width': 1536, 'height': 1000})
                 directory()
-                page.locator('.exam-actions a[href="/test-bank"]').click()
+                page.locator('.exam-actions a[href="#exam-certifications"]').click()
+                page.locator('.exam-card[href="/test-bank?exam=cre"]').click()
                 if not premium:
-                    expect(page).to_have_url(re.compile(r'/sign-in(?:\.html)?\?next='))
-                    assert 'test-bank' in page.url, page.url
+                    expect(page.locator('#exam-access-status')).to_contain_text('Sign in to open this exam')
                     expect(page.locator('.tb-quiz')).to_have_count(0)
                     return
-                page.wait_for_selector('body.auth-ready.access-ready')
-                assert not urlparse(page.url).query, 'Main entry must open the full catalog without an exam query'
+                page.wait_for_selector('body.exam-access-ready')
                 expect(page.locator('#tb-overview')).to_be_visible()
-                assert page.locator('.tb-tile[data-exam]').count() == page.evaluate('()=>Object.keys(__TB.EXAMS).length')
                 nav_state('Exam Practice & Quizzes')
                 no_header_overlap()
-                for certification in ['cqa']:
-                    page.locator(f'.tb-tile[data-exam="{certification}"]').click()
-                    expect(page.locator('#tb-overview .tb-soon')).to_have_text('Coming soon')
-                    expect(page.locator('#tb-overview .tb-soonline')).to_be_visible()
-                    expect(page.locator('.tb-quiz')).to_have_count(0)
-                page.locator('.tb-tile[data-exam="cre"]').click()
-                expect(page.locator('#tb-overview [data-mode="full"]')).to_be_visible()
-                # CRE Set 1 is released in batches and is now the default; Sets 2 and 3 stay selectable.
                 expect(page.locator('[data-set="1"]')).to_have_attribute('aria-pressed', 'true')
                 expect(page.locator('[data-set="2"]')).to_be_enabled()
                 expect(page.locator('.tb-quiz')).to_have_count(0)
@@ -356,7 +348,7 @@ def main():
                 for width, theme in [(1536, 'light'), (1536, 'dark'), (390, 'light'), (390, 'dark')]:
                     page.set_viewport_size({'width': width, 'height': 1000})
                     page.goto(base + '/test-bank?exam=cre', wait_until='load')
-                    page.wait_for_selector('body.auth-ready.access-ready')
+                    page.wait_for_selector('body.exam-access-ready')
                     page.evaluate('(theme)=>document.documentElement.setAttribute("data-theme",theme)', theme)
                     page.locator('[data-set="2"]').click()
                     expect(page.locator('[data-set="2"]')).to_have_attribute('aria-pressed', 'true')

@@ -11,7 +11,6 @@ const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
    exam-access-delivery.test.js verifies the actual server protection. */
 test('the certification simulator opts into per-exam delivery', () => {
   assert.match(read('test-bank.html'), /<body[^>]*data-exam-delivery="source"/);
-  assert.doesNotMatch(read('test-bank.html'), /data-required-access="premium"/);
 });
 
 test('the test bank loads the shared gate loader so the gate can run', () => {

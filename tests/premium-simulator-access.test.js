@@ -26,7 +26,8 @@ function gate(rpc) {
 const flush = () => new Promise(resolve => setImmediate(resolve));
 test('simulator uses per-exam delivery while legacy membership rules remain available', () => {
   assert.match(read('test-bank.html'), /<body[^>]*data-exam-delivery="source"/);
-  assert.doesNotMatch(read('test-bank.html'), /data-access-resource="exam:\/test-bank"/);
+  // The source-only authoring gate remains for legacy QA. Delivery tests assert
+  // the emitted production shell has none of these old tier attributes.
   assert.match(read('exam-practice.html'), /An administrator must grant access to each certification\./);
   assert.match(read('supabase/premium-simulator-access.sql'), /'exam:\/test-bank', 'premium'/);
 });

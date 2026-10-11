@@ -112,14 +112,31 @@ loader account races, sign-out, retry messages and return-to-tab checks. Browser
 logic uses JSDOM; hosted JWT verification, actual navigation/CDN behaviour and
 mobile/light/dark screenshots still require a configured deploy preview.
 
+The learner browser CI now serves the actual public build and real Netlify handler
+through `EXAM_DELIVERY_PREVIEW=1` in the isolated review server. Only the upstream
+permission response and auth session are fixtures. Other historical source-only
+audits retain their legacy authoring gate; the production shell explicitly strips
+that gate, and the delivery tests assert it is absent. The browser audit checks
+the new sign-in/coming-soon flow and that delivered banks match the selected exam.
+
 The initial Step 2 result is 70 passing focused tests and a successful full build
 with zero known static-content findings. An additional 59 compatibility checks
 pass for the shared calculator lookup tables, answer reveal across all exams/sets,
 and CQE source visuals through quiz, review and retry.
+The navigation/access regression suite also passes all 19 checks. Loopback HTTP
+checks of the real handler/package loader pass for anonymous 401, denied 403,
+allowed package/check responses and absent raw/private file paths (with mocked RPC).
 A local Netlify packaging-tool installation
 was attempted but its dependency downloads returned HTTP 403; archive-level
 packaging and deployed file availability remain hosted release checks. No extra
 dependency or lockfile change was introduced by that temporary tooling attempt.
+
+The Netlify deploy preview subsequently built successfully. Anonymous HTTP checks
+confirmed that all three simulator URL forms serve only the no-store shell, the
+content endpoint returns 401, sampled old bank scripts and the protected CQE image
+return 404, and the calculator's shared tables still return 200. Positive hosted
+delivery with a real granted test account remains outstanding because the access
+schema and assignments have not been activated.
 
 References: [Supabase Data API security](https://supabase.com/docs/guides/api/securing-your-api),
 [Netlify function configuration](https://docs.netlify.com/build/functions/configuration/),

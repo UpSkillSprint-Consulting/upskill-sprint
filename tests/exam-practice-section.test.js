@@ -71,9 +71,9 @@ test('the public exam page describes current certification availability and Test
   assert.equal(section.querySelector('.category-count').textContent, '7 available · 1 coming soon');
   assert.match(section.textContent,/timed or untimed/);
   assert.equal(section.querySelector('.exam-certifications').getAttribute('aria-label'),'Certification availability');
-  assert.match(section.textContent, /Premium account or higher/);
-  assert.equal((section.textContent.match(/Premium/g) || []).length, 1, 'access requirement is stated once');
-  assert.ok(section.querySelector('a[href="/test-bank"]'));
+  assert.match(section.textContent, /An administrator must grant access to each certification/);
+  assert.equal((section.textContent.match(/An administrator must grant/g) || []).length, 1, 'access requirement is stated once');
+  assert.ok(section.querySelector('a[href="#exam-certifications"]'));
   assert.deepEqual(Array.from(section.querySelectorAll('.exam-certifications a'), a=>a.getAttribute('href')),
     ['/test-bank?exam=cssbb','/test-bank?exam=mbb','/test-bank?exam=cqe','/test-bank?exam=cmq','/test-bank?exam=cssgb','/test-bank?exam=cre','/test-bank?exam=pmp','/test-bank?exam=cqa']);
   assert.equal(section.querySelectorAll('.exam-coming-soon .exam-card').length, 1);
@@ -92,7 +92,7 @@ test('the public exam page describes current certification availability and Test
     assert.ok(doc.getElementById(group.getAttribute('aria-labelledby')), 'each group has an accessible heading');
   }
   assert.equal(section.querySelectorAll('.chip').length, 0, 'acronym-only pills are removed');
-  assert.equal(section.querySelector('.exam-actions a').getAttribute('href'),'/test-bank','main entry keeps the whole catalog');
+  assert.equal(section.querySelector('.exam-actions a').getAttribute('href'),'#exam-certifications','choose a certification before requesting its questions');
 
   assert.ok(fs.existsSync(path.join(ROOT, 'test-bank.html')));
   assert.equal(doc.body.hasAttribute('data-access-resource'), false, 'the directory is public');

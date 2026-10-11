@@ -13,6 +13,10 @@ on:
       - 'auth.js'
       - 'access-control.js'
       - 'test-bank.html'
+      - 'exam-access-loader.js'
+      - 'exam-access.css'
+      - 'scripts/build-exam-delivery.mjs'
+      - 'netlify/functions/exam-content.mjs'
       - 'netlify/edge-functions/test-bank-mobile-picker.js'
       - 'tests/exam-practice-section.test.js'
       - 'tests/premium-simulator-access.test.js'
@@ -60,7 +64,10 @@ jobs:
       - name: Audit learner journeys, layout, and contrast
         env:
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          EXAM_DELIVERY_PREVIEW: '1'
         run: |
+          node scripts/stage-public-site.mjs
+          node scripts/build-exam-delivery.mjs
           mkdir -p exam-practice-audit-evidence
           node scripts/student-review-server.mjs > exam-practice-audit-evidence/server.log 2>&1 &
           SERVER_PID=$!
