@@ -758,14 +758,31 @@
       '<span>No mathematical formula is required for this question. Use the section reference below to review related calculations without revealing the answer.</span></div>';
   }
 
+  var defaultFormulaNote = null;
+  var PMP_FORMULA_NOTE = 'Practice lookup. The real PMP exam does not provide this sheet.';
+
+  function syncFormulaNote(examId) {
+    var note = document.querySelector('#tb-formulas .tb-refnote');
+    if (!note) return;
+    if (defaultFormulaNote == null) defaultFormulaNote = note.textContent;
+    note.textContent = examId === 'pmp' ? PMP_FORMULA_NOTE : defaultFormulaNote;
+  }
+
   function renderContextualPane(query) {
     var host = document.getElementById('tb-reflist');
     var drawer = document.getElementById('tb-formulas');
     if (!host || !drawer || drawer.hidden) return;
     var examId = activeExamId();
+    syncFormulaNote(examId);
     if (examId === 'cre') {
       if (window.__TB_CRE_FORMULAS && typeof window.__TB_CRE_FORMULAS.renderContextualPane === 'function') {
         window.__TB_CRE_FORMULAS.renderContextualPane(query);
+      }
+      return;
+    }
+    if (examId === 'pmp') {
+      if (window.__TB_PMP_FORMULAS && typeof window.__TB_PMP_FORMULAS.renderContextualPane === 'function') {
+        window.__TB_PMP_FORMULAS.renderContextualPane(query);
       }
       return;
     }
