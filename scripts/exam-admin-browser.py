@@ -5,6 +5,7 @@ transactional permission behaviour is covered by exam-access-admin.test.js.
 """
 import argparse
 import json
+import re
 from pathlib import Path
 from urllib.parse import urlparse
 from playwright.sync_api import expect, sync_playwright
@@ -37,6 +38,15 @@ FIXTURE = """(() => {
     throw Error('Unexpected operation: '+args.operation);
   }})};
 })();"""
+
+
+def contrast_ratio(foreground, background):
+    def luminance(css):
+        rgb = [float(v) / 255 for v in re.findall(r'[\d.]+', css)[:3]]
+        linear = [v / 12.92 if v <= .04045 else ((v + .055) / 1.055) ** 2.4 for v in rgb]
+        return sum(v * weight for v, weight in zip(linear, [.2126, .7152, .0722]))
+    light, dark = sorted([luminance(foreground), luminance(background)], reverse=True)
+    return (light + .05) / (dark + .05)
 
 
 def main():
@@ -80,6 +90,15 @@ def main():
             page.locator('#exam-requests-refresh').click()
             expect(page.locator('#exam-request-list li')).to_have_count(1)
             assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1'), 'Horizontal overflow'
+            for button in page.locator('.btn-teal:visible:enabled').all():
+                for hovered in [False, True]:
+                    if hovered:
+                        button.hover()
+                    else:
+                        page.mouse.move(1, 1)
+                    page.wait_for_timeout(250)
+                    colors = button.evaluate('(el) => { const s=getComputedStyle(el); return [s.color,s.backgroundColor]; }')
+                    assert contrast_ratio(*colors) >= 4.5, (theme, hovered, colors)
             page.screenshot(path=str(out / f'admin-{args.browser}-{width}-{theme}.png'), full_page=True)
             page.on('dialog', lambda dialog: dialog.accept())
             page.locator('#exam-approve').click()
