@@ -5,6 +5,8 @@ on:
   pull_request:
     paths:
       - 'exam-practice.html'
+      - 'exam-directory.*'
+      - 'scripts/exam-directory-browser.py'
       - 'tools/unit-converter.html'
       - 'lessons.html'
       - 'site-sections.js'
@@ -78,6 +80,7 @@ jobs:
             curl -fsS http://127.0.0.1:8765/exam-practice -o /dev/null && break || sleep 1
           done
           set -o pipefail
+          python -u scripts/exam-directory-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/directory-browser.log
           python -u scripts/exam-practice-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/browser.log
           python -u scripts/exam-admin-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/admin-browser.log
       - name: Upload audit results and screenshots

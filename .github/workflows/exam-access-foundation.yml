@@ -16,6 +16,8 @@ on:
       - 'exam-access-loader.js'
       - 'exam-access.css'
       - 'exam-practice.html'
+      - 'exam-directory.*'
+      - 'tests/exam-directory.test.js'
       - 'test-bank*'
       - 'test-bank-assets/**'
       - 'netlify/functions/exam-content.mjs'
@@ -44,6 +46,6 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Test local PostgreSQL permissions and existing membership behaviour
-        run: node --test tests/exam-access-foundation.test.js tests/exam-access-release-audit.test.js tests/exam-access-delivery.test.js tests/exam-access-admin.test.js tests/exam-access-admin-ui.test.js tests/access-levels.test.js tests/premium-simulator-access.test.js tests/owner-admin.test.js tests/test-bank-stateless-results.test.js tests/test-bank-gate.test.js
+        run: node --test tests/exam-access-foundation.test.js tests/exam-access-release-audit.test.js tests/exam-access-delivery.test.js tests/exam-access-admin.test.js tests/exam-access-admin-ui.test.js tests/exam-directory.test.js tests/access-levels.test.js tests/premium-simulator-access.test.js tests/owner-admin.test.js tests/test-bank-stateless-results.test.js tests/test-bank-gate.test.js
       - name: Build site and reject public question banks
         run: npm run build:site

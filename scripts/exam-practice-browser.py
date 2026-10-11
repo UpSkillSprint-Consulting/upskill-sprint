@@ -33,10 +33,18 @@ def account_fixture(premium):
       const client = {
         auth:{onAuthStateChange:()=>({data:{subscription:{unsubscribe(){}}}}),
           getSession:async()=>({data:{session:user ? {user,access_token:"audit.granted.signature"} : null},error:null})},
-        rpc:async name=>{
-          if(name==='can_access_content')return {data:!!user,error:null};
-          if(name==='current_access_level')return {data:user?'premium':'public',error:null};
-          throw Error('Unexpected account RPC: '+name);
+        rpc:name=>{
+          let data;
+          if(name==='can_access_content')data=!!user;
+          else if(name==='current_access_level')data=user?'premium':'public';
+          else if(name==='get_my_exam_directory')data=[...document.querySelectorAll('.exam-card')].map(card=>({
+            exam_key:card.dataset.exam,display_name:card.querySelector('h3').textContent,
+            badge:card.querySelector('.exam-acronym').textContent,publication_status:card.dataset.publication,
+            access_status:card.dataset.publication==='published'?'granted':'coming_soon',
+            can_practice:card.dataset.publication==='published',request_status:null,request_revision:0,requested_at:null,expires_at:null
+          }));
+          else throw Error('Unexpected account RPC: '+name);
+          const result=Promise.resolve({data,error:null});result.abortSignal=()=>result;return result;
         },
         from:()=>Object.create(readQuery)
       };
@@ -152,6 +160,7 @@ def main():
                 expect(page.locator('h1')).to_have_text('Simulated Exam Practice & Quizzes')
                 assert urlparse(page.url).path == '/exam-practice', 'Public directory must not require sign-in'
                 expect(page.locator('#access-notice')).to_have_count(0)
+                expect(page.locator('body')).to_have_attribute('data-directory-phase', 'ready' if premium else 'signedout')
 
             def nav_state(current):
                 for selector in ['nav.desktop-nav', 'nav.mobile-nav']:
@@ -178,24 +187,23 @@ def main():
                 nav_state('Exam Practice & Quizzes')
                 expect(page.locator('.exam-card')).to_have_count(8)
                 expect(page.locator('.exam-coming-soon .exam-card')).to_have_count(1)
-                expect(page.locator('.exam-card[href="/test-bank?exam=mbb"] h3')).to_have_text('Certified Six Sigma Master Black Belt')
+                expect(page.locator('.exam-card[data-exam="mbb"] h3')).to_have_text('Certified Six Sigma Master Black Belt')
                 for certification in ['cqa']:
-                    card = page.locator(f'.exam-coming-soon .exam-card[href="/test-bank?exam={certification}"]')
+                    card = page.locator(f'.exam-coming-soon .exam-card[data-exam="{certification}"]')
                     expect(card).to_have_count(1)
                     expect(card.locator('.exam-status')).to_have_text('Coming soon')
-                    expect(card.locator('.exam-card-action')).to_contain_text('View exam details')
-                cre = page.locator('.exam-card[href="/test-bank?exam=cre"]')
-                expect(cre.locator('.exam-status')).to_have_text('Sets 1–3: 465 questions available')
-                expect(cre.locator('.exam-card-action')).to_contain_text('Start practicing')
-                pmp = page.locator('.exam-card[href="/test-bank?exam=pmp"]')
+                    expect(card.locator('a,button')).to_have_count(0)
+                cre = page.locator('.exam-card[data-exam="cre"]')
+                expect(cre.locator('.exam-status')).to_have_text('Access granted' if premium else 'Locked')
+                expect(cre.locator('.exam-card-action')).to_contain_text('Start practicing' if premium else 'Sign in')
+                pmp = page.locator('.exam-card[data-exam="pmp"]')
                 expect(pmp.locator('h3')).to_have_text('Project Management Professional')
-                expect(pmp.locator('.exam-status')).to_have_text('Set 1: 180 questions')
-                expect(pmp.locator('.exam-card-action')).to_contain_text('Start practicing')
+                expect(pmp.locator('.exam-status')).to_have_text('Access granted' if premium else 'Locked')
+                expect(pmp.locator('.exam-card-action')).to_contain_text('Start practicing' if premium else 'Sign in')
                 expect(page.locator('.exam-intro')).to_contain_text('untimed')
-                expect(page.locator('.exam-actions a[href="#exam-certifications"]')).to_be_visible()
+                expect(page.locator('.exam-actions a[href="#my-exams"]')).to_be_visible()
                 expect(page.locator('footer a[href="/exam-practice"]')).to_be_visible()
-                for card in page.locator('.exam-card').all():
-                    expect(card).to_have_attribute('href', re.compile(r'^/test-bank\?exam=[^&#]+$'))
+                expect(page.locator('main a[href^="/test-bank"]')).to_have_count(7 if premium else 0)
                 # Use the real Account menu to confirm the fixture state.
                 page.locator('#account-menu-btn').click()
                 if premium:
@@ -232,10 +240,12 @@ def main():
                         assert contrast_ratio(colors['text'], colors['background']) >= 4.5, (theme, label.inner_text(), colors)
                         label_bounds = label.bounding_box()
                         assert label_bounds['x'] >= bounds['x'] and label_bounds['x'] + label_bounds['width'] <= bounds['x'] + bounds['width'] + 1, label_bounds
-                    card.focus()
-                    expect(card).to_be_focused()
-                    outline = card.evaluate("e=>({style:getComputedStyle(e).outlineStyle,width:parseFloat(getComputedStyle(e).outlineWidth)})")
-                    assert outline['style'] != 'none' and outline['width'] >= 2, outline
+                    action = card.locator('a,button:enabled').first
+                    if action.count():
+                        action.focus()
+                        expect(action).to_be_focused()
+                        outline = action.evaluate("e=>({style:getComputedStyle(e).outlineStyle,width:parseFloat(getComputedStyle(e).outlineWidth)})")
+                        assert outline['style'] != 'none' and outline['width'] >= 2, outline
                 if width <= 1440:
                     expect(page.locator('nav.desktop-nav')).not_to_be_visible()
                     menu = page.locator('button.uss-menu-toggle')
@@ -285,7 +295,11 @@ def main():
             def certification_links():
                 page.set_viewport_size({'width': 1536, 'height': 1000})
                 directory()
-                chips = page.locator('.exam-card').evaluate_all("rows=>rows.map(e=>({label:e.textContent.trim(),href:e.getAttribute('href')}))")
+                if not premium:
+                    expect(page.locator('main a[href^="/test-bank"]')).to_have_count(0)
+                    expect(page.locator('.exam-card a[href^="/sign-in"]')).to_have_count(7)
+                    return
+                chips = page.locator('.exam-card a[href^="/test-bank"]').evaluate_all("rows=>rows.map(e=>({label:e.textContent.trim(),href:e.getAttribute('href')}))")
                 assert chips, 'The directory must offer certification links'
                 for chip in chips:
                     directory()
@@ -320,12 +334,12 @@ def main():
             def simulator_journey():
                 page.set_viewport_size({'width': 1536, 'height': 1000})
                 directory()
-                page.locator('.exam-actions a[href="#exam-certifications"]').click()
-                page.locator('.exam-card[href="/test-bank?exam=cre"]').click()
                 if not premium:
+                    page.goto(base + '/test-bank?exam=cre')
                     expect(page.locator('#exam-access-status')).to_contain_text('Sign in to open this exam')
                     expect(page.locator('.tb-quiz')).to_have_count(0)
                     return
+                page.locator('.exam-card[data-exam="cre"] a').click()
                 page.wait_for_selector('body.exam-access-ready')
                 expect(page.locator('#tb-overview')).to_be_visible()
                 nav_state('Exam Practice & Quizzes')

@@ -14,7 +14,7 @@ before(async () => {
     create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;
     grant usage on schema auth to anon,authenticated;`);
   await db.exec(readFileSync(join(root,'supabase/access-levels.sql'),'utf8'));
-  for (const suffix of ['_exam_access_foundation.sql','_exam_access_admin.sql']) {
+  for (const suffix of ['_exam_access_foundation.sql','_exam_access_admin.sql','_exam_access_directory.sql']) {
     const file=readdirSync(join(root,'supabase/migrations')).find(n=>n.endsWith(suffix));
     await db.exec(readFileSync(join(root,'supabase/migrations',file),'utf8'));
   }
@@ -39,6 +39,30 @@ async function request(actor=ids.learner,operation='request',revision=0,exam='pm
 }
 const exam=(data,key='pmp')=>data.exams.find(e=>e.exam_key===key);
 const count=async(table)=>(await db.query('select count(*)::int as n from '+table)).rows[0].n;
+
+test('directory combines only the caller permissions and request revisions in one read',async()=>{
+  await request();await request(ids.other,'request',0,'cqe');
+  const directory=await asUser(ids.learner,()=>db.query('select * from public.get_my_exam_directory()'));
+  assert.equal(directory.rows.length,8);
+  assert.equal(directory.rows.find(r=>r.exam_key==='pmp').request_revision,1);
+  assert.equal(directory.rows.find(r=>r.exam_key==='pmp').request_status,'pending');
+  assert.equal(directory.rows.find(r=>r.exam_key==='pmp').can_practice,false);
+  assert.equal(directory.rows.find(r=>r.exam_key==='cqe').request_revision,0);
+  assert.equal(directory.rows.find(r=>r.exam_key==='cqe').request_status,null);
+  await admin({operation:'approve',expected_request_revision:1});
+  const approved=await asUser(ids.learner,()=>db.query("select * from public.get_my_exam_directory() where exam_key='pmp'"));
+  assert.equal(approved.rows[0].can_practice,true);assert.equal(approved.rows[0].request_revision,2);
+  assert.equal(await count('public.user_exam_grants'),1);assert.equal(await count('public.exam_access_requests'),2);
+  const beforeEvents=await count('exam_access_private.events');
+  await asUser(ids.admin,async()=>{
+    const rows=(await db.query('select * from public.get_my_exam_directory()')).rows;
+    assert.ok(rows.every(row=>row.request_revision===0));
+    assert.equal(rows.filter(row=>row.can_practice).length,7);
+  });
+  assert.equal(await count('exam_access_private.events'),beforeEvents);
+  await asUser(null,()=>assert.rejects(db.query('select * from public.get_my_exam_directory()'),{code:'42501'}),'anon');
+  assert.equal((await db.query("select prosecdef from pg_proc where proname='get_my_exam_directory'")).rows[0].prosecdef,false);
+});
 
 test('admin authorization rejects anonymous, Premium, expired/banned admins and forged metadata',async()=>{
   for(const user of [null,ids.learner,ids.other,ids.expired,ids.banned]) for(const operation of ['status','search','account','requests','grant','approve','decline','revoke','prune']) {
