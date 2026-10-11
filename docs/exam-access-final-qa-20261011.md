@@ -11,9 +11,16 @@ Status: **partial hosted QA; not cleared for production**. PR #288 remains draft
   function bundles the existing public `supabase-config.js` used by browser sign-in.
   Complete Functions-scoped overrides remain supported; partial/invalid overrides
   fail closed. No privileged credentials or permission shortcuts are introduced.
+- The rebuilt preview returns 401 for anonymous and invalid-JWT checks and 404 for
+  coming-soon exams, with browser `no-store`. The invalid-JWT response now comes from
+  Supabase validation, confirming configuration is no longer failing before the RPC.
 - Run 38162528580 passed WebKit. Chromium found six dark-theme button contrast
   failures during a background fade. Directory button text/background now switch
   together; hover movement and shadows remain. The contrast assertions are unchanged.
+- Run 38163643184 passed Chromium in full. WebKit passed directory journeys and all
+  contrast/layout checks but timed out waiting for an obsolete lesson document's load
+  event during immediate redirection. The audit now waits for navigation commitment,
+  then retains its exact destination URL and rendered-content assertions.
 - Delivery and browser authentication regression tests pass. An additional legacy
   `second-pass-workflows` suite cannot run because it references the already removed
   `test-bank-account-sync.js`; the current stateless/access suites cover this change.

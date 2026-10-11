@@ -761,7 +761,10 @@ def main():
 
             def legacy_bookmarks():
                 for route in ['/lessons', '/lessons.html', '/lessons/', '/lessons.html/']:
-                    page.goto(base + route + '?access=premium#exam-practice', wait_until='load')
+                    # This document immediately replaces itself. Waiting for its
+                    # load event races that replacement in WebKit; assert the
+                    # final destination and rendered controls below instead.
+                    page.goto(base + route + '?access=premium#exam-practice', wait_until='commit')
                     expect(page).to_have_url(base + '/exam-practice?access=premium')
                     expect(page.locator('#access-notice')).to_be_visible()
                     expect(page.locator('h1')).to_have_text('Simulated Exam Practice & Quizzes')
