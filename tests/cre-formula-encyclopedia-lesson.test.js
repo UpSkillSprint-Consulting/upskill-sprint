@@ -156,6 +156,18 @@ test('handbook gaps stay on the card and lesson search can open one formula', ()
   assert.match(d.querySelector('[data-formula-id="CRE-EXPM"] .formula-box').textContent, /\\nu=2r/);
   assert.match(d.querySelector('[data-formula-id="CRE-WEI"] .formula-box').textContent, /\\mathrm\{SD\}\(X\)/);
   assert.match(d.querySelector('[data-formula-id="CRE-SSEX"] .trap').textContent, /one minus this reliability/);
+  assert.match(d.querySelector('[data-formula-id="CRE-CRO"] .formula-box').textContent, /Z_\{t\+1\}\}\{P_\{t\+1\}/);
+  assert.match(d.querySelector('[data-formula-id="CRE-CRO"] .card-body').textContent, /16\.62/);
+  assert.match(d.querySelector('[data-formula-id="CRE-CRO"] .trap').textContent, /Z sub t over P sub t/);
+  assert.match(d.querySelector('[data-formula-id="CRE-CP"] .formula-box').textContent, /\\hat\{P\}_p/);
+  assert.match(d.querySelector('[data-formula-id="CRE-CP"] .formula-box').textContent, /1\.128/);
+  assert.match(d.querySelector('[data-formula-id="CRE-CPK"] .card-title').textContent, /Ppk/);
+  assert.match(d.querySelector('[data-formula-id="CRE-MCI"] .formula-box').textContent, /\\sqrt\{\\frac\{\\hat\{\\sigma\}\^\{2\}\}\{n\}\}/);
+  assert.match(d.querySelector('[data-formula-id="CRE-PCI"] .formula-box').textContent, /z_\{\\alpha\/2\}/);
+  assert.match(d.querySelector('[data-formula-id="CRE-NPROP"] .formula-box').textContent, /\\frac\{1\}\{4\}/);
+  assert.match(d.querySelector('[data-formula-id="CRE-ZP"] .formula-box').textContent, /n\+2/);
+  assert.equal(d.querySelector('[data-formula-id="CRE-GROW"] .card-family').textContent, 'System and life models');
+  assert.equal(d.querySelector('[data-formula-id="CRE-W0"] .card-family').textContent, 'Design and demonstration');
   dom.window.close();
 
   const linked = setup('#section=formula-title-cre-km&search=kaplan-meier&from=lesson-search');
@@ -170,6 +182,6 @@ test('handbook gaps stay on the card and lesson search can open one formula', ()
   const addition = forced.d.getElementById('formula-title-cre-6-10').closest('[data-formula-id]');
   assert.equal(addition.hidden, false);
   assert.equal(forced.d.getElementById('searchInput').value, '');
-  assert.equal(forced.d.querySelectorAll('[data-formula-id]:not([hidden])').length, 122);
+  assert.equal(forced.d.querySelectorAll('[data-formula-id]:not([hidden])').length, 125);
   forced.dom.window.close();
 });

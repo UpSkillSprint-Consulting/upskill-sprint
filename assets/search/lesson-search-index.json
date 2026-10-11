@@ -3,7 +3,7 @@
   "anchorAlgorithm": "lesson-section-v1",
   "lessonCount": 52,
   "contentLessonCount": 51,
-  "sectionCount": 2280,
+  "sectionCount": 2283,
   "lessons": [
     {
       "id": "root-cause-analysis-5-whys-fishbone",
@@ -30751,6 +30751,21 @@
           ]
         },
         {
+          "id": "formula-title-cre-mci",
+          "heading": "Confidence interval for a mean",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Descriptive statistics and regression"
+          ],
+          "text": "CRE-MCI MCI III. Probability and Statistics for Reliability Descriptive statistics and regression \\begin{aligned} \\bar{X}&\\pm t_{\\alpha/2,\\ n-1}\\sqrt{\\frac{\\hat{\\sigma}^{2}}{n}}\\\\ \\mathrm{LCL}&=\\bar{X}-t_{\\alpha,\\ n-1}\\sqrt{\\frac{\\hat{\\sigma}^{2}}{n}} \\end{aligned} Use: If sigma is known, the handbook sets sigma-hat equal to sigma and replaces t with z. Otherwise sigma-hat is the sample standard deviation s. A one-sided bound uses t with alpha, not alpha over 2, and n minus 1 degrees of freedom. Exam trap: The standard error is the square root of sigma-hat squared over n. Leaving the square root off divides by n and makes the interval too narrow. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-MCI MCI III. Probability and Statistics for Reliability Descriptive statistics and regression \\begin{aligned} \\bar{X}&\\pm t_{\\alpha/2,\\ n-1}\\sqrt{\\frac{\\hat{\\sigma}^{2}}{n}}\\\\ \\mathrm{LCL}&=\\bar{X}-t_{\\alpha,\\ n-1}\\sqrt{\\frac{\\hat{\\sigma}^{2}}{n}}…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
           "id": "formula-title-cre-frat",
           "heading": "F ratio of two chi-square variables",
           "breadcrumb": [
@@ -30803,8 +30818,8 @@
             "III. Probability and Statistics for Reliability",
             "Probability"
           ],
-          "text": "CRE-ZP ZP III. Probability and Statistics for Reliability Probability z^{*}=\\frac{\\hat{p}-p_0}{\\sqrt{\\hat{p}(1-\\hat{p})/n}} Use: The handbook's displayed proportion statistic puts the estimated proportion in the standard error. Exam trap: Some exams put the null proportion p0 under the square root instead. Read which standard error the question is using. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
-          "excerpt": "CRE-ZP ZP III. Probability and Statistics for Reliability Probability z^{*}=\\frac{\\hat{p}-p_0}{\\sqrt{\\hat{p}(1-\\hat{p})/n}} Use: The handbook's displayed proportion statistic puts the estimated proportion in the standard error. Exam trap: Some exams put the…",
+          "text": "CRE-ZP ZP III. Probability and Statistics for Reliability Probability \\begin{aligned} z^{*}&=\\frac{\\hat{p}-p_0}{\\sqrt{\\hat{p}(1-\\hat{p})/n}}\\\\ \\hat{p}_{\\mathrm{AC}}&=\\frac{x+1}{n+2} \\end{aligned} Use: The handbook's displayed proportion statistic puts the estimated proportion in the standard error. The same table's Agresti-Caffo estimate adds one success and two trials before the proportion is formed. Exam trap: Some exams put the null proportion p0 under the square root instead. Read which standard error the question is using. The Agresti-Caffo proportion is not the z statistic's numerator. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-ZP ZP III. Probability and Statistics for Reliability Probability \\begin{aligned} z^{*}&=\\frac{\\hat{p}-p_0}{\\sqrt{\\hat{p}(1-\\hat{p})/n}}\\\\ \\hat{p}_{\\mathrm{AC}}&=\\frac{x+1}{n+2} \\end{aligned} Use: The handbook's displayed proportion statistic puts the…",
           "kinds": [
             "section",
             "formula"
@@ -30871,6 +30886,36 @@
           ]
         },
         {
+          "id": "formula-title-cre-pci",
+          "heading": "Normal interval for a proportion",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Probability"
+          ],
+          "text": "CRE-PCI PCI III. Probability and Statistics for Reliability Probability \\begin{aligned} \\hat{p}&=\\frac{x}{n}\\\\ \\hat{p}&\\pm z_{\\alpha/2}\\sqrt{\\frac{\\hat{p}(1-\\hat{p})}{n}} \\end{aligned} Use: The handbook uses this Wald interval when x is at least 10 and n minus x is at least 10. A one-sided bound uses z with alpha instead of alpha over 2. Exam trap: This is not the exact Clopper-Pearson interval. That limit uses an F value and different degrees of freedom on each side. The z statistic for a hypothesis test is a different card. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-PCI PCI III. Probability and Statistics for Reliability Probability \\begin{aligned} \\hat{p}&=\\frac{x}{n}\\\\ \\hat{p}&\\pm z_{\\alpha/2}\\sqrt{\\frac{\\hat{p}(1-\\hat{p})}{n}} \\end{aligned} Use: The handbook uses this Wald interval when x is at least 10 and n…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
+          "id": "formula-title-cre-nprop",
+          "heading": "Sample size for a proportion",
+          "breadcrumb": [
+            "Reliability Formula Encyclopedia",
+            "III. Probability and Statistics for Reliability",
+            "Design and demonstration"
+          ],
+          "text": "CRE-NPROP NPROP III. Probability and Statistics for Reliability Design and demonstration n=\\left(\\frac{z_{\\alpha/2}}{E}\\right)^{2}\\hat{p}(1-\\hat{p})=\\frac{1}{4}\\left(\\frac{z_{\\alpha/2}}{E}\\right)^{2} Use: E is the margin of error. If the proportion is unknown, the handbook uses p equal to 0.5 because p times one minus p is then 1/4, the largest value. A one-sided margin uses z with alpha. Equation 11.2 is the matching sample size for a mean. Exam trap: Forgetting the square, or forgetting to multiply by p times one minus p, does not give this sample size. Do not reuse the mean formula, which has sigma in the numerator. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-NPROP NPROP III. Probability and Statistics for Reliability Design and demonstration n=\\left(\\frac{z_{\\alpha/2}}{E}\\right)^{2}\\hat{p}(1-\\hat{p})=\\frac{1}{4}\\left(\\frac{z_{\\alpha/2}}{E}\\right)^{2} Use: E is the margin of error. If the proportion is…",
+          "kinds": [
+            "section",
+            "formula"
+          ]
+        },
+        {
           "id": "formula-title-cre-expm",
           "heading": "Confidence limits for an exponential mean",
           "breadcrumb": [
@@ -30887,14 +30932,14 @@
         },
         {
           "id": "formula-title-cre-cp",
-          "heading": "Process capability Cp",
+          "heading": "Process capability and performance, Cp and Pp",
           "breadcrumb": [
             "Reliability Formula Encyclopedia",
             "III. Probability and Statistics for Reliability",
             "Data and life functions"
           ],
-          "text": "CRE-CP CP III. Probability and Statistics for Reliability Data and life functions C_p=\\frac{\\mathrm{USL}-\\mathrm{LSL}}{6\\sigma} Use: Cp compares the specification width with six standard deviations of a stable process. The handbook's general statement is engineering tolerance divided by natural tolerance. Exam trap: One worked display writes UCL minus LCL in this ratio. Those letters are control-chart limits. The specification width used with Cpk is USL minus LSL. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
-          "excerpt": "CRE-CP CP III. Probability and Statistics for Reliability Data and life functions C_p=\\frac{\\mathrm{USL}-\\mathrm{LSL}}{6\\sigma} Use: Cp compares the specification width with six standard deviations of a stable process. The handbook's general statement is…",
+          "text": "CRE-CP CP III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} \\hat{C}_p\\ \\mathrm{or}\\ \\hat{P}_p&=\\frac{\\mathrm{USL}-\\mathrm{LSL}}{6\\hat{\\sigma}}\\\\ \\hat{\\sigma}&=\\frac{\\overline{mR}}{1.128}\\ \\ (X\\text{-}mR)\\\\ \\hat{\\sigma}&=\\frac{\\bar{R}}{d_2}\\ \\ (\\bar{X}\\text{-}R)\\\\ \\hat{\\sigma}&=\\frac{\\bar{s}}{c_4}\\ \\ (\\bar{X}\\text{-}s) \\end{aligned} Use: The same width ratio is Cp with a short-term sigma and Pp with the overall standard deviation. The handbook estimates the short-term sigma from the chart in use: moving range over 1.128, R-bar over d2, or s-bar over c4. Performance uses the ordinary standard deviation of the whole data set. Exam trap: One worked display writes UCL minus LCL in this ratio. Those letters are control-chart limits. The specification width is USL minus LSL. Do not put the short-term sigma into Pp. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-CP CP III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} \\hat{C}_p\\ \\mathrm{or}\\ \\hat{P}_p&=\\frac{\\mathrm{USL}-\\mathrm{LSL}}{6\\hat{\\sigma}}\\\\ \\hat{\\sigma}&=\\frac{\\overline{mR}}{1.128}\\ \\ (X\\text{-}mR)\\\\…",
           "kinds": [
             "section",
             "formula"
@@ -30902,14 +30947,14 @@
         },
         {
           "id": "formula-title-cre-cpk",
-          "heading": "Process capability Cpk",
+          "heading": "Process capability and performance, Cpk and Ppk",
           "breadcrumb": [
             "Reliability Formula Encyclopedia",
             "III. Probability and Statistics for Reliability",
             "Data and life functions"
           ],
-          "text": "CRE-CPK CPK III. Probability and Statistics for Reliability Data and life functions C_{pk}=\\min\\left(\\frac{\\mu-\\mathrm{LSL}}{3\\sigma},\\frac{\\mathrm{USL}-\\mu}{3\\sigma}\\right) Use: Cpk uses the specification side that the mean is closer to. Exam trap: Cp ignores where the mean sits. Cpk is the smaller of the two one-sided ratios, so an off-center mean makes it smaller than Cp. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
-          "excerpt": "CRE-CPK CPK III. Probability and Statistics for Reliability Data and life functions C_{pk}=\\min\\left(\\frac{\\mu-\\mathrm{LSL}}{3\\sigma},\\frac{\\mathrm{USL}-\\mu}{3\\sigma}\\right) Use: Cpk uses the specification side that the mean is closer to. Exam trap: Cp…",
+          "text": "CRE-CPK CPK III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} \\hat{C}_{pL}\\ \\mathrm{or}\\ \\hat{P}_{pL}&=\\frac{\\bar{X}-\\mathrm{LSL}}{3\\hat{\\sigma}}\\\\ \\hat{C}_{pU}\\ \\mathrm{or}\\ \\hat{P}_{pU}&=\\frac{\\mathrm{USL}-\\bar{X}}{3\\hat{\\sigma}}\\\\ \\hat{C}_{pk}\\ \\mathrm{or}\\ \\hat{P}_{pk}&=\\min(\\hat{C}_{pL},\\hat{C}_{pU}) \\end{aligned} Use: Cpk and Ppk are the smaller of the two one-sided ratios. Capability uses a short-term sigma. Performance uses the overall standard deviation. The handbook writes the same minimum for the Ppk pair. Exam trap: Cp ignores where the mean sits. Cpk is smaller than Cp when the mean is off center. Do not report the short-term Cpk as Ppk. ASQ Certified Reliability Engineer Handbook, Chapter 6 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-CPK CPK III. Probability and Statistics for Reliability Data and life functions \\begin{aligned} \\hat{C}_{pL}\\ \\mathrm{or}\\ \\hat{P}_{pL}&=\\frac{\\bar{X}-\\mathrm{LSL}}{3\\hat{\\sigma}}\\\\ \\hat{C}_{pU}\\ \\mathrm{or}\\…",
           "kinds": [
             "section",
             "formula"
@@ -31041,10 +31086,10 @@
           "breadcrumb": [
             "Reliability Formula Encyclopedia",
             "IV. Reliability Planning, Testing, and Modeling",
-            "Accelerated testing"
+            "System and life models"
           ],
-          "text": "CRE-GROW GROW IV. Reliability Planning, Testing, and Modeling Accelerated testing b=\\frac{\\log(\\theta_1/\\theta_0)}{\\log(T_1/T_0)},\\qquad \\theta=\\frac{\\theta_m}{1-b} Use: b is the growth slope between two cumulative times. Theta sub m is the cumulative MTBF, and theta is the instantaneous MTBF. Exam trap: The instantaneous value is larger than the cumulative MTBF while reliability is still growing. Do not report theta sub m as the current rate. ASQ Certified Reliability Engineer Handbook, Chapter 8 display. This note is original study guidance for that display, not a copy of the handbook text.",
-          "excerpt": "CRE-GROW GROW IV. Reliability Planning, Testing, and Modeling Accelerated testing b=\\frac{\\log(\\theta_1/\\theta_0)}{\\log(T_1/T_0)},\\qquad \\theta=\\frac{\\theta_m}{1-b} Use: b is the growth slope between two cumulative times. Theta sub m is the cumulative MTBF,…",
+          "text": "CRE-GROW GROW IV. Reliability Planning, Testing, and Modeling System and life models b=\\frac{\\log(\\theta_1/\\theta_0)}{\\log(T_1/T_0)},\\qquad \\theta=\\frac{\\theta_m}{1-b} Use: b is the growth slope between two cumulative times. Theta sub m is the cumulative MTBF, and theta is the instantaneous MTBF. Exam trap: The instantaneous value is larger than the cumulative MTBF while reliability is still growing. Do not report theta sub m as the current rate. ASQ Certified Reliability Engineer Handbook, Chapter 8 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-GROW GROW IV. Reliability Planning, Testing, and Modeling System and life models b=\\frac{\\log(\\theta_1/\\theta_0)}{\\log(T_1/T_0)},\\qquad \\theta=\\frac{\\theta_m}{1-b} Use: b is the growth slope between two cumulative times. Theta sub m is the cumulative…",
           "kinds": [
             "section",
             "formula"
@@ -31056,10 +31101,10 @@
           "breadcrumb": [
             "Reliability Formula Encyclopedia",
             "IV. Reliability Planning, Testing, and Modeling",
-            "Accelerated testing"
+            "Design and demonstration"
           ],
-          "text": "CRE-W0 W0 IV. Reliability Planning, Testing, and Modeling Accelerated testing n=\\frac{1}{k^{\\beta}}\\frac{\\log\\alpha}{\\log R} Use: k is the number of required lives the test runs, beta is the Weibull shape, alpha is one minus the confidence, and R is the reliability to demonstrate. Exam trap: Equation 11.1 is the exponential case. Leaving out 1 over k to the beta ignores a test that runs longer than one life. ASQ Certified Reliability Engineer Handbook, Chapter 8 display. This note is original study guidance for that display, not a copy of the handbook text.",
-          "excerpt": "CRE-W0 W0 IV. Reliability Planning, Testing, and Modeling Accelerated testing n=\\frac{1}{k^{\\beta}}\\frac{\\log\\alpha}{\\log R} Use: k is the number of required lives the test runs, beta is the Weibull shape, alpha is one minus the confidence, and R is the…",
+          "text": "CRE-W0 W0 IV. Reliability Planning, Testing, and Modeling Design and demonstration n=\\frac{1}{k^{\\beta}}\\frac{\\log\\alpha}{\\log R} Use: k is the number of required lives the test runs, beta is the Weibull shape, alpha is one minus the confidence, and R is the reliability to demonstrate. Exam trap: Equation 11.1 is the exponential case. Leaving out 1 over k to the beta ignores a test that runs longer than one life. ASQ Certified Reliability Engineer Handbook, Chapter 8 display. This note is original study guidance for that display, not a copy of the handbook text.",
+          "excerpt": "CRE-W0 W0 IV. Reliability Planning, Testing, and Modeling Design and demonstration n=\\frac{1}{k^{\\beta}}\\frac{\\log\\alpha}{\\log R} Use: k is the number of required lives the test runs, beta is the Weibull shape, alpha is one minus the confidence, and R is the…",
           "kinds": [
             "section",
             "formula"
@@ -31328,8 +31373,8 @@
             "V. Lifecycle Reliability",
             "Maintainability and spares"
           ],
-          "text": "CRE-CRO CRO V. Lifecycle Reliability Maintainability and spares \\begin{aligned} Z_{t+1}&=\\alpha X_t+(1-\\alpha)Z_t\\\\ P_{t+1}&=\\beta G_t+(1-\\beta)P_t\\\\ R_{t+1}&=\\frac{Z_t}{P_t} \\end{aligned} Use: Update the demand size Z and the interval P only when a demand occurs. If the latest demand is zero, the handbook leaves Z and P unchanged. The forecast divides size by interval. Exam trap: Equation 13.9 smooths every period. Croston's update waits for a nonzero demand. ASQ Certified Reliability Engineer Handbook, Chapter 13 display. This note is original study guidance for that display, not a copy of the handbook text.",
-          "excerpt": "CRE-CRO CRO V. Lifecycle Reliability Maintainability and spares \\begin{aligned} Z_{t+1}&=\\alpha X_t+(1-\\alpha)Z_t\\\\ P_{t+1}&=\\beta G_t+(1-\\beta)P_t\\\\ R_{t+1}&=\\frac{Z_t}{P_t} \\end{aligned} Use: Update the demand size Z and the interval P only when a demand…",
+          "text": "CRE-CRO CRO V. Lifecycle Reliability Maintainability and spares \\begin{aligned} Z_{t+1}&=\\alpha X_t+(1-\\alpha)Z_t\\\\ P_{t+1}&=\\beta G_t+(1-\\beta)P_t\\\\ R_{t+1}&=\\frac{Z_{t+1}}{P_{t+1}} \\end{aligned} Use: When demand is positive, smooth the size Z and the gap P, then divide those updated values. If the latest demand is zero, the handbook leaves Z, P, and the forecast unchanged. Example 13.8 uses alpha 0.2 and beta 0.3. After a demand of 16 with a gap of 2, the next size is 21.60 and the next gap is 1.30, and 21.60 divided by 1.30 is 16.62. Exam trap: The printed forecast line writes Z sub t over P sub t. The example header and the week-4 result divide the values just updated. Equation 13.9 smooths every period. Croston waits for a nonzero demand. ASQ Certified Reliability Engineer Handbook, Chapter 13 display and Example 13.8. The forecast ratio uses the updated size and gap because that is the value the example reports. This note is original study guidance, not a copy of the handbook text.",
+          "excerpt": "CRE-CRO CRO V. Lifecycle Reliability Maintainability and spares \\begin{aligned} Z_{t+1}&=\\alpha X_t+(1-\\alpha)Z_t\\\\ P_{t+1}&=\\beta G_t+(1-\\beta)P_t\\\\ R_{t+1}&=\\frac{Z_{t+1}}{P_{t+1}} \\end{aligned} Use: When demand is positive, smooth the size Z and the gap P,…",
           "kinds": [
             "section",
             "formula"

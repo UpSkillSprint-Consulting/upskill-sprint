@@ -173,7 +173,7 @@ test('the CRE formula encyclopedia indexes every card at the live anchor', () =>
     item.path === '/lessons/quality-engineering/cre-formula-encyclopedia');
   assert.ok(lesson);
   const formulas = lesson.sections.filter(section => section.id.startsWith('formula-title-cre-'));
-  assert.equal(formulas.length, 122);
+  assert.equal(formulas.length, 125);
   const html = fs.readFileSync(path.join(ROOT,
     'lessons/quality-engineering/cre-formula-encyclopedia.html'), 'utf8');
   assert.match(html, /"search_content": "runtime"/);
@@ -191,6 +191,9 @@ test('the CRE formula encyclopedia indexes every card at the live anchor', () =>
   assert.match(joined, /Kaplan-Meier/);
   assert.match(joined, /Equation 10\.4/);
   assert.match(joined, /Croston/);
+  assert.match(joined, /16\.62/);
+  assert.match(joined, /Ppk/);
+  assert.match(joined, /Confidence interval for a mean/);
   const scope = lesson.sections.find(section => section.heading === 'Scope summary');
   assert.match(scope.text, /governing displays that have no equation number/);
 });
