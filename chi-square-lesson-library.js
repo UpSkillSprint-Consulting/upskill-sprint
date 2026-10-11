@@ -411,6 +411,18 @@
       description: 'Explore reliability, maintainability, Weibull behavior, hazard, ROCOF, repair time, and availability through linked live visuals and practical calculations.'
     },
     {
+      marker: 'data-cre-formula-encyclopedia',
+      sectionId: 'quality-engineering',
+      path: '/lessons/quality-engineering/cre-formula-encyclopedia',
+      topic: 'quality-engineering',
+      level: 'advanced',
+      interactive: 'true',
+      search: 'cre formula encyclopedia reliability availability arrhenius mtbf mttr series parallel hazard weibull binomial exponential oee sample size spare parts quality engineering advanced interactive',
+      meta: '<span>Advanced</span><span>Interactive</span><span>35 min</span>',
+      title: 'Reliability Formula Encyclopedia',
+      description: 'Search CRE handbook formulas, numbered and unnumbered, across the five scored sections from fundamentals through lifecycle reliability.'
+    },
+    {
       marker: 'data-gauge-rr-study',
       sectionId: 'quality-engineering',
       path: '/lessons/quality-engineering/gauge-rr-study',

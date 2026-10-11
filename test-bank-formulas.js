@@ -636,6 +636,7 @@
     if (active && active.getAttribute('data-exam')) return active.getAttribute('data-exam');
     var title = document.getElementById('tb-herotitle');
     var text = normalize(title && title.textContent);
+    if (text.indexOf('reliability engineer') >= 0) return 'cre';
     if (text.indexOf('quality engineer') >= 0) return 'cqe';
     return '';
   }
@@ -761,7 +762,14 @@
     var host = document.getElementById('tb-reflist');
     var drawer = document.getElementById('tb-formulas');
     if (!host || !drawer || drawer.hidden) return;
-    if (activeExamId() !== 'cqe') return;
+    var examId = activeExamId();
+    if (examId === 'cre') {
+      if (window.__TB_CRE_FORMULAS && typeof window.__TB_CRE_FORMULAS.renderContextualPane === 'function') {
+        window.__TB_CRE_FORMULAS.renderContextualPane(query);
+      }
+      return;
+    }
+    if (examId !== 'cqe') return;
 
     var context = getContext();
     var sectionId = SECTION_META[context.sectionId] ? context.sectionId : 'quant';
@@ -856,6 +864,9 @@
       '.tb-fqmap.current{background:color-mix(in srgb,var(--teal) 12%,var(--card));color:var(--ink)}',
       '.tb-fqmap.muted{font-style:italic}',
       '.tb-fcaution{margin-top:7px;padding:7px 8px;border-left:3px solid var(--amber,#b8791b);background:color-mix(in srgb,var(--amber,#b8791b) 8%,var(--card));color:var(--muted);font-size:11.5px;line-height:1.45}',
+      '.tb-reff.tb-fmath{font-family:inherit;line-height:1.35;overflow-x:auto;overflow-y:hidden;max-width:100%}',
+      '.tb-fmath mjx-container{color:var(--ink);font-size:108%}',
+      '.tb-fmath mjx-container[display="true"]{display:block;margin:.2em 0;text-align:left;max-width:100%;overflow-x:auto;overflow-y:hidden}',
       '.tb-fconcept{display:grid;gap:5px;padding:12px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);font-size:12.5px;line-height:1.5}',
       '.tb-fconcept span{color:var(--muted)}',
       '.tb-refnote2 strong,.tb-fcaution strong,.tb-fqmap strong{color:var(--ink)}',

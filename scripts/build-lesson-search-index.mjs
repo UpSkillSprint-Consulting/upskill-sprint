@@ -571,10 +571,59 @@ function resolveDmaic(rootDir) {
   return { html, extraSections: extractDmaicFormulaSections(html), addSyntheticTitle: true };
 }
 
+function creFormulaAnchorId(formulaId) {
+  return `formula-title-${String(formulaId).toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+}
+
+function extractCreFormulaSections(html) {
+  const match = html.match(/<script id="cre-formula-data" type="application\/json">([\s\S]*?)<\/script>/);
+  if (!match) fail('CRE formula payload is missing');
+  let formulas;
+  try {
+    formulas = JSON.parse(match[1]);
+  } catch (error) {
+    fail(`Could not read CRE formula data: ${error.message}`);
+  }
+  if (!Array.isArray(formulas) || formulas.length === 0) {
+    fail('CRE formula payload contains no formulas');
+  }
+  return formulas.map((formula) => {
+    const equationLabel = formula.source ? String(formula.num) : `Equation ${formula.num}`;
+    const text = normalizeSpace([
+      formula.id,
+      equationLabel,
+      formula.section,
+      formula.family,
+      formula.latex,
+      `Use: ${formula.use || ''}`,
+      `Exam trap: ${formula.trap || ''}`,
+      formula.source || `ASQ Certified Reliability Engineer Handbook, Equation ${formula.num}.`
+    ].join(' '));
+    assertSectionTextWithinLimit(text, `CRE formula section ${formula.id}`);
+    return {
+      id: creFormulaAnchorId(formula.id),
+      heading: normalizeSpace(formula.title),
+      breadcrumb: [
+        'Reliability Formula Encyclopedia',
+        normalizeSpace(formula.section),
+        normalizeSpace(formula.family)
+      ],
+      text,
+      excerpt: makeExcerpt(text),
+      kinds: ['section', 'formula']
+    };
+  });
+}
+
+function resolveCreFormulaEncyclopedia(rootDir, wrapperHtml) {
+  return { html: wrapperHtml, extraSections: extractCreFormulaSections(wrapperHtml) };
+}
+
 const SPECIAL_RESOLVERS = new Map([
   ['/lessons/statistics/chi-square-goodness-of-fit-test', (rootDir) => resolveChiSquare(rootDir)],
   ['/lessons/statistics/beyond-the-bell-the-normal-distribution-and-its-relatives', (rootDir) => resolveBeyondTheBell(rootDir)],
   ['/lessons/lean-six-sigma/dmaic-formula-encyclopedia', (rootDir) => resolveDmaic(rootDir)],
+  ['/lessons/quality-engineering/cre-formula-encyclopedia', (rootDir, html) => resolveCreFormulaEncyclopedia(rootDir, html)],
   ['/lessons/power-bi-excel-sql/minitab-control-chart-selection-analysis', (rootDir, html) => resolveMinitabControlCharts(rootDir, html)],
   ['/lessons/introduction-to-design-of-experiment-doe', (rootDir, html) => resolveDoe(rootDir, html)]
 ]);
