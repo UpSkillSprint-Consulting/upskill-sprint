@@ -221,5 +221,52 @@ test('audit trigger rejects a learner identity even inside a privileged write pa
 
 test('SQL migrations and test tooling are excluded from the public site build', async () => {
   const { excludedDirectories } = await import('../scripts/stage-public-site.mjs');
-  for (const directory of ['supabase','tests','scripts','node_modules']) assert.ok(excludedDirectories.has(directory));
+  for (const directory of ['supabase','exam-catalog','tests','scripts','node_modules']) assert.ok(excludedDirectories.has(directory));
+});
+
+test('Step 5: zero, one and multiple grants remain exact through fresh caller contexts', async () => {
+  await db.exec('begin');
+  try {
+    await asUser(users.other, async () => assert.equal((await db.query('select * from public.get_my_exam_access() where can_practice')).rows.length, 0));
+    await grant(users.other, 'pmp');
+    await asUser(users.other, async () => assert.deepEqual((await db.query('select exam_key from public.get_my_exam_access() where can_practice order by exam_key')).rows.map(r => r.exam_key), ['pmp']));
+    await grant(users.other, 'cssbb');
+    // A new caller context models a new authenticated server request, not browser/device QA.
+    await asUser(users.other, async () => assert.deepEqual((await db.query('select exam_key from public.get_my_exam_access() where can_practice order by exam_key')).rows.map(r => r.exam_key), ['cssbb','pmp']));
+    await asUser(users.premium, async () => assert.equal(await allowed('pmp'), false));
+    await asUser(null, async () => assert.equal(await allowed('pmp'), false));
+    await asUser(users.other, async () => assert.equal(await allowed('pmp'), true));
+  } finally { await db.exec('rollback'); }
+});
+
+test('Step 5: pending renewals keep revoked and expired permissions denied', async () => {
+  await db.exec('begin');
+  try {
+    await db.query("insert into public.exam_access_requests(user_id,exam_key) values($1,'pmp'),($1,'cqe')", [users.learner]);
+    await asUser(users.learner, async () => {
+      for (const exam of ['pmp','cqe']) {
+        const row = await status(exam);
+        assert.equal(row.access_status, 'pending');
+        assert.equal(row.can_practice, false);
+      }
+    });
+  } finally { await db.exec('rollback'); }
+});
+
+test('Step 5: retirement overrides both explicit grants and administrator access', async () => {
+  await db.exec('begin');
+  try {
+    await db.exec("update public.exam_catalog set publication_status='retired' where exam_key='cre'");
+    for (const user of [users.learner,users.admin]) await asUser(user, async () => assert.equal(await allowed('cre'), false));
+    await asUser(users.learner, async () => assert.equal(await status('cre'), undefined));
+    await asUser(users.admin, async () => assert.equal((await status('cre')).access_status, 'retired'));
+  } finally { await db.exec('rollback'); }
+});
+
+test('Step 5: forged membership metadata cannot authorize an exam', async () => {
+  await asUser(users.premium, async () => {
+    await db.query("select set_config('request.jwt.claims',$1,false)", [JSON.stringify({ user_metadata: { role: 'administrator', exam_access: ['pmp'] } })]);
+    try { assert.equal(await allowed('pmp'), false); }
+    finally { await db.query("select set_config('request.jwt.claims','',false)"); }
+  });
 });
