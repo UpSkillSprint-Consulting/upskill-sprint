@@ -1,6 +1,8 @@
 import { cp, readdir, rm, mkdir } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { relative } from 'node:path';
+import { privateToolPath } from '../content/tool-catalog.mjs';
 
 // A separate publish directory keeps function source and grading keys off the CDN.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -26,7 +28,7 @@ export async function stagePublicSite(source = root, destination = join(root, 'p
     if (entry.isDirectory()) {
       await cp(join(source, entry.name), join(destination, entry.name), {
         recursive: true,
-        filter: path => !path.split('/').some(part => part.startsWith('.'))
+        filter: path => !path.split('/').some(part => part.startsWith('.')) && !privateToolPath(relative(source,path))
       });
       count++;
     } else if (/\.(?:html|css|js|json|pdf|png|jpg|jpeg|svg|webp|ico|txt|xml|webmanifest)$/i.test(entry.name)

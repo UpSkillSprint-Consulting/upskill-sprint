@@ -1,6 +1,19 @@
 (function () {
   'use strict';
   const byId = id => document.getElementById(id);
+  const tools = document.body.dataset.accessScope === 'tool';
+  const item = tools ? 'tool' : 'certification';
+  // Both screens share confirmation, timeout, revision and stale-account guards.
+  // Normalize at this boundary; database tool/exam grants remain independent.
+  function responseData(data) {
+    if (!tools || !data) return data;
+    const row = value => ({...value, exam_key:value.tool_key});
+    return {...data, exams:data.tools?.map(row), requests:data.requests?.map(row),
+      history:data.history?.map(row), next_cursor:data.next_cursor ? {
+        after_time:data.next_cursor.after_time, after_user:data.next_cursor.after_user,
+        after_exam:data.next_cursor.after_tool
+      } : null};
+  }
   const labels = {locked:'Locked',granted:'Access granted',expired:'Expired',revoked:'Revoked',administrator:'Administrator access',coming_soon:'Coming soon',retired:'Retired'};
   let auth, account = null, selected = null, cursor = null, epoch = 0, busy = false, ready = false, active = null, decision = null;
   const message = text => { byId('exam-admin-status').textContent = text; };
@@ -28,12 +41,17 @@
   async function call(args) {
     const controller = new AbortController(); active = controller; let timer;
     try {
-      const query = auth.getClient().rpc('admin_manage_exam_access', args).abortSignal(controller.signal);
+      const payload = {...args};
+      if (tools) {
+        if ('requested_exam_key' in payload) { payload.requested_tool_key=payload.requested_exam_key; delete payload.requested_exam_key; }
+        if ('after_exam' in payload) { payload.after_tool=payload.after_exam; delete payload.after_exam; }
+      }
+      const query = auth.getClient().rpc(tools ? 'admin_manage_tool_access' : 'admin_manage_exam_access', payload).abortSignal(controller.signal);
       const result = await Promise.race([query, new Promise((_, reject) => {
         timer = setTimeout(() => { controller.abort(); reject(new Error('The request timed out. Its result is unconfirmed.')); }, 12000);
       })]);
       if (!result || result.error) throw Object.assign(new Error(result?.error?.message || 'Unable to complete this request.'), {code:result?.error?.code});
-      return result.data;
+      return responseData(result.data);
     } finally { clearTimeout(timer); if (active === controller) active = null; }
   }
   async function run(args, render, success) {
@@ -80,8 +98,8 @@
     if (!data.found) { message('No account found. Check the complete email and try again.'); return; }
     account = data; byId('exam-member').hidden = false;
     byId('exam-member-title').textContent = data.email || data.user_id;
-    byId('exam-member-note').textContent = data.is_administrator ? 'Administrators inherit access to published exams. Membership changes remain owner-only.' :
-      data.can_receive_grants ? 'Each grant applies only to the selected certification.' : 'This account must be confirmed and active before receiving new grants.';
+    byId('exam-member-note').textContent = data.is_administrator ? 'Administrators inherit access to published '+(tools ? 'tools' : 'exams')+'. Membership changes remain owner-only.' :
+      data.can_receive_grants ? 'Each grant applies only to the selected '+item+'.' : 'This account must be confirmed and active before receiving new grants.';
     data.exams.forEach(exam => {
       const card = element('button', '', 'exam-admin-card'); card.type = 'button'; card.dataset.exam = exam.exam_key; card.setAttribute('aria-pressed','false');
       card.append(element('strong',exam.badge),element('span',exam.display_name),element('span',labels[exam.access_status],'exam-admin-state'));
@@ -110,11 +128,11 @@
   }
   byId('exam-member-search').addEventListener('submit', event => {
     event.preventDefault(); if (busy || !ready) return;
-    clearAccount(); run({operation:'search',account_email:byId('exam-member-email').value.trim()}, renderAccount, 'Choose a certification to manage.');
+    clearAccount(); run({operation:'search',account_email:byId('exam-member-email').value.trim()}, renderAccount, 'Choose a '+item+' to manage.');
   });
   byId('exam-member-email').addEventListener('input', () => { if (!busy) clearAccount(); });
   byId('exam-member-reload').addEventListener('click', () => {
-    if (account) run({operation:'account',target_id:account.user_id}, renderAccount, 'Account refreshed. Choose an exam.');
+    if (account) run({operation:'account',target_id:account.user_id}, renderAccount, 'Account refreshed. Choose a '+item+'.');
   });
   function closeDecision() {
     decision = null;
@@ -145,7 +163,7 @@
     if (expiry && (!Number.isFinite(expiry.getTime()) || expiry <= new Date())) { message('Choose a future expiry or leave it empty.'); return; }
     const action = {grant:'Grant access',approve:'Approve request and grant access',revoke:'Revoke access',decline:'Decline request'}[operation];
     byId('exam-decision-title').textContent = action + '?';
-    byId('exam-decision-summary').textContent = 'Learner: ' + account.email + '\nCertification: ' + selected.display_name + ' (' + selected.badge + ')' +
+    byId('exam-decision-summary').textContent = (tools ? 'Account: ' : 'Learner: ') + account.email + (tools ? '\nTool: ' : '\nCertification: ') + selected.display_name + ' (' + selected.badge + ')' +
       (granting ? '\nExpiry: ' + (expiry ? expiry.toLocaleString() : 'No expiry') : '') +
       (operation === 'decline' ? '\nThis does not revoke an existing grant.' : '') +
       (operation === 'revoke' ? '\nThis blocks the learner’s next protected request. Material already loaded cannot be recalled.' : '');

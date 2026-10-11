@@ -12,6 +12,12 @@ const examHandler = createHandler({
   getSettings: () => ({ url:'https://fixture.invalid', key:'sb_publishable_fixture' }),
   request: async (_url, options) => new Response(JSON.stringify(options.headers.Authorization === 'Bearer audit.granted.signature'))
 });
+const {createHandler:createToolHandler}=await import('../netlify/functions/tool-content.mjs');
+const toolHandler=createToolHandler({
+  getSettings:()=>({url:'https://fixture.invalid',key:'sb_publishable_fixture'}),
+  request:async(_url,options)=>new Response(JSON.stringify(options.headers.Authorization===
+    'Bearer audit.'+JSON.parse(options.body).requested_tool_key+'.signature'))
+});
 const port = Number(process.env.PORT || 8765);
 const types = {'.html':'text/html', '.js':'application/javascript', '.css':'text/css', '.svg':'image/svg+xml', '.png':'image/png', '.jpg':'image/jpeg', '.json':'application/json'};
 const edge = (await import('data:text/javascript;base64,' + Buffer.from(fs.readFileSync('netlify/edge-functions/test-bank-mobile-picker.js')).toString('base64'))).default;
@@ -19,6 +25,10 @@ http.createServer(async (request, response) => {
   try {
     if (!['GET','HEAD'].includes(request.method)) { response.writeHead(405); return response.end(); }
     const route = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+    if (protectedPreview && route === '/.netlify/functions/tool-content') {
+      const result=await toolHandler(new Request('http://localhost'+request.url,{method:request.method,headers:request.headers}));
+      response.writeHead(result.status,Object.fromEntries(result.headers));return response.end(await result.text());
+    }
     if (protectedPreview && route === '/.netlify/functions/exam-content') {
       const result = await examHandler(new Request('http://localhost' + request.url, { method:request.method, headers:request.headers }));
       response.writeHead(result.status, Object.fromEntries(result.headers));
@@ -34,6 +44,7 @@ http.createServer(async (request, response) => {
     let file = path.resolve(root, '.' + (route === '/' ? '/index.html' : route));
     if (!file.startsWith(root + path.sep)) { response.writeHead(403); return response.end(); }
     if (!fs.existsSync(file) && fs.existsSync(file + '.html')) file += '.html';
+    if (fs.existsSync(file) && fs.statSync(file).isDirectory()) file=path.join(file,'index.html');
     if (!fs.existsSync(file) || !fs.statSync(file).isFile()) { response.writeHead(404); return response.end('Not found'); }
     response.writeHead(200, {'content-type': types[path.extname(file)] || 'application/octet-stream'});
     if (request.method === 'HEAD') response.end(); else fs.createReadStream(file).pipe(response);

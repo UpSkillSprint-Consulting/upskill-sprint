@@ -12,14 +12,14 @@ function account(overrides={}) {
     exams:[{exam_key:'pmp',display_name:'Project Management Professional',badge:'PMP',publication_status:'published',access_status:'locked',grant_revision:0,request_revision:0,grant_status:null,request_status:null,expires_at:null},
       {exam_key:'cqa',display_name:'Certified Quality Auditor',badge:'CQA',publication_status:'coming_soon',access_status:'coming_soon',grant_revision:0,request_revision:0}],history:[],...overrides};
 }
-function screen(handler=async()=>({data:account()})) {
-  const dom=new JSDOM(read('admin-exam-access.html'),{runScripts:'outside-only',url:'https://example.invalid/admin-exam-access.html'});
+function screen(handler=async()=>({data:account()}),scope='exam') {
+  const dom=new JSDOM(read('admin-'+scope+'-access.html'),{runScripts:'outside-only',url:'https://example.invalid/admin-'+scope+'-access.html'});
   const {window}=dom; let change; const calls=[];
   window.confirm=()=>{throw new Error('Native browser confirmation must not be used');};
   window.HTMLDialogElement.prototype.showModal=function(){this.open=true;};
   window.HTMLDialogElement.prototype.close=function(){this.open=false;};
   window.UpskillAuth={isConfigured:()=>true,getUser:()=>({id:'admin'}),onChange:fn=>{change=fn;},getClient:()=>({rpc:(name,args)=>{
-    assert.equal(name,'admin_manage_exam_access');calls.push(args);
+    assert.equal(name,'admin_manage_'+scope+'_access');calls.push(args);
     const result=Promise.resolve(args.operation==='status'?{data:{administrator:true}}:handler(args));
     result.abortSignal=signal=>{sSignals.push(signal);return result;};return result;
   }})};
@@ -29,6 +29,18 @@ function screen(handler=async()=>({data:account()})) {
   const submit=(id,button)=>el(id).dispatchEvent(new window.SubmitEvent('submit',{cancelable:true,submitter:button?el(button):null}));
   return {dom,window,el,submit,calls,confirm:()=>el('exam-decision-confirm').click(),signals:sSignals,change:user=>change(user),async search(){el('exam-member-email').value='learner@example.invalid';submit('exam-member-search');await flush();},async start(){change({id:'admin'});await flush();}};
 }
+test('tool administration reuses review guards and sends only tool keys and revisions',async()=>{
+  const data={...account(),tools:[{tool_key:'material_checker',display_name:'Material Specification Compliance Checker',badge:'Checker',publication_status:'published',access_status:'pending',grant_revision:0,request_revision:3,request_status:'pending'}]};delete data.exams;
+  const s=screen(async()=>({data}),'tool');await s.start();await s.search();
+  s.window.document.querySelector('[data-exam=material_checker]').click();
+  s.el('exam-grant-expiry').value='2099-05-01T14:30';s.submit('exam-access-edit','exam-approve');
+  assert.match(s.el('exam-decision-summary').textContent,/Tool: Material Specification Compliance Checker/);
+  assert.equal(s.calls.length,2);s.confirm();await flush();
+  assert.equal(s.calls.at(-1).requested_tool_key,'material_checker');
+  assert.equal(s.calls.at(-1).requested_exam_key,undefined);
+  assert.equal(s.calls.at(-1).expected_request_revision,3);
+  assert.match(s.el('exam-member-note').textContent,/selected tool/);s.dom.window.close();
+});
 test('signed-out and missing admin services never reveal controls; requests load explicitly',async()=>{
   const s=screen(); await s.start();
   assert.equal(s.el('exam-admin-controls').hidden,false); assert.equal(s.calls.length,1);

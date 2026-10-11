@@ -10,7 +10,7 @@ function activate(level) {
   const classes = {add() {}, remove() {}};
   const status = {classList: classes};
   const action = {classList: classes};
-  const card = {classList: classes, getAttribute: () => level,
+  const card = {classList: classes, getAttribute: () => level, hasAttribute: () => false,
     querySelector: selector => ({'.tool-status': status, '.tool-link': action})[selector],
     setAttribute(key, value) { this[key] = value; }};
   const context = {isEngineeringToolsPage: () => true, document: {getElementById: () => card}};
@@ -30,7 +30,7 @@ test('public tools retain their normal action and availability', () => {
 });
 test('homepage checker preview matches the directory access wording', () => {
   const preview = source.slice(source.indexOf('<a href="${MATERIAL_CHECKER_PATH}"'), source.indexOf('<a href="${CALCULATOR_PATH}"'));
-  assert.match(preview, />Administrator<\/p>/);
-  assert.match(preview, />Administrator access<\/span>/);
+  assert.match(preview, />🔒 Individual access<\/p>/);
+  assert.match(preview, />View tool access<\/span>/);
   assert.doesNotMatch(preview, /Open checker|>Available</);
 });

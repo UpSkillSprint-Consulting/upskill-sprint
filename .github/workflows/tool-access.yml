@@ -1,0 +1,79 @@
+name: Individual tool access
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'tool-*'
+      - 'admin-tool-access.html'
+      - 'admin-exam-access.*'
+      - 'engineering-tools.html'
+      - 'site-sections.js'
+      - 'arrow-cleanup.js'
+      - 'supabase/migrations/*tool_access.sql'
+      - 'content/tool-catalog.mjs'
+      - 'netlify/functions/tool-content.mjs'
+      - 'netlify/functions/material-checker.mjs'
+      - 'netlify.toml'
+      - 'scripts/*tool*'
+      - 'scripts/stage-public-site.mjs'
+      - 'scripts/student-review-server.mjs'
+      - 'tests/tool-*.test.js'
+      - 'package.json'
+      - '.github/workflows/tool-access.yml'
+permissions:
+  contents: read
+concurrency:
+  group: tool-access-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  permissions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - name: Verify tool permissions, delivery, account changes and admin review
+        run: node --test --test-concurrency=1 tests/tool-access-permissions.test.js tests/tool-access-delivery.test.js tests/tool-directory.test.js tests/exam-access-admin-ui.test.js tests/tool-access-labels.test.js tests/tool-label-writers.test.js tests/admin-tool-access.test.js tests/material-checker-server.test.js
+      - run: npm run build:site
+  browser:
+    name: Tools (${{ matrix.browser }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npm run build:site
+      - run: bash scripts/prepare-ci-browser.sh "${{ matrix.browser }}"
+      - name: Exercise the protected tool packages in the real browser
+        env:
+          EXAM_DELIVERY_PREVIEW: '1'
+        run: |
+          mkdir -p tool-access-evidence
+          node scripts/student-review-server.mjs > tool-access-evidence/server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for i in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:8765/engineering-tools -o /dev/null && break || sleep 1
+          done
+          python -u scripts/tool-access-browser.py --browser "${{ matrix.browser }}"
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: tool-access-${{ matrix.browser }}
+          path: tool-access-evidence
+          retention-days: 14

@@ -45,10 +45,11 @@ test('the database migration seeds all three tools at administrator level', () =
   assert.equal((sql.match(/'administrator'/g) || []).length >= 4, true);
 });
 
-test('the tool directory identifies all three protected tools', () => {
+test('the tool directory identifies all three individually protected tools', () => {
   const html = read('engineering-tools.html');
-  for (const id of ['materials-quality', 'material-specification-lookup', 'steel-phase-explorer']) {
-    assert.match(html, new RegExp('id="' + id + '"[^>]+data-required-access="administrator"'));
+  for (const key of ['material_checker','material_lookup','steel_explorer']) {
+    assert.ok(html.includes('data-tool="'+key+'"'));
   }
-  assert.equal((html.match(/>Administrator<\/span>/g) || []).length, 3);
+  assert.equal((html.match(/data-state="locked"/g) || []).length,3);
+  assert.doesNotMatch(html, /Administrator access<\/span>/);
 });
