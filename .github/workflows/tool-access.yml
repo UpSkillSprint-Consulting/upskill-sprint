@@ -10,6 +10,7 @@ on:
       - 'site-sections.js'
       - 'arrow-cleanup.js'
       - 'supabase/migrations/*tool_access.sql'
+      - 'supabase/migrations/*exam_access*.sql'
       - 'content/tool-catalog.mjs'
       - 'netlify/functions/tool-content.mjs'
       - 'netlify/functions/material-checker.mjs'

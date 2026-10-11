@@ -38,9 +38,9 @@ Local migration `20261011200555_tool_access.sql` was applied once as hosted vers
 Installation verified three catalog rows, zero grants/requests and denied anonymous
 access. Existing membership and exam records were not changed.
 
-52 focused permission, delivery, directory and administrator tests pass, including
+53 focused permission, delivery, directory and administrator tests pass, including
 real local PostgreSQL/PGlite transactions, all three packages, revocation, expiry,
-account isolation, shared scenario URLs and stale responses. Another 83 exam/membership regression tests
+account isolation, shared scenario URLs, invalidated exam accounts and stale responses. Another 83 exam/membership regression tests
 pass. The full site build passes: 576 public files have zero known exam-content
 findings, all three tool shells pass inspection, and private runtime files are absent.
 Compressed responses are approximately 204 KB, 621 KB and 419 KB respectively.
@@ -53,5 +53,6 @@ No permissive history policy or authentication setting was added.
 
 Chromium/WebKit CI exercises the real protected packages with isolated account
 fixtures, responsive directory states and the administrator review flow. Hosted
-learner request/approval/use/revocation remains a separate acceptance check; this
-implementation does not claim that a fixture is a real-account journey. Keep draft.
+learner request/approval/use/revocation outcomes are recorded in the latest PR #288
+QA notes; fixture runs are distinguished from real-account journeys. Keep draft
+until the remaining release decisions in `exam-access-step5-readiness.md` are resolved.

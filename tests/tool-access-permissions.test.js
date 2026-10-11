@@ -14,7 +14,7 @@ before(async () => {
     create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;
     grant usage on schema auth to anon,authenticated;`);
   await db.exec(readFileSync(join(root,'supabase/access-levels.sql'),'utf8'));
-  for (const suffix of ['_exam_access_foundation.sql','_exam_access_admin.sql','_exam_access_directory.sql','_tool_access.sql']) {
+  for (const suffix of ['_exam_access_foundation.sql','_exam_access_admin.sql','_exam_access_directory.sql','_tool_access.sql','_exam_access_active_accounts.sql']) {
     const file=readdirSync(join(root,'supabase/migrations')).find(n=>n.endsWith(suffix));
     await db.exec(readFileSync(join(root,'supabase/migrations',file),'utf8'));
   }
@@ -49,6 +49,22 @@ test('tool delivery denies natural expiry and invalidated accounts',async()=>{
   finally{await db.query('update auth.users set banned_until=null where id=$1',[ids.learner]);}
   await db.query("update public.user_tool_grants set granted_at=now()-interval '2 hours',expires_at=now()-interval '1 hour' where user_id=$1",[ids.learner]);
   await asUser(ids.learner,async()=>assert.equal((await db.query("select public.can_access_tool('material_checker') as allowed")).rows[0].allowed,false));
+});
+test('exam delivery and directory deny invalidated accounts with existing grants or admin roles',async()=>{
+  await db.exec('begin');
+  try {
+    for(const user of [ids.learner,ids.unconfirmed])await db.query("insert into public.user_exam_grants(user_id,exam_key) values($1,'cssbb')",[user]);
+    await asUser(ids.learner,async()=>assert.equal((await db.query("select public.can_access_exam('cssbb') as allowed")).rows[0].allowed,true));
+    await db.query("update auth.users set banned_until=now()+interval '1 hour' where id=$1",[ids.learner]);
+    for(const user of [ids.learner,ids.banned,ids.unconfirmed,'00000000-0000-4000-a000-999999999999'])await asUser(user,async()=>{
+      assert.equal((await db.query("select public.can_access_exam('cssbb') as allowed")).rows[0].allowed,false);
+      const row=(await db.query("select * from public.get_my_exam_directory() where exam_key='cssbb'")).rows[0];
+      assert.equal(row.can_practice,false);assert.equal(row.access_status,'locked');
+    });
+    await asUser(ids.admin,async()=>assert.equal((await db.query("select public.can_access_exam('cssbb') as allowed")).rows[0].allowed,true));
+    await db.query('update auth.users set banned_until=now() where id=$1',[ids.learner]);
+    await asUser(ids.learner,async()=>assert.equal((await db.query("select public.can_access_exam('cssbb') as allowed")).rows[0].allowed,true));
+  }finally{await db.exec('rollback');}
 });
 async function asUser(user,fn,role='authenticated') {
   await db.exec('set role '+role); await db.query("select set_config('request.jwt.claim.sub',$1,false)",[user||'']);

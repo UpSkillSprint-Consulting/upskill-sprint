@@ -2,20 +2,30 @@
 
 Assessment date: 2026-10-11. Baseline: PR #288 at `85b0c1838e2f74ac3b6358e97505d0eb34dc6852`.
 
-**Updated release status: Steps 1–4 are implemented in the draft branch. Hosted schema
-was installed during final QA; see `exam-access-final-qa-20261011.md`. Release remains
-blocked by hosted function configuration, real learner journeys, the member transition mapping,
-public GitHub question source and old deployment exposure.**
-This is executable validation work, not a completed production cutover. Do not merge
-or deploy on the assumption that every exam is protected yet.
+**Current release status (2026-10-11): Steps 1–4 and the three individual tool
+locks are implemented. Hosted schema and function configuration are installed.
+The real CSSBB request/approval/quiz/revocation journey passed. Tool grant journeys
+and the newest CI results are recorded in PR #288; see also `tool-access.md`.**
 
-The sections below record the original Step 5 assessment before Step 2. The current
-implementation and remaining boundaries are in `exam-access-step2-delivery.md`.
-Step 2's full build now passes the mandatory public-content scan with zero known
-findings; 107 focused tests pass including admin operations and the learner directory. See
-`exam-access-step3-admin.md` and `exam-access-step4-directory.md` for implementation,
-bounded retention, installation and verification details.
-Hosted JWT/CDN/navigation validation is outstanding.
+Final QA fixed an account-state gap: exam delivery and its directory now reject
+banned, unconfirmed, or missing accounts even while a previously issued JWT remains
+valid. Migration `20261011203852_exam_access_active_accounts.sql` was installed as
+hosted version `20261011204059`. Do not replay it under the local timestamp. No
+membership records, user grants, tables, polling or background jobs were added.
+
+**Keep draft pending release decisions:** one active non-admin Premium account
+has no individual exam allocation and will lose simulator access at cutover.
+Review its approved exam allocation privately before activation. Public GitHub
+question/tool source and historical Netlify deployments remain outside the new
+website access gate; private source/deployment exposure must be resolved before
+claiming confidentiality. No account allocation or repository visibility change
+is implied by this audit.
+
+The following original Step 5 assessment is historical. The current delivery
+build passes the mandatory public-content checks; it is not the earlier public
+question-bank build described below. Do not use the historical findings as the
+current hosted state. The final PR QA notes distinguish real hosted checks from
+isolated browser/SQL fixtures and list remaining release decisions.
 
 ## Original assessment before Step 2
 
