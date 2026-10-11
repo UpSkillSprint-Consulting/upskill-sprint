@@ -1705,13 +1705,17 @@ test('second student audit: diagrams have no empty bands and tree labels clear t
 });
 
 test('second student audit: phone line breaks keep numbers with units, short IDs and ranges together', () => {
-  const dom = new JSDOM('<!doctype html><body><div class="tb-review-card" data-question-id="cre:set-1:b01-q08"><p id="t">Suspensions at 480 h and 1,000 h; FR-219 and P-107; a p-value; Examples 6.59–6.62; Ch. 5; Strategy 1; C: Occasional; worse = −1; {D, E}</p></div><div class="tb-review-card" data-question-id="cre:set-2:001"><p id="other">at 480 h</p></div></body>', { runScripts: 'outside-only' });
+  const dom = new JSDOM('<!doctype html><body><div class="tb-review-card" data-question-id="cre:set-1:b01-q08"><p id="t">Suspensions at 480 h and 1,000 h; FR-219 and P-107; a p-value; Examples 6.59–6.62; Ch. 5; Strategy 1; C: Occasional; worse = −1; {D, E}</p><p id="tex">\\(10^{-4} = 3\\) at 480 h</p></div><div class="tb-review-card" data-question-id="cre:set-2:001"><p id="other">at 480 h</p></div></body>', { runScripts: 'outside-only' });
   dom.window.eval(CRE_UI_SOURCE);
   dom.window.__CREVisuals.labelMath(dom.window.document.body);
   const text = dom.window.document.getElementById('t').textContent;
   for (const s of ['480\u00a0h', '1,000\u00a0h', 'FR-\u2060219', 'P-\u2060107', 'p-\u2060value', '6.59–\u20606.62', 'Ch.\u00a05', 'Strategy\u00a01', 'C:\u00a0Occasional', 'worse\u00a0=\u00a0−1', '{D,\u00a0E}']) {
     assert.ok(text.includes(s), JSON.stringify(s));
   }
+  // TeX not yet typeset by MathJax is left exactly as written
+  const tex = dom.window.document.getElementById('tex').textContent;
+  assert.ok(tex.startsWith('\\(10^{-4} = 3\\)'), JSON.stringify(tex));
+  assert.ok(tex.endsWith('480\u00a0h'), JSON.stringify(tex));
   // other sets are untouched, and the stored question text is never changed
   assert.equal(dom.window.document.getElementById('other').textContent, 'at 480 h');
   assert.ok(!/[\u00a0\u2060]/.test(CRE_SET1_SOURCE), 'question data stays plain');

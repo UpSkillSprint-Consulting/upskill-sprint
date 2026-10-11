@@ -492,7 +492,7 @@
      "worse / = −1" and "{D, / E}". Text nodes in CRE Set 1 cards get no-break spaces (U+00A0) or a word
      joiner (U+2060) at those points; the stored question text is unchanged. No regex lookbehind, so
      older Safari can parse it. */
-  var CARD=':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"]',NB='\u00a0',WJ='\u2060';
+  var pending=false,CARD=':is(.tb-quiz,.tb-review-card)[data-question-id^="cre:set-1:"]',NB='\u00a0',WJ='\u2060';
   var GLUE=[
     [/(^|[^A-Za-z\d])(\d[\d,.]*[%²³]?) (?=(?:[^\s\d=+\-−×–]{1,4}|cycles|hours|units|years|days|weeks|months|dollars|failures|financial|operational|strategic|cybersecurity)(?:$|[\s.,;:)]))/g,'$1$2'+NB], // number + unit
     [/\b(Ch\.|Fig\.|No\.) (\d)/g,'$1'+NB+'$2'],                // "Ch. 5"
@@ -512,16 +512,22 @@
     var n,todo=[];
     while((n=walker.nextNode()))todo.push(n);
     todo.forEach(function(node){
-      var s=node.data,o=s;
-      GLUE.forEach(function(g){s=s.replace(g[0],g[1]);});
+      var o=node.data;
+      if(!/[\d\-–:={]/.test(o))return;
+      // Leave TeX source that MathJax has not typeset yet exactly as written.
+      var s=o.split(TEX).map(function(part,i){
+        if(i%2)return part;
+        GLUE.forEach(function(g){part=part.replace(g[0],g[1]);});
+        return part;
+      }).join('');
       if(s!==o)node.data=s;
     });
   }
+  var TEX=/(\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\])/;
   function labelMath(root){
     if(!root||!root.querySelectorAll)return;
     each(root,INLINE_SCOPE,glue);
-    var card=root.closest?root.closest(CARD):null;
-    if(card)glueText(card);else each(root,CARD,glueText);
+    if(!pending)each(root,CARD,glueText);
     each(root,SCOPE,function(el){
       if(el.hasAttribute('data-cre-math'))return;
       el.setAttribute('data-cre-math','');el.tabIndex=0;el.setAttribute('role','region');
@@ -578,7 +584,19 @@
   if(typeof document!=='undefined'){
     ensureStyle();
     if(typeof MutationObserver==='function'&&document.body){
-      new MutationObserver(function(records){records.forEach(function(r){Array.prototype.forEach.call(r.addedNodes,function(n){if(n.nodeType===1)labelMath(n);});});})
+      // MathJax adds one container per equation; walk each touched card's text once per batch, not once per node.
+      new MutationObserver(function(records){
+        var cards=[];pending=true;
+        records.forEach(function(r){Array.prototype.forEach.call(r.addedNodes,function(n){
+          if(n.nodeType!==1)return;
+          labelMath(n);
+          var c=n.closest?n.closest(CARD):null;
+          if(c){if(cards.indexOf(c)<0)cards.push(c);}
+          else each(n,CARD,function(x){if(cards.indexOf(x)<0)cards.push(x);});
+        });});
+        pending=false;
+        cards.forEach(glueText);
+      })
         .observe(document.body,{childList:true,subtree:true});
     }
   }
