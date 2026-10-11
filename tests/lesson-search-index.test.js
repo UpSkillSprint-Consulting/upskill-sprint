@@ -198,6 +198,33 @@ test('the CRE formula encyclopedia indexes every card at the live anchor', () =>
   assert.match(scope.text, /governing displays that have no equation number/);
 });
 
+test('the PMP formula encyclopedia indexes every card at the live anchor', () => {
+  const lesson = index.lessons.find(item =>
+    item.path === '/lessons/project-management/pmp-formula-encyclopedia');
+  assert.ok(lesson);
+  const formulas = lesson.sections.filter(section => section.id.startsWith('formula-title-pmp-'));
+  assert.equal(formulas.length, 15);
+  const html = fs.readFileSync(path.join(ROOT,
+    'lessons/project-management/pmp-formula-encyclopedia.html'), 'utf8');
+  assert.match(html, /"search_content": "runtime"/);
+  assert.match(html, /title\.id = 'formula-title-' \+ item\.id\.toLowerCase\(\)\.replace\(\/\[\^a-z0-9\]\+\/g, '-'\)/);
+  const data = JSON.parse(html.match(/<script id="pmp-formula-data" type="application\/json">([\s\S]*?)<\/script>/)[1]);
+  const anchors = new Set(formulas.map(section => section.id));
+  for (const card of data) {
+    const id = `formula-title-${card.id.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+    assert.ok(anchors.has(id), id);
+    const section = formulas.find(item => item.id === id);
+    assert.equal(section.heading, card.title);
+    assert.match(section.text, new RegExp(card.id.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+  const joined = formulas.map(section => `${section.heading} ${section.text}`).join('\n');
+  assert.match(joined, /Cost performance index/);
+  assert.match(joined, /PMP-EAC-BOTH/);
+  assert.match(joined, /Expected monetary value/);
+  const scope = lesson.sections.find(section => section.heading === 'Scope summary');
+  assert.match(scope.text, /three scored domains/);
+});
+
 test('long lesson sections preserve real tail content instead of truncating silently', () => {
   const resampling = index.lessons.find(lesson =>
     lesson.path === '/lessons/statistics/resampling-in-minitab');
