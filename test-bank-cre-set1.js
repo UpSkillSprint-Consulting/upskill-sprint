@@ -999,7 +999,7 @@
       "Correct. \\(H(1500) - H(800) = 0.08 + 0.45 = 0.53\\), so \\(R = e^{-0.53} = 0.589\\).",
       "\\(e^{-0.45} = 0.638\\) counts only the rising section and drops the 200 h of constant hazard from 800 h to 1,000 h."
     ],
-    "keyPoint": "Conditional reliability \\(R(t \\mid t_0) = \\exp\\{-[H(t) - H(t_0)]\\}\\): integrate the hazard only over the remaining interval.",
+    "keyPoint": "For conditional reliability, integrate the hazard only over the remaining interval: \\(R(t \\mid t_0) = e^{-\\Delta H}\\), where \\(\\Delta H = H(t) - H(t_0)\\).",
     "trap": "Using the reliability of a new unit, or applying the end-point hazard to the whole interval.",
     "formula": "\\(R(t \\mid t_0) = \\exp[-(H(t) - H(t_0))]\\), \\(H(1500) - H(800) = 0.53\\)",
     "assumptions": [
@@ -1711,7 +1711,7 @@
       "Not demonstrated: the requirement is judged at the next tabulated time, 1,000 h, where the lower bound (0.874) shows that 12.6% of actuators will fail."
     ],
     "answer": 0,
-    "why": "<p>A requirement stated “with 95% confidence” is met only if the one-sided 95% lower confidence bound reaches the target at the required time. Interpolate the lower bound between 750 h and 1,000 h:</p><p>\\[\\begin{aligned}R_L(900) &\\approx 0.912 - 0.023 \\\\ &= 0.889 \\lt 0.90 \\\\ t^{*} &\\approx 750 + 79 \\\\ &= 829 \\text{ h}\\end{aligned}\\]</p><p>where \\(0.023 = (150/250)(0.912 - 0.874)\\) is the fall in the bound over the first 150 h of the 750 to 1,000 h step, \\(79 = 250(0.012/0.038)\\) is the time taken for the bound to fall the further 0.012 to 0.90, \\(R_L(t)\\) is the one-sided 95% lower confidence bound on reliability at time \\(t\\) and \\(t^{*}\\) is the time at which it falls to 0.90. The requirement is not demonstrated at 900 h, even though the point estimate there is about 0.94. More units or more test time would narrow the interval.</p><p><b>A. Not demonstrated at 900 h; supported only to about 830 h.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals (Weibull, normal and lognormal intervals), Examples 6.83–6.84.</span></p>",
+    "why": "<p>A requirement stated “with 95% confidence” is met only if the one-sided 95% lower confidence bound reaches the target at the required time. Interpolate the lower bound between 750 h and 1,000 h:</p><p>\\[\\begin{aligned}R_L(900) &\\approx 0.912 - 0.023 \\\\ &= 0.889 \\lt 0.90 \\\\ t^{*} &\\approx 750 + 79 \\\\ &= 829 \\text{ h}\\end{aligned}\\]</p><p>where 0.023 is the fall in the bound over the first 150 h of the 750 to 1,000 h step, \\((150/250)(0.912 - 0.874)\\); \\(79 = 250(0.012/0.038)\\) is the time taken for the bound to fall the further 0.012 to 0.90, \\(R_L(t)\\) is the one-sided 95% lower confidence bound on reliability at time \\(t\\) and \\(t^{*}\\) is the time at which it falls to 0.90. The requirement is not demonstrated at 900 h, even though the point estimate there is about 0.94. More units or more test time would narrow the interval.</p><p><b>A. Not demonstrated at 900 h; supported only to about 830 h.</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 6, Confidence and Tolerance Intervals (Weibull, normal and lognormal intervals), Examples 6.83–6.84.</span></p>",
     "optionRationales": [
       "Correct. \\(R_L(900) \\approx 0.889 \\lt 0.90\\); the bound crosses 0.90 at about 830 h.",
       "A point estimate carries no confidence statement. The requirement explicitly asks for 95% confidence.",
@@ -4104,7 +4104,7 @@
       "About 1,550,000 h"
     ],
     "answer": 2,
-    "why": "<p>First find the acceleration factor, using absolute temperatures:</p><p>\\[\\begin{aligned}T_U &= 328.15 \\text{ K} \\\\ T_S &= 398.15 \\text{ K} \\\\ \\text{AF} &= \\exp\\left[\\frac{E_a}{k}\\left(\\frac{1}{T_U} - \\frac{1}{T_S}\\right)\\right] \\\\ &= \\exp[8123(0.0005358)] \\\\ &= 77.7\\end{aligned}\\]</p><p>where \\(T_U\\) and \\(T_S\\) are the use and test temperatures in kelvin, \\(E_a\\) is the activation energy, \\(k\\) is Boltzmann’s constant, \\(8123 = 0.70/(8.617 \\times 10^{-5})\\) and \\(0.0005358 = 1/328.15 - 1/398.15\\). Then convert test time to equivalent use time and apply the chi-square bound for a time-terminated test with \\(r = 0\\):</p><p>\\[\\begin{aligned}T_{\\text{eq}} &= 77.7 \\times 20 \\times 1000 \\\\ &= 1.554 \\times 10^{6} \\text{ h} \\\\ \\text{MTBF}_L &= \\frac{2T_{\\text{eq}}}{\\chi^2_{0.10,\\,2}} \\\\ &= \\frac{3.108 \\times 10^{6}}{4.605} \\\\ &= 675000 \\text{ h}\\end{aligned}\\]</p><p>where \\(T_{\\text{eq}}\\) is the equivalent unit-hours at use conditions, \\(\\text{MTBF}_L\\) the one-sided 90% lower confidence bound on MTBF at use, \\(r\\) the number of failures, and \\(\\chi^2_{0.10,\\,2} = 4.605\\) uses \\(2r + 2 = 2\\) degrees of freedom.</p><p><b>C. About 675,000 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Accelerated Life Tests — the Arrhenius model (Equation 9.1); Ch. 6, Intervals Using the Exponential Distribution.</span></p>",
+    "why": "<p>First find the acceleration factor, using absolute temperatures:</p><p>\\[\\begin{aligned}T_U &= 328.15 \\text{ K} \\\\ T_S &= 398.15 \\text{ K} \\\\ \\text{AF} &= \\exp\\left[\\frac{E_a}{k}\\left(\\frac{1}{T_U} - \\frac{1}{T_S}\\right)\\right] \\\\ &= \\exp[8123(0.0005358)] \\\\ &= 77.7\\end{aligned}\\]</p><p>where \\(T_U\\) and \\(T_S\\) are the use and test temperatures in kelvin, \\(E_a\\) is the activation energy, \\(k\\) is Boltzmann’s constant, \\(8123 = 0.70/(8.617 \\times 10^{-5})\\) and \\(0.0005358\\) is \\(1/T_U - 1/T_S\\). Then convert test time to equivalent use time and apply the chi-square bound for a time-terminated test with \\(r = 0\\):</p><p>\\[\\begin{aligned}T_{\\text{eq}} &= 77.7 \\times 20 \\times 1000 \\\\ &= 1.554 \\times 10^{6} \\text{ h} \\\\ \\text{MTBF}_L &= \\frac{2T_{\\text{eq}}}{\\chi^2_{0.10,\\,2}} \\\\ &= \\frac{3.108 \\times 10^{6}}{4.605} \\\\ &= 675000 \\text{ h}\\end{aligned}\\]</p><p>where \\(T_{\\text{eq}}\\) is the equivalent unit-hours at use conditions, \\(\\text{MTBF}_L\\) the one-sided 90% lower confidence bound on MTBF at use, \\(r\\) the number of failures, and \\(\\chi^2_{0.10,\\,2} = 4.605\\) uses \\(2r + 2 = 2\\) degrees of freedom.</p><p><b>C. About 675,000 h</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Accelerated Life Tests — the Arrhenius model (Equation 9.1); Ch. 6, Intervals Using the Exponential Distribution.</span></p>",
     "optionRationales": [
       "Drops the 2 in \\(2T_{\\text{eq}}\\): \\(1.554 \\times 10^{6}/4.605\\).",
       "Uses \\(\\chi^2_{0.05,\\,2} = 5.991\\), the value for a two-sided 90% interval, instead of the one-sided 4.605.",
@@ -4607,9 +4607,9 @@
       "Counts only the two outages longer than 30 minutes (105 minutes). Every outage counts against availability.",
       "Uses only the longest outage (60 minutes). Every outage counts against availability, so all 130 minutes must be included."
     ],
-    "keyPoint": "Software availability is \\(A = (1 - t_{\\text{outage}}/t_{\\text{operation}}) \\times 100\\%\\), counting every outage.",
+    "keyPoint": "Software availability is \\(A = (1 - t_o/t_p) \\times 100\\%\\), with \\(t_o\\) the total outage time and \\(t_p\\) the operating time; count every outage.",
     "trap": "Leaving out short outages, or counting only business hours as operating time.",
-    "formula": "\\(A = (1 - t_{\\text{outage}}/t_{\\text{operation}}) \\times 100\\%\\)",
+    "formula": "\\(A = (1 - t_o/t_p) \\times 100\\%\\)",
     "assumptions": [],
     "estimatedMinutes": 1,
     "keywords": [
@@ -4933,7 +4933,7 @@
     "why": "<p>Shipped modules have already survived 168 h, so the field failure fraction is a conditional probability:</p><p>\\[\\begin{aligned}R(t) &= \\exp[-(t/\\eta)^{\\beta}] \\\\ R(168) &= \\exp[-(0.00336)^{0.4}] \\\\ &= 0.9026 \\\\ R(2168) &= \\exp[-(0.04336)^{0.4}] \\\\ &= 0.7520 \\\\ F &= 1 - \\frac{R(2168)}{R(168)} \\\\ &= 1 - 0.8332 \\\\ &= 16.7\\%\\end{aligned}\\]</p><p>where \\(R(t)\\) is the reliability at age \\(t\\) in hours and \\(F\\) the fraction of shipped modules failing in their first 2,000 h. Without burn-in, \\(1 - R(2000) = 24.1\\%\\) would fail, so the burn-in cuts early field failures by about 30% at the cost of a 9.7% burn-in fallout.</p><p><b>C. 16.7%</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 9, Stress Screening (burn-in and the early-failure part of the bathtub curve); Ch. 6, Probability Functions (conditional reliability).</span></p>",
     "optionRationales": [
       "\\(1 - R(168) = 9.7\\%\\) is the fraction that fails during burn-in, not in service.",
-      "Takes \\(F(2168) - F(168) = 0.248 - 0.097\\) without dividing by \\(R(168)\\). That is the fraction of all built modules failing in service; for shipped modules it must be conditioned on surviving burn-in.",
+      "Takes \\(F(2168) - F(168)\\), or \\(0.248 - 0.097\\), without dividing by \\(R(168)\\). That is the fraction of all built modules failing in service; for shipped modules it must be conditioned on surviving burn-in.",
       "Correct. \\(1 - R(2168)/R(168) = 16.7\\%\\).",
       "\\(1 - R(2000) = 24.1\\%\\) ignores the burn-in entirely."
     ],
@@ -5987,7 +5987,7 @@
       "117.4 years"
     ],
     "answer": 1,
-    "why": "<p>Because the rate depends exponentially on temperature, find the rate in each half-year, then add the depth grown in each:</p><p>\\[\\begin{aligned}r_5 &= 0.010\\,\\exp[4642\\Delta_5] \\\\ &= 0.010\\,e^{-0.8539} \\\\ &= 0.0042575 \\\\ r_{35} &= 0.010\\,\\exp[4642\\Delta_{35}] \\\\ &= 0.010\\,e^{0.7708} \\\\ &= 0.021615 \\\\ r_{\\text{yr}} &= (0.0042575 + 0.021615)/2 \\\\ &= 0.012936 \\\\ t &= 0.50/0.012936 \\\\ &= 38.7\\end{aligned}\\]</p><p>where \\(r_T\\) is the corrosion rate in mm per year at temperature \\(T\\) °C, \\(\\Delta_T = 1/293.15 - 1/(T + 273.15)\\), \\(4642 = 0.40/(8.617 \\times 10^{-5})\\), \\(r_{\\text{yr}}\\) the average annual rate and \\(t\\) the life in years. The warm half-year does most of the damage.</p><p><b>B. 38.7 years</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Physics of Failure and Failure Mechanisms — corrosion (zero-order kinetics with an Arrhenius rate, combined across temperature intervals).</span></p>",
+    "why": "<p>Because the rate depends exponentially on temperature, find the rate in each half-year, then add the depth grown in each:</p><p>\\[\\begin{aligned}r_5 &= 0.010\\,\\exp[4642\\Delta_5] \\\\ &= 0.010\\,e^{-0.8539} \\\\ &= 0.0042575 \\\\ r_{35} &= 0.010\\,\\exp[4642\\Delta_{35}] \\\\ &= 0.010\\,e^{0.7708} \\\\ &= 0.021615 \\\\ r_{\\text{yr}} &= (0.0042575 + 0.021615)/2 \\\\ &= 0.012936 \\\\ t &= 0.50/0.012936 \\\\ &= 38.7\\end{aligned}\\]</p><p>where \\(r_T\\) is the corrosion rate in mm per year at temperature \\(T\\) °C, \\(\\Delta_T\\) is \\(1/293.15 - 1/T_{\\text{K}}\\) with \\(T_{\\text{K}} = T + 273.15\\), \\(4642 = 0.40/(8.617 \\times 10^{-5})\\), \\(r_{\\text{yr}}\\) the average annual rate and \\(t\\) the life in years. The warm half-year does most of the damage.</p><p><b>B. 38.7 years</b> <span class=\"tb-source-ref\">Source: CRE Handbook (4th ed.), Ch. 10, Physics of Failure and Failure Mechanisms — corrosion (zero-order kinetics with an Arrhenius rate, combined across temperature intervals).</span></p>",
     "optionRationales": [
       "Uses the 35 °C rate for the whole year.",
       "Correct. The average rate is 0.012936 mm per year, so \\(0.50/0.012936 = 38.7\\) years.",
@@ -6153,7 +6153,7 @@
       "Correct. \\(5000(1.386)^{0.5} = 5890\\) h.",
       "Drops the shape parameter (\\(\\beta = 1\\)): \\(5000 \\ln 4 = 6930\\) h.",
       "Raises to the power \\(\\beta\\) instead of \\(1/\\beta\\): \\(5000(1.386)^{2} = 9609\\) h.",
-      "Skips the logarithm: \\(5000[1/(1 - u)]^{1/\\beta} = 5000(2) = 10000\\) h."
+      "Skips the logarithm, \\(5000[1/(1 - u)]^{1/\\beta}\\), giving \\(5000(2) = 10000\\) h."
     ],
     "keyPoint": "Inverse transform: draw \\(u\\), then \\(t = F^{-1}(u)\\); for Weibull, \\(t = \\eta[-\\ln(1 - u)]^{1/\\beta}\\).",
     "trap": "Dropping the shape parameter, using the wrong exponent, or skipping the logarithm.",
