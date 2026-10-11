@@ -1,7 +1,8 @@
 # Exam access — Step 1
 
 Status: foundation prepared and tested locally. Not applied to the hosted database.
-The learner page and legacy gate remain unchanged until Steps 2–4 are ready.
+Step 2 now replaces the simulator's shared gate with per-exam protected delivery in
+this draft branch. See `exam-access-step2-delivery.md`; production remains unchanged.
 
 ## Current architecture reviewed
 

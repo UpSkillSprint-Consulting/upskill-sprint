@@ -5,6 +5,7 @@ node_modules/
 public-site/
 .netlify/
 supabase/.temp/
+content/exam-delivery-generated/
 
 # OS / editor metadata that should never be committed
 .thumbnail

@@ -104,6 +104,16 @@ export default async function handler(_request, context) {
   if (!contentType.includes('text/html')) return response;
 
   let html = await response.text();
+  // The build already applied the stateless transform before extracting private
+  // scripts. Never put simulator scripts back into the public loading shell.
+  if (html.includes('data-exam-delivery="shell"')) {
+    const headers = new Headers(response.headers);
+    headers.delete('etag'); headers.delete('content-length');
+    headers.set('cache-control', 'private, no-store, max-age=0');
+    headers.set('cdn-cache-control', 'no-store');
+    headers.set('netlify-cdn-cache-control', 'no-store');
+    return new Response(html, { status: response.status, headers });
+  }
   html = stripPersistedExamRuntime(html);
   html = injectMemoryRuntime(html);
   if (!html.includes('tb-simple-mode-script')) html = html.replace('</body>', `${SIMPLE_MODE_MARKUP}\n</body>`);

@@ -9,6 +9,27 @@
 [functions]
   node_bundler = "esbuild"
 
+[functions."exam-content"]
+  included_files = ["content/exam-delivery-generated/*.json"]
+
+[[headers]]
+  for = "/test-bank"
+  [headers.values]
+    Cache-Control = "private, no-store"
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/test-bank.html"
+  [headers.values]
+    Cache-Control = "private, no-store"
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/test-bank/"
+  [headers.values]
+    Cache-Control = "private, no-store"
+    X-Robots-Tag = "noindex"
+
 [[edge_functions]]
   path = "/test-bank"
   function = "test-bank-mobile-picker"

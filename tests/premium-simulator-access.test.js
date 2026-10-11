@@ -24,9 +24,10 @@ function gate(rpc) {
   return {classes, redirects, timers, change: user => change(user)};
 }
 const flush = () => new Promise(resolve => setImmediate(resolve));
-test('simulator and directory declare Premium minimum', () => {
-  assert.match(read('test-bank.html'), /<body[^>]*data-required-access="premium"[^>]*data-access-resource="exam:\/test-bank"/);
-  assert.match(read('exam-practice.html'), /Premium account or higher required to practise\./);
+test('simulator uses per-exam delivery while legacy membership rules remain available', () => {
+  assert.match(read('test-bank.html'), /<body[^>]*data-exam-delivery="source"/);
+  assert.doesNotMatch(read('test-bank.html'), /data-access-resource="exam:\/test-bank"/);
+  assert.match(read('exam-practice.html'), /An administrator must grant access to each certification\./);
   assert.match(read('supabase/premium-simulator-access.sql'), /'exam:\/test-bank', 'premium'/);
 });
 test('signed-out users go to sign in; lower tiers are denied', async () => {
