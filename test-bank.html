@@ -40,6 +40,8 @@
   .tb-shell{display:grid;grid-template-columns:1fr 330px;gap:24px;align-items:start}
   .tb-shell.exam-mode{grid-template-columns:1fr}
   .tb-shell.exam-mode .tb-rail{display:none}
+  .tb-shell.focused-exam{grid-template-columns:minmax(0,1fr)}
+  .tb-shell.focused-exam .tb-rail{display:none}
   .tb-quizback{margin-top:20px;display:flex;justify-content:flex-start}
   .tb-backsim{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--tint);color:var(--ink);font-family:"Work Sans",sans-serif;font-weight:600;font-size:13.5px;border-radius:9px;padding:10px 15px;cursor:pointer;transition:background-color .15s ease,border-color .15s ease}
   .tb-backsim:hover{border-color:var(--teal);color:var(--teal)}
@@ -4839,7 +4841,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
     var host=document.getElementById('tb-overview');
     var shell=document.querySelector('.tb-shell');
     var examMode=(view==='quiz'||view==='results');
-    if(shell)shell.classList.toggle('exam-mode',examMode);
+    if(shell){shell.classList.toggle('exam-mode',examMode);shell.classList.toggle('focused-exam',!!focusedExam);}
     var hero=document.getElementById('tb-hero');
     if(hero){
       hero.classList.toggle('exam',examMode);
