@@ -31,6 +31,12 @@
 <meta content="An interactive beginner lesson comparing Binomial, Poisson, and Exponential distributions through realistic quality-engineering examples, calculations, and live simulations." name="description"/>
 <link href="https://upskillsprint.com/lessons/statistics/binomial-poisson-exponential-distributions" rel="canonical"/>
 <title>Binomial vs. Poisson vs. Exponential Distributions | UpSkill Sprint</title>
+<meta content="article" property="og:type"/>
+<meta content="Binomial vs. Poisson vs. Exponential Distributions | UpSkill Sprint" property="og:title"/>
+<meta content="An interactive beginner lesson comparing Binomial, Poisson, and Exponential distributions through realistic quality-engineering examples, calculations, and live simulations." property="og:description"/>
+<meta content="https://upskillsprint.com/assets/logo-icon.png" property="og:image"/>
+<meta content="https://upskillsprint.com/lessons/statistics/binomial-poisson-exponential-distributions" property="og:url"/>
+<meta content="summary" name="twitter:card"/>
 <link href="/style.css" rel="stylesheet"/>
 <link href="/lessons-theme.css" rel="stylesheet"/>
 <!-- EDIT: Lesson styles -->
