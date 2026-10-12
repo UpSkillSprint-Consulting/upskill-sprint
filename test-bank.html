@@ -434,7 +434,7 @@
   </nav>
 
   <main class="tb-wrap">
-    <div class="tb-crumb"><a href="lessons.html">Lessons</a> › <b>Certification Test Bank</b></div>
+    <div class="tb-crumb"><a href="/exam-practice">Back to All Certifications</a> › <b>Certification Test Bank</b></div>
     <div class="tb-hero" id="tb-hero">
       <h1 id="tb-herotitle">Certification Test Bank</h1>
       <p>Full-length, timed exam simulations for the major ASQ certifications. Each simulation ends with a per-domain diagnostic that pinpoints the exact subtopic you are weakest in — and links you straight to the lesson that rebuilds it. Pick a certification to see its Body of Knowledge coverage.</p>
@@ -2600,6 +2600,9 @@
   });
   var GROUPS=[['Six Sigma',['cssbb','mbb','cssgb']],['Quality',['cqe','cqa','cmq']],['Reliability',['cre']],['Project Management',['pmp']]];
   var current=window.__ExamAccess?window.__ExamAccess.exam:'cssbb', view='browse', session=null;
+  var linkedExam=(new URLSearchParams(window.location.search).get('exam')||'').trim().toLowerCase();
+  var focusedExam=window.__ExamAccess?window.__ExamAccess.exam:(Object.prototype.hasOwnProperty.call(EXAMS,linkedExam)?linkedExam:null);
+  if(focusedExam)current=focusedExam;
   var selectedSet='1'; /* Full Exam selection; Quick and Focused keep their own mode choices. */
   var diagTimed=true, timerId=null, calcExpr='';
   var perfAnalyticsOpen=false; /* true once the user opens Performance Analytics; used to
@@ -3935,8 +3938,10 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
   function renderRail(){
     var host=document.getElementById('tb-groups');
     var currentSummary=canonicalMasterySummary();
-    document.getElementById('tb-railcount').textContent=Object.keys(EXAMS).length+' exams';
-    host.innerHTML=GROUPS.map(function(g){
+    document.getElementById('tb-railcount').textContent=focusedExam?'':Object.keys(EXAMS).length+' exams';
+    document.querySelector('.tb-railhead h2').textContent=focusedExam?'Selected certification':'Certifications';
+    var visibleGroups=GROUPS.map(function(g){return [g[0],g[1].filter(function(id){return !focusedExam||id===focusedExam;})];}).filter(function(g){return g[1].length;});
+    host.innerHTML=visibleGroups.map(function(g){
       return '<div class="tb-group"><div class="gl">'+g[0]+'</div>'+g[1].map(function(id){
         var e=EXAMS[id];var st=loadState(id);var readinessValue=id===current&&currentSummary&&currentSummary.attempted?currentSummary.readiness:(st&&st.lastReadiness);
         var tag=window.__ExamAccess&&id!==current&&id!=='cqa'?'<span class="tb-tag">&#128274; Check exam access</span>':hasBank(e)?(readinessValue!=null?'<span class="tb-tag ready"><span class="d2"></span>'+readinessValue+'% ready</span>':'<span class="tb-tag live"><span class="d2"></span>'+esc(setsAvailLabel(e))+'</span>'):'<span class="tb-tag">Coming soon</span>';
@@ -4840,7 +4845,7 @@ if(window.__MBBSet3Batch7UI)window.__MBBSet3Batch7UI.wire(host);
       hero.classList.toggle('exam',examMode);
       var ht=document.getElementById('tb-herotitle'), hp=hero.querySelector('p');
       if(examMode){ht.textContent=EXAMS[current].body;if(hp)hp.hidden=true;}
-      else{ht.textContent='Certification Test Bank';if(hp)hp.hidden=false;}
+      else{ht.textContent=focusedExam?EXAMS[current].body:'Certification Test Bank';if(hp){hp.hidden=false;if(focusedExam)hp.textContent='Choose an exam set or practice mode for this certification. Return to All Certifications to open a different exam.';}}
     }
     if(view==='quiz'){host.innerHTML=quizHTML();wireQuiz();}
     else if(view==='results'){host.innerHTML=resultsHTML();wireResults();}

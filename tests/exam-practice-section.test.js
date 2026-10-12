@@ -177,6 +177,7 @@ test('certification links open the corresponding simulator overview without star
   for(const id of ['cssbb','mbb','cqe','cre','cqa','cmq','cssgb','pmp']){
     const {window}=await loadPage(t,'test-bank.html',`https://upskillsprint.com/test-bank?exam=${id}`);
     assert.equal(window.document.querySelector('.tb-tile.active').dataset.exam,id);
+    assert.equal(window.document.querySelectorAll('.tb-tile').length,1,'deep links show only their certification');
     assert.equal(window.document.querySelector('.tb-quiz'),null,'links do not start an exam');
   }
   const {window}=await loadPage(t,'test-bank.html','https://upskillsprint.com/test-bank?exam=unknown%22%5D');
