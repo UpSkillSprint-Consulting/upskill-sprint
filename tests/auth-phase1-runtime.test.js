@@ -96,6 +96,10 @@ function runtime(options = {}) {
     status.id = 'profile-access-level';
     status.setAttribute('data-account-access', '');
     dom.window.document.body.appendChild(status);
+    const profileMarkup = new dom.window.DOMParser().parseFromString(profilePageHtml, 'text/html');
+    profileMarkup.querySelectorAll('a[href="/admin-exam-access.html"], a[href="/admin-tool-access.html"]').forEach(link => {
+      dom.window.document.body.appendChild(dom.window.document.importNode(link.parentElement, true));
+    });
   }
   dom.window.eval(authSource);
   dom.window.eval(profileSource);
@@ -150,6 +154,83 @@ test('Account access response cannot restore a signed-out user’s tier', async 
   pending.resolve({ data: 'administrator' });
   await flush();
   assert.equal(dom.window.document.querySelector('[data-account-access]'), null);
+  dom.window.close();
+});
+
+function assertAdminLinks(window, visible) {
+  const links = window.document.querySelectorAll('a[href="/admin-exam-access.html"], a[href="/admin-tool-access.html"]');
+  assert.equal(links.length, 2);
+  for (const link of links) {
+    assert.equal(link.parentElement.hidden, !visible, link.textContent);
+    assert.equal(window.getComputedStyle(link.parentElement).display === 'none', !visible, link.textContent);
+  }
+}
+
+test('profile administration links start hidden and only the verified administrator tier reveals them', async () => {
+  for (const tier of ['public', 'registered', 'premium', 'special', 'administrator']) {
+    const { dom, calls, user } = runtime({ profileAccess: true, accessResult: () => Promise.resolve({ data: tier }) });
+    user.user_metadata.role = 'administrator'; // Editable claims must not reveal the links.
+    assertAdminLinks(dom.window, false);
+    await flush();
+    assertAdminLinks(dom.window, tier === 'administrator');
+    assert.equal(calls.accessReads, 1, 'reuse the profile access check without another request');
+    dom.window.close();
+  }
+});
+
+test('administration links hide immediately on sign-out and account switches, ignoring stale administrator responses', async () => {
+  const stale = deferred(), learner = deferred();
+  let response = Promise.resolve({ data: 'administrator' });
+  const { dom, client, user } = runtime({ profileAccess: true, accessResult: () => response });
+  await flush();
+  assertAdminLinks(dom.window, true);
+  response = stale.promise;
+  client.auth.callback('TOKEN_REFRESHED', { user });
+  assertAdminLinks(dom.window, false);
+  await flush();
+  response = learner.promise;
+  client.auth.callback('SIGNED_IN', { user: { id: 'learner-2', user_metadata: { role: 'administrator' } } });
+  assertAdminLinks(dom.window, false);
+  stale.resolve({ data: 'administrator' });
+  await flush();
+  assertAdminLinks(dom.window, false);
+  learner.resolve({ data: 'premium' });
+  await flush();
+  assertAdminLinks(dom.window, false);
+  response = Promise.resolve({ data: 'administrator' });
+  client.auth.callback('SIGNED_IN', { user });
+  await flush();
+  assertAdminLinks(dom.window, true);
+  client.auth.callback('SIGNED_OUT', null);
+  assertAdminLinks(dom.window, false);
+  dom.window.close();
+});
+
+test('revoked, failed, invalid, and unresolved access checks keep administration links hidden', async () => {
+  let response = Promise.resolve({ data: 'administrator' });
+  const { dom, client, user } = runtime({ profileAccess: true, accessResult: () => response });
+  await flush();
+  assertAdminLinks(dom.window, true);
+  for (const result of [{ data: 'registered' }, { error: new Error('unavailable') }, { data: 'unknown' }, null]) {
+    response = Promise.resolve(result);
+    client.auth.callback('TOKEN_REFRESHED', { user });
+    assertAdminLinks(dom.window, false);
+    await flush();
+    assertAdminLinks(dom.window, false);
+  }
+  response = Promise.reject(new Error('network unavailable'));
+  client.auth.callback('TOKEN_REFRESHED', { user });
+  await flush();
+  assertAdminLinks(dom.window, false);
+  const pending = deferred();
+  response = pending.promise;
+  client.auth.callback('TOKEN_REFRESHED', { user });
+  await flush();
+  assertAdminLinks(dom.window, false);
+  client.auth.callback('SIGNED_OUT', null);
+  pending.resolve({ data: 'administrator' });
+  await flush();
+  assertAdminLinks(dom.window, false);
   dom.window.close();
 });
 

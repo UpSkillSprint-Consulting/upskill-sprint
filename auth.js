@@ -23,10 +23,13 @@
   var accessText = 'Access level: checking…';
   var accessRequest = 0;
 
-  function paintAccess(text) {
+  function paintAccess(text, isAdministrator) {
     accessText = text;
     document.querySelectorAll('[data-account-access]').forEach(function (node) {
       node.textContent = text;
+    });
+    document.querySelectorAll('[data-admin-only]').forEach(function (node) {
+      node.hidden = isAdministrator !== true;
     });
   }
 
@@ -44,7 +47,7 @@
       if (revision !== accessRequest || !getUser() || getUser().id !== user.id) return;
       var names = {public:'Public',registered:'Registered member',premium:'Premium member',special:'Special access',administrator:'Administrator'};
       if (!result || result.error || !Object.prototype.hasOwnProperty.call(names, result.data)) throw new Error('Access unavailable');
-      paintAccess('Access level: ' + names[result.data]);
+      paintAccess('Access level: ' + names[result.data], result.data === 'administrator');
     }).catch(function () {
       if (revision === accessRequest && getUser() && getUser().id === user.id) paintAccess('Access level unavailable. Reopen Account to retry.');
     });
@@ -66,7 +69,7 @@
 
   function notifyListeners() {
     accessRequest += 1;
-    accessText = 'Access level: checking…';
+    paintAccess('Access level: checking…');
     var user = getUser();
     listeners.forEach(function (listener) {
       try { listener(user); } catch (error) { /* listener errors stay local */ }
