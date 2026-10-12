@@ -355,6 +355,18 @@
 .flow-lesson .pthumb img{height:auto}
 .flow-lesson .demo.wide .chart{max-width:680px}
 .flow-lesson .house .ground{grid-template-columns:repeat(3,1fr)}
+/* motion and hover layer */
+.flow-lesson .has-tip{position:relative}
+.flow-lesson .has-tip svg{touch-action:pan-y;cursor:crosshair}
+.flow-lesson .flow-tip{position:absolute;z-index:3;pointer-events:none;background:var(--lesson-flow-panel);color:var(--lesson-flow-ink);border:1px solid var(--lesson-flow-line);border-radius:8px;padding:7px 10px;font-size:13px;line-height:1.4;box-shadow:0 6px 18px rgba(0,0,0,.16);max-width:240px}
+.flow-lesson .flow-tip b{font-size:14.5px;color:var(--lesson-flow-ink)}
+.flow-lesson .flow-tip div+div{color:var(--lesson-flow-muted)}
+.flow-lesson .flowstrip{margin-top:6px}
+.flow-lesson .flowstrip svg{width:100%;height:auto;display:block}
+.flow-lesson .shipdot{transition:fill .25s}
+.flow-lesson .smed-seg{transition:fill .4s}
+.flow-lesson .fambar div{transition:flex-grow .9s cubic-bezier(.2,.8,.2,1)}
+@media (prefers-reduced-motion: reduce){.flow-lesson .shipdot,.flow-lesson .smed-seg,.flow-lesson .fambar div{transition:none}}
 </style>
 <style id="uss-quiz-style">
 .quiz-section{margin:34px auto 8px;max-width:900px;padding:0 20px}
@@ -423,6 +435,7 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <label for="batchR">Transfer batch size: <b id="batchVal">12</b> pipes (12 pipes, three stations, 1 minute each)</label>
       <input id="batchR" type="range" min="1" max="12" value="12">
     </div>
+    <div class="btnrow"><button type="button" class="btn ghost" id="batchPlay">Replay the run</button></div>
     <div class="readout" id="batchOut" role="status" aria-live="polite"></div>
   </div>
 </div></div>
@@ -476,6 +489,9 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
         <h3>Why 100% busy is a trap</h3>
         <p>For a single station with random arrivals and random work times (an M/M/1 queue), average waiting time as a multiple of processing time is \(u/(1-u)\), where \(u\) is utilisation.</p>
         <div class="chart" id="queueChart"></div>
+        <label class="slider" for="utilR">Utilisation: <b id="utilVal">80</b>% (drag on the chart or use the slider)</label>
+        <input id="utilR" type="range" min="5" max="95" step="1" value="80">
+        <div class="readout" id="utilOut" role="status" aria-live="polite"></div>
       </div>
       <p class="pull">Busy is not the same as flowing.</p>
     </div>
@@ -579,12 +595,14 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
 
 <section id="demos"><div class="wrap">
   <h2>Watch flow happen</h2>
-  <p class="prose" style="color:var(--lesson-flow-muted)">Five small experiments with illustrative mill numbers. Move the sliders and watch where the time goes.</p>
+  <p class="prose" style="color:var(--lesson-flow-muted)">Five small experiments with illustrative mill numbers. Move the sliders, hover the charts for exact values, and watch where the time goes.</p>
   <div class="demos">
     <div class="demo wide">
       <h3>Little's Law: WIP is lead time</h3>
       <p>At a fixed throughput, every joint you add to work in process adds waiting, not output.</p>
       <div class="chart" id="littleChart"></div>
+      <div class="flowstrip" id="littleFlow"></div>
+      <p class="note" id="littleFlowNote"></p>
       <label class="slider" for="wipR">Joints in process (WIP): <b id="wipVal">1200</b></label>
       <input id="wipR" type="range" min="100" max="2000" step="50" value="1200">
       <label class="slider" for="thR">Throughput, joints per day: <b id="thVal">400</b></label>
@@ -633,6 +651,9 @@ html[data-theme="dark"] .quiz-result{background:#12202e;border-left-color:#5b9bd
       <p>Twenty days of random demand averaging 100 joints a day. Push builds to a forecast of 115; pull replaces what was taken.</p>
       <div class="chart" id="pullChart"></div>
       <div class="legend"><span><i style="background:var(--lesson-flow-coral)"></i>Push stock</span><span><i style="background:var(--lesson-flow-cyan)"></i>Pull stock (dashed)</span></div>
+      <label class="slider" for="dayR">Inspect day: <b id="dayVal">10</b> (or hover the chart)</label>
+      <input id="dayR" type="range" min="1" max="20" step="1" value="10">
+      <p class="note" id="dayOut"></p>
       <div class="btnrow"><button type="button" class="btn" id="pullBtn">New demand pattern</button></div>
       <div class="readout" id="pullOut" role="status" aria-live="polite"></div>
     </div>
@@ -806,10 +827,119 @@ function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').
 function mulberry(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function fmt(x, d) { return Number(x).toFixed(d === undefined ? 0 : d); }
 
-/* ---------- Hero: batch size and lead time ---------- */
+/* ---------- Motion and hover helpers ---------- */
+var NS = 'http://www.w3.org/2000/svg';
+var RAF = typeof window.requestAnimationFrame === 'function' ? window.requestAnimationFrame.bind(window) : null;
+var REDUCED = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+var MOTION = !!RAF && !REDUCED;
+function mk(tag, attrs, parent) {
+  var el = document.createElementNS(NS, tag);
+  for (var k in attrs) if (Object.prototype.hasOwnProperty.call(attrs, k)) el.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(el);
+  return el;
+}
+function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+/* Animate numeric SVG attributes from their current value to the target. Without
+   requestAnimationFrame, or with reduced motion, it jumps straight to the end state. */
+function tween(el, to, dur) {
+  dur = dur === undefined ? 480 : dur;
+  var k;
+  if (!MOTION || !dur) { el._tw = (el._tw || 0) + 1; for (k in to) el.setAttribute(k, to[k]); return; }
+  var from = {};
+  for (k in to) { var v = parseFloat(el.getAttribute(k)); from[k] = isNaN(v) ? to[k] : v; }
+  var id = (el._tw || 0) + 1, t0 = null; el._tw = id;
+  function step(ts) {
+    if (el._tw !== id) return;
+    if (t0 === null) t0 = ts;
+    var p = Math.min(1, (ts - t0) / dur), e = ease(p);
+    for (var a in to) el.setAttribute(a, (from[a] + (to[a] - from[a]) * e).toFixed(2));
+    if (p < 1) RAF(step);
+  }
+  RAF(step);
+}
+/* Count a number up or down inside a text node. */
+function countTo(el, value, format, dur) {
+  dur = dur === undefined ? 480 : dur;
+  var start = el._cv === undefined ? value : el._cv;
+  el._cv = value;
+  if (!MOTION || !dur || start === value) { el.textContent = format(value); return; }
+  var id = (el._cn || 0) + 1, t0 = null; el._cn = id;
+  function step(ts) {
+    if (el._cn !== id) return;
+    if (t0 === null) t0 = ts;
+    var p = Math.min(1, (ts - t0) / dur);
+    el.textContent = format(start + (value - start) * ease(p));
+    if (p < 1) RAF(step);
+  }
+  RAF(step);
+}
+/* Run fn once, the first time el scrolls into view. */
+function onView(el, fn) {
+  if (!MOTION || typeof window.IntersectionObserver !== 'function') { fn(); return; }
+  var io = new window.IntersectionObserver(function (entries) {
+    if (entries.some(function (e) { return e.isIntersecting; })) { io.disconnect(); fn(); }
+  }, { threshold: 0.25 });
+  io.observe(el);
+}
+/* Reveal a group left to right with an animated clip rectangle. */
+function wipe(svg, group, x, y, w, h, dur) {
+  var id = 'flowclip' + Math.random().toString(36).slice(2, 8);
+  var defs = mk('defs', {}, svg), cp = mk('clipPath', { id: id }, defs);
+  var r = mk('rect', { x: x, y: y, width: MOTION ? 0 : w, height: h }, cp);
+  group.setAttribute('clip-path', 'url(#' + id + ')');
+  return function () { tween(r, { width: w }, dur || 1100); };
+}
+/* One tooltip per chart. Text goes in through textContent only. */
+function makeTip(box) {
+  box.classList.add('has-tip');
+  var t = document.createElement('div');
+  t.className = 'flow-tip'; t.setAttribute('aria-hidden', 'true'); t.hidden = true;
+  box.appendChild(t);
+  return {
+    show: function (cx, cy, lines) {
+      t.textContent = '';
+      lines.forEach(function (line, i) {
+        var d = document.createElement('div');
+        if (i === 0) { var b = document.createElement('b'); b.textContent = line; d.appendChild(b); } else d.textContent = line;
+        t.appendChild(d);
+      });
+      t.hidden = false;
+      var r = box.getBoundingClientRect(), x = cx - r.left, y = cy - r.top;
+      var w = t.offsetWidth || 160, h = t.offsetHeight || 40;
+      var left = x + 14; if (left + w > r.width - 4) left = Math.max(4, x - w - 14);
+      t.style.left = left + 'px'; t.style.top = Math.max(4, y - h - 12) + 'px';
+    },
+    hide: function () { t.hidden = true; }
+  };
+}
+/* Map a pointer position to the SVG's viewBox x coordinate. */
+function svgX(svg, clientX, W) {
+  var r = svg.getBoundingClientRect();
+  return r.width ? (clientX - r.left) / r.width * W : null;
+}
+function grid(svg, ys, sy, m, W, H, fmtY) {
+  ys.forEach(function (y) {
+    mk('line', { x1: m.l, y1: sy(y), x2: W - m.r, y2: sy(y), stroke: V('line') }, svg);
+    var t = mk('text', { class: 'tk', x: m.l - 8, y: sy(y) + 4, 'text-anchor': 'end' }, svg); t.textContent = fmtY ? fmtY(y) : y;
+  });
+}
+function axisTitles(svg, m, W, H, xt, yt) {
+  var a = mk('text', { class: 'ax', x: m.l + (W - m.l - m.r) / 2, y: H - 8, 'text-anchor': 'middle' }, svg); a.textContent = xt;
+  var b = mk('text', { class: 'ax', transform: 'translate(14 ' + (m.t + (H - m.t - m.b) / 2) + ') rotate(-90)', 'text-anchor': 'middle' }, svg); b.textContent = yt;
+}
+function newSvg(box, W, H, label) {
+  for (var i = box.children.length - 1; i >= 0; i--) if (box.children[i].tagName.toLowerCase() === 'svg') box.removeChild(box.children[i]);
+  var svg = mk('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': label });
+  box.insertBefore(svg, box.firstChild);
+  return svg;
+}
+
+/* ---------- Hero: batch size and lead time, played out minute by minute ---------- */
 (function () {
   var slider = $('batchR'); if (!slider) return;
+  var box = $('batchChart'), tip = makeTip(box);
   var N = 12, ST = ['Cut', 'Bevel', 'Test'], P = 1;
+  var COLS = ['cyan', 'sea', 'violet', 'coral'];
   function simulate(b) {
     // transfer batch b: a batch moves on only when the whole batch is finished at a station
     var batches = []; for (var s = 0; s < N; s += b) batches.push(Math.min(b, N - s));
@@ -818,37 +948,88 @@ function fmt(x, d) { return Number(x).toFixed(d === undefined ? 0 : d); }
       var ready = 0;
       for (var st = 0; st < ST.length; st++) {
         var start = Math.max(ready, free[st]);
-        rows[st].push({ k: k, start: start, end: start + q * P });
+        rows[st].push({ k: k, q: q, start: start, end: start + q * P });
         if (st === ST.length - 1) for (var j = 1; j <= q; j++) done.push(start + j * P);
         free[st] = start + q * P; ready = free[st];
       }
     });
     return { rows: rows, first: done[0], last: done[done.length - 1], done: done, nb: batches.length };
   }
-  function draw() {
-    var b = +slider.value; $('batchVal').textContent = b;
-    var r = simulate(b), W = 520, H = 190, x0 = 58, sc = (W - x0 - 14) / 40, rowH = 34;
-    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Gantt chart of 12 pipes through cut, bevel and test with a transfer batch of ' + b + '. First pipe finished at minute ' + r.first + ', last at minute ' + r.last + '.">';
-    for (var t = 0; t <= 40; t += 10) { var x = x0 + t * sc; s += '<line x1="' + x + '" y1="10" x2="' + x + '" y2="' + (16 + rowH * 3) + '" stroke="' + V('line') + '"/><text class="tk" x="' + x + '" y="' + (32 + rowH * 3) + '" text-anchor="middle">' + t + '</text>'; }
-    s += '<text class="ax" x="' + (x0 + 20 * sc) + '" y="' + (52 + rowH * 3) + '" text-anchor="middle">minutes</text>';
-    var cols = ['cyan', 'sea', 'amber', 'violet', 'coral'];
+  var W = 520, H = 230, x0 = 70, sc = (W - x0 - 18) / 40, rowH = 34, run = 0, state = null;
+  var X = function (t) { return x0 + t * sc; };
+  function build(b) {
+    var r = simulate(b);
+    var svg = newSvg(box, W, H, 'Twelve pipes moving through cut, bevel and test with a transfer batch of ' + b + '. First pipe finished at minute ' + r.first + ', last at minute ' + r.last + '.');
+    for (var t = 0; t <= 40; t += 10) {
+      mk('line', { x1: X(t), y1: 10, x2: X(t), y2: 16 + rowH * 3, stroke: V('line') }, svg);
+      var tk = mk('text', { class: 'tk', x: X(t), y: 32 + rowH * 3, 'text-anchor': 'middle' }, svg); tk.textContent = t;
+    }
+    var ax = mk('text', { class: 'ax', x: X(20), y: 50 + rowH * 3, 'text-anchor': 'middle' }, svg); ax.textContent = 'minutes';
+    var blocks = [];
     r.rows.forEach(function (row, st) {
       var y = 14 + st * rowH;
-      s += '<text class="lbl" x="' + (x0 - 8) + '" y="' + (y + 19) + '" text-anchor="end">' + ST[st] + '</text>';
+      var lb = mk('text', { class: 'lbl', x: x0 - 8, y: y + 19, 'text-anchor': 'end' }, svg); lb.textContent = ST[st];
+      mk('rect', { x: X(0), y: y, width: X(40) - X(0), height: rowH - 8, rx: 4, fill: V('panel2') }, svg);
       row.forEach(function (blk) {
-        s += '<rect x="' + (x0 + blk.start * sc + 1) + '" y="' + y + '" width="' + Math.max(2, (blk.end - blk.start) * sc - 2) + '" height="' + (rowH - 8) + '" rx="4" fill="' + V(cols[blk.k % cols.length]) + '" opacity=".85"/>';
+        var full = Math.max(2, (blk.end - blk.start) * sc - 2);
+        var el = mk('rect', { class: 'blk', x: X(blk.start) + 1, y: y, width: 0, height: rowH - 8, rx: 4, fill: V(COLS[blk.k % COLS.length]) }, svg);
+        el._info = [ST[st] + ' station', 'Batch ' + (blk.k + 1) + ': ' + blk.q + (blk.q === 1 ? ' pipe' : ' pipes'), 'Minutes ' + blk.start + ' to ' + blk.end];
+        blocks.push({ el: el, b: blk, full: full });
       });
     });
-    var fx = x0 + r.first * sc, lx = x0 + r.last * sc, yb = 16 + rowH * 3;
-    s += '<path d="M' + fx + ' ' + (yb - 4) + 'v-' + (rowH * 3 - 2) + '" stroke="' + V('ink') + '" stroke-width="2" stroke-dasharray="3 3"/>';
-    s += '<path d="M' + lx + ' ' + (yb - 4) + 'v-' + (rowH * 3 - 2) + '" stroke="' + V('coral') + '" stroke-width="2"/>';
-    s += '</svg>';
-    $('batchChart').innerHTML = s;
+    var yb = 16 + rowH * 3;
+    var first = mk('line', { x1: X(r.first), y1: 8, x2: X(r.first), y2: yb - 2, stroke: V('ink'), 'stroke-width': 2, 'stroke-dasharray': '3 3', opacity: 0 }, svg);
+    var last = mk('line', { x1: X(r.last), y1: 8, x2: X(r.last), y2: yb - 2, stroke: V('coral'), 'stroke-width': 2, opacity: 0 }, svg);
+    var head = mk('line', { x1: X(0), y1: 6, x2: X(0), y2: yb, stroke: V('amber'), 'stroke-width': 2.5, class: 'playhead' }, svg);
+    var dl = mk('text', { class: 'lbl', x: x0 - 8, y: H - 14, 'text-anchor': 'end' }, svg); dl.textContent = 'Shipped';
+    var dots = [];
+    for (var i = 0; i < N; i++) dots.push(mk('circle', { class: 'shipdot', cx: x0 + 10 + i * 22, cy: H - 18, r: 7, fill: V('panel2'), stroke: V('line'), 'stroke-width': 1.5 }, svg));
+    var clock = mk('text', { class: 'lbl', x: W - 10, y: H - 14, 'text-anchor': 'end' }, svg);
+    svg.addEventListener('pointermove', function (e) {
+      if (e.target && e.target._info) tip.show(e.clientX, e.clientY, e.target._info); else tip.hide();
+    });
+    svg.addEventListener('pointerleave', tip.hide);
+    state = { r: r, blocks: blocks, first: first, last: last, head: head, dots: dots, clock: clock };
+  }
+  function frame(t) {
+    var s = state, r = s.r, shipped = 0;
+    s.blocks.forEach(function (o) {
+      var p = Math.max(0, Math.min(1, (t - o.b.start) / (o.b.end - o.b.start)));
+      o.el.setAttribute('width', (o.full * p).toFixed(2));
+    });
+    r.done.forEach(function (d) { if (d <= t + 1e-9) shipped++; });
+    s.dots.forEach(function (c, i) { c.setAttribute('fill', i < shipped ? V('sea') : V('panel2')); });
+    var hx = X(Math.min(t, 40));
+    s.head.setAttribute('x1', hx); s.head.setAttribute('x2', hx);
+    s.first.setAttribute('opacity', t >= r.first ? 1 : 0);
+    s.last.setAttribute('opacity', t >= r.last ? 1 : 0);
+    s.clock.textContent = 'minute ' + Math.floor(Math.min(t, r.last)) + ' · ' + shipped + ' of 12 shipped';
+  }
+  function play() {
+    var id = ++run, end = state.r.last;
+    if (!MOTION) { frame(end); return; }
+    var dur = 1200 + end * 70, t0 = null;
+    function step(ts) {
+      if (id !== run) return;
+      if (t0 === null) t0 = ts;
+      var p = Math.min(1, (ts - t0) / dur);
+      frame(end * p);
+      if (p < 1) RAF(step);
+    }
+    RAF(step);
+  }
+  function update() {
+    var b = +slider.value; $('batchVal').textContent = b;
+    build(b);
+    var r = state.r;
     var msg = b === 1 ? 'One-piece flow: the customer sees the first pipe almost immediately and the whole order soonest.' : b >= 12 ? 'One big batch: every pipe waits for all eleven others at every step.' : 'Smaller batches overlap the stations, so pipes stop waiting for their batch-mates.';
     $('batchOut').innerHTML = 'Transfer batch <b>' + b + '</b> &middot; first pipe done at <b>' + r.first + ' min</b> &middot; all 12 done at <b>' + r.last + ' min</b><br>' + msg;
+    play();
   }
-  slider.addEventListener('input', draw);
-  draw();
+  slider.addEventListener('input', update);
+  $('batchPlay').addEventListener('click', play);
+  update();
+  if (MOTION) { frame(0); onView(box, play); }
   window.__flowBatch = simulate;
 })();
 
@@ -878,19 +1059,45 @@ function fmt(x, d) { return Number(x).toFixed(d === undefined ? 0 : d); }
   });
 })();
 
-/* ---------- Mini chart: utilisation and waiting ---------- */
+/* ---------- Mini chart: utilisation and waiting, with a draggable marker ---------- */
 (function () {
-  var el = $('queueChart'); if (!el) return;
-  var W = 520, H = 230, m = { l: 52, r: 16, t: 14, b: 44 };
-  var sx = function (u) { return m.l + u * (W - m.l - m.r); }, sy = function (y) { return H - m.b - y / 20 * (H - m.t - m.b); };
-  var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Waiting time multiple rises slowly up to about 70 percent utilisation, then climbs steeply, reaching 19 times the processing time at 95 percent.">';
-  [0, 5, 10, 15, 20].forEach(function (y) { s += '<line x1="' + m.l + '" y1="' + sy(y) + '" x2="' + (W - m.r) + '" y2="' + sy(y) + '" stroke="' + V('line') + '"/><text class="tk" x="' + (m.l - 8) + '" y="' + (sy(y) + 4) + '" text-anchor="end">' + y + '</text>'; });
-  [0, .25, .5, .75, 1].forEach(function (u) { s += '<text class="tk" x="' + sx(u) + '" y="' + (H - m.b + 18) + '" text-anchor="middle">' + Math.round(u * 100) + '%</text>'; });
-  var d = ''; for (var u = 0; u <= .955; u += .005) { d += (d ? 'L' : 'M') + sx(u).toFixed(1) + ' ' + sy(u / (1 - u)).toFixed(1); }
-  s += '<path d="' + d + '" fill="none" stroke="' + V('coral') + '" stroke-width="3"/>';
-  s += '<text class="ax" x="' + (m.l + (W - m.l - m.r) / 2) + '" y="' + (H - 8) + '" text-anchor="middle">utilisation of the station</text>';
-  s += '<text class="ax" transform="translate(14 ' + (m.t + (H - m.t - m.b) / 2) + ') rotate(-90)" text-anchor="middle">wait ÷ process time</text></svg>';
-  el.innerHTML = s;
+  var box = $('queueChart'); if (!box) return;
+  var slider = $('utilR'), tip = makeTip(box);
+  var W = 520, H = 240, m = { l: 52, r: 16, t: 14, b: 44 }, MAXU = 0.95;
+  var sx = function (u) { return m.l + u * (W - m.l - m.r); };
+  var sy = function (y) { return H - m.b - Math.min(y, 20) / 20 * (H - m.t - m.b); };
+  var svg = newSvg(box, W, H, 'Waiting time multiple rises slowly up to about 70 percent utilisation, then climbs steeply, reaching 19 times the processing time at 95 percent.');
+  grid(svg, [0, 5, 10, 15, 20], sy, m, W, H);
+  [0, 0.25, 0.5, 0.75, 1].forEach(function (u) { var t = mk('text', { class: 'tk', x: sx(u), y: H - m.b + 18, 'text-anchor': 'middle' }, svg); t.textContent = Math.round(u * 100) + '%'; });
+  var d = ''; for (var u = 0; u <= MAXU + 1e-9; u += 0.005) d += (d ? 'L' : 'M') + sx(u).toFixed(1) + ' ' + sy(u / (1 - u)).toFixed(1);
+  var g = mk('g', {}, svg);
+  mk('path', { d: d, fill: 'none', stroke: V('coral'), 'stroke-width': 3 }, g);
+  var reveal = wipe(svg, g, m.l, 0, W - m.l - m.r + 4, H, 1300);
+  axisTitles(svg, m, W, H, 'utilisation of the station', 'wait ÷ process time');
+  var gx = mk('line', { x1: sx(0.8), y1: sy(0), x2: sx(0.8), y2: sy(4), stroke: V('muted'), 'stroke-dasharray': '4 4' }, svg);
+  var gy = mk('line', { x1: m.l, y1: sy(4), x2: sx(0.8), y2: sy(4), stroke: V('muted'), 'stroke-dasharray': '4 4' }, svg);
+  var dot = mk('circle', { cx: sx(0.8), cy: sy(4), r: 8, fill: V('coral'), stroke: V('panel'), 'stroke-width': 2.5 }, svg);
+  var lab = mk('text', { class: 'lbl', x: sx(0.8) - 12, y: sy(4) - 12, 'text-anchor': 'end' }, svg);
+  function update(pct, dur) {
+    var uu = Math.max(0.05, Math.min(MAXU, pct / 100)), w = uu / (1 - uu);
+    tween(dot, { cx: sx(uu), cy: sy(w) }, dur);
+    tween(gx, { x1: sx(uu), x2: sx(uu), y2: sy(w) }, dur);
+    tween(gy, { y1: sy(w), x2: sx(uu), y2: sy(w) }, dur);
+    tween(lab, { x: sx(uu) - 12, y: Math.max(m.t + 12, sy(w) - 12) }, dur);
+    lab.textContent = w.toFixed(1) + '×';
+    $('utilVal').textContent = Math.round(uu * 100);
+    $('utilOut').innerHTML = 'At <b>' + Math.round(uu * 100) + '%</b> utilisation the average job waits <b>' + w.toFixed(1) + '×</b> its processing time.' + (uu >= 0.85 ? ' Small gains in busyness now cost a lot of waiting.' : uu <= 0.6 ? ' Plenty of slack: queues stay short.' : '');
+  }
+  slider.addEventListener('input', function () { update(+slider.value); });
+  svg.addEventListener('pointermove', function (e) {
+    var x = svgX(svg, e.clientX, W); if (x === null) return;
+    var pct = Math.round(Math.max(5, Math.min(95, (x - m.l) / (W - m.l - m.r) * 100)));
+    slider.value = pct; update(pct, 120);
+    tip.show(e.clientX, e.clientY, [ (pct / (100 - pct)).toFixed(1) + '× wait', pct + '% utilisation' ]);
+  });
+  svg.addEventListener('pointerleave', tip.hide);
+  update(+slider.value, 0);
+  onView(box, reveal);
 })();
 
 /* ---------- Families bar and house of lean ---------- */
@@ -900,8 +1107,13 @@ var GUIDE = { setCat: null };
   var cards = document.querySelectorAll('#guideOut .spec'), n = { f: 0, q: 0, b: 0 };
   Array.prototype.forEach.call(cards, function (c) { n[c.getAttribute('data-family')]++; });
   var lab = { f: ['Flow', 'cyan'], q: ['Quality', 'coral'], b: ['Stability and people', 'sea'] };
-  bar.innerHTML = ['f', 'q', 'b'].map(function (k) { return '<div style="flex:' + n[k] + ';background:' + V(lab[k][1]) + '">' + lab[k][0] + ' ' + n[k] + '</div>'; }).join('');
+  bar.innerHTML = ['f', 'q', 'b'].map(function (k) { return '<div data-n="' + n[k] + '" style="flex:' + (MOTION ? 0.001 : n[k]) + ' 1 0;background:' + V(lab[k][1]) + '">' + lab[k][0] + ' ' + n[k] + '</div>'; }).join('');
   bar.setAttribute('aria-label', 'Flow ' + n.f + ' terms, Quality ' + n.q + ' terms, Stability and people ' + n.b + ' terms');
+  onView(bar, function () {
+    Array.prototype.forEach.call(bar.children, function (seg, i) {
+      setTimeout(function () { seg.style.flexGrow = seg.getAttribute('data-n'); }, MOTION ? 60 + i * 140 : 0);
+    });
+  });
 })();
 (function () {
   var house = $('house'); if (!house) return;
@@ -913,64 +1125,134 @@ var GUIDE = { setCat: null };
   });
 })();
 
-/* ---------- Little's Law ---------- */
+/* ---------- Little's Law: line chart plus a moving conveyor of WIP ---------- */
 (function () {
   var wip = $('wipR'); if (!wip) return;
-  var th = $('thR');
-  function draw() {
+  var th = $('thR'), box = $('littleChart'), tip = makeTip(box);
+  var W = 520, H = 210, m = { l: 52, r: 16, t: 14, b: 44 }, maxW = 2000, maxL = 10;
+  var sx = function (x) { return m.l + x / maxW * (W - m.l - m.r); };
+  var sy = function (y) { return H - m.b - Math.min(y, maxL) / maxL * (H - m.t - m.b); };
+  var svg = newSvg(box, W, H, '');
+  grid(svg, [0, 2, 4, 6, 8, 10], sy, m, W, H);
+  [0, 500, 1000, 1500, 2000].forEach(function (x) { var t = mk('text', { class: 'tk', x: sx(x), y: H - m.b + 18, 'text-anchor': 'middle' }, svg); t.textContent = x; });
+  axisTitles(svg, m, W, H, 'joints in process (WIP)', 'lead time, days');
+  var line = mk('line', { x1: sx(0), y1: sy(0), x2: sx(maxW), y2: sy(3), stroke: V('cyan'), 'stroke-width': 3, 'stroke-linecap': 'round' }, svg);
+  var gx = mk('line', { x1: sx(0), y1: sy(0), x2: sx(0), y2: sy(0), stroke: V('muted'), 'stroke-dasharray': '4 4' }, svg);
+  var gy = mk('line', { x1: m.l, y1: sy(0), x2: sx(0), y2: sy(0), stroke: V('muted'), 'stroke-dasharray': '4 4' }, svg);
+  var cross = mk('line', { x1: 0, y1: m.t, x2: 0, y2: H - m.b, stroke: V('muted'), opacity: 0 }, svg);
+  var dot = mk('circle', { cx: sx(1200), cy: sy(3), r: 8, fill: V('coral'), stroke: V('panel'), 'stroke-width': 2.5 }, svg);
+
+  /* conveyor: each dot is 50 joints; a dot takes the lead time (scaled to seconds) to cross */
+  var flow = $('littleFlow'), FW = 520, FH = 86, fx0 = 54, fx1 = FW - 54, dots = [], T = 3.6, nDots = 0, running = false, visible = !MOTION;
+  var fsvg = mk('svg', { viewBox: '0 0 ' + FW + ' ' + FH, role: 'img', 'aria-label': '' }, flow);
+  mk('rect', { x: fx0 - 8, y: 14, width: fx1 - fx0 + 16, height: 52, rx: 26, fill: V('panel2'), stroke: V('line') }, fsvg);
+  var ti = mk('text', { class: 'tk', x: fx0 - 14, y: 44, 'text-anchor': 'end' }, fsvg); ti.textContent = 'in';
+  var to = mk('text', { class: 'tk', x: fx1 + 14, y: 44 }, fsvg); to.textContent = 'out';
+  var dg = mk('g', {}, fsvg);
+  function setDots(n) {
+    if (n === nDots) return;
+    while (dg.firstChild) dg.removeChild(dg.firstChild);
+    dots = [];
+    for (var i = 0; i < n; i++) dots.push(mk('circle', { r: 5.5, cy: 26 + (i % 3) * 14, cx: fx0, fill: V('cyan') }, dg));
+    nDots = n; place(0);
+  }
+  function place(sec) {
+    dots.forEach(function (c, i) { var p = ((sec / T) + i / nDots) % 1; c.setAttribute('cx', (fx0 + p * (fx1 - fx0)).toFixed(1)); });
+  }
+  function loop(ts) { if (!running) return; place(ts / 1000); RAF(loop); }
+  function setRunning() {
+    var want = MOTION && visible && !document.hidden;
+    if (want && !running) { running = true; RAF(loop); } else if (!want) running = false;
+  }
+  if (MOTION && typeof window.IntersectionObserver === 'function') {
+    new window.IntersectionObserver(function (es) { visible = es.some(function (e) { return e.isIntersecting; }); setRunning(); }).observe(flow);
+  } else visible = true;
+  document.addEventListener('visibilitychange', setRunning);
+
+  function draw(dur) {
     var w = +wip.value, t = +th.value, lt = w / t;
     $('wipVal').textContent = w; $('thVal').textContent = t;
-    var W = 520, H = 210, m = { l: 52, r: 16, t: 14, b: 44 }, maxW = 2000, maxL = 10;
-    var sx = function (x) { return m.l + x / maxW * (W - m.l - m.r); }, sy = function (y) { return H - m.b - Math.min(y, maxL) / maxL * (H - m.t - m.b); };
-    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Lead time rises in a straight line with work in process at a fixed throughput of ' + t + ' joints a day. Current lead time ' + fmt(lt, 1) + ' days.">';
-    [0, 2, 4, 6, 8, 10].forEach(function (y) { s += '<line x1="' + m.l + '" y1="' + sy(y) + '" x2="' + (W - m.r) + '" y2="' + sy(y) + '" stroke="' + V('line') + '"/><text class="tk" x="' + (m.l - 8) + '" y="' + (sy(y) + 4) + '" text-anchor="end">' + y + '</text>'; });
-    [0, 500, 1000, 1500, 2000].forEach(function (x) { s += '<text class="tk" x="' + sx(x) + '" y="' + (H - m.b + 18) + '" text-anchor="middle">' + x + '</text>'; });
     var xEnd = Math.min(maxW, maxL * t);
-    s += '<path d="M' + sx(0) + ' ' + sy(0) + 'L' + sx(xEnd) + ' ' + sy(xEnd / t) + '" stroke="' + V('cyan') + '" stroke-width="3" fill="none"/>';
-    s += '<circle cx="' + sx(w) + '" cy="' + sy(lt) + '" r="7" fill="' + V('coral') + '"/>';
-    s += '<text class="ax" x="' + (m.l + (W - m.l - m.r) / 2) + '" y="' + (H - 8) + '" text-anchor="middle">joints in process (WIP)</text>';
-    s += '<text class="ax" transform="translate(14 ' + (m.t + (H - m.t - m.b) / 2) + ') rotate(-90)" text-anchor="middle">lead time, days</text></svg>';
-    $('littleChart').innerHTML = s;
+    tween(line, { x2: sx(xEnd), y2: sy(xEnd / t) }, dur);
+    tween(dot, { cx: sx(w), cy: sy(lt) }, dur);
+    tween(gx, { x1: sx(w), x2: sx(w), y2: sy(lt) }, dur);
+    tween(gy, { y1: sy(lt), x2: sx(w), y2: sy(lt) }, dur);
+    svg.setAttribute('aria-label', 'Lead time rises in a straight line with work in process at a fixed throughput of ' + t + ' joints a day. Current lead time ' + fmt(lt, 1) + ' days.');
+    setDots(Math.max(1, Math.min(40, Math.round(w / 50))));
+    T = Math.max(0.6, lt * 1.2);
+    fsvg.setAttribute('aria-label', nDots + ' dots of work in process, each taking ' + fmt(lt, 1) + ' days to cross.');
+    $('littleFlowNote').textContent = 'Each dot is 50 joints. With ' + w + ' in process a dot needs ' + fmt(lt, 1) + ' days to cross (shown as ' + fmt(T, 1) + ' s). Add WIP and the dots crowd and slow down, but they still leave at ' + t + ' joints a day.';
     $('littleOut').innerHTML = 'Lead time = WIP &divide; throughput = ' + w + ' &divide; ' + t + ' = <b>' + fmt(lt, 2) + ' days</b>' + (lt > maxL ? ' (off the chart)' : '') + '.<br>' + (w <= 600 ? 'Low WIP: a new order flows through quickly.' : 'The extra WIP does not add output. It only adds waiting.');
+    setRunning();
   }
-  wip.addEventListener('input', draw); th.addEventListener('input', draw); draw();
+  svg.addEventListener('pointermove', function (e) {
+    var x = svgX(svg, e.clientX, W); if (x === null) return;
+    var w = Math.round(Math.max(0, Math.min(maxW, (x - m.l) / (W - m.l - m.r) * maxW)) / 50) * 50, t = +th.value;
+    cross.setAttribute('x1', sx(w)); cross.setAttribute('x2', sx(w)); cross.setAttribute('opacity', 1);
+    tip.show(e.clientX, e.clientY, [fmt(w / t, 2) + ' days', w + ' joints in process at ' + t + ' a day']);
+  });
+  svg.addEventListener('pointerleave', function () { tip.hide(); cross.setAttribute('opacity', 0); });
+  wip.addEventListener('input', function () { draw(); });
+  th.addEventListener('input', function () { draw(); });
+  draw(0);
 })();
 
-/* ---------- Takt and yamazumi ---------- */
+/* ---------- Takt and yamazumi: work elements slide between stations ---------- */
 (function () {
   var dem = $('demandR'); if (!dem) return;
-  var AVAIL = 1260;
+  var box = $('yamaChart'), tip = makeTip(box), AVAIL = 1260;
+  var COLS = ['cyan', 'sea', 'violet', 'coral'];
+  var uid = 0;
   var BASE = [
     [['Load', 0.6], ['Cut', 1.2], ['Unload', 0.4]],
     [['Load', 0.5], ['Bevel', 0.9], ['Gauge', 0.4]],
     [['Load', 0.6], ['Hydrotest', 1.6], ['Drain', 0.5], ['Stencil', 0.7]],
     [['Inspect', 0.9], ['Measure', 0.5]]
-  ];
-  var st = JSON.parse(JSON.stringify(BASE));
-  var COLS = ['cyan', 'sea', 'violet', 'coral'];
-  function load(x) { return x.reduce(function (a, e) { return a + e[1]; }, 0); }
-  function draw() {
-    var d = +dem.value, takt = AVAIL / d; $('demandVal').textContent = d;
-    var W = 520, H = 250, m = { l: 52, r: 16, t: 14, b: 44 }, maxY = 4.5;
-    var bw = (W - m.l - m.r) / st.length * 0.56, gap = (W - m.l - m.r) / st.length;
-    var sy = function (y) { return H - m.b - y / maxY * (H - m.t - m.b); };
-    var tot = st.reduce(function (a, x) { return a + load(x); }, 0), mx = Math.max.apply(null, st.map(load));
-    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Stacked work content for four stations against a takt line of ' + fmt(takt, 2) + ' minutes. The busiest station needs ' + fmt(mx, 1) + ' minutes.">';
-    [0, 1, 2, 3, 4].forEach(function (y) { s += '<line x1="' + m.l + '" y1="' + sy(y) + '" x2="' + (W - m.r) + '" y2="' + sy(y) + '" stroke="' + V('line') + '"/><text class="tk" x="' + (m.l - 8) + '" y="' + (sy(y) + 4) + '" text-anchor="end">' + y + '</text>'; });
-    st.forEach(function (els, i) {
-      var x = m.l + i * gap + (gap - bw) / 2, y0 = 0;
-      els.forEach(function (e, k) {
-        s += '<rect x="' + x + '" y="' + sy(y0 + e[1]) + '" width="' + bw + '" height="' + (sy(y0) - sy(y0 + e[1])) + '" fill="' + V(COLS[k % COLS.length]) + '" stroke="' + V('panel') + '"/>';
-        if (e[1] >= 0.45) s += '<text class="seg" x="' + (x + bw / 2) + '" y="' + (sy(y0 + e[1] / 2) + 4) + '" text-anchor="middle">' + e[0] + '</text>';
-        y0 += e[1];
-      });
-      s += '<text class="tk" x="' + (x + bw / 2) + '" y="' + (H - m.b + 18) + '" text-anchor="middle">Station ' + (i + 1) + '</text>';
-      s += '<text class="lbl" x="' + (x + bw / 2) + '" y="' + (sy(y0) - 6) + '" text-anchor="middle">' + fmt(y0, 1) + '</text>';
+  ].map(function (st) { return st.map(function (e, k) { return { id: uid++, name: e[0], min: e[1], col: COLS[k % COLS.length] }; }); });
+  function fresh() { return BASE.map(function (st) { return st.slice(); }); }
+  var st = fresh();
+  var W = 520, H = 250, m = { l: 52, r: 16, t: 22, b: 44 }, maxY = 4.5;
+  var gap = (W - m.l - m.r) / 4, bw = gap * 0.56;
+  var sy = function (y) { return H - m.b - y / maxY * (H - m.t - m.b); };
+  var bx = function (i) { return m.l + i * gap + (gap - bw) / 2; };
+  var svg = newSvg(box, W, H, '');
+  grid(svg, [0, 1, 2, 3, 4], sy, m, W, H);
+  var segs = {}, totals = [];
+  BASE.forEach(function (els) {
+    els.forEach(function (e) {
+      var r = mk('rect', { class: 'seg-rect', x: bx(0), y: sy(0), width: bw, height: 0, rx: 2, fill: V(e.col), stroke: V('panel'), 'stroke-width': 2 }, svg);
+      var t = mk('text', { class: 'seg', x: bx(0) + bw / 2, y: sy(0), 'text-anchor': 'middle' }, svg); t.textContent = e.name;
+      r._el = e; segs[e.id] = { r: r, t: t };
     });
-    s += '<line x1="' + m.l + '" y1="' + sy(takt) + '" x2="' + (W - m.r) + '" y2="' + sy(takt) + '" stroke="' + V('coral') + '" stroke-width="2.5" stroke-dasharray="7 4"/>';
-    s += '<text class="lbl" x="' + (W - m.r) + '" y="' + (sy(takt) - 6) + '" text-anchor="end">takt ' + fmt(takt, 2) + ' min</text>';
-    s += '<text class="ax" transform="translate(14 ' + (m.t + (H - m.t - m.b) / 2) + ') rotate(-90)" text-anchor="middle">minutes per joint</text></svg>';
-    $('yamaChart').innerHTML = s;
+  });
+  for (var i = 0; i < 4; i++) {
+    var lb = mk('text', { class: 'tk', x: bx(i) + bw / 2, y: H - m.b + 18, 'text-anchor': 'middle' }, svg); lb.textContent = 'Station ' + (i + 1);
+    totals.push(mk('text', { class: 'lbl', x: bx(i) + bw / 2, y: sy(0) - 6, 'text-anchor': 'middle' }, svg));
+  }
+  var taktLine = mk('line', { x1: m.l, y1: sy(3), x2: W - m.r, y2: sy(3), stroke: V('coral'), 'stroke-width': 2.5, 'stroke-dasharray': '7 4' }, svg);
+  var taktLab = mk('text', { class: 'lbl', x: W - m.r, y: sy(3) - 6, 'text-anchor': 'end' }, svg);
+  mk('text', { class: 'ax', transform: 'translate(14 ' + (m.t + (H - m.t - m.b) / 2) + ') rotate(-90)', 'text-anchor': 'middle' }, svg).textContent = 'minutes per joint';
+  function load(x) { return x.reduce(function (a, e) { return a + e.min; }, 0); }
+  function draw(dur) {
+    var d = +dem.value, takt = AVAIL / d; $('demandVal').textContent = d;
+    st.forEach(function (els, i) {
+      var y0 = 0;
+      els.forEach(function (e) {
+        var s = segs[e.id];
+        tween(s.r, { x: bx(i), y: sy(y0 + e.min), height: sy(y0) - sy(y0 + e.min) }, dur);
+        tween(s.t, { x: bx(i) + bw / 2, y: sy(y0 + e.min / 2) + 4 }, dur);
+        s.t.style.display = e.min >= 0.45 ? '' : 'none';
+        s.r._st = i; y0 += e.min;
+      });
+      var over = y0 > takt + 1e-9;
+      totals[i].textContent = fmt(y0, 1) + (over ? ' ▲ over' : '');
+      tween(totals[i], { y: sy(y0) - 6 }, dur);
+    });
+    tween(taktLine, { y1: sy(takt), y2: sy(takt) }, dur);
+    tween(taktLab, { y: Math.max(12, sy(takt) - 6) }, dur);
+    taktLab.textContent = 'takt ' + fmt(takt, 2) + ' min';
+    var tot = st.reduce(function (a, x) { return a + load(x); }, 0), mx = Math.max.apply(null, st.map(load));
+    svg.setAttribute('aria-label', 'Stacked work content for four stations against a takt line of ' + fmt(takt, 2) + ' minutes. The busiest station needs ' + fmt(mx, 1) + ' minutes.');
     var over = st.map(load).map(function (x, i) { return x > takt + 1e-9 ? 'Station ' + (i + 1) : null; }).filter(Boolean);
     $('yamaOut').innerHTML = 'Takt = 1,260 min &divide; ' + d + ' joints = <b>' + fmt(takt, 2) + ' min</b> &middot; total work ' + fmt(tot, 1) + ' min, so at least <b>' + Math.ceil(tot / takt - 1e-9) + '</b> balanced stations are needed.<br>' + (over.length ? 'Over takt: <b>' + over.join(', ') + '</b>. Try rebalancing, or raise capacity there.' : 'Every station is under takt. The line can meet demand.');
   }
@@ -980,98 +1262,174 @@ var GUIDE = { setCat: null };
     var nb = [i - 1, i + 1].filter(function (j) { return j >= 0 && j < st.length; });
     var j = nb.sort(function (a, b) { return loads[a] - loads[b]; })[0];
     var els = st[i]; if (els.length < 2) return;
-    var idx = j > i ? els.length - 1 : 0;
-    var e = els.splice(idx, 1)[0];
+    var e = els.splice(j > i ? els.length - 1 : 0, 1)[0];
     if (j > i) st[j].unshift(e); else st[j].push(e);
-    draw();
+    draw(700);
   }
-  dem.addEventListener('input', draw);
+  svg.addEventListener('pointermove', function (e) {
+    var r = e.target && e.target._el ? e.target : null;
+    if (!r) { tip.hide(); return; }
+    var i = r._st, total = load(st[i]);
+    tip.show(e.clientX, e.clientY, [r._el.name + ' · ' + fmt(r._el.min, 1) + ' min', 'Station ' + (i + 1) + ' total ' + fmt(total, 1) + ' min against takt ' + fmt(AVAIL / +dem.value, 2)]);
+  });
+  svg.addEventListener('pointerleave', tip.hide);
+  dem.addEventListener('input', function () { draw(); });
   $('yamaBalance').addEventListener('click', rebalance);
-  $('yamaReset').addEventListener('click', function () { st = JSON.parse(JSON.stringify(BASE)); draw(); });
-  draw();
+  $('yamaReset').addEventListener('click', function () { st = fresh(); draw(700); });
+  draw(0);
+  if (MOTION) {
+    // grow the stacks from the baseline the first time the chart is seen
+    Object.keys(segs).forEach(function (k) { segs[k].r.setAttribute('y', sy(0)); segs[k].r.setAttribute('height', 0); segs[k].r._tw++; segs[k].t.setAttribute('y', sy(0) - 4); });
+    totals.forEach(function (t) { t.setAttribute('y', sy(0) - 6); });
+    onView(box, function () { draw(900); });
+  }
 })();
 
-/* ---------- OEE ---------- */
+/* ---------- OEE: bars stretch and the percentages count ---------- */
 (function () {
   var down = $('downR'); if (!down) return;
-  var speed = $('speedR'), rej = $('rejR');
-  function draw() {
-    var planned = 480, dn = +down.value, sp = +speed.value, rj = +rej.value;
+  var speed = $('speedR'), rej = $('rejR'), box = $('oeeChart'), tip = makeTip(box);
+  var W = 520, H = 190, x0 = 110, bw = W - x0 - 64, planned = 480;
+  var svg = newSvg(box, W, H, '');
+  var rows = [['Availability', 'cyan'], ['Performance', 'sea'], ['Quality', 'amber'], ['OEE', 'coral']].map(function (r, i) {
+    var y = 12 + i * 44;
+    mk('text', { class: 'lbl', x: x0 - 10, y: y + 21, 'text-anchor': 'end' }, svg).textContent = r[0];
+    mk('rect', { x: x0, y: y, width: bw, height: 30, rx: 5, fill: V('panel2') }, svg);
+    var bar = mk('rect', { class: 'oee-bar', x: x0, y: y, width: 0, height: 30, rx: 5, fill: V(r[1]) }, svg);
+    var val = mk('text', { class: 'lbl', x: x0 + bw + 8, y: y + 21 }, svg);
+    return { name: r[0], bar: bar, val: val };
+  });
+  var info = [];
+  function draw(dur) {
+    var dn = +down.value, sp = +speed.value, rj = +rej.value;
     $('downVal').textContent = dn; $('speedVal').textContent = sp; $('rejVal').textContent = rj;
-    var A = (planned - dn) / planned, P = 1 - sp / 100, Q = 1 - rj / 100, O = A * P * Q;
-    var rows = [['Availability', A, 'cyan'], ['Performance', P, 'sea'], ['Quality', Q, 'amber'], ['OEE', O, 'coral']];
-    var W = 520, H = 190, x0 = 110, bw = W - x0 - 60;
-    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Availability ' + fmt(A * 100) + ' percent, performance ' + fmt(P * 100) + ' percent, quality ' + fmt(Q * 100) + ' percent, OEE ' + fmt(O * 100) + ' percent.">';
+    var A = (planned - dn) / planned, P = 1 - sp / 100, Q = 1 - rj / 100, O = A * P * Q, vals = [A, P, Q, O];
+    info = [
+      ['Availability ' + fmt(A * 100, 1) + '%', fmt(planned - dn) + ' of ' + planned + ' planned minutes running'],
+      ['Performance ' + fmt(P * 100, 1) + '%', sp + '% lost to slow running and small stops'],
+      ['Quality ' + fmt(Q * 100, 1) + '%', rj + '% of output rejected'],
+      ['OEE ' + fmt(O * 100, 1) + '%', 'Good parts at full speed for ' + fmt(planned * O) + ' of ' + planned + ' minutes']
+    ];
     rows.forEach(function (r, i) {
-      var y = 12 + i * 44;
-      s += '<text class="lbl" x="' + (x0 - 10) + '" y="' + (y + 21) + '" text-anchor="end">' + r[0] + '</text>';
-      s += '<rect x="' + x0 + '" y="' + y + '" width="' + bw + '" height="30" rx="5" fill="' + V('panel2') + '"/>';
-      s += '<rect x="' + x0 + '" y="' + y + '" width="' + (bw * r[1]) + '" height="30" rx="5" fill="' + V(r[2]) + '"/>';
-      s += '<text class="lbl" x="' + (x0 + bw + 8) + '" y="' + (y + 21) + '">' + fmt(r[1] * 100, 1) + '%</text>';
+      tween(r.bar, { width: bw * vals[i] }, dur);
+      r.bar._i = i;
+      countTo(r.val, vals[i] * 100, function (v) { return fmt(v, 1) + '%'; }, dur);
     });
-    s += '</svg>';
-    $('oeeChart').innerHTML = s;
-    var worst = rows.slice(0, 3).sort(function (a, b) { return a[1] - b[1]; })[0][0];
+    svg.setAttribute('aria-label', 'Availability ' + fmt(A * 100) + ' percent, performance ' + fmt(P * 100) + ' percent, quality ' + fmt(Q * 100) + ' percent, OEE ' + fmt(O * 100) + ' percent.');
+    var worst = [['Availability', A], ['Performance', P], ['Quality', Q]].sort(function (a, b) { return a[1] - b[1]; })[0][0];
     $('oeeOut').innerHTML = 'OEE = ' + fmt(A * 100, 1) + '% &times; ' + fmt(P * 100, 1) + '% &times; ' + fmt(Q * 100, 1) + '% = <b>' + fmt(O * 100, 1) + '%</b>. Biggest loss: <b>' + worst + '</b>.' + (O >= 0.85 ? ' That is often quoted as world class for discrete lines.' : '');
   }
-  [down, speed, rej].forEach(function (x) { x.addEventListener('input', draw); });
-  draw();
+  svg.addEventListener('pointermove', function (e) {
+    var i = e.target ? e.target._i : undefined;
+    if (i === undefined) { tip.hide(); return; }
+    tip.show(e.clientX, e.clientY, info[i]);
+  });
+  svg.addEventListener('pointerleave', tip.hide);
+  [down, speed, rej].forEach(function (x) { x.addEventListener('input', function () { draw(260); }); });
+  if (MOTION) { draw(0); rows.forEach(function (r) { r.bar.setAttribute('width', 0); r.val._cv = 0; r.val.textContent = '0.0%'; }); onView(box, function () { draw(1000); }); }
+  else draw(0);
 })();
 
-/* ---------- SMED ---------- */
+/* ---------- SMED: tasks drop from "mill stopped" to "while running" ---------- */
 (function () {
   var list = $('smedList'); if (!list) return;
-  function draw() {
-    var boxes = list.querySelectorAll('input[type=checkbox]'), internal = 0, external = 0, wrong = [];
-    Array.prototype.forEach.call(boxes, function (b) {
-      var min = +b.getAttribute('data-min');
-      if (b.checked) { external += min; if (b.getAttribute('data-must') === 'internal') wrong.push(b.getAttribute('data-name')); }
-      else internal += min;
+  var box = $('smedChart'), tip = makeTip(box);
+  var W = 520, H = 128, x0 = 120, total = 240, sc = (W - x0 - 70) / total, ROW = { stop: 14, run: 70 }, BH = 32;
+  var svg = newSvg(box, W, H, '');
+  mk('text', { class: 'lbl', x: x0 - 10, y: ROW.stop + 21, 'text-anchor': 'end' }, svg).textContent = 'Mill stopped';
+  mk('text', { class: 'lbl', x: x0 - 10, y: ROW.run + 21, 'text-anchor': 'end' }, svg).textContent = 'While running';
+  mk('line', { x1: x0, y1: 8, x2: x0, y2: H - 8, stroke: V('line') }, svg);
+  var boxes = Array.prototype.slice.call(list.querySelectorAll('input[type=checkbox]'));
+  var tasks = boxes.map(function (b) {
+    var r = mk('rect', { class: 'smed-seg', x: x0, y: ROW.stop, width: +b.getAttribute('data-min') * sc - 2, height: BH, rx: 3, fill: V('coral') }, svg);
+    r._task = b;
+    return { box: b, min: +b.getAttribute('data-min'), r: r };
+  });
+  var tStop = mk('text', { class: 'lbl', x: x0, y: ROW.stop + 21 }, svg), tRun = mk('text', { class: 'lbl', x: x0, y: ROW.run + 21 }, svg);
+  function draw(dur) {
+    var xs = { stop: x0, run: x0 }, sums = { stop: 0, run: 0 }, wrong = [];
+    tasks.forEach(function (t) {
+      var row = t.box.checked ? 'run' : 'stop';
+      if (t.box.checked && t.box.getAttribute('data-must') === 'internal') wrong.push(t.box.getAttribute('data-name'));
+      tween(t.r, { x: xs[row], y: ROW[row] }, dur);
+      t.r.setAttribute('fill', row === 'run' ? V('sea') : V('coral'));
+      t.r._row = row;
+      xs[row] += t.min * sc; sums[row] += t.min;
     });
-    var before = internal + external;
-    var W = 520, H = 120, x0 = 120, sc = (W - x0 - 60) / 240;
-    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Machine stopped for ' + internal + ' minutes; ' + external + ' minutes done while running.">';
-    s += '<text class="lbl" x="' + (x0 - 10) + '" y="34" text-anchor="end">Mill stopped</text><rect x="' + x0 + '" y="14" width="' + Math.max(2, internal * sc) + '" height="30" rx="5" fill="' + V('coral') + '"/><text class="lbl" x="' + (x0 + internal * sc + 8) + '" y="34">' + internal + ' min</text>';
-    s += '<text class="lbl" x="' + (x0 - 10) + '" y="86" text-anchor="end">While running</text><rect x="' + x0 + '" y="66" width="' + Math.max(2, external * sc) + '" height="30" rx="5" fill="' + V('sea') + '"/><text class="lbl" x="' + (x0 + external * sc + 8) + '" y="86">' + external + ' min</text></svg>';
-    $('smedChart').innerHTML = s;
-    $('smedOut').innerHTML = 'Changeover (mill stopped): <b>' + internal + ' min</b> of ' + before + ' min of work.' + (wrong.length ? '<br><b>Check again:</b> ' + wrong.join(', ') + ' can only happen with the mill stopped. Those need a different idea, such as quick-release clamps or a second set of tools.' : internal <= 115 ? '<br>That is the first SMED move: the same work, but more than half of it done before the mill stops. The second move attacks the remaining internal time with quick-release clamps, pre-set stands and two people working in parallel.' : '');
+    tween(tStop, { x: xs.stop + 8 }, dur); tStop.textContent = sums.stop + ' min';
+    tween(tRun, { x: xs.run + 8 }, dur); tRun.textContent = sums.run + ' min';
+    svg.setAttribute('aria-label', 'Mill stopped for ' + sums.stop + ' minutes; ' + sums.run + ' minutes done while running.');
+    $('smedOut').innerHTML = 'Changeover (mill stopped): <b>' + sums.stop + ' min</b> of ' + total + ' min of work.' + (wrong.length ? '<br><b>Check again:</b> ' + wrong.join(', ') + ' can only happen with the mill stopped. Those need a different idea, such as quick-release clamps or a second set of tools.' : sums.stop <= 115 ? '<br>That is the first SMED move: the same work, but more than half of it done before the mill stops. The second move attacks the remaining internal time with quick-release clamps, pre-set stands and two people working in parallel.' : '');
   }
-  list.addEventListener('change', draw); draw();
+  svg.addEventListener('pointermove', function (e) {
+    var b = e.target && e.target._task;
+    if (!b) { tip.hide(); return; }
+    tip.show(e.clientX, e.clientY, [b.getAttribute('data-name') + ' · ' + b.getAttribute('data-min') + ' min', e.target._row === 'run' ? 'Done while the mill runs' : 'Done with the mill stopped']);
+  });
+  svg.addEventListener('pointerleave', tip.hide);
+  list.addEventListener('change', function () { draw(650); });
+  draw(0);
 })();
 
-/* ---------- Push vs pull ---------- */
+/* ---------- Push vs pull: lines draw in, crosshair reads any day ---------- */
 (function () {
   var btn = $('pullBtn'); if (!btn) return;
-  var seed = 7;
+  var box = $('pullChart'), tip = makeTip(box), dayR = $('dayR'), seed = 7, res = null, view = null;
   function run(sd) {
-    var r = mulberry(sd), days = 20, push = [], pull = [], invPush = 200, invPull = 200, outPush = 0, outPull = 0, prevDemand = 100;
+    var r = mulberry(sd), days = 20, push = [], pull = [], dem = [], invPush = 200, invPull = 200, outPush = 0, outPull = 0, prevDemand = 100;
     for (var d = 0; d < days; d++) {
       var u = 0, v = 0; while (!u) u = r(); while (!v) v = r();
       var demand = Math.max(40, Math.round(100 + 28 * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v)));
-      invPush += 115; invPull += Math.min(140, Math.max(0,  prevDemand + (160 - invPull) * 0.5));
+      invPush += 115; invPull += Math.min(140, Math.max(0, prevDemand + (160 - invPull) * 0.5));
       if (invPush >= demand) invPush -= demand; else { outPush += demand - invPush; invPush = 0; }
       if (invPull >= demand) invPull -= demand; else { outPull += demand - invPull; invPull = 0; }
-      push.push(invPush); pull.push(Math.round(invPull)); prevDemand = demand;
+      push.push(invPush); pull.push(Math.round(invPull)); dem.push(demand); prevDemand = demand;
     }
-    return { push: push, pull: pull, outPush: outPush, outPull: Math.round(outPull) };
+    return { push: push, pull: pull, demand: dem, outPush: outPush, outPull: Math.round(outPull) };
   }
-  function draw() {
-    var res = run(seed), W = 520, H = 230, m = { l: 52, r: 16, t: 14, b: 44 };
+  var W = 520, H = 230, m = { l: 52, r: 16, t: 14, b: 44 };
+  var avg = function (a) { return a.reduce(function (x, y) { return x + y; }, 0) / a.length; };
+  function draw(animate) {
+    res = run(seed);
     var maxY = Math.max(600, Math.ceil(Math.max.apply(null, res.push) / 200) * 200);
     var sx = function (d) { return m.l + d / 19 * (W - m.l - m.r); }, sy = function (y) { return H - m.b - y / maxY * (H - m.t - m.b); };
-    var avg = function (a) { return a.reduce(function (x, y) { return x + y; }, 0) / a.length; };
-    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Over 20 days, push inventory climbs to ' + res.push[19] + ' joints while pull inventory stays near ' + fmt(avg(res.pull)) + '.">';
-    for (var y = 0; y <= maxY; y += maxY / 4) s += '<line x1="' + m.l + '" y1="' + sy(y) + '" x2="' + (W - m.r) + '" y2="' + sy(y) + '" stroke="' + V('line') + '"/><text class="tk" x="' + (m.l - 8) + '" y="' + (sy(y) + 4) + '" text-anchor="end">' + y + '</text>';
-    [1, 5, 10, 15, 20].forEach(function (d) { s += '<text class="tk" x="' + sx(d - 1) + '" y="' + (H - m.b + 18) + '" text-anchor="middle">' + d + '</text>'; });
-    var line = function (a, c, dash) { return '<path d="' + a.map(function (v, i) { return (i ? 'L' : 'M') + sx(i).toFixed(1) + ' ' + sy(v).toFixed(1); }).join('') + '" fill="none" stroke="' + V(c) + '" stroke-width="3"' + (dash ? ' stroke-dasharray="6 4"' : '') + '/>'; };
-    s += line(res.push, 'coral') + line(res.pull, 'cyan', true);
-    s += '<text class="ax" x="' + (m.l + (W - m.l - m.r) / 2) + '" y="' + (H - 8) + '" text-anchor="middle">day</text>';
-    s += '<text class="ax" transform="translate(14 ' + (m.t + (H - m.t - m.b) / 2) + ') rotate(-90)" text-anchor="middle">finished joints in stock</text></svg>';
-    $('pullChart').innerHTML = s;
+    var svg = newSvg(box, W, H, 'Over 20 days, push inventory climbs to ' + res.push[19] + ' joints while pull inventory stays near ' + fmt(avg(res.pull)) + '.');
+    var ticks = []; for (var y = 0; y <= maxY; y += maxY / 4) ticks.push(y);
+    grid(svg, ticks, sy, m, W, H);
+    [1, 5, 10, 15, 20].forEach(function (d) { mk('text', { class: 'tk', x: sx(d - 1), y: H - m.b + 18, 'text-anchor': 'middle' }, svg).textContent = d; });
+    axisTitles(svg, m, W, H, 'day', 'finished joints in stock');
+    var g = mk('g', {}, svg);
+    var path = function (a) { return a.map(function (v, i) { return (i ? 'L' : 'M') + sx(i).toFixed(1) + ' ' + sy(v).toFixed(1); }).join(''); };
+    mk('path', { d: path(res.push), fill: 'none', stroke: V('coral'), 'stroke-width': 3 }, g);
+    mk('path', { d: path(res.pull), fill: 'none', stroke: V('cyan'), 'stroke-width': 3, 'stroke-dasharray': '6 4' }, g);
+    var reveal = wipe(svg, g, m.l - 6, 0, W - m.l - m.r + 12, H, 1400);
+    var cross = mk('line', { x1: sx(9), y1: m.t, x2: sx(9), y2: H - m.b, stroke: V('muted'), 'stroke-dasharray': '3 3', opacity: 0 }, svg);
+    var dPush = mk('circle', { r: 6, cx: sx(9), cy: sy(res.push[9]), fill: V('coral'), stroke: V('panel'), 'stroke-width': 2, opacity: 0 }, svg);
+    var dPull = mk('circle', { r: 6, cx: sx(9), cy: sy(res.pull[9]), fill: V('cyan'), stroke: V('panel'), 'stroke-width': 2, opacity: 0 }, svg);
+    view = { svg: svg, sx: sx, sy: sy, cross: cross, dPush: dPush, dPull: dPull };
+    svg.addEventListener('pointermove', function (e) {
+      var x = svgX(svg, e.clientX, W); if (x === null) return;
+      var d = Math.round(Math.max(0, Math.min(19, (x - m.l) / (W - m.l - m.r) * 19)));
+      inspect(d, 90);
+      tip.show(e.clientX, e.clientY, ['Day ' + (d + 1), 'Push stock ' + res.push[d] + ' · Pull stock ' + res.pull[d], 'Demand ' + res.demand[d]]);
+    });
+    svg.addEventListener('pointerleave', function () { tip.hide(); });
+    if (animate) reveal(); else onView(box, reveal);
     $('pullOut').innerHTML = 'Push (forecast 115/day): average stock <b>' + fmt(avg(res.push)) + '</b>, ended at <b>' + res.push[19] + '</b>, short ' + res.outPush + ' joints.<br>Pull (replace what was taken): average stock <b>' + fmt(avg(res.pull)) + '</b>, short ' + res.outPull + ' joints.';
+    inspect(+dayR.value - 1, 0, true);
   }
-  btn.addEventListener('click', function () { seed += 11; draw(); });
-  draw();
+  function inspect(d, dur, quiet) {
+    var v = view;
+    [v.cross, v.dPush, v.dPull].forEach(function (el) { el.setAttribute('opacity', quiet ? 0 : 1); });
+    tween(v.cross, { x1: v.sx(d), x2: v.sx(d) }, dur);
+    tween(v.dPush, { cx: v.sx(d), cy: v.sy(res.push[d]) }, dur);
+    tween(v.dPull, { cx: v.sx(d), cy: v.sy(res.pull[d]) }, dur);
+    dayR.value = d + 1; $('dayVal').textContent = d + 1;
+    $('dayOut').textContent = 'Day ' + (d + 1) + ': demand ' + res.demand[d] + ', push stock ' + res.push[d] + ', pull stock ' + res.pull[d] + '.';
+  }
+  dayR.addEventListener('input', function () { inspect(+dayR.value - 1, 200); });
+  btn.addEventListener('click', function () { seed += 11; draw(true); });
+  draw(false);
   window.__flowPull = run;
 })();
 

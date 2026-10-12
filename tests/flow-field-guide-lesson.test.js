@@ -176,6 +176,34 @@ test('the experiments, filters and scenario game work without page errors', () =
   assert.match($('#count').textContent, /Showing 518 of 518/);
   assert.match($('#famBar').getAttribute('aria-label'), /Flow \d+ terms/);
 
+  // motion and hover layer: without requestAnimationFrame every animation lands on its end state
+  $('#batchPlay').click();
+  assert.match($('#batchChart svg').textContent, /12 of 12 shipped/);
+  assert.equal(document.querySelectorAll('#batchChart .shipdot').length, 12);
+  $('#utilR').value = '95'; fire($('#utilR'), 'input');
+  assert.match($('#utilOut').textContent, /95% utilisation the average job waits 19\.0×/);
+  assert.equal(document.querySelectorAll('#littleFlow circle').length, 12, 'one conveyor dot per 50 joints of WIP');
+  assert.match($('#littleFlowNote').textContent, /1\.5 days to cross/);
+  const seg = document.querySelector('#yamaChart rect.seg-rect');
+  seg.dispatchEvent(new window.MouseEvent('pointermove', { bubbles: true }));
+  const tip = document.querySelector('#yamaChart .flow-tip');
+  assert.equal(tip.hidden, false);
+  assert.match(tip.textContent, /Load · 0\.6 min/);
+  const stencil = [...document.querySelectorAll('#yamaChart rect.seg-rect')][9];
+  const x3 = stencil.getAttribute('x');
+  $('#yamaBalance').click();
+  assert.notEqual(stencil.getAttribute('x'), x3, 'the moved element slides to the next station');
+  $('#yamaReset').click();
+  assert.equal(stencil.getAttribute('x'), x3);
+  const first = document.querySelector('#smedChart rect.smed-seg');
+  for (const box of document.querySelectorAll('#smedList input')) box.checked = false;
+  document.querySelector('#smedList input').checked = true;
+  fire($('#smedList'), 'change');
+  assert.equal(first.getAttribute('y'), '70', 'a ticked task drops to the "while running" row');
+  assert.equal(document.querySelectorAll('#oeeChart .oee-bar').length, 4);
+  $('#dayR').value = '1'; fire($('#dayR'), 'input');
+  assert.match($('#dayOut').textContent, /^Day 1: demand \d+, push stock \d+, pull stock \d+\.$/);
+
   $('#qopts .opt').click();
   assert.ok($('#qnext:not([hidden])'));
   assert.match($('#qwhy').textContent, /Spot on/);

@@ -27947,8 +27947,8 @@
             "So what is lean, exactly?",
             "Why 100% busy is a trap"
           ],
-          "text": "For a single station with random arrivals and random work times (an M/M/1 queue), average waiting time as a multiple of processing time is \\(u/(1-u)\\), where \\(u\\) is utilisation. Busy is not the same as flowing.",
-          "excerpt": "For a single station with random arrivals and random work times (an M/M/1 queue), average waiting time as a multiple of processing time is \\(u/(1-u)\\), where \\(u\\) is utilisation. Busy is not the same as flowing.",
+          "text": "For a single station with random arrivals and random work times (an M/M/1 queue), average waiting time as a multiple of processing time is \\(u/(1-u)\\), where \\(u\\) is utilisation. Utilisation: 80 % (drag on the chart or use the slider) Busy is not the same as flowing.",
+          "excerpt": "For a single station with random arrivals and random work times (an M/M/1 queue), average waiting time as a multiple of processing time is \\(u/(1-u)\\), where \\(u\\) is utilisation. Utilisation: 80 % (drag on the chart or use the slider) Busy is not the same as…",
           "kinds": [
             "section"
           ]
@@ -28070,8 +28070,8 @@
             "The Flow: A Field Guide to Lean",
             "Watch flow happen"
           ],
-          "text": "Five small experiments with illustrative mill numbers. Move the sliders and watch where the time goes.",
-          "excerpt": "Five small experiments with illustrative mill numbers. Move the sliders and watch where the time goes.",
+          "text": "Five small experiments with illustrative mill numbers. Move the sliders, hover the charts for exact values, and watch where the time goes.",
+          "excerpt": "Five small experiments with illustrative mill numbers. Move the sliders, hover the charts for exact values, and watch where the time goes.",
           "kinds": [
             "section"
           ]
@@ -28140,8 +28140,8 @@
             "Watch flow happen",
             "Push versus pull"
           ],
-          "text": "Twenty days of random demand averaging 100 joints a day. Push builds to a forecast of 115; pull replaces what was taken. Push stock Pull stock (dashed)",
-          "excerpt": "Twenty days of random demand averaging 100 joints a day. Push builds to a forecast of 115; pull replaces what was taken. Push stock Pull stock (dashed)",
+          "text": "Twenty days of random demand averaging 100 joints a day. Push builds to a forecast of 115; pull replaces what was taken. Push stock Pull stock (dashed) Inspect day: 10 (or hover the chart)",
+          "excerpt": "Twenty days of random demand averaging 100 joints a day. Push builds to a forecast of 115; pull replaces what was taken. Push stock Pull stock (dashed) Inspect day: 10 (or hover the chart)",
           "kinds": [
             "section"
           ]
