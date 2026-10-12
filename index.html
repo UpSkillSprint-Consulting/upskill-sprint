@@ -73,7 +73,7 @@
   <main id="main-content">
 
   <section class="section home-hero" style="position:relative;padding-top:100px;padding-bottom:380px;text-align:center;overflow:hidden;">
-    <svg class="hero-visual" id="hero-distributions" viewBox="0 0 1400 380" preserveAspectRatio="xMidYMid meet" style="position:absolute;left:0;right:0;bottom:40px;width:100%;height:340px;opacity:0.4;pointer-events:none;"></svg>
+    <svg class="hero-visual" id="hero-distributions" viewBox="0 0 1400 380" preserveAspectRatio="xMidYMid meet" style="position:absolute;left:0;right:0;bottom:40px;width:100%;height:340px;opacity:0.85;pointer-events:none;"></svg>
     <script>
     (function () {
       'use strict';
@@ -261,11 +261,14 @@
 
       var chosen = pickFour(POOL);
       var mobileLayout = window.matchMedia('(max-width: 640px)');
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
       function render() {
         var svgEl = document.getElementById('hero-distributions');
         if (!svgEl) return;
         var compact = mobileLayout.matches;
         svgEl.setAttribute('viewBox', compact ? '0 0 700 760' : '0 0 1400 380');
+        svgEl.setAttribute('role', 'img');
+        svgEl.setAttribute('aria-label', 'Probability distribution examples: ' + chosen.map(function (dist) { return dist.label; }).join(', '));
         var html = '';
         for (var i = 0; i < 4; i++) {
           var slot = compact ? { x0: 25, x1: 325, labelX: 175 } : SLOTS[i];
@@ -275,11 +278,16 @@
             renderSlot(chosen[i], slot, COLORS[i], i, compact) + '</g>';
         }
         svgEl.innerHTML = html;
+        if (reducedMotion.matches) {
+          svgEl.querySelectorAll('animate, animateMotion, circle').forEach(function (node) { node.remove(); });
+        }
       }
 
       render();
       if (mobileLayout.addEventListener) mobileLayout.addEventListener('change', render);
       else mobileLayout.addListener(render);
+      if (reducedMotion.addEventListener) reducedMotion.addEventListener('change', render);
+      else reducedMotion.addListener(render);
     })();
     </script>
     <div class="wrap" style="max-width:820px;position:relative;">
