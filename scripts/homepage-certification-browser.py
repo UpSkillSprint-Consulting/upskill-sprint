@@ -116,6 +116,9 @@ def main():
                     page.goto(base + '/exam-practice')
                     set_theme(theme)
                     expect(page.locator('#my-exams-grid .exam-card')).to_have_count(7)
+                    # Wait for the real theme switch to paint before sampling colours.
+                    expected_cqe = 'rgb(24, 45, 76)' if theme == 'dark' else 'rgb(233, 241, 255)'
+                    expect(page.locator('#exam-cqe')).to_have_css('background-color', expected_cqe)
                     cards = page.locator('.exam-card').evaluate_all('''cards=>cards.map(card=>({
                       exam:card.dataset.exam,background:getComputedStyle(card).backgroundColor,
                       text:[...card.querySelectorAll('h3,.exam-acronym,.exam-card-detail,.exam-card-note')].map(e=>getComputedStyle(e).color)
@@ -128,7 +131,7 @@ def main():
                     before = page.locator('#exam-cqe').evaluate('e=>getComputedStyle(e).backgroundColor')
                     page.locator('#exam-directory-search').fill('CQE')
                     expect(page.locator('.exam-card:visible')).to_have_count(1)
-                    assert page.locator('#exam-cqe').evaluate('e=>getComputedStyle(e).backgroundColor') == before
+                    expect(page.locator('#exam-cqe')).to_have_css('background-color', before)
                     page.locator('#exam-directory-search').fill('')
                     page.screenshot(path=str(out / f'cards-{args.browser}-{width}-{theme}.png'), full_page=True)
                 record(f'cards-{width}-{theme}', directory)

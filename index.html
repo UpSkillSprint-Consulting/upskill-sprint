@@ -316,8 +316,8 @@
        .trust-* to avoid collisions with site chrome.
        ============================================================ -->
   <style>
-    .trust-split { display: grid; grid-template-columns: 1.15fr .85fr; gap: 20px; align-items: stretch; }
-    .trust-split > .card { display: flex; flex-direction: column; justify-content: center; }
+    .trust-split { display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,.85fr); gap: 20px; align-items: stretch; }
+    .trust-split > .card { min-width: 0; display: flex; flex-direction: column; justify-content: center; }
     .trust-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
     .trust-chips li {
       display: inline-block; border: 1px solid var(--line); border-radius: 20px;
@@ -325,11 +325,11 @@
       background: var(--card);
     }
     .trust-stats {
-      display: grid; grid-template-columns: repeat(2, 1fr); column-gap: 0; row-gap: 24px;
+      display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 0; row-gap: 24px;
       --ts-violet-1: #5b4fb0; --ts-violet-2: #0e7490;
     }
     html[data-theme="dark"] .trust-stats { --ts-violet-1: #b6aaff; --ts-violet-2: #7dd3fc; }
-    .trust-stat { text-align: left; padding: 0 20px; position: relative; }
+    .trust-stat { min-width: 0; text-align: left; padding: 0 20px; position: relative; }
     .trust-stat:nth-child(odd) { border-right: 1px solid var(--line); }
     .trust-stat .badge {
       width: 32px; height: 32px; border-radius: 9px; background: var(--teal);
@@ -364,10 +364,10 @@
     }
     .trust-stat .lbl {
       font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .04em;
-      margin: 8px 0 0; line-height: 1.4;
+      margin: 8px 0 0; line-height: 1.4; overflow-wrap: anywhere;
     }
-    @media (max-width: 900px) { .trust-split { grid-template-columns: 1fr; } }
-    @media (max-width: 640px) { .trust-stats { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 900px) { .trust-split { grid-template-columns: minmax(0,1fr); } }
+    @media (max-width: 640px) { .trust-stat { padding: 0 10px; } }
   </style>
 
   <section class="section" aria-labelledby="trust-heading">
