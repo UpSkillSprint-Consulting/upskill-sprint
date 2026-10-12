@@ -81,7 +81,7 @@ test('metadata, route, and Public access match the requested lesson contract', (
   assert.ok(Array.isArray(meta.search_keywords) && meta.search_keywords.length >= 5);
   assert.equal(new Set(meta.search_keywords).size, meta.search_keywords.length);
   assert.ok(meta.search_keywords.every(keyword => keyword === keyword.toLowerCase()));
-  assert.equal(doc.title, meta.title);
+  assert.equal(doc.title, `${meta.title} | UpSkill Sprint`);
   assert.equal(normalizedText(doc.querySelector('#lesson-content h1')), meta.title);
   assert.equal(doc.querySelector('link[rel="canonical"]').href, `https://upskillsprint.com${ROUTE}`);
 

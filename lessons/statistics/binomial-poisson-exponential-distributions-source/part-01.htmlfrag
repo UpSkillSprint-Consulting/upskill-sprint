@@ -28,9 +28,15 @@
 -->
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="An interactive beginner lesson comparing Binomial, Poisson, and Exponential distributions through realistic quality-engineering examples, calculations, and live simulations." name="description"/>
+<meta content="Compare Binomial, Poisson, and Exponential distributions with quality-engineering examples, step-by-step calculations, and interactive simulations." name="description"/>
 <link href="https://upskillsprint.com/lessons/statistics/binomial-poisson-exponential-distributions" rel="canonical"/>
-<title>Binomial vs. Poisson vs. Exponential Distributions | UpSkill Sprint</title>
+<title>Binomial, Poisson &amp; Exponential Distributions | UpSkill Sprint</title>
+<meta content="article" property="og:type"/>
+<meta content="Binomial, Poisson &amp; Exponential Distributions | UpSkill Sprint" property="og:title"/>
+<meta content="Compare Binomial, Poisson, and Exponential distributions with quality-engineering examples, step-by-step calculations, and interactive simulations." property="og:description"/>
+<meta content="https://upskillsprint.com/assets/logo-icon.png" property="og:image"/>
+<meta content="https://upskillsprint.com/lessons/statistics/binomial-poisson-exponential-distributions" property="og:url"/>
+<meta content="summary" name="twitter:card"/>
 <link href="/style.css" rel="stylesheet"/>
 <link href="/lessons-theme.css" rel="stylesheet"/>
 <!-- EDIT: Lesson styles -->

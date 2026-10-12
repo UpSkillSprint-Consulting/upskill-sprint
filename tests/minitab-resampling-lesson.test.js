@@ -26,7 +26,7 @@ test('resampling lesson follows the Statistics lesson contract', () => {
   assert.equal(meta.suggested_github_path, 'lessons/statistics/resampling-in-minitab.html');
   assert.ok(meta.search_keywords.length >= 5);
 
-  assert.equal(document.title, meta.title);
+  assert.equal(document.title, `${meta.title} | UpSkill Sprint`);
   assert.equal(document.querySelector('h1').textContent.trim(), meta.title);
   assert.equal(document.querySelectorAll('html').length, 1);
   assert.equal(document.querySelectorAll('head').length, 1);

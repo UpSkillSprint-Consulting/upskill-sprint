@@ -36,3 +36,12 @@ test('tracked directory pages use a trailing-slash canonical', () => {
   assert.match(builder, /rel="canonical" href="https:\/\/upskillsprint\.com\/engineering-tools\/grade-specification-lookup\/"/);
   assert.match(builder, /rel="canonical" href="https:\/\/upskillsprint\.com\/engineering-tools\/grade-specification-lookup\/how-to-use\/"/);
 });
+
+test('simulator aliases stay out of the sitemap and point at the public practice catalog', async () => {
+  const { excludedFiles, sitemapEntry } = await loadSitemap();
+  assert.ok(excludedFiles.has('test-bank.html'));
+  const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
+  assert.equal(sitemapEntry('test-bank.html', html), 'https://upskillsprint.com/exam-practice');
+  assert.match(html.split('</head>')[0], /property="og:url" content="https:\/\/upskillsprint.com\/exam-practice"/);
+  assert.doesNotMatch(fs.readFileSync(path.join(ROOT, 'sitemap.xml'), 'utf8'), /<loc>https:\/\/upskillsprint.com\/test-bank<\/loc>/);
+});

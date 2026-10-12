@@ -41,7 +41,7 @@ test('Spread Lab matches canonical lesson metadata and protected site chrome', (
   const footer = guide.match(/```html\n(<footer class="site">[\s\S]*?<\/footer>)\n```/)[1];
   assert.ok(html.includes(header));
   assert.ok(html.includes(footer));
-  assert.equal(doc.title, meta.title);
+  assert.equal(doc.title, 'Spread Lab: Variance, Covariance & Correlation | UpSkill Sprint');
   assert.equal(doc.querySelector('h1').textContent, meta.title);
   assert.equal(meta.slug, slug);
   assert.equal(meta.suggested_github_path, 'lessons/statistics/' + slug + '.html');

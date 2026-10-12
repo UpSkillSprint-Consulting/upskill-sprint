@@ -103,7 +103,7 @@ test('Signal or Noise retains the four Statistics Implementation parts and catal
   const names = [...doc.querySelectorAll('#p6 h3')].map(e => e.textContent);
   assert.deepEqual(names, ['Excel Functions', 'Excel Use Cases', 'Minitab Navigation', 'Exam Tips']);
   const meta = JSON.parse(html.match(/<!-- UPSKILLSPRINT_LESSON_META\s*([\s\S]*?)-->/)[1]);
-  assert.equal(doc.title, meta.title);
+  assert.equal(doc.title, 'Signal or Noise: ARL, Nelson Rules & Limits | UpSkill Sprint');
   assert.equal(doc.querySelector('h1').textContent, meta.title);
   assert(meta.search_keywords.length >= 5 && meta.search_keywords.every(k => k === k.toLowerCase()));
   assert.equal(meta.suggested_github_path, LESSON);

@@ -70,7 +70,7 @@ test('metadata, route, and public access match the lesson request', () => {
       suggested_github_path: RELATIVE_FILE
     }
   );
-  assert.equal(doc.title, meta.title);
+  assert.equal(doc.title, `${meta.title} | UpSkill Sprint`);
   assert.equal(doc.querySelector('#lesson-content h1').textContent, meta.title);
   assert.equal(meta.card_title, meta.title);
   assert.ok(meta.card_description.length > 20);

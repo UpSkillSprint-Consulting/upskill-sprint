@@ -698,3 +698,42 @@ test('G40 IIW assessment does not demand inputs belonging only to Pcm', () => {
   assert.equal(report.verdict, 'PASS_WITH_WARNINGS');
   assert.equal(report.results.some((row) => row.name === 'Pcm'), false);
 });
+
+test('generated guide provides landmarks, keyboard scroll regions and working guide controls', () => {
+  let printed = false;
+  const guideDom = new JSDOM(readFileSync(guidePath, 'utf8'), {
+    runScripts: 'outside-only',
+    url: 'https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use/'
+  });
+  const { window } = guideDom;
+  window.print = () => { printed = true; };
+  window.scrollTo = () => {};
+  window.IntersectionObserver = class { observe() {} };
+  for (const script of window.document.querySelectorAll('script:not([src])')) window.eval(script.textContent);
+  window.eval(readFileSync(join(repositoryRoot, 'site-sections.js'), 'utf8'));
+  window.document.dispatchEvent(new window.Event('DOMContentLoaded'));
+  const d = window.document;
+  assert.equal(d.querySelectorAll('header').length, 1);
+  assert.equal(d.querySelectorAll('main').length, 1);
+  assert.equal(d.querySelectorAll('h1').length, 1);
+  assert.ok(d.querySelector('section.topbar[aria-labelledby="guide-title"] h1#guide-title'));
+  assert.equal(d.querySelectorAll('.table-wrap[tabindex="0"][role="region"][aria-label]').length, 4);
+  assert.equal(d.querySelectorAll('.formula[tabindex="0"][role="region"][aria-label]').length, 6);
+  assert.ok(d.querySelector('main #backTop'));
+  assert.equal(d.querySelectorAll('.disclaimer[role="region"][aria-label]').length, 2);
+  assert.ok(d.querySelector('nav[aria-label="Engineering tools"] .uss-tool-back') || d.querySelector('nav.uss-tool-back[aria-label="Engineering tools"]'));
+  assert.equal(d.querySelector('meta[property="og:title"]').content, d.title);
+  assert.ok(d.title.endsWith(' | UpSkill Sprint') && d.title.length <= 65);
+  assert.equal(d.querySelector('meta[property="og:description"]').content, d.querySelector('meta[name="description"]').content);
+  const search = d.getElementById('guideSearch');
+  search.value = 'zzzz-no-such-guide-section';
+  search.dispatchEvent(new window.Event('input'));
+  assert.equal(d.querySelectorAll('.guide-section:not(.hidden-by-search)').length, 0);
+  assert.equal(d.getElementById('noResults').style.display, 'block');
+  search.value = '';
+  search.dispatchEvent(new window.Event('input'));
+  assert.equal(d.querySelectorAll('.guide-section:not(.hidden-by-search)').length, 14);
+  d.getElementById('printGuide').click();
+  assert.equal(printed, true);
+  guideDom.window.close();
+});

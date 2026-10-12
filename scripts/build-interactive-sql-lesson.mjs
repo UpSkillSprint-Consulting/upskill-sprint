@@ -35,6 +35,16 @@ if (extraction.status !== 0) {
   throw new Error(`Unable to extract SQL lesson assets: ${extraction.stderr || extraction.stdout}`);
 }
 
+// Keep search and social titles concise without changing the uploaded lesson.
+const sqlLessonPath = path.join(lessonsDir, 'writing-your-first-sql-query.html');
+const sqlLesson = fs.readFileSync(sqlLessonPath, 'utf8');
+const headEnd = sqlLesson.indexOf('</head>');
+if (headEnd < 0) throw new Error('SQL lesson head was not found.');
+fs.writeFileSync(sqlLessonPath, sqlLesson.slice(0, headEnd).replaceAll(
+  'Writing Your First SQL Query: Interactive SQL Lab | UpSkill Sprint Consulting',
+  'Your First SQL Query: Interactive Lab | UpSkill Sprint'
+) + sqlLesson.slice(headEnd));
+
 const catalogPath = path.join(root, 'lessons.html');
 const catalog = fs.readFileSync(catalogPath, 'utf8');
 
