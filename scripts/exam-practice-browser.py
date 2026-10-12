@@ -349,7 +349,7 @@ def main():
                 expect(page.locator('.tb-quiz')).to_have_count(0)
                 breadcrumb = page.locator('.tb-crumb a')
                 expect(breadcrumb).to_have_attribute('href', '/exam-practice')
-                expect(breadcrumb).to_have_text('Exam Practice & Quizzes')
+                expect(breadcrumb).to_have_text('Back to All Certifications')
                 breadcrumb.click()
                 expect(page).to_have_url(base + '/exam-practice')
                 nav_state('Exam Practice & Quizzes')

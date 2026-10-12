@@ -131,7 +131,7 @@ test('exam overview and simulator routes share the active top tab, including pre
   }
   const { window } = await loadPage(t, 'test-bank.html', 'https://upskillsprint.com/test-bank');
   assert.equal(window.document.querySelector('.tb-crumb a').getAttribute('href'), '/exam-practice');
-  assert.equal(window.document.querySelector('.tb-crumb a').textContent, 'Exam Practice & Quizzes');
+  assert.equal(window.document.querySelector('.tb-crumb a').textContent, 'Back to All Certifications');
 });
 
 test('old lesson bookmarks forward to the moved page and keep access notices', () => {
