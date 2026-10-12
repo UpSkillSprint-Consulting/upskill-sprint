@@ -168,6 +168,17 @@ function prepareApplication(originalHtml, hardeningScript, hardeningStyles, audi
     .replace('</body>', backLink + '\n</body>');
 }
 
+// Open Graph and X card tags for the public guide (same text as its <title>,
+// meta description and canonical, per docs/LESSON_CREATION_GUIDE.md).
+const guideOpenGraph = [
+  '<meta property="og:type" content="article">',
+  '<meta property="og:title" content="How to Use the Material Specification Lookup | UpSkill Sprint Consulting">',
+  '<meta property="og:description" content="Professional user guide for the Material Specification Lookup, Compliance Checker, calculators, and reverse lookup.">',
+  '<meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">',
+  '<meta property="og:url" content="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use/">',
+  '<meta name="twitter:card" content="summary">'
+].join('\n') + '\n';
+
 function prepareGuide(originalHtml, guideNotice) {
   let guide = renameTool(originalHtml)
     .replace('<title>How to Use — Material Specification Lookup</title>', '<title>How to Use the Material Specification Lookup | UpSkill Sprint Consulting</title>')
@@ -175,7 +186,7 @@ function prepareGuide(originalHtml, guideNotice) {
     .replaceAll('href="grade_spec_lookup.html"', 'href="../"')
     .replace('>← Back to Tool<', '>Back to Tool<')
     .replace('>↑</button>', '>Top</button>')
-    .replace('</head>', '<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use/">\n<meta name="color-scheme" content="light dark">\n' + integrationHead + accountHead + guideSiteChrome + '\n</head>')
+    .replace('</head>', '<link rel="canonical" href="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use/">\n' + guideOpenGraph + '<meta name="color-scheme" content="light dark">\n' + integrationHead + accountHead + guideSiteChrome + '\n</head>')
     .replace('<body>', '<body class="grade-spec-guide-page">\n' + siteHeader.replace('href="#app">Skip to Material Specification Lookup', 'href="#guideContent">Skip to the user guide'))
     .replace('</body>', backLink + '\n</body>');
 
