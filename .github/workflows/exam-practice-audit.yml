@@ -18,6 +18,8 @@ on:
       - 'style.css'
       - 'theme.js'
       - 'auth.js'
+      - 'profile.html'
+      - 'tests/auth-phase1-runtime.test.js'
       - 'access-control.js'
       - 'test-bank.html'
       - 'exam-access-loader.js'
@@ -64,6 +66,8 @@ jobs:
       - name: Verify navigation and access regressions
         run: |
           node --check site-sections.js
+          node --check auth.js
+          node --test tests/auth-phase1-runtime.test.js
           python -m py_compile scripts/exam-practice-browser.py scripts/homepage-certification-browser.py
           node --test --test-concurrency=1 tests/exam-practice-section.test.js tests/premium-simulator-access.test.js tests/mobile-header-overflow.test.js tests/homepage-content-counts.test.js tests/homepage-distributions.test.js tests/test-bank-mobile-picker.test.js tests/test-bank-exam-ui.test.js
       - name: Install CI browser
