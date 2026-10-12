@@ -254,11 +254,29 @@
 
   /* After the shared chrome is in place, a page's own page-level <header> or
      <footer> (a tool title bar, a lesson's back-link strip) would be a second
-     banner/contentinfo landmark. Keep the element, drop the duplicate role. */
+     banner/contentinfo landmark. Keep the element, drop the duplicate role.
+     A demoted footer still holds real content (back links, notes), so it is
+     wrapped in a named <section> region instead of losing its landmark: the
+     footer is no longer a second contentinfo, and its content stays inside a
+     landmark for screen-reader navigation. (<footer> itself may not take
+     role="region", so the wrapper carries the landmark.) */
   function demoteDuplicateLandmarks(tagName) {
-    Array.from(document.querySelectorAll(tagName + ':not(.site)')).forEach(function (element) {
-      if (element.hasAttribute('role')) return;
-      if (element.parentElement && element.parentElement.closest('article, aside, main, nav, section, [role="main"], [role="region"], [role="article"], [role="complementary"], [role="navigation"]')) return;
+    const demoted = Array.from(document.querySelectorAll(tagName + ':not(.site)')).filter(function (element) {
+      if (element.hasAttribute('role')) return false;
+      if (element.parentElement && element.parentElement.closest('article, aside, main, nav, section, [role="main"], [role="region"], [role="article"], [role="complementary"], [role="navigation"]')) return false;
+      return true;
+    });
+    demoted.forEach(function (element, index) {
+      if (tagName === 'footer' && element.parentNode) {
+        const region = document.createElement('section');
+        region.className = 'uss-page-footer-region';
+        // Layout-neutral: lesson stylesheets often style bare <section> elements.
+        region.style.cssText = 'display:block;margin:0;padding:0;border:0;background:none;box-shadow:none;max-width:none;min-height:0;width:auto;';
+        region.setAttribute('aria-label', 'Page footer' + (demoted.length > 1 ? ' ' + (index + 1) : ''));
+        element.parentNode.insertBefore(region, element);
+        region.appendChild(element);
+        return;
+      }
       element.setAttribute('role', 'none');
     });
   }
