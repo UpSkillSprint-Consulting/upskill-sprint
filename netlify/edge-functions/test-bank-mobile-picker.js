@@ -41,7 +41,10 @@ const MOBILE_PICKER_MARKUP = `
     .tb-timing-choice{flex-wrap:wrap}
     .tb-shell,.tb-main,.tb-rail,.tb-pane{min-width:0;max-width:100%}
     .tb-rail{width:100%;overflow:visible}
-    .tb-groups{display:none!important}
+    .tb-mobile-cert-picker + .tb-groups{display:none!important}
+    .tb-focused-certification .tb-groups{display:block;overflow:visible}
+    .tb-focused-certification .tb-tile{width:100%;box-sizing:border-box;min-height:48px;grid-template-columns:auto minmax(0,1fr)}
+    .tb-focused-certification .tb-tn{white-space:normal;overflow-wrap:anywhere}
     .tb-mobile-cert-picker{display:block;width:100%;margin:0 0 14px}
     .tb-mobile-cert-picker label{display:block;margin:0 0 7px;font:700 11px/1.3 "Work Sans",sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
     .tb-mobile-cert-picker select{display:block;width:100%;max-width:100%;min-height:48px;box-sizing:border-box;border:1px solid var(--teal);border-radius:10px;padding:11px 42px 11px 13px;background:var(--card);color:var(--ink);font:600 15px/1.35 "Work Sans",sans-serif;appearance:auto}
@@ -55,6 +58,8 @@ const MOBILE_PICKER_MARKUP = `
     if(!groups||document.getElementById('tb-mobile-cert-select')) return;
     var tiles=Array.prototype.slice.call(groups.querySelectorAll('.tb-tile[data-exam]'));
     if(!tiles.length){window.setTimeout(install,40);return;}
+    // A focused certification has no cross-exam menu, on mobile or desktop.
+    if(tiles.length===1){groups.parentNode.classList.add('tb-focused-certification');return;}
     var wrap=document.createElement('div');wrap.className='tb-mobile-cert-picker';
     var label=document.createElement('label');label.htmlFor='tb-mobile-cert-select';label.textContent='Choose a certification exam';
     var select=document.createElement('select');select.id='tb-mobile-cert-select';select.setAttribute('aria-label','Choose a certification exam');

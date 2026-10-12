@@ -185,6 +185,9 @@ for (const exam of ['cssbb','mbb','cssgb','cqe','cmq','cre','pmp']) {
     try {
       assert.equal(w.__TB_MEMORY_ONLY,true);
       assert.equal(w.document.querySelector('.tb-tile.active').dataset.exam,exam);
+      assert.equal(w.document.querySelectorAll('.tb-tile').length,1,'only the selected certification is shown');
+      assert.equal(w.document.querySelector('#tb-mobile-cert-select'),null,'no cross-certification mobile menu');
+      assert.equal(w.document.querySelector('.tb-crumb a').getAttribute('href'),'/exam-practice');
       const exams = w.__TB.EXAMS;
       for (const [key,definition] of Object.entries(exams)) {
         const banks = [definition.bank,...Object.values(definition.sets||{})].filter(Array.isArray);

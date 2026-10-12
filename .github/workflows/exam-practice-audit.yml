@@ -5,6 +5,11 @@ on:
   pull_request:
     paths:
       - 'exam-practice.html'
+      - 'index.html'
+      - 'scripts/homepage-certification-browser.py'
+      - 'tests/homepage-*.test.js'
+      - 'tests/test-bank-mobile-picker.test.js'
+      - 'tests/test-bank-exam-ui.test.js'
       - 'exam-directory.*'
       - 'scripts/exam-directory-browser.py'
       - 'tools/unit-converter.html'
@@ -59,8 +64,8 @@ jobs:
       - name: Verify navigation and access regressions
         run: |
           node --check site-sections.js
-          python -m py_compile scripts/exam-practice-browser.py
-          node --test --test-concurrency=1 tests/exam-practice-section.test.js tests/premium-simulator-access.test.js tests/mobile-header-overflow.test.js
+          python -m py_compile scripts/exam-practice-browser.py scripts/homepage-certification-browser.py
+          node --test --test-concurrency=1 tests/exam-practice-section.test.js tests/premium-simulator-access.test.js tests/mobile-header-overflow.test.js tests/homepage-content-counts.test.js tests/homepage-distributions.test.js tests/test-bank-mobile-picker.test.js tests/test-bank-exam-ui.test.js
       - name: Install CI browser
         run: |
           bash -n scripts/prepare-ci-browser.sh
@@ -80,6 +85,7 @@ jobs:
             curl -fsS http://127.0.0.1:8765/exam-practice -o /dev/null && break || sleep 1
           done
           set -o pipefail
+          python -u scripts/homepage-certification-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/homepage-certification.log
           python -u scripts/exam-directory-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/directory-browser.log
           python -u scripts/exam-practice-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/browser.log
           python -u scripts/exam-admin-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/admin-browser.log

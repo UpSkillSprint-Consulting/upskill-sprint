@@ -131,7 +131,7 @@ test('exam overview and simulator routes share the active top tab, including pre
   }
   const { window } = await loadPage(t, 'test-bank.html', 'https://upskillsprint.com/test-bank');
   assert.equal(window.document.querySelector('.tb-crumb a').getAttribute('href'), '/exam-practice');
-  assert.equal(window.document.querySelector('.tb-crumb a').textContent, 'Exam Practice & Quizzes');
+  assert.equal(window.document.querySelector('.tb-crumb a').textContent, 'Back to All Certifications');
 });
 
 test('old lesson bookmarks forward to the moved page and keep access notices', () => {
@@ -177,6 +177,7 @@ test('certification links open the corresponding simulator overview without star
   for(const id of ['cssbb','mbb','cqe','cre','cqa','cmq','cssgb','pmp']){
     const {window}=await loadPage(t,'test-bank.html',`https://upskillsprint.com/test-bank?exam=${id}`);
     assert.equal(window.document.querySelector('.tb-tile.active').dataset.exam,id);
+    assert.equal(window.document.querySelectorAll('.tb-tile').length,1,'deep links show only their certification');
     assert.equal(window.document.querySelector('.tb-quiz'),null,'links do not start an exam');
   }
   const {window}=await loadPage(t,'test-bank.html','https://upskillsprint.com/test-bank?exam=unknown%22%5D');

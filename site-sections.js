@@ -511,7 +511,7 @@
     const examBreadcrumb = currentNavLabel() === 'Exam Practice & Quizzes' && document.querySelector('.tb-crumb a');
     if (examBreadcrumb) {
       examBreadcrumb.href = EXAM_PRACTICE_PATH;
-      examBreadcrumb.textContent = 'Exam Practice & Quizzes';
+      examBreadcrumb.textContent = 'Back to All Certifications';
     }
     enhanceMobileMenuButtons();
   }
