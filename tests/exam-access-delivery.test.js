@@ -185,7 +185,9 @@ for (const exam of ['cssbb','mbb','cssgb','cqe','cmq','cre','pmp']) {
     try {
       assert.equal(w.__TB_MEMORY_ONLY,true);
       assert.equal(w.document.querySelector('.tb-tile.active').dataset.exam,exam);
-      assert.equal(w.document.querySelectorAll('.tb-tile').length,1,'only the selected certification is shown');
+      assert.equal(w.document.querySelectorAll('.tb-tile').length,1,'selected exam identity remains available to the runtime');
+      assert.equal(w.getComputedStyle(w.document.querySelector('.tb-rail')).display,'none','overview hides the entire certification panel');
+      assert.equal(w.getComputedStyle(w.document.querySelector('.tb-shell')).gridTemplateColumns,'minmax(0,1fr)','overview reserves no sidebar column');
       assert.equal(w.document.querySelector('#tb-mobile-cert-select'),null,'no cross-certification mobile menu');
       assert.equal(w.document.querySelector('.tb-crumb a').getAttribute('href'),'/exam-practice');
       const exams = w.__TB.EXAMS;
@@ -217,6 +219,7 @@ for (const mode of ['full','quick','focus','diagnostic']) {
       click(w, mode==='diagnostic'?host.querySelector('[data-diag]'):host.querySelector(`[data-mode="${mode}"]`));
       assert.equal(app.checks(),1);
       assert.ok(host.querySelector('.tb-quiz'));
+      assert.equal(w.getComputedStyle(w.document.querySelector('.tb-rail')).display,'none');
       const reveal = host.querySelector('[data-reveal]');
       if (mode==='quick'||mode==='focus') {
         assert.ok(reveal,'untimed reveal control'); click(w,reveal);
@@ -227,7 +230,12 @@ for (const mode of ['full','quick','focus','diagnostic']) {
       assert.ok(host.querySelector('[data-score-result]'));
       const snapshot = w.__TB.getFeedbackSnapshot();
       assert.equal(snapshot.completed,true);
+      assert.equal(w.getComputedStyle(w.document.querySelector('.tb-rail')).display,'none','results hide the certification panel');
       if (reveal) { assert.equal(snapshot.records[0].revealed,true); assert.equal(snapshot.grading.correct,0); }
+      click(w,host.querySelector('[data-back]'));
+      assert.ok(host.querySelector('[data-mode="full"]'));
+      assert.equal(w.getComputedStyle(w.document.querySelector('.tb-rail')).display,'none','returning to the overview keeps the panel hidden');
+      assert.equal(w.getComputedStyle(w.document.querySelector('.tb-shell')).gridTemplateColumns,'minmax(0,1fr)');
       assert.deepEqual(errors,[]);
     } finally { closeDom(dom); }
   });

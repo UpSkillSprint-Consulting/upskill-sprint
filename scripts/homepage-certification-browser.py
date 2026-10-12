@@ -60,6 +60,18 @@ def main():
                 page.get_by_role('switch', name='Switch to ' + theme + ' mode').click()
             expect(page.locator('html')).to_have_attribute('data-theme', theme)
 
+        def full_width_exam():
+            expect(page.locator('.tb-rail')).to_be_hidden()
+            expect(page.locator('.tb-tile:visible, #tb-mobile-cert-select')).to_have_count(0)
+            geometry = page.locator('.tb-shell').evaluate('''shell => {
+              const s=shell.getBoundingClientRect(), m=shell.querySelector('.tb-main').getBoundingClientRect();
+              return {shellLeft:s.left,shellRight:s.right,mainLeft:m.left,mainRight:m.right,width:innerWidth};
+            }''')
+            assert abs(geometry['mainLeft'] - geometry['shellLeft']) <= 1, geometry
+            assert abs(geometry['mainRight'] - geometry['shellRight']) <= 1, geometry
+            assert geometry['mainLeft'] >= 0 and geometry['mainRight'] <= geometry['width'] + 1, geometry
+            assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1')
+
         page.goto(base + '/')
         labels = page.locator('#hero-distributions text').all_text_contents()
         assert len(labels) == 4
@@ -145,22 +157,27 @@ def main():
                     tile = page.locator('.tb-tile')
                     expect(tile).to_have_count(1)
                     expect(tile).to_have_attribute('data-exam', exam)
-                    expect(page.locator('#tb-mobile-cert-select')).to_have_count(0)
+                    full_width_exam()
                     if exam == 'mbb':
                         expect(page.locator('#tb-herotitle')).to_have_text('ASQ Certified Six Sigma Master Black Belt')
-                    geometry = tile.evaluate('e=>({width:innerWidth,left:e.getBoundingClientRect().left,right:e.getBoundingClientRect().right,scroll:e.scrollWidth,client:e.clientWidth})')
-                    assert geometry['left'] >= 0 and geometry['right'] <= width + 1 and geometry['scroll'] <= geometry['client'] + 1, geometry
-                    assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1')
                     back = page.locator('.tb-crumb a')
                     expect(back).to_have_text('Back to All Certifications')
-                    if width == 390:
-                        page.screenshot(path=str(out / f'focused-{exam}-{args.browser}.png'), full_page=True)
-                        page.locator('[data-mode="quick"]').click()
-                        expect(page.locator('.tb-quiz')).to_be_visible()
-                        expect(page.locator('.tb-rail')).to_be_hidden()
-                        page.locator('[data-backsim]').click()
-                        expect(tile).to_have_count(1)
-                        expect(tile).to_be_visible()
+                    page.screenshot(path=str(out / f'focused-{exam}-{width}-{args.browser}.png'), full_page=True)
+                    page.locator('[data-mode="quick"]').click()
+                    expect(page.locator('.tb-quiz')).to_be_visible()
+                    full_width_exam()
+                    page.locator('[data-backsim]').click()
+                    expect(page.locator('[data-mode="quick"]')).to_be_visible()
+                    full_width_exam()
+                    page.locator('[data-mode="quick"]').click()
+                    expect(page.locator('.tb-quiz')).to_be_visible()
+                    page.locator('[data-goto]').last.click()
+                    page.locator('[data-submit]').click()
+                    expect(page.locator('[data-score-result]')).to_be_visible()
+                    full_width_exam()
+                    page.locator('[data-back]').click()
+                    expect(page.locator('[data-mode="quick"]')).to_be_visible()
+                    full_width_exam()
                     back.click()
                     expect(page.locator('#my-exams-grid .exam-card')).to_have_count(7)
                 record(f'focused-{exam}-{width}', focused)
