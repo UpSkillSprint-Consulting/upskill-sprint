@@ -72,7 +72,7 @@
   </nav>
   <main id="main-content">
 
-  <section class="section" style="position:relative;padding-top:100px;padding-bottom:380px;text-align:center;overflow:hidden;">
+  <section class="section home-hero" style="position:relative;padding-top:100px;padding-bottom:380px;text-align:center;overflow:hidden;">
     <svg class="hero-visual" id="hero-distributions" viewBox="0 0 1400 380" preserveAspectRatio="xMidYMid meet" style="position:absolute;left:0;right:0;bottom:40px;width:100%;height:340px;opacity:0.4;pointer-events:none;"></svg>
     <script>
     (function () {
@@ -228,7 +228,7 @@
 
       function esc(s) { return String(s).replace(/&/g, '&amp;'); }
 
-      function renderSlot(dist, slot, color, idx) {
+      function renderSlot(dist, slot, color, idx, compact) {
         var svg = '';
         var strokeDur = (3.3 + idx * 0.2).toFixed(1) + 's';
         var motionDur = (3.8 + idx * 0.2).toFixed(1) + 's';
@@ -255,20 +255,31 @@
               '<animate attributeName="stroke-width" values="' + (i === 0 ? '3.5;4.6;3.5' : '2.2;2.9;2.2') + '" dur="' + (3.3 + i * 0.3).toFixed(1) + 's" repeatCount="indefinite"></animate></path>';
           });
         }
-        svg += '<text x="' + slot.labelX + '" y="' + LABEL_Y + '" text-anchor="middle" font-family="monospace" font-size="16" font-weight="700" fill="#344054">' + esc(dist.label) + '</text>';
+        svg += '<text x="' + slot.labelX + '" y="' + LABEL_Y + '" text-anchor="middle" font-family="monospace" font-size="' + (compact ? 23 : 16) + '" font-weight="700" fill="#344054">' + esc(dist.label) + '</text>';
         return svg;
       }
 
+      var chosen = pickFour(POOL);
+      var mobileLayout = window.matchMedia('(max-width: 640px)');
       function render() {
-        var chosen = pickFour(POOL);
         var svgEl = document.getElementById('hero-distributions');
         if (!svgEl) return;
+        var compact = mobileLayout.matches;
+        svgEl.setAttribute('viewBox', compact ? '0 0 700 760' : '0 0 1400 380');
         var html = '';
-        for (var i = 0; i < 4; i++) html += renderSlot(chosen[i], SLOTS[i], COLORS[i], i);
+        for (var i = 0; i < 4; i++) {
+          var slot = compact ? { x0: 25, x1: 325, labelX: 175 } : SLOTS[i];
+          var offsetX = compact ? (i % 2) * 350 : 0;
+          var offsetY = compact ? Math.floor(i / 2) * 380 : 0;
+          html += '<g transform="translate(' + offsetX + ' ' + offsetY + ')">' +
+            renderSlot(chosen[i], slot, COLORS[i], i, compact) + '</g>';
+        }
         svgEl.innerHTML = html;
       }
 
       render();
+      if (mobileLayout.addEventListener) mobileLayout.addEventListener('change', render);
+      else mobileLayout.addListener(render);
     })();
     </script>
     <div class="wrap" style="max-width:820px;position:relative;">

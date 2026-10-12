@@ -205,7 +205,18 @@ label.field { display: flex; flex-direction: column; gap: 8px; font-size: 14px; 
   font-size: 15px; font-family: inherit; font-weight: 400; color: var(--ink);
 }
 .field textarea { resize: vertical; }
-@media (max-width: 640px) { section svg[viewBox="0 0 1400 380"] { display: none; } }
+@media (max-width: 640px) {
+  .home-hero { padding-bottom: calc(clamp(300px, 90vw, 440px) + 60px) !important; }
+  .home-hero #hero-distributions {
+    display: block;
+    left: 16px !important;
+    right: 16px !important;
+    bottom: 24px !important;
+    width: calc(100% - 32px) !important;
+    height: clamp(300px, 90vw, 440px) !important;
+    opacity: .85 !important;
+  }
+}
 .honeypot { position: absolute; left: -9999px; opacity: 0; height: 0; overflow: hidden; }
 
 /* faq */
