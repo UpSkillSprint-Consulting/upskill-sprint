@@ -468,6 +468,28 @@
     });
   }
 
+  /* Some headers (for example lesson pages built from the guide's copy-exact sitebar block) ship
+     the checkbox and hamburger label but no nav.mobile-nav, so the button toggled nothing.
+     Add the shared mobile nav as a later sibling of the checkbox, straight after the header,
+     so the existing CSS rule (.mnav-check:checked ~ nav.mobile-nav) opens it. */
+  function injectMobileNav(box, label) {
+    const header = label.closest('header');
+    let anchor = header && header.parentNode === box.parentNode ? header : box;
+    let node = box.nextElementSibling;
+    let ordered = false;
+    while (node) { if (node === anchor) { ordered = true; break; } node = node.nextElementSibling; }
+    if (!ordered) anchor = box;
+    const nav = document.createElement('nav');
+    nav.className = 'mobile-nav uss-mobile-nav uss-injected-mobile-nav';
+    nav.id = 'uss-mobile-nav';
+    nav.setAttribute('aria-label', 'Primary navigation (mobile)');
+    nav.innerHTML = navLinksMarkup();
+    insertAfter(anchor, nav);
+    normalizeSiteNav(nav);
+    addToolsLinkToNav(nav);
+    return nav;
+  }
+
   function enhanceMobileMenuButtons() {
     if (!document.body) return;
     ensureMenuStyles();
@@ -485,7 +507,8 @@
       button.className = 'uss-menu-toggle';
       button.textContent = name;
       button.setAttribute('aria-expanded', box.checked ? 'true' : 'false');
-      const nav = menuNavFor(box);
+      let nav = menuNavFor(box);
+      if (!nav) nav = injectMobileNav(box, label);
       if (nav && nav.id) button.setAttribute('aria-controls', nav.id);
       label.parentNode.insertBefore(button, label);
       const control = { label: label, box: box, button: button };
