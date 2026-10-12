@@ -375,6 +375,18 @@
       description: 'Derive ARL from first principles, work through all eight Nelson tests, run a live 2σ vs 3σ simulation, and race CUSUM against Shewhart on identical data.'
     },
     {
+      marker: 'data-the-flow-a-field-guide-to-lean',
+      sectionId: 'lean-six-sigma',
+      path: '/lessons/lean-six-sigma/the-flow-a-field-guide-to-lean',
+      topic: 'lean-six-sigma',
+      level: 'beginner',
+      interactive: 'true',
+      search: 'lean glossary lean terms lean tools toyota production system tps takt time kanban value stream mapping 5s smed oee tpm jidoka poka yoke andon heijunka hoshin kanri kaizen gemba muda mura muri little law yamazumi japanese lean terms posters lean six sigma beginner interactive',
+      meta: '<span>Beginner</span><span>Interactive</span><span>90 min</span><span>Posters</span>',
+      title: 'The Flow: A Field Guide to Lean',
+      description: 'Explore 518 lean terms, from takt and kanban to hoshin kanri, with mill examples, flow simulations, two quizzes and two printable posters.'
+    },
+    {
       marker: 'data-understanding-dot-notation',
       sectionId: 'statistics',
       path: '/lessons/statistics/understanding-dot-notation',
