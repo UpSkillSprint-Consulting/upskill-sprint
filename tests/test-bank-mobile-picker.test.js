@@ -16,18 +16,16 @@ test('registers the mobile picker for pretty and explicit test-bank URLs', () =>
   assert.match(netlify, /path\s*=\s*"\/test-bank\.html"[\s\S]*?function\s*=\s*"test-bank-mobile-picker"/);
 });
 
-test('the bound production edge route loads stable identity and durable-learning modules before their consumers', () => {
-  const registry = edge.indexOf("'/test-bank-question-registry.js'");
-  const events = edge.indexOf("'/test-bank-learning-events.js'");
-  const mastery = edge.indexOf("'/test-bank-adaptive-mastery.js'");
-  const hardening = edge.indexOf("'/test-bank-adaptive-mastery-hardening.js'");
-  const analytics = edge.indexOf("'/test-bank-analytics-dashboard.js'");
-  assert.ok(registry > -1 && events > -1 && mastery > -1 && hardening > -1 && analytics > -1);
-  assert.ok(registry < mastery, 'question IDs are available before mastery reads or writes progress');
-  assert.ok(events < hardening, 'session events are available before readiness and New-only consumers');
-  assert.ok(hardening < analytics, 'analytics loads after its readiness engine');
-  assert.equal(edge.indexOf("'/test-bank-question-registry.js'", registry + 1), -1);
-  assert.equal(edge.indexOf("'/test-bank-learning-events.js'", events + 1), -1);
+test('the production transform uses the current memory runtime and strips retired persistence scripts', async () => {
+  const handler = new Function(edge.replace('export default async function handler', 'return async function handler'))();
+  const input = '<html><head><script src="/test-bank-question-registry.js"></script></head><body><script src="/test-bank-learning-events.js"></script></body></html>';
+  const response = await handler(null, { next: async () => new Response(input, { headers: { 'content-type': 'text/html' } }) });
+  const html = await response.text();
+  assert.ok(html.includes('src="/test-bank-memory-learning.js"'));
+  assert.ok(html.includes('tb-mobile-certification-picker-script'));
+  assert.ok(html.includes('src="/test-bank-current-attempt-review.js"'));
+  assert.ok(!html.includes('/test-bank-question-registry.js'));
+  assert.ok(!html.includes('/test-bank-learning-events.js'));
 });
 
 test('keeps the desktop certification rail unchanged and activates the picker only on mobile', () => {
@@ -45,7 +43,7 @@ test('builds the dropdown from the existing certification tiles', () => {
 
 test('routes mobile selection through the existing certification click logic', () => {
   assert.match(edge, /select\.addEventListener\('change'/);
-  assert.match(edge, /if\(tile\) tile\.click\(\)/);
+  assert.match(edge, /if\(tile\)\s*tile\.click\(\)/);
 });
 
 test('keeps the mobile dropdown synchronized when the certification rail rerenders', () => {
@@ -60,4 +58,37 @@ test('constrains key mobile containers to the viewport to prevent horizontal pag
   assert.match(page, /\.tb-shell\{grid-template-columns:minmax\(0,1fr\)\}/);
   assert.match(page, /\.tb-tile\{width:auto;flex:0 0 auto/);
   assert.match(page, /\.tb-diag-cta>\*\{max-width:100%;white-space:normal\}/);
+});
+
+const { JSDOM } = require('jsdom');
+function pickerApp(ids) {
+  const dom = new JSDOM('<aside class="tb-rail"><div id="tb-groups">' + ids.map((id, i) =>
+    '<button class="tb-tile' + (i ? '' : ' active') + '" data-exam="' + id + '"><span class="tb-tn">' + id + '</span></button>'
+  ).join('') + '</div></aside>', { runScripts: 'outside-only' });
+  dom.window.eval(edge.match(/<script id="tb-mobile-certification-picker-script">([\s\S]*?)<\/script>/)[1]);
+  dom.window.document.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
+  return dom;
+}
+test('a focused mobile view keeps its single wrapping tile without a cross-exam selector', () => {
+  const dom = pickerApp(['mbb']);
+  try {
+    assert.equal(dom.window.document.querySelector('#tb-mobile-cert-select'), null);
+    assert.ok(dom.window.document.querySelector('.tb-rail').classList.contains('tb-focused-certification'));
+    assert.equal(dom.window.document.querySelectorAll('.tb-tile').length, 1);
+  } finally { dom.window.close(); }
+});
+test('legacy multi-exam picker activates its selected tile and follows later selection changes', async () => {
+  const dom = pickerApp(['cssbb', 'cqe']);
+  try {
+    const w = dom.window, select = w.document.querySelector('select');
+    assert.equal(select.options.length, 2);
+    let clicked;
+    w.document.querySelectorAll('.tb-tile').forEach(tile => tile.addEventListener('click', () => { clicked = tile.dataset.exam; }));
+    select.value = 'cqe'; select.dispatchEvent(new w.Event('change'));
+    assert.equal(clicked, 'cqe');
+    w.document.querySelector('[data-exam="cssbb"]').classList.remove('active');
+    w.document.querySelector('[data-exam="cqe"]').classList.add('active');
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(select.value, 'cqe');
+  } finally { dom.window.close(); }
 });

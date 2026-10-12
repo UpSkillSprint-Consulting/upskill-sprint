@@ -22,7 +22,7 @@ test('distribution graphic reflows without replacing its selected distributions'
     const labels = [...svg.querySelectorAll('text')].map(node => node.textContent);
     assert.equal(labels.length, 4);
     assert.equal(svg.getAttribute('viewBox'), '0 0 1400 380');
-    const mobile = queries.get('(max-width: 640px)');
+    const mobile = queries.get('(max-width: 900px)');
     mobile.matches = true; mobile.listener();
     assert.equal(svg.getAttribute('viewBox'), '0 0 700 760');
     assert.equal(svg.querySelectorAll(':scope > g').length, 4);

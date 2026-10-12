@@ -211,9 +211,9 @@
 
       var SLOTS = [
         { x0: 30, x1: 320, labelX: 175 },
-        { x0: 410, x1: 620, labelX: 514 },
-        { x0: 700, x1: 895, labelX: 796 },
-        { x0: 980, x1: 1360, labelX: 1170 }
+        { x0: 375, x1: 675, labelX: 525 },
+        { x0: 725, x1: 1025, labelX: 875 },
+        { x0: 1075, x1: 1375, labelX: 1225 }
       ];
       var COLORS = ['#0e7490', '#0f2a43', '#0e7490', '#0f2a43'];
 
@@ -255,12 +255,18 @@
               '<animate attributeName="stroke-width" values="' + (i === 0 ? '3.5;4.6;3.5' : '2.2;2.9;2.2') + '" dur="' + (3.3 + i * 0.3).toFixed(1) + 's" repeatCount="indefinite"></animate></path>';
           });
         }
-        svg += '<text x="' + slot.labelX + '" y="' + LABEL_Y + '" text-anchor="middle" font-family="monospace" font-size="' + (compact ? 23 : 16) + '" font-weight="700" fill="#344054">' + esc(dist.label) + '</text>';
+        var label = esc(dist.label);
+        if (compact) {
+          var split = label.indexOf('(');
+          label = '<tspan x="' + slot.labelX + '" y="335">' + label.slice(0, split) + '</tspan>' +
+            '<tspan x="' + slot.labelX + '" y="371">' + label.slice(split) + '</tspan>';
+        }
+        svg += '<text x="' + slot.labelX + '" y="' + LABEL_Y + '" text-anchor="middle" font-family="monospace" font-size="' + (compact ? 34 : 22) + '" font-weight="700" fill="#344054">' + label + '</text>';
         return svg;
       }
 
       var chosen = pickFour(POOL);
-      var mobileLayout = window.matchMedia('(max-width: 640px)');
+      var mobileLayout = window.matchMedia('(max-width: 900px)');
       var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
       function render() {
         var svgEl = document.getElementById('hero-distributions');
@@ -448,7 +454,7 @@
       STATS.forEach(function (s) {
         html += '<div class="trust-stat">' +
           '<div class="badge">' + ICONS[s.icon] + '</div>' +
-          '<span class="num-wrap"><span class="glow"></span><span class="num" data-stat-key="' + s.key + '" data-target="' + s.num + '">0</span></span>' +
+          '<span class="num-wrap"><span class="glow"></span><span class="num" data-stat-key="' + s.key + '" data-target="' + s.num + '">—</span></span>' +
           '<p class="lbl">' + s.label + '</p>' +
           '</div>';
       });
@@ -456,7 +462,7 @@
 
       function animateCount(el) {
         var target = el.getAttribute('data-target');
-        if (target === '—') { el.textContent = target; return; }
+        if (target === '—' || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) { el.textContent = target; return; }
         var numPart = Number(target);
         var start = null, dur = 1200;
         function step(ts) {

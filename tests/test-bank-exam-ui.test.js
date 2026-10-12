@@ -5,7 +5,7 @@ const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
 const { JSDOM, VirtualConsole } = require('jsdom');
-const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
+const memoryRuntime = fs.readFileSync(path.join(__dirname, '..', 'test-bank-memory-learning.js'), 'utf8');
 
 const ROOT = path.join(__dirname, '..');
 const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
@@ -19,11 +19,12 @@ async function loadPage() {
   vc.on('jsdomError', e => errors.push(e.message));
   const dom = new JSDOM(html, {
     url: 'https://upskillsprint.com/test-bank.html',
-    runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole: vc
+    runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole: vc,
+    beforeParse(window) { window.eval(memoryRuntime); window.HTMLElement.prototype.scrollIntoView = function () {}; }
   });
   _windows.push(dom.window);
   await new Promise(res => dom.window.addEventListener('load', res));
-  await installDurableLearning(dom.window);
+  assert.equal(dom.window.__TB_MEMORY_ONLY, true);
   return { window: dom.window, errors };
 }
 
