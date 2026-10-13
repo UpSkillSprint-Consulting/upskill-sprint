@@ -172,7 +172,7 @@ function prepareApplication(originalHtml, hardeningScript, hardeningStyles, audi
 // meta description and canonical, per docs/LESSON_CREATION_GUIDE.md).
 const guideOpenGraph = [
   '<meta property="og:type" content="article">',
-  '<meta property="og:title" content="How to Use the Material Specification Lookup | UpSkill Sprint Consulting">',
+  '<meta property="og:title" content="Material Specification Lookup Guide | UpSkill Sprint">',
   '<meta property="og:description" content="Professional user guide for the Material Specification Lookup, Compliance Checker, calculators, and reverse lookup.">',
   '<meta property="og:image" content="https://upskillsprint.com/assets/logo-icon.png">',
   '<meta property="og:url" content="https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use/">',
@@ -181,7 +181,7 @@ const guideOpenGraph = [
 
 function prepareGuide(originalHtml, guideNotice) {
   let guide = renameTool(originalHtml)
-    .replace('<title>How to Use — Material Specification Lookup</title>', '<title>How to Use the Material Specification Lookup | UpSkill Sprint Consulting</title>')
+    .replace('<title>How to Use — Material Specification Lookup</title>', '<title>Material Specification Lookup Guide | UpSkill Sprint</title>')
     .replaceAll('href="grade_spec_lookup.html#compliance"', 'href="../#compliance"')
     .replaceAll('href="grade_spec_lookup.html"', 'href="../"')
     .replace('>← Back to Tool<', '>Back to Tool<')
@@ -223,7 +223,49 @@ function prepareGuide(originalHtml, guideNotice) {
       'Reverse lookup searches all grade records using the entered thickness and minimum performance requirements.',
       'Reverse lookup searches grade records using the entered material thickness, product-form filter, and minimum performance requirements. The temperature criterion is applied even when no CVN energy criterion is entered.'
     );
-  return relevelGuideCardHeadings(professionalizeGuideEquations(guide));
+  return makeGuideAccessible(relevelGuideCardHeadings(professionalizeGuideEquations(guide)));
+}
+
+function makeGuideAccessible(guide) {
+  // The sitebar is the only page header. Keep the guide toolbar and title as
+  // a named content region without changing their existing classes or layout.
+  guide = replaceRequired(guide, '<header class="topbar">',
+    '<section class="topbar" aria-labelledby="guide-title">', 'guide title region');
+  guide = replaceRequired(guide, '<h1>Material Specification Lookup</h1>',
+    '<h1 id="guide-title">Material Specification Lookup</h1>', 'guide title');
+  guide = replaceRequired(guide, '</header>\n<section class="hero">',
+    '</section>\n<section class="hero" aria-labelledby="guide-overview">', 'guide overview region');
+  guide = replaceRequired(guide, '<h2>Reference, check, calculate and document</h2>',
+    '<h2 id="guide-overview">Reference, check, calculate and document</h2>', 'guide overview heading');
+  guide = guide
+    .replace('<aside class="hero-side">', '<aside class="hero-side" aria-label="Quick workflow">')
+    .replace('<aside class="sidebar">', '<aside class="sidebar" aria-label="Guide search and contents">')
+    .replace('<nav class="toc" id="toc">', '<nav class="toc" id="toc" aria-label="Guide contents" tabindex="0">')
+    .replace('<div class="disclaimer grade-data-status">', '<div class="disclaimer grade-data-status" role="region" aria-label="Data status">')
+    .replace('<div class="disclaimer">', '<div class="disclaimer" role="region" aria-label="Reference limitations">')
+    .replace('<main class="content" id="guideContent">', '<main class="content" id="guideContent" tabindex="-1">')
+    .replace('<div class="no-results" id="noResults">', '<div class="no-results" id="noResults" role="status" aria-live="polite">')
+    .replace(backLink, backLink.replace('<div ', '<nav aria-label="Engineering tools" ').replace('</div>', '</nav>'));
+  // Section headers are headings within the main content, not extra banners.
+  guide = guide.replace(/<header class="section-head">([\s\S]*?)<\/header>/g, '<div class="section-head">$1</div>');
+  let table = 0;
+  const tableLabels = ['Requirement card display', 'Compliance verdicts and required actions', 'Data diagnostics', 'Guide glossary'];
+  guide = guide.replace(/<div class="table-wrap">/g, () =>
+    `<div class="table-wrap" tabindex="0" role="region" aria-label="${tableLabels[table++]}">`);
+  if (table !== tableLabels.length) throw new Error('Review guide table labels after source changes.');
+  const formulaLabels = ['Thickness range', 'IIW carbon equivalent', 'Pcm carbon equivalent', 'Sub-size Charpy requirement', 'Minimum elongation', 'Hydrotest pressure'];
+  let formula = 0;
+  guide = guide.replace(/<div class="formula"([^>]*)>/g, (_, attrs) =>
+    `<div class="formula"${attrs} tabindex="0" role="region" aria-label="${formulaLabels[formula++]} formula">`);
+  if (formula !== formulaLabels.length) throw new Error('Review guide formula labels after source changes.');
+  guide = guide.replace(/<th>/g, '<th scope="col">');
+  const backTop = '<button class="back-top" id="backTop" aria-label="Back to top">Top</button>';
+  guide = replaceRequired(guide, backTop, '', 'back-to-top control');
+  guide = replaceRequired(guide, '</main>', `${backTop}\n  </main>`, 'back-to-top landmark');
+  return replaceRequired(guide, '</head>', `<style id="grade-guide-keyboard-focus">
+.grade-spec-guide-page :is(a,button,input,summary,[tabindex]):focus-visible{outline:3px solid #5eead4;outline-offset:3px}
+html[data-theme="light"] .grade-spec-guide-page :is(a,button,input,summary,[tabindex]):focus-visible{outline-color:#075985}
+</style>\n</head>`, 'guide keyboard focus styles');
 }
 
 // The guide's mini-card titles are h4s that sit directly under an h2, which skips a

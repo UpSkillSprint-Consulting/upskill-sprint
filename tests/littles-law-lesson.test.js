@@ -21,7 +21,7 @@ test('Little’s Law lesson carries valid metadata and canonical site integratio
   const meta = JSON.parse(html.match(/<!-- UPSKILLSPRINT_LESSON_META\s*([\s\S]*?)-->/)[1]);
   assert.equal(meta.slug, 'littles-law-interactive-flow-lab');
   assert.equal(meta.title, 'Little’s Law');
-  assert.equal(meta.title, doc.title);
+  assert.equal(`${meta.title} | UpSkill Sprint`, doc.title);
   assert.equal(meta.title, doc.querySelector('#lesson-content h1').textContent);
   assert.equal(meta.category_slug, 'lean-six-sigma');
   assert.equal(meta.level, 'Intermediate');

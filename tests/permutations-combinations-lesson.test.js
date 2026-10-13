@@ -35,7 +35,7 @@ test('lesson metadata, file identity, and required page attributes follow the gu
   assert.equal(meta.interactive, true);
   assert.equal(meta.suggested_github_path, 'lessons/statistics/permutations-and-combinations.html');
   assert.ok(meta.search_keywords.length >= 5);
-  assert.match(html, /<title>Permutations &amp; Combinations<\/title>/);
+  assert.match(html, /<title>Permutations &amp; Combinations \| UpSkill Sprint<\/title>/);
   assert.match(html, /<h1 id="lesson-title">Permutations &amp; Combinations<\/h1>/);
   assert.match(html, /<body[^>]*data-lesson-page="true"[^>]*data-category="statistics"[^>]*data-level="beginner"[^>]*data-interactive="true"[^>]*data-lesson-type="general"/);
   assert.match(html, /<link rel="canonical" href="https:\/\/upskillsprint\.com\/lessons\/statistics\/permutations-and-combinations">/);

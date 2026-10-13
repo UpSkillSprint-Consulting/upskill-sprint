@@ -81,3 +81,60 @@ test('proof lesson uses only the shared math include', () => {
   assert.doesNotMatch(html, /cdn\.jsdelivr\.net\/npm\/mathjax/);
   assert.doesNotMatch(html, /window\.MathJax\s*=/);
 });
+
+test('demoted page footers keep their content in one named landmark across repeated setup', () => {
+  const dom = runInPage('<!doctype html><html><head></head><body><header class="site"></header><main><h1>Lesson</h1><footer id="nested">Local note</footer></main><footer id="page"><a href="/lessons">Back to lessons</a></footer><footer class="site"></footer></body></html>', 'site-sections.js');
+  const doc = dom.window.document;
+  doc.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
+  dom.window.eval(read('site-sections.js'));
+  doc.dispatchEvent(new dom.window.Event('DOMContentLoaded'));
+  const region = doc.querySelector('.uss-page-footer-region');
+  assert.equal(doc.querySelectorAll('.uss-page-footer-region').length, 1);
+  assert.equal(region.getAttribute('aria-label'), 'Page footer');
+  assert.equal(region.querySelector('#page a').textContent, 'Back to lessons');
+  assert.equal(doc.querySelector('#nested').parentElement.tagName, 'MAIN');
+  assert.equal(doc.querySelectorAll('footer.site').length, 1);
+  dom.window.close();
+});
+
+test('lesson sitebars are the only headers on Excel, Regression and Resampling', () => {
+  for (const file of [
+    'lessons/power-bi-excel-sql/excel-formula-fluency.html',
+    'lessons/statistics/choosing-the-right-regression-analysis-in-minitab.html',
+    'lessons/statistics/resampling-in-minitab.html'
+  ]) {
+    const dom = new JSDOM(read(file));
+    const doc = dom.window.document;
+    assert.equal(doc.querySelectorAll('header').length, 1, file);
+    assert.ok(doc.querySelector('header.site.lesson-sitebar'), file);
+    const hero = doc.querySelector('div.hero[role="region"][aria-labelledby]');
+    assert.ok(hero?.contains(doc.getElementById(hero.getAttribute('aria-labelledby'))), file);
+    assert.equal(doc.querySelectorAll('h1').length, 1, file);
+    dom.window.close();
+  }
+});
+
+test('all directly authored sitemap pages have concise branded metadata', () => {
+  const path = require('node:path');
+  const generated = new Set([
+    '/engineering-tools/grade-specification-lookup/',
+    '/engineering-tools/grade-specification-lookup/how-to-use/',
+    '/lessons/statistics/binomial-poisson-exponential-distributions',
+    '/lessons/writing-your-first-sql-query'
+  ]);
+  for (const [, url] of read('sitemap.xml').matchAll(/<loc>(.*?)<\/loc>/g)) {
+    const route = new URL(url).pathname;
+    if (generated.has(route)) continue;
+    const file = path.join(process.cwd(), route.endsWith('/') ? route + 'index.html' : route + '.html');
+    const head = fs.readFileSync(file, 'utf8').split('</head>')[0]
+      .replace(/<(style|script)\b[^>]*>[\s\S]*?<\/\1>/gi, '');
+    const dom = new JSDOM(head + '</head>');
+    const doc = dom.window.document;
+    assert.ok(doc.title.endsWith(' | UpSkill Sprint'), route);
+    assert.ok(Array.from(doc.title).length <= 65, route + ': ' + doc.title);
+    const description = doc.querySelector('meta[name="description"]')?.content;
+    assert.ok(description && Array.from(description).length <= 165, route);
+    assert.equal(doc.querySelector('meta[property="og:title"]')?.content, doc.title, route);
+    dom.window.close();
+  }
+});

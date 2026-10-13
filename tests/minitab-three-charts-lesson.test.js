@@ -29,7 +29,7 @@ test('new lesson is explicitly Public in the requested Power BI, Excel & SQL cat
   const meta = JSON.parse(html.match(/<!-- UPSKILLSPRINT_LESSON_META\s*([\s\S]*?)-->/)[1]);
   assert.match(html, /^<!DOCTYPE html>\n<html lang="en">\n<!-- UPSKILLSPRINT_LESSON_META/);
   assert.equal(meta.title, title);
-  assert.equal(d.title, title);
+  assert.equal(d.title, 'Minitab: Symmetry, Variability & Multi-Vari | UpSkill Sprint');
   assert.equal(d.querySelector('h1').textContent, title);
   assert.equal(meta.slug, slug);
   assert.equal(meta.category, 'Power BI, Excel & SQL');
