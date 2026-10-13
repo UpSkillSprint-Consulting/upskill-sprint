@@ -117,6 +117,7 @@ test('lesson sitebars are the only headers on Excel, Regression and Resampling',
 test('all directly authored sitemap pages have concise branded metadata', () => {
   const path = require('node:path');
   const generated = new Set([
+    '/engineering-tools/grade-specification-lookup/',
     '/engineering-tools/grade-specification-lookup/how-to-use/',
     '/lessons/statistics/binomial-poisson-exponential-distributions',
     '/lessons/writing-your-first-sql-query'
