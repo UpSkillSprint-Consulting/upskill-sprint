@@ -44,6 +44,22 @@ test('five diagnostic batches have fifty unique scored items and complete reason
  assert.deepEqual(counts,{I:4,II:10,III:15,IV:12,V:4,VI:5});
  assert.deepEqual(Array.from(qs,q=>q.batch),Array(10).fill(1).concat(Array(10).fill(2),Array(10).fill(3),Array(10).fill(4),Array(10).fill(5)));
 });
+test('fifty-item response pattern does not reveal the answer by option length and sources are classified',()=>{
+ const qs=Array.from(bank().NPPE_DIAGNOSTIC);
+ const correctLongest=qs.filter(q=>q.options[q.answer].length===Math.max(...q.options.map(s=>s.length)));
+ assert.ok(correctLongest.length>=5 && correctLongest.length<=20,'Keyed option length has a systemic clue: '+correctLongest.length);
+ const distribution=Object.fromEntries(['A','B','C','D'].map((letter,i)=>[letter,qs.filter(q=>q.answer===i).length]));
+ assert.deepEqual(distribution,{A:13,B:13,C:12,D:12});
+ assert.ok(qs.every(q=>q.sources.length>0 && q.sources.every(s=>s.sourceType && s.title && s.locator)));
+ assert.ok(qs.every(q=>q.optionRationales.length===4 && q.optionRationales.every(r=>r.length>=35)));
+ const q4=qs[3],q15=qs[14];
+ assert.equal(q4.blueprint,'III.3');assert.equal(q15.blueprint,'III.3');
+ assert.notEqual(q4.learningObjective,q15.learningObjective);
+ assert.match(q15.learningObjective,/reviewing another practitioner's/i);
+ assert.ok(!q15.stem.toLowerCase().includes('assigned to certify'),'Item 015 must not repeat Item 004');
+ const types=new Set(qs.flatMap(q=>q.sources.map(s=>s.sourceType)));
+ assert.ok(types.has('official-blueprint') && types.has('textbook') && types.has('national-guidance'));
+});
 test('complete fifty-item Diagnostic has intentional blueprint balance and identifies subtopics not sampled',()=>{
  const qs=Array.from(bank().NPPE_DIAGNOSTIC);
  const coverage=new Set(qs.map(q=>q.blueprint));
@@ -66,8 +82,8 @@ test('Batch 3 maps to verified blueprint subtopics, carries source types and rem
  assert.deepEqual(qs.map(q=>q.blueprint),['I.4','II.2','II.4','III.4','III.5','III.6','IV.6','IV.8','V.4','VI.3']);
  assert.deepEqual(qs.map(q=>q.answer),[2,0,3,1,0,2,3,0,1,3]);
  assert.equal(qs.filter(q=>q.difficulty==='easy').length,2);
- assert.equal(qs.filter(q=>q.difficulty==='medium').length,6);
- assert.equal(qs.filter(q=>q.difficulty==='hard').length,2);
+ assert.equal(qs.filter(q=>q.difficulty==='medium').length,7);
+ assert.equal(qs.filter(q=>q.difficulty==='hard').length,1);
  assert.equal(new Set(qs.map(q=>q.questionFamily)).size,10);
  for(const q of qs){
   assert.match(q.blueprintVersion,/2017/);assert.match(q.difficultyBasis,/not empirically calibrated/);
@@ -141,8 +157,8 @@ test('Batch 5 contains ten sourced, original, single-best-answer questions with 
  assert.deepEqual(qs.map(q=>q.blueprint),['II.2','II.3','III.4','III.7','III.9','IV.5','IV.9','IV.11','IV.12','VI.2']);
  assert.deepEqual(qs.map(q=>q.answer),[2,0,3,1,3,0,1,2,0,2]);
  assert.equal(qs.filter(q=>q.difficulty==='easy').length,2);
- assert.equal(qs.filter(q=>q.difficulty==='medium').length,6);
- assert.equal(qs.filter(q=>q.difficulty==='hard').length,2);
+ assert.equal(qs.filter(q=>q.difficulty==='medium').length,7);
+ assert.equal(qs.filter(q=>q.difficulty==='hard').length,1);
  assert.equal(new Set(qs.map(q=>q.questionFamily)).size,10);
  const earlier=Array.from(bank().NPPE_DIAGNOSTIC).slice(0,40);
  for(const q of qs){
