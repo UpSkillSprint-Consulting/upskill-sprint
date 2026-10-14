@@ -10,13 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           persist-credentials: false
-      - name: Archive tracked source for offline implementation and tests
-        run: git archive --format=zip --output=nppe-workspace.zip HEAD
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - name: Archive lockfile-pinned dependencies for offline tests
+        run: tar -czf nppe-dependencies.tar.gz node_modules
       - uses: actions/upload-artifact@v4
         with:
-          name: nppe-workspace
-          path: nppe-workspace.zip
+          name: nppe-dependencies
+          path: nppe-dependencies.tar.gz
           retention-days: 1
