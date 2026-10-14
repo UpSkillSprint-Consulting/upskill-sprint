@@ -76,7 +76,7 @@
       trap: 'Treating anonymization or possession of a copy as permission to reuse proprietary information.',
       sources: [
         {sourceType: 'textbook', title: 'Andrews, Shaw and McPhee, Canadian Professional Engineering and Geoscience: Practice and Ethics, 6th ed. (2019)', locator: 'Ch. 12, section 12.5, p. 285: former-client trade secrets and confidentiality'},
-        {sourceType: 'primary-guidance', title: 'Engineers Canada, Guideline on the code of ethics', locator: 'Faithful-agent and confidentiality guidance; national guidance is not itself a regulation', url: 'https://engineerscanada.ca/guidelines-and-papers/public-guideline-on-the-code-of-ethics'}
+        {sourceType: 'national-guidance', title: 'Engineers Canada, Guideline on the code of ethics', locator: 'Faithful-agent and confidentiality guidance; national guidance is not itself a regulation', url: 'https://engineerscanada.ca/guidelines-and-papers/public-guideline-on-the-code-of-ethics'}
       ]
     },
     {
@@ -102,7 +102,7 @@
       trap: 'Treating code compliance as a complete answer to evidence that the design remains inadequate.',
       sources: [
         {sourceType: 'textbook', title: 'Samuels and Sanders, Practical Law of Architecture, Engineering, and Geoscience, Canadian ed. (2007)', locator: 'Ch. 13, section 13.5, pp. 149–150: knowledge of inadequate code provisions'},
-        {sourceType: 'primary-guidance', title: 'Engineers Canada, Guideline on the code of ethics', locator: 'Public protection, diligent practice and applicable standards; guidance rather than legislation', url: 'https://engineerscanada.ca/guidelines-and-papers/public-guideline-on-the-code-of-ethics'}
+        {sourceType: 'national-guidance', title: 'Engineers Canada, Guideline on the code of ethics', locator: 'Public protection, diligent practice and applicable standards; guidance rather than legislation', url: 'https://engineerscanada.ca/guidelines-and-papers/public-guideline-on-the-code-of-ethics'}
       ]
     },
     {
@@ -128,7 +128,7 @@
       trap: 'Assuming professional-liability coverage is determined only by when the work was done.',
       sources: [
         {sourceType: 'textbook', title: 'Samuels and Sanders, Practical Law of Architecture, Engineering, and Geoscience, Canadian ed. (2007)', locator: 'Ch. 16, section 16.5, pp. 178–179: claims-made versus occurrence policies and reporting'},
-        {sourceType: 'primary-program-guidance', title: 'Engineers Canada, Secondary Professional Liability Insurance — frequently asked questions', locator: 'Claims-made and reporting explanation; the hypothetical dates and wording above are not SPLIP policy terms', url: 'https://engineerscanada.ca/services/insurance-financial-and-other-benefits/secondary-professional-liability-insurance/frequently-asked-questions'}
+        {sourceType: 'insurance-program-guidance', title: 'Engineers Canada, Secondary Professional Liability Insurance — frequently asked questions', locator: 'Claims-made and reporting explanation; the hypothetical dates and wording above are not SPLIP policy terms', url: 'https://engineerscanada.ca/services/insurance-financial-and-other-benefits/secondary-professional-liability-insurance/frequently-asked-questions'}
       ]
     },
     {
@@ -154,7 +154,7 @@
       trap: 'Turning a reduction in one impact into an unsupported claim of superior total performance.',
       sources: [
         {sourceType: 'textbook', title: 'Andrews, Shaw and McPhee, Canadian Professional Engineering and Geoscience: Practice and Ethics, 6th ed. (2019)', locator: 'Ch. 13, section 13.4, pp. 311–312: stewardship and life-cycle planning'},
-        {sourceType: 'primary-guidance', title: 'Engineers Canada, National guideline on sustainable development and environmental stewardship for professional engineers', locator: 'Sections 5.5–5.6: costs, benefits and life-cycle planning; advisory guidance', url: 'https://engineerscanada.ca/guidelines-and-papers/national-guideline-on-sustainable-development-and-environmental-stewardship-for-professional-engineers'}
+        {sourceType: 'national-guidance', title: 'Engineers Canada, National guideline on sustainable development and environmental stewardship for professional engineers', locator: 'Sections 5.5–5.6: costs, benefits and life-cycle planning; advisory guidance', url: 'https://engineerscanada.ca/guidelines-and-papers/national-guideline-on-sustainable-development-and-environmental-stewardship-for-professional-engineers'}
       ]
     },
     {
