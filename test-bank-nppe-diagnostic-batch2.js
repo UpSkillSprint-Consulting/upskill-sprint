@@ -44,18 +44,18 @@ var questions=[
     "learningObjective": "Evaluate an offered gift that may compromise independent professional judgment.",
     "stem": "A supplier competing for a safety-critical equipment contract offers the engineer evaluating bids an expensive weekend trip, describing it as an industry demonstration. The supplier will pay for travel and accommodation. What is the best response?",
     "options": [
-    "Accept because the trip has a technical component and no contract has been awarded.",
-    "Accept privately but avoid voting at the final selection meeting.",
+    "Disclose the supplier-funded trip and attend while using a documented technical evaluation scorecard.",
+    "Accept the trip as training but abstain only from the final contract-approval vote.",
     "Decline the trip, disclose the offer and arrange an impartial evaluation.",
-    "Ask the supplier to provide the same trip after the contract award."
+    "Postpone the supplier-paid trip until shortly after the award to avoid influencing the current scoring."
   ],
     "answer": 2,
     "optionRationales": [
-      "A technical label does not neutralize the substantial personal benefit or appearance of compromised independence.",
-      "Abstaining at one meeting does not address undisclosed influence over the engineer's evaluation or prior decisions.",
-      "Declining and disclosing addresses both actual and perceived conflicts while protecting procurement integrity.",
-      "Delaying the benefit does not eliminate the connection between the decision and a valuable inducement."
-    ],
+    "Disclosure and a scorecard alone do not neutralize the valuable personal benefit offered by a bidder under evaluation.",
+    "Recusal from a final vote does not necessarily remove the undue influence from earlier supplier evaluation or the improperly accepted benefit.",
+    "Declining and disclosing addresses both actual and perceived conflicts while protecting procurement integrity.",
+    "Deferring the valuable benefit does not eliminate the connection to the competitive award decision or the appearance of inducement."
+  ],
     "keyPoint": "Professional independence requires proactive management of material gifts and conflicts.",
     "trap": "Assuming a gift becomes acceptable when framed as training or deferred.",
     "sources": [
@@ -74,18 +74,18 @@ var questions=[
     "learningObjective": "Choose a proportionate response to credible immediate public-safety risk and management pressure.",
     "stem": "A plant engineer finds credible evidence that a pressure-system safeguard may fail during the next operating shift. Management asks the engineer to keep the concern confidential until a scheduled review next month. Which response is most appropriate?",
     "options": [
-    "Remain silent because an employee's duty of loyalty always overrides concern for public safety.",
-    "Post unverified allegations on social media immediately without first pursuing protective action.",
-    "Wait for the monthly review because only an actual accident establishes a duty to act.",
+    "Record the hazard and defer shift controls until a reliability team verifies the probability of failure.",
+    "Report to a regulator first but wait for its reply before alerting the operating shift.",
+    "Advise management of the concern and permit the next shift to operate under the existing plan until the scheduled review.",
     "Promptly communicate the hazard, seek immediate controls and escalate as needed."
   ],
     "answer": 3,
     "optionRationales": [
-      "Employer loyalty does not displace the paramount obligation to protect people from a credible serious hazard.",
-      "Uncontrolled public allegations are not a substitute for timely risk assessment, protective measures and appropriate escalation.",
-      "A credible foreseeable hazard requires a response before harm occurs; waiting for an accident is inappropriate.",
-      "The response prioritizes immediate protection, documentation and escalation appropriate to the urgency and applicable duties."
-    ],
+    "The stem already establishes credible evidence of a potentially imminent failure; delaying protective steps for precise probability estimates is not appropriate.",
+    "External escalation may be required, but waiting for a regulator's response before warning and protecting affected personnel risks avoidable harm.",
+    "Notification without proportionate near-term risk controls leaves the credible next-shift hazard unaddressed.",
+    "The response prioritizes immediate protection, documentation and escalation appropriate to the urgency and applicable duties."
+  ],
     "keyPoint": "Serious foreseeable harm calls for timely protective action and proportionate escalation.",
     "trap": "Treating confidentiality or the absence of an accident as grounds for inaction.",
     "sources": [
@@ -164,18 +164,18 @@ var questions=[
     "learningObjective": "Distinguish supervisory responsibility from unreviewed delegation.",
     "stem": "A senior engineer delegates inspection data collection to a qualified technologist. Before issuing a compliance report, the engineer notices that several critical measurements were omitted. The technologist says the remaining measurements are sufficient. What should the engineer do?",
     "options": [
-    "Issue the report because delegated measurements are solely the technologist's responsibility.",
-    "Issue the report with a statement that all missing measurements are assumed satisfactory.",
-    "Ask the client to accept responsibility for any missing measurements.",
+    "Issue a compliance conclusion but list omitted critical measurements as a footnote limitation.",
+    "Accept the technologist's judgement that the remaining measurements represent the missing critical locations.",
+    "Obtain the client's acceptance of the omitted measurements, then issue an unqualified compliance statement.",
     "Obtain missing evidence or qualify or withhold any unsupported compliance conclusion."
   ],
     "answer": 3,
     "optionRationales": [
-      "Delegation does not eliminate the professional's duty to establish an adequate basis for conclusions.",
-      "Assuming missing safety-critical evidence is satisfactory is not a technical verification.",
-      "Client acceptance does not establish the factual basis for a professional compliance conclusion.",
-      "The engineer should assess significance, obtain necessary evidence and qualify or withhold conclusions that are not supported."
-    ],
+    "Calling the work compliant while acknowledging that required critical evidence is missing remains an inadequately supported conclusion.",
+    "A representative-data assumption is not established by an unsupported assurance where the missing measurements are critical.",
+    "Client acceptance of uncertainty does not supply missing technical evidence or justify an unqualified conclusion.",
+    "The engineer should assess significance, obtain necessary evidence and qualify or withhold conclusions that are not supported."
+  ],
     "keyPoint": "Professional supervision requires adequate evidence for signed conclusions.",
     "trap": "Confusing delegated data collection with delegated professional accountability.",
     "sources": [
@@ -296,18 +296,18 @@ var questions=[
     "learningObjective": "Differentiate preliminary complaint screening from a disciplinary finding.",
     "stem": "A regulator receives a detailed complaint alleging that an engineer sealed drawings without an adequate review. The engineer says the complainant is a competitor and asks the regulator to reject the complaint without examining the evidence. Which approach best reflects a fair regulatory process?",
     "options": [
-    "Assume misconduct because the complaint contains detailed allegations.",
-    "Dismiss the complaint because competitors are not permitted to raise concerns.",
-    "Publish a finding of guilt immediately to protect the regulator's reputation.",
+    "Reject the complaint after noting the competitor's apparent incentive, without evaluating its supporting records.",
+    "Require the complainant to prove misconduct conclusively before any preliminary regulatory assessment.",
+    "Announce an interim finding of professional misconduct based on the complaint and allow an appeal afterwards.",
     "Assess the evidence fairly and hear the engineer before any disciplinary finding."
   ],
     "answer": 3,
     "optionRationales": [
-      "Detailed allegations remain allegations until evaluated through the prescribed process.",
-      "A complainant's potential motive may affect credibility but does not automatically negate evidence of possible misconduct.",
-      "Public protection does not justify prejudging allegations or bypassing procedural fairness.",
-      "A fair, evidence-based process protects both the public and the practitioner's right to answer the case."
-    ],
+    "A possible competitive motive is a credibility consideration, not a substitute for evidence review when professional misconduct is alleged.",
+    "Complaint intake and investigation do not generally require a completed finding of misconduct from the complainant at the outset.",
+    "A disciplinary finding cannot ordinarily rest solely on an untested allegation; procedural fairness must precede an adjudicated conclusion.",
+    "A fair, evidence-based process protects both the public and the practitioner's right to answer the case."
+  ],
     "keyPoint": "Complaint receipt is not a finding of misconduct; fair investigation and adjudication are distinct stages.",
     "trap": "Treating either an allegation or a complainant's motive as conclusive.",
     "sources": [
