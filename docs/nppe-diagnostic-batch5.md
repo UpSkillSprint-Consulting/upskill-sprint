@@ -13,7 +13,7 @@ The built simulator provides **69 minutes timed** (`ceil(50 × 150 / 110)`) or a
 | 041 | II.2 | Identify Aristotelian virtue-ethics reasoning | Easy | Understanding | C |
 | 042 | II.3 | Give appropriate credit for supervised technical work | Medium | Application | A |
 | 043 | III.4 | Binding incorporation of a voluntary technical standard | Medium | Application | D |
-| 044 | III.7 | Manage suspected compromise of confidential project data | Hard | Analysis | B |
+| 044 | III.7 | Manage suspected compromise of confidential project data | Medium | Analysis | B |
 | 045 | III.9 | Protect the public and report substantiated data falsification proportionately | Hard | Analysis | D |
 | 046 | IV.5 | Classify employee versus independent contractor by actual working relationship | Medium | Application | A |
 | 047 | IV.9 | Distinguish labour/material payment bonds from performance bonds | Easy | Understanding | B |
@@ -21,7 +21,7 @@ The built simulator provides **69 minutes timed** (`ceil(50 × 150 / 110)`) or a
 | 049 | IV.12 | Apply Saskatchewan's work-refusal process | Medium | Application | A |
 | 050 | VI.2 | Distinguish BC individual practice review from audit/discipline | Medium | Application | C |
 
-Answer-key distribution: **A 3 / B 2 / C 3 / D 2**. Difficulty: **2 easy, 6 moderate, 2 demanding** (all author estimates, not official item statistics). The correct response is not the longest alternative in any Batch 5 question; that removes one superficial answer-position clue, but does not itself prove good discrimination.
+Answer-key distribution: **A 3 / B 2 / C 3 / D 2**. Difficulty: **2 easy, 7 moderate, 1 demanding** (all author estimates, not official item statistics). The correct response is not the longest alternative in any Batch 5 question; that removes one superficial answer-position clue, but does not itself prove good discrimination.
 
 All questions have **four distinct options and one intended best answer**, rationale for **each** option, blueprint, learning objective, jurisdiction, question-family ID, key point, common error, provisional difficulty/cognitive level, and page/section or source URL locators. The stems use separate case situations and are original, with no imported/reworded Pearson instructor test-bank material.
 
