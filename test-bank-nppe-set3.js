@@ -2848,7 +2848,7 @@
       stem: 'A member says the code reaches only physical safety, so inventing a test result that hurt nobody cannot be discipline. What is the best correction?',
       options: [
         'He is right. Without an injury there is nothing for a discipline committee to hear.',
-        'He is right if the client was not charged for the test. An unpaid false result is outside the code.',
+        'He is right if the client was not charged for the test. Discipline does not reach an unpaid false result.',
         'He is right. Discipline exists only to award damages for an injury.',
         'Dishonesty in a professional document can be misconduct even when nobody is injured.'
       ],

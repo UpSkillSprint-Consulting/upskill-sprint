@@ -749,7 +749,7 @@ add('VI.1','easy',
  'A member says the code reaches only physical safety, so inventing a test result that hurt nobody cannot be discipline. What is the best correction?',
  'Dishonesty in a professional document can be misconduct even when nobody is injured.',
  [('He is right. Without an injury there is nothing for a discipline committee to hear.','Harm is not the only ground. A false result is itself the conduct.'),
-  ('He is right if the client was not charged for the test. An unpaid false result is outside the code.','The fee does not decide whether the result was honest.'),
+  ('He is right if the client was not charged for the test. Discipline does not reach an unpaid false result.','The fee does not decide whether the result was honest.'),
   ('He is right. Discipline exists only to award damages for an injury.','Discipline is not a damages court, and it is not limited to injuries.')],
  'The committee can deal with the false document. The absence of an injury does not close the complaint.')
 

@@ -2887,14 +2887,14 @@
         'Supervised practice for that structural work, if the Act authorizes that order.'
       ],
       answer: 3,
-      why: '<p>Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.</p><p><strong>Blueprint:</strong> VI.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Supervised practice is an order that regulates her licence and the work she may do, where the Act authorizes it. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.</p><p><strong>Blueprint:</strong> VI.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
-        'This choice is wrong because it claims that payment of $200,000 in damages to a neighbour who was not a party to the hearing. Those orders regulate her practice and her licence.',
-        'What this gets wrong is the assertion that the committee sentences her to thirty days in jail. Those orders regulate her practice and her licence.',
-        'Reject this one: it depends on the idea that cancellation of the owner\'s construction contract with the contractor. Those orders regulate her practice and her licence.',
-        'Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.'
+        'A discipline committee does not award damages to a neighbour who was not a party. That is a court claim, not a practice order.',
+        'The committee does not sentence anyone to jail. A criminal court does that, and only for an offence.',
+        'The committee does not cancel a contract between the owner and the contractor. It regulates the member, not that bargain.',
+        'Supervised practice is an order that regulates her licence and the work she may do, where the Act authorizes it. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.'
       ],
-      keyPoint: 'Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.',
+      keyPoint: 'Supervised practice is an order that regulates her licence and the work she may do, where the Act authorizes it.',
       trap: 'Payment of $200,000 in damages to a neighbour who was not a party to the hearing.',
       original: true,
       sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
