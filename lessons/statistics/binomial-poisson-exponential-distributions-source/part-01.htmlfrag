@@ -34,7 +34,7 @@
 <meta content="article" property="og:type"/>
 <meta content="Binomial, Poisson &amp; Exponential Distributions | UpSkill Sprint" property="og:title"/>
 <meta content="Compare Binomial, Poisson, and Exponential distributions with quality-engineering examples, step-by-step calculations, and interactive simulations." property="og:description"/>
-<meta content="https://upskillsprint.com/assets/logo-icon.png" property="og:image"/>
+<meta content="https://upskillsprint.com/assets/logo-og.png" property="og:image"/>
 <meta content="https://upskillsprint.com/lessons/statistics/binomial-poisson-exponential-distributions" property="og:url"/>
 <meta content="summary" name="twitter:card"/>
 <link href="/style.css" rel="stylesheet"/>
@@ -50,8 +50,7 @@
 <header class="site lesson-sitebar">
   <div class="brand-stack">
     <a class="brand-link" href="/">
-      <img alt="UpSkill Sprint Consulting logo" src="/assets/logo-icon.png"/>
-      <span>UpSkill Sprint Consulting</span>
+      <img class="logo-wordmark" alt="UpSkill Sprint Consulting" src="/assets/logo-wordmark.png" data-logo-light="/assets/logo-wordmark.png" data-logo-dark="/assets/logo-wordmark-on-dark.png"/>
     </a>
     <a class="back-link" href="/lessons#statistics">Back to Statistics</a>
   </div>

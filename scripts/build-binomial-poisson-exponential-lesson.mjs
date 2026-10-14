@@ -44,7 +44,7 @@ function validateLesson(html, css) {
   require(html.includes('<!-- EDIT: Lesson styles -->'), 'Missing lesson-style edit marker.');
   require(html.includes('<!-- EDIT: Interactive lesson JavaScript -->'), 'Missing lesson-script edit marker.');
   require(!html.includes('LESSON_STYLE_BUNDLE') && !html.includes('LESSON_SCRIPT_BUNDLE'), 'Build placeholders remain in assembled HTML.');
-  require(/<img\b[^>]*src=["']\/assets\/logo-icon\.png["']/i.test(html), 'Required logo path is missing.');
+  require(/<img\b[^>]*src=["']\/assets\/logo-wordmark\.png["']/i.test(html), 'Required logo path is missing.');
   require(/<a\b[^>]*class=["'][^"']*brand-link[^"']*["'][^>]*href=["']\/["']/i.test(html), 'Required home brand link is missing.');
   require(/<a\b[^>]*class=["'][^"']*back-link[^"']*["'][^>]*href=["']\/lessons#statistics["'][^>]*>\s*Back to Statistics\s*<\/a>/i.test(html), 'Required Back to Statistics header link is missing.');
   require(/<button\b[^>]*class=["'][^"']*theme-toggle[^"']*["'][^>]*data-theme-toggle=["']true["'][^>]*role=["']switch["']/i.test(html), 'Theme toggle is missing required hooks.');

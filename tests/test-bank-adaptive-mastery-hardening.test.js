@@ -257,7 +257,7 @@ test('buildMasteryReport produces a well-formed, multi-section PDF with logo, fo
   const api = window.__TBAdaptiveHardening;
   const summary = api.summary(timestamp);
   const breakdown = api.subtopicBreakdown(timestamp);
-  const logoBuffer = fs.readFileSync(path.join(ROOT, 'assets', 'logo-icon.png'));
+  const logoBuffer = fs.readFileSync(path.join(ROOT, 'assets', 'logo-wordmark.png'));
   const logoDataUrl = 'data:image/png;base64,' + logoBuffer.toString('base64');
   const reportId = 'RPT-CSSBB-TESTFIXTURE';
 

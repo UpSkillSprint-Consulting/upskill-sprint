@@ -269,14 +269,14 @@
     if (!badge) return;
 
     const logo = document.createElement('img');
-    logo.src = '/assets/logo-icon.png';
-    logo.alt = 'UpSkill Sprint Consulting logo';
-    logo.width = 38;
-    logo.height = 38;
+    logo.src = '/assets/logo-wordmark.png';
+    logo.alt = 'UpSkill Sprint Consulting';
+    logo.className = 'logo-wordmark';
+    logo.style.cssText = 'display:block;height:36px;width:auto;object-fit:contain;';
 
     badge.replaceChildren(logo);
     badge.classList.add('upskill-checker-logo-slot');
-    badge.setAttribute('aria-label', 'UpSkill Sprint Consulting logo');
+    badge.setAttribute('aria-label', 'UpSkill Sprint Consulting');
   }
 
   function repairEngineeringToolsCleanRoute() {
