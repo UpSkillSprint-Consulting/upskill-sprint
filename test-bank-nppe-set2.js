@@ -1,6 +1,6 @@
 /*
  * NPPE author Set 2 — Mock D only.
- * Released items: NPPE-501 through NPPE-570 (70).
+ * Released items: NPPE-501 through NPPE-580 (80).
  * Mock D target: NPPE-501 through NPPE-610 (110). The form is not launchable yet.
  * These items stay inside Set 2. They must not be copied into Set 1 or Set 3.
  * Original questions. Not affiliated with any Canadian engineering or geoscience regulator.
@@ -2176,6 +2176,316 @@
       ],
       keyPoint: 'An employer can be vicariously liable for an employee\'s negligence on the job.',
       trap: 'She is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:571',
+      legacyId: 'NPPE-571',
+      sub: 'nppe-law',
+      blueprint: 'IV.1',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A client says a discipline charge must be proved beyond a reasonable doubt, because that is the standard in every Canadian proceeding. What is the best correction?',
+      options: [
+        'Proof beyond a reasonable doubt is the criminal standard. A civil claim is decided on a balance of probabilities. A professional discipline proceeding is not a criminal trial and does not use the criminal standard.',
+        'The client is right. Discipline is a criminal prosecution, so the criminal standard applies.',
+        'The client is right. The balance of probabilities is used only in Quebec.',
+        'Discipline charges cannot be proved. They are only informal conversations.'
+      ],
+      answer: 0,
+      why: '<p>The criminal standard is higher because a conviction is a criminal consequence. A civil claim is proved on a balance of probabilities, meaning more likely than not. Discipline under a provincial or territorial Act is not a criminal trial, so the criminal standard is the wrong one to name.</p><p><strong>Blueprint:</strong> IV.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'The criminal standard is higher because a conviction is a criminal consequence. A civil claim is proved on a balance of probabilities, meaning more likely than not. Discipline under a provincial or territorial Act is not a criminal trial, so the criminal standard is the wrong one to name.',
+        'Not the best answer. "The client is right. Discipline is a criminal prosecution, so the criminal standard applies." does not satisfy the duty this scenario tests. The criminal standard is higher because a conviction is a criminal consequence. A civil claim is proved on a balance of probabilities, meaning more likely than not. Discipline under a provincial or territorial Act is not a criminal trial, so the criminal standard is the wrong one to name.',
+        'Not the best answer. "The client is right. The balance of probabilities is used only in Quebec." does not satisfy the duty this scenario tests. The criminal standard is higher because a conviction is a criminal consequence. A civil claim is proved on a balance of probabilities, meaning more likely than not. Discipline under a provincial or territorial Act is not a criminal trial, so the criminal standard is the wrong one to name.',
+        'Not the best answer. "Discipline charges cannot be proved. They are only informal conversations." does not satisfy the duty this scenario tests. The criminal standard is higher because a conviction is a criminal consequence. A civil claim is proved on a balance of probabilities, meaning more likely than not. Discipline under a provincial or territorial Act is not a criminal trial, so the criminal standard is the wrong one to name.'
+      ],
+      keyPoint: 'The criminal standard is higher because a conviction is a criminal consequence.',
+      trap: 'The client is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:572',
+      legacyId: 'NPPE-572',
+      sub: 'nppe-law',
+      blueprint: 'IV.1',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee in Alberta says a Quebec trial judgment about a private contract binds the Alberta court, because both courts are Canadian. What is the best judgment?',
+      options: [
+        'She is right. Every Canadian court decision binds every other Canadian court.',
+        'She is right. A Quebec trial judgment is treated as if the Supreme Court of Canada had written it.',
+        'She is wrong. Quebec private law is civil law under the Civil Code. Alberta decides contract disputes under the common law and Alberta statutes. A Quebec trial judgment is not binding precedent in Alberta.',
+        'She is wrong because every contract dispute is federal and only the Federal Court may hear it.'
+      ],
+      answer: 2,
+      why: '<p>Property and civil rights, including most contracts, are provincial. Quebec\'s private law comes from the civil law. The other provinces use the common law plus their own statutes. A trial judgment from Quebec does not bind an Alberta court. A decision of the Supreme Court of Canada on a point that actually applies is a different matter. Contract disputes are not reserved to the Federal Court.</p><p><strong>Blueprint:</strong> IV.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "She is right. Every Canadian court decision binds every other Canadian court." does not satisfy the duty this scenario tests. Property and civil rights, including most contracts, are provincial. Quebec\'s private law comes from the civil law. The other provinces use the common law plus their own statutes. A trial judgment from Quebec does not bind an Alberta court. A decision of the Supreme Court of Canada on a point that actually applies is a different matter. Contract disputes are not reserved to the Federal Court.',
+        'Not the best answer. "She is right. A Quebec trial judgment is treated as if the Supreme Court of Canada had written it." does not satisfy the duty this scenario tests. Property and civil rights, including most contracts, are provincial. Quebec\'s private law comes from the civil law. The other provinces use the common law plus their own statutes. A trial judgment from Quebec does not bind an Alberta court. A decision of the Supreme Court of Canada on a point that actually applies is a different matter. Contract disputes are not reserved to the Federal Court.',
+        'Property and civil rights, including most contracts, are provincial. Quebec\'s private law comes from the civil law. The other provinces use the common law plus their own statutes. A trial judgment from Quebec does not bind an Alberta court. A decision of the Supreme Court of Canada on a point that actually applies is a different matter. Contract disputes are not reserved to the Federal Court.',
+        'Not the best answer. "She is wrong because every contract dispute is federal and only the Federal Court may hear it." does not satisfy the duty this scenario tests. Property and civil rights, including most contracts, are provincial. Quebec\'s private law comes from the civil law. The other provinces use the common law plus their own statutes. A trial judgment from Quebec does not bind an Alberta court. A decision of the Supreme Court of Canada on a point that actually applies is a different matter. Contract disputes are not reserved to the Federal Court.'
+      ],
+      keyPoint: 'Property and civil rights, including most contracts, are provincial.',
+      trap: 'She is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:573',
+      legacyId: 'NPPE-573',
+      sub: 'nppe-law',
+      blueprint: 'IV.3',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee sealed a drawing in 2019. The owner first found the error in 2024, when a beam moved, and sued in 2025. The licensee says every claim in Canada dies two years after the seal is applied, so she need not respond. What is the best judgment?',
+      options: [
+        'She is right. Every province runs a two-year period from the day of the seal, with no exception.',
+        'She is right. A limitation period starts when the seal is applied even if the owner could not have known of the error.',
+        'She is wrong. Limitation periods have been abolished for professional negligence.',
+        'She is wrong to treat one national clock as automatic. These statutes are provincial. Many start when the claim was discovered, or ought to have been discovered, and many also have a longer ultimate period. The statute that applies has to be read. Two years from the seal, everywhere, is not that rule.'
+      ],
+      answer: 3,
+      why: '<p>There is no single Canadian limitation period for professional claims. The provinces write their own. A common feature is discoverability: time may not start until the claimant knew, or ought to have known, the material facts. A longer ultimate period often limits how far back a claim can reach. Naming one number and starting it on the seal date, for every province, is a mistake.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "She is right. Every province runs a two-year period from the day of the seal, with no exception." does not satisfy the duty this scenario tests. There is no single Canadian limitation period for professional claims. The provinces write their own. A common feature is discoverability: time may not start until the claimant knew, or ought to have known, the material facts. A longer ultimate period often limits how far back a claim can reach. Naming one number and starting it on the seal date, for every province, is a mistake.',
+        'Not the best answer. "She is right. A limitation period starts when the seal is applied even if the owner could not have known of the error." does not satisfy the duty this scenario tests. There is no single Canadian limitation period for professional claims. The provinces write their own. A common feature is discoverability: time may not start until the claimant knew, or ought to have known, the material facts. A longer ultimate period often limits how far back a claim can reach. Naming one number and starting it on the seal date, for every province, is a mistake.',
+        'Not the best answer. "She is wrong. Limitation periods have been abolished for professional negligence." does not satisfy the duty this scenario tests. There is no single Canadian limitation period for professional claims. The provinces write their own. A common feature is discoverability: time may not start until the claimant knew, or ought to have known, the material facts. A longer ultimate period often limits how far back a claim can reach. Naming one number and starting it on the seal date, for every province, is a mistake.',
+        'There is no single Canadian limitation period for professional claims. The provinces write their own. A common feature is discoverability: time may not start until the claimant knew, or ought to have known, the material facts. A longer ultimate period often limits how far back a claim can reach. Naming one number and starting it on the seal date, for every province, is a mistake.'
+      ],
+      keyPoint: 'There is no single Canadian limitation period for professional claims.',
+      trap: 'She is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:574',
+      legacyId: 'NPPE-574',
+      sub: 'nppe-law',
+      blueprint: 'IV.3',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'An owner was warned in writing not to load a slab until the shoring was complete. The owner loaded it. The licensee\'s detail was also below the standard of care, and both causes contributed to the collapse. The owner says the licensee\'s error means the owner recovers the whole loss. What is the best judgment?',
+      options: [
+        'The owner is wrong. Where both contributed, responsibility can be divided. The owner\'s own failure can reduce the damages. It does not automatically cancel the licensee\'s breach, and her breach does not automatically cancel the owner\'s contribution.',
+        'The owner is right. A professional who is at fault pays the whole loss even if the owner\'s ignored warning also caused the collapse.',
+        'The licensee pays nothing whenever the owner is also at fault.',
+        'The division is always an equal split, whatever the facts show.'
+      ],
+      answer: 0,
+      why: '<p>Contributory negligence does not always bar the claim, and it does not always leave the damages untouched. The court can apportion responsibility according to the contribution of each. A written warning the owner ignored is relevant to that apportionment. It is not a rule that one party\'s fault erases the other\'s, and it is not an automatic even split.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Contributory negligence does not always bar the claim, and it does not always leave the damages untouched. The court can apportion responsibility according to the contribution of each. A written warning the owner ignored is relevant to that apportionment. It is not a rule that one party\'s fault erases the other\'s, and it is not an automatic even split.',
+        'Not the best answer. "The owner is right. A professional who is at fault pays the whole loss even if the owner\'s ignored warning also caused the collapse." does not satisfy the duty this scenario tests. Contributory negligence does not always bar the claim, and it does not always leave the damages untouched. The court can apportion responsibility according to the contribution of each. A written warning the owner ignored is relevant to that apportionment. It is not a rule that one party\'s fault erases the other\'s, and it is not an automatic even split.',
+        'Not the best answer. "The licensee pays nothing whenever the owner is also at fault." does not satisfy the duty this scenario tests. Contributory negligence does not always bar the claim, and it does not always leave the damages untouched. The court can apportion responsibility according to the contribution of each. A written warning the owner ignored is relevant to that apportionment. It is not a rule that one party\'s fault erases the other\'s, and it is not an automatic even split.',
+        'Not the best answer. "The division is always an equal split, whatever the facts show." does not satisfy the duty this scenario tests. Contributory negligence does not always bar the claim, and it does not always leave the damages untouched. The court can apportion responsibility according to the contribution of each. A written warning the owner ignored is relevant to that apportionment. It is not a rule that one party\'s fault erases the other\'s, and it is not an automatic even split.'
+      ],
+      keyPoint: 'Contributory negligence does not always bar the claim, and it does not always leave the damages untouched.',
+      trap: 'The owner is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:575',
+      legacyId: 'NPPE-575',
+      sub: 'nppe-law',
+      blueprint: 'IV.3',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'An owner retains a licensee as an expert in a lawsuit. The owner asks her to leave out a test result that hurts the owner\'s theory, and to argue the case as the owner\'s advocate. What is the most appropriate action?',
+      options: [
+        'Comply. An expert is hired to present the party\'s best case.',
+        'Comply if the owner is paying the fee. The payer chooses which facts enter the opinion.',
+        'Refuse. Her duty as an expert is an independent opinion to the court or tribunal. She does not hide a relevant result or act as the owner\'s advocate. If the owner insists, she declines the assignment.',
+        'Omit the result, and write "owner\'s theory" under the opinion. The label makes the omission acceptable.'
+      ],
+      answer: 2,
+      why: '<p>An expert\'s duty is to the court or tribunal, not to the party who pays. Independence means the relevant facts stay in the opinion, including facts that hurt the theory. Advocacy is counsel\'s role. A label under a trimmed opinion does not restore the independence the role requires.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "Comply. An expert is hired to present the party\'s best case." does not satisfy the duty this scenario tests. An expert\'s duty is to the court or tribunal, not to the party who pays. Independence means the relevant facts stay in the opinion, including facts that hurt the theory. Advocacy is counsel\'s role. A label under a trimmed opinion does not restore the independence the role requires.',
+        'Not the best answer. "Comply if the owner is paying the fee. The payer chooses which facts enter the opinion." does not satisfy the duty this scenario tests. An expert\'s duty is to the court or tribunal, not to the party who pays. Independence means the relevant facts stay in the opinion, including facts that hurt the theory. Advocacy is counsel\'s role. A label under a trimmed opinion does not restore the independence the role requires.',
+        'An expert\'s duty is to the court or tribunal, not to the party who pays. Independence means the relevant facts stay in the opinion, including facts that hurt the theory. Advocacy is counsel\'s role. A label under a trimmed opinion does not restore the independence the role requires.',
+        'Not the best answer. "Omit the result, and write "owner\'s theory" under the opinion. The label makes the omission acceptable." does not satisfy the duty this scenario tests. An expert\'s duty is to the court or tribunal, not to the party who pays. Independence means the relevant facts stay in the opinion, including facts that hurt the theory. Advocacy is counsel\'s role. A label under a trimmed opinion does not restore the independence the role requires.'
+      ],
+      keyPoint: 'An expert\'s duty is to the court or tribunal, not to the party who pays.',
+      trap: 'Comply',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:576',
+      legacyId: 'NPPE-576',
+      sub: 'nppe-law',
+      blueprint: 'IV.2',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A contractor has not been paid for work that improved private land. A colleague says a construction lien is only another name for a lawsuit on the contract, and that a letter complaining about the invoice keeps the lien alive for as long as the contractor wishes. What is the best correction?',
+      options: [
+        'The colleague is right. Under every provincial Act, a lien and a lawsuit are the same procedure.',
+        'The colleague is right. Once a lien is mentioned in a letter, it lasts indefinitely.',
+        'The colleague is wrong. Only the Crown can claim a lien, and only for taxes.',
+        'The colleague is wrong. A construction lien is a statutory remedy that can charge the improvement or the holdback for unpaid work and materials. The provincial Act sets how and when it must be preserved. A complaint letter is not that step, and a lien is not the same thing as a lawsuit on the contract.'
+      ],
+      answer: 3,
+      why: '<p>The lien is created by statute, not by the contract and not by a demand letter. It can tie up title or holdback money so the people who improved the land are not left only to a personal lawsuit. Each province sets the steps and the time. Missing those steps can end the lien even though a contract claim may still exist. There is no national rule that a letter keeps the lien alive.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The colleague is right. Under every provincial Act, a lien and a lawsuit are the same procedure." does not satisfy the duty this scenario tests. The lien is created by statute, not by the contract and not by a demand letter. It can tie up title or holdback money so the people who improved the land are not left only to a personal lawsuit. Each province sets the steps and the time. Missing those steps can end the lien even though a contract claim may still exist. There is no national rule that a letter keeps the lien alive.',
+        'Not the best answer. "The colleague is right. Once a lien is mentioned in a letter, it lasts indefinitely." does not satisfy the duty this scenario tests. The lien is created by statute, not by the contract and not by a demand letter. It can tie up title or holdback money so the people who improved the land are not left only to a personal lawsuit. Each province sets the steps and the time. Missing those steps can end the lien even though a contract claim may still exist. There is no national rule that a letter keeps the lien alive.',
+        'Not the best answer. "The colleague is wrong. Only the Crown can claim a lien, and only for taxes." does not satisfy the duty this scenario tests. The lien is created by statute, not by the contract and not by a demand letter. It can tie up title or holdback money so the people who improved the land are not left only to a personal lawsuit. Each province sets the steps and the time. Missing those steps can end the lien even though a contract claim may still exist. There is no national rule that a letter keeps the lien alive.',
+        'The lien is created by statute, not by the contract and not by a demand letter. It can tie up title or holdback money so the people who improved the land are not left only to a personal lawsuit. Each province sets the steps and the time. Missing those steps can end the lien even though a contract claim may still exist. There is no national rule that a letter keeps the lien alive.'
+      ],
+      keyPoint: 'The lien is created by statute, not by the contract and not by a demand letter.',
+      trap: 'The colleague is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:577',
+      legacyId: 'NPPE-577',
+      sub: 'nppe-law',
+      blueprint: 'IV.2',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'An owner holds a labour and material payment bond. A subcontractor has not been paid by the contractor. The owner has also lost money because the contractor is late. The owner says this bond pays the subcontractor and also pays the owner\'s delay costs. What is the best judgment?',
+      options: [
+        'The owner is right. A payment bond covers every loss on the project.',
+        'The owner is wrong about the delay costs. A labour and material payment bond protects claimants who supplied labour or materials and were not paid. The owner\'s own delay losses are claimed under the contract or a performance bond, not under the payment bond.',
+        'The owner is wrong. Every bond pays only the surety\'s own shareholders.',
+        'The owner is right if the bond carries a seal. A seal converts a payment bond into a performance bond.'
+      ],
+      answer: 1,
+      why: '<p>The three common construction bonds answer different risks. A bid bond responds if a bidder will not enter the contract. A performance bond responds to the owner\'s loss if the contractor does not perform. A labour and material payment bond responds to unpaid suppliers of labour and material. The owner\'s delay costs are not what the payment bond is written to pay, and a seal does not change one bond into the other.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The owner is right. A payment bond covers every loss on the project." does not satisfy the duty this scenario tests. The three common construction bonds answer different risks. A bid bond responds if a bidder will not enter the contract. A performance bond responds to the owner\'s loss if the contractor does not perform. A labour and material payment bond responds to unpaid suppliers of labour and material. The owner\'s delay costs are not what the payment bond is written to pay, and a seal does not change one bond into the other.',
+        'The three common construction bonds answer different risks. A bid bond responds if a bidder will not enter the contract. A performance bond responds to the owner\'s loss if the contractor does not perform. A labour and material payment bond responds to unpaid suppliers of labour and material. The owner\'s delay costs are not what the payment bond is written to pay, and a seal does not change one bond into the other.',
+        'Not the best answer. "The owner is wrong. Every bond pays only the surety\'s own shareholders." does not satisfy the duty this scenario tests. The three common construction bonds answer different risks. A bid bond responds if a bidder will not enter the contract. A performance bond responds to the owner\'s loss if the contractor does not perform. A labour and material payment bond responds to unpaid suppliers of labour and material. The owner\'s delay costs are not what the payment bond is written to pay, and a seal does not change one bond into the other.',
+        'Not the best answer. "The owner is right if the bond carries a seal. A seal converts a payment bond into a performance bond." does not satisfy the duty this scenario tests. The three common construction bonds answer different risks. A bid bond responds if a bidder will not enter the contract. A performance bond responds to the owner\'s loss if the contractor does not perform. A labour and material payment bond responds to unpaid suppliers of labour and material. The owner\'s delay costs are not what the payment bond is written to pay, and a seal does not change one bond into the other.'
+      ],
+      keyPoint: 'The three common construction bonds answer different risks.',
+      trap: 'The owner is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:578',
+      legacyId: 'NPPE-578',
+      sub: 'nppe-law',
+      blueprint: 'IV.4',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A consulting licensee prepares drawings for a client. The contract does not assign copyright. The client pays the invoice and says, "I paid, so I own the copyright and I may reuse these drawings on my next site." What is the best judgment?',
+      options: [
+        'Payment alone does not assign copyright. Unless the contract assigns it, the client does not become the owner merely by paying. A right to use the drawings for this project is not, by itself, a right to reuse them on the next site.',
+        'The client is right. The person who pays the invoice owns the copyright in every drawing.',
+        'The client is right. Copyright exists only after federal registration, and the client may register the drawings first.',
+        'No one owns copyright in an engineering drawing. Copyright applies only to novels and music.'
+      ],
+      answer: 0,
+      why: '<p>Copyright arises automatically when an original drawing is created. Registration is not required for it to exist. It protects the expression in the drawing, not the bare idea. The author is the first owner, subject to the employment rule and to any assignment. A client\'s payment, without an assignment, does not transfer ownership. Use on this project and reuse on another project are different rights, and the second one has to be granted.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Copyright arises automatically when an original drawing is created. Registration is not required for it to exist. It protects the expression in the drawing, not the bare idea. The author is the first owner, subject to the employment rule and to any assignment. A client\'s payment, without an assignment, does not transfer ownership. Use on this project and reuse on another project are different rights, and the second one has to be granted.',
+        'Not the best answer. "The client is right. The person who pays the invoice owns the copyright in every drawing." does not satisfy the duty this scenario tests. Copyright arises automatically when an original drawing is created. Registration is not required for it to exist. It protects the expression in the drawing, not the bare idea. The author is the first owner, subject to the employment rule and to any assignment. A client\'s payment, without an assignment, does not transfer ownership. Use on this project and reuse on another project are different rights, and the second one has to be granted.',
+        'Not the best answer. "The client is right. Copyright exists only after federal registration, and the client may register the drawings first." does not satisfy the duty this scenario tests. Copyright arises automatically when an original drawing is created. Registration is not required for it to exist. It protects the expression in the drawing, not the bare idea. The author is the first owner, subject to the employment rule and to any assignment. A client\'s payment, without an assignment, does not transfer ownership. Use on this project and reuse on another project are different rights, and the second one has to be granted.',
+        'Not the best answer. "No one owns copyright in an engineering drawing. Copyright applies only to novels and music." does not satisfy the duty this scenario tests. Copyright arises automatically when an original drawing is created. Registration is not required for it to exist. It protects the expression in the drawing, not the bare idea. The author is the first owner, subject to the employment rule and to any assignment. A client\'s payment, without an assignment, does not transfer ownership. Use on this project and reuse on another project are different rights, and the second one has to be granted.'
+      ],
+      keyPoint: 'Copyright arises automatically when an original drawing is created.',
+      trap: 'The client is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:579',
+      legacyId: 'NPPE-579',
+      sub: 'nppe-law',
+      blueprint: 'IV.4',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A contract says the parties will mediate a dispute before either starts a lawsuit. The mediator recommends a settlement. One party says the recommendation is a binding award and the other party must obey it. What is the best judgment?',
+      options: [
+        'The party is right. A mediator\'s recommendation is an arbitration award.',
+        'The party is right. Any dispute clause replaces the courts with a binding private decision.',
+        'The party is wrong. Mediation is a structured attempt to settle. The mediator does not impose a binding decision. A binding private decision requires an agreement to arbitrate. A party may refuse the recommendation.',
+        'The party is wrong. Mediation is illegal on a construction dispute, so the clause is void.'
+      ],
+      answer: 2,
+      why: '<p>Mediation helps the parties look for a settlement they both accept. The mediator has no power to impose one. Arbitration is the private process that can produce a binding decision, and only because the parties agreed to that. A mediation clause does not silently become an arbitration clause, and mediation itself is a lawful process.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The party is right. A mediator\'s recommendation is an arbitration award." does not satisfy the duty this scenario tests. Mediation helps the parties look for a settlement they both accept. The mediator has no power to impose one. Arbitration is the private process that can produce a binding decision, and only because the parties agreed to that. A mediation clause does not silently become an arbitration clause, and mediation itself is a lawful process.',
+        'Not the best answer. "The party is right. Any dispute clause replaces the courts with a binding private decision." does not satisfy the duty this scenario tests. Mediation helps the parties look for a settlement they both accept. The mediator has no power to impose one. Arbitration is the private process that can produce a binding decision, and only because the parties agreed to that. A mediation clause does not silently become an arbitration clause, and mediation itself is a lawful process.',
+        'Mediation helps the parties look for a settlement they both accept. The mediator has no power to impose one. Arbitration is the private process that can produce a binding decision, and only because the parties agreed to that. A mediation clause does not silently become an arbitration clause, and mediation itself is a lawful process.',
+        'Not the best answer. "The party is wrong. Mediation is illegal on a construction dispute, so the clause is void." does not satisfy the duty this scenario tests. Mediation helps the parties look for a settlement they both accept. The mediator has no power to impose one. Arbitration is the private process that can produce a binding decision, and only because the parties agreed to that. A mediation clause does not silently become an arbitration clause, and mediation itself is a lawful process.'
+      ],
+      keyPoint: 'Mediation helps the parties look for a settlement they both accept.',
+      trap: 'The party is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:580',
+      legacyId: 'NPPE-580',
+      sub: 'nppe-law',
+      blueprint: 'IV.4',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee incorporates her practice. A client says that because the company signed the contract, she personally has no responsibility for the design she sealed, and the regulator can deal only with the company. What is the best judgment?',
+      options: [
+        'The client is right. Once a company exists, only the company can be responsible for sealed work.',
+        'The client is right. A permit-to-practice company ends the regulator\'s jurisdiction over the individual.',
+        'The client is wrong. Engineers and geoscientists are not permitted to incorporate in Canada.',
+        'The client is wrong. A company can limit the business exposure of people who only hold shares. It does not remove her responsibility for work she prepares or seals, and it does not end the regulator\'s jurisdiction over her.'
+      ],
+      answer: 3,
+      why: '<p>Professionals may practise through a company where the statute and the regulator allow it. The company is a separate person for business debts. The individual who does the professional work remains responsible for that work, and the regulator continues to regulate her. A company invoice does not move her seal, or the discipline jurisdiction, onto the company alone.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The client is right. Once a company exists, only the company can be responsible for sealed work." does not satisfy the duty this scenario tests. Professionals may practise through a company where the statute and the regulator allow it. The company is a separate person for business debts. The individual who does the professional work remains responsible for that work, and the regulator continues to regulate her. A company invoice does not move her seal, or the discipline jurisdiction, onto the company alone.',
+        'Not the best answer. "The client is right. A permit-to-practice company ends the regulator\'s jurisdiction over the individual." does not satisfy the duty this scenario tests. Professionals may practise through a company where the statute and the regulator allow it. The company is a separate person for business debts. The individual who does the professional work remains responsible for that work, and the regulator continues to regulate her. A company invoice does not move her seal, or the discipline jurisdiction, onto the company alone.',
+        'Not the best answer. "The client is wrong. Engineers and geoscientists are not permitted to incorporate in Canada." does not satisfy the duty this scenario tests. Professionals may practise through a company where the statute and the regulator allow it. The company is a separate person for business debts. The individual who does the professional work remains responsible for that work, and the regulator continues to regulate her. A company invoice does not move her seal, or the discipline jurisdiction, onto the company alone.',
+        'Professionals may practise through a company where the statute and the regulator allow it. The company is a separate person for business debts. The individual who does the professional work remains responsible for that work, and the regulator continues to regulate her. A company invoice does not move her seal, or the discipline jurisdiction, onto the company alone.'
+      ],
+      keyPoint: 'Professionals may practise through a company where the statute and the regulator allow it.',
+      trap: 'The client is right',
       original: true,
       sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
     }
