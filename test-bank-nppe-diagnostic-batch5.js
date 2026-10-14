@@ -132,18 +132,18 @@
     "jurisdiction": "Canadian engineering office; assumes an internal incident-response procedure and confidential proprietary project data; whether external breach notification is mandatory must be assessed.",
     "stem": "An engineer emails a confidential geotechnical dataset to a personal webmail account to finish a report at home. The engineer realizes the account has been compromised and that outsiders may have accessed the file. What is the most appropriate initial response?",
     "options": [
-      "Delete the sent email and assume the risk ends because it is no longer in the engineer's mailbox.",
-      "Notify the incident-response team promptly, preserve facts and help contain the disclosure.",
-      "Publish the entire dataset so all potential recipients have equal access to the information.",
-      "Wait for proof that somebody used the dataset before notifying anyone, to avoid an unnecessary investigation."
-    ],
+    "Delete the sent copy and reset webmail credentials; alert the employer only if access is later proved.",
+    "Notify the incident-response team promptly, preserve facts and help contain the disclosure.",
+    "Notify the client that every record has been taken, before investigating what access occurred or coordinating a response.",
+    "Ask the mail provider to revoke access and keep the issue internal to the engineer until a data leak is confirmed."
+  ],
     "answer": 1,
     "optionRationales": [
-      "Deleting a local message neither establishes that external copies were removed nor meets the obligation to investigate a suspected incident.",
-      "Timely internal reporting and coordinated containment permit a proper assessment of scope, confidentiality duties and any applicable client or legal notifications.",
-      "Public release would magnify the confidentiality breach and is not an appropriate incident-response measure.",
-      "A suspected compromise can require prompt reporting and containment before the precise extent of access is known."
-    ],
+    "Self-directed mitigation is not sufficient when confidential data may have been exposed and the designated response team needs to assess and contain the incident.",
+    "Timely internal reporting and coordinated containment permit a proper assessment of scope, confidentiality duties and any applicable client or legal notifications.",
+    "Prematurely asserting total disclosure is unsupported; the incident-response process should establish scope and coordinate accurate notification.",
+    "The professional should promptly involve designated organizational responders rather than assume the provider can contain the incident unaided."
+  ],
     "keyPoint": "Treat suspected confidential-data compromise as an incident requiring timely reporting, proportionate containment and documented assessment.",
     "trap": "Confusing deletion, secrecy or publication with effective security-incident management.",
     "sources": [
