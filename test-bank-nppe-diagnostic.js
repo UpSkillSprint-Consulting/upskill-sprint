@@ -354,7 +354,11 @@
   }
 ];
   function escape(value) { return String(value).replace(/[&<>"']/g, function(c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
-  // Batch 2 loads before this registrar in the authorized NPPE package.\n  var extension=global.NPPE_DIAGNOSTIC_BATCH2||[];\n  if(extension.length && (extension.length!==10 || questions.length!==10)) throw new Error('Invalid NPPE diagnostic batch boundary');\n  questions.push.apply(questions,extension);\n  questions.forEach(function(q, i) {
+  // Batch 2 loads before this registrar in the authorized NPPE package.
+  var extension=global.NPPE_DIAGNOSTIC_BATCH2||[];
+  if(extension.length && (extension.length!==10 || questions.length!==10)) throw new Error('Invalid NPPE diagnostic batch boundary');
+  questions.push.apply(questions,extension);
+  questions.forEach(function(q, i) {
     Object.assign(q, {qid:'nppe:set-1:diagnostic:'+String(i+1).padStart(3,'0'),legacyId:'NPPE-'+String(i+1).padStart(3,'0'),version:1,batch:i<10?1:2,authorSet:1,author:'ChatGPT',form:'set-1-diagnostic',bank:'diagnostic',set:1,original:true,scored:true,experimental:false,releaseStatus:'released',reviewStatus:'source-checked; not independently validated',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-14'});
     if(q.options.length!==4 || new Set(q.options).size!==4 || !Number.isInteger(q.answer) || q.answer<0 || q.answer>3 || q.optionRationales.length!==4 || !q.sources.length) throw new Error('Invalid diagnostic item '+q.qid);
     q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key principle:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common mistake:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return (s.url&&s.url.startsWith('https://')?'<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a>':escape(s.title))+' — '+escape(s.locator);}).join('; ')+'.</p><p>Original practice item. Difficulty is provisional; not an official NPPE question or pass prediction.</p>';
