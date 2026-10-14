@@ -13,12 +13,14 @@ jobs:
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
-      - name: Archive concurrent form files for integration tests
+      - name: Archive current source for diagnostic integration
         run: |
           git rev-parse HEAD > nppe-source-head.txt
-          tar -czf nppe-concurrent-workspace.tar.gz nppe-source-head.txt exam-practice.html test-bank.html test-bank-memory-learning.js test-bank-nppe-set2.js netlify/edge-functions/test-bank-mobile-picker.js supabase/migrations tests/exam-directory.test.js tests/exam-practice-section.test.js tests/test-bank-nppe-architecture.test.js
+          git archive --format=tar.gz HEAD > nppe-source.tar.gz
       - uses: actions/upload-artifact@v4
         with:
-          name: nppe-concurrent-workspace
-          path: nppe-concurrent-workspace.tar.gz
+          name: nppe-source-current
+          path: |
+            nppe-source-head.txt
+            nppe-source.tar.gz
           retention-days: 1
