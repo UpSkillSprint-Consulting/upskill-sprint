@@ -13,15 +13,15 @@
 | ID | Domain | Theme | Difficulty (provisional) | Correct option |
 | --- | --- | --- | --- | --- |
 | 011 | I.3 | Self-regulation and public protection | Medium | B |
-| 012 | II.4 | Supplier gifts and independence | Hard | C |
-| 013 | II.4 | Serious safety risk and escalation | Hard | D |
+| 012 | II.4 | Supplier gifts and independence | Medium | C |
+| 013 | II.4 | Serious safety risk and escalation | Medium | D |
 | 014 | III.5 | Design changes and hazard assessment | Medium | A |
-| 015 | III.3 | Continuing competence and specialists | Medium | B |
-| 016 | III.1 | Delegation and missing inspection evidence | Hard | D |
+| 015 | III.3 | Independent review, consultation and professional courtesy | Medium | B |
+| 016 | III.1 | Delegation and missing inspection evidence | Medium | D |
 | 017 | IV.3 | Negligence without contractual privity | Hard | C |
 | 018 | IV.2 | Express intention not to be bound | Medium | B |
 | 019 | V.2 | Interprovincial licensing | Medium | A |
-| 020 | VI.1 | Fair complaint investigation | Hard | D |
+| 020 | VI.1 | Fair complaint investigation | Medium | D |
 
 All items have four distinct options, exactly one intended correct answer, a rationale for each option, a learning objective, key principle, common distractor trap, jurisdiction caveat, blueprint mapping and source locators. Cognitive levels are application or analysis. Correct-answer distribution is A 2, B 3, C 2, D 3. Difficulty and blueprint mapping are provisional pending independent professional review.
 
