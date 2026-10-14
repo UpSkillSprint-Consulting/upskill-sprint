@@ -12,8 +12,8 @@ from urllib.parse import urlparse
 from playwright.sync_api import expect, sync_playwright
 
 helpers = runpy.run_path(str(Path(__file__).with_name('exam-practice-browser.py')))
-EXPECTED_COUNT = 40
-EXPECTED_MINUTES = 55
+EXPECTED_COUNT = 50
+EXPECTED_MINUTES = 69
 
 
 def main():
@@ -120,6 +120,7 @@ def main():
                     page.screenshot(path=str(out / f'{name}-question.png'), full_page=False)
                     batch3_checked = 0
                     batch4_checked = 0
+                    batch5_checked = 0
                     for index in range(EXPECTED_COUNT):
                         page.locator(f'[data-goto="{index}"]').click()
                         item = page.evaluate('i=>{const q=window.__TB.getFeedbackSnapshot().records[i].question;return {answer:q.answer,batch:q.batch};}', index)
@@ -133,9 +134,15 @@ def main():
                             expect(page.locator('[data-reveal]')).to_have_count(0)
                             expect(page.locator('#tb-feedback-loop')).to_have_count(0)
                             batch4_checked += 1
+                        if item['batch'] == 5:
+                            header_images_fit()
+                            expect(page.locator('[data-reveal]')).to_have_count(0)
+                            expect(page.locator('#tb-feedback-loop')).to_have_count(0)
+                            batch5_checked += 1
                         page.locator(f'[data-opt="{item["answer"]}"]').click()
                     assert batch3_checked == 10
                     assert batch4_checked == 10
+                    assert batch5_checked == 10
                     page.locator('[data-submit]').click()
                     expect(page.locator('[data-score-result]')).to_contain_text(f'100% ({EXPECTED_COUNT}/{EXPECTED_COUNT})')
                     expect(page.locator('.tb-domblock')).to_have_count(6)
@@ -148,7 +155,7 @@ def main():
                     page.screenshot(path=str(out / f'{name}-review.png'), full_page=False)
                     assert not errors, errors
                     result = {'case': name, 'result': 'PASS', 'score': f'{EXPECTED_COUNT}/{EXPECTED_COUNT}', 'domains': 6,
-                              'batch3Rendered': batch3_checked, 'batch4Rendered': batch4_checked, 'keyboardTabs': True, 'flagsAndNavigation': True,
+                              'batch3Rendered': batch3_checked, 'batch4Rendered': batch4_checked, 'batch5Rendered': batch5_checked, 'keyboardTabs': True, 'flagsAndNavigation': True,
                               'revealBlocked': True, 'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
                 except Exception as error:
                     result = {'case': name, 'result': 'FAIL', 'error': str(error), 'pageErrors': errors}
