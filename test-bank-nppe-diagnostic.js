@@ -186,18 +186,18 @@
     "jurisdiction": "Canada; professional principles, subject to applicable regulator requirements",
     "stem": "A licensed engineer is asked to sign and seal a final drawing prepared outside their supervision. They are competent in the subject, but have not reviewed the calculations or supporting information. The project manager says the seal is needed only to meet today's submission deadline. Which action is most appropriate?",
     "options": [
-    "Seal the drawing and add a note that the project manager accepted responsibility.",
+    "Seal it if the manager signs a letter accepting responsibility for the unreviewed calculations.",
     "Withhold authentication until an adequate technical review supports taking responsibility.",
-    "Seal the drawing now and review the calculations after submission.",
-    "Refuse permanently because a professional may never authenticate work originally prepared by someone else."
+    "Review only the drawing layout, seal it for the deadline, and examine calculations the following day.",
+    "Label it preliminary but allow construction based on it until a full review can be completed."
   ],
     "answer": 1,
     "optionRationales": [
-      "A management instruction cannot supply the technical basis for professional authentication. A note naming the manager does not cure an inadequate review.",
-      "Competence makes review possible, but does not replace the review itself. The engineer needs an adequate basis for accepting responsibility before authenticating the work, consistent with applicable regulator requirements.",
-      "The seal communicates responsibility when the drawing is issued. Reviewing later allows others to rely on an unverified document in the meantime.",
-      "The issue is insufficient professional involvement and review, not simply who first drew the document. Applicable requirements may allow authentication following an adequate review and acceptance of responsibility."
-    ],
+    "A management letter cannot replace the engineer's substantive verification or legally transfer personal professional accountability.",
+    "Competence makes review possible, but does not replace the review itself. The engineer needs an adequate basis for accepting responsibility before authenticating the work, consistent with applicable regulator requirements.",
+    "A superficial check followed by later calculation review leaves recipients relying on an authenticated document before adequate verification.",
+    "A preliminary designation does not make it safe or appropriate to authorize construction on unverified final design information."
+  ],
     "keyPoint": "Authentication follows an adequate basis for professional responsibility; it is not an administrative shortcut.",
     "trap": "Confusing competence to review with having actually completed the review.",
     "sources": [
@@ -321,18 +321,18 @@
     "jurisdiction": "Canada; professional principles, subject to applicable regulator requirements",
     "stem": "At a final disciplinary hearing, a panel receives technical allegations against a practitioner. A panel member has publicly stated that the practitioner is guilty before hearing the evidence. The practitioner has not been given the material being relied on and asks for an opportunity to respond. Which course best supports a fair hearing?",
     "options": [
-    "Proceed to a finding because an allegation from another professional is sufficient proof.",
+    "Retain the member after a promise of impartiality, and proceed without disclosing the evidence to the practitioner.",
     "Address possible bias and give the practitioner a fair chance to answer before a decision.",
-    "Dismiss the complaint automatically because the practitioner disputes the allegations.",
-    "Allow a response only after the panel announces its decision and penalty."
+    "Review allegations privately and decide the penalty, then permit the practitioner to submit a written objection.",
+    "Provide the case materials and hear the response but retain the member who has publicly declared guilt."
   ],
     "answer": 1,
     "optionRationales": [
-      "An allegation is not a finding. Professional status of the complainant does not remove the need for a fair process and assessment of the evidence.",
-      "The stated problems concern both impartiality and the opportunity to answer the case. They should be addressed before deciding the merits; the exact procedural remedy depends on the applicable framework.",
-      "Disagreement with an allegation does not establish innocence or require automatic dismissal. A fair process permits the relevant evidence and response to be assessed.",
-      "A response after the final decision does not provide a meaningful opportunity to influence that decision beforehand. The hearing must be fair, not merely offer a later complaint route."
-    ],
+    "A promise does not necessarily resolve apparent prejudgment, and nondisclosure also denies the practitioner a meaningful response.",
+    "The stated problems concern both impartiality and the opportunity to answer the case. They should be addressed before deciding the merits; the exact procedural remedy depends on the applicable framework.",
+    "The practitioner must have a meaningful opportunity to respond before a final decision, not simply object afterwards.",
+    "Even with access to the evidence, an objectively reasonable concern about the panel's impartiality must be addressed before findings."
+  ],
     "keyPoint": "Fairness requires impartial consideration and a meaningful opportunity to answer the case; it does not predetermine the result.",
     "trap": "Confusing an allegation or preliminary opinion with a proven finding.",
     "sources": [
