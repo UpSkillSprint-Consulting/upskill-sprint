@@ -340,7 +340,8 @@
       {
         "sourceType": "textbook",
         "title": "Samuels and Sanders, Practical Law of Architecture, Engineering, and Geoscience, Canadian ed. (2007)",
-        "locator": "Ch. 12, Torts, printed pp. 129–143: intentional torts, nuisance and negligence categories"
+        "locator": "Ch. 12, printed pp. 129–143: background on tort categories; the specific substantial-and-unreasonable-interference test is from Antrim (2013 SCC 13), not asserted as a textbook quote.",
+        "limitation": "Samuels and Sanders is background only for tort categories; the cited SCC decision supplies the nuisance legal test."
       },
       {
         "sourceType": "supreme-court-case",
@@ -384,7 +385,8 @@
       {
         "sourceType": "textbook",
         "title": "Andrews, Shaw and McPhee, Canadian Professional Engineering and Geoscience: Practice and Ethics, 6th ed. (2019)",
-        "locator": "Ch. 2, §§2.1–2.3 and 2.12–2.13, printed pp. 31–48: self-regulation, licensure and practice authorization; historical background"
+        "locator": "Ch. 2 §2.12, printed p. 47: historical firm-licensing framework; the 2019 text's assumption that internal-only corporations do not need permits is NOT current BC law.",
+        "limitation": "Current BC firm regulation expressly includes internal practice. Follow the 2026 EGBC Permit to Practice rules, not the 2019 textbook's internal-use exception."
       },
       {
         "sourceType": "regulator-requirement-bc",
