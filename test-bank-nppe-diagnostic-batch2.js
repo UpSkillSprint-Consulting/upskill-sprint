@@ -67,7 +67,7 @@ var questions=[
     "jurisdiction": "Canada; general professional principles, subject to applicable provincial or territorial requirements"
   },
   {
-    "blueprint": "II.5",
+    "blueprint": "II.4",
     "sub": "nppe-ethics",
     "difficulty": "hard",
     "cognitiveLevel": "analysis",
@@ -97,7 +97,7 @@ var questions=[
     "jurisdiction": "Canada; general professional principles, subject to applicable provincial or territorial requirements"
   },
   {
-    "blueprint": "III.4",
+    "blueprint": "III.5",
     "sub": "nppe-practice",
     "difficulty": "medium",
     "cognitiveLevel": "application",
@@ -127,7 +127,7 @@ var questions=[
     "jurisdiction": "Canada; general professional principles, subject to applicable provincial or territorial requirements"
   },
   {
-    "blueprint": "III.6",
+    "blueprint": "III.3",
     "sub": "nppe-practice",
     "difficulty": "medium",
     "cognitiveLevel": "application",
@@ -157,7 +157,7 @@ var questions=[
     "jurisdiction": "Canada; general professional principles, subject to applicable provincial or territorial requirements"
   },
   {
-    "blueprint": "III.5",
+    "blueprint": "III.1",
     "sub": "nppe-practice",
     "difficulty": "hard",
     "cognitiveLevel": "analysis",
@@ -187,7 +187,7 @@ var questions=[
     "jurisdiction": "Canada; general professional principles, subject to applicable provincial or territorial requirements"
   },
   {
-    "blueprint": "IV.4",
+    "blueprint": "IV.3",
     "sub": "nppe-law",
     "difficulty": "hard",
     "cognitiveLevel": "analysis",
@@ -221,7 +221,7 @@ var questions=[
     ]
   },
   {
-    "blueprint": "IV.1",
+    "blueprint": "IV.2",
     "sub": "nppe-law",
     "difficulty": "medium",
     "cognitiveLevel": "application",
@@ -289,7 +289,7 @@ var questions=[
     "jurisdiction": "Canada; general professional principles, subject to applicable provincial or territorial requirements"
   },
   {
-    "blueprint": "VI.2",
+    "blueprint": "VI.1",
     "sub": "nppe-discipline",
     "difficulty": "hard",
     "cognitiveLevel": "analysis",
