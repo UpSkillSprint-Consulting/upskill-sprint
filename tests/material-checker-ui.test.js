@@ -183,8 +183,8 @@ test('shared header styling shields navigation from standalone tool typography',
   const styles=window.document.createElement('style');
   styles.textContent=source('style.css')+'\n.brand span{font-size:11px;text-transform:uppercase}nav.desktop-nav{font-size:10px}'+source('assets/tool-site-header.css');
   window.document.head.appendChild(styles);
-  assert.equal(window.getComputedStyle(header.querySelector('.brand span')).fontSize,'17px');
-  assert.equal(window.getComputedStyle(header.querySelector('.brand span')).textTransform,'none');
+  assert.equal(header.querySelector('.brand span'), null);
+  assert.equal(window.getComputedStyle(header.querySelector('.brand img.logo-wordmark')).height,'46px');
   assert.equal(window.getComputedStyle(header.querySelector('nav.desktop-nav')).fontSize,'13.5px');
   assert.equal(header.querySelectorAll('nav.desktop-nav a').length,8);
   assert.equal(header.querySelector('nav.desktop-nav [aria-current="page"]').textContent,'Engineering Tools');
@@ -258,7 +258,8 @@ for (const route of ['/tools/material-specification-compliance-checker', '/tools
         assert.equal(window.getComputedStyle(header).minHeight,'74px');
         assert.equal(window.getComputedStyle(header).paddingLeft,'20px');
         assert.equal(window.getComputedStyle(header).paddingRight,'20px');
-        assert.equal(window.getComputedStyle(brand.querySelector('span')).fontSize,'17px');
+        assert.equal(brand.querySelector('span'), null);
+        assert.equal(window.getComputedStyle(brand.querySelector('img.logo-wordmark')).height,'46px');
         assert.equal(window.getComputedStyle(header.querySelector('nav.desktop-nav')).fontSize,'13.5px');
         assert.equal(header.classList.contains('upskill-checker-header'),false);
         assert.equal(header.classList.contains('upskill-checker-brand-row'),false);

@@ -109,7 +109,7 @@
       const header = document.createElement('header');
       header.className = 'site';
       header.innerHTML =
-        '<a href="/" class="brand"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>' +
+        '<a href="/" class="brand"><img class="logo-wordmark" src="/assets/logo-wordmark.png" data-logo-light="/assets/logo-wordmark.png" data-logo-dark="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></a>' +
         '<nav class="desktop-nav" aria-label="Primary navigation">' +
           '<a href="/start-here">Start Here</a>' +
           '<a href="/lessons" aria-current="page">Lessons</a>' +
@@ -139,7 +139,7 @@
       footer.className = 'site';
       footer.innerHTML =
         '<div class="wrap"><div class="footer-grid">' +
-          '<div><div class="brand" style="margin-bottom:14px;"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div><p style="font-size:13.5px;line-height:1.6;color:var(--muted);max-width:260px;margin:0;">Practical learning for quality, data, process improvement, and business problem-solving.</p></div>' +
+          '<div><div class="brand" style="margin-bottom:14px;"><img class="logo-wordmark" src="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></div><p style="font-size:13.5px;line-height:1.6;color:var(--muted);max-width:260px;margin:0;">Practical learning for quality, data, process improvement, and business problem-solving.</p></div>' +
           '<div><h2 class="footer-heading">Quick Links</h2><a href="/">Home</a><a href="/start-here">Start Here</a><a href="/lessons">Lessons</a><a href="/engineering-tools">Engineering Tools</a><a href="/services">Services</a><a href="/request-topic">Request a Topic</a><a href="/about">About</a><a href="/faq">FAQ</a><a href="/contact">Contact</a></div>' +
           '<div><h2 class="footer-heading">Topics</h2><a href="/lessons#data-analytics">Data Analytics</a><a href="/lessons#quality-engineering">Quality Engineering</a><a href="/lessons#lean-six-sigma">Lean Six Sigma</a><a href="/lessons#power-bi-excel-sql">Power BI, Excel & SQL</a><a href="/lessons#business-decision-making">Business Decision-Making</a><a href="/lessons#ai-for-work">AI for Work</a></div>' +
           '<div><h2 class="footer-heading">Contact</h2><a href="mailto:skillsprintconsulting@gmail.com">skillsprintconsulting@gmail.com</a><p style="font-size:13.5px;color:var(--muted);margin:0;">Saskatchewan, Canada</p></div>' +

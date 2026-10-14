@@ -310,7 +310,7 @@
     const siteHeader = document.createElement('header');
     siteHeader.className = 'site uss-site-chrome uss-site-header';
     siteHeader.innerHTML =
-      '<a class="brand" href="/"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></a>' +
+      '<a class="brand" href="/"><img class="logo-wordmark" src="' + (document.documentElement.getAttribute('data-theme') === 'dark' ? '/assets/logo-wordmark-on-dark.png' : '/assets/logo-wordmark.png') + '" data-logo-light="/assets/logo-wordmark.png" data-logo-dark="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></a>' +
       '<nav class="desktop-nav" aria-label="Primary navigation">' + navLinksMarkup() + '</nav>' +
       '<div class="header-actions">' + (hasThemeToggle() ? '' : themeToggleMarkup()) +
       '<label for="uss-mnav-check" class="mobile-menu-btn">' + MENU_ICON + '</label></div>';
@@ -336,7 +336,7 @@
 
   function siteFooterMarkup() {
     return '<div class="uss-footer-wrap"><div class="footer-grid">' +
-      '<div><div class="brand"><img src="/assets/logo-icon.png" alt="UpSkill Sprint Consulting logo"><span>UpSkill Sprint Consulting</span></div>' +
+      '<div><div class="brand"><img class="logo-wordmark" src="/assets/logo-wordmark-on-dark.png" alt="UpSkill Sprint Consulting"></div>' +
       '<p class="footer-tagline">Practical learning for quality, data, process improvement, and business problem-solving.</p></div>' +
       footerColumn('Quick Links', FOOTER_QUICK_LINKS) +
       footerColumn('Topics', FOOTER_TOPIC_LINKS) +
@@ -384,6 +384,8 @@
       html[data-theme="dark"] header.site.uss-site-header { background: rgba(11,18,32,0.94); }
       .uss-site-header .brand { display: flex; align-items: center; gap: 10px; min-width: 0; color: var(--uss-ink); }
       .uss-site-chrome .brand img { display: block; height: 32px; width: auto; margin: 0; }
+      .uss-site-chrome .brand img.logo-wordmark { height: 46px; width: auto; max-width: min(220px, 52vw); object-fit: contain; }
+      html[data-theme="dark"] header.site img.logo-wordmark[data-logo-dark]:not(.is-theme-ready) { visibility: hidden; }
       .uss-site-chrome .brand span { font-family: 'Source Serif 4', Georgia, serif; font-size: 17px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .uss-site-header nav.desktop-nav { display: flex; gap: 18px; margin: 0; padding: 0; font-size: 13.5px; font-weight: 600; white-space: nowrap; background: none; border: 0; }
       .uss-site-header nav.desktop-nav a { padding: 6px 2px; border-bottom: 2px solid transparent; color: var(--uss-ink); }
@@ -404,7 +406,7 @@
         .uss-mnav-check:checked ~ nav.mobile-nav.uss-mobile-nav { display: flex; }
       }
       @media (max-width: 760px) { header.site.uss-site-header { padding: 14px 16px; } }
-      @media (max-width: 640px) { .uss-site-chrome .brand span { font-size: 15px; } }
+      @media (max-width: 640px) { .uss-site-chrome .brand span { font-size: 15px; } .uss-site-chrome .brand img.logo-wordmark { height: 40px; } }
       @media (max-width: 560px) { .uss-site-header .brand span { display: none; } }
 
       footer.site.uss-site-footer { display: block; width: 100%; max-width: none; flex: none; align-self: stretch; grid-column: 1 / -1; margin: 0; padding: 56px 0 32px; border: 0; border-top: 1px solid var(--uss-line); border-radius: 0; background: var(--uss-navy); box-shadow: none; color: #cbd5e1; font-size: 16px; text-align: left; }
