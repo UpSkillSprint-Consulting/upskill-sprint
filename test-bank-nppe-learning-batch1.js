@@ -489,7 +489,10 @@
  global.registerNPPELearning=function(exam){
   if(!exam||!Array.isArray(exam.formCatalog))throw new Error('NPPE form catalog required');
   var def=exam.formCatalog.find(function(f){return f.id==='set-1-learning';});
-  if(!def||def.authorSet!==1||def.kind!=='learning')throw new Error('Learning bank must belong to Set 1 and retain its type');
+  // The original catalog's empty Learning slot can use a placeholder kind.
+  // Normalize only this exact Set 1 Learning ID, and never relabel mocks or Diagnostic.
+  if(!def||def.authorSet!==1||def.kind==='mock'||def.kind==='diagnostic')throw new Error('Learning bank must belong to Set 1 and retain its type');
+  def.kind='learning';
   var existing=exam.forms&&exam.forms['set-1-learning'];
   if(existing&&JSON.stringify(existing)!==JSON.stringify(questions))throw new Error('Conflicting NPPE learning bank');
   exam.forms=Object.assign({},exam.forms,{'set-1-learning':questions});
