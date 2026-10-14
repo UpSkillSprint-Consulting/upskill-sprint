@@ -289,7 +289,7 @@ D. Negligent misstatement, because the residents relied on a false technical sta
 
 **Sources and status:**
 
-- Samuels and Sanders, Practical Law of Architecture, Engineering, and Geoscience, Canadian ed. (2007) — Ch. 12, Torts, printed pp. 129–143: intentional torts, nuisance and negligence categories (*textbook*)
+- Samuels and Sanders, Practical Law of Architecture, Engineering, and Geoscience, Canadian ed. (2007) — Ch. 12, printed pp. 129–143: background on tort categories; the specific substantial-and-unreasonable-interference test is from Antrim (2013 SCC 13), not asserted as a textbook quote. **Historical limitation:** Samuels and Sanders is background only for tort categories; the cited SCC decision supplies the nuisance legal test. (*textbook*)
 - [Supreme Court of Canada, Antrim Truck Centre Ltd. v. Ontario (Transportation), 2013 SCC 13](https://decisions.scc-csc.ca/scc-csc/scc-csc/en/item/12887/index.do?iframe=true&q=m%C3%A9tis&site_preference=normal) — Paras. 18–24: private nuisance requires substantial and unreasonable interference with use/enjoyment of land (*supreme-court-case*)
 - [NPPE — published 2017 examination blueprint](https://www.nppexam.ca/en/preparation/blueprint/) — IV.3 — Tort Law — Elements, Principles, and Applications (*official-blueprint*)
 
@@ -323,7 +323,7 @@ D. Individual engineer registration always gives the employer a blanket authorit
 
 **Sources and status:**
 
-- Andrews, Shaw and McPhee, Canadian Professional Engineering and Geoscience: Practice and Ethics, 6th ed. (2019) — Ch. 2, §§2.1–2.3 and 2.12–2.13, printed pp. 31–48: self-regulation, licensure and practice authorization; historical background (*textbook*)
+- Andrews, Shaw and McPhee, Canadian Professional Engineering and Geoscience: Practice and Ethics, 6th ed. (2019) — Ch. 2 §2.12, printed p. 47: historical firm-licensing framework; the 2019 text's assumption that internal-only corporations do not need permits is NOT current BC law. **Historical limitation:** Current BC firm regulation expressly includes internal practice. Follow the 2026 EGBC Permit to Practice rules, not the 2019 textbook's internal-use exception. (*textbook*)
 - [Engineers and Geoscientists BC, Firm Practice FAQs](https://www.egbc.ca/firms/firm-practice/firm-practice-overview/firm-practice-faqs?viewmode=0) — Does my firm require a Permit to Practice? Includes internal practice, manufacturers and sole practitioners (*regulator-requirement-bc*)
 - [NPPE — published 2017 examination blueprint](https://www.nppexam.ca/en/preparation/blueprint/) — V.2 — Admission to the Professions (*official-blueprint*)
 
@@ -371,6 +371,7 @@ D. The member must repeat every credit already earned because the absence of a p
 - Original stem screening against 280 existing Set 1 Diagnostic/Learning Batch 1 and Set 2/3 mock stems found **no exact duplicates and no high lexical overlap**. Semantic/psychometric independence still requires qualified human review.
 - Sources distinguish 2019 and 2007 textbooks (historical conceptual support), current Canadian regulator rules and SCC case law, and national Engineers Canada advisory guidance (non-binding).
 - British Columbia firm and digital-authentication requirements and Saskatchewan CPD obligations are **jurisdiction-specific**, not stated as general Canadian requirements.
+- **Source conflict fixed:** the 2019 engineering-ethics textbook suggests corporations performing only internal work do not need a firm permit; this is superseded by the current EGBC requirement expressly covering internal BC engineering work. The learning question follows EGBC. The nuisance question uses the Supreme Court's *Antrim* test, not an uncited textbook proposition.
 - Item 067's CanadaBuys contract clause is explicitly identified as an *historical example*, while the specific contractual term controlling the hypothetical is supplied in the question itself. It is not asserted to be a universal live 2026 legal requirement.
 - Independent licensed SME and Canadian-law review, pilot item statistics and actual-production learner approval/revocation checks remain release gates.
 - PR #301 stays **draft**; `coming_soon` persists, no production database changes, no merge.
