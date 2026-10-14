@@ -46,11 +46,11 @@
     "jurisdiction": "Canada; professional principles, subject to applicable regulator requirements",
     "stem": "A consultant is comparing three qualified suppliers for a client. The consultant owns a substantial interest in one supplier, but the client does not know this. The consultant believes that supplier offers the best value. What is the most appropriate next step before recommending a supplier?",
     "options": [
-      "Recommend the supplier first, then disclose the interest if the client asks about ownership.",
-      "Remove the supplier without documenting the relationship, so the client need not know about it.",
-      "Disclose the interest and arrange an appropriate independent evaluation or withdrawal from the decision with the client.",
-      "Keep the interest confidential because all three suppliers meet the technical specification."
-    ],
+    "Recommend the supplier first, then disclose the interest if the client asks about ownership.",
+    "Remove the supplier without documenting the relationship, so the client need not know about it.",
+    "Disclose the ownership interest and arrange an independent supplier evaluation.",
+    "Keep the interest confidential because all three suppliers meet the technical specification."
+  ],
     "answer": 2,
     "optionRationales": [
       "Disclosure after the recommendation deprives the client of information needed to assess the independence of the advice before relying on it.",
@@ -81,11 +81,11 @@
     "jurisdiction": "Canada; professional principles, subject to applicable regulator requirements",
     "stem": "A geoscientist refuses to alter an unfavourable result and explains: \"Truthful reporting is a duty that should apply to everyone, even when telling the truth has unpleasant consequences.\" Which ethical perspective most directly matches this stated reasoning?",
     "options": [
-      "Utilitarianism, because the statement calculates the largest aggregate benefit.",
-      "Rights ethics, because the statement begins by identifying a particular individual's entitlement.",
-      "Virtue ethics, because the statement evaluates the speaker's character rather than a rule.",
-      "Duty ethics, because the statement treats truthful conduct as a universally applicable obligation."
-    ],
+    "Utilitarianism, because the statement calculates the largest aggregate benefit.",
+    "Rights ethics, because the statement begins by identifying a particular individual's entitlement.",
+    "Virtue ethics, because the statement evaluates the speaker's character rather than a rule.",
+    "Duty ethics, because it treats truthful conduct as an obligation applying to everyone."
+  ],
     "answer": 3,
     "optionRationales": [
       "Utilitarian reasoning compares consequences and aggregate benefits. The statement expressly relies on an obligation rather than an outcome calculation.",
@@ -151,11 +151,11 @@
     "jurisdiction": "Canada; professional principles, subject to applicable regulator requirements",
     "stem": "A geoscientist uses a newly installed modelling package for an assessment. The results differ materially from a previously verified benchmark. The vendor says the software is widely used, but has not explained the discrepancy. What is the best action before issuing the assessment?",
     "options": [
-      "Issue the model result because the vendor, rather than the professional user, is responsible for all output.",
-      "Average the two results so neither method is favoured.",
-      "Investigate the inputs, assumptions, units and method, and independently verify the output before relying on it.",
-      "Use the newer result because a later software release supersedes earlier technical checks."
-    ],
+    "Issue the model result because the vendor, rather than the professional user, is responsible for all output.",
+    "Average the two results so neither method is favoured.",
+    "Investigate the model inputs, assumptions and configuration; verify the result before use.",
+    "Use the newer result because a later software release supersedes earlier technical checks."
+  ],
     "answer": 2,
     "optionRationales": [
       "Vendor reputation does not discharge the user's responsibility to understand and verify professional output. The discrepancy calls for investigation.",
@@ -186,11 +186,11 @@
     "jurisdiction": "Canada; professional principles, subject to applicable regulator requirements",
     "stem": "A licensed engineer is asked to sign and seal a final drawing prepared outside their supervision. They are competent in the subject, but have not reviewed the calculations or supporting information. The project manager says the seal is needed only to meet today's submission deadline. Which action is most appropriate?",
     "options": [
-      "Seal the drawing and add a note that the project manager accepted responsibility.",
-      "Withhold authentication until an adequate technical review provides a basis to accept professional responsibility, and explain the schedule implication.",
-      "Seal the drawing now and review the calculations after submission.",
-      "Refuse permanently because a professional may never authenticate work originally prepared by someone else."
-    ],
+    "Seal the drawing and add a note that the project manager accepted responsibility.",
+    "Withhold authentication until an adequate technical review supports taking responsibility.",
+    "Seal the drawing now and review the calculations after submission.",
+    "Refuse permanently because a professional may never authenticate work originally prepared by someone else."
+  ],
     "answer": 1,
     "optionRationales": [
       "A management instruction cannot supply the technical basis for professional authentication. A note naming the manager does not cure an inadequate review.",
@@ -286,11 +286,11 @@
     "jurisdiction": "Canada; professional principles, subject to applicable regulator requirements",
     "stem": "A practitioner finds a national Engineers Canada guideline that recommends one practice, but an applicable requirement issued under the practitioner's provincial regulatory framework requires a different action. What is the appropriate approach?",
     "options": [
-      "Use whichever document was published most recently, without examining its authority.",
-      "Treat the national guideline as automatically overriding provincial requirements.",
-      "Follow the applicable binding requirement and seek clarification where needed; national guidance is not itself a replacement for legislation or regulatory obligations.",
-      "Choose the less demanding document because both are merely optional advice."
-    ],
+    "Use whichever document was published most recently, without examining its authority.",
+    "Treat the national guideline as automatically overriding provincial requirements.",
+    "Follow the binding provincial requirement and seek clarification about the guidance.",
+    "Choose the less demanding document because both are merely optional advice."
+  ],
     "answer": 2,
     "optionRationales": [
       "Publication date alone does not determine legal authority. A newer recommendation does not automatically displace a binding rule.",
@@ -321,11 +321,11 @@
     "jurisdiction": "Canada; professional principles, subject to applicable regulator requirements",
     "stem": "At a final disciplinary hearing, a panel receives technical allegations against a practitioner. A panel member has publicly stated that the practitioner is guilty before hearing the evidence. The practitioner has not been given the material being relied on and asks for an opportunity to respond. Which course best supports a fair hearing?",
     "options": [
-      "Proceed to a finding because an allegation from another professional is sufficient proof.",
-      "Address the bias concern and provide a fair opportunity to know and answer the case before an impartial panel makes findings.",
-      "Dismiss the complaint automatically because the practitioner disputes the allegations.",
-      "Allow a response only after the panel announces its decision and penalty."
-    ],
+    "Proceed to a finding because an allegation from another professional is sufficient proof.",
+    "Address possible bias and give the practitioner a fair chance to answer before a decision.",
+    "Dismiss the complaint automatically because the practitioner disputes the allegations.",
+    "Allow a response only after the panel announces its decision and penalty."
+  ],
     "answer": 1,
     "optionRationales": [
       "An allegation is not a finding. Professional status of the complainant does not remove the need for a fair process and assessment of the evidence.",
