@@ -1,0 +1,67 @@
+name: Apply checked NPPE audit fixture update
+on:
+  push:
+    branches: [codex/nppe-three-set-architecture]
+    paths: [.github/workflows/nppe-audit-fixture-update.yml]
+permissions:
+  contents: write
+jobs:
+  update-fixture:
+    if: github.ref == 'refs/heads/codex/nppe-three-set-architecture'
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v5
+      - name: Apply the reviewed patch only to the expected source version
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object scripts/exam-practice-browser.py)" = '7ad7db580e12798075a33c3722ba494254723559'
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('scripts/exam-practice-browser.py')
+          text = path.read_text()
+          def replace_once(old, new):
+              global text
+              assert text.count(old) == 1, 'Audit source anchor changed; do not overwrite concurrent work'
+              text = text.replace(old, new, 1)
+          replace_once('from pathlib import Path\n', 'from pathlib import Path\nfrom html.parser import HTMLParser\n')
+          replace_once('    origin = urlparse(base).netloc\n', '''    origin = urlparse(base).netloc
+              # Compare rendered identities with the authored catalog rather than
+              # hardcoding eight cards or one upcoming certification.
+              class Catalog(HTMLParser):
+                  def __init__(self):
+                      super().__init__()
+                      self.entries = {}
+
+                  def handle_starttag(self, tag, attrs):
+                      values = dict(attrs)
+                      if tag != 'article' or 'exam-card' not in values.get('class', '').split():
+                          return
+                      key = values.get('data-exam')
+                      status = values.get('data-publication')
+                      assert key and key not in self.entries, 'Missing or duplicate exam identity'
+                      assert status in ['published', 'coming_soon', 'retired'], 'Invalid publication state'
+                      self.entries[key] = status
+
+              catalog = Catalog()
+              catalog.feed((Path(__file__).resolve().parents[1] / 'exam-practice.html').read_text())
+              visible_keys = {key for key, status in catalog.entries.items() if status != 'retired'}
+              upcoming = [key for key, status in catalog.entries.items() if status == 'coming_soon']
+              released = [key for key, status in catalog.entries.items() if status == 'published']
+              assert visible_keys and released, 'Exam catalog must not be empty'
+          ''')
+          replace_once("                expect(page.locator('.exam-card')).to_have_count(8)", "                expect(page.locator('.exam-card')).to_have_count(len(visible_keys))\n                assert set(page.locator('.exam-card').evaluate_all('cards=>cards.map(card=>card.dataset.exam)')) == visible_keys")
+          replace_once("                expect(page.locator('.exam-coming-soon .exam-card')).to_have_count(1)", "                expect(page.locator('.exam-coming-soon .exam-card')).to_have_count(len(upcoming))")
+          replace_once("                for certification in ['cqa']:", "                for certification in upcoming:")
+          replace_once(".to_have_count(7 if premium else 0)", ".to_have_count(len(released) if premium else 0)")
+          path.write_text(text)
+          PY
+          python -m py_compile scripts/exam-practice-browser.py
+          git diff --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- scripts/exam-practice-browser.py
+          git commit -m 'test(nppe): derive learner directory availability from the current catalog'
+          # A normal push rejects a moved branch; never force or reset the branch.
+          git push origin HEAD:refs/heads/codex/nppe-three-set-architecture
