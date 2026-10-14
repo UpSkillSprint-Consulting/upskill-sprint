@@ -18,10 +18,13 @@ jobs:
           node-version-file: '.node-version'
           cache: npm
       - run: npm ci
-      - name: Archive lockfile-pinned dependencies for offline tests
-        run: tar -czf nppe-dependencies.tar.gz node_modules
+      - name: Archive current tracked source and pinned dependencies
+        run: |
+          git archive --format=tar HEAD > nppe-current-workspace.tar
+          tar -rf nppe-current-workspace.tar node_modules
+          gzip nppe-current-workspace.tar
       - uses: actions/upload-artifact@v4
         with:
-          name: nppe-dependencies
-          path: nppe-dependencies.tar.gz
+          name: nppe-current-workspace
+          path: nppe-current-workspace.tar.gz
           retention-days: 1
