@@ -44,18 +44,18 @@ var questions=[
     "learningObjective": "Evaluate an offered gift that may compromise independent professional judgment.",
     "stem": "A supplier competing for a safety-critical equipment contract offers the engineer evaluating bids an expensive weekend trip, describing it as an industry demonstration. The supplier will pay for travel and accommodation. What is the best response?",
     "options": [
-    "Disclose the supplier-funded trip and attend while using a documented technical evaluation scorecard.",
-    "Accept the trip as training but abstain only from the final contract-approval vote.",
-    "Decline the trip, disclose the offer and arrange an impartial evaluation.",
-    "Postpone the supplier-paid trip until shortly after the award to avoid influencing the current scoring."
-  ],
+      "Disclose the supplier-funded trip and attend while using a documented technical evaluation scorecard.",
+      "Accept the trip as training but abstain only from the final contract-approval vote.",
+      "Decline the trip, disclose the offer and arrange an impartial evaluation.",
+      "Postpone the supplier-paid trip until shortly after the award to avoid influencing the current scoring."
+    ],
     "answer": 2,
     "optionRationales": [
-    "Disclosure and a scorecard alone do not neutralize the valuable personal benefit offered by a bidder under evaluation.",
-    "Recusal from a final vote does not necessarily remove the undue influence from earlier supplier evaluation or the improperly accepted benefit.",
-    "Declining and disclosing addresses both actual and perceived conflicts while protecting procurement integrity.",
-    "Deferring the valuable benefit does not eliminate the connection to the competitive award decision or the appearance of inducement."
-  ],
+      "Disclosure and a scorecard alone do not neutralize the valuable personal benefit offered by a bidder under evaluation.",
+      "Recusal from a final vote does not necessarily remove the undue influence from earlier supplier evaluation or the improperly accepted benefit.",
+      "Declining and disclosing addresses both actual and perceived conflicts while protecting procurement integrity.",
+      "Deferring the valuable benefit does not eliminate the connection to the competitive award decision or the appearance of inducement."
+    ],
     "keyPoint": "Professional independence requires proactive management of material gifts and conflicts.",
     "trap": "Assuming a gift becomes acceptable when framed as training or deferred.",
     "sources": [
@@ -74,18 +74,18 @@ var questions=[
     "learningObjective": "Choose a proportionate response to credible immediate public-safety risk and management pressure.",
     "stem": "A plant engineer finds credible evidence that a pressure-system safeguard may fail during the next operating shift. Management asks the engineer to keep the concern confidential until a scheduled review next month. Which response is most appropriate?",
     "options": [
-    "Record the hazard and defer shift controls until a reliability team verifies the probability of failure.",
-    "Report to a regulator first but wait for its reply before alerting the operating shift.",
-    "Advise management of the concern and permit the next shift to operate under the existing plan until the scheduled review.",
-    "Promptly communicate the hazard, seek immediate controls and escalate as needed."
-  ],
+      "Record the hazard and defer shift controls until a reliability team verifies the probability of failure.",
+      "Report to a regulator first but wait for its reply before alerting the operating shift.",
+      "Advise management of the concern and permit the next shift to operate under the existing plan until the scheduled review.",
+      "Promptly communicate the hazard, seek immediate controls and escalate as needed."
+    ],
     "answer": 3,
     "optionRationales": [
-    "The stem already establishes credible evidence of a potentially imminent failure; delaying protective steps for precise probability estimates is not appropriate.",
-    "External escalation may be required, but waiting for a regulator's response before warning and protecting affected personnel risks avoidable harm.",
-    "Notification without proportionate near-term risk controls leaves the credible next-shift hazard unaddressed.",
-    "The response prioritizes immediate protection, documentation and escalation appropriate to the urgency and applicable duties."
-  ],
+      "The stem already establishes credible evidence of a potentially imminent failure; delaying protective steps for precise probability estimates is not appropriate.",
+      "External escalation may be required, but waiting for a regulator's response before warning and protecting affected personnel risks avoidable harm.",
+      "Notification without proportionate near-term risk controls leaves the credible next-shift hazard unaddressed.",
+      "The response prioritizes immediate protection, documentation and escalation appropriate to the urgency and applicable duties."
+    ],
     "keyPoint": "Serious foreseeable harm calls for timely protective action and proportionate escalation.",
     "trap": "Treating confidentiality or the absence of an accident as grounds for inaction.",
     "sources": [
@@ -131,27 +131,37 @@ var questions=[
     "sub": "nppe-practice",
     "difficulty": "medium",
     "cognitiveLevel": "application",
-    "learningObjective": "Recognize continuing competence obligations when assuming a new specialty.",
-    "stem": "A geoscientist has extensive groundwater experience but is assigned to certify a complex seismic interpretation for which they lack recent training. The employer offers access to a specialist only after the report is issued. What is the best approach?",
+    "learningObjective": "Apply professional courtesy and specialist consultation when reviewing another practitioner's technical work.",
+    "stem": "A hydrogeologist is reviewing another licensed professional's contamination model. Two important assumptions are disputed, one concerning a specialty beyond the reviewer's expertise. The original modeller is available, and a specialist can be consulted before the client relies on the review. What should the reviewer do?",
     "options": [
-    "Certify now because a professional licence establishes competence in all geoscience specialties.",
-    "Defer certification until appropriate specialist involvement and review have occurred.",
-    "Certify the report if a junior analyst confirms the software ran without errors.",
-    "Sign with a disclaimer that the employer selected the assignment."
-  ],
+      "Record the disagreements internally but endorse the model to maintain the project schedule.",
+      "Discuss the disputed assumptions with the author, seek specialist input as needed, and state the scope and limits of the review.",
+      "Restrict the review to formatting, then certify that the technical assumptions are adequate because the author is licensed.",
+      "Change the assumptions and issue new conclusions without telling the original professional about the revisions."
+    ],
     "answer": 1,
     "optionRationales": [
-      "Professional registration does not establish competence for every specialized assignment.",
-      "The practitioner must recognize limitations and arrange competent support before taking professional responsibility.",
-      "A successful software run does not establish technical validity or the certifier's competence.",
-      "A disclaimer cannot cure inadequate technical review or professional competence."
+      "Endorsing the technical adequacy of disputed assumptions without resolving the relevant issues misleads the client and does not satisfy a meaningful professional review.",
+      "Consulting the original author, recognizing limits of expertise and documenting the review scope respect professional relationships while providing a defensible basis for conclusions.",
+      "Licensure of the original professional is not a substitute for a substantive review. A formatting check does not establish technical adequacy.",
+      "Unilateral alteration without professional consultation or transparent change control is not a satisfactory review process; the affected professional should be informed where practicable."
     ],
-    "keyPoint": "Continuing competence includes knowing when additional expertise is needed.",
-    "trap": "Mistaking a licence or software completion for current specialty competence.",
+    "keyPoint": "Review another professional's work objectively, communicate concerns and seek suitable expertise when the review extends beyond your competence.",
+    "trap": "Treating professional courtesy as automatic acceptance or using licensure as proof that no substantive review is required.",
     "sources": [
       {
-        "title": "Andrews, Shaw & McPhee, Canadian Professional Engineering and Geoscience: Practice and Ethics, 6th ed. (2019)",
-        "locator": "Ch. 17, sections 17.1–17.4, pp. 418–423; Ch. 12, section 12.4, p. 284"
+        "title": "Andrews, Shaw and McPhee, Canadian Professional Engineering and Geoscience: Practice and Ethics, 6th ed. (2019)",
+        "locator": "Ch. 4, section 4.8, printed pp. 97–100: review of another professional's work; Ch. 9, section 9.7, printed p. 220: informing colleagues during professional reviews"
+      },
+      {
+        "title": "Engineers Canada, Guideline on the code of ethics",
+        "locator": "Principles 2, 7 and 8: competence, professional collegiality and responsibility for reviewed work; national guidance is not a regulation",
+        "url": "https://engineerscanada.ca/guidelines-and-papers/public-guideline-on-the-code-of-ethics"
+      },
+      {
+        "title": "Official NPPE blueprint",
+        "locator": "III.3 — Relations with Other Professionals and Non-Professionals; Business Practices",
+        "url": "https://www.nppexam.ca/en/preparation/blueprint/"
       }
     ],
     "jurisdiction": "Canada; general professional principles, subject to applicable provincial or territorial requirements"
@@ -164,18 +174,18 @@ var questions=[
     "learningObjective": "Distinguish supervisory responsibility from unreviewed delegation.",
     "stem": "A senior engineer delegates inspection data collection to a qualified technologist. Before issuing a compliance report, the engineer notices that several critical measurements were omitted. The technologist says the remaining measurements are sufficient. What should the engineer do?",
     "options": [
-    "Issue a compliance conclusion but list omitted critical measurements as a footnote limitation.",
-    "Accept the technologist's judgement that the remaining measurements represent the missing critical locations.",
-    "Obtain the client's acceptance of the omitted measurements, then issue an unqualified compliance statement.",
-    "Obtain missing evidence or qualify or withhold any unsupported compliance conclusion."
-  ],
+      "Issue a compliance conclusion but list omitted critical measurements as a footnote limitation.",
+      "Accept the technologist's judgement that the remaining measurements represent the missing critical locations.",
+      "Obtain the client's acceptance of the omitted measurements, then issue an unqualified compliance statement.",
+      "Obtain missing evidence or qualify or withhold any unsupported compliance conclusion."
+    ],
     "answer": 3,
     "optionRationales": [
-    "Calling the work compliant while acknowledging that required critical evidence is missing remains an inadequately supported conclusion.",
-    "A representative-data assumption is not established by an unsupported assurance where the missing measurements are critical.",
-    "Client acceptance of uncertainty does not supply missing technical evidence or justify an unqualified conclusion.",
-    "The engineer should assess significance, obtain necessary evidence and qualify or withhold conclusions that are not supported."
-  ],
+      "Calling the work compliant while acknowledging that required critical evidence is missing remains an inadequately supported conclusion.",
+      "A representative-data assumption is not established by an unsupported assurance where the missing measurements are critical.",
+      "Client acceptance of uncertainty does not supply missing technical evidence or justify an unqualified conclusion.",
+      "The engineer should assess significance, obtain necessary evidence and qualify or withhold conclusions that are not supported."
+    ],
     "keyPoint": "Professional supervision requires adequate evidence for signed conclusions.",
     "trap": "Confusing delegated data collection with delegated professional accountability.",
     "sources": [
@@ -195,11 +205,11 @@ var questions=[
     "jurisdiction": "Canadian common-law negligence principles; not Quebec civil law",
     "stem": "A consultant designs a retaining wall under contract with a property developer. A neighbouring property owner, who has no contract with the consultant, suffers damage allegedly caused by negligent design. Which statement is most accurate?",
     "options": [
-    "The neighbour can never have a negligence claim without a direct contract.",
-    "The neighbour automatically wins because any property damage proves professional negligence.",
-    "A tort claim may arise without a contract, but the elements of negligence must be proved.",
-    "The consultant's contract makes the developer solely responsible for all damage to outsiders."
-  ],
+      "The neighbour can never have a negligence claim without a direct contract.",
+      "The neighbour automatically wins because any property damage proves professional negligence.",
+      "A tort claim may arise without a contract, but the elements of negligence must be proved.",
+      "The consultant's contract makes the developer solely responsible for all damage to outsiders."
+    ],
     "answer": 2,
     "optionRationales": [
       "Tort duties can arise independently of a contract when the relevant legal requirements are met.",
@@ -229,11 +239,11 @@ var questions=[
     "jurisdiction": "Canadian common-law commercial contracting; not Quebec civil law",
     "stem": "A client emails a consultant: 'We agree on your proposed scope and fee, but we will not be bound until our formal agreement is signed.' Both parties continue negotiating liability and termination clauses. No work begins. Which conclusion is most defensible on these stated facts?",
     "options": [
-    "The parties have necessarily formed a binding contract because scope and fee were agreed.",
-    "The signature condition and unresolved terms weigh against treating this as a final agreement.",
-    "The client is automatically liable for the entire fee because the consultant submitted a proposal.",
-    "A binding agreement exists whenever negotiations occur by email."
-  ],
+      "The parties have necessarily formed a binding contract because scope and fee were agreed.",
+      "The signature condition and unresolved terms weigh against treating this as a final agreement.",
+      "The client is automatically liable for the entire fee because the consultant submitted a proposal.",
+      "A binding agreement exists whenever negotiations occur by email."
+    ],
     "answer": 1,
     "optionRationales": [
       "Agreement on some terms does not necessarily override an express condition that execution is required.",
@@ -296,18 +306,18 @@ var questions=[
     "learningObjective": "Differentiate preliminary complaint screening from a disciplinary finding.",
     "stem": "A regulator receives a detailed complaint alleging that an engineer sealed drawings without an adequate review. The engineer says the complainant is a competitor and asks the regulator to reject the complaint without examining the evidence. Which approach best reflects a fair regulatory process?",
     "options": [
-    "Reject the complaint after noting the competitor's apparent incentive, without evaluating its supporting records.",
-    "Require the complainant to prove misconduct conclusively before any preliminary regulatory assessment.",
-    "Announce an interim finding of professional misconduct based on the complaint and allow an appeal afterwards.",
-    "Assess the evidence fairly and hear the engineer before any disciplinary finding."
-  ],
+      "Reject the complaint after noting the competitor's apparent incentive, without evaluating its supporting records.",
+      "Require the complainant to prove misconduct conclusively before any preliminary regulatory assessment.",
+      "Announce an interim finding of professional misconduct based on the complaint and allow an appeal afterwards.",
+      "Assess the evidence fairly and hear the engineer before any disciplinary finding."
+    ],
     "answer": 3,
     "optionRationales": [
-    "A possible competitive motive is a credibility consideration, not a substitute for evidence review when professional misconduct is alleged.",
-    "Complaint intake and investigation do not generally require a completed finding of misconduct from the complainant at the outset.",
-    "A disciplinary finding cannot ordinarily rest solely on an untested allegation; procedural fairness must precede an adjudicated conclusion.",
-    "A fair, evidence-based process protects both the public and the practitioner's right to answer the case."
-  ],
+      "A possible competitive motive is a credibility consideration, not a substitute for evidence review when professional misconduct is alleged.",
+      "Complaint intake and investigation do not generally require a completed finding of misconduct from the complainant at the outset.",
+      "A disciplinary finding cannot ordinarily rest solely on an untested allegation; procedural fairness must precede an adjudicated conclusion.",
+      "A fair, evidence-based process protects both the public and the practitioner's right to answer the case."
+    ],
     "keyPoint": "Complaint receipt is not a finding of misconduct; fair investigation and adjudication are distinct stages.",
     "trap": "Treating either an allegation or a complainant's motive as conclusive.",
     "sources": [
