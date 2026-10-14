@@ -60,11 +60,11 @@
       jurisdiction: 'Canada; the stated confidentiality agreement remains in force, with no disclosure exception engaged.',
       stem: 'A geoscience consultant retains a former client\'s confidential, unpublished dataset under an agreement that prohibits its use for other clients without permission. A new client proposes removing the former client\'s name and using the dataset to avoid new fieldwork. No legal disclosure requirement or public-safety issue is involved. What is the best response?',
       options: [
-        'Use the dataset after removing identifying names because the source would no longer be obvious.',
-        'Use the dataset if the new client signs its own confidentiality agreement with the consultant.',
-        'Wait until the former engagement has been closed for a year, then treat the dataset as general expertise.',
-        'Obtain the former client\'s permission or use independently obtained information rather than repurpose the dataset.'
-      ],
+    "Use the dataset after removing identifying names because the source would no longer be obvious.",
+    "Use the dataset if the new client signs its own confidentiality agreement with the consultant.",
+    "Wait until the former engagement has been closed for a year, then treat the dataset as general expertise.",
+    "Obtain permission from the former client or use independently acquired information."
+  ],
       answer: 3,
       optionRationales: [
         'Removing a name does not change the stated restriction on using the underlying proprietary information.',
@@ -86,11 +86,11 @@
       jurisdiction: 'Canada; applicable mandatory code requirements remain binding.',
       stem: 'A design meets the applicable mandatory code. However, a verified site investigation identifies an unusual loading condition that the code\'s minimum provisions do not adequately address. Additional protection can be designed without breaching the code. The client asks to retain the minimum design. What should the engineer do?',
       options: [
-        'Accept the minimum design and record that it meets the mandatory code.',
-        'Address the known loading condition with a defensible design and explain why code compliance alone is insufficient.',
-        'Accept the minimum design after the client acknowledges the additional risk in writing.',
-        'Leave the design unchanged until the authority responsible for the code publishes a revision.'
-      ],
+    "Accept the minimum design and record that it meets the mandatory code.",
+    "Address the verified loading condition and explain the limitations of the code minimum.",
+    "Accept the minimum design after the client acknowledges the additional risk in writing.",
+    "Leave the design unchanged until the authority responsible for the code publishes a revision."
+  ],
       answer: 1,
       optionRationales: [
         'Recording compliance does not resolve the verified hazard that the minimum provisions fail to address.',
@@ -190,11 +190,11 @@
       jurisdiction: 'Ontario civil proceedings governed by the Rules of Civil Procedure, rule 4.1.01.',
       stem: 'An engineer retained as an expert in an Ontario civil action is preparing a report. New, reliable inspection records undermine a key assumption in the draft and make the client\'s position less persuasive. Counsel asks the engineer to preserve the earlier conclusion because the other side will present its own expert. No report has yet been served. What is the best response?',
       options: [
-        'Reassess the opinion using the new records, explain the change to counsel and issue only an independently supportable report.',
-        'Retain the original conclusion and allow the opposing expert to supply the contrary interpretation.',
-        'Place the new records in an appendix but retain the conclusion without explaining their significance.',
-        'Remove the weakened analysis and keep its earlier conclusion as the executive summary.'
-      ],
+    "Reassess the opinion using the new evidence and explain the independently supported conclusion.",
+    "Retain the original conclusion and allow the opposing expert to supply the contrary interpretation.",
+    "Place the new records in an appendix but retain the conclusion without explaining their significance.",
+    "Remove the weakened analysis and keep its earlier conclusion as the executive summary."
+  ],
       answer: 0,
       optionRationales: [
         'An expert must assess relevant evidence objectively. The duty to provide independent assistance is not displaced by the retaining party\'s litigation interests.',
@@ -242,11 +242,11 @@
       jurisdiction: 'British Columbia; Engineers and Geoscientists BC Firm Audit Program.',
       stem: 'A BC engineering firm receives notice of a routine compliance audit under Engineers and Geoscientists BC\'s Firm Audit Program. No complaint or allegation of misconduct is identified. A manager assumes the notice means the regulator has already found a technical defect. Which explanation best describes the audit?',
       options: [
-        'It is an appeal hearing for a disciplinary finding already made against the firm.',
-        'It is a certification that every technical conclusion in the firm\'s projects is correct.',
-        'It is a technical practice review that can be initiated only after a substantiated complaint.',
-        'It is a proactive review of the firm\'s compliance processes and does not itself establish misconduct.'
-      ],
+    "It is an appeal hearing for a disciplinary finding already made against the firm.",
+    "It is a certification that every technical conclusion in the firm's projects is correct.",
+    "It is a technical practice review that can be initiated only after a substantiated complaint.",
+    "It is a proactive check of firm compliance, not a finding of misconduct."
+  ],
       answer: 3,
       optionRationales: [
         'The notice identifies a routine audit, not an appeal from a disciplinary decision.',
