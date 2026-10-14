@@ -39,7 +39,7 @@ test('batches 1 and 2 contain twenty original scored questions, all six domains,
   assert.ok(q.optionRationales.every(s=>s.length>35));counts[q.area]=(counts[q.area]||0)+1;
  });
  assert.deepEqual(counts,{I:2,II:4,III:6,IV:4,V:2,VI:2});
- assert.deepEqual(qs.map(q=>q.batch),Array(10).fill(1).concat(Array(10).fill(2)));
+ assert.deepEqual(Array.from(qs,q=>q.batch),Array(10).fill(1).concat(Array(10).fill(2)));
 });
 test('diagnostic registration is idempotent and cannot overwrite another author form',()=>{
  const ctx={window:{},console};vm.runInNewContext(read('test-bank-nppe-set2.js'),ctx);
