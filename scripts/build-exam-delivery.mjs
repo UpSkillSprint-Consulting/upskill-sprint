@@ -110,6 +110,10 @@ export async function buildExamDelivery(root = ROOT) {
       const learning1 = await readFile(join(root, 'test-bank-nppe-learning-batch1.js'), 'utf8');
       new Script(learning1, { filename:'test-bank-nppe-learning-batch1.js' });
       scripts.push(learning1);
+      // Learning Batch 2 extends only the existing Set 1 Learning array before exam registration.
+      const learning2 = await readFile(join(root, 'test-bank-nppe-learning-batch2.js'), 'utf8');
+      new Script(learning2, { filename:'test-bank-nppe-learning-batch2.js' });
+      scripts.push(learning2);
     }
     for (const item of [...immediate, ...deferred]) {
       if (item.name && !belongsToExam(item.name, exam)) continue;
