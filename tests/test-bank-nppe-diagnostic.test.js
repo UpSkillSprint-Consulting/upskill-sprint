@@ -225,7 +225,9 @@ test('complete Diagnostic displays 50 count and 69 minutes; other forms retain r
   assert.equal(doc.querySelector('[data-set="set-1-diagnostic"] .tb-sets').textContent,String(EXPECTED_COUNT));
   assert.equal(doc.querySelector('[data-set="mock-d"] .tb-sets').textContent,'110');
   assert.equal(doc.querySelector('[data-set="mock-e"] .tb-sets').textContent,'110');
-  for(const id of ['set-1-learning','set-1-mock-a','set-1-mock-b','set-1-mock-c'])assert.equal(doc.querySelector('[data-set="'+id+'"]').disabled,true);
+  assert.equal(doc.querySelector('[data-set="set-1-learning"] .tb-sets').textContent,'10');
+  assert.equal(doc.querySelector('[data-set="set-1-learning"]').disabled,false);
+  for(const id of ['set-1-mock-a','set-1-mock-b','set-1-mock-c'])assert.equal(doc.querySelector('[data-set="'+id+'"]').disabled,true);
   assert.match(doc.getElementById('tb-overview').textContent,/50 of 50 planned/);
   assert.match(doc.getElementById('tb-overview').textContent,new RegExp(EXPECTED_MINUTES+' minutes'));
   assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Diagnostic/);
