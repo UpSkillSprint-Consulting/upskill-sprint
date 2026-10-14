@@ -58,6 +58,6 @@ Run the existing Diagnostic, access-delivery, assessment-policy and served-brows
 
 ## Separate prior-batch metadata finding
 
-The crosswalk also found older Batch 2 tags requiring a separate, explicit correction: 013 II.5→II.4; 014 III.4→III.5; 015 III.6→III.3; 016 III.5→III.1; 017 IV.4→IV.3; 018 IV.1→IV.2; 020 VI.2→VI.1. This Batch 3 change preserves prior items rather than silently rewriting their metadata. These discrepancies do not change the six-domain totals, but must be corrected before asserting complete subtopic alignment at release.
+The crosswalk also found older Batch 2 tags requiring a separate, explicit correction: 013 II.5→II.4; 014 III.4→III.5; 015 III.6→III.3; 016 III.5→III.1; 017 IV.4→IV.3; 018 IV.1→IV.2; 020 VI.2→VI.1. These seven discrepancies were subsequently corrected explicitly in `test-bank-nppe-diagnostic-batch2.js` and documented in `docs/nppe-diagnostic-batch2.md`, with no changes to stems, keyed answers, explanations, or parent-domain counts. A regression assertion now guards the corrected subtopic sequence.
 
 Independent subject-matter review, empirical difficulty calibration, the remaining 20 Diagnostic questions and a production release decision remain outstanding.
