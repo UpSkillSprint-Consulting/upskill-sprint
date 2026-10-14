@@ -18,7 +18,7 @@ test.before(async()=>{
   packet=JSON.parse(fs.readFileSync(path.join(build.output,'nppe.json'),'utf8'));
 });
 test.after(()=>{if(workspace)fs.rmSync(workspace,{recursive:true,force:true});});
-function bank(){const ctx={window:{}};vm.runInNewContext(read('test-bank-nppe-diagnostic.js'),ctx);return ctx.window;}
+function bank(){const ctx={window:{}};vm.runInNewContext(read('test-bank-nppe-diagnostic-batch2.js')+'\n'+read('test-bank-nppe-diagnostic.js'),ctx);return ctx.window;}
 async function browser(){
  const errors=[];const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
  const dom=new JSDOM(build.shell,{url:'https://upskillsprint.com/test-bank?exam=nppe',runScripts:'outside-only',pretendToBeVisual:true,virtualConsole:vc});
@@ -27,9 +27,9 @@ async function browser(){
  await new Promise(resolve=>setTimeout(resolve,50));
  return {dom,win:dom.window,doc:dom.window.document,errors};
 }
-test('batch 1 has ten original scored questions, all six domains, unique IDs and complete reasoning',()=>{
+test('batches 1 and 2 contain twenty original scored questions, all six domains, unique IDs and complete reasoning',()=>{
  const qs=bank().NPPE_DIAGNOSTIC;
- assert.equal(qs.length,10);assert.equal(new Set(qs.map(q=>q.qid)).size,10);
+ assert.equal(qs.length,20);assert.equal(new Set(qs.map(q=>q.qid)).size,10);
  const counts={};
  qs.forEach((q,i)=>{
   assert.equal(q.qid,'nppe:set-1:diagnostic:'+String(i+1).padStart(3,'0'));
@@ -38,16 +38,16 @@ test('batch 1 has ten original scored questions, all six domains, unique IDs and
   assert.ok(Number.isInteger(q.answer)&&q.answer>=0&&q.answer<4);assert.ok(q.sources.length&&q.why&&q.keyPoint&&q.learningObjective);
   assert.ok(q.optionRationales.every(s=>s.length>35));counts[q.area]=(counts[q.area]||0)+1;
  });
- assert.deepEqual(counts,{I:1,II:2,III:3,IV:2,V:1,VI:1});
+ assert.deepEqual(counts,{I:2,II:4,III:6,IV:4,V:2,VI:2});\n assert.deepEqual(qs.map(q=>q.batch),Array(10).fill(1).concat(Array(10).fill(2)));
 });
 test('diagnostic registration is idempotent and cannot overwrite another author form',()=>{
  const ctx={window:{},console};vm.runInNewContext(read('test-bank-nppe-set2.js'),ctx);
  const e={formCatalog:[{id:'set-1-diagnostic',authorSet:1}],forms:{},sets:{},setPlans:{},mockLaunchable:{}};
  ctx.window.registerNPPESet2(e);const before=JSON.stringify(e.forms['mock-d']);
  const api=bank();api.registerNPPEDiagnostic(e);api.registerNPPEDiagnostic(e);
- assert.equal(e.forms['set-1-diagnostic'].length,10);assert.equal(e.diagnostic.complete,false);assert.equal(e.diagnostic.target,50);
+ assert.equal(e.forms['set-1-diagnostic'].length,20);assert.equal(e.diagnostic.complete,false);assert.equal(e.diagnostic.target,50);
  assert.equal(JSON.stringify(e.forms['mock-d']),before);
- assert.equal(new Set([...e.forms['mock-d'],...e.forms['set-1-diagnostic']].map(q=>q.qid)).size,120);
+ assert.equal(new Set([...e.forms['mock-d'],...e.forms['set-1-diagnostic']].map(q=>q.qid)).size,130);
  assert.throws(()=>api.registerNPPEDiagnostic({formCatalog:[{id:'set-1-diagnostic',authorSet:2}]}));
 });
 test('build delivers diagnostic only in the NPPE authorized package and no questions in the public shell',()=>{
@@ -58,24 +58,24 @@ test('build delivers diagnostic only in the NPPE authorized package and no quest
 });
 test('partial Diagnostic displays actual 10 count; the other six forms retain ownership and readiness',async()=>{
  const {dom,doc,win,errors}=await browser();try{
-  assert.equal(doc.querySelector('[data-set="set-1-diagnostic"] .tb-sets').textContent,'10');
+  assert.equal(doc.querySelector('[data-set="set-1-diagnostic"] .tb-sets').textContent,'20');
   assert.equal(doc.querySelector('[data-set="mock-d"] .tb-sets').textContent,'110');
   assert.equal(doc.querySelector('[data-set="mock-e"] .tb-sets').textContent,'110');
   for(const id of ['set-1-learning','set-1-mock-a','set-1-mock-b','set-1-mock-c'])assert.equal(doc.querySelector('[data-set="'+id+'"]').disabled,true);
-  assert.match(doc.getElementById('tb-overview').textContent,/10 of 50 planned/);
-  assert.match(doc.getElementById('tb-overview').textContent,/14 minutes/);
+  assert.match(doc.getElementById('tb-overview').textContent,/20 of 50 planned/);
+  assert.match(doc.getElementById('tb-overview').textContent,/28 minutes/);
   assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Diagnostic/);
   assert.equal(doc.querySelector('[data-mode="quick"]'),null);
   assert.equal(win.__TB.EXAMS.nppe.forms['mock-d'].length,110);assert.deepEqual(errors,[]);
  }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}
 });
-test('timed Diagnostic launches exactly ten of its own questions for fourteen minutes without answer aids',async()=>{
+test('timed Diagnostic launches exactly twenty of its own questions for twenty-eight minutes without answer aids',async()=>{
  const {dom,doc,win,errors}=await browser();try{
   doc.querySelector('[data-mode="full"]').click();
-  assert.match(doc.querySelector('#tb-timer').textContent,/^1[34]:[0-5][0-9]$/);
-  const snap=win.__TB.getFeedbackSnapshot();assert.equal(snap.records.length,10);
+  assert.match(doc.querySelector('#tb-timer').textContent,/^2[78]:[0-5][0-9]$/);
+  const snap=win.__TB.getFeedbackSnapshot();assert.equal(snap.records.length,20);
   assert.ok(snap.records.every(r=>r.question.form==='set-1-diagnostic'));
-  assert.equal(doc.querySelectorAll('[data-goto]').length,10);
+  assert.equal(doc.querySelectorAll('[data-goto]').length,20);
   assert.equal(doc.querySelector('[data-reveal]'),null);assert.equal(doc.querySelector('[data-formulas]'),null);assert.equal(doc.querySelector('.tb-qtag'),null);
   assert.equal(doc.querySelector('[data-tables]'),null);assert.equal(doc.querySelector('[data-calc]'),null);
   doc.querySelector('[data-opt="1"]').click();doc.querySelector('[data-flag]').click();doc.querySelector('[data-next]').click();doc.querySelector('[data-goto="0"]').click();
@@ -83,18 +83,18 @@ test('timed Diagnostic launches exactly ten of its own questions for fourteen mi
   assert.deepEqual(errors,[]);
  }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}
 });
-test('untimed Diagnostic scores 10/10, reports all domains and provides source-supported answer review only after submission',async()=>{
+test('untimed Diagnostic scores 20/20, reports all domains and provides source-supported answer review only after submission',async()=>{
  const {dom,doc,win,errors}=await browser();try{
   doc.querySelector('[data-timing-kind="full"][data-timed="0"]').click();doc.querySelector('[data-mode="full"]').click();
   assert.equal(doc.querySelector('.tb-timer').textContent,'Untimed');assert.equal(doc.querySelector('#tb-feedback-loop'),null);
-  for(let i=0;i<10;i++){
+  for(let i=0;i<20;i++){
    const qid=doc.querySelector('.tb-quiz').dataset.questionId;
    const item=win.__TB.getFeedbackSnapshot().records.find(r=>r.question.qid===qid);
    doc.querySelector('[data-opt="'+item.question.answer+'"]').click();
-   doc.querySelector(i===9?'[data-submit]':'[data-next]').click();
+   doc.querySelector(i===19?'[data-submit]':'[data-next]').click();
   }
   await new Promise(resolve=>setTimeout(resolve,80));
-  assert.match(doc.querySelector('[data-score-result]').textContent,/100% \(10\/10\)/);
+  assert.match(doc.querySelector('[data-score-result]').textContent,/100% \(20\/20\)/);
   assert.match(doc.querySelector('[data-score-result]').textContent,/Test set: Diagnostic/);
   assert.equal(doc.querySelectorAll('.tb-domblock').length,6);
   assert.doesNotMatch(doc.querySelector('#tb-overview').textContent,/Coverage-adjusted readiness/);
@@ -102,7 +102,7 @@ test('untimed Diagnostic scores 10/10, reports all domains and provides source-s
   assert.ok(doc.querySelector('#tb-feedback-loop'));
   doc.querySelector('[data-open-review="all"]').click();
   assert.match(doc.querySelector('#tb-feedback-loop').textContent,/Sources:/);
-  doc.querySelector('[data-retake]').click();assert.equal(win.__TB.getFeedbackSnapshot().records.length,10);assert.equal(doc.querySelector('.tb-timer').textContent,'Untimed');
+  doc.querySelector('[data-retake]').click();assert.equal(win.__TB.getFeedbackSnapshot().records.length,20);assert.equal(doc.querySelector('.tb-timer').textContent,'Untimed');
   assert.deepEqual(errors,[]);
  }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}
 });
