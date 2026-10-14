@@ -7,6 +7,7 @@ on:
       - 'scripts/*exam*.mjs'
       - 'scripts/nppe*.mjs'
       - 'scripts/stage-public-site.mjs'
+      - 'scripts/audit-exam-public-content.mjs'
       - 'exam-access-loader.js'
       - 'netlify/functions/exam-content.mjs'
       - 'tests/*nppe*.test.js'
@@ -26,4 +27,4 @@ jobs:
           node-version-file: '.node-version'
           cache: npm
       - run: npm ci
-      - run: node --test --test-concurrency=1 tests/test-bank-nppe-diagnostic.test.js tests/test-bank-nppe-architecture.test.js tests/exam-access-delivery.test.js tests/exam-directory.test.js tests/exam-practice-section.test.js
+      - run: node --test --test-concurrency=1 tests/test-bank-nppe-diagnostic.test.js tests/test-bank-nppe-learning.test.js tests/test-bank-nppe-architecture.test.js tests/exam-access-delivery.test.js tests/exam-directory.test.js tests/exam-practice-section.test.js
