@@ -417,7 +417,7 @@
       {
         "sourceType": "textbook",
         "title": "Samuels and Sanders, Practical Law of Architecture, Engineering, and Geoscience, Canadian ed. (2007)",
-        "locator": "Ch. 4, Property Law, printed pp. 22–32: land interests and rights affecting property; earlier conceptual coverage"
+        "locator": "Ch. 4, §4.1(f)(iii), printed p. 26: easements and rights attaching to land; historical conceptual background"
       },
       {
         "sourceType": "primary-government-guidance",
@@ -461,7 +461,7 @@
       {
         "sourceType": "textbook",
         "title": "Samuels and Sanders, Practical Law of Architecture, Engineering, and Geoscience, Canadian ed. (2007)",
-        "locator": "Ch. 19, Delay and Impact Claims, printed pp. 214–223: contractual notice, causation and project records"
+        "locator": "Ch. 19, §§19.6–19.7, printed pp. 219–221: impact costs, timely notice, proving causation and records"
       },
       {
         "sourceType": "primary-government-guidance",
@@ -485,6 +485,8 @@
    if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||!q.sources.length||!q.learningObjective||!q.questionFamily)throw new Error('Invalid NPPE Learning item '+id);
    q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return(s.url&&s.url.startsWith('https://')?'<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a>':escape(s.title))+' — '+escape(s.locator)+' ['+escape(s.sourceType)+']'+(s.limitation?' (Limitation: '+escape(s.limitation)+')':'');}).join('; ')+'.</p><p>Original question, learning mode only. This result is not the official NPPE scaled score or a pass prediction.</p>';
  });
+ // Shared array for the following 11 ten-question learning batches. Never reuse a Diagnostic or Mock object.
+ global.NPPE_LEARNING=questions;
  global.NPPE_LEARNING_BATCH1=questions;
  global.registerNPPELearning=function(exam){
   if(!exam||!Array.isArray(exam.formCatalog))throw new Error('NPPE form catalog required');
