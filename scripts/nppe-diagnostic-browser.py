@@ -86,7 +86,7 @@ def main():
                     }''')
                     header_images_fit()
                     page.evaluate('window.scrollTo(0,0)')
-                    page.screenshot(path=str(out / f'{name}-banks.png'), full_page=True)
+                    page.screenshot(path=str(out / f'{name}-banks.png'), full_page=False)
                     page.locator('[data-timing-kind="full"][data-timed="0"]').click()
                     page.locator('[data-mode="full"]').click()
                     expect(page.locator('.tb-quiz')).to_be_visible()
@@ -103,7 +103,7 @@ def main():
                         }'''), 'Site header covers the assessment toolbar'
                     header_images_fit()
                     page.evaluate('window.scrollTo(0,0)')
-                    page.screenshot(path=str(out / f'{name}-question.png'), full_page=True)
+                    page.screenshot(path=str(out / f'{name}-question.png'), full_page=False)
                     for index in range(20):
                         page.locator(f'[data-goto="{index}"]').click()
                         answer = page.evaluate('i=>window.__TB.getFeedbackSnapshot().records[i].question.answer', index)
@@ -116,7 +116,7 @@ def main():
                     expect(page.locator('.tb-review-card')).to_have_count(20)
                     header_images_fit()
                     page.evaluate('window.scrollTo(0,0)')
-                    page.screenshot(path=str(out / f'{name}-review.png'), full_page=True)
+                    page.screenshot(path=str(out / f'{name}-review.png'), full_page=False)
                     assert not errors, errors
                     result = {'case': name, 'result': 'PASS', 'score': '20/20', 'domains': 6,
                               'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
