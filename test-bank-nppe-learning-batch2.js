@@ -16,7 +16,7 @@
     "options": [
       "Defer the correction until contract award and document the difference in the final construction report.",
       "Proceed with the vote but include the omitted work in next year's routine maintenance budget.",
-      "Promptly correct or qualify the estimate and explain the material cost impact to those making the funding decision.",
+      "Correct the estimate and explain the missing relocation cost before the funding decision.",
       "Focus only on compliance with the treatment design code because financing is outside professional responsibility."
     ],
     "answer": 2,
@@ -58,7 +58,7 @@
     "jurisdiction": "Canada; this question asks about an ethical theory, not the legal outcome under a particular privacy statute.",
     "stem": "A consultant objects to publishing identifiable household survey responses, even though a project sponsor says the publication would improve overall reporting efficiency. The consultant argues that residents should have their individual rights respected rather than being treated merely as means to a larger benefit. Which ethical framework most directly matches this stated reason?",
     "options": [
-      "Rights-based ethics, because it begins with the entitlements and fair treatment of each person.",
+      "Rights-based ethics, because it begins with each resident's entitlements.",
       "Utilitarianism, because it measures the total efficiency gain for all project participants.",
       "Virtue ethics, because it evaluates the consultant's personal reputation for courage.",
       "Duty ethics, because it focuses only on conformity with an unconditional workplace procedure."
@@ -99,7 +99,7 @@
       "Approve 34 hours but explain the efficiency gain to the client in the closing report.",
       "Record the extra eight hours as quality assurance because professional estimates are inherently uncertain.",
       "Split the eight hours across related cost codes and approve the total if the client stays within budget.",
-      "Correct the invoice to supported billable time, explain the concern and escalate if pressure to misstate it persists."
+      "Bill only verified eligible hours and challenge the request, escalating if unresolved."
     ],
     "answer": 3,
     "optionRationales": [
@@ -190,7 +190,7 @@
     "jurisdiction": "Canada; a project may remain within its permit limits, but continuing changes in receiving-water conditions are credible and require professional assessment.",
     "stem": "An engineer responsible for a permitted aggregate-processing site observes a steady increase in receiving-water turbidity after several heavy rain events. The permit limit has not been exceeded, but the original environmental assessment did not predict this trend. A manager proposes stopping monitoring until a limit is breached to reduce costs. What is the best response?",
     "options": [
-      "Continue monitoring, investigate the changed conditions, evaluate controls and engage appropriate environmental expertise before deciding on adjustments.",
+      "Investigate the trend, continue monitoring, and consider controls and specialist advice.",
       "Stop monitoring while limits are met and document the trend only if the next annual audit identifies a problem.",
       "Immediately report a confirmed legal violation because any unexpected environmental trend proves a permit breach.",
       "Replace the monitoring results with design-stage predictions because the permit was based on those predictions."
@@ -237,7 +237,7 @@
       "Share the certificate password under a written confidentiality agreement and let the administrator sign the report.",
       "Allow the administrator to use a downloaded image of the seal and signature, provided the report is marked final.",
       "Let the administrator authenticate it temporarily, then reauthenticate the same file personally within a week.",
-      "Retain sole control of the digital credential and personally authenticate the final document through an authorized method."
+      "Keep sole control of the credential and personally authenticate the final document."
     ],
     "answer": 3,
     "optionRationales": [
@@ -280,7 +280,7 @@
     "options": [
       "Install the wells and seek retrospective confirmation because the supervisor works for the same municipality.",
       "Charge the change to the original fee allowance and disclose it only in the monthly report.",
-      "Promptly advise the authorized representative of the requested change and its impacts, then obtain the contractual authorization or instruction.",
+      "Explain scope and cost impacts to the authorized representative and obtain written direction.",
       "Obtain the site supervisor's verbal assurance and treat it as equivalent to the contract's written approval."
     ],
     "answer": 2,
@@ -366,7 +366,7 @@
     "jurisdiction": "British Columbia; the manufacturing company's internal staff undertake activities constituting regulated professional engineering under the Professional Governance Act.",
     "stem": "A BC manufacturer uses its own licensed P.Eng. staff to design process equipment solely for internal operations. The company holds ordinary business registration but has not obtained an EGBC Permit to Practice. Its manager says a firm permit is unnecessary because the engineers are individually licensed and the work is not sold to clients. What is the best response?",
     "options": [
-      "The firm must determine and satisfy BC's Permit to Practice requirements; internal regulated engineering work is not automatically exempt.",
+      "A BC firm permit can be required for internal regulated engineering, even with licensed staff.",
       "Only sole practitioners need firm permits, because manufacturers do not count as professional engineering firms.",
       "A business licence can replace a Permit to Practice whenever technical drawings remain within the company.",
       "Individual engineer registration always gives the employer a blanket authority to practise professional engineering."
