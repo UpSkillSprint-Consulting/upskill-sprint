@@ -44,11 +44,11 @@ var questions=[
     "learningObjective": "Evaluate an offered gift that may compromise independent professional judgment.",
     "stem": "A supplier competing for a safety-critical equipment contract offers the engineer evaluating bids an expensive weekend trip, describing it as an industry demonstration. The supplier will pay for travel and accommodation. What is the best response?",
     "options": [
-      "Accept because the trip has a technical component and no contract has been awarded.",
-      "Accept privately but avoid voting at the final selection meeting.",
-      "Decline the personal benefit, disclose the offer through the appropriate process and preserve an impartial evaluation.",
-      "Ask the supplier to provide the same trip after the contract award."
-    ],
+    "Accept because the trip has a technical component and no contract has been awarded.",
+    "Accept privately but avoid voting at the final selection meeting.",
+    "Decline the trip, disclose the offer and arrange an impartial evaluation.",
+    "Ask the supplier to provide the same trip after the contract award."
+  ],
     "answer": 2,
     "optionRationales": [
       "A technical label does not neutralize the substantial personal benefit or appearance of compromised independence.",
@@ -74,11 +74,11 @@ var questions=[
     "learningObjective": "Choose a proportionate response to credible immediate public-safety risk and management pressure.",
     "stem": "A plant engineer finds credible evidence that a pressure-system safeguard may fail during the next operating shift. Management asks the engineer to keep the concern confidential until a scheduled review next month. Which response is most appropriate?",
     "options": [
-      "Remain silent because an employee's duty of loyalty always overrides concern for public safety.",
-      "Post unverified allegations on social media immediately without first pursuing protective action.",
-      "Wait for the monthly review because only an actual accident establishes a duty to act.",
-      "Promptly communicate the risk to those able to protect people, seek immediate risk controls and escalate through appropriate safety or regulatory channels if necessary."
-    ],
+    "Remain silent because an employee's duty of loyalty always overrides concern for public safety.",
+    "Post unverified allegations on social media immediately without first pursuing protective action.",
+    "Wait for the monthly review because only an actual accident establishes a duty to act.",
+    "Promptly communicate the hazard, seek immediate controls and escalate as needed."
+  ],
     "answer": 3,
     "optionRationales": [
       "Employer loyalty does not displace the paramount obligation to protect people from a credible serious hazard.",
@@ -134,11 +134,11 @@ var questions=[
     "learningObjective": "Recognize continuing competence obligations when assuming a new specialty.",
     "stem": "A geoscientist has extensive groundwater experience but is assigned to certify a complex seismic interpretation for which they lack recent training. The employer offers access to a specialist only after the report is issued. What is the best approach?",
     "options": [
-      "Certify now because a professional licence establishes competence in all geoscience specialties.",
-      "Decline or defer the unfamiliar certification until competent specialist participation and an adequate review are arranged.",
-      "Certify the report if a junior analyst confirms the software ran without errors.",
-      "Sign with a disclaimer that the employer selected the assignment."
-    ],
+    "Certify now because a professional licence establishes competence in all geoscience specialties.",
+    "Defer certification until appropriate specialist involvement and review have occurred.",
+    "Certify the report if a junior analyst confirms the software ran without errors.",
+    "Sign with a disclaimer that the employer selected the assignment."
+  ],
     "answer": 1,
     "optionRationales": [
       "Professional registration does not establish competence for every specialized assignment.",
@@ -164,11 +164,11 @@ var questions=[
     "learningObjective": "Distinguish supervisory responsibility from unreviewed delegation.",
     "stem": "A senior engineer delegates inspection data collection to a qualified technologist. Before issuing a compliance report, the engineer notices that several critical measurements were omitted. The technologist says the remaining measurements are sufficient. What should the engineer do?",
     "options": [
-      "Issue the report because delegated measurements are solely the technologist's responsibility.",
-      "Issue the report with a statement that all missing measurements are assumed satisfactory.",
-      "Ask the client to accept responsibility for any missing measurements.",
-      "Resolve the missing evidence through appropriate verification or inspection before making the unsupported compliance conclusion."
-    ],
+    "Issue the report because delegated measurements are solely the technologist's responsibility.",
+    "Issue the report with a statement that all missing measurements are assumed satisfactory.",
+    "Ask the client to accept responsibility for any missing measurements.",
+    "Obtain missing evidence or qualify or withhold any unsupported compliance conclusion."
+  ],
     "answer": 3,
     "optionRationales": [
       "Delegation does not eliminate the professional's duty to establish an adequate basis for conclusions.",
@@ -195,11 +195,11 @@ var questions=[
     "jurisdiction": "Canadian common-law negligence principles; not Quebec civil law",
     "stem": "A consultant designs a retaining wall under contract with a property developer. A neighbouring property owner, who has no contract with the consultant, suffers damage allegedly caused by negligent design. Which statement is most accurate?",
     "options": [
-      "The neighbour can never have a negligence claim without a direct contract.",
-      "The neighbour automatically wins because any property damage proves professional negligence.",
-      "A negligence duty may arise without a contract, but duty, breach, causation and compensable loss must still be established.",
-      "The consultant's contract makes the developer solely responsible for all damage to outsiders."
-    ],
+    "The neighbour can never have a negligence claim without a direct contract.",
+    "The neighbour automatically wins because any property damage proves professional negligence.",
+    "A tort claim may arise without a contract, but the elements of negligence must be proved.",
+    "The consultant's contract makes the developer solely responsible for all damage to outsiders."
+  ],
     "answer": 2,
     "optionRationales": [
       "Tort duties can arise independently of a contract when the relevant legal requirements are met.",
@@ -229,11 +229,11 @@ var questions=[
     "jurisdiction": "Canadian common-law commercial contracting; not Quebec civil law",
     "stem": "A client emails a consultant: 'We agree on your proposed scope and fee, but we will not be bound until our formal agreement is signed.' Both parties continue negotiating liability and termination clauses. No work begins. Which conclusion is most defensible on these stated facts?",
     "options": [
-      "The parties have necessarily formed a binding contract because scope and fee were agreed.",
-      "The explicit condition and unresolved material terms weigh against treating the exchange as a final binding agreement.",
-      "The client is automatically liable for the entire fee because the consultant submitted a proposal.",
-      "A binding agreement exists whenever negotiations occur by email."
-    ],
+    "The parties have necessarily formed a binding contract because scope and fee were agreed.",
+    "The signature condition and unresolved terms weigh against treating this as a final agreement.",
+    "The client is automatically liable for the entire fee because the consultant submitted a proposal.",
+    "A binding agreement exists whenever negotiations occur by email."
+  ],
     "answer": 1,
     "optionRationales": [
       "Agreement on some terms does not necessarily override an express condition that execution is required.",
@@ -296,11 +296,11 @@ var questions=[
     "learningObjective": "Differentiate preliminary complaint screening from a disciplinary finding.",
     "stem": "A regulator receives a detailed complaint alleging that an engineer sealed drawings without an adequate review. The engineer says the complainant is a competitor and asks the regulator to reject the complaint without examining the evidence. Which approach best reflects a fair regulatory process?",
     "options": [
-      "Assume misconduct because the complaint contains detailed allegations.",
-      "Dismiss the complaint because competitors are not permitted to raise concerns.",
-      "Publish a finding of guilt immediately to protect the regulator's reputation.",
-      "Assess the complaint under the applicable process, examine relevant evidence and give the engineer a fair opportunity to respond before any disciplinary finding."
-    ],
+    "Assume misconduct because the complaint contains detailed allegations.",
+    "Dismiss the complaint because competitors are not permitted to raise concerns.",
+    "Publish a finding of guilt immediately to protect the regulator's reputation.",
+    "Assess the evidence fairly and hear the engineer before any disciplinary finding."
+  ],
     "answer": 3,
     "optionRationales": [
       "Detailed allegations remain allegations until evaluated through the prescribed process.",
