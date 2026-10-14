@@ -175,10 +175,20 @@ def main():
                     expect(page.locator('[data-reveal]')).to_be_visible()
                     page.locator('[data-reveal]').click()
                     assert page.evaluate('window.__TB.getFeedbackSnapshot().records.filter(r=>r.revealed===true).length') == 1
+                    assisted_locked = 0
                     for learning_index in range(10):
                         page.locator(f'[data-goto="{learning_index}"]').click()
                         learning_q=page.evaluate('i=>window.__TB.getFeedbackSnapshot().records[i].question',learning_index)
-                        page.locator(f'[data-opt="{learning_q["answer"]}"]').click()
+                        answer_button = page.locator(f'[data-opt="{learning_q["answer"]}"]')
+                        if answer_button.is_disabled():
+                            # Revealing an answer intentionally locks that item's options.
+                            # Its assisted status must survive navigation and submission.
+                            assert page.evaluate('i=>window.__TB.getFeedbackSnapshot().records[i].revealed===true',learning_index)
+                            assisted_locked += 1
+                        else:
+                            answer_button.click()
+                    assert assisted_locked == 1, 'Exactly one intentionally revealed answer must remain locked'
+                    assert page.evaluate('window.__TB.getFeedbackSnapshot().records.filter(r=>r.revealed===true).length') == 1
                     page.locator('[data-submit]').click()
                     expect(page.locator('#tb-overview')).to_contain_text('Learning scores measure practice accuracy')
                     page.locator('[data-open-review="all"]').click()
