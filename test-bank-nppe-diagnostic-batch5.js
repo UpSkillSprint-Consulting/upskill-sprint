@@ -125,7 +125,7 @@
   {
     "blueprint": "III.7",
     "sub": "nppe-practice",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "cognitiveLevel": "analysis",
     "questionFamily": "sensitive-project-data-sent-personal-mail",
     "learningObjective": "Identify proportionate containment and incident reporting when a professional creates a potential confidentiality or cyber-security breach.",
