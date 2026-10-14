@@ -487,7 +487,8 @@
  });
  // Shared array for the following 11 ten-question learning batches. Never reuse a Diagnostic or Mock object.
  global.NPPE_LEARNING=questions;
- global.NPPE_LEARNING_BATCH1=questions;
+ // Preserve an independently countable ten-item Batch 1 snapshot as the full bank grows.
+ global.NPPE_LEARNING_BATCH1=questions.slice();
  global.registerNPPELearning=function(exam){
   if(!exam||!Array.isArray(exam.formCatalog))throw new Error('NPPE form catalog required');
   var def=exam.formCatalog.find(function(f){return f.id==='set-1-learning';});
