@@ -7,9 +7,9 @@ const vm=require('node:vm');
 const {JSDOM,VirtualConsole}=require('jsdom');
 const ROOT=path.join(__dirname,'..');
 const read=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
-const EXPECTED_COUNT=40, EXPECTED_MINUTES=55;
+const EXPECTED_COUNT=50, EXPECTED_MINUTES=69;
 const PREFIX='nppe:set-1:diagnostic:';
-const DIAGNOSTIC_FILES=['test-bank-nppe-diagnostic-batch2.js','test-bank-nppe-diagnostic.js','test-bank-nppe-diagnostic-batch3.js','test-bank-nppe-diagnostic-batch4.js'];
+const DIAGNOSTIC_FILES=['test-bank-nppe-diagnostic-batch2.js','test-bank-nppe-diagnostic.js','test-bank-nppe-diagnostic-batch3.js','test-bank-nppe-diagnostic-batch4.js','test-bank-nppe-diagnostic-batch5.js'];
 let build,packet,workspace;
 test.before(async()=>{
   workspace=fs.mkdtempSync(path.join(require('node:os').tmpdir(),'nppe-diagnostic-'));
@@ -30,7 +30,7 @@ async function browser(){
  await new Promise(resolve=>setTimeout(resolve,50));
  return {dom,win:dom.window,doc:dom.window.document,errors};
 }
-test('four diagnostic batches have forty unique scored items and complete reasoning',()=>{
+test('five diagnostic batches have fifty unique scored items and complete reasoning',()=>{
  const qs=bank().NPPE_DIAGNOSTIC;
  assert.equal(qs.length,EXPECTED_COUNT);assert.equal(new Set(qs.map(q=>q.qid)).size,EXPECTED_COUNT);
  const counts={};
@@ -41,8 +41,8 @@ test('four diagnostic batches have forty unique scored items and complete reason
   assert.ok(Number.isInteger(q.answer)&&q.answer>=0&&q.answer<4);assert.ok(q.sources.length&&q.why&&q.keyPoint&&q.learningObjective);
   assert.ok(q.optionRationales.every(s=>s.length>35));counts[q.area]=(counts[q.area]||0)+1;
  });
- assert.deepEqual(counts,{I:4,II:8,III:12,IV:8,V:4,VI:4});
- assert.deepEqual(Array.from(qs,q=>q.batch),Array(10).fill(1).concat(Array(10).fill(2),Array(10).fill(3),Array(10).fill(4)));
+ assert.deepEqual(counts,{I:4,II:10,III:15,IV:12,V:4,VI:5});
+ assert.deepEqual(Array.from(qs,q=>q.batch),Array(10).fill(1).concat(Array(10).fill(2),Array(10).fill(3),Array(10).fill(4),Array(10).fill(5)));
 });
 test('Batch 2 exact blueprint subtopics match the official NPPE outline after seven metadata corrections',()=>{
  const qs=Array.from(bank().NPPE_DIAGNOSTIC).slice(10,20);
@@ -126,16 +126,62 @@ test('Batch 4 appends without rewriting Batches 1–3 and rejects missing, parti
  original[39].stem='Conflicting replacement';
  assert.throws(()=>ctx.window.installNPPEDiagnosticBatch4(),/Conflicting/);
 });
+test('Batch 5 contains ten sourced, original, single-best-answer questions with verified blueprint metadata',()=>{
+ const qs=Array.from(bank().NPPE_DIAGNOSTIC_BATCH5);
+ assert.equal(qs.length,10);
+ assert.deepEqual(qs.map(q=>q.blueprint),['II.2','II.3','III.4','III.7','III.9','IV.5','IV.9','IV.11','IV.12','VI.2']);
+ assert.deepEqual(qs.map(q=>q.answer),[2,0,3,1,3,0,1,2,0,2]);
+ assert.equal(qs.filter(q=>q.difficulty==='easy').length,2);
+ assert.equal(qs.filter(q=>q.difficulty==='medium').length,6);
+ assert.equal(qs.filter(q=>q.difficulty==='hard').length,2);
+ assert.equal(new Set(qs.map(q=>q.questionFamily)).size,10);
+ const earlier=Array.from(bank().NPPE_DIAGNOSTIC).slice(0,40);
+ for(const q of qs){
+  assert.match(q.blueprintVersion,/2017/);
+  assert.match(q.difficultyBasis,/not empirically calibrated/);
+  assert.match(q.reviewStatus,/not independently validated/);
+  assert.equal(q.options.length,4);assert.equal(q.optionRationales.length,4);
+  assert.ok(q.optionRationales.every(s=>s.length>35));
+  assert.ok(!earlier.some(old=>old.stem===q.stem || old.questionFamily && old.questionFamily===q.questionFamily),q.qid);
+  assert.ok(q.sources.length>=2);
+  q.sources.forEach(src=>{assert.ok(src.sourceType&&src.title&&src.locator);if(src.url)assert.equal(new URL(src.url).protocol,'https:');});
+  assert.doesNotMatch(q.why,/<script|onerror\s*=/i);
+ }
+ assert.ok(qs.every(q=>q.options[q.answer].length<Math.max(...q.options.map(s=>s.length))), 'Answer length must not reveal the key');
+ assert.match(qs[7].jurisdiction,/Saskatchewan/);
+ assert.match(qs[8].jurisdiction,/Saskatchewan/);
+ assert.match(qs[9].jurisdiction,/British Columbia/);
+});
+test('Batch 5 preserves the first forty question objects and guards against incomplete or conflicting predecessors',()=>{
+ const ctx={window:{}};
+ vm.runInNewContext(DIAGNOSTIC_FILES.slice(0,4).map(read).join('\n'),ctx);
+ const original=ctx.window.NPPE_DIAGNOSTIC, before=JSON.stringify(original), references=Array.from(original);
+ assert.equal(original.length,40);
+ vm.runInNewContext(read(DIAGNOSTIC_FILES[4]),ctx);
+ assert.equal(ctx.window.NPPE_DIAGNOSTIC,original);
+ assert.equal(original.length,50);
+ assert.equal(JSON.stringify(original.slice(0,40)),before);
+ references.forEach((q,i)=>assert.equal(q,original[i]));
+ ctx.window.installNPPEDiagnosticBatch5();
+ vm.runInNewContext(read(DIAGNOSTIC_FILES[4]),ctx);
+ assert.equal(original.length,50);
+ assert.throws(()=>vm.runInNewContext(read(DIAGNOSTIC_FILES[4]),{window:{}}),/Batches 1/);
+ assert.throws(()=>vm.runInNewContext(read(DIAGNOSTIC_FILES[4]),{window:{NPPE_DIAGNOSTIC:original.slice(0,39)}}),/Batches 1/);
+ const invalid=JSON.parse(before);invalid[0].authorSet=2;
+ assert.throws(()=>vm.runInNewContext(read(DIAGNOSTIC_FILES[4]),{window:{NPPE_DIAGNOSTIC:invalid}}),/earlier Diagnostic/);
+ original[49].stem='Conflicting replacement';
+ assert.throws(()=>ctx.window.installNPPEDiagnosticBatch5(),/Conflicting/);
+});
 test('diagnostic registration is idempotent and cannot overwrite another author form',()=>{
  const ctx={window:{},console};vm.runInNewContext(read('test-bank-nppe-set2.js')+'\n'+read('test-bank-nppe-set3.js'),ctx);
  const e={formCatalog:[{id:'set-1-diagnostic',authorSet:1}],forms:{},sets:{},setPlans:{},mockLaunchable:{}};
  ctx.window.registerNPPESet2(e);ctx.window.registerNPPESet3(e);
  const beforeD=JSON.stringify(e.forms['mock-d']),beforeE=JSON.stringify(e.forms['mock-e']);
  const api=bank();api.registerNPPEDiagnostic(e);api.registerNPPEDiagnostic(e);
- assert.equal(e.forms['set-1-diagnostic'].length,EXPECTED_COUNT);assert.equal(e.diagnostic.complete,false);assert.equal(e.diagnostic.target,50);
+ assert.equal(e.forms['set-1-diagnostic'].length,EXPECTED_COUNT);assert.equal(e.diagnostic.complete,true);assert.equal(e.diagnostic.target,50);
  assert.equal(JSON.stringify(e.forms['mock-d']),beforeD);assert.equal(JSON.stringify(e.forms['mock-e']),beforeE);
  const all=[...e.forms['mock-d'],...e.forms['mock-e'],...e.forms['set-1-diagnostic']];
- assert.equal(new Set(all.map(q=>q.qid)).size,260);
+ assert.equal(new Set(all.map(q=>q.qid)).size,270);
  const earlierStems=new Set(all.filter(q=>q.batch!==3||q.form!=='set-1-diagnostic').map(q=>q.stem.trim().toLowerCase()));
  for(const q of api.NPPE_DIAGNOSTIC_BATCH3)assert.equal(earlierStems.has(q.stem.trim().toLowerCase()),false,q.qid);
  assert.throws(()=>api.registerNPPEDiagnostic({formCatalog:[{id:'set-1-diagnostic',authorSet:2}]}));
@@ -144,27 +190,28 @@ test('build delivers Diagnostic only in the NPPE authorized package and no quest
  assert.match(packet.scripts.join('\n'),/nppe:set-1:diagnostic:/);
  assert.match(packet.scripts.join('\n'),/NPPE_DIAGNOSTIC_BATCH3/);
  assert.match(packet.scripts.join('\n'),/NPPE_DIAGNOSTIC_BATCH4/);
+ assert.match(packet.scripts.join('\n'),/NPPE_DIAGNOSTIC_BATCH5/);
  assert.doesNotMatch(build.shell,/nppe:set-1:diagnostic:|NPPE_DIAGNOSTIC|A municipality asks a project team/);
  for(const key of Object.keys(build.sizes).filter(k=>k!=='nppe'))assert.doesNotMatch(fs.readFileSync(path.join(build.output,key+'.json'),'utf8'),/NPPE_DIAGNOSTIC|nppe:set-1:diagnostic:/);
  assert.ok(build.sizes.nppe<5500000);
 });
-test('partial Diagnostic displays actual 40 count and 55 minutes; other forms retain readiness',async()=>{
+test('complete Diagnostic displays 50 count and 69 minutes; other forms retain readiness',async()=>{
  const {dom,doc,win,errors}=await browser();try{
   assert.equal(doc.querySelector('[data-set="set-1-diagnostic"] .tb-sets').textContent,String(EXPECTED_COUNT));
   assert.equal(doc.querySelector('[data-set="mock-d"] .tb-sets').textContent,'110');
   assert.equal(doc.querySelector('[data-set="mock-e"] .tb-sets').textContent,'110');
   for(const id of ['set-1-learning','set-1-mock-a','set-1-mock-b','set-1-mock-c'])assert.equal(doc.querySelector('[data-set="'+id+'"]').disabled,true);
-  assert.match(doc.getElementById('tb-overview').textContent,/40 of 50 planned/);
+  assert.match(doc.getElementById('tb-overview').textContent,/50 of 50 planned/);
   assert.match(doc.getElementById('tb-overview').textContent,new RegExp(EXPECTED_MINUTES+' minutes'));
   assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Diagnostic/);
   assert.equal(doc.querySelector('[data-mode="quick"]'),null);
   assert.equal(win.__TB.EXAMS.nppe.forms['mock-d'].length,110);assert.deepEqual(errors,[]);
  }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}
 });
-test('timed Diagnostic uses forty own-bank items for fifty-five minutes without answer aids',async()=>{
+test('timed Diagnostic uses fifty own-bank items for sixty-nine minutes without answer aids',async()=>{
  const {dom,doc,win,errors}=await browser();try{
   doc.querySelector('[data-mode="full"]').click();
-  assert.match(doc.querySelector('#tb-timer').textContent,/^5[45]:[0-5][0-9]$/);
+  assert.match(doc.querySelector('#tb-timer').textContent,/^(?:1:0[89]:[0-5][0-9]|6[89]:[0-5][0-9])$/);
   const snap=win.__TB.getFeedbackSnapshot();assert.equal(snap.records.length,EXPECTED_COUNT);
   assert.ok(snap.records.every(r=>r.question.form==='set-1-diagnostic'));
   assert.equal(snap.records.filter(r=>r.question.batch===3).length,10);
@@ -177,7 +224,7 @@ test('timed Diagnostic uses forty own-bank items for fifty-five minutes without 
   assert.deepEqual(errors,[]);
  }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}
 });
-test('untimed Diagnostic scores 40/40 and provides source-supported review only after submission',async()=>{
+test('untimed Diagnostic scores 50/50 and provides source-supported review only after submission',async()=>{
  const {dom,doc,win,errors}=await browser();try{
   doc.querySelector('[data-timing-kind="full"][data-timed="0"]').click();doc.querySelector('[data-mode="full"]').click();
   assert.equal(doc.querySelector('.tb-timer').textContent,'Untimed');assert.equal(doc.querySelector('#tb-feedback-loop'),null);
@@ -189,7 +236,7 @@ test('untimed Diagnostic scores 40/40 and provides source-supported review only 
    doc.querySelector(i===EXPECTED_COUNT-1?'[data-submit]':'[data-next]').click();
   }
   await new Promise(resolve=>setTimeout(resolve,80));
-  assert.match(doc.querySelector('[data-score-result]').textContent,/100% \(40\/40\)/);
+  assert.match(doc.querySelector('[data-score-result]').textContent,/100% \(50\/50\)/);
   assert.match(doc.querySelector('[data-score-result]').textContent,/Test set: Diagnostic/);
   assert.equal(doc.querySelectorAll('.tb-domblock').length,6);
   assert.doesNotMatch(doc.querySelector('#tb-overview').textContent,/Coverage-adjusted readiness/);
