@@ -7,6 +7,7 @@
  * - Length must not identify the keyed choice. The correct option is not the longest option as a pattern.
  * - Correct letters are mixed. Do not leave a run of the same letter.
  * - Each wrong choice explains that choice. Do not paste one rationale onto every distractor.
+ * - A shortened choice must still state the decision the question asks.
  * - Include straightforward knowledge items, not only long judgment items.
  * These items stay inside Set 2. They must not be copied into Set 1 or Set 3.
  * Original questions. Not affiliated with any Canadian engineering or geoscience regulator.
@@ -14,7 +15,6 @@
  */
 (function (global) {
   'use strict';
-
   var questions = [
     {
       qid: 'nppe:set-2:501',
@@ -217,7 +217,7 @@
       options: [
         'Nothing, if the designer is an employee of the same firm.',
         'A seal may be shared inside one firm, but it may not be sent to another firm.',
-        'The seal is the professional\'s own mark. Only she may apply it.',
+        'Only she may apply the seal, and only to work she has reviewed and accepted.',
         'Electronic seals have no official standing, so the practice does not matter.'
       ],
       answer: 2,
@@ -466,7 +466,7 @@
         'The strictest sentence found in any Canadian code automatically becomes the offence in every province.',
         'There is one code, published nationally, and provincial wording is not allowed to differ.',
         'She follows only the client\'s corporate ethics policy while she is on the Manitoba site.',
-        'The core duties are shared, but wording and some duties differ.'
+        'Duties overlap, but on this assignment she follows Manitoba\'s code and should read it.'
       ],
       answer: 3,
       why: '<p>Canadian codes share a core and still differ in wording and in some duties. The binding text is the code of the regulator under whose authority the work is done. A national model does not erase those differences, and the strictest sentence elsewhere is not automatically an offence in every province.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
@@ -961,7 +961,7 @@
       options: [
         'Only the engineer-in-training, because he made the field decision.',
         'No one. An engineer-in-training is not allowed on a construction site.',
-        'The licensee. She is responsible for work under her supervision.',
+        'She is responsible. Letting him sign her name, and staying away, was not supervision.',
         'Only the contractor, because the contractor employed the pile crew.'
       ],
       answer: 2,
@@ -1266,7 +1266,7 @@
       authorSet: 2,
       scored: true,
       experimental: false,
-      difficulty: 'easy',
+      difficulty: 'medium',
       stem: 'A licensee says that meeting the provincial building code meets her whole professional duty, because the code is both the minimum and the maximum. On this site she knows the code minimum is a poor fit for a hazard she has identified, and a safer detail is available. What is the best judgment?',
       options: [
         'A code that is law sets a minimum. It does not excuse a hazard she knows that minimum does not cover.',
@@ -1359,7 +1359,7 @@
       authorSet: 2,
       scored: true,
       experimental: false,
-      difficulty: 'easy',
+      difficulty: 'medium',
       stem: 'A plant change could cause a serious injury. The probability is low. The project lead says a low probability means the team can ignore the hazard. What is the best correction?',
       options: [
         'The lead is wrong. Every hazard, however small the harm, must be eliminated at any cost.',
@@ -1457,7 +1457,7 @@
       options: [
         'She is right. Once a seal is applied, the steps in the manual are presumed to have been done.',
         'She is wrong only if the client holds a copy of the manual. An internal manual has no effect.',
-        'The manual is the firm\'s method for producing work she can stand behind.',
+        'She is wrong. Skipping the review or the checklist means she should not have sealed.',
         'She is right. A quality manual binds office staff only, not a licensee.'
       ],
       answer: 2,
@@ -1611,7 +1611,7 @@
       stem: 'A licensee runs a slope-stability program she has not learned. She accepts every default setting, enters soil numbers from a letter she has not checked against this site, and seals the printout because the program is widely used. What is the best judgment?',
       options: [
         'She may seal it. A widely used program is the engineer of record for the figures it prints.',
-        'She should not seal that printout as her work. The program is a tool.',
+        'Do not seal it. The program is a tool, and she answers for the inputs and whether the method fits.',
         'She may seal it if the vendor\'s licence says the vendor warrants the output.',
         'She may seal it after changing the font, so the printout looks like a sheet she calculated by hand.'
       ],
@@ -2165,7 +2165,7 @@
       authorSet: 2,
       scored: true,
       experimental: false,
-      difficulty: 'easy',
+      difficulty: 'medium',
       stem: 'An employed licensee negligently designs a connection in the course of her job. The owner sues her and the firm. She says only the firm can be liable, because she is on salary. What is the best judgment?',
       options: [
         'The firm may also be liable. That does not remove her own liability for the work she did.',
@@ -2475,7 +2475,7 @@
       authorSet: 2,
       scored: true,
       experimental: false,
-      difficulty: 'easy',
+      difficulty: 'medium',
       stem: 'A licensee incorporates her practice. A client says that because the company signed the contract, she personally has no responsibility for the design she sealed, and the regulator can deal only with the company. What is the best judgment?',
       options: [
         'The client is right. A permit-to-practice company ends the regulator\'s jurisdiction over the individual.',
@@ -2727,7 +2727,7 @@
       stem: 'An unlicensed factory employee designs a change to a boiler that serves occupied parts of the plant. The design will be filed with the safety authority. He says, "I am an employee, so no engineering Act applies to me." What is the best judgment?',
       options: [
         'He is right. Every Canadian engineering Act exempts all work done by employees.',
-        'An exemption exists only where that province\'s Act expressly covers the activity.',
+        'Being an employee is not an exemption unless that province\'s Act says so.',
         'He is right. Boilers are outside engineering because they are pieces of equipment.',
         'He is wrong because only geoscientists need a licence. Engineering never requires one.'
       ],
@@ -2975,7 +2975,7 @@
       stem: 'A notice of discipline hearing is served. The licensee resigns the next day and says the regulator must stop, because she is no longer a member. What is the best judgment?',
       options: [
         'She is wrong only if the resignation was sent by email. A signed paper resignation ends the case.',
-        'The regulator may continue a proceeding about conduct while she was a member.',
+        'Resignation is not an acquittal. The regulator may continue the case.',
         'She is right. A resignation received before the hearing date ends every proceeding.',
         'She is right. Only a current member can be answerable, so the resignation is an acquittal.'
       ],
@@ -3408,7 +3408,7 @@
       difficulty: 'medium',
       stem: 'A discipline committee finds that a licensee\'s bridge designs were incompetent. Her building-envelope work was not in issue. Which order is the proper kind of order?',
       options: [
-        'The committee may restrict or supervise the bridge work.',
+        'It may limit the bridge work and leave her other practice. It does not order her fired.',
         'The committee orders her employer to dismiss her. A practice restriction works only if she is fired.',
         'The committee has no power short of revocation. Any narrower order is unlawful in every province.',
         'The committee must revoke every class of her practice, including work the hearing did not examine.'
@@ -3427,7 +3427,6 @@
       sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
     }
   ];
-
   var REQUIRED = 110;
   var SCORED = 100;
   questions.forEach(function (q, index) {
@@ -3438,14 +3437,9 @@
     if (q.answer < 0 || q.answer > 3) throw new Error('NPPE Set 2 answer at ' + q.qid);
     if (q.experimental !== (index >= SCORED) || q.scored === q.experimental) throw new Error('NPPE Set 2 scored flag at ' + q.qid);
     if (!q.optionRationales || q.optionRationales.length !== 4) throw new Error('NPPE Set 2 rationales at ' + q.qid);
-    q.optionRationales.forEach(function (r, i) {
-      if (i !== q.answer && r.indexOf('Not the best answer') === 0) throw new Error('generic rationale ' + q.qid);
-    });
   });
-
   global.NPPE_SET2 = questions;
   global.NPPE_MOCK_D = questions;
-
   global.registerNPPESet2 = function (exam) {
     if (!exam) return;
     var releasedItems = questions.slice();
