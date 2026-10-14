@@ -29,7 +29,7 @@ async function browser(){
 }
 test('batches 1 and 2 contain twenty original scored questions, all six domains, unique IDs and complete reasoning',()=>{
  const qs=bank().NPPE_DIAGNOSTIC;
- assert.equal(qs.length,20);assert.equal(new Set(qs.map(q=>q.qid)).size,10);
+ assert.equal(qs.length,20);assert.equal(new Set(qs.map(q=>q.qid)).size,20);
  const counts={};
  qs.forEach((q,i)=>{
   assert.equal(q.qid,'nppe:set-1:diagnostic:'+String(i+1).padStart(3,'0'));
