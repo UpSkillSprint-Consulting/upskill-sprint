@@ -2884,7 +2884,7 @@
         'Payment of $200,000 in damages to a neighbour who was not a party to the hearing.',
         'The committee sentences her to thirty days in jail.',
         'Cancellation of the owner\'s construction contract with the contractor.',
-        'A reprimand, a required course, supervised practice, or a suspension, where the Act allows that order.'
+        'Supervised practice for that structural work, if the Act authorizes that order.'
       ],
       answer: 3,
       why: '<p>Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.</p><p><strong>Blueprint:</strong> VI.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',

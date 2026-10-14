@@ -26,7 +26,7 @@
       difficulty: 'medium',
       stem: 'A trade contractor tells a homeowner, "My crew are the professionals. A licence is only a card the association sells." The homeowner is about to hire the crew to design a retaining wall. What is the best correction?',
       options: [
-        'Design of that wall is professional engineering.',
+        'Designing that wall is reserved practice. A trade ticket is not a licence, and a waiver does not replace one.',
         'Anyone paid for skilled work is a professional in the same sense as a licensee.',
         'The association only sells an optional card, so the wall needs no licensed designer.',
         'The crew may design the wall if the homeowner signs a waiver of the licence.'
@@ -58,7 +58,7 @@
       stem: 'A council member proposes that the government write the technical standards and hear all complaints, so members can stop doing that work. What is the main problem with the proposal?',
       options: [
         'Members are forbidden to write standards. Only government lawyers may do it.',
-        'Self-regulation continues only while members set and apply the standards.',
+        'Self-regulation continues only while members set and apply the standards. Giving that work away gives up the privilege.',
         'Complaint hearings already belong to the criminal courts, so council committees are unlawful.',
         'Once a profession is recognized, the statute cannot be changed and the privilege cannot be lost.'
       ],
@@ -90,7 +90,7 @@
       options: [
         'Leave it out. Her only duty is to the client who pays, and one partner already knows.',
         'Leave it out if the lawyer says that hiding the plume is not a crime.',
-        'Keep the plume in the report others will rely on.',
+        'Keep the plume in the report others will rely on. Hiding it from the users of the site breaks her duty to them.',
         'Tell only the partner, and leave the report that the school will use silent.'
       ],
       answer: 2,
@@ -338,7 +338,7 @@
       options: [
         'She omits the defect. A Canadian code has no force outside Canada.',
         'She omits the defect if the local form has no box for it.',
-        'She does not file a report she knows is misleading.',
+        'She does not file a report she knows is misleading. Silence in a local statute does not cancel her duty.',
         'She omits the defect. A licensee must follow every local custom, including concealment.'
       ],
       answer: 2,
@@ -430,7 +430,7 @@
       stem: 'An employer handbook says commercial instructions prevail when they conflict with the regulator\'s code of ethics. Which statement is correct?',
       options: [
         'The handbook prevails because the employer pays her salary.',
-        'The code, made under the Act, governs her professional conduct.',
+        'The code under the Act governs her conduct, and the handbook cannot cancel it.',
         'The handbook prevails if human resources approved it.',
         'There is no code until the employer copies one into the handbook.'
       ],
@@ -802,7 +802,7 @@
       stem: 'A vendor asks her to seal an anchor calculation because the vendor is on a prequalified list. She has not checked the calculation against this building. What is the most appropriate action?',
       options: [
         'Seal it. Prequalification means the calculation is already her work.',
-        'She does not seal it until she has checked it and is willing to be responsible for it.',
+        'She does not seal the calculation until she has checked it and accepts responsibility for it.',
         'Seal it if the vendor\'s insurer names the owner.',
         'Seal it after changing the title block so the page looks like hers.'
       ],
@@ -834,7 +834,7 @@
       options: [
         'She must seal it. A licensee adopts every local number, including one she believes will fail.',
         'She seals it if the client signs a waiver.',
-        'She does not seal a design she believes is unsafe.',
+        'She does not seal a design she believes is unsafe. A lower lawful number does not force her seal.',
         'She seals it. Her professional duty ends when another country\'s code is more permissive.'
       ],
       answer: 2,
@@ -1082,7 +1082,7 @@
       options: [
         'Finish the hotel first. A higher fee decides the order of professional duties.',
         'Say nothing until the melt starts. The town can hire someone else without being told.',
-        'Tell the town now if she cannot finish before the melt, and do not silently give the hotel the time the town needs.',
+        'Tell the town now if the culvert review will not be finished before the melt.',
         'The town has no timing claim. Public clients must wait behind private ones.'
       ],
       answer: 2,
@@ -1362,7 +1362,7 @@
         'Notify only the general-liability insurer. Design errors are an ordinary premises claim.',
         'Notify neither. Holding two policies means each excludes the other\'s claims automatically.',
         'Notify the general-liability insurer and say nothing to the professional insurer, so the premium will not change.',
-        'Notify the professional-liability insurer about the crack.'
+        'Notify the professional-liability insurer about the crack. The mat claim is a different kind of loss.'
       ],
       answer: 3,
       why: '<p>The crack is a professional service claim. The trip is not. She does not use one policy as a substitute for the other.</p><p><strong>Blueprint:</strong> III.5. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
@@ -1546,7 +1546,7 @@
       stem: 'She smells solvent in a monitoring well. The contractor asks her to hold the sample until the holding time expires, so the result cannot be used. What is the most appropriate action?',
       options: [
         'Hold the sample. The contractor controls the well, so the contractor controls the data.',
-        'Keep the chain of custody and report the condition.',
+        'Keep the chain of custody and report the condition. She does not age the sample out to hide a result.',
         'Hold the sample if she writes "contractor request" in a diary no one else sees.',
         'Discard the sample. An odour is not data until a laboratory confirms it, so there is nothing to protect.'
       ],
@@ -1638,7 +1638,7 @@
       difficulty: 'hard',
       stem: 'She issues a field instruction that changes a reinforcement detail. The shop keeps cutting from the sealed drawing, which she does not update. The superintendent says the drawing still governs because it is sealed. What is the most appropriate action?',
       options: [
-        'Update or clearly supersede the sealed drawing.',
+        'Supersede the sealed drawing, and tell the shop in writing not to build from the old sheet.',
         'Leave the sealed drawing as it is. A seal freezes the sheet forever, even after she has changed the detail.',
         'Rely on the superintendent to guess which document wins.',
         'Email the change only to a friend at the shop, and leave the site copy untouched.'
@@ -1734,7 +1734,7 @@
         'Delete the condition. A lender wants a single number, and a single number is always the whole opinion.',
         'Delete the condition if the owner promises to mention it verbally.',
         'Delete the condition. Limitations are for the file copy, not for the people who will rely on the letter.',
-        'Keep the condition in anything the lender will see.'
+        'Keep the condition in anything the lender will see. The number alone is not her conclusion.'
       ],
       answer: 3,
       why: '<p>She can write a short letter. The short letter still has to carry the condition that limits the yield.</p><p><strong>Blueprint:</strong> III.10. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
@@ -1762,7 +1762,7 @@
       difficulty: 'medium',
       stem: 'A client demands that she destroy her only copy of the calculations behind a seal, and keep no note of them. The report itself may stay with the client. What is the best judgment?',
       options: [
-        'She does not destroy the only record of a calculation she may have to explain.',
+        'She does not destroy the only record of a calculation she may later have to explain.',
         'She destroys it. The client owns every note once the invoice is paid.',
         'She destroys it if the client says the notes are embarrassing.',
         'She destroys it. A seal is valid only if no calculation survives.'
@@ -1794,7 +1794,7 @@
       stem: 'A client says a dispute over an unpaid professional invoice is a criminal matter, and that the police, not a civil court, decide the fee. What is the best correction?',
       options: [
         'The client is right. Every broken contract is a crime.',
-        'A fee dispute is a civil matter, in the court or the forum the contract chooses.',
+        'A fee dispute is a civil matter, in the court or the forum the contract chooses. It is not a criminal charge.',
         'The regulator\'s discipline panel is the only body that can decide a fee.',
         'The client is right if the invoice is more than ten thousand dollars. That amount makes the claim criminal.'
       ],
@@ -1826,7 +1826,7 @@
       options: [
         'The client is right. Canadian professional contracts are valid only if both parties sign a seal.',
         'The client is right. Email and conduct can never form a contract.',
-        'A signature is not the only way a contract can arise.',
+        'Nothing was signed, but her work, the client\'s directions, and the paid invoice can still show a contract.',
         'There is a contract only if a lawyer witnessed the first meeting.'
       ],
       answer: 2,
@@ -1918,7 +1918,7 @@
       stem: 'The owner wants a credit for deleted paving and tells her to revise the drawing now and "price it later." She is about to issue the drawing as if the credit were already agreed. What is the most appropriate action?',
       options: [
         'State the credit as agreed. An instruction to revise the drawing settles the price.',
-        'Issue the drawing change only with the status clear.',
+        'Issue the revised drawing, and do not state a credit that has not been agreed.',
         'Refuse to revise the drawing until the project is over. No change may be drawn before the price.',
         'Pick a credit herself and insert it. The professional sets the owner\'s price.'
       ],
@@ -1950,7 +1950,7 @@
       options: [
         'The owner is right. Reliance on any owner-supplied fact is negligence, whatever the contract says.',
         'She is not responsible even for a conflict she saw and set aside. The warranty covers her silence.',
-        'She could rely on the warranted survey, but not on a conflict that was obvious on the drawing.',
+        'She could rely on the warranted survey, but not ignore a conflict that was obvious on the drawing.',
         'The surveyor is automatically the only defendant. She drops out of every claim the moment a survey is wrong.'
       ],
       answer: 2,
@@ -1982,7 +1982,7 @@
         'She is right. Private contracts always defeat limitation statutes.',
         'She is right. Thirty days is the national professional limitation period.',
         'She is wrong because no contract may ever mention a time limit. Time limits in contracts are forbidden.',
-        'A contract clause does not automatically replace the limitation statute.'
+        'A private time limit does not automatically replace the provincial limitation statute.'
       ],
       answer: 3,
       why: '<p>She does not advise the client that the invoice date has replaced the Act.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
@@ -2042,7 +2042,7 @@
       stem: 'She uses a lining method that is not yet an accepted method, and she does not tell the client it is unproven. The client says he thought it was ordinary practice. What is the best judgment?',
       options: [
         'She is protected. Any method a licensee chooses is accepted practice by definition.',
-        'She needed the client\'s informed acceptance before using an unproven method.',
+        'She needed the client\'s informed acceptance before using an unproven method. Silence is not that acceptance.',
         'She is protected if the method later becomes accepted. Later acceptance rewrites the day she chose it.',
         'She had no duty to mention the uncertainty. Clients hire a result, not a method.'
       ],
@@ -2106,7 +2106,7 @@
         'The owner is right. Any fault by a plaintiff cancels the whole claim.',
         'She is fully liable. A defendant pays one hundred percent whenever she is at fault at all.',
         'The court must pick one cause and ignore the other.',
-        'Where both contributed, responsibility can be divided.'
+        'Where both contributed, the loss can be divided, and her fault is not erased.'
       ],
       answer: 3,
       why: '<p>The owner\'s opening of the lane matters. So does her specification. The law can give weight to each.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
@@ -2134,7 +2134,7 @@
       difficulty: 'medium',
       stem: 'An owner retains her as an expert and offers a fee that is paid only if the owner wins. What is the most appropriate action?',
       options: [
-        'Decline a fee that depends on which party wins.',
+        'Decline a fee that depends on which party wins. Her opinion cannot be bought by the result.',
         'Accept. An expert is the client\'s advocate, and advocates may be paid only if they win.',
         'Accept if the percentage is under ten percent. A small contingent fee is not contingent.',
         'Accept. Independence is required only of judges, not of expert witnesses.'
@@ -2166,7 +2166,7 @@
       stem: 'An owner tells a contractor that holdback need not be retained because the contractor is a friend. The applicable Act requires a holdback on this project. What is the best judgment?',
       options: [
         'The owner is right. Holdback is a custom, and friends may skip a custom.',
-        'A friendship does not waive a holdback the Act requires.',
+        'A friendship does not waive a holdback the Act requires. The owner still has to follow that statute.',
         'The owner is right if the friend sends an email. An email repeals a holdback statute.',
         'Holdback is a federal tax. Friendship is irrelevant, and so is the provincial Act.'
       ],
@@ -2198,7 +2198,7 @@
       options: [
         'The owner is right. Any bond on a project pays for professional negligence.',
         'The owner is right if the bond names the project. Naming the project converts it into her insurance.',
-        'The performance bond secures the contractor, and it is not her professional-liability policy.',
+        'A performance bond secures the contractor\'s performance and is not her professional-liability policy.',
         'The bond pays her deductible and nothing else, so she need not carry insurance.'
       ],
       answer: 2,
@@ -2258,7 +2258,7 @@
       difficulty: 'easy',
       stem: 'She invents a sensor and wants to stop others from making it. A colleague says a patent lasts twenty years from the first sale, and that she should wait to file until sales begin. What is the best correction?',
       options: [
-        'A patent\'s term runs twenty years from the filing date, not from the first sale.',
+        'A patent runs twenty years from the filing date, not from the first sale.',
         'The colleague is right. The twenty years start when the first unit is sold.',
         'The colleague is right. A trade secret and a patent are the same right under two names.',
         'She needs no filing. Selling the sensor creates a patent automatically.'
@@ -2290,7 +2290,7 @@
       stem: 'Their contract says disputes will be arbitrated. The client sues in court anyway. She asks what the clause does. What is the best judgment?',
       options: [
         'The clause is a mediation. Any recommendation would bind both parties as an award.',
-        'The clause is a promise to arbitrate, not to mediate.',
+        'The clause is a promise to arbitrate, not to mediate, and the court can be asked to stay the lawsuit.',
         'The clause is a finding that she was negligent. Arbitration words decide the merits.',
         'The clause is void. Canadian parties cannot agree to arbitrate a professional dispute.'
       ],
@@ -2382,7 +2382,7 @@
       difficulty: 'medium',
       stem: 'Two methods were both accepted practice on the day she chose. She used one, and she wrote down why. A later claim says she was negligent because the other method also existed. What is the best judgment?',
       options: [
-        'Negligence is not shown merely because another accepted method existed.',
+        'Choosing one accepted method is not negligence merely because another accepted method existed.',
         'The claimant is right. Choosing either of two accepted methods is negligence.',
         'She is negligent because a better method was published five years later.',
         'She is negligent unless she used the method the client now prefers.'
@@ -2446,7 +2446,7 @@
       options: [
         'Start. A sentence that denies a contract is ordinary politeness and does not mean what it says.',
         'Start if she replies "excited to proceed." Her excitement accepts an offer the letter refused to make.',
-        'Do not start the paid work on the strength of a letter that says it is not a contract.',
+        'Do not start the paid work on a letter that says it is not a contract.',
         'Ignore the confidentiality paragraph as well. A non-binding letter binds nothing at all.'
       ],
       answer: 2,
@@ -2478,7 +2478,7 @@
         'The client is right. A civil filing freezes every regulator.',
         'The client is right. The first body to open a file is the only body allowed to continue.',
         'The judge will decide the complaint as part of the civil trial, so the regulator has no role.',
-        'The lawsuit and the complaint are different proceedings.'
+        'The lawsuit and the complaint are different proceedings. One does not automatically cancel the other.'
       ],
       answer: 3,
       why: '<p>She responds to each in its own forum. She does not assume the complaint disappears because she has been sued.</p><p><strong>Blueprint:</strong> IV.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
@@ -2570,7 +2570,7 @@
       options: [
         'He is right. Any student may use the title.',
         'He is right if a licensed engineer works somewhere in the same city.',
-        'That title is reserved for a person the regulator has admitted in that category.',
+        'Engineer in Training is reserved for someone the regulator has admitted in that category.',
         'He is right if the proposal is unpaid. An unpaid document has no title rules.'
       ],
       answer: 2,
@@ -2601,7 +2601,7 @@
       options: [
         'The titles are courtesy styles. Anyone with a degree may print them on a proposal.',
         'Only P.Eng. is reserved. Geoscience titles are free to use.',
-        'A foreign licence automatically includes the Canadian title in every province.',
+        'A foreign licence automatically includes the Canadian title in every province, with no further application.',
         'Professional engineer, P.Eng., professional geoscientist, and P.Geo. are reserved for people the regulator has licensed.'
       ],
       answer: 3,
@@ -2630,7 +2630,7 @@
       difficulty: 'hard',
       stem: 'An unlicensed person, for a fee, signs a flood-elevation certificate that a municipality will rely on for a named lot. She calls the certificate "general information" and does not use the title P.Eng. What is the best judgment?',
       options: [
-        'Offering that certificate for others to rely on is the practice.',
+        'That flood certificate is reserved practice even though she avoids the title.',
         'She is right. The Act restricts the title and never the work.',
         'She is right if each homeowner initials the page. Initials replace a licence.',
         'She is right until a flood occurs. Unlicensed practice is lawful before damage.'
@@ -2726,7 +2726,7 @@
         'She is right. Any Canadian seal is valid on a project in any province.',
         'She is right if both licences are in good standing. Good standing in A lets her seal B\'s work with A\'s seal.',
         'She may apply both seals without reviewing the drawings twice. Two seals are a courtesy.',
-        'She uses the seal of the regulator for the province where the work is.'
+        'She uses the seal of the regulator for the province where the work is. The other province\'s seal does not replace it.'
       ],
       answer: 3,
       why: '<p>The place of the project decides which seal is the professional mark for that work.</p><p><strong>Blueprint:</strong> V.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
@@ -2754,7 +2754,7 @@
       difficulty: 'hard',
       stem: 'A federal employee designs a public building for a town and says a federal paycheque is an exemption from the provincial engineering Act. The drawings will be filed with the town. What is the best judgment?',
       options: [
-        'A federal paycheque is not, by itself, an exemption.',
+        'A federal paycheque is not, by itself, an exemption. She has to look at the statute that governs this work.',
         'She is right. Every federal employee is outside every provincial engineering Act.',
         'She is right if the building is under four storeys. Height creates a federal exemption.',
         'She is wrong because only geoscientists need a licence. Engineering never requires one.'
@@ -2848,7 +2848,7 @@
       stem: 'A member says the code reaches only physical safety, so inventing a test result that hurt nobody cannot be discipline. What is the best correction?',
       options: [
         'He is right. Without an injury there is nothing for a discipline committee to hear.',
-        'He is right if the client was not charged for the test. An unpaid falsehood is not professional.',
+        'He is right if the client was not charged for the test. An unpaid false result is outside the code.',
         'He is right. Discipline exists only to award damages for an injury.',
         'Dishonesty in a professional document can be misconduct even when nobody is injured.'
       ],
@@ -2878,7 +2878,7 @@
       difficulty: 'medium',
       stem: 'A panel finds poor practice on one kind of work. Which order is the proper kind of order?',
       options: [
-        'An order the Act allows, such as a reprimand, a fine, supervised practice, or a limit on that work.',
+        'It may reprimand, fine, supervise, or limit that work, and it cannot jail her or demote her.',
         'The panel sentences her to thirty days in jail.',
         'The panel orders the employer to demote her. A restriction works only if her job title changes.',
         'The panel has no power short of revocation. Any narrower order is unlawful everywhere.'
@@ -2910,7 +2910,7 @@
       stem: 'The complainant asks to sit as a voting member of the panel that will decide his own complaint. He says the person who brought the case should help decide it. What is the best judgment?',
       options: [
         'He may vote. A complainant is the prosecutor and the judge in discipline.',
-        'The person who decides should not be the accuser.',
+        'The person who decides should not be the accuser. He does not vote on his own complaint.',
         'He may vote if he promises to be fair. A promise cures the conflict.',
         'He may vote because discipline does not use rules about bias.'
       ],
@@ -2942,7 +2942,7 @@
       options: [
         'She is right. Unnotarized paper is invisible to every Canadian tribunal.',
         'She is right. Only a criminal court may look at a sealed drawing.',
-        'A discipline hearing is not a rule that every document must be notarized.',
+        'The panel may look at her own sealed drawing without a notary\'s stamp.',
         'She is right if she objects. An objection by itself excludes the document.'
       ],
       answer: 2,
@@ -3002,7 +3002,7 @@
       difficulty: 'hard',
       stem: 'A complaint concerns work she did while licensed in Province A. She later becomes licensed in Province B and says Province A loses jurisdiction on the day she joins Province B. What is the best judgment?',
       options: [
-        'Province A may still deal with conduct that occurred while she was its member.',
+        'Province A can still deal with conduct that happened while she was its member.',
         'She is right. A member can be answerable to only one regulator, the latest one.',
         'She is right if she resigns Province A before the hearing is called. Resignation is an acquittal.',
         'Province B must hear the Province A complaint, because she lives there now.'
@@ -3034,7 +3034,7 @@
       stem: 'She wants to appeal a suspension. She files immediately in the Supreme Court of Canada and says that court is the automatic next step. What is the best judgment?',
       options: [
         'She is right. Every professional suspension is appealed straight to that court.',
-        'She follows the appeal path named in the Act that made the order.',
+        'The appeal is the path named in the Act, not an automatic case in the Supreme Court of Canada.',
         'She is right if the suspension is longer than a month. Length chooses the court.',
         'A neighbouring province\'s council is the appeal body for every Canadian suspension.'
       ],
@@ -3066,7 +3066,7 @@
       options: [
         'He is right. Discipline is a private prosecution by the person who was disappointed.',
         'He is right if he hires a lawyer. His lawyer becomes the association.',
-        'The regulator carries the discipline proceeding.',
+        'The regulator carries the discipline proceeding. The complainant is not the prosecutor in his private capacity.',
         'He is right. The regulator may act only when he personally conducts the hearing.'
       ],
       answer: 2,
@@ -3158,7 +3158,7 @@
       stem: 'A schedule she did not prepare is attached to a letter she is asked to sign. The schedule inflates quantities. The principal says she is signing only the letter, not the attachment. What is the most appropriate action?',
       options: [
         'Sign. A letter never includes its attachments.',
-        'She does not sign until the schedule is corrected or clearly excluded.',
+        'She does not sign while the inflated schedule is still part of the letter.',
         'Sign if she adds "quantities approximate," even though she knows they are inflated rather than approximate.',
         'Sign. Quantity inflation is a commercial matter, and the code covers only calculations.'
       ],
@@ -3222,7 +3222,7 @@
         'She accepts both roles. A bonus for a low cost is always in the owner\'s interest, so there is no conflict.',
         'She accepts if the bonus is paid to her firm. A firm cannot have this conflict.',
         'She accepts and certifies high, so the bonus is never paid. Silent self-denial cures the conflict.',
-        'She does not both set the bonus target and certify the invoices that decide the bonus.'
+        'She discloses the offer and does not both set that target and certify the invoices.'
       ],
       answer: 3,
       why: '<p>The owner can choose a certifier who is not paid by the result she certifies.</p><p><strong>Blueprint:</strong> III.2. This is an original practice item, not an official NPPE question, and it is unscored. A raw score on this form is not the scaled NPPE cut of 65.</p>',
@@ -3250,7 +3250,7 @@
       difficulty: 'hard',
       stem: 'Her template still shows the previous client\'s name and site address on drawings for a new client. She does not read the title block. She seals the set because the software subscription is paid. What is the most appropriate action?',
       options: [
-        'She corrects the title block before she seals.',
+        'Correct the previous client\'s name before she seals the new drawings.',
         'Seal it. Title-block text is the software vendor\'s statement, not hers.',
         'Seal it. A previous client\'s name on a new site is harmless metadata.',
         'Seal it if the new client does not notice. Silence by the client corrects the block.'
@@ -3314,7 +3314,7 @@
       options: [
         'She starts. The later signature always wipes the quote, including the fee.',
         'She starts the extra at the old fee. Professionals absorb scope that a form adds later.',
-        'She reconciles the conflict before she starts the pump station.',
+        'She does not start the added pump station until the quote and the purchase order are reconciled.',
         'She ignores the purchase order completely, including the part that matches the quote.'
       ],
       answer: 2,
@@ -3374,7 +3374,7 @@
       difficulty: 'medium',
       stem: 'A technician who is not licensed signs a shoring drawing "P.Eng." because the title block style uses those letters. A licensee in another department has not seen the drawing. What is the best judgment?',
       options: [
-        'He has used a reserved title on work he is not licensed to sign.',
+        'Printing P.Eng. on that shoring drawing uses a title he is not licensed to use.',
         'He is right. Title-block styles are outside the Act.',
         'He is right if the other department employs a licensee. Employment nearby lends the title.',
         'He is right. Shoring drawings are a trade document, never professional engineering.'
@@ -3407,7 +3407,7 @@
       options: [
         'The panel must revoke her structural practice because every record failure is a design failure.',
         'The panel orders her bookkeeper to resign. A records order works only if the bookkeeper goes.',
-        'The panel may order a records practice it is allowed to impose, such as supervision of her files.',
+        'The order can require supervised records and need not ban structural work the hearing never examined.',
         'The panel has no power except a national ban from every project.'
       ],
       answer: 2,
