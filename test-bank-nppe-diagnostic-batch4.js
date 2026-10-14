@@ -50,11 +50,11 @@
     "jurisdiction": "Canada and cross-cultural professional collaboration; no specific foreign prohibition is assumed.",
     "stem": "During an international project meeting, colleagues disagree about whether publicly challenging a supervisor is respectful. One engineer concludes: \"Whatever the local custom permits must be ethically acceptable for a professional.\" Which response is best?",
     "options": [
-      "Consider cultural context, but separately assess honesty, respect and applicable professional duties rather than relying on custom alone.",
-      "Follow whichever custom the most senior manager prefers because management authority decides professional ethics.",
-      "Treat any unfamiliar custom as unethical even where it does not conflict with a professional obligation.",
-      "Limit the ethics review to whether someone has already been prosecuted for the conduct."
-    ],
+    "Consider local customs while independently applying relevant professional and ethical duties.",
+    "Follow whichever custom the most senior manager prefers because management authority decides professional ethics.",
+    "Treat any unfamiliar custom as unethical even where it does not conflict with a professional obligation.",
+    "Limit the ethics review to whether someone has already been prosecuted for the conduct."
+  ],
     "answer": 0,
     "optionRationales": [
       "Professional conduct must be sensitive to cultural context while still meeting underlying ethical and applicable regulatory standards.",
@@ -88,11 +88,11 @@
     "jurisdiction": "Saskatchewan; the APEGS Code of Ethics is in section 20 of its Regulatory Bylaws.",
     "stem": "A Saskatchewan professional argues that the APEGS Code of Ethics is merely aspirational because its rules use broad terms such as fairness and diligence. A complaint concerns professional conduct covered by those rules. What is the best response?",
     "options": [
-      "The code is only enforceable when the employer incorporates it into an employment contract.",
-      "The code has no professional relevance unless the conduct also results in a criminal conviction.",
-      "A code adopted under the regulator's statutory framework can govern professional conduct and be relevant to discipline despite its general language.",
-      "Any voluntary technical society may replace the regulator's code with its own guidance."
-    ],
+    "The code is only enforceable when the employer incorporates it into an employment contract.",
+    "The code has no professional relevance unless the conduct also results in a criminal conviction.",
+    "A statutory regulatory code can govern conduct and support discipline despite general wording.",
+    "Any voluntary technical society may replace the regulator's code with its own guidance."
+  ],
     "answer": 2,
     "optionRationales": [
       "The regulator's ethical framework is not contingent on a particular employer adopting it in an employment contract.",
@@ -132,11 +132,11 @@
     "jurisdiction": "Canada; professional duties to a client and public, without assuming immediate danger or a specific reporting statute.",
     "stem": "A geoscientist is preparing a slope-assessment report for a developer. The existing data support two materially different interpretations, and further testing is needed to distinguish them. The client asks for a confident low-risk conclusion without mentioning this uncertainty because a lender may delay financing. No imminent hazard has been identified. Which response is most appropriate?",
     "options": [
-      "Issue a final low-risk conclusion but explain the uncertainty verbally to the client after the lender receives the report.",
-      "Send the lender the raw laboratory records without any interpretation and let the lender make the technical judgment.",
-      "Withdraw from the project immediately without discussing the problem, because uncertainty makes any professional report unethical.",
-      "Describe the competing interpretations and material limitations in the report, explain their decision implications and recommend proportionate further investigation."
-    ],
+    "Issue a final low-risk conclusion but explain the uncertainty verbally to the client after the lender receives the report.",
+    "Send the lender the raw laboratory records without any interpretation and let the lender make the technical judgment.",
+    "Withdraw from the project immediately without discussing the problem, because uncertainty makes any professional report unethical.",
+    "Disclose competing interpretations and limitations, and recommend proportionate further investigation."
+  ],
     "answer": 3,
     "optionRationales": [
       "An oral aside to the client does not correct a misleading written conclusion on which other decision-makers may rely.",
@@ -176,11 +176,11 @@
     "jurisdiction": "Canada; technical document-control principles, subject to each regulator's authentication and record-retention rules.",
     "stem": "An engineer issued an authenticated construction drawing as Revision C after revising anchor loads. During a site visit, the engineer discovers the contractor is still using Revision B for installation, and a crew is due to install affected anchors that afternoon. The engineer can reach the construction manager and owner. What is the best immediate course?",
     "options": [
-      "File Revision C again in the design office's archive, because the later issue already supersedes Revision B.",
-      "Promptly warn the responsible site parties of the superseded drawing and its implications, coordinate appropriate controls, and ensure the approved revision is traceably distributed.",
-      "Wait until final inspection; the difference can be recorded later in as-built documentation if necessary.",
-      "Ask the contractor to initial Revision B as an acknowledgement, then permit work to continue without evaluating the changed loads."
-    ],
+    "File Revision C again in the design office's archive, because the later issue already supersedes Revision B.",
+    "Warn the site, control affected work and traceably distribute the correct drawing revision.",
+    "Wait until final inspection; the difference can be recorded later in as-built documentation if necessary.",
+    "Ask the contractor to initial Revision B as an acknowledgement, then permit work to continue without evaluating the changed loads."
+  ],
     "answer": 1,
     "optionRationales": [
       "Archiving a correct revision does not prevent crews from relying on a superseded instruction already circulating on site.",
@@ -214,11 +214,11 @@
     "jurisdiction": "Canada; communication and professional-reporting principles.",
     "stem": "A hydrogeologist must brief a municipal council about a groundwater study. The council has 10 minutes, while the supporting report is detailed and technical. Which communication approach is most useful without compromising the analysis?",
     "options": [
-      "Present only the most favourable point estimate so members can reach a decision quickly.",
-      "Read the raw tables aloud and avoid answering questions that require interpretation.",
-      "Remove all assumptions and caveats from the briefing because the full report is available on request.",
-      "Summarize the main findings, important uncertainties and practical choices in plain language, with the full technical basis accessible."
-    ],
+    "Present only the most favourable point estimate so members can reach a decision quickly.",
+    "Read the raw tables aloud and avoid answering questions that require interpretation.",
+    "Remove all assumptions and caveats from the briefing because the full report is available on request.",
+    "Explain findings, key uncertainties and options plainly, with the detailed evidence available."
+  ],
     "answer": 3,
     "optionRationales": [
       "A favourable estimate alone could mislead decision-makers by hiding uncertainty and relevant alternative outcomes.",
@@ -258,11 +258,11 @@
     "jurisdiction": "Quebec, Canada; expressly assume Quebec private law governs the service contract.",
     "stem": "A professional-services contract expressly governed by Quebec law is disputed. A consultant from another province assumes a common-law court decision from that province must control because it concerns a similar engineering contract. Which statement best corrects the assumption?",
     "options": [
-      "Quebec private-law obligations are principally governed by its civil-law framework, including the Civil Code, rather than automatically by another province's common-law precedent.",
-      "Canadian law requires all provincial private-law contract disputes to apply English common-law precedent.",
-      "Only the federal Criminal Code governs interpretation of engineering service contracts in Quebec.",
-      "Quebec's provincial professional regulator replaces courts and the Civil Code when interpreting any contract."
-    ],
+    "Quebec's civil law, including the Civil Code, governs the private-law obligations described.",
+    "Canadian law requires all provincial private-law contract disputes to apply English common-law precedent.",
+    "Only the federal Criminal Code governs interpretation of engineering service contracts in Quebec.",
+    "Quebec's provincial professional regulator replaces courts and the Civil Code when interpreting any contract."
+  ],
     "answer": 0,
     "optionRationales": [
       "Quebec has a civil-law system for private-law matters; the Civil Code is central, and the legal context must be assessed under Quebec law.",
@@ -302,11 +302,11 @@
     "jurisdiction": "Canada; hypothetical software licence expressly restricts the number of installations; no contrary contractual exception.",
     "stem": "An engineering consultancy pays for a software licence that expressly permits installation on one workstation and prohibits redistribution. A subcontractor on the same project asks for a copy of the installer for its own computer. What should the consultant do?",
     "options": [
-      "Send the installer because payment for the software transferred all copying rights to the consultancy.",
-      "Send the installer because working on the same project automatically extends the licence to subcontractors.",
-      "Check the licensed rights and obtain an authorized additional licence or permitted access arrangement rather than make an unauthorized copy.",
-      "Send the installer in an encrypted file because confidentiality prevents copyright infringement."
-    ],
+    "Send the installer because payment for the software transferred all copying rights to the consultancy.",
+    "Send the installer because working on the same project automatically extends the licence to subcontractors.",
+    "Obtain permission for additional installation rather than making an unauthorized software copy.",
+    "Send the installer in an encrypted file because confidentiality prevents copyright infringement."
+  ],
     "answer": 2,
     "optionRationales": [
       "Paying for licensed software grants the specified permissions, not necessarily ownership of the copyright or unrestricted copying rights.",
@@ -352,11 +352,11 @@
     "jurisdiction": "Saskatchewan; APEGS title and authorization rules as published 2026-10-14.",
     "stem": "A consultant with an engineering degree earned outside Canada is not registered or licensed by APEGS. The consultant advertises engineering design services in Saskatchewan using the designation \"P.Eng.\" A client says the degree and foreign experience make the designation acceptable. What is the appropriate response?",
     "options": [
-      "Continue using the designation until APEGS has issued a written warning; no authorization is needed before a complaint.",
-      "Do not represent the consultant as a Saskatchewan P.Eng. or undertake reserved practice without the authorization required by APEGS.",
-      "Use the title only in commercial advertising, but not on technical drawings, because advertising is unregulated.",
-      "Ask the client to sign a waiver permitting the title and professional design work."
-    ],
+    "Continue using the designation until APEGS has issued a written warning; no authorization is needed before a complaint.",
+    "Do not use P.Eng. or offer reserved engineering services without applicable APEGS authorization.",
+    "Use the title only in commercial advertising, but not on technical drawings, because advertising is unregulated.",
+    "Ask the client to sign a waiver permitting the title and professional design work."
+  ],
     "answer": 1,
     "optionRationales": [
       "Protected-title and practice restrictions apply without requiring a regulator first to issue a personal warning.",
@@ -391,11 +391,11 @@
     "jurisdiction": "British Columbia; Engineers and Geoscientists BC Continuing Education Program for practising registrants.",
     "stem": "A practising BC professional registrant plans to claim 60 hours of ordinary project production work as continuing education and has not prepared the required annual learning plan. Which action best supports compliance with EGBC's Continuing Education Program?",
     "options": [
-      "Prepare the required plan, record eligible learning activities rather than routine practice hours, and complete the applicable reporting obligations.",
-      "Record routine project hours as CE automatically, because practising every day is itself a continuing-education activity.",
-      "Skip the CE plan whenever the employer provides enough varied assignments during the reporting period.",
-      "Report any outside conference attendance regardless of its relevance and omit supporting records."
-    ],
+    "Prepare the CE plan, record eligible learning and complete the required reporting.",
+    "Record routine project hours as CE automatically, because practising every day is itself a continuing-education activity.",
+    "Skip the CE plan whenever the employer provides enough varied assignments during the reporting period.",
+    "Report any outside conference attendance regardless of its relevance and omit supporting records."
+  ],
     "answer": 0,
     "optionRationales": [
       "EGBC requires a relevant CE plan, eligible learning and accurate declarations; routine practice hours do not count as CE hours.",
