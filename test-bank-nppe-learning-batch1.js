@@ -15,7 +15,7 @@
     "jurisdiction": "Canada; the hypothetical regulation is valid, in force and made within the enabling statute's authority.",
     "stem": "A provincial statute authorizes a regulator to make enforceable requirements for engineering practice. The regulator adopts a regulation within that authority and brings it into force. A project manager argues the regulation cannot bind anyone because elected legislators did not vote on its exact wording. Which statement best addresses that claim?",
     "options": [
-      "A properly authorized, in-force regulation can have the force of law even though it was not itself passed as a statute.",
+      "A valid regulation made under statutory authority can be enforceable once it takes effect.",
       "Only a superior court's judgment can turn a regulation into law once the regulator has published it.",
       "The regulation remains optional until every professional employer writes it into a contract.",
       "A regulator's notice of the regulation is advisory unless the underlying statute repeats its entire text."
@@ -111,7 +111,7 @@
     "options": [
       "Proceed using the Canadian seal because CUSMA recognition automatically substitutes for host-state licensure.",
       "Proceed only as an independent contractor because licensing restrictions apply exclusively to salaried employees.",
-      "Obtain or verify host-state professional authorization separately; temporary entry does not waive applicable licensing and conduct requirements.",
+      "Verify host-state licensure separately; CUSMA temporary entry does not waive it.",
       "Ask the Canadian employer to accept civil liability because a liability agreement removes any host-state registration obligation."
     ],
     "answer": 2,
@@ -157,7 +157,7 @@
       "Assume the convention instantly replaces provincial legislation because federal treaty-making always overrides provincial powers.",
       "Ignore international commitments entirely because they can never influence Canadian decisions or interpretation.",
       "Apply the convention only if a trade association adopts it; association endorsement gives treaties binding domestic effect.",
-      "Distinguish Canada's treaty commitment from the domestic rules actually in force and check relevant implementing laws and legal advice."
+      "Distinguish Canada's treaty commitment from domestic law and check any implementing legislation."
     ],
     "answer": 3,
     "optionRationales": [
@@ -206,7 +206,7 @@
     "stem": "A privately owned Ontario engineering firm rejects a qualified applicant because of the applicant's religion. The decision was not directed by any government actor or program. A manager says the applicant can rely only on the Canadian Charter of Rights and Freedoms and has no protection against a private employer. What is the best correction?",
     "options": [
       "The Charter directly governs every purely private employment decision, so provincial human-rights legislation is irrelevant.",
-      "Applicable human-rights legislation regulates discriminatory private employment decisions even though the Charter generally constrains government action.",
+      "Human-rights law protects private employees even though the Charter generally binds government.",
       "Only criminal-law prosecution can address discriminatory hiring by a private firm.",
       "An employer may disregard protected grounds whenever an employee would perform professional engineering work."
     ],
@@ -257,7 +257,7 @@
     "options": [
       "Require the employee to accept the existing method because safety-sensitive work is categorically exempt from accommodation.",
       "Permit any requested adjustment immediately, even without assessing whether it preserves essential safety functions.",
-      "Examine individual accommodation options and actual safety risks; claim undue hardship only if supported by evidence after reasonable options are considered.",
+      "Assess workable adjustments and safety evidence before claiming undue hardship.",
       "Transfer the accommodation decision to the client's procurement manager, because that removes the employer's statutory responsibilities."
     ],
     "answer": 2,
@@ -351,7 +351,7 @@
     "options": [
       "The proponent is automatically the sole legal duty-holder whenever it pays for an impact assessment.",
       "The asserted rights do not matter because the nation has not yet proved its entire land claim in court.",
-      "The Crown retains legal responsibility for adequate consultation but may rely on defined procedural work and meaningful engagement undertaken by the proponent.",
+      "The Crown remains legally responsible while proponents can support procedural consultation.",
       "Once a consultant prepares a technical report, both the Crown and the proponent have fully discharged all consultation obligations."
     ],
     "answer": 2,
@@ -399,7 +399,7 @@
     "jurisdiction": "Ontario; a properly registered easement has a stated purpose and no agreement transferring fee-simple ownership.",
     "stem": "A water utility holds a registered easement allowing it to inspect and maintain a pipeline across a private Ontario parcel. The utility's project engineer assumes this means the utility owns the land and can build an unrelated storage yard anywhere on it. Which correction is most accurate?",
     "options": [
-      "An easement confers the rights described in its grant, not general ownership or unlimited unrelated uses of the land.",
+      "An easement grants specified land-use rights, not unrestricted ownership.",
       "The easement automatically grants full ownership after the pipeline has been maintained for one year.",
       "Every registered easement transfers title to the entire parcel and eliminates the owner's remaining interests.",
       "The utility may use the land for any unrelated project as long as it has a professional engineer's seal."
