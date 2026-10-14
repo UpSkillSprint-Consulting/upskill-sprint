@@ -122,7 +122,10 @@ def main():
                               'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
                 except Exception as error:
                     result = {'case': name, 'result': 'FAIL', 'error': str(error), 'pageErrors': errors}
-                    page.screenshot(path=str(out / f'{name}-failure.png'), full_page=True)
+                    try:
+                        page.screenshot(path=str(out / f'{name}-failure.png'), full_page=False, timeout=5000)
+                    except Exception as screenshot_error:
+                        result['screenshotError'] = str(screenshot_error)
                 report['cases'].append(result)
                 (out / f'{args.browser}-report.json').write_text(json.dumps(report, indent=2))
                 print(json.dumps(result), flush=True)
