@@ -1,8 +1,7 @@
-"""NPPE Diagnostic UI regression against the real staged build and local endpoint.
+"""Audit the staged NPPE build using isolated identity/permission fixtures.
 
-Only the upstream identity/permission decision uses the existing explicit grant
-fixture. All external traffic and network writes are blocked. No live users,
-Supabase rows, publication states or access grants are changed.
+External traffic and network writes are blocked. This is not a signed-in
+production-account test. Viewport screenshots avoid browser image-size limits.
 """
 import argparse
 import json
@@ -13,6 +12,8 @@ from urllib.parse import urlparse
 from playwright.sync_api import expect, sync_playwright
 
 helpers = runpy.run_path(str(Path(__file__).with_name('exam-practice-browser.py')))
+EXPECTED_COUNT = 30
+EXPECTED_MINUTES = 41
 
 
 def main():
@@ -73,13 +74,18 @@ def main():
                         page.get_by_role('switch', name='Switch to ' + theme + ' mode').click()
                     expect(page.locator('html')).to_have_attribute('data-theme', theme)
                     page.locator('[data-nppe-owner="1"]').click()
+                    page.locator('[data-nppe-owner="1"]').press('ArrowRight')
+                    expect(page.locator('#nppe-banks-2')).to_be_visible()
+                    expect(page.locator('#nppe-banks-1')).to_be_hidden()
+                    page.locator('[data-nppe-owner="2"]').press('ArrowRight')
+                    expect(page.locator('#nppe-banks-3')).to_be_visible()
+                    page.locator('[data-nppe-owner="3"]').press('Home')
                     expect(page.locator('#nppe-banks-1')).to_be_visible()
                     expect(page.locator('#nppe-banks-2')).to_be_hidden()
                     expect(page.locator('#nppe-banks-3')).to_be_hidden()
-                    expect(page.locator('[data-set="set-1-diagnostic"] .tb-sets')).to_have_text('20')
-                    expect(page.locator('#tb-overview')).to_contain_text('20 of 50 planned')
-                    # Check the actual loaded images and their geometry, not just
-                    # their parent flex items: an intrinsic image can overflow.
+                    expect(page.locator('[data-set="set-1-diagnostic"] .tb-sets')).to_have_text(str(EXPECTED_COUNT))
+                    expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_COUNT} of 50 planned')
+                    expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_MINUTES} minutes')
                     page.wait_for_function('''() => {
                       const images=[...document.querySelectorAll('header.site .brand img, footer.site .brand img')];
                       return images.length>=2 && images.every(image=>image.complete && image.naturalWidth>0);
@@ -90,10 +96,18 @@ def main():
                     page.locator('[data-timing-kind="full"][data-timed="0"]').click()
                     page.locator('[data-mode="full"]').click()
                     expect(page.locator('.tb-quiz')).to_be_visible()
-                    expect(page.locator('[data-goto]')).to_have_count(20)
+                    expect(page.locator('[data-goto]')).to_have_count(EXPECTED_COUNT)
                     expect(page.locator('[data-reveal]')).to_have_count(0)
+                    assert page.evaluate('window.__TB.revealCurrentAnswer()') is False
+                    expect(page.locator('#tb-feedback-loop')).to_have_count(0)
                     expect(page.locator('[data-flag]')).to_be_visible()
                     expect(page.locator('.tb-diag-kick')).not_to_contain_text('Sample diagnostic')
+                    page.locator('[data-opt="1"]').click()
+                    page.locator('[data-flag]').click()
+                    page.locator('[data-next]').click()
+                    page.locator('[data-goto="0"]').click()
+                    expect(page.locator('[data-opt="1"]')).to_have_attribute('aria-pressed', 'true')
+                    expect(page.locator('[data-flag]')).to_have_attribute('aria-pressed', 'true')
                     if width <= 860:
                         expect(page.locator('header.site')).to_have_css('position', 'static')
                         expect(page.locator('.tb-quiztop')).to_have_css('flex-direction', 'column')
@@ -104,22 +118,31 @@ def main():
                     header_images_fit()
                     page.evaluate('window.scrollTo(0,0)')
                     page.screenshot(path=str(out / f'{name}-question.png'), full_page=False)
-                    for index in range(20):
+                    batch3_checked = 0
+                    for index in range(EXPECTED_COUNT):
                         page.locator(f'[data-goto="{index}"]').click()
-                        answer = page.evaluate('i=>window.__TB.getFeedbackSnapshot().records[i].question.answer', index)
-                        page.locator(f'[data-opt="{answer}"]').click()
+                        item = page.evaluate('i=>{const q=window.__TB.getFeedbackSnapshot().records[i].question;return {answer:q.answer,batch:q.batch};}', index)
+                        if item['batch'] == 3:
+                            header_images_fit()
+                            expect(page.locator('[data-reveal]')).to_have_count(0)
+                            expect(page.locator('#tb-feedback-loop')).to_have_count(0)
+                            batch3_checked += 1
+                        page.locator(f'[data-opt="{item["answer"]}"]').click()
+                    assert batch3_checked == 10
                     page.locator('[data-submit]').click()
-                    expect(page.locator('[data-score-result]')).to_contain_text('100% (20/20)')
+                    expect(page.locator('[data-score-result]')).to_contain_text(f'100% ({EXPECTED_COUNT}/{EXPECTED_COUNT})')
                     expect(page.locator('.tb-domblock')).to_have_count(6)
                     expect(page.locator('#tb-overview')).to_contain_text('not an official scaled NPPE score')
                     page.locator('[data-open-review="all"]').click()
-                    expect(page.locator('.tb-review-card')).to_have_count(20)
+                    expect(page.locator('.tb-review-card')).to_have_count(EXPECTED_COUNT)
+                    expect(page.locator('#tb-feedback-loop')).to_contain_text('primary-legislation')
                     header_images_fit()
                     page.evaluate('window.scrollTo(0,0)')
                     page.screenshot(path=str(out / f'{name}-review.png'), full_page=False)
                     assert not errors, errors
-                    result = {'case': name, 'result': 'PASS', 'score': '20/20', 'domains': 6,
-                              'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
+                    result = {'case': name, 'result': 'PASS', 'score': f'{EXPECTED_COUNT}/{EXPECTED_COUNT}', 'domains': 6,
+                              'batch3Rendered': batch3_checked, 'keyboardTabs': True, 'flagsAndNavigation': True,
+                              'revealBlocked': True, 'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
                 except Exception as error:
                     result = {'case': name, 'result': 'FAIL', 'error': str(error), 'pageErrors': errors}
                     try:

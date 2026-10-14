@@ -93,6 +93,10 @@ export async function buildExamDelivery(root = ROOT) {
       const diagnostic = await readFile(join(root, 'test-bank-nppe-diagnostic.js'), 'utf8');
       new Script(diagnostic, { filename:'test-bank-nppe-diagnostic.js' });
       scripts.push(diagnostic);
+      // Batch 3 appends to the registrar's existing array before the runtime registers its form.
+      const batch3 = await readFile(join(root, 'test-bank-nppe-diagnostic-batch3.js'), 'utf8');
+      new Script(batch3, { filename:'test-bank-nppe-diagnostic-batch3.js' });
+      scripts.push(batch3);
     }
     for (const item of [...immediate, ...deferred]) {
       if (item.name && !belongsToExam(item.name, exam)) continue;
