@@ -184,7 +184,7 @@
       ]
     },
     {
-      blueprint: 'IV.8', sub: 'nppe-law', difficulty: 'hard', cognitiveLevel: 'analysis',
+      blueprint: 'IV.8', sub: 'nppe-law', difficulty: 'medium', cognitiveLevel: 'analysis',
       learningObjective: 'Maintain an independent expert opinion when reliable new evidence weakens the retaining party\'s case.',
       questionFamily: 'expert-adverse-evidence-before-report',
       jurisdiction: 'Ontario civil proceedings governed by the Rules of Civil Procedure, rule 4.1.01.',
