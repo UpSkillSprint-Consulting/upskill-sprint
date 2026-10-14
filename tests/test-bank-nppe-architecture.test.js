@@ -17,7 +17,7 @@ test('directory shows the full NPPE name and does not open practice', () => {
   assert.equal(card.includes('/test-bank'), false);
 });
 
-test('Mock D is the only released NPPE form and it does not mix author sets', () => {
+test('Mock D registration changes only the Grok-owned form', () => {
   const context = { window: {}, console };
   vm.createContext(context);
   vm.runInContext(read('test-bank-nppe-set2.js'), context);
@@ -37,7 +37,9 @@ test('Mock D is the only released NPPE form and it does not mix author sets', ()
   });
   assert.equal(exam.forms['mock-d'].every(q => q.authorSet === 2 && q.form === 'mock-d'), true);
   assert.match(page, /A raw percentage here is not the official equated scaled score/);
-  assert.equal(read('exam-access-loader.js').includes("'nppe'"), false);
+  assert.equal(read('exam-access-loader.js').includes("'nppe'"), true);
+  // Loader recognition does not grant access; publication and RPC remain authoritative.
+  assert.match(read('netlify/functions/exam-content.mjs'), /can_access_exam/);
 });
 
 test('Mock E is a separate 110-question form and does not reuse Mock D', () => {

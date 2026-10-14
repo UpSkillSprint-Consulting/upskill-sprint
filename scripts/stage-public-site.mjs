@@ -7,7 +7,7 @@ import { privateToolPath } from '../content/tool-catalog.mjs';
 // A separate publish directory keeps function source and grading keys off the CDN.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const excludedDirectories = new Set([
-  'netlify', 'supabase', 'exam-catalog', 'test-bank-assets', 'node_modules', 'scripts', 'tests', 'docs', 'content', 'source-assets',
+  'netlify', 'supabase', 'exam-catalog', 'nppe', 'test-bank-assets', 'node_modules', 'scripts', 'tests', 'docs', 'content', 'source-assets',
   'public-site', 'coverage', 'test-results', 'playwright-report'
 ]);
 // Authoring aids that live at the repo root but are not public pages.

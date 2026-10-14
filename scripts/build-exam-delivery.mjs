@@ -2,9 +2,10 @@ import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Script } from 'node:vm';
+import { integrateNPPEDiagnostic } from './nppe-diagnostic-runtime.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-export const EXAM_KEYS = ['cssbb', 'mbb', 'cssgb', 'cqe', 'cmq', 'cre', 'pmp'];
+export const EXAM_KEYS = ['cssbb', 'mbb', 'cssgb', 'cqe', 'cmq', 'cre', 'pmp', 'nppe'];
 const SHARED = new Set(['test-bank-memory-learning.js', 'test-bank-current-attempt-review.js', 'test-bank-formulas.js', 'test-bank-tables.js']);
 const SCRIPT = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
 const PRIVATE_DIRECTORY = 'content/exam-delivery-generated';
@@ -27,12 +28,12 @@ export function isolateRuntime(source, exam) {
     result = replaceRegion(result, '  var SET3_BANK=[', '  var EXAMS={', '  var SET3_BANK=[];\n');
   }
   if (exam !== 'cqe') result = replaceRegion(result, '  var CQE_SET1=[', '  var SET3_BANK=', '  var CQE_SET1=[],CQE_SET2=[],CQE_SET3=[];\n');
-  return result;
+  return exam === 'nppe' ? integrateNPPEDiagnostic(result) : result;
 }
 
 function belongsToExam(name, exam) {
   if (SHARED.has(name)) return true;
-  const match = /^test-bank-(cssbb|mbb|cssgb|cqe|cmq|cre|pmp)(?:-|\.)/.exec(name);
+  const match = /^test-bank-(cssbb|mbb|cssgb|cqe|cmq|cre|pmp|nppe)(?:-|\.)/.exec(name);
   if (!match) throw new Error(`Unclassified private simulator script: ${name}`);
   return match[1] === exam;
 }
@@ -85,6 +86,11 @@ export async function buildExamDelivery(root = ROOT) {
   const sizes = {};
   for (const exam of EXAM_KEYS) {
     const scripts = [];
+    if (exam === 'nppe') {
+      const diagnostic = await readFile(join(root, 'test-bank-nppe-diagnostic.js'), 'utf8');
+      new Script(diagnostic, { filename:'test-bank-nppe-diagnostic.js' });
+      scripts.push(diagnostic);
+    }
     for (const item of [...immediate, ...deferred]) {
       if (item.name && !belongsToExam(item.name, exam)) continue;
       let code = item.name ? await readFile(join(root, item.name), 'utf8') : item.code;

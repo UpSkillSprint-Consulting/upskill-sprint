@@ -1,0 +1,29 @@
+name: NPPE diagnostic validation
+on:
+  pull_request:
+    paths:
+      - 'test-bank*.js'
+      - 'test-bank.html'
+      - 'scripts/*exam*.mjs'
+      - 'scripts/nppe*.mjs'
+      - 'scripts/stage-public-site.mjs'
+      - 'exam-access-loader.js'
+      - 'netlify/functions/exam-content.mjs'
+      - 'tests/*nppe*.test.js'
+      - '.github/workflows/nppe-diagnostic-validation.yml'
+permissions:
+  contents: read
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - run: node --test --test-concurrency=1 tests/test-bank-nppe-diagnostic.test.js tests/test-bank-nppe-architecture.test.js tests/exam-access-delivery.test.js tests/exam-directory.test.js tests/exam-practice-section.test.js
