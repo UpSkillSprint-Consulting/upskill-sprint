@@ -89,7 +89,7 @@
   {
     "blueprint": "II.4",
     "sub": "nppe-ethics",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "cognitiveLevel": "analysis",
     "questionFamily": "actual-hours-billing-vs-managerial-pressure",
     "learningObjective": "Resolve an integrity conflict when a time-and-materials client invoice would knowingly overstate billable professional time.",
@@ -193,14 +193,14 @@
       "Investigate the trend, continue monitoring, and consider controls and specialist advice.",
       "Stop monitoring while limits are met and document the trend only if the next annual audit identifies a problem.",
       "Immediately report a confirmed legal violation because any unexpected environmental trend proves a permit breach.",
-      "Replace the monitoring results with design-stage predictions because the permit was based on those predictions."
+      "Use the original model predictions to explain the trend and stop sampling until the next permit review."
     ],
     "answer": 0,
     "optionRationales": [
       "The unexpected trend warrants assessment, continued evidence collection, and proactive or adaptive controls proportionate to the potential impact.",
       "A current permit-compliant result does not justify ignoring credible changing conditions that may pose future environmental risk.",
       "An unexpected trend does not, by itself, demonstrate a legal violation when the question states no exceedance; reporting duties require jurisdiction-specific evaluation.",
-      "Observed site performance cannot be replaced by modelling assumptions simply because the original design relied on them."
+      "Models can support investigation, but they cannot replace observed field monitoring merely because the original assessment used them."
     ],
     "keyPoint": "Environmental responsibility includes identifying emerging impacts and acting before avoidable harm or non-compliance occurs.",
     "trap": "Treating minimum permit compliance as a reason to disregard new environmental evidence.",
@@ -368,16 +368,16 @@
     "stem": "A BC manufacturer uses its own licensed P.Eng. staff to design process equipment solely for internal operations. The company holds ordinary business registration but has not obtained an EGBC Permit to Practice. Its manager says a firm permit is unnecessary because the engineers are individually licensed and the work is not sold to clients. What is the best response?",
     "options": [
       "A BC firm permit can be required for internal regulated engineering, even with licensed staff.",
-      "Only sole practitioners need firm permits, because manufacturers do not count as professional engineering firms.",
-      "A business licence can replace a Permit to Practice whenever technical drawings remain within the company.",
-      "Individual engineer registration always gives the employer a blanket authority to practise professional engineering."
+      "The firm permit is needed only when an external client pays the manufacturer for engineering services.",
+      "Firm registration is required only if the manufacturer issues sealed drawings to parties outside its operations.",
+      "Current individual licences and an appointed technical lead are sufficient without separate firm authorization."
     ],
     "answer": 0,
     "optionRationales": [
       "EGBC firm regulation generally applies to internal as well as external professional engineering activities; personal licences and firm authorization serve distinct requirements.",
-      "EGBC explicitly includes manufacturing and processing firms, as well as sole practitioners, among entities covered where regulated practice occurs.",
-      "Ordinary business registration is not the firm's EGBC authorization to engage in regulated professional practice.",
-      "Professional registration of employees does not automatically discharge regulatory obligations imposed on their firm."
+      "BC's firm-level permit requirement covers internal professional engineering work, not solely fee-for-service consulting.",
+      "BC regulation is based on whether professional engineering is practised, including internally, rather than on where sealed documents are sent.",
+      "Registered engineers and responsible personnel do not replace the firm's separate obligation to obtain the required permit."
     ],
     "keyPoint": "In BC, a firm's obligation to hold a Permit to Practice can arise even when engineering services are only provided internally.",
     "trap": "Mistaking employee licensure or a commercial business registration for BC firm authorization.",
@@ -415,14 +415,14 @@
       "The extra credits satisfy all requirements; plan updates and categories apply only to members-in-training.",
       "Only one more hour of any technical training is needed, since verifiable credits exceed the minimum.",
       "The member still needs the separate ethics, two-category, CPD Plan and reporting requirements to be satisfied.",
-      "The member must repeat every credit already earned because the absence of a plan automatically invalidates prior learning."
+      "Report the credits already earned and schedule the missing plan, ethics and category elements for the following year."
     ],
     "answer": 2,
     "optionRationales": [
       "APEGS CPD includes independent obligations besides total credits, including annual planning, verifiable ethics training, category distribution and reporting.",
       "The verifiable-credit subtotal does not substitute for the additional ethics, category, plan and online-reporting requirements.",
       "The member meets the described overall and verifiable credit minimums but still lacks multiple distinct annual requirements; they must address each applicable element.",
-      "The program does not generally declare all legitimately earned credits void solely because a plan was not updated; deficiencies should be rectified according to the program."
+      "Current-year planning, ethics and category requirements cannot be deferred into the next year simply by submitting total credit hours."
     ],
     "keyPoint": "Continuing professional development compliance is multi-dimensional; a high number of hours cannot offset missing mandatory elements.",
     "trap": "Treating the annual CPD total as the only compliance threshold.",
