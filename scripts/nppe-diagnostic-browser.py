@@ -76,8 +76,8 @@ def main():
                     expect(page.locator('#nppe-banks-1')).to_be_visible()
                     expect(page.locator('#nppe-banks-2')).to_be_hidden()
                     expect(page.locator('#nppe-banks-3')).to_be_hidden()
-                    expect(page.locator('[data-set="set-1-diagnostic"] .tb-sets')).to_have_text('10')
-                    expect(page.locator('#tb-overview')).to_contain_text('10 of 50 planned')
+                    expect(page.locator('[data-set="set-1-diagnostic"] .tb-sets')).to_have_text('20')
+                    expect(page.locator('#tb-overview')).to_contain_text('20 of 50 planned')
                     # Check the actual loaded images and their geometry, not just
                     # their parent flex items: an intrinsic image can overflow.
                     page.wait_for_function('''() => {
@@ -90,7 +90,7 @@ def main():
                     page.locator('[data-timing-kind="full"][data-timed="0"]').click()
                     page.locator('[data-mode="full"]').click()
                     expect(page.locator('.tb-quiz')).to_be_visible()
-                    expect(page.locator('[data-goto]')).to_have_count(10)
+                    expect(page.locator('[data-goto]')).to_have_count(20)
                     expect(page.locator('[data-reveal]')).to_have_count(0)
                     expect(page.locator('[data-flag]')).to_be_visible()
                     expect(page.locator('.tb-diag-kick')).not_to_contain_text('Sample diagnostic')
@@ -104,21 +104,21 @@ def main():
                     header_images_fit()
                     page.evaluate('window.scrollTo(0,0)')
                     page.screenshot(path=str(out / f'{name}-question.png'), full_page=True)
-                    for index in range(10):
+                    for index in range(20):
                         page.locator(f'[data-goto="{index}"]').click()
                         answer = page.evaluate('i=>window.__TB.getFeedbackSnapshot().records[i].question.answer', index)
                         page.locator(f'[data-opt="{answer}"]').click()
                     page.locator('[data-submit]').click()
-                    expect(page.locator('[data-score-result]')).to_contain_text('100% (10/10)')
+                    expect(page.locator('[data-score-result]')).to_contain_text('100% (20/20)')
                     expect(page.locator('.tb-domblock')).to_have_count(6)
                     expect(page.locator('#tb-overview')).to_contain_text('not an official scaled NPPE score')
                     page.locator('[data-open-review="all"]').click()
-                    expect(page.locator('.tb-review-card')).to_have_count(10)
+                    expect(page.locator('.tb-review-card')).to_have_count(20)
                     header_images_fit()
                     page.evaluate('window.scrollTo(0,0)')
                     page.screenshot(path=str(out / f'{name}-review.png'), full_page=True)
                     assert not errors, errors
-                    result = {'case': name, 'result': 'PASS', 'score': '10/10', 'domains': 6,
+                    result = {'case': name, 'result': 'PASS', 'score': '20/20', 'domains': 6,
                               'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
                 except Exception as error:
                     result = {'case': name, 'result': 'FAIL', 'error': str(error), 'pageErrors': errors}
