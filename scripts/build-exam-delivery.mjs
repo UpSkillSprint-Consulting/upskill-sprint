@@ -87,7 +87,7 @@ export async function buildExamDelivery(root = ROOT) {
   for (const exam of EXAM_KEYS) {
     const scripts = [];
     if (exam === 'nppe') {
-      const diagnostic = await readFile(join(root, 'test-bank-nppe-diagnostic.js'), 'utf8');
+      const batch2 = await readFile(join(root, 'test-bank-nppe-diagnostic-batch2.js'), 'utf8');\n      new Script(batch2, { filename:'test-bank-nppe-diagnostic-batch2.js' });\n      scripts.push(batch2);\n      const diagnostic = await readFile(join(root, 'test-bank-nppe-diagnostic.js'), 'utf8');
       new Script(diagnostic, { filename:'test-bank-nppe-diagnostic.js' });
       scripts.push(diagnostic);
     }
