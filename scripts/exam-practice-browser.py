@@ -11,6 +11,7 @@ import os
 import re
 import time
 from pathlib import Path
+from html.parser import HTMLParser
 from urllib.parse import parse_qs, urlparse
 
 from playwright.sync_api import expect, sync_playwright
@@ -90,6 +91,29 @@ def main():
     args = parser.parse_args()
     base = args.url.rstrip('/')
     origin = urlparse(base).netloc
+    # Compare rendered identities with the authored catalog rather than
+    # hardcoding eight cards or one upcoming certification.
+    class Catalog(HTMLParser):
+        def __init__(self):
+            super().__init__()
+            self.entries = {}
+
+        def handle_starttag(self, tag, attrs):
+            values = dict(attrs)
+            if tag != 'article' or 'exam-card' not in values.get('class', '').split():
+                return
+            key = values.get('data-exam')
+            status = values.get('data-publication')
+            assert key and key not in self.entries, 'Missing or duplicate exam identity'
+            assert status in ['published', 'coming_soon', 'retired'], 'Invalid publication state'
+            self.entries[key] = status
+
+    catalog = Catalog()
+    catalog.feed((Path(__file__).resolve().parents[1] / 'exam-practice.html').read_text())
+    visible_keys = {key for key, status in catalog.entries.items() if status != 'retired'}
+    upcoming = [key for key, status in catalog.entries.items() if status == 'coming_soon']
+    released = [key for key, status in catalog.entries.items() if status == 'published']
+    assert visible_keys and released, 'Exam catalog must not be empty'
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     report = {
@@ -185,10 +209,11 @@ def main():
             def learner_directory():
                 directory()
                 nav_state('Exam Practice & Quizzes')
-                expect(page.locator('.exam-card')).to_have_count(8)
-                expect(page.locator('.exam-coming-soon .exam-card')).to_have_count(1)
+                expect(page.locator('.exam-card')).to_have_count(len(visible_keys))
+                assert set(page.locator('.exam-card').evaluate_all('cards=>cards.map(card=>card.dataset.exam)')) == visible_keys
+                expect(page.locator('.exam-coming-soon .exam-card')).to_have_count(len(upcoming))
                 expect(page.locator('.exam-card[data-exam="mbb"] h3')).to_have_text('Certified Six Sigma Master Black Belt')
-                for certification in ['cqa']:
+                for certification in upcoming:
                     card = page.locator(f'.exam-coming-soon .exam-card[data-exam="{certification}"]')
                     expect(card).to_have_count(1)
                     expect(card.locator('.exam-status')).to_have_text('Coming soon')
@@ -203,7 +228,7 @@ def main():
                 expect(page.locator('.exam-intro')).to_contain_text('untimed')
                 expect(page.locator('.exam-actions a[href="#my-exams"]')).to_be_visible()
                 expect(page.locator('footer a[href="/exam-practice"]')).to_be_visible()
-                expect(page.locator('main a[href^="/test-bank"]')).to_have_count(7 if premium else 0)
+                expect(page.locator('main a[href^="/test-bank"]')).to_have_count(len(released) if premium else 0)
                 # Use the real Account menu to confirm the fixture state.
                 page.locator('#account-menu-btn').click()
                 if premium:
