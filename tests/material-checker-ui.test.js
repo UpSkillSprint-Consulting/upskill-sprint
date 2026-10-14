@@ -304,7 +304,7 @@ test('arrow cleanup retains the logo repair for a legacy standalone checker head
     assert.equal(header.classList.contains('upskill-checker-header'),true);
     assert.equal(header.querySelector('div').classList.contains('upskill-checker-brand-row'),true);
     assert.equal(header.querySelector('a').getAttribute('href'),'/');
-    assert.equal(header.querySelector('.upskill-checker-logo-slot img').getAttribute('src'),'/assets/logo-icon.png');
+    assert.equal(header.querySelector('.upskill-checker-logo-slot img').getAttribute('src'),'/assets/logo-wordmark.png');
   } finally {
     window.close();
   }
