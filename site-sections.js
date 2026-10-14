@@ -946,6 +946,11 @@
 
   installArrowCleanupWriteHook();
 
+  // A legacy /lessons#exam-practice bookmark must also redirect when the page
+  // is restored or when WebKit defers the DOMContentLoaded callback during navigation.
+  // pageshow is a fallback; redirectLegacyExamPractice is a no-op on other routes.
+  window.addEventListener('pageshow', redirectLegacyExamPractice);
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeSiteSections, { once: true });
   } else {
