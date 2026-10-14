@@ -105,6 +105,11 @@ export async function buildExamDelivery(root = ROOT) {
       const batch5 = await readFile(join(root, 'test-bank-nppe-diagnostic-batch5.js'), 'utf8');
       new Script(batch5, { filename:'test-bank-nppe-diagnostic-batch5.js' });
       scripts.push(batch5);
+      // Learning Batch 1 is a separate Set 1 bank, loaded only after the protected Diagnostic.
+      // The NPPE runtime will register the learning bank independently from the Diagnostic.
+      const learning1 = await readFile(join(root, 'test-bank-nppe-learning-batch1.js'), 'utf8');
+      new Script(learning1, { filename:'test-bank-nppe-learning-batch1.js' });
+      scripts.push(learning1);
     }
     for (const item of [...immediate, ...deferred]) {
       if (item.name && !belongsToExam(item.name, exam)) continue;
