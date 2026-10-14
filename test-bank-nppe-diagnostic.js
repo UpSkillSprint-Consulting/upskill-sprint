@@ -361,7 +361,17 @@
   questions.forEach(function(q, i) {
     Object.assign(q, {qid:'nppe:set-1:diagnostic:'+String(i+1).padStart(3,'0'),legacyId:'NPPE-'+String(i+1).padStart(3,'0'),version:1,batch:i<10?1:2,authorSet:1,author:'ChatGPT',form:'set-1-diagnostic',bank:'diagnostic',set:1,original:true,scored:true,experimental:false,releaseStatus:'released',reviewStatus:'source-checked; not independently validated',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-14'});
     if(q.options.length!==4 || new Set(q.options).size!==4 || !Number.isInteger(q.answer) || q.answer<0 || q.answer>3 || q.optionRationales.length!==4 || !q.sources.length) throw new Error('Invalid diagnostic item '+q.qid);
-    q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key principle:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common mistake:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return (s.url&&s.url.startsWith('https://')?'<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a>':escape(s.title))+' — '+escape(s.locator);}).join('; ')+'.</p><p>Original practice item. Difficulty is provisional; not an official NPPE question or pass prediction.</p>';
+    // Classify older authoring sources consistently with the newer batches.
+    // Historical textbooks are background; national guidance is not binding law.
+    q.sources.forEach(function(s) {
+      if(s.sourceType)return;
+      var t=String(s.title||'');
+      s.sourceType=/NPPE blueprint/i.test(t)?'official-blueprint':
+        /Engineers Canada/i.test(t)?'national-guidance':
+        /APEGS/i.test(t)?'provincial-regulator':
+        /Government of Canada/i.test(t)?'federal-government-guidance':'textbook';
+    });
+    q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key principle:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common mistake:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return (s.url&&s.url.startsWith('https://')?'<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a>':escape(s.title))+' — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original practice item. Difficulty is provisional; not an official NPPE question or pass prediction.</p>';
   });
   global.NPPE_DIAGNOSTIC=questions;
   global.registerNPPEDiagnostic=function(exam){
