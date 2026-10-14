@@ -7,11 +7,29 @@ import argparse
 import json
 import os
 import runpy
+from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
 from playwright.sync_api import expect, sync_playwright
 
 helpers = runpy.run_path(str(Path(__file__).with_name('exam-practice-browser.py')))
+
+
+class ExamCatalog(HTMLParser):
+    """Read expected identities from the delivered static catalog, not a fixed total."""
+    def __init__(self):
+        super().__init__()
+        self.entries = {}
+
+    def handle_starttag(self, tag, attrs):
+        values = dict(attrs)
+        if tag != 'article' or 'exam-card' not in values.get('class', '').split():
+            return
+        key = values.get('data-exam')
+        status = values.get('data-publication')
+        assert key and key not in self.entries, 'Missing or duplicate exam identity'
+        assert status in ['published', 'coming_soon', 'retired'], 'Invalid publication state'
+        self.entries[key] = status
 
 
 def main():
@@ -42,6 +60,14 @@ def main():
         page = context.new_page()
         page.set_default_timeout(10000)
         page.on('pageerror', lambda error: report['errors'].append(str(error)))
+        catalog_response = context.request.get(base + '/exam-practice')
+        assert catalog_response.ok, 'Could not read the static exam catalog'
+        catalog = ExamCatalog()
+        catalog.feed(catalog_response.text())
+        published = [key for key, status in catalog.entries.items() if status == 'published']
+        visible_keys = {key for key, status in catalog.entries.items() if status != 'retired'}
+        assert published, 'The released certification catalog must not be empty'
+        report['catalog'] = catalog.entries
 
         def record(name, action):
             try:
@@ -116,7 +142,7 @@ def main():
             page.emulate_media(reduced_motion='reduce')
             expect(page.locator('#hero-distributions animate')).to_have_count(0)
             page.locator('#trust-stats').scroll_into_view_if_needed()
-            expect(page.locator('[data-stat-key="exams"]')).to_have_text('7')
+            expect(page.locator('[data-stat-key="exams"]')).to_have_text(str(len(published)))
             expect(page.locator('#trust-heading')).to_have_text('Meet the person behind UpSkill Sprint')
             expect(page.locator('#trust-stats')).to_contain_text('Certification exams')
         record('homepage-motion-and-counts', motion_and_counts)
@@ -127,7 +153,7 @@ def main():
                     page.set_viewport_size({'width': width, 'height': 1000})
                     page.goto(base + '/exam-practice')
                     set_theme(theme)
-                    expect(page.locator('#my-exams-grid .exam-card')).to_have_count(7)
+                    expect(page.locator('#my-exams-grid .exam-card')).to_have_count(len(published))
                     # Wait for the real theme switch to paint before sampling colours.
                     expected_cqe = 'rgb(24, 45, 76)' if theme == 'dark' else 'rgb(233, 241, 255)'
                     expect(page.locator('#exam-cqe')).to_have_css('background-color', expected_cqe)
@@ -135,7 +161,10 @@ def main():
                       exam:card.dataset.exam,background:getComputedStyle(card).backgroundColor,
                       text:[...card.querySelectorAll('h3,.exam-acronym,.exam-card-detail,.exam-card-note')].map(e=>getComputedStyle(e).color)
                     }))''')
-                    assert len({card['background'] for card in cards}) == 8, cards
+                    assert len(cards) == len(visible_keys), cards
+                    assert {card['exam'] for card in cards} == visible_keys, cards
+                    # Every rendered certification needs its own colour, including new additions.
+                    assert len({card['background'] for card in cards}) == len(cards), cards
                     for card in cards:
                         for color in card['text']:
                             assert helpers['contrast_ratio'](color, card['background']) >= 4.5, card
@@ -148,7 +177,7 @@ def main():
                     page.screenshot(path=str(out / f'cards-{args.browser}-{width}-{theme}.png'), full_page=True)
                 record(f'cards-{width}-{theme}', directory)
 
-        for exam in ['cssbb', 'mbb', 'cqe', 'cmq', 'cssgb', 'cre', 'pmp']:
+        for exam in published:
             for width in [320, 390, 1440]:
                 def focused(exam=exam, width=width):
                     page.set_viewport_size({'width': width, 'height': 1000})
@@ -163,23 +192,25 @@ def main():
                     back = page.locator('.tb-crumb a')
                     expect(back).to_have_text('Back to All Certifications')
                     page.screenshot(path=str(out / f'focused-{exam}-{width}-{args.browser}.png'), full_page=True)
-                    page.locator('[data-mode="quick"]').click()
+                    # NPPE's explicit bank launch replaces generic quick/mixed-bank practice.
+                    launch = '[data-mode="full"]' if exam == 'nppe' else '[data-mode="quick"]'
+                    page.locator(launch).click()
                     expect(page.locator('.tb-quiz')).to_be_visible()
                     full_width_exam()
                     page.locator('[data-backsim]').click()
-                    expect(page.locator('[data-mode="quick"]')).to_be_visible()
+                    expect(page.locator(launch)).to_be_visible()
                     full_width_exam()
-                    page.locator('[data-mode="quick"]').click()
+                    page.locator(launch).click()
                     expect(page.locator('.tb-quiz')).to_be_visible()
                     page.locator('[data-goto]').last.click()
                     page.locator('[data-submit]').click()
                     expect(page.locator('[data-score-result]')).to_be_visible()
                     full_width_exam()
                     page.locator('[data-back]').click()
-                    expect(page.locator('[data-mode="quick"]')).to_be_visible()
+                    expect(page.locator(launch)).to_be_visible()
                     full_width_exam()
                     back.click()
-                    expect(page.locator('#my-exams-grid .exam-card')).to_have_count(7)
+                    expect(page.locator('#my-exams-grid .exam-card')).to_have_count(len(published))
                 record(f'focused-{exam}-{width}', focused)
         browser.close()
     assert all(case['result'] == 'PASS' for case in report['cases']), 'See browser QA report for failures'
