@@ -39,7 +39,7 @@ var questions=[
   {
     "blueprint": "II.4",
     "sub": "nppe-ethics",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "cognitiveLevel": "analysis",
     "learningObjective": "Evaluate an offered gift that may compromise independent professional judgment.",
     "stem": "A supplier competing for a safety-critical equipment contract offers the engineer evaluating bids an expensive weekend trip, describing it as an industry demonstration. The supplier will pay for travel and accommodation. What is the best response?",
@@ -69,7 +69,7 @@ var questions=[
   {
     "blueprint": "II.4",
     "sub": "nppe-ethics",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "cognitiveLevel": "analysis",
     "learningObjective": "Choose a proportionate response to credible immediate public-safety risk and management pressure.",
     "stem": "A plant engineer finds credible evidence that a pressure-system safeguard may fail during the next operating shift. Management asks the engineer to keep the concern confidential until a scheduled review next month. Which response is most appropriate?",
@@ -159,7 +159,7 @@ var questions=[
   {
     "blueprint": "III.1",
     "sub": "nppe-practice",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "cognitiveLevel": "analysis",
     "learningObjective": "Distinguish supervisory responsibility from unreviewed delegation.",
     "stem": "A senior engineer delegates inspection data collection to a qualified technologist. Before issuing a compliance report, the engineer notices that several critical measurements were omitted. The technologist says the remaining measurements are sufficient. What should the engineer do?",
@@ -291,7 +291,7 @@ var questions=[
   {
     "blueprint": "VI.1",
     "sub": "nppe-discipline",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "cognitiveLevel": "analysis",
     "learningObjective": "Differentiate preliminary complaint screening from a disciplinary finding.",
     "stem": "A regulator receives a detailed complaint alleging that an engineer sealed drawings without an adequate review. The engineer says the complainant is a competitor and asks the regulator to reject the complaint without examining the evidence. Which approach best reflects a fair regulatory process?",
