@@ -30,7 +30,7 @@ def main():
               'cases': []}
     with sync_playwright() as pw:
         browser = getattr(pw, args.browser).launch()
-        for width in [390, 1440]:
+        for width in [320, 390, 1440]:
             for theme in ['light', 'dark']:
                 context = browser.new_context(viewport={'width': width, 'height': 950}, reduced_motion='reduce')
                 errors = []
@@ -51,6 +51,21 @@ def main():
                 page.on('pageerror', lambda error: errors.append(str(error)))
                 page.on('dialog', lambda dialog: dialog.accept())
                 name = f'{args.browser}-{width}-{theme}'
+
+                def header_images_fit():
+                    geometry = page.evaluate('''() => {
+                      const header=document.querySelector('header.site');
+                      const brand=header.querySelector('.brand').getBoundingClientRect();
+                      const image=header.querySelector('.brand img').getBoundingClientRect();
+                      const controls=header.querySelector('.header-actions').getBoundingClientRect();
+                      const overlap=Math.min(image.right,controls.right)-Math.max(image.left,controls.left)>1 &&
+                        Math.min(image.bottom,controls.bottom)-Math.max(image.top,controls.top)>1;
+                      return {imageWithinBrand:image.left>=brand.left-1 && image.right<=brand.right+1,
+                        overlap:overlap,documentWidth:document.documentElement.scrollWidth,width:innerWidth};
+                    }''')
+                    assert geometry['imageWithinBrand'] and not geometry['overlap'], geometry
+                    assert geometry['documentWidth'] <= geometry['width'] + 1, geometry
+
                 try:
                     page.goto(base + '/test-bank?exam=nppe')
                     page.wait_for_selector('body.exam-access-ready')
@@ -63,13 +78,13 @@ def main():
                     expect(page.locator('#nppe-banks-3')).to_be_hidden()
                     expect(page.locator('[data-set="set-1-diagnostic"] .tb-sets')).to_have_text('10')
                     expect(page.locator('#tb-overview')).to_contain_text('10 of 50 planned')
-                    # Broken header/footer images in a screenshot must not be dismissed
-                    # as a passing visual check: verify the actual served image bytes.
+                    # Check the actual loaded images and their geometry, not just
+                    # their parent flex items: an intrinsic image can overflow.
                     page.wait_for_function('''() => {
                       const images=[...document.querySelectorAll('header.site .brand img, footer.site .brand img')];
                       return images.length>=2 && images.every(image=>image.complete && image.naturalWidth>0);
                     }''')
-                    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
+                    header_images_fit()
                     page.evaluate('window.scrollTo(0,0)')
                     page.screenshot(path=str(out / f'{name}-banks.png'), full_page=True)
                     page.locator('[data-timing-kind="full"][data-timed="0"]').click()
@@ -86,7 +101,7 @@ def main():
                           const h=document.querySelector('header.site').getBoundingClientRect(),b=bar.getBoundingClientRect();
                           return h.bottom<=b.top+1;
                         }'''), 'Site header covers the assessment toolbar'
-                    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
+                    header_images_fit()
                     page.evaluate('window.scrollTo(0,0)')
                     page.screenshot(path=str(out / f'{name}-question.png'), full_page=True)
                     for index in range(10):
@@ -99,12 +114,12 @@ def main():
                     expect(page.locator('#tb-overview')).to_contain_text('not an official scaled NPPE score')
                     page.locator('[data-open-review="all"]').click()
                     expect(page.locator('.tb-review-card')).to_have_count(10)
-                    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
+                    header_images_fit()
                     page.evaluate('window.scrollTo(0,0)')
                     page.screenshot(path=str(out / f'{name}-review.png'), full_page=True)
                     assert not errors, errors
                     result = {'case': name, 'result': 'PASS', 'score': '10/10', 'domains': 6,
-                              'logosLoaded': True, 'horizontalOverflow': False}
+                              'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
                 except Exception as error:
                     result = {'case': name, 'result': 'FAIL', 'error': str(error), 'pageErrors': errors}
                     page.screenshot(path=str(out / f'{name}-failure.png'), full_page=True)
