@@ -26,7 +26,7 @@ function screen(t,handler) {
 }
 test('signed-out catalog stays public, locked and request-free with zero database calls',async t=>{
   const s=screen(t);await s.signIn(null);
-  assert.equal(s.calls.length,0);assert.equal(s.w.document.querySelectorAll('.exam-card').length,8);
+  assert.equal(s.calls.length,0);assert.equal(s.w.document.querySelectorAll('.exam-card').length,9);
   assert.equal(s.w.document.querySelectorAll('main a[href^="/test-bank"]').length,0);
   assert.equal(s.card('pmp').dataset.state,'locked');assert.match(s.card('pmp').querySelector('a').href,/sign-in/);
   assert.equal(s.card('cqa').querySelector('button,a'),null);
