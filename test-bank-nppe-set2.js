@@ -1,7 +1,9 @@
 /*
  * NPPE author Set 2 — Mock D only.
- * Released items: NPPE-501 through NPPE-590 (90).
- * Mock D target: NPPE-501 through NPPE-610 (110). The form is not launchable yet.
+ * Released items: NPPE-501 through NPPE-600 (100 scored).
+ * Scored blueprint is complete: I 8, II 19, III 30, IV 25, V 9, VI 9.
+ * Mock D still needs NPPE-601 through NPPE-610, the 10 unscored experimental items.
+ * Do not launch the form at 100 of 110.
  * These items stay inside Set 2. They must not be copied into Set 1 or Set 3.
  * Original questions. Not affiliated with any Canadian engineering or geoscience regulator.
  */
@@ -2798,6 +2800,316 @@
       trap: 'She may seal',
       original: true,
       sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:591',
+      legacyId: 'NPPE-591',
+      sub: 'nppe-professional-law',
+      blueprint: 'V.4',
+      area: 'V',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A person licensed as a professional engineer in Texas offers structural design services in Manitoba and prints "P.Eng." on the drawings. She says a United States licence is accepted automatically. What is the best judgment?',
+      options: [
+        'She is right. A licence from any American state is a licence in every Canadian province.',
+        'She is right if the client is American. The client\'s nationality chooses the regulator.',
+        'She is wrong. A foreign licence does not authorize practice in Manitoba and does not confer "P.Eng." She must be admitted by the Manitoba regulator before she practises or uses that title. Any mobility process still belongs to that regulator.',
+        'She is wrong only if she has not written the NPPE. A foreign licence plus an NPPE pass is itself a Manitoba licence.'
+      ],
+      answer: 2,
+      why: '<p>Each province and territory admits its own licensees. A foreign licence is evidence a regulator may consider. It is not itself a Manitoba licence, and it does not confer a protected Canadian title. Passing the NPPE is one admission requirement. It does not replace admission by the regulator.</p><p><strong>Blueprint:</strong> V.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "She is right. A licence from any American state is a licence in every Canadian province." does not satisfy the duty this scenario tests. Each province and territory admits its own licensees. A foreign licence is evidence a regulator may consider. It is not itself a Manitoba licence, and it does not confer a protected Canadian title. Passing the NPPE is one admission requirement. It does not replace admission by the regulator.',
+        'Not the best answer. "She is right if the client is American. The client\'s nationality chooses the regulator." does not satisfy the duty this scenario tests. Each province and territory admits its own licensees. A foreign licence is evidence a regulator may consider. It is not itself a Manitoba licence, and it does not confer a protected Canadian title. Passing the NPPE is one admission requirement. It does not replace admission by the regulator.',
+        'Each province and territory admits its own licensees. A foreign licence is evidence a regulator may consider. It is not itself a Manitoba licence, and it does not confer a protected Canadian title. Passing the NPPE is one admission requirement. It does not replace admission by the regulator.',
+        'Not the best answer. "She is wrong only if she has not written the NPPE. A foreign licence plus an NPPE pass is itself a Manitoba licence." does not satisfy the duty this scenario tests. Each province and territory admits its own licensees. A foreign licence is evidence a regulator may consider. It is not itself a Manitoba licence, and it does not confer a protected Canadian title. Passing the NPPE is one admission requirement. It does not replace admission by the regulator.'
+      ],
+      keyPoint: 'Each province and territory admits its own licensees.',
+      trap: 'She is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:592',
+      legacyId: 'NPPE-592',
+      sub: 'nppe-discipline',
+      blueprint: 'VI.1',
+      area: 'VI',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A client asks a discipline committee to order a licensee to pay the client\'s $140,000 repair bill. The client says awarding that bill is what discipline is for. What is the best judgment?',
+      options: [
+        'Discipline protects the public and regulates the member. As the Act allows, it may reprimand, fine, impose conditions, suspend, or revoke. It is not the court that awards the client\'s repair bill. That claim is a civil claim.',
+        'The client is right. The penalty is whatever compensation the complainant chooses.',
+        'The client is right. A fine imposed by the regulator is the complainant\'s damages.',
+        'The committee can jail the member until the repair bill is paid.'
+      ],
+      answer: 0,
+      why: '<p>The discipline power exists to protect the public and uphold the profession\'s standards. The sanctions are regulatory. They are not a substitute for the client\'s lawsuit to recover the cost of repairs, and a statutory fine is not the client\'s damages. Imprisonment is a criminal power, not a discipline power.</p><p><strong>Blueprint:</strong> VI.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'The discipline power exists to protect the public and uphold the profession\'s standards. The sanctions are regulatory. They are not a substitute for the client\'s lawsuit to recover the cost of repairs, and a statutory fine is not the client\'s damages. Imprisonment is a criminal power, not a discipline power.',
+        'Not the best answer. "The client is right. The penalty is whatever compensation the complainant chooses." does not satisfy the duty this scenario tests. The discipline power exists to protect the public and uphold the profession\'s standards. The sanctions are regulatory. They are not a substitute for the client\'s lawsuit to recover the cost of repairs, and a statutory fine is not the client\'s damages. Imprisonment is a criminal power, not a discipline power.',
+        'Not the best answer. "The client is right. A fine imposed by the regulator is the complainant\'s damages." does not satisfy the duty this scenario tests. The discipline power exists to protect the public and uphold the profession\'s standards. The sanctions are regulatory. They are not a substitute for the client\'s lawsuit to recover the cost of repairs, and a statutory fine is not the client\'s damages. Imprisonment is a criminal power, not a discipline power.',
+        'Not the best answer. "The committee can jail the member until the repair bill is paid." does not satisfy the duty this scenario tests. The discipline power exists to protect the public and uphold the profession\'s standards. The sanctions are regulatory. They are not a substitute for the client\'s lawsuit to recover the cost of repairs, and a statutory fine is not the client\'s damages. Imprisonment is a criminal power, not a discipline power.'
+      ],
+      keyPoint: 'The discipline power exists to protect the public and uphold the profession\'s standards.',
+      trap: 'The client is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:593',
+      legacyId: 'NPPE-593',
+      sub: 'nppe-discipline',
+      blueprint: 'VI.1',
+      area: 'VI',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A discipline committee finds that a licensee sealed structural work outside her competence. Which order is one the committee can properly make?',
+      options: [
+        'Thirty days in jail.',
+        'Cancellation of the owner\'s construction contract with the contractor.',
+        'Payment of $200,000 in damages to a neighbour who was not a party to the hearing.',
+        'A reprimand, a required course, a period of supervised practice, and a suspension of the licence.'
+      ],
+      answer: 3,
+      why: '<p>Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.</p><p><strong>Blueprint:</strong> VI.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "Thirty days in jail." does not satisfy the duty this scenario tests. Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.',
+        'Not the best answer. "Cancellation of the owner\'s construction contract with the contractor." does not satisfy the duty this scenario tests. Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.',
+        'Not the best answer. "Payment of $200,000 in damages to a neighbour who was not a party to the hearing." does not satisfy the duty this scenario tests. Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.',
+        'Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.'
+      ],
+      keyPoint: 'Those orders regulate her practice and her licence.',
+      trap: 'Thirty days in jail.',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:594',
+      legacyId: 'NPPE-594',
+      sub: 'nppe-discipline',
+      blueprint: 'VI.2',
+      area: 'VI',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A complainant asks the discipline committee to hear only the complainant and then suspend the licensee, without telling the licensee what is alleged. The complainant says a safety complaint has to be decided that way. What is the best judgment?',
+      options: [
+        'The complainant is right. A member has no right to know the case before a suspension.',
+        'The complainant is wrong. Before a sanction, the member is entitled to notice of what is alleged and a fair chance to answer. Safety does not remove that duty, and lack of a lawyer does not remove it either.',
+        'The complainant is right about safety complaints. Those may be decided entirely in the member\'s absence.',
+        'Notice is required only after the member hires a lawyer.'
+      ],
+      answer: 1,
+      why: '<p>A serious discipline outcome requires a fair process. The member must know the allegation and have a chance to respond. Urgency can justify interim steps the Act allows. It does not justify a final suspension based only on the complainant\'s account. The right does not depend on having hired counsel.</p><p><strong>Blueprint:</strong> VI.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The complainant is right. A member has no right to know the case before a suspension." does not satisfy the duty this scenario tests. A serious discipline outcome requires a fair process. The member must know the allegation and have a chance to respond. Urgency can justify interim steps the Act allows. It does not justify a final suspension based only on the complainant\'s account. The right does not depend on having hired counsel.',
+        'A serious discipline outcome requires a fair process. The member must know the allegation and have a chance to respond. Urgency can justify interim steps the Act allows. It does not justify a final suspension based only on the complainant\'s account. The right does not depend on having hired counsel.',
+        'Not the best answer. "The complainant is right about safety complaints. Those may be decided entirely in the member\'s absence." does not satisfy the duty this scenario tests. A serious discipline outcome requires a fair process. The member must know the allegation and have a chance to respond. Urgency can justify interim steps the Act allows. It does not justify a final suspension based only on the complainant\'s account. The right does not depend on having hired counsel.',
+        'Not the best answer. "Notice is required only after the member hires a lawyer." does not satisfy the duty this scenario tests. A serious discipline outcome requires a fair process. The member must know the allegation and have a chance to respond. Urgency can justify interim steps the Act allows. It does not justify a final suspension based only on the complainant\'s account. The right does not depend on having hired counsel.'
+      ],
+      keyPoint: 'A serious discipline outcome requires a fair process.',
+      trap: 'The complainant is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:595',
+      legacyId: 'NPPE-595',
+      sub: 'nppe-discipline',
+      blueprint: 'VI.2',
+      area: 'VI',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'An investigator asks a licensee for the calculations behind a failed connection and for her letters to the client about it. She shreds the calculations and does not reply. She says the papers are hers to destroy and that she has no duty to help the regulator. What is the best judgment?',
+      options: [
+        'She is wrong. A member must not conceal or destroy records an investigation needs, and she must respond to a lawful request. The refusal and the shredding can themselves be misconduct. She may use counsel. Counsel is not permission to destroy the file.',
+        'She is right. Cooperation is optional, and the file may be destroyed once a complaint is possible.',
+        'She is right if she resigns the same day. Resignation makes the destruction lawful.',
+        'She must send the file only to the complainant. The regulator is not entitled to it.'
+      ],
+      answer: 0,
+      why: '<p>The investigation protects the public, and a member has to cooperate with it. Destroying the record and refusing to answer obstruct that process. The right to a lawyer and to a fair chance to respond remains. Neither right authorizes destruction of the evidence.</p><p><strong>Blueprint:</strong> VI.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'The investigation protects the public, and a member has to cooperate with it. Destroying the record and refusing to answer obstruct that process. The right to a lawyer and to a fair chance to respond remains. Neither right authorizes destruction of the evidence.',
+        'Not the best answer. "She is right. Cooperation is optional, and the file may be destroyed once a complaint is possible." does not satisfy the duty this scenario tests. The investigation protects the public, and a member has to cooperate with it. Destroying the record and refusing to answer obstruct that process. The right to a lawyer and to a fair chance to respond remains. Neither right authorizes destruction of the evidence.',
+        'Not the best answer. "She is right if she resigns the same day. Resignation makes the destruction lawful." does not satisfy the duty this scenario tests. The investigation protects the public, and a member has to cooperate with it. Destroying the record and refusing to answer obstruct that process. The right to a lawyer and to a fair chance to respond remains. Neither right authorizes destruction of the evidence.',
+        'Not the best answer. "She must send the file only to the complainant. The regulator is not entitled to it." does not satisfy the duty this scenario tests. The investigation protects the public, and a member has to cooperate with it. Destroying the record and refusing to answer obstruct that process. The right to a lawyer and to a fair chance to respond remains. Neither right authorizes destruction of the evidence.'
+      ],
+      keyPoint: 'The investigation protects the public, and a member has to cooperate with it.',
+      trap: 'She is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:596',
+      legacyId: 'NPPE-596',
+      sub: 'nppe-discipline',
+      blueprint: 'VI.3',
+      area: 'VI',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A notice of discipline hearing is served. The licensee resigns the next day and says the regulator must stop, because she is no longer a member. What is the best judgment?',
+      options: [
+        'She is right. A resignation received before the hearing date ends every proceeding.',
+        'She is right. Only a current member can be answerable, so the resignation is an acquittal.',
+        'She is wrong. The regulator may continue a proceeding about conduct while she was a member. Resignation is not an acquittal and does not erase that conduct.',
+        'She is wrong only if the resignation was sent by email. A signed paper resignation ends the case.'
+      ],
+      answer: 2,
+      why: '<p>Quitting is not a defence and not an acquittal. The conduct happened while she was licensed, and the proceeding had already started. The regulator\'s jurisdiction over that conduct can continue. The form of the resignation letter does not decide it.</p><p><strong>Blueprint:</strong> VI.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "She is right. A resignation received before the hearing date ends every proceeding." does not satisfy the duty this scenario tests. Quitting is not a defence and not an acquittal. The conduct happened while she was licensed, and the proceeding had already started. The regulator\'s jurisdiction over that conduct can continue. The form of the resignation letter does not decide it.',
+        'Not the best answer. "She is right. Only a current member can be answerable, so the resignation is an acquittal." does not satisfy the duty this scenario tests. Quitting is not a defence and not an acquittal. The conduct happened while she was licensed, and the proceeding had already started. The regulator\'s jurisdiction over that conduct can continue. The form of the resignation letter does not decide it.',
+        'Quitting is not a defence and not an acquittal. The conduct happened while she was licensed, and the proceeding had already started. The regulator\'s jurisdiction over that conduct can continue. The form of the resignation letter does not decide it.',
+        'Not the best answer. "She is wrong only if the resignation was sent by email. A signed paper resignation ends the case." does not satisfy the duty this scenario tests. Quitting is not a defence and not an acquittal. The conduct happened while she was licensed, and the proceeding had already started. The regulator\'s jurisdiction over that conduct can continue. The form of the resignation letter does not decide it.'
+      ],
+      keyPoint: 'Quitting is not a defence and not an acquittal.',
+      trap: 'She is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:597',
+      legacyId: 'NPPE-597',
+      sub: 'nppe-discipline',
+      blueprint: 'VI.3',
+      area: 'VI',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee sealed drawings she had not reviewed. She says this cannot be discipline unless a criminal court has already convicted her, and she says the regulator may act only if a client files a complaint. What is the best judgment?',
+      options: [
+        'She is right. A criminal conviction is required before any discipline case.',
+        'She is right. The only misconduct is an arithmetic mistake.',
+        'She is wrong only about the conviction. She is right that the regulator cannot open a case except on a client\'s complaint.',
+        'She is wrong on both points. Sealing work she did not review can be misconduct under the Act and the code. No criminal conviction is required. The regulator may act on a complaint or on what it properly learns itself.'
+      ],
+      answer: 3,
+      why: '<p>Professional misconduct is broader than criminal guilt and broader than arithmetic. Sealing without review is a professional breach whether or not a criminal charge is ever laid. The regulator is not limited to waiting for a client. It may start from information it properly receives, and the member still gets notice and a chance to answer.</p><p><strong>Blueprint:</strong> VI.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "She is right. A criminal conviction is required before any discipline case." does not satisfy the duty this scenario tests. Professional misconduct is broader than criminal guilt and broader than arithmetic. Sealing without review is a professional breach whether or not a criminal charge is ever laid. The regulator is not limited to waiting for a client. It may start from information it properly receives, and the member still gets notice and a chance to answer.',
+        'Not the best answer. "She is right. The only misconduct is an arithmetic mistake." does not satisfy the duty this scenario tests. Professional misconduct is broader than criminal guilt and broader than arithmetic. Sealing without review is a professional breach whether or not a criminal charge is ever laid. The regulator is not limited to waiting for a client. It may start from information it properly receives, and the member still gets notice and a chance to answer.',
+        'Not the best answer. "She is wrong only about the conviction. She is right that the regulator cannot open a case except on a client\'s complaint." does not satisfy the duty this scenario tests. Professional misconduct is broader than criminal guilt and broader than arithmetic. Sealing without review is a professional breach whether or not a criminal charge is ever laid. The regulator is not limited to waiting for a client. It may start from information it properly receives, and the member still gets notice and a chance to answer.',
+        'Professional misconduct is broader than criminal guilt and broader than arithmetic. Sealing without review is a professional breach whether or not a criminal charge is ever laid. The regulator is not limited to waiting for a client. It may start from information it properly receives, and the member still gets notice and a chance to answer.'
+      ],
+      keyPoint: 'Professional misconduct is broader than criminal guilt and broader than arithmetic.',
+      trap: 'She is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:598',
+      legacyId: 'NPPE-598',
+      sub: 'nppe-discipline',
+      blueprint: 'VI.4',
+      area: 'VI',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A Manitoba regulator suspends a licensee. She asks Engineers Canada to set the suspension aside, and she asks the Alberta regulator to cancel it because she would rather be heard in Alberta. What is the best judgment?',
+      options: [
+        'Neither body can do that. The proceeding belongs to the Manitoba regulator. Engineers Canada does not hear discipline appeals. Another province\'s regulator is not the appeal court for Manitoba.',
+        'Engineers Canada is the national discipline court, and its decision replaces the provincial order.',
+        'Any provincial regulator may cancel another regulator\'s suspension on request.',
+        'The provincial premier hears the appeal as of right.'
+      ],
+      answer: 0,
+      why: '<p>Discipline is a power of the provincial or territorial regulator that licensed her and brought the case. Engineers Canada is a national organization of regulators. It does not sit in appeal on a member\'s suspension. Alberta does not rehear Manitoba\'s case because the member prefers it. A court review, if one is available, is the review the statute provides.</p><p><strong>Blueprint:</strong> VI.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Discipline is a power of the provincial or territorial regulator that licensed her and brought the case. Engineers Canada is a national organization of regulators. It does not sit in appeal on a member\'s suspension. Alberta does not rehear Manitoba\'s case because the member prefers it. A court review, if one is available, is the review the statute provides.',
+        'Not the best answer. "Engineers Canada is the national discipline court, and its decision replaces the provincial order." does not satisfy the duty this scenario tests. Discipline is a power of the provincial or territorial regulator that licensed her and brought the case. Engineers Canada is a national organization of regulators. It does not sit in appeal on a member\'s suspension. Alberta does not rehear Manitoba\'s case because the member prefers it. A court review, if one is available, is the review the statute provides.',
+        'Not the best answer. "Any provincial regulator may cancel another regulator\'s suspension on request." does not satisfy the duty this scenario tests. Discipline is a power of the provincial or territorial regulator that licensed her and brought the case. Engineers Canada is a national organization of regulators. It does not sit in appeal on a member\'s suspension. Alberta does not rehear Manitoba\'s case because the member prefers it. A court review, if one is available, is the review the statute provides.',
+        'Not the best answer. "The provincial premier hears the appeal as of right." does not satisfy the duty this scenario tests. Discipline is a power of the provincial or territorial regulator that licensed her and brought the case. Engineers Canada is a national organization of regulators. It does not sit in appeal on a member\'s suspension. Alberta does not rehear Manitoba\'s case because the member prefers it. A court review, if one is available, is the review the statute provides.'
+      ],
+      keyPoint: 'Discipline is a power of the provincial or territorial regulator that licensed her and brought the case.',
+      trap: 'Engineers Canada is the national discipline court, and its decision replaces the provincial order.',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:599',
+      legacyId: 'NPPE-599',
+      sub: 'nppe-discipline',
+      blueprint: 'VI.4',
+      area: 'VI',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee is acquitted of a criminal charge arising from the same events as a discipline case. She says the acquittal forces the regulator to dismiss the discipline case, because the regulator is bound by the criminal result and by the criminal standard of proof. What is the best judgment?',
+      options: [
+        'She is right. An acquittal is a dismissal of the discipline case.',
+        'She is right. The regulator must use proof beyond a reasonable doubt.',
+        'She is wrong. The purposes and the standards differ. An acquittal does not automatically end a discipline case about the professional conduct. A discipline finding is not a criminal conviction.',
+        'She is wrong. An acquittal automatically increases the discipline penalty.'
+      ],
+      answer: 2,
+      why: '<p>A criminal court decides criminal guilt beyond a reasonable doubt. A discipline body decides professional conduct under its own Act, on the civil standard, for the protection of the public. Failing to prove a crime does not prove that the professional duty was met. The discipline result also does not become a criminal record.</p><p><strong>Blueprint:</strong> VI.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "She is right. An acquittal is a dismissal of the discipline case." does not satisfy the duty this scenario tests. A criminal court decides criminal guilt beyond a reasonable doubt. A discipline body decides professional conduct under its own Act, on the civil standard, for the protection of the public. Failing to prove a crime does not prove that the professional duty was met. The discipline result also does not become a criminal record.',
+        'Not the best answer. "She is right. The regulator must use proof beyond a reasonable doubt." does not satisfy the duty this scenario tests. A criminal court decides criminal guilt beyond a reasonable doubt. A discipline body decides professional conduct under its own Act, on the civil standard, for the protection of the public. Failing to prove a crime does not prove that the professional duty was met. The discipline result also does not become a criminal record.',
+        'A criminal court decides criminal guilt beyond a reasonable doubt. A discipline body decides professional conduct under its own Act, on the civil standard, for the protection of the public. Failing to prove a crime does not prove that the professional duty was met. The discipline result also does not become a criminal record.',
+        'Not the best answer. "She is wrong. An acquittal automatically increases the discipline penalty." does not satisfy the duty this scenario tests. A criminal court decides criminal guilt beyond a reasonable doubt. A discipline body decides professional conduct under its own Act, on the civil standard, for the protection of the public. Failing to prove a crime does not prove that the professional duty was met. The discipline result also does not become a criminal record.'
+      ],
+      keyPoint: 'A criminal court decides criminal guilt beyond a reasonable doubt.',
+      trap: 'She is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:600',
+      legacyId: 'NPPE-600',
+      sub: 'nppe-discipline',
+      blueprint: 'VI.5',
+      area: 'VI',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A licensee\'s licence is suspended for six months. She continues to seal drawings. She tells clients the suspension is confidential and that the regulator cannot show it on the public register. What is the best judgment?',
+      options: [
+        'She may keep sealing. A suspension affects voting only.',
+        'She may keep sealing if she reduces her fee during the six months.',
+        'The regulator must hide the suspension if she asks. A public register cannot show status.',
+        'She must not practise or seal while suspended. Doing so is a further breach. The regulator may show her status on the public register, and she cannot require that the suspension be hidden.'
+      ],
+      answer: 3,
+      why: '<p>A suspension removes the right to practise for its term. Sealing during that term is practising without authority. The public register exists so clients can see whether a person is entitled to practise. She does not get to keep that status secret, and a lower fee does not restore the licence.</p><p><strong>Blueprint:</strong> VI.5. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "She may keep sealing. A suspension affects voting only." does not satisfy the duty this scenario tests. A suspension removes the right to practise for its term. Sealing during that term is practising without authority. The public register exists so clients can see whether a person is entitled to practise. She does not get to keep that status secret, and a lower fee does not restore the licence.',
+        'Not the best answer. "She may keep sealing if she reduces her fee during the six months." does not satisfy the duty this scenario tests. A suspension removes the right to practise for its term. Sealing during that term is practising without authority. The public register exists so clients can see whether a person is entitled to practise. She does not get to keep that status secret, and a lower fee does not restore the licence.',
+        'Not the best answer. "The regulator must hide the suspension if she asks. A public register cannot show status." does not satisfy the duty this scenario tests. A suspension removes the right to practise for its term. Sealing during that term is practising without authority. The public register exists so clients can see whether a person is entitled to practise. She does not get to keep that status secret, and a lower fee does not restore the licence.',
+        'A suspension removes the right to practise for its term. Sealing during that term is practising without authority. The public register exists so clients can see whether a person is entitled to practise. She does not get to keep that status secret, and a lower fee does not restore the licence.'
+      ],
+      keyPoint: 'A suspension removes the right to practise for its term.',
+      trap: 'She may keep sealing',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
     }
   ];
 
@@ -2808,6 +3120,7 @@
     if (q.form !== 'mock-d' || q.authorSet !== 2) throw new Error('NPPE Set 2 bank mismatch at ' + q.qid);
     if (!q.options || q.options.length !== 4) throw new Error('NPPE Set 2 option count at ' + q.qid);
     if (q.answer < 0 || q.answer > 3) throw new Error('NPPE Set 2 answer at ' + q.qid);
+    if (q.experimental !== false || q.scored !== true) throw new Error('NPPE Set 2 scored flag at ' + q.qid);
   });
 
   global.NPPE_SET2 = questions;
@@ -2824,9 +3137,9 @@
         target: REQUIRED,
         released: releasedItems.length,
         label: 'Mock D — ' + releasedItems.length + ' of ' + REQUIRED,
-        launchable: false
+        launchable: releasedItems.length === REQUIRED
       }
     });
-    exam.mockLaunchable = Object.assign({}, exam.mockLaunchable, { 'mock-d': false });
+    exam.mockLaunchable = Object.assign({}, exam.mockLaunchable, { 'mock-d': releasedItems.length === REQUIRED });
   };
 })(typeof window !== 'undefined' ? window : globalThis);
