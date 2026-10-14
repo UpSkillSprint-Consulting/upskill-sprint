@@ -134,15 +134,15 @@
     "options": [
       "Issue a final low-risk conclusion but explain the uncertainty verbally to the client after the lender receives the report.",
       "Send the lender the raw laboratory records without any interpretation and let the lender make the technical judgment.",
-      "Describe the competing interpretations and material limitations in the report, explain their decision implications and recommend proportionate further investigation.",
-      "Withdraw from the project immediately without discussing the problem, because uncertainty makes any professional report unethical."
+      "Withdraw from the project immediately without discussing the problem, because uncertainty makes any professional report unethical.",
+      "Describe the competing interpretations and material limitations in the report, explain their decision implications and recommend proportionate further investigation."
     ],
-    "answer": 2,
+    "answer": 3,
     "optionRationales": [
       "An oral aside to the client does not correct a misleading written conclusion on which other decision-makers may rely.",
       "Uninterpreted data alone may conceal uncertainty rather than responsibly communicate its meaning and consequences.",
-      "A qualified report can disclose the limits of the evidence, clarify risk and help the client decide what additional investigation is justified.",
-      "Uncertainty is common in geoscience; transparent reporting and appropriate recommendations are more proportionate than automatic withdrawal."
+      "Uncertainty is common in geoscience; transparent reporting and appropriate recommendations are more proportionate than automatic withdrawal.",
+      "A qualified report can disclose the limits of the evidence, clarify risk and help the client decide what additional investigation is justified."
     ],
     "keyPoint": "Faithfulness to a client requires objective, sufficiently qualified professional conclusions—not suppression of material uncertainty.",
     "trap": "Assuming client loyalty allows a misleading confident conclusion, or that uncertainty prohibits reporting.",
