@@ -1,6 +1,6 @@
 /*
  * NPPE author Set 2 — Mock D only.
- * Released items: NPPE-501 through NPPE-550 (50).
+ * Released items: NPPE-501 through NPPE-560 (60).
  * Mock D target: NPPE-501 through NPPE-610 (110). The form is not launchable yet.
  * These items stay inside Set 2. They must not be copied into Set 1 or Set 3.
  * Original questions. Not affiliated with any Canadian engineering or geoscience regulator.
@@ -1558,6 +1558,316 @@
       trap: 'Report only option 1',
       original: true,
       sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:551',
+      legacyId: 'NPPE-551',
+      sub: 'nppe-practice',
+      blueprint: 'III.6',
+      area: 'III',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'While supervising a site investigation, a licensee sees a contractor\'s machine leak hydraulic fluid into a ditch that drains off the property. The contractor says, "It is a small leak. We will cover the stain before the owner walks the site. Leave it out of your daily report." What is the most appropriate action?',
+      options: [
+        'Leave it out. A daily report covers only the work the licensee designed.',
+        'Leave it out if the contractor promises to hide the stain. The path off the site is then the contractor\'s private matter.',
+        'Write the leak into the record and tell the owner, in writing, the same day. Do not agree to hide it. A small volume does not decide whether the leak can leave the site.',
+        'Tell no one until a laboratory report exists. Until then there is nothing to disclose.'
+      ],
+      answer: 2,
+      why: '<p>Her environmental duty includes what she sees when it can leave the site. Covering a stain is not a cleanup, and a promise to hide it is not a reason for her to hide it. She does not need a province\'s reporting deadline in front of her to know that concealment is wrong. Waiting for a lab while the ditch drains is delay, not care.</p><p><strong>Blueprint:</strong> III.6. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "Leave it out. A daily report covers only the work the licensee designed." does not satisfy the duty this scenario tests. Her environmental duty includes what she sees when it can leave the site. Covering a stain is not a cleanup, and a promise to hide it is not a reason for her to hide it. She does not need a province\'s reporting deadline in front of her to know that concealment is wrong. Waiting for a lab while the ditch drains is delay, not care.',
+        'Not the best answer. "Leave it out if the contractor promises to hide the stain. The path off the site is then the contractor\'s private matter." does not satisfy the duty this scenario tests. Her environmental duty includes what she sees when it can leave the site. Covering a stain is not a cleanup, and a promise to hide it is not a reason for her to hide it. She does not need a province\'s reporting deadline in front of her to know that concealment is wrong. Waiting for a lab while the ditch drains is delay, not care.',
+        'Her environmental duty includes what she sees when it can leave the site. Covering a stain is not a cleanup, and a promise to hide it is not a reason for her to hide it. She does not need a province\'s reporting deadline in front of her to know that concealment is wrong. Waiting for a lab while the ditch drains is delay, not care.',
+        'Not the best answer. "Tell no one until a laboratory report exists. Until then there is nothing to disclose." does not satisfy the duty this scenario tests. Her environmental duty includes what she sees when it can leave the site. Covering a stain is not a cleanup, and a promise to hide it is not a reason for her to hide it. She does not need a province\'s reporting deadline in front of her to know that concealment is wrong. Waiting for a lab while the ditch drains is delay, not care.'
+      ],
+      keyPoint: 'Her environmental duty includes what she sees when it can leave the site.',
+      trap: 'Leave it out',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:552',
+      legacyId: 'NPPE-552',
+      sub: 'nppe-practice',
+      blueprint: 'III.7',
+      area: 'III',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee runs a slope-stability program she has not learned. She accepts every default setting, enters soil numbers from a letter she has not checked against this site, and seals the printout because the program is widely used. What is the best judgment?',
+      options: [
+        'She should not seal that printout as her work. The program is a tool. She remains responsible for the inputs, for whether the method fits this site, and for the result she authenticates.',
+        'She may seal it. A widely used program is the engineer of record for the figures it prints.',
+        'She may seal it if the vendor\'s licence says the vendor warrants the output.',
+        'She may seal it after changing the font, so the printout looks like a sheet she calculated by hand.'
+      ],
+      answer: 0,
+      why: '<p>Software does not hold a licence and does not accept her duty. She has to understand the method well enough to judge the output, and she has to know that the inputs belong to this slope. A vendor warranty is not her review. A new font does not create that review.</p><p><strong>Blueprint:</strong> III.7. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Software does not hold a licence and does not accept her duty. She has to understand the method well enough to judge the output, and she has to know that the inputs belong to this slope. A vendor warranty is not her review. A new font does not create that review.',
+        'Not the best answer. "She may seal it. A widely used program is the engineer of record for the figures it prints." does not satisfy the duty this scenario tests. Software does not hold a licence and does not accept her duty. She has to understand the method well enough to judge the output, and she has to know that the inputs belong to this slope. A vendor warranty is not her review. A new font does not create that review.',
+        'Not the best answer. "She may seal it if the vendor\'s licence says the vendor warrants the output." does not satisfy the duty this scenario tests. Software does not hold a licence and does not accept her duty. She has to understand the method well enough to judge the output, and she has to know that the inputs belong to this slope. A vendor warranty is not her review. A new font does not create that review.',
+        'Not the best answer. "She may seal it after changing the font, so the printout looks like a sheet she calculated by hand." does not satisfy the duty this scenario tests. Software does not hold a licence and does not accept her duty. She has to understand the method well enough to judge the output, and she has to know that the inputs belong to this slope. A vendor warranty is not her review. A new font does not create that review.'
+      ],
+      keyPoint: 'Software does not hold a licence and does not accept her duty.',
+      trap: 'She may seal it',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:553',
+      legacyId: 'NPPE-553',
+      sub: 'nppe-practice',
+      blueprint: 'III.7',
+      area: 'III',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A colleague asks a licensee to put a second copy of a design program on a home laptop. The firm\'s licence allows one named computer. The colleague says, "We paid for it, and the drawings are the firm\'s." What is the most appropriate action?',
+      options: [
+        'Install it. Paying for one licence allows any number of copies inside the firm.',
+        'Install it if the copy will be deleted after the project. A short breach is not a breach.',
+        'Install it at home, but seal only drawings made on the office computer. The home copy is then outside her duty.',
+        'Refuse. The licence states how the program may be copied. Payment for one seat, and the fact that the drawings belong to the firm, do not create a second seat.'
+      ],
+      answer: 3,
+      why: '<p>Copying software is governed by the licence and by copyright. One paid seat is not two. Planning to delete the copy later admits it was not authorized. Where she seals the drawing does not change the copy she was asked to make.</p><p><strong>Blueprint:</strong> III.7. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "Install it. Paying for one licence allows any number of copies inside the firm." does not satisfy the duty this scenario tests. Copying software is governed by the licence and by copyright. One paid seat is not two. Planning to delete the copy later admits it was not authorized. Where she seals the drawing does not change the copy she was asked to make.',
+        'Not the best answer. "Install it if the copy will be deleted after the project. A short breach is not a breach." does not satisfy the duty this scenario tests. Copying software is governed by the licence and by copyright. One paid seat is not two. Planning to delete the copy later admits it was not authorized. Where she seals the drawing does not change the copy she was asked to make.',
+        'Not the best answer. "Install it at home, but seal only drawings made on the office computer. The home copy is then outside her duty." does not satisfy the duty this scenario tests. Copying software is governed by the licence and by copyright. One paid seat is not two. Planning to delete the copy later admits it was not authorized. Where she seals the drawing does not change the copy she was asked to make.',
+        'Copying software is governed by the licence and by copyright. One paid seat is not two. Planning to delete the copy later admits it was not authorized. Where she seals the drawing does not change the copy she was asked to make.'
+      ],
+      keyPoint: 'Copying software is governed by the licence and by copyright.',
+      trap: 'Install it',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:554',
+      legacyId: 'NPPE-554',
+      sub: 'nppe-practice',
+      blueprint: 'III.8',
+      area: 'III',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee sealed revision 2 of a shoring drawing, then sealed revision 3 to correct an unsafe slope. The contractor is still building from revision 2, which is posted in the site trailer. The superintendent says revision 3 is "in the email somewhere." What is the most appropriate action?',
+      options: [
+        'Do nothing further. Sealing revision 3 ended her duty. The drawing the contractor chooses is not her concern.',
+        'Tell the contractor and the owner, in writing, that revision 2 is superseded and must not be built, and confirm that revision 3 is the drawing on site. A later seal does not withdraw a drawing people are still using.',
+        'Tell the contractor to tear the title block off revision 2. A drawing without a title block cannot be built from.',
+        'Seal revision 2 again with today\'s date, so both revisions are current.'
+      ],
+      answer: 1,
+      why: '<p>People build from the sheet in front of them. Document control means the corrected revision has to replace the unsafe one in use, not merely sit in an inbox. Removing a title block is not control. Making both revisions current leaves the unsafe slope in force.</p><p><strong>Blueprint:</strong> III.8. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "Do nothing further. Sealing revision 3 ended her duty. The drawing the contractor chooses is not her concern." does not satisfy the duty this scenario tests. People build from the sheet in front of them. Document control means the corrected revision has to replace the unsafe one in use, not merely sit in an inbox. Removing a title block is not control. Making both revisions current leaves the unsafe slope in force.',
+        'People build from the sheet in front of them. Document control means the corrected revision has to replace the unsafe one in use, not merely sit in an inbox. Removing a title block is not control. Making both revisions current leaves the unsafe slope in force.',
+        'Not the best answer. "Tell the contractor to tear the title block off revision 2. A drawing without a title block cannot be built from." does not satisfy the duty this scenario tests. People build from the sheet in front of them. Document control means the corrected revision has to replace the unsafe one in use, not merely sit in an inbox. Removing a title block is not control. Making both revisions current leaves the unsafe slope in force.',
+        'Not the best answer. "Seal revision 2 again with today\'s date, so both revisions are current." does not satisfy the duty this scenario tests. People build from the sheet in front of them. Document control means the corrected revision has to replace the unsafe one in use, not merely sit in an inbox. Removing a title block is not control. Making both revisions current leaves the unsafe slope in force.'
+      ],
+      keyPoint: 'People build from the sheet in front of them.',
+      trap: 'Do nothing further',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:555',
+      legacyId: 'NPPE-555',
+      sub: 'nppe-practice',
+      blueprint: 'III.8',
+      area: 'III',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee sends a client a sketch marked "preliminary — not for construction." The client awards a trade contract from the sketch and says the words were only a disclaimer. She learns the sketch is being built. What is the most appropriate action?',
+      options: [
+        'Do nothing. Those words remove every later duty, including the duty to speak when she learns the sketch is being built.',
+        'Treat the sketch as an issued-for-construction drawing. The client\'s decision overrides the words on it.',
+        'Tell the client, in writing, to stop using the sketch for construction and that it is not a construction document. The warning on the sketch matters, and it is not a reason to stay silent once she knows it is being built.',
+        'Stay silent unless she has been paid for the sketch. An unpaid sketch creates no duty to warn.'
+      ],
+      answer: 2,
+      why: '<p>A clear limit on a preliminary document is real. It does not let her watch that document be built and say nothing. The client\'s decision to ignore the note does not turn the sketch into an issued drawing. Whether the sketch was paid for does not decide whether she must warn.</p><p><strong>Blueprint:</strong> III.8. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "Do nothing. Those words remove every later duty, including the duty to speak when she learns the sketch is being built." does not satisfy the duty this scenario tests. A clear limit on a preliminary document is real. It does not let her watch that document be built and say nothing. The client\'s decision to ignore the note does not turn the sketch into an issued drawing. Whether the sketch was paid for does not decide whether she must warn.',
+        'Not the best answer. "Treat the sketch as an issued-for-construction drawing. The client\'s decision overrides the words on it." does not satisfy the duty this scenario tests. A clear limit on a preliminary document is real. It does not let her watch that document be built and say nothing. The client\'s decision to ignore the note does not turn the sketch into an issued drawing. Whether the sketch was paid for does not decide whether she must warn.',
+        'A clear limit on a preliminary document is real. It does not let her watch that document be built and say nothing. The client\'s decision to ignore the note does not turn the sketch into an issued drawing. Whether the sketch was paid for does not decide whether she must warn.',
+        'Not the best answer. "Stay silent unless she has been paid for the sketch. An unpaid sketch creates no duty to warn." does not satisfy the duty this scenario tests. A clear limit on a preliminary document is real. It does not let her watch that document be built and say nothing. The client\'s decision to ignore the note does not turn the sketch into an issued drawing. Whether the sketch was paid for does not decide whether she must warn.'
+      ],
+      keyPoint: 'A clear limit on a preliminary document is real.',
+      trap: 'Do nothing',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:556',
+      legacyId: 'NPPE-556',
+      sub: 'nppe-practice',
+      blueprint: 'III.9',
+      area: 'III',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee finds that a calculation she sealed last month used the wrong live load. The building is not yet occupied. The correction will cost the client money. She thinks of emailing only a friend at the contractor. What is the most appropriate action?',
+      options: [
+        'Tell the client and the contractor, in writing, what is wrong, what can follow, and what must change before anyone relies on the sheet. A private note to a friend does not meet the duty to inform.',
+        'Wait until the client asks for the file. An error is disclosed only when someone requests it.',
+        'Replace the file in her office and tell no one. A later date on her copy withdraws every copy already sent.',
+        'Tell only her insurer. Notice to the insurer is notice to the people who will build from the drawing.'
+      ],
+      answer: 0,
+      why: '<p>The duty to inform covers her own mistake, and it is owed to the people who will act on the sealed work. Cost and embarrassment do not narrow that notice. A new file in her office does not pull the old sheet off the site. The insurer may also need notice. That notice does not inform the builder.</p><p><strong>Blueprint:</strong> III.9. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'The duty to inform covers her own mistake, and it is owed to the people who will act on the sealed work. Cost and embarrassment do not narrow that notice. A new file in her office does not pull the old sheet off the site. The insurer may also need notice. That notice does not inform the builder.',
+        'Not the best answer. "Wait until the client asks for the file. An error is disclosed only when someone requests it." does not satisfy the duty this scenario tests. The duty to inform covers her own mistake, and it is owed to the people who will act on the sealed work. Cost and embarrassment do not narrow that notice. A new file in her office does not pull the old sheet off the site. The insurer may also need notice. That notice does not inform the builder.',
+        'Not the best answer. "Replace the file in her office and tell no one. A later date on her copy withdraws every copy already sent." does not satisfy the duty this scenario tests. The duty to inform covers her own mistake, and it is owed to the people who will act on the sealed work. Cost and embarrassment do not narrow that notice. A new file in her office does not pull the old sheet off the site. The insurer may also need notice. That notice does not inform the builder.',
+        'Not the best answer. "Tell only her insurer. Notice to the insurer is notice to the people who will build from the drawing." does not satisfy the duty this scenario tests. The duty to inform covers her own mistake, and it is owed to the people who will act on the sealed work. Cost and embarrassment do not narrow that notice. A new file in her office does not pull the old sheet off the site. The insurer may also need notice. That notice does not inform the builder.'
+      ],
+      keyPoint: 'The duty to inform covers her own mistake, and it is owed to the people who will act on the sealed work.',
+      trap: 'Wait until the client asks for the file',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:557',
+      legacyId: 'NPPE-557',
+      sub: 'nppe-practice',
+      blueprint: 'III.10',
+      area: 'III',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A licensee\'s report says a floor can carry the stated load only if the existing joists match the 1970 drawings and have not been cut. She knows the owner will forward the conclusion to a tenant. The owner asks her to delete the condition, "because it scares people." What is the most appropriate action?',
+      options: [
+        'Delete it. A report should be as short as the client prefers.',
+        'Delete it from the page that will be forwarded, and put it in an appendix the tenant will not receive.',
+        'Keep it, but write it so that only another engineer can tell it is a limit.',
+        'Keep the condition in the conclusion that will be forwarded, in words a non-engineer can see. She does not hide a limit the result depends on.'
+      ],
+      answer: 3,
+      why: '<p>The opinion and the limit on the opinion have to travel together. Taking the condition off the page people will read turns a qualified conclusion into a promise. Plain words are part of communication. They are not a reason to delete the limit.</p><p><strong>Blueprint:</strong> III.10. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "Delete it. A report should be as short as the client prefers." does not satisfy the duty this scenario tests. The opinion and the limit on the opinion have to travel together. Taking the condition off the page people will read turns a qualified conclusion into a promise. Plain words are part of communication. They are not a reason to delete the limit.',
+        'Not the best answer. "Delete it from the page that will be forwarded, and put it in an appendix the tenant will not receive." does not satisfy the duty this scenario tests. The opinion and the limit on the opinion have to travel together. Taking the condition off the page people will read turns a qualified conclusion into a promise. Plain words are part of communication. They are not a reason to delete the limit.',
+        'Not the best answer. "Keep it, but write it so that only another engineer can tell it is a limit." does not satisfy the duty this scenario tests. The opinion and the limit on the opinion have to travel together. Taking the condition off the page people will read turns a qualified conclusion into a promise. Plain words are part of communication. They are not a reason to delete the limit.',
+        'The opinion and the limit on the opinion have to travel together. Taking the condition off the page people will read turns a qualified conclusion into a promise. Plain words are part of communication. They are not a reason to delete the limit.'
+      ],
+      keyPoint: 'The opinion and the limit on the opinion have to travel together.',
+      trap: 'Delete it',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:558',
+      legacyId: 'NPPE-558',
+      sub: 'nppe-law',
+      blueprint: 'IV.1',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A candidate says, "The code of ethics is a federal criminal statute, so the regulator prosecutes a breach in criminal court." What is the best correction?',
+      options: [
+        'The candidate is right. A provincial code of ethics is an offence under the Criminal Code.',
+        'The candidate is wrong. The code is made under the provincial or territorial Act, and a breach is dealt with through the regulator\'s discipline process. A criminal charge is a separate matter and requires a criminal offence.',
+        'The candidate is wrong because only the Supreme Court of Canada can hear a complaint about a licensee.',
+        'The candidate is right if the client asks the police to choose the court.'
+      ],
+      answer: 1,
+      why: '<p>The professions are regulated by the provinces and territories. The code takes its force from that statute. Discipline is not a criminal trial. Conduct can sometimes also be a crime, but a breach of the code is not automatically a Criminal Code charge, and the regulator does not become the criminal prosecutor by receiving a complaint.</p><p><strong>Blueprint:</strong> IV.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The candidate is right. A provincial code of ethics is an offence under the Criminal Code." does not satisfy the duty this scenario tests. The professions are regulated by the provinces and territories. The code takes its force from that statute. Discipline is not a criminal trial. Conduct can sometimes also be a crime, but a breach of the code is not automatically a Criminal Code charge, and the regulator does not become the criminal prosecutor by receiving a complaint.',
+        'The professions are regulated by the provinces and territories. The code takes its force from that statute. Discipline is not a criminal trial. Conduct can sometimes also be a crime, but a breach of the code is not automatically a Criminal Code charge, and the regulator does not become the criminal prosecutor by receiving a complaint.',
+        'Not the best answer. "The candidate is wrong because only the Supreme Court of Canada can hear a complaint about a licensee." does not satisfy the duty this scenario tests. The professions are regulated by the provinces and territories. The code takes its force from that statute. Discipline is not a criminal trial. Conduct can sometimes also be a crime, but a breach of the code is not automatically a Criminal Code charge, and the regulator does not become the criminal prosecutor by receiving a complaint.',
+        'Not the best answer. "The candidate is right if the client asks the police to choose the court." does not satisfy the duty this scenario tests. The professions are regulated by the provinces and territories. The code takes its force from that statute. Discipline is not a criminal trial. Conduct can sometimes also be a crime, but a breach of the code is not automatically a Criminal Code charge, and the regulator does not become the criminal prosecutor by receiving a complaint.'
+      ],
+      keyPoint: 'The professions are regulated by the provinces and territories.',
+      trap: 'The candidate is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:559',
+      legacyId: 'NPPE-559',
+      sub: 'nppe-law',
+      blueprint: 'IV.2',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A client emails, "If you can start the inspection Monday for $4,800, reply yes." The licensee replies "Yes" the same day. Nothing else is signed. On Monday the client says there is no contract. What is the best judgment?',
+      options: [
+        'The client is right. Professional services need both signatures on one paper document.',
+        'The client is right. An email cannot be an acceptance.',
+        'The client is wrong. An offer, an acceptance, and the exchange of a fee for the inspection can make a contract without one signed document. This email exchange can be that contract.',
+        'The client is wrong only if the fee is paid before Monday. There is no contract until money changes hands.'
+      ],
+      answer: 2,
+      why: '<p>A contract generally needs an offer, an acceptance, an exchange of value, and an intention to be bound. One formal document with two signatures is common and is not always required. The promise to inspect and the promise to pay can be the exchange. Payment itself is not the only way that exchange is shown.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The client is right. Professional services need both signatures on one paper document." does not satisfy the duty this scenario tests. A contract generally needs an offer, an acceptance, an exchange of value, and an intention to be bound. One formal document with two signatures is common and is not always required. The promise to inspect and the promise to pay can be the exchange. Payment itself is not the only way that exchange is shown.',
+        'Not the best answer. "The client is right. An email cannot be an acceptance." does not satisfy the duty this scenario tests. A contract generally needs an offer, an acceptance, an exchange of value, and an intention to be bound. One formal document with two signatures is common and is not always required. The promise to inspect and the promise to pay can be the exchange. Payment itself is not the only way that exchange is shown.',
+        'A contract generally needs an offer, an acceptance, an exchange of value, and an intention to be bound. One formal document with two signatures is common and is not always required. The promise to inspect and the promise to pay can be the exchange. Payment itself is not the only way that exchange is shown.',
+        'Not the best answer. "The client is wrong only if the fee is paid before Monday. There is no contract until money changes hands." does not satisfy the duty this scenario tests. A contract generally needs an offer, an acceptance, an exchange of value, and an intention to be bound. One formal document with two signatures is common and is not always required. The promise to inspect and the promise to pay can be the exchange. Payment itself is not the only way that exchange is shown.'
+      ],
+      keyPoint: 'A contract generally needs an offer, an acceptance, an exchange of value, and an intention to be bound.',
+      trap: 'The client is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:560',
+      legacyId: 'NPPE-560',
+      sub: 'nppe-law',
+      blueprint: 'IV.2',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A manager at a client company tells a licensee, "You are hired for the extra wing, same rates." She knows this manager is not authorized to bind the company. Procurement has not confirmed the work. What is the most appropriate action?',
+      options: [
+        'Before she treats the wing as awarded, confirm that someone with authority has committed the company. She does not rely on a sentence from a person she knows cannot bind it.',
+        'Start at once. Any employee\'s sentence is the company\'s contract.',
+        'Start at once, and refuse written confirmation. Writing would weaken an oral hire.',
+        'Invoice the manager personally and the company for the same work, and start.'
+      ],
+      answer: 0,
+      why: '<p>A company is bound by a person who has authority, or by a person it has held out as having authority. She already knows this manager lacks that authority, and the company has not confirmed the work. Starting on the sentence is the risk she should not take. A later claim for work the company actually accepts is a separate question. It is not a reason to begin.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'A company is bound by a person who has authority, or by a person it has held out as having authority. She already knows this manager lacks that authority, and the company has not confirmed the work. Starting on the sentence is the risk she should not take. A later claim for work the company actually accepts is a separate question. It is not a reason to begin.',
+        'Not the best answer. "Start at once. Any employee\'s sentence is the company\'s contract." does not satisfy the duty this scenario tests. A company is bound by a person who has authority, or by a person it has held out as having authority. She already knows this manager lacks that authority, and the company has not confirmed the work. Starting on the sentence is the risk she should not take. A later claim for work the company actually accepts is a separate question. It is not a reason to begin.',
+        'Not the best answer. "Start at once, and refuse written confirmation. Writing would weaken an oral hire." does not satisfy the duty this scenario tests. A company is bound by a person who has authority, or by a person it has held out as having authority. She already knows this manager lacks that authority, and the company has not confirmed the work. Starting on the sentence is the risk she should not take. A later claim for work the company actually accepts is a separate question. It is not a reason to begin.',
+        'Not the best answer. "Invoice the manager personally and the company for the same work, and start." does not satisfy the duty this scenario tests. A company is bound by a person who has authority, or by a person it has held out as having authority. She already knows this manager lacks that authority, and the company has not confirmed the work. Starting on the sentence is the risk she should not take. A later claim for work the company actually accepts is a separate question. It is not a reason to begin.'
+      ],
+      keyPoint: 'A company is bound by a person who has authority, or by a person it has held out as having authority.',
+      trap: 'Start at once',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
     }
   ];
 
@@ -1575,15 +1885,15 @@
 
   global.registerNPPESet2 = function (exam) {
     if (!exam) return;
-    var released = questions.slice();
-    exam.forms = Object.assign({}, exam.forms, { 'mock-d': released });
-    exam.sets = Object.assign({}, exam.sets, { 2: released });
+    var releasedItems = questions.slice();
+    exam.forms = Object.assign({}, exam.forms, { 'mock-d': releasedItems });
+    exam.sets = Object.assign({}, exam.sets, { 2: releasedItems });
     exam.setPlans = Object.assign({}, exam.setPlans, {
       2: {
         form: 'mock-d',
         target: REQUIRED,
-        released: released.length,
-        label: 'Mock D — ' + released.length + ' of ' + REQUIRED,
+        released: releasedItems.length,
+        label: 'Mock D — ' + releasedItems.length + ' of ' + REQUIRED,
         launchable: false
       }
     });
