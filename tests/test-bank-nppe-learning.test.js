@@ -78,6 +78,9 @@ test('Batch 2 contributes ten original sourced questions across all six NPPE dom
  assert.match(batch2[5].jurisdiction,/British Columbia/);
  assert.match(batch2[8].jurisdiction,/British Columbia/);
  assert.match(batch2[9].jurisdiction,/Saskatchewan/);
+ assert.match(batch2[8].sources[0].limitation,/Current BC firm regulation expressly includes internal practice/);
+ assert.match(batch2[7].sources[0].limitation,/Supreme Court|SCC|Antrim/);
+ assert.match(batch2[8].why,/Historical limitation:.*Current BC firm regulation/);
 });
 test('Batch 2 extension is append-only, idempotent and blocks incomplete or conflicting predecessors',()=>{
  const context={window:{}};
