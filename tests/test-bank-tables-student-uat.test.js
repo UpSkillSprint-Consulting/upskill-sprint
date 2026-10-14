@@ -37,8 +37,10 @@ function extractToolbarHTML() {
   const end = pageHtml.indexOf('</div>\';', start) + '</div>\';'.length;
   const snippet = pageHtml.slice(start, end);
   // Evaluate just this assignment with a stub `timer` and `session` to get real HTML out.
-  const fn = new Function('timer', 'session', `${snippet} return toolbar;`);
-  return fn('<span class="tb-timer untimed">Untimed</span>', { flags: {}, i: 0 });
+  // The live toolbar also reads revealed / validRevealKey(q). Stub them so
+  // this extractor still evaluates the real markup without a full quiz session.
+  const fn = new Function('timer', 'session', 'revealed', 'q', 'validRevealKey', `${snippet} return toolbar;`);
+  return fn('<span class="tb-timer untimed">Untimed</span>', { flags: {}, i: 0 }, false, {}, function () { return true; });
 }
 
 const REAL_FUNCS = [

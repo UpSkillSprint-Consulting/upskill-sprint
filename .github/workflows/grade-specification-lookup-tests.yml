@@ -76,7 +76,7 @@ jobs:
           const checks = [
             [app.includes('https://upskillsprint.com/engineering-tools/grade-specification-lookup'), 'Application canonical URL missing'],
             [guide.includes('https://upskillsprint.com/engineering-tools/grade-specification-lookup/how-to-use'), 'Guide canonical URL missing'],
-            [app.includes('/assets/logo-icon.png') && guide.includes('/assets/logo-icon.png'), 'UpSkill Sprint logo missing'],
+            [app.includes('/assets/logo-wordmark.png') && guide.includes('/assets/logo-wordmark.png'), 'UpSkill Sprint logo missing'],
             [app.includes('Back to Engineering Tools') && guide.includes('Back to Engineering Tools'), 'Category return link missing'],
             [app.includes('/tools/material-specification-compliance-checker'), 'Companion compliance-checker link missing'],
             [!app.includes('grade_spec_lookup_user_guide.html'), 'Legacy guide link remains'],
