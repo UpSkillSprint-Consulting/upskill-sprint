@@ -619,7 +619,7 @@
       stem: 'A licensee sits on a municipal committee that will award a snow-clearing contract. Her spouse owns a firm that has bid. She plans to vote, and to mention the relationship only if another member asks. What is the most appropriate action?',
       options: [
         'Vote, then disclose the interest afterward so that her local knowledge is not lost.',
-        'Disclose the interest to the committee before any discussion of the award.',
+        'Disclose the interest before any discussion, and do not take part in the discussion or the vote.',
         'Move the bid into a friend\'s name, then vote. The interest then no longer exists.',
         'Vote, and disclose the relationship only if another member raises it.'
       ],
@@ -652,7 +652,7 @@
         'Accept, and tell the city after the first invoice is paid, so the city can see that the work was harmless.',
         'Accept. A conflict exists only when the outside work is done during paid hours.',
         'Accept, and say nothing. Disclosure is required only if she signs the contractor\'s bids to the city.',
-        'Treat it as a conflict. Tell the city before doing any of the work, and do not accept it unless the city.'
+        'Treat it as a conflict. Disclose it to the city before any of the work, and decline the work if the city does not agree.'
       ],
       answer: 3,
       why: '<p>A conflict includes a potential or apparent conflict, not only work done on the employer\'s clock. She would be serving a bidder on the same work her department handles. She has to disclose that before she starts, and she must not use the city\'s information. If the city does not agree, she declines. Telling them afterward does not repair it.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
@@ -1115,7 +1115,7 @@
       stem: 'A licensee\'s employer issues a policy: employees will not report hazards outside the company, will not decline work outside their competence, and will follow commercial instructions over any professional code. She is told to sign it or lose the job. What is the most appropriate action?',
       options: [
         'Sign it if the policy is labelled guidance. A guidance note cannot conflict with the code.',
-        'Do not sign it, and do not follow it. An employer may direct the business.',
+        'Do not sign it, and do not follow it. An employer may direct the business, but not a rule that cancels the code.',
         'Sign it. An employer policy overrides the code for employees.',
         'Sign it and ignore it. A signature given to keep a job has no effect.'
       ],
@@ -1303,7 +1303,7 @@
         'Follow it unless a foreign standard is cheaper. The cheaper document then governs.',
         'Ignore the standard. A standard that is not written into a statute never binds anyone.',
         'Follow the standard exactly. Every standard from that body is federal criminal law.',
-        'Treat the standard as a contract term, not as a statute.'
+        'Treat it as a contract term, not as a statute. A different method needs the client\'s agreement.'
       ],
       answer: 3,
       why: '<p>A standards body does not itself make law. Its document becomes a legal requirement when a statute, regulation, or adopted code incorporates it. A contract can still require it. She does not walk away from a contract term, and she does not treat a voluntary standard as a criminal statute. A justified departure needs the client\'s agreement and a record of the reasons.</p><p><strong>Blueprint:</strong> III.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
@@ -2884,7 +2884,7 @@
         'Payment of $200,000 in damages to a neighbour who was not a party to the hearing.',
         'The committee sentences her to thirty days in jail.',
         'Cancellation of the owner\'s construction contract with the contractor.',
-        'A reprimand, a required course, supervised practice, and a suspension of the licence.'
+        'A reprimand, a required course, supervised practice, or a suspension, where the Act allows that order.'
       ],
       answer: 3,
       why: '<p>Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.</p><p><strong>Blueprint:</strong> VI.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
@@ -3223,7 +3223,7 @@
       stem: 'An owner retains her to recommend a design-build team. One team offers her a bonus if her recommendation names that team. She believes the team is in fact the best. What is the most appropriate action?',
       options: [
         'Take the bonus if it is paid to her firm rather than to her.',
-        'Tell the owner about the offer and refuse the bonus. Do not make the recommendation until the owner.',
+        'Tell the owner about the offer and refuse the bonus. Do not recommend a team until the owner knows.',
         'Recommend them, and mention the bonus only in an appendix the selection committee will not read.',
         'Take the bonus and recommend them. A sincere opinion cannot be a conflict.'
       ],

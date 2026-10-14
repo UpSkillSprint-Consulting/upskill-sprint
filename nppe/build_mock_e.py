@@ -77,9 +77,9 @@ add('I.4','hard',
  'Sustainable practice here means she does not conceal a decades-long impact in order to make the cheap pile look complete.')
 
 # --- II Ethics ---
-add('II.1','medium',
+add('II.1','easy',
  'Counsel tells a licensee that leaving a known crack out of a bridge report would not be a crime on these facts. She is about to treat that advice as the end of the matter. What is the best correction?',
- 'Not being a crime does not end the question. She can still have a duty not to hide a defect others will rely on.',
+ 'Not being a crime does not end her duty not to hide a defect others will rely on.',
  [('Counsel is right. If conduct is not a crime, the code cannot apply.','The code can demand more than the criminal law.'),
   ('The code applies only after a criminal conviction.','A conviction is not a precondition for a professional duty.'),
   ('A legal opinion replaces the code when the client paid for it.','Advice about criminal law does not repeal the code.')],
@@ -127,23 +127,23 @@ add('II.3','easy',
 
 add('II.3','hard',
  'A licensee holds licences in two provinces. The people at risk are in Province A, and Province A\'s code requires a report of this hazard. Province B\'s wording is looser. She wants to rely on Province B and stay silent. What is the best advice?',
- 'On this project she follows Province A\'s code, because that is where she is practising, and she reports as that code requires.',
+ 'On this project she follows Province A\'s code, and she reports the hazard.',
  [('She may choose the looser code. Two licences entitle her to the easier text.','She does not shop the codes for the easier duty.'),
   ('Only one national wording exists, so the difference cannot matter.','Provincial codes share a core and still differ. The difference matters here.'),
   ('She follows the client\'s policy and ignores both codes.','A client policy does not select the code.')],
  'The code of the province where the work and the risk are located is the one she applies to this assignment.')
 
 add('II.3','medium',
- 'A proposal she is asked to sign says she "designed the hospital mechanical systems." She coordinated the consultants. A mechanical licensee designed those systems. The principal calls the sentence ordinary marketing. What is the most appropriate action?',
- 'Correct the sentence before she signs. She must not claim a design she did not do.',
- [('Sign it. Marketing language is not a professional statement.','A signed proposal is a professional statement.'),
-  ('Sign it unless the mechanical licensee objects within one day.','Her own signature does not wait on someone else\'s silence.'),
-  ('Sign it. Coordination and design are the same thing.','Coordinating consultants is not designing their systems.')],
- 'The proposal must describe her role accurately. Marketing is not a licence to claim another discipline\'s design.')
+ 'She certifies a payment drawing that includes forty hours of her site time. She was in the office all that week. The project manager says the budget can absorb it and the client will not notice. What is the most appropriate action?',
+ 'She does not certify time she did not spend. A budget that can absorb the hours does not make the certificate true.',
+ [('Certify it. A client who will not notice has not been misled.','Hiding the hours is the misstatement.'),
+  ('Certify it if the hours are moved to another cost code. The code, not the place, is what she is certifying.','Moving the cost code does not create site time she did not work.'),
+  ('Certify it. Billing is commercial, and the duty of honesty applies only to sealed drawings.','A certificate others will rely on is a professional statement.')],
+ 'She corrects the hours before she certifies. The manager\'s comfort is not a basis for the certificate.')
 
 add('II.3','hard',
  'A mining client asks a structural licensee to seal a mine-ventilation review. She has never done that work. A ventilation specialist in another office can take it. What is the most appropriate action?',
- 'She does not seal it. She leaves it with a licensee who is competent and who will be responsible for the review.',
+ 'She leaves the review with a licensee who is competent and who will be responsible for it.',
  [('She seals it. Any P.Eng. may seal every discipline.','A licence is not competence in every field.'),
   ('She seals it after reading one chapter the night before the issue.','A chapter is not competence for a mine-ventilation review.'),
   ('She seals it because the client accepted a structural resume.','The client\'s acceptance does not create competence she does not have.')],
@@ -151,7 +151,7 @@ add('II.3','hard',
 
 add('II.3','hard',
  'A licensee learns a colleague is sealing municipal bridge drawings while his licence is suspended. He calls it a personnel matter. The drawings are about to be issued. What does she do?',
- 'She does not stay silent while suspended practice is about to be relied on. She uses a channel that can stop the issue, including the regulator if it will still go out.',
+ 'She uses a channel that can stop the issue, including the regulator if the drawings will still go out.',
  [('She says nothing. Reporting another member is always unprofessional.','Staying silent while the public is about to rely on a suspended member is the failure.'),
   ('She calls the police first. Practising while suspended is always a crime before it is a regulatory matter.','It is a regulatory breach. It is not automatically a criminal case she must file first.'),
   ('She seals his drawings herself without reading them, so the issue date is kept.','A second unread seal does not cure a suspension.')],
@@ -207,7 +207,7 @@ add('II.4','hard',
 
 add('II.4','medium',
  'A hospital asks her to review a mechanical design. The original engineer has left the country and does not answer. She finds no immediate danger, and she has comments that should be settled before tender. What is the most appropriate action?',
- 'Do the review, label it as a review, record that she tried to reach the original engineer, and state the comments fairly.',
+ 'Do the review fairly, label it as a review, and record the attempt to reach the original engineer.',
  [('Refuse. One licensee must never comment on another licensee\'s design.','A review is proper work. A ban on comment is not the rule.'),
   ('Do the review and do not record the attempt to give notice.','She records the attempt. She does not pretend notice was impossible without trying.'),
   ('Call the original engineer incompetent so the hospital will change firms.','Disagreement is not a reason to attack the other engineer.')],
@@ -232,7 +232,7 @@ add('II.4','hard',
 # --- III Professional practice ---
 add('III.1','medium',
  'Her proposal limits her to a visual review of an arena roof from the floor. It says she will not analyze the members. The owner later tells a lender she guaranteed the roof. What is the best judgment?',
- 'The accepted scope is a visual review, not a guarantee. She corrects the owner before the lender relies on that claim.',
+ 'She corrects the owner before the lender relies on a guarantee the review never gave.',
  [('She guaranteed the roof. Any visit by a licensee is a warranty of the structure.','A defined visual review is not a warranty.'),
   ('She has no duty to correct the owner. A lender is a stranger to her proposal.','She knows the owner is misstating her work to someone who will rely on it.'),
   ('The guarantee arises because she sent an invoice. Payment turns a limited review into a warranty.','An invoice does not enlarge the scope she accepted.')],
@@ -264,7 +264,7 @@ add('III.1','hard',
 
 add('III.1','medium',
  'A town will set building elevations from her flood study. Before she issues it, which description of her care is the best?',
- 'The care a competent peer would take before issuing that study, including the data and the limits of the method.',
+ 'The care a competent peer would take, including the data and the limits of the method.',
  [('Any effort is enough if the file says the study is in progress.','An unfinished study is not ready for the town to adopt.'),
   ('Due diligence applies only to consultants, not to an employee of the town.','Employment does not remove the care required of the person who issues the study.'),
   ('The study must guarantee that no flood will ever exceed the line she draws.','Care is not a promise that nature will never exceed a stated event.')],
@@ -272,7 +272,7 @@ add('III.1','medium',
 
 add('III.2','hard',
  'While employed, she learns from her employer\'s file that a city is about to score a landfill-gas proposal. She bids through a company she owns and uses the city\'s unpublished scoring notes. What is the best judgment?',
- 'She must not use the employer\'s confidential scoring notes to bid against the process she learned from inside.',
+ 'She must not bid with the confidential scoring notes she learned inside the firm.',
  [('She may bid. Information learned at work is hers to use the same day.','Unpublished scoring notes are not hers to carry into her own bid.'),
   ('She may bid if her company has a separate bank account.','A bank account does not clean the use of the notes.'),
   ('She may bid because the city, not the employer, wrote the notes.','How she obtained the notes, through the employer\'s file, is the problem.')],
@@ -358,7 +358,7 @@ add('III.4','hard',
   ('She runs the false model and labels it "illustrative," which makes the false insulation acceptable.','A label does not put insulation in the wall.')],
  'If the real wall fails, she says so and she offers a design that actually passes.')
 
-add('III.5','medium',
+add('III.5','easy',
  'A negligent design cracks a wall. A visitor also trips on a loose mat in the lobby, which has nothing to do with the design. The firm has a professional-liability policy and a commercial general liability policy. Which notice is the right one for the crack?',
  'Notify the professional-liability insurer about the crack. The mat claim is a different kind of loss.',
  [('Notify only the general-liability insurer. Design errors are an ordinary premises claim.','A design error is the professional policy\'s subject, not a mat in the lobby.'),
@@ -416,7 +416,7 @@ add('III.6','medium',
 
 add('III.7','hard',
  'She seals a signal-timing plan from software she has not learned. She does not compare the output with the traffic counts. She says the software is widely used, so the output is hers. What is the best judgment?',
- 'She does not seal it. The software is a tool, and she is responsible for the counts and for whether the timing fits this intersection.',
+ 'She does not seal timing she has not checked against the traffic counts.',
  [('She may seal it. A widely used program is the engineer of record for the sheets it prints.','The program is not a licensee and is not the engineer of record.'),
   ('She may seal it if the vendor warrants the output in the licence.','A vendor warranty does not review her counts.'),
   ('She may seal it after changing the north arrow, so the sheet looks hand-drawn.','A cosmetic change is not a check.')],
@@ -424,7 +424,7 @@ add('III.7','hard',
 
 add('III.7','medium',
  'A code publisher licensed one user to a digital code. A colleague asks her to post that copy on the project server for the whole team. The colleague says the firm bought the book. What is the most appropriate action?',
- 'Refuse. The licence is for one user. Buying a book does not include posting the digital copy for the team.',
+ 'She refuses, because a one-user licence does not allow posting the file for the team.',
  [('Post it. A project server is private, so copyright does not apply.','A private server is still copying beyond the licence.'),
   ('Post it for one week. A short breach is not a breach.','The duration does not create a right to copy.'),
   ('Post it. Any firm that owns one licence may copy it for every employee.','One user means one user, unless the licence says otherwise.')],
@@ -439,16 +439,16 @@ add('III.8','hard',
  'The field instruction and the sealed sheet cannot conflict in silence. She makes the issued set match the change.')
 
 add('III.8','medium',
- 'A fabricator starts cutting steel from a sketch she marked "not for construction." The client says those words were only a style. What is the most appropriate action?',
- 'Tell the fabricator to stop using the sketch, and issue a document that is actually for construction.',
- [('Do nothing. Once cutting starts, a "not for construction" note expires.','Use by the shop does not convert the sketch.'),
-  ('Send an invoice for the sketch. An invoice is issued-for-construction status.','Payment status is not a revision status.'),
-  ('Let the cutting continue. A client may waive the note orally.','An oral waiver does not make an unfinished sketch a construction document.')],
- 'She stops the reliance she knows about, and she replaces the sketch with a document she is prepared to have built.')
+ 'A client asks her to seal as-built drawings. The only changes on the sheets are the contractor\'s markups. She has not been to the site to see whether those markups match what was built. What is the most appropriate action?',
+ 'She does not seal the as-builts until she has checked the markups against the work in place.',
+ [('Seal them. A contractor\'s markup becomes her work when it is drawn on her sheet.','A markup she has not checked is not her observation.'),
+  ('Seal them if the contractor initials the title block. His initials replace her field check.','The contractor cannot certify the as-built for her.'),
+  ('Seal them and add "information only," which makes an unverified as-built acceptable.','A label does not perform the check.')],
+ 'An as-built says what was built. She does not seal that statement on the contractor\'s word alone.')
 
 add('III.9','hard',
  'A report she sealed says a boil-water advisory can be lifted. She then finds she transcribed the laboratory result wrongly. The city is about to lift the advisory. What is the most appropriate action?',
- 'Tell the city at once, in writing, that the result was transcribed wrongly and that the advisory advice must not be used.',
+ 'Tell the city at once, in writing, that the wrong result must not be used.',
  [('Call a friend at the laboratory and leave the city to act on the sealed report.','The city is the body about to rely on it. A private call does not correct the record.'),
   ('Wait until someone becomes ill, so the correction has a fact to attach to.','She corrects it before the advisory is lifted.'),
   ('Replace the page quietly and do not say a sealed report went out wrong.','The city needs to know the version it has is wrong.')],
@@ -513,7 +513,7 @@ add('IV.2','medium',
 
 add('IV.2','hard',
  'The contract says she will rely on the owner\'s survey, and that the owner warrants it. The survey is wrong. She did not notice a conflict that was obvious on the face of the drawing. The owner says a professional may never rely on owner information. What is the best judgment?',
- 'She was entitled to rely on the survey the contract warranted. She was not entitled to ignore a conflict that was obvious on the drawing.',
+ 'She could rely on the warranted survey, but not on a conflict that was obvious on the drawing.',
  [('The owner is right. Reliance on any owner-supplied fact is negligence, whatever the contract says.','The contract allocated that reliance. The contract is not irrelevant.'),
   ('She is not responsible even for a conflict she saw and set aside. The warranty covers her silence.','A warranty does not excuse her from a clash she actually noticed.'),
   ('The surveyor is automatically the only defendant. She drops out of every claim the moment a survey is wrong.','A wrong survey does not, by itself, end a claim about a conflict she ignored.')],
@@ -528,12 +528,12 @@ add('IV.3','easy',
  'She does not advise the client that the invoice date has replaced the Act.')
 
 add('IV.3','hard',
- 'She specified a bolt. The contractor never installed that bolt. The contractor installed a different bolt she did not approve, and that bolt failed. The owner sues her for the failure. What is the best judgment?',
- 'Her error, if she made one, did not cause this failure. The contractor built something she did not specify.',
- [('She is liable for any failure on the project because her name is on a drawing.','A drawing does not make her the insurer of a substitution she did not approve.'),
-  ('She is liable because the contractor\'s bolt was installed on a site she once visited.','A visit does not adopt the substitution.'),
-  ('She is liable unless she supervised the contractor\'s employees day to day.','Day-to-day employment of the crew is not the test. Causation is.')],
- 'Causation is required. The failure came from a bolt she did not choose.')
+ 'A guard she designed meets the standard for the posted speed. A vehicle hits it at twice that speed and the rail fails. The owner says any failure of her rail is negligence. What is the best judgment?',
+ 'A failure in an impact beyond the standard she was required to meet does not, by itself, prove she was negligent.',
+ [('She is liable for every impact, because her name is on the drawing.','The drawing does not make her the insurer of every collision.'),
+  ('She is liable if the owner has a photograph of the broken rail. The photograph proves the standard was missed.','A broken rail shows a failure. It does not show that her design was below the standard.'),
+  ('She is liable unless she was standing at the rail when the vehicle hit it.','Her presence at the impact is not the test. The standard of care is.')],
+ 'Causation and the standard both matter. This impact was outside the duty she undertook.')
 
 add('IV.3','hard',
  'She uses a lining method that is not yet an accepted method, and she does not tell the client it is unproven. The client says he thought it was ordinary practice. What is the best judgment?',
@@ -545,7 +545,7 @@ add('IV.3','hard',
 
 add('IV.3','hard',
  'Her report is addressed to "the purchaser" of a named house. She knows the purchaser will use it to decide whether to buy. The report overstates capacity. The purchaser sues. She says she owed a duty only to the seller who paid her. What is the best judgment?',
- 'She can owe a duty to that purchaser. She addressed the report to the purchaser and knew it would be used for the purchase.',
+ 'She can owe a duty to the purchaser she addressed, because she knew the purchaser would rely on the report.',
  [('She is right. A professional owes a duty only to the person who pays the invoice.','Payment is not the only source of a duty. She aimed the report at the purchaser.'),
   ('She owes the purchaser a duty only if the purchaser is a licensed professional.','The purchaser\'s licence is irrelevant.'),
   ('She owes no duty because a house purchase is not a commercial transaction.','The use she knew about, not the label "house," is what matters.')],
@@ -567,7 +567,7 @@ add('IV.4','medium',
   ('Accept. Independence is required only of judges, not of expert witnesses.','The expert\'s independence is the point of the evidence.')],
  'She can be paid for her time. She does not sell the outcome.')
 
-add('IV.2','medium',
+add('IV.2','easy',
  'An owner tells a contractor that holdback need not be retained because the contractor is a friend. The applicable Act requires a holdback on this project. What is the best judgment?',
  'A friendship does not waive a holdback the Act requires. The owner still has to follow that statute.',
  [('The owner is right. Holdback is a custom, and friends may skip a custom.','Where the Act requires it, it is not a custom they may skip.'),
@@ -575,17 +575,17 @@ add('IV.2','medium',
   ('Holdback is a federal tax. Friendship is irrelevant, and so is the provincial Act.','Holdback here is a provincial lien-statute concept, not a federal tax.')],
  'She does not advise the owner that friendship displaces the statute. Whether this project is covered depends on that Act, and on these facts it is.')
 
-add('IV.2','medium',
+add('IV.2','easy',
  'An owner holds a performance bond on the contractor. A design error by the licensee causes a loss. The owner says the performance bond is her professional-liability insurance. What is the best judgment?',
- 'The performance bond secures the contractor\'s performance. It is not her professional-liability policy.',
+ 'The performance bond secures the contractor, and it is not her professional-liability policy.',
  [('The owner is right. Any bond on a project pays for professional negligence.','A performance bond and a professional policy answer different obligations.'),
   ('The owner is right if the bond names the project. Naming the project converts it into her insurance.','The name of the project does not change the obligation bonded.'),
   ('The bond pays her deductible and nothing else, so she need not carry insurance.','The bond is not a deductible arrangement for her negligence.')],
  'She looks at her own policy for a professional claim. She does not point the owner to the contractor\'s bond as if it were hers.')
 
-add('IV.4','medium',
+add('IV.4','easy',
  'The contract does not assign copyright. She wants to reuse a standard detail she drew on a later, unrelated project. The client says payment means she may never reuse any detail. What is the best judgment?',
- 'Unless copyright was assigned, she keeps it. Payment gave the client a right to use the work on this project, not ownership of every later use of her standard detail.',
+ 'Payment did not assign the copyright, so she may reuse her own standard detail on another project.',
  [('The client is right. Payment assigns copyright even when the contract says nothing.','Payment of a fee is not, by itself, an assignment of copyright.'),
   ('She is right to reuse the client\'s site-specific borehole coordinates as if they were a standard detail.','Site-specific confidential data is not her standard detail. The detail and the data are different.'),
   ('Copyright in engineering drawings lasts five years from the invoice.','That is not the term. She should not invent a five-year rule.')],
@@ -599,7 +599,7 @@ add('IV.4','easy',
   ('She needs no filing. Selling the sensor creates a patent automatically.','A patent is granted on an application. A sale does not create one.')],
  'If she wants the monopoly, she files. Sale is not the start of the twenty-year term, and sale is not a substitute for filing.')
 
-add('IV.4','medium',
+add('IV.4','easy',
  'Their contract says disputes will be arbitrated. The client sues in court anyway. She asks what the clause does. What is the best judgment?',
  'The clause is a promise to arbitrate, not to mediate. The other party can ask the court to stay the lawsuit so the arbitration can proceed.',
  [('The clause is a mediation. Any recommendation would bind both parties as an award.','Mediation is not what this clause says, and a mediator\'s recommendation is not an award.'),
@@ -617,7 +617,7 @@ add('IV.4','hard',
 
 add('IV.1','easy',
  'A company policy says it replaces the provincial engineering Act for employees of that company. Which statement is correct?',
- 'A company policy cannot replace the Act. The Act still applies unless the Act itself creates an exemption that covers the work.',
+ 'A company policy cannot replace the Act or invent an exemption the Act does not give.',
  [('The policy is right. Private policies prevail over provincial statutes inside a workplace.','A workplace policy does not repeal a statute.'),
   ('The policy is right if the board of directors approved it.','Board approval does not amend the Act.'),
   ('The Act applies only to consultants, so the policy is unnecessary but harmless.','Employment does not, by itself, take the work out of the Act.')],
@@ -672,7 +672,7 @@ add('IV.2','medium',
  'She does not tell the client the cap is meaningless. She also does not promise that every cap survives. The clause has to be read.')
 
 # --- V Professional law ---
-add('V.1','medium',
+add('V.1','easy',
  'A person who is not registered as an engineer-in-training prints "Engineer in Training" on a proposal. He says the words describe his studies. What is the best judgment?',
  'That title is reserved for a person the regulator has admitted in that category. Studies alone do not confer it.',
  [('He is right. Any student may use the title.','The category is created by the regulator, not by enrolment in a course.'),
@@ -683,7 +683,7 @@ add('V.1','medium',
 add('V.1','easy',
  'Which statement about titles is correct?',
  'Professional engineer, P.Eng., professional geoscientist, and P.Geo. are reserved for people the regulator has licensed.',
- [('The titles are courtesy styles. Anyone with a degree may print them.','They are reserved titles, not courtesy styles.'),
+ [('The titles are courtesy styles. Anyone with a degree may print them on a proposal.','They are reserved titles, not courtesy styles.'),
   ('Only P.Eng. is reserved. Geoscience titles are free to use.','Geoscience titles are reserved as well.'),
   ('A foreign licence automatically includes the Canadian title in every province.','A foreign licence does not print a Canadian title.')],
  'The letters and the full titles are the regulator\'s to grant.')
@@ -713,12 +713,12 @@ add('V.2','hard',
  'She either reviews and accepts the work under her own seal, or the set does not go out as professional work.')
 
 add('V.3','hard',
- 'She is registered in one province. She says the Canadian Free Trade Agreement lets her print P.Eng. and seal a project in another province before that regulator has authorized her. What is the best judgment?',
- 'Mobility does not let her use the title or the seal there until that regulator authorizes her.',
- [('She is right. The agreement is a national licence.','It is a mobility framework, not a licence she already holds in the second province.'),
-  ('She is right if the project is privately owned. Public projects are the only ones that need the second licence.','Private ownership does not skip the second regulator.'),
-  ('She is right for ninety days. The agreement includes a universal grace period.','There is no universal ninety-day right to seal. She follows that regulator\'s process.')],
- 'She applies under the mobility rules the second regulator actually has. She does not start by sealing.')
+ 'She is licensed in Province A and in Province B. The project is in Province B. She applies her Province A seal and says a seal is a seal. What is the best judgment?',
+ 'She uses the seal of the regulator for the province where the work is. The other province\'s seal does not replace it.',
+ [('She is right. Any Canadian seal is valid on a project in any province.','The seal identifies the regulator that authorized that work.'),
+  ('She is right if both licences are in good standing. Good standing in A lets her seal B\'s work with A\'s seal.','Good standing in A does not change whose seal belongs on B\'s project.'),
+  ('She may apply both seals without reviewing the drawings twice. Two seals are a courtesy.','A second seal is not a substitute for the review, and the local seal is the one the project needs.')],
+ 'The place of the project decides which seal is the professional mark for that work.')
 
 add('V.3','hard',
  'A federal employee designs a public building for a town and says a federal paycheque is an exemption from the provincial engineering Act. The drawings will be filed with the town. What is the best judgment?',
@@ -728,7 +728,7 @@ add('V.3','hard',
   ('She is wrong because only geoscientists need a licence. Engineering never requires one.','Engineering practice is reserved.')],
  'Some federal works have their own legal setting. She does not assume the paycheque answers the question. The Act that covers this building is the one she reads.')
 
-add('V.4','medium',
+add('V.4','easy',
  'Her licence is suspended. She says the suspension allows her to seal "internal" drawings, and a contractor will build from them. What is the best judgment?',
  'The suspension stops her from practising. Sealing drawings a contractor will use is practice.',
  [('She is right. Internal means any drawing that is not filed in court.','The contractor\'s use is practice, whatever word she puts on the title block.'),
@@ -745,13 +745,13 @@ add('V.1','medium',
  'She asks the Alberta regulator what her Quebec qualification allows. She does not start by treating the title as local authority.')
 
 # --- VI Discipline ---
-add('VI.1','medium',
- 'A client asks a discipline committee to rewrite a commercial contract and to insert a new fee. The client says discipline exists to repair business deals. What is the best judgment?',
- 'Discipline is about conduct and fitness to practise. It is not a forum for rewriting the contract.',
- [('The client is right. The committee sits as a commercial court.','The committee does not renegotiate fees.'),
-  ('The client is right if both parties consent. Consent turns discipline into arbitration of the price.','Consent does not change the committee\'s statutory job.'),
-  ('The committee must insert the fee if the client files the complaint first.','First filing does not create a power to rewrite the bargain.')],
- 'The client can sue on the contract. The committee can deal with the conduct, if the Act covers it.')
+add('VI.1','easy',
+ 'A member says the code reaches only physical safety, so inventing a test result that hurt nobody cannot be discipline. What is the best correction?',
+ 'Dishonesty in a professional document can be misconduct even when nobody is injured.',
+ [('He is right. Without an injury there is nothing for a discipline committee to hear.','Harm is not the only ground. A false result is itself the conduct.'),
+  ('He is right if the client was not charged for the test. An unpaid falsehood is not professional.','The fee does not decide whether the result was honest.'),
+  ('He is right. Discipline exists only to award damages for an injury.','Discipline is not a damages court, and it is not limited to injuries.')],
+ 'The committee can deal with the false document. The absence of an injury does not close the complaint.')
 
 add('VI.1','medium',
  'A panel finds poor practice on one kind of work. Which order is the proper kind of order?',
@@ -875,12 +875,12 @@ add('IV.2','medium',
  'She tells the client the pump station is outside the quote and she waits for a change before that work begins.')
 
 add('IV.3','hard',
- 'At a public meeting she tells a resident, "That slope is stable. Cancel the review you booked." She has not examined the slope. The resident cancels. What is the best judgment?',
- 'She can owe a duty for that statement. She knew he would rely on it, and she had no basis for it.',
- [('She owes nothing. Words at a public meeting are never professional advice.','She gave a conclusion and told him to cancel a review. That is advice.'),
-  ('She owes nothing unless he paid her at the meeting.','Payment is not required when she invited reliance.'),
-  ('She owes nothing because a slope is a natural feature and natural features are outside the practice.','Stability advice about a slope is the practice.')],
- 'She tells him she had not examined it, and she does not leave the cancellation standing on her sentence.')
+ 'After her drawings are issued, the manufacturer recalls the valve she specified, because it can stick open. Three clients are still building from those drawings. She says the assignment ended when she sealed. What is the most appropriate action?',
+ 'Tell the clients who are still building from her drawings that the valve has been recalled.',
+ [('Stay silent. A sealed drawing cannot be revisited.','A later danger in her specification is still hers to warn about.'),
+  ('Tell only the manufacturer, who has already published the recall.','The clients who are building from her drawing are the people who need her warning.'),
+  ('Replace every valve herself, without authority, and bill the clients.','A warning is the duty. An unauthorized replacement is not.')],
+ 'She warns the people still relying on the specification. She does not pretend the seal closed the file.')
 
 add('V.1','medium',
  'A technician who is not licensed signs a shoring drawing "P.Eng." because the title block style uses those letters. A licensee in another department has not seen the drawing. What is the best judgment?',
@@ -907,9 +907,15 @@ def tighten(text):
         protected = parts[0]
     return protected.replace('PENG', 'P.Eng.').replace('PGEO', 'P.Geo.').replace('EG', 'e.g.')
 
+def decision_sentence(text):
+    protected = text.replace('P.Eng.', 'PENG').replace('P.Geo.', 'PGEO')
+    parts = re.split(r'(?<=\.)\s+', protected.strip())
+    if len(parts) > 1 and len(parts[0]) >= 46:
+        protected = parts[0]
+    return protected.replace('PENG', 'P.Eng.').replace('PGEO', 'P.Geo.')
+
 for item in items:
-    item['correct'] = tighten(item['correct'])
-    item['wrongs'] = [(tighten(t), r) for t, r in item['wrongs']]
+    item['correct'] = decision_sentence(item['correct'])
 
 def balance(item):
     correct = item['correct']
@@ -952,8 +958,7 @@ def balance(item):
             break
     item['wrongs'] = [tuple(pair) for pair in wrongs]
 
-for item in items:
-    balance(item)
+# Options stay as written. Do not clip a choice to balance length.
 
 SUB = {
     'I': 'nppe-professionalism', 'II': 'nppe-ethics', 'III': 'nppe-practice',
