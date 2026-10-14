@@ -191,17 +191,17 @@
       stem: 'An engineer retained as an expert in an Ontario civil action is preparing a report. New, reliable inspection records undermine a key assumption in the draft and make the client\'s position less persuasive. Counsel asks the engineer to preserve the earlier conclusion because the other side will present its own expert. No report has yet been served. What is the best response?',
       options: [
     "Reassess the opinion using the new evidence and explain the independently supported conclusion.",
-    "Retain the original conclusion and allow the opposing expert to supply the contrary interpretation.",
-    "Place the new records in an appendix but retain the conclusion without explaining their significance.",
-    "Remove the weakened analysis and keep its earlier conclusion as the executive summary."
+    "Give the records to counsel but leave the draft opinion unchanged unless counsel instructs otherwise.",
+    "Disclose the records in a limitations appendix but keep the conclusion without examining their effect.",
+    "Remove the disputed assumption from the report but postpone revising the conclusion until cross-examination."
   ],
       answer: 0,
       optionRationales: [
-        'An expert must assess relevant evidence objectively. The duty to provide independent assistance is not displaced by the retaining party\'s litigation interests.',
-        'The possibility of an opposing expert does not excuse a partisan or unsupported opinion from this expert.',
-        'Attaching the records does not remedy an analysis that fails to account for their material effect on the opinion.',
-        'Deleting the supporting analysis while preserving its now-weakened conclusion makes the report less transparent, not more defensible.'
-      ],
+    "An expert must assess relevant evidence objectively. The duty to provide independent assistance is not displaced by the retaining party's litigation interests.",
+    "An expert's duties of objectivity and independence require reassessment when reliable new information undermines the opinion, irrespective of counsel's preferences.",
+    "A disclosure that is not incorporated into the substantive assessment does not remedy an opinion undermined by material new evidence.",
+    "Dropping a material premise while preserving its unsupported conclusion is misleading; an expert must reassess before serving the opinion."
+  ],
       keyPoint: 'A retained expert assists the court through an objectively supportable opinion, not advocacy disguised as expertise.',
       trap: 'Assuming competing experts make it acceptable for each expert to favour the party paying them.',
       sources: [
