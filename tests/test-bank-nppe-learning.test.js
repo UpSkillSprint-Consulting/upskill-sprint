@@ -68,7 +68,8 @@ test('Batch 2 contributes ten original sourced questions across all six NPPE dom
  assert.ok(batch2.every(q=>q.form==='set-1-learning'&&q.bank==='learning'&&q.authorSet===1&&q.batch===2&&q.scored===true&&!q.experimental));
  assert.ok(batch2.every(q=>q.options.length===4&&new Set(q.options).size===4&&q.optionRationales.length===4&&q.optionRationales.every(r=>r.length>50)));
  assert.ok(batch2.every(q=>q.sources.some(s=>s.sourceType==='official-blueprint')&&q.sources.some(s=>s.sourceType==='textbook')));
- assert.ok(batch2.every(q=>q.sources.some(s=>s.sourceType.includes('regulator')||s.sourceType.includes('guidance')||s.sourceType.includes('court')||s.sourceType.includes('historical-government'))));
+ // Conceptual ethical theory (II.2) is textbook/blueprint-grounded; legal and regulatory items also need current primary guidance.
+ assert.ok(batch2.every(q=>q.blueprint==='II.2'||q.sources.some(s=>s.sourceType.includes('regulator')||s.sourceType.includes('guidance')||s.sourceType.includes('court')||s.sourceType.includes('historical-government'))));
  assert.ok(batch2.every(q=>q.sources.every(s=>s.sourceType&&s.title&&s.locator&&(!s.url||new URL(s.url).protocol==='https:'))));
  assert.ok(batch2.every(q=>q.learningObjective&&q.keyPoint&&q.trap&&q.why.includes('Sources:')));
  assert.equal(batch2.filter(q=>q.options[q.answer].length===Math.max(...q.options.map(x=>x.length))).length,2);
