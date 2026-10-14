@@ -1,11 +1,11 @@
 /*
  * NPPE author Set 2 — Mock D only.
- * Released items: NPPE-501 through NPPE-600 (100 scored).
- * Scored blueprint is complete: I 8, II 19, III 30, IV 25, V 9, VI 9.
- * Mock D still needs NPPE-601 through NPPE-610, the 10 unscored experimental items.
- * Do not launch the form at 100 of 110.
+ * Complete form: NPPE-501 through NPPE-610 (110).
+ * Scored: NPPE-501 through NPPE-600 (100). Blueprint I 8, II 19, III 30, IV 25, V 9, VI 9.
+ * Unscored experimental: NPPE-601 through NPPE-610 (10). Do not show the candidate which items are unscored.
  * These items stay inside Set 2. They must not be copied into Set 1 or Set 3.
  * Original questions. Not affiliated with any Canadian engineering or geoscience regulator.
+ * A raw percentage is not the equated NPPE scaled score, and 65 is not a raw-percent guarantee.
  */
 (function (global) {
   'use strict';
@@ -30,7 +30,7 @@
         'Professional status depends only on holding a licence, whether or not the person accepts a duty to the public.'
       ],
       answer: 1,
-      why: '<p>The defining elements are advanced knowledge taken on trust, service in the public interest, a distinct ethical code, and membership in a self-governing body. A degree, a job title, or years of experience do not by themselves create a profession. A licence without the duty to the public misses the purpose of self-regulation.</p><p><strong>Blueprint:</strong> I.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The defining elements are advanced knowledge taken on trust, service in the public interest, a distinct ethical code, and membership in a self-governing body. A degree, a job title, or years of experience do not by themselves create a profession. A licence without the duty to the public misses the purpose of self-regulation.</p><p><strong>Blueprint:</strong> I.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "A profession is any occupation that requires a university degree and a job title." does not satisfy the duty this scenario tests. The defining elements are advanced knowledge taken on trust, service in the public interest, a distinct ethical code, and membership in a self-governing body. A degree, a job title, or years of experience do not by themselves create a profession. A licence without the duty to the public misses the purpose of self-regulation.',
         'The defining elements are advanced knowledge taken on trust, service in the public interest, a distinct ethical code, and membership in a self-governing body. A degree, a job title, or years of experience do not by themselves create a profession. A licence without the duty to the public misses the purpose of self-regulation.',
@@ -61,7 +61,7 @@
         'Staff of the regulator, not the members, hold the statutory power to govern the profession.'
       ],
       answer: 1,
-      why: '<p>The right to self-regulate is earned, and it is kept by member participation. Staff administer the organization. They do not replace the members\' role in governance. Declining a particular volunteer posting is not, by itself, a universal offence with a set fine.</p><p><strong>Blueprint:</strong> I.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The right to self-regulate is earned, and it is kept by member participation. Staff administer the organization. They do not replace the members\' role in governance. Declining a particular volunteer posting is not, by itself, a universal offence with a set fine.</p><p><strong>Blueprint:</strong> I.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Only council members are allowed to practise." does not satisfy the duty this scenario tests. The right to self-regulate is earned, and it is kept by member participation. Staff administer the organization. They do not replace the members\' role in governance. Declining a particular volunteer posting is not, by itself, a universal offence with a set fine.',
         'The right to self-regulate is earned, and it is kept by member participation. Staff administer the organization. They do not replace the members\' role in governance. Declining a particular volunteer posting is not, by itself, a universal offence with a set fine.',
@@ -92,7 +92,7 @@
         'Proceed if the client\'s savings are larger than a rough estimate of the neighbours\' loss.'
       ],
       answer: 1,
-      why: '<p>The public is not limited to the client. It includes people whose safety or environment can be affected. That duty outranks a commercial instruction. A money-for-harm trade is not the professional test, and leaving without saying why protects no one.</p><p><strong>Blueprint:</strong> I.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The public is not limited to the client. It includes people whose safety or environment can be affected. That duty outranks a commercial instruction. A money-for-harm trade is not the professional test, and leaving without saying why protects no one.</p><p><strong>Blueprint:</strong> I.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Follow the instruction. The contract defines the only person to whom a duty is owed." does not satisfy the duty this scenario tests. The public is not limited to the client. It includes people whose safety or environment can be affected. That duty outranks a commercial instruction. A money-for-harm trade is not the professional test, and leaving without saying why protects no one.',
         'The public is not limited to the client. It includes people whose safety or environment can be affected. That duty outranks a commercial instruction. A money-for-harm trade is not the professional test, and leaving without saying why protects no one.',
@@ -123,7 +123,7 @@
         'No one, if the technologists were experienced and usually careful.'
       ],
       answer: 1,
-      why: '<p>Tasks may be delegated. Professional responsibility for supervised work may not. Authentication is the professional\'s statement that she has accepted the work. The client\'s acceptance does not move that responsibility, and experience on the team does not erase it.</p><p><strong>Blueprint:</strong> I.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Tasks may be delegated. Professional responsibility for supervised work may not. Authentication is the professional\'s statement that she has accepted the work. The client\'s acceptance does not move that responsibility, and experience on the team does not erase it.</p><p><strong>Blueprint:</strong> I.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Only the technologist who made the arithmetic error." does not satisfy the duty this scenario tests. Tasks may be delegated. Professional responsibility for supervised work may not. Authentication is the professional\'s statement that she has accepted the work. The client\'s acceptance does not move that responsibility, and experience on the team does not erase it.',
         'Tasks may be delegated. Professional responsibility for supervised work may not. Authentication is the professional\'s statement that she has accepted the work. The client\'s acceptance does not move that responsibility, and experience on the team does not erase it.',
@@ -154,7 +154,7 @@
         'A provincial regulator may discipline a member, but it has no power over a person who was never licensed.'
       ],
       answer: 1,
-      why: '<p>Licensing, title, practice, and discipline are provincial and territorial. The regulators are independent of one another. Engineers Canada and Geoscientists Canada coordinate and set national guidelines. They do not license practitioners. Regulators can also act against unlicensed practice and misuse of title.</p><p><strong>Blueprint:</strong> I.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Licensing, title, practice, and discipline are provincial and territorial. The regulators are independent of one another. Engineers Canada and Geoscientists Canada coordinate and set national guidelines. They do not license practitioners. Regulators can also act against unlicensed practice and misuse of title.</p><p><strong>Blueprint:</strong> I.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "One federal body licences engineers and geoscientists for every province and territory." does not satisfy the duty this scenario tests. Licensing, title, practice, and discipline are provincial and territorial. The regulators are independent of one another. Engineers Canada and Geoscientists Canada coordinate and set national guidelines. They do not license practitioners. Regulators can also act against unlicensed practice and misuse of title.',
         'Licensing, title, practice, and discipline are provincial and territorial. The regulators are independent of one another. Engineers Canada and Geoscientists Canada coordinate and set national guidelines. They do not license practitioners. Regulators can also act against unlicensed practice and misuse of title.',
@@ -185,7 +185,7 @@
         'Only the mine owner needs a Saskatchewan licence. Employees practise under the owner\'s licence.'
       ],
       answer: 1,
-      why: '<p>The right to practise is territorial. Labour-mobility rules require a process for qualified members from another province. They do not let someone practise with no local authorization. An employer\'s status does not replace her own licence.</p><p><strong>Blueprint:</strong> I.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The right to practise is territorial. Labour-mobility rules require a process for qualified members from another province. They do not let someone practise with no local authorization. An employer\'s status does not replace her own licence.</p><p><strong>Blueprint:</strong> I.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Any Canadian licence allows geoscience practice anywhere in Canada for up to six months." does not satisfy the duty this scenario tests. The right to practise is territorial. Labour-mobility rules require a process for qualified members from another province. They do not let someone practise with no local authorization. An employer\'s status does not replace her own licence.',
         'The right to practise is territorial. Labour-mobility rules require a process for qualified members from another province. They do not let someone practise with no local authorization. An employer\'s status does not replace her own licence.',
@@ -216,7 +216,7 @@
         'Electronic seals have no official standing, so the practice does not matter.'
       ],
       answer: 1,
-      why: '<p>The seal identifies the person who takes responsibility. It is not a company logo and not a drafting tool. Letting someone else apply it breaks that link. Regulators do allow electronic seals, but only in a way that keeps the professional in control of each use.</p><p><strong>Blueprint:</strong> I.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The seal identifies the person who takes responsibility. It is not a company logo and not a drafting tool. Letting someone else apply it breaks that link. Regulators do allow electronic seals, but only in a way that keeps the professional in control of each use.</p><p><strong>Blueprint:</strong> I.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Nothing, if the designer is an employee of the same firm." does not satisfy the duty this scenario tests. The seal identifies the person who takes responsibility. It is not a company logo and not a drafting tool. Letting someone else apply it breaks that link. Regulators do allow electronic seals, but only in a way that keeps the professional in control of each use.',
         'The seal identifies the person who takes responsibility. It is not a company logo and not a drafting tool. Letting someone else apply it breaks that link. Regulators do allow electronic seals, but only in a way that keeps the professional in control of each use.',
@@ -247,7 +247,7 @@
         'Recommend the costlier option and leave out the cost difference, so council is not tempted by the cheaper plant.'
       ],
       answer: 1,
-      why: '<p>The work\'s value includes safe, economic, and durable infrastructure, with the limits stated honestly. Hiding cost, or treating future capacity and energy as outside the brief, both fail that role. Lowest capital cost is one fact, not the whole duty.</p><p><strong>Blueprint:</strong> I.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The work\'s value includes safe, economic, and durable infrastructure, with the limits stated honestly. Hiding cost, or treating future capacity and energy as outside the brief, both fail that role. Lowest capital cost is one fact, not the whole duty.</p><p><strong>Blueprint:</strong> I.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Recommend only the lowest capital cost, because public money must be minimized." does not satisfy the duty this scenario tests. The work\'s value includes safe, economic, and durable infrastructure, with the limits stated honestly. Hiding cost, or treating future capacity and energy as outside the brief, both fail that role. Lowest capital cost is one fact, not the whole duty.',
         'The work\'s value includes safe, economic, and durable infrastructure, with the limits stated honestly. Hiding cost, or treating future capacity and energy as outside the brief, both fail that role. Lowest capital cost is one fact, not the whole duty.',
@@ -278,7 +278,7 @@
         'A professional may ignore a statute when the code points the other way.'
       ],
       answer: 1,
-      why: '<p>Moral standards and statutes are related, and statutes often follow those standards, but they are not the same list. The code can require more than the legal minimum. It does not give anyone permission to break a statute.</p><p><strong>Blueprint:</strong> II.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Moral standards and statutes are related, and statutes often follow those standards, but they are not the same list. The code can require more than the legal minimum. It does not give anyone permission to break a statute.</p><p><strong>Blueprint:</strong> II.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Ethics and the law are the same rules, enforced by different bodies." does not satisfy the duty this scenario tests. Moral standards and statutes are related, and statutes often follow those standards, but they are not the same list. The code can require more than the legal minimum. It does not give anyone permission to break a statute.',
         'Moral standards and statutes are related, and statutes often follow those standards, but they are not the same list. The code can require more than the legal minimum. It does not give anyone permission to break a statute.',
@@ -309,7 +309,7 @@
         'The correct choice cannot be made unless the candidate can name the classical author of each theory.'
       ],
       answer: 1,
-      why: '<p>Greater-good reasoning and rights reasoning are both recognizable ethical perspectives, and they can diverge. The exam expects the principle, not the author\'s name. A licensed professional then follows the code grounded in the Act, not the client\'s budget alone.</p><p><strong>Blueprint:</strong> II.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Greater-good reasoning and rights reasoning are both recognizable ethical perspectives, and they can diverge. The exam expects the principle, not the author\'s name. A licensed professional then follows the code grounded in the Act, not the client\'s budget alone.</p><p><strong>Blueprint:</strong> II.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Only one of them is making an ethical argument. The other is making a personal complaint." does not satisfy the duty this scenario tests. Greater-good reasoning and rights reasoning are both recognizable ethical perspectives, and they can diverge. The exam expects the principle, not the author\'s name. A licensed professional then follows the code grounded in the Act, not the client\'s budget alone.',
         'Greater-good reasoning and rights reasoning are both recognizable ethical perspectives, and they can diverge. The exam expects the principle, not the author\'s name. A licensed professional then follows the code grounded in the Act, not the client\'s budget alone.',
@@ -340,7 +340,7 @@
         'Ethics is only personal, so the licensee may choose whichever custom is more convenient.'
       ],
       answer: 1,
-      why: '<p>Different societies develop different moral principles, and law often reflects them. That does not release a Canadian licensee from Canadian law, including the law on bribing foreign officials, or from their own code. A client waiver cannot do so either.</p><p><strong>Blueprint:</strong> II.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Different societies develop different moral principles, and law often reflects them. That does not release a Canadian licensee from Canadian law, including the law on bribing foreign officials, or from their own code. A client waiver cannot do so either.</p><p><strong>Blueprint:</strong> II.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Local custom replaces the licensee\'s code for any work done outside Canada." does not satisfy the duty this scenario tests. Different societies develop different moral principles, and law often reflects them. That does not release a Canadian licensee from Canadian law, including the law on bribing foreign officials, or from their own code. A client waiver cannot do so either.',
         'Different societies develop different moral principles, and law often reflects them. That does not release a Canadian licensee from Canadian law, including the law on bribing foreign officials, or from their own code. A client waiver cannot do so either.',
@@ -371,7 +371,7 @@
         'She is using a rights perspective, which always ranks the client\'s property above the safety of other people.'
       ],
       answer: 0,
-      why: '<p>Asking whether a rule could be followed by everyone is duty-based reasoning. The exam looks for that principle, not a philosopher\'s name. A personal rule still has to be checked against the code, which is what governs a licensee.</p><p><strong>Blueprint:</strong> II.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Asking whether a rule could be followed by everyone is duty-based reasoning. The exam looks for that principle, not a philosopher\'s name. A personal rule still has to be checked against the code, which is what governs a licensee.</p><p><strong>Blueprint:</strong> II.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Asking whether a rule could be followed by everyone is duty-based reasoning. The exam looks for that principle, not a philosopher\'s name. A personal rule still has to be checked against the code, which is what governs a licensee.',
         'Not the best answer. "She is using a greatest-good test, so once she has refused the shortcut the code no longer applies." does not satisfy the duty this scenario tests. Asking whether a rule could be followed by everyone is duty-based reasoning. The exam looks for that principle, not a philosopher\'s name. A personal rule still has to be checked against the code, which is what governs a licensee.',
@@ -402,7 +402,7 @@
         'A rights perspective requires the cheapest option whenever money is limited.'
       ],
       answer: 1,
-      why: '<p>Preventing the greatest total harm is a real ethical perspective, and it can conflict with a duty to particular people. The code\'s protection of health and safety does not let a licensee leave a known hazard on this job in exchange for a benefit elsewhere.</p><p><strong>Blueprint:</strong> II.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Preventing the greatest total harm is a real ethical perspective, and it can conflict with a duty to particular people. The code\'s protection of health and safety does not let a licensee leave a known hazard on this job in exchange for a benefit elsewhere.</p><p><strong>Blueprint:</strong> II.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The greatest-good view is the only view the code allows, so the cheaper design must be chosen." does not satisfy the duty this scenario tests. Preventing the greatest total harm is a real ethical perspective, and it can conflict with a duty to particular people. The code\'s protection of health and safety does not let a licensee leave a known hazard on this job in exchange for a benefit elsewhere.',
         'Preventing the greatest total harm is a real ethical perspective, and it can conflict with a duty to particular people. The code\'s protection of health and safety does not let a licensee leave a known hazard on this job in exchange for a benefit elsewhere.',
@@ -433,7 +433,7 @@
         'From personal conscience alone. In every jurisdiction the published code is only a suggestion.'
       ],
       answer: 1,
-      why: '<p>The code that governs a licensee is the one made under the statute of the regulator. Engineers Canada\'s text is a model, and a technical society\'s code is voluntary. Neither replaces the provincial or territorial code. An employment contract cannot push the Act aside.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The code that governs a licensee is the one made under the statute of the regulator. Engineers Canada\'s text is a model, and a technical society\'s code is voluntary. Neither replaces the provincial or territorial code. An employment contract cannot push the Act aside.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "From Engineers Canada\'s model guideline, which is the binding code in every province." does not satisfy the duty this scenario tests. The code that governs a licensee is the one made under the statute of the regulator. Engineers Canada\'s text is a model, and a technical society\'s code is voluntary. Neither replaces the provincial or territorial code. An employment contract cannot push the Act aside.',
         'The code that governs a licensee is the one made under the statute of the regulator. Engineers Canada\'s text is a model, and a technical society\'s code is voluntary. Neither replaces the provincial or territorial code. An employment contract cannot push the Act aside.',
@@ -464,7 +464,7 @@
         'The strictest sentence found in any Canadian code automatically becomes the offence in every province.'
       ],
       answer: 1,
-      why: '<p>Canadian codes share a core and still differ in wording and in some duties. The binding text is the code of the regulator under whose authority the work is done. A national model does not erase those differences, and the strictest sentence elsewhere is not automatically an offence in every province.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Canadian codes share a core and still differ in wording and in some duties. The binding text is the code of the regulator under whose authority the work is done. A national model does not erase those differences, and the strictest sentence elsewhere is not automatically an offence in every province.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "There is one code, published nationally, and provincial wording is not allowed to differ." does not satisfy the duty this scenario tests. Canadian codes share a core and still differ in wording and in some duties. The binding text is the code of the regulator under whose authority the work is done. A national model does not erase those differences, and the strictest sentence elsewhere is not automatically an offence in every province.',
         'Canadian codes share a core and still differ in wording and in some duties. The binding text is the code of the regulator under whose authority the work is done. A national model does not erase those differences, and the strictest sentence elsewhere is not automatically an offence in every province.',
@@ -495,7 +495,7 @@
         'Sign the report and keep a private note, so the employer is satisfied and the licensee has a record.'
       ],
       answer: 1,
-      why: '<p>The code requires honesty, protection of the public, and a clear statement of the consequences of ignoring a professional judgment. The first step is a written warning inside the organization, not a misleading signature and not an immediate public disclosure. Loyalty to the employer does not come first.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The code requires honesty, protection of the public, and a clear statement of the consequences of ignoring a professional judgment. The first step is a written warning inside the organization, not a misleading signature and not an immediate public disclosure. Loyalty to the employer does not come first.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Leave it out. Loyalty to the employer is the first duty in the code." does not satisfy the duty this scenario tests. The code requires honesty, protection of the public, and a clear statement of the consequences of ignoring a professional judgment. The first step is a written warning inside the organization, not a misleading signature and not an immediate public disclosure. Loyalty to the employer does not come first.',
         'The code requires honesty, protection of the public, and a clear statement of the consequences of ignoring a professional judgment. The first step is a written warning inside the organization, not a misleading signature and not an immediate public disclosure. Loyalty to the employer does not come first.',
@@ -526,7 +526,7 @@
         'Have the specialist prepare the review and stamp it herself without reading it. The specialist\'s skill transfers through her seal.'
       ],
       answer: 1,
-      why: '<p>The code limits practice to areas of competence. A licence is not a licence to do every kind of work, and a client\'s waiver does not create competence. Sealing work she has not reviewed is a false use of the seal. Assisting a competent colleague, who seals the work, is appropriate if her role is not overstated.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The code limits practice to areas of competence. A licence is not a licence to do every kind of work, and a client\'s waiver does not create competence. Sealing work she has not reviewed is a false use of the seal. Assisting a competent colleague, who seals the work, is appropriate if her role is not overstated.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Stamp it. A licence is authority to practise in every area of the profession." does not satisfy the duty this scenario tests. The code limits practice to areas of competence. A licence is not a licence to do every kind of work, and a client\'s waiver does not create competence. Sealing work she has not reviewed is a false use of the seal. Assisting a competent colleague, who seals the work, is appropriate if her role is not overstated.',
         'The code limits practice to areas of competence. A licence is not a licence to do every kind of work, and a client\'s waiver does not create competence. Sealing work she has not reviewed is a false use of the seal. Assisting a competent colleague, who seals the work, is appropriate if her role is not overstated.',
@@ -557,7 +557,7 @@
         'Rewrite the logs under her own name so the filing is not delayed.'
       ],
       answer: 1,
-      why: '<p>The codes require licensees to report unprofessional practice, including dishonest professional documents. Speaking to the colleague comes first unless that would let the harm go out unchecked. Copyright and plagiarism are not automatically criminal, so the police are not the first call. Putting her own name on the same logs would repeat the dishonesty.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The codes require licensees to report unprofessional practice, including dishonest professional documents. Speaking to the colleague comes first unless that would let the harm go out unchecked. Copyright and plagiarism are not automatically criminal, so the police are not the first call. Putting her own name on the same logs would repeat the dishonesty.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Nothing. Reporting another professional is disloyal, and the codes discourage it." does not satisfy the duty this scenario tests. The codes require licensees to report unprofessional practice, including dishonest professional documents. Speaking to the colleague comes first unless that would let the harm go out unchecked. Copyright and plagiarism are not automatically criminal, so the police are not the first call. Putting her own name on the same logs would repeat the dishonesty.',
         'The codes require licensees to report unprofessional practice, including dishonest professional documents. Speaking to the colleague comes first unless that would let the harm go out unchecked. Copyright and plagiarism are not automatically criminal, so the police are not the first call. Putting her own name on the same logs would repeat the dishonesty.',
@@ -588,7 +588,7 @@
         'The list is wrong because conflict-of-interest rules have been removed from Canadian codes.'
       ],
       answer: 1,
-      why: '<p>Across the regulators, the shared duties are public protection, competence, honesty and fairness, avoiding conflicts, and maintaining competence. Wording differs. The employer\'s interest is real, and it yields when it conflicts with the duty to the public.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Across the regulators, the shared duties are public protection, competence, honesty and fairness, avoiding conflicts, and maintaining competence. Wording differs. The employer\'s interest is real, and it yields when it conflicts with the duty to the public.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The member is right. The employer\'s profit is the first duty in Canadian codes." does not satisfy the duty this scenario tests. Across the regulators, the shared duties are public protection, competence, honesty and fairness, avoiding conflicts, and maintaining competence. Wording differs. The employer\'s interest is real, and it yields when it conflicts with the duty to the public.',
         'Across the regulators, the shared duties are public protection, competence, honesty and fairness, avoiding conflicts, and maintaining competence. Wording differs. The employer\'s interest is real, and it yields when it conflicts with the duty to the public.',
@@ -619,7 +619,7 @@
         'Move the bid into a friend\'s name, then vote. The interest then no longer exists.'
       ],
       answer: 1,
-      why: '<p>This is an actual conflict between her public role and her family\'s financial interest. Disclosure has to come before the decision, and disclosure alone is not enough: she should not take part in the discussion or the vote. Hiding the bidder, or disclosing after the vote, makes the conflict worse.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>This is an actual conflict between her public role and her family\'s financial interest. Disclosure has to come before the decision, and disclosure alone is not enough: she should not take part in the discussion or the vote. Hiding the bidder, or disclosing after the vote, makes the conflict worse.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Vote, and disclose the relationship only if another member raises it." does not satisfy the duty this scenario tests. This is an actual conflict between her public role and her family\'s financial interest. Disclosure has to come before the decision, and disclosure alone is not enough: she should not take part in the discussion or the vote. Hiding the bidder, or disclosing after the vote, makes the conflict worse.',
         'This is an actual conflict between her public role and her family\'s financial interest. Disclosure has to come before the decision, and disclosure alone is not enough: she should not take part in the discussion or the vote. Hiding the bidder, or disclosing after the vote, makes the conflict worse.',
@@ -650,7 +650,7 @@
         'Accept, and tell the city after the first invoice is paid, so the city can see that the work was harmless.'
       ],
       answer: 2,
-      why: '<p>A conflict includes a potential or apparent conflict, not only work done on the employer\'s clock. She would be serving a bidder on the same work her department handles. She has to disclose that before she starts, and she must not use the city\'s information. If the city does not agree, she declines. Telling them afterward does not repair it.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A conflict includes a potential or apparent conflict, not only work done on the employer\'s clock. She would be serving a bidder on the same work her department handles. She has to disclose that before she starts, and she must not use the city\'s information. If the city does not agree, she declines. Telling them afterward does not repair it.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Accept. A conflict exists only when the outside work is done during paid hours." does not satisfy the duty this scenario tests. A conflict includes a potential or apparent conflict, not only work done on the employer\'s clock. She would be serving a bidder on the same work her department handles. She has to disclose that before she starts, and she must not use the city\'s information. If the city does not agree, she declines. Telling them afterward does not repair it.',
         'Not the best answer. "Accept, and say nothing. Disclosure is required only if she signs the contractor\'s bids to the city." does not satisfy the duty this scenario tests. A conflict includes a potential or apparent conflict, not only work done on the employer\'s clock. She would be serving a bidder on the same work her department handles. She has to disclose that before she starts, and she must not use the city\'s information. If the city does not agree, she declines. Telling them afterward does not repair it.',
@@ -681,7 +681,7 @@
         'Remove the foundation recommendation and seal a report that is silent on foundations, so neither option is on the record.'
       ],
       answer: 0,
-      why: '<p>A manager may set a budget. A manager may not rewrite a professional opinion and require the author to seal the rewrite. A note does not move responsibility for a sealed conclusion. Silence hides the judgment instead of stating the consequences of ignoring it.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A manager may set a budget. A manager may not rewrite a professional opinion and require the author to seal the rewrite. A note does not move responsibility for a sealed conclusion. Silence hides the judgment instead of stating the consequences of ignoring it.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'A manager may set a budget. A manager may not rewrite a professional opinion and require the author to seal the rewrite. A note does not move responsibility for a sealed conclusion. Silence hides the judgment instead of stating the consequences of ignoring it.',
         'Not the best answer. "Seal it. A manager\'s budget decision overrides a technical recommendation." does not satisfy the duty this scenario tests. A manager may set a budget. A manager may not rewrite a professional opinion and require the author to seal the rewrite. A note does not move responsibility for a sealed conclusion. Silence hides the judgment instead of stating the consequences of ignoring it.',
@@ -712,7 +712,7 @@
         'Report the hazard, with the facts she has, to the authority that can stop the work. Limit the disclosure to what that authority needs. Leaving the job is not a substitute.'
       ],
       answer: 3,
-      why: '<p>Internal notice has failed and people are exposed now. The duty to those people requires notice to a body that can intervene. It does not require a wider release of the client\'s affairs, and a quiet resignation leaves the crew in the excavation. One unanswered warning does not end the duty while the hazard continues.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Internal notice has failed and people are exposed now. The duty to those people requires notice to a body that can intervene. It does not require a wider release of the client\'s affairs, and a quiet resignation leaves the crew in the excavation. One unanswered warning does not end the duty while the hazard continues.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Stop. She has warned the employer, so her duty is finished." does not satisfy the duty this scenario tests. Internal notice has failed and people are exposed now. The duty to those people requires notice to a body that can intervene. It does not require a wider release of the client\'s affairs, and a quiet resignation leaves the crew in the excavation. One unanswered warning does not end the duty while the hazard continues.',
         'Not the best answer. "Give the full project file, including unrelated commercial terms, to a reporter so the account is complete." does not satisfy the duty this scenario tests. Internal notice has failed and people are exposed now. The duty to those people requires notice to a body that can intervene. It does not require a wider release of the client\'s affairs, and a quiet resignation leaves the crew in the excavation. One unanswered warning does not end the duty while the hazard continues.',
@@ -743,7 +743,7 @@
         'Destroy the test records. With no records there is nothing to disclose, and the clause is met.'
       ],
       answer: 2,
-      why: '<p>Confidentiality is a real duty, and the contract is real. It yields when silence would hide a credible risk from the people who depend on the building. The disclosure goes to the party who can act, and it is limited to the hazard. Destroying the record, or publishing the whole file, is a breach of a different kind.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Confidentiality is a real duty, and the contract is real. It yields when silence would hide a credible risk from the people who depend on the building. The disclosure goes to the party who can act, and it is limited to the hazard. Destroying the record, or publishing the whole file, is a breach of a different kind.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Stay silent. A confidentiality clause outranks the duty to the public." does not satisfy the duty this scenario tests. Confidentiality is a real duty, and the contract is real. It yields when silence would hide a credible risk from the people who depend on the building. The disclosure goes to the party who can act, and it is limited to the hazard. Destroying the record, or publishing the whole file, is a breach of a different kind.',
         'Not the best answer. "Post the test results on a public website so parents can decide for themselves." does not satisfy the duty this scenario tests. Confidentiality is a real duty, and the contract is real. It yields when silence would hide a credible risk from the people who depend on the building. The disclosure goes to the party who can act, and it is limited to the hazard. Destroying the record, or publishing the whole file, is a breach of a different kind.',
@@ -774,7 +774,7 @@
         'Describe the original engineer as incompetent in the report, so the board will hire her to redo the design.'
       ],
       answer: 0,
-      why: '<p>A second opinion is proper. Fairness requires notice to the professional whose work is under review, and the comments should reach that person so they can respond. Silence can be justified by an existing legal dispute, a discipline matter, or an immediate danger that notice would make worse. Avoiding an awkward meeting is none of those. The review must not be used to take the other professional\'s engagement.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A second opinion is proper. Fairness requires notice to the professional whose work is under review, and the comments should reach that person so they can respond. Silence can be justified by an existing legal dispute, a discipline matter, or an immediate danger that notice would make worse. Avoiding an awkward meeting is none of those. The review must not be used to take the other professional\'s engagement.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'A second opinion is proper. Fairness requires notice to the professional whose work is under review, and the comments should reach that person so they can respond. Silence can be justified by an existing legal dispute, a discipline matter, or an immediate danger that notice would make worse. Avoiding an awkward meeting is none of those. The review must not be used to take the other professional\'s engagement.',
         'Not the best answer. "Refuse the review. One licensee must never comment on another licensee\'s work." does not satisfy the duty this scenario tests. A second opinion is proper. Fairness requires notice to the professional whose work is under review, and the comments should reach that person so they can respond. Silence can be justified by an existing legal dispute, a discipline matter, or an immediate danger that notice would make worse. Avoiding an awkward meeting is none of those. The review must not be used to take the other professional\'s engagement.',
@@ -805,7 +805,7 @@
         'Refuse to put her name or seal on work she has not checked. She may review the analysis and seal it only if she then accepts responsibility for it. The order is not a defence.'
       ],
       answer: 3,
-      why: '<p>A seal is a personal statement that she prepared or reviewed the work and accepts it. A supervisor\'s order does not move that responsibility. Cosmetic edits do not make the work hers, and a draft kept in a drawer does not make a false seal honest.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A seal is a personal statement that she prepared or reviewed the work and accepts it. A supervisor\'s order does not move that responsibility. Cosmetic edits do not make the work hers, and a draft kept in a drawer does not make a false seal honest.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Seal it. An employer\'s instruction is a full answer to a later complaint." does not satisfy the duty this scenario tests. A seal is a personal statement that she prepared or reviewed the work and accepts it. A supervisor\'s order does not move that responsibility. Cosmetic edits do not make the work hers, and a draft kept in a drawer does not make a false seal honest.',
         'Not the best answer. "Seal it after changing the font and a few sentences. It is then a new document." does not satisfy the duty this scenario tests. A seal is a personal statement that she prepared or reviewed the work and accepts it. A supervisor\'s order does not move that responsibility. Cosmetic edits do not make the work hers, and a draft kept in a drawer does not make a false seal honest.',
@@ -836,7 +836,7 @@
         'Omit the shoring, and report it only if someone is hurt.'
       ],
       answer: 1,
-      why: '<p>A Canadian licensee does not leave the code at the border. Weak local enforcement does not change the duty to the people on the site. A waiver from the partner who wants the shortcut is not a substitute for the safeguard, and waiting for an injury is the failure the duty exists to prevent.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A Canadian licensee does not leave the code at the border. Weak local enforcement does not change the duty to the people on the site. A waiver from the partner who wants the shortcut is not a substitute for the safeguard, and waiting for an injury is the failure the duty exists to prevent.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Follow the local partner. A Canadian code applies only inside Canada." does not satisfy the duty this scenario tests. A Canadian licensee does not leave the code at the border. Weak local enforcement does not change the duty to the people on the site. A waiver from the partner who wants the shortcut is not a substitute for the safeguard, and waiting for an injury is the failure the duty exists to prevent.',
         'A Canadian licensee does not leave the code at the border. Weak local enforcement does not change the duty to the people on the site. A waiver from the partner who wants the shortcut is not a substitute for the safeguard, and waiting for an injury is the failure the duty exists to prevent.',
@@ -867,7 +867,7 @@
         'She is not right, because any licensee who has driven across the bridge is responsible for it.'
       ],
       answer: 2,
-      why: '<p>Responsibility for an agreed scope arises when the professional undertakes it. The seal authenticates documents. It is not the switch that turns the duty on, and payment is not that switch either. Refusing to deal with a substitution after accepting the role does not avoid the duty.</p><p><strong>Blueprint:</strong> III.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Responsibility for an agreed scope arises when the professional undertakes it. The seal authenticates documents. It is not the switch that turns the duty on, and payment is not that switch either. Refusing to deal with a substitution after accepting the role does not avoid the duty.</p><p><strong>Blueprint:</strong> III.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is right. Professional responsibility starts only when a seal is applied." does not satisfy the duty this scenario tests. Responsibility for an agreed scope arises when the professional undertakes it. The seal authenticates documents. It is not the switch that turns the duty on, and payment is not that switch either. Refusing to deal with a substitution after accepting the role does not avoid the duty.',
         'Not the best answer. "She is right. Responsibility starts only when an invoice is paid." does not satisfy the duty this scenario tests. Responsibility for an agreed scope arises when the professional undertakes it. The seal authenticates documents. It is not the switch that turns the duty on, and payment is not that switch either. Refusing to deal with a substitution after accepting the role does not avoid the duty.',
@@ -898,7 +898,7 @@
         'Ask the architect to seal the electrical sheets. An architect\'s seal covers the engineering design.'
       ],
       answer: 0,
-      why: '<p>Each licensee remains responsible for their own discipline. Coordination covers the team and the interfaces. It does not transfer the specialist\'s responsibility. An email is not a reason to seal work she does not control and is not competent to accept. An architect\'s seal does not replace an engineering seal.</p><p><strong>Blueprint:</strong> III.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Each licensee remains responsible for their own discipline. Coordination covers the team and the interfaces. It does not transfer the specialist\'s responsibility. An email is not a reason to seal work she does not control and is not competent to accept. An architect\'s seal does not replace an engineering seal.</p><p><strong>Blueprint:</strong> III.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Each licensee remains responsible for their own discipline. Coordination covers the team and the interfaces. It does not transfer the specialist\'s responsibility. An email is not a reason to seal work she does not control and is not competent to accept. An architect\'s seal does not replace an engineering seal.',
         'Not the best answer. "Seal every sheet. The coordinating professional becomes the technical author of every discipline." does not satisfy the duty this scenario tests. Each licensee remains responsible for their own discipline. Coordination covers the team and the interfaces. It does not transfer the specialist\'s responsibility. An email is not a reason to seal work she does not control and is not competent to accept. An architect\'s seal does not replace an engineering seal.',
@@ -929,7 +929,7 @@
         'She is wrong. Reliance on others is allowed only when she has reasonable grounds to trust the work for this project. Sealing a design on unidentified data from another site fails that test, and the seal leaves the responsibility with her.'
       ],
       answer: 3,
-      why: '<p>A professional may rely on other people\'s work. Blind reliance is not due diligence. She needed reason to believe the data belonged to this site and were fit for this decision. The contractor\'s delivery of the letter does not take responsibility off the person who sealed the design.</p><p><strong>Blueprint:</strong> III.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A professional may rely on other people\'s work. Blind reliance is not due diligence. She needed reason to believe the data belonged to this site and were fit for this decision. The contractor\'s delivery of the letter does not take responsibility off the person who sealed the design.</p><p><strong>Blueprint:</strong> III.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is right. A professional may rely on any document in the project file, and reliance ends her responsibility." does not satisfy the duty this scenario tests. A professional may rely on other people\'s work. Blind reliance is not due diligence. She needed reason to believe the data belonged to this site and were fit for this decision. The contractor\'s delivery of the letter does not take responsibility off the person who sealed the design.',
         'Not the best answer. "She is right if the letter carried any signature. A signature lets her use the numbers without further question." does not satisfy the duty this scenario tests. A professional may rely on other people\'s work. Blind reliance is not due diligence. She needed reason to believe the data belonged to this site and were fit for this decision. The contractor\'s delivery of the letter does not take responsibility off the person who sealed the design.',
@@ -960,7 +960,7 @@
         'Only the contractor, because the contractor employed the pile crew.'
       ],
       answer: 2,
-      why: '<p>Tasks may be delegated, and an engineer-in-training may work on site. Responsibility for subordinates stays with the licensee who undertook the supervision. A visit every three weeks and a borrowed signature are not that supervision. The contractor has its own duties. Those duties do not remove hers.</p><p><strong>Blueprint:</strong> III.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Tasks may be delegated, and an engineer-in-training may work on site. Responsibility for subordinates stays with the licensee who undertook the supervision. A visit every three weeks and a borrowed signature are not that supervision. The contractor has its own duties. Those duties do not remove hers.</p><p><strong>Blueprint:</strong> III.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Only the engineer-in-training, because he made the field decision." does not satisfy the duty this scenario tests. Tasks may be delegated, and an engineer-in-training may work on site. Responsibility for subordinates stays with the licensee who undertook the supervision. A visit every three weeks and a borrowed signature are not that supervision. The contractor has its own duties. Those duties do not remove hers.',
         'Not the best answer. "No one. An engineer-in-training is not allowed on a construction site." does not satisfy the duty this scenario tests. Tasks may be delegated, and an engineer-in-training may work on site. Responsibility for subordinates stays with the licensee who undertook the supervision. A visit every three weeks and a borrowed signature are not that supervision. The contractor has its own duties. Those duties do not remove hers.',
@@ -991,7 +991,7 @@
         'Due diligence applies only to consultants. It does not apply to an employee of the manufacturer.'
       ],
       answer: 0,
-      why: '<p>Due diligence is reasonable care in the circumstances. It is not a slogan, and it is not a promise that nothing can ever fail. A failed test that has not been resolved is inside that care. Being an employee does not remove it, and the release date does not shrink it.</p><p><strong>Blueprint:</strong> III.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Due diligence is reasonable care in the circumstances. It is not a slogan, and it is not a promise that nothing can ever fail. A failed test that has not been resolved is inside that care. Being an employee does not remove it, and the release date does not shrink it.</p><p><strong>Blueprint:</strong> III.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Due diligence is reasonable care in the circumstances. It is not a slogan, and it is not a promise that nothing can ever fail. A failed test that has not been resolved is inside that care. Being an employee does not remove it, and the release date does not shrink it.',
         'Not the best answer. "The manager is right. Any effort meets due diligence if the file says the check is in progress." does not satisfy the duty this scenario tests. Due diligence is reasonable care in the circumstances. It is not a slogan, and it is not a promise that nothing can ever fail. A failed test that has not been resolved is inside that care. Being an employee does not remove it, and the release date does not shrink it.',
@@ -1022,7 +1022,7 @@
         'This breaches her duty to her employer. She used the employer\'s relationship and confidential commercial information for a personal venture, and she hid it.'
       ],
       answer: 3,
-      why: '<p>As a faithful agent she does not divert the employer\'s opportunity or use its confidential information for herself. Doing the work on weekends, or charging less, does not cure the use of that information or the failure to disclose it.</p><p><strong>Blueprint:</strong> III.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>As a faithful agent she does not divert the employer\'s opportunity or use its confidential information for herself. Doing the work on weekends, or charging less, does not cure the use of that information or the failure to disclose it.</p><p><strong>Blueprint:</strong> III.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "This is proper. An employee may compete with the employer for any client met at work." does not satisfy the duty this scenario tests. As a faithful agent she does not divert the employer\'s opportunity or use its confidential information for herself. Doing the work on weekends, or charging less, does not cure the use of that information or the failure to disclose it.',
         'Not the best answer. "This is proper if she does the new work on weekends." does not satisfy the duty this scenario tests. As a faithful agent she does not divert the employer\'s opportunity or use its confidential information for herself. Doing the work on weekends, or charging less, does not cure the use of that information or the failure to disclose it.',
@@ -1053,7 +1053,7 @@
         'She must send the sheets to every bidder in the market. Confidentiality ends on the last day of work.'
       ],
       answer: 1,
-      why: '<p>The employer\'s commercial secrets stay confidential after she leaves. Convenience is not a reason to take them, and retyping them does not change who owns the information. These facts contain no risk to the public that would override the duty.</p><p><strong>Blueprint:</strong> III.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The employer\'s commercial secrets stay confidential after she leaves. Convenience is not a reason to take them, and retyping them does not change who owns the information. These facts contain no risk to the public that would override the duty.</p><p><strong>Blueprint:</strong> III.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She may take them. Work she did belongs to her, including the employer\'s pricing." does not satisfy the duty this scenario tests. The employer\'s commercial secrets stay confidential after she leaves. Convenience is not a reason to take them, and retyping them does not change who owns the information. These facts contain no risk to the public that would override the duty.',
         'The employer\'s commercial secrets stay confidential after she leaves. Convenience is not a reason to take them, and retyping them does not change who owns the information. These facts contain no risk to the public that would override the duty.',
@@ -1084,7 +1084,7 @@
         'She failed only if the contract used the word diligence. Otherwise the deadline was a courtesy.'
       ],
       answer: 0,
-      why: '<p>Diligence is part of the duty to the client who retained her. She accepted a review tied to the closing date and then shelved it. The municipality\'s signature does not replace the advice she agreed to give, and the duty does not depend on one magic word in the contract.</p><p><strong>Blueprint:</strong> III.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Diligence is part of the duty to the client who retained her. She accepted a review tied to the closing date and then shelved it. The municipality\'s signature does not replace the advice she agreed to give, and the duty does not depend on one magic word in the contract.</p><p><strong>Blueprint:</strong> III.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Diligence is part of the duty to the client who retained her. She accepted a review tied to the closing date and then shelved it. The municipality\'s signature does not replace the advice she agreed to give, and the duty does not depend on one magic word in the contract.',
         'Not the best answer. "She is not responsible. A professional ranks assignments by the fee each one pays." does not satisfy the duty this scenario tests. Diligence is part of the duty to the client who retained her. She accepted a review tied to the closing date and then shelved it. The municipality\'s signature does not replace the advice she agreed to give, and the duty does not depend on one magic word in the contract.',
@@ -1115,7 +1115,7 @@
         'Do not sign it, and do not follow it. An employer may direct the business. An employer may not require a licensee to give up the duties in the code. Keeping the job does not change that.'
       ],
       answer: 3,
-      why: '<p>The code binds her personally. Commercial direction is legitimate. A rule that forbids reporting, forbids staying inside her competence, and puts instructions over the code is not. The label on the document does not matter, and signing while planning to ignore it is a false statement.</p><p><strong>Blueprint:</strong> III.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The code binds her personally. Commercial direction is legitimate. A rule that forbids reporting, forbids staying inside her competence, and puts instructions over the code is not. The label on the document does not matter, and signing while planning to ignore it is a false statement.</p><p><strong>Blueprint:</strong> III.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Sign it. An employer policy overrides the code for employees." does not satisfy the duty this scenario tests. The code binds her personally. Commercial direction is legitimate. A rule that forbids reporting, forbids staying inside her competence, and puts instructions over the code is not. The label on the document does not matter, and signing while planning to ignore it is a false statement.',
         'Not the best answer. "Sign it and ignore it. A signature given to keep a job has no effect." does not satisfy the duty this scenario tests. The code binds her personally. Commercial direction is legitimate. A rule that forbids reporting, forbids staying inside her competence, and puts instructions over the code is not. The label on the document does not matter, and signing while planning to ignore it is a false statement.',
@@ -1146,7 +1146,7 @@
         'She must sell the shares after the client signs. Disclosure is then unnecessary.'
       ],
       answer: 2,
-      why: '<p>She has a personal financial interest in the advice she is giving. The client has to know that before relying on it. Believing the product is good is a reason to disclose, not a reason to stay silent. She need not recommend a worse product, and selling the shares later hides the conflict at the moment of the decision.</p><p><strong>Blueprint:</strong> III.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>She has a personal financial interest in the advice she is giving. The client has to know that before relying on it. Believing the product is good is a reason to disclose, not a reason to stay silent. She need not recommend a worse product, and selling the shares later hides the conflict at the moment of the decision.</p><p><strong>Blueprint:</strong> III.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Nothing more is required. A sincere technical opinion cannot be a conflict." does not satisfy the duty this scenario tests. She has a personal financial interest in the advice she is giving. The client has to know that before relying on it. Believing the product is good is a reason to disclose, not a reason to stay silent. She need not recommend a worse product, and selling the shares later hides the conflict at the moment of the decision.',
         'Not the best answer. "She must recommend a worse system, so that no one can question her motive." does not satisfy the duty this scenario tests. She has a personal financial interest in the advice she is giving. The client has to know that before relying on it. Believing the product is good is a reason to disclose, not a reason to stay silent. She need not recommend a worse product, and selling the shares later hides the conflict at the moment of the decision.',
@@ -1177,7 +1177,7 @@
         'The licensee may seal the drawings without review, because the technologist\'s care replaces her review.'
       ],
       answer: 0,
-      why: '<p>Technologists are part of the team, and technical tasks may be delegated to them. Professional responsibility for the engineering design stays with a person licensed to accept it. The client cannot reassign that role, and a seal without review would be a false one.</p><p><strong>Blueprint:</strong> III.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Technologists are part of the team, and technical tasks may be delegated to them. Professional responsibility for the engineering design stays with a person licensed to accept it. The client cannot reassign that role, and a seal without review would be a false one.</p><p><strong>Blueprint:</strong> III.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Technologists are part of the team, and technical tasks may be delegated to them. Professional responsibility for the engineering design stays with a person licensed to accept it. The client cannot reassign that role, and a seal without review would be a false one.',
         'Not the best answer. "The client is right. A careful technologist may take professional responsibility for the engineering design whenever the licensee is busy." does not satisfy the duty this scenario tests. Technologists are part of the team, and technical tasks may be delegated to them. Professional responsibility for the engineering design stays with a person licensed to accept it. The client cannot reassign that role, and a seal without review would be a false one.',
@@ -1208,7 +1208,7 @@
         'Do not make that statement. Recommend that a geotechnical engineer competent in that ground be retained, and do not seal a drawing that depends on a judgment outside her competence.'
       ],
       answer: 3,
-      why: '<p>She may keep the structural work. She may not invent a ground conclusion to save the client a consultant. A licence is not competence in every specialty, and a textbook rule does not make her the geotechnical engineer for a tailings pond. The code requires her to bring in the expertise she does not have.</p><p><strong>Blueprint:</strong> III.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>She may keep the structural work. She may not invent a ground conclusion to save the client a consultant. A licence is not competence in every specialty, and a textbook rule does not make her the geotechnical engineer for a tailings pond. The code requires her to bring in the expertise she does not have.</p><p><strong>Blueprint:</strong> III.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Add the note. A professional engineer may cover every specialty with a general statement." does not satisfy the duty this scenario tests. She may keep the structural work. She may not invent a ground conclusion to save the client a consultant. A licence is not competence in every specialty, and a textbook rule does not make her the geotechnical engineer for a tailings pond. The code requires her to bring in the expertise she does not have.',
         'Not the best answer. "Add the note if she copies a rule of thumb from a textbook." does not satisfy the duty this scenario tests. She may keep the structural work. She may not invent a ground conclusion to save the client a consultant. A licence is not competence in every specialty, and a textbook rule does not make her the geotechnical engineer for a tailings pond. The code requires her to bring in the expertise she does not have.',
@@ -1239,7 +1239,7 @@
         'The statement is proper because the client asked her to be forceful.'
       ],
       answer: 1,
-      why: '<p>Respect for another profession does not mean silence on the merits. It does mean she does not disparage someone\'s integrity with no basis. Public comment is proper after she has read the work and limits herself to that work. A request to be forceful is not permission to invent the attack.</p><p><strong>Blueprint:</strong> III.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Respect for another profession does not mean silence on the merits. It does mean she does not disparage someone\'s integrity with no basis. Public comment is proper after she has read the work and limits herself to that work. A request to be forceful is not permission to invent the attack.</p><p><strong>Blueprint:</strong> III.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "This is required. Opinions from other professions must be attacked in public or they become binding." does not satisfy the duty this scenario tests. Respect for another profession does not mean silence on the merits. It does mean she does not disparage someone\'s integrity with no basis. Public comment is proper after she has read the work and limits herself to that work. A request to be forceful is not permission to invent the attack.',
         'Respect for another profession does not mean silence on the merits. It does mean she does not disparage someone\'s integrity with no basis. Public comment is proper after she has read the work and limits herself to that work. A request to be forceful is not permission to invent the attack.',
@@ -1270,7 +1270,7 @@
         'She is wrong. Where a code is law, it sets a minimum she must meet. It does not excuse her from dealing with a hazard she knows that minimum does not cover.'
       ],
       answer: 3,
-      why: '<p>A code that has been adopted is a legal floor. Meeting it is necessary and not always sufficient. If she knows the prescribed minimum fits this hazard badly, ignoring that is a failure of judgment. Providing a safer detail is not itself a breach.</p><p><strong>Blueprint:</strong> III.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A code that has been adopted is a legal floor. Meeting it is necessary and not always sufficient. If she knows the prescribed minimum fits this hazard badly, ignoring that is a failure of judgment. Providing a safer detail is not itself a breach.</p><p><strong>Blueprint:</strong> III.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is right. A code adopted as law replaces professional judgment." does not satisfy the duty this scenario tests. A code that has been adopted is a legal floor. Meeting it is necessary and not always sufficient. If she knows the prescribed minimum fits this hazard badly, ignoring that is a failure of judgment. Providing a safer detail is not itself a breach.',
         'Not the best answer. "She is right. Going beyond the code creates liability, so she must not do more than the code states." does not satisfy the duty this scenario tests. A code that has been adopted is a legal floor. Meeting it is necessary and not always sufficient. If she knows the prescribed minimum fits this hazard badly, ignoring that is a failure of judgment. Providing a safer detail is not itself a breach.',
@@ -1301,7 +1301,7 @@
         'Follow it unless a foreign standard is cheaper. The cheaper document then governs.'
       ],
       answer: 0,
-      why: '<p>A standards body does not itself make law. Its document becomes a legal requirement when a statute, regulation, or adopted code incorporates it. A contract can still require it. She does not walk away from a contract term, and she does not treat a voluntary standard as a criminal statute. A justified departure needs the client\'s agreement and a record of the reasons.</p><p><strong>Blueprint:</strong> III.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A standards body does not itself make law. Its document becomes a legal requirement when a statute, regulation, or adopted code incorporates it. A contract can still require it. She does not walk away from a contract term, and she does not treat a voluntary standard as a criminal statute. A justified departure needs the client\'s agreement and a record of the reasons.</p><p><strong>Blueprint:</strong> III.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'A standards body does not itself make law. Its document becomes a legal requirement when a statute, regulation, or adopted code incorporates it. A contract can still require it. She does not walk away from a contract term, and she does not treat a voluntary standard as a criminal statute. A justified departure needs the client\'s agreement and a record of the reasons.',
         'Not the best answer. "Ignore the standard. A standard that is not written into a statute never binds anyone." does not satisfy the duty this scenario tests. A standards body does not itself make law. Its document becomes a legal requirement when a statute, regulation, or adopted code incorporates it. A contract can still require it. She does not walk away from a contract term, and she does not treat a voluntary standard as a criminal statute. A justified departure needs the client\'s agreement and a record of the reasons.',
@@ -1332,7 +1332,7 @@
         'Leave it out, and write "not enforced locally" on the drawing. The note makes the drawing comply.'
       ],
       answer: 2,
-      why: '<p>Once the province has adopted the code, the article is law until it is properly varied. An official\'s practice, or an oral request, is not an amendment. A note admitting the omission does not make the drawing comply. She uses a real variance process if one applies, and she does not seal a silent omission.</p><p><strong>Blueprint:</strong> III.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Once the province has adopted the code, the article is law until it is properly varied. An official\'s practice, or an oral request, is not an amendment. A note admitting the omission does not make the drawing comply. She uses a real variance process if one applies, and she does not seal a silent omission.</p><p><strong>Blueprint:</strong> III.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Leave it out. The official who administers the code may waive any article orally." does not satisfy the duty this scenario tests. Once the province has adopted the code, the article is law until it is properly varied. An official\'s practice, or an oral request, is not an amendment. A note admitting the omission does not make the drawing comply. She uses a real variance process if one applies, and she does not seal a silent omission.',
         'Not the best answer. "Leave it out. A municipal habit outranks a provincial building code." does not satisfy the duty this scenario tests. Once the province has adopted the code, the article is law until it is properly varied. An official\'s practice, or an oral request, is not an amendment. A note admitting the omission does not make the drawing comply. She uses a real variance process if one applies, and she does not seal a silent omission.',
@@ -1363,7 +1363,7 @@
         'The lead is right if the hazard is written in the file. A written hazard needs no further action.'
       ],
       answer: 1,
-      why: '<p>The steps are to identify the hazard, judge both consequence and likelihood, and then decide how to treat it and follow that decision. Low likelihood does not erase a severe consequence. Informed acceptance is a real treatment. Pretending the hazard was not seen is not. Not every trivial hazard has to be removed at unlimited cost.</p><p><strong>Blueprint:</strong> III.5. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The steps are to identify the hazard, judge both consequence and likelihood, and then decide how to treat it and follow that decision. Low likelihood does not erase a severe consequence. Informed acceptance is a real treatment. Pretending the hazard was not seen is not. Not every trivial hazard has to be removed at unlimited cost.</p><p><strong>Blueprint:</strong> III.5. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The lead is right. Risk management considers only hazards that are likely." does not satisfy the duty this scenario tests. The steps are to identify the hazard, judge both consequence and likelihood, and then decide how to treat it and follow that decision. Low likelihood does not erase a severe consequence. Informed acceptance is a real treatment. Pretending the hazard was not seen is not. Not every trivial hazard has to be removed at unlimited cost.',
         'The steps are to identify the hazard, judge both consequence and likelihood, and then decide how to treat it and follow that decision. Low likelihood does not erase a severe consequence. Informed acceptance is a real treatment. Pretending the hazard was not seen is not. Not every trivial hazard has to be removed at unlimited cost.',
@@ -1394,7 +1394,7 @@
         'If the client signs an indemnity, the regulator cannot discipline her for the work.'
       ],
       answer: 0,
-      why: '<p>An indemnity allocates money between the parties who signed it. A neighbour who did not sign is not bound. Her duty of care, and the regulator\'s power to discipline, do not depend on that clause. Insurance is a separate way to fund a loss. The item does not invent a rule that every province requires the same policy.</p><p><strong>Blueprint:</strong> III.5. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>An indemnity allocates money between the parties who signed it. A neighbour who did not sign is not bound. Her duty of care, and the regulator\'s power to discipline, do not depend on that clause. Insurance is a separate way to fund a loss. The item does not invent a rule that every province requires the same policy.</p><p><strong>Blueprint:</strong> III.5. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'An indemnity allocates money between the parties who signed it. A neighbour who did not sign is not bound. Her duty of care, and the regulator\'s power to discipline, do not depend on that clause. Insurance is a separate way to fund a loss. The item does not invent a rule that every province requires the same policy.',
         'Not the best answer. "The clause is complete protection. An indemnity binds every injured person, whether or not that person signed the contract." does not satisfy the duty this scenario tests. An indemnity allocates money between the parties who signed it. A neighbour who did not sign is not bound. Her duty of care, and the regulator\'s power to discipline, do not depend on that clause. Insurance is a separate way to fund a loss. The item does not invent a rule that every province requires the same policy.',
@@ -1425,7 +1425,7 @@
         'Commercial general liability is aimed at injury and property damage from the firm\'s operations. Professional liability is aimed at negligent professional services. The general policy often excludes the professional error, so one does not automatically replace the other.'
       ],
       answer: 3,
-      why: '<p>The two policies answer different losses. Operations cover is not cover for a negligent design, and professional-liability cover is aimed at negligent professional services rather than at deliberate fraud or at every vehicle accident. Because a general policy commonly excludes professional services, carrying one does not prove the other is unnecessary.</p><p><strong>Blueprint:</strong> III.5. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The two policies answer different losses. Operations cover is not cover for a negligent design, and professional-liability cover is aimed at negligent professional services rather than at deliberate fraud or at every vehicle accident. Because a general policy commonly excludes professional services, carrying one does not prove the other is unnecessary.</p><p><strong>Blueprint:</strong> III.5. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "They are the same cover under two names. One policy is enough." does not satisfy the duty this scenario tests. The two policies answer different losses. Operations cover is not cover for a negligent design, and professional-liability cover is aimed at negligent professional services rather than at deliberate fraud or at every vehicle accident. Because a general policy commonly excludes professional services, carrying one does not prove the other is unnecessary.',
         'Not the best answer. "Professional liability covers truck accidents and ordinary site injuries. Commercial general liability covers negligent design advice." does not satisfy the duty this scenario tests. The two policies answer different losses. Operations cover is not cover for a negligent design, and professional-liability cover is aimed at negligent professional services rather than at deliberate fraud or at every vehicle accident. Because a general policy commonly excludes professional services, carrying one does not prove the other is unnecessary.',
@@ -1456,7 +1456,7 @@
         'She is wrong only if the client holds a copy of the manual. An internal manual has no effect.'
       ],
       answer: 2,
-      why: '<p>Quality management is how due care is made repeatable: competent people, defined checks, and a record. An internal rule is still the method she was required to use. The seal is her acceptance of the work. It is not evidence that a review she skipped actually happened.</p><p><strong>Blueprint:</strong> III.5. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Quality management is how due care is made repeatable: competent people, defined checks, and a record. An internal rule is still the method she was required to use. The seal is her acceptance of the work. It is not evidence that a review she skipped actually happened.</p><p><strong>Blueprint:</strong> III.5. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is right. A quality manual binds office staff only, not a licensee." does not satisfy the duty this scenario tests. Quality management is how due care is made repeatable: competent people, defined checks, and a record. An internal rule is still the method she was required to use. The seal is her acceptance of the work. It is not evidence that a review she skipped actually happened.',
         'Not the best answer. "She is right. Once a seal is applied, the steps in the manual are presumed to have been done." does not satisfy the duty this scenario tests. Quality management is how due care is made repeatable: competent people, defined checks, and a record. An internal rule is still the method she was required to use. The seal is her acceptance of the work. It is not evidence that a review she skipped actually happened.',
@@ -1487,7 +1487,7 @@
         'She must design every component herself. Specifying a proprietary system is never allowed.'
       ],
       answer: 1,
-      why: '<p>Contract language can assign tasks and money. It does not let her skip a check that her own soil information and her role require. The people affected by a failure did not agree to erase her duty. Using a proprietary system is allowed when she has grounds to rely on it. Incorporation does not change the duty.</p><p><strong>Blueprint:</strong> III.5. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Contract language can assign tasks and money. It does not let her skip a check that her own soil information and her role require. The people affected by a failure did not agree to erase her duty. Using a proprietary system is allowed when she has grounds to rely on it. Incorporation does not change the duty.</p><p><strong>Blueprint:</strong> III.5. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is finished. A transfer sentence moves her duty, including her duty to the workers, to the supplier." does not satisfy the duty this scenario tests. Contract language can assign tasks and money. It does not let her skip a check that her own soil information and her role require. The people affected by a failure did not agree to erase her duty. Using a proprietary system is allowed when she has grounds to rely on it. Incorporation does not change the duty.',
         'Contract language can assign tasks and money. It does not let her skip a check that her own soil information and her role require. The people affected by a failure did not agree to erase her duty. Using a proprietary system is allowed when she has grounds to rely on it. Incorporation does not change the duty.',
@@ -1518,7 +1518,7 @@
         'Use the label, and add the words "client\'s environmental opinion." The false label is then the client\'s.'
       ],
       answer: 0,
-      why: '<p>The duty to the public includes the environment. She does not falsify a drawing to keep a regulator from looking. A permit based on different facts does not authorize a new misstatement. Putting the client\'s name beside the false label does not make it fit for her seal.</p><p><strong>Blueprint:</strong> III.6. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The duty to the public includes the environment. She does not falsify a drawing to keep a regulator from looking. A permit based on different facts does not authorize a new misstatement. Putting the client\'s name beside the false label does not make it fit for her seal.</p><p><strong>Blueprint:</strong> III.6. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'The duty to the public includes the environment. She does not falsify a drawing to keep a regulator from looking. A permit based on different facts does not authorize a new misstatement. Putting the client\'s name beside the false label does not make it fit for her seal.',
         'Not the best answer. "Use the label. The name of a wet area on a drawing is only a drafting choice." does not satisfy the duty this scenario tests. The duty to the public includes the environment. She does not falsify a drawing to keep a regulator from looking. A permit based on different facts does not authorize a new misstatement. Putting the client\'s name beside the false label does not make it fit for her seal.',
@@ -1549,7 +1549,7 @@
         'Describe both options, including the present cost and the burden after closure, and recommend on that full picture. Do not present option 1 as the only feasible choice.'
       ],
       answer: 3,
-      why: '<p>Environmental responsibility includes effects that outlast the period the client prefers to talk about. She does not suppress a feasible option, and she does not hide the cost of the cheaper one. A report that calls option 1 the only choice would be misleading. The assignment itself is proper professional work.</p><p><strong>Blueprint:</strong> III.6. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Environmental responsibility includes effects that outlast the period the client prefers to talk about. She does not suppress a feasible option, and she does not hide the cost of the cheaper one. A report that calls option 1 the only choice would be misleading. The assignment itself is proper professional work.</p><p><strong>Blueprint:</strong> III.6. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Report only option 1. Her duty ends at the client\'s planning period." does not satisfy the duty this scenario tests. Environmental responsibility includes effects that outlast the period the client prefers to talk about. She does not suppress a feasible option, and she does not hide the cost of the cheaper one. A report that calls option 1 the only choice would be misleading. The assignment itself is proper professional work.',
         'Not the best answer. "Report only option 2, and leave out the cost of option 1, so the client cannot choose it." does not satisfy the duty this scenario tests. Environmental responsibility includes effects that outlast the period the client prefers to talk about. She does not suppress a feasible option, and she does not hide the cost of the cheaper one. A report that calls option 1 the only choice would be misleading. The assignment itself is proper professional work.',
@@ -1580,7 +1580,7 @@
         'Tell no one until a laboratory report exists. Until then there is nothing to disclose.'
       ],
       answer: 2,
-      why: '<p>Her environmental duty includes what she sees when it can leave the site. Covering a stain is not a cleanup, and a promise to hide it is not a reason for her to hide it. She does not need a province\'s reporting deadline in front of her to know that concealment is wrong. Waiting for a lab while the ditch drains is delay, not care.</p><p><strong>Blueprint:</strong> III.6. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Her environmental duty includes what she sees when it can leave the site. Covering a stain is not a cleanup, and a promise to hide it is not a reason for her to hide it. She does not need a province\'s reporting deadline in front of her to know that concealment is wrong. Waiting for a lab while the ditch drains is delay, not care.</p><p><strong>Blueprint:</strong> III.6. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Leave it out. A daily report covers only the work the licensee designed." does not satisfy the duty this scenario tests. Her environmental duty includes what she sees when it can leave the site. Covering a stain is not a cleanup, and a promise to hide it is not a reason for her to hide it. She does not need a province\'s reporting deadline in front of her to know that concealment is wrong. Waiting for a lab while the ditch drains is delay, not care.',
         'Not the best answer. "Leave it out if the contractor promises to hide the stain. The path off the site is then the contractor\'s private matter." does not satisfy the duty this scenario tests. Her environmental duty includes what she sees when it can leave the site. Covering a stain is not a cleanup, and a promise to hide it is not a reason for her to hide it. She does not need a province\'s reporting deadline in front of her to know that concealment is wrong. Waiting for a lab while the ditch drains is delay, not care.',
@@ -1611,7 +1611,7 @@
         'She may seal it after changing the font, so the printout looks like a sheet she calculated by hand.'
       ],
       answer: 0,
-      why: '<p>Software does not hold a licence and does not accept her duty. She has to understand the method well enough to judge the output, and she has to know that the inputs belong to this slope. A vendor warranty is not her review. A new font does not create that review.</p><p><strong>Blueprint:</strong> III.7. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Software does not hold a licence and does not accept her duty. She has to understand the method well enough to judge the output, and she has to know that the inputs belong to this slope. A vendor warranty is not her review. A new font does not create that review.</p><p><strong>Blueprint:</strong> III.7. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Software does not hold a licence and does not accept her duty. She has to understand the method well enough to judge the output, and she has to know that the inputs belong to this slope. A vendor warranty is not her review. A new font does not create that review.',
         'Not the best answer. "She may seal it. A widely used program is the engineer of record for the figures it prints." does not satisfy the duty this scenario tests. Software does not hold a licence and does not accept her duty. She has to understand the method well enough to judge the output, and she has to know that the inputs belong to this slope. A vendor warranty is not her review. A new font does not create that review.',
@@ -1642,7 +1642,7 @@
         'Refuse. The licence states how the program may be copied. Payment for one seat, and the fact that the drawings belong to the firm, do not create a second seat.'
       ],
       answer: 3,
-      why: '<p>Copying software is governed by the licence and by copyright. One paid seat is not two. Planning to delete the copy later admits it was not authorized. Where she seals the drawing does not change the copy she was asked to make.</p><p><strong>Blueprint:</strong> III.7. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Copying software is governed by the licence and by copyright. One paid seat is not two. Planning to delete the copy later admits it was not authorized. Where she seals the drawing does not change the copy she was asked to make.</p><p><strong>Blueprint:</strong> III.7. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Install it. Paying for one licence allows any number of copies inside the firm." does not satisfy the duty this scenario tests. Copying software is governed by the licence and by copyright. One paid seat is not two. Planning to delete the copy later admits it was not authorized. Where she seals the drawing does not change the copy she was asked to make.',
         'Not the best answer. "Install it if the copy will be deleted after the project. A short breach is not a breach." does not satisfy the duty this scenario tests. Copying software is governed by the licence and by copyright. One paid seat is not two. Planning to delete the copy later admits it was not authorized. Where she seals the drawing does not change the copy she was asked to make.',
@@ -1673,7 +1673,7 @@
         'Seal revision 2 again with today\'s date, so both revisions are current.'
       ],
       answer: 1,
-      why: '<p>People build from the sheet in front of them. Document control means the corrected revision has to replace the unsafe one in use, not merely sit in an inbox. Removing a title block is not control. Making both revisions current leaves the unsafe slope in force.</p><p><strong>Blueprint:</strong> III.8. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>People build from the sheet in front of them. Document control means the corrected revision has to replace the unsafe one in use, not merely sit in an inbox. Removing a title block is not control. Making both revisions current leaves the unsafe slope in force.</p><p><strong>Blueprint:</strong> III.8. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Do nothing further. Sealing revision 3 ended her duty. The drawing the contractor chooses is not her concern." does not satisfy the duty this scenario tests. People build from the sheet in front of them. Document control means the corrected revision has to replace the unsafe one in use, not merely sit in an inbox. Removing a title block is not control. Making both revisions current leaves the unsafe slope in force.',
         'People build from the sheet in front of them. Document control means the corrected revision has to replace the unsafe one in use, not merely sit in an inbox. Removing a title block is not control. Making both revisions current leaves the unsafe slope in force.',
@@ -1704,7 +1704,7 @@
         'Stay silent unless she has been paid for the sketch. An unpaid sketch creates no duty to warn.'
       ],
       answer: 2,
-      why: '<p>A clear limit on a preliminary document is real. It does not let her watch that document be built and say nothing. The client\'s decision to ignore the note does not turn the sketch into an issued drawing. Whether the sketch was paid for does not decide whether she must warn.</p><p><strong>Blueprint:</strong> III.8. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A clear limit on a preliminary document is real. It does not let her watch that document be built and say nothing. The client\'s decision to ignore the note does not turn the sketch into an issued drawing. Whether the sketch was paid for does not decide whether she must warn.</p><p><strong>Blueprint:</strong> III.8. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Do nothing. Those words remove every later duty, including the duty to speak when she learns the sketch is being built." does not satisfy the duty this scenario tests. A clear limit on a preliminary document is real. It does not let her watch that document be built and say nothing. The client\'s decision to ignore the note does not turn the sketch into an issued drawing. Whether the sketch was paid for does not decide whether she must warn.',
         'Not the best answer. "Treat the sketch as an issued-for-construction drawing. The client\'s decision overrides the words on it." does not satisfy the duty this scenario tests. A clear limit on a preliminary document is real. It does not let her watch that document be built and say nothing. The client\'s decision to ignore the note does not turn the sketch into an issued drawing. Whether the sketch was paid for does not decide whether she must warn.',
@@ -1735,7 +1735,7 @@
         'Tell only her insurer. Notice to the insurer is notice to the people who will build from the drawing.'
       ],
       answer: 0,
-      why: '<p>The duty to inform covers her own mistake, and it is owed to the people who will act on the sealed work. Cost and embarrassment do not narrow that notice. A new file in her office does not pull the old sheet off the site. The insurer may also need notice. That notice does not inform the builder.</p><p><strong>Blueprint:</strong> III.9. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The duty to inform covers her own mistake, and it is owed to the people who will act on the sealed work. Cost and embarrassment do not narrow that notice. A new file in her office does not pull the old sheet off the site. The insurer may also need notice. That notice does not inform the builder.</p><p><strong>Blueprint:</strong> III.9. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'The duty to inform covers her own mistake, and it is owed to the people who will act on the sealed work. Cost and embarrassment do not narrow that notice. A new file in her office does not pull the old sheet off the site. The insurer may also need notice. That notice does not inform the builder.',
         'Not the best answer. "Wait until the client asks for the file. An error is disclosed only when someone requests it." does not satisfy the duty this scenario tests. The duty to inform covers her own mistake, and it is owed to the people who will act on the sealed work. Cost and embarrassment do not narrow that notice. A new file in her office does not pull the old sheet off the site. The insurer may also need notice. That notice does not inform the builder.',
@@ -1766,7 +1766,7 @@
         'Keep the condition in the conclusion that will be forwarded, in words a non-engineer can see. She does not hide a limit the result depends on.'
       ],
       answer: 3,
-      why: '<p>The opinion and the limit on the opinion have to travel together. Taking the condition off the page people will read turns a qualified conclusion into a promise. Plain words are part of communication. They are not a reason to delete the limit.</p><p><strong>Blueprint:</strong> III.10. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The opinion and the limit on the opinion have to travel together. Taking the condition off the page people will read turns a qualified conclusion into a promise. Plain words are part of communication. They are not a reason to delete the limit.</p><p><strong>Blueprint:</strong> III.10. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Delete it. A report should be as short as the client prefers." does not satisfy the duty this scenario tests. The opinion and the limit on the opinion have to travel together. Taking the condition off the page people will read turns a qualified conclusion into a promise. Plain words are part of communication. They are not a reason to delete the limit.',
         'Not the best answer. "Delete it from the page that will be forwarded, and put it in an appendix the tenant will not receive." does not satisfy the duty this scenario tests. The opinion and the limit on the opinion have to travel together. Taking the condition off the page people will read turns a qualified conclusion into a promise. Plain words are part of communication. They are not a reason to delete the limit.',
@@ -1797,7 +1797,7 @@
         'The candidate is right if the client asks the police to choose the court.'
       ],
       answer: 1,
-      why: '<p>The professions are regulated by the provinces and territories. The code takes its force from that statute. Discipline is not a criminal trial. Conduct can sometimes also be a crime, but a breach of the code is not automatically a Criminal Code charge, and the regulator does not become the criminal prosecutor by receiving a complaint.</p><p><strong>Blueprint:</strong> IV.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The professions are regulated by the provinces and territories. The code takes its force from that statute. Discipline is not a criminal trial. Conduct can sometimes also be a crime, but a breach of the code is not automatically a Criminal Code charge, and the regulator does not become the criminal prosecutor by receiving a complaint.</p><p><strong>Blueprint:</strong> IV.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The candidate is right. A provincial code of ethics is an offence under the Criminal Code." does not satisfy the duty this scenario tests. The professions are regulated by the provinces and territories. The code takes its force from that statute. Discipline is not a criminal trial. Conduct can sometimes also be a crime, but a breach of the code is not automatically a Criminal Code charge, and the regulator does not become the criminal prosecutor by receiving a complaint.',
         'The professions are regulated by the provinces and territories. The code takes its force from that statute. Discipline is not a criminal trial. Conduct can sometimes also be a crime, but a breach of the code is not automatically a Criminal Code charge, and the regulator does not become the criminal prosecutor by receiving a complaint.',
@@ -1828,7 +1828,7 @@
         'The client is wrong only if the fee is paid before Monday. There is no contract until money changes hands.'
       ],
       answer: 2,
-      why: '<p>A contract generally needs an offer, an acceptance, an exchange of value, and an intention to be bound. One formal document with two signatures is common and is not always required. The promise to inspect and the promise to pay can be the exchange. Payment itself is not the only way that exchange is shown.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A contract generally needs an offer, an acceptance, an exchange of value, and an intention to be bound. One formal document with two signatures is common and is not always required. The promise to inspect and the promise to pay can be the exchange. Payment itself is not the only way that exchange is shown.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The client is right. Professional services need both signatures on one paper document." does not satisfy the duty this scenario tests. A contract generally needs an offer, an acceptance, an exchange of value, and an intention to be bound. One formal document with two signatures is common and is not always required. The promise to inspect and the promise to pay can be the exchange. Payment itself is not the only way that exchange is shown.',
         'Not the best answer. "The client is right. An email cannot be an acceptance." does not satisfy the duty this scenario tests. A contract generally needs an offer, an acceptance, an exchange of value, and an intention to be bound. One formal document with two signatures is common and is not always required. The promise to inspect and the promise to pay can be the exchange. Payment itself is not the only way that exchange is shown.',
@@ -1859,7 +1859,7 @@
         'Invoice the manager personally and the company for the same work, and start.'
       ],
       answer: 0,
-      why: '<p>A company is bound by a person who has authority, or by a person it has held out as having authority. She already knows this manager lacks that authority, and the company has not confirmed the work. Starting on the sentence is the risk she should not take. A later claim for work the company actually accepts is a separate question. It is not a reason to begin.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A company is bound by a person who has authority, or by a person it has held out as having authority. She already knows this manager lacks that authority, and the company has not confirmed the work. Starting on the sentence is the risk she should not take. A later claim for work the company actually accepts is a separate question. It is not a reason to begin.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'A company is bound by a person who has authority, or by a person it has held out as having authority. She already knows this manager lacks that authority, and the company has not confirmed the work. Starting on the sentence is the risk she should not take. A later claim for work the company actually accepts is a separate question. It is not a reason to begin.',
         'Not the best answer. "Start at once. Any employee\'s sentence is the company\'s contract." does not satisfy the duty this scenario tests. A company is bound by a person who has authority, or by a person it has held out as having authority. She already knows this manager lacks that authority, and the company has not confirmed the work. Starting on the sentence is the risk she should not take. A later claim for work the company actually accepts is a separate question. It is not a reason to begin.',
@@ -1890,7 +1890,7 @@
         'The client is wrong only in Quebec. In the common-law provinces a brochure figure is always a warranty.'
       ],
       answer: 2,
-      why: '<p>The usual professional promise is skill and care, not an insured result. A guarantee of output can be written into a contract, but it is not implied by the relationship or by a lump-sum fee. She deleted it. The difference between Quebec and the common-law provinces does not turn an unsigned brochure number into a warranty.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The usual professional promise is skill and care, not an insured result. A guarantee of output can be written into a contract, but it is not implied by the relationship or by a lump-sum fee. She deleted it. The difference between Quebec and the common-law provinces does not turn an unsigned brochure number into a warranty.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The client is right. Every engineering contract warrants that the result will be achieved." does not satisfy the duty this scenario tests. The usual professional promise is skill and care, not an insured result. A guarantee of output can be written into a contract, but it is not implied by the relationship or by a lump-sum fee. She deleted it. The difference between Quebec and the common-law provinces does not turn an unsigned brochure number into a warranty.',
         'Not the best answer. "The client is right if the fee is a lump sum. A lump-sum fee is a guarantee of result." does not satisfy the duty this scenario tests. The usual professional promise is skill and care, not an insured result. A guarantee of output can be written into a contract, but it is not implied by the relationship or by a lump-sum fee. She deleted it. The difference between Quebec and the common-law provinces does not turn an unsigned brochure number into a warranty.',
@@ -1921,7 +1921,7 @@
         'The client recovers only the $50,000. Paying for the rental would be a penalty.'
       ],
       answer: 0,
-      why: '<p>Contract damages ordinarily put the innocent party where it would have been if the contract had been performed. A foreseeable loss caused by the delay, such as the rental, can be included. An extra sum demanded only as punishment is not that measure. No special phrase is required before lateness can have consequences.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Contract damages ordinarily put the innocent party where it would have been if the contract had been performed. A foreseeable loss caused by the delay, such as the rental, can be included. An extra sum demanded only as punishment is not that measure. No special phrase is required before lateness can have consequences.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Contract damages ordinarily put the innocent party where it would have been if the contract had been performed. A foreseeable loss caused by the delay, such as the rental, can be included. An extra sum demanded only as punishment is not that measure. No special phrase is required before lateness can have consequences.',
         'Not the best answer. "The client recovers both sums. Every breach of a professional contract is punished by an added amount." does not satisfy the duty this scenario tests. Contract damages ordinarily put the innocent party where it would have been if the contract had been performed. A foreseeable loss caused by the delay, such as the rental, can be included. An extra sum demanded only as punishment is not that measure. No special phrase is required before lateness can have consequences.',
@@ -1952,7 +1952,7 @@
         'The clause lets the owner reject bids. It does not let the owner use one opened price to pressure the other bidders. That bid-shopping breaches the duty of fairness owed to bidders who submitted compliant bids.'
       ],
       answer: 3,
-      why: '<p>A formal call for sealed bids can create a process contract with each compliant bidder. The owner must treat those bidders fairly. A privilege clause is real: the owner need not accept the lowest bid. It is not permission to auction the prices after they are opened. The fact that no construction contract was signed does not erase that process duty.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A formal call for sealed bids can create a process contract with each compliant bidder. The owner must treat those bidders fairly. A privilege clause is real: the owner need not accept the lowest bid. It is not permission to auction the prices after they are opened. The fact that no construction contract was signed does not erase that process duty.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "This is proper. A clause that allows rejection of the lowest bid also allows the owner to shop the prices after opening." does not satisfy the duty this scenario tests. A formal call for sealed bids can create a process contract with each compliant bidder. The owner must treat those bidders fairly. A privilege clause is real: the owner need not accept the lowest bid. It is not permission to auction the prices after they are opened. The fact that no construction contract was signed does not erase that process duty.',
         'Not the best answer. "This is proper if the second bidder is local. A local preference does not have to be disclosed." does not satisfy the duty this scenario tests. A formal call for sealed bids can create a process contract with each compliant bidder. The owner must treat those bidders fairly. A privilege clause is real: the owner need not accept the lowest bid. It is not permission to auction the prices after they are opened. The fact that no construction contract was signed does not erase that process duty.',
@@ -1983,7 +1983,7 @@
         'Send the design only to the contractor. Skipping the owner satisfies the change clause.'
       ],
       answer: 1,
-      why: '<p>The contract states who may add scope and how. She agreed to that method. An oral "later" does not comply with it, and starting anyway is the dispute the clause was meant to prevent. Refusing to seal, or sending the work around the owner, does not create authority to change the scope.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The contract states who may add scope and how. She agreed to that method. An oral "later" does not comply with it, and starting anyway is the dispute the clause was meant to prevent. Refusing to seal, or sending the work around the owner, does not create authority to change the scope.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Design the pump now. An oral instruction from a site representative always amends a written change clause." does not satisfy the duty this scenario tests. The contract states who may add scope and how. She agreed to that method. An oral "later" does not comply with it, and starting anyway is the dispute the clause was meant to prevent. Refusing to seal, or sending the work around the owner, does not create authority to change the scope.',
         'The contract states who may add scope and how. She agreed to that method. An oral "later" does not comply with it, and starting anyway is the dispute the clause was meant to prevent. Refusing to seal, or sending the work around the owner, does not create authority to change the scope.',
@@ -2014,7 +2014,7 @@
         'The licensee is liable in every such case. A professional may not allocate any risk to a client.'
       ],
       answer: 0,
-      why: '<p>A client may be able to sue in both contract and tort. The contract can still define the duty between those parties. Pleading negligence does not erase a clear allocation of this risk, and the word used in the claim is not what decides it. This does not let her sign away the rights of a person who never agreed to the clause.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A client may be able to sue in both contract and tort. The contract can still define the duty between those parties. Pleading negligence does not erase a clear allocation of this risk, and the word used in the claim is not what decides it. This does not let her sign away the rights of a person who never agreed to the clause.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'A client may be able to sue in both contract and tort. The contract can still define the duty between those parties. Pleading negligence does not erase a clear allocation of this risk, and the word used in the claim is not what decides it. This does not let her sign away the rights of a person who never agreed to the clause.',
         'Not the best answer. "The client is right. A negligence claim always overrides a contract term that is inconsistent with it." does not satisfy the duty this scenario tests. A client may be able to sue in both contract and tort. The contract can still define the duty between those parties. Pleading negligence does not erase a clear allocation of this risk, and the word used in the claim is not what decides it. This does not let her sign away the rights of a person who never agreed to the clause.',
@@ -2045,7 +2045,7 @@
         'The visitor need only prove an injury. Cause and the standard of care are presumed against every licensee on the project.'
       ],
       answer: 2,
-      why: '<p>A negligence claim needs a duty, a breach of the standard of care, damage, and a causal link between the breach and that damage. A mistake that played no part in this injury does not establish liability for it. Insurance does not change those elements, and an injury alone does not prove them.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A negligence claim needs a duty, a breach of the standard of care, damage, and a causal link between the breach and that damage. A mistake that played no part in this injury does not establish liability for it. Insurance does not change those elements, and an injury alone does not prove them.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The visitor is right. An error anywhere in the drawings makes the professional liable for any later injury on the site." does not satisfy the duty this scenario tests. A negligence claim needs a duty, a breach of the standard of care, damage, and a causal link between the breach and that damage. A mistake that played no part in this injury does not establish liability for it. Insurance does not change those elements, and an injury alone does not prove them.',
         'Not the best answer. "The visitor is right if the licensee is insured. Insurance replaces proof of cause." does not satisfy the duty this scenario tests. A negligence claim needs a duty, a breach of the standard of care, damage, and a causal link between the breach and that damage. A mistake that played no part in this injury does not establish liability for it. Insurance does not change those elements, and an injury alone does not prove them.',
@@ -2076,7 +2076,7 @@
         'The claimant is wrong. She is judged by the care a reasonably competent practitioner in that field would have used when the work was done, not by a method that did not yet exist. A loss alone does not prove negligence.'
       ],
       answer: 3,
-      why: '<p>The standard is ordinary competent practice at the time of the work. It is not perfection, not the standard of the leading expert, and not a method invented later. Practitioners can reasonably disagree. A bad outcome does not, by itself, prove that the standard was missed.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The standard is ordinary competent practice at the time of the work. It is not perfection, not the standard of the leading expert, and not a method invented later. Practitioners can reasonably disagree. A bad outcome does not, by itself, prove that the standard was missed.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The claimant is right. The standard of care is whatever the leading specialist would do on the day of trial." does not satisfy the duty this scenario tests. The standard is ordinary competent practice at the time of the work. It is not perfection, not the standard of the leading expert, and not a method invented later. Practitioners can reasonably disagree. A bad outcome does not, by itself, prove that the standard was missed.',
         'Not the best answer. "The claimant is right. A loss proves that the earlier practice was negligent." does not satisfy the duty this scenario tests. The standard is ordinary competent practice at the time of the work. It is not perfection, not the standard of the leading expert, and not a method invented later. Practitioners can reasonably disagree. A bad outcome does not, by itself, prove that the standard was missed.',
@@ -2107,7 +2107,7 @@
         'She is liable only if the lender paid her. Reliance without a fee is never enough.'
       ],
       answer: 0,
-      why: '<p>A duty for a careless statement can arise where the professional knows a person will rely on it for a known purpose. This lender was that person. No contract with the lender, and no fee from the lender, are not answers. The client\'s wish for a higher number does not authorize a statement she does not believe.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A duty for a careless statement can arise where the professional knows a person will rely on it for a known purpose. This lender was that person. No contract with the lender, and no fee from the lender, are not answers. The client\'s wish for a higher number does not authorize a statement she does not believe.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'A duty for a careless statement can arise where the professional knows a person will rely on it for a known purpose. This lender was that person. No contract with the lender, and no fee from the lender, are not answers. The client\'s wish for a higher number does not authorize a statement she does not believe.',
         'Not the best answer. "She owes the lender nothing unless the lender signed her contract." does not satisfy the duty this scenario tests. A duty for a careless statement can arise where the professional knows a person will rely on it for a known purpose. This lender was that person. No contract with the lender, and no fee from the lender, are not answers. The client\'s wish for a higher number does not authorize a statement she does not believe.',
@@ -2138,7 +2138,7 @@
         'She pays if the claim names both her and the contractor. Naming both proves that each caused the loss.'
       ],
       answer: 2,
-      why: '<p>Causation asks whether this loss happened because of her breach. The specified bolt was not installed, and she did not approve the bolt that failed. Carelessness that did not operate is not the cause of this loss. That does not mean a contractor\'s mistake erases liability when her own design is what fails.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Causation asks whether this loss happened because of her breach. The specified bolt was not installed, and she did not approve the bolt that failed. Carelessness that did not operate is not the cause of this loss. That does not mean a contractor\'s mistake erases liability when her own design is what fails.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She pays the whole loss. Naming a wrong bolt makes her the cause of whichever bolt later fails." does not satisfy the duty this scenario tests. Causation asks whether this loss happened because of her breach. The specified bolt was not installed, and she did not approve the bolt that failed. Carelessness that did not operate is not the cause of this loss. That does not mean a contractor\'s mistake erases liability when her own design is what fails.',
         'Not the best answer. "She pays nothing whenever a contractor also makes a mistake, even if her own bolt was the one that failed." does not satisfy the duty this scenario tests. Causation asks whether this loss happened because of her breach. The specified bolt was not installed, and she did not approve the bolt that failed. Carelessness that did not operate is not the cause of this loss. That does not mean a contractor\'s mistake erases liability when her own design is what fails.',
@@ -2169,7 +2169,7 @@
         'She is wrong. The firm may be liable for her negligence in the course of employment. That liability does not remove her own liability for the work she did.'
       ],
       answer: 3,
-      why: '<p>An employer can be vicariously liable for an employee\'s negligence on the job. That adds a defendant. It does not erase the employee\'s own negligence. A salary does not transfer the duty, and the corporate form of the employer does not seal her off from a claim for her own carelessness.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>An employer can be vicariously liable for an employee\'s negligence on the job. That adds a defendant. It does not erase the employee\'s own negligence. A salary does not transfer the duty, and the corporate form of the employer does not seal her off from a claim for her own carelessness.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is right. A salary transfers her professional liability to the employer." does not satisfy the duty this scenario tests. An employer can be vicariously liable for an employee\'s negligence on the job. That adds a defendant. It does not erase the employee\'s own negligence. A salary does not transfer the duty, and the corporate form of the employer does not seal her off from a claim for her own carelessness.',
         'Not the best answer. "She is right if the firm is a corporation. Incorporation prevents a claim against an employee for that employee\'s own negligence." does not satisfy the duty this scenario tests. An employer can be vicariously liable for an employee\'s negligence on the job. That adds a defendant. It does not erase the employee\'s own negligence. A salary does not transfer the duty, and the corporate form of the employer does not seal her off from a claim for her own carelessness.',
@@ -2200,7 +2200,7 @@
         'Discipline charges cannot be proved. They are only informal conversations.'
       ],
       answer: 0,
-      why: '<p>The criminal standard is higher because a conviction is a criminal consequence. A civil claim is proved on a balance of probabilities, meaning more likely than not. Discipline under a provincial or territorial Act is not a criminal trial, so the criminal standard is the wrong one to name.</p><p><strong>Blueprint:</strong> IV.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The criminal standard is higher because a conviction is a criminal consequence. A civil claim is proved on a balance of probabilities, meaning more likely than not. Discipline under a provincial or territorial Act is not a criminal trial, so the criminal standard is the wrong one to name.</p><p><strong>Blueprint:</strong> IV.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'The criminal standard is higher because a conviction is a criminal consequence. A civil claim is proved on a balance of probabilities, meaning more likely than not. Discipline under a provincial or territorial Act is not a criminal trial, so the criminal standard is the wrong one to name.',
         'Not the best answer. "The client is right. Discipline is a criminal prosecution, so the criminal standard applies." does not satisfy the duty this scenario tests. The criminal standard is higher because a conviction is a criminal consequence. A civil claim is proved on a balance of probabilities, meaning more likely than not. Discipline under a provincial or territorial Act is not a criminal trial, so the criminal standard is the wrong one to name.',
@@ -2231,7 +2231,7 @@
         'She is wrong because every contract dispute is federal and only the Federal Court may hear it.'
       ],
       answer: 2,
-      why: '<p>Property and civil rights, including most contracts, are provincial. Quebec\'s private law comes from the civil law. The other provinces use the common law plus their own statutes. A trial judgment from Quebec does not bind an Alberta court. A decision of the Supreme Court of Canada on a point that actually applies is a different matter. Contract disputes are not reserved to the Federal Court.</p><p><strong>Blueprint:</strong> IV.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Property and civil rights, including most contracts, are provincial. Quebec\'s private law comes from the civil law. The other provinces use the common law plus their own statutes. A trial judgment from Quebec does not bind an Alberta court. A decision of the Supreme Court of Canada on a point that actually applies is a different matter. Contract disputes are not reserved to the Federal Court.</p><p><strong>Blueprint:</strong> IV.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is right. Every Canadian court decision binds every other Canadian court." does not satisfy the duty this scenario tests. Property and civil rights, including most contracts, are provincial. Quebec\'s private law comes from the civil law. The other provinces use the common law plus their own statutes. A trial judgment from Quebec does not bind an Alberta court. A decision of the Supreme Court of Canada on a point that actually applies is a different matter. Contract disputes are not reserved to the Federal Court.',
         'Not the best answer. "She is right. A Quebec trial judgment is treated as if the Supreme Court of Canada had written it." does not satisfy the duty this scenario tests. Property and civil rights, including most contracts, are provincial. Quebec\'s private law comes from the civil law. The other provinces use the common law plus their own statutes. A trial judgment from Quebec does not bind an Alberta court. A decision of the Supreme Court of Canada on a point that actually applies is a different matter. Contract disputes are not reserved to the Federal Court.',
@@ -2262,7 +2262,7 @@
         'She is wrong to treat one national clock as automatic. These statutes are provincial. Many start when the claim was discovered, or ought to have been discovered, and many also have a longer ultimate period. The statute that applies has to be read. Two years from the seal, everywhere, is not that rule.'
       ],
       answer: 3,
-      why: '<p>There is no single Canadian limitation period for professional claims. The provinces write their own. A common feature is discoverability: time may not start until the claimant knew, or ought to have known, the material facts. A longer ultimate period often limits how far back a claim can reach. Naming one number and starting it on the seal date, for every province, is a mistake.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>There is no single Canadian limitation period for professional claims. The provinces write their own. A common feature is discoverability: time may not start until the claimant knew, or ought to have known, the material facts. A longer ultimate period often limits how far back a claim can reach. Naming one number and starting it on the seal date, for every province, is a mistake.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is right. Every province runs a two-year period from the day of the seal, with no exception." does not satisfy the duty this scenario tests. There is no single Canadian limitation period for professional claims. The provinces write their own. A common feature is discoverability: time may not start until the claimant knew, or ought to have known, the material facts. A longer ultimate period often limits how far back a claim can reach. Naming one number and starting it on the seal date, for every province, is a mistake.',
         'Not the best answer. "She is right. A limitation period starts when the seal is applied even if the owner could not have known of the error." does not satisfy the duty this scenario tests. There is no single Canadian limitation period for professional claims. The provinces write their own. A common feature is discoverability: time may not start until the claimant knew, or ought to have known, the material facts. A longer ultimate period often limits how far back a claim can reach. Naming one number and starting it on the seal date, for every province, is a mistake.',
@@ -2293,7 +2293,7 @@
         'The division is always an equal split, whatever the facts show.'
       ],
       answer: 0,
-      why: '<p>Contributory negligence does not always bar the claim, and it does not always leave the damages untouched. The court can apportion responsibility according to the contribution of each. A written warning the owner ignored is relevant to that apportionment. It is not a rule that one party\'s fault erases the other\'s, and it is not an automatic even split.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Contributory negligence does not always bar the claim, and it does not always leave the damages untouched. The court can apportion responsibility according to the contribution of each. A written warning the owner ignored is relevant to that apportionment. It is not a rule that one party\'s fault erases the other\'s, and it is not an automatic even split.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Contributory negligence does not always bar the claim, and it does not always leave the damages untouched. The court can apportion responsibility according to the contribution of each. A written warning the owner ignored is relevant to that apportionment. It is not a rule that one party\'s fault erases the other\'s, and it is not an automatic even split.',
         'Not the best answer. "The owner is right. A professional who is at fault pays the whole loss even if the owner\'s ignored warning also caused the collapse." does not satisfy the duty this scenario tests. Contributory negligence does not always bar the claim, and it does not always leave the damages untouched. The court can apportion responsibility according to the contribution of each. A written warning the owner ignored is relevant to that apportionment. It is not a rule that one party\'s fault erases the other\'s, and it is not an automatic even split.',
@@ -2324,7 +2324,7 @@
         'Omit the result, and write "owner\'s theory" under the opinion. The label makes the omission acceptable.'
       ],
       answer: 2,
-      why: '<p>An expert\'s duty is to the court or tribunal, not to the party who pays. Independence means the relevant facts stay in the opinion, including facts that hurt the theory. Advocacy is counsel\'s role. A label under a trimmed opinion does not restore the independence the role requires.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>An expert\'s duty is to the court or tribunal, not to the party who pays. Independence means the relevant facts stay in the opinion, including facts that hurt the theory. Advocacy is counsel\'s role. A label under a trimmed opinion does not restore the independence the role requires.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Comply. An expert is hired to present the party\'s best case." does not satisfy the duty this scenario tests. An expert\'s duty is to the court or tribunal, not to the party who pays. Independence means the relevant facts stay in the opinion, including facts that hurt the theory. Advocacy is counsel\'s role. A label under a trimmed opinion does not restore the independence the role requires.',
         'Not the best answer. "Comply if the owner is paying the fee. The payer chooses which facts enter the opinion." does not satisfy the duty this scenario tests. An expert\'s duty is to the court or tribunal, not to the party who pays. Independence means the relevant facts stay in the opinion, including facts that hurt the theory. Advocacy is counsel\'s role. A label under a trimmed opinion does not restore the independence the role requires.',
@@ -2355,7 +2355,7 @@
         'The colleague is wrong. A construction lien is a statutory remedy that can charge the improvement or the holdback for unpaid work and materials. The provincial Act sets how and when it must be preserved. A complaint letter is not that step, and a lien is not the same thing as a lawsuit on the contract.'
       ],
       answer: 3,
-      why: '<p>The lien is created by statute, not by the contract and not by a demand letter. It can tie up title or holdback money so the people who improved the land are not left only to a personal lawsuit. Each province sets the steps and the time. Missing those steps can end the lien even though a contract claim may still exist. There is no national rule that a letter keeps the lien alive.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The lien is created by statute, not by the contract and not by a demand letter. It can tie up title or holdback money so the people who improved the land are not left only to a personal lawsuit. Each province sets the steps and the time. Missing those steps can end the lien even though a contract claim may still exist. There is no national rule that a letter keeps the lien alive.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The colleague is right. Under every provincial Act, a lien and a lawsuit are the same procedure." does not satisfy the duty this scenario tests. The lien is created by statute, not by the contract and not by a demand letter. It can tie up title or holdback money so the people who improved the land are not left only to a personal lawsuit. Each province sets the steps and the time. Missing those steps can end the lien even though a contract claim may still exist. There is no national rule that a letter keeps the lien alive.',
         'Not the best answer. "The colleague is right. Once a lien is mentioned in a letter, it lasts indefinitely." does not satisfy the duty this scenario tests. The lien is created by statute, not by the contract and not by a demand letter. It can tie up title or holdback money so the people who improved the land are not left only to a personal lawsuit. Each province sets the steps and the time. Missing those steps can end the lien even though a contract claim may still exist. There is no national rule that a letter keeps the lien alive.',
@@ -2386,7 +2386,7 @@
         'The owner is right if the bond carries a seal. A seal converts a payment bond into a performance bond.'
       ],
       answer: 1,
-      why: '<p>The three common construction bonds answer different risks. A bid bond responds if a bidder will not enter the contract. A performance bond responds to the owner\'s loss if the contractor does not perform. A labour and material payment bond responds to unpaid suppliers of labour and material. The owner\'s delay costs are not what the payment bond is written to pay, and a seal does not change one bond into the other.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The three common construction bonds answer different risks. A bid bond responds if a bidder will not enter the contract. A performance bond responds to the owner\'s loss if the contractor does not perform. A labour and material payment bond responds to unpaid suppliers of labour and material. The owner\'s delay costs are not what the payment bond is written to pay, and a seal does not change one bond into the other.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The owner is right. A payment bond covers every loss on the project." does not satisfy the duty this scenario tests. The three common construction bonds answer different risks. A bid bond responds if a bidder will not enter the contract. A performance bond responds to the owner\'s loss if the contractor does not perform. A labour and material payment bond responds to unpaid suppliers of labour and material. The owner\'s delay costs are not what the payment bond is written to pay, and a seal does not change one bond into the other.',
         'The three common construction bonds answer different risks. A bid bond responds if a bidder will not enter the contract. A performance bond responds to the owner\'s loss if the contractor does not perform. A labour and material payment bond responds to unpaid suppliers of labour and material. The owner\'s delay costs are not what the payment bond is written to pay, and a seal does not change one bond into the other.',
@@ -2417,7 +2417,7 @@
         'No one owns copyright in an engineering drawing. Copyright applies only to novels and music.'
       ],
       answer: 0,
-      why: '<p>Copyright arises automatically when an original drawing is created. Registration is not required for it to exist. It protects the expression in the drawing, not the bare idea. The author is the first owner, subject to the employment rule and to any assignment. A client\'s payment, without an assignment, does not transfer ownership. Use on this project and reuse on another project are different rights, and the second one has to be granted.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Copyright arises automatically when an original drawing is created. Registration is not required for it to exist. It protects the expression in the drawing, not the bare idea. The author is the first owner, subject to the employment rule and to any assignment. A client\'s payment, without an assignment, does not transfer ownership. Use on this project and reuse on another project are different rights, and the second one has to be granted.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Copyright arises automatically when an original drawing is created. Registration is not required for it to exist. It protects the expression in the drawing, not the bare idea. The author is the first owner, subject to the employment rule and to any assignment. A client\'s payment, without an assignment, does not transfer ownership. Use on this project and reuse on another project are different rights, and the second one has to be granted.',
         'Not the best answer. "The client is right. The person who pays the invoice owns the copyright in every drawing." does not satisfy the duty this scenario tests. Copyright arises automatically when an original drawing is created. Registration is not required for it to exist. It protects the expression in the drawing, not the bare idea. The author is the first owner, subject to the employment rule and to any assignment. A client\'s payment, without an assignment, does not transfer ownership. Use on this project and reuse on another project are different rights, and the second one has to be granted.',
@@ -2448,7 +2448,7 @@
         'The party is wrong. Mediation is illegal on a construction dispute, so the clause is void.'
       ],
       answer: 2,
-      why: '<p>Mediation helps the parties look for a settlement they both accept. The mediator has no power to impose one. Arbitration is the private process that can produce a binding decision, and only because the parties agreed to that. A mediation clause does not silently become an arbitration clause, and mediation itself is a lawful process.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Mediation helps the parties look for a settlement they both accept. The mediator has no power to impose one. Arbitration is the private process that can produce a binding decision, and only because the parties agreed to that. A mediation clause does not silently become an arbitration clause, and mediation itself is a lawful process.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The party is right. A mediator\'s recommendation is an arbitration award." does not satisfy the duty this scenario tests. Mediation helps the parties look for a settlement they both accept. The mediator has no power to impose one. Arbitration is the private process that can produce a binding decision, and only because the parties agreed to that. A mediation clause does not silently become an arbitration clause, and mediation itself is a lawful process.',
         'Not the best answer. "The party is right. Any dispute clause replaces the courts with a binding private decision." does not satisfy the duty this scenario tests. Mediation helps the parties look for a settlement they both accept. The mediator has no power to impose one. Arbitration is the private process that can produce a binding decision, and only because the parties agreed to that. A mediation clause does not silently become an arbitration clause, and mediation itself is a lawful process.',
@@ -2479,7 +2479,7 @@
         'The client is wrong. A company can limit the business exposure of people who only hold shares. It does not remove her responsibility for work she prepares or seals, and it does not end the regulator\'s jurisdiction over her.'
       ],
       answer: 3,
-      why: '<p>Professionals may practise through a company where the statute and the regulator allow it. The company is a separate person for business debts. The individual who does the professional work remains responsible for that work, and the regulator continues to regulate her. A company invoice does not move her seal, or the discipline jurisdiction, onto the company alone.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Professionals may practise through a company where the statute and the regulator allow it. The company is a separate person for business debts. The individual who does the professional work remains responsible for that work, and the regulator continues to regulate her. A company invoice does not move her seal, or the discipline jurisdiction, onto the company alone.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The client is right. Once a company exists, only the company can be responsible for sealed work." does not satisfy the duty this scenario tests. Professionals may practise through a company where the statute and the regulator allow it. The company is a separate person for business debts. The individual who does the professional work remains responsible for that work, and the regulator continues to regulate her. A company invoice does not move her seal, or the discipline jurisdiction, onto the company alone.',
         'Not the best answer. "The client is right. A permit-to-practice company ends the regulator\'s jurisdiction over the individual." does not satisfy the duty this scenario tests. Professionals may practise through a company where the statute and the regulator allow it. The company is a separate person for business debts. The individual who does the professional work remains responsible for that work, and the regulator continues to regulate her. A company invoice does not move her seal, or the discipline jurisdiction, onto the company alone.',
@@ -2510,7 +2510,7 @@
         'Tax deductions control every other question. If no tax is deducted, the company cannot direct the work.'
       ],
       answer: 2,
-      why: '<p>Employee and contractor status depends on the substance of the relationship. Control over how the work is done, ownership of tools, chance of profit, and risk of loss are all considered. A contract label does not settle the question, and working on someone else\'s site does not automatically create employment. Her professional responsibility for the engineering exists either way.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Employee and contractor status depends on the substance of the relationship. Control over how the work is done, ownership of tools, chance of profit, and risk of loss are all considered. A contract label does not settle the question, and working on someone else\'s site does not automatically create employment. Her professional responsibility for the engineering exists either way.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The word in the paper controls. If it says contractor, she is a contractor for every legal purpose." does not satisfy the duty this scenario tests. Employee and contractor status depends on the substance of the relationship. Control over how the work is done, ownership of tools, chance of profit, and risk of loss are all considered. A contract label does not settle the question, and working on someone else\'s site does not automatically create employment. Her professional responsibility for the engineering exists either way.',
         'Not the best answer. "The site controls. Anyone who works on the company\'s premises is an employee." does not satisfy the duty this scenario tests. Employee and contractor status depends on the substance of the relationship. Control over how the work is done, ownership of tools, chance of profit, and risk of loss are all considered. A contract label does not settle the question, and working on someone else\'s site does not automatically create employment. Her professional responsibility for the engineering exists either way.',
@@ -2541,7 +2541,7 @@
         'The colleague is wrong because only a university may apply for a Canadian patent.'
       ],
       answer: 0,
-      why: '<p>A Canadian patent is a time-limited exclusive right that starts from the filing date and requires disclosure of the invention. A trade secret is not registered and is not a monopoly. It lasts only while the information is secret, and it does not stop a person who independently develops the same method. Confidential test data can stay a trade secret even when a patent application discloses the invention itself.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A Canadian patent is a time-limited exclusive right that starts from the filing date and requires disclosure of the invention. A trade secret is not registered and is not a monopoly. It lasts only while the information is secret, and it does not stop a person who independently develops the same method. Confidential test data can stay a trade secret even when a patent application discloses the invention itself.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'A Canadian patent is a time-limited exclusive right that starts from the filing date and requires disclosure of the invention. A trade secret is not registered and is not a monopoly. It lasts only while the information is secret, and it does not stop a person who independently develops the same method. Confidential test data can stay a trade secret even when a patent application discloses the invention itself.',
         'Not the best answer. "The colleague is right. A trade secret and a patent are the same right under two names." does not satisfy the duty this scenario tests. A Canadian patent is a time-limited exclusive right that starts from the filing date and requires disclosure of the invention. A trade secret is not registered and is not a monopoly. It lasts only while the information is secret, and it does not stop a person who independently develops the same method. Confidential test data can stay a trade secret even when a patent application discloses the invention itself.',
@@ -2572,7 +2572,7 @@
         'This is not allowed. Those letters and the title "professional engineer" are reserved for a person the regulator has licensed. Competence, a degree, and a licensee somewhere else in the company do not confer the title.'
       ],
       answer: 3,
-      why: '<p>Title protection is separate from the quality of the work. The Act reserves the title and its abbreviations to licensees. Using them, or implying that he is licensed, is a breach whether or not the calculations are sound. Another person\'s licence does not authorize him to wear the title.</p><p><strong>Blueprint:</strong> V.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Title protection is separate from the quality of the work. The Act reserves the title and its abbreviations to licensees. Using them, or implying that he is licensed, is a breach whether or not the calculations are sound. Another person\'s licence does not authorize him to wear the title.</p><p><strong>Blueprint:</strong> V.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "This is allowed. The letters are a courtesy if the calculations are competent." does not satisfy the duty this scenario tests. Title protection is separate from the quality of the work. The Act reserves the title and its abbreviations to licensees. Using them, or implying that he is licensed, is a breach whether or not the calculations are sound. Another person\'s licence does not authorize him to wear the title.',
         'Not the best answer. "This is allowed because another person in the company is licensed." does not satisfy the duty this scenario tests. Title protection is separate from the quality of the work. The Act reserves the title and its abbreviations to licensees. Using them, or implying that he is licensed, is a breach whether or not the calculations are sound. Another person\'s licence does not authorize him to wear the title.',
@@ -2603,7 +2603,7 @@
         'She is wrong only after a design fails. Until there is damage, unlicensed practice is lawful.'
       ],
       answer: 1,
-      why: '<p>The Acts reserve both the title and the practice offered to the public. Avoiding the letters does not avoid the practice restriction. A client\'s waiver cannot confer a licence the regulator has not granted, and damage is not required before the unlicensed practice is unlawful.</p><p><strong>Blueprint:</strong> V.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The Acts reserve both the title and the practice offered to the public. Avoiding the letters does not avoid the practice restriction. A client\'s waiver cannot confer a licence the regulator has not granted, and damage is not required before the unlicensed practice is unlawful.</p><p><strong>Blueprint:</strong> V.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is right. The Act restricts titles and does not restrict the work." does not satisfy the duty this scenario tests. The Acts reserve both the title and the practice offered to the public. Avoiding the letters does not avoid the practice restriction. A client\'s waiver cannot confer a licence the regulator has not granted, and damage is not required before the unlicensed practice is unlawful.',
         'The Acts reserve both the title and the practice offered to the public. Avoiding the letters does not avoid the practice restriction. A client\'s waiver cannot confer a licence the regulator has not granted, and damage is not required before the unlicensed practice is unlawful.',
@@ -2634,7 +2634,7 @@
         'The company may offer the services if the drawings say "not sealed." Unsealed drawings remove the need for a licensee.'
       ],
       answer: 0,
-      why: '<p>A municipal business licence is not a professional licence. Offering professional engineering to the public is governed by the provincial Act. The firm needs a licensed person who actually takes responsibility for the work, and it needs the permit or certificate the Act requires of firms. Experience and a note that the drawings are unsealed do not replace those requirements.</p><p><strong>Blueprint:</strong> V.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A municipal business licence is not a professional licence. Offering professional engineering to the public is governed by the provincial Act. The firm needs a licensed person who actually takes responsibility for the work, and it needs the permit or certificate the Act requires of firms. Experience and a note that the drawings are unsealed do not replace those requirements.</p><p><strong>Blueprint:</strong> V.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'A municipal business licence is not a professional licence. Offering professional engineering to the public is governed by the provincial Act. The firm needs a licensed person who actually takes responsibility for the work, and it needs the permit or certificate the Act requires of firms. Experience and a note that the drawings are unsealed do not replace those requirements.',
         'Not the best answer. "The friend is right. Any corporation may offer engineering once it has a municipal business licence." does not satisfy the duty this scenario tests. A municipal business licence is not a professional licence. Offering professional engineering to the public is governed by the provincial Act. The firm needs a licensed person who actually takes responsibility for the work, and it needs the permit or certificate the Act requires of firms. Experience and a note that the drawings are unsealed do not replace those requirements.',
@@ -2665,7 +2665,7 @@
         'This is proper if the trainee buys a seal online and writes "supervised" beneath it.'
       ],
       answer: 2,
-      why: '<p>Enrollment as an engineer-in-training is not a licence to practise independently or to authenticate documents. The supervising professional remains responsible and seals the work she accepts. Selling the same service to the public on weekends is independent practice, and a purchased image is not a professional seal.</p><p><strong>Blueprint:</strong> V.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Enrollment as an engineer-in-training is not a licence to practise independently or to authenticate documents. The supervising professional remains responsible and seals the work she accepts. Selling the same service to the public on weekends is independent practice, and a purchased image is not a professional seal.</p><p><strong>Blueprint:</strong> V.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "This is proper. An engineer-in-training may seal any document the supervisor is too busy to review." does not satisfy the duty this scenario tests. Enrollment as an engineer-in-training is not a licence to practise independently or to authenticate documents. The supervising professional remains responsible and seals the work she accepts. Selling the same service to the public on weekends is independent practice, and a purchased image is not a professional seal.',
         'Not the best answer. "Weekend practice is proper. The restriction on trainees applies only during paid hours." does not satisfy the duty this scenario tests. Enrollment as an engineer-in-training is not a licence to practise independently or to authenticate documents. The supervising professional remains responsible and seals the work she accepts. Selling the same service to the public on weekends is independent practice, and a purchased image is not a professional seal.',
@@ -2696,7 +2696,7 @@
         'She is wrong. Mobility rules can let a licensed person become licensed in another province without repeating every admission step. They do not let her practise or seal there with no registration. She complies with the Saskatchewan regulator before she practises there.'
       ],
       answer: 3,
-      why: '<p>Labour mobility reduces barriers to getting a licence in another province. It does not erase the other province\'s regulator or turn one licence into a national licence. Practising and sealing in Saskatchewan require compliance with that regulator. There is no general rule that a project under 30 days needs no registration.</p><p><strong>Blueprint:</strong> V.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Labour mobility reduces barriers to getting a licence in another province. It does not erase the other province\'s regulator or turn one licence into a national licence. Practising and sealing in Saskatchewan require compliance with that regulator. There is no general rule that a project under 30 days needs no registration.</p><p><strong>Blueprint:</strong> V.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is right. Registration in one province is registration in every province." does not satisfy the duty this scenario tests. Labour mobility reduces barriers to getting a licence in another province. It does not erase the other province\'s regulator or turn one licence into a national licence. Practising and sealing in Saskatchewan require compliance with that regulator. There is no general rule that a project under 30 days needs no registration.',
         'Not the best answer. "She is right. The Agreement abolished the provincial regulators for these professions." does not satisfy the duty this scenario tests. Labour mobility reduces barriers to getting a licence in another province. It does not erase the other province\'s regulator or turn one licence into a national licence. Practising and sealing in Saskatchewan require compliance with that regulator. There is no general rule that a project under 30 days needs no registration.',
@@ -2727,7 +2727,7 @@
         'He is wrong because only geoscientists need a licence. Engineering never requires one.'
       ],
       answer: 0,
-      why: '<p>The provinces do not share one industrial exemption. Some Acts exempt a defined activity. Most work that is the practice of professional engineering still requires a licensee. Being on a payroll does not, by itself, remove a boiler design that a safety authority and occupants will rely on from the Act.</p><p><strong>Blueprint:</strong> V.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The provinces do not share one industrial exemption. Some Acts exempt a defined activity. Most work that is the practice of professional engineering still requires a licensee. Being on a payroll does not, by itself, remove a boiler design that a safety authority and occupants will rely on from the Act.</p><p><strong>Blueprint:</strong> V.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'The provinces do not share one industrial exemption. Some Acts exempt a defined activity. Most work that is the practice of professional engineering still requires a licensee. Being on a payroll does not, by itself, remove a boiler design that a safety authority and occupants will rely on from the Act.',
         'Not the best answer. "He is right. Every Canadian engineering Act exempts all work done by employees." does not satisfy the duty this scenario tests. The provinces do not share one industrial exemption. Some Acts exempt a defined activity. Most work that is the practice of professional engineering still requires a licensee. Being on a payroll does not, by itself, remove a boiler design that a safety authority and occupants will rely on from the Act.',
@@ -2758,7 +2758,7 @@
         'It is engineering only if the advertisement uses the title P.Eng.'
       ],
       answer: 2,
-      why: '<p>The practice is defined by the nature of the work, not by the seller\'s label and not by whether a protected title is used. A site-specific foundation design, sold for a fee and meant to be relied on, is that practice. A degree does not replace a licence.</p><p><strong>Blueprint:</strong> V.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The practice is defined by the nature of the work, not by the seller\'s label and not by whether a protected title is used. A site-specific foundation design, sold for a fee and meant to be relied on, is that practice. A degree does not replace a licence.</p><p><strong>Blueprint:</strong> V.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The label controls. Calling it general information means it is not the practice of engineering." does not satisfy the duty this scenario tests. The practice is defined by the nature of the work, not by the seller\'s label and not by whether a protected title is used. A site-specific foundation design, sold for a fee and meant to be relied on, is that practice. A degree does not replace a licence.',
         'Not the best answer. "It is not engineering unless she also drills the soil herself." does not satisfy the duty this scenario tests. The practice is defined by the nature of the work, not by the seller\'s label and not by whether a protected title is used. A site-specific foundation design, sold for a fee and meant to be relied on, is that practice. A degree does not replace a licence.',
@@ -2789,7 +2789,7 @@
         'She may seal if the client accepts the lapse in writing.'
       ],
       answer: 0,
-      why: '<p>A current registration is a condition of practising and of sealing. A lapse is not confined to voting or to other membership privileges. Backdating the sheet, or a client\'s consent, does not restore a registration that has lapsed. She returns to good standing before she authenticates the work.</p><p><strong>Blueprint:</strong> V.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A current registration is a condition of practising and of sealing. A lapse is not confined to voting or to other membership privileges. Backdating the sheet, or a client\'s consent, does not restore a registration that has lapsed. She returns to good standing before she authenticates the work.</p><p><strong>Blueprint:</strong> V.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'A current registration is a condition of practising and of sealing. A lapse is not confined to voting or to other membership privileges. Backdating the sheet, or a client\'s consent, does not restore a registration that has lapsed. She returns to good standing before she authenticates the work.',
         'Not the best answer. "She may seal. Failure to renew never affects the right to practise." does not satisfy the duty this scenario tests. A current registration is a condition of practising and of sealing. A lapse is not confined to voting or to other membership privileges. Backdating the sheet, or a client\'s consent, does not restore a registration that has lapsed. She returns to good standing before she authenticates the work.',
@@ -2820,7 +2820,7 @@
         'She is wrong only if she has not written the NPPE. A foreign licence plus an NPPE pass is itself a Manitoba licence.'
       ],
       answer: 2,
-      why: '<p>Each province and territory admits its own licensees. A foreign licence is evidence a regulator may consider. It is not itself a Manitoba licence, and it does not confer a protected Canadian title. Passing the NPPE is one admission requirement. It does not replace admission by the regulator.</p><p><strong>Blueprint:</strong> V.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Each province and territory admits its own licensees. A foreign licence is evidence a regulator may consider. It is not itself a Manitoba licence, and it does not confer a protected Canadian title. Passing the NPPE is one admission requirement. It does not replace admission by the regulator.</p><p><strong>Blueprint:</strong> V.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is right. A licence from any American state is a licence in every Canadian province." does not satisfy the duty this scenario tests. Each province and territory admits its own licensees. A foreign licence is evidence a regulator may consider. It is not itself a Manitoba licence, and it does not confer a protected Canadian title. Passing the NPPE is one admission requirement. It does not replace admission by the regulator.',
         'Not the best answer. "She is right if the client is American. The client\'s nationality chooses the regulator." does not satisfy the duty this scenario tests. Each province and territory admits its own licensees. A foreign licence is evidence a regulator may consider. It is not itself a Manitoba licence, and it does not confer a protected Canadian title. Passing the NPPE is one admission requirement. It does not replace admission by the regulator.',
@@ -2851,7 +2851,7 @@
         'The committee can jail the member until the repair bill is paid.'
       ],
       answer: 0,
-      why: '<p>The discipline power exists to protect the public and uphold the profession\'s standards. The sanctions are regulatory. They are not a substitute for the client\'s lawsuit to recover the cost of repairs, and a statutory fine is not the client\'s damages. Imprisonment is a criminal power, not a discipline power.</p><p><strong>Blueprint:</strong> VI.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The discipline power exists to protect the public and uphold the profession\'s standards. The sanctions are regulatory. They are not a substitute for the client\'s lawsuit to recover the cost of repairs, and a statutory fine is not the client\'s damages. Imprisonment is a criminal power, not a discipline power.</p><p><strong>Blueprint:</strong> VI.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'The discipline power exists to protect the public and uphold the profession\'s standards. The sanctions are regulatory. They are not a substitute for the client\'s lawsuit to recover the cost of repairs, and a statutory fine is not the client\'s damages. Imprisonment is a criminal power, not a discipline power.',
         'Not the best answer. "The client is right. The penalty is whatever compensation the complainant chooses." does not satisfy the duty this scenario tests. The discipline power exists to protect the public and uphold the profession\'s standards. The sanctions are regulatory. They are not a substitute for the client\'s lawsuit to recover the cost of repairs, and a statutory fine is not the client\'s damages. Imprisonment is a criminal power, not a discipline power.',
@@ -2882,7 +2882,7 @@
         'A reprimand, a required course, a period of supervised practice, and a suspension of the licence.'
       ],
       answer: 3,
-      why: '<p>Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.</p><p><strong>Blueprint:</strong> VI.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.</p><p><strong>Blueprint:</strong> VI.1. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "Thirty days in jail." does not satisfy the duty this scenario tests. Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.',
         'Not the best answer. "Cancellation of the owner\'s construction contract with the contractor." does not satisfy the duty this scenario tests. Those orders regulate her practice and her licence. They are the kind of sanctions the Acts confer. The committee does not imprison, does not rewrite other people\'s contracts, and does not sit as the court that awards a neighbour\'s damages.',
@@ -2913,7 +2913,7 @@
         'Notice is required only after the member hires a lawyer.'
       ],
       answer: 1,
-      why: '<p>A serious discipline outcome requires a fair process. The member must know the allegation and have a chance to respond. Urgency can justify interim steps the Act allows. It does not justify a final suspension based only on the complainant\'s account. The right does not depend on having hired counsel.</p><p><strong>Blueprint:</strong> VI.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A serious discipline outcome requires a fair process. The member must know the allegation and have a chance to respond. Urgency can justify interim steps the Act allows. It does not justify a final suspension based only on the complainant\'s account. The right does not depend on having hired counsel.</p><p><strong>Blueprint:</strong> VI.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "The complainant is right. A member has no right to know the case before a suspension." does not satisfy the duty this scenario tests. A serious discipline outcome requires a fair process. The member must know the allegation and have a chance to respond. Urgency can justify interim steps the Act allows. It does not justify a final suspension based only on the complainant\'s account. The right does not depend on having hired counsel.',
         'A serious discipline outcome requires a fair process. The member must know the allegation and have a chance to respond. Urgency can justify interim steps the Act allows. It does not justify a final suspension based only on the complainant\'s account. The right does not depend on having hired counsel.',
@@ -2944,7 +2944,7 @@
         'She must send the file only to the complainant. The regulator is not entitled to it.'
       ],
       answer: 0,
-      why: '<p>The investigation protects the public, and a member has to cooperate with it. Destroying the record and refusing to answer obstruct that process. The right to a lawyer and to a fair chance to respond remains. Neither right authorizes destruction of the evidence.</p><p><strong>Blueprint:</strong> VI.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>The investigation protects the public, and a member has to cooperate with it. Destroying the record and refusing to answer obstruct that process. The right to a lawyer and to a fair chance to respond remains. Neither right authorizes destruction of the evidence.</p><p><strong>Blueprint:</strong> VI.2. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'The investigation protects the public, and a member has to cooperate with it. Destroying the record and refusing to answer obstruct that process. The right to a lawyer and to a fair chance to respond remains. Neither right authorizes destruction of the evidence.',
         'Not the best answer. "She is right. Cooperation is optional, and the file may be destroyed once a complaint is possible." does not satisfy the duty this scenario tests. The investigation protects the public, and a member has to cooperate with it. Destroying the record and refusing to answer obstruct that process. The right to a lawyer and to a fair chance to respond remains. Neither right authorizes destruction of the evidence.',
@@ -2975,7 +2975,7 @@
         'She is wrong only if the resignation was sent by email. A signed paper resignation ends the case.'
       ],
       answer: 2,
-      why: '<p>Quitting is not a defence and not an acquittal. The conduct happened while she was licensed, and the proceeding had already started. The regulator\'s jurisdiction over that conduct can continue. The form of the resignation letter does not decide it.</p><p><strong>Blueprint:</strong> VI.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Quitting is not a defence and not an acquittal. The conduct happened while she was licensed, and the proceeding had already started. The regulator\'s jurisdiction over that conduct can continue. The form of the resignation letter does not decide it.</p><p><strong>Blueprint:</strong> VI.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is right. A resignation received before the hearing date ends every proceeding." does not satisfy the duty this scenario tests. Quitting is not a defence and not an acquittal. The conduct happened while she was licensed, and the proceeding had already started. The regulator\'s jurisdiction over that conduct can continue. The form of the resignation letter does not decide it.',
         'Not the best answer. "She is right. Only a current member can be answerable, so the resignation is an acquittal." does not satisfy the duty this scenario tests. Quitting is not a defence and not an acquittal. The conduct happened while she was licensed, and the proceeding had already started. The regulator\'s jurisdiction over that conduct can continue. The form of the resignation letter does not decide it.',
@@ -3006,7 +3006,7 @@
         'She is wrong on both points. Sealing work she did not review can be misconduct under the Act and the code. No criminal conviction is required. The regulator may act on a complaint or on what it properly learns itself.'
       ],
       answer: 3,
-      why: '<p>Professional misconduct is broader than criminal guilt and broader than arithmetic. Sealing without review is a professional breach whether or not a criminal charge is ever laid. The regulator is not limited to waiting for a client. It may start from information it properly receives, and the member still gets notice and a chance to answer.</p><p><strong>Blueprint:</strong> VI.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Professional misconduct is broader than criminal guilt and broader than arithmetic. Sealing without review is a professional breach whether or not a criminal charge is ever laid. The regulator is not limited to waiting for a client. It may start from information it properly receives, and the member still gets notice and a chance to answer.</p><p><strong>Blueprint:</strong> VI.3. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is right. A criminal conviction is required before any discipline case." does not satisfy the duty this scenario tests. Professional misconduct is broader than criminal guilt and broader than arithmetic. Sealing without review is a professional breach whether or not a criminal charge is ever laid. The regulator is not limited to waiting for a client. It may start from information it properly receives, and the member still gets notice and a chance to answer.',
         'Not the best answer. "She is right. The only misconduct is an arithmetic mistake." does not satisfy the duty this scenario tests. Professional misconduct is broader than criminal guilt and broader than arithmetic. Sealing without review is a professional breach whether or not a criminal charge is ever laid. The regulator is not limited to waiting for a client. It may start from information it properly receives, and the member still gets notice and a chance to answer.',
@@ -3037,7 +3037,7 @@
         'The provincial premier hears the appeal as of right.'
       ],
       answer: 0,
-      why: '<p>Discipline is a power of the provincial or territorial regulator that licensed her and brought the case. Engineers Canada is a national organization of regulators. It does not sit in appeal on a member\'s suspension. Alberta does not rehear Manitoba\'s case because the member prefers it. A court review, if one is available, is the review the statute provides.</p><p><strong>Blueprint:</strong> VI.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>Discipline is a power of the provincial or territorial regulator that licensed her and brought the case. Engineers Canada is a national organization of regulators. It does not sit in appeal on a member\'s suspension. Alberta does not rehear Manitoba\'s case because the member prefers it. A court review, if one is available, is the review the statute provides.</p><p><strong>Blueprint:</strong> VI.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Discipline is a power of the provincial or territorial regulator that licensed her and brought the case. Engineers Canada is a national organization of regulators. It does not sit in appeal on a member\'s suspension. Alberta does not rehear Manitoba\'s case because the member prefers it. A court review, if one is available, is the review the statute provides.',
         'Not the best answer. "Engineers Canada is the national discipline court, and its decision replaces the provincial order." does not satisfy the duty this scenario tests. Discipline is a power of the provincial or territorial regulator that licensed her and brought the case. Engineers Canada is a national organization of regulators. It does not sit in appeal on a member\'s suspension. Alberta does not rehear Manitoba\'s case because the member prefers it. A court review, if one is available, is the review the statute provides.',
@@ -3068,7 +3068,7 @@
         'She is wrong. An acquittal automatically increases the discipline penalty.'
       ],
       answer: 2,
-      why: '<p>A criminal court decides criminal guilt beyond a reasonable doubt. A discipline body decides professional conduct under its own Act, on the civil standard, for the protection of the public. Failing to prove a crime does not prove that the professional duty was met. The discipline result also does not become a criminal record.</p><p><strong>Blueprint:</strong> VI.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A criminal court decides criminal guilt beyond a reasonable doubt. A discipline body decides professional conduct under its own Act, on the civil standard, for the protection of the public. Failing to prove a crime does not prove that the professional duty was met. The discipline result also does not become a criminal record.</p><p><strong>Blueprint:</strong> VI.4. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She is right. An acquittal is a dismissal of the discipline case." does not satisfy the duty this scenario tests. A criminal court decides criminal guilt beyond a reasonable doubt. A discipline body decides professional conduct under its own Act, on the civil standard, for the protection of the public. Failing to prove a crime does not prove that the professional duty was met. The discipline result also does not become a criminal record.',
         'Not the best answer. "She is right. The regulator must use proof beyond a reasonable doubt." does not satisfy the duty this scenario tests. A criminal court decides criminal guilt beyond a reasonable doubt. A discipline body decides professional conduct under its own Act, on the civil standard, for the protection of the public. Failing to prove a crime does not prove that the professional duty was met. The discipline result also does not become a criminal record.',
@@ -3099,7 +3099,7 @@
         'She must not practise or seal while suspended. Doing so is a further breach. The regulator may show her status on the public register, and she cannot require that the suspension be hidden.'
       ],
       answer: 3,
-      why: '<p>A suspension removes the right to practise for its term. Sealing during that term is practising without authority. The public register exists so clients can see whether a person is entitled to practise. She does not get to keep that status secret, and a lower fee does not restore the licence.</p><p><strong>Blueprint:</strong> VI.5. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      why: '<p>A suspension removes the right to practise for its term. Sealing during that term is practising without authority. The public register exists so clients can see whether a person is entitled to practise. She does not get to keep that status secret, and a lower fee does not restore the licence.</p><p><strong>Blueprint:</strong> VI.5. This is an original practice item, not an official NPPE question. A raw score on this form is not the scaled NPPE cut of 65.</p>',
       optionRationales: [
         'Not the best answer. "She may keep sealing. A suspension affects voting only." does not satisfy the duty this scenario tests. A suspension removes the right to practise for its term. Sealing during that term is practising without authority. The public register exists so clients can see whether a person is entitled to practise. She does not get to keep that status secret, and a lower fee does not restore the licence.',
         'Not the best answer. "She may keep sealing if she reduces her fee during the six months." does not satisfy the duty this scenario tests. A suspension removes the right to practise for its term. Sealing during that term is practising without authority. The public register exists so clients can see whether a person is entitled to practise. She does not get to keep that status secret, and a lower fee does not restore the licence.',
@@ -3110,17 +3110,331 @@
       trap: 'She may keep sealing',
       original: true,
       sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:601',
+      legacyId: 'NPPE-601',
+      sub: 'nppe-professionalism',
+      blueprint: 'I.2',
+      area: 'I',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: false,
+      experimental: true,
+      difficulty: 'hard',
+      stem: 'A licensee on a private mine says the public cannot pass the gate, so her only duty is to the owner. Miners work beside a tailings line on the site, and the line crosses a creek used by a community downstream. What is the best judgment?',
+      options: [
+        'She is right. A fenced site has no public, so the duty to the public does not arise.',
+        'She is right. Workers belong only to the employer, and a downstream community is too far away to count.',
+        'She is right if the owner signs a note that there is no public. The owner\'s note defines the public.',
+        'She is wrong. The public includes people who can be affected by the work, not only visitors inside the fence. The miners and the downstream community are part of that public. The owner\'s preference does not shrink the duty.'
+      ],
+      answer: 3,
+      why: '<p>The duty follows the effect of the work. A gate does not remove it. People working on the site, and people downstream who use the creek, can be harmed by the tailings line. They are part of the public for this assignment. The owner cannot define them out of the duty.</p><p><strong>Blueprint:</strong> I.2. This is an original practice item, not an official NPPE question, and it is an unscored experimental item. A raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "She is right. A fenced site has no public, so the duty to the public does not arise." does not satisfy the duty this scenario tests. The duty follows the effect of the work. A gate does not remove it. People working on the site, and people downstream who use the creek, can be harmed by the tailings line. They are part of the public for this assignment. The owner cannot define them out of the duty.',
+        'Not the best answer. "She is right. Workers belong only to the employer, and a downstream community is too far away to count." does not satisfy the duty this scenario tests. The duty follows the effect of the work. A gate does not remove it. People working on the site, and people downstream who use the creek, can be harmed by the tailings line. They are part of the public for this assignment. The owner cannot define them out of the duty.',
+        'Not the best answer. "She is right if the owner signs a note that there is no public. The owner\'s note defines the public." does not satisfy the duty this scenario tests. The duty follows the effect of the work. A gate does not remove it. People working on the site, and people downstream who use the creek, can be harmed by the tailings line. They are part of the public for this assignment. The owner cannot define them out of the duty.',
+        'The duty follows the effect of the work. A gate does not remove it. People working on the site, and people downstream who use the creek, can be harmed by the tailings line. They are part of the public for this assignment. The owner cannot define them out of the duty.'
+      ],
+      keyPoint: 'The duty follows the effect of the work.',
+      trap: 'She is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:602',
+      legacyId: 'NPPE-602',
+      sub: 'nppe-ethics',
+      blueprint: 'II.3',
+      area: 'II',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: false,
+      experimental: true,
+      difficulty: 'medium',
+      stem: 'A proposal she is asked to sign says she has "twenty years of dam design." She has twenty years of municipal road work and has never designed a dam. The principal says the sentence is only marketing. What is the most appropriate action?',
+      options: [
+        'Do not sign it as written. The sentence states experience she does not have. Calling it marketing does not make a false qualification acceptable, and her signature would adopt it.',
+        'Sign it. Proposals are not professional documents, so the duty of honesty does not apply.',
+        'Sign it if the fee is reduced. A lower fee corrects a false qualification.',
+        'Sign it unchanged, provided a dam specialist might be hired later.'
+      ],
+      answer: 0,
+      why: '<p>Honesty applies to the qualifications she puts before a client. Twenty years of roads are not twenty years of dams. A plan to hire someone later does not make the present sentence true, and a lower fee does not repair it. She does not sign a statement she knows is false.</p><p><strong>Blueprint:</strong> II.3. This is an original practice item, not an official NPPE question, and it is an unscored experimental item. A raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Honesty applies to the qualifications she puts before a client. Twenty years of roads are not twenty years of dams. A plan to hire someone later does not make the present sentence true, and a lower fee does not repair it. She does not sign a statement she knows is false.',
+        'Not the best answer. "Sign it. Proposals are not professional documents, so the duty of honesty does not apply." does not satisfy the duty this scenario tests. Honesty applies to the qualifications she puts before a client. Twenty years of roads are not twenty years of dams. A plan to hire someone later does not make the present sentence true, and a lower fee does not repair it. She does not sign a statement she knows is false.',
+        'Not the best answer. "Sign it if the fee is reduced. A lower fee corrects a false qualification." does not satisfy the duty this scenario tests. Honesty applies to the qualifications she puts before a client. Twenty years of roads are not twenty years of dams. A plan to hire someone later does not make the present sentence true, and a lower fee does not repair it. She does not sign a statement she knows is false.',
+        'Not the best answer. "Sign it unchanged, provided a dam specialist might be hired later." does not satisfy the duty this scenario tests. Honesty applies to the qualifications she puts before a client. Twenty years of roads are not twenty years of dams. A plan to hire someone later does not make the present sentence true, and a lower fee does not repair it. She does not sign a statement she knows is false.'
+      ],
+      keyPoint: 'Honesty applies to the qualifications she puts before a client.',
+      trap: 'Sign it',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:603',
+      legacyId: 'NPPE-603',
+      sub: 'nppe-ethics',
+      blueprint: 'II.4',
+      area: 'II',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: false,
+      experimental: true,
+      difficulty: 'hard',
+      stem: 'She is scoring tenders for a public owner. A bidder offers her a paid trip to a lodge "after the award, whatever you decide." She plans to accept and to say nothing, because the trip would be after the decision. What is the most appropriate action?',
+      options: [
+        'Accept. A gift dated after the award cannot affect a decision already made, so no disclosure is required.',
+        'Accept if she scores that bidder last. The scoring order removes the conflict.',
+        'Refuse the trip, and tell the owner about the offer before she finishes the scoring. The offer is a conflict now, whether or not she accepts it and whether or not the date is after the award.',
+        'Accept, and tell the owner after the contract is signed.'
+      ],
+      answer: 2,
+      why: '<p>The offer is made while she is scoring. Its timing does not make it harmless, and waiting until after the contract hides it during the decision. She refuses it and tells the owner before she continues. Reordering the scores does not remove the interest.</p><p><strong>Blueprint:</strong> II.4. This is an original practice item, not an official NPPE question, and it is an unscored experimental item. A raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "Accept. A gift dated after the award cannot affect a decision already made, so no disclosure is required." does not satisfy the duty this scenario tests. The offer is made while she is scoring. Its timing does not make it harmless, and waiting until after the contract hides it during the decision. She refuses it and tells the owner before she continues. Reordering the scores does not remove the interest.',
+        'Not the best answer. "Accept if she scores that bidder last. The scoring order removes the conflict." does not satisfy the duty this scenario tests. The offer is made while she is scoring. Its timing does not make it harmless, and waiting until after the contract hides it during the decision. She refuses it and tells the owner before she continues. Reordering the scores does not remove the interest.',
+        'The offer is made while she is scoring. Its timing does not make it harmless, and waiting until after the contract hides it during the decision. She refuses it and tells the owner before she continues. Reordering the scores does not remove the interest.',
+        'Not the best answer. "Accept, and tell the owner after the contract is signed." does not satisfy the duty this scenario tests. The offer is made while she is scoring. Its timing does not make it harmless, and waiting until after the contract hides it during the decision. She refuses it and tells the owner before she continues. Reordering the scores does not remove the interest.'
+      ],
+      keyPoint: 'The offer is made while she is scoring.',
+      trap: 'Accept',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:604',
+      legacyId: 'NPPE-604',
+      sub: 'nppe-practice',
+      blueprint: 'III.2',
+      area: 'III',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: false,
+      experimental: true,
+      difficulty: 'hard',
+      stem: 'An owner retains her to recommend a design-build team. One team offers her a bonus if her recommendation names that team. She believes the team is in fact the best. What is the most appropriate action?',
+      options: [
+        'Take the bonus and recommend them. A sincere opinion cannot be a conflict.',
+        'Tell the owner about the offer and refuse the bonus. Do not make the recommendation until the owner, knowing of the offer, decides whether she should continue. A sincere belief does not remove the conflict.',
+        'Take the bonus if it is paid to her firm rather than to her.',
+        'Recommend them, and mention the bonus only in an appendix the selection committee will not read.'
+      ],
+      answer: 1,
+      why: '<p>A bonus that depends on her recommendation is a conflict with the owner\'s retainer. Believing the team is best is a reason to be believed, which is why the owner has to know. Payment through the firm is still her interest. An appendix the committee will not see is concealment.</p><p><strong>Blueprint:</strong> III.2. This is an original practice item, not an official NPPE question, and it is an unscored experimental item. A raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "Take the bonus and recommend them. A sincere opinion cannot be a conflict." does not satisfy the duty this scenario tests. A bonus that depends on her recommendation is a conflict with the owner\'s retainer. Believing the team is best is a reason to be believed, which is why the owner has to know. Payment through the firm is still her interest. An appendix the committee will not see is concealment.',
+        'A bonus that depends on her recommendation is a conflict with the owner\'s retainer. Believing the team is best is a reason to be believed, which is why the owner has to know. Payment through the firm is still her interest. An appendix the committee will not see is concealment.',
+        'Not the best answer. "Take the bonus if it is paid to her firm rather than to her." does not satisfy the duty this scenario tests. A bonus that depends on her recommendation is a conflict with the owner\'s retainer. Believing the team is best is a reason to be believed, which is why the owner has to know. Payment through the firm is still her interest. An appendix the committee will not see is concealment.',
+        'Not the best answer. "Recommend them, and mention the bonus only in an appendix the selection committee will not read." does not satisfy the duty this scenario tests. A bonus that depends on her recommendation is a conflict with the owner\'s retainer. Believing the team is best is a reason to be believed, which is why the owner has to know. Payment through the firm is still her interest. An appendix the committee will not see is concealment.'
+      ],
+      keyPoint: 'A bonus that depends on her recommendation is a conflict with the owner\'s retainer.',
+      trap: 'Take the bonus and recommend them',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:605',
+      legacyId: 'NPPE-605',
+      sub: 'nppe-practice',
+      blueprint: 'III.8',
+      area: 'III',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: false,
+      experimental: true,
+      difficulty: 'hard',
+      stem: 'Her software places a note, "Designed to the Ontario Building Code," on drawings for a building in Saskatchewan. She does not check the note. She seals the set because the software subscription is current. What is the most appropriate action?',
+      options: [
+        'Do not seal it on that basis. She is responsible for the requirement that applies to this project. A software default is not that check, and a current subscription does not make an Ontario note true in Saskatchewan.',
+        'Seal it. A current commercial program selects the provincial code that applies.',
+        'Seal it if the owner prefers the Ontario code. The owner\'s preference selects the building law.',
+        'Seal it, and correct the code only if the authority having jurisdiction rejects the permit.'
+      ],
+      answer: 0,
+      why: '<p>The code that governs is the one adopted for the place where the building will stand. She has to know what the note claims. A program default is not a review, and waiting for a rejected permit leaves a sealed statement she has not checked in circulation.</p><p><strong>Blueprint:</strong> III.8. This is an original practice item, not an official NPPE question, and it is an unscored experimental item. A raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'The code that governs is the one adopted for the place where the building will stand. She has to know what the note claims. A program default is not a review, and waiting for a rejected permit leaves a sealed statement she has not checked in circulation.',
+        'Not the best answer. "Seal it. A current commercial program selects the provincial code that applies." does not satisfy the duty this scenario tests. The code that governs is the one adopted for the place where the building will stand. She has to know what the note claims. A program default is not a review, and waiting for a rejected permit leaves a sealed statement she has not checked in circulation.',
+        'Not the best answer. "Seal it if the owner prefers the Ontario code. The owner\'s preference selects the building law." does not satisfy the duty this scenario tests. The code that governs is the one adopted for the place where the building will stand. She has to know what the note claims. A program default is not a review, and waiting for a rejected permit leaves a sealed statement she has not checked in circulation.',
+        'Not the best answer. "Seal it, and correct the code only if the authority having jurisdiction rejects the permit." does not satisfy the duty this scenario tests. The code that governs is the one adopted for the place where the building will stand. She has to know what the note claims. A program default is not a review, and waiting for a rejected permit leaves a sealed statement she has not checked in circulation.'
+      ],
+      keyPoint: 'The code that governs is the one adopted for the place where the building will stand.',
+      trap: 'Seal it',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:606',
+      legacyId: 'NPPE-606',
+      sub: 'nppe-practice',
+      blueprint: 'III.1',
+      area: 'III',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: false,
+      experimental: true,
+      difficulty: 'hard',
+      stem: 'Her employer tells her to sign a crane-inspection certificate today. She has not seen the crane. The employer says the client will leave if the certificate is late, and that another employee looked at the crane last year. What is the most appropriate action?',
+      options: [
+        'Sign. Keeping the client overrides the need to see the crane.',
+        'Sign if last year\'s certificate carried the firm\'s name. A prior certificate renews itself.',
+        'Sign, and write "not inspected" in type small enough that the form still looks complete.',
+        'Do not sign. The certificate states that the inspection was done. She does not authenticate an inspection she did not make. The client\'s deadline does not change that.'
+      ],
+      answer: 3,
+      why: '<p>Her signature on an inspection certificate is a statement that she stands behind the inspection. She has not made it. Last year\'s look by someone else is not this inspection. Small type that hides the truth is a false certificate, and the employer\'s deadline is not a reason to sign one.</p><p><strong>Blueprint:</strong> III.1. This is an original practice item, not an official NPPE question, and it is an unscored experimental item. A raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "Sign. Keeping the client overrides the need to see the crane." does not satisfy the duty this scenario tests. Her signature on an inspection certificate is a statement that she stands behind the inspection. She has not made it. Last year\'s look by someone else is not this inspection. Small type that hides the truth is a false certificate, and the employer\'s deadline is not a reason to sign one.',
+        'Not the best answer. "Sign if last year\'s certificate carried the firm\'s name. A prior certificate renews itself." does not satisfy the duty this scenario tests. Her signature on an inspection certificate is a statement that she stands behind the inspection. She has not made it. Last year\'s look by someone else is not this inspection. Small type that hides the truth is a false certificate, and the employer\'s deadline is not a reason to sign one.',
+        'Not the best answer. "Sign, and write "not inspected" in type small enough that the form still looks complete." does not satisfy the duty this scenario tests. Her signature on an inspection certificate is a statement that she stands behind the inspection. She has not made it. Last year\'s look by someone else is not this inspection. Small type that hides the truth is a false certificate, and the employer\'s deadline is not a reason to sign one.',
+        'Her signature on an inspection certificate is a statement that she stands behind the inspection. She has not made it. Last year\'s look by someone else is not this inspection. Small type that hides the truth is a false certificate, and the employer\'s deadline is not a reason to sign one.'
+      ],
+      keyPoint: 'Her signature on an inspection certificate is a statement that she stands behind the inspection.',
+      trap: 'Sign',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:607',
+      legacyId: 'NPPE-607',
+      sub: 'nppe-law',
+      blueprint: 'IV.2',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: false,
+      experimental: true,
+      difficulty: 'medium',
+      stem: 'The signed agreement lists two site visits. The client now remembers a sales meeting in which someone said the firm would attend every week, and demands weekly visits at the same fee. The signed agreement does not say that. What is the best judgment?',
+      options: [
+        'The client is right. A memory of a sales meeting defeats a signed scope.',
+        'The client is right. Professional services cannot be limited by a written list of visits.',
+        'The signed scope governs. Two visits are what was agreed. Weekly attendance would be a change, made in the way the contract provides, not a term created by a disputed memory of the sales meeting.',
+        'There is no contract. The client\'s disappointment cancels the signed agreement.'
+      ],
+      answer: 2,
+      why: '<p>The written agreement states the visits. A later recollection of a sales conversation does not replace that term. If the client wants weekly attendance, that is a change of scope and is made by the contract\'s change process. Disappointment does not wipe out the agreement.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and it is an unscored experimental item. A raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The client is right. A memory of a sales meeting defeats a signed scope." does not satisfy the duty this scenario tests. The written agreement states the visits. A later recollection of a sales conversation does not replace that term. If the client wants weekly attendance, that is a change of scope and is made by the contract\'s change process. Disappointment does not wipe out the agreement.',
+        'Not the best answer. "The client is right. Professional services cannot be limited by a written list of visits." does not satisfy the duty this scenario tests. The written agreement states the visits. A later recollection of a sales conversation does not replace that term. If the client wants weekly attendance, that is a change of scope and is made by the contract\'s change process. Disappointment does not wipe out the agreement.',
+        'The written agreement states the visits. A later recollection of a sales conversation does not replace that term. If the client wants weekly attendance, that is a change of scope and is made by the contract\'s change process. Disappointment does not wipe out the agreement.',
+        'Not the best answer. "There is no contract. The client\'s disappointment cancels the signed agreement." does not satisfy the duty this scenario tests. The written agreement states the visits. A later recollection of a sales conversation does not replace that term. If the client wants weekly attendance, that is a change of scope and is made by the contract\'s change process. Disappointment does not wipe out the agreement.'
+      ],
+      keyPoint: 'The written agreement states the visits.',
+      trap: 'The client is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:608',
+      legacyId: 'NPPE-608',
+      sub: 'nppe-law',
+      blueprint: 'IV.3',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: false,
+      experimental: true,
+      difficulty: 'hard',
+      stem: 'At a community meeting she tells a homeowner, "That retaining wall is fine. You do not need anyone to look at it." She has not examined the wall. The homeowner says, in her hearing, that he will cancel the inspection he had booked. The wall later fails. What is the best judgment?',
+      options: [
+        'She can owe a duty for that statement. She knew he was about to rely on it for his own wall, and she had no basis for it. The lack of a fee, and the lack of a written retainer, do not by themselves end the question.',
+        'She cannot owe a duty. Advice given without a fee is never actionable.',
+        'She cannot owe a duty unless the advice was printed on her letterhead.',
+        'She is liable only if she wanted the wall to fail.'
+      ],
+      answer: 0,
+      why: '<p>A duty for a careless statement can arise without a fee where she knows the person will rely on it for a serious decision. She heard him cancel the inspection. Letterhead is not what creates the duty, and liability does not require an intention to cause the failure. The statement still has to have been careless and a cause of the loss.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and it is an unscored experimental item. A raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'A duty for a careless statement can arise without a fee where she knows the person will rely on it for a serious decision. She heard him cancel the inspection. Letterhead is not what creates the duty, and liability does not require an intention to cause the failure. The statement still has to have been careless and a cause of the loss.',
+        'Not the best answer. "She cannot owe a duty. Advice given without a fee is never actionable." does not satisfy the duty this scenario tests. A duty for a careless statement can arise without a fee where she knows the person will rely on it for a serious decision. She heard him cancel the inspection. Letterhead is not what creates the duty, and liability does not require an intention to cause the failure. The statement still has to have been careless and a cause of the loss.',
+        'Not the best answer. "She cannot owe a duty unless the advice was printed on her letterhead." does not satisfy the duty this scenario tests. A duty for a careless statement can arise without a fee where she knows the person will rely on it for a serious decision. She heard him cancel the inspection. Letterhead is not what creates the duty, and liability does not require an intention to cause the failure. The statement still has to have been careless and a cause of the loss.',
+        'Not the best answer. "She is liable only if she wanted the wall to fail." does not satisfy the duty this scenario tests. A duty for a careless statement can arise without a fee where she knows the person will rely on it for a serious decision. She heard him cancel the inspection. Letterhead is not what creates the duty, and liability does not require an intention to cause the failure. The statement still has to have been careless and a cause of the loss.'
+      ],
+      keyPoint: 'A duty for a careless statement can arise without a fee where she knows the person will rely on it for a serious decision.',
+      trap: 'She cannot owe a duty',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:609',
+      legacyId: 'NPPE-609',
+      sub: 'nppe-professional-law',
+      blueprint: 'V.1',
+      area: 'V',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: false,
+      experimental: true,
+      difficulty: 'hard',
+      stem: 'A geologist who is not licensed prepares a mineral-resource estimate that investors are asked to rely on, and signs it "P.Geo." She says the letters are a style preference and that geoscience is not a licensed practice. What is the best judgment?',
+      options: [
+        'She is right. Only engineering titles are protected. Geoscience titles are not.',
+        'She is right. A resource estimate is a commercial opinion, not the practice of geoscience.',
+        'She is right if the company is publicly traded. Securities rules replace professional licensure.',
+        'She is wrong. Professional geoscience offered for others to rely on is a licensed practice, and "P.Geo." is a protected title. A style preference does not replace admission by the regulator. A securities rule does not replace it either.'
+      ],
+      answer: 3,
+      why: '<p>The geoscience Acts reserve the practice and the title, just as the engineering Acts do. An estimate investors are asked to rely on is that practice. "P.Geo." belongs to a person the regulator has licensed. Securities disclosure may require a qualified person. It does not confer the provincial title or the licence.</p><p><strong>Blueprint:</strong> V.1. This is an original practice item, not an official NPPE question, and it is an unscored experimental item. A raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "She is right. Only engineering titles are protected. Geoscience titles are not." does not satisfy the duty this scenario tests. The geoscience Acts reserve the practice and the title, just as the engineering Acts do. An estimate investors are asked to rely on is that practice. "P.Geo." belongs to a person the regulator has licensed. Securities disclosure may require a qualified person. It does not confer the provincial title or the licence.',
+        'Not the best answer. "She is right. A resource estimate is a commercial opinion, not the practice of geoscience." does not satisfy the duty this scenario tests. The geoscience Acts reserve the practice and the title, just as the engineering Acts do. An estimate investors are asked to rely on is that practice. "P.Geo." belongs to a person the regulator has licensed. Securities disclosure may require a qualified person. It does not confer the provincial title or the licence.',
+        'Not the best answer. "She is right if the company is publicly traded. Securities rules replace professional licensure." does not satisfy the duty this scenario tests. The geoscience Acts reserve the practice and the title, just as the engineering Acts do. An estimate investors are asked to rely on is that practice. "P.Geo." belongs to a person the regulator has licensed. Securities disclosure may require a qualified person. It does not confer the provincial title or the licence.',
+        'The geoscience Acts reserve the practice and the title, just as the engineering Acts do. An estimate investors are asked to rely on is that practice. "P.Geo." belongs to a person the regulator has licensed. Securities disclosure may require a qualified person. It does not confer the provincial title or the licence.'
+      ],
+      keyPoint: 'The geoscience Acts reserve the practice and the title, just as the engineering Acts do.',
+      trap: 'She is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:610',
+      legacyId: 'NPPE-610',
+      sub: 'nppe-discipline',
+      blueprint: 'VI.1',
+      area: 'VI',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: false,
+      experimental: true,
+      difficulty: 'medium',
+      stem: 'A discipline committee finds that a licensee\'s bridge designs were incompetent. Her building-envelope work was not in issue. Which order is the proper kind of order?',
+      options: [
+        'The committee must revoke every class of her practice, including work the hearing did not examine.',
+        'The committee orders her employer to dismiss her. A practice restriction works only if she is fired.',
+        'The committee may restrict or supervise the bridge work, and may leave practice the hearing did not impugn available to her, where the Act gives it that power. It does not order the employer to fire her.',
+        'The committee has no power short of revocation. Any narrower order is unlawful in every province.'
+      ],
+      answer: 2,
+      why: '<p>A sanction should address the misconduct that was found. Where the Act allows, a limit or a period of supervision on the bridge work does that. The hearing did not find the rest of her practice incompetent, and the committee does not manage her employer\'s staffing. Revocation is available in a proper case. It is not the only lawful order.</p><p><strong>Blueprint:</strong> VI.1. This is an original practice item, not an official NPPE question, and it is an unscored experimental item. A raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The committee must revoke every class of her practice, including work the hearing did not examine." does not satisfy the duty this scenario tests. A sanction should address the misconduct that was found. Where the Act allows, a limit or a period of supervision on the bridge work does that. The hearing did not find the rest of her practice incompetent, and the committee does not manage her employer\'s staffing. Revocation is available in a proper case. It is not the only lawful order.',
+        'Not the best answer. "The committee orders her employer to dismiss her. A practice restriction works only if she is fired." does not satisfy the duty this scenario tests. A sanction should address the misconduct that was found. Where the Act allows, a limit or a period of supervision on the bridge work does that. The hearing did not find the rest of her practice incompetent, and the committee does not manage her employer\'s staffing. Revocation is available in a proper case. It is not the only lawful order.',
+        'A sanction should address the misconduct that was found. Where the Act allows, a limit or a period of supervision on the bridge work does that. The hearing did not find the rest of her practice incompetent, and the committee does not manage her employer\'s staffing. Revocation is available in a proper case. It is not the only lawful order.',
+        'Not the best answer. "The committee has no power short of revocation. Any narrower order is unlawful in every province." does not satisfy the duty this scenario tests. A sanction should address the misconduct that was found. Where the Act allows, a limit or a period of supervision on the bridge work does that. The hearing did not find the rest of her practice incompetent, and the committee does not manage her employer\'s staffing. Revocation is available in a proper case. It is not the only lawful order.'
+      ],
+      keyPoint: 'A sanction should address the misconduct that was found.',
+      trap: 'The committee must revoke every class of her practice, including work the hearing did not examine.',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
     }
   ];
 
   var REQUIRED = 110;
+  var SCORED = 100;
   questions.forEach(function (q, index) {
     var expected = 'nppe:set-2:' + String(501 + index);
     if (q.qid !== expected) throw new Error('NPPE Set 2 id sequence broken at ' + q.qid);
     if (q.form !== 'mock-d' || q.authorSet !== 2) throw new Error('NPPE Set 2 bank mismatch at ' + q.qid);
     if (!q.options || q.options.length !== 4) throw new Error('NPPE Set 2 option count at ' + q.qid);
     if (q.answer < 0 || q.answer > 3) throw new Error('NPPE Set 2 answer at ' + q.qid);
-    if (q.experimental !== false || q.scored !== true) throw new Error('NPPE Set 2 scored flag at ' + q.qid);
+    var shouldBeExperimental = index >= SCORED;
+    if (q.experimental !== shouldBeExperimental || q.scored === q.experimental) {
+      throw new Error('NPPE Set 2 scored flag at ' + q.qid);
+    }
   });
 
   global.NPPE_SET2 = questions;
@@ -3129,6 +3443,7 @@
   global.registerNPPESet2 = function (exam) {
     if (!exam) return;
     var releasedItems = questions.slice();
+    var complete = releasedItems.length === REQUIRED;
     exam.forms = Object.assign({}, exam.forms, { 'mock-d': releasedItems });
     exam.sets = Object.assign({}, exam.sets, { 2: releasedItems });
     exam.setPlans = Object.assign({}, exam.setPlans, {
@@ -3136,10 +3451,12 @@
         form: 'mock-d',
         target: REQUIRED,
         released: releasedItems.length,
+        scored: releasedItems.filter(function (q) { return q.scored; }).length,
+        experimental: releasedItems.filter(function (q) { return q.experimental; }).length,
         label: 'Mock D — ' + releasedItems.length + ' of ' + REQUIRED,
-        launchable: releasedItems.length === REQUIRED
+        launchable: complete
       }
     });
-    exam.mockLaunchable = Object.assign({}, exam.mockLaunchable, { 'mock-d': releasedItems.length === REQUIRED });
+    exam.mockLaunchable = Object.assign({}, exam.mockLaunchable, { 'mock-d': complete });
   };
 })(typeof window !== 'undefined' ? window : globalThis);
