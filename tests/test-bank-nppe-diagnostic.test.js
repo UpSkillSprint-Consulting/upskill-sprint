@@ -7,9 +7,9 @@ const vm=require('node:vm');
 const {JSDOM,VirtualConsole}=require('jsdom');
 const ROOT=path.join(__dirname,'..');
 const read=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
-const EXPECTED_COUNT=30, EXPECTED_MINUTES=41;
+const EXPECTED_COUNT=40, EXPECTED_MINUTES=55;
 const PREFIX='nppe:set-1:diagnostic:';
-const DIAGNOSTIC_FILES=['test-bank-nppe-diagnostic-batch2.js','test-bank-nppe-diagnostic.js','test-bank-nppe-diagnostic-batch3.js'];
+const DIAGNOSTIC_FILES=['test-bank-nppe-diagnostic-batch2.js','test-bank-nppe-diagnostic.js','test-bank-nppe-diagnostic-batch3.js','test-bank-nppe-diagnostic-batch4.js'];
 let build,packet,workspace;
 test.before(async()=>{
   workspace=fs.mkdtempSync(path.join(require('node:os').tmpdir(),'nppe-diagnostic-'));
@@ -30,7 +30,7 @@ async function browser(){
  await new Promise(resolve=>setTimeout(resolve,50));
  return {dom,win:dom.window,doc:dom.window.document,errors};
 }
-test('three diagnostic batches have thirty unique scored items and complete reasoning',()=>{
+test('four diagnostic batches have forty unique scored items and complete reasoning',()=>{
  const qs=bank().NPPE_DIAGNOSTIC;
  assert.equal(qs.length,EXPECTED_COUNT);assert.equal(new Set(qs.map(q=>q.qid)).size,EXPECTED_COUNT);
  const counts={};
@@ -41,8 +41,8 @@ test('three diagnostic batches have thirty unique scored items and complete reas
   assert.ok(Number.isInteger(q.answer)&&q.answer>=0&&q.answer<4);assert.ok(q.sources.length&&q.why&&q.keyPoint&&q.learningObjective);
   assert.ok(q.optionRationales.every(s=>s.length>35));counts[q.area]=(counts[q.area]||0)+1;
  });
- assert.deepEqual(counts,{I:3,II:6,III:9,IV:6,V:3,VI:3});
- assert.deepEqual(Array.from(qs,q=>q.batch),Array(10).fill(1).concat(Array(10).fill(2),Array(10).fill(3)));
+ assert.deepEqual(counts,{I:4,II:8,III:12,IV:8,V:4,VI:4});
+ assert.deepEqual(Array.from(qs,q=>q.batch),Array(10).fill(1).concat(Array(10).fill(2),Array(10).fill(3),Array(10).fill(4)));
 });
 test('Batch 2 exact blueprint subtopics match the official NPPE outline after seven metadata corrections',()=>{
  const qs=Array.from(bank().NPPE_DIAGNOSTIC).slice(10,20);
@@ -75,18 +75,56 @@ test('Batch 3 registration preserves all earlier question objects and rejects mi
  const before=JSON.stringify(original),references=Array.from(original);
  vm.runInNewContext(read(DIAGNOSTIC_FILES[2]),ctx);
  assert.equal(ctx.window.NPPE_DIAGNOSTIC,original);
- assert.equal(original.length,EXPECTED_COUNT);
+ assert.equal(original.length,30);
  assert.equal(JSON.stringify(original.slice(0,20)),before);
  references.forEach((q,i)=>assert.equal(original[i],q));
  ctx.window.installNPPEDiagnosticBatch3();
  vm.runInNewContext(read(DIAGNOSTIC_FILES[2]),ctx);
- assert.equal(original.length,EXPECTED_COUNT);
+ assert.equal(original.length,30);
  assert.throws(()=>vm.runInNewContext(read(DIAGNOSTIC_FILES[2]),{window:{}}),/Batches 1/);
  assert.throws(()=>vm.runInNewContext(read(DIAGNOSTIC_FILES[2]),{window:{NPPE_DIAGNOSTIC:original.slice(0,19)}}),/Batches 1/);
  const invalid=JSON.parse(before);invalid[0].authorSet=2;
  assert.throws(()=>vm.runInNewContext(read(DIAGNOSTIC_FILES[2]),{window:{NPPE_DIAGNOSTIC:invalid}}),/earlier Diagnostic/);
  original[29].stem='Conflicting replacement';
  assert.throws(()=>ctx.window.installNPPEDiagnosticBatch3(),/Conflicting/);
+});
+test('Batch 4 verifies its unique blueprint topics, keys, complete sources and separate question families',()=>{
+ const qs=Array.from(bank().NPPE_DIAGNOSTIC_BATCH4);
+ assert.equal(qs.length,10);
+ assert.deepEqual(qs.map(q=>q.blueprint),['I.1','II.1','II.3','III.2','III.8','III.10','IV.4','IV.7','V.3','VI.4']);
+ assert.deepEqual(qs.map(q=>q.answer),[1,0,2,3,1,3,0,2,1,0]);
+ assert.equal(qs.filter(q=>q.difficulty==='easy').length,2);
+ assert.equal(qs.filter(q=>q.difficulty==='medium').length,6);
+ assert.equal(qs.filter(q=>q.difficulty==='hard').length,2);
+ assert.equal(new Set(qs.map(q=>q.questionFamily)).size,10);
+ const old=Array.from(bank().NPPE_DIAGNOSTIC).slice(0,30);
+ assert.ok(qs.every(q=>!old.some(p=>p.stem===q.stem||p.questionFamily===q.questionFamily)));
+ for(const q of qs){
+  assert.match(q.blueprintVersion,/2017/);assert.match(q.difficultyBasis,/not empirically calibrated/);
+  assert.match(q.reviewStatus,/not independently validated/);assert.equal(q.optionRationales.length,4);
+  assert.ok(q.optionRationales.every(s=>s.length>40));
+  for(const s of q.sources){assert.ok(s.sourceType&&s.title&&s.locator);if(s.url)assert.equal(new URL(s.url).protocol,'https:');}
+  assert.doesNotMatch(q.why,/<script|onerror\s*=/i);
+ }
+ assert.match(qs[6].jurisdiction,/Quebec/);assert.match(qs[8].jurisdiction,/Saskatchewan/);
+ assert.match(qs[9].jurisdiction,/British Columbia/);
+});
+test('Batch 4 appends without rewriting Batches 1–3 and rejects missing, partial or conflicting predecessors',()=>{
+ const ctx={window:{}};
+ vm.runInNewContext(DIAGNOSTIC_FILES.slice(0,3).map(read).join('\n'),ctx);
+ const original=ctx.window.NPPE_DIAGNOSTIC,before=JSON.stringify(original),refs=Array.from(original);
+ assert.equal(original.length,30);
+ vm.runInNewContext(read(DIAGNOSTIC_FILES[3]),ctx);
+ assert.equal(ctx.window.NPPE_DIAGNOSTIC,original);assert.equal(original.length,40);
+ assert.equal(JSON.stringify(original.slice(0,30)),before);refs.forEach((q,i)=>assert.equal(original[i],q));
+ ctx.window.installNPPEDiagnosticBatch4();vm.runInNewContext(read(DIAGNOSTIC_FILES[3]),ctx);
+ assert.equal(original.length,40);
+ assert.throws(()=>vm.runInNewContext(read(DIAGNOSTIC_FILES[3]),{window:{}}),/Batches 1/);
+ assert.throws(()=>vm.runInNewContext(read(DIAGNOSTIC_FILES[3]),{window:{NPPE_DIAGNOSTIC:original.slice(0,29)}}),/Batches 1/);
+ const invalid=JSON.parse(before);invalid[0].authorSet=2;
+ assert.throws(()=>vm.runInNewContext(read(DIAGNOSTIC_FILES[3]),{window:{NPPE_DIAGNOSTIC:invalid}}),/earlier Diagnostic/);
+ original[39].stem='Conflicting replacement';
+ assert.throws(()=>ctx.window.installNPPEDiagnosticBatch4(),/Conflicting/);
 });
 test('diagnostic registration is idempotent and cannot overwrite another author form',()=>{
  const ctx={window:{},console};vm.runInNewContext(read('test-bank-nppe-set2.js')+'\n'+read('test-bank-nppe-set3.js'),ctx);
@@ -97,7 +135,7 @@ test('diagnostic registration is idempotent and cannot overwrite another author 
  assert.equal(e.forms['set-1-diagnostic'].length,EXPECTED_COUNT);assert.equal(e.diagnostic.complete,false);assert.equal(e.diagnostic.target,50);
  assert.equal(JSON.stringify(e.forms['mock-d']),beforeD);assert.equal(JSON.stringify(e.forms['mock-e']),beforeE);
  const all=[...e.forms['mock-d'],...e.forms['mock-e'],...e.forms['set-1-diagnostic']];
- assert.equal(new Set(all.map(q=>q.qid)).size,250);
+ assert.equal(new Set(all.map(q=>q.qid)).size,260);
  const earlierStems=new Set(all.filter(q=>q.batch!==3||q.form!=='set-1-diagnostic').map(q=>q.stem.trim().toLowerCase()));
  for(const q of api.NPPE_DIAGNOSTIC_BATCH3)assert.equal(earlierStems.has(q.stem.trim().toLowerCase()),false,q.qid);
  assert.throws(()=>api.registerNPPEDiagnostic({formCatalog:[{id:'set-1-diagnostic',authorSet:2}]}));
@@ -105,27 +143,28 @@ test('diagnostic registration is idempotent and cannot overwrite another author 
 test('build delivers Diagnostic only in the NPPE authorized package and no questions in the public shell',()=>{
  assert.match(packet.scripts.join('\n'),/nppe:set-1:diagnostic:/);
  assert.match(packet.scripts.join('\n'),/NPPE_DIAGNOSTIC_BATCH3/);
+ assert.match(packet.scripts.join('\n'),/NPPE_DIAGNOSTIC_BATCH4/);
  assert.doesNotMatch(build.shell,/nppe:set-1:diagnostic:|NPPE_DIAGNOSTIC|A municipality asks a project team/);
  for(const key of Object.keys(build.sizes).filter(k=>k!=='nppe'))assert.doesNotMatch(fs.readFileSync(path.join(build.output,key+'.json'),'utf8'),/NPPE_DIAGNOSTIC|nppe:set-1:diagnostic:/);
  assert.ok(build.sizes.nppe<5500000);
 });
-test('partial Diagnostic displays actual 30 count and 41 minutes; other forms retain readiness',async()=>{
+test('partial Diagnostic displays actual 40 count and 55 minutes; other forms retain readiness',async()=>{
  const {dom,doc,win,errors}=await browser();try{
   assert.equal(doc.querySelector('[data-set="set-1-diagnostic"] .tb-sets').textContent,String(EXPECTED_COUNT));
   assert.equal(doc.querySelector('[data-set="mock-d"] .tb-sets').textContent,'110');
   assert.equal(doc.querySelector('[data-set="mock-e"] .tb-sets').textContent,'110');
   for(const id of ['set-1-learning','set-1-mock-a','set-1-mock-b','set-1-mock-c'])assert.equal(doc.querySelector('[data-set="'+id+'"]').disabled,true);
-  assert.match(doc.getElementById('tb-overview').textContent,/30 of 50 planned/);
+  assert.match(doc.getElementById('tb-overview').textContent,/40 of 50 planned/);
   assert.match(doc.getElementById('tb-overview').textContent,new RegExp(EXPECTED_MINUTES+' minutes'));
   assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Diagnostic/);
   assert.equal(doc.querySelector('[data-mode="quick"]'),null);
   assert.equal(win.__TB.EXAMS.nppe.forms['mock-d'].length,110);assert.deepEqual(errors,[]);
  }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}
 });
-test('timed Diagnostic uses thirty own-bank items for forty-one minutes without answer aids',async()=>{
+test('timed Diagnostic uses forty own-bank items for fifty-five minutes without answer aids',async()=>{
  const {dom,doc,win,errors}=await browser();try{
   doc.querySelector('[data-mode="full"]').click();
-  assert.match(doc.querySelector('#tb-timer').textContent,/^4[01]:[0-5][0-9]$/);
+  assert.match(doc.querySelector('#tb-timer').textContent,/^5[45]:[0-5][0-9]$/);
   const snap=win.__TB.getFeedbackSnapshot();assert.equal(snap.records.length,EXPECTED_COUNT);
   assert.ok(snap.records.every(r=>r.question.form==='set-1-diagnostic'));
   assert.equal(snap.records.filter(r=>r.question.batch===3).length,10);
@@ -138,7 +177,7 @@ test('timed Diagnostic uses thirty own-bank items for forty-one minutes without 
   assert.deepEqual(errors,[]);
  }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}
 });
-test('untimed Diagnostic scores 30/30 and provides source-supported review only after submission',async()=>{
+test('untimed Diagnostic scores 40/40 and provides source-supported review only after submission',async()=>{
  const {dom,doc,win,errors}=await browser();try{
   doc.querySelector('[data-timing-kind="full"][data-timed="0"]').click();doc.querySelector('[data-mode="full"]').click();
   assert.equal(doc.querySelector('.tb-timer').textContent,'Untimed');assert.equal(doc.querySelector('#tb-feedback-loop'),null);
@@ -150,7 +189,7 @@ test('untimed Diagnostic scores 30/30 and provides source-supported review only 
    doc.querySelector(i===EXPECTED_COUNT-1?'[data-submit]':'[data-next]').click();
   }
   await new Promise(resolve=>setTimeout(resolve,80));
-  assert.match(doc.querySelector('[data-score-result]').textContent,/100% \(30\/30\)/);
+  assert.match(doc.querySelector('[data-score-result]').textContent,/100% \(40\/40\)/);
   assert.match(doc.querySelector('[data-score-result]').textContent,/Test set: Diagnostic/);
   assert.equal(doc.querySelectorAll('.tb-domblock').length,6);
   assert.doesNotMatch(doc.querySelector('#tb-overview').textContent,/Coverage-adjusted readiness/);
