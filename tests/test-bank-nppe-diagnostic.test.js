@@ -326,6 +326,13 @@ test('public staging excludes all Diagnostic authoring files and detects an acci
   await stagePublicSite(source,publish);
   assert.equal(fs.existsSync(path.join(publish,'nppe')),false);
   for(const name of DIAGNOSTIC_FILES)assert.equal(fs.existsSync(path.join(publish,name)),false);
+  // Even without readable answer literals, a deliberately staged Batch 5 source file must be blocked.
+  const accidental=path.join(publish,'test-bank-nppe-diagnostic-batch5.js');
+  fs.writeFileSync(accidental,'// intentionally empty authoring-bank fixture');
+  const staged=await auditExamPublicContent(publish);
+  assert.equal(staged.status,'blocked');
+  assert.ok(staged.findings.some(f=>f.path==='test-bank-nppe-diagnostic-batch5.js'));
+  fs.rmSync(accidental);
   fs.mkdirSync(path.join(publish,'nppe'));
   assert.equal((await auditExamPublicContent(publish)).status,'blocked');
  }finally{fs.rmSync(temp,{recursive:true,force:true});}
