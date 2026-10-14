@@ -26,7 +26,7 @@
 
 ### Substantive corrections and defects found
 
-1. **Systemic answer-length cue (high):** In the original authored bank, 36 of 50 correct alternatives were the longest. Reworked 26 keyed-choice phrasings and several wrong-option phrasings; the correct option is now longest in 14 of 50, close to an uninformative proportion. Key identities did not change.
+1. **Systemic answer-length cue (high):** In the original authored bank, 36 of 50 correct alternatives were the longest. Reworked 26 keyed-choice phrasings and several wrong-option phrasings; the correct option is now longest in 12 of 50, close to an uninformative proportion. Key identities did not change.
 2. **Unrealistic distractors (moderate):** Rewrote incorrect choices and corresponding rationale text for 006, 010, 012, 013, 016, 020, 028, 034 and 044 to require more considered judgments without creating competing correct answers.
 3. **Near-duplicate learning objective (moderate):** Replaced 015's second 'unfamiliar specialty assignment' scenario (overlapping 004) with a distinct professional peer-review, consultation and collaboration case under III.3. The intended key B was retained; all options, explanations and references were updated.
 4. **Overstated provisional difficulty (moderate):** Downgraded 012, 013, 016, 020, 028 and 044 from hard to medium. Remaining difficulty labels are editorial hypotheses, not NPPE calibration.
