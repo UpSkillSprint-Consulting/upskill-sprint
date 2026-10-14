@@ -160,9 +160,9 @@ Every lesson is a single self-contained `.html` file with this structure:
 | `<title>` | **Standard for every new lesson (approved by Ernest, Oct 2026):** `<Lesson title> \| UpSkill Sprint`, and the **whole** `<title>` (suffix included) is **≤65 characters**, counted after decoding entities (`&amp;` counts as 1). If it is longer, shorten the title part, never the suffix. Use the suffix exactly as written: not "UpSkillSprint", not "UpSkill Sprint Consulting", and never omit it. Older lessons whose tests require an exact title are exempt (see below). |
 | `<meta name="description">` | One or two sentences, **≤165 characters** (aim for 120–160), unique to the lesson. Reusing `card_description` is fine if it fits. |
 | `<link rel="canonical">` | Absolute `https://upskillsprint.com/...` URL in the **extensionless** form: no `.html`, no trailing slash. A trailing slash is used **only** for a directory index page (`…/folder/index.html` → `https://upskillsprint.com/folder/`). This matches `scripts/build-sitemap.mjs` (`withDirectorySlash`) and `tests/sitemap-directory-urls.test.js`. |
-| `og:type` / `og:title` / `og:description` / `og:image` / `og:url` | All five are required. `og:type` = `article`. `og:title` = the `<title>` text. `og:description` = the meta description. `og:url` = the canonical, exactly. `og:image` = an absolute URL: the logo above, or a lesson image of at least 1200×630 under `assets/lessons/<slug>/`. |
+| `og:type` / `og:title` / `og:description` / `og:image` / `og:url` | All five are required. `og:type` = `article`. `og:title` = the `<title>` text. `og:description` = the meta description. `og:url` = the canonical, exactly. `og:image` MUST be `https://upskillsprint.com/assets/logo-og.png` (the current wordmark on white), or a lesson poster of at least 1200×630 under `assets/lessons/<slug>/`. Never `logo-icon.png` and never any older mark. |
 | `twitter:card` | `summary` (or `summary_large_image` when `og:image` is a 1200×630 lesson image). X falls back to the `og:*` tags, so `twitter:title`/`twitter:description` are optional. If you add them, they MUST equal the `og:*` values. |
-| Favicon | `<link rel="icon" href="/favicon.ico" sizes="any">` and `<link rel="apple-touch-icon" href="/apple-touch-icon.png">`, the same tags `index.html` and `404.html` use. |
+| Favicon | `<link rel="icon" href="/favicon.ico" sizes="any">` and `<link rel="apple-touch-icon" href="/apple-touch-icon.png">`, the same tags `index.html` and `404.html` use. Those files are the current growth-mark icon. Do not point them at `logo-icon.png` or an old logo. |
 
 The metadata `title` (§3) and the visible `<h1>` keep the full human title. Only `<title>`
 and `og:title` carry the suffix and any shortening. **Exemption:** older lessons whose own
@@ -237,6 +237,27 @@ shared template** (with the current year). The static markup below is still requ
 the no-JavaScript fallback, the tests compare it, and the nav/footer normaliser keys off it.
 Never hand-build a different header or footer, and never set `data-site-chrome="minimal"`
 on a lesson (that opt-out is only for the certificate, admin gate, and form stub).
+
+### 4.0 Brand logo — always the current wordmark
+
+Every new or updated lesson MUST use the current UpSkill Sprint Consulting wordmark and
+MUST NOT reintroduce the old icon-plus-name lockup. The company name is drawn inside the
+image. Do not add `<span>UpSkill Sprint Consulting</span>` (or any other name) beside it.
+
+| Place | Required file | Notes |
+|---|---|---|
+| Header | `/assets/logo-wordmark.png` | Also set `data-logo-light="/assets/logo-wordmark.png"` and `data-logo-dark="/assets/logo-wordmark-on-dark.png"` so dark mode swaps to white type. `alt="UpSkill Sprint Consulting"`. `class="logo-wordmark"`. |
+| Footer | `/assets/logo-wordmark-on-dark.png` | The footer is navy in both themes, so this is always the white wordmark. No light/dark data attributes. `alt="UpSkill Sprint Consulting"`. |
+| Social image | `https://upskillsprint.com/assets/logo-og.png` | Default `og:image`. A 1200×630 lesson poster may replace it (§2.1). The old icon must not. |
+| Favicon | `/favicon.ico` and `/apple-touch-icon.png` | Already the current mark. Do not replace these tags. |
+
+**MUST NOT:** `assets/logo-icon.png` in lesson chrome, a hand-drawn or inline-SVG logo, a
+different wordmark, or the old bars icon next to a text name. `logo-icon.png` is only the
+small square badge that `theme.js` swaps in for a "US" initials chip on some tools. Lessons
+do not use it.
+
+The header and footer blocks in §4.1 and §4.2 already contain this markup. Paste them
+unchanged. Do not "simplify" the `<img>` tags.
 
 ### 4.1 Header — paste immediately after the `<body …>` tag
 
@@ -959,6 +980,7 @@ both themes** per §9.3/§9.5 — do not assume the folder name matches the page
   should learn from them. Use a longer explanation in the text or a `<figcaption>` for complex
   charts. Purely decorative images get `alt=""`. Never use the filename as alt text.
 - Images are not text: never put formulas, tables, or instructions **only** inside an image.
+- The site logo is not a lesson diagram. Do not redraw it. Use the wordmark files in §4.0.
 - Large binaries (PDF posters, workbooks) are fine under `assets/lessons/<slug>/` when the
   lesson links them, but keep each one under 10 MB and mention their sizes in the PR body.
 
@@ -1234,6 +1256,7 @@ tick a box, leave it unticked, explain why beneath it, and open the PR as a draf
 - [ ] <title> ends with " | UpSkill Sprint" and is ≤65 chars in total (test-locked older titles exempt, §2.1); meta description ≤165 chars; canonical extensionless (slash only for directory index); og:type/title/description/image/url + twitter:card; favicon links.
 - [ ] <head> loads /style.css, /lessons-theme.css, /theme.js, /site-sections.js (exact tags), any inline <style> AFTER them.
 - [ ] Canonical header (§4.1) right after <body>, starting with the checkbox, no skip link; canonical footer (§4.2) after the back-link, followed only by scripts and the dark-override block.
+- [ ] Logo is only the current wordmark (§4.0): header uses logo-wordmark.png with data-logo-light and data-logo-dark; footer uses logo-wordmark-on-dark.png; no logo-icon.png; no company-name span beside the image. Default og:image is logo-og.png unless a 1200×630 lesson poster is used.
 - [ ] <body> has data-lesson-page/category/level/interactive/lesson-type; progress card NOT hardcoded.
 - [ ] Exactly one <main id="lesson-content"> and one <h1>; no skipped heading levels.
 - [ ] §7 quiz markup + grader copied exactly; dispatches upskill-quiz-result; dark kicker fix added.
