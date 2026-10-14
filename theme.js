@@ -45,6 +45,15 @@
     });
   }
 
+  function syncBrandWordmarks(isDark) {
+    document.querySelectorAll('img.logo-wordmark[data-logo-dark]').forEach(function (img) {
+      if (img.closest && img.closest('footer')) return;
+      var next = isDark ? img.getAttribute('data-logo-dark') : img.getAttribute('data-logo-light');
+      if (next && img.getAttribute('src') !== next) img.setAttribute('src', next);
+      img.classList.add('is-theme-ready');
+    });
+  }
+
   function applyTheme(theme, savePreference) {
     const resolvedTheme = theme === 'dark' ? 'dark' : 'light';
     const isDark = resolvedTheme === 'dark';
@@ -53,6 +62,7 @@
     root.style.colorScheme = resolvedTheme;
     updateMetaTheme(isDark);
     syncThemeToggles(isDark);
+    syncBrandWordmarks(isDark);
 
     if (savePreference) {
       try {
@@ -77,6 +87,7 @@
     const style = document.createElement('style');
     style.id = 'upskill-global-theme-styles';
     style.textContent = `
+      html[data-theme="dark"] header.site img.logo-wordmark[data-logo-dark]:not(.is-theme-ready) { visibility: hidden; }
       html[data-theme="dark"] {
         color-scheme: dark;
         --ink: #f4f7fb;
@@ -270,6 +281,7 @@
   function initializeThemeControls() {
     ensureThemeControl();
     syncThemeToggles(root.dataset.theme === 'dark');
+    syncBrandWordmarks(root.dataset.theme === 'dark');
   }
 
   function installMaterialCheckerBrandFix() {
@@ -399,6 +411,10 @@
   } else {
     initializeThemeControls();
   }
+
+  window.addEventListener('load', function () {
+    syncBrandWordmarks(root.dataset.theme === 'dark');
+  });
 
   if (typeof systemTheme.addEventListener === 'function') {
     systemTheme.addEventListener('change', function (event) {
