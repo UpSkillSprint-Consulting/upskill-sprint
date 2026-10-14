@@ -44,6 +44,15 @@ test('five diagnostic batches have fifty unique scored items and complete reason
  assert.deepEqual(counts,{I:4,II:10,III:15,IV:12,V:4,VI:5});
  assert.deepEqual(Array.from(qs,q=>q.batch),Array(10).fill(1).concat(Array(10).fill(2),Array(10).fill(3),Array(10).fill(4),Array(10).fill(5)));
 });
+test('complete fifty-item Diagnostic has intentional blueprint balance and identifies subtopics not sampled',()=>{
+ const qs=Array.from(bank().NPPE_DIAGNOSTIC);
+ const coverage=new Set(qs.map(q=>q.blueprint));
+ const all={I:4,II:4,III:10,IV:14,V:4,VI:4};
+ const notSampled=Object.entries(all).flatMap(([area,n])=>Array.from({length:n},(_,i)=>area+'.'+(i+1))).filter(tag=>!coverage.has(tag));
+ assert.deepEqual(notSampled,['IV.1','IV.10','IV.13','IV.14']);
+ assert.equal(coverage.size,36);
+ assert.equal(qs.every(q=>q.scored===true && q.experimental===false),true);
+});
 test('Batch 2 exact blueprint subtopics match the official NPPE outline after seven metadata corrections',()=>{
  const qs=Array.from(bank().NPPE_DIAGNOSTIC).slice(10,20);
  assert.deepEqual(qs.map(q=>q.legacyId),Array.from({length:10},(_,i)=>'NPPE-'+String(11+i).padStart(3,'0')));
@@ -246,6 +255,10 @@ test('untimed Diagnostic scores 50/50 and provides source-supported review only 
   assert.match(doc.querySelector('#tb-feedback-loop').textContent,/Sources:/);
   assert.match(doc.querySelector('#tb-feedback-loop').textContent,/primary-legislation/);
   assert.equal(doc.querySelectorAll('.tb-review-card').length,EXPECTED_COUNT);
+  assert.equal(doc.querySelectorAll('.tb-review-rationales').length,EXPECTED_COUNT);
+  const sample=win.__TB.EXAMS.nppe.forms['set-1-diagnostic'][40];
+  assert.match(doc.querySelector('#tb-feedback-loop').textContent,/Why the other options are incorrect/);
+  assert.ok(doc.querySelector('#tb-feedback-loop').textContent.includes(sample.optionRationales[0]),'Wrong-answer explanation for NPPE-041 must appear after submission');
   doc.querySelector('[data-retake]').click();assert.equal(win.__TB.getFeedbackSnapshot().records.length,EXPECTED_COUNT);assert.equal(doc.querySelector('.tb-timer').textContent,'Untimed');
   assert.deepEqual(errors,[]);
  }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}
