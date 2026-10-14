@@ -14,7 +14,7 @@
     "options": [
       "Duty ethics, because the mentor says one unqualified rule applies without exception.",
       "Utilitarianism, because the mentor calculates aggregate costs and benefits to everyone.",
-      "Virtue ethics, because courage is treated as a cultivated character trait exercised with judgment.",
+      "Virtue ethics, emphasizing courage as a character trait exercised with judgment.",
       "Rights ethics, because the mentor begins with a specific person's legally protected entitlement."
     ],
     "answer": 2,
@@ -50,17 +50,17 @@
     "jurisdiction": "Canada; general code-of-ethics principles, subject to each professional regulator's enforceable provisions.",
     "stem": "A graduate-in-training developed and validated an important analysis used in a licensed engineer's final project report. The supervising engineer checks and accepts responsibility for the conclusions but plans to list only their own contribution, saying the graduate cannot authenticate the report. What is the best response?",
     "options": [
-      "Recognize the graduate's substantive contribution appropriately while retaining professional responsibility for the reviewed conclusions.",
-      "Omit the graduate because only licensed professionals may be credited for technical work in a report.",
-      "Transfer the entire professional responsibility to the graduate whenever the analysis was originally developed by them.",
-      "Include the graduate as the sole authenticating professional even though they are not authorized to authenticate the report."
+      "Acknowledge the trainee's substantive work while retaining responsibility for the reviewed report.",
+      "Name only licensed reviewers in the report and recognize the trainee solely in internal timesheets.",
+      "Transfer professional responsibility to the trainee because the original analysis was their work.",
+      "Postpone acknowledging the trainee's contribution until they become professionally licensed."
     ],
     "answer": 0,
     "optionRationales": [
       "Giving fair credit for work and retaining responsibility for its professional approval are separate matters; both can be respected.",
-      "A person need not be licensed to receive appropriate acknowledgement of analysis they contributed under professional supervision.",
-      "Acknowledgement does not change the supervising professional's accountability for accepted technical judgments and signed work.",
-      "Authorship credit does not give an unlicensed trainee the power to authenticate documents as the licensed professional."
+      "Internal timesheets are not a substitute for appropriate acknowledgement of substantial work in the project record; unlicensed status does not prevent fair credit.",
+      "Contributing the analysis does not automatically confer authorization to take responsibility for authenticated professional conclusions.",
+      "Attribution should not depend on the contributor's eventual licensure. Credit and professional sign-off perform different functions."
     ],
     "keyPoint": "Distinguish ethical recognition of contributors from the licensed person's responsibility to review and authenticate.",
     "trap": "Treating licensure as a prerequisite for attribution, or credit as a transfer of professional accountability.",
@@ -133,7 +133,7 @@
     "stem": "An engineer emails a confidential geotechnical dataset to a personal webmail account to finish a report at home. The engineer realizes the account has been compromised and that outsiders may have accessed the file. What is the most appropriate initial response?",
     "options": [
       "Delete the sent email and assume the risk ends because it is no longer in the engineer's mailbox.",
-      "Promptly notify the organization's designated incident-response contacts, preserve relevant facts and help contain and assess the disclosure.",
+      "Notify the incident-response team promptly, preserve facts and help contain the disclosure.",
       "Publish the entire dataset so all potential recipients have equal access to the information.",
       "Wait for proof that somebody used the dataset before notifying anyone, to avoid an unnecessary investigation."
     ],
@@ -176,17 +176,17 @@
     "jurisdiction": "Canada; specific regulator-reporting obligations vary by province/territory and require case-specific assessment.",
     "stem": "During a routine records check, a professional discovers authenticated audit records showing that a colleague deliberately substituted passing results for failed material tests. The affected components are already installed, but the actual risk has not yet been determined. The manager asks that the matter be handled quietly next quarter. What is the best next course?",
     "options": [
-      "Keep the evidence private until an actual failure proves the falsification caused physical harm.",
-      "Announce the colleague's misconduct as proven on social media before verifying which installations are affected.",
-      "Immediately resign without preserving records or communicating the issue, since any internal review could imply personal responsibility.",
-      "Preserve the evidence, promptly seek controls and factual assessment for affected work, and report through appropriate management, safety and regulatory channels as required."
+      "Preserve the evidence and complete an internal investigation, but postpone any other response until the next reporting cycle.",
+      "Submit an unqualified misconduct allegation immediately without identifying affected installations or arranging safety assessment.",
+      "Notify all project owners that every installation is unsafe before determining what the records show about their work.",
+      "Preserve evidence, assess and control affected work promptly, and report through appropriate channels as required."
     ],
     "answer": 3,
     "optionRationales": [
-      "Falsified compliance data create a material concern independently of whether an actual failure has yet occurred; delaying can prolong risk.",
-      "Indiscriminate public accusation bypasses a careful assessment of facts, risk, affected parties and appropriate reporting recipients.",
-      "Resignation alone neither preserves a proper record nor addresses potential public harm and reporting obligations.",
-      "This response addresses evidence integrity, timely risk management and proportionate reporting under applicable professional duties and laws."
+      "An internal inquiry can be necessary, but delaying action on affected installations and any relevant regulatory duties could leave avoidable risks unresolved.",
+      "Prompt reporting matters, but an unsupported blanket allegation with no effort to identify affected work is not a proportionate complete response.",
+      "Risk communication should be accurate and timely; asserting every installation is unsafe without assessing the evidence can mislead stakeholders.",
+      "Evidence preservation, time-sensitive risk assessment and proportionate reporting together address public protection and professional transparency."
     ],
     "keyPoint": "A professional's duty to inform is not satisfied by silence or unsupported public claims; use credible evidence and appropriate protective channels.",
     "trap": "Waiting for injury or substituting publicity for evidence-based regulatory and safety escalation.",
@@ -220,17 +220,17 @@
     "jurisdiction": "Canadian common-law province (outside Quebec); this is a general classification principle, not a final tax or labour ruling.",
     "stem": "A firm's contract calls a designer an 'independent contractor.' In practice, the firm controls daily hours and work methods, supplies all design equipment, forbids other clients and pays a fixed wage with no opportunity for profit or risk of loss. Which conclusion is most defensible?",
     "options": [
-      "These facts suggest an employment relationship, but classification requires weighing the actual relationship rather than relying solely on the contract label.",
-      "The written title is conclusive because the parties signed it, regardless of their day-to-day relationship.",
-      "A professional designer is necessarily self-employed because the work requires specialized judgment.",
-      "Employee status is impossible unless the worker receives a professional seal directly from the firm."
+      "The facts suggest employment, but the total working relationship must be assessed beyond the contract label.",
+      "Use only the stated contract intention, because invoicing the firm is definitive evidence of self-employment.",
+      "Treat professional discretion as the decisive factor, because the firm cannot direct a licensed designer's work.",
+      "Classify the worker by who purchases professional liability insurance rather than by how their work is performed."
     ],
     "answer": 0,
     "optionRationales": [
-      "Control, supplied equipment, economic dependence and absence of business risk are relevant indicators. The parties' label alone does not settle status.",
-      "The parties' stated intention matters, but classification also considers the actual terms and conditions of the relationship.",
-      "Specialized knowledge does not preclude an employment relationship; professional employees are common.",
-      "Professional authentication and licensing are separate issues from employee versus independent-contractor status."
+      "Control, supplied equipment, economic dependence and absence of entrepreneurial opportunity tend toward employment; a complete factual assessment is still required.",
+      "Parties' intention and invoicing arrangements are relevant but not conclusive where the working realities differ from the label.",
+      "Professional skill or discretion does not necessarily mean the person operates a genuinely independent business.",
+      "Liability insurance may be relevant commercially, but does not supersede the broader statutory or common-law employment-status assessment."
     ],
     "keyPoint": "Look at the substance of the relationship—control, tools, profit opportunity and risk—not just the title of the contract.",
     "trap": "Treating the signed 'contractor' label or professional status as determinative.",
@@ -316,7 +316,7 @@
     "options": [
       "Wait for laboratory confirmation because reporting is required only after environmental damage has been measured.",
       "Notify only the company's insurer because internal containment replaces provincial reporting obligations.",
-      "Report the potentially harmful discharge promptly through the provincial spill-reporting channel while continuing safe containment and documenting the event.",
+      "Notify the provincial spill authority promptly while continuing containment and recording facts.",
       "Submit a written report in 30 days and treat that as a substitute for the initial notification."
     ],
     "answer": 2,
@@ -358,17 +358,17 @@
     "jurisdiction": "Saskatchewan; a worker has reasonable grounds to believe the specified task is unusually dangerous within The Saskatchewan Employment Act.",
     "stem": "A Saskatchewan maintenance worker is told to enter a vessel without atmospheric testing even though hazardous vapour exposure is reasonably suspected. The worker tells the supervisor that the task is unusually dangerous and refuses it. The supervisor says the worker must either enter immediately or leave the site. What is the appropriate response?",
     "options": [
-      "Follow the statutory work-refusal procedure: assess the concern, involve the workplace occupational health committee when unresolved, and seek an officer's decision if needed.",
+      "Follow Saskatchewan's work-refusal process, investigate and escalate unresolved concerns as prescribed.",
       "Require the worker to enter first; the refusal procedure can begin only after illness or injury is recorded.",
       "Automatically dismiss the worker for refusal because an employer's production schedule overrides the statutory right.",
-      "Have another untrained worker enter the vessel and end the investigation because the first worker's refusal is personal."
+      "Ask a replacement worker to enter while the concern is assessed, because the refusal binds only the first worker."
     ],
     "answer": 0,
     "optionRationales": [
       "The worker has raised a specified serious hazard. The supervisor must address the concern under the Saskatchewan procedure rather than ignore it or bypass escalation.",
       "The right concerns reasonably believed unusually dangerous work, not only hazards proven by actual injury.",
       "An unresolved good-faith refusal is not automatically overridden by production urgency; the prescribed process must be followed.",
-      "Sending someone else into the same unassessed atmosphere neither resolves the concern nor substitutes for the required process."
+      "Assigning another person to the same potentially dangerous task without resolving the hazard does not properly address the refusal or safety responsibilities."
     ],
     "keyPoint": "Recognize a worker's right to refuse unusually dangerous work and the employer's duty to investigate through prescribed stages.",
     "trap": "Treating a serious work refusal as simple insubordination or shifting risk to another worker.",
@@ -405,7 +405,7 @@
     "options": [
       "The notification is a final discipline order; the registrant should stop practising immediately without reading its terms.",
       "A practice review is simply a voluntary peer workshop and the registrant has no obligation to respond.",
-      "A focused practice review examines identified technical or ethical risks; its initiation alone is not a disciplinary finding or an automatic licence suspension.",
+      "A focused review addresses identified practice risks; its notice alone is not a final discipline finding or suspension.",
       "The reviewer must publish a finding of misconduct before asking for any technical records from the registrant."
     ],
     "answer": 2,
