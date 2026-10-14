@@ -15,7 +15,7 @@ Ten original questions extend **Set 1 / ChatGPT / Diagnostic** from 20 to **30 o
 | 025 | III.5 | Claims-made-and-reported policy dates | Hard | Analysis | A |
 | 026 | III.6 | Life-cycle sustainability comparison | Medium | Application | C |
 | 027 | IV.6 | Mediator authority and settlement | Medium | Application | D |
-| 028 | IV.8 | Expert independence and new evidence | Hard | Analysis | A |
+| 028 | IV.8 | Expert independence and new evidence | Medium | Analysis | A |
 | 029 | V.4 | Technical societies versus regulators | Easy | Understanding | B |
 | 030 | VI.3 | BC firm compliance audits | Medium | Application | D |
 
