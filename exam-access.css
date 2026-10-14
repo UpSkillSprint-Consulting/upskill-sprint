@@ -6,3 +6,16 @@
 .exam-access-status a,.exam-access-status button{display:inline-block;font:600 15px/1.4 "Work Sans",sans-serif;padding:12px 16px;margin:5px 8px 5px 0;border:1px solid var(--teal,#087c80);border-radius:8px;background:var(--card,#fff);color:var(--ink,#18363c);text-decoration:none;cursor:pointer}
 .exam-access-status a:focus-visible,.exam-access-status button:focus-visible{outline:3px solid var(--teal,#087c80);outline-offset:3px}
 @media(max-width:760px){.exam-access-status{margin:20px 14px;padding:20px}}
+/* NPPE mobile assessment: keep navigation in normal document flow so it cannot
+   float over the question, timer or Exit button after question navigation.
+   Other certifications and the NPPE bank overview retain their normal header. */
+@media(max-width:860px){
+  body:has(.tb-quiz[data-question-id^="nppe:"]) > header.site{position:static!important;top:auto!important}
+  .tb-quiz[data-question-id^="nppe:"] .tb-quiztop{flex-direction:column;align-items:stretch;gap:12px}
+  .tb-quiz[data-question-id^="nppe:"] .tb-quiztop>div{min-width:0;max-width:100%}
+  .tb-quiz[data-question-id^="nppe:"] .tb-toolbar{width:100%;flex-wrap:wrap;gap:8px}
+  .tb-quiz[data-question-id^="nppe:"] .tb-tbtn,
+  .tb-quiz[data-question-id^="nppe:"] .tb-timer{box-sizing:border-box;min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+  .tb-quiz[data-question-id^="nppe:"] .tb-diag-kick,
+  .tb-quiz[data-question-id^="nppe:"] .tb-quizprog{overflow-wrap:anywhere}
+}
