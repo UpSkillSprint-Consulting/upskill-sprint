@@ -1,6 +1,6 @@
 /*
  * NPPE author Set 2 — Mock D only.
- * Released items: NPPE-501 through NPPE-580 (80).
+ * Released items: NPPE-501 through NPPE-590 (90).
  * Mock D target: NPPE-501 through NPPE-610 (110). The form is not launchable yet.
  * These items stay inside Set 2. They must not be copied into Set 1 or Set 3.
  * Original questions. Not affiliated with any Canadian engineering or geoscience regulator.
@@ -2486,6 +2486,316 @@
       ],
       keyPoint: 'Professionals may practise through a company where the statute and the regulator allow it.',
       trap: 'The client is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:581',
+      legacyId: 'NPPE-581',
+      sub: 'nppe-law',
+      blueprint: 'IV.4',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A company and a licensee sign a paper calling her an independent contractor for a six-month assignment. She sets her own method, supplies her own equipment, can make a profit or a loss on the price, and keeps other clients. The company says she is an employee because the work happens on its site. What is the best judgment?',
+      options: [
+        'The word in the paper controls. If it says contractor, she is a contractor for every legal purpose.',
+        'The site controls. Anyone who works on the company\'s premises is an employee.',
+        'No single fact controls. The relationship is judged as a whole, including control of the method, who supplies the tools, and who has the chance of profit and the risk of loss. The label and the worksite are relevant. Neither one decides it alone.',
+        'Tax deductions control every other question. If no tax is deducted, the company cannot direct the work.'
+      ],
+      answer: 2,
+      why: '<p>Employee and contractor status depends on the substance of the relationship. Control over how the work is done, ownership of tools, chance of profit, and risk of loss are all considered. A contract label does not settle the question, and working on someone else\'s site does not automatically create employment. Her professional responsibility for the engineering exists either way.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The word in the paper controls. If it says contractor, she is a contractor for every legal purpose." does not satisfy the duty this scenario tests. Employee and contractor status depends on the substance of the relationship. Control over how the work is done, ownership of tools, chance of profit, and risk of loss are all considered. A contract label does not settle the question, and working on someone else\'s site does not automatically create employment. Her professional responsibility for the engineering exists either way.',
+        'Not the best answer. "The site controls. Anyone who works on the company\'s premises is an employee." does not satisfy the duty this scenario tests. Employee and contractor status depends on the substance of the relationship. Control over how the work is done, ownership of tools, chance of profit, and risk of loss are all considered. A contract label does not settle the question, and working on someone else\'s site does not automatically create employment. Her professional responsibility for the engineering exists either way.',
+        'Employee and contractor status depends on the substance of the relationship. Control over how the work is done, ownership of tools, chance of profit, and risk of loss are all considered. A contract label does not settle the question, and working on someone else\'s site does not automatically create employment. Her professional responsibility for the engineering exists either way.',
+        'Not the best answer. "Tax deductions control every other question. If no tax is deducted, the company cannot direct the work." does not satisfy the duty this scenario tests. Employee and contractor status depends on the substance of the relationship. Control over how the work is done, ownership of tools, chance of profit, and risk of loss are all considered. A contract label does not settle the question, and working on someone else\'s site does not automatically create employment. Her professional responsibility for the engineering exists either way.'
+      ],
+      keyPoint: 'Employee and contractor status depends on the substance of the relationship.',
+      trap: 'The word in the paper controls',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:582',
+      legacyId: 'NPPE-582',
+      sub: 'nppe-law',
+      blueprint: 'IV.4',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee invents a new valve. She wants to stop others from making it, and she wants the internal test method kept confidential. A colleague says, "File nothing. A trade secret gives a 20-year monopoly, and you never have to disclose the invention." What is the best correction?',
+      options: [
+        'A patent can exclude others from making, using, or selling the invention for 20 years from the filing date, if the invention is new and the application discloses it. A trade secret protects information while it stays secret. It has no fixed statutory term and no right against someone who develops the same thing independently.',
+        'The colleague is right. A trade secret and a patent are the same right under two names.',
+        'The colleague is right. Paying a maintenance fee converts a trade secret into a permanent patent without disclosure.',
+        'The colleague is wrong because only a university may apply for a Canadian patent.'
+      ],
+      answer: 0,
+      why: '<p>A Canadian patent is a time-limited exclusive right that starts from the filing date and requires disclosure of the invention. A trade secret is not registered and is not a monopoly. It lasts only while the information is secret, and it does not stop a person who independently develops the same method. Confidential test data can stay a trade secret even when a patent application discloses the invention itself.</p><p><strong>Blueprint:</strong> IV.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'A Canadian patent is a time-limited exclusive right that starts from the filing date and requires disclosure of the invention. A trade secret is not registered and is not a monopoly. It lasts only while the information is secret, and it does not stop a person who independently develops the same method. Confidential test data can stay a trade secret even when a patent application discloses the invention itself.',
+        'Not the best answer. "The colleague is right. A trade secret and a patent are the same right under two names." does not satisfy the duty this scenario tests. A Canadian patent is a time-limited exclusive right that starts from the filing date and requires disclosure of the invention. A trade secret is not registered and is not a monopoly. It lasts only while the information is secret, and it does not stop a person who independently develops the same method. Confidential test data can stay a trade secret even when a patent application discloses the invention itself.',
+        'Not the best answer. "The colleague is right. Paying a maintenance fee converts a trade secret into a permanent patent without disclosure." does not satisfy the duty this scenario tests. A Canadian patent is a time-limited exclusive right that starts from the filing date and requires disclosure of the invention. A trade secret is not registered and is not a monopoly. It lasts only while the information is secret, and it does not stop a person who independently develops the same method. Confidential test data can stay a trade secret even when a patent application discloses the invention itself.',
+        'Not the best answer. "The colleague is wrong because only a university may apply for a Canadian patent." does not satisfy the duty this scenario tests. A Canadian patent is a time-limited exclusive right that starts from the filing date and requires disclosure of the invention. A trade secret is not registered and is not a monopoly. It lasts only while the information is secret, and it does not stop a person who independently develops the same method. Confidential test data can stay a trade secret even when a patent application discloses the invention itself.'
+      ],
+      keyPoint: 'A Canadian patent is a time-limited exclusive right that starts from the filing date and requires disclosure of the invention.',
+      trap: 'The colleague is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:583',
+      legacyId: 'NPPE-583',
+      sub: 'nppe-professional-law',
+      blueprint: 'V.1',
+      area: 'V',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A technologist who is not licensed prints "P.Eng." after his name on a proposal. He says clients expect the letters and that his calculations are competent. A licensed engineer works elsewhere in the same company. What is the best judgment?',
+      options: [
+        'This is allowed. The letters are a courtesy if the calculations are competent.',
+        'This is allowed because another person in the company is licensed.',
+        'This is allowed in every province for anyone who holds an engineering degree.',
+        'This is not allowed. Those letters and the title "professional engineer" are reserved for a person the regulator has licensed. Competence, a degree, and a licensee somewhere else in the company do not confer the title.'
+      ],
+      answer: 3,
+      why: '<p>Title protection is separate from the quality of the work. The Act reserves the title and its abbreviations to licensees. Using them, or implying that he is licensed, is a breach whether or not the calculations are sound. Another person\'s licence does not authorize him to wear the title.</p><p><strong>Blueprint:</strong> V.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "This is allowed. The letters are a courtesy if the calculations are competent." does not satisfy the duty this scenario tests. Title protection is separate from the quality of the work. The Act reserves the title and its abbreviations to licensees. Using them, or implying that he is licensed, is a breach whether or not the calculations are sound. Another person\'s licence does not authorize him to wear the title.',
+        'Not the best answer. "This is allowed because another person in the company is licensed." does not satisfy the duty this scenario tests. Title protection is separate from the quality of the work. The Act reserves the title and its abbreviations to licensees. Using them, or implying that he is licensed, is a breach whether or not the calculations are sound. Another person\'s licence does not authorize him to wear the title.',
+        'Not the best answer. "This is allowed in every province for anyone who holds an engineering degree." does not satisfy the duty this scenario tests. Title protection is separate from the quality of the work. The Act reserves the title and its abbreviations to licensees. Using them, or implying that he is licensed, is a breach whether or not the calculations are sound. Another person\'s licence does not authorize him to wear the title.',
+        'Title protection is separate from the quality of the work. The Act reserves the title and its abbreviations to licensees. Using them, or implying that he is licensed, is a breach whether or not the calculations are sound. Another person\'s licence does not authorize him to wear the title.'
+      ],
+      keyPoint: 'Title protection is separate from the quality of the work.',
+      trap: 'This is allowed',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:584',
+      legacyId: 'NPPE-584',
+      sub: 'nppe-professional-law',
+      blueprint: 'V.1',
+      area: 'V',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'An unlicensed person offers foundation designs to homeowners for a fee. She never uses the title P.Eng. She says the Act only restricts the title, so the designs are lawful. What is the best judgment?',
+      options: [
+        'She is right. The Act restricts titles and does not restrict the work.',
+        'She is wrong. Offering the practice of professional engineering to the public is reserved, not only the title. Leaving the letters off does not make that practice lawful.',
+        'She is right if each homeowner signs a waiver. A waiver replaces a licence.',
+        'She is wrong only after a design fails. Until there is damage, unlicensed practice is lawful.'
+      ],
+      answer: 1,
+      why: '<p>The Acts reserve both the title and the practice offered to the public. Avoiding the letters does not avoid the practice restriction. A client\'s waiver cannot confer a licence the regulator has not granted, and damage is not required before the unlicensed practice is unlawful.</p><p><strong>Blueprint:</strong> V.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "She is right. The Act restricts titles and does not restrict the work." does not satisfy the duty this scenario tests. The Acts reserve both the title and the practice offered to the public. Avoiding the letters does not avoid the practice restriction. A client\'s waiver cannot confer a licence the regulator has not granted, and damage is not required before the unlicensed practice is unlawful.',
+        'The Acts reserve both the title and the practice offered to the public. Avoiding the letters does not avoid the practice restriction. A client\'s waiver cannot confer a licence the regulator has not granted, and damage is not required before the unlicensed practice is unlawful.',
+        'Not the best answer. "She is right if each homeowner signs a waiver. A waiver replaces a licence." does not satisfy the duty this scenario tests. The Acts reserve both the title and the practice offered to the public. Avoiding the letters does not avoid the practice restriction. A client\'s waiver cannot confer a licence the regulator has not granted, and damage is not required before the unlicensed practice is unlawful.',
+        'Not the best answer. "She is wrong only after a design fails. Until there is damage, unlicensed practice is lawful." does not satisfy the duty this scenario tests. The Acts reserve both the title and the practice offered to the public. Avoiding the letters does not avoid the practice restriction. A client\'s waiver cannot confer a licence the regulator has not granted, and damage is not required before the unlicensed practice is unlawful.'
+      ],
+      keyPoint: 'The Acts reserve both the title and the practice offered to the public.',
+      trap: 'She is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:585',
+      legacyId: 'NPPE-585',
+      sub: 'nppe-professional-law',
+      blueprint: 'V.2',
+      area: 'V',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A company wants to sell structural design services to the public. No director is licensed. The company plans to have an unlicensed drafter sign the drawings. A friend says a municipal business licence is the only approval required. What is the best judgment?',
+      options: [
+        'A city business licence does not authorize the practice of engineering. A firm offering that practice to the public must comply with the provincial Act, including a licensed professional who takes responsibility for the work and any permit to practise that the Act requires.',
+        'The friend is right. Any corporation may offer engineering once it has a municipal business licence.',
+        'The friend is right if the drafter has ten years of experience. Experience replaces the licence and any permit.',
+        'The company may offer the services if the drawings say "not sealed." Unsealed drawings remove the need for a licensee.'
+      ],
+      answer: 0,
+      why: '<p>A municipal business licence is not a professional licence. Offering professional engineering to the public is governed by the provincial Act. The firm needs a licensed person who actually takes responsibility for the work, and it needs the permit or certificate the Act requires of firms. Experience and a note that the drawings are unsealed do not replace those requirements.</p><p><strong>Blueprint:</strong> V.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'A municipal business licence is not a professional licence. Offering professional engineering to the public is governed by the provincial Act. The firm needs a licensed person who actually takes responsibility for the work, and it needs the permit or certificate the Act requires of firms. Experience and a note that the drawings are unsealed do not replace those requirements.',
+        'Not the best answer. "The friend is right. Any corporation may offer engineering once it has a municipal business licence." does not satisfy the duty this scenario tests. A municipal business licence is not a professional licence. Offering professional engineering to the public is governed by the provincial Act. The firm needs a licensed person who actually takes responsibility for the work, and it needs the permit or certificate the Act requires of firms. Experience and a note that the drawings are unsealed do not replace those requirements.',
+        'Not the best answer. "The friend is right if the drafter has ten years of experience. Experience replaces the licence and any permit." does not satisfy the duty this scenario tests. A municipal business licence is not a professional licence. Offering professional engineering to the public is governed by the provincial Act. The firm needs a licensed person who actually takes responsibility for the work, and it needs the permit or certificate the Act requires of firms. Experience and a note that the drawings are unsealed do not replace those requirements.',
+        'Not the best answer. "The company may offer the services if the drawings say "not sealed." Unsealed drawings remove the need for a licensee." does not satisfy the duty this scenario tests. A municipal business licence is not a professional licence. Offering professional engineering to the public is governed by the provincial Act. The firm needs a licensed person who actually takes responsibility for the work, and it needs the permit or certificate the Act requires of firms. Experience and a note that the drawings are unsealed do not replace those requirements.'
+      ],
+      keyPoint: 'A municipal business licence is not a professional licence.',
+      trap: 'The friend is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:586',
+      legacyId: 'NPPE-586',
+      sub: 'nppe-professional-law',
+      blueprint: 'V.2',
+      area: 'V',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A licensed engineer tells an engineer-in-training to apply a seal to the issued-for-construction set "so you get the experience," and to offer the same design service to the public on weekends under the trainee\'s own name. What is the best judgment?',
+      options: [
+        'This is proper. An engineer-in-training may seal any document the supervisor is too busy to review.',
+        'Weekend practice is proper. The restriction on trainees applies only during paid hours.',
+        'This is not proper. An engineer-in-training is not licensed to take professional responsibility or to seal. The supervising licensee seals work she has accepted. The trainee does not independently offer professional engineering to the public.',
+        'This is proper if the trainee buys a seal online and writes "supervised" beneath it.'
+      ],
+      answer: 2,
+      why: '<p>Enrollment as an engineer-in-training is not a licence to practise independently or to authenticate documents. The supervising professional remains responsible and seals the work she accepts. Selling the same service to the public on weekends is independent practice, and a purchased image is not a professional seal.</p><p><strong>Blueprint:</strong> V.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "This is proper. An engineer-in-training may seal any document the supervisor is too busy to review." does not satisfy the duty this scenario tests. Enrollment as an engineer-in-training is not a licence to practise independently or to authenticate documents. The supervising professional remains responsible and seals the work she accepts. Selling the same service to the public on weekends is independent practice, and a purchased image is not a professional seal.',
+        'Not the best answer. "Weekend practice is proper. The restriction on trainees applies only during paid hours." does not satisfy the duty this scenario tests. Enrollment as an engineer-in-training is not a licence to practise independently or to authenticate documents. The supervising professional remains responsible and seals the work she accepts. Selling the same service to the public on weekends is independent practice, and a purchased image is not a professional seal.',
+        'Enrollment as an engineer-in-training is not a licence to practise independently or to authenticate documents. The supervising professional remains responsible and seals the work she accepts. Selling the same service to the public on weekends is independent practice, and a purchased image is not a professional seal.',
+        'Not the best answer. "This is proper if the trainee buys a seal online and writes "supervised" beneath it." does not satisfy the duty this scenario tests. Enrollment as an engineer-in-training is not a licence to practise independently or to authenticate documents. The supervising professional remains responsible and seals the work she accepts. Selling the same service to the public on weekends is independent practice, and a purchased image is not a professional seal.'
+      ],
+      keyPoint: 'Enrollment as an engineer-in-training is not a licence to practise independently or to authenticate documents.',
+      trap: 'This is proper',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:587',
+      legacyId: 'NPPE-587',
+      sub: 'nppe-professional-law',
+      blueprint: 'V.3',
+      area: 'V',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee is registered in Alberta. A Saskatchewan owner asks her to design a public building in Saskatchewan and to seal the drawings next month. She says the Canadian Free Trade Agreement lets her practise there without any application to the Saskatchewan regulator. What is the best judgment?',
+      options: [
+        'She is right. Registration in one province is registration in every province.',
+        'She is right. The Agreement abolished the provincial regulators for these professions.',
+        'She is right if the project will take fewer than 30 days. A short project needs no registration.',
+        'She is wrong. Mobility rules can let a licensed person become licensed in another province without repeating every admission step. They do not let her practise or seal there with no registration. She complies with the Saskatchewan regulator before she practises there.'
+      ],
+      answer: 3,
+      why: '<p>Labour mobility reduces barriers to getting a licence in another province. It does not erase the other province\'s regulator or turn one licence into a national licence. Practising and sealing in Saskatchewan require compliance with that regulator. There is no general rule that a project under 30 days needs no registration.</p><p><strong>Blueprint:</strong> V.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "She is right. Registration in one province is registration in every province." does not satisfy the duty this scenario tests. Labour mobility reduces barriers to getting a licence in another province. It does not erase the other province\'s regulator or turn one licence into a national licence. Practising and sealing in Saskatchewan require compliance with that regulator. There is no general rule that a project under 30 days needs no registration.',
+        'Not the best answer. "She is right. The Agreement abolished the provincial regulators for these professions." does not satisfy the duty this scenario tests. Labour mobility reduces barriers to getting a licence in another province. It does not erase the other province\'s regulator or turn one licence into a national licence. Practising and sealing in Saskatchewan require compliance with that regulator. There is no general rule that a project under 30 days needs no registration.',
+        'Not the best answer. "She is right if the project will take fewer than 30 days. A short project needs no registration." does not satisfy the duty this scenario tests. Labour mobility reduces barriers to getting a licence in another province. It does not erase the other province\'s regulator or turn one licence into a national licence. Practising and sealing in Saskatchewan require compliance with that regulator. There is no general rule that a project under 30 days needs no registration.',
+        'Labour mobility reduces barriers to getting a licence in another province. It does not erase the other province\'s regulator or turn one licence into a national licence. Practising and sealing in Saskatchewan require compliance with that regulator. There is no general rule that a project under 30 days needs no registration.'
+      ],
+      keyPoint: 'Labour mobility reduces barriers to getting a licence in another province.',
+      trap: 'She is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:588',
+      legacyId: 'NPPE-588',
+      sub: 'nppe-professional-law',
+      blueprint: 'V.3',
+      area: 'V',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'An unlicensed factory employee designs a change to a boiler that serves occupied parts of the plant. The design will be filed with the safety authority. He says, "I am an employee, so no engineering Act applies to me." What is the best judgment?',
+      options: [
+        'He is wrong to treat employment as a national exemption. An exemption exists only where that province\'s Act expressly covers the activity. Designing a boiler system that others will rely on is the practice of engineering unless such an exemption applies. Employment by itself does not.',
+        'He is right. Every Canadian engineering Act exempts all work done by employees.',
+        'He is right. Boilers are outside engineering because they are pieces of equipment.',
+        'He is wrong because only geoscientists need a licence. Engineering never requires one.'
+      ],
+      answer: 0,
+      why: '<p>The provinces do not share one industrial exemption. Some Acts exempt a defined activity. Most work that is the practice of professional engineering still requires a licensee. Being on a payroll does not, by itself, remove a boiler design that a safety authority and occupants will rely on from the Act.</p><p><strong>Blueprint:</strong> V.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'The provinces do not share one industrial exemption. Some Acts exempt a defined activity. Most work that is the practice of professional engineering still requires a licensee. Being on a payroll does not, by itself, remove a boiler design that a safety authority and occupants will rely on from the Act.',
+        'Not the best answer. "He is right. Every Canadian engineering Act exempts all work done by employees." does not satisfy the duty this scenario tests. The provinces do not share one industrial exemption. Some Acts exempt a defined activity. Most work that is the practice of professional engineering still requires a licensee. Being on a payroll does not, by itself, remove a boiler design that a safety authority and occupants will rely on from the Act.',
+        'Not the best answer. "He is right. Boilers are outside engineering because they are pieces of equipment." does not satisfy the duty this scenario tests. The provinces do not share one industrial exemption. Some Acts exempt a defined activity. Most work that is the practice of professional engineering still requires a licensee. Being on a payroll does not, by itself, remove a boiler design that a safety authority and occupants will rely on from the Act.',
+        'Not the best answer. "He is wrong because only geoscientists need a licence. Engineering never requires one." does not satisfy the duty this scenario tests. The provinces do not share one industrial exemption. Some Acts exempt a defined activity. Most work that is the practice of professional engineering still requires a licensee. Being on a payroll does not, by itself, remove a boiler design that a safety authority and occupants will rely on from the Act.'
+      ],
+      keyPoint: 'The provinces do not share one industrial exemption.',
+      trap: 'He is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:589',
+      legacyId: 'NPPE-589',
+      sub: 'nppe-professional-law',
+      blueprint: 'V.1',
+      area: 'V',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A person with an engineering degree, who is not licensed, advertises "foundation design for homeowners" and, for a fee, delivers a footing size and a reinforcing layout for a named house. She calls the package "general information," not engineering. What is the best judgment?',
+      options: [
+        'The label controls. Calling it general information means it is not the practice of engineering.',
+        'It is not engineering unless she also drills the soil herself.',
+        'This is the practice of professional engineering. She is applying engineering judgment to a specific foundation the owner will rely on. The words "general information" do not change that.',
+        'It is engineering only if the advertisement uses the title P.Eng.'
+      ],
+      answer: 2,
+      why: '<p>The practice is defined by the nature of the work, not by the seller\'s label and not by whether a protected title is used. A site-specific foundation design, sold for a fee and meant to be relied on, is that practice. A degree does not replace a licence.</p><p><strong>Blueprint:</strong> V.1. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The label controls. Calling it general information means it is not the practice of engineering." does not satisfy the duty this scenario tests. The practice is defined by the nature of the work, not by the seller\'s label and not by whether a protected title is used. A site-specific foundation design, sold for a fee and meant to be relied on, is that practice. A degree does not replace a licence.',
+        'Not the best answer. "It is not engineering unless she also drills the soil herself." does not satisfy the duty this scenario tests. The practice is defined by the nature of the work, not by the seller\'s label and not by whether a protected title is used. A site-specific foundation design, sold for a fee and meant to be relied on, is that practice. A degree does not replace a licence.',
+        'The practice is defined by the nature of the work, not by the seller\'s label and not by whether a protected title is used. A site-specific foundation design, sold for a fee and meant to be relied on, is that practice. A degree does not replace a licence.',
+        'Not the best answer. "It is engineering only if the advertisement uses the title P.Eng." does not satisfy the duty this scenario tests. The practice is defined by the nature of the work, not by the seller\'s label and not by whether a protected title is used. A site-specific foundation design, sold for a fee and meant to be relied on, is that practice. A degree does not replace a licence.'
+      ],
+      keyPoint: 'The practice is defined by the nature of the work, not by the seller\'s label and not by whether a protected title is used.',
+      trap: 'The label controls',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:590',
+      legacyId: 'NPPE-590',
+      sub: 'nppe-professional-law',
+      blueprint: 'V.4',
+      area: 'V',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee\'s registration has lapsed because she did not renew. A client wants tomorrow\'s drawings sealed. She says a lapse affects only her right to vote, and that she may seal until the regulator writes her a personal letter. What is the best judgment?',
+      options: [
+        'She may not seal, and she may not hold herself out as currently licensed, while the registration is lapsed. She renews or reinstates as the Act requires before she practises.',
+        'She may seal. Failure to renew never affects the right to practise.',
+        'She may seal if she dates the drawings in the year when her fees were paid.',
+        'She may seal if the client accepts the lapse in writing.'
+      ],
+      answer: 0,
+      why: '<p>A current registration is a condition of practising and of sealing. A lapse is not confined to voting or to other membership privileges. Backdating the sheet, or a client\'s consent, does not restore a registration that has lapsed. She returns to good standing before she authenticates the work.</p><p><strong>Blueprint:</strong> V.4. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'A current registration is a condition of practising and of sealing. A lapse is not confined to voting or to other membership privileges. Backdating the sheet, or a client\'s consent, does not restore a registration that has lapsed. She returns to good standing before she authenticates the work.',
+        'Not the best answer. "She may seal. Failure to renew never affects the right to practise." does not satisfy the duty this scenario tests. A current registration is a condition of practising and of sealing. A lapse is not confined to voting or to other membership privileges. Backdating the sheet, or a client\'s consent, does not restore a registration that has lapsed. She returns to good standing before she authenticates the work.',
+        'Not the best answer. "She may seal if she dates the drawings in the year when her fees were paid." does not satisfy the duty this scenario tests. A current registration is a condition of practising and of sealing. A lapse is not confined to voting or to other membership privileges. Backdating the sheet, or a client\'s consent, does not restore a registration that has lapsed. She returns to good standing before she authenticates the work.',
+        'Not the best answer. "She may seal if the client accepts the lapse in writing." does not satisfy the duty this scenario tests. A current registration is a condition of practising and of sealing. A lapse is not confined to voting or to other membership privileges. Backdating the sheet, or a client\'s consent, does not restore a registration that has lapsed. She returns to good standing before she authenticates the work.'
+      ],
+      keyPoint: 'A current registration is a condition of practising and of sealing.',
+      trap: 'She may seal',
       original: true,
       sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
     }
