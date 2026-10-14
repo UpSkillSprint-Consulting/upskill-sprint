@@ -9,7 +9,7 @@ function once(source, anchor, replacement) {
 
 export function integrateNPPEDiagnostic(source) {
   let code = source;
-  code = once(code, '  EXAMS.nppe.sets={};', '  EXAMS.nppe.sets={};\n  window.registerNPPEDiagnostic(EXAMS.nppe);\n' + helpers);
+  code = once(code, '  EXAMS.nppe.sets={};', '  EXAMS.nppe.sets={};\n  window.registerNPPEDiagnostic(EXAMS.nppe);\n  window.registerNPPELearning(EXAMS.nppe);\n' + helpers);
   code = once(code, "if(!formReady(e,setId)){var ready=availableSetIds(e);setId=ready.length?ready[0]:'';}", "if(!formReady(e,setId))return [];");
   code = once(code, 'function activeSetLabel(e,setId){return', 'function activeSetLabel(e,setId){if(e.formCatalog)return (formMeta(e,setId)||{}).label||\'Unavailable form\';return');
   code = once(code, 'function examNoun(e){return', 'function examNoun(e){if(e.formCatalog)return activeSetLabel(e,selectedSet);return');
@@ -22,8 +22,8 @@ export function integrateNPPEDiagnostic(source) {
   code = once(code, 'function startFull(){var e=', "function startFull(){if(current==='nppe')return nppeStart(selectedSet,mode.timed);var e=");
   code = once(code, "var names={full:'Full Exam',quick:'Quick Quiz',focus:'Focused Quiz'};", "var names={full:current==='nppe'?examNoun(EXAMS[current]):'Full Exam',quick:'Quick Quiz',focus:'Focused Quiz'};");
   code = once(code, "'<p class=\"tb-modenote\">Full Exam uses '+esc(examNoun(e))+' ('+fullExamCount(e)+' questions). Choose a test set separately inside Quick Quiz and Focused Quiz.</p>'", "(current==='nppe'?'<p class=\"tb-modenote\">Choose one bank below. Diagnostic and mock questions are never mixed.</p>':'<p class=\"tb-modenote\">Full Exam uses '+esc(examNoun(e))+' ('+fullExamCount(e)+' questions). Choose a test set separately inside Quick Quiz and Focused Quiz.</p>')");
-  code = once(code, "(!session.timed?'<button type=\"button\" class=\"tb-tbtn\" data-reveal", "(current!=='nppe'&&!session.timed?'<button type=\"button\" class=\"tb-tbtn\" data-reveal");
-  code = once(code, "(!session.timed?'<p id=\"tb-reveal-hint\"", "(current!=='nppe'&&!session.timed?'<p id=\"tb-reveal-hint\"");
+  code = once(code, "(!session.timed?'<button type=\"button\" class=\"tb-tbtn\" data-reveal", "((current!=='nppe'||session.setId==='set-1-learning')&&!session.timed?'<button type=\"button\" class=\"tb-tbtn\" data-reveal");
+  code = once(code, "(!session.timed?'<p id=\"tb-reveal-hint\"", "((current!=='nppe'||session.setId==='set-1-learning')&&!session.timed?'<p id=\"tb-reveal-hint\"");
   for (const [attr, text] of [['formulas', '\\u2630 Formulas'], ['tables', '\\u25a4 Tables'], ['calc', '\\u00f7 Calc']]) {
     const anchor = "'<button type=\"button\" class=\"tb-tbtn\" data-" + attr + ">" + text + "</button>'";
     code = once(code, anchor, "(current==='nppe'?'':" + anchor + ')');
@@ -35,7 +35,7 @@ export function integrateNPPEDiagnostic(source) {
   code = once(code, '  function overviewHTML(){', "  function overviewHTML(){if(current==='nppe')return nppeOverviewHTML();");
   code = once(code, '  function wireOverview(){', "  function wireOverview(){if(current==='nppe')wireNPPEOwners();");
   code = once(code, "'+sessionTitle+' &middot; '", "'+(current==='nppe'?'NPPE':sessionTitle)+' &middot; '");
-  code = once(code, '  function revealCurrentAnswer(){', "  function revealCurrentAnswer(){if(current==='nppe')return false;");
+  code = once(code, '  function revealCurrentAnswer(){', "  function revealCurrentAnswer(){if(current==='nppe'&&(!session||session.setId!=='set-1-learning'||session.timed))return false;");
   return code;
 }
 
@@ -44,7 +44,8 @@ const helpers = String.raw`
     var form=formMeta(e,id),n=formQuestionCount(e,id);
     if(!form)return 'This bank is unavailable.';
     if(form.kind==='diagnostic')return 'Diagnostic: '+n+' of '+form.target+' planned questions available. '+(n<form.target?'This is a partial diagnostic, not the complete 50-question assessment. ':'')+'All diagnostic questions are scored. Results identify study gaps; they do not predict an official NPPE pass.';
-    return form.kind==='mock'?e.formatNote:'Learning practice uses only the selected bank.';
+    if(form.kind==='learning')return 'Learning: '+n+' of '+form.target+' planned questions available. '+(n<form.target?'This is a partial learning bank. ':'')+'Untimed Reveal Answer is available for study; revealed questions are assisted learning, not evidence of exam readiness.';
+    return form.kind==='mock'?e.formatNote:'This bank is unavailable.';
   }
   function nppeSelector(e){
     var selected=formMeta(e,selectedSet),owner=selected?selected.authorSet:1;
@@ -82,20 +83,21 @@ const helpers = String.raw`
   }
   function nppeOverviewHTML(){
     var e=EXAMS.nppe,f=formMeta(e,selectedSet),n=formQuestionCount(e,selectedSet),ready=formReady(e,selectedSet);
-    var status=!ready?'In preparation':f.kind==='diagnostic'&&n<f.target?'Partial diagnostic':'Available for practice';
+    var status=!ready?'In preparation':f.kind==='diagnostic'&&n<f.target?'Partial diagnostic':f.kind==='learning'&&n<f.target?'Partial learning bank':'Available for practice';
     return '<h2 class="tb-title">NPPE practice banks <span class="tb-soon sample">'+status+'</span></h2><p class="tb-modenote">Choose an author set, then one bank. Diagnostic and Learning remain separate from the five full mock forms.</p>'+nppeSelector(e)+'<div class="tb-modes">'+nppeModes(e)+'</div><p class="tb-modenote">'+esc(nppeDescription(e,selectedSet))+'</p><p class="tb-srnote">Independent practice material, not affiliated with the NPPE programme or any regulator. Planned totals are not released-question counts.</p>';
   }
   function nppeModes(e){
     var f=formMeta(e,selectedSet),n=activeBank(e,selectedSet).length,ready=formReady(e,selectedSet);
     if(!f)return '<p>This bank is not ready.</p>';
     var minutes=f.kind==='mock'?150:Math.ceil(n*150/110);
-    return '<div class="tb-mode" data-nppe-bank="'+esc(f.id)+'"><div class="tb-mode-head"><div><h4>'+esc(f.label)+(f.kind==='diagnostic'&&n<f.target?' — partial diagnostic':'')+'</h4><p>'+n+' questions from this bank only. Answers and explanations appear after submission.</p></div></div><div class="tb-mode-controls">'+timingControlHTML('full',mode.timed)+'</div><div class="tb-mode-foot"><span class="tb-mode-sum">'+(mode.timed?'<b>'+minutes+' minutes</b> · closed-book practice':'<b>Untimed</b> · no time limit')+'</span>'+liveStart('full','Start '+esc(f.label),!ready)+'</div></div>';
+    return '<div class="tb-mode" data-nppe-bank="'+esc(f.id)+'"><div class="tb-mode-head"><div><h4>'+esc(f.label)+(f.kind==='diagnostic'&&n<f.target?' — partial diagnostic':'')+'</h4><p>'+n+' questions from this bank only. '+(f.kind==='learning'?'Untimed mode lets you reveal an answer while studying; all explanations appear after submission.':'Answers and explanations appear after submission.')+'</p></div></div><div class="tb-mode-controls">'+timingControlHTML('full',mode.timed)+'</div><div class="tb-mode-foot"><span class="tb-mode-sum">'+(mode.timed?'<b>'+minutes+' minutes</b> · closed-book practice':'<b>Untimed</b> · no time limit')+'</span>'+liveStart('full','Start '+esc(f.label),!ready)+'</div></div>';
   }
   function nppeStart(id,timed){
     var e=EXAMS.nppe,f=formMeta(e,id);
     if(!f||!formReady(e,id))return false;
     var bank=activeBank(e,id).slice();
     if(!bank.length||bank.some(function(q){return q.form!==id||q.authorSet!==f.authorSet;}))return false;
+    if(f.kind==='learning'&&bank.some(function(q){return q.bank!=='learning'||q.scored!==true||q.experimental===true;}))return false;
     if(f.kind==='mock'&&(bank.length!==110||bank.filter(function(q){return q.scored!==false&&q.experimental!==true;}).length!==100))return false;
     selectedSet=id;
     if(f.kind==='diagnostic')diagTimed=timed;
@@ -104,7 +106,7 @@ const helpers = String.raw`
     return beginSession(e,questions,f.kind==='diagnostic'?'diagnostic':'exam',timed,seconds);
   }
   function nppeResults(gradeNotice,breakdown){
-    var f=formMeta(EXAMS.nppe,session.setId),isDiagnostic=f&&f.kind==='diagnostic';
-    return '<div class="tb-resbar"><button type="button" class="tb-ghost" data-back>&larr; Back to NPPE banks</button><span class="tb-restag">'+esc(f?f.label:'NPPE')+' result</span></div><h2>'+esc(f?f.label:'NPPE')+' — study feedback</h2>'+gradeNotice+'<p class="tb-srnote">'+(isDiagnostic?'This diagnostic reports only the questions in this attempt. Small domain samples are starting points for study, not proof of mastery. ':'Scored results exclude the ten experimental items. ')+'A raw practice percentage is not an official scaled NPPE score, a pass probability or a guarantee. Difficulty has not been empirically calibrated.</p><div class="tb-sec">This attempt: domain breakdown</div><div class="tb-breakdown">'+breakdown+'</div><button type="button" class="tb-ghost" data-retake>Retake '+esc(f?f.label:'bank')+'</button><p class="tb-srnote">Retakes repeat this bank; they are not fresh readiness evidence. Results remain in this tab only and are lost when you leave or refresh.</p>';
+    var f=formMeta(EXAMS.nppe,session.setId),isDiagnostic=f&&f.kind==='diagnostic',isLearning=f&&f.kind==='learning';
+    return '<div class="tb-resbar"><button type="button" class="tb-ghost" data-back>&larr; Back to NPPE banks</button><span class="tb-restag">'+esc(f?f.label:'NPPE')+' result</span></div><h2>'+esc(f?f.label:'NPPE')+' — study feedback</h2>'+gradeNotice+'<p class="tb-srnote">'+(isDiagnostic?'This diagnostic reports only the questions in this attempt. Small domain samples are starting points for study, not proof of mastery. ':isLearning?'Learning scores measure practice accuracy. Any revealed answers are assisted practice and must not be treated as unseen readiness evidence. ':'Scored results exclude the ten experimental items. ')+'A raw practice percentage is not an official scaled NPPE score, a pass probability or a guarantee. Difficulty has not been empirically calibrated.</p><div class="tb-sec">This attempt: domain breakdown</div><div class="tb-breakdown">'+breakdown+'</div><button type="button" class="tb-ghost" data-retake>Retake '+esc(f?f.label:'bank')+'</button><p class="tb-srnote">Retakes repeat this bank; they are not fresh readiness evidence. Results remain in this tab only and are lost when you leave or refresh.</p>';
   }
 `;
