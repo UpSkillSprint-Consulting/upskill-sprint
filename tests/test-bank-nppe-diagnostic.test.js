@@ -44,6 +44,13 @@ test('three diagnostic batches have thirty unique scored items and complete reas
  assert.deepEqual(counts,{I:3,II:6,III:9,IV:6,V:3,VI:3});
  assert.deepEqual(Array.from(qs,q=>q.batch),Array(10).fill(1).concat(Array(10).fill(2),Array(10).fill(3)));
 });
+test('Batch 2 exact blueprint subtopics match the official NPPE outline after seven metadata corrections',()=>{
+ const qs=Array.from(bank().NPPE_DIAGNOSTIC).slice(10,20);
+ assert.deepEqual(qs.map(q=>q.legacyId),Array.from({length:10},(_,i)=>'NPPE-'+String(11+i).padStart(3,'0')));
+ assert.deepEqual(qs.map(q=>q.blueprint),['I.3','II.4','II.4','III.5','III.3','III.1','IV.3','IV.2','V.2','VI.1']);
+ assert.deepEqual(qs.map(q=>q.area),['I','II','II','III','III','III','IV','IV','V','VI']);
+ assert.deepEqual(qs.map(q=>q.answer),[1,2,3,0,1,3,2,1,0,3]);
+});
 test('Batch 3 maps to verified blueprint subtopics, carries source types and remains editorially calibrated only',()=>{
  const qs=Array.from(bank().NPPE_DIAGNOSTIC_BATCH3);
  assert.equal(qs.length,10);
