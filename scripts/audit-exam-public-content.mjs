@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 // Static release preflight only. It cannot certify runtime authorization, CDN
 // configuration, encoded content, or user transitions. Findings contain paths,
 // never question text, answers, tokens, or account data.
-const bankFile = /(?:^|\/)test-bank-(?:cssbb|cssgb|mbb|cqe|cmq|cre|pmp|nppe)-(?:set\d+|bank\d+|diagnostic)\.js$/i;
+const bankFile = /(?:^|\/)test-bank-(?:cssbb|cssgb|mbb|cqe|cmq|cre|pmp|nppe)-(?:set\d+|bank\d+|diagnostic(?:-batch\d+)?)\.js$/i;
 const textFile = /\.(?:html?|[cm]?js|json|map)$/i;
 const questionLiteral = /["']?stem["']?\s*:\s*["'`]/;
 const answerLiteral = /["']?(?:answer|correctAnswer)["']?\s*:\s*(?:\d|["'`])/;
