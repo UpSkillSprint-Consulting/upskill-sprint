@@ -13,18 +13,12 @@ jobs:
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v5
-        with:
-          node-version-file: '.node-version'
-          cache: npm
-      - run: npm ci
-      - name: Archive current tracked source and pinned dependencies
+      - name: Archive concurrent form files for integration tests
         run: |
-          git archive --format=tar HEAD > nppe-current-workspace.tar
-          tar -rf nppe-current-workspace.tar node_modules
-          gzip nppe-current-workspace.tar
+          git rev-parse HEAD > nppe-source-head.txt
+          tar -czf nppe-concurrent-workspace.tar.gz nppe-source-head.txt exam-practice.html test-bank.html test-bank-memory-learning.js test-bank-nppe-set2.js netlify/edge-functions/test-bank-mobile-picker.js supabase/migrations tests/exam-directory.test.js tests/exam-practice-section.test.js tests/test-bank-nppe-architecture.test.js
       - uses: actions/upload-artifact@v4
         with:
-          name: nppe-current-workspace
-          path: nppe-current-workspace.tar.gz
+          name: nppe-concurrent-workspace
+          path: nppe-concurrent-workspace.tar.gz
           retention-days: 1
