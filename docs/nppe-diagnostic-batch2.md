@@ -14,14 +14,14 @@
 | --- | --- | --- | --- | --- |
 | 011 | I.3 | Self-regulation and public protection | Medium | B |
 | 012 | II.4 | Supplier gifts and independence | Hard | C |
-| 013 | II.5 | Serious safety risk and escalation | Hard | D |
-| 014 | III.4 | Design changes and hazard assessment | Medium | A |
-| 015 | III.6 | Continuing competence and specialists | Medium | B |
-| 016 | III.5 | Delegation and missing inspection evidence | Hard | D |
-| 017 | IV.4 | Negligence without contractual privity | Hard | C |
-| 018 | IV.1 | Express intention not to be bound | Medium | B |
+| 013 | II.4 | Serious safety risk and escalation | Hard | D |
+| 014 | III.5 | Design changes and hazard assessment | Medium | A |
+| 015 | III.3 | Continuing competence and specialists | Medium | B |
+| 016 | III.1 | Delegation and missing inspection evidence | Hard | D |
+| 017 | IV.3 | Negligence without contractual privity | Hard | C |
+| 018 | IV.2 | Express intention not to be bound | Medium | B |
 | 019 | V.2 | Interprovincial licensing | Medium | A |
-| 020 | VI.2 | Fair complaint investigation | Hard | D |
+| 020 | VI.1 | Fair complaint investigation | Hard | D |
 
 All items have four distinct options, exactly one intended correct answer, a rationale for each option, a learning objective, key principle, common distractor trap, jurisdiction caveat, blueprint mapping and source locators. Cognitive levels are application or analysis. Correct-answer distribution is A 2, B 3, C 2, D 3. Difficulty and blueprint mapping are provisional pending independent professional review.
 
@@ -40,3 +40,7 @@ All items have four distinct options, exactly one intended correct answer, a rat
 2. Independently check every legal item against current jurisdiction-specific statutes, regulator requirements and relevant case law; textbooks are not legal authorities for 2026.
 3. Pilot the items for empirical difficulty/discrimination and verify blueprint distribution before release.
 4. Complete Diagnostic Batches 3–5 and verify the deployed learner/admin access journey.
+
+## Blueprint tag correction — 2026-10-14
+
+Checked against the official NPPE 2017 blueprint published at https://www.nppexam.ca/en/preparation/blueprint/. Corrected metadata only for 013 II.5→II.4, 014 III.4→III.5, 015 III.6→III.3, 016 III.5→III.1, 017 IV.4→IV.3, 018 IV.1→IV.2, and 020 VI.2→VI.1. Stem, four options, correct answer, rationales, source locators, and parent domain for each item are unchanged. Tests assert these exact subtopics to prevent reintroducing erroneous labels. These changes do not imply independent legal review of the answers.
