@@ -39,3 +39,29 @@ test('Mock D is the only released NPPE form and it does not mix author sets', ()
   assert.match(page, /A raw percentage here is not the official equated scaled score/);
   assert.equal(read('exam-access-loader.js').includes("'nppe'"), false);
 });
+
+test('Mock E is a separate 110-question form and does not reuse Mock D', () => {
+  const context = { window: {}, console };
+  vm.createContext(context);
+  vm.runInContext(read('test-bank-nppe-set2.js') + '\n' + read('test-bank-nppe-set3.js'), context);
+  const exam = { forms: {}, sets: {}, setPlans: {}, mockLaunchable: {} };
+  context.window.registerNPPESet2(exam);
+  context.window.registerNPPESet3(exam);
+  assert.equal(exam.forms['mock-d'].length, 110);
+  assert.equal(exam.forms['mock-e'].length, 110);
+  assert.equal(exam.mockLaunchable['mock-e'], true);
+  const d = new Set(exam.forms['mock-d'].map(q => q.stem));
+  const eIds = exam.forms['mock-e'].map(q => q.qid);
+  assert.equal(eIds[0], 'nppe:set-3:611');
+  assert.equal(eIds[109], 'nppe:set-3:720');
+  exam.forms['mock-e'].forEach(q => {
+    assert.equal(q.form, 'mock-e');
+    assert.equal(q.authorSet, 3);
+    assert.equal(d.has(q.stem), false, q.qid);
+  });
+  assert.equal(exam.forms['mock-e'].filter(q => q.scored).length, 100);
+  assert.equal(exam.forms['mock-e'].filter(q => q.experimental).length, 10);
+  const page = read('test-bank.html');
+  assert.match(page, /registerNPPESet3/);
+  assert.match(page, /if\(e&&e\.formCatalog\)return activeBank\(e\)\.slice\(\)/);
+});

@@ -520,6 +520,7 @@
 <script src="/test-bank-pmp-bank2.js"></script>
 <script src="/test-bank-pmp-bank2-ui.js"></script>
 <script src="/test-bank-nppe-set2.js"></script>
+<script src="/test-bank-nppe-set3.js"></script>
 <script src="/assets/js/math.js"></script>
 <script>
 (function(){
@@ -2625,7 +2626,8 @@
   if(window.registerPMPSet6)window.registerPMPSet6(EXAMS.pmp);
   if(window.registerPMPBank2)window.registerPMPBank2(EXAMS.pmp);
   if(window.registerNPPESet2)window.registerNPPESet2(EXAMS.nppe);
-  /* Mock D is stored on forms['mock-d']. Drop the numeric set slot so it is not treated as a generic Set 2 or mixed with Set 1. */
+  if(window.registerNPPESet3)window.registerNPPESet3(EXAMS.nppe);
+  /* Keep each mock on its own form id. Drop numeric set slots so the generic mixer cannot combine Mock D and Mock E. */
   if(EXAMS.nppe.forms&&Array.isArray(EXAMS.nppe.forms['mock-d']))EXAMS.nppe.bank=EXAMS.nppe.forms['mock-d'];
   EXAMS.nppe.sets={};
   [['cre-fundamentals','cre-lead'],['cre-statistics','cre-stats'],['cre-testing','cre-model'],['cre-lifecycle','cre-life']].forEach(function(pair){
@@ -3677,6 +3679,7 @@
   /* the pooled bank across every set, independent of the Set 1/2/3/Mixed picker \u2014
      used by the "New questions only" toggle so it always draws against the full bank */
   function mixedBank(e){
+    if(e&&e.formCatalog)return activeBank(e).slice();
     if(!hasTwoSets(e))return e.bank||[];
     var s=e.sets;
     return uniqueQuestionPool(s[3]?s[1].concat(s[2],s[3]):s[1].concat(s[2]));
