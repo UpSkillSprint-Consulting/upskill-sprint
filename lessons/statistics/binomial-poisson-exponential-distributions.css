@@ -30,7 +30,7 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
 header.site.lesson-sitebar{position:sticky;top:0;z-index:80;display:flex;min-height:64px;align-items:center;justify-content:flex-start;gap:1rem;padding:.65rem max(1rem,calc((100vw - 1120px)/2));border-bottom:1px solid var(--line);background:var(--paper)}
 .brand-stack{display:flex;align-items:center;gap:1rem;min-width:0}
 .brand-link{display:inline-flex;align-items:center;gap:.65rem;color:var(--ink);font-weight:700;text-decoration:none;white-space:nowrap}
-.brand-link img{width:34px;height:34px;object-fit:contain}
+.brand-link img.logo-wordmark{width:auto;height:46px;max-width:min(220px,52vw);object-fit:contain}
 .back-link,.back-link-bottom{color:var(--teal-dark);font-size:.9rem;font-weight:700;text-decoration:none;white-space:nowrap}
 .back-link:hover,.back-link:focus-visible,.back-link-bottom:hover,.back-link-bottom:focus-visible{text-decoration:underline}
 .site-actions{display:flex;align-items:center;gap:.65rem;margin-left:auto}

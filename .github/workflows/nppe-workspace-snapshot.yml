@@ -13,13 +13,13 @@ jobs:
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
-      - name: Archive current source for diagnostic integration
+      - name: Archive latest-main and concurrent mock integration source
         run: |
           git rev-parse HEAD > nppe-source-head.txt
           git archive --format=tar.gz HEAD > nppe-source.tar.gz
       - uses: actions/upload-artifact@v4
         with:
-          name: nppe-source-current
+          name: nppe-source-synced
           path: |
             nppe-source-head.txt
             nppe-source.tar.gz

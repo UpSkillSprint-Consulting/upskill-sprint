@@ -251,10 +251,9 @@ image. Do not add `<span>UpSkill Sprint Consulting</span>` (or any other name) b
 | Social image | `https://upskillsprint.com/assets/logo-og.png` | Default `og:image`. A 1200×630 lesson poster may replace it (§2.1). The old icon must not. |
 | Favicon | `/favicon.ico` and `/apple-touch-icon.png` | Already the current mark. Do not replace these tags. |
 
-**MUST NOT:** `assets/logo-icon.png` in lesson chrome, a hand-drawn or inline-SVG logo, a
-different wordmark, or the old bars icon next to a text name. `logo-icon.png` is only the
-small square badge that `theme.js` swaps in for a "US" initials chip on some tools. Lessons
-do not use it.
+**MUST NOT:** `assets/logo-icon.png`, `assets/logo.png`, a hand-drawn or inline-SVG logo, a
+different wordmark, or the old bars icon next to a text name. Those files are retired.
+Lessons, tools, printouts, and social cards use the wordmark only.
 
 The header and footer blocks in §4.1 and §4.2 already contain this markup. Paste them
 unchanged. Do not "simplify" the `<img>` tags.

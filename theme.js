@@ -351,15 +351,16 @@
             if (!badge) return false;
 
             var logo = document.createElement('img');
-            logo.src = '/assets/logo-icon.png';
-            logo.alt = 'UpSkill Sprint Consulting logo';
-            logo.width = 38;
-            logo.height = 38;
-            logo.style.cssText = 'display:block;width:38px;height:38px;object-fit:contain;';
+            logo.src = '/assets/logo-wordmark.png';
+            logo.alt = 'UpSkill Sprint Consulting';
+            logo.className = 'logo-wordmark';
+            logo.setAttribute('data-logo-light', '/assets/logo-wordmark.png');
+            logo.setAttribute('data-logo-dark', '/assets/logo-wordmark-on-dark.png');
+            logo.style.cssText = 'display:block;height:36px;width:auto;object-fit:contain;';
 
             badge.replaceChildren(logo);
             badge.setAttribute('aria-label', 'UpSkill Sprint Consulting');
-            badge.style.cssText += ';display:flex;align-items:center;justify-content:center;width:40px;height:40px;min-width:40px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible;';
+            badge.style.cssText += ';display:flex;align-items:center;width:auto;height:auto;min-width:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible;';
             return true;
           }
 
