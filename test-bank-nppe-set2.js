@@ -1,6 +1,6 @@
 /*
  * NPPE author Set 2 — Mock D only.
- * Released items: NPPE-501 through NPPE-560 (60).
+ * Released items: NPPE-501 through NPPE-570 (70).
  * Mock D target: NPPE-501 through NPPE-610 (110). The form is not launchable yet.
  * These items stay inside Set 2. They must not be copied into Set 1 or Set 3.
  * Original questions. Not affiliated with any Canadian engineering or geoscience regulator.
@@ -1866,6 +1866,316 @@
       ],
       keyPoint: 'A company is bound by a person who has authority, or by a person it has held out as having authority.',
       trap: 'Start at once',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:561',
+      legacyId: 'NPPE-561',
+      sub: 'nppe-law',
+      blueprint: 'IV.2',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A client drafts a sentence that says the licensee guarantees the plant will meet the output printed in a brochure. She crosses that sentence out and writes that she will use the care of a reasonably competent engineer in that field. The client says a professional contract always guarantees the result. What is the best judgment?',
+      options: [
+        'The client is right. Every engineering contract warrants that the result will be achieved.',
+        'The client is right if the fee is a lump sum. A lump-sum fee is a guarantee of result.',
+        'The client is wrong. Unless she agrees to a guarantee, the usual obligation is reasonable professional care. Crossing the sentence out means she has not promised the brochure output.',
+        'The client is wrong only in Quebec. In the common-law provinces a brochure figure is always a warranty.'
+      ],
+      answer: 2,
+      why: '<p>The usual professional promise is skill and care, not an insured result. A guarantee of output can be written into a contract, but it is not implied by the relationship or by a lump-sum fee. She deleted it. The difference between Quebec and the common-law provinces does not turn an unsigned brochure number into a warranty.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The client is right. Every engineering contract warrants that the result will be achieved." does not satisfy the duty this scenario tests. The usual professional promise is skill and care, not an insured result. A guarantee of output can be written into a contract, but it is not implied by the relationship or by a lump-sum fee. She deleted it. The difference between Quebec and the common-law provinces does not turn an unsigned brochure number into a warranty.',
+        'Not the best answer. "The client is right if the fee is a lump sum. A lump-sum fee is a guarantee of result." does not satisfy the duty this scenario tests. The usual professional promise is skill and care, not an insured result. A guarantee of output can be written into a contract, but it is not implied by the relationship or by a lump-sum fee. She deleted it. The difference between Quebec and the common-law provinces does not turn an unsigned brochure number into a warranty.',
+        'The usual professional promise is skill and care, not an insured result. A guarantee of output can be written into a contract, but it is not implied by the relationship or by a lump-sum fee. She deleted it. The difference between Quebec and the common-law provinces does not turn an unsigned brochure number into a warranty.',
+        'Not the best answer. "The client is wrong only in Quebec. In the common-law provinces a brochure figure is always a warranty." does not satisfy the duty this scenario tests. The usual professional promise is skill and care, not an insured result. A guarantee of output can be written into a contract, but it is not implied by the relationship or by a lump-sum fee. She deleted it. The difference between Quebec and the common-law provinces does not turn an unsigned brochure number into a warranty.'
+      ],
+      keyPoint: 'The usual professional promise is skill and care, not an insured result.',
+      trap: 'The client is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:562',
+      legacyId: 'NPPE-562',
+      sub: 'nppe-law',
+      blueprint: 'IV.2',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A licensee finishes late. The client proves that the delay caused an $18,000 rental of a replacement compressor. The client also claims $50,000 more, "to punish the firm so this does not happen again." What is the best judgment?',
+      options: [
+        'The usual award compensates. The rental can be recovered if it was a foreseeable result of the breach. The extra sum, claimed only to punish, is not the ordinary measure.',
+        'The client recovers both sums. Every breach of a professional contract is punished by an added amount.',
+        'The client recovers nothing unless the contract says "time is of the essence."',
+        'The client recovers only the $50,000. Paying for the rental would be a penalty.'
+      ],
+      answer: 0,
+      why: '<p>Contract damages ordinarily put the innocent party where it would have been if the contract had been performed. A foreseeable loss caused by the delay, such as the rental, can be included. An extra sum demanded only as punishment is not that measure. No special phrase is required before lateness can have consequences.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Contract damages ordinarily put the innocent party where it would have been if the contract had been performed. A foreseeable loss caused by the delay, such as the rental, can be included. An extra sum demanded only as punishment is not that measure. No special phrase is required before lateness can have consequences.',
+        'Not the best answer. "The client recovers both sums. Every breach of a professional contract is punished by an added amount." does not satisfy the duty this scenario tests. Contract damages ordinarily put the innocent party where it would have been if the contract had been performed. A foreseeable loss caused by the delay, such as the rental, can be included. An extra sum demanded only as punishment is not that measure. No special phrase is required before lateness can have consequences.',
+        'Not the best answer. "The client recovers nothing unless the contract says "time is of the essence."" does not satisfy the duty this scenario tests. Contract damages ordinarily put the innocent party where it would have been if the contract had been performed. A foreseeable loss caused by the delay, such as the rental, can be included. An extra sum demanded only as punishment is not that measure. No special phrase is required before lateness can have consequences.',
+        'Not the best answer. "The client recovers only the $50,000. Paying for the rental would be a penalty." does not satisfy the duty this scenario tests. Contract damages ordinarily put the innocent party where it would have been if the contract had been performed. A foreseeable loss caused by the delay, such as the rental, can be included. An extra sum demanded only as punishment is not that measure. No special phrase is required before lateness can have consequences.'
+      ],
+      keyPoint: 'Contract damages ordinarily put the innocent party where it would have been if the contract had been performed.',
+      trap: 'The client recovers both sums',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:563',
+      legacyId: 'NPPE-563',
+      sub: 'nppe-law',
+      blueprint: 'IV.2',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'An owner calls for sealed bids. The instructions say the owner may reject all bids and need not accept the lowest. After opening, the owner tells the low bidder to cut 8 percent, then uses that cut to bargain with the second bidder. The low bidder refuses and is passed over. What is the best judgment?',
+      options: [
+        'This is proper. A clause that allows rejection of the lowest bid also allows the owner to shop the prices after opening.',
+        'This is proper if the second bidder is local. A local preference does not have to be disclosed.',
+        'The low bidder has no complaint, because the construction contract was never signed.',
+        'The clause lets the owner reject bids. It does not let the owner use one opened price to pressure the other bidders. That bid-shopping breaches the duty of fairness owed to bidders who submitted compliant bids.'
+      ],
+      answer: 3,
+      why: '<p>A formal call for sealed bids can create a process contract with each compliant bidder. The owner must treat those bidders fairly. A privilege clause is real: the owner need not accept the lowest bid. It is not permission to auction the prices after they are opened. The fact that no construction contract was signed does not erase that process duty.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "This is proper. A clause that allows rejection of the lowest bid also allows the owner to shop the prices after opening." does not satisfy the duty this scenario tests. A formal call for sealed bids can create a process contract with each compliant bidder. The owner must treat those bidders fairly. A privilege clause is real: the owner need not accept the lowest bid. It is not permission to auction the prices after they are opened. The fact that no construction contract was signed does not erase that process duty.',
+        'Not the best answer. "This is proper if the second bidder is local. A local preference does not have to be disclosed." does not satisfy the duty this scenario tests. A formal call for sealed bids can create a process contract with each compliant bidder. The owner must treat those bidders fairly. A privilege clause is real: the owner need not accept the lowest bid. It is not permission to auction the prices after they are opened. The fact that no construction contract was signed does not erase that process duty.',
+        'Not the best answer. "The low bidder has no complaint, because the construction contract was never signed." does not satisfy the duty this scenario tests. A formal call for sealed bids can create a process contract with each compliant bidder. The owner must treat those bidders fairly. A privilege clause is real: the owner need not accept the lowest bid. It is not permission to auction the prices after they are opened. The fact that no construction contract was signed does not erase that process duty.',
+        'A formal call for sealed bids can create a process contract with each compliant bidder. The owner must treat those bidders fairly. A privilege clause is real: the owner need not accept the lowest bid. It is not permission to auction the prices after they are opened. The fact that no construction contract was signed does not erase that process duty.'
+      ],
+      keyPoint: 'A formal call for sealed bids can create a process contract with each compliant bidder.',
+      trap: 'This is proper',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:564',
+      legacyId: 'NPPE-564',
+      sub: 'nppe-law',
+      blueprint: 'IV.2',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A contract says any change in scope must be a written change order before the work starts. The owner\'s site representative tells the licensee, "Add the extra pump. We will sort the paperwork later." What is the most appropriate action?',
+      options: [
+        'Design the pump now. An oral instruction from a site representative always amends a written change clause.',
+        'Do not start the extra design until the written change required by the contract is issued. A promise to sort the paperwork later is not that change.',
+        'Design the pump, then refuse to seal it. Leaving it unsealed makes the change clause inapplicable.',
+        'Send the design only to the contractor. Skipping the owner satisfies the change clause.'
+      ],
+      answer: 1,
+      why: '<p>The contract states who may add scope and how. She agreed to that method. An oral "later" does not comply with it, and starting anyway is the dispute the clause was meant to prevent. Refusing to seal, or sending the work around the owner, does not create authority to change the scope.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "Design the pump now. An oral instruction from a site representative always amends a written change clause." does not satisfy the duty this scenario tests. The contract states who may add scope and how. She agreed to that method. An oral "later" does not comply with it, and starting anyway is the dispute the clause was meant to prevent. Refusing to seal, or sending the work around the owner, does not create authority to change the scope.',
+        'The contract states who may add scope and how. She agreed to that method. An oral "later" does not comply with it, and starting anyway is the dispute the clause was meant to prevent. Refusing to seal, or sending the work around the owner, does not create authority to change the scope.',
+        'Not the best answer. "Design the pump, then refuse to seal it. Leaving it unsealed makes the change clause inapplicable." does not satisfy the duty this scenario tests. The contract states who may add scope and how. She agreed to that method. An oral "later" does not comply with it, and starting anyway is the dispute the clause was meant to prevent. Refusing to seal, or sending the work around the owner, does not create authority to change the scope.',
+        'Not the best answer. "Send the design only to the contractor. Skipping the owner satisfies the change clause." does not satisfy the duty this scenario tests. The contract states who may add scope and how. She agreed to that method. An oral "later" does not comply with it, and starting anyway is the dispute the clause was meant to prevent. Refusing to seal, or sending the work around the owner, does not create authority to change the scope.'
+      ],
+      keyPoint: 'The contract states who may add scope and how.',
+      trap: 'Design the pump now',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:565',
+      legacyId: 'NPPE-565',
+      sub: 'nppe-law',
+      blueprint: 'IV.2',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A contract says the client will verify existing underground services, and that the licensee may rely on the locate drawings the client supplies. The client supplies wrong drawings and then sues in negligence. The client says a tort claim ignores the contract. What is the best judgment?',
+      options: [
+        'The contract does not vanish because the claim is pleaded in negligence. The client cannot use tort to recover for a risk the contract expressly assigned to the client.',
+        'The client is right. A negligence claim always overrides a contract term that is inconsistent with it.',
+        'The client is right if the statement of claim uses the word tort. The label decides the result.',
+        'The licensee is liable in every such case. A professional may not allocate any risk to a client.'
+      ],
+      answer: 0,
+      why: '<p>A client may be able to sue in both contract and tort. The contract can still define the duty between those parties. Pleading negligence does not erase a clear allocation of this risk, and the word used in the claim is not what decides it. This does not let her sign away the rights of a person who never agreed to the clause.</p><p><strong>Blueprint:</strong> IV.2. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'A client may be able to sue in both contract and tort. The contract can still define the duty between those parties. Pleading negligence does not erase a clear allocation of this risk, and the word used in the claim is not what decides it. This does not let her sign away the rights of a person who never agreed to the clause.',
+        'Not the best answer. "The client is right. A negligence claim always overrides a contract term that is inconsistent with it." does not satisfy the duty this scenario tests. A client may be able to sue in both contract and tort. The contract can still define the duty between those parties. Pleading negligence does not erase a clear allocation of this risk, and the word used in the claim is not what decides it. This does not let her sign away the rights of a person who never agreed to the clause.',
+        'Not the best answer. "The client is right if the statement of claim uses the word tort. The label decides the result." does not satisfy the duty this scenario tests. A client may be able to sue in both contract and tort. The contract can still define the duty between those parties. Pleading negligence does not erase a clear allocation of this risk, and the word used in the claim is not what decides it. This does not let her sign away the rights of a person who never agreed to the clause.',
+        'Not the best answer. "The licensee is liable in every such case. A professional may not allocate any risk to a client." does not satisfy the duty this scenario tests. A client may be able to sue in both contract and tort. The contract can still define the duty between those parties. Pleading negligence does not erase a clear allocation of this risk, and the word used in the claim is not what decides it. This does not let her sign away the rights of a person who never agreed to the clause.'
+      ],
+      keyPoint: 'A client may be able to sue in both contract and tort.',
+      trap: 'The client is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:566',
+      legacyId: 'NPPE-566',
+      sub: 'nppe-law',
+      blueprint: 'IV.3',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'A visitor is hurt on a site after the contractor removes a guard that the licensee\'s drawing required. The drawing also contains an unrelated error. The visitor says any error in the file makes the licensee liable for the injury. What is the best judgment?',
+      options: [
+        'The visitor is right. An error anywhere in the drawings makes the professional liable for any later injury on the site.',
+        'The visitor is right if the licensee is insured. Insurance replaces proof of cause.',
+        'The visitor must prove a duty, a failure to meet the standard of care, a loss, and that the failure caused that loss. An error that did not cause this injury does not complete the claim.',
+        'The visitor need only prove an injury. Cause and the standard of care are presumed against every licensee on the project.'
+      ],
+      answer: 2,
+      why: '<p>A negligence claim needs a duty, a breach of the standard of care, damage, and a causal link between the breach and that damage. A mistake that played no part in this injury does not establish liability for it. Insurance does not change those elements, and an injury alone does not prove them.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The visitor is right. An error anywhere in the drawings makes the professional liable for any later injury on the site." does not satisfy the duty this scenario tests. A negligence claim needs a duty, a breach of the standard of care, damage, and a causal link between the breach and that damage. A mistake that played no part in this injury does not establish liability for it. Insurance does not change those elements, and an injury alone does not prove them.',
+        'Not the best answer. "The visitor is right if the licensee is insured. Insurance replaces proof of cause." does not satisfy the duty this scenario tests. A negligence claim needs a duty, a breach of the standard of care, damage, and a causal link between the breach and that damage. A mistake that played no part in this injury does not establish liability for it. Insurance does not change those elements, and an injury alone does not prove them.',
+        'A negligence claim needs a duty, a breach of the standard of care, damage, and a causal link between the breach and that damage. A mistake that played no part in this injury does not establish liability for it. Insurance does not change those elements, and an injury alone does not prove them.',
+        'Not the best answer. "The visitor need only prove an injury. Cause and the standard of care are presumed against every licensee on the project." does not satisfy the duty this scenario tests. A negligence claim needs a duty, a breach of the standard of care, damage, and a causal link between the breach and that damage. A mistake that played no part in this injury does not establish liability for it. Insurance does not change those elements, and an injury alone does not prove them.'
+      ],
+      keyPoint: 'A negligence claim needs a duty, a breach of the standard of care, damage, and a causal link between the breach and that damage.',
+      trap: 'The visitor is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:567',
+      legacyId: 'NPPE-567',
+      sub: 'nppe-law',
+      blueprint: 'IV.3',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'The method a licensee used was accepted practice on the day she sealed the drawing. Five years later a better method is published, and a loss occurs. The claimant says she was negligent because she did not use the later method. What is the best judgment?',
+      options: [
+        'The claimant is right. The standard of care is whatever the leading specialist would do on the day of trial.',
+        'The claimant is right. A loss proves that the earlier practice was negligent.',
+        'The claimant is right if a university published the later method. Academic papers apply to work already sealed.',
+        'The claimant is wrong. She is judged by the care a reasonably competent practitioner in that field would have used when the work was done, not by a method that did not yet exist. A loss alone does not prove negligence.'
+      ],
+      answer: 3,
+      why: '<p>The standard is ordinary competent practice at the time of the work. It is not perfection, not the standard of the leading expert, and not a method invented later. Practitioners can reasonably disagree. A bad outcome does not, by itself, prove that the standard was missed.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "The claimant is right. The standard of care is whatever the leading specialist would do on the day of trial." does not satisfy the duty this scenario tests. The standard is ordinary competent practice at the time of the work. It is not perfection, not the standard of the leading expert, and not a method invented later. Practitioners can reasonably disagree. A bad outcome does not, by itself, prove that the standard was missed.',
+        'Not the best answer. "The claimant is right. A loss proves that the earlier practice was negligent." does not satisfy the duty this scenario tests. The standard is ordinary competent practice at the time of the work. It is not perfection, not the standard of the leading expert, and not a method invented later. Practitioners can reasonably disagree. A bad outcome does not, by itself, prove that the standard was missed.',
+        'Not the best answer. "The claimant is right if a university published the later method. Academic papers apply to work already sealed." does not satisfy the duty this scenario tests. The standard is ordinary competent practice at the time of the work. It is not perfection, not the standard of the leading expert, and not a method invented later. Practitioners can reasonably disagree. A bad outcome does not, by itself, prove that the standard was missed.',
+        'The standard is ordinary competent practice at the time of the work. It is not perfection, not the standard of the leading expert, and not a method invented later. Practitioners can reasonably disagree. A bad outcome does not, by itself, prove that the standard was missed.'
+      ],
+      keyPoint: 'The standard is ordinary competent practice at the time of the work.',
+      trap: 'The claimant is right',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:568',
+      legacyId: 'NPPE-568',
+      sub: 'nppe-law',
+      blueprint: 'IV.3',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee writes a capacity letter for a client, knowing the client will give it to a lender for a loan decision. The letter is careless and overstates capacity. The lender relies on it and loses money. She says the lender was not her client, so she owed no duty. What is the best judgment?',
+      options: [
+        'She can owe a duty to the lender. She knew the letter would be used for that lender\'s decision. The lack of a contract with the lender does not end the question.',
+        'She owes the lender nothing unless the lender signed her contract.',
+        'She owes the lender nothing if the client told her to use the higher number. The client\'s instruction removes the duty.',
+        'She is liable only if the lender paid her. Reliance without a fee is never enough.'
+      ],
+      answer: 0,
+      why: '<p>A duty for a careless statement can arise where the professional knows a person will rely on it for a known purpose. This lender was that person. No contract with the lender, and no fee from the lender, are not answers. The client\'s wish for a higher number does not authorize a statement she does not believe.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'A duty for a careless statement can arise where the professional knows a person will rely on it for a known purpose. This lender was that person. No contract with the lender, and no fee from the lender, are not answers. The client\'s wish for a higher number does not authorize a statement she does not believe.',
+        'Not the best answer. "She owes the lender nothing unless the lender signed her contract." does not satisfy the duty this scenario tests. A duty for a careless statement can arise where the professional knows a person will rely on it for a known purpose. This lender was that person. No contract with the lender, and no fee from the lender, are not answers. The client\'s wish for a higher number does not authorize a statement she does not believe.',
+        'Not the best answer. "She owes the lender nothing if the client told her to use the higher number. The client\'s instruction removes the duty." does not satisfy the duty this scenario tests. A duty for a careless statement can arise where the professional knows a person will rely on it for a known purpose. This lender was that person. No contract with the lender, and no fee from the lender, are not answers. The client\'s wish for a higher number does not authorize a statement she does not believe.',
+        'Not the best answer. "She is liable only if the lender paid her. Reliance without a fee is never enough." does not satisfy the duty this scenario tests. A duty for a careless statement can arise where the professional knows a person will rely on it for a known purpose. This lender was that person. No contract with the lender, and no fee from the lender, are not answers. The client\'s wish for a higher number does not authorize a statement she does not believe.'
+      ],
+      keyPoint: 'A duty for a careless statement can arise where the professional knows a person will rely on it for a known purpose.',
+      trap: 'She owes the lender nothing unless the lender signed her contract.',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:569',
+      legacyId: 'NPPE-569',
+      sub: 'nppe-law',
+      blueprint: 'IV.3',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'hard',
+      stem: 'A licensee specifies the wrong bolt. Before anything is installed, the contractor substitutes a different bolt that she never approved. That substitute fails. The owner sues her for the cost of the failure. What is the best judgment?',
+      options: [
+        'She pays the whole loss. Naming a wrong bolt makes her the cause of whichever bolt later fails.',
+        'She pays nothing whenever a contractor also makes a mistake, even if her own bolt was the one that failed.',
+        'The bolt she specified was never installed. The failure was of an unapproved substitute. She may have been careless, but that carelessness did not cause this failure.',
+        'She pays if the claim names both her and the contractor. Naming both proves that each caused the loss.'
+      ],
+      answer: 2,
+      why: '<p>Causation asks whether this loss happened because of her breach. The specified bolt was not installed, and she did not approve the bolt that failed. Carelessness that did not operate is not the cause of this loss. That does not mean a contractor\'s mistake erases liability when her own design is what fails.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "She pays the whole loss. Naming a wrong bolt makes her the cause of whichever bolt later fails." does not satisfy the duty this scenario tests. Causation asks whether this loss happened because of her breach. The specified bolt was not installed, and she did not approve the bolt that failed. Carelessness that did not operate is not the cause of this loss. That does not mean a contractor\'s mistake erases liability when her own design is what fails.',
+        'Not the best answer. "She pays nothing whenever a contractor also makes a mistake, even if her own bolt was the one that failed." does not satisfy the duty this scenario tests. Causation asks whether this loss happened because of her breach. The specified bolt was not installed, and she did not approve the bolt that failed. Carelessness that did not operate is not the cause of this loss. That does not mean a contractor\'s mistake erases liability when her own design is what fails.',
+        'Causation asks whether this loss happened because of her breach. The specified bolt was not installed, and she did not approve the bolt that failed. Carelessness that did not operate is not the cause of this loss. That does not mean a contractor\'s mistake erases liability when her own design is what fails.',
+        'Not the best answer. "She pays if the claim names both her and the contractor. Naming both proves that each caused the loss." does not satisfy the duty this scenario tests. Causation asks whether this loss happened because of her breach. The specified bolt was not installed, and she did not approve the bolt that failed. Carelessness that did not operate is not the cause of this loss. That does not mean a contractor\'s mistake erases liability when her own design is what fails.'
+      ],
+      keyPoint: 'Causation asks whether this loss happened because of her breach.',
+      trap: 'She pays the whole loss',
+      original: true,
+      sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
+    },
+    {
+      qid: 'nppe:set-2:570',
+      legacyId: 'NPPE-570',
+      sub: 'nppe-law',
+      blueprint: 'IV.3',
+      area: 'IV',
+      form: 'mock-d',
+      authorSet: 2,
+      scored: true,
+      experimental: false,
+      difficulty: 'medium',
+      stem: 'An employed licensee negligently designs a connection in the course of her job. The owner sues her and the firm. She says only the firm can be liable, because she is on salary. What is the best judgment?',
+      options: [
+        'She is right. A salary transfers her professional liability to the employer.',
+        'She is right if the firm is a corporation. Incorporation prevents a claim against an employee for that employee\'s own negligence.',
+        'She is right. Vicarious liability means the employer is liable instead of the employee.',
+        'She is wrong. The firm may be liable for her negligence in the course of employment. That liability does not remove her own liability for the work she did.'
+      ],
+      answer: 3,
+      why: '<p>An employer can be vicariously liable for an employee\'s negligence on the job. That adds a defendant. It does not erase the employee\'s own negligence. A salary does not transfer the duty, and the corporate form of the employer does not seal her off from a claim for her own carelessness.</p><p><strong>Blueprint:</strong> IV.3. This is an original practice item, not an official NPPE question, and a raw score on this form is not the scaled NPPE cut of 65.</p>',
+      optionRationales: [
+        'Not the best answer. "She is right. A salary transfers her professional liability to the employer." does not satisfy the duty this scenario tests. An employer can be vicariously liable for an employee\'s negligence on the job. That adds a defendant. It does not erase the employee\'s own negligence. A salary does not transfer the duty, and the corporate form of the employer does not seal her off from a claim for her own carelessness.',
+        'Not the best answer. "She is right if the firm is a corporation. Incorporation prevents a claim against an employee for that employee\'s own negligence." does not satisfy the duty this scenario tests. An employer can be vicariously liable for an employee\'s negligence on the job. That adds a defendant. It does not erase the employee\'s own negligence. A salary does not transfer the duty, and the corporate form of the employer does not seal her off from a claim for her own carelessness.',
+        'Not the best answer. "She is right. Vicarious liability means the employer is liable instead of the employee." does not satisfy the duty this scenario tests. An employer can be vicariously liable for an employee\'s negligence on the job. That adds a defendant. It does not erase the employee\'s own negligence. A salary does not transfer the duty, and the corporate form of the employer does not seal her off from a claim for her own carelessness.',
+        'An employer can be vicariously liable for an employee\'s negligence on the job. That adds a defendant. It does not erase the employee\'s own negligence. A salary does not transfer the duty, and the corporate form of the employer does not seal her off from a claim for her own carelessness.'
+      ],
+      keyPoint: 'An employer can be vicariously liable for an employee\'s negligence on the job.',
+      trap: 'She is right',
       original: true,
       sourceDocument: 'Original UpSkill Sprint item for NPPE Set 2, Mock D. Grounded in the 2017 NPPE blueprint and Canadian professional practice principles. Not a regulator item and not copied from a publisher test bank.'
     }
