@@ -15,7 +15,9 @@ from playwright.sync_api import expect, sync_playwright
 helpers = runpy.run_path(str(Path(__file__).with_name('exam-practice-browser.py')))
 EXPECTED_COUNT = 50
 EXPECTED_MINUTES = 69
-LEARNING_DOMAINS = [2, 4, 6, 14, 2, 2]
+LEARNING_COUNT = 40
+LEARNING_MINUTES = 55
+LEARNING_DOMAINS = [3, 6, 9, 16, 3, 3]
 AXE_PATH = Path(__file__).parent / 'student-audit-tools/node_modules/axe-core/axe.min.js'
 
 
@@ -76,8 +78,8 @@ def main():
 
                 def learning_review():
                     page.locator('[data-open-review="all"]').click()
-                    expect(page.locator('.tb-review-card')).to_have_count(30)
-                    expect(page.locator('.tb-review-rationales')).to_have_count(30)
+                    expect(page.locator('.tb-review-card')).to_have_count(LEARNING_COUNT)
+                    expect(page.locator('.tb-review-rationales')).to_have_count(LEARNING_COUNT)
                     records = page.evaluate('window.__TB.getFeedbackSnapshot().records')
                     for record in records:
                         q = record['question']
@@ -192,19 +194,20 @@ def main():
                     page.goto(base + '/test-bank?exam=nppe')
                     page.wait_for_selector('body.exam-access-ready')
                     page.locator('[data-set="set-1-learning"]').click()
-                    expect(page.locator('[data-set="set-1-learning"] .tb-sets')).to_have_text('30')
-                    expect(page.locator('#tb-overview')).to_contain_text('30 of 120 planned')
+                    expect(page.locator('[data-set="set-1-learning"] .tb-sets')).to_have_text(str(LEARNING_COUNT))
+                    expect(page.locator('#tb-overview')).to_contain_text(f'{LEARNING_COUNT} of 120 planned')
                     expect(page.locator('#tb-overview')).to_contain_text('Partial learning bank')
-                    expect(page.locator('#tb-overview')).to_contain_text('41 minutes')
+                    expect(page.locator('#tb-overview')).to_contain_text(f'{LEARNING_MINUTES} minutes')
                     header_images_fit()
                     check_accessibility('learning-bank-selector')
                     page.locator('[data-mode="full"]').click()
-                    expect(page.locator('[data-goto]')).to_have_count(30)
-                    expect(page.locator('#tb-timer')).to_have_text(re.compile(r'^(41:00|40:5\d)$'))
+                    expect(page.locator('[data-goto]')).to_have_count(LEARNING_COUNT)
+                    expect(page.locator('#tb-timer')).to_have_text(re.compile(r'^(55:00|54:5\d)$'))
                     expect(page.locator('[data-reveal]')).to_have_count(0)
                     assert page.evaluate('window.__TB.revealCurrentAnswer()') is False
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===2).length") == 10
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===3).length") == 10
+                    assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===4).length") == 10
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.every(r=>r.question.form==='set-1-learning'&&r.question.authorSet===1)")
                     # Keyboard answering, flagging and persistence across navigation in Learning itself.
                     first = page.evaluate('window.__TB.getFeedbackSnapshot().records[0].question')
@@ -222,7 +225,7 @@ def main():
                     expect(page.locator('[data-flag]')).to_have_attribute('aria-pressed', 'true')
                     check_accessibility('learning-active-question')
                     page.screenshot(path=str(out / f'{name}-learning-question.png'), full_page=False)
-                    for learning_index in range(30):
+                    for learning_index in range(LEARNING_COUNT):
                         page.locator(f'[data-goto="{learning_index}"]').click()
                         q = page.evaluate('i=>window.__TB.getFeedbackSnapshot().records[i].question', learning_index)
                         header_images_fit()
@@ -230,7 +233,7 @@ def main():
                         page.locator(f'[data-opt="{q["answer"]}"]').click()
                     assert page.evaluate('window.__TB.getFeedbackSnapshot().records.every(r=>!r.revealed)')
                     page.locator('[data-submit]').click()
-                    expect(page.locator('[data-score-result]')).to_contain_text('100% (30/30)')
+                    expect(page.locator('[data-score-result]')).to_contain_text(f'100% ({LEARNING_COUNT}/{LEARNING_COUNT})')
                     expect(page.locator('.tb-domblock')).to_have_count(6)
                     for index, count in enumerate(LEARNING_DOMAINS):
                         domain = page.locator('.tb-domblock').nth(index)
@@ -251,7 +254,7 @@ def main():
                     check_accessibility('learning-revealed-question')
                     assert page.evaluate('window.__TB.getFeedbackSnapshot().records.filter(r=>r.revealed===true).length') == 1
                     assisted_locked = 0
-                    for learning_index in range(30):
+                    for learning_index in range(LEARNING_COUNT):
                         page.locator(f'[data-goto="{learning_index}"]').click()
                         learning_q=page.evaluate('i=>window.__TB.getFeedbackSnapshot().records[i].question',learning_index)
                         answer_button = page.locator(f'[data-opt="{learning_q["answer"]}"]')
@@ -265,7 +268,7 @@ def main():
                     assert assisted_locked == 1, 'Exactly one intentionally revealed answer must remain locked'
                     assert page.evaluate('window.__TB.getFeedbackSnapshot().records.filter(r=>r.revealed===true).length') == 1
                     page.locator('[data-submit]').click()
-                    expect(page.locator('[data-score-result]')).to_contain_text('(29/30)')
+                    expect(page.locator('[data-score-result]')).to_contain_text(f'({LEARNING_COUNT-1}/{LEARNING_COUNT})')
                     expect(page.locator('[data-score-result]')).to_contain_text('1 revealed (counted as incorrect)')
                     expect(page.locator('#tb-overview')).to_contain_text('Learning scores measure practice accuracy')
                     learning_review()
@@ -273,10 +276,10 @@ def main():
                     check_accessibility('learning-assisted-review')
                     assert not errors, errors
                     result = {'case': name, 'result': 'PASS', 'score': f'{EXPECTED_COUNT}/{EXPECTED_COUNT}', 'domains': 6,
-                              'batch3Rendered': batch3_checked, 'batch4Rendered': batch4_checked, 'batch5Rendered': batch5_checked, 'learning30Rendered': True, 'learningAssistedReveal': True, 'learningReview30': True, 'keyboardTabs': True, 'flagsAndNavigation': True,
+                              'batch3Rendered': batch3_checked, 'batch4Rendered': batch4_checked, 'batch5Rendered': batch5_checked, 'learningQuestionsRendered': LEARNING_COUNT, 'learningAssistedReveal': True, 'learningReviewQuestions': LEARNING_COUNT, 'keyboardTabs': True, 'flagsAndNavigation': True,
                               'revealBlocked': True, 'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
-                    result.update(learningUnassistedScore='30/30', learningAssistedScore='29/30',
-                                  learningDomainTotals=LEARNING_DOMAINS, learningAll120Rationales=True,
+                    result.update(learningUnassistedScore=f'{LEARNING_COUNT}/{LEARNING_COUNT}', learningAssistedScore=f'{LEARNING_COUNT-1}/{LEARNING_COUNT}',
+                                  learningDomainTotals=LEARNING_DOMAINS, learningRationalesVerified=LEARNING_COUNT*4,
                                   learningKeyboardAndPersistence=True, accessibility=accessibility)
                 except Exception as error:
                     result = {'case': name, 'result': 'FAIL', 'error': str(error), 'pageErrors': errors, 'accessibility': accessibility}
