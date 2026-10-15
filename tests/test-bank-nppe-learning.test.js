@@ -269,12 +269,12 @@ test('static site staging and audit reject Learning authoring JS even if content
  const t=fs.mkdtempSync(path.join(os.tmpdir(),'nppe-learning-stage-'));
  try{
   const input=path.join(t,'in'),output=path.join(t,'out');fs.mkdirSync(input);fs.writeFileSync(path.join(input,'index.html'),'<h1>test</h1>');
-  fs.writeFileSync(path.join(input,'test-bank-nppe-learning-batch1.js'),'// private bank');
+  for(let number=1;number<=3;number++)fs.writeFileSync(path.join(input,'test-bank-nppe-learning-batch'+number+'.js'),'// private bank');
   await stagePublicSite(input,output);
-  assert.equal(fs.existsSync(path.join(output,'test-bank-nppe-learning-batch1.js')),false);
-  fs.writeFileSync(path.join(output,'test-bank-nppe-learning-batch1.js'),'// private bank');
+  for(let number=1;number<=3;number++)assert.equal(fs.existsSync(path.join(output,'test-bank-nppe-learning-batch'+number+'.js')),false);
+  fs.writeFileSync(path.join(output,'test-bank-nppe-learning-batch3.js'),'// private bank');
   const audit=await auditExamPublicContent(output);
   assert.equal(audit.status,'blocked');
-  assert.ok(audit.findings.some(f=>f.path==='test-bank-nppe-learning-batch1.js'));
+  assert.ok(audit.findings.some(f=>f.path==='test-bank-nppe-learning-batch3.js'));
  }finally{fs.rmSync(t,{recursive:true,force:true});}
 });
