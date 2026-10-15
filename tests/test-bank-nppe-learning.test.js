@@ -24,7 +24,8 @@ function fullLearning(){const context={window:{}};vm.runInNewContext(read('test-
 function learningThree(){const context={window:{}};vm.runInNewContext(read('test-bank-nppe-learning-batch1.js')+'\n'+read('test-bank-nppe-learning-batch2.js')+'\n'+read('test-bank-nppe-learning-batch3.js'),context);return context.window;}
 function learningFour(){const context={window:{}};vm.runInNewContext([1,2,3,4].map(i=>read('test-bank-nppe-learning-batch'+i+'.js')).join('\n'),context);return context.window;}
 function learningFive(){const context={window:{}};vm.runInNewContext([1,2,3,4,5].map(i=>read('test-bank-nppe-learning-batch'+i+'.js')).join('\n'),context);return context.window;}
-function learningAll(){const context={window:{}};vm.runInNewContext([1,2,3,4,5,6].map(i=>read('test-bank-nppe-learning-batch'+i+'.js')).join('\n'),context);return context.window;}
+function learningSix(){const context={window:{}};vm.runInNewContext([1,2,3,4,5,6].map(i=>read('test-bank-nppe-learning-batch'+i+'.js')).join('\n'),context);return context.window;}
+function learningAll(){const context={window:{}};vm.runInNewContext([1,2,3,4,5,6,7].map(i=>read('test-bank-nppe-learning-batch'+i+'.js')).join('\n'),context);return context.window;}
 function legacyDiagnostic(){const context={window:{}};vm.runInNewContext(DIAG.map(read).join('\n'),context);return Array.from(context.window.NPPE_DIAGNOSTIC);}
 async function browser(){
  const errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
@@ -262,7 +263,7 @@ test('Batch 5 appends to forty unchanged predecessors and rejects corrupt or con
  bank[49].stem='Conflicting replacement';assert.throws(()=>ctx.window.installNPPELearningBatch5(),/Conflicting Learning Batch 5/);
 });
 test('Batch 6 covers the planned domains with original questions and qualified source metadata',()=>{
- const api=learningAll(),all=Array.from(api.NPPE_LEARNING),q=Array.from(api.NPPE_LEARNING_BATCH6);
+ const api=learningSix(),all=Array.from(api.NPPE_LEARNING),q=Array.from(api.NPPE_LEARNING_BATCH6);
  assert.equal(all.length,60);assert.equal(q.length,10);
  assert.deepEqual(q.map(x=>x.legacyId),Array.from({length:10},(_,i)=>'NPPE-'+String(101+i).padStart(3,'0')));
  assert.deepEqual(q.map(x=>x.blueprint),['I.4','II.2','II.4','III.10','III.6','III.8','IV.2','IV.3','V.3','VI.1']);
@@ -308,15 +309,64 @@ test('Batch 6 appends to fifty unchanged predecessors and rejects corrupt or con
  }
  bank[59].stem='Conflicting replacement';assert.throws(()=>ctx.window.installNPPELearningBatch6(),/Conflicting Learning Batch 6/);
 });
-test('all sixty Learning questions register without modifying Diagnostic, Mock D or Mock E',()=>{
+test('Batch 7 covers the planned domains with original questions and qualified source metadata',()=>{
+ const api=learningAll(),all=Array.from(api.NPPE_LEARNING),q=Array.from(api.NPPE_LEARNING_BATCH7);
+ assert.equal(all.length,70);assert.equal(q.length,10);
+ assert.deepEqual(q.map(x=>x.legacyId),Array.from({length:10},(_,i)=>'NPPE-'+String(111+i).padStart(3,'0')));
+ assert.deepEqual(q.map(x=>x.blueprint),['I.1','II.3','II.4','III.3','III.5','III.10','IV.13','IV.7','V.2','VI.1']);
+ assert.deepEqual(Object.fromEntries('ABCD'.split('').map((key,i)=>[key,q.filter(x=>x.answer===i).length])),{A:3,B:2,C:3,D:2});
+ assert.deepEqual(['I','II','III','IV','V','VI'].map(d=>q.filter(x=>x.area===d).length),[1,2,3,2,1,1]);
+ assert.deepEqual(['I','II','III','IV','V','VI'].map(d=>all.filter(x=>x.area===d).length),[6,12,18,22,6,6]);
+ assert.deepEqual(['understanding','application','analysis'].map(level=>q.filter(x=>x.cognitiveLevel===level).length),[2,6,2]);
+ assert.deepEqual(['easy','medium','hard'].map(level=>q.filter(x=>x.difficulty===level).length),[2,8,0]);
+ assert.equal(new Set(all.map(x=>x.qid)).size,70);assert.equal(new Set(all.map(x=>x.questionFamily)).size,70);
+ assert.ok(q.every(x=>x.version===1&&x.batch===7&&x.bank==='learning'&&x.form==='set-1-learning'&&x.authorSet===1&&x.original&&x.scored&&!x.experimental));
+ assert.ok(q.every(x=>x.options.length===4&&new Set(x.options).size===4&&Number.isInteger(x.answer)&&x.answer>=0&&x.answer<4));
+ assert.ok(q.every(x=>x.optionRationales.length===4&&x.optionRationales.every(r=>r.length>40)));
+ assert.ok(q.every(x=>x.sources.length>=2&&x.sources.some(source=>source.sourceType==='official-blueprint')));
+ assert.ok(q.every(x=>x.sources.every(source=>source.title&&source.locator&&source.sourceType&&(!source.url||new URL(source.url).protocol==='https:'))));
+ assert.ok(q.every(x=>x.learningObjective&&x.keyPoint&&x.trap&&x.jurisdiction&&x.why.includes('Sources:')));
+ assert.ok(q.every(x=>/not empirically calibrated/.test(x.difficultyBasis)&&/independent legal\/SME/.test(x.reviewStatus)));
+ assert.ok(q.filter(x=>x.options[x.answer].length===Math.max(...x.options.map(option=>option.length))).length<=3,'Longest-answer cue');
+ const words=x=>x.trim().split(/\s+/).length;
+ assert.ok(q.filter(x=>words(x.options[x.answer])<Math.min(...x.options.filter((_,i)=>i!==x.answer).map(words))).length<=3,'Shortest-answer cue');
+ assert.match(q[2].jurisdiction,/valid court order.*no stay/);
+ assert.ok(q[2].sources.some(source=>source.sourceType==='primary-legislation'&&/7\(3\)\(c\)/.test(source.locator)));
+ assert.match(q[6].jurisdiction,/PIPEDA.*no real risk/);
+ assert.ok(q[6].sources.some(source=>source.sourceType==='primary-regulation'&&/24 months/.test(source.locator)));
+ assert.match(q[7].jurisdiction,/No specific foreign/);
+ assert.match(q[8].jurisdiction,/British Columbia/);
+ assert.match(q[9].jurisdiction,/British Columbia.*s\. 73/);
+ assert.ok(q[9].sources.some(source=>source.sourceType==='primary-legislation'&&/73/.test(source.locator)));
+ const ctx={window:{}};vm.runInNewContext(read('test-bank-nppe-set2.js')+'\n'+read('test-bank-nppe-set3.js'),ctx);
+ const earlier=legacyDiagnostic().concat(all.slice(0,60),Array.from(ctx.window.NPPE_SET2),Array.from(ctx.window.NPPE_SET3));assert.equal(earlier.length,330);
+ const normalize=x=>x.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+ assert.ok(q.every(x=>!earlier.some(old=>normalize(old.stem)===normalize(x.stem)||old.questionFamily===x.questionFamily)));
+});
+test('Batch 7 appends to sixty unchanged predecessors and rejects corrupt or conflicting imports',()=>{
+ const ctx={window:{}};vm.runInNewContext([1,2,3,4,5,6].map(i=>read('test-bank-nppe-learning-batch'+i+'.js')).join('\n'),ctx);
+ const bank=ctx.window.NPPE_LEARNING,refs=Array.from(bank),snapshot=JSON.stringify(bank);
+ vm.runInNewContext(read('test-bank-nppe-learning-batch7.js'),ctx);
+ assert.equal(ctx.window.NPPE_LEARNING,bank);assert.equal(bank.length,70);
+ assert.equal(JSON.stringify(bank.slice(0,60)),snapshot);refs.forEach((q,i)=>assert.equal(bank[i],q));
+ ctx.window.installNPPELearningBatch7();vm.runInNewContext(read('test-bank-nppe-learning-batch7.js'),ctx);assert.equal(bank.length,70);
+ assert.throws(()=>vm.runInNewContext(read('test-bank-nppe-learning-batch7.js'),{window:{}}),/Batches 1/);
+ assert.throws(()=>vm.runInNewContext(read('test-bank-nppe-learning-batch7.js'),{window:{NPPE_LEARNING:refs.slice(0,59)}}),/Batches 1/);
+ for(const field of ['qid','authorSet','form','bank','batch']){
+  const changed=JSON.parse(snapshot);changed[54][field]='conflicting';
+  assert.throws(()=>vm.runInNewContext(read('test-bank-nppe-learning-batch7.js'),{window:{NPPE_LEARNING:changed}}),/Conflicting previous/);
+ }
+ bank[69].stem='Conflicting replacement';assert.throws(()=>ctx.window.installNPPELearningBatch7(),/Conflicting Learning Batch 7/);
+});
+test('all seventy Learning questions register without modifying Diagnostic, Mock D or Mock E',()=>{
  const api=learningAll(),diags=[{qid:'diagnostic'}],mockD=[{qid:'mock-d'}],mockE=[{qid:'mock-e'}];
  const catalog=[{id:'set-1-learning',authorSet:1,kind:'learning',target:120}];
  const exam={formCatalog:catalog,forms:{'set-1-diagnostic':diags,'mock-d':mockD,'mock-e':mockE},fullExamQuestionsBySet:{}};
  api.registerNPPELearning(exam);api.registerNPPELearning(exam);
- assert.equal(exam.forms['set-1-learning'].length,60);
- assert.equal(exam.learning.available,60);assert.equal(exam.learning.target,120);assert.equal(exam.learning.complete,false);
+ assert.equal(exam.forms['set-1-learning'].length,70);
+ assert.equal(exam.learning.available,70);assert.equal(exam.learning.target,120);assert.equal(exam.learning.complete,false);
  assert.equal(exam.forms['set-1-diagnostic'],diags);assert.equal(exam.forms['mock-d'],mockD);assert.equal(exam.forms['mock-e'],mockE);
- assert.equal(new Set(exam.forms['set-1-learning'].map(q=>q.qid)).size,60);
+ assert.equal(new Set(exam.forms['set-1-learning'].map(q=>q.qid)).size,70);
 });
 test('Learning registration is idempotent, author-owned, and does not change other banks',()=>{
  const api=learning();const d=[{qid:'diag'}],mockD=[{qid:'mock-d'}],mockE=[{qid:'mock-e'}];
@@ -336,35 +386,36 @@ test('protected delivery contains Learning only in NPPE package; public shell an
  assert.match(packet.scripts.join('\n'),/NPPE_LEARNING_BATCH4/);
  assert.match(packet.scripts.join('\n'),/NPPE_LEARNING_BATCH5/);
  assert.match(packet.scripts.join('\n'),/NPPE_LEARNING_BATCH6/);
- assert.doesNotMatch(build.shell,/NPPE_LEARNING_BATCH1|NPPE_LEARNING_BATCH2|NPPE_LEARNING_BATCH3|NPPE_LEARNING_BATCH4|NPPE_LEARNING_BATCH5|NPPE_LEARNING_BATCH6|nppe:set-1:learning:|A provincial statute authorizes a regulator|Before a town votes on a major water-treatment upgrade|A graduate of an accredited Canadian engineering program/);
+ assert.match(packet.scripts.join('\n'),/NPPE_LEARNING_BATCH7/);
+ assert.doesNotMatch(build.shell,/NPPE_LEARNING_BATCH1|NPPE_LEARNING_BATCH2|NPPE_LEARNING_BATCH3|NPPE_LEARNING_BATCH4|NPPE_LEARNING_BATCH5|NPPE_LEARNING_BATCH6|NPPE_LEARNING_BATCH7|nppe:set-1:learning:|A provincial statute authorizes a regulator|Before a town votes on a major water-treatment upgrade|A graduate of an accredited Canadian engineering program/);
  for(const exam of Object.keys(build.sizes).filter(x=>x!=='nppe')){
-   assert.doesNotMatch(fs.readFileSync(path.join(build.output,exam+'.json'),'utf8'),/NPPE_LEARNING_BATCH1|NPPE_LEARNING_BATCH2|NPPE_LEARNING_BATCH3|NPPE_LEARNING_BATCH4|NPPE_LEARNING_BATCH5|NPPE_LEARNING_BATCH6|nppe:set-1:learning:/);
+   assert.doesNotMatch(fs.readFileSync(path.join(build.output,exam+'.json'),'utf8'),/NPPE_LEARNING_BATCH1|NPPE_LEARNING_BATCH2|NPPE_LEARNING_BATCH3|NPPE_LEARNING_BATCH4|NPPE_LEARNING_BATCH5|NPPE_LEARNING_BATCH6|NPPE_LEARNING_BATCH7|nppe:set-1:learning:/);
  }
  assert.ok(build.sizes.nppe<5500000);
 });
-test('Set 1 Learning becomes available with 60 of 120, while Diagnostic and Mocks retain independent counts',async()=>{
+test('Set 1 Learning becomes available with 70 of 120, while Diagnostic and Mocks retain independent counts',async()=>{
  const h=await browser();const {doc,win,errors}=h;try{
-  assert.equal(doc.querySelector('[data-set="set-1-learning"] .tb-sets').textContent,'60');
+  assert.equal(doc.querySelector('[data-set="set-1-learning"] .tb-sets').textContent,'70');
   assert.equal(doc.querySelector('[data-set="set-1-diagnostic"] .tb-sets').textContent,'50');
   assert.equal(doc.querySelector('[data-set="mock-d"] .tb-sets').textContent,'110');
   assert.equal(doc.querySelector('[data-set="mock-e"] .tb-sets').textContent,'110');
   for(const id of ['set-1-mock-a','set-1-mock-b','set-1-mock-c'])assert.equal(doc.querySelector('[data-set="'+id+'"]').disabled,true);
   pickLearning(doc);
-  assert.match(doc.querySelector('#tb-overview').textContent,/60 of 120 planned/);
-  assert.match(doc.querySelector('#tb-overview').textContent,/82 minutes/);
+  assert.match(doc.querySelector('#tb-overview').textContent,/70 of 120 planned/);
+  assert.match(doc.querySelector('#tb-overview').textContent,/96 minutes/);
   assert.match(doc.querySelector('#tb-overview').textContent,/Partial learning bank/);
   assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Learning/);
   assert.equal(win.__TB.EXAMS.nppe.learning.target,120);
   assert.deepEqual(errors,[]);
  }finally{h.close();}
 });
-test('timed Learning hides answers, validates scope and permits only own sixty questions',async()=>{
+test('timed Learning hides answers, validates scope and permits only own seventy questions',async()=>{
  const h=await browser();const {doc,win,errors}=h;try{
   pickLearning(doc);doc.querySelector('[data-mode="full"]').click();
   const snap=win.__TB.getFeedbackSnapshot();
-  assert.equal(snap.records.length,60);
+  assert.equal(snap.records.length,70);
   assert.ok(snap.records.every(r=>r.question.form==='set-1-learning'&&r.question.authorSet===1));
-  assert.match(doc.querySelector('#tb-timer').textContent,/^(1:22:00|1:21:5[0-9])$/);
+  assert.match(doc.querySelector('#tb-timer').textContent,/^(1:36:00|1:35:5[0-9])$/);
   assert.equal(doc.querySelector('[data-reveal]'),null);
   assert.equal(win.__TB.revealCurrentAnswer(),false);
   assert.equal(doc.querySelector('#tb-feedback-loop'),null);
@@ -381,12 +432,12 @@ test('untimed Learning allows assisted reveal without disclosing answers from ot
   reveal.click();
   const snap=win.__TB.getFeedbackSnapshot();
   assert.equal(snap.records.filter(r=>r.revealed===true).length,1);
-  assert.equal(snap.records.length,60);
+  assert.equal(snap.records.length,70);
   assert.match(doc.querySelector('.tb-quiz').textContent,/Reveal|Answer|Correct/i);
   assert.deepEqual(errors,[]);
  }finally{h.close();}
 });
-test('unassisted Learning submission gives 60/60 raw score with wrong-option explanations for all items',async()=>{
+test('unassisted Learning submission gives 70/70 raw score with wrong-option explanations for all items',async()=>{
  const h=await browser();const {doc,win,errors}=h;try{
   pickLearning(doc);doc.querySelector('[data-timing-kind="full"][data-timed="0"]').click();doc.querySelector('[data-mode="full"]').click();
   const records=win.__TB.getFeedbackSnapshot().records;
@@ -398,12 +449,12 @@ test('unassisted Learning submission gives 60/60 raw score with wrong-option exp
     doc.querySelector(i===records.length-1?'[data-submit]':'[data-next]').click();
   }
   await new Promise(resolve=>setTimeout(resolve,100));
-  assert.match(doc.querySelector('[data-score-result]').textContent,/100% \(60\/60\)/);
+  assert.match(doc.querySelector('[data-score-result]').textContent,/100% \(70\/70\)/);
   assert.match(doc.querySelector('#tb-overview').textContent,/Learning scores measure practice accuracy/);
   assert.doesNotMatch(doc.querySelector('#tb-overview').textContent,/Scored results exclude the ten experimental items/);
   doc.querySelector('[data-open-review="all"]').click();
-  assert.equal(doc.querySelectorAll('.tb-review-card').length,60);
-  assert.equal(doc.querySelectorAll('.tb-review-rationales').length,60);
+  assert.equal(doc.querySelectorAll('.tb-review-card').length,70);
+  assert.equal(doc.querySelectorAll('.tb-review-rationales').length,70);
   for(const {question:q} of records){
     const card=doc.querySelector('.tb-review-card[data-question-id="'+q.qid+'"]');
     assert.ok(card,q.qid);
@@ -425,8 +476,8 @@ test('Learning domain results preserve distinct denominators with one incorrect 
     doc.querySelector('[data-opt="'+(wrong?(q.answer+1)%4:q.answer)+'"]').click();
   }
   doc.querySelector('[data-submit]').click();
-  assert.match(doc.querySelector('[data-score-result]').textContent,/90% \(54\/60\)/);
-  const domains=[...doc.querySelectorAll('.tb-domblock')],totals=[5,10,15,20,5,5];
+  assert.match(doc.querySelector('[data-score-result]').textContent,/91\.43% \(64\/70\)/);
+  const domains=[...doc.querySelectorAll('.tb-domblock')],totals=[6,12,18,22,6,6];
   assert.equal(domains.length,6);
   domains.forEach((domain,i)=>{
     assert.ok(domain.textContent.includes('('+(totals[i]-1)+'/'+totals[i]+')'));
@@ -449,12 +500,12 @@ test('static site staging and audit reject Learning authoring JS even if content
  const t=fs.mkdtempSync(path.join(os.tmpdir(),'nppe-learning-stage-'));
  try{
   const input=path.join(t,'in'),output=path.join(t,'out');fs.mkdirSync(input);fs.writeFileSync(path.join(input,'index.html'),'<h1>test</h1>');
-  for(let number=1;number<=6;number++)fs.writeFileSync(path.join(input,'test-bank-nppe-learning-batch'+number+'.js'),'// private bank');
+  for(let number=1;number<=7;number++)fs.writeFileSync(path.join(input,'test-bank-nppe-learning-batch'+number+'.js'),'// private bank');
   await stagePublicSite(input,output);
-  for(let number=1;number<=6;number++)assert.equal(fs.existsSync(path.join(output,'test-bank-nppe-learning-batch'+number+'.js')),false);
-  fs.writeFileSync(path.join(output,'test-bank-nppe-learning-batch6.js'),'// private bank');
+  for(let number=1;number<=7;number++)assert.equal(fs.existsSync(path.join(output,'test-bank-nppe-learning-batch'+number+'.js')),false);
+  fs.writeFileSync(path.join(output,'test-bank-nppe-learning-batch7.js'),'// private bank');
   const audit=await auditExamPublicContent(output);
   assert.equal(audit.status,'blocked');
-  assert.ok(audit.findings.some(f=>f.path==='test-bank-nppe-learning-batch6.js'));
+  assert.ok(audit.findings.some(f=>f.path==='test-bank-nppe-learning-batch7.js'));
  }finally{fs.rmSync(t,{recursive:true,force:true});}
 });

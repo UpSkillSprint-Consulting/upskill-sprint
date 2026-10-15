@@ -15,9 +15,9 @@ from playwright.sync_api import expect, sync_playwright
 helpers = runpy.run_path(str(Path(__file__).with_name('exam-practice-browser.py')))
 EXPECTED_COUNT = 50
 EXPECTED_MINUTES = 69
-LEARNING_COUNT = 60
-LEARNING_MINUTES = 82
-LEARNING_DOMAINS = [5, 10, 15, 20, 5, 5]
+LEARNING_COUNT = 70
+LEARNING_MINUTES = 96
+LEARNING_DOMAINS = [6, 12, 18, 22, 6, 6]
 AXE_PATH = Path(__file__).parent / 'student-audit-tools/node_modules/axe-core/axe.min.js'
 
 
@@ -202,7 +202,7 @@ def main():
                     check_accessibility('learning-bank-selector')
                     page.locator('[data-mode="full"]').click()
                     expect(page.locator('[data-goto]')).to_have_count(LEARNING_COUNT)
-                    expect(page.locator('#tb-timer')).to_have_text(re.compile(r'^(1:22:00|1:21:5\d)$'))
+                    expect(page.locator('#tb-timer')).to_have_text(re.compile(r'^(1:36:00|1:35:5\d)$'))
                     expect(page.locator('[data-reveal]')).to_have_count(0)
                     assert page.evaluate('window.__TB.revealCurrentAnswer()') is False
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===2).length") == 10
@@ -210,6 +210,7 @@ def main():
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===4).length") == 10
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===5).length") == 10
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===6).length") == 10
+                    assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===7).length") == 10
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.every(r=>r.question.form==='set-1-learning'&&r.question.authorSet===1)")
                     # Keyboard answering, flagging and persistence across navigation in Learning itself.
                     first = page.evaluate('window.__TB.getFeedbackSnapshot().records[0].question')
