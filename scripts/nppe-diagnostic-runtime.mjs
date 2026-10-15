@@ -40,6 +40,12 @@ export function integrateNPPEDiagnostic(source) {
 }
 
 const helpers = String.raw`
+  // The dark theme's bright teal needs dark text on filled controls. Scope this
+  // to the authorized NPPE package, including selected answers and review tabs.
+  var nppeContrastStyle=document.createElement('style');
+  nppeContrastStyle.id='nppe-control-contrast';
+  nppeContrastStyle.textContent='.tb-wrap{--nppe-score-good:#146c43;--nppe-score-low:#a52a25}html[data-theme="dark"] .tb-wrap{--nppe-score-good:#6ee7b7;--nppe-score-low:#fca5a5}html[data-theme="dark"] .tb-wrap .tb-seg button.on,html[data-theme="dark"] .btn-teal,html[data-theme="dark"] .tb-wrap .tb-opt.sel .k,html[data-theme="dark"] #tb-feedback-loop .tb-review-tabs button.on{color:#082f35}';
+  document.head.appendChild(nppeContrastStyle);
   function nppeDescription(e,id){
     var form=formMeta(e,id),n=formQuestionCount(e,id);
     if(!form)return 'This bank is unavailable.';
@@ -106,6 +112,7 @@ const helpers = String.raw`
     return beginSession(e,questions,f.kind==='diagnostic'?'diagnostic':'exam',timed,seconds);
   }
   function nppeResults(gradeNotice,breakdown){
+    breakdown=breakdown.replace(/color:#c0453f/g,'color:var(--nppe-score-low)').replace(/color:var\(--good,#1f9d6b\)/g,'color:var(--nppe-score-good)');
     var f=formMeta(EXAMS.nppe,session.setId),isDiagnostic=f&&f.kind==='diagnostic',isLearning=f&&f.kind==='learning';
     return '<div class="tb-resbar"><button type="button" class="tb-ghost" data-back>&larr; Back to NPPE banks</button><span class="tb-restag">'+esc(f?f.label:'NPPE')+' result</span></div><h2>'+esc(f?f.label:'NPPE')+' — study feedback</h2>'+gradeNotice+'<p class="tb-srnote">'+(isDiagnostic?'This diagnostic reports only the questions in this attempt. Small domain samples are starting points for study, not proof of mastery. ':isLearning?'Learning scores measure practice accuracy. Any revealed answers are assisted practice and must not be treated as unseen readiness evidence. ':'Scored results exclude the ten experimental items. ')+'A raw practice percentage is not an official scaled NPPE score, a pass probability or a guarantee. Difficulty has not been empirically calibrated.</p><div class="tb-sec">This attempt: domain breakdown</div><div class="tb-breakdown">'+breakdown+'</div><button type="button" class="tb-ghost" data-retake>Retake '+esc(f?f.label:'bank')+'</button><p class="tb-srnote">Retakes repeat this bank; they are not fresh readiness evidence. Results remain in this tab only and are lost when you leave or refresh.</p>';
   }

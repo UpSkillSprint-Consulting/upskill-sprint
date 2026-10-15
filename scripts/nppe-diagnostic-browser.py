@@ -62,7 +62,7 @@ def main():
                     audit = page.evaluate('''async () => {
                       const r=await axe.run(document, {runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21a','wcag21aa']}});
                       return {engine:r.testEngine,passes:r.passes.length,
-                        incomplete:r.incomplete.map(v=>v.id),
+                        incomplete:r.incomplete.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})),
                         violations:r.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))};
                     }''')
                     accessibility.append({'phase': phase, **audit})
