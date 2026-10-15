@@ -6,7 +6,7 @@ Editorial/source review: 2026-10-15. Original ChatGPT Set 1 Learning content. PR
 
 Ten new items append to sixty unchanged Learning objects. Diagnostic 50, Mock D 110 and Mock E 110 remain separate and unchanged. Mock A–C remain unauthored. Learning now contains **70/120**, timed **96 minutes** (`ceil(70 × 150 / 110)`) or untimed study. Domain totals: **6 / 12 / 18 / 22 / 6 / 6**. One incorrect answer per domain produces **64/70, 91.43%**. Full review contains **280 option explanations**.
 
-Keys: **B C A D C A D B C A** (A3/B2/C3/D2). Two correct options are longest by characters; two uniquely shortest by words. No grammatical completion stems. Classifications: two easy/understanding, six medium/application, two medium/analysis. These are editorial estimates, not empirical calibration. Analysis items 114 and 115 require combining scope/process facts to identify an evidence gap.
+Keys: **B C A D C A D B C A** (A3/B2/C3/D2). One correct option is longest by characters; two uniquely shortest by words. No grammatical completion stems. Classifications: two easy/understanding, six medium/application, two medium/analysis. These are editorial estimates, not empirical calibration. Analysis items 114 and 115 require combining scope/process facts to identify an evidence gap.
 
 ## Item and duplicate audit
 
@@ -17,15 +17,15 @@ Screened against 330 earlier questions: Diagnostic 50, Learning 60, Mock D/E 220
 | 111 | I.1 | Public reliance on specialist knowledge; differs from 031/501 credential/status identification. |
 | 112 | II.3 | Observed damage versus untested causal inference; differs from 034 suppression of known uncertainty and 540/650 personal accusations about another expert. |
 | 113 | II.4 | Confirmed binding court order, limited production; differs from 023 voluntary reuse of confidential data and 044 breach response. |
-| 114 | III.3 | Omitted interface condition despite completed component scopes; differs from 529/639 requests for one person to seal another discipline. |
+| 114 | III.3 | Technologist evidence versus engineering approval authority; differs from 016 incomplete data collection and 538 transferring engineering responsibility. |
 | 115 | III.5 | Excluded operating process makes a bigger convenient sample insufficient; differs from 095 obsolete-template corrective action and 656 calibration failure. |
 | 116 | III.10 | Visual hierarchy buries an accurate required action; differs from 104 readability-score/user-comprehension validation. |
 | 117 | IV.13 | All-breach records versus risk-triggered notification; differs from 057 consent for secondary marketing. |
 | 118 | IV.7 | Domestic grace provision does not preserve all foreign rights; differs from 683 patent term and first-sale misconception. |
-| 119 | V.2 | Ongoing firm registration arrangements after Responsible Registrant departure; differs from 066/696 initial permit requirements. |
+| 119 | V.2 | Ongoing firm registration arrangements after Responsible Registrant departure; differs from 069/696 initial permit requirements. |
 | 120 | VI.1 | Valid consent disposition has legal effect without contested hearing; differs from 090 private settlement and 110 interim protection without final disposition. |
 
-Rejected a private-settlement/complaint-withdrawal proposal because 090 already tests it. Replaced the initial compensation-versus-discipline draft because Mock D 592 already uses substantially that scenario. Mock D/E were only read, never edited.
+Rejected a private-settlement/complaint-withdrawal proposal because 090 already tests it. Replaced the initial compensation-versus-discipline draft because Mock D 592 already uses substantially that scenario. Also replaced an interface-gap draft that was too close to Learning 084’s multidisciplinary coordination scenario. Mock D/E were only read, never edited.
 
 ## Source verification and qualifications
 
@@ -33,7 +33,7 @@ The official NPPE page continues to label the 2017 blueprint current, with a pro
 
 - 111–112: read Engineers Canada’s current ethics guidance, including accountability and Principle 4’s fact/assumption/opinion distinction.
 - 113: directly read Justice Laws PIPEDA s. 7(3)(c). The existence, validity and scope of the binding order are stipulated; this does not assert every informal request overrides confidentiality.
-- 114: directly read Engineers Canada’s multidisciplinary supervision guidance. The fictional interface omission and its resolution are an application of responsibility allocation, not a quoted regulator case.
+- 114: directly read Engineers Canada’s direct-supervision guidance. The question separates a qualified technologist’s factual contribution from professional reassessment and approval; it does not transfer engineering responsibility.
 - 115: directly read Statistics Canada’s survey design/coverage guidance. The statistical principle is applied by analogy to engineering quality evidence, not attributed to an engineering acceptance-sampling code. Retained the supplied ordinary Andrews textbook’s quality-management conceptual reference already verified in Batch 5; no claim of a fresh textbook page inspection or a textbook sampling rule.
 - 116: directly read CCOHS information-design guidance; application differs from Batch 6’s readability test.
 - 117: directly read PIPEDA ss. 10.1 and 10.3 and Breach of Security Safeguards Regulations s. 6. PIPEDA applicability and absence of significant-harm risk are explicit assumptions. The statutory record period is 24 months after determining the breach; other regimes are outside the scenario.
@@ -157,36 +157,36 @@ D. Delete the specified records before the deadline because keeping them would c
 
 ### NPPE-114 — III.3
 
-**Objective:** Identify and allocate an unresolved interface responsibility between competent specialists.
+**Objective:** Use a technologist’s relevant observations while keeping engineering decisions with the responsible professional.
 
-**Jurisdiction/assumptions:** Canada; a coordinating engineer can arrange review by the relevant licensed specialists. No individual is assumed competent in every discipline.
+**Jurisdiction/assumptions:** Canada; a qualified field technologist provides reliable observations within the assigned role. The responsible engineer remains accountable for reassessing the engineering conclusions.
 
-**Provisional:** medium / analysis. **Family:** `multidiscipline-interface-gap-despite-complete-component-reviews`.
+**Provisional:** medium / analysis. **Family:** `technologist-field-evidence-versus-professional-decision-authority`.
 
-On a treatment-plant project, the mechanical engineer checks a pump’s operating loads and the structural engineer checks its support for the loads supplied. At coordination review, the team discovers that neither assignment included transient loads at the pump-support interface. Each component review is otherwise complete. What should the coordinator do before issuing the combined package?
+A field technologist documents that installed supports differ from the arrangement assumed in an engineer’s otherwise correctly calculated load assessment. The engineer confirms the photographs identify the correct equipment. A manager says to ignore the finding because the technologist is not licensed to approve an engineering design. Which response best separates the roles?
 
-A. Accept the package because completing each separate assignment establishes that the interface was covered.
+A. Keep the assessment unchanged because only a licensed designer can provide evidence relevant to its assumptions.
 
-B. Assign the omitted calculation to whichever engineer submits first, regardless of relevant competence.
+B. Ask the technologist to approve the revised load capacity because finding the discrepancy transfers design responsibility.
 
-C. Average the two engineers’ existing load values and record that agreement as the missing interface review.
+C. Invalidate every calculation in the assessment because a reliable field observation proves the arithmetic was wrong.
 
-D. Assign the interface assessment to competent specialists and reconcile its results with both component designs.
+D. Use the observations to reassess the support assumptions while retaining professional responsibility for the conclusions.
 
 **Correct: D.**
 
-- **A:** Completed component checks do not demonstrate that an expressly omitted interface condition was assessed.
-- **B:** Availability alone does not establish competence or a suitable allocation of technical responsibility.
-- **C:** A numerical compromise between existing values does not analyse the omitted transient condition.
-- **D:** The gap needs an explicit competent owner and coordinated follow-through into the affected designs.
+- **A:** A technologist can provide relevant field evidence within their role; lack of design-approval authority does not erase it.
+- **B:** Identifying a discrepancy does not itself transfer responsibility for engineering reassessment or approval to the observer.
+- **C:** The evidence challenges the assumed support arrangement, not necessarily the arithmetic performed for that arrangement.
+- **D:** This respects the technologist’s contribution and the engineer’s separate responsibility to assess its design implications.
 
-**Key point:** Coordinate the boundaries between assignments as well as the assignments themselves.
+**Key point:** Distinguish the authority to provide relevant evidence from the responsibility to approve engineering conclusions.
 
-**Common error:** Assuming individually complete scopes guarantee a complete integrated design.
+**Common error:** Dismissing reliable technical input solely because its contributor does not hold the final approval role.
 
 **Sources:**
 
-- Engineers Canada, Public guideline: Direct supervision — Section 2, Supervising multi-disciplinary projects: identify responsibilities and retain a contribution record; advisory guidance (national-nonbinding-guidance). https://engineerscanada.ca/guidelines-and-papers/public-guideline-direct-supervision
+- Engineers Canada, Public guideline: Direct supervision — Roles of subordinates and supervising engineers: assigned technical work, communication and professional responsibility; advisory guidance (national-nonbinding-guidance). https://engineerscanada.ca/guidelines-and-papers/public-guideline-direct-supervision
 - NPPE, published 2017 blueprint — III.3 — Relations with Other Professionals and Non-Professionals; Business Practices (official-blueprint). https://www.nppexam.ca/en/preparation/blueprint/
 
 ### NPPE-115 — III.5

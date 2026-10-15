@@ -124,30 +124,30 @@
     "sub": "nppe-practice",
     "difficulty": "medium",
     "cognitiveLevel": "analysis",
-    "questionFamily": "multidiscipline-interface-gap-despite-complete-component-reviews",
-    "learningObjective": "Identify and allocate an unresolved interface responsibility between competent specialists.",
-    "jurisdiction": "Canada; a coordinating engineer can arrange review by the relevant licensed specialists. No individual is assumed competent in every discipline.",
-    "stem": "On a treatment-plant project, the mechanical engineer checks a pump’s operating loads and the structural engineer checks its support for the loads supplied. At coordination review, the team discovers that neither assignment included transient loads at the pump-support interface. Each component review is otherwise complete. What should the coordinator do before issuing the combined package?",
+    "questionFamily": "technologist-field-evidence-versus-professional-decision-authority",
+    "learningObjective": "Use a technologist’s relevant observations while keeping engineering decisions with the responsible professional.",
+    "jurisdiction": "Canada; a qualified field technologist provides reliable observations within the assigned role. The responsible engineer remains accountable for reassessing the engineering conclusions.",
+    "stem": "A field technologist documents that installed supports differ from the arrangement assumed in an engineer’s otherwise correctly calculated load assessment. The engineer confirms the photographs identify the correct equipment. A manager says to ignore the finding because the technologist is not licensed to approve an engineering design. Which response best separates the roles?",
     "options": [
-      "Accept the package because completing each separate assignment establishes that the interface was covered.",
-      "Assign the omitted calculation to whichever engineer submits first, regardless of relevant competence.",
-      "Average the two engineers’ existing load values and record that agreement as the missing interface review.",
-      "Assign the interface assessment to competent specialists and reconcile its results with both component designs."
+      "Keep the assessment unchanged because only a licensed designer can provide evidence relevant to its assumptions.",
+      "Ask the technologist to approve the revised load capacity because finding the discrepancy transfers design responsibility.",
+      "Invalidate every calculation in the assessment because a reliable field observation proves the arithmetic was wrong.",
+      "Use the observations to reassess the support assumptions while retaining professional responsibility for the conclusions."
     ],
     "answer": 3,
     "optionRationales": [
-      "Completed component checks do not demonstrate that an expressly omitted interface condition was assessed.",
-      "Availability alone does not establish competence or a suitable allocation of technical responsibility.",
-      "A numerical compromise between existing values does not analyse the omitted transient condition.",
-      "The gap needs an explicit competent owner and coordinated follow-through into the affected designs."
+      "A technologist can provide relevant field evidence within their role; lack of design-approval authority does not erase it.",
+      "Identifying a discrepancy does not itself transfer responsibility for engineering reassessment or approval to the observer.",
+      "The evidence challenges the assumed support arrangement, not necessarily the arithmetic performed for that arrangement.",
+      "This respects the technologist’s contribution and the engineer’s separate responsibility to assess its design implications."
     ],
-    "keyPoint": "Coordinate the boundaries between assignments as well as the assignments themselves.",
-    "trap": "Assuming individually complete scopes guarantee a complete integrated design.",
+    "keyPoint": "Distinguish the authority to provide relevant evidence from the responsibility to approve engineering conclusions.",
+    "trap": "Dismissing reliable technical input solely because its contributor does not hold the final approval role.",
     "sources": [
       {
         "sourceType": "national-nonbinding-guidance",
         "title": "Engineers Canada, Public guideline: Direct supervision",
-        "locator": "Section 2, Supervising multi-disciplinary projects: identify responsibilities and retain a contribution record; advisory guidance",
+        "locator": "Roles of subordinates and supervising engineers: assigned technical work, communication and professional responsibility; advisory guidance",
         "url": "https://engineerscanada.ca/guidelines-and-papers/public-guideline-direct-supervision"
       },
       {
