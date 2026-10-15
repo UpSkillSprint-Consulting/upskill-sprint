@@ -128,7 +128,11 @@ test('Batch 3 adds ten unique original learning items in the planned six-domain 
  const old=legacyDiagnostic();assert.equal(old.length,50);
  assert.ok(batch3.every(q=>!old.some(r=>r.stem.trim().toLowerCase()===q.stem.trim().toLowerCase())));
  assert.ok(batch3.every(q=>!batch1.concat(batch2).some(r=>r.stem.trim().toLowerCase()===q.stem.trim().toLowerCase())));
- assert.match(batch3[5].jurisdiction,/Ontario/);
+ assert.match(batch3[5].jurisdiction,/British Columbia/);
+ assert.match(batch3[5].questionFamily,/retention.*legacy/);
+ assert.match(batch3[6].questionFamily,/binding-arbitral-award/);
+ assert.match(batch3[6].stem,/binding arbitration/);
+ assert.ok(!batch3[6].stem.includes('mediator'));
  assert.match(batch3[9].jurisdiction,/British Columbia/);
 });
 test('Batch 3 appends without rewriting previous Learning objects, is idempotent, and refuses corrupted imports',()=>{
