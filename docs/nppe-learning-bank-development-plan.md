@@ -6,15 +6,15 @@
 
 The official NPPE 2017 blueprint remains the published current blueprint as at October 2026. Question allocation below is a **project authoring target, not an official 120-question exam blueprint**. The actual NPPE has 100 scored items and 10 unscored items across 150 minutes; this Learning Bank is not a live-exam form.
 
-| Domain | Learning target | Batches 1–7 authored | Remaining |
+| Domain | Learning target | Batches 1–8 authored | Remaining |
 |---|---:|---:|---:|
-| I Professionalism | 10 | 6 | 4 |
-| II Ethics | 22 | 12 | 10 |
-| III Professional Practice | 36 | 18 | 18 |
-| IV Law for Professional Practice | 32 | **22** | 10 |
-| V Professional Law | 10 | 6 | 4 |
-| VI Regulation, Review & CPD | 10 | 6 | 4 |
-| **Total** | **120** | **70** | **50** |
+| I Professionalism | 10 | 7 | 3 |
+| II Ethics | 22 | 14 | 8 |
+| III Professional Practice | 36 | 21 | 15 |
+| IV Law for Professional Practice | 32 | **24** | 8 |
+| V Professional Law | 10 | 7 | 3 |
+| VI Regulation, Review & CPD | 10 | 7 | 3 |
+| **Total** | **120** | **80** | **40** |
 
 The first batch intentionally samples the **four topics not directly sampled** in the 50-question Diagnostic: IV.1 (2), IV.10 (2), IV.13 (3) and IV.14 (3). Later batches must cover the remainder of the blueprint, including human rights and privacy, international licensing, Indigenous law, real property, securities disclosures and delay claims as justified by sources.
 
@@ -29,7 +29,8 @@ The first batch intentionally samples the **four topics not directly sampled** i
 | **5** | **091–100** | **1** | **2** | **3** | **2** | **1** | **1** | **10** |
 | **6** | **101–110** | **1** | **2** | **3** | **2** | **1** | **1** | **10** |
 | **7** | **111–120** | **1** | **2** | **3** | **2** | **1** | **1** | **10** |
-| 8–11 (each) | 121–160 (four batches of 10) | 1 | 2 | 3 | 2 | 1 | 1 | 10 each |
+| **8** | **121–130** | **1** | **2** | **3** | **2** | **1** | **1** | **10** |
+| 9–11 (each) | 131–160 (three batches of 10) | 1 | 2 | 3 | 2 | 1 | 1 | 10 each |
 | 12 | 161–170 | 0 | 2 | 6 | 2 | 0 | 0 | 10 |
 | **Total** | 051–170 | **10** | **22** | **36** | **32** | **10** | **10** | **120** |
 
@@ -53,6 +54,6 @@ Within each batch, proactively select different numbered subtopics and question 
 4. Independent professional legal/engineering SME sign-off and candidate-based calibration before any claim of exam-equivalent difficulty.
 5. Production learner request → admin approval → practice → revocation/end-of-entitlement verification. Supabase publication `coming_soon` and draft PR #301 unchanged without approval.
 
-## Batches 1–7 status
+## Batches 1–8 status
 
-**Learning Batch 1, NPPE-051–060:** ten law-focused items covering the four law subtopics not directly sampled in the Diagnostic. **Learning Batches 2–7, NPPE-061–120:** sixty new questions covering all six domains under the balanced authoring allocation (I 1, II 2, III 3, IV 2, V 1, VI 1 in each batch). The Learning Bank now has **70/120 questions**, with a **96-minute timed mode or untimed study mode**. Full answers, distractor explanations and source notes are in `docs/nppe-learning-batch1-051-060.md`, `docs/nppe-learning-batch2-061-070.md`, `docs/nppe-learning-batch3-071-080.md`, `docs/nppe-learning-batch4-081-090.md`, `docs/nppe-learning-batch5-091-100.md`, `docs/nppe-learning-batch6-101-110.md` and `docs/nppe-learning-batch7-111-120.md`. **50 questions remain to be authored.** Next: **Batch 8, NPPE-121–130**, using I1 / II2 / III3 / IV2 / V1 / VI1. Batches 5–7 add six provisionally classified integrated-analysis items; further analysis items remain an authoring requirement; provisional classifications must reflect actual demand rather than the target count.
+**Learning Batch 1, NPPE-051–060:** ten law-focused items covering the four law subtopics not directly sampled in the Diagnostic. **Learning Batches 2–8, NPPE-061–130:** seventy new questions covering all six domains under the balanced authoring allocation (I 1, II 2, III 3, IV 2, V 1, VI 1 in each batch). The Learning Bank now has **80/120 questions**, with a **110-minute timed mode or untimed study mode**. Full answers, distractor explanations and source notes are in `docs/nppe-learning-batch1-051-060.md`, `docs/nppe-learning-batch2-061-070.md`, `docs/nppe-learning-batch3-071-080.md`, `docs/nppe-learning-batch4-081-090.md`, `docs/nppe-learning-batch5-091-100.md`, `docs/nppe-learning-batch6-101-110.md`, `docs/nppe-learning-batch7-111-120.md` and `docs/nppe-learning-batch8-121-130.md`. **40 questions remain to be authored.** Next: **Batch 9, NPPE-131–140**, using I1 / II2 / III3 / IV2 / V1 / VI1. Batches 5–8 add eight provisionally classified integrated-analysis items; further analysis items remain an authoring requirement; provisional classifications must reflect actual demand rather than the target count.
