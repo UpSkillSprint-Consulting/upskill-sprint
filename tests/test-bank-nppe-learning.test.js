@@ -21,6 +21,7 @@ test.before(async()=>{
 test.after(()=>{if(workspace)fs.rmSync(workspace,{recursive:true,force:true});});
 function learning(){const context={window:{}};vm.runInNewContext(read('test-bank-nppe-learning-batch1.js'),context);return context.window;}
 function fullLearning(){const context={window:{}};vm.runInNewContext(read('test-bank-nppe-learning-batch1.js')+'\n'+read('test-bank-nppe-learning-batch2.js'),context);return context.window;}
+function learningAll(){const context={window:{}};vm.runInNewContext(read('test-bank-nppe-learning-batch1.js')+'\n'+read('test-bank-nppe-learning-batch2.js')+'\n'+read('test-bank-nppe-learning-batch3.js'),context);return context.window;}
 function legacyDiagnostic(){const context={window:{}};vm.runInNewContext(DIAG.map(read).join('\n'),context);return Array.from(context.window.NPPE_DIAGNOSTIC);}
 async function browser(){
  const errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));
@@ -102,6 +103,65 @@ test('Batch 2 extension is append-only, idempotent and blocks incomplete or conf
  original[19].stem='A conflicting replacement';
  assert.throws(()=>context.window.installNPPELearningBatch2(),/Conflicting Learning Batch 2/);
 });
+test('Batch 3 adds ten unique original learning items in the planned six-domain pattern',()=>{
+ const api=learningAll(),all=Array.from(api.NPPE_LEARNING),batch1=Array.from(api.NPPE_LEARNING_BATCH1),batch2=Array.from(api.NPPE_LEARNING_BATCH2),batch3=Array.from(api.NPPE_LEARNING_BATCH3);
+ assert.equal(all.length,30);assert.equal(batch1.length,10);assert.equal(batch2.length,10);assert.equal(batch3.length,10);
+ assert.deepEqual(batch3.map(q=>q.legacyId),Array.from({length:10},(_,i)=>'NPPE-'+String(71+i).padStart(3,'0')));
+ assert.deepEqual(batch3.map(q=>q.blueprint),['I.3','II.3','II.4','III.1','III.5','III.8','IV.6','IV.7','V.2','VI.3']);
+ assert.deepEqual(batch3.map(q=>q.answer),[1,3,0,2,1,3,0,2,1,2]);
+ assert.deepEqual(Object.fromEntries('ABCD'.split('').map((k,i)=>[k,batch3.filter(q=>q.answer===i).length])),{A:2,B:3,C:3,D:2});
+ const domains={};batch3.forEach(q=>{domains[q.area]=(domains[q.area]||0)+1;});
+ assert.deepEqual(domains,{I:1,II:2,III:3,IV:2,V:1,VI:1});
+ assert.equal(batch3.filter(q=>q.difficulty==='easy').length,2);
+ assert.equal(batch3.filter(q=>q.difficulty==='medium').length,6);
+ assert.equal(batch3.filter(q=>q.difficulty==='hard').length,2);
+ assert.equal(batch3.filter(q=>q.cognitiveLevel==='understanding').length,2);
+ assert.equal(batch3.filter(q=>q.cognitiveLevel==='application').length,6);
+ assert.equal(batch3.filter(q=>q.cognitiveLevel==='analysis').length,2);
+ assert.equal(new Set(all.map(q=>q.qid)).size,30);assert.equal(new Set(all.map(q=>q.questionFamily)).size,30);
+ assert.ok(batch3.every(q=>q.bank==='learning'&&q.form==='set-1-learning'&&q.authorSet===1&&q.scored===true&&!q.experimental&&q.batch===3));
+ assert.ok(batch3.every(q=>q.options.length===4&&new Set(q.options).size===4&&q.optionRationales.length===4&&q.optionRationales.every(x=>x.length>40)));
+ assert.ok(batch3.every(q=>q.sources.length>=2&&q.sources.some(s=>s.sourceType==='official-blueprint')));
+ assert.ok(batch3.every(q=>q.sources.every(s=>s.title&&s.locator&&s.sourceType&&(!s.url||new URL(s.url).protocol==='https:'))));
+ assert.ok(batch3.every(q=>q.learningObjective&&q.keyPoint&&q.trap&&q.why.includes('Sources:')));
+ assert.ok(batch3.filter(q=>q.options[q.answer].length===Math.max(...q.options.map(x=>x.length))).length<=3);
+ const old=legacyDiagnostic();assert.equal(old.length,50);
+ assert.ok(batch3.every(q=>!old.some(r=>r.stem.trim().toLowerCase()===q.stem.trim().toLowerCase())));
+ assert.ok(batch3.every(q=>!batch1.concat(batch2).some(r=>r.stem.trim().toLowerCase()===q.stem.trim().toLowerCase())));
+ assert.match(batch3[5].jurisdiction,/Ontario/);
+ assert.match(batch3[9].jurisdiction,/British Columbia/);
+});
+test('Batch 3 appends without rewriting previous Learning objects, is idempotent, and refuses corrupted imports',()=>{
+ const ctx={window:{}};
+ vm.runInNewContext(read('test-bank-nppe-learning-batch1.js')+'\n'+read('test-bank-nppe-learning-batch2.js'),ctx);
+ const original=ctx.window.NPPE_LEARNING,previous=Array.from(original),snapshot=JSON.stringify(original);
+ assert.equal(original.length,20);
+ vm.runInNewContext(read('test-bank-nppe-learning-batch3.js'),ctx);
+ assert.equal(original.length,30);assert.equal(ctx.window.NPPE_LEARNING,original);
+ assert.equal(JSON.stringify(original.slice(0,20)),snapshot);
+ previous.forEach((q,i)=>assert.equal(original[i],q));
+ assert.equal(ctx.window.NPPE_LEARNING_BATCH1.length,10);
+ assert.equal(ctx.window.NPPE_LEARNING_BATCH2.length,10);
+ ctx.window.installNPPELearningBatch3();
+ vm.runInNewContext(read('test-bank-nppe-learning-batch3.js'),ctx);
+ assert.equal(original.length,30);
+ assert.throws(()=>vm.runInNewContext(read('test-bank-nppe-learning-batch3.js'),{window:{}}),/Batches 1/);
+ assert.throws(()=>vm.runInNewContext(read('test-bank-nppe-learning-batch3.js'),{window:{NPPE_LEARNING:original.slice(0,19)}}),/Batches 1/);
+ const changed=JSON.parse(snapshot);changed[15].authorSet=2;
+ assert.throws(()=>vm.runInNewContext(read('test-bank-nppe-learning-batch3.js'),{window:{NPPE_LEARNING:changed}}),/Conflicting previous/);
+ original[29].stem='Conflicting replacement';
+ assert.throws(()=>ctx.window.installNPPELearningBatch3(),/Conflicting Learning Batch 3/);
+});
+test('all thirty Learning questions register without modifying Diagnostic, Mock D or Mock E',()=>{
+ const api=learningAll(),diags=[{qid:'diagnostic'}],mockD=[{qid:'mock-d'}],mockE=[{qid:'mock-e'}];
+ const catalog=[{id:'set-1-learning',authorSet:1,kind:'learning',target:120}];
+ const exam={formCatalog:catalog,forms:{'set-1-diagnostic':diags,'mock-d':mockD,'mock-e':mockE},fullExamQuestionsBySet:{}};
+ api.registerNPPELearning(exam);api.registerNPPELearning(exam);
+ assert.equal(exam.forms['set-1-learning'].length,30);
+ assert.equal(exam.learning.available,30);assert.equal(exam.learning.target,120);assert.equal(exam.learning.complete,false);
+ assert.equal(exam.forms['set-1-diagnostic'],diags);assert.equal(exam.forms['mock-d'],mockD);assert.equal(exam.forms['mock-e'],mockE);
+ assert.equal(new Set(exam.forms['set-1-learning'].map(q=>q.qid)).size,30);
+});
 test('Learning registration is idempotent, author-owned, and does not change other banks',()=>{
  const api=learning();const d=[{qid:'diag'}],mockD=[{qid:'mock-d'}],mockE=[{qid:'mock-e'}];
  const e={formCatalog:[{id:'set-1-learning',kind:'learning',authorSet:1,target:120}],forms:{'set-1-diagnostic':d,'mock-d':mockD,'mock-e':mockE},fullExamQuestionsBySet:{}};
@@ -116,35 +176,36 @@ test('Learning registration is idempotent, author-owned, and does not change oth
 test('protected delivery contains Learning only in NPPE package; public shell and other exams contain no learning keys',()=>{
  assert.match(packet.scripts.join('\n'),/NPPE_LEARNING_BATCH1/);
  assert.match(packet.scripts.join('\n'),/NPPE_LEARNING_BATCH2/);
- assert.doesNotMatch(build.shell,/NPPE_LEARNING_BATCH1|NPPE_LEARNING_BATCH2|nppe:set-1:learning:|A provincial statute authorizes a regulator|Before a town votes on a major water-treatment upgrade/);
+ assert.match(packet.scripts.join('\n'),/NPPE_LEARNING_BATCH3/);
+ assert.doesNotMatch(build.shell,/NPPE_LEARNING_BATCH1|NPPE_LEARNING_BATCH2|NPPE_LEARNING_BATCH3|nppe:set-1:learning:|A provincial statute authorizes a regulator|Before a town votes on a major water-treatment upgrade|A graduate of an accredited Canadian engineering program/);
  for(const exam of Object.keys(build.sizes).filter(x=>x!=='nppe')){
-   assert.doesNotMatch(fs.readFileSync(path.join(build.output,exam+'.json'),'utf8'),/NPPE_LEARNING_BATCH1|NPPE_LEARNING_BATCH2|nppe:set-1:learning:/);
+   assert.doesNotMatch(fs.readFileSync(path.join(build.output,exam+'.json'),'utf8'),/NPPE_LEARNING_BATCH1|NPPE_LEARNING_BATCH2|NPPE_LEARNING_BATCH3|nppe:set-1:learning:/);
  }
  assert.ok(build.sizes.nppe<5500000);
 });
-test('Set 1 Learning becomes available with 20 of 120, while Diagnostic and Mocks retain independent counts',async()=>{
+test('Set 1 Learning becomes available with 30 of 120, while Diagnostic and Mocks retain independent counts',async()=>{
  const h=await browser();const {doc,win,errors}=h;try{
-  assert.equal(doc.querySelector('[data-set="set-1-learning"] .tb-sets').textContent,'20');
+  assert.equal(doc.querySelector('[data-set="set-1-learning"] .tb-sets').textContent,'30');
   assert.equal(doc.querySelector('[data-set="set-1-diagnostic"] .tb-sets').textContent,'50');
   assert.equal(doc.querySelector('[data-set="mock-d"] .tb-sets').textContent,'110');
   assert.equal(doc.querySelector('[data-set="mock-e"] .tb-sets').textContent,'110');
   for(const id of ['set-1-mock-a','set-1-mock-b','set-1-mock-c'])assert.equal(doc.querySelector('[data-set="'+id+'"]').disabled,true);
   pickLearning(doc);
-  assert.match(doc.querySelector('#tb-overview').textContent,/20 of 120 planned/);
-  assert.match(doc.querySelector('#tb-overview').textContent,/28 minutes/);
+  assert.match(doc.querySelector('#tb-overview').textContent,/30 of 120 planned/);
+  assert.match(doc.querySelector('#tb-overview').textContent,/41 minutes/);
   assert.match(doc.querySelector('#tb-overview').textContent,/Partial learning bank/);
   assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Learning/);
   assert.equal(win.__TB.EXAMS.nppe.learning.target,120);
   assert.deepEqual(errors,[]);
  }finally{h.close();}
 });
-test('timed Learning hides answers, validates scope and permits only own twenty questions',async()=>{
+test('timed Learning hides answers, validates scope and permits only own thirty questions',async()=>{
  const h=await browser();const {doc,win,errors}=h;try{
   pickLearning(doc);doc.querySelector('[data-mode="full"]').click();
   const snap=win.__TB.getFeedbackSnapshot();
-  assert.equal(snap.records.length,20);
+  assert.equal(snap.records.length,30);
   assert.ok(snap.records.every(r=>r.question.form==='set-1-learning'&&r.question.authorSet===1));
-  assert.match(doc.querySelector('#tb-timer').textContent,/^2[78]:[0-5][0-9]$/);
+  assert.match(doc.querySelector('#tb-timer').textContent,/^4[01]:[0-5][0-9]$/);
   assert.equal(doc.querySelector('[data-reveal]'),null);
   assert.equal(win.__TB.revealCurrentAnswer(),false);
   assert.equal(doc.querySelector('#tb-feedback-loop'),null);
@@ -161,12 +222,12 @@ test('untimed Learning allows assisted reveal without disclosing answers from ot
   reveal.click();
   const snap=win.__TB.getFeedbackSnapshot();
   assert.equal(snap.records.filter(r=>r.revealed===true).length,1);
-  assert.equal(snap.records.length,20);
+  assert.equal(snap.records.length,30);
   assert.match(doc.querySelector('.tb-quiz').textContent,/Reveal|Answer|Correct/i);
   assert.deepEqual(errors,[]);
  }finally{h.close();}
 });
-test('unassisted Learning submission gives 20/20 raw score with wrong-option explanations for all items',async()=>{
+test('unassisted Learning submission gives 30/30 raw score with wrong-option explanations for all items',async()=>{
  const h=await browser();const {doc,win,errors}=h;try{
   pickLearning(doc);doc.querySelector('[data-timing-kind="full"][data-timed="0"]').click();doc.querySelector('[data-mode="full"]').click();
   const records=win.__TB.getFeedbackSnapshot().records;
@@ -175,15 +236,15 @@ test('unassisted Learning submission gives 20/20 raw score with wrong-option exp
     const q=records.find(r=>r.question.qid===id)?.question;
     assert.ok(q,id);
     doc.querySelector('[data-opt="'+q.answer+'"]').click();
-    doc.querySelector(i===19?'[data-submit]':'[data-next]').click();
+    doc.querySelector(i===29?'[data-submit]':'[data-next]').click();
   }
   await new Promise(resolve=>setTimeout(resolve,100));
-  assert.match(doc.querySelector('[data-score-result]').textContent,/100% \(20\/20\)/);
+  assert.match(doc.querySelector('[data-score-result]').textContent,/100% \(30\/30\)/);
   assert.match(doc.querySelector('#tb-overview').textContent,/Learning scores measure practice accuracy/);
   assert.doesNotMatch(doc.querySelector('#tb-overview').textContent,/Scored results exclude the ten experimental items/);
   doc.querySelector('[data-open-review="all"]').click();
-  assert.equal(doc.querySelectorAll('.tb-review-card').length,20);
-  assert.equal(doc.querySelectorAll('.tb-review-rationales').length,20);
+  assert.equal(doc.querySelectorAll('.tb-review-card').length,30);
+  assert.equal(doc.querySelectorAll('.tb-review-rationales').length,30);
   assert.match(doc.querySelector('#tb-feedback-loop').textContent,/Why the other options are incorrect/);
   assert.match(doc.querySelector('#tb-feedback-loop').textContent,/CUSMA|treaty/);
   assert.deepEqual(errors,[]);
