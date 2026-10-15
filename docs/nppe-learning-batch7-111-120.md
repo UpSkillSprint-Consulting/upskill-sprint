@@ -397,3 +397,7 @@ D. The condition applies only if the original complainant separately signs a pri
 - Engineers and Geoscientists BC, Complaint Process — Stage 3: voluntary resolution through a consent agreement instead of a discipline hearing (regulator-guidance-bc). https://www.egbc.ca/Complaints-Discipline/Complaints-Discipline/Complaint-Process
 - NPPE, published 2017 blueprint — VI.1 — Discipline Procedures (official-blueprint). https://www.nppexam.ca/en/preparation/blueprint/
 
+
+## Additional browser navigation correction
+
+The next WebKit student run passed 144/145 journeys but failed in PMP Set 2 focused untimed practice: after revealing and flagging question 2, a pointer navigation attempt left question 2 current, so the test subsequently tried to click its already-disabled reveal button. The failure screenshot confirmed the unchanged current navigation cell. The audit now activates the intended unanswered navigation control with focus/Enter and asserts `aria-current=step` plus an enabled Reveal button before proceeding. Existing pointer-navigation coverage elsewhere, assisted counts, answer locks, scores and review assertions remain intact. This is a targeted audit-input synchronization correction, not a claimed runtime defect fix. The full Chromium/WebKit suite is rerun on the corrective commit.
