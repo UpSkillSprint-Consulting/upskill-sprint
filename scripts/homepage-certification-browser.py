@@ -157,6 +157,12 @@ def main():
                     # Wait for the real theme switch to paint before sampling colours.
                     expected_cqe = 'rgb(24, 45, 76)' if theme == 'dark' else 'rgb(233, 241, 255)'
                     expect(page.locator('#exam-cqe')).to_have_css('background-color', expected_cqe)
+                    # WebKit may resolve the new card surface before inherited title ink
+                    # after a dark-to-light switch. Require the final title palette too;
+                    # the unchanged per-card 4.5:1 checks below still validate every colour.
+                    expected_title = 'rgb(241, 245, 249)' if theme == 'dark' else 'rgb(16, 24, 40)'
+                    for title in page.locator('.exam-card h3').all():
+                        expect(title).to_have_css('color', expected_title)
                     cards = page.locator('.exam-card').evaluate_all('''cards=>cards.map(card=>({
                       exam:card.dataset.exam,background:getComputedStyle(card).backgroundColor,
                       text:[...card.querySelectorAll('h3,.exam-acronym,.exam-card-detail,.exam-card-note')].map(e=>getComputedStyle(e).color)
