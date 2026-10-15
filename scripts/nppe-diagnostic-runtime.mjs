@@ -36,6 +36,7 @@ export function integrateNPPEDiagnostic(source) {
   code = once(code, '  function wireOverview(){', "  function wireOverview(){if(current==='nppe')wireNPPEOwners();");
   code = once(code, "'+sessionTitle+' &middot; '", "'+(current==='nppe'?'NPPE':sessionTitle)+' &middot; '");
   code = once(code, '  function revealCurrentAnswer(){', "  function revealCurrentAnswer(){if(current==='nppe'&&(!session||session.setId!=='set-1-learning'||session.timed))return false;");
+  code = once(code, '<div class="tb-status-key" aria-label="Question status legend">', '<div class="tb-status-key" role="group" aria-label="Question status legend">');
   return code;
 }
 
@@ -46,6 +47,8 @@ const helpers = String.raw`
   nppeContrastStyle.id='nppe-control-contrast';
   nppeContrastStyle.textContent='.tb-wrap{--nppe-score-good:#146c43;--nppe-score-low:#a52a25}html[data-theme="dark"] .tb-wrap{--nppe-score-good:#6ee7b7;--nppe-score-low:#fca5a5}html[data-theme="dark"] .tb-wrap .tb-seg button.on,html[data-theme="dark"] .btn-teal,html[data-theme="dark"] .tb-wrap .tb-opt.sel .k,html[data-theme="dark"] #tb-feedback-loop .tb-review-tabs button.on{color:#082f35}';
   document.head.appendChild(nppeContrastStyle);
+  var nppeThemeGroup=document.querySelector('.theme-control');
+  if(nppeThemeGroup)nppeThemeGroup.setAttribute('role','group');
   function nppeDescription(e,id){
     var form=formMeta(e,id),n=formQuestionCount(e,id);
     if(!form)return 'This bank is unavailable.';

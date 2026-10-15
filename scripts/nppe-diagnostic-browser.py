@@ -68,6 +68,11 @@ def main():
                     accessibility.append({'phase': phase, **audit})
                     assert audit['passes'] > 0, audit
                     assert not audit['violations'], {'phase': phase, **audit}
+                    assert not any(issue['id'] == 'aria-prohibited-attr' for issue in audit['incomplete']), {'phase': phase, **audit}
+                    # Axe cannot resolve a collapsed popup's target. Confirm the
+                    # relationship directly without suppressing its review flag.
+                    menu_target = page.locator('#account-menu-btn').get_attribute('aria-controls')
+                    expect(page.locator(f'#{menu_target}')).to_have_count(1)
 
                 def learning_review():
                     page.locator('[data-open-review="all"]').click()
