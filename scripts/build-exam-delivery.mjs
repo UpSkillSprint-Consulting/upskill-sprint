@@ -122,6 +122,10 @@ export async function buildExamDelivery(root = ROOT) {
       const learning4 = await readFile(join(root, 'test-bank-nppe-learning-batch4.js'), 'utf8');
       new Script(learning4, { filename:'test-bank-nppe-learning-batch4.js' });
       scripts.push(learning4);
+      // Learning Batch 5 appends NPPE-091–100 without changing any earlier bank.
+      const learning5 = await readFile(join(root, 'test-bank-nppe-learning-batch5.js'), 'utf8');
+      new Script(learning5, { filename:'test-bank-nppe-learning-batch5.js' });
+      scripts.push(learning5);
     }
     for (const item of [...immediate, ...deferred]) {
       if (item.name && !belongsToExam(item.name, exam)) continue;
