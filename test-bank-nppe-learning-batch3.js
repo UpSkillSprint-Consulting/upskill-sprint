@@ -13,7 +13,7 @@
     "stem": "A graduate of an accredited Canadian engineering program asks Engineers Canada for a P.Eng. licence because the national body recognizes the degree. The graduate has not applied to a provincial or territorial engineering regulator. Which statement best explains the licensing arrangement?",
     "options": [
       "Accreditation of a degree alone gives a graduate full authority to use the P.Eng. designation in Canada.",
-      "The relevant provincial or territorial regulator grants professional licences; Engineers Canada supports standards and coordination.",
+      "Provincial and territorial regulators issue licences; Engineers Canada supports national coordination.",
       "Engineers Canada grants individual licences that automatically replace all provincial registration requirements.",
       "A national engineering technical society can issue the licence when the graduate pays its annual membership fee."
     ],
@@ -59,7 +59,7 @@
       "Quietly move the engineer off the project because preserving the contract outweighs team-assignment fairness.",
       "Ask the affected engineer to accept reassignment voluntarily, without addressing the discriminatory request.",
       "Remove both engineers and hire an unrelated consultant so the client cannot identify any discriminatory choice.",
-      "Explain that staffing decisions must respect competence, dignity and applicable rights, and address the request through appropriate processes."
+      "Address the request through appropriate processes while protecting fairness, dignity and competence."
     ],
     "answer": 3,
     "optionRationales": [
@@ -100,7 +100,7 @@
     "jurisdiction": "Canada; the current selection process requires an impartial technical evaluator, and the engineer previously provided paid advocacy to one bidder.",
     "stem": "A procurement committee appoints an engineer as its independent reviewer of several bridge-repair proposals. The engineer previously prepared a paid technical defence of one bidder's proprietary repair method, and that work is not known to the committee. The engineer considers the previous analysis sound and can assess the other bids competently. What is the best course?",
     "options": [
-      "Disclose the prior advocacy and agree on a genuinely independent evaluation or suitable recusal before taking the assignment.",
+      "Disclose the prior advocacy and arrange independent review or recusal before proceeding.",
       "Evaluate all the bids silently but withhold a numerical score from the bidder previously represented.",
       "Recommend the formerly represented bidder first, provided its method met the applicable design standards.",
       "Reject the formerly represented bidder automatically, since removing that bid resolves any conflict with the appointment."
@@ -146,7 +146,7 @@
     "options": [
       "Use the supplier's result if the supplier confirms by email that its professional liability insurance is active.",
       "Insert the calculations, but add a note stating that the supplier alone accepts responsibility for the frame's operation.",
-      "Resolve the units and assumptions, verify compatibility with local requirements, and establish competent review before relying on the results.",
+      "Resolve the units, design assumptions and local requirements through competent verification.",
       "Convert the displayed loads into local units with a spreadsheet and authenticate without checking the allowable-load convention."
     ],
     "answer": 2,
@@ -189,7 +189,7 @@
     "stem": "A plant has two documented hazards: repeated minor equipment stoppages and a rare but credible pressure-release scenario with potentially catastrophic consequences. Management wants all mitigation resources assigned to the stoppages because they occur more often. What is the most defensible risk-management response?",
     "options": [
       "Prioritize the stoppages only, because event frequency is the sole dimension of professional risk.",
-      "Assess likelihood and severity for both hazards, verify safeguards and reduce unacceptable pressure-release risk before allocating resources.",
+      "Evaluate likelihood, severity and safeguards, then address unacceptable pressure-release risk.",
       "Ignore the pressure-release hazard until an actual failure establishes that its probability is high enough.",
       "Rank the pressure-release event as automatically unacceptable without examining controls, exposure or risk criteria."
     ],
@@ -235,7 +235,7 @@
       "Seal the red-lines now and rely on the contractor's written statement that the installation is complete.",
       "Rename the contractor's mark-ups 'record drawings' and seal them without further checks.",
       "Issue a signed affidavit transferring every drawing risk to the contractor, then seal the same red-lines.",
-      "Do not seal unverified as-built mark-ups; arrange appropriate verification before preparing and authenticating record drawings."
+      "Withhold sealing until field verification supports appropriately marked record drawings."
     ],
     "answer": 3,
     "optionRationales": [
@@ -282,17 +282,17 @@
     "jurisdiction": "Canadian commercial professional-services agreement; a valid, applicable clause requires mediation first, then binding arbitration of unresolved issues.",
     "stem": "A geotechnical services agreement requires the parties to attempt mediation before referring unresolved fee disputes to binding arbitration. The parties participate in mediation, but no agreement is reached. One manager insists the mediator must now impose a final ruling, while another says there is no further contractual process. What should the parties recognize?",
     "options": [
-      "The mediator becomes a judge automatically whenever the parties fail to settle during mediation.",
+      "Mediation cannot impose a ruling; unresolved matters may proceed to binding arbitration.",
       "The failed mediation permanently eliminates the parties' contractual right to any further dispute resolution.",
       "The parties should keep negotiating without changing the mediation agreement because the original clause has expired.",
-      "Mediation does not itself impose a settlement; the unresolved issue can proceed to binding arbitration under the agreed clause."
+      "The mediator becomes a judge automatically whenever the parties fail to settle during mediation."
     ],
-    "answer": 3,
+    "answer": 0,
     "optionRationales": [
-      "A mediator facilitates negotiation and ordinarily cannot impose an adjudicated outcome solely because talks failed.",
+      "In a properly drafted multi-stage clause, mediation is consensual; after failure, an arbitrator may determine unresolved disputes by a binding award.",
       "The agreement expressly provides a next stage; unsuccessful mediation does not extinguish that agreed arbitration process.",
       "Voluntary further negotiation is possible, but it is not the sole route where the clause provides arbitration for remaining disputes.",
-      "In a properly drafted multi-stage clause, mediation is consensual; after failure, an arbitrator may determine unresolved disputes by a binding award."
+      "A mediator facilitates negotiation and ordinarily cannot impose an adjudicated outcome solely because talks failed."
     ],
     "keyPoint": "Know who controls the outcome: the parties during mediation; the adjudicator in binding arbitration, subject to the agreement and law.",
     "trap": "Assuming a mediator can adjudicate or that unsuccessful mediation ends a valid multi-stage dispute-resolution clause.",
@@ -383,7 +383,7 @@
     "stem": "An applicant has completed an engineering degree recognized for academic purposes but has not yet provided qualifying work-experience evidence or completed the applicable professional-practice examination. The applicant says the academic degree alone proves eligibility for a P.Eng. licence. Which assessment best describes Canadian licensure?",
     "options": [
       "Applicants need only an academic degree once their university has national engineering accreditation.",
-      "Licensure also assesses other requirements such as qualifying experience, professional-practice knowledge and good character, under the regulator's rules.",
+      "Regulators also assess experience, professional-practice knowledge, character and other criteria.",
       "Only the applicant's employer may decide whether the person has enough professional experience to be licensed.",
       "Completion of an undergraduate degree automatically establishes that a licence will be granted in every province."
     ],
@@ -428,15 +428,15 @@
     "options": [
       "Both findings automatically require the regulator to suspend the firm's Permit to Practice.",
       "An OFI needs a Corrective Action Plan while minor non-conformance needs acknowledgement only.",
-      "Both findings are disciplinary convictions, so the firm must appeal before changing procedures.",
-      "Acknowledge the OFI; submit a root-cause-based Corrective Action Plan for the minor non-conformance."
+      "Acknowledge the OFI; submit a root-cause-based Corrective Action Plan for the minor non-conformance.",
+      "Both findings are disciplinary convictions, so the firm must appeal before changing procedures."
     ],
-    "answer": 3,
+    "answer": 2,
     "optionRationales": [
       "Ordinary audit findings are not automatic licence suspensions; the compliance program distinguishes different categories and proportional responses.",
       "This reverses the responsibilities: OFIs are acknowledged, while minor non-conformances trigger corrective-action requirements.",
-      "A process audit is not itself a discipline conviction; required corrective action should not be delayed on that premise.",
-      "EGBC requires acknowledgement of an OFI and a plan specifying root cause, corrective/preventive actions and timing for minor non-conformance."
+      "EGBC requires acknowledgement of an OFI and a plan specifying root cause, corrective/preventive actions and timing for minor non-conformance.",
+      "A process audit is not itself a discipline conviction; required corrective action should not be delayed on that premise."
     ],
     "keyPoint": "A firm's audit response depends on the finding category; corrective action is mandatory for minor non-conformance, while OFIs are acknowledged.",
     "trap": "Confusing constructive audit feedback, corrective-action requests and formal discipline.",
