@@ -227,47 +227,47 @@
     "sub": "nppe-practice",
     "difficulty": "medium",
     "cognitiveLevel": "application",
-    "questionFamily": "ontario-as-built-redlines-seal-vs-record-drawing",
-    "learningObjective": "Distinguish contractor-provided as-built mark-ups from professional record drawings verified in sufficient detail to authenticate.",
-    "jurisdiction": "Ontario; follows Professional Engineers Ontario's published guidelines for as-built versus record documents. The practitioner has not personally verified the changes.",
-    "stem": "A contractor sends an Ontario engineer red-line drawings that purportedly show the final installed piping. The engineer has not performed the field verification needed to confirm the modifications, but the owner asks for a sealed 'as-built' set immediately. What is the appropriate response?",
+    "questionFamily": "bc-retention-of-project-records-legacy-digital-formats",
+    "learningObjective": "Maintain complete, usable and traceable professional records when software or storage formats become obsolete.",
+    "jurisdiction": "British Columbia; EGBC's project-documentation retention requirements apply, and the professional records have not reached the end of the required retention period.",
+    "stem": "A BC engineering firm's archived design calculations and approval records are stored only in an obsolete proprietary format that current staff can no longer open. The required record-retention period has not ended. A manager says the files can remain unreadable because their original bytes are still on a server. What should the responsible professional recommend?",
     "options": [
-      "Seal the red-lines now and rely on the contractor's written statement that the installation is complete.",
-      "Rename the contractor's mark-ups 'record drawings' and seal them without further checks.",
-      "Issue a signed affidavit transferring every drawing risk to the contractor, then seal the same red-lines.",
-      "Withhold sealing until field verification supports appropriately marked record drawings."
+      "Leave the archived files untouched because retaining their bytes is sufficient, even if the technical evidence cannot be read.",
+      "Delete the unusable files and keep a folder listing their names as proof that the calculations once existed.",
+      "Replace the records with screenshots of a summary report without verifying calculations, approvals or document history.",
+      "Arrange controlled conversion to usable formats, verify integrity and traceability, and retain the required records."
     ],
     "answer": 3,
     "optionRationales": [
-      "The contractor's assertion alone does not provide the professional verification necessary to assume responsibility for record documents.",
-      "Changing the document title does not convert unverified construction observations into professionally verified record drawings.",
-      "Transferring asserted risk by affidavit does not satisfy authentication duties or establish the accuracy of unverified field changes.",
-      "PEO distinguishes contractor-supplied as-built mark-ups from record drawings authenticated after adequate field review and verification."
+      "A file that cannot be opened or meaningfully retrieved may fail the practical purpose of retaining evidence of professional decisions and checks.",
+      "A filename inventory is not an adequate substitute for the actual project evidence required to document professional obligations.",
+      "A summary screenshot alone may omit source calculations, approvals or revision history needed to understand and verify the professional record.",
+      "Records should remain retrievable and reliable throughout the applicable period; a validated migration and retention process preserves their content and context."
     ],
-    "keyPoint": "Authentication must match the scope of work verified; unverified contractor as-builts are not equivalent to professional record drawings.",
-    "trap": "Treating a change of label or risk disclaimer as a substitute for professional field verification.",
+    "keyPoint": "Record retention concerns usable professional evidence, not simply the continued existence of unreadable digital files.",
+    "trap": "Assuming storage of original bytes, filenames or unchecked screenshots proves that a usable engineering record has been retained.",
     "sources": [
       {
         "sourceType": "textbook",
         "title": "Andrews, Shaw and McPhee, Canadian Professional Engineering and Geoscience: Practice and Ethics, 6th ed. (2019)",
-        "locator": "Ch. 4 §4.8, pp. 94–101: scope of responsibility for authenticated engineering documents; historic principles"
+        "locator": "Ch. 4 §4.8, pp. 94–101: professional document control; Ch. 7, pp. 157–170: computer and software responsibilities (historical conceptual context)"
       },
       {
-        "sourceType": "regulator-guideline-ontario",
-        "title": "Professional Engineers Ontario, Preparing As-Built and Record Documents Guideline (March 2020)",
-        "locator": "As-built mark-ups created by others should not be sealed; verified record documents have distinct requirements",
-        "url": "https://www.peo.on.ca/sites/default/files/2020-04/PrepAsBuiltRecordGdln-Mar2020.pdf"
+        "sourceType": "regulator-guidance-bc",
+        "title": "Engineers and Geoscientists BC, Quality Management Guides",
+        "locator": "Current (September 2026) Guide to the Standard for Retention of Project Documentation, Version 4.0: usable project evidence and retention processes",
+        "url": "https://www.egbc.ca/registrants/practice-resources/quality-management-guides"
       },
       {
-        "sourceType": "regulator-faq-ontario",
-        "title": "PEO, Licence Holders FAQ",
-        "locator": "As-built vs record drawings; verification and authentication requirements",
-        "url": "https://www.peo.on.ca/knowledge-centre/frequently-asked-questions/licence-holders-faq"
+        "sourceType": "regulator-faq-bc",
+        "title": "Engineers and Geoscientists BC, Practice Advisor FAQs",
+        "locator": "Retention of client files: EGBC Bylaw 7.3.2 and professional project records for at least 10 years (subject to longer applicable obligations)",
+        "url": "https://www.egbc.ca/Registrants/Practice-Resources/Practice-Advice-Program/Practice-Advisor-Faqs"
       },
       {
         "sourceType": "official-blueprint",
         "title": "NPPE, officially published 2017 blueprint",
-        "locator": "III.8 — Document Authentication and Control",
+        "locator": "III.8 — Document Authentication and Control, including preservation of records in a usable format",
         "url": "https://www.nppexam.ca/en/preparation/blueprint/"
       }
     ]
