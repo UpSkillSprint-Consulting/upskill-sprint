@@ -157,16 +157,17 @@ def main():
                     page.goto(base + '/test-bank?exam=nppe')
                     page.wait_for_selector('body.exam-access-ready')
                     page.locator('[data-set="set-1-learning"]').click()
-                    expect(page.locator('[data-set="set-1-learning"] .tb-sets')).to_have_text('20')
-                    expect(page.locator('#tb-overview')).to_contain_text('20 of 120 planned')
+                    expect(page.locator('[data-set="set-1-learning"] .tb-sets')).to_have_text('30')
+                    expect(page.locator('#tb-overview')).to_contain_text('30 of 120 planned')
                     expect(page.locator('#tb-overview')).to_contain_text('Partial learning bank')
-                    expect(page.locator('#tb-overview')).to_contain_text('28 minutes')
+                    expect(page.locator('#tb-overview')).to_contain_text('41 minutes')
                     header_images_fit()
                     page.locator('[data-mode="full"]').click()
-                    expect(page.locator('[data-goto]')).to_have_count(20)
+                    expect(page.locator('[data-goto]')).to_have_count(30)
                     expect(page.locator('[data-reveal]')).to_have_count(0)
                     assert page.evaluate('window.__TB.revealCurrentAnswer()') is False
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===2).length") == 10
+                    assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===3).length") == 10
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.every(r=>r.question.form==='set-1-learning'&&r.question.authorSet===1)")
                     page.goto(base + '/test-bank?exam=nppe')
                     page.wait_for_selector('body.exam-access-ready')
@@ -177,7 +178,7 @@ def main():
                     page.locator('[data-reveal]').click()
                     assert page.evaluate('window.__TB.getFeedbackSnapshot().records.filter(r=>r.revealed===true).length') == 1
                     assisted_locked = 0
-                    for learning_index in range(20):
+                    for learning_index in range(30):
                         page.locator(f'[data-goto="{learning_index}"]').click()
                         learning_q=page.evaluate('i=>window.__TB.getFeedbackSnapshot().records[i].question',learning_index)
                         answer_button = page.locator(f'[data-opt="{learning_q["answer"]}"]')
@@ -193,12 +194,12 @@ def main():
                     page.locator('[data-submit]').click()
                     expect(page.locator('#tb-overview')).to_contain_text('Learning scores measure practice accuracy')
                     page.locator('[data-open-review="all"]').click()
-                    expect(page.locator('.tb-review-card')).to_have_count(20)
-                    expect(page.locator('.tb-review-rationales')).to_have_count(20)
+                    expect(page.locator('.tb-review-card')).to_have_count(30)
+                    expect(page.locator('.tb-review-rationales')).to_have_count(30)
                     header_images_fit()
                     assert not errors, errors
                     result = {'case': name, 'result': 'PASS', 'score': f'{EXPECTED_COUNT}/{EXPECTED_COUNT}', 'domains': 6,
-                              'batch3Rendered': batch3_checked, 'batch4Rendered': batch4_checked, 'batch5Rendered': batch5_checked, 'learning20Rendered': True, 'learningAssistedReveal': True, 'learningReview20': True, 'keyboardTabs': True, 'flagsAndNavigation': True,
+                              'batch3Rendered': batch3_checked, 'batch4Rendered': batch4_checked, 'batch5Rendered': batch5_checked, 'learning30Rendered': True, 'learningAssistedReveal': True, 'learningReview30': True, 'keyboardTabs': True, 'flagsAndNavigation': True,
                               'revealBlocked': True, 'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
                 except Exception as error:
                     result = {'case': name, 'result': 'FAIL', 'error': str(error), 'pageErrors': errors}
