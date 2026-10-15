@@ -277,42 +277,42 @@
     "sub": "nppe-law",
     "difficulty": "medium",
     "cognitiveLevel": "application",
-    "questionFamily": "contractual-mediation-then-binding-arbitration-dispute",
-    "learningObjective": "Distinguish facilitated settlement during mediation from binding decision-making during arbitration under a staged agreement.",
-    "jurisdiction": "Canadian commercial professional-services agreement; a valid, applicable clause requires mediation first, then binding arbitration of unresolved issues.",
-    "stem": "A geotechnical services agreement requires the parties to attempt mediation before referring unresolved fee disputes to binding arbitration. The parties participate in mediation, but no agreement is reached. One manager insists the mediator must now impose a final ruling, while another says there is no further contractual process. What should the parties recognize?",
+    "questionFamily": "binding-arbitral-award-limited-court-review-not-retrial",
+    "learningObjective": "Recognize that a binding arbitral award is not automatically reopened for a full rehearing of the facts in court.",
+    "jurisdiction": "Canadian commercial dispute subject to a valid binding arbitration clause and applicable arbitration legislation; no jurisdictional error, procedural unfairness or special contractual appeal route is assumed.",
+    "stem": "A contractor loses a fee dispute after a properly conducted binding arbitration. The contractor argues that the award need not be respected because an arbitrator is not a judge and plans to start an ordinary lawsuit rearguing all the same evidence. No procedural defect or excess of authority is alleged. What is the soundest response?",
     "options": [
-      "Mediation cannot impose a ruling; unresolved matters may proceed to binding arbitration.",
-      "The failed mediation permanently eliminates the parties' contractual right to any further dispute resolution.",
-      "The parties should keep negotiating without changing the mediation agreement because the original clause has expired.",
-      "The mediator becomes a judge automatically whenever the parties fail to settle during mediation."
+      "An arbitral award is generally binding, with only limited review or appeal routes under the applicable agreement and law.",
+      "The contractor can obtain a full factual rehearing simply because an arbitrator rather than a court made the initial decision.",
+      "Binding arbitration may be disregarded whenever one party believes the adjudicator weighed the technical evidence incorrectly.",
+      "A private award has no legal effect unless both parties sign a new settlement agreement after the decision."
     ],
     "answer": 0,
     "optionRationales": [
-      "In a properly drafted multi-stage clause, mediation is consensual; after failure, an arbitrator may determine unresolved disputes by a binding award.",
-      "The agreement expressly provides a next stage; unsuccessful mediation does not extinguish that agreed arbitration process.",
-      "Voluntary further negotiation is possible, but it is not the sole route where the clause provides arbitration for remaining disputes.",
-      "A mediator facilitates negotiation and ordinarily cannot impose an adjudicated outcome solely because talks failed."
+      "A binding award has legal effect between the parties; challenge or appeal rights arise only under the relevant legislation and agreement, not from ordinary dissatisfaction.",
+      "Courts do not provide an automatic de novo hearing just because the dispute was decided by an arbitrator under a valid binding clause.",
+      "Disagreement with the weight given to evidence does not by itself nullify an award or establish an unlimited right to relitigate the dispute.",
+      "A binding arbitration decision is different from a voluntary negotiated settlement and ordinarily does not need a post-award agreement to bind the parties."
     ],
-    "keyPoint": "Know who controls the outcome: the parties during mediation; the adjudicator in binding arbitration, subject to the agreement and law.",
-    "trap": "Assuming a mediator can adjudicate or that unsuccessful mediation ends a valid multi-stage dispute-resolution clause.",
+    "keyPoint": "Binding arbitration is adjudication with limited judicial intervention, not non-binding advice or a rehearsal for a complete civil trial.",
+    "trap": "Treating a losing party's disagreement with an arbitral award as an automatic right to retry the facts in court.",
     "sources": [
       {
         "sourceType": "textbook",
         "title": "Samuels and Sanders, Practical Law of Architecture, Engineering, and Geoscience, Canadian ed. (2007)",
-        "locator": "Ch. 14 §§14.2 and 14.4, pp. 157–160: binding arbitration contrasted with voluntary mediation"
-      },
-      {
-        "sourceType": "federal-government-guidance",
-        "title": "Department of Justice Canada, Dispute Resolution Model Clauses and Agreements",
-        "locator": "Model multi-step negotiation/mediation/binding arbitration agreement",
-        "url": "https://justice.canada.ca/eng/rp-pr/csj-sjc/dprs-sprd/res/index.html"
+        "locator": "Ch. 14 §14.2, pp. 157–159: mandatory binding arbitration, award and choice of arbitrator; contextual background"
       },
       {
         "sourceType": "federal-government-guidance",
         "title": "Department of Justice Canada, Alternative Approaches — Canada's Court System",
-        "locator": "Consensual mediation and limited appeal from arbitral awards",
+        "locator": "Binding arbitration awards have limited ability to appeal, depending on applicable arbitration legislation and agreement",
         "url": "https://justice.canada.ca/eng/csj-sjc/ccs-ajc/04.html"
+      },
+      {
+        "sourceType": "federal-government-guidance",
+        "title": "Department of Justice Canada, Dispute Resolution Reference Guide — Arbitration",
+        "locator": "Arbitration is regulated under provincial/territorial/federal law; recognition, enforcement and limited grounds for court challenges",
+        "url": "https://justice.canada.ca/eng/rp-pr/csj-sjc/dprs-sprd/res/drrg-mrrc/06.html"
       },
       {
         "sourceType": "official-blueprint",
