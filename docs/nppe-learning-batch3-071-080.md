@@ -10,49 +10,50 @@ This document contains ten independently authored multiple-choice learning quest
 
 | ID | NPPE blueprint | Topic | Provisional difficulty | Cognitive level | Answer |
 |---|---|---|---|---|:---:|
-| 71 | I.3 | Licensing authority: provincial/territorial versus national | easy | understanding | **B** |
+| 71 | I.3 | Advisory national guidance and local regulatory adoption | easy | understanding | **B** |
 | 72 | II.3 | Fair treatment when a client expresses bias | medium | application | **D** |
-| 73 | II.4 | Prior paid advocacy and independence in tender review | hard | analysis | **A** |
-| 74 | III.1 | Relying on overseas calculations and differing design assumptions | hard | analysis | **C** |
+| 73 | II.4 | Prior paid advocacy and independence in tender review | medium | application | **A** |
+| 74 | III.1 | Relying on overseas calculations and differing design assumptions | medium | application | **C** |
 | 75 | III.5 | Considering low-likelihood catastrophic hazards | medium | application | **B** |
 | 76 | III.8 | BC record retention through legacy digital-format migration | medium | application | **D** |
 | 77 | IV.6 | Binding arbitration awards and limited judicial review | medium | application | **A** |
-| 78 | IV.7 | Project-limited copyright licence for design documents | medium | application | **C** |
-| 79 | V.2 | Multiple requirements for professional licensure | easy | understanding | **B** |
+| 78 | IV.7 | Authorized maintenance copies under a continuing copyright licence | medium | application | **C** |
+| 79 | V.2 | Good character as a separate admission criterion | easy | understanding | **B** |
 | 80 | VI.3 | BC firm audit OFI versus minor non-conformance | medium | application | **C** |
 
 ---
 
 ## NPPE-071 — I.3
 
-**Learning objective:** Distinguish national engineering coordination and accreditation from provincial/territorial professional licensing authority.
+**Learning objective:** Distinguish national advisory guidance from requirements adopted by a provincial or territorial engineering regulator.
 
-**Jurisdiction / governing assumptions:** Canada; the intended work is regulated engineering in a province or territory.
+**Jurisdiction / governing assumptions:** Canada; the national document is expressly advisory and has not been adopted into the applicable regulator's requirements.
 
-A graduate of an accredited Canadian engineering program asks Engineers Canada for a P.Eng. licence because the national body recognizes the degree. The graduate has not applied to a provincial or territorial engineering regulator. Which statement best explains the licensing arrangement?
+An engineering regulator is considering an Engineers Canada guideline on assessing applicants. A recruitment manager assumes publication of the national guideline immediately replaces the regulator's existing admission requirements. The guideline is advisory and the regulator has not adopted it. Which statement best explains its status?
 
-A. Accreditation of a degree alone gives a graduate full authority to use the P.Eng. designation in Canada.
-B. Provincial and territorial regulators issue licences; Engineers Canada supports national coordination.
-C. Engineers Canada grants individual licences that automatically replace all provincial registration requirements.
-D. A national engineering technical society can issue the licence when the graduate pays its annual membership fee.
+A. The national publication immediately overrides conflicting requirements because all engineering regulators belong to Engineers Canada.
+B. The guideline supports coordination; the regulator retains authority to adopt requirements within its governing law.
+C. An applicant may choose the national guideline instead of the regulator's requirements when it is more favourable.
+D. The guideline becomes binding on applicants once their employer incorporates it into its recruitment policy.
 
 **Correct answer: B.**
 
 **Reasoning for all four options:**
 
-- **A:** Accreditation recognizes an academic program; it is not the same as an individual licence and does not by itself establish practice authorization.
-- **B — correct:** Provincial and territorial regulators issue professional engineering licences under their legislation, while Engineers Canada coordinates national support functions.
-- **C:** Engineers Canada does not issue professional engineering practice licences to individuals and does not displace provincial/territorial regulatory authority.
-- **D:** Voluntary technical-society membership provides professional benefits, but it does not confer statutory licensing authority.
+- **A:** Engineers Canada supports its member regulators but does not gain power to replace their statutory requirements merely by publishing guidance.
+- **B — correct:** National advisory guidance can support consistent approaches; the competent regulator decides adoption within its legislative authority.
+- **C:** An applicant cannot elect to replace applicable regulatory requirements with a nonbinding national recommendation.
+- **D:** An employer's recruitment policy does not convert national advice into a professional regulator's admission requirement.
 
-**Transfer principle:** Professional licensing is a provincial and territorial regulatory function; national coordination and academic accreditation are distinct.
+**Transfer principle:** National guidance supports coordination; regulatory adoption and statutory authority determine binding local requirements.
 
-**Common misconception:** Assuming national accreditation or membership automatically grants a P.Eng. licence.
+**Common misconception:** Treating an advisory national publication as an automatic amendment to provincial or territorial licensing rules.
 
 **Evidence and authority:**
 
 - Andrews, Shaw and McPhee, Canadian Professional Engineering and Geoscience: Practice and Ethics, 6th ed. (2019) — Ch. 2, §§2.1–2.2 and 2.16, pp. 27–31 and 50: statutory licensing regulators and Engineers Canada's national role; historical context (*textbook*)
 - [Engineers Canada, Overview of the Licensing Process](https://engineerscanada.ca/become-an-engineer/overview-of-licensing-process) — Licences are issued by provincial and territorial regulators; Engineers Canada does not grant licences (*national-organization-authoritative*)
+- [Engineers Canada, Guideline on the code of ethics](https://engineerscanada.ca/guidelines-and-papers/public-guideline-on-the-code-of-ethics) — Notice: national guidelines are not regulations or rules; regulators may adopt them in whole, in part, or not at all (*national-nonbinding-guidance*)
 - [NPPE, officially published 2017 blueprint](https://www.nppexam.ca/en/preparation/blueprint/) — I.3 — Engineering and Geoscience Professions in Canada; Definitions and Scopes of Practice (*official-blueprint*)
 
 ---
@@ -68,7 +69,7 @@ A consultant's team includes two equally qualified licensed engineers. A client 
 A. Quietly move the engineer off the project because preserving the contract outweighs team-assignment fairness.
 B. Ask the affected engineer to accept reassignment voluntarily, without addressing the discriminatory request.
 C. Remove both engineers and hire an unrelated consultant so the client cannot identify any discriminatory choice.
-D. Address the request through appropriate processes while protecting fairness, dignity and competence.
+D. Explain why the request is discriminatory and use appropriate organizational processes to protect fair treatment.
 
 **Correct answer: D.**
 
@@ -99,7 +100,7 @@ D. Address the request through appropriate processes while protecting fairness, 
 
 A procurement committee appoints an engineer as its independent reviewer of several bridge-repair proposals. The engineer previously prepared a paid technical defence of one bidder's proprietary repair method, and that work is not known to the committee. The engineer considers the previous analysis sound and can assess the other bids competently. What is the best course?
 
-A. Disclose the prior advocacy and arrange independent review or recusal before proceeding.
+A. Disclose the prior advocacy to the committee and arrange independent review or recusal before evaluating bids.
 B. Evaluate all the bids silently but withhold a numerical score from the bidder previously represented.
 C. Recommend the formerly represented bidder first, provided its method met the applicable design standards.
 D. Reject the formerly represented bidder automatically, since removing that bid resolves any conflict with the appointment.
@@ -135,7 +136,7 @@ A Canadian project engineer receives load calculations from an overseas supplier
 
 A. Use the supplier's result if the supplier confirms by email that its professional liability insurance is active.
 B. Insert the calculations, but add a note stating that the supplier alone accepts responsibility for the frame's operation.
-C. Resolve the units, design assumptions and local requirements through competent verification.
+C. Resolve the units and design assumptions, then competently verify compatibility with local project requirements.
 D. Convert the displayed loads into local units with a spreadsheet and authenticate without checking the allowable-load convention.
 
 **Correct answer: C.**
@@ -168,7 +169,7 @@ D. Convert the displayed loads into local units with a spreadsheet and authentic
 A plant has two documented hazards: repeated minor equipment stoppages and a rare but credible pressure-release scenario with potentially catastrophic consequences. Management wants all mitigation resources assigned to the stoppages because they occur more often. What is the most defensible risk-management response?
 
 A. Prioritize the stoppages only, because event frequency is the sole dimension of professional risk.
-B. Evaluate likelihood, severity and safeguards, then address unacceptable pressure-release risk.
+B. Evaluate likelihood, severity and safeguards before prioritizing mitigation of any unacceptable pressure-release risk.
 C. Ignore the pressure-release hazard until an actual failure establishes that its probability is high enough.
 D. Rank the pressure-release event as automatically unacceptable without examining controls, exposure or risk criteria.
 
@@ -188,7 +189,7 @@ D. Rank the pressure-release event as automatically unacceptable without examini
 **Evidence and authority:**
 
 - Andrews, Shaw and McPhee, Canadian Professional Engineering and Geoscience: Practice and Ethics, 6th ed. (2019) — Ch. 6, pp. 125–140: hazards, risk analysis, standards, due diligence and prevention (*textbook*)
-- [Engineers and Geoscientists BC, Quality Management Guides](https://www.egbc.ca/registrants/practice-resources/quality-management-guides) — Guide to the Standard for Documented Risk Assessments (Sept 2026); hazard evaluation and recorded controls (*current-regulator-guidance*)
+- [Engineers and Geoscientists BC, Guide to the Standard for Documented Risk Assessments, Version 1.0](https://www.egbc.ca/getmedia/3f5561f4-0964-420f-b5eb-ab708ec98bcb/EGBC-QMG-Risk-Assessments.pdf) — September 1, 2026; Appendix A, sections A-3 to A-6: consequence severity, likelihood, risk and mitigation; BC guidance used here for general risk principles (*current-regulator-guidance*)
 - [NPPE, officially published 2017 blueprint](https://www.nppexam.ca/en/preparation/blueprint/) — III.5 — Risk Management, Insurance, Quality Management and Due Diligence (*official-blueprint*)
 
 ---
@@ -204,7 +205,7 @@ A BC engineering firm's archived design calculations and approval records are st
 A. Leave the archived files untouched because retaining their bytes is sufficient, even if the technical evidence cannot be read.
 B. Delete the unusable files and keep a folder listing their names as proof that the calculations once existed.
 C. Replace the records with screenshots of a summary report without verifying calculations, approvals or document history.
-D. Arrange controlled conversion to usable formats, verify integrity and traceability, and retain the required records.
+D. Convert to usable formats under document control, verify integrity and traceability, and retain the required records.
 
 **Correct answer: D.**
 
@@ -222,7 +223,7 @@ D. Arrange controlled conversion to usable formats, verify integrity and traceab
 **Evidence and authority:**
 
 - Andrews, Shaw and McPhee, Canadian Professional Engineering and Geoscience: Practice and Ethics, 6th ed. (2019) — Ch. 4 §4.8, pp. 94–101: professional document control; Ch. 7, pp. 157–170: computer and software responsibilities (historical conceptual context) (*textbook*)
-- [Engineers and Geoscientists BC, Quality Management Guides](https://www.egbc.ca/registrants/practice-resources/quality-management-guides) — Current (September 2026) Guide to the Standard for Retention of Project Documentation, Version 4.0: usable project evidence and retention processes (*regulator-guidance-bc*)
+- [Engineers and Geoscientists BC, Guide to the Standard for Retention of Project Documentation, Version 4.0](https://www.egbc.ca/getmedia/114e91a9-402e-4ab6-af2e-b7b84b3a2fcb/EGBC-QMG-Retention-of-Docs.pdf) — September 1, 2026; section 3.5.5.2, printed pp. 13–14: documents must remain retrievable; conversion policies and cross-referencing (*regulator-guidance-bc*)
 - [Engineers and Geoscientists BC, Practice Advisor FAQs](https://www.egbc.ca/Registrants/Practice-Resources/Practice-Advice-Program/Practice-Advisor-Faqs) — Retention of client files: EGBC Bylaw 7.3.2 and professional project records for at least 10 years (subject to longer applicable obligations) (*regulator-faq-bc*)
 - [NPPE, officially published 2017 blueprint](https://www.nppexam.ca/en/preparation/blueprint/) — III.8 — Document Authentication and Control, including preservation of records in a usable format (*official-blueprint*)
 
@@ -259,70 +260,73 @@ D. A private award has no legal effect unless both parties sign a new settlement
 - Samuels and Sanders, Practical Law of Architecture, Engineering, and Geoscience, Canadian ed. (2007) — Ch. 14 §14.2, pp. 157–159: mandatory binding arbitration, award and choice of arbitrator; contextual background (*textbook*)
 - [Department of Justice Canada, Alternative Approaches — Canada's Court System](https://justice.canada.ca/eng/csj-sjc/ccs-ajc/04.html) — Binding arbitration awards have limited ability to appeal, depending on applicable arbitration legislation and agreement (*federal-government-guidance*)
 - [Department of Justice Canada, Dispute Resolution Reference Guide — Arbitration](https://justice.canada.ca/eng/rp-pr/csj-sjc/dprs-sprd/res/drrg-mrrc/06.html) — Arbitration is regulated under provincial/territorial/federal law; recognition, enforcement and limited grounds for court challenges (*federal-government-guidance*)
+- [British Columbia, Arbitration Act, S.B.C. 2020, c. 2](https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/20002) — Sections 54, 58 and 59: binding award, specified setting-aside grounds and appeals on questions of law; BC example, not a nationwide appeal procedure (*primary-legislation-bc-example*)
 - [NPPE, officially published 2017 blueprint](https://www.nppexam.ca/en/preparation/blueprint/) — IV.6 — Dispute Resolution (*official-blueprint*)
 
 ---
 
 ## NPPE-078 — IV.7
 
-**Learning objective:** Apply an express project-limited copyright licence rather than assuming purchase of design services transfers copyright.
+**Learning objective:** Distinguish retained copyright ownership from the continuing permission granted by an express non-exclusive licence.
 
-**Jurisdiction / governing assumptions:** Canadian consulting agreement with a valid express licence limiting use of the original design drawings to Site A; no copyright assignment or exception is applicable.
+**Jurisdiction / governing assumptions:** Canadian consulting agreement; the consultant owns copyright and the express non-exclusive licence remains valid, with no termination or other restriction relevant to the stated copying.
 
-A consulting geoscientist delivers drawings and analyses for Site A. The signed agreement states the consultant keeps copyright and the client receives permission to use the work for Site A only. The client later asks another designer to copy and adapt the same documents for Site B without contacting the original consultant. What is the soundest response?
+A geoscientist retains copyright in site drawings but grants the client a non-exclusive licence to reproduce them for operating and maintaining Site A, including sharing with its maintenance contractor. The client sends copies to that contractor for repairs at Site A. The consultant objects solely because copyright ownership was retained. Which response is best?
 
-A. The client may reuse the documents on any site because payment for professional services transfers copyright by default.
-B. The client may authorize third-party copying as long as the new designer removes the consultant's logo.
-C. Reuse outside the licensed Site A purpose requires additional permission or rights under the agreement before copying.
-D. The original consultant can prohibit every authorized use of the drawings at Site A despite the project licence.
+A. Retaining copyright means every reproduction requires fresh consent, despite the continuing maintenance licence.
+B. Giving the contractor copies transfers copyright ownership to that contractor for the rest of the copyright term.
+C. The stated maintenance copies are authorized by the licence; retained ownership does not cancel that permission.
+D. The maintenance licence also permits the contractor to sell the drawings to other clients for unrelated projects.
 
 **Correct answer: C.**
 
 **Reasoning for all four options:**
 
-- **A:** Paying for a service does not itself override the express ownership and limited-purpose licence terms in the scenario.
-- **B:** Removing a logo does not change copyright ownership or expand a licence to reproduce or adapt protected material.
-- **C — correct:** A licence grants permission only within defined terms; copying and adapting at an unrelated site requires appropriate additional rights.
-- **D:** The consultant already granted the stated Site A use, so cannot ignore that express licence merely by retaining copyright.
+- **A:** A valid express licence can authorize specified reproductions in advance; retained ownership does not itself require fresh consent for each permitted copy.
+- **B:** Permission to receive and use a copy for maintenance is not an assignment of copyright ownership to the contractor.
+- **C — correct:** The agreement expressly permits these copies and sharing for Site A maintenance. Ownership and permission to use are distinct; no termination or additional restriction is assumed.
+- **D:** The permission is limited to the specified Site A purposes and sharing; it does not grant unrestricted commercial reuse for other clients.
 
-**Transfer principle:** Distinguish ownership of copyright from a limited licence to use a professional work product.
+**Transfer principle:** A copyright owner can retain ownership while granting enforceable permission for defined uses; read the actual licence.
 
-**Common misconception:** Treating a fee payment or logo removal as unlimited permission to reproduce technical documents.
+**Common misconception:** Assuming retained copyright either defeats every licensed use or gives a licensee unrestricted ownership rights.
 
 **Evidence and authority:**
 
 - Samuels and Sanders, Practical Law of Architecture, Engineering, and Geoscience, Canadian ed. (2007) — Ch. 11, professional-services contracts, pp. 111–126: contract conditions and intellectual-property allocations; historical contextual treatment (*textbook*)
 - [Canadian Intellectual Property Office, Transfer ownership](https://ised-isde.canada.ca/site/canadian-intellectual-property-office/en/copyright/transfer-ownership) — Assignments convey ownership; licences allow specified uses without transferring copyright (*federal-ip-office*)
 - [Canadian Intellectual Property Office, Copyright — Learn the basics](https://www.ised-isde.canada.ca/site/canadian-intellectual-property-office/en/copyright-learn-basics/copyright-learn-basics-protect-your-original-works-learn-why-copyright-matters) — Commissioned content may remain owned by creator; address rights in a written agreement (*federal-ip-office*)
+- [Canada, Copyright Act, R.S.C. 1985, c. C-42](https://laws-lois.justice.gc.ca/eng/acts/C-42/section-13.html) — Section 13(1), (3) and (4): ownership, employment exception, assignments and licences; the stem expressly establishes ownership and the licence (*primary-legislation*)
+- [Canada, Copyright Act — infringement](https://laws-lois.justice.gc.ca/eng/acts/C-42/section-27.html) — Section 27(1): acts reserved to the owner require consent unless an applicable statutory exception permits them; no exception is assumed in this item (*primary-legislation*)
 - [NPPE, officially published 2017 blueprint](https://www.nppexam.ca/en/preparation/blueprint/) — IV.7 — Intellectual Property; Intellectual Property Issues (*official-blueprint*)
 
 ---
 
 ## NPPE-079 — V.2
 
-**Learning objective:** Recognize multiple general Canadian engineering licensure criteria beyond academic qualification.
+**Learning objective:** Recognize good character as an admission criterion separate from technical qualifications and examination success.
 
 **Jurisdiction / governing assumptions:** Canada; general requirements vary by provincial or territorial engineering regulator.
 
-An applicant has completed an engineering degree recognized for academic purposes but has not yet provided qualifying work-experience evidence or completed the applicable professional-practice examination. The applicant says the academic degree alone proves eligibility for a P.Eng. licence. Which assessment best describes Canadian licensure?
+An applicant has satisfied the regulator's academic and experience requirements and passed the professional-practice examination. The regulator still requires evidence addressing good character. The applicant says strong technical references make that assessment unnecessary. Which response best reflects Canadian professional admission?
 
-A. Applicants need only an academic degree once their university has national engineering accreditation.
-B. Regulators also assess experience, professional-practice knowledge, character and other criteria.
-C. Only the applicant's employer may decide whether the person has enough professional experience to be licensed.
-D. Completion of an undergraduate degree automatically establishes that a licence will be granted in every province.
+A. Technical references automatically satisfy every remaining requirement once the professional-practice examination has been passed.
+B. Good character remains a separate criterion that the regulator assesses alongside the applicant's technical qualifications.
+C. The employer can waive the character assessment by accepting responsibility for the applicant's future conduct.
+D. A character assessment is required only after a licence is issued and a complaint is made.
 
 **Correct answer: B.**
 
 **Reasoning for all four options:**
 
-- **A:** Education is an important licensing element, but does not independently satisfy all regulatory criteria for professional registration.
-- **B — correct:** Regulators assess education, experience, professional-practice knowledge, good character and other applicable requirements before authorizing a person.
-- **C:** Employers may validate experience but statutory licensing decisions belong to the appropriate professional regulator.
-- **D:** Automatic nationwide licensing based only on a degree does not reflect provincial/territorial licensing requirements.
+- **A:** Evidence of technical competence does not automatically satisfy a distinct good-character requirement; the regulator assesses the applicable evidence.
+- **B — correct:** Good character is a general licensure criterion in addition to academics, experience and professional-practice knowledge; the regulator determines how it is assessed.
+- **C:** An employer does not have authority to waive an admission requirement administered by the professional regulator.
+- **D:** Good character is relevant at admission, not solely after a registrant becomes the subject of a complaint.
 
-**Transfer principle:** Professional admission requires regulator assessment of multiple competencies and qualifications, not merely an accredited degree.
+**Transfer principle:** Technical competence and professional-practice knowledge do not replace the admission assessment of good character.
 
-**Common misconception:** Confusing recognized engineering education with completed professional registration.
+**Common misconception:** Assuming examination success or technical references automatically settle every admission criterion.
 
 **Evidence and authority:**
 
@@ -370,8 +374,8 @@ D. Both findings are disciplinary convictions, so the firm must appeal before ch
 
 - **Originality:** Ten original stems and forty original options. No imported or paraphrased publisher/instructor-bank items. Compared against 290 existing NPPE Diagnostic, Learning and Mock D/E stems; no identical stems were identified. Token overlap is only a screening check and cannot establish psychometric independence.
 - **Domain distribution:** I 1, II 2, III 3, IV 2, V 1, VI 1, matching the planned second-through-eleventh Learning mini-batch allocation.
-- **Correct-answer position:** A 2, B 3, C 3, D 2. The correct choice is longest in 1/10 items; answer length, polarity and grammar should be assessed during independent review.
-- **Provisional classification:** 2 easy, 6 medium, 2 hard; 2 understanding, 6 application, 2 analysis. These are editorial labels, not empirically calibrated NPPE item parameters.
+- **Correct-answer position:** A 2, B 3, C 3, D 2. After the final QA edits, the correct choice is longest by character count in 3/10 items and uniquely shortest by word count in 2/10 (previously 7/10). Both ends are screened; these small-sample counts do not prove absence of cues.
+- **Provisional classification:** 2 easy, 8 medium, 0 hard; 2 understanding, 8 application, 0 analysis. These are editorial labels, not empirically calibrated NPPE item parameters.
 - **Two semantic-overlap fixes:** NPPE-076 was changed from Ontario contractor as-built drawings to British Columbia legacy digital-record preservation; NPPE-077 was changed from mediation failure to a binding arbitral award with limited judicial review. These distinct topics avoid reusing similar Mock E / Mock D and earlier Diagnostic problem types.
 - **Current authoritative references:** Engineers Canada licensing overview and non-binding ethics guideline, EGBC current 2026 quality-management retention resources and firm audit program, Department of Justice Canada arbitration guidance and CIPO licence/assignment guidance. Ontario as-built legal guidance no longer underpins Q076.
 - **Jurisdiction:** Where professional rules differ, the stem identifies the regulator or legal framework. National engineering guidance is not asserted to override binding provincial law.

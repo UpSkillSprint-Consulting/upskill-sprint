@@ -6,6 +6,7 @@ production-account test. Viewport screenshots avoid browser image-size limits.
 import argparse
 import json
 import os
+import re
 import runpy
 from pathlib import Path
 from urllib.parse import urlparse
@@ -14,6 +15,8 @@ from playwright.sync_api import expect, sync_playwright
 helpers = runpy.run_path(str(Path(__file__).with_name('exam-practice-browser.py')))
 EXPECTED_COUNT = 50
 EXPECTED_MINUTES = 69
+LEARNING_DOMAINS = [2, 4, 6, 14, 2, 2]
+AXE_PATH = Path(__file__).parent / 'student-audit-tools/node_modules/axe-core/axe.min.js'
 
 
 def main():
@@ -52,6 +55,33 @@ def main():
                 page.on('pageerror', lambda error: errors.append(str(error)))
                 page.on('dialog', lambda dialog: dialog.accept())
                 name = f'{args.browser}-{width}-{theme}'
+                accessibility = []
+
+                def check_accessibility(phase):
+                    page.add_script_tag(path=str(AXE_PATH))
+                    audit = page.evaluate('''async () => {
+                      const r=await axe.run(document, {runOnly:{type:'tag',values:['wcag2a','wcag2aa','wcag21a','wcag21aa']}});
+                      return {engine:r.testEngine,passes:r.passes.length,
+                        incomplete:r.incomplete.map(v=>v.id),
+                        violations:r.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))}))};
+                    }''')
+                    accessibility.append({'phase': phase, **audit})
+                    assert audit['passes'] > 0, audit
+                    assert not audit['violations'], {'phase': phase, **audit}
+
+                def learning_review():
+                    page.locator('[data-open-review="all"]').click()
+                    expect(page.locator('.tb-review-card')).to_have_count(30)
+                    expect(page.locator('.tb-review-rationales')).to_have_count(30)
+                    records = page.evaluate('window.__TB.getFeedbackSnapshot().records')
+                    for record in records:
+                        q = record['question']
+                        card = page.locator(f'.tb-review-card[data-question-id="{q["qid"]}"]')
+                        card.locator('.tb-review-rationales summary').click()
+                        expect(card.locator('.tb-review-rationales p')).to_have_count(3)
+                        for rationale in q['optionRationales']:
+                            expect(card).to_contain_text(rationale)
+                    header_images_fit()
 
                 def header_images_fit():
                     geometry = page.evaluate('''() => {
@@ -162,13 +192,48 @@ def main():
                     expect(page.locator('#tb-overview')).to_contain_text('Partial learning bank')
                     expect(page.locator('#tb-overview')).to_contain_text('41 minutes')
                     header_images_fit()
+                    check_accessibility('learning-bank-selector')
                     page.locator('[data-mode="full"]').click()
                     expect(page.locator('[data-goto]')).to_have_count(30)
+                    expect(page.locator('#tb-timer')).to_have_text(re.compile(r'^(41:00|40:5\d)$'))
                     expect(page.locator('[data-reveal]')).to_have_count(0)
                     assert page.evaluate('window.__TB.revealCurrentAnswer()') is False
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===2).length") == 10
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===3).length") == 10
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.every(r=>r.question.form==='set-1-learning'&&r.question.authorSet===1)")
+                    # Keyboard answering, flagging and persistence across navigation in Learning itself.
+                    first = page.evaluate('window.__TB.getFeedbackSnapshot().records[0].question')
+                    choice = page.locator(f'[data-opt="{first["answer"]}"]')
+                    choice.focus()
+                    expect(choice).to_be_focused()
+                    page.keyboard.press('Space')
+                    page.locator('[data-flag]').focus()
+                    page.keyboard.press('Enter')
+                    page.locator('[data-next]').focus()
+                    page.keyboard.press('Enter')
+                    page.locator('[data-goto="0"]').focus()
+                    page.keyboard.press('Enter')
+                    expect(page.locator(f'[data-opt="{first["answer"]}"]')).to_have_attribute('aria-pressed', 'true')
+                    expect(page.locator('[data-flag]')).to_have_attribute('aria-pressed', 'true')
+                    check_accessibility('learning-active-question')
+                    page.screenshot(path=str(out / f'{name}-learning-question.png'), full_page=False)
+                    for learning_index in range(30):
+                        page.locator(f'[data-goto="{learning_index}"]').click()
+                        q = page.evaluate('i=>window.__TB.getFeedbackSnapshot().records[i].question', learning_index)
+                        header_images_fit()
+                        expect(page.locator('[data-opt]')).to_have_count(4)
+                        page.locator(f'[data-opt="{q["answer"]}"]').click()
+                    assert page.evaluate('window.__TB.getFeedbackSnapshot().records.every(r=>!r.revealed)')
+                    page.locator('[data-submit]').click()
+                    expect(page.locator('[data-score-result]')).to_contain_text('100% (30/30)')
+                    expect(page.locator('.tb-domblock')).to_have_count(6)
+                    for index, count in enumerate(LEARNING_DOMAINS):
+                        domain = page.locator('.tb-domblock').nth(index)
+                        expect(domain.locator('.tb-domp')).to_have_text('100%')
+                        expect(domain).to_contain_text(f'({count}/{count})')
+                    learning_review()
+                    check_accessibility('learning-complete-review')
+                    page.screenshot(path=str(out / f'{name}-learning-review.png'), full_page=False)
                     page.goto(base + '/test-bank?exam=nppe')
                     page.wait_for_selector('body.exam-access-ready')
                     page.locator('[data-set="set-1-learning"]').click()
@@ -176,6 +241,9 @@ def main():
                     page.locator('[data-mode="full"]').click()
                     expect(page.locator('[data-reveal]')).to_be_visible()
                     page.locator('[data-reveal]').click()
+                    for option in page.locator('[data-opt]').all():
+                        expect(option).to_be_disabled()
+                    check_accessibility('learning-revealed-question')
                     assert page.evaluate('window.__TB.getFeedbackSnapshot().records.filter(r=>r.revealed===true).length') == 1
                     assisted_locked = 0
                     for learning_index in range(30):
@@ -192,17 +260,21 @@ def main():
                     assert assisted_locked == 1, 'Exactly one intentionally revealed answer must remain locked'
                     assert page.evaluate('window.__TB.getFeedbackSnapshot().records.filter(r=>r.revealed===true).length') == 1
                     page.locator('[data-submit]').click()
+                    expect(page.locator('[data-score-result]')).to_contain_text('(29/30)')
+                    expect(page.locator('[data-score-result]')).to_contain_text('1 revealed (counted as incorrect)')
                     expect(page.locator('#tb-overview')).to_contain_text('Learning scores measure practice accuracy')
-                    page.locator('[data-open-review="all"]').click()
-                    expect(page.locator('.tb-review-card')).to_have_count(30)
-                    expect(page.locator('.tb-review-rationales')).to_have_count(30)
-                    header_images_fit()
+                    learning_review()
+                    expect(page.locator('.tb-review-card.revealed')).to_have_count(1)
+                    check_accessibility('learning-assisted-review')
                     assert not errors, errors
                     result = {'case': name, 'result': 'PASS', 'score': f'{EXPECTED_COUNT}/{EXPECTED_COUNT}', 'domains': 6,
                               'batch3Rendered': batch3_checked, 'batch4Rendered': batch4_checked, 'batch5Rendered': batch5_checked, 'learning30Rendered': True, 'learningAssistedReveal': True, 'learningReview30': True, 'keyboardTabs': True, 'flagsAndNavigation': True,
                               'revealBlocked': True, 'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
+                    result.update(learningUnassistedScore='30/30', learningAssistedScore='29/30',
+                                  learningDomainTotals=LEARNING_DOMAINS, learningAll120Rationales=True,
+                                  learningKeyboardAndPersistence=True, accessibility=accessibility)
                 except Exception as error:
-                    result = {'case': name, 'result': 'FAIL', 'error': str(error), 'pageErrors': errors}
+                    result = {'case': name, 'result': 'FAIL', 'error': str(error), 'pageErrors': errors, 'accessibility': accessibility}
                     try:
                         page.screenshot(path=str(out / f'{name}-failure.png'), full_page=False, timeout=5000)
                     except Exception as screenshot_error:

@@ -9,6 +9,7 @@ on:
       - 'scripts/homepage-certification-browser.py'
       - 'scripts/nppe-diagnostic-browser.py'
       - 'scripts/nppe-diagnostic-runtime.mjs'
+      - 'scripts/student-audit-tools/package*.json'
       - 'test-bank-nppe*.js'
       - 'tests/homepage-*.test.js'
       - 'tests/test-bank-mobile-picker.test.js'
@@ -68,6 +69,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: npm ci
+      - run: npm ci --prefix scripts/student-audit-tools
       - name: Verify navigation and access regressions
         run: |
           node --check site-sections.js

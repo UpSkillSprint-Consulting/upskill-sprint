@@ -113,11 +113,11 @@ test('Batch 3 adds ten unique original learning items in the planned six-domain 
  const domains={};batch3.forEach(q=>{domains[q.area]=(domains[q.area]||0)+1;});
  assert.deepEqual(domains,{I:1,II:2,III:3,IV:2,V:1,VI:1});
  assert.equal(batch3.filter(q=>q.difficulty==='easy').length,2);
- assert.equal(batch3.filter(q=>q.difficulty==='medium').length,6);
- assert.equal(batch3.filter(q=>q.difficulty==='hard').length,2);
+ assert.equal(batch3.filter(q=>q.difficulty==='medium').length,8);
+ assert.equal(batch3.filter(q=>q.difficulty==='hard').length,0);
  assert.equal(batch3.filter(q=>q.cognitiveLevel==='understanding').length,2);
- assert.equal(batch3.filter(q=>q.cognitiveLevel==='application').length,6);
- assert.equal(batch3.filter(q=>q.cognitiveLevel==='analysis').length,2);
+ assert.equal(batch3.filter(q=>q.cognitiveLevel==='application').length,8);
+ assert.equal(batch3.filter(q=>q.cognitiveLevel==='analysis').length,0);
  assert.equal(new Set(all.map(q=>q.qid)).size,30);assert.equal(new Set(all.map(q=>q.questionFamily)).size,30);
  assert.ok(batch3.every(q=>q.bank==='learning'&&q.form==='set-1-learning'&&q.authorSet===1&&q.scored===true&&!q.experimental&&q.batch===3));
  assert.ok(batch3.every(q=>q.options.length===4&&new Set(q.options).size===4&&q.optionRationales.length===4&&q.optionRationales.every(x=>x.length>40)));
@@ -125,6 +125,12 @@ test('Batch 3 adds ten unique original learning items in the planned six-domain 
  assert.ok(batch3.every(q=>q.sources.every(s=>s.title&&s.locator&&s.sourceType&&(!s.url||new URL(s.url).protocol==='https:'))));
  assert.ok(batch3.every(q=>q.learningObjective&&q.keyPoint&&q.trap&&q.why.includes('Sources:')));
  assert.ok(batch3.filter(q=>q.options[q.answer].length===Math.max(...q.options.map(x=>x.length))).length<=3);
+ const words=s=>s.trim().split(/\s+/).length;
+ assert.ok(batch3.filter(q=>words(q.options[q.answer])<Math.min(...q.options.filter((_,i)=>i!==q.answer).map(words))).length<=3,'Shortest-answer cue detected');
+ assert.match(batch3[0].questionFamily,/national-guidance-regulator-adoption/);
+ assert.match(batch3[8].questionFamily,/good-character/);
+ assert.ok(batch3[6].sources.some(s=>s.sourceType==='primary-legislation-bc-example'));
+ assert.ok(batch3[7].sources.some(s=>s.sourceType==='primary-legislation'));
  const old=legacyDiagnostic();assert.equal(old.length,50);
  assert.ok(batch3.every(q=>!old.some(r=>r.stem.trim().toLowerCase()===q.stem.trim().toLowerCase())));
  assert.ok(batch3.every(q=>!batch1.concat(batch2).some(r=>r.stem.trim().toLowerCase()===q.stem.trim().toLowerCase())));
@@ -249,9 +255,34 @@ test('unassisted Learning submission gives 30/30 raw score with wrong-option exp
   doc.querySelector('[data-open-review="all"]').click();
   assert.equal(doc.querySelectorAll('.tb-review-card').length,30);
   assert.equal(doc.querySelectorAll('.tb-review-rationales').length,30);
+  for(const {question:q} of records){
+    const card=doc.querySelector('.tb-review-card[data-question-id="'+q.qid+'"]');
+    assert.ok(card,q.qid);
+    assert.equal(card.querySelectorAll('.tb-review-rationales p').length,3,q.qid);
+    for(const rationale of q.optionRationales)assert.ok(card.textContent.includes(rationale),q.qid+' missing rationale');
+  }
   assert.match(doc.querySelector('#tb-feedback-loop').textContent,/Why the other options are incorrect/);
   assert.match(doc.querySelector('#tb-feedback-loop').textContent,/CUSMA|treaty/);
   assert.deepEqual(errors,[]);
+ }finally{h.close();}
+});
+test('Learning domain results preserve distinct denominators with one incorrect response per domain',async()=>{
+ const h=await browser();const {doc,win}=h;try{
+  pickLearning(doc);doc.querySelector('[data-mode="full"]').click();
+  const records=win.__TB.getFeedbackSnapshot().records,seen=new Set();
+  for(let i=0;i<records.length;i++){
+    doc.querySelector('[data-goto="'+i+'"]').click();
+    const q=records[i].question,wrong=!seen.has(q.area);seen.add(q.area);
+    doc.querySelector('[data-opt="'+(wrong?(q.answer+1)%4:q.answer)+'"]').click();
+  }
+  doc.querySelector('[data-submit]').click();
+  assert.match(doc.querySelector('[data-score-result]').textContent,/80% \(24\/30\)/);
+  const domains=[...doc.querySelectorAll('.tb-domblock')],totals=[2,4,6,14,2,2];
+  assert.equal(domains.length,6);
+  domains.forEach((domain,i)=>{
+    assert.ok(domain.textContent.includes('('+(totals[i]-1)+'/'+totals[i]+')'));
+    assert.equal(domain.querySelector('.tb-domp').textContent,Math.round((totals[i]-1)/totals[i]*100)+'%');
+  });
  }finally{h.close();}
 });
 test('Diagnostic and Mocks retain answer-reveal protection and independent author selectors',async()=>{
