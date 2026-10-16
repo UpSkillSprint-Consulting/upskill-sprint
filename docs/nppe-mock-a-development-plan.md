@@ -1,37 +1,46 @@
 # Set 1 Mock A authoring plan
 
-Mock A is ChatGPT Set 1, distinct from Diagnostic, Learning and Mocks B–E. Author in eleven batches of ten: NPPE-171–280. Batches 1–2 (171–190) are authored; 90 remain. Never borrow questions from another bank. B/C are not yet authored; D/E stay unchanged.
+Mock A is ChatGPT Set 1, distinct from Diagnostic, Learning and Mocks B–E. Author in eleven batches of ten: NPPE-171–280. Batches 1–3 (171–200) are authored; 80 remain. Never borrow questions from another bank. B/C are not yet authored; D/E stay unchanged.
 
 ## Whole-form allocation
 
 The published NPPE format is 110 questions / 150 minutes, with 100 scored and 10 unscored. These are project choices within the published domain ranges, not an assertion of exact official per-domain counts.
 
-| Domain | Scored target | Unscored target | Total | Batches 1–2 scored / unscored |
+| Domain | Scored target | Unscored target | Total | Batches 1–3 scored / unscored |
 |---|---:|---:|---:|---|
-| I | 8 | 1 | 9 | 1 / 0 |
-| II | 20 | 2 | 22 | 4 / 0 |
-| III | 30 | 3 | 33 | 5 / 1 |
-| IV | 26 | 2 | 28 | 5 / 0 |
+| I | 8 | 1 | 9 | 2 / 1 |
+| II | 20 | 2 | 22 | 6 / 0 |
+| III | 30 | 3 | 33 | 8 / 1 |
+| IV | 26 | 2 | 28 | 7 / 0 |
 | V | 8 | 1 | 9 | 2 / 0 |
-| VI | 8 | 1 | 9 | 1 / 1 |
-| Total | 100 | 10 | 110 | 18 / 2 |
+| VI | 8 | 1 | 9 | 2 / 1 |
+| Total | 100 | 10 | 110 | 27 / 3 |
 
-Use one unscored item in each of Batches 1–10 and ten scored items in Batch 11; adjust domain allocation to the remaining totals. Experimental is a simulation scoring role, not proof that candidate field trials occurred. Hide those roles during an eventual attempt. Do not publish an incomplete mock or allow a fallback to another bank. At twenty authored questions the selector shows 20 and remains disabled; Learning still shows 120 and Diagnostic 50.
+Use one unscored item in each of Batches 1–10 and ten scored items in Batch 11; adjust domain allocation to the remaining totals. Experimental is a simulation scoring role, not proof that candidate field trials occurred. Hide those roles during an eventual attempt. Do not publish an incomplete mock or allow a fallback to another bank. At thirty authored questions the selector shows 30 and remains disabled; Learning still shows 120 and Diagnostic 50.
 
-Every item needs a stable ID, four explained options, primary blueprint topic, jurisdiction, source locators and provisional classification. Review against all prior pools before acceptance. Current Batch 1 has 2 understanding / 7 application / 1 analysis, 2 easy / 8 medium, keys A2/B3/C3/D2. Batch 2 adds 7 application / 3 analysis, 10 medium, keys A3/B2/C2/D3. Cumulative: 2 understanding / 14 application / 4 analysis, 2 easy / 18 medium, keys A5/B5/C5/D5. These are editorial estimates, not empirical difficulty. Future batches must broaden subtopics and integrated analysis; do not infer full-form difficulty from the opening batch.
+Every item needs a stable ID, four explained options, primary blueprint topic, jurisdiction, source locators and provisional classification. Review against all prior pools before acceptance.
 
-Protected NPPE delivery only. Independent SME/legal review, candidate calibration, production-account verification and explicit release authorization remain required. PR #301 stays draft. Next: Batch 3, NPPE-191–200.
+| Batch | Understanding / application / analysis | Easy / medium / hard | Keys A / B / C / D |
+|---|---|---|---|
+| 1 | 2 / 7 / 1 | 2 / 8 / 0 | 2 / 3 / 3 / 2 |
+| 2 | 0 / 7 / 3 | 0 / 10 / 0 | 3 / 2 / 2 / 3 |
+| 3 | 1 / 8 / 1 | 1 / 9 / 0 | 2 / 3 / 3 / 2 |
+| Total | 3 / 22 / 5 | 3 / 27 / 0 | 7 / 8 / 8 / 7 |
 
-## Remaining allocation after Batch 2
+These are editorial estimates, not empirical difficulty. Future batches must broaden subtopics and integrated analysis; do not inflate labels to meet quotas or infer full-form difficulty from the opening batches.
+
+Protected NPPE delivery only. Independent SME/legal review, candidate calibration, production-account verification and explicit release authorization remain required. PR #301 stays draft. Next: Batch 4, NPPE-201–210.
+
+## Remaining allocation after Batch 3
 
 | Domain | Remaining scored | Remaining unscored | Remaining total |
 |---|---:|---:|---:|
-| I | 7 | 1 | 8 |
-| II | 16 | 2 | 18 |
-| III | 25 | 2 | 27 |
-| IV | 21 | 2 | 23 |
+| I | 6 | 0 | 6 |
+| II | 14 | 2 | 16 |
+| III | 22 | 2 | 24 |
+| IV | 19 | 2 | 21 |
 | V | 6 | 1 | 7 |
-| VI | 7 | 0 | 7 |
-| Total | 82 | 8 | 90 |
+| VI | 6 | 0 | 6 |
+| Total | 73 | 7 | 80 |
 
-Batch 2's unscored item is 190 (III.10); Batch 1's is 180 (VI.4). Do not place another unscored VI item without an explicit whole-form reallocation. I received no item in Batch 2; prioritize an original professionalism scenario in Batch 3. Maintain the authored full-form allocation rather than forcing every ten-item batch to copy the final percentages.
+Unscored items are 180 (VI.4), 190 (III.10) and 200 (I.2). Do not add another unscored I or VI item without an explicit whole-form reallocation. Batch 3 adds two professionalism items after Batch 2's gap; it deliberately has no V item. Prioritize an original V scenario in Batch 4 and maintain the whole-form allocation rather than forcing each batch to copy the final percentages.
