@@ -49,6 +49,8 @@ The initial balanced answer sequence repeated a four-position cycle. Options and
 
 Batch 8 appends after Batches 1–7, preserving array identity, earlier object references and the registration closure. Identical reload is idempotent; missing, partial, reordered and conflicting imports fail atomically. The protected packet includes the exact new script in dependency order. Leakage checks cover each new stem, family and ID in the public shell and all seven unrelated exam packages. Mock A's target remains 110 / 150 minutes and incomplete forms cannot start or borrow questions.
 
+The expanded local run found a stale review-grid test that imported the durable ledger removed in the earlier stateless redesign (commit 3de2cea). Migrated that test to the current edge-delivered review UI and added it to the existing post-exam CI workflow. Preserved gating, glyph/status and jump/current-marker assertions, and strengthened coverage to include correct, incorrect and unanswered records, accessible labels, both answer markings and unchanged scoring. Updated the unanswered glyph expectation to the current circle, rather than restoring removed UI. No production implementation or valid assertion was weakened.
+
 Final local test/build counts and exact-commit GitHub/browser results are recorded in PR #301 after execution. Automated fixtures are not production-account verification. No migration, permission change, grant, deployment or release is authorized by this batch.
 
 ## Item-by-item audit

@@ -1,145 +1,145 @@
-'use strict';
-
+// Current stateless review-grid regression; no retired durable-ledger dependency.
 const assert = require('node:assert/strict');
-const test = require('node:test');
-const { afterEach } = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
-const { JSDOM, VirtualConsole } = require('jsdom');
-const { installDurableLearning } = require('./helpers/test-bank-durable-learning');
-
-const ROOT = path.join(__dirname, '..');
-const html = fs.readFileSync(path.join(ROOT, 'test-bank.html'), 'utf8');
-const enhancer = fs.readFileSync(path.join(ROOT, 'test-bank-feedback-loop.js'), 'utf8');
-
-const windows = [];
-afterEach(() => {
-  windows.splice(0).forEach(window => {
-    try { window.close(); } catch (error) {}
+const test = require('node:test');
+const {JSDOM, VirtualConsole} = require('jsdom');
+const read = file => fs.readFileSync(path.resolve(__dirname, '..', file), 'utf8');
+const tick = w => new Promise(resolve => w.setTimeout(resolve, 55));
+async function harness() {
+  const edge = (await import('data:text/javascript;base64,' + Buffer.from(read('netlify/edge-functions/test-bank-mobile-picker.js')).toString('base64'))).default;
+  const response = await edge(new Request('https://upskillsprint.com/test-bank'), {
+    next: async () => new Response(read('test-bank.html'), {headers: {'content-type': 'text/html'}})
   });
-});
-
-function settle(window) {
-  return new Promise(resolve => {
-    window.requestAnimationFrame(() => window.requestAnimationFrame(resolve));
+  let html = await response.text();
+  html = html.replace(/<script\b[^>]*src=["'](\/test-bank-[^"'?]+\.js)(?:\?[^"']*)?["'][^>]*>\s*<\/script>/gi, (tag, src) => {
+    return '<script>' + read(src.slice(1)).replace(/<\/script/gi, '<\\/script') + '</script>';
   });
-}
-
-async function loadEnhancedPage() {
   const errors = [];
+  let closeFrames = () => {};
   const virtualConsole = new VirtualConsole();
-  virtualConsole.on('jsdomError', error => errors.push(error.message));
-
-  const dom = new JSDOM(html, {
-    url: 'https://upskillsprint.com/test-bank',
-    runScripts: 'dangerously',
-    pretendToBeVisual: true,
-    virtualConsole
+  virtualConsole.on('jsdomError', e => errors.push(e.message));
+  const dom = new JSDOM(html, {url: 'https://upskillsprint.com/test-bank', runScripts: 'dangerously', pretendToBeVisual: true, virtualConsole,
+    beforeParse(w) {
+      w.HTMLElement.prototype.scrollIntoView = () => {};
+      w.scrollTo = w.alert = () => {};
+      w.confirm = () => true;
+      // A JSDOM window can queue another frame while close() removes its DOM.
+      // Track real frame handles and cancel them rather than suppressing errors.
+      const request = w.requestAnimationFrame.bind(w);
+      const cancel = w.cancelAnimationFrame.bind(w);
+      const frames = new Set();
+      let closing = false;
+      w.requestAnimationFrame = callback => {
+        if (closing) return 0;
+        const id = request(time => { frames.delete(id); if (!closing) callback(time); });
+        frames.add(id);
+        return id;
+      };
+      w.cancelAnimationFrame = id => { frames.delete(id); cancel(id); };
+      closeFrames = () => { closing = true; frames.forEach(cancel); frames.clear(); };
+    }
   });
-  windows.push(dom.window);
-
-  await new Promise(resolve => dom.window.addEventListener('load', resolve));
-  await installDurableLearning(dom.window);
-  dom.window.eval(enhancer);
-  await settle(dom.window);
-  return { window: dom.window, errors };
+  const w = dom.window;
+  if (w.document.readyState !== 'complete') await new Promise(resolve => w.addEventListener('load', resolve, {once: true}));
+  await tick(w);
+  return {w, errors, close: async () => {
+    w.__TBCurrentAttemptReview?.destroy?.();
+    closeFrames();
+    w.close();
+    await Promise.resolve();
+  }};
 }
-
-function click(window, element) {
-  assert.ok(element, 'expected clickable element');
-  element.dispatchEvent(new window.Event('click', { bubbles: true }));
+function start(w, exam, mode) {
+  w.document.querySelector(`.tb-tile[data-exam="${exam}"]`).click();
+  const actual = mode === 'focused' ? 'focus' : mode;
+  const native = w.document.querySelector(`#tb-overview [data-mode="${actual}"]`);
+  if (native) native.click();
+  else {
+    if (mode === 'focused') { w.document.querySelector('[data-start-focus]').click(); w.document.querySelector('#f-subtopic').value = 'ALL'; }
+    const count = w.document.querySelector(mode === 'quick' ? '#f-quick-n' : '#f-n');
+    if (count) count.value = '5';
+    w.document.querySelector(mode === 'focused' ? '#f-startbtn' : mode === 'quick' ? '[data-start-quick]' : '[data-start-full]').click();
+  }
+  assert.ok(w.document.querySelector('.tb-quiz'), `${exam}/${mode} starts`);
+  const data = w.__TB.getFeedbackSnapshot();
+  assert.ok(data.records.length >= 2, 'at least two questions for correction coverage, including a small released batch');
+  return data;
 }
-
-function questionByStem(window, stem) {
-  const exam = window.__TB.EXAMS.cssbb;
-  const pools = Object.values(exam.sets || {}).flat().concat(exam.bank || []);
-  return pools.find(question => question.stem === stem);
+function select(w, index, option) {
+  w.document.querySelector(`[data-goto="${index}"]`).click();
+  w.document.querySelector(`[data-opt="${option}"]`).click();
 }
-
-// Answer the FIRST question wrong, leave the rest unanswered, then submit.
-// This guarantees at least one incorrect and one unanswered record, so the
-// grid must be able to render all three statuses.
-async function submitOneWrongRestSkipped(window) {
-  const overview = window.document.getElementById('tb-overview');
-  click(window, overview.querySelector('[data-mode="quick"]'));
-  await settle(window);
-
-  const stem = overview.querySelector('.tb-stem').textContent.trim();
-  const question = questionByStem(window, stem);
-  assert.ok(question, 'current question resolves to the real bank');
-
-  const wrong = (question.answer + 1) % question.options.length;
-  click(window, overview.querySelector('[data-opt="' + wrong + '"]'));
-
-  const nav = overview.querySelectorAll('.tb-navcell');
-  click(window, nav[nav.length - 1]);
-  click(window, overview.querySelector('[data-submit]'));
-  await settle(window);
-
-  return { overview, stem, total: nav.length };
+function submit(w) {
+  const last = w.__TB.getFeedbackSnapshot().records.length - 1;
+  w.document.querySelector(`[data-goto="${last}"]`).click();
+  w.document.querySelector('[data-submit]').click();
 }
-
-test('the live quiz has no review grid before submit (gating)', async () => {
-  const { window } = await loadEnhancedPage();
-  const overview = window.document.getElementById('tb-overview');
-  click(window, overview.querySelector('[data-mode="quick"]'));
-  await settle(window);
-
-  assert.ok(overview.querySelector('.tb-quiz'), 'quiz is active');
-  assert.equal(overview.querySelector('#tb-review-grid'), null, 'no review grid renders during the exam');
-  assert.equal(overview.querySelector('.tb-review-navcell'), null, 'no colour-coded cells leak mid-exam');
+async function finish(w) {
+  submit(w); await tick(w);
+  assert.ok(w.document.querySelector('[data-score-result], .tb-reshead'));
+  assert.equal(w.document.querySelectorAll('#tb-feedback-loop').length, 1, 'exactly one review panel');
+}
+function click(w, selector) {
+  const el = w.document.querySelector(selector);
+  assert.ok(el, 'control exists: ' + selector);
+  el.click();
+}
+function score(w) { return w.document.querySelector('[data-score-result], .tb-reshead').textContent; }
+test('review grid and answer statuses are absent before submission', async () => {
+ const h=await harness(),{w}=h;
+ try {
+  start(w,'cssbb','quick');
+  assert.equal(w.document.querySelector('#tb-review-grid'),null);
+  assert.equal(w.document.querySelector('.tb-review-navcell'),null);
+  assert.equal(w.document.querySelector('.tb-review-option.is-correct'),null);
+  assert.deepEqual(h.errors,[]);
+ } finally { await h.close(); }
 });
-
-test('opening review renders a colour-coded grid cell per question with a status glyph', async () => {
-  const { window, errors } = await loadEnhancedPage();
-  const { overview, total } = await submitOneWrongRestSkipped(window);
-
-  click(window, overview.querySelector('[data-open-review="all"]'));
-
-  const grid = overview.querySelector('#tb-review-grid');
-  assert.ok(grid, 'review grid is present after submit');
-  const cells = grid.querySelectorAll('.tb-review-navcell');
-  assert.equal(cells.length, total, 'one grid cell per attempted question');
-
-  const GLYPH = { correct: '\u2713', incorrect: '\u2717', unanswered: '\u2013' };
-  let seenIncorrect = 0;
-  let seenUnanswered = 0;
-  cells.forEach(cell => {
-    const status = ['correct', 'incorrect', 'unanswered'].find(s => cell.classList.contains(s));
-    assert.ok(status, 'every cell carries exactly one status class');
-    const glyph = cell.querySelector('.tb-rnc-glyph').textContent;
-    assert.equal(glyph, GLYPH[status], status + ' cells show the ' + GLYPH[status] + ' glyph');
-    if (status === 'incorrect') seenIncorrect += 1;
-    if (status === 'unanswered') seenUnanswered += 1;
+async function mixedResult(w) {
+ const data=start(w,'cssbb','quick');
+ assert.ok(data.records.length>=3,'correct, incorrect and unanswered records are required');
+ select(w,0,data.records[0].question.answer);
+ select(w,1,(data.records[1].question.answer+1)%data.records[1].question.options.length);
+ await finish(w);
+ click(w,'[data-open-review="all"]');
+ return data;
+}
+test('submitted grid preserves all three status classes, glyphs and accessible labels', async () => {
+ const h=await harness(),{w}=h;
+ try {
+  const data=await mixedResult(w);
+  const cells=[...w.document.querySelectorAll('.tb-review-navcell')];
+  assert.equal(cells.length,data.records.length);
+  const glyph={correct:'\u2713',incorrect:'\u2717',unanswered:'\u25cb'};
+  cells.forEach((cell,i)=>{
+   const status=i===0?'correct':i===1?'incorrect':'unanswered';
+   assert.deepEqual(Object.keys(glyph).filter(s=>cell.classList.contains(s)),[status]);
+   assert.equal(cell.querySelector('[aria-hidden="true"]').textContent,glyph[status]);
+   assert.match(cell.getAttribute('aria-label'),new RegExp('Question '+(i+1)+',','i'));
+   assert.match(cell.getAttribute('aria-label'),new RegExp(status,'i'));
+   assert.equal(cell.tagName,'BUTTON');
   });
-  assert.ok(seenIncorrect >= 1, 'the wrong answer is flagged red/incorrect');
-  assert.ok(seenUnanswered >= 1, 'skipped questions are flagged yellow/unanswered');
-  assert.deepEqual(errors, []);
+  assert.deepEqual(h.errors,[]);
+ } finally { await h.close(); }
 });
-
-test('clicking a grid cell jumps to that single question and layers the "you are here" marker', async () => {
-  const { window } = await loadEnhancedPage();
-  const { overview } = await submitOneWrongRestSkipped(window);
-
-  click(window, overview.querySelector('[data-open-review="all"]'));
-
-  // Jump to the incorrect (first) question via its grid cell.
-  const targetCell = overview.querySelector('.tb-review-navcell.incorrect');
-  assert.ok(targetCell, 'an incorrect cell exists to jump to');
-  const targetIndex = Number(targetCell.dataset.reviewGoto);
-  click(window, targetCell);
-
-  const list = overview.querySelector('#tb-review-list');
-  const cards = list.querySelectorAll('.tb-review-card');
-  assert.equal(cards.length, 1, 'jumping shows exactly one question, not a scroll list');
-  assert.match(cards[0].querySelector('.tb-review-qno').textContent, new RegExp('Question ' + (targetIndex + 1) + '\\b'));
-
-  // The jumped card marks the options: correct answer and the learner pick.
-  assert.ok(cards[0].querySelector('.tb-review-option.is-correct'), 'correct option is marked on the jumped card');
-
-  // "You are here" outline is layered ON TOP of the red status fill (both present).
-  const cur = overview.querySelector('.tb-review-navcell.cur');
-  assert.ok(cur, 'the jumped cell is marked current');
-  assert.equal(Number(cur.dataset.reviewGoto), targetIndex, 'current marker is on the jumped cell');
-  assert.ok(cur.classList.contains('incorrect'), 'status colour is retained under the current outline');
+test('review grid jump shows one question and retains status beneath the current marker', async () => {
+ const h=await harness(),{w}=h;
+ try {
+  const data=await mixedResult(w),originalScore=score(w);
+  click(w,'[data-review-goto="1"]');
+  const cards=w.document.querySelectorAll('.tb-review-card');
+  assert.equal(cards.length,1);
+  assert.equal(cards[0].querySelector('.tb-review-card-head strong').textContent,'Question 2');
+  assert.ok(cards[0].textContent.includes(data.records[1].question.stem));
+  assert.equal(cards[0].querySelectorAll('.tb-review-option.is-correct').length,1);
+  assert.equal(cards[0].querySelectorAll('.tb-review-option.is-wrong').length,1);
+  const cur=w.document.querySelector('.tb-review-navcell.cur');
+  assert.equal(cur.dataset.reviewGoto,'1');
+  assert.equal(cur.getAttribute('aria-current'),'true');
+  assert.ok(cur.classList.contains('incorrect'));
+  assert.equal(w.document.querySelectorAll('.tb-review-navcell[aria-current="true"]').length,1);
+  assert.equal(score(w),originalScore);
+  assert.deepEqual(h.errors,[]);
+ } finally { await h.close(); }
 });
