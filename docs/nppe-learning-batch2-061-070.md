@@ -372,3 +372,8 @@ D. Report the credits already earned and schedule the missing plan, ethics and c
 - The 2015 CanadaBuys change-services clause is labeled as a historical contractual example, not 2026 law; Item 067 supplies its operative authority clause as a hypothetical.
 - Answers revealed in untimed mode are assisted practice, not readiness evidence. The current-authenticated delivery, bank isolation, and answer-review behavior require CI verification on each latest commit.
 - Independent Canadian licensed professional/legal review and pilot calibration remain release gates. NPPE catalogue remains `coming_soon`; PR #301 remains draft and unmerged.
+
+
+## Subsequent whole-bank review — 2026-10-16
+
+This batch document records its original authoring state. The comprehensive review revises 063, 064 classification labels with version 2. The canonical current item text is in the batch JS; see `docs/nppe-learning-comprehensive-review.md` for reasons and replacement provenance. Original numbering, answer positions and domain totals are preserved.

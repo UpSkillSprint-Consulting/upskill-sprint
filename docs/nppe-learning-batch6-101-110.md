@@ -420,3 +420,8 @@ D. A protective restriction can operate during the investigation without itself 
 - [NPPE, published 2017 blueprint](https://www.nppexam.ca/en/preparation/blueprint/) — VI.1 — Discipline Procedures (*official-blueprint*)
 
 **Metadata:** `nppe:set-1:learning:110`, version 1, family `bc-extraordinary-action-interim-protection-not-final-guilt`. Reviewed 2026-10-15. Editorial estimate; not empirically calibrated; independent SME/legal and psychometric validation pending.
+
+
+## Subsequent whole-bank review — 2026-10-16
+
+This batch document records its original authoring state. The comprehensive review revises 106 replacement continuing-use retention scenario with version 2. The canonical current item text is in the batch JS; see `docs/nppe-learning-comprehensive-review.md` for reasons and replacement provenance. Original numbering, answer positions and domain totals are preserved.

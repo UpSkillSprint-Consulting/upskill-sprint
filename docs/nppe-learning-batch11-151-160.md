@@ -375,3 +375,8 @@ The expanded regression suite checks all 110 Learning questions, 440 rationales,
 Run results and exact tested commit are recorded in PR #301 after execution; this document does not pre-claim those results. Passing fixtures do not verify production accounts, constitute independent content approval, or calibrate empirical difficulty. Existing axe incomplete checks require manual review. Public Git history retains the previously accepted source-privacy limitation.
 
 Remaining: independent licensed engineering/geoscience and Canadian-law SME review; candidate calibration; real production-account entitlement lifecycle verification; explicit release authorization. No migration, grant, deployment or merge is authorized. Next is **Batch 12, NPPE-161–170**, final ten Learning items, allocation **I0 / II2 / III6 / IV2 / V0 / VI0**. Provisional analysis classifications must reflect actual demand rather than be inflated to reach a numerical target.
+
+
+## Subsequent whole-bank review — 2026-10-16
+
+This batch document records its original authoring state. The comprehensive review revises 159 replacement V.4 society-benefits scenario with version 2. The canonical current item text is in the batch JS; see `docs/nppe-learning-comprehensive-review.md` for reasons and replacement provenance. Original numbering, answer positions and domain totals are preserved.

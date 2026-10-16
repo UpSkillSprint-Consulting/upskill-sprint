@@ -208,31 +208,31 @@
     "sub": "nppe-practice",
     "difficulty": "medium",
     "cognitiveLevel": "application",
-    "questionFamily": "retention-usable-format-before-software-retirement",
-    "learningObjective": "Distinguish retaining file bytes from retaining usable engineering records.",
-    "jurisdiction": "Canada; the project records must still be retained under applicable obligations. Authorized preservation is possible; no bypass of software licensing or access controls is proposed.",
-    "stem": "A firm is retiring the only workstation that can open proprietary analysis files for projects still within their required retention periods. Backups contain intact copies of the files, but the replacement systems cannot read them. What should the responsible engineer arrange before the workstation is retired?",
+    "questionFamily": "continuing-use-record-retention-trigger",
+    "learningObjective": "Distinguish project completion from the retention trigger for documents used in continuing work.",
+    "jurisdiction": "British Columbia; the drawing is a record used in continuing work. No longer contractual period, litigation hold or other preservation obligation applies. The question concerns the minimum retention trigger, not a destruction authorization.",
+    "stem": "A BC firm created a standard engineering detail for a project that ended years ago. The same controlled detail remains in use for continuing work. An archive schedule starts its minimum retention clock at the end of the original project. Which approach follows EGBC’s stated retention guidance for this continuing-use record?",
     "options": [
-      "Copy the same unreadable files to a second backup drive and treat the added copy as proof of future accessibility.",
-      "Keep the filenames and final reported values, then delete the underlying records because the projects are complete.",
-      "Rename the files with a common document extension and assume the replacement systems will interpret their contents.",
-      "Validate a preservation route that retains accessible content and necessary context before removing the last working reader."
+      "Keep the original project-end trigger because later use of a controlled detail cannot affect its retention period.",
+      "Start a fresh period whenever a backup copy is made, regardless of whether the detail remains in use.",
+      "Use the date the original author leaves the firm because their departure ends the record’s professional purpose.",
+      "Start the applicable minimum period when the detail is no longer in use, while checking other retention obligations."
     ],
     "answer": 3,
     "optionRationales": [
-      "Additional copies protect against loss of bytes, but they do not resolve the inability to interpret a proprietary format.",
-      "A list of filenames and final values cannot substitute for the required underlying project records while retention obligations continue.",
-      "Changing a filename extension does not convert a file’s structure or preserve its meaning in a different application.",
-      "Preservation needs a workable, checked means of accessing the required information and its context, not merely stored bytes."
+      "The guidance distinguishes completed project records from documents used in continuing work; the original project end does not settle this case.",
+      "Backup creation is not the stated trigger for continuing-use records and does not establish when their working use ends.",
+      "An author’s departure does not end the continuing use of a record or remove the firm’s retention obligations.",
+      "EGBC specifies at least ten years after a document used in continuing work is no longer in use; other obligations may require longer retention."
     ],
-    "keyPoint": "Record retention includes continued usability; assess migration or other authorized preservation before technology disappears.",
-    "trap": "Assuming an intact backup is sufficient when no available system can read it.",
+    "keyPoint": "A continuing-use record has a retention trigger tied to the end of its use.",
+    "trap": "Applying the original project completion date to a document still used in continuing work.",
     "sources": [
       {
-        "sourceType": "government-technical-guidance",
-        "title": "Canadian Heritage Information Network, Digital Preservation Decision Tree Model",
-        "locator": "Digital format access and migration path; preservation metadata. Technical preservation principles only, not engineering retention law",
-        "url": "https://www.canada.ca/en/heritage-information-network/services/digital-preservation/decision-tree.html"
+        "sourceType": "regulator-records-guidance-bc",
+        "title": "Engineers and Geoscientists BC, Practice Advisor FAQs",
+        "locator": "Employment and Business, question 6: ten years after project end or after a document used in continuing work is no longer in use; longer legal or business periods may apply",
+        "url": "https://www.egbc.ca/registrants/practice-resources/practice-advice-program/practice-advisor-faqs"
       },
       {
         "sourceType": "official-blueprint",
@@ -240,7 +240,9 @@
         "locator": "III.8 — Document Authentication and Control",
         "url": "https://www.nppexam.ca/en/preparation/blueprint/"
       }
-    ]
+    ],
+    "version": 2,
+    "editorialReviewedAt": "2026-10-16"
   },
   {
     "blueprint": "IV.2",

@@ -90,7 +90,7 @@
     "blueprint": "II.4",
     "sub": "nppe-ethics",
     "difficulty": "medium",
-    "cognitiveLevel": "analysis",
+    "cognitiveLevel": "application",
     "questionFamily": "actual-hours-billing-vs-managerial-pressure",
     "learningObjective": "Resolve an integrity conflict when a time-and-materials client invoice would knowingly overstate billable professional time.",
     "jurisdiction": "Canada; signed client agreement expressly pays for actual eligible professional hours; no authorized fixed-fee or minimum-charge clause.",
@@ -134,12 +134,14 @@
         "locator": "II.4 — Common Ethical Issues and Dilemmas; Making Ethical Decisions",
         "url": "https://www.nppexam.ca/en/preparation/blueprint/"
       }
-    ]
+    ],
+    "version": 2,
+    "editorialReviewedAt": "2026-10-16"
   },
   {
     "blueprint": "III.5",
     "sub": "nppe-practice",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "cognitiveLevel": "analysis",
     "questionFamily": "calibration-failed-inspection-results-quality-control-hold-release",
     "learningObjective": "Identify due-diligence and quality-management steps when inspection equipment is found out of tolerance.",
@@ -178,7 +180,9 @@
         "locator": "III.5 — Risk Management, Insurance, Quality Management and Due Diligence",
         "url": "https://www.nppexam.ca/en/preparation/blueprint/"
       }
-    ]
+    ],
+    "version": 2,
+    "editorialReviewedAt": "2026-10-16"
   },
   {
     "blueprint": "III.6",
@@ -450,7 +454,7 @@
  function escape(value){return String(value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
  questions.forEach(function(q,i){
   var id=String(i+61).padStart(3,'0');
-  Object.assign(q,{qid:'nppe:set-1:learning:'+id,legacyId:'NPPE-'+id,version:1,batch:2,authorSet:1,author:'ChatGPT',form:'set-1-learning',bank:'learning',set:1,original:true,scored:true,experimental:false,releaseStatus:'released',reviewStatus:'source-checked; independent professional/legal and empirical review pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-14',blueprintVersion:'2017 current on official NPPE site at 2026-10-14',difficultyBasis:'Provisional editorial judgment; not empirically calibrated'});
+  Object.assign(q,{qid:'nppe:set-1:learning:'+id,legacyId:'NPPE-'+id,version:q.version||1,batch:2,authorSet:1,author:'ChatGPT',form:'set-1-learning',bank:'learning',set:1,original:true,scored:true,experimental:false,releaseStatus:'released',reviewStatus:'source-checked; independent professional/legal and empirical review pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-14',blueprintVersion:'2017 current on official NPPE site at 2026-10-14',difficultyBasis:'Provisional editorial judgment; not empirically calibrated'});
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||!q.sources.length||!q.learningObjective||!q.questionFamily)throw new Error('Invalid Learning Batch 2 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return(s.url&&s.url.startsWith('https://')?'<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a>':escape(s.title))+' — '+escape(s.locator)+' ['+escape(s.sourceType)+']'+(s.limitation?' (Historical limitation: '+escape(s.limitation)+')':'');}).join('; ')+'.</p><p>Original Set 1 Learning item; assistance and repeat attempts do not establish NPPE readiness.</p>';
  });

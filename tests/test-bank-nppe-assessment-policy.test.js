@@ -59,7 +59,7 @@ test('delivered NPPE forms withhold answers in both timing modes and score only 
   const catalog = await harness();
   const exam = catalog.w.__TB.EXAMS.nppe;
   const forms = Array.from(exam.formCatalog)
-    .filter(form => ['diagnostic', 'mock'].includes(form.kind) && (exam.forms[form.id] || []).length > 0)
+    .filter(form => ['diagnostic', 'mock'].includes(form.kind) && (exam.forms[form.id] || []).length > 0 && (form.kind !== 'mock' || exam.forms[form.id].length === form.target))
     .map(form => ({id: form.id, owner: form.authorSet, kind: form.kind, count: exam.forms[form.id].length}));
   assert.ok(forms.some(form => form.id === 'set-1-diagnostic'), 'Diagnostic must be covered');
   assert.ok(forms.some(form => form.id === 'mock-d'), 'Mock D must be covered');
@@ -121,4 +121,26 @@ test('delivered NPPE forms withhold answers in both timing modes and score only 
       } finally { h.close(); }
     });
   }
+});
+
+// Partial authoring must never turn into a short full mock or borrow a ready form.
+test('partial Mock A is visible, disabled and cannot substitute another bank', async () => {
+ const h=await harness(), {w,d}=h;
+ try {
+  const e=w.__TB.EXAMS.nppe;
+  assert.equal(e.forms['set-1-mock-a'].length,10);
+  assert.equal(e.formCatalog.find(f=>f.id==='set-1-mock-a').target,110);
+  const control=d.querySelector('[data-set="set-1-mock-a"]');
+  assert.equal(control.disabled,true);
+  assert.match(control.textContent,/10/);
+  control.dispatchEvent(new w.Event('click'));
+  assert.equal(w.__TB.getFeedbackSnapshot(),null);
+  assert.equal(d.querySelector('[data-mode="full"]').disabled,true);
+  d.querySelector('[data-mode="full"]').dispatchEvent(new w.Event('click'));
+  assert.equal(d.querySelector('.tb-quiz'),null);
+  assert.equal(e.forms['set-1-learning'].length,120);
+  assert.equal(e.forms['set-1-diagnostic'].length,50);
+  for(const id of ['mock-d','mock-e'])assert.equal(e.forms[id].length,110);
+  assert.deepEqual(h.errors,[]);
+ } finally {h.close();}
 });

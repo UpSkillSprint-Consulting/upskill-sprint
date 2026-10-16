@@ -418,3 +418,8 @@ D. Take an unrelated eligible course to increase the credit total and use the la
 - [NPPE, published 2017 blueprint](https://www.nppexam.ca/en/preparation/blueprint/) — VI.4 — Continuing Professional Development (*official-blueprint*)
 
 **Metadata:** `nppe:set-1:learning:100`, version 1, family `cpd-evaluate-learning-gap-beyond-attendance`. Source review: 2026-10-15. Editorial estimate; not empirically calibrated; independent SME/legal and psychometric validation pending.
+
+
+## Subsequent whole-bank review — 2026-10-16
+
+This batch document records its original authoring state. The comprehensive review revises 099 primary mapping to V.1 with version 2. The canonical current item text is in the batch JS; see `docs/nppe-learning-comprehensive-review.md` for reasons and replacement provenance. Original numbering, answer positions and domain totals are preserved.

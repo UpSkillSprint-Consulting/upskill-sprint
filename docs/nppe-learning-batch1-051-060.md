@@ -394,3 +394,8 @@ D. Treat a delay allegation as invalid unless the contractor can show an already
 - IV.14 covers Indigenous consultation under section 35, easement rights and contractual delay/impact claims. The proponent does not take over the Crown's constitutional consultation duty.
 - In the simulator, learning mode remains separate from Diagnostic and all five Mocks. **Untimed Reveal Answer** is study assistance; such attempts must not be represented as readiness evidence.
 - An independent licensed Canadian engineering/geoscience and legal subject-matter review, pilot psychometric calibration and real-user access/revocation tests remain required before any public release.
+
+
+## Subsequent whole-bank review — 2026-10-16
+
+This batch document records its original authoring state. The comprehensive review revises 054, 056, 058 classification labels with version 2. The canonical current item text is in the batch JS; see `docs/nppe-learning-comprehensive-review.md` for reasons and replacement provenance. Original numbering, answer positions and domain totals are preserved.

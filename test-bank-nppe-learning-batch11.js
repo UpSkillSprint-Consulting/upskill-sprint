@@ -327,43 +327,45 @@
     ]
   },
   {
-    "blueprint": "V.2",
+    "blueprint": "V.4",
     "sub": "nppe-professional-law",
     "difficulty": "medium",
     "cognitiveLevel": "application",
-    "questionFamily": "nonaccredited-degree-academic-assessment-not-automatic-rejection",
-    "learningObjective": "Identify individual academic assessment as a route for a non-accredited engineering degree.",
-    "jurisdiction": "British Columbia; an applicant with a university-level bachelor’s degree in engineering. No Canadian mobility or international recognition shortcut is assumed; no particular examination assignment or waiver is guaranteed.",
-    "stem": "An applicant holds a university engineering degree that EGBC treats as non-accredited. The applicant assumes that the only possible route to registration is to repeat an entire accredited bachelor’s degree. What is the most appropriate correction?",
+    "questionFamily": "technical-society-development-benefits-versus-regulatory-dues",
+    "learningObjective": "Select professional-society activities that support technical development without confusing membership with regulatory authorization.",
+    "jurisdiction": "Canada; CSCE is a voluntary technical society. No specific fee, automatic CPD credit or licence exemption is assumed.",
+    "stem": "A civil engineer has already renewed the required provincial registration. The engineer seeks cross-firm technical discussions, specialist learning and opportunities to contribute to the profession. A manager says joining the Canadian Society for Civil Engineering would merely duplicate the registration payment. Which response best explains the different purpose?",
     "options": [
-      "A non-accredited degree automatically satisfies the academic requirement once the applicant passes the NPPE.",
-      "Academic assessment is unavailable unless the applicant first becomes licensed in another Canadian province.",
-      "EGBC can assess the academic record and may require examinations; a complete second degree is not automatic.",
-      "The applicant’s employer can certify academic equivalence and require EGBC to accept that certification."
+      "Society membership transfers responsibility for the engineer’s technical decisions to its volunteer committees.",
+      "Society membership replaces the regulator’s competence requirements whenever a member attends its events.",
+      "Society activities provide technical exchange and development opportunities alongside the engineer’s regulatory obligations.",
+      "Society activities guarantee that all attendance qualifies for every regulator’s annual continuing-development requirements."
     ],
     "answer": 2,
     "optionRationales": [
-      "The NPPE addresses professional practice; passing it does not automatically establish the academic engineering requirement.",
-      "The published process provides for academic assessment of applicants with non-accredited degrees.",
-      "The regulator reviews the application and determines whether academic examinations or other requirements apply.",
-      "An employer’s opinion does not bind the regulator’s assessment of academic qualifications."
+      "Voluntary committee participation does not transfer responsibility for an individual engineer’s professional decisions.",
+      "Development opportunities can support competence but do not replace the requirements imposed by the applicable regulator.",
+      "CSCE offers technical learning, networking and committee participation; these benefits complement rather than confer regulatory authorization.",
+      "Activity eligibility and reporting depend on the applicable regulator’s program; membership does not guarantee universal credit."
     ],
-    "keyPoint": "Non-accredited does not mean automatically ineligible for academic assessment.",
-    "trap": "Treating absence of recognized accreditation as a mandatory full-degree restart.",
+    "keyPoint": "Technical societies support knowledge exchange and professional development alongside regulatory responsibilities.",
+    "trap": "Equating voluntary professional-development membership with statutory registration.",
     "sources": [
       {
-        "sourceType": "regulator-admission-guidance-bc",
-        "title": "Engineers and Geoscientists BC, Apply to Be a Professional Engineer in BC",
-        "locator": "Academic Requirements and non-accredited-degree application documents; examination requirements determined after review",
-        "url": "https://www.egbc.ca/How-To-Apply/Register-As-An-Engineer/Professional-Engineer/Apply-To-Be-A-Professional-Engineer-In-Bc"
+        "sourceType": "primary-professional-society",
+        "title": "Canadian Society for Civil Engineering, Membership",
+        "locator": "Benefits of Membership: technical learning, networking and committee volunteering; note identifying CSCE as a voluntary society",
+        "url": "https://csce.ca/membership/"
       },
       {
         "sourceType": "official-blueprint",
         "title": "NPPE, published 2017 blueprint",
-        "locator": "V.2 — Admission to the Professions",
+        "locator": "V.4 — Professional and Technical Societies",
         "url": "https://www.nppexam.ca/en/preparation/blueprint/"
       }
-    ]
+    ],
+    "version": 2,
+    "editorialReviewedAt": "2026-10-16"
   },
   {
     "blueprint": "VI.1",

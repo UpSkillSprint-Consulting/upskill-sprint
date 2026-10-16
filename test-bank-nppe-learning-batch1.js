@@ -147,8 +147,8 @@
   {
     "blueprint": "IV.10",
     "sub": "nppe-law",
-    "difficulty": "hard",
-    "cognitiveLevel": "analysis",
+    "difficulty": "medium",
+    "cognitiveLevel": "application",
     "questionFamily": "international-treaty-canadian-domestic-implementation",
     "learningObjective": "Recognize the distinction between Canada's international obligations and their domestic legal implementation.",
     "jurisdiction": "Canada; hypothetical treaty obligation has not been incorporated in applicable federal or provincial domestic legislation.",
@@ -193,7 +193,9 @@
         "locator": "IV.10 — International Law",
         "url": "https://www.nppexam.ca/en/preparation/blueprint/"
       }
-    ]
+    ],
+    "version": 2,
+    "editorialReviewedAt": "2026-10-16"
   },
   {
     "blueprint": "IV.13",
@@ -248,7 +250,7 @@
   {
     "blueprint": "IV.13",
     "sub": "nppe-law",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "cognitiveLevel": "analysis",
     "questionFamily": "federal-disability-accommodation-undue-hardship-evidence",
     "learningObjective": "Apply evidence-based reasonable accommodation and undue-hardship principles to a safety-sensitive federally regulated role.",
@@ -287,7 +289,9 @@
         "locator": "IV.13 — Human Rights and Privacy Legislation",
         "url": "https://www.nppexam.ca/en/preparation/blueprint/"
       }
-    ]
+    ],
+    "version": 2,
+    "editorialReviewedAt": "2026-10-16"
   },
   {
     "blueprint": "IV.13",
@@ -342,8 +346,8 @@
   {
     "blueprint": "IV.14",
     "sub": "nppe-law",
-    "difficulty": "hard",
-    "cognitiveLevel": "analysis",
+    "difficulty": "medium",
+    "cognitiveLevel": "application",
     "questionFamily": "indigenous-crown-consultation-proponent-procedural-support",
     "learningObjective": "Distinguish the Crown's constitutional duty to consult from a project proponent's possible procedural or engagement roles.",
     "jurisdiction": "Canada; a Crown authorization is contemplated, an Indigenous nation has asserted section 35 rights, and potential adverse impacts are credible.",
@@ -387,7 +391,9 @@
         "locator": "IV.14 — Further Areas of Law (Aboriginal Law)",
         "url": "https://www.nppexam.ca/en/preparation/blueprint/"
       }
-    ]
+    ],
+    "version": 2,
+    "editorialReviewedAt": "2026-10-16"
   },
   {
     "blueprint": "IV.14",
@@ -481,7 +487,7 @@
  function escape(value){return String(value).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
  questions.forEach(function(q,i){
    var id=String(i+51).padStart(3,'0');
-   Object.assign(q,{qid:'nppe:set-1:learning:'+id,legacyId:'NPPE-'+id,version:1,batch:1,authorSet:1,author:'ChatGPT',form:'set-1-learning',bank:'learning',set:1,original:true,scored:true,experimental:false,releaseStatus:'released',reviewStatus:'primary-sources-crosschecked; independent legal/psychometric review pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-14',blueprintVersion:'2017 (official NPPE site on 2026-10-14)',difficultyBasis:'Provisional editorial judgement; no empirical calibration'});
+   Object.assign(q,{qid:'nppe:set-1:learning:'+id,legacyId:'NPPE-'+id,version:q.version||1,batch:1,authorSet:1,author:'ChatGPT',form:'set-1-learning',bank:'learning',set:1,original:true,scored:true,experimental:false,releaseStatus:'released',reviewStatus:'primary-sources-crosschecked; independent legal/psychometric review pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-14',blueprintVersion:'2017 (official NPPE site on 2026-10-14)',difficultyBasis:'Provisional editorial judgement; no empirical calibration'});
    if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||!q.sources.length||!q.learningObjective||!q.questionFamily)throw new Error('Invalid NPPE Learning item '+id);
    q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return(s.url&&s.url.startsWith('https://')?'<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a>':escape(s.title))+' — '+escape(s.locator)+' ['+escape(s.sourceType)+']'+(s.limitation?' (Limitation: '+escape(s.limitation)+')':'');}).join('; ')+'.</p><p>Original question, learning mode only. This result is not the official NPPE scaled score or a pass prediction.</p>';
  });

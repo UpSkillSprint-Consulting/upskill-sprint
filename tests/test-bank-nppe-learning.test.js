@@ -224,14 +224,14 @@ test('Batch 5 covers the planned domains with original questions and qualified s
  const api=learningFive(),all=Array.from(api.NPPE_LEARNING),q=Array.from(api.NPPE_LEARNING_BATCH5);
  assert.equal(all.length,50);assert.equal(q.length,10);
  assert.deepEqual(q.map(x=>x.legacyId),Array.from({length:10},(_,i)=>'NPPE-'+String(91+i).padStart(3,'0')));
- assert.deepEqual(q.map(x=>x.blueprint),['I.3','II.4','II.3','III.5','III.5','III.9','IV.7','IV.12','V.2','VI.4']);
+ assert.deepEqual(q.map(x=>x.blueprint),['I.3','II.4','II.3','III.5','III.5','III.9','IV.7','IV.12','V.1','VI.4']);
  assert.deepEqual(Object.fromEntries('ABCD'.split('').map((key,i)=>[key,q.filter(x=>x.answer===i).length])),{A:2,B:3,C:3,D:2});
  assert.deepEqual(['I','II','III','IV','V','VI'].map(d=>q.filter(x=>x.area===d).length),[1,2,3,2,1,1]);
  assert.deepEqual(['I','II','III','IV','V','VI'].map(d=>all.filter(x=>x.area===d).length),[4,8,12,18,4,4]);
  assert.deepEqual(['understanding','application','analysis'].map(level=>q.filter(x=>x.cognitiveLevel===level).length),[2,6,2]);
  assert.deepEqual(['easy','medium','hard'].map(level=>q.filter(x=>x.difficulty===level).length),[2,8,0]);
  assert.equal(new Set(all.map(x=>x.qid)).size,50);assert.equal(new Set(all.map(x=>x.questionFamily)).size,50);
- assert.ok(q.every(x=>x.version===1&&x.batch===5&&x.bank==='learning'&&x.form==='set-1-learning'&&x.authorSet===1&&x.original&&x.scored&&!x.experimental));
+ assert.ok(q.every(x=>x.version===(x.legacyId==='NPPE-099'?2:1)&&x.batch===5&&x.bank==='learning'&&x.form==='set-1-learning'&&x.authorSet===1&&x.original&&x.scored&&!x.experimental));
  assert.ok(q.every(x=>x.options.length===4&&new Set(x.options).size===4&&Number.isInteger(x.answer)&&x.answer>=0&&x.answer<4));
  assert.ok(q.every(x=>x.optionRationales.length===4&&x.optionRationales.every(r=>r.length>40)));
  assert.ok(q.every(x=>x.sources.length>=2&&x.sources.some(source=>source.sourceType==='official-blueprint')));
@@ -278,7 +278,7 @@ test('Batch 6 covers the planned domains with original questions and qualified s
  assert.deepEqual(['understanding','application','analysis'].map(level=>q.filter(x=>x.cognitiveLevel===level).length),[2,6,2]);
  assert.deepEqual(['easy','medium','hard'].map(level=>q.filter(x=>x.difficulty===level).length),[2,8,0]);
  assert.equal(new Set(all.map(x=>x.qid)).size,60);assert.equal(new Set(all.map(x=>x.questionFamily)).size,60);
- assert.ok(q.every(x=>x.version===1&&x.batch===6&&x.bank==='learning'&&x.form==='set-1-learning'&&x.authorSet===1&&x.original&&x.scored&&!x.experimental));
+ assert.ok(q.every(x=>x.version===(x.legacyId==='NPPE-106'?2:1)&&x.batch===6&&x.bank==='learning'&&x.form==='set-1-learning'&&x.authorSet===1&&x.original&&x.scored&&!x.experimental));
  assert.ok(q.every(x=>x.options.length===4&&new Set(x.options).size===4&&Number.isInteger(x.answer)&&x.answer>=0&&x.answer<4));
  assert.ok(q.every(x=>x.optionRationales.length===4&&x.optionRationales.every(r=>r.length>40)));
  assert.ok(q.every(x=>x.sources.length>=2&&x.sources.some(source=>source.sourceType==='official-blueprint')));
@@ -289,7 +289,8 @@ test('Batch 6 covers the planned domains with original questions and qualified s
  const words=x=>x.trim().split(/\s+/).length;
  assert.ok(q.filter(x=>words(x.options[x.answer])<Math.min(...x.options.filter((_,i)=>i!==x.answer).map(words))).length<=3,'Shortest-answer cue');
  assert.match(q[2].jurisdiction,/cannot discharge both/);
- assert.match(q[5].jurisdiction,/no bypass/);
+ assert.match(q[5].jurisdiction,/continuing work/);
+ assert.match(q[5].sources[0].locator,/no longer in use/);
  assert.ok([q[6],q[7]].every(x=>x.sources.some(source=>source.sourceType==='primary-court'&&/403/.test(source.verificationNote))));
  assert.match(q[7].jurisdiction,/New Brunswick.*No deadline/);
  assert.match(q[8].jurisdiction,/Ontario/);
@@ -526,7 +527,7 @@ test('Batch 11 covers the planned domains with original questions and qualified 
  const api=learningEleven(),all=Array.from(api.NPPE_LEARNING),q=Array.from(api.NPPE_LEARNING_BATCH11);
  assert.equal(all.length,110);assert.equal(q.length,10);
  assert.deepEqual(q.map(x=>x.legacyId),Array.from({length:10},(_,i)=>'NPPE-'+String(151+i).padStart(3,'0')));
- assert.deepEqual(q.map(x=>x.blueprint),['I.1','II.3','II.4','III.1','III.8','III.10','IV.2','IV.7','V.2','VI.1']);
+ assert.deepEqual(q.map(x=>x.blueprint),['I.1','II.3','II.4','III.1','III.8','III.10','IV.2','IV.7','V.4','VI.1']);
  assert.deepEqual(Object.fromEntries('ABCD'.split('').map((key,i)=>[key,q.filter(x=>x.answer===i).length])),{A:2,B:3,C:3,D:2});
  assert.deepEqual(['I','II','III','IV','V','VI'].map(d=>q.filter(x=>x.area===d).length),[1,2,3,2,1,1]);
  assert.deepEqual(['I','II','III','IV','V','VI'].map(d=>all.filter(x=>x.area===d).length),[10,20,30,30,10,10]);
@@ -535,7 +536,7 @@ test('Batch 11 covers the planned domains with original questions and qualified 
  const domainSubs={I:'nppe-professionalism',II:'nppe-ethics',III:'nppe-practice',IV:'nppe-law',V:'nppe-professional-law',VI:'nppe-discipline'};
  assert.ok(all.every(x=>x.sub===domainSubs[x.area]),'Every Learning item must use its registered domain subtopic');
  assert.equal(new Set(all.map(x=>x.qid)).size,110);assert.equal(new Set(all.map(x=>x.questionFamily)).size,110);
- assert.ok(q.every(x=>x.version===1&&x.batch===11&&x.bank==='learning'&&x.form==='set-1-learning'&&x.authorSet===1&&x.original&&x.scored&&!x.experimental));
+ assert.ok(q.every(x=>x.version===(x.legacyId==='NPPE-159'?2:1)&&x.batch===11&&x.bank==='learning'&&x.form==='set-1-learning'&&x.authorSet===1&&x.original&&x.scored&&!x.experimental));
  assert.ok(q.every(x=>x.options.length===4&&new Set(x.options).size===4&&Number.isInteger(x.answer)&&x.answer>=0&&x.answer<4));
  assert.ok(q.every(x=>x.optionRationales.length===4&&x.optionRationales.every(r=>r.length>40)));
  assert.ok(q.every(x=>x.sources.length>=2&&x.sources.some(source=>source.sourceType==='official-blueprint')));
@@ -557,7 +558,8 @@ test('Batch 11 covers the planned domains with original questions and qualified 
  assert.match(q[6].jurisdiction,/unaffiliated.*no statutory exception/);
  assert.match(q[7].jurisdiction,/no licence, consent, prior-user right/);
  assert.ok(q[7].sources.some(source=>source.sourceType==='primary-legislation'&&/42/.test(source.locator)));
- assert.match(q[8].jurisdiction,/waiver is guaranteed/);
+ assert.match(q[8].jurisdiction,/voluntary technical society/);
+ assert.ok(q[8].sources.some(source=>source.sourceType==='primary-professional-society'));
  assert.ok(q[9].sources.some(source=>source.sourceType==='primary-legislation'&&/58\(4\)/.test(source.locator)));
  const ctx={window:{}};vm.runInNewContext(read('test-bank-nppe-set2.js')+'\n'+read('test-bank-nppe-set3.js'),ctx);
  const earlier=legacyDiagnostic().concat(all.slice(0,100),Array.from(ctx.window.NPPE_SET2),Array.from(ctx.window.NPPE_SET3));assert.equal(earlier.length,370);

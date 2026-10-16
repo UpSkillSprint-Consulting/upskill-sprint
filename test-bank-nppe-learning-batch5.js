@@ -326,7 +326,7 @@
     ]
   },
   {
-    "blueprint": "V.2",
+    "blueprint": "V.1",
     "sub": "nppe-professional-law",
     "difficulty": "medium",
     "cognitiveLevel": "application",
@@ -359,10 +359,12 @@
       {
         "sourceType": "official-blueprint",
         "title": "NPPE, published 2017 blueprint",
-        "locator": "V.2 — Admission to the Professions",
+        "locator": "V.1 — Acts, Regulations, and Bylaws: scope of practice and statutory authorization",
         "url": "https://www.nppexam.ca/en/preparation/blueprint/"
       }
-    ]
+    ],
+    "version": 2,
+    "editorialReviewedAt": "2026-10-16"
   },
   {
     "blueprint": "VI.4",
