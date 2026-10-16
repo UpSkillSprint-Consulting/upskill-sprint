@@ -121,7 +121,7 @@ def main():
                     expect(page.locator('#nppe-banks-2')).to_be_hidden()
                     expect(page.locator('#nppe-banks-3')).to_be_hidden()
                     expect(page.locator('[data-set="set-1-diagnostic"] .tb-sets')).to_have_text(str(EXPECTED_COUNT))
-                    expect(page.locator('[data-set="set-1-mock-a"] .tb-sets')).to_have_text('30')
+                    expect(page.locator('[data-set="set-1-mock-a"] .tb-sets')).to_have_text('40')
                     expect(page.locator('[data-set="set-1-mock-a"]')).to_be_disabled()
                     expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_COUNT} of 50 planned')
                     expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_MINUTES} minutes')
@@ -289,7 +289,7 @@ def main():
                     assert not errors, errors
                     result = {'case': name, 'result': 'PASS', 'score': f'{EXPECTED_COUNT}/{EXPECTED_COUNT}', 'domains': 6,
                               'batch3Rendered': batch3_checked, 'batch4Rendered': batch4_checked, 'batch5Rendered': batch5_checked, 'learningQuestionsRendered': LEARNING_COUNT, 'learningAssistedReveal': True, 'learningReviewQuestions': LEARNING_COUNT, 'keyboardTabs': True, 'flagsAndNavigation': True,
-                              'mockAAuthored': 30, 'mockADisabled': True, 'revealBlocked': True, 'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
+                              'mockAAuthored': 40, 'mockADisabled': True, 'revealBlocked': True, 'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
                     result.update(learningUnassistedScore=f'{LEARNING_COUNT}/{LEARNING_COUNT}', learningAssistedScore=f'{LEARNING_COUNT-1}/{LEARNING_COUNT}',
                                   learningDomainTotals=LEARNING_DOMAINS, learningRationalesVerified=LEARNING_COUNT*4,
                                   learningKeyboardAndPersistence=True, accessibility=accessibility)
