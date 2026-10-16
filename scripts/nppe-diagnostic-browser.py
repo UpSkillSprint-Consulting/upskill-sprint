@@ -15,9 +15,9 @@ from playwright.sync_api import expect, sync_playwright
 helpers = runpy.run_path(str(Path(__file__).with_name('exam-practice-browser.py')))
 EXPECTED_COUNT = 50
 EXPECTED_MINUTES = 69
-LEARNING_COUNT = 110
-LEARNING_MINUTES = 150
-LEARNING_DOMAINS = [10, 20, 30, 30, 10, 10]
+LEARNING_COUNT = 120
+LEARNING_MINUTES = 164
+LEARNING_DOMAINS = [10, 22, 36, 32, 10, 10]
 AXE_PATH = Path(__file__).parent / 'student-audit-tools/node_modules/axe-core/axe.min.js'
 
 
@@ -196,13 +196,15 @@ def main():
                     page.locator('[data-set="set-1-learning"]').click()
                     expect(page.locator('[data-set="set-1-learning"] .tb-sets')).to_have_text(str(LEARNING_COUNT))
                     expect(page.locator('#tb-overview')).to_contain_text(f'{LEARNING_COUNT} of 120 planned')
-                    expect(page.locator('#tb-overview')).to_contain_text('Partial learning bank')
+                    expect(page.locator('#tb-overview')).not_to_contain_text(re.compile('partial learning bank', re.I))
+                    expect(page.locator('#tb-overview .tb-soon')).to_contain_text('Available for practice')
+                    assert page.evaluate('window.__TB.EXAMS.nppe.learning.complete') is True
                     expect(page.locator('#tb-overview')).to_contain_text(f'{LEARNING_MINUTES} minutes')
                     header_images_fit()
                     check_accessibility('learning-bank-selector')
                     page.locator('[data-mode="full"]').click()
                     expect(page.locator('[data-goto]')).to_have_count(LEARNING_COUNT)
-                    expect(page.locator('#tb-timer')).to_have_text(re.compile(r'^(2:30:00|2:29:5\d)$'))
+                    expect(page.locator('#tb-timer')).to_have_text(re.compile(r'^(2:44:00|2:43:5\d)$'))
                     expect(page.locator('[data-reveal]')).to_have_count(0)
                     assert page.evaluate('window.__TB.revealCurrentAnswer()') is False
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===2).length") == 10
@@ -215,6 +217,7 @@ def main():
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===9).length") == 10
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===10).length") == 10
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===11).length") == 10
+                    assert page.evaluate("window.__TB.getFeedbackSnapshot().records.filter(r=>r.question.batch===12).length") == 10
                     assert page.evaluate("window.__TB.getFeedbackSnapshot().records.every(r=>r.question.form==='set-1-learning'&&r.question.authorSet===1)")
                     # Keyboard answering, flagging and persistence across navigation in Learning itself.
                     first = page.evaluate('window.__TB.getFeedbackSnapshot().records[0].question')
