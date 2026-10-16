@@ -3,16 +3,16 @@ const test=require('node:test'), assert=require('node:assert/strict'), fs=requir
 const root=path.resolve(__dirname,'..'), read=p=>fs.readFileSync(path.join(root,p),'utf8');
 function banks(){
  const c={window:{}};
- for(const file of ['test-bank-nppe-diagnostic-batch2.js','test-bank-nppe-diagnostic.js','test-bank-nppe-diagnostic-batch3.js','test-bank-nppe-diagnostic-batch4.js','test-bank-nppe-diagnostic-batch5.js',...Array.from({length:12},(_,i)=>`test-bank-nppe-learning-batch${i+1}.js`),'test-bank-nppe-set2.js','test-bank-nppe-set3.js','test-bank-nppe-mock-a-batch1.js'])vm.runInNewContext(read(file),c);
+ for(const file of ['test-bank-nppe-diagnostic-batch2.js','test-bank-nppe-diagnostic.js','test-bank-nppe-diagnostic-batch3.js','test-bank-nppe-diagnostic-batch4.js','test-bank-nppe-diagnostic-batch5.js',...Array.from({length:12},(_,i)=>`test-bank-nppe-learning-batch${i+1}.js`),'test-bank-nppe-set2.js','test-bank-nppe-set3.js','test-bank-nppe-mock-a-batch1.js','test-bank-nppe-mock-a-batch2.js'])vm.runInNewContext(read(file),c);
  return c.window;
 }
-test('Mock A starts with ten original, sourced items, independent IDs and explicit scoring roles',()=>{
+test('Mock A contains twenty original, sourced items, independent IDs and explicit scoring roles',()=>{
  const w=banks(),q=Array.from(w.NPPE_MOCK_A),old=[...w.NPPE_DIAGNOSTIC,...w.NPPE_LEARNING,...w.NPPE_SET2,...w.NPPE_SET3];
- assert.equal(q.length,10);assert.equal(old.length,390);
- assert.deepEqual(q.map(x=>x.legacyId),Array.from({length:10},(_,i)=>'NPPE-'+(171+i)));
- assert.deepEqual(q.map(x=>x.answer),[1,3,0,2,1,2,0,3,2,1]);
- assert.deepEqual(q.map(x=>x.blueprint),['I.2','II.3','II.4','III.5','III.5','III.7','IV.7','IV.1','V.1','VI.4']);
- assert.equal(q.filter(x=>x.scored&&!x.experimental).length,9);assert.equal(q.filter(x=>!x.scored&&x.experimental).length,1);
+ assert.equal(q.length,20);assert.equal(old.length,390);
+ assert.deepEqual(q.map(x=>x.legacyId),Array.from({length:20},(_,i)=>'NPPE-'+(171+i)));
+ assert.deepEqual(q.map(x=>x.answer),[1,3,0,2,1,2,0,3,2,1,3,1,0,2,3,1,0,3,2,0]);
+ assert.deepEqual(q.map(x=>x.blueprint),['I.2','II.3','II.4','III.5','III.5','III.7','IV.7','IV.1','V.1','VI.4','II.3','II.4','III.5','III.6','IV.2','IV.3','IV.13','V.2','VI.1','III.10']);
+ assert.equal(q.filter(x=>x.scored&&!x.experimental).length,18);assert.equal(q.filter(x=>!x.scored&&x.experimental).length,2);
  const normalized=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
  for(const x of q){
   assert.ok(x.qid==='nppe:set-1:mock-a:'+x.legacyId.slice(5)&&x.form==='set-1-mock-a'&&x.bank==='mock'&&x.authorSet===1&&x.original&&x.version===1);
@@ -22,9 +22,16 @@ test('Mock A starts with ten original, sourced items, independent IDs and explic
   assert.ok(x.jurisdiction&&x.learningObjective&&x.keyPoint&&x.trap&&x.why.includes('Sources:'));
   assert.ok(!old.some(o=>o.qid===x.qid||o.legacyId===x.legacyId||normalized(o.stem)===normalized(x.stem)||o.questionFamily===x.questionFamily));
  }
- assert.ok(q.filter(x=>x.options[x.answer].length===Math.max(...x.options.map(o=>o.length))).length<=3,'longest-key cue');
- const words=s=>s.split(/\s+/).length;
- assert.ok(q.filter(x=>words(x.options[x.answer])<Math.min(...x.options.filter((_,i)=>i!==x.answer).map(words))).length<=3,'shortest-key cue');
+ for(const batch of [1,2]){
+  const items=q.filter(x=>x.batch===batch);
+  assert.equal(items.length,10);
+  assert.ok(items.filter(x=>x.options[x.answer].length===Math.max(...x.options.map(o=>o.length))).length<=3,'longest-key cue in batch '+batch);
+  const words=s=>s.split(/\s+/).length;
+  assert.ok(items.filter(x=>words(x.options[x.answer])<Math.min(...x.options.filter((_,i)=>i!==x.answer).map(words))).length<=3,'shortest-key cue in batch '+batch);
+ }
+ assert.deepEqual([0,1,2,3].map(a=>q.filter(x=>x.answer===a).length),[5,5,5,5]);
+ assert.deepEqual(['I','II','III','IV','V','VI'].map(a=>q.filter(x=>x.area===a).length),[1,4,6,5,2,2]);
+ assert.deepEqual(q.filter(x=>x.experimental).map(x=>x.legacyId),['NPPE-180','NPPE-190']);
 });
 test('Learning coverage review preserves totals and explicitly versions only eight revisions',()=>{
  const q=Array.from(banks().NPPE_LEARNING),revised=['NPPE-054','NPPE-056','NPPE-058','NPPE-063','NPPE-064','NPPE-099','NPPE-106','NPPE-159'];
@@ -51,9 +58,28 @@ test('protected build carries Mock A only inside NPPE and never in public shell'
  try{
   for(const e of fs.readdirSync(root,{withFileTypes:true}))if(!['.git','content','public-site','node_modules'].includes(e.name))fs.symlinkSync(path.join(root,e.name),path.join(temp,e.name),e.isDirectory()?'dir':'file');
   const build=await(await import('../scripts/build-exam-delivery.mjs')).buildExamDelivery(temp);
-  const needles=['nppe:set-1:mock-a:','mock-a-essential-service-continuity-public-welfare',banks().NPPE_MOCK_A[0].stem];
+  const needles=['nppe:set-1:mock-a:','mock-a-essential-service-continuity-public-welfare',banks().NPPE_MOCK_A[0].stem,banks().NPPE_MOCK_A[10].stem,'mock-a-supervisor-addresses-sexist-project-chat'];
   for(const needle of needles)assert.ok(!build.shell.includes(needle));
   for(const exam of ['cssbb','mbb','cssgb','cqe','cmq','cre','pmp'])for(const needle of needles)assert.ok(!fs.readFileSync(path.join(build.output,exam+'.json'),'utf8').includes(needle));
-  const packet=fs.readFileSync(path.join(build.output,'nppe.json'),'utf8');assert.ok(packet.includes('mock-a-essential-service-continuity-public-welfare'));
+  const packet=fs.readFileSync(path.join(build.output,'nppe.json'),'utf8');assert.ok(packet.includes('mock-a-essential-service-continuity-public-welfare'));assert.ok(packet.includes('mock-a-supervisor-addresses-sexist-project-chat'));
+  const scripts=JSON.parse(packet).scripts,context={window:{}};
+  const a1=scripts.indexOf(read('test-bank-nppe-mock-a-batch1.js')),a2=scripts.indexOf(read('test-bank-nppe-mock-a-batch2.js'));
+  assert.ok(a1>=0&&a2>a1,'protected packet must load the exact authoring scripts in dependency order');
+  for(const code of [scripts[a1],scripts[a2]])vm.runInNewContext(code,context);
+  assert.equal(context.window.NPPE_MOCK_A.length,20);
  }finally{fs.rmSync(temp,{recursive:true,force:true});}
+});
+
+test('Batch 2 append preserves all existing objects and rejects partial or conflicting reloads atomically',()=>{
+ const w=banks(), before=JSON.stringify(w), first=w.NPPE_MOCK_A.slice(0,10);
+ const code=read('test-bank-nppe-mock-a-batch2.js');
+ vm.runInNewContext(code,{window:w});
+ assert.equal(JSON.stringify(w),before);
+ assert.ok(first.every((q,i)=>q===w.NPPE_MOCK_A[i]&&q===w.NPPE_MOCK_A_BATCH1[i]));
+ assert.equal(w.NPPE_MOCK_A_BATCH2.length,10);
+ const absent={window:{}};assert.throws(()=>vm.runInNewContext(code,absent),/Batch 1 must load/);
+ w.NPPE_MOCK_A[10].answer=0;
+ const conflict=JSON.stringify(w);assert.throws(()=>vm.runInNewContext(code,{window:w}),/Conflicting/);assert.equal(JSON.stringify(w),conflict);
+ const partial=banks();partial.NPPE_MOCK_A.splice(15);
+ const state=JSON.stringify(partial);assert.throws(()=>vm.runInNewContext(code,{window:partial}),/Conflicting/);assert.equal(JSON.stringify(partial),state);
 });

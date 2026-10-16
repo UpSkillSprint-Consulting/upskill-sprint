@@ -121,7 +121,7 @@ def main():
                     expect(page.locator('#nppe-banks-2')).to_be_hidden()
                     expect(page.locator('#nppe-banks-3')).to_be_hidden()
                     expect(page.locator('[data-set="set-1-diagnostic"] .tb-sets')).to_have_text(str(EXPECTED_COUNT))
-                    expect(page.locator('[data-set="set-1-mock-a"] .tb-sets')).to_have_text('10')
+                    expect(page.locator('[data-set="set-1-mock-a"] .tb-sets')).to_have_text('20')
                     expect(page.locator('[data-set="set-1-mock-a"]')).to_be_disabled()
                     expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_COUNT} of 50 planned')
                     expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_MINUTES} minutes')
