@@ -60,7 +60,7 @@ Within each batch, proactively select different numbered subtopics and question 
 
 **Learning Batch 1, NPPE-051–060:** ten law-focused items covering the four law subtopics not directly sampled in the Diagnostic. **Learning Batches 2–11, NPPE-061–160:** one hundred new questions covering all six domains under the balanced authoring allocation (I 1, II 2, III 3, IV 2, V 1, VI 1 in each batch). **Batch 12, NPPE-161–170**, adds the final ten with allocation **I0 / II2 / III6 / IV2 / V0 / VI0**. The Learning Bank has **120/120 authored questions**, **164-minute timed mode or untimed study**, and a complete-bank status in the protected runtime. All six domain totals match the project allocation. No Learning questions remain unauthored.
 
-Full questions, option explanations, source qualifications and originality reviews remain in the twelve batch documents, ending with `docs/nppe-learning-batch12-161-170.md`. Diagnostic stays 50/50; Mock A has 70/110 authored (disabled); Mock B/C remain 0/110 each; Mock D/E remain unchanged.
+Full questions, option explanations, source qualifications and originality reviews remain in the twelve batch documents, ending with `docs/nppe-learning-batch12-161-170.md`. Diagnostic stays 50/50; Mock A has 80/110 authored (disabled); Mock B/C remain 0/110 each; Mock D/E remain unchanged.
 
 Whole-bank provisional classifications are **23 understanding / 79 application / 18 analysis** and **23 easy / 97 medium / 0 hard**. The approximate cognitive target was 24/72/24; labels were not inflated to make those totals match. Keys are **A31/B30/C33/D26**. Independent review and candidate evidence, rather than mechanical relabelling, must determine revisions.
 
