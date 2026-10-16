@@ -16,6 +16,7 @@ test('Mock A contains thirty original, sourced items, independent IDs and explic
  const normalized=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
  for(const x of q){
   assert.ok(x.qid==='nppe:set-1:mock-a:'+x.legacyId.slice(5)&&x.form==='set-1-mock-a'&&x.bank==='mock'&&x.authorSet===1&&x.original&&x.version===1);
+  assert.equal(x.sub,{'I':'nppe-professionalism','II':'nppe-ethics','III':'nppe-practice','IV':'nppe-law','V':'nppe-professional-law','VI':'nppe-discipline'}[x.area],'registered domain subtopic for '+x.legacyId);
   assert.equal(x.options.length,4);assert.equal(new Set(x.options).size,4);assert.equal(x.optionRationales.length,4);assert.ok(x.optionRationales.every(r=>r.length>40));
   assert.ok(x.sources.some(s=>s.sourceType==='official-blueprint')&&x.sources.some(s=>s.sourceType!=='official-blueprint'));
   assert.ok(x.sources.every(s=>s.locator&&s.title&&new URL(s.url).protocol==='https:'));

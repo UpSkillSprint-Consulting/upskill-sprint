@@ -51,7 +51,7 @@ Screened all **410 existing** Diagnostic, Learning and Mock A/D/E stems and scen
 - 199 concerns assessor assignment in a routine audit, unlike 010 discipline-panel prejudgment or 130 non-practising status and audit exemption.
 - 200 concerns ranking sensitivity to public priorities, unlike 112 public statements about causation or 163 a client's choice among acceptable services.
 
-Review retained the limited insurance assumptions, the informative-annex qualification and discretionary conflict handling to avoid overbroad rules. No existing bank was rewritten.
+Review retained the limited insurance assumptions, the informative-annex qualification and discretionary conflict handling to avoid overbroad rules. No existing bank was rewritten. A final metadata audit caught 199 using `nppe-regulation` instead of the registered `nppe-discipline` subtopic. A new domain-to-subtopic assertion reproduced that defect before the correction and passed afterward; all thirty Mock A items are checked against the established six-domain taxonomy.
 
 ## Integration and QA controls
 

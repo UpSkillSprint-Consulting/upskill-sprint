@@ -322,7 +322,7 @@
   },
   {
     "blueprint": "VI.2",
-    "sub": "nppe-regulation",
+    "sub": "nppe-discipline",
     "difficulty": "medium",
     "cognitiveLevel": "application",
     "questionFamily": "mock-a-bc-individual-audit-assessor-conflict-declaration",
