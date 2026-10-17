@@ -174,6 +174,9 @@ export async function buildExamDelivery(root = ROOT) {
       const mockA8 = await readFile(join(root, 'test-bank-nppe-mock-a-batch8.js'), 'utf8');
       new Script(mockA8, { filename:'test-bank-nppe-mock-a-batch8.js' });
       scripts.push(mockA8);
+      const mockA9 = await readFile(join(root, 'test-bank-nppe-mock-a-batch9.js'), 'utf8');
+      new Script(mockA9, { filename:'test-bank-nppe-mock-a-batch9.js' });
+      scripts.push(mockA9);
     }
     for (const item of [...immediate, ...deferred]) {
       if (item.name && !belongsToExam(item.name, exam)) continue;

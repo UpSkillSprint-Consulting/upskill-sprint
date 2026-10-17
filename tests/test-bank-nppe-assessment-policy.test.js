@@ -128,11 +128,11 @@ test('partial Mock A is visible, disabled and cannot substitute another bank', a
  const h=await harness(), {w,d}=h;
  try {
   const e=w.__TB.EXAMS.nppe;
-  assert.equal(e.forms['set-1-mock-a'].length,80);
+  assert.equal(e.forms['set-1-mock-a'].length,90);
   assert.equal(e.formCatalog.find(f=>f.id==='set-1-mock-a').target,110);
   const control=d.querySelector('[data-set="set-1-mock-a"]');
   assert.equal(control.disabled,true);
-  assert.equal(control.querySelector('.tb-sets').textContent,'80');
+  assert.equal(control.querySelector('.tb-sets').textContent,'90');
   control.dispatchEvent(new w.Event('click'));
   assert.equal(w.__TB.getFeedbackSnapshot(),null);
   assert.equal(d.querySelector('[data-mode="full"]').disabled,true);
