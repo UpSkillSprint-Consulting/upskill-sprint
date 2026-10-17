@@ -181,7 +181,13 @@ def main():
                 expect(flag).to_be_focused();expect(flag).to_have_attribute('aria-pressed','false')
                 page.keyboard.press('Space');expect(flag).to_have_attribute('aria-pressed','true')
                 assert page.evaluate("()=>auditReveal===document.querySelector('#tb-revealed-answer')")
-                page.locator(f'[data-goto="{unanswered_index}"]').click();page.locator('[data-reveal]').click()
+                # Reveal scrolls the panel into view. Navigate by the focused control
+                # so an in-flight WebKit layout change cannot misdirect a pointer click.
+                unanswered_nav=page.locator(f'[data-goto="{unanswered_index}"]')
+                unanswered_nav.focus();page.keyboard.press('Enter')
+                expect(unanswered_nav).to_have_attribute('aria-current','step')
+                expect(page.locator('[data-reveal]')).to_be_enabled()
+                page.locator('[data-reveal]').click()
                 expect(page.locator('.tb-navcell.revealed')).to_have_count(2)
                 page.locator(f'[data-goto="{selected_index}"]').click()
                 assert page.evaluate('(i)=>__TB.getFeedbackSnapshot().records[i].selected',selected_index)==selected_question['answer']

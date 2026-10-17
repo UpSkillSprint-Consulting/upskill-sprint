@@ -1,0 +1,55 @@
+# Set 1 Mock A authoring plan
+
+Mock A is ChatGPT Set 1, distinct from Diagnostic, Learning and Mocks B–E. Author in eleven batches of ten: NPPE-171–280. Batches 1–10 (171–270) are authored; 10 remain. Never borrow questions from another bank. B/C are not yet authored; D/E stay unchanged.
+
+## Whole-form allocation
+
+The published NPPE format is 110 questions / 150 minutes, with 100 scored and 10 unscored. These are project choices within the published domain ranges, not an assertion of exact official per-domain counts.
+
+| Domain | Scored target | Unscored target | Total | Batches 1–10 scored / unscored |
+|---|---:|---:|---:|---|
+| I | 8 | 1 | 9 | 7 / 1 |
+| II | 20 | 2 | 22 | 18 / 2 |
+| III | 30 | 3 | 33 | 27 / 3 |
+| IV | 26 | 2 | 28 | 24 / 2 |
+| V | 8 | 1 | 9 | 7 / 1 |
+| VI | 8 | 1 | 9 | 7 / 1 |
+| Total | 100 | 10 | 110 | 90 / 10 |
+
+Use one unscored item in each of Batches 1–10 and ten scored items in Batch 11; adjust domain allocation to the remaining totals. Experimental is a simulation scoring role, not proof that candidate field trials occurred. Hide those roles during an eventual attempt. Do not publish an incomplete mock or allow a fallback to another bank. At one hundred authored questions the selector shows 100 and remains disabled; Learning still shows 120 and Diagnostic 50.
+
+Every item needs a stable ID, four explained options, primary blueprint topic, jurisdiction, source locators and provisional classification. Review against all prior pools before acceptance.
+
+| Batch | Understanding / application / analysis | Easy / medium / hard | Keys A / B / C / D |
+|---|---|---|---|
+| 1 | 2 / 7 / 1 | 2 / 8 / 0 | 2 / 3 / 3 / 2 |
+| 2 | 0 / 7 / 3 | 0 / 10 / 0 | 3 / 2 / 2 / 3 |
+| 3 | 1 / 8 / 1 | 1 / 9 / 0 | 2 / 3 / 3 / 2 |
+| 4 | 0 / 10 / 0 | 0 / 10 / 0 | 3 / 2 / 2 / 3 |
+| 5 | 2 / 8 / 0 | 2 / 8 / 0 | 2 / 3 / 3 / 2 |
+| 6 | 1 / 7 / 2 | 1 / 9 / 0 | 3 / 2 / 2 / 3 |
+| 7 | 1 / 8 / 1 | 1 / 9 / 0 | 2 / 3 / 3 / 2 |
+| 8 | 1 / 9 / 0 | 1 / 9 / 0 | 3 / 2 / 2 / 3 |
+| 9 | 1 / 8 / 1 | 1 / 9 / 0 | 2 / 3 / 3 / 2 |
+| 10 | 1 / 7 / 2 | 1 / 9 / 0 | 3 / 2 / 2 / 3 |
+| Total | 10 / 79 / 11 | 10 / 90 / 0 | 25 / 25 / 25 / 25 |
+
+These are editorial estimates, not empirical difficulty. Future batches must broaden subtopics and integrated analysis; do not inflate labels to meet quotas or infer full-form difficulty from the opening batches.
+
+Protected NPPE delivery only. Independent SME/legal review, candidate calibration, production-account verification and explicit release authorization remain required. PR #301 stays draft. Next: Batch 11, NPPE-271–280, followed by the complete Mock A editorial and functional review.
+
+## Remaining allocation after Batch 10
+
+| Domain | Remaining scored | Remaining unscored | Remaining total |
+|---|---:|---:|---:|
+| I | 1 | 0 | 1 |
+| II | 2 | 0 | 2 |
+| III | 3 | 0 | 3 |
+| IV | 2 | 0 | 2 |
+| V | 1 | 0 | 1 |
+| VI | 1 | 0 | 1 |
+| Total | 10 | 0 | 10 |
+
+Unscored items are 180 (VI.4), 190 (III.10), 200 (I.2), 210 (IV.8), 220 (II.4), 230 (III.6), 240 (V.2), 250 (II.1), 260 (III.10) and 270 (IV.12). All ten simulated unscored slots are filled. Batch 11 must contain ten scored items, with the exact remaining domain allocation above.
+
+All 40 numbered blueprint topics have at least one primary Mock A sample. This does not establish exhaustive bullet-level coverage or replace a final whole-form audit. Remaining batches must respect the table above, include original decisions, and avoid borrowing or inflating provisional classifications. Batch 10 adds public technical education, converging ethical arguments, fair review of a competitor’s proposal, recurring hospitality, potential-claim notification, climate adaptation versus mitigation, directors’ duties, B.C. unrelated-conviction protection, unauthorized offers before delivery, and no-fault workers’ compensation. All earlier authored items remain unchanged.

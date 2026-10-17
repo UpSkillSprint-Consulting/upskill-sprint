@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 // Static release preflight only. It cannot certify runtime authorization, CDN
 // configuration, encoded content, or user transitions. Findings contain paths,
 // never question text, answers, tokens, or account data.
-const bankFile = /(?:^|\/)test-bank-(?:cssbb|cssgb|mbb|cqe|cmq|cre|pmp)-(?:set\d+|bank\d+)\.js$/i;
+const bankFile = /(?:^|\/)test-bank-(?:cssbb|cssgb|mbb|cqe|cmq|cre|pmp|nppe)-(?:set\d+|bank\d+|diagnostic(?:-batch\d+)?|learning(?:-batch\d+)?)\.js$/i;
 const textFile = /\.(?:html?|[cm]?js|json|map)$/i;
 const questionLiteral = /["']?stem["']?\s*:\s*["'`]/;
 const answerLiteral = /["']?(?:answer|correctAnswer)["']?\s*:\s*(?:\d|["'`])/;
@@ -25,7 +25,7 @@ export async function auditExamPublicContent(directory) {
         continue;
       }
       if (entry.isDirectory()) {
-        if (/^(?:supabase|node_modules|tests|scripts|netlify)(?:\/|$)/.test(name)) {
+        if (/^(?:supabase|node_modules|tests|scripts|netlify|nppe)(?:\/|$)/.test(name)) {
           findings.push({ path: name, reason: 'Private database/server/test tooling is publicly staged' });
         }
         await walk(path);

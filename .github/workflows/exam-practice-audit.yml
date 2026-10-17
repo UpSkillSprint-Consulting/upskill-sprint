@@ -7,6 +7,10 @@ on:
       - 'exam-practice.html'
       - 'index.html'
       - 'scripts/homepage-certification-browser.py'
+      - 'scripts/nppe-diagnostic-browser.py'
+      - 'scripts/nppe-diagnostic-runtime.mjs'
+      - 'scripts/student-audit-tools/package*.json'
+      - 'test-bank-nppe*.js'
       - 'tests/homepage-*.test.js'
       - 'tests/test-bank-mobile-picker.test.js'
       - 'tests/test-bank-exam-ui.test.js'
@@ -48,13 +52,16 @@ jobs:
   exam-practice-browser:
     name: Exam practice (${{ matrix.browser }})
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Full Learning attempts and option reviews grow with the authored bank.
+    timeout-minutes: 25
     strategy:
       fail-fast: false
       matrix:
         browser: [chromium, webkit]
     steps:
       - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v5
         with:
           node-version: 22
@@ -63,12 +70,13 @@ jobs:
         with:
           python-version: '3.12'
       - run: npm ci
+      - run: npm ci --prefix scripts/student-audit-tools
       - name: Verify navigation and access regressions
         run: |
           node --check site-sections.js
           node --check auth.js
           node --test tests/auth-phase1-runtime.test.js
-          python -m py_compile scripts/exam-practice-browser.py scripts/homepage-certification-browser.py
+          python -m py_compile scripts/exam-practice-browser.py scripts/homepage-certification-browser.py scripts/nppe-diagnostic-browser.py
           node --test --test-concurrency=1 tests/exam-practice-section.test.js tests/premium-simulator-access.test.js tests/mobile-header-overflow.test.js tests/homepage-content-counts.test.js tests/homepage-distributions.test.js tests/test-bank-mobile-picker.test.js tests/test-bank-exam-ui.test.js
       - name: Install CI browser
         run: |
@@ -89,6 +97,7 @@ jobs:
             curl -fsS http://127.0.0.1:8765/exam-practice -o /dev/null && break || sleep 1
           done
           set -o pipefail
+          python -u scripts/nppe-diagnostic-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/nppe-browser.log
           python -u scripts/homepage-certification-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/homepage-certification.log
           python -u scripts/exam-directory-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/directory-browser.log
           python -u scripts/exam-practice-browser.py --browser ${{ matrix.browser }} 2>&1 | tee exam-practice-audit-evidence/browser.log

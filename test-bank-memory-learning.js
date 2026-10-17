@@ -84,6 +84,7 @@
     const bySubtopic = {};
     (records || []).forEach((record) => {
       const question = record && record.question;
+      if (question && (question.experimental === true || question.scored === false)) return;
       const revealed = record && record.revealed === true;
       const status = classify(question, record && record.selected, revealed);
       const subtopic = String(question.sub || 'general');

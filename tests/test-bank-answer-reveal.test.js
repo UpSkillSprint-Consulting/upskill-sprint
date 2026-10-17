@@ -97,6 +97,12 @@ function click(w, selector) {
   el.click();
 }
 function score(w) { return w.document.querySelector('[data-score-result]').textContent; }
+// This harness exercises the shared authoring runtime. Explicit NPPE assessment
+// forms disable pre-submission answers in the built private package instead.
+// test-bank-nppe-assessment-policy.test.js tests that package in both timing modes,
+// including experimental-item scoring and post-submission review. Do not treat
+// the unshipped generic NPPE source controls as its delivered learning policy.
+function usesSharedReveal(exam) { return !Array.isArray(exam.formCatalog); }
 test('status theme keeps flags independent and labels every question state', async () => {
   const h = await harness(), w = h.w, d = w.document;
   try {
@@ -123,9 +129,10 @@ test('status theme keeps flags independent and labels every question state', asy
     assert.equal(w.__TB.getFeedbackSnapshot().grading.incorrect, 1);
   } finally { await h.close(); }
 });
-test('untimed reveal applies to every delivered exam and session type', async parent => {
+test('untimed reveal applies to every shared learning-mode exam and session type', async parent => {
   const catalog = await harness();
-  const exams = [...catalog.w.document.querySelectorAll('.tb-tile[data-exam]')].filter(el => !/coming soon/i.test(el.textContent)).map(el => el.dataset.exam);
+  const exams = [...catalog.w.document.querySelectorAll('.tb-tile[data-exam]')].filter(el => !/coming soon/i.test(el.textContent) && usesSharedReveal(catalog.w.__TB.EXAMS[el.dataset.exam])).map(el => el.dataset.exam);
+  assert.ok(exams.length > 0, 'shared reveal coverage must not be empty');
   await catalog.close();
   for (const exam of exams) for (const mode of ['full', 'quick', 'focused']) await parent.test(`${exam}/${mode}`, async () => {
     const h = await harness(), w = h.w, d = w.document;
@@ -279,9 +286,10 @@ test('revealing and flagging preserve the real MBB interactive question',async()
     assert.deepEqual(h.errors,[]);
   }finally{await h.close();}
 });
-test('every current test set and mixed pool inherits reveal grading',async parent=>{
+test('every shared learning test set and mixed pool inherits reveal grading',async parent=>{
   const catalog=await harness();
-  const exams=Object.entries(catalog.w.__TB.EXAMS).filter(([,e])=>e.bank?.length).map(([id,e])=>({id,sets:Object.keys(e.sets||{1:e.bank}).filter(set=>(e.sets?.[set]||e.bank).length)}));
+  const exams=Object.entries(catalog.w.__TB.EXAMS).filter(([,e])=>e.bank?.length && usesSharedReveal(e)).map(([id,e])=>({id,sets:Object.keys(e.sets||{1:e.bank}).filter(set=>(e.sets?.[set]||e.bank).length)}));
+  assert.ok(exams.length > 0, 'shared reveal coverage must not be empty');
   await catalog.close();
   for(const exam of exams) await parent.test(exam.id,async()=>{
     const h=await harness(),w=h.w;
