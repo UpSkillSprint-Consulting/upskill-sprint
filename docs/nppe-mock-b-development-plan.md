@@ -1,6 +1,6 @@
 # Set 1 Mock B — development and pre-authoring plan
 
-**Status: BATCHES 1–4 AUTHORED (40/110), release-held; next Batch 5 NPPE-321–330.** Owner ChatGPT / Set 1, form ID `set-1-mock-b`. Existing PR #301 stays OPEN/DRAFT. No Mock A release-hold change, deployment, learner grant, merge or data migration is authorized by this plan.
+**Status: BATCHES 1–5 AUTHORED (50/110), release-held; next Batch 6 NPPE-331–340.** Owner ChatGPT / Set 1, form ID `set-1-mock-b`. Existing PR #301 stays OPEN/DRAFT. No Mock A release-hold change, deployment, learner grant, merge or data migration is authorized by this plan.
 
 ## 1. Pinned assumptions and official specification
 
@@ -72,4 +72,4 @@ No text, names, case facts or exact decision logic may be reused verbatim from t
 
 ## 6. Current readiness decision
 
-**Batches 1–4 NPPE-281–320 are authored and integrated only within protected NPPE delivery. Next authoring scope is Batch 5 NPPE-321–330, subject to exact-head QA.** Mock B is now **40/110**. This is *authoring readiness*, not publication readiness. Batch 1 remains incomplete at the form level; do not populate later batches with placeholders or display Mock B as complete. The first batch must keep all release protections intact.
+**Batches 1–5 NPPE-281–330 are authored and integrated only within protected NPPE delivery. Next authoring scope is Batch 6 NPPE-331–340, subject to exact-head QA.** Mock B is now **50/110**. This is *authoring readiness*, not publication readiness. Batch 1 remains incomplete at the form level; do not populate later batches with placeholders or display Mock B as complete. The first batch must keep all release protections intact.
