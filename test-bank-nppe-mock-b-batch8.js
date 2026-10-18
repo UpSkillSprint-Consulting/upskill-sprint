@@ -13,7 +13,7 @@
     "stem": "A Québec municipality hires a hydrogeology consultancy to deliver a groundwater model by an agreed date. The municipality specifies the required results and reporting format but cannot direct the consultant's methods or daily technical work. Which characterization most closely fits the Civil Code's contract of enterprise or for services?",
     "options": [
       "The municipal client necessarily becomes the consultant's employer because the client defines the deliverable.",
-      "The consultant is a service provider that retains the free choice of means of performing the contract, subject to its contractual obligations.",
+      "The service provider controls performance methods while meeting the agreed result.",
       "Every contract involving technical reports is a sale of movable goods rather than a service contract.",
       "The client may take control of the consultant's day-to-day methods solely because it funds the project."
     ],
@@ -412,6 +412,7 @@
   if(id==='355'){q.version=2;q.scored=false;q.experimental=true;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role redistributed by whole-form audit';}
   if(id==='354'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; substituted applicable Saskatchewan labour-law source';}
   if(id==='356'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
+  if(id==='351'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
