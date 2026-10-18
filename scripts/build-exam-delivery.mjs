@@ -183,6 +183,10 @@ export async function buildExamDelivery(root = ROOT) {
       const mockA11 = await readFile(join(root, 'test-bank-nppe-mock-a-batch11.js'), 'utf8');
       new Script(mockA11, { filename:'test-bank-nppe-mock-a-batch11.js' });
       scripts.push(mockA11);
+      // Mock B Batch 1 is a distinct, incomplete, release-held Set 1 mock.
+      const mockB1 = await readFile(join(root, 'test-bank-nppe-mock-b-batch1.js'), 'utf8');
+      new Script(mockB1, { filename:'test-bank-nppe-mock-b-batch1.js' });
+      scripts.push(mockB1);
     }
     for (const item of [...immediate, ...deferred]) {
       if (item.name && !belongsToExam(item.name, exam)) continue;
