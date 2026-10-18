@@ -177,7 +177,7 @@
       "Ignore future scenarios because infrastructure planning may use only climate observations from the previous decade.",
       "Approve the lowest capital cost because lifetime performance and adaptation expenses are outside engineering.",
       "Multiply all historical rainfall values by an arbitrary factor of three without reviewing evidence or consequences.",
-      "Evaluate credible future scenarios, lifecycle performance and adaptation options, explaining uncertainty and cost implications to the municipality."
+      "Assess climate scenarios, lifecycle reliability and adaptation costs."
     ],
     "answer": 3,
     "optionRationales": [
@@ -415,6 +415,7 @@
   if(id==='333'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='334'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='332'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if(id==='335'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 6 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Classifications are editorial estimates; no official NPPE pass prediction.</p>';
  });
