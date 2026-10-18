@@ -331,37 +331,31 @@
     "sub": "nppe-law",
     "difficulty": "medium",
     "cognitiveLevel": "analysis",
-    "questionFamily": "mock-b-charter-private-discrimination-distinction",
-    "learningObjective": "Distinguish Canadian Charter governmental application from private-sector human rights law.",
-    "jurisdiction": "Ontario; a purely private manufacturing company makes an employment decision with no governmental policy implementation; a job applicant alleges discriminatory treatment.",
-    "stem": "An Ontario applicant is refused an engineering position by a privately owned manufacturer and argues that section 15 of the Canadian Charter must automatically govern every private hiring decision. Which starting legal analysis is most accurate?",
+    "questionFamily": "mock-b-federal-criminal-code-municipal-bylaw-division",
+    "learningObjective": "Identify constitutional limits on a municipality's ability to amend federal criminal law through a bylaw.",
+    "jurisdiction": "Canada; a municipality derives its powers from provincial legislation, and a federal Criminal Code offence is in force.",
+    "stem": "A municipal council believes a federal Criminal Code offence is too restrictive for a local industry. It passes a bylaw stating that the conduct is no longer a criminal offence within city limits. A planner says the bylaw overrides Parliament's law because municipal regulations are more specific. Which legal analysis is soundest?",
     "options": [
-      "Section 15 of the Charter directly governs every private employment decision merely because the job involves engineering.",
-      "Discrimination by a private employer is beyond all Canadian laws if the employer receives no government grants.",
-      "The Charter generally constrains government action under section 32; applicable provincial human rights legislation may govern this private employment decision.",
-      "A private employer has the same lawmaking power as the Ontario legislature when adopting personnel policies."
+      "The bylaw automatically repeals the federal offence within municipal boundaries if council votes unanimously.",
+      "A municipality may amend federal offences whenever a local economic purpose is documented.",
+      "The Constitution gives municipalities the same federal criminal-law authority as Parliament.",
+      "Municipal bylaws derive from provincial authority and cannot themselves repeal or amend an otherwise applicable federal Criminal Code offence."
     ],
-    "answer": 2,
+    "answer": 3,
     "optionRationales": [
-      "The Charter is principally directed at governmental activity rather than automatically governing purely private conduct.",
-      "Private employment decisions can remain subject to statutory human-rights protections.",
-      "The Charter's scope and the Human Rights Code's employment application are distinct inquiries.",
-      "Internal personnel policies cannot give a corporation legislative authority."
+      "Local unanimity does not grant a city the authority to repeal federal criminal legislation.",
+      "Economic justification does not transfer Parliament's criminal-law legislative power to a municipality.",
+      "The constitutional allocation of criminal law to Parliament is different from provincial municipal-institution powers.",
+      "The Constitution assigns criminal law to Parliament while municipalities operate under delegated provincial legislative authority."
     ],
-    "keyPoint": "Charter application and statutory human rights duties differ for private actors.",
-    "trap": "Assuming any discrimination allegation against a private firm is automatically a direct Charter claim.",
+    "keyPoint": "Municipal delegated lawmaking cannot replace Parliament's constitutionally assigned criminal-law power.",
+    "trap": "Assuming a geographically specific municipal bylaw overrides a federal criminal offence.",
     "sources": [
       {
         "sourceType": "federal-primary-constitution",
-        "title": "Constitution Act, 1982, Canadian Charter of Rights and Freedoms",
-        "locator": "Section 32(1): application to Parliament and governments; not automatically private employers",
-        "url": "https://laws-lois.justice.gc.ca/eng/const/fulltext.html"
-      },
-      {
-        "sourceType": "provincial-primary-legislation",
-        "title": "Ontario Human Rights Code, R.S.O. 1990, c. H.19",
-        "locator": "Section 5(1): equal treatment with respect to employment without discrimination on prohibited grounds",
-        "url": "https://www.ontario.ca/laws/statute/90h19"
+        "title": "Constitution Act, 1867",
+        "locator": "Section 91(27) Criminal Law and section 92(8) Municipal Institutions in the Province",
+        "url": "https://laws-lois.justice.gc.ca/eng/const/page-3.html"
       },
       {
         "sourceType": "official-blueprint",
@@ -416,6 +410,7 @@
   var id=String(331+i);
   Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:6,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal review and calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 NPPE blueprint checked 2026-10-18',difficultyBasis:'Editorial estimate; not empirically calibrated'});
   if(id==='337'){q.version=2;q.scored=false;q.experimental=true;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role redistributed by whole-form audit';}
+  if(id==='339'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 6 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Classifications are editorial estimates; no official NPPE pass prediction.</p>';
  });
