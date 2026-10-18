@@ -3,7 +3,7 @@
  * Answer keys and protected question text must NEVER be committed to a public repo.
  */
 'use strict';
-const fs=require('node:fs'),path=require('node:path'),os=require('node:os'),vm=require('node:vm'),crypto=require('node:crypto'),cp=require('node:child_process');
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto'),cp=require('node:child_process');
 const root=path.resolve(__dirname,'..');
 const sha=x=>crypto.createHash('sha256').update(x).digest('hex');
 const stable=x=>JSON.stringify(x);
@@ -25,6 +25,14 @@ function build(out){
  const dest=path.resolve(out),relative=path.relative(root,dest);
  if(dest===root||(!relative.startsWith('..'+path.sep)&&relative!=='..'&&!path.isAbsolute(relative)))throw Error('Reviewer packets must be generated outside the public repository');
  if(fs.existsSync(dest)&&fs.readdirSync(dest).length)throw Error('Output directory must be empty');
+ // Resolve symlinks in the nearest existing parent before creating any sensitive output.
+ let ancestor=dest;
+ while(!fs.existsSync(ancestor)){const parent=path.dirname(ancestor);if(parent===ancestor)throw Error('No existing output parent');ancestor=parent;}
+ const resolved=path.resolve(fs.realpathSync(ancestor),path.relative(ancestor,dest));
+ const resolvedRelative=path.relative(fs.realpathSync(root),resolved);
+ if(!resolvedRelative.startsWith('..'+path.sep)&&resolvedRelative!=='..')throw Error('Symlink output would enter public repository');
+ const dirty=cp.execFileSync('git',['status','--porcelain','--untracked-files=no'],{cwd:root,encoding:'utf8'}).trim();
+ if(dirty)throw Error('Refusing to label modified tracked sources with a clean commit SHA');
  const list=items(),revision=cp.execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
  const manifest={schema:'nppe-mock-a-review-v1',sourceRevision:revision,form:'set-1-mock-a',itemCount:110,scored:100,simulatedUnscored:10,items:[]};
  const blind=[],keyed=[];
@@ -37,7 +45,8 @@ function build(out){
   manifest.items.push({id:q.legacyId,qid:q.qid,version:q.version,sha256:digest,scored:q.scored,simulatedUnscored:q.experimental});
   ledger.push([q.legacyId,q.qid,q.version,digest,...Array(headers.length-4).fill('')].map((v,i)=>i===18?'pending':v));
  }
- const write=(name,value)=>{const p=path.join(dest,name);fs.mkdirSync(path.dirname(p),{recursive:true});fs.writeFileSync(p,value,{mode:0o600});};
+ const write=(name,value)=>{const p=path.join(dest,name);fs.mkdirSync(path.dirname(p),{recursive:true,mode:0o700});fs.chmodSync(path.dirname(p),0o700);fs.writeFileSync(p,value,{mode:0o600});};
+ fs.mkdirSync(dest,{recursive:true,mode:0o700});fs.chmodSync(dest,0o700);
  write('blind/questions.json',JSON.stringify({sourceRevision:revision,items:blind},null,2)+'\n');
  write('restricted-keyed/questions.json',JSON.stringify({sourceRevision:revision,items:keyed},null,2)+'\n');
  write('review-ledger.csv',csv(ledger));
