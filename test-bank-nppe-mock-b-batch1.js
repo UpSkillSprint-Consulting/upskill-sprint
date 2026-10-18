@@ -307,10 +307,10 @@
     "trap": "Treating qualified acceptance as an unconditional agreement.",
     "sources": [
       {
-        "sourceType": "legal-education-background",
-        "title": "Government of Canada, International Sale of Goods Contracts Convention Act, Schedule (contrasting specialized sales regime)",
-        "locator": "Annex articles 14, 18 and 19 discuss offer and purported acceptance with changed terms; instrument does NOT govern this domestic service contract",
-        "url": "https://laws.justice.gc.ca/eng/acts/I-20.4/page-2.html"
+        "sourceType": "judicial-case-reference",
+        "title": "Ontario Court of Appeal, Scanlon v. Standish, 2002 CanLII 20549",
+        "locator": "Paragraph 22: a material counteroffer prevents acceptance of the original common-law offer; confirm case text during independent legal review",
+        "url": "https://www.canlii.org/en/on/onca/doc/2002/2002canlii20549/2002canlii20549.html"
       },
       {
         "sourceType": "official-blueprint",
