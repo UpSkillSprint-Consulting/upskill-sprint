@@ -309,7 +309,7 @@
       {
         "sourceType": "judicial-case-reference",
         "title": "Industry Canada, Consumer protection rights in Canada (contract law overview)",
-        "locator": "Paragraph 22: a material counteroffer prevents acceptance of the original common-law offer; confirm case text during independent legal review",
+        "locator": "Part II, Contract Law — Acceptance, section 2 Correspondence with Offer: qualified acceptance is a counteroffer under the common law (government educational overview, not controlling judgment)",
         "url": "https://www.canlii.org/en/on/onca/doc/2002/2002canlii20549/2002canlii20549.html"
       },
       {
