@@ -14,7 +14,7 @@
     "options": [
       "Quietly retain a private note and omit the concern from the official record until management requests another review.",
       "Tell coworkers informally but do not communicate the finding through authorized safety or regulatory channels.",
-      "Document the evidence, promptly escalate through appropriate safety authority, and make required external notifications if the serious risk remains unresolved.",
+      "Document and escalate the hazard, including legally required notification.",
       "Wait until a vessel fails so the nature and severity of the hazard become certain."
     ],
     "answer": 2,
@@ -51,7 +51,7 @@
     "jurisdiction": "Federal Court of Canada; the engineer has been retained as an expert witness and will submit a report under the Federal Courts Rules.",
     "stem": "A structural engineer retained as an expert for a federal civil proceeding finds laboratory results that materially weaken the hiring party's causation theory. Counsel asks the engineer to exclude the results because an expert should advocate for the paying client. What should the engineer do?",
     "options": [
-      "Report the relevant contrary data and explain their effect on the opinion, since the expert's duty to assist the Court impartially overrides loyalty to the retaining party.",
+      "Report contrary data impartially, explaining its effect on the expert opinion.",
       "Omit the data unless the opposing party independently discovers them, because the client owns the expert's opinion.",
       "Treat the data as inadmissible without analysis because they are unfavourable to the hiring party.",
       "Withdraw all technical opinions automatically, because an expert can never revise a hypothesis after reviewing contrary evidence."
@@ -93,7 +93,7 @@
       "Sign the notice because public statements about load rating are solely the marketing department's responsibility.",
       "Remove the capacity calculation from the record because management has accepted business risk.",
       "Release the advertised rating with an informal disclaimer that the numbers could change.",
-      "Refuse to authenticate the unsupported notice, communicate the calculated limits and consequences, and escalate the unresolved safety concern."
+      "Decline the unsupported rating and report its safety consequences."
     ],
     "answer": 3,
     "optionRationales": [
@@ -130,7 +130,7 @@
     "stem": "A municipality's flood siren is accompanied by an English-only technical bulletin using abbreviations unfamiliar to residents. Community consultation shows that a substantial portion of the intended audience cannot understand the instructions, although the translated warning channels can be deployed before flood season. Which communication plan is best?",
     "options": [
       "Keep the English-only bulletin because a technically correct warning is effective regardless of audience comprehension.",
-      "Use tested plain-language instructions in the languages and accessible formats needed by the affected audiences, with consistent actions across channels.",
+      "Provide audience-tested, accessible warnings in languages people understand.",
       "Replace detailed instructions with the raw hydrological model so residents can interpret it independently.",
       "Shorten the bulletin by removing evacuation routes, since less text necessarily means better safety communication."
     ],
@@ -170,7 +170,7 @@
     "options": [
       "$6,000, because an internal cost-contingency allowance sets the statutory holdback.",
       "$12,000, because construction holdbacks are always five per cent of the payment.",
-      "$24,000, because the required basic holdback is ten per cent of the $240,000 supplied-services price.",
+      "$24,000: ten per cent of the $240,000 value supplied.",
       "$48,000, because any risk reserve used for construction liens must be twenty per cent."
     ],
     "answer": 2,
@@ -208,7 +208,7 @@
     "stem": "A Canadian engineering lead receives a pressure-system module designed abroad. The vendor certifies compliance with its home-country specification, but its calculations do not demonstrate conformity with the local project code's required pressure case. The installation schedule is tight. What should the engineer do before approving integration?",
     "options": [
       "Accept the vendor certificate without further review because foreign professional registration automatically displaces local project obligations.",
-      "Evaluate the design against applicable local requirements, resolve the missing pressure case with competent analysis, and document the acceptance decision.",
+      "Verify local compliance and the missing pressure case before acceptance.",
       "Allow the module into service and ask the maintenance team to complete the design verification during the first outage.",
       "Reject every foreign-manufactured assembly, because professional diligence forbids using international components."
     ],
@@ -246,7 +246,7 @@
     "jurisdiction": "Canada; a client has properly retained a qualified independent reviewer; the affected designer has a process for receiving technically specific findings, with confidentiality and procedural requirements observed.",
     "stem": "An independent reviewer finds that a competitor's geotechnical report omitted a material sensitivity analysis. The client asks the reviewer to make the criticism sound more severe so it can negotiate a lower consulting fee. How should the reviewer respond?",
     "options": [
-      "Describe only the evidence-supported omission and its technical significance, and avoid exaggeration or unsupported attacks on the other professional.",
+      "State the evidenced deficiency and its significance without exaggeration.",
       "Exaggerate the concern because the hiring client is entitled to maximize its contractual leverage.",
       "Disclose confidential unrelated performance complaints about the competitor to strengthen the report.",
       "Refuse to identify any deficiency in another professional's work because professional courtesy always requires endorsement."
@@ -288,7 +288,7 @@
       "Treat ratification as automatically replacing every provincial engineering act.",
       "Ignore the treaty for every purpose because international obligations are never relevant to interpretation or policy.",
       "Allow the employer to issue the required Canadian licence because the treaty has an international origin.",
-      "Check whether applicable Canadian law gives the treaty provision domestic effect; treaty ratification alone does not ordinarily enact a new provincial licence requirement."
+      "Check domestic implementation; ratification alone does not create licences."
     ],
     "answer": 3,
     "optionRationales": [
@@ -326,7 +326,7 @@
     "options": [
       "Geoscience mapping matters only if the findings are later sold as a commercial mineral product.",
       "Its value is limited to academic prestige because information cannot influence infrastructure economics.",
-      "Reliable subsurface information can reduce uncertainty in water-source selection, guide more durable infrastructure investment and support community welfare.",
+      "Subsurface evidence guides reliable infrastructure and community welfare.",
       "The map removes the need for engineering design, monitoring or community decisions because geoscientific information determines every outcome."
     ],
     "answer": 2,
@@ -365,7 +365,7 @@
     "options": [
       "Send the entire identifiable dataset because third-party cloud software automatically shifts all responsibility to its operator.",
       "Anonymize the filenames only; keeping names and identifiers inside the files fully addresses privacy concerns.",
-      "Evaluate the lawful purpose and authority for transfer, minimize identifying information, assess provider safeguards and contractual controls, and use an approved method of processing.",
+      "Check lawful transfer authority, minimize personal data and verify safeguards.",
       "Avoid all analytics forever because a third-party service can never be permitted to process personal information."
     ],
     "answer": 2,
@@ -398,6 +398,7 @@
   var id=String(311+i);
   Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:4,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal approval and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 NPPE blueprint checked 2026-10-18',difficultyBasis:'Editorial estimate; not empirically calibrated'});
   if(id==='320'){q.version=2;q.scored=false;q.experimental=true;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role redistributed by whole-form audit';}
+  if([311,312,313,314,315,316,317,318,319,320].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 4 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; editorial classifications are provisional, not evidence of official NPPE performance.</p>';
  });
