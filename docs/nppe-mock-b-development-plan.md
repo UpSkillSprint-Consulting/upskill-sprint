@@ -73,3 +73,9 @@ No text, names, case facts or exact decision logic may be reused verbatim from t
 ## 6. Current readiness decision
 
 **Batches 1–11 NPPE-281–390 are authored and integrated only within protected NPPE delivery. Next scope: comprehensive whole-form editorial and functional QA, then independent review and calibration gates, subject to exact-head QA.** Mock B is now **110/110**, comprising 100 provisionally scored and 10 simulated unscored. This is *authoring readiness*, not publication readiness. Batch 1 remains incomplete at the form level; do not populate later batches with placeholders or display Mock B as complete. The first batch must keep all release protections intact.
+
+## Whole-form QA scoring-role amendment — 2026-10-18
+
+Final scoring-role allocation was redistributed across the 110-item form to avoid clustering nine simulated-unscored questions at the end. Ten unscored IDs are 282, 296, 320, 337, 349, 355, 382, 386, 389, 390. Twelve item roles changed (six pairs), all versioned 2. Domain scored totals, overall 100/10 split and scored coverage of forty blueprint topics remain unchanged.
+
+The historical batch allocation text above is retained as an authoring record where inconsistent; this amendment and the current 110-row allocation ledger control. Source/legal and empirical release gates are unaffected.
