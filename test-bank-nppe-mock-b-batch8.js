@@ -300,7 +300,7 @@
       "Destroy the records because a firm review is only a private advisory consultation without regulatory consequences.",
       "Refuse to supply any comments because only the original assessor has standing to describe evidence.",
       "Publish the entire confidential case file to prospective clients to establish that the firm is transparent.",
-      "Preserve records, correct inaccuracies with evidence, cooperate with the responsible registrant's response, and prepare remediation for any identified risks."
+      "Preserve evidence, respond factually and plan corrective actions."
     ],
     "answer": 3,
     "optionRationales": [
@@ -416,6 +416,7 @@
   if(id==='352'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='353'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='355'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if(id==='358'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
