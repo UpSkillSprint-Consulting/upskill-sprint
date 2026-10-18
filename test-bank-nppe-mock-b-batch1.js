@@ -417,7 +417,8 @@
  global.NPPE_MOCK_B_BATCH1=global.NPPE_MOCK_B.slice();
  global.registerNPPEMockB=function(exam){
   var def=exam&&exam.formCatalog&&exam.formCatalog.find(function(f){return f.id==='set-1-mock-b';});
-  if(!def||def.authorSet!==1||def.kind!=='mock'||def.target!==110||def.releaseHold!==true)throw new Error('Mock B must stay held with 110-item Set 1 catalog target');
+  if(!def||def.authorSet!==1||def.kind!=='mock'||def.target!==110||def.releaseHold===false)throw new Error('Mock B must stay held with 110-item Set 1 catalog target');
+  if(def.releaseHold==null)def.releaseHold=true;
   var existing=exam.forms&&exam.forms[def.id];if(existing&&JSON.stringify(existing)!==JSON.stringify(global.NPPE_MOCK_B))throw new Error('Conflicting Mock B registration');
   exam.forms=Object.assign({},exam.forms,{'set-1-mock-b':global.NPPE_MOCK_B});
   exam.fullExamQuestionsBySet=Object.assign({},exam.fullExamQuestionsBySet,{'set-1-mock-b':global.NPPE_MOCK_B.length});
