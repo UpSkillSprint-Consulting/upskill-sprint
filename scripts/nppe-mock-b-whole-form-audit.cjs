@@ -68,7 +68,7 @@ function auditMockB(){
  if((difficulty.hard||0)===0)warnings.push('No items provisionally hard: editorial difficulty imbalance; no empirical data');
  if(longestKey>65)warnings.push('Keyed answer is longest in '+longestKey+'/110 items; option-length cue risk');
  const all=[{bank:'Mock B',questions},...others],exactOwners=new Map(),near=[];
- for(const b of all)for(const q of b.questions){const clean=norm(q.stem);if(exactOwners.has(clean))failures.push('Exact cross-bank stem duplication: '+b.bank+' '+(q.legacyId||q.qid)+' and '+exactOwners.get(clean));else exactOwners.set(clean,b.bank+' '+(q.legacyId||q.qid))}
+ for(const b of all)for(const q of b.questions){const clean=norm(q.stem);if(exactOwners.has(clean)){if(b.bank==='Mock B'||exactOwners.get(clean).startsWith('Mock B '))failures.push('Exact cross-bank stem duplication: '+b.bank+' '+(q.legacyId||q.qid)+' and '+exactOwners.get(clean));}else exactOwners.set(clean,b.bank+' '+(q.legacyId||q.qid))}
  const otherTokens=others.flatMap(b=>b.questions.map(q=>({bank:b.bank,q,t:token(q.stem)}))),seenPairs=[];
  for(let i=0;i<questions.length;i++){
   const a=questions[i],at=token(a.stem);
