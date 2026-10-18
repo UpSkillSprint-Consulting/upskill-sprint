@@ -39,7 +39,7 @@ Cohorts: `first_unassisted` (primary), `repeat`, `assisted`, `prior_exposure`, `
 
 ## Outputs and statistical limitations
 
-For each item: number of first-unassisted attempts, number answered, correct count, proportion correct among answered, Wilson 95% interval, selection frequencies for all four options, omitted/not-reached counts, average answer duration when reported, and a corrected item-rest correlation calculated over answered responses on scored items. All ten simulated unscored items are excluded from scored totals, item-rest relationships and KR-20 reliability, but are described individually.
+For each item: number of first-unassisted attempts, number answered, correct count, proportion correct among answered, Wilson 95% interval, selection frequencies for all four options, omitted/not-reached counts, average answer duration when reported, and a corrected item-rest correlation calculated **only among first-unassisted attempts with complete answers on all 100 scored items**. The reported `correctedItemRestN` is the eligible paired-sample denominator, which may be smaller than the item's answer count. All ten simulated unscored items are excluded from scored totals, item-rest relationships and KR-20 reliability, but are described individually.
 
 KR-20 is calculated only for at least three fully answered first-unassisted scored forms with nonzero observed total-score variance; otherwise null. Correlations require at least three valid pairs and nonzero variance. Null means undefined/insufficient evidence, **not zero performance**. Confidence intervals are descriptive binomial approximations with uncertainty under nonrandom recruitment; they are not proof of validity. A zero-variance sample is not a signal to manufacture spread.
 
