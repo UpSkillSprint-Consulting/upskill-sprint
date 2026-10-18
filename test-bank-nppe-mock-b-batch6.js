@@ -60,7 +60,7 @@
       "Corporate policies supersede provincial engineering legislation whenever projects involve more than one province.",
       "A company may grant statutory sealing rights by recognizing work experience internally.",
       "The federal government automatically issues a single engineering licence to every multinational contractor.",
-      "Each applicable province or territory's statute and regulator controls authorization to practise; an employer policy cannot grant a missing statutory licence."
+      "Provincial regulators—not employers—grant practice authority."
     ],
     "answer": 3,
     "optionRationales": [
@@ -414,6 +414,7 @@
   if(id==='331'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='333'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='334'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if(id==='332'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 6 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Classifications are editorial estimates; no official NPPE pass prediction.</p>';
  });
