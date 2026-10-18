@@ -10,7 +10,7 @@ test('Final Mock B Batch 11 contains 381–390, correct blueprint, rationales an
  batch.forEach((q,i)=>{
   const id=381+i;
   assert.equal(q.qid,'nppe:set-1:mock-b:'+id);assert.equal(q.legacyId,'NPPE-'+id);
-  assert.equal(q.batch,11);assert.equal(q.version,[381,384,385,387,388].includes(id)?2:1);assert.equal(q.author,'ChatGPT');assert.equal(q.authorSet,1);assert.equal(q.form,'set-1-mock-b');
+  assert.equal(q.batch,11);assert.equal(q.version,[381,383,384,385,386,387,388].includes(id)?2:1);assert.equal(q.author,'ChatGPT');assert.equal(q.authorSet,1);assert.equal(q.form,'set-1-mock-b');
   assert.equal(q.releaseStatus,'held');assert.equal(q.scored,[381,383,384,385,387,388].includes(id));assert.equal(q.experimental,[382,386,389,390].includes(id));
   assert.ok(q.jurisdiction&&q.stem&&q.learningObjective&&q.keyPoint&&q.trap&&q.questionFamily);
   assert.equal(q.options.length,4);assert.equal(new Set(q.options).size,4);assert.equal(q.optionRationales.length,4);
