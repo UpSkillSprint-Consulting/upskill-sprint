@@ -33,7 +33,7 @@ function auditMockB(){
  for(const bank of others)require(bank.questions.length===({ 'Mock A':110,Learning:120,Diagnostic:50,'Grok Mock D':110,'Claude Mock E':110})[bank.bank],'Unexpected existing bank count: '+bank.bank);
  const ledger=read('docs/nppe-mock-b-allocation-ledger.csv').trim().split(/\r?\n/).map(s=>s.split(','));
  require(ledger.length===111,'Allocation ledger must have 110 rows and a header');
- const domains={I:[0,0],II:[0,0],III:[0,0],IV:[0,0],V:[0,0],VI:[0,0]},topics=new Map(),keys=[0,0,0,0],levels={},difficulty={},family=new Set(),seenIds=new Set(),seenStems=new Map(),rolePositions=[],longestKey=0;
+ const domains={I:[0,0],II:[0,0],III:[0,0],IV:[0,0],V:[0,0],VI:[0,0]},topics=new Map(),keys=[0,0,0,0],levels={},difficulty={},family=new Set(),seenIds=new Set(),seenStems=new Map(),rolePositions=[];let longestKey=0;
  questions.forEach((q,i)=>{
   const n=281+i,label='NPPE-'+n,domain=q.blueprint?.split('.')[0];
   require(q.qid==='nppe:set-1:mock-b:'+n&&q.legacyId===label,'Wrong Mock B ID at '+n);
