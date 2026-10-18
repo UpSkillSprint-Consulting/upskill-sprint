@@ -113,8 +113,8 @@
       },
       {
         "title": "Canadian Centre for Occupational Health and Safety, Standards and codes",
-        "locator": "Distinguishes regulations and standards; applicability depends on incorporation and jurisdiction",
-        "url": "https://www.ccohs.ca/oshanswers/legisl/legislation/standards.html",
+        "locator": "Acts, regulations, codes, voluntary standards and adoption by law; applicability depends on jurisdiction",
+        "url": "https://www.ccohs.ca/oshanswers/legisl/legislation/how_to_read_legisl.html",
         "sourceType": "official-guidance"
       },
       {
@@ -230,8 +230,8 @@
     "sources": [
       {
         "title": "Engineers Canada, Mobility of engineering professionals",
-        "locator": "Regulatory framework and national mobility agreements; not a nationwide licensing authority",
-        "url": "https://engineerscanada.ca/regulatory-excellence/mobility",
+        "locator": "Engineers Canada Mobility Register eligibility and licensed-in-jurisdiction requirement; register is not a nationwide licence",
+        "url": "https://engineerscanada.ca/services/mobility-register",
         "sourceType": "official-guidance"
       },
       {
