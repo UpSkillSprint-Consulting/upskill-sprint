@@ -1,6 +1,6 @@
 item_id,batch,blueprint,domain,planned_scoring_role,authoring_status,source_review,editorial_review,independent_review,notes
 NPPE-281,1,I.1,I,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
-NPPE-282,1,II.1,II,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
+NPPE-282,1,II.1,II,simulated_unscored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending; v2 scoring-role redistribution for whole-form balance
 NPPE-283,1,III.1,III,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
 NPPE-284,1,IV.1,IV,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
 NPPE-285,1,V.1,V,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
@@ -14,7 +14,7 @@ NPPE-292,2,II.3,II,scored,authored_held,author_sources_reviewed,preliminary_comp
 NPPE-293,2,III.4,III,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
 NPPE-294,2,IV.4,IV,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
 NPPE-295,2,I.2,I,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
-NPPE-296,2,V.2,V,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
+NPPE-296,2,V.2,V,simulated_unscored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending; v2 scoring-role redistribution for whole-form balance
 NPPE-297,2,VI.2,VI,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
 NPPE-298,2,III.5,III,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
 NPPE-299,2,II.4,II,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
@@ -38,7 +38,7 @@ NPPE-316,4,III.1,III,scored,authored_held,primary_or_guidance_checked,preliminar
 NPPE-317,4,II.4,II,scored,authored_held,primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
 NPPE-318,4,IV.10,IV,scored,authored_held,primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
 NPPE-319,4,I.4,I,scored,authored_held,primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
-NPPE-320,4,III.2,III,scored,authored_held,primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
+NPPE-320,4,III.2,III,simulated_unscored,authored_held,primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending; v2 scoring-role redistribution for whole-form balance
 NPPE-321,5,V.4,V,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal source currency and calibration pending
 NPPE-322,5,VI.4,VI,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal source currency and calibration pending
 NPPE-323,5,IV.11,IV,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal source currency and calibration pending
@@ -55,7 +55,7 @@ NPPE-333,6,VI.1,VI,scored,authored_held,author_primary_or_guidance_checked,preli
 NPPE-334,6,II.3,II,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal currency and calibration pending
 NPPE-335,6,III.6,III,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal currency and calibration pending
 NPPE-336,6,IV.14,IV,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal currency and calibration pending
-NPPE-337,6,III.7,III,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal currency and calibration pending
+NPPE-337,6,III.7,III,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal currency and calibration pending; v2 scoring-role redistribution for whole-form balance
 NPPE-338,6,II.4,II,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal currency and calibration pending
 NPPE-339,6,IV.1,IV,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal currency and calibration pending
 NPPE-340,6,III.8,III,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal currency and calibration pending
@@ -67,13 +67,13 @@ NPPE-345,7,V.2,V,scored,authored_held,author_sources_reviewed,preliminary_comple
 NPPE-346,7,VI.2,VI,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
 NPPE-347,7,IV.3,IV,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
 NPPE-348,7,III.10,III,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
-NPPE-349,7,II.2,II,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
+NPPE-349,7,II.2,II,simulated_unscored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending; v2 scoring-role redistribution for whole-form balance
 NPPE-350,7,III.1,III,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
 NPPE-351,8,IV.4,IV,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
 NPPE-352,8,II.3,II,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
 NPPE-353,8,III.2,III,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
 NPPE-354,8,IV.5,IV,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
-NPPE-355,8,I.3,I,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
+NPPE-355,8,I.3,I,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending; v2 scoring-role redistribution for whole-form balance
 NPPE-356,8,III.3,III,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
 NPPE-357,8,V.3,V,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
 NPPE-358,8,VI.3,VI,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
@@ -98,14 +98,14 @@ NPPE-376,10,III.9,III,scored,authored_held,author_primary_sources_checked,prelim
 NPPE-377,10,IV.11,IV,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
 NPPE-378,10,II.4,II,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
 NPPE-379,10,III.10,III,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
-NPPE-380,10,I.1,I,simulated_unscored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
-NPPE-381,11,V.1,V,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
+NPPE-380,10,I.1,I,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending; v2 scoring-role redistribution for whole-form balance
+NPPE-381,11,V.1,V,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending; v2 scoring-role redistribution for whole-form balance
 NPPE-382,11,VI.1,VI,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
 NPPE-383,11,IV.12,IV,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
-NPPE-384,11,II.1,II,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
-NPPE-385,11,III.1,III,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
+NPPE-384,11,II.1,II,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending; v2 scoring-role redistribution for whole-form balance
+NPPE-385,11,III.1,III,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending; v2 scoring-role redistribution for whole-form balance
 NPPE-386,11,IV.13,IV,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
-NPPE-387,11,III.2,III,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
-NPPE-388,11,II.2,II,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
+NPPE-387,11,III.2,III,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending; v2 scoring-role redistribution for whole-form balance
+NPPE-388,11,II.2,II,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending; v2 scoring-role redistribution for whole-form balance
 NPPE-389,11,IV.14,IV,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
 NPPE-390,11,III.3,III,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
