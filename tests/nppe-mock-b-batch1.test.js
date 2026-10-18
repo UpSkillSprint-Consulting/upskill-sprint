@@ -7,8 +7,8 @@ test('Mock B Batch 1 has exactly ten independently keyed sourced objects and res
  const expected=['I.1','II.1','III.1','IV.1','V.1','VI.1','III.2','IV.2','II.2','III.3'];assert.deepEqual(q.map(x=>x.blueprint),expected);
  for(let i=0;i<10;i++){const x=q[i],id=281+i;
   assert.equal(x.legacyId,'NPPE-'+id);assert.equal(x.qid,'nppe:set-1:mock-b:'+id);
-  assert.equal(x.version,1);assert.equal(x.author,'ChatGPT');assert.equal(x.authorSet,1);
-  assert.equal(x.form,'set-1-mock-b');assert.equal(x.scored,true);assert.equal(x.experimental,false);
+  assert.equal(x.version,id===282?2:1);assert.equal(x.author,'ChatGPT');assert.equal(x.authorSet,1);
+  assert.equal(x.form,'set-1-mock-b');assert.equal(x.scored,id!==282);assert.equal(x.experimental,id===282);
   assert.equal(x.releaseStatus,'held');assert.equal(x.options.length,4);assert.equal(x.optionRationales.length,4);
   assert.ok(x.options.every(Boolean)&&new Set(x.options).size===4);
   assert.ok(Number.isInteger(x.answer)&&x.answer>=0&&x.answer<=3);
