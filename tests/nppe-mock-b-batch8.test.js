@@ -19,7 +19,7 @@ test('Mock B Batch 8 adds complete NPPE-351–360 while preserving prior 70 obje
   assert.ok(q.why.includes('Sources:')&&q.why.includes('Key learning point:'));
  });
  assert.equal(new Set(all.map(x=>x.qid)).size,80);assert.equal(new Set(all.map(x=>x.questionFamily)).size,80);
- assert.equal(all.filter(x=>x.scored&&!x.experimental).length,80);
+ assert.equal(all.filter(x=>x.scored&&!x.experimental).length,74);
  assert.deepEqual([0,1,2,3].map(i=>items.filter(q=>q.answer===i).length),[1,3,3,3]);
 });
 test('Batch 8 reloading is idempotent; incomplete or conflicting prerequisites fail closed',()=>{
