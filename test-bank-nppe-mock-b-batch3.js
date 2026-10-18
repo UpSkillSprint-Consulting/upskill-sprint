@@ -13,7 +13,7 @@
     "stem": "An engineer evaluates two locations for a processing facility. The cheaper site borders a seasonally flooded wetland, but the financial comparison omits drainage costs and potential habitat impacts because the inspection occurred during a dry month. What is the most defensible recommendation?",
     "options": [
       "Approve the cheaper location because a dry-season inspection establishes year-round environmental suitability.",
-      "Exclude environmental costs from the decision unless regulators have already issued a violation notice.",
+      "Exclude wetland costs until a violation notice is issued.",
       "Obtain seasonal wetland evidence and include foreseeable mitigation costs.",
       "Reject both locations permanently because any possibility of wetland effects makes engineering evaluation unethical."
     ],
@@ -52,7 +52,7 @@
     "stem": "Two firms disputing a geotechnical consulting invoice agree to meet with a neutral mediator. After listening to both parties, the mediator announces that one party must pay $70,000 and says the decision is binding even though the parties have signed no settlement. Which assessment best describes mediation?",
     "options": [
       "The mediator facilitates agreement but cannot impose a binding award.",
-      "A mediator always has the same binding decision-making power as a judge once a meeting starts.",
+      "Treat the mediator's proposal as a binding ruling.",
       "Mediation automatically converts the disagreement into criminal proceedings if no settlement is reached.",
       "The neutral may issue an enforceable arbitral award without an arbitration agreement because the mediator has heard both sides."
     ],
@@ -130,7 +130,7 @@
     "stem": "A contractor asks for an editable structural model. To accelerate review, a junior employee uploads it to a public file-sharing link that allows anonymous downloads. The lead engineer discovers the link before the contractor accesses it. What is the best immediate course?",
     "options": [
       "Leave the public link active because contractor collaboration removes all confidentiality obligations.",
-      "Delete local source files so the publicly shared version becomes the sole reference.",
+      "Delete local masters after making the public copy.",
       "Ask the contractor to promise verbally not to distribute the public link while retaining anonymous access.",
       "Disable the public link, retain incident evidence and use controlled sharing."
     ],
@@ -168,7 +168,7 @@
     "jurisdiction": "Canada; project specification requires traceable approved records; this question does not prescribe a particular provincial sealing mechanism.",
     "stem": "An engineering contractor assembles an as-built piping dossier from construction markups. One change relocates a pressure-relief line, but the only evidence is a handwritten note without a drawing revision, field verification, or design review. The schedule calls for issuing the as-built package tomorrow. What should the responsible engineer do?",
     "options": [
-      "Issue the marked-up drawing as verified as-built because handwriting is sufficient evidence of installation.",
+      "Issue the markup as verified evidence of installation.",
       "Authenticate only after verifying and recording the installed change.",
       "Copy the original issued-for-construction drawing into the as-built package and omit the note to avoid an inconsistent record.",
       "Have the document controller sign the engineering seal on behalf of the engineer without checking the change."
@@ -208,7 +208,7 @@
     "stem": "A developer receives original design drawings under a consulting agreement that expressly permits use only on Project North. The developer proposes copying the drawings unchanged for Project South without asking the consultant. Which conclusion best follows from the stated rights?",
     "options": [
       "Possession of a paid-for digital copy automatically transfers all copyright and unlimited reuse rights.",
-      "The fact that both projects use the same developer nullifies all contractual licence restrictions.",
+      "Allow reuse because the two projects share a developer.",
       "Obtain permission to reuse the designs outside the licensed project.",
       "An engineering drawing cannot be protected by copyright unless it is accompanied by a registered patent."
     ],
@@ -249,7 +249,7 @@
       "Check each discipline's competence, regulated scope and jurisdiction.",
       "Either activity may be assigned without reference to professional competence as long as the employer is a municipality.",
       "Engineering and geoscience are governed by a single nationwide practising licence issued by Engineers Canada.",
-      "Any professional geoscientist is automatically competent to approve every structural retaining-wall design."
+      "Assume a geoscience licence covers any structural design."
     ],
     "answer": 0,
     "optionRationales": [
@@ -287,7 +287,7 @@
     "options": [
       "The designation is allowed because the salesperson has a technical diploma and clients can ask about licences.",
       "A business card cannot ever constitute title misuse unless an actual stamped drawing exists.",
-      "Only misuse of a physical seal matters; professional titles are unrestricted advertising.",
+      "Regulate only physical seals, not advertised job titles.",
       "Ontario protects the professional engineer title regardless of office labels."
     ],
     "answer": 3,
@@ -327,7 +327,7 @@
       "A PPMP template is conclusive proof that every quality-management activity has been implemented, regardless of actual firm practice.",
       "Check that the PPMP fits the firm's work and is actually followed by its staff.",
       "A Permit to Practice replaces the obligation to manage professional work, so no practice controls are needed after registration.",
-      "Only a criminal court may examine whether a firm's engineering quality process is implemented."
+      "Leave inspection of firm procedures to criminal courts."
     ],
     "answer": 1,
     "optionRationales": [
@@ -399,6 +399,7 @@
    Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:3,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal review and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'2017 published NPPE blueprint current 2026-10-18',difficultyBasis:'Editorial judgement; not empirically calibrated'});
    if(id==='309'){q.version=3;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
   if([301,302,304,305,306,307,308,310].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
+  if([301,302,304,305,306,307,308,309].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 3 item '+id);
    q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B draft. Editorial classifications are provisional; this item does not predict an official NPPE score.</p>';
  });
