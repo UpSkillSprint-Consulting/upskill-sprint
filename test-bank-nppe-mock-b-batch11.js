@@ -13,7 +13,7 @@
     "stem": "An applicant to a provincial engineering regulator completes all assigned competency interviews and receives an assessment letter confirming satisfactory technical knowledge. An employer interprets the letter as immediate permission to independently authenticate regulated drawings. What should the applicant do?",
     "options": [
       "Begin authenticating professional work because competency assessment and statutory registration are always legally identical.",
-      "Verify that the regulator has granted the applicable licence or other practice authorization before independently authenticating work.",
+      "Obtain the regulator's licence or practice authorization before authenticating work.",
       "Ask the employer to issue an internal certificate, which automatically becomes a provincial engineering licence.",
       "Register with a voluntary technical society instead of the regulator because competence was already evaluated."
     ],
@@ -54,7 +54,7 @@
       "Announce guilt immediately because a written complaint with photographs automatically constitutes a disciplinary finding.",
       "Dismiss the complaint without investigation to avoid any reputational impact on another professional.",
       "Ask the registrant to surrender their licence automatically because a complaint is the same as a criminal charge.",
-      "Assess the complaint under the statutory process, provide required procedural opportunities to respond, and reserve any finding for the authorized decision-maker."
+      "Apply a fair complaint process and let the authorized body make its finding."
     ],
     "answer": 3,
     "optionRationales": [
@@ -135,7 +135,7 @@
     "jurisdiction": "Canada; a safety-critical sensor test record is subject to an accurate-reporting procedure; a confirmed nonconformance has not yet been mitigated.",
     "stem": "A manufacturing quality team customarily overwrites failed acceptance-test entries with passing retest values so monthly charts look consistent. A junior engineer confirms that one failed result reflects an unresolved sensor fault. A colleague says the data-cleaning tradition is accepted by everyone and is therefore ethical. What is the best response?",
     "options": [
-      "Keep the original failure traceable, document the retest and unresolved fault separately, and evaluate the reporting custom against honesty and public-safety duties.",
+      "Preserve the failed result and document retests and unresolved faults.",
       "Continue overwriting failures because a team norm automatically defines acceptable professional conduct.",
       "Delete both the initial failure and retest results so no employee has to make an uncomfortable judgment.",
       "Declare every product ever tested by the team unsafe without examining the failure's technical significance."
@@ -177,7 +177,7 @@
       "Apply the original certificate without review because model geometry alone determines the validity of every loading case.",
       "Use the output at twice the allowable stress to compensate for unknown fatigue without further evidence.",
       "Reject all finite-element analysis as unsuitable for professional use whenever conditions change.",
-      "Identify the changed thermal, fatigue and material assumptions; obtain competent verification for the new duty cycle before accepting the model."
+      "Revalidate thermal, fatigue and material assumptions for the new service."
     ],
     "answer": 3,
     "optionRationales": [
@@ -259,7 +259,7 @@
     "stem": "An engineer must take confidential piping drawings to an authorized independent reviewer. The engineer proposes copying the only master files onto an unencrypted personal USB drive because the trip will be short and the reviewer is trusted. What is the most defensible approach?",
     "options": [
       "Use the personal drive because brief possession of a device cannot cause confidentiality or integrity problems.",
-      "Use the approved encrypted transfer method with controlled access and preserve authoritative master versions rather than placing the only copies on an unprotected device.",
+      "Transfer encrypted copies through approved channels; preserve master records.",
       "Print the confidential drawings and leave them unattended in a shared public waiting area instead.",
       "Email the drawings to the engineer's entire professional network so several people can verify that the transfer was legitimate."
     ],
@@ -300,7 +300,7 @@
       "Ethical egoism, because maximizing the engineer's personal income is the central rationale.",
       "Pure act utilitarianism, because no feature other than total litres distributed can be morally relevant.",
       "Virtue ethics only, because the procedure exists solely to cultivate the engineer's personality.",
-      "Justice and procedural fairness, because the criteria are impartial, consistently applied and open to review."
+      "Justice and procedural fairness: impartial, consistent, reviewable criteria."
     ],
     "answer": 3,
     "optionRationales": [
@@ -339,7 +339,7 @@
       "One standard notice always discharges consultation, even if a project poses serious risk to a credible asserted practice.",
       "Consultation may be postponed in every case until an Aboriginal right is finally proven in court.",
       "The Crown must automatically grant every requested change without assessing the particular right and potential effects.",
-      "Consultation processes should be proportionate to the strength of the claim and the seriousness of potential adverse effects, with meaningful engagement where warranted."
+      "Match the depth of consultation to claim strength and potential adverse impact."
     ],
     "answer": 3,
     "optionRationales": [
@@ -378,7 +378,7 @@
       "Replace the observation with the historical average because unusual values are necessarily instrument errors.",
       "Delete the data series because any unexpected reading invalidates the entire bridge inspection.",
       "Have the technician sign a form accepting all technical responsibility so the engineer need not investigate.",
-      "Preserve the original observation, verify instrument and site conditions with appropriate oversight, and resolve the technical significance before approving the report."
+      "Preserve the reading and verify the instrument and site before approval."
     ],
     "answer": 3,
     "optionRationales": [
@@ -412,6 +412,7 @@
   if(scored&&id!=='383'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role redistributed by whole-form audit';}
   if(id==='383'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if(id==='386'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
+  if([381,382,384,385,387,388,389,390].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 11 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B item, release held. Scoring roles are simulated; no official NPPE score prediction is implied.</p>';
  });
