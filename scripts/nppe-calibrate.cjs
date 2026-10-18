@@ -32,20 +32,22 @@ function analyze(manifest,keyed,attempts){
  }
  const scored=catalog.filter(q=>q.scored&&!q.simulatedUnscored);
  if(scored.length!==100)throw Error('Expected 100 scored');
- const totals=accepted.map(({response})=>scored.reduce((s,q)=>{const r=response.get(q.id);return s+Number(r.status==='answered'&&r.answer===q.answerIndex);},0));
+ // Item-rest relationships use the same complete-case population as scored-form
+ // reliability. Treating omissions as wrong on the rest score biases correlations.
+ const complete=accepted.filter(({response})=>scored.every(q=>response.get(q.id).status==='answered'));
+ const completeTotals=complete.map(({response})=>scored.reduce((s,q)=>s+Number(response.get(q.id).answer===q.answerIndex),0));
  const rows=catalog.map(q=>{
   const statuses=accepted.map(({response})=>response.get(q.id));
   const answered=statuses.filter(r=>r.status==='answered'), correct=answered.filter(r=>r.answer===q.answerIndex).length;
   const rest=[],binary=[];
-  if(q.scored&&!q.simulatedUnscored)accepted.forEach(({response},i)=>{const r=response.get(q.id);if(r.status==='answered'){const hit=Number(r.answer===q.answerIndex);binary.push(hit);rest.push(totals[i]-hit);}});
+  if(q.scored&&!q.simulatedUnscored)complete.forEach(({response},i)=>{const hit=Number(response.get(q.id).answer===q.answerIndex);binary.push(hit);rest.push(completeTotals[i]-hit);});
   return {itemId:q.id,version:q.version,scored:q.scored,simulatedUnscored:q.simulatedUnscored,
    n:statuses.length,nAnswered:answered.length,correct,proportionCorrect:answered.length?correct/answered.length:null,
-   wilson95:wilson(correct,answered.length),correctedItemRest:q.scored&&!q.simulatedUnscored?correlation(binary,rest):null,
+   wilson95:wilson(correct,answered.length),correctedItemRest:q.scored&&!q.simulatedUnscored?correlation(binary,rest):null,correctedItemRestN:q.scored&&!q.simulatedUnscored?binary.length:0,
    distractorCounts:[0,1,2,3].map(i=>answered.filter(r=>r.answer===i).length),
    omitted:statuses.filter(r=>r.status==='omitted').length,notReached:statuses.filter(r=>r.status==='not_reached').length,
    meanAnsweredSeconds:answered.some(r=>r.seconds!=null)?mean(answered.filter(r=>r.seconds!=null).map(r=>r.seconds)):null};
  });
- const complete=accepted.filter(({response})=>scored.every(q=>response.get(q.id).status==='answered'));
  const scoreSets=complete.map(({response})=>scored.map(q=>Number(response.get(q.id).answer===q.answerIndex)));
  const scoreVar=variance(scoreSets.map(s=>s.reduce((a,b)=>a+b,0)));
  const proportions=scored.map((q,i)=>scoreSets.length?mean(scoreSets.map(s=>s[i])):null);
