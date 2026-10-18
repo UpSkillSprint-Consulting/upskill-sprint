@@ -33,7 +33,7 @@ Use the existing Mock A valid allocation as a **starting proposal**, not an asse
 | VI Regulation/Discipline | 8 | 1 | 9 |
 | **Total** | **100** | **10** | **110** |
 
-Each of 40 numbered topics should have at least one scored Mock B item where feasible and defensible; topic allocation **is an internal quality criterion**, not an official NPPE per-form mandate. Allocate case complexity based on substantive requirements and test decisions, not quotas of `hard` labels. Prepare a scored/unscored ledger before writing Batch 1 and update it after every batch; keep scored roles hidden from candidate UI.
+The preliminary 110-row [allocation ledger](nppe-mock-b-allocation-ledger.csv) reserves every NPPE-281–390 slot, planned scored/unscored role, primary numbered blueprint topic, and per-batch disposition, with all 40 topics assigned at least one scored sample. Its assignments are **provisional**: revise and document them when necessary for defensible item writing, but preserve the final domain totals and scored coverage. Do not convert planned rows into authored questions merely because an ID exists. Topic allocation **is an internal quality criterion**, not an official NPPE per-form mandate. Allocate case complexity based on substantive requirements and test decisions, not quotas of `hard` labels. Prepare a scored/unscored ledger before writing Batch 1 and update it after every batch; keep scored roles hidden from candidate UI.
 
 | Batch | IDs | Delivery milestone |
 |---|---|---|
