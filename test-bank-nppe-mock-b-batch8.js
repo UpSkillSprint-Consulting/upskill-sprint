@@ -260,7 +260,7 @@
     "options": [
       "The owner may provide the services immediately because engineering graduates have unrestricted statutory practice rights.",
       "A marketing disclaimer automatically provides a temporary engineering licence until the first customer pays.",
-      "The business must establish the applicable professional practice and public-service authorization before offering regulated services; a disclaimer cannot grant the missing rights.",
+      "A disclaimer cannot replace required authorization to offer engineering services.",
       "The business can avoid regulation by substituting a commercial logo for any professional seal."
     ],
     "answer": 2,
@@ -419,6 +419,7 @@
   if(id==='358'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='359'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='360'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if(id==='357'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
