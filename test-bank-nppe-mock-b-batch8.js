@@ -190,6 +190,12 @@
         "url": "https://www.nppexam.ca/en/preparation/blueprint/"
       },
       {
+        "sourceType": "national-geoscience-regulator-body",
+        "title": "Geoscientists Canada, About Regulation",
+        "locator": "Provincial and territorial bodies license/regulate geoscientists; destination regulator determines practice authority",
+        "url": "https://geoscientistscanada.ca/"
+      },
+      {
         "sourceType": "official-blueprint",
         "title": "NPPE, current published 2017 blueprint",
         "locator": "I.3 — primary numbered topic, checked 2026-10-18",
