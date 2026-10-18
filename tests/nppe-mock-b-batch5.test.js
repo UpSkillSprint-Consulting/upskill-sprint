@@ -9,7 +9,7 @@ test('Mock B Batch 5 supplies ten original, fully sourced and rationalized NPPE-
  for(let n=1;n<5;n++)assert.ok(Array.from(w['NPPE_MOCK_B_BATCH'+n]).every((x,i)=>x===all[(n-1)*10+i]));
  for(let i=0;i<10;i++){
   const x=b[i],id=321+i;
-  assert.equal(x.qid,'nppe:set-1:mock-b:'+id);assert.equal(x.legacyId,'NPPE-'+id);assert.equal(x.version,1);assert.equal(x.batch,5);
+  assert.equal(x.qid,'nppe:set-1:mock-b:'+id);assert.equal(x.legacyId,'NPPE-'+id);assert.equal(x.version,id===324?2:1);assert.equal(x.batch,5);
   assert.equal(x.author,'ChatGPT');assert.equal(x.authorSet,1);assert.equal(x.form,'set-1-mock-b');assert.equal(x.releaseStatus,'held');
   assert.equal(x.scored,true);assert.equal(x.experimental,false);
   assert.ok(x.jurisdiction&&x.stem&&x.learningObjective&&x.keyPoint&&x.trap);
