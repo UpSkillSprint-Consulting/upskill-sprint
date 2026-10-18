@@ -11,8 +11,8 @@ test('Batch 4 has precisely ten original items, complete rationales, source loca
  assert.ok(Array.from(w.NPPE_MOCK_B_BATCH3).every((x,i)=>x===all[20+i]));
  batch.forEach((q,i)=>{
   const id=311+i;assert.equal(q.qid,'nppe:set-1:mock-b:'+id);assert.equal(q.legacyId,'NPPE-'+id);
-  assert.equal(q.batch,4);assert.equal(q.version,1);assert.equal(q.authorSet,1);assert.equal(q.author,'ChatGPT');
-  assert.equal(q.form,'set-1-mock-b');assert.equal(q.releaseStatus,'held');assert.equal(q.scored,true);assert.equal(q.experimental,false);
+  assert.equal(q.batch,4);assert.equal(q.version,id===320?2:1);assert.equal(q.authorSet,1);assert.equal(q.author,'ChatGPT');
+  assert.equal(q.form,'set-1-mock-b');assert.equal(q.releaseStatus,'held');assert.equal(q.scored,id!==320);assert.equal(q.experimental,id===320);
   assert.equal(q.options.length,4);assert.equal(new Set(q.options).size,4);assert.equal(q.optionRationales.length,4);
   assert.ok(q.optionRationales.every(t=>t.length>=40));
   assert.ok(Number.isInteger(q.answer)&&q.answer>=0&&q.answer<4);
