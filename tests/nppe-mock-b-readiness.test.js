@@ -33,7 +33,7 @@ test('Mock B authoring plan respects current published ranges and batch arithmet
   assert.match(doc,new RegExp('\\b'+first+'[–-]'+last+'\\b'));
  }
  assert.match(doc,/releaseHold:true/);
- assert.match(doc,/0\/110/);
+ assert.match(doc,/10\/110/);
 });
 test('Mock B already has a separate form slot and held/empty forms fail closed',()=>{
  const page=read('test-bank.html'),runtime=read('scripts/nppe-diagnostic-runtime.mjs');
