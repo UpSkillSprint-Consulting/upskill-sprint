@@ -307,7 +307,7 @@
     "trap": "Treating qualified acceptance as an unconditional agreement.",
     "sources": [
       {
-        "sourceType": "judicial-case-reference",
+        "sourceType": "federal-government-contract-guidance",
         "title": "Industry Canada, Consumer protection rights in Canada (contract law overview)",
         "locator": "Part II, Contract Law — Acceptance, section 2 Correspondence with Offer: qualified acceptance is a counteroffer under the common law (government educational overview, not controlling judgment)",
         "url": "https://publications.gc.ca/collections/collection_2022/isde-ised/Iu23-51-1998-eng.pdf"
