@@ -10,8 +10,8 @@ test('Final Mock B Batch 11 contains 381–390, correct blueprint, rationales an
  batch.forEach((q,i)=>{
   const id=381+i;
   assert.equal(q.qid,'nppe:set-1:mock-b:'+id);assert.equal(q.legacyId,'NPPE-'+id);
-  assert.equal(q.batch,11);assert.equal(q.version,1);assert.equal(q.author,'ChatGPT');assert.equal(q.authorSet,1);assert.equal(q.form,'set-1-mock-b');
-  assert.equal(q.releaseStatus,'held');assert.equal(q.scored,id===383);assert.equal(q.experimental,id!==383);
+  assert.equal(q.batch,11);assert.equal(q.version,[381,384,385,387,388].includes(id)?2:1);assert.equal(q.author,'ChatGPT');assert.equal(q.authorSet,1);assert.equal(q.form,'set-1-mock-b');
+  assert.equal(q.releaseStatus,'held');assert.equal(q.scored,[381,383,384,385,387,388].includes(id));assert.equal(q.experimental,[382,386,389,390].includes(id));
   assert.ok(q.jurisdiction&&q.stem&&q.learningObjective&&q.keyPoint&&q.trap&&q.questionFamily);
   assert.equal(q.options.length,4);assert.equal(new Set(q.options).size,4);assert.equal(q.optionRationales.length,4);
   assert.ok(q.optionRationales.every(s=>s.length>=35));assert.ok(Number.isInteger(q.answer)&&q.answer>=0&&q.answer<4);
@@ -22,7 +22,7 @@ test('Final Mock B Batch 11 contains 381–390, correct blueprint, rationales an
  assert.equal(new Set(all.map(q=>q.qid)).size,110);
  assert.equal(new Set(all.map(q=>q.questionFamily)).size,110);
  assert.equal(all.filter(q=>q.scored===true&&q.experimental!==true).length,100);
- assert.deepEqual(all.filter(q=>q.experimental===true).map(q=>q.legacyId),['NPPE-380','NPPE-381','NPPE-382','NPPE-384','NPPE-385','NPPE-386','NPPE-387','NPPE-388','NPPE-389','NPPE-390']);
+ assert.deepEqual(all.filter(q=>q.experimental===true).map(q=>q.legacyId),['NPPE-282','NPPE-296','NPPE-320','NPPE-337','NPPE-349','NPPE-355','NPPE-382','NPPE-386','NPPE-389','NPPE-390']);
  const plan=read('docs/nppe-mock-b-allocation-ledger.csv').trim().split(/\r?\n/).slice(1).map(row=>row.split(','));
  assert.equal(plan.length,110);
  for(let i=0;i<110;i++){
