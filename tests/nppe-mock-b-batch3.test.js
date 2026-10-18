@@ -10,7 +10,7 @@ test('Mock B Batch 3 loads exactly NPPE-301–310, preserving 20 preceding objec
  assert.ok(Array.from(w.NPPE_MOCK_B_BATCH2).every((x,i)=>x===q[10+i]));
  batch.forEach((x,i)=>{
   const id=301+i;assert.equal(x.qid,'nppe:set-1:mock-b:'+id);assert.equal(x.legacyId,'NPPE-'+id);
-  assert.equal(x.version,1);assert.equal(x.batch,3);assert.equal(x.authorSet,1);assert.equal(x.author,'ChatGPT');assert.equal(x.form,'set-1-mock-b');assert.equal(x.releaseStatus,'held');
+  assert.equal(x.version,id===309?2:1);assert.equal(x.batch,3);assert.equal(x.authorSet,1);assert.equal(x.author,'ChatGPT');assert.equal(x.form,'set-1-mock-b');assert.equal(x.releaseStatus,'held');
   assert.equal(x.scored,true);assert.equal(x.experimental,false);assert.ok(['understanding','application','analysis'].includes(x.cognitiveLevel));
   assert.equal(x.options.length,4);assert.equal(new Set(x.options).size,4);assert.equal(x.optionRationales.length,4);
   assert.ok(x.optionRationales.every(a=>a.length>=35));assert.ok(Number.isInteger(x.answer)&&x.answer>=0&&x.answer<4);
