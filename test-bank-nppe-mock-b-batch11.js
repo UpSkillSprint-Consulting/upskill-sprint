@@ -15,7 +15,7 @@
       "Begin authenticating professional work because competency assessment and statutory registration are always legally identical.",
       "Obtain the regulator's licence or practice authorization before authenticating work.",
       "Ask the employer to issue an internal certificate, which automatically becomes a provincial engineering licence.",
-      "Register with a voluntary technical society instead of the regulator because competence was already evaluated."
+      "Join a society instead of obtaining regulatory authorization."
     ],
     "answer": 1,
     "optionRationales": [
@@ -52,7 +52,7 @@
     "stem": "An engineering regulator receives a detailed complaint about a registrant's project reports. A committee member proposes announcing that the registrant is guilty before reviewing the response because the complainant attached photographs. What response best respects the professional discipline process?",
     "options": [
       "Announce guilt immediately because a written complaint with photographs automatically constitutes a disciplinary finding.",
-      "Dismiss the complaint without investigation to avoid any reputational impact on another professional.",
+      "Dismiss complaints to protect the profession's reputation.",
       "Ask the registrant to surrender their licence automatically because a complaint is the same as a criminal charge.",
       "Apply a fair complaint process and let the authorized body make its finding."
     ],
@@ -136,7 +136,7 @@
     "stem": "A manufacturing quality team customarily overwrites failed acceptance-test entries with passing retest values so monthly charts look consistent. A junior engineer confirms that one failed result reflects an unresolved sensor fault. A colleague says the data-cleaning tradition is accepted by everyone and is therefore ethical. What is the best response?",
     "options": [
       "Preserve the failed result and document retests and unresolved faults.",
-      "Continue overwriting failures because a team norm automatically defines acceptable professional conduct.",
+      "Overwrite failed readings because the team routinely does so.",
       "Delete both the initial failure and retest results so no employee has to make an uncomfortable judgment.",
       "Declare every product ever tested by the team unsafe without examining the failure's technical significance."
     ],
@@ -176,7 +176,7 @@
     "options": [
       "Apply the original certificate without review because model geometry alone determines the validity of every loading case.",
       "Use the output at twice the allowable stress to compensate for unknown fatigue without further evidence.",
-      "Reject all finite-element analysis as unsuitable for professional use whenever conditions change.",
+      "Reject finite-element modelling when conditions change.",
       "Revalidate thermal, fatigue and material assumptions for the new service."
     ],
     "answer": 3,
@@ -220,7 +220,7 @@
     "stem": "A commercial engineering firm completed an occupational exposure study years ago. It still keeps identifiable worker health-related measurements in an unrestricted shared folder, although the original purpose, applicable retention period and appeals have ended. Management suggests keeping all records indefinitely 'in case they become interesting later.' What is the best initial privacy-management decision?",
     "options": [
       "Retain every identifiable record permanently because personal information has no meaningful retention limits once lawfully collected.",
-      "Move the files to a different shared drive with the same unrestricted permissions and treat the risk as resolved.",
+      "Move records without changing their unrestricted access.",
       "Follow the retention policy; securely delete or anonymize records with no remaining lawful purpose.",
       "Publish the worker records openly, since the project's original consent removes all restrictions after the study closes."
     ],
@@ -260,7 +260,7 @@
     "options": [
       "Use the personal drive because brief possession of a device cannot cause confidentiality or integrity problems.",
       "Transfer encrypted copies through approved channels; preserve master records.",
-      "Print the confidential drawings and leave them unattended in a shared public waiting area instead.",
+      "Leave printed drawings unattended during transfer.",
       "Email the drawings to the engineer's entire professional network so several people can verify that the transfer was legitimate."
     ],
     "answer": 1,
@@ -297,7 +297,7 @@
     "jurisdiction": "Canada; a hypothetical ethics-theory discussion, not a particular enacted statutory entitlement.",
     "stem": "An engineer designs a procedure for allocating limited emergency drinking-water deliveries. The procedure applies publicly explained criteria to similarly situated households, offers an accessible way to challenge an error, and avoids favouring influential donors. Which moral emphasis is most directly expressed?",
     "options": [
-      "Ethical egoism, because maximizing the engineer's personal income is the central rationale.",
+      "Ethical egoism: maximize the engineer's income.",
       "Pure act utilitarianism, because no feature other than total litres distributed can be morally relevant.",
       "Virtue ethics only, because the procedure exists solely to cultivate the engineer's personality.",
       "Justice and procedural fairness: impartial, consistent, reviewable criteria."
@@ -337,7 +337,7 @@
     "stem": "Before approving a new right-of-way, a provincial agency proposes the same single information email to every potentially affected Indigenous Nation regardless of the proposed project's impact. A professional advisor asks how consultation depth should be determined. Which response best reflects the constitutional duty to consult framework?",
     "options": [
       "One standard notice always discharges consultation, even if a project poses serious risk to a credible asserted practice.",
-      "Consultation may be postponed in every case until an Aboriginal right is finally proven in court.",
+      "Wait for a court ruling before consulting the Nation.",
       "The Crown must automatically grant every requested change without assessing the particular right and potential effects.",
       "Match the depth of consultation to claim strength and potential adverse impact."
     ],
@@ -376,7 +376,7 @@
     "stem": "A technician working remotely records a bearing displacement far outside expected values. The sensor could be miscalibrated, but no verification has been performed. A supervising engineer asks the technician to replace the reading with a typical value so the report can be approved before lunch. What should the engineer instead do?",
     "options": [
       "Replace the observation with the historical average because unusual values are necessarily instrument errors.",
-      "Delete the data series because any unexpected reading invalidates the entire bridge inspection.",
+      "Delete all data when one reading appears abnormal.",
       "Have the technician sign a form accepting all technical responsibility so the engineer need not investigate.",
       "Preserve the reading and verify the instrument and site before approval."
     ],
@@ -413,6 +413,7 @@
   if(id==='383'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if(id==='386'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if([381,382,384,385,387,388,389,390].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if([381,382,384,385,386,387,388,389,390].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 11 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B item, release held. Scoring roles are simulated; no official NPPE score prediction is implied.</p>';
  });
