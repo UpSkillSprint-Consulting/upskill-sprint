@@ -52,30 +52,30 @@
     "sub": "nppe-discipline",
     "difficulty": "medium",
     "cognitiveLevel": "application",
-    "questionFamily": "mock-b-cpd-plan-verifiable-category-gap",
-    "learningObjective": "Apply a regulator's CPD requirements rather than equating total hours with compliance.",
-    "jurisdiction": "Saskatchewan, APEGS 2026 CPD program for a professional member subject to the standard full-year requirements and no exception or proration.",
-    "stem": "An APEGS professional member records 35 CPD credits during the reporting year, but only 8 are verifiable. All activities belong to one non-ethics category, and no verifiable ethics training was completed. The member says exceeding 30 total credits is sufficient. Which response best reflects the published annual program requirements?",
+    "questionFamily": "mock-b-apegs-scope-of-practice-online-report",
+    "learningObjective": "Identify the separate online scope-of-practice reporting requirement for a full-year APEGS Professional Member.",
+    "jurisdiction": "Saskatchewan; APEGS 2026 CPD requirements for a full-year Professional Member, with no exception or variation.",
+    "stem": "An APEGS Professional Member has updated a CPD plan, completed the required total and verifiable credits across the required categories, taken the annual ethics hour and reported all CPD activities online. The member has not entered the current Scope of Practice in APEGS Central, arguing that CPD credits alone complete every annual step. What remains to be done?",
     "options": [
-      "The member meets all requirements because the overall total exceeds 30 credits.",
-      "The member must address the unmet minimum verifiable credits, category breadth and verifiable ethics training, even though total credits exceed 30.",
-      "The member must discard all completed credits because CPD is valid only when every activity is a university course.",
-      "The member can convert any non-verifiable activity to verifiable simply by rewriting its duration in the online log."
+      "Repeat the entire CPD year because a missing scope entry automatically invalidates completed learning.",
+      "Only engineering and geoscience licensees, not Professional Members, are required to enter a Scope of Practice online.",
+      "Enter or update the Scope of Practice in APEGS Central as a separate requirement for the stated membership category.",
+      "Nothing further, because reporting the CPD activities automatically substitutes for every other program field."
     ],
-    "answer": 1,
+    "answer": 2,
     "optionRationales": [
-      "The annual program has additional independently applicable requirements beyond total credits.",
-      "The published standard includes at least 12 verifiable credits, two categories and verifiable ethics training under the stated membership conditions.",
-      "Eligible professional development is not limited exclusively to university courses.",
-      "Evidence of completion and category rules are not changed by relabelling the recorded hours."
+      "An incomplete reporting field does not prove the substantive learning activities never occurred.",
+      "The published APEGS requirements specify Scope of Practice online reporting for Professional Members, with a different entry for certain licence categories.",
+      "The member has satisfied the stated credit, plan and online CPD reporting components, but the separate Scope of Practice requirement remains.",
+      "Compliance with one reporting element is not necessarily compliance with a separately identified element in the regulator's programme."
     ],
-    "keyPoint": "Meeting a total CPD target does not excuse separate reporting, verification, category or ethics requirements.",
-    "trap": "Treating credits as fungible despite additional regulatory requirements.",
+    "keyPoint": "An APEGS Professional Member's annual CPD compliance includes the separate Scope of Practice entry where required.",
+    "trap": "Assuming the credit and activity-reporting requirements automatically satisfy the scope declaration.",
     "sources": [
       {
         "sourceType": "provincial-regulator-guidance",
         "title": "APEGS, CPD Program Basics",
-        "locator": "Annual Requirements for Professional Members: 30 credits, minimum 12 verifiable, two categories and annual verifiable ethics training",
+        "locator": "Annual Requirements for the CPD Program, Professional Members row: Enter Scope of Practice online = Yes",
         "url": "https://www.apegs.ca/cpd/cpd-program/cpd-program-basics"
       },
       {
@@ -410,6 +410,7 @@
   var id=String(321+i);
   Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:5,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal review and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 NPPE blueprint checked 2026-10-18',difficultyBasis:'Editorial estimate; not empirically calibrated'});
   if(id==='324'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form source strengthened';}
+  if(id==='322'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(s){return s.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 5 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Difficulty and cognition are editorial estimates, not evidence of official NPPE readiness.</p>';
  });
