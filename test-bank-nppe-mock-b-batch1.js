@@ -310,7 +310,7 @@
         "sourceType": "judicial-case-reference",
         "title": "Industry Canada, Consumer protection rights in Canada (contract law overview)",
         "locator": "Part II, Contract Law — Acceptance, section 2 Correspondence with Offer: qualified acceptance is a counteroffer under the common law (government educational overview, not controlling judgment)",
-        "url": "https://www.canlii.org/en/on/onca/doc/2002/2002canlii20549/2002canlii20549.html"
+        "url": "https://publications.gc.ca/collections/collection_2022/isde-ised/Iu23-51-1998-eng.pdf"
       },
       {
         "sourceType": "official-blueprint",
