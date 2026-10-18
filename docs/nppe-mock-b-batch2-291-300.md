@@ -8,10 +8,10 @@ Date: 2026-10-18. Status: **10 new author/editor-drafted items; 20/110 total; pr
 |---|---|---:|---|---|
 | 291 | IV.3 | B (1) | Reasonable foreseeability and proximity in third-party negligence reliance | SCC *Deloitte & Touche v Livent*, 2017 SCC 63; scope of undertaking requires qualified legal review |
 | 292 | II.3 | A (0) | Measured evidence versus modelled assumptions in public technical statements | Engineers Canada Code of Ethics guideline, principle 4; advisory not binding provincial law |
-| 293 | III.4 | C (2) | Permit requirements versus nonbinding industry guidance | Stipulated permit; Engineers Canada ethics and CCOHS standards background; CCOHS locator requires direct URL check |
+| 293 | III.4 | C (2) | Permit requirements versus nonbinding industry guidance | Stipulated permit; Engineers Canada ethics and CCOHS standards background; CCOHS How to Read Legislation source located; hypothetical permit text not independently verified |
 | 294 | IV.4 | D (3) | Fault, injury and causal connection in Québec extra-contractual liability | Civil Code of Québec art. 1457; official historical English text inspected, currency review pending |
 | 295 | I.2 | C (2) | Public protection includes infrastructure access and foreseeable economic disruption | Engineers Canada ethics guideline; hypothetical engineering facts |
-| 296 | V.2 | D (3) | Interprovincial mobility eligibility versus destination regulator registration | Engineers Canada mobility guidance URL requires direct verification; jurisdiction-specific exemptions require review |
+| 296 | V.2 | D (3) | Interprovincial mobility eligibility versus destination regulator registration | Engineers Canada Mobility Register official page located; destination regulator conditions still require jurisdiction review; jurisdiction-specific exemptions require review |
 | 297 | VI.2 | A (0) | Reactive targeted practice review versus proactive audit | EGBC Individual Practice Review program, current regulator guidance inspected |
 | 298 | III.5 | B (1) | Validated lower-hazard substitution versus warning posters | CCOHS hierarchy of controls, official current guidance inspected |
 | 299 | II.4 | C (2) | Disclose and manage family conflict in bid evaluation | Engineers Canada code-of-ethics guideline principle 5 |
