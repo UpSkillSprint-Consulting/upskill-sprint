@@ -339,7 +339,7 @@
       "The bylaw automatically repeals the federal offence within municipal boundaries if council votes unanimously.",
       "A municipality may amend federal offences whenever a local economic purpose is documented.",
       "The Constitution gives municipalities the same federal criminal-law authority as Parliament.",
-      "Municipal bylaws derive from provincial authority and cannot themselves repeal or amend an otherwise applicable federal Criminal Code offence."
+      "A municipal bylaw cannot repeal federal criminal law."
     ],
     "answer": 3,
     "optionRationales": [
@@ -420,6 +420,7 @@
   if(id==='338'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='340'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='337'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if(id==='339'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 6 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Classifications are editorial estimates; no official NPPE pass prediction.</p>';
  });
