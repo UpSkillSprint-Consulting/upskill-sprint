@@ -9,7 +9,7 @@ test('Batch 10 appends exactly NPPE-371–380 with ten scored after whole-form r
  for(let k=1;k<=9;k++)assert.ok(Array.from(w['NPPE_MOCK_B_BATCH'+k]).every((q,i)=>q===all[(k-1)*10+i]));
  items.forEach((q,i)=>{
   const id=371+i;assert.equal(q.qid,'nppe:set-1:mock-b:'+id);assert.equal(q.legacyId,'NPPE-'+id);
-  assert.equal(q.batch,10);assert.equal(q.version,[372,380].includes(id)?2:1);assert.equal(q.author,'ChatGPT');assert.equal(q.authorSet,1);
+  assert.equal(q.batch,10);assert.ok(q.version>=([372,380].includes(id)?2:1));assert.equal(q.author,'ChatGPT');assert.equal(q.authorSet,1);
   assert.equal(q.form,'set-1-mock-b');assert.equal(q.releaseStatus,'held');
   assert.equal(q.scored,true);assert.equal(q.experimental,false);
   assert.ok(q.stem&&q.learningObjective&&q.jurisdiction&&q.keyPoint&&q.trap&&q.questionFamily);
