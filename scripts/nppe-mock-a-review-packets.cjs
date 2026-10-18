@@ -31,9 +31,9 @@ function build(out){
  const headers=['item_id','qid','version','item_sha256','reviewer_role','reviewer_name','qualifications','independence_conflict','review_date','evidence_reviewed','one_best_answer','distractors','jurisdiction_currency','blueprint_fit','fairness_accessibility','overlap','difficulty_cognition','severity','disposition','findings','adjudicator','adjudication_evidence'];
  const ledger=[headers];
  for(const q of list){
-  const digest=sha(stable(q)),base={id:q.legacyId,qid:q.qid,version:q.version,sha256:digest,blueprint:q.blueprint,jurisdiction:q.jurisdiction,learningObjective:q.learningObjective,difficulty:q.difficulty,cognitiveLevel:q.cognitiveLevel,scored:q.scored,simulatedUnscored:q.experimental,stem:q.stem,options:q.options};
+  const digest=sha(stable(q)),base={id:q.legacyId,qid:q.qid,version:q.version,sha256:digest,blueprint:q.blueprint,jurisdiction:q.jurisdiction,learningObjective:q.learningObjective,difficulty:q.difficulty,cognitiveLevel:q.cognitiveLevel,stem:q.stem,options:q.options};
   blind.push(base);
-  keyed.push({...base,answerIndex:q.answer,correctOption:q.options[q.answer],optionRationales:q.optionRationales,keyPoint:q.keyPoint,trap:q.trap,sources:q.sources,questionFamily:q.questionFamily});
+  keyed.push({...base,scored:q.scored,simulatedUnscored:q.experimental,answerIndex:q.answer,correctOption:q.options[q.answer],optionRationales:q.optionRationales,keyPoint:q.keyPoint,trap:q.trap,sources:q.sources,questionFamily:q.questionFamily});
   manifest.items.push({id:q.legacyId,qid:q.qid,version:q.version,sha256:digest,scored:q.scored,simulatedUnscored:q.experimental});
   ledger.push([q.legacyId,q.qid,q.version,digest,...Array(headers.length-4).fill('')].map((v,i)=>i===18?'pending':v));
  }
