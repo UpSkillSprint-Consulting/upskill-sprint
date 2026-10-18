@@ -9,7 +9,7 @@
 | 361 | III.4 | C (2) | A newly published voluntary technical standard does not automatically amend a regulation's fixed incorporated edition | Standards Council background; legal incorporation of specific versions must be confirmed with actual jurisdiction counsel |
 | 362 | IV.7 | A (0) | Assigning economic copyright does not automatically waive non-assignable moral rights | **Official Copyright Act s.14.1(1)–(4)** read on 2026-10-18, current to September 30, 2026 |
 | 363 | II.1 | D (3) | Customary public posting of identifiable client data is not a substitute for authorization | Engineers Canada Code of Ethics; national nonbinding guidance and stipulated privacy agreement |
-| 364 | III.5 | B (1) | Professional liability insurance may transfer financial exposure, not eliminate the hazard or engineer's accountability | Engineers Canada risk-management national guideline cited; item-specific policy coverage is deliberately not asserted |
+| 364 | III.5 | B (1) | Professional liability insurance may transfer financial exposure, not eliminate the hazard or engineer's accountability | Engineers Canada *Public guideline on risk management* (current official page); item-specific policy coverage is deliberately not asserted |
 | 365 | IV.8 | C (2) | Federal expert must promptly communicate material changes to filed opinion | **Federal Courts Rules rule 52.2 and Code of Conduct for Expert Witnesses, Schedule paragraph 4**, official text verified on 2026-10-18 |
 | 366 | III.6 | A (0) | Sustainable mine closure requires lifecycle groundwater and community impact appraisal | Engineers Canada *Sustainable Development and Environmental Stewardship* guideline, Sections 3 and 5 read |
 | 367 | II.2 | D (3) | Ethics of care emphasizes relationships, dependency, vulnerability and contextual duties | Internet Encyclopedia of Philosophy, *Care Ethics*; philosophical background, not law |
@@ -28,7 +28,7 @@
 - [Engineers Canada sustainability guideline](https://engineerscanada.ca/guidelines-and-papers/national-guideline-on-sustainable-development-and-environmental-stewardship-for-professional-engineers) directly addresses long-term environmental, social and economic considerations (NPPE-366/368). National guidance is **not binding provincial law**.
 - [Engineers Canada association/regulator role discussion](https://engineerscanada.ca/news-and-events/news/blurring-the-lines-regulatory-bodies-vs-professional-association-mandates) directly distinguishes advocacy bodies from licensing and public-interest oversight (NPPE-369).
 
-The precise SCC/court case context is not claimed independently approved, and standards adoption rules are explicitly hypothetical for NPPE-361. URLs for the Engineers Canada risk guideline and standards background require exact-page follow-up where direct full-content retrieval was not confirmed during this batch. No unverified webpage is silently described as fully read.
+The precise SCC/court case context is not claimed independently approved, and standards adoption rules are explicitly hypothetical for NPPE-361. The Engineers Canada *Public guideline on risk management* URL was corrected and its official page inspected. The Standards Council background still requires a precise standards-incorporation source check; item 361 is explicitly based on a stipulated regulation and edition. No unverified webpage is silently described as fully read.
 
 ## Editorial originality and development controls
 
