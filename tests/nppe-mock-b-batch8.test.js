@@ -8,7 +8,7 @@ test('Mock B Batch 8 adds complete NPPE-351–360 while preserving prior 70 obje
  assert.deepEqual(items.map(q=>q.blueprint),['IV.4','II.3','III.2','IV.5','I.3','III.3','V.3','VI.3','IV.6','II.4']);
  for(let batch=1;batch<=7;batch++)assert.ok(Array.from(w['NPPE_MOCK_B_BATCH'+batch]).every((q,i)=>q===all[(batch-1)*10+i]));
  items.forEach((q,i)=>{
-  const id=351+i;assert.equal(q.qid,'nppe:set-1:mock-b:'+id);assert.equal(q.legacyId,'NPPE-'+id);assert.equal(q.version,[354,355].includes(id)?2:1);assert.equal(q.batch,8);
+  const id=351+i;assert.equal(q.qid,'nppe:set-1:mock-b:'+id);assert.equal(q.legacyId,'NPPE-'+id);assert.equal(q.version,[354,355,356].includes(id)?2:1);assert.equal(q.batch,8);
   assert.equal(q.author,'ChatGPT');assert.equal(q.authorSet,1);assert.equal(q.form,'set-1-mock-b');
   assert.equal(q.releaseStatus,'held');assert.equal(q.scored,id!==355);assert.equal(q.experimental,id===355);
   assert.ok(q.jurisdiction&&q.stem&&q.learningObjective&&q.keyPoint&&q.trap);
