@@ -9,7 +9,7 @@ test('Mock B Batch 5 supplies ten original, fully sourced and rationalized NPPE-
  for(let n=1;n<5;n++)assert.ok(Array.from(w['NPPE_MOCK_B_BATCH'+n]).every((x,i)=>x===all[(n-1)*10+i]));
  for(let i=0;i<10;i++){
   const x=b[i],id=321+i;
-  assert.equal(x.qid,'nppe:set-1:mock-b:'+id);assert.equal(x.legacyId,'NPPE-'+id);assert.equal(x.version,id===324?2:1);assert.equal(x.batch,5);
+  assert.equal(x.qid,'nppe:set-1:mock-b:'+id);assert.equal(x.legacyId,'NPPE-'+id);assert.equal(x.version,[322,324].includes(id)?2:1);assert.equal(x.batch,5);
   assert.equal(x.author,'ChatGPT');assert.equal(x.authorSet,1);assert.equal(x.form,'set-1-mock-b');assert.equal(x.releaseStatus,'held');
   assert.equal(x.scored,true);assert.equal(x.experimental,false);
   assert.ok(x.jurisdiction&&x.stem&&x.learningObjective&&x.keyPoint&&x.trap);
@@ -21,7 +21,7 @@ test('Mock B Batch 5 supplies ten original, fully sourced and rationalized NPPE-
  }
  assert.equal(new Set(all.map(x=>x.qid)).size,50);assert.equal(new Set(all.map(x=>x.questionFamily)).size,50);
  assert.equal(all.filter(x=>x.scored&&!x.experimental).length,47);
- assert.deepEqual([0,1,2,3].map(k=>b.filter(x=>x.answer===k).length),[1,3,3,3]);
+ assert.deepEqual([0,1,2,3].map(k=>b.filter(x=>x.answer===k).length),[1,2,4,3]);
 });
 test('Batch 5 reload is idempotent and fails closed for incomplete or modified prerequisites',()=>{
  const w=load(),src=read('test-bank-nppe-mock-b-batch5.js'),snapshot=JSON.stringify(w.NPPE_MOCK_B);
