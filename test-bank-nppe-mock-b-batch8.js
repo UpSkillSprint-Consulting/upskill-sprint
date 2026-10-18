@@ -214,7 +214,7 @@
     "stem": "A junior engineer-in-training uses an unfamiliar AI calculation assistant to size a high-pressure piping support. The tool provides numerical results but no verifiable derivation, and the supervisor has not reviewed the load cases. The junior asks the supervising engineer to seal the design because the software is widely used. What should the supervisor do?",
     "options": [
       "Seal the design because popular software transfers validation responsibility to its developer.",
-      "Independently check the load cases, calculations and assumptions or arrange a competent review before accepting responsibility; withhold authentication until the output can be validated.",
+      "Verify the load cases and output before accepting responsibility or authenticating the design.",
       "Let the junior authenticate the work using the supervisor's credentials without documenting review.",
       "Discard all computational tools permanently because engineers cannot use software in professional work."
     ],
@@ -411,6 +411,7 @@
   Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:8,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent qualified SME/legal review and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 NPPE blueprint checked 2026-10-18',difficultyBasis:'Provisional editorial judgment, not empirical calibration'});
   if(id==='355'){q.version=2;q.scored=false;q.experimental=true;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role redistributed by whole-form audit';}
   if(id==='354'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; substituted applicable Saskatchewan labour-law source';}
+  if(id==='356'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
