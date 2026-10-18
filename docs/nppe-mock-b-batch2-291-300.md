@@ -39,3 +39,9 @@ Batch 2 uses `test-bank-nppe-mock-b-batch2.js` after Batch 1 and before the prot
 - Consent-based empirical calibration, manual accessibility audit and authorized production-account verification before any release.
 
 Next authoring: **Batch 3, NPPE-301–310**. Preserve Grok D, Claude E and Mock A unchanged and keep PR #301 draft/unmerged.
+
+## Whole-form QA scoring-role amendment — 2026-10-18
+
+NPPE-296 is now simulated unscored (version 2), swapped with scored NPPE-381 in Domain V.
+
+The historical batch allocation text above is retained as an authoring record where inconsistent; this amendment and the current 110-row allocation ledger control. Source/legal and empirical release gates are unaffected.
