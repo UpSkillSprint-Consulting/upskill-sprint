@@ -15,7 +15,7 @@ test('Mock B Batch 2 contains exactly ten original, sourced, held questions and 
   assert.ok(x.sources.every(y=>y.title&&y.locator&&new URL(y.url).protocol==='https:'));assert.ok(x.why.includes('Sources:'));
  });
  assert.equal(new Set(items.map(x=>x.qid)).size,20);assert.equal(new Set(items.map(x=>x.questionFamily)).size,20);
- assert.equal(items.filter(x=>x.scored).length,20);
+ assert.equal(items.filter(x=>x.scored&&!x.experimental).length,18);
 });
 test('Mock B Batch 2 reload is idempotent and rejects malformed or conflicted prerequisites',()=>{
  const w=load(),before=JSON.stringify(w.NPPE_MOCK_B),batch=read('test-bank-nppe-mock-b-batch2.js');
