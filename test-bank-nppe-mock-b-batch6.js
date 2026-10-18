@@ -378,7 +378,7 @@
       "The original authentication remains valid for all future edits because the author's identity is unchanged.",
       "The contractor may treat changed pages as authenticated provided the file name is the same.",
       "The engineer should ignore the changes because digital documents cannot be traced once posted.",
-      "Identify the modification, review and properly authenticate the revised professional work where required, and preserve an auditable version history."
+      "Review the changes, authenticate the revision and retain its history."
     ],
     "answer": 3,
     "optionRationales": [
@@ -418,6 +418,7 @@
   if(id==='335'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='336'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='338'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if(id==='340'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 6 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Classifications are editorial estimates; no official NPPE pass prediction.</p>';
  });
