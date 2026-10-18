@@ -325,7 +325,7 @@
     "stem": "A B.C. consulting firm recently obtained a Permit to Practice. Its manager submits another firm's unmodified Professional Practice Management Plan (PPMP) to satisfy the regulator, but staff have never followed its documented design-review or competency procedures. The manager says having a PPMP file on the server proves compliance. What is the best assessment?",
     "options": [
       "A PPMP template is conclusive proof that every quality-management activity has been implemented, regardless of actual firm practice.",
-      "The firm should demonstrate policies and procedures that reflect its own operations and provide evidence that ethics, quality management and continuing-education requirements are being implemented.",
+      "Check that the PPMP fits the firm's work and is actually followed by its staff.",
       "A Permit to Practice replaces the obligation to manage professional work, so no practice controls are needed after registration.",
       "Only a criminal court may examine whether a firm's engineering quality process is implemented."
     ],
@@ -397,7 +397,7 @@
  questions.forEach(function(q,i){
    var id=String(i+301);
    Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:3,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal review and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'2017 published NPPE blueprint current 2026-10-18',difficultyBasis:'Editorial judgement; not empirically calibrated'});
-   if(id==='309'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
+   if(id==='309'){q.version=3;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 3 item '+id);
    q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B draft. Editorial classifications are provisional; this item does not predict an official NPPE score.</p>';
  });
