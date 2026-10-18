@@ -69,16 +69,16 @@ NPPE-347,7,IV.3,IV,scored,authored_held,author_sources_reviewed,preliminary_comp
 NPPE-348,7,III.10,III,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
 NPPE-349,7,II.2,II,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
 NPPE-350,7,III.1,III,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
-NPPE-351,8,IV.4,IV,scored,not_started,pending,pending,pending,
-NPPE-352,8,II.3,II,scored,not_started,pending,pending,pending,
-NPPE-353,8,III.2,III,scored,not_started,pending,pending,pending,
-NPPE-354,8,IV.5,IV,scored,not_started,pending,pending,pending,
-NPPE-355,8,I.3,I,scored,not_started,pending,pending,pending,
-NPPE-356,8,III.3,III,scored,not_started,pending,pending,pending,
-NPPE-357,8,V.3,V,scored,not_started,pending,pending,pending,
-NPPE-358,8,VI.3,VI,scored,not_started,pending,pending,pending,
-NPPE-359,8,IV.6,IV,scored,not_started,pending,pending,pending,
-NPPE-360,8,II.4,II,scored,not_started,pending,pending,pending,
+NPPE-351,8,IV.4,IV,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
+NPPE-352,8,II.3,II,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
+NPPE-353,8,III.2,III,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
+NPPE-354,8,IV.5,IV,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
+NPPE-355,8,I.3,I,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
+NPPE-356,8,III.3,III,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
+NPPE-357,8,V.3,V,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
+NPPE-358,8,VI.3,VI,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
+NPPE-359,8,IV.6,IV,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
+NPPE-360,8,II.4,II,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal and calibration pending
 NPPE-361,9,III.4,III,scored,not_started,pending,pending,pending,
 NPPE-362,9,IV.7,IV,scored,not_started,pending,pending,pending,
 NPPE-363,9,II.1,II,scored,not_started,pending,pending,pending,
