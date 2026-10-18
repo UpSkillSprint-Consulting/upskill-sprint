@@ -34,3 +34,9 @@ All ten items include distinct stems, four options, four option-specific rationa
 **Release gates remaining:** independent SME/legal approval, precise primary-law currency, manual accessibility, full-form audit, consented empirical calibration, authorized production-account checks and explicit release authorization.
 
 **Next authoring:** Mock B Batch 8 NPPE-351–360.
+
+## Whole-form QA scoring-role amendment — 2026-10-18
+
+NPPE-349 is now simulated unscored (version 2), swapped with scored NPPE-388 in Domain II.
+
+The historical batch allocation text above is retained as an authoring record where inconsistent; this amendment and the current 110-row allocation ledger control. Source/legal and empirical release gates are unaffected.
