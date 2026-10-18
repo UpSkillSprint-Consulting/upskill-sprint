@@ -265,7 +265,7 @@
         "sourceType": "supreme-court-primary",
         "title": "Clements v. Clements, 2012 SCC 32",
         "locator": "Paras. 6–10: general but-for causation analysis, with limited exceptional departures",
-        "url": "https://decisions.scc-csc.ca/scc-csc/scc-csc/en/item/9999/index.do"
+        "url": "https://decisions.scc-csc.ca/scc-csc/scc-csc/en/item/9992/index.do?iframe=true&site_preference=normal"
       },
       {
         "sourceType": "official-blueprint",
