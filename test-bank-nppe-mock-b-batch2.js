@@ -13,7 +13,7 @@
     "stem": "An engineering consultant prepares a preliminary cost estimate solely for an owner's internal procurement decision. A lender later obtains an incomplete copy from a third party and claims the consultant must have owed every conceivable reader a duty of care. Which assessment is most defensible?",
     "options": [
       "A possible financial consequence alone automatically establishes a duty owed to every downstream reader.",
-      "The duty analysis must examine reasonable foreseeability and the proximity of this particular relationship, including the stated purpose and expected reliance.",
+      "Examine both foreseeability and proximity in the consultant–lender relationship.",
       "Every engineering estimate attracts no civil duty because it is an opinion rather than a physical design.",
       "The consultant's professional designation automatically makes the lender a contracting party."
     ],
@@ -51,7 +51,7 @@
     "jurisdiction": "Canada; national Engineers Canada guidance is advisory, not a provincial disciplinary ruling.",
     "stem": "An engineer prepares a publicly distributed noise-impact statement. It presents a simulated worst-case level of 68 dBA as though it were a measured reading, even though no field test has yet been performed. What revision is most consistent with professional ethics?",
     "options": [
-      "Label the 68 dBA result as a modelled estimate, identify assumptions and uncertainty, and distinguish it from measured data.",
+      "Identify 68 dBA as modelled, not measured, and state its uncertainties.",
       "Remove the number entirely because professional communications may contain only direct measurements.",
       "Leave the statement unchanged because all projections become measurements once included in a signed report.",
       "Replace the value with a lower target level without noting the change to avoid misleading residents."
@@ -92,7 +92,7 @@
     "options": [
       "Apply the newer guide automatically because voluntary industry documents supersede older permits.",
       "Collect samples only after a complaint because neither a permit nor a guide binds engineers.",
-      "Continue meeting the permit's weekly requirement while evaluating whether the guide offers additional useful practices.",
+      "Continue weekly permit sampling; use the guide only as additional advice.",
       "Average the two intervals because two authoritative-looking documents are equally binding."
     ],
     "answer": 2,
@@ -138,7 +138,7 @@
       "A claim is impossible without consideration and a signed contract for services.",
       "Only criminal prosecution can address an injury on a public path.",
       "The passerby automatically wins because an accident alone proves every element of fault-based liability.",
-      "Extra-contractual civil liability under Civil Code article 1457 requires considering fault, resulting injury and causal connection."
+      "Article 1457: assess fault, harm and causation in extra-contractual liability."
     ],
     "answer": 3,
     "optionRationales": [
@@ -176,7 +176,7 @@
     "options": [
       "Ignore disruption because public protection concerns only loss of life, never access or economic damage.",
       "Choose whichever option offers the highest professional fee to the consultant.",
-      "Consider foreseeable community access and economic impacts in addition to personal safety and environmental effects.",
+      "Evaluate community access, economic consequences and safety together.",
       "Treat any option affecting businesses as prohibited, without comparing magnitude or alternatives."
     ],
     "answer": 2,
@@ -216,7 +216,7 @@
       "Rely on the original licence to sign in Province B immediately because all provinces have a single licensing register.",
       "Assume a degree certificate is sufficient if the engineer has practised for at least five years.",
       "Accept the employer's written authorization as a substitute for statutory registration.",
-      "Use the destination regulator's mobility process and obtain the required registration or authorization before undertaking regulated independent practice."
+      "Secure the required authorization from the destination regulator before practice."
     ],
     "answer": 3,
     "optionRationales": [
@@ -252,7 +252,7 @@
     "jurisdiction": "British Columbia; Engineers and Geoscientists BC's current audit and practice-review programs as described publicly.",
     "stem": "After a compliance audit, a B.C. registrant is referred to a focused practice review because significant technical risks were identified. A colleague says the review is merely another random audit and can never impose practice conditions. Which description is most accurate?",
     "options": [
-      "A reactive practice review can examine identified technical concerns and may lead to conditions on practice through the relevant committee.",
+      "A targeted review addresses technical concerns and can lead to practice conditions.",
       "The review is purely voluntary and has no possible consequences after a technical concern is identified.",
       "A targeted practice review is identical to random selection for a routine individual compliance audit.",
       "Referral for review means the registrant has already been criminally convicted."
@@ -292,7 +292,7 @@
     "stem": "A quality laboratory uses a volatile cleaning solvent. A validated low-hazard substitute works equally well, but management proposes retaining the original solvent and adding reminder posters only. Which risk-management action is most defensible?",
     "options": [
       "Keep the original solvent because warning signs eliminate the underlying chemical hazard.",
-      "Adopt the validated lower-hazard substitute with appropriate implementation checks and evaluate any remaining exposure risks.",
+      "Use the validated safer substitute, then assess residual exposure.",
       "Use additional warning posters and assume the exposure probability becomes zero.",
       "Transfer responsibility for exposure to employees through an acknowledgement form without changing the process."
     ],
@@ -332,7 +332,7 @@
     "options": [
       "Proceed without disclosure because a technically defensible outcome eliminates any perceived conflict.",
       "Score every bid lower so the family relationship cannot influence a winner.",
-      "Disclose the relationship promptly and follow the employer's conflict-management process, including recusal or independent evaluation if required.",
+      "Disclose the family relationship and follow the conflict-management process.",
       "Reject the sibling's bid automatically as fraudulent even though no procurement rule requires disqualification."
     ],
     "answer": 2,
@@ -405,6 +405,7 @@
   Object.assign(item,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:2,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal review and empirical calibration pending',area:item.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 NPPE blueprint verified 2026-10-18',difficultyBasis:'Editorial estimate, not empirical calibration'});
   if(id==='296'){item.version=2;item.scored=false;item.experimental=true;item.editorialReviewedAt='2026-10-18';item.reviewStatus+='; simulated role redistributed by whole-form audit';}
   if(id==='300'){item.version=2;item.editorialReviewedAt='2026-10-18';item.reviewStatus+='; keyed-option length cue revised';}
+  if([291,292,293,294,295,296,297,298,299].includes(Number(id))){item.version+=1;item.optionCueReviewedAt='2026-10-18';item.reviewStatus+='; keyed option edited for length cue';}
   if(item.options.length!==4||new Set(item.options).size!==4||item.optionRationales.length!==4||!Number.isInteger(item.answer)||item.answer<0||item.answer>3||!item.sources.some(function(s){return s.sourceType==='official-blueprint';})||!item.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 2 item '+id);
   item.why='<p>'+escape(item.optionRationales[item.answer])+'</p><p><strong>Key learning point:</strong> '+escape(item.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(item.trap)+'</p><p><strong>Sources:</strong> '+item.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; classifications are provisional and do not predict an official NPPE result.</p>';
  });
