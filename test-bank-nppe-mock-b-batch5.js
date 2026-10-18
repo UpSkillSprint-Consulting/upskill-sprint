@@ -13,7 +13,7 @@
     "stem": "An engineering graduate joins a voluntary international technical society, attends its pressure-vessel seminars and earns a society participation certificate. An employer proposes listing the graduate as the professional engineer responsible for statutory design approval because the society membership demonstrates expertise. What is the best conclusion?",
     "options": [
       "Technical-society membership automatically confers the right to approve regulated designs in every Canadian province.",
-      "The society certificate replaces provincial registration if a seminar covered the same equipment.",
+      "Use the seminar certificate in place of provincial registration.",
       "Society membership supports development; a regulator grants practice authority.",
       "Only a society with international chapters may grant a provincial engineering licence without regulator involvement."
     ],
@@ -138,7 +138,7 @@
       "Disclose the failed pilot and its limits; custom cannot justify misleading reports.",
       "Hide the result because every established organizational practice is ethically justified if no member objects.",
       "Present a projected passing result as though achieved, provided that future revisions might meet the target.",
-      "Cancel all further research, because one pilot failure proves the sensor concept cannot be developed."
+      "Abandon the sensor concept after its first failed pilot."
     ],
     "answer": 0,
     "optionRationales": [
@@ -183,7 +183,7 @@
       "Require the engineer to perform every measurement personally; no tasks may be delegated to an experienced technologist.",
       "Allow fully unsupervised professional design decisions because past competence in a different method automatically transfers.",
       "Set supervision limits, provide instruction and review critical work before approval.",
-      "Have the technologist certify the engineer's professional responsibility through an internal job title."
+      "Let the technologist assume the engineer's professional duty."
     ],
     "answer": 2,
     "optionRationales": [
@@ -258,7 +258,7 @@
     "jurisdiction": "Canada; a project contract expressly adopts the 2023 edition of a voluntary equipment standard; neither applicable legislation nor regulator order separately incorporates a newer edition.",
     "stem": "An engineer's equipment specification cites the 2023 edition of a voluntary consensus standard. A 2026 edition is published while the project is being built. The contractor argues that the new publication automatically overrides the contract's explicit edition without approval or assessment. What should the engineer advise?",
     "options": [
-      "The newer edition is automatically law for every project because the publishing body revised it.",
+      "Apply the publisher's new standard as immediately binding law.",
       "Check the legally adopted edition and approve justified changes through formal change control.",
       "The engineer must permanently ignore the 2026 edition, even if it reveals a newly discovered critical hazard.",
       "A voluntary standard has no technical use unless its every clause is copied word-for-word into a statute."
@@ -300,7 +300,7 @@
       "Strict legal positivism, because the design receiving the most votes becomes morally correct regardless of its effects.",
       "Virtue ethics, because the panel's sole basis is the character traits its members acquire through practice.",
       "Utilitarianism: compare alternatives by their expected total harms and benefits.",
-      "Ethical egoism, because the panel chooses the design that maximizes its chair's personal advantage."
+      "Choose the option that most benefits the panel chair."
     ],
     "answer": 2,
     "optionRationales": [
@@ -337,7 +337,7 @@
     "stem": "A wastewater facility's hazard register rates pump-station overflow as low probability under normal grid power. The operator adds temporary pumps and changes to a power supply with frequent interruptions. The safety manager proposes retaining the old risk score because it was signed last year. Which approach is most defensible?",
     "options": [
       "Keep the old risk score because a completed assessment cannot be reopened until the next annual budget.",
-      "Rate all hazards as maximum risk regardless of their likelihood or safeguards.",
+      "Rate every hazard as high regardless of safeguards.",
       "Move the hazard entirely to the insurance register because buying a policy eliminates its physical consequences.",
       "Reassess new failure scenarios, control reliability and residual risk."
     ],
@@ -378,7 +378,7 @@
       "Permit the new campaign because once information is lawfully collected it can be reused for any profitable purpose.",
       "Check the new use's lawful authority and consent before processing personal data.",
       "Replace each employee's name with a numeric ID while retaining a readily available re-identification key and declare the data outside all privacy law.",
-      "Publish the profiles openly because the firm, rather than the individuals, originally paid for the measurements."
+      "Publish profiles because the company funded data collection."
     ],
     "answer": 1,
     "optionRationales": [
@@ -413,6 +413,7 @@
   if(id==='322'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
   if(id==='327'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if([321,323,324,325,326,328,329,330].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
+  if([321,324,325,327,328,329,330].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(s){return s.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 5 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Difficulty and cognition are editorial estimates, not evidence of official NPPE readiness.</p>';
  });
