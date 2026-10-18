@@ -33,3 +33,14 @@ test('omitted and not reached remain distinct; repeats are excluded',()=>{
  assert.equal(v.primaryAttempts,1);assert.equal(v.excluded.length,1);assert.equal(v.items[0].omitted,1);assert.equal(v.items[1].notReached,1);
  assert.equal(v.completeScoredAttempts,0);assert.equal(v.kr20,null);
 });
+
+test('item-rest correlations exclude partial scored forms, not count missing as wrong',()=>{
+ const x=mk();
+ const full=(n)=>({attemptId:'complete-'+n,cohort:'first_unassisted',formRevision:'synthetic-fixture',responses:x.responses.map((r,j)=>({...r,answer:(j<25*n?(r.answer+1)%4:r.answer)}))});
+ const incomplete={...full(0),attemptId:'missing',responses:x.responses.map((r,j)=>j===4?{...r,status:'omitted',answer:null}:r)};
+ const r=analyze(x.manifest,x.keyed,[full(0),full(1),full(2),incomplete]);
+ assert.equal(r.primaryAttempts,4);assert.equal(r.completeScoredAttempts,3);
+ assert.equal(r.items[0].correctedItemRestN,3);
+ assert.equal(r.items[4].nAnswered,3);
+ assert.equal(r.items[4].correctedItemRestN,3);
+});
