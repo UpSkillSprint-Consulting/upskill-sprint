@@ -51,3 +51,9 @@ Canonical IDs `nppe:set-1:mock-b:281` through `290`; `authorSet:1`; `version:1`;
 **Tests:** `tests/nppe-mock-b-batch1.test.js` and updated readiness tests are attached to NPPE validation CI. Passing automated QA is distinct from independent content/legal sign-off, manual accessibility, field calibration and actual production-account verification. Record exact-head CI outcome after completion; do not substitute a previous head's checks.
 
 **Next:** NPPE-291–300, Mock B Batch 2. Preserve the reserved blueprint allocation unless a reasoned versioned reassignment is documented.
+
+## Whole-form QA scoring-role amendment — 2026-10-18
+
+NPPE-282 is now simulated unscored (version 2), swapped with scored NPPE-384 within Domain II. The other nine items remain scored.
+
+The historical batch allocation text above is retained as an authoring record where inconsistent; this amendment and the current 110-row allocation ledger control. Source/legal and empirical release gates are unaffected.
