@@ -124,25 +124,25 @@
     "sub": "nppe-professionalism",
     "difficulty": "medium",
     "cognitiveLevel": "application",
-    "questionFamily": "mock-b-public-welfare-nonmajority-rural-access",
-    "learningObjective": "Evaluate professional responsibility for affected minority populations in design.",
+    "questionFamily": "mock-b-community-water-data-service-restoration",
+    "learningObjective": "Assess community welfare effects of engineering service restoration beyond the number of immediately affected residents.",
     "jurisdiction": "Canada; two otherwise compliant bridge-maintenance schedules are available and the engineer advises, rather than makes, the municipal decision.",
-    "stem": "An engineer compares bridge-repair schedules. The least costly schedule blocks access to a rural dialysis pickup route for several days, while a moderately more expensive staged repair maintains the route. A councillor says the small number of affected people means access is irrelevant. Which professional response is best?",
+    "stem": "After a winter storm, engineers must recommend which of two damaged water-treatment units to repair first. One serves more households; the other supplies a small settlement's only potable-water filling station, with no reliable alternative transport for several days. A planner proposes ranking the repairs solely by household counts. What is the most defensible professional advice?",
     "options": [
-      "Exclude the access consequence because public welfare is determined only by the number of people affected.",
-      "Choose the most expensive option automatically because price demonstrates safety.",
-      "Refuse to evaluate either schedule because any disagreement among councillors makes engineering advice unethical.",
-      "Present the cost, service and access consequences of both schedules, including practical mitigation options, for an informed public-interest decision."
+      "Use only household counts because any smaller population is irrelevant to professional public-welfare duties.",
+      "Automatically repair the smaller unit first, regardless of comparative health and service consequences.",
+      "Avoid making recommendations whenever different communities may benefit from different repair priorities.",
+      "Compare health risks, alternatives, restoration times and affected communities' dependence on each service, then communicate the trade-offs transparently."
     ],
     "answer": 3,
     "optionRationales": [
-      "Public impacts on a smaller community still warrant analysis.",
-      "Cost alone does not establish the soundness of the protection provided.",
-      "Professional assessment can inform contested public choices without requiring an automatic refusal.",
-      "Transparent comparison identifies foreseeable consequences without dictating a single procurement choice."
+      "Population size is one relevant consideration but does not measure dependence or the availability of substitutes.",
+      "Prioritization requires evaluating actual circumstances and public-health impacts, not automatic preference for either unit.",
+      "Engineers can give reasoned advice on alternatives without claiming sole authority over the municipal choice.",
+      "Service criticality and feasible alternatives should be assessed alongside the number of households affected."
     ],
-    "keyPoint": "Public-interest engineering includes populations whose interests may be overlooked in aggregate totals.",
-    "trap": "Treating low population counts as grounds to omit material service impacts.",
+    "keyPoint": "Public-interest recommendations account for severity and substitutability, not population counts alone.",
+    "trap": "Using the largest affected population as the sole proxy for public welfare.",
     "sources": [
       {
         "sourceType": "national-nonbinding-guidance",
