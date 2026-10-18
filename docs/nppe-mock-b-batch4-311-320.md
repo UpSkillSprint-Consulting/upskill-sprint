@@ -46,3 +46,9 @@ Batch 4 uses IDs `nppe:set-1:mock-b:311`–`320`, authorSet 1, version 1, `relea
 4. Manual assistive-technology accessibility, candidate field trial, psychometric calibration, production-account authorization check and explicit release decision.
 
 **Next authoring slot:** Mock B Batch 5, NPPE-321–330, when Batch 4 CI is confirmed.
+
+## Whole-form QA scoring-role amendment — 2026-10-18
+
+NPPE-320 is now simulated unscored (version 2), swapped with scored NPPE-385 in Domain III.
+
+The historical batch allocation text above is retained as an authoring record where inconsistent; this amendment and the current 110-row allocation ledger control. Source/legal and empirical release gates are unaffected.
