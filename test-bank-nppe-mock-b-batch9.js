@@ -13,7 +13,7 @@
     "stem": "A government regulation incorporates the 2020 edition of a pressure-piping standard. The publisher issues a 2026 revision with different testing provisions. A manager says publication alone immediately makes the new revision the law. What should the responsible engineer do?",
     "options": [
       "Apply the 2026 revision automatically because its publication date overrides the incorporation wording.",
-      "Ignore the 2026 revision even if it exposes a material safety deficiency.",
+      "Ignore the new standard even when it reveals danger.",
       "Identify the legally adopted edition and review any proposed change.",
       "Treat all standards as legally irrelevant because they are drafted outside the legislature."
     ],
@@ -52,7 +52,7 @@
     "stem": "An engineer who created two original technical illustrations signs a moral-rights waiver expressly permitting a client to crop Diagram A for a report. The client later argues the waiver also allows replacing the author's name on unrelated Diagram B. Which interpretation best fits the Copyright Act and the stipulated limited waiver?",
     "options": [
       "Once one moral right is waived for any work, all of the author's future moral rights are automatically extinguished.",
-      "A waiver can never be limited because the Copyright Act permits waiver only of every moral right at once.",
+      "Treat every moral-rights waiver as necessarily unlimited.",
       "The waiver for Diagram A does not extend to unrelated Diagram B.",
       "An economic copyright licence in Diagram A automatically transfers moral rights in all works created for the same client."
     ],
@@ -92,7 +92,7 @@
     "options": [
       "Continue publishing names because long-standing local customs always supersede contractual confidentiality.",
       "Post the reports but remove only the date, since names and addresses are not identifying information.",
-      "Destroy the test results to avoid choosing between privacy and technical reporting.",
+      "Destroy the results instead of protecting confidentiality.",
       "Respect confidentiality and report findings only through authorized channels."
     ],
     "answer": 3,
@@ -129,7 +129,7 @@
     "jurisdiction": "Canada; a project-specific professional liability policy is assumed to cover defined eligible damages subject to conditions, exclusions and limits; no policy-coverage determination is requested.",
     "stem": "A consultant designing a retaining wall obtains professional liability insurance with a $2 million limit. The director argues that purchasing the policy means the firm can omit peer review because all design risks have been transferred. Which response is most defensible?",
     "options": [
-      "The insurance policy guarantees that all defects will be physically prevented.",
+      "Treat insurance as preventing technical defects.",
       "Insurance covers specified losses but never replaces hazard controls.",
       "A dollar-denominated insurance limit proves that any failure producing a smaller loss is acceptable.",
       "The policy automatically prevents professional discipline arising from negligent practice."
@@ -175,7 +175,7 @@
     "stem": "An engineering expert files a report in Federal Court concluding that a component's crack arose from fatigue. Before trial, a new properly authenticated test shows the fracture mechanism was different. Retaining counsel suggests saying nothing until cross-examination because the initial report was true when written. What is the most appropriate expert response?",
     "options": [
       "Remain silent because an expert's only duty is to defend the first submitted opinion.",
-      "Tell only the paying party and never correct evidence provided to the court.",
+      "Inform counsel privately and leave the filed report unchanged.",
       "Promptly advise the appropriate parties about the material opinion change.",
       "Destroy the new evidence and withdraw every prior finding rather than transparently amend the opinion."
     ],
@@ -216,7 +216,7 @@
       "Evaluate lifecycle environmental, social and economic effects of both options.",
       "Choose the lower initial cost because future groundwater impacts can never affect professional planning.",
       "Choose the higher initial cost without examining technical effectiveness because any higher price proves environmental superiority.",
-      "Exclude community concerns because remediation is only a private financial decision."
+      "Ignore community impacts of mine rehabilitation."
     ],
     "answer": 0,
     "optionRationales": [
@@ -252,7 +252,7 @@
     "jurisdiction": "Canada; philosophical classification with no asserted legal exemption from safety obligations.",
     "stem": "A municipal engineer recommends adapting public drinking-water alerts for home-care patients who cannot independently collect water during an outage. The engineer's explanation emphasizes particular relationships of dependence, responsiveness to vulnerability and responsibility to those receiving care rather than only aggregate population counts. Which ethical perspective is most directly expressed?",
     "options": [
-      "Ethical egoism, because the principal aim is the engineer's personal advantage.",
+      "Ethical egoism: prioritize the engineer's own interests.",
       "Strict utilitarianism, because the rationale considers only the sum of benefits across the whole population.",
       "Legal positivism, because the engineer's main point is that an enacted law determines morality.",
       "Ethics of care focuses on dependency and contextual responsibility."
@@ -291,7 +291,7 @@
     "jurisdiction": "Canada; conceptual community-investment assessment with fictional figures and no mandated valuation method.",
     "stem": "A coastal town considers funding corrosion monitoring of its seawater intake. The programme produces no new structure or direct revenue, but credible analysis indicates it will reduce unplanned outages and extend useful life of an existing public asset. A councillor says monitoring creates no economic value because there is no new physical product. What is the strongest response?",
     "options": [
-      "Only goods that can be exported count as economically valuable engineering output.",
+      "Count only exported goods as economic value.",
       "Avoided outages and deferred replacement can provide measurable value.",
       "Monitoring guarantees no corrosion failure for the entire asset life and therefore removes all future operating costs.",
       "All monitoring programmes have identical economic outcomes regardless of the technical effectiveness of their measurements."
@@ -333,7 +333,7 @@
       "Membership-based advocacy groups may automatically discipline licensees whenever they issue professional development certificates.",
       "A salary campaign transfers all professional licensing jurisdiction from the statutory regulator to the advocacy association.",
       "Advocacy and professional development do not grant statutory regulatory powers.",
-      "Any association with members who are engineers may adopt mandatory provincial practice rules without enabling legislation."
+      "Let associations regulate engineers without legislation."
     ],
     "answer": 2,
     "optionRationales": [
@@ -371,7 +371,7 @@
     "options": [
       "No further action is required because numerical learning credits make CPD planning and online reporting optional.",
       "Repeat the entire 30 credits because missing an online entry automatically invalidates the learning itself.",
-      "Report only the ethics hour because the other learning is already verified by attendance receipts.",
+      "Report only the ethics hour because other credits were verified.",
       "Update the CPD plan and complete required online activity reporting."
     ],
     "answer": 3,
@@ -405,6 +405,7 @@
   Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:9,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent engineering SME, Canadian-law review and field calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 NPPE blueprint current on 2026-10-18',difficultyBasis:'Provisional editorial judgment; no candidate calibration'});
   if(id==='362'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
   if([361,362,363,364,365,366,367,368,369,370].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if([361,362,363,364,365,366,367,368,369,370].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 9 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item. Editorial classifications do not predict official NPPE performance.</p>';
  });
