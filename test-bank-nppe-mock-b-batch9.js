@@ -44,32 +44,32 @@
   {
     "blueprint": "IV.7",
     "sub": "nppe-law",
-    "difficulty": "easy",
-    "cognitiveLevel": "understanding",
-    "questionFamily": "mock-b-copyright-moral-rights-waiver-vs-assignment",
-    "learningObjective": "Differentiate assignment of economic copyright from waiver of authors' moral rights.",
-    "jurisdiction": "Canada; an engineer is the author of an original technical illustration and signs an assignment of economic copyright only; no moral-rights waiver is stated.",
-    "stem": "A consultant assigns economic copyright in an original engineering diagram to a client. The client claims that the assignment automatically transfers the author's moral rights and allows the client to claim the engineer waived attribution and integrity interests. Which statement best reflects the Copyright Act?",
+    "difficulty": "medium",
+    "cognitiveLevel": "application",
+    "questionFamily": "mock-b-partial-moral-rights-waiver-scope",
+    "learningObjective": "Distinguish a narrowly specified moral-rights waiver from an unlimited waiver for unrelated works.",
+    "jurisdiction": "Canada; the author of original technical illustrations gives a valid signed waiver expressly limited to one identified diagram and one specified adaptation.",
+    "stem": "An engineer who created two original technical illustrations signs a moral-rights waiver expressly permitting a client to crop Diagram A for a report. The client later argues the waiver also allows replacing the author's name on unrelated Diagram B. Which interpretation best fits the Copyright Act and the stipulated limited waiver?",
     "options": [
-      "Economic copyright assignment does not by itself waive moral rights; moral rights cannot be assigned but may be waived separately in whole or part.",
-      "Moral rights are freely assignable to whoever receives an electronic copy.",
-      "The client's purchase of the project is legally identical to a signed moral-rights waiver.",
-      "Moral rights exist only for an author who registers a patent on the diagram."
+      "Once one moral right is waived for any work, all of the author's future moral rights are automatically extinguished.",
+      "A waiver can never be limited because the Copyright Act permits waiver only of every moral right at once.",
+      "The limited waiver covers the specified use of Diagram A; it does not by itself waive moral rights in the separate Diagram B.",
+      "An economic copyright licence in Diagram A automatically transfers moral rights in all works created for the same client."
     ],
-    "answer": 0,
+    "answer": 2,
     "optionRationales": [
-      "Section 14.1 distinguishes economic ownership and moral rights, and states assignment alone is not a waiver.",
-      "Moral rights may be waived, but the statute does not permit them to be assigned as ordinary economic copyright.",
-      "An economic rights transfer is not automatically a separate waiver.",
-      "Copyright and moral-rights protection are not conditioned on patent registration."
+      "Moral rights are associated with the work and can be waived in whole or in part; a limited waiver does not automatically extinguish all other rights.",
+      "Section 14.1 expressly permits waiver in whole or in part, including a limited waiver.",
+      "The stated waiver addresses an identified adaptation of Diagram A and provides no waiver covering unrelated Diagram B.",
+      "An ordinary copyright licence is not a blanket transfer or waiver of the author's moral rights in other works."
     ],
-    "keyPoint": "Assignment of copyright does not automatically waive the author's moral rights.",
-    "trap": "Assuming the transfer of economic rights extinguishes separately protected moral rights.",
+    "keyPoint": "Moral-rights waivers can be limited in scope; a narrow waiver should not be presumed to cover unrelated works.",
+    "trap": "Treating any moral-rights waiver as a universal waiver of every work and future use.",
     "sources": [
       {
         "sourceType": "federal-primary-legislation",
         "title": "Copyright Act, R.S.C. 1985, c. C-42",
-        "locator": "Section 14.1(1)–(4): integrity, attribution, nonassignment, waiver and effect of assignment",
+        "locator": "Section 14.1(1)–(4): integrity and attribution, nonassignment, whole/partial waiver and its limited effect",
         "url": "https://laws-lois.justice.gc.ca/eng/acts/C-42/section-14.1.html"
       },
       {
@@ -403,6 +403,7 @@
  questions.forEach(function(q,i){
   var id=String(361+i);
   Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:9,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent engineering SME, Canadian-law review and field calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 NPPE blueprint current on 2026-10-18',difficultyBasis:'Provisional editorial judgment; no candidate calibration'});
+  if(id==='362'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 9 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item. Editorial classifications do not predict official NPPE performance.</p>';
  });
