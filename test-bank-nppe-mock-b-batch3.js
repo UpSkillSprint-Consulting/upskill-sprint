@@ -14,7 +14,7 @@
     "options": [
       "Approve the cheaper location because a dry-season inspection establishes year-round environmental suitability.",
       "Exclude environmental costs from the decision unless regulators have already issued a violation notice.",
-      "Obtain seasonally representative information and relevant environmental expertise, then incorporate foreseeable mitigation and monitoring costs in the comparison.",
+      "Obtain seasonal wetland evidence and include foreseeable mitigation costs.",
       "Reject both locations permanently because any possibility of wetland effects makes engineering evaluation unethical."
     ],
     "answer": 2,
@@ -51,7 +51,7 @@
     "jurisdiction": "Canada; a private contract dispute with no compulsory settlement term; parties have not agreed to arbitrate.",
     "stem": "Two firms disputing a geotechnical consulting invoice agree to meet with a neutral mediator. After listening to both parties, the mediator announces that one party must pay $70,000 and says the decision is binding even though the parties have signed no settlement. Which assessment best describes mediation?",
     "options": [
-      "A mediator ordinarily facilitates a voluntary agreement and cannot unilaterally impose a binding award in the described process.",
+      "The mediator facilitates agreement but cannot impose a binding award.",
       "A mediator always has the same binding decision-making power as a judge once a meeting starts.",
       "Mediation automatically converts the disagreement into criminal proceedings if no settlement is reached.",
       "The neutral may issue an enforceable arbitral award without an arbitration agreement because the mediator has heard both sides."
@@ -132,7 +132,7 @@
       "Leave the public link active because contractor collaboration removes all confidentiality obligations.",
       "Delete local source files so the publicly shared version becomes the sole reference.",
       "Ask the contractor to promise verbally not to distribute the public link while retaining anonymous access.",
-      "Revoke the public link, preserve the incident record, use the approved access-controlled workspace, and follow the organization’s notification and security procedure."
+      "Disable the public link, retain incident evidence and use controlled sharing."
     ],
     "answer": 3,
     "optionRationales": [
@@ -169,7 +169,7 @@
     "stem": "An engineering contractor assembles an as-built piping dossier from construction markups. One change relocates a pressure-relief line, but the only evidence is a handwritten note without a drawing revision, field verification, or design review. The schedule calls for issuing the as-built package tomorrow. What should the responsible engineer do?",
     "options": [
       "Issue the marked-up drawing as verified as-built because handwriting is sufficient evidence of installation.",
-      "Withhold authentication of the affected revision until the installed configuration and technical change are verified, controlled, and recorded.",
+      "Authenticate only after verifying and recording the installed change.",
       "Copy the original issued-for-construction drawing into the as-built package and omit the note to avoid an inconsistent record.",
       "Have the document controller sign the engineering seal on behalf of the engineer without checking the change."
     ],
@@ -209,7 +209,7 @@
     "options": [
       "Possession of a paid-for digital copy automatically transfers all copyright and unlimited reuse rights.",
       "The fact that both projects use the same developer nullifies all contractual licence restrictions.",
-      "Copying for a different project requires checking and obtaining the necessary authorization because possession does not itself enlarge the stated licence.",
+      "Obtain permission to reuse the designs outside the licensed project.",
       "An engineering drawing cannot be protected by copyright unless it is accompanied by a registered patent."
     ],
     "answer": 2,
@@ -246,7 +246,7 @@
     "jurisdiction": "Canada; conceptual description of professional scopes, not a specific provincial reserved practice ruling.",
     "stem": "A municipality wants one professional to assess both a retaining-wall design and an interpretation of regional aquifer recharge. An administrator argues that anyone registered as an engineer is automatically licensed for every geoscience interpretation across Canada. What is the best response?",
     "options": [
-      "Registration, competence, and jurisdiction-specific scopes must be checked for each activity; appropriate engineering and geoscience expertise may both be needed.",
+      "Check each discipline's competence, regulated scope and jurisdiction.",
       "Either activity may be assigned without reference to professional competence as long as the employer is a municipality.",
       "Engineering and geoscience are governed by a single nationwide practising licence issued by Engineers Canada.",
       "Any professional geoscientist is automatically competent to approve every structural retaining-wall design."
@@ -288,7 +288,7 @@
       "The designation is allowed because the salesperson has a technical diploma and clients can ask about licences.",
       "A business card cannot ever constitute title misuse unless an actual stamped drawing exists.",
       "Only misuse of a physical seal matters; professional titles are unrestricted advertising.",
-      "Ontario law restricts the professional engineer designation; internal understanding of the job does not make the outward representation acceptable."
+      "Ontario protects the professional engineer title regardless of office labels."
     ],
     "answer": 3,
     "optionRationales": [
@@ -365,7 +365,7 @@
     "options": [
       "Pure utilitarianism, because the sole criterion is the largest industry-wide benefit.",
       "Ethical egoism, because the colleague maximizes the engineer's personal salary.",
-      "Duty-based reasoning, which considers obligations that are not displaced merely by an attractive estimated aggregate outcome.",
+      "Duty-based ethics: obligations matter even when aggregate benefits favour breach.",
       "Moral relativism, because confidentiality is valid only when everyone in a workplace follows it."
     ],
     "answer": 2,
@@ -398,6 +398,7 @@
    var id=String(i+301);
    Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:3,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal review and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'2017 published NPPE blueprint current 2026-10-18',difficultyBasis:'Editorial judgement; not empirically calibrated'});
    if(id==='309'){q.version=3;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
+  if([301,302,304,305,306,307,308,310].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 3 item '+id);
    q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B draft. Editorial classifications are provisional; this item does not predict an official NPPE score.</p>';
  });
