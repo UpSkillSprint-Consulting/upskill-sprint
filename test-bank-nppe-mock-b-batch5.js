@@ -284,33 +284,33 @@
   {
     "blueprint": "II.2",
     "sub": "nppe-ethics",
-    "difficulty": "easy",
-    "cognitiveLevel": "understanding",
-    "questionFamily": "mock-b-ethical-virtue-courage-reporting-error",
-    "learningObjective": "Recognize virtue ethics in the development of moral character through repeated action.",
-    "jurisdiction": "Canada; classification of ethical reasoning rather than a legal conclusion.",
-    "stem": "A mentoring programme asks early-career engineers to practise admitting their calculation mistakes, even when disclosure may harm their personal reputation. The mentor says that repeated choices build the virtues of honesty and moral courage. Which theoretical emphasis best describes the mentor's rationale?",
+    "difficulty": "medium",
+    "cognitiveLevel": "application",
+    "questionFamily": "mock-b-consequentialist-allocation-across-communities",
+    "learningObjective": "Identify aggregate-consequence reasoning among distinct ethical theories.",
+    "jurisdiction": "Canada; ethical theory exercise comparing otherwise permissible engineering alternatives; all legal requirements and individual rights baselines are met.",
+    "stem": "A public infrastructure panel compares three designs that all meet mandatory safety and rights requirements. Its stated ethical rule is to choose the design expected to produce the greatest overall welfare across all affected communities, weighing both benefits and harms rather than favouring the largest single group. Which approach is most directly illustrated?",
     "options": [
-      "Consequentialism alone, because the mentor calculates each decision only from total net benefits.",
-      "Legal positivism, because the mentor's sole concern is whether a legislature enacted an admission rule.",
-      "Virtue ethics, because the mentor emphasizes developing character through habits of honesty and courage.",
-      "Ethical egoism, because the mentor directs engineers to prioritize personal advantage over public welfare."
+      "Strict legal positivism, because the design receiving the most votes becomes morally correct regardless of its effects.",
+      "Virtue ethics, because the panel's sole basis is the character traits its members acquire through practice.",
+      "Utilitarian consequentialism, because the panel judges the permissible alternatives by their expected overall benefits and harms.",
+      "Ethical egoism, because the panel chooses the design that maximizes its chair's personal advantage."
     ],
     "answer": 2,
     "optionRationales": [
-      "The rationale is about character formation, rather than exclusively comparing aggregate outcomes.",
-      "The mentor's account is about ethical traits rather than a rule's legal enactment.",
-      "Virtue ethics gives prominence to the development and exercise of good moral character.",
-      "Admitting errors despite reputational cost is not presented as pursuing personal advantage."
+      "The stated rule compares welfare consequences, not the legal validity of a rule enacted by a government.",
+      "Character formation is not the panel's stated criterion for selecting among the alternatives.",
+      "The approach evaluates expected aggregate consequences across affected people, characteristic of utilitarian consequentialism.",
+      "Personal gain to the decision-maker is not the measure of overall community welfare."
     ],
-    "keyPoint": "Virtue ethics emphasizes the character developed through deliberate practice.",
-    "trap": "Mistaking repeated moral behaviour for a rule of law or a benefit calculation.",
+    "keyPoint": "Utilitarian reasoning evaluates the comparative aggregate effects of options on those affected.",
+    "trap": "Confusing an outcome-based welfare comparison with character, self-interest or mere legality.",
     "sources": [
       {
-        "sourceType": "official-primary-philosophy",
-        "title": "Aristotle, Nicomachean Ethics",
-        "locator": "Book II, chapter 1, virtue of character and habituation",
-        "url": "https://www.gutenberg.org/files/8438/8438-h/8438-h.htm"
+        "sourceType": "academic-philosophy-reference",
+        "title": "Stanford Encyclopedia of Philosophy, Consequentialism",
+        "locator": "Sections 1–2: classical utilitarianism, aggregate net good and consequentialist criteria",
+        "url": "https://plato.stanford.edu/entries/consequentialism/"
       },
       {
         "sourceType": "official-blueprint",
