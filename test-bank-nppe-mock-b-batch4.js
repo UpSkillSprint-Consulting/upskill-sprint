@@ -15,7 +15,7 @@
       "Quietly retain a private note and omit the concern from the official record until management requests another review.",
       "Tell coworkers informally but do not communicate the finding through authorized safety or regulatory channels.",
       "Document and escalate the hazard, including legally required notification.",
-      "Wait until a vessel fails so the nature and severity of the hazard become certain."
+      "Defer reporting until failure confirms the vessel hazard."
     ],
     "answer": 2,
     "optionRationales": [
@@ -53,7 +53,7 @@
     "options": [
       "Report contrary data impartially, explaining its effect on the expert opinion.",
       "Omit the data unless the opposing party independently discovers them, because the client owns the expert's opinion.",
-      "Treat the data as inadmissible without analysis because they are unfavourable to the hiring party.",
+      "Exclude the contrary evidence from the expert report.",
       "Withdraw all technical opinions automatically, because an expert can never revise a hypothesis after reviewing contrary evidence."
     ],
     "answer": 0,
@@ -92,7 +92,7 @@
     "options": [
       "Sign the notice because public statements about load rating are solely the marketing department's responsibility.",
       "Remove the capacity calculation from the record because management has accepted business risk.",
-      "Release the advertised rating with an informal disclaimer that the numbers could change.",
+      "Publish the rating with a general uncertainty disclaimer.",
       "Decline the unsupported rating and report its safety consequences."
     ],
     "answer": 3,
@@ -131,7 +131,7 @@
     "options": [
       "Keep the English-only bulletin because a technically correct warning is effective regardless of audience comprehension.",
       "Provide audience-tested, accessible warnings in languages people understand.",
-      "Replace detailed instructions with the raw hydrological model so residents can interpret it independently.",
+      "Provide the hydrology model instead of public instructions.",
       "Shorten the bulletin by removing evacuation routes, since less text necessarily means better safety communication."
     ],
     "answer": 1,
@@ -169,7 +169,7 @@
     "stem": "An Ontario owner owes a contractor a $240,000 progress payment for construction services already supplied under a contract to which the Construction Act's basic holdback applies. The owner proposes retaining $6,000 because that is the amount shown as a contingency in the cost estimate. Ignoring taxes and unrelated deductions, what basic holdback amount applies to these supplied services?",
     "options": [
       "$6,000, because an internal cost-contingency allowance sets the statutory holdback.",
-      "$12,000, because construction holdbacks are always five per cent of the payment.",
+      "$12,000 using a five-per-cent holdback.",
       "$24,000: ten per cent of the $240,000 value supplied.",
       "$48,000, because any risk reserve used for construction liens must be twenty per cent."
     ],
@@ -210,7 +210,7 @@
       "Accept the vendor certificate without further review because foreign professional registration automatically displaces local project obligations.",
       "Verify local compliance and the missing pressure case before acceptance.",
       "Allow the module into service and ask the maintenance team to complete the design verification during the first outage.",
-      "Reject every foreign-manufactured assembly, because professional diligence forbids using international components."
+      "Reject all pressure equipment supplied by foreign vendors."
     ],
     "answer": 1,
     "optionRationales": [
@@ -247,7 +247,7 @@
     "stem": "An independent reviewer finds that a competitor's geotechnical report omitted a material sensitivity analysis. The client asks the reviewer to make the criticism sound more severe so it can negotiate a lower consulting fee. How should the reviewer respond?",
     "options": [
       "State the evidenced deficiency and its significance without exaggeration.",
-      "Exaggerate the concern because the hiring client is entitled to maximize its contractual leverage.",
+      "Emphasize the flaw to improve the client's bargaining leverage.",
       "Disclose confidential unrelated performance complaints about the competitor to strengthen the report.",
       "Refuse to identify any deficiency in another professional's work because professional courtesy always requires endorsement."
     ],
@@ -285,7 +285,7 @@
     "jurisdiction": "Canada; a hypothetical unincorporated treaty provision would require a specific engineering licence, but no implementing legislation confers that licensing requirement, and no contrary statute is stipulated.",
     "stem": "A multinational developer claims that Canada's signature and ratification of an international infrastructure treaty automatically created a new domestic engineering licensing requirement in every province. No federal, provincial or territorial implementing legislation has been identified. What is the soundest legal response?",
     "options": [
-      "Treat ratification as automatically replacing every provincial engineering act.",
+      "Apply ratification directly as domestic licensing law.",
       "Ignore the treaty for every purpose because international obligations are never relevant to interpretation or policy.",
       "Allow the employer to issue the required Canadian licence because the treaty has an international origin.",
       "Check domestic implementation; ratification alone does not create licences."
@@ -324,7 +324,7 @@
     "jurisdiction": "Canada; conceptual appraisal of resilient community infrastructure, with no specific funding or licensing formula stipulated.",
     "stem": "A remote community must decide whether to invest in hydrogeological mapping before designing a new water supply. A councillor says mapping has no social value because it produces information rather than pipes or pumps. Which response best explains the profession's contribution?",
     "options": [
-      "Geoscience mapping matters only if the findings are later sold as a commercial mineral product.",
+      "Count mapping value only when its data are sold.",
       "Its value is limited to academic prestige because information cannot influence infrastructure economics.",
       "Subsurface evidence guides reliable infrastructure and community welfare.",
       "The map removes the need for engineering design, monitoring or community decisions because geoscientific information determines every outcome."
@@ -364,7 +364,7 @@
     "stem": "An engineering consultant wants to upload client records containing workers' names and identifiable exposure measurements to a third-party analytics platform. The project manager says the platform's privacy policy is sufficient, so the firm need not ask who can access the records or how the provider uses them. What should the professional recommend?",
     "options": [
       "Send the entire identifiable dataset because third-party cloud software automatically shifts all responsibility to its operator.",
-      "Anonymize the filenames only; keeping names and identifiers inside the files fully addresses privacy concerns.",
+      "Anonymize filenames alone before sending the records.",
       "Check lawful transfer authority, minimize personal data and verify safeguards.",
       "Avoid all analytics forever because a third-party service can never be permitted to process personal information."
     ],
@@ -399,6 +399,7 @@
   Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:4,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal approval and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 NPPE blueprint checked 2026-10-18',difficultyBasis:'Editorial estimate; not empirically calibrated'});
   if(id==='320'){q.version=2;q.scored=false;q.experimental=true;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role redistributed by whole-form audit';}
   if([311,312,313,314,315,316,317,318,319,320].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
+  if([311,312,313,314,315,316,317,318,319,320].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 4 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; editorial classifications are provisional, not evidence of official NPPE performance.</p>';
  });
