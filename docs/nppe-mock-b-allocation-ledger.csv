@@ -89,16 +89,16 @@ NPPE-367,9,II.2,II,scored,authored_held,author_primary_or_guidance_checked,preli
 NPPE-368,9,I.4,I,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal review and field calibration remain pending
 NPPE-369,9,V.4,V,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal review and field calibration remain pending
 NPPE-370,9,VI.4,VI,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal review and field calibration remain pending
-NPPE-371,10,IV.9,IV,scored,not_started,pending,pending,pending,
-NPPE-372,10,III.7,III,scored,not_started,pending,pending,pending,
-NPPE-373,10,II.3,II,scored,not_started,pending,pending,pending,
-NPPE-374,10,III.8,III,scored,not_started,pending,pending,pending,
-NPPE-375,10,IV.10,IV,scored,not_started,pending,pending,pending,
-NPPE-376,10,III.9,III,scored,not_started,pending,pending,pending,
-NPPE-377,10,IV.11,IV,scored,not_started,pending,pending,pending,
-NPPE-378,10,II.4,II,scored,not_started,pending,pending,pending,
-NPPE-379,10,III.10,III,scored,not_started,pending,pending,pending,
-NPPE-380,10,I.1,I,simulated_unscored,not_started,pending,pending,pending,
+NPPE-371,10,IV.9,IV,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
+NPPE-372,10,III.7,III,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
+NPPE-373,10,II.3,II,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
+NPPE-374,10,III.8,III,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
+NPPE-375,10,IV.10,IV,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
+NPPE-376,10,III.9,III,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
+NPPE-377,10,IV.11,IV,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
+NPPE-378,10,II.4,II,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
+NPPE-379,10,III.10,III,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
+NPPE-380,10,I.1,I,simulated_unscored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
 NPPE-381,11,V.1,V,simulated_unscored,not_started,pending,pending,pending,
 NPPE-382,11,VI.1,VI,simulated_unscored,not_started,pending,pending,pending,
 NPPE-383,11,IV.12,IV,scored,not_started,pending,pending,pending,
