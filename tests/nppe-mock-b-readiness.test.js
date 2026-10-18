@@ -33,7 +33,7 @@ test('Mock B authoring plan respects current published ranges and batch arithmet
   assert.match(doc,new RegExp('\\b'+first+'[–-]'+last+'\\b'));
  }
  assert.match(doc,/releaseHold:true/);
- assert.match(doc,/70\/110/);
+ assert.match(doc,/80\/110/);
 });
 test('Mock B already has a separate form slot and held/empty forms fail closed',()=>{
  const page=read('test-bank.html'),runtime=read('scripts/nppe-diagnostic-runtime.mjs');
@@ -54,7 +54,7 @@ test('Mock B 110-row planning ledger is complete, segregated and all 40 numbered
  data.forEach((row,i)=>{
   const id='NPPE-'+(281+i);assert.equal(row[0],id);assert.ok(!seen.has(id));seen.add(id);
   assert.equal(Number(row[1]),Math.floor(i/10)+1);
-  assert.equal(row[3],row[2].split('.')[0]);assert.equal(row[5],i<70?'authored_held':'not_started');
+  assert.equal(row[3],row[2].split('.')[0]);assert.equal(row[5],i<80?'authored_held':'not_started');
   assert.ok(['scored','simulated_unscored'].includes(row[4]));
   assert.ok(domains.includes(row[3]));
  });
