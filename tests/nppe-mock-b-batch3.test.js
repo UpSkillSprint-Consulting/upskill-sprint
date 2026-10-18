@@ -37,3 +37,22 @@ test('30-item partial Mock B remains held and cannot satisfy full-form count',()
  assert.ok(build.indexOf('test-bank-nppe-mock-b-batch1.js')<build.indexOf('test-bank-nppe-mock-b-batch2.js'));
  assert.ok(build.indexOf('test-bank-nppe-mock-b-batch2.js')<build.indexOf('test-bank-nppe-mock-b-batch3.js'));
 });
+
+test('protected delivery contains Batch 3 only in NPPE, not public shell or other packages',async()=>{
+ const os=require('node:os'),temp=fs.mkdtempSync(path.join(os.tmpdir(),'nppe-mock-b3-'));
+ try{
+  for(const entry of fs.readdirSync(root,{withFileTypes:true})){
+   if(['.git','content','public-site','node_modules'].includes(entry.name))continue;
+   fs.symlinkSync(path.join(root,entry.name),path.join(temp,entry.name),entry.isDirectory()?'dir':'file');
+  }
+  const built=await(await import('../scripts/build-exam-delivery.mjs')).buildExamDelivery(temp);
+  const stems=Array.from(load().NPPE_MOCK_B_BATCH3,x=>x.stem);
+  for(const stem of stems)assert.ok(!built.shell.includes(stem),'Public shell leaked a Batch 3 stem');
+  for(const exam of ['cssbb','mbb','cssgb','cqe','cmq','cre','pmp']){
+   const raw=fs.readFileSync(path.join(built.output,exam+'.json'),'utf8');
+   for(const stem of stems)assert.ok(!raw.includes(stem),'Batch 3 content leaked to '+exam);
+  }
+  const pack=JSON.parse(fs.readFileSync(path.join(built.output,'nppe.json'),'utf8'));
+  for(const stem of stems)assert.ok(pack.scripts.some(code=>code.includes(stem)),'Missing protected item');
+ }finally{fs.rmSync(temp,{recursive:true,force:true});}
+});
