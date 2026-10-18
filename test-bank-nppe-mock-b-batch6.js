@@ -97,7 +97,7 @@
     "stem": "A registrant facing an Ontario professional-engineering discipline hearing asks to examine an investigation report that will be introduced as evidence. The regulator's administrator refuses, saying respondents may learn the report's contents only after the committee decides the case. Which statement is most defensible?",
     "options": [
       "The committee may make its finding without disclosing any evidence because professional discipline is not a court case.",
-      "The registrant is entitled to an opportunity to examine documentary evidence intended for the hearing before it proceeds, subject to applicable procedures.",
+      "The respondent may examine documentary evidence before the hearing.",
       "The registrant automatically avoids all discipline merely by requesting the report.",
       "Professional disciplinary matters may be decided only through criminal prosecutions."
     ],
@@ -412,6 +412,7 @@
   if(id==='337'){q.version=2;q.scored=false;q.experimental=true;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role redistributed by whole-form audit';}
   if(id==='339'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
   if(id==='331'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if(id==='333'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 6 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Classifications are editorial estimates; no official NPPE pass prediction.</p>';
  });
