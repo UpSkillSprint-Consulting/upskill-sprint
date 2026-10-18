@@ -190,6 +190,12 @@
         "url": "https://www.nppexam.ca/en/preparation/blueprint/"
       },
       {
+        "sourceType": "provincial-regulator-example",
+        "title": "Engineers and Geoscientists BC, Firm Practice Overview",
+        "locator": "BC Permit to Practice distinct from individual registration; example of jurisdiction-specific firm requirements, not a nationwide rule",
+        "url": "https://www.egbc.ca/firms/firm-practice/firm-practice-overview"
+      },
+      {
         "sourceType": "official-blueprint",
         "title": "NPPE, current published 2017 blueprint",
         "locator": "V.2 — primary numbered topic, checked 2026-10-18",
@@ -398,6 +404,7 @@
   var id=String(i+341);
   Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:7,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal review and calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 blueprint checked 2026-10-18',difficultyBasis:'Editorial estimate; not empirically calibrated'});
   if(id==='349'){q.version=2;q.scored=false;q.experimental=true;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role redistributed by whole-form audit';}
+  if(id==='345'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form source strengthened';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 7 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; practice scores are not official NPPE predictions.</p>';
  });
