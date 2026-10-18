@@ -137,7 +137,7 @@
     "options": [
       "Approve it based solely on conventional testing experience because the designation guarantees expertise in every new application.",
       "Refuse all future hydrogen-related work permanently because engineers may never develop competence in new fields.",
-      "Obtain the relevant training and competent specialist assessment before assuming responsibility, and disclose existing limits of expertise.",
+      "Seek training and specialist review; disclose remaining competence limits.",
       "Assign the approval to an unlicensed technician so the engineer cannot be accountable for the resulting work."
     ],
     "answer": 2,
@@ -413,6 +413,7 @@
   if(id==='339'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
   if(id==='331'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='333'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if(id==='334'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 6 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Classifications are editorial estimates; no official NPPE pass prediction.</p>';
  });
