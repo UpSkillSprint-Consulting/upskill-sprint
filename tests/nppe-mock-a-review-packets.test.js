@@ -16,6 +16,9 @@ test('blind and keyed review packets are separated and pending by default',()=>{
   const ledger=fs.readFileSync(path.join(dest,'review-ledger.csv'),'utf8');
   assert.equal(m.itemCount,110);assert.equal(m.items.length,110);
   assert.equal(blind.items.length,110);assert.equal(keyed.items.length,110);
+  assert.equal(fs.statSync(dest).mode&0o777,0o700);
+  assert.equal(fs.statSync(path.join(dest,'restricted-keyed')).mode&0o777,0o700);
+  assert.equal(fs.statSync(path.join(dest,'restricted-keyed/questions.json')).mode&0o777,0o600);
   assert.ok(m.items.every(x=>/^[a-f0-9]{64}$/.test(x.sha256)));
   assert.ok(blind.items.every(q=>!('answerIndex'in q)&&!('correctOption'in q)&&!('optionRationales'in q)&&!('sources'in q)&&!('keyPoint'in q)));
   assert.ok(keyed.items.every(q=>Number.isInteger(q.answerIndex)&&q.optionRationales.length===4&&q.sources.length>0));
@@ -26,4 +29,12 @@ test('blind and keyed review packets are separated and pending by default',()=>{
 });
 test('review exporter never writes packets inside publicly tracked repository',()=>{
  assert.throws(()=>build(path.join(__dirname,'..','public-site','nppe-review')),/outside the public repository/);
+});
+
+test('review exporter rejects a symlink that resolves into the repository',()=>{
+ const temp=fs.mkdtempSync(path.join(os.tmpdir(),'nppe-link-'));
+ try{
+  fs.symlinkSync(path.resolve(__dirname,'..'),path.join(temp,'linked-repo'),'dir');
+  assert.throws(()=>build(path.join(temp,'linked-repo','nppe-private-packets')),/Symlink output/);
+ }finally{fs.rmSync(temp,{recursive:true,force:true});}
 });
