@@ -213,7 +213,7 @@
     "jurisdiction": "British Columbia; a hypothetical provincial approval may adversely affect asserted but unresolved Indigenous rights, and the Crown has knowledge triggering a consultation assessment.",
     "stem": "For a provincially approved transmission corridor, the project proponent offers to conduct technical meetings with a potentially affected First Nation. A government project manager then states that, because the proponent will host the meetings, the Crown has permanently transferred all legal responsibility for consultation to the company. Which response is best?",
     "options": [
-      "The company may perform procedural engagement, but the Crown retains the legal duty to assess and discharge appropriate consultation and accommodation.",
+      "The proponent can assist, but the Crown retains the legal consultation duty.",
       "The Crown has no consultation obligations until every asserted Indigenous right has been finally established by a court.",
       "A professional engineer employed by the proponent automatically becomes the sole constitutional decision-maker for the Crown.",
       "An environmental feasibility report alone extinguishes the Crown's consultation obligations regardless of the potential impacts."
@@ -416,6 +416,7 @@
   if(id==='334'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='332'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='335'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if(id==='336'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 6 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Classifications are editorial estimates; no official NPPE pass prediction.</p>';
  });
