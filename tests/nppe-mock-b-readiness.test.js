@@ -19,7 +19,7 @@ test('Mock B ID range is reserved and existing 500 objects have no collision',()
   assert.equal(canonical.has('nppe:set-1:mock-b:'+id),false,'Mock B canonical ID '+id);
   assert.equal(legacy.has('NPPE-'+id),false,'Mock B legacy ID '+id);
  }
- assert.equal(fs.existsSync(path.join(root,'test-bank-nppe-mock-b-batch1.js')),false,'No premature Mock B content');
+ assert.equal(fs.existsSync(path.join(root,'test-bank-nppe-mock-b-batch1.js')),true,'Batch 1 must exist');
 });
 test('Mock B authoring plan respects current published ranges and batch arithmetic',()=>{
  const doc=read('docs/nppe-mock-b-development-plan.md');
@@ -54,7 +54,7 @@ test('Mock B 110-row planning ledger is complete, segregated and all 40 numbered
  data.forEach((row,i)=>{
   const id='NPPE-'+(281+i);assert.equal(row[0],id);assert.ok(!seen.has(id));seen.add(id);
   assert.equal(Number(row[1]),Math.floor(i/10)+1);
-  assert.equal(row[3],row[2].split('.')[0]);assert.equal(row[5],'not_started');
+  assert.equal(row[3],row[2].split('.')[0]);assert.equal(row[5],i<10?'authored_held':'not_started');
   assert.ok(['scored','simulated_unscored'].includes(row[4]));
   assert.ok(domains.includes(row[3]));
  });
