@@ -298,7 +298,7 @@
     "stem": "An EGBC-registered consultancy undergoes a targeted firm practice review following reported quality-system deficiencies. The assessor issues a draft report, and management proposes deleting the underlying records before the committee reviews it. What response best fits the regulatory review process?",
     "options": [
       "Destroy the records because a firm review is only a private advisory consultation without regulatory consequences.",
-      "Refuse to supply any comments because only the original assessor has standing to describe evidence.",
+      "Leave the assessor's report unanswered as conclusive.",
       "Publish the entire confidential case file to prospective clients to establish that the firm is transparent.",
       "Preserve evidence, respond factually and plan corrective actions."
     ],
@@ -338,7 +338,7 @@
     "options": [
       "Ask the mediator to impose a binding award immediately, even though the parties designated a different arbitrator.",
       "Submit unresolved issues to the arbitrator while retaining settlements.",
-      "Declare every unresolved claim permanently dismissed because mediation was attempted.",
+      "Dismiss all claims after unsuccessful mediation.",
       "Refer automatically to a criminal court because commercial mediation was unsuccessful."
     ],
     "answer": 1,
@@ -376,7 +376,7 @@
     "stem": "An engineer evaluating three competing bridge-inspection bids receives an unsolicited prepaid weekend trip from one bidder. The engineer returns the voucher unused and says there is no need to tell anyone because no personal benefit was obtained. What is the most appropriate additional action?",
     "options": [
       "Continue the evaluation silently because returning the gift conclusively removes any appearance of impropriety.",
-      "Ask the bidder to offer an identical trip to each evaluator so the competition becomes fair.",
+      "Offer every evaluator identical gifts to avoid bias.",
       "Disclose the gift attempt and follow the procurement conflict procedure.",
       "Keep the voucher as evidence of industry generosity and use it after the contract is awarded."
     ],
@@ -422,6 +422,7 @@
   if(id==='357'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if([351,352,353].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([355,356,357].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
+  if([358,359,360].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
