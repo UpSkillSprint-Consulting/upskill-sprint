@@ -9,16 +9,16 @@ NPPE-287,1,III.2,III,scored,authored_held,editorial_sources_checked,preliminary_
 NPPE-288,1,IV.2,IV,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
 NPPE-289,1,II.2,II,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
 NPPE-290,1,III.3,III,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
-NPPE-291,2,IV.3,IV,scored,not_started,pending,pending,pending,
-NPPE-292,2,II.3,II,scored,not_started,pending,pending,pending,
-NPPE-293,2,III.4,III,scored,not_started,pending,pending,pending,
-NPPE-294,2,IV.4,IV,scored,not_started,pending,pending,pending,
-NPPE-295,2,I.2,I,scored,not_started,pending,pending,pending,
-NPPE-296,2,V.2,V,scored,not_started,pending,pending,pending,
-NPPE-297,2,VI.2,VI,scored,not_started,pending,pending,pending,
-NPPE-298,2,III.5,III,scored,not_started,pending,pending,pending,
-NPPE-299,2,II.4,II,scored,not_started,pending,pending,pending,
-NPPE-300,2,IV.5,IV,scored,not_started,pending,pending,pending,
+NPPE-291,2,IV.3,IV,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
+NPPE-292,2,II.3,II,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
+NPPE-293,2,III.4,III,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
+NPPE-294,2,IV.4,IV,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
+NPPE-295,2,I.2,I,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
+NPPE-296,2,V.2,V,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
+NPPE-297,2,VI.2,VI,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
+NPPE-298,2,III.5,III,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
+NPPE-299,2,II.4,II,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
+NPPE-300,2,IV.5,IV,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - primary source/legal currency review and calibration remain pending
 NPPE-301,3,III.6,III,scored,not_started,pending,pending,pending,
 NPPE-302,3,IV.6,IV,scored,not_started,pending,pending,pending,
 NPPE-303,3,II.1,II,scored,not_started,pending,pending,pending,
