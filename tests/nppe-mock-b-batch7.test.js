@@ -9,8 +9,8 @@ test('Mock B Batch 7 adds ten distinct sourced NPPE-341–350 and preserves all 
  for(let n=1;n<=6;n++)assert.ok(Array.from(w['NPPE_MOCK_B_BATCH'+n]).every((q,i)=>q===all[(n-1)*10+i]));
  items.forEach((q,i)=>{
   const id=341+i;assert.equal(q.qid,'nppe:set-1:mock-b:'+id);assert.equal(q.legacyId,'NPPE-'+id);
-  assert.equal(q.batch,7);assert.equal(q.version,1);assert.equal(q.author,'ChatGPT');assert.equal(q.authorSet,1);assert.equal(q.form,'set-1-mock-b');
-  assert.equal(q.releaseStatus,'held');assert.equal(q.scored,true);assert.equal(q.experimental,false);
+  assert.equal(q.batch,7);assert.equal(q.version,id===349?2:1);assert.equal(q.author,'ChatGPT');assert.equal(q.authorSet,1);assert.equal(q.form,'set-1-mock-b');
+  assert.equal(q.releaseStatus,'held');assert.equal(q.scored,id!==349);assert.equal(q.experimental,id===349);
   assert.ok(q.jurisdiction&&q.stem&&q.learningObjective&&q.keyPoint&&q.trap);
   assert.equal(q.options.length,4);assert.equal(new Set(q.options).size,4);assert.equal(q.optionRationales.length,4);
   assert.ok(q.optionRationales.every(r=>r.length>=35));assert.ok(Number.isInteger(q.answer)&&q.answer>=0&&q.answer<4);
