@@ -15,7 +15,7 @@
       "A full services contract must already exist because the document has two signatures.",
       "Every provision is unenforceable because the parties called the document a letter of intent.",
       "The letter automatically establishes an engineering fee equal to the market rate despite the express condition.",
-      "The parties have not formed the contemplated services contract, although their expressly binding confidentiality commitment can still operate."
+      "The services contract is not formed; confidentiality remains binding."
     ],
     "answer": 3,
     "optionRationales": [
@@ -52,7 +52,7 @@
     "stem": "A field team has a custom of reporting minor access-road washouts only after vehicles become stranded. New survey data show a developing washout could obstruct the only route used by residents to obtain essential medicines. Which judgment is most defensible?",
     "options": [
       "Continue the custom because it is followed consistently by other field teams.",
-      "Reconsider the custom against foreseeable community welfare and make a proportionate, accurate report through the responsible channels.",
+      "Question the custom and accurately report the foreseeable community risk.",
       "Report that a major disaster has already occurred, although the evidence identifies a developing hazard only.",
       "Conclude that all field operations must be prohibited indefinitely regardless of available protective measures."
     ],
@@ -132,7 +132,7 @@
       "Use only household counts because any smaller population is irrelevant to professional public-welfare duties.",
       "Automatically repair the smaller unit first, regardless of comparative health and service consequences.",
       "Avoid making recommendations whenever different communities may benefit from different repair priorities.",
-      "Compare health risks, alternatives, restoration times and affected communities' dependence on each service, then communicate the trade-offs transparently."
+      "Compare health risks, service alternatives and repair times across communities."
     ],
     "answer": 3,
     "optionRationales": [
@@ -168,7 +168,7 @@
     "jurisdiction": "Canada; a fictitious destination jurisdiction requires both individual practice registration and a permit for firms offering professional engineering services; no exemption applies.",
     "stem": "An engineer obtains individual mobility registration in Province B. Their consulting partnership now plans to advertise regulated engineering services there. The engineer assumes personal registration automatically satisfies every licensing obligation applying to the firm. What is the most appropriate next step?",
     "options": [
-      "Verify and obtain the destination jurisdiction's required firm permit or authorization separately before the partnership offers regulated services.",
+      "Obtain the required firm authorization in the destination jurisdiction.",
       "Assume the partnership may rely on the engineer's prior Province A licence regardless of the Province B firm's statutory requirements.",
       "Use a voluntary technical-society membership as the firm's practice permit.",
       "Avoid investigating firm licensing because individual and firm authorization are legally identical everywhere in Canada."
@@ -216,7 +216,7 @@
       "Every targeted practice review must first be selected by a fresh random lottery.",
       "A practice review is automatically a criminal conviction against the registrant.",
       "The registrant may disregard the review because only annual continuing-education audits are authorized.",
-      "A reactive practice review can be triggered by identified professional risk and is distinct from the proactive random audit programme."
+      "A risk-triggered practice review differs from a proactive audit."
     ],
     "answer": 3,
     "optionRationales": [
@@ -253,7 +253,7 @@
     "stem": "A design engineer makes a minor documentation error in a pressure-pump manual. Several months later, an independent unforeseeable power surge destroys the pump. Forensic evidence establishes that the documentation error did not contribute to the damage. What is the strongest objection to claiming the entire pump loss was caused by the documentation error?",
     "options": [
       "Any error made by a professional automatically establishes liability for every subsequent loss.",
-      "The claimant still must establish a causal link between the allegedly wrongful conduct and the claimed damage; the stated evidence negates that link.",
+      "Causation must link the error to the loss; the evidence shows no such link.",
       "A power surge proves that professionals can never owe civil duties to equipment owners.",
       "The engineer is immune from civil proceedings because no personal injury occurred."
     ],
@@ -293,7 +293,7 @@
     "options": [
       "Show the forecast as certain because precise axis labels create scientific credibility.",
       "Suppress all measurements because an inadequate forecasting model makes the underlying observations useless.",
-      "Present the observed points accurately, explain the limited sample and uncertainty, and avoid portraying an unsupported long-term projection as established fact.",
+      "Present the three observations and explain why a long-term forecast is unsupported.",
       "Interpolate a perfectly straight line to the desired target and describe it as an observed trend."
     ],
     "answer": 2,
@@ -331,7 +331,7 @@
     "stem": "A proposed project manager argues: 'The ethically right action is whichever option maximizes my own career advancement, even when another feasible option would help more community members.' A colleague asks which theory the manager's stated moral rule most closely resembles. What is the best classification?",
     "options": [
       "Utilitarianism, because the manager seeks the greatest net welfare of everyone affected.",
-      "Ethical egoism, because the manager treats maximizing personal self-interest as the criterion of moral rightness.",
+      "Ethical egoism makes personal self-interest the standard of right action.",
       "Duty-based ethics, because the manager gives priority to obligations owed equally to others.",
       "Virtue ethics, because the manager is primarily concerned with cultivating honesty and compassion through habit."
     ],
@@ -372,7 +372,7 @@
       "Accept the drawings because foreign approval proves compliance with all Canadian site conditions.",
       "Ignore the frost discrepancy because the calculations are mathematically consistent.",
       "Require every international collaborator to repeat all university courses before their work can be reviewed.",
-      "Resolve the omitted site condition, obtain competent verification and document an appropriate reviewed design before approval."
+      "Verify the missing frost condition and document the reviewed design."
     ],
     "answer": 3,
     "optionRationales": [
@@ -406,6 +406,7 @@
   if(id==='349'){q.version=2;q.scored=false;q.experimental=true;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role redistributed by whole-form audit';}
   if(id==='345'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form source strengthened';}
   if(id==='343'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
+  if([341,342,344,345,346,347,348,349,350].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 7 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; practice scores are not official NPPE predictions.</p>';
  });
