@@ -14,7 +14,7 @@
     "options": [
       "The clock always starts when the contractor receives the final payment, regardless of a published certificate.",
       "The clock starts only if the owner formally rejects an invoice.",
-      "For the stated pre-substantial-performance services, the published certificate can trigger the statutory preservation period; the invoice due date is not the controlling trigger.",
+      "The published substantial-performance certificate can trigger the lien period.",
       "The project manager can extend the statutory lien preservation period indefinitely by rewriting the invoice terms."
     ],
     "answer": 2,
@@ -96,7 +96,7 @@
     "jurisdiction": "Canada; engineering consultant can revise an official public summary prior to regulatory filing; carbon-emission reductions have been modelled but not independently verified.",
     "stem": "A project team asks its engineer to certify that a new furnace has already cut annual greenhouse-gas emissions by 25%. The plant has not operated under representative conditions; 25% is the design model's projected reduction. Which professional statement is most appropriate?",
     "options": [
-      "Present the reduction as a modelled estimate with its assumptions and verification plan, distinguishing it from observed operational performance.",
+      "Report 25% as a modelled forecast, with assumptions and verification planned.",
       "Report the 25% reduction as measured, since a validated design model always constitutes actual production data.",
       "Remove every emissions estimate because no engineering model may inform regulatory planning before operation.",
       "Publish 25% as confirmed and add a footnote stating that future measurements are optional."
@@ -176,7 +176,7 @@
     "options": [
       "Signature of a treaty automatically rewrites all inconsistent private engineering contracts in Canada.",
       "An international treaty has no conceivable role in Canadian law or interpretation, even if implemented.",
-      "Determine whether applicable domestic law or the agreement gives the treaty provision legal effect; signature alone does not automatically replace the contractual fee term.",
+      "Check domestic implementation or incorporation before applying the treaty.",
       "A domestic court must enforce the manager's preferred treaty interpretation because international instruments always govern fees."
     ],
     "answer": 2,
@@ -216,7 +216,7 @@
       "Sign the revision because a project executive may assume all professional safety obligations by instruction.",
       "Delete the original life-safety calculations so the revised layout is the only official record.",
       "Treat the change as a purely financial matter since no fire has yet occurred.",
-      "Clearly explain and document the consequences, withhold approval of the unsupported change, and escalate through the applicable professional and safety processes."
+      "Record the safety consequences, decline approval and escalate appropriately."
     ],
     "answer": 3,
     "optionRationales": [
@@ -253,7 +253,7 @@
     "stem": "A municipal engineer plans bank stabilization in a channel used by fish. The design involves filling a shallow spawning area but releases no pollutants. A contractor says the Fisheries Act cannot apply because section 36 concerns deleterious substances and no chemicals will be discharged. What is the most appropriate recommendation?",
     "options": [
       "Proceed without review because physical filling can never engage federal fisheries protection.",
-      "Consider section 35's prohibition on harmful alteration, disruption or destruction of fish habitat and determine applicable conditions or authorizations before the work proceeds.",
+      "Assess section 35 habitat impacts and any required authorization first.",
       "Apply only the building code because a project funded by a municipality is exempt from federal fish-habitat rules.",
       "Assume that paying for future habitat improvements automatically permits any present disturbance."
     ],
@@ -333,7 +333,7 @@
       "Leave the statement unchanged because the numerical probability is mathematically precise.",
       "Replace the technical result with 'the site is safe' because detailed probabilities can confuse audiences.",
       "State that 0.02 means exactly two floods will happen during a century, regardless of randomness.",
-      "Explain that 0.02 represents an estimated 2% chance in each year under the model assumptions, distinguish it from cumulative 30-year risk, and communicate uncertainty."
+      "Explain 0.02 as a modelled 2% annual chance, not a 30-year probability."
     ],
     "answer": 3,
     "optionRationales": [
@@ -369,7 +369,7 @@
     "jurisdiction": "Canada; hypothetical regulator has statutory power to investigate competence concerns and members demand that it avoid public enforcement for reputational reasons.",
     "stem": "A group of professional members asks their regulator to stop investigating substantiated public-safety complaints against registrants, arguing that public proceedings may harm the profession's reputation. The regulator's mandate is public protection. Which principle of professional self-regulation best addresses this request?",
     "options": [
-      "Independent public-interest regulation requires fair assessment and appropriate action on credible complaints even when doing so is uncomfortable for members.",
+      "Fair public-interest regulation assesses credible complaints regardless of reputation.",
       "The regulator's only duty is protecting members from reputational harm, regardless of public risk.",
       "All complaints must produce a disciplinary conviction before evidence is examined.",
       "The regulator may ignore statutory responsibilities whenever members vote unanimously."
@@ -405,6 +405,7 @@
   Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:10,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:!simulatedUnscored,experimental:simulatedUnscored,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal review and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 NPPE blueprint, checked 2026-10-18',difficultyBasis:'Provisional editorial estimate; not empirically calibrated'});
   if(id==='380'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role redistributed by whole-form audit';}
   if(id==='372'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
+  if([371,373,375,376,377,379,380].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 10 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item. Editorial classifications are provisional and no NPPE pass prediction is implied.</p>';
  });
