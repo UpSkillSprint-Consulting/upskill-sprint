@@ -2,16 +2,16 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
 function load(){const ctx=vm.createContext({window:{}});for(let i=1;i<=10;i++)vm.runInContext(read('test-bank-nppe-mock-b-batch'+i+'.js'),ctx,{filename:'mock-b-batch'+i,timeout:5000});return ctx.window;}
-test('Batch 10 appends exactly NPPE-371–380 with nine scored and one simulated unscored',()=>{
+test('Batch 10 appends exactly NPPE-371–380 with ten scored after whole-form redistribution',()=>{
  const w=load(),all=Array.from(w.NPPE_MOCK_B),items=Array.from(w.NPPE_MOCK_B_BATCH10);
  assert.equal(all.length,100);assert.equal(items.length,10);
  assert.deepEqual(items.map(x=>x.blueprint),['IV.9','III.7','II.3','III.8','IV.10','III.9','IV.11','II.4','III.10','I.1']);
  for(let k=1;k<=9;k++)assert.ok(Array.from(w['NPPE_MOCK_B_BATCH'+k]).every((q,i)=>q===all[(k-1)*10+i]));
  items.forEach((q,i)=>{
   const id=371+i;assert.equal(q.qid,'nppe:set-1:mock-b:'+id);assert.equal(q.legacyId,'NPPE-'+id);
-  assert.equal(q.batch,10);assert.equal(q.version,1);assert.equal(q.author,'ChatGPT');assert.equal(q.authorSet,1);
+  assert.equal(q.batch,10);assert.equal(q.version,id===380?2:1);assert.equal(q.author,'ChatGPT');assert.equal(q.authorSet,1);
   assert.equal(q.form,'set-1-mock-b');assert.equal(q.releaseStatus,'held');
-  assert.equal(q.scored,i!==9);assert.equal(q.experimental,i===9);
+  assert.equal(q.scored,true);assert.equal(q.experimental,false);
   assert.ok(q.stem&&q.learningObjective&&q.jurisdiction&&q.keyPoint&&q.trap&&q.questionFamily);
   assert.equal(q.options.length,4);assert.equal(new Set(q.options).size,4);
   assert.equal(q.optionRationales.length,4);assert.ok(q.optionRationales.every(x=>x.length>=35));
@@ -22,8 +22,8 @@ test('Batch 10 appends exactly NPPE-371–380 with nine scored and one simulated
  });
  assert.equal(new Set(all.map(x=>x.qid)).size,100);
  assert.equal(new Set(all.map(x=>x.questionFamily)).size,100);
- assert.equal(all.filter(x=>x.scored&&!x.experimental).length,99);
- assert.deepEqual(all.filter(x=>x.experimental).map(x=>x.legacyId),['NPPE-380']);
+ assert.equal(all.filter(x=>x.scored&&!x.experimental).length,94);
+ assert.deepEqual(all.filter(x=>x.experimental).map(x=>x.legacyId),['NPPE-282','NPPE-296','NPPE-320','NPPE-337','NPPE-349','NPPE-355']);
  assert.deepEqual([0,1,2,3].map(i=>items.filter(q=>q.answer===i).length),[2,2,3,3]);
 });
 test('Batch 10 registration is idempotent and rejects conflicting or missing preceding banks',()=>{
