@@ -9,7 +9,7 @@ test('Mock B Batch 2 contains exactly ten original, sourced, held questions and 
  assert.ok(w.NPPE_MOCK_B_BATCH1.every((x,i)=>x===items[i]));
  q.forEach((x,i)=>{
   const n=291+i;assert.equal(x.qid,'nppe:set-1:mock-b:'+n);assert.equal(x.legacyId,'NPPE-'+n);
-  assert.equal(x.version,1);assert.equal(x.authorSet,1);assert.equal(x.form,'set-1-mock-b');assert.equal(x.releaseStatus,'held');assert.equal(x.scored,true);assert.equal(x.experimental,false);
+  assert.equal(x.version,n===296?2:1);assert.equal(x.authorSet,1);assert.equal(x.form,'set-1-mock-b');assert.equal(x.releaseStatus,'held');assert.equal(x.scored,n!==296);assert.equal(x.experimental,n===296);
   assert.equal(x.options.length,4);assert.equal(new Set(x.options).size,4);assert.equal(x.optionRationales.length,4);
   assert.ok(x.optionRationales.every(y=>y.length>=35));assert.ok(x.sources.some(y=>y.sourceType==='official-blueprint'));assert.ok(x.sources.some(y=>y.sourceType!=='official-blueprint'));
   assert.ok(x.sources.every(y=>y.title&&y.locator&&new URL(y.url).protocol==='https:'));assert.ok(x.why.includes('Sources:'));
