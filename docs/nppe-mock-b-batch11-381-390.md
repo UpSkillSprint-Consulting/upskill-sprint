@@ -6,14 +6,14 @@
 
 | ID | Blueprint | Proposed key | Role | Distinct decision and source basis |
 |---|---|---|---|---|
-| NPPE-381 | V.1 | B | simulated unscored | Competency assessment completion is different from issuance of provincial practice authorization; Engineers Canada regulator/licensing FAQ |
+| NPPE-381 | V.1 | B | scored | Competency assessment completion is different from issuance of provincial practice authorization; Engineers Canada regulator/licensing FAQ |
 | NPPE-382 | VI.1 | D | simulated unscored | Fair complaints procedure and no prejudgment before a statutory finding; Ontario Professional Engineers Act, sections 24, 27 and 30 |
 | NPPE-383 | IV.12 | C | **scored** | Criminal Code s.217.1 work-direction duty does not alone establish criminal negligence under s.219; both current federal provisions |
-| NPPE-384 | II.1 | A | simulated unscored | Customary overwriting of acceptance-test failures breaches truthful traceable reporting; Engineers Canada national Code of Ethics guideline |
-| NPPE-385 | III.1 | D | simulated unscored | Previous static finite-element-model validation does not automatically cover low-temperature cyclic service; Engineers Canada risk management and competence |
+| NPPE-384 | II.1 | A | scored | Customary overwriting of acceptance-test failures breaches truthful traceable reporting; Engineers Canada national Code of Ethics guideline |
+| NPPE-385 | III.1 | D | scored | Previous static finite-element-model validation does not automatically cover low-temperature cyclic service; Engineers Canada risk management and competence |
 | NPPE-386 | IV.13 | C | simulated unscored | PIPEDA retention limits, access control and lawful secure disposal after purpose/appeal periods expire; OPC Principle 5 guidance |
-| NPPE-387 | III.2 | B | simulated unscored | Confidential engineering drawings require controlled encrypted transfer and preserved authoritative master versions; Engineers Canada confidentiality guidance |
-| NPPE-388 | II.2 | D | simulated unscored | Justice/procedural fairness in allocation of scarce water services; Stanford Encyclopedia of Philosophy, Distributive Justice |
+| NPPE-387 | III.2 | B | scored | Confidential engineering drawings require controlled encrypted transfer and preserved authoritative master versions; Engineers Canada confidentiality guidance |
+| NPPE-388 | II.2 | D | scored | Justice/procedural fairness in allocation of scarce water services; Stanford Encyclopedia of Philosophy, Distributive Justice |
 | NPPE-389 | IV.14 | D | simulated unscored | Depth of Crown consultation depends on strength of asserted right and potential effect; SCC *Haida Nation*, 2004 SCC 73, paras. 39–45 |
 | NPPE-390 | III.3 | D | simulated unscored | Supervised technical observations require verification before replacement of an outlier; Engineers Canada direct supervision guideline |
 
@@ -43,3 +43,9 @@ Final expected architecture: **110 questions**, **100 scored**, **10 simulated u
 2. Qualified independent Canadian law and engineering/geoscience SME reviews with documented dispositions, revision versions and evidence.
 3. Consented pilot candidate calibration, manual assistive-technology accessibility, protected deployment and authorized production-account tests.
 4. An explicit release decision. **PR #301 remains draft/unmerged, both Mock A and B release-held, and no production migration, deployment or account grant is authorized.**
+
+## Whole-form QA scoring-role amendment — 2026-10-18
+
+NPPE-381, 384, 385, 387 and 388 are now scored (version 2); NPPE-382, 386, 389 and 390 remain simulated unscored, and NPPE-383 remains scored. The ten experimental IDs across the entire form are 282, 296, 320, 337, 349, 355, 382, 386, 389 and 390.
+
+The historical batch allocation text above is retained as an authoring record where inconsistent; this amendment and the current 110-row allocation ledger control. Source/legal and empirical release gates are unaffected.
