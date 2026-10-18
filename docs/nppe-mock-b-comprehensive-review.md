@@ -84,3 +84,15 @@ NPPE visual/browser workflows cover Chromium and WebKit at mobile (320, 390 px) 
 4. Require explicit release authorization only after all gates pass. Keep **PR #301 OPEN/DRAFT**, both **Mock A and Mock B release-held**, no production deploy, no permissions or database migration, and preserve Grok Mock D and Claude Mock E.
 
 The audit script and tests run in GitHub Actions; **the exact final-head CI conclusion must be recorded before calling automated QA passed**.
+
+## Keyed-option cue remediation addendum — October 18, 2026
+
+The [item-level option-length review ledger](nppe-mock-b-option-length-review-ledger.csv) records every question's keyed-choice length, longest distractor, length advantage, priority and review status. The initial 104/110 cue count fell to **103/110** after the cross-bank originality revisions. Eight high-severity keyed choices (NPPE-300, 309, 327, 343, 356, 372, 383 and 386) were then **rewritten substantively** to preserve the correct decision in more concise language, without padding distractors. This removed all eight cases where the correct answer exceeded the longest distractor by at least 65 characters.
+
+**Current ledger: 95/110** keyed choices still tied for or longer than the longest distractor, including **64 high** cases with a 25–64-character advantage, **31 medium** cases, and **15 low/no-cue** cases. All revisions are versioned and tracked in tests. The answer-length cue remains a **major outstanding release blocker** until every item is professionally reviewed and a post-rewrite distribution shows no exploitable systematic pattern. Neither arbitrary length matching nor changing keys without expert content review is acceptable.
+
+Additional original-item replacements made during the cross-bank review: NPPE-309 (firm PPMP implementation), NPPE-322 (APEGS Scope of Practice entry), NPPE-339 (federal criminal-law versus municipal bylaw power), and NPPE-362 (limited moral-rights waiver). These retain the assigned blueprint, jurisdictional framing, and four per-option rationales. The current answer-key frequencies must be read from the exact-head automated audit; older batch audit counts are historical, not final.
+
+### Outstanding source-reference corrective actions
+
+The *Clements* SCC item URL in NPPE-347 has been fixed to the actual [2012 SCC 32 decision](https://decisions.scc-csc.ca/scc-csc/scc-csc/en/item/9992/index.do?iframe=true&site_preference=normal). NPPE-288's source is now a Canadian-government description of the ordinary common-law counteroffer rule, not an inapposite settlement procedural exception. NPPE-354 now references Saskatchewan collective-bargaining guidance rather than the federal Canada Labour Code. NPPE-324, 345 and 355 have newly added professional/regulator context beyond the syllabus blueprint. These are author-level corrections, not independent SME/legal approval.
