@@ -146,9 +146,9 @@
     "sources": [
       {
         "sourceType": "professional-practice-guidance",
-        "title": "Engineers Canada, National guideline on risk management for professional engineers",
+        "title": "Engineers Canada, Public guideline on risk management",
         "locator": "Risk identification, analysis, controls and risk transfer as separate processes",
-        "url": "https://engineerscanada.ca/guidelines-and-papers/national-guideline-on-risk-management-for-professional-engineers"
+        "url": "https://engineerscanada.ca/guidelines-and-papers/public-guideline-on-risk-management"
       },
       {
         "sourceType": "national-nonbinding-guidance",
