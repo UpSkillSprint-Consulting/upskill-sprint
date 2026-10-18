@@ -259,7 +259,7 @@
     "stem": "An engineer's equipment specification cites the 2023 edition of a voluntary consensus standard. A 2026 edition is published while the project is being built. The contractor argues that the new publication automatically overrides the contract's explicit edition without approval or assessment. What should the engineer advise?",
     "options": [
       "The newer edition is automatically law for every project because the publishing body revised it.",
-      "The applicable adopted edition and any binding legal requirements must be identified; assess technical changes and obtain appropriate contract authorization before substituting editions.",
+      "Check the legally adopted edition and approve justified changes through formal change control.",
       "The engineer must permanently ignore the 2026 edition, even if it reveals a newly discovered critical hazard.",
       "A voluntary standard has no technical use unless its every clause is copied word-for-word into a statute."
     ],
@@ -411,6 +411,7 @@
   Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:5,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal review and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 NPPE blueprint checked 2026-10-18',difficultyBasis:'Editorial estimate; not empirically calibrated'});
   if(id==='324'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form source strengthened';}
   if(id==='322'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
+  if(id==='327'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(s){return s.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 5 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Difficulty and cognition are editorial estimates, not evidence of official NPPE readiness.</p>';
  });
