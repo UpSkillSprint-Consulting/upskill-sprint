@@ -14,7 +14,7 @@
     "options": [
       "Apply the 2026 revision automatically because its publication date overrides the incorporation wording.",
       "Ignore the 2026 revision even if it exposes a material safety deficiency.",
-      "Identify which edition is legally incorporated, check any amendments, and evaluate the new technical requirements through appropriate safety and change controls.",
+      "Identify the legally adopted edition and review any proposed change.",
       "Treat all standards as legally irrelevant because they are drafted outside the legislature."
     ],
     "answer": 2,
@@ -53,7 +53,7 @@
     "options": [
       "Once one moral right is waived for any work, all of the author's future moral rights are automatically extinguished.",
       "A waiver can never be limited because the Copyright Act permits waiver only of every moral right at once.",
-      "The limited waiver covers the specified use of Diagram A; it does not by itself waive moral rights in the separate Diagram B.",
+      "The waiver for Diagram A does not extend to unrelated Diagram B.",
       "An economic copyright licence in Diagram A automatically transfers moral rights in all works created for the same client."
     ],
     "answer": 2,
@@ -93,7 +93,7 @@
       "Continue publishing names because long-standing local customs always supersede contractual confidentiality.",
       "Post the reports but remove only the date, since names and addresses are not identifying information.",
       "Destroy the test results to avoid choosing between privacy and technical reporting.",
-      "Respect the confidentiality commitment, evaluate legitimate reporting duties, and provide necessary findings through an authorized privacy-protective route."
+      "Respect confidentiality and report findings only through authorized channels."
     ],
     "answer": 3,
     "optionRationales": [
@@ -130,7 +130,7 @@
     "stem": "A consultant designing a retaining wall obtains professional liability insurance with a $2 million limit. The director argues that purchasing the policy means the firm can omit peer review because all design risks have been transferred. Which response is most defensible?",
     "options": [
       "The insurance policy guarantees that all defects will be physically prevented.",
-      "Insurance transfers certain financial exposures subject to terms; it does not replace competent design, verification or risk reduction.",
+      "Insurance covers specified losses but never replaces hazard controls.",
       "A dollar-denominated insurance limit proves that any failure producing a smaller loss is acceptable.",
       "The policy automatically prevents professional discipline arising from negligent practice."
     ],
@@ -176,7 +176,7 @@
     "options": [
       "Remain silent because an expert's only duty is to defend the first submitted opinion.",
       "Tell only the paying party and never correct evidence provided to the court.",
-      "Promptly advise the appropriate parties through the proper litigation process of the material change and its effect on the expert opinion.",
+      "Promptly advise the appropriate parties about the material opinion change.",
       "Destroy the new evidence and withdraw every prior finding rather than transparently amend the opinion."
     ],
     "answer": 2,
@@ -213,7 +213,7 @@
     "jurisdiction": "Canada; conceptual review of a disused mine-site rehabilitation plan with no specific provincial bond amount or permitted remediation method assumed.",
     "stem": "A mining company compares two technically workable closure options. The lower-capital-cost option leaves an ongoing groundwater treatment demand for decades, while the other requires higher initial spending but substantially lowers long-term contamination and monitoring burden. The project manager proposes comparing only this year's construction budget. Which assessment best supports sustainable development?",
     "options": [
-      "Evaluate lifecycle environmental, social and economic consequences, including ongoing treatment reliability and future community obligations.",
+      "Evaluate lifecycle environmental, social and economic effects of both options.",
       "Choose the lower initial cost because future groundwater impacts can never affect professional planning.",
       "Choose the higher initial cost without examining technical effectiveness because any higher price proves environmental superiority.",
       "Exclude community concerns because remediation is only a private financial decision."
@@ -255,7 +255,7 @@
       "Ethical egoism, because the principal aim is the engineer's personal advantage.",
       "Strict utilitarianism, because the rationale considers only the sum of benefits across the whole population.",
       "Legal positivism, because the engineer's main point is that an enacted law determines morality.",
-      "Ethics of care, because the reasoning centres on relationships, dependency and contextual responsibilities to vulnerable people."
+      "Ethics of care focuses on dependency and contextual responsibility."
     ],
     "answer": 3,
     "optionRationales": [
@@ -292,7 +292,7 @@
     "stem": "A coastal town considers funding corrosion monitoring of its seawater intake. The programme produces no new structure or direct revenue, but credible analysis indicates it will reduce unplanned outages and extend useful life of an existing public asset. A councillor says monitoring creates no economic value because there is no new physical product. What is the strongest response?",
     "options": [
       "Only goods that can be exported count as economically valuable engineering output.",
-      "Prevented downtime and deferred replacement can represent measurable value when supported by credible evidence, alongside public-service reliability.",
+      "Avoided outages and deferred replacement can provide measurable value.",
       "Monitoring guarantees no corrosion failure for the entire asset life and therefore removes all future operating costs.",
       "All monitoring programmes have identical economic outcomes regardless of the technical effectiveness of their measurements."
     ],
@@ -332,7 +332,7 @@
     "options": [
       "Membership-based advocacy groups may automatically discipline licensees whenever they issue professional development certificates.",
       "A salary campaign transfers all professional licensing jurisdiction from the statutory regulator to the advocacy association.",
-      "Advocacy and voluntary professional development are distinct from the statutory regulator's licensing and public-protection powers.",
+      "Advocacy and professional development do not grant statutory regulatory powers.",
       "Any association with members who are engineers may adopt mandatory provincial practice rules without enabling legislation."
     ],
     "answer": 2,
@@ -372,7 +372,7 @@
       "No further action is required because numerical learning credits make CPD planning and online reporting optional.",
       "Repeat the entire 30 credits because missing an online entry automatically invalidates the learning itself.",
       "Report only the ethics hour because the other learning is already verified by attendance receipts.",
-      "Update the CPD plan and complete the required online activity reporting in addition to retaining evidence of the credits."
+      "Update the CPD plan and complete required online activity reporting."
     ],
     "answer": 3,
     "optionRationales": [
@@ -404,6 +404,7 @@
   var id=String(361+i);
   Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:9,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent engineering SME, Canadian-law review and field calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 NPPE blueprint current on 2026-10-18',difficultyBasis:'Provisional editorial judgment; no candidate calibration'});
   if(id==='362'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
+  if([361,362,363,364,365,366,367,368,369,370].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 9 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item. Editorial classifications do not predict official NPPE performance.</p>';
  });
