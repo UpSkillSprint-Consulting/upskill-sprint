@@ -293,7 +293,7 @@
     "options": [
       "Authorize the payment if it is less than one per cent of the construction budget.",
       "Authorize it because practices described as customary cannot create ethical concerns.",
-      "Decline to authorize the secret payment, escalate through compliance channels, and obtain appropriate legal advice about applicable anti-corruption law.",
+      "Decline the concealed payment and seek compliance and legal guidance.",
       "Hide it in the engineering fee instead of the permitting budget, since a different account classification eliminates the concern."
     ],
     "answer": 2,
@@ -417,6 +417,7 @@
   if(id==='332'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='335'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='336'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if(id==='338'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 6 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Classifications are editorial estimates; no official NPPE pass prediction.</p>';
  });
