@@ -59,16 +59,16 @@ NPPE-337,6,III.7,III,scored,authored_held,author_primary_or_guidance_checked,pre
 NPPE-338,6,II.4,II,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal currency and calibration pending
 NPPE-339,6,IV.1,IV,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal currency and calibration pending
 NPPE-340,6,III.8,III,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - independent SME/legal currency and calibration pending
-NPPE-341,7,IV.2,IV,scored,not_started,pending,pending,pending,
-NPPE-342,7,II.1,II,scored,not_started,pending,pending,pending,
-NPPE-343,7,III.9,III,scored,not_started,pending,pending,pending,
-NPPE-344,7,I.2,I,scored,not_started,pending,pending,pending,
-NPPE-345,7,V.2,V,scored,not_started,pending,pending,pending,
-NPPE-346,7,VI.2,VI,scored,not_started,pending,pending,pending,
-NPPE-347,7,IV.3,IV,scored,not_started,pending,pending,pending,
-NPPE-348,7,III.10,III,scored,not_started,pending,pending,pending,
-NPPE-349,7,II.2,II,scored,not_started,pending,pending,pending,
-NPPE-350,7,III.1,III,scored,not_started,pending,pending,pending,
+NPPE-341,7,IV.2,IV,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
+NPPE-342,7,II.1,II,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
+NPPE-343,7,III.9,III,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
+NPPE-344,7,I.2,I,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
+NPPE-345,7,V.2,V,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
+NPPE-346,7,VI.2,VI,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
+NPPE-347,7,IV.3,IV,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
+NPPE-348,7,III.10,III,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
+NPPE-349,7,II.2,II,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
+NPPE-350,7,III.1,III,scored,authored_held,author_sources_reviewed,preliminary_completed,pending,v1 - independent SME/legal source currency and empirical calibration pending
 NPPE-351,8,IV.4,IV,scored,not_started,pending,pending,pending,
 NPPE-352,8,II.3,II,scored,not_started,pending,pending,pending,
 NPPE-353,8,III.2,III,scored,not_started,pending,pending,pending,
