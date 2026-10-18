@@ -337,7 +337,7 @@
     "stem": "Two consulting firms agree in writing to attempt mediation over additional design fees and, if some issues remain unresolved, submit those issues to a designated arbitrator for a binding decision. Negotiations end without settling all items. Which next step follows their stated dispute-resolution process?",
     "options": [
       "Ask the mediator to impose a binding award immediately, even though the parties designated a different arbitrator.",
-      "Refer unresolved matters to the agreed arbitrator under the med-arb clause while preserving any partial settlements reached in mediation.",
+      "Submit unresolved issues to the arbitrator while retaining settlements.",
       "Declare every unresolved claim permanently dismissed because mediation was attempted.",
       "Refer automatically to a criminal court because commercial mediation was unsuccessful."
     ],
@@ -417,6 +417,7 @@
   if(id==='353'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='355'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='358'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if(id==='359'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
