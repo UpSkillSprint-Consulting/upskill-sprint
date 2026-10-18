@@ -319,31 +319,31 @@
     "sub": "nppe-ethics",
     "difficulty": "easy",
     "cognitiveLevel": "understanding",
-    "questionFamily": "mock-b-ethical-framework-duties-competing-outcomes",
-    "learningObjective": "Differentiate duty-based ethics from a purely maximizing consequence rule.",
-    "jurisdiction": "Canada; philosophical analysis only, with no legally mandated emergency-disclosure exception in the case.",
-    "stem": "A professional holds confidential client research that could help a competitor. A manager proposes giving it away to maximize total industry benefit. An adviser replies that promised confidentiality remains a serious moral obligation even if disclosure might produce more aggregate benefit. Which ethical reasoning is most directly used by the adviser?",
+    "questionFamily": "mock-b-ethical-egoism-personal-benefit-as-moral-rule",
+    "learningObjective": "Distinguish ethical egoism's normative focus on self-interest from utilitarian concern for aggregate welfare.",
+    "jurisdiction": "Canada; classification of normative ethical arguments, not an endorsement of the proposal or legal interpretation.",
+    "stem": "A proposed project manager argues: 'The ethically right action is whichever option maximizes my own career advancement, even when another feasible option would help more community members.' A colleague asks which theory the manager's stated moral rule most closely resembles. What is the best classification?",
     "options": [
-      "Virtue ethics solely because the adviser talks about repeatedly practising courage.",
-      "Deontological reasoning because a standing duty is weighed independently of aggregate benefit.",
-      "Ethical egoism because the adviser seeks personal compensation.",
-      "Strict consequentialism because only the sum of social benefits determines the judgment."
+      "Utilitarianism, because the manager seeks the greatest net welfare of everyone affected.",
+      "Ethical egoism, because the manager treats maximizing personal self-interest as the criterion of moral rightness.",
+      "Duty-based ethics, because the manager gives priority to obligations owed equally to others.",
+      "Virtue ethics, because the manager is primarily concerned with cultivating honesty and compassion through habit."
     ],
     "answer": 1,
     "optionRationales": [
-      "The objection is framed as an obligation rather than primarily formation of character.",
-      "Duty-based ethics evaluates obligations as morally relevant even where outcomes could favour a violation.",
-      "No personal material advantage is identified as the criterion.",
-      "The adviser challenges an exclusively outcome-maximizing argument."
+      "Utilitarian reasoning evaluates aggregate effects across persons, which the manager explicitly sets aside.",
+      "Ethical egoism is a normative view that an agent ought to advance the agent's own self-interest.",
+      "The stated criterion is personal advancement, not a generally binding duty respecting others.",
+      "The manager's rule is not about formation of excellent moral character or recurring virtues."
     ],
-    "keyPoint": "Duty-based moral reasoning is not reducible to maximizing consequences.",
-    "trap": "Treating a reference to social benefit as proof that the objection itself is utilitarian.",
+    "keyPoint": "Ethical egoism makes the agent's own interest its normative standard, unlike utilitarianism's aggregate welfare.",
+    "trap": "Confusing the goal of one decision-maker with maximizing social benefit.",
     "sources": [
       {
-        "sourceType": "academic-reference",
-        "title": "Stanford Encyclopedia of Philosophy, Deontological Ethics",
-        "locator": "Sections 1–2: agent-centred duties, moral constraints and contrast with consequentialism",
-        "url": "https://plato.stanford.edu/entries/ethics-deontological/"
+        "sourceType": "academic-philosophy-reference",
+        "title": "Stanford Encyclopedia of Philosophy, Egoism",
+        "locator": "Section 1, Ethical Egoism: normative pursuit of the agent's self-interest",
+        "url": "https://plato.stanford.edu/entries/egoism/"
       },
       {
         "sourceType": "official-blueprint",
