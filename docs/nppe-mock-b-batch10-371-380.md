@@ -40,3 +40,9 @@ Protected delivery: `test-bank-nppe-mock-b-batch10.js` loads after Batches 1–9
 Independent engineering/geoscience and Canadian-law reviews, any source-access/legislative-currency issues, whole-form cue/overlap/content audit, manual accessibility, consented candidate calibration, controlled production-account verification and explicit release authorization remain pending. PR #301 remains open/draft and unmerged; no production grants, migrations or deployment.
 
 **Next: Mock B Batch 11 — NPPE-381–390.** The reserved allocation contains **1 scored item (NPPE-383) and 9 simulated unscored items**, yielding a proposed completed form of **100 scored + 10 simulated unscored**. Verify the exact ledger and form totals before authoring.
+
+## Whole-form QA scoring-role amendment — 2026-10-18
+
+NPPE-380 is now scored (version 2), paired with simulated-unscored NPPE-355 in Domain I.
+
+The historical batch allocation text above is retained as an authoring record where inconsistent; this amendment and the current 110-row allocation ledger control. Source/legal and empirical release gates are unaffected.
