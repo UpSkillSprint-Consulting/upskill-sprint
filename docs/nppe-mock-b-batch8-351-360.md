@@ -42,3 +42,9 @@ Each item is version 1, ChatGPT Set 1, `scored:true`, `experimental:false`, `rel
 Qualified independent engineering/geoscience and Canadian-law approval, any inaccessible consolidated primary texts, whole-form duplicate/cue audit, manual screen-reader/accessibility assessment, consented real-candidate item calibration, authorized production-account verification, and explicit release authorization remain pending. Do not merge PR #301 or publish Mock A or B.
 
 **Next:** Mock B Batch 9 — NPPE-361–370.
+
+## Whole-form QA scoring-role amendment — 2026-10-18
+
+NPPE-355 is now simulated unscored (version 2), swapped with scored NPPE-380 in Domain I.
+
+The historical batch allocation text above is retained as an authoring record where inconsistent; this amendment and the current 110-row allocation ledger control. Source/legal and empirical release gates are unaffected.
