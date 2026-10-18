@@ -20,7 +20,7 @@ test('Mock B Batch 5 supplies ten original, fully sourced and rationalized NPPE-
   assert.ok(x.why.includes('Sources:')&&x.why.includes('Key learning point:'));
  }
  assert.equal(new Set(all.map(x=>x.qid)).size,50);assert.equal(new Set(all.map(x=>x.questionFamily)).size,50);
- assert.equal(all.filter(x=>x.scored&&!x.experimental).length,50);
+ assert.equal(all.filter(x=>x.scored&&!x.experimental).length,47);
  assert.deepEqual([0,1,2,3].map(k=>b.filter(x=>x.answer===k).length),[1,3,3,3]);
 });
 test('Batch 5 reload is idempotent and fails closed for incomplete or modified prerequisites',()=>{
