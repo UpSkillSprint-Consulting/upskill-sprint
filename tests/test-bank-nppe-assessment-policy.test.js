@@ -21,7 +21,7 @@ test.before(async () => {
 });
 test.after(() => { if (workspace) fs.rmSync(workspace, {recursive: true, force: true}); });
 
-async function harness(releaseMockAFixture = false) {
+async function harness(releaseMockFixture = false) {
   const errors = [], console = new VirtualConsole();
   console.on('jsdomError', error => errors.push(error.message));
   const dom = new JSDOM(build.shell, {
@@ -43,9 +43,10 @@ async function harness(releaseMockAFixture = false) {
   w.cancelAnimationFrame = id => { frames.delete(id); cancel(id); };
   packet.scripts.forEach(source => w.eval(source));
   await wait();
-  if (releaseMockAFixture) {
-    // Isolated test fixture only: product delivery retains the release hold.
-    const form=w.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a');
+  if (releaseMockFixture) {
+    // Isolated test fixture only: product delivery retains all release holds.
+    const formId=releaseMockFixture===true?'set-1-mock-a':releaseMockFixture;
+    const form=w.__TB.EXAMS.nppe.formCatalog.find(f=>f.id===formId);
     assert.equal(form.releaseHold,true);
     form.releaseHold=false;
     d.querySelector('[data-nppe-owner="1"]').click();
@@ -62,7 +63,7 @@ function click(d, selector) {
   el.click();
 }
 
-test('available NPPE forms and isolated Mock A fixture withhold answers in both timing modes and score only eligible items', async parent => {
+test('available NPPE forms and isolated held-mock fixtures withhold answers in both timing modes and score only eligible items', async parent => {
   const catalog = await harness();
   const exam = catalog.w.__TB.EXAMS.nppe;
   const forms = Array.from(exam.formCatalog)
@@ -72,10 +73,11 @@ test('available NPPE forms and isolated Mock A fixture withhold answers in both 
   assert.ok(forms.some(form => form.id === 'mock-d'), 'Mock D must be covered');
   assert.ok(forms.some(form => form.id === 'mock-e'), 'Mock E must be covered');
   assert.ok(forms.some(form => form.id === 'set-1-mock-a'), 'Completed Mock A must be tested in isolation');
+  assert.ok(forms.some(form => form.id === 'set-1-mock-b'), 'Completed Mock B must be tested in isolation');
   catalog.close();
   for (const form of forms) for (const timed of [true, false]) {
     await parent.test(form.id + (timed ? '/timed' : '/untimed'), async () => {
-      const h = await harness(form.id === 'set-1-mock-a'), {w, d} = h;
+      const h = await harness(['set-1-mock-a','set-1-mock-b'].includes(form.id) ? form.id : false), {w, d} = h;
       try {
         click(d, '[data-nppe-owner="' + form.owner + '"]');
         click(d, '[data-set="' + form.id + '"]');
