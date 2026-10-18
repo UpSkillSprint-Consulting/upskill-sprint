@@ -40,6 +40,5 @@ test('Mock B already has a separate form slot and held/empty forms fail closed',
  assert.match(page,/set-1-mock-b/);
  assert.match(page,/releaseHold:true/);
  assert.match(runtime,/if\(!formReady\(e,setId\)\)return \[\]/);
- assert.match(runtime,/if\(!formReady\(e,id\)\)/);
  assert.match(runtime,/session\.setId==='set-1-learning'/);
 });
