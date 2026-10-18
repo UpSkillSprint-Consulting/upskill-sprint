@@ -39,4 +39,4 @@ Protected delivery: `test-bank-nppe-mock-b-batch10.js` loads after Batches 1–9
 
 Independent engineering/geoscience and Canadian-law reviews, any source-access/legislative-currency issues, whole-form cue/overlap/content audit, manual accessibility, consented candidate calibration, controlled production-account verification and explicit release authorization remain pending. PR #301 remains open/draft and unmerged; no production grants, migrations or deployment.
 
-**Next: Mock B Batch 11 — NPPE-381–390 (2 scored + 8?** No: remaining 10 slots are **1 scored and 9 simulated unscored**, giving the final form **100 scored + 10 simulated unscored**). Verify the exact allocation ledger before authoring.
+**Next: Mock B Batch 11 — NPPE-381–390.** The reserved allocation contains **1 scored item (NPPE-383) and 9 simulated unscored items**, yielding a proposed completed form of **100 scored + 10 simulated unscored**. Verify the exact ledger and form totals before authoring.
