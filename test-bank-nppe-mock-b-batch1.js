@@ -12,7 +12,7 @@
     "jurisdiction": "Canada; conceptual professional status, not a claim about one regulator's bylaws.",
     "stem": "A provincial engineering regulator receives an offer from a commercial sponsor to fund its entire complaints office. The sponsor wants the right to veto investigations involving its customers. Several members argue that outside funding is acceptable if annual dues decrease. What feature of professional status is most directly at stake?",
     "options": [
-      "Whether an association can negotiate lower dues without consulting every member.",
+      "Lower dues if a sponsor funds the regulatory complaints office.",
       "Regulation that independently serves the public rather than its sponsors.",
       "Whether investigations become unnecessary when a sponsor has industry experience.",
       "Whether complaints can be resolved only by courts instead of professional regulators."
@@ -52,7 +52,7 @@
     "stem": "A long-standing local custom is to omit minor-looking near misses from monthly project reports to avoid embarrassing coworkers. A new analysis establishes that one repeated near miss could precede a severe lifting failure. A manager says the reporting custom is shared by everyone and therefore ethical. Which response best distinguishes custom from ethical judgment?",
     "options": [
       "Continue the custom because agreement among coworkers is sufficient to settle what is right.",
-      "Ask only whether the custom is punishable under a criminal statute before judging it.",
+      "Follow the custom unless its omission is clearly illegal.",
       "Treat the custom as ethically justified until another organization publishes a different practice.",
       "Report the verified risk, guided by honesty and foreseeable harm."
     ],
@@ -92,7 +92,7 @@
     "options": [
       "Check model inputs against site evidence and verify the result before approval.",
       "Use the new result because proprietary software transfers responsibility for its assumptions to the vendor.",
-      "Accept the higher factor of safety as inherently conservative, regardless of the physical input change.",
+      "Use the higher safety factor as proof the revision is conservative.",
       "Require the software's entire source code to be published, since no result from a closed-source tool can ever be used professionally."
     ],
     "answer": 0,
@@ -175,7 +175,7 @@
     "stem": "A candidate receives a national engineering-education credential review and an information brochure from Engineers Canada. An employer says the review itself grants authority to sign and seal work in any province. The candidate has not been licensed by the relevant provincial regulator. Which conclusion is best?",
     "options": [
       "The credential review automatically authorizes independent professional practice across Canada.",
-      "The employer may replace a provincial licensing decision through internal designation.",
+      "Accept the employer's designation as equivalent to licensing.",
       "A national educational credential review authorizes practice only on projects funded federally.",
       "Obtain authority to practise from the relevant provincial or territorial regulator."
     ],
@@ -214,7 +214,7 @@
     "stem": "A client files a documented complaint with Ontario's engineering regulator. A newspaper calls the complaint proof that the engineer has already been found guilty of professional misconduct, even though the matter is still under investigation. What is the best characterization?",
     "options": [
       "A complaint begins review; it is not proof of misconduct.",
-      "Filing a complaint immediately suspends every licence held by the respondent.",
+      "Suspend the licence upon receiving the complaint.",
       "A complaint becomes a conviction once a written supporting document is attached.",
       "The complaint committee must always dismiss any complaint that disputes professional judgment."
     ],
@@ -252,7 +252,7 @@
     "jurisdiction": "Canada; environmental monitoring values are verified, the engineer is authorized to prepare a client-facing technical report, and no emergency-reporting rule is assumed.",
     "stem": "A client asks an engineer to omit verified exceedances from a groundwater trend chart because they occurred before a new treatment system was installed. The contract calls for a complete assessment of conditions before and after installation. The engineer has confirmed the old values are comparable and relevant. What is the best next step?",
     "options": [
-      "Delete the historical points if the client accepts responsibility for the presentation.",
+      "Delete earlier data once the client accepts the presentation.",
       "Show the historical data and explain the observed change to the client.",
       "Publish confidential raw data directly to social media without checking applicable reporting requirements.",
       "Replace the historical measurements with the new treatment-system design targets to make the chart more consistent."
@@ -370,7 +370,7 @@
     "stem": "A structural engineer designs foundations near an unstable riverbank. New drilling logs suggest an unusual groundwater regime outside the engineer's geoscience competence. A schedule manager asks the engineer to ignore the logs because the concrete calculations are already complete. What is the most defensible professional response?",
     "options": [
       "Certify the soil interpretation personally because foundation calculations require some geotechnical inputs.",
-      "Have a junior technician remove the uncertain logs from the report to protect the schedule.",
+      "Omit the new logs to keep the project on schedule.",
       "Proceed with the design and leave all groundwater-related concerns to the contractor after mobilization.",
       "Use qualified geoscience input and integrate it into the accountable design."
     ],
@@ -411,6 +411,7 @@
   Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:1,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal review and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'2017 published NPPE blueprint checked 2026-10-18',difficultyBasis:'Editorial estimate; not empirically calibrated'});
   if(id==='282'){q.version=2;q.scored=false;q.experimental=true;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role reallocated for whole-form balance';}
   if([281,282,283,285,286,287,289,290].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
+  if([281,282,283,285,286,287,290].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B question. Editorial classifications are provisional; scores do not predict official NPPE results.</p>';
  });
