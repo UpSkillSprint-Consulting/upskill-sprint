@@ -14,7 +14,7 @@
     "options": [
       "Technical-society membership automatically confers the right to approve regulated designs in every Canadian province.",
       "The society certificate replaces provincial registration if a seminar covered the same equipment.",
-      "Membership may support learning and networking, but statutory authority to practise must come from the applicable provincial or territorial regulator.",
+      "Society membership supports development; a regulator grants practice authority.",
       "Only a society with international chapters may grant a provincial engineering licence without regulator involvement."
     ],
     "answer": 2,
@@ -99,7 +99,7 @@
       "Treat provincial approval as conclusive proof that every possible discharge complies with the federal Fisheries Act.",
       "Start discharging because a fish kill must occur before federal restrictions become relevant.",
       "Transfer the outfall to a contractor so the owner no longer needs to assess the law.",
-      "Assess the discharge against the Fisheries Act prohibition and any applicable lawful authorization before proceeding, alongside provincial requirements."
+      "Check federal discharge restrictions and applicable authorizations before proceeding."
     ],
     "answer": 3,
     "optionRationales": [
@@ -135,7 +135,7 @@
     "jurisdiction": "Canada; an engineering pilot has documented negative results; no requirement to publicly disclose confidential proprietary methods is assumed.",
     "stem": "A regional engineering consortium traditionally reports only successful prototype trials at its annual community meeting. A new bridge-sensor pilot missed its reliability target, and the meeting will be used to decide whether municipal funds should be committed. A presenter argues that withholding the failure is ethical because the custom is longstanding. Which response is best?",
     "options": [
-      "Explain the relevant test limitation and uncertainty in the decision material; established custom does not make a materially misleading presentation ethical.",
+      "Disclose the failed pilot and its limits; custom cannot justify misleading reports.",
       "Hide the result because every established organizational practice is ethically justified if no member objects.",
       "Present a projected passing result as though achieved, provided that future revisions might meet the target.",
       "Cancel all further research, because one pilot failure proves the sensor concept cannot be developed."
@@ -182,7 +182,7 @@
     "options": [
       "Require the engineer to perform every measurement personally; no tasks may be delegated to an experienced technologist.",
       "Allow fully unsupervised professional design decisions because past competence in a different method automatically transfers.",
-      "Set task limits, provide early technical instruction and appropriate review points, and verify the critical results before taking professional responsibility.",
+      "Set supervision limits, provide instruction and review critical work before approval.",
       "Have the technologist certify the engineer's professional responsibility through an internal job title."
     ],
     "answer": 2,
@@ -222,7 +222,7 @@
       "The duty is limited to written employment contracts between the director and the injured person.",
       "The duty is extinguished whenever a subcontractor supplies the equipment.",
       "Any breach of a workplace policy automatically establishes criminal conviction without proof of the applicable offence.",
-      "Section 217.1 imposes a duty on a person who undertakes or has authority to direct work to take reasonable steps to prevent resulting bodily harm, not solely for their own employees."
+      "Section 217.1 applies to anyone directing work, not just their own employees."
     ],
     "answer": 3,
     "optionRationales": [
@@ -299,7 +299,7 @@
     "options": [
       "Strict legal positivism, because the design receiving the most votes becomes morally correct regardless of its effects.",
       "Virtue ethics, because the panel's sole basis is the character traits its members acquire through practice.",
-      "Utilitarian consequentialism, because the panel judges the permissible alternatives by their expected overall benefits and harms.",
+      "Utilitarianism: compare alternatives by their expected total harms and benefits.",
       "Ethical egoism, because the panel chooses the design that maximizes its chair's personal advantage."
     ],
     "answer": 2,
@@ -339,7 +339,7 @@
       "Keep the old risk score because a completed assessment cannot be reopened until the next annual budget.",
       "Rate all hazards as maximum risk regardless of their likelihood or safeguards.",
       "Move the hazard entirely to the insurance register because buying a policy eliminates its physical consequences.",
-      "Reassess the credible failure scenarios and control reliability under the new operating conditions, implement controls and monitor effectiveness."
+      "Reassess new failure scenarios, control reliability and residual risk."
     ],
     "answer": 3,
     "optionRationales": [
@@ -376,7 +376,7 @@
     "stem": "A consulting firm has employees' identifiable exposure histories, collected under a notice and consent process only for workplace exposure monitoring. Marketing proposes using the files to build named employee profiles for a commercial targeted-advertising campaign. The team says the original monitoring consent authorizes any future use of the same records. Which response is best?",
     "options": [
       "Permit the new campaign because once information is lawfully collected it can be reused for any profitable purpose.",
-      "Assess the new purpose separately and obtain appropriate meaningful consent or other lawful authority before any new use, with data minimization and applicable safeguards.",
+      "Check the new use's lawful authority and consent before processing personal data.",
       "Replace each employee's name with a numeric ID while retaining a readily available re-identification key and declare the data outside all privacy law.",
       "Publish the profiles openly because the firm, rather than the individuals, originally paid for the measurements."
     ],
@@ -412,6 +412,7 @@
   if(id==='324'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form source strengthened';}
   if(id==='322'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
   if(id==='327'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
+  if([321,323,324,325,326,328,329,330].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(s){return s.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 5 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Difficulty and cognition are editorial estimates, not evidence of official NPPE readiness.</p>';
  });
