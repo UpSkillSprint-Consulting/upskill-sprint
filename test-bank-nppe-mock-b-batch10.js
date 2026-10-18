@@ -54,7 +54,7 @@
       "Restore operations without reviewing the altered thresholds because backups prove the controller cannot have been compromised.",
       "Delete access logs immediately because keeping records of unauthorized modifications increases technical risk.",
       "Announce that the system is safe solely because no physical damage has yet been observed.",
-      "Contain the suspected compromise, preserve relevant evidence, independently verify safety-critical settings and follow the organization's incident and notification processes before relying on the system."
+      "Contain the incident, preserve logs, and verify controller settings before relying on the system."
     ],
     "answer": 3,
     "optionRationales": [
@@ -404,6 +404,7 @@
   var id=String(i+371),simulatedUnscored=false;
   Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:10,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:!simulatedUnscored,experimental:simulatedUnscored,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal review and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 NPPE blueprint, checked 2026-10-18',difficultyBasis:'Provisional editorial estimate; not empirically calibrated'});
   if(id==='380'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role redistributed by whole-form audit';}
+  if(id==='372'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 10 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item. Editorial classifications are provisional and no NPPE pass prediction is implied.</p>';
  });
