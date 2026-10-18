@@ -16,7 +16,7 @@ The published NPPE format is 110 questions / 150 minutes, with 100 scored and 10
 | VI | 8 | 1 | 9 | 8 / 1 |
 | Total | 100 | 10 | 110 | 100 / 10 |
 
-Batches 1–10 each contain one simulated unscored item; Batch 11 contains ten scored items. Experimental is a simulation scoring role, not proof that candidate field trials occurred. Hide those roles during an eventual attempt. Do not publish an incomplete mock or allow a fallback to another bank. At 110 authored questions the selector shows 110 and remains disabled through `releaseHold:true`. `formReady` checks that hold as well as completeness, so authoring completion cannot enable a learner attempt. Learning still shows 120 and Diagnostic 50. Isolated test fixtures may remove the hold in memory to verify the full form; this does not change delivered settings or grant production access.
+The original batch allocation was revised by the whole-form review: 210 and 250 now score; 256 and 272 are simulated unscored. See the final allocation below. Experimental is a simulation scoring role, not proof that candidate field trials occurred. Hide those roles during an eventual attempt. Do not publish an incomplete mock or allow a fallback to another bank. At 110 authored questions the selector shows 110 and remains disabled through `releaseHold:true`. `formReady` checks that hold as well as completeness, so authoring completion cannot enable a learner attempt. Learning still shows 120 and Diagnostic 50. Isolated test fixtures may remove the hold in memory to verify the full form; this does not change delivered settings or grant production access.
 
 Every item needs a stable ID, four explained options, primary blueprint topic, jurisdiction, source locators and provisional classification. Review against all prior pools before acceptance.
 
@@ -43,8 +43,12 @@ Protected NPPE delivery only. Independent SME/legal review, candidate calibratio
 
 All targets in the whole-form table are met. Batch 11 adds scored items I–VI **1/2/3/2/1/1**; no unscored items were added.
 
-Unscored items are 180 (VI.4), 190 (III.10), 200 (I.2), 210 (IV.8), 220 (II.4), 230 (III.6), 240 (V.2), 250 (II.1), 260 (III.10) and 270 (IV.12). All ten simulated unscored slots are filled. Batch 11 contains ten scored items in the required allocation.
+Unscored items are 180 (VI.4), 190 (III.10), 200 (I.2), 220 (II.4), 230 (III.6), 240 (V.2), 256 (IV.2), 260 (III.10), 270 (IV.12) and 272 (II.2). All ten simulated unscored slots are filled; every numbered topic now has a scored sample. The whole-form audit supersedes historical batch scoring roles.
 
 All 40 numbered blueprint topics have at least one primary Mock A sample. This does not establish exhaustive bullet-level coverage or replace a final whole-form audit. The whole-form review must assess coverage depth and originality without borrowing or inflating provisional classifications. Batch 10 adds public technical education, converging ethical arguments, fair review of a competitor’s proposal, recurring hospitality, potential-claim notification, climate adaptation versus mitigation, directors’ duties, B.C. unrelated-conviction protection, unauthorized offers before delivery, and no-fault workers’ compensation. All earlier authored items remain unchanged.
 
 Batch 11 adds inclusive public service, ethical habit formation, self-review independence, code alternatives, secure removable media, consequences of overruled equipment choices, contractual discretion, patent territoriality, competency validators and individual audit extensions. See `docs/nppe-mock-a-batch11-271-280.md`. All 490 earlier question objects remain unchanged.
+
+## Whole-form review
+
+See `docs/nppe-mock-a-comprehensive-review.md`: nine versioned revisions, scored coverage of all 40 topics, a removed inter-item clue, precise source locators, timeout/retake regression and full responsive browser fixtures. The original batch summaries above are historical. Independent SME review, empirical calibration and live production-account verification remain open; no release is authorized.

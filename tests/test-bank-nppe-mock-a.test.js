@@ -15,7 +15,7 @@ test('Mock A contains one hundred ten original, sourced items, independent IDs a
  assert.equal(q.filter(x=>x.scored&&!x.experimental).length,100);assert.equal(q.filter(x=>!x.scored&&x.experimental).length,10);
  const normalized=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
  for(const x of q){
-  assert.ok(x.qid==='nppe:set-1:mock-a:'+x.legacyId.slice(5)&&x.form==='set-1-mock-a'&&x.bank==='mock'&&x.authorSet===1&&x.original&&x.version===1);
+  assert.ok(x.qid==='nppe:set-1:mock-a:'+x.legacyId.slice(5)&&x.form==='set-1-mock-a'&&x.bank==='mock'&&x.authorSet===1&&x.original&&x.version===([171,172,173,176,185,210,250,256,272].includes(Number(x.legacyId.slice(5)))?2:1));
   assert.equal(x.sub,{'I':'nppe-professionalism','II':'nppe-ethics','III':'nppe-practice','IV':'nppe-law','V':'nppe-professional-law','VI':'nppe-discipline'}[x.area],'registered domain subtopic for '+x.legacyId);
   assert.equal(x.options.length,4);assert.equal(new Set(x.options).size,4);assert.equal(x.optionRationales.length,4);assert.ok(x.optionRationales.every(r=>r.length>40));
   assert.ok(x.sources.some(s=>s.sourceType==='official-blueprint')&&x.sources.some(s=>s.sourceType!=='official-blueprint'));
@@ -35,8 +35,9 @@ test('Mock A contains one hundred ten original, sourced items, independent IDs a
  assert.deepEqual(['I','II','III','IV','V','VI'].map(a=>q.filter(x=>x.area===a&&x.scored).length),[8,20,30,26,8,8]);
  assert.deepEqual(['I','II','III','IV','V','VI'].map(a=>q.filter(x=>x.area===a&&x.experimental).length),[1,2,3,2,1,1]);
  assert.equal(new Set(q.map(x=>x.questionFamily)).size,110);
- assert.ok(q.filter(x=>x.batch===11).every(x=>x.scored&&!x.experimental));
- assert.deepEqual(q.filter(x=>x.experimental).map(x=>x.legacyId),['NPPE-180','NPPE-190','NPPE-200','NPPE-210','NPPE-220','NPPE-230','NPPE-240','NPPE-250','NPPE-260','NPPE-270']);
+ const topics=['I','II','III','IV','V','VI'].flatMap((d,i)=>Array.from({length:[4,4,10,14,4,4][i]},(_,j)=>d+'.'+(j+1)));
+ assert.deepEqual([...new Set(q.filter(x=>x.scored).map(x=>x.blueprint))].sort(),topics.sort(),'all 40 topics must contribute to the score');
+ assert.deepEqual(q.filter(x=>x.experimental).map(x=>x.legacyId),['NPPE-180','NPPE-190','NPPE-200','NPPE-220','NPPE-230','NPPE-240','NPPE-256','NPPE-260','NPPE-270','NPPE-272']);
 });
 test('Learning coverage review preserves totals and explicitly versions only eight revisions',()=>{
  const q=Array.from(banks().NPPE_LEARNING),revised=['NPPE-054','NPPE-056','NPPE-058','NPPE-063','NPPE-064','NPPE-099','NPPE-106','NPPE-159'];

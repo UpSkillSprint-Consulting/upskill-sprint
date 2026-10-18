@@ -30,7 +30,7 @@
       {
         "sourceType": "national-nonbinding-guidance",
         "title": "Engineers Canada, Guideline on the code of ethics",
-        "locator": "Principles 1, 3, 4 and 5: public welfare, truthful statements, conflicts and confidentiality",
+        "locator": "Principle 1 and interpretation: public welfare and foreseeable consequences",
         "url": "https://engineerscanada.ca/guidelines-and-papers/public-guideline-on-the-code-of-ethics"
       },
       {
@@ -69,7 +69,7 @@
       {
         "sourceType": "national-nonbinding-guidance",
         "title": "Engineers Canada, Guideline on the code of ethics",
-        "locator": "Principles 1, 3, 4 and 5: public welfare, truthful statements, conflicts and confidentiality",
+        "locator": "Principle 4 and interpretation: truthful professional statements",
         "url": "https://engineerscanada.ca/guidelines-and-papers/public-guideline-on-the-code-of-ethics"
       },
       {
@@ -108,7 +108,7 @@
       {
         "sourceType": "national-nonbinding-guidance",
         "title": "Engineers Canada, Guideline on the code of ethics",
-        "locator": "Principles 1, 3, 4 and 5: public welfare, truthful statements, conflicts and confidentiality",
+        "locator": "Principle 5 and interpretation: disclose and manage conflicts of interest",
         "url": "https://engineerscanada.ca/guidelines-and-papers/public-guideline-on-the-code-of-ethics"
       },
       {
@@ -225,7 +225,7 @@
       {
         "sourceType": "national-nonbinding-guidance",
         "title": "Engineers Canada, Guideline on the code of ethics",
-        "locator": "Principles 1, 3, 4 and 5: public welfare, truthful statements, conflicts and confidentiality",
+        "locator": "Principle 5 and interpretation: confidentiality and privileged information",
         "url": "https://engineerscanada.ca/guidelines-and-papers/public-guideline-on-the-code-of-ethics"
       },
       {
@@ -397,6 +397,8 @@
  questions.forEach(function(q,i){
    var id=String(i+171).padStart(3,'0');
    Object.assign(q,{qid:'nppe:set-1:mock-a:'+id,legacyId:'NPPE-'+id,version:1,batch:1,authorSet:1,author:'ChatGPT',form:'set-1-mock-a',bank:'mock',set:1,original:true,scored:i!==9,experimental:i===9,releaseStatus:'released',reviewStatus:'editorial source review; independent SME/legal review and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-16',blueprintVersion:'2017 official NPPE blueprint current on 2026-10-16',difficultyBasis:'Editorial estimate; not empirically calibrated'});
+   // Whole-form editorial revision; IDs and answer positions are preserved.
+   if(["171", "172", "173", "176"].indexOf(id)!==-1){q.version=2;q.editorialReviewedAt='2026-10-18';}
    if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||!q.sources.length)throw new Error('Invalid Mock A item '+id);
    q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock A item. Editorial classifications are provisional; practice scores do not predict an official NPPE result.</p>';
  });

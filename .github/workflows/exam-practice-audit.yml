@@ -52,8 +52,8 @@ jobs:
   exam-practice-browser:
     name: Exam practice (${{ matrix.browser }})
     runs-on: ubuntu-latest
-    # Full Learning matrix plus a complete 110-item Mock A fixture and rationale review.
-    timeout-minutes: 30
+    # Full Learning and 110-item Mock A fixtures at all six viewport/theme combinations per engine.
+    timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:

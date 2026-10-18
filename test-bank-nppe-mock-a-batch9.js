@@ -409,6 +409,9 @@
  questions.forEach(function(q,i){
    var id=String(i+251).padStart(3,'0');
    Object.assign(q,{qid:'nppe:set-1:mock-a:'+id,legacyId:'NPPE-'+id,version:1,batch:9,authorSet:1,author:'ChatGPT',form:'set-1-mock-a',bank:'mock',set:1,original:true,scored:i!==9,experimental:i===9,releaseStatus:'released',reviewStatus:'editorial source review; independent SME/legal review and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-17',blueprintVersion:'2017 official NPPE blueprint current on 2026-10-17',difficultyBasis:'Editorial estimate; not empirically calibrated'});
+   // Whole-form editorial revision; IDs and answer positions are preserved.
+   if(["256"].indexOf(id)!==-1){q.version=2;q.editorialReviewedAt='2026-10-18';}
+   if(id==='256'){q.scored=false;q.experimental=true;}
    if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||!q.sources.length)throw new Error('Invalid Mock A item '+id);
    q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock A item. Editorial classifications are provisional; practice scores do not predict an official NPPE result.</p>';
  });

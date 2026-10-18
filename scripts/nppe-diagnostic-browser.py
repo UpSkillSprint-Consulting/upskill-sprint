@@ -94,6 +94,7 @@ def main():
                     # Test-only in-memory release: real delivered catalog remains held.
                     page.goto(base + '/test-bank?exam=nppe')
                     page.wait_for_selector('body.exam-access-ready')
+                    expect(page.locator('html')).to_have_attribute('data-theme', theme)
                     assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is True
                     page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold=false")
                     page.locator('[data-nppe-owner="1"]').click()
@@ -146,6 +147,7 @@ def main():
                     page.goto(base + '/test-bank?exam=nppe')
                     page.wait_for_selector('body.exam-access-ready')
                     expect(page.locator('[data-set="set-1-mock-a"]')).to_be_disabled()
+                    expect(page.locator('html')).to_have_attribute('data-theme', theme)
                     assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is True
                     return {'basis': 'test-only in-memory release fixture', 'questions': 110,
                             'score': '100/100', 'experimentalAnswersWrong': 10, 'minutes': 150,
@@ -187,6 +189,7 @@ def main():
                     expect(page.locator('[data-set="set-1-mock-a"] .tb-sets')).to_have_text('110')
                     expect(page.locator('[data-set="set-1-mock-a"]')).to_be_disabled()
                     expect(page.locator('[data-set="set-1-mock-a"]')).to_have_attribute('aria-label', 'Mock A, 110 questions, awaiting release review')
+                    expect(page.locator('html')).to_have_attribute('data-theme', theme)
                     assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is True
                     expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_COUNT} of 50 planned')
                     expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_MINUTES} minutes')
@@ -351,7 +354,7 @@ def main():
                     learning_review()
                     expect(page.locator('.tb-review-card.revealed')).to_have_count(1)
                     check_accessibility('learning-assisted-review')
-                    mock_a_fixture = mock_a_release_fixture() if width == 1440 and theme == 'light' else None
+                    mock_a_fixture = mock_a_release_fixture()
                     assert not errors, errors
                     result = {'case': name, 'result': 'PASS', 'score': f'{EXPECTED_COUNT}/{EXPECTED_COUNT}', 'domains': 6,
                               'batch3Rendered': batch3_checked, 'batch4Rendered': batch4_checked, 'batch5Rendered': batch5_checked, 'learningQuestionsRendered': LEARNING_COUNT, 'learningAssistedReveal': True, 'learningReviewQuestions': LEARNING_COUNT, 'keyboardTabs': True, 'flagsAndNavigation': True,

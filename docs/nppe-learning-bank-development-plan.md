@@ -66,6 +66,6 @@ Whole-bank provisional classifications are **23 understanding / 79 application /
 
 **Comprehensive editorial review completed:** see `docs/nppe-learning-comprehensive-review.md`. Eight explicitly versioned revisions preserve all 120 IDs, keys and domain totals. V.1 is sampled by 099 (remapped existing licence-scope decision); V.4 by 159 (replacement society-benefits decision). All 40 numbered topics now have at least one primary tag; this is not exhaustive bullet-level coverage. The duplicate retention-format scenario in 106 is replaced with a continuing-use retention trigger.
 
-**Next:** Complete Mock A editorial and functional review under `docs/nppe-mock-a-development-plan.md`. Independent SME approval, empirical calibration and production-account verification remain separate release gates.
+**Next:** Independent Mock A SME review and calibration planning following `docs/nppe-mock-a-comprehensive-review.md`. Independent SME approval, empirical calibration and production-account verification remain separate release gates.
 
 The published NPPE page still identifies the 2017 blueprint while announcing an expected mid-2026 review; recheck for a replacement before release. Authored completeness, automated QA, independent content approval, empirical calibration and production-account verification remain separate requirements. PR #301 stays DRAFT and NPPE stays `coming_soon` pending authorization.

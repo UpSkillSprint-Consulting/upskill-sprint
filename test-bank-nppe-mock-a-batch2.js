@@ -182,15 +182,15 @@
     "options": [
       "The client must accept any replacement offered, even if it is unqualified or creates unreasonable technical risks.",
       "The original breach makes every later loss recoverable, including losses the client deliberately lets accumulate.",
-      "Obtaining a replacement would waive the original breach, preventing recovery of reasonable replacement costs.",
-      "Compensation excludes losses proved avoidable through reasonable mitigation, while reasonable mitigation costs may be recoverable."
+      "The refusal eliminates every damages claim, including losses that no reasonable replacement could have prevented.",
+      "Compensation excludes the additional delay losses proved avoidable through reasonable mitigation by the client."
     ],
     "answer": 3,
     "optionRationales": [
       "Mitigation requires reasonable steps in the circumstances, not acceptance of an unsuitable or unreasonably risky substitute.",
       "A breach does not entitle the claimant to increase recoverable damages by unreasonably declining available mitigation.",
-      "Reasonably obtaining substitute performance need not waive the breach; reasonable mitigation expenses may form part of damages.",
-      "The defendant bears the mitigation burden. On the stipulated proof, avoidable loss is excluded; reasonable mitigation costs are treated differently."
+      "Failure to mitigate limits recovery of avoidable loss; it does not automatically extinguish every otherwise recoverable loss from the breach.",
+      "The defendant bears the mitigation burden. On the stipulated proof, the additional delay loss could reasonably have been avoided and is excluded."
     ],
     "keyPoint": "Reasonable mitigation limits compensatory loss without excusing the original breach.",
     "trap": "Assuming the innocent party may deliberately accumulate avoidable damages.",
@@ -421,6 +421,8 @@
  questions.forEach(function(q,i){
    var id=String(i+181).padStart(3,'0');
    Object.assign(q,{qid:'nppe:set-1:mock-a:'+id,legacyId:'NPPE-'+id,version:1,batch:2,authorSet:1,author:'ChatGPT',form:'set-1-mock-a',bank:'mock',set:1,original:true,scored:i!==9,experimental:i===9,releaseStatus:'released',reviewStatus:'editorial source review; independent SME/legal review and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-16',blueprintVersion:'2017 official NPPE blueprint current on 2026-10-16',difficultyBasis:'Editorial estimate; not empirically calibrated'});
+   // Whole-form editorial revision; IDs and answer positions are preserved.
+   if(["185"].indexOf(id)!==-1){q.version=2;q.editorialReviewedAt='2026-10-18';}
    if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||!q.sources.length)throw new Error('Invalid Mock A item '+id);
    q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock A item. Editorial classifications are provisional; practice scores do not predict an official NPPE result.</p>';
  });

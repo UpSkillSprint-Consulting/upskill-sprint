@@ -207,3 +207,30 @@ test('removing the release hold in a fixture cannot start an incomplete or mis-s
   }finally{h.close();}
  }
 });
+
+test('Mock A timeout scores blanks correctly and retake resets answers and flags',async()=>{
+ const h=await harness(true),{w,d}=h;
+ try {
+  click(d,'[data-set="set-1-mock-a"]');click(d,'[data-mode="full"]');
+  const records=Array.from(w.__TB.getFeedbackSnapshot().records);
+  const experiment=records.findIndex(r=>!scored(r));
+  click(d,'[data-goto="'+experiment+'"]');
+  click(d,'[data-opt="'+records[experiment].question.answer+'"]');click(d,'[data-flag]');
+  const realNow=w.Date.now;
+  w.Date.now=()=>realNow()+151*60*1000;
+  await new Promise(resolve=>setTimeout(resolve,1200));
+  const result=w.__TB.getFeedbackSnapshot();
+  assert.equal(result.grading.total,100);assert.equal(result.grading.correct,0);
+  assert.equal(result.grading.incorrect,0);assert.equal(result.grading.unanswered,100);
+  assert.match(d.querySelector('[data-score-result]').textContent,/0% \(0\/100\)/);
+  assert.equal(d.querySelector('.tb-quiz'),null,'expiry submits the attempt');
+  w.Date.now=realNow;
+  click(d,'[data-retake]');
+  const retake=w.__TB.getFeedbackSnapshot();
+  assert.equal(retake.records.length,110);
+  assert.ok(retake.records.every(r=>r.question.form==='set-1-mock-a'));
+  assert.ok(retake.records.every(r=>r.selected==null&&!r.flagged&&!r.revealed));
+  assert.match(d.querySelector('#tb-timer').textContent,/^2:(?:30:00|29:[0-5][0-9])$/);
+  assert.deepEqual(h.errors,[]);
+ }finally{h.close();}
+});
