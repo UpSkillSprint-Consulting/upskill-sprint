@@ -42,3 +42,28 @@ test('Mock B already has a separate form slot and held/empty forms fail closed',
  assert.match(runtime,/if\(!formReady\(e,setId\)\)return \[\]/);
  assert.match(runtime,/session\.setId==='set-1-learning'/);
 });
+
+test('Mock B 110-row planning ledger is complete, segregated and all 40 numbered topics have scored coverage',()=>{
+ const rows=read('docs/nppe-mock-b-allocation-ledger.csv').trim().split(/\r?\n/).map(s=>s.split(','));
+ assert.equal(rows.length,111);
+ const [header,...data]=rows;
+ assert.deepEqual(header.slice(0,6),['item_id','batch','blueprint','domain','planned_scoring_role','authoring_status']);
+ const domains=['I','II','III','IV','V','VI'],expectedScored=[8,20,30,26,8,8],expectedUnscored=[1,2,3,2,1,1];
+ const topicTargets=[4,4,10,14,4,4];
+ const seen=new Set();
+ data.forEach((row,i)=>{
+  const id='NPPE-'+(281+i);assert.equal(row[0],id);assert.ok(!seen.has(id));seen.add(id);
+  assert.equal(Number(row[1]),Math.floor(i/10)+1);
+  assert.equal(row[3],row[2].split('.')[0]);assert.equal(row[5],'not_started');
+  assert.ok(['scored','simulated_unscored'].includes(row[4]));
+  assert.ok(domains.includes(row[3]));
+ });
+ assert.equal(data.filter(r=>r[4]==='scored').length,100);
+ assert.equal(data.filter(r=>r[4]==='simulated_unscored').length,10);
+ domains.forEach((domain,i)=>{
+  assert.equal(data.filter(r=>r[3]===domain&&r[4]==='scored').length,expectedScored[i]);
+  assert.equal(data.filter(r=>r[3]===domain&&r[4]==='simulated_unscored').length,expectedUnscored[i]);
+  const topics=new Set(data.filter(r=>r[3]===domain&&r[4]==='scored').map(r=>r[2]));
+  for(let j=1;j<=topicTargets[i];j++)assert.ok(topics.has(domain+'.'+j));
+ });
+});
