@@ -2601,7 +2601,7 @@
       formCatalog:[
         {id:'set-1-diagnostic',authorSet:1,label:'Diagnostic',kind:'practice',group:'Set 1'},
         {id:'set-1-learning',authorSet:1,label:'Learning',kind:'practice',group:'Set 1'},
-        {id:'set-1-mock-a',authorSet:1,label:'Mock A',kind:'mock',target:110,group:'Set 1'},
+        {id:'set-1-mock-a',authorSet:1,label:'Mock A',kind:'mock',target:110,group:'Set 1',releaseHold:true},
         {id:'set-1-mock-b',authorSet:1,label:'Mock B',kind:'mock',target:110,group:'Set 1'},
         {id:'set-1-mock-c',authorSet:1,label:'Mock C',kind:'mock',target:110,group:'Set 1'},
         {id:'mock-d',authorSet:2,label:'Mock D',kind:'mock',target:110,group:'Set 2'},
@@ -3656,7 +3656,7 @@
   }
   function formMeta(e,id){if(!e||!e.formCatalog)return null;id=String(id==null?selectedSet:id);for(var i=0;i<e.formCatalog.length;i++)if(e.formCatalog[i].id===id)return e.formCatalog[i];return null;}
   function formQuestionCount(e,id){var rows=e&&e.forms&&e.forms[id];return Array.isArray(rows)?rows.length:0;}
-  function formReady(e,id){var form=formMeta(e,id);if(!form)return false;var n=formQuestionCount(e,form.id);return form.kind==='mock'?n===form.target&&form.target>0:n>0;}
+  function formReady(e,id){var form=formMeta(e,id);if(!form||form.releaseHold===true)return false;var n=formQuestionCount(e,form.id);return form.kind==='mock'?n===form.target&&form.target>0:n>0;}
   function availableSetIds(e){
     if(e&&e.formCatalog)return e.formCatalog.filter(function(form){return formReady(e,form.id);}).map(function(form){return form.id;});
     var ids=Object.keys(e&&e.sets||{}).filter(function(id){return /^\d+$/.test(id)&&Array.isArray(e.sets[id])&&e.sets[id].length;}).sort(function(a,b){return Number(a)-Number(b);});

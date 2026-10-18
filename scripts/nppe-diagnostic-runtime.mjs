@@ -64,9 +64,9 @@ const helpers = String.raw`
     }).join('')+'</div>'+[1,2,3].map(function(id){
       return '<div id="nppe-banks-'+id+'" role="tabpanel" aria-labelledby="nppe-owner-'+id+'"'+(owner===id?'':' hidden style="display:none"')+'><div class="tb-setpick-lab" style="margin-top:16px">'+(id===1?'Diagnostic, Learning and Mocks A–C':id===2?'Mock D':'Mock E')+'</div><div class="tb-setseg" role="group" aria-label="Set '+id+' banks">'+e.formCatalog.filter(function(f){return f.authorSet===id;}).map(function(f){
         var n=formQuestionCount(e,f.id),ready=formReady(e,f.id);
-        return '<button type="button" class="tb-setbtn'+(selectedSet===f.id&&ready?' on':'')+'" data-set="'+esc(f.id)+'" aria-pressed="'+(selectedSet===f.id&&ready)+'" aria-label="'+esc(f.label)+', '+n+' questions'+(ready?'':', in preparation')+'"'+(ready?'':' disabled')+'><span class="tb-setl">'+esc(f.label)+'</span><span class="tb-sets">'+n+'</span></button>';
+        return '<button type="button" class="tb-setbtn'+(selectedSet===f.id&&ready?' on':'')+'" data-set="'+esc(f.id)+'" aria-pressed="'+(selectedSet===f.id&&ready)+'" aria-label="'+esc(f.label)+', '+n+' questions'+(ready?'':f.releaseHold?', awaiting release review':', in preparation')+'"'+(ready?'':' disabled')+'><span class="tb-setl">'+esc(f.label)+'</span><span class="tb-sets">'+n+'</span></button>';
       }).join('')+'</div></div>';
-    }).join('')+'<p class="tb-setnote">Counts show available questions only. Empty banks and incomplete full mocks remain disabled. Each bank is separate; questions are never borrowed from another set or mock.</p></div>';
+    }).join('')+'<p class="tb-setnote">Counts show authored questions. Empty banks, incomplete full mocks and forms awaiting release review remain disabled. Each bank is separate; questions are never borrowed from another set or mock.</p></div>';
   }
   function wireNPPEOwners(){
     var host=document.getElementById('tb-overview');

@@ -90,6 +90,69 @@ def main():
                             expect(card).to_contain_text(rationale)
                     header_images_fit()
 
+                def mock_a_release_fixture():
+                    # Test-only in-memory release: real delivered catalog remains held.
+                    page.goto(base + '/test-bank?exam=nppe')
+                    page.wait_for_selector('body.exam-access-ready')
+                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is True
+                    page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold=false")
+                    page.locator('[data-nppe-owner="1"]').click()
+                    page.locator('[data-set="set-1-mock-a"]').click()
+                    expect(page.locator('[data-nppe-bank="set-1-mock-a"]')).to_contain_text('150 minutes')
+                    page.locator('[data-mode="full"]').click()
+                    expect(page.locator('#tb-timer')).to_have_text(re.compile(r'^2:(?:30:00|29:[0-5][0-9])$'))
+                    records = page.evaluate('window.__TB.getFeedbackSnapshot().records')
+                    assert len(records) == 110 and len({r['question']['qid'] for r in records}) == 110
+                    assert all(r['question']['form'] == 'set-1-mock-a' and r['question']['authorSet'] == 1 for r in records)
+                    assert sum(r['question']['scored'] and not r['question']['experimental'] for r in records) == 100
+                    expect(page.locator('[data-reveal]')).to_have_count(0)
+                    assert page.evaluate('window.__TB.revealCurrentAnswer()') is False
+                    assert not re.search(r'experimental|unscored', page.locator('.tb-quiz').inner_text(), re.I)
+                    check_accessibility('mock-a-fixture-active-question')
+                    for i, record in enumerate(records):
+                        q = record['question']
+                        page.locator(f'[data-goto="{i}"]').click()
+                        answer = q['answer'] if q['scored'] else (q['answer'] + 1) % 4
+                        choice = page.locator(f'[data-opt="{answer}"]')
+                        if i == 0:
+                            choice.focus()
+                            page.keyboard.press('Space')
+                            page.locator('[data-flag]').focus()
+                            page.keyboard.press('Enter')
+                            page.locator('[data-next]').click()
+                            page.locator('[data-goto="0"]').click()
+                            expect(choice).to_have_attribute('aria-pressed', 'true')
+                            expect(page.locator('[data-flag]')).to_have_attribute('aria-pressed', 'true')
+                        else:
+                            choice.click()
+                        expect(page.locator('[data-opt]')).to_have_count(4)
+                        header_images_fit()
+                    page.locator('[data-submit]').click()
+                    expect(page.locator('[data-score-result]')).to_contain_text('100% (100/100)')
+                    for i, count in enumerate([8, 20, 30, 26, 8, 8]):
+                        expect(page.locator('.tb-domblock').nth(i)).to_contain_text(f'({count}/{count})')
+                    page.locator('[data-open-review="all"]').click()
+                    expect(page.locator('.tb-review-card')).to_have_count(110)
+                    for record in records:
+                        q = record['question']
+                        card = page.locator(f'.tb-review-card[data-question-id="{q["qid"]}"]')
+                        card.locator('.tb-review-rationales summary').click()
+                        expect(card.locator('.tb-review-rationales p')).to_have_count(3)
+                        for rationale in q['optionRationales']:
+                            expect(card).to_contain_text(rationale)
+                    check_accessibility('mock-a-fixture-complete-review')
+                    header_images_fit()
+                    page.screenshot(path=str(out / f'{name}-mock-a-fixture-review.png'), full_page=False)
+                    page.goto(base + '/test-bank?exam=nppe')
+                    page.wait_for_selector('body.exam-access-ready')
+                    expect(page.locator('[data-set="set-1-mock-a"]')).to_be_disabled()
+                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is True
+                    return {'basis': 'test-only in-memory release fixture', 'questions': 110,
+                            'score': '100/100', 'experimentalAnswersWrong': 10, 'minutes': 150,
+                            'reviewQuestions': 110, 'optionRationales': 440,
+                            'keyboardFlagsPersistence': True, 'revealBlocked': True,
+                            'deliveredReleaseHoldRestored': True}
+
                 def header_images_fit():
                     geometry = page.evaluate('''() => {
                       const header=document.querySelector('header.site');
@@ -121,8 +184,10 @@ def main():
                     expect(page.locator('#nppe-banks-2')).to_be_hidden()
                     expect(page.locator('#nppe-banks-3')).to_be_hidden()
                     expect(page.locator('[data-set="set-1-diagnostic"] .tb-sets')).to_have_text(str(EXPECTED_COUNT))
-                    expect(page.locator('[data-set="set-1-mock-a"] .tb-sets')).to_have_text('100')
+                    expect(page.locator('[data-set="set-1-mock-a"] .tb-sets')).to_have_text('110')
                     expect(page.locator('[data-set="set-1-mock-a"]')).to_be_disabled()
+                    expect(page.locator('[data-set="set-1-mock-a"]')).to_have_attribute('aria-label', 'Mock A, 110 questions, awaiting release review')
+                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is True
                     expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_COUNT} of 50 planned')
                     expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_MINUTES} minutes')
                     page.wait_for_function('''() => {
@@ -286,13 +351,14 @@ def main():
                     learning_review()
                     expect(page.locator('.tb-review-card.revealed')).to_have_count(1)
                     check_accessibility('learning-assisted-review')
+                    mock_a_fixture = mock_a_release_fixture() if width == 1440 and theme == 'light' else None
                     assert not errors, errors
                     result = {'case': name, 'result': 'PASS', 'score': f'{EXPECTED_COUNT}/{EXPECTED_COUNT}', 'domains': 6,
                               'batch3Rendered': batch3_checked, 'batch4Rendered': batch4_checked, 'batch5Rendered': batch5_checked, 'learningQuestionsRendered': LEARNING_COUNT, 'learningAssistedReveal': True, 'learningReviewQuestions': LEARNING_COUNT, 'keyboardTabs': True, 'flagsAndNavigation': True,
-                              'mockAAuthored': 100, 'mockADisabled': True, 'revealBlocked': True, 'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
+                              'mockAAuthored': 110, 'mockADisabled': True, 'revealBlocked': True, 'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
                     result.update(learningUnassistedScore=f'{LEARNING_COUNT}/{LEARNING_COUNT}', learningAssistedScore=f'{LEARNING_COUNT-1}/{LEARNING_COUNT}',
                                   learningDomainTotals=LEARNING_DOMAINS, learningRationalesVerified=LEARNING_COUNT*4,
-                                  learningKeyboardAndPersistence=True, accessibility=accessibility)
+                                  learningKeyboardAndPersistence=True, accessibility=accessibility, mockAReleaseFixture=mock_a_fixture)
                 except Exception as error:
                     result = {'case': name, 'result': 'FAIL', 'error': str(error), 'pageErrors': errors, 'accessibility': accessibility}
                     try:

@@ -52,8 +52,8 @@ jobs:
   exam-practice-browser:
     name: Exam practice (${{ matrix.browser }})
     runs-on: ubuntu-latest
-    # Full Learning attempts and option reviews grow with the authored bank.
-    timeout-minutes: 25
+    # Full Learning matrix plus a complete 110-item Mock A fixture and rationale review.
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:

@@ -21,7 +21,7 @@ test.before(async () => {
 });
 test.after(() => { if (workspace) fs.rmSync(workspace, {recursive: true, force: true}); });
 
-async function harness() {
+async function harness(releaseMockAFixture = false) {
   const errors = [], console = new VirtualConsole();
   console.on('jsdomError', error => errors.push(error.message));
   const dom = new JSDOM(build.shell, {
@@ -43,6 +43,13 @@ async function harness() {
   w.cancelAnimationFrame = id => { frames.delete(id); cancel(id); };
   packet.scripts.forEach(source => w.eval(source));
   await wait();
+  if (releaseMockAFixture) {
+    // Isolated test fixture only: product delivery retains the release hold.
+    const form=w.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a');
+    assert.equal(form.releaseHold,true);
+    form.releaseHold=false;
+    d.querySelector('[data-nppe-owner="1"]').click();
+  }
   return {w, d, errors, close() {
     w.__TBCurrentAttemptReview?.destroy?.();
     closing = true; frames.forEach(cancel); frames.clear(); w.close();
@@ -55,7 +62,7 @@ function click(d, selector) {
   el.click();
 }
 
-test('delivered NPPE forms withhold answers in both timing modes and score only eligible items', async parent => {
+test('available NPPE forms and isolated Mock A fixture withhold answers in both timing modes and score only eligible items', async parent => {
   const catalog = await harness();
   const exam = catalog.w.__TB.EXAMS.nppe;
   const forms = Array.from(exam.formCatalog)
@@ -64,10 +71,11 @@ test('delivered NPPE forms withhold answers in both timing modes and score only 
   assert.ok(forms.some(form => form.id === 'set-1-diagnostic'), 'Diagnostic must be covered');
   assert.ok(forms.some(form => form.id === 'mock-d'), 'Mock D must be covered');
   assert.ok(forms.some(form => form.id === 'mock-e'), 'Mock E must be covered');
+  assert.ok(forms.some(form => form.id === 'set-1-mock-a'), 'Completed Mock A must be tested in isolation');
   catalog.close();
   for (const form of forms) for (const timed of [true, false]) {
     await parent.test(form.id + (timed ? '/timed' : '/untimed'), async () => {
-      const h = await harness(), {w, d} = h;
+      const h = await harness(form.id === 'set-1-mock-a'), {w, d} = h;
       try {
         click(d, '[data-nppe-owner="' + form.owner + '"]');
         click(d, '[data-set="' + form.id + '"]');
@@ -123,16 +131,18 @@ test('delivered NPPE forms withhold answers in both timing modes and score only 
   }
 });
 
-// Partial authoring must never turn into a short full mock or borrow a ready form.
-test('partial Mock A is visible, disabled and cannot substitute another bank', async () => {
+// Authoring completion must not override the explicit release hold or borrow another form.
+test('complete Mock A remains held, disabled and cannot substitute another bank', async () => {
  const h=await harness(), {w,d}=h;
  try {
   const e=w.__TB.EXAMS.nppe;
-  assert.equal(e.forms['set-1-mock-a'].length,100);
+  assert.equal(e.forms['set-1-mock-a'].length,110);
   assert.equal(e.formCatalog.find(f=>f.id==='set-1-mock-a').target,110);
   const control=d.querySelector('[data-set="set-1-mock-a"]');
   assert.equal(control.disabled,true);
-  assert.equal(control.querySelector('.tb-sets').textContent,'100');
+  assert.equal(e.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold,true);
+  assert.match(control.getAttribute('aria-label'),/awaiting release review/);
+  assert.equal(control.querySelector('.tb-sets').textContent,'110');
   control.dispatchEvent(new w.Event('click'));
   assert.equal(w.__TB.getFeedbackSnapshot(),null);
   assert.equal(d.querySelector('[data-mode="full"]').disabled,true);
@@ -143,4 +153,57 @@ test('partial Mock A is visible, disabled and cannot substitute another bank', a
   for(const id of ['mock-d','mock-e'])assert.equal(e.forms[id].length,110);
   assert.deepEqual(h.errors,[]);
  } finally {h.close();}
+});
+
+// Full-form QA uses an isolated release fixture; no product setting or learner grant changes.
+test('isolated complete Mock A scores 100/100 despite ten wrong experimental answers and explains all 110 items', async () => {
+ const h=await harness(true),{w,d}=h;
+ try {
+  click(d,'[data-set="set-1-mock-a"]');
+  assert.match(d.querySelector('[data-nppe-bank="set-1-mock-a"]').textContent,/150 minutes/);
+  click(d,'[data-mode="full"]');
+  const records=Array.from(w.__TB.getFeedbackSnapshot().records);
+  assert.equal(records.length,110);
+  assert.equal(new Set(records.map(r=>r.question.qid)).size,110);
+  assert.ok(records.every(r=>r.question.form==='set-1-mock-a'&&r.question.authorSet===1));
+  assert.match(d.querySelector('#tb-timer').textContent,/^2:(?:30:00|29:[0-5][0-9])$/);
+  assert.equal(d.querySelector('[data-reveal]'),null);
+  assert.doesNotMatch(d.querySelector('.tb-quiz').textContent,/experimental|unscored/i,'scoring roles must be hidden during the attempt');
+  for(const [i,r] of records.entries()) {
+   click(d,'[data-goto="'+i+'"]');
+   click(d,'[data-opt="'+(scored(r)?r.question.answer:(r.question.answer+1)%4)+'"]');
+  }
+  click(d,'[data-submit]');await wait();
+  const result=w.__TB.getFeedbackSnapshot();
+  assert.equal(result.grading.total,100);assert.equal(result.grading.correct,100);
+  assert.equal(result.grading.incorrect,0);assert.equal(result.grading.unanswered,0);
+  assert.match(d.querySelector('[data-score-result]').textContent,/100% \(100\/100\)/);
+  const domains=Array.from(d.querySelectorAll('.tb-domblock'));
+  assert.equal(domains.length,6);
+  [8,20,30,26,8,8].forEach((n,i)=>assert.ok(domains[i].textContent.includes('('+n+'/'+n+')')));
+  click(d,'[data-open-review="all"]');
+  assert.equal(d.querySelectorAll('.tb-review-card').length,110);
+  for(const r of records) {
+   const card=d.querySelector('.tb-review-card[data-question-id="'+r.question.qid+'"]');
+   assert.ok(card);
+   assert.equal(card.querySelectorAll('.tb-review-rationales p').length,3);
+   for(const explanation of r.question.optionRationales)assert.ok(card.textContent.includes(explanation),r.question.legacyId);
+  }
+  assert.deepEqual(h.errors,[]);
+ } finally {h.close();}
+});
+
+test('removing the release hold in a fixture cannot start an incomplete or mis-scored Mock A',async()=>{
+ for(const invalid of ['incomplete','wrong-scoring']) {
+  const h=await harness(true),{w,d}=h;
+  try {
+   const bank=w.__TB.EXAMS.nppe.forms['set-1-mock-a'];
+   if(invalid==='incomplete')bank.pop();else bank[0].scored=false;
+   d.querySelector('[data-set="set-1-mock-a"]').dispatchEvent(new w.Event('click'));
+   d.querySelector('[data-mode="full"]').dispatchEvent(new w.Event('click'));
+   assert.equal(w.__TB.getFeedbackSnapshot(),null,invalid);
+   assert.equal(d.querySelector('.tb-quiz'),null,invalid);
+   assert.deepEqual(h.errors,[]);
+  }finally{h.close();}
+ }
 });
