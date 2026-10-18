@@ -14,7 +14,7 @@
     "options": [
       "The municipal client necessarily becomes the consultant's employer because the client defines the deliverable.",
       "The service provider controls performance methods while meeting the agreed result.",
-      "Every contract involving technical reports is a sale of movable goods rather than a service contract.",
+      "Classify consulting reports as sales of goods.",
       "The client may take control of the consultant's day-to-day methods solely because it funds the project."
     ],
     "answer": 1,
@@ -53,7 +53,7 @@
     "options": [
       "Keep the exact-boundary language because technical software calculations are equivalent to field measurements.",
       "Withhold the map entirely because uncertain predictions can never inform public discussion.",
-      "Show the prediction as a guaranteed result if the client endorses the modelling method.",
+      "Treat the model as certain once the client approves.",
       "Mark the map as projected and state its data limits and assumptions."
     ],
     "answer": 3,
@@ -92,7 +92,7 @@
     "options": [
       "Protect the estimates and disclose the conflict before reassignment.",
       "Share the data with every bidder, because equal disclosure automatically removes all client confidentiality obligations.",
-      "Use the estimates privately to favour a preferred bidder, provided no copies of the documents are transmitted.",
+      "Privately use the estimates to favour a bidder.",
       "Disclose the estimates after the tender closes because confidentiality ends whenever bids have been submitted."
     ],
     "answer": 0,
@@ -420,6 +420,7 @@
   if(id==='359'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='360'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='357'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if([351,352,353].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
