@@ -34,3 +34,23 @@ test('protected NPPE build references Mock B and non-NPPE banks stay separate',(
  assert.match(runtime,/window\.registerNPPEMockB\(EXAMS\.nppe\)/);
  assert.match(runtime,/if\(!formReady\(e,setId\)\)return \[\]/);
 });
+
+test('protected delivery contains Mock B only in NPPE, never public shell or other exams',async()=>{
+ const os=require('node:os'),temp=fs.mkdtempSync(path.join(os.tmpdir(),'nppe-mock-b-'));
+ try{
+  for(const entry of fs.readdirSync(ROOT,{withFileTypes:true})){
+   if(['.git','content','public-site','node_modules'].includes(entry.name))continue;
+   fs.symlinkSync(path.join(ROOT,entry.name),path.join(temp,entry.name),entry.isDirectory()?'dir':'file');
+  }
+  const delivery=await(await import('../scripts/build-exam-delivery.mjs')).buildExamDelivery(temp);
+  const stem=load().NPPE_MOCK_B[0].stem;
+  assert.ok(!delivery.shell.includes(stem));assert.ok(!delivery.shell.includes('nppe:set-1:mock-b:281'));
+  for(const key of ['cssbb','mbb','cssgb','cqe','cmq','cre','pmp']){
+   const raw=fs.readFileSync(path.join(delivery.output,key+'.json'),'utf8');
+   assert.ok(!raw.includes(stem),'Mock B leaked into '+key);
+  }
+  const packet=JSON.parse(fs.readFileSync(path.join(delivery.output,'nppe.json'),'utf8'));
+  assert.ok(packet.scripts.some(x=>x.includes(stem)));
+  assert.ok(packet.scripts.some(x=>x.includes('registerNPPEMockB(EXAMS.nppe)')));
+ }finally{fs.rmSync(temp,{recursive:true,force:true});}
+});
