@@ -369,7 +369,7 @@
     "jurisdiction": "Canada outside Québec; classification for Canada Pension Plan/employment insurance purposes, not a determination of every provincial employment-law claim.",
     "stem": "A consulting company labels a laboratory analyst an 'independent contractor' in the written agreement. In practice it sets every shift, supplies all equipment, prohibits other clients, directly supervises the work and pays a fixed hourly amount without business risk. A payroll manager assumes the label conclusively settles the analyst's employment status. Which assessment is best?",
     "options": [
-      "Examine the actual working relationship, including control, tools, financial risk and opportunity for profit, rather than relying on the label alone.",
+      "Assess actual control, tools, and financial risk—not just the contract's label.",
       "Treat the worker as independent solely because the written agreement uses that term.",
       "Treat every hourly paid worker as self-employed regardless of the payer's control.",
       "Assume no employment-status inquiry can occur without a prior court conviction."
@@ -404,6 +404,7 @@
   var id=String(291+i);
   Object.assign(item,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:2,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal review and empirical calibration pending',area:item.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'published 2017 NPPE blueprint verified 2026-10-18',difficultyBasis:'Editorial estimate, not empirical calibration'});
   if(id==='296'){item.version=2;item.scored=false;item.experimental=true;item.editorialReviewedAt='2026-10-18';item.reviewStatus+='; simulated role redistributed by whole-form audit';}
+  if(id==='300'){item.version=2;item.editorialReviewedAt='2026-10-18';item.reviewStatus+='; keyed-option length cue revised';}
   if(item.options.length!==4||new Set(item.options).size!==4||item.optionRationales.length!==4||!Number.isInteger(item.answer)||item.answer<0||item.answer>3||!item.sources.some(function(s){return s.sourceType==='official-blueprint';})||!item.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 2 item '+id);
   item.why='<p>'+escape(item.optionRationales[item.answer])+'</p><p><strong>Key learning point:</strong> '+escape(item.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(item.trap)+'</p><p><strong>Sources:</strong> '+item.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; classifications are provisional and do not predict an official NPPE result.</p>';
  });
