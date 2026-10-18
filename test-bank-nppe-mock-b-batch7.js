@@ -12,7 +12,7 @@
     "jurisdiction": "Ontario common-law commercial context. Parties expressly state their letter is nonbinding except for confidentiality, and fees, scope and commencement remain subject to a signed agreement.",
     "stem": "Two firms sign a letter of intent for a proposed engineering study. It expressly states that no services contract is formed until fees, scope and commencement are agreed in a signed definitive agreement; only confidentiality is immediately binding. No later agreement is signed or services performed. Which conclusion best follows?",
     "options": [
-      "A full services contract must already exist because the document has two signatures.",
+      "Treat two signatures as proof of a complete contract.",
       "Every provision is unenforceable because the parties called the document a letter of intent.",
       "The letter automatically establishes an engineering fee equal to the market rate despite the express condition.",
       "The services contract is not formed; confidentiality remains binding."
@@ -51,7 +51,7 @@
     "jurisdiction": "Canada; a hypothetical remote field team has confirmed a foreseeable non-emergency community hazard and a lawful reporting route.",
     "stem": "A field team has a custom of reporting minor access-road washouts only after vehicles become stranded. New survey data show a developing washout could obstruct the only route used by residents to obtain essential medicines. Which judgment is most defensible?",
     "options": [
-      "Continue the custom because it is followed consistently by other field teams.",
+      "Keep the custom because peer teams use it.",
       "Question the custom and accurately report the foreseeable community risk.",
       "Report that a major disaster has already occurred, although the evidence identifies a developing hazard only.",
       "Conclude that all field operations must be prohibited indefinitely regardless of available protective measures."
@@ -130,7 +130,7 @@
     "stem": "After a winter storm, engineers must recommend which of two damaged water-treatment units to repair first. One serves more households; the other supplies a small settlement's only potable-water filling station, with no reliable alternative transport for several days. A planner proposes ranking the repairs solely by household counts. What is the most defensible professional advice?",
     "options": [
       "Use only household counts because any smaller population is irrelevant to professional public-welfare duties.",
-      "Automatically repair the smaller unit first, regardless of comparative health and service consequences.",
+      "Always prioritize the smaller service area.",
       "Avoid making recommendations whenever different communities may benefit from different repair priorities.",
       "Compare health risks, service alternatives and repair times across communities."
     ],
@@ -170,7 +170,7 @@
     "options": [
       "Obtain the required firm authorization in the destination jurisdiction.",
       "Assume the partnership may rely on the engineer's prior Province A licence regardless of the Province B firm's statutory requirements.",
-      "Use a voluntary technical-society membership as the firm's practice permit.",
+      "Use a society credential instead of a firm permit.",
       "Avoid investigating firm licensing because individual and firm authorization are legally identical everywhere in Canada."
     ],
     "answer": 0,
@@ -213,7 +213,7 @@
     "jurisdiction": "British Columbia; EGBC's reactive individual practice review is initiated because an individual audit identified a technical concern.",
     "stem": "An EGBC registrant's audit identifies repeated deficiencies in geotechnical sampling records. The regulator initiates a targeted individual practice review. The registrant argues that the review cannot be valid because proactive audits are normally randomly selected. Which response is correct?",
     "options": [
-      "Every targeted practice review must first be selected by a fresh random lottery.",
+      "Require random selection before any practice review.",
       "A practice review is automatically a criminal conviction against the registrant.",
       "The registrant may disregard the review because only annual continuing-education audits are authorized.",
       "A risk-triggered practice review differs from a proactive audit."
@@ -255,7 +255,7 @@
       "Any error made by a professional automatically establishes liability for every subsequent loss.",
       "Causation must link the error to the loss; the evidence shows no such link.",
       "A power surge proves that professionals can never owe civil duties to equipment owners.",
-      "The engineer is immune from civil proceedings because no personal injury occurred."
+      "Reject negligence claims unless someone is injured."
     ],
     "answer": 1,
     "optionRationales": [
@@ -291,7 +291,7 @@
     "jurisdiction": "Canada; a community groundwater report contains three observations and no reliable trend model.",
     "stem": "A groundwater report shows three quarterly nitrate observations. The engineer is asked to publish a graph predicting a ten-year decline to exactly two decimal places, although no trend model has been validated. What should the engineer recommend?",
     "options": [
-      "Show the forecast as certain because precise axis labels create scientific credibility.",
+      "Report the forecast as certain because it is graphed precisely.",
       "Suppress all measurements because an inadequate forecasting model makes the underlying observations useless.",
       "Present the three observations and explain why a long-term forecast is unsupported.",
       "Interpolate a perfectly straight line to the desired target and describe it as an observed trend."
@@ -330,7 +330,7 @@
     "jurisdiction": "Canada; classification of normative ethical arguments, not an endorsement of the proposal or legal interpretation.",
     "stem": "A proposed project manager argues: 'The ethically right action is whichever option maximizes my own career advancement, even when another feasible option would help more community members.' A colleague asks which theory the manager's stated moral rule most closely resembles. What is the best classification?",
     "options": [
-      "Utilitarianism, because the manager seeks the greatest net welfare of everyone affected.",
+      "Utilitarianism: prioritize the decision-maker's own welfare.",
       "Ethical egoism makes personal self-interest the standard of right action.",
       "Duty-based ethics, because the manager gives priority to obligations owed equally to others.",
       "Virtue ethics, because the manager is primarily concerned with cultivating honesty and compassion through habit."
@@ -370,7 +370,7 @@
     "stem": "A Canadian engineer of record receives digital foundation drawings prepared by an overseas partner. The calculations are internally consistent but assume no frost penetration, contrary to the project's geotechnical report. The partner says the drawings were approved in its home jurisdiction. What should the engineer do?",
     "options": [
       "Accept the drawings because foreign approval proves compliance with all Canadian site conditions.",
-      "Ignore the frost discrepancy because the calculations are mathematically consistent.",
+      "Trust consistent calculations despite the missing frost input.",
       "Require every international collaborator to repeat all university courses before their work can be reviewed.",
       "Verify the missing frost condition and document the reviewed design."
     ],
@@ -407,6 +407,7 @@
   if(id==='345'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form source strengthened';}
   if(id==='343'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if([341,342,344,345,346,347,348,349,350].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if([341,342,344,345,346,347,348,349,350].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 7 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; practice scores are not official NPPE predictions.</p>';
  });
