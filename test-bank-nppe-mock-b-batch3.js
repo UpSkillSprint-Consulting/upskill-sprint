@@ -317,33 +317,33 @@
   {
     "blueprint": "VI.3",
     "sub": "nppe-discipline",
-    "difficulty": "easy",
-    "cognitiveLevel": "understanding",
-    "questionFamily": "mock-b-bc-firm-compliance-audit-vs-practice-review",
-    "learningObjective": "Distinguish proactive firm compliance audits from reactive technical practice reviews.",
-    "jurisdiction": "British Columbia; an EGBC registrant firm is selected for a compliance audit without allegations of misconduct.",
-    "stem": "A B.C. engineering consultancy receives notice that it has been selected for an EGBC firm compliance audit. Its manager says the selection necessarily means the regulator has found major technical incompetence and that the audit itself is a disciplinary conviction. Which explanation is best?",
+    "difficulty": "medium",
+    "cognitiveLevel": "application",
+    "questionFamily": "mock-b-egbc-firm-ppmp-substantive-implementation",
+    "learningObjective": "Evaluate evidence of genuine firm quality-management implementation rather than superficial document possession.",
+    "jurisdiction": "British Columbia; a firm holding an EGBC Permit to Practice has reached the deadline for documented Professional Practice Management Plan implementation.",
+    "stem": "A B.C. consulting firm recently obtained a Permit to Practice. Its manager submits another firm's unmodified Professional Practice Management Plan (PPMP) to satisfy the regulator, but staff have never followed its documented design-review or competency procedures. The manager says having a PPMP file on the server proves compliance. What is the best assessment?",
     "options": [
-      "A compliance audit is available only after a court finding of professional misconduct.",
-      "The proactive audit reviews firm systems for ethics, quality management, and continuing education; a targeted practice review is a different process.",
-      "The audit must be refused until a client provides proof of negligence.",
-      "The audit is purely an optional marketing certification with no regulatory purpose."
+      "A PPMP template is conclusive proof that every quality-management activity has been implemented, regardless of actual firm practice.",
+      "The firm should demonstrate policies and procedures that reflect its own operations and provide evidence that ethics, quality management and continuing-education requirements are being implemented.",
+      "A Permit to Practice replaces the obligation to manage professional work, so no practice controls are needed after registration.",
+      "Only a criminal court may examine whether a firm's engineering quality process is implemented."
     ],
     "answer": 1,
     "optionRationales": [
-      "Selection for the proactive audit does not require a court finding or an established contravention.",
-      "The regulator describes proactive process-based audits separately from reactive practice reviews.",
-      "A firm's audit obligations do not depend on private negligence allegations.",
-      "The audit is part of the regulator's oversight, not simply an optional promotional assessment."
+      "A copied document cannot by itself demonstrate that controls are appropriate, understood or performed.",
+      "EGBC firm regulation calls for documented firm-specific professional practice management and implementation, not mere possession of a generic template.",
+      "Authorization to operate a firm does not eliminate ongoing professional-practice responsibilities.",
+      "Firm compliance processes are regulatory activities distinct from criminal prosecution."
     ],
-    "keyPoint": "Understand purposes and procedural distinctions in firm regulation.",
-    "trap": "Treating audit selection as an adjudicated finding against the firm.",
+    "keyPoint": "Firm quality systems must be implemented and demonstrable, not merely copied into a policy document.",
+    "trap": "Confusing possession of a PPMP template with effective operation of its controls.",
     "sources": [
       {
         "sourceType": "provincial-regulator-guidance",
-        "title": "Engineers and Geoscientists BC, Firm Audit Program",
-        "locator": "Difference Between a Firm Audit and a Firm Practice Review; ethics, quality management and continuing education",
-        "url": "https://www.egbc.ca/Firms/Programs/Firm-Audit-Program"
+        "title": "Engineers and Geoscientists BC, Firm Practice Overview",
+        "locator": "Professional Practice Management Plan (PPMP): documented ethics, quality management and continuing education procedures required within 12 months",
+        "url": "https://www.egbc.ca/firms/firm-practice/firm-practice-overview"
       },
       {
         "sourceType": "official-blueprint",
@@ -397,7 +397,8 @@
  questions.forEach(function(q,i){
    var id=String(i+301);
    Object.assign(q,{qid:'nppe:set-1:mock-b:'+id,legacyId:'NPPE-'+id,version:1,batch:3,authorSet:1,author:'ChatGPT',form:'set-1-mock-b',bank:'mock',set:1,original:true,scored:true,experimental:false,releaseStatus:'held',reviewStatus:'author/editor preliminary review; independent SME/legal review and empirical calibration pending',area:q.blueprint.split('.')[0],verifiedAt:'2026-10-18',blueprintVersion:'2017 published NPPE blueprint current 2026-10-18',difficultyBasis:'Editorial judgement; not empirically calibrated'});
-   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 3 item '+id);
+   if(id==='309'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
+  if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 3 item '+id);
    q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B draft. Editorial classifications are provisional; this item does not predict an official NPPE score.</p>';
  });
  if(!Array.isArray(global.NPPE_MOCK_B)||!Array.isArray(global.NPPE_MOCK_B_BATCH2)||global.NPPE_MOCK_B_BATCH2.length!==10||global.NPPE_MOCK_B.length<20||global.NPPE_MOCK_B_BATCH2.some(function(q,i){return global.NPPE_MOCK_B[10+i]!==q;}))throw new Error('Mock B Batches 1–2 must load first');
