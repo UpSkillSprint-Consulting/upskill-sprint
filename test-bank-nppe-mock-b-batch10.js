@@ -99,7 +99,7 @@
       "Report 25% as a modelled forecast, with assumptions and verification planned.",
       "Report the 25% reduction as measured, since a validated design model always constitutes actual production data.",
       "Remove every emissions estimate because no engineering model may inform regulatory planning before operation.",
-      "Publish 25% as confirmed and add a footnote stating that future measurements are optional."
+      "Call the forecast achieved and omit field checks."
     ],
     "answer": 0,
     "optionRationales": [
@@ -174,7 +174,7 @@
     "jurisdiction": "Canada; Canadian contracting parties have a domestic engineering-services agreement; a manager refers to a treaty that has not been legislatively implemented for the claimed service-fee rule.",
     "stem": "Two Canadian consulting firms dispute the calculation of an engineering fee. A manager cites an international treaty signed by Canada and insists it automatically replaces the negotiated fee formula in their domestic contract. No implementing Canadian law or relevant contractual incorporation has been identified. Which initial legal assessment is soundest?",
     "options": [
-      "Signature of a treaty automatically rewrites all inconsistent private engineering contracts in Canada.",
+      "Let a treaty signature rewrite domestic contract terms.",
       "An international treaty has no conceivable role in Canadian law or interpretation, even if implemented.",
       "Check domestic implementation or incorporation before applying the treaty.",
       "A domestic court must enforce the manager's preferred treaty interpretation because international instruments always govern fees."
@@ -215,7 +215,7 @@
     "options": [
       "Sign the revision because a project executive may assume all professional safety obligations by instruction.",
       "Delete the original life-safety calculations so the revised layout is the only official record.",
-      "Treat the change as a purely financial matter since no fire has yet occurred.",
+      "Treat the missing exit as finance, not safety.",
       "Record the safety consequences, decline approval and escalate appropriately."
     ],
     "answer": 3,
@@ -252,7 +252,7 @@
     "jurisdiction": "Canada; a project proposes in-stream bank stabilization in fish habitat and has not established whether a prescribed exception or authorization applies.",
     "stem": "A municipal engineer plans bank stabilization in a channel used by fish. The design involves filling a shallow spawning area but releases no pollutants. A contractor says the Fisheries Act cannot apply because section 36 concerns deleterious substances and no chemicals will be discharged. What is the most appropriate recommendation?",
     "options": [
-      "Proceed without review because physical filling can never engage federal fisheries protection.",
+      "Exclude physical habitat changes from federal review.",
       "Assess section 35 habitat impacts and any required authorization first.",
       "Apply only the building code because a project funded by a municipality is exempt from federal fish-habitat rules.",
       "Assume that paying for future habitat improvements automatically permits any present disturbance."
@@ -330,7 +330,7 @@
     "jurisdiction": "Canada; community briefing about a simulated river-flood hazard and a credible range of modelled probabilities, not an official flood map.",
     "stem": "A consultant presents flood-model output to small businesses using the statement 'The annual exceedance probability is 0.02,' without defining the term. Listeners interpret the value as a two-per-cent chance over the entire 30-year design life. What is the most useful correction?",
     "options": [
-      "Leave the statement unchanged because the numerical probability is mathematically precise.",
+      "Leave the annual probability unexplained because it is precise.",
       "Replace the technical result with 'the site is safe' because detailed probabilities can confuse audiences.",
       "State that 0.02 means exactly two floods will happen during a century, regardless of randomness.",
       "Explain 0.02 as a modelled 2% annual chance, not a 30-year probability."
@@ -406,6 +406,7 @@
   if(id==='380'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role redistributed by whole-form audit';}
   if(id==='372'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if([371,373,375,376,377,379,380].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if([373,375,376,377,379].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 10 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item. Editorial classifications are provisional and no NPPE pass prediction is implied.</p>';
  });
