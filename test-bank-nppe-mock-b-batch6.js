@@ -15,7 +15,7 @@
       "Members should help uphold independent standards and public-interest oversight.",
       "Membership in a self-regulating profession means every registered individual can make binding laws without legislative authority.",
       "Professional status requires only specialized technical knowledge; ethical and regulatory responsibilities belong solely to the employer.",
-      "The public-interest role ends once a regulator hires administrative staff, making member participation improper."
+      "Leave public-interest oversight entirely to hired staff."
     ],
     "answer": 0,
     "optionRationales": [
@@ -58,7 +58,7 @@
     "stem": "A national contractor has an internal policy authorizing employees with ten years' experience to use a professional seal on any project in Canada. A licensed engineer says the company policy itself allows an unlicensed coworker to approve regulated engineering drawings in another province. What is the most appropriate assessment?",
     "options": [
       "Corporate policies supersede provincial engineering legislation whenever projects involve more than one province.",
-      "A company may grant statutory sealing rights by recognizing work experience internally.",
+      "Allow the company to issue professional sealing rights.",
       "The federal government automatically issues a single engineering licence to every multinational contractor.",
       "Provincial regulators—not employers—grant practice authority."
     ],
@@ -98,7 +98,7 @@
     "options": [
       "The committee may make its finding without disclosing any evidence because professional discipline is not a court case.",
       "The respondent may examine documentary evidence before the hearing.",
-      "The registrant automatically avoids all discipline merely by requesting the report.",
+      "Dismiss all charges when a respondent requests the report.",
       "Professional disciplinary matters may be decided only through criminal prosecutions."
     ],
     "answer": 1,
@@ -138,7 +138,7 @@
       "Approve it based solely on conventional testing experience because the designation guarantees expertise in every new application.",
       "Refuse all future hydrogen-related work permanently because engineers may never develop competence in new fields.",
       "Seek training and specialist review; disclose remaining competence limits.",
-      "Assign the approval to an unlicensed technician so the engineer cannot be accountable for the resulting work."
+      "Let a technician approve the method without engineering review."
     ],
     "answer": 2,
     "optionRationales": [
@@ -175,7 +175,7 @@
     "stem": "A municipality is selecting a stormwater pump station for a 40-year service life. One design is cheaper initially but the feasibility study uses only historical rainfall statistics despite credible projections of changing extreme rainfall and rising flood exposure. What should the engineer recommend?",
     "options": [
       "Ignore future scenarios because infrastructure planning may use only climate observations from the previous decade.",
-      "Approve the lowest capital cost because lifetime performance and adaptation expenses are outside engineering.",
+      "Choose the cheapest unit despite unmeasured lifetime impacts.",
       "Multiply all historical rainfall values by an arbitrary factor of three without reviewing evidence or consequences.",
       "Assess climate scenarios, lifecycle reliability and adaptation costs."
     ],
@@ -214,7 +214,7 @@
     "stem": "For a provincially approved transmission corridor, the project proponent offers to conduct technical meetings with a potentially affected First Nation. A government project manager then states that, because the proponent will host the meetings, the Crown has permanently transferred all legal responsibility for consultation to the company. Which response is best?",
     "options": [
       "The proponent can assist, but the Crown retains the legal consultation duty.",
-      "The Crown has no consultation obligations until every asserted Indigenous right has been finally established by a court.",
+      "Wait for judicial proof of the Indigenous right before consulting.",
       "A professional engineer employed by the proponent automatically becomes the sole constitutional decision-maker for the Crown.",
       "An environmental feasibility report alone extinguishes the Crown's consultation obligations regardless of the potential impacts."
     ],
@@ -255,7 +255,7 @@
       "Delete logs to reduce the likelihood of regulatory or reputational questions, then rebuild the audit trail from memory.",
       "Keep evidence, investigate the incident and assess design integrity.",
       "Publish all confidential design files online so the client can independently identify what may have been accessed.",
-      "Ignore the alert because backup copies guarantee that unauthorized activity cannot affect data integrity."
+      "Treat backups as proof the incident caused no data changes."
     ],
     "answer": 1,
     "optionRationales": [
@@ -291,7 +291,7 @@
     "jurisdiction": "Canada; a Canadian engineering consultant is asked to make a secret cash payment to secure a foreign permit, and the legitimacy of any payment has not been established.",
     "stem": "While advising a foreign infrastructure client, a Canadian engineer is asked to authorize an unreceipted cash payment to a public permitting official so a complete application will receive preferential processing. The local intermediary says this is routine practice. What is the best initial professional response?",
     "options": [
-      "Authorize the payment if it is less than one per cent of the construction budget.",
+      "Approve the payment if it is a small budget expense.",
       "Authorize it because practices described as customary cannot create ethical concerns.",
       "Decline the concealed payment and seek compliance and legal guidance.",
       "Hide it in the engineering fee instead of the permitting budget, since a different account classification eliminates the concern."
@@ -337,7 +337,7 @@
     "stem": "A municipal council believes a federal Criminal Code offence is too restrictive for a local industry. It passes a bylaw stating that the conduct is no longer a criminal offence within city limits. A planner says the bylaw overrides Parliament's law because municipal regulations are more specific. Which legal analysis is soundest?",
     "options": [
       "The bylaw automatically repeals the federal offence within municipal boundaries if council votes unanimously.",
-      "A municipality may amend federal offences whenever a local economic purpose is documented.",
+      "Allow a city to repeal federal law locally.",
       "The Constitution gives municipalities the same federal criminal-law authority as Parliament.",
       "A municipal bylaw cannot repeal federal criminal law."
     ],
@@ -376,7 +376,7 @@
     "stem": "A B.C. engineering professional authenticates a design package and uploads it to a client portal. Later, a contractor replaces several load assumptions directly inside the authenticated PDF while leaving the original signature and authentication visible. Which response is most appropriate?",
     "options": [
       "The original authentication remains valid for all future edits because the author's identity is unchanged.",
-      "The contractor may treat changed pages as authenticated provided the file name is the same.",
+      "Retain the original signature when changing the design.",
       "The engineer should ignore the changes because digital documents cannot be traced once posted.",
       "Review the changes, authenticate the revision and retain its history."
     ],
@@ -421,6 +421,7 @@
   if(id==='340'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='337'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='339'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if([331,332,333,334,335,336,337,338,339,340].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 6 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Classifications are editorial estimates; no official NPPE pass prediction.</p>';
  });
