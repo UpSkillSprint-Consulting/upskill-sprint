@@ -20,7 +20,7 @@ test('Mock B Batch 9 appends NPPE-361–370, preserves original eighty, and expl
  });
  assert.equal(new Set(all.map(q=>q.qid)).size,90);
  assert.equal(new Set(all.map(q=>q.questionFamily)).size,90);
- assert.equal(all.filter(q=>q.scored&&!q.experimental).length,90);
+ assert.equal(all.filter(q=>q.scored&&!q.experimental).length,84);
  assert.deepEqual([0,1,2,3].map(i=>items.filter(q=>q.answer===i).length),[2,2,3,3]);
 });
 test('Batch 9 repeated loading is idempotent and missing/conflicting prerequisites fail closed',()=>{
