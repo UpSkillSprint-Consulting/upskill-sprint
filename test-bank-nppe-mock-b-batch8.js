@@ -90,7 +90,7 @@
     "jurisdiction": "Canada; the consulting firm has received confidential tender estimates under an agreement prohibiting disclosure to competing bidders.",
     "stem": "An engineering consultant is reassigned from an owner's confidential cost-estimating team to an independent bid evaluation. A bidder asks the consultant to share the owner's internal estimates to help prepare a stronger proposal, saying it would make the competition more efficient. What should the consultant do?",
     "options": [
-      "Refuse to disclose the confidential estimates, disclose any resulting conflict and arrange an impartial assignment or information barrier as needed.",
+      "Protect the estimates and disclose the conflict before reassignment.",
       "Share the data with every bidder, because equal disclosure automatically removes all client confidentiality obligations.",
       "Use the estimates privately to favour a preferred bidder, provided no copies of the documents are transmitted.",
       "Disclose the estimates after the tender closes because confidentiality ends whenever bids have been submitted."
@@ -414,6 +414,7 @@
   if(id==='356'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if(id==='351'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='352'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
+  if(id==='353'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
