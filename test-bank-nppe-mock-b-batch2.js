@@ -15,7 +15,7 @@
       "A possible financial consequence alone automatically establishes a duty owed to every downstream reader.",
       "Examine both foreseeability and proximity in the consultant–lender relationship.",
       "Every engineering estimate attracts no civil duty because it is an opinion rather than a physical design.",
-      "The consultant's professional designation automatically makes the lender a contracting party."
+      "Assume the lender became a client by receiving the estimate."
     ],
     "answer": 1,
     "optionRationales": [
@@ -52,7 +52,7 @@
     "stem": "An engineer prepares a publicly distributed noise-impact statement. It presents a simulated worst-case level of 68 dBA as though it were a measured reading, even though no field test has yet been performed. What revision is most consistent with professional ethics?",
     "options": [
       "Identify 68 dBA as modelled, not measured, and state its uncertainties.",
-      "Remove the number entirely because professional communications may contain only direct measurements.",
+      "Remove the numerical estimate until field testing occurs.",
       "Leave the statement unchanged because all projections become measurements once included in a signed report.",
       "Replace the value with a lower target level without noting the change to avoid misleading residents."
     ],
@@ -93,7 +93,7 @@
       "Apply the newer guide automatically because voluntary industry documents supersede older permits.",
       "Collect samples only after a complaint because neither a permit nor a guide binds engineers.",
       "Continue weekly permit sampling; use the guide only as additional advice.",
-      "Average the two intervals because two authoritative-looking documents are equally binding."
+      "Average the weekly and monthly sampling intervals."
     ],
     "answer": 2,
     "optionRationales": [
@@ -175,7 +175,7 @@
     "stem": "A municipality plans flood protection for an industrial neighbourhood. Two drainage options would protect residents equally from injury, but one would regularly flood the only access road used by an emergency pharmacy and a small-business district. A reviewer argues the access and economic consequences are irrelevant because there is no added bodily injury risk. Which response best reflects the broader professional duty?",
     "options": [
       "Ignore disruption because public protection concerns only loss of life, never access or economic damage.",
-      "Choose whichever option offers the highest professional fee to the consultant.",
+      "Choose the alternative yielding the largest consulting fee.",
       "Evaluate community access, economic consequences and safety together.",
       "Treat any option affecting businesses as prohibited, without comparing magnitude or alternatives."
     ],
@@ -215,7 +215,7 @@
     "options": [
       "Rely on the original licence to sign in Province B immediately because all provinces have a single licensing register.",
       "Assume a degree certificate is sufficient if the engineer has practised for at least five years.",
-      "Accept the employer's written authorization as a substitute for statutory registration.",
+      "Rely on the employer's written work authorization.",
       "Secure the required authorization from the destination regulator before practice."
     ],
     "answer": 3,
@@ -293,7 +293,7 @@
     "options": [
       "Keep the original solvent because warning signs eliminate the underlying chemical hazard.",
       "Use the validated safer substitute, then assess residual exposure.",
-      "Use additional warning posters and assume the exposure probability becomes zero.",
+      "Add warning signs and assume exposure is adequately controlled.",
       "Transfer responsibility for exposure to employees through an acknowledgement form without changing the process."
     ],
     "answer": 1,
@@ -372,7 +372,7 @@
       "Assess actual control, tools, and financial risk—not just the contract's label.",
       "Treat the worker as independent solely because the written agreement uses that term.",
       "Treat every hourly paid worker as self-employed regardless of the payer's control.",
-      "Assume no employment-status inquiry can occur without a prior court conviction."
+      "Require a court decision before classifying the worker."
     ],
     "answer": 0,
     "optionRationales": [
@@ -406,6 +406,7 @@
   if(id==='296'){item.version=2;item.scored=false;item.experimental=true;item.editorialReviewedAt='2026-10-18';item.reviewStatus+='; simulated role redistributed by whole-form audit';}
   if(id==='300'){item.version=2;item.editorialReviewedAt='2026-10-18';item.reviewStatus+='; keyed-option length cue revised';}
   if([291,292,293,294,295,296,297,298,299].includes(Number(id))){item.version+=1;item.optionCueReviewedAt='2026-10-18';item.reviewStatus+='; keyed option edited for length cue';}
+  if([291,292,293,295,296,298,300].includes(String(id))){item.version+=1;item.distractorReviewedAt='2026-10-18';}
   if(item.options.length!==4||new Set(item.options).size!==4||item.optionRationales.length!==4||!Number.isInteger(item.answer)||item.answer<0||item.answer>3||!item.sources.some(function(s){return s.sourceType==='official-blueprint';})||!item.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 2 item '+id);
   item.why='<p>'+escape(item.optionRationales[item.answer])+'</p><p><strong>Key learning point:</strong> '+escape(item.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(item.trap)+'</p><p><strong>Sources:</strong> '+item.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; classifications are provisional and do not predict an official NPPE result.</p>';
  });
