@@ -170,7 +170,7 @@
     "options": [
       "Use the Province A registration automatically because any scientific field is exempt from provincial regulation everywhere.",
       "Let the client decide whether the technical work is regulated based on its contract wording alone.",
-      "Replace professional registration with membership in an international geological society.",
+      "Use society membership instead of professional registration.",
       "Check Province B's geoscience scope and registration requirements."
     ],
     "answer": 3,
@@ -213,7 +213,7 @@
     "jurisdiction": "Canada; a junior engineer-in-training may assist under a competent engineer's supervision, and critical design checks require review under the firm's quality procedure.",
     "stem": "A junior engineer-in-training uses an unfamiliar AI calculation assistant to size a high-pressure piping support. The tool provides numerical results but no verifiable derivation, and the supervisor has not reviewed the load cases. The junior asks the supervising engineer to seal the design because the software is widely used. What should the supervisor do?",
     "options": [
-      "Seal the design because popular software transfers validation responsibility to its developer.",
+      "Treat software popularity as validation of this design.",
       "Verify the load cases and output before accepting responsibility or authenticating the design.",
       "Let the junior authenticate the work using the supervisor's credentials without documenting review.",
       "Discard all computational tools permanently because engineers cannot use software in professional work."
@@ -261,7 +261,7 @@
       "The owner may provide the services immediately because engineering graduates have unrestricted statutory practice rights.",
       "A marketing disclaimer automatically provides a temporary engineering licence until the first customer pays.",
       "A disclaimer cannot replace required authorization to offer engineering services.",
-      "The business can avoid regulation by substituting a commercial logo for any professional seal."
+      "Replace the engineering seal with a business logo."
     ],
     "answer": 2,
     "optionRationales": [
@@ -421,6 +421,7 @@
   if(id==='360'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='357'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if([351,352,353].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
+  if([355,356,357].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
