@@ -36,3 +36,9 @@ Items avoid repeating Mock B Batch 1's sponsor-veto regulation, Batch 3's anonym
 **Release remains held:** Mock A and B are not authorized. No production migration, permission grant, deployment or PR merge. Independent SME/legal reviews, manual accessibility checks, real candidate calibration, controlled production-account verification and explicit release authorization remain open.
 
 **Next planned authoring:** Mock B Batch 7, NPPE-341–350.
+
+## Whole-form QA scoring-role amendment — 2026-10-18
+
+NPPE-337 is now simulated unscored (version 2), swapped with scored NPPE-387 in Domain III.
+
+The historical batch allocation text above is retained as an authoring record where inconsistent; this amendment and the current 110-row allocation ledger control. Source/legal and empirical release gates are unaffected.
