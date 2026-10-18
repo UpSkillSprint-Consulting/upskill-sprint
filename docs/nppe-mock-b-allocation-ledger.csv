@@ -1,14 +1,14 @@
 item_id,batch,blueprint,domain,planned_scoring_role,authoring_status,source_review,editorial_review,independent_review,notes
-NPPE-281,1,I.1,I,scored,not_started,pending,pending,pending,
-NPPE-282,1,II.1,II,scored,not_started,pending,pending,pending,
-NPPE-283,1,III.1,III,scored,not_started,pending,pending,pending,
-NPPE-284,1,IV.1,IV,scored,not_started,pending,pending,pending,
-NPPE-285,1,V.1,V,scored,not_started,pending,pending,pending,
-NPPE-286,1,VI.1,VI,scored,not_started,pending,pending,pending,
-NPPE-287,1,III.2,III,scored,not_started,pending,pending,pending,
-NPPE-288,1,IV.2,IV,scored,not_started,pending,pending,pending,
-NPPE-289,1,II.2,II,scored,not_started,pending,pending,pending,
-NPPE-290,1,III.3,III,scored,not_started,pending,pending,pending,
+NPPE-281,1,I.1,I,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
+NPPE-282,1,II.1,II,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
+NPPE-283,1,III.1,III,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
+NPPE-284,1,IV.1,IV,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
+NPPE-285,1,V.1,V,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
+NPPE-286,1,VI.1,VI,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
+NPPE-287,1,III.2,III,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
+NPPE-288,1,IV.2,IV,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
+NPPE-289,1,II.2,II,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
+NPPE-290,1,III.3,III,scored,authored_held,editorial_sources_checked,preliminary_completed,pending,v1 - partial form; independent legal review and calibration pending
 NPPE-291,2,IV.3,IV,scored,not_started,pending,pending,pending,
 NPPE-292,2,II.3,II,scored,not_started,pending,pending,pending,
 NPPE-293,2,III.4,III,scored,not_started,pending,pending,pending,
