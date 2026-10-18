@@ -99,13 +99,13 @@ NPPE-377,10,IV.11,IV,scored,authored_held,author_primary_sources_checked,prelimi
 NPPE-378,10,II.4,II,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
 NPPE-379,10,III.10,III,scored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
 NPPE-380,10,I.1,I,simulated_unscored,authored_held,author_primary_sources_checked,preliminary_completed,pending,v1 - independent SME/legal review and empirical calibration pending
-NPPE-381,11,V.1,V,simulated_unscored,not_started,pending,pending,pending,
-NPPE-382,11,VI.1,VI,simulated_unscored,not_started,pending,pending,pending,
-NPPE-383,11,IV.12,IV,scored,not_started,pending,pending,pending,
-NPPE-384,11,II.1,II,simulated_unscored,not_started,pending,pending,pending,
-NPPE-385,11,III.1,III,simulated_unscored,not_started,pending,pending,pending,
-NPPE-386,11,IV.13,IV,simulated_unscored,not_started,pending,pending,pending,
-NPPE-387,11,III.2,III,simulated_unscored,not_started,pending,pending,pending,
-NPPE-388,11,II.2,II,simulated_unscored,not_started,pending,pending,pending,
-NPPE-389,11,IV.14,IV,simulated_unscored,not_started,pending,pending,pending,
-NPPE-390,11,III.3,III,simulated_unscored,not_started,pending,pending,pending,
+NPPE-381,11,V.1,V,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
+NPPE-382,11,VI.1,VI,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
+NPPE-383,11,IV.12,IV,scored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
+NPPE-384,11,II.1,II,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
+NPPE-385,11,III.1,III,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
+NPPE-386,11,IV.13,IV,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
+NPPE-387,11,III.2,III,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
+NPPE-388,11,II.2,II,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
+NPPE-389,11,IV.14,IV,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
+NPPE-390,11,III.3,III,simulated_unscored,authored_held,author_primary_or_guidance_checked,preliminary_completed,pending,v1 - simulated unscored not empirically trialled; independent SME/legal and calibration pending
