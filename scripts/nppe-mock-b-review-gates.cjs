@@ -31,6 +31,15 @@ function assess(manifest,review){
       blockers.push(tag+' legal source effective date/locator not verified');
    }else if(!isText(v.findings))blockers.push(tag+' '+role+' rationale/assessment missing');
   }
+  // A single self-certifying name cannot occupy technical, legal and adjudicator
+  // positions simultaneously. This verifies metadata separation, not real identity.
+  const technicalName=r.technical?.reviewer?.trim().toLowerCase();
+  const legalName=r.legal?.reviewer?.trim().toLowerCase();
+  const adjudicatorName=r.adjudication?.reviewer?.trim().toLowerCase();
+  if(technicalName&&legalName&&technicalName===legalName)
+   blockers.push(tag+' technical and legal reviewers are not independently separated');
+  if(adjudicatorName&&(adjudicatorName===technicalName||adjudicatorName===legalName))
+   blockers.push(tag+' adjudication cannot be self-reviewed');
   if(r.adjudication?.status!=='approved'||!isText(r.adjudication.reviewer)||!isText(r.adjudication.findings))
    blockers.push(tag+' adjudication pending');
  }
