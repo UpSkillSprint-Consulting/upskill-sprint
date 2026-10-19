@@ -43,7 +43,7 @@ function build(out){
   blind.push(base);
   keyed.push({...base,scored:q.scored,simulatedUnscored:q.experimental,answerIndex:q.answer,correctOption:q.options[q.answer],optionRationales:q.optionRationales,keyPoint:q.keyPoint,trap:q.trap,sources:q.sources,questionFamily:q.questionFamily});
   manifest.items.push({id:q.legacyId,qid:q.qid,version:q.version,sha256:digest,scored:q.scored,simulatedUnscored:q.experimental});
-  const absolute=/\\b(always|never|every|only|automatically|solely|immediately|entirely|cannot|regardless of)\\b/i;
+  const absolute=/\b(always|never|every|only|automatically|solely|immediately|entirely|cannot|regardless of)\b/i;
   const optionLen=q.options.map(s=>s.length),answerLen=optionLen[q.answer];
   const wrongAbsolute=q.options.filter((s,i)=>i!==q.answer&&absolute.test(s)).length;
   decisions.push({itemId:q.legacyId,version:q.version,itemSha256:digest,technical:{status:'pending',reviewer:'',qualification:'',independenceDeclaration:'',reviewedAt:'',evidence:''},legal:{status:'pending',reviewer:'',qualification:'',independenceDeclaration:'',reviewedAt:'',effectiveDate:'',sourceLocator:'',evidence:''},distractors:{status:'pending',reviewer:'',findings:''},fairnessAccessibility:{status:'pending',reviewer:'',findings:''},adjudication:{status:'pending',reviewer:'',findings:''}});
