@@ -5,6 +5,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto'),cp=require('node:child_process');
 const root=path.resolve(__dirname,'..');
+const {prepareAssignments}=require('./nppe-mock-b-review-assignments.cjs');
 const sha=x=>crypto.createHash('sha256').update(x).digest('hex');
 const stable=x=>JSON.stringify(x);
 function items(){
@@ -82,6 +83,7 @@ function build(out){
  const keyedPacket={sourceRevision:revision,items:keyed};
  // Bind calibration scoring to the exact keyed export, not only to item labels.
  manifest.keyedPacketSha256=sha(JSON.stringify(keyedPacket));
+ const assignments=prepareAssignments(list,manifest);
  const write=(name,value)=>{const p=path.join(dest,name);fs.mkdirSync(path.dirname(p),{recursive:true,mode:0o700});fs.chmodSync(path.dirname(p),0o700);fs.writeFileSync(p,value,{mode:0o600});};
  fs.mkdirSync(dest,{recursive:true,mode:0o700});fs.chmodSync(dest,0o700);
  write('blind/questions.json',JSON.stringify({sourceRevision:revision,items:blind},null,2)+'\n');
@@ -91,8 +93,11 @@ function build(out){
  write('restricted-keyed/legal-source-review.csv',csv(legalRows));
  write('restricted-keyed/sme-editorial-review.csv',csv(editorialRows));
  write('restricted-keyed/review-decisions.json',JSON.stringify({sourceRevision:revision,items:decisions},null,2)+'\n');
+ write('blind/reviewer-response-template.csv',csv(assignments.blind));
+ write('restricted-keyed/adjudication-assignment-queue.csv',csv(assignments.queue));
+ write('restricted-keyed/reviewer-roster-template.csv',csv(assignments.roster));
  write('manifest.json',JSON.stringify(manifest,null,2)+'\n');
- write('README.txt','CONFIDENTIAL REVIEW MATERIAL — DO NOT COMMIT OR DEPLOY.\nSource: '+revision+'\nblind/questions.json omits keys and rationales; restricted-keyed/questions.json contains both.\nKeep restricted-keyed separately access-controlled; cue-review.json belongs there too. Blind reviewers should not receive manifest scoring roles if that biases their assessment.\nReview ledgers and cue-review findings start pending. The manifest keyedPacketSha256 binds the private key export. No independent approvals are implied.\n');
+ write('README.txt','CONFIDENTIAL REVIEW MATERIAL — DO NOT COMMIT OR DEPLOY.\nSource: '+revision+'\nblind/questions.json omits keys and rationales; restricted-keyed/questions.json contains both.\nKeep restricted-keyed separately access-controlled; cue-review.json belongs there too. Blind reviewers should not receive manifest scoring roles if that biases their assessment.\nReview ledgers, 110-item adjudication queue and blind response form start pending. All reviewer routing pools are unassigned, not actual people. The manifest keyedPacketSha256 binds the private key export. No independent approvals are implied.\n');
  return manifest;
 }
 if(require.main===module){
