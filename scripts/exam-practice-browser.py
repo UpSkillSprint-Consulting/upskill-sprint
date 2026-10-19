@@ -322,7 +322,20 @@ def main():
                 directory()
                 if not premium:
                     expect(page.locator('main a[href^="/test-bank"]')).to_have_count(0)
-                    expect(page.locator('.exam-card a[href^="/sign-in"]')).to_have_count(7)
+                    published = page.locator('.exam-card[data-publication="published"]')
+                    sign_in_links = page.locator('.exam-card a[href^="/sign-in"]')
+                    # The catalog now includes NPPE: eight published exams, CQA still coming soon.
+                    expect(published).to_have_count(8)
+                    expect(sign_in_links).to_have_count(published.count())
+                    for card in published.all():
+                        exam_key = card.get_attribute('data-exam')
+                        link = card.locator('a[href^="/sign-in"]')
+                        expect(link).to_have_count(1)
+                        target = parse_qs(urlparse(link.get_attribute('href')).query).get('next', [None])[0]
+                        assert target == '/exam-practice#exam-' + exam_key, {
+                            'exam': exam_key, 'next': target,
+                        }
+                    expect(page.locator('.exam-card[data-publication="coming_soon"] a[href^="/sign-in"]')).to_have_count(0)
                     return
                 chips = page.locator('.exam-card a[href^="/test-bank"]').evaluate_all("rows=>rows.map(e=>({label:e.textContent.trim(),href:e.getAttribute('href')}))")
                 assert chips, 'The directory must offer certification links'
