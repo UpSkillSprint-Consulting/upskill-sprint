@@ -15,7 +15,7 @@
       "Begin authenticating professional work because competency assessment and statutory registration are always legally identical.",
       "Obtain the regulator's licence or practice authorization before authenticating work.",
       "Ask the employer to issue an internal certificate, which automatically becomes a provincial engineering licence.",
-      "Join a society instead of obtaining regulatory authorization."
+      "Register with a voluntary technical society instead of the regulator because competence was already evaluated."
     ],
     "answer": 1,
     "optionRationales": [
@@ -52,7 +52,7 @@
     "stem": "An engineering regulator receives a detailed complaint about a registrant's project reports. A committee member proposes announcing that the registrant is guilty before reviewing the response because the complainant attached photographs. What response best respects the professional discipline process?",
     "options": [
       "Announce guilt immediately because a written complaint with photographs automatically constitutes a disciplinary finding.",
-      "Dismiss complaints to protect the profession's reputation.",
+      "Dismiss the complaint without investigation to avoid any reputational impact on another professional.",
       "Ask the registrant to surrender their licence automatically because a complaint is the same as a criminal charge.",
       "Apply a fair complaint process and let the authorized body make its finding."
     ],
@@ -135,7 +135,7 @@
     "jurisdiction": "Canada; a safety-critical sensor test record is subject to an accurate-reporting procedure; a confirmed nonconformance has not yet been mitigated.",
     "stem": "A manufacturing quality team customarily overwrites failed acceptance-test entries with passing retest values so monthly charts look consistent. A junior engineer confirms that one failed result reflects an unresolved sensor fault. A colleague says the data-cleaning tradition is accepted by everyone and is therefore ethical. What is the best response?",
     "options": [
-      "Preserve the failed result and document retests and unresolved faults.",
+      "Keep the original failure traceable, document the retest and unresolved fault separately, and evaluate the reporting custom against honesty and public-safety duties.",
       "Overwrite failed readings because the team routinely does so.",
       "Delete both the initial failure and retest results so no employee has to make an uncomfortable judgment.",
       "Declare every product ever tested by the team unsafe without examining the failure's technical significance."
@@ -177,7 +177,7 @@
       "Apply the original certificate without review because model geometry alone determines the validity of every loading case.",
       "Use the output at twice the allowable stress to compensate for unknown fatigue without further evidence.",
       "Reject finite-element modelling when conditions change.",
-      "Revalidate thermal, fatigue and material assumptions for the new service."
+      "Identify the changed thermal, fatigue and material assumptions; obtain competent verification for the new duty cycle before accepting the model."
     ],
     "answer": 3,
     "optionRationales": [
@@ -414,6 +414,7 @@
   if(id==='386'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if([381,382,384,385,387,388,389,390].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if([381,382,384,385,386,387,388,389,390].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
+  if([381,382,384,385].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 11 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B item, release held. Scoring roles are simulated; no official NPPE score prediction is implied.</p>';
  });
