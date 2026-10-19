@@ -214,7 +214,7 @@
     "stem": "A mining company compares two technically workable closure options. The lower-capital-cost option leaves an ongoing groundwater treatment demand for decades, while the other requires higher initial spending but substantially lowers long-term contamination and monitoring burden. The project manager proposes comparing only this year's construction budget. Which assessment best supports sustainable development?",
     "options": [
       "Evaluate lifecycle environmental, social and economic effects of both options.",
-      "Choose the lower initial cost because future groundwater impacts can never affect professional planning.",
+      "Choose the cheapest closure and ignore future groundwater effects.",
       "Choose the higher initial cost without examining technical effectiveness because any higher price proves environmental superiority.",
       "Ignore community impacts of mine rehabilitation."
     ],
@@ -254,7 +254,7 @@
     "options": [
       "Ethical egoism: prioritize the engineer's own interests.",
       "Strict utilitarianism, because the rationale considers only the sum of benefits across the whole population.",
-      "Legal positivism, because the engineer's main point is that an enacted law determines morality.",
+      "Legal positivism: enacted law alone determines morality.",
       "Ethics of care focuses on dependency and contextual responsibility."
     ],
     "answer": 3,
@@ -407,6 +407,7 @@
   if([361,362,363,364,365,366,367,368,369,370].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if([361,362,363,364,365,366,367,368,369,370].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([361,362,363,364,365,368].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if([366,367].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 9 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item. Editorial classifications do not predict official NPPE performance.</p>';
  });
