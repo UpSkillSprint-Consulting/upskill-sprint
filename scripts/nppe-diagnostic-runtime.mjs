@@ -114,7 +114,7 @@ const helpers = String.raw`
     return '<div class="tb-setpick"><div class="tb-setseg" role="tablist" aria-label="NPPE author sets">'+[1,2,3].map(function(id){
       return '<button type="button" id="nppe-owner-'+id+'" class="tb-setbtn'+(owner===id?' on':'')+'" data-nppe-owner="'+id+'" role="tab" aria-selected="'+(owner===id)+'" aria-controls="nppe-banks-'+id+'" tabindex="'+(owner===id?'0':'-1')+'"><span class="tb-setl">Set '+id+' · '+names[id]+'</span></button>';
     }).join('')+'</div>'+[1,2,3].map(function(id){
-      return '<div id="nppe-banks-'+id+'" role="tabpanel" aria-labelledby="nppe-owner-'+id+'"'+(owner===id?'':' hidden style="display:none"')+'><div class="tb-setpick-lab" style="margin-top:16px">'+(id===1?'Diagnostic, Learning and Mocks A–C':id===2?'Mock D':'Mock E')+'</div><div class="tb-setseg" role="group" aria-label="Set '+id+' banks">'+e.formCatalog.filter(function(f){return f.authorSet===id;}).map(function(f){
+      return '<div id="nppe-banks-'+id+'" role="tabpanel" aria-labelledby="nppe-owner-'+id+'"'+(owner===id?'':' hidden style="display:none"')+'><div class="tb-setpick-lab" style="margin-top:16px">'+(id===1?'Diagnostic, Learning, Mock A and Mock B':id===2?'Mock D':'Mock E')+'</div><div class="tb-setseg" role="group" aria-label="Set '+id+' banks">'+e.formCatalog.filter(function(f){return f.authorSet===id;}).map(function(f){
         var n=formQuestionCount(e,f.id),ready=formReady(e,f.id);
         return '<button type="button" class="tb-setbtn'+(selectedSet===f.id&&ready?' on':'')+'" data-set="'+esc(f.id)+'" aria-pressed="'+(selectedSet===f.id&&ready)+'" aria-label="'+esc(f.label)+', '+n+' questions'+(ready?'':f.releaseHold?', awaiting release review':', in preparation')+'"'+(ready?'':' disabled')+'><span class="tb-setl">'+esc(f.label)+'</span><span class="tb-sets">'+n+'</span></button>';
       }).join('')+'</div></div>';
@@ -145,7 +145,7 @@ const helpers = String.raw`
   function nppeOverviewHTML(){
     var e=EXAMS.nppe,f=formMeta(e,selectedSet),n=formQuestionCount(e,selectedSet),ready=formReady(e,selectedSet);
     var status=!ready?'In preparation':f.kind==='diagnostic'&&n<f.target?'Partial diagnostic':f.kind==='learning'&&n<f.target?'Partial learning bank':'Available for practice';
-    return '<h2 class="tb-title">NPPE practice banks <span class="tb-soon sample">'+status+'</span></h2><p class="tb-modenote">Choose an author set, then one bank. Diagnostic and Learning remain separate from the five full mock forms.</p>'+nppeSelector(e)+'<div class="tb-modes">'+nppeModes(e)+'</div><p class="tb-modenote">'+esc(nppeDescription(e,selectedSet))+'</p><p class="tb-srnote">Independent practice material, not affiliated with the NPPE programme or any regulator. Planned totals are not released-question counts.</p>';
+    return '<h2 class="tb-title">NPPE practice banks <span class="tb-soon sample">'+status+'</span></h2><p class="tb-modenote">Choose an author set, then one bank. Diagnostic and Learning remain separate from the four full mock forms.</p>'+nppeSelector(e)+'<div class="tb-modes">'+nppeModes(e)+'</div><p class="tb-modenote">'+esc(nppeDescription(e,selectedSet))+'</p><p class="tb-srnote">Independent practice material, not affiliated with the NPPE programme or any regulator. Planned totals are not released-question counts.</p>';
   }
   function nppeModes(e){
     var f=formMeta(e,selectedSet),n=activeBank(e,selectedSet).length,ready=formReady(e,selectedSet);
