@@ -30,3 +30,12 @@ No numerical pass mark, official scaled-score equivalence, reliability coefficie
 5. Complete the detailed [manual accessibility checklist](nppe-mock-b-manual-accessibility-authorization-checklist.md), [legal source priorities](nppe-mock-b-legal-cue-priority-review.md), [110-item source register](nppe-mock-b-independent-review-source-ledger.csv), and [candidate data contract](nppe-mock-b-calibration-data-contract.md). Confirm exact-head CI after any code or item change.
 
 **Hard-stop:** No merge, public deploy, release-hold removal, admin grant, production-account change or real candidate-data collection is approved by this register. Escalate any material reviewer disagreement to independent adjudication and re-review a new item version.
+
+
+## Review recruitment and adjudication preparation — 2026-10-19
+
+The [qualified reviewer recruitment and adjudication operations guide](nppe-mock-b-independent-review-recruitment-and-adjudication.md) and [unsent reviewer invitation kit](nppe-mock-b-reviewer-recruitment-invitation-kit.md) have been committed. They describe specialist qualification and independence screening, primary-source jurisdiction routing, blind answer selection, separate adjudication and secure evidence custody. **No persons have been contacted, engaged or independently approved.**
+
+The protected packet exporter now creates an additional 110-row version-and-SHA-256-pinned `restricted-keyed/adjudication-assignment-queue.csv`, a 110-row `blind/reviewer-response-template.csv`, and a ten-pool `restricted-keyed/reviewer-roster-template.csv`. All five assignment fields and all reviewer dispositions start **unassigned/pending**. The ten rows are reviewer *routing pools*, not ten confirmed individuals. They direct 85 nationally framed, 11 Ontario, 4 Québec, 3 Saskatchewan and 7 British Columbia items to appropriately qualified legal review, with technical, editorial, fairness and adjudication review required across all items.
+
+Author-identified priority: eight previously revised categorical-cue items (NPPE-291, 319, 322, 329, 354, 362, 372, 383) and five legal source/case checks (NPPE-315, 336, 347, 371, 389). These flags do not determine severity or imply approval. The actual private review round must be generated on a clean trusted checkout after the target Git revision is chosen. **The process is prepared; recruitment, external decisions and empirical calibration remain blocking gates.**
