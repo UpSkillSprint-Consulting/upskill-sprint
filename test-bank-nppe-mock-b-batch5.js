@@ -57,10 +57,10 @@
     "jurisdiction": "Saskatchewan; APEGS 2026 CPD requirements for a full-year Professional Member, with no exception or variation.",
     "stem": "An APEGS Professional Member has updated a CPD plan, completed the required total and verifiable credits across the required categories, taken the annual ethics hour and reported all CPD activities online. The member has not entered the current Scope of Practice in APEGS Central, arguing that CPD credits alone complete every annual step. What remains to be done?",
     "options": [
-      "Repeat the entire CPD year because a missing scope entry automatically invalidates completed learning.",
-      "Only engineering and geoscience licensees, not Professional Members, are required to enter a Scope of Practice online.",
+      "Require the member to repeat CPD hours before updating the missing Scope of Practice entry.",
+      "Treat Scope of Practice reporting as a requirement for Engineering/Geoscience Licensees rather than Professional Members.",
       "Enter or update the Scope of Practice in APEGS Central as a separate requirement for the stated membership category.",
-      "Nothing further, because reporting the CPD activities automatically substitutes for every other program field."
+      "Treat the online CPD activity report as an adequate substitute for updating the Scope of Practice entry."
     ],
     "answer": 2,
     "optionRationales": [
@@ -336,9 +336,9 @@
     "jurisdiction": "Canada; fictional wastewater plant with a documented risk assessment and no claimed mandatory frequency for its review.",
     "stem": "A wastewater facility's hazard register rates pump-station overflow as low probability under normal grid power. The operator adds temporary pumps and changes to a power supply with frequent interruptions. The safety manager proposes retaining the old risk score because it was signed last year. Which approach is most defensible?",
     "options": [
-      "Keep the old risk score because a completed assessment cannot be reopened until the next annual budget.",
-      "Rate every hazard as high regardless of safeguards.",
-      "Move the hazard entirely to the insurance register because buying a policy eliminates its physical consequences.",
+      "Retain the prior risk ranking until its scheduled annual review, despite the changed power supply.",
+      "Set hazard scores to the highest category as a precaution.",
+      "Treat the insurance coverage as adequate control and defer technical reassessment.",
       "Reassess new failure scenarios, control reliability and residual risk."
     ],
     "answer": 3,
@@ -417,6 +417,7 @@
   if([321,324,325,326].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if([327,328].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if([323].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if([322,329].includes(Number(id))){q.version+=1;q.editorialReviewedAt='2026-10-19';q.reviewStatus+='; author categorical cue mitigation pending independent review';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(s){return s.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 5 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Difficulty and cognition are editorial estimates, not evidence of official NPPE readiness.</p>';
  });
