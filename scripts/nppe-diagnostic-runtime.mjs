@@ -9,7 +9,7 @@ function once(source, anchor, replacement) {
 
 export function integrateNPPEDiagnostic(source) {
   let code = source;
-  code = once(code, '  EXAMS.nppe.sets={};', '  EXAMS.nppe.sets={};\n  window.registerNPPEDiagnostic(EXAMS.nppe);\n  window.registerNPPELearning(EXAMS.nppe);\n  window.registerNPPEMockA(EXAMS.nppe);\n  window.registerNPPEMockB(EXAMS.nppe);\n' + helpers);
+  code = once(code, '  EXAMS.nppe.sets={};', '  EXAMS.nppe.sets={};\n  window.registerNPPEDiagnostic(EXAMS.nppe);\n  window.registerNPPELearning(EXAMS.nppe);\n  window.registerNPPEMockA(EXAMS.nppe);\n  window.registerNPPEMockB(EXAMS.nppe);\n' + releaseForms + helpers);
   code = once(code, "if(!formReady(e,setId)){var ready=availableSetIds(e);setId=ready.length?ready[0]:'';}", "if(!formReady(e,setId))return [];");
   code = once(code, 'function activeSetLabel(e,setId){return', 'function activeSetLabel(e,setId){if(e.formCatalog)return (formMeta(e,setId)||{}).label||\'Unavailable form\';return');
   code = once(code, 'function examNoun(e){return', 'function examNoun(e){if(e.formCatalog)return activeSetLabel(e,selectedSet);return');
@@ -39,6 +39,58 @@ export function integrateNPPEDiagnostic(source) {
   code = once(code, '<div class="tb-status-key" aria-label="Question status legend">', '<div class="tb-status-key" role="group" aria-label="Question status legend">');
   return code;
 }
+
+const releaseForms = String.raw`
+  // Editorially published, unofficial practice forms; server-side exam access remains mandatory.
+  // This runs only in the authorized NPPE delivery package, never in public shell assets.
+  (function(){
+    var exam=EXAMS.nppe, forms=exam.forms, catalog=exam.formCatalog;
+    var grok=forms['mock-d'],claude=forms['mock-e'];
+    var a=forms['set-1-mock-a'],b=forms['set-1-mock-b'];
+    function validBank(rows,owner){
+      return Array.isArray(rows)&&rows.length===110&&
+       rows.every(function(q){return q&&q.authorSet===owner&&q.options&&q.options.length===4;})&&
+       rows.filter(function(q){return q.scored===true&&q.experimental===false;}).length===100&&
+       rows.filter(function(q){return q.scored===false&&q.experimental===true;}).length===10&&
+       new Set(rows.map(function(q){return q.qid;})).size===110;
+    }
+    if(!validBank(a,1)||!validBank(b,1)||!validBank(grok,2)||!validBank(claude,3))
+      throw new Error('NPPE release validation failed: expected four complete, isolated 110-item mock banks');
+    var old2=catalog.find(function(f){return f.id==='mock-d'&&f.authorSet===2;});
+    var old3=catalog.find(function(f){return f.id==='mock-e'&&f.authorSet===3;});
+    var oldA=catalog.find(function(f){return f.id==='set-1-mock-a'&&f.authorSet===1;});
+    var oldB=catalog.find(function(f){return f.id==='set-1-mock-b'&&f.authorSet===1;});
+    if(!old2||!old3||!oldA||!oldB||catalog.some(function(f){return f.id==='mock-c';}))
+      throw new Error('NPPE release form catalog does not match approved author ownership');
+    function rename(rows,id,sourceName,newName){
+      return rows.map(function(q){
+        var copy=Object.assign({},q,{form:id});
+        if(typeof copy.sourceDocument==='string')
+          copy.sourceDocument=copy.sourceDocument.replace(sourceName,newName);
+        return copy;
+      });
+    }
+    forms['mock-c']=rename(grok,'mock-c','Set 2, Mock D','Set 2, Mock C');
+    forms['mock-d']=rename(claude,'mock-d','Set 3, Mock E','Set 3, Mock D');
+    delete forms['mock-e'];
+    old2.id='mock-c';old2.label='Mock C';
+    old3.id='mock-d';old3.label='Mock D';
+    oldA.releaseHold=false;oldB.releaseHold=false;
+    exam.formCatalog=catalog.filter(function(f){return f.id!=='set-1-mock-c';});
+    b.forEach(function(q){
+      q.releaseStatus='released';
+      if(typeof q.why==='string')q.why=q.why.replace(/Original held Mock B question|Original Mock B item, release held/g,'Original Mock B practice question');
+    });
+    if(exam.setPlans&&exam.setPlans[2]){exam.setPlans[2].form='mock-c';exam.setPlans[2].label='Mock C — 110 of 110';}
+    if(exam.setPlans&&exam.setPlans[3]){exam.setPlans[3].form='mock-d';exam.setPlans[3].label='Mock D — 110 of 110';}
+    exam.mockLaunchable=Object.assign({},exam.mockLaunchable,{'mock-c':true,'mock-d':true});
+    delete exam.mockLaunchable['mock-e'];
+    exam.bank=forms['mock-c'];
+    exam.formatNote='Four complete, original unofficial NPPE practice forms, 110 questions each and 150 minutes timed. 100 questions are scored; ten simulated unscored items are hidden during the sitting. Practice percentages are not official NPPE scaled scores or pass predictions. These questions have not undergone independent legal/engineering validation or empirical calibration.';
+    if(exam.formCatalog.length!==6||!exam.formCatalog.every(function(f){return f.id!=='mock-e'&&f.id!=='set-1-mock-c';}))
+      throw new Error('Unexpected NPPE release catalog forms');
+  })();
+`;
 
 const helpers = String.raw`
   // The dark theme's bright teal needs dark text on filled controls. Scope this
