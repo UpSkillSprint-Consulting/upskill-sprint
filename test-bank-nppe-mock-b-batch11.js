@@ -299,7 +299,7 @@
     "options": [
       "Ethical egoism: maximize the engineer's income.",
       "Pure act utilitarianism, because no feature other than total litres distributed can be morally relevant.",
-      "Virtue ethics only, because the procedure exists solely to cultivate the engineer's personality.",
+      "Virtue ethics: assess only the engineer's character.",
       "Justice and procedural fairness: impartial, consistent, reviewable criteria."
     ],
     "answer": 3,
@@ -338,7 +338,7 @@
     "options": [
       "One standard notice always discharges consultation, even if a project poses serious risk to a credible asserted practice.",
       "Wait for a court ruling before consulting the Nation.",
-      "The Crown must automatically grant every requested change without assessing the particular right and potential effects.",
+      "Grant every requested change without evaluating the claim.",
       "Match the depth of consultation to claim strength and potential adverse impact."
     ],
     "answer": 3,
@@ -415,6 +415,7 @@
   if([381,382,384,385,387,388,389,390].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if([381,382,384,385,386,387,388,389,390].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([381,382,384,385].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if([388,389].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 11 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B item, release held. Scoring roles are simulated; no official NPPE score prediction is implied.</p>';
  });
