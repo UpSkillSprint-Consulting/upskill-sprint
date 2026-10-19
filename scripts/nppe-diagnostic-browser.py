@@ -262,19 +262,19 @@ def main():
                     # Distinct, responsive bank cards rather than an oversized nested set picker.
                     expect(page.locator('.nppe-hub .nppe-author-tab')).to_have_count(3)
                     expect(page.locator('.nppe-hub .nppe-bank-card')).to_have_count(6)
-                    expect(page.locator('.nppe-hub .nppe-launch')).to_have_count(1)
+                    expect(page.locator('.nppe-hub .nppe-mode-card')).to_have_count(3)
                     assert page.evaluate('''() => [...document.querySelectorAll(
-                      '.nppe-bank-card,.nppe-author-tab,.nppe-launch,.nppe-launch-actions .tb-mstart'
+                      '.nppe-bank-card,.nppe-author-tab,.nppe-mode-card,.nppe-mode-card .tb-mstart'
                     )].every(el=>{
                       const r=el.getBoundingClientRect();
                       return (!r.width&&!r.height)||(r.left>=-1&&r.right<=innerWidth+1);
                     })'''), 'NPPE chooser overflows the viewport'
                     page.locator('[data-set="set-1-mock-a"]').click()
                     expect(page.locator('[data-set="set-1-mock-a"]')).to_be_focused()
-                    expect(page.locator('[data-nppe-bank="set-1-mock-a"] h3')).to_have_text('Mock A')
+                    expect(page.locator('.nppe-mode-card[data-nppe-bank="set-1-mock-a"] h4')).to_contain_text('Mock A')
                     expect(page.locator('[data-set="set-1-mock-a"]')).to_have_attribute('aria-pressed','true')
                     page.locator('[data-set="set-1-diagnostic"]').click()
-                    expect(page.locator('[data-nppe-bank="set-1-diagnostic"] h3')).to_have_text('Diagnostic')
+                    expect(page.locator('.nppe-mode-card[data-nppe-bank="set-1-diagnostic"] h4')).to_contain_text('Diagnostic')
                     page.locator('[data-nppe-owner="1"]').press('ArrowRight')
                     expect(page.locator('#nppe-banks-2')).to_be_visible()
                     expect(page.locator('#nppe-banks-1')).to_be_hidden()
@@ -308,25 +308,23 @@ def main():
                     header_images_fit()
                     page.evaluate('window.scrollTo(0,0)')
                     page.screenshot(path=str(out / f'{name}-banks.png'), full_page=False)
-                    # Every NPPE bank must expose category-specific Quick and Focused practice.
-                    expect(page.locator('[data-nppe-mode]')).to_have_count(3)
-                    page.locator('[data-nppe-mode="quick"]').click()
-                    expect(page.locator('[data-nppe-area-kind="quick"]')).to_have_count(7)
-                    expect(page.locator('[data-nppe-area-kind="quick"][data-nppe-area="all"]')).to_contain_text('50 available')
-                    page.locator('[data-nppe-area-kind="quick"][data-nppe-area="nppe-law"]').click()
-                    expect(page.locator('[data-nppe-area-kind="quick"][data-nppe-area="nppe-law"]')).to_have_attribute('aria-pressed','true')
-                    expect(page.locator('[data-nppe-quiz-kind="quick"] .nppe-short-summary')).to_contain_text('IV Law')
+                    # Match the other exams: three practice cards and native Area selects.
+                    expect(page.locator('.nppe-mode-card')).to_have_count(3)
+                    quick_area=page.locator('select[data-nppe-area-kind="quick"]')
+                    focused_area=page.locator('select[data-nppe-area-kind="focus"]')
+                    expect(quick_area.locator('option')).to_have_count(7)
+                    expect(focused_area.locator('option')).to_have_count(6)
+                    expect(quick_area).to_have_value('all')
+                    quick_area.select_option('nppe-law')
+                    expect(quick_area).to_have_value('nppe-law')
+                    expect(page.locator('[data-nppe-quiz-kind="quick"] .tb-mode-sum')).to_contain_text('IV Law')
                     check_accessibility('nppe-quick-area-selection')
-                    page.locator('[data-nppe-mode="focus"]').click()
-                    expect(page.locator('[data-nppe-area-kind="focus"]')).to_have_count(6)
-                    expect(page.locator('[data-nppe-area-kind="focus"][data-nppe-area="all"]')).to_have_count(0)
-                    page.locator('[data-nppe-area-kind="focus"][data-nppe-area="nppe-practice"]').click()
-                    expect(page.locator('[data-nppe-quiz-kind="focus"] .nppe-short-summary')).to_contain_text('III Professional Practice')
-                    assert page.evaluate('''() => [...document.querySelectorAll('.nppe-area-btn,.nppe-short-panel .tb-mstart')].every(el=>{
+                    focused_area.select_option('nppe-practice')
+                    expect(page.locator('[data-nppe-quiz-kind="focus"] .tb-mode-sum')).to_contain_text('III Professional Practice')
+                    assert page.evaluate('''() => [...document.querySelectorAll('.nppe-area-select,.nppe-mode-card .tb-mstart')].every(el=>{
                       const r=el.getBoundingClientRect();return (!r.width&&!r.height)||(r.left>=-1&&r.right<=innerWidth+1);
                     })'''), 'NPPE subject and quiz controls overflow the viewport'
                     check_accessibility('nppe-focused-area-selection')
-                    page.locator('[data-nppe-mode="full"]').click()
                     page.locator('[data-timing-kind="full"][data-timed="0"]').click()
                     page.locator('[data-mode="full"]').click()
                     expect(page.locator('.tb-quiz')).to_be_visible()
