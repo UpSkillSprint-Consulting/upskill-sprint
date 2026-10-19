@@ -17,22 +17,23 @@ test('NPPE publication is listed while practice still requires an administrator 
   assert.equal(card.includes('/test-bank'), false);
 });
 
-test('Mock D registration changes only the Grok-owned form', () => {
+test('original Grok Set 2 bank keeps stable 110 question IDs prior to protected Mock C label mapping', () => {
   const context = { window: {}, console };
   vm.createContext(context);
   vm.runInContext(read('test-bank-nppe-set2.js'), context);
   const exam = { forms: {}, sets: {}, setPlans: {}, mockLaunchable: {} };
   context.window.registerNPPESet2(exam);
   const ids = [
-    'set-1-diagnostic', 'set-1-learning', 'set-1-mock-a', 'set-1-mock-b', 'set-1-mock-c', 'mock-d', 'mock-e'
+    'set-1-diagnostic', 'set-1-learning', 'set-1-mock-a', 'set-1-mock-b', 'mock-d', 'mock-e'
   ];
   const page = read('test-bank.html');
   ids.forEach(id => assert.match(page, new RegExp("id:'" + id.replace(/-/g, '\\-') + "'")));
+  assert.doesNotMatch(page,/id:'set-1-mock-c'/);
   assert.equal(exam.forms['mock-d'].length, 110);
   assert.equal(exam.forms['mock-d'].filter(q => q.scored).length, 100);
   assert.equal(exam.forms['mock-d'].filter(q => q.experimental).length, 10);
   assert.equal(exam.mockLaunchable['mock-d'], true);
-  ['set-1-diagnostic', 'set-1-learning', 'set-1-mock-a', 'set-1-mock-b', 'set-1-mock-c', 'mock-e'].forEach(id => {
+  ['set-1-diagnostic', 'set-1-learning', 'set-1-mock-a', 'set-1-mock-b', 'mock-e'].forEach(id => {
     assert.equal(exam.forms[id], undefined);
   });
   assert.equal(exam.forms['mock-d'].every(q => q.authorSet === 2 && q.form === 'mock-d'), true);
@@ -42,7 +43,7 @@ test('Mock D registration changes only the Grok-owned form', () => {
   assert.match(read('netlify/functions/exam-content.mjs'), /can_access_exam/);
 });
 
-test('Mock E is a separate 110-question form and does not reuse Mock D', () => {
+test('original Claude Set 3 bank keeps stable IDs and does not reuse Grok questions prior to Mock D mapping', () => {
   const context = { window: {}, console };
   vm.createContext(context);
   vm.runInContext(read('test-bank-nppe-set2.js') + '\n' + read('test-bank-nppe-set3.js'), context);
