@@ -17,6 +17,8 @@ export function integrateNPPEDiagnostic(source) {
   code = once(code, '  function nppeFormSelectorHTML(e){', '  function nppeFormSelectorHTML(e){return nppeSelector(e);');
   code = once(code, "(live?setSelectorHTML(e):'')", "(live||e.formCatalog?setSelectorHTML(e):'')");
   code = once(code, '  function modesHTML(e){', "  function modesHTML(e){if(current==='nppe')return nppeModes(e);");
+  code = once(code, 'function startQuick(){startQuickAfterFresh();}', "function startQuick(){if(current==='nppe')return nppeShortStart('quick');startQuickAfterFresh();}");
+  code = once(code, 'function startFocused(){startFocusedAfterFresh();}', "function startFocused(){if(current==='nppe')return nppeShortStart('focus');startFocusedAfterFresh();}");
   code = once(code, '  function diagnosticHTML(e){', "  function diagnosticHTML(e){if(current==='nppe')return '';");
   code = once(code, 'function startDiagnostic(){var e=', "function startDiagnostic(){if(current==='nppe')return nppeStart('set-1-diagnostic',diagTimed);var e=");
   code = once(code, 'function startFull(){var e=', "function startFull(){if(current==='nppe')return nppeStart(selectedSet,mode.timed);var e=");
@@ -30,13 +32,15 @@ export function integrateNPPEDiagnostic(source) {
   }
   code = once(code, "var sessionTitle=session.kind==='diagnostic'?'Sample diagnostic':", "var sessionTitle=session.kind==='diagnostic'?(current==='nppe'?'Diagnostic':'Sample diagnostic'):");
   const tag = "'<div class=\"tb-qtag\" style=\"background:'+col+'22;color:'+col+'\"><i style=\"background:'+col+'\"></i>'+esc(DM[dm].name)+' &middot; '+esc(topic)+'</div>'";
-  code = once(code, tag, "(current==='nppe'?'':" + tag + ')');
+  code = once(code, tag, "(current==='nppe'&&session.kind!=='quick'&&session.kind!=='focus'?'':" + tag + ')');
   code = once(code, "    var deltaTxt=delta!=null?", "    if(current==='nppe')return nppeResults(gradeNotice,breakdown);\n    var deltaTxt=delta!=null?");
   code = once(code, '  function overviewHTML(){', "  function overviewHTML(){if(current==='nppe')return nppeOverviewHTML();");
   code = once(code, "ht.textContent=focusedExam?EXAMS[current].body:'Certification Test Bank';", "ht.textContent=focusedExam?(current==='nppe'?'NPPE Exam Practice':EXAMS[current].body):'Certification Test Bank';");
   code = once(code, "hp.textContent='Choose an exam set or practice mode for this certification. Return to All Certifications to open a different exam.';", "hp.textContent=current==='nppe'?'Choose a question bank and start a timed or untimed session.':'Choose an exam set or practice mode for this certification. Return to All Certifications to open a different exam.';");
   code = once(code, '  function wireOverview(){', "  function wireOverview(){if(current==='nppe')return wireNPPEOwners();");
   code = once(code, "'+sessionTitle+' &middot; '", "'+(current==='nppe'?'NPPE':sessionTitle)+' &middot; '");
+  code = once(code, "mode={timed:true,quickTimed:false,focusTimed:false,quickSet:initial,focusSet:initial,quickN:20,focusDom:defaultFocusDomain(EXAMS[current],initial),focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};selectedSet=initial;}",
+    "mode={timed:true,quickTimed:false,focusTimed:false,quickSet:initial,focusSet:initial,quickN:20,focusDom:defaultFocusDomain(EXAMS[current],initial),focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};selectedSet=initial;if(current==='nppe'){mode.quickN=10;mode.focusN=10;nppePracticeMode='full';nppeQuizAreas.quick='all';nppeQuizAreas.focus='';}");
   code = once(code, '  function revealCurrentAnswer(){', "  function revealCurrentAnswer(){if(current==='nppe'&&(!session||session.setId!=='set-1-learning'||session.timed))return false;");
   code = once(code, '<div class="tb-status-key" aria-label="Question status legend">', '<div class="tb-status-key" role="group" aria-label="Question status legend">');
   return code;
@@ -110,6 +114,91 @@ const helpers = String.raw`
     if(form.kind==='learning')return 'Learning: '+n+' of '+form.target+' planned questions available. '+(n<form.target?'This is a partial learning bank. ':'')+'Untimed Reveal Answer is available for study; revealed questions are assisted learning, not evidence of exam readiness.';
     return form.kind==='mock'?e.formatNote:'This bank is unavailable.';
   }
+
+  // Each original NPPE item is already authored with a six-domain blueprint code and sub ID.
+  // An item with conflicting metadata is NEVER silently assigned to another category.
+  var NPPE_AREAS=[
+    {code:'I',id:'nppe-professionalism',label:'Professionalism'},
+    {code:'II',id:'nppe-ethics',label:'Ethics'},
+    {code:'III',id:'nppe-practice',label:'Professional Practice'},
+    {code:'IV',id:'nppe-law',label:'Law'},
+    {code:'V',id:'nppe-professional-law',label:'Professional Law'},
+    {code:'VI',id:'nppe-discipline',label:'Regulation and Discipline'}
+  ];
+  var nppePracticeMode='full';
+  var nppeQuizAreas={quick:'all',focus:''};
+  function nppeAreaOf(e,q){
+    if(!q||typeof q.blueprint!=='string')return '';
+    var match=/^(I|II|III|IV|V|VI)\.[0-9]+(?:\b|$)/.exec(q.blueprint);
+    if(!match)return '';
+    var area=NPPE_AREAS.find(function(x){return x.code===match[1];});
+    if(!area||area.id!==q.sub||domainOf(e,q.sub)!==area.id)return '';
+    return area.id;
+  }
+  function nppeEligible(e,id){
+    var bank=activeBank(e,id);
+    if(!formReady(e,id)||bank.some(function(q){return !nppeAreaOf(e,q);}))return [];
+    return bank.filter(function(q){return q.scored===true&&q.experimental===false;});
+  }
+  function nppeShortPool(e,kind){
+    var pool=nppeEligible(e,selectedSet),area=nppeQuizAreas[kind];
+    return area==='all'&&kind==='quick'?pool:pool.filter(function(q){return nppeAreaOf(e,q)===area;});
+  }
+  function nppeEnsureAreas(e){
+    var pool=nppeEligible(e,selectedSet);
+    function hasArea(id){return pool.some(function(q){return nppeAreaOf(e,q)===id;});}
+    if(nppeQuizAreas.quick!=='all'&&!hasArea(nppeQuizAreas.quick))nppeQuizAreas.quick='all';
+    if(!hasArea(nppeQuizAreas.focus)){
+      var first=NPPE_AREAS.find(function(area){return hasArea(area.id);});
+      nppeQuizAreas.focus=first?first.id:'';
+    }
+  }
+  function nppeAreaChoices(e,kind){
+    var pool=nppeEligible(e,selectedSet);
+    var entries=(kind==='quick'?[{code:'',id:'all',label:'All six areas'}]:[]).concat(NPPE_AREAS);
+    return '<div class="nppe-area-list" role="group" aria-label="'+(kind==='quick'?'Quick Quiz':'Focused Quiz')+' NPPE subject area">'+
+      entries.map(function(a){
+        var n=a.id==='all'?pool.length:pool.filter(function(q){return nppeAreaOf(e,q)===a.id;}).length;
+        var selected=nppeQuizAreas[kind]===a.id;
+        return '<button type="button" class="nppe-area-btn'+(selected?' on':'')+'" data-nppe-area-kind="'+kind+
+          '" data-nppe-area="'+esc(a.id)+'" aria-pressed="'+selected+'"'+(n?'':' disabled')+
+          '><span class="nppe-area-name">'+(a.code?'<b>'+a.code+'</b> ':'')+esc(a.label)+
+          '</span><span class="nppe-area-count">'+n+' available</span></button>';
+      }).join('')+'</div>';
+  }
+  function nppeCountChoices(kind,count){
+    return '<div class="nppe-question-count" role="group" aria-label="'+(kind==='quick'?'Quick Quiz':'Focused Quiz')+' question count">'+
+      [5,10,20].map(function(n){return '<button type="button" data-nppe-count-kind="'+kind+
+      '" data-nppe-count="'+n+'" class="tb-count'+(count===n?' on':'')+'" aria-pressed="'+(count===n)+'">'+n+'</button>';}).join('')+
+      '</div>';
+  }
+  function nppeShortStart(kind){
+    var e=EXAMS.nppe,id=selectedSet,f=formMeta(e,id);
+    if((kind!=='quick'&&kind!=='focus')||!f||!formReady(e,id))return false;
+    nppeEnsureAreas(e);
+    var area=nppeQuizAreas[kind],pool=nppeShortPool(e,kind);
+    if(!pool.length||kind==='focus'&&!NPPE_AREAS.some(function(x){return x.id===area;})||
+       kind==='quick'&&area!=='all'&&!NPPE_AREAS.some(function(x){return x.id===area;}))return false;
+    var desired=kind==='quick'?mode.quickN:mode.focusN,limit=Math.min(desired,pool.length);
+    if(!Number.isInteger(desired)||![5,10,20].includes(desired)||limit<1)return false;
+    var picked=[];
+    if(kind==='focus'){
+      // Prefer previously missed questions in this same bank AND area when history is available.
+      // Never mix in other forms or use a missed-item pool to defeat access/area restrictions.
+      var allowed=new Set(pool);
+      var missed=missedOnly(pool).filter(function(q){return allowed.has(q);});
+      shuffle(missed);picked=missed.slice(0,limit);
+      var selectedIds=new Set(picked.map(function(q){return q.qid;}));
+      var remaining=pool.filter(function(q){return !selectedIds.has(q.qid);});
+      shuffle(remaining);picked=picked.concat(remaining.slice(0,limit-picked.length));
+    }else{picked=shuffle(pool.slice()).slice(0,limit);}
+    if(picked.length!==limit||new Set(picked.map(function(q){return q.qid;})).size!==limit||
+       picked.some(function(q){return q.form!==id||q.authorSet!==f.authorSet||q.scored!==true||q.experimental!==false||
+       area!=='all'&&nppeAreaOf(e,q)!==area;}))return false;
+    return beginSession(e,picked,kind,kind==='quick'?mode.quickTimed:mode.focusTimed,
+      Math.round(picked.length*150*60/110),null,id);
+  }
+
   function nppeSelector(e){
     var selected=formMeta(e,selectedSet),owner=selected?selected.authorSet:1;
     var names={1:'ChatGPT',2:'Grok',3:'Claude'};
