@@ -232,7 +232,9 @@ test('complete Diagnostic displays 50 count and 69 minutes; other forms retain r
   assert.match(doc.getElementById('tb-overview').textContent,/50 of 50 planned/);
   assert.match(doc.getElementById('tb-overview').textContent,new RegExp(EXPECTED_MINUTES+' minutes'));
   assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Diagnostic/);
-  assert.equal(doc.querySelector('[data-mode="quick"]'),null);
+  assert.equal(doc.querySelector('[data-mode="quick"]').disabled,false);
+  assert.equal(doc.querySelector('[data-mode="focus"]').disabled,false);
+  assert.equal(doc.querySelectorAll('.nppe-mode-card').length,3);
   assert.equal(win.__TB.EXAMS.nppe.forms['mock-d'].length,110);assert.deepEqual(errors,[]);
  }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}
 });
