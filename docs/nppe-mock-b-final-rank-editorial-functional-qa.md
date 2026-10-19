@@ -67,3 +67,15 @@ Before release:
 4. Perform consented candidate pilot testing and empirical calibration; only then interpret item difficulty, discrimination, and reliability. Obtain explicit publication authorization afterward.
 
 **Status:** Steps 1–3 implemented to the extent of author editing and available automated tests; release gates explicitly remain open.
+
+## October 19, 2026 — targeted author revision and human-review status
+
+**Eight high-priority categorical distractor items were revised by the ChatGPT author/editor, not by an independent qualified reviewer:** NPPE-291, 319, 322, 329, 354, 362, 372 and 383. All eight retain their original correct answer indexes and assigned blueprint topics; edited choices and (where necessary) option rationales were versioned, and the 110-row review ledger now says `author_revised_pending_independent_cue_review`, not approved.
+
+The author-level whole-form scan now identifies categorical terms in **121/330 wrong alternatives** and **7/110 correct alternatives**, down from 142/330 incorrect before the eight targeted revisions. **Zero** items have all three distractors categorical without the keyed choice. The relative keyed length-rank allocation stays **25/25/30/30**. The categorical-wording disparity remains significant and the substantive plausibility of all three wrong answers per item needs **independent** review; mechanical pattern improvement does not guarantee sound item writing.
+
+Official sources used for spot checks include the current [NPPE blueprint](https://www.nppexam.ca/en/preparation/blueprint/), [APEGS CPD table](https://www.apegs.ca/cpd/cpd-program/cpd-program-basics), [Criminal Code s.219](https://laws-lois.justice.gc.ca/eng/acts/C-46/section-219.html), and [Ontario Construction Act s.31](https://www.ontario.ca/laws/statute/90c30). These spot checks were conducted by an AI author and do not satisfy the independence/effective-date/legal-interpretation sign-off requirement. Full legal review remains pending for every affected proposition.
+
+Current reviewer materials: `scripts/nppe-mock-b-review-packets.cjs`, `scripts/nppe-mock-b-review-gates.cjs`, `docs/nppe-mock-b-independent-review-source-ledger.csv`, `docs/nppe-mock-b-independent-review-calibration-protocol.md`, `docs/nppe-mock-b-calibration-data-contract.md` and `docs/nppe-mock-b-manual-accessibility-authorization-checklist.md`. All independent technical, legal, distractor, fairness/accessibility and adjudication decisions remain **PENDING**. There are **zero actual candidate pilot observations**.
+
+**Release status unchanged:** Mock A and Mock B held, PR #301 draft/unmerged, no production migration, access grant, deployment or release authorization.
