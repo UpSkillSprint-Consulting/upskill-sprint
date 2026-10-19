@@ -683,8 +683,9 @@ test('Set 1 Learning becomes available with 120 of 120, while Diagnostic and Moc
   assert.equal(doc.querySelector('[data-set="set-1-learning"] .tb-sets').textContent,'120');
   assert.equal(doc.querySelector('[data-set="set-1-diagnostic"] .tb-sets').textContent,'50');
   assert.equal(doc.querySelector('[data-set="mock-d"] .tb-sets').textContent,'110');
-  assert.equal(doc.querySelector('[data-set="mock-e"] .tb-sets').textContent,'110');
-  for(const id of ['set-1-mock-a','set-1-mock-b','set-1-mock-c'])assert.equal(doc.querySelector('[data-set="'+id+'"]').disabled,true);
+  assert.equal(doc.querySelector('[data-set="mock-c"] .tb-sets').textContent,'110');
+   for(const id of ['set-1-mock-a','set-1-mock-b','mock-c','mock-d'])assert.equal(doc.querySelector('[data-set="'+id+'"]').disabled,false);
+   for(const id of ['set-1-mock-c','mock-e'])assert.equal(doc.querySelector('[data-set="'+id+'"]'),null);
   pickLearning(doc);
   assert.match(doc.querySelector('#tb-overview').textContent,/120 of 120 planned/);
   assert.match(doc.querySelector('#tb-overview').textContent,/164 minutes/);

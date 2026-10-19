@@ -224,10 +224,11 @@ test('complete Diagnostic displays 50 count and 69 minutes; other forms retain r
  const {dom,doc,win,errors}=await browser();try{
   assert.equal(doc.querySelector('[data-set="set-1-diagnostic"] .tb-sets').textContent,String(EXPECTED_COUNT));
   assert.equal(doc.querySelector('[data-set="mock-d"] .tb-sets').textContent,'110');
-  assert.equal(doc.querySelector('[data-set="mock-e"] .tb-sets').textContent,'110');
+  assert.equal(doc.querySelector('[data-set="mock-c"] .tb-sets').textContent,'110');
   assert.equal(doc.querySelector('[data-set="set-1-learning"] .tb-sets').textContent,'120');
   assert.equal(doc.querySelector('[data-set="set-1-learning"]').disabled,false);
-  for(const id of ['set-1-mock-a','set-1-mock-b','set-1-mock-c'])assert.equal(doc.querySelector('[data-set="'+id+'"]').disabled,true);
+  for(const id of ['set-1-mock-a','set-1-mock-b','mock-c','mock-d'])assert.equal(doc.querySelector('[data-set="'+id+'"]').disabled,false);
+  for(const id of ['set-1-mock-c','mock-e'])assert.equal(doc.querySelector('[data-set="'+id+'"]'),null);
   assert.match(doc.getElementById('tb-overview').textContent,/50 of 50 planned/);
   assert.match(doc.getElementById('tb-overview').textContent,new RegExp(EXPECTED_MINUTES+' minutes'));
   assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Diagnostic/);
@@ -281,17 +282,18 @@ test('untimed Diagnostic scores 50/50 and provides source-supported review only 
   assert.deepEqual(errors,[]);
  }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}
 });
-test('Mock D stays separate with 110 items and 150 minutes; empty forms cannot substitute Diagnostic',async()=>{
- const {dom,doc,win,errors}=await browser();try{
-  const empty=doc.querySelector('[data-set="set-1-mock-a"]');
-  empty.dispatchEvent(new win.Event('click'));
-  assert.equal(doc.querySelector('[data-mode="full"]').disabled,true);
-  doc.querySelector('[data-mode="full"]').dispatchEvent(new win.Event('click'));assert.equal(doc.querySelector('.tb-quiz'),null);
-  doc.querySelector('[data-set="mock-d"]').click();doc.querySelector('[data-mode="full"]').click();
-  const snap=win.__TB.getFeedbackSnapshot();assert.equal(snap.records.length,110);assert.ok(snap.records.every(r=>r.question.form==='mock-d'&&r.question.authorSet===2));
-  assert.match(doc.querySelector('#tb-timer').textContent,/^2:([23][0-9]):[0-5][0-9]$/);
-  assert.deepEqual(errors,[]);
- }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}
+test('Grok Mock C is distinct from the released ChatGPT banks and correctly timed',async()=>{
+  const {dom,doc,win,errors}=await browser();try{
+   assert.equal(doc.querySelector('[data-set="set-1-mock-a"]').disabled,false);
+   assert.equal(doc.querySelector('[data-set="set-1-mock-b"]').disabled,false);
+   doc.querySelector('[data-nppe-owner="2"]').click();
+   doc.querySelector('[data-set="mock-c"]').click();doc.querySelector('[data-mode="full"]').click();
+   const snap=win.__TB.getFeedbackSnapshot();
+   assert.equal(snap.records.length,110);
+   assert.ok(snap.records.every(r=>r.question.form==='mock-c'&&r.question.authorSet===2));
+   assert.match(doc.querySelector('#tb-timer').textContent,/^2:([23][0-9]):[0-5][0-9]$/);
+   assert.deepEqual(errors,[]);
+  }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}
 });
 test('NPPE endpoint retains anonymous, revoked and unconfirmed denial before package access',async()=>{
  const {createHandler}=await import('../netlify/functions/exam-content.mjs');
@@ -301,7 +303,7 @@ test('NPPE endpoint retains anonymous, revoked and unconfirmed denial before pac
  assert.equal((await handler(req(false))).status,401);assert.equal((await handler(req(true))).status,403);assert.equal(reads,0);
  decision=true;assert.equal((await handler(req(true))).status,200);assert.equal(reads,1);
  decision=false;assert.equal((await handler(req(true))).status,403);assert.equal(reads,1);
- assert.match(read('supabase/migrations/20261014005000_nppe_exam_catalog.sql'),/'coming_soon'/);
+ assert.match(read('supabase/migrations/20261014005000_nppe_exam_catalog.sql'),/'published'/);
 });
 test('runtime integration fails closed when an authoring anchor changes',async()=>{
  const {integrateNPPEDiagnostic}=await import('../scripts/nppe-diagnostic-runtime.mjs');
@@ -314,19 +316,19 @@ test('author tabs isolate visible banks and support arrow-key navigation',async(
   assert.equal(doc.querySelector('#nppe-banks-3').hidden,true);
   doc.querySelector('[data-nppe-owner="2"]').click();
   assert.equal(doc.querySelector('#nppe-banks-1').hidden,true);assert.equal(doc.querySelector('#nppe-banks-2').hidden,false);
-  assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Mock D/);
+  assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Mock C/);
   doc.querySelector('[data-nppe-owner="2"]').dispatchEvent(new dom.window.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));
   assert.equal(doc.querySelector('#nppe-banks-2').hidden,true);assert.equal(doc.querySelector('#nppe-banks-3').hidden,false);
-  assert.equal(doc.activeElement.id,'nppe-owner-3');assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Mock E/);
+  assert.equal(doc.activeElement.id,'nppe-owner-3');assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Mock D/);
   doc.activeElement.dispatchEvent(new dom.window.KeyboardEvent('keydown',{key:'Home',bubbles:true}));
   assert.equal(doc.activeElement.id,'nppe-owner-1');assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Diagnostic/);
  }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}
 });
-test('Mock E retains its own 100 scored and 10 experimental items without Diagnostic leakage',async()=>{
+test('Claude Mock D retains 100 scored and 10 simulated unscored without Diagnostic leakage',async()=>{
  const {dom,doc,win}=await browser();try{
   doc.querySelector('[data-nppe-owner="3"]').click();doc.querySelector('[data-mode="full"]').click();
   const records=win.__TB.getFeedbackSnapshot().records;
-  assert.equal(records.length,110);assert.ok(records.every(r=>r.question.form==='mock-e'&&r.question.authorSet===3));
+  assert.equal(records.length,110);assert.ok(records.every(r=>r.question.form==='mock-d'&&r.question.authorSet===3));
   assert.equal(records.filter(r=>r.question.scored!==false&&r.question.experimental!==true).length,100);
   assert.match(doc.querySelector('#tb-timer').textContent,/^2:([23][0-9]):[0-5][0-9]$/);
  }finally{dom.window.__TBCurrentAttemptReview?.destroy();dom.window.close();}

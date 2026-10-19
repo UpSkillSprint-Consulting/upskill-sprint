@@ -45,7 +45,7 @@ test('zero, multiple and administrator grants use the same authoritative rows',a
   for(const row of s.rows) if(['pmp','cqe'].includes(row.exam_key))row.can_practice=true;
   await s.refresh();assert.equal(s.el('my-exams-count').textContent,'2');
   for(const row of s.rows)row.can_practice=row.publication_status==='published';
-  await s.refresh();assert.equal(s.el('my-exams-count').textContent,'7');assert.equal(s.el('explore-exams-empty').hidden,false);
+  await s.refresh();assert.equal(s.el('my-exams-count').textContent,'8');assert.equal(s.el('explore-exams-empty').hidden,false);
 });
 test('pending, expired, revoked and declined remain denied with appropriate actions',async t=>{
   const s=screen(t);
