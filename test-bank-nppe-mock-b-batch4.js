@@ -324,10 +324,10 @@
     "jurisdiction": "Canada; conceptual appraisal of resilient community infrastructure, with no specific funding or licensing formula stipulated.",
     "stem": "A remote community must decide whether to invest in hydrogeological mapping before designing a new water supply. A councillor says mapping has no social value because it produces information rather than pipes or pumps. Which response best explains the profession's contribution?",
     "options": [
-      "Count mapping value only when its data are sold.",
-      "Its value is limited to academic prestige because information cannot influence infrastructure economics.",
+      "Sell mapping data as the main benefit.",
+      "Defer investment until the engineering design is chosen without subsurface evidence.",
       "Subsurface evidence guides reliable infrastructure and community welfare.",
-      "The map removes the need for engineering design, monitoring or community decisions because geoscientific information determines every outcome."
+      "Treat the mapped groundwater source as sufficient to omit subsequent engineering design and monitoring."
     ],
     "answer": 2,
     "optionRationales": [
@@ -402,6 +402,7 @@
   if([311,312,313,314,315,316,317,318,319,320].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([311,312,313,314,315].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';q.reviewStatus+='; option-length rank editorial revision';}
   if([316,317].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if(id==='319'){q.version+=1;q.editorialReviewedAt='2026-10-19';q.reviewStatus+='; author categorical cue mitigation pending independent review';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 4 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; editorial classifications are provisional, not evidence of official NPPE performance.</p>';
  });
