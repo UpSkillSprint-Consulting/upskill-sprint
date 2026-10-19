@@ -100,7 +100,7 @@ def main():
                     # Release is configured in the authorized package, not injected in the browser.
                     page.locator('[data-nppe-owner="1"]').click()
                     page.locator('[data-set="set-1-mock-a"]').click()
-                    expect(page.locator('[data-nppe-bank="set-1-mock-a"]')).to_contain_text('150 minutes')
+                    expect(page.locator('.nppe-mode-card[data-nppe-bank="set-1-mock-a"]:not([data-nppe-quiz-kind])')).to_contain_text('150 minutes')
                     page.locator('[data-mode="full"]').click()
                     expect(page.locator('#tb-timer')).to_have_text(re.compile(r'^2:(?:30:00|29:[0-5][0-9])$'))
                     records = page.evaluate('window.__TB.getFeedbackSnapshot().records')
@@ -182,7 +182,7 @@ def main():
                     # No in-memory change to publication status is needed.
                     page.locator('[data-nppe-owner="1"]').click()
                     page.locator('[data-set="set-1-mock-b"]').click()
-                    expect(page.locator('[data-nppe-bank="set-1-mock-b"]')).to_contain_text('150 minutes')
+                    expect(page.locator('.nppe-mode-card[data-nppe-bank="set-1-mock-b"]:not([data-nppe-quiz-kind])')).to_contain_text('150 minutes')
                     page.locator('[data-mode="full"]').click()
                     expect(page.locator('#tb-timer')).to_have_text(re.compile(r'^2:(?:30:00|29:[0-5][0-9])$'))
                     records = page.evaluate('window.__TB.getFeedbackSnapshot().records')

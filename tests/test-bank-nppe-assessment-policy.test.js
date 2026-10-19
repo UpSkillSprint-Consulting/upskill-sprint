@@ -354,7 +354,7 @@ test('NPPE chooser uses the same three stacked practice-mode cards as other cert
 
 test('NPPE-only visual styles are scoped and include focus, mobile and dark-mode treatments',()=>{
  const source=fs.readFileSync(path.join(ROOT,'scripts/nppe-diagnostic-runtime.mjs'),'utf8');
- for(const token of ['.nppe-hub','.nppe-bank-card','.nppe-author-tab','.nppe-mode-card','.nppe-tab-number{color:var(--ink)','focus-visible','max-width:700px','max-width:460px','prefers-reduced-motion','data-theme'])
+ for(const token of ['.nppe-hub','.nppe-bank-card','.nppe-author-tab','.nppe-mode-card','.nppe-tab-number{color:var(--ink)','focus-visible','max-width:700px','max-width:460px','prefers-reduced-motion','data-theme','Bright teal selected-count controls','color:#082f35!important'])
   assert.ok(source.includes(token),'Missing NPPE visual safeguard '+token);
  const original=fs.readFileSync(path.join(ROOT,'test-bank.html'),'utf8');
  assert.equal(original.includes('nppe-bank-picker'),false,'NPPE-only UI must not contaminate other simulator sources');
