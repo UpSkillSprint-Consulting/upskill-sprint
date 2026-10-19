@@ -236,3 +236,74 @@ test('Mock A timeout scores blanks correctly and retake resets answers and flags
   assert.deepEqual(h.errors,[]);
  }finally{h.close();}
 });
+
+test('completed Mock B remains held in the real catalog and cannot start without isolated test override',async()=>{
+ const h=await harness(),{w,d}=h;
+ try{
+  const exam=w.__TB.EXAMS.nppe,form=exam.formCatalog.find(x=>x.id==='set-1-mock-b');
+  assert.equal(exam.forms['set-1-mock-b'].length,110);
+  assert.equal(form.target,110);assert.equal(form.releaseHold,true);
+  const button=d.querySelector('[data-set="set-1-mock-b"]');
+  assert.ok(button);assert.equal(button.disabled,true);
+  assert.match(button.getAttribute('aria-label'),/awaiting release review/);
+  assert.equal(button.querySelector('.tb-sets').textContent,'110');
+  button.dispatchEvent(new w.Event('click'));
+  assert.equal(w.__TB.getFeedbackSnapshot(),null);
+  assert.equal(d.querySelector('[data-mode="full"]').disabled,true);
+  d.querySelector('[data-mode="full"]').dispatchEvent(new w.Event('click'));
+  assert.equal(d.querySelector('.tb-quiz'),null);
+  assert.deepEqual(h.errors,[]);
+ }finally{h.close()}
+});
+
+test('isolated Mock B full-form attempt excludes ten simulated unscored from 100-point grading and reviews all explanations',async()=>{
+ const h=await harness('set-1-mock-b'),{w,d}=h;
+ try{
+  click(d,'[data-set="set-1-mock-b"]');
+  assert.match(d.querySelector('[data-nppe-bank="set-1-mock-b"]').textContent,/150 minutes/);
+  click(d,'[data-mode="full"]');
+  const records=Array.from(w.__TB.getFeedbackSnapshot().records);
+  assert.equal(records.length,110);
+  assert.equal(new Set(records.map(r=>r.question.qid)).size,110);
+  assert.ok(records.every(r=>r.question.form==='set-1-mock-b'&&r.question.authorSet===1));
+  assert.equal(records.filter(scored).length,100);
+  assert.equal(records.filter(r=>!scored(r)).length,10);
+  assert.equal(d.querySelector('[data-reveal]'),null);
+  assert.equal(w.__TB.revealCurrentAnswer(),false);
+  assert.doesNotMatch(d.querySelector('.tb-quiz').textContent,/experimental|unscored/i);
+  for(const [i,r] of records.entries()){
+   click(d,'[data-goto="'+i+'"]');
+   click(d,'[data-opt="'+(scored(r)?r.question.answer:(r.question.answer+1)%4)+'"]');
+  }
+  click(d,'[data-submit]');await wait();
+  const result=w.__TB.getFeedbackSnapshot();
+  assert.equal(result.grading.total,100);assert.equal(result.grading.correct,100);
+  assert.equal(result.grading.incorrect,0);assert.equal(result.grading.unanswered,0);
+  assert.match(d.querySelector('[data-score-result]').textContent,/100% \(100\/100\)/);
+  const domains=Array.from(d.querySelectorAll('.tb-domblock'));
+  assert.equal(domains.length,6);
+  [8,20,30,26,8,8].forEach((n,i)=>assert.ok(domains[i].textContent.includes('('+n+'/'+n+')')));
+  click(d,'[data-open-review="all"]');
+  assert.equal(d.querySelectorAll('.tb-review-card').length,110);
+  for(const r of records){
+   const card=d.querySelector('.tb-review-card[data-question-id="'+r.question.qid+'"]');
+   assert.ok(card,r.question.qid);
+   for(const explanation of r.question.optionRationales)assert.ok(card.textContent.includes(explanation),r.question.legacyId);
+  }
+  assert.deepEqual(h.errors,[]);
+ }finally{h.close()}
+});
+
+test('Mock B cannot start with a mismatched 100/10 allocation, even after in-memory fixture release',async()=>{
+ const h=await harness('set-1-mock-b'),{w,d}=h;
+ try{
+  const exam=w.__TB.EXAMS.nppe;
+  const eligible=exam.forms['set-1-mock-b'].find(q=>q.scored&&!q.experimental);
+  eligible.scored=false;eligible.experimental=true;
+  d.querySelector('[data-set="set-1-mock-b"]').dispatchEvent(new w.Event('click'));
+  d.querySelector('[data-mode="full"]').dispatchEvent(new w.Event('click'));
+  assert.equal(w.__TB.getFeedbackSnapshot(),null);
+  assert.equal(d.querySelector('.tb-quiz'),null);
+  assert.deepEqual(h.errors,[]);
+ }finally{h.close()}
+});
