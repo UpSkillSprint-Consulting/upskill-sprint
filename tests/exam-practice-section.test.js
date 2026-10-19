@@ -61,16 +61,16 @@ test('public directory offers safe locked metadata before personalized access is
     ['Certified Six Sigma Black Belt','CSSBB'],['Certified Six Sigma Master Black Belt','MBB'],
     ['Certified Quality Engineer','CQE'],['Certified Manager of Quality/Organizational Excellence','CMQ/OE'],
     ['Certified Six Sigma Green Belt','CSSGB'],['Certified Reliability Engineer','CRE'],
-    ['Project Management Professional','PMP'],['Certified Quality Auditor','CQA'],
-    ['National Professional Practice Examination (NPPE)','NPPE']
+    ['Project Management Professional','PMP'],['National Professional Practice Examination (NPPE)','NPPE'],
+    ['Certified Quality Auditor','CQA']
   ]);
-  assert.equal(section.querySelector('.category-count').textContent,'7 released · 2 coming soon');
+  assert.equal(section.querySelector('.category-count').textContent,'8 released · 1 coming soon');
   assert.match(section.textContent,/timed or untimed/);
   assert.match(section.textContent,/An administrator must grant access to each certification/);
   assert.equal(section.querySelectorAll('a[href^="/test-bank"]').length,0,'no unverified start links');
-  assert.equal(section.querySelectorAll('.exam-coming-soon .exam-card').length,2);
+  assert.equal(section.querySelectorAll('.exam-coming-soon .exam-card').length,1);
   assert.equal(section.querySelector('.exam-coming-soon a, .exam-coming-soon button'),null);
-  for(const card of cards.slice(0,7)) {
+  for(const card of cards.slice(0,8)) {
     assert.equal(card.tagName,'ARTICLE');
     assert.equal(card.querySelector('.exam-status').textContent,'Locked');
     assert.ok(card.querySelector('.exam-status svg[aria-hidden="true"]'));
