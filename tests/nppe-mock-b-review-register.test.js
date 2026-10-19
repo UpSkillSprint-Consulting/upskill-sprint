@@ -13,6 +13,8 @@ test('all 110 Mock B items are assigned independent, pending technical/legal and
   assert.ok(line.includes('"pending"'),'No synthetic sign-off is allowed');
   assert.ok(!line.includes('"approved"'),'External review not completed');
  }
- const priorities=lines.filter(line=>line.includes('"critical_categorical_cue"')).length;
- assert.equal(priorities,8);
+ const revised=lines.filter(line=>line.includes('"author_revised_pending_independent_cue_review"')).length;
+ assert.equal(revised,8);
+ assert.equal(lines.filter(line=>line.includes('"critical_categorical_cue"')).length,0);
+ // Author changes never substitute for qualified sign-off.
 });
