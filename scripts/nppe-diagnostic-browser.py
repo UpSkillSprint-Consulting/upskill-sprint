@@ -420,7 +420,7 @@ def main():
                     expect(page.locator('[data-reveal]')).to_be_visible()
                     page.locator('[data-reveal]').click()
                     for option in page.locator('[data-opt]').all():
-                        expect(option).to_be_enabled()
+                        expect(option).to_be_disabled()
                     check_accessibility('learning-revealed-question')
                     assert page.evaluate('window.__TB.getFeedbackSnapshot().records.filter(r=>r.revealed===true).length') == 1
                     assisted_locked = 0
