@@ -271,10 +271,10 @@ def main():
                     })'''), 'NPPE chooser overflows the viewport'
                     page.locator('[data-set="set-1-mock-a"]').click()
                     expect(page.locator('[data-set="set-1-mock-a"]')).to_be_focused()
-                    expect(page.locator('.nppe-mode-card[data-nppe-bank="set-1-mock-a"] h4')).to_contain_text('Mock A')
+                    expect(page.locator('.nppe-mode-card[data-nppe-bank="set-1-mock-a"]:not([data-nppe-quiz-kind]) h4')).to_contain_text('Mock A')
                     expect(page.locator('[data-set="set-1-mock-a"]')).to_have_attribute('aria-pressed','true')
                     page.locator('[data-set="set-1-diagnostic"]').click()
-                    expect(page.locator('.nppe-mode-card[data-nppe-bank="set-1-diagnostic"] h4')).to_contain_text('Diagnostic')
+                    expect(page.locator('.nppe-mode-card[data-nppe-bank="set-1-diagnostic"]:not([data-nppe-quiz-kind]) h4')).to_contain_text('Diagnostic')
                     page.locator('[data-nppe-owner="1"]').press('ArrowRight')
                     expect(page.locator('#nppe-banks-2')).to_be_visible()
                     expect(page.locator('#nppe-banks-1')).to_be_hidden()
