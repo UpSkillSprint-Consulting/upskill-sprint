@@ -99,7 +99,7 @@
       "Treat provincial approval as conclusive proof that every possible discharge complies with the federal Fisheries Act.",
       "Start discharging because a fish kill must occur before federal restrictions become relevant.",
       "Transfer the outfall to a contractor so the owner no longer needs to assess the law.",
-      "Check federal discharge restrictions and applicable authorizations before proceeding."
+      "Check federal discharge rules and authorizations first."
     ],
     "answer": 3,
     "optionRationales": [
@@ -416,6 +416,7 @@
   if([321,324,325,327,328,329,330].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([321,324,325,326].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if([327,328].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if([323].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(s){return s.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 5 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Difficulty and cognition are editorial estimates, not evidence of official NPPE readiness.</p>';
  });
