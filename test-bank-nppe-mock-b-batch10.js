@@ -214,7 +214,7 @@
     "stem": "During a building renovation, a project executive instructs a professional engineer to remove a required secondary emergency exit from the approved drawing to increase floor area. The engineer documents that the change undermines the project's approved life-safety strategy. What should the engineer do?",
     "options": [
       "Sign the revision because a project executive may assume all professional safety obligations by instruction.",
-      "Delete the original life-safety calculations so the revised layout is the only official record.",
+      "Delete the calculations and keep only the revised plan.",
       "Treat the missing exit as finance, not safety.",
       "Record the safety consequences, decline approval and escalate appropriately."
     ],
@@ -255,7 +255,7 @@
       "Exclude physical habitat changes from federal review.",
       "Assess section 35 habitat impacts and any required authorization first.",
       "Apply only the building code because a project funded by a municipality is exempt from federal fish-habitat rules.",
-      "Assume that paying for future habitat improvements automatically permits any present disturbance."
+      "Future habitat payments authorize the present disturbance."
     ],
     "answer": 1,
     "optionRationales": [
@@ -408,6 +408,7 @@
   if([371,373,375,376,377,379,380].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if([373,375,376,377,379].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([373,375].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if([376,377].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 10 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item. Editorial classifications are provisional and no NPPE pass prediction is implied.</p>';
  });
