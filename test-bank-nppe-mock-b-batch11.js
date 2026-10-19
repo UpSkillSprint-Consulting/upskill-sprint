@@ -90,10 +90,10 @@
     "jurisdiction": "Canada; a site superintendent has authority to direct excavation work, but the scenario does not establish the full mental and causal elements of any alleged criminal offence.",
     "stem": "A superintendent directs excavation near a publicly accessible sidewalk and is reminded of a foreseeable trench-collapse hazard. A manager notes that section 217.1 of the Criminal Code imposes a duty on a person who directs work, then declares that the existence of this duty alone proves the superintendent has committed criminal negligence. Which legal assessment is most accurate?",
     "options": [
-      "Section 217.1 removes every need to prove conduct because accepting a supervisory title creates automatic criminal guilt.",
-      "A workplace safety statute cannot apply when the Criminal Code recognizes a work-direction duty.",
+      "Treat authority to direct the excavation and a known hazard as sufficient proof of criminal negligence.",
+      "Address trench safety only through provincial OHS requirements, excluding the Criminal Code duty.",
       "A legal duty alone does not prove criminally reckless conduct.",
-      "A criminal negligence offence can arise only where the superintendent personally owns the excavation equipment."
+      "Determine possible criminal liability by whether the superintendent personally owns the excavation equipment."
     ],
     "answer": 2,
     "optionRationales": [
@@ -417,6 +417,7 @@
   if([381,382,384,385].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if([388,389].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if([383,386].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if(id==='383'){q.version+=1;q.editorialReviewedAt='2026-10-19';q.reviewStatus+='; author-level criminal law distractor revision pending independent counsel';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 11 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B item, release held. Scoring roles are simulated; no official NPPE score prediction is implied.</p>';
  });
