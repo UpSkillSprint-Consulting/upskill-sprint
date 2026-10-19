@@ -4,7 +4,7 @@
 
 ## 1. Reviewer routing (not confirmed appointments)
 
-The current 110 Mock B items were routed using their authored \`jurisdiction\` fields. This is a **planning classification**, not a determination of which legislation controls each fact pattern. Independent counsel must confirm the jurisdiction and may request secondary advice.
+The current 110 Mock B items were routed using their authored `jurisdiction` fields. This is a **planning classification**, not a determination of which legislation controls each fact pattern. Independent counsel must confirm the jurisdiction and may request secondary advice.
 
 | Vacancy / routing pool | Items routed | Minimum acceptance evidence |
 |---|---:|---|
@@ -39,23 +39,23 @@ Reject or seek a replacement when the candidate is unqualified for the jurisdict
 
 After code and question content stabilize, verify the intended exact development commit and repository working tree is clean; confirm Mock A and Mock B remain held. Use a trusted checkout of that SHA and a fresh access-controlled directory **outside** the public repository:
 
-\`\`\`bash
+```bash
 node scripts/nppe-mock-b-review-packets.cjs --out /trusted/private/empty-mock-b-review-round
-\`\`\`
+```
 
 It creates the following files with private permissions:
 
 | File | Function and permitted audience |
 |---|---|
-| \`manifest.json\` | Exact source Git SHA, 110 stable IDs, item version/hash, keyed packet SHA-256; restricted coordinator |
-| \`blind/questions.json\` | 110 stems/options without answer key, rationales or scored/unscored labels; authorized blind reviewers |
-| \`blind/reviewer-response-template.csv\` | 110 unfilled independent best-answer, four-option, rationale and severity fields; authorized blind reviewers |
-| \`restricted-keyed/reviewer-roster-template.csv\` | 10 vacant specialty routing pools; private coordinator only |
-| \`restricted-keyed/adjudication-assignment-queue.csv\` | All 110 version-pinned items, jurisdiction routing, priorities and five unassigned reviewer stages; private coordinator/adjudicator |
-| \`restricted-keyed/legal-source-review.csv\` | Per-source current law, exact locator, effective date and qualified legal evidence |
-| \`restricted-keyed/sme-editorial-review.csv\` | Four-option editorial evidence and keyed cue-review worksheet |
-| \`restricted-keyed/review-decisions.json\` | Pending technical, legal, distractor, fairness and adjudicator records with signature/evidence fields |
-| \`restricted-keyed/questions.json\` and \`cue-review.json\` | Answer keys, rationales, sources and keyed cue flags; **not** for blind first-pass review |
+| `manifest.json` | Exact source Git SHA, 110 stable IDs, item version/hash, keyed packet SHA-256; restricted coordinator |
+| `blind/questions.json` | 110 stems/options without answer key, rationales or scored/unscored labels; authorized blind reviewers |
+| `blind/reviewer-response-template.csv` | 110 unfilled independent best-answer, four-option, rationale and severity fields; authorized blind reviewers |
+| `restricted-keyed/reviewer-roster-template.csv` | 10 vacant specialty routing pools; private coordinator only |
+| `restricted-keyed/adjudication-assignment-queue.csv` | All 110 version-pinned items, jurisdiction routing, priorities and five unassigned reviewer stages; private coordinator/adjudicator |
+| `restricted-keyed/legal-source-review.csv` | Per-source current law, exact locator, effective date and qualified legal evidence |
+| `restricted-keyed/sme-editorial-review.csv` | Four-option editorial evidence and keyed cue-review worksheet |
+| `restricted-keyed/review-decisions.json` | Pending technical, legal, distractor, fairness and adjudicator records with signature/evidence fields |
+| `restricted-keyed/questions.json` and `cue-review.json` | Answer keys, rationales, sources and keyed cue flags; **not** for blind first-pass review |
 
 Keep manifests, reviewer identity evidence and keys in separately authorized private storage. The static source Git SHA and hash values establish correspondence to a source snapshot, **not an authenticated reviewer signature**. GitHub's public source/history is not private; do not place any new confidential packet in public GitHub, CI artifacts, Netlify assets or uncontrolled email attachments.
 
@@ -63,8 +63,8 @@ Keep manifests, reviewer identity evidence and keys in separately authorized pri
 
 1. **Assignment:** named, verified people accept the scope and conflict constraints; record route, independence and jurisdiction. Assignment is not approval.
 2. **Blind first pass:** assessment reviewer chooses A/B/C/D without seeing the author key, then records four option-by-option judgments, multiple-key risk, stylistic cues, accessibility, difficulty and rationale. Capture dated evidence; do not change the key.
-3. **Qualified specialist pass:** engineering/geoscience SME assesses scenario/practice; qualified legal reviewer assesses each statutory/regulator/judicial proposition with controlling section, effective date and exact case paragraph, or documents why it is only a nonbinding ethics/context item; fairness reviewer checks accessible content and accommodations. Each role records \`retain\`, \`revise\`, \`reject\` or \`adjudication_required\`.
-4. **Independent adjudication:** compare blind selection against the proposed key **inside restricted keyed storage**; investigate any mismatch, multiple defensible choices, categorical-language cue, source mismatch, jurisdictional exception, ambiguity or critical/major flaw. Only a separately qualified adjudicator may resolve the item, referencing actual evidence. Do not treat an automated \`readyForAdjudication\` metadata check as real approval.
+3. **Qualified specialist pass:** engineering/geoscience SME assesses scenario/practice; qualified legal reviewer assesses each statutory/regulator/judicial proposition with controlling section, effective date and exact case paragraph, or documents why it is only a nonbinding ethics/context item; fairness reviewer checks accessible content and accommodations. Each role records `retain`, `revise`, `reject` or `adjudication_required`.
+4. **Independent adjudication:** compare blind selection against the proposed key **inside restricted keyed storage**; investigate any mismatch, multiple defensible choices, categorical-language cue, source mismatch, jurisdictional exception, ambiguity or critical/major flaw. Only a separately qualified adjudicator may resolve the item, referencing actual evidence. Do not treat an automated `readyForAdjudication` metadata check as real approval.
 5. **Version recheck:** material corrections increment the item version and SHA-256. Invalidate affected prior sign-offs; regenerate packets under a new Git revision and complete the relevant reviews again. Retain immutable previous decisions in controlled storage.
 
 Severity: **critical** (wrong law/key, two valid options, serious unsafe proposition), **major** (misleading, invalid or inaccessible), **minor** (nonmaterial wording), **observation** (optional improvement). Any critical/major unresolved finding blocks release.
@@ -73,7 +73,7 @@ Severity: **critical** (wrong law/key, two valid options, serious unsafe proposi
 
 Start independent review with the eight author-revised categorical-cue items **NPPE-291, NPPE-319, NPPE-322, NPPE-329, NPPE-354, NPPE-362, NPPE-372 and NPPE-383**. Separately prioritize primary-law/case checks **NPPE-315, NPPE-336, NPPE-347, NPPE-371 and NPPE-389**. These are author-level risk flags, **not external verdicts**. Every remaining item still requires the full review.
 
-Progress should be reported accurately as \`unassigned / accepted / blind reviewed / specialist reviewed / adjudication pending / human adjudicated\`, with signed evidence and item versions. Do not claim completed independent approvals from passing synthetic regression tests or from filling placeholders.
+Progress should be reported accurately as `unassigned / accepted / blind reviewed / specialist reviewed / adjudication pending / human adjudicated`, with signed evidence and item versions. Do not claim completed independent approvals from passing synthetic regression tests or from filling placeholders.
 
 ## 6. After review
 
