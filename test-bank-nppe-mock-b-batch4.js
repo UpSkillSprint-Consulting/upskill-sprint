@@ -209,7 +209,7 @@
     "options": [
       "Accept the vendor certificate without further review because foreign professional registration automatically displaces local project obligations.",
       "Verify local compliance and the missing pressure case before acceptance.",
-      "Allow the module into service and ask the maintenance team to complete the design verification during the first outage.",
+      "Approve now and verify the pressure case later.",
       "Reject all pressure equipment supplied by foreign vendors."
     ],
     "answer": 1,
@@ -248,7 +248,7 @@
     "options": [
       "State the evidenced deficiency and its significance without exaggeration.",
       "Emphasize the flaw to improve the client's bargaining leverage.",
-      "Disclose confidential unrelated performance complaints about the competitor to strengthen the report.",
+      "Disclose unrelated complaints to discredit the competitor.",
       "Refuse to identify any deficiency in another professional's work because professional courtesy always requires endorsement."
     ],
     "answer": 0,
@@ -401,6 +401,7 @@
   if([311,312,313,314,315,316,317,318,319,320].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
   if([311,312,313,314,315,316,317,318,319,320].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([311,312,313,314,315].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';q.reviewStatus+='; option-length rank editorial revision';}
+  if([316,317].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 4 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; editorial classifications are provisional, not evidence of official NPPE performance.</p>';
  });
