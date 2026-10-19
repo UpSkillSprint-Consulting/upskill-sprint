@@ -13,7 +13,7 @@
     "stem": "An engineer evaluates two locations for a processing facility. The cheaper site borders a seasonally flooded wetland, but the financial comparison omits drainage costs and potential habitat impacts because the inspection occurred during a dry month. What is the most defensible recommendation?",
     "options": [
       "Approve the cheaper location because a dry-season inspection establishes year-round environmental suitability.",
-      "Exclude wetland costs until a violation notice is issued.",
+      "Exclude environmental costs from the decision unless regulators have already issued a violation notice.",
       "Obtain seasonal wetland evidence and include foreseeable mitigation costs.",
       "Reject both locations permanently because any possibility of wetland effects makes engineering evaluation unethical."
     ],
@@ -52,7 +52,7 @@
     "stem": "Two firms disputing a geotechnical consulting invoice agree to meet with a neutral mediator. After listening to both parties, the mediator announces that one party must pay $70,000 and says the decision is binding even though the parties have signed no settlement. Which assessment best describes mediation?",
     "options": [
       "The mediator facilitates agreement but cannot impose a binding award.",
-      "Treat the mediator's proposal as a binding ruling.",
+      "A mediator always has the same binding decision-making power as a judge once a meeting starts.",
       "Mediation automatically converts the disagreement into criminal proceedings if no settlement is reached.",
       "The neutral may issue an enforceable arbitral award without an arbitration agreement because the mediator has heard both sides."
     ],
@@ -132,7 +132,7 @@
       "Leave the public link active because contractor collaboration removes all confidentiality obligations.",
       "Delete local masters after making the public copy.",
       "Ask the contractor to promise verbally not to distribute the public link while retaining anonymous access.",
-      "Disable the public link, retain incident evidence and use controlled sharing."
+      "Revoke the public link, preserve the incident record, use the approved access-controlled workspace, and follow the organization’s notification and security procedure."
     ],
     "answer": 3,
     "optionRationales": [
@@ -169,7 +169,7 @@
     "stem": "An engineering contractor assembles an as-built piping dossier from construction markups. One change relocates a pressure-relief line, but the only evidence is a handwritten note without a drawing revision, field verification, or design review. The schedule calls for issuing the as-built package tomorrow. What should the responsible engineer do?",
     "options": [
       "Issue the markup as verified evidence of installation.",
-      "Authenticate only after verifying and recording the installed change.",
+      "Withhold authentication of the affected revision until the installed configuration and technical change are verified, controlled, and recorded.",
       "Copy the original issued-for-construction drawing into the as-built package and omit the note to avoid an inconsistent record.",
       "Have the document controller sign the engineering seal on behalf of the engineer without checking the change."
     ],
@@ -209,7 +209,7 @@
     "options": [
       "Possession of a paid-for digital copy automatically transfers all copyright and unlimited reuse rights.",
       "Allow reuse because the two projects share a developer.",
-      "Obtain permission to reuse the designs outside the licensed project.",
+      "Copying for a different project requires checking and obtaining the necessary authorization because possession does not itself enlarge the stated licence.",
       "An engineering drawing cannot be protected by copyright unless it is accompanied by a registered patent."
     ],
     "answer": 2,
@@ -288,7 +288,7 @@
       "The designation is allowed because the salesperson has a technical diploma and clients can ask about licences.",
       "A business card cannot ever constitute title misuse unless an actual stamped drawing exists.",
       "Regulate only physical seals, not advertised job titles.",
-      "Ontario protects the professional engineer title regardless of office labels."
+      "Ontario restricts the professional engineer title, regardless of internal descriptions of a person's role."
     ],
     "answer": 3,
     "optionRationales": [
@@ -400,6 +400,7 @@
    if(id==='309'){q.version=3;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
   if([301,302,304,305,306,307,308,310].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
   if([301,302,304,305,306,307,308,309].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
+  if([301,302,304,305,306,308].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';q.reviewStatus+='; balanced option-length rank with content review pending';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 3 item '+id);
    q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B draft. Editorial classifications are provisional; this item does not predict an official NPPE score.</p>';
  });
