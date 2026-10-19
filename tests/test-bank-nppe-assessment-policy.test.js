@@ -470,6 +470,7 @@ test('ChatGPT Mock B Focused Quiz draws five III Professional Practice items wit
   assert.equal(d.querySelector('.tb-timer').textContent,'Untimed');
   assert.equal(d.querySelector('[data-reveal]'),null,'mock questions cannot reveal answer before submission');
   assert.equal(w.__TB.revealCurrentAnswer(),false);
+  click(d,'[data-goto="'+(s.records.length-1)+'"]');
   click(d,'[data-submit]');await wait();
   const result=w.__TB.getFeedbackSnapshot();
   assert.equal(result.grading.total,5);
