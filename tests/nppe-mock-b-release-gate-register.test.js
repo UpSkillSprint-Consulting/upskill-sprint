@@ -15,3 +15,15 @@ test('Mock B release gate register preserves all independent human and security 
  assert.equal(questions.filter(q=>q.experimental).length,10);
  assert.match(read('test-bank.html'),/releaseHold:true/);
 });
+
+test('reviewer recruitment is only a vacant, private-process preparation step',()=>{
+ const operations=read('docs/nppe-mock-b-independent-review-recruitment-and-adjudication.md');
+ const invitation=read('docs/nppe-mock-b-reviewer-recruitment-invitation-kit.md');
+ for(const code of ['T-POOL','L-CAN','L-ON','L-QC','L-SK','L-BC','E-POOL','F-POOL','A-POOL','P-POOL'])
+  assert.ok(operations.includes(code),'Missing reviewer pool '+code);
+ assert.match(operations,/no individuals have been engaged/i);
+ assert.match(operations,/NPPE-291, NPPE-319, NPPE-322, NPPE-329, NPPE-354, NPPE-362, NPPE-372 and NPPE-383/);
+ assert.match(invitation,/NOT SENT/);
+ assert.match(invitation,/No reviewers have accepted/);
+ assert.match(invitation,/Do not store responses.*in GitHub/i);
+});
