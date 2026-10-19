@@ -18,7 +18,7 @@ The first audit identified a correct-answer length cue in 104 of 110 questions. 
 | Longest | **30** |
 | **Total** | **110** |
 
-All 110 items were measured from current canonical sources, with the distribution asserted in CI. Correct answers remain the same substantive decisions, and the corresponding option-rationale mapping remains intact. The key index was not arbitrarily moved. Each changed item has incremented `version` and dated editor metadata. One item (NPPE-380) still has a tied option length requiring human review; reported rank rules count how many options are strictly shorter and so handle ties deterministically.
+All 110 items were measured from current canonical sources, with the distribution asserted in CI. Correct answers remain the same substantive decisions, and the corresponding option-rationale mapping remains intact. The key index was not arbitrarily moved. Each changed item has incremented `version` and dated editor metadata. An initial equal-length tie in NPPE-380 was resolved by clarifying a distractor without changing its meaning or answer key. The final source has no keyed option-length ties; independent review of distractor plausibility still remains required.
 
 The final [110-row option-length audit ledger](nppe-mock-b-option-length-review-ledger.csv) contains item ID, blueprint, key position, all relevant lengths, observed rank, tie flag, versioned revision status, and independent editorial follow-up. Rank balancing is necessary but **not sufficient** for content validity.
 
