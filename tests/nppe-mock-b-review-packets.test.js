@@ -23,6 +23,9 @@ test('blind and keyed review packets are separated and pending by default',()=>{
   assert.ok(blind.items.every(q=>!('answerIndex'in q)&&!('correctOption'in q)&&!('optionRationales'in q)&&!('sources'in q)&&!('keyPoint'in q)));
   assert.ok(keyed.items.every(q=>Number.isInteger(q.answerIndex)&&q.optionRationales.length===4&&q.sources.length>0));
   assert.equal(ledger.split('\n').filter(Boolean).length,111);
+  const decisions=JSON.parse(fs.readFileSync(path.join(dest,'restricted-keyed/review-decisions.json'),'utf8'));
+  assert.equal(decisions.items.length,110);
+  assert.ok(decisions.items.every(x=>x.technical.status==='pending'&&x.legal.status==='pending'&&x.distractors.status==='pending'&&x.adjudication.status==='pending'));
   const cue=JSON.parse(fs.readFileSync(path.join(dest,'restricted-keyed/cue-review.json'),'utf8'));
   assert.equal(cue.items.length,110);
   assert.ok(cue.items.every(x=>x.disposition==='pending'&&/^[a-f0-9]{64}$/.test(x.itemSha256)));
