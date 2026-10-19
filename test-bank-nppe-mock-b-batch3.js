@@ -248,7 +248,7 @@
     "options": [
       "Check each discipline's competence, regulated scope and jurisdiction.",
       "Either activity may be assigned without reference to professional competence as long as the employer is a municipality.",
-      "Engineering and geoscience are governed by a single nationwide practising licence issued by Engineers Canada.",
+      "Use one nationwide licence for both professions.",
       "Assume a geoscience licence covers any structural design."
     ],
     "answer": 0,
@@ -401,6 +401,7 @@
   if([301,302,304,305,306,307,308,310].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
   if([301,302,304,305,306,307,308,309].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([301,302,304,305,306,308].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';q.reviewStatus+='; balanced option-length rank with content review pending';}
+  if([307].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 3 item '+id);
    q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B draft. Editorial classifications are provisional; this item does not predict an official NPPE score.</p>';
  });
