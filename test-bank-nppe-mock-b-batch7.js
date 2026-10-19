@@ -254,7 +254,7 @@
     "options": [
       "Any error made by a professional automatically establishes liability for every subsequent loss.",
       "Causation must link the error to the loss; the evidence shows no such link.",
-      "A power surge proves that professionals can never owe civil duties to equipment owners.",
+      "A power surge eliminates every professional duty.",
       "Reject negligence claims unless someone is injured."
     ],
     "answer": 1,
@@ -294,7 +294,7 @@
       "Report the forecast as certain because it is graphed precisely.",
       "Suppress all measurements because an inadequate forecasting model makes the underlying observations useless.",
       "Present the three observations and explain why a long-term forecast is unsupported.",
-      "Interpolate a perfectly straight line to the desired target and describe it as an observed trend."
+      "Draw the desired forecast and report it as observed."
     ],
     "answer": 2,
     "optionRationales": [
@@ -409,6 +409,7 @@
   if([341,342,344,345,346,347,348,349,350].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if([341,342,344,345,346,347,348,349,350].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([341,342,344,345,346].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if([347,348].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 7 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; practice scores are not official NPPE predictions.</p>';
  });
