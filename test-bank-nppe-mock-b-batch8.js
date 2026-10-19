@@ -14,7 +14,7 @@
     "options": [
       "The municipal client necessarily becomes the consultant's employer because the client defines the deliverable.",
       "The service provider controls performance methods while meeting the agreed result.",
-      "Classify consulting reports as sales of goods.",
+      "Every contract involving technical reports is a sale of movable goods rather than a service contract.",
       "The client may take control of the consultant's day-to-day methods solely because it funds the project."
     ],
     "answer": 1,
@@ -53,7 +53,7 @@
     "options": [
       "Keep the exact-boundary language because technical software calculations are equivalent to field measurements.",
       "Withhold the map entirely because uncertain predictions can never inform public discussion.",
-      "Treat the model as certain once the client approves.",
+      "Show the prediction as a guaranteed result if the client endorses the modelling method.",
       "Mark the map as projected and state its data limits and assumptions."
     ],
     "answer": 3,
@@ -90,7 +90,7 @@
     "jurisdiction": "Canada; the consulting firm has received confidential tender estimates under an agreement prohibiting disclosure to competing bidders.",
     "stem": "An engineering consultant is reassigned from an owner's confidential cost-estimating team to an independent bid evaluation. A bidder asks the consultant to share the owner's internal estimates to help prepare a stronger proposal, saying it would make the competition more efficient. What should the consultant do?",
     "options": [
-      "Protect the estimates and disclose the conflict before reassignment.",
+      "Refuse to disclose the confidential estimates, disclose any resulting conflict and arrange an impartial assignment or information barrier as needed.",
       "Share the data with every bidder, because equal disclosure automatically removes all client confidentiality obligations.",
       "Privately use the estimates to favour a bidder.",
       "Disclose the estimates after the tender closes because confidentiality ends whenever bids have been submitted."
@@ -171,7 +171,7 @@
       "Use the Province A registration automatically because any scientific field is exempt from provincial regulation everywhere.",
       "Let the client decide whether the technical work is regulated based on its contract wording alone.",
       "Use society membership instead of professional registration.",
-      "Check Province B's geoscience scope and registration requirements."
+      "Verify Province B's applicable geoscience practice definition, registration rules and any available mobility authorization before undertaking reserved activities."
     ],
     "answer": 3,
     "optionRationales": [
@@ -423,6 +423,7 @@
   if([351,352,353].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([355,356,357].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([358,359,360].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
+  if([351,352,353,355].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
