@@ -96,7 +96,7 @@
     "jurisdiction": "Canada; engineering consultant can revise an official public summary prior to regulatory filing; carbon-emission reductions have been modelled but not independently verified.",
     "stem": "A project team asks its engineer to certify that a new furnace has already cut annual greenhouse-gas emissions by 25%. The plant has not operated under representative conditions; 25% is the design model's projected reduction. Which professional statement is most appropriate?",
     "options": [
-      "Report 25% as a modelled forecast, with assumptions and verification planned.",
+      "Present the reduction as a modelled estimate with its assumptions and verification plan, distinguishing it from observed operational performance.",
       "Report the 25% reduction as measured, since a validated design model always constitutes actual production data.",
       "Remove every emissions estimate because no engineering model may inform regulatory planning before operation.",
       "Call the forecast achieved and omit field checks."
@@ -176,7 +176,7 @@
     "options": [
       "Let a treaty signature rewrite domestic contract terms.",
       "An international treaty has no conceivable role in Canadian law or interpretation, even if implemented.",
-      "Check domestic implementation or incorporation before applying the treaty.",
+      "Determine whether applicable domestic law or the agreement gives the treaty provision legal effect; signature alone does not automatically replace the contractual fee term.",
       "A domestic court must enforce the manager's preferred treaty interpretation because international instruments always govern fees."
     ],
     "answer": 2,
@@ -407,6 +407,7 @@
   if(id==='372'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if([371,373,375,376,377,379,380].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if([373,375,376,377,379].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
+  if([373,375].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 10 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item. Editorial classifications are provisional and no NPPE pass prediction is implied.</p>';
  });
