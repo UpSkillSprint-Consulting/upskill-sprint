@@ -132,7 +132,7 @@
       "Appoint the senior candidate and provide licence training after the appointment.",
       "Apply qualifications but disregard seniority even when applicants are equally eligible.",
       "Apply the agreement's qualification threshold, then its seniority rule among eligible applicants, documenting the decision.",
-      "Split the vacancy between both applicants: the qualified employee signs restricted engineering documents while the more senior employee occupies the same specialist post without meeting the agreed essential qualification."
+      "Appoint both candidates jointly to the specialist vacancy, assigning licence-dependent work to the qualified employee despite the stated selection rule."
     ],
     "answer": 2,
     "optionRationales": [
@@ -427,6 +427,7 @@
   if([357,358].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if([356].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(id==='354'){q.version+=1;q.editorialReviewedAt='2026-10-19';q.reviewStatus+='; author-level distractor plausibility revision awaiting independent legal/editorial approval';}
+  if(id==='354'){q.version+=1;q.editorialReviewedAt='2026-10-19';q.reviewStatus+='; clarified job-splitting distractor pending independent labour-law review';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
