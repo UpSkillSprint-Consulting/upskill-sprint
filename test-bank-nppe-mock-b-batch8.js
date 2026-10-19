@@ -259,7 +259,7 @@
     "stem": "An Ontario business advertises that it will provide signed professional-engineering designs to outside customers. Its owner has an engineering degree but holds neither a licence nor any required authorization to offer those services. The owner argues that a disclaimer saying 'approval pending' makes the public offer lawful. What is the most defensible response?",
     "options": [
       "The owner may provide the services immediately because engineering graduates have unrestricted statutory practice rights.",
-      "A marketing disclaimer automatically provides a temporary engineering licence until the first customer pays.",
+      "A disclaimer automatically grants a temporary practice licence.",
       "A disclaimer cannot replace required authorization to offer engineering services.",
       "Replace the engineering seal with a business logo."
     ],
@@ -299,7 +299,7 @@
     "options": [
       "Destroy the records because a firm review is only a private advisory consultation without regulatory consequences.",
       "Leave the assessor's report unanswered as conclusive.",
-      "Publish the entire confidential case file to prospective clients to establish that the firm is transparent.",
+      "Publish the confidential case file to show transparency.",
       "Preserve evidence, respond factually and plan corrective actions."
     ],
     "answer": 3,
@@ -424,6 +424,7 @@
   if([355,356,357].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([358,359,360].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([351,352,353,355].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if([357,358].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
