@@ -12,7 +12,7 @@
     "jurisdiction": "Ontario common-law commercial context. Parties expressly state their letter is nonbinding except for confidentiality, and fees, scope and commencement remain subject to a signed agreement.",
     "stem": "Two firms sign a letter of intent for a proposed engineering study. It expressly states that no services contract is formed until fees, scope and commencement are agreed in a signed definitive agreement; only confidentiality is immediately binding. No later agreement is signed or services performed. Which conclusion best follows?",
     "options": [
-      "Treat two signatures as proof of a complete contract.",
+      "A full services contract must already exist because the document has two signatures.",
       "Every provision is unenforceable because the parties called the document a letter of intent.",
       "The letter automatically establishes an engineering fee equal to the market rate despite the express condition.",
       "The services contract is not formed; confidentiality remains binding."
@@ -51,7 +51,7 @@
     "jurisdiction": "Canada; a hypothetical remote field team has confirmed a foreseeable non-emergency community hazard and a lawful reporting route.",
     "stem": "A field team has a custom of reporting minor access-road washouts only after vehicles become stranded. New survey data show a developing washout could obstruct the only route used by residents to obtain essential medicines. Which judgment is most defensible?",
     "options": [
-      "Keep the custom because peer teams use it.",
+      "Continue the custom because it is followed consistently by other field teams.",
       "Question the custom and accurately report the foreseeable community risk.",
       "Report that a major disaster has already occurred, although the evidence identifies a developing hazard only.",
       "Conclude that all field operations must be prohibited indefinitely regardless of available protective measures."
@@ -132,7 +132,7 @@
       "Use only household counts because any smaller population is irrelevant to professional public-welfare duties.",
       "Always prioritize the smaller service area.",
       "Avoid making recommendations whenever different communities may benefit from different repair priorities.",
-      "Compare health risks, service alternatives and repair times across communities."
+      "Compare health risks, alternatives, restoration times and affected communities' dependence on each service, then communicate the trade-offs transparently."
     ],
     "answer": 3,
     "optionRationales": [
@@ -168,7 +168,7 @@
     "jurisdiction": "Canada; a fictitious destination jurisdiction requires both individual practice registration and a permit for firms offering professional engineering services; no exemption applies.",
     "stem": "An engineer obtains individual mobility registration in Province B. Their consulting partnership now plans to advertise regulated engineering services there. The engineer assumes personal registration automatically satisfies every licensing obligation applying to the firm. What is the most appropriate next step?",
     "options": [
-      "Obtain the required firm authorization in the destination jurisdiction.",
+      "Verify and obtain the destination jurisdiction's required firm permit or authorization separately before the partnership offers regulated services.",
       "Assume the partnership may rely on the engineer's prior Province A licence regardless of the Province B firm's statutory requirements.",
       "Use a society credential instead of a firm permit.",
       "Avoid investigating firm licensing because individual and firm authorization are legally identical everywhere in Canada."
@@ -216,7 +216,7 @@
       "Require random selection before any practice review.",
       "A practice review is automatically a criminal conviction against the registrant.",
       "The registrant may disregard the review because only annual continuing-education audits are authorized.",
-      "A risk-triggered practice review differs from a proactive audit."
+      "A reactive practice review can be triggered by identified professional risk and is distinct from the proactive random audit programme."
     ],
     "answer": 3,
     "optionRationales": [
@@ -408,6 +408,7 @@
   if(id==='343'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if([341,342,344,345,346,347,348,349,350].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if([341,342,344,345,346,347,348,349,350].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
+  if([341,342,344,345,346].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 7 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; practice scores are not official NPPE predictions.</p>';
  });
