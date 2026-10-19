@@ -384,6 +384,7 @@ test('every NPPE bank maps its scored practice questions to one of six official 
     assert.ok(match,id+' missing blueprint category '+question.qid);
     const area=areas.find(([name])=>name===match[1]);
     assert.equal(question.sub,area[1],id+' cross-domain metadata '+question.qid);
+    if(question.area!=null)assert.equal(question.area,match[1],id+' area-code inconsistency '+question.qid);
     if(question.scored===true&&!question.experimental)counts[match[1]]++;
    }
    assert.equal(Object.values(counts).reduce((a,b)=>a+b,0),count,id);
@@ -450,6 +451,7 @@ test('Grok Mock C Quick Quiz draws only IV Law from scored source questions and 
   assert.equal(result.grading.correct,10);
   assert.match(d.querySelector('[data-score-result]').textContent,/100% \(10\/10\)/);
   assert.match(d.querySelector('#tb-overview').textContent,/simulated unscored mock items are excluded/i);
+  assert.match(d.querySelector('#tb-overview h2').textContent,/Mock C · Quick Quiz · IV Law/);
   assert.deepEqual(h.errors,[]);
  }finally{h.close();}
 });

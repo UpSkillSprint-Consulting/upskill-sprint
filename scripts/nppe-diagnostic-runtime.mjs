@@ -132,7 +132,8 @@ const helpers = String.raw`
     var match=/^(I|II|III|IV|V|VI)\.[0-9]+(?:\b|$)/.exec(q.blueprint);
     if(!match)return '';
     var area=NPPE_AREAS.find(function(x){return x.code===match[1];});
-    if(!area||area.id!==q.sub||domainOf(e,q.sub)!==area.id)return '';
+    if(!area||area.id!==q.sub||domainOf(e,q.sub)!==area.id||
+       q.area!=null&&q.area!==area.code)return '';
     return area.id;
   }
   function nppeEligible(e,id){
@@ -435,6 +436,7 @@ const helpers = String.raw`
     var subjectName=areaId==='all'?'All areas':area?area.code+' '+area.label:'';
     var resultHeading=shortKind?(f?f.label:'NPPE')+' · '+quizLabel+(subjectName?' · '+subjectName:''):f?f.label:'NPPE';
     var retakeLabel=shortKind?quizLabel:f?f.label:'bank';
-    return '<div class="tb-resbar"><button type="button" class="tb-ghost" data-back>&larr; Back to NPPE banks</button><span class="tb-restag">'+esc(f?f.label:'NPPE')+' result</span></div><h2>'+esc(resultHeading)+' — study feedback</h2>'+gradeNotice+'<p class="tb-srnote">'+(shortKind?'Only eligible scored questions from the selected bank and area are included. ':isDiagnostic?'This diagnostic reports only the questions in this attempt. Small domain samples are starting points for study, not proof of mastery. ':isLearning?'Learning scores measure practice accuracy. Any revealed answers are assisted practice and must not be treated as unseen readiness evidence. ':(session.kind==='quick'||session.kind==='focus'?'Each short-practice question counts toward the quiz score; simulated unscored mock items are excluded. ':'Scored results exclude the ten simulated unscored items. ' ))+'A raw practice percentage is not an official scaled NPPE score, a pass probability or a guarantee. Difficulty has not been empirically calibrated.</p><div class="tb-sec">This attempt: domain breakdown</div><div class="tb-breakdown">'+breakdown+'</div><button type="button" class="tb-ghost" data-retake>Retake '+esc(retakeLabel)+'</button><p class="tb-srnote">Retakes repeat this bank; they are not fresh readiness evidence. Results remain in this tab only and are lost when you leave or refresh.</p>';
+    return '<div class="tb-resbar"><button type="button" class="tb-ghost" data-back>&larr; Back to NPPE banks</button><span class="tb-restag">'+esc(f?f.label:'NPPE')+' result</span></div><h2>'+esc(resultHeading)+' — study feedback</h2>'+gradeNotice+'<p class="tb-srnote">'+(shortKind?'Only eligible scored questions from the selected bank and area are included. '+
+       (f&&f.kind==='mock'?'Simulated unscored mock items are excluded. ':''):isDiagnostic?'This diagnostic reports only the questions in this attempt. Small domain samples are starting points for study, not proof of mastery. ':isLearning?'Learning scores measure practice accuracy. Any revealed answers are assisted practice and must not be treated as unseen readiness evidence. ':(session.kind==='quick'||session.kind==='focus'?'Each short-practice question counts toward the quiz score; simulated unscored mock items are excluded. ':'Scored results exclude the ten simulated unscored items. ' ))+'A raw practice percentage is not an official scaled NPPE score, a pass probability or a guarantee. Difficulty has not been empirically calibrated.</p><div class="tb-sec">This attempt: domain breakdown</div><div class="tb-breakdown">'+breakdown+'</div><button type="button" class="tb-ghost" data-retake>Retake '+esc(retakeLabel)+'</button><p class="tb-srnote">Retakes repeat this bank; they are not fresh readiness evidence. Results remain in this tab only and are lost when you leave or refresh.</p>';
   }
 `;
