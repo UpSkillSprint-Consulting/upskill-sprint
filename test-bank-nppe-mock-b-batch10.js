@@ -14,7 +14,7 @@
     "options": [
       "The clock always starts when the contractor receives the final payment, regardless of a published certificate.",
       "The clock starts only if the owner formally rejects an invoice.",
-      "The published substantial-performance certificate can trigger the lien period.",
+      "Certificate publication can start lien preservation.",
       "The project manager can extend the statutory lien preservation period indefinitely by rewriting the invoice terms."
     ],
     "answer": 2,
@@ -54,7 +54,7 @@
       "Restore operations without reviewing the altered thresholds because backups prove the controller cannot have been compromised.",
       "Delete access logs immediately because keeping records of unauthorized modifications increases technical risk.",
       "Announce that the system is safe solely because no physical damage has yet been observed.",
-      "Contain the incident, preserve logs, and verify controller settings before relying on the system."
+      "Contain the incident; preserve logs and verify controller settings."
     ],
     "answer": 3,
     "optionRationales": [
@@ -409,6 +409,7 @@
   if([373,375,376,377,379].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([373,375].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if([376,377].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if([371,372].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 10 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item. Editorial classifications are provisional and no NPPE pass prediction is implied.</p>';
  });
