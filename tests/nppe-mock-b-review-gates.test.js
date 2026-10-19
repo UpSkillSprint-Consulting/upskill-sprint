@@ -4,7 +4,7 @@ const {items}=require('../scripts/nppe-mock-b-review-packets.cjs');
 const {assess}=require('../scripts/nppe-mock-b-review-gates.cjs');
 function pending(){
  const questions=items(),rev='synthetic-review-test-only';
- const manifest={form:'set-1-mock-b',itemCount:110,sourceRevision:rev,items:questions.map(q=>({id:q.legacyId,version:q.version,sha256:crypto.createHash('sha256').update(JSON.stringify(q)).digest('hex')}))};
+ const manifest={form:'set-1-mock-b',itemCount:110,sourceRevision:rev,keyedPacketSha256:'1'.repeat(64),items:questions.map(q=>({id:q.legacyId,qid:q.qid,version:q.version,scored:q.scored,simulatedUnscored:q.experimental,sha256:crypto.createHash('sha256').update(JSON.stringify(q)).digest('hex')}))};
  const review={sourceRevision:rev,items:manifest.items.map(q=>({itemId:q.id,version:q.version,itemSha256:q.sha256,technical:{status:'pending'},legal:{status:'pending'},distractors:{status:'pending'},fairnessAccessibility:{status:'pending'},adjudication:{status:'pending'}}))};
  return {manifest,review};
 }
@@ -46,4 +46,16 @@ test('reviewer-role separation is required even when every approval field is pop
  assert.equal(result.readyForAdjudication,false);
  assert.ok(result.blockers.some(x=>x.includes('technical and legal reviewers are not independently separated')));
  assert.ok(result.blockers.some(x=>x.includes('adjudication cannot be self-reviewed')));
+});
+
+test('duplicate reviewer manifest IDs and major findings block any completed-review claim',()=>{
+ const x=pending();x.manifest.items[10]={...x.manifest.items[9]};
+ const invalid=assess(x.manifest,x.review);
+ assert.equal(invalid.readyForAdjudication,false);
+ assert.ok(invalid.blockers.some(s=>/Invalid, duplicate or stale manifest item/.test(s)));
+ const y=pending();
+ y.review.items[0].distractors={status:'approved',disposition:'retain',severity:'major',reviewer:'Test editorial reviewer',qualification:'independent editor',independenceDeclaration:'synthetic fixture',reviewedAt:'2026-10-19',evidence:'test-only evidence',findings:'test-only item review',blindAnswerIndex:1,optionFindings:['A reviewed','B reviewed','C reviewed','D reviewed']};
+ const blocked=assess(y.manifest,y.review);
+ assert.equal(blocked.readyForAdjudication,false);
+ assert.ok(blocked.blockers.some(s=>/unresolved disposition or material finding/.test(s)));
 });

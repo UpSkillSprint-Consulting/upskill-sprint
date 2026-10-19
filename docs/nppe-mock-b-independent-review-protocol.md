@@ -74,3 +74,11 @@ Published official [NPPE blueprint](https://www.nppexam.ca/en/preparation/bluepr
 ## Exit criteria
 
 Every question has accepted independent best-answer, distractor, legal (as relevant), SME and fairness evidence with exact version/hash; critical/major findings resolved; two-sided cue screening re-run; reviewer conflicts adjudicated. **Even after that, Mock B remains release-held** until manual accessibility, empirically valid candidate data, real authorized account checks and explicit release approval are separately completed.
+
+## Additional private evidence and adjudication controls (2026-10-19)
+
+The updated packet exporter emits `restricted-keyed/legal-source-review.csv` (a separate row for each cited non-blueprint source, including item hash and jurisdiction), `restricted-keyed/sme-editorial-review.csv` (one row for every item including all four distractor review fields), and the five-role private JSON adjudication record. Every entry begins `pending`. Only qualified reviewers may fill evidence, signed disposition and source-effective-date fields; generated cue priorities are not findings by external counsel.
+
+The complete keyed-packet object has an independent SHA-256 in the manifest (`keyedPacketSha256`) for detecting accidental key changes relative to that manifest. This **does not** certify author identity, independence or signature authenticity. The offline review-gate checker also requires distinct named reviewers, qualifications, conflict declarations, legal source locator/jurisdiction/effective date, individual alternative assessments, resolution of any material finding and separately documented adjudication. It reports *metadata completeness only*, never authorization to release Mock B.
+
+Any item edits invalidate that item's prior review version and SHA-256. Regenerate private packets in a clean checkout at the new commit and obtain renewed human review before conducting an approved, consented pilot.
