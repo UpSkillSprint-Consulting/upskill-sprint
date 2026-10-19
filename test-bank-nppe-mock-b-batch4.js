@@ -15,7 +15,7 @@
       "Quietly retain a private note and omit the concern from the official record until management requests another review.",
       "Tell coworkers informally but do not communicate the finding through authorized safety or regulatory channels.",
       "Document and escalate the hazard, including legally required notification.",
-      "Defer reporting until failure confirms the vessel hazard."
+      "Wait until a vessel fails so the nature and severity of the hazard become certain."
     ],
     "answer": 2,
     "optionRationales": [
@@ -53,7 +53,7 @@
     "options": [
       "Report contrary data impartially, explaining its effect on the expert opinion.",
       "Omit the data unless the opposing party independently discovers them, because the client owns the expert's opinion.",
-      "Exclude the contrary evidence from the expert report.",
+      "Treat the data as inadmissible without analysis because they are unfavourable to the hiring party.",
       "Withdraw all technical opinions automatically, because an expert can never revise a hypothesis after reviewing contrary evidence."
     ],
     "answer": 0,
@@ -93,7 +93,7 @@
       "Sign the notice because public statements about load rating are solely the marketing department's responsibility.",
       "Remove the capacity calculation from the record because management has accepted business risk.",
       "Publish the rating with a general uncertainty disclaimer.",
-      "Decline the unsupported rating and report its safety consequences."
+      "Refuse to authenticate the unsupported notice, communicate the calculated limits and consequences, and escalate the unresolved safety concern."
     ],
     "answer": 3,
     "optionRationales": [
@@ -130,7 +130,7 @@
     "stem": "A municipality's flood siren is accompanied by an English-only technical bulletin using abbreviations unfamiliar to residents. Community consultation shows that a substantial portion of the intended audience cannot understand the instructions, although the translated warning channels can be deployed before flood season. Which communication plan is best?",
     "options": [
       "Keep the English-only bulletin because a technically correct warning is effective regardless of audience comprehension.",
-      "Provide audience-tested, accessible warnings in languages people understand.",
+      "Use tested plain-language instructions in the languages and accessible formats needed by the affected audiences, with consistent actions across channels.",
       "Provide the hydrology model instead of public instructions.",
       "Shorten the bulletin by removing evacuation routes, since less text necessarily means better safety communication."
     ],
@@ -170,7 +170,7 @@
     "options": [
       "$6,000, because an internal cost-contingency allowance sets the statutory holdback.",
       "$12,000 using a five-per-cent holdback.",
-      "$24,000: ten per cent of the $240,000 value supplied.",
+      "$24,000, because the required basic holdback is ten per cent of the $240,000 supplied-services price.",
       "$48,000, because any risk reserve used for construction liens must be twenty per cent."
     ],
     "answer": 2,
@@ -400,6 +400,7 @@
   if(id==='320'){q.version=2;q.scored=false;q.experimental=true;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role redistributed by whole-form audit';}
   if([311,312,313,314,315,316,317,318,319,320].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
   if([311,312,313,314,315,316,317,318,319,320].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
+  if([311,312,313,314,315].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';q.reviewStatus+='; option-length rank editorial revision';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 4 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; editorial classifications are provisional, not evidence of official NPPE performance.</p>';
  });
