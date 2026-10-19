@@ -29,7 +29,9 @@ test('blind and keyed review packets are separated and pending by default',()=>{
   const cue=JSON.parse(fs.readFileSync(path.join(dest,'restricted-keyed/cue-review.json'),'utf8'));
   assert.equal(cue.items.length,110);
   assert.ok(cue.items.every(x=>x.disposition==='pending'&&/^[a-f0-9]{64}$/.test(x.itemSha256)));
-  assert.ok(cue.items.some(x=>x.priority==='critical'));
+  assert.equal(cue.items.filter(x=>x.priority==='critical').length,0);
+  assert.ok(cue.items.some(x=>x.priority==='major'));
+  assert.ok(cue.items.every(x=>x.disposition==='pending'));
   assert.ok(cue.items.every(x=>x.answerLengthRank>=1&&x.answerLengthRank<=4));
   assert.ok(!blind.items.some(x=>'answerLengthRank' in x||'scored' in x||'experimental' in x));
   assert.equal(fs.statSync(path.join(dest,'restricted-keyed/cue-review.json')).mode&0o777,0o600);
