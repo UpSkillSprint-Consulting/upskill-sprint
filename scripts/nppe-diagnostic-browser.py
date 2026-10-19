@@ -91,13 +91,13 @@ def main():
                     header_images_fit()
 
                 def mock_a_release_fixture():
-                    # Test-only in-memory release: real delivered catalog remains held.
+                    # Authorized fixture tests published form behavior; real account grants are independently controlled.
                     page.goto(base + '/test-bank?exam=nppe')
                     page.wait_for_selector('body.exam-access-ready')
                     expect(page.locator('html')).to_have_attribute('data-theme', theme)
-                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is True
-                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-b').releaseHold") is True
-                    page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold=false")
+                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is False
+                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-b').releaseHold") is False
+                    # Release is configured in the authorized package, not injected in the browser.
                     page.locator('[data-nppe-owner="1"]').click()
                     page.locator('[data-set="set-1-mock-a"]').click()
                     expect(page.locator('[data-nppe-bank="set-1-mock-a"]')).to_contain_text('150 minutes')
@@ -110,7 +110,7 @@ def main():
                     expect(page.locator('[data-reveal]')).to_have_count(0)
                     assert page.evaluate('window.__TB.revealCurrentAnswer()') is False
                     assert not re.search(r'experimental|unscored', page.locator('.tb-quiz').inner_text(), re.I)
-                    check_accessibility('mock-a-fixture-active-question')
+                    check_accessibility('mock-a-published-active-question')
                     for i, record in enumerate(records):
                         q = record['question']
                         page.locator(f'[data-goto="{i}"]').click()
@@ -142,22 +142,22 @@ def main():
                         expect(card.locator('.tb-review-rationales p')).to_have_count(3)
                         for rationale in q['optionRationales']:
                             expect(card).to_contain_text(rationale)
-                    check_accessibility('mock-a-fixture-complete-review')
+                    check_accessibility('mock-a-published-complete-review')
                     header_images_fit()
-                    page.screenshot(path=str(out / f'{name}-mock-a-fixture-review.png'), full_page=False)
+                    page.screenshot(path=str(out / f'{name}-mock-a-published-review.png'), full_page=False)
                     page.goto(base + '/test-bank?exam=nppe')
                     page.wait_for_selector('body.exam-access-ready')
-                    expect(page.locator('[data-set="set-1-mock-a"]')).to_be_disabled()
+                    expect(page.locator('[data-set="set-1-mock-a"]')).to_be_enabled()
                     expect(page.locator('[data-set="set-1-mock-b"] .tb-sets')).to_have_text('110')
-                    expect(page.locator('[data-set="set-1-mock-b"]')).to_be_disabled()
-                    expect(page.locator('[data-set="set-1-mock-b"]')).to_have_attribute('aria-label', 'Mock B, 110 questions, awaiting release review')
+                    expect(page.locator('[data-set="set-1-mock-b"]')).to_be_enabled()
+                    expect(page.locator('[data-set="set-1-mock-b"]')).to_have_attribute('aria-label', 'Mock B, 110 questions')
                     expect(page.locator('html')).to_have_attribute('data-theme', theme)
-                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is True
-                    return {'basis': 'test-only in-memory release fixture', 'questions': 110,
+                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is False
+                    return {'basis': 'published form inside isolated authorized-access fixture', 'questions': 110,
                             'score': '100/100', 'experimentalAnswersWrong': 10, 'minutes': 150,
                             'reviewQuestions': 110, 'optionRationales': 440,
                             'keyboardFlagsPersistence': True, 'revealBlocked': True,
-                            'deliveredReleaseHoldRestored': True}
+                            'publishedFormAvailableAfterReload': True}
 
                 def header_images_fit():
                     geometry = page.evaluate('''() => {
@@ -174,12 +174,12 @@ def main():
                     assert geometry['documentWidth'] <= geometry['width'] + 1, geometry
 
                 def mock_b_release_fixture():
-                    # Test-only in-memory release: real delivered catalog remains held.
+                    # Authorized fixture tests published form behavior; real account grants are independently controlled.
                     page.goto(base + '/test-bank?exam=nppe')
                     page.wait_for_selector('body.exam-access-ready')
                     expect(page.locator('html')).to_have_attribute('data-theme', theme)
-                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-b').releaseHold") is True
-                    page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-b').releaseHold=false")
+                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-b').releaseHold") is False
+                    # No in-memory change to publication status is needed.
                     page.locator('[data-nppe-owner="1"]').click()
                     page.locator('[data-set="set-1-mock-b"]').click()
                     expect(page.locator('[data-nppe-bank="set-1-mock-b"]')).to_contain_text('150 minutes')
@@ -192,7 +192,7 @@ def main():
                     expect(page.locator('[data-reveal]')).to_have_count(0)
                     assert page.evaluate('window.__TB.revealCurrentAnswer()') is False
                     assert not re.search(r'experimental|unscored', page.locator('.tb-quiz').inner_text(), re.I)
-                    check_accessibility('mock-b-fixture-active-question')
+                    check_accessibility('mock-b-published-active-question')
                     for i, record in enumerate(records):
                         q = record['question']
                         page.locator(f'[data-goto="{i}"]').click()
@@ -224,19 +224,19 @@ def main():
                         expect(card.locator('.tb-review-rationales p')).to_have_count(3)
                         for rationale in q['optionRationales']:
                             expect(card).to_contain_text(rationale)
-                    check_accessibility('mock-b-fixture-complete-review')
+                    check_accessibility('mock-b-published-complete-review')
                     header_images_fit()
-                    page.screenshot(path=str(out / f'{name}-mock-b-fixture-review.png'), full_page=False)
+                    page.screenshot(path=str(out / f'{name}-mock-b-published-review.png'), full_page=False)
                     page.goto(base + '/test-bank?exam=nppe')
                     page.wait_for_selector('body.exam-access-ready')
-                    expect(page.locator('[data-set="set-1-mock-b"]')).to_be_disabled()
+                    expect(page.locator('[data-set="set-1-mock-b"]')).to_be_enabled()
                     expect(page.locator('html')).to_have_attribute('data-theme', theme)
-                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-b').releaseHold") is True
-                    return {'basis': 'test-only in-memory release fixture', 'questions': 110,
+                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-b').releaseHold") is False
+                    return {'basis': 'published form inside isolated authorized-access fixture', 'questions': 110,
                             'score': '100/100', 'experimentalAnswersWrong': 10, 'minutes': 150,
                             'reviewQuestions': 110, 'optionRationales': 440,
                             'keyboardFlagsPersistence': True, 'revealBlocked': True,
-                            'deliveredReleaseHoldRestored': True}
+                            'publishedFormAvailableAfterReload': True}
 
                 def header_images_fit():
                     geometry = page.evaluate('''() => {
@@ -270,10 +270,17 @@ def main():
                     expect(page.locator('#nppe-banks-3')).to_be_hidden()
                     expect(page.locator('[data-set="set-1-diagnostic"] .tb-sets')).to_have_text(str(EXPECTED_COUNT))
                     expect(page.locator('[data-set="set-1-mock-a"] .tb-sets')).to_have_text('110')
-                    expect(page.locator('[data-set="set-1-mock-a"]')).to_be_disabled()
-                    expect(page.locator('[data-set="set-1-mock-a"]')).to_have_attribute('aria-label', 'Mock A, 110 questions, awaiting release review')
+                    expect(page.locator('[data-set="set-1-mock-a"]')).to_be_enabled()
+                    expect(page.locator('[data-set="set-1-mock-a"]')).to_have_attribute('aria-label', 'Mock A, 110 questions')
+                    expect(page.locator('[data-set="set-1-mock-b"]')).to_be_enabled()
+                    expect(page.locator('[data-set="mock-c"]')).to_have_count(1)
+                    expect(page.locator('[data-set="mock-d"]')).to_have_count(1)
+                    expect(page.locator('[data-set="set-1-mock-c"]')).to_have_count(0)
+                    expect(page.locator('[data-set="mock-e"]')).to_have_count(0)
+                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='mock-c').authorSet") == 2
+                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='mock-d').authorSet") == 3
                     expect(page.locator('html')).to_have_attribute('data-theme', theme)
-                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is True
+                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is False
                     expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_COUNT} of 50 planned')
                     expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_MINUTES} minutes')
                     page.wait_for_function('''() => {
@@ -413,7 +420,7 @@ def main():
                     expect(page.locator('[data-reveal]')).to_be_visible()
                     page.locator('[data-reveal]').click()
                     for option in page.locator('[data-opt]').all():
-                        expect(option).to_be_disabled()
+                        expect(option).to_be_enabled()
                     check_accessibility('learning-revealed-question')
                     assert page.evaluate('window.__TB.getFeedbackSnapshot().records.filter(r=>r.revealed===true).length') == 1
                     assisted_locked = 0
@@ -442,7 +449,7 @@ def main():
                     assert not errors, errors
                     result = {'case': name, 'result': 'PASS', 'score': f'{EXPECTED_COUNT}/{EXPECTED_COUNT}', 'domains': 6,
                               'batch3Rendered': batch3_checked, 'batch4Rendered': batch4_checked, 'batch5Rendered': batch5_checked, 'learningQuestionsRendered': LEARNING_COUNT, 'learningAssistedReveal': True, 'learningReviewQuestions': LEARNING_COUNT, 'keyboardTabs': True, 'flagsAndNavigation': True,
-                              'mockAAuthored': 110, 'mockADisabled': True, 'revealBlocked': True, 'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
+                              'mockAAuthored': 110, 'mockAAvailable': True, 'revealBlocked': True, 'logosLoaded': True, 'headerOverlap': False, 'horizontalOverflow': False}
                     result.update(learningUnassistedScore=f'{LEARNING_COUNT}/{LEARNING_COUNT}', learningAssistedScore=f'{LEARNING_COUNT-1}/{LEARNING_COUNT}',
                                   learningDomainTotals=LEARNING_DOMAINS, learningRationalesVerified=LEARNING_COUNT*4,
                                   learningKeyboardAndPersistence=True, accessibility=accessibility, mockAReleaseFixture=mock_a_fixture, mockBReleaseFixture=mock_b_fixture)
