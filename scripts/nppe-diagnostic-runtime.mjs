@@ -40,7 +40,7 @@ export function integrateNPPEDiagnostic(source) {
   code = once(code, '  function wireOverview(){', "  function wireOverview(){if(current==='nppe')return wireNPPEOwners();");
   code = once(code, "'+sessionTitle+' &middot; '", "'+(current==='nppe'?'NPPE':sessionTitle)+' &middot; '");
   code = once(code, "mode={timed:true,quickTimed:false,focusTimed:false,quickSet:initial,focusSet:initial,quickN:20,focusDom:defaultFocusDomain(EXAMS[current],initial),focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};selectedSet=initial;}",
-    "mode={timed:true,quickTimed:false,focusTimed:false,quickSet:initial,focusSet:initial,quickN:20,focusDom:defaultFocusDomain(EXAMS[current],initial),focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};selectedSet=initial;if(current==='nppe'){mode.quickN=10;mode.focusN=10;nppePracticeMode='full';nppeQuizAreas.quick='all';nppeQuizAreas.focus='';}}");
+    "mode={timed:true,quickTimed:false,focusTimed:false,quickSet:initial,focusSet:initial,quickN:20,focusDom:defaultFocusDomain(EXAMS[current],initial),focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};selectedSet=initial;if(current==='nppe'){mode.quickN=20;mode.focusN=20;nppeQuizAreas.quick='all';nppeQuizAreas.focus='';}}");
   code = once(code, '  function revealCurrentAnswer(){', "  function revealCurrentAnswer(){if(current==='nppe'&&(!session||session.setId!=='set-1-learning'||session.timed))return false;");
   code = once(code, '<div class="tb-status-key" aria-label="Question status legend">', '<div class="tb-status-key" role="group" aria-label="Question status legend">');
   return code;
@@ -103,7 +103,7 @@ const helpers = String.raw`
   // to the authorized NPPE package, including selected answers and review tabs.
   var nppeContrastStyle=document.createElement('style');
   nppeContrastStyle.id='nppe-control-contrast';
-  nppeContrastStyle.textContent="\n/* NPPE's selector is intentionally scoped: other certification simulators retain their styles. */\n.tb-wrap{--nppe-score-good:#146c43;--nppe-score-low:#a52a25}\nhtml[data-theme=\"dark\"] .tb-wrap{--nppe-score-good:#6ee7b7;--nppe-score-low:#fca5a5}\nhtml[data-theme=\"dark\"] .tb-wrap .tb-seg button.on,\nhtml[data-theme=\"dark\"] .btn-teal,\nhtml[data-theme=\"dark\"] .tb-wrap .tb-opt.sel .k,\nhtml[data-theme=\"dark\"] #tb-feedback-loop .tb-review-tabs button.on{color:#082f35}\n.nppe-hub{min-width:0}\n.nppe-hub-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 16px}\n.nppe-hub .tb-title{margin:3px 0 8px}\n.nppe-eyebrow,.nppe-section-label{font-family:\"Work Sans\",sans-serif;letter-spacing:.105em;font-size:10.5px;text-transform:uppercase;font-weight:700;color:var(--muted);margin:0}\n.nppe-hub-intro{font-size:13.5px;line-height:1.6;color:var(--muted);max-width:68ch;margin:0}\n.nppe-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:22px}\n.nppe-fact{min-width:0;border:1px solid var(--line);background:var(--tint);padding:11px 14px;border-radius:10px}\n.nppe-fact strong{display:block;font-family:\"Source Serif 4\",serif;color:var(--ink);font-size:21px;font-weight:650;line-height:1.2}\n.nppe-fact span{display:block;font-size:11.5px;line-height:1.45;color:var(--muted);margin-top:3px}\n.nppe-bank-picker{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:20px;margin:0 0 16px;min-width:0}\n.nppe-picker-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}\n.nppe-picker-head h3{font-family:\"Source Serif 4\",serif;color:var(--ink);font-size:19px;margin:0}\n.nppe-picker-head p{font-size:12.5px;color:var(--muted);margin:0;line-height:1.5}\n.nppe-author-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border-bottom:1px solid var(--line);padding-bottom:12px}\n.nppe-author-tab{min-width:0;border:1px solid var(--line);background:var(--tint);color:var(--ink);padding:11px 13px;min-height:57px;border-radius:9px;font:inherit;cursor:pointer;text-align:left;display:flex;flex-direction:column;justify-content:center;gap:2px;transition:border-color .15s,background-color .15s}\n.nppe-author-tab .nppe-tab-number{font-size:10.5px;color:var(--muted);letter-spacing:.05em}\n.nppe-author-tab .nppe-tab-name{font-size:14px;font-weight:700;line-height:1.25}\n.nppe-author-tab:hover{border-color:var(--teal)}\n.nppe-author-tab[aria-selected=\"true\"]{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 9%,var(--card));box-shadow:inset 0 -3px 0 var(--teal)}\n.nppe-hub :is(.nppe-author-tab,.nppe-bank-card,.tb-mstart,.tb-seg button):focus-visible{outline:3px solid var(--teal);outline-offset:3px}\n.nppe-bank-panel{padding-top:16px}\n.nppe-bank-panel[hidden]{display:none!important}\n.nppe-bank-panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px}\n.nppe-bank-panel-head strong{font-family:\"Work Sans\",sans-serif;font-size:12px;font-weight:700;color:var(--ink)}\n.nppe-bank-panel-head span{font-size:11px;color:var(--muted)}\n.nppe-bank-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}\n.nppe-bank-grid[data-count=\"1\"]{grid-template-columns:minmax(0,1fr);max-width:470px}\n.nppe-bank-card{--nppe-accent:#247188;display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:start;gap:10px;text-align:left;width:100%;min-width:0;min-height:122px;padding:16px 13px;border:1px solid var(--line);border-radius:11px;background:var(--paper);font:inherit;color:var(--ink);cursor:pointer;transition:border-color .15s,background-color .15s,box-shadow .15s}\n.nppe-bank-card[data-set=\"set-1-diagnostic\"]{--nppe-accent:#156e98}\n.nppe-bank-card[data-set=\"set-1-learning\"]{--nppe-accent:#72529f}\n.nppe-bank-card[data-set=\"set-1-mock-a\"]{--nppe-accent:#127766}\n.nppe-bank-card[data-set=\"set-1-mock-b\"]{--nppe-accent:#a16a23}\n.nppe-bank-card[data-set=\"mock-c\"]{--nppe-accent:#af4f68}\n.nppe-bank-card[data-set=\"mock-d\"]{--nppe-accent:#5365a2}\n.nppe-bank-card:hover{border-color:var(--nppe-accent);box-shadow:0 4px 16px rgba(0,0,0,.055)}\n.nppe-bank-card[aria-pressed=\"true\"]{border:2px solid var(--nppe-accent);padding:15px 12px;background:color-mix(in srgb,var(--nppe-accent) 6%,var(--paper));box-shadow:0 4px 18px rgba(0,0,0,.04)}\n.nppe-bank-card:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}\n.nppe-bank-symbol{height:39px;width:39px;border-radius:9px;display:grid;place-items:center;font-weight:800;font-size:13px;background:color-mix(in srgb,var(--nppe-accent) 16%,var(--card));color:var(--nppe-accent)}\n.nppe-bank-copy{min-width:0;display:flex;flex-direction:column;gap:4px}\n.nppe-bank-copy .tb-setl{display:block;font-family:\"Source Serif 4\",serif;font-size:19px;font-weight:650;line-height:1.17;color:var(--ink)}\n.nppe-bank-kicker{font-size:10px;font-weight:700;letter-spacing:.085em;text-transform:uppercase;color:var(--muted)}\n.nppe-bank-description{font-size:12px;color:var(--muted);line-height:1.45;overflow-wrap:anywhere;margin-top:2px}\n.nppe-bank-counter{display:flex;align-items:center;gap:3px;flex-direction:column;white-space:nowrap;flex:none}\n.nppe-bank-counter .tb-sets{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}\n.nppe-bank-counter small{font-size:10px;color:var(--muted)}\n.nppe-bank-selected{grid-column:2/-1;display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--ink);font-weight:700;margin-top:1px}\n.nppe-bank-selected::before{content:\"✓\";font-weight:900;color:var(--nppe-accent)}\n.nppe-launch{border:1px solid var(--line);border-radius:13px;background:var(--tint);padding:20px;margin:0;min-width:0}\n.nppe-launch-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}\n.nppe-launch h3{font-family:\"Source Serif 4\",serif;font-size:22px;color:var(--ink);margin:4px 0 4px}\n.nppe-launch-head p{margin:0;font-size:12.5px;line-height:1.55;color:var(--muted)}\n.nppe-launch-badge{font-size:11px;border-radius:100px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 10px;font-weight:600}\n.nppe-launch-metrics{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 16px}\n.nppe-launch-metric{display:inline-flex;align-items:baseline;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:7px 10px;font-size:11.5px;color:var(--muted)}\n.nppe-launch-metric strong{color:var(--ink);font-size:12px;font-weight:700}\n.nppe-launch-actions{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--line)}\n.nppe-launch-actions .tb-mode-controls{margin:0}\n.nppe-launch-actions .nppe-session-timing{display:flex;flex-direction:column;gap:7px}\n.nppe-launch-actions .tb-mstart{min-height:44px;padding:11px 18px;font-size:13px;white-space:normal;text-align:center;justify-content:center}\n.nppe-launch-actions .tb-seg button{min-height:42px}\n.nppe-launch-note{margin:11px 0 0;color:var(--muted);font-size:11.5px;line-height:1.5}\n.nppe-disclosure{border-top:1px solid var(--line);padding-top:14px;margin-top:15px;font-size:12px;color:var(--muted)}\n.nppe-disclosure summary{cursor:pointer;color:var(--ink);font-weight:600;line-height:1.4}\n.nppe-disclosure p{max-width:92ch;line-height:1.6;margin:8px 0 0}\n@media(max-width:700px){.nppe-bank-picker,.nppe-launch{padding:16px}.nppe-bank-grid{grid-template-columns:1fr}.nppe-bank-grid[data-count=\"1\"]{max-width:none}.nppe-bank-card{min-height:100px}}\n@media(max-width:460px){.nppe-hub-top{gap:4px}.nppe-hub .tb-title{font-size:23px}.nppe-facts{gap:6px}.nppe-fact{padding:10px 9px}.nppe-fact strong{font-size:19px}.nppe-fact span{font-size:10.5px}.nppe-author-tabs{gap:5px}.nppe-author-tab{padding:10px 8px;min-height:58px}.nppe-author-tab .nppe-tab-name{font-size:12.5px}.nppe-bank-card{grid-template-columns:38px minmax(0,1fr) auto;gap:8px}.nppe-launch-actions{align-items:stretch;flex-direction:column}.nppe-launch-actions .tb-mstart{width:100%}}\n@media(prefers-reduced-motion:reduce){.nppe-author-tab,.nppe-bank-card{transition:none}}\n\n\n/* The author colours remain accessible in the dark theme, including small icon glyphs. */\nhtml[data-theme=\"dark\"] .nppe-bank-card[data-set=\"set-1-diagnostic\"]{--nppe-accent:#83cefb}\nhtml[data-theme=\"dark\"] .nppe-bank-card[data-set=\"set-1-learning\"]{--nppe-accent:#c3a7f4}\nhtml[data-theme=\"dark\"] .nppe-bank-card[data-set=\"set-1-mock-a\"]{--nppe-accent:#79ddc3}\nhtml[data-theme=\"dark\"] .nppe-bank-card[data-set=\"set-1-mock-b\"]{--nppe-accent:#f0c681}\nhtml[data-theme=\"dark\"] .nppe-bank-card[data-set=\"mock-c\"]{--nppe-accent:#f3a1b5}\nhtml[data-theme=\"dark\"] .nppe-bank-card[data-set=\"mock-d\"]{--nppe-accent:#b3baff}\n\n\n/* Selected tabs need at least 4.5:1 small-label contrast over the active tint. */\n.nppe-author-tab[aria-selected=\"true\"] .nppe-tab-number{color:var(--ink);font-weight:700}\n\n/* Desktop exam-workspace layout keeps the Start control visible beside bank cards. */\n.nppe-workspace{min-width:0}\n@media(min-width:1050px){\n  .nppe-workspace{display:grid;grid-template-columns:minmax(0,1.83fr) minmax(285px,1fr);align-items:start;gap:15px}\n  .nppe-workspace>.nppe-bank-picker{margin-bottom:0}\n  .nppe-workspace>.nppe-modes{margin:0;min-width:0}\n  .nppe-workspace .nppe-bank-card{padding:13px 11px;min-height:110px;grid-template-columns:36px minmax(0,1fr) auto;gap:8px}\n  .nppe-workspace .nppe-bank-card[aria-pressed=\"true\"]{padding:12px 10px}\n  .nppe-workspace .nppe-bank-symbol{width:35px;height:35px}\n  .nppe-workspace .nppe-bank-picker{padding:17px}\n  .nppe-workspace .nppe-launch{padding:17px}\n  .nppe-workspace .nppe-launch-head h3{margin-top:5px}\n  .nppe-workspace .nppe-launch-actions{align-items:stretch;flex-direction:column}\n  .nppe-workspace .nppe-launch-actions .tb-mstart{width:100%}\n}\n.nppe-fact strong{white-space:nowrap}\n\n\n/* NPPE-only Quick Quiz / Focused Quiz controls; the other simulators are unaffected. */\n.nppe-practice-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:5px;background:var(--card);border:1px solid var(--line);border-radius:11px;margin:0 0 13px}\n.nppe-practice-tabs button{min-width:0;min-height:43px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--ink);font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;padding:8px 5px}\n.nppe-practice-tabs button:hover{border-color:var(--teal)}\n.nppe-practice-tabs button[aria-selected=\"true\"]{background:color-mix(in srgb,var(--teal) 10%,var(--paper));border-color:var(--teal);box-shadow:0 2px 6px rgba(0,0,0,.05)}\n.nppe-practice-tabs button:focus-visible,.nppe-area-btn:focus-visible,.nppe-question-count button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}\n.nppe-short-panel{min-width:0}\n.nppe-short-panel .nppe-launch-head h3{font-size:21px;margin:4px 0}\n.nppe-short-area-title{display:flex;align-items:baseline;justify-content:space-between;gap:6px;flex-wrap:wrap;margin:18px 0 10px}\n.nppe-short-area-title h4,.nppe-short-options h4{margin:0;color:var(--ink);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-family:\"Work Sans\",sans-serif}\n.nppe-short-area-title span{color:var(--muted);font-size:11px}\n.nppe-area-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}\n.nppe-area-btn{min-width:0;text-align:left;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:9px 10px;cursor:pointer;font:inherit;display:flex;justify-content:space-between;align-items:center;gap:7px;line-height:1.35}\n.nppe-area-btn .nppe-area-name{font-size:12px;font-weight:600;min-width:0;overflow-wrap:anywhere}\n.nppe-area-btn .nppe-area-name b{font-size:11.5px;color:var(--teal);font-weight:750}\n.nppe-area-btn .nppe-area-count{flex:none;font-size:10px;color:var(--muted);white-space:nowrap}\n.nppe-area-btn:hover{border-color:var(--teal)}\n.nppe-area-btn.on,.nppe-area-btn[aria-pressed=\"true\"]{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 10%,var(--card));box-shadow:inset 0 0 0 1px var(--teal)}\n.nppe-area-btn[aria-pressed=\"true\"] .nppe-area-count{color:var(--ink);font-weight:600}\n.nppe-area-btn:disabled{opacity:.5;cursor:not-allowed}\n.nppe-short-options{display:grid;grid-template-columns:1fr 1fr;gap:14px;border-top:1px solid var(--line);padding-top:14px;margin-top:16px}\n.nppe-short-options>div{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:10px}\n.nppe-short-options .tb-mode-controls{margin:0}\n.nppe-question-count{display:flex;flex-wrap:wrap;gap:5px}\n.nppe-question-count button{min-width:41px;min-height:42px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:7px;cursor:pointer;font:inherit;font-size:12px;font-weight:700}\n.nppe-question-count button.on{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 12%,var(--card))}\n.nppe-short-summary{margin-top:15px;padding:10px 11px;border-radius:9px;border:1px solid var(--line);background:var(--card);font-size:12px;line-height:1.5;color:var(--muted)}\n.nppe-short-summary strong{color:var(--ink)}\n.nppe-short-start{margin-top:12px}\n.nppe-short-start .tb-mstart{width:100%;min-height:44px;justify-content:center}\n.nppe-short-panel .nppe-launch-note{margin-top:12px}\n@media(min-width:1050px){\n .nppe-workspace .nppe-area-list{grid-template-columns:minmax(0,1fr);max-height:315px;overflow:auto;scrollbar-width:thin;padding:2px}\n .nppe-workspace .nppe-area-btn{padding:8px 10px}\n .nppe-workspace .nppe-short-options{grid-template-columns:minmax(0,1fr);gap:12px}\n}\n@media(max-width:560px){\n .nppe-practice-tabs button{font-size:11.5px;padding:7px 3px}\n .nppe-area-list{grid-template-columns:minmax(0,1fr)}\n .nppe-area-btn{min-height:43px}\n .nppe-short-options{grid-template-columns:1fr;gap:12px}\n}\n";
+  nppeContrastStyle.textContent="\n/* NPPE's selector is intentionally scoped: other certification simulators retain their styles. */\n.tb-wrap{--nppe-score-good:#146c43;--nppe-score-low:#a52a25}\nhtml[data-theme=\"dark\"] .tb-wrap{--nppe-score-good:#6ee7b7;--nppe-score-low:#fca5a5}\nhtml[data-theme=\"dark\"] .tb-wrap .tb-seg button.on,\nhtml[data-theme=\"dark\"] .btn-teal,\nhtml[data-theme=\"dark\"] .tb-wrap .tb-opt.sel .k,\nhtml[data-theme=\"dark\"] #tb-feedback-loop .tb-review-tabs button.on{color:#082f35}\n.nppe-hub{min-width:0}\n.nppe-hub-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 16px}\n.nppe-hub .tb-title{margin:3px 0 8px}\n.nppe-eyebrow,.nppe-section-label{font-family:\"Work Sans\",sans-serif;letter-spacing:.105em;font-size:10.5px;text-transform:uppercase;font-weight:700;color:var(--muted);margin:0}\n.nppe-hub-intro{font-size:13.5px;line-height:1.6;color:var(--muted);max-width:68ch;margin:0}\n.nppe-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:22px}\n.nppe-fact{min-width:0;border:1px solid var(--line);background:var(--tint);padding:11px 14px;border-radius:10px}\n.nppe-fact strong{display:block;font-family:\"Source Serif 4\",serif;color:var(--ink);font-size:21px;font-weight:650;line-height:1.2}\n.nppe-fact span{display:block;font-size:11.5px;line-height:1.45;color:var(--muted);margin-top:3px}\n.nppe-bank-picker{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:20px;margin:0 0 16px;min-width:0}\n.nppe-picker-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}\n.nppe-picker-head h3{font-family:\"Source Serif 4\",serif;color:var(--ink);font-size:19px;margin:0}\n.nppe-picker-head p{font-size:12.5px;color:var(--muted);margin:0;line-height:1.5}\n.nppe-author-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;border-bottom:1px solid var(--line);padding-bottom:12px}\n.nppe-author-tab{min-width:0;border:1px solid var(--line);background:var(--tint);color:var(--ink);padding:11px 13px;min-height:57px;border-radius:9px;font:inherit;cursor:pointer;text-align:left;display:flex;flex-direction:column;justify-content:center;gap:2px;transition:border-color .15s,background-color .15s}\n.nppe-author-tab .nppe-tab-number{font-size:10.5px;color:var(--muted);letter-spacing:.05em}\n.nppe-author-tab .nppe-tab-name{font-size:14px;font-weight:700;line-height:1.25}\n.nppe-author-tab:hover{border-color:var(--teal)}\n.nppe-author-tab[aria-selected=\"true\"]{border-color:var(--teal);background:color-mix(in srgb,var(--teal) 9%,var(--card));box-shadow:inset 0 -3px 0 var(--teal)}\n.nppe-hub :is(.nppe-author-tab,.nppe-bank-card,.tb-mstart,.tb-seg button):focus-visible{outline:3px solid var(--teal);outline-offset:3px}\n.nppe-bank-panel{padding-top:16px}\n.nppe-bank-panel[hidden]{display:none!important}\n.nppe-bank-panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px}\n.nppe-bank-panel-head strong{font-family:\"Work Sans\",sans-serif;font-size:12px;font-weight:700;color:var(--ink)}\n.nppe-bank-panel-head span{font-size:11px;color:var(--muted)}\n.nppe-bank-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}\n.nppe-bank-grid[data-count=\"1\"]{grid-template-columns:minmax(0,1fr);max-width:470px}\n.nppe-bank-card{--nppe-accent:#247188;display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:start;gap:10px;text-align:left;width:100%;min-width:0;min-height:122px;padding:16px 13px;border:1px solid var(--line);border-radius:11px;background:var(--paper);font:inherit;color:var(--ink);cursor:pointer;transition:border-color .15s,background-color .15s,box-shadow .15s}\n.nppe-bank-card[data-set=\"set-1-diagnostic\"]{--nppe-accent:#156e98}\n.nppe-bank-card[data-set=\"set-1-learning\"]{--nppe-accent:#72529f}\n.nppe-bank-card[data-set=\"set-1-mock-a\"]{--nppe-accent:#127766}\n.nppe-bank-card[data-set=\"set-1-mock-b\"]{--nppe-accent:#a16a23}\n.nppe-bank-card[data-set=\"mock-c\"]{--nppe-accent:#af4f68}\n.nppe-bank-card[data-set=\"mock-d\"]{--nppe-accent:#5365a2}\n.nppe-bank-card:hover{border-color:var(--nppe-accent);box-shadow:0 4px 16px rgba(0,0,0,.055)}\n.nppe-bank-card[aria-pressed=\"true\"]{border:2px solid var(--nppe-accent);padding:15px 12px;background:color-mix(in srgb,var(--nppe-accent) 6%,var(--paper));box-shadow:0 4px 18px rgba(0,0,0,.04)}\n.nppe-bank-card:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}\n.nppe-bank-symbol{height:39px;width:39px;border-radius:9px;display:grid;place-items:center;font-weight:800;font-size:13px;background:color-mix(in srgb,var(--nppe-accent) 16%,var(--card));color:var(--nppe-accent)}\n.nppe-bank-copy{min-width:0;display:flex;flex-direction:column;gap:4px}\n.nppe-bank-copy .tb-setl{display:block;font-family:\"Source Serif 4\",serif;font-size:19px;font-weight:650;line-height:1.17;color:var(--ink)}\n.nppe-bank-kicker{font-size:10px;font-weight:700;letter-spacing:.085em;text-transform:uppercase;color:var(--muted)}\n.nppe-bank-description{font-size:12px;color:var(--muted);line-height:1.45;overflow-wrap:anywhere;margin-top:2px}\n.nppe-bank-counter{display:flex;align-items:center;gap:3px;flex-direction:column;white-space:nowrap;flex:none}\n.nppe-bank-counter .tb-sets{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}\n.nppe-bank-counter small{font-size:10px;color:var(--muted)}\n.nppe-bank-selected{grid-column:2/-1;display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--ink);font-weight:700;margin-top:1px}\n.nppe-bank-selected::before{content:\"✓\";font-weight:900;color:var(--nppe-accent)}\n.nppe-launch{border:1px solid var(--line);border-radius:13px;background:var(--tint);padding:20px;margin:0;min-width:0}\n.nppe-launch-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}\n.nppe-launch h3{font-family:\"Source Serif 4\",serif;font-size:22px;color:var(--ink);margin:4px 0 4px}\n.nppe-launch-head p{margin:0;font-size:12.5px;line-height:1.55;color:var(--muted)}\n.nppe-launch-badge{font-size:11px;border-radius:100px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 10px;font-weight:600}\n.nppe-launch-metrics{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 16px}\n.nppe-launch-metric{display:inline-flex;align-items:baseline;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:7px 10px;font-size:11.5px;color:var(--muted)}\n.nppe-launch-metric strong{color:var(--ink);font-size:12px;font-weight:700}\n.nppe-launch-actions{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--line)}\n.nppe-launch-actions .tb-mode-controls{margin:0}\n.nppe-launch-actions .nppe-session-timing{display:flex;flex-direction:column;gap:7px}\n.nppe-launch-actions .tb-mstart{min-height:44px;padding:11px 18px;font-size:13px;white-space:normal;text-align:center;justify-content:center}\n.nppe-launch-actions .tb-seg button{min-height:42px}\n.nppe-launch-note{margin:11px 0 0;color:var(--muted);font-size:11.5px;line-height:1.5}\n.nppe-disclosure{border-top:1px solid var(--line);padding-top:14px;margin-top:15px;font-size:12px;color:var(--muted)}\n.nppe-disclosure summary{cursor:pointer;color:var(--ink);font-weight:600;line-height:1.4}\n.nppe-disclosure p{max-width:92ch;line-height:1.6;margin:8px 0 0}\n@media(max-width:700px){.nppe-bank-picker,.nppe-launch{padding:16px}.nppe-bank-grid{grid-template-columns:1fr}.nppe-bank-grid[data-count=\"1\"]{max-width:none}.nppe-bank-card{min-height:100px}}\n@media(max-width:460px){.nppe-hub-top{gap:4px}.nppe-hub .tb-title{font-size:23px}.nppe-facts{gap:6px}.nppe-fact{padding:10px 9px}.nppe-fact strong{font-size:19px}.nppe-fact span{font-size:10.5px}.nppe-author-tabs{gap:5px}.nppe-author-tab{padding:10px 8px;min-height:58px}.nppe-author-tab .nppe-tab-name{font-size:12.5px}.nppe-bank-card{grid-template-columns:38px minmax(0,1fr) auto;gap:8px}.nppe-launch-actions{align-items:stretch;flex-direction:column}.nppe-launch-actions .tb-mstart{width:100%}}\n@media(prefers-reduced-motion:reduce){.nppe-author-tab,.nppe-bank-card{transition:none}}\n\n\n/* The author colours remain accessible in the dark theme, including small icon glyphs. */\nhtml[data-theme=\"dark\"] .nppe-bank-card[data-set=\"set-1-diagnostic\"]{--nppe-accent:#83cefb}\nhtml[data-theme=\"dark\"] .nppe-bank-card[data-set=\"set-1-learning\"]{--nppe-accent:#c3a7f4}\nhtml[data-theme=\"dark\"] .nppe-bank-card[data-set=\"set-1-mock-a\"]{--nppe-accent:#79ddc3}\nhtml[data-theme=\"dark\"] .nppe-bank-card[data-set=\"set-1-mock-b\"]{--nppe-accent:#f0c681}\nhtml[data-theme=\"dark\"] .nppe-bank-card[data-set=\"mock-c\"]{--nppe-accent:#f3a1b5}\nhtml[data-theme=\"dark\"] .nppe-bank-card[data-set=\"mock-d\"]{--nppe-accent:#b3baff}\n\n\n/* Selected tabs need at least 4.5:1 small-label contrast over the active tint. */\n.nppe-author-tab[aria-selected=\"true\"] .nppe-tab-number{color:var(--ink);font-weight:700}\n\n/* Desktop exam-workspace layout keeps the Start control visible beside bank cards. */\n.nppe-workspace{min-width:0}\n@media(min-width:1050px){\n  .nppe-workspace{display:grid;grid-template-columns:minmax(0,1.83fr) minmax(285px,1fr);align-items:start;gap:15px}\n  .nppe-workspace>.nppe-bank-picker{margin-bottom:0}\n  .nppe-workspace>.nppe-modes{margin:0;min-width:0}\n  .nppe-workspace .nppe-bank-card{padding:13px 11px;min-height:110px;grid-template-columns:36px minmax(0,1fr) auto;gap:8px}\n  .nppe-workspace .nppe-bank-card[aria-pressed=\"true\"]{padding:12px 10px}\n  .nppe-workspace .nppe-bank-symbol{width:35px;height:35px}\n  .nppe-workspace .nppe-bank-picker{padding:17px}\n  .nppe-workspace .nppe-launch{padding:17px}\n  .nppe-workspace .nppe-launch-head h3{margin-top:5px}\n  .nppe-workspace .nppe-launch-actions{align-items:stretch;flex-direction:column}\n  .nppe-workspace .nppe-launch-actions .tb-mstart{width:100%}\n}\n.nppe-fact strong{white-space:nowrap}\n\n\n\n/* NPPE mode cards reuse the same rows, selectors and actions as CRE/PMP/CQE. */\n.nppe-workspace{display:block!important}\n.nppe-workspace>.nppe-bank-picker{margin-bottom:18px}\n.nppe-workspace>.nppe-modes{margin:0;display:grid;gap:12px}\n.nppe-hub .nppe-mode-card{margin:0}\n.nppe-hub .nppe-mode-card .tb-mode-head{margin-bottom:13px}\n.nppe-hub .nppe-mode-card .tb-mode-ic{font-size:17px}\n.nppe-hub .nppe-mode-card .tb-mode-controls.stacked{margin-bottom:13px}\n.nppe-hub .nppe-mode-card .tb-fieldrow-label{width:83px}\n.nppe-hub .nppe-selected-bank{font-size:12px;font-weight:600;color:var(--ink)}\n.nppe-hub .nppe-area-select{min-height:42px;max-width:100%;min-width:205px}\n.nppe-hub .nppe-mode-card .tb-counts{display:flex;flex-wrap:wrap;gap:7px}\n.nppe-hub .nppe-mode-card .tb-count{min-width:45px;min-height:42px}\n.nppe-hub .nppe-mode-card .tb-mode-sum{flex:1 1 260px;line-height:1.6}\n.nppe-hub .nppe-mode-card .tb-mstart{min-height:44px}\n.nppe-hub .nppe-practice-heading{margin:0 0 11px}\n.nppe-hub .nppe-mode-card :is(.nppe-area-select,.tb-count):focus-visible{outline:3px solid var(--teal);outline-offset:2px}\n@media(max-width:560px){\n .nppe-hub .nppe-mode-card .tb-fieldrow{align-items:flex-start;gap:9px}\n .nppe-hub .nppe-mode-card .tb-fieldrow-label{width:65px}\n .nppe-hub .nppe-area-select{min-width:0;width:100%}\n .nppe-hub .nppe-mode-card .tb-fieldrow-value{flex:1;min-width:0}\n .nppe-hub .nppe-mode-card .tb-mode-foot{align-items:stretch;flex-direction:column}\n .nppe-hub .nppe-mode-card .tb-mode-foot .tb-mstart{width:100%;justify-content:center}\n}\n";
   document.head.appendChild(nppeContrastStyle);
   var nppeThemeGroup=document.querySelector('.theme-control');
   if(nppeThemeGroup)nppeThemeGroup.setAttribute('role','group');
@@ -123,10 +123,9 @@ const helpers = String.raw`
     {code:'III',id:'nppe-practice',label:'Professional Practice'},
     {code:'IV',id:'nppe-law',label:'Law'},
     {code:'V',id:'nppe-professional-law',label:'Professional Law'},
-    {code:'VI',id:'nppe-discipline',label:'Regulation and Discipline'}
+    {code:'VI',id:'nppe-discipline',label:'Discipline'}
   ];
-  var nppePracticeMode='full';
-  var nppeQuizAreas={quick:'all',focus:''};
+    var nppeQuizAreas={quick:'all',focus:''};
   function nppeAreaOf(e,q){
     if(!q||typeof q.blueprint!=='string')return '';
     var match=/^(I|II|III|IV|V|VI)\.[0-9]+(?:\b|$)/.exec(q.blueprint);
@@ -155,23 +154,23 @@ const helpers = String.raw`
     }
   }
   function nppeAreaChoices(e,kind){
-    var pool=nppeEligible(e,selectedSet);
-    var entries=(kind==='quick'?[{code:'',id:'all',label:'All six areas'}]:[]).concat(NPPE_AREAS);
-    return '<div class="nppe-area-list" role="group" aria-label="'+(kind==='quick'?'Quick Quiz':'Focused Quiz')+' NPPE subject area">'+
-      entries.map(function(a){
-        var n=a.id==='all'?pool.length:pool.filter(function(q){return nppeAreaOf(e,q)===a.id;}).length;
-        var selected=nppeQuizAreas[kind]===a.id;
-        return '<button type="button" class="nppe-area-btn'+(selected?' on':'')+'" data-nppe-area-kind="'+kind+
-          '" data-nppe-area="'+esc(a.id)+'" aria-pressed="'+selected+'"'+(n?'':' disabled')+
-          '><span class="nppe-area-name">'+(a.code?'<b>'+a.code+'</b> ':'')+esc(a.label)+
-          '</span><span class="nppe-area-count">'+n+' available</span></button>';
-      }).join('')+'</div>';
+    var pool=nppeEligible(e,selectedSet),isQuick=kind==='quick';
+    var entries=(isQuick?[{code:'',id:'all',label:'All six areas'}]:[]).concat(NPPE_AREAS);
+    var options=entries.map(function(a){
+      var count=a.id==='all'?pool.length:pool.filter(function(q){return nppeAreaOf(e,q)===a.id;}).length;
+      var selected=nppeQuizAreas[kind]===a.id;
+      return '<option value="'+esc(a.id)+'"'+(selected?' selected':'')+(count?'':' disabled')+'>'+
+        esc((a.code?a.code+' ':'')+a.label)+' ('+count+')</option>';
+    }).join('');
+    return '<select class="tb-select nppe-area-select" data-nppe-area-kind="'+kind+
+      '" aria-label="'+(isQuick?'Quick Quiz':'Focused Quiz')+' Body of Knowledge area">'+options+'</select>';
   }
   function nppeCountChoices(kind,count){
-    return '<div class="nppe-question-count" role="group" aria-label="'+(kind==='quick'?'Quick Quiz':'Focused Quiz')+' question count">'+
-      [5,10,20].map(function(n){return '<button type="button" data-nppe-count-kind="'+kind+
-      '" data-nppe-count="'+n+'" class="tb-count'+(count===n?' on':'')+'" aria-pressed="'+(count===n)+'">'+n+'</button>';}).join('')+
-      '</div>';
+    return '<span class="tb-counts" role="group" aria-label="'+(kind==='quick'?'Quick Quiz':'Focused Quiz')+
+      ' question count">'+[10,20,30,50].map(function(n){
+      return '<button type="button" data-nppe-count-kind="'+kind+'" data-nppe-count="'+n+
+        '" class="tb-count'+(count===n?' on':'')+'" aria-pressed="'+(count===n)+'">'+n+'</button>';
+    }).join('')+'</span>';
   }
   function nppeShortStart(kind){
     var e=EXAMS.nppe,id=selectedSet,f=formMeta(e,id);
@@ -181,7 +180,7 @@ const helpers = String.raw`
     if(!pool.length||kind==='focus'&&!NPPE_AREAS.some(function(x){return x.id===area;})||
        kind==='quick'&&area!=='all'&&!NPPE_AREAS.some(function(x){return x.id===area;}))return false;
     var desired=kind==='quick'?mode.quickN:mode.focusN,limit=Math.min(desired,pool.length);
-    if(!Number.isInteger(desired)||![5,10,20].includes(desired)||limit<1)return false;
+    if(!Number.isInteger(desired)||![10,20,30,50].includes(desired)||limit<1)return false;
     var picked=[];
     if(kind==='focus'){
       // Prefer previously missed questions in this same bank AND area when history is available.
@@ -281,37 +280,20 @@ const helpers = String.raw`
       });
     });
 
-    Array.prototype.forEach.call(host.querySelectorAll('[data-nppe-mode]'),function(button){
-      function selectMode(id){
-        if(!['full','quick','focus'].includes(id))return;
-        nppePracticeMode=id;renderMain();
-        var next=host.querySelector('[data-nppe-mode="'+id+'"]');
-        if(next)next.focus({preventScroll:true});
-      }
-      button.addEventListener('click',function(){selectMode(button.dataset.nppeMode);});
-      button.addEventListener('keydown',function(ev){
-        if(!['ArrowLeft','ArrowRight','Home','End'].includes(ev.key))return;
-        ev.preventDefault();
-        var all=['full','quick','focus'],currentIndex=all.indexOf(button.dataset.nppeMode);
-        var index=ev.key==='Home'?0:ev.key==='End'?2:
-          (currentIndex+(ev.key==='ArrowLeft'?-1:1)+3)%3;
-        selectMode(all[index]);
-      });
-    });
-    Array.prototype.forEach.call(host.querySelectorAll('[data-nppe-area-kind]'),function(button){
-      button.addEventListener('click',function(){
-        if(button.disabled)return;
-        var kind=button.dataset.nppeAreaKind,id=button.dataset.nppeArea;
+    Array.prototype.forEach.call(host.querySelectorAll('select[data-nppe-area-kind]'),function(select){
+      select.addEventListener('change',function(){
+        var kind=select.dataset.nppeAreaKind,id=select.value;
         if(!['quick','focus'].includes(kind))return;
-        nppeQuizAreas[kind]=id;renderMain();
-        var next=host.querySelector('[data-nppe-area-kind="'+kind+'"][data-nppe-area="'+id+'"]');
+        nppeQuizAreas[kind]=id;
+        renderMain();
+        var next=host.querySelector('select[data-nppe-area-kind="'+kind+'"]');
         if(next)next.focus({preventScroll:true});
       });
     });
     Array.prototype.forEach.call(host.querySelectorAll('[data-nppe-count-kind]'),function(button){
       button.addEventListener('click',function(){
         var kind=button.dataset.nppeCountKind,n=Number(button.dataset.nppeCount);
-        if(!['quick','focus'].includes(kind)||![5,10,20].includes(n))return;
+        if(!['quick','focus'].includes(kind)||![10,20,30,50].includes(n))return;
         if(kind==='quick')mode.quickN=n;else mode.focusN=n;
         renderMain();
         var next=host.querySelector('[data-nppe-count-kind="'+kind+'"][data-nppe-count="'+n+'"]');
@@ -345,74 +327,55 @@ const helpers = String.raw`
 
   function nppeModes(e){
     nppeEnsureAreas(e);
-    var kind=nppePracticeMode,modeLabels={full:'Full Exam',quick:'Quick Quiz',focus:'Focused Quiz'};
-    var tabs='<div class="nppe-practice-tabs" role="tablist" aria-label="NPPE practice modes">'+
-      ['full','quick','focus'].map(function(id){return '<button type="button" role="tab" id="nppe-practice-'+id+
-        '" data-nppe-mode="'+id+'" aria-selected="'+(id===kind)+'" aria-controls="nppe-practice-panel" tabindex="'+
-        (id===kind?'0':'-1')+'">'+modeLabels[id]+'</button>';}).join('')+'</div>';
-    return tabs+'<div id="nppe-practice-panel" role="tabpanel" aria-labelledby="nppe-practice-'+kind+'">'+
-      (kind==='full'?nppeFullModeHTML(e):nppeShortModeHTML(e,kind))+'</div>';
+    return '<div class="tb-sec nppe-practice-heading">Practice modes</div>'+
+      nppeFullModeHTML(e)+nppeShortModeHTML(e,'quick')+nppeShortModeHTML(e,'focus');
   }
   function nppeFullModeHTML(e){
     var f=formMeta(e,selectedSet),n=activeBank(e,selectedSet).length,ready=formReady(e,selectedSet);
     if(!f)return '<p>This bank is not ready.</p>';
     var minutes=f.kind==='mock'?150:Math.ceil(n*150/110);
-    var details=f.kind==='mock'?'100 scored · 10 simulated unscored':f.kind==='learning'?'Study with answer explanations':'All diagnostic questions scored';
-    var author={1:'ChatGPT',2:'Grok',3:'Claude'}[f.authorSet]||'NPPE';
-    var statement=f.kind==='learning'?'Untimed mode supports answer reveal while studying.':
-      'Answers and explanations appear after submission.';
-    return '<section class="nppe-launch" data-nppe-bank="'+esc(f.id)+'" aria-label="'+esc(f.label)+' session options">'+
-      '<div class="nppe-launch-head"><div><p class="nppe-section-label">Your selected bank · '+esc(author)+'</p>'+
-      '<h3>'+esc(f.label)+'</h3><p>'+esc(statement)+'</p></div>'+
-      '<span class="nppe-launch-badge">'+(ready?'Ready to practise':'Not yet available')+'</span></div>'+
-      '<div class="nppe-launch-metrics" role="group" aria-label="Session details">'+
-      '<span class="nppe-launch-metric"><strong>'+n+'</strong> questions</span>'+
-      '<span class="nppe-launch-metric">'+esc(details)+'</span>'+
-      '<span class="nppe-launch-metric"><strong>'+minutes+' minutes</strong> timed</span></div>'+
-      '<div class="nppe-launch-actions"><div class="nppe-session-timing">'+
-      '<span class="nppe-section-label">Choose your timing</span>'+
-      '<div class="tb-mode-controls">'+timingControlHTML('full',mode.timed,false)+'</div></div>'+
-      liveStart('full','Start '+esc(f.label),!ready)+'</div>'+
-      '<p class="nppe-launch-note">'+(mode.timed?'Timed · closed-book practice':'Untimed · no time limit')+
-      '. '+(f.kind==='learning'?'Learning mode includes optional assisted reveal.':'No answer reveal during the attempt.')+
-      '</p></section>';
+    var hint=f.kind==='mock'?'100 scored · 10 simulated unscored':f.kind==='learning'?
+      'Untimed Learning offers optional answer reveal.':'All Diagnostic questions are scored.';
+    return '<section class="tb-mode nppe-mode-card" data-nppe-bank="'+esc(f.id)+'" aria-label="'+esc(f.label)+' Full Exam">'+
+      '<div class="tb-mode-head"><span class="tb-mode-ic" aria-hidden="true">▤</span><div>'+
+      '<h4>'+esc(f.label)+' — Full Exam</h4><p>'+n+' questions from '+esc(f.label)+' only. '+hint+'</p>'+
+      '</div></div><div class="tb-mode-controls">'+timingControlHTML('full',mode.timed)+'</div>'+
+      '<div class="tb-mode-foot"><span class="tb-mode-sum">'+
+      (mode.timed?'Strict <b>'+minutes+' minutes</b> · closed-book practice':'<b>Untimed</b> · work at your own pace')+
+      '</span>'+liveStart('full','Start '+esc(f.label),!ready)+'</div></section>';
   }
   function nppeShortModeHTML(e,kind){
     var f=formMeta(e,selectedSet),ready=!!f&&formReady(e,selectedSet);
     if(!f)return '<p>Choose a bank above to begin.</p>';
-    var label=kind==='quick'?'Quick Quiz':'Focused Quiz';
-    var desired=kind==='quick'?mode.quickN:mode.focusN;
-    var timed=kind==='quick'?mode.quickTimed:mode.focusTimed;
-    var pool=nppeShortPool(e,kind),count=Math.min(pool.length,desired),duration=fmtQuizDuration(Math.round(count*150*60/110));
-    var selected=kind==='quick'?nppeQuizAreas.quick:nppeQuizAreas.focus;
-    var area=NPPE_AREAS.find(function(a){return a.id===selected;});
-    var selectedName=selected==='all'?'All six areas':area?area.code+' '+area.label:'No area available';
-    var note=kind==='quick'?
-      'Random questions from your chosen area or all six areas of this bank.':
-      'One subject area at a time. Previously missed questions are prioritised when available.';
-    var fullNote=f.kind==='mock'?'Simulated unscored mock items are excluded from short quizzes.':'Only this bank is used.';
-    return '<section class="nppe-launch nppe-short-panel" data-nppe-bank="'+esc(f.id)+'" data-nppe-quiz-kind="'+kind+
-      '" aria-label="'+label+' from '+esc(f.label)+'">'+
-      '<div class="nppe-launch-head"><div><p class="nppe-section-label">'+esc(f.label)+' · '+label+'</p>'+
-      '<h3>'+label+'</h3><p>'+note+'</p></div>'+
-      '<span class="nppe-launch-badge">'+pool.length+' eligible in selected area</span></div>'+
-      '<div class="nppe-short-area-title"><h4>Choose an NPPE area</h4>'+
-      '<span>Six blueprint areas · counts from '+esc(f.label)+'</span></div>'+
-      nppeAreaChoices(e,kind)+
-      '<div class="nppe-short-options"><div><h4>Questions</h4>'+nppeCountChoices(kind,desired)+'</div>'+
-      '<div class="nppe-session-timing"><h4>Timing</h4>'+
-      '<div class="tb-mode-controls">'+timingControlHTML(kind,timed,false)+'</div></div></div>'+
-      '<div class="nppe-short-summary" role="status" aria-live="polite">'+
-      (count?'<strong>'+count+' question'+(count===1?'':'s')+'</strong> · '+esc(selectedName)+
-        (timed?' · '+duration+' limit':' · Untimed'):'No scored questions available for this selection.')+
-      (pool.length&&pool.length<desired?' · Limited to '+pool.length+' available.':'')+
-      '</div><div class="nppe-short-start">'+
-      liveStart(kind,'Start '+label,!ready||!count)+
-      '</div><p class="nppe-launch-note">'+fullNote+' Answers and explanations are shown after submission. '+
-      (kind==='focus'?'This is targeted practice, not an independent mock result.':'The selected area limits the question pool.')+
-      '</p></section>';
+    var quick=kind==='quick',label=quick?'Quick Quiz':'Focused Quiz';
+    var desired=quick?mode.quickN:mode.focusN,timed=quick?mode.quickTimed:mode.focusTimed;
+    var pool=nppeShortPool(e,kind),count=Math.min(pool.length,desired);
+    var duration=fmtQuizDuration(Math.round(count*150*60/110)),areaId=nppeQuizAreas[kind];
+    var subject=NPPE_AREAS.find(function(a){return a.id===areaId;});
+    var areaName=areaId==='all'?'All six areas':subject?subject.code+' '+subject.label:'No available area';
+    var description=quick?'A randomized quiz from your selected NPPE area or all six areas.':
+      'Drill one Body of Knowledge area. Previously missed questions are prioritised when available.';
+    return '<section class="tb-mode nppe-mode-card" data-nppe-bank="'+esc(f.id)+
+      '" data-nppe-quiz-kind="'+kind+'" aria-label="'+esc(f.label)+' '+label+'">'+
+      '<div class="tb-mode-head"><span class="tb-mode-ic" aria-hidden="true">'+(quick?'⚡':'◎')+
+      '</span><div><h4>'+label+'</h4><p>'+description+'</p></div></div>'+
+      '<div class="tb-mode-controls stacked">'+
+      '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Bank</span>'+
+      '<div class="tb-fieldrow-value nppe-selected-bank">'+esc(f.label)+' · '+
+      esc({1:'ChatGPT',2:'Grok',3:'Claude'}[f.authorSet]||'NPPE')+'</div></div>'+
+      '<div class="tb-fieldrow"><label class="tb-fieldrow-label" for="nppe-area-'+kind+'">Area</label>'+
+      '<div class="tb-fieldrow-value">'+nppeAreaChoices(e,kind).replace('data-nppe-area-kind="'+kind+'"','id="nppe-area-'+kind+'" data-nppe-area-kind="'+kind+'"')+'</div></div>'+
+      '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Questions</span><div class="tb-fieldrow-value">'+
+      nppeCountChoices(kind,desired)+'</div></div>'+
+      '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Timing</span><div class="tb-fieldrow-value">'+
+      timingControlHTML(kind,timed,false)+'</div></div></div>'+
+      '<div class="tb-mode-foot"><span class="tb-mode-sum" aria-live="polite">'+
+      (count?'<b>'+count+'</b> question'+(count===1?'':'s')+' from <b>'+esc(areaName)+'</b> in <b>'+esc(f.label)+'</b>'+
+        (timed?' · '+duration+' time limit':' · Untimed'):'No eligible scored questions in this area.')+
+      (pool.length&&pool.length<desired?' · '+pool.length+' available in this selection.':'')+
+      (f.kind==='mock'?' Simulated unscored mock items are excluded.':'')+
+      '</span>'+liveStart(kind,'Start quiz',!ready||!count)+'</div></section>';
   }
-
   function nppeStart(id,timed){
     var e=EXAMS.nppe,f=formMeta(e,id);
     if(!f||!formReady(e,id))return false;
