@@ -261,7 +261,7 @@
       "Apply the publisher's new standard as immediately binding law.",
       "Check the legally adopted edition and approve justified changes through formal change control.",
       "The engineer must permanently ignore the 2026 edition, even if it reveals a newly discovered critical hazard.",
-      "A voluntary standard has no technical use unless its every clause is copied word-for-word into a statute."
+      "A voluntary standard is useful only when enacted word for word."
     ],
     "answer": 1,
     "optionRationales": [
@@ -298,7 +298,7 @@
     "stem": "A public infrastructure panel compares three designs that all meet mandatory safety and rights requirements. Its stated ethical rule is to choose the design expected to produce the greatest overall welfare across all affected communities, weighing both benefits and harms rather than favouring the largest single group. Which approach is most directly illustrated?",
     "options": [
       "Strict legal positivism, because the design receiving the most votes becomes morally correct regardless of its effects.",
-      "Virtue ethics, because the panel's sole basis is the character traits its members acquire through practice.",
+      "Virtue ethics: consider only the panel members' character.",
       "Utilitarianism: compare alternatives by their expected total harms and benefits.",
       "Choose the option that most benefits the panel chair."
     ],
@@ -415,6 +415,7 @@
   if([321,323,324,325,326,328,329,330].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
   if([321,324,325,327,328,329,330].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([321,324,325,326].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if([327,328].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(s){return s.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 5 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Difficulty and cognition are editorial estimates, not evidence of official NPPE readiness.</p>';
  });
