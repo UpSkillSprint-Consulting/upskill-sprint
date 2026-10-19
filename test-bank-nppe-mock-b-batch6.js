@@ -215,7 +215,7 @@
     "options": [
       "The proponent can assist, but the Crown retains the legal consultation duty.",
       "Wait for judicial proof of the Indigenous right before consulting.",
-      "A professional engineer employed by the proponent automatically becomes the sole constitutional decision-maker for the Crown.",
+      "Let the proponent's engineer assume the Crown's constitutional duty.",
       "An environmental feasibility report alone extinguishes the Crown's consultation obligations regardless of the potential impacts."
     ],
     "answer": 0,
@@ -254,7 +254,7 @@
     "options": [
       "Delete logs to reduce the likelihood of regulatory or reputational questions, then rebuild the audit trail from memory.",
       "Keep evidence, investigate the incident and assess design integrity.",
-      "Publish all confidential design files online so the client can independently identify what may have been accessed.",
+      "Publish every confidential design file to investigate the breach.",
       "Treat backups as proof the incident caused no data changes."
     ],
     "answer": 1,
@@ -423,6 +423,7 @@
   if(id==='339'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if([331,332,333,334,335,336,337,338,339,340].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([331,332,333,334].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if([336,337].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 6 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Classifications are editorial estimates; no official NPPE pass prediction.</p>';
  });
