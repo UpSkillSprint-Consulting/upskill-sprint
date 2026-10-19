@@ -192,9 +192,9 @@ const helpers = String.raw`
   }
   function nppeOverviewHTML(){
     var e=EXAMS.nppe,f=formMeta(e,selectedSet);
-    if(!f||!formReady(e,selectedSet)){
-      selectedSet='set-1-diagnostic';f=formMeta(e,selectedSet);
-    }
+    // Only an unknown initial set receives a default. An incomplete or invalid selected
+    // form stays selected with its Start control disabled; never substitute Diagnostic.
+    if(!f){selectedSet='set-1-diagnostic';f=formMeta(e,selectedSet);}
     var n=formQuestionCount(e,selectedSet),ready=formReady(e,selectedSet);
     var status=!ready?'In preparation':f.kind==='diagnostic'&&n<f.target?'Partial diagnostic':
       f.kind==='learning'&&n<f.target?'Partial learning bank':'Available for practice';
