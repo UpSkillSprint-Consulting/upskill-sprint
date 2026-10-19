@@ -279,6 +279,44 @@ const helpers = String.raw`
         if(newButton)newButton.focus({preventScroll:true});
       });
     });
+
+    Array.prototype.forEach.call(host.querySelectorAll('[data-nppe-mode]'),function(button){
+      function selectMode(id){
+        if(!['full','quick','focus'].includes(id))return;
+        nppePracticeMode=id;renderMain();
+        var next=host.querySelector('[data-nppe-mode="'+id+'"]');
+        if(next)next.focus({preventScroll:true});
+      }
+      button.addEventListener('click',function(){selectMode(button.dataset.nppeMode);});
+      button.addEventListener('keydown',function(ev){
+        if(!['ArrowLeft','ArrowRight','Home','End'].includes(ev.key))return;
+        ev.preventDefault();
+        var all=['full','quick','focus'],currentIndex=all.indexOf(button.dataset.nppeMode);
+        var index=ev.key==='Home'?0:ev.key==='End'?2:
+          (currentIndex+(ev.key==='ArrowLeft'?-1:1)+3)%3;
+        selectMode(all[index]);
+      });
+    });
+    Array.prototype.forEach.call(host.querySelectorAll('[data-nppe-area-kind]'),function(button){
+      button.addEventListener('click',function(){
+        if(button.disabled)return;
+        var kind=button.dataset.nppeAreaKind,id=button.dataset.nppeArea;
+        if(!['quick','focus'].includes(kind))return;
+        nppeQuizAreas[kind]=id;renderMain();
+        var next=host.querySelector('[data-nppe-area-kind="'+kind+'"][data-nppe-area="'+id+'"]');
+        if(next)next.focus({preventScroll:true});
+      });
+    });
+    Array.prototype.forEach.call(host.querySelectorAll('[data-nppe-count-kind]'),function(button){
+      button.addEventListener('click',function(){
+        var kind=button.dataset.nppeCountKind,n=Number(button.dataset.nppeCount);
+        if(!['quick','focus'].includes(kind)||![5,10,20].includes(n))return;
+        if(kind==='quick')mode.quickN=n;else mode.focusN=n;
+        renderMain();
+        var next=host.querySelector('[data-nppe-count-kind="'+kind+'"][data-nppe-count="'+n+'"]');
+        if(next)next.focus({preventScroll:true});
+      });
+    });
     wirePracticeModes(host.querySelector('.tb-modes'));
   }
   function nppeOverviewHTML(){
@@ -303,14 +341,25 @@ const helpers = String.raw`
       'the NPPE programme or any regulator. Practice results are not an official scaled NPPE score or pass prediction.</p>'+
       '</details></div>';
   }
+
   function nppeModes(e){
+    nppeEnsureAreas(e);
+    var kind=nppePracticeMode,modeLabels={full:'Full Exam',quick:'Quick Quiz',focus:'Focused Quiz'};
+    var tabs='<div class="nppe-practice-tabs" role="tablist" aria-label="NPPE practice modes">'+
+      ['full','quick','focus'].map(function(id){return '<button type="button" role="tab" id="nppe-practice-'+id+
+        '" data-nppe-mode="'+id+'" aria-selected="'+(id===kind)+'" aria-controls="nppe-practice-panel" tabindex="'+
+        (id===kind?'0':'-1')+'">'+modeLabels[id]+'</button>';}).join('')+'</div>';
+    return tabs+'<div id="nppe-practice-panel" role="tabpanel" aria-labelledby="nppe-practice-'+kind+'">'+
+      (kind==='full'?nppeFullModeHTML(e):nppeShortModeHTML(e,kind))+'</div>';
+  }
+  function nppeFullModeHTML(e){
     var f=formMeta(e,selectedSet),n=activeBank(e,selectedSet).length,ready=formReady(e,selectedSet);
     if(!f)return '<p>This bank is not ready.</p>';
     var minutes=f.kind==='mock'?150:Math.ceil(n*150/110);
     var details=f.kind==='mock'?'100 scored · 10 simulated unscored':f.kind==='learning'?'Study with answer explanations':'All diagnostic questions scored';
     var author={1:'ChatGPT',2:'Grok',3:'Claude'}[f.authorSet]||'NPPE';
     var statement=f.kind==='learning'?'Untimed mode supports answer reveal while studying.':
-      'Questions stay unanswered until submission; full explanations appear afterward.';
+      'Answers and explanations appear after submission.';
     return '<section class="nppe-launch" data-nppe-bank="'+esc(f.id)+'" aria-label="'+esc(f.label)+' session options">'+
       '<div class="nppe-launch-head"><div><p class="nppe-section-label">Your selected bank · '+esc(author)+'</p>'+
       '<h3>'+esc(f.label)+'</h3><p>'+esc(statement)+'</p></div>'+
@@ -327,6 +376,42 @@ const helpers = String.raw`
       '. '+(f.kind==='learning'?'Learning mode includes optional assisted reveal.':'No answer reveal during the attempt.')+
       '</p></section>';
   }
+  function nppeShortModeHTML(e,kind){
+    var f=formMeta(e,selectedSet),ready=!!f&&formReady(e,selectedSet);
+    if(!f)return '<p>Choose a bank above to begin.</p>';
+    var label=kind==='quick'?'Quick Quiz':'Focused Quiz';
+    var desired=kind==='quick'?mode.quickN:mode.focusN;
+    var timed=kind==='quick'?mode.quickTimed:mode.focusTimed;
+    var pool=nppeShortPool(e,kind),count=Math.min(pool.length,desired),duration=fmtQuizDuration(Math.round(count*150*60/110));
+    var selected=kind==='quick'?nppeQuizAreas.quick:nppeQuizAreas.focus;
+    var area=NPPE_AREAS.find(function(a){return a.id===selected;});
+    var selectedName=selected==='all'?'All six areas':area?area.code+' '+area.label:'No area available';
+    var note=kind==='quick'?
+      'Random questions from your chosen area or all six areas of this bank.':
+      'One subject area at a time. Previously missed questions are prioritised when available.';
+    var fullNote=f.kind==='mock'?'Simulated unscored mock items are excluded from short quizzes.':'Only this bank is used.';
+    return '<section class="nppe-launch nppe-short-panel" data-nppe-bank="'+esc(f.id)+'" data-nppe-quiz-kind="'+kind+
+      '" aria-label="'+label+' from '+esc(f.label)+'">'+
+      '<div class="nppe-launch-head"><div><p class="nppe-section-label">'+esc(f.label)+' · '+label+'</p>'+
+      '<h3>'+label+'</h3><p>'+note+'</p></div>'+
+      '<span class="nppe-launch-badge">'+pool.length+' eligible in selected area</span></div>'+
+      '<div class="nppe-short-area-title"><h4>Choose an NPPE area</h4>'+
+      '<span>Six blueprint areas · counts from '+esc(f.label)+'</span></div>'+
+      nppeAreaChoices(e,kind)+
+      '<div class="nppe-short-options"><div><h4>Questions</h4>'+nppeCountChoices(kind,desired)+'</div>'+
+      '<div class="nppe-session-timing"><h4>Timing</h4>'+
+      '<div class="tb-mode-controls">'+timingControlHTML(kind,timed,false)+'</div></div></div>'+
+      '<div class="nppe-short-summary" role="status" aria-live="polite">'+
+      (count?'<strong>'+count+' question'+(count===1?'':'s')+'</strong> · '+esc(selectedName)+
+        (timed?' · '+duration+' limit':' · Untimed'):'No scored questions available for this selection.')+
+      (pool.length&&pool.length<desired?' · Limited to '+pool.length+' available.':'')+
+      '</div><div class="nppe-short-start">'+
+      liveStart(kind,'Start '+label,!ready||!count)+
+      '</div><p class="nppe-launch-note">'+fullNote+' Answers and explanations are shown after submission. '+
+      (kind==='focus'?'This is targeted practice, not an independent mock result.':'The selected area limits the question pool.')+
+      '</p></section>';
+  }
+
   function nppeStart(id,timed){
     var e=EXAMS.nppe,f=formMeta(e,id);
     if(!f||!formReady(e,id))return false;
