@@ -13,7 +13,7 @@
     "stem": "A government regulation incorporates the 2020 edition of a pressure-piping standard. The publisher issues a 2026 revision with different testing provisions. A manager says publication alone immediately makes the new revision the law. What should the responsible engineer do?",
     "options": [
       "Apply the 2026 revision automatically because its publication date overrides the incorporation wording.",
-      "Ignore the new standard even when it reveals danger.",
+      "Ignore the 2026 revision even if it exposes a material safety deficiency.",
       "Identify the legally adopted edition and review any proposed change.",
       "Treat all standards as legally irrelevant because they are drafted outside the legislature."
     ],
@@ -52,7 +52,7 @@
     "stem": "An engineer who created two original technical illustrations signs a moral-rights waiver expressly permitting a client to crop Diagram A for a report. The client later argues the waiver also allows replacing the author's name on unrelated Diagram B. Which interpretation best fits the Copyright Act and the stipulated limited waiver?",
     "options": [
       "Once one moral right is waived for any work, all of the author's future moral rights are automatically extinguished.",
-      "Treat every moral-rights waiver as necessarily unlimited.",
+      "A waiver can never be limited because the Copyright Act permits waiver only of every moral right at once.",
       "The waiver for Diagram A does not extend to unrelated Diagram B.",
       "An economic copyright licence in Diagram A automatically transfers moral rights in all works created for the same client."
     ],
@@ -93,7 +93,7 @@
       "Continue publishing names because long-standing local customs always supersede contractual confidentiality.",
       "Post the reports but remove only the date, since names and addresses are not identifying information.",
       "Destroy the results instead of protecting confidentiality.",
-      "Respect confidentiality and report findings only through authorized channels."
+      "Respect the confidentiality commitment, evaluate legitimate reporting duties, and provide necessary findings through an authorized privacy-protective route."
     ],
     "answer": 3,
     "optionRationales": [
@@ -130,7 +130,7 @@
     "stem": "A consultant designing a retaining wall obtains professional liability insurance with a $2 million limit. The director argues that purchasing the policy means the firm can omit peer review because all design risks have been transferred. Which response is most defensible?",
     "options": [
       "Treat insurance as preventing technical defects.",
-      "Insurance covers specified losses but never replaces hazard controls.",
+      "Insurance transfers certain financial exposures subject to terms; it does not replace competent design, verification or risk reduction.",
       "A dollar-denominated insurance limit proves that any failure producing a smaller loss is acceptable.",
       "The policy automatically prevents professional discipline arising from negligent practice."
     ],
@@ -176,7 +176,7 @@
     "options": [
       "Remain silent because an expert's only duty is to defend the first submitted opinion.",
       "Inform counsel privately and leave the filed report unchanged.",
-      "Promptly advise the appropriate parties about the material opinion change.",
+      "Promptly advise the appropriate parties through the proper litigation process of the material change and its effect on the expert opinion.",
       "Destroy the new evidence and withdraw every prior finding rather than transparently amend the opinion."
     ],
     "answer": 2,
@@ -291,7 +291,7 @@
     "jurisdiction": "Canada; conceptual community-investment assessment with fictional figures and no mandated valuation method.",
     "stem": "A coastal town considers funding corrosion monitoring of its seawater intake. The programme produces no new structure or direct revenue, but credible analysis indicates it will reduce unplanned outages and extend useful life of an existing public asset. A councillor says monitoring creates no economic value because there is no new physical product. What is the strongest response?",
     "options": [
-      "Count only exported goods as economic value.",
+      "Only goods that can be exported count as economically valuable engineering output.",
       "Avoided outages and deferred replacement can provide measurable value.",
       "Monitoring guarantees no corrosion failure for the entire asset life and therefore removes all future operating costs.",
       "All monitoring programmes have identical economic outcomes regardless of the technical effectiveness of their measurements."
@@ -406,6 +406,7 @@
   if(id==='362'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; whole-form cross-bank redundancy revision';}
   if([361,362,363,364,365,366,367,368,369,370].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if([361,362,363,364,365,366,367,368,369,370].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
+  if([361,362,363,364,365,368].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 9 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item. Editorial classifications do not predict official NPPE performance.</p>';
  });
