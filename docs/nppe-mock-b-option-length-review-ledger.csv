@@ -98,7 +98,7 @@ NPPE-376,III.9,D,76,46,108,3,false,false,-32,source_revised,rank_balanced_pendin
 NPPE-377,IV.11,B,71,53,114,3,false,false,-43,source_revised,rank_balanced_pending_independent_editorial_review,option_credibility_and_rationales_pending_SME,3,none_after_rank_balance
 NPPE-378,II.4,C,127,90,131,3,false,false,-4,source_revised,rank_balanced_pending_independent_editorial_review,option_credibility_and_rationales_pending_SME,3,none_after_rank_balance
 NPPE-379,III.10,D,71,63,106,2,false,false,-35,source_revised,rank_balanced_pending_independent_editorial_review,option_credibility_and_rationales_pending_SME,2,none_after_rank_balance
-NPPE-380,I.1,A,86,82,98,2,false,false,-12,source_revised,tie_requires_editorial_review,length_tie,2,none_after_rank_balance
+NPPE-380,I.1,A,86,82,107,2,false,false,-21,source_revised,rank_balanced_pending_independent_editorial_review,tie_removed_option_credibility_still_requires_review,2,none_after_rank_balance
 NPPE-381,V.1,B,84,110,125,1,true,false,-41,source_revised,rank_balanced_pending_independent_editorial_review,option_credibility_and_rationales_pending_SME,1,none_after_rank_balance
 NPPE-382,VI.1,D,76,101,121,1,true,false,-45,source_revised,rank_balanced_pending_independent_editorial_review,option_credibility_and_rationales_pending_SME,1,none_after_rank_balance
 NPPE-383,IV.12,C,62,96,121,1,true,false,-59,source_revised,rank_balanced_pending_independent_editorial_review,option_credibility_and_rationales_pending_SME,1,none_after_rank_balance
