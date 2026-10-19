@@ -44,11 +44,10 @@ async function harness(releaseMockFixture = false) {
   packet.scripts.forEach(source => w.eval(source));
   await wait();
   if (releaseMockFixture) {
-    // Isolated test fixture only: product delivery retains all release holds.
+    // Production publication is explicit; access to the protected delivery remains server authorized.
     const formId=releaseMockFixture===true?'set-1-mock-a':releaseMockFixture;
     const form=w.__TB.EXAMS.nppe.formCatalog.find(f=>f.id===formId);
-    assert.equal(form.releaseHold,true);
-    form.releaseHold=false;
+    assert.equal(form.releaseHold,false);
     d.querySelector('[data-nppe-owner="1"]').click();
   }
   return {w, d, errors, close() {
@@ -63,17 +62,18 @@ function click(d, selector) {
   el.click();
 }
 
-test('available NPPE forms and isolated held-mock fixtures withhold answers in both timing modes and score only eligible items', async parent => {
+test('published NPPE forms withhold answers in both timing modes and score only eligible items', async parent => {
   const catalog = await harness();
   const exam = catalog.w.__TB.EXAMS.nppe;
   const forms = Array.from(exam.formCatalog)
     .filter(form => ['diagnostic', 'mock'].includes(form.kind) && (exam.forms[form.id] || []).length > 0 && (form.kind !== 'mock' || exam.forms[form.id].length === form.target))
     .map(form => ({id: form.id, owner: form.authorSet, kind: form.kind, count: exam.forms[form.id].length}));
   assert.ok(forms.some(form => form.id === 'set-1-diagnostic'), 'Diagnostic must be covered');
-  assert.ok(forms.some(form => form.id === 'mock-d'), 'Mock D must be covered');
-  assert.ok(forms.some(form => form.id === 'mock-e'), 'Mock E must be covered');
-  assert.ok(forms.some(form => form.id === 'set-1-mock-a'), 'Completed Mock A must be tested in isolation');
-  assert.ok(forms.some(form => form.id === 'set-1-mock-b'), 'Completed Mock B must be tested in isolation');
+  assert.ok(forms.some(form => form.id === 'mock-c' && form.owner===2), 'Grok Mock C must be covered');
+  assert.ok(forms.some(form => form.id === 'mock-d' && form.owner===3), 'Claude Mock D must be covered');
+  assert.ok(!forms.some(form=>form.id==='mock-e'||form.id==='set-1-mock-c'),'No fifth/mock E placeholder remains');
+  assert.ok(forms.some(form => form.id === 'set-1-mock-a'), 'Released Mock A must be tested');
+  assert.ok(forms.some(form => form.id === 'set-1-mock-b'), 'Released Mock B must be tested');
   catalog.close();
   for (const form of forms) for (const timed of [true, false]) {
     await parent.test(form.id + (timed ? '/timed' : '/untimed'), async () => {
@@ -133,31 +133,37 @@ test('available NPPE forms and isolated held-mock fixtures withhold answers in b
   }
 });
 
-// Authoring completion must not override the explicit release hold or borrow another form.
-test('complete Mock A remains held, disabled and cannot substitute another bank', async () => {
- const h=await harness(), {w,d}=h;
+// Author-controlled release never borrows forms or removes per-certification access protection.
+test('Mock A and B are available only inside the authorized NPPE package, independently of Grok/Claude', async () => {
+ const h=await harness(),{w,d}=h;
  try {
   const e=w.__TB.EXAMS.nppe;
-  assert.equal(e.forms['set-1-mock-a'].length,110);
-  assert.equal(e.formCatalog.find(f=>f.id==='set-1-mock-a').target,110);
-  const control=d.querySelector('[data-set="set-1-mock-a"]');
-  assert.equal(control.disabled,true);
-  assert.equal(e.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold,true);
-  assert.match(control.getAttribute('aria-label'),/awaiting release review/);
-  assert.equal(control.querySelector('.tb-sets').textContent,'110');
-  control.dispatchEvent(new w.Event('click'));
-  assert.equal(w.__TB.getFeedbackSnapshot(),null);
-  assert.equal(d.querySelector('[data-mode="full"]').disabled,true);
-  d.querySelector('[data-mode="full"]').dispatchEvent(new w.Event('click'));
-  assert.equal(d.querySelector('.tb-quiz'),null);
+  assert.deepEqual(Array.from(e.formCatalog,f=>f.id),[
+   'set-1-diagnostic','set-1-learning','set-1-mock-a','set-1-mock-b','mock-c','mock-d'
+  ]);
+  for(const id of ['set-1-mock-a','set-1-mock-b','mock-c','mock-d']) {
+   const form=e.formCatalog.find(f=>f.id===id);
+   assert.notEqual(form.releaseHold,true,id);
+   assert.equal(e.forms[id].length,110,id);
+   assert.equal(e.forms[id].filter(q=>q.scored===true&&!q.experimental).length,100);
+   assert.equal(e.forms[id].filter(q=>q.experimental===true&&!q.scored).length,10);
+  }
+  assert.ok(e.forms['mock-c'].every(q=>q.form==='mock-c'&&q.authorSet===2));
+  assert.ok(e.forms['mock-d'].every(q=>q.form==='mock-d'&&q.authorSet===3));
+  assert.equal(e.forms['mock-e'],undefined);
+  assert.ok(!e.formCatalog.some(f=>f.id==='mock-e'||f.id==='set-1-mock-c'));
   assert.equal(e.forms['set-1-learning'].length,120);
   assert.equal(e.forms['set-1-diagnostic'].length,50);
-  for(const id of ['mock-d','mock-e'])assert.equal(e.forms[id].length,110);
+  assert.ok(e.forms['set-1-mock-b'].every(q=>q.releaseStatus==='released'));
+  assert.match(e.formatNote,/not official NPPE scaled scores/);
+  click(d,'[data-set="set-1-mock-a"]');
+  assert.equal(d.querySelector('[data-set="set-1-mock-a"]').disabled,false);
+  assert.equal(d.querySelector('[data-mode="full"]').disabled,false);
   assert.deepEqual(h.errors,[]);
- } finally {h.close();}
+ }finally{h.close();}
 });
 
-// Full-form QA uses an isolated release fixture; no product setting or learner grant changes.
+// Full-form QA is exercised inside the authorized fixture; learner permissions remain server checked.
 test('isolated complete Mock A scores 100/100 despite ten wrong experimental answers and explains all 110 items', async () => {
  const h=await harness(true),{w,d}=h;
  try {
@@ -195,7 +201,7 @@ test('isolated complete Mock A scores 100/100 despite ten wrong experimental ans
  } finally {h.close();}
 });
 
-test('removing the release hold in a fixture cannot start an incomplete or mis-scored Mock A',async()=>{
+test('released Mock A cannot start when the bank is incomplete or mis-scored',async()=>{
  for(const invalid of ['incomplete','wrong-scoring']) {
   const h=await harness(true),{w,d}=h;
   try {
@@ -237,26 +243,23 @@ test('Mock A timeout scores blanks correctly and retake resets answers and flags
  }finally{h.close();}
 });
 
-test('completed Mock B remains held in the real catalog and cannot start without isolated test override',async()=>{
+test('released Mock B is ready in Set 1 but remains isolated from other forms',async()=>{
  const h=await harness(),{w,d}=h;
- try{
+ try {
   const exam=w.__TB.EXAMS.nppe,form=exam.formCatalog.find(x=>x.id==='set-1-mock-b');
   assert.equal(exam.forms['set-1-mock-b'].length,110);
-  assert.equal(form.target,110);assert.equal(form.releaseHold,true);
+  assert.equal(form.target,110);
+  assert.equal(form.releaseHold,false);
   const button=d.querySelector('[data-set="set-1-mock-b"]');
-  assert.ok(button);assert.equal(button.disabled,true);
-  assert.match(button.getAttribute('aria-label'),/awaiting release review/);
-  assert.equal(button.querySelector('.tb-sets').textContent,'110');
-  button.dispatchEvent(new w.Event('click'));
-  assert.equal(w.__TB.getFeedbackSnapshot(),null);
-  assert.equal(d.querySelector('[data-mode="full"]').disabled,true);
-  d.querySelector('[data-mode="full"]').dispatchEvent(new w.Event('click'));
-  assert.equal(d.querySelector('.tb-quiz'),null);
+  assert.ok(button);assert.equal(button.disabled,false);
+  assert.doesNotMatch(button.getAttribute('aria-label'),/awaiting release review/);
+  click(d,'[data-set="set-1-mock-b"]');
+  assert.equal(d.querySelector('[data-mode="full"]').disabled,false);
   assert.deepEqual(h.errors,[]);
- }finally{h.close()}
+ }finally{h.close();}
 });
 
-test('isolated Mock B full-form attempt excludes ten simulated unscored from 100-point grading and reviews all explanations',async()=>{
+test('released Mock B full-form attempt excludes ten simulated unscored from 100-point grading and reviews all explanations',async()=>{
  const h=await harness('set-1-mock-b'),{w,d}=h;
  try{
   click(d,'[data-set="set-1-mock-b"]');
@@ -294,7 +297,7 @@ test('isolated Mock B full-form attempt excludes ten simulated unscored from 100
  }finally{h.close()}
 });
 
-test('Mock B cannot start with a mismatched 100/10 allocation, even after in-memory fixture release',async()=>{
+test('Mock B remains fail closed on invalid 100/10 allocation after publication',async()=>{
  const h=await harness('set-1-mock-b'),{w,d}=h;
  try{
   const exam=w.__TB.EXAMS.nppe;
