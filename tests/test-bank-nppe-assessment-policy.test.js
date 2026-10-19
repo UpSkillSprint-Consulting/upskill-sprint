@@ -310,3 +310,52 @@ test('Mock B remains fail closed on invalid 100/10 allocation after publication'
   assert.deepEqual(h.errors,[]);
  }finally{h.close()}
 });
+
+
+test('NPPE overview has a responsive six-bank choice, correct author labels, and one accessible session launcher',async()=>{
+ const h=await harness(),{w,d}=h;
+ try{
+  assert.equal(d.querySelectorAll('.nppe-hub').length,1);
+  assert.equal(d.querySelectorAll('.nppe-fact').length,3);
+  assert.equal(d.querySelectorAll('.nppe-author-tab[role="tab"]').length,3);
+  assert.equal(d.querySelectorAll('.nppe-bank-card').length,6);
+  assert.equal(d.querySelectorAll('.nppe-bank-card[aria-pressed="true"]').length,1);
+  assert.equal(d.querySelectorAll('.nppe-launch').length,1);
+  assert.equal(d.querySelector('#nppe-banks-1').hidden,false);
+  assert.equal(d.querySelector('#nppe-banks-2').hidden,true);
+  assert.equal(d.querySelector('#nppe-banks-3').hidden,true);
+  assert.ok(!d.querySelector('.nppe-bank-picker').textContent.includes('Mock E'));
+  assert.ok(!d.querySelector('.nppe-bank-picker').textContent.includes('set-1-mock-c'));
+  click(d,'[data-set="set-1-mock-b"]');
+  assert.equal(d.activeElement.dataset.set,'set-1-mock-b','selection focus is restored after repaint');
+  assert.equal(d.querySelector('[data-set="set-1-mock-b"]').getAttribute('aria-pressed'),'true');
+  assert.equal(d.querySelectorAll('.nppe-bank-card[aria-pressed="true"]').length,1);
+  assert.equal(d.querySelector('[data-nppe-bank="set-1-mock-b"] h3').textContent,'Mock B');
+  assert.equal(d.querySelectorAll('.nppe-launch').length,1);
+  assert.equal(d.querySelector('[data-mode="full"]').disabled,false);
+  click(d,'[data-nppe-owner="2"]');
+  assert.equal(d.querySelector('#nppe-banks-1').hidden,true);
+  assert.equal(d.querySelector('#nppe-banks-2').hidden,false);
+  assert.equal(d.querySelector('[data-nppe-owner="2"]').getAttribute('aria-selected'),'true');
+  assert.equal(d.querySelector('[data-nppe-bank="mock-c"] h3').textContent,'Mock C');
+  assert.equal(d.querySelector('#nppe-banks-2 .nppe-bank-card .tb-sets').textContent,'110');
+  assert.equal(d.querySelector('#nppe-banks-2 .nppe-bank-card').getAttribute('aria-pressed'),'true');
+  click(d,'[data-nppe-owner="3"]');
+  assert.equal(d.querySelector('[data-nppe-bank="mock-d"] h3').textContent,'Mock D');
+  assert.equal(d.querySelector('#nppe-banks-3 .nppe-bank-panel-head').textContent.includes('Mock E'),false);
+  click(d,'[data-timing-kind="full"][data-timed="0"]');
+  assert.match(d.querySelector('[data-nppe-bank="mock-d"] .nppe-launch-note').textContent,/Untimed/);
+  assert.equal(d.querySelector('[data-timing-kind="full"][data-timed="0"]').getAttribute('aria-pressed'),'true');
+  assert.equal(d.querySelector('[data-mode="full"]').textContent.includes('Start Mock D'),true);
+  assert.match(d.querySelector('.nppe-disclosure').textContent,/not an official scaled NPPE score/);
+  assert.deepEqual(h.errors,[]);
+ }finally{h.close();}
+});
+
+test('NPPE-only visual styles are scoped and include focus, mobile and dark-mode treatments',()=>{
+ const source=fs.readFileSync(path.join(ROOT,'scripts/nppe-diagnostic-runtime.mjs'),'utf8');
+ for(const token of ['.nppe-hub','.nppe-bank-card','.nppe-author-tab','.nppe-launch','focus-visible','max-width:700px','max-width:460px','prefers-reduced-motion','data-theme'])
+  assert.ok(source.includes(token),'Missing NPPE visual safeguard '+token);
+ const original=fs.readFileSync(path.join(ROOT,'test-bank.html'),'utf8');
+ assert.equal(original.includes('nppe-bank-picker'),false,'NPPE-only UI must not contaminate other simulator sources');
+});
