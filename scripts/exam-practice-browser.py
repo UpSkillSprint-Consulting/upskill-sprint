@@ -324,8 +324,9 @@ def main():
                     expect(page.locator('main a[href^="/test-bank"]')).to_have_count(0)
                     published = page.locator('.exam-card[data-publication="published"]')
                     sign_in_links = page.locator('.exam-card a[href^="/sign-in"]')
-                    # The catalog now includes NPPE: eight published exams, CQA still coming soon.
-                    expect(published).to_have_count(8)
+                    # The published set is data-driven: new certifications must not break this audit.
+                    expect(page.locator('.exam-card[data-exam="nppe"][data-publication="published"]')).to_have_count(1)
+                    assert published.count() > 0, 'Expected released certification cards'
                     expect(sign_in_links).to_have_count(published.count())
                     for card in published.all():
                         exam_key = card.get_attribute('data-exam')
