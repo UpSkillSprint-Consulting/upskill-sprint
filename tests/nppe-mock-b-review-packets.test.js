@@ -38,6 +38,17 @@ test('blind and keyed review packets are separated and pending by default',()=>{
   assert.equal(decisions.items.length,110);
   assert.ok(decisions.items.every(x=>x.technical.status==='pending'&&x.legal.status==='pending'&&x.distractors.status==='pending'&&x.adjudication.status==='pending'));
   assert.ok(decisions.items.every(x=>x.distractors.optionFindings.length===4&&x.adjudication.independenceDeclaration===''&&x.legal.effectiveDate===''));
+  const queue=fs.readFileSync(path.join(dest,'restricted-keyed/adjudication-assignment-queue.csv'),'utf8');
+  const roster=fs.readFileSync(path.join(dest,'restricted-keyed/reviewer-roster-template.csv'),'utf8');
+  const blindForm=fs.readFileSync(path.join(dest,'blind/reviewer-response-template.csv'),'utf8');
+  assert.equal(queue.trim().split('\n').length,111);
+  assert.equal(blindForm.trim().split('\n').length,111);
+  assert.equal(roster.trim().split('\n').length,11);
+  assert.equal((queue.match(/"unassigned"/g)||[]).length,550);
+  assert.equal((queue.match(/"pending"/g)||[]).length,770);
+  assert.ok(!blindForm.includes('correctOption')&&!blindForm.includes('answerIndex'));
+  for(const file of ['blind/reviewer-response-template.csv','restricted-keyed/adjudication-assignment-queue.csv','restricted-keyed/reviewer-roster-template.csv'])
+   assert.equal(fs.statSync(path.join(dest,file)).mode&0o777,0o600);
   const cue=JSON.parse(fs.readFileSync(path.join(dest,'restricted-keyed/cue-review.json'),'utf8'));
   assert.equal(cue.items.length,110);
   assert.ok(cue.items.every(x=>x.disposition==='pending'&&/^[a-f0-9]{64}$/.test(x.itemSha256)));
