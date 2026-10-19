@@ -8,9 +8,9 @@ const vm = require('node:vm');
 const root = path.join(__dirname, '..');
 const read = name => fs.readFileSync(path.join(root, name), 'utf8');
 
-test('directory shows the full NPPE name and does not open practice', () => {
+test('NPPE publication is listed while practice still requires an administrator grant', () => {
   const html = read('exam-practice.html');
-  assert.match(html, /id="exam-nppe" data-exam="nppe" data-publication="coming_soon"/);
+  assert.match(html, /id="exam-nppe" data-exam="nppe" data-publication="published"/);
   assert.match(html, /<h3>National Professional Practice Examination \(NPPE\)<\/h3>/);
   assert.equal(html.split('data-exam="nppe"').length - 1, 1);
   const card = html.slice(html.indexOf('id="exam-nppe"'), html.indexOf('id="exam-no-results"'));
