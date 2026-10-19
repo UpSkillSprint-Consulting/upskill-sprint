@@ -51,16 +51,16 @@
     "jurisdiction": "Canada; control-system maintenance network, verified unexpected changes and a documented safety/security incident plan, no presumed mandatory notification deadline.",
     "stem": "After an overnight cybersecurity alert at a water utility, engineers find that pump-controller alarm thresholds were changed without authorization. Operations proposes restoring backup settings and deleting access logs to avoid delaying production. What should the responsible engineer recommend?",
     "options": [
-      "Restore operations without reviewing the altered thresholds because backups prove the controller cannot have been compromised.",
-      "Delete access logs immediately because keeping records of unauthorized modifications increases technical risk.",
-      "Announce that the system is safe solely because no physical damage has yet been observed.",
+      "Restore backup settings without checking whether alarm thresholds or safety interlocks were altered.",
+      "Keep a manager's incident summary but delete the underlying access logs once backups are restored.",
+      "Operate for a normal shift before investigating the alarm changes, provided no further incident occurs.",
       "Contain the incident; preserve logs and verify controller settings."
     ],
     "answer": 3,
     "optionRationales": [
       "Backup availability does not demonstrate that the restored settings and safety interlocks have been verified.",
       "Destroying incident evidence prevents reliable reconstruction and may interfere with required processes.",
-      "Absence of observed damage does not establish integrity of modified safety settings.",
+      "A period without a visible incident does not establish that safety-critical settings and controls retain integrity.",
       "Containment, evidence preservation and independent integrity checks address both information security and physical operational safety."
     ],
     "keyPoint": "Restoring a control system safely requires preserving incident evidence and validating engineering settings.",
@@ -411,6 +411,7 @@
   if([376,377].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if([371,372].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(id==='380'){q.version+=1;q.distractorReviewedAt='2026-10-18';}
+  if(id==='372'){q.version+=1;q.editorialReviewedAt='2026-10-19';q.reviewStatus+='; preliminary distractor quality correction awaiting independent safety/cyber SME';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 10 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item. Editorial classifications are provisional and no NPPE pass prediction is implied.</p>';
  });
