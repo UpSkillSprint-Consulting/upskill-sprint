@@ -33,7 +33,7 @@ function auditMockB(){
  for(const bank of others)require(bank.questions.length===({ 'Mock A':110,Learning:120,Diagnostic:50,'Grok Mock D':110,'Claude Mock E':110})[bank.bank],'Unexpected existing bank count: '+bank.bank);
  const ledger=read('docs/nppe-mock-b-allocation-ledger.csv').trim().split(/\r?\n/).map(s=>s.split(','));
  require(ledger.length===111,'Allocation ledger must have 110 rows and a header');
- const domains={I:[0,0],II:[0,0],III:[0,0],IV:[0,0],V:[0,0],VI:[0,0]},topics=new Map(),keys=[0,0,0,0],levels={},difficulty={},family=new Set(),seenIds=new Set(),seenStems=new Map(),rolePositions=[];let longestKey=0;
+ const domains={I:[0,0],II:[0,0],III:[0,0],IV:[0,0],V:[0,0],VI:[0,0]},topics=new Map(),keys=[0,0,0,0],levels={},difficulty={},family=new Set(),seenIds=new Set(),seenStems=new Map(),rolePositions=[];let longestKey=0,shortestKey=0;const keyLengthRanks=[0,0,0,0];
  questions.forEach((q,i)=>{
   const n=281+i,label='NPPE-'+n,domain=q.blueprint?.split('.')[0];
   require(q.qid==='nppe:set-1:mock-b:'+n&&q.legacyId===label,'Wrong Mock B ID at '+n);
@@ -58,6 +58,7 @@ function auditMockB(){
   levels[q.cognitiveLevel]=(levels[q.cognitiveLevel]||0)+1;
   difficulty[q.difficulty]=(difficulty[q.difficulty]||0)+1;
   if(q.options&&q.options[q.answer].length===Math.max(...q.options.map(s=>s.length)))longestKey++;
+  if(q.options){const lengths=q.options.map(x=>x.length),keyLength=lengths[q.answer],rank=1+lengths.filter(n=>n<keyLength).length;keyLengthRanks[rank-1]++;if(keyLength===Math.min(...lengths))shortestKey++;}
   require(q.version>=1&&Number.isInteger(q.version),'Missing integer version '+label);
  });
  const expected={I:[8,1],II:[20,2],III:[30,3],IV:[26,2],V:[8,1],VI:[8,1]};
@@ -67,6 +68,8 @@ function auditMockB(){
  require(rolePositions.filter(n=>n<=370).length>=5&&rolePositions.filter(n=>n>=381).length<=5,'Unscored items are excessively clustered at the end');
  if((difficulty.hard||0)===0)warnings.push('No items provisionally hard: editorial difficulty imbalance; no empirical data');
  if(longestKey>65)warnings.push('Keyed answer is longest in '+longestKey+'/110 items; option-length cue risk');
+ if(shortestKey>65)warnings.push('Keyed answer is shortest in '+shortestKey+'/110 items; reverse length cue risk');
+ if(Math.max(...keyLengthRanks)>45)warnings.push('Key option has predictable length rank: '+keyLengthRanks.join('/')+' for ranks 1–4; release-blocking rank cue');
  const all=[{bank:'Mock B',questions},...others],exactOwners=new Map(),near=[];
  for(const b of all)for(const q of b.questions){const clean=norm(q.stem);if(exactOwners.has(clean)){if(b.bank==='Mock B'||exactOwners.get(clean).startsWith('Mock B '))failures.push('Exact cross-bank stem duplication: '+b.bank+' '+(q.legacyId||q.qid)+' and '+exactOwners.get(clean));}else exactOwners.set(clean,b.bank+' '+(q.legacyId||q.qid))}
  const otherTokens=others.flatMap(b=>b.questions.map(q=>({bank:b.bank,q,t:token(q.stem)}))),seenPairs=[];
@@ -77,7 +80,7 @@ function auditMockB(){
  }
  seenPairs.sort((a,b)=>b.score-a.score);
  near.push(...seenPairs.filter(x=>x.score>=0.24).slice(0,50).map(x=>({...x,score:Number(x.score.toFixed(3))})));
- return {items:questions.length,scored:110-rolePositions.length,experimental:rolePositions.length,unscoredIds:rolePositions,domains,scoredTopics:Array.from(topics.values()).filter(n=>n>0).length,keys,difficulty,cognition:levels,longestKey,otherBanks:others.map(x=>({name:x.bank,count:x.questions.length})),nearDuplicateCandidates:near,failures,warnings};
+ return {items:questions.length,scored:110-rolePositions.length,experimental:rolePositions.length,unscoredIds:rolePositions,domains,scoredTopics:Array.from(topics.values()).filter(n=>n>0).length,keys,difficulty,cognition:levels,longestKey,shortestKey,keyLengthRanks,otherBanks:others.map(x=>({name:x.bank,count:x.questions.length})),nearDuplicateCandidates:near,failures,warnings};
 }
 if(require.main===module){const r=auditMockB();console.log(JSON.stringify(r,null,2));if(r.failures.length)process.exitCode=1}
 module.exports={auditMockB};
