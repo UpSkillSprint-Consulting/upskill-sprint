@@ -96,6 +96,7 @@ def main():
                     page.wait_for_selector('body.exam-access-ready')
                     expect(page.locator('html')).to_have_attribute('data-theme', theme)
                     assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is True
+                    assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-b').releaseHold") is True
                     page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold=false")
                     page.locator('[data-nppe-owner="1"]').click()
                     page.locator('[data-set="set-1-mock-a"]').click()
@@ -147,6 +148,9 @@ def main():
                     page.goto(base + '/test-bank?exam=nppe')
                     page.wait_for_selector('body.exam-access-ready')
                     expect(page.locator('[data-set="set-1-mock-a"]')).to_be_disabled()
+                    expect(page.locator('[data-set="set-1-mock-b"] .tb-sets')).to_have_text('110')
+                    expect(page.locator('[data-set="set-1-mock-b"]')).to_be_disabled()
+                    expect(page.locator('[data-set="set-1-mock-b"]')).to_have_attribute('aria-label', 'Mock B, 110 questions, awaiting release review')
                     expect(page.locator('html')).to_have_attribute('data-theme', theme)
                     assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is True
                     return {'basis': 'test-only in-memory release fixture', 'questions': 110,
