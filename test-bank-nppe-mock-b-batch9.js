@@ -51,15 +51,15 @@
     "jurisdiction": "Canada; the author of original technical illustrations gives a valid signed waiver expressly limited to one identified diagram and one specified adaptation.",
     "stem": "An engineer who created two original technical illustrations signs a moral-rights waiver expressly permitting a client to crop Diagram A for a report. The client later argues the waiver also allows replacing the author's name on unrelated Diagram B. Which interpretation best fits the Copyright Act and the stipulated limited waiver?",
     "options": [
-      "Once one moral right is waived for any work, all of the author's future moral rights are automatically extinguished.",
-      "A waiver can never be limited because the Copyright Act permits waiver only of every moral right at once.",
+      "Interpret the limited Diagram A waiver as permission to modify attribution on every illustration produced for the same client.",
+      "Treat the author's moral-rights waiver as ineffective unless economic copyright is assigned separately to the client.",
       "The waiver for Diagram A does not extend to unrelated Diagram B.",
-      "An economic copyright licence in Diagram A automatically transfers moral rights in all works created for the same client."
+      "Use the client's economic copyright licence for Diagram A to authorize attribution changes on the unrelated Diagram B."
     ],
     "answer": 2,
     "optionRationales": [
       "Moral rights are associated with the work and can be waived in whole or in part; a limited waiver does not automatically extinguish all other rights.",
-      "Section 14.1 expressly permits waiver in whole or in part, including a limited waiver.",
+      "A moral-rights waiver can operate independently of any assignment of economic copyright under section 14.1; its scope is defined by the waiver.",
       "The stated waiver addresses an identified adaptation of Diagram A and provides no waiver covering unrelated Diagram B.",
       "An ordinary copyright licence is not a blanket transfer or waiver of the author's moral rights in other works."
     ],
@@ -408,6 +408,7 @@
   if([361,362,363,364,365,366,367,368,369,370].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([361,362,363,364,365,368].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if([366,367].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if(id==='362'){q.version+=1;q.editorialReviewedAt='2026-10-19';q.reviewStatus+='; author revision of categorical distractors/rationale pending independent Canadian-law review';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 9 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item. Editorial classifications do not predict official NPPE performance.</p>';
  });
