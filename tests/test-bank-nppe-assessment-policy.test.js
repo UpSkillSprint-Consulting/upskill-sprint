@@ -483,6 +483,8 @@ test('NPPE short quizzes fail closed when source blueprint metadata is inconsist
   click(d,'[data-nppe-owner="3"]');
   const bank=w.__TB.EXAMS.nppe.forms['mock-d'];
   bank[0].blueprint='invalid';
+  // Rerender the panel after corrupting this isolated test fixture.
+  click(d,'[data-nppe-count-kind="quick"][data-nppe-count="30"]');
   const start=d.querySelector('[data-mode="quick"]');
   assert.ok(start);
   assert.equal(start.disabled,true,'invalid blueprint disables quick practice');
