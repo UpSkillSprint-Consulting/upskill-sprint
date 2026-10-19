@@ -31,3 +31,19 @@ test('status changes alone are not approval without reviewer credentials and evi
  assert.ok(r.blockers.some(t=>/missing named human reviewer/.test(t)));
  assert.ok(r.blockers.some(t=>/effective date\/locator/.test(t)));
 });
+
+test('reviewer-role separation is required even when every approval field is populated',()=>{
+ const x=pending();
+ for(const q of x.review.items){
+  const common={status:'approved',reviewer:'Independent Person',qualification:'qualified subject expert',independenceDeclaration:'No conflicts declared',reviewedAt:'2026-10-19',evidence:'source reviewed'};
+  q.technical={...common};
+  q.legal={...common,effectiveDate:'2026-10-19',sourceLocator:'current applicable legal text'};
+  q.distractors={status:'approved',reviewer:'Editor Two',findings:'All four alternatives reviewed'};
+  q.fairnessAccessibility={status:'approved',reviewer:'Editor Three',findings:'Item content evaluated'};
+  q.adjudication={status:'approved',reviewer:'Independent Person',findings:'Adjudication notes'};
+ }
+ const result=assess(x.manifest,x.review);
+ assert.equal(result.readyForAdjudication,false);
+ assert.ok(result.blockers.some(x=>x.includes('technical and legal reviewers are not independently separated')));
+ assert.ok(result.blockers.some(x=>x.includes('adjudication cannot be self-reviewed')));
+});
