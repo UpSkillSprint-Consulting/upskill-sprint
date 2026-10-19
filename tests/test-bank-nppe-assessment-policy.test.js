@@ -317,6 +317,8 @@ test('NPPE overview has a responsive six-bank choice, correct author labels, and
  try{
   assert.equal(d.querySelectorAll('.nppe-hub').length,1);
   assert.equal(d.querySelectorAll('.nppe-fact').length,3);
+  assert.equal(d.querySelector('.nppe-facts').getAttribute('role'),'group');
+  assert.equal(d.querySelector('.nppe-launch-metrics').getAttribute('role'),'group');
   assert.equal(d.querySelectorAll('.nppe-author-tab[role="tab"]').length,3);
   assert.equal(d.querySelectorAll('.nppe-bank-card').length,6);
   assert.equal(d.querySelectorAll('.nppe-bank-card[aria-pressed="true"]').length,1);
@@ -354,7 +356,7 @@ test('NPPE overview has a responsive six-bank choice, correct author labels, and
 
 test('NPPE-only visual styles are scoped and include focus, mobile and dark-mode treatments',()=>{
  const source=fs.readFileSync(path.join(ROOT,'scripts/nppe-diagnostic-runtime.mjs'),'utf8');
- for(const token of ['.nppe-hub','.nppe-bank-card','.nppe-author-tab','.nppe-launch','focus-visible','max-width:700px','max-width:460px','prefers-reduced-motion','data-theme'])
+ for(const token of ['.nppe-hub','.nppe-bank-card','.nppe-author-tab','.nppe-launch','.nppe-tab-number{color:var(--ink)','focus-visible','max-width:700px','max-width:460px','prefers-reduced-motion','data-theme'])
   assert.ok(source.includes(token),'Missing NPPE visual safeguard '+token);
  const original=fs.readFileSync(path.join(ROOT,'test-bank.html'),'utf8');
  assert.equal(original.includes('nppe-bank-picker'),false,'NPPE-only UI must not contaminate other simulator sources');
