@@ -214,7 +214,7 @@
     "stem": "A junior engineer-in-training uses an unfamiliar AI calculation assistant to size a high-pressure piping support. The tool provides numerical results but no verifiable derivation, and the supervisor has not reviewed the load cases. The junior asks the supervising engineer to seal the design because the software is widely used. What should the supervisor do?",
     "options": [
       "Treat software popularity as validation of this design.",
-      "Verify the load cases and output before accepting responsibility or authenticating the design.",
+      "Independently verify the load cases and numerical assumptions, or arrange competent review, before accepting responsibility and authenticating the high-pressure piping-support design.",
       "Let the junior authenticate the work using the supervisor's credentials without documenting review.",
       "Discard all computational tools permanently because engineers cannot use software in professional work."
     ],
@@ -425,6 +425,7 @@
   if([358,359,360].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([351,352,353,355].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if([357,358].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if([356].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
