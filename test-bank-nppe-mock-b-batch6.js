@@ -15,7 +15,7 @@
       "Members should help uphold independent standards and public-interest oversight.",
       "Membership in a self-regulating profession means every registered individual can make binding laws without legislative authority.",
       "Professional status requires only specialized technical knowledge; ethical and regulatory responsibilities belong solely to the employer.",
-      "Leave public-interest oversight entirely to hired staff."
+      "The public-interest role ends once a regulator hires administrative staff, making member participation improper."
     ],
     "answer": 0,
     "optionRationales": [
@@ -58,7 +58,7 @@
     "stem": "A national contractor has an internal policy authorizing employees with ten years' experience to use a professional seal on any project in Canada. A licensed engineer says the company policy itself allows an unlicensed coworker to approve regulated engineering drawings in another province. What is the most appropriate assessment?",
     "options": [
       "Corporate policies supersede provincial engineering legislation whenever projects involve more than one province.",
-      "Allow the company to issue professional sealing rights.",
+      "A company may grant statutory sealing rights by recognizing work experience internally.",
       "The federal government automatically issues a single engineering licence to every multinational contractor.",
       "Provincial regulators—not employers—grant practice authority."
     ],
@@ -97,7 +97,7 @@
     "stem": "A registrant facing an Ontario professional-engineering discipline hearing asks to examine an investigation report that will be introduced as evidence. The regulator's administrator refuses, saying respondents may learn the report's contents only after the committee decides the case. Which statement is most defensible?",
     "options": [
       "The committee may make its finding without disclosing any evidence because professional discipline is not a court case.",
-      "The respondent may examine documentary evidence before the hearing.",
+      "The registrant is entitled to an opportunity to examine documentary evidence intended for the hearing before it proceeds, subject to applicable procedures.",
       "Dismiss all charges when a respondent requests the report.",
       "Professional disciplinary matters may be decided only through criminal prosecutions."
     ],
@@ -137,7 +137,7 @@
     "options": [
       "Approve it based solely on conventional testing experience because the designation guarantees expertise in every new application.",
       "Refuse all future hydrogen-related work permanently because engineers may never develop competence in new fields.",
-      "Seek training and specialist review; disclose remaining competence limits.",
+      "Obtain the relevant training and competent specialist assessment before assuming responsibility, and disclose existing limits of expertise.",
       "Let a technician approve the method without engineering review."
     ],
     "answer": 2,
@@ -422,6 +422,7 @@
   if(id==='337'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if(id==='339'){q.version+=1;q.optionCueReviewedAt='2026-10-18';}
   if([331,332,333,334,335,336,337,338,339,340].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
+  if([331,332,333,334].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(x){return x.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 6 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Classifications are editorial estimates; no official NPPE pass prediction.</p>';
  });
