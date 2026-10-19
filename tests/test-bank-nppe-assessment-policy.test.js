@@ -361,3 +361,136 @@ test('NPPE-only visual styles are scoped and include focus, mobile and dark-mode
  const original=fs.readFileSync(path.join(ROOT,'test-bank.html'),'utf8');
  assert.equal(original.includes('nppe-bank-picker'),false,'NPPE-only UI must not contaminate other simulator sources');
 });
+
+
+test('every NPPE bank maps its scored practice questions to one of six official blueprint areas',async()=>{
+ const h=await harness(),{w}=h;
+ try {
+  const exam=w.__TB.EXAMS.nppe;
+  const areas=[
+   ['I','nppe-professionalism'],['II','nppe-ethics'],['III','nppe-practice'],
+   ['IV','nppe-law'],['V','nppe-professional-law'],['VI','nppe-discipline']
+  ];
+  const expected={ 'set-1-diagnostic':50,'set-1-learning':120,
+   'set-1-mock-a':100,'set-1-mock-b':100,'mock-c':100,'mock-d':100 };
+  for(const [id,count] of Object.entries(expected)){
+   const q=Array.from(exam.forms[id]);
+   assert.ok(q.length>=count,id);
+   const included=q.filter(x=>x.scored===true&&x.experimental===false);
+   assert.equal(included.length,count,id);
+   const counts=Object.fromEntries(areas.map(([name])=>[name,0]));
+   for(const question of q){
+    const match=/^(I|II|III|IV|V|VI)\.[0-9]+(?:\b|$)/.exec(question.blueprint||'');
+    assert.ok(match,id+' missing blueprint category '+question.qid);
+    const area=areas.find(([name])=>name===match[1]);
+    assert.equal(question.sub,area[1],id+' cross-domain metadata '+question.qid);
+    if(question.scored===true&&!question.experimental)counts[match[1]]++;
+   }
+   assert.equal(Object.values(counts).reduce((a,b)=>a+b,0),count,id);
+   assert.ok(Object.values(counts).every(x=>x>0),id+' six areas must be available');
+  }
+ }finally{h.close();}
+});
+
+test('Quick Quiz and Focused Quiz display six category counts from the selected source bank',async()=>{
+ const h=await harness(),{d,w}=h;
+ try{
+  click(d,'[data-nppe-mode="quick"]');
+  assert.equal(d.querySelector('[data-nppe-quiz-kind="quick"]').dataset.nppeBank,'set-1-diagnostic');
+  assert.equal(d.querySelectorAll('[data-nppe-area-kind="quick"]').length,7);
+  assert.equal(d.querySelector('[data-nppe-area-kind="quick"][data-nppe-area="all"] .nppe-area-count').textContent,'50 available');
+  const count = w.__TB.EXAMS.nppe.forms['set-1-diagnostic'].filter(q=>q.sub==='nppe-law').length;
+  assert.equal(d.querySelector('[data-nppe-area-kind="quick"][data-nppe-area="nppe-law"] .nppe-area-count').textContent,count+' available');
+  click(d,'[data-nppe-area-kind="quick"][data-nppe-area="nppe-law"]');
+  assert.equal(d.activeElement.dataset.nppeArea,'nppe-law','area choice retains focus after rendering');
+  assert.equal(d.querySelector('[data-nppe-area-kind="quick"][data-nppe-area="nppe-law"]').getAttribute('aria-pressed'),'true');
+  click(d,'[data-nppe-mode="focus"]');
+  assert.equal(d.querySelectorAll('[data-nppe-area-kind="focus"]').length,6);
+  assert.equal(d.querySelector('[data-nppe-area-kind="focus"][data-nppe-area="all"]'),null,'focused requires one area');
+  assert.equal(d.querySelectorAll('[data-nppe-area-kind="focus"][aria-pressed="true"]').length,1);
+  click(d,'[data-nppe-count-kind="focus"][data-nppe-count="5"]');
+  assert.equal(d.querySelector('[data-nppe-count-kind="focus"][data-nppe-count="5"]').getAttribute('aria-pressed'),'true');
+  const tab=d.querySelector('[data-nppe-mode="focus"]');
+  tab.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Home',bubbles:true}));
+  assert.equal(d.querySelector('[data-nppe-mode="full"]').getAttribute('aria-selected'),'true');
+  assert.equal(d.activeElement.dataset.nppeMode,'full');
+  assert.deepEqual(h.errors,[]);
+ }finally{h.close();}
+});
+
+test('Grok Mock C Quick Quiz draws only IV Law from scored source questions and grades 10/10',async()=>{
+ const h=await harness(),{w,d}=h;
+ try{
+  click(d,'[data-nppe-owner="2"]');
+  click(d,'[data-nppe-mode="quick"]');
+  click(d,'[data-nppe-area-kind="quick"][data-nppe-area="nppe-law"]');
+  click(d,'[data-nppe-count-kind="quick"][data-nppe-count="10"]');
+  click(d,'[data-timing-kind="quick"][data-timed="1"]');
+  const status=d.querySelector('[data-nppe-quiz-kind="quick"] .nppe-short-summary').textContent;
+  assert.match(status,/10 questions/);
+  assert.match(status,/IV Law/);
+  click(d,'[data-mode="quick"]');
+  const snapshot=w.__TB.getFeedbackSnapshot();
+  assert.equal(snapshot.setId,'mock-c');
+  assert.equal(snapshot.records.length,10);
+  assert.equal(new Set(snapshot.records.map(r=>r.question.qid)).size,10);
+  assert.ok(snapshot.records.every(r=>r.question.form==='mock-c'&&r.question.authorSet===2&&r.question.scored===true&&r.question.experimental===false&&r.question.blueprint.startsWith('IV.')));
+  assert.match(d.querySelector('#tb-timer').textContent,/^[0-9:]+$/);
+  assert.equal(d.querySelector('[data-reveal]'),null);
+  assert.equal(w.__TB.revealCurrentAnswer(),false);
+  assert.equal(d.querySelector('#tb-feedback-loop'),null);
+  assert.match(d.querySelector('.tb-quiz').textContent,/Law/);
+  for(const [i,r] of snapshot.records.entries()){
+   click(d,'[data-goto="'+i+'"]');
+   click(d,'[data-opt="'+r.question.answer+'"]');
+  }
+  click(d,'[data-submit]');await wait();
+  const result=w.__TB.getFeedbackSnapshot();
+  assert.equal(result.grading.total,10);
+  assert.equal(result.grading.correct,10);
+  assert.match(d.querySelector('[data-score-result]').textContent,/100% \(10\/10\)/);
+  assert.match(d.querySelector('#tb-overview').textContent,/simulated unscored mock items are excluded/i);
+  assert.deepEqual(h.errors,[]);
+ }finally{h.close();}
+});
+
+test('ChatGPT Mock B Focused Quiz draws five III Professional Practice items without borrowing banks',async()=>{
+ const h=await harness(),{w,d}=h;
+ try{
+  click(d,'[data-set="set-1-mock-b"]');
+  click(d,'[data-nppe-mode="focus"]');
+  click(d,'[data-nppe-area-kind="focus"][data-nppe-area="nppe-practice"]');
+  click(d,'[data-nppe-count-kind="focus"][data-nppe-count="5"]');
+  assert.match(d.querySelector('[data-nppe-quiz-kind="focus"] .nppe-short-summary').textContent,/III Professional Practice/);
+  click(d,'[data-mode="focus"]');
+  const s=w.__TB.getFeedbackSnapshot();
+  assert.equal(s.setId,'set-1-mock-b');
+  assert.equal(s.records.length,5);
+  assert.ok(s.records.every(r=>r.question.form==='set-1-mock-b'&&r.question.authorSet===1&&r.question.scored&&!r.question.experimental&&r.question.blueprint.startsWith('III.')));
+  assert.equal(d.querySelector('.tb-timer').textContent,'Untimed');
+  assert.equal(d.querySelector('[data-reveal]'),null,'mock questions cannot reveal answer before submission');
+  assert.equal(w.__TB.revealCurrentAnswer(),false);
+  click(d,'[data-submit]');await wait();
+  const result=w.__TB.getFeedbackSnapshot();
+  assert.equal(result.grading.total,5);
+  assert.equal(result.grading.unanswered,5);
+  assert.deepEqual(h.errors,[]);
+ }finally{h.close();}
+});
+
+test('NPPE short quizzes fail closed when source blueprint metadata is inconsistent',async()=>{
+ const h=await harness(),{w,d}=h;
+ try{
+  click(d,'[data-nppe-owner="3"]');
+  const bank=w.__TB.EXAMS.nppe.forms['mock-d'];
+  bank[0].blueprint='invalid';
+  click(d,'[data-nppe-mode="quick"]');
+  const start=d.querySelector('[data-mode="quick"]');
+  assert.ok(start);
+  assert.equal(start.disabled,true,'invalid blueprint disables quick practice');
+  start.dispatchEvent(new w.Event('click'));
+  assert.equal(w.__TB.getFeedbackSnapshot(),null,'must not borrow a valid question from another bank');
+  assert.equal(d.querySelector('.tb-quiz'),null);
+  assert.deepEqual(h.errors,[]);
+ }finally{h.close();}
+});
