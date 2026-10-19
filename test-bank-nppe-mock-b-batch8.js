@@ -129,10 +129,10 @@
     "jurisdiction": "Saskatchewan; hypothetical unionized municipal engineering department. The collective agreement expressly states that appointment to the posted vacancy depends first on minimum qualifications and then on seniority among qualified applicants.",
     "stem": "A unionized engineering department posts a specialist vacancy. Its collective agreement requires candidates to meet specified technical qualifications before seniority determines the choice. One applicant has 18 years' service but does not meet a stated essential licence requirement; another qualified applicant has 7 years' service. What should the hiring panel do?",
     "options": [
-      "Appoint the longest-serving employee regardless of the agreement's explicit qualification condition.",
-      "Ignore the collective agreement because a professional designation always overrides union terms.",
+      "Appoint the senior candidate and provide licence training after the appointment.",
+      "Apply qualifications but disregard seniority even when applicants are equally eligible.",
       "Apply the agreement's qualification threshold, then its seniority rule among eligible applicants, documenting the decision.",
-      "Divide the specialist role equally between the applicants because seniority and competence must always receive equal weight."
+      "Split the vacancy between both applicants: the qualified employee signs restricted engineering documents while the more senior employee occupies the same specialist post without meeting the agreed essential qualification."
     ],
     "answer": 2,
     "optionRationales": [
@@ -426,6 +426,7 @@
   if([351,352,353,355].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if([357,358].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if([356].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
+  if(id==='354'){q.version+=1;q.editorialReviewedAt='2026-10-19';q.reviewStatus+='; author-level distractor plausibility revision awaiting independent legal/editorial approval';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 8 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; not predictive of the official NPPE result.</p>';
  });
