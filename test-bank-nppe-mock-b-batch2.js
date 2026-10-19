@@ -12,10 +12,10 @@
     "jurisdiction": "Ontario common-law negligence; the project documents were expressly marked for internal procurement use only, and the recipient never communicated an intended lender use.",
     "stem": "An engineering consultant prepares a preliminary cost estimate solely for an owner's internal procurement decision. A lender later obtains an incomplete copy from a third party and claims the consultant must have owed every conceivable reader a duty of care. Which assessment is most defensible?",
     "options": [
-      "A possible financial consequence alone automatically establishes a duty owed to every downstream reader.",
+      "The foreseeable financial consequence creates a duty even without an identifiable intended recipient.",
       "Examine both foreseeability and proximity in the consultant–lender relationship.",
-      "Every engineering estimate attracts no civil duty because it is an opinion rather than a physical design.",
-      "The consultant's professional designation automatically makes the lender a contracting party."
+      "Professional cost estimates are mainly opinions and generally cannot ground a negligence claim.",
+      "A lender's reliance makes it a party to the consultant's original contract with the owner."
     ],
     "answer": 1,
     "optionRationales": [
@@ -408,6 +408,7 @@
   if([291,292,293,294,295,296,297,298,299].includes(Number(id))){item.version+=1;item.optionCueReviewedAt='2026-10-18';item.reviewStatus+='; keyed option edited for length cue';}
   if([291,292,293,295,296,298,300].includes(String(id))){item.version+=1;item.distractorReviewedAt='2026-10-18';}
   if([291,292,293,294,295,296,297,298].includes(Number(id))){item.version+=1;item.optionRankReviewedAt='2026-10-18';item.reviewStatus+='; balanced option-length rank with content review pending';}
+  if(id==='291'){item.version+=1;item.editorialReviewedAt='2026-10-19';item.reviewStatus+='; author-level categorical distractor revision pending independent SME';}
   if(item.options.length!==4||new Set(item.options).size!==4||item.optionRationales.length!==4||!Number.isInteger(item.answer)||item.answer<0||item.answer>3||!item.sources.some(function(s){return s.sourceType==='official-blueprint';})||!item.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 2 item '+id);
   item.why='<p>'+escape(item.optionRationales[item.answer])+'</p><p><strong>Key learning point:</strong> '+escape(item.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(item.trap)+'</p><p><strong>Sources:</strong> '+item.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; classifications are provisional and do not predict an official NPPE result.</p>';
  });
