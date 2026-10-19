@@ -80,3 +80,9 @@ The task is **not complete** when these tests pass; it is ready only for an appr
 Independent engineering/geoscience SME review, qualified Canadian-law review including primary effective dates, categorical distractor and one-best-answer adjudication, manual accessibility confirmation, authorized learner/admin request–grant–practice–revoke verification, consented pilot/calibration, and explicit release authorization are all **PENDING**. No source document or synthetic test result provides a substitute.
 
 **Keep PR #301 draft/unmerged. Preserve release holds for both Mock A and Mock B. No production grants, migrations, deployments or data collection.**
+
+## Version-locked keyed integrity (2026-10-19 update)
+
+The Mock B export manifest contains `form:"set-1-mock-b"`, a SHA-256 digest of the complete restricted keyed JSON object (`keyedPacketSha256`), and 110 item versions/hashes/scoring roles. The shared offline tool checks the exact private keyed-packet digest, form and source revision, and rejects duplicate manifest IDs and changed scored/unscored assignments before analyzing attempts. Mock B output uses `schema:"nppe-mock-b-calibration-v1"` rather than the Mock A label. Mock A compatibility remains supported.
+
+The digest protects against accidental or unauthorized changes **relative to a trusted manifest**. It does not authenticate who approved an artifact. Keep a controlled immutable copy of the original manifest and key; human review, manual accessibility and genuine candidate calibration remain required.
