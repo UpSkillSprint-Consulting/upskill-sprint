@@ -12,7 +12,7 @@
     "jurisdiction": "Canada; conceptual professional status, not a claim about one regulator's bylaws.",
     "stem": "A provincial engineering regulator receives an offer from a commercial sponsor to fund its entire complaints office. The sponsor wants the right to veto investigations involving its customers. Several members argue that outside funding is acceptable if annual dues decrease. What feature of professional status is most directly at stake?",
     "options": [
-      "Lower dues if a sponsor funds the regulatory complaints office.",
+      "Whether an association can negotiate lower dues without consulting every member.",
       "Regulation that independently serves the public rather than its sponsors.",
       "Whether investigations become unnecessary when a sponsor has industry experience.",
       "Whether complaints can be resolved only by courts instead of professional regulators."
@@ -52,7 +52,7 @@
     "stem": "A long-standing local custom is to omit minor-looking near misses from monthly project reports to avoid embarrassing coworkers. A new analysis establishes that one repeated near miss could precede a severe lifting failure. A manager says the reporting custom is shared by everyone and therefore ethical. Which response best distinguishes custom from ethical judgment?",
     "options": [
       "Continue the custom because agreement among coworkers is sufficient to settle what is right.",
-      "Follow the custom unless its omission is clearly illegal.",
+      "Ask only whether the custom is punishable under a criminal statute before judging it.",
       "Treat the custom as ethically justified until another organization publishes a different practice.",
       "Report the verified risk, guided by honesty and foreseeable harm."
     ],
@@ -90,7 +90,7 @@
     "jurisdiction": "Canada; the licensed engineer leads a design review, the software is a decision aid, and no jurisdiction-specific software certification rule is stipulated.",
     "stem": "An engineering team uses a purchased slope-stability application. A vendor update silently changes its default groundwater assumption. The latest report gives a larger factor of safety, but the responsible engineer has not checked the changed inputs against site measurements. The vendor says its algorithm is proprietary and has already been validated elsewhere. What should the engineer do before relying on the result?",
     "options": [
-      "Check model inputs against site evidence and verify the result before approval.",
+      "Confirm the model inputs and applicable assumptions against site evidence, seek sufficient validation, and withhold approval until the analysis is supportable.",
       "Use the new result because proprietary software transfers responsibility for its assumptions to the vendor.",
       "Use the higher safety factor as proof the revision is conservative.",
       "Require the software's entire source code to be published, since no result from a closed-source tool can ever be used professionally."
@@ -177,7 +177,7 @@
       "The credential review automatically authorizes independent professional practice across Canada.",
       "Accept the employer's designation as equivalent to licensing.",
       "A national educational credential review authorizes practice only on projects funded federally.",
-      "Obtain authority to practise from the relevant provincial or territorial regulator."
+      "Professional practice authority must be established through the applicable provincial or territorial regulator and its legislative framework."
     ],
     "answer": 3,
     "optionRationales": [
@@ -253,7 +253,7 @@
     "stem": "A client asks an engineer to omit verified exceedances from a groundwater trend chart because they occurred before a new treatment system was installed. The contract calls for a complete assessment of conditions before and after installation. The engineer has confirmed the old values are comparable and relevant. What is the best next step?",
     "options": [
       "Delete earlier data once the client accepts the presentation.",
-      "Show the historical data and explain the observed change to the client.",
+      "Retain the earlier dated observations, showing how the measured results changed after treatment installation.",
       "Publish confidential raw data directly to social media without checking applicable reporting requirements.",
       "Replace the historical measurements with the new treatment-system design targets to make the chart more consistent."
     ],
@@ -412,6 +412,7 @@
   if(id==='282'){q.version=2;q.scored=false;q.experimental=true;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; simulated role reallocated for whole-form balance';}
   if([281,282,283,285,286,287,289,290].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
   if([281,282,283,285,286,287,290].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
+  if([281,282,283,285,287].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';q.reviewStatus+='; balanced option-length rank with content review pending';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B question. Editorial classifications are provisional; scores do not predict official NPPE results.</p>';
  });
