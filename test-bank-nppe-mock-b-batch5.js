@@ -13,7 +13,7 @@
     "stem": "An engineering graduate joins a voluntary international technical society, attends its pressure-vessel seminars and earns a society participation certificate. An employer proposes listing the graduate as the professional engineer responsible for statutory design approval because the society membership demonstrates expertise. What is the best conclusion?",
     "options": [
       "Technical-society membership automatically confers the right to approve regulated designs in every Canadian province.",
-      "Use the seminar certificate in place of provincial registration.",
+      "The society certificate replaces provincial registration if a seminar covered the same equipment.",
       "Society membership supports development; a regulator grants practice authority.",
       "Only a society with international chapters may grant a provincial engineering licence without regulator involvement."
     ],
@@ -135,7 +135,7 @@
     "jurisdiction": "Canada; an engineering pilot has documented negative results; no requirement to publicly disclose confidential proprietary methods is assumed.",
     "stem": "A regional engineering consortium traditionally reports only successful prototype trials at its annual community meeting. A new bridge-sensor pilot missed its reliability target, and the meeting will be used to decide whether municipal funds should be committed. A presenter argues that withholding the failure is ethical because the custom is longstanding. Which response is best?",
     "options": [
-      "Disclose the failed pilot and its limits; custom cannot justify misleading reports.",
+      "Explain the relevant test limitation and uncertainty in the decision material; established custom does not make a materially misleading presentation ethical.",
       "Hide the result because every established organizational practice is ethically justified if no member objects.",
       "Present a projected passing result as though achieved, provided that future revisions might meet the target.",
       "Abandon the sensor concept after its first failed pilot."
@@ -182,7 +182,7 @@
     "options": [
       "Require the engineer to perform every measurement personally; no tasks may be delegated to an experienced technologist.",
       "Allow fully unsupervised professional design decisions because past competence in a different method automatically transfers.",
-      "Set supervision limits, provide instruction and review critical work before approval.",
+      "Set task limits, provide early technical instruction and appropriate review points, and verify the critical results before taking professional responsibility.",
       "Let the technologist assume the engineer's professional duty."
     ],
     "answer": 2,
@@ -222,7 +222,7 @@
       "The duty is limited to written employment contracts between the director and the injured person.",
       "The duty is extinguished whenever a subcontractor supplies the equipment.",
       "Any breach of a workplace policy automatically establishes criminal conviction without proof of the applicable offence.",
-      "Section 217.1 applies to anyone directing work, not just their own employees."
+      "Section 217.1 imposes a duty on a person who undertakes or has authority to direct work to take reasonable steps to prevent resulting bodily harm, not solely for their own employees."
     ],
     "answer": 3,
     "optionRationales": [
@@ -414,6 +414,7 @@
   if(id==='327'){q.version=2;q.editorialReviewedAt='2026-10-18';q.reviewStatus+='; keyed-option length cue revised';}
   if([321,323,324,325,326,328,329,330].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
   if([321,324,325,327,328,329,330].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
+  if([321,324,325,326].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(s){return s.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 5 item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original Mock B held item. Difficulty and cognition are editorial estimates, not evidence of official NPPE readiness.</p>';
  });
