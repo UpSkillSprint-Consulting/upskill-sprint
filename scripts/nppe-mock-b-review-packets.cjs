@@ -35,7 +35,7 @@ function build(out){
  if(dirty)throw Error('Refusing to label modified tracked sources with a clean commit SHA');
  const list=items(),revision=cp.execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim();
  const manifest={schema:'nppe-mock-b-review-v1',sourceRevision:revision,form:'set-1-mock-b',itemCount:110,scored:100,simulatedUnscored:10,items:[]};
- const blind=[],keyed=[];
+ const blind=[],keyed=[],cueReview=[],decisions=[];
  const headers=['item_id','qid','version','item_sha256','reviewer_role','reviewer_name','qualifications','independence_conflict','review_date','evidence_reviewed','one_best_answer','distractors','jurisdiction_currency','blueprint_fit','fairness_accessibility','overlap','difficulty_cognition','severity','disposition','findings','adjudicator','adjudication_evidence'];
  const ledger=[headers];
  for(const q of list){
@@ -46,6 +46,7 @@ function build(out){
   const absolute=/\\b(always|never|every|only|automatically|solely|immediately|entirely|cannot|regardless of)\\b/i;
   const optionLen=q.options.map(s=>s.length),answerLen=optionLen[q.answer];
   const wrongAbsolute=q.options.filter((s,i)=>i!==q.answer&&absolute.test(s)).length;
+  decisions.push({itemId:q.legacyId,version:q.version,itemSha256:digest,technical:{status:'pending',reviewer:'',qualification:'',independenceDeclaration:'',reviewedAt:'',evidence:''},legal:{status:'pending',reviewer:'',qualification:'',independenceDeclaration:'',reviewedAt:'',effectiveDate:'',sourceLocator:'',evidence:''},distractors:{status:'pending',reviewer:'',findings:''},fairnessAccessibility:{status:'pending',reviewer:'',findings:''},adjudication:{status:'pending',reviewer:'',findings:''}});
   cueReview.push({id:q.legacyId,version:q.version,itemSha256:digest,answerPosition:q.answer,
     answerLengthRank:1+optionLen.filter(n=>n<answerLen).length,
     lengths:optionLen,categoricalWrongCount:wrongAbsolute,categoricalKey:absolute.test(q.options[q.answer]),
@@ -61,6 +62,7 @@ function build(out){
  write('restricted-keyed/questions.json',JSON.stringify({sourceRevision:revision,items:keyed},null,2)+'\n');
  write('review-ledger.csv',csv(ledger));
  write('restricted-keyed/cue-review.json',JSON.stringify({sourceRevision:revision,items:cueReview},null,2)+'\n');
+ write('restricted-keyed/review-decisions.json',JSON.stringify({sourceRevision:revision,items:decisions},null,2)+'\n');
  write('manifest.json',JSON.stringify(manifest,null,2)+'\n');
  write('README.txt','CONFIDENTIAL REVIEW MATERIAL — DO NOT COMMIT OR DEPLOY.\nSource: '+revision+'\nblind/questions.json omits keys and rationales; restricted-keyed/questions.json contains both.\nKeep restricted-keyed separately access-controlled; cue-review.json belongs there too. Blind reviewers should not receive manifest scoring roles if that biases their assessment.\nReview ledger and cue-review findings start pending. No independent approvals are implied.\n');
  return manifest;
