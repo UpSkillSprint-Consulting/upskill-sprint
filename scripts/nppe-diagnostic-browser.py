@@ -308,6 +308,25 @@ def main():
                     header_images_fit()
                     page.evaluate('window.scrollTo(0,0)')
                     page.screenshot(path=str(out / f'{name}-banks.png'), full_page=False)
+                    # Every NPPE bank must expose category-specific Quick and Focused practice.
+                    expect(page.locator('[data-nppe-mode]')).to_have_count(3)
+                    page.locator('[data-nppe-mode="quick"]').click()
+                    expect(page.locator('[data-nppe-area-kind="quick"]')).to_have_count(7)
+                    expect(page.locator('[data-nppe-area-kind="quick"][data-nppe-area="all"]')).to_contain_text('50 available')
+                    page.locator('[data-nppe-area-kind="quick"][data-nppe-area="nppe-law"]').click()
+                    expect(page.locator('[data-nppe-area-kind="quick"][data-nppe-area="nppe-law"]')).to_have_attribute('aria-pressed','true')
+                    expect(page.locator('[data-nppe-quiz-kind="quick"] .nppe-short-summary')).to_contain_text('IV Law')
+                    check_accessibility('nppe-quick-area-selection')
+                    page.locator('[data-nppe-mode="focus"]').click()
+                    expect(page.locator('[data-nppe-area-kind="focus"]')).to_have_count(6)
+                    expect(page.locator('[data-nppe-area-kind="focus"][data-nppe-area="all"]')).to_have_count(0)
+                    page.locator('[data-nppe-area-kind="focus"][data-nppe-area="nppe-practice"]').click()
+                    expect(page.locator('[data-nppe-quiz-kind="focus"] .nppe-short-summary')).to_contain_text('III Professional Practice')
+                    assert page.evaluate('''() => [...document.querySelectorAll('.nppe-area-btn,.nppe-short-panel .tb-mstart')].every(el=>{
+                      const r=el.getBoundingClientRect();return (!r.width&&!r.height)||(r.left>=-1&&r.right<=innerWidth+1);
+                    })'''), 'NPPE subject and quiz controls overflow the viewport'
+                    check_accessibility('nppe-focused-area-selection')
+                    page.locator('[data-nppe-mode="full"]').click()
                     page.locator('[data-timing-kind="full"][data-timed="0"]').click()
                     page.locator('[data-mode="full"]').click()
                     expect(page.locator('.tb-quiz')).to_be_visible()
