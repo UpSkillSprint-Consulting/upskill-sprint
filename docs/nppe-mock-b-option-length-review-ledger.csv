@@ -1,111 +1,111 @@
-item_id,blueprint,key_letter,key_length,longest_wrong_length,key_tied_or_longest,length_advantage_chars,priority,review_status,notes
-NPPE-281,I.1,B,91,85,true,6,medium,pending_editorial_rewrite,
-NPPE-282,II.1,D,134,98,true,36,high,pending_editorial_rewrite,
-NPPE-283,III.1,A,159,133,true,26,high,pending_editorial_rewrite,
-NPPE-284,IV.1,C,118,124,false,-6,low,pending_editorial_rewrite,
-NPPE-285,V.1,D,141,95,true,46,high,pending_editorial_rewrite,
-NPPE-286,VI.1,A,96,94,true,2,medium,pending_editorial_rewrite,
-NPPE-287,III.2,B,150,115,true,35,high,pending_editorial_rewrite,
-NPPE-288,IV.2,C,104,109,false,-5,low,pending_editorial_rewrite,
-NPPE-289,II.2,B,96,94,true,2,medium,pending_editorial_rewrite,
-NPPE-290,III.3,D,136,108,true,28,high,pending_editorial_rewrite,
-NPPE-291,IV.3,B,159,105,true,54,high,pending_editorial_rewrite,
-NPPE-292,II.3,A,124,107,true,17,medium,pending_editorial_rewrite,
-NPPE-293,III.4,C,119,97,true,22,medium,pending_editorial_rewrite,
-NPPE-294,IV.4,D,131,104,true,27,high,pending_editorial_rewrite,
-NPPE-295,I.2,C,116,104,true,12,medium,pending_editorial_rewrite,
-NPPE-296,V.2,D,153,118,true,35,high,pending_editorial_rewrite,
-NPPE-297,VI.2,A,139,104,true,35,high,pending_editorial_rewrite,
-NPPE-298,III.5,B,125,111,true,14,medium,pending_editorial_rewrite,
-NPPE-299,II.4,C,146,111,true,35,high,pending_editorial_rewrite,
-NPPE-300,IV.5,A,79,84,false,-5,low,initial_cue_rewritten_pending_final_review,
-NPPE-301,III.6,C,162,116,true,46,high,pending_editorial_rewrite,
-NPPE-302,IV.6,A,128,127,true,1,medium,pending_editorial_rewrite,
-NPPE-303,II.1,D,105,110,false,-5,low,pending_editorial_rewrite,
-NPPE-304,III.7,D,166,106,true,60,high,pending_editorial_rewrite,
-NPPE-305,III.8,B,143,126,true,17,medium,pending_editorial_rewrite,
-NPPE-306,IV.7,C,154,104,true,50,high,pending_editorial_rewrite,
-NPPE-307,I.3,A,162,119,true,43,high,pending_editorial_rewrite,
-NPPE-308,V.3,D,147,110,true,37,high,pending_editorial_rewrite,
-NPPE-309,VI.3,B,79,132,false,-53,low,initial_cue_rewritten_pending_final_review,
-NPPE-310,II.2,C,125,96,true,29,high,pending_editorial_rewrite,
-NPPE-311,III.9,C,159,117,true,42,high,pending_editorial_rewrite,
-NPPE-312,IV.8,A,172,129,true,43,high,pending_editorial_rewrite,
-NPPE-313,II.3,D,142,113,true,29,high,pending_editorial_rewrite,
-NPPE-314,III.10,B,153,119,true,34,high,pending_editorial_rewrite,
-NPPE-315,IV.9,C,101,86,true,15,medium,pending_editorial_rewrite,
-NPPE-316,III.1,B,155,145,true,10,medium,pending_editorial_rewrite,
-NPPE-317,II.4,A,150,123,true,27,high,pending_editorial_rewrite,
-NPPE-318,IV.10,D,171,117,true,54,high,pending_editorial_rewrite,
-NPPE-319,I.4,C,157,142,true,15,medium,pending_editorial_rewrite,
-NPPE-320,III.2,C,184,128,true,56,high,pending_editorial_rewrite,
-NPPE-321,V.4,C,150,117,true,33,high,pending_editorial_rewrite,
-NPPE-322,VI.4,C,116,118,false,-2,low,pending_editorial_rewrite,
-NPPE-323,IV.11,D,152,116,true,36,high,pending_editorial_rewrite,
-NPPE-324,II.1,A,157,110,true,47,high,pending_editorial_rewrite,
-NPPE-325,III.3,C,158,125,true,33,high,pending_editorial_rewrite,
-NPPE-326,IV.12,D,182,119,true,63,high,pending_editorial_rewrite,
-NPPE-327,III.4,B,94,109,false,-15,low,initial_cue_rewritten_pending_final_review,
-NPPE-328,II.2,C,129,119,true,10,medium,pending_editorial_rewrite,
-NPPE-329,III.5,D,145,112,true,33,high,pending_editorial_rewrite,
-NPPE-330,IV.13,B,171,150,true,21,medium,pending_editorial_rewrite,
-NPPE-331,I.1,A,170,137,true,33,high,pending_editorial_rewrite,
-NPPE-332,V.1,D,158,113,true,45,high,pending_editorial_rewrite,
-NPPE-333,VI.1,B,155,119,true,36,high,pending_editorial_rewrite,
-NPPE-334,II.3,C,139,129,true,10,medium,pending_editorial_rewrite,
-NPPE-335,III.6,D,147,115,true,32,high,pending_editorial_rewrite,
-NPPE-336,IV.14,A,151,128,true,23,medium,pending_editorial_rewrite,
-NPPE-337,III.7,B,168,119,true,49,high,pending_editorial_rewrite,
-NPPE-338,II.4,C,152,129,true,23,medium,pending_editorial_rewrite,
-NPPE-339,IV.1,D,142,109,true,33,high,pending_editorial_rewrite,
-NPPE-340,III.8,D,148,106,true,42,high,pending_editorial_rewrite,
-NPPE-341,IV.2,D,142,111,true,31,high,pending_editorial_rewrite,
-NPPE-342,II.1,B,135,111,true,24,medium,pending_editorial_rewrite,
-NPPE-343,III.9,C,98,99,false,-1,low,initial_cue_rewritten_pending_final_review,
-NPPE-344,I.2,D,154,109,true,45,high,pending_editorial_rewrite,
-NPPE-345,V.2,A,147,134,true,13,medium,pending_editorial_rewrite,
-NPPE-346,VI.2,D,134,103,true,31,high,pending_editorial_rewrite,
-NPPE-347,IV.3,B,149,95,true,54,high,pending_editorial_rewrite,
-NPPE-348,III.10,C,161,108,true,53,high,pending_editorial_rewrite,
-NPPE-349,II.2,B,113,112,true,1,medium,pending_editorial_rewrite,
-NPPE-350,III.1,D,126,108,true,18,medium,pending_editorial_rewrite,
-NPPE-351,IV.4,B,142,110,true,32,high,pending_editorial_rewrite,
-NPPE-352,II.3,D,142,110,true,32,high,pending_editorial_rewrite,
-NPPE-353,III.2,A,148,120,true,28,high,pending_editorial_rewrite,
-NPPE-354,IV.5,C,123,124,false,-1,low,pending_editorial_rewrite,
-NPPE-355,I.3,D,162,123,true,39,high,pending_editorial_rewrite,
-NPPE-356,III.3,B,94,103,false,-9,low,initial_cue_rewritten_pending_final_review,
-NPPE-357,V.3,C,179,121,true,58,high,pending_editorial_rewrite,
-NPPE-358,VI.3,D,157,114,true,43,high,pending_editorial_rewrite,
-NPPE-359,IV.6,B,137,114,true,23,medium,pending_editorial_rewrite,
-NPPE-360,II.4,C,133,111,true,22,medium,pending_editorial_rewrite,
-NPPE-361,III.4,C,161,103,true,58,high,pending_editorial_rewrite,
-NPPE-362,IV.7,C,125,121,true,4,medium,pending_editorial_rewrite,
-NPPE-363,II.1,D,156,107,true,49,high,pending_editorial_rewrite,
-NPPE-364,III.5,B,135,100,true,35,high,pending_editorial_rewrite,
-NPPE-365,IV.8,C,138,102,true,36,high,pending_editorial_rewrite,
-NPPE-366,III.6,A,141,131,true,10,medium,pending_editorial_rewrite,
-NPPE-367,II.2,D,128,108,true,20,medium,pending_editorial_rewrite,
-NPPE-368,I.4,B,149,123,true,26,high,pending_editorial_rewrite,
-NPPE-369,V.4,C,131,130,true,1,medium,pending_editorial_rewrite,
-NPPE-370,VI.4,D,121,113,true,8,medium,pending_editorial_rewrite,
-NPPE-371,IV.9,C,178,114,true,64,high,pending_editorial_rewrite,
-NPPE-372,III.7,D,97,126,false,-29,low,initial_cue_rewritten_pending_final_review,
-NPPE-373,II.3,A,145,111,true,34,high,pending_editorial_rewrite,
-NPPE-374,III.8,B,128,132,false,-4,low,pending_editorial_rewrite,
-NPPE-375,IV.10,C,172,129,true,43,high,pending_editorial_rewrite,
-NPPE-376,III.9,D,162,108,true,54,high,pending_editorial_rewrite,
-NPPE-377,IV.11,B,178,114,true,64,high,pending_editorial_rewrite,
-NPPE-378,II.4,C,127,131,false,-4,low,pending_editorial_rewrite,
-NPPE-379,III.10,D,167,106,true,61,high,pending_editorial_rewrite,
-NPPE-380,I.1,A,158,98,true,60,high,pending_editorial_rewrite,
-NPPE-381,V.1,B,134,125,true,9,medium,pending_editorial_rewrite,
-NPPE-382,VI.1,D,162,121,true,41,high,pending_editorial_rewrite,
-NPPE-383,IV.12,C,111,121,false,-10,low,initial_cue_rewritten_pending_final_review,
-NPPE-384,II.1,A,165,108,true,57,high,pending_editorial_rewrite,
-NPPE-385,III.1,D,144,121,true,23,medium,pending_editorial_rewrite,
-NPPE-386,IV.13,C,99,133,false,-34,low,initial_cue_rewritten_pending_final_review,
-NPPE-387,III.2,B,170,127,true,43,high,pending_editorial_rewrite,
-NPPE-388,II.2,D,109,104,true,5,medium,pending_editorial_rewrite,
-NPPE-389,IV.14,D,169,121,true,48,high,pending_editorial_rewrite,
-NPPE-390,III.3,D,168,109,true,59,high,pending_editorial_rewrite,
+item_id,blueprint,key_letter,key_length,shortest_wrong_length,longest_wrong_length,key_rank_short_to_long,shortest_key,longest_key,length_advantage_over_longest_wrong,option_edit_status,review_status,notes
+NPPE-281,I.1,B,73,63,85,2,false,false,-12,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-282,II.1,D,65,57,98,2,false,false,-33,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-283,III.1,A,79,67,133,2,false,false,-54,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-284,IV.1,C,118,87,124,3,false,false,-6,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-285,V.1,D,83,61,95,2,false,false,-12,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-286,VI.1,A,57,49,94,2,false,false,-37,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-287,III.2,B,71,61,115,2,false,false,-44,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-288,IV.2,C,104,87,109,3,false,false,-5,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-289,II.2,B,71,61,94,2,false,false,-23,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-290,III.3,D,76,50,108,2,false,false,-32,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-291,IV.3,B,80,60,105,2,false,false,-25,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-292,II.3,A,71,57,107,2,false,false,-36,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-293,III.4,C,73,50,97,2,false,false,-24,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-294,IV.4,D,78,65,104,2,false,false,-26,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-295,I.2,C,69,59,104,2,false,false,-35,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-296,V.2,D,81,50,118,2,false,false,-37,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-297,VI.2,A,83,79,104,2,false,false,-21,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-298,III.5,B,66,63,111,2,false,false,-45,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-299,II.4,C,76,75,111,2,false,false,-35,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-300,IV.5,A,79,55,84,2,false,false,-5,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-301,III.6,C,74,57,116,2,false,false,-42,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-302,IV.6,A,69,50,127,2,false,false,-58,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-303,II.1,D,105,57,110,3,false,false,-5,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-304,III.7,D,77,50,106,2,false,false,-29,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-305,III.8,B,69,54,126,2,false,false,-57,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-306,IV.7,C,68,55,104,2,false,false,-36,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-307,I.3,A,69,57,119,2,false,false,-50,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-308,V.3,D,77,56,110,2,false,false,-33,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-309,VI.3,B,79,55,132,2,false,false,-53,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-310,II.2,C,81,79,96,2,false,false,-15,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-311,III.9,C,74,57,117,2,false,false,-43,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-312,IV.8,A,78,53,129,2,false,false,-51,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-313,II.3,D,66,57,113,2,false,false,-47,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-314,III.10,B,76,59,119,2,false,false,-43,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-315,IV.9,C,53,39,86,2,false,false,-33,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-316,III.1,B,72,58,145,2,false,false,-73,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-317,II.4,A,73,63,123,2,false,false,-50,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-318,IV.10,D,75,54,117,2,false,false,-42,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-319,I.4,C,73,48,142,2,false,false,-69,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-320,III.2,C,78,53,128,2,false,false,-50,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-321,V.4,C,79,64,117,2,false,false,-38,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-322,VI.4,C,116,102,118,3,false,false,-2,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-323,IV.11,D,85,84,116,2,false,false,-31,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-324,II.1,A,83,56,110,2,false,false,-27,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-325,III.3,C,85,61,125,2,false,false,-40,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-326,IV.12,D,77,73,119,2,false,false,-42,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-327,III.4,B,94,62,109,2,false,false,-15,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-328,II.2,C,80,53,119,2,false,false,-39,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-329,III.5,D,70,51,112,2,false,false,-42,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-330,IV.13,B,81,60,150,2,false,false,-69,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-331,I.1,A,79,56,137,2,false,false,-58,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-332,V.1,D,61,55,113,2,false,false,-52,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-333,VI.1,B,67,58,119,2,false,false,-52,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-334,II.3,C,74,63,129,2,false,false,-55,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-335,III.6,D,69,61,115,2,false,false,-46,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-336,IV.14,A,76,66,128,2,false,false,-52,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-337,III.7,B,68,59,119,2,false,false,-51,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-338,II.4,C,69,52,129,2,false,false,-60,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-339,IV.1,D,53,43,109,2,false,false,-56,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-340,III.8,D,69,55,106,2,false,false,-37,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-341,IV.2,D,69,53,111,2,false,false,-42,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-342,II.1,B,73,42,111,2,false,false,-38,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-343,III.9,C,98,92,99,3,false,false,-1,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-344,I.2,D,79,43,109,2,false,false,-30,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-345,V.2,A,71,50,134,2,false,false,-63,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-346,VI.2,D,64,52,103,2,false,false,-39,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-347,IV.3,B,75,51,95,2,false,false,-20,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-348,III.10,C,83,63,108,2,false,false,-25,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-349,II.2,B,73,60,112,2,false,false,-39,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-350,III.1,D,68,62,108,2,false,false,-40,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-351,IV.4,B,82,46,110,2,false,false,-28,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-352,II.3,D,68,52,110,2,false,false,-42,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-353,III.2,A,68,47,120,2,false,false,-52,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-354,IV.5,C,123,96,124,3,false,false,-1,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-355,I.3,D,66,60,123,2,false,false,-57,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-356,III.3,B,94,55,103,2,false,false,-9,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-357,V.3,C,81,50,121,2,false,false,-40,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-358,VI.3,D,65,53,114,2,false,false,-49,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-359,IV.6,B,71,48,114,2,false,false,-43,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-360,II.4,C,72,52,111,2,false,false,-39,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-361,III.4,C,68,52,103,2,false,false,-35,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-362,IV.7,C,64,57,121,2,false,false,-57,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-363,II.1,D,77,58,107,2,false,false,-30,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-364,III.5,B,69,48,100,2,false,false,-31,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-365,IV.8,C,74,62,102,2,false,false,-28,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-366,III.6,A,78,48,131,2,false,false,-53,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-367,II.2,D,67,56,108,2,false,false,-41,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-368,I.4,B,70,44,123,2,false,false,-53,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-369,V.4,C,79,56,130,2,false,false,-51,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-370,VI.4,D,68,64,113,2,false,false,-45,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-371,IV.9,C,78,63,114,2,false,false,-36,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-372,III.7,D,97,89,126,2,false,false,-29,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-373,II.3,A,77,49,111,2,false,false,-34,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-374,III.8,B,128,101,132,3,false,false,-4,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-375,IV.10,C,74,55,129,2,false,false,-55,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-376,III.9,D,76,46,108,2,false,false,-32,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-377,IV.11,B,71,53,114,2,false,false,-43,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-378,II.4,C,127,90,131,3,false,false,-4,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-379,III.10,D,71,63,106,2,false,false,-35,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-380,I.1,A,86,82,98,2,false,false,-12,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-381,V.1,B,84,61,125,2,false,false,-41,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-382,VI.1,D,76,58,121,2,false,false,-45,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-383,IV.12,C,111,96,121,2,false,false,-10,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-384,II.1,A,70,61,108,2,false,false,-38,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-385,III.1,D,73,55,121,2,false,false,-48,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-386,IV.13,C,99,56,133,2,false,false,-34,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-387,III.2,B,77,50,127,2,false,false,-50,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-388,II.2,D,76,47,104,2,false,false,-28,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-389,IV.14,D,79,53,121,2,false,false,-42,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
+NPPE-390,III.3,D,72,50,109,2,false,false,-37,original_or_previously_reviewed,pending_independent_editorial_review,whole-form rank cue review required
