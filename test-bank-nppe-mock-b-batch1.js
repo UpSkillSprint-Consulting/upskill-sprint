@@ -332,7 +332,7 @@
     "options": [
       "Pure ethical egoism focused on the manager's personal reward.",
       "Rights-based ethics, emphasizing equal standing and basic entitlements.",
-      "A strictly utilitarian decision that maximizes only the aggregate financial benefit.",
+      "Utilitarianism: maximize aggregate financial gain alone.",
       "Legal positivism because the objection proves a specific statute already prohibits the change."
     ],
     "answer": 1,
@@ -413,6 +413,7 @@
   if([281,282,283,285,286,287,289,290].includes(Number(id))){q.version+=1;q.optionCueReviewedAt='2026-10-18';q.reviewStatus+='; keyed option edited for length cue';}
   if([281,282,283,285,286,287,290].includes(String(id))){q.version+=1;q.distractorReviewedAt='2026-10-18';}
   if([281,282,283,285,287].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';q.reviewStatus+='; balanced option-length rank with content review pending';}
+  if([289].includes(Number(id))){q.version+=1;q.optionRankReviewedAt='2026-10-18';}
   if(q.options.length!==4||new Set(q.options).size!==4||!Number.isInteger(q.answer)||q.answer<0||q.answer>3||q.optionRationales.length!==4||q.optionRationales.some(function(t){return t.length<35;})||!q.sources.some(function(s){return s.sourceType==='official-blueprint';})||!q.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B item '+id);
   q.why='<p>'+escape(q.optionRationales[q.answer])+'</p><p><strong>Key learning point:</strong> '+escape(q.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(q.trap)+'</p><p><strong>Sources:</strong> '+q.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B question. Editorial classifications are provisional; scores do not predict official NPPE results.</p>';
  });
