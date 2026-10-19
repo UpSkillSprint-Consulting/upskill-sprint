@@ -15,7 +15,7 @@
       "A possible financial consequence alone automatically establishes a duty owed to every downstream reader.",
       "Examine both foreseeability and proximity in the consultant–lender relationship.",
       "Every engineering estimate attracts no civil duty because it is an opinion rather than a physical design.",
-      "Assume the lender became a client by receiving the estimate."
+      "The consultant's professional designation automatically makes the lender a contracting party."
     ],
     "answer": 1,
     "optionRationales": [
@@ -52,7 +52,7 @@
     "stem": "An engineer prepares a publicly distributed noise-impact statement. It presents a simulated worst-case level of 68 dBA as though it were a measured reading, even though no field test has yet been performed. What revision is most consistent with professional ethics?",
     "options": [
       "Identify 68 dBA as modelled, not measured, and state its uncertainties.",
-      "Remove the numerical estimate until field testing occurs.",
+      "Remove the number entirely because professional communications may contain only direct measurements.",
       "Leave the statement unchanged because all projections become measurements once included in a signed report.",
       "Replace the value with a lower target level without noting the change to avoid misleading residents."
     ],
@@ -92,7 +92,7 @@
     "options": [
       "Apply the newer guide automatically because voluntary industry documents supersede older permits.",
       "Collect samples only after a complaint because neither a permit nor a guide binds engineers.",
-      "Continue weekly permit sampling; use the guide only as additional advice.",
+      "Continue meeting the permit's weekly requirement while evaluating whether the guide offers additional useful practices.",
       "Average the weekly and monthly sampling intervals."
     ],
     "answer": 2,
@@ -138,7 +138,7 @@
       "A claim is impossible without consideration and a signed contract for services.",
       "Only criminal prosecution can address an injury on a public path.",
       "The passerby automatically wins because an accident alone proves every element of fault-based liability.",
-      "Article 1457: assess fault, harm and causation in extra-contractual liability."
+      "Extra-contractual civil liability under Civil Code article 1457 requires considering fault, resulting injury and causal connection."
     ],
     "answer": 3,
     "optionRationales": [
@@ -176,7 +176,7 @@
     "options": [
       "Ignore disruption because public protection concerns only loss of life, never access or economic damage.",
       "Choose the alternative yielding the largest consulting fee.",
-      "Evaluate community access, economic consequences and safety together.",
+      "Consider foreseeable community access and economic impacts in addition to personal safety and environmental effects.",
       "Treat any option affecting businesses as prohibited, without comparing magnitude or alternatives."
     ],
     "answer": 2,
@@ -216,7 +216,7 @@
       "Rely on the original licence to sign in Province B immediately because all provinces have a single licensing register.",
       "Assume a degree certificate is sufficient if the engineer has practised for at least five years.",
       "Rely on the employer's written work authorization.",
-      "Secure the required authorization from the destination regulator before practice."
+      "Follow the destination regulator's mobility route and obtain authorization before independent practice."
     ],
     "answer": 3,
     "optionRationales": [
@@ -252,7 +252,7 @@
     "jurisdiction": "British Columbia; Engineers and Geoscientists BC's current audit and practice-review programs as described publicly.",
     "stem": "After a compliance audit, a B.C. registrant is referred to a focused practice review because significant technical risks were identified. A colleague says the review is merely another random audit and can never impose practice conditions. Which description is most accurate?",
     "options": [
-      "A targeted review addresses technical concerns and can lead to practice conditions.",
+      "A targeted review assesses technical concerns and may lead the committee to impose practice conditions.",
       "The review is purely voluntary and has no possible consequences after a technical concern is identified.",
       "A targeted practice review is identical to random selection for a routine individual compliance audit.",
       "Referral for review means the registrant has already been criminally convicted."
@@ -293,7 +293,7 @@
     "options": [
       "Keep the original solvent because warning signs eliminate the underlying chemical hazard.",
       "Use the validated safer substitute, then assess residual exposure.",
-      "Add warning signs and assume exposure is adequately controlled.",
+      "Use additional warning posters and assume the exposure probability becomes zero.",
       "Transfer responsibility for exposure to employees through an acknowledgement form without changing the process."
     ],
     "answer": 1,
@@ -407,6 +407,7 @@
   if(id==='300'){item.version=2;item.editorialReviewedAt='2026-10-18';item.reviewStatus+='; keyed-option length cue revised';}
   if([291,292,293,294,295,296,297,298,299].includes(Number(id))){item.version+=1;item.optionCueReviewedAt='2026-10-18';item.reviewStatus+='; keyed option edited for length cue';}
   if([291,292,293,295,296,298,300].includes(String(id))){item.version+=1;item.distractorReviewedAt='2026-10-18';}
+  if([291,292,293,294,295,296,297,298].includes(Number(id))){item.version+=1;item.optionRankReviewedAt='2026-10-18';item.reviewStatus+='; balanced option-length rank with content review pending';}
   if(item.options.length!==4||new Set(item.options).size!==4||item.optionRationales.length!==4||!Number.isInteger(item.answer)||item.answer<0||item.answer>3||!item.sources.some(function(s){return s.sourceType==='official-blueprint';})||!item.sources.some(function(s){return s.sourceType!=='official-blueprint';}))throw new Error('Invalid Mock B Batch 2 item '+id);
   item.why='<p>'+escape(item.optionRationales[item.answer])+'</p><p><strong>Key learning point:</strong> '+escape(item.keyPoint)+'</p><p><strong>Common error:</strong> '+escape(item.trap)+'</p><p><strong>Sources:</strong> '+item.sources.map(function(s){return '<a href="'+escape(s.url)+'" target="_blank" rel="noopener noreferrer">'+escape(s.title)+'</a> — '+escape(s.locator)+' ['+escape(s.sourceType)+']';}).join('; ')+'.</p><p>Original held Mock B item; classifications are provisional and do not predict an official NPPE result.</p>';
  });
