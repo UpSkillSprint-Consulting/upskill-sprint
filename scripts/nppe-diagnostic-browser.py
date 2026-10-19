@@ -259,11 +259,29 @@ def main():
                         page.get_by_role('switch', name='Switch to ' + theme + ' mode').click()
                     expect(page.locator('html')).to_have_attribute('data-theme', theme)
                     page.locator('[data-nppe-owner="1"]').click()
+                    # Distinct, responsive bank cards rather than an oversized nested set picker.
+                    expect(page.locator('.nppe-hub .nppe-author-tab')).to_have_count(3)
+                    expect(page.locator('.nppe-hub .nppe-bank-card')).to_have_count(6)
+                    expect(page.locator('.nppe-hub .nppe-launch')).to_have_count(1)
+                    assert page.evaluate('''() => [...document.querySelectorAll(
+                      '.nppe-bank-card,.nppe-author-tab,.nppe-launch,.nppe-launch-actions .tb-mstart'
+                    )].every(el=>{
+                      const r=el.getBoundingClientRect();
+                      return (!r.width&&!r.height)||(r.left>=-1&&r.right<=innerWidth+1);
+                    })'''), 'NPPE chooser overflows the viewport'
+                    page.locator('[data-set="set-1-mock-a"]').click()
+                    expect(page.locator('[data-set="set-1-mock-a"]')).to_be_focused()
+                    expect(page.locator('[data-nppe-bank="set-1-mock-a"] h3')).to_have_text('Mock A')
+                    expect(page.locator('[data-set="set-1-mock-a"]')).to_have_attribute('aria-pressed','true')
+                    page.locator('[data-set="set-1-diagnostic"]').click()
+                    expect(page.locator('[data-nppe-bank="set-1-diagnostic"] h3')).to_have_text('Diagnostic')
                     page.locator('[data-nppe-owner="1"]').press('ArrowRight')
                     expect(page.locator('#nppe-banks-2')).to_be_visible()
                     expect(page.locator('#nppe-banks-1')).to_be_hidden()
                     page.locator('[data-nppe-owner="2"]').press('ArrowRight')
                     expect(page.locator('#nppe-banks-3')).to_be_visible()
+                    expect(page.locator('#nppe-banks-3 .nppe-bank-panel-head')).to_contain_text('Mock D')
+                    expect(page.locator('#nppe-banks-3 .nppe-bank-panel-head')).not_to_contain_text('Mock E')
                     page.locator('[data-nppe-owner="3"]').press('Home')
                     expect(page.locator('#nppe-banks-1')).to_be_visible()
                     expect(page.locator('#nppe-banks-2')).to_be_hidden()
