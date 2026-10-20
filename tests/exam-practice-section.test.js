@@ -54,7 +54,10 @@ test('exam practice is outside the lesson library, topic filters, and topic link
 test('public directory offers safe locked metadata before personalized access is confirmed', async t => {
   const { window, errors } = await loadPage(t, 'exam-practice.html', 'https://upskillsprint.com/exam-practice');
   const doc = window.document;
-  assert.equal(doc.querySelector('h1').textContent, 'Simulated Exam Practice & Quizzes');
+  assert.equal(doc.querySelector('h1').textContent, 'Practise Certification Exam');
+  assert.equal(doc.title, 'Practise Certification Exam | UpSkill Sprint');
+  assert.equal(doc.querySelector('meta[property="og:title"]').content, 'Practise Certification Exam | UpSkill Sprint');
+  assert.equal(doc.querySelector('footer a[href="/exam-practice"]').textContent.trim(), 'Practise Certification Exam');
   const section = doc.getElementById('exam-practice');
   const cards = Array.from(section.querySelectorAll('.exam-card'));
   assert.deepEqual(cards.map(card=>[card.querySelector('h3').textContent,card.querySelector('.exam-acronym').textContent]), [
@@ -114,7 +117,7 @@ test('desktop and mobile navigation place the exam tab immediately after Lessons
     for (const nav of window.document.querySelectorAll('nav.desktop-nav, nav.mobile-nav')) {
       const lessons = Array.from(nav.querySelectorAll('a')).find(a => a.textContent.trim() === 'Lessons');
       const exam = lessons.nextElementSibling;
-      assert.equal(exam.textContent, 'Exam Practice & Quizzes', `${file}: exam tab follows Lessons`);
+      assert.equal(exam.textContent, 'Practise Certification Exam', `${file}: exam tab follows Lessons`);
       assert.equal(exam.getAttribute('href'), '/exam-practice');
       assert.equal(exam.nextElementSibling.textContent, 'Engineering Tools');
       assert.equal(nav.querySelectorAll('a[href="/exam-practice"]').length, 1, 'no duplicate tabs');
@@ -128,11 +131,30 @@ test('exam overview and simulator routes share the active top tab, including pre
   for (const route of ['/exam-practice/', '/exam-practice.html', '/test-bank', '/test-bank/']) {
     const file = route.startsWith('/test-bank') ? 'test-bank.html' : 'exam-practice.html';
     const { window } = await loadPage(t, file, 'https://upskillsprint.com' + route);
-    assert.equal(window.document.querySelector('nav.desktop-nav a[aria-current="page"]').textContent, 'Exam Practice & Quizzes');
+    assert.equal(window.document.querySelector('nav.desktop-nav a[aria-current="page"]').textContent, 'Practise Certification Exam');
   }
   const { window } = await loadPage(t, 'test-bank.html', 'https://upskillsprint.com/test-bank');
   assert.equal(window.document.querySelector('.tb-crumb a').getAttribute('href'), '/exam-practice');
   assert.equal(window.document.querySelector('.tb-crumb a').textContent, 'Back to All Certifications');
+});
+
+test('certification exam navigation wording is consistent while route and access policies remain stable', () => {
+  const expected = 'Practise Certification Exam';
+  const landing = read('exam-practice.html');
+  const shared = read('site-sections.js');
+  const admin = read('admin-exam-access.html');
+  const search = read('lesson-search.js');
+  const displayRule = read('supabase/premium-simulator-access.sql');
+  const creationGuide = read('docs/LESSON_CREATION_GUIDE.md');
+  for(const [name, source] of [['landing',landing],['shared navigation',shared],['admin back link',admin],['search topic',search],['access-rule label',displayRule],['creation guide',creationGuide]]) {
+    assert.ok(source.includes(expected), name + ' missing updated label');
+    assert.doesNotMatch(source,/Simulated Exam Practice (?:&|&amp;) Quizzes|Exam Practice (?:&|&amp;) Quizzes/, name + ' exposes retired wording');
+  }
+  assert.match(shared,/const EXAM_PRACTICE_PATH = '\/exam-practice'/);
+  assert.match(landing,/href="\/exam-practice"/);
+  assert.match(admin,/href="\/exam-practice"/);
+  assert.match(displayRule,/resource_key, required_access_key, display_name/);
+  assert.match(displayRule,/'exam:\/test-bank', 'premium', 'Practise Certification Exam'/);
 });
 
 test('old lesson bookmarks forward to the moved page and keep access notices', () => {

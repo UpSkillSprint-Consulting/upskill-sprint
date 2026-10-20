@@ -39,7 +39,7 @@
   ];
   const TOPIC_LABELS = {
     'data-analytics': 'Data Analytics',
-    'exam-practice': 'Exam Practice',
+    'exam-practice': 'Practise Certification Exam',
     'quality-engineering': 'Quality Engineering',
     'lean-six-sigma': 'Lean Six Sigma',
     statistics: 'Statistics',
