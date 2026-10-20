@@ -664,3 +664,64 @@ test('all six NPPE banks inherit slate/teal/blue/orange/current navigation and p
   }finally{h.close();}
  });
 });
+
+
+test('untimed Quick and Focused NPPE quizzes support reveal without changing author-owned scored pools',async()=>{
+ for(const entry of [{id:'mock-c',owner:2,kind:'quick'},{id:'set-1-mock-b',owner:1,kind:'focus'}]){
+  const h=await harness(),{w,d}=h;
+  try{
+   click(d,'[data-nppe-owner="'+entry.owner+'"]');
+   click(d,'[data-set="'+entry.id+'"]');
+   click(d,'[data-mode="'+entry.kind+'"]');
+   const snap=w.__TB.getFeedbackSnapshot();
+   assert.ok(snap.records.length>0);
+   assert.ok(snap.records.every(r=>r.question.form===entry.id&&scored(r)));
+   assert.ok(d.querySelector('.tb-status-key'));
+   click(d,'[data-flag]');
+   click(d,'[data-reveal]');
+   const button=d.querySelector('[data-goto="0"]');
+   assert.ok(button.classList.contains('revealed')&&button.classList.contains('flag'));
+   click(d,'[data-goto="'+(snap.records.length-1)+'"]');
+   click(d,'[data-submit]');await wait();
+   const grade=w.__TB.getFeedbackSnapshot().grading;
+   assert.equal(grade.total,snap.records.length);
+   assert.equal(grade.incorrect,1);
+   assert.equal(grade.revealed,1);
+   assert.equal(grade.correct,0);
+   assert.deepEqual(h.errors,[]);
+  }finally{h.close();}
+ }
+});
+
+test('revealing a simulated unscored NPPE mock item never changes its 100-point score',async()=>{
+ const h=await harness(),{w,d}=h;
+ try{
+  click(d,'[data-set="set-1-mock-a"]');
+  click(d,'[data-mode="full"]');
+  assert.equal(d.querySelector('[data-reveal]'),null);
+  assert.equal(w.__TB.revealCurrentAnswer(),false);
+ }finally{h.close();}
+ const g=await harness(),w2=g.w,d2=g.d;
+ try{
+  click(d2,'[data-set="set-1-mock-a"]');
+  click(d2,'[data-timing-kind="full"][data-timed="0"]');
+  click(d2,'[data-mode="full"]');
+  const records=w2.__TB.getFeedbackSnapshot().records;
+  const unscoredIndex=records.findIndex(r=>!scored(r));
+  const scoredIndex=records.findIndex(scored);
+  assert.ok(unscoredIndex>=0&&scoredIndex>=0);
+  click(d2,'[data-goto="'+unscoredIndex+'"]');
+  click(d2,'[data-reveal]');
+  assert.ok(d2.querySelector('[data-goto="'+unscoredIndex+'"]').classList.contains('revealed'));
+  click(d2,'[data-goto="'+scoredIndex+'"]');
+  click(d2,'[data-opt="'+records[scoredIndex].question.answer+'"]');
+  click(d2,'[data-goto="'+(records.length-1)+'"]');
+  click(d2,'[data-submit]');await wait();
+  const grade=w2.__TB.getFeedbackSnapshot().grading;
+  assert.equal(grade.total,100);
+  assert.equal(grade.correct,1);
+  assert.equal(grade.incorrect,0);
+  assert.equal(grade.unanswered,99);
+  assert.deepEqual(g.errors,[]);
+ }finally{g.close();}
+});
