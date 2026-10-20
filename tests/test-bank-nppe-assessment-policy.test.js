@@ -352,8 +352,8 @@ test('NPPE chooser uses the same three stacked practice-mode cards as other cert
   assert.equal(d.querySelector('.nppe-disclosure'),null);
   const request=d.querySelector('.nppe-hub .tb-requestlink');
   assert.ok(request,'NPPE overview has the same request-link control as the other simulators');
-  assert.equal(request.textContent.trim(),'Request a certification exam →');
-  assert.equal(request.getAttribute('href'),'request-topic.html');
+  assert.equal(request.textContent.trim(),'Request a certification exam');
+  assert.equal(request.getAttribute('href'),'/request-topic');
   assert.deepEqual(h.errors,[]);
  }finally{h.close();}
 });
@@ -548,8 +548,8 @@ test('every NPPE question set ends with the standard certification request link 
    assert.equal(overview.querySelector('.nppe-disclosure'),null,'Long scoring panel is removed in '+bank.name);
    const links=overview.querySelectorAll('a.tb-requestlink');
    assert.equal(links.length,1,'Exactly one request link in '+bank.name);
-   assert.equal(links[0].textContent.trim(),'Request a certification exam →');
-   assert.equal(links[0].getAttribute('href'),'request-topic.html');
+   assert.equal(links[0].textContent.trim(),'Request a certification exam');
+   assert.equal(links[0].getAttribute('href'),'/request-topic');
    const visible=Array.from(overview.querySelectorAll('.nppe-selected-bank'),x=>x.textContent.trim());
    assert.deepEqual(visible,[bank.name,bank.name],bank.name+' should have no visible author suffix');
   }
