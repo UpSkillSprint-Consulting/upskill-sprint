@@ -35,12 +35,13 @@ test('Mock B authoring plan respects current published ranges and batch arithmet
  assert.match(doc,/releaseHold:true/);
  assert.match(doc,/110\/110/);
 });
-test('Mock B already has a separate form slot and held/empty forms fail closed',()=>{
+test('Mock B retains a separate source slot and invalid forms fail closed',()=>{
  const page=read('test-bank.html'),runtime=read('scripts/nppe-diagnostic-runtime.mjs');
  assert.match(page,/set-1-mock-b/);
  assert.match(page,/releaseHold:true/);
  assert.match(runtime,/if\(!formReady\(e,setId\)\)return \[\]/);
- assert.match(runtime,/session\.setId==='set-1-learning'/);
+ assert.doesNotMatch(runtime,/session\.setId==='set-1-learning'/);
+ assert.match(runtime,/Question status legend/);
 });
 
 test('Mock B 110-row planning ledger is complete, segregated and all 40 numbered topics have scored coverage',()=>{

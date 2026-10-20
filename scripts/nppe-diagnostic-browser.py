@@ -266,7 +266,7 @@ def main():
                     expect(page.locator('.nppe-hub .nppe-disclosure')).to_have_count(0)
                     request_link=page.locator('.nppe-hub a.tb-requestlink')
                     expect(request_link).to_have_count(1)
-                    expect(request_link).to_have_text('Request a certification exam')
+                    expect(request_link).to_have_text('Request Certificate Exam')
                     expect(request_link).to_have_attribute('href','/request-topic')
                     expect(page.locator('.nppe-hub')).not_to_contain_text('Mock C · Grok')
                     assert page.evaluate('''() => [...document.querySelectorAll(
@@ -345,13 +345,20 @@ def main():
                     page.locator('[data-mode="full"]').click()
                     expect(page.locator('.tb-quiz')).to_be_visible()
                     expect(page.locator('[data-goto]')).to_have_count(EXPECTED_COUNT)
-                    expect(page.locator('[data-reveal]')).to_have_count(0)
-                    assert page.evaluate('window.__TB.revealCurrentAnswer()') is False
+                    expect(page.locator('[data-reveal]')).to_be_visible()
+                    expect(page.locator('.tb-status-key')).to_be_visible()
+                    for status in ['Slate grey: unanswered','Teal: answered, awaiting grading',
+                                   'Blue: revealed (scored questions count as incorrect)','Orange: flagged for review',
+                                   'Outline: current question']:
+                        expect(page.locator('.tb-status-key')).to_contain_text(status)
+                    expect(page.locator('.tb-navcell.cur')).to_have_count(1)
                     expect(page.locator('#tb-feedback-loop')).to_have_count(0)
                     expect(page.locator('[data-flag]')).to_be_visible()
                     expect(page.locator('.tb-diag-kick')).not_to_contain_text('Sample diagnostic')
                     page.locator('[data-opt="1"]').click()
+                    expect(page.locator('.tb-navcell.cur')).to_have_class(re.compile(r'\bdone\b'))
                     page.locator('[data-flag]').click()
+                    expect(page.locator('.tb-navcell.cur')).to_have_class(re.compile(r'\bflag\b'))
                     page.locator('[data-next]').click()
                     page.locator('[data-goto="0"]').click()
                     expect(page.locator('[data-opt="1"]')).to_have_attribute('aria-pressed', 'true')
@@ -374,17 +381,17 @@ def main():
                         item = page.evaluate('i=>{const q=window.__TB.getFeedbackSnapshot().records[i].question;return {answer:q.answer,batch:q.batch};}', index)
                         if item['batch'] == 3:
                             header_images_fit()
-                            expect(page.locator('[data-reveal]')).to_have_count(0)
+                            expect(page.locator('[data-reveal]')).to_be_visible()
                             expect(page.locator('#tb-feedback-loop')).to_have_count(0)
                             batch3_checked += 1
                         if item['batch'] == 4:
                             header_images_fit()
-                            expect(page.locator('[data-reveal]')).to_have_count(0)
+                            expect(page.locator('[data-reveal]')).to_be_visible()
                             expect(page.locator('#tb-feedback-loop')).to_have_count(0)
                             batch4_checked += 1
                         if item['batch'] == 5:
                             header_images_fit()
-                            expect(page.locator('[data-reveal]')).to_have_count(0)
+                            expect(page.locator('[data-reveal]')).to_be_visible()
                             expect(page.locator('#tb-feedback-loop')).to_have_count(0)
                             batch5_checked += 1
                         page.locator(f'[data-opt="{item["answer"]}"]').click()
@@ -490,7 +497,7 @@ def main():
                     assert page.evaluate('window.__TB.getFeedbackSnapshot().records.filter(r=>r.revealed===true).length') == 1
                     page.locator('[data-submit]').click()
                     expect(page.locator('[data-score-result]')).to_contain_text(f'({LEARNING_COUNT-1}/{LEARNING_COUNT})')
-                    expect(page.locator('[data-score-result]')).to_contain_text('1 revealed (counted as incorrect)')
+                    expect(page.locator('[data-score-result]')).to_contain_text('1 revealed (scored questions count as incorrect)')
                     expect(page.locator('#tb-overview')).to_contain_text('Learning scores measure practice accuracy')
                     learning_review()
                     expect(page.locator('.tb-review-card.revealed')).to_have_count(1)

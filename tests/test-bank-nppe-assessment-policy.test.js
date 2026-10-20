@@ -62,7 +62,7 @@ function click(d, selector) {
   el.click();
 }
 
-test('published NPPE forms withhold answers in both timing modes and score only eligible items', async parent => {
+test('NPPE forms protect timed attempts and support penalised reveal in untimed practice', async parent => {
   const catalog = await harness();
   const exam = catalog.w.__TB.EXAMS.nppe;
   const forms = Array.from(exam.formCatalog)
@@ -87,10 +87,15 @@ test('published NPPE forms withhold answers in both timing modes and score only 
         assert.equal(original.setId, form.id);
         assert.equal(records.length, form.count);
         assert.ok(records.every(record => record.question.form === form.id && record.question.authorSet === form.owner));
-        assert.equal(d.querySelector('[data-reveal]'), null);
+        if (timed) {
+          assert.equal(d.querySelector('[data-reveal]'), null, 'timed exam has no reveal control');
+          assert.equal(w.__TB.revealCurrentAnswer(), false, 'programmatic timed reveal denied');
+        } else {
+          assert.ok(d.querySelector('[data-reveal]'), 'untimed exam shows Reveal Answer');
+          assert.match(d.querySelector('#tb-reveal-hint').textContent, /counts a scored question as incorrect/);
+        }
         assert.equal(d.querySelector('#tb-feedback-loop'), null);
         assert.equal(d.querySelector('#tb-revealed-answer'), null);
-        assert.equal(w.__TB.revealCurrentAnswer(), false, 'programmatic reveal is denied as well');
         assert.ok(records.every(record => !record.revealed));
         if (!timed) assert.equal(d.querySelector('.tb-timer').textContent, 'Untimed');
         const eligible = records.map((record, index) => ({record, index})).filter(({record}) => scored(record));
@@ -102,7 +107,8 @@ test('published NPPE forms withhold answers in both timing modes and score only 
         click(d, '[data-goto="' + first.index + '"]');
         click(d, '[data-opt="' + first.record.question.answer + '"]');
         click(d, '[data-flag]');
-        assert.equal(w.__TB.revealCurrentAnswer(), false);
+        if(timed) assert.equal(w.__TB.revealCurrentAnswer(), false);
+        else assert.equal(d.querySelector('[data-reveal]').disabled, false);
         click(d, '[data-goto="' + second.index + '"]');
         click(d, '[data-opt="' + ((second.record.question.answer + 1) % 4) + '"]');
         // A correctly answered experimental item must not increase the raw score.
@@ -352,7 +358,7 @@ test('NPPE chooser uses the same three stacked practice-mode cards as other cert
   assert.equal(d.querySelector('.nppe-disclosure'),null);
   const request=d.querySelector('.nppe-hub .tb-requestlink');
   assert.ok(request,'NPPE overview has the same request-link control as the other simulators');
-  assert.equal(request.textContent.trim(),'Request a certification exam');
+  assert.equal(request.textContent.trim(),'Request Certificate Exam');
   assert.equal(request.getAttribute('href'),'/request-topic');
   assert.deepEqual(h.errors,[]);
  }finally{h.close();}
@@ -472,8 +478,8 @@ test('ChatGPT Mock B Focused Quiz draws ten III Professional Practice items with
   assert.equal(s.records.length,10);
   assert.ok(s.records.every(r=>r.question.form==='set-1-mock-b'&&r.question.authorSet===1&&r.question.scored&&!r.question.experimental&&r.question.blueprint.startsWith('III.')));
   assert.equal(d.querySelector('.tb-timer').textContent,'Untimed');
-  assert.equal(d.querySelector('[data-reveal]'),null,'mock questions cannot reveal answer before submission');
-  assert.equal(w.__TB.revealCurrentAnswer(),false);
+  assert.ok(d.querySelector('[data-reveal]'),'untimed focused quiz offers Reveal Answer');
+  assert.match(d.querySelector('#tb-reveal-hint').textContent,/counts a scored question as incorrect/);
   click(d,'[data-goto="'+(s.records.length-1)+'"]');
   click(d,'[data-submit]');await wait();
   const result=w.__TB.getFeedbackSnapshot();
@@ -548,7 +554,7 @@ test('every NPPE question set ends with the standard certification request link 
    assert.equal(overview.querySelector('.nppe-disclosure'),null,'Long scoring panel is removed in '+bank.name);
    const links=overview.querySelectorAll('a.tb-requestlink');
    assert.equal(links.length,1,'Exactly one request link in '+bank.name);
-   assert.equal(links[0].textContent.trim(),'Request a certification exam');
+   assert.equal(links[0].textContent.trim(),'Request Certificate Exam');
    assert.equal(links[0].getAttribute('href'),'/request-topic');
    const visible=Array.from(overview.querySelectorAll('.nppe-selected-bank'),x=>x.textContent.trim());
    assert.deepEqual(visible,[bank.name,bank.name],bank.name+' should have no visible author suffix');
@@ -588,4 +594,136 @@ test('NPPE learner-facing bank labels show only bank names for every mock and sh
   assert.doesNotMatch(d.querySelector('.nppe-hub').textContent,/\b(?:ChatGPT|Grok|Claude)\b/);
   assert.deepEqual(h.errors,[]);
  }finally{h.close();}
+});
+
+
+test('all six NPPE banks inherit slate/teal/blue/orange/current navigation and penalised reveal',async parent=>{
+ const forms=[
+  ['set-1-diagnostic',1,50],['set-1-learning',1,120],['set-1-mock-a',1,100],
+  ['set-1-mock-b',1,100],['mock-c',2,100],['mock-d',3,100]
+ ];
+ for(const [id,owner,total] of forms)await parent.test(id,async()=>{
+  const h=await harness(),{d,w}=h;
+  try{
+   click(d,'[data-nppe-owner="'+owner+'"]');
+   click(d,'[data-set="'+id+'"]');
+   click(d,'[data-timing-kind="full"][data-timed="0"]');
+   click(d,'[data-mode="full"]');
+   const snap=w.__TB.getFeedbackSnapshot(),records=snap.records;
+   assert.equal(snap.setId,id);
+   assert.equal(d.querySelectorAll('[data-goto]').length,records.length);
+   const legend=d.querySelector('.tb-status-key');
+   assert.ok(legend);
+   assert.equal(legend.getAttribute('role'),'group');
+   for(const phrase of ['Slate grey: unanswered','Teal: answered, awaiting grading',
+    'Blue: revealed (scored questions count as incorrect)','Orange: flagged for review','Outline: current question'])
+    assert.ok(legend.textContent.includes(phrase),id+' missing '+phrase);
+   const first=records.findIndex(scored),second=records.findIndex((r,i)=>i!==first&&scored(r));
+   assert.ok(first>=0&&second>=0);
+   click(d,'[data-goto="'+first+'"]');
+   let cell=d.querySelector('[data-goto="'+first+'"]');
+   assert.ok(cell.classList.contains('cur')&&!cell.classList.contains('done'));
+   assert.equal(cell.getAttribute('aria-current'),'step');
+   assert.match(cell.getAttribute('aria-label'),/unanswered/);
+   click(d,'[data-flag]');
+   cell=d.querySelector('[data-goto="'+first+'"]');
+   assert.ok(cell.classList.contains('flag'));
+   assert.match(cell.getAttribute('aria-label'),/flagged/);
+   click(d,'[data-opt="'+records[first].question.answer+'"]');
+   cell=d.querySelector('[data-goto="'+first+'"]');
+   assert.ok(cell.classList.contains('done')&&cell.classList.contains('flag'));
+   assert.match(cell.getAttribute('aria-label'),/answered, awaiting grading/);
+   click(d,'[data-reveal]');
+   cell=d.querySelector('[data-goto="'+first+'"]');
+   assert.ok(cell.classList.contains('revealed')&&cell.classList.contains('flag'));
+   assert.match(cell.getAttribute('aria-label'),/answer revealed; scored questions count as incorrect/);
+   assert.ok(d.querySelector('#tb-revealed-answer'));
+   assert.equal(d.querySelector('[data-reveal]').disabled,true);
+   assert.equal(d.querySelector('[data-opt="'+records[first].question.answer+'"]').disabled,true);
+   assert.equal(w.__TB.revealCurrentAnswer(),false);
+   click(d,'[data-goto="'+second+'"]');
+   assert.ok(d.querySelector('[data-goto="'+second+'"]').classList.contains('cur'));
+   assert.equal(d.querySelector('[data-goto="'+first+'"]').getAttribute('aria-current'),'false');
+   click(d,'[data-goto="'+first+'"]');
+   assert.ok(d.querySelector('[data-goto="'+first+'"]').classList.contains('revealed'));
+   assert.ok(d.querySelector('[data-goto="'+first+'"]').classList.contains('flag'));
+   assert.ok(d.querySelector('#tb-revealed-answer'));
+   click(d,'[data-goto="'+(records.length-1)+'"]');
+   click(d,'[data-submit]');await wait();
+   const result=w.__TB.getFeedbackSnapshot();
+   assert.equal(result.grading.total,total);
+   assert.equal(result.grading.correct,0);
+   assert.equal(result.grading.incorrect,1);
+   assert.equal(result.grading.revealed,1);
+   assert.equal(result.grading.unanswered,total-1);
+   assert.equal(result.records[first].revealed,true);
+   assert.equal(result.records[first].flagged,true);
+   click(d,'[data-open-review="all"]');
+   assert.equal(d.querySelectorAll('.tb-review-card.revealed').length,1);
+   assert.deepEqual(h.errors,[]);
+  }finally{h.close();}
+ });
+});
+
+
+test('untimed Quick and Focused NPPE quizzes support reveal without changing author-owned scored pools',async()=>{
+ for(const entry of [{id:'mock-c',owner:2,kind:'quick'},{id:'set-1-mock-b',owner:1,kind:'focus'}]){
+  const h=await harness(),{w,d}=h;
+  try{
+   click(d,'[data-nppe-owner="'+entry.owner+'"]');
+   click(d,'[data-set="'+entry.id+'"]');
+   click(d,'[data-mode="'+entry.kind+'"]');
+   const snap=w.__TB.getFeedbackSnapshot();
+   assert.ok(snap.records.length>0);
+   assert.ok(snap.records.every(r=>r.question.form===entry.id&&scored(r)));
+   assert.ok(d.querySelector('.tb-status-key'));
+   click(d,'[data-flag]');
+   click(d,'[data-reveal]');
+   const button=d.querySelector('[data-goto="0"]');
+   assert.ok(button.classList.contains('revealed')&&button.classList.contains('flag'));
+   click(d,'[data-goto="'+(snap.records.length-1)+'"]');
+   click(d,'[data-submit]');await wait();
+   const grade=w.__TB.getFeedbackSnapshot().grading;
+   assert.equal(grade.total,snap.records.length);
+   assert.equal(grade.incorrect,1);
+   assert.equal(grade.revealed,1);
+   assert.equal(grade.correct,0);
+   assert.deepEqual(h.errors,[]);
+  }finally{h.close();}
+ }
+});
+
+test('revealing a simulated unscored NPPE mock item never changes its 100-point score',async()=>{
+ const h=await harness(),{w,d}=h;
+ try{
+  click(d,'[data-set="set-1-mock-a"]');
+  click(d,'[data-mode="full"]');
+  assert.equal(d.querySelector('[data-reveal]'),null);
+  assert.equal(w.__TB.revealCurrentAnswer(),false);
+ }finally{h.close();}
+ const g=await harness(),w2=g.w,d2=g.d;
+ try{
+  click(d2,'[data-set="set-1-mock-a"]');
+  click(d2,'[data-timing-kind="full"][data-timed="0"]');
+  click(d2,'[data-mode="full"]');
+  const records=w2.__TB.getFeedbackSnapshot().records;
+  const unscoredIndex=records.findIndex(r=>!scored(r));
+  const scoredIndex=records.findIndex(scored);
+  assert.ok(unscoredIndex>=0&&scoredIndex>=0);
+  click(d2,'[data-goto="'+unscoredIndex+'"]');
+  click(d2,'[data-reveal]');
+  assert.ok(d2.querySelector('[data-goto="'+unscoredIndex+'"]').classList.contains('revealed'));
+  assert.match(d2.querySelector('#tb-revealed-title').textContent,/scored questions count as incorrect/);
+  assert.match(d2.querySelector('[data-goto="'+unscoredIndex+'"]').getAttribute('aria-label'),/scored questions count as incorrect/);
+  click(d2,'[data-goto="'+scoredIndex+'"]');
+  click(d2,'[data-opt="'+records[scoredIndex].question.answer+'"]');
+  click(d2,'[data-goto="'+(records.length-1)+'"]');
+  click(d2,'[data-submit]');await wait();
+  const grade=w2.__TB.getFeedbackSnapshot().grading;
+  assert.equal(grade.total,100);
+  assert.equal(grade.correct,1);
+  assert.equal(grade.incorrect,0);
+  assert.equal(grade.unanswered,99);
+  assert.deepEqual(g.errors,[]);
+ }finally{g.close();}
 });
