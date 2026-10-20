@@ -201,14 +201,14 @@ const helpers = String.raw`
 
   function nppeSelector(e){
     var selected=formMeta(e,selectedSet),owner=selected?selected.authorSet:1;
-    var names={1:'ChatGPT',2:'Grok',3:'Claude'};
+    var names={1:'Set #1',2:'Set #2',3:'Set #3'};
     var bankNotes={
       'set-1-diagnostic':'Find your study priorities',
       'set-1-learning':'Build knowledge with explanations',
       'set-1-mock-a':'Full-length practice exam',
       'set-1-mock-b':'A second independent mock',
-      'mock-c':'Full-length practice by Grok',
-      'mock-d':'Full-length practice by Claude'
+      'mock-c':'Full-length practice exam',
+      'mock-d':'Full-length practice exam'
     };
     var symbols={'set-1-diagnostic':'Dg','set-1-learning':'L','set-1-mock-a':'A','set-1-mock-b':'B','mock-c':'C','mock-d':'D'};
     var tabs=[1,2,3].map(function(id){
@@ -232,7 +232,7 @@ const helpers = String.raw`
           '</span><small>questions</small></span>'+
           (isSelected?'<span class="nppe-bank-selected">Selected for practice</span>':'')+'</button>';
       }).join('');
-      var heading=id===1?'Diagnostic, learning and two mocks':id===2?'Grok · Mock C':'Claude · Mock D';
+      var heading=id===1?'Diagnostic, learning and two mocks':id===2?'Mock C':'Mock D';
       return '<div id="nppe-banks-'+id+'" class="nppe-bank-panel" role="tabpanel" aria-labelledby="nppe-owner-'+id+
         '"'+(owner===id?'':' hidden style="display:none"')+'><div class="nppe-bank-panel-head"><strong>'+
         heading+'</strong><span>'+forms.length+' available bank'+(forms.length===1?'':'s')+'</span></div>'+
@@ -360,8 +360,7 @@ const helpers = String.raw`
       '</span><div><h4>'+label+'</h4><p>'+description+'</p></div></div>'+
       '<div class="tb-mode-controls stacked">'+
       '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Bank</span>'+
-      '<div class="tb-fieldrow-value nppe-selected-bank">'+esc(f.label)+' · '+
-      esc({1:'ChatGPT',2:'Grok',3:'Claude'}[f.authorSet]||'NPPE')+'</div></div>'+
+      '<div class="tb-fieldrow-value nppe-selected-bank">'+esc(f.label)+'</div></div>'+
       '<div class="tb-fieldrow"><label class="tb-fieldrow-label" for="nppe-area-'+kind+'">Area</label>'+
       '<div class="tb-fieldrow-value">'+nppeAreaChoices(e,kind).replace('data-nppe-area-kind="'+kind+'"','id="nppe-area-'+kind+'" data-nppe-area-kind="'+kind+'"')+'</div></div>'+
       '<div class="tb-fieldrow"><span class="tb-fieldrow-label">Questions</span><div class="tb-fieldrow-value">'+
