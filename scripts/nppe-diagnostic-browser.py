@@ -263,6 +263,12 @@ def main():
                     expect(page.locator('.nppe-hub .nppe-author-tab')).to_have_count(3)
                     expect(page.locator('.nppe-hub .nppe-bank-card')).to_have_count(6)
                     expect(page.locator('.nppe-hub .nppe-mode-card')).to_have_count(3)
+                    expect(page.locator('.nppe-hub .nppe-disclosure')).to_have_count(0)
+                    request_link=page.locator('.nppe-hub a.tb-requestlink')
+                    expect(request_link).to_have_count(1)
+                    expect(request_link).to_have_text('Request a certification exam →')
+                    expect(request_link).to_have_attribute('href','request-topic.html')
+                    expect(page.locator('.nppe-hub')).not_to_contain_text('Mock C · Grok')
                     assert page.evaluate('''() => [...document.querySelectorAll(
                       '.nppe-bank-card,.nppe-author-tab,.nppe-mode-card,.nppe-mode-card .tb-mstart'
                     )].every(el=>{
