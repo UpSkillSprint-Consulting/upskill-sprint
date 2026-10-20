@@ -58,7 +58,8 @@ jobs:
             tests/pmp-formula-encyclopedia-lesson.test.js \
             tests/flow-field-guide-lesson.test.js \
             tests/anova-calculator-regressions.test.js \
-            tests/sql-keyboard-navigation.test.js
+            tests/sql-keyboard-navigation.test.js \
+            tests/excel-formula-regressions.test.js
       - name: Build the exact production site and generated lessons
         run: npm run build:site
       - name: Require generated SQL lesson content in the production index
