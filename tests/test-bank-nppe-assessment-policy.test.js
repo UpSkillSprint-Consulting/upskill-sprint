@@ -319,6 +319,8 @@ test('NPPE chooser uses the same three stacked practice-mode cards as other cert
   assert.equal(d.querySelectorAll('.nppe-fact').length,3);
   assert.equal(d.querySelector('.nppe-facts').getAttribute('role'),'group');
   assert.equal(d.querySelectorAll('.nppe-author-tab[role="tab"]').length,3);
+  assert.deepEqual(Array.from(d.querySelectorAll('.nppe-author-tab'),tab=>tab.textContent.trim()),['Set #1','Set #2','Set #3']);
+  assert.equal(d.querySelector('.nppe-author-tabs').getAttribute('aria-label'),'NPPE question sets');
   assert.equal(d.querySelectorAll('.nppe-bank-card').length,6);
   assert.equal(d.querySelectorAll('.nppe-bank-card[aria-pressed="true"]').length,1);
   assert.equal(d.querySelectorAll('.nppe-mode-card').length,3);
