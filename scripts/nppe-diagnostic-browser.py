@@ -348,7 +348,7 @@ def main():
                     expect(page.locator('[data-reveal]')).to_be_visible()
                     expect(page.locator('.tb-status-key')).to_be_visible()
                     for status in ['Slate grey: unanswered','Teal: answered, awaiting grading',
-                                   'Blue: revealed (counts as incorrect)','Orange: flagged for review',
+                                   'Blue: revealed (scored questions count as incorrect)','Orange: flagged for review',
                                    'Outline: current question']:
                         expect(page.locator('.tb-status-key')).to_contain_text(status)
                     expect(page.locator('.tb-navcell.cur')).to_have_count(1)
@@ -497,7 +497,7 @@ def main():
                     assert page.evaluate('window.__TB.getFeedbackSnapshot().records.filter(r=>r.revealed===true).length') == 1
                     page.locator('[data-submit]').click()
                     expect(page.locator('[data-score-result]')).to_contain_text(f'({LEARNING_COUNT-1}/{LEARNING_COUNT})')
-                    expect(page.locator('[data-score-result]')).to_contain_text('1 revealed (counted as incorrect)')
+                    expect(page.locator('[data-score-result]')).to_contain_text('1 revealed (scored questions count as incorrect)')
                     expect(page.locator('#tb-overview')).to_contain_text('Learning scores measure practice accuracy')
                     learning_review()
                     expect(page.locator('.tb-review-card.revealed')).to_have_count(1)
