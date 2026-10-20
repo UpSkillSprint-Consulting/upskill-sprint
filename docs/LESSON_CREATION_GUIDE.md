@@ -88,7 +88,7 @@ ai-for-work
 ```
 
 Display names (for the `category` metadata field), in the same order: `Data Analytics`,
-`Simulated Exam Practice & Quizzes`, `Quality Engineering`, `Lean Six Sigma`, `Statistics`,
+`Practise Certification Exam`, `Quality Engineering`, `Lean Six Sigma`, `Statistics`,
 `Power BI, Excel & SQL`, `Project Management`, `Business Decision-Making`, `AI for Work`.
 `exam-practice` holds the exam simulator and quizzes. Do not put a normal lesson there unless
 Ernest asks. Never add, rename, or remove a category section in `lessons.html` without
