@@ -12,6 +12,18 @@ if [[ -f /etc/apt/apt-mirrors.txt ]]; then
   sudo sed -i 's|http://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' /etc/apt/apt-mirrors.txt
 fi
 
+# Playwright's Chromium/WebKit dependency packages come from Ubuntu.
+# Hosted runners sometimes include a Microsoft apt source that returns HTTP 403
+# and aborts apt-get update before any browser can be installed. Disable only
+# that unrelated third-party source in the ephemeral CI runner.
+for source in /etc/apt/sources.list.d/*.list /etc/apt/sources.list.d/*.sources; do
+  [[ -f "$source" ]] || continue
+  if grep -q 'packages.microsoft.com' "$source" && \
+      ! grep -Eq '(archive|security|azure.archive)\.ubuntu\.com' "$source"; then
+    sudo mv "$source" "$source.disabled"
+  fi
+done
+
 # Bound connection and transfer stalls so CI reports an actionable failure.
 sudo tee /etc/apt/apt.conf.d/80-ci-network-timeouts >/dev/null <<'APT_CONFIG'
 Acquire::http::Timeout "30";
