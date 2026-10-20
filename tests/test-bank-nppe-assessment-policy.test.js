@@ -349,7 +349,11 @@ test('NPPE chooser uses the same three stacked practice-mode cards as other cert
   assert.match(d.querySelector('.nppe-mode-card[data-nppe-bank="mock-d"] .tb-mode-sum').textContent,/Untimed/);
   assert.equal(d.querySelector('[data-timing-kind="full"][data-timed="0"]').getAttribute('aria-pressed'),'true');
   assert.match(d.querySelector('[data-mode="full"]').textContent,/Start Mock D/);
-  assert.match(d.querySelector('.nppe-disclosure').textContent,/not an official scaled NPPE score/);
+  assert.equal(d.querySelector('.nppe-disclosure'),null);
+  const request=d.querySelector('.nppe-hub .tb-requestlink');
+  assert.ok(request,'NPPE overview has the same request-link control as the other simulators');
+  assert.equal(request.textContent.trim(),'Request a certification exam');
+  assert.equal(request.getAttribute('href'),'/request-topic');
   assert.deepEqual(h.errors,[]);
  }finally{h.close();}
 });
@@ -524,6 +528,35 @@ test('Area VI displays the canonical Regulation and Discipline label in selector
  }finally{h.close();}
 });
 
+
+test('every NPPE question set ends with the standard certification request link and no scoring disclosure',async()=>{
+ const h=await harness(),{d}=h;
+ try{
+  const banks=[
+   {owner:1,id:'set-1-diagnostic',name:'Diagnostic'},
+   {owner:1,id:'set-1-learning',name:'Learning'},
+   {owner:1,id:'set-1-mock-a',name:'Mock A'},
+   {owner:1,id:'set-1-mock-b',name:'Mock B'},
+   {owner:2,id:'mock-c',name:'Mock C'},
+   {owner:3,id:'mock-d',name:'Mock D'}
+  ];
+  for(const bank of banks){
+   click(d,'[data-nppe-owner="'+bank.owner+'"]');
+   click(d,'[data-set="'+bank.id+'"]');
+   const overview=d.querySelector('.nppe-hub');
+   assert.ok(overview,'Missing NPPE overview for '+bank.name);
+   assert.equal(overview.querySelector('.nppe-disclosure'),null,'Long scoring panel is removed in '+bank.name);
+   const links=overview.querySelectorAll('a.tb-requestlink');
+   assert.equal(links.length,1,'Exactly one request link in '+bank.name);
+   assert.equal(links[0].textContent.trim(),'Request a certification exam');
+   assert.equal(links[0].getAttribute('href'),'/request-topic');
+   const visible=Array.from(overview.querySelectorAll('.nppe-selected-bank'),x=>x.textContent.trim());
+   assert.deepEqual(visible,[bank.name,bank.name],bank.name+' should have no visible author suffix');
+  }
+  assert.doesNotMatch(d.querySelector('.nppe-hub').textContent,/\b(?:ChatGPT|Grok|Claude)\b/);
+  assert.deepEqual(h.errors,[]);
+ }finally{h.close();}
+});
 
 test('NPPE learner-facing bank labels show only bank names for every mock and short-quiz mode',async()=>{
  const h=await harness(),{d,w}=h;
