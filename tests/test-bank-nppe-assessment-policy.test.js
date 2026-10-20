@@ -92,7 +92,7 @@ test('NPPE forms protect timed attempts and support penalised reveal in untimed 
           assert.equal(w.__TB.revealCurrentAnswer(), false, 'programmatic timed reveal denied');
         } else {
           assert.ok(d.querySelector('[data-reveal]'), 'untimed exam shows Reveal Answer');
-          assert.match(d.querySelector('#tb-reveal-hint').textContent, /counts that question as incorrect/);
+          assert.match(d.querySelector('#tb-reveal-hint').textContent, /counts a scored question as incorrect/);
         }
         assert.equal(d.querySelector('#tb-feedback-loop'), null);
         assert.equal(d.querySelector('#tb-revealed-answer'), null);
@@ -479,7 +479,7 @@ test('ChatGPT Mock B Focused Quiz draws ten III Professional Practice items with
   assert.ok(s.records.every(r=>r.question.form==='set-1-mock-b'&&r.question.authorSet===1&&r.question.scored&&!r.question.experimental&&r.question.blueprint.startsWith('III.')));
   assert.equal(d.querySelector('.tb-timer').textContent,'Untimed');
   assert.ok(d.querySelector('[data-reveal]'),'untimed focused quiz offers Reveal Answer');
-  assert.match(d.querySelector('#tb-reveal-hint').textContent,/counts that question as incorrect/);
+  assert.match(d.querySelector('#tb-reveal-hint').textContent,/counts a scored question as incorrect/);
   click(d,'[data-goto="'+(s.records.length-1)+'"]');
   click(d,'[data-submit]');await wait();
   const result=w.__TB.getFeedbackSnapshot();
@@ -616,7 +616,7 @@ test('all six NPPE banks inherit slate/teal/blue/orange/current navigation and p
    assert.ok(legend);
    assert.equal(legend.getAttribute('role'),'group');
    for(const phrase of ['Slate grey: unanswered','Teal: answered, awaiting grading',
-    'Blue: revealed (counts as incorrect)','Orange: flagged for review','Outline: current question'])
+    'Blue: revealed (scored questions count as incorrect)','Orange: flagged for review','Outline: current question'])
     assert.ok(legend.textContent.includes(phrase),id+' missing '+phrase);
    const first=records.findIndex(scored),second=records.findIndex((r,i)=>i!==first&&scored(r));
    assert.ok(first>=0&&second>=0);
@@ -636,7 +636,7 @@ test('all six NPPE banks inherit slate/teal/blue/orange/current navigation and p
    click(d,'[data-reveal]');
    cell=d.querySelector('[data-goto="'+first+'"]');
    assert.ok(cell.classList.contains('revealed')&&cell.classList.contains('flag'));
-   assert.match(cell.getAttribute('aria-label'),/answer revealed, counted as incorrect/);
+   assert.match(cell.getAttribute('aria-label'),/answer revealed; scored questions count as incorrect/);
    assert.ok(d.querySelector('#tb-revealed-answer'));
    assert.equal(d.querySelector('[data-reveal]').disabled,true);
    assert.equal(d.querySelector('[data-opt="'+records[first].question.answer+'"]').disabled,true);
@@ -713,6 +713,8 @@ test('revealing a simulated unscored NPPE mock item never changes its 100-point 
   click(d2,'[data-goto="'+unscoredIndex+'"]');
   click(d2,'[data-reveal]');
   assert.ok(d2.querySelector('[data-goto="'+unscoredIndex+'"]').classList.contains('revealed'));
+  assert.match(d2.querySelector('#tb-revealed-title').textContent,/scored questions count as incorrect/);
+  assert.match(d2.querySelector('[data-goto="'+unscoredIndex+'"]').getAttribute('aria-label'),/scored questions count as incorrect/);
   click(d2,'[data-goto="'+scoredIndex+'"]');
   click(d2,'[data-opt="'+records[scoredIndex].question.answer+'"]');
   click(d2,'[data-goto="'+(records.length-1)+'"]');
