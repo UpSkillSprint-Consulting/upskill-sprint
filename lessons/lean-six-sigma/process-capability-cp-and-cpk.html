@@ -526,6 +526,7 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
 
 <script src="/theme.js"></script>
 <script src="/site-sections.js"></script>
+<script defer src="/assets/js/math.js"></script>
 </head>
 <body
   data-lesson-page="true"
@@ -647,7 +648,7 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
         <tr><td>Natural process spread</td><td>6&sigma; (from &mu;&nbsp;&minus;&nbsp;3&sigma; to &mu;&nbsp;+&nbsp;3&sigma;)</td><td>How widely the process scatters its output</td></tr>
         <tr><td>C<sub>p</sub></td><td>Potential capability</td><td>Could the process fit, if perfectly centred?</td></tr>
         <tr><td>C<sub>pk</sub></td><td>Actual capability</td><td>Does it fit, given where it&rsquo;s actually aimed?</td></tr>
-        <tr><td>P<sub>p</sub> / P<sub>pk</sub></td><td>Performance indices (overall &sigma;)</td><td>Same idea, computed with long-term variation</td></tr>
+        <tr><td>\(P_{p}\) / \(P_{pk}\)</td><td>Performance indices (overall \(s\))</td><td>Same idea, using overall variation across the study period</td></tr>
         <tr><td>Stable / in control</td><td>Only common-cause variation present</td><td>The process behaves the same way over time</td></tr>
       </tbody>
     </table>
@@ -657,16 +658,26 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
 <!-- EDIT: Core formulas -->
 <section id="core-formula" aria-labelledby="formula-h">
   <h2 id="formula-h">The formulas: C<sub>p</sub> and C<sub>pk</sub></h2>
-  <div class="formula-box" role="img" aria-label="C p equals U S L minus L S L, divided by six sigma">
-    <strong>C<sub>p</sub> = (USL &minus; LSL) / 6&sigma;</strong>
+  <div class="formula-box" tabindex="0" role="region" aria-label="Potential capability formula">
+    \[ C_{p} = \frac{\mathrm{USL} - \mathrm{LSL}}{6\sigma} \]
   </div>
+  <p>Here \(\mathrm{LSL}\) and \(\mathrm{USL}\) are the specification limits, \(\mu\) is the process mean,
+    and \(\sigma\) represents within-process variation. For sample estimates, use the sample mean
+    \(\bar{x}\) and a justified within-process standard deviation estimate. Under the Minitab reporting
+    convention used below, substituting the overall sample standard deviation \(s\) gives
+    \(P_{p}\) and \(P_{pk}\), rather than the within-process indices.</p>
   <p>C<sub>p</sub> is a simple ratio of the two widths: specification width on top, natural process spread underneath.
     C<sub>p</sub>&nbsp;=&nbsp;1 means the goalposts and the scatter are exactly the same width &mdash; the process barely fits, with
     zero room for error. C<sub>p</sub>&nbsp;=&nbsp;2 means the goalposts are twice as wide as the scatter. But C<sub>p</sub> has a
     blind spot: <strong>it completely ignores where the process is centred.</strong> A process aimed way off-target can still
     have a beautiful C<sub>p</sub>.</p>
-  <div class="formula-box" role="img" aria-label="C p k equals the minimum of: U S L minus mu over three sigma, and mu minus L S L over three sigma">
-    <strong>C<sub>pk</sub> = min&nbsp;[ (USL &minus; &mu;) / 3&sigma; ,&nbsp; (&mu; &minus; LSL) / 3&sigma; ]</strong>
+  <div class="formula-box" tabindex="0" role="region" aria-label="Capability accounting for centring">
+    \[
+    C_{pk} = \min\left(
+      \frac{\mathrm{USL} - \mu}{3\sigma},
+      \frac{\mu - \mathrm{LSL}}{3\sigma}
+    \right)
+    \]
   </div>
   <p>C<sub>pk</sub> fixes the blind spot. It measures the distance from the process mean to the <em>nearest</em> spec limit,
     in units of 3&sigma;, and reports the worse side. If the process is perfectly centred, C<sub>pk</sub>&nbsp;=&nbsp;C<sub>p</sub>.
@@ -742,8 +753,10 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
       Strongly skewed data need a transformation or a different method before the formulas apply.</li>
     <li><strong>Collect enough data.</strong> Aim for at least 30 measurements &mdash; 50 to 125 is better &mdash; taken across a
       representative stretch of production, not one lucky hour.</li>
-    <li><strong>Compute &mu; and &sigma;.</strong> Use the sample mean and sample standard deviation (or an estimate from a
-      control chart&rsquo;s subgroups &mdash; that distinction becomes C<sub>pk</sub> vs P<sub>pk</sub> later).</li>
+    <li><strong>Estimate the mean and identify the variation basis.</strong> Use \(\bar{x}\) for the mean.
+      For \(C_{p}\) and \(C_{pk}\), estimate within-process variation from rational subgroups or an appropriate
+      individuals-chart method. The standard deviation \(s\) of all observations over the study period is
+      the overall estimate used for \(P_{p}\) and \(P_{pk}\).</li>
     <li><strong>Apply the formulas.</strong> C<sub>p</sub> from the two widths; C<sub>pk</sub> from the nearest-limit distance.</li>
     <li><strong>Interpret and act.</strong> Compare against the agreed benchmark, then diagnose: centring problem, spread
       problem, or both.</li>
@@ -754,9 +767,12 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
 <section id="worked-example" aria-labelledby="example-h">
   <h2 id="example-h">Worked example: the coffee bag line</h2>
   <div class="panel">
-    <p>A packing line fills 500&nbsp;g coffee bags with a spec of <strong>500 &plusmn; 6&nbsp;g</strong>
-      (LSL&nbsp;=&nbsp;494, USL&nbsp;=&nbsp;506). Sixty bags from a stable run give a mean of
-      <strong>&mu; = 501.2&nbsp;g</strong> and a standard deviation of <strong>&sigma; = 1.5&nbsp;g</strong>.</p>
+    <p>A packing line fills \(500\,\mathrm{g}\) coffee bags with a spec of
+      <strong>\(500 \pm 6\,\mathrm{g}\)</strong>
+      (\(\mathrm{LSL} = 494\,\mathrm{g}\), \(\mathrm{USL} = 506\,\mathrm{g}\)).
+      For this example, sixty bags from a stable run give a sample mean of
+      <strong>\(\bar{x} = 501.2\,\mathrm{g}\)</strong> and a within-process standard deviation estimate of
+      <strong>\(\hat{\sigma}_{\mathrm{within}} = 1.5\,\mathrm{g}\)</strong>.</p>
     <ol class="cap-steps">
       <li><strong>Specification width:</strong> 506 &minus; 494 = <strong>12&nbsp;g</strong>.</li>
       <li><strong>Natural spread:</strong> 6&sigma; = 6 &times; 1.5 = <strong>9&nbsp;g</strong>.</li>
@@ -777,27 +793,48 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
   <h2 id="interp-h">Reading the numbers</h2>
   <div class="table-scroll">
     <table>
-      <caption>Common C<sub>pk</sub> benchmarks (two-sided specs, normal, stable process)</caption>
+      <caption>Common \(C_{pk}\) benchmarks: centred, stable normal model, two-sided specs, no mean shift</caption>
       <thead>
-        <tr><th scope="col">C<sub>pk</sub></th><th scope="col">Roughly how many out of spec</th><th scope="col">Typical reading</th></tr>
+        <tr><th scope="col">\(C_{pk} = C_{p}\)</th><th scope="col">Modelled out-of-spec ppm</th><th scope="col">Typical reading</th></tr>
       </thead>
       <tbody>
-        <tr><td>&lt; 1.00</td><td>More than ~2,700 ppm</td><td>Not capable &mdash; the process cannot reliably hold the spec</td></tr>
-        <tr><td>1.00</td><td>~2,700 ppm (centred)</td><td>Barely fits &mdash; any drift creates defects immediately</td></tr>
-        <tr><td>1.33</td><td>~63 ppm</td><td>The classic minimum most customers require</td></tr>
-        <tr><td>1.67</td><td>~0.6 ppm</td><td>Strong &mdash; typical target for safety-critical characteristics</td></tr>
-        <tr><td>2.00</td><td>~0.002 ppm</td><td>&ldquo;Six Sigma&rdquo; capability with the mean on target</td></tr>
+        <tr><td>\(&lt; 1.00\)</td><td>More than approximately \(2700\,\mathrm{ppm}\)</td><td>Not capable &mdash; the process cannot reliably hold the spec</td></tr>
+        <tr><td>\(1.00\)</td><td>\(\approx 2700\,\mathrm{ppm}\)</td><td>Barely fits &mdash; any drift increases the defect rate</td></tr>
+        <tr><td>\(\frac{4}{3} \approx 1.33\)</td><td>\(\approx 63.3\,\mathrm{ppm}\)</td><td>The classic minimum most customers require</td></tr>
+        <tr><td>\(\frac{5}{3} \approx 1.67\)</td><td>\(\approx 0.573\,\mathrm{ppm}\)</td><td>Strong &mdash; typical target for safety-critical characteristics</td></tr>
+        <tr><td>\(2.00\)</td><td>\(\approx 0.002\,\mathrm{ppm}\)</td><td>&ldquo;Six Sigma&rdquo; capability with the mean on target</td></tr>
       </tbody>
     </table>
   </div>
   <div class="callout tip">
-    <strong>Why 1.33?</strong> It means the nearest spec limit sits 4&sigma; away from the mean (because 4/3&nbsp;=&nbsp;1.33) &mdash;
-    a full extra &sigma; of safety margin beyond &ldquo;barely fits.&rdquo; That buffer absorbs the small drifts every real process has.
+    <strong>Why \(1.33\)?</strong> The rounded benchmark \(\frac{4}{3} \approx 1.33\) puts the nearest
+    spec limit \(4\sigma\) from the mean &mdash; an extra \(\sigma\) of margin beyond the
+    \(3\sigma\) benchmark. This is a margin, not a guarantee against defects or future drift.
   </div>
-  <p>One more distinction you&rsquo;ll meet immediately in software: <strong>C<sub>pk</sub> vs P<sub>pk</sub></strong>.
-    C<sub>pk</sub> uses the <em>within-subgroup</em> (short-term) &sigma; estimated from a control chart; P<sub>pk</sub> uses the
-    <em>overall</em> (long-term) standard deviation of all the data. P<sub>pk</sub> is usually a little lower, because long-term
-    data picks up the small shifts between subgroups. Minitab prints both &mdash; now you know why they differ.</p>
+  <p>The ppm values assume the mean is centred between the limits and use the same normal-model
+    standard deviation as the indices, with no \(1.5\sigma\) shift. The fractional indices in the table
+    are exact; their decimal labels are rounded. An off-centre \(C_{pk}\) alone does not determine
+    the total out-of-spec rate. Calculate both tails:</p>
+  <div class="formula-box" tabindex="0" role="region" aria-label="Normal model out-of-spec calculation">
+    \[
+    \begin{aligned}
+      z_{\mathrm{L}} &= \frac{\mathrm{LSL} - \mu}{\sigma}, \\
+      z_{\mathrm{U}} &= \frac{\mathrm{USL} - \mu}{\sigma}, \\
+      \mathrm{PPM} &= 10^{6}\left[\Phi(z_{\mathrm{L}}) + 1 - \Phi(z_{\mathrm{U}})\right].
+    \end{aligned}
+    \]
+  </div>
+  <p>Here \(\Phi\) is the standard normal cumulative distribution function,
+    \(z_{\mathrm{L}}\) and \(z_{\mathrm{U}}\) are the standardised specification limits, and
+    \(\mathrm{PPM}\) is the modelled number outside the limits per million units.
+    Predictions based on within-process variation need not equal overall observed performance.</p>
+  <p>One more distinction you&rsquo;ll meet immediately in software: <strong>\(C_{pk}\) vs \(P_{pk}\)</strong>.
+    Minitab uses a <em>within-process</em> estimate for \(C_{pk}\) and the <em>overall</em> standard
+    deviation of all observations for \(P_{pk}\). Overall variation includes any differences between
+    subgroups in the study period, so \(P_{pk}\) may be lower; it is not guaranteed to be lower.
+    A sample standard deviation can estimate a common process \(\sigma\) for a justified stable,
+    homogeneous sample. State that sampling assumption and estimation method explicitly rather than
+    treating the function name alone as the definition of the index.</p>
 </section>
 
 <!-- EDIT: Common mistakes -->
@@ -846,8 +883,9 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
         <tr>
           <td><code>STDEV.S</code></td>
           <td><code>=STDEV.S(range)</code></td>
-          <td>Sample standard deviation</td>
-          <td>Your default: measurement data is a sample of the process, not the whole population</td>
+          <td>Sample standard deviation \(s\)</td>
+          <td>Across all observations, the overall estimate for \(P_{p}\) and \(P_{pk}\);
+            a within-process estimate requires an appropriate sampling or subgroup basis</td>
         </tr>
         <tr>
           <td><code>STDEV.P</code></td>
@@ -885,14 +923,20 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
 
   <h3>Excel use cases</h3>
   <div class="panel">
-    <p>With data in <code>A2:A61</code>, and <code>E1</code>&nbsp;=&nbsp;LSL, <code>E2</code>&nbsp;=&nbsp;USL:</p>
+    <p>For an <strong>overall performance</strong> calculation with data in <code>A2:A61</code>,
+      put \(\mathrm{LSL}\) in <code>E1</code> and \(\mathrm{USL}\) in <code>E2</code>.
+      The numerical illustration below assumes \(\bar{x} = 501.2\,\mathrm{g}\) and
+      overall \(s = 1.5\,\mathrm{g}\); actual data need not give the same overall and within estimates.</p>
     <ol class="cap-steps">
-      <li><strong>Mean and spread:</strong> <code>=AVERAGE(A2:A61)</code> in <code>E4</code>, <code>=STDEV.S(A2:A61)</code> in <code>E5</code>.</li>
-      <li><strong>C<sub>p</sub>:</strong> <code>=(E2-E1)/(6*E5)</code> &mdash; the coffee-bag data returns 1.33.</li>
-      <li><strong>C<sub>pk</sub>:</strong> <code>=MIN((E2-E4)/(3*E5), (E4-E1)/(3*E5))</code> &mdash; returns 1.07, flagging the off-centre fill.</li>
+      <li><strong>Mean and overall spread:</strong> <code>=AVERAGE(A2:A61)</code> in <code>E4</code>, <code>=STDEV.S(A2:A61)</code> in <code>E5</code>.</li>
+      <li><strong>\(P_{p}\):</strong> <code>=(E2-E1)/(6*E5)</code> &mdash; the illustration gives \(1.33\).</li>
+      <li><strong>\(P_{pk}\):</strong> <code>=MIN((E2-E4)/(3*E5), (E4-E1)/(3*E5))</code> &mdash; gives \(1.07\), flagging the off-centre fill.</li>
       <li><strong>Predicted out-of-spec:</strong> <code>=NORM.DIST(E1,E4,E5,TRUE) + (1-NORM.DIST(E2,E4,E5,TRUE))</code>,
-        formatted as a percentage (multiply by 1,000,000 for ppm).</li>
+        formatted as a percentage (multiply by \(10^{6}\) for ppm).</li>
     </ol>
+    <p>For \(C_{p}\) and \(C_{pk}\), use a justified within-process standard deviation estimate in
+      <code>E5</code> instead, and identify the method used. The arithmetic is the same; the variation
+      estimate and the interpretation of the indices change.</p>
   </div>
 
   <h3>Minitab navigation</h3>
@@ -943,8 +987,11 @@ html[data-theme="dark"] .cap-steps li::before { color: #0b1220; }
       <li><strong>Short-term vs long-term:</strong> C<sub>p</sub>/C<sub>pk</sub> pair with within-subgroup (short-term) &sigma;;
         P<sub>p</sub>/P<sub>pk</sub> with overall (long-term) &sigma;. Questions about &ldquo;which index uses which sigma&rdquo;
         appear on both exams.</li>
-      <li><strong>Benchmarks:</strong> 1.00 &asymp; 2,700 ppm, 1.33 &asymp; 63 ppm, 1.67 &asymp; 0.6 ppm (centred, two-sided).
-        Knowing 1.33 &hArr; &ldquo;4&sigma; to the nearest limit&rdquo; lets you re-derive the rest.</li>
+      <li><strong>Benchmarks:</strong> for a centred normal model with no mean shift,
+        \(C_{pk} = 1\) gives approximately \(2700\,\mathrm{ppm}\),
+        \(C_{pk} = \frac{4}{3}\) gives approximately \(63.3\,\mathrm{ppm}\), and
+        \(C_{pk} = \frac{5}{3}\) gives approximately \(0.573\,\mathrm{ppm}\).
+        Knowing \(\frac{4}{3} \approx 1.33\) means \(4\sigma\) to the nearest limit lets you re-derive the rest.</li>
       <li><strong>Prerequisites are testable:</strong> &ldquo;What must be true before a capability study?&rdquo; &mdash;
         stability (in control) and approximate normality. Stability always comes first.</li>
     </ul>
