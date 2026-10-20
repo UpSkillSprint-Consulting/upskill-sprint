@@ -35,15 +35,34 @@ if (extraction.status !== 0) {
   throw new Error(`Unable to extract SQL lesson assets: ${extraction.stderr || extraction.stdout}`);
 }
 
+// Keep native Tab/Shift+Tab navigation available in the generated editor.
+const sqlScriptPath = path.join(lessonsDir, 'writing-your-first-sql-query.js');
+const sqlScript = fs.readFileSync(sqlScriptPath, 'utf8');
+const tabIndentation = `    if (event.key === "Tab") {
+      event.preventDefault();
+      var start = editor.selectionStart, end = editor.selectionEnd;
+      editor.value = editor.value.slice(0, start) + "  " + editor.value.slice(end);
+      editor.selectionStart = editor.selectionEnd = start + 2;
+    }
+`;
+if (!sqlScript.includes(tabIndentation)) {
+  throw new Error('The SQL editor Tab handler was not found in the source payload.');
+}
+fs.writeFileSync(sqlScriptPath, sqlScript.replace(tabIndentation, ''));
+
 // Keep search and social titles concise without changing the uploaded lesson.
 const sqlLessonPath = path.join(lessonsDir, 'writing-your-first-sql-query.html');
 const sqlLesson = fs.readFileSync(sqlLessonPath, 'utf8');
 const headEnd = sqlLesson.indexOf('</head>');
 if (headEnd < 0) throw new Error('SQL lesson head was not found.');
+const editorHelp = 'Press Control Enter or Command Enter to run the query. Press Tab to indent.';
+if (!sqlLesson.includes(editorHelp)) throw new Error('SQL editor help was not found.');
 fs.writeFileSync(sqlLessonPath, sqlLesson.slice(0, headEnd).replaceAll(
   'Writing Your First SQL Query: Interactive SQL Lab | UpSkill Sprint Consulting',
   'Your First SQL Query: Interactive Lab | UpSkill Sprint'
-) + sqlLesson.slice(headEnd));
+) + sqlLesson.slice(headEnd).replace(editorHelp,
+  'Press Control Enter or Command Enter to run the query. Use spaces to indent. Press Tab or Shift+Tab to move between controls.'
+));
 
 const catalogPath = path.join(root, 'lessons.html');
 const catalog = fs.readFileSync(catalogPath, 'utf8');
