@@ -44,3 +44,5 @@ Independent legal/engineering review, empirical calibration, manual NVDA/VoiceOv
 ## Five-state question-navigation parity (2026-10-20)
 
 Full, Quick and Focused practice across the six NPPE banks uses the same numbered status controls as the other certifications: slate-grey unanswered, teal answered (awaiting grading), blue answer revealed, orange flagged for review and the current-question outline. Untimed attempts offer Reveal Answer; revealed scored items are counted incorrect and cannot be changed afterward. Timed attempts still deny reveal. Full Mock A–D forms remain 110 questions with 100 scored and ten simulated unscored items, which do not affect the scored denominator even if revealed. This assisted mode is not a prediction of actual NPPE performance.
+
+**Reveal label safeguard:** The legend, revealed-answer panel and screen-reader labels use general wording: *scored* revealed questions count as incorrect. They do not identify whether a particular full-mock item is one of the ten simulated unscored questions. The practice score remains out of 100 scored questions.
