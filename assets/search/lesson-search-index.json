@@ -3349,8 +3349,8 @@
           "breadcrumb": [
             "Learn the grammar of a formula."
           ],
-          "text": "Symbols tell Excel where to look, what to calculate, and how to interpret the result. Click each part of the formula below to see its job. ( , , , , (values)) Select a formula component to inspect it.",
-          "excerpt": "Symbols tell Excel where to look, what to calculate, and how to interpret the result. Click each part of the formula below to see its job. ( , , , , (values)) Select a formula component to inspect it.",
+          "text": "Symbols tell Excel where to look, what to calculate, and how to interpret the result. Click each part of the formula below to see its job. ( , , , ), (matching)) Select a formula component to inspect it.",
+          "excerpt": "Symbols tell Excel where to look, what to calculate, and how to interpret the result. Click each part of the formula below to see its job. ( , , , ), (matching)) Select a formula component to inspect it.",
           "kinds": [
             "section",
             "formula"
@@ -3446,8 +3446,8 @@
             "Make ranges respond to the data.",
             "INDEX: dynamic ending point"
           ],
-          "text": "=A2:INDEX(A2:A10000,XMATCH(2,1/(A2:A10000<>\"\"))) This builds a reference from A2 to the last nonblank value. Prefer bounded ranges for performance. If blanks inside the data have meaning, design the last-row test around a reliably populated key column.",
-          "excerpt": "=A2:INDEX(A2:A10000,XMATCH(2,1/(A2:A10000<>\"\"))) This builds a reference from A2 to the last nonblank value. Prefer bounded ranges for performance. If blanks inside the data have meaning, design the last-row test around a reliably populated key column.",
+          "text": "=A2:INDEX(A2:A10000,XMATCH(TRUE,A2:A10000<>\"\",0,-1)) This builds a reference from A2 to the last nonblank value. XMATCH searches for an exact TRUE match ( 0 ), from last to first ( -1 ). This assumes at least one nonblank cell. Prefer bounded ranges for performance. If blanks inside the data have meaning, design the last-row test around a reliably populated key column.",
+          "excerpt": "=A2:INDEX(A2:A10000,XMATCH(TRUE,A2:A10000<>\"\",0,-1)) This builds a reference from A2 to the last nonblank value. XMATCH searches for an exact TRUE match ( 0 ), from last to first ( -1 ). This assumes at least one nonblank cell. Prefer bounded ranges for…",
           "kinds": [
             "section",
             "formula"
