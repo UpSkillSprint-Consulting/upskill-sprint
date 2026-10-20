@@ -595,3 +595,72 @@ test('NPPE learner-facing bank labels show only bank names for every mock and sh
   assert.deepEqual(h.errors,[]);
  }finally{h.close();}
 });
+
+
+test('all six NPPE banks inherit slate/teal/blue/orange/current navigation and penalised reveal',async parent=>{
+ const forms=[
+  ['set-1-diagnostic',1,50],['set-1-learning',1,120],['set-1-mock-a',1,100],
+  ['set-1-mock-b',1,100],['mock-c',2,100],['mock-d',3,100]
+ ];
+ for(const [id,owner,total] of forms)await parent.test(id,async()=>{
+  const h=await harness(),{d,w}=h;
+  try{
+   click(d,'[data-nppe-owner="'+owner+'"]');
+   click(d,'[data-set="'+id+'"]');
+   click(d,'[data-timing-kind="full"][data-timed="0"]');
+   click(d,'[data-mode="full"]');
+   const snap=w.__TB.getFeedbackSnapshot(),records=snap.records;
+   assert.equal(snap.setId,id);
+   assert.equal(d.querySelectorAll('[data-goto]').length,records.length);
+   const legend=d.querySelector('.tb-status-key');
+   assert.ok(legend);
+   assert.equal(legend.getAttribute('role'),'group');
+   for(const phrase of ['Slate grey: unanswered','Teal: answered, awaiting grading',
+    'Blue: revealed (counts as incorrect)','Orange: flagged for review','Outline: current question'])
+    assert.ok(legend.textContent.includes(phrase),id+' missing '+phrase);
+   const first=records.findIndex(scored),second=records.findIndex((r,i)=>i!==first&&scored(r));
+   assert.ok(first>=0&&second>=0);
+   click(d,'[data-goto="'+first+'"]');
+   let cell=d.querySelector('[data-goto="'+first+'"]');
+   assert.ok(cell.classList.contains('cur')&&!cell.classList.contains('done'));
+   assert.equal(cell.getAttribute('aria-current'),'step');
+   assert.match(cell.getAttribute('aria-label'),/unanswered/);
+   click(d,'[data-flag]');
+   cell=d.querySelector('[data-goto="'+first+'"]');
+   assert.ok(cell.classList.contains('flag'));
+   assert.match(cell.getAttribute('aria-label'),/flagged/);
+   click(d,'[data-opt="'+records[first].question.answer+'"]');
+   cell=d.querySelector('[data-goto="'+first+'"]');
+   assert.ok(cell.classList.contains('done')&&cell.classList.contains('flag'));
+   assert.match(cell.getAttribute('aria-label'),/answered, awaiting grading/);
+   click(d,'[data-reveal]');
+   cell=d.querySelector('[data-goto="'+first+'"]');
+   assert.ok(cell.classList.contains('revealed')&&cell.classList.contains('flag'));
+   assert.match(cell.getAttribute('aria-label'),/answer revealed, counted as incorrect/);
+   assert.ok(d.querySelector('#tb-revealed-answer'));
+   assert.equal(d.querySelector('[data-reveal]').disabled,true);
+   assert.equal(d.querySelector('[data-opt="'+records[first].question.answer+'"]').disabled,true);
+   assert.equal(w.__TB.revealCurrentAnswer(),false);
+   click(d,'[data-goto="'+second+'"]');
+   assert.ok(d.querySelector('[data-goto="'+second+'"]').classList.contains('cur'));
+   assert.equal(d.querySelector('[data-goto="'+first+'"]').getAttribute('aria-current'),'false');
+   click(d,'[data-goto="'+first+'"]');
+   assert.ok(d.querySelector('[data-goto="'+first+'"]').classList.contains('revealed'));
+   assert.ok(d.querySelector('[data-goto="'+first+'"]').classList.contains('flag'));
+   assert.ok(d.querySelector('#tb-revealed-answer'));
+   click(d,'[data-goto="'+(records.length-1)+'"]');
+   click(d,'[data-submit]');await wait();
+   const result=w.__TB.getFeedbackSnapshot();
+   assert.equal(result.grading.total,total);
+   assert.equal(result.grading.correct,0);
+   assert.equal(result.grading.incorrect,1);
+   assert.equal(result.grading.revealed,1);
+   assert.equal(result.grading.unanswered,total-1);
+   assert.equal(result.records[first].revealed,true);
+   assert.equal(result.records[first].flagged,true);
+   click(d,'[data-open-review="all"]');
+   assert.equal(d.querySelectorAll('.tb-review-card.revealed').length,1);
+   assert.deepEqual(h.errors,[]);
+  }finally{h.close();}
+ });
+});
