@@ -523,3 +523,36 @@ test('Area VI displays the canonical Regulation and Discipline label in selector
   assert.deepEqual(h.errors,[]);
  }finally{h.close();}
 });
+
+
+test('NPPE learner-facing bank labels show only bank names for every mock and short-quiz mode',async()=>{
+ const h=await harness(),{d,w}=h;
+ try{
+  assert.deepEqual(Array.from(d.querySelectorAll('.nppe-author-tab'),el=>el.textContent.trim()),['Set #1','Set #2','Set #3']);
+  const forms=[
+   {owner:1,id:'set-1-mock-a',name:'Mock A'},
+   {owner:1,id:'set-1-mock-b',name:'Mock B'},
+   {owner:2,id:'mock-c',name:'Mock C'},
+   {owner:3,id:'mock-d',name:'Mock D'}
+  ];
+  for(const form of forms){
+   click(d,'[data-nppe-owner="'+form.owner+'"]');
+   click(d,'[data-set="'+form.id+'"]');
+   assert.equal(d.querySelector('[data-set="'+form.id+'"] .tb-setl').textContent,form.name);
+   const visible=Array.from(d.querySelectorAll('.nppe-selected-bank'),el=>el.textContent.trim());
+   assert.deepEqual(visible,[form.name,form.name],form.name+' bank rows must contain no author suffix');
+   assert.equal(d.querySelector('.nppe-mode-card[data-nppe-bank="'+form.id+'"][data-nppe-quiz-kind="quick"] .nppe-selected-bank').textContent,form.name);
+   assert.equal(d.querySelector('.nppe-mode-card[data-nppe-bank="'+form.id+'"][data-nppe-quiz-kind="focus"] .nppe-selected-bank').textContent,form.name);
+   assert.equal(d.querySelector('#nppe-banks-'+form.owner+' .nppe-bank-grid').getAttribute('aria-label'),'Choose a Set #'+form.owner+' practice bank');
+   assert.equal(w.__TB.EXAMS.nppe.formCatalog.find(f=>f.id===form.id).authorSet,form.owner,'Source author ownership preserved');
+   assert.ok(w.__TB.EXAMS.nppe.forms[form.id].every(q=>q.authorSet===form.owner),'Question ownership preserved');
+  }
+  for(const [owner,name] of [[2,'Mock C'],[3,'Mock D']]){
+   click(d,'[data-nppe-owner="'+owner+'"]');
+   assert.equal(d.querySelector('#nppe-banks-'+owner+' .nppe-bank-panel-head strong').textContent,name);
+   assert.equal(d.querySelector('#nppe-banks-'+owner+' .nppe-bank-description').textContent,'Full-length practice exam');
+  }
+  assert.doesNotMatch(d.querySelector('.nppe-hub').textContent,/\b(?:ChatGPT|Grok|Claude)\b/);
+  assert.deepEqual(h.errors,[]);
+ }finally{h.close();}
+});
