@@ -263,6 +263,12 @@ def main():
                     expect(page.locator('.nppe-hub .nppe-author-tab')).to_have_count(3)
                     expect(page.locator('.nppe-hub .nppe-bank-card')).to_have_count(6)
                     expect(page.locator('.nppe-hub .nppe-mode-card')).to_have_count(3)
+                    expect(page.locator('.nppe-hub .nppe-disclosure')).to_have_count(0)
+                    request_link=page.locator('.nppe-hub a.tb-requestlink')
+                    expect(request_link).to_have_count(1)
+                    expect(request_link).to_have_text('Request a certification exam')
+                    expect(request_link).to_have_attribute('href','/request-topic')
+                    expect(page.locator('.nppe-hub')).not_to_contain_text('Mock C · Grok')
                     assert page.evaluate('''() => [...document.querySelectorAll(
                       '.nppe-bank-card,.nppe-author-tab,.nppe-mode-card,.nppe-mode-card .tb-mstart'
                     )].every(el=>{
@@ -309,7 +315,7 @@ def main():
                     assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='mock-d').authorSet") == 3
                     expect(page.locator('html')).to_have_attribute('data-theme', theme)
                     assert page.evaluate("window.__TB.EXAMS.nppe.formCatalog.find(f=>f.id==='set-1-mock-a').releaseHold") is False
-                    expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_COUNT} of 50 planned')
+                    expect(page.locator('.nppe-mode-card[data-nppe-bank="set-1-diagnostic"]:not([data-nppe-quiz-kind])')).to_contain_text(f'{EXPECTED_COUNT} questions from Diagnostic only')
                     expect(page.locator('#tb-overview')).to_contain_text(f'{EXPECTED_MINUTES} minutes')
                     page.wait_for_function('''() => {
                       const images=[...document.querySelectorAll('header.site .brand img, footer.site .brand img')];
@@ -400,7 +406,7 @@ def main():
                     page.wait_for_selector('body.exam-access-ready')
                     page.locator('[data-set="set-1-learning"]').click()
                     expect(page.locator('[data-set="set-1-learning"] .tb-sets')).to_have_text(str(LEARNING_COUNT))
-                    expect(page.locator('#tb-overview')).to_contain_text(f'{LEARNING_COUNT} of 120 planned')
+                    expect(page.locator('.nppe-mode-card[data-nppe-bank="set-1-learning"]:not([data-nppe-quiz-kind])')).to_contain_text(f'{LEARNING_COUNT} questions from Learning only')
                     expect(page.locator('#tb-overview')).not_to_contain_text(re.compile('partial learning bank', re.I))
                     expect(page.locator('#tb-overview .tb-soon')).to_contain_text('Available for practice')
                     assert page.evaluate('window.__TB.EXAMS.nppe.learning.complete') is True

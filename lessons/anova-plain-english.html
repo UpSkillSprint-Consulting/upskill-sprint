@@ -653,10 +653,11 @@
 
   <script>
     function parseValues(text) {
-      return text
+      const values = text
         .split(/[\s,;]+/)
-        .map(v => Number(v.trim()))
-        .filter(v => Number.isFinite(v));
+        .filter(Boolean)
+        .map(Number);
+      return values.every(Number.isFinite) ? values : null;
     }
 
     function mean(values) {
@@ -773,8 +774,11 @@
       const dfWithin = n - k;
       const msBetween = ssBetween / dfBetween;
       const msWithin = ssWithin / dfWithin;
-      const f = msWithin === 0 ? Infinity : msBetween / msWithin;
-      const pValue = Number.isFinite(f) ? 1 - fCdf(f, dfBetween, dfWithin) : 0;
+      if (msWithin === 0) {
+        return { error: "Within-group variance is zero. ANOVA cannot provide a valid F-test for these data. Check the data and measurement resolution." };
+      }
+      const f = msBetween / msWithin;
+      const pValue = 1 - fCdf(f, dfBetween, dfWithin);
 
       return { k, n, grandMean, ssBetween, ssWithin, dfBetween, dfWithin, msBetween, msWithin, f, pValue };
     }
@@ -886,15 +890,26 @@
         parseValues(document.getElementById("groupC").value)
       ];
       const labels = ["Group A", "Group B", "Group C"];
+      const result = document.getElementById("anovaResult");
+      if (groups.some(g => g === null)) {
+        drawChart([[], [], []], labels, []);
+        result.className = "result-panel caution";
+        result.innerHTML = "<h3>Check the data</h3><p>Enter only finite numeric values, separated by commas, spaces, semicolons, or line breaks.</p>";
+        return;
+      }
       const means = groups.map(mean);
       drawChart(groups, labels, means);
 
-      const result = document.getElementById("anovaResult");
       const model = oneWayAnova(groups);
 
       if (!model) {
         result.className = "result-panel caution";
         result.innerHTML = "<h3>Need more data</h3><p>Enter at least two values in at least two groups. Three groups are best for this lesson.</p>";
+        return;
+      }
+      if (model.error) {
+        result.className = "result-panel caution";
+        result.innerHTML = "<h3>ANOVA unavailable</h3><p>" + model.error + "</p>";
         return;
       }
 
