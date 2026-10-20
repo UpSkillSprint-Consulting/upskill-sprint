@@ -26,7 +26,7 @@ function screen(t,handler) {
 }
 test('signed-out catalog stays public, locked and request-free with zero database calls',async t=>{
   const s=screen(t);await s.signIn(null);
-  assert.equal(s.calls.length,0);assert.equal(s.w.document.querySelectorAll('.exam-card').length,8);
+  assert.equal(s.calls.length,0);assert.equal(s.w.document.querySelectorAll('.exam-card').length,9);
   assert.equal(s.w.document.querySelectorAll('main a[href^="/test-bank"]').length,0);
   assert.equal(s.card('pmp').dataset.state,'locked');assert.match(s.card('pmp').querySelector('a').href,/sign-in/);
   assert.equal(s.card('cqa').querySelector('button,a'),null);
@@ -45,7 +45,7 @@ test('zero, multiple and administrator grants use the same authoritative rows',a
   for(const row of s.rows) if(['pmp','cqe'].includes(row.exam_key))row.can_practice=true;
   await s.refresh();assert.equal(s.el('my-exams-count').textContent,'2');
   for(const row of s.rows)row.can_practice=row.publication_status==='published';
-  await s.refresh();assert.equal(s.el('my-exams-count').textContent,'7');assert.equal(s.el('explore-exams-empty').hidden,false);
+  await s.refresh();assert.equal(s.el('my-exams-count').textContent,'8');assert.equal(s.el('explore-exams-empty').hidden,false);
 });
 test('pending, expired, revoked and declined remain denied with appropriate actions',async t=>{
   const s=screen(t);

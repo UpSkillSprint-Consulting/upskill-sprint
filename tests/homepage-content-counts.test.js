@@ -45,14 +45,14 @@ async function examCount(t, catalog) {
 }
 test('homepage exam total follows released certifications, deduplicates cards and excludes coming soon', async t => {
   const catalog = read('exam-practice.html');
-  assert.equal(await examCount(t, catalog), '7');
+  assert.equal(await examCount(t, catalog), '8');
   const fixture = new JSDOM(catalog); t.after(() => fixture.window.close());
   const doc = fixture.window.document;
   const list = doc.getElementById('exam-certifications');
   const released = list.querySelector('[data-publication="published"]').cloneNode(true);
   list.appendChild(released); // Same exam repeated must not count twice.
   const next = released.cloneNode(true); next.dataset.exam = 'future-exam'; list.appendChild(next);
-  assert.equal(await examCount(t, doc.documentElement.outerHTML), '8');
+  assert.equal(await examCount(t, doc.documentElement.outerHTML), '9');
 });
 test('an unavailable exam catalog shows a dash rather than an invented zero', async t => {
   assert.equal(await examCount(t, null), '—');

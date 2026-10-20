@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import publicProject from '../../supabase-config.js';
 
-const EXAMS = new Set(['cssbb', 'mbb', 'cssgb', 'cqe', 'cmq', 'cre', 'pmp']);
+const EXAMS = new Set(['cssbb', 'mbb', 'cssgb', 'cqe', 'cmq', 'cre', 'pmp', 'nppe']);
 const HEADERS = {
   'Content-Type':'application/json; charset=utf-8',
   'Cache-Control':'private, no-store, max-age=0',

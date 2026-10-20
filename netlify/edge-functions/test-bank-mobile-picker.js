@@ -87,7 +87,7 @@ function keepTestBankScript(source) {
   const path = normalizedPath(source);
   if (path === '/test-bank-current-attempt-review.js') return true;
   if (path === '/test-bank-memory-learning.js' || path === '/test-bank-formulas.js' || path === '/test-bank-tables.js') return true;
-  return /^\/test-bank-(?:cmq|cssgb|cssbb|cqe|mbb|cre|pmp)(?:-|\.).*\.js$/i.test(path);
+  return /^\/test-bank-(?:cmq|cssgb|cssbb|cqe|mbb|cre|pmp|nppe)(?:-|\.).*\.js$/i.test(path);
 }
 
 function stripPersistedExamRuntime(html) {

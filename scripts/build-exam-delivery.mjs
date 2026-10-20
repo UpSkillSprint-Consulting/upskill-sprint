@@ -2,9 +2,10 @@ import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Script } from 'node:vm';
+import { integrateNPPEDiagnostic } from './nppe-diagnostic-runtime.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-export const EXAM_KEYS = ['cssbb', 'mbb', 'cssgb', 'cqe', 'cmq', 'cre', 'pmp'];
+export const EXAM_KEYS = ['cssbb', 'mbb', 'cssgb', 'cqe', 'cmq', 'cre', 'pmp', 'nppe'];
 const SHARED = new Set(['test-bank-memory-learning.js', 'test-bank-current-attempt-review.js', 'test-bank-formulas.js', 'test-bank-tables.js']);
 const SCRIPT = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
 const PRIVATE_DIRECTORY = 'content/exam-delivery-generated';
@@ -27,12 +28,12 @@ export function isolateRuntime(source, exam) {
     result = replaceRegion(result, '  var SET3_BANK=[', '  var EXAMS={', '  var SET3_BANK=[];\n');
   }
   if (exam !== 'cqe') result = replaceRegion(result, '  var CQE_SET1=[', '  var SET3_BANK=', '  var CQE_SET1=[],CQE_SET2=[],CQE_SET3=[];\n');
-  return result;
+  return exam === 'nppe' ? integrateNPPEDiagnostic(result) : result;
 }
 
 function belongsToExam(name, exam) {
   if (SHARED.has(name)) return true;
-  const match = /^test-bank-(cssbb|mbb|cssgb|cqe|cmq|cre|pmp)(?:-|\.)/.exec(name);
+  const match = /^test-bank-(cssbb|mbb|cssgb|cqe|cmq|cre|pmp|nppe)(?:-|\.)/.exec(name);
   if (!match) throw new Error(`Unclassified private simulator script: ${name}`);
   return match[1] === exam;
 }
@@ -85,6 +86,138 @@ export async function buildExamDelivery(root = ROOT) {
   const sizes = {};
   for (const exam of EXAM_KEYS) {
     const scripts = [];
+    if (exam === 'nppe') {
+      const batch2 = await readFile(join(root, 'test-bank-nppe-diagnostic-batch2.js'), 'utf8');
+      new Script(batch2, { filename:'test-bank-nppe-diagnostic-batch2.js' });
+      scripts.push(batch2);
+      const diagnostic = await readFile(join(root, 'test-bank-nppe-diagnostic.js'), 'utf8');
+      new Script(diagnostic, { filename:'test-bank-nppe-diagnostic.js' });
+      scripts.push(diagnostic);
+      // Batch 3 appends to the registrar's existing array before the runtime registers its form.
+      const batch3 = await readFile(join(root, 'test-bank-nppe-diagnostic-batch3.js'), 'utf8');
+      new Script(batch3, { filename:'test-bank-nppe-diagnostic-batch3.js' });
+      scripts.push(batch3);
+      // Batch 4 follows Batch 3, still before the exam runtime registers the final Diagnostic form.
+      const batch4 = await readFile(join(root, 'test-bank-nppe-diagnostic-batch4.js'), 'utf8');
+      new Script(batch4, { filename:'test-bank-nppe-diagnostic-batch4.js' });
+      scripts.push(batch4);
+      // The complete 50-item Diagnostic installs Batch 5 before the exam runtime registers its form.
+      const batch5 = await readFile(join(root, 'test-bank-nppe-diagnostic-batch5.js'), 'utf8');
+      new Script(batch5, { filename:'test-bank-nppe-diagnostic-batch5.js' });
+      scripts.push(batch5);
+      // Learning Batch 1 is a separate Set 1 bank, loaded only after the protected Diagnostic.
+      // The NPPE runtime will register the learning bank independently from the Diagnostic.
+      const learning1 = await readFile(join(root, 'test-bank-nppe-learning-batch1.js'), 'utf8');
+      new Script(learning1, { filename:'test-bank-nppe-learning-batch1.js' });
+      scripts.push(learning1);
+      // Learning Batch 2 extends only the existing Set 1 Learning array before exam registration.
+      const learning2 = await readFile(join(root, 'test-bank-nppe-learning-batch2.js'), 'utf8');
+      new Script(learning2, { filename:'test-bank-nppe-learning-batch2.js' });
+      scripts.push(learning2);
+      // Learning Batch 3 appends NPPE-071–080 before the NPPE runtime registers Set 1 Learning.
+      const learning3 = await readFile(join(root, 'test-bank-nppe-learning-batch3.js'), 'utf8');
+      new Script(learning3, { filename:'test-bank-nppe-learning-batch3.js' });
+      scripts.push(learning3);
+      // Learning Batch 4 appends NPPE-081–090 to its protected author-owned bank.
+      const learning4 = await readFile(join(root, 'test-bank-nppe-learning-batch4.js'), 'utf8');
+      new Script(learning4, { filename:'test-bank-nppe-learning-batch4.js' });
+      scripts.push(learning4);
+      // Learning Batch 5 appends NPPE-091–100 without changing any earlier bank.
+      const learning5 = await readFile(join(root, 'test-bank-nppe-learning-batch5.js'), 'utf8');
+      new Script(learning5, { filename:'test-bank-nppe-learning-batch5.js' });
+      scripts.push(learning5);
+      // Learning Batch 6 appends NPPE-101–110; preceding authoring files stay unchanged.
+      const learning6 = await readFile(join(root, 'test-bank-nppe-learning-batch6.js'), 'utf8');
+      new Script(learning6, { filename:'test-bank-nppe-learning-batch6.js' });
+      scripts.push(learning6);
+      // Learning Batch 7 appends NPPE-111–120 without replacing preceding banks.
+      const learning7 = await readFile(join(root, 'test-bank-nppe-learning-batch7.js'), 'utf8');
+      new Script(learning7, { filename:'test-bank-nppe-learning-batch7.js' });
+      scripts.push(learning7);
+      // Learning Batch 8 appends NPPE-121–130, preserving the earlier author-owned banks.
+      const learning8 = await readFile(join(root, 'test-bank-nppe-learning-batch8.js'), 'utf8');
+      new Script(learning8, { filename:'test-bank-nppe-learning-batch8.js' });
+      scripts.push(learning8);
+      const learning9 = await readFile(join(root, 'test-bank-nppe-learning-batch9.js'), 'utf8');
+      new Script(learning9, { filename:'test-bank-nppe-learning-batch9.js' });
+      scripts.push(learning9);
+      const learning10 = await readFile(join(root, 'test-bank-nppe-learning-batch10.js'), 'utf8');
+      new Script(learning10, { filename:'test-bank-nppe-learning-batch10.js' });
+      scripts.push(learning10);
+      const learning11 = await readFile(join(root, 'test-bank-nppe-learning-batch11.js'), 'utf8');
+      new Script(learning11, { filename:'test-bank-nppe-learning-batch11.js' });
+      scripts.push(learning11);
+      const learning12 = await readFile(join(root, 'test-bank-nppe-learning-batch12.js'), 'utf8');
+      new Script(learning12, { filename:'test-bank-nppe-learning-batch12.js' });
+      scripts.push(learning12);
+      const mockA1 = await readFile(join(root, 'test-bank-nppe-mock-a-batch1.js'), 'utf8');
+      new Script(mockA1, { filename:'test-bank-nppe-mock-a-batch1.js' });
+      scripts.push(mockA1);
+      const mockA2 = await readFile(join(root, 'test-bank-nppe-mock-a-batch2.js'), 'utf8');
+      new Script(mockA2, { filename:'test-bank-nppe-mock-a-batch2.js' });
+      scripts.push(mockA2);
+      const mockA3 = await readFile(join(root, 'test-bank-nppe-mock-a-batch3.js'), 'utf8');
+      new Script(mockA3, { filename:'test-bank-nppe-mock-a-batch3.js' });
+      scripts.push(mockA3);
+      const mockA4 = await readFile(join(root, 'test-bank-nppe-mock-a-batch4.js'), 'utf8');
+      new Script(mockA4, { filename:'test-bank-nppe-mock-a-batch4.js' });
+      scripts.push(mockA4);
+      const mockA5 = await readFile(join(root, 'test-bank-nppe-mock-a-batch5.js'), 'utf8');
+      new Script(mockA5, { filename:'test-bank-nppe-mock-a-batch5.js' });
+      scripts.push(mockA5);
+      const mockA6 = await readFile(join(root, 'test-bank-nppe-mock-a-batch6.js'), 'utf8');
+      new Script(mockA6, { filename:'test-bank-nppe-mock-a-batch6.js' });
+      scripts.push(mockA6);
+      const mockA7 = await readFile(join(root, 'test-bank-nppe-mock-a-batch7.js'), 'utf8');
+      new Script(mockA7, { filename:'test-bank-nppe-mock-a-batch7.js' });
+      scripts.push(mockA7);
+      const mockA8 = await readFile(join(root, 'test-bank-nppe-mock-a-batch8.js'), 'utf8');
+      new Script(mockA8, { filename:'test-bank-nppe-mock-a-batch8.js' });
+      scripts.push(mockA8);
+      const mockA9 = await readFile(join(root, 'test-bank-nppe-mock-a-batch9.js'), 'utf8');
+      new Script(mockA9, { filename:'test-bank-nppe-mock-a-batch9.js' });
+      scripts.push(mockA9);
+      const mockA10 = await readFile(join(root, 'test-bank-nppe-mock-a-batch10.js'), 'utf8');
+      new Script(mockA10, { filename:'test-bank-nppe-mock-a-batch10.js' });
+      scripts.push(mockA10);
+      const mockA11 = await readFile(join(root, 'test-bank-nppe-mock-a-batch11.js'), 'utf8');
+      new Script(mockA11, { filename:'test-bank-nppe-mock-a-batch11.js' });
+      scripts.push(mockA11);
+      // Mock B Batch 1 is a distinct, incomplete, release-held Set 1 mock.
+      const mockB1 = await readFile(join(root, 'test-bank-nppe-mock-b-batch1.js'), 'utf8');
+      new Script(mockB1, { filename:'test-bank-nppe-mock-b-batch1.js' });
+      scripts.push(mockB1);
+      const mockB2 = await readFile(join(root, 'test-bank-nppe-mock-b-batch2.js'), 'utf8');
+      new Script(mockB2, { filename:'test-bank-nppe-mock-b-batch2.js' });
+      scripts.push(mockB2);
+      const mockB3 = await readFile(join(root, 'test-bank-nppe-mock-b-batch3.js'), 'utf8');
+      new Script(mockB3, { filename:'test-bank-nppe-mock-b-batch3.js' });
+      scripts.push(mockB3);
+      const mockB4 = await readFile(join(root, 'test-bank-nppe-mock-b-batch4.js'), 'utf8');
+      new Script(mockB4, { filename:'test-bank-nppe-mock-b-batch4.js' });
+      scripts.push(mockB4);
+      const mockB5 = await readFile(join(root, 'test-bank-nppe-mock-b-batch5.js'), 'utf8');
+      new Script(mockB5, { filename:'test-bank-nppe-mock-b-batch5.js' });
+      scripts.push(mockB5);
+      const mockB6 = await readFile(join(root, 'test-bank-nppe-mock-b-batch6.js'), 'utf8');
+      new Script(mockB6, { filename:'test-bank-nppe-mock-b-batch6.js' });
+      scripts.push(mockB6);
+      const mockB7 = await readFile(join(root, 'test-bank-nppe-mock-b-batch7.js'), 'utf8');
+      new Script(mockB7, { filename:'test-bank-nppe-mock-b-batch7.js' });
+      scripts.push(mockB7);
+      const mockB8 = await readFile(join(root, 'test-bank-nppe-mock-b-batch8.js'), 'utf8');
+      new Script(mockB8, { filename:'test-bank-nppe-mock-b-batch8.js' });
+      scripts.push(mockB8);
+      const mockB9 = await readFile(join(root, 'test-bank-nppe-mock-b-batch9.js'), 'utf8');
+      new Script(mockB9, { filename:'test-bank-nppe-mock-b-batch9.js' });
+      scripts.push(mockB9);
+      const mockB10 = await readFile(join(root, 'test-bank-nppe-mock-b-batch10.js'), 'utf8');
+      new Script(mockB10, { filename:'test-bank-nppe-mock-b-batch10.js' });
+      scripts.push(mockB10);
+      const mockB11 = await readFile(join(root, 'test-bank-nppe-mock-b-batch11.js'), 'utf8');
+      new Script(mockB11, { filename:'test-bank-nppe-mock-b-batch11.js' });
+      scripts.push(mockB11);
+    }
     for (const item of [...immediate, ...deferred]) {
       if (item.name && !belongsToExam(item.name, exam)) continue;
       let code = item.name ? await readFile(join(root, item.name), 'utf8') : item.code;

@@ -1,0 +1,59 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
+const root=path.resolve(__dirname,'..'),read=p=>fs.readFileSync(path.join(root,p),'utf8');
+function load(){const ctx=vm.createContext({window:{}});for(let i=1;i<=6;i++)vm.runInContext(read('test-bank-nppe-mock-b-batch'+i+'.js'),ctx,{filename:'mock-b-batch'+i,timeout:5000});return ctx.window;}
+test('Batch 6 adds exactly 331–340, preserving existing 50 objects, keys and references',()=>{
+ const w=load(),all=Array.from(w.NPPE_MOCK_B),items=Array.from(w.NPPE_MOCK_B_BATCH6);
+ assert.equal(all.length,60);assert.equal(items.length,10);
+ assert.deepEqual(items.map(x=>x.blueprint),['I.1','V.1','VI.1','II.3','III.6','IV.14','III.7','II.4','IV.1','III.8']);
+ for(let i=1;i<6;i++)assert.ok(Array.from(w['NPPE_MOCK_B_BATCH'+i]).every((q,j)=>q===all[10*(i-1)+j]));
+ items.forEach((q,i)=>{
+  let id=331+i;assert.equal(q.qid,'nppe:set-1:mock-b:'+id);assert.equal(q.legacyId,'NPPE-'+id);
+  assert.equal(q.batch,6);assert.ok(q.version>=([337,339].includes(id)?2:1));assert.equal(q.author,'ChatGPT');assert.equal(q.authorSet,1);assert.equal(q.form,'set-1-mock-b');
+  assert.equal(q.releaseStatus,'held');assert.equal(q.scored,id!==337);assert.equal(q.experimental,id===337);
+  assert.ok(q.jurisdiction&&q.stem&&q.learningObjective&&q.keyPoint&&q.trap);
+  assert.equal(q.options.length,4);assert.equal(new Set(q.options).size,4);assert.equal(q.optionRationales.length,4);
+  assert.ok(q.optionRationales.every(s=>s.length>=35));assert.ok(Number.isInteger(q.answer)&&q.answer>=0&&q.answer<4);
+  assert.ok(q.sources.some(s=>s.sourceType==='official-blueprint'));assert.ok(q.sources.some(s=>s.sourceType!=='official-blueprint'));
+  assert.ok(q.sources.every(s=>s.title&&s.locator&&new URL(s.url).protocol==='https:'));
+  assert.ok(q.why.includes('Sources:')&&q.why.includes('Key learning point:'));
+ });
+ assert.equal(new Set(all.map(x=>x.qid)).size,60);
+ assert.equal(new Set(all.map(x=>x.questionFamily)).size,60);
+ assert.deepEqual([0,1,2,3].map(i=>items.filter(q=>q.answer===i).length),[2,2,2,4]);
+});
+test('Batch 6 reload is idempotent and rejects absent or conflicting predecessors',()=>{
+ const w=load(),src=read('test-bank-nppe-mock-b-batch6.js'),before=JSON.stringify(w.NPPE_MOCK_B);
+ vm.runInNewContext(src,{window:w});assert.equal(JSON.stringify(w.NPPE_MOCK_B),before);
+ assert.throws(()=>vm.runInNewContext(src,{window:{}}),/Batches 1–5/);
+ w.NPPE_MOCK_B[55].answer=(w.NPPE_MOCK_B[55].answer+1)%4;
+ assert.throws(()=>vm.runInNewContext(src,{window:w}),/Conflicting/);
+});
+test('Partial Mock B remains strictly held and isolated from Mock A',()=>{
+ const w=load(),form={id:'set-1-mock-b',authorSet:1,kind:'mock',target:110,releaseHold:true},exam={formCatalog:[form],forms:{'set-1-mock-a':[{sentinel:'unchanged'}]}};
+ w.registerNPPEMockB(exam);
+ assert.equal(exam.forms['set-1-mock-b'].length,60);assert.equal(exam.forms['set-1-mock-b'].length===110,false);
+ assert.equal(form.releaseHold,true);assert.equal(exam.forms['set-1-mock-a'][0].sentinel,'unchanged');
+ assert.throws(()=>w.registerNPPEMockB({formCatalog:[{...form,releaseHold:false}],forms:{}}),/held/);
+ const build=read('scripts/build-exam-delivery.mjs');
+ for(let i=1;i<=6;i++)assert.ok(build.includes('test-bank-nppe-mock-b-batch'+i+'.js'));
+ for(let i=1;i<6;i++)assert.ok(build.indexOf('test-bank-nppe-mock-b-batch'+i+'.js')<build.indexOf('test-bank-nppe-mock-b-batch'+(i+1)+'.js'));
+});
+test('Batch 6 stems are absent from public shell and unrelated certification packages',async()=>{
+ const os=require('node:os'),temp=fs.mkdtempSync(path.join(os.tmpdir(),'nppe-mock-b6-'));
+ try{
+  for(const entry of fs.readdirSync(root,{withFileTypes:true})){
+   if(['.git','content','public-site','node_modules'].includes(entry.name))continue;
+   fs.symlinkSync(path.join(root,entry.name),path.join(temp,entry.name),entry.isDirectory()?'dir':'file');
+  }
+  const built=await(await import('../scripts/build-exam-delivery.mjs')).buildExamDelivery(temp);
+  const stems=Array.from(load().NPPE_MOCK_B_BATCH6,q=>q.stem);
+  for(const stem of stems)assert.ok(!built.shell.includes(stem),'Public shell leaked Mock B6');
+  for(const exam of ['cssbb','mbb','cssgb','cqe','cmq','cre','pmp']){
+   const raw=fs.readFileSync(path.join(built.output,exam+'.json'),'utf8');
+   for(const stem of stems)assert.ok(!raw.includes(stem),'Mock B6 content leaked into '+exam);
+  }
+  const protectedNPPE=JSON.parse(fs.readFileSync(path.join(built.output,'nppe.json'),'utf8'));
+  for(const stem of stems)assert.ok(protectedNPPE.scripts.some(x=>x.includes(stem)),'Missing protected B6 item');
+ }finally{fs.rmSync(temp,{recursive:true,force:true});}
+});

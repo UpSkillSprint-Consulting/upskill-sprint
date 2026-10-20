@@ -519,6 +519,8 @@
 <script src="/test-bank-pmp-set6.js"></script>
 <script src="/test-bank-pmp-bank2.js"></script>
 <script src="/test-bank-pmp-bank2-ui.js"></script>
+<script src="/test-bank-nppe-set2.js"></script>
+<script src="/test-bank-nppe-set3.js"></script>
 <script src="/assets/js/math.js"></script>
 <script>
 (function(){
@@ -568,7 +570,13 @@
     'cre-lifecycle':{name:'Lifecycle Reliability',short:'Lifecycle',color:'#0e8f86'},
     'pmp-people':{name:'People',short:'People',color:'#1a5276'},
     'pmp-process':{name:'Process',short:'Process',color:'#0e6b7a'},
-    'pmp-business':{name:'Business Environment',short:'Business',color:'#8a5a12'}
+    'pmp-business':{name:'Business Environment',short:'Business',color:'#8a5a12'},
+    'nppe-professionalism':{name:'Professionalism',short:'Profession',color:'#1f4e5f'},
+    'nppe-ethics':{name:'Ethics',short:'Ethics',color:'#1a5276'},
+    'nppe-practice':{name:'Professional Practice',short:'Practice',color:'#0e6b7a'},
+    'nppe-law':{name:'Law',short:'Law',color:'#8a5a12'},
+    'nppe-professional-law':{name:'Professional Law',short:'Prof. law',color:'#2c8fa6'},
+    'nppe-discipline':{name:'Regulation and Discipline',short:'Discipline',color:'#a24b8c'}
   };
   function d(domain,weight,subs){return {domain:domain,weight:weight,subs:subs};}
   function s(id,name,lesson,lessonName,w){return {id:id,name:name,lesson:lesson,lessonName:lessonName,w:w};}
@@ -2584,7 +2592,29 @@
          registerPMPSet1() through registerPMPSet6() load Q001-Q180 into Set 1. registerPMPBank2() adds the separate Set 2 bank. Set 3 stays empty. Not affiliated with PMI. */
       bank:[],sets:{2:[],3:[]},plannedSets:['1','2','3'],setPlans:{1:{target:180,label:'Q001-Q180'},2:{target:0,label:'Held for Claude'},3:{target:0,label:'Held for GPT'}},fullExamQuestionsBySet:{1:180},
       formatNote:'Original practice questions for the July 2026 PMP Exam Content Outline. Not affiliated with PMI.',
-      bok:[d('pmp-people',33,[s('pmp-people','People','/lessons','Browse lessons',33)]),d('pmp-process',41,[s('pmp-process','Process','/lessons','Browse lessons',41)]),d('pmp-business',26,[s('pmp-business','Business Environment','/lessons','Browse lessons',26)])]}
+      bok:[d('pmp-people',33,[s('pmp-people','People','/lessons','Browse lessons',33)]),d('pmp-process',41,[s('pmp-process','Process','/lessons','Browse lessons',41)]),d('pmp-business',26,[s('pmp-business','Business Environment','/lessons','Browse lessons',26)])]},
+    nppe:{badge:'NPPE',bc:'#1f4e5f',body:'National Professional Practice Examination (NPPE)',title:'National Professional Practice Examination — Practice',setName:'Mock D',questions:110,minutes:150,pass:null,
+      /* 2017 NPPE blueprint, still the current specification: 110 items, 2.5 hours, 100 scored and 10 unscored.
+         Author set 1 owns Diagnostic, Learning, and Mocks A–C. Set 2 owns Mock D. Set 3 owns Mock E.
+         Empty forms stay visible and disabled. A full mock launches only at 110 released items. */
+      bank:[],sets:{},forms:{},
+      formCatalog:[
+        {id:'set-1-diagnostic',authorSet:1,label:'Diagnostic',kind:'practice',group:'Set 1'},
+        {id:'set-1-learning',authorSet:1,label:'Learning',kind:'practice',group:'Set 1'},
+        {id:'set-1-mock-a',authorSet:1,label:'Mock A',kind:'mock',target:110,group:'Set 1',releaseHold:true},
+        {id:'set-1-mock-b',authorSet:1,label:'Mock B',kind:'mock',target:110,group:'Set 1'},
+        {id:'mock-d',authorSet:2,label:'Mock D',kind:'mock',target:110,group:'Set 2'},
+        {id:'mock-e',authorSet:3,label:'Mock E',kind:'mock',target:110,group:'Set 3'}
+      ],
+      formatNote:'This practice form follows the 110-question, 2-hour-30-minute NPPE sitting. Ten items are unscored and are not identified during the sitting. A raw percentage here is not the official equated scaled score, and 65 is not a raw-percent pass guarantee. UpSkill Sprint is not a Canadian engineering or geoscience regulator.',
+      bok:[
+        d('nppe-professionalism',8,[s('nppe-professionalism','I. Professionalism','/lessons','Browse lessons',8)]),
+        d('nppe-ethics',19,[s('nppe-ethics','II. Ethics','/lessons','Browse lessons',19)]),
+        d('nppe-practice',30,[s('nppe-practice','III. Professional Practice','/lessons','Browse lessons',30)]),
+        d('nppe-law',25,[s('nppe-law','IV. Law','/lessons','Browse lessons',25)]),
+        d('nppe-professional-law',9,[s('nppe-professional-law','V. Professional Law','/lessons','Browse lessons',9)]),
+        d('nppe-discipline',9,[s('nppe-discipline','VI. Regulation and Discipline','/lessons','Browse lessons',9)])
+      ]}
   };
   if(window.registerCRESet2)window.registerCRESet2(EXAMS.cre,DM);
   if(window.registerPMPSet1)window.registerPMPSet1(EXAMS.pmp,DM);
@@ -2594,11 +2624,16 @@
   if(window.registerPMPSet5)window.registerPMPSet5(EXAMS.pmp);
   if(window.registerPMPSet6)window.registerPMPSet6(EXAMS.pmp);
   if(window.registerPMPBank2)window.registerPMPBank2(EXAMS.pmp);
+  if(window.registerNPPESet2)window.registerNPPESet2(EXAMS.nppe);
+  if(window.registerNPPESet3)window.registerNPPESet3(EXAMS.nppe);
+  /* Keep each mock on its own form id. Drop numeric set slots so the generic mixer cannot combine Mock D and Mock E. */
+  if(EXAMS.nppe.forms&&Array.isArray(EXAMS.nppe.forms['mock-d']))EXAMS.nppe.bank=EXAMS.nppe.forms['mock-d'];
+  EXAMS.nppe.sets={};
   [['cre-fundamentals','cre-lead'],['cre-statistics','cre-stats'],['cre-testing','cre-model'],['cre-lifecycle','cre-life']].forEach(function(pair){
     var domain=EXAMS.cre.bok.find(function(d){return d.subs.some(function(s){return s.id===pair[0];});});
     if(domain&&!domain.subs.some(function(s){return s.id===pair[1];}))domain.subs.push({id:pair[1],name:domain.subs[0].name,w:0,lesson:domain.subs[0].lesson,lessonName:domain.subs[0].lessonName});
   });
-  var GROUPS=[['Six Sigma',['cssbb','mbb','cssgb']],['Quality',['cqe','cqa','cmq']],['Reliability',['cre']],['Project Management',['pmp']]];
+  var GROUPS=[['Six Sigma',['cssbb','mbb','cssgb']],['Quality',['cqe','cqa','cmq']],['Reliability',['cre']],['Project Management',['pmp']],['Professional Practice',['nppe']]];
   var current=window.__ExamAccess?window.__ExamAccess.exam:'cssbb', view='browse', session=null;
   var linkedExam=(new URLSearchParams(window.location.search).get('exam')||'').trim().toLowerCase();
   var focusedExam=window.__ExamAccess?window.__ExamAccess.exam:(Object.prototype.hasOwnProperty.call(EXAMS,linkedExam)?linkedExam:null);
@@ -3611,18 +3646,28 @@
     var wrapClass='tb-q-chart-wrap'+(CHART_COMPACT[chart.type]?' tb-q-chart-wrap-compact':'');
     return '<div class="'+wrapClass+'">'+(eyebrow?'<span class="tb-q-chart-eyebrow">'+esc(eyebrow)+'</span>':'')+inner+'</div>';
   }
-  function hasBank(e){return e&&e.bank&&e.bank.length>0;}
+  function hasBank(e){if(e&&e.formCatalog)return e.formCatalog.some(function(form){return formReady(e,form.id);});return e&&e.bank&&e.bank.length>0;}
   function hasTwoSets(e){return !!(e&&e.sets&&e.sets[2]&&e.sets[2].length);}
   /* the question pool the draw functions sample from, per the user's set choice */
   function uniqueQuestionPool(rows){
     var seen=new Set();
     return rows.filter(function(q){var id=q&&(q.qid||q.questionId||q.id||q.question_id);if(!id)return true;if(seen.has(id))return false;seen.add(id);return true;});
   }
+  function formMeta(e,id){if(!e||!e.formCatalog)return null;id=String(id==null?selectedSet:id);for(var i=0;i<e.formCatalog.length;i++)if(e.formCatalog[i].id===id)return e.formCatalog[i];return null;}
+  function formQuestionCount(e,id){var rows=e&&e.forms&&e.forms[id];return Array.isArray(rows)?rows.length:0;}
+  function formReady(e,id){var form=formMeta(e,id);if(!form||form.releaseHold===true)return false;var n=formQuestionCount(e,form.id);return form.kind==='mock'?n===form.target&&form.target>0:n>0;}
   function availableSetIds(e){
+    if(e&&e.formCatalog)return e.formCatalog.filter(function(form){return formReady(e,form.id);}).map(function(form){return form.id;});
     var ids=Object.keys(e&&e.sets||{}).filter(function(id){return /^\d+$/.test(id)&&Array.isArray(e.sets[id])&&e.sets[id].length;}).sort(function(a,b){return Number(a)-Number(b);});
     return ids.length?ids:(hasBank(e)?['1']:[]);
   }
   function activeBank(e,setId){
+    if(e&&e.formCatalog){
+      setId=String(setId==null?selectedSet:setId);
+      if(!formReady(e,setId)){var ready=availableSetIds(e);setId=ready.length?ready[0]:'';}
+      var rows=e.forms&&e.forms[setId];
+      return Array.isArray(rows)?rows:[];
+    }
     var ids=availableSetIds(e);
     if(!ids.length)return [];
     setId=setId==null?selectedSet:String(setId);
@@ -3633,6 +3678,7 @@
   /* the pooled bank across every set, independent of the Set 1/2/3/Mixed picker \u2014
      used by the "New questions only" toggle so it always draws against the full bank */
   function mixedBank(e){
+    if(e&&e.formCatalog)return activeBank(e).slice();
     if(!hasTwoSets(e))return e.bank||[];
     var s=e.sets;
     return uniqueQuestionPool(s[3]?s[1].concat(s[2],s[3]):s[1].concat(s[2]));
@@ -3689,7 +3735,7 @@
     }
     return [];
   }
-  function setLabel(setId){setId=setId==null?selectedSet:String(setId);return setId==='mix'?'Mixed (all sets)':'Set '+setId;}
+  function setLabel(setId){setId=setId==null?selectedSet:String(setId);var form=formMeta(EXAMS[current],setId);if(form)return form.label;return setId==='mix'?'Mixed (all sets)':'Set '+setId;}
   function setCount(e){return availableSetIds(e).length;}
   function setsAvailLabel(e){var n=setCount(e);return n>=2?(n+' exam sets'):(e.setName||(e===EXAMS.cre?'Set '+availableSetIds(e)[0]:'Live'));}
   function activeSetLabel(e,setId){return hasTwoSets(e)?setLabel(setId):(e.setName||'Set 1');}
@@ -3699,6 +3745,7 @@
   function fullExamCount(e){return Math.min(activeBank(e).length,fullExamTarget(e));}
   function formatNoteFor(e){
     var plan=setPlan(e,selectedSet),available=activeBank(e).length;
+    if(current==='nppe')return e.formatNote||'';
     if(current==='cre'&&selectedSet==='1'&&available>=150)return 'The 150-question Set 1 is complete (Q001–Q150) and follows the five-domain ASQ blueprint. The official computer exam displays 165 questions, including 15 unscored items, in 258 minutes; this practice session uses the same average pace.';
     if(current==='cre'&&selectedSet==='2')return (available>=150?'The 150-question Set 2 core is complete (Q001–150) and follows the five-domain ASQ blueprint. ':'Set 2 currently contains '+available+' of 150 planned original practice questions. This is a partial practice set. ')+'The official computer exam displays 165 questions, including 15 unscored items, in 258 minutes; this practice session uses the same average pace.';
     if(current==='pmp')return (selectedSet==='2'?(available>=180?'Set 2 contains all 180 original practice questions (Q001–Q180). ':'Set 2 currently contains '+available+' of 180 planned original practice questions. This is a partial practice set. '):selectedSet==='mix'?'Mixed practice draws from the available PMP sets. ':'Set 1 contains all '+available+' original practice questions (Q001-Q180). ')+'The July 2026 PMP exam displays 180 questions in 240 minutes. This sitting uses the same average pace. Each practice item earns one point only for a completely correct response. Set 3 is empty. UpSkill Sprint is not affiliated with PMI.';
@@ -3709,6 +3756,7 @@
     return e.formatNote||'';
   }
   function fullTimingContext(e){
+    if(current==='nppe')return 'uses the 110-question, 150-minute pace. Ten unscored items stay unidentified, and a raw percentage is not the official scaled score.';
     if(current==='cre')return 'uses the average pace of the 165-question, 258-minute ASQ computer exam.';
     if(e.sourceSimulation&&selectedSet==='1')return 'matches the supplied source simulation.';
     if(current==='mbb')return 'uses the same 90-second-per-question pace as Set 1.';
@@ -3736,7 +3784,21 @@
       '<div class="tb-setseg" role="group" aria-label="Choose Full Exam question set">'+buttons+
       '</div><p class="tb-setnote">'+note+' A Full Exam currently serves '+currentFullCount+' question'+(currentFullCount===1?'':'s')+'. Quick and Focused quizzes have their own test-set buttons below.</p></div>';
   }
+  function nppeFormSelectorHTML(e){
+    var order=[],bucket={};
+    e.formCatalog.forEach(function(form){if(!bucket[form.group]){bucket[form.group]=[];order.push(form.group);}bucket[form.group].push(form);});
+    var buttons=order.map(function(group){
+      return '<div class="tb-setpick-lab">'+esc(group)+'</div><div class="tb-setseg" role="group" aria-label="'+esc(group)+' forms">'+bucket[group].map(function(form){
+        var ready=formReady(e,form.id),n=formQuestionCount(e,form.id);
+        return '<button type="button" class="tb-setbtn'+(selectedSet===form.id&&ready?' on':'')+'" data-set="'+esc(form.id)+'" aria-pressed="'+(selectedSet===form.id&&ready)+'"'+(ready?'':' disabled')+'><span class="tb-setl">'+esc(form.label)+'</span><span class="tb-sets">'+(ready?String(n):'Preparing')+'</span></button>';
+      }).join('')+'</div>';
+    }).join('');
+    var selected=formMeta(e,selectedSet);
+    var note=selected&&formReady(e,selected.id)?'The Full Exam uses only '+esc(selected.label)+'. Other forms stay closed until their own released questions are added, and forms are not mixed.':'This form is not ready. A full mock stays closed until its own 110 released questions are in place.';
+    return '<div class="tb-setpick">'+buttons+'<p class="tb-setnote">'+note+'</p></div>';
+  }
   function setSelectorHTML(e){
+    if(e&&e.formCatalog)return nppeFormSelectorHTML(e);
     if(plannedSetIds(e).length>1)return plannedSetSelectorHTML(e);
     if(!hasTwoSets(e))return '';
     var n1=e.sets[1].length,n2=e.sets[2].length,n3=e.sets[3]?e.sets[3].length:0;
@@ -3948,7 +4010,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
         return '<button class="tb-tile'+(id===current?' active':'')+'" data-exam="'+id+'" aria-label="'+esc(e.body)+'">'+
           '<span class="tb-badge" style="background:'+e.bc+'">'+e.badge+'</span>'+
           '<span class="tb-tinfo"><span class="tb-tn">'+esc(e.body.replace('ASQ ',''))+'</span>'+
-          '<span class="tb-tm">'+e.questions+' questions · '+fmtDur(e.minutes)+' · '+e.pass+'% site target</span>'+
+          '<span class="tb-tm">'+e.questions+' questions · '+fmtDur(e.minutes)+' · '+(e.pass==null?'not an official scaled score':e.pass+'% site target')+'</span>'+
           tag+'</span></button>';
       }).join('')+'</div>';
     }).join('');
@@ -4046,7 +4108,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
       '><span class="sw"></span>Missed questions only</button>';
   }
   function modesHTML(e){
-    var live=hasBank(e);
+    var live=hasBank(e)&&(!e.formCatalog||formReady(e,selectedSet));
     var learning=window.__TBLearning,learningStatus=learning&&typeof learning.status==='function'?learning.status():null;
     var newOnlyAvailable=live&&!!(learning&&typeof learning.reserveNewQuestions==='function'&&learningStatus&&learningStatus.signedIn);
     var newOnlyReady=live&&newOnlyHydrated();
@@ -4218,7 +4280,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     var bar=e.bok.map(function(x){return '<span style="flex:'+x.weight+';background:'+DM[x.domain].color+'" title="'+esc(DM[x.domain].name)+' — '+Math.round(x.weight/total*100)+'%"></span>';}).join('');
     var legend=e.bok.map(function(x){return '<div class="tb-dl"><i style="background:'+DM[x.domain].color+'"></i>'+esc(DM[x.domain].name)+
       ' <span class="sub">· '+x.subs.length+' subtopic'+(x.subs.length>1?'s':'')+'</span><span class="w">'+Math.round(x.weight/total*100)+'%</span></div>';}).join('');
-    var live=hasBank(e);
+    var live=hasBank(e)&&(!e.formCatalog||formReady(e,selectedSet));
     return '<div class="tb-ovbadge"><span class="tb-badge" style="background:'+e.bc+'">'+e.badge+'</span><span class="tb-ovsub">'+esc(e.body)+'</span></div>'+
       '<h2 class="tb-title">'+esc(e.title)+' '+(live?'<span class="tb-soon sample">'+esc(activeSetLabel(e))+' &middot; live</span>':'<span class="tb-soon">Coming soon</span>')+'</h2>'+
       (live?'':'<p class="tb-soonline">This exam isn\u2019t live yet — we\u2019re building its question bank. Below is the Body of Knowledge it covers and the practice modes that will be available.</p>')+
@@ -4282,7 +4344,7 @@ if(window.__MBBSet3Batch7UI&&window.__MBBSet3Batch7UI.isQuestion(q))return windo
     return true;
   }
   function startDiagnostic(){var e=EXAMS[current];var qs=pickStratified(activeBank(e),2);beginSession(e,qs,'diagnostic',diagTimed,Math.round(qs.length*e.minutes/e.questions)*60);}
-  function startFull(){var e=EXAMS[current],count=fullExamCount(e);var qs=pickBlueprintExam(e,activeBank(e).slice(),count);beginSession(e,qs,'exam',mode.timed,quizDurationSeconds(e,count));}
+  function startFull(){var e=EXAMS[current];if(e.formCatalog&&!formReady(e,selectedSet))return;var count=fullExamCount(e);var qs=pickBlueprintExam(e,activeBank(e).slice(),count);beginSession(e,qs,'exam',mode.timed,quizDurationSeconds(e,count));}
   function newOnlyQuestionId(examId,question){
     var registry=window.__TBQuestionRegistry;
     if(registry&&typeof registry.idFor==='function')return registry.idFor(examId,question);

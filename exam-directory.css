@@ -57,6 +57,10 @@ html[data-theme="dark"] .exam-card {
   --exam-accent: var(--exam-accent-dark);
   --exam-surface: var(--exam-surface-dark);
 }
+/* Explicit dark-card ink prevents inherited light-theme text from becoming
+   unreadable over each certification's deliberately dark accent surface. */
+html[data-theme="dark"] .exam-card,
+html[data-theme="dark"] .exam-card h3 { color: #f1f5f9; }
 .exam-card, .exam-card[data-state="granted"] {
   background: var(--exam-surface);
   border-color: var(--exam-accent);
