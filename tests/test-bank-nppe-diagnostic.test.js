@@ -258,7 +258,7 @@ test('untimed Diagnostic scores 50/50 and provides source-supported review only 
  const {dom,doc,win,errors}=await browser();try{
   doc.querySelector('[data-timing-kind="full"][data-timed="0"]').click();doc.querySelector('[data-mode="full"]').click();
   assert.equal(doc.querySelector('.tb-timer').textContent,'Untimed');assert.equal(doc.querySelector('#tb-feedback-loop'),null);
-  assert.equal(win.__TB.revealCurrentAnswer(),false);
+  assert.ok(doc.querySelector('[data-reveal]'),'untimed Diagnostic now offers assisted reveal');
   for(let i=0;i<EXPECTED_COUNT;i++){
    const qid=doc.querySelector('.tb-quiz').dataset.questionId;
    const item=win.__TB.getFeedbackSnapshot().records.find(r=>r.question.qid===qid);

@@ -773,11 +773,13 @@ test('Learning domain results preserve distinct denominators with one incorrect 
   });
  }finally{h.close();}
 });
-test('Diagnostic and Mocks retain answer-reveal protection and independent author selectors',async()=>{
+test('untimed Diagnostic supports optional penalised reveal while preserving bank isolation',async()=>{
  const h=await browser();const {doc,win,errors}=h;try{
   doc.querySelector('[data-timing-kind="full"][data-timed="0"]').click();doc.querySelector('[data-mode="full"]').click();
-  assert.equal(win.__TB.revealCurrentAnswer(),false);
-  assert.equal(doc.querySelector('[data-reveal]'),null);
+  assert.ok(doc.querySelector('[data-reveal]'));
+  assert.equal(win.__TB.revealCurrentAnswer(),true);
+  assert.equal(win.__TB.getFeedbackSnapshot().records.filter(r=>r.revealed).length,1);
+  assert.ok(doc.querySelector('.tb-navcell.revealed'));
   assert.equal(win.__TB.getFeedbackSnapshot().records.length,50);
   assert.deepEqual(errors,[]);
  }finally{h.close();}

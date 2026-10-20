@@ -62,7 +62,7 @@ function click(d, selector) {
   el.click();
 }
 
-test('published NPPE forms withhold answers in both timing modes and score only eligible items', async parent => {
+test('NPPE forms protect timed attempts and support penalised reveal in untimed practice', async parent => {
   const catalog = await harness();
   const exam = catalog.w.__TB.EXAMS.nppe;
   const forms = Array.from(exam.formCatalog)
@@ -87,10 +87,15 @@ test('published NPPE forms withhold answers in both timing modes and score only 
         assert.equal(original.setId, form.id);
         assert.equal(records.length, form.count);
         assert.ok(records.every(record => record.question.form === form.id && record.question.authorSet === form.owner));
-        assert.equal(d.querySelector('[data-reveal]'), null);
+        if (timed) {
+          assert.equal(d.querySelector('[data-reveal]'), null, 'timed exam has no reveal control');
+          assert.equal(w.__TB.revealCurrentAnswer(), false, 'programmatic timed reveal denied');
+        } else {
+          assert.ok(d.querySelector('[data-reveal]'), 'untimed exam shows Reveal Answer');
+          assert.match(d.querySelector('#tb-reveal-hint').textContent, /counts that question as incorrect/);
+        }
         assert.equal(d.querySelector('#tb-feedback-loop'), null);
         assert.equal(d.querySelector('#tb-revealed-answer'), null);
-        assert.equal(w.__TB.revealCurrentAnswer(), false, 'programmatic reveal is denied as well');
         assert.ok(records.every(record => !record.revealed));
         if (!timed) assert.equal(d.querySelector('.tb-timer').textContent, 'Untimed');
         const eligible = records.map((record, index) => ({record, index})).filter(({record}) => scored(record));
@@ -102,7 +107,8 @@ test('published NPPE forms withhold answers in both timing modes and score only 
         click(d, '[data-goto="' + first.index + '"]');
         click(d, '[data-opt="' + first.record.question.answer + '"]');
         click(d, '[data-flag]');
-        assert.equal(w.__TB.revealCurrentAnswer(), false);
+        if(timed) assert.equal(w.__TB.revealCurrentAnswer(), false);
+        else assert.equal(d.querySelector('[data-reveal]').disabled, false);
         click(d, '[data-goto="' + second.index + '"]');
         click(d, '[data-opt="' + ((second.record.question.answer + 1) % 4) + '"]');
         // A correctly answered experimental item must not increase the raw score.
@@ -472,8 +478,8 @@ test('ChatGPT Mock B Focused Quiz draws ten III Professional Practice items with
   assert.equal(s.records.length,10);
   assert.ok(s.records.every(r=>r.question.form==='set-1-mock-b'&&r.question.authorSet===1&&r.question.scored&&!r.question.experimental&&r.question.blueprint.startsWith('III.')));
   assert.equal(d.querySelector('.tb-timer').textContent,'Untimed');
-  assert.equal(d.querySelector('[data-reveal]'),null,'mock questions cannot reveal answer before submission');
-  assert.equal(w.__TB.revealCurrentAnswer(),false);
+  assert.ok(d.querySelector('[data-reveal]'),'untimed focused quiz offers Reveal Answer');
+  assert.match(d.querySelector('#tb-reveal-hint').textContent,/counts that question as incorrect/);
   click(d,'[data-goto="'+(s.records.length-1)+'"]');
   click(d,'[data-submit]');await wait();
   const result=w.__TB.getFeedbackSnapshot();
