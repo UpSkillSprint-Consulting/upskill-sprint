@@ -496,3 +496,30 @@ test('NPPE short quizzes fail closed when source blueprint metadata is inconsist
   assert.deepEqual(h.errors,[]);
  }finally{h.close();}
 });
+
+
+test('Area VI displays the canonical Regulation and Discipline label in selectors, summaries and results',async()=>{
+ const h=await harness(),{d,w}=h;
+ try{
+  for(const kind of ['quick','focus']){
+   const area=d.querySelector('select[data-nppe-area-kind="'+kind+'"]');
+   const option=Array.from(area.options).find(x=>x.value==='nppe-discipline');
+   assert.ok(option,'Missing Area VI for '+kind);
+   assert.match(option.textContent,/^VI Regulation and Discipline \(\d+\)$/);
+   assert.equal(option.disabled,false);
+  }
+  const selector=d.querySelector('select[data-nppe-area-kind="quick"]');
+  selector.value='nppe-discipline';
+  selector.dispatchEvent(new w.Event('change',{bubbles:true}));
+  assert.match(d.querySelector('[data-nppe-quiz-kind="quick"] .tb-mode-sum').textContent,/VI Regulation and Discipline/);
+  click(d,'[data-mode="quick"]');
+  const snapshot=w.__TB.getFeedbackSnapshot();
+  assert.ok(snapshot.records.length>0);
+  assert.ok(snapshot.records.every(r=>r.question.blueprint.startsWith('VI.')&&r.question.sub==='nppe-discipline'));
+  click(d,'[data-goto="'+(snapshot.records.length-1)+'"]');
+  click(d,'[data-submit]');
+  await wait();
+  assert.match(d.querySelector('#tb-overview h2').textContent,/VI Regulation and Discipline/);
+  assert.deepEqual(h.errors,[]);
+ }finally{h.close();}
+});

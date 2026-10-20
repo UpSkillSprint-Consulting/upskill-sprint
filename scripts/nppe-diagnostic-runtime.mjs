@@ -123,7 +123,7 @@ const helpers = String.raw`
     {code:'III',id:'nppe-practice',label:'Professional Practice'},
     {code:'IV',id:'nppe-law',label:'Law'},
     {code:'V',id:'nppe-professional-law',label:'Professional Law'},
-    {code:'VI',id:'nppe-discipline',label:'Discipline'}
+    {code:'VI',id:'nppe-discipline',label:'Regulation and Discipline'}
   ];
     var nppeQuizAreas={quick:'all',focus:''};
   function nppeAreaOf(e,q){
