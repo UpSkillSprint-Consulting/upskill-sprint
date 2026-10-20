@@ -24,8 +24,6 @@ export function integrateNPPEDiagnostic(source) {
   code = once(code, 'function startFull(){var e=', "function startFull(){if(current==='nppe')return nppeStart(selectedSet,mode.timed);var e=");
   code = once(code, "var names={full:'Full Exam',quick:'Quick Quiz',focus:'Focused Quiz'};", "var names={full:current==='nppe'?examNoun(EXAMS[current]):'Full Exam',quick:'Quick Quiz',focus:'Focused Quiz'};");
   code = once(code, "'<p class=\"tb-modenote\">Full Exam uses '+esc(examNoun(e))+' ('+fullExamCount(e)+' questions). Choose a test set separately inside Quick Quiz and Focused Quiz.</p>'", "(current==='nppe'?'<p class=\"tb-modenote\">Choose one bank below. Diagnostic and mock questions are never mixed.</p>':'<p class=\"tb-modenote\">Full Exam uses '+esc(examNoun(e))+' ('+fullExamCount(e)+' questions). Choose a test set separately inside Quick Quiz and Focused Quiz.</p>')");
-  code = once(code, "(!session.timed?'<button type=\"button\" class=\"tb-tbtn\" data-reveal", "((current!=='nppe'||session.setId==='set-1-learning')&&!session.timed?'<button type=\"button\" class=\"tb-tbtn\" data-reveal");
-  code = once(code, "(!session.timed?'<p id=\"tb-reveal-hint\"", "((current!=='nppe'||session.setId==='set-1-learning')&&!session.timed?'<p id=\"tb-reveal-hint\"");
   for (const [attr, text] of [['formulas', '\\u2630 Formulas'], ['tables', '\\u25a4 Tables'], ['calc', '\\u00f7 Calc']]) {
     const anchor = "'<button type=\"button\" class=\"tb-tbtn\" data-" + attr + ">" + text + "</button>'";
     code = once(code, anchor, "(current==='nppe'?'':" + anchor + ')');
@@ -41,7 +39,6 @@ export function integrateNPPEDiagnostic(source) {
   code = once(code, "'+sessionTitle+' &middot; '", "'+(current==='nppe'?'NPPE':sessionTitle)+' &middot; '");
   code = once(code, "mode={timed:true,quickTimed:false,focusTimed:false,quickSet:initial,focusSet:initial,quickN:20,focusDom:defaultFocusDomain(EXAMS[current],initial),focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};selectedSet=initial;}",
     "mode={timed:true,quickTimed:false,focusTimed:false,quickSet:initial,focusSet:initial,quickN:20,focusDom:defaultFocusDomain(EXAMS[current],initial),focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};selectedSet=initial;if(current==='nppe'){mode.quickN=20;mode.focusN=20;nppeQuizAreas.quick='all';nppeQuizAreas.focus='';}}");
-  code = once(code, '  function revealCurrentAnswer(){', "  function revealCurrentAnswer(){if(current==='nppe'&&(!session||session.setId!=='set-1-learning'||session.timed))return false;");
   code = once(code, '<div class="tb-status-key" aria-label="Question status legend">', '<div class="tb-status-key" role="group" aria-label="Question status legend">');
   return code;
 }
@@ -110,7 +107,7 @@ const helpers = String.raw`
   function nppeDescription(e,id){
     var form=formMeta(e,id),n=formQuestionCount(e,id);
     if(!form)return 'This bank is unavailable.';
-    if(form.kind==='diagnostic')return 'Diagnostic: '+n+' of '+form.target+' planned questions available. '+(n<form.target?'This is a partial diagnostic, not the complete 50-question assessment. ':'')+'All diagnostic questions are scored. Results identify study gaps; they do not predict an official NPPE pass.';
+    if(form.kind==='diagnostic')return 'Diagnostic: '+n+' of '+form.target+' planned questions available. '+(n<form.target?'This is a partial diagnostic, not the complete 50-question assessment. ':'')+'All diagnostic questions are scored. Untimed Reveal Answer is assisted practice and marks a scored question incorrect; results do not predict an official NPPE pass.';
     if(form.kind==='learning')return 'Learning: '+n+' of '+form.target+' planned questions available. '+(n<form.target?'This is a partial learning bank. ':'')+'Untimed Reveal Answer is available for study; revealed questions are assisted learning, not evidence of exam readiness.';
     return form.kind==='mock'?e.formatNote:'This bank is unavailable.';
   }
@@ -331,7 +328,8 @@ const helpers = String.raw`
     if(!f)return '<p>This bank is not ready.</p>';
     var minutes=f.kind==='mock'?150:Math.ceil(n*150/110);
     var hint=f.kind==='mock'?'100 scored · 10 simulated unscored':f.kind==='learning'?
-      'Untimed Learning offers optional answer reveal.':'All Diagnostic questions are scored.';
+      '120 original scored questions.':'All Diagnostic questions are scored.';
+    hint+=' Untimed practice supports Reveal Answer (scored items count as incorrect).';
     return '<section class="tb-mode nppe-mode-card" data-nppe-bank="'+esc(f.id)+'" aria-label="'+esc(f.label)+' Full Exam">'+
       '<div class="tb-mode-head"><span class="tb-mode-ic" aria-hidden="true">▤</span><div>'+
       '<h4>'+esc(f.label)+' — Full Exam</h4><p>'+n+' questions from '+esc(f.label)+' only. '+hint+'</p>'+
@@ -351,6 +349,7 @@ const helpers = String.raw`
     var areaName=areaId==='all'?'All six areas':subject?subject.code+' '+subject.label:'No available area';
     var description=quick?'A randomized quiz from your selected NPPE area or all six areas.':
       'Drill one Body of Knowledge area. Previously missed questions are prioritised when available.';
+    description+=' Untimed Reveal Answer marks scored questions incorrect.';
     return '<section class="tb-mode nppe-mode-card" data-nppe-bank="'+esc(f.id)+
       '" data-nppe-quiz-kind="'+kind+'" aria-label="'+esc(f.label)+' '+label+'">'+
       '<div class="tb-mode-head"><span class="tb-mode-ic" aria-hidden="true">'+(quick?'⚡':'◎')+

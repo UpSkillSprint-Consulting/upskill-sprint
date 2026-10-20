@@ -33,10 +33,14 @@ Independent legal/engineering review, empirical calibration, manual NVDA/VoiceOv
 
 ## Operations and sign-off sequence
 
-1. Validate published form catalog, counts, scoring, key separation, 150-minute timing, no active reveal, accessibility/keyboard automated tests, and release rules on exact branch head.
+1. Validate published form catalog, counts, scoring, key separation, 150-minute timing, no reveal in timed sittings, optional penalised reveal in untimed practice, accessibility/keyboard automated tests, and release rules on exact branch head.
 2. Run public-content audit and confirm non-NPPE exams remain unchanged.
 3. Merge reviewed release branch, verify production Netlify deployment and its protected API. Do **not** publish the NPPE catalog row until a functioning production NPPE package is confirmed.
 4. Publish or update `exam_catalog` NPPE row to `published`; do not change grant tables. Recheck the public directory (8 published / 1 coming soon), anonymous denial, and approved-user flow where authorized.
 5. Record the production commit/deploy and any unresolved test limitations; do not report launch as successful unless the production state was observed.
 
 **This is a documented owner release direction, not professional item approval or a claim of measured calibration.**
+
+## Five-state question-navigation parity (2026-10-20)
+
+Full, Quick and Focused practice across the six NPPE banks uses the same numbered status controls as the other certifications: slate-grey unanswered, teal answered (awaiting grading), blue answer revealed, orange flagged for review and the current-question outline. Untimed attempts offer Reveal Answer; revealed scored items are counted incorrect and cannot be changed afterward. Timed attempts still deny reveal. Full Mock A–D forms remain 110 questions with 100 scored and ten simulated unscored items, which do not affect the scored denominator even if revealed. This assisted mode is not a prediction of actual NPPE performance.
