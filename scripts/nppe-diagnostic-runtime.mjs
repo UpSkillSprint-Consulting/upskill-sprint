@@ -214,8 +214,7 @@ const helpers = String.raw`
     var tabs=[1,2,3].map(function(id){
       return '<button type="button" id="nppe-owner-'+id+'" class="nppe-author-tab" data-nppe-owner="'+id+
         '" role="tab" aria-selected="'+(owner===id)+'" aria-controls="nppe-banks-'+id+
-        '" tabindex="'+(owner===id?'0':'-1')+'"><span class="nppe-tab-number">Author set '+id+
-        '</span><span class="nppe-tab-name">'+names[id]+'</span></button>';
+        '" tabindex="'+(owner===id?'0':'-1')+'"><span class="nppe-tab-name">Set #'+id+'</span></button>';
     }).join('');
     var panels=[1,2,3].map(function(id){
       var forms=e.formCatalog.filter(function(f){return f.authorSet===id;});
@@ -242,7 +241,7 @@ const helpers = String.raw`
     }).join('');
     return '<section class="nppe-bank-picker" aria-label="Choose a practice bank"><div class="nppe-picker-head">'+
       '<h3>Choose your question bank</h3><p>One bank per attempt. No mixed questions.</p></div>'+
-      '<div class="nppe-author-tabs" role="tablist" aria-label="NPPE author sets">'+tabs+'</div>'+panels+'</section>';
+      '<div class="nppe-author-tabs" role="tablist" aria-label="NPPE question sets">'+tabs+'</div>'+panels+'</section>';
   }
   function wireNPPEOwners(){
     var host=document.getElementById('tb-overview');
