@@ -266,7 +266,7 @@ def main():
                     expect(page.locator('.nppe-hub .nppe-disclosure')).to_have_count(0)
                     request_link=page.locator('.nppe-hub a.tb-requestlink')
                     expect(request_link).to_have_count(1)
-                    expect(request_link).to_have_text('Request a certification exam')
+                    expect(request_link).to_have_text('Request Certificate Exam')
                     expect(request_link).to_have_attribute('href','/request-topic')
                     expect(page.locator('.nppe-hub')).not_to_contain_text('Mock C · Grok')
                     assert page.evaluate('''() => [...document.querySelectorAll(

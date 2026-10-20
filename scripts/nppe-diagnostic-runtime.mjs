@@ -324,7 +324,7 @@ const helpers = String.raw`
       '<div class="nppe-fact"><strong>110</strong><span>Questions each</span></div>'+
       '<div class="nppe-fact"><strong>150</strong><span>Minutes per mock</span></div></div>'+
       '<div class="nppe-workspace">'+nppeSelector(e)+'<div class="tb-modes nppe-modes">'+nppeModes(e)+'</div></div>'+
-      '<a class="tb-requestlink" href="/request-topic">Request a certification exam</a></div>';
+      '<a class="tb-requestlink" href="/request-topic">Request Certificate Exam</a></div>';
   }
 
   function nppeModes(e){
