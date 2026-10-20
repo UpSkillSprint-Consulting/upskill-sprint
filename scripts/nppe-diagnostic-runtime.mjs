@@ -40,6 +40,15 @@ export function integrateNPPEDiagnostic(source) {
   code = once(code, "mode={timed:true,quickTimed:false,focusTimed:false,quickSet:initial,focusSet:initial,quickN:20,focusDom:defaultFocusDomain(EXAMS[current],initial),focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};selectedSet=initial;}",
     "mode={timed:true,quickTimed:false,focusTimed:false,quickSet:initial,focusSet:initial,quickN:20,focusDom:defaultFocusDomain(EXAMS[current],initial),focusN:20,quickUnseen:false,focusUnseen:false,quickMissed:false,focusMissed:false};selectedSet=initial;if(current==='nppe'){mode.quickN=20;mode.focusN=20;nppeQuizAreas.quick='all';nppeQuizAreas.focus='';}}");
   code = once(code, '<div class="tb-status-key" aria-label="Question status legend">', '<div class="tb-status-key" role="group" aria-label="Question status legend">');
+  // Use generic scoring language: a learner must never discover which full-mock
+  // item is simulated unscored from its blue status, reveal panel or ARIA label.
+  code = once(code, 'Blue: revealed (counts as incorrect)', 'Blue: revealed (scored questions count as incorrect)');
+  code = once(code, 'Answer revealed — counted as incorrect', 'Answer revealed — scored questions count as incorrect');
+  code = once(code, 'Revealing an answer counts that question as incorrect.', 'Revealing an answer counts a scored question as incorrect.');
+  code = once(code, ' revealed (counted as incorrect)', ' revealed (scored questions count as incorrect)');
+  const ariaRevealText = 'answer revealed, counted as incorrect';
+  if(code.split(ariaRevealText).length !== 3) throw new Error('NPPE reveal navigation contract changed');
+  code = code.replaceAll(ariaRevealText, 'answer revealed; scored questions count as incorrect');
   return code;
 }
 
