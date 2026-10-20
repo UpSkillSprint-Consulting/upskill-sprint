@@ -229,7 +229,7 @@ test('complete Diagnostic displays 50 count and 69 minutes; other forms retain r
   assert.equal(doc.querySelector('[data-set="set-1-learning"]').disabled,false);
   for(const id of ['set-1-mock-a','set-1-mock-b','mock-c','mock-d'])assert.equal(doc.querySelector('[data-set="'+id+'"]').disabled,false);
   for(const id of ['set-1-mock-c','mock-e'])assert.equal(doc.querySelector('[data-set="'+id+'"]'),null);
-  assert.match(doc.getElementById('tb-overview').textContent,/50 of 50 planned/);
+  assert.match(doc.querySelector('.nppe-mode-card[data-nppe-bank="set-1-diagnostic"]:not([data-nppe-quiz-kind])').textContent,/50 questions from Diagnostic only/);
   assert.match(doc.getElementById('tb-overview').textContent,new RegExp(EXPECTED_MINUTES+' minutes'));
   assert.match(doc.querySelector('[data-mode="full"]').textContent,/Start Diagnostic/);
   assert.equal(doc.querySelector('[data-mode="quick"]').disabled,false);

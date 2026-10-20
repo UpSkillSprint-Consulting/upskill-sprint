@@ -41,13 +41,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
 <link rel="stylesheet" href="/lessons-theme.css">
-<script>
-  window.MathJax = {
-    tex: { inlineMath: [['\\(', '\\)'], ['$', '$']] },
-    svg: { fontCache: 'global' }
-  };
-</script>
-<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 <style>
 
 :root {
@@ -465,6 +458,7 @@
 </style>
   <script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
+  <script defer src="/assets/js/math.js"></script>
 </head>
 <body>
 <a class="skip-link" href="#lesson-content">Skip to lesson content</a>
@@ -667,7 +661,7 @@
 
         <div class="control-group">
           <label for="fd-alpha">Alpha</label>
-          <select id="fd-alpha" onchange="drawFDistribution()">
+          <select id="fd-alpha" onchange="drawFDistribution(); updateOneWayDecision()">
             <option value="0.10">0.10</option>
             <option value="0.05" selected>0.05</option>
             <option value="0.01">0.01</option>
@@ -1099,17 +1093,18 @@ function drawFDistribution(canvasId = "fCanvas") {
   document.getElementById("fd-critical").textContent = fmt(fCrit, 3);
   document.getElementById("fd-pvalue").textContent = fmt(pValue, 4);
   document.getElementById("fd-decision").textContent =
-    fStat > fCrit ? "Reject H₀: F is in the rejection region." :
+    pValue < alpha ? "Reject H₀: F is in the rejection region." :
                     "Fail to reject H₀: F is not in the rejection region.";
 }
 </script>
 
 <script>
   function parseValues(text) {
-    return text
+    const values = text
       .split(/[\s,;]+/)
-      .map(v => parseFloat(v))
-      .filter(v => Number.isFinite(v));
+      .filter(Boolean)
+      .map(Number);
+    return values.every(Number.isFinite) ? values : null;
   }
 
   function mean(arr) {
@@ -1120,15 +1115,40 @@ function drawFDistribution(canvasId = "fCanvas") {
     return arr.reduce((s, x) => s + Math.pow(x - center, 2), 0);
   }
 
+  let oneWayPValue = null;
+
+  function updateOneWayDecision() {
+    if (oneWayPValue === null) return;
+    const alpha = Number(document.getElementById("fd-alpha").value);
+    document.getElementById("ow-decision").textContent =
+      oneWayPValue < alpha
+        ? "Reject H₀. At least one group mean is significantly different."
+        : "Fail to reject H₀. There is not enough evidence that the group means are different.";
+  }
+
+  function clearOneWayResult(message) {
+    oneWayPValue = null;
+    ["ow-grand", "ow-ssb", "ow-ssw", "ow-f", "ow-p"].forEach(id => {
+      document.getElementById(id).textContent = "—";
+    });
+    document.getElementById("ow-table").textContent = "";
+    document.getElementById("ow-decision").textContent = message;
+  }
+
   function calculateOneWay() {
-    const groups = [
+    const parsedGroups = [
       { name: "Material A", values: parseValues(document.getElementById("groupA").value) },
       { name: "Material B", values: parseValues(document.getElementById("groupB").value) },
       { name: "Material C", values: parseValues(document.getElementById("groupC").value) }
-    ].filter(g => g.values.length > 0);
+    ];
+    if (parsedGroups.some(g => g.values === null)) {
+      clearOneWayResult("Enter only finite numeric values, separated by commas, spaces, semicolons, or line breaks.");
+      return;
+    }
+    const groups = parsedGroups.filter(g => g.values.length > 0);
 
     if (groups.length < 2) {
-      alert("Enter values for at least two groups.");
+      clearOneWayResult("Enter values for at least two groups.");
       return;
     }
 
@@ -1157,8 +1177,16 @@ function drawFDistribution(canvasId = "fCanvas") {
     const dfBetween = k - 1;
     const dfWithin = N - k;
     const dfTotal = N - 1;
+    if (dfWithin <= 0) {
+      clearOneWayResult("More observations are needed: within-group degrees of freedom must be positive.");
+      return;
+    }
     const msBetween = ssBetween / dfBetween;
     const msWithin = ssWithin / dfWithin;
+    if (msWithin === 0) {
+      clearOneWayResult("Within-group variance is zero. ANOVA cannot provide a valid F-test for these data. Check the data and measurement resolution.");
+      return;
+    }
     const f = msBetween / msWithin;
     const p = fRightTailP(f, dfBetween, dfWithin);
 
@@ -1167,10 +1195,8 @@ function drawFDistribution(canvasId = "fCanvas") {
     document.getElementById("ow-ssw").textContent = fmt(ssWithin, 2);
     document.getElementById("ow-f").textContent = fmt(f, 3);
     document.getElementById("ow-p").textContent = fmt(p, 4);
-    document.getElementById("ow-decision").textContent =
-      p < 0.05
-        ? "Reject H₀. At least one group mean is significantly different."
-        : "Fail to reject H₀. There is not enough evidence that the group means are different.";
+    oneWayPValue = p;
+    updateOneWayDecision();
 
     document.getElementById("ow-table").innerHTML = `
       <h3>Calculation Table</h3>
@@ -1223,10 +1249,8 @@ function drawFDistribution(canvasId = "fCanvas") {
 
     document.getElementById("fd-d1").value = dfBetween;
     document.getElementById("fd-d2").value = dfWithin;
-    document.getElementById("fd-fstat").value = fmt(f, 3);
+    document.getElementById("fd-fstat").value = String(f);
     drawFDistribution();
-
-    if (window.MathJax) MathJax.typesetPromise();
   }
 
   function resetOneWay() {
