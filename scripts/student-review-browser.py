@@ -189,7 +189,12 @@ def main():
                 expect(page.locator('[data-reveal]')).to_be_enabled()
                 page.locator('[data-reveal]').click()
                 expect(page.locator('.tb-navcell.revealed')).to_have_count(2)
-                page.locator(f'[data-goto="{selected_index}"]').click()
+                # Reveal can scroll/resize the quiz in WebKit; complete return navigation
+                # by keyboard, then verify the current-question indicator before
+                # interpreting the original answer control.
+                selected_nav=page.locator(f'[data-goto="{selected_index}"]')
+                selected_nav.focus();page.keyboard.press('Enter')
+                expect(selected_nav).to_have_attribute('aria-current','step')
                 assert page.evaluate('(i)=>__TB.getFeedbackSnapshot().records[i].selected',selected_index)==selected_question['answer']
                 if interactive_question(selected_question):
                     expect(page.locator('.pmp2-answers :is(input,select,button):not(:disabled)')).to_have_count(0)
