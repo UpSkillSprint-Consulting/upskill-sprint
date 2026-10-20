@@ -345,13 +345,20 @@ def main():
                     page.locator('[data-mode="full"]').click()
                     expect(page.locator('.tb-quiz')).to_be_visible()
                     expect(page.locator('[data-goto]')).to_have_count(EXPECTED_COUNT)
-                    expect(page.locator('[data-reveal]')).to_have_count(0)
-                    assert page.evaluate('window.__TB.revealCurrentAnswer()') is False
+                    expect(page.locator('[data-reveal]')).to_be_visible()
+                    expect(page.locator('.tb-status-key')).to_be_visible()
+                    for status in ['Slate grey: unanswered','Teal: answered, awaiting grading',
+                                   'Blue: revealed (counts as incorrect)','Orange: flagged for review',
+                                   'Outline: current question']:
+                        expect(page.locator('.tb-status-key')).to_contain_text(status)
+                    expect(page.locator('.tb-navcell.cur')).to_have_count(1)
                     expect(page.locator('#tb-feedback-loop')).to_have_count(0)
                     expect(page.locator('[data-flag]')).to_be_visible()
                     expect(page.locator('.tb-diag-kick')).not_to_contain_text('Sample diagnostic')
                     page.locator('[data-opt="1"]').click()
+                    expect(page.locator('.tb-navcell.cur')).to_have_class(re.compile(r'\\bdone\\b'))
                     page.locator('[data-flag]').click()
+                    expect(page.locator('.tb-navcell.cur')).to_have_class(re.compile(r'\\bflag\\b'))
                     page.locator('[data-next]').click()
                     page.locator('[data-goto="0"]').click()
                     expect(page.locator('[data-opt="1"]')).to_have_attribute('aria-pressed', 'true')
@@ -374,17 +381,17 @@ def main():
                         item = page.evaluate('i=>{const q=window.__TB.getFeedbackSnapshot().records[i].question;return {answer:q.answer,batch:q.batch};}', index)
                         if item['batch'] == 3:
                             header_images_fit()
-                            expect(page.locator('[data-reveal]')).to_have_count(0)
+                            expect(page.locator('[data-reveal]')).to_be_visible()
                             expect(page.locator('#tb-feedback-loop')).to_have_count(0)
                             batch3_checked += 1
                         if item['batch'] == 4:
                             header_images_fit()
-                            expect(page.locator('[data-reveal]')).to_have_count(0)
+                            expect(page.locator('[data-reveal]')).to_be_visible()
                             expect(page.locator('#tb-feedback-loop')).to_have_count(0)
                             batch4_checked += 1
                         if item['batch'] == 5:
                             header_images_fit()
-                            expect(page.locator('[data-reveal]')).to_have_count(0)
+                            expect(page.locator('[data-reveal]')).to_be_visible()
                             expect(page.locator('#tb-feedback-loop')).to_have_count(0)
                             batch5_checked += 1
                         page.locator(f'[data-opt="{item["answer"]}"]').click()
