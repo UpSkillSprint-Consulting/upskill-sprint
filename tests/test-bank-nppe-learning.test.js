@@ -687,7 +687,7 @@ test('Set 1 Learning becomes available with 120 of 120, while Diagnostic and Moc
    for(const id of ['set-1-mock-a','set-1-mock-b','mock-c','mock-d'])assert.equal(doc.querySelector('[data-set="'+id+'"]').disabled,false);
    for(const id of ['set-1-mock-c','mock-e'])assert.equal(doc.querySelector('[data-set="'+id+'"]'),null);
   pickLearning(doc);
-  assert.match(doc.querySelector('#tb-overview').textContent,/120 of 120 planned/);
+  assert.match(doc.querySelector('.nppe-mode-card[data-nppe-bank="set-1-learning"]:not([data-nppe-quiz-kind])').textContent,/120 questions from Learning only/);
   assert.match(doc.querySelector('#tb-overview').textContent,/164 minutes/);
   assert.doesNotMatch(doc.querySelector('#tb-overview').textContent,/partial learning bank/i);
   assert.match(doc.querySelector('#tb-overview .tb-soon').textContent,/Available for practice/);
