@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const test = require('node:test');
 const fs = require('node:fs');
 const path = require('node:path');
+const { JSDOM } = require('jsdom');
 
 const ROOT = path.join(__dirname, '..');
 const SLUG = 'hierarchical-data-analysis-steel-charpy';
@@ -44,4 +45,37 @@ test('hierarchical practice dataset and catalog registration are complete', () =
     assert.ok(catalog.includes("path: '/lessons/data-analytics/hierarchical-data-analysis-steel-charpy'"));
     assert.ok(catalog.includes("marker: 'data-beyond-the-bell'"), 'build insertion point remains intact');
   }
+});
+
+test('scenario counts distinguish nested totals from independent clusters', () => {
+  const dom = new JSDOM(fs.readFileSync(LESSON, 'utf8'), { runScripts: 'dangerously' });
+  const document = dom.window.document;
+  const output = () => document.getElementById('scenario-output').textContent;
+  try {
+    assert.doesNotMatch(output(), /Only about 4 independent units/);
+    assert.match(output(), /Pipe \(4 per parent; about 144 total; clustered\)/);
+    assert.match(output(), /Charpy specimen \(3 per parent; about 432 total; clustered\)/);
+    assert.doesNotMatch(document.querySelector('.ranked-model h4').textContent, /Descriptive/);
+
+    document.querySelector('.level-count').value = '3';
+    document.getElementById('apply-scenario').click();
+    assert.match(output(), /Only 3 independent Heat units/);
+    assert.match(document.querySelector('.ranked-model h4').textContent, /Descriptive/);
+
+    document.getElementById('reset-scenario').click();
+    const relation = document.querySelectorAll('.level-relation')[1];
+    relation.value = 'crossed';
+    relation.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+    assert.match(output(), /distinct total unknown/);
+    assert.doesNotMatch(output(), /about (144|432) total/);
+  } finally {
+    dom.window.close();
+  }
+});
+
+test('leave-one-heat-out refits the original mixed model and reads fixed effects', () => {
+  const html = fs.readFileSync(LESSON, 'utf8');
+  const loo = html.match(/loo &lt;- lapply[\s\S]*?do\.call\(rbind, loo\)/)[0];
+  assert.match(loo, /update\(m, data = filter\(d, heat_id != h\)\)/);
+  assert.match(loo, /fixef\(fit\)\["ca_ppm"\]/);
 });
