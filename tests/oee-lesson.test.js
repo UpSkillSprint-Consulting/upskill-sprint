@@ -74,6 +74,21 @@ test('the worked example and the calculator agree', () => {
   assert.match(html, /68\.44 %/, 'the prose quotes the same OEE');
 });
 
+test('the minutes Pareto caption agrees with the displayed ranking', () => {
+  const win = lessonWindow();
+  try {
+    const d = win.document;
+    d.querySelector('[data-pareto="minutes"]').click();
+    const labels = [...d.querySelectorAll('#p-chart text[text-anchor="end"]')]
+      .map(el => el.textContent);
+    assert.deepEqual(labels.slice(0, 3), ['Setup', 'Minor stops', 'Breakdown']);
+    assert.match(d.getElementById('p-caption').textContent,
+      /minor stops rank 2 and setup leads/);
+  } finally {
+    win.close();
+  }
+});
+
 test('the calculator reconciles its own checks by default', () => {
   const d = lessonWindow().document;
   const verdict = d.getElementById('c-verdict');
