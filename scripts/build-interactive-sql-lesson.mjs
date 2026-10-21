@@ -37,7 +37,7 @@ if (extraction.status !== 0) {
 
 // Keep native Tab/Shift+Tab navigation available in the generated editor.
 const sqlScriptPath = path.join(lessonsDir, 'writing-your-first-sql-query.js');
-const sqlScript = fs.readFileSync(sqlScriptPath, 'utf8');
+let sqlScript = fs.readFileSync(sqlScriptPath, 'utf8');
 const tabIndentation = `    if (event.key === "Tab") {
       event.preventDefault();
       var start = editor.selectionStart, end = editor.selectionEnd;
@@ -48,11 +48,40 @@ const tabIndentation = `    if (event.key === "Tab") {
 if (!sqlScript.includes(tabIndentation)) {
   throw new Error('The SQL editor Tab handler was not found in the source payload.');
 }
-fs.writeFileSync(sqlScriptPath, sqlScript.replace(tabIndentation, ''));
+sqlScript = sqlScript.replace(tabIndentation, '');
+
+// Aliases and joins without ON can be valid SQL; let SQLite parse them.
+const invalidSyntaxGuards = [
+  String.raw`    if (/\bJOIN\b/i.test(normalized) && !/\bON\b/i.test(normalized)) return { title: "JOIN condition is missing", body: "JOIN adds another table, but ON must explain how rows in the two tables match.", correction: "JOIN customers AS c\n  ON p.customer_id = c.customer_id" };`,
+  String.raw`    var selectMatch = normalized.match(/^SELECT\s+([\s\S]+?)\s+FROM\b/i);
+    if (selectMatch) {
+      var known = "(?:order_id|customer_id|product|grade|line|quantity|status|scrap_tonnes|test_id|test_type|result_value|unit|test_status|test_date|customer_name|region|industry)";
+      var missingComma = new RegExp("\\b" + known + "\\s+" + known + "\\b", "i");
+      if (missingComma.test(selectMatch[1]) && selectMatch[1].indexOf(",") < 0) return { title: "A comma may be missing", body: "Separate each selected column with a comma.", correction: "SELECT order_id, product, grade\nFROM production_orders;" };
+    }`
+];
+for (const guard of invalidSyntaxGuards) {
+  if (!sqlScript.includes(guard)) throw new Error('The obsolete SQL syntax guard was not found.');
+  sqlScript = sqlScript.replace(`${guard}\n`, '');
+}
+fs.writeFileSync(sqlScriptPath, sqlScript);
 
 // Keep search and social titles concise without changing the uploaded lesson.
 const sqlLessonPath = path.join(lessonsDir, 'writing-your-first-sql-query.html');
-const sqlLesson = fs.readFileSync(sqlLessonPath, 'utf8');
+let sqlLesson = fs.readFileSync(sqlLessonPath, 'utf8');
+const syntaxCorrections = [
+  ['<th>Why it fails</th>', '<th>What happens</th>'],
+  ['<tr><td>Missing comma</td><td>SQL reads two column names as one invalid expression.</td><td><code>SELECT product, grade</code></td></tr>',
+    '<tr><td>Missing comma when two columns were intended</td><td><code>SELECT product grade</code> is valid: it returns product under the alias grade, not two columns.</td><td>Use <code>SELECT product, grade</code> for two columns, or <code>SELECT product AS grade</code> for an explicit alias.</td></tr>'],
+  ['<tr><td>Join without <code>ON</code></td><td>The database does not know how rows in the two tables correspond.</td><td><code>ON p.customer_id = c.customer_id</code></td></tr>',
+    '<tr><td>Unintended all-pairs join</td><td>In SQLite, a plain <code>JOIN</code> without <code>ON</code> or <code>USING</code> returns every pair of rows. <code>CROSS JOIN</code> does this deliberately; <code>NATURAL JOIN</code> instead matches all shared column names.</td><td>For related orders and customers, use <code>ON p.customer_id = c.customer_id</code> or <code>USING (customer_id)</code>. Check the intended relationship and row count.</td></tr>'],
+  ['<strong>JOIN</strong> connects tables through a valid key relationship stated in an ON condition.',
+    '<strong>JOIN</strong> combines tables. Use <code>ON</code> or <code>USING</code> for an explicit matching condition; use <code>CROSS JOIN</code> when every pair of rows is intended.']
+];
+for (const [original, replacement] of syntaxCorrections) {
+  if (!sqlLesson.includes(original)) throw new Error('The SQL syntax explanation was not found.');
+  sqlLesson = sqlLesson.replace(original, replacement);
+}
 const headEnd = sqlLesson.indexOf('</head>');
 if (headEnd < 0) throw new Error('SQL lesson head was not found.');
 const editorHelp = 'Press Control Enter or Command Enter to run the query. Press Tab to indent.';
