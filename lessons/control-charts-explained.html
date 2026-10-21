@@ -530,6 +530,7 @@ html[data-theme="dark"] .num-steps li::before { color: #0b1220; }
 
 <script src="/theme.js"></script>
 <script src="/site-sections.js"></script>
+<script defer src="/assets/js/math.js"></script>
 </head>
 <body
   data-lesson-page="true"
@@ -641,9 +642,12 @@ html[data-theme="dark"] .num-steps li::before { color: #0b1220; }
   <p>A control chart is your measurement plotted in time order, with three horizontal lines:</p>
   <ul class="objectives-list">
     <li><strong>Centre line (CL)</strong> &mdash; the process average.</li>
-    <li><strong>Upper and lower control limits (UCL, LCL)</strong> &mdash; drawn at &plusmn;3&sigma; of the plotted statistic.
-      For a stable process, 99.73% of points fall between them, so a point outside is a genuine rarity &mdash; a signal, not noise.</li>
+    <li><strong>Upper and lower control limits (UCL, LCL)</strong> &mdash; typically drawn three standard deviations either side of the centre line for the plotted statistic.
+      The familiar \(99.73\%\) coverage assumes a normal plotted statistic with known mean and standard deviation. A point outside is a signal to investigate; common-cause variation can also produce a false alarm.</li>
   </ul>
+  <p>For a standard normal variable \(Z\), with cumulative distribution function \(\Phi\),</p>
+  <p>\[ \Pr(-3 \le Z \le 3) = \Phi(3) - \Phi(-3) \approx 0.9973002. \]</p>
+  <p>The corresponding single-point false-alarm probability is approximately \(0.27\%\). Estimated limits and non-normal plotted statistics can change this probability; additional run rules change the overall false-alarm behaviour.</p>
   <p>The limits are computed <strong>from the process&rsquo;s own data</strong> &mdash; they are the voice of the process.
     Nobody chooses them, and that&rsquo;s the point: the chart defines &ldquo;normal for this process&rdquo; and then flags departures from it.</p>
 </section>
@@ -767,12 +771,12 @@ html[data-theme="dark"] .num-steps li::before { color: #0b1220; }
         <tr><td><strong>Set by</strong></td><td>The process&rsquo;s own data (&plusmn;3&sigma;)</td><td>The customer, drawing, or regulation</td></tr>
         <tr><td><strong>Question answered</strong></td><td>&ldquo;Has the process changed?&rdquo;</td><td>&ldquo;Is this unit acceptable?&rdquo;</td></tr>
         <tr><td><strong>Voice of&hellip;</strong></td><td>The process</td><td>The customer</td></tr>
-        <tr><td><strong>Drawn on the chart?</strong></td><td>Yes &mdash; they define the chart</td><td>No &mdash; specs belong in capability analysis</td></tr>
+        <tr><td><strong>Drawn on the chart?</strong></td><td>Yes &mdash; they define the chart</td><td>Optional, clearly labelled reference lines on an individuals chart; they do not determine stability</td></tr>
       </tbody>
     </table>
   </div>
   <div class="callout tip">
-    <strong>The two tools together:</strong> a control chart proves the process is <em>stable</em>; a
+    <strong>The two tools together:</strong> a control chart helps assess whether the process is <em>stable</em>; a
     <a href="/lessons/lean-six-sigma/process-capability-cp-and-cpk">capability study</a> then asks whether that stable
     process is <em>good enough</em> for the spec. In control &ne; capable &mdash; a process can be perfectly stable at
     producing 10% scrap.
@@ -783,8 +787,8 @@ html[data-theme="dark"] .num-steps li::before { color: #0b1220; }
 <section id="mistakes" aria-labelledby="mistakes-h">
   <h2 id="mistakes-h">Common mistakes</h2>
   <div class="callout warn">
-    <strong>Drawing spec limits on the control chart.</strong> It invites judging stability by customer limits &mdash; two
-    unrelated questions. Keep specs in the capability analysis where they belong.
+    <strong>Using spec limits to judge stability.</strong> Specifications judge conformance; control limits assess process behaviour.
+    If specification reference lines are shown on an individuals chart, label them distinctly. Do not apply individual-unit specifications directly to subgroup averages.
   </div>
   <div class="callout warn">
     <strong>Tampering.</strong> Adjusting the process after every point that isn&rsquo;t exactly on target treats noise as
@@ -908,8 +912,8 @@ html[data-theme="dark"] .num-steps li::before { color: #0b1220; }
       <li><strong>Know the I-MR constants cold:</strong> UCL/LCL = x&#772; &plusmn; <strong>2.66</strong> M&#772;R, and the MR chart&rsquo;s
         UCL = <strong>3.267</strong> M&#772;R. For X&#772;-R charts, limits use A<sub>2</sub>, D<sub>3</sub>, D<sub>4</sub> from the
         constants table the exam provides &mdash; practice reading that table quickly.</li>
-      <li><strong>Control vs spec limits</strong> is a near-guaranteed question: control limits come from the process (&plusmn;3&sigma;),
-        spec limits from the customer, and specs never appear on a control chart.</li>
+      <li><strong>Control vs spec limits</strong> is a near-guaranteed question: control limits come from the process (typically \(\pm 3\sigma\)),
+        spec limits from the customer. Specification reference lines, when appropriate, must remain distinct from control limits.</li>
       <li><strong>&ldquo;In control&rdquo; &ne; &ldquo;capable&rdquo;</strong> &mdash; and stability is the prerequisite for
         capability analysis, not the other way round.</li>
       <li><strong>Chart selection follows data type:</strong> continuous &rarr; I-MR / X&#772;-R / X&#772;-S by subgroup size;
@@ -1031,7 +1035,7 @@ html[data-theme="dark"] .num-steps li::before { color: #0b1220; }
     <li>A control chart plots data in time order against <strong>CL and &plusmn;3&sigma; control limits</strong> computed from the process itself.</li>
     <li>The big three rules: <strong>beyond a limit, 8 one side, 6 trending</strong> &mdash; patterns inside the limits can be signals too.</li>
     <li>I-MR limits: <strong>x&#772; &plusmn; 2.66 &times; M&#772;R</strong>; chart choice follows data type and subgrouping.</li>
-    <li><strong>Control limits are the voice of the process; spec limits the voice of the customer</strong> &mdash; never draw specs on the chart.</li>
+    <li><strong>Control limits are the voice of the process; spec limits the voice of the customer</strong> &mdash; assess stability with control limits and conformance with specifications.</li>
     <li><strong>In control &ne; capable:</strong> stability first, then a capability study.</li>
   </ul>
   <div class="remember">
