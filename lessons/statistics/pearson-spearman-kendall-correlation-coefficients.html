@@ -170,6 +170,7 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
 </style>
   <script src="/theme.js"></script>
   <script src="/site-sections.js"></script>
+  <script defer src="/assets/js/math.js"></script>
 </head>
 <body data-lesson-page="true" data-category="statistics" data-level="intermediate" data-interactive="true" data-lesson-type="general">
 <input type="checkbox" id="mnav-check" class="mnav-check" aria-hidden="true">
@@ -188,7 +189,7 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
       <div class="lesson-meta-row"><span class="pill accent">Statistics</span><span class="pill">Intermediate</span><span class="pill">Interactive</span><span class="pill">~50 min</span></div>
       <h1 id="lesson-title">Pearson, Spearman &amp; Kendall: Choosing the Right Correlation Coefficient</h1>
       <p class="lesson-lede">When you select a correlation metric, you are fundamentally choosing <strong>how you want to measure association</strong> between two variables. The three most common coefficients &mdash; <strong>Pearson</strong>, <strong>Spearman</strong>, and <strong>Kendall</strong> &mdash; differ in their assumptions, their sensitivity to outliers and non-linearity, and exactly what number they hand you at the end. Picking the wrong one doesn't just give you an imprecise answer &mdash; it can give you a confidently wrong one.</p>
-      <div class="why-it-matters"><strong>Why it matters:</strong> Reporting a Pearson r on skewed, outlier-heavy, or ranked engineering data is one of the most common statistics mistakes on the shop floor &mdash; and one of the more commonly tested distinctions on the ASQ CSSBB and CQE exams.</div>
+      <div class="why-it-matters"><strong>Why it matters:</strong> Choosing Pearson \(r\) solely because data look normal, or rejecting it solely because they are skewed, can answer the wrong question. Start with the association you want to measure and inspect the scatterplot.</div>
     </section>
 
     <nav class="lesson-toc" aria-label="Lesson sections">
@@ -232,9 +233,9 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
           <h4>Key properties</h4>
           <ul class="objectives-list">
             <li>Range: &minus;1 to +1</li>
-            <li>Assumes a <strong>linear</strong> relationship</li>
+            <li>Measures <strong>linear</strong> association</li>
             <li>Assumes continuous (interval/ratio) data</li>
-            <li>Assumes approximate normality and homoscedasticity</li>
+            <li>Calculating \(r\) requires neither normality nor homoscedasticity. The usual exact significance test assumes independent pairs from a bivariate normal population.</li>
             <li>Highly sensitive to <strong>outliers</strong></li>
           </ul>
         </div>
@@ -248,7 +249,7 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
           </ul>
         </div>
       </div>
-      <p class="callout success">If your data are roughly normal and you already expect linearity from the physics or process &mdash; for example, temperature vs. a mechanical property &mdash; <strong>use Pearson.</strong></p>
+      <p class="callout success">If your question concerns linear association between quantitative measurements &mdash; for example, temperature vs. a mechanical property &mdash; <strong>use Pearson.</strong> Check the scatterplot for outliers, and assess the assumptions of any significance test or confidence interval separately.</p>
     </section>
 
     <section id="spearman" aria-labelledby="spearman-h">
@@ -273,7 +274,7 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
           <h4>Interpretation &amp; when to use</h4>
           <ul class="objectives-list">
             <li>Measures whether, as X increases, Y tends to increase (or decrease) consistently</li>
-            <li>Best for non-normal or skewed data, ordinal data, and monotonic-but-curved relationships</li>
+            <li>Best for ordinal data, monotonic-but-curved relationships, and questions about rank association</li>
           </ul>
         </div>
       </div>
@@ -290,8 +291,8 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
       <h3>What it measures</h3>
       <p>Association based on <strong>concordant vs. discordant pairs</strong>. Take every possible pair of observations. If the pair agrees on ordering &mdash; the one with the bigger X also has the bigger Y &mdash; it's <strong>concordant</strong>. If they disagree, it's <strong>discordant</strong>. Kendall's tau is built directly from that tally.</p>
       <div class="formula-box">
-        <div class="math">&tau;&nbsp;=&nbsp;<span class="frac"><span class="top">C&nbsp;&minus;&nbsp;D</span><span class="bottom">&frac12;n(n&minus;1)</span></span></div>
-        <p class="formula-caption">C = number of concordant pairs, D = number of discordant pairs. (The version used below and by most software, &ldquo;tau-b,&rdquo; adjusts the denominator to account for tied ranks.)</p>
+        <div class="math">\[\tau_b = \frac{C-D}{\sqrt{(C+D+T_x)(C+D+T_y)}}\]</div>
+        <p class="formula-caption">\(C\) and \(D\) count concordant and discordant pairs. \(T_x\) and \(T_y\) count pairs tied only on \(X\) and only on \(Y\), respectively. Pairs tied on both variables are excluded from all four counts. With no ties, the denominator is \(n(n-1)/2\), where \(n\) is the number of observations. If the denominator is zero, the coefficient is undefined.</p>
       </div>
       <div class="grid-2">
         <div class="panel soft-panel">
@@ -352,9 +353,9 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
             <tr><td>Type</td><td>Parametric</td><td>Nonparametric</td><td>Nonparametric</td></tr>
             <tr><td>Measures</td><td>Linear relationship</td><td>Monotonic relationship</td><td>Monotonic relationship</td></tr>
             <tr><td>Data type</td><td>Continuous</td><td>Ordinal / continuous</td><td>Ordinal / continuous</td></tr>
-            <tr><td>Normality required</td><td>Yes</td><td>No</td><td>No</td></tr>
+            <tr><td>Normality needed to calculate the coefficient</td><td>No</td><td>No</td><td>No</td></tr>
             <tr><td>Outlier sensitivity</td><td>High</td><td>Moderate</td><td>Low</td></tr>
-            <tr><td>Best for</td><td>Linear engineering data</td><td>Ranked or skewed data</td><td>Small samples, theoretical rigor</td></tr>
+            <tr><td>Best for</td><td>Linear engineering data</td><td>Ranked or monotonic-but-curved data</td><td>Small samples, theoretical rigour</td></tr>
           </tbody>
         </table>
       </div>
@@ -421,7 +422,7 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
           </div>
         </div>
         <div class="button-row"><button type="button" class="btn" id="calc-btn">Calculate</button><button type="button" class="btn ghost" id="calc-clear-btn">Clear</button></div>
-        <div class="error-box" id="calc-error" hidden></div>
+        <div class="error-box" id="calc-error" role="alert" hidden></div>
         <div class="side-chart-grid" style="margin-top:1.1rem" id="calc-results" hidden>
           <div class="chart-shell side-chart-panel">
             <h3>Scatterplot of your data</h3>
@@ -443,7 +444,7 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
     <section id="decision-rule" aria-labelledby="decision-rule-h">
       <h2 id="decision-rule-h">Practical decision rule</h2>
       <ol class="steps">
-        <li><strong>Is the data continuous and roughly normal, and do you expect a straight-line relationship?</strong> &rarr; Use <strong>Pearson</strong>.</li>
+        <li><strong>Are the data quantitative, and is linear association the question of interest?</strong> &rarr; Use <strong>Pearson</strong>; inspect the scatterplot and check inferential assumptions separately.</li>
         <li><strong>Is the relationship monotonic but not linear?</strong> &rarr; Use <strong>Spearman</strong>.</li>
         <li><strong>Is the sample small, or are there many tied ranks?</strong> &rarr; Use <strong>Kendall</strong>.</li>
       </ol>
@@ -513,12 +514,12 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
           </tbody>
         </table>
       </div>
-      <p class="callout"><strong>Which option should you choose?</strong> Start from the decision rule, not the menu: run <code>Stat &rarr; Basic Statistics &rarr; Correlation</code> with Method set to Pearson when you expect linearity and normality, switch the same dialog's Method to Spearman when the relationship is monotonic but not linear or the data are ordinal, and fall back to a manual or external Kendall's tau calculation for small, tie-heavy samples.</p>
+      <p class="callout"><strong>Which option should you choose?</strong> Start from the decision rule, not the menu: run <code>Stat &rarr; Basic Statistics &rarr; Correlation</code> with Method set to Pearson when linear association between quantitative measurements is the question of interest, switch the same dialog's Method to Spearman when the relationship is monotonic but not linear or the data are ordinal, and fall back to a manual or external Kendall's tau calculation for small, tie-heavy samples. Assess the assumptions of any significance test or confidence interval separately.</p>
 
       <h3>Exam Tips</h3>
       <ul class="takeaways">
         <li><strong>Correlation &ne; causation, every time it's tested.</strong> ASQ CSSBB/CQE items frequently plant a high r and ask what conclusion is <em>defensible</em> &mdash; the answer is rarely &ldquo;X causes Y.&rdquo;</li>
-        <li><strong>Match the assumption to the data before picking a formula.</strong> A question describing skewed, ordinal, or ranked engineering data (defect severity tiers, inspector scores) is cueing you toward Spearman or Kendall, not Pearson.</li>
+        <li><strong>Match the measure to the question before picking a formula.</strong> Ordinal or ranked engineering data (defect severity tiers, inspector scores) suggest Spearman or Kendall. Skewness alone does not rule out Pearson.</li>
         <li><strong>Know why r can mislead.</strong> Exam scenarios love the &ldquo;one extreme outlier&rdquo; setup precisely because it shows Pearson's sensitivity &mdash; if the question hinges on a couple of unusual points, expect Spearman/Kendall to be the more defensible answer.</li>
         <li><strong>Connect r to regression.</strong> r&sup2; (via <code>RSQ</code>) is the proportion of variance in Y explained by a simple linear fit on X &mdash; a common bridge question between correlation and regression topics.</li>
         <li><strong>Ties matter for both real analysis and exam wording.</strong> If a scenario mentions repeated or tied ranks, that's the cue for Kendall's tau-b or a rank-based Spearman calculation, not the tie-naive shortcut formula.</li>
@@ -535,8 +536,8 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
   <div class="quiz">
     <div class="quiz-head"><h3>Comprehension quiz</h3><p>Pick the strongest answer, then submit. Explanations appear after you submit.</p></div>
     <form id="quiz-form">
-      <fieldset class="quiz-question" data-answer="b" data-explanation="Pearson correlation specifically measures the strength of a linear relationship and assumes approximate normality and continuous data; it says nothing directly about monotonic-but-curved patterns.">
-        <legend>1. Which coefficient measures only a linear association and typically assumes approximately normal, continuous data?</legend>
+      <fieldset class="quiz-question" data-answer="b" data-explanation="Pearson correlation summarises linear association. Calculating the coefficient requires neither normality nor homoscedasticity; the usual exact significance test assumes independent pairs from a bivariate normal population.">
+        <legend>1. Which coefficient measures linear association using raw quantitative values, without requiring normality to calculate it?</legend>
         <label class="quiz-option"><input type="radio" name="q1" value="a"> Kendall's tau</label>
         <label class="quiz-option"><input type="radio" name="q1" value="b"> Pearson correlation</label>
         <label class="quiz-option"><input type="radio" name="q1" value="c"> Spearman's rho</label>
@@ -602,6 +603,8 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
 
   /* ---------- shared math helpers ---------- */
   function mean(a){ var s=0; for (var i=0;i<a.length;i++) s+=a[i]; return s/a.length; }
+  function isConstant(a){ return a.every(function(v){ return v===a[0]; }); }
+  function formatCorrelation(value){ return Number.isFinite(value) ? value.toFixed(3) : 'Undefined'; }
 
   function rankArray(values){
     var n = values.length;
@@ -620,10 +623,11 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
   }
 
   function pearson(x,y){
+    if (isConstant(x) || isConstant(y)) return NaN;
     var n = x.length, mx = mean(x), my = mean(y);
     var sxy=0, sxx=0, syy=0;
     for (var i=0;i<n;i++){ var dx=x[i]-mx, dy=y[i]-my; sxy+=dx*dy; sxx+=dx*dx; syy+=dy*dy; }
-    if (sxx===0 || syy===0) return 0;
+    if (sxx===0 || syy===0) return NaN;
     return sxy/Math.sqrt(sxx*syy);
   }
 
@@ -641,9 +645,8 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
         if (s>0) C++; else D++;
       }
     }
-    var n0 = n*(n-1)/2;
-    var denom = Math.sqrt((n0-Tx)*(n0-Ty));
-    if (denom===0) return 0;
+    var denom = Math.sqrt((C+D+Tx)*(C+D+Ty));
+    if (denom===0) return NaN;
     return (C-D)/denom;
   }
 
@@ -698,15 +701,16 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
     svg.appendChild(svgEl('line', { x1:zeroX, y1:top, x2:zeroX, y2:top+rowH*3, stroke:'var(--psk-line)', 'stroke-width':1.5 }));
     rows.forEach(function(row, idx){
       var y = top + idx*rowH + rowH/2;
-      var val = Math.max(-1, Math.min(1, row[1]));
+      var defined = Number.isFinite(row[1]);
+      var val = defined ? Math.max(-1, Math.min(1, row[1])) : 0;
       var barW = Math.abs(val) * scale;
       var barX = val >= 0 ? zeroX : zeroX - barW;
       svg.appendChild(svgEl('text', { x: 8, y: y+5, fill: 'var(--psk-ink)', 'font-size': 15, 'font-weight': 700, 'font-family':'Georgia,serif' })).textContent = row[0];
-      svg.appendChild(svgEl('rect', { x:barX, y: y-11, width: Math.max(barW,1), height: 22, rx: 5, fill: row[2] }));
+      if (defined) svg.appendChild(svgEl('rect', { x:barX, y: y-11, width: Math.max(barW,1), height: 22, rx: 5, fill: row[2] }));
       var labelX = val >= 0 ? barX + barW + 8 : barX - 8;
       var anchor = val >= 0 ? 'start' : 'end';
       var t = svgEl('text', { x: labelX, y: y+5, fill:'var(--psk-ink)', 'font-size': 13, 'text-anchor': anchor });
-      t.textContent = row[1].toFixed(3);
+      t.textContent = formatCorrelation(row[1]);
       svg.appendChild(t);
     });
     container.appendChild(svg);
@@ -769,9 +773,9 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
     var rho = spearman(data.x, data.y);
     var tau = kendallTauB(data.x, data.y);
     document.getElementById('explorer-n').textContent = data.x.length;
-    document.getElementById('explorer-r').textContent = r.toFixed(3);
-    document.getElementById('explorer-rho').textContent = rho.toFixed(3);
-    document.getElementById('explorer-tau').textContent = tau.toFixed(3);
+    document.getElementById('explorer-r').textContent = formatCorrelation(r);
+    document.getElementById('explorer-rho').textContent = formatCorrelation(rho);
+    document.getElementById('explorer-tau').textContent = formatCorrelation(tau);
     document.getElementById('explorer-explainer').textContent = EXPLANATIONS[explorer.pattern];
     renderScatter(document.getElementById('explorer-scatter'), data.x, data.y, { outlierIndex:data.outlierIdx, ariaLabel:'Scatterplot of the current sample pattern' });
     renderBars(document.getElementById('explorer-bars'), r, rho, tau);
@@ -819,11 +823,13 @@ footer.site .footer-heading{font-family:Georgia,"Times New Roman",serif;line-hei
       errBox.hidden = false; errBox.textContent = 'One or more entries could not be read as a number. Separate values with commas, spaces, or new lines.';
       resultsBox.hidden = true; return;
     }
-    errBox.hidden = true;
+    var constantInput = isConstant(xs) || isConstant(ys);
+    errBox.hidden = !constantInput;
+    if (constantInput) errBox.textContent = 'Correlation is undefined when either variable is constant. Enter at least two distinct values for each variable.';
     var r = pearson(xs, ys), rho = spearman(xs, ys), tau = kendallTauB(xs, ys);
-    document.getElementById('calc-r').textContent = r.toFixed(3);
-    document.getElementById('calc-rho').textContent = rho.toFixed(3);
-    document.getElementById('calc-tau').textContent = tau.toFixed(3);
+    document.getElementById('calc-r').textContent = formatCorrelation(r);
+    document.getElementById('calc-rho').textContent = formatCorrelation(rho);
+    document.getElementById('calc-tau').textContent = formatCorrelation(tau);
     document.getElementById('calc-n-note').textContent = 'n = ' + xs.length + ' paired observations.';
     renderScatter(document.getElementById('calc-scatter'), xs, ys, { ariaLabel:'Scatterplot of the entered data' });
     resultsBox.hidden = false;
