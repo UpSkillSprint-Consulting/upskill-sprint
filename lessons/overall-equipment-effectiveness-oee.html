@@ -1361,7 +1361,7 @@
               <tr><td>Trend OEE over time</td><td>Graph &rarr; Time Series Plot &rarr; Simple</td><td>Use before any control chart. Shift patterns and changeover effects are usually visible by eye and tell you whether a control chart is even appropriate.</td></tr>
               <tr><td>Is OEE stable?</td><td>Stat &rarr; Control Charts &rarr; Variables Charts for Individuals &rarr; I-MR</td><td>Daily OEE is one value per period, so individuals is the right family. Alternative: Variables Charts for Subgroups &rarr; Xbar-R when you have several lines per shift and want between-line variation separated.</td></tr>
               <tr><td>Did an improvement work?</td><td>Stat &rarr; Basic Statistics &rarr; 2-Sample t</td><td>Compares mean OEE before and after. Check normality first via Stat &rarr; Basic Statistics &rarr; Normality Test; OEE is a bounded ratio and skews badly near the top of its range.</td></tr>
-              <tr><td>Non-normal OEE data</td><td>Stat &rarr; Nonparametrics &rarr; Mann-Whitney</td><td>Use when the normality test fails or the sample is small. Compares medians and assumes no distribution.</td></tr>
+              <tr><td>Rank-based comparison of independent samples</td><td>Stat &rarr; Nonparametrics &rarr; Mann-Whitney</td><td>Compares relative ranks to assess whether values in one independent sample tend to be larger. A median or location interpretation requires comparable distribution shapes and spreads. Choose the test for the study design and question, not solely because a normality test fails or the sample is small.</td></tr>
               <tr><td>Which loss drives OEE?</td><td>Stat &rarr; Regression &rarr; Regression &rarr; Fit Regression Model</td><td>OEE as response, loss minutes by category as predictors. Exploratory only&mdash;the predictors are compositional and not independent, so read coefficients as direction, not effect size.</td></tr>
               <tr><td>Stop duration distribution</td><td>Graph &rarr; Histogram &rarr; With Fit</td><td>Reveals the threshold effect directly. A gap just below your logging threshold is evidence that small stops are being missed rather than genuinely absent.</td></tr>
               <tr><td>Compare lines or shifts</td><td>Stat &rarr; ANOVA &rarr; One-Way</td><td>Use when comparing three or more lines. Follow with Tukey comparisons to see which pairs actually differ rather than eyeballing the means.</td></tr>
@@ -1756,9 +1756,10 @@
         lx += 150;
       });
 
+      var minorStopRank = data.findIndex(function (loss) { return loss.name === "Minor stops"; }) + 1;
       pCaption.textContent = pMode === "count"
         ? "Minor stops dominate by a wide margin \u2014 sixty events against single figures for everything else. A team looking at this chart investigates jams."
-        : "Ranked by minutes, minor stops fall to third and setup leads. A team looking only at this chart buys a changeover trolley and never notices the jams.";
+        : "Ranked by minutes, minor stops rank " + minorStopRank + " and " + data[0].name.toLowerCase() + " leads. A team looking only at this chart buys a changeover trolley and never notices the jams.";
     }
 
     Array.prototype.forEach.call(document.querySelectorAll("[data-pareto]"), function (btn) {
